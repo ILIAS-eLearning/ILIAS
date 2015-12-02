@@ -72,96 +72,111 @@ class ilFileDataForum extends ilFileData
 		return $this->forum_path;
 	}
 
-	function getFiles()
+	/**
+	 * @return array
+	 */
+	public function getFiles()
 	{
 		$files = array();
-		$dp = opendir($this->forum_path);
 
-		while($file = readdir($dp))
+		foreach(new DirectoryIterator($this->forum_path) as $file)
 		{
-			if(is_dir($file))
+			/**
+			 * @var $file SplFileInfo
+			 */
+			
+			if($file->isDir())
 			{
 				continue;
 			}
-			list($obj_id,$rest) = split('_',$file,2);
+
+			list($obj_id, $rest) = explode('_',  $file->getFilename(), 2);
 			if($obj_id == $this->obj_id)
 			{
-				if(!is_dir($this->forum_path.'/'.$file))
-				{
-					$files[] = array(
-						'path' 	   => $this->forum_path.'/'.$file,
-						'md5'	   => md5($this->obj_id.'_'.$this->pos_id.'_'.$rest),
-						'name'     => $rest,
-						'size'     => filesize($this->forum_path.'/'.$file),
-						'ctime'    => ilFormat::formatDate(date('Y-m-d H:i:s',filectime($this->forum_path.'/'.$file))));
-				}
+				$files[] = array(
+					'path'  => $file->getPathname(),
+					'md5'   => md5($this->obj_id . '_' . $this->pos_id . '_' . $rest),
+					'name'  => $rest,
+					'size'  => $file->getSize(),
+					'ctime' => ilFormat::formatDate(date('Y-m-d H:i:s', $file->getCTime()))
+				);
 			}
 		}
-		closedir($dp);
+
 		return $files;
 	}
-	function getFilesOfPost()
+
+	/**
+	 * @return array
+	 */
+	public function getFilesOfPost()
 	{
 		$files = array();
-		$dp = opendir($this->forum_path);
 
-		while($file = readdir($dp))
+		foreach(new DirectoryIterator($this->forum_path) as $file)
 		{
-			if(is_dir($file))
+			/**
+			 * @var $file SplFileInfo
+			 */
+
+			if($file->isDir())
 			{
 				continue;
 			}
-			list($obj_id,$rest) = split('_',$file,2);
+
+			list($obj_id, $rest) = explode('_',  $file->getFilename(), 2);
 			if($obj_id == $this->obj_id)
 			{
-				list($pos_id,$rest) = split('_',$rest,2);
+				list($pos_id, $rest) = explode('_', $rest, 2);
 				if($pos_id == $this->getPosId())
 				{
-					if(!is_dir($this->forum_path.'/'.$file))
-					{
-						$files[] = array(
-							'path' 	   => $this->forum_path.'/'.$file,
-							'md5'	   => md5($this->obj_id.'_'.$this->pos_id.'_'.$rest),
-							'name'     => $rest,
-							'size'     => filesize($this->forum_path.'/'.$file),
-							'ctime'    => ilFormat::formatDate(date('Y-m-d H:i:s',filectime($this->forum_path.'/'.$file))));
-					}
+					$files[] = array(
+						'path'  => $file->getPathname(),
+						'md5'   => md5($this->obj_id . '_' . $this->pos_id . '_' . $rest),
+						'name'  => $rest,
+						'size'  => $file->getSize(),
+						'ctime' => ilFormat::formatDate(date('Y-m-d H:i:s', $file->getCTime()))
+					);
 				}
 			}
 		}
-		closedir($dp);
+
 		return $files;
 	}
-	
+
+	/**
+	 * @param int $a_new_frm_id
+	 * @return bool
+	 */
 	public function moveFilesOfPost($a_new_frm_id = 0)
 	{
 		if((int)$a_new_frm_id)
 		{
-			$dp = opendir($this->forum_path);
-	
-			while($file = readdir($dp))
+			foreach(new DirectoryIterator($this->forum_path) as $file)
 			{
-				if(is_dir($file))
+				/**
+				 * @var $file SplFileInfo
+				 */
+
+				if($file->isDir())
 				{
 					continue;
 				}
-				list($obj_id,$rest) = split('_',$file,2);
+
+				list($obj_id, $rest) = explode('_', $file->getFilename(), 2);
 				if($obj_id == $this->obj_id)
 				{
-					list($pos_id,$rest) = split('_',$rest,2);
+					list($pos_id, $rest) = explode('_', $rest, 2);
 					if($pos_id == $this->getPosId())
 					{
-						if(!is_dir($this->forum_path.'/'.$file))
-						{
-							@rename($this->forum_path.'/'.$file, $this->forum_path.'/'.$a_new_frm_id.'_'.$this->pos_id.'_'.$rest);
-						}
+						@rename($file->getPathname(), $this->forum_path . '/'  .$a_new_frm_id . '_' . $this->pos_id . '_' . $rest);
 					}
 				}
 			}
-			closedir($dp);
+	
 			return true;
 		}
-		
+
 		return false;
 	}
 
