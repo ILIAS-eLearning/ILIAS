@@ -140,10 +140,10 @@ class ilNotesDataSet extends ilDataSet
 						$note->setObject("pd", 0, $usr_id);
 						$note->setType(IL_NOTE_PRIVATE);
 						$note->setAuthor($usr_id);
-						$note->setText($a_rec["NoteText"]);
-						$note->setSubject($a_rec["Subject"]);
-						$note->setCreationDate($a_rec["CreationDate"]);
-						$note->setLabel($a_rec["Label"]);
+						$note->setText(ilUtil::stripSlashes($a_rec["NoteText"]));
+						$note->setSubject(ilUtil::stripSlashes($a_rec["Subject"]));
+						$note->setCreationDate(ilUtil::stripSlashes($a_rec["CreationDate"]));
+						$note->setLabel(ilUtil::stripSlashes($a_rec["Label"]));
 						$note->create(true);
 					}
 				}
