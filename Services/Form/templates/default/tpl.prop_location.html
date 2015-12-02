@@ -8,11 +8,19 @@
 	</div>
 	<div class="help-block">
 		<label for="{MAP_ID}_lat">{TXT_LATITUDE}</label> / <label for="{MAP_ID}_lng">{TXT_LONGITUDE}</label>
-	</div>	
-	<div>
-		<input id="{MAP_ID}_addr" type="text" class="form-control" name="{POST_VAR}[address]" value="{TXT_ADDRESS}" size="50" onkeypress="if (event.keyCode == 13) {ilLookupAddress('{MAP_ID}', $('#{MAP_ID}_addr').attr('value')); return false;}"/>
-		<input class="btn btn-default" type="button" value="{TXT_LOOKUP}" onclick="ilLookupAddress('{MAP_ID}', $('#{MAP_ID}_addr').attr('value'));" />
 	</div>
+	<!-- BEGIN address_input -->
+	<div>
+		<input id="{MAP_ID_ADDR}_addr" type="text" class="form-control" name="{POST_VAR_ADDR}[address]" value="{TXT_ADDRESS}" size="50" onkeypress="if (event.keyCode == 13) {ilLookupAddress('{MAP_ID_ADDR}', $('#{MAP_ID_ADDR}_addr').attr('value')); return false;}"/>
+		<input class="btn btn-default" type="button" value="{TXT_LOOKUP}" onclick="ilLookupAddress('{MAP_ID_ADDR}', $('#{MAP_ID_ADDR}_addr').attr('value'));" />
+	</div>
+	<!-- END address_input -->
+	<!-- BEGIN alert -->
+	<!-- 'inspired' by ilUtils info...  -->
+	<div class="alert alert-danger" role="alert">
+	<h5 class="ilAccHeadingHidden"></h5>
+	{TEXT}</div>
+	<!-- END alert -->
 	<div class="help-block">
 		<label for="{MAP_ID}_addr">{TXT_ADDR}</label>
 	</div>
