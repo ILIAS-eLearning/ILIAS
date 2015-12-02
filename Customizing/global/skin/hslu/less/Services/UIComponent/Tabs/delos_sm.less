@@ -1,0 +1,44 @@
+/* Services/UIComponent/Tabs */
+
+div.il_Tab {
+	margin: 0 5px 10px;
+	background-color: #F4F4F4;
+	border: 1px solid #E0E0E0;
+	padding: 2px 2px 4px 2px;
+	clear: both;
+}
+
+div.il_SubTab {
+	width: auto;
+}
+
+li.tabactive, li.tabinactive, a.tabactive, a.tabinactive {
+	background: none;
+	border: 0;
+	padding: 2px 3px;
+}
+
+li.tabactive {
+	background-color: #FFF;
+}
+
+a.tabinactive:hover {
+	background: none;
+}
+
+a.tabactive:link, a.tabactive:visited, a.tabactive:hover {
+	text-decoration: underline;
+}
+
+div.ilTabContentInner {
+	overflow: visible;
+}
+
+div.ilTabContentOuter {
+	box-shadow: none;
+	border: none;
+	/* since the div in the main template got also a display table-cell
+	through ilTabsTableCell the width:auto shrinks the div to the size of the content.
+	We do not want that */
+	/* width: auto; */
+}

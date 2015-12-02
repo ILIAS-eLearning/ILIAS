@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="20px" height="20px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+<g>
+	<defs>
+		<circle id="SVGID_1_" cx="16" cy="16" r="13"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  overflow="visible"/>
+	</clipPath>
+	
+		<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-120.1154" y1="163.4231" x2="-119.1154" y2="163.4231" gradientTransform="matrix(26 0 0 -26 3126 4265)">
+		<stop  offset="0" style="stop-color:#002555"/>
+		<stop  offset="1.983430e-02" style="stop-color:#002555"/>
+		<stop  offset="1" style="stop-color:#0F4186"/>
+	</linearGradient>
+	<rect x="3" y="3" clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="26" height="26"/>
+</g>
+<g>
+	<defs>
+		<path id="SVGID_4_" d="M10.4,15l-8.3,14c0,0-0.1,0.2-0.1,0.5v0C2,29.8,2.1,30,2.7,30h16.6c0,0,1.1,0,0.5-0.9l-8.3-14
+			c0,0-0.2-0.4-0.6-0.4C10.8,14.6,10.6,14.7,10.4,15"/>
+	</defs>
+	<clipPath id="SVGID_5_">
+		<use xlink:href="#SVGID_4_"  overflow="visible"/>
+	</clipPath>
+	
+		<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="-117.9445" y1="165.5384" x2="-116.9445" y2="165.5384" gradientTransform="matrix(18 0 0 -18 2125.001 3002.0012)">
+		<stop  offset="0" style="stop-color:#C70A0A"/>
+		<stop  offset="1.000000e-02" style="stop-color:#C70A0A"/>
+		<stop  offset="0.3741" style="stop-color:#CA0C0A"/>
+		<stop  offset="0.594" style="stop-color:#D2140A"/>
+		<stop  offset="0.7755" style="stop-color:#E0210A"/>
+		<stop  offset="0.9352" style="stop-color:#F4330A"/>
+		<stop  offset="1" style="stop-color:#FF3C0A"/>
+	</linearGradient>
+	<rect x="2" y="14.6" clip-path="url(#SVGID_5_)" fill="url(#SVGID_6_)" width="18.4" height="15.4"/>
+</g>
+<polygon fill="#FFFFFF" points="5.1,28.1 16.9,28.1 11,17.6 "/>
+<path fill="#102151" d="M10.1,27.5h1.7v-1.7h-1.7V27.5z M11.9,20.4H10l0.3,4.7h1.4L11.9,20.4z"/>
+<polyline fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="16,8.8 16,16.1 
+	23.6,19.8 "/>
+</svg>

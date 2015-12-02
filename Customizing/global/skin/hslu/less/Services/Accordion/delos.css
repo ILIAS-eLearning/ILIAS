@@ -1,0 +1,20 @@
+/* Services/Accordion */
+.il_VAccordionHead,
+.il_HAccordionHead {
+  padding: 3px 3px 3px 30px;
+  text-align: left;
+  border: 1px solid #EAEAEA;
+  cursor: pointer;
+  color: #3444AA;
+  font-size: 110%;
+  background: url(images/tree_col.svg) no-repeat 7px 7px @il-secondary-container-bg;
+}
+.il_HAccordionHead:hover,
+.il_VAccordionHead:hover {
+  background-color: #FF9;
+}
+.il_HAccordionHeadActive,
+.il_VAccordionHeadActive {
+  background-image: url(images/tree_exp.png);
+  background-color: #FFFFC9;
+}

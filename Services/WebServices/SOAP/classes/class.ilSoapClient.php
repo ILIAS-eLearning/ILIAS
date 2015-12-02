@@ -117,6 +117,10 @@ class ilSoapClient
 										$this->getTimeout(),
 										$this->getResponseTimeout());
 		
+		//BEGIN PATCH HSLU
+		return false;
+		//END PATCH HSLU
+		
 		if($error = $this->client->getError())
 		{
 			if(stristr($error, 'socket read of headers') === FALSE)

@@ -1,0 +1,130 @@
+/* Services/MainMenu */
+
+#il_screen_id, .ilTopTitle {
+	display: none;
+}
+
+.ilTopTitleVisible {
+	display: block;
+}
+
+.ilMainHeader {
+	height: auto;
+	&.ilTopFixed {
+		height: 0;
+	}
+	> header > .row > a.navbar-brand {
+		height: 0px;
+		padding: 0;
+		> img {
+			position: fixed;
+			top: 0;
+			left: 0;
+			height: 40px;
+			width: 40px;
+		}
+	}
+}
+
+#ilTopBar.ilTopBar {
+	z-index: 1030;
+}
+
+.ilMainMenu.ilTopFixed {
+	position: fixed;
+	top: 40px;
+	border-bottom: 0px;
+}
+
+.ilFixedTopSpacer, .ilFixedTopSpacerBarOnly {
+	margin-top: 40px;
+}
+
+nav#ilTopNav {
+	min-height: 0px;
+	display: block;
+	padding: 0;
+}
+
+#ilTopBarNav {
+	margin-right: 0px;
+}
+
+#ilTopNav {
+	margin: 0;
+	&.navbar	{
+		min-height: 0px;
+		padding-top: 0px;
+	}
+	&.navbar-default {
+		background-color: @il-secondary-container-bg;
+	}
+	.navbar-text {
+		color: @ilMainMenuColor;
+	}
+	.navbar-nav {
+		float: none;
+		margin-left: 0;
+		> li > a {
+			margin: 0 10px 0 0;
+			padding: 5px 10px 6px;
+			border-top: 0;
+			//background-color: lighten(@ilMainMenuColor, 39%);
+			color: lighten(@mid-gray, 10%);//darken(@ilMainMenuColor, 30%);
+			&:hover,
+			&:active,
+			&:focus {
+				//outline: 0;
+				//border-top: 4px solid @brand-primary;
+				//background-color: white;
+				//box-shadow: 3px 9px 9px 0px rgba(0,0,0,0.176);
+			}
+		}
+		> .active > a,
+		> .open > a {
+			&,
+			&:hover,
+			&:active,
+			&:focus {
+				//background-color: lighten(@ilMainMenuColor, 42%);
+				border-top: 0;
+				background-color: inherit;
+				box-shadow: none;
+			}
+		}
+	}
+	.dropdown-menu {
+		float: none;
+		left: auto;
+		right: auto;
+	}
+	.navbar-toggle {
+		&:hover {
+			background-color: #aeaeae;
+		}
+		.icon-bar {
+			background-color: white;
+		}
+	}
+	button.navbar-toggle {
+		position: fixed;
+		top: 0px;
+		left: 40px;
+		height: 40px;
+		border-radius: 0px;
+		border-width: 0;
+		background-color: #767676;
+		color: #f5f5f5;
+		display: block;
+		margin: 0;
+	}
+}
+
+[dir="rtl"] #ilTopNav .navbar-nav {
+	margin-right: 0;
+}
+
+div.ilTopMemberView {
+	display: none;	
+}
+

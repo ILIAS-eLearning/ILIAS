@@ -1,0 +1,85 @@
+/* Services/Block */
+
+.iosPdBlockDragAndDropPlaceholder {
+	border: 3px #C0C0C0 dashed;
+	border-radius: 8px;
+	margin-bottom: 15px;
+}
+
+/* Blocks */
+
+div.il_Block, table.il_Block {
+	width: 100%;
+	border-spacing:0px;
+	border-collapse:collapse;
+	margin-bottom: 20px;
+	clear: both;
+	table-layout: fixed;
+	word-wrap: break-word;
+	background-color: @il-secondary-container-bg;
+	border: none;
+	text-align: left;
+	padding: 5px;
+	//box-shadow: 0px 1px 3px 0px lighten(@mid-gray, 45%);
+}
+
+#il_center_col div.il_Block {
+	background-color: @il-primary-container-bg;
+}
+
+div.ilBlockHeader, div.ilBlockHeaderBig,
+td.ilBlockHeader, td.ilBlockHeaderBig {
+	/* font-family: 'Open Sans Semibold';  deactivated, since it affects drop downs in the header */
+	font-weight: normal;
+	padding: 3px 0;
+	margin: 0 5px;
+	text-align:left;
+	color: lighten(@mid-gray, 15%);
+	border-bottom: 1px solid lighten(@mid-gray, 60%);
+	/* box-shadow: 0 -2px 1px -1px white inset; no white lines */
+}
+
+div.ilBlockHeaderBig, td.ilBlockHeaderBig {
+	font-size: 100%;
+}
+
+h3.ilBlockHeader {
+	font-family: 'Open Sans Semibold';
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	display: inline;
+}
+
+
+/* possibly deprecated */
+.il_BlockInfo {
+	font-size: 80%;
+	color: #909090;
+}
+
+/* new class */
+div.ilBlockInfo {
+	font-size: 75%;
+	color: #909090;
+	padding: 1px 3px;
+	background-color: @il-secondary-container-bg;
+	text-align: right;
+}
+
+div.ilBlockContent {
+	padding: 5px;
+}
+
+.ilBlockRow1, .ilBlockRow2 {
+	padding: 3px;
+	border-bottom: 1px solid #F0F0F0;
+}
+
+div.ilBlockPropertyCaption {
+	color: lighten(@mid-gray, 15%);
+	font-style: italic;
+}
+
+

@@ -1,0 +1,40 @@
+/* Services/MainMenu */
+#il_screen_id,
+.ilTopTitle {
+  display: none;
+}
+.ilMainHeader > header > .row > a.navbar-brand {
+  height: 0px;
+  padding: 0;
+}
+.ilMainHeader > header > .row > a.navbar-brand > img {
+  position: absolute;
+  top: 0px;
+  height: 40px;
+  width: 40px;
+}
+nav#ilTopNav {
+  min-height: 0px;
+  display: block;
+}
+#ilTopNav.navbar {
+  min-height: 0px;
+}
+#ilTopNav button.navbar-toggle {
+  position: absolute;
+  top: -40px;
+  left: 40px;
+  height: 40px;
+  border-radius: 0px;
+  border-width: 0;
+  background-color: #767676;
+  color: #f5f5f5;
+  display: block;
+  margin: 0;
+}
+#ilTopNav .navbar-toggle:hover {
+  background-color: #aeaeae;
+}
+#ilTopNav .navbar-toggle .icon-bar {
+  background-color: white;
+}

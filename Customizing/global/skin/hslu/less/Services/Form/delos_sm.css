@@ -1,0 +1,74 @@
+/* Services/Form */
+div.ilFormOption {
+  width: auto;
+}
+div.ilFormSubOption {
+  padding: 3px;
+  border: none;
+  background-color: #F0F0F0;
+}
+div.ilForm,
+div.ilFormRow {
+  display: block;
+  background: none;
+  border: none;
+}
+div.ilForm {
+  width: 400px;
+  max-width: 100%;
+}
+div.ilSubForm {
+  display: block;
+  width: auto;
+}
+div.ilFormHeader,
+div.ilFormFooter {
+  background-color: #E8EDF9;
+  border: none;
+  padding: 5px 10px 2px;
+  margin: 20px 0 5px;
+  font-size: 100%;
+  display: block;
+}
+div.ilFormFooter {
+  background-color: #F5F5F5;
+  padding: 8px 10px 2px;
+  margin: 10px 0 5px;
+}
+h3.ilFormHeader {
+  font-weight: normal;
+  font-size: 110%;
+}
+div.ilFormCommands {
+  text-align: left;
+  margin: 0 0 10px;
+  padding: 0;
+  background: none;
+  border: none;
+  width: auto;
+}
+div.ilFormInfo {
+  float: right;
+}
+div.ilFormOption {
+  display: block;
+  text-align: left;
+  padding: 3px 10px;
+  font-size: 100%;
+  background-color: #F4F4F4;
+  border: none;
+  width: auto;
+  float: none;
+}
+div.ilFormValue {
+  padding: 8px 10px 3px;
+  font-size: 90%;
+  border: none;
+  width: auto;
+  background-color: #FAFAFA;
+  margin: 0 0 8px;
+  display: block;
+}
+div.ilFormInfo {
+  float: none;
+}

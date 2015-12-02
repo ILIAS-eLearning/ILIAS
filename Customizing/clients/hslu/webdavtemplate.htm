@@ -1,0 +1,102 @@
+<link rel="stylesheet" href="/css/smoothness/jquery-ui-1.8.4.custom.css" type="text/css" />
+<script src="/scripts/jquery-1.4.2.min.js" type="text/javascript"></script>
+<script src="/scripts/jquery-ui-1.8.4.custom.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#mainTabsDing').tabs();
+[IF_WINDOWS]
+[/IF_WINDOWS]
+[IF_MAC]
+$('#mainTabsDing').tabs('select',2);
+[/IF_MAC]
+[IF_LINUX]
+$('#mainTabsDing').tabs('select',2);
+[/IF_LINUX]
+});
+</script>
+
+<div id="mainTabsDing" style="width:100%;padding:0px;border:0px;">
+	<ul>
+		<li><a title="Windows" href="#tabs-win">Windows</a></li>
+		<li><a title="Video" href="#tabs-winvideo">Windows Lernvideo</a></li>
+		<li><a title="Mac" href="#tabs-mac">Mac</a></li>
+		<li><a title="Linux" href="#tabs-linux">Linux</a></li>
+		<li><a title="Tipps" href="#tabs-tipps">Tipps &amp; Support</a></li>
+	</ul>
+	
+	<div id="tabs-win">
+		<h3>Anleitung f&uuml;r Windows</h3>
+		<b>Automatische Verbindung mit Windows</b><br />
+		<ol>
+		[IF_IEXPLORE]<li>Starten Sie das <a href="https://elearning.hslu.ch/ilias/Customizing/Ilias_WebDAV_Mouter_Depot/IliasWebDAV.application?iliasrefid=[WEBFOLDER_ID]">Webordner Tool Internet Explorer</a><br />
+		(Sollte ein Fehler auftreten, laden Sie bitte das <a href="https://elearning.hslu.ch/ilias/Customizing/IliasWebDAV.exe">allgemeine Webordner Tool</a> herunter)</li>
+		[/IF_IEXPLORE]
+		[IF_NOTIEXPLORE]<li>Laden Sie das <a href="https://elearning.hslu.ch/ilias/Customizing/IliasWebDAV.exe">Webordner Tool</a> herunter und starten sie es.</li>[/IF_NOTIEXPLORE]
+		<li>Geben Sie die ILIAS-RefId <span style="font-weight:bold;font-size:22px;">[WEBFOLDER_ID]</span> ein.</li>
+		<li>Klicken Sie auf "Verbinden".</li>
+		</ol>
+		<br />
+		<b>Manuelle Verbindung mit Windows 7 und Windows Vista</b><br />
+		<br />
+		<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<tr valign="top"><td>
+		<ol style="margin-top:0px;">
+		<li>&ouml;ffnen Sie den Windows-Explorer (z.B. mittels Tastenkombination WindowsLogo + E).</li>
+		<li>Dr&uuml;cken Sie die Alt-Taste. Das Men&uuml; wird eingeblendet.</li>
+		<li>W&auml;hlen Sie "Extras" - "Netzlaufwerk verbinden".</li>
+		<li>Geben Sie im Feld "Ordner" folgende Adresse ein (Adresse kopieren und einf&uuml;gen):<br />
+		<b>[WEBFOLDER_URI]</b></li>
+		<li>Klicken Sie auf "Fertig stellen".</li>
+		<li>Geben Sie Ihre Anmeldedaten f&uuml;r ILIAS ein und klicken Sie auf "OK".</li>
+		<li>Bei erfolgreichem Login wird der Webordner ge&ouml;ffnet und steht im Windows-Explorer zur Verf&uuml;gung.</li>
+		</ol>
+		</td><td><!--<a href="javascript:;" onclick="$('#mainTabsDing').tabs('select',1)"><img style="float:right; border:0px;" src="/ilias/Customizing/global/skin/hslu/images/lernvideo_webordner.png" alt="Bild Lernvideo"></img></a>--></td>
+		</tr></table>
+		<br />
+		Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen unter "<a href="/ilias/ilias.php?cmd=showPassword&amp;cmdClass=ilpersonalsettingsgui&amp;cmdNode=3r:2j&amp;baseClass=ilPersonalDesktopGUI">Pers&ouml;nlicher Schreibtisch - Einstellungen</a>" in ILIAS ge&auml;ndert werden.
+	</div>
+	<div id="tabs-winvideo">
+		<iframe border="0" frameborder="0" style="width:100%;height:655px;border:0px;" src="https://elearning.hslu.ch/ilias/data/hslu/lm_data/lm_1353684/webordner.htm"></iframe>
+	</div>
+	<div id="tabs-mac">
+		<h3>Anleitung f&uuml;r Mac OS X</h3>
+		<ol><li>Aktivieren Sie den Finder.</li>
+		<li>W&auml;hlen Sie das Men&uuml; 'Gehe zu &gt; Mit Server verbinden...'.<br/>Dies &ouml;ffnet das Dialogfenster 'Mit Server verbinden'.</li>
+		<li>Geben Sie folgende Addresse in das Feld 'Serveradresse' ein:<br/><b>[WEBFOLDER_URI]</b><br/> und klicken Sie auf 'Verbinden'.</li>
+		<li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.</li>
+		</ol>
+		<br />
+		Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen unter "<a href="/ilias/ilias.php?cmd=showPassword&amp;cmdClass=ilpersonalsettingsgui&amp;cmdNode=3r:2j&amp;baseClass=ilPersonalDesktopGUI">Pers&ouml;nlicher Schreibtisch - Einstellungen</a>" in ILIAS ge&auml;ndert werden.
+	</div>
+	<div id="tabs-linux">
+		<h3>Anleitung f&uuml;r Linux mit Konqueror</h3>
+		<ol>
+		<li>Starten Sie den Konqueror Browser.</li>
+		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />
+		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>
+		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>
+		</ol>
+		<h3>Anleitung f&uuml;r Linux mit Nautilus</h3>
+		<ol>
+		<li>Starten Sie den Nautilus Browser.</li>
+		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />
+		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>
+		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>
+		</ol>
+		<br />
+		Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen unter "<a href="/ilias/ilias.php?cmd=showPassword&amp;cmdClass=ilpersonalsettingsgui&amp;cmdNode=3r:2j&amp;baseClass=ilPersonalDesktopGUI">Pers&ouml;nlicher Schreibtisch - Einstellungen</a>" in ILIAS ge&auml;ndert werden.
+	</div>
+	<div id="tabs-tipps">
+		<h3>Tipps &amp; Support</h3>
+		<ul>
+		<li>Diese Schritte m&uuml;ssen f&uuml;r einen bestimmten Webordner <b>nur einmalig</b> ausgef&uuml;hrt werden. Sie k&ouml;nnen sp&auml;ter erneut auf die angelegte Verbindung zur&uuml;ckgreifen.</li>
+		</ul>
+		<ul>
+		<li>Legen Sie Ihre Webordner-Verbindung auf einer &uuml;bergeordneten Kategorie an. Sie k&ouml;nnen immer nach "Unten" navigieren, nicht jedoch in h&ouml;here Hierarchiestrukturen als Ihr Verbindungspunkt.</li>
+		</ul>
+		<ul>
+		<li>Falls Ihr Computer den Webordner nicht öffnen kann, finden Sie in der <a href="https://elearning.hslu.ch/ilias/goto.php?target=wiki_1731338_Was_ist_ein_Webordner%3F&client_id=hslu">ILIAS Hilfe</a> weitere Hinweise; im Problemfall wenden sich an unseren <a href="https://elearning.hslu.ch/?showSupport=true#tabs-2">Support</a></li>
+		</ul>
+	</div>
+
+</div>

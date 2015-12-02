@@ -1,0 +1,208 @@
+//== Colors
+
+/*		Color scheme
+		Dark BLue: #0f2152;
+		Mid Blue: #4c6586;
+		Green: #6ea03c;
+		Light Brown: #dcb496;
+		Dark Brown: #523228;
+		Orange: #fa8228;
+		External Blue: #21c5d8;
+		ILIAS 4 MainMenu Color: #c8e6ff;
+*/
+
+@brand-primary:         #4c6586;
+@brand-secondary:       #6ea03c;
+@brand-success:         #6ea03c;
+@brand-info:            #dcb496;
+@brand-warning:         #fa8228;
+@brand-danger:          #fa8228;
+
+/** if left unchanged, you have to copy all the background images to your skin/images folder.
+* To use the delos background images in your skin,
+* please change this value (in custom less data or in variables.less of your custom skin) to "../../../../templates/default/images/"
+*/
+@background-images-path: "images/";
+
+/** if left unchanged, you have to copy delos fonts folder to your skin folder.
+* To use the delos fonts in your skin,
+* please change this value (in custom less data or variables.less of your custom skin) to "../../../../templates/default/fonts/"
+*/
+@web-font-path: "fonts/";
+
+@mid-gray: #434343;
+@il-primary-container-bg: #FFFFFF;
+@il-secondary-container-bg: #F9F9F9;
+
+@il-highlight-bg: #FFFFD0;
+/* @il-highlight-bg: saturate(lighten(@brand-warning, 34%), 80%); */
+/* @il-highlight-bg: lighten(@brand-secondary, 44%); */
+/* @il-highlight-bg: lighten(#21c5d8, 40%); */
+@il-brand-3rd: #21c5d8;
+
+
+//== Scaffolding
+@body-bg:               #f0f0f0;
+@text-color:            @gray-dark;
+@link-color:            lighten(@brand-primary, 5%);
+@link-hover-color:      darken(@link-color, 15%);
+
+
+//== Typography
+@font-family-sans-serif:  'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+
+@font-size-base:          14px;
+@font-size-large:         ceil((@font-size-base * 1.25));
+@font-size-small:         ceil((@font-size-base * 0.85));
+
+@font-size-h1:            floor((@font-size-base * 1.6));
+@font-size-h2:            floor((@font-size-base * 1.4));
+@font-size-h3:            ceil((@font-size-base * 1.3));
+@font-size-h4:            ceil((@font-size-base * 1.2));
+@font-size-h5:            ceil((@font-size-base * 1.1));
+@font-size-h6:            @font-size-base;
+
+
+//== Iconography
+@icon-font-path:            "../../Services/UICore/lib/bootstrap-3.2.0/fonts/";
+
+//== Components
+//== Components
+//
+//## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
+
+@padding-base-vertical:     3px;
+@padding-base-horizontal:   8px;
+
+@padding-large-vertical:    6px;
+@padding-large-horizontal:  12px;
+
+@padding-small-vertical:    3px;
+@padding-small-horizontal:  6px;
+
+@padding-xs-vertical:       1px;
+@padding-xs-horizontal:     5px;
+
+@line-height-large:         1.33;
+@line-height-small:         1.5;
+
+@border-radius-base:        0px;
+@border-radius-large:       0px;
+@border-radius-small:       0px;
+
+//== Navs
+@nav-link-padding:          5px 10px;
+@nav-tabs-border-color:     #e0e0e0;
+/* @nav-tabs-link-hover-border-color: @brand-primary; */
+@nav-tabs-active-link-hover-border-color: #e0e0e0;
+
+// this is related to the main menu
+@il-fixed-menu-height: 117px;
+@il-fixed-menu-height-bar-only: 40px;
+
+//== Breadcrumbs
+//
+//##
+
+@breadcrumb-padding-vertical:   6px;
+@breadcrumb-padding-horizontal: 6px;
+//** Breadcrumb background color
+@breadcrumb-bg:                 transparent;
+//** Breadcrumb text color
+@breadcrumb-color:               @link-color;
+//** Text color of current page in the breadcrumb
+@breadcrumb-active-color:        @link-hover-color;
+//** Textual separator for between breadcrumb elements
+@breadcrumb-separator:          "»";
+
+//== Buttons
+//
+//##
+
+@btn-default-color:             @link-color;
+@btn-default-border:            #d0d0d0;
+@btn-default-bg:                #fefefe;
+
+//== Badges
+//
+//##
+
+@badge-color:                 #fff;
+//** Linked badge text color on hover
+@badge-link-hover-color:      #fff;
+@badge-bg:                    darken(@brand-warning, 10%);
+
+//** Badge text color in active nav link
+@badge-active-color:          #fff;
+//** Badge background color in active nav link
+@badge-active-bg:             darken(@brand-warning, 10%);
+
+@badge-font-weight:           bold;
+@badge-line-height:           1;
+@badge-border-radius:         10px;
+
+//== Forms
+//
+//##
+@input-border-radius:	0;
+@input-border:			#ccc;
+@input-border-focus:	lighten(@brand-primary, 20%);
+@ilFormInputFontSize: @font-size-small;
+@input-height-base:	(floor((@ilFormInputFontSize * @line-height-base)) + (@padding-base-vertical * 2) + 2);
+
+@ilFormColor:            	#808080;
+@ilFormBgColor:            	#fdfdfd;
+
+/* ILIAS variables candidates */
+@ilMainMenuColor:			lighten(@brand-primary, 10%);
+@ilButtonFontSize: 	@font-size-small;
+
+
+//== Panels
+//
+//##
+
+@panel-bg:                    @il-secondary-container-bg;
+@panel-body-padding:          15px;
+@panel-heading-padding:       10px 15px;
+@panel-footer-padding:        @panel-heading-padding;
+@panel-border-radius:         @border-radius-base;
+
+//** Border color for elements within panels
+@panel-inner-border:          #ddd;
+@panel-footer-bg:             #f5f5f5;
+
+@panel-default-text:          @gray-dark;
+@panel-default-border:        none;
+@panel-default-heading-bg:    @il-secondary-container-bg;
+
+@panel-primary-text:          @gray-dark;
+@panel-primary-border:        none;
+@panel-primary-heading-bg:    @il-primary-container-bg;
+
+//== DropDowns
+//
+//##
+@dropdown-link-hover-bg: #f2f2f2;
+@dropdown-link-hover-bg: lighten(@brand-primary, 53%);;
+
+//== Tables
+//
+//## Customizes the `.table` component with basic values, each used across all table variations.
+
+//** Padding for `<th>`s and `<td>`s.
+@table-cell-padding:            8px;
+//** Padding for cells in `.table-condensed`.
+@table-condensed-cell-padding:  5px;
+
+//** Default background color used for all tables.
+@table-bg:                      transparent;
+//** Background color used for `.table-striped`.
+@table-bg-accent:               #ffffff;
+
+//** Border color for table and cell borders.
+@table-border-color:            #ddd;
+
+@il-table-head-bg:             	lighten(@il-secondary-container-bg, 1%);
+@il-data-table-bg:             	@il-secondary-container-bg;
+@il-table-cmd-bg:				@il-secondary-container-bg;

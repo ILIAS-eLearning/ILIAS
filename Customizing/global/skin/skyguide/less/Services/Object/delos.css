@@ -1,0 +1,29 @@
+/* Services/Object */
+div.ilCreationFormSection {
+  width: 700px;
+}
+div.ilCreationFormSection div.ilForm {
+  width: 699px;
+}
+div.ilCreationFormSection div.ilForm div.ilForm {
+  width: auto;
+}
+.ilHeadAction img {
+  width: 18px;
+  height: 18px;
+}
+.il_ItemProperty .badge,
+.ilHeadAction .badge {
+  font-size: 8px;
+  padding: 2px 4px;
+  margin-top: -1px;
+  margin-left: -5px;
+  position: absolute;
+}
+div.ilCreationFormSection .form-horizontal {
+  margin-top: -1px;
+  padding-top: 1px;
+}
+.ilObjListRow {
+  border-bottom: 1px solid;
+}

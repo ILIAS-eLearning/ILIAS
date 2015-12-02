@@ -1,0 +1,45 @@
+/* Services/MediaObjects */
+.ilPlayerPreviewOverlayOuter {
+  position: relative;
+}
+.ilPlayerPreviewOverlay {
+  position: relative;
+  width: 320px;
+  height: 240px;
+  cursor: pointer;
+}
+.ilPlayerPreviewDescription {
+  padding: 7px;
+  font-size: 85%;
+  position: relative;
+  color: #F0F0F0;
+  top: -240px;
+  background: url(images/black60.png);
+}
+.ilPlayerPreviewOverlay img {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+.ilPlayerPreviewDescriptionDownload {
+  float: right;
+}
+.ilPlayerPreviewDescriptionDownload a {
+  color: #a0a0a0;
+}
+.mejs-overlay-button {
+  background-image: url(images/bigplay.svg);
+}
+.ilPlayerPreviewPlayButton {
+  background: url(images/bigplay.svg) no-repeat scroll 0 0 transparent;
+  height: 100px;
+  left: 50%;
+  margin: -50px 0 0 -50px;
+  position: absolute;
+  top: 50%;
+  width: 100px;
+  cursor: pointer;
+}
+.ilPlayerPreviewOverlay:hover .ilPlayerPreviewPlayButton {
+  background-position: 0 -100px;
+}

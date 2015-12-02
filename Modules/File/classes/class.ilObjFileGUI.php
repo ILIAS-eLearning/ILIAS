@@ -274,6 +274,14 @@ class ilObjFileGUI extends ilObject2GUI
 			$description = $single_form_gui->getInput("description");
 			$upload_file = $single_form_gui->getInput("upload_file");
 
+//BEGIN PATCH HSLU Postbox Filename Rules
+            require_once 'Services/AccessControl/classes/class.ilPostboxHelper.php';
+            $isPostbox=ilPostboxHelper::_createBildName($_GET["ref_id"],'fold');
+            if($isPostbox=='drop') {
+                $title=utf8_encode(substr(utf8_decode($ilUser->lastname),0,6).'.'.substr(utf8_decode($ilUser->firstname),0,1)).'.'.date('ymd').'.'.$upload_file["name"];
+            }
+//END PATCH HSLU
+
 			if (trim($title) == "")
 			{
 				$title = $upload_file["name"];
@@ -1196,6 +1204,15 @@ class ilObjFileGUI extends ilObject2GUI
 		}
 		else
 		{
+			
+//BEGIN PATCH HSLU Postbox Filename Rules
+            require_once 'Services/AccessControl/classes/class.ilPostboxHelper.php';
+            $isPostbox=ilPostboxHelper::_createBildName($_GET["ref_id"],'fold');
+            if($isPostbox=='drop') {
+                $title=utf8_encode(substr(utf8_decode($ilUser->lastname),0,6).'.'.substr(utf8_decode($ilUser->firstname),0,1)).'.'.date('ymd').'.'.$filename;
+            }
+//END PATCH HSLU
+			
 			if (trim($title) == "")
 			{
 				$title = $filename;

@@ -1,0 +1,67 @@
+/* Services/Block */
+.iosPdBlockDragAndDropPlaceholder {
+  border: 3px #C0C0C0 dashed;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+/* Blocks */
+div.il_Block,
+table.il_Block {
+  width: 100%;
+  border-spacing: 0px;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  clear: both;
+  table-layout: fixed;
+  word-wrap: break-word;
+}
+div.ilBlockHeader,
+div.ilBlockHeaderBig,
+td.ilBlockHeader,
+td.ilBlockHeaderBig {
+  font-family: 'Open Sans Semibold';
+  font-weight: normal;
+  padding: 3px;
+  text-align: left;
+  font-size: 90%;
+  color: #404040;
+  background: url(images/block_top.png) repeat-x #f8f8f8;
+  border-bottom: 1px solid #E9E9E9;
+}
+div.ilBlockHeaderBig,
+td.ilBlockHeaderBig {
+  font-size: 100%;
+}
+h3.ilBlockHeader {
+  font-family: 'Open Sans Semibold';
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  display: inline;
+}
+/* possibly deprecated */
+.il_BlockInfo {
+  font-size: 80%;
+  color: #909090;
+}
+/* new class */
+div.ilBlockInfo {
+  font-size: 75%;
+  color: #909090;
+  border-bottom: 1px solid #E9E9E9;
+  padding: 1px 3px;
+  background-color: #F9F9F9;
+  text-align: right;
+}
+div.ilBlockContent {
+  padding: 5px;
+}
+.ilBlockRow1,
+.ilBlockRow2 {
+  padding: 3px;
+  border-bottom: 1px solid #F0F0F0;
+}
+div.ilBlockPropertyCaption {
+  font-weight: bold;
+}

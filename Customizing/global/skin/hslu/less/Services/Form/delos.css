@@ -1,0 +1,40 @@
+/* Services/Form */
+/* jQuery ui autocomplete menu */
+input.ilHFormHighlighted,
+.ui-state-focus {
+  background-color: #FF9;
+}
+div.ilFormInfo,
+div.ilFormRadioInfo {
+  margin: 2px 0 4px 3px;
+  font-size: 80%;
+}
+div.ilFormRadioInfo {
+  margin-left: 0;
+}
+div.ilFormRadioItem {
+  margin-bottom: 8px;
+}
+input.ilFormCheckbox,
+input.ilFormRadio {
+  float: left;
+  display: block;
+}
+div.ilFormCheckboxOption,
+div.ilFormRadioOption {
+  margin: 0 0 5px 28px;
+}
+div.ilFormExternalSetting {
+  margin-bottom: 10px;
+}
+div.ilFormExternalSetting ul {
+  margin: 2px 0;
+  padding-left: 25px;
+}
+div.ilFormExternalSetting span {
+  color: #C08030;
+  /* font-style: italic; */
+}
+div[id^="ilFormField"] {
+  margin-bottom: 10px;
+}

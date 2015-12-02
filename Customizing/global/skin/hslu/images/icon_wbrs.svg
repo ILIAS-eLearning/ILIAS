@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+]>
+<svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px"
+	 viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+<switch>
+	<foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
+		<i:pgfRef  xlink:href="#adobe_illustrator_pgf">
+		</i:pgfRef>
+	</foreignObject>
+	<g i:extraneous="self">
+		<rect x="0" fill="none" width="32" height="32"/>
+		<g>
+			<g>
+				<defs>
+					<path id="SVGID_1_" d="M3.5,16c0,6.904,5.597,12.5,12.5,12.5c6.904,0,12.5-5.596,12.5-12.5c0-6.903-5.596-12.5-12.5-12.5
+						C9.097,3.5,3.5,9.097,3.5,16"/>
+				</defs>
+				<clipPath id="SVGID_2_">
+					<use xlink:href="#SVGID_1_"  overflow="visible"/>
+				</clipPath>
+				
+					<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-396.3502" y1="-293.1701" x2="-395.3502" y2="-293.1701" gradientTransform="matrix(26.5098 0 0 26.5098 10509.9111 7787.8804)">
+					<stop  offset="0" style="stop-color:#5CC1D9"/>
+					<stop  offset="0.0198" style="stop-color:#5CC1D9"/>
+					<stop  offset="1" style="stop-color:#69CCF9"/>
+				</linearGradient>
+				<rect x="3.5" y="3.5" clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="25" height="25"/>
+			</g>
+		</g>
+		<path fill="#FFFFFF" d="M19.188,10.438c-2.316,2.316-4.632,0-4.632,2.316s4.632,2.316,4.632,6.948
+			c0,2.316,4.632-2.316,4.632-4.632S20.826,8.8,19.188,10.438"/>
+		<path fill="#FFFFFF" d="M12.868,15.867c0.165-2.12-3.122-1.975-4.108-0.841c-0.986,1.135,0.971,3.623,1.456,5.434
+			c0.389,1.452,0.485,1.812,1.811-0.485C12.779,18.673,12.679,18.297,12.868,15.867"/>
+	</g>
+</switch>
+</svg>

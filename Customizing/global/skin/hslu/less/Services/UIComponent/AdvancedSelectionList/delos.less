@@ -1,0 +1,61 @@
+/* Services/UIComponent/AdvancedSelectionList */
+
+div.il_adv_sel {
+	border: 1px solid #D6D6D6;
+	box-shadow: 2px 2px 4px #C0C0C0;
+}
+
+table.il_adv_sel {
+	color: #000;
+	background-color: #FFF;
+	border-spacing: 0;
+	cursor: pointer;
+}
+
+tr.il_adv_sel {
+	cursor: pointer;
+}
+
+tr.il_adv_sel_act {
+	background-color: #FFF9BC;
+	cursor: pointer;
+}
+
+td.il_adv_sel {
+	border-bottom: 1px solid #F0F0F0;
+	padding: 3px 10px;
+	text-align: left;
+	white-space: nowrap;
+	cursor: pointer;
+	font-weight: normal;
+}
+
+#ilAdvSelListTable_item_creation td.il_adv_sel {
+	min-width: 150px;
+}
+
+td.il_adv_sel_ic {
+	border-bottom: 1px solid #F0F0F0;
+	padding: 3px 0 3px 10px;
+	text-align: left;
+	cursor: pointer;
+}
+
+td.ilAsyncImgLoader {
+	padding: 0 40px;
+}
+
+span[id^="ilAdvSelListAnchorElement_"] + div {
+	position: absolute;
+	z-index: 5000;
+	left: 0;
+	right: 0;
+}
+
+div[id^="ilAdvSelListTable_"] {
+	overflow: auto;
+	background-color: #FFF;
+	clear: both;
+	display: none;
+	position: absolute;
+}

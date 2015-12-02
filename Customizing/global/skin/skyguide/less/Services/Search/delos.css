@@ -1,0 +1,50 @@
+/* Services/Search */
+div.ilMainMenuSearch {
+  padding: 0 10px 3px;
+  margin: 1px 0 2px -1px;
+  line-height: 26px;
+  background: url(images/mm_back2.png) repeat-x;
+}
+input.ilMainMenuSearch {
+  cursor: pointer;
+  border: none;
+  color: #606060;
+  width: 150px;
+  padding: 2px 4px 1px;
+  margin: 0;
+  background-color: #FFF;
+  min-height: 16px;
+  box-shadow: inset 1px 1px 2px #A0A0A0;
+  line-height: 1;
+}
+#mm_search_menu_head {
+  background-color: #F8F8F8;
+  padding: 5px;
+  font-size: 85%;
+}
+#mm_search_menu_head p {
+  margin: 0px;
+}
+#mm_search_menu_head input {
+  margin: 0;
+  padding: 0;
+}
+#il_search_toolbar div.ilFormOption {
+  width: auto;
+}
+#il_search_toolbar div.ilFormFooter {
+  display: none;
+}
+#mm_search_menu_ac .ui-menu {
+  border: none;
+  box-shadow: none;
+}
+span.ilSearchHighlight {
+  font-weight: bold;
+}
+div.il_SearchFragment {
+  margin: 2px 0 5px;
+  font-size: 80%;
+  font-weight: normal;
+  text-align: left;
+}

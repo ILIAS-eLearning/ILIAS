@@ -1,0 +1,31 @@
+/* Services/InfoScreen */
+table.il_InfoScreen {
+  color: #222;
+  background-color: #FFF;
+  width: 100%;
+  /* border-spacing: 0; */
+  border-collapse: collapse;
+  border: 1px solid #D6D6D6;
+}
+div.ilInfoScreenSec {
+  padding: 10px;
+}
+div.ilInfoScreenSec h3 {
+  margin: 8px 0 14px;
+  border-bottom: 1px solid #D6D6D6;
+  color: #505050;
+  font-weight: normal;
+  font-size: 120%;
+}
+td.il_InfoScreenProperty {
+  border-right: 1px solid #D6D6D6;
+  text-align: right;
+  padding: 6px 10px 6px 4px;
+  vertical-align: top;
+  color: #505050;
+  width: 200px;
+}
+td.il_InfoScreenPropertyValue {
+  padding: 6px 4px 6px 10px;
+  vertical-align: top;
+}

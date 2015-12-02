@@ -1,0 +1,107 @@
+/* Modules/LearningModule */
+.ilLMMenu {
+  clear: both;
+}
+button.ilAreaClose {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+div.ilRightAreaSpace {
+  width: 50%;
+}
+/* right area (used in learning modules) */
+div#right_area {
+  bottom: 0;
+  width: 50%;
+  right: 0px;
+  top: 85px;
+  position: fixed;
+  padding: 5px;
+  background-color: #F5F5F5;
+  border-left: 3px solid #E9E9E9;
+  box-shadow: inset 0px 2px 2px #D0D0D0;
+  -webkit-overflow-scrolling: touch;
+  /* Bug 11209 */
+  overflow: auto;
+  /* Bug 11209 */
+}
+div#right_area iframe {
+  -webkit-overflow-scrolling: touch;
+  /* Bug 11209 */
+  overflow: auto;
+  /* Bug 11209 */
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+div#right_cont_area {
+  bottom: 0;
+  width: 50%;
+  right: 0px;
+  top: 85px;
+  position: fixed;
+  background-color: #F5F5F5;
+  border-left: 3px solid #E9E9E9;
+  -webkit-overflow-scrolling: touch;
+  /* Bug 11209 */
+  overflow: hidden;
+}
+div#right_top_area {
+  top: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: #F5F5F5;
+  border-bottom: 3px solid #E9E9E9;
+  box-shadow: inset 0px 2px 2px #D0D0D0;
+  -webkit-overflow-scrolling: touch;
+  /* Bug 11209 */
+  overflow: hidden;
+  display: none;
+}
+div.ilRightContAreaSplit div#right_top_area {
+  height: 50%;
+}
+div#right_top_area iframe {
+  -webkit-overflow-scrolling: touch;
+  /* Bug 11209 */
+  overflow: auto;
+  /* Bug 11209 */
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+div#right_bottom_area {
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: #F5F5F5;
+  box-shadow: inset 0px 2px 2px #D0D0D0;
+  -webkit-overflow-scrolling: touch;
+  /* Bug 11209 */
+  overflow: hidden;
+  display: none;
+}
+div.ilRightContAreaSplit div#right_bottom_area {
+  top: 50%;
+  height: 50%;
+}
+div#right_bottom_area iframe {
+  -webkit-overflow-scrolling: touch;
+  /* Bug 11209 */
+  overflow: auto;
+  /* Bug 11209 */
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+#il_expl2_jstree_cont_out_ilLMProgressTree img {
+  width: 18px;
+  height: 18px;
+  margin-top: -3px;
+}

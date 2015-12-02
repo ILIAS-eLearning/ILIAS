@@ -1,0 +1,25 @@
+/* Services/UIComponent/Toolbar */
+.ilToolbar .navbar-form {
+  padding: 5px 15px 5px 0;
+  margin: 0;
+}
+.ilToolbar.navbar {
+  min-height: 34px;
+  border: 0;
+  background-color: #F4F4F4;
+  margin-bottom: 8px;
+  font-size: 90%;
+  white-space: nowrap;
+}
+.ilToolbar .navbar-brand {
+  padding: 5px 10px 0 10px;
+  height: 34px;
+}
+.ilToolbar .navbar-collapse {
+  padding: 0;
+}
+li.ilToolbarSeparator {
+  border-left: solid 1px #d8d8d8;
+  min-height: 34px;
+  padding: 0 15px 0 0;
+}

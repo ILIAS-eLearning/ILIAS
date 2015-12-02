@@ -1,0 +1,176 @@
+/* Services/MainMenu */
+div.ilMainHeader {
+  min-height: 35px;
+  min-width: 641px;
+  /*this will need a setting after the new @media have been set*/
+  background: url(images/head_back.png) repeat-x #f0f0f0;
+}
+a.ilMainHeader,
+a.ilMainHeader:hover {
+  padding: 1px 5px;
+  margin: 2px 0;
+  border: 1px solid #B0B0B0;
+  background-color: #E6ECF8;
+  font-size: 90%;
+}
+div.ilLogin {
+  padding: 21px 20px 3px 10px;
+  margin: 0;
+  white-space: nowrap;
+  float: right;
+  font-size: 85%;
+}
+div.ilMainMenuSection {
+  background: url(images/mm_back.png) repeat-x #9bc5ed;
+  min-height: 31px;
+  clear: both;
+}
+div.ilMemberViewMainHeader {
+  color: #FFF;
+}
+div.ilMemberViewMainHeader + div {
+  padding: 10px 30px 30px;
+}
+div#il_main_logo {
+  padding: 5px 0 5px 19px;
+  float: left;
+}
+div#il_main_logo img {
+  margin: 0;
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  border: 0 none;
+}
+div#il_startup_logo img {
+  max-width: 100%;
+  margin: 20px;
+}
+div.ilMemberViewMainHeader {
+  background-color: #981A0A;
+  right: 0;
+  min-height: 50px;
+  padding-top: 8px;
+}
+div.ilMainMenu {
+  margin-top: 0;
+  padding: 0 0 0 20px;
+  line-height: normal;
+  clear: both;
+  float: left;
+}
+ul.ilMainMenu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  white-space: nowrap;
+}
+ul.ilMainMenuSide {
+  float: right;
+  padding: 0 20px 0 0;
+}
+li.ilMainMenu {
+  float: left;
+  margin: 0;
+  padding-top: 0;
+  height: 31px;
+  border-left: 1px solid #a3c8ff;
+  border-right: 1px solid #a3c8ff;
+}
+span.MMSpan {
+  display: block;
+}
+a.MMInactive:link,
+a.MMInactive:visited,
+a.MMActive:link,
+a.MMActive:visited {
+  display: block;
+  color: #038;
+  font-size: 85%;
+  text-decoration: none;
+  line-height: 26px;
+  height: 26px;
+  vertical-align: middle;
+  padding: 0 10px 3px;
+  margin: 1px 0 2px -1px;
+  font-weight: normal;
+  white-space: nowrap;
+}
+a.MMInactive:link,
+a.MMInactive:visited {
+  background: url(images/mm_back2.png) repeat-x;
+}
+a.MMInactive:hover {
+  color: #000;
+  text-decoration: none;
+  background: url(images/mm_back3.png) repeat-x #d0e8ff;
+}
+a.MMActive:link,
+a.MMActive:visited {
+  background: url(images/mm_back3.png) repeat-x #d0e8ff;
+}
+a.MMActive:hover {
+  color: #000;
+  text-decoration: none;
+}
+/* Status box */
+div#il_status_box {
+  font-size: 85%;
+  float: right;
+  margin: 22px 10px 0 0;
+}
+div#il_status_box a {
+  text-decoration: none;
+}
+div#il_status_box img {
+  position: relative;
+  top: -2px;
+}
+span.ilMMHidStatus {
+  visibility: hidden;
+}
+span.ilMMStatus,
+span.ilHActProp {
+  position: absolute;
+  font-size: .80em;
+  font-weight: bold;
+  margin: -3px 0 0 -3px;
+  background-color: #D06000;
+  color: #F0F0F0;
+  padding: 0 3px 1px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 1px #505050;
+}
+span.ilHActProp {
+  margin-left: -4px;
+  font-size: .70em;
+  font-weight: normal;
+  border: 1px solid #E0E0E0;
+  color: #909090;
+  background-color: #F3F3F3;
+  box-shadow: 1px 1px 1px #B0B0B0;
+}
+/* Main Menu Top Title */
+div.ilTopTitle {
+  color: #359;
+  font-size: 16px;
+  letter-spacing: .05em;
+  padding: 16px 0 0 25px;
+  white-space: nowrap;
+  word-spacing: -0.1em;
+  float: left;
+}
+input.ilOpenIDBox {
+  background: #ffffff url(images/openid.png) 1px 2px no-repeat;
+  padding-left: 20px;
+}
+.ilLanguageSelection {
+  font-size: 80%;
+}
+.ilDisplayInline {
+  display: inline;
+}
+span.il_menu {
+  line-height: 150%;
+  padding-left: 30px;
+}

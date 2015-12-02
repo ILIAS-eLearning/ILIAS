@@ -1,0 +1,39 @@
+/* Services/Notes */
+div.ilComment {
+  padding-left: 50px;
+}
+div.ilNotesUImage {
+  float: left;
+  margin-left: -50px;
+}
+div.ilNoteText {
+  font-size: 95%;
+  margin-top: 5px;
+}
+div.ilNotesHeader {
+  background-color: #F0F0F0;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+h3.ilNotesHeader {
+  font-size: 110%;
+  color: #606060;
+  display: inline;
+}
+h4.ilNoteTitle {
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+}
+td.ilNoteList {
+  padding: 10px 5px;
+  border-top: 1px solid #F0F0F0;
+  vertical-align: top;
+}
+textarea#note {
+  width: 90%;
+  height: 6em;
+}
+div.ilNoteInput {
+  padding-bottom: 10px;
+}

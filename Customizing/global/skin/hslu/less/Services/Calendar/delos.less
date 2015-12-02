@@ -1,0 +1,141 @@
+/* Services/Calendar */
+
+td.even {
+	color: #222;
+	background-color: #F7F7F7;
+	padding: 3px;
+}
+
+td.uneven {
+	color: #222;
+	background-color: #EEE;
+	padding: 3px;
+}
+
+td.today {
+	background-color: #E0E0FF;
+}
+
+
+td.date {
+	background-color: #F7F7F7;
+}
+
+td.prevMonth {
+	background-color: #DFDFDF;
+}
+
+div#block_cal_sel_0 div.ilBlockContent {
+	padding: 0;
+}
+
+div.ilCalSelAct {
+	background-color: #F0F0F0;
+	font-size: 90%;
+	padding: 2px 2px 3px 0;
+}
+
+div.ilCalSelSelAll {
+	background-color: #F8F8F8;
+	font-size: 80%;
+	padding: 3px 2px 2px 0;
+}
+
+div.ilCalSelList {
+	max-height: 250px;
+	overflow: auto;
+}
+
+.ilCalSelList img {
+	width: 20px;
+	height: 20px;
+}
+
+ul.ilCalSel {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+ul.ilCalSel li {
+	margin: 0;
+	padding: 0 0 0 48px;
+	border-bottom: 1px solid #F0F0F0;
+	min-height: 25px;
+}
+
+span.ilCalColSpan {
+	padding: 2px 0;
+	display: block;
+	margin-left: -48px;
+	width: 24px;
+	height: 25px;
+	float: left;
+}
+
+ul.ilCalSel li img {
+	margin-top: 6px;
+	display: block;
+	float: left;
+	margin-left: -20px;
+}
+
+div.ilCalSelTitle {
+	padding: 5px 3px 3px;
+	font-size: 90%;
+}
+
+table.calmini {
+	width: 100%;
+	font-size: 90%;
+	//border-spacing: 2px;
+	//border-collapse: separate;
+	border-collapse: collapse;
+	background-color: lighten(@mid-gray, 71%);
+	border: none;
+	tr, td, th {
+		border: none;
+		padding: 5px 3px;
+		@media only screen and (max-width: 991px) {padding: 5px 1px;}
+		text-align: center;
+		vertical-align: middle;
+		color: lighten(@mid-gray, 45%);
+		background-color: transparent;
+	}
+	tr:nth-child(even) {
+		background-color: lighten(@mid-gray, 65%);
+	}
+	th.calmini, th.calminiweek {
+		font-family: 'Open Sans Semibold';
+		color: @brand-primary;
+		font-size: 90%;
+	}
+	td.calministd > .il_calmini_monthday > a {
+		color: lighten(@mid-gray, 15%);
+	}
+	td.calminitoday {
+		background-color: lighten(@brand-primary, 15%);
+		> .il_calmini_monthday > a {
+			color: white;
+		}
+	}
+	td.calminiprev > .il_calmini_monthday > a,
+	td.calmininext > .il_calmini_monthday > a {
+		color: lighten(@mid-gray, 40%);
+	}
+}
+
+a.callink:link, a.callink:visited {
+	color: inherit;
+	cursor: pointer;
+}
+a.callink:hover {
+}
+.callink .glyphicon {
+	color: lighten(@link-color, 30%);
+	cursor: pointer;
+}
+
+.callink .glyphicon:hover {
+	color: @link-color;
+}

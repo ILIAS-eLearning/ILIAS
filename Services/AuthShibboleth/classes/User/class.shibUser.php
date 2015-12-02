@@ -41,7 +41,11 @@ class shibUser extends ilObjUser {
 			$shibUser->setId($existing_usr_id);
 			$shibUser->read();
 		}
-		$shibUser->setAuthMode('shibboleth');
+//BEGIN PATCH HSLU
+		else{
+			$shibUser->setAuthMode('shibboleth');
+		}
+//END PATCH HSLU
 
 		return $shibUser;
 	}

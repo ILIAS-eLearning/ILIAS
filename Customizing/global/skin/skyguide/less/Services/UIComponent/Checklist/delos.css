@@ -1,0 +1,29 @@
+/* Services/UIComponent/Checklist */
+div.ilChecklist ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+div.ilChecklist ul li {
+  padding: 5px 5px;
+  margin: 0 -5px;
+  font-size: 85%;
+}
+div.ilChecklist ul li a {
+  display: block;
+}
+div.ilChecklist ul li a:hover {
+  text-decoration: none;
+}
+div.ilChecklist ul li p,
+div.ilChecklist ul li p:hover {
+  color: #303030;
+  text-decoration: none;
+  padding: 0;
+  margin-top: 0px;
+}
+div.ilChecklist ul li img {
+  width: 18px;
+  height: 18px;
+  float: right;
+}

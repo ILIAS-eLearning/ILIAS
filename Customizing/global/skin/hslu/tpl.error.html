@@ -1,0 +1,51 @@
+<div id="ilTopBar" class="ilTopBar">
+	<div class="container">
+		<div class="row">
+			<!-- BEGIN header_top_title -->
+			<div class="ilTopTitle">{TXT_HEADER_TITLE}</div>
+			<!-- END header_top_title -->
+		</div>
+	</div>
+</div>
+<div class="ilMainHeader">
+	<header class="container">
+		<div id="il_startup_logo" class="row">
+			<img src="./templates/default/images/HeaderIcon.svg" alt="Logo" />
+		</div>
+	</header>
+</div>
+<div class="ilMainMenu">
+	<div class="container">
+		<div class="row">
+			<nav id="ilTopNav" class="navbar navbar-default" role="navigation"></nav>
+		</div>
+	</div>
+</div>
+<div id="mainspacekeeper" class="container">
+	<div class="row" style="position: relative;">
+		<div id="fixed_content" class=" ilContentFixed">
+			<div id="mainscrolldiv" class="ilStartupFrame container">
+				<div class="il_Header">
+					<h1>{MESSAGE_HEADING}</h1>
+				</div>
+				<div class="ilStartupSection">
+					<div class="alert alert-danger">{ERROR_MESSAGE}</div>
+					<!-- BEGIN ErrorLink -->
+					<!-- additional link e.g. by WebAccessChecker -->
+					<p>
+						<a class="btn btn-default" href="{LINK}">{TXT_LINK}</a>
+					</p>
+					<!-- END ErrorLink -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="minheight"></div>
+<footer class="ilFooter">
+	<div class="container">
+		<div class="row">
+			<div class="ilFooterContainer">{FOOTER}</div>
+		</div>
+	</div>
+</footer>

@@ -1,0 +1,46 @@
+/* Services/Tags */
+
+@il-tag-bg: lighten(@il-brand-3rd, 20%);
+
+.ilTagCloud {
+	max-height: 400px;
+	overflow: auto;
+	font-size: 90%;
+}
+
+.ilTag {
+	background-color: @il-tag-bg;
+	/* background-color: lighten(@brand-primary, 10%); */
+	color:white;
+	display:inline-block;
+	white-space: nowrap;
+	padding: 1px 5px;
+	margin: 2px 4px 2px 0;
+	border-radius: 3px;
+}
+
+a.ilTag:hover, a.ilTag:active {
+	text-decoration: none;
+	color:white;
+	background-color: saturate(@il-tag-bg, 40%);;
+}
+
+.ilTagRelVeryHigh {
+
+}
+.ilTagRelHigh {
+	background-color: desaturate(@il-tag-bg, 20%);
+}
+.ilTagRelMiddle {
+	background-color: desaturate(@il-tag-bg, 40%);
+}
+.ilTagRelLow {
+	background-color: desaturate(@il-tag-bg, 60%);
+}
+.ilTagRelVeryLow {
+	background-color: desaturate(@il-tag-bg, 80%);
+}
+
+.ilTag.ilHighlighted {
+	background-color: @badge-bg;
+}

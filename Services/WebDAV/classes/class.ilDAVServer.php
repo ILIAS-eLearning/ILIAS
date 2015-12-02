@@ -1019,6 +1019,17 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			}
 		}
 
+		if($this->putObjDAV->getResourceType()==""){
+			$vir = ilUtil::virusHandling($this->putObjDAV->obj->getDirectory($this->putObjDAV->obj->version).'/'.$this->putObjDAV->obj->filename, $this->putObjDAV->obj->filename);
+			if ($vir[0] == false)
+			{
+				$this->writelog('PUTfinished Virus found: '.$vir[1]);
+				//delete file
+				ilDAVServer::DELETE($options);
+				return false;
+			}
+		}
+		
 		// Update the content length in the file object, if the
 		// the client did not specify a content_length
 		if ($options['content_length'] == null)

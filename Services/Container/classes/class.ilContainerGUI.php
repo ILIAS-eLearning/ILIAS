@@ -400,6 +400,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	
 			// set tile icon
 			$icon = ilObject::_getIcon($this->object->getId(), "big", $this->object->getType());
+			//BEGIN PATCH HSLU anderes icon Postbox
+            require_once 'Services/AccessControl/classes/class.ilPostboxHelper.php';
+            $icon = ilUtil::getImagePath("icon_".ilPostboxHelper::_createBildName($this->object->getRefId(),$this->object->getType()).".svg");
+			//END PATCH HSLU anderes icon Postbox
 			if ($ilias->getSetting("custom_icons") &&
 				in_array($this->object->getType(), array("cat","grp","crs", "root")))
 			{

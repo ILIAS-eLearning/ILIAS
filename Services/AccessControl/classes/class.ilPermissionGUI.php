@@ -139,6 +139,16 @@ class ilPermissionGUI extends ilPermission2GUI
 				$ilToolbar->addButton($this->lng->txt('rbac_add_new_local_role'),$this->ctrl->getLinkTarget($this,'displayAddRoleForm'));
 			}
 			$ilToolbar->addButton($this->lng->txt('rbac_import_role'),$this->ctrl->getLinkTarget($this,'displayImportRoleForm'));
+			//BEGIN PATCH HSLU Dropbox
+            if($this->getCurrentObject()->getType()=='fold'){
+                //$ilToolbar->addSpacer();
+                $ilToolbar->addSeparator();
+                $ilToolbar->addButton('In Briefkasten konvertieren',$this->ctrl->getLinkTarget($this,'makePostbox'));
+                $ilToolbar->addButton('In Dateiaustausch konvertieren',$this->ctrl->getLinkTarget($this,'makeExchangeFolder'));
+                $ilToolbar->addButton('In Gruppenordner konvertieren',$this->ctrl->getLinkTarget($this,'makeGroupFolder'));
+                $ilToolbar->addButton('In normalen Ordner konvertieren',$this->ctrl->getLinkTarget($this,'makeNormalFolder'));
+            }
+			//END PATCH HSLU Dropbox
 		}
 
 		$this->__initSubTabs("perm");
@@ -152,7 +162,36 @@ class ilPermissionGUI extends ilPermission2GUI
 		$this->tpl->setContent($table->getHTML());
 	}
 	
-	
+//BEGIN PATCH HSLU Dropbox
+    function makePostbox() //macht Briefchaschte
+    {
+        require_once 'class.ilPostboxHelper.php';
+        ilPostboxHelper::_makePostbox($this->getCurrentObject()->obj_data_record['ref_id']);
+        ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
+        $this->ctrl->redirect($this,'perm');
+    }
+    function makeExchangeFolder() //macht Dateiaustausch
+    {
+        require_once 'class.ilPostboxHelper.php';
+        ilPostboxHelper::_makeExchangeFolder($this->getCurrentObject()->obj_data_record['ref_id']);
+        ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
+        $this->ctrl->redirect($this,'perm');
+    }
+    function makeNormalFolder() //macht normaler Ordner
+    {
+        require_once 'class.ilPostboxHelper.php';
+        ilPostboxHelper::_makeNormalFolder($this->getCurrentObject()->obj_data_record['ref_id']);
+        ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
+        $this->ctrl->redirect($this,'perm');;
+    }
+    function makeGroupFolder() //macht Gruppen Ordner
+    {
+        require_once 'class.ilPostboxHelper.php';
+        ilPostboxHelper::_makeGroupFolder($this->getCurrentObject()->obj_data_record['ref_id']);
+        ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
+        $this->ctrl->redirect($this,'perm');;
+    }
+//END PATCH HSLU Dropbox	
 	
 	/**
 	 * Check of current location is administration (main) role folder

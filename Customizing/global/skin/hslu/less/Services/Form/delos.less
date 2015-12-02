@@ -1,0 +1,154 @@
+/* Services/Form */
+
+/* forms */
+
+label, input[type=checkbox], input[type=radio], select {
+	cursor: pointer;
+}
+
+.form-control {
+	font-size: @ilFormInputFontSize;
+}
+
+.form-horizontal {
+	margin-bottom: 20px;
+	background-color: @ilFormBgColor;
+}
+
+form.form-inline {
+	margin-bottom: 20px;
+}
+
+.form-horizontal .form-group {
+	margin: 10px 0px;
+}
+
+.form-control, .form-control:focus {
+	box-shadow: 0 0 0;
+}
+
+.form-horizontal input.form-control, .form-horizontal textarea.form-control,
+.form-horizontal select.form-control {
+	/* max-width: 80%; */
+}
+
+select.form-control {
+	width: auto;
+}
+
+.form-horizontal label {
+	color: darken(@ilFormColor, 20%);
+	font-size: 100%;
+}
+
+.form-horizontal .control-label {
+    //padding-top: 0;
+	&.col-sm-3.il_textarea {
+		text-align: left;
+		width: 100%;
+	}
+}
+
+[dir="rtl"] .form-horizontal .control-label {
+    text-align: left;
+}
+
+label {
+	font-weight: normal;
+}
+
+.form-horizontal .help-block {
+	color: lighten(@ilFormColor, 10%);
+	margin: 2px 0 4px;
+	padding: 0;
+	font-size: 90%;
+	clear: both;
+}
+
+td.form-inline > div.form-group {
+	display: block;
+	padding: 4px 0;
+}
+
+input[type="file"].form-control {
+	border: none;
+	height: auto;
+}
+
+.ilFormHeader {
+	padding: 15px 0 5px;
+	.ilFormCmds {
+		margin: 0;
+		float: right;
+	}
+	h3 {
+		margin: 0;
+	}
+}
+
+[dir="rtl"] .ilFormHeader .ilFormCmds {
+	float: left;
+}
+
+.ilFormHeader, .ilFormFooter {
+	color: darken(@ilFormColor, 20%);
+	/* background-color: lighten(@ilFormColor, 45%); */
+	background-color: @body-bg;
+}
+
+.ilSubForm {
+	background-color: darken(@ilFormBgColor, 2%);
+	padding: 3px 0;
+	.form-group {
+		margin: 0;
+	}
+	.col-sm-9.il_textarea {
+		width: 100%;
+	}
+}
+
+.ilFormFooter {
+	padding: 3px 0px;
+}
+
+.ilFormFooter .ilFormCmds {
+	text-align: right;
+	padding: 0;
+}
+
+[dir="rtl"] .ilFormFooter .ilFormCmds {
+	text-align: left;
+}
+
+/* jQuery ui autocomplete menu */
+input.ilHFormHighlighted, .ui-state-focus {
+	background-color: #FF9;
+}
+
+div.ilFormExternalSetting {
+	margin-bottom: 10px;
+}
+
+div.ilFormExternalSetting ul {
+	margin: 2px 0;
+	padding-left: 25px;
+}
+
+[dir="rtl"] div.ilFormExternalSetting ul {
+	padding-left: 0;
+	padding-right: 25px;
+}
+
+div.ilFormExternalSetting span {
+	color: #C08030;
+	/* font-style: italic; */
+}
+
+div[id^="ilFormField"] {
+	margin-bottom: 10px;
+}
+
+/* deprecated */
+div.ilFormInfo {
+}
+

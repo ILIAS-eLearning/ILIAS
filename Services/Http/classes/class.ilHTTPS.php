@@ -122,7 +122,13 @@ class ilHTTPS
 		$this->protected_scripts[] = 'webdav.php';
 		// END WebDAV Use SSL for WebDAV.
 		$this->protected_scripts[] = 'shib_login.php';
-		
+		//BEGIN PATCH HSLU use SSL
+        $scriptvar=$_SERVER['SCRIPT_URL'];
+        if(empty($scriptvar)) $scriptvar=$_SERVER['SCRIPT_NAME'];
+        $pos=strrpos($scriptvar,'/');
+        $file=substr($scriptvar,$pos+1);
+        $this->protected_scripts[]=$file;
+		//END PATCH HSLU use SSL
 		return true;
 	}
 

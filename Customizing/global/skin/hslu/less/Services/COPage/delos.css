@@ -1,0 +1,314 @@
+/* --- Services/COPage ---*/
+a.ilEditSubmit {
+  background: url(images/ButtonsBack.png) repeat-x bottom #ffffff;
+  padding: 2px;
+  margin: 0;
+  border: 1px solid #BABABA;
+  border-bottom-color: #808080;
+  border-right-color: #808080;
+  text-decoration: none;
+  font-size: 80%;
+  line-height: 14px;
+  cursor: pointer;
+}
+input.ilEditSubmit {
+  color: #2255A0;
+  padding: 1px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 14px;
+  cursor: pointer;
+  background: url(images/ButtonsBack.png) repeat-x bottom #ffffff;
+  border: 1px solid #BABABA;
+  border-bottom-color: #808080;
+  border-right-color: #808080;
+}
+div.ilEditHelpline {
+  margin: 3px 0px;
+  padding: 0;
+  font-size: 80%;
+  background-color: #FFF;
+  color: #000;
+}
+select.ilEditSelect {
+  background: none #FFF;
+  border: 1px solid #BBB;
+  padding: 1px;
+  text-decoration: none;
+  font-size: 12px;
+}
+div.il_droparea {
+  border: 1px solid #D0D0D0;
+  font-size: 1px;
+  background: url(images/drop_back.png);
+  padding: 0;
+  text-align: center;
+  height: 12px;
+}
+div.il_droparea_active {
+  padding: 0px;
+  border: 1px solid #000;
+  font-size: 1px;
+  background: url(images/drop_back_active.png);
+  text-align: center;
+  height: 12px;
+}
+div.il_droparea_valid_target {
+  padding: 0px;
+  border: 1px solid #000;
+  font-size: 1px;
+  background: url(images/drop_back.png);
+  text-align: center;
+  height: 12px;
+}
+div.il_editarea_nojs {
+  border-width: 1px dotted #999;
+}
+div.il_editarea {
+  border: 1px solid transparent;
+}
+div.il_editarea_disabled {
+  border: 2px dotted red;
+}
+div.il_editarea_active {
+  border: 1px solid #909090;
+}
+div.il_editarea_selected {
+  border: 2px solid #00E253;
+}
+div.il_editarea_disabled_selected {
+  border: 2px solid red;
+}
+div.il_editarea_active_selected {
+  border: 2px solid #000;
+}
+.il_editmenu {
+  background-color: #FFF;
+  color: #000;
+  font-weight: normal;
+  text-align: left;
+  font-style: normal;
+  text-indent: 0;
+  font-size: 14px;
+  z-index: 5000;
+}
+table.il_editmenu td {
+  padding: 3px;
+}
+div.ilEditLabel {
+  position: absolute;
+  background-color: #F5F5F5;
+  font-size: 70%;
+  padding: 1px 3px;
+  border-style: solid;
+  border-width: 0 1px 1px 0;
+  border-color: #909090;
+}
+div.ilEditVAccordCntr {
+  margin-top: 15px;
+  padding: 5px;
+}
+div.ilEditVAccordICntr {
+  background-color: #FFF;
+  margin-bottom: 15px;
+  border: 1px solid #9EADBA;
+}
+div.ilEditVAccordIHead {
+  padding: 3px;
+  background-color: #E2EAF4;
+  text-align: left;
+  background-repeat: no-repeat;
+  background-position: 3px 4px;
+}
+div.ilEditVAccordICont {
+  padding: 10px;
+  background-color: #FFF;
+}
+div.ilTinyMenuSection {
+  float: left;
+  white-space: nowrap;
+  border-right: 1px solid #E0E0E0;
+  padding: 0 10px 4px 0;
+  margin-right: 10px;
+}
+#ilTinyMenuButtons {
+  padding-bottom: 15px;
+  zoom: 1;
+}
+#iltinymenu .bd div.last {
+  float: left;
+  white-space: nowrap;
+  padding: 0 10px 2px 0;
+  border-right: 0;
+  margin: 0;
+}
+#iltinymenu {
+  z-index: 1040 !important;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+}
+#iltinymenu .bd div .small {
+  color: #909090;
+  font-style: italic;
+}
+#ilsaving {
+  position: fixed;
+  top: 0;
+  left: 0;
+  text-decoration: blink;
+  z-index: 3;
+}
+.ilTinyMenuDropDown span {
+  padding: 2px 0 0 5px;
+  width: 75px;
+  overflow: hidden;
+  display: inline-block;
+  line-height: 1em;
+}
+a.ilTinyMenuDropDown {
+  display: inline-block;
+  padding: 0 2px 1px 0;
+}
+/* if the ilc_page_cont_PageContainer is declared as being relative in the content.css drop downs will be truncated */
+#ilEditorTD {
+  position: static;
+}
+#ilEditorTD p {
+  margin: 0;
+  padding: 0;
+}
+/* Page TOC */
+div.ilc_page_toc_PageTOC {
+  font-size: 90%;
+  padding: 5px 5px 10px;
+  background-color: #FAFAFA;
+  border: 1px solid #F0F0F0;
+  float: left;
+}
+h1.ilc_page_toc_PageTOCHead {
+  margin: 0;
+  font-size: 100%;
+  padding: 0;
+  font-weight: bold;
+  text-align: center;
+}
+ul.ilc_page_toc_PageTOCList {
+  margin: 0 0 0 10px;
+  padding: 0;
+  list-style: none;
+}
+li.ilc_page_toc_PageTOCItem {
+  margin: 5px 0 0;
+  padding: 0;
+  white-space: nowrap;
+}
+a.ilc_page_toc_PageTOCLink {
+  color: #03A;
+  font-weight: normal;
+  text-decoration: none;
+}
+a.ilc_page_toc_PageTOCLink:hover {
+  color: #000;
+}
+a.ilc_page_toc_PageTOCLink:visited {
+  color: blue;
+}
+/* --- content styles (will move to content.css) --- */
+td.ilc_PageDisabled {
+  padding: 20px;
+  border: 1px solid #9EADBA;
+  margin-bottom: 0;
+  border-left: 3px dotted red;
+}
+div.ilc_DefinitionHeader {
+  margin: 10px 0;
+  padding: 5px 0;
+  border: 1px solid #000;
+  border-width: 1px 0;
+}
+table.ilc_Fullscreen {
+  background-color: #FFF;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+html.ilc_Fullscreen,
+body.ilc_Fullscreen {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+div.ilLMMenu {
+  margin: 0 0 5px 10px;
+}
+div.ilc_LMMenu {
+  line-height: 22px;
+}
+a.ilc_LMMenu {
+  padding: 1px 5px;
+  margin: 2px 0;
+  border: 1px solid #B0B0B0;
+  background-color: #E6ECF8;
+  white-space: nowrap;
+}
+div.ilc_TableOfContents {
+  background-color: #FFF;
+  padding: 20px;
+  border-spacing: 1px;
+  border: 1px solid #EEE;
+  margin-bottom: 0;
+}
+table.ilc_media {
+  background-color: white;
+}
+h1.il_LMHead {
+  margin: 12px 15px 6px;
+  font-size: 120%;
+  font-weight: normal;
+}
+table.ilc_Table {
+  border-collapse: collapse;
+  background-color: #FFF;
+  margin: 10px 0px;
+  border-color: #9EADBA;
+}
+/* COPage Comparison */
+div.ilEditModified {
+  border-left: 3px solid 8080FF;
+  border-bottom: 3px solid #8080FF;
+  padding: 0 5px 5px 0;
+  margin-bottom: 2px;
+}
+div.ilEditDeleted {
+  border-left: 3px solid FF8080;
+  border-bottom: 3px solid #FF8080;
+  padding: 0 5px 5px 0;
+  margin-bottom: 2px;
+}
+div.ilEditNew {
+  border-left: 3px solid 80FF80;
+  border-bottom: 3px solid #80FF80;
+  padding: 0 5px 5px 0;
+  margin-bottom: 2px;
+}
+span.ilDiffDel {
+  background-color: #FFC0C0;
+}
+span.ilDiffIns {
+  background-color: #C0FFC0;
+}
+a.nostyle:link,
+a.nostyle:visited {
+  text-decoration: none;
+  color: #000;
+}
+a.nostyle:hover {
+  color: #000;
+}
+#ilEditorPanel_c {
+  z-index: 3000 !important;
+}

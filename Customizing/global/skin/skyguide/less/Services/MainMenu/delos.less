@@ -1,0 +1,327 @@
+/* Services/MainMenu */
+.ilTopHeader {
+	position:fixed;
+	left:0;
+	right:0;
+	z-index:	@zindex-navbar-fixed;   /* see bootstrap fixed top navbar */
+	top:0;
+	background-color: lighten(@ilMainMenuColor, 40%);
+	//#gradient > .vertical(lighten(@ilMainMenuColor, 40%), lighten(@ilMainMenuColor, 35%), 0%, 100%);
+	.reset-filter();
+	//max-width:1200px;
+	margin-left:auto;
+	margin-right:auto;
+	/*border-bottom: 3px solid @ilMainMenuColor;*/
+}
+
+.ilBranding {
+	height: 56px;
+	padding: 3px 0px;
+}
+
+// Default navbar
+#ilTopNav {
+	margin: -38px 0 0 65px;
+	&.navbar {
+		padding-top: 1px;
+		padding-bottom: 1px;
+		min-height: 33px;
+		> .navbar-collapse {
+			margin: 0;
+			padding: 0 0 0 5px;
+		}
+	}
+	&.navbar-default {
+		background-color: transparent;//@body-bg;//lighten(@ilMainMenuColor, 30%);
+		//#gradient > .vertical(lighten(@ilMainMenuColor, 30%), lighten(@ilMainMenuColor, 27%), 0%, 100%);
+		.reset-filter();
+		border: 0;
+	}
+	.dropdown-menu {
+		float: left;
+		right: auto;
+		left: 0;
+		min-width: 100%;
+	}
+	.navbar-text {
+		color: @ilMainMenuColor;
+	}
+	.navbar-nav {
+		float: left;
+		margin-left: 5px;
+		> li {
+			margin: 0 0 0 10px;
+				> a {
+				margin: 0;
+				padding: 5px 10px 6px;
+				border-top: 4px solid white;
+				color: #808080;
+				&:hover,
+				&:active,
+				&:focus {
+					//outline: 0;
+					//border-top: 4px solid @brand-primary;
+					//background-color: white;
+					//box-shadow: 3px 9px 9px 0px rgba(0,0,0,0.176);
+				}
+			}
+		}
+		> .active > a,
+		> .open > a {
+			&,
+			&:hover,
+			&:active,
+			&:focus {
+				//background-color: lighten(@ilMainMenuColor, 42%);
+				outline: 0;
+				border-top: 4px solid @brand-primary;
+				background-color: #fafafa;
+				box-shadow: 3px 9px 9px 0px rgba(0,0,0,0.176);
+			}
+		}
+	}
+	a.dropdown-toggle {
+		text-transform: uppercase;
+		font-size: 14px;
+	}
+}
+
+[dir="rtl"] #ilTopNav {
+	.dropdown-menu {
+		float: right;
+		left: auto;
+		right: 0;
+		padding: 5px 0;
+		text-align: right;
+	}
+	.navbar-nav {
+		float: right;
+		margin-left: 0;
+		margin-right: 70px;
+		> li {
+		margin: 0 10px 0 0;
+		}
+	}
+	&.navbar > .navbar-collapse {
+		padding: 0 5px 0 0;
+	}
+}
+/* Main Menu Top Title */
+.ilTopTitle {
+	/* color: darken(@ilMainMenuColor, 20%);*/
+	float: left;
+	font-family: 'Open Sans Semibold';
+	padding: 0 0 0 15px;
+	white-space: nowrap;
+	line-height: 40px;
+	/*letter-spacing: 0.05em;*/
+	/*word-spacing: -0.1em;*/
+}
+
+[dir="rtl"] .ilTopTitle {
+	float: right;
+	padding: 0 15px 0 0;
+}
+
+input.ilOpenIDBox {
+	background: url("@{background-images-path}openid.png") no-repeat 1px 2px #FFFFFF;
+	padding-left: 20px;
+}
+
+[dir="rtl"] input.ilOpenIDBox {
+	background-position: 2px 1px;
+	padding-left: 0;
+	padding-right: 20px;
+}
+
+#ilTopBar.ilTopBar {
+	padding: 0;
+	height: 40px;
+	top: 0;
+	z-index: 1040;
+}
+
+.ilTopFixed {
+	z-index: 1030;
+	position: fixed;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+}
+
+#ilTopBarNav {
+	float: right;
+	margin: 0;
+	padding: 0;
+	margin-right: 14px;
+	list-style: none outside none;
+	.badge {
+		font-size: 9px;
+		padding: 2px 4px;
+		margin-top: -3px;
+		margin-left: -5px;
+		position: absolute;
+	}
+	.ilBadgeSpacer {
+		font-size: 8px;
+		padding: 0;
+		visibility: hidden;
+	}
+	.dropdown-menu {
+		background-color: lighten(@mid-gray, 42%);
+		border-radius: 0;
+		margin: 0;
+		color: lighten(@mid-gray, 70%);
+		a {
+			color: lighten(@mid-gray, 70%);
+			&:hover,
+			&:active,
+			&:focus {
+				color: lighten(@mid-gray, 42%);
+			}
+		}
+	}
+	> li {
+		float: left;
+		display: block;
+		position: relative;
+	}
+	> li > a {
+		margin-right: 1px;
+		display: block;
+		padding: 10px;
+		position: relative;
+		min-width: 40px;
+		text-align: center;
+		background-color: lighten(@mid-gray, 20%);
+		color: lighten(@mid-gray, 70%);
+		&:hover,
+		&:active,
+		&:focus {
+			outline: 0;
+			color: white;
+			text-decoration: none;
+			background-color: lighten(@mid-gray, 42%);
+		}
+	}
+	> .active > a,
+	> .open > a {
+		&,
+		&:hover,
+		&:active,
+		&:focus {
+			outline: 0;
+			color: white;
+			text-decoration: none;
+			background-color: lighten(@mid-gray, 42%);
+		}
+	}
+	#userlog {
+		> a {
+			padding: 0 10px 0 0;
+			img {
+				height: 40px;
+				width: 40px;
+				margin-right: 0px;
+				padding: 5px;
+			}
+		}
+		.dropdown-menu {
+			min-width: 100%;
+			> li > a {
+				padding-left: 50px;
+			}
+		}
+	}
+}
+
+[dir="rtl"] #ilTopBarNav {
+	float: left;
+	margin: 0;
+	margin-left: 14px;
+	text-align: right;
+	.badge {
+		margin-left: 0;
+		margin-right: -5px;
+	}
+	.dropdown-menu {
+		a {
+			text-align: right;
+		}
+	}
+	> li {
+		float: right;
+	}
+	> li > a {
+		margin-right: 1px;
+	}
+	#userlog {
+		> a {
+			padding: 0 0 0 10px;
+			img {
+				margin-left: 0;
+			}
+		}
+	}
+}
+
+.ilMainHeader {
+	background-color: white;
+	height: 80px;
+	border-bottom: 3px solid @body-bg;
+	&.ilTopFixed {
+		top: 40px;
+	}
+	> header > .row > a.navbar-brand {
+		//height: 70px;
+		height: 50px;
+		display: inline-block;
+		padding: 0;
+		margin: 15px 15px 0;
+		> img {
+			width: 50px;
+			height: 50px;
+		}
+	}
+}
+
+.ilMainMenu {
+	background-color: white;//@body-bg;
+	&.ilTopFixed {
+		top: 110px;
+	}
+}
+					
+.dropdown-menu {
+	font-weight: normal;
+	border: none;
+	box-shadow: 3px 9px 9px 0px rgba(0,0,0,0.3);
+	li > a {
+		padding: 3px 10px;
+		color: lighten(@mid-gray, 10%);
+	}
+}
+
+.dropdown-header {
+	padding: 3px 10px;
+}
+
+.ilMainMenuEntries {
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+
+div.ilMemberViewMainHeader {
+   background-color: #981A0A;
+}
+
+div.ilTopMemberView {
+	text-align: center;	
+}
+
+div.ilTopMemberView h3 {
+	padding: 0;
+	margin: 0;
+	line-height: 40px;	
+}

@@ -1,0 +1,46 @@
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+* ILIAS language file (Local changes only)
+*
+* @module			language file -lang_de-
+* @modulegroup		language
+* @based_on			$Id: ilias_de.lang 50357 2014-05-27 08:46:08Z smoor $
+* @il_server		https://elearning.hslu.ch/ilias
+* @il_version		4.4.3 2014-05-14
+* @created			2015-07-20 11:43:57
+* @created_by		Simon Moor <simon.moor@hslu.ch>
+*/
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode! 
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
+blog#:#blog_change_notification_salutation#:#Guten Tag %s,
+common#:#err_auth_ldap_no_ilias_user#:#Anmeldung fehlgeschlagen! Ihre Aus-/Weiterbildung an der HSLU ist abgeschlossen und Ihr Passwort funktioniert möglicherweise nicht. Um weiterhin auf ILIAS zugreifen zu können, befolgen Sie die Anweisungen auf der <a href="https://www.hslu.ch/de-ch/zll/lehr-lerninfrastruktur/ilias/support/">Support-Seite</a>
+common#:#err_inactive#:#Dieser Benutzer ist nicht aktiviert. Bitte kontaktieren Sie den Systemadministrator.
+common#:#err_wrong_login#:#Benutzername oder Passwort ungültig. Zur <a href="https://www.hslu.ch/de-ch/zll/lehr-lerninfrastruktur/ilias/support/" style="color:blue">Support-Seite</a>.
+common#:#excel_export#:#Excel-Export
+common#:#passwd_invalid#:#Das eingegebene Passwort ist nicht erlaubt! Das Passwort muss mindestens zehn Zeichen umfassen. Es muss Buchstaben sowie Zahlen und /oder Sonderzeichen enthalten.<br /><br />Erlaubt sind nur folgende Zeichen: A-Z a-z 0-9 _.-+?#*@!$%~
+common#:#reg_mail_body_salutation#:#Guten Tag
+crs#:#crs_added_member_body#:#Sie sind in den Kurs "%s" aufgenommen worden.
+crs#:#crs_blocked_member_body#:#ihre Mitgliedschaft in Kurs "%s" wurde gesperrt. Dies ist eine vom System automatisch generierte Nachricht. Bei Fragen wenden Sie sich an die Kurs-Administration.
+crs#:#crs_dismiss_member_body#:#ihre Mitgliedschaft in Kurs "%s" ist beendet worden. Dies ist eine vom System automatisch generierte Nachricht. Bei Fragen wenden Sie sich an die Kurs-Administration.
+exc#:#exc_team_notification_salutation#:#Guten Tag %s,
+grp#:#grp_mail_dismiss_bod#:#Ihre Mitgliedschaft in Gruppe "%s" wurde beendet. Dies ist eine vom System automatisch generierte Nachricht. Bei Fragen wenden Sie sich an die Administration der Gruppe.
+mail#:#mail_salutation_anonymous#:#Guten Tag
+mail#:#mail_salutation_f#:#Guten Tag
+mail#:#mail_salutation_m#:#Guten Tag
+mail#:#mail_salutation_n#:#Guten Tag
+news#:#news_enable_private_feed#:#Privaten Newsfeed aktivieren<br/><br /><strong>Dieses Passwort muss sich aus Sicherheitsgründen zwingend vom Passwort Ihres HSLU-Accounts unterscheiden.</strong>
+news#:#news_get_priv_feed_info#:#Dies ist die Adresse Ihres privaten Newsfeeds. Dieser Newsfeed enthält neben öffentlichen Nachrichten auch solche, die von den jeweiligen Verfassern als privat definiert wurden. Dieser Newsfeed wird durch ein Kennwort geschützt, welches Sie unter "Einstellungen" einrichten können. Bitte ersetzen Sie in der unten angezeigten URL -password- durch Ihr Feed-Passwort.<br /><br /><strong>Dieses Passwort muss sich aus Sicherheitsgründen zwingend vom Passwort Ihres HSLU-Accounts unterscheiden. Vergewissern Sie sich beim Kopieren des Links, dass dieser verschlüsselt (via https) aufgerufen wird.</strong>
+pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält alle Benutzernamen, in deren Profil die E-Mail eingegeben wurde.\nWählen Sie den passenden Benutzernamen aus und lassen Sie sich mit der "Passwort vergessen"-Funktion ein neues Passwort schicken. Falls Sie mit dieser Funktion Ihr Passwort nicht setzen können, wenden Sie sich an den Helpdesk der HSLU. <a href="mailto:informatikhotline@hslu.ch">informatikhotline@hslu.ch</a> oder 041 228 2121
+pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, wenden Sie sich an den Helpdesk der HSLU. <a href="mailto:informatikhotline@hslu.ch">informatikhotline@hslu.ch</a> oder 041 228 2121
+pwassist#:#pwassist_invalid_auth_mode#:#Für Mitarbeitende und Studierende der HSLU wird das Passwort zentral verwaltet. Bitte wenden Sie sich an den Helpdesk. <a href="mailto:informatikhotline@hslu.ch">informatikhotline@hslu.ch</a> oder 041 228 2121
+rbac#:#cat_create_fold#:#Neuen Ordner anlegen
+rep_robj_xavc#:#rep_robj_xavc_is_already_participant#:#Dieser Benutzer wurde bereits als Teilnehmer hinzugefügt
+wiki#:#wiki_change_notification_salutation#:#Guten Tag %s,
+common#:#obj_drop#:#Briefkasten
+common#:#obj_fexch#:#Dateiaustausch
+common#:#obj_fldgrp#:#Gruppenordner

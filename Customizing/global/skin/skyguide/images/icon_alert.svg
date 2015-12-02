@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="16px" height="16px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+<g>
+	<defs>
+		<rect id="SVGID_1_" x="0.8" y="2" width="30.4" height="26"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  overflow="visible"/>
+	</clipPath>
+	<path clip-path="url(#SVGID_2_)" fill="#C70A0A" d="M1.1,26.1c0,0-1.1,1.9,1.1,1.9h27.7c0,0,2.2,0,1.1-1.9L17.1,2.8
+		c0,0-1.1-1.9-2.2,0L1.1,26.1z"/>
+</g>
+<polygon fill="#FFFFFF" points="6,24.7 26,24.7 16,7 "/>
+<path fill="#102151" d="M14.5,23.8h2.9V21h-2.9V23.8z M17.6,11.7h-3.2l0.4,8h2.3L17.6,11.7z"/>
+</svg>

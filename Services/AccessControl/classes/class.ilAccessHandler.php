@@ -309,6 +309,7 @@ class ilAccessHandler
 		}
 
 		// check read permission for all parents
+/* //BEGIN PATCH HSLU  
 		$par_check = $this->doPathCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
 		if (!$par_check)
 		{
@@ -317,6 +318,7 @@ class ilAccessHandler
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 			return false;
 		}
+*/// END PATCH HSLU
 
 		// condition check (currently only implemented for read permission)
 		if (!$this->doConditionCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type))

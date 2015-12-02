@@ -779,5 +779,40 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		}
 		return $user_id;
 	}
+	
+//BEGIN PATCH HSLU SOAP Structureimport set folder special permissions
+	function setFolderSpecialPermissions($sid, $ref_id, $permission_type)
+	{      
+	        $this->initAuth($sid);
+	        $this->initIlias();
+	
+	        if(!$this->__checkSession($sid))
+	        {
+	            return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
+	        }
+	
+	
+	        require_once './Services/AccessControl/classes/class.ilPostboxHelper.php';
+	        switch (strtolower($permission_type)) {
+	            case 'dropbox' :
+	                    ilPostboxHelper::_makePostbox($ref_id);
+	                    break;
+	                   
+	            case 'normal' :
+	                    ilPostboxHelper::_makeNormalFolder($ref_id);
+	                    break;
+	
+	            case 'exchange' :
+	                    ilPostboxHelper::_makeExchangeFolder($ref_id);
+	                    break;
+	
+	            case 'groups' :
+	                    ilPostboxHelper::_makeGroupFolder($ref_id);
+	                    break;
+	        }
+	        return true;
+	   
+	}
+//END PATCH HSLU SOAP Structureimport set folder special permissions
 }
 ?>
