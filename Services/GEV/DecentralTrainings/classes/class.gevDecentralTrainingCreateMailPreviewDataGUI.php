@@ -135,7 +135,7 @@ class gevDecentralTrainingCreateMailPreviewDataGUI {
 							,"VORABENDANREISE" 				=> ""
 							,"NACHTAGABREISE" 				=> ""
 							,"LISTE" 						=> ""
-							,"ATTACHMENTS"					=> $crs_utils->getCustomAttachmentLinks()
+							,"ATTACHMENTS"					=> $crs_utils->getAttachmentLinks("gevdecentraltraininggui")
 						);
 
 		if($data_base["STARTDATUM"] !== null) {
@@ -192,6 +192,8 @@ class gevDecentralTrainingCreateMailPreviewDataGUI {
 
 		$request = $request_db->request($crs_request_id);
 		$crs_utils = gevCourseUtils::getInstance($request->templateObjId());
+
+		$dct_utils = gevDecentralTrainingUtils::getInstance();
 
 		$start_time = split(" ",$request->settings()->start()->get(IL_CAL_DATETIME))[1];
 		$start_time = substr($start_time,0,5);
@@ -271,6 +273,7 @@ class gevDecentralTrainingCreateMailPreviewDataGUI {
 							,"VORABENDANREISE" 				=> ""
 							,"NACHTAGABREISE" 				=> ""
 							,"LISTE" 						=> ""
+							,"ATTACHMENTS"					=> $dct_utils->getAttachmentLinks("gevdecentraltraininggui", $crs_request_id)
 						);
 
 		if($data_base["STARTDATUM"] !== null) {

@@ -107,6 +107,7 @@ class gevDecentralTrainingGUI {
 			case "forwardCrs":
 			case "confirmTrainingCancellation":
 			case "cancelTraining":
+			case "deliverAttachment":
 				$cont = $this->$cmd();
 				break;
 			default:
@@ -1998,5 +1999,19 @@ class gevDecentralTrainingGUI {
 		}
 
 		return $files_new_for_form;
+	}
+
+	protected function deliverAttachment() {
+
+		if(isset($_GET["crs_id"])) {
+			$crs_utils = gevCourseUtils::getInstance($_GET["crs_id"]);
+			$crs_utils->deliverAttachment($_GET["filename"]);
+		}
+		
+		if(isset($_GET["request_id"])) {
+			require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
+			$dct_utils = gevDecentralTrainingUtils::getIntance();
+			$dct_utils->deliverAttachment($_GET["filename"], $_GET["request_id"]);
+		}
 	}
 }

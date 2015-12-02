@@ -52,6 +52,7 @@ function isCreatingCourseBuildingBlock() {
 function gevShowMailPreview(){
 	var crs_data = "";
 	var readForm = true;
+	var files = [];
 
 	readForm = !isCreatingCourseBuildingBlock();
 
@@ -125,7 +126,6 @@ function gevShowMailPreview(){
 		});
 		values["ZIELGRUPPEN"] = tg_string;
 
-		var files = [];
 		var files_input = $('input[name=attachment_upload\\[\\]');
 		$.each(files_input, function(k,v) {
 			var str = $(v).val();
@@ -167,7 +167,7 @@ function gevShowMailPreview(){
 			data["ALLE TRAINER"] = trainers.join("<br />");
 			
 			if(html === "") {
-				$('#dct-mail_content').html("Es wurde keine Mailvorlage angelegt!");
+				$('.mail').html("Es wurde keine Mailvorlage angelegt!");
 			} else {
 				$.each(data, function(k,v){
 					var find = "\\["+k+"\\]";
@@ -181,14 +181,15 @@ function gevShowMailPreview(){
 					
 				});
 
-				$('#dct-mail_content').html(html);
+				$('.mail').html(html);
 			
 				if("ATTACHMENTS" in data) {
 					files = $.merge(data["ATTACHMENTS"], files);
 				}
 
 				if($(files).size() > 0) {
-					$('.attachment_content').html(files.join("<br />"));
+					var text = files.join("<br />");
+					$('.attachment_content').html(text);
 				}
 			}
 		});
