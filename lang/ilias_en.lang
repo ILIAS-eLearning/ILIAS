@@ -7373,7 +7373,9 @@ mail#:#send_mail_to#:#Mail to
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_use_custom_server#:#Use custom server
-maps#:#maps_custom_server_info#:#Activate custom servers to provide tile- and geolocation-data. Multiple inputs should be separated by spaces. Defaults are "%s" for tiles and "%s" for geolocation.
+maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
+maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.
+maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
 maps#:#maps_tile_server#:#Server for Tiles
 maps#:#maps_geolocation_server#:#Server for Reverse Geolocation
 maps#:#maps_extt_maps#:#Maps
