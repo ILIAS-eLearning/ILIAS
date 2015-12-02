@@ -55,6 +55,8 @@ class gevUserUtils {
 	const WBD_ERROR_USER_UNKNOWN 		= 'USER_UNKNOWN';
 	const WBD_ERROR_USER_DEACTIVATED 	= 'USER_DEACTIVATED';
 	const WBD_ERROR_NO_RELEASE			= 'NO_RELEASE';
+	const WBD_ERROR_USER_EXISTS_TP 		= 'USER_EXISTS_TP';
+	const WBD_ERROR_USER_EXISTS 		= 'USER_EXISTS';
 
 	static $wbd_agent_status_mapping = array(
 		//1 - Angestellter Außendienst
@@ -2239,8 +2241,14 @@ class gevUserUtils {
 	* @return boolean
 	*/
 	public function wbdShouldBeRegisteredAsNew() {
+		$wbd_errors = array(WBD_ERROR_WRONG_USERDATA
+							, WBD_ERROR_USER_SERVICETYPE
+							, WBD_ERROR_USER_EXISTS_TP
+							, WBD_ERROR_USER_EXISTS);
+
 		return $this->hasDoneWBDRegistration() && $this->hasWBDRelevantRole() && $this->userExists() && $this->isActive() && !$this->hasSpecialUserId()
-				&& $this->entryDatePassed() && $this->isWBDBWVIdEmpty() && $this->hasWBDType(self::WBD_NO_SERVICE);
+				&& $this->entryDatePassed() && $this->isWBDBWVIdEmpty() && $this->hasWBDType(self::WBD_NO_SERVICE)
+				&& !$this->hasOpenWBDErrors($wbd_errors);
 	}
 
 	/**
