@@ -194,8 +194,6 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 										  ." OR usrcrs.hist_historic IS NULL )")
 						->static_condition("(   usrcrs.booking_status != 'kostenfrei storniert'"
 										  ." OR usrcrs.hist_historic IS NULL )")
-						->static_condition("(   usrcrs.function NOT IN ('Trainingsbetreuer', 'Trainingsersteller', 'Trainer')"
-										  ." OR usrcrs.hist_historic IS NULL )" )
 						->static_condition("(   usrcrs.booking_status != ".$this->db->quote('-empty-','text')
 										  ." OR usrcrs.hist_historic IS NULL )" )
 						->static_condition("orgu.action >= 0")
