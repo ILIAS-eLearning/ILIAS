@@ -225,6 +225,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->static_condition("usr.hist_historic = 0")
 						->static_condition("orgu.hist_historic = 0")
 						->static_condition("orgu.action >= 0")
+						->static_condition("usrcrs.booking_status != ".$this->db->quote('-empty-','text'))
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
 		$this->relevant_parameters = array(
