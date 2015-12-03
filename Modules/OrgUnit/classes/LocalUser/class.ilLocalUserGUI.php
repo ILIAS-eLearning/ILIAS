@@ -361,10 +361,8 @@ class ilLocalUserGUI {
 		// SET FOOTER BUTTONS
 		$tpl->setVariable("COLUMN_COUNTS", 4);
 		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
-		$tpl->setCurrentBlock("tbl_action_button");
 		$tpl->setVariable("BTN_NAME", "assignSave");
 		$tpl->setVariable("BTN_VALUE", $this->lng->txt("change_assignment"));
-		$tpl->parseCurrentBlock();
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("TPLPATH", $this->tpl->tplPath);
 		$tpl->parseCurrentBlock();
