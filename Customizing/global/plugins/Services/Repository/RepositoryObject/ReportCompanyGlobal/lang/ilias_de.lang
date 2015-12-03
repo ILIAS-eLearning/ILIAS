@@ -18,3 +18,25 @@ root_create_xrcg#:#Unternehmensreport erzeugen
 cat_create_xrcg#:#Unternehmensreport erzeugen
 rep_robj_xrcg_status#:#Status
 rep_robj_xrcg_offline#:#Offline
+sum#:#Summe
+header_book#:#Buchungen <br> (noch kein Teilnahmestatus)
+header_part#:#Teilnahmen <br> (Teilnahmestatus vorhanden)
+bookings#:#Buchungen
+participations#:#Teilnahmen
+members#:#Teilnehmer
+edupoints#:#Weiterbildungspunkte
+type#:#Typ
+period#:#Zeitraum
+until#:#bis
+org_unit_short#:#Org.-Einheit
+edu_program#:#Bildungsprogramm
+template_title#:#Titel der Vorlage
+course_type#:#Trainingstyp
+dec_fixed#:#feste dezentrale Trainings
+dec_flexible#:#flexible dezentrale Trainings
+non_dec#:#nicht-dezentrale Trainings
+wbd_relevant#:#WBD-relevant
+trainings_w_points#:#Trainings mit Bildungspunkten
+trainings_wo_points#:#Trainings ohne Bildungspunkte
+yes#:#Ja
+no#:#Nein
