@@ -1410,8 +1410,6 @@ gev#:#gev_dec_training_attachment_delete#:#Anhang entfernen
 gev#:#gev_crs_members#:#Teilnehmer
 gev#:#gev_edupoints#:#Weiterbildungspunkte
 gev#:#gev_sum#:#Summe
-gev#:#gev_header_company_global_book#:#Buchungen <br> (noch kein Teilnahmestatus)
-gev#:#gev_header_company_global_part#:#Teilnahmen <br> (Teilnahmestatus vorhanden)
 gev#:#gev_dec_trainings_fixed#:#feste dezentrale Trainings
 gev#:#gev_dec_trainings_flexible#:#flexible dezentrale Trainings
 gev#:#non_dec_trainings#:#nicht-dezentrale Trainings
