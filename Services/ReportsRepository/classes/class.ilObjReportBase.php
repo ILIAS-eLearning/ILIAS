@@ -21,7 +21,6 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	protected $table = null;
 	protected $order = null;
 	protected $user_utils;
-	protected $row_template_title;
 
 	public function __construct($a_ref_id = 0) {
 		parent::__construct($a_ref_id);
