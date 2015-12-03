@@ -1019,13 +1019,17 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$testResultHeaderLabelBuilder->setTestRefId($this->object->getRefId());
 			$testResultHeaderLabelBuilder->initObjectiveOrientedMode();
 		}
+		
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
+		$testPassesSelector->setAdminModeEnabled(true);
 
 		$passOverViewTableGUI = $this->buildPassOverviewTableGUI($this);
 		$passOverViewTableGUI->setActiveId($testSession->getActiveId());
 		$passOverViewTableGUI->setResultPresentationEnabled(true);
 		$passOverViewTableGUI->setPassDetailsCommand('outParticipantsPassDetails');
 		$passOverViewTableGUI->init();
-		$passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, true));
+		$passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, $testPassesSelector, true));
 		$passOverViewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassOverviewHeaderLabel());
 		$template->setVariable("PASS_OVERVIEW", $passOverViewTableGUI->getHTML());
 
@@ -1346,6 +1350,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 
 		$template->setCurrentBlock("pass_overview");
+
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
+
 		$passOverViewTableGUI = $this->buildPassOverviewTableGUI($this);
 		$passOverViewTableGUI->setActiveId($testSession->getActiveId());
 		$passOverViewTableGUI->setResultPresentationEnabled(true);
@@ -1358,7 +1366,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$passOverViewTableGUI->setPassDeletionCommand('confirmDeletePass');
 		}
 		$passOverViewTableGUI->init();
-		$passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, true));
+		$passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, $testPassesSelector, true));
 		$passOverViewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassOverviewHeaderLabel());
 		$template->setVariable("PASS_OVERVIEW", $passOverViewTableGUI->getHTML());
 		$template->parseCurrentBlock();
@@ -1445,13 +1453,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		else
 		{
 			$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_passes"));
+
+			require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+			$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
 			
 			$passOverViewTableGUI = $this->buildPassOverviewTableGUI($this);
 			$passOverViewTableGUI->setActiveId($testSession->getActiveId());
 			$passOverViewTableGUI->setResultPresentationEnabled(false);
 			$passOverViewTableGUI->setPassDetailsCommand('outUserListOfAnswerPasses');
 			$passOverViewTableGUI->init();
-			$passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, false));
+			$passOverViewTableGUI->setData($this->getPassOverviewTableData($testSession, $testPassesSelector, false));
 			$template->setVariable("PASS_OVERVIEW", $passOverViewTableGUI->getHTML());
 		}
 
