@@ -14,8 +14,8 @@ class gevWBDDataCollector implements WBDDataCollector {
 	protected $gAppEventHandler;
 	protected $requests;
 	protected $error_statement;
-	protected $stornoCounter;
-	protected $stornoRowIds;
+	protected $storno_rows;
+	protected $abfrage_usr_ids;
 
 	const EMPTY_BWV_ID_TEXT = "-empty-";
 	const EMPTY_DATE_TEXT = "0000-00-00";
@@ -52,7 +52,8 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$this->requests = array();
 
 		$this->stornoCounter = 0;
-		$this->stornoRowIds = array();
+		$this->storno_rows = null;
+		$this->abfrage_usr_ids = null;
 	}
 
 	/**********************************
@@ -212,14 +213,18 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$res = $db->query($this->affiliateUserListQuery());
 
 		while ($rec = $db->fetchAssoc($res)) {
-			$object = gevWBDRequestVermitVerwaltungAufnahme::getInstance($rec);
-			if(is_array($object)) {
-				foreach ($object as $error) {
-					$this->error($error);
+			$uutils = gevUserUtils::getInstanceByObjOrId($record['user_id']);
+
+			if ($uutils->wbdShouldBeAffiliateAsTPService()) {
+				$object = gevWBDRequestVermitVerwaltungAufnahme::getInstance($rec);
+				if(is_array($object)) {
+					foreach ($object as $error) {
+						$this->error($error);
+					}
+					continue;
 				}
-				continue;
+				$returns[] = $object;
 			}
-			$returns[] = $object; 
 		}
 
 		return $returns;
@@ -277,7 +282,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 	 */
 	protected function _createStornoRecordList($db) {
 		$returns = array();
-		$res = $db->query($this->storneEduRecordListQuery(array(self::WBD_TP_SERVICE,self::WBD_TP_BASIS,self::WBD_EDU_PROVIDER), null, $this->stornoRowIds));
+		$res = $db->query($this->storneEduRecordListQuery(array(self::WBD_TP_SERVICE,self::WBD_TP_BASIS,self::WBD_EDU_PROVIDER), null));
 
 		while ($rec = $db->fetchAssoc($res)) {
 			$object = gevWBDRequestWPStorno::getInstance($rec);
@@ -353,8 +358,8 @@ class gevWBDDataCollector implements WBDDataCollector {
 															,gevSettings::NEXT_ACTION_NEW_TP_BASIS), $limit = null) 
 	{
 		//check for valid service types
-		if(count(array_intersect($service_types, array(gevSettings::NEXT_ACTION_NEW_TP_SERVICE
-													  ,gevSettings::NEXT_ACTION_NEW_TP_BASIS))) != count($service_types)) 
+		if(count(array_intersect($next_action, array(gevSettings::NEXT_ACTION_NEW_TP_SERVICE
+													  ,gevSettings::NEXT_ACTION_NEW_TP_BASIS))) != count($next_action)) 
 		{
 			throw new LogicException("One or more invalid next_actions");
 		}
@@ -418,8 +423,8 @@ class gevWBDDataCollector implements WBDDataCollector {
 	*/
 	protected function releaseUserListQuery($next_action = array(gevSettings::USR_WBD_NEXT_ACTION_RELEASE), $limit = null) {
 		//check for valid service types
-		if(count(array_intersect($next_action, array(gevSettings::USR_WBD_NEXT_ACTION_RELEASE))) != count($service_types)) {
-			throw new LogicException("One or more invalid service_types");
+		if(count(array_intersect($next_action, array(gevSettings::USR_WBD_NEXT_ACTION_RELEASE))) != count($next_action)) {
+			throw new LogicException("One or more invalid next_action");
 		}
 
 		$sql = "SELECT row_id, user_id, email, mobile_phone_nr, bwv_id FROM hist_user\n"
@@ -442,15 +447,17 @@ class gevWBDDataCollector implements WBDDataCollector {
 	*
 	* @return string 	$sql
 	*/
-	protected function affiliateUserListQuery($service_types = array(self::WBD_TP_SERVICE), $limit = null) {
+	protected function affiliateUserListQuery($next_action = array(gevSettings::USR_WBD_NEXT_ACTION_AFFILIATE), $limit = null) {
 		//check for valid service types
-		if(count(array_intersect($service_types, array(self::WBD_TP_SERVICE))) != count($service_types)) {
-			throw new LogicException("One or more invalid service_types");
+		if(count(array_intersect($next_action, array(gevSettings::USR_WBD_NEXT_ACTION_AFFILIATE))) != count($next_action)) {
+			throw new LogicException("One or more invalid next_action");
 		}
+
 		$sql = "SELECT row_id, user_id, email, mobile_phone_nr, birthday, bwv_id, lastname, firstname\n"
-		." FROM hist_user\n"
-		." WHERE row_id IN (500172, 500173, 500174, 50176, 500177, 500178, 500179, 500181)\n"
-		." ORDER BY row_id\n";
+				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
+				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
+				."    AND last_wbd_report IS NULL\n"
+				."    AND ".$this->ilDB->in("next_wbd_action",$next_action,false, "text")."\n";
 
 		return $sql;
 	}
@@ -518,13 +525,13 @@ class gevWBDDataCollector implements WBDDataCollector {
 	*
 	* @return string 	$sql
 	*/
-	protected function storneEduRecordListQuery($service_types = array(self::WBD_TP_SERVICE,self::WBD_TP_BASIS,self::WBD_EDU_PROVIDER), $limit = null, array $storno_rows = null) {
+	protected function storneEduRecordListQuery($service_types = array(self::WBD_TP_SERVICE,self::WBD_TP_BASIS,self::WBD_EDU_PROVIDER), $limit = null) {
 		//check for valid service types
 		if(count(array_intersect($service_types, array(self::WBD_TP_SERVICE,self::WBD_TP_BASIS,self::WBD_EDU_PROVIDER))) != count($service_types)) {
 			throw new LogicException("One or more invalid service_types");
 		}
 
-		if($storno_rows === null) {
+		if($this->storno_rows === null) {
 			throw new LogicException("No rows for Storno");
 		}
 
@@ -540,7 +547,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 				." AND ".$this->gDB->in("wbd_type", $service_types, false, "text")."\n"
 				." AND usr_id in (SELECT usr_id FROM usr_data)\n"
 				." AND user_id NOT IN (6, 13)\n"
-				." AND ".$this->gDB->in("hist_usercoursestatus.row_id", $this->stornoRowIds, false, "integer")."\n"
+				." AND ".$this->gDB->in("hist_usercoursestatus.row_id", $this->storno_rows, false, "integer")."\n"
 				." ORDER BY hist_usercoursestatus.row_id\n";
 				//." AND hist_usercoursestatus.row_id IN ()\n";
 
@@ -558,7 +565,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 	*
 	* @return string 	$sql
 	*/
-	protected function WPAbfrageRecordList($service_types = array(self::WBD_TP_SERVICE), $limit = null, array $usr_ids = null) {
+	protected function WPAbfrageRecordList($service_types = array(self::WBD_TP_SERVICE), $limit = null) {
 		//check for valid service types
 		if(count(array_intersect($service_types, array(self::WBD_TP_SERVICE))) != count($service_types)) {
 			throw new LogicException("One or more invalid service_types");
@@ -570,8 +577,8 @@ class gevWBDDataCollector implements WBDDataCollector {
 				." AND hist_historic=0"
 				." AND ".$this->gDB->in("wbd_type", $service_types, false, "text")."\n";
 
-		if($usr_ids !== null) {
-			$sql .= " AND ".$this->gDB->in("user_id", $usr_ids, false, "text")."\n";
+		if($this->abfrage_usr_ids !== null) {
+			$sql .= " AND ".$this->gDB->in("user_id", $this->abfrage_usr_ids, false, "text")."\n";
 		}
 
 		$sql .= " ORDER BY user_id";
@@ -631,7 +638,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$this->raiseEventUserChanged($usr_utils->getUser());
 		$this->setLastWBDReportForAutoHistRows($usr_id);
 
-		$this->setLastWBDReport('hist_user', array($success_data->rowId()));
+		$this->setLastWBDReport('hist_user', array($row_id));
 	}
 
 	/** 
@@ -669,13 +676,6 @@ class gevWBDDataCollector implements WBDDataCollector {
 			$this->raiseEventUserChanged($usr_utils->getUser());
 			$this->setLastWBDReportForAutoHistRows($usr_id);
 		}
-
-		$this->stornoCounter++;
-		//TEST ZEUGS FÜR STORNO
-		if($this->stornoCounter % 2 == 0) {
-			$this->stornoRowIds[] = $success_data->rowId();
-		}
-		//
 	}
 
 	/** 
@@ -854,7 +854,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$wbd_topic 	= $values->studyContent(); 
 		$begin_date	= $values->beginDate()->get(IL_CAL_DATE); // date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date 	= $values->endDate()->get(IL_CAL_DATE); //date('Y-m-d', strtotime($rec['Ende']));
-		$creator_id = -200;
+		$creator_id = -666;
 
 
 		$sql = "SELECT crs_id\n"
@@ -906,7 +906,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 			." (\n"
 				."".$this->gDB->quote($next_id,"integer").",\n"
 				." 0,\n"
-				." NOW(),\n"
+				." UNIX_TIMESTAMP(),\n"
 				."".$this->gDB->quote($creator_id,"integer").",\n"
 				." 'Nein',\n"
 				."".$this->gDB->quote($crs_id,"integer").",\n"
@@ -945,7 +945,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$credit_points 	= $values->creditPoints();
 		$begin_date		= $values->beginDate()->get(IL_CAL_DATE); // date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date 		= $values->endDate()->get(IL_CAL_DATE); //date('Y-m-d', strtotime($rec['Ende']));
-		$creator_id 	= -200;
+		$creator_id 	= -666;
 		$next_id 		= $this->gDB->nextId('hist_usercoursestatus');
 
 		$sql = "INSERT INTO hist_usercoursestatus\n"
@@ -999,8 +999,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 	}
 
 	protected function getCurrentDate() {
-		//return date("Y-m-d");
-		return "2015-10-07";
+		return date("Y-m-d");
 	}
 
 	/**
@@ -1011,5 +1010,23 @@ class gevWBDDataCollector implements WBDDataCollector {
 	public function setNextWBDActionToNothing($user_id) {
 		$uutils = gevUserUtils::getInstance($user_id);
 		$uutils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
+	}
+
+	/**
+	* sets the rows for storno
+	*
+	* @param array 		$storno_rows
+	*/
+	public function setStornoRows($storno_rows) {
+		$this->storno_rows = $storno_rows;
+	}
+
+	/**
+	* sets the users id's to recieve wp
+	*
+	* @param array 		$abfrage_usr_ids
+	*/
+	public function setAbfrageUsrIds($abfrage_usr_ids) {
+		$this->abfrage_usr_ids = $abfrage_usr_ids;
 	}
 }	
