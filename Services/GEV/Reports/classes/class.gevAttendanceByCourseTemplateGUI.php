@@ -192,7 +192,10 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 									 , array()
 									 )
 */
+						->static_condition(" crs.hist_historic = 0")
 						->static_condition(" usrcrs.hist_historic = 0")
+						->static_condition(" crs.template_title != ".$this->db->quote('-empty-','text') )
+						->static_condition(" usrcrs.booking_status != ".$this->db->quote('-empty-','text'))
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
@@ -291,9 +294,9 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 						->select_raw($this->sql_sum_parts['sum_excused'])
 						->select_raw($this->sql_sum_parts['sum_unexcused'])
 						->select_raw($this->sql_sum_parts['sum_exit'])
-						->from("hist_usercoursestatus usrcrs")
-						->join("hist_course crs")
-							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0");
+						->from("hist_course crs")
+						->join("hist_usercoursestatus usrcrs")
+							->on("crs.crs_id = usrcrs.crs_id");
 		if(count($this->filtered_orgus)>0) {
 			$this->query->raw_join($this->orgu_filter );
 		}
@@ -352,12 +355,11 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 		."SUM( CASE WHEN LCASE(participation_status) = 'fehlt ohne Absage' THEN 1 END ) AS sum_unexcused,\n"
 		."SUM( CASE WHEN LCASE(participation_status) = 'canceled_exit' THEN 1 END ) AS sum_exit \n"
 		."FROM( \n"
-		."	SELECT DISTINCT usr.user_id, crs.crs_id, usrcrs.booking_status, \n"
+		."	SELECT DISTINCT usrcrs.usr_id, crs.crs_id, usrcrs.booking_status, \n"
 		."		usrcrs.participation_status, crs.type \n"
-		."		FROM `hist_user` usr \n" 
-		."			LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0 \n"
-		."			LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 \n"
-		."			LEFT JOIN hist_userorgu orgu ON orgu.usr_id = usr.user_id \n"
+		."		FROM `hist_usercoursestatus` usrcrs \n" 
+		."			JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id \n"
+		."			LEFT JOIN hist_userorgu orgu ON orgu.usr_id = usrcrs.usr_id \n"
 		.$this->queryWhere()
 		.") as temp";
 		$res = $this->db->query($sum_sql);
