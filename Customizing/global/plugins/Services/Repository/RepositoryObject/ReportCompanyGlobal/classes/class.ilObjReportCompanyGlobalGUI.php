@@ -58,8 +58,8 @@ class ilObjReportCompanyGlobalGUI extends ilObjReportBaseGUI {
 		$tpl_table->setCurrentBlock('row');
 			$tpl_header = new ilTemplate("tpl.cat_global_company_report_header_row.html", true, true, "Services/ReportsRepository");
 			$tpl_header->setCurrentBlock('meta');
-			$tpl_header->setVariable('HEADER_BOOK',$this->gLng->txt('gev_header_company_global_book'));
-			$tpl_header->setVariable('HEADER_PART',$this->gLng->txt('gev_header_company_global_part'));
+			$tpl_header->setVariable('HEADER_BOOK',$this->object->plugin->txt('header_book'));
+			$tpl_header->setVariable('HEADER_PART',$this->object->plugin->txt('header_part'));
 			$tpl_header->parseCurrentBlock();
 		$tpl_table->setVariable('ROWCLASS','tblheader');	
 		$tpl_table->setVariable('ROW',$tpl_header->get());
@@ -70,7 +70,7 @@ class ilObjReportCompanyGlobalGUI extends ilObjReportBaseGUI {
 			$tpl_header->setCurrentBlock('main');
 			foreach($table->columns as $column) {
 				$variable = strtoupper($column[0]);
-				$content = $column[2] ? $column[1] : $this->gLng->txt($column[1]);
+				$content = $column[2] ? $column[1] : $this->object->plugin->txt($column[1]);
 				$tpl_header->setVariable($variable,$content);
 			}
 			$tpl_header->parseCurrentBlock();
