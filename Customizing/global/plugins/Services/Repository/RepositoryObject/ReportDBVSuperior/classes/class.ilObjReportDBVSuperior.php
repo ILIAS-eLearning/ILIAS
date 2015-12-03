@@ -91,7 +91,7 @@ class ilObjReportDBVSuperior extends ilObjReportBase {
 					$this->gIldb->in(
 						"hucs.participation_status", array("fehlt entschuldigt", "fehlt ohne Absage"), true, "text"))
 				->static_condition("hucs.hist_historic = 0")
-				->static_condition("hucs.booking_status != ".$this->gIldb->quote('-empty-', 'text')))
+				->static_condition("hucs.booking_status != ".$this->gIldb->quote('-empty-', 'text'))
 				->static_condition("huo_out_aux.hist_version IS NULL")
 				->static_condition("hc.hist_historic = 0")
 				->static_condition("dbv.hist_historic = 0")
