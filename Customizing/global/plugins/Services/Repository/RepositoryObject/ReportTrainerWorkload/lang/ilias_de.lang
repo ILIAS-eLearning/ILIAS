@@ -1,0 +1,18 @@
+<!-- language file start -->
+obj_xrtw#:#Report Trainerauslastung
+objs_xrtw#:#Reports Trainerauslastung
+obj_xrtw_duplicate#:#Report Trainerauslastung kopieren
+objs_xrtw_duplicate#:#Reports Trainerauslastung kopieren
+obj_xrtw_select#:#Report Trainerauslastung auswählen
+xrtw_add#:#Report Trainerauslastung hinzufügen
+xrtw_new#:#Neuen Report Trainerauslastung hinzufügen
+xrtw_read#:#Lesezugriff zum Report Trainerauslastung
+xrtw_write#:#Report Trainerauslastung bearbeiten
+xrtw_delete#:#Report Trainerauslastung löschen
+xrtw_visible#:#sichtbar
+xrtw_edit_permission#:#schreibberechtigt
+crs_create_xrtw#:#Report Trainerauslastung erzeugen
+grp_create_xrtw#:#Report Trainerauslastung erzeugen
+fold_create_xrtw#:#Report Trainerauslastung erzeugen
+root_create_xrtw#:#Report Trainerauslastung erzeugen
+cat_create_xrtw#:#Report Trainerauslastung erzeugen
