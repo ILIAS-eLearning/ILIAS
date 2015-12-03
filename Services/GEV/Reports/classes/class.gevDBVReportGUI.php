@@ -131,7 +131,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 											.") AND huo_in.created_ts < UNIX_TIMESTAMP(".$this->db->quote("2016-01-01","date").")")
 						->static_condition("hu.hist_historic = 0")
 						->static_condition("hucs.hist_historic = 0")
-						->static_condition("hucs.booking_status != ".$this->gIldb->quote('-empty-', 'text')))
+						->static_condition("hucs.booking_status != ".$this->db->quote('-empty-', 'text'))
 						->static_condition("hc.hist_historic = 0")
 						->static_condition("huo_out_aux.hist_version IS NULL")
 						->static_condition($this->db->in("hc.dbv_hot_topic", gevSettings::$dbv_hot_topics, false, "text"))
