@@ -120,8 +120,8 @@ class ilObjReportCompanyGlobalGUI extends ilObjReportBaseGUI {
 		$format_bold = $workbook->addFormat(array("bold" => 1));
 		$format_wrap = $workbook->addFormat();
 		$format_wrap->setTextWrap();
-		$worksheet->writeString(0, 1, strip_tags($this->gLng->txt('gev_header_company_global_book')), $format_bold);
-		$worksheet->writeString(0, 3, strip_tags($this->gLng->txt('gev_header_company_global_part')), $format_bold);
+		$worksheet->writeString(0, 1, strip_tags($this->object->plugin->txt('header_book')), $format_bold);
+		$worksheet->writeString(0, 3, strip_tags($this->object->plugin->txt('header_part')), $format_bold);
 		//init cols and write titles
 		$colcount = 0;
 		foreach ($this->object->deliverTable()->all_columns as $col) {
