@@ -6,7 +6,7 @@
 @font-face {
   font-family: 'Open Sans';
   src: url('fonts/OpenSansWeb/opensans-bold-webfont.eot');
-  src: url('fonts/OpenSansWeb/opensans-bold-webfont?#iefix') format('embedded-opentype'), url('fonts/OpenSansWeb/opensans-bold-webfont.woff') format('woff'), url('fonts/OpenSansWeb/opensans-bold-webfont.ttf') format('truetype'), url('fonts/OpenSansWeb/opensans-bold-webfont.svg') format('svg');
+  src: url('fonts/OpenSansWeb/opensans-bold-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/OpenSansWeb/opensans-bold-webfont.woff') format('woff'), url('fonts/OpenSansWeb/opensans-bold-webfont.ttf') format('truetype'), url('fonts/OpenSansWeb/opensans-bold-webfont.svg') format('svg');
   font-weight: bold;
 }
 @font-face {
@@ -18,7 +18,7 @@
 @font-face {
   font-family: 'Open Sans';
   src: url('fonts/OpenSansWeb/opensans-bolditalic-webfont.eot');
-  src: url('fonts/OpenSansWeb/opensans-bolditalic-webfont?#iefix') format('embedded-opentype'), url('fonts/OpenSansWeb/opensans-bolditalic-webfont.woff') format('woff'), url('fonts/OpenSansWeb/opensans-bolditalic-webfont.ttf') format('truetype'), url('fonts/OpenSansWeb/opensans-bolditalic-webfont.svg') format('svg');
+  src: url('fonts/OpenSansWeb/opensans-bolditalic-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/OpenSansWeb/opensans-bolditalic-webfont.woff') format('woff'), url('fonts/OpenSansWeb/opensans-bolditalic-webfont.ttf') format('truetype'), url('fonts/OpenSansWeb/opensans-bolditalic-webfont.svg') format('svg');
   font-weight: bold;
   font-style: italic;
 }
