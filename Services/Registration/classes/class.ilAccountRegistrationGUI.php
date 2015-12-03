@@ -638,6 +638,9 @@ class ilAccountRegistrationGUI
 
 		$this->userObj->setTimeLimitFrom(time());
 
+		include_once './Services/User/classes/class.ilUserCreationContext.php';
+		ilUserCreationContext::getInstance()->addContext(ilUserCreationContext::CONTEXT_REGISTRATION);
+
 		$this->userObj->create();
 
 		
