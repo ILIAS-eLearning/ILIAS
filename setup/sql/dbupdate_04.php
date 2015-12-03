@@ -12382,4 +12382,22 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4795>
+<?php
 
+	$query = 'SELECT server_id FROM ldap_server_settings';
+	$res = $ilDB->query($query);
+	
+	$server_id = 0;
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$server_id = $row->server_id;
+	}
+	
+	if($server_id)
+	{
+		$query = 'UPDATE usr_data SET auth_mode = '.$ilDB->quote('ldap_'.(int) $server_id,'text').' '.
+				'WHERE auth_mode = '.$ilDB->quote('ldap','text');
+		$ilDB->manipulate($query);
+	}
+?>
