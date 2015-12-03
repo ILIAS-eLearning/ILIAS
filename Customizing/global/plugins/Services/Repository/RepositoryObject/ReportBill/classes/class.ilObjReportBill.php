@@ -168,6 +168,10 @@ class ilObjReportBill extends ilObjReportBase {
 		return $data;
 	}
 
+	protected function getRowTemplateTitle() {
+		return self::$config[$this->report_mode]["tpl"];
+	}
+
 	protected function buildTable($table) {
 
 		$table 	->column("billnumber", "gev_bill_number")
@@ -197,13 +201,8 @@ class ilObjReportBill extends ilObjReportBase {
 		if(self::REPORT_MODE_ADMIN === (int)$this->report_mode) {
 			$table->column("assigment","gev_company_title");
 		}
-		/*var_dump($this->is_vfs);
-		echo "<br>";
-		var_dump($this->is_gev);
-		die();*/
 		$table	->column("bill_link", "", false, "", true);
-		$table	->template(self::$config[$this->report_mode]["tpl"], "Services/ReportsRepository");
-		return $table;
+		return parent::buildTable($table);
 	}
 
 	protected function buildOrder($order) {
