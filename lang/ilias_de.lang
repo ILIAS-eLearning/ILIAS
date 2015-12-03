@@ -14043,13 +14043,13 @@ bibl#:#bib_default_author#:#Autor
 bibl#:#bib_default_booktitle#:#Titel
 bibl#:#bib_default_chapter#:#Kapitel
 bibl#:#bib_default_edition#:#Auflage
-bibl#:#bib_default_editor#:#Verlag
+bibl#:#bib_default_editor#:#Herausgeber
 bibl#:#bib_default_institution#:#Institution
 bibl#:#bib_default_journal#:#Journal/Zeitschrift
 bibl#:#bib_default_number#:#Nummer
 bibl#:#bib_default_organization#:#Organisation
 bibl#:#bib_default_pages#:#Seiten
-bibl#:#bib_default_publisher#:#Herausgeber
+bibl#:#bib_default_publisher#:#Verlag
 bibl#:#bib_default_title#:#Titel
 bibl#:#bib_default_type#:#Typ
 bibl#:#bib_default_volume#:#Auflage
