@@ -18,3 +18,5 @@ root_create_xrbi#:#Rechnungsreport erzeugen
 cat_create_xrbi#:#Rechnungsreport erzeugen
 rep_robj_xrbi_status#:#Status
 rep_robj_xrbi_offline#:#Offline
+xrbi_content#:#Report
+xrbi_properties#:#Eigenschaften
