@@ -141,8 +141,8 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 				->multiselect_custom( 'wb_points'
 							 , $this->lng->txt('gev_edupoints')
 							 , array( 
-							 	$this->lng->txt('gev_trainings_w_points') => ' hc.max_credit_points > 0 OR hc.crs_id < 0'
-							 	,$this->lng->txt('gev_trainings_wo_points') => "hc.max_credit_points in (0,'-empty-') AND hc.crs_id > 0")
+								$this->lng->txt('gev_trainings_w_points') => ' hc.max_credit_points > 0 OR hc.crs_id < 0'
+								,$this->lng->txt('gev_trainings_wo_points') => $this->gIldb->in("hc.max_credit_points ",array('0','-empty-') ,false,'text')." AND hc.crs_id > 0")
 							 , array()
 							 , ""
 							 , 200
@@ -154,7 +154,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 				->static_condition("hucs.hist_historic = 0")
 				->static_condition("hc.hist_historic = 0")
 				->static_condition($this->gIldb->in('hc.type', $this->types, false, 'text'))
-				->static_condition('hucs.function = '.$this->gIldb->quote('Mitglied','text'))
+				->static_condition("hucs.booking_status != ".$this->gIldb->quote('-empty-','text'))
 				->action($this->filter_action)
 				->compile()
 				;

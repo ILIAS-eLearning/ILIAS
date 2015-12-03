@@ -521,7 +521,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		 		.$this->ilDB->quote($end_date, "text").",\n"
 		 		.$this->ilDB->quote('-empty-', "text").",\n"
 		 		.$this->ilDB->quote('-empty-', "text").",\n"
-		 		.$this->ilDB->quote('-empty-', "text"),",\n"
+		 		.$this->ilDB->quote('-empty-', "text")."\n"
 			.")\n";
 
 			if(!$this->ilDB->query($sql)){
@@ -564,7 +564,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$credit_points 	= $rec['credit_points'];
 		$begin_date 	= $rec['begin']; // date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date 		= $rec['end']; //date('Y-m-d', strtotime($rec['Ende']));
-		$creator_id 	= -200;
+		$creator_id 	= -666;
 		$next_id 		= $this->ilDB->nextId('hist_usercoursestatus');
 
 		$sql = "INSERT INTO hist_usercoursestatus\n
@@ -605,7 +605,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				.$this->ilDB->quote($begin_date,"text").",\n"
 				.$this->ilDB->quote($end_date,"text").",\n"
 				.$this->ilDB->quote(-1,"integer").",\n"
-				.$this->ilDB->quote(-1"integer").",\n"
+				.$this->ilDB->quote(-1,"integer")."\n"
 			.")";
 
 			if(!$this->ilDB->query($sql)){
