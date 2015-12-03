@@ -973,7 +973,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$toolbar->build();
 		$template->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
-		$overview = $this->getPassOverview($active_id, "iltestevaluationgui", "outParticipantsPassDetails");
+		$overview = $this->getPassOverview($active_id, "iltestevaluationgui", "outParticipantsPassDetails", false, false, true);
 		$template->setVariable("PASS_OVERVIEW", $overview);
 
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);

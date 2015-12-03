@@ -164,7 +164,7 @@ class ilTestServiceGUI
 	 * 
 	 * @deprecated
 	 */
-	public function getPassOverview($active_id, $targetclass = "", $targetcommand = "", $short = FALSE, $hide_details = FALSE)
+	public function getPassOverview($active_id, $targetclass = "", $targetcommand = "", $short = FALSE, $hide_details = FALSE, $adminMode = false)
 	{
 		require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 		require_once 'Modules/Test/classes/tables/class.ilTestPassOverviewTableGUI.php';
@@ -182,6 +182,7 @@ class ilTestServiceGUI
 		
 		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
 		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
+		$testPassesSelector->setAdminModeEnabled($adminMode);
 		$testPassesSelector->setActiveId($active_id);
 		$lastFinishedPass = $this->testSessionFactory->getSession($active_id)->getLastFinishedPass();
 		$testPassesSelector->setLastFinishedPass($lastFinishedPass);
