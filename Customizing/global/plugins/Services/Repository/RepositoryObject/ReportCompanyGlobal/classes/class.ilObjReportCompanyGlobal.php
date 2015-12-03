@@ -12,7 +12,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 	protected $online;
 	protected $relevant_parameters = array();
 	protected $query_class;
-	protected static $participated = array('teilgenommen','fehlt entschuldigt','fehlt ohne Absage');
+	protected static $participated = array('teilgenommen');
 	protected static $columns_to_sum = array('book_book' => 'book_book','part_book' => 'part_book','wp_part' => 'wp_part');
 	protected static $wbd_relevant = array('OKZ1','OKZ2','OKZ3');
 	protected $types;
@@ -81,15 +81,15 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		sort($org_units_filter);
 
 		$filter ->dateperiod( "period"
-							 , $this->lng->txt("gev_period")
-							 , $this->lng->txt("gev_until")
+							 , $this->plugin->txt("period")
+							 , $this->plugin->txt("until")
 							 , "hc.end_date"
 							 , "hc.end_date"
 							 , date("Y")."-01-01"
 							 , date("Y")."-12-31"
 							 )
 				->multiselect( "orgu"
-							 , $this->lng->txt("gev_org_unit_short")
+							 , $this->plugin->txt("org_unit_short")
 							 , array("orgu.orgu")
 							 , $org_units_filter
 							 , array()
@@ -98,7 +98,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 							 , 160
 							 )
 				->multiselect("edu_program"
-							 , $this->lng->txt("gev_edu_program")
+							 , $this->plugin->txt("edu_program")
 							 , "edu_program"
 							 , gevCourseUtils::getEduProgramsFromHisto()
 							 , array()
@@ -107,7 +107,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 							 , 160	
 							 )
 				->multiselect("template_title"
-							 , $this->lng->txt("crs_title")
+							 , $this->plugin->txt("template_title")
 							 , "template_title"
 							 , gevCourseUtils::getTemplateTitleFromHisto()
 							 , array()
@@ -116,10 +116,10 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 							 , 160	
 							)
 				->multiselect_custom( "dct_type"
-							 , $this->lng->txt("gev_course_type")
-							 , array($this->lng->txt("gev_dec_trainings_fixed") => "hc.edu_program = ".$this->gIldb->quote("dezentrales Training","text")." AND hc.dct_type = ".$this->gIldb->quote("fixed","text")
-							 		,$this->lng->txt("gev_dec_trainings_flexible") => "hc.edu_program = ".$this->gIldb->quote("dezentrales Training","text")." AND hc.dct_type = ".$this->gIldb->quote("flexible","text")
-							 		,$this->lng->txt("non_dec_trainings") => "hc.edu_program != ".$this->gIldb->quote("dezentrales Training","text"))
+							 , $this->plugin->txt("course_type")
+							 , array($this->plugin->txt("dec_fixed") => "hc.edu_program = ".$this->gIldb->quote("dezentrales Training","text")." AND hc.dct_type = ".$this->gIldb->quote("fixed","text")
+									,$this->plugin->txt("dec_flexible") => "hc.edu_program = ".$this->gIldb->quote("dezentrales Training","text")." AND hc.dct_type = ".$this->gIldb->quote("flexible","text")
+									,$this->plugin->txt("non_dec") => "hc.edu_program != ".$this->gIldb->quote("dezentrales Training","text"))
 							 , array()
 							 , ""
 							 , 200
@@ -128,8 +128,8 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 							 , "desc"
 							 )
 				->multiselect_custom( 'wbd_relevant'
-							 , $this->lng->txt('gev_wbd_relevant')
-							 , array( $this->lng->txt('yes') => $this->gIldb->in('hucs.okz',self::$wbd_relevant,false,'text') , $this->lng->txt('no') => $this->gIldb->in('hucs.okz',self::$wbd_relevant,true,'text') )
+							 , $this->plugin->txt('wbd_relevant')
+							 , array( $this->plugin->txt('yes') => $this->gIldb->in('hucs.okz',self::$wbd_relevant,false,'text') , $this->plugin->txt('no') => $this->gIldb->in('hucs.okz',self::$wbd_relevant,true,'text') )
 							 , array()
 							 , ""
 							 , 200
@@ -139,10 +139,10 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 							 ,true
 							 )
 				->multiselect_custom( 'wb_points'
-							 , $this->lng->txt('gev_edupoints')
+							 , $this->plugin->txt('edupoints')
 							 , array( 
-							 	$this->lng->txt('gev_trainings_w_points') => ' hc.max_credit_points > 0 OR hc.crs_id < 0'
-							 	,$this->lng->txt('gev_trainings_wo_points') => "hc.max_credit_points in (0,'-empty-') AND hc.crs_id > 0")
+								$this->plugin->txt('trainings_w_points') => ' hc.max_credit_points > 0 OR hc.crs_id < 0'
+								,$this->plugin->txt('trainings_wo_points') => $this->gIldb->in("hc.max_credit_points ",array('0','-empty-') ,false,'text')." AND hc.crs_id > 0")
 							 , array()
 							 , ""
 							 , 200
@@ -154,7 +154,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 				->static_condition("hucs.hist_historic = 0")
 				->static_condition("hc.hist_historic = 0")
 				->static_condition($this->gIldb->in('hc.type', $this->types, false, 'text'))
-				->static_condition('hucs.function = '.$this->gIldb->quote('Mitglied','text'))
+				->static_condition("hucs.booking_status != ".$this->gIldb->quote('-empty-','text'))
 				->action($this->filter_action)
 				->compile()
 				;
@@ -179,7 +179,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 			}
 		}
 
-		$sum_data['type'] = $this->lng->txt('gev_sum');
+		$sum_data['type'] = $this->plugin->txt('sum');
 		$sum_data['part_user'] = '--';
 		$sum_data['book_user'] = '--';
 		$data['sum'] = $sum_data;
@@ -192,11 +192,11 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 
 	protected function buildTable($table) {
 		$table  ->column('type','type')
-				->column('book_book','gev_bookings')
-				->column('book_user','gev_crs_members')
-				->column('part_book','gev_bookings')
-				->column('wp_part','gev_edupoints')
-				->column('part_user','gev_crs_members');
+				->column('book_book','bookings')
+				->column('book_user','members')
+				->column('part_book','participations')
+				->column('wp_part','edupoints')
+				->column('part_user','members');
 		return parent::buildTable($table);
 	}
 

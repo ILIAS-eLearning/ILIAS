@@ -275,7 +275,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				,'agent_state' 				=> ($this->VALUE_MAPPINGS['agent_status'][$record['wbd_agent_status']])	//Status
 				//,'email_confirmation' => 'Nein'			//Benachrichtigung?
 				,"row_id" 					=> $record["row_id"]
-				,'wbd_type' 				=> $record['wbd_type'] //debug
+				,'wbd_type' 				=> $wbd_type //debug
 				,'begin_of_certification'	=> $record['begin_of_certification']
 			);
 
@@ -521,7 +521,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		 		.$this->ilDB->quote($end_date, "text").",\n"
 		 		.$this->ilDB->quote('-empty-', "text").",\n"
 		 		.$this->ilDB->quote('-empty-', "text").",\n"
-		 		.$this->ilDB->quote('-empty-', "text"),",\n"
+		 		.$this->ilDB->quote('-empty-', "text")."\n"
 			.")\n";
 
 			if(!$this->ilDB->query($sql)){
@@ -564,7 +564,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$credit_points 	= $rec['credit_points'];
 		$begin_date 	= $rec['begin']; // date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date 		= $rec['end']; //date('Y-m-d', strtotime($rec['Ende']));
-		$creator_id 	= -200;
+		$creator_id 	= -666;
 		$next_id 		= $this->ilDB->nextId('hist_usercoursestatus');
 
 		$sql = "INSERT INTO hist_usercoursestatus\n
@@ -605,7 +605,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				.$this->ilDB->quote($begin_date,"text").",\n"
 				.$this->ilDB->quote($end_date,"text").",\n"
 				.$this->ilDB->quote(-1,"integer").",\n"
-				.$this->ilDB->quote(-1"integer").",\n"
+				.$this->ilDB->quote(-1,"integer")."\n"
 			.")";
 
 			if(!$this->ilDB->query($sql)){

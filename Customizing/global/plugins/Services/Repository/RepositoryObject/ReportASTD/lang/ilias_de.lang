@@ -18,3 +18,5 @@ root_create_xatd#:#ASTD-Report erzeugen
 cat_create_xatd#:#ASTD-Report erzeugen
 rep_robj_xatd_status#:#Status
 rep_robj_xatd_offline#:#Offline
+xatd_content#:#Report
+xatd_properties#:#Eigenschaften
