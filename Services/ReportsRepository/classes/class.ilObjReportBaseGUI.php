@@ -45,7 +45,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			
 			// tab for the "show content" command
 			if ($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
-				$this->gTabs->addTab("content", $this->txt("content"),
+				$this->gTabs->addTab("content", $this->object->plugin->txt($this->getType()."_content"),
 				$this->gCtrl->getLinkTarget($this, "showContent"));
 			}
 
@@ -53,7 +53,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			$this->addInfoTab();
 
 			// a "properties" tab
-			$this->gTabs->addTab("properties", $this->txt("properties"),
+			$this->gTabs->addTab("properties", $this->object->plugin->txt($this->getType()."_properties"),
 			$this->gCtrl->getLinkTarget($this, "settings"));			
 
 			// standard epermission tab
