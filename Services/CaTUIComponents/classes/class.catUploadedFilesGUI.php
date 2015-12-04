@@ -22,6 +22,7 @@ class catUploadedFilesGUI extends ilSubEnabledFormPropertyGUI {
 		$this->setTitle($a_title);
 		$this->setType("non_editable_value");
 		$this->disable_escaping = (bool)$a_disable_escaping;
+		$this->disabled = false;
 	}
 	
 	function checkInput()
@@ -144,6 +145,10 @@ class catUploadedFilesGUI extends ilSubEnabledFormPropertyGUI {
 			if($this->show_btn) {
 				$tpl->setVariable('BTN_VALUE', $this->getBtnValue());
 				$tpl->setVariable('BTN_DESCRIPTION', $this->getBtnDescription());
+
+				if($this->disabled) {
+					$tpl->setVariable('BTN_DISABLED', 'disabled="disabled"');
+				}
 			}
 			$tpl->parseCurrentBlock();
 		}
@@ -176,5 +181,14 @@ class catUploadedFilesGUI extends ilSubEnabledFormPropertyGUI {
 		{
 			$item->setValueByArray($a_values);
 		}
+	}
+
+	/**
+	* Set Disabled
+	*
+	* @param boolean $disabled
+	*/
+	public function setDisabled($disabled = false) {
+		$this->disabled = $disabled;
 	}
 }
