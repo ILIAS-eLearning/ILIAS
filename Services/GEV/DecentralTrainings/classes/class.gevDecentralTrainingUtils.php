@@ -410,6 +410,43 @@ class gevDecentralTrainingUtils {
 	public function flushOpenCreationRequests() {
 		$this->open_creation_requests = null;
 	}
-}
 
+	public function getAttachmentLinks($class_name, $request_id) {
+		$request = $this->getRequestDB()->request($request_id);
+
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingFileStorage.php");
+		$file_storage = new gevDecentralTrainingFileStorage($request->settings()->tmpPathString());
+		$ret = array();
+		foreach ($request->settings()->addedFiles() as $key => $filename) {
+			if(file_exists($file_storage->getAbsolutePath()."/".$filename)) {
+				$this->ctrl->setParameterByClass($class_name, "filename", $filename);
+				$this->ctrl->setParameterByClass($class_name, "request_id", $request_id);
+				$ret[] = '<a href="'.$this->ctrl->getLinkTargetByClass($class_name, "deliverAttachment").'">'.$filename.'</a>';
+				$this->ctrl->clearParametersByClass($class_name);
+			} else {
+				$ret[] = $value["name"]." (Datei wurde nicht gefunden)";
+			}
+		}
+
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_utils = gevCourseUtils::getInstance($request->templateObjId());
+		$ret = array_merge($ret , $crs_utils->getAttachmentLinks($class_name));
+
+		return $ret;
+	}
+
+	/**
+	 * Deliver attachment (ha!)
+	 */
+	public function deliverAttachment($filename, $request_id) {
+		$request = $this->getRequestDB()->request($request_id);
+
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingFileStorage.php");
+		$file_storage = new gevDecentralTrainingFileStorage($request->settings()->tmpPathString());
+
+		require_once("Services/Utilities/classes/class.ilFileUtils.php");
+		$mimetype = ilFileUtils::_lookupMimeType($file_storage->getAbsolutePath()."/".$filename);
+		ilUtil::deliverFile($file_storage->getAbsolutePath()."/".$filename, $filename, $mimetype, false, false, true);
+	}
+}
 ?>

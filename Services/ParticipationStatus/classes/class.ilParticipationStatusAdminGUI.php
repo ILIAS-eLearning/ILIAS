@@ -326,8 +326,11 @@ class ilParticipationStatusAdminGUI
 		global $ilToolbar, $ilCtrl, $lng, $tpl;
 		
 		$this->setTabs("listStatus");
-					
-		$may_write = $this->mayWrite();		
+
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
+
+		$may_write = $this->mayWrite();
 		if($this->getParticipationStatus()->getMode() == ilParticipationStatus::MODE_CONTINUOUS)
 		{
 			$may_finalize = false;
@@ -335,7 +338,12 @@ class ilParticipationStatusAdminGUI
 		else
 		{
 			// gev-patch start
-			$may_finalize = $may_write;
+			if(count($crs_utils->getTrainers()) == 0) {
+				ilUtil::sendFailure($lng->txt("gev_no_trainer"));
+				$may_finalize = false;
+			} else {
+				$may_finalize = $may_write;
+			}
 			// gev-patch end
 		}
 		
@@ -347,8 +355,7 @@ class ilParticipationStatusAdminGUI
 		$tbl = new ilParticipationStatusTableGUI($this, "listStatus", $this->getCourse(), $may_write, $may_finalize, $a_invalid);
 		
 		//gev patch start
-		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		$crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
+		// minimum participations reached check
 		$min_parti = ($crs_utils->getMinParticipants() === null) ? 0 : $crs_utils->getMinParticipants();
 		$succ_parti = $crs_utils->getSuccessfullParticipants();
 

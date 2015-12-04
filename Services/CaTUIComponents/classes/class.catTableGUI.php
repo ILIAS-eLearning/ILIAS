@@ -74,6 +74,11 @@ class catTableGUI extends ilTable2GUI {
 		return $this;
 	}
 
+	public function setClearSearch($a_lng_var, $a_target) {
+		$this->_title->setClearSearch($a_lng_var, $a_target);
+		return $this;
+	}
+	
 	public function removeCommand() {
 		$this->_title->removeCommand();
 		return $this;

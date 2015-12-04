@@ -3483,4 +3483,52 @@ class gevCourseUtils {
 
 		return $ret;
 	}
+
+	public function getAttachmentLinks($class_name) {
+		$invitation_mail_settings = new gevCrsInvitationMailSettings($this->crs_id);
+
+		$ret = array();
+		foreach ($invitation_mail_settings->getAttachmentsFor("Mitglied") as $key => $value) {
+			if(file_exists($value["path"])) {
+				$this->ctrl->setParameterByClass($class_name, "filename", $value["name"]);
+				$this->ctrl->setParameterByClass($class_name, "crs_id", $this->crs_id);
+				$ret[] = '<a href="'.$this->ctrl->getLinkTargetByClass($class_name, "deliverAttachment").'">'.$value["name"].'</a>';
+				$this->ctrl->clearParametersByClass($class_name);
+			} else {
+				$ret[] = $value["name"]." (Datei wurde nicht gefunden)";
+			}
+		}
+
+		return $ret;
+	}
+
+	// delivery
+
+	/**
+	 * Deliver attachment (ha!)
+	 */
+	public function deliverAttachment($filename) {
+		$mail_attachments = new gevCrsMailAttachments($this->crs_id);
+
+		if ($mail_attachments->isAttachment($filename)) {
+			$this->deliverAttachmentFile($filename, $mail_attachments->getPathTo($filename));
+		}
+	}
+
+
+	/**
+	 * Deliver file with correct mimetype (if that could be determined).
+	 *
+	 * ATTENTION: Exits after delivery.
+	 *
+	 * @param string $a_name The name for the delivery of the file.
+	 * @param string $a_path The complete path to the file that should be
+	 * 						 delivered.
+	 */
+	protected function deliverAttachmentFile($a_name, $a_path) {
+		require_once("Services/Utilities/classes/class.ilFileUtils.php");
+
+		$mimetype = ilFileUtils::_lookupMimeType($a_path);
+		ilUtil::deliverFile($a_path, $a_name, $mimetype, false, false, true);
+	}
 }

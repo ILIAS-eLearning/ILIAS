@@ -1446,3 +1446,5 @@ gev#:#astd_accomodation_cost#:#Bewirtungs-, Raum- und Technikkosten
 gev#:#astd_accomodation_cost_per_day_person#:#Bewirtungs-, Raum- und Technikkosten pro Tag und pro Person
 gev#:#gev_bwv_id_info_get_new#:#Es wird für Sie eine GDV Vermittler-ID beantragt.
 gev#:#gev_dec_training_no_mail#:#Es soll keine Einladung versendet werden.
+gev#:#gev_no_trainer#:#An diesem Training ist kein Trainer hinterlegt. Die Finalisierung des Teilnahmestatus ist daher nicht möglich.
+gev#:#gev_crs_src_clear_search#:#Ergebnis zurücksetzen

@@ -59,13 +59,13 @@ class gevDecentralTrainingBuildingBlockAdminTableGUI extends catTableGUI {
 		$this->setLegend($legend);
 		$order = $this->getOrderField();
 		$order_direction = $this->getOrderDirection();
+		$offset = $this->getOffset();
+		$limit = $this->getLimit();
 
-		$data = gevBuildingBlockUtils::getAllBuildingBlocks($a_search_opts,$order,$order_direction);
+		$data = gevBuildingBlockUtils::getAllBuildingBlocks($a_search_opts,$order,$order_direction,$offset,$limit);
 
-		$this->setMaxCount(count($data));
+		$this->setMaxCount(gevBuildingBlockUtils::countAllBuildingBlocks($a_search_opts));
 		$this->setData($data);
-
-		//$this->setTitleTemplate("tpl.cat_title_without_search.html");
 	}
 
 	protected function fillRow($a_set) {
