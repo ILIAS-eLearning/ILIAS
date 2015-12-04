@@ -233,9 +233,12 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		$feedback = '';
 		if($show_feedback)
 		{
-			$fb = $this->getGenericFeedbackOutput($active_id, $pass);
-			$feedback .=  strlen($fb) ? $fb : '';
-
+			if( !$this->isTestPresentationContext() )
+			{
+				$fb = $this->getGenericFeedbackOutput($active_id, $pass);
+				$feedback .= strlen($fb) ? $fb : '';
+			}
+			
 			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
 			$feedback .=  strlen($fb) ? $fb : '';
 		}

@@ -1175,8 +1175,11 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$feedback = '';
 		if($show_feedback)
 		{
-			$fb = $this->getGenericFeedbackOutput($active_id, $pass);
-			$feedback .=  strlen($fb) ? $fb : '';
+			if( !$this->isTestPresentationContext() )
+			{
+				$fb = $this->getGenericFeedbackOutput($active_id, $pass);
+				$feedback .= strlen($fb) ? $fb : '';
+			}
 			
 			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
 			$feedback .=  strlen($fb) ? $fb : '';
@@ -1204,11 +1207,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 	public function getAnswerFeedbackOutput($active_id, $pass)
 	{
-		if( $this->isTestPresentationContext() )
-		{
-			return '';
-		}
-
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		$manual_feedback = ilObjTest::getManualFeedback($active_id, $this->object->getId(), $pass);
 		if (strlen($manual_feedback))
