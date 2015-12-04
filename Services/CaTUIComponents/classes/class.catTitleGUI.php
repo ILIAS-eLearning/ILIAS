@@ -37,7 +37,7 @@ class catTitleGUI {
 		$this->use_lng = $a_use_lng;
 
 		$this->clear_search = null;
-		$this->clear_serach_lng_var = null;
+		$this->clear_search_lng_var = null;
 	}
 
 	static public function create() {

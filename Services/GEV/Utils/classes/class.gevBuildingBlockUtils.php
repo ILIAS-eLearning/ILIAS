@@ -254,6 +254,22 @@ class gevBuildingBlockUtils {
 		return $ret;
 	}
 
+	static public function countAllBuildingBlocks($a_search_opts) {
+		global $ilDB;
+
+		$add_where = self::createAdditionalWhere($a_search_opts);
+		$sql = "SELECT count(obj_id) as cnt\n"
+			  ."  FROM ".self::TABLE_NAME."\n"
+			  ."  WHERE is_deleted = ".$ilDB->quote(0,"integer")."\n";
+		$sql .= $add_where;
+
+		$ret = array();
+		$res = $ilDB->query($sql);
+		$row = $ilDB->fetchAssoc($res);
+
+		return $row["cnt"];
+	}
+
 	static private function createAdditionalWhere($a_search_opts) {
 		$ret = "";
 

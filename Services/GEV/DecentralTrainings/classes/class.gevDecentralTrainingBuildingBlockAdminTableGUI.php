@@ -64,10 +64,8 @@ class gevDecentralTrainingBuildingBlockAdminTableGUI extends catTableGUI {
 
 		$data = gevBuildingBlockUtils::getAllBuildingBlocks($a_search_opts,$order,$order_direction,$offset,$limit);
 
-		$this->setMaxCount(count(gevBuildingBlockUtils::getAllBuildingBlocks($a_search_opts,$order,$order_direction)));
+		$this->setMaxCount(gevBuildingBlockUtils::countAllBuildingBlocks($a_search_opts));
 		$this->setData($data);
-
-		//$this->setTitleTemplate("tpl.cat_title_without_search.html");
 	}
 
 	protected function fillRow($a_set) {

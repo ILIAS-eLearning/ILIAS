@@ -167,7 +167,7 @@ function gevShowMailPreview(){
 			data["ALLE TRAINER"] = trainers.join("<br />");
 			
 			if(html === "") {
-				$('.mail').html("Es wurde keine Mailvorlage angelegt!");
+				$('#dct-mail_content.mail').html("Es wurde keine Mailvorlage angelegt!");
 			} else {
 				$.each(data, function(k,v){
 					var find = "\\["+k+"\\]";
@@ -181,7 +181,7 @@ function gevShowMailPreview(){
 					
 				});
 
-				$('.mail').html(html);
+				$('#dct-mail_content.mail').html(html);
 			
 				if("ATTACHMENTS" in data) {
 					files = $.merge(data["ATTACHMENTS"], files);
@@ -189,7 +189,7 @@ function gevShowMailPreview(){
 
 				if($(files).size() > 0) {
 					var text = files.join("<br />");
-					$('.attachment_content').html(text);
+					$('#dct-mail_content.attachment_content').html(text);
 				}
 			}
 		});
