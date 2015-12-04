@@ -190,6 +190,8 @@ function gevShowMailPreview(){
 				if($(files).size() > 0) {
 					var text = files.join("<br />");
 					$('#dct-mail_content .attachment_content').html(text);
+				} else {
+					$('#dct-mail_content .attachment_content').html("Keine Anhänge vorhanden.");
 				}
 			}
 		});
