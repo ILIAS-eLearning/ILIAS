@@ -648,6 +648,7 @@ class gevSettings {
 		'Trainer- / DBV Klausur (Zentral)',
 		'Trainer Teammeeting',
 		'Arbeitsgespräch',
+		'Weiterbildungstage',
 		
 		'AD-Begleitung',
 		'Firmenkunden',

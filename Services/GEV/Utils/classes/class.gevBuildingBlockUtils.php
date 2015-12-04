@@ -220,7 +220,7 @@ class gevBuildingBlockUtils {
 		return;
 	}
 
-	static public function getAllBuildingBlocks($a_search_opts,$a_order, $a_order_direction) {
+	static public function getAllBuildingBlocks($a_search_opts,$a_order, $a_order_direction, $offset = null, $limit = null) {
 		global $ilDB;
 
 		$add_where = self::createAdditionalWhere($a_search_opts);
@@ -234,6 +234,14 @@ class gevBuildingBlockUtils {
 
 		if($a_order !== null) {
 			$sql .= " ORDER BY ".$a_order." ".$a_order_direction;
+		}
+
+		if($limit !== null) {
+			$sql .= " LIMIT ".$limit;
+		}
+
+		if($offset !== null) {
+			$sql .= " OFFSET ".$offset;
 		}
 
 		$ret = array();

@@ -35,6 +35,9 @@ class catTitleGUI {
 		$this->command = null;
 		$this->command_lng_var = null;
 		$this->use_lng = $a_use_lng;
+
+		$this->clear_search = null;
+		$this->clear_serach_lng_var = null;
 	}
 
 	static public function create() {
@@ -99,6 +102,12 @@ class catTitleGUI {
 		return $this;
 	}
 
+	public function setClearSearch($a_lng_var, $a_target) {
+		$this->clear_search = $a_target;
+		$this->clear_search_lng_var = $a_lng_var;
+		return $this;
+	}
+
 	public function removeCommand() {
 		$this->command = null;
 		$this->command_lng_var = null;
@@ -150,6 +159,16 @@ class catTitleGUI {
 			$tpl->setVariable("CMD_TXT", $this->use_lng
 									   ? $this->lng->txt($this->command_lng_var)
 									   : $this->command_lng_var
+									   );
+			$tpl->parseCurrentBlock();
+		}
+
+		if ($this->clear_search !== null) {
+			$tpl->setCurrentBlock("clear_search");
+			$tpl->setVariable("CMD_TARGET", $this->clear_search);
+			$tpl->setVariable("CMD_TXT", $this->use_lng
+									   ? $this->lng->txt($this->clear_search_lng_var)
+									   : $this->clear_search_lng_var
 									   );
 			$tpl->parseCurrentBlock();
 		}
