@@ -4388,7 +4388,7 @@ common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#1
 common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the selected Social Bookmarking services?
 common#:#sort_by_this_column#:#Sort by this column
 common#:#sorting_header#:#Content Item Sorting
-common#:#sorting_info_manual#:#Content items can be arranged manually in a preferred order.
+common#:#sorting_info_manual#:#Content items can be arranged manually in a preferred order. Additionallyi, please define the standard sorting settings for new objects.
 common#:#sorting_info_title#:#Content items are arranged automatically by title in alphabetical order.
 common#:#sorting_manual_header#:#Manually
 common#:#sorting_save#:#Save Sorting
@@ -14950,10 +14950,11 @@ classification#:#clsfct_block_title#:#Selection by Topics
 classification#:#clsfct_block_info#:#Your Selection filters the objects.
 classification#:#clsfct_content_title#:#Objects matching your selection
 classification#:#clsfct_content_no_match#:#No hits
-cntr#:#sorting_new_items_position#:#Position For New Objects
+cntr#:#sorting_new_items_position#:#Position for New Objects
 cntr#:#sorting_new_items_at_top#:#Top
 cntr#:#sorting_new_items_at_bottom#:#Bottom
-cntr#:#sorting_new_items_order#:#Order For New Objects
+cntr#:#sorting_new_items_order#:#Order for New Objects
+cntr#:#sorting_new_items_direction#:#Sorting Direction for New Objects
 form#:#form_location_radius#:#Radius
 form#:#form_location_radius_km#:#km
 content#:#cont_question_stats#:#Statistic

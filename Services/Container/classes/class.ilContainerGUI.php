@@ -3734,7 +3734,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	protected function initSortingDirectionForm(ilContainerSortingSettings $sorting_settings, $element, $a_prefix)
 	{
-		$direction = new ilRadioGroupInputGUI($this->lng->txt('sorting_direction'),$a_prefix.'_sorting_direction');
+		if($a_prefix == 'manual')
+		{
+			$txt = $this->lng->txt('sorting_new_items_direction');
+		}
+		else
+		{
+			$txt = $this->lng->txt('sorting_direction');
+		}
+		
+		$direction = new ilRadioGroupInputGUI($txt,$a_prefix.'_sorting_direction');
 		$direction->setValue($sorting_settings->getSortDirection());
 		$direction->setRequired(TRUE);
 		
