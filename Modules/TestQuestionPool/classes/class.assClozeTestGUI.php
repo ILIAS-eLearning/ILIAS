@@ -1204,11 +1204,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 	public function getAnswerFeedbackOutput($active_id, $pass)
 	{
-		if( $this->isTestPresentationContext() )
-		{
-			return '';
-		}
-
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		$manual_feedback = ilObjTest::getManualFeedback($active_id, $this->object->getId(), $pass);
 		if (strlen($manual_feedback))

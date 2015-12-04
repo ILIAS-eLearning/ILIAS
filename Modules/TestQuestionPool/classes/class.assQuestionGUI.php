@@ -1132,11 +1132,6 @@ abstract class assQuestionGUI
 	*/
 	function getAnswerFeedbackOutput($active_id, $pass)
 	{
-		if( $this->isTestPresentationContext() )
-		{
-			return '';
-		}
-		
 		return $this->getGenericFeedbackOutput($active_id, $pass);
 	}
 
