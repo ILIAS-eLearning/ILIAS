@@ -633,6 +633,7 @@ class gevDecentralTrainingGUI {
 			$form_values["utils_id"] = $obj_id;
 			$form_values["obj_id"] = $obj_id;
 			$is_flexible = $this->isCrsTemplateFlexible($obj_id);
+			$this->template_id = $obj_id;
 			$this->ltype = $form_values["ltype"];
 			$this->webinar_vc_type = $form_values["webinar_vc_type"];
 
