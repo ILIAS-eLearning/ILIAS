@@ -3937,7 +3937,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
 		$exp = new ilRepositorySelectorExplorerGUI($this, "showPasteTree");
-		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold", "prg"));
+		// TODO: The study programme 'prg' is not included here, as the
+		// ilRepositorySelectorExplorerGUI only handles static rules for
+		// parent-child-relations and not the dynamic relationsships
+		// required for the SP (see #16909).
+		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));
 		if ($cmd == "link") {
 			$exp->setSelectMode("nodes", true);
 			return $exp;
