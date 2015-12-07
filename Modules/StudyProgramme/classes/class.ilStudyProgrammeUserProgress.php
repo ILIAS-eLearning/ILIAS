@@ -544,8 +544,9 @@ class ilStudyProgrammeUserProgress {
 	 */
 	protected function updateStatus() {
 		$prg = $this->getStudyProgramme();
-		if (   $prg->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED
-			&& $this->getStatus() != ilStudyProgrammeProgress::STATUS_ACCREDITED) {
+		if ((   $prg->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED
+			&& $this->getStatus() != ilStudyProgrammeProgress::STATUS_ACCREDITED)
+			|| $this->getStatus() == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
 			// Nothing to do here, as the status will be set by LP.
 			return;
 		}
