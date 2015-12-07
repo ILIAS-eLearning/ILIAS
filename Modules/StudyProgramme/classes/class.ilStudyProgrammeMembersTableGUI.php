@@ -36,8 +36,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->setTopCommands(false);
 		$this->setEnableHeader(true);
 		// TODO: switch this to internal sorting/segmentation
-		$this->setExternalSorting(false);
-		$this->setExternalSegmentation(true);
+		$this->setExternalSorting(true);
+		$this->setExternalSegmentation(false);
 		$this->setRowTemplate("tpl.members_table_row.html", "Modules/StudyProgramme");
 		
 		//$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
@@ -46,7 +46,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$columns = array( "name" 				=> array("name")
 						, "login" 				=> array("login")
 						, "prg_status" 			=> array("status")
-						, "prg_completion_by"	=> array("completion_by")
+						, "prg_completion_by"	=> array(null)
 						, "prg_points_required" => array("points_required")
 						, "prg_points_current"  => array("points_current")
 						, "prg_custom_plan"		=> array("custom_plan")
@@ -59,46 +59,24 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		
 		$this->determineLimit();
 		$this->determineOffsetAndOrder();
+		$oder = $this->getOrderField();
+		$dir = $this->getOrderDirection();
 
-		$members_list = $this->fetchData($a_prg_obj_id, $this->getLimit(), $this->getOffset());
-	
+		$members_list = $this->fetchData($a_prg_obj_id, $this->getLimit(), $this->getOffset(), $this->getOrderField(), $this->getOrderDirection());
 		$this->setMaxCount($this->countFetchData($a_prg_obj_id));
 		$this->setData($members_list);
+		$this->setData(array());
 	}
 
 	protected function fillRow($a_set) {
-		if ($a_set["status"] == ilStudyProgrammeProgress::STATUS_COMPLETED) {
-			// If the status completed and there is a non-null completion_by field
-			// in the set, this means the completion was achieved by some leaf in
-			// the program tree.
-			if ($a_set["completion_by"]) {
-				$completion_by = $a_set["completion_by"];
-			}
-			// if that's not the case, the user completed underlying nodes and we
-			// need to no which...
-			else {
-				require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
-				$prgrs = ilStudyProgrammeUserProgress::getInstanceForAssignment( $this->prg_obj_id
-																				  , $a_set["assignment_id"]);
-				$completion_by = implode(", ", $prgrs->getNamesOfCompletedOrAccreditedChildren());
-			}
-		}
-		else if($a_set["status"] == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
-			$completion_by = $a_set["accredited_by"];
-		}
-		
 		$this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
 		$this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
 		$this->tpl->setVariable("LOGIN", $a_set["login"]);
 		$this->tpl->setVariable("STATUS", ilStudyProgrammeUserProgress::statusToRepr($a_set["status"]));
-		$this->tpl->setVariable("COMPLETION_BY", $completion_by);
+		$this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
 		$this->tpl->setVariable("POINTS_REQUIRED", $a_set["points"]);
 
-		$curr_points = $a_set["points_cur"];
-		if($a_set["status"] == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
-			$curr_points = $a_set["points"];
-		}
-		$this->tpl->setVariable("POINTS_CURRENT", $curr_points);
+		$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
 		$this->tpl->setVariable("CUSTOM_PLAN", $a_set["last_change_by"] 
 												? $this->lng->txt("yes")
 												: $this->lng->txt("no"));
@@ -121,7 +99,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		return $this->getParentObject()->getLinkTargetForAction($a_action, $a_prgrs_id, $a_ass_id);
 	}
 
-	protected function fetchData($a_prg_id, $limit = null, $offset = null) {
+	protected function fetchData($a_prg_id, $limit = null, $offset = null, $order_coloumn = null, $order_direction = null) {
 		// TODO: Reimplement this in terms of ActiveRecord when innerjoin
 		// supports the required rename functionality
 		$query = "SELECT prgrs.id prgrs_id"
@@ -129,7 +107,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				   ."     , pcp.lastname"
 				   ."     , pcp.login"
 				   ."     , prgrs.points"
-				   ."     , prgrs.points_cur"
+				   ."     , if(prgrs.status = ".ilStudyProgrammeProgress::STATUS_ACCREDITED.", prgrs.points, prgrs.points_cur) points_current"
 				   ."     , prgrs.last_change_by"
 				   ."     , prgrs.status"
 				   ."     , blngs.title belongs_to"
@@ -146,6 +124,15 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				   ."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by"
 				   ." WHERE prgrs.prg_id = ".$this->db->quote($a_prg_id, "integer");
 
+		if($order_coloumn !== null) {
+			$query .= " ORDER BY $order_coloumn";
+
+			if($order_direction !== null) {
+				$query .= " $order_direction";
+			}
+		}
+
+
 		if($limit !== null) {
 			$query .= " LIMIT ".$this->db->quote($limit, "integer");
 		}
@@ -153,13 +140,29 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		if($offset !== null) {
 			$query .= " OFFSET ".$this->db->quote($offset, "integer");
 		}
-
+		echo $query;
 		$res = $this->db->query($query);
 	
 		$members_list = array();
 		while($rec = $this->db->fetchAssoc($res)) {
 			$rec["actions"] = ilStudyProgrammeUserProgress::getPossibleActions(
 										$a_prg_id, $rec["root_prg_id"], $rec["status"]);
+
+			if ($rec["status"] == ilStudyProgrammeProgress::STATUS_COMPLETED) {
+				// If the status completed and there is a non-null completion_by field
+				// in the set, this means the completion was achieved by some leaf in
+				// the program tree.
+				if (!$rec["completion_by"]) {
+					require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
+					$prgrs = ilStudyProgrammeUserProgress::getInstanceForAssignment( $this->prg_obj_id
+																					  , $rec["assignment_id"]);
+					$rec["completion_by"] = implode(", ", $prgrs->getNamesOfCompletedOrAccreditedChildren());
+				}
+			}
+			else if($rec["status"] == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
+				$rec["completion_by"] = $rec["accredited_by"];
+			}
+
 			$members_list[] = $rec;
 		}
 		return $members_list;
