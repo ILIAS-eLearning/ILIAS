@@ -168,7 +168,8 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 				} else {
 					$this->sum_row[$meta_category] += $trainer_data[$meta_category];
 					if( isset($this->norms[$meta_category])) {
-						$trainer_data[$meta_category.'_workload'] = 100*$trainer_data[$meta_category.'_sum']/($this->norms[$meta_category]*$period_days_factor);
+						$meta_category_sum = count($categories)>1 ? $trainer_data[$meta_category.'_sum'] : $trainer_data[ $categories[0]];
+						$trainer_data[$meta_category.'_workload'] = 100*$meta_category_sum/($this->norms[$meta_category]*$period_days_factor);
 						$this->sum_row[$meta_category.'_workload'] += $trainer_data[$meta_category.'_workload'];
 					}
 				}
