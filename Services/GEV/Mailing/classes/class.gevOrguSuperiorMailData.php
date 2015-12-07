@@ -146,6 +146,7 @@ class gevOrguSuperiorMailData extends ilMailData {
 	function getReportDataString() {
 		require_once("Services/Calendar/classes/class.ilDate.php");
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+		require_once("Services/UICore/classes/class.ilTemplateITX.php");
 		
 		$user_data = $this->getReportData();
 		
