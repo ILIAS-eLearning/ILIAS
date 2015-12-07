@@ -37,5 +37,5 @@ org_unit_short#:#Org.-Einheit
 period#:#Zeitraum
 until#:#bis
 annual_norm_training#:#Sollzahl Trainingstage
-annual_norm_office#:#Sollzahl Einsatztage
-annual_norm_operation#:#Sollzahl Bürotage
+annual_norm_operation#:#Sollzahl Einsatztage
+annual_norm_office#:#Sollzahl Bürotage
