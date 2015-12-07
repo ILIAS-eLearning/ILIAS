@@ -37,7 +37,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->setEnableHeader(true);
 		// TODO: switch this to internal sorting/segmentation
 		$this->setExternalSorting(false);
-		$this->setExternalSegmentation(false);
+		$this->setExternalSegmentation(true);
 		$this->setRowTemplate("tpl.members_table_row.html", "Modules/StudyProgramme");
 		
 		//$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
@@ -60,9 +60,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->determineLimit();
 		$this->determineOffsetAndOrder();
 
-		$members_list = $this->fetchData($a_prg_obj_id);
+		$members_list = $this->fetchData($a_prg_obj_id, $this->getLimit(), $this->getOffset());
 	
-		$this->setMaxCount(count($members_list));
+		$this->setMaxCount($this->countFetchData($a_prg_obj_id));
 		$this->setData($members_list);
 	}
 
@@ -121,31 +121,40 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		return $this->getParentObject()->getLinkTargetForAction($a_action, $a_prgrs_id, $a_ass_id);
 	}
 
-	protected function fetchData($a_prg_id) {
+	protected function fetchData($a_prg_id, $limit = null, $offset = null) {
 		// TODO: Reimplement this in terms of ActiveRecord when innerjoin
 		// supports the required rename functionality
-		$res = $this->db->query("SELECT prgrs.id prgrs_id"
-							   ."     , pcp.firstname"
-							   ."     , pcp.lastname"
-							   ."     , pcp.login"
-							   ."     , prgrs.points"
-							   ."     , prgrs.points_cur"
-							   ."     , prgrs.last_change_by"
-							   ."     , prgrs.status"
-							   ."     , blngs.title belongs_to"
-							   ."     , cmpl_usr.login accredited_by"
-							   ."     , cmpl_obj.title completion_by"
-							   ."     , prgrs.assignment_id assignment_id"
-							   ."     , ass.root_prg_id root_prg_id"
-							   ."  FROM ".ilStudyProgrammeProgress::returnDbTableName()." prgrs"
-							   ."  JOIN usr_data pcp ON pcp.usr_id = prgrs.usr_id"
-							   ."  JOIN ".ilStudyProgrammeAssignment::returnDbTableName()." ass"
-							   			 ." ON ass.id = prgrs.assignment_id"
-							   ."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
-							   ."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
-							   ."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by"
-							   ." WHERE prgrs.prg_id = ".$this->db->quote($a_prg_id, "integer")
-							   );
+		$query = "SELECT prgrs.id prgrs_id"
+				   ."     , pcp.firstname"
+				   ."     , pcp.lastname"
+				   ."     , pcp.login"
+				   ."     , prgrs.points"
+				   ."     , prgrs.points_cur"
+				   ."     , prgrs.last_change_by"
+				   ."     , prgrs.status"
+				   ."     , blngs.title belongs_to"
+				   ."     , cmpl_usr.login accredited_by"
+				   ."     , cmpl_obj.title completion_by"
+				   ."     , prgrs.assignment_id assignment_id"
+				   ."     , ass.root_prg_id root_prg_id"
+				   ."  FROM ".ilStudyProgrammeProgress::returnDbTableName()." prgrs"
+				   ."  JOIN usr_data pcp ON pcp.usr_id = prgrs.usr_id"
+				   ."  JOIN ".ilStudyProgrammeAssignment::returnDbTableName()." ass"
+				   			 ." ON ass.id = prgrs.assignment_id"
+				   ."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
+				   ."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
+				   ."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by"
+				   ." WHERE prgrs.prg_id = ".$this->db->quote($a_prg_id, "integer");
+
+		if($limit !== null) {
+			$query .= " LIMIT ".$this->db->quote($limit, "integer");
+		}
+
+		if($offset !== null) {
+			$query .= " OFFSET ".$this->db->quote($offset, "integer");
+		}
+
+		$res = $this->db->query($query);
 	
 		$members_list = array();
 		while($rec = $this->db->fetchAssoc($res)) {
@@ -154,6 +163,25 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 			$members_list[] = $rec;
 		}
 		return $members_list;
+	}
+
+	protected function countFetchData($a_prg_id) {
+		// TODO: Reimplement this in terms of ActiveRecord when innerjoin
+		// supports the required rename functionality
+		$query = "SELECT count(prgrs.id) as cnt"
+				."  FROM ".ilStudyProgrammeProgress::returnDbTableName()." prgrs"
+				."  JOIN usr_data pcp ON pcp.usr_id = prgrs.usr_id"
+				."  JOIN ".ilStudyProgrammeAssignment::returnDbTableName()." ass"
+						 ." ON ass.id = prgrs.assignment_id"
+				."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
+				."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
+				."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by"
+				." WHERE prgrs.prg_id = ".$this->db->quote($a_prg_id, "integer");
+
+		$res = $this->db->query($query);
+		$rec = $this->db->fetchAssoc($res);
+
+		return $rec["cnt"];
 	}
 }
 
