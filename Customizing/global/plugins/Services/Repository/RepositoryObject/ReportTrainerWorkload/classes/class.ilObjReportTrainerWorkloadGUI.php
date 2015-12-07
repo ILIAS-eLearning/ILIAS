@@ -16,7 +16,9 @@ class ilObjReportTrainerWorkloadGUI extends ilObjReportBaseGUI {
 
 	protected function afterConstructor() {
 		parent::afterConstructor();
-		$this->tpl->addCSS($this->object->plugin->getStylesheetLocation('report.css'));
+		if($this->object->plugin) {
+			$this->tpl->addCSS($this->object->plugin->getStylesheetLocation('report.css'));
+		}
 	}
 
 	protected function prepareTitle($a_title) {
