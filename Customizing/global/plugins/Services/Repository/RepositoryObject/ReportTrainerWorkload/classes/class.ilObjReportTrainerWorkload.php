@@ -11,8 +11,7 @@ const OP_TUTOR_IN_ORGU = 'tep_is_tutor';
 
 class ilObjReportTrainerWorkload extends ilObjReportBase {
 	
-	protected $gUser;
-	protected $sum_row;
+	protected $table_sums;
 	protected $relevant_parameters = array();
 
 	protected $norms;
@@ -80,7 +79,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 				->static_condition("hu.hist_historic = 0")
 				->static_condition("ht.hist_historic = 0")
 				->static_condition("ht.deleted = 0")
-				->static_condition("ht.row_id > ".MIN_ROW)
+				//->static_condition("ht.row_id > ".MIN_ROW)
 				->action($this->filter_action)
 				->compile()
 				;
@@ -176,7 +175,6 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 			}
 			$trainer_data = call_user_func($callback,$trainer_data);
 		}
-		//die();
 		foreach($this->norms as $meta_category => $norm) {
 			$this->sum_row[$meta_category.'_workload'] = $this->sum_row[$meta_category.'_workload']/$count_rows;
 		}
@@ -213,7 +211,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 				."		ON oda.obj_id = ore.obj_id";
 
 		$res = $this->gIldb->query($sql);
-		$relevan_users = array();
+		$relevant_orgus = array();
 		while($rec = $this->gIldb->fetchAssoc($res)) {
 			$perm_check = unserialize($rec['ops_id']);
 			if(in_array($rec["chk"], $perm_check)) {
@@ -248,16 +246,14 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 				."		ON huo.`action` >= 0 AND huo.hist_historic = 0 "
 				."			AND huo.usr_id = rua.usr_id "
 				."			AND ore.obj_id = huo.orgu_id ";
-
-		if(count($org_unit_filter)>0) {
+		$org_units_filter = $this->filter->get("org_unit");
+		if(count($org_units_filter)>0) {
 			$sql .= " 	AND ".$this->gIldb->in('huo.orgu_title',$this->filter->get("org_unit"),false,'text');
 		}
 		$sql .= "	WHERE hur.hist_historic IS NULL";
 
-		//die($sql);
-
 		$res = $this->gIldb->query($sql);
-		$relevan_users = array();
+		$relevant_users = array();
 		while($rec = $this->gIldb->fetchAssoc($res)) {
 			$perm_check = unserialize($rec['ops_id']);
 			if(in_array($rec["chk"], $perm_check)) {
@@ -354,7 +350,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 	protected function createTemplateFile() {
 		$str = fopen("Services/GEV/Reports/templates/default/"
 			."tpl.gev_trainer_workload_row.html","w"); 
-		
+
 		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td class = "bordered_right" >{VAL_FULLNAME}';
 		foreach($this->meta_cats as $meta_category => $categories) {
 			foreach ($categories as $category) {
