@@ -1,4 +1,6 @@
 <!-- language file start -->
+xrtw_content#:#Report
+xrtw_properties#:#Eigenschaften
 obj_xrtw#:#Report Trainerauslastung
 objs_xrtw#:#Reports Trainerauslastung
 obj_xrtw_duplicate#:#Report Trainerauslastung kopieren
@@ -16,3 +18,24 @@ grp_create_xrtw#:#Report Trainerauslastung erzeugen
 fold_create_xrtw#:#Report Trainerauslastung erzeugen
 root_create_xrtw#:#Report Trainerauslastung erzeugen
 cat_create_xrtw#:#Report Trainerauslastung erzeugen
+office#:#Bürotage
+vacation#:#Urlaub
+central#:#Zentrale Trainingstage
+noncentral#:#Dezentrale Trainingstage
+virtual#:#Virtuelle Trainingstage
+training_sum#:#Summe Trainingstage
+operation_sum#:#Summe Einsatztage
+od_discussion#:#OD-Gespräch Einsatztage
+fd_discussion#:#FD-Gespräch Einsatztage
+misc#:#Sonstige Einsatztage
+training_workload#:#Auslastung Trainingstage in Prozent
+operation_workload#:#Auslastung Einsatztage in Prozent
+office_workload#:#Auslastung Bürotage in Prozent
+fullname#:#Name
+online#:#Online
+org_unit_short#:#Org.-Einheit
+period#:#Zeitraum
+until#:#bis
+annual_norm_training#:#Sollzahl Trainingstage
+annual_norm_office#:#Sollzahl Einsatztage
+annual_norm_operation#:#Sollzahl Bürotage
