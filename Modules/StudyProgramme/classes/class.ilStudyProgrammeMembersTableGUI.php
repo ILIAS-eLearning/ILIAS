@@ -139,7 +139,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		if($offset !== null) {
 			$query .= " OFFSET ".$this->db->quote($offset, "integer");
 		}
-		echo $query;
 		$res = $this->db->query($query);
 	
 		$members_list = array();
