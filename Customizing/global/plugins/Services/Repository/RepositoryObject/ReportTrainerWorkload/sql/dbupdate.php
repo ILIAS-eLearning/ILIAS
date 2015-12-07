@@ -14,19 +14,19 @@ $fields =
 		),
 		'annual_norm_training' => array(
 			'type' => 'integer',
-			'length' => 4
+			'length' => 4,
 			'notnull' => true
 		),
 		'annual_norm_operation' => array(
 			'type' => 'integer',
-			'length' => 4
+			'length' => 4,
 			'notnull' => true
 		),
 		'annual_norm_office' => array(
 			'type' => 'integer',
-			'length' => 4
+			'length' => 4,
 			'notnull' => true
-		),
+		)
 	);
  
 $ilDB->createTable("rep_robj_rtw", $fields);
