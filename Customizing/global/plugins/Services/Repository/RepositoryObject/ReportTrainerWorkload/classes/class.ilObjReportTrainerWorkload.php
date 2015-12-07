@@ -79,7 +79,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 				->static_condition("hu.hist_historic = 0")
 				->static_condition("ht.hist_historic = 0")
 				->static_condition("ht.deleted = 0")
-				//->static_condition("ht.row_id > ".MIN_ROW)
+				->static_condition("ht.row_id > ".MIN_ROW)
 				->action($this->filter_action)
 				->compile()
 				;
@@ -226,9 +226,8 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 		require_once './Services/AccessControl/classes/class.ilObjRole.php';
 		$ignore_roles_ids = array();
 		foreach ($this->ignore_roles as $role_title) {
-			array_merge($ignore_roles_ids,	ilObjRole::_getIdsForTitle($role_title,'role'));
+			$ignore_roles_ids = array_merge($ignore_roles_ids,	ilObjRole::_getIdsForTitle($role_title,'role'));
 		}
-
 		$sql = 	"SELECT huo.usr_id, rpa.rol_id, rpa.ops_id, rop.ops_id AS chk "
 				."	FROM rbac_pa rpa"
 				."	JOIN rbac_operations rop "
@@ -241,7 +240,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 				."	LEFT JOIN hist_userrole hur "
 				."		ON hur.usr_id = rua.usr_id "
 				."			AND ".$this->gIldb->in('hur.rol_id',$ignore_roles_ids,false,'integer')
-				."			AND hur.hist_version = 0 "
+				."			AND hur.hist_historic = 0 "
 				."			AND hur.action = 1 "
 				."	JOIN hist_userorgu huo "
 				."		ON huo.`action` >= 0 AND huo.hist_historic = 0 "
