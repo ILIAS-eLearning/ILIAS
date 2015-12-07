@@ -130,9 +130,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 	}
 
 	protected function buildOrder($order) {
-		$order 	->defaultOrder("fullname", "ASC")
-				;
-		return $order;
+		return null;
 	}
 
 	protected function fetchData(callable $callback) {

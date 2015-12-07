@@ -66,7 +66,7 @@ class ilObjReportTrainerWorkloadGUI extends ilObjReportBaseGUI {
 
 	private function renderSumTable(){
 		
-		$table = new catTableGUI($this, "view");
+		$table = new catTableGUI($this, "showContent");
 		$table->setEnableTitle(false);
 		$table->setTopCommands(false);
 		$table->setEnableHeader(true);
