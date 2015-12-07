@@ -37,7 +37,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->setEnableHeader(true);
 		// TODO: switch this to internal sorting/segmentation
 		$this->setExternalSorting(true);
-		$this->setExternalSegmentation(false);
+		$this->setExternalSegmentation(true);
 		$this->setRowTemplate("tpl.members_table_row.html", "Modules/StudyProgramme");
 		
 		//$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
@@ -65,7 +65,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$members_list = $this->fetchData($a_prg_obj_id, $this->getLimit(), $this->getOffset(), $this->getOrderField(), $this->getOrderDirection());
 		$this->setMaxCount($this->countFetchData($a_prg_obj_id));
 		$this->setData($members_list);
-		$this->setData(array());
 	}
 
 	protected function fillRow($a_set) {
