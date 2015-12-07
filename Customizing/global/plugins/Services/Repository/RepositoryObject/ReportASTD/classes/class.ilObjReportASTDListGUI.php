@@ -47,10 +47,9 @@ class ilObjReportASTDListGUI extends ilObjReportBaseListGUI {
 		$props = array();
 
 		$this->plugin->includeClass("class.ilObjReportASTDAccess.php");
-		if (!ilObjReportASTDAccess::checkOnline($this->obj_id))
-		{
-		$props[] = array("alert" => true, "property" => $this->lng->txt("status"),
-		"value" => $this->lng->txt("offline"));
+		if (!ilObjReportASTDAccess::checkOnline($this->obj_id))	{
+			$props[] = array("alert" => true, "property" => $this->lng->txt("status"),
+			"value" => $this->lng->txt("offline"));
 		}
 		 
 		return $props;
