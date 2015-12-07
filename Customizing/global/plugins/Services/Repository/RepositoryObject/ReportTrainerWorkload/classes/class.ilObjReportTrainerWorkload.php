@@ -350,4 +350,55 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
 	}
+
+	protected function createTemplateFile() {
+		$str = fopen("Services/GEV/Reports/templates/default/"
+			."tpl.gev_trainer_workload_row.html","w"); 
+		
+		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td class = "bordered_right" >{VAL_FULLNAME}';
+		foreach($this->meta_cats as $meta_category => $categories) {
+			foreach ($categories as $category) {
+				$tpl .= "</td>\n".'<td align = "right">{VAL_'.strtoupper($category).'}';
+			}
+			if(count($categories)>1) {
+				$class = "bold_content";
+				if(!isset($this->norms[$meta_category])) {
+					$class .= " bordered_right";
+				}
+				$tpl .= "</td>\n".'<td align = "right" class = "'.$class.'">{VAL_'.strtoupper($meta_category).'_SUM}';
+			}
+			if(isset($this->norms[$meta_category])) {
+				$tpl.= "</td>\n".'<td align = "right" class = "bordered_right bold_content">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
+			}
+			
+		}
+		$tpl.= "</td>";
+		$tpl .= "\n</tr>";
+		fwrite($str,$tpl);
+		fclose($str);
+
+		$str = fopen("Services/GEV/Reports/templates/default/"
+			."tpl.gev_trainer_workload_sum_row.html","w"); 
+		$tpl = '<tr class="{CSS_ROW}"><td>';
+		foreach($this->workload_meta as $meta_category => $categories) {
+			foreach ($categories as $category) {
+				$tpl .= "</td>\n".'<td align = "right">{VAL_'.strtoupper($category).'}';
+			}
+			if(count($categories)>1) {
+				$class = "bold_content";
+				if(!isset($this->norms[$meta_category])) {
+					$class .= " bordered_right";
+				}
+				$tpl .= "</td>\n".'<td align = "right" class = "'.$class.'">{VAL_'.strtoupper($meta_category).'_SUM}';
+			}
+			if(isset($this->norms[$meta_category])) {
+				$tpl.= "</td>\n".'<td align = "right" class = "bordered_right bold_content">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
+			}
+			
+		}
+		$tpl.= "</td>";
+		$tpl .= "\n</tr>";
+		fwrite($str,$tpl);
+		fclose($str);
+	}
 }
