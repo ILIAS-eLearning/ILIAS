@@ -80,7 +80,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 				->static_condition("hu.hist_historic = 0")
 				->static_condition("ht.hist_historic = 0")
 				->static_condition("ht.deleted = 0")
-			//	->static_condition("ht.row_id > ".MIN_ROW)
+				->static_condition("ht.row_id > ".MIN_ROW)
 				->action($this->filter_action)
 				->compile()
 				;
