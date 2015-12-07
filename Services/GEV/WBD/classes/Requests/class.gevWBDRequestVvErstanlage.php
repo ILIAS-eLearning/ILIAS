@@ -43,7 +43,6 @@ class gevWBDRequestVvErstanlage extends WBDRequestVvErstanlage {
 		$this->okz 					= new WBDData("VermittlungsTaetigkeit",$data["okz"]);
 		$this->firstname 			= new WBDData("VorName", $data["firstname"]);
 		$this->wbd_type 			= new WBDData("TpKennzeichen", $this->getDictionary()->getWBDName($data["wbd_type"], gevWBDDictionary::SEARCH_IN_WBD_TYPE));
-		$this->training_pass 		= new WBDData("WeiterbildungsAusweisBeantragt", $data["training_pass"]);
 
 		$errors = $this->checkData();
 
