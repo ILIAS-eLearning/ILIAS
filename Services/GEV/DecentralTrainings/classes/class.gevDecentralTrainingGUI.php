@@ -634,6 +634,7 @@ class gevDecentralTrainingGUI {
 			$form_values["utils_id"] = $obj_id;
 			$form_values["obj_id"] = $obj_id;
 			$is_flexible = $this->isCrsTemplateFlexible($obj_id);
+			$this->template_id = $obj_id;
 			$this->ltype = $form_values["ltype"];
 			$this->webinar_vc_type = $form_values["webinar_vc_type"];
 
@@ -1184,11 +1185,11 @@ class gevDecentralTrainingGUI {
 		$orga_section = new ilFormSectionHeaderGUI();
 		$orga_section->setTitle($this->lng->txt("gev_dec_training_attachment"));
 		$form->addItem($orga_section);
-		$form->addItem($this->createAttachmentUploadForm());
+		$form->addItem($this->createAttachmentUploadForm($a_form_values["no_changes_allowed"]));
 
 		if($a_form_values["added_files"]) {
 			foreach ($a_form_values["added_files"] as $key => $value) {
-				$form->addItem($this->addUploadedFileGUI($key, $value));
+				$form->addItem($this->addUploadedFileGUI($key, $value, $a_form_values["no_changes_allowed"]));
 			}
 		}
 
@@ -1446,11 +1447,11 @@ class gevDecentralTrainingGUI {
 		$orga_section = new ilFormSectionHeaderGUI();
 		$orga_section->setTitle($this->lng->txt("gev_dec_training_attachment"));
 		$form->addItem($orga_section);
-		$form->addItem($this->createAttachmentUploadForm());
+		$form->addItem($this->createAttachmentUploadForm($a_form_values["no_changes_allowed"]));
 
 		if($a_form_values["added_files"]) {
 			foreach ($a_form_values["added_files"] as $key => $value) {
-				$form->addItem($this->addUploadedFileGUI($key,$value));
+				$form->addItem($this->addUploadedFileGUI($key,$value, $a_form_values["no_changes_allowed"]));
 			}
 		}
 
@@ -1820,12 +1821,13 @@ class gevDecentralTrainingGUI {
 	 *
 	 * @return ilFileInputGUI The upload form.
 	 */
-	protected function createAttachmentUploadForm() {
+	protected function createAttachmentUploadForm($no_changes_allowed) {
 		require_once("Services/CaTUIComponents/classes/class.catFileInputGUI.php");
 
 		$file_upload_form = new catFileInputGUI();
 		$file_upload_form->setPostVar("attachment_upload");
 		$file_upload_form->setMulti(true);
+		$file_upload_form->setDisabled($no_changes_allowed);
 		
 		return $file_upload_form;
 	}
@@ -1931,12 +1933,13 @@ class gevDecentralTrainingGUI {
 		return $this->added_files;
 	}
 
-	protected function addUploadedFileGUI($key, $value) {
+	protected function addUploadedFileGUI($key, $value, $no_changes_allowed) {
 		$file = new catUploadedFilesGUI("", "added_files[]", false);
 		$file->setValue($value);
 		$file->setBtnValue($key);
 		$file->setBtnDescription($this->lng->txt("gev_dec_training_attachment_delete"));
 		$file->showBtn(true);
+		$file->setDisabled($no_changes_allowed);
 
 		return $file;
 	}
