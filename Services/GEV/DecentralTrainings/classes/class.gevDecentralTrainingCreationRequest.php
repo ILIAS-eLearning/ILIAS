@@ -42,6 +42,9 @@ class gevDecentralTrainingCreationRequest {
 	
 	// @var int|null		Id of the object that was created by the request.
 	protected $created_obj_id;
+
+	// @var string 			Local role of training creator
+	protected $trgt_creator_role_id;
 	
 	public function __construct( gevDecentralTrainingCreationRequestDB $db
 							   , $a_user_id
@@ -185,11 +188,11 @@ class gevDecentralTrainingCreationRequest {
 		$trgt_crs = $trgt_utils->getCourse();
 		
 		// Roles and Members
-		$creator_role_id = $this->createCreatorRole($trgt_ref_id);
+		$this->trgt_creator_role_id = $this->createCreatorRole($trgt_ref_id);
 		$this->adjustTrainerPermissions($trgt_crs);
 		$this->adjustOwnerAndAdmin($src_utils, $trgt_crs);
 		$this->assignTrainers($trgt_crs);
-		$this->assignCreatorToCreatorRole($creator_role_id);
+		$this->assignCreatorToCreatorRole($this->user_id);
 		
 		$rbacsystem->resetRoleCache();
 		
@@ -214,6 +217,8 @@ class gevDecentralTrainingCreationRequest {
 		// so we could only call it once per request. If there is some issue
 		// afterwards and an exception is thrown, the attachments will be gone.
 		$this->addAttachmentsToMail((int)$trgt_crs->getId());
+
+		$this->bookSuperiorsToTrainingCreator($trgt_utils);
 
 		$this->finished_ts = new ilDateTime(time(),IL_CAL_UNIX);
 		$this->created_obj_id = $trgt_obj_id;
@@ -322,9 +327,9 @@ class gevDecentralTrainingCreationRequest {
 		return $creator_role->getId();
 	}
 	
-	protected function assignCreatorToCreatorRole($creator_role_id) {
+	protected function assignCreatorToCreatorRole($user_id) {
 		$rbacadmin = $this->getRBACAdmin();
-		$rbacadmin->assignUser($creator_role_id, $this->user_id);
+		$rbacadmin->assignUser($this->trgt_creator_role_id, $user_id);
 	}
 	
 	protected function adjustTrainerPermissions(ilObjCourse $a_trgt_crs) {
@@ -485,5 +490,16 @@ class gevDecentralTrainingCreationRequest {
 		//Achtiung!!!
 		//Hiernach sind die Anhänge inklusive des Temporären Verzeichnisses gelöscht!!!
 		$file_storage->deleteDirectory();
+	}
+
+	protected function bookSuperiorsToTrainingCreator($trgt_utils) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$training_creator = $trgt_utils->getTrainingCreator();
+
+		$usr_utils = gevUserUtils::getInstance($training_creator[0]);
+		foreach(gevOrgUnitUtils::getSuperiorsIn($usr_utils->getOrgUnitsWhereUserIsTutor()) as $superior_id) {
+			$this->assignCreatorToCreatorRole($superior_id);
+		}
 	}
 }
