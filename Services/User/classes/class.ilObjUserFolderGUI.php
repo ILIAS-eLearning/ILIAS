@@ -76,6 +76,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$user_search =& new ilRepositorySearchGUI();
+				$user_search->setTitle($this->lng->txt("search_user_extended")); // #17502
 				$user_search->enableSearchableCheck(false);
 				$user_search->setCallback(
 					$this,

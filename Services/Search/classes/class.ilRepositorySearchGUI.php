@@ -649,7 +649,7 @@ class ilRepositorySearchGUI
 				continue;
 			}
 		
-			if(!is_object($query_parser = $this->__parseQueryString($query_string)))
+			if(!is_object($query_parser = $this->__parseQueryString($query_string, true, ($info['type'] == FIELD_TYPE_SELECT))))
 			{
 				ilUtil::sendInfo($query_parser);
 				return false;
@@ -671,7 +671,7 @@ class ilRepositorySearchGUI
 
 				case FIELD_TYPE_SELECT:
 					// Do a phrase query for select fields
-					$query_parser = $this->__parseQueryString('"'.$query_string.'"');
+					$query_parser = $this->__parseQueryString('"'.$query_string.'"', true, true);
 
 				case FIELD_TYPE_TEXT:
 					$user_search =& ilObjectSearchFactory::_getUserSearchInstance($query_parser);
@@ -767,12 +767,18 @@ class ilRepositorySearchGUI
 	* @return object of query parser or error message if an error occured
 	* @access public
 	*/
-	function &__parseQueryString($a_string,$a_combination_or = true)
+	function &__parseQueryString($a_string,$a_combination_or = true,$a_ignore_length = false)
 	{
 		$query_parser = new ilQueryParser(ilUtil::stripSlashes($a_string));
 		$query_parser->setCombination($a_combination_or ? QP_COMBINATION_OR : QP_COMBINATION_AND);
-		$query_parser->setMinWordLength(1); 
-		$query_parser->setGlobalMinLength(3); // #14768
+		$query_parser->setMinWordLength(1);
+		
+		// #17502
+		if(!(bool)$a_ignore_length)
+		{
+			$query_parser->setGlobalMinLength(3); // #14768
+		}
+		
 		$query_parser->parse();
 
 		if(!$query_parser->validate())
