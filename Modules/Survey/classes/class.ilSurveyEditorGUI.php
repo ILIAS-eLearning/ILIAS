@@ -1333,6 +1333,8 @@ class ilSurveyEditorGUI
 			$printbody->setVariable("ADM_CONTENT", $template->get());
 			$printoutput = $printbody->get();
 			$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);
+			// #17680
+			$printoutput = preg_replace('/&(?!amp)/', '&amp;', $printoutput);
 			$fo = $this->object->processPrintoutput2FO($printoutput);
 			// #11436
 			if(!$fo || !$this->object->deliverPDFfromFO($fo))
