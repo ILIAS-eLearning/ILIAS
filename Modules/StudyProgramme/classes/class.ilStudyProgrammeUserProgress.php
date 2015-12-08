@@ -548,6 +548,7 @@ class ilStudyProgrammeUserProgress {
 			&& $this->getStatus() != ilStudyProgrammeProgress::STATUS_ACCREDITED)
 			|| $this->getStatus() == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
 			// Nothing to do here, as the status will be set by LP.
+			// OR current status is NOT RELEVANT
 			return;
 		}
 
