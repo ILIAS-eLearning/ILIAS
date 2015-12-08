@@ -145,7 +145,7 @@ class ilStudyProgrammeProgressListGUI {
 			}
 			else {
 				$current_percent = 0;
-				$required_percent = 0.1;
+				$required_percent = 0;
 			}
 		}
 		
