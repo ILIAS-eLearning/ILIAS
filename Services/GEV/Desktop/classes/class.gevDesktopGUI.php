@@ -484,13 +484,13 @@ class gevDesktopGUI {
 	}
 	
 	protected function checkNeedsWBDRegistration($cmd, $next_class) {
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 		global $ilUser;
-		$utils = gevUserUtils::getInstanceByObj($ilUser);
-		if ($utils->hasWBDRelevantRole() && !$utils->hasDoneWBDRegistration()) {
+		$wbd = gevWBD::getInstanceByObj($ilUser);
+		if ($wbd->hasWBDRelevantRole() && !$wbd->hasDoneWBDRegistration()) {
 
 			//two ways: GEV is TP or  TPBasic
-			if ($utils->canBeRegisteredAsTPService()) {
+			if ($wbd->canBeRegisteredAsTPService()) {
 				if ($next_class != "gevwbdtpserviceregistrationgui") {
 					$this->ctrl->redirectByClass("gevWBDTPServiceRegistrationGUI");
 				}
