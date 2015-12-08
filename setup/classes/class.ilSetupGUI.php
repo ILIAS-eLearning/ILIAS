@@ -1597,6 +1597,7 @@ echo "<br>+".$client_id;
 
 if (true)
 {
+		unset($_SESSION["db_type"]);
 		$this->initDBSelectionForm();
 		$this->tpl->setVariable("SETUP_CONTENT", $this->form->getHTML());
 }
@@ -1667,6 +1668,14 @@ else
 		{
 			$_POST["db_type"] = $_SESSION["db_type"];
 		}
+		
+		$has_ini = $this->setup->getClient()->status["ini"]["status"];
+		
+		// use value from client ini if setup was resumed (no value in session)
+		if (!$_SESSION["db_type"] && $has_ini)
+		{
+			$_SESSION["db_type"] = $this->setup->getClient()->getDbType();
+		}
 
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_ini"));
 		if (!$a_omit_form_init)
@@ -1677,7 +1686,7 @@ else
 		$this->tpl->setVariable("SETUP_CONTENT",
 			$this->form->getHTML());
 
-		if ($this->setup->getClient()->status["ini"]["status"])
+		if ($has_ini)
 		{
 			$this->setButtonNext("db");
 		}
@@ -1955,8 +1964,16 @@ else
 
 		$OK = "<font color=\"green\"><strong>OK</strong></font>";
 
-		$steps = array();
 		$steps = $this->setup->getStatus();
+		
+		// #16846
+		$first = array("selectdb" => array(
+			"status" => ((bool)$_SESSION["db_type"] || (bool)$steps["ini"]["status"]),
+			"text" => $this->lng->txt("db_selection"),
+			"comment" => ""
+		));
+		
+		$steps = $first + $steps;		
 
 		// remove access step
 		unset($steps["access"]);
