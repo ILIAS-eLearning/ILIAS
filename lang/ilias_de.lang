@@ -1455,7 +1455,7 @@ assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchl
 assessment#:#tst_sequence_properties#:#Durchführung: Funktionen für Teilnehmer
 assessment#:#tst_final_information#:#Test abschliessen
 assessment#:#tst_session_settings#:#Durchführung
-assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde auf Offline gesetzt, da der Testmodus gewechselt wurde. Sie müssen eine neue Testmodus-bezogene Fragenkonfiguration erstellen, bevor Sie den Test wieder online setzen können.
+assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde offline gesetzt, da sich die Einstellung zur Auswahl der Testfragen geändert hat. Weisen Sie dem Test wieder Fragen zu. Anschließend können Sie den Test wieder online setzen.
 assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#Der Test konnte nicht auf online gesetzt werden, da der Testmodus gewechselt wurde. Sie müssen eine neue Testmodus-bezogene Fragenkonfiguration erstellen, bevor Sie den Test wieder online setzen können.
 assessment#:#tst_settings_template#:#Vorlage
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
@@ -1616,7 +1616,7 @@ assessment#:#tst_question_set_type_random#:#Zufällige Fragenauswahl
 assessment#:#tst_question_set_type_random_desc#:#Jedem Teilnehmer werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
 assessment#:#tst_question_set_type_dynamic#:#Wiedervorlagenmodus - alle Fragen eines Fragenpools
 assessment#:#tst_question_set_type_dynamic_desc#:#Allen Teilnehmern werden nach und nach alle Fragen aus einem definierten Fragenpool gestellt. Falsch beantwortete Fragen legt ILIAS erneut vor. Auch Fragen bereits laufender Tests können hinzugefügt oder geändert werden.
-assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Sie sind im Begriff den Test-Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test-Modus-abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen, wenn Sie den Test-Modus ändern.
+assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Wenn Sie die Auswahl der Testfragen von <b>%s</b> auf <b>%s</b> ändern, geht die aktuelle Fragenzuordnung verloren. Sie müssen dann für die neue Konfiguration erneut Fragen zuordnen bzw. den Fragenpool entsprechend konfigurieren.<br />Klicken Sie auf <b>Bestätigen</b>, um die neue Einstellung zu verwenden, oder wählen Sie <b>Abbrechen</b>, wenn die aktuell eingestellte Auswahl der Testfragen beibehalten werden soll.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenauswahl wurde geändert.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
 assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#Die Konfiguration für die zufällige Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
@@ -15041,7 +15041,7 @@ crs#:#crs_loc_err_no_active_qt#:#Lernziele ohne Qualifizierenden Test vorhanden
 crs#:#crs_loc_err_no_active_lo#:#Kein aktives Lernziel
 content#:#cont_to_focus_return_crs#:#Zurück zum Kurs
 crs#:#crs_loc_learning_objective#:#Lernziel
-crs#:#crs_loc_suggested#:#Bearbeiten Sie die folgenden Materialien.
+crs#:#crs_loc_suggested#:#Bearbeiten Sie bitte die links aufgeführten Materialien, um das Lernziel zu erreichen.
 crs#:#crs_loc_itest_info#:#Einstiegstest
 crs#:#crs_loc_qtest_info#:#Qualifizierender Test
 crs#:#crs_loc_tt_info#:#Sie haben %1$d%% erreicht. Der Test gilt mit %2$d%% als bestanden.
@@ -15086,7 +15086,7 @@ crs#:#crs_loc_progress_result_itest#:#Ergebnis Einstiegstest
 crs#:#crs_loc_progress_result_qtest#:#Ergebnis
 crs#:#crs_loc_progress_no_result_do_initial#:#Bearbeiten Sie den Einstiegstest
 crs#:#crs_loc_progress_objective_complete#:#Sie haben das Lernziel erreicht.
-crs#:#crs_loc_progress_do_qualifying#:#Bearbeiten Sie nur noch den Qualifizierenden Test
+crs#:#crs_loc_progress_do_qualifying#:#Machen Sie den Qualifizierenden Test, um das Lernziel abzuschließen.
 crs#:#crs_loc_progress_do_qualifying_again#:#Bitte bearbeiten Sie das Lernziel erneut.
 content#:#cont_out_of_focus_message_last_page#:#Sie befinden sich auf der letzten Seite der Inhalte zum aktuellen Lernziel.
 crs#:#crs_loc_err_nr_tries_exceeded#:#Die Anzahl der Testdurchläufe pro Lernziel übersteigt die Anzahl möglicher Testdurchläufe des Qualifizierenden Tests.
