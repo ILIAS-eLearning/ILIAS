@@ -44,7 +44,7 @@ class gevDecentralTrainingCreationRequest {
 	protected $created_obj_id;
 
 	// @var string 			Local role of training creator
-	protected $trgt_creator_role_id;
+	protected $trgt_creator_role_id = null;
 	
 	public function __construct( gevDecentralTrainingCreationRequestDB $db
 							   , $a_user_id
@@ -188,11 +188,10 @@ class gevDecentralTrainingCreationRequest {
 		$trgt_crs = $trgt_utils->getCourse();
 		
 		// Roles and Members
-		$this->trgt_creator_role_id = $this->createCreatorRole($trgt_ref_id);
 		$this->adjustTrainerPermissions($trgt_crs);
 		$this->adjustOwnerAndAdmin($src_utils, $trgt_crs);
 		$this->assignTrainers($trgt_crs);
-		$this->assignCreatorToCreatorRole($this->user_id);
+		$this->assignUserToCreatorRole($this->user_id, $trgt_ref_id);
 		
 		$rbacsystem->resetRoleCache();
 		
@@ -327,7 +326,11 @@ class gevDecentralTrainingCreationRequest {
 		return $creator_role->getId();
 	}
 	
-	protected function assignCreatorToCreatorRole($user_id) {
+	protected function assignUserToCreatorRole($user_id, $trgt_ref_id) {
+		if ($this->trgt_creator_role_id === null) {
+			$this->trgt_creator_role_id = $this->createCreatorRole($trgt_ref_id);
+		}
+
 		$rbacadmin = $this->getRBACAdmin();
 		$rbacadmin->assignUser($this->trgt_creator_role_id, $user_id);
 	}
@@ -498,8 +501,9 @@ class gevDecentralTrainingCreationRequest {
 		$training_creator = $trgt_utils->getTrainingCreator();
 
 		$usr_utils = gevUserUtils::getInstance($training_creator[0]);
+		$trgt_ref_id = $trgt_utils->getRefId();
 		foreach(gevOrgUnitUtils::getSuperiorsIn($usr_utils->getOrgUnitsWhereUserIsTutor()) as $superior_id) {
-			$this->assignCreatorToCreatorRole($superior_id);
+			$this->assignUserToCreatorRole($superior_id, $trgt_ref_id);
 		}
 	}
 }
