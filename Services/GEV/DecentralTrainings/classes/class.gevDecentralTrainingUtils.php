@@ -88,6 +88,7 @@ class gevDecentralTrainingUtils {
 		$orgus_d = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others", $a_user_id);
 		$orgus_r = $this->getOrgTree()->getOrgusWhereUserHasPermissionForOperation("add_dec_training_others_rec", $a_user_id);
 		$orgus_s = gevOrgUnitUtils::getAllChildren($orgus_r);
+
 		foreach ($orgus_s as $key => $value) {
 			$orgus_s[$key] = $value["ref_id"];
 		}
@@ -212,20 +213,16 @@ class gevDecentralTrainingUtils {
 
 		$columns = array();
 		
-		$columns[] = $lng->txt("gev_dct_crs_building_block_from");
+		$columns[] = $lng->txt("gev_dec_crs_building_block_from");
 		$worksheet->setColumn(0, 0, 10);
-		$columns[] = $lng->txt("gev_dct_crs_building_block_to");
+		$columns[] = $lng->txt("gev_dec_crs_building_block_to");
 		$worksheet->setColumn(1, 1, 10);
-		$columns[] = $lng->txt("gev_dct_crs_building_block_block");
+		$columns[] = $lng->txt("gev_dec_crs_building_block_block");
 		$worksheet->setColumn(2, 2, 20);
-		$columns[] = $lng->txt("gev_dct_crs_building_block_methods");
-		$worksheet->setColumn(3, 3, 16);
-		$columns[] = $lng->txt("gev_dct_crs_building_block_media");
-		$worksheet->setColumn(4, 4, 16);
-		$columns[] = $lng->txt("gev_dct_crs_building_block_content");
-		$worksheet->setColumn(5, 5, 22);
-		$columns[] = $lng->txt("gev_dct_crs_building_block_lern_dest");
-		$worksheet->setColumn(6, 6, 22);
+		$columns[] = $lng->txt("gev_dec_crs_building_block_content");
+		$worksheet->setColumn(3, 3, 22);
+		$columns[] = $lng->txt("gev_dec_crs_building_block_lern_dest");
+		$worksheet->setColumn(4, 4, 22);
 
 		$format_wrap = $workbook->addFormat();
 		$format_wrap->setTextWrap();
@@ -248,10 +245,8 @@ class gevDecentralTrainingUtils {
 			$worksheet->write($row, 0, $block->getStartTime(), $format_wrap);
 			$worksheet->write($row, 1, $block->getEndTime(), $format_wrap);
 			$worksheet->write($row, 2, $base->getTitle(), $format_wrap);
-			$worksheet->write($row, 3, implode("\n", $block->getMethods()), $format_wrap);
-			$worksheet->write($row, 4, implode("\n", $block->getMedia()), $format_wrap);
-			$worksheet->write($row, 5, $base->getContent(), $format_wrap);
-			$worksheet->write($row, 6, $base->getLearningDestination(), $format_wrap);
+			$worksheet->write($row, 3, $base->getContent(), $format_wrap);
+			$worksheet->write($row, 4, $base->getTarget(), $format_wrap);
 		}
 		
 		$workbook->close();
@@ -302,9 +297,9 @@ class gevDecentralTrainingUtils {
  		$ret["venue_id"] = $crs_utils->getVenueId();
  		$ret["venue_free"] = $crs_utils->getVenueFreeText();
  		$ret["orgu_id"] = $crs_utils->getTEPOrguId();
- 		$ret["vc_type"] = $crs_utils->getVCType();
- 		$ret["webx_link"] = $crs_utils->getWebExLink();
- 		$ret["webx_password"] = $crs_utils->getWebExPassword();
+ 		$ret["vc_type"] = $crs_utils->getVirtualClassType();
+ 		$ret["webx_link"] = $crs_utils->getVirtualClassLink();
+ 		$ret["webx_password"] = $crs_utils->getVirtualClassPassword();
 
  		return $ret;
  	}
@@ -415,6 +410,43 @@ class gevDecentralTrainingUtils {
 	public function flushOpenCreationRequests() {
 		$this->open_creation_requests = null;
 	}
-}
 
+	public function getAttachmentLinks($class_name, $request_id) {
+		$request = $this->getRequestDB()->request($request_id);
+
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingFileStorage.php");
+		$file_storage = new gevDecentralTrainingFileStorage($request->settings()->tmpPathString());
+		$ret = array();
+		foreach ($request->settings()->addedFiles() as $key => $filename) {
+			if(file_exists($file_storage->getAbsolutePath()."/".$filename)) {
+				$this->ctrl->setParameterByClass($class_name, "filename", $filename);
+				$this->ctrl->setParameterByClass($class_name, "request_id", $request_id);
+				$ret[] = '<a href="'.$this->ctrl->getLinkTargetByClass($class_name, "deliverAttachment").'">'.$filename.'</a>';
+				$this->ctrl->clearParametersByClass($class_name);
+			} else {
+				$ret[] = $value["name"]." (Datei wurde nicht gefunden)";
+			}
+		}
+
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_utils = gevCourseUtils::getInstance($request->templateObjId());
+		$ret = array_merge($ret , $crs_utils->getAttachmentLinks($class_name));
+
+		return $ret;
+	}
+
+	/**
+	 * Deliver attachment (ha!)
+	 */
+	public function deliverAttachment($filename, $request_id) {
+		$request = $this->getRequestDB()->request($request_id);
+
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingFileStorage.php");
+		$file_storage = new gevDecentralTrainingFileStorage($request->settings()->tmpPathString());
+
+		require_once("Services/Utilities/classes/class.ilFileUtils.php");
+		$mimetype = ilFileUtils::_lookupMimeType($file_storage->getAbsolutePath()."/".$filename);
+		ilUtil::deliverFile($file_storage->getAbsolutePath()."/".$filename, $filename, $mimetype, false, false, true);
+	}
+}
 ?>

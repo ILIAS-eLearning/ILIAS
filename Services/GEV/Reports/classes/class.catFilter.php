@@ -620,6 +620,7 @@ class catMultiSelectFilter {
 	// width (optional, defaults to 160)
 	// height (optional, defaults to 75)
 	// field type (optional, default to "text")
+	// filter-options sorting (defaults to "asc", also possible  "desc", "none")
 	
 	public function checkConfig($a_conf) {
 		if (count($a_conf) < 6) {
@@ -632,18 +633,33 @@ class catMultiSelectFilter {
 			$a_conf[] = 200; // width
 			$a_conf[] = 160; // height
 			$a_conf[] = "text"; // type
+			$a_conf[] = "asc"; //filter-options sorting
+			$a_conf[] = false; //filter-options custom labels
 		}
 		else if (count($a_conf) === 7) {
 			$a_conf[] = 200; // width
 			$a_conf[] = 160; // height
 			$a_conf[] = "text"; // type
+			$a_conf[] = "asc"; //filter-options sorting
+			$a_conf[] = false; //filter-options custom labels
 		}
 		else if (count($a_conf) === 8) {
 			$a_conf[] = 160; // height
 			$a_conf[] = "text"; // type
+			$a_conf[] = "asc"; //filter-options sorting
+			$a_conf[] = false; //filter-options custom labels
 		}
 		else if (count($a_conf) === 9) {
 			$a_conf[] = "text"; // type
+			$a_conf[] = "asc"; //filter-options sorting
+			$a_conf[] = false; //filter-options custom labels
+		}
+		else if (count($a_conf) === 10) {
+			$a_conf[] = "asc"; //filter-options sorting
+			$a_conf[] = false; //filter-options custom labels
+		}
+		else if (count($a_conf) === 11) {
+			$a_conf[] = false; //filter-options custom labels
 		}
 		
 		return $a_conf;
@@ -663,20 +679,42 @@ class catMultiSelectFilter {
 		$a_tpl->setVariable("HEIGHT", $a_conf[8]);
 		
 		$count = 0;
-
+		if($a_conf[10] == "asc") {
+			asort($a_conf[4]);
+		} else if($a_conf[10] == "desc") {
+			arsort($a_conf[4]);
+		} else if($a_conf[10] !== "none") {
+			throw new ilException($a_conf[1]." catMultiSelectFilter::render: invalid sorting option.");
+		}
 		// for some unknown reason, the var POST_VAR gets
 		// not filled in all places if i call it from catFilter::render.
-		foreach ($a_conf[4] as $title) {
-			$a_tpl->setCurrentBlock("multiselect_item");
-			$a_tpl->setVariable("CNT", $count);
-			$a_tpl->setVariable("OPTION_VALUE", $title);
-			$a_tpl->setVariable("OPTION_TITLE", $title);
-			$a_tpl->setVariable("POST_VAR", $a_postvar);
-			if (in_array($title, $a_pars)) {
-				$a_tpl->setVariable("CHECKED", "checked");
+		if($a_conf[11]) {
+			foreach ($a_conf[4] as $title => $value) {
+				$a_tpl->setCurrentBlock("multiselect_item");
+				$a_tpl->setVariable("CNT", $count);
+				$a_tpl->setVariable("OPTION_VALUE", $value);
+				$a_tpl->setVariable("OPTION_TITLE", $title);
+				$a_tpl->setVariable("POST_VAR", $a_postvar);
+				if (in_array($value, $a_pars)) {
+					$a_tpl->setVariable("CHECKED", "checked");
+				}
+				$a_tpl->parseCurrentBlock();
+				$count++;
 			}
-			$a_tpl->parseCurrentBlock();
-			$count++;
+
+		} else {
+			foreach ($a_conf[4] as $title) {
+				$a_tpl->setCurrentBlock("multiselect_item");
+				$a_tpl->setVariable("CNT", $count);
+				$a_tpl->setVariable("OPTION_VALUE", $title);
+				$a_tpl->setVariable("OPTION_TITLE", $title);
+				$a_tpl->setVariable("POST_VAR", $a_postvar);
+				if (in_array($title, $a_pars)) {
+					$a_tpl->setVariable("CHECKED", "checked");
+				}
+				$a_tpl->parseCurrentBlock();
+				$count++;
+			}
 		}
 		
 		return true;
@@ -693,9 +731,9 @@ class catMultiSelectFilter {
 			foreach($a_conf[3] as $field) {
 				$stmts[] = $ilDB->in(catFilter::quoteDBId($field), $a_pars, false, $a_conf[9]);
 			}
-			return "(".implode(" OR ", $stmts).")";
+			return "(".implode(" OR ", $stmts)."  ".$a_conf[6].")";
 		}
-		return $ilDB->in(catFilter::quoteDBId($a_conf[3]), $a_pars, false, $a_conf[9]);
+		return "(".$ilDB->in(catFilter::quoteDBId($a_conf[3]), $a_pars, false, $a_conf[9])." ".$a_conf[6].")";
 	}
 	
 	public function get($a_pars) {

@@ -215,9 +215,9 @@ il.Overlay = {
 		}
 
 		// to far to the right -> show it more to the left
-		if (cl_reg.right - 20 < el_reg.right) {
-			this.setX(id, el_reg.x - (el_reg.right - cl_reg.right + 20));
-		}
+		//if (cl_reg.right - 20 < el_reg.right) {
+		//	this.setX(id, el_reg.x - (el_reg.right - cl_reg.right + 20));
+		//}
 
 		el.style.overflow = 'auto';
 	},

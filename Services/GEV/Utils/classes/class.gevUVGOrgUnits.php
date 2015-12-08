@@ -89,7 +89,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 	
 	protected function getBDOrgUnitRefIdFor($a_user_id) {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		$bd_name = gevUserUtils::getInstance($a_user_id)->getBDFromIV();
+		$bd_name = $this->getBDFromIVOf($a_user_id);
 		if (!$bd_name) {
 			$this->ilPersonalOrgUnitsError("getBDOrgUnitRefIdFor", "Could not find BD-Name for $a_user_id.");
 		}
@@ -104,6 +104,47 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		// We need to create a new one
 		return $this->createBDOrgUnit($bd_name)->getRefId();
 	}
+	
+	public function getBDFromIVOf($a_user_id) {
+		global $ilClientIniFile;
+		global $ilDB;
+
+		$host = $ilClientIniFile->readVariable('shadowdb', 'host');
+		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
+		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
+		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
+
+		$mysql = mysql_connect($host, $user, $pass) 
+				or die( "MySQL: ".mysql_error()." ### "
+						." Is the shadowdb initialized?"
+						." Are the settings for the shadowdb initialized in the client.ini.php?"
+					  );
+		mysql_select_db($name, $mysql);
+		mysql_set_charset('utf8', $mysql);
+
+		$agent_key = $this->getJobNumberOf($a_user_id);
+
+		$sql = 	 "SELECT `ivimport_orgunit`.`name`"
+				."  FROM `ivimport_stelle`"
+				."  INNER JOIN `ivimport_orgunit`"
+				."          ON `ivimport_orgunit`.`id` = `ivimport_stelle`.`sql_org_unit_id`"
+				." WHERE `ivimport_stelle`.`stellennummer` = ".$ilDB->quote($agent_key,"text");
+		
+		$data = mysql_query($sql);
+		$data = mysql_fetch_assoc($data);
+
+		// Shorten Name
+		$name = $data["name"];
+		$matches = array();
+		if (preg_match("/^Generali Versicherung AG (.*)$/", $name, $matches)) {
+			$name = $matches[1];
+		}
+		if (preg_match("/^Bereichsdirektion (.*)$/", $name, $matches)) {
+			$name = "BD ".$matches[1];
+		}
+		return $name;
+	}
+	
 	
 	protected function createBDOrgUnit($a_bd_name) {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");

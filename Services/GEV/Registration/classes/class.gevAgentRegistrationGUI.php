@@ -151,7 +151,7 @@ class gevAgentRegistrationGUI {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$user_utils = gevUserUtils::getInstanceByObj($user);
 		
-		$user_utils->setPrivateEmail($form->getInput("email"));
+		$user_utils->setEmail($form->getInput("email"));
 		$user_utils->setCompanyName($form->getInput("company_name"));
 		
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
@@ -185,8 +185,18 @@ class gevAgentRegistrationGUI {
 		$ilAuth->password = $form->getInput("password");
 		
 		$ilAuth->login();
-
-		ilUtil::redirect("login.php");
+		
+		
+		// If user got here via the agent offer, we need to redirect him to
+		// the booking stuff...
+		require_once("Services/Authentication/classes/class.ilSession.php");
+		$after_registration = ilSession::get("gev_after_registration");
+		if ($after_registration) {
+			ilUtil::redirect($after_registration);
+		}
+		else {
+			ilUtil::redirect("login.php");
+		}
 	}
 
 	protected function checkForm() {
@@ -280,5 +290,3 @@ class gevAgentRegistrationGUI {
 		return $form;
 	}
 }
-
-?>

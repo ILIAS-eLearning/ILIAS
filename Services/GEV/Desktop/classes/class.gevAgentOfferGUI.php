@@ -38,9 +38,14 @@ class gevAgentOfferGUI {
 
 		switch($next_class) {
 			case "gevcoursesearchgui":
-				require_once("Services/GEV/Desktop/classes/class.gevCourseSearchGUI.php");
+				require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearchGUI.php");
 				require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 				$gui = new gevCourseSearchGUI(gevSettings::getInstance()->get(gevSettings::AGENT_OFFER_USER_ID));
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+			case "gevbookinggui":
+				require_once("Services/GEV/Desktop/classes/class.gevBookingGUI.php");
+				$gui = new gevBookingGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 			case false:
@@ -49,7 +54,7 @@ class gevAgentOfferGUI {
 						throw new ilException("gevAgentOfferGUI: Unknown command '$cmd'");
 				}
 			default:
-				throw new ilException("gevAgentOfferGUI: Can't forward to '$nextclass'");
+				throw new ilException("gevAgentOfferGUI: Can't forward to '$next_class'");
 		}
 		
 		$this->tpl->setContent($ret);

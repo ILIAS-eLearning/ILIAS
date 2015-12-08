@@ -1,0 +1,57 @@
+<div id="form_dct_add_building_block">
+	<script type="text/javascript">il.buildingBlock = "{BUILDING_BLOCK_JSON}"</script>
+	<div class="dct-row">
+		<div class="dct-coloumn">
+			<div class="dct-bold"><lable>{HEADER_TOPIC}</label></div>
+		</div>
+		<div class="dct-coloumn">
+			<div class="dct-bold"><lable>{HEADER_BLOCK}</label></div>
+		</div>
+		<div class="dct-coloumn">
+			<div class="dct-bold"><lable>{HEADER_INFOS}</label></div>
+		</div>
+	</div>
+	<div class="dct-clear"></div>
+	<div class="dct-row">
+		<div class="dct-coloumn">
+			<div class="dct-label"><lable>{TOPIC_LABEL}</label></div>
+			<div class="dct-element padding-top-1em">{TOPIC}</div>
+		</div>
+		<div class="dct-coloumn">
+			<div class="dct-label"><lable>{BLOCKS_LABEL}</label></div>
+			<div class="dct-element padding-top-1em">
+				<select id="blocks" class="width-100Prozent" name="{BLOCKS_SELECT_NAME}" size="5" {DISABLE}>{BLOCKS}</select>
+			</div>
+		</div>
+		<div class="dct-coloumn">
+			<div class="dct-label"><lable>{CONTENT_LABEL}</label></div>
+			<div class="dct-element padding-top-1em  width-100Prozent">{CONTENT}</div>
+		</div>
+	</div>
+	<div class="dct-clear"></div>
+	<div class="dct-row">
+		<div class="dct-coloumn">&nbsp;</div>
+		<div class="dct-coloumn">
+			<div class="dct-label"><lable>{TIME_LABEL}</label></div><div class="dct-element">{TIME}</div>
+		</div>
+		<div class="dct-coloumn">
+			<div class="dct-label"><lable>{DEST_AND_USE_LABEL}</label></div><div class="dct-element padding-top-1em width-100Prozent">{DEST_AND_USE}</div>
+		</div>
+	</div>
+	<div class="dct-clear"></div>
+	<div class="dct-row">
+		<div class="dct-coloumn">&nbsp;</div>
+		<div class="dct-coloumn">&nbsp;</div>
+		<div class="dct-coloumn">
+			<div class="dct-label"><lable>{WP_LABEL}</label></div><div class="dct-element padding-top-1em width-100Prozent">{WP}</div>
+		</div>
+	</div>
+	<!-- BEGIN hidden -->
+	<input type="{PROP_INPUT_TYPE}" name="{POST_VAR}" id="{ID}" value="{PROPERTY_VALUE}"></input>
+	<!-- END hidden -->
+	<div class="dct-clear"></div>
+	<div class="dct-row-footer">
+			<div class="dct-element-footer"><input class="submit" type="submit" name="cmd[{BTN_CMD}]" value="{BTN_VALUE}"></div>
+	</div>
+	<div class="dct-clear"></div>
+</div>

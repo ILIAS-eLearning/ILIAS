@@ -80,8 +80,14 @@ class gevMyTrainingsApGUI {
 				break;
 			case "showMaillog":
 			case "showLoggedMail":
+			case "resendMail":
 				require_once("Services/GEV/Mailing/classes/class.gevMaillogGUI.php");
 				$gui = new gevMaillogGUI("mytrainigsapgui");
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+			case "showSettings":
+				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingGUI.php");
+				$gui = new gevDecentralTrainingGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 			default:
@@ -159,19 +165,7 @@ class gevMyTrainingsApGUI {
 		}
 		else
 		{
-			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-			$crs_utils = gevCourseUtils::getInstanceByObj($crs_obj);
-
-			if ($crs_utils->isDecentralTraining() 
-			&& (   $crs_utils->getMinParticipants() > count($crs_utils->getParticipants())
-				//|| !$pstatus->getMailSendDate()
-				)
-			) {
-				$may_finalize = false;
-			}
-			else {
-				$may_finalize = $may_write;
-			}
+			$may_finalize = $may_write;
 		}
 		$ptstatusgui = new ilParticipationStatusTableGUI($a_parent_gui, 'listParticipationStatus', $crs_obj, $may_write, $may_finalize);
 		
@@ -182,10 +176,26 @@ class gevMyTrainingsApGUI {
 		$ilCtrl->setParameter($a_parent_gui, "crsrefid", $a_crs_ref_id);
 		ilParticipationStatusAdminGUI::renderToolbar($a_parent_gui, $pstatus, $crs_obj, $may_write, $may_finalize);
 		global $ilToolbar;
+
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_utils = gevCourseUtils::getInstanceByObj($crs_obj);
+		$min_parti = ($crs_utils->getMinParticipants() === null) ? 0 : $crs_utils->getMinParticipants();
+		$succ_parti = $crs_utils->getSuccessfullParticipants();
+
+		$getSuccessfullParticipants = "";
+		if($min_parti > count($succ_parti)) {
+			$tpl_adivce = new ilTemplate("tpl.gev_my_advice.html", true, true, "Services/GEV/Desktop");
+			$tpl_adivce->setCurrentBlock("advice");
+			$tpl_adivce->setVariable("ADVICE", sprintf($lng->txt("gev_training_min_participation_count_not_reached"),$min_parti));
+			$tpl_adivce->parseCurrentBlock();
+
+			$getSuccessfullParticipants = $tpl_adivce->get();
+		}
 		
 		$ret = ( $title->render()
 			   . $ilToolbar->getHTML()
 			   . $spacer->render()
+			   . $getSuccessfullParticipants
 			   . $ptstatusgui->getHTML()
 			   );
 		$ilToolbar->setHidden(true);

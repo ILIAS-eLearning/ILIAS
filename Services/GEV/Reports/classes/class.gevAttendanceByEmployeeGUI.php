@@ -19,7 +19,6 @@
 */
 
 require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
-require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
@@ -169,11 +168,17 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->multiselect("participation_status"
 									 , $this->lng->txt("gev_participation_status")
 									 , "participation_status"
-									 , gevCourseUtils::getParticipationStatusFromHisto()
+									 , array(	"teilgenommen"=>"teilgenommen"
+									 			,"fehlt ohne Absage"=>"fehlt ohne Absage"
+									 			,"fehlt entschuldigt"=>"fehlt entschuldigt"
+									 			,"gebucht, noch nicht abgeschlossen"=>"nicht gesetzt")
 									 , array()
 									 , ""
-									 , 200
+									 , 220
 									 , 160
+									 , "text"
+									 , "asc"
+									 , true
 									 )/*
 						->multiselect("position_key"
 									 , $this->lng->txt("gev_position_key")
@@ -189,9 +194,9 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 										  ." OR usrcrs.hist_historic IS NULL )")
 						->static_condition("(   usrcrs.booking_status != 'kostenfrei storniert'"
 										  ." OR usrcrs.hist_historic IS NULL )")
-						->static_condition("(   usrcrs.function NOT IN ('Trainingsbetreuer', 'Trainingsersteller', 'Trainer')"
+						->static_condition("(   usrcrs.booking_status != ".$this->db->quote('-empty-','text')
 										  ." OR usrcrs.hist_historic IS NULL )" )
-						->static_condition("orgu.action = 1")
+						->static_condition("orgu.action >= 0")
 						->static_condition("orgu.hist_historic = 0")
 						->static_condition("orgu.rol_title = 'Mitarbeiter'")
 						/*->static_condition("IF(UNIX_TIMESTAMP(usrcrs.begin_date)=0 "
@@ -204,6 +209,9 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
+			$this->relevant_parameters = array(
+				$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			);
 
 	}
 
@@ -239,6 +247,10 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 			$rec["od_bd"] = $rec["org_unit_above2"]."/".$rec["org_unit_above1"];
 		}
 
+		if($rec["participation_status"] == "nicht gesetzt") {
+			$rec["participation_status"] = "gebucht, noch nicht abgeschlossen";
+		}
+
 		return $this->replaceEmpty($rec);
 	}
 	
@@ -248,5 +260,3 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 		return $val;
 	}
 }
-
-?>

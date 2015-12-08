@@ -306,5 +306,10 @@ class ilUserHistorizingHelper
 		return $user->getActive();
 	}
 
-
+	public static function getNextWBDAction($user) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$user_utils = gevUserUtils::getInstanceByObjOrId($user);
+		//return $user_utils->hasRoleIn(array('VFS'));
+		return $user_utils->getNextWBDAction();
+	}
 }

@@ -149,10 +149,10 @@ class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTra
 		$crs_tbl->setTitle("gev_dec_crs_creation_building_block_title")
 				->setSubtitle("gev_dec_crs_creation_building_block_sub_title")
 				->setImage("GEV_img/ico-head-search.png")
-				->addCommandButton("add",$this->lng->txt("add"));
+				->addCommandButton("add",$this->lng->txt("gev_dec_training_save_request"));
 				
-		$crs_tbl->addCommandButton("save_request",$this->lng->txt("gev_dec_training_save_request"));
-		$crs_tbl->addCommandButton("delete_request",$this->lng->txt("delete"));
+		$crs_tbl->addCommandButton("save_request",$this->lng->txt("gev_dec_training_change_settings"));
+		$crs_tbl->addCommandButton("delete_request",$this->lng->txt("gev_dec_training_cancle"));
 		return $crs_tbl;
 	}
 
@@ -262,8 +262,6 @@ class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTra
 		$bu_utils->setBuildingBlock($form->getInput("build_block"));
 		$bu_utils->setStartDate($time["start"]["date"]." ".$time["start"]["time"]);
 		$bu_utils->setEndDate($time["end"]["date"]." ".$time["end"]["time"]);
-		$bu_utils->setMethods($form->getInput("methods"));
-		$bu_utils->setMedia($form->getInput("media"));
 
 		$bu_utils->update();
 
@@ -308,8 +306,6 @@ class gevDecentralTrainingCourseCreatingBuildingBlockGUI extends gevDecentralTra
 		$bu_utils->setBuildingBlock($form->getInput("build_block"));
 		$bu_utils->setStartDate($time["start"]["date"]." ".$time["start"]["time"]);
 		$bu_utils->setEndDate($time["end"]["date"]." ".$time["end"]["time"]);
-		$bu_utils->setMethods($form->getInput("methods"));
-		$bu_utils->setMedia($form->getInput("media"));
 
 		if($this->crs_request_id) {
 			$bu_utils->setCourseRequestId($this->crs_request_id);

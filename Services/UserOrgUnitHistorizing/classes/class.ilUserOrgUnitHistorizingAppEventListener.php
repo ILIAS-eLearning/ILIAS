@@ -27,7 +27,8 @@ class ilUserOrgUnitHistorizingAppEventListener {
 			),
 		'Modules/OrgUnit'
 			=> array(
-			'delete'
+			'delete',
+			'update'
 			)
 	);
 
@@ -123,6 +124,9 @@ class ilUserOrgUnitHistorizingAppEventListener {
 				case 'delete':
 					$case_id = array('orgu_id' => $parameter['obj_id']);
 					break;
+				case 'update':
+					$case_id = array('orgu_id' => $parameter['obj_id']);
+					break;		
 			}
 		}
 		return $case_id;		
@@ -176,14 +180,17 @@ class ilUserOrgUnitHistorizingAppEventListener {
 				case 'delete':
 					$data_payload = array('action' => -1);	
 					break;
+				case 'update':
+					$data_payload = array('action' => 0, 'orgu_title' => $parameter['orgu_title']);
+					break;
 			}
 		}
 		return $data_payload;
 	}
 
 	protected static function massAction($a_component, $a_event) {
-		if($component == 'Services/AccessControl') {
-			switch ($event) {
+		if($a_component == 'Services/AccessControl') {
+			switch ($a_event) {
 				case 'removeUser':
 					return true;
 				case 'deleteOrguRole':
@@ -196,9 +203,11 @@ class ilUserOrgUnitHistorizingAppEventListener {
 					return true;
 			}
 		}
-		if($component == 'Modules/OrgUnit') {
-			switch ($event) {
+		if($a_component == 'Modules/OrgUnit') {
+			switch ($a_event) {
 				case 'delete':
+					return true;
+				case 'update':
 					return true;
 			}
 		}

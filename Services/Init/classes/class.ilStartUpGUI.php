@@ -1136,7 +1136,7 @@ class ilStartUpGUI
 	{
 		global $tpl, $ilSetting, $ilAuth, $lng, $ilIliasIniFile;
 
-		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
+		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
 		$ilAuth->logout();
 		session_destroy();
 
@@ -1144,7 +1144,9 @@ class ilStartUpGUI
 		$client_id = $_COOKIE["ilClientId"];
 		ilUtil::setCookie("ilClientId","");
 
-		$this->showLogin();
+		ilUtil::redirect("ilias.php");
+
+		//$this->showLogin();
 
 /*
 		//instantiate logout template
@@ -1412,7 +1414,8 @@ class ilStartUpGUI
 
 		$back_to_login = ('getAcceptance' != $this->ctrl->getCmd());
 
-		self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
+		self::initStartUpTemplate('tpl.view_terms_of_service.html', !$back_to_login, !$back_to_login);
+		//self::initStartUpTemplate('tpl.view_terms_of_service.html', !$back_to_login, $back_to_login);
 		$tpl->setVariable('TXT_PAGEHEADLINE', $lng->txt('usr_agreement'));
 
 		// #9728
@@ -1970,7 +1973,12 @@ class ilStartUpGUI
 			$tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
 		}
 		else {
+
 			$tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen_orig.html', 'Services/Init');
+			$tpl->setCurrentBlock('home_link');
+			$tpl->setVariable('LINK_URL', 'index.php?'.$param);
+			$tpl->setVariable('LINK_TXT', $lng->txt('gev_back_to_home'));
+			$tpl->parseCurrentBlock();
 		}
 		// gev-patch end
 		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.png'));
@@ -2011,6 +2019,7 @@ class ilStartUpGUI
 			$template_file = $a_tmpl;
 			$template_dir  = 'Services/Init';
 		}
+
 		$tpl->addBlockFile('STARTUP_CONTENT', 'startup_content', $template_file, $template_dir);
 	}
 }

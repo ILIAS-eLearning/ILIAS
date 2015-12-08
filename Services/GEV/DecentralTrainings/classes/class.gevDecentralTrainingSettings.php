@@ -36,6 +36,12 @@ class gevDecentralTrainingSettings {
 	
 	// @var string|null		Password to a VC
 	protected $webinar_password;
+
+	//@var string|null 		Temp Path to mail Attachment
+	protected $tmp_path_string;
+
+	//@var array|null 		Added attachments
+	protected $added_files;
 	
 	public function __construct( ilDateTime $a_start_datetime
 							   , ilDateTime $a_end_datetime
@@ -51,6 +57,8 @@ class gevDecentralTrainingSettings {
 							   , $a_training_category
 							   , $a_target_group
 							   , $a_gdv_topic
+							   , $a_tmp_path_string
+							   , $a_added_files
 							   ) {
 		assert($a_start_datetime->get(IL_CAL_DATE) == $a_end_datetime->get(IL_CAL_DATE));
 		
@@ -72,6 +80,9 @@ class gevDecentralTrainingSettings {
 		assert($a_target_group === null || is_array($a_target_group));
 		assert($a_gdv_topic === null || is_string($a_gdv_topic));
 
+		assert($a_tmp_path_string === null || is_string($a_tmp_path_string));
+		assert($a_added_files === null || is_array($a_added_files));
+
 		$this->start_datetime = $a_start_datetime;
 		$this->end_datetime = $a_end_datetime;
 		$this->venue_obj_id = $a_venue_obj_id; 
@@ -88,6 +99,9 @@ class gevDecentralTrainingSettings {
 		$this->training_category = $a_training_category;
 		$this->target_group = $a_target_group;
 		$this->gdv_topic = $a_gdv_topic;
+
+		$this->tmp_path_string = $a_tmp_path_string;
+		$this->added_files = $a_added_files;
 	}
 	
 	protected function getCourseUtils($a_obj_id) {
@@ -106,6 +120,14 @@ class gevDecentralTrainingSettings {
 	
 	public function end() {
 		return $this->end_datetime;
+	}
+
+	public function setStart(ilDateTime $a_start_datetime) {
+		$this->start_datetime = $a_start_datetime;
+	}
+
+	public function setEnd(ilDateTime $a_end_datetime) {
+		$this->end_datetime = $a_end_datetime;
 	}
 
 	public function venueObjId() {
@@ -156,6 +178,14 @@ class gevDecentralTrainingSettings {
 		return $this->gdv_topic;
 	}
 
+	public function tmpPathString() {
+		return $this->tmp_path_string;
+	}
+
+	public function addedFiles() {
+		return $this->added_files;
+	}
+
 	public function applyTo($a_obj_id) {
 		assert(is_int($a_obj_id));
 		assert(ilObject::_lookupType($a_obj_id) == "crs");
@@ -182,15 +212,15 @@ class gevDecentralTrainingSettings {
 
 		$crs_utils->setVenueId($this->venueObjId());
 		$crs_utils->setVenueFreeText($this->venueText());
-		$crs_utils->setWebExLink($this->webinarLink());
-		$crs_utils->setWebExPassword($this->webinarPassword());
+		$crs_utils->setVirtualClassLink($this->webinarLink());
+		$crs_utils->setVirtualClassPassword($this->webinarPassword());
 		$crs_utils->setOrgaInfo($this->orgaInfo());
 
 		if ($this->title() !== null) {
 			$crs->setTitle($this->title());
 		}
 		if ($this->vcType() !== null) {
-			$crs_utils->setVCType($this->vcType());
+			$crs_utils->setVirtualClassType($this->vcType());
 		}
 		if ($this->trainingCategory() !== null) {
 			$crs_utils->setTrainingCategory($this->trainingCategory());

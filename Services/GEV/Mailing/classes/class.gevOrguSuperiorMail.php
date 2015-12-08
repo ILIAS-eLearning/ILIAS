@@ -56,6 +56,7 @@ abstract class gevOrguSuperiorMail extends ilAutoMail {
 	}
 
 	public function getRecipientUserIDs() {
+		return array();
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		return gevOrgUnitUtils::_getAllSuperiors();
 	}

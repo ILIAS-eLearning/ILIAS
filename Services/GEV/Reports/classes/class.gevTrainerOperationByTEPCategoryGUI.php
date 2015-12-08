@@ -20,8 +20,11 @@
 *
 */
 
+ini_set("memory_limit","2048M"); 
+ini_set('max_execution_time', 0);
+set_time_limit(0);
+
 require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
-require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
@@ -50,8 +53,8 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 
 		$this->table = catReportTable::create();
 		$this->table->column("fullname", "name");
-		$categories = self::getCategories();
-		//self::createTemplateFile($categories);
+		$categories = $this->getCategories();
+		//$this->createTemplateFile($categories);
 
 		$i = 1;
 		foreach($categories as $category) {
@@ -84,7 +87,7 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 						->on("individual_days = id")
 					->left_join("hist_course hc")
 						->on("context_id = crs_id AND ht.category  = 'Training'")
-					->group_by("fullname")
+					->group_by("hu.user_id")
 					->compile();
 
 		$this->filter = catFilter::create()
@@ -150,6 +153,10 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 						->static_condition($min_row_condition) 
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
+		$this->relevant_parameters = array(
+			$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			); 
+		$this->tpl->addCSS('Services/GEV/Reports/templates/css/report.css');
 
 	}
 
@@ -177,12 +184,11 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		return $val;
 	}
 
-	protected static function getCategories() {
-		global $ilDB;
+	protected function getCategories() {
 		$sql = "SELECT title FROM tep_type";
-		$rec = $ilDB->query($sql);
+		$rec = $this->db->query($sql);
 		$columns = array();
-		while($res = $ilDB->fetchAssoc($rec)) {
+		while($res = $this->db->fetchAssoc($rec)) {
 			$columns[] = $res["title"];
 		}
 		foreach(array_reverse(self::$important_tep_categories) as $category) {
@@ -193,14 +199,14 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 		return $columns;
 	}
 
-	protected static function createTemplateFile(array $categories) {
+	protected function createTemplateFile(array $categories) {
 		$i=1;
 		$str = fopen("Services/GEV/Reports/templates/default/"
 			."tpl.gev_trainer_operation_by_template_category_row.html","w"); 
-		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td>{VAL_FULLNAME}</td>';
+		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td class = "bordered_right">{VAL_FULLNAME}</td>';
 		foreach($categories as $category) {
 			$tpl .= "\n".'<td align = "right">{VAL_CAT'."$i".'}</td>';
-			$tpl .= "\n".'<td align = "right">{VAL_CATH'."$i".'}</td>';
+			$tpl .= "\n".'<td align = "right" class = "bordered_right">{VAL_CATH'."$i".'}</td>';
 			$i++;
 		}
 		$tpl .= "\n</tr>";
@@ -210,30 +216,29 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 	}
 
 	protected function getOrgusFromTep() {
-		global $ilDB;
 		$orgu_s = array();
 		$sql = "SELECT DISTINCT orgu_title as ot FROM hist_tep WHERE orgu_title != '-empty-'";
-		$res = $ilDB->query($sql);
-		while( $rec = $ilDB->fetchAssoc($res)) {
+		$res = $this->db->query($sql);
+		while( $rec = $this->db->fetchAssoc($res)) {
 			$orgu_s[] = $rec["ot"];
 		}
 		return $orgu_s;
 	}
 
 	protected function daysPerTEPCategory($category,$name) {
-		global $ilDB;
 		$sql = "SUM(IF(category = "
-				.$ilDB->quote($category,"text")." ,1,0)) as ".$name;
+				.$this->db->quote($category,"text")." ,1,0)) as ".$name;
 		return $sql;
 	}
 
 	protected function hoursPerTEPCategory($category, $name) {
-		global $ilDB;
 		$sql = 
-		"SUM(IF(category = ".$ilDB->quote($category,"text")." ,
-			LEAST(CEIL( TIME_TO_SEC( TIMEDIFF( end_time, start_time ) )* weight /720000) *2,8),0)) as ".$name;
+		"SUM(IF(category = ".$this->db->quote($category,"text")." ,"
+		."		IF(htid.end_time IS NOT NULL AND htid.start_time IS NOT NULL,"
+		."			LEAST(CEIL( TIME_TO_SEC( TIMEDIFF( end_time, start_time ) )* weight /720000) *2,8),"
+		."			LEAST(CEIL( 28800* htid.weight /720000) *2,8)"
+		."		)"
+		."	,0)) as ".$name;
 		return $sql;
 	}
 }
-
-?>

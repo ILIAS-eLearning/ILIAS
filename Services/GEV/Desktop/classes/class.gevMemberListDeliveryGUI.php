@@ -19,7 +19,7 @@ class gevMemberListDeliveryGUI {
 		$ref_id = intval($_GET["ref_id"]);
 		$obj_id = gevObjectUtils::getObjId($ref_id);
 		$utils = gevCourseUtils::getInstance($obj_id);
-		$access_roles = array("Admin-Ansicht");
+		$access_roles = array("Admin-Ansicht", "Admin-dez-ID");
 		$user_utils = gevUserUtils::getInstance($this->user_id);
 		$may_access	= $user_utils->hasRoleIn($access_roles);
 		
@@ -47,6 +47,9 @@ class gevMemberListDeliveryGUI {
 				return;
 			case "download_signature_list":
 				$utils->deliverSignatureList();
+				return;
+			case "download_crs_schedule":
+				$utils->deliverCrsScheduleList();
 				return;
 			default:
 				$this->ctrl->redirectByClass("gevDesktopGUI");

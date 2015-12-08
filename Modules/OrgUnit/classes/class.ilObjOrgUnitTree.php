@@ -128,7 +128,8 @@ class ilObjOrgUnitTree {
 
 	/**
 	 * If you want to have all orgunits where the current user has the write permission: use this with the parameter "write".
-	 * @param $operation string
+	 * @param string		$operation
+	 * @param int|null		$a_user_id
 	 * @return int[] ids of the org units.
 	 */
 	// gev-patch start
@@ -201,7 +202,7 @@ class ilObjOrgUnitTree {
 	 * @param $ref_id
 	 * @return int[]
 	 */
-	private function getChildren($ref_id){
+	public function getChildren($ref_id){
 		$this->loadChildren($ref_id);
 		return $this->tree_childs[$ref_id];
 	}

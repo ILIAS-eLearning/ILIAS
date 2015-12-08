@@ -9,6 +9,7 @@
 *
 */
 require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
+require_once("Services/GEV/WBD/classes/Requests/trait.gevWBDRequest.php");
 require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessVvErstanlage.php");
 class gevWBDRequestVvErstanlage extends WBDRequestVvErstanlage {
 	use gevWBDRequest;

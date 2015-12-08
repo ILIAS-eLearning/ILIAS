@@ -745,5 +745,80 @@ $amdutils->updatePositionOrderAMDField($gev_settings);
 	$amdutils = gevAMDUtils::getInstance();
 	$options = array("AT&T Connect", "CSN", "Webex");
 	$amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE, $options);
+?>
 
+<#21>
+<?php
+	require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+	require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	$gev_settings = array(gevSettings::CRS_AMD_PROVIDER
+					 ,gevSettings::CRS_AMD_VENUE
+					 ,gevSettings::CRS_AMD_ACCOMODATION
+					 ,gevSettings::CRS_AMD_VC_CLASS_TYPE
+					 ,gevSettings::CRS_AMD_VC_LINK
+					 ,gevSettings::CRS_AMD_VC_PASSWORD
+					 ,gevSettings::CRS_AMD_VC_LOGIN_TUTOR
+					 ,gevSettings::CRS_AMD_VC_PASSWORD_TUTOR
+					 ,gevSettings::CRS_AMD_ORGA
+					 ,gevSettings::CRS_AMD_TEP_ORGU
+					 ,gevSettings::CRS_AMD_DBV_HOT_TOPIC);
+	
+	$amdutils = gevAMDUtils::getInstance();
+	$amdutils->updatePositionOrderAMDField($gev_settings);
+	$options = array("AT&T Connect", "CSN", "Webex");
+	$amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_VC_CLASS_TYPE, $options);
+?>
+
+<#22>
+<?php
+
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+$records = 
+array( "Highlight"
+		=> array(null,
+				array( "Highlight" =>
+						array( gevSettings::CRS_AMD_HIGHLIGHT
+							 , null
+							 , false
+							 , array("Ja")
+							 , ilAdvancedMDFieldDefinition::TYPE_SELECT
+							 )
+				)
+			)
+	);
+
+gevAMDUtils::createAMDRecords($records, array("crs"));
+?>
+
+<#23>
+<?php
+
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+gevAMDUtils::addAMDField( "Buchungsmodalitäten"
+						, "Länge Warteliste"
+						, gevSettings::CRS_AMD_MAX_WAITING_LIST_LENGTH
+						, "Anzahl der Plätze auf der Warteliste."
+						, false
+						, array("min" => 0)
+						, ilAdvancedMDFieldDefinition::TYPE_INTEGER
+						);
+
+$gev_settings = array(gevSettings::CRS_AMD_MIN_PARTICIPANTS
+					 ,gevSettings::CRS_AMD_MAX_PARTICIPANTS
+					 ,gevSettings::CRS_AMD_BOOKING_DEADLINE
+					 ,gevSettings::CRS_AMD_CANCEL_DEADLINE
+					 ,gevSettings::CRS_AMD_ABSOLUTE_CANCEL_DEADLINE
+					 ,gevSettings::CRS_AMD_WAITING_LIST_ACTIVE
+					 ,gevSettings::CRS_AMD_MAX_WAITING_LIST_LENGTH
+					 ,gevSettings::CRS_AMD_CANCEL_WAITING);
+	
+	$amdutils = gevAMDUtils::getInstance();
+	$amdutils->updatePositionOrderAMDField($gev_settings);
 ?>

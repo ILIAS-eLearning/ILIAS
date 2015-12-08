@@ -187,10 +187,6 @@ class ilTEPHistorizing extends ilHistorizingStorage
 		$mass_modification_allowed = false
 	)
 	{
-		
-		
-		
-		
 		if (!$a_record_creator)
 		{
 			/** @var $ilUser ilObjUser */
@@ -247,7 +243,7 @@ class ilTEPHistorizing extends ilHistorizingStorage
 				$ilDB->setUnfatal(true);
 				self::createRecord($case, $new_data, $new_data[static::getVersionColumnName()],$a_record_creator, $a_creation_timestamp);
 			}
-			catch (ilException $ex)
+			catch (ilHistorizingException $ex)
 			{
 				self::createRecord($case, $current_data, $current_data[static::getVersionColumnName()], $a_record_creator, $a_creation_timestamp);
 				throw $ex;

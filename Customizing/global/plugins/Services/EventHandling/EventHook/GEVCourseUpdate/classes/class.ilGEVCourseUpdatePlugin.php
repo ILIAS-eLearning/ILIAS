@@ -5,10 +5,6 @@ require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
 class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 {
-	const VC_TYPE_CSN = "CSN";
-	const VC_TYPE_WEBEX = "Webex";
-	const VC_RECIPIENT = "Mitglied";
-
 	final function getPluginName() {
 		return "GEVCourseUpdate";
 	}
@@ -53,30 +49,7 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 				$this->crs_utils->checkVirtualTrainingForPossibleVCAssignment();
 			}
 
-			if($this->crs_utils->isFlexibleDecentrallTraining()) {
-				if($this->crs_utils->isWebinar()) {
-					require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
-					require_once("Services/GEV/Utils/classes/class.gevSettings.php");
-					$settings = gevSettings::getInstance();
-					require_once("Services/GEV/Mailing/classes/class.gevCrsMailAttachments.php");
-					$attachments = array(gevCrsMailAttachments::ICAL_ENTRY
-										,gevCrsMailAttachments::SCHEDULE
-										);
-
-					$crs_inv_mail_set = new gevCrsInvitationMailSettings($this->crs_utils->getCourse()->getId());
-					$vc_type = $this->crs_utils->getVCType();
-
-					if($vc_type && $vc_type == self::VC_TYPE_CSN) {
-						$crs_inv_mail_set->setSettingsFor(self::VC_RECIPIENT,$settings->getCSNMailTemplateId(),$attachments);
-						$crs_inv_mail_set->save();
-					}
-
-					if($vc_type && $vc_type == self::VC_TYPE_WEBEX) {
-						$crs_inv_mail_set->setSettingsFor(self::VC_RECIPIENT,$settings->getWebExMailTemplateId(),$attachments);
-						$crs_inv_mail_set->save();
-					}
-				}
-			}
+			$this->crs_utils->fillFreePlacesFromWaitingList();
 
 			$this->crs_utils->adjustVCAssignment();
 		}

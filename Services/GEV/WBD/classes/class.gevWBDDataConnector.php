@@ -19,6 +19,8 @@ $GET_UPDATED_USERS = true;
 $GET_NEW_EDURECORDS = true;
 $GET_NEW_EXIT_USER = true;
 
+$GET_AFFILIATE_USER = false;
+
 $GET_CHANGED_EDURECORDS = false;
 $IMPORT_FOREIGN_EDURECORDS = false;
 $STORNO_EDURECORDS = true;
@@ -60,6 +62,7 @@ require_once("./include/inc.header.php");
 
 //get base class
 require_once("./Services/WBDData/classes/class.wbdDataConnector.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 
 class gevWBDDataConnector extends wbdDataConnector {
@@ -238,6 +241,20 @@ class gevWBDDataConnector extends wbdDataConnector {
 		}
 
 		$street_and_nr = $this->_extract_house_nr( $record['street']);
+		$wbd_type = "";
+		$wbd_next_action = $record['next_wbd_action'];
+
+		switch($wbd_next_action) {
+			case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE:
+				$wbd_type = self::WBD_TP_SERVICE;
+				break;
+			case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS:
+				$wbd_type = self::WBD_TP_BASIS;
+				break;
+			default:
+				$wbd_type = $record['wbd_type'];
+		}
+
 		$udata = array(
 				'internal_agent_id' 		=> $record['user_id']
 				,'title' 					=> $this->VALUE_MAPPINGS['salutation'][$record['gender']]
@@ -264,7 +281,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				,'agent_state' 				=> ($this->VALUE_MAPPINGS['agent_status'][$record['wbd_agent_status']])	//Status
 				//,'email_confirmation' => 'Nein'			//Benachrichtigung?
 				,"row_id" 					=> $record["row_id"]
-				,'wbd_type' 				=> $record['wbd_type'] //debug
+				,'wbd_type' 				=> $wbd_type //debug
 				,'begin_of_certification'	=> $record['begin_of_certification']
 			);
 
@@ -443,16 +460,15 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$wbd_topic 	= $rec['wbd_topic']; 
 		$begin_date	= $rec['begin']; // date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date 	= $rec['end']; //date('Y-m-d', strtotime($rec['Ende']));
-		$creator_id = -200;
+		$creator_id = -666;
 
 
-		$sql = "SELECT crs_id FROM hist_course WHERE 
-			title = '$title'
-			AND
-			begin_date = '$begin_date'
-			AND 
-			end_date = '$end_date'
-		";
+		$sql = "SELECT crs_id\n"
+				." FROM hist_course\n"
+				." WHERE title = ".$this->ilDB->quote($title,"text")."\n"
+				."    AND begin_date = ".$this->ilDB->quote($begin_date,"text")."\n"
+				."    AND end_date = ".$this->ilDB->quote($end_date,"text")."\n";
+
 		$result = $this->ilDB->query($sql);
 		if($this->ilDB->numRows($result) > 0){
 			$record = $this->ilDB->fetchAssoc($result);
@@ -460,11 +476,14 @@ class gevWBDDataConnector extends wbdDataConnector {
 		}
 		
 		//new seminar
-		$sql = "SELECT crs_id FROM hist_course WHERE 
-				crs_id < 0
-				ORDER BY crs_id ASC
-				LIMIT 1
-		";	
+		$sql = "SELECT crs_id\n"
+				." FROM hist_course\n"
+				." WHERE crs_id < ".$this->ilDB->quote(0,"integer")."\n"
+				." ORDER BY crs_id ASC\n"
+				." LIMIT 1\n";
+
+		//HINWEIS!!!
+		//Was ist wenn hier wieder erwarten doch nichts raus kommt?
 		$result = $this->ilDB->query($sql);
 		$record = $this->ilDB->fetchAssoc($result);
 		
@@ -476,47 +495,45 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		$next_id = $this->ilDB->nextId('hist_course');
 
-		$sql = "INSERT INTO hist_course
-			(
-				row_id,
-				hist_version,
-				created_ts,
-				creator_user_id,
-		 		is_template,
-		 		crs_id,
-		 		title,
-		 		type, 
-		 		wbd_topic,
-		 		begin_date,
-		 		end_date,
-		 		
-		 		custom_id,
-		 		template_title,
-		 		max_credit_points
-			) 
-			VALUES 
-			(
-				$next_id,
-				0,
-				NOW(),
-				$creator_id,
-				'Nein',
-				$crs_id,
-				'$title',
-				'$type',
-		 		'$wbd_topic',
-		 		'$begin_date',
-		 		'$end_date',
-		 		'-empty-',
-		 		'-empty-',
-		 		'-empty-'
-			)";
+		$sql = "INSERT INTO hist_course\n
+			(\n
+				row_id,\n
+				hist_version,\n
+				created_ts,\n
+				creator_user_id,\n
+		 		is_template,\n
+		 		crs_id,\n
+		 		title,\n
+		 		type,\n
+		 		wbd_topic,\n
+		 		begin_date,\n
+		 		end_date,\n
+		 		custom_id,\n
+		 		template_title,\n
+		 		max_credit_points\n
+			)\n
+			VALUES\n
+			(\n"
+				.$this->ilDB->quote($next_id, "integer").",\n"
+				.$this->ilDB->quote(0,"integer").",\n"
+				."UNIX_TIMESTAMP(),\n"
+				.$this->ilDB->quote($creator_id, "integer").",\n"
+				.$this->ilDB->quote('Nein', "text").",\n"
+				.$this->ilDB->quote($crs_id, "integer").",\n"
+				.$this->ilDB->quote($title, "text").",\n"
+				.$this->ilDB->quote($type, "text").",\n"
+		 		.$this->ilDB->quote($wbd_topic, "text").",\n"
+		 		.$this->ilDB->quote($begin_date, "text").",\n"
+		 		.$this->ilDB->quote($end_date, "text").",\n"
+		 		.$this->ilDB->quote('-empty-', "text").",\n"
+		 		.$this->ilDB->quote('-empty-', "text").",\n"
+		 		.$this->ilDB->quote('-empty-', "text")."\n"
+			.")\n";
 
-			
-
-//print "\n\n$sql\n\n";
-
-			if(! $this->ilDB->query($sql)){
+			if(!$this->ilDB->query($sql)){
+				//HINWEIS!!!
+				//Fehlgeschlagene QUERY ins log schreiben und weiter??
+				//heißt ja nicht das andere querys grundsätzlich auch fehlschlagen
 				die($sql);
 			}
 
@@ -531,14 +548,21 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		// get user (hist_user is ok, since bwv-id must not change 
 		// and was the starting point, anyway)
-		$sql = "SELECT user_id FROM hist_user "
-			." WHERE bwv_id = '" .$rec['bwv_id'] ."'"
-			." AND hist_historic=0";
+		$sql = "SELECT user_id\n"
+				." FROM hist_user "
+				." WHERE bwv_id = ".$this->IlDB->quote($rec['bwv_id'],"text")."\n"
+				."    AND hist_historic = ".$this->ilDB->quote(0,"integer")."\n";
+
 		$result = $this->ilDB->query($sql);
+
+		//HINWEIS!!!
+		//Was ist wenn hier wieder erwarten doch nichts raus kommt?
 		$user_rec = $this->ilDB->fetchAssoc($result);
 
 		$usr_id = $user_rec['user_id'];
 
+		//HINWEIS!!!
+		//Schmeißt neuerdings eine Fehlermeldung, wenn die usr_id nicht vorhanden ist
 		$uutils = gevUserUtils::getInstanceByObjOrId($usr_id);
 
 		$okz 			= $uutils->getWBDOKZ();
@@ -546,62 +570,56 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$credit_points 	= $rec['credit_points'];
 		$begin_date 	= $rec['begin']; // date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date 		= $rec['end']; //date('Y-m-d', strtotime($rec['Ende']));
-		$creator_id 	= -200;
+		$creator_id 	= -666;
 		$next_id 		= $this->ilDB->nextId('hist_usercoursestatus');
 
-		$sql = "INSERT INTO hist_usercoursestatus
-			(
-				row_id,
-				wbd_booking_id,
-				created_ts,
-				creator_user_id,
-				usr_id,
-		 		crs_id,
-		 		credit_points,
-		 		hist_historic,
-		 		hist_version,
-		 		okz,
-		 		function,
-		 		booking_status,
-		 		participation_status,
-		 		begin_date,
-		 		end_date,
-		 		bill_id,
-		 		certificate
-			) 
-			VALUES 
-			(
-				$next_id,
-				'$booking_id',
-				UNIX_TIMESTAMP(),
-				$creator_id,
-				$usr_id,
-				$crs_id,
-				$credit_points,
-				0,
-				0,
-				'$okz',
-				'Mitglied',
-				'gebucht',
-				'teilgenommen',
-				'$begin_date',
-				'$end_date',
-				-1,
-				-1
-			)";
-		
+		$sql = "INSERT INTO hist_usercoursestatus\n
+			(\n
+				row_id,\n
+				wbd_booking_id,\n
+				created_ts,\n
+				creator_user_id,\n
+				usr_id,\n
+		 		crs_id,\n
+		 		credit_points,\n
+		 		hist_historic,\n
+		 		hist_version,\n
+		 		okz,\n
+		 		function,\n
+		 		booking_status,\n
+		 		participation_status,\n
+		 		begin_date,\n
+		 		end_date,\n
+		 		bill_id,\n
+		 		certificate\n
+			)\n
+			VALUES\n
+			(\n"
+				.$this->ilDB->quote($next_id,"integer").",\n"
+				.$this->ilDB->quote($booking_id,"text").",\n"
+				."UNIX_TIMESTAMP(),\n"
+				.$this->ilDB->quote($creator_id,"integer").",\n"
+				.$this->ilDB->quote($usr_id,"integer").",\n"
+				.$this->ilDB->quote($crs_id,"integer").",\n"
+				.$this->ilDB->quote($credit_points,"integer").",\n"
+				.$this->ilDB->quote(0,"integer").",\n"
+				.$this->ilDB->quote(0,"integer").",\n"
+				.$this->ilDB->quote($okz,"text").",\n"
+				.$this->ilDB->quote('Mitglied',"text").",\n"
+				.$this->ilDB->quote('gebucht',"text").",\n"
+				.$this->ilDB->quote('teilgenommen',"text").",\n"
+				.$this->ilDB->quote($begin_date,"text").",\n"
+				.$this->ilDB->quote($end_date,"text").",\n"
+				.$this->ilDB->quote(-1,"integer").",\n"
+				.$this->ilDB->quote(-1,"integer")."\n"
+			.")";
 
-//print "\n\n$sql\n\n";
-
-			if(! $this->ilDB->query($sql)){
+			if(!$this->ilDB->query($sql)){
+				//HINWEIS!!!
+				//WARUM???
 				die($sql);
 			}
-
-	
 	}
-
-
-
 
 
 
@@ -658,6 +676,37 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 	/**
+	* set TP Type according to next wbd action
+	*
+	* @param string $user_id
+	*/
+	public function setNewTPType($user_id) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$uutils = gevUserUtils::getInstance($user_id);
+		$next_action = $uutils->getNextWBDAction();
+
+		switch ($next_action) {
+			case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE:
+				$uutils->setWBDTPType(gevUserUtils::WBD_TP_SERVICE);
+				break;
+			case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS:
+				$uutils->setWBDTPType(gevUserUtils::WBD_TP_BASIS);
+				break;
+		}
+	}
+
+	/**
+	* set next wbd action to nothing
+	*
+	* @param string $user_id 
+	*/
+	public function setNextWBDActionToNothing($user_id) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$uutils = gevUserUtils::getInstance($user_id);
+		$uutils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
+	}
+
+	/**
 	 * raises the event user has changed
 	 *
 	 * @param string $a_user_id
@@ -700,71 +749,13 @@ class gevWBDDataConnector extends wbdDataConnector {
 			return array();
 		}
 
-		$sql = "
-			SELECT
-				*
-			FROM
-				hist_user
-			WHERE
-				hist_historic = 0
-			AND
-				deleted = 0
-			AND
-				bwv_id = '-empty-'
-			AND
-				last_wbd_report IS NULL
-			"
-			//exclude pending users;
-			//pending users were reported, changed,
-			//but still do not have an bwv_id
-			."
-			AND user_id NOT IN (
-				SELECT DISTINCT user_id
-				FROM hist_user
-				WHERE
-					hist_historic = 1
-				AND NOT
-					last_wbd_report IS NULL
-			)
-			";
+		$tp_types = array(gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE, gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS);
+		$sql = "SELECT * FROM hist_user\n"
+				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
+				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
+				."    AND last_wbd_report IS NULL"
+				."    AND ".$this->ilDB->in("next_wbd_action",$tp_types,false, "text")."\n";
 
-
-		// new accounts for TP_Service, TP_Basic only:
-		$sql .= " AND wbd_type IN ('"
-			.self::WBD_TP_BASIS."', '".self::WBD_TP_SERVICE
-			."')";
-
-// 2015-01-06
-//NA, FD will not get an OKZ, i.e.
-//only report with valid okz!
-//$sql .= " AND okz IN ('OKZ1', 'OKZ2','OKZ3')";
-	
-
-		//dev-safety:
-		$sql .= ' AND user_id IN (SELECT usr_id FROM usr_data)';
-		$sql .= ' AND user_id NOT IN (6, 13)'; //root, anonymous
-		$sql .= ' AND hist_user.is_active = 1'; //exclude inactive users
-		
-
-
-
-		//ERROR-LOG:
-		$sql .= " AND user_id NOT IN ("
-			." SELECT DISTINCT usr_id FROM wbd_errors WHERE"
-			." resolved=0"
-			." AND reason IN ('WRONG_USERDATA','USER_EXISTS_TP', 'USER_EXISTS', 'USER_SERVICETYPE')"
-			//." AND action='new_user'"
-			.")";
-
-		$sql .= " ORDER BY hist_user.row_id";
-
-
-		
-		
-		if($LIMIT_RECORDS){
-			$sql .= 'LIMIT ' .$LIMIT_RECORDS;
-		}
-//echo $sql;
 		$ret = array();
 		$result = $this->ilDB->query($sql);
 
@@ -772,30 +763,15 @@ class gevWBDDataConnector extends wbdDataConnector {
 		while($record = $this->ilDB->fetchAssoc($result)) {
 
 			$uutils = gevUserUtils::getInstanceByObjOrId($record['user_id']);
-			if ($uutils->hasDoneWBDRegistration()) {
+			if ($uutils->wbdShouldBeRegisteredAsNew()) {
 
 				$udata = $this->_map_userdata($record);
 
 				$valid = $this->validateUserRecord($udata);
 
 				if($valid === true){
-
 					$ret[] = wbdDataConnector::new_user_record($udata);
-					//set last_wbd_report!
-					//better wait for success, here?!
-					//$this->_set_last_wbd_report('hist_user', $record['row_id']);
 				} else {
-
-					/*storeWBDError(	
-						$action, 
-						$reason_str, 
-						$internal=0,
-						$usr_id=0, 
-						$crs_id=0, 
-						$booking_id=0
-					)
-					*/
-
 					$this->log->storeWBDError('new_user',
 							str_replace('<br>', '', $valid),
 							1,
@@ -804,18 +780,14 @@ class gevWBDDataConnector extends wbdDataConnector {
 							$udata['row_id']
 						);
 
-
-
 					$this->broken_newusers[] = array(
 						$valid,
 						$udata
 					);
 				}
-			
 			} else {
 				echo "keine rolle";
 			}
-
 		}
 		$this->valid_newusers = $ret;
 		return $ret;
@@ -1334,6 +1306,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 					// ! Storno/Korrektur !
 					if($wpentry['Korrekturbuchung'] != 'false'){
 						print_r($wpentry);
+						//HINWEIS!!!
+						//Ist das clever hier zu sterben nur wei EINE Buchungsliste eine Korrektur ist?
+						//continue???
 						die('Korrekturbuchung - not implemented');
 					}
 
@@ -1343,7 +1318,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 						
 						print "\n\n STORNO: \n";
 						print_r($wpentry);
-
+						//HINWEIS!!!
+						//Ist das clever hier zu sterben nur wei EINE Buchungsliste storniert ist?
+						//continue???
 						die('.');	
 					}
 
@@ -1402,12 +1379,14 @@ class gevWBDDataConnector extends wbdDataConnector {
 				hist_course
 			ON
 				hist_usercoursestatus.crs_id = hist_course.crs_id
+
 				AND hist_course.hist_historic = 0
 
 			INNER JOIN
 				hist_user
 			ON
 				hist_usercoursestatus.usr_id = hist_user.user_id
+
 				AND hist_user.hist_historic = 0
 
 			WHERE
@@ -1485,8 +1464,14 @@ class gevWBDDataConnector extends wbdDataConnector {
 		if(! $GET_NEW_EXIT_USER){
 			return array();
 		}
-		
-		$sql = "SELECT * FROM hist_user"
+
+		$sql = "SELECT * FROM hist_user\n"
+				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
+				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
+				."    AND last_wbd_report IS NULL\n"
+				."    AND next_wbd_action = ".$this->ilDB->quote(gevSettings::USR_WBD_NEXT_ACTION_RELEASE,"text")."\n";
+
+		/*$sql = "SELECT * FROM hist_user"
 					." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")
 					." AND NOT	bwv_id = ".$this->ilDB->quote($this->empty_bwv_id_text, "text").""
 					." AND NOT exit_date = ".$this->ilDB->quote($this->empty_date_text, "text").""
@@ -1504,10 +1489,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 			." SELECT DISTINCT usr_id FROM wbd_errors WHERE"
 			." resolved=0"
 			." AND ".$this->ilDB->in("reason", 
-										array('WRONG_USERDATA', 'USER_SERVICETYPE', 'USER_DIFFERENT_TP', 'USER_UNKNOWN', 'NO_RELEASE'), false, "text"
+										array('WRONG_USERDATA', 'USER_SERVICETYPE', 'USER_DIFFERENT_TP', 'USER_UNKNOWN', 'NO_RELEASE', 'USER_DEACTIVATED'), false, "text"
 									).""
 			//." AND action='new_user'"
-			.")";
+			.")";*/
 
 		$sql .= " ORDER BY hist_user.row_id";
 		//echo $sql;
@@ -1515,27 +1500,31 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$res = $this->ilDB->query($sql);
 		$ret = array();
 		while($row = $this->ilDB->fetchAssoc($res)) {
-			$udata = $this->_map_userdata($row);
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+			$user_utils = gevUserUtils::getInstance($row["user_id"]);
+			
+			if($user_utils->wbdShouldBeReleased()) {
+				$udata = $this->_map_userdata($row);
 
-			$valid = $this->validateUserRecord($udata);
+				$valid = $this->validateUserRecord($udata);
 
-			if($valid === true){
-				$ret[] = wbdDataConnector::new_user_record($udata);
-			} else {
-				$this->log->storeWBDError('exit_user',
-					str_replace('<br>', '', $valid),
-					1,
-					$udata['internal_agent_id'],
-					0,
-					$udata['row_id']
-				);
+				if($valid === true){
+					$ret[] = wbdDataConnector::new_user_record($udata);
+				} else {
+					$this->log->storeWBDError('exit_user',
+						str_replace('<br>', '', $valid),
+						1,
+						$udata['internal_agent_id'],
+						0,
+						$udata['row_id']
+					);
 
-				$this->broken_exitusers[] = array(
-					$valid,
-					$udata
-				);
+					$this->broken_exitusers[] = array(
+						$valid,
+						$udata
+					);
+				}
 			}
-
 		}
 
 		return $ret;
@@ -1544,6 +1533,17 @@ class gevWBDDataConnector extends wbdDataConnector {
 	public function success_exit_user($row_id) {
 		$this->setWbdExitUserData($row_id);
 		$this->_set_last_wbd_report('hist_user', $row_id);
+
+		$sql = "SELECT user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($a_row_id, "integer")."";
+		$res = $this->ilDB->query($sql);
+		assert($this->ilDB->numRows($res) == 1);
+
+		if($this->ilDB->numRows($res) == 1) {
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+			$user_utils = gevUserUtils::getInstance($res["user_id"]);
+			$user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
+			$this->raiseEventUserChanged($user_utils->getId());
+		}
 	}
 	
 	public function fail_exit_user($row_id, $a_exception) {
@@ -1570,13 +1570,115 @@ class gevWBDDataConnector extends wbdDataConnector {
 		);
 	}
 
-	//TESTZEUG
+
 	protected function getDate() {
 		return date("Y-m-d");
 		//return "2015-09-29";
 	}
-	//TESTZEUGS
 
+	/**
+	* BLOCK affiliate user
+	*/
+
+	/** 
+	* get user-records from GOA to affiliate
+	* 
+	* @return 	array 	user records 
+	*/
+	public function get_affiliate_users() {
+		global $GET_AFFILIATE_USER;
+		if(! $GET_AFFILIATE_USER){
+			return array();
+		}
+
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		$sql = "SELECT * FROM hist_user\n"
+				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
+				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
+				."    AND last_wbd_report IS NULL\n"
+				."    AND next_wbd_action = ".$this->ilDB->quote(gevSettings::USR_WBD_NEXT_ACTION_AFFILIATE, "text")."\n";
+
+		$res = $this->ilDB->query($sql);
+		$ret = array();
+		while($row = $this->ilDB->fetchAssoc($res)) {
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+			$user_utils = gevUserUtils::getInstance($row["user_id"]);
+			
+			if($user_utils->wbdShouldBeAffiliateAsTPService()) {
+				$udata = $this->_map_userdata($row);
+				$valid = $this->validateUserRecord($udata);
+
+				if($valid === true){
+					$ret[] = wbdDataConnector::new_user_record($udata);
+				} else {
+					$this->log->storeWBDError('exit_user',
+						str_replace('<br>', '', $valid),
+						1,
+						$udata['internal_agent_id'],
+						0,
+						$udata['row_id']
+					);
+
+					$this->broken_exitusers[] = array(
+						$valid,
+						$udata
+					);
+				}
+			}
+		}
+
+		return $ret;
+	}
+
+	/*
+	* callback on success
+	* 
+	* @param 	string 		$a_row_id 	Number to identify the row in hist_user
+	*/
+	public function success_affiliate_user($a_row_id) {
+
+		$sql = "SELECT user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($a_row_id, "integer")."";
+		$res = $this->ilDB->query($sql);
+		assert($this->ilDB->numRows($res) == 1);
+
+		if($this->ilDB->numRows($res) == 1) {
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+			$user_utils = gevUserUtils::getInstance($res["user_id"]);
+			$user_utils->setWBDTPType(gevUserUtils::WBD_TP_SERVICE);
+			$user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
+			$this->_set_last_wbd_report('hist_user', $row_id);
+			$this->raiseEventUserChanged($user_utils->getId());
+		}
+	}
+
+	/*
+	* callback on faliure
+	*
+	* @param 	string 		$a_row_id 	Number to identify the row in hist_user
+	* @param 	excepteion	$a_exception 	Exception Message
+	*/
+	public function fail_affiliate_user($a_row_id, $a_exception) {
+		print "\n";
+		print 'ERROR on affiliateUser: ';
+		print $row_id;
+		print "\n";
+		print_r($a_exception->getReason());
+		print "\n\n";
+
+		//ERROR-LOG:
+		$sql = " SELECT user_id FROM hist_user WHERE"
+			." row_id=" .$row_id; 
+		$result = $this->ilDB->query($sql);
+		$record = $this->ilDB->fetchAssoc($result);
+
+		$this->log->storeWBDError('affiliate_user',
+			$a_exception->getReason(),
+			0,
+			$record['user_id'],
+			0,
+			$row_id
+		);
+	}
 }
 
 //normalize classname for wdb-connector-script

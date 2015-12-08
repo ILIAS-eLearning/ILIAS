@@ -101,6 +101,8 @@ class gevSettings {
 	const CRS_AMD_ABSOLUTE_CANCEL_DEADLINE = "crs_amd_absolute_cancel_deadline";
 	// relevante Themen
 	const CRS_AMD_DBV_HOT_TOPIC = "crs_amd_dbv_hot_topic";
+	// maximale Teilnehmer auf der Warteliste
+	const CRS_AMD_MAX_WAITING_LIST_LENGTH = "crs_amd_max_waiting_list_length";
 	
 	// Anbieter
 	const CRS_AMD_PROVIDER			= "crs_amd_provider";
@@ -116,11 +118,29 @@ class gevSettings {
 	const CRS_AMD_WEBEX_PASSWORD_TUTOR	= "crs_amd_webex_password_tutor";		// these are general webinar tutor password
 	const CRS_AMD_WEBEX_VC_CLASS_TYPE = "crs_amd_webex_vc_class_type"; // type of the virtual class
 	const CRS_AMD_WEBEX_LOGIN_TUTOR = "crs_amd_webex_login_tutor"; // type of the virtual class
+
+	const CRS_AMD_VC_LINK		= "crs_amd_vc_link";			// these are new general webinar links now
+	const CRS_AMD_VC_PASSWORD	= "crs_amd_vc_password";		// these are new general webinar passwords now
+	const CRS_AMD_VC_PASSWORD_TUTOR	= "crs_amd_vc_password_tutor";		// these are new general webinar tutor password
+	const CRS_AMD_VC_CLASS_TYPE = "crs_amd_vc_class_type"; // new type of the virtual class
+	const CRS_AMD_VC_LOGIN_TUTOR = "crs_amd_vc_login_tutor"; // new type of the virtual class
+
 	const CRS_AMD_CSN_LINK			= "crs_amd_csn_link";	// this is not used anymore
+
 	// Organisationseinheit TEP
 	const CRS_AMD_TEP_ORGU			= "crs_amd_tep_orgu";
 
-	
+	// Crs User PState
+	const CRS_USR_STATE_SUCCESS			= "erfolgreich";
+	const CRS_USR_STATE_SUCCESS_VAL		= "2";
+	const CRS_USR_STATE_EXCUSED			= "entschuldigt";
+	const CRS_USR_STATE_EXCUSED_VAL		= "3";
+	const CRS_USR_STATE_NOT_EXCUSED		= "unentschuldigt";
+	const CRS_USR_STATE_NOT_EXCUSED_VAL	= "4";
+
+	//Highlight
+	const CRS_AMD_HIGHLIGHT			="crs_amd_highlight";
+
 	// Typen von Organisationseinheiten
 	const ORG_TYPE_VENUE			= "org_unit_type_venue";
 	const ORG_TYPE_PROVIDER			= "org_unit_type_provider";
@@ -229,7 +249,7 @@ class gevSettings {
 	
 	// private Kontaktdaten, für geschäftliche Kontaktdaten werden
 	// die Standard-ILIAS-Felder verwendet
-	const USR_UDF_PRIV_EMAIL		= "usr_udf_priv_email";
+	const USR_UDF_PRIV_EMAIL		= "usr_udf_priv_email";		// NOT IN USE ANYMORE
 	const USR_UDF_PRIV_STREET		= "usr_udf_priv_street";
 	const USR_UDF_PRIV_CITY			= "usr_udf_priv_city";
 	const USR_UDF_PRIV_ZIPCODE		= "usr_udf_priv_zipcode";
@@ -268,12 +288,31 @@ class gevSettings {
 	const USR_WBD_DID_REGISTRATION	= "usr_udf_wbd_did_registration";
 	const USR_WBD_COM_EMAIL			= "usr_udf_wbd_com_email";
 	const USR_WBD_EXIT_DATE			= "usr_udf_wbd_exit_date";
+	const USR_WBD_NEXT_ACTION		= "usr_udf_wbd_next_action";
+
+	const USR_WBD_NEXT_ACTION_NOTHING			= "0 - keine Aktion";
+	const USR_WBD_NEXT_ACTION_NEW_TP_SERVICE	= "1 - Erstanlage TP Service";
+	const USR_WBD_NEXT_ACTION_NEW_TP_BASIS		= "2 - Erstanlage TP Basis";
+	const USR_WBD_NEXT_ACTION_AFFILIATE			= "3 - Aufnahme";
+	const USR_WBD_NEXT_ACTION_RELEASE			= "4 - Transferfähig machen";
+
+	const USR_WBD_TP_SERVICE_OLD		= "usr_udf_wbd_tp_service_old";
 
 	//basic templates for flexible decentral trainings
 	const DCT_TPL_FLEX_PRESENCE = "dct_tpl_flex_presence";
 	const DCT_TPL_FLEX_WEBINAR = "dct_tpl_flex_webinar";
 	const DCT_TPL_MAIL_CSN = "dct_tpl_mail_csn";
 	const DCT_TPL_MAIL_WEBEX = "dct_tpl_mail_webex";
+	const DCT_TPL_MAIL_DECENTRAL_TRAINING = "dct_tpl_mail_decentral_training";
+
+	//new course rights
+	const LOAD_SIGNATURE_LIST = "load_signature_list";
+	const LOAD_MEMBER_LIST = "load_member_list";
+	const VIEW_SCHEDULE_PDF = "view_schedule_pdf";
+	const LOAD_CSN_LIST = "load_csn_list";
+	const CHANGE_TRAINER = "change_trainer";
+	const VIEW_MAILLOG = "view_maillog";
+	const CANCEL_TRAINING = "cancel_training";
 
 	static $UDF_FIELD_ORDER = array(
 		'Emailadresse (privat)'
@@ -300,7 +339,7 @@ class gevSettings {
 		,'Austrittsdatum'
 		,'IHK Registernummer'
 		
-		, 'Firmenname'
+		,'Firmenname'
 		
 		,'Hat WBD-Registrierung durchgeführt'
 		,'TP-Typ'
@@ -310,6 +349,8 @@ class gevSettings {
 		,'Beginn erste Zertifizierungsperiode'
 		,'Email WBD'
 		,'Austrittsdatum WBD'
+		,'Nächste durchzuführende WBD Aktion'
+		,'Vorheriger TP-Service'
 	);
 
 	static $LOCAL_USER_MANDATORY_UDF_FIELDS = array(
@@ -398,7 +439,6 @@ class gevSettings {
 		, "FDA"
 		, "Ausbilder"
 		, "Azubi"
-		, "Buchhaltung"
 		, "Veranstalter"
 		, "int. Trainer"
 		, "ext. Trainer"
@@ -430,7 +470,6 @@ class gevSettings {
 		, "FDA"
 		, "Ausbilder"
 		, "Azubi"
-		, "Buchhaltung"
 		, "Veranstalter"
 		, "int. Trainer"
 		, "ext. Trainer"
@@ -590,7 +629,6 @@ class gevSettings {
 		, "FDA"						=> "AAD"
 		//, "Ausbilder"				=> "nicht relevant"
 		, "Azubi"					=> "AAD"
-		, "Buchhaltung"				=> "ID"
 		//, "Veranstalter"			=> "nicht relevant"
 		, "int. Trainer"			=> "ID"
 		//, "ext. Trainer"			=> "nicht relevant"
@@ -610,6 +648,7 @@ class gevSettings {
 		'Trainer- / DBV Klausur (Zentral)',
 		'Trainer Teammeeting',
 		'Arbeitsgespräch',
+		'Weiterbildungstage',
 		
 		'AD-Begleitung',
 		'Firmenkunden',
@@ -698,21 +737,4 @@ class gevSettings {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		return gevObjectUtils::getObjId($ref_id);
 	}
-
-	public function getCSNMailTemplateId() {
-		return $this->settings->get(self::DCT_TPL_MAIL_CSN);
-	}
-	public function getWebExMailTemplateId() {
-		return $this->settings->get(self::DCT_TPL_MAIL_WEBEX);
-	}
-
-	public function setCSNMailTemplateId($a_templade_id) {
-		$this->settings->set(self::DCT_TPL_MAIL_CSN, $a_templade_id);
-	}
-	
-	public function setWebExMailTemplateId($a_template_id) {
-		$this->settings->set(self::DCT_TPL_MAIL_WEBEX, $a_templade_id);
-	}
 }
-
-?>

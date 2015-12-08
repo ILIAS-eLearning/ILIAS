@@ -18,7 +18,6 @@ set_time_limit(0);
 
 
 require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
-require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
@@ -33,7 +32,6 @@ class gevDBVReportGUI extends catBasicReportGUI{
 	public function __construct() {
 		
 		parent::__construct();
-		//$viewer = 33892;
 		$target_user = $_POST["target_user_id"]
 					   ? $_POST["target_user_id"]
 					   : ( $_GET["target_user_id"]
@@ -105,9 +103,14 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->join("hist_userorgu huo_in")
 							->on("oup.orgunit_id = huo_in.orgu_id AND huo_in.`action` = 1 AND rol_title = ".$this->db->quote("Mitarbeiter","text"))
 						->left_join("hist_userorgu huo_out")
-							->on("oup.orgunit_id = huo_out.orgu_id AND huo_out.`action` = -1"
+							->on(" huo_out.`action` = -1"
 								." AND huo_in.usr_id = huo_out.usr_id AND huo_in.orgu_id = huo_out.orgu_id"
-								." AND huo_in.rol_id = huo_out.rol_id AND huo_in.hist_version+1 = huo_out.hist_version")
+								." AND huo_in.rol_id = huo_out.rol_id AND huo_in.hist_version < huo_out.hist_version")
+						->left_join("hist_userorgu huo_out_aux")
+							->on(" huo_out_aux.`action` = -1"
+								." AND huo_in.usr_id = huo_out_aux.usr_id AND huo_in.orgu_id = huo_out_aux.orgu_id"
+								." AND huo_in.rol_id = huo_out_aux.rol_id AND huo_in.hist_version < huo_out_aux.hist_version"
+								." AND huo_out.hist_version > huo_out_aux.hist_version")
 						->join("hist_user hu")
 							->on("huo_in.usr_id = hu.user_id")						
 						->join("hist_usercoursestatus hucs")
@@ -128,12 +131,18 @@ class gevDBVReportGUI extends catBasicReportGUI{
 											.") AND huo_in.created_ts < UNIX_TIMESTAMP(".$this->db->quote("2016-01-01","date").")")
 						->static_condition("hu.hist_historic = 0")
 						->static_condition("hucs.hist_historic = 0")
+						->static_condition("hucs.booking_status != ".$this->db->quote('-empty-', 'text'))
 						->static_condition("hc.hist_historic = 0")
+						->static_condition("huo_out_aux.hist_version IS NULL")
 						->static_condition($this->db->in("hc.dbv_hot_topic", gevSettings::$dbv_hot_topics, false, "text"))
 						//->static_condition("hc.dbv_hot_topic IS NOT NULL")
 						//->static_condition("hc.dbv_hot_topic != '-empty-'")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
+		$this->relevant_parameters = array(
+			"target_user_id" => $this->target_user_id
+			,$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			); 
 	}
 
 	protected function _process_xls_date($val) {
@@ -143,7 +152,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 	}
 
 	protected function checkPermissionOnTarget($a_target_user_id) {
-		if (   gevUserUtils::getInstance($a_target_user_id)->hasRoleIn(array("DBV-Fin-UVG"))
+		if (   true//gevUserUtils::getInstance($a_target_user_id)->hasRoleIn(array("DBV-Fin-UVG"))
 			&& (    $this->user_utils->isAdmin() 
 				 || $a_target_user_id == $this->user_utils->getId()
 			     || $this->user_utils->isSuperiorOf($a_target_user_id))) {
@@ -210,5 +219,3 @@ class gevDBVReportGUI extends catBasicReportGUI{
 	}
 
 }
-
-?>

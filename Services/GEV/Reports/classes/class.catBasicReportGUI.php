@@ -9,16 +9,17 @@
 * @author	Nils Haagen <nhaagen@concepts-and-training.de>
 * @version	$Id$
 */
-
-require_once("Services/GEV/Reports/classes/class.catFilter.php");
-
+require_once 'Services/ReportsRepository/classes/class.catReportTable.php';
+require_once 'Services/ReportsRepository/classes/class.catReportOrder.php';
+require_once 'Services/ReportsRepository/classes/class.catReportQuery.php';
+require_once 'Services/ReportsRepository/classes/class.catReportQueryOn.php';
+require_once 'Services/ReportsRepository/classes/class.catFilter.php';
 
 class catBasicReportGUI {
 
 	public function __construct() {
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
 
 		global $lng, $ilCtrl, $tpl, $ilUser, $ilDB, $ilLog;
 		
@@ -36,8 +37,6 @@ class catBasicReportGUI {
 		$this->data = false;
 		$this->filter = null;
 		$this->order = null;
-		
-		$this->permissions = gevReportingPermissions::getInstance($this->user->getId());
 	}
 	
 
@@ -75,8 +74,8 @@ class catBasicReportGUI {
 
 	protected function userIsPermitted () {
 		return $this->user_utils->isAdmin() || $this->user_utils->isSuperior()
-				|| $this->user_utils->hasRoleIn(array("Key-Accounter"))
-				|| $this->user_utils->canCancelEmployeeBookings();;
+				|| $this->user_utils->hasRoleIn(array("OD-Betreuer","Admin-Ansicht"))
+				|| $this->user_utils->canCancelEmployeeBookings();
 	}
 
 	
@@ -102,8 +101,6 @@ class catBasicReportGUI {
 		}
 
 		require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
-
-		$this->ctrl->setParameter($this, $this->filter->getGETName(), $this->filter->encodeSearchParamsForGET());
 		
 		$content = null;
 		
@@ -129,12 +126,14 @@ class catBasicReportGUI {
 
 
 	protected function renderExportButton() {
+		$this->enableRelevantParametersCtrl();
 		$export_btn = '<a class="submit exportXlsBtn"'
 						. 'href="'
 						.$this->ctrl->getLinkTarget($this, "exportxls")
 						.'">'
 						.$this->lng->txt("gev_report_exportxls")
 						.'</a>';
+		$this->disableRelevantParametersCtrl();
 		return $export_btn;
 	}
 
@@ -171,7 +170,8 @@ class catBasicReportGUI {
 
 		$external_sorting = true;
 		if($this->order === null || 
-			in_array($this->order->getOrderField(), $this->internal_sorting_fields)
+			in_array($this->order->getOrderField(), 
+				$this->internal_sorting_fields ? $this->internal_sorting_fields : array())
 			) {
 				$external_sorting = false;	
 		}
@@ -185,8 +185,10 @@ class catBasicReportGUI {
 
 
 		$table->setData($data);
-
-		return $table->getHtml();
+		$this->enableRelevantParametersCtrl();
+		$return = $table->getHtml();
+		$this->disableRelevantParametersCtrl();
+		return $return;
 	}
 	
 	protected function renderGroupedTable($data) {
@@ -321,7 +323,8 @@ class catBasicReportGUI {
 	
 	protected function queryOrder() {
 		if ($this->order === null ||
-			in_array($this->order->getOrderField(), $this->internal_sorting_fields)
+			in_array($this->order->getOrderField(), 
+				$this->internal_sorting_fields ? $this->internal_sorting_fields : array())
 			) {
 			return "";
 		}
@@ -375,365 +378,16 @@ class catBasicReportGUI {
 		}
 		return $a_rec;
 	}
-}
 
-
-
-
-class catReportTable {
-	protected function __construct() {
-		$this->columns = array();
-		$this->all_columns = array();
-		$this->row_template_filename = null;
-		$this->row_template_module = null;
-		$this->_group_by = null;
-		$this->group_head_template_filename = null;
-		$this->group_head_template_module = null;
-	}
-	
-	public static function create() {
-		return new catReportTable();
-	}
-	
-	public function column($a_id, $a_title, $a_no_lng_var = false, $a_width = "", $a_no_excel = false) {
-		$this->columns[$a_id] = array( $a_id
-									 , $a_title
-									 , $a_no_lng_var
-									 , $a_width
-									 , $a_no_excel
-									 );
-		$this->all_columns[$a_id] = $this->columns[$a_id];
-		return $this;
-	}
-	
-	public function template($a_filename, $a_module) {
-		$this->row_template_filename = $a_filename;
-		$this->row_template_module = $a_module;
-		return $this;
-	}
-	
-	public function group_by($a_cols, $a_filename, $a_modules) {
-		if ($this->_group_by !== null) {
-			throw new Exception("catReportTable::group_by: Grouping already defined.");
+	protected function enableRelevantParametersCtrl() {
+		foreach ($this->relevant_parameters as $get_parameter => $get_value) {
+			$this->ctrl->setParameter($this, $get_parameter, $get_value);
 		}
-		
-		if (!is_array($a_cols) || count($a_cols) == 0) {
-			throw new Exception("catReportTable::group_by: Expected first argument to be an array "
-							   ."with at least one entry.");
+	}
+
+	protected function disableRelevantParametersCtrl() {
+		foreach ($this->relevant_parameters as $get_parameter => $get_value) {
+			$this->ctrl->setParameter($this, $get_parameter, null);
 		}
-		
-		$this->_group_by = array();
-		
-		foreach ($a_cols as $col_name) {
-			if (!array_key_exists($col_name, $this->columns)) {
-				throw new Exception("catReportTable::group_by: Can't group by unknown column ".$col_name);
-			}
-			
-			$this->_group_by[$col_name] = $this->columns[$col_name];
-			unset($this->columns[$col_name]);
-		}
-		
-		$this->group_head_template_filename = $a_filename;
-		$this->group_head_template_module = $a_modules;
-		
-		return $this;
 	}
 }
-
-
-
-
-class catReportQuery {
-	protected function __construct() {
-		$this->fields = array();
-		$this->_select_raw = array();
-		$this->_from = null;
-		$this->joins = array();
-		$this->left_joins = array();
-		$this->raw_joins = array();
-		$this->compiled = false;
-		$this->sql_str = null;
-		$this->sql_from = null;
-		$this->_distinct = false;
-		$this->_group_by = array();
-	}
-	
-	public static function create() {
-		return new catReportQuery();
-	}
-	
-	public function distinct() {
-		$this->_distinct = true;
-		return $this;
-	}
-	
-	public function select($a_field) {
-		$this->checkNotCompiled();
-		
-		if (!is_array($a_field)) {
-			$this->fields[] = $a_field;
-		}
-		else {
-			$this->fields = array_merge($this->fields, $a_fields);
-		}
-		return $this;
-	}
-	
-	public function select_raw($a_stmt) {
-		$this->_select_raw[] = $a_stmt;
-		return $this;
-	}
-	
-	public function from($a_table) {
-		$this->checkNotCompiled();
-		if ($this->_from !== null) {
-			throw new Exception("catReportQuery::from: already defined.");
-		}
-		
-		$this->_from = $a_table;
-		return $this;
-	}
-	
-	
-	public function join($a_table) {
-		$this->checkNotCompiled();
-		return new catReportQueryOn($this, $this->joins, $a_table);
-	}
-	
-	public function left_join($a_table) {
-		$this->checkNotCompiled();
-		return new catReportQueryOn($this, $this->left_joins, $a_table);
-	}
-	
-	public function raw_join($sql) {
-		$this->raw_joins[] = $sql;
-		return $this;
-	}
-
-	public function group_by($a_column) {
-		$this->_group_by[] = $a_column;
-		return $this;
-	}
-	
-	public function sql() {
-		if( $this->sql_str !== null) {
-			return $this->sql_str;
-		}
-		$this->checkCompiled("sql");
-
-		$escp = array();
-		foreach ($this->fields as $field) {
-			$escp[] = catFilter::quoteDBId($field);
-		}
-
-		$this->sql_str = 
-			 "SELECT "
-			.($this->_distinct ? "DISTINCT " : "")
-			.implode("\n\t,", $escp)
-			.(count($this->_select_raw) ? "\n\t," : "")
-			.implode("\n\t,", $this->_select_raw)
-			.$this->sqlFrom()
-			;
-			
-		return $this->sql_str;
-	}
-	
-	public function sqlFrom() {
-		
-		if ($this->sql_from === null) {
-			$this->sql_from =
-				 "\n FROM ".$this->_from[0]." ".$this->_from[1]."\n "
-				// TODO: this might break the query since it does not respect
-				// the order in which the user defined the
-				.implode("\n ", $this->joins)."\n "
-				.implode("\n ", $this->left_joins)."\n"
-				.implode("\n ", $this->raw_joins)."\n";
-		}
-		
-		return $this->sql_from;
-	}
-	
-	public function sqlGroupBy() {
-		if (!count($this->_group_by)) {
-			return "";
-		}
-		
-		$cols = array();
-		foreach ($this->_group_by as $col) {
-			$cols[] = catFilter::quoteDBId($col);
-		}
-		
-		return " GROUP BY ".implode(", ", $cols);
-	}
-	
-	public function compile() {
-		$this->checkNotCompiled();
-		
-		if (count($this->fields) === 0 && count($this->_select_raw) === 0) {
-			throw new Exception("catReportQuery::compile: No fields defined.");
-		}
-		if ($this->_from === null) {
-			throw new Exception("catReportQuery::compile: No FROM-table defined.");
-		}
-
-		$this->_from = $this->rectifyTableName("from", $this->_from);
-		foreach($this->joins as $key => $value) {
-			$tab = $this->rectifyTableName("join", $value[0]);
-			$this->joins[$key] = " JOIN ".$tab[0]." ".$tab[1]." ON ".$value[1]." ";
-		}
-		foreach($this->left_joins as $key => $value) {
-			$tab = $this->rectifyTableName("left join", $value[0]);
-			$this->left_joins[$key] = " LEFT JOIN ".$tab[0]." ".$tab[1]." ON ".$value[1]." ";
-		}
-		
-		$this->compiled = true;
-		
-		return $this;
-	}
-	
-	protected function checkNotCompiled() {
-		if ($this->compiled) {
-			throw new Exception("catReportQuery::checkCompiled: Don't modify a filter you already compiled.");
-		}
-	}
-
-	protected function checkCompiled($a_what) {
-		if (!$this->compiled) {
-			throw new Exception("catReportQuery::checkCompiled: Don't ".$a_what." a filter you did not compile.");
-		}
-	}
-	
-	protected function rectifyTableName($a_what, $name) {
-		$spl = explode(" ", $name);
-		if (count($spl) > 2) {
-			throw new Exception("catReportQuery::rectifiyTableName: Expected ".$a_what." to contain one space at most.");
-		}
-		if (count($spl) == 1) {
-			$spl[] = "";
-		}
-		
-		$spl[0] = catFilter::quoteDBId($spl[0]);
-		
-		return $spl;
-	}
-}
-
-class catReportQueryOn {
-	public function __construct($a_query, &$a_joins, $a_table) {
-		$this->query = $a_query;
-		$this->joins = &$a_joins;
-		$this->table = $a_table;
-	}
-	
-	public function on($a_condition) {
-		$this->joins[] = array($this->table, $a_condition);
-		return $this->query;
-	}
-}
-
-class catReportOrder {
-	protected function __construct(catReportTable $a_table) {
-		$this->mapping = array();
-		$this->default_field = null;
-		$this->default_direction = null;
-		$this->order_field = null;
-		$this->order_direction = null;
-		$this->table = $a_table;
-	}
-	
-	static public function create(catReportTable $a_table) {
-		return new catReportOrder($a_table);
-	}
-	
-	public function getOrderField() {
-		if ($this->order_field === null) {
-			$this->getOrderFromGETOrDefault();
-		}
-		return $this->order_field;
-	}
-	
-	public function getOrderDirection() {
-		if ($this->order_direction === null) {
-			$this->getOrderFromGETOrDefault();
-		}
-		return $this->order_direction;
-	}
-	
-	protected function getOrderFromGETorDefault() {
-		if (array_key_exists("_table_nav", $_GET)) {
-			$tmp = explode(":", $_GET["_table_nav"]);
-			
-			$this->order_field = $this->normalizeOrderField($tmp[0]);
-			$this->order_direction = $this->normalizeOrderDirection($tmp[1]);
-		}
-		else {
-			$this->order_field = $this->default_field;
-			$this->order_direction = $this->default_direction;
-		}
-	}
-	
-	public function getSQL() {
-		$field = $this->getOrderField();
-		$direction = $this->getOrderDirection();
-		
-		if ($field === null) {
-			return "";
-		}
-		
-		if (!array_key_exists($field, $this->mapping)) {
-			return " ORDER BY ".catFilter::quoteDBId($field)." $direction";
-		}
-		
-		$sql = " ORDER BY ";
-		$fields = array();
-		foreach ($this->mapping[$field] as $field) {
-			$fields[] = catFilter::quoteDBId($field)." $direction";
-		}
-		return " ORDER BY ".implode(", ", $fields);
-	}
-
-	public function mapping($a_from, $a_to) {
-		if (array_key_exists($a_from, $this->mapping)) {
-			throw new Exception("catReportOrder::mapping: Mapping for $a_from already set.");
-		}
-		if (!is_array($a_to)) {
-			$a_to = array($a_to);
-		}
-		
-		$this->mapping[$a_from] = $a_to;
-		return $this;
-	}
-	
-	public function defaultOrder($a_field, $a_direction) {
-		if ($this->default_field !== null) {
-			throw new Exception("catReportOrder::default: Default order already set.");
-		}
-		
-		$this->default_field = $this->normalizeOrderField($a_field);
-		$this->default_direction = $this->normalizeOrderDirection($a_direction);
-		
-		return $this;
-	}
-	
-	protected function normalizeOrderField($a_field) {
-		if (!array_key_exists($a_field, $this->table->columns)) {
-			throw new Exception("catReportOrder::normalizeOrderField: "
-							   ."$a_field is no column in the table.");
-		}
-		
-		return $a_field;
-	}
-	
-	protected function normalizeOrderDirection($a_direction) {
-		$a_direction = strtoupper($a_direction);
-		
-		if (!in_array($a_direction, array("ASC", "DESC"))) {
-			throw new Exception("catReportOrder::normalizeOrderDirection: ".
-								"$a_direction is no valid order.");
-		}
-		
-		return $a_direction;
-	}
-}
-
-?>

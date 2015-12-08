@@ -353,6 +353,7 @@ exc#:#exc_team_member_container_add#:#Team-Mitglied aus Training/Gruppe hinzufü
 exercise#:#exc_crs_add_members#:#Mitglieder dieses Trainings hinzufügen
 exercise#:#exc_feedback_from_tutor#:#Feedback des Trainers
 fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen und Ordner öffnen, indem Sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
+gev#:#gev_crs_template#:#Vorlage
 gev#:#dont_send_mail#:#keine Mail versenden
 gev#:#evg_email#:#E-Mail-Adresse
 gev#:#evg_mandatory#:#Sie müssen dieses Feld bestätigen, um sich registrieren zu können.
@@ -404,7 +405,11 @@ gev#:#gev_booked_similar_course_self#:#Sie sind auf dieses Training bereits gebu
 gev#:#gev_booking#:#Buchung
 gev#:#gev_booking_bill_data#:#Rechnungsdaten
 gev#:#gev_booking_check_bill_data#:#Rechnungsdaten überprüfen
-gev#:#gev_booking_for#:#Buchung für:
+gev#:#bill_data_of_user#:#Rechnungsdaten von:
+gev#:#should_create_bill_for_crs_part#:#Wollen sie für diesen Teilnehmer wirklich eine Rechunung erstellen?
+gev#:#should_create_bill_for_crs_part_explain#:#Damit wird die Teilnahme kostenpflichtig. Dieser Vorgang ist irreversibel!
+gev#:#crs_bill_user_not_in_range#:#Für diesen Benutzer kann an diesem Kurs keine Rechnung angelegt werden.
+gev#:#crs_bill_nonfin_usr_fin_crs#:#Trotz des finalisierten Kursstatus hat der Teilnehmer eine nichtfinalisierte Rechnung. Bitte kontaktieren Sie den Administrator!
 gev#:#gev_booking_header_note#:#Bitte bestätigen Sie die verbindliche Buchung über die Schaltfläche.
 gev#:#gev_booking_header_note_bill_data#:#Bitte betätigen Sie die Schaltfläche "Rechnungsdaten eingeben".
 gev#:#gev_booking_header_note_check_bill_data#:#Bitte betätigen Sie die Schaltfläche "Rechnungsdaten überprüfen".
@@ -448,10 +453,18 @@ gev#:#gev_contents#:#Inhalte
 gev#:#gev_costly_cancellation_action#:#Kostenpflichtig Stornieren
 gev#:#gev_costly_cancellation_msg#:#Die Stornierung Ihrer Buchung des Trainings "%s" ist leider nicht mehr kostenlos möglich. Möchten Sie die Buchung trotzdem stornieren?
 gev#:#gev_costs#:#Kosten
+gev#:#no_bills_for_free_training#:#Für dieses Training können keine Rechnungen erstellt werden, das es gebührenfrei ist.
 gev#:#gev_coupon_bill_item#:#Gutschein %s
+gev#:#gev_coupon_start_ammount#:#gesamtes Guthaben
+gev#:#gev_coupon_diff_ammount#:#bereits verbrauchtes Guthaben
+gev#:#gev_coupon_current_ammount#:#Restguthaben
+gev#:#gev_coupon_bill_item_code#:#Gutscheincode(s)
 gev#:#gev_coupon_codes#:#Gutscheincode(s) einlösen
 gev#:#gev_coupon_pretax#:#Gutscheinbetrag netto
 gev#:#gev_coupon_posttax#:#Gutscheinbetrag brutto
+gev#:#coupon_codes_used#:#Gutschein(e) eingelöst.
+gev#:#coupon_codes_used_sofar#:#Eingelöste Gutscheincodes
+gev#:#edit_course_bill_data#:#Rechungsdaten bearbeiten
 gev#:#gev_course_bill_title#:#Buchung des Trainings "%s" für "%s"
 gev#:#gev_course_categorie#:#Trainingskategorie
 gev#:#gev_course_expired#:#Der gewählte Kurs ist nicht mehr verfügbar.
@@ -493,7 +506,7 @@ gev#:#gev_dec_training_choose_min_one_trainer#:#Sie müssen mindestens einen Tra
 gev#:#gev_dev_training_creator#:#Trainingsersteller
 gev#:#gev_dev_training_creator_desc#:#Ersteller des dezentralen Trainings mit Ref-Id %d
 gev#:#gev_duration#:#Dauer
-gev#:#gev_edu_bio#:#Bildungsbiographie
+gev#:#gev_edu_bio#:#Bildungsbiografie
 gev#:#gev_edu_program#:#Bildungsprogramm
 gev#:#gev_edit_overnights#:#Ihre Übernachtungen beim Training "%s"
 gev#:#gev_edit_overnights_desc#:#Hier können Sie Ihre Übernachtungen beim Training bearbeiten.
@@ -513,6 +526,8 @@ gev#:#gev_excel_member_title#:#Mitgliederliste
 gev#:#gev_exit_date#:#Austrittsdatum
 gev#:#gev_failed#:#nicht teilgenommen
 gev#:#gev_fee_bill_item#:#Teilnahmegebühr Training "%s"
+gev#:#gev_bill_covered_skip_coupons#:#Die Rechnung ist schon gedeckt. Keine weiteren Gutscheine nötig.
+gev#:#gev_cupon_has_no_value#:#Der Gutschein hat keinen Restwert.
 gev#:#gev_filter#:#Filter
 gev#:#gev_finalize_booking_error#:#Beim Finalisieren der Buchung ist ein Fehler aufgetreten.
 gev#:#gev_finalize_cancellation_error#:#Beim Finalisieren der Stornierung ist ein Fehler aufgetreten.
@@ -589,8 +604,8 @@ gev#:#gev_course_online_status#:#Online-Status
 gev#:#gev_org_mgmt#:#Organisationseinheiten
 gev#:#gev_org_unit#:#zugehörige Organisationseinheit
 gev#:#gev_org_unit_short#:#Org.-Einheit
-gev#:#gev_others_edu_bio#:#Bildungsbiographie von %s
-gev#:#gev_others_edu_bio_desc#:#Hier sehen Sie die Bildungspunkte und die von %s besuchten Trainings.
+gev#:#gev_others_edu_bio_desc#:#Hier sehen Sie die Bildungspunkte und besuchten Trainings von %s.<br>In der Zeile „Zeitraum“ können Sie den Auswertungszeitraum verändern, indem Sie die Voreinstellung verändern und auf die Schaltfläche „Filter“ klicken. Voreingestellt ist immer das laufende Kalenderjahr.<br>Bei Klick auf die Spaltenüberschrift der Ergebnistabelle (z.B. Titel) erfolgt eine Sortierung der Tabelle nach diesem Kriterium.
+gev#:#gev_others_edu_bio#:#Hier sehen Sie die Bildungspunkte und die von %s besuchten Trainings.
 gev#:#gev_others_menu#:#Organisation
 gev#:#gev_overall_prize#:#Gesamtpreis
 gev#:#gev_overall_points#:#Gesamtpunktzahl
@@ -599,14 +614,19 @@ gev#:#gev_passed#:#teilgenommen
 gev#:#gev_passed_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training erfolgreich abgeschlossen. Sie dürfen dieses Angebot daher für Ihren Mitarbeiter nicht buchen.
 gev#:#gev_passed_similar_course_self#:#Sie sind auf dieses Training bereits an einem anderen Termin gebucht. Sie können keinen zweiten Termin buchen. Sollten Sie den Termin wechseln wollen, stornieren Sie zunächst das bereits gebuchte Training und buchen Sie dann den gewünschten neuen Termin.
 gev#:#gev_payment_type#:#Zahlungsart
+gev#:#user_pays_fees#:#zahlungspflichtig
 gev#:#gev_payment_type_bill#:#Rechnung
+gev#:#bill_data_not_changed#:#Rechnungsdaten beibehalten.
+gev#:#bill_data_saved#:#Rechnungsdaten gespeichert.
+gev#:#new_bill_saved#:#Neue Rechung angelegt.
+gev#:#bill_data_complete#:#Rechungsdaten komplett
 gev#:#gev_period#:#Zeitraum:
 gev#:#gev_personal_data#:#Personendaten
 gev#:#gev_points#:#Punkte
 gev#:#gev_points_at_end_of_cert_year#:#voraussichtliche Punkte bis zum Ende des aktuellen Zertifizierungsjahres
-gev#:#gev_points_in_academy#:#Bildungspunkte in der Generali Online Akademie
+gev#:#gev_points_in_academy#:#Bildungspunkte in der Generali Online Akademie im ausgewählten Zeitraum
 gev#:#gev_points_in_five_years#:#Punkte im 5-Jahres-Zeitraum
-gev#:#gev_points_in_wbd#:#Bildungspunkte in der WBD<br><small>Die Angaben erfolgen ohne Gewähr. Die verbindliche Angabe Ihrer Weiterbildungspunkte erhalten Sie ausschließlich auf den Seiten der WBD.</small>
+gev#:#gev_points_in_wbd#:#Bildungspunkte in der WBD im ausgewählten Zeitraum<br><small>Die Angaben erfolgen ohne Gewähr. Die verbindliche Angabe Ihrer Weiterbildungspunkte erhalten Sie ausschließlich auf den Seiten der WBD.</small>
 gev#:#gev_points_in_wbd_cert_period#:#Punkte in der aktuellen Zertifizierungsperiode
 gev#:#gev_points_in_wbd_cert_year#:#Punkte im aktuellen Zertifizierungsjahr
 gev#:#gev_position#:#Vermittlernummer
@@ -634,35 +654,43 @@ gev#:#gev_na_registration_label#:#Erstregistrierung als:
 gev#:#gev_agent_registration_button#:#unabhängiger Vertriebspartner
 gev#:#gev_na_registration_button#:#Nebenberufsagentur / VA-Praktikant
 gev#:#gev_registration_posttext#:#Bei Rückfragen wenden Sie sich an: <a href="mailto:bildungspunkte.de@generali.com" class="blue">bildungspunkte.de@generali.com</a>
-gev#:#gev_rep_attendance_by_employee_desc#:#Hier sehen Sie die Buchungen und Trainingsteilnahmen Ihrer Mitarbeiter.
-gev#:#gev_rep_attendance_by_employee_title#:#Teilnahme nach Mitarbeiter
+gev#:#gev_rep_attendance_by_employee_desc#:#Hier sehen Sie die Buchungen und Trainingsteilnahmen Ihrer Mitarbeiter / Vertriebspartner.<br>Bitte wählen Sie:<ul><li>Zeitraum des Reports</li><li>OrgEinheit, falls Ihnen mehrere Einheiten zugeordnet sind</li><li>Trainingstitel (alle Titel in Klammern gehören zur VA-Grundausbildung)</li><li>Teilnahmestatus, z.B. zeige nur TN, die teilgenommen haben</li></ul>Bei Klick auf die Spaltenüberschrift der Ergebnistabelle (z.B. ADP-Nummer) erfolgt eine Sortierung der Tabelle nach diesem Kriterium.
+gev#:#gev_rep_attendance_by_employee_title#:#Teilnahme nach Mitarbeiter / Vertriebspartner.
 gev#:#gev_rep_billing_title#:#Rechnungen
 gev#:#gev_rep_billing_desc#:#Hier sehen Sie alle vom System versandten Rechnungen
-gev#:#gev_rep_employee_edu_bios_title#:#Bildungsbiographien meiner Mitarbeiter
-gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen Sie einen Überblick über die Bildungsbiographien Ihrer Mitarbeiter.
+gev#:#gev_rep_coupon_title#:#Gutscheine
+gev#:#gev_rep_coupon_desc_admin#:#Hier sehen Sie alle Gutscheine
+gev#:#gev_rep_coupon_desc#:#Hier sehen Sie Ihre Gutscheine
+gev#:#gev_rep_employee_edu_bios_title#:#Bildungsbiografien meiner Mitarbeiter / Vertriebspartner
+gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen Sie einen Überblick über die Bildungsbiografien Ihrer Mitarbeiter / Vertriebspartner. Bei der Auswahl „kritische Personen“ werden die Personen angezeigt, die nicht mind. 40 Weiterbildungspunkte pro abgelaufene Zertifizierungsperiode erreicht haben.<br>Bei Klick auf die Spaltenüberschrift der Ergebnistabelle (z.B. ADP-Nummer) erfolgt eine Sortierung der Tabelle nach diesem Kriterium.<br>Bei Klick auf den Namen gelangen Sie direkt in die Bildungsbiografie des Mitarbeiters / Vertriebspartners.<br>Die Zertifizierungsperiode und Punktzahl werden nur angezeigt bei Personen, die verpflichtet sind WP zu sammeln und die Generali Trusted Partner Service ist (EVG oder DBV).
 gev#:#gev_report_billing#:#Rechnungen
 gev#:#gev_report_filter_crs_region#:#Trainingsregion
-gev#:#gev_report_dbv_report_superior#:#DBV Report für Führungskräte
-gev#:#gev_rep_dbv_report_superior_title#:#DBV Report für Führungskräte
-gev#:#gev_rep_dbv_report_superior_desc#:#Hier finden Sie die jährlich gesammelten Punkte eines DBV.
+gev#:#gev_report_dbv_report_superior#:#DBV Report für Führungskräfte
+gev#:#gev_rep_dbv_report_superior_title#:#DBV Report für Führungskräfte
+gev#:#gev_rep_dbv_report_superior_desc#:#Hier finden Sie die gesammelten Weiterbildungspunkte eines DBV Finanzen entsprechend der Zielvereinbarung pro Jahr für die Themen<ul><li>Betriebliche Altersversorgung</li><li>3-D Pflegevorsorge</li><li>Rente Profil Plus.</li></ul>„Gesamtpunktzahl“ sind die Punkte aller abgeschlossenen Trainings.<br>Die „Gesamten Gebuchte Bildungspunkte“ sind die „Gesamtpunktzahl“ einschließlich der zukünftig gebuchten Punkte.<br>Bei Klick auf die Spaltenüberschrift der Ergebnistabelle (z.B. Typ) erfolgt eine Sortierung der Tabelle nach diesem Kriterium.
 gev#:#gev_report_dbv_report#:#DBV Report
 gev#:#gev_rep_dbv_report_title#:#DBV Report
 gev#:#gev_rep_dbv_report_desc#:#Hier finden Sie die jährlich gesammelten Punkte Ihrer Vermittler.
 gev#:#gev_report_filter_crs_region#:#Trainingsregion
 gev#:#gev_report_trainer_operation_by_tep_category#:#Trainereinsätze nach TEP Kategorie
 gev#:#gev_report_trainer_operation_by_tep_category_title#:#Trainereinsätze nach TEP Kategorie
+gev#:#gev_report_trainer_operation_by_orgu_trainer#:#Trainereinsätze nach Organisationseinheit und Trainer
+gev#:#gev_report_trainer_operation_by_orgu_trainer_desc#:#Hier erhalten Sie eine Aufschlüsselung der Anzahl und Art der Trainereinsätze in Organisationseinheiten.
+gev#:#gev_report_trainer_workload#:#Trainerauslastung
+gev#:#gev_report_trainer_workload_desc#:#Hier finden Sie die Auslastung von Trainern in Organisationseinheiten.
 gev#:#gev_report_trainer_operation_by_tep_category_desc#:#Hier erhalten Sie eine Übersicht über die Einsatzplanung von Trainern.
 gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter
 gev#:#gev_rep_filter_show_critical_persons#:#Zeige mir nur kritische Personen.
 gev#:#gev_rep_filter_show_critical_dbvs#:#Zeige mir nur kritische DBVen.
 gev#:#gev_rep_filter_show_critical_persons_4th_year#:#Zeige mir nur kritische Personen nach dem vierten Jahr.
-gev#:#gev_report_employee_edu_bios#:#Bildungsbiographien meiner Mitarbeiter
+gev#:#gev_report_employee_edu_bios#:#Bildungsbiografien meiner Mitarbeiter
 gev#:#gev_registration_install_note#:#Generali Vermittler melden sich bitte mit der Generali E-Mail-Adresse an.
 gev#:#gev_reporting_menu#:#Reports
 gev#:#gev_search_menu#:#Trainingssuche
 gev#:#gev_set_billing_data#:#Rechnungsdaten eingeben
 gev#:#gev_set_password_on_first_login#:#Bitte setzen Sie ein Passwort für Ihren Zugang zur Generali Online Akademie.
 gev#:#gev_signature#:#Unterschrift
+gev#:#gev_signature_list#:#Unterschriftenliste
 gev#:#gev_spec_course_approval#:#Spezialistentraining genehmigen
 gev#:#gev_spec_course_check#:#Spezialistentraining überprüfen
 gev#:#gev_spec_course_create#:#Spezialistentraining anlegen
@@ -733,7 +761,7 @@ gev#:#gev_wbd_transfer_on#:#Ihre Bildungspunkte werden an die WBD gemeldet.
 gev#:#gev_webinar_link#:#Webinar Link
 gev#:#gev_webinar_password#:#Webinar Passwort
 gev#:#housenumber#:#Hausnummer
-gev#:#no_edu_bio_permission#:#Sie haben keine Berechtigung auf diese Bildungsbiographie zuzugreifen.
+gev#:#no_edu_bio_permission#:#Sie haben keine Berechtigung auf diese Bildungsbiografie zuzugreifen.
 gev#:#no_invitation_mail_available#:#Keine Einladungsmail ausgewählt.
 gev#:#register_tp_basis#:#Registrierung eines Weiterbildungskontos
 gev#:#register_tp_service#:#Registrierung eines Weiterbildungskontos
@@ -1148,7 +1176,7 @@ gev#:#gev_import_staff_member#:#Mitarbeiter importieren
 gev#:#gev_default_role_agtid_does_not_exist#:#Lokale Benutzer können nicht hinzugefügt werden, da die Rolle 'Agt-ID' fehlt.
 gev#:#gev_new_pos_self_learnings_in_table#:#Die Selbstlernkurse finden Sie ab sofort am Ende der Trainingsübersicht!
 gev#:#gev_finalize_booking_booked_out_error#:#Das Training konnte leider nicht für Sie gebucht werden, da es inzwischen ausgebucht ist.
-gev#:#gev_crs_srch_my_table_desc_advice#:#Hinweis:<br />Die Selbstlernkurse finden Sie ab sofort am Ende der Trainingsübersicht bzw. im Filter unter "Suche eingrenzen" - "Trainingstyp" - "Selbstlernkurs"!
+gev#:#gev_crs_srch_my_table_desc_advice#:#Hinweis:<br />Die Selbstlernkurse finden Sie ab sofort am Ende der Trainingsübersicht bzw. im Reiter "Selbstlernkurs"!
 gev#:#gev_venue_free_text#:#Freitext Veranstaltungsort
 gev#:#gev_orga_info#:#Organisatorisches
 gev#:#gev_training_id2#:#Trainings-Id
@@ -1158,9 +1186,9 @@ gev#:#gev_dec_building_block_wp_relevant_desc#:#Ist dieser Baustein relevant fü
 gev#:#gev_dec_building_block_edit#:#Baustein bearbeiten
 gev#:#gev_dec_building_block_new#:#Neuer Baustein
 gev#:#gev_dec_building_block_base_data#:#Bausteininformationen
-gev#:#gev_dec_building_block_title#:#Titel
-gev#:#gev_dec_building_block_content#:#Inhalte
-gev#:#gev_dec_building_block_learn_dest#:#Lernziel
+gev#:#gev_dec_building_block_create_title#:#Titel
+gev#:#gev_dec_building_block_content#:#Trainingsinhalte
+gev#:#gev_dec_building_block_target#:#Ziele und Nutzen
 gev#:#gev_dec_building_block_is_wp_relevant#:#WP relevant
 gev#:#gev_dec_building_block_active#:#Aktiv
 gev#:#gev_dec_building_block_title#:#Trainingsbausteine
@@ -1195,8 +1223,8 @@ gev#:#gev_dec_training_open_requests_header#:#Derzeit wird dieses dezentrale Tra
 gev#:#gev_dec_training_open_requests_time_info#:#Die Wartezeit zur Anlage eines dezentralen Trainings beträgt derzeit etwa %s Minuten. <br /><br /><b>Bleiben sie auf dieser Seite, um nach der Anlage des Trainings Buchungen vornehmen zu können.</b></br><br /><b>Nach der Anlage des Training erhalten sie außerdem eine E-Mail, die einen Link zu den Trainingsbuchungen enthält.</b>
 gev#:#gev_dec_training_presence_fix#:#Präsenztraining (fester Ablaufplan)
 gev#:#gev_dec_training_webinar_fix#:#Webinar (fester Ablaufplan)
-gev#:#gev_dec_training_presence_flex#:#Präsenztraining (individuelle Bausteine)
-gev#:#gev_dec_training_webinar_flex#:#Webinar (individuelle Bausteine)
+gev#:#gev_dec_training_presence_flex#:#Präsenztraining (flexible Bausteine)
+gev#:#gev_dec_training_webinar_flex#:#Webinar (flexible Bausteine)
 gev#:#gev_dec_training_notice#:#Für nähere Informationen wenden Sie sich bitte an die Abteilung Außendienstentwicklung, Telefon 089 5121 1919, Mail <a href="mailto:Bildungspunkte.de@generali.com">Bildungspunkte.de@generali.com</a>
 gev#:#gev_dec_training_title#:#Titel
 gev#:#gev_dec_training_duration#:#Zeitraum
@@ -1220,8 +1248,203 @@ gev#:#gev_dec_crs_creation_building_block_edit_sub_title#:#Hier können Sie den 
 gev#:#gev_dec_training_no_open_requests#:#Derzeit sind keine dezentralen Trainings zur Anlage vorgesehen.
 gev#:#gev_dec_training_open_requests_title#:#Anlage von dezentralen Trainings
 gev#:#gev_dec_training_open_requests_header_note#:#Hier erfahren sie, welche dezentralen Trainings derzeit für sie angelegt werden.
-gev#:#gev_dec_training_min_participation_count_not_reached#:#Bitte beachten Sie, dass bei allen dezentralen Trainings, bei denen Bildungspunkte vergeben werden sollen, eine Mindestteilnehmerzahl von 6 punkteberechtigten Personen erforderlich ist.
+gev#:#gev_dec_training_min_participation_count_not_reached#:#Bitte beachten Sie, dass bei allen dezentralen Trainings, bei denen Bildungspunkte vergeben werden sollen, eine Mindestteilnehmerzahl von 3 punkteberechtigten Personen erforderlich ist.
 gev#:#gev_dec_training_save_request#:#Dezentrales Training anlegen
 gev#:#gev_dec_training_show_buildingblocks#:#Ablaufplan anzeigen
 gev#:#gev_dec_ready#:#Fertig
 gev#:#gev_dec_training_no_venue_error_msg#:#Bitte wählen Sie einen Veranstaltungsort.
+gev#:#gev_resend_mail#:#Mail erneut versenden
+gev#:#gev_forget_passwort#:#Passwort vergessen
+gev#:#gev_forget_username#:#Benutzername vergessen
+gev#:#gev_forget_psswd_login_pretext#:#Hier haben Sie die Möglichkeit, sich Ihren Benutzernamen oder Ihr Passwort zusenden zu lassen.
+gev#:#gev_forget_psswd_login#:#Benutzername / Passwort vergessen
+gev#:#gev_mytrainingsap_legend_signature_list#:#Unterschriftenliste
+gev#:#gev_maillog#:#Maillog
+gev#:#gev_back_to_home#:#zurück zur Startseite
+gev#:#gev_footer_bipro_agent#:#Weiterbildungsprogramme 2015 Vermittler
+gev#:#gev_footer_bipro_superior#:#Weiterbildungsprogramme 2015 Führungskräfte
+gev#:#gev_footer_infos_decentral#:#Allgemeine Informationen Generali Präsenztrainings
+gev#:#gev_footer_infos_webinar#:#Allgemeine Informationen zu Generali Webinaren
+gev#:#gev_footer_terms_of_use#:#Nutzungsvereinbarungen
+gev#:#gev_footer_infos_wbd_registration#:#Unterlagen zur WBD Registrierung
+gev#:#gev_footer_contact#:#Kontakt
+gev#:#gev_footer_imprint#:#Impressum
+gev#:#gev_footer_academy_benried#:#Generali Akademie GmbH, Bernried
+gev#:#gev_dec_training_venue_free_text_info#:#Name, Straße Hausnr., PLZ Ort
+gev#:#gev_dec_training_add_building_block#:#Baustein hinzufügen
+gev#:#gev_dec_activate#:#Aktivieren
+gev#:#gev_dec_training_cancle#:#Abbrechen
+gev#:#gev_dec_training_change_settings#:#Trainingseinstellungen ändern
+gev#:#gev_dec_training_topic#:#Lerninhalt
+gev#:#gev_dec_training_dbv_topic#:#DBV-Thema
+gev#:#gev_dec_training_distribution#:#Vertriebsweg
+gev#:#gev_dec_training_save_changes#:#Änderungen speichern
+gev#:#gev_dec_training_select_building_block#:#Baustein
+gev#:#gev_dec_training_preselect_topic#:#Lerninhalt
+gev#:#gev_dec_building_wp#:#WP
+gev#:#gev_dec_training_header_topic#:#Lerninhalt vorwählen
+gev#:#gev_dec_training_header_block#:#Baustein auswählen
+gev#:#gev_dec_training_header_infos#:#Baustein Vorschau
+gev#:#gev_dec_training_break_advice#:#Hinweis:<br/>Bitte denken Sie an ausreichend Pausen!
+gev#:#gev_dec_training_end_before_start#:#Das Ende des Trainings lag vor dem Anfang. Änderungen wurden nicht gespeichert!
+gev#:#gev_dec_training_crs_to_long_no_change#:#Das Training überschreitet die maximale Dauer von 12 Zeitstunden. Änderungen wurden nicht gespeichert!
+gev#:#gev_dec_training_date_before_today#:#Das gewählte Datum liegt in der Vergangenheit. Änderungen wurden nicht gespeichert!
+gev#:#gev_dec_mail_preview#:#Mailvorschau
+gev#:#gev_dec_training_block_in_timespan#:#Bausteine überschneiden sich, bitte korrigieren Sie die Zeiten.
+gev#:#gev_dec_training_block_time_overlap#:#Bausteine überschneiden sich, bitte korrigieren Sie die Zeiten.
+gev#:#gev_dec_training_blocks_time_issue_course#:#Bausteine überschreiten die Kurszeit. Bitte korrigieren Sie die Zeiten.
+gev#:#gev_dec_training_correct_data_confirm#:#Bestätigung
+gev#:#gev_dec_training_correct_data_text#:#Hiermit bestätige ich, dass meine Einstellungen korrekt sind. Ich habe das Datum des Trainings und die Organisationseinheit überprüft.
+gev#:#gev_dec_training_correct_data_no_confirm#:#Sie müssen erst bestätigen, dass die eingebenen Daten alle richtig sind.
+gev#:#gev_dec_training_no_tpl_selected#:#Bitte wählen Sie eine Vorlage aus.
+gev#:#gev_dec_training_org_unit_advice#:#Bitte wählen sie die Organisationseinheit, für die sie dieses Training veranstalten. Durch Klick auf ein Dreieck sehen sie die untergeordneten Organisationseinheiten.
+gev#:#gev_dec_training_move_to_course#:#Trainingsinhalt übernehmen
+gev#:#gev_dec_training_schedule_download#:#Ablaufplan PDF
+gev#:#view_material#:#Materialliste einsehen
+gev#:#crs_view_material#:#Materialliste einsehen
+gev#:#edit_material#:#Materialliste bearbeiten
+gev#:#crs_edit_material#:#Materialliste bearbeiten
+gev#:#view_schedule_pdf#:#Ablaufplan PDF einsehen
+gev#:#crs_view_schedule_pdf#:#Ablaufplan PDF einsehen
+gev#:#gev_dec_training_text_to_long#:#Sie dürfen maximal %d Zeichen verwenden.
+gev#:#gev_dec_training_crs_will_not_created#:#Das dezentrale Training wird nicht angelegt.
+gev#:#gev_dec_building_ue#:#UE
+gev#:#gev_dec_training_block_end_before_start#:#Das Ende des Bausteins liegt vor dem Anfang. Bitte korrigieren Sie die Zeiten.
+gev#:#gev_dec_training_wp_sum#:#WP Gesamt:
+gev#:#gev_dec_training_block_time_issues#:#Der angelegte Baustein überschreitet die Trainingszeit, überschneidet sich mit einem anderen Baustein oder die Endzeit liegt vor der Startzeit. Bitte berichtigen Sie die Zeiten der Bausteine um die Anlage des Trainings abschließen zu können.
+gev#:#change_trainer#:#Trainer ändern
+gev#:#crs_change_trainer#:#Trainer ändern
+gev#:#load_signature_list#:#Unterschriftenliste herunterladen
+gev#:#crs_load_signature_list#:#Unterschriftenliste herunterladen
+gev#:#load_member_list#:#Mitgliederliste abrufen
+gev#:#crs_load_member_list#:#Mitgliederliste abrufen
+gev#:#view_maillog#:#Maillog einsehen
+gev#:#crs_view_maillog#:#Maillog einsehen
+gev#:#load_csn_list#:#CSN Liste herunterladen
+gev#:#crs_load_csn_list#:#CSN Liste herunterladen
+gev#:#gev_dec_forward_to_kurs#:#Zum Kurs
+gev#:#gev_coupon_active_only#:#Nur aktive Gutscheine zeigen
+gev#:#gev_coupon_expires#:#gültig bis
+gev#:#gev_coupon_report_admin_mode#:#Admin-Modus
+gev#:#gev_dec_forward_to_kurs#:#zum Kurs
+gev#:#gev_crs_search_all#:#Alle Trainings
+gev#:#gev_crs_search_present#:#Präsenztraining
+gev#:#gev_crs_search_webinar#:#Webinar
+gev#:#gev_crs_search_self_learn#:#Selbstlernkurs
+gev#:#gev_crs_search_virtual_training#:#Virtuelles Training
+gev#:#gev_training_min_participation_count_not_reached#:#Bitte beachten Sie! Wenn für dieses Training Bildungspunkte vergeben werden sollen, ist eine Mindestteilnehmerzahl von %s punkteberechtigten Personen erforderlich.
+gev#:#cancel_training#:#Training absagen
+gev#:#crs_cancel_training#:#Training absagen
+gev#:#gev_report_mode#:#Report Ansicht
+gev#:#gev_date_of_issue#:#Ausstellungsdatum
+gev#:#obj_xrcp#:#Gutscheincodereport
+gev#:#objs_xrcp#:#Gutscheincodereports
+gev#:#obj_xrcp_duplicate#:#Gutscheincodereport kopieren
+gev#:#objs_xrcp_duplicate#:#Gutscheincodereports kopieren
+gev#:#obj_xrcp_select#:#Gutscheincodereport auswählen
+gev#:#xrcp_add#:#Gutscheincodereport hinzufügen
+gev#:#xrcp_new#:#Neuen Gutscheincodereport hinzufügen
+gev#:#xrcp_read#:#Lesezugriff zum Gutscheincodereport
+gev#:#xrcp_write#:#Gutscheincodereport bearbeiten
+gev#:#xrcp_delete#:#Gutscheincodereport löschen
+gev#:#xrcp_visible#:#sichtbar
+gev#:#xrcp_edit_permission#:#schreibberechtigt
+gev#:#crs_create_xrcp#:#Gutscheincodereport erzeugen
+gev#:#grp_create_xrcp#:#Gutscheincodereport erzeugen
+gev#:#fold_create_xrcp#:#Gutscheincodereport erzeugen
+gev#:#root_create_xrcp#:#Gutscheincodereport erzeugen
+gev#:#cat_create_xrcp#:#Gutscheincodereport erzeugen
+gev#:#obj_xrbi#:#Rechnungsreport
+gev#:#objs_xrbi#:#Rechnungsreports
+gev#:#obj_xrbi_duplicate#:#Rechnungsreport kopieren
+gev#:#objs_xrbi_duplicate#:#Rechnungsreports kopieren
+gev#:#obj_xrbi_select#:#Rechnungsreport auswählen
+gev#:#xrbi_add#:#Rechnungsreport hinzufügen
+gev#:#xrbi_new#:#Neuen Rechnungsreport hinzufügen
+gev#:#xrbi_read#:#Lesezugriff zum Rechnungsreport
+gev#:#xrbi_write#:#Rechnungsreport bearbeiten
+gev#:#xrbi_delete#:#Rechnungsreport löschen
+gev#:#xrbi_visible#:#sichtbar
+gev#:#xrbi_edit_permission#:#schreibberechtigt
+gev#:#crs_create_xrbi#:#Rechnungsreport erzeugen
+gev#:#grp_create_xrbi#:#Rechnungsreport erzeugen
+gev#:#fold_create_xrbi#:#Rechnungsreport erzeugen
+gev#:#root_create_xrbi#:#Rechnungsreport erzeugen
+gev#:#cat_create_xrbi#:#Rechnungsreport erzeugen
+gev#:#all#:#alle
+gev#:#obj_xrds#:#DBV Report für Vorgesetzte
+gev#:#objs_xrds#:#DBV Reports für Vorgesetzte
+gev#:#obj_xrds_duplicate#:#DBV Report für Vorgesetzte kopieren
+gev#:#objs_xrds_duplicate#:#DBV Reports für Vorgesetzte kopieren
+gev#:#obj_xrds_select#:#DBV Report für Vorgesetzte auswählen
+gev#:#xrds_add#:#DBV Report für Vorgesetzte hinzufügen
+gev#:#xrds_new#:#Neuen DBV Report für Vorgesetzte hinzufügen
+gev#:#xrds_read#:#Lesezugriff zum DBV Report für Vorgesetzte
+gev#:#xrds_write#:#DBV Report für Vorgesetzte bearbeiten
+gev#:#xrds_delete#:#DBV Report für Vorgesetzte löschen
+gev#:#xrds_visible#:#sichtbar
+gev#:#xrds_edit_permission#:#schreibberechtigt
+gev#:#crs_create_xrds#:#DBV Report für Vorgesetzte erzeugen
+gev#:#grp_create_xrds#:#DBV Report für Vorgesetzteerzeugen
+gev#:#fold_create_xrds#:#DBV Report für Vorgesetzte erzeugen
+gev#:#root_create_xrds#:#DBV Report für Vorgesetzte erzeugen
+gev#:#cat_create_xrds#:#DBV Report für Vorgesetzte erzeugen
+gev#:#gev_dec_training_attachment#:#Anhang
+gev#:#gev_wbd_type#:#WBD-Status
+gev#:#gev_bwv_id_info#:#Sie können ihre GDV Vermittler-ID über die WBD-Registrierung im Menü "Übersicht" eintragen.
+gev#:#gev_wbd_register_exist#:#Ich habe bereits ein Weiterbildungskonto bei der Weiterbildungsdatenbank (GDV / gut beraten) und die Generali soll für mich die Datenpflege (TP-Service) übernehmen.
+gev#:#gev_wbd_register_new#:#Ich habe noch kein Weiterbildungskonto bei der Weiterbildungsdatenbank des Gesamtverbandes der Deutschen Versicherungswirtschaft(GDV / gut beraten) und die Generali soll für mich ein Weiterbildungskonto eröffnen sowie die Datenpflege (TP-Service) übernehmen.
+gev#:#gev_wbd_register_my_bwv_id#:#Meine GDV Vermitller-ID lautet
+gev#:#gev_wbd_register_affiliate#:#TP-Service übernehmen
+gev#:#gev_wbd_affiliate_cb_mandatory#:#Sie müssen dieses Feld bestätigen, um die Übernahme des TP-Service durch die Generali abschließen zu können.
+gev#:#gev_wbd_affiliate_finished#:#Vielen Dank, wir werden für Sie den TP-Service übernehmen.<br />Dieser Prozess wird in den nächsten Tagen abgeschlossen werden.<br />Nach erfolgreicher übernhame des TP-Service werden Sie eine Systemmail erhalten, in der Sie nochmal über die Übernahme informiert werden.
+gev#:#gev_wbd_register_selections#:#Auswahlmöglichkeiten
+gev#:#gev_user_is_inactive#:#(AUSGESCHIEDEN)
+gev#:#gev_dec_training_attachment_delete#:#Anhang entfernen
+gev#:#gev_crs_members#:#Teilnehmer
+gev#:#gev_edupoints#:#Weiterbildungspunkte
+gev#:#gev_sum#:#Summe
+gev#:#gev_dec_trainings_fixed#:#feste dezentrale Trainings
+gev#:#gev_dec_trainings_flexible#:#flexible dezentrale Trainings
+gev#:#non_dec_trainings#:#nicht-dezentrale Trainings
+gev#:#gev_trainings_w_points#:#Trainings mit Bildungspunkten
+gev#:#gev_trainings_wo_points#:#Trainings ohne Bildungspunkte
+gev#:#xrcg_add#:#Unternehmensreport hinzufügen
+gev#:#xrcg_new#:#Neuen Unternehmensreport hinzufügen
+gev#:#xrcg_read#:#Lesezugriff zum Unternehmensreport
+gev#:#xrcg_write#:#Unternehmensreport bearbeiten
+gev#:#xrcg_delete#:#Unternehmensreport löschen
+gev#:#xrcg_visible#:#sichtbar
+gev#:#xrcg_edit_permission#:#schreibberechtigt
+gev#:#gev_give_affiliate_tp_service#:#Hiermit erteile ich den %s (<a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_Wechsel_AAD.pdf' target='_blank' class='blue'>als AAD</a> / <a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_Wechsel_§84HGB.pdf' target='_blank'  class='blue'>als §84HGB</a>) zur Verwaltung des WBD-Benutzerkontos als Trusted Partner Service.
+gev#:#gev_give_affiliate_wbd#:#Hiermit erteile ich die <a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_Wechsel_Auftrag_BDL.pdf' target='_blank' class='blue'>Einwilligung zur Eintragung von Weiterbildungspunkten und -maßnahmen</a> in die WBD.
+gev#:#gev_give_affiliate_tp_service_old#:#Name des vorherigen TP-Service oder "Selbstpfleger"
+gev#:#xrcg_edit_permission#:#schreibberechtigt
+gev#:#xatd_add#:#ASTD Report hinzufügen
+gev#:#xatd_new#:#Neuen ASTD Report hinzufügen
+gev#:#xatd_read#:#Lesezugriff zum ASTD Report
+gev#:#xatd_write#:#ASTD Report bearbeiten
+gev#:#xatd_delete#:#ASTD Report löschen
+gev#:#xatd_visible#:#sichtbar
+gev#:#xatd_edit_permission#:#schreibberechtigt
+gev#:#astd_category#:#Vertrieb + ID
+gev#:#astd_managers_f#:#Executive and Senior Managers<br>(F1 ggf. Vorstände/GFs)<br>weiblich
+gev#:#astd_managers_m#:#Executive and Senior Managers<br>(F1 ggf. Vorstände/GFs)<br>männlich
+gev#:#astd_middle_managers_f#:#Middle Managers<br>(F 2)<br>weiblich
+gev#:#astd_middle_managers_m#:#Middle Managers<br>(F 2)<br>männlich
+gev#:#astd_employee_f#:#Employee Line<br>(F 3 und ID-Mitarbeiter, P2, E1 und E2)<br>weiblich
+gev#:#astd_employee_m#:#Employee Line<br>(F 3 und ID-Mitarbeiter, P2, E1 und E2)<br>männlich
+gev#:#astd_sales_employee_f#:#Sales Employees<br>(festangestellter AD)<br>weiblich
+gev#:#astd_sales_employee_m#:#Sales Employees<br>(festangestellter AD)<br>männlich
+gev#:#astd_sales_not_employee_f#:#Sales NON Employees<br>(§84 HGB)<br>weiblich
+gev#:#astd_sales_not_employee_m#:#Sales NON Employees<br>(§84 HGB)<br>männlich
+gev#:#astd_hours_not_self_learn#:#Anzahl der Lernstunden interner und externer Veranstaltungen
+gev#:#astd_hours_self_learn#:#Anzahl der E-Learning-Stunden
+gev#:#astd_hours_language_course#:#Anzahl der Sprachkurs-Lernstunden
+gev#:#astd_participators#:#Anzahl der Empfänger von PE-Maßnahmen
+gev#:#astd_accomodation_cost#:#Bewirtungs-, Raum- und Technikkosten
+gev#:#astd_accomodation_cost_per_day_person#:#Bewirtungs-, Raum- und Technikkosten pro Tag und pro Person
+gev#:#gev_bwv_id_info_get_new#:#Es wird für Sie eine GDV Vermittler-ID beantragt.
+gev#:#gev_dec_training_no_mail#:#Es soll keine Einladung versendet werden.
+gev#:#gev_no_trainer#:#An diesem Training ist kein Trainer hinterlegt. Die Finalisierung des Teilnahmestatus ist daher nicht möglich.
+gev#:#gev_crs_src_clear_search#:#Ergebnis zurücksetzen

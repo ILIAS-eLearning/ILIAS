@@ -360,6 +360,9 @@ class ilTEP
 		
 		$uvg = gevOrgUnitUtils::getInstanceByImportId("uvg");
 		$ous[$uvg->getRefId()] = $uvg->getTitle();
+		foreach (gevOrgUnitUtils::getAllChildren(array($uvg->getRefId())) as $ids) {
+			$ous[$ids["ref_id"]] = ilObject::_lookupTitle($ids["obj_id"]);
+		}
 		
 		$base = gevOrgUnitUtils::getInstanceByImportId("gev_base");
 		$base_ref_id = $base->getRefId();
@@ -376,6 +379,16 @@ class ilTEP
 		
 		return array( "view" => self::getOrgUnitNamesAndIds(array($uvg->getRefId()))
 					, "view_rekru" => self::getOrgUnitNamesAndIds(array($evg->getRefId()))
+					);
+	}
+
+	public static function getPossibleOrgUnitsForDecentralTrainingEntriesSeparated() {
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$evg = gevOrgUnitUtils::getInstanceByImportId("evg");
+		$uvg = gevOrgUnitUtils::getInstanceByImportId("uvg");
+		
+		return array( "view" => array()
+					, "view_rekru" => self::getOrgUnitNamesAndIds(array($evg->getRefId(),$uvg->getRefId()))
 					);
 	}
 	// gev-patch end

@@ -13,6 +13,7 @@ require_once "Services/TEP/classes/class.ilTEPPermissions.php";
  * @ilCtrl_Calls ilTEPGUI: ilTEPEntryGUI, ilTEPOperationDaysGUI, ilFormPropertyDispatchGUI
  * @ilCtrl_Calls ilTEPGUI: ilParticipationStatusAdminGUI
  * @ilCtrl_Calls ilTEPGUI: gevMaillogGUI
+ * @ilCtrl_Calls ilTEPGUI: ilObjCourseGUI
  */
 class ilTEPGUI
 {
@@ -168,7 +169,11 @@ class ilTEPGUI
 				$gui->setCoursePageTitleAndLocator();				
 				$ilCtrl->forwardCommand($gui);
 				break;
-			
+			case "ilobjcoursegui":
+				require_once("Modules/Course/classes/class.ilObjCourseGUI.php");
+				$gui = new ilObjCourseGUI();
+				$ilCtrl->forwardCommand($gui);
+				break;
 			default:
 				// gev-patch start
 				switch($cmd) {
@@ -192,6 +197,7 @@ class ilTEPGUI
 						break;
 					case "showMaillog":
 					case "showLoggedMail":
+					case "resendMail":
 						require_once("Services/GEV/Mailing/classes/class.gevMaillogGUI.php");
 						$gui = new gevMaillogGUI("iltepgui");
 						$ret = $ilCtrl->forwardCommand($gui);

@@ -12,6 +12,7 @@
 class gevDecentralTrainingCreationRequest {
 	const CREATOR_ROLE_TITLE = "Trainingsersteller";
 	const CREATOR_ROLE_DESC = "Ersteller des dezentralen Trainings mit Ref-Id %d";
+	const WEB_DATA_FOLDER = 'request_data';
 	
 	// @var gevDecentralTrainingCreationRequestDB
 	protected $db;
@@ -103,6 +104,10 @@ class gevDecentralTrainingCreationRequest {
 	public function settings() {
 		return $this->settings;
 	}
+
+	public function setSettings($settings) {
+		$this->settings = $settings;
+	}
 	
 	public function trainerIds() {
 		return $this->trainer_ids;
@@ -176,15 +181,15 @@ class gevDecentralTrainingCreationRequest {
 		}
 		
 		$trgt_obj_id = $this->getObjectIdFor($trgt_ref_id);
-		$trgt_utils = $this->getCourseUtils($trgt_obj_id);
+		$trgt_utils = $this->getCourseUtils((int)$trgt_obj_id);
 		$trgt_crs = $trgt_utils->getCourse();
 		
 		// Roles and Members
 		$creator_role_id = $this->createCreatorRole($trgt_ref_id);
-		$this->maybeAssignCreatorToCreatorRole($creator_role_id);
 		$this->adjustTrainerPermissions($trgt_crs);
 		$this->adjustOwnerAndAdmin($src_utils, $trgt_crs);
 		$this->assignTrainers($trgt_crs);
+		$this->assignCreatorToCreatorRole($creator_role_id);
 		
 		$rbacsystem->resetRoleCache();
 		
@@ -200,9 +205,16 @@ class gevDecentralTrainingCreationRequest {
 			$this->updateCourseBuildingBlocks($trgt_utils->getRefId());
 			$this->updateCourseWithBuidlingBlockData($trgt_utils->getRefId());
 		}
+
+		$trgt_crs = $trgt_utils->getCourse();
 		
 		$this->createTEPEntry($trgt_crs);
-		
+
+		// ATTENTION: This will delete the temporary files if successfull,
+		// so we could only call it once per request. If there is some issue
+		// afterwards and an exception is thrown, the attachments will be gone.
+		$this->addAttachmentsToMail((int)$trgt_crs->getId());
+
 		$this->finished_ts = new ilDateTime(time(),IL_CAL_UNIX);
 		$this->created_obj_id = $trgt_obj_id;
 		
@@ -310,11 +322,9 @@ class gevDecentralTrainingCreationRequest {
 		return $creator_role->getId();
 	}
 	
-	protected function maybeAssignCreatorToCreatorRole($creator_role_id) {
+	protected function assignCreatorToCreatorRole($creator_role_id) {
 		$rbacadmin = $this->getRBACAdmin();
-		if (!in_array($this->user_id,$this->trainer_ids)) {
-			$rbacadmin->assignUser($creator_role_id, $this->user_id);
-		}
+		$rbacadmin->assignUser($creator_role_id, $this->user_id);
 	}
 	
 	protected function adjustTrainerPermissions(ilObjCourse $a_trgt_crs) {
@@ -374,6 +384,11 @@ class gevDecentralTrainingCreationRequest {
 	
 	protected function getOperationIdsByNames(array $names) {
 		return  ilRbacReview::_getOperationIdsByName($names);
+	}
+
+	protected function getDecentralTrainingFileStorage($tmpPathString) {
+		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingFileStorage.php");
+		return new gevDecentralTrainingFileStorage($tmpPathString);
 	}
 	
 	// GETTERS FOR GLOBALS
@@ -451,5 +466,24 @@ class gevDecentralTrainingCreationRequest {
 	protected function updateCourseWithBuidlingBlockData($a_trgt_crs_ref_id) {
 		require_once("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php");
 		gevCourseBuildingBlockUtils::courseUpdates($a_trgt_crs_ref_id);
+	}
+
+	protected function addAttachmentsToMail($trgt_obj_id) {
+		$added_files = $this->settings()->addedFiles();
+		if($added_files === null) {
+			return;
+		}
+
+		$file_storage = $this->getDecentralTrainingFileStorage($this->settings()->tmpPathString());
+		$trgt_utils = $this->getCourseUtils((int)$trgt_obj_id);
+
+		
+		$trgt_utils->addAttachmentsToMailSingleFolder($added_files, $file_storage->getAbsolutePath());
+		$trgt_utils->addPreselectedAttachments(array(gevCourseUtils::RECIPIENT_MEMBER,gevCourseUtils::RECIPIENT_STANDARD), $added_files);
+		$trgt_utils->saveCustomAttachments($added_files);
+
+		//Achtiung!!!
+		//Hiernach sind die Anhänge inklusive des Temporären Verzeichnisses gelöscht!!!
+		$file_storage->deleteDirectory();
 	}
 }

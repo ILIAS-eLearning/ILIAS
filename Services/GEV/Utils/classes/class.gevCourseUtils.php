@@ -17,9 +17,14 @@ require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 require_once("Modules/Course/classes/class.ilObjCourse.php");
+require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
+require_once("Services/GEV/Mailing/classes/class.gevCrsMailAttachments.php");
 
 class gevCourseUtils {
 	static $instances = array();
+	const CREATOR_ROLE_TITLE = "Trainingsersteller";
+	const RECIPIENT_MEMBER = "Mitglied";
+	const RECIPIENT_STANDARD = "standard";
 	
 	protected function __construct($a_crs_id) {
 		global $ilDB, $ilLog, $lng, $ilCtrl, $rbacreview, $rbacadmin, $rbacsystem;
@@ -46,6 +51,7 @@ class gevCourseUtils {
 		$this->membership = null;
 		$this->main_trainer = null;
 		$this->main_admin = null;
+		$this->main_training_creator = null;
 	
 		$this->material_list = null;
 	}
@@ -95,7 +101,7 @@ class gevCourseUtils {
 	static public function getBookingLinkTo($a_crs_id, $a_usr_id) {
 		global $ilCtrl,$ilUser;
 		// This is for the booking per express login.
-		if (!$ilUser->getId()) {
+		if (!$ilUser->getId() || gevSettings::getInstance()->getAgentOfferUserId() == $ilUser->getId() ) {
 			$ilCtrl->setParameterByClass("gevExpressRegistrationGUI", "crs_id", $a_crs_id);
 			$lnk = $ilCtrl->getLinkTargetByClass("gevExpressRegistrationGUI", "startRegistration");
 			$ilCtrl->clearParametersByClass("gevExpressRegistrationGUI");
@@ -109,9 +115,35 @@ class gevCourseUtils {
 		return $lnk;
 	}
 	
+	public function getPermanentBookingLink() {
+		include_once('./Services/Link/classes/class.ilLink.php');
+		return ilLink::_getStaticLink($this->crs_id, "gevcrsbooking",true, "");
+	}
+	
+	public function getPermanentBookingLinkGUI() {
+		include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
+		
+		if ($this->isDecentralTraining()) {
+			$type = "gevcrsbookingexpress";
+		}
+		else {
+			$type = "gevcrsbooking";
+		}
+		
+		$bl = new ilPermanentLinkGUI($type,  $this->getId());
+		$bl->setIncludePermanentLinkText(false);
+		$bl->setAlignCenter(false);
+		return $bl;
+	}
+	
 	static public function gotoBooking($a_crs_id) {
 		global $ilCtrl;
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmd=toBooking&crs_id=".$a_crs_id);
+	}
+	
+	static public function gotoExpressBooking($a_crs_id) {
+		require_once("Services/Utilities/classes/class.ilUtil.php");
+		ilUtil::redirect("makler.php?baseClass=gevexpressregistrationgui&cmd=startRegistration&crs_id=".$a_crs_id);
 	}
 	
 	static public function gotoBookingTrainer($a_crs_id) {
@@ -265,6 +297,24 @@ class gevCourseUtils {
 		}
 		
 		return $this->crs_participations;
+	}
+
+	public function setParticipationStatusAndPoints($user_id, $state, $cpoints) {
+		if(!is_numeric($state)) {
+			throw new Exception("gevCourseUtils::setParticipationStatusAndPoints:state is not an integer");
+		}
+
+		if(!is_numeric($cpoints)) {
+			throw new Exception("gevCourseUtils::setParticipationStatusAndPoints:cpoints is not an integer");
+		}
+
+		$sql = "UPDATE crs_pstatus_usr"
+				." SET cpoints = ".$this->db->quote($cpoints,"integer")
+					." , status = ".$this->db->quote($state,"integer")
+				." WHERE user_id = ".$this->db->quote($user_id,"integer")
+					." AND crs_id = ".$this->db->quote($this->getId(),"integer");
+		
+		$this->db->manipulate($sql);
 	}
 	
 	public function getLocalRoles() {
@@ -425,7 +475,7 @@ class gevCourseUtils {
 	public function getStartDate() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_START_DATE);
 	}
-	
+
 	public function getFormattedStartDate() {
 		$d = $this->getStartDate();
 		if (!$d) {
@@ -435,8 +485,15 @@ class gevCourseUtils {
 		return $val;
 	}
 	
-	public function setStartDate($a_date) {
+	public function setStartDate(ilDate $a_date) {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_START_DATE, $a_date);
+	}
+
+	public function getStartDateTime() {
+		$start_date = $this->getStartDate()->get(IL_CAL_DATE);
+		$start_time = $this->getFormattedStartTime().":00";
+
+		return $start_date." ".$start_time;
 	}
 	
 	public function getEndDate() {
@@ -456,7 +513,7 @@ class gevCourseUtils {
 		return $val;
 	}
 	
-	public function setEndDate($a_date) {
+	public function setEndDate(ilDate $a_date) {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_END_DATE, $a_date);
 	}
 	
@@ -641,8 +698,8 @@ class gevCourseUtils {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WAITING_LIST_ACTIVE, $a_active ? "Ja" : "Nein");
 		
 		if ($a_update_course) {
-			$this->getCourse()->enableSubscriptionMembershipLimitation(true);
-			$this->getCourse()->enableWaitingList(true);
+			$this->getCourse()->enableSubscriptionMembershipLimitation($a_active);
+			$this->getCourse()->enableWaitingList($a_active);
 			$this->getCourse()->update();
 		}
 	}
@@ -776,12 +833,12 @@ class gevCourseUtils {
 		return $prv->getLongTitle();
 	}
 	
-	public function setVCType($a_vc_type) {
-		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE, $a_vc_type);
+	public function setVirtualClassType($a_vc_type) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_VC_CLASS_TYPE, $a_vc_type);
 	}
 
-	public function getVCType() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE);
+	public function getVirtualClassType() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_VC_CLASS_TYPE);
 	}
 
 	public function setTrainingCategory(array $a_training_category) {
@@ -1139,31 +1196,31 @@ class gevCourseUtils {
 		$end_datetime = new ilDateTime($this->getEndDate()->get(IL_CAL_DATE)." ".$this->getFormattedEndTime().":00", IL_CAL_DATETIME);
 
 		for ($i = 0; $i < $a_amount_of_vcs; $i++) {				
-			$to_assign_vc = $vc_pool->getVCAssignment($this->getWebExVirtualClassType(), $this->crs_id, $start_datetime, $end_datetime);
+			$to_assign_vc = $vc_pool->getVCAssignment($this->getVirtualClassType(), $this->crs_id, $start_datetime, $end_datetime);
 
 			if($to_assign_vc === null) {
 				return false;
 			}
 			
-			$this->setWebExLink($to_assign_vc->getVC()->getUrl());
-			$this->setWebExPassword($to_assign_vc->getVC()->getMemberPassword());
-			$this->setWebExPasswordTutor($to_assign_vc->getVC()->getTutorPassword());
-			$this->setWebExLoginTutor($to_assign_vc->getVC()->getTutorLogin());
+			$this->setVirtualClassLink($to_assign_vc->getVC()->getUrl());
+			$this->setVirtualClassPassword($to_assign_vc->getVC()->getMemberPassword());
+			$this->setVirtualClassPasswordTutor($to_assign_vc->getVC()->getTutorPassword());
+			$this->setVirtualClassLoginTutor($to_assign_vc->getVC()->getTutorLogin());
 		}
 
 		return true;
 	}
 	
 	public function checkVirtualTrainingForPossibleVCAssignment() {
-		if (!$this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() === null) {
+		if (!$this->isStartAndEndDateSet() && $this->getVirtualClassType() === null) {
 			ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_vc_class_type_and_no_times"));
 			return false;
 		}
-		elseif (!$this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() !== null) {
+		elseif (!$this->isStartAndEndDateSet() && $this->getVirtualClassType() !== null) {
 			ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_startenddate_set"));	
 			return false;
 		}
-		elseif ($this->isStartAndEndDateSet() && $this->getWebExVirtualClassType() === null) {
+		elseif ($this->isStartAndEndDateSet() && $this->getVirtualClassType() === null) {
 			ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_vc_class_type"));
 			return false;
 		}
@@ -1174,13 +1231,13 @@ class gevCourseUtils {
 	public function adjustVCAssignment() {
 		require_once("Services/VCPool/classes/class.ilVCPool.php");
 		$vc_pool = ilVCPool::getInstance();
+		$vc_types = $vc_pool->getVCTypes();
 		
 		$assigned_vcs = $vc_pool->getVCAssignmentsByObjId($this->crs_id);
 		$has_vc_assigned = !empty($assigned_vcs);
 		
-		$should_get_vc_assignment = $this->isVirtualTraining() 
-								&& $this->isStartAndEndDateSet() 
-								&& $this->getWebExVirtualClassType() !== null;
+		$should_get_vc_assignment = $this->isStartAndEndDateSet() 
+								&& in_array($this->getVirtualClassType(), $vc_types);
 		
 		if ($has_vc_assigned && $should_get_vc_assignment) {
 			if ($this->hasStartOrEndDateChangedToVCAssign()) {
@@ -1204,18 +1261,18 @@ class gevCourseUtils {
 			// release all assignments and empty amd fields
 			foreach($assigned_vcs as $avc) {
 				$avc->release();
-				if ($this->getWebExLink() == $avc->getVC()->getUrl()) {
-					$this->setWebExLink(null);
+				if ($this->getVirtualClassLink() == $avc->getVC()->getUrl()) {
+					$this->setVirtualClassLink(null);
 				}
 
-				if ($this->getWebExPassword() == $avc->getVC()->getMemberPassword()) {
-					$this->setWebExPassword(null);
+				if ($this->getVirtualClassPassword() == $avc->getVC()->getMemberPassword()) {
+					$this->setVirtualClassPassword(null);
 				}
-				if ($this->getWebExPasswordTutor() == $avc->getVC()->getTutorPassword()) {
-					$this->setWebExPasswordTutor(null);
+				if ($this->getVirtualClassPasswordTutor() == $avc->getVC()->getTutorPassword()) {
+					$this->setVirtualClassPasswordTutor(null);
 				}
-				if ($this->getWebExLoginTutor() == $avc->getVC()->getTutorLogin()) {
-					$this->setWebExLoginTutor(null);
+				if ($this->getVirtualClassLoginTutor() == $avc->getVC()->getTutorLogin()) {
+					$this->setVirtualClassLoginTutor(null);
 				}
 			}
 		}
@@ -1231,13 +1288,14 @@ class gevCourseUtils {
 			// DON'T TOUCH THIS.
 		}
 	}
-	
-	public function getWebExLink() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LINK);
-	}
 
-	public function getWebExLinkWithHTTP() {
-		$link = $this->getWebExLink();
+
+	public function getVirtualClassLink() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_VC_LINK);
+	}
+	
+	public function getVirtualClassLinkWithHTTP() {
+		$link = $this->getVirtualClassLink();
 
 		if($this->startsWith(strtolower($link), "http://") || $this->startsWith(strtolower($link), "https://")) {
 			return $link;
@@ -1252,41 +1310,35 @@ class gevCourseUtils {
 		return (substr($haystack, 0, $length) === $needle);
 	}
 	
-	public function setWebExLink($a_value) {
-		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LINK, $a_value);
-	}
-	
-	public function getWebExPassword() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD);
-	}
-	
-	public function setWebExPassword($a_value) {
-		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD, $a_value);
+	public function setVirtualClassLink($a_value) {
+		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_VC_LINK, $a_value);
 	}
 
-	public function getWebExPasswordTutor() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR);
-	}
-	
-	public function setWebExPasswordTutor($a_value) {
-		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR, $a_value);
+	public function getVirtualClassPassword() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_VC_PASSWORD);
 	}
 
-	public function getWebExLoginTutor() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR);
+	public function setVirtualClassPassword($a_value) {
+		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_VC_PASSWORD, $a_value);
 	}
 
-	public function setWebExLoginTutor($a_value) {
-		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR, $a_value);
+	public function getVirtualClassPasswordTutor() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_VC_PASSWORD_TUTOR);
 	}
-	
-	public function getWebExVirtualClassType() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE);
+
+	public function setVirtualClassPasswordTutor($a_value) {
+		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_VC_PASSWORD_TUTOR, $a_value);
 	}
-	
-	public function setWebExVirtualClassType($a_value) {
-		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE, $a_value);
+
+	public function getVirtualClassLoginTutor() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_VC_LOGIN_TUTOR);
 	}
+
+	public function setVirtualClassLoginTutor($a_value) {
+		return $this->amd->setField($this->crs_id, gevSettings::CRS_AMD_VC_LOGIN_TUTOR, $a_value);
+	}
+
+
 
 	/*public function getCSNLink() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CSN_LINK);
@@ -1497,6 +1549,24 @@ class gevCourseUtils {
 	public function getAdmins() {
 		return $this->getMembership()->getAdmins();
 	}
+
+	public function getTrainingCreator() {
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		$role_utils = gevRoleUtils::getInstance();
+		$local_roles = $role_utils->getLocalRoleIdsAndTitles($this->getCourse()->getId());
+		$role_id = null;
+		foreach ($local_roles as $key => $value) {
+			if($value == self::CREATOR_ROLE_TITLE) {
+				$role_id = $key;
+			}
+		}
+
+		if($role_id === null) {
+			return null;
+		}
+
+		return $role_utils->getRbacReview()->assignedUsers($role_id);
+	}
 	
 	public function hasAdmin($admin_id) {
 		return in_array($trainer_id, $this->getAdmins());
@@ -1504,6 +1574,10 @@ class gevCourseUtils {
 	
 	public function getMembers() {
 		return array_merge($this->getMembership()->getMembers(), $this->getTrainers(), $this->getAdmins());
+	}
+
+	public function getBookedUser() {
+		return $this->getMembership()->getMembers();
 	}
 	
 	public function getSpecialMembers() {		
@@ -1536,6 +1610,17 @@ class gevCourseUtils {
 		}
 		
 		return $this->main_admin;
+	}
+
+	public function getMainTrainingCreator() {
+		if($this->main_training_creator === null) {
+			$training_creator = $this->getTrainingCreator();
+			if (count($training_creator) != 0) {
+				$this->main_training_creator = new ilObjUser($training_creator[0]);
+			}
+		}
+
+		return $this->main_training_creator;
 	}
 	
 	public function getCancelledMembers() {
@@ -1706,7 +1791,48 @@ class gevCourseUtils {
 		return "";
 	}
 	
+	// Main Trainig Creator info
 	
+	public function getMainTrainingCreatorFirstname() {
+		$tr = $this->getMainTrainingCreator();
+		if ($tr !== null) {
+			return $tr->getFirstname();
+		}
+		return "";
+	}
+	
+	public function getMainTrainingCreatorLastname() {
+		$tr = $this->getMainTrainingCreator();
+		if ($tr !== null) {
+			return $tr->getLastname();
+		}
+		return "";
+	}
+	
+	public function getMainTrainingCreatorName() {
+		$tr = $this->getMainTrainingCreator();
+		if ($tr !== null) {
+			return $this->getMainTrainingCreatorFirstname()." ".$this->getMainTrainingCreatorLastname();
+		}
+		return "";
+	}
+	
+	public function getMainTrainingCreatorPhone() {
+		$tr = $this->getMainTrainingCreator();
+		if ($tr !== null) {
+			return $tr->getPhoneOffice();
+		}
+		return "";
+	}
+	
+	public function getMainTrainingCreatorEMail() {
+		$tr = $this->getMainTrainingCreator();
+		if ($tr !== null) {
+			return $tr->getEmail();
+		}
+		return "";
+	}
+
 	public function getInvitationMailPreview() {
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 		$am = new gevCrsAutoMails($this->getId());
@@ -1722,6 +1848,19 @@ class gevCourseUtils {
 	
 	public function isFinalized() {
 		return $this->getParticipations()->getProcessState() == ilParticipationStatus::STATE_FINALIZED;
+	}
+
+	/**
+	* get status started if start datetime is passed.
+	* just calculated value
+	*
+	* @return boolean
+	*/
+	public function isStarted() {
+		$start_datetime = $this->getStartDateTime();
+		$now = date("Y-m-d H:m:00");
+		
+		return $now > $start_datetime;
 	}
 	
 	// Memberlist creation
@@ -1740,6 +1879,10 @@ class gevCourseUtils {
 
 	public function deliverSignatureList($filename = null) {
 		$this->buildSignatureList($filename);
+	}
+
+	public function deliverCrsScheduleList($filename = null) {
+		$this->buildCrsScheduleList($filename);
 	}
 
 	public function buildICAL($a_send,$a_filename) {
@@ -1902,7 +2045,7 @@ class gevCourseUtils {
 		$i = 0;
 
 		foreach ($columns as $column) {
-			$worksheet->setColumn($i, $i, min(max(strlen($column),10),30));
+			$worksheet->setColumn($i, $i, min(max(strlen($column),15),30));
 			$i++;
 		}
 
@@ -1925,7 +2068,7 @@ class gevCourseUtils {
 
 				$user_utils = gevUserUtils::getInstance($user_id);
 
-				if (!$user_utils->hasRoleIn(array("VP", "ExpressUser"))) {
+				if (!$user_utils->hasRoleIn(array("VP", "ExpressUser","DBV UVG"))) {
 					continue;
 				}
 
@@ -1950,7 +2093,7 @@ class gevCourseUtils {
 								return $names["firstname"]." ".$names["lastname"];
 							 }, $dbvs);
 				
-				$worksheet->write($row, 0 , $user_utils->getBDFromIV(), $format_wrap);
+				$worksheet->write($row, 0, implode(", ", $user_utils->getUVGBDOrCPoolNames()), $format_wrap);
 				$worksheet->write($row, 1, implode(", ", $dbv_names), $format_wrap);
 				$worksheet->write($row, 2 , $user_utils->getCompanyName(), $format_wrap);
 				$worksheet->write($row, 3 , $user_utils->getLastname(), $format_wrap);
@@ -1987,6 +2130,22 @@ class gevCourseUtils {
 		$list = new gevCourseSignatureList($this);
 		$list->Output($a_filename,'D');
 
+ 	}
+
+ 	public function buildCrsScheduleList($filename = null, $deliver=true) {
+ 		require_once 'Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreateSchedulePDF.php';
+
+ 		if ($a_filename === null) {
+			$a_filename = $this->getTitle()."_Ablaufplan.pdf";
+		}
+
+		$pdf = new gevDecentralTrainingCreateSchedulePDF($this->getId());
+		
+		if($deliver) {
+			$pdf->deliver($a_filename);
+		} else {
+			$pdf->build($a_filename);
+		}
  	}
 
 	public function buildMemberList($a_send, $a_filename, $a_type) {
@@ -2081,7 +2240,7 @@ class gevCourseUtils {
 		$user_ids = $this->getCourse()->getMembersObject()->getMembers();
 		$tutor_ids = $this->getCourse()->getMembersObject()->getTutors();
 
-		$user_ids = array_merge($user_ids, $tutor_ids);
+		$user_ids = array_unique(array_merge($user_ids, $tutor_ids));
 
 		if($user_ids)
 		{
@@ -2095,21 +2254,39 @@ class gevCourseUtils {
 				//$txt[] = $lng->txt("name").": ".$user_data["name"];
 				//$txt[] = $lng->txt("phone_office").": ".$user_data["fon"];
 				//$txt[] = $lng->txt("vofue_org_unit_short").": ". $user_data["ounit"];
+				$ou_title = array();
 
-				$ou_id = $user_utils->getOrgUnitId();
-				if ($ou_id) {
+				$employee_ous = $user_utils->getOrgUnitsWhereUserIsEmployee();
+				$superior_ous = $user_utils->getOrgUnitsWhereUserIsDirectSuperior();
+
+				foreach ($employee_ous as &$array) {
+					$array = $array["obj_id"];			
+				}
+				foreach ($superior_ous as &$array) {
+					$array = $array["obj_id"];			
+				}
+				$ou_ids = array_unique(array_merge($employee_ous,$superior_ous));
+
+				foreach($ou_ids as $ou_id) {
+
 					$ou_utils = gevOrgUnitUtils::getInstance($ou_id);
 					$ou_above_utils = $ou_utils->getOrgUnitAbove();
-					if ($ou_above_utils) {
-						$ou_title = $ou_above_utils->getTitle()." / ".$ou_utils->getTitle();
+					$ou_above_above_utils = $ou_above_utils->getOrgUnitAbove();
+
+					if ($ou_above_above_utils) {
+						$ou_title_aux = $ou_above_above_utils->getTitle()." / ".$ou_above_utils->getTitle()." / ".$ou_utils->getTitle();
+					}		
+					else if ($ou_above_utils) {
+						$ou_title_aux = $ou_above_utils->getTitle()." / ".$ou_utils->getTitle();
 					}
 					else {
-						$ou_title = $ou_utils->getTitle();
+						$ou_title_aux = $ou_utils->getTitle();
 					}
+					$ou_title[] = $ou_title_aux; 
 				}
-				else {
-					$ou_title = "";
-				}
+				$ou_title = implode(', ', $ou_title);
+
+
 
 				$worksheet->write($row, 0, $user_utils->getGender(), $format_wrap);
 				$worksheet->writeString($row, 1, $user_utils->getFirstname(), $format_wrap);
@@ -2241,7 +2418,7 @@ class gevCourseUtils {
 		return $row;
 	}
 	
-	protected function getListMetaData($a_type = null) {
+	public function getListMetaData($a_type = null) {
 		$start_date = $this->getStartDate();
 		$end_date = $this->getEndDate();
 
@@ -2253,7 +2430,9 @@ class gevCourseUtils {
 			$email = $user_utils->getEmail();
 			$user_id = $name." (".$email.")";
 		}
-
+		
+		$venue_title = $this->getVenueTitle();
+		$venue_title = ($venue_title != "") ? $venue_title : $this->getVenueFreeText();
 
 		$arr = array("Titel" => $this->getTitle()
 					, "Untertitel" => $this->getSubtitle()
@@ -2261,7 +2440,7 @@ class gevCourseUtils {
 					, "Datum" => ($start_date !== null && $end_date !== null)
 								 ? ilDatePresentation::formatPeriod($this->getStartDate(), $this->getEndDate())
 								 : ""
-					, "Veranstaltungsort" => $this->getVenueTitle()
+					, "Veranstaltungsort" => $venue_title
 					, "Bildungspunkte" => $this->getCreditPoints()
 					, "Trainer" => 	($trainerList !== null)
 					 				? implode(", ", $trainerList)
@@ -2368,12 +2547,35 @@ class gevCourseUtils {
 	public function isWaitingListActivated() {
 		return $this->getBookings()->isWaitingListActivated();
 	}
+
+	public function getWaitingListLength() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_MAX_WAITING_LIST_LENGTH);
+	}
+
+	public function setWaitingListLength($waiting_list_lenght) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_MAX_WAITING_LIST_LENGTH, $waiting_list_lenght);
+	}
+
+	public function isWaitingListFull() {
+		$waiting_list_lenght = $this->getWaitingListLength();
+		$waiting_list_count = count($this->getBookings()->getWaitingUsers());
+		
+		if($waiting_list_lenght === null || $waiting_list_lenght == 0) {
+			return false;
+		}
+
+		if($waiting_list_count < $waiting_list_lenght) {
+			return false;
+		}
+
+		return true;
+	}
 	
 	public function canBookCourseForOther($a_user_id, $a_other_id) {
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		$utils = gevUserUtils::getInstance($a_user_id);
+		require_once("Services/GEV/CourseSearch/classes/class.gevCourseSearch.php");
+		$crs_srch = gevCourseSearch::getInstance($a_user_id);
 		return    $this->getBookingPermissions($a_user_id)->bookCourseForUser($a_other_id)
-			   || in_array($a_other_id, $utils->getEmployeeIdsForCourseSearch())
+			   || in_array($a_other_id, $crs_srch->getEmployeeIdsForCourseSearch())
 			   ;
 	}
 	
@@ -2403,6 +2605,7 @@ class gevCourseUtils {
 	
 	public function cleanWaitingList() {
 		$ws = $this->getBookings()->cleanWaitingList();
+		$this->setWaitingListActive(false);
 	}
 	
 	public function cancel() {
@@ -2411,13 +2614,13 @@ class gevCourseUtils {
 		
 		// Cancel participants
 		$this->cleanWaitingList();
-		
+
 		$participants = $this->getParticipants();
 		foreach($participants as $participant) {
 			$this->getBookings()->cancelWithoutCosts($participant);
 		}
-		$mails->send("admin_cancel_booked_to_cancelled_without_costs", $participants);
-		
+		$mails->send("training_cancelled_participant_info", $participants);
+
 		//Send cancel mail to trainer						
 		$trainers = $this->getTrainers();
 		$mails->send("training_cancelled_trainer_info",$trainers);
@@ -2438,6 +2641,13 @@ class gevCourseUtils {
 		// Remove Trainers
 		$membership = $this->getCourse()->getMembersObject();
 		foreach($trainers as $trainer) {
+			$membership->delete($trainer);
+		}
+	}
+
+	public function cancelTrainer(array $trainer_id) {
+		$membership = $this->getCourse()->getMembersObject();
+		foreach($trainer_id as $trainer) {
 			$membership->delete($trainer);
 		}
 	}
@@ -2982,9 +3192,14 @@ class gevCourseUtils {
 			$role = $crs->getDefaultAdminRole();
 		}
 		else {
-			$role = gevRoleUtils::getInstance()->getRoleIdByName($a_role_name);
+			$local_roles = gevRoleUtils::getInstance()->getLocalRoleIdsAndTitles($crs->getId());
+			$role = array_search($a_role_name, $local_roles);
+
 			if (!$role) {
-				throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role_name);
+				$role = gevRoleUtils::getInstance()->getRoleIdByName($a_role_name);
+				if (!$role) {
+					throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role_name);
+				}
 			}
 		}
 		
@@ -2995,6 +3210,42 @@ class gevCourseUtils {
 		$this->rbacadmin->grantPermission($role, $new_ops, $ref_id);
 	}
 	
+	public function revokePermissionsOf($a_role_name, $a_permissions) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		
+		$crs = $this->getCourse();
+		$ref_id = gevObjectUtils::getRefId($crs->getId());
+		$crs->setRefId($ref_id);
+
+		if ($a_role_name == "tutor" || $a_role_name == "trainer") {
+			$role = $crs->getDefaultTutorRole();
+		}
+		elseif ($a_role_name == "member") {
+			$role = $crs->getDefaultMemberRole();
+		}
+		elseif ($a_role_name == "admin") {
+			$role = $crs->getDefaultAdminRole();
+		}
+		else {
+			$local_roles = gevRoleUtils::getInstance()->getLocalRoleIdsAndTitles($crs->getId());
+			$role = array_search($a_role_name, $local_roles);
+
+			if (!$role) {
+				$role = gevRoleUtils::getInstance()->getRoleIdByName($a_role_name);
+				if (!$role) {
+					throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role_name);
+				}
+			}
+		}
+
+		$cur_ops = $this->rbacreview->getRoleOperationsOnObject($role, $ref_id);
+		$grant_ops = ilRbacReview::_getOperationIdsByName($a_permissions);
+		$new_ops = array_diff($cur_ops, $grant_ops);
+		$this->rbacadmin->revokePermission($ref_id, $role);
+		$this->rbacadmin->grantPermission($role, $new_ops, $ref_id);
+	}
+
 	static public function grantPermissionsForAllCoursesBelow($a_ref_id, $a_role_name, $a_permissions) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 
@@ -3002,6 +3253,16 @@ class gevCourseUtils {
 		foreach($children as $child) {
 			$crs_utils = gevCourseUtils::getInstance($child["obj_id"]);
 			$crs_utils->grantPermissionsFor($a_role_name, $a_permissions);
+		}
+	}
+
+	static public function revokePermissionsForAllCoursesBelow($a_ref_id, $a_role_name, $a_permissions) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+
+		$children = self::getAllCoursesBelow(array($a_ref_id));
+		foreach($children as $child) {
+			$crs_utils = gevCourseUtils::getInstance($child["obj_id"]);
+			$crs_utils->revokePermissionsOf($a_role_name, $a_permissions);
 		}
 	}
 
@@ -3040,7 +3301,7 @@ class gevCourseUtils {
 			&& $end+$end_time > $timestamp;
 	}
 
-	static public function updateMethod(array $a_new_method, $a_ref_id) {
+	static public function updateGDVTopic($gdv_topic,$a_ref_id) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
@@ -3048,18 +3309,40 @@ class gevCourseUtils {
 		$obj_id = gevObjectUtils::getObjId($a_ref_id);
 		$amd_utils = gevAMDUtils::getInstance();
 
-		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_METHODS,$a_new_method);
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_GDV_TOPIC, $gdv_topic);
 	}
 
-	static public function updateMedia(array $a_new_media, $a_ref_id) {
+	static public function updateTrainingCategory(array $categories, $a_ref_id) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		
 		$obj_id = gevObjectUtils::getObjId($a_ref_id);
 		$amd_utils = gevAMDUtils::getInstance();
+
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_TOPIC, $categories);
+	}
+
+	static public function updateTargetAndBenefits($targets,$a_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		
-		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_MEDIA,$a_new_media);
+		$obj_id = gevObjectUtils::getObjId($a_ref_id);
+		$amd_utils = gevAMDUtils::getInstance();
+
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_GOALS,$targets);
+	}
+
+	static public function updateContent($content, $a_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		$obj_id = gevObjectUtils::getObjId($a_ref_id);
+		$amd_utils = gevAMDUtils::getInstance();
+
+		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_CONTENTS,$content);
 	}
 
 	static public function updateWP($a_wp, $a_ref_id) {
@@ -3072,6 +3355,180 @@ class gevCourseUtils {
 
 		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_CREDIT_POINTS,$a_wp);
 	}
-}
 
-?>
+	public function userHasRightOf($user_id, $right_name) {
+		return $this->rbacsystem->checkAccessOfUser($user_id, $right_name, $this->getRefId());
+	}
+
+	public function userCanCancelCourse($user_id) {
+		$now = @date("Y-m-d");
+		$start_date = $this->getStartDate();
+		if ($this->userHasRightOf($user_id, gevSettings::CANCEL_TRAINING) && 
+			!$this->getCourse()->getOfflineStatus() && 
+			$start_date !== null && 
+			($start_date->get(IL_CAL_DATE) > $now || ($start_date->get(IL_CAL_DATE) == $now && !$this->isFinalized()))) 
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	public function getCustomAttachments() {
+		$ret = array();
+
+		$sql = "SELECT file_name\n"
+				." FROM crs_custom_attachments\n"
+				." WHERE obj_id = ".$this->db->quote($this->crs_id, "integer");
+
+		$res = $this->db->query($sql);
+
+		while($row = $this->db->fetchAssoc($res)){
+			$ret[] = $row["file_name"];
+		}
+
+		return $ret;
+	}
+
+	public function deleteCustomAttachment(array $files) {
+		assert(is_array($files));
+
+		$datatype_array = array("integer", "text");
+		$sql = "DELETE FROM crs_custom_attachments WHERE obj_id = (?) AND file_name = (?)";
+		$statement = $this->db->prepare($sql,$datatype_array);
+		
+		$values = array($this->crs_id);
+		
+		foreach ($files as $file) {
+			$values[1] = $file;
+			$this->db->execute($statement,$values);
+		}
+	}
+
+	public function removeAttachmentsFromMail(array $files) {
+		assert(is_array($files));
+
+		require_once("Services/GEV/Mailing/classes/class.gevCrsMailAttachments.php");
+		$current_attachments = new gevCrsMailAttachments($this->crs_id);
+
+		foreach ($files as $filename) {
+			if(!$current_attachments->isAutogeneratedFile($filename)) {
+				$current_attachments->removeAttachment($filename);
+			}
+		}
+	}
+
+	public function removePreselectedAttachments(array $functions, $files) {
+		$invitation_mail_settings = new gevCrsInvitationMailSettings($this->crs_id);
+
+		foreach ($functions as $key => $function) {
+			$invitation_mail_settings->removeCustomAttachment($function, $files);
+		}
+		
+		$invitation_mail_settings->save();
+	}
+
+	public function saveCustomAttachments(array $files) {
+		assert(is_array($files));
+		$datatype_array = array("integer", "text");
+		$sql = "INSERT INTO crs_custom_attachments (obj_id,file_name) VALUES (?,?)";
+		$statement = $this->db->prepare($sql,$datatype_array);
+		
+		$values = array($this->crs_id);
+		
+		foreach ($files as $file) {
+			$values[1] = $file;
+			$this->db->execute($statement,$values);
+		}
+	}
+
+	public function addAttachmentsToMailSingleFolder($files, $folder) {
+		foreach ($files as $filename) {
+			$this->log->write("File: ".$filename." Folder: ".$folder);
+			$this->addAttachmentsToMail($filename,$folder."/".$filename);
+		}
+	}
+
+	public function addAttachmentsToMailSeperateFolder($files) {
+		foreach ($files as $file) {
+			$this->addAttachmentsToMail($file["name"],$file["tmp_name"]);
+		}
+	}
+
+	public function addAttachmentsToMail($filename, $folder) {
+		$current_attachments = new gevCrsMailAttachments($this->crs_id);
+
+		if(!$current_attachments->isAutogeneratedFile($filename)) {
+			$current_attachments->addAttachment($filename, $folder);
+		}
+	}
+
+	public function addPreselectedAttachments(array $functions, $files) {
+		$invitation_mail_settings = new gevCrsInvitationMailSettings($this->crs_id);
+		
+		foreach ($functions as $key => $function) {
+			$invitation_mail_settings->addCustomAttachments($function, $files);
+		}
+		$invitation_mail_settings->save();
+	}
+
+	public function getFunctionsForInvitationMails() {
+		$roles = $this->getCustomRoles($this->crs_id);
+		$ret = array($this->lng->txt("crs_member"));
+		$ret[] = $this->lng->txt("crs_tutor");
+
+		foreach($roles as $role) {
+			$ret[] = $role["title"];
+		}
+
+		return $ret;
+	}
+
+	public function getAttachmentLinks($class_name) {
+		$invitation_mail_settings = new gevCrsInvitationMailSettings($this->crs_id);
+
+		$ret = array();
+		foreach ($invitation_mail_settings->getAttachmentsFor("Mitglied") as $key => $value) {
+			if(file_exists($value["path"])) {
+				$this->ctrl->setParameterByClass($class_name, "filename", $value["name"]);
+				$this->ctrl->setParameterByClass($class_name, "crs_id", $this->crs_id);
+				$ret[] = '<a href="'.$this->ctrl->getLinkTargetByClass($class_name, "deliverAttachment").'">'.$value["name"].'</a>';
+				$this->ctrl->clearParametersByClass($class_name);
+			} else {
+				$ret[] = $value["name"]." (Datei wurde nicht gefunden)";
+			}
+		}
+
+		return $ret;
+	}
+
+	// delivery
+
+	/**
+	 * Deliver attachment (ha!)
+	 */
+	public function deliverAttachment($filename) {
+		$mail_attachments = new gevCrsMailAttachments($this->crs_id);
+
+		if ($mail_attachments->isAttachment($filename)) {
+			$this->deliverAttachmentFile($filename, $mail_attachments->getPathTo($filename));
+		}
+	}
+
+
+	/**
+	 * Deliver file with correct mimetype (if that could be determined).
+	 *
+	 * ATTENTION: Exits after delivery.
+	 *
+	 * @param string $a_name The name for the delivery of the file.
+	 * @param string $a_path The complete path to the file that should be
+	 * 						 delivered.
+	 */
+	protected function deliverAttachmentFile($a_name, $a_path) {
+		require_once("Services/Utilities/classes/class.ilFileUtils.php");
+
+		$mimetype = ilFileUtils::_lookupMimeType($a_path);
+		ilUtil::deliverFile($a_path, $a_name, $mimetype, false, false, true);
+	}
+}

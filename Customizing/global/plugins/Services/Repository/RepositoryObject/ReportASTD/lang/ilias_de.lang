@@ -1,0 +1,22 @@
+<!-- language file start -->
+obj_xatd#:#ASTD-Report
+objs_xatd#:#ASTD-Reports
+obj_xatd_duplicate#:#ASTD-Report kopieren
+objs_xatd_duplicate#:#ASTD-Reports kopieren
+obj_xatd_select#:#ASTD-Report auswählen
+xatd_add#:#ASTD-Report hinzufügen
+xatd_new#:#Neuen ASTD-Report hinzufügen
+xatd_read#:#Lesezugriff zum ASTD-Report
+xatd_write#:#ASTD-Report bearbeiten
+xatd_delete#:#ASTD-Report löschen
+xatd_visible#:#sichtbar
+xatd_edit_permission#:#schreibberechtigt
+crs_create_xatd#:#ASTD-Report erzeugen
+grp_create_xatd#:#ASTD-Report erzeugen
+fold_create_xatd#:#ASTD-Report erzeugen
+root_create_xatd#:#ASTD-Report erzeugen
+cat_create_xatd#:#ASTD-Report erzeugen
+rep_robj_xatd_status#:#Status
+rep_robj_xatd_offline#:#Offline
+xatd_content#:#Report
+xatd_properties#:#Eigenschaften

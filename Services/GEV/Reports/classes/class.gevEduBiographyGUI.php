@@ -89,8 +89,9 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->left_join("object_reference oref")
 							->on("crs.crs_id = oref.obj_id")
 						->compile();
-		
+
 		$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
+
 		$this->filter = catFilter::create()
 						->dateperiod( "period"
 									, $this->lng->txt("gev_period")
@@ -111,6 +112,12 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->static_condition("(crs.crs_id < 0 OR oref.deleted IS NULL)")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
+		$this->ctrl->setParameter($this, "target_user_id",null);
+
+		$this->relevant_parameters = array(
+			"target_user_id" => $this->target_user_id
+			,$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			); 
 	}
 	
 	public function executeCommand() {
@@ -426,6 +433,20 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 					."   AND ".$this->db->in("usrcrs.booking_status", array("gebucht", "kostenpflichtig storniert", "kostenfrei storniert"), false, "text")
 					;
 	}
-}
 
-?>
+	protected function _process_xls_status($val) {
+
+		$this->lng->loadLanguageModule("assessment");
+		$val = str_replace($this->success_img, $this->lng->txt("passed_official") ,$val);
+		$val = str_replace($this->failed_img, $this->lng->txt("failed_official") ,$val);
+		$val = str_replace($this->in_progress_img, $this->lng->txt("tst_status_progress") ,$val);
+		return $val;
+	}
+
+	protected function _process_xls_date($val) {
+		$val = str_replace('<br>', '',$val);
+		$val = str_replace('<br/>', '',$val);
+
+		return $val;
+	}
+}

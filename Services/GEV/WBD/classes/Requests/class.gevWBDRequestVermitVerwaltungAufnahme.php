@@ -10,40 +10,25 @@
 *
 */
 require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
-require_once("Services/GEV/WBD/classes/Data/class.gevWBDData.php");
 require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessVermitVerwaltungAufnahme.php");
-class gevWBDRequestVermitVerwaltungAufnahme extends gevWBDRequest {
-	
-	protected $auth_email;
-	protected $auth_mobile_phone_nr;
-	protected $agent_id;
-	protected $firstname;
-	protected $lastname;
-	protected $birthday;
-
-	protected $xml_tmpl_file_name;
-
-	static $request_type = "AFFILIATE_USER";
-	static $check_szenarios = array('email' 			=> array('mandatory' => 1)
-									,'mobile_phone_nr' 	=> array('mandatory' => 1, 'custom' => 'regexpMobilePhone')
-									,'bwv_id'			=> array('mandatory'=>1)
-									,'firstname' 		=> array('mandatory' => 1, 'maxlen' => 30)
-									,'lastname' 		=> array('mandatory' => 1, 'maxlen' => 50)
-									,'birthday' 		=> array('mandatory' => 1,'custom' => 'datebefore2000')
-								);
+class gevWBDRequestVermitVerwaltungAufnahme extends WBDRequestVermitVerwaltungAufnahme {
+	use gevWBDRequest;
 
 	protected function __construct($data) {
 		parent::__construct();
 
-		$this->auth_email 			= new gevWBDData("AuthentifizierungsEmail",$data["email"]);
-		$this->auth_mobile_phone_nr = new gevWBDData("AuthentifizierungsTelefonnummer",$data["mobile_phone_nr"]);
-		$this->agent_id 			= new gevWBDData("VermittlerId",$data["bwv_id"]);
-		$this->firstname 			= new gevWBDData("VorName",$data["firstname"]);
-		$this->lastname 			= new gevWBDData("Name",$data["lastname"]);
-		$this->birthday 			= new gevWBDData("Geburtsdatum", $data["birthday"]);
+		$this->auth_email 			= new WBDData("AuthentifizierungsEmail",$data["email"]);
+		$this->auth_mobile_phone_nr = new WBDData("AuthentifizierungsTelefonnummer",$data["mobile_phone_nr"]);
+		$this->agent_id 			= new WBDData("VermittlerId",$data["bwv_id"]);
+		$this->firstname 			= new WBDData("VorName",$data["firstname"]);
+		$this->lastname 			= new WBDData("Name",$data["lastname"]);
+		$this->birthday 			= new WBDData("Geburtsdatum", $data["birthday"]);
 
-		$this->xml_tmpl_file_name = "VermittlerVerwaltung_Aufnehmen.xml";
-		$this->wbd_service_name = "VermittlerVerwaltungService";
+		$errors = $this->checkData($data);
+
+		if(!empty($errors)) {
+			throw new myLogicException("gevWBDRequestVermitVerwaltungAufnahme::__construct:checkData failed",0,null, $errors);
+		}
 
 		$this->user_id = $data["user_id"];
 		$this->row_id = $data["row_id"];
@@ -51,17 +36,14 @@ class gevWBDRequestVermitVerwaltungAufnahme extends gevWBDRequest {
 
 	public static function getInstance(array $data) {
 		$data = self::polishInternalData($data);
-		$errors = self::checkData($data);
 
-		if(!count($errors)) {
-			try {
-				return new gevWBDRequestVermitVerwaltungAufnahme($data);
-			} catch(LogicException $e) {
-				$errors = array();
-				$errors[] =  new gevWBDError($e->getMessage(), static::$request_type, $data["user_id"], $data["row_id"]);
-				return $errors;
-			}
-		} else {
+		try {
+			return new gevWBDRequestVermitVerwaltungAufnahme($data);
+		}catch(myLogicException $e) {
+			return $e->options();
+		} catch(LogicException $e) {
+			$errors = array();
+			$errors[] =  self::createWBDError($e->getMessage(), static::$request_type, $data["user_id"], $data["row_id"],0);
 			return $errors;
 		}
 	}
@@ -82,8 +64,8 @@ class gevWBDRequestVermitVerwaltungAufnahme extends gevWBDRequest {
 	* 
 	* @return string
 	*/
-	private static function checkData($data) {
-		return self::checkSzenarios($data);
+	protected function checkData($data) {
+		return $this->checkSzenarios($data);
 	}
 
 	/**

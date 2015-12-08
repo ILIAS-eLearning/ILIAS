@@ -43,7 +43,6 @@ class gevExpressLoginUtils {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$user_utils = gevUserUtils::getInstanceByObj($this->user);
 
-		$user_utils->setPrivateEmail($a_form->getInput("email"));
 		$user_utils->setCompanyName($a_form->getInput("institution"));
 		$user_utils->setJobNumber($a_form->getInput("vnumber"));
 
@@ -133,4 +132,3 @@ class gevExpressLoginUtils {
 		return $isExpressUser;
 	}
 }
-?>
