@@ -56,8 +56,9 @@ class ilStudyProgrammeUserAssignment {
 		$assignments = ilStudyProgrammeAssignment::where(array( "usr_id" => $a_user_id ))
 													->get();
 
+		//if parent object is deleted or in trash
+		//the assignment for the user should not be returned
 		$ret = array();
-
 		foreach($assignments as $ass) {
 			$ass_obj =	new ilStudyProgrammeUserAssignment($ass);
 			foreach (ilObject::_getAllReferences($ass_obj->assignment->getRootId()) as $value) {
