@@ -145,14 +145,14 @@ class ilOrgUnitSimpleImportGUI {
 		if ($importer->hasWarnings()) {
 			$msg = $this->lng->txt("import_terminated_with_warnings") . " <br/>";
 			foreach ($importer->getWarnings() as $warning) {
-				$msg .= "-" . $this->lng->txt($warning["lang_var"]) . " (Import ID: " . $warning["import_id"] . ")<br>";
+				$msg .= "-" . $this->lng->txt($warning["lang_var"]) . " (Import ID: " . $warning["import_id"] . ")<br />";
 			}
 			ilUtil::sendInfo($msg, true);
 		}
 		if ($importer->hasErrors()) {
 			$msg = $this->lng->txt("import_terminated_with_errors") . "<br/>";
 			foreach ($importer->getErrors() as $warning) {
-				$msg .= "- " . $this->lng->txt($warning["lang_var"]) . " (Import ID: " . $warning["import_id"] . ")<br>";
+				$msg .= "- " . $this->lng->txt($warning["lang_var"]) . " (Import ID: " . $warning["import_id"] . ")<br />";
 			}
 			ilUtil::sendFailure($msg, true);
 		}

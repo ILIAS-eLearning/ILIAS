@@ -88,15 +88,8 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 			$object->setDescription($description);
 			$object->update();
 			$object->setImportId($external_id);
-			if($parent_ref_id != $tree->getParentId($ref_id)){
-				try{
-					$tree->moveTree($ref_id, $parent_ref_id);
-				}catch(Exception $e){
-					global $ilLog;
-					$this->addWarning("not_movable", $ou_id?$ou_id:$external_id, $action);
-					$ilLog->write($e->getMessage()."\\n".$e->getTraceAsString());
-				}
-			}
+			$this->moveObject($ref_id, $parent_ref_id, $ou_id, $external_id);
+
 			$this->stats["updated"]++;
 		}elseif($action == "create"){
 			if(!$parent_ref_id){
@@ -122,6 +115,31 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 			$this->stats["created"]++;
 		}else{
 			$this->addError("no_valid_action_given", $ou_id, $action);
+		}
+	}
+
+	/**
+	 * @param $ref_id int
+	 * @param $parent_ref_id int
+	 * @param $ou_id mixed This is only needed for displaying the warning.
+	 * @param $external_id mixed This is only needed for displaying the warning.
+	 */
+	protected function moveObject($ref_id, $parent_ref_id, $ou_id, $external_id) {
+		global $tree;
+		if($parent_ref_id != $tree->getParentId($ref_id)){
+			try{
+				$path = $tree->getPathId($parent_ref_id);
+				if(in_array($ref_id, $path)) {
+					$this->addWarning("not_movable_to_subtree", $ou_id?$ou_id:$external_id, "update");
+				} else {
+					$tree->moveTree($ref_id, $parent_ref_id);
+				}
+			}catch(Exception $e){
+				global $ilLog;
+				$this->addWarning("not_movable", $ou_id?$ou_id:$external_id, "update");
+				$ilLog->write($e->getMessage()."\\n".$e->getTraceAsString());
+				error_log($e->getMessage()."\\n".$e->getTraceAsString());
+			}
 		}
 	}
 }
