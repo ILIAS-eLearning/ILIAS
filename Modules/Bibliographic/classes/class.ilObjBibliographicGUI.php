@@ -6,6 +6,7 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
 require_once "./Modules/Bibliographic/classes/class.ilBibliographicDetailsGUI.php";
 require_once("./Services/Export/classes/class.ilExportGUI.php");
 require_once('./Services/News/classes/class.ilNewsItem.php');
+require_once('./Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php');
 
 
 /**
@@ -23,7 +24,7 @@ require_once('./Services/News/classes/class.ilNewsItem.php');
  *
  * @extends           ilObject2GUI
  */
-class ilObjBibliographicGUI extends ilObject2GUI {
+class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandling {
 
 	const P_ENTRY_ID = 'entry_id';
 	/**
@@ -78,6 +79,7 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 		$link = $ilCtrl->getLinkTarget($this, $this->getStandardCmd());
 		if ($this->object != NULL) {
 			$ilNavigationHistory->addItem($this->object->getRefId(), $link, "bibl");
+			$this->addHeaderAction();
 		}
 		$next_class = $ilCtrl->getNextClass($this);
 		$this->cmd = $ilCtrl->getCmd();
@@ -423,46 +425,6 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 		$ilCtrl->redirect($this, "");
 	}
 
-
-	/**
-	 * @param bool|false $a_redraw
-	 *
-	 * @return string
-	 */
-	public function addHeaderAction($a_redraw = false) {
-		global $ilUser, $ilAccess, $tpl, $lng, $ilCtrl;
-		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
-		$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, $ilAccess, "dcl", $this->ref_id, $this->obj_id);
-		include_once "Services/Object/classes/class.ilObjectListGUI.php";
-		ilObjectListGUI::prepareJSLinks($this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true), $ilCtrl->getLinkTargetByClass(array(
-			"ilcommonactiondispatchergui",
-			"ilnotegui"
-		), "", "", true, false), $ilCtrl->getLinkTargetByClass(array( "ilcommonactiondispatchergui", "iltagginggui" ), "", "", true, false));
-		$lg = $dispatcher->initHeaderAction();
-		// notification
-		if ($ilUser->getId() != ANONYMOUS_USER_ID && $this->object->getNotification() == 1) {
-			include_once "./Services/Notification/classes/class.ilNotification.php";
-			if (ilNotification::hasNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(), $this->obj_id)) {
-				//Command Activate Notification
-				$ilCtrl->setParameter($this, "ntf", 1);
-				$lg->addCustomCommand($ilCtrl->getLinkTarget($this, "toggleNotification"), "dcl_notification_deactivate_dcl");
-				$lg->addHeaderIcon("not_icon", ilUtil::getImagePath("notification_on.svg"), $lng->txt("dcl_notification_activated"));
-			} else {
-				//Command Deactivate Notification
-				$ilCtrl->setParameter($this, "ntf", 2);
-				$lg->addCustomCommand($ilCtrl->getLinkTarget($this, "toggleNotification"), "dcl_notification_activate_dcl");
-				$lg->addHeaderIcon("not_icon", ilUtil::getImagePath("notification_off.svg"), $lng->txt("dcl_notification_deactivated"));
-			}
-			$ilCtrl->setParameter($this, "ntf", "");
-		}
-		if (! $a_redraw) {
-			$tpl->setHeaderActionMenu($lg->getHeaderAction());
-		} else {
-			return $lg->getHeaderAction();
-		}
-		$tpl->setHeaderActionMenu($lg->getHeaderAction());
-	}
-
 	/**
 	 * @param string $change
 	 */
@@ -477,6 +439,44 @@ class ilObjBibliographicGUI extends ilObject2GUI {
 		$ilNewsItem->setVisibility(NEWS_USERS);
 		$ilNewsItem->setContentTextIsLangVar(false);
 		$ilNewsItem->create();
+	}
+
+	/**
+	 * Add desktop item
+	 * @access public
+	 */
+	public function addToDeskObject() {
+		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+		ilDesktopItemGUI::addToDesktop();
+		ilUtil::sendSuccess($this->lng->txt("added_to_desktop"), true);
+		$this->ctrl->redirect($this, 'view');
+	}
+
+	/**
+	 * Remove from desktop
+	 * @access public
+	 */
+	public function removeFromDeskObject() {
+		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+		ilDesktopItemGUI::removeFromDesktop();
+		ilUtil::sendSuccess($this->lng->txt("removed_from_desktop"), true);
+		$this->ctrl->redirect($this, 'view');
+	}
+
+	/**
+	 * Add desktop item. Alias for addToDeskObject.
+	 * @access public
+	 */
+	public function addToDesk() {
+		$this->addToDeskObject();
+	}
+
+	/**
+	 * Remove from desktop. Alias for removeFromDeskObject.
+	 * @access public
+	 */
+	public function removeFromDesk() {
+		$this->removeFromDeskObject();
 	}
 }
 
