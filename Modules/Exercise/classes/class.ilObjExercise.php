@@ -994,8 +994,8 @@ class ilObjExercise extends ilObject
 		{
 			include_once 'Modules/Exercise/classes/class.ilExAssignment.php';	
 			
-			// team upload?
-			$user_ids = ilExAssignment::getTeamMembersByAssignmentId($a_ass_id, $ilUser->getId());
+			// #17673 - team upload?
+			$user_ids = ilExAssignment::getTeamMembersByAssignmentId($ass_id, $ilUser->getId());
 			if(!$user_ids)
 			{
 				$user_ids = array($ilUser->getId());
