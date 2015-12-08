@@ -777,3 +777,11 @@ gevUDFUtils::createUDFFields(array(
 	));
 
 ?>
+
+<#14>
+<?php
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+gevUDFUtils::removeUDFField(gevSettings::USR_UDF_PRIV_PHONE);
+?>
