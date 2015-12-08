@@ -51,8 +51,6 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 		if ($ilAccess->checkAccess('read', '', $t_arr[1])) {
 			return true;
 		}
-		$object_title = ilObject::_lookupTitle(ilObject::_lookupObjId($t_arr[1]));
-		ilUtil::sendFailure(sprintf($lng->txt('msg_no_perm_read_item'), $object_title), true);
 
 		return false;
 	}
