@@ -231,7 +231,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 		$questionoutput = $template->get();
 		//$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : ""; // Moving new method 
 																								 // due to deprecation.
-		$feedback = ($show_feedback) ? $this->getGenericFeedbackOutput($active_id, $pass) : "";
+		$feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getGenericFeedbackOutput($active_id, $pass) : "";
 		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback, true ));
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 

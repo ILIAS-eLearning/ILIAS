@@ -308,7 +308,7 @@ class ilGroupXMLParser extends ilSaxParser
 			case 'CancellationEnd':
 				if((int)$this->cdata)
 				{
-					$this->group_data['cancel_end'] = new ilDateTime((int)$this->cdata, IL_CAL_UNIX);						
+					$this->group_data['cancel_end'] = new ilDate((int)$this->cdata, IL_CAL_UNIX);						
 				}
 				break;
 				

@@ -760,6 +760,7 @@ assessment#:#tst_skl_level_thresholds_link#:#Kompetenz-Schwellenwerte konfigurie
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Beachten Sie, dass die Kompetenzergebnisse eines einzelnen Tests nur bedingt aussagekräftig sind. Je mehr Informationen zu den einzelnen Kompetenzen gesammelt werden, desto valider die Aussage. Sollten einzelne Kompetenzen keinen Eintrag erhalten haben, standen für diese Kompetenz zu wenig Informationen zur Verfügung.
 assessment#:#locked#:#gesperrt
 assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilnehmers %s von %d auf %d Punkte durch %s
+assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben. Eingabe: '%s'
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.
 assessment#:#log_create_new_test#:#Neuer Test erzeugt
 assessment#:#log_manual_feedback#:#%s hat eine manuelle Bewertung für den Teilnehmer %s und die Frage %s erstellt: %s
@@ -4221,6 +4222,7 @@ common#:#no_date#:#Kein Datum
 common#:#no_description#:#Keine Beschreibung
 common#:#no_frm_in_personal_list#:#Es sind keine Foren abonniert.
 common#:#no_global_role_left#:#Jeder Benutzer muss mindestens einer globalen Rolle zugeordnet sein.
+common#:#user_not_found_to_delete#:#Ein Benutzer, der gelöscht werden sollte, konnte nicht gefunden werden.
 common#:#no_grp_in_personal_list#:#Es sind keine Gruppen abonniert.
 common#:#no_import_available#:#Import nicht verfügbar für Typ
 common#:#no_import_file_found#:#Keine Importdatei gefunden
@@ -5045,7 +5047,7 @@ common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#sort_inherit_prefix#:#Durch Kurs/Gruppe bestimmt
 common#:#sorting_header#:#Sortierung
 common#:#sorting_info_inherit#:#Wird die Sortierung des übergeordneten Kurses bzw. der Gruppe geändert, ändert sich auch diese Sortierung.
-common#:#sorting_info_manual#:#Die enthaltenen Objekte können in einer gewünschten Reihenfolge angeordnet werden.
+common#:#sorting_info_manual#:#Die enthaltenen Objekte können in einer gewünschten Reihenfolge angeordnet werden. Bitte legen sie zusätzlich fest, wie neue Objekte in eine vorhandene manuelle Reihenfolge einsortiert werden sollen.
 common#:#sorting_info_title#:#Die enthaltenen Objekte werden automatisch nach ihrem Titel sortiert. 
 common#:#sorting_manual_header#:#Manuell
 common#:#sorting_save#:#Sortierung speichern
@@ -12198,7 +12200,7 @@ user#:#user_portfolios#:#Portfolios
 user#:#user_portfolios_desc#:#Benutzer können Portfolios anlegen und als Profil verwenden.
 user#:#user_profile_portfolio#:#Wenn Sie ein Portfolio als Ihr Profil nutzen möchten, setzen Sie im Portfolio-Bereich das Attribut "Mein Profil".
 user#:#user_profile_portfolio_selected#:#Sie benutzen momentan ein Portfolio als Ihr Profil. Die Aktivierung erfolgt dort über den Reiter "Freigabe".
-user#:#user_profile_preview#:#Preview
+user#:#user_profile_preview#:#Vorschau
 user#:#user_public_profile_info#:#Bitte wählen Sie aus, welche Daten in Ihrem Profil erscheinen sollen und welche Benutzer es betrachten können.
 user#:#user_save_ordering_and_titles#:#Reihenfolge und Titel speichern
 user#:#user_screen_reader_optimization#:#Screen-Reader-Optimierung
@@ -14215,13 +14217,13 @@ bibl#:#bib_default_author#:#Autor
 bibl#:#bib_default_booktitle#:#Titel
 bibl#:#bib_default_chapter#:#Kapitel
 bibl#:#bib_default_edition#:#Auflage
-bibl#:#bib_default_editor#:#Verlag
+bibl#:#bib_default_editor#:#Herausgeber
 bibl#:#bib_default_institution#:#Institution
 bibl#:#bib_default_journal#:#Journal/Zeitschrift
 bibl#:#bib_default_number#:#Nummer
 bibl#:#bib_default_organization#:#Organisation
 bibl#:#bib_default_pages#:#Seiten
-bibl#:#bib_default_publisher#:#Herausgeber
+bibl#:#bib_default_publisher#:#Verlag
 bibl#:#bib_default_title#:#Titel
 bibl#:#bib_default_type#:#Typ
 bibl#:#bib_default_volume#:#Auflage
@@ -14891,6 +14893,7 @@ cntr#:#sorting_new_items_position#:#Position neuer Objekte
 cntr#:#sorting_new_items_at_top#:#Oben
 cntr#:#sorting_new_items_at_bottom#:#Unten
 cntr#:#sorting_new_items_order#:#Reihenfolge neuer Objekte
+cntr#:#sorting_new_items_direction#:#Sortierungsrichtung neuer Objekte
 form#:#form_location_radius#:#Umkreis
 form#:#form_location_radius_km#:#km
 content#:#cont_question_stats#:#Statistik
@@ -16104,7 +16107,7 @@ crs#:#crs_subscription_max_members_short_info#:#---
 crs#:#crs_unsubscribe_member_explanation#:#Sie erhalten diese Mail, da Sie die Kursmitgliedschaft des oben genannten Kurses beendet haben.
 rbac#:#prg_read#:#Seiteninhalt des Studienprogramms kann gelesen werden
 sess#:#sess_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
-obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiename unverändert ist. Fehlermeldung:
+obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiname unverändert ist. Fehlermeldung:
 content#:#cont_sqst#:#Frage in Umfrage (Material)
 mmbr#:#info_refuse_sure#:#Sind Sie sicher, dass Sie den/die folgenden Benutzer ablehnen möchten?
 administration#:#adm_user_starting_point_inherit#:#Standard-Einstellungen übernehmen

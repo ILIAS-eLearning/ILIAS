@@ -11,4 +11,5 @@
 		<event type="listen" id="Services/Contact" />
 		<event type="raise" id="Services/Contact" />
 	</events>
+	<logging />
 </service>

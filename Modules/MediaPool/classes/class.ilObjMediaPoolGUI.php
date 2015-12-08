@@ -1670,7 +1670,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$mob->setDescription($format);
 
 				// determine width and height of known image types
-				$wh = ilObjMediaObject::_determineWidthHeight(500, 400, $format,
+				$wh = ilObjMediaObject::_determineWidthHeight($format,
 					"File", $mob_dir."/".$location, $media_item->getLocation(),
 					true, true, "", "");
 				$media_item->setWidth($wh["width"]);

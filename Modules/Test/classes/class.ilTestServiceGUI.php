@@ -134,7 +134,7 @@ class ilTestServiceGUI
 	 * @param $short
 	 * @return array
 	 */
-	public function getPassOverviewTableData(ilTestSession $testSession, $withResults)
+	public function getPassOverviewTableData(ilTestSession $testSession, ilTestPassesSelector $testPassesSelector, $withResults)
 	{
 		$data = array();
 
@@ -152,8 +152,6 @@ class ilTestServiceGUI
 
 		$scoredPass = $this->object->_getResultPass($testSession->getActiveId());
 
-		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
 		$testPassesSelector->setActiveId($testSession->getActiveId());
 		$lastFinishedPass = $testSession->getLastFinishedPass();
 		$testPassesSelector->setLastFinishedPass($lastFinishedPass);

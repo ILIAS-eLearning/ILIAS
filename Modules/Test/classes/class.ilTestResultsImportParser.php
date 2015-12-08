@@ -92,21 +92,22 @@ class ilTestResultsImportParser extends ilSaxParser
 							}
 						}
 						$next_id = $ilDB->nextId('tst_active');
-						$affectedRows = $ilDB->manipulateF("INSERT INTO tst_active (active_id, user_fi, anonymous_id, test_fi, lastindex, tries, submitted, submittimestamp, tstamp, importname) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-							array('integer', 'integer', 'text', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'integer', 'text'),
-							array(
-								$next_id,
-								$usr_id,
-								strlen($a_attribs['anonymous_id']) ? $a_attribs['anonymous_id'] : NULL,
-								$this->tst_obj->getTestId(),
-								$a_attribs['lastindex'],
-								$a_attribs['tries'],
-								$a_attribs['submitted'],
-								(strlen($a_attribs['submittimestamp'])) ? $a_attribs['submittimestamp'] : NULL,
-								$a_attribs['tstamp'],
-								$a_attribs['fullname']
-							)
-						);
+						
+						$ilDB->insert('tst_active', array(
+							'active_id' => array('integer', $next_id),
+							'user_fi' => array('integer', $usr_id),
+							'anonymous_id' => array('text', strlen($a_attribs['anonymous_id']) ? $a_attribs['anonymous_id'] : NULL),
+							'test_fi' => array('integer', $this->tst_obj->getTestId()),
+							'lastindex' => array('integer', $a_attribs['lastindex']),
+							'tries' => array('integer', $a_attribs['tries']),
+							'submitted' => array('integer', $a_attribs['submitted']),
+							'submittimestamp' => array('timestamp', strlen($a_attribs['submittimestamp']) ? $a_attribs['submittimestamp'] : NULL),
+							'tstamp' => array('integer', $a_attribs['tstamp']),
+							'importname' => array('text', $a_attribs['fullname']),
+							'last_finished_pass' => array('integer', $this->fetchLastFinishedPass($a_attribs)),
+							'answerstatusfilter' => array('integer', $this->fetchAttribute($a_attribs, 'answer_status_filter')),
+							'objective_container' => array('integer', $this->fetchAttribute($a_attribs, 'objective_container'))
+						));
 						$this->active_id_mapping[$a_attribs['active_id']] = $next_id;
 						break;
 					case 'tst_test_question':
@@ -241,6 +242,31 @@ class ilTestResultsImportParser extends ilSaxParser
 	function handlerParseCharacterData($a_xml_parser,$a_data)
 	{
 		// do nothing
+	}
+	
+	private function fetchAttribute($attributes, $name)
+	{
+		if( isset($attributes[$name]) )
+		{
+			return $attributes[$name];
+		}
+		
+		return null;
+	}
+	
+	private function fetchLastFinishedPass($attribs)
+	{
+		if( isset($attribs['last_finished_pass']) )
+		{
+			return $attribs['last_finished_pass'];
+		}
+		
+		if( $attribs['tries'] > 0 )
+		{
+			return $attribs['tries'] - 1;
+		}
+		
+		return null;
 	}
 }
 ?>

@@ -1490,15 +1490,15 @@ class ilObjMediaObject extends ilObject
 	/**
 	* Determine width and height
 	*/
-	static function _determineWidthHeight($a_def_width, $a_def_height, $a_format, $a_type,
+	static function _determineWidthHeight($a_format, $a_type,
 		$a_file, $a_reference, $a_constrain_proportions, $a_use_original,
 		$a_user_width, $a_user_height)
 	{
 		global $lng;
 		
 		// determine width and height of known image types
-		$width = $a_def_width;
-		$height = $a_def_height;
+		$width = 640;
+		$height = 360;
 		$info = "";
 		
 		if ($a_format == "audio/mpeg")

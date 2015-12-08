@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -24,12 +25,18 @@ class ilTestPasswordChecker
 	 * @var ilObjTest
 	 */
 	protected $testOBJ;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
 	
-	public function __construct(ilRbacSystem $rbacsystem, ilObjUser $user, ilObjTest $testOBJ)
+	public function __construct(ilRbacSystem $rbacsystem, ilObjUser $user, ilObjTest $testOBJ, ilLanguage $lng)
 	{
 		$this->rbacsystem = $rbacsystem;
 		$this->user = $user;
 		$this->testOBJ = $testOBJ;
+		$this->lng = $lng;
 		
 		$this->initSession();
 	}
@@ -63,6 +70,16 @@ class ilTestPasswordChecker
 	{
 		return $this->rbacsystem->checkAccess('write', $this->testOBJ->getRefId());
 	}
+	
+	public function wrongUserEnteredPasswordExist()
+	{
+		if( !strlen($this->getUserEnteredPassword()) )
+		{
+			return false;
+		}
+		
+		return !$this->isUserEnteredPasswordCorrect();
+	}
 
 	public function isUserEnteredPasswordCorrect()
 	{
@@ -90,5 +107,26 @@ class ilTestPasswordChecker
 	protected function buildSessionKey()
 	{
 		return 'tst_password_'.$this->testOBJ->getTestId();
+	}
+	
+	public function logWrongEnteredPassword()
+	{
+		if( !ilObjAssessmentFolder::_enabledAssessmentLogging() )
+		{
+			return;
+		}
+		
+		ilObjAssessmentFolder::_addLog( $this->user->getId(), $this->testOBJ->getId(),
+			$this->getWrongEnteredPasswordLogMsg(), null, null, true, $this->testOBJ->getRefId()
+		);
+	}
+	
+	protected function getWrongEnteredPasswordLogMsg()
+	{
+		$msg = $this->lng->txtlng(
+			'assessment', 'log_wrong_test_password_entered', ilObjAssessmentFolder::_getLogLanguage()
+		);
+		
+		return sprintf($msg, $this->getUserEnteredPassword());
 	}
 }

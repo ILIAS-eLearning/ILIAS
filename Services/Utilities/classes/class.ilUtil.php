@@ -2729,7 +2729,7 @@ class ilUtil
 			if ($a_allow == "")
 			{
 				$allow_array = array ("b", "i", "strong", "em", "code", "cite",
-					"gap", "sub", "sup", "pre", "strike");
+					"gap", "sub", "sup", "pre", "strike", "bdo");
 			}
 
 			// this currently removes parts of strings like "a <= b"
@@ -2761,7 +2761,7 @@ class ilUtil
 	public static function getSecureTags()
 	{
 		return array("strong", "em", "u", "strike", "ol", "li", "ul", "p", "div",
-			"i", "b", "code", "sup", "sub", "pre", "gap", "a", "img");
+			"i", "b", "code", "sup", "sub", "pre", "gap", "a", "img", "bdo");
 	}
 
 	public static function maskSecureTags($a_str, $allow_array)
@@ -3046,8 +3046,8 @@ class ilUtil
 	{
 		//$a_str = strip_tags($a_str, $a_allow);
 
-		$negativestr = "a,abbr,acronym,address,applet,area,b,base,basefont,".
-			"bdo,big,blockquote,body,br,button,caption,center,cite,code,col,".
+		$negativestr = "a,abbr,acronym,address,applet,area,base,basefont,".
+			"big,blockquote,body,br,button,caption,center,cite,code,col,".
 			"colgroup,dd,del,dfn,dir,div,dl,dt,em,fieldset,font,form,frame,".
 			"frameset,h1,h2,h3,h4,h5,h6,head,hr,html,i,iframe,img,input,ins,isindex,kbd,".
 			"label,legend,li,link,map,menu,meta,noframes,noscript,object,ol,".

@@ -59,9 +59,6 @@ class ilSoapUtils extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 
-
-		global $ilLog;
-
 		include_once 'Services/Mail/classes/class.ilMimeMail.php';
 
 		if(strpos($sender, '#:#') !== false)
@@ -106,7 +103,6 @@ class ilSoapUtils extends ilSoapAdministration
 		}
 
 		$mmail->Send();
-		$ilLog->write('SOAP: sendMail(): '.$to.', '.$cc.', '.$bcc);
 
 		return true;
 	}

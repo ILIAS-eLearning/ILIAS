@@ -16,9 +16,10 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
 	 */
 	private $poolOBJ;
 	
-	private $curTag;
-	
 	private $inSettingsTag;
+	
+	private $inMetaDataTag;
+	private $inMdGeneralTag;
 
 	/**
 	 * @param ilObjQuestionPool $poolOBJ
@@ -29,6 +30,8 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
 		$this->poolOBJ = $poolOBJ;
 		
 		$this->inSettingsTag = false;
+		$this->inMetaDataTag = false;
+		$this->inMdGeneralTag = false;
 		
 		return parent::ilSaxParser($xmlFile);
 	}
@@ -44,6 +47,24 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
 	{
 		switch($tagName)
 		{
+			case 'MetaData':
+				$this->inMetaDataTag = true;
+				break;
+			
+			case 'General':
+				if($this->inMetaDataTag)
+				{
+					$this->inMdGeneralTag = true;
+				}
+				break;
+			
+			case 'Description':
+				if($this->inMetaDataTag && $this->inMdGeneralTag)
+				{
+					$this->cdata = '';
+				}
+				break;
+			
 			case 'Settings':
 				$this->inSettingsTag = true;
 				break;
@@ -61,13 +82,27 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
 
 	public function handlerEndTag($xmlParser, $tagName)
 	{
-		if(!$this->inSettingsTag)
-		{
-			return;
-		}
-		
 		switch($tagName)
 		{
+			case 'MetaData':
+				$this->inMetaDataTag = false;
+				break;
+
+			case 'General':
+				if($this->inMetaDataTag)
+				{
+					$this->inMdGeneralTag = false;
+				}
+				break;
+
+			case 'Description':
+				if($this->inMetaDataTag && $this->inMdGeneralTag)
+				{
+					$this->poolOBJ->setDescription($this->cdata);
+					$this->cdata = '';
+				}
+				break;
+
 			case 'Settings':
 				$this->inSettingsTag = false;
 				break;
@@ -91,11 +126,6 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
 
 	public function handlerCharacterData($xmlParser, $charData)
 	{
-		if(!$this->inSettingsTag)
-		{
-			return;
-		}
-
 		if( $charData != "\n" )
 		{
 			// Replace multiple tabs with one space

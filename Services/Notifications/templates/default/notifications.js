@@ -35,6 +35,7 @@ var OSDNotifications = function (settings) {
 					{
 						baseClass:      'ilObjChatroomGUI',
 						cmd:            'removeOSDNotifications',
+						cmdMode:        'asynch',
 						notification_id:id
 					},
 					function (data) {
@@ -148,6 +149,7 @@ var OSDNotifications = function (settings) {
 					{
 						baseClass:'ilObjChatroomGUI',
 						cmd:      'getOSDNotifications',
+						cmdMode:  'asynch',
 						/*
 						 * minus 10 seconds for getting really all messages, even if they
 						 * arrived while processing

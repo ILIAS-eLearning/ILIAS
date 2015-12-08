@@ -634,7 +634,20 @@ class ilLuceneAdvancedSearchFields
 				$adv_query = $field->getLuceneSearchString($a_query);
 				if($adv_query)
 				{
-					return 'advancedMetaData_'.$field_id.': '.$adv_query;				
+					// #17558
+					if(!is_array($adv_query))
+					{
+						return 'advancedMetaData_'.$field_id.': '.$adv_query;				
+					}
+					else
+					{
+						$res = array();
+						foreach($adv_query as $adv_query_item)
+						{
+							$res[] = 'advancedMetaData_'.$field_id.': '.$adv_query_item;				
+						}
+						return '('.implode(' OR ', $res).')';
+					}
 				}
 		}
 	}
