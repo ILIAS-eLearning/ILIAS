@@ -16121,3 +16121,4 @@ prg#:#prg_show_programmes_on_pd_only_read#:#Study Programme only visible on pers
 prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more Objects you can't see because of less Permissions.
 cmps#:#cmps_uninstall_inactive_confirm#:#The plugin "%1$s" can currently not be activated ("%2$s"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?
 pd#:#pd_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
+log#:#log_cache_info#:#Only if a message reaches or surpasses the caching level, all messages which have at least the log level will be added to the log for the current request.

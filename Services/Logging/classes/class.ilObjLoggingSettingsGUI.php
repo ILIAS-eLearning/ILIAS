@@ -253,6 +253,7 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
 		$form->addItem($level);
 		
 		$cache = new ilCheckboxInputGUI($this->lng->txt('log_cache_'), 'cache');
+		$cache->setInfo($this->lng->txt('log_cache_info'));
 		$cache->setValue(1);
 		$cache->setChecked($this->getSettings()->isCacheEnabled());
 		$form->addItem($cache);
