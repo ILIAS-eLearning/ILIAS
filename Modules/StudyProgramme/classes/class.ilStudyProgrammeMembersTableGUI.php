@@ -106,22 +106,17 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				   ."     , pcp.lastname"
 				   ."     , pcp.login"
 				   ."     , prgrs.points"
-				   ."     , if(prgrs.status = ".ilStudyProgrammeProgress::STATUS_ACCREDITED.", prgrs.points, prgrs.points_cur) points_current"
+				   ."     , IF(prgrs.status = ".ilStudyProgrammeProgress::STATUS_ACCREDITED.", prgrs.points, prgrs.points_cur) points_current"
 				   ."     , prgrs.last_change_by"
 				   ."     , prgrs.status"
 				   ."     , blngs.title belongs_to"
 				   ."     , cmpl_usr.login accredited_by"
 				   ."     , cmpl_obj.title completion_by"
 				   ."     , prgrs.assignment_id assignment_id"
-				   ."     , ass.root_prg_id root_prg_id"
-				   ."  FROM ".ilStudyProgrammeProgress::returnDbTableName()." prgrs"
-				   ."  JOIN usr_data pcp ON pcp.usr_id = prgrs.usr_id"
-				   ."  JOIN ".ilStudyProgrammeAssignment::returnDbTableName()." ass"
-				   			 ." ON ass.id = prgrs.assignment_id"
-				   ."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
-				   ."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
-				   ."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by"
-				   ." WHERE prgrs.prg_id = ".$this->db->quote($a_prg_id, "integer");
+				   ."     , ass.root_prg_id root_prg_id";
+		
+		$query .= $this->getFrom();
+		$query .= $this->getWhere($a_prg_id);
 
 		if($order_coloumn !== null) {
 			$query .= " ORDER BY $order_coloumn";
@@ -169,20 +164,28 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 	protected function countFetchData($a_prg_id) {
 		// TODO: Reimplement this in terms of ActiveRecord when innerjoin
 		// supports the required rename functionality
-		$query = "SELECT count(prgrs.id) as cnt"
-				."  FROM ".ilStudyProgrammeProgress::returnDbTableName()." prgrs"
-				."  JOIN usr_data pcp ON pcp.usr_id = prgrs.usr_id"
-				."  JOIN ".ilStudyProgrammeAssignment::returnDbTableName()." ass"
-						 ." ON ass.id = prgrs.assignment_id"
-				."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
-				."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
-				."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by"
-				." WHERE prgrs.prg_id = ".$this->db->quote($a_prg_id, "integer");
+		$query = "SELECT count(prgrs.id) as cnt";
+		$query .= $this->getFrom();
+		$query .= $this->getWhere($a_prg_id);
 
 		$res = $this->db->query($query);
 		$rec = $this->db->fetchAssoc($res);
 
 		return $rec["cnt"];
+	}
+
+	protected function getFrom() {
+		return "  FROM ".ilStudyProgrammeProgress::returnDbTableName()." prgrs"
+				."  JOIN usr_data pcp ON pcp.usr_id = prgrs.usr_id"
+				."  JOIN ".ilStudyProgrammeAssignment::returnDbTableName()." ass"
+						 ." ON ass.id = prgrs.assignment_id"
+				."  JOIN object_data blngs ON blngs.obj_id = ass.root_prg_id"
+				."  LEFT JOIN usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by"
+				."  LEFT JOIN object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by";
+	}
+
+	protected function getWhere($a_prg_id) {
+		return " WHERE prgrs.prg_id = ".$this->db->quote($a_prg_id, "integer");
 	}
 }
 
