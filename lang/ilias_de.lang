@@ -3148,7 +3148,7 @@ common#:#err_check_input#:#Die Einstellungen konnten nicht gespeichert werden. B
 common#:#err_count_param#:#Grund: Falsche Parameteranzahl
 common#:#err_enter_current_passwd#:#Bitte geben Sie Ihr momentanes Passwort an!
 common#:#err_in_line#:#Fehler in Zeile
-common#:#err_inactive#:#Dieser Benutzer ist noch nicht aktiviert worden. Bitte kontaktieren Sie den Systemadministrator.
+common#:#err_inactive#:#Dieses Benutzerkonto ist nicht aktiv bzw. noch nicht aktiviert worden. Bitte kontaktieren Sie den Technischen Support (siehe Link unten) für weitere Unterstützung.
 common#:#err_invalid_port#:#Ungültige Portnummer
 common#:#err_ldap_auth_failed#:#Benutzer konnte nicht authentifiziert werden! Bitte überprüfen Sie, ob ILIAS- und LDAP-Passwort übereinstimmen
 common#:#err_ldap_connect_failed#:#Verbindung zum LDAP-Server fehlgeschlagen! Bitte überprüfen Sie Serveradresse und Port
@@ -4717,7 +4717,7 @@ common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
 common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
 common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
 common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Ihr Bestätigungslink
-common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten anzugebende E-Mail-Adresse geschickt.
+common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten eingegebende E-Mail-Adresse geschickt.
 common#:#register#:#Registrieren
 common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich zu registrieren (Die mit Stern gekennzeichneten Felder sind Pflichtangaben).
 common#:#registered_since#:#Eingetragen seit
@@ -12161,7 +12161,7 @@ user#:#user_account_code_generated#:#Erzeugt am
 user#:#user_account_code_generated_all#:#Alle Daten
 user#:#user_account_code_not_valid#:#Der gegebene Code ist ungültig oder wurde bereits benutzt.
 user#:#user_account_code_setting#:#Account-Reaktivierung durch Codes ermöglichen
-user#:#user_account_code_setting_info#:#Benutzer können mithilfe eines Registrierungscodes ihren inaktiven Account reaktieren. Entsprechende Codes für die Verlängerung zeitlich begrenzter Benutzerkonten werden in 'Administration » Authentifizierung / Neuanmeldung » ILIAS-Auth/Selbstregistrierung : Registrierungscodes' erzeugt.
+user#:#user_account_code_setting_info#:#Benutzer können mithilfe eines Registrierungscodes ihren abgelaufenen Account reaktieren. Entsprechende Codes für die Verlängerung zeitlich begrenzter Benutzerkonten werden in 'Administration » Authentifizierung / Neuanmeldung » ILIAS-Auth/Selbstregistrierung : Registrierungscodes' erzeugt. Inaktive Accounts können mit Codes nicht reaktiviert werden.
 user#:#user_account_code_used#:#Verbraucht am
 user#:#user_account_code_valid_until#:#Gültig bis
 user#:#user_account_code_valid_until_dynamic#:#Anzahl Tage
