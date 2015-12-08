@@ -4922,7 +4922,7 @@ class ilObjUser extends ilObject
 			"JOIN rbac_fa fa ON fa.rol_id = ua.rol_id ".
 			"JOIN object_reference r1 ON r1.ref_id = fa.parent ".
 			"JOIN tree ON tree.child = r1.ref_id ".
-			"JOIN object_reference r2 ON r2.ref_id = tree.parent ".
+			"JOIN object_reference r2 ON r2.ref_id = tree.child ". // #17674 - rolf is gone
 			"JOIN object_data dat ON dat.obj_id = r2.obj_id ".
 			"WHERE ua.usr_id = ".$ilDB->quote($a_user_id, "integer")." ".
 			"AND fa.assign = ".$ilDB->quote("y", "text")." ".
@@ -4934,7 +4934,7 @@ class ilObjUser extends ilObject
 		{
 			$groups_and_courses_of_user[] = $row["obj_id"];
 		}
-
+		
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 		$tos_condition = '';
 		if(ilTermsOfServiceHelper::isEnabled())
@@ -4963,7 +4963,7 @@ class ilObjUser extends ilObject
 				"JOIN rbac_ua ua ON ua.usr_id = s.user_id ".
 				"JOIN rbac_fa fa ON fa.rol_id = ua.rol_id ".
 				"JOIN tree ON tree.child = fa.parent ".
-				"JOIN object_reference or1 ON or1.ref_id = tree.parent ".
+				"JOIN object_reference or1 ON or1.ref_id = tree.child ". // #17674 - rolf is gone
 				"JOIN object_data od ON od.obj_id = or1.obj_id ".
 				"LEFT JOIN usr_pref p ON (p.usr_id = ud.usr_id AND p.keyword = ".
 					$ilDB->quote("hide_own_online_status", "text").") ".
