@@ -1157,7 +1157,7 @@ class ilObjTestGUI extends ilObjectGUI
 					break;
 				case LONG_MENU_QUESTION_IDENTIFIER:
 				case QT_LONG_MENU:
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assKprimChoice"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assLongMenu"));
 					break;
 				case NUMERIC_QUESTION_IDENTIFIER:
 				case QT_NUMERIC:
