@@ -51,11 +51,24 @@ class ilStudyProgrammeUserAssignment {
 	 * @return ilStudyProgrammeUserAssignment[]
 	 */
 	static public function getInstancesOfUser($a_user_id) {
+		global $tree;
+
 		$assignments = ilStudyProgrammeAssignment::where(array( "usr_id" => $a_user_id ))
 													->get();
-		return array_map(function($ass) {
-			return new ilStudyProgrammeUserAssignment($ass);
-		}, array_values($assignments)); // use array values since we want keys 0...
+
+		$ass = array();
+
+		foreach($assignments as $ass) {
+			$ass_obj =	new ilStudyProgrammeUserAssignment($ass);
+			foreach (ilObject::_getAllReferences($ass_obj->assignment->getRootId()) as $value) {
+				if($tree->isInTree($value)) {
+					$ass[] = $ass_obj;
+					break;
+				}
+			}
+		}
+
+		return $ass;
 	}
 	
 	/**
