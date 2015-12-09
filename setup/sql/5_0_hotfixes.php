@@ -157,3 +157,33 @@ if(!$ilDB->tableExists('sysc_tasks'))
 		$ilDB->addIndex('help_tooltip', array('tt_id', 'module_id'), 'i1');
 	}
 ?>
+<#14>
+<?php
+$delQuery = "
+	DELETE FROM tax_node_assignment
+	WHERE node_id = %s
+	AND component = %s
+	AND obj_id = %s
+	AND item_type = %s
+	AND item_id = %s
+";
+
+$types = array('integer', 'text', 'integer', 'text', 'integer');
+
+$selQuery = "
+	SELECT tax_node_assignment.* FROM tax_node_assignment
+	LEFT JOIN qpl_questions ON question_id = item_id
+	WHERE component = %s
+	AND item_type = %s
+	AND question_id IS NULL
+";
+
+$res = $ilDB->queryF($selQuery, array('text', 'text'), array('qpl', 'quest'));
+
+while($row = $ilDB->fetchAssoc($res))
+{
+	$ilDB->manipulateF($delQuery, $types, array(
+		$row['node_id'], $row['component'], $row['obj_id'], $row['item_type'], $row['item_id']
+	));
+}
+?>
