@@ -1885,7 +1885,9 @@ abstract class assQuestion
 		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
 		ilAssQuestionHintList::deleteHintsByQuestionIds(array($question_id));
-
+		
+		$this->deleteTaxonomyAssignments();
+		
 		try
 		{
 			// update question count of question pool
@@ -1901,6 +1903,19 @@ abstract class assQuestion
 		$this->notifyQuestionDeleted($this);
 		
 		return true;
+	}
+	
+	private function deleteTaxonomyAssignments()
+	{
+		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+		require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
+		$taxIds = ilObjTaxonomy::getUsageOfObject($this->getObjId());
+		
+		foreach($taxIds as $taxId)
+		{
+			$taxNodeAssignment = new ilTaxNodeAssignment('qpl', $this->getObjId(), 'quest', $taxId);
+			$taxNodeAssignment->deleteAssignmentsOfItem($this->getId());
+		}
 	}
 
 	/**
