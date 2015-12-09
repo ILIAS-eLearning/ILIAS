@@ -364,6 +364,12 @@ class ilObjectLP
 					continue;
 				}
 				
+				// #17703 - collection has also been moved - nothing todo
+				if($tree->isGrandChild($a_source_ref_id, $coll_ref_id))
+				{
+					continue;
+				}
+				
 				// get path to collection (including collection "parent")
 				$coll_path = $tree->getPathId($coll_ref_id);
 				$coll_path = implode("/", $coll_path);
