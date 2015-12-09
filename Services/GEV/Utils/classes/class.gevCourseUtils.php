@@ -3224,31 +3224,36 @@ class gevCourseUtils {
 		$crs->setRefId($ref_id);
 
 		if ($a_role_name == "tutor" || $a_role_name == "trainer") {
-			$role = $crs->getDefaultTutorRole();
+			$role_ids = array($crs->getDefaultTutorRole());
 		}
 		elseif ($a_role_name == "member") {
-			$role = $crs->getDefaultMemberRole();
+			$role_ids = array($crs->getDefaultMemberRole());
 		}
 		elseif ($a_role_name == "admin") {
-			$role = $crs->getDefaultAdminRole();
+			$role_ids = array($crs->getDefaultAdminRole());
 		}
 		else {
-			$local_roles = gevRoleUtils::getInstance()->getLocalRoleIdsAndTitles($crs->getId());
-			$role = array_search($a_role_name, $local_roles);
+			global $rbacreview;
 
-			if (!$role) {
-				$role = gevRoleUtils::getInstance()->getRoleIdByName($a_role_name);
-				if (!$role) {
-					throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role_name);
+			// get a map $rol_id => (map with role_info) 
+			$roles = $rbacreview->getParentRoleIds($ref_id);
+
+			$role_ids = array();
+
+			foreach ($roles as $id => $info) {
+				if ($info["title"] == $a_role_name) {
+					$role_ids[] = $id;
 				}
 			}
 		}
 
-		$cur_ops = $this->rbacreview->getRoleOperationsOnObject($role, $ref_id);
-		$grant_ops = ilRbacReview::_getOperationIdsByName($a_permissions);
-		$new_ops = array_diff($cur_ops, $grant_ops);
-		$this->rbacadmin->revokePermission($ref_id, $role);
-		$this->rbacadmin->grantPermission($role, $new_ops, $ref_id);
+		foreach ($role_ids as $role_id) {
+			$cur_ops = $this->rbacreview->getRoleOperationsOnObject($role_id, $ref_id);
+			$grant_ops = ilRbacReview::_getOperationIdsByName($a_permissions);
+			$new_ops = array_diff($cur_ops, $grant_ops);
+			$this->rbacadmin->revokePermission($ref_id, $role_id);
+			$this->rbacadmin->grantPermission($role_id, $new_ops, $ref_id);
+		}
 	}
 
 	static public function grantPermissionsForAllCoursesBelow($a_ref_id, $a_role_name, $a_permissions) {
