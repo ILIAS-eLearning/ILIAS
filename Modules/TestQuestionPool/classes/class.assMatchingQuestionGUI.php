@@ -269,6 +269,16 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		return $errors;
 	}
 
+	private function isDefImgUploadCommand()
+	{
+		return $this->ctrl->getCmd() == 'uploaddefinitions';
+	}
+
+	private function isTermImgUploadCommand()
+	{
+		return $this->ctrl->getCmd() == 'uploadterms';
+	}
+
 	/**
 	 * for mode 1:1 terms count must not be less than definitions count
 	 * for mode n:n this limitation is cancelled
@@ -317,7 +327,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		$definitionvalues = $this->object->getDefinitions();
 		$definitions->setValues( $definitionvalues );
-		$definitions->checkInput();
+		if( $this->isDefImgUploadCommand() )
+		{
+			$definitions->checkInput();
+		}
 		$form->addItem( $definitions );
 
 		// Terms
@@ -334,7 +347,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$this->object->addTerm( new assAnswerMatchingTerm() );
 		$termvalues = $this->object->getTerms();
 		$terms->setValues( $termvalues );
-		$terms->checkInput();
+		if( $this->isTermImgUploadCommand() )
+		{
+			$terms->checkInput();
+		}
 		$form->addItem( $terms );
 
 		// Matching Pairs
