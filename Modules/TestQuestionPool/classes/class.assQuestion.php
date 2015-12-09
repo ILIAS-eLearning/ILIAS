@@ -1946,7 +1946,7 @@ abstract class assQuestion
 			$assignment->deleteFromDb();
 		}
 
-		//$this->deleteTaxonomyAssignments();
+		$this->deleteTaxonomyAssignments();
 		
 		try
 		{
