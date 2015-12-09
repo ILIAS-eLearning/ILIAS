@@ -4756,13 +4756,43 @@ gevCourseUtils::revokePermissionsForAllCoursesBelow($flex_dec_training_category_
 <#191>
 <?php
 
-// TEP categories
-$s = "INSERT INTO tep_type (id, title, bg_color, font_color, tep_active) VALUES (25, 'Weiterbildungstage', 'bf6364', '000000', 1)";
-$ilDB->manipulate($s);
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+require_once("Services/Object/classes/class.ilObjectFactory.php");
+
+global $ilias;
+$ilias->db = $ilDB;
+
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
+$fixed_dec_training_category_ref_id = 49841;
+
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Trainingsersteller", array("visible", "read", "view_bookings", "book_users", "cancel_bookings", "view_participation_status", "set_participation_status", "review_participation_status"));
+
+$flex_dec_training_category_ref_id = 49840;
+
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Trainingsersteller", array("visible", "read", "view_bookings", "book_users", "cancel_bookings", "view_participation_status", "set_participation_status", "review_participation_status"));
 
 ?>
 
 <#192>
+<?php
+// TEP categories
+$s = "INSERT INTO tep_type (id, title, bg_color, font_color, tep_active) VALUES (25, 'Weiterbildungstage', 'bf6364', '000000', 1)";
+$ilDB->manipulate($s);
+?>
+
+<#193>
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
