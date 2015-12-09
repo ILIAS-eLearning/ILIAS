@@ -18,7 +18,7 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 * @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilSettingsPermissionGUI
-* @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI
+* @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI, ilObjectCopyGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -116,6 +116,13 @@ class ilObjWikiGUI extends ilObjectGUI
 				{
 					$tpl->setContent($ret);
 				}
+				break;
+
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('wiki');
+				$this->ctrl->forwardCommand($cp);
 				break;
 
 			case 'ilpublicuserprofilegui':
@@ -281,7 +288,8 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->getSettingsFormValues("create");
 
 		$forms = array(self::CFORM_NEW => $this->form_gui,
-			self::CFORM_IMPORT => $this->initImportForm($a_new_type));
+				self::CFORM_IMPORT => $this->initImportForm($a_new_type),
+				self::CFORM_CLONE => $this->fillCloneTemplate(null, $a_new_type));
 
 		return $forms;
 	}
