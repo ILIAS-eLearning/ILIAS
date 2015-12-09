@@ -924,7 +924,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	public function redirectBackCmd()
 	{
-		if( $this->object->canViewResults() )
+		require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
+		$testPassesSelector = new ilTestPassesSelector($GLOBALS['ilDB'], $this->object);
+		$testPassesSelector->setActiveId($this->testSession->getActiveId());
+		$testPassesSelector->setLastFinishedPass($this->testSession->getLastFinishedPass());
+
+		if( count($testPassesSelector->getReportablePasses()) )
 		{
 			$this->ctrl->redirectByClass("ilTestEvaluationGUI", "outUserResultsOverview");
 		}

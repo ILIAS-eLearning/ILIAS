@@ -8258,29 +8258,46 @@ function getAnswerFeedbackPoints()
 		return $result;
 	}
 
-/**
-* Returns true, if the test results can be viewed
-*
-* @return boolean True, if the test results can be viewed, else false
-* @access public
-*/
+	/**
+	 * Returns true, if the test results can be viewed
+	 *
+	 * @return boolean True, if the test results can be viewed, else false
+	 * @access public
+	 * @deprecated use class ilTestPassesSelector instead
+	 */
 	function canViewResults()
 	{
-		$result = true;
-		if ($this->getScoreReporting() == 4) return false;
-		if ($this->getReportingDate())
+		// this logic was implemented before, it got stabled only for now
+		// this method is not as exact as it's required, it's to be replaced in the long time
+		
+		switch( $this->getScoreReporting() )
 		{
-			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches))
-			{
-				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-				$now = mktime();
-				if ($now < $epoch_time)
+			case self::SCORE_REPORTING_IMMIDIATLY:
+			case self::SCORE_REPORTING_FINISHED: // this isn't excact enough
+				
+				return true;
+
+			case self::SCORE_REPORTING_DATE:
+
+				if (!$this->getReportingDate())
 				{
-					$result = false;
+					return false;
 				}
-			}
+				
+				if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getReportingDate(), $matches))
+				{
+					$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+					$now = mktime();
+					if ($now < $epoch_time)
+					{
+						return false;
+					}
+				}
+
+				return true;
 		}
-		return $result;
+		
+		return false;
 	}
 
 	function canShowTestResults($testSession)
