@@ -1611,6 +1611,12 @@ class gevUserUtils {
 		return $tree->getOrgusWhereUserHasPermissionForOperation("cancel_employee_bookings_rcrsv");
 	}
 	
+	public function getOrgUnitsWhereUserIsTutor() {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
+		return $tree->getOrgusWhereUserHasPermissionForOperation("tep_is_tutor", $this->user_id);
+	}
+
 	public function canViewEmployeeBookings() {
 		return count($this->getOrgUnitsWhereUserCanViewEmployeeBookings()) > 0
 			|| count($this->getOrgUnitsWhereUserCanViewEmployeeBookingsRecursive()) > 0;
