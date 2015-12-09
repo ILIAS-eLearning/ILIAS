@@ -113,8 +113,6 @@ class ilExGradesTableGUI extends ilTable2GUI
 
 		$user_id = $d["user_id"];
 		
-		$ilCtrl->setParameter($this->parent_obj, "member_id", $user_id);
-		
 		foreach ($this->ass_data as $ass)
 		{
 			$member_status = new ilExAssignmentMemberStatus($ass->getId(), $user_id);
@@ -176,8 +174,13 @@ class ilExGradesTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_NAME",
 			$d["lastname"].", ".$d["firstname"]." [".$d["login"]."]");
 		$this->tpl->setVariable("VAL_ID", $user_id);	
-		$this->tpl->setVariable("LINK_NAME",
-			$ilCtrl->getLinkTarget($this->parent_obj, "showParticipant"));
+		
+		// #17679
+		$ilCtrl->setParameter($this->parent_obj, "part_id", $user_id);		
+		$url = $ilCtrl->getLinkTarget($this->parent_obj, "showParticipant");
+		$ilCtrl->setParameter($this->parent_obj, "part_id", "");
+		
+		$this->tpl->setVariable("LINK_NAME", $url);
 		
 		// comment
 		$this->tpl->setVariable("ID_COMMENT", $user_id);
@@ -185,7 +188,7 @@ class ilExGradesTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_COMMENT",
 			ilUtil::prepareFormOutput($c));
 		
-		$ilCtrl->setParameter($this->parent_obj, "member_id", "");
+	
 	}
 
 }

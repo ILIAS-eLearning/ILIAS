@@ -4388,7 +4388,7 @@ common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#1
 common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the selected Social Bookmarking services?
 common#:#sort_by_this_column#:#Sort by this column
 common#:#sorting_header#:#Content Item Sorting
-common#:#sorting_info_manual#:#Content items can be arranged manually in a preferred order.
+common#:#sorting_info_manual#:#Content items can be arranged manually in a preferred order. Additionallyi, please define the standard sorting settings for new objects.
 common#:#sorting_info_title#:#Content items are arranged automatically by title in alphabetical order.
 common#:#sorting_manual_header#:#Manually
 common#:#sorting_save#:#Save Sorting
@@ -4616,7 +4616,7 @@ common#:#ums_explanation_3#:#Your external account could not be mapped to an ILI
 common#:#ums_explanation_4#:#If none of them is your account, please hit ‘Create New Account’.
 common#:#ums_explanation#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found an account with your e-mail address. If this is your account, please login with your ILIAS password.
 common#:#ums_login_account#:#Login Account
-common#:#unambiguousness#:#Distinguishing mark
+common#:#unambiguousness#:#Distinguishing Mark
 common#:#uncheck_all#:#Uncheck all
 common#:#unchecked#:#Unchecked
 common#:#uninstall#:#Uninstall
@@ -14071,6 +14071,7 @@ orgu#:#orgu_adv_settings#:#Advanced Settings
 orgu#:#orgu_type_msg_error_custom_icon#:#Could not save the custom icon
 orgu#:#orgu_type_available_amd_sets#:#Available Advanced Metadata sets
 orgu#:#orgu_type_assign_amd_sets#:#Assign Advanced Metadata sets
+orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.
 cld#:#cld_object_added#:#A new Cloud object has been added
 exc#:#exc_peer_review_deadline#:#Feedback Deadline 
 exc#:#exc_peer_review_deadline_info#:#Feedback can be given up to this date and received feedback is only accessible from then on.
@@ -14950,10 +14951,11 @@ classification#:#clsfct_block_title#:#Selection by Topics
 classification#:#clsfct_block_info#:#Your Selection filters the objects.
 classification#:#clsfct_content_title#:#Objects matching your selection
 classification#:#clsfct_content_no_match#:#No hits
-cntr#:#sorting_new_items_position#:#Position For New Objects
+cntr#:#sorting_new_items_position#:#Position for New Objects
 cntr#:#sorting_new_items_at_top#:#Top
 cntr#:#sorting_new_items_at_bottom#:#Bottom
-cntr#:#sorting_new_items_order#:#Order For New Objects
+cntr#:#sorting_new_items_order#:#Order for New Objects
+cntr#:#sorting_new_items_direction#:#Sorting Direction for New Objects
 form#:#form_location_radius#:#Radius
 form#:#form_location_radius_km#:#km
 content#:#cont_question_stats#:#Statistic
@@ -16119,3 +16121,4 @@ prg#:#prg_show_programmes_on_pd_only_read#:#Study Programme only visible on pers
 prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more Objects you can't see because of less Permissions.
 cmps#:#cmps_uninstall_inactive_confirm#:#The plugin "%1$s" can currently not be activated ("%2$s"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?
 pd#:#pd_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
+log#:#log_cache_info#:#Only if a message reaches or surpasses the caching level, all messages which have at least the log level will be added to the log for the current request.

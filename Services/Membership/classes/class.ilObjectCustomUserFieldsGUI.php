@@ -245,6 +245,8 @@ class ilObjectCustomUserFieldsGUI
 			$udf->save();
 	
 			ilUtil::sendSuccess($this->lng->txt('ps_cdf_added_field'));
+			// reset agreements
+			ilMemberAgreement::_deleteByObjId($this->getObjId());
 			$this->listFields();
 			return true;
 		}

@@ -3734,7 +3734,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	protected function initSortingDirectionForm(ilContainerSortingSettings $sorting_settings, $element, $a_prefix)
 	{
-		$direction = new ilRadioGroupInputGUI($this->lng->txt('sorting_direction'),$a_prefix.'_sorting_direction');
+		if($a_prefix == 'manual')
+		{
+			$txt = $this->lng->txt('sorting_new_items_direction');
+		}
+		else
+		{
+			$txt = $this->lng->txt('sorting_direction');
+		}
+		
+		$direction = new ilRadioGroupInputGUI($txt,$a_prefix.'_sorting_direction');
 		$direction->setValue($sorting_settings->getSortDirection());
 		$direction->setRequired(TRUE);
 		
@@ -3928,7 +3937,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
 		$exp = new ilRepositorySelectorExplorerGUI($this, "showPasteTree");
-		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold", "prg"));
+		// TODO: The study programme 'prg' is not included here, as the
+		// ilRepositorySelectorExplorerGUI only handles static rules for
+		// parent-child-relations and not the dynamic relationsships
+		// required for the SP (see #16909).
+		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));
 		if ($cmd == "link") {
 			$exp->setSelectMode("nodes", true);
 			return $exp;
