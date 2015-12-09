@@ -246,23 +246,23 @@ class gevWBD {
 	}
 	
 	public function getWBDBWVId() {
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_BWV_ID);
+		return $this->udf_utils->getField($this->user_id, self::USR_BWV_ID);
 	}
 	
 	public function setWBDBWVId($a_id) {
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_BWV_ID, $a_id);
+		$this->udf_utils->setField($this->user_id, self::USR_BWV_ID, $a_id);
 	}
 	
 	public function setTPServiceOld($tp_service_old) {
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_TP_SERVICE_OLD, $tp_service_old);
+		$this->udf_utils->setField($this->user_id, self::USR_WBD_TP_SERVICE_OLD, $tp_service_old);
 	}
 
 	public function getTPServiceOld() {
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_TP_SERVICE_OLD);
+		return $this->udf_utils->getField($this->user_id, self::USR_WBD_TP_SERVICE_OLD);
 	}
 
 	protected function getRawWBDOKZ() {
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_OKZ);
+		return $this->udf_utils->getField($this->user_id, self::USR_WBD_OKZ);
 	}
 	
 	public function setRawWBDOKZ($a_okz) {
@@ -272,7 +272,7 @@ class gevWBD {
 			throw new Exception("gevWBD::setRawWBDOKZ: ".$a_okz." is no valid okz.");
 		}
 		
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_OKZ, $a_okz);
+		return $this->udf_utils->getField($this->user_id, self::USR_WBD_OKZ, $a_okz);
 	}
 	
 	public function getWBDOKZ() {
@@ -442,7 +442,7 @@ class gevWBD {
 	}
 	
 	public function getExitDateWBD() {
-		$date = $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_EXIT_DATE);
+		$date = $this->udf_utils->getField($this->user_id, self::USR_WBD_EXIT_DATE);
 		if (!trim($date)) {
 			return null;
 		}
@@ -471,8 +471,8 @@ class gevWBD {
 							, self::WBD_ERROR_USER_EXISTS);
 
 		return $this->hasDoneWBDRegistration() && $this->hasWBDRelevantRole() && $this->userExists() && $this->isActive() && !$this->hasSpecialUserId()
-				&& ($this->nextWBDActionIs(gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS)
-					|| $this->nextWBDActionIs(gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE) && $this->entryDatePassed())
+				&& ($this->nextWBDActionIs(self::USR_WBD_NEXT_ACTION_NEW_TP_BASIS)
+					|| $this->nextWBDActionIs(self::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE) && $this->entryDatePassed())
 				&& $this->isWBDBWVIdEmpty() && $this->hasWBDType(self::WBD_NO_SERVICE)
 				&& !$this->hasOpenWBDErrors($wbd_errors);
 	}
