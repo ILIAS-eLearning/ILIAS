@@ -98,7 +98,7 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 			}
 			if($external_id){
 				$obj_id = ilObject::_lookupObjIdByImportId($external_id);
-				if(ilObject::_hasUntrashedReference($obj_id))
+				if(ilObject::_hasUntrashedReference($obj_id) && ilObject::_lookupType($obj_id) == 'orgu')
 				{
 					$this->addError("ou_external_id_exists", $ou_id?$ou_id:$external_id, $action);
 					return;
