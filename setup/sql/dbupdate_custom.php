@@ -4748,6 +4748,7 @@ gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_r
 gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "flex-dez-Training", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
 gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
 gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Trainingsersteller", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training", "write_reduced_settings"));
 gevCourseUtils::revokePermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Trainingsersteller", array("write"));
 
 ?>
