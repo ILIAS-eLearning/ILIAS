@@ -37,32 +37,24 @@ class ilGlossaryImporter extends ilXmlImporter
 			if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 			{
 				$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
-	
-				$xml_file = $this->getImportDirectory().'/'.basename($this->getImportDirectory()).'.xml';
-				$GLOBALS['ilLog']->write(__METHOD__.': Using XML file '.$xml_file);
-	
 			}
-			else if ($new_id = $a_mapping->getMapping('Modules/Glossary','glo', "new_id"))	// this mapping is only set by ilObjGlossaryGUI
-			{
-				$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
-	
-				$xml_file = $this->getImportDirectory().'/'.basename($this->getImportDirectory()).'.xml';
-				$GLOBALS['ilLog']->write(__METHOD__.': Using XML file '.$xml_file);
-			}
-			else
-			{
-				// in the new version (5.1)  we are also here, but the following file should not exist
-				// if being exported with 5.1 or higher
-				$xml_file = $this->getImportDirectory().'/'.basename($this->getImportDirectory()).'.xml';
-			}
+
+			// in the new version (5.1)  we are also here, but the following file should not exist
+			// if being exported with 5.1 or higher
+			$xml_file = $this->getImportDirectory().'/'.basename($this->getImportDirectory()).'.xml';
+			$GLOBALS['ilLog']->write(__METHOD__.': Using XML file '.$xml_file);
 
 			// old school import
 			if (file_exists($xml_file))
 			{
-				if (!$this->config->getPre51Import())
+				if (!is_object($newObj))
 				{
-					include_once("./Modules/Glossary/exceptions/class.ilGlossaryOldImportException.php");
-					throw new ilGlossaryOldImportException("Old glossary import file.");
+					// create and insert object in objecttree
+					include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
+					$newObj = new ilObjGlossary();
+					$newObj->setType("glo");
+					$newObj->setTitle(basename($this->getImportDirectory()));
+					$newObj->create(true);
 				}
 
 				include_once './Modules/LearningModule/classes/class.ilContObjParser.php';

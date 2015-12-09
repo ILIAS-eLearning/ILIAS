@@ -164,6 +164,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	
 	protected function setSettingsSubTabs($a_active)
 	{
+		// #17455
+		$this->lng->loadLanguageModule($this->getType());
+		
 		// general properties
 		$this->tabs_gui->addSubTab("properties",
 			$this->lng->txt($this->getType()."_properties"),

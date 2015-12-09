@@ -1455,7 +1455,7 @@ assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchl
 assessment#:#tst_sequence_properties#:#Durchführung: Funktionen für Teilnehmer
 assessment#:#tst_final_information#:#Test abschliessen
 assessment#:#tst_session_settings#:#Durchführung
-assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde auf Offline gesetzt, da der Testmodus gewechselt wurde. Sie müssen eine neue Testmodus-bezogene Fragenkonfiguration erstellen, bevor Sie den Test wieder online setzen können.
+assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde offline gesetzt, da sich die Einstellung zur Auswahl der Testfragen geändert hat. Weisen Sie dem Test wieder Fragen zu. Anschließend können Sie den Test wieder online setzen.
 assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#Der Test konnte nicht auf online gesetzt werden, da der Testmodus gewechselt wurde. Sie müssen eine neue Testmodus-bezogene Fragenkonfiguration erstellen, bevor Sie den Test wieder online setzen können.
 assessment#:#tst_settings_template#:#Vorlage
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
@@ -1616,7 +1616,7 @@ assessment#:#tst_question_set_type_random#:#Zufällige Fragenauswahl
 assessment#:#tst_question_set_type_random_desc#:#Jedem Teilnehmer werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
 assessment#:#tst_question_set_type_dynamic#:#Wiedervorlagenmodus - alle Fragen eines Fragenpools
 assessment#:#tst_question_set_type_dynamic_desc#:#Allen Teilnehmern werden nach und nach alle Fragen aus einem definierten Fragenpool gestellt. Falsch beantwortete Fragen legt ILIAS erneut vor. Auch Fragen bereits laufender Tests können hinzugefügt oder geändert werden.
-assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Sie sind im Begriff den Test-Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test-Modus-abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen, wenn Sie den Test-Modus ändern.
+assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Wenn Sie die Auswahl der Testfragen von <b>%s</b> auf <b>%s</b> ändern, geht die aktuelle Fragenzuordnung verloren. Sie müssen dann für die neue Konfiguration erneut Fragen zuordnen bzw. den Fragenpool entsprechend konfigurieren.<br />Klicken Sie auf <b>Bestätigen</b>, um die neue Einstellung zu verwenden, oder wählen Sie <b>Abbrechen</b>, wenn die aktuell eingestellte Auswahl der Testfragen beibehalten werden soll.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenauswahl wurde geändert.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
 assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#Die Konfiguration für die zufällige Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
@@ -3149,7 +3149,7 @@ common#:#err_check_input#:#Die Einstellungen konnten nicht gespeichert werden. B
 common#:#err_count_param#:#Grund: Falsche Parameteranzahl
 common#:#err_enter_current_passwd#:#Bitte geben Sie Ihr momentanes Passwort an!
 common#:#err_in_line#:#Fehler in Zeile
-common#:#err_inactive#:#Dieser Benutzer ist noch nicht aktiviert worden. Bitte kontaktieren Sie den Systemadministrator.
+common#:#err_inactive#:#Dieses Benutzerkonto ist nicht aktiv bzw. noch nicht aktiviert worden. Bitte kontaktieren Sie den Technischen Support (siehe Link unten) für weitere Unterstützung.
 common#:#err_invalid_port#:#Ungültige Portnummer
 common#:#err_ldap_auth_failed#:#Benutzer konnte nicht authentifiziert werden! Bitte überprüfen Sie, ob ILIAS- und LDAP-Passwort übereinstimmen
 common#:#err_ldap_connect_failed#:#Verbindung zum LDAP-Server fehlgeschlagen! Bitte überprüfen Sie Serveradresse und Port
@@ -4222,6 +4222,7 @@ common#:#no_date#:#Kein Datum
 common#:#no_description#:#Keine Beschreibung
 common#:#no_frm_in_personal_list#:#Es sind keine Foren abonniert.
 common#:#no_global_role_left#:#Jeder Benutzer muss mindestens einer globalen Rolle zugeordnet sein.
+common#:#user_not_found_to_delete#:#Ein Benutzer, der gelöscht werden sollte, konnte nicht gefunden werden.
 common#:#no_grp_in_personal_list#:#Es sind keine Gruppen abonniert.
 common#:#no_import_available#:#Import nicht verfügbar für Typ
 common#:#no_import_file_found#:#Keine Importdatei gefunden
@@ -4718,7 +4719,7 @@ common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
 common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
 common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
 common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Ihr Bestätigungslink
-common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten anzugebende E-Mail-Adresse geschickt.
+common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten eingegebende E-Mail-Adresse geschickt.
 common#:#register#:#Registrieren
 common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich zu registrieren (Die mit Stern gekennzeichneten Felder sind Pflichtangaben).
 common#:#registered_since#:#Eingetragen seit
@@ -5046,7 +5047,7 @@ common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#sort_inherit_prefix#:#Durch Kurs/Gruppe bestimmt
 common#:#sorting_header#:#Sortierung
 common#:#sorting_info_inherit#:#Wird die Sortierung des übergeordneten Kurses bzw. der Gruppe geändert, ändert sich auch diese Sortierung.
-common#:#sorting_info_manual#:#Die enthaltenen Objekte können in einer gewünschten Reihenfolge angeordnet werden.
+common#:#sorting_info_manual#:#Die enthaltenen Objekte können in einer gewünschten Reihenfolge angeordnet werden. Bitte legen sie zusätzlich fest, wie neue Objekte in eine vorhandene manuelle Reihenfolge einsortiert werden sollen.
 common#:#sorting_info_title#:#Die enthaltenen Objekte werden automatisch nach ihrem Titel sortiert. 
 common#:#sorting_manual_header#:#Manuell
 common#:#sorting_save#:#Sortierung speichern
@@ -12162,7 +12163,7 @@ user#:#user_account_code_generated#:#Erzeugt am
 user#:#user_account_code_generated_all#:#Alle Daten
 user#:#user_account_code_not_valid#:#Der gegebene Code ist ungültig oder wurde bereits benutzt.
 user#:#user_account_code_setting#:#Account-Reaktivierung durch Codes ermöglichen
-user#:#user_account_code_setting_info#:#Benutzer können mithilfe eines Registrierungscodes ihren inaktiven Account reaktieren. Entsprechende Codes für die Verlängerung zeitlich begrenzter Benutzerkonten werden in 'Administration » Authentifizierung / Neuanmeldung » ILIAS-Auth/Selbstregistrierung : Registrierungscodes' erzeugt.
+user#:#user_account_code_setting_info#:#Benutzer können mithilfe eines Registrierungscodes ihren abgelaufenen Account reaktieren. Entsprechende Codes für die Verlängerung zeitlich begrenzter Benutzerkonten werden in 'Administration » Authentifizierung / Neuanmeldung » ILIAS-Auth/Selbstregistrierung : Registrierungscodes' erzeugt. Inaktive Accounts können mit Codes nicht reaktiviert werden.
 user#:#user_account_code_used#:#Verbraucht am
 user#:#user_account_code_valid_until#:#Gültig bis
 user#:#user_account_code_valid_until_dynamic#:#Anzahl Tage
@@ -12199,7 +12200,7 @@ user#:#user_portfolios#:#Portfolios
 user#:#user_portfolios_desc#:#Benutzer können Portfolios anlegen und als Profil verwenden.
 user#:#user_profile_portfolio#:#Wenn Sie ein Portfolio als Ihr Profil nutzen möchten, setzen Sie im Portfolio-Bereich das Attribut "Mein Profil".
 user#:#user_profile_portfolio_selected#:#Sie benutzen momentan ein Portfolio als Ihr Profil. Die Aktivierung erfolgt dort über den Reiter "Freigabe".
-user#:#user_profile_preview#:#Preview
+user#:#user_profile_preview#:#Vorschau
 user#:#user_public_profile_info#:#Bitte wählen Sie aus, welche Daten in Ihrem Profil erscheinen sollen und welche Benutzer es betrachten können.
 user#:#user_save_ordering_and_titles#:#Reihenfolge und Titel speichern
 user#:#user_screen_reader_optimization#:#Screen-Reader-Optimierung
@@ -14018,6 +14019,7 @@ orgu#:#ext_id#:#Externe ID
 orgu#:#ext_id_updated#:#Die externe ID wurde erfolgreich bearbeitet.n, da die Daten anonymisiert gespeichert werden.
 orgu#:#no_roles#:#Es gibt keine weiteren lokalen Rollen an dieser Stelle.
 orgu#:#local_other_roles#:#Weitere lokale Rollen %s
+orgu#:#not_movable_to_subtree#:#Eine Organisationseinheit kann nicht in ihre eigenen Untereinheiten eingeteilt werden, dies würde eine Schlaufe bilden.
 cld#:#cld_object_added#:#Ein neues Cloud Objekt wurde hinzugefügt
 exc#:#exc_peer_review_deadline#:#Ende des Bewertungszeitraums
 exc#:#exc_peer_review_deadline_info#:#Bis zu diesem Termin können Bewertungen abgegeben werden. Anschließend ist das erhaltene Feedback einsehbar.
@@ -14216,13 +14218,13 @@ bibl#:#bib_default_author#:#Autor
 bibl#:#bib_default_booktitle#:#Titel
 bibl#:#bib_default_chapter#:#Kapitel
 bibl#:#bib_default_edition#:#Auflage
-bibl#:#bib_default_editor#:#Verlag
+bibl#:#bib_default_editor#:#Herausgeber
 bibl#:#bib_default_institution#:#Institution
 bibl#:#bib_default_journal#:#Journal/Zeitschrift
 bibl#:#bib_default_number#:#Nummer
 bibl#:#bib_default_organization#:#Organisation
 bibl#:#bib_default_pages#:#Seiten
-bibl#:#bib_default_publisher#:#Herausgeber
+bibl#:#bib_default_publisher#:#Verlag
 bibl#:#bib_default_title#:#Titel
 bibl#:#bib_default_type#:#Typ
 bibl#:#bib_default_volume#:#Auflage
@@ -14892,6 +14894,7 @@ cntr#:#sorting_new_items_position#:#Position neuer Objekte
 cntr#:#sorting_new_items_at_top#:#Oben
 cntr#:#sorting_new_items_at_bottom#:#Unten
 cntr#:#sorting_new_items_order#:#Reihenfolge neuer Objekte
+cntr#:#sorting_new_items_direction#:#Sortierungsrichtung neuer Objekte
 form#:#form_location_radius#:#Umkreis
 form#:#form_location_radius_km#:#km
 content#:#cont_question_stats#:#Statistik
@@ -15039,7 +15042,7 @@ crs#:#crs_loc_err_no_active_qt#:#Lernziele ohne Qualifizierenden Test vorhanden
 crs#:#crs_loc_err_no_active_lo#:#Kein aktives Lernziel
 content#:#cont_to_focus_return_crs#:#Zurück zum Kurs
 crs#:#crs_loc_learning_objective#:#Lernziel
-crs#:#crs_loc_suggested#:#Bearbeiten Sie die folgenden Materialien.
+crs#:#crs_loc_suggested#:#Bearbeiten Sie bitte die links aufgeführten Materialien, um das Lernziel zu erreichen.
 crs#:#crs_loc_itest_info#:#Einstiegstest
 crs#:#crs_loc_qtest_info#:#Qualifizierender Test
 crs#:#crs_loc_tt_info#:#Sie haben %1$d%% erreicht. Der Test gilt mit %2$d%% als bestanden.
@@ -15084,7 +15087,7 @@ crs#:#crs_loc_progress_result_itest#:#Ergebnis Einstiegstest
 crs#:#crs_loc_progress_result_qtest#:#Ergebnis
 crs#:#crs_loc_progress_no_result_do_initial#:#Bearbeiten Sie den Einstiegstest
 crs#:#crs_loc_progress_objective_complete#:#Sie haben das Lernziel erreicht.
-crs#:#crs_loc_progress_do_qualifying#:#Bearbeiten Sie nur noch den Qualifizierenden Test
+crs#:#crs_loc_progress_do_qualifying#:#Machen Sie den Qualifizierenden Test, um das Lernziel abzuschließen.
 crs#:#crs_loc_progress_do_qualifying_again#:#Bitte bearbeiten Sie das Lernziel erneut.
 content#:#cont_out_of_focus_message_last_page#:#Sie befinden sich auf der letzten Seite der Inhalte zum aktuellen Lernziel.
 crs#:#crs_loc_err_nr_tries_exceeded#:#Die Anzahl der Testdurchläufe pro Lernziel übersteigt die Anzahl möglicher Testdurchläufe des Qualifizierenden Tests.
@@ -16105,7 +16108,7 @@ crs#:#crs_subscription_max_members_short_info#:#---
 crs#:#crs_unsubscribe_member_explanation#:#Sie erhalten diese Mail, da Sie die Kursmitgliedschaft des oben genannten Kurses beendet haben.
 rbac#:#prg_read#:#Seiteninhalt des Studienprogramms kann gelesen werden
 sess#:#sess_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
-obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiename unverändert ist. Fehlermeldung:
+obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiname unverändert ist. Fehlermeldung:
 content#:#cont_sqst#:#Frage in Umfrage (Material)
 mmbr#:#info_refuse_sure#:#Sind Sie sicher, dass Sie den/die folgenden Benutzer ablehnen möchten?
 administration#:#adm_user_starting_point_inherit#:#Standard-Einstellungen übernehmen
@@ -16117,3 +16120,4 @@ prg#:#prg_show_programmes_on_pd_only_read#:#Studienprogramme sind auf dem persö
 prg#:#prg_more_objects_without_read_permission#:#Das Studienprogramm beinhaltet weitere Elemente, die Sie aufgrund von fehlenden Rechten nicht einsehen dürfen.
 cmps#:#cmps_uninstall_inactive_confirm#:#Das Plugin "%1$s" ist aktuell nicht aktivierbar ("%2$s"). In diesem Status können Plugins nicht komplett deinstalliert werden. Da nur die Systemintegration entfernt wird, könnten Plugin-eigene Daten zurückbleiben. Möchten Sie mit der teilweisen Deinstallation fortfahren?
 pd#:#pd_enable_comments_del_tutor_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" an einem Objekt können alle darin gemachten Kommentare löschen.
+log#:#log_cache_info#:#Erst wenn eine Nachricht den eingestellten Caching-Level erreicht oder überschreitet, werden innerhalb des aktuellen Server-Requests alle Nachrichten protokolliert, deren Level mindestens dem Log-Level entspricht.

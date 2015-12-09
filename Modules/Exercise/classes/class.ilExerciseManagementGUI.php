@@ -780,6 +780,8 @@ class ilExerciseManagementGUI
 	 */
 	function saveStatusParticipantObject()
 	{
+		global $ilCtrl;
+		
 		$member_id = (int)$_GET["member_id"];
 		$data = array();
 		foreach(array_keys($_POST["id"]) as $ass_id)
@@ -791,6 +793,7 @@ class ilExerciseManagementGUI
 			);
 		}
 		
+		$ilCtrl->setParameter($this, "part_id", $member_id); // #17629
 		$this->saveStatus($data);
 	}
 	

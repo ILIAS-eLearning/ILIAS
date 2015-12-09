@@ -553,7 +553,7 @@ class ilDataCollectionDatatype {
 							//resize proportional
 							if (!$new_height || !$new_width) {
 								$format = ilObjMediaObject::getMimeType($file);
-								$wh = ilObjMediaObject::_determineWidthHeight("", "", $format, "File", $file, "", true, false, $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH], (int)$arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]);
+								$wh = ilObjMediaObject::_determineWidthHeight($format, "File", $file, "", true, false, $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH], (int)$arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]);
 							} else {
 								$wh['width'] = (int)$arr_properties[ilDataCollectionField::PROPERTYID_WIDTH];
 								$wh['height'] = (int)$arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT];
