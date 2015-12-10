@@ -50,19 +50,14 @@ class ilChatroomServerConnector
 			$ctx = array_merge_recursive($ctx, $stream_context_params);
 		}
 
-		set_error_handler(function($severity, $message, $file, $line) {
-			throw new ErrorException($message, $severity, $severity, $file, $line);
-		});
-
 		try
 		{
 			$response = file_get_contents($url, null, stream_context_create($ctx));
-			restore_error_handler();
 			return $response;
 		}
 		catch(Exception $e)
 		{
-			restore_error_handler();
+			ilLoggerFactory::getLogger('chatroom')->alert($e->getMessage());
 		}
 
 		return false;
