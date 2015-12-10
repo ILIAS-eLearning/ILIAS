@@ -12435,3 +12435,7 @@ while($row = $ilDB->fetchAssoc($res))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4798>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
