@@ -114,10 +114,11 @@ class ilCourseObjectiveQuestion
 		$mappings = $cwo->getMappings();
 		foreach($this->getQuestions() as $question)
 		{
-			if(!isset($mappings["$question[ref_id]"]) or !$mappings["$question[ref_id]"])
+			$mapping_key = $question['ref_id'].'_question_'.$question['question_id'];
+			if(!isset($mappings[$mapping_key]) or !$mappings[$mapping_key])
 			{
 				continue;
-			}
+			}			
 			$question_ref_id = $question['ref_id'];
 			$question_obj_id = $question['obj_id'];
 			$question_qst_id = $question['question_id'];
@@ -126,22 +127,24 @@ class ilCourseObjectiveQuestion
 			
 			if($new_obj_id == $question_obj_id)
 			{
-				$ilLog->write(__METHOD__.': Test has been linked. Keeping question id.');
+				ilLoggerFactory::getLogger('crs')->info('Test has been linked. Keeping question id');
 				// Object has been linked
 				$new_question_id = $question_qst_id;
 			}
 			else
 			{
-				$new_question_info = $mappings[$question_ref_id.'_'.$question_qst_id];
+				$new_question_info = $mappings[$question_ref_id.'_question_'.$question_qst_id];
 				$new_question_arr = explode('_',$new_question_info);
-				if(!isset($new_question_arr[1]) or !$new_question_arr[1])
+				if(!isset($new_question_arr[2]) or !$new_question_arr[2])
 				{
+					ilLoggerFactory::getLogger('crs')->debug('found invalid format of question id mapping: ' . print_r($new_question_arr,TRUE));
 					continue;
 				}
-				$new_question_id = $new_question_arr[1];
-				$ilLog->write(__METHOD__.': New question id is: '.$new_question_id);
+				$new_question_id = $new_question_arr[2];
+				ilLoggerFactory::getLogger('crs')->info('New question id is: '.$new_question_id);
 			}
 	
+			ilLoggerFactory::getLogger('crs')->debug('Copying question assignments');
 			$new_question = new ilCourseObjectiveQuestion($a_new_objective);
 			$new_question->setTestRefId($new_ref_id);
 			$new_question->setTestObjId($new_obj_id);

@@ -84,12 +84,13 @@ class ilCopyWizardOptions
 		return self::$instances[$a_copy_id] = new ilCopyWizardOptions($a_copy_id);
 	}
 	
-	
+
+	/**
+	 * Get required steps
+	 * @return type
+	 */
 	public function getRequiredSteps()
 	{
-		ilLoggerFactory::getLogger('obj')->debug(print_r($this->options[0],TRUE));
-		ilLoggerFactory::getLogger('obj')->debug(print_r($this->options[-1],TRUE));
-		
 		return count($this->options[0]) + count($this->options[-1]);
 	}
 	

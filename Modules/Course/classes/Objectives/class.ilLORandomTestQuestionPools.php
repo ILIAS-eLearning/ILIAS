@@ -148,6 +148,45 @@ class ilLORandomTestQuestionPools
 		return $this->limit;
 	}
 	
+	/**
+	 * Copy assignment
+	 * @param type $a_copy_id
+	 * @param type $a_new_objective_id
+	 */
+	public function copy($a_copy_id, $a_new_course_id, $a_new_objective_id)
+	{
+		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
+		$options = ilCopyWizardOptions::_getInstance($a_copy_id);
+		$mappings = $options->getMappings();
+		
+		$new_ass = new self(
+			$a_new_course_id,
+			$a_new_objective_id,
+			$this->getTestType()
+		);
+		$new_ass->setLimit($this->getLimit());
+		
+		$new_test_id = $mappings[$this->getTestId()];
+		if(!$new_test_id)
+		{
+			ilLoggerFactory::getLogger('crs')->debug('No test mapping found for random question pool assignment');
+			return FALSE;
+		}
+		$new_ass->setTestId($new_test_id);
+		
+		// Mapping for sequence
+		$new_question_info = $mappings[$this->getTestId().'_rndSelDef_'.$this->getQplSequence()];
+		$new_question_arr = explode('_',$new_question_info);
+		if(!isset($new_question_arr[2]) or !$new_question_arr[2])
+		{
+			ilLoggerFactory::getLogger('crs')->debug('Found invalid or no mapping format of random question id mapping: ' . print_r($new_question_arr,TRUE));
+			return FALSE;
+		}
+		
+		$new_ass->setQplSequence($new_question_arr[2]);
+		$new_ass->create();
+	}
+	
 	
 	public function read()
 	{
