@@ -261,6 +261,11 @@ html, body {
 	height:100%;
 }
 
+/* see bug ILIAS bug #17589 and http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that */
+body{
+	-ms-overflow-style: scrollbar;
+}
+
 #ilAll {
 	position: relative;
 	height: auto !important;

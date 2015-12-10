@@ -16115,7 +16115,7 @@ administration#:#adm_user_starting_point_inherit#:#Standard-Einstellungen übern
 administration#:#adm_user_starting_point_inherit_info#:#Es werden die Einstellungen übernommen, wie sie vom Administrator für die ganze Plattform  global aktiviert wurden.
 survey#:#svy_export_format#:#Umfragen exportieren als
 survey#:#svy_fraction_of_selections#:#Anteil an den insgesamt ausgewählten Antwortoptionen
-prg#:#prg_show_programmes_on_pd_allways#:#Studienprogramme sind auf dem persönlichen Schreibtisch immer sichtbar.
+prg#:#prg_show_programmes_on_pd_always#:#Studienprogramme sind auf dem persönlichen Schreibtisch immer sichtbar.
 prg#:#prg_show_programmes_on_pd_only_read#:#Studienprogramme sind auf dem persönlichen Schreibtisch nur sichtbar, wenn der Lesezugriff möglich ist.
 prg#:#prg_more_objects_without_read_permission#:#Das Studienprogramm beinhaltet weitere Elemente, die Sie aufgrund von fehlenden Rechten nicht einsehen dürfen.
 cmps#:#cmps_uninstall_inactive_confirm#:#Das Plugin "%1$s" ist aktuell nicht aktivierbar ("%2$s"). In diesem Status können Plugins nicht komplett deinstalliert werden. Da nur die Systemintegration entfernt wird, könnten Plugin-eigene Daten zurückbleiben. Möchten Sie mit der teilweisen Deinstallation fortfahren?
