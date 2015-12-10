@@ -77,12 +77,20 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 
 	public function cloneDefinitionsForTestId($testId)
 	{
+		$definitionIdMap = array();
+		
 		foreach($this as $definition)
 		{
 			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
+			
+			$originalId = $definition->getId();
 			$definition->cloneToDbForTestId($testId);
+			$cloneId = $definition->getId();
+
+			$definitionIdMap[$originalId] = $cloneId;
 		}
 
+		return $definitionIdMap;
 	}
 
 	public function deleteDefinitions()

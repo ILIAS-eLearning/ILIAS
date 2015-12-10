@@ -73,14 +73,14 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 	 *
 	 * @param ilObjTest $cloneTestOBJ
 	 */
-	public function cloneQuestionSetRelatedData($cloneTestOBJ)
+	public function cloneQuestionSetRelatedData(ilObjTest $cloneTestOBJ)
 	{
 		global $ilLog;
 
 		require_once 'Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
 		require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
 
-		$cwo = ilCopyWizardOptions::_getInstance($cloneTestOBJ->getId());
+		$cwo = ilCopyWizardOptions::_getInstance($cloneTestOBJ->getTmpCopyWizardCopyId());
 
 		foreach( $this->testOBJ->questions as $key => $question_id )
 		{
@@ -94,10 +94,10 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 
 			// Save the mapping of old question id <-> new question id
 			// This will be used in class.ilObjCourse::cloneDependencies to copy learning objectives
-			$originalKey = $this->testOBJ->getRefId().'_'.$question_id;
-			$mappedKey = $cloneTestOBJ->getRefId().'_'.$cloneTestOBJ->questions[$key];
+			$originalKey = $this->testOBJ->getRefId().'_question_'.$question_id;
+			$mappedKey = $cloneTestOBJ->getRefId().'_question_'.$cloneTestOBJ->questions[$key];
 			$cwo->appendMapping($originalKey, $mappedKey);
-			$ilLog->write(__METHOD__.": Added mapping $originalKey <-> $mappedKey");
+			$ilLog->write(__METHOD__.": Added question id mapping $originalKey <-> $mappedKey");
 		}
 	}
 
