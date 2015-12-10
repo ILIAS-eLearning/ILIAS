@@ -465,7 +465,7 @@ class ilStudyProgrammeUserProgress {
 			return true;
 		}
 		
-		if ($this->getMaximumPossibleAmountOfPoints() < $this->getAmountOfPoints()) {
+		if ($this->getMaximumPossibleAmountOfPoints(true) < $this->getAmountOfPoints()) {
 			// Fast track
 			return false;
 		}
