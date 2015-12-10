@@ -165,20 +165,33 @@ class ilLORandomTestQuestionPools
 			$this->getTestType()
 		);
 		$new_ass->setLimit($this->getLimit());
-		
-		$new_test_id = $mappings[$this->getTestId()];
-		if(!$new_test_id)
+
+		$mapped_id = 0;
+		$test_ref_id = 0;
+		foreach((array) ilObject::_getAllReferences($this->getTestId()) as $tmp => $ref_id)
 		{
-			ilLoggerFactory::getLogger('crs')->debug('No test mapping found for random question pool assignment');
+			ilLoggerFactory::getLogger('crs')->debug($tmp .' ' . $ref_id);
+			$test_ref_id = $ref_id;
+			$mapped_id = $mappings[$ref_id];
+			if($mapped_id)
+			{
+				continue;
+			}
+		}
+		
+		if(!$mapped_id)
+		{
+			ilLoggerFactory::getLogger('crs')->debug('No test mapping found for random question pool assignment: ' . $this->getTestId());
 			return FALSE;
 		}
-		$new_ass->setTestId($new_test_id);
+		$new_ass->setTestId($mapped_id);
 		
 		// Mapping for sequence
-		$new_question_info = $mappings[$this->getTestId().'_rndSelDef_'.$this->getQplSequence()];
+		$new_question_info = $mappings[$test_ref_id.'_rndSelDef_'.$this->getQplSequence()];
 		$new_question_arr = explode('_',$new_question_info);
 		if(!isset($new_question_arr[2]) or !$new_question_arr[2])
 		{
+			ilLoggerFactory::getLogger('crs')->debug(print_r($mappings,TRUE));
 			ilLoggerFactory::getLogger('crs')->debug('Found invalid or no mapping format of random question id mapping: ' . print_r($new_question_arr,TRUE));
 			return FALSE;
 		}
