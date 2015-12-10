@@ -46,6 +46,11 @@ class ilStudyProgrammeProgressListGUI {
 	 */
 	protected $visible_on_pd_mode;
 
+	/**
+	 * @var boolean
+	 */
+	protected $only_relevant = false;
+
 	function __construct(ilStudyProgrammeUserProgress $a_progress) {
 		global $lng, $ilCtrl;
 		$this->il_lng = $lng;
@@ -186,7 +191,7 @@ class ilStudyProgrammeProgressListGUI {
 		}
 
 		if($a_progress->getStudyProgramme()->hasChildren()) {
-			$max_points = $a_progress->getMaximumPossibleAmountOfPoints();
+			$max_points = $a_progress->getMaximumPossibleAmountOfPoints($this->only_relevant);
 		}
 		return sprintf( $this->il_lng->txt($lang_val)
 					  , $a_progress->getCurrentAmountOfPoints()
@@ -200,6 +205,10 @@ class ilStudyProgrammeProgressListGUI {
 
 	public function setVisibleOnPDMode($visible_on_pd_mode) {
 		$this->visible_on_pd_mode = $visible_on_pd_mode;
+	}
+
+	public function setOnlyRelevant($only_relevant) {
+		$this->only_relevant = $only_relevant;
 	}
 
 	protected function showMoreObjectsInfo($programme) {
