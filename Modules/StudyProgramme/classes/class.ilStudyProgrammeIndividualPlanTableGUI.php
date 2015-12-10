@@ -64,7 +64,15 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 	
 	protected function fillRow($a_set) {
 		$this->tpl->setVariable("STATUS", ilStudyProgrammeUserProgress::statusToRepr($a_set["status"]));
-		$this->tpl->setVariable("TITLE", $a_set["title"]);
+		
+		$title = $a_set["title"];
+		if($a_set["program_status"] == ilStudyProgramme::STATUS_DRAFT) {
+			$title .= " (".$this->lng->txt("prg_status_draft").")";
+		} else if ($a_set["program_status"] == ilStudyProgramme::STATUS_OUTDATED) {
+			$title .= " (".$this->lng->txt("prg_status_outdated").")";
+		}
+
+		$this->tpl->setVariable("TITLE", $title);
 		$this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
 		$this->tpl->setVariable("POINTS_REQUIRED", $this->getRequiredPointsInput( $a_set["progress_id"]
 																				, $a_set["status"]
@@ -99,6 +107,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 						   , "changed_by" => ilObjUser::_lookupLogin($progress->getLastChangeBy())
 						   , "completion_by" => $completion_by
 						   , "progress_id" => $progress->getId()
+						   , "program_status" => $progress->getStudyProgramme()->getStatus()
 						   );
 		});
 		return $plan;
