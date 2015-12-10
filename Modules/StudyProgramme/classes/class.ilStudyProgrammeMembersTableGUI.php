@@ -40,7 +40,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 		$this->setExternalSegmentation(true);
 		$this->setRowTemplate("tpl.members_table_row.html", "Modules/StudyProgramme");
 		
-		//$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
+		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
 
 		$columns = array( "name" 				=> array("name")
