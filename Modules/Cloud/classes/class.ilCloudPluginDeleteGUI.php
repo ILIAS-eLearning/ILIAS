@@ -16,12 +16,28 @@ include_once("./Modules/Cloud/exceptions/class.ilCloudException.php");
  */
 class ilCloudPluginDeleteGUI extends ilCloudPluginGUI {
 
+	/**
+	 * @var string
+	 */
 	protected $path = "/";
+	/**
+	 * @var int
+	 */
 	protected $id = 0;
+	/**
+	 * @var bool
+	 */
 	protected $is_dir;
+	/**
+	 * @var ilConfirmationGUI
+	 */
+	protected $gui;
 
 
-	function asyncDeleteItem() {
+	/**
+	 * is called async and prints the content from the confirmation gui
+	 */
+	public function asyncDeleteItem() {
 		global $tpl, $lng;
 		$response = new stdClass();
 		$response->success = null;
@@ -77,14 +93,14 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI {
 				"var" => 'id',
 				"id" => $this->id,
 				"text" => basename($this->path),
-				"img" => "/Modules/Cloud/templates/images/icon_folder.png"
+				"img" => ilUtil::getImagePath('icon_dcl_fold.svg')
 			);
 		} else {
 			$item[] = array(
 				"var" => 'id',
 				"id" => $this->id,
 				"text" => basename($this->path),
-				"img" => "/Modules/Cloud/templates/images/icon_file.png"
+				"img" => ilUtil::getImagePath('icon_dcl_file.svg')
 			);
 		}
 		$this->gui->setData($item);
