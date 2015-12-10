@@ -3,6 +3,7 @@
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("./Services/Object/classes/class.ilObjectListGUI.php");
+include_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php');
 
 /**
  * Class ilObjStudyProgrammeListGUI
@@ -20,9 +21,11 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI {
 
 
 	function __construct() {
-		global $tpl;
+		global $tpl, $lng;
 		$this->ilObjectListGUI();
 		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->lng->loadLanguageModule("prg");
 		//$this->enableComments(false, false);
 	}
 
@@ -89,6 +92,35 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI {
 		$this->ctrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $this->ref_id);
 
 		return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammegui", $a_cmd);
+	}
+
+	/**
+	* Get all item information (title, commands, description) in HTML
+	*
+	* @access	public
+	* @param	int			$a_ref_id		item reference id
+	* @param	int			$a_obj_id		item object id
+	* @param	int			$a_title		item title
+	* @param	int			$a_description	item description
+	* @param	bool		$a_use_asynch
+	* @param	bool		$a_get_asynch_commands
+	* @param	string		$a_asynch_url
+	* @param	bool		$a_context	    workspace/tree context
+	* @return	string		html code
+	*/
+	function getListItemHTML($a_ref_id, $a_obj_id, $a_title, $a_description,
+		$a_use_asynch = false, $a_get_asynch_commands = false, $a_asynch_url = "", $a_context = self::CONTEXT_REPOSITORY)
+	{
+		$prg = new ilObjStudyProgramme($a_ref_id);
+		$assignments = $prg->getAssignments();
+		if($this->getCheckboxStatus() && count($assignments) > 0) {
+			$this->setAdditionalInformation($this->lng->txt("prg_can_not_manage_in_repo"));
+			$this->enableCheckbox(false);
+		} else {
+			$this->setAdditionalInformation(null);
+		}
+
+		return parent::getListItemHTML($a_ref_id, $a_obj_id, $a_title, $a_description,$a_use_asynch, $a_get_asynch_commands, $a_asynch_url, $a_context);
 	}
 }
 
