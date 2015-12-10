@@ -365,7 +365,10 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		ilAsyncOutputHandler::handleAsyncOutput("", $async_response, false);
 
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
-		$this->ctrl->returnToParent($this);
+
+		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
+		ilUtil::redirect($this->getReturnLocation("save",
+			$this->ctrl->getLinkTarget($this, "view", "", false, false)));
 	}
 
 

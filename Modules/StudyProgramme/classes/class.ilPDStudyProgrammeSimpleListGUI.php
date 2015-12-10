@@ -108,6 +108,9 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 			catch (ilStudyProgrammeNoProgressForAssignmentException $e) {
 				$this->il_logger->alert("$e");
 			}
+			catch(ilStudyProgrammeTreeException $e) {
+				$this->il_logger->alert("$e");
+			}
 		}
 		return $content;
 	}

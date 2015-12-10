@@ -133,7 +133,7 @@ class ilStudyProgrammeProgressListGUI {
 		$required_amount_of_points = $a_progress->getAmountOfPoints();
 		$maximum_possible_amount_of_points = $a_progress->getMaximumPossibleAmountOfPoints();
 		$current_amount_of_points = $a_progress->getCurrentAmountOfPoints();
-		
+
 		if ($maximum_possible_amount_of_points > 0) {
 			$current_percent = (int)($current_amount_of_points * 100 / $maximum_possible_amount_of_points);
 			$required_percent = (int)($required_amount_of_points * 100 / $maximum_possible_amount_of_points);
@@ -145,8 +145,13 @@ class ilStudyProgrammeProgressListGUI {
 			}
 			else {
 				$current_percent = 0;
-				$required_percent = 100;
+				$required_percent = 0;
 			}
+		}
+		
+		//required to dodge bug in ilContainerObjectiveGUI::renderProgressBar
+		if($required_percent == 0) {
+			$required_percent = 0.1;
 		}
 		
 		$tooltip_txt = $this->buildToolTip($a_progress);
@@ -158,7 +163,7 @@ class ilStudyProgrammeProgressListGUI {
 		else {
 			$css_class = self::NON_SUCCESSFUL_PROGRESS_CSS_CLASS;
 		}
-		
+
 		require_once("Services/Container/classes/class.ilContainerObjectiveGUI.php");
 		return ilContainerObjectiveGUI::renderProgressBar($current_percent, $required_percent, $css_class
 														 , $progress_status, null, $tooltip_id, $tooltip_txt);

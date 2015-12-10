@@ -16125,3 +16125,4 @@ log#:#log_cache_info#:#Only if a message reaches or surpasses the caching level,
 content#:#cont_ov_preview#:#The question overview does not work in the page editor context. Use the SCO or SCORM level preview instead.
 wiki#:#wiki_copy#:#Copy Wiki
 mcst#:#mcst_copy#:#Copy Mediacast
+prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.

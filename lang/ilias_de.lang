@@ -16124,3 +16124,4 @@ log#:#log_cache_info#:#Erst wenn eine Nachricht den eingestellten Caching-Level 
 content#:#cont_ov_preview#:#Die Fragenübersicht funktioniert nicht im Seiteneditor-Kontext. Benutzen Sie stattdessen die Vorschau auf SCO- oder SCORM-Level.
 wiki#:#wiki_copy#:#Wiki kopieren
 mcst#:#mcst_copy#:#Mediacast kopieren
+prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind.
