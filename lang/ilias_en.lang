@@ -926,11 +926,11 @@ assessment#:#submit_answer#:#Save Answer and Next
 assessment#:#skip_question#:#Do not Answer and Next
 assessment#:#discard_answer#:#Delete Answer
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
-assessment#:#tst_denied_nav_modal_header#:#Decision about Answers
-assessment#:#tst_denied_nav_modal_text#:#What to do with the answers you possibly entered for this question?
-assessment#:#tst_denied_nav_modal_save_btn#:#Save
-assessment#:#tst_denied_nav_modal_nosave_btn#:#Do Not Save
-assessment#:#tst_denied_nav_modal_cancel_btn#:#Cancel
+assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers
+assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?
+assessment#:#tst_nav_while_edit_modal_save_btn#:#Save
+assessment#:#tst_nav_while_edit_modal_nosave_btn#:#Do Not Save
+assessment#:#tst_nav_while_edit_modal_cancel_btn#:#Cancel
 assessment#:#edit_answer#:#Edit Answer
 assessment#:#answer_question#:#Answer Question
 assessment#:#back_to_objective_container#:#Go to Course

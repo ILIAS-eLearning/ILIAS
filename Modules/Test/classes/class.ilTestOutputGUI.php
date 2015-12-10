@@ -428,6 +428,17 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$this->testSequence->saveToDb();
 			}
 			
+			if( $this->getNextCommandParameter() )
+			{
+				if( $this->getNextSequenceParameter() )
+				{
+					$this->ctrl->setParameter($this, 'sequence', $this->getNextSequenceParameter());
+					$this->ctrl->setParameter($this, 'pmode', '');
+				}
+				
+				$this->ctrl->redirect($this, $this->getNextCommandParameter());
+			}
+			
 			$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 		}
 
