@@ -269,7 +269,7 @@ class ilCertificateGUI
 		$import->setRequired(FALSE);
 		$import->setSuffixes(array("zip"));
 		// handle the certificate import
-		if (strlen($_FILES["certificate_import"]["tmp_name"]))
+		if (strlen($_FILES["certificate_import"]["name"]))
 		{
 			if ($import->checkInput())
 			{
