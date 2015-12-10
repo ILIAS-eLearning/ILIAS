@@ -253,6 +253,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		}
 		
 		$changed_one = false;
+		$lastAndHopefullyCurrentQuestionId = null;
 		foreach($_POST['scoring'] as $pass => $active_ids)
 		{
 			foreach((array)$active_ids as $active_id => $questions)
@@ -274,7 +275,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 				if($update_participant)
 				{
 					$changed_one = true;
-					
+
+					$lastAndHopefullyCurrentQuestionId = $qst_id;
+
 					ilLPStatusWrapper::_updateStatus(
 						$this->object->getId(), ilObjTestAccess::_getParticipantId($active_id)
 					);
@@ -284,16 +287,16 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
 		if($changed_one)
 		{
-			if($this->object->getAnonymity() == 0)
+			$qTitle = '';
+			if($lastAndHopefullyCurrentQuestionId)
 			{
-				$user_name 				= $user_name = ilObjUser::_lookupName( ilObjTestAccess::_getParticipantId($active_id));
-				$name_real_or_anon 		= $user_name['firstname'].' '. $user_name['lastname'];
+				$question = assQuestion::_instantiateQuestion($lastAndHopefullyCurrentQuestionId);
+				$qTitle = $question->getTitle();
 			}
-			else
-			{
-				$name_real_or_anon 		= $lng->txt('anonymous');
-			}
-			ilUtil::sendSuccess(sprintf($this->lng->txt('tst_saved_manscoring_successfully'), $pass + 1,$name_real_or_anon), true);
+			$msg = sprintf(
+				$this->lng->txt('tst_saved_manscoring_by_question_successfully'), $qTitle, $pass + 1
+			);
+			ilUtil::sendSuccess($msg, true);
 
 			require_once './Modules/Test/classes/class.ilTestScoring.php';
 			$scorer = new ilTestScoring($this->object);
