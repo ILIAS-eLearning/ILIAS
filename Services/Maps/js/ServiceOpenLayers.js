@@ -145,7 +145,7 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 		jQuery("#" + id + "_lng").attr("disabled", "disabled");
 
 		jQuery.ajax({
-			url: this.geolocationURL + address,
+			url: this.geolocationURL.replace("[QUERY]", address),
 			data: {},
 			dataType : "json" })
 			.done( (function(module) {	return function (data) {
@@ -153,7 +153,6 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 					jQuery("#" + id + "_address").val(module.addressInvalid);
 					return;
 				}
-
 				var lon = parseInt(data[0].lon, 10);
 				var lat = parseInt(data[0].lat, 10);
 
@@ -392,7 +391,7 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 	for (var id in mapData) {
 		var map = mapData[id];
 
-		this.geolocationURL = window.location.protocol + "//"+ map[7] +"/nominatim/v1/search.php?format=json&q=";
+		this.geolocationURL = window.location.protocol + "//"+ map[7];
 		map_servers = map[6];
 		map_servers_count = map_servers.length;
 		
