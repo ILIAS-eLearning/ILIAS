@@ -427,16 +427,25 @@ class ilStudyProgrammeUserProgress {
 	 *
 	 * TODO: Maybe caching this value would be a good idea.
 	 *
+	 * @param $only_relevant 	boolean 	true if check is nesserary the progress is relevant
+	 *
 	 * @return int
 	 */
-	public function getMaximumPossibleAmountOfPoints() {
+	public function getMaximumPossibleAmountOfPoints($only_relevant = false) {
 		$prg = $this->getStudyProgramme();
 		if ($prg->getLPMode() == ilStudyProgramme::MODE_LP_COMPLETED) {
 			return $this->getAmountOfPoints();
 		}
 		$children = $prg->getChildren();
 		$ass = $this->progress->getAssignmentId();
-		$points = array_map(function($child) use ($ass) {
+		$points = array_map(function($child) use ($ass, $only_relevant) {
+			$relevant = $child->getProgressForAssignment($ass)->isRelevant();
+			if($only_relevant && $relevant) {
+				return $child->getProgressForAssignment($ass)->getAmountOfPoints();
+			} else if($only_relevant && !$relevant) {
+				return 0;
+			}
+
 			return $child->getProgressForAssignment($ass)->getAmountOfPoints();
 		}, $children);
 		
