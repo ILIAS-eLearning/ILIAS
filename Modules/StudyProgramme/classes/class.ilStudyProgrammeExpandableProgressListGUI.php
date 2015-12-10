@@ -149,10 +149,21 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 	}
 	
 	protected function getAccordionContentCoursesHTML() {
-		return implode("\n", array_map(function(ilObjCourseReference $object) {
+		include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
+		$preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
+		
+		$crs = array();
+		foreach ($this->progress->getStudyProgramme()->getLPChildren() as $il_obj_crs_ref) {
+			$course = ilObjectFactory::getInstanceByRefId($il_obj_crs_ref->getTargetRefId());
+			$preloader->addItem($course->getId(), $course->getType(), $course->getRefId());
+			$crs[] = $course;
+		}
+		$preloader->preload();
+
+		return implode("\n", array_map(function(ilObjCourse $course) {
 			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeCourseListGUI.php");
 			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeContainerObjectMock.php");
-			$course = ilObjectFactory::getInstanceByRefId($object->getTargetRefId());
+
 			$item_gui = new ilStudyProgrammeCourseListGUI();
 			$this->configureItemGUI($item_gui);
 			$item_gui->setContainerObject(new ilStudyProgrammeContainerObjectMock($course));
@@ -162,7 +173,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 				, $course->getTitle()
 				, $course->getDescription()
 				);
-		}, $this->progress->getStudyProgramme()->getLPChildren()));
+		}, $crs));
 	}
 	
 	protected function configureItemGUI(ilStudyProgrammeCourseListGUI $a_item_gui) {
