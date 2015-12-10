@@ -1166,7 +1166,7 @@ abstract class ilPageObject
 					include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 					$question = assQuestion::_instantiateQuestion($q_id);
 					// check due to #16557
-					if (is_object($question))
+					if (is_object($question) && $question->isComplete())
 					{
 						// check if page for question exists
 						// due to a bug in early 4.2.x version this is possible
