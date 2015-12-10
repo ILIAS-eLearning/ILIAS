@@ -156,6 +156,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 		if($selected_questionData)
 		{
 			$maxpoints = assQuestion::_getMaximumPoints($selected_questionData['question_id']);
+			$table->setCurQuestionMaxPoints($maxpoints);
 			if($maxpoints == 1)
 			{
 				$maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('point') . ')';
