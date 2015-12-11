@@ -5341,6 +5341,8 @@ class ilObjSurvey extends ilObject
 			$print_output = str_replace("&otimes;", "X", $print_output);
 									
 			// #17680 - metric questions use &#160; in print view
+			$print_output = str_replace("&gt;", ">", $print_output);
+			$print_output = str_replace("&lt;", "<", $print_output);
 			$print_output = str_replace("&#160;", "~|nbsp|~", $print_output);
 			$print_output = preg_replace('/&(?!amp)/', '&amp;', $print_output);
 			$print_output = str_replace("~|nbsp|~", "&#160;", $print_output);			
