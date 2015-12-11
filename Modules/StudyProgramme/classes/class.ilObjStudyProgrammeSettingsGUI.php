@@ -145,7 +145,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		if($this->ctrl->isAsynch()) {
 			return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
 		} else {
-			return $form->getHTML();
+			$this->ctrl->redirect($this);
 		}
 	}
 
