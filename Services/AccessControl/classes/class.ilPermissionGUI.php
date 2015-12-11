@@ -368,8 +368,13 @@ class ilPermissionGUI extends ilPermission2GUI
 					continue;
 				}
 				// Stop local policy
-				if($role['parent'] == $this->getCurrentObject()->getRefId() and !isset($_POST['inherit'][$role['obj_id']]))
+				if(
+					$role['parent'] == $this->getCurrentObject()->getRefId() and 
+					!isset($_POST['inherit'][$role['obj_id']]) and
+					!$rbacreview->isBlockedAtPosition($role['obj_id'], $this->getCurrentObject()->getRefId())
+				)
 				{
+					ilLoggerFactory::getLogger('ac')->debug('Stop local policy for: ' . $role['obj_id']);
 					$role_obj = ilObjectFactory::getInstanceByObjId($role['obj_id']);
 					$role_obj->setParent($this->getCurrentObject()->getRefId());
 					$role_obj->delete();
@@ -378,12 +383,14 @@ class ilPermissionGUI extends ilPermission2GUI
 				// Add local policy
 				if($role['parent'] != $this->getCurrentObject()->getRefId() and isset($_POST['inherit'][$role['obj_id']]))
 				{
+					ilLoggerFactory::getLogger('ac')->debug('Create local policy');
 					$rbacadmin->copyRoleTemplatePermissions(
 						$role['obj_id'], 
 						$role['parent'],
 						$this->getCurrentObject()->getRefId(),
 						$role['obj_id']
 					);
+					ilLoggerFactory::getLogger('ac')->debug('Assign role to folder');
 					$rbacadmin->assignRoleToFolder($role['obj_id'],$this->getCurrentObject()->getRefId(),'n');
 				}
 			}
@@ -414,15 +421,17 @@ class ilPermissionGUI extends ilPermission2GUI
 		$log = ilRbacLog::diffFaPa($log_old, $log_new);
 		ilRbacLog::add(ilRbacLog::EDIT_PERMISSIONS, $this->getCurrentObject()->getRefId(), $log);
 		
-		if(count((array) $_POST['block']))
+		$blocked_info = $this->getModifiedBlockedSettings();
+		ilLoggerFactory::getLogger('ac')->debug('Blocked settings: ' . print_r($blocked_info,TRUE));
+		if($blocked_info['num'] > 0)
 		{
-			return $this->showConfirmBlockRole(array_keys($_POST['block']));
+			return $this->showConfirmBlockRole($blocked_info);
 		}
 		
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
-		#$this->ctrl->redirect($this,'perm');
-		$this->perm();
+		$this->ctrl->redirect($this,'perm');
+		#$this->perm();
 	}
 	
 	/**
@@ -430,39 +439,101 @@ class ilPermissionGUI extends ilPermission2GUI
 	 * @param array $a_roles
 	 * @return 
 	 */
-	protected function showConfirmBlockRole($a_roles)
+	protected function showConfirmBlockRole($a_blocked_info)
 	{
-		ilUtil::sendInfo($this->lng->txt('role_confirm_block_role_info'));
+		$info = '';
+		if($a_blocked_info['new_blocked'])
+		{
+			$info .= $this->lng->txt('role_confirm_block_role_info');
+			if($a_blocked_info['new_unblocked'])
+			{
+				$info .= '<br /><br />';
+			}
+			
+		}
+		if($a_blocked_info['new_unblocked'])
+		{
+			$info .= ('<br />'. $this->lng->txt('role_confirm_unblock_role_info'));
+		}
+
+		ilUtil::sendInfo($info);
 		
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
 		$confirm->setFormAction($this->ctrl->getFormAction($this));
 		$confirm->setHeaderText($this->lng->txt('role_confirm_block_role_header'));
-		$confirm->setConfirm($this->lng->txt('role_block_role'), 'blockRoles');
+		$confirm->setConfirm($this->lng->txt('role_confirm_block_role'), 'modifyBlockRoles');
 		$confirm->setCancel($this->lng->txt('cancel'), 'perm');
 		
-		foreach($a_roles as $role_id)
+		foreach($a_blocked_info['new_blocked'] as $role_id)
 		{
 			include_once './Services/AccessControl/classes/class.ilObjRole.php';
 			$confirm->addItem(
-				'roles[]',
+				'new_block[]',
 				$role_id, 
-				ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id)));
+				ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id)).' '.$this->lng->txt('role_blocked')
+			);
 		}
-		
+		foreach($a_blocked_info['new_unblocked'] as $role_id)
+		{
+			include_once './Services/AccessControl/classes/class.ilObjRole.php';
+			$confirm->addItem(
+				'new_unblock[]',
+				$role_id, 
+				ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id)).' '.$this->lng->txt('role_unblocked')
+			);
+		}
 		$this->tpl->setContent($confirm->getHTML());
 		
+	}
+	
+	protected function modifyBlockRoles()
+	{
+		$this->blockRoles((array) $_POST['new_block']);
+		$this->unblockRoles((array) $_POST['new_unblock']);
+
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		$this->ctrl->redirect($this,'perm');
+	}
+	
+	/**
+	 * 
+	 */
+	protected function unblockRoles($roles)
+	{
+		global $rbacadmin;
+		
+		foreach($roles as $role)
+		{
+			// delete local policy
+			ilLoggerFactory::getLogger('ac')->debug('Stop local policy for: ' . $role);
+			$role_obj = ilObjectFactory::getInstanceByObjId($role);
+			$role_obj->setParent($this->getCurrentObject()->getRefId());
+			$role_obj->delete();
+			
+			$role_obj->changeExistingObjects(
+				$this->getCurrentObject()->getRefId(),
+				ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
+				array('all')
+			);
+			
+			// finally set blocked status
+			$rbacadmin->setBlockedStatus(
+				$role,
+				$this->getCurrentObject()->getRefId(),
+				FALSE
+			);
+		}
 	}
 	
 	/**
 	 * Block role
 	 * @return void
 	 */
-	protected function blockRoles()
+	protected function blockRoles($roles)
 	{
 		global $rbacadmin,$rbacreview;
 		
-		$roles = $_POST['roles'];
 		foreach($roles as $role)
 		{
 			// Set assign to 'y' only if it is a local role
@@ -480,10 +551,15 @@ class ilPermissionGUI extends ilPermission2GUI
 				$this->getCurrentObject()->getRefId(),
 				$assign
 			);
+			
+			// finally set blocked status
+			$rbacadmin->setBlockedStatus(
+				$role,
+				$this->getCurrentObject()->getRefId(),
+				TRUE
+			);
 		}
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
-		$this->ctrl->redirect($this,'perm');
 	}
 	
 	
@@ -767,6 +843,34 @@ class ilPermissionGUI extends ilPermission2GUI
 			$form->setValuesByPost();
 			$this->tpl->setContent($form->getHTML());
 		}
+	}
+	
+	/**
+	 * 
+	 * @param type $a_blocked_info
+	 */
+	protected function getModifiedBlockedSettings()
+	{
+		global $rbacreview;
+		
+		$blocked_info['new_blocked'] = array();
+		$blocked_info['new_unblocked'] = array();
+		$blocked_info['num'] = 0;
+		foreach((array) $_POST['visible_block'] as $role => $one)
+		{
+			$blocked = $rbacreview->isBlockedAtPosition($role, $this->getCurrentObject()->getRefId());
+			if(isset($_POST['block'][$role]) && !$blocked)
+			{
+				$blocked_info['new_blocked'][] = $role;
+				$blocked_info['num']++;
+			}
+			if(!isset($_POST['block'][$role]) && $blocked)
+			{
+				$blocked_info['new_unblocked'][] = $role;
+				$blocked_info['num']++;
+			}
+		}
+		return $blocked_info;
 	}
 }
 ?>

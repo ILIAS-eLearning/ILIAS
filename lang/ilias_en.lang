@@ -10771,9 +10771,13 @@ administration#:#adm_synchronize_rep_tree_info#:#This highlights the current pos
 rbac#:#write#:#Edit Settings
 rbac#:#rbac_local_policy#:#Local Policy
 rbac#:#role_block_role#:#Block Role
+rbac#:#role_confirm_block_role#:#Save Role Status
+rbac#:#role_blocked#:#(Role Unblocked)
+rbac#:#role_unblocked#:#(Role Blocked)
 rbac#:#role_block_role_desc#:#The access to this and all subordinated objects is will be revoked.
-rbac#:#role_confirm_block_role_info#:#The following operations will be performed:<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.
-rbac#:#role_confirm_block_role_header#:#Do you really want to block the chosen roles?
+rbac#:#role_confirm_block_role_info#:#The following steps will be performed for the action "Block Role":<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.
+rbac#:#role_confirm_unblock_role_info#:#The following steps will be performed for the action "Unblock Role":<br /><br />- the local policy will be deleted.
+rbac#:#role_confirm_block_role_header#:#Do you really want to change the block role status of the chosen roles?
 dateplaner#:#cal_ch_manager#:#Consultation Hour Manager
 dateplaner#:#cal_ch_manager_info#:#Login of the user who will manage your consultation hours.
 dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.
