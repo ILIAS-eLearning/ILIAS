@@ -343,7 +343,7 @@ class ilAdvancedMDRecordGUI
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 		include_once('Services/ADT/classes/class.ilADTFactory.php');
 								
-		foreach(ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type) as $record_id => $a_values)
+		foreach(ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type, $this->sub_type, $this->sub_id) as $record_id => $a_values)
 		{					
 			// this correctly binds group and definitions
 			$a_values->read();
