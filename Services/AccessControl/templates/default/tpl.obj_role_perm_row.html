@@ -25,7 +25,8 @@
 	<!-- BEGIN role_block -->
 	<td class="std">
 		<p>
-			<input type="checkbox" name="block[{BLOCK_ROLE_ID}]" id="block_{BLOCK_ROLE_ID}" value="1" {BLOCK_DISABLED} />
+			<input type="checkbox" name="block[{BLOCK_ROLE_ID}]" id="block_{BLOCK_ROLE_ID}" value="1" {BLOCK_CHECKED} {BLOCK_DISABLED} />
+			<input type="hidden" name="visible_block[{BLOCK_ROLE_ID}]" value="1" />
 			<label for="block_{BLOCK_ROLE_ID}" title="{BLOCK_LONG}"><font class="bold">{TXT_BLOCK}</font></label>
 		</p> 
 	</td>
