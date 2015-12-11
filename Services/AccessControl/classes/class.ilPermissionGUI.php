@@ -441,13 +441,28 @@ class ilPermissionGUI extends ilPermission2GUI
 	 */
 	protected function showConfirmBlockRole($a_blocked_info)
 	{
-		ilUtil::sendInfo($this->lng->txt('role_confirm_block_role_info'));
+		$info = '';
+		if($a_blocked_info['new_blocked'])
+		{
+			$info .= $this->lng->txt('role_confirm_block_role_info');
+			if($a_blocked_info['new_unblocked'])
+			{
+				$info .= '<br /><br />';
+			}
+			
+		}
+		if($a_blocked_info['new_unblocked'])
+		{
+			$info .= ('<br />'. $this->lng->txt('role_confirm_unblock_role_info'));
+		}
+
+		ilUtil::sendInfo($info);
 		
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
 		$confirm->setFormAction($this->ctrl->getFormAction($this));
 		$confirm->setHeaderText($this->lng->txt('role_confirm_block_role_header'));
-		$confirm->setConfirm($this->lng->txt('role_block_role'), 'modifyBlockRoles');
+		$confirm->setConfirm($this->lng->txt('role_confirm_block_role'), 'modifyBlockRoles');
 		$confirm->setCancel($this->lng->txt('cancel'), 'perm');
 		
 		foreach($a_blocked_info['new_blocked'] as $role_id)
@@ -456,18 +471,18 @@ class ilPermissionGUI extends ilPermission2GUI
 			$confirm->addItem(
 				'new_block[]',
 				$role_id, 
-				ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id)));
+				ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id)).' '.$this->lng->txt('role_blocked')
+			);
 		}
-
 		foreach($a_blocked_info['new_unblocked'] as $role_id)
 		{
 			include_once './Services/AccessControl/classes/class.ilObjRole.php';
 			$confirm->addItem(
 				'new_unblock[]',
 				$role_id, 
-				ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id)));
+				ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id)).' '.$this->lng->txt('role_unblocked')
+			);
 		}
-		
 		$this->tpl->setContent($confirm->getHTML());
 		
 	}
