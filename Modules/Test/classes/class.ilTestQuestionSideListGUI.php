@@ -177,7 +177,8 @@ class ilTestQuestionSideListGUI
 			$class = (
 				$row['worked_through'] ? 'answered'.$active : 'unanswered'.$active
 			);
-				
+			
+			/*
 			if( $this->isDisabled() )
 			{
 				$tpl->setCurrentBlock('disabled_entry');
@@ -188,16 +189,18 @@ class ilTestQuestionSideListGUI
 			}
 			else
 			{
-				$href = $this->buildLink($row['sequence']);
-
+			*/
 				$tpl->setCurrentBlock('linked_entry');
-				$tpl->setVariable('HREF', $href);
+				$tpl->setVariable('HREF', $this->buildLink($row['sequence']));
+				$tpl->setVariable('NEXTCMD', ilTestPlayerCommands::SHOW_QUESTION);
+				$tpl->setVariable('NEXTSEQ', $row['sequence']);
 				$tpl->setVariable('CLASS', $class);
 				$tpl->setVariable('ITEM', $title);
 				$tpl->setVariable("DESCRIPTION", $description);
 				$tpl->parseCurrentBlock();
-
+			/*
 			}
+			*/
 
 			$tpl->setCurrentBlock('item');
 		}

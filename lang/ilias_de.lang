@@ -1041,11 +1041,11 @@ assessment#:#submit_answer#:#Speichern und weiter
 assessment#:#skip_question#:#Nicht antworten und weiter
 assessment#:#discard_answer#:#Antwort löschen
 assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig gelöscht. Zu einem späteren Zeitpunkt können Sie die Frage aber erneut beantworten.<br /><br />Soll Ihre Antwort endgültig gelöscht werden?
-assessment#:#tst_denied_nav_modal_header#:#Entscheidung über Antworten
-assessment#:#tst_denied_nav_modal_text#:#Was soll mit den Antworten dieser Fragen geschehen, die Sie ggfs. bereits gegeben haben?
-assessment#:#tst_denied_nav_modal_save_btn#:#Speichern
-assessment#:#tst_denied_nav_modal_nosave_btn#:#Nicht Speichern
-assessment#:#tst_denied_nav_modal_cancel_btn#:#Abbrechen
+assessment#:#tst_nav_while_edit_modal_header#:#Entscheidung über Antworten
+assessment#:#tst_nav_while_edit_modal_text#:#Was soll mit den Antworten dieser Fragen geschehen, die Sie ggfs. bereits gegeben haben?
+assessment#:#tst_nav_while_edit_modal_save_btn#:#Speichern
+assessment#:#tst_nav_while_edit_modal_nosave_btn#:#Nicht Speichern
+assessment#:#tst_nav_while_edit_modal_cancel_btn#:#Abbrechen
 assessment#:#edit_answer#:#Antwort ändern
 assessment#:#answer_question#:#Frage beantworten
 assessment#:#back_to_objective_container#:#Zurück zum Kurs
@@ -1423,6 +1423,7 @@ assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung
 assessment#:#tst_results_print_best_solution_info#:#Zusätzlich wird für jede Frage die bestmögliche Lösung angezeigt.
 assessment#:#tst_resume_test#:#Test fortsetzen
 assessment#:#tst_saved_manscoring_successfully#:#Die manuelle Bewertung für Testdurchlauf %s von %s wurde erfolgreich gespeichert.
+assessment#:#tst_saved_manscoring_by_question_successfully#:#Die manuelle Bewertung der Frage %s für Testdurchlauf %s wurde erfolgreich gespeichert.
 assessment#:#tst_save_manscoring_failed#:#Die manuelle Bewertung für Testdurchlauf %s konnte nicht gespeichert werden.
 assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#Die maximale Anzahl von %s Punkt(en) ist überschritten!
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximale Punktezahl für die Frage
@@ -16115,7 +16116,7 @@ administration#:#adm_user_starting_point_inherit#:#Standard-Einstellungen übern
 administration#:#adm_user_starting_point_inherit_info#:#Es werden die Einstellungen übernommen, wie sie vom Administrator für die ganze Plattform  global aktiviert wurden.
 survey#:#svy_export_format#:#Umfragen exportieren als
 survey#:#svy_fraction_of_selections#:#Anteil an den insgesamt ausgewählten Antwortoptionen
-prg#:#prg_show_programmes_on_pd_allways#:#Studienprogramme sind auf dem persönlichen Schreibtisch immer sichtbar.
+prg#:#prg_show_programmes_on_pd_always#:#Studienprogramme sind auf dem persönlichen Schreibtisch immer sichtbar.
 prg#:#prg_show_programmes_on_pd_only_read#:#Studienprogramme sind auf dem persönlichen Schreibtisch nur sichtbar, wenn der Lesezugriff möglich ist.
 prg#:#prg_more_objects_without_read_permission#:#Das Studienprogramm beinhaltet weitere Elemente, die Sie aufgrund von fehlenden Rechten nicht einsehen dürfen.
 cmps#:#cmps_uninstall_inactive_confirm#:#Das Plugin "%1$s" ist aktuell nicht aktivierbar ("%2$s"). In diesem Status können Plugins nicht komplett deinstalliert werden. Da nur die Systemintegration entfernt wird, könnten Plugin-eigene Daten zurückbleiben. Möchten Sie mit der teilweisen Deinstallation fortfahren?

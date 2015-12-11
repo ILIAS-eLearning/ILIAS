@@ -10,8 +10,7 @@ include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 * @author Alex Killing
 * @version $Id$
 */
-class
-ilMainMenuGUI
+class ilMainMenuGUI
 {
 	/**
 	* ilias objectm

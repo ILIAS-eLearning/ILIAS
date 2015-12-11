@@ -6428,6 +6428,10 @@ html,
 body {
   height: 100%;
 }
+/* see bug ILIAS bug #17589 and http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that */
+body {
+  -ms-overflow-style: scrollbar;
+}
 #ilAll {
   position: relative;
   height: auto !important;
@@ -9621,7 +9625,7 @@ span.bibl_text_inline_Emph {
   padding: 7px;
   font-size: 85%;
   position: absolute;
-  width: 320px;
+  width: 306px;
   color: #F0F0F0;
   margin-top: -240px;
   background: url("images//black60.png");

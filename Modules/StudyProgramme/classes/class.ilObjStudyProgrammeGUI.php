@@ -368,7 +368,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 
 		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
 		ilUtil::redirect($this->getReturnLocation("save",
-			$this->ctrl->getLinkTarget($this, "view", "", false, false)));
+			$this->ctrl->getLinkTarget($this, "edit", "", false, false)));
 	}
 
 

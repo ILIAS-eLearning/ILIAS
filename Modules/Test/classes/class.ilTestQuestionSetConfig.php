@@ -127,7 +127,7 @@ abstract class ilTestQuestionSetConfig
 	 *
 	 * @param ilObjTest $cloneTestOBJ
 	 */
-	abstract public function cloneQuestionSetRelatedData($cloneTestOBJ);
+	abstract public function cloneQuestionSetRelatedData(ilObjTest $cloneTestOBJ);
 	
 	/**
 	 * @param integer $poolId

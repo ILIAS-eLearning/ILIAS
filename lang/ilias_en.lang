@@ -926,11 +926,11 @@ assessment#:#submit_answer#:#Save Answer and Next
 assessment#:#skip_question#:#Do not Answer and Next
 assessment#:#discard_answer#:#Delete Answer
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
-assessment#:#tst_denied_nav_modal_header#:#Decision about Answers
-assessment#:#tst_denied_nav_modal_text#:#What to do with the answers you possibly entered for this question?
-assessment#:#tst_denied_nav_modal_save_btn#:#Save
-assessment#:#tst_denied_nav_modal_nosave_btn#:#Do Not Save
-assessment#:#tst_denied_nav_modal_cancel_btn#:#Cancel
+assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers
+assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?
+assessment#:#tst_nav_while_edit_modal_save_btn#:#Save
+assessment#:#tst_nav_while_edit_modal_nosave_btn#:#Do Not Save
+assessment#:#tst_nav_while_edit_modal_cancel_btn#:#Cancel
 assessment#:#edit_answer#:#Edit Answer
 assessment#:#answer_question#:#Answer Question
 assessment#:#back_to_objective_container#:#Go to Course
@@ -7374,7 +7374,9 @@ mail#:#send_mail_to#:#Mail to
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_use_custom_server#:#Use custom server
-maps#:#maps_custom_server_info#:#Activate custom servers to provide tile- and geolocation-data. Multiple inputs should be separated by spaces. Defaults are "%s" for tiles and "%s" for geolocation.
+maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
+maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.
+maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
 maps#:#maps_tile_server#:#Server for Tiles
 maps#:#maps_geolocation_server#:#Server for Reverse Geolocation
 maps#:#maps_extt_maps#:#Maps
@@ -12430,7 +12432,8 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s
 content#:#cont_online_help_ids#:#Screen-IDs
 content#:#cont_screen_ids#:#Screen-IDs
 assessment#:#tst_manscoring_user_notification#:#Send Notification
-assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s for %s was saved successfully.
+assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s for %s has been saved successfully.
+assessment#:#tst_saved_manscoring_by_question_successfully#:#The manual scoring for the question %s for test pass %s has been saved successfully.
 assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.
 assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question
@@ -16116,7 +16119,7 @@ administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings
 administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.
 survey#:#svy_export_format#:#Export survey data as
 survey#:#svy_fraction_of_selections#:#Fraction of selections
-prg#:#prg_show_programmes_on_pd_allways#:#Study Programme allways visible on personal Desktop.
+prg#:#prg_show_programmes_on_pd_always#:#Study Programme always visible on personal Desktop.
 prg#:#prg_show_programmes_on_pd_only_read#:#Study Programme only visible on personal Desktop with read Permissions.
 prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more Objects you can't see because of less Permissions.
 cmps#:#cmps_uninstall_inactive_confirm#:#The plugin "%1$s" can currently not be activated ("%2$s"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?

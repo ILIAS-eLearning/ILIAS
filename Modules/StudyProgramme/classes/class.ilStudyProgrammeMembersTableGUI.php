@@ -47,7 +47,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 						, "login" 				=> array("login")
 						, "prg_status" 			=> array("status")
 						, "prg_completion_by"	=> array(null)
-						, "prg_points_required" => array("points_required")
+						, "prg_points_required" => array("points")
 						, "prg_points_current"  => array("points_current")
 						, "prg_custom_plan"		=> array("custom_plan")
 						, "prg_belongs_to"		=> array("belongs_to")
@@ -113,7 +113,11 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI {
 				   ."     , cmpl_usr.login accredited_by"
 				   ."     , cmpl_obj.title completion_by"
 				   ."     , prgrs.assignment_id assignment_id"
-				   ."     , ass.root_prg_id root_prg_id";
+				   ."     , ass.root_prg_id root_prg_id"
+				   // for sorting
+				   ."     , CONCAT(pcp.firstname, pcp.lastname) name"
+				   ."     , IF(prgrs.last_change_by IS NULL, 0, 1) custom_plan"
+				   ;
 		
 		$query .= $this->getFrom();
 		$query .= $this->getWhere($a_prg_id);

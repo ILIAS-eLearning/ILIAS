@@ -82,7 +82,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 		$form->setTitle($this->lng->txt("settings"));
 
 		$radio_grp = new ilRadioGroupInputGUI("Anzeigen","visible_on_personal_desktop");
-		$radio_grp->addOption(new ilRadioOption($this->lng->txt("prg_show_programmes_on_pd_allways"),ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS));
+		$radio_grp->addOption(new ilRadioOption($this->lng->txt("prg_show_programmes_on_pd_always"),ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS));
 		$radio_grp->addOption(new ilRadioOption($this->lng->txt("prg_show_programmes_on_pd_only_read"),ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ));
 		$value = $this->ilSetting->get(ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD);
 		$value = ($value) ? $value : ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ;

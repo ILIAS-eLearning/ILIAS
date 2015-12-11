@@ -827,6 +827,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		if ( isset($_GET['statistics']) && $_GET['statistics'] == 1)
 		{
 			$this->ctrl->setParameterByClass("ilTestEvaluationGUI", "active_id", $active_id);
+			$this->ctrl->saveParameter($this, 'statistics');
 
 			$ilTabs->setBackTarget(
 				$this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'detailedEvaluation')

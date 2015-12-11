@@ -572,6 +572,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 * @var bool
 	 */
 	protected $testFinalBroken;
+
+	/**
+	 * @var integer
+	 */
+	private $tmpCopyWizardCopyId;
 	
 	#endregion
 	
@@ -688,7 +693,25 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		
 		$this->testFinalBroken = false;
 		
+		$this->tmpCopyWizardCopyId = null;
+		
 		$this->ilObject($a_id, $a_call_by_reference);
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTmpCopyWizardCopyId()
+	{
+		return $this->tmpCopyWizardCopyId;
+	}
+
+	/**
+	 * @param int $tmpCopyWizardCopyId
+	 */
+	public function setTmpCopyWizardCopyId($tmpCopyWizardCopyId)
+	{
+		$this->tmpCopyWizardCopyId = $tmpCopyWizardCopyId;
 	}
 	
 	/**
@@ -7068,6 +7091,7 @@ function getAnswerFeedbackPoints()
 		// Copy settings
 		/** @var $newObj ilObjTest */
 		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
+		$newObj->setTmpCopyWizardCopyId($a_copy_id);
 		$this->cloneMetaData($newObj);
 
 		//copy online status if object is not the root copy object

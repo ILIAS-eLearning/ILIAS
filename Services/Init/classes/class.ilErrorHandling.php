@@ -380,8 +380,10 @@ class ilErrorHandling extends PEAR
 			case "PRETTY_PAGE":
 				return new PrettyPageHandler();
 			default:
-				$ilLog->write("Unknown or undefined error handler '".ERROR_HANDLER."'. "
-							 ."Falling back to PrettyPageHandler.");
+				if ($ilLog) {
+					$ilLog->write("Unknown or undefined error handler '".ERROR_HANDLER."'. "
+								 ."Falling back to PrettyPageHandler.");
+				}
 				return new PrettyPageHandler();
 		}
 	}
