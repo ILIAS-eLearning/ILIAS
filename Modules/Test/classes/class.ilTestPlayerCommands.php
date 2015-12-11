@@ -55,6 +55,7 @@ class ilTestPlayerCommands
 	const SHOW_FINAL_STATMENT = 'showFinalStatement';
 	
 	const BACK_TO_INFO_SCREEN = 'backToInfoScreen';
+	const BACK_FROM_FINISHING = 'backFromFinishing';
 
 	/**
 	 * @var array

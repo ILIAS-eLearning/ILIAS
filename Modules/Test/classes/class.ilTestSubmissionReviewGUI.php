@@ -93,7 +93,8 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			$template->setVariable("CANCEL_CMD", 'backFromSummary');
+			require_once 'Modules/Test/classes/class.ilTestPlayerCommands.php';
+			$template->setVariable("CANCEL_CMD", ilTestPlayerCommands::BACK_FROM_FINISHING);
 		}
 
 		$active = $this->object->getActiveIdOfUser($ilUser->getId());
