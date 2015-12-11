@@ -1031,9 +1031,9 @@ assessment#:#tst_confirm_delete_results#:#You are about to remove all your previ
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button.
 assessment#:#tst_count_correct_solutions#:#Only Correct and Complete Answers Score Points
-assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case.
+assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case. This is also valid for questions that define points for partial answers.
 assessment#:#tst_count_partial_solutions#:#Incomplete or Partly Wrong Answers Score Points
-assessment#:#tst_count_partial_solutions_desc#:#Points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers.
+assessment#:#tst_count_partial_solutions_desc#:#When a question defines points for partial answers, points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers on these questions.
 assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains participant data sets.
 assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!

@@ -1178,9 +1178,9 @@ assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse w
 assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
 assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit mehr, Anworten einzugeben oder zu korrigieren.
 assessment#:#tst_count_correct_solutions#:#Nur richtige und vollständige Antworten erzielen Punkte
-assessment#:#tst_count_correct_solutions_desc#:#Teilnehmer erhalten entweder die maximale Punktzahl für vollständige und richtige Antworten oder 0 Punkte in allen anderen Fällen.
+assessment#:#tst_count_correct_solutions_desc#:#Teilnehmer erhalten entweder die maximale Punktzahl für vollständige und richtige Antworten oder 0 Punkte in allen anderen Fällen. Dies gilt auch für Fragen, welche Punkte für Teilantworten definieren.
 assessment#:#tst_count_partial_solutions#:#Auch teilweise falsche Antworten erzielen Punkte
-assessment#:#tst_count_partial_solutions_desc#:#Punkte für die korrekt gegebenen Teilantworten einer Frage werden aufsummiert. Es werden also  für auch insgesamt unvollständige oder teilweise falsche Antworten Punkte vergeben.
+assessment#:#tst_count_partial_solutions_desc#:#Sofern eine Frage Punkte für Teilantworten definiert, werden Punkte für die korrekt gegebenen Teilantworten der Frage aufsummiert. Es werden also für auch insgesamt unvollständige oder teilweise falsche Antworten je nach Frage Punkte vergeben.
 assessment#:#tst_default_settings#:#Persönliche Standardeinstellungen
 assessment#:#tst_defaults_applied#:#Die ausgewählten Standardeinstellungen wurden angewendet.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS konnte die ausgewählten Standardeinstellungen nicht auf diesen Test anwenden! Eventuell enthält dieser Test bereits Teilnehmerdatensätze, die verhindern, dass bestimmte Standardeinstellungen übernommen werden können.
