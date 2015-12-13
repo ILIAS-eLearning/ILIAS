@@ -706,7 +706,7 @@ class ilDataCollectionDatatype {
 
 		switch ($this->id) {
 			case self::INPUTFORMAT_DATETIME:
-				$html = ilDatePresentation::formatDate(new ilDate($value, IL_CAL_DATETIME));
+				$html = ilDatePresentation::formatDate2(new ilDate($value, IL_CAL_DATETIME));
 				break;
 
 			case self::INPUTFORMAT_FILE:
