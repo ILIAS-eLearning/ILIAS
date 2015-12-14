@@ -1031,9 +1031,9 @@ assessment#:#tst_confirm_delete_results#:#You are about to remove all your previ
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button.
 assessment#:#tst_count_correct_solutions#:#Only Correct and Complete Answers Score Points
-assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case.
+assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case. This is also valid for questions that define points for partial answers.
 assessment#:#tst_count_partial_solutions#:#Incomplete or Partly Wrong Answers Score Points
-assessment#:#tst_count_partial_solutions_desc#:#Points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers.
+assessment#:#tst_count_partial_solutions_desc#:#When a question defines points for partial answers, points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers on these questions.
 assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains participant data sets.
 assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!
@@ -10771,9 +10771,13 @@ administration#:#adm_synchronize_rep_tree_info#:#This highlights the current pos
 rbac#:#write#:#Edit Settings
 rbac#:#rbac_local_policy#:#Local Policy
 rbac#:#role_block_role#:#Block Role
+rbac#:#role_confirm_block_role#:#Save Role Status
+rbac#:#role_blocked#:#(Role Unblocked)
+rbac#:#role_unblocked#:#(Role Blocked)
 rbac#:#role_block_role_desc#:#The access to this and all subordinated objects is will be revoked.
-rbac#:#role_confirm_block_role_info#:#The following operations will be performed:<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.
-rbac#:#role_confirm_block_role_header#:#Do you really want to block the chosen roles?
+rbac#:#role_confirm_block_role_info#:#The following steps will be performed for the action "Block Role":<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.
+rbac#:#role_confirm_unblock_role_info#:#The following steps will be performed for the action "Unblock Role":<br /><br />- the local policy will be deleted.
+rbac#:#role_confirm_block_role_header#:#Do you really want to change the block role status of the chosen roles?
 dateplaner#:#cal_ch_manager#:#Consultation Hour Manager
 dateplaner#:#cal_ch_manager_info#:#Login of the user who will manage your consultation hours.
 dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.

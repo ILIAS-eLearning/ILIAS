@@ -640,7 +640,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$confirmation->setFormAction($this->ctrl->getFormAction($this, 'confirmFinish'));
 		$confirmation->setHeaderText($this->lng->txt("tst_finish_confirmation_question"));
 		$confirmation->setConfirm($this->lng->txt("tst_finish_confirm_button"), 'confirmFinish');
-		$confirmation->setCancel($this->lng->txt("tst_finish_confirm_cancel_button"), 'backConfirmFinish');
+		$confirmation->setCancel($this->lng->txt("tst_finish_confirm_cancel_button"), ilTestPlayerCommands::BACK_FROM_FINISHING);
 
 		$this->populateHelperGuiContent($confirmation);
 	}
@@ -1483,7 +1483,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	function backConfirmFinishCmd()
+	function backFromFinishingCmd()
 	{
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}

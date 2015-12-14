@@ -833,13 +833,13 @@ class ilObjTestGUI extends ilObjectGUI
 			if( $_SESSION['tst_results_show_best_solutions'] )
 			{
 				$this->ctrl->setParameter($this, 'hide_best_solutions', '1');
-				$toolbar->setHideBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, 'showUserAnswers'));
+				$toolbar->setHideBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, $this->ctrl->getCmd()));
 				$this->ctrl->setParameter($this, 'hide_best_solutions', '');
 			}
 			else
 			{
 				$this->ctrl->setParameter($this, 'show_best_solutions', '1');
-				$toolbar->setShowBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, 'showUserAnswers'));
+				$toolbar->setShowBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, $this->ctrl->getCmd()));
 				$this->ctrl->setParameterByClass('', 'show_best_solutions', '');
 			}
 		}
@@ -899,10 +899,12 @@ class ilObjTestGUI extends ilObjectGUI
 		if( $this->isPdfDeliveryRequest() )
 		{
 			require_once 'class.ilTestPDFGenerator.php';
-			
+
 			ilTestPDFGenerator::generatePDF(
 				$template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle()
 			);
+			
+			exit;
 		}
 		else
 		{
@@ -1735,6 +1737,7 @@ class ilObjTestGUI extends ilObjectGUI
 		    global $ilCtrl;
 
 		    $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'sel_question_types', $_REQUEST["sel_question_types"]);
+		    $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'add_quest_cont_edit_mode', $_REQUEST["add_quest_cont_edit_mode"]);
 		    $link = $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'handleToolbarCommand','',false,false);
 		    ilUtil::redirect($link);
 		}
@@ -3023,11 +3026,14 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$template = $this->createUserResults( $show_pass_details, $show_answers, $show_reached_points, $show_user_results);
 
-		$this->tpl->setVariable("ADM_CONTENT", $template->get());
-		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
-		if ($this->object->getShowSolutionAnswersOnly())
+		if($template instanceof ilTemplate)
 		{
-			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
+			$this->tpl->setVariable("ADM_CONTENT", $template->get());
+			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
+			if ($this->object->getShowSolutionAnswersOnly())
+			{
+				$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
+			}
 		}
 	}
 

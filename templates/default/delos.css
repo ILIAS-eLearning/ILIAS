@@ -10520,6 +10520,10 @@ div#il_startup_logo img {
 }
 .ilToolbar .form-control {
   width: auto;
+  display: inline-block;
+}
+.ilToolbar input[type="file"] {
+  display: inline-block;
 }
 .ilToolbar li {
   border-bottom: 1px solid #d8d8d8;

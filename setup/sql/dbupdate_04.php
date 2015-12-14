@@ -12439,3 +12439,17 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#4799>
+<?php
+
+	if(!$ilDB->tableColumnExists('rbac_fa', 'blocked'))
+	{
+		$ilDB->addTableColumn('rbac_fa', 'blocked', array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0)
+		);
+	}
+?>
