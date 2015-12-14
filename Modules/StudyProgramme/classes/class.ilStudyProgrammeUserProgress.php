@@ -440,13 +440,15 @@ class ilStudyProgrammeUserProgress {
 		$ass = $this->progress->getAssignmentId();
 		$points = array_map(function($child) use ($ass, $only_relevant) {
 			$relevant = $child->getProgressForAssignment($ass)->isRelevant();
-			if($only_relevant && $relevant) {
+			if($only_relevant) {
+				if($relevant) {
+					return $child->getProgressForAssignment($ass)->getAmountOfPoints();
+				} else {
+					return 0;
+				}
+			} else {
 				return $child->getProgressForAssignment($ass)->getAmountOfPoints();
-			} else if($only_relevant && !$relevant) {
-				return 0;
 			}
-
-			return $child->getProgressForAssignment($ass)->getAmountOfPoints();
 		}, $children);
 		
 		return array_reduce($points, function($a, $b) { return $a + $b; }, 0);
