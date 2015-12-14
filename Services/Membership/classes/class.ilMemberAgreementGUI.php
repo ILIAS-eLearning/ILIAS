@@ -156,6 +156,17 @@ class ilMemberAgreementGUI
 			$tpl->setVariable('FIELD_NAME',$lng->txt($field));
 			$tpl->parseCurrentBlock();
 		}
+		
+		// #17609 - not part of ilExportFieldsInfo::getExportableFields()
+		// see ilExportFieldsInfo::getSelectableFieldsInfo()		
+		include_once('Services/User/classes/class.ilUserDefinedFields.php');
+		foreach(ilUserDefinedFields::_getInstance()->getExportableFields($a_obj_id) as $field)
+		{					
+			$tpl->setCurrentBlock('field_item');
+			$tpl->setVariable('FIELD_NAME',$field['field_name']);
+			$tpl->parseCurrentBlock();			
+		}
+		
 		$fields->setHtml($tpl->get());
 		$form->addItem($fields);
 		
