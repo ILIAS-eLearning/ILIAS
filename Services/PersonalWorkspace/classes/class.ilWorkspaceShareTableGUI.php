@@ -365,7 +365,11 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("ACTION", $lng->txt("copy"));
 				$this->tpl->parseCurrentBlock();
 			}
-		}
+			else
+			{
+				$this->tpl->touchBlock("action_col_bl");
+			}
+		}		
 	}
 }
 
