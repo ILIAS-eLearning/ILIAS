@@ -16130,3 +16130,5 @@ content#:#cont_ov_preview#:#Die Fragenübersicht funktioniert nicht im Seitenedi
 wiki#:#wiki_copy#:#Wiki kopieren
 mcst#:#mcst_copy#:#Mediacast kopieren
 prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind.
+scov#:#scov_create#:#SCORM-Zertifikat erstellen
+scov#:#scov_create_info#:#Wählen Sie ein SCORM-Modul, für das Sie ein Zertifikat benötigen
