@@ -553,7 +553,7 @@ class ilDataCollectionRecord
 	 */
 	public function deleteFile($obj_id)
 	{
-        if(ilObject2::_lookupObjId($obj_id)){
+        if(ilObject2::_exists($obj_id)){
 		    $file = new ilObjFile($obj_id, false);
 		    $file->delete();
         }
@@ -565,7 +565,7 @@ class ilDataCollectionRecord
       */
     public function deleteMob($obj_id)
     {
-        if(ilObject2::_lookupObjId($obj_id)){
+        if(ilObject2::_exists($obj_id)){
             $mob = new ilObjMediaObject($obj_id);
             $mob->delete();
         }
