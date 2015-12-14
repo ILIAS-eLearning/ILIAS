@@ -318,6 +318,7 @@ class gevDecentralTrainingGUI {
 		$fill = true;
 
 		$form_values = $this->getFormValuesByRequestId($this->crs_request_id);
+		$this->template_id = $form_values["template_id"];
 		$is_flexible = $this->isTemplateFlexible($form_values["template_id"]);
 		$crs_utils = gevCourseUtils::getInstance($form_values["template_id"]);
 		$form_values["ltype"] = $crs_utils->getType();
