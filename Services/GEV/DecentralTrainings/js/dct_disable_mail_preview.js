@@ -133,7 +133,19 @@ function gevShowMailPreview(){
 			var file = res[$(res).size()-1];
 
 			if(file !== '') {
-				files.push(res[$(res).size()-1] + " (wird nach dem Speichern angehangen)");
+				files.push(res[$(res).size()-1]);
+			}
+		});
+
+		var files_added = $('input[name=added_files\\[\\]');
+
+		$.each(files_added, function(k,v) {
+			var str = $(v).val();
+			var res = str.split("\\");
+			var file = res[$(res).size()-1];
+
+			if(file !== '') {
+				files.push(res[$(res).size()-1]);
 			}
 		});
 
@@ -184,7 +196,20 @@ function gevShowMailPreview(){
 				$('#dct-mail_content .mail').html(html);
 			
 				if("ATTACHMENTS" in data) {
-					files = $.merge(data["ATTACHMENTS"], files);
+					$.each(files, function(k,v) {
+						var push = true;
+						$.each(data["ATTACHMENTS"], function (k2,v2) {
+							if(v2.indexOf(v) != -1) {
+								push = false;
+							}
+						});
+					
+						if(push) {
+							data["ATTACHMENTS"].push(v + " (wird nach dem Speichern angehangen)");
+						}
+					});
+
+					files = data["ATTACHMENTS"];
 				}
 
 				if($(files).size() > 0) {
