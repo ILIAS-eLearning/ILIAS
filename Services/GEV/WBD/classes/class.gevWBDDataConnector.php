@@ -1442,7 +1442,6 @@ print $sql;
 		$sql = "SELECT * FROM hist_user\n"
 				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
 				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
-				."    AND last_wbd_report IS NULL\n"
 				."    AND next_wbd_action = ".$this->ilDB->quote(gevSettings::USR_WBD_NEXT_ACTION_RELEASE,"text")."\n";
 
 		/*$sql = "SELECT * FROM hist_user"
@@ -1505,7 +1504,7 @@ print $sql;
 		$this->setWbdExitUserData($row_id);
 		$this->_set_last_wbd_report('hist_user', $row_id);
 
-		$sql = "SELECT user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($a_row_id, "integer")."";
+		$sql = "SELECT user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($row_id, "integer")."";
 		$res = $this->ilDB->query($sql);
 		assert($this->ilDB->numRows($res) == 1);
 

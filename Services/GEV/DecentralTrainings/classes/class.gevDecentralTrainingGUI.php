@@ -515,7 +515,12 @@ class gevDecentralTrainingGUI {
 		$form_values["utils_id"] = $obj_id;
 		$form_values["obj_id"] = $obj_id;
 		$is_flexible = $this->isCrsTemplateFlexible($obj_id);
-		$form_values["added_files"] = $this->handleCustomAttachments();
+		try {
+			$form_values["added_files"] = $this->handleCustomAttachments();
+		} catch (Exception $e) {
+			ilUtil::sendInfo($this->lng->txt("gev_dec_training_custom_attachment_exist"),false);
+			return $this->showSettings($form);
+		}
 		$form = $this->buildTrainingOptionsForm(false, $is_flexible, $form_values);
 		$form->setValuesByPost();
 
@@ -710,7 +715,12 @@ class gevDecentralTrainingGUI {
 		$this->crs_ref_id = gevObjectUtils::getRefId($obj_id);
 		$is_flexible = $this->isCrsTemplateFlexible($obj_id);
 
-		$form_values["added_files"] = $this->handleCustomAttachments();
+		try {
+			$form_values["added_files"] = $this->handleCustomAttachments();
+		} catch (Exception $e) {
+			ilUtil::sendInfo($this->lng->txt("gev_dec_training_custom_attachment_exist"),false);
+			return $this->showSettings($form);
+		}
 
 		$form = $this->buildTrainingOptionsForm(false, $is_flexible, $form_values);
 
@@ -1556,7 +1566,12 @@ class gevDecentralTrainingGUI {
 		$form_values["obj_id"] = $obj_id;
 		$is_flexible = $this->isCrsTemplateFlexible($obj_id);
 
-		$form_values["added_files"] = $this->handleCustomAttachments();
+		try {
+			$form_values["added_files"] = $this->handleCustomAttachments();
+		} catch (Exception $e) {
+			ilUtil::sendInfo($this->lng->txt("gev_dec_training_custom_attachment_exist"),false);
+			return $this->showSettings($form);
+		}
 
 		$form = $this->buildTrainingOptionsForm(false, $is_flexible, $form_values);
 
