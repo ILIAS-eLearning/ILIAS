@@ -822,11 +822,13 @@ function validate(obj){
     }
     
     if(validated){
-        modified_object.setAttribute('class','form-group has-success has-feedback');
+        modified_object.classList.remove('has-error','has-warning');
+        modified_object.classList.add('has-success');
         modified_object.children[2].setAttribute('class','glyphicon glyphicon-ok form-control-feedback');
         modified_object.children[3].innerHTML='(ok)';    
-    }else{
-        modified_object.setAttribute('class','form-group has-error has-feedback');
+    }else{        
+        modified_object.classList.remove('has-success','has-warning');
+        modified_object.classList.add('has-error');
         modified_object.children[2].setAttribute('class','glyphicon glyphicon-remove form-control-feedback');
         modified_object.children[3].innerHTML='(error)';
     }
