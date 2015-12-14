@@ -220,7 +220,7 @@ class gevBuildingBlockUtils {
 		return;
 	}
 
-	static public function getAllBuildingBlocks($a_search_opts,$a_order, $a_order_direction) {
+	static public function getAllBuildingBlocks($a_search_opts,$a_order, $a_order_direction, $offset = null, $limit = null) {
 		global $ilDB;
 
 		$add_where = self::createAdditionalWhere($a_search_opts);
@@ -236,6 +236,14 @@ class gevBuildingBlockUtils {
 			$sql .= " ORDER BY ".$a_order." ".$a_order_direction;
 		}
 
+		if($limit !== null) {
+			$sql .= " LIMIT ".$limit;
+		}
+
+		if($offset !== null) {
+			$sql .= " OFFSET ".$offset;
+		}
+
 		$ret = array();
 		$res = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($res)) {
@@ -244,6 +252,22 @@ class gevBuildingBlockUtils {
 		}
 
 		return $ret;
+	}
+
+	static public function countAllBuildingBlocks($a_search_opts) {
+		global $ilDB;
+
+		$add_where = self::createAdditionalWhere($a_search_opts);
+		$sql = "SELECT count(obj_id) as cnt\n"
+			  ."  FROM ".self::TABLE_NAME."\n"
+			  ."  WHERE is_deleted = ".$ilDB->quote(0,"integer")."\n";
+		$sql .= $add_where;
+
+		$ret = array();
+		$res = $ilDB->query($sql);
+		$row = $ilDB->fetchAssoc($res);
+
+		return $row["cnt"];
 	}
 
 	static private function createAdditionalWhere($a_search_opts) {

@@ -1,0 +1,41 @@
+.bordered_left {
+	border-right: 2px solid #D6D6D6;
+}
+
+.bordered_right {
+	border-right: 2px solid #D6D6D6;
+}
+
+.sub_border_right {
+	border-right: 1px solid #D6D6D6;
+}
+
+.sub_border_bottom {
+	border-bottom: 1px solid #D6D6D6;
+}
+
+.bordered_bottom {
+	border-bottom: 2px solid #D6D6D6;
+}
+
+.td {
+	background-color: #FFF;
+	text-align: center;
+}
+
+.th {
+	background-color: #DDD;
+	text-align: center;
+}
+
+.th_color {
+	color:#C21B17;
+}
+.bold_content {
+	font-weight:bold;
+}
+
+.border_table {
+	border: 2px solid black;
+}
+

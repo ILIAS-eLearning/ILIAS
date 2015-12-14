@@ -3183,31 +3183,36 @@ class gevCourseUtils {
 		$crs->setRefId($ref_id);
 
 		if ($a_role_name == "tutor" || $a_role_name == "trainer") {
-			$role = $crs->getDefaultTutorRole();
+			$role_ids = array($crs->getDefaultTutorRole());
 		}
 		elseif ($a_role_name == "member") {
-			$role = $crs->getDefaultMemberRole();
+			$role_ids = array($crs->getDefaultMemberRole());
 		}
 		elseif ($a_role_name == "admin") {
-			$role = $crs->getDefaultAdminRole();
+			$role_ids = array($crs->getDefaultAdminRole());
 		}
 		else {
-			$local_roles = gevRoleUtils::getInstance()->getLocalRoleIdsAndTitles($crs->getId());
-			$role = array_search($a_role_name, $local_roles);
+			global $rbacreview;
 
-			if (!$role) {
-				$role = gevRoleUtils::getInstance()->getRoleIdByName($a_role_name);
-				if (!$role) {
-					throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role_name);
+			// get a map $rol_id => (map with role_info) 
+			$roles = $rbacreview->getParentRoleIds($ref_id);
+
+			$role_ids = array();
+
+			foreach ($roles as $id => $info) {
+				if ($info["title"] == $a_role_name) {
+					$role_ids[] = $id;
 				}
 			}
 		}
 		
-		$cur_ops = $this->rbacreview->getRoleOperationsOnObject($role, $ref_id);
-		$grant_ops = ilRbacReview::_getOperationIdsByName($a_permissions);
-		$new_ops = array_unique(array_merge($grant_ops, $cur_ops));
-		$this->rbacadmin->revokePermission($ref_id, $role);
-		$this->rbacadmin->grantPermission($role, $new_ops, $ref_id);
+		foreach ($role_ids as $role_id) {
+			$cur_ops = $this->rbacreview->getRoleOperationsOnObject($role_id, $ref_id);
+			$grant_ops = ilRbacReview::_getOperationIdsByName($a_permissions);
+			$new_ops = array_unique(array_merge($grant_ops, $cur_ops));
+			$this->rbacadmin->revokePermission($ref_id, $role_id);
+			$this->rbacadmin->grantPermission($role_id, $new_ops, $ref_id);
+		}
 	}
 	
 	public function revokePermissionsOf($a_role_name, $a_permissions) {
@@ -3219,31 +3224,36 @@ class gevCourseUtils {
 		$crs->setRefId($ref_id);
 
 		if ($a_role_name == "tutor" || $a_role_name == "trainer") {
-			$role = $crs->getDefaultTutorRole();
+			$role_ids = array($crs->getDefaultTutorRole());
 		}
 		elseif ($a_role_name == "member") {
-			$role = $crs->getDefaultMemberRole();
+			$role_ids = array($crs->getDefaultMemberRole());
 		}
 		elseif ($a_role_name == "admin") {
-			$role = $crs->getDefaultAdminRole();
+			$role_ids = array($crs->getDefaultAdminRole());
 		}
 		else {
-			$local_roles = gevRoleUtils::getInstance()->getLocalRoleIdsAndTitles($crs->getId());
-			$role = array_search($a_role_name, $local_roles);
+			global $rbacreview;
 
-			if (!$role) {
-				$role = gevRoleUtils::getInstance()->getRoleIdByName($a_role_name);
-				if (!$role) {
-					throw new Exception("gevOrgUnitUtils::grantPermissionFor: unknown role name '".$a_role_name);
+			// get a map $rol_id => (map with role_info) 
+			$roles = $rbacreview->getParentRoleIds($ref_id);
+
+			$role_ids = array();
+
+			foreach ($roles as $id => $info) {
+				if ($info["title"] == $a_role_name) {
+					$role_ids[] = $id;
 				}
 			}
 		}
 
-		$cur_ops = $this->rbacreview->getRoleOperationsOnObject($role, $ref_id);
-		$grant_ops = ilRbacReview::_getOperationIdsByName($a_permissions);
-		$new_ops = array_diff($cur_ops, $grant_ops);
-		$this->rbacadmin->revokePermission($ref_id, $role);
-		$this->rbacadmin->grantPermission($role, $new_ops, $ref_id);
+		foreach ($role_ids as $role_id) {
+			$cur_ops = $this->rbacreview->getRoleOperationsOnObject($role_id, $ref_id);
+			$grant_ops = ilRbacReview::_getOperationIdsByName($a_permissions);
+			$new_ops = array_diff($cur_ops, $grant_ops);
+			$this->rbacadmin->revokePermission($ref_id, $role_id);
+			$this->rbacadmin->grantPermission($role_id, $new_ops, $ref_id);
+		}
 	}
 
 	static public function grantPermissionsForAllCoursesBelow($a_ref_id, $a_role_name, $a_permissions) {
@@ -3504,5 +3514,53 @@ class gevCourseUtils {
 		}
 
 		return $ret;
+	}
+
+	public function getAttachmentLinks($class_name) {
+		$invitation_mail_settings = new gevCrsInvitationMailSettings($this->crs_id);
+
+		$ret = array();
+		foreach ($invitation_mail_settings->getAttachmentsFor("Mitglied") as $key => $value) {
+			if(file_exists($value["path"])) {
+				$this->ctrl->setParameterByClass($class_name, "filename", $value["name"]);
+				$this->ctrl->setParameterByClass($class_name, "crs_id", $this->crs_id);
+				$ret[] = '<a href="'.$this->ctrl->getLinkTargetByClass($class_name, "deliverAttachment").'">'.$value["name"].'</a>';
+				$this->ctrl->clearParametersByClass($class_name);
+			} else {
+				$ret[] = $value["name"]." (Datei wurde nicht gefunden)";
+			}
+		}
+
+		return $ret;
+	}
+
+	// delivery
+
+	/**
+	 * Deliver attachment (ha!)
+	 */
+	public function deliverAttachment($filename) {
+		$mail_attachments = new gevCrsMailAttachments($this->crs_id);
+
+		if ($mail_attachments->isAttachment($filename)) {
+			$this->deliverAttachmentFile($filename, $mail_attachments->getPathTo($filename));
+		}
+	}
+
+
+	/**
+	 * Deliver file with correct mimetype (if that could be determined).
+	 *
+	 * ATTENTION: Exits after delivery.
+	 *
+	 * @param string $a_name The name for the delivery of the file.
+	 * @param string $a_path The complete path to the file that should be
+	 * 						 delivered.
+	 */
+	protected function deliverAttachmentFile($a_name, $a_path) {
+		require_once("Services/Utilities/classes/class.ilFileUtils.php");
+
+		$mimetype = ilFileUtils::_lookupMimeType($a_path);
+		ilUtil::deliverFile($a_path, $a_name, $mimetype, false, false, true);
 	}
 }

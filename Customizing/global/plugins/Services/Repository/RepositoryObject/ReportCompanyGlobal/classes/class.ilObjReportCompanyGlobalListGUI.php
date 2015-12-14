@@ -43,10 +43,9 @@ class ilObjReportCompanyGlobalListGUI extends ilObjReportBaseListGUI {
 		$props = array();
 
 		$this->plugin->includeClass("class.ilObjReportCompanyGlobalAccess.php");
-		if (!ilObjReportCompanyGlobalAccess::checkOnline($this->obj_id))
-		{
-		$props[] = array("alert" => true, "property" => $this->lng->txt("status"),
-		"value" => $this->lng->txt("offline"));
+		if (!ilObjReportCompanyGlobalAccess::checkOnline($this->obj_id)) {
+			$props[] = array("alert" => true, "property" => $this->lng->txt("status"),
+			"value" => $this->lng->txt("offline"));
 		}
 		 
 		return $props;

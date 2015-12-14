@@ -101,14 +101,17 @@ class ilObjReportDBVSuperior extends ilObjReportBase {
 		return $filter;
 	}
 
+	protected function getRowTemplateTitle() {
+		return "tpl.gev_dbv_report_superior_row.html";
+	}
+
 	protected function buildTable($table) {
 		$table	->column("lastname", "lastname")
 				->column("firstname", "firstname")
 				->column("odbd", "gev_bd")
 				->column("credit_points", "gev_credit_points")
-				->column("max_credit_points", "gev_credit_points_forecast")
-				->template("tpl.gev_dbv_report_superior_row.html", "Services/ReportsRepository");
-		return $table;
+				->column("max_credit_points", "gev_credit_points_forecast");
+		return parent::buildTable($table);
 	}
 
 	protected function buildOrder($order) {

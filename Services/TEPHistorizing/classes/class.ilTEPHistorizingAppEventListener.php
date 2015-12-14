@@ -40,6 +40,7 @@ class ilTEPHistorizingAppEventListener
 		self::initEventHandler();
 
 		// Users with derived entries
+		ilCalDerivedEntry::invalidateCache();
 		$uids = ilCalDerivedEntry::getUserIdsByMasterEntryIds(array($tep_entry->getEntryId()));
 		if (array_key_exists($tep_entry->getEntryId(), $uids)) {
 			$uids = $uids[$tep_entry->getEntryId()];

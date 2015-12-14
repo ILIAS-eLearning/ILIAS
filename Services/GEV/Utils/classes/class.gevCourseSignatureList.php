@@ -57,7 +57,7 @@ class gevCourseSignatureList extends fpdf {
 	*/
 	protected function buildParticipantsTable() {
 
-		$this->SetWidths(array(45,45,45,55));
+		$this->SetWidths(array(35,35,65,55));
 		$this->SetFont('Arial','B',10);
 		$this->Row(array($this->gLng->txt("lastname"),$this->gLng->txt("firstname"),$this->gLng->txt("objs_orgu"),$this->gLng->txt("gev_signature")));
 		$this->SetFont('Arial','',10);
@@ -68,7 +68,7 @@ class gevCourseSignatureList extends fpdf {
 			$firstname =  $usr_utils->getFirstname();
 			$lastname = $usr_utils->getLastname();
 			$orgus = $usr_utils->getAllOrgUnitTitlesUserIsMember();
-			$orgus = implode(",",$orgus);
+			$orgus = implode(", ",$orgus);
 			$participants["$lastname $firstname"] = array($firstname, $lastname, $orgus);
 		}
 		
@@ -156,7 +156,8 @@ class gevCourseSignatureList extends fpdf {
 		$nb=0;
 		for($i=0;$i<count($data);$i++)
 		    $nb=max($nb, $this->NbLines($this->widths[$i], $data[$i]));
-		$h=10*$nb;
+		$h=5*$nb;
+		$h = ($h < 10) ? 10 : $h;
 		//Issue a page break first if needed
 		$this->CheckPageBreak($h);
 		//Draw the cells of the row
@@ -170,7 +171,7 @@ class gevCourseSignatureList extends fpdf {
 			//Draw the border
 			$this->Rect($x, $y, $w, $h);
 			//Print the text
-			$this->MultiCell($w, 10, $data[$i], 0, $a);
+			$this->MultiCell($w, 5, $data[$i], 0, $a);
 			//Put the position to the right of the cell
 			$this->SetXY($x+$w, $y);
 		}

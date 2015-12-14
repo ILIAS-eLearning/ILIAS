@@ -1323,10 +1323,6 @@ gev#:#crs_view_maillog#:#Maillog einsehen
 gev#:#load_csn_list#:#CSN Liste herunterladen
 gev#:#crs_load_csn_list#:#CSN Liste herunterladen
 gev#:#gev_dec_forward_to_kurs#:#Zum Kurs
-gev#:#rep_robj_xrbi_content#:#Report
-gev#:#rep_robj_xrbi_properties#:#Eigenschaften
-gev#:#rep_robj_xrcp_content#:#Report
-gev#:#rep_robj_xrcp_properties#:#Eigenschaften
 gev#:#gev_coupon_active_only#:#Nur aktive Gutscheine zeigen
 gev#:#gev_coupon_expires#:#gültig bis
 gev#:#gev_coupon_report_admin_mode#:#Admin-Modus
@@ -1393,8 +1389,6 @@ gev#:#grp_create_xrds#:#DBV Report für Vorgesetzteerzeugen
 gev#:#fold_create_xrds#:#DBV Report für Vorgesetzte erzeugen
 gev#:#root_create_xrds#:#DBV Report für Vorgesetzte erzeugen
 gev#:#cat_create_xrds#:#DBV Report für Vorgesetzte erzeugen
-gev#:#rep_robj_xrds_content#:#Report
-gev#:#rep_robj_xrds_properties#:#Eigenschaften
 gev#:#gev_dec_training_attachment#:#Anhang
 gev#:#gev_wbd_type#:#WBD-Status
 gev#:#gev_bwv_id_info#:#Sie können ihre GDV Vermittler-ID über die WBD-Registrierung im Menü "Übersicht" eintragen.
@@ -1410,28 +1404,22 @@ gev#:#gev_dec_training_attachment_delete#:#Anhang entfernen
 gev#:#gev_crs_members#:#Teilnehmer
 gev#:#gev_edupoints#:#Weiterbildungspunkte
 gev#:#gev_sum#:#Summe
-gev#:#gev_header_company_global_book#:#Buchungen <br> (noch kein Teilnahmestatus)
-gev#:#gev_header_company_global_part#:#Teilnahmen <br> (Teilnahmestatus vorhanden)
 gev#:#gev_dec_trainings_fixed#:#feste dezentrale Trainings
 gev#:#gev_dec_trainings_flexible#:#flexible dezentrale Trainings
 gev#:#non_dec_trainings#:#nicht-dezentrale Trainings
 gev#:#gev_trainings_w_points#:#Trainings mit Bildungspunkten
 gev#:#gev_trainings_wo_points#:#Trainings ohne Bildungspunkte
-gev#:#rep_robj_xrcg_content#:#Report
-gev#:#rep_robj_xrcg_properties#:#Eigenschaften
-gev#:#xrcg_add#:#DBV Report für Vorgesetzte hinzufügen
-gev#:#xrcg_new#:#Neuen DBV Report für Vorgesetzte hinzufügen
-gev#:#xrcg_read#:#Lesezugriff zum DBV Report für Vorgesetzte
-gev#:#xrcg_write#:#DBV Report für Vorgesetzte bearbeiten
-gev#:#xrcg_delete#:#DBV Report für Vorgesetzte löschen
+gev#:#xrcg_add#:#Unternehmensreport hinzufügen
+gev#:#xrcg_new#:#Neuen Unternehmensreport hinzufügen
+gev#:#xrcg_read#:#Lesezugriff zum Unternehmensreport
+gev#:#xrcg_write#:#Unternehmensreport bearbeiten
+gev#:#xrcg_delete#:#Unternehmensreport löschen
 gev#:#xrcg_visible#:#sichtbar
 gev#:#xrcg_edit_permission#:#schreibberechtigt
 gev#:#gev_give_affiliate_tp_service#:#Hiermit erteile ich den %s (<a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_Wechsel_AAD.pdf' target='_blank' class='blue'>als AAD</a> / <a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_Wechsel_§84HGB.pdf' target='_blank'  class='blue'>als §84HGB</a>) zur Verwaltung des WBD-Benutzerkontos als Trusted Partner Service.
 gev#:#gev_give_affiliate_wbd#:#Hiermit erteile ich die <a href='/Customizing/global/skin/genv/static/documents/GEV_TPS_Wechsel_Auftrag_BDL.pdf' target='_blank' class='blue'>Einwilligung zur Eintragung von Weiterbildungspunkten und -maßnahmen</a> in die WBD.
 gev#:#gev_give_affiliate_tp_service_old#:#Name des vorherigen TP-Service oder "Selbstpfleger"
 gev#:#xrcg_edit_permission#:#schreibberechtigt
-gev#:#rep_robj_xatd_content#:#Report
-gev#:#rep_robj_xatd_properties#:#Eigenschaften
 gev#:#xatd_add#:#ASTD Report hinzufügen
 gev#:#xatd_new#:#Neuen ASTD Report hinzufügen
 gev#:#xatd_read#:#Lesezugriff zum ASTD Report
@@ -1458,4 +1446,6 @@ gev#:#astd_accomodation_cost#:#Bewirtungs-, Raum- und Technikkosten
 gev#:#astd_accomodation_cost_per_day_person#:#Bewirtungs-, Raum- und Technikkosten pro Tag und pro Person
 gev#:#gev_bwv_id_info_get_new#:#Es wird für Sie eine GDV Vermittler-ID beantragt.
 gev#:#gev_dec_training_no_mail#:#Es soll keine Einladung versendet werden.
+gev#:#gev_no_trainer#:#An diesem Training ist kein Trainer hinterlegt. Die Finalisierung des Teilnahmestatus ist daher nicht möglich.
+gev#:#gev_crs_src_clear_search#:#Ergebnis zurücksetzen
 gev#:#gev_dec_training_custom_attachment_exist#:#Der Dateianhang ist bereits vorhanden.

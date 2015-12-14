@@ -16,3 +16,5 @@ grp_create_xrds#:#DBV Report für Vorgesetzte erzeugen
 fold_create_xrds#:#DBV Report für Vorgesetzte erzeugen
 root_create_xrds#:#DBV Report für Vorgesetzte erzeugen
 cat_create_xrds#:#DBV Report für Vorgesetzte erzeugen
+xrds_content#:#Report
+xrds_properties#:#Eigenschaften

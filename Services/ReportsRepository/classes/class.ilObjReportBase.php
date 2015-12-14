@@ -68,9 +68,12 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 	abstract protected function buildQuery($query);
 	abstract protected function buildFilter($filter);
-	abstract protected function buildTable($table);
 	abstract protected function buildOrder($order);
 	
+	protected function buildTable($table) {
+		return $table	->template($this->getRowTemplateTitle(), $this->plugin->getDirectory());
+	}
+
 	/**
 	* The sql-query is built by the following methods.
 	*/
@@ -175,6 +178,8 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	public function getRelevantaParameters() {
 		return $this->relevant_parameters;
 	}
+
+	abstract protected function getRowTemplateTitle();
 
 	// Report discovery
 
