@@ -692,7 +692,7 @@ class ilDataCollectionRecord {
 	 * @param $obj_id
 	 */
 	public function deleteMob($obj_id) {
-		if (ilObject2::_lookupObjId($obj_id)) {
+		if (ilObject2::_exists($obj_id)) {
 			$mob = new ilObjMediaObject($obj_id);
 			$mob->delete();
 		}
