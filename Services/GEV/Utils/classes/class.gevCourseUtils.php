@@ -3438,8 +3438,30 @@ class gevCourseUtils {
 		
 		foreach ($files as $file) {
 			$values[1] = $file;
-			$this->db->execute($statement,$values);
+			if(!$this->checkCustomAttachmentExists($file)) {
+				$this->db->execute($statement,$values);
+			} else {
+				throw new Exception("File exists");
+			}
 		}
+	}
+
+	protected function checkCustomAttachmentExists($file) {
+		$query = "SELECT count(*) as cnt\n"
+				." FROM crs_custom_attachments\n"
+				." WHERE obj_id = ".$this->db->quote($this->crs_id,"integer")."\n"
+				." AND file_name = ".$this->db->quote($file, "text");
+
+
+
+		$res = $this->db->query($query);
+		$row = $this->db->fetchAssoc($res);
+
+		if($this->db->numRows($res) > 0) {
+			return $row["cnt"] > 0;
+		}
+		
+		return false;
 	}
 
 	public function addAttachmentsToMailSingleFolder($files, $folder) {
