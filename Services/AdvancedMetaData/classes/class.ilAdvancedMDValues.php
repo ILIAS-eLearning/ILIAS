@@ -51,7 +51,7 @@ class ilAdvancedMDValues
 	 * @param string $a_obj_type
 	 * @return array
 	 */
-	public static function getInstancesForObjectId($a_obj_id, $a_obj_type = null)
+	public static function getInstancesForObjectId($a_obj_id, $a_obj_type = null, $a_sub_type = "-", $a_sub_id = 0)
 	{		
 		$res = array();
 		
@@ -61,10 +61,10 @@ class ilAdvancedMDValues
 		}
 		
 		include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
-		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($a_obj_type, $a_obj_id) as $record)
+		foreach(ilAdvancedMDRecord::_getSelectedRecordsByObject($a_obj_type, $a_obj_id, $a_sub_type) as $record)
 		{
 			$id = $record->getRecordId();
-			$res[$id] = new self($id, $a_obj_id);
+			$res[$id] = new self($id, $a_obj_id, $a_sub_type, $a_sub_id);
 		}
 	
 		return $res;
