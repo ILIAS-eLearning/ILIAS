@@ -626,7 +626,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		$tbl->resetOffset();
 		$tbl->resetFilter();
 		
-		$this->share();
+		$this->shareFilter();
 	}
 	
 	protected function passwordForm($a_node_id, $form = null)
