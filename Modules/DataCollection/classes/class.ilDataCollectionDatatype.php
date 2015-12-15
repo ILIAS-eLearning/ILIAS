@@ -692,7 +692,10 @@ class ilDataCollectionDatatype {
 
 		switch ($this->id) {
 			case self::INPUTFORMAT_DATETIME:
+				$format = ilDatePresentation::useRelativeDates();
+				ilDatePresentation::setUseRelativeDates(false);
 				$html = ilDatePresentation::formatDate(new ilDate($value, IL_CAL_DATETIME));
+				ilDatePresentation::setUseRelativeDates($format);
 				break;
 
 			case self::INPUTFORMAT_FILE:
