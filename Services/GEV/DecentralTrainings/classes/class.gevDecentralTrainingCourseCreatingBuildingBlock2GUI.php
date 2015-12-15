@@ -910,9 +910,11 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 				return;
 			}
 		} else {
-			ilUtil::sendInfo($this->lng->txt("gev_dec_training_no_blocks_no_save"), false);
-			$this->render();
-			return;
+			if ($this->crs_ref_id) {
+				ilUtil::sendInfo($this->lng->txt("gev_dec_training_no_blocks_no_save"), false);
+				$this->render();
+				return;
+			}
 		}
 
 
