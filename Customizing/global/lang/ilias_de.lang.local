@@ -395,12 +395,12 @@ gev#:#gev_book_contact_onside#:#Ad-Schulung.de@generali.com
 gev#:#gev_book_contact_pe#:#Kontakt PE
 gev#:#gev_book_contact_webinar#:#Generali-Webinare.de@generali.com
 gev#:#gev_book_course#:#Training buchen
-gev#:#gev_book_employee#:#Mitarbeiter buchen
+gev#:#gev_book_employee#:#Mitarbeiter / Vertriebspartner buchen
 gev#:#gev_book_no_cond_accept#:#Sie müssen die Buchungs- und Stornierungsbedingungen akzeptieren um fortfahren zu können.
 gev#:#gev_bookable#:#buchbar
 gev#:#gev_bookable_waiting#:#buchbar auf Warteliste
 gev#:#gev_booked#:#gebucht
-gev#:#gev_booked_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training gebucht und noch nicht beendet. Sie dürfen dieses Angebot daher für Ihren Mitarbeiter nicht buchen.
+gev#:#gev_booked_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training gebucht und noch nicht beendet. Sie dürfen dieses Angebot daher für Ihren Mitarbeiter / Vertriebspartner nicht buchen.
 gev#:#gev_booked_similar_course_self#:#Sie sind auf dieses Training bereits gebucht, ohne es abgeschlossen zu haben. Sie dürfen dieses Angebot daher nicht buchen.
 gev#:#gev_booking#:#Buchung
 gev#:#gev_booking_bill_data#:#Rechnungsdaten
@@ -417,7 +417,7 @@ gev#:#gev_booking_link#:#Link zur Buchung
 gev#:#gev_booking_request_pe#:#Buchungsanfrage PE
 gev#:#gev_booking_request_pe_note#:#Die Buchungsfrist ist abgelaufen. Fragen Sie freie Plätze bei PE an.
 gev#:#gev_booking_note#:#Mit der verbindlichen Buchung bestätigen Sie, Buchung und Übernachtung mit Ihrer Führungskraft abgestimmt zu haben.
-gev#:#gev_booking_other_courses_in_period_others#:#Ihr Mitarbeiter hat im Zeitraum des Trainings bereits andere Trainings gebucht:
+gev#:#gev_booking_other_courses_in_period_others#:#Ihr Mitarbeiter / Vertriebspartner hat im Zeitraum des Trainings bereits andere Trainings gebucht:
 gev#:#gev_booking_other_courses_in_period_self#:#Sie haben im Zeitraum des Trainings bereits andere Trainings gebucht:
 gev#:#gev_booking_status#:#Buchungsstatus
 gev#:#gev_bookings#:#Buchungen
@@ -486,7 +486,7 @@ gev#:#gev_crs_srch_all#:#alle
 gev#:#gev_crs_srch_limit#:#Suche eingrenzen
 gev#:#gev_crs_srch_my_table_desc#:#Hier sehen Sie auf einen Blick alle für Sie verfügbaren Angebote.
 gev#:#gev_crs_srch_results#:#Suchergebnisse
-gev#:#gev_crs_srch_theirs_table_desc#:#Hier sehen Sie auf einen Blick alle für Ihren Mitarbeiter verfügbaren Angebote.
+gev#:#gev_crs_srch_theirs_table_desc#:#Hier sehen Sie auf einen Blick alle für Ihren Mitarbeiter / Vertriebspartner verfügbaren Angebote.
 gev#:#gev_crs_srch_title#:#Übersicht
 gev#:#gev_crs_srch_usr_slctr_caption#:#Suche für:
 gev#:#gev_csn_list#:#CSN-Liste
@@ -512,8 +512,8 @@ gev#:#gev_edit_overnights#:#Ihre Übernachtungen beim Training "%s"
 gev#:#gev_edit_overnights_desc#:#Hier können Sie Ihre Übernachtungen beim Training bearbeiten.
 gev#:#gev_email#:#E-Mail-Adresse
 gev#:#gev_com_email#:#Kommunikations E-Mail-Adresse
-gev#:#gev_employee_booking#:#Buchungen meiner Mitarbeiter
-gev#:#gev_employee_booking_desc#:#Hier sehen Sie alle aktuellen Buchungen Ihrer Mitarbeiter.
+gev#:#gev_employee_booking#:#Buchungen meiner Mitarbeiter / Vertriebspartner
+gev#:#gev_employee_booking_desc#:#Hier sehen Sie alle aktuellen Buchungen Ihrer Mitarbeiter / Vertriebspartner.
 gev#:#gev_entry_date#:#Eintrittsdatum
 gev#:#gev_event_title#:#Veranstaltungstitel
 gev#:#gev_evg_registration#:#Registrierung: Generali Online Akademie
@@ -582,7 +582,7 @@ gev#:#gev_na_adviser_input_info#:#Geben Sie den vollständigen Benutzernamen Ihr
 gev#:#gev_na_registration_success#:#Eine Mail zur Bestätigung Ihres Accounts wurde an Ihren Betreuer versandt.
 gev#:#gev_need_agb_accept#:#Sie müssen die Buchungs- und Stornierungsbedingungen akzeptieren um fortfahren zu können.
 gev#:#gev_next_course#:#Mein nächstes Training
-gev#:#gev_no_employee_bookings#:#Es liegen keine Buchungen Ihrer Mitarbeiter vor.
+gev#:#gev_no_employee_bookings#:#Es liegen keine Buchungen Ihrer Mitarbeiter / Vertriebspartner vor.
 gev#:#gev_no_last_course#:#Sie haben noch an keinem Training teilgenommen.
 gev#:#gev_no_next_course#:#Sie haben kein Training gebucht.
 gev#:#gev_no_other_wbd_mandate#:#Ich versichere, dass ich nicht bereits an anderer Stelle eine solche Kontoeröffnung beantragt habe.
@@ -592,7 +592,7 @@ gev#:#gev_not_allowed_to_book_crs_for_other#:#Sie dürfen dieses Training nicht 
 gev#:#gev_not_allowed_to_book_crs_for_self#:#Sie dürfen dieses Training nicht buchen.
 gev#:#gev_not_allowed_to_book_crs_for_other#:#Sie dürfen diese Stornierung nicht vornehmen.
 gev#:#gev_not_allowed_to_book_crs_self_because_period#:#Sie dürfen dieses Training nicht buchen, da Sie bereits ein anderes Training im gleichen Zeitraum gebucht haben.
-gev#:#gev_not_allowed_to_book_crs_other_because_period#:#Sie dürfen dieses Training nicht buchen, da Ihr Mitarbeiter bereits ein anderes Training im gleichen Zeitraum gebucht hat.
+gev#:#gev_not_allowed_to_book_crs_other_because_period#:#Sie dürfen dieses Training nicht buchen, da Ihr Mitarbeiter / Vertriebspartner bereits ein anderes Training im gleichen Zeitraum gebucht hat.
 gev#:#gev_not_allowed_to_cancel_crs_for_other#:#Sie dürfen dieses Training nicht für einen anderen Benutzer stornieren.
 gev#:#gev_not_bookable#:#ausgebucht
 gev#:#gev_number_of_measure#:#Nummer der Maßnahme
@@ -611,7 +611,7 @@ gev#:#gev_overall_prize#:#Gesamtpreis
 gev#:#gev_overall_points#:#Gesamtpunktzahl
 gev#:#gev_participation_status#:#Teilnahmestatus
 gev#:#gev_passed#:#teilgenommen
-gev#:#gev_passed_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training erfolgreich abgeschlossen. Sie dürfen dieses Angebot daher für Ihren Mitarbeiter nicht buchen.
+gev#:#gev_passed_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training erfolgreich abgeschlossen. Sie dürfen dieses Angebot daher für Ihren Mitarbeiter / Vertriebspartner nicht buchen.
 gev#:#gev_passed_similar_course_self#:#Sie sind auf dieses Training bereits an einem anderen Termin gebucht. Sie können keinen zweiten Termin buchen. Sollten Sie den Termin wechseln wollen, stornieren Sie zunächst das bereits gebuchte Training und buchen Sie dann den gewünschten neuen Termin.
 gev#:#gev_payment_type#:#Zahlungsart
 gev#:#user_pays_fees#:#zahlungspflichtig
@@ -679,11 +679,11 @@ gev#:#gev_report_trainer_operation_by_orgu_trainer_desc#:#Hier erhalten Sie eine
 gev#:#gev_report_trainer_workload#:#Trainerauslastung
 gev#:#gev_report_trainer_workload_desc#:#Hier finden Sie die Auslastung von Trainern in Organisationseinheiten.
 gev#:#gev_report_trainer_operation_by_tep_category_desc#:#Hier erhalten Sie eine Übersicht über die Einsatzplanung von Trainern.
-gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter
+gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter / Vertriebspartner
 gev#:#gev_rep_filter_show_critical_persons#:#Zeige mir nur kritische Personen.
 gev#:#gev_rep_filter_show_critical_dbvs#:#Zeige mir nur kritische DBVen.
 gev#:#gev_rep_filter_show_critical_persons_4th_year#:#Zeige mir nur kritische Personen nach dem vierten Jahr.
-gev#:#gev_report_employee_edu_bios#:#Bildungsbiografien meiner Mitarbeiter
+gev#:#gev_report_employee_edu_bios#:#Bildungsbiografien meiner Mitarbeiter / Vertriebspartner
 gev#:#gev_registration_install_note#:#Generali Vermittler melden sich bitte mit der Generali E-Mail-Adresse an.
 gev#:#gev_reporting_menu#:#Reports
 gev#:#gev_search_menu#:#Trainingssuche
@@ -706,7 +706,7 @@ gev#:#gev_tax#:#Umsatzsteuer (19 %)
 gev#:#gev_telno_alert#:#Die Telefonnummer muss das Format +49 1xxx xxxxxxxx haben.
 gev#:#gev_telno_wbd_alert#:#Die Telefonnummer hat kein gültiges Format.
 gev#:#gev_tep#:#TEP
-gev#:#gev_theirs_highlights_desc#:#Hier finden Sie neue und interessante Angebote zugeschnitten auf die individuellen Anforderungen Ihres Mitarbeiters.
+gev#:#gev_theirs_highlights_desc#:#Hier finden Sie neue und interessante Angebote zugeschnitten auf die individuellen Anforderungen Ihres Mitarbeiters / Vertriebspartners.
 gev#:#gev_to_course_search#:#Zurück zum Bildungsangebot
 gev#:#gev_to_course_search2#:#Zur Trainingssuche
 gev#:#gev_trainer_operation_days#:#Trainereinsatztage
@@ -728,9 +728,9 @@ gev#:#gev_user_profile#:#Profil
 gev#:#gev_user_profile_saved#:#Ihre Profilinformationen wurden erfolgreich gespeichert.
 gev#:#gev_venue#:#Veranstaltungsort
 gev#:#gev_waiting#:#gebucht auf Warteliste
-gev#:#gev_was_booked_employee#:#Ihr Mitarbeiter %s wurde erfolgreich auf das Training "%s" gebucht.
+gev#:#gev_was_booked_employee#:#Ihr Mitarbeiter / Vertriebspartner %s wurde erfolgreich auf das Training "%s" gebucht.
 gev#:#gev_was_booked_self#:#Das Training "%s" wurde erfolgreich für Sie gebucht. Sie erhalten eine Bestätigungsmail.
-gev#:#gev_was_booked_waiting_employee#:#Ihr Mitarbeiter %s wurde erfolgreich beim Training "%s" auf die Warteliste hinzugefügt.
+gev#:#gev_was_booked_waiting_employee#:#Ihr Mitarbeiter / Vertriebspartner %s wurde erfolgreich beim Training "%s" auf die Warteliste hinzugefügt.
 gev#:#gev_was_booked_waiting_self#:#Sie wurden beim Training "%s" erfolgreich auf die Warteliste hinzugefügt.
 gev#:#gev_wbd_notifications#:#Benachrichtigungen der WBD
 gev#:#gev_wbd_notifications_to_auth#:#Kontoauszüge und Jahreszertifikate der WBD sollen an meine Authentifizierungs-E-Mail-Adresse (Kommunikations-E-Mail-Adresse) verschickt werden.
@@ -921,7 +921,7 @@ orgu#:#orgu_type_msg_deleted#:#Typ gelöscht.
 orgu#:#orgu_type_msg_deletion_prevented#:#Das Löschen des Typs wurde durch ein Plugin verhindert.
 orgu#:#orgu_type_msg_unable_delete#:#Konnte Typ nicht löschen, da er von folgenden Organisationseinheiten verwendet wird: %s
 orgu#:#orgu_types#:#Typen
-orgu#:#il_orgu_employee#:#Mitarbeiter
+orgu#:#il_orgu_employee#:#Mitarbeiter / Vertriebspartner
 payment#:#pay_crs_max_members_exceeded#:#Die maximale Teilnehmerzahl für dieses Training ist bereits erreicht. Deswegen können Sie dieses Training momentan leider nicht kaufen.
 payment#:#pays_erp_tst_product#:#Dies ist nur eine Proberechnung. Bei einem wirklichen Kaufvorgang  erscheint hier der Name des Trainings oder der Datei.
 pd#:#pd_enable_my_memberships#:#Meine Trainings und Gruppen' aktivieren
@@ -947,12 +947,12 @@ pwassist#:#pwassist_mail_body#:#Sehr geehrte Generali Online Akademie Nutzerin,\
 pwassist#:#pwassist_mail_sent#:#Wir haben soeben eine E-Mail an die Adresse %1$s versendet.\nWeitere Anweisungen entnehmen Sie bitte dieser Nachricht.
 pwassist#:#pwassist_mail_subject#:#Generali Online Akademie: Passwort-/Benutzernamen-Unterstützung
 pwassist#:#pwassist_username_mail_body#:#Sehr geehrte Generali Online Akademie Nutzerin,\nsehr geehrte Generali Online Akademie Nutzer,\n\nSie haben soeben Ihren Benutzernamen für die Generali Online Akademie angefragt. \n\nDies sind die aktiven Nutzernamen, die wir unter Ihrer E-Mail-Adresse registriert haben: \n%1$s\n\nDiese E-Mail ist automatisch generiert worden von: %2$s \nDie eingetragene E-Mail-Adresse lautet: %4$s \n\nMit freundlichen Grüßen \nIhre Generali Online Akademie
-rbac#:#book_employees#:#Mitarbeiter buchen
-rbac#:#book_employees_rcrsv#:#Mitarbeiter auf Training buchen (rekursiv)
+rbac#:#book_employees#:#Mitarbeiter / Vertriebspartner buchen
+rbac#:#book_employees_rcrsv#:#Mitarbeiter / Vertriebspartner auf Training buchen (rekursiv)
 rbac#:#book_users#:#Buchungen vornehmen
 rbac#:#cancel_bookings#:#Stornierungen vornehmen
-rbac#:#cancel_employee_bookings#:#Buchungen von Mitarbeitern stornieren
-rbac#:#cancel_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern stornieren (rekursiv)
+rbac#:#cancel_employee_bookings#:#Buchungen von Mitarbeitern / Vertriebspartnern stornieren
+rbac#:#cancel_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern / Vertriebspartnern stornieren (rekursiv)
 rbac#:#crs_copy#:#Training kopieren
 rbac#:#crs_delete#:#Training löschen oder verschieben
 rbac#:#crs_join#:#Training beitreten
@@ -969,14 +969,14 @@ rbac#:#crss_edit_permission#:#Rechteeinstellungen für die Trainings-Betreuung �
 rbac#:#crss_read#:#Lesezugriff auf Trainings-Betreuung
 rbac#:#crss_visible#:#Trainingsbetreuer ist sichtbar
 rbac#:#crss_write#:#Einstellungen in Trainings-Betreuung bearbeiten
-rbac#:#il_orgu_employee#:#Mitarbeiter
-rbac#:#orgu_book_employees#:#Mitarbeiter auf Trainings buchen
-rbac#:#orgu_book_employees_rcrsv#:#Mitarbeiter auf Trainings buchen (rekursiv)
-rbac#:#orgu_cancel_employee_bookings#:#Buchungen von Mitarbeitern stornieren
-rbac#:#orgu_cancel_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern stornieren (rekursiv)
+rbac#:#il_orgu_employee#:#Mitarbeiter / Vertriebspartner
+rbac#:#orgu_book_employees#:#Mitarbeiter / Vertriebspartner auf Trainings buchen
+rbac#:#orgu_book_employees_rcrsv#:#Mitarbeiter / Vertriebspartner auf Trainings buchen (rekursiv)
+rbac#:#orgu_cancel_employee_bookings#:#Buchungen von Mitarbeitern / Vertriebspartnern stornieren
+rbac#:#orgu_cancel_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern / Vertriebspartnern stornieren (rekursiv)
 rbac#:#orgu_copy#:#Organisationseinheiten kopieren
-rbac#:#orgu_view_employee_bookings#:#Buchungen von Mitarbeitern einsehen
-rbac#:#orgu_view_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern einsehen (rekursiv)
+rbac#:#orgu_view_employee_bookings#:#Buchungen von Mitarbeitern / Vertriebspartnern einsehen
+rbac#:#orgu_view_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern / Vertriebspartnern einsehen (rekursiv)
 rbac#:#orgu_view_learning_progress_rec#:#Lernfortschritt einsehen (rekursiv)
 rbac#:#ps_export_member_data#:#Export von Teilnehmerdaten in Gruppen und Trainings erlauben
 rbac#:#rbac_create_crs#:#Training anlegen
@@ -989,8 +989,8 @@ rbac#:#tep_is_tutor#:#ist Trainer in dieser Einheit
 rbac#:#tep_view_other#:#TEP Termine von anderen Trainern sehen
 rbac#:#tep_view_other_rcrsv#:#TEP Termine von anderen Trainer sehen (rekursiv)
 rbac#:#view_bookings#:#Buchungen einsehen
-rbac#:#view_employee_bookings#:#Buchungen von Mitarbeitern einsehen
-rbac#:#view_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern einsehen (rekursiv)
+rbac#:#view_employee_bookings#:#Buchungen von Mitarbeitern / Vertriebspartnern einsehen
+rbac#:#view_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern / Vertriebspartnern einsehen (rekursiv)
 rbac#:#crs_view_bookings#:#Buchungen einsehen
 rbac#:#crs_view_participation_status#:#Teilnahmestatus bearbeiten
 rbac#:#crs_view_own_accomodations#:#Eigene Buchungen einsehen
@@ -1134,7 +1134,7 @@ gev#:#gev_rep_attendance_by_orgunit_desc#:#Hier sehen Sie die Anzahl der Teilneh
 gev#:#gev_report_attendancebycoursetemplate#:#Teilnahmen nach Trainingsvorlage
 gev#:#gev_rep_attendance_by_coursetemplate_title#:#Teilnahmen nach Trainingsvorlage
 gev#:#gev_rep_attendance_by_coursetemplate_desc#:#Hier sehen Sie die Anzahl der Teilnehmer nach Trainingsvorlage
-gev#:#sum_employees#:#Mitarbeiter
+gev#:#sum_employees#:#Mitarbeiter / Vertriebspartner
 gev#:#sum_booked_WBT#:#Selbstlernkurs, gebucht
 gev#:#sum_attended_WBT#:#Selbstlernkurs, teilgenommen
 gev#:#sum_booked_nowbt#:#gebucht
@@ -1155,7 +1155,7 @@ gev#:#usr_id#:#Benutzer-ID
 gev#:#crs_id#:#Kurs-ID
 gev#:#ts#:#Zeitpunkt
 gev#:#gev_warning_to_book_crs_self_because_period#:#Sie haben bereits ein oder mehrere andere Trainings im gleichen Zeitraum gebucht.
-gev#:#gev_warning_to_book_crs_for_others_because_period#:#Der Mitarbeiter hat bereits ein oder mehrere andere Trainings im gleichen Zeitraum gebucht.
+gev#:#gev_warning_to_book_crs_for_others_because_period#:#Der Mitarbeiter / Vertriebspartner hat bereits ein oder mehrere andere Trainings im gleichen Zeitraum gebucht.
 gev#:#gev_login_express#:#Anmelden
 gev#:#gev_login_express_existend_account#:#Ich habe in der Generali Online Akademie bereits ein Benutzerkonto.
 gev#:#gev_login_express_new_account#:#Ich möchte mich in der Online Akademie registrieren um künftig Webinare einfach nutzen zu können.
@@ -1171,8 +1171,8 @@ gev#:#gev_vc_no_url_saved_because_no_vc_class_type#:#Es konnte kein virtueller K
 gev#:#gev_vc_no_url_saved_because_no_vc_class_type_and_no_times#:#Es konnte kein virtueller Klassenraum hinzugefügt werden, da weder ein Zeitraum definiert wurde, noch ein Typ für die virtuelle Klasse ausgewählt wurde.
 gev#:#gev_virtual_class#:#virtueller Klassenraum
 gev#:#gev_vc_send_invitation_mail_reminder#:#Es besteht die Möglichkeit, dass Sie die Einladungen an die Teilnehmer neu versenden müssen.
-gev#:#gev_add_staff_member#:#Mitarbeiter hinzufügen
-gev#:#gev_import_staff_member#:#Mitarbeiter importieren
+gev#:#gev_add_staff_member#:#Mitarbeiter / Vertriebspartner hinzufügen
+gev#:#gev_import_staff_member#:#Mitarbeiter / Vertriebspartner importieren
 gev#:#gev_default_role_agtid_does_not_exist#:#Lokale Benutzer können nicht hinzugefügt werden, da die Rolle 'Agt-ID' fehlt.
 gev#:#gev_new_pos_self_learnings_in_table#:#Die Selbstlernkurse finden Sie ab sofort am Ende der Trainingsübersicht!
 gev#:#gev_finalize_booking_booked_out_error#:#Das Training konnte leider nicht für Sie gebucht werden, da es inzwischen ausgebucht ist.
