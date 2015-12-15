@@ -13,7 +13,7 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
 {
 	public function __construct($a_parent_obj, $a_parent_cmd, $a_fss_export)
 	{		
-		global $lng, $ilCtrl;
+		global $ilCtrl;
 		
 		$this->setId('memexp');
 		
@@ -22,17 +22,17 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
 		$this->setTitle($this->lng->txt('ps_export_files'));
 		
 		$this->addColumn('','',1);
-		$this->addColumn($lng->txt('type'),'type');
-		$this->addColumn($lng->txt('ps_size'),'size');
-		$this->addColumn($lng->txt('date'),'date');
-		$this->addColumn($lng->txt('action'),'');
+		$this->addColumn($this->lng->txt('type'),'type');
+		$this->addColumn($this->lng->txt('ps_size'),'size');
+		$this->addColumn($this->lng->txt('date'),'date');
+		$this->addColumn($this->lng->txt('action'),'');
 		
 		$this->setDefaultOrderField('date');
 		$this->setDefaultOrderDirection('desc');
 				
 		$this->setRowTemplate('tpl.mem_export_file_row.html','Services/Membership');		
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject(),$this->getParentCmd()));		
-		$this->addMultiCommand('confirmDeleteExportFile', $lng->txt('delete'));
+		$this->addMultiCommand('confirmDeleteExportFile', $this->lng->txt('delete'));
 		
 		$this->setSelectAllCheckbox('id[]');
 
@@ -63,7 +63,7 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
 		
 	public function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		global $ilCtrl;
 		
 		$this->tpl->setVariable('VAL_ID', $a_set['id']);
 		$this->tpl->setVariable('VAL_TYPE', $a_set['type']);
@@ -75,6 +75,6 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
 		$ilCtrl->setParameter($this->getParentObject(), 'fl', '');
 		
 		$this->tpl->setVariable('URL_DOWNLOAD', $url);		
-		$this->tpl->setVariable('TXT_DOWNLOAD', $lng->txt('download'));		
+		$this->tpl->setVariable('TXT_DOWNLOAD', $this->lng->txt('download'));		
 	}
 }

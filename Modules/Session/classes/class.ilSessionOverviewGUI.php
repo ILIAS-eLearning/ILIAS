@@ -92,132 +92,19 @@ class ilSessionOverviewGUI
 	 */
 	public function listSessions()
 	{
-		global $ilErr,$ilAccess, $ilUser,$tree;
+		global $ilToolbar,$ilErr,$ilAccess;
 
 		if(!$ilAccess->checkAccess('write','',$this->course_ref_id))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
 		}
 		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.sess_list.html','Modules/Session');
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// display button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'exportCSV'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('event_csv_export'));
-		$this->tpl->parseCurrentBlock();
-				
-		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
+		$ilToolbar->addButton($this->lng->txt('event_csv_export'),
+			$this->ctrl->getLinkTarget($this,'exportCSV'));
 		
-		$this->tpl->addBlockfile("EVENTS_TABLE","events_table", "tpl.table.html");
-		$this->tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.sess_list_row.html','Modules/Session');
-		
-		$members = $this->members_obj->getParticipants();
-		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');		
-		
-		// Table
-		//TODO: Use ilTable2GUI
-		$tbl = new ilTableGUI();
-		$tbl->setTitle($this->lng->txt("event_overview"),
-					   '',
-					   $this->lng->txt('obj_usr'));
-		$this->ctrl->setParameter($this,'offset',(int) $_GET['offset']);	
-		
-		$events = array();
-		foreach($tree->getSubtree($tree->getNodeData($this->course_ref_id),false,'sess') as $event_id)
-		{
-			$tmp_event = ilObjectFactory::getInstanceByRefId($event_id,false);
-			if(!is_object($tmp_event) or !$ilAccess->checkAccess('write','',$event_id)) 
-			{
-				continue;
-			}
-			$events[] = $tmp_event;
-		}
-		
-		$headerNames = array();
-		$headerVars = array();
-		$colWidth = array();
-		
-		$headerNames[] = $this->lng->txt('name');		
-		$headerVars[] = "name";
-		$colWidth[] = '20%';
-		$headerNames[] = $this->lng->txt('login');
-		$headerVars[] = "login";
-		$colWidth[] = '20%';
-					
-		for ($i = 1; $i <= count($events); $i++)
-		{
-			$headerNames[] = $i;
-			$headerVars[] = "event_".$i;
-			$colWidth[] = 80/count($events)."%";	
-		}		
-		
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$tbl->setHeaderNames($headerNames);
-		$tbl->setHeaderVars($headerVars, $this->ctrl->getParameterArray($this,'listSessions'));
-		$tbl->setColumnWidth($colWidth);		
-
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setOffset($_GET["offset"]);				
-		$tbl->setLimit($ilUser->getPref("hits_per_page"));
-		$tbl->setMaxCount(count($members));
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		
-		$sliced_users = array_slice($members,$_GET['offset'],$_SESSION['tbl_limit']);
-		$tbl->disable('sort');
-		$tbl->render();
-		
-		$counter = 0;
-		foreach($sliced_users as $user_id)
-		{			
-			foreach($events as $event_obj)
-			{								
-				$this->tpl->setCurrentBlock("eventcols");
-							
-				$event_part = new ilEventParticipants($event_obj->getId());														
-										
-				{			
-					$this->tpl->setVariable("IMAGE_PARTICIPATED", $event_part->hasParticipated($user_id) ? 
-											ilUtil::getImagePath('icon_ok.svg') :
-											ilUtil::getImagePath('icon_not_ok.svg'));
-					
-					$this->tpl->setVariable("PARTICIPATED", $event_part->hasParticipated($user_id) ?
-										$this->lng->txt('event_participated') :
-										$this->lng->txt('event_not_participated'));
-				}						
-				
-				$this->tpl->parseCurrentBlock();				
-			}			
-			
-			$this->tpl->setCurrentBlock("tbl_content");
-			$name = ilObjUser::_lookupName($user_id);
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
-			$this->tpl->setVariable("LASTNAME",$name['lastname']);
-			$this->tpl->setVariable("FIRSTNAME",$name['firstname']);
-			$this->tpl->setVariable("LOGIN",ilObjUser::_lookupLogin($user_id));				
-			$this->tpl->parseCurrentBlock();			
-		}		
-		
-		$this->tpl->setVariable("HEAD_TXT_LEGEND", $this->lng->txt("legend"));		
-		$this->tpl->setVariable("HEAD_TXT_DIGIT", $this->lng->txt("event_digit"));
-		$this->tpl->setVariable("HEAD_TXT_EVENT", $this->lng->txt("event"));
-		$this->tpl->setVariable("HEAD_TXT_LOCATION", $this->lng->txt("event_location"));
-		$this->tpl->setVariable("HEAD_TXT_DATE_TIME",$this->lng->txt("event_date_time"));
-		$i = 1;
-		foreach($events as $event_obj)
-		{
-			$this->tpl->setCurrentBlock("legend_loop");
-			$this->tpl->setVariable("LEGEND_CSS_ROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
-			$this->tpl->setVariable("LEGEND_DIGIT", $i++);
-			$this->tpl->setVariable("LEGEND_EVENT_TITLE", $event_obj->getTitle());
-			$this->tpl->setVariable("LEGEND_EVENT_DESCRIPTION", $event_obj->getDescription());	
-			$this->tpl->setVariable("LEGEND_EVENT_LOCATION", $event_obj->getLocation());
-			$this->tpl->setVariable("LEGEND_EVENT_APPOINTMENT", $event_obj->getFirstAppointment()->appointmentToString());		
-			$this->tpl->parseCurrentBlock();
-		}
-	
+		include_once 'Modules/Session/classes/class.ilSessionOverviewTableGUI.php';
+		$tbl = new ilSessionOverviewTableGUI($this, 'listSessions', $this->course_ref_id, $this->members_obj->getParticipants());
+		$this->tpl->setContent($tbl->getHTML());		
 	}
 
 	/**
