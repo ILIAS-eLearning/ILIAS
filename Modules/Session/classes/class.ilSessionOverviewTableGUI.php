@@ -26,15 +26,12 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
 		
 		$this->events = $this->gatherEvents($a_crs_ref_id);
 		foreach($this->events as $idx => $event_obj)
-		{			
-			$caption = "";
-			
+		{						
 			// tooltip properties
 			$tt = array();
 			if(trim($event_obj->getTitle()))
 			{
-				$tt[] = $event_obj->getTitle();		
-				$caption = $event_obj->getTitle();
+				$tt[] = $event_obj->getTitle();						
 			}
 			if(trim($event_obj->getDescription()))
 			{
@@ -47,12 +44,9 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
 			$tt[] = $this->lng->txt("event_date_time").': '.$event_obj->getFirstAppointment()->appointmentToString();			
 			
 			// use title/datetime
-			if(sizeof($this->events) <= 5)
-			{
-				if(!$caption)
-				{
-					$caption = $event_obj->getFirstAppointment()->appointmentToString();
-				}
+			if(sizeof($this->events) <= 4)
+			{				
+				$caption = $event_obj->getFirstAppointment()->appointmentToString();			
 				if(sizeof($tt) == 1)
 				{
 					$tt = array();
