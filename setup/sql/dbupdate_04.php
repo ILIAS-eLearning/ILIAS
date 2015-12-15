@@ -12486,8 +12486,13 @@ $manager = $ilDB->db->loadModule('Manager');
 foreach ($indices as $table_name => $field_names) {
 	if ($manager) {
 		foreach ($manager->listTableIndexes($table_name) as $idx_name) {
-			$r = $manager->getDBInstance()->exec('DROP INDEX ' . $idx_name . ' ON ' . $table_name);
-			$r = $manager->getDBInstance()->exec('DROP INDEX ' . $idx_name . '_idx ON ' . $table_name);
+			if ($ilDB->getDbType() == 'oracle' || $ilDB->getDbType() == 'postgres') {
+				$manager->getDBInstance()->exec('DROP INDEX ' . $idx_name);
+				$manager->getDBInstance()->exec('DROP INDEX ' . $idx_name . '_idx');
+			} else {
+				$manager->getDBInstance()->exec('DROP INDEX ' . $idx_name . ' ON ' . $table_name);
+				$manager->getDBInstance()->exec('DROP INDEX ' . $idx_name . '_idx ON ' . $table_name);
+			}
 		}
 		foreach ($field_names as $i => $field_name) {
 			$ilDB->addIndex($table_name, array( $field_name ), 'i' . ($i + 1));
