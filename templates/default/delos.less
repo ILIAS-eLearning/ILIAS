@@ -1067,6 +1067,20 @@ footer.ilFooter {
 	text-align: right;
 }
 
+#devmodeBlock {
+    background-color: white;
+    color: black;
+    border: 1px dashed grey;
+    padding: 10px;
+    margin-top: 25px;
+    table {
+        @media only screen and (max-width: @grid-float-breakpoint-max) {
+            table-layout: fixed;
+            width: 100%;
+        }
+    }
+}
+
 /* ----------------- permanent link  ------------- */
 div.ilPermaLink {
 	margin: 15px;
