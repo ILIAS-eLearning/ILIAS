@@ -10772,8 +10772,8 @@ rbac#:#write#:#Edit Settings
 rbac#:#rbac_local_policy#:#Local Policy
 rbac#:#role_block_role#:#Block Role
 rbac#:#role_confirm_block_role#:#Save Role Status
-rbac#:#role_blocked#:#(Role Unblocked)
-rbac#:#role_unblocked#:#(Role Blocked)
+rbac#:#role_blocked#:#: <i>Role will be blocked</i>
+rbac#:#role_unblocked#:#: <i>Role will be unblocked</i>
 rbac#:#role_block_role_desc#:#The access to this and all subordinated objects is will be revoked.
 rbac#:#role_confirm_block_role_info#:#The following steps will be performed for the action "Block Role":<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.
 rbac#:#role_confirm_unblock_role_info#:#The following steps will be performed for the action "Unblock Role":<br /><br />- the local policy will be deleted.
