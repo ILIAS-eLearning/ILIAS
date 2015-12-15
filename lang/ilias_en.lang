@@ -11752,7 +11752,7 @@ chatroom#:#chat_to_mainroom#:#To Main Room
 chatroom#:#chat_create_private_room_button#:#Create Private Room
 chatroom#:#moderate#:#Moderate
 chatroom#:#chatroom_smiley_keyword#:#Keyword
-chatroom#:#chat_invitation#:#<b>[INVITER_NAME]</b> invites you into chat room <b>[ROOM_NAME]</b>
+chatroom#:#chat_invitation#:#"[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nYou have been invited to a chat room:\nChat room Title: [ROOM_NAME]\nInvited by: [INVITER_NAME]\nURL: [LINK]\n\nTo join the chat room, please follow the given URL.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chat room.
 chatroom#:#settings_title#:#Settings
