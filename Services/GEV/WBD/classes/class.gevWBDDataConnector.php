@@ -1607,8 +1607,9 @@ print $sql;
 		assert($this->ilDB->numRows($res) == 1);
 
 		if($this->ilDB->numRows($res) == 1) {
+			$row = $this->ilDb->fetchAssoc($res);
 			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-			$user_utils = gevUserUtils::getInstance($res["user_id"]);
+			$user_utils = gevUserUtils::getInstance($row["user_id"]);
 			$user_utils->setWBDTPType(gevUserUtils::WBD_TP_SERVICE);
 			$user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
 			$this->_set_last_wbd_report('hist_user', $row_id);
