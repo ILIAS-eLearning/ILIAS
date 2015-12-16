@@ -1600,9 +1600,9 @@ print $sql;
 	* 
 	* @param 	string 		$a_row_id 	Number to identify the row in hist_user
 	*/
-	public function success_affiliate_user($a_row_id) {
+	public function success_affiliate_user($row_id) {
 
-		$sql = "SELECT user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($a_row_id, "integer")."";
+		$sql = "SELECT user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($row_id, "integer")."";
 		$res = $this->ilDB->query($sql);
 		assert($this->ilDB->numRows($res) == 1);
 
