@@ -28,7 +28,7 @@ class wbdErrorLog {
 		'USER_UNKNOWN' => array(
 			'Die VermittlerID ist nicht vorhanden.',
 			'Die Vermittler-ID ist nicht vorhanden.'
-		)
+		),
 		'USER_DIFFERENT_TP' => array(
 			'beginswith'=>'Der TP 95473000 ist dem Vermittler',
 			'endswith'=>'nicht zugeordnet',
