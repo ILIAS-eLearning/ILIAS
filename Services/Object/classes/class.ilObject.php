@@ -2056,8 +2056,62 @@ class ilObject
 		{
 			$all[$row["type"]][$row["obj_id"]] = $row["title"];
 		}
-		
+				
 		return $all;
+	}
+	
+	/**
+	 * Try to fix missing object titles
+	 * 
+	 * @param type $a_type
+	 * @param array &$a_obj_title_map
+	 */
+	static function fixMissingTitles($a_type, array &$a_obj_title_map)
+	{
+		global $ilDB;
+		
+		if(!in_array($a_type, array("catr", "crsr", "sess")))
+		{
+			return;
+		}
+		
+		// any missing titles?
+		$missing_obj_ids = array();
+		foreach($a_obj_title_map as $obj_id => $title)
+		{
+			if(!trim($title))
+			{
+				$missing_obj_ids[] = $obj_id;
+			}
+		}
+		
+		if(!sizeof($missing_obj_ids))
+		{
+			return;
+		}
+		
+		switch($a_type)
+		{
+			case "catr":
+			case "crsr":				
+				$set = $ilDB->query("SELECT oref.obj_id, od.type, od.title FROM object_data od".
+					" JOIN container_reference oref ON (od.obj_id = oref.target_obj_id)".
+					" AND ".$ilDB->in("oref.obj_id", $missing_obj_ids, "", "integer"));
+				while($row = $ilDB->fetchAssoc($set))
+				{					
+					$a_obj_title_map[$row["obj_id"]] = $row["title"];									
+				}
+				break;
+				
+			case "sess":				
+				include_once "Modules/Session/classes/class.ilObjSession.php";
+				foreach($missing_obj_ids as $obj_id)
+				{
+					$sess = new ilObjSession($obj_id, false);
+					$a_obj_title_map[$obj_id] = $sess->getFirstAppointment()->appointmentToString();
+				}
+				break;				
+		}				
 	}
 	
 	/**

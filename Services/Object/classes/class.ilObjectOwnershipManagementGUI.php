@@ -97,6 +97,12 @@ class ilObjectOwnershipManagementGUI
 			$ilCtrl->setParameter($this, "type", $sel_type);
 		}
 		
+		// #17751
+		if(sizeof($objects[$sel_type]))
+		{
+			ilObject::fixMissingTitles($sel_type, $objects[$sel_type]);
+		}
+		
 		include_once "Services/Object/classes/class.ilObjectOwnershipManagementTableGUI.php";
 		$tbl = new ilObjectOwnershipManagementTableGUI($this, "listObjects", $this->user_id, $objects[$sel_type]);				
 		$tpl->setContent($tbl->getHTML());	
