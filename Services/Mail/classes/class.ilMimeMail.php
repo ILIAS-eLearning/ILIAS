@@ -47,7 +47,12 @@ class ilMimeMail
 	 * 	paths of attached files
 	 * 	@var array
 	 */
-	var $aattach = array();
+	protected $aattach = array();
+
+	/**
+	 * @var array
+	 */
+	protected $adisplay = array();
 
 	/**
 	 * 	list of message headers
