@@ -1509,8 +1509,9 @@ print $sql;
 		assert($this->ilDB->numRows($res) == 1);
 
 		if($this->ilDB->numRows($res) == 1) {
+			$row = $ilDB->fetchAssoc($res);
 			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-			$user_utils = gevUserUtils::getInstance($res["user_id"]);
+			$user_utils = gevUserUtils::getInstance($row["user_id"]);
 			$user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
 			$this->raiseEventUserChanged($user_utils->getId());
 		}
