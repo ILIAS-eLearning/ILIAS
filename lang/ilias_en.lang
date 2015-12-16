@@ -926,11 +926,11 @@ assessment#:#submit_answer#:#Save Answer and Next
 assessment#:#skip_question#:#Do not Answer and Next
 assessment#:#discard_answer#:#Delete Answer
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
-assessment#:#tst_denied_nav_modal_header#:#Decision about Answers
-assessment#:#tst_denied_nav_modal_text#:#What to do with the answers you possibly entered for this question?
-assessment#:#tst_denied_nav_modal_save_btn#:#Save
-assessment#:#tst_denied_nav_modal_nosave_btn#:#Do Not Save
-assessment#:#tst_denied_nav_modal_cancel_btn#:#Cancel
+assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers
+assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?
+assessment#:#tst_nav_while_edit_modal_save_btn#:#Save
+assessment#:#tst_nav_while_edit_modal_nosave_btn#:#Do Not Save
+assessment#:#tst_nav_while_edit_modal_cancel_btn#:#Cancel
 assessment#:#edit_answer#:#Edit Answer
 assessment#:#answer_question#:#Answer Question
 assessment#:#back_to_objective_container#:#Go to Course
@@ -1031,9 +1031,9 @@ assessment#:#tst_confirm_delete_results#:#You are about to remove all your previ
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button.
 assessment#:#tst_count_correct_solutions#:#Only Correct and Complete Answers Score Points
-assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case.
+assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case. This is also valid for questions that define points for partial answers.
 assessment#:#tst_count_partial_solutions#:#Incomplete or Partly Wrong Answers Score Points
-assessment#:#tst_count_partial_solutions_desc#:#Points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers.
+assessment#:#tst_count_partial_solutions_desc#:#When a question defines points for partial answers, points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers on these questions.
 assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains participant data sets.
 assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!
@@ -7374,7 +7374,9 @@ mail#:#send_mail_to#:#Mail to
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_use_custom_server#:#Use custom server
-maps#:#maps_custom_server_info#:#Activate custom servers to provide tile- and geolocation-data. Multiple inputs should be separated by spaces. Defaults are "%s" for tiles and "%s" for geolocation.
+maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
+maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.
+maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
 maps#:#maps_tile_server#:#Server for Tiles
 maps#:#maps_geolocation_server#:#Server for Reverse Geolocation
 maps#:#maps_extt_maps#:#Maps
@@ -10769,9 +10771,13 @@ administration#:#adm_synchronize_rep_tree_info#:#This highlights the current pos
 rbac#:#write#:#Edit Settings
 rbac#:#rbac_local_policy#:#Local Policy
 rbac#:#role_block_role#:#Block Role
+rbac#:#role_confirm_block_role#:#Save Role Status
+rbac#:#role_blocked#:#: <i>Role will be blocked</i>
+rbac#:#role_unblocked#:#: <i>Role will be unblocked</i>
 rbac#:#role_block_role_desc#:#The access to this and all subordinated objects is will be revoked.
-rbac#:#role_confirm_block_role_info#:#The following operations will be performed:<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.
-rbac#:#role_confirm_block_role_header#:#Do you really want to block the chosen roles?
+rbac#:#role_confirm_block_role_info#:#The following steps will be performed for the action "Block Role":<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.
+rbac#:#role_confirm_unblock_role_info#:#The following steps will be performed for the action "Unblock Role":<br /><br />- the local policy will be deleted.
+rbac#:#role_confirm_block_role_header#:#Do you really want to change the block role status of the chosen roles?
 dateplaner#:#cal_ch_manager#:#Consultation Hour Manager
 dateplaner#:#cal_ch_manager_info#:#Login of the user who will manage your consultation hours.
 dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.
@@ -11746,7 +11752,7 @@ chatroom#:#chat_to_mainroom#:#To Main Room
 chatroom#:#chat_create_private_room_button#:#Create Private Room
 chatroom#:#moderate#:#Moderate
 chatroom#:#chatroom_smiley_keyword#:#Keyword
-chatroom#:#chat_invitation#:#Invitation from [INVITER_NAME] to chat room [ROOM_NAME]
+chatroom#:#chat_invitation#:#"[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nYou have been invited to a chat room:\nChat room Title: [ROOM_NAME]\nInvited by: [INVITER_NAME]\nURL: [LINK]\n\nTo join the chat room, please follow the given URL.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chat room.
 chatroom#:#settings_title#:#Settings
@@ -12430,7 +12436,8 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s
 content#:#cont_online_help_ids#:#Screen-IDs
 content#:#cont_screen_ids#:#Screen-IDs
 assessment#:#tst_manscoring_user_notification#:#Send Notification
-assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s for %s was saved successfully.
+assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s for %s has been saved successfully.
+assessment#:#tst_saved_manscoring_by_question_successfully#:#The manual scoring for the question %s for test pass %s has been saved successfully.
 assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.
 assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question
@@ -15281,7 +15288,7 @@ prtf#:#prtf_allow_my_courses_info#:#Enables to include a list of current course 
 prtf#:#prtf_page_element_teaser_my_courses_inactive#:#This type of page element has been deactivated.
 cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition
 cntr#:#cntr_tax_list_info#:#The following are all taxonomies that have been defined for this object.
-common#:#scorm_lp_auto_activate#:#default settings for learning progress
+common#:#scorm_lp_auto_activate#:#Default setting for learning progress
 common#:#scorm_lp_auto_activate_info#:#If learning progress is activated in general, the settings for new SCORM learning modules are set to ‘Collection of SCORM Items’ and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module.
 ecs#:#ecs_deprecated_token#:#Support for Deprecated Authentication Token
 ecs#:#ecs_deprecated_token_info#:#Offers support for installations (e.g ILIAS installations of version 4.x) which use a deprecated token authentication mechanism.
@@ -16116,9 +16123,15 @@ administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings
 administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.
 survey#:#svy_export_format#:#Export survey data as
 survey#:#svy_fraction_of_selections#:#Fraction of selections
-prg#:#prg_show_programmes_on_pd_allways#:#Study Programme allways visible on personal Desktop.
+prg#:#prg_show_programmes_on_pd_always#:#Study Programme always visible on personal Desktop.
 prg#:#prg_show_programmes_on_pd_only_read#:#Study Programme only visible on personal Desktop with read Permissions.
 prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more Objects you can't see because of less Permissions.
 cmps#:#cmps_uninstall_inactive_confirm#:#The plugin "%1$s" can currently not be activated ("%2$s"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?
 pd#:#pd_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
 log#:#log_cache_info#:#Only if a message reaches or surpasses the caching level, all messages which have at least the log level will be added to the log for the current request.
+content#:#cont_ov_preview#:#The question overview does not work in the page editor context. Use the SCO or SCORM level preview instead.
+wiki#:#wiki_copy#:#Copy Wiki
+mcst#:#mcst_copy#:#Copy Mediacast
+prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.
+scov#:#scov_create#:#Create SCORM Certificate
+scov#:#scov_create_info#:#Select a completed SCORM module to generate a certificate for it

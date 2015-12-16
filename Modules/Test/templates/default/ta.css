@@ -613,8 +613,3 @@ div.ilc_Page.readonly textarea[disabled]
 	pointer-events: all !important;
 	cursor: not-allowed !important;
 }
-
-div.ilTstNavElem
-{
-	display: inline-block;
-}

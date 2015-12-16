@@ -108,6 +108,9 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 			catch (ilStudyProgrammeNoProgressForAssignmentException $e) {
 				$this->il_logger->alert("$e");
 			}
+			catch(ilStudyProgrammeTreeException $e) {
+				$this->il_logger->alert("$e");
+			}
 		}
 		return $content;
 	}
@@ -187,6 +190,8 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeUserAssignment $a_assignment) {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeProgressListGUI.php");
 		$progress = $a_assignment->getStudyProgramme()->getProgressForAssignment($a_assignment->getId());
-		return new ilStudyProgrammeProgressListGUI($progress);
+		$progress_gui = new ilStudyProgrammeProgressListGUI($progress);
+		$progress_gui->setOnlyRelevant(true);
+		return $progress_gui;
 	}
 }

@@ -324,6 +324,7 @@ class ilSharedResourceGUI
 		$password = new ilPasswordInputGUI($lng->txt("password"), "password");
 		$password->setRetype(false);
 		$password->setRequired(true);
+		$password->setSkipSyntaxCheck(true); // #17757
 		$form->addItem($password);
 		
 		$form->addCommandButton("checkPassword", $lng->txt("submit"));

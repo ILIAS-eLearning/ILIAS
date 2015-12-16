@@ -316,7 +316,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 	 *
 	 * @param ilObjTest $cloneTestOBJ
 	 */
-	public function cloneQuestionSetRelatedData($cloneTestOBJ)
+	public function cloneQuestionSetRelatedData(ilObjTest $cloneTestOBJ)
 	{
 		$this->loadFromDb();
 		$this->cloneToDbForTestId($cloneTestOBJ->getTestId());

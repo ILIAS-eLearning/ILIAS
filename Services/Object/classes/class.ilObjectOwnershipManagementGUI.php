@@ -48,9 +48,8 @@ class ilObjectOwnershipManagementGUI
 	
 	function listObjects()
 	{
-		global $tpl, $ilToolbar, $lng, $ilCtrl, $objDefinition;
-		
-		
+		global $tpl, $ilToolbar, $lng, $ilCtrl, $objDefinition;		
+				
 		$objects = ilObject::getAllOwnedRepositoryObjects($this->user_id);
 		
 		if(sizeof($objects))
@@ -95,6 +94,12 @@ class ilObjectOwnershipManagementGUI
 				$sel_type = array_shift($sel_type);
 			}			
 			$ilCtrl->setParameter($this, "type", $sel_type);
+		}
+		
+		// #17751
+		if(sizeof($objects[$sel_type]))
+		{
+			ilObject::fixMissingTitles($sel_type, $objects[$sel_type]);
 		}
 		
 		include_once "Services/Object/classes/class.ilObjectOwnershipManagementTableGUI.php";

@@ -18,7 +18,7 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 * @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilSettingsPermissionGUI
-* @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI
+* @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI, ilObjectCopyGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -118,6 +118,13 @@ class ilObjWikiGUI extends ilObjectGUI
 				}
 				break;
 
+			case 'ilobjectcopygui':
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType('wiki');
+				$this->ctrl->forwardCommand($cp);
+				break;
+
 			case 'ilpublicuserprofilegui':
 				require_once './Services/User/classes/class.ilPublicUserProfileGUI.php';
 				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
@@ -195,6 +202,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				break;			
 
 			case "ilwikipagetemplategui":
+				$this->checkPermission("write");
 				$this->addHeaderAction();
 				$ilTabs->activateTab("settings");
 				$this->setSettingsSubTabs("page_templates");
@@ -280,7 +288,8 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->getSettingsFormValues("create");
 
 		$forms = array(self::CFORM_NEW => $this->form_gui,
-			self::CFORM_IMPORT => $this->initImportForm($a_new_type));
+				self::CFORM_IMPORT => $this->initImportForm($a_new_type),
+				self::CFORM_CLONE => $this->fillCloneTemplate(null, $a_new_type));
 
 		return $forms;
 	}
@@ -604,44 +613,53 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function setSettingsSubTabs($a_active)
 	{
-		global $ilTabs, $ilCtrl, $lng;
+		global $ilTabs, $ilCtrl, $lng, $ilAccess;
 
 		if (in_array($a_active,
 			array("general_settings", "style", "imp_pages", "rating_categories",
 			"page_templates", "advmd", "permission_settings")))
 		{
-			// general properties
-			$ilTabs->addSubTab("general_settings",
-				$lng->txt("wiki_general_settings"),
-				$ilCtrl->getLinkTarget($this, 'editSettings'));
-
-			// permission settings
-			$ilTabs->addSubTab("permission_settings",
-				$lng->txt("obj_permission_settings"),
-				$this->ctrl->getLinkTargetByClass("ilsettingspermissiongui", ""));
-
-			// style properties
-			$ilTabs->addSubTab("style",
-				$lng->txt("wiki_style"),
-				$ilCtrl->getLinkTarget($this, 'editStyleProperties'));
-
-			// important pages
-			$ilTabs->addSubTab("imp_pages",
-				$lng->txt("wiki_navigation"),
-				$ilCtrl->getLinkTarget($this, 'editImportantPages'));
-
-			// page templates
-			$ilTabs->addSubTab("page_templates",
-				$lng->txt("wiki_page_templates"),
-				$ilCtrl->getLinkTargetByClass("ilwikipagetemplategui", ""));
-
-			// rating categories
-			if($this->object->getRating() && $this->object->getRatingCategories())
+			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 			{
-				$lng->loadLanguageModule("rating");
-				$ilTabs->addSubTab("rating_categories",
-					$lng->txt("rating_categories"),
-					$ilCtrl->getLinkTargetByClass(array('ilratinggui', 'ilratingcategorygui'), ''));				
+				// general properties
+				$ilTabs->addSubTab("general_settings",
+						$lng->txt("wiki_general_settings"),
+						$ilCtrl->getLinkTarget($this, 'editSettings'));
+
+				// permission settings
+				$ilTabs->addSubTab("permission_settings",
+						$lng->txt("obj_permission_settings"),
+						$this->ctrl->getLinkTargetByClass("ilsettingspermissiongui", ""));
+
+				// style properties
+				$ilTabs->addSubTab("style",
+						$lng->txt("wiki_style"),
+						$ilCtrl->getLinkTarget($this, 'editStyleProperties'));
+			}
+
+			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+			{
+				// important pages
+				$ilTabs->addSubTab("imp_pages",
+						$lng->txt("wiki_navigation"),
+						$ilCtrl->getLinkTarget($this, 'editImportantPages'));
+			}
+
+			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+			{
+				// page templates
+				$ilTabs->addSubTab("page_templates",
+						$lng->txt("wiki_page_templates"),
+						$ilCtrl->getLinkTargetByClass("ilwikipagetemplategui", ""));
+
+				// rating categories
+				if ($this->object->getRating() && $this->object->getRatingCategories())
+				{
+					$lng->loadLanguageModule("rating");
+					$ilTabs->addSubTab("rating_categories",
+							$lng->txt("rating_categories"),
+							$ilCtrl->getLinkTargetByClass(array('ilratinggui', 'ilratingcategorygui'), ''));
+				}
 			}
 			
 			$ilTabs->activateSubTab($a_active);

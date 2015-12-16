@@ -598,6 +598,16 @@ il.COPagePres =
 			answered_correctly, index, k, i, ov_el,ul, j, qtext;
 		
 		if (typeof questions === 'undefined') {
+			
+			// #17532 - question overview does not work in copage editor / preview
+			for (i in this.qover) {
+				ov_el = $('div#' + this.qover[i].div_id);
+				$(ov_el).addClass('ilBox');
+				$(ov_el).css('margin', '5px');
+				ov_el.empty();
+				ov_el.append('<div class="il_Description_no_margin">' + ilias.questions.txt.ov_preview + '</div>');
+			}
+			
 			return;
 		}
 		

@@ -1306,7 +1306,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	 * @param	string		Width string
 	 */
 	final public function addColumn($a_text, $a_sort_field = "", $a_width = "",
-		$a_is_checkbox_action_column = false, $a_class = "", $a_tooltip = "")
+		$a_is_checkbox_action_column = false, $a_class = "", $a_tooltip = "", $a_tooltip_with_html = false)
 	{
 		$this->column[] = array(
 			"text" => $a_text,
@@ -1314,7 +1314,8 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 			"width" => $a_width,
 			"is_checkbox_action_column" => $a_is_checkbox_action_column,
 			"class" => $a_class,
-			"tooltip" => $a_tooltip
+			"tooltip" => $a_tooltip,
+			"tooltip_html" => (bool)$a_tooltip_with_html
 			);
 		if ($a_sort_field != "")
 		{
@@ -1385,9 +1386,10 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 			$ccnt++;
 			//tooltip
 			if ($column["tooltip"] != "")
-			{
+			{				
 				include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-				ilTooltipGUI::addTooltip("thc_".$this->getId()."_".$ccnt, $column["tooltip"]);
+				ilTooltipGUI::addTooltip("thc_".$this->getId()."_".$ccnt, $column["tooltip"], 
+					"", "bottom center", "top center", !$column["tooltip_html"]);
 			}
 			if (!$this->enabled["sort"] || $column["sort_field"] == "" || $column["is_checkbox_action_column"])
 			{

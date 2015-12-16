@@ -106,106 +106,207 @@ class ilMemberExportGUI
 		}	 	
 	}
 	
+	
+	//
+	// export incl. settings
+	//
+	
+	protected function initSettingsForm($a_is_excel = false)
+	{
+		// Check user selection
+	 	$this->exportSettings = new ilUserFormSettings('memexp');
+		
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('ps_export_settings'));
+				
+		if((bool)$a_is_excel)
+		{
+			$form->addCommandButton('exportExcel', $this->lng->txt('ps_export_excel'));
+		}
+		else
+		{
+			$form->addCommandButton('export', $this->lng->txt('ps_perform_export'));
+		}		
+		$form->addCommandButton('show', $this->lng->txt('cancel'));
+		
+		// roles
+		$roles = new ilCheckboxGroupInputGUI($this->lng->txt('ps_user_selection'), 'export_members');
+		$roles->addOption(new ilCheckboxOption($this->lng->txt('ps_export_admin'), 'admin'));
+		if($this->type == 'crs')
+		{
+			$roles->addOption(new ilCheckboxOption($this->lng->txt('ps_export_tutor'), 'tutor'));
+		}
+		$roles->addOption(new ilCheckboxOption($this->lng->txt('ps_export_member'), 'member'));
+		$roles->addOption(new ilCheckboxOption($this->lng->txt('ps_export_sub'), 'subscribers'));
+		$roles->addOption(new ilCheckboxOption($this->lng->txt('ps_export_wait'), 'waiting_list'));		
+		$form->addItem($roles);
+		
+		$current_roles = array();
+		foreach(array('admin', 'tutor', 'member', 'subscribers', 'waiting_list') as $role)
+		{
+			if($this->exportSettings->enabled($role))
+			{
+				$current_roles[] = $role;
+			}
+		}
+		$roles->setValue($current_roles);
+		
+		// user data
+		$current_udata = array();
+		$udata = new ilCheckboxGroupInputGUI($this->lng->txt('ps_export_user_data'), 'export_members');
+		$form->addItem($udata);		
+		
+		// standard fields
+		$this->fields_info->sortExportFields();
+		foreach($this->fields_info->getFieldsInfo() as $field => $exportable)
+		{
+			if(!$exportable)
+			{
+				continue;
+			}		
+			$udata->addOption(new ilCheckboxOption($this->lng->txt($field), $field));
+			if($this->exportSettings->enabled($field))
+			{
+				$current_udata[] = $field;
+			}
+		}
+		
+		// udf
+		foreach(ilUserDefinedFields::_getInstance()->getExportableFields($this->obj_id) as $field_id => $udf_data)
+		{			
+			$field = 'udf_'.$field_id;
+			$udata->addOption(new ilCheckboxOption($udf_data['field_name'], $field));			
+			if($this->exportSettings->enabled($field))
+			{
+				$current_udata[] = $field;
+			}
+		}
+		
+		$udata->setValue($current_udata);
+		
+		// course custom data
+		$cdf_fields = ilCourseDefinedFieldDefinition::_getFields($this->obj_id);
+		if(count($cdf_fields))						
+		{
+			$cdf = new ilCheckboxGroupInputGUI($this->lng->txt('ps_'.$this->type.'_user_fields'), 'export_members');
+			$form->addItem($cdf);
+			
+			$current_cdf = array();
+			foreach($cdf_fields as $field_obj)
+			{				
+				$field = 'cdf_'.$field_obj->getId();
+				$cdf->addOption(new ilCheckboxOption($field_obj->getName(), $field));		
+				if($this->exportSettings->enabled($field))
+				{
+					$current_cdf[] = $field;
+				}
+			}
+			
+			$cdf->setValue($current_cdf);
+		}	
+		
+		// consultation hours
+		include_once './Services/Booking/classes/class.ilBookingEntry.php';
+		if(ilBookingEntry::hasObjectBookingEntries($this->obj_id,  $GLOBALS['ilUser']->getId()))
+		{			
+			$this->lng->loadLanguageModule('dateplaner');			
+			$chours = new ilCheckboxInputGUI($this->lng->txt('cal_ch_field_ch'), 'export_members[]');
+			$chours->setValue('consultation_hour');
+			$chours->setChecked($this->exportSettings->enabled('consultation_hour'));
+			$form->addItem($chours);		
+		}		 
+		
+		return $form;		
+	}
+	
+	public function initCSV(ilPropertyFormGUI $a_form = null)
+	{
+		if(!$a_form)
+		{
+			$a_form = $this->initSettingsForm();
+		}
+		$this->tpl->setContent($a_form->getHTML());
+	}
+	
+	public function initExcel(ilPropertyFormGUI $a_form = null)
+	{
+		if(!$a_form)
+		{
+			$a_form = $this->initSettingsForm(true);
+		}
+		$this->tpl->setContent($a_form->getHTML());
+	}
+	
 	/**
 	 * Show list of export files
 	 *
 	 * @access public
 	 * 
 	 */
-	public function show($a_deliver_file = false)
-	{		
+	public function show()
+	{	
+		global $ilToolbar;
+		
+		$ilToolbar->addButton($this->lng->txt('ps_perform_export'), 
+			$this->ctrl->getLinkTarget($this, "initCSV"));
+		$ilToolbar->addButton($this->lng->txt('ps_export_excel'), 
+			$this->ctrl->getLinkTarget($this, "initExcel"));
+		
 		$this->showFileList();		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.member_export.html','Modules/Course');
-		$this->tpl->setVariable('FORM_ACTION',$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable('TXT_EXPORT_SETTINGS',$this->lng->txt('ps_export_settings'));
-		$this->tpl->setVariable('TXT_USER_SELECTION',$this->lng->txt('ps_user_selection'));
-		$this->tpl->setVariable('TXT_EXPORT_ADMIN',$this->lng->txt('ps_export_admin'));
-		$this->tpl->setVariable('TXT_EXPORT_MEMBER',$this->lng->txt('ps_export_member'));
-		$this->tpl->setVariable('TXT_EXPORT_WAIT',$this->lng->txt('ps_export_wait'));
-		$this->tpl->setVariable('TXT_EXPORT_SUB',$this->lng->txt('ps_export_sub'));
-		
-		// Check user selection
+	}
+	
+	protected function handleIncoming()
+	{
+		$settings = array();
+		$incoming = $_POST['export_members'];
+		if(is_array($incoming))
+		{
+			foreach($incoming as $id)
+			{
+				$settings[$id] = true;
+			}
+		}			
+	
+		// Save (form) settings
 	 	$this->exportSettings = new ilUserFormSettings('memexp');
+		$this->exportSettings->set($settings);
+		$this->exportSettings->store();		
+	}
+	
+	/**
+	 * Export Create member export file and store it in data directory.
+	 *
+	 * @access public
+	 * 
+	 */
+	public function export()
+	{		
+		$this->handleIncoming();
 		
-	 	$this->tpl->setVariable('CHECK_EXPORT_ADMIN',ilUtil::formCheckbox($this->exportSettings->enabled('admin'),'export_members[admin]',1));
-		if($this->type == 'crs')
-		{
-	 		$this->tpl->setVariable('CHECK_EXPORT_TUTOR',ilUtil::formCheckbox($this->exportSettings->enabled('tutor'),'export_members[tutor]',1));
-			$this->tpl->setVariable('TXT_EXPORT_TUTOR',$this->lng->txt('ps_export_tutor'));
-		}
-	 	$this->tpl->setVariable('CHECK_EXPORT_MEMBER',ilUtil::formCheckbox($this->exportSettings->enabled('member'),'export_members[member]',1));
-	 	$this->tpl->setVariable('CHECK_EXPORT_SUB',ilUtil::formCheckbox($this->exportSettings->enabled('subscribers'),'export_members[subscribers]',1));
-	 	$this->tpl->setVariable('CHECK_EXPORT_WAIT',ilUtil::formCheckbox($this->exportSettings->enabled('waiting_list'),'export_members[waiting_list]',1));
-		
-		$this->tpl->setVariable('TXT_EXPORT',$this->lng->txt('ps_perform_export'));
-		$this->tpl->setVariable('TXT_EXPORT_EXCEL',$this->lng->txt('ps_export_excel'));
+		$this->export = new ilMemberExport($this->ref_id);
+		$this->export->create();
+	 	
+	 	$filename = time().'_participant_export_csv_'.$this->obj_id.'.csv';
+		$this->fss_export->addMemberExportFile($this->export->getCSVString(),$filename);
 
-		// User Data
-		$this->tpl->setVariable('TXT_USER_DATA_SELECTION',$this->lng->txt('ps_export_data'));
-		$this->tpl->setVariable('TXT_EXPORT_USER_DATA_HEADER',$this->lng->txt('ps_export_user_data'));
+	 	$this->ctrl->redirect($this, 'show');
+	}
+	
+	public function exportExcel()
+	{
+	 	$this->handleIncoming();
 		
-		include_once './Services/Booking/classes/class.ilBookingEntry.php';
-		if(ilBookingEntry::hasObjectBookingEntries($this->obj_id, $GLOBALS['ilUser']->getId()))
-		{
-			$this->tpl->setCurrentBlock('consultation');
-			$this->lng->loadLanguageModule('dateplaner');
-			$this->tpl->setVariable('TXT_CH',$this->lng->txt('cal_ch_field_ch'));
-			$this->tpl->setVariable('TXT_EXPORT_CH',$this->lng->txt('cal_ch_export_apps'));
-			$this->tpl->setVariable('CHECK_EXPORT_CH',ilUtil::formCheckbox($this->exportSettings->enabled('consultation_hour'), 'export_members[consultation_hour]', 1));
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->fields_info->sortExportFields();
-		$fields = $this->fields_info->getFieldsInfo();
-		foreach($fields as $field => $exportable)
-		{
-			if(!$exportable)
-			{
-				continue;
-			}
-			$this->tpl->setCurrentBlock('user_data_row');
-			$this->tpl->setVariable('CHECK_EXPORT_USER_DATA',ilUtil::formCheckbox($this->exportSettings->enabled($field),'export_members['.$field.']',1));
-			$this->tpl->setVariable('TXT_EXPORT_USER_DATA',$this->lng->txt($field));
+		$filename = time().'_participant_export_xls_'.$this->obj_id.'.xls';
+		$this->fss_export->initMemberExportDirectory();
+		$filepath = $this->fss_export->getMemberExportDirectory().DIRECTORY_SEPARATOR.$filename;
+		
+		$this->export = new ilMemberExport($this->ref_id,ilMemberExport::EXPORT_EXCEL);
+		$this->export->setFilename($filepath);
+		$this->export->create();
 
-			if($field == "username")//User Name Presentation Guideline; username should be named login
-			{
-				$this->tpl->setVariable('TXT_EXPORT_USER_DATA',$this->lng->txt("login"));
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$udf = ilUserDefinedFields::_getInstance();
-		foreach($exp = $udf->getExportableFields($this->obj_id) as $field_id => $udf_data)
-		{
-			$this->tpl->setCurrentBlock('user_data_row');
-			$this->tpl->setVariable('CHECK_EXPORT_USER_DATA',ilUtil::formCheckbox($this->exportSettings->enabled('udf_'.$field_id),
-				'export_members[udf_'.$field_id.']',1));
-			$this->tpl->setVariable('TXT_EXPORT_USER_DATA',$udf_data['field_name']);
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		
-		$cdf_fields = ilCourseDefinedFieldDefinition::_getFields($this->obj_id);
-		foreach($cdf_fields as $field_obj)
-		{
-			$this->tpl->setCurrentBlock('cdf_row');
-			$this->tpl->setVariable('CHECK_CDF_DATA',ilUtil::formCheckbox($this->exportSettings->enabled('cdf_'.$field_obj->getId()),
-																		'export_members[cdf_'.$field_obj->getId().']',
-																		1));
-			$this->tpl->setVariable('TXT_CDF_NAME',$field_obj->getName());
-			$this->tpl->parseCurrentBlock();
-		}
-		if(count($cdf_fields))
-		{
-			$this->tpl->setCurrentBlock('cdf_fields');
-			$this->tpl->setVariable('TXT_CDF_SELECTION',$this->lng->txt('ps_'.$this->type.'_user_fields'));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		if($a_deliver_file and 0)
-		{
-			$this->tpl->setCurrentBlock('iframe');
-			$this->tpl->setVariable('SOURCE',$this->ctrl->getLinkTarget($this,'deliverData'));
-		}
+		$this->ctrl->redirect($this, 'show');		
 	}
 	
 	/**
@@ -237,87 +338,10 @@ class ilMemberExportGUI
 	 * 
 	 */
 	public function showFileList()
-	{
-		global $ilUser;
-		
-		if(!count($files = $this->fss_export->getMemberExportFiles()))
-		{
-			return false;
-		}
-		
-	 	$a_tpl = new ilTemplate('tpl.table.html',true,true);
-		$a_tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.member_export_file_row.html", "Modules/Course");
-		$a_tpl->setVariable('FORMACTION',$this->ctrl->getFormaction($this));
-
-		include_once("./Services/Table/classes/class.ilTableGUI.php");
-		$tbl = new ilTableGUI();
-
-		// load template for table content data
-
-		$tbl->setTitle($this->lng->txt("ps_export_files"));
-
-		$tbl->setHeaderNames(array("", $this->lng->txt("type"),
-				$this->lng->txt("ps_size"),
-				$this->lng->txt("date") ));
-
-		$cols = array("", "type","size", "date");
-
-		$header_params = $this->ctrl->getParameterArray($this,'show');
-		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%", "9%", "45%", "45%"));
-		
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($ilUser->getPref('hits_per_page',9999));
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount(count($files));
-		$tbl->disable("sort");
-		$a_tpl->setVariable("COLUMN_COUNTS",4);
-		
-	 	$files = array_reverse($files);
-		$files = array_slice($files, $_GET["offset"], $_GET["limit"]);
-		$num = 0;
-		$i=0;
-		foreach($files as $exp_file)
-		{
-			$a_tpl->setCurrentBlock("tbl_content");
-			$a_tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
-
-			$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-			$a_tpl->setVariable("CSS_ROW", $css_row);
-
-			$a_tpl->setVariable("TXT_SIZE",$exp_file['size']);
-			$a_tpl->setVariable("TXT_TYPE", strtoupper($exp_file["type"]));
-			$a_tpl->setVariable("CHECKBOX_ID",$exp_file["timest"]);
-			$a_tpl->setVariable("TXT_DATE", date("Y-m-d H:i",$exp_file['timest']));
-			$a_tpl->parseCurrentBlock();
-		}
-		
-
-		// delete button
-		$a_tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
-		$a_tpl->setCurrentBlock("tbl_action_btn");
-		$a_tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
-		$a_tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
-		$a_tpl->parseCurrentBlock();
-
-		$a_tpl->setCurrentBlock("tbl_action_btn");
-		$a_tpl->setVariable("BTN_NAME", "downloadExportFile");
-		$a_tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
-		$a_tpl->parseCurrentBlock();
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("footer");
-
-		$tbl->setTemplate($a_tpl);
-		$tbl->render();
-		
-		#$this->tpl->setCurrentBlock('file_list');
-		$this->tpl->setVariable('FILE_LIST_TABLE',$a_tpl->get());
-		#$this->tpl->parseCurrentBlock();
-		
+	{	
+		include_once 'Services/Membership/classes/Export/class.ilMemberExportFileTableGUI.php';
+		$tbl = new ilMemberExportFileTableGUI($this, 'show', $this->fss_export);
+		$this->tpl->setContent($tbl->getHTML());		
 	}
 	
 	/**
@@ -329,44 +353,39 @@ class ilMemberExportGUI
 	 */
 	public function downloadExportFile()
 	{
-	 	if(count($_POST['files']) != 1)
+		$hash = trim($_GET['fl']);
+	 	if(!$hash)
 	 	{
-	 		ilUtil::sendFailure($this->lng->txt('ps_select_one'));
-	 		$this->show();
-	 		return true;
+	 		$this->ctrl->redirect($this, 'show');
 	 	}
+		
 		foreach($this->fss_export->getMemberExportFiles() as $file)
 		{
-			if(!in_array($file['timest'],$_POST['files']))
-			{
-				continue;
-			}
-			$contents = $this->fss_export->getMemberExportFile($file['timest'].'_participant_export_'.
-				$file['type'].'_'.$this->obj_id.'.'.$file['type']);
-				
-				
-			switch($file['type'])
-			{
-				case 'xls':
-					ilUtil::deliverData(
-						$contents,
-						date('Y_m_d_H-i'.$file['timest']).'_member_export_'.$this->obj_id.'.xls',
-						'application/vnd.ms-excel'
-					);
-					
-				default:
-				case 'csv':
-					ilUtil::deliverData($contents,date('Y_m_d_H-i'.$file['timest']).
-						'_member_export_'.
-						$this->obj_id.
-						'.csv','text/csv');
-					break;
-			}
-			return true;
-			
-		}
-	 	
-	 	
+			if(md5($file['name']) == $hash)
+			{				
+				$contents = $this->fss_export->getMemberExportFile($file['timest'].'_participant_export_'.
+					$file['type'].'_'.$this->obj_id.'.'.$file['type']);
+
+				switch($file['type'])
+				{
+					case 'xls':
+						ilUtil::deliverData(
+							$contents,
+							date('Y_m_d_H-i'.$file['timest']).'_member_export_'.$this->obj_id.'.xls',
+							'application/vnd.ms-excel'
+						);
+
+					default:
+					case 'csv':
+						ilUtil::deliverData($contents,date('Y_m_d_H-i'.$file['timest']).
+							'_member_export_'.
+							$this->obj_id.
+							'.csv','text/csv');
+						break;
+				}
+				return true;
+			}			
+		}	 		 	
 	}
 	
 	/**
@@ -378,43 +397,33 @@ class ilMemberExportGUI
 	 */
 	public function confirmDeleteExportFile()
 	{
-	 	if(!count($_POST['files']))
+	 	if(!count($_POST['id']))
 	 	{
-	 		ilUtil::sendFailure($this->lng->txt('ps_select_one'));
-	 		$this->show();
-	 		return false;
+	 		ilUtil::sendFailure($this->lng->txt('ps_select_one'), true);
+	 		$this->ctrl->redirect($this, 'show');
 	 	}
-	 	$_SESSION['il_del_member_export'] = $_POST['files'];
-		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
-
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.member_export_confirm_delete.html','Modules/Course');
-		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable('TEXT',$this->lng->txt('ps_delete_export_files'));
 		
-		
+		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
+		$confirmation_gui = new ilConfirmationGUI();
+		$confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
+		$confirmation_gui->setHeaderText($this->lng->txt('info_delete_sure') /* .' '.$this->lng->txt('ps_delete_export_files') */);
+		$confirmation_gui->setCancel($this->lng->txt('cancel'), 'show');
+		$confirmation_gui->setConfirm($this->lng->txt('delete'), 'deleteExportFile');
+				
 		$counter = 0;
 		foreach($this->fss_export->getMemberExportFiles() as $file)
 		{
-			if(!in_array($file['timest'],$_POST['files']))
+			if(!in_array(md5($file['name']), $_POST['id']))
 			{
 				continue;
 			}
-			$this->tpl->setCurrentBlock('table_row');
-			$this->tpl->setVariable('CSS_ROW',ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
-			$this->tpl->setVariable('TEXT_TYPE',strtoupper($file['type']));
-			$this->tpl->setVariable('DATE',ilDatePresentation::formatDate(new ilDateTime($file['timest'],IL_CAL_UNIX)));
-			$this->tpl->parseCurrentBlock();
+			
+			$confirmation_gui->addItem("id[]", md5($file['name']), 
+				strtoupper($file['type']).' - '.
+				ilDatePresentation::formatDate(new ilDateTime($file['timest'],IL_CAL_UNIX)));
 		}
-		$this->tpl->setCurrentBlock('operation_btn');
-		$this->tpl->setVariable('BTN_NAME','deleteExportFile');
-		$this->tpl->setVariable('BTN_VALUE',$this->lng->txt('delete'));
-		$this->tpl->parseCurrentBlock();
 		
-		$this->tpl->setCurrentBlock('operation_btn');
-		$this->tpl->setVariable('BTN_NAME','show');
-		$this->tpl->setVariable('BTN_VALUE',$this->lng->txt('cancel'));
-		$this->tpl->parseCurrentBlock();
-				
+		$this->tpl->setContent($confirmation_gui->getHTML());		
 	}
 	
 	/**
@@ -426,69 +435,24 @@ class ilMemberExportGUI
 	 */
 	public function deleteExportFile()
 	{
-	 	if(!is_array($_SESSION['il_del_member_export']))
-	 	{
-	 		$this->show();
-	 		return false;
+	 	if(!count($_POST['id']))
+	 	{	 		
+	 		$this->ctrl->redirect($this, 'show');
 	 	}
+		
 		$counter = 0;
 		foreach($this->fss_export->getMemberExportFiles() as $file)
 		{
-			if(!in_array($file['timest'],$_SESSION['il_del_member_export']))
+			if(!in_array(md5($file['name']), $_POST['id']))
 			{
 				continue;
 			}
+			
 			$this->fss_export->deleteMemberExportFile($file['timest'].'_participant_export_'.$file['type'].'_'.$this->obj_id.'.'.$file['type']);
 		}
-		ilUtil::sendSuccess($this->lng->txt('ps_files_deleted'));
-		$this->show();
-	}
-	
-	
-	
-
-	/**
-	 * Export Create member export file and store it in data directory.
-	 *
-	 * @access public
-	 * 
-	 */
-	public function export()
-	{		
-		// Save settings
-	 	$this->exportSettings = new ilUserFormSettings('memexp');
-		$this->exportSettings->set($_POST['export_members']);
-		$this->exportSettings->store();
 		
-		$this->export = new ilMemberExport($this->ref_id);
-		$this->export->create();
-	 	
-	 	$filename = time().'_participant_export_csv_'.$this->obj_id.'.csv';
-		$this->fss_export->addMemberExportFile($this->export->getCSVString(),$filename);
-
-		$_SESSION['member_export_filename'] = $filename;
-		
-	 	$this->show(true);
-	}
-	
-	public function exportExcel()
-	{
-	 	$this->exportSettings = new ilUserFormSettings('memexp');
-		$this->exportSettings->set($_POST['export_members']);
-		$this->exportSettings->store();
-		
-		$filename = time().'_participant_export_xls_'.$this->obj_id.'.xls';
-		$this->fss_export->initMemberExportDirectory();
-		$filepath = $this->fss_export->getMemberExportDirectory().DIRECTORY_SEPARATOR.$filename;
-		
-		$this->export = new ilMemberExport($this->ref_id,ilMemberExport::EXPORT_EXCEL);
-		$this->export->setFilename($filepath);
-		$this->export->create();
-
-		$_SESSION['member_export_filename'] = $filename;
-		
-	 	$this->show(true);
-		
+		ilUtil::sendSuccess($this->lng->txt('ps_files_deleted'), true);
+		$this->ctrl->redirect($this, 'show');
 	}
 	
 	
@@ -505,8 +469,7 @@ class ilMemberExportGUI
 		if($this->type == 'grp')
 		{
 			$this->fss_export = new ilFSStorageGroup($this->obj_id);
-		}
-		
+		}		
 	}
 }
 ?>

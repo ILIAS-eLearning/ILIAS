@@ -122,6 +122,8 @@ class ilRis {
 		// Volume
 		'Y2',
 		// Access Date
+		'JA',
+		'L3'
 	);
 	/**
 	 * @var array

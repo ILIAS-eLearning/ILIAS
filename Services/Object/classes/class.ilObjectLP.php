@@ -132,7 +132,13 @@ class ilObjectLP
 			return true;			
 		}
 		
-		return $objDefinition->isPluginTypeName($a_type);		
+		if($objDefinition->isPluginTypeName($a_type))
+		{
+			include_once 'Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php';	
+			return ilRepositoryObjectPluginSlot::isTypePluginWithLP($a_type);
+		}
+		
+		return false;
 	}	
 		
 	public function resetCaches()
@@ -348,6 +354,12 @@ class ilObjectLP
 				
 				// #13402
 				if($coll_ref_id == $a_source_ref_id)
+				{
+					continue;
+				}
+				
+				// #17703 - collection has also been moved - nothing todo
+				if($tree->isGrandChild($a_source_ref_id, $coll_ref_id))
 				{
 					continue;
 				}

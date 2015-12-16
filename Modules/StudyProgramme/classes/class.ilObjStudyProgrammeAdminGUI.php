@@ -41,13 +41,17 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
-
 		switch ($next_class) {
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once('Services/AccessControl/classes/class.ilPermissionGUI.php');
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
+				break;
+			case 'ilstudyprogrammetypegui':
+				$this->tabs_gui->setTabActive('prg_subtypes');
+				$type_gui = new ilStudyProgrammeTypeGUI($this);
+				$this->ctrl->forwardCommand($type_gui);
 				break;
 			default:
 				if(!$cmd || $cmd == "view")
@@ -70,12 +74,6 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 		return true;
 	}
 
-	public function listTypes() {
-		$this->tabs_gui->setTabActive('prg_subtypes');
-		$type_gui = new ilStudyProgrammeTypeGUI($this);
-		$this->ctrl->forwardCommand($type_gui);
-	}
-
 	public function initFormSettings(ilPropertyFormGUI $a_form = null) {
 
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
@@ -84,7 +82,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI {
 		$form->setTitle($this->lng->txt("settings"));
 
 		$radio_grp = new ilRadioGroupInputGUI("Anzeigen","visible_on_personal_desktop");
-		$radio_grp->addOption(new ilRadioOption($this->lng->txt("prg_show_programmes_on_pd_allways"),ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS));
+		$radio_grp->addOption(new ilRadioOption($this->lng->txt("prg_show_programmes_on_pd_always"),ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS));
 		$radio_grp->addOption(new ilRadioOption($this->lng->txt("prg_show_programmes_on_pd_only_read"),ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ));
 		$value = $this->ilSetting->get(ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD);
 		$value = ($value) ? $value : ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ;

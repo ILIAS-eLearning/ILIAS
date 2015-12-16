@@ -7,7 +7,6 @@
 * RBAC related output
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @author Sascha Hofmann <saschahofmann@gmx.de>
 *
 * @version $Id: class.ilPermissionGUI.php 20310 2009-06-23 12:57:19Z smeyer $
 *

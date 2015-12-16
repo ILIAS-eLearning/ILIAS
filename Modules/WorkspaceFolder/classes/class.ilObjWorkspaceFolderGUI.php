@@ -581,7 +581,16 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		unset($_SESSION['clipboard']['wsp2repo']);
 		unset($_SESSION['clipboard']['shared']);
 		
-		ilUtil::sendSuccess($this->lng->txt('msg_cut_copied'), true);
+		// #17746
+		if($mode == 'cut')
+		{
+			ilUtil::sendSuccess($this->lng->txt('msg_cut_copied'), true);
+		}
+		else
+		{
+			ilUtil::sendSuccess($this->lng->txt('msg_cloned'), true);
+		}
+		
 		$this->ctrl->setParameter($this, "wsp_id", $redirect_node);
 		$this->ctrl->redirect($this);		 
 	}
@@ -617,7 +626,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		$tbl->resetOffset();
 		$tbl->resetFilter();
 		
-		$this->share();
+		$this->shareFilter();
 	}
 	
 	protected function passwordForm($a_node_id, $form = null)

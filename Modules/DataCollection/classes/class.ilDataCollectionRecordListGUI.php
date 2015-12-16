@@ -565,6 +565,7 @@ class ilDataCollectionRecordListGUI {
 
 		/** @var ilCtrl $ilCtrl */
 		/** @var ilTabsGUI $ilTabs */
+		$ilCtrl->setParameter($this, 'mode', self::MODE_VIEW);
 		$ilTabs->addSubTab('mode_1', $lng->txt('view'), $ilCtrl->getLinkTarget($this, 'listRecords'));
 		if ($this->table_obj->hasPermissionToDeleteRecords((int)$_GET['ref_id'])) {
 			$ilCtrl->setParameter($this, 'mode', self::MODE_MANAGE);
