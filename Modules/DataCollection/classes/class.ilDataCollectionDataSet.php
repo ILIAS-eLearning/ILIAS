@@ -309,7 +309,6 @@ class ilDataCollectionDataSet extends ilDataSet {
 					$record = ilDataCollectionCache::getRecordCache($record_id);
 					$field = ilDataCollectionCache::getFieldCache($field_id);
 					$record_field = new ilDataCollectionRecordField($record, $field);
-					$record_field->doCreate();
 					$a_mapping->addMapping('Modules/DataCollection', 'il_dcl_record_field', $a_rec['id'], $record_field->getId());
 					$this->import_record_field_cache[$record_field->getId()] = $record_field;
 				}
