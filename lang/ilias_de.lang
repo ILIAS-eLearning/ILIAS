@@ -12359,7 +12359,7 @@ wsp#:#wsp_password_for#:#Passwort für
 wsp#:#wsp_password_protected_resource#:#Passwort-geschützte Ressource
 wsp#:#wsp_password_protected_resource_info#:#Für den Zugang zu dieser Ressource benötigen Sie ein Passwort.
 wsp#:#wsp_permission_add_users#:#Benutzer hinzufügen
-wsp#:#wsp_permission_all_info#:#Diese Objekt ist ohne Registrierung sichtbar.
+wsp#:#wsp_permission_all_info#:#Dieses Objekt ist ohne Registrierung sichtbar.
 wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten Benutzer freigegeben.
 wsp#:#wsp_permission_removed#:#Der Eintrag wurde gelöscht.
 wsp#:#wsp_permissions#:#Freigabe
