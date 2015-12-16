@@ -170,6 +170,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             'BAD'=>'rubric_label_bad',
             'OVERALL_POINT'=>'rubric_overall_point',
             'NO_POINT'=>'rubric_no_point',
+            'GROUP_POINT'=>'rubric_point_range_group',
         );
         
         $rubric_form_tpl=new ilTemplate('tpl.lp_rubricform.html',true,true,'Services/Tracking');
@@ -269,10 +270,16 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             $rubric_heading_tpl->get().            
             $rubric_commandrow_tpl->get().
             $rubric_form_tpl->get()            
-        ); 
+        );
+        
+        // add in the slider for label point ranges
+        $this->tpl->addJavaScript('./Services/Tracking/js/slider.js');
+        $this->tpl->addCss('./Services/Tracking/css/slider.css'); 
         
         // add in our javascript file
         $this->tpl->addJavaScript('./Services/Tracking/js/ilRubricCard.js');
+        $this->tpl->addCss('./Services/Tracking/css/ilRubricCard.css');
+        
     }
     
     private function buildGradeBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment)

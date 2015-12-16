@@ -2,6 +2,20 @@ var RUBRIC = {
     
     tbl : '',
     
+    defaultPoints:function(){
+        
+        var point_ranges=new Array();
+        point_ranges[0]=new Array(50,70,'Excellent');
+        point_ranges[1]=new Array(40,60,'Good');
+        point_ranges[2]=new Array(30,50,'Acceptable');
+        point_ranges[3]=new Array(20,40,'Fair');
+        point_ranges[4]=new Array(10,30,'Poor');
+        point_ranges[5]=new Array(0,20,'Bad');
+        
+        return(point_ranges);        
+    },
+    
+    
     updateGrade:function(){
         
         var tbody=this.tbl.getElementsByTagName('tbody');
@@ -80,56 +94,63 @@ var RUBRIC = {
     
     updatePoints:function(){
         
-        var thead=this.tbl.getElementsByTagName('thead');
+        var total_behaviors=this.howManyBehaviors();        
+        
         var tbody=this.tbl.getElementsByTagName('tbody');
         var tfoot=this.tbl.getElementsByTagName('tfoot');
         
-        //gather max/min points
-        var total_behaviors=this.howManyBehaviors();
-        var max_points=min_points=parseFloat(document.getElementById('Points0').value);
-        for(var a=1;a<(total_behaviors);a++){            
-            if(max_points<parseFloat(document.getElementById('Points'+a).value)){
-                max_points=parseFloat(document.getElementById('Points'+a).value);
-            }
-            if(min_points>parseFloat(document.getElementById('Points'+a).value)){
-                min_points=parseFloat(document.getElementById('Points'+a).value);
-            }
-        }
-        
-        var group_max=group_min=overall_max=overall_min=0;
-        
-        // update groups point range        
         var trs=tbody[0].getElementsByTagName('tr');
+        
+        var groups=1;
+        var tmp_range='';
+        
+        var max=min=0;
+        var group_max=group_min=0;
+        var overall_max=overall_min=0;
         for(var a=0;a<trs.length;a++){
             
-            if(this.nodeHasPointRange(trs[a])){
-                if(isNaN(group_min)){
-                    group_min=0;
-                }
-                if(isNaN(group_max)){
-                    group_max=0;
-                }
+            if(this.nodeHasSlider(trs[a])){
+                // new range
                 
-                trs[a].children[1].innerHTML=group_min.toFixed(2)+' - '+group_max.toFixed(2);
-                group_min=group_max=0;
+                max=min=0;
+                group_min=group_max=0;                
+                
+                for(var b=0;b<total_behaviors;b++){
+                    
+                    tmp_range=document.getElementById('Points'+groups+'_'+b+'_value').innerHTML;                                        
+                    var broken_range=tmp_range.split(',');
+                    
+                    if(max==0&&min==0){
+                        max=broken_range[1];
+                        min=broken_range[0];
+                    }else{
+                        if(broken_range[1]>max){
+                            max=broken_range[1];
+                        }
+                        if(broken_range[0]<min){
+                            min=broken_range[0];
+                        }
+                    }
+                }
+                groups++;// update group increment                
+                
+            }else if(!this.nodeHasPointRange(trs[a])){
+                // group and/or criteria
+                group_max+=parseInt(max);
+                group_min+=parseInt(min);
+                
+                overall_max+=parseInt(max);
+                overall_min+=parseInt(min);
+                
             }else{
-                group_max+=parseFloat(max_points);
-                group_min+=parseFloat(min_points);
-                
-                overall_max+=parseFloat(max_points);
-                overall_min+=parseFloat(min_points);                
-            }            
-        }
-        
-        if(isNaN(overall_min)){
-            overall_min=0;
-        }
-        if(isNaN(overall_max)){
-            overall_max=0;
-        }
+                // point range
+                trs[a].children[1].innerHTML=group_min+' - '+group_max;
+            }
+            
+        }// for var a
         
         //update overall point range
-        tfoot[0].children[0].children[1].innerHTML=overall_min.toFixed(2)+' - '+overall_max.toFixed(2);
+        tfoot[0].children[0].children[1].innerHTML=overall_min+' - '+overall_max;        
         
     },
     
@@ -156,9 +177,7 @@ var RUBRIC = {
             
         }
         
-        
-    },  
-    
+    },
     
     delBehavior:function(thead,tbody,tfoot,position){
         
@@ -181,58 +200,57 @@ var RUBRIC = {
     },  
     
     addBehavior:function(thead,tbody,tfoot,position){
+        position--;
+        console.log('addBehavior position is '+position);
         var label_value=points_value='';
         
         var txt_label='Label';
         var txt_points='Points';
         
-        switch(position){
-            case 2:                
-                label_value='Good';                
-                points_value='0.75';
-            break;
-            case 3:
-                label_value='Acceptable';
-                points_value='0.5';
-            break;
-            case 4:
-                label_value='Fair';
-                points_value='0.25';
-            break;
-            case 5:
-                label_value='Poor';
-                points_value='0.15';
-            break;
-            case 6:
-                label_value='Bad';
-                points_value='0';
-            break;
-            default:break;
-        }
+        var point_range=this.defaultPoints();
+        
+        var label_value=point_range[position][2];
         
         th=document.createElement('th');
         th.setAttribute('scope','col');
         
         // thead changes
-        th.appendChild(this.createCardFormHeadInputsDiv(txt_label,label_value,position-1));
-        th.appendChild(this.createCardFormHeadInputsDiv(txt_points,points_value,position-1));
+        th.appendChild(this.createCardFormHeadInputsDiv(txt_label,label_value,position));
+        //th.appendChild(this.createCardFormHeadInputsDiv(txt_points,points_value,position-1));
         thead.children[0].appendChild(th);
+        
+        var slider_increment=0;
         
         // tbody changes
         var trs=tbody.getElementsByTagName('tr');
         for(var a=0;a<trs.length;a++){
-            
-            if(!this.nodeHasPointRange(trs[a])){
-                trs[a].appendChild(this.createCardFormBodyInputs('Behavior Description',a-1,position-1,false));// changed trs.length to a                
+            console.log('working '+a);
+            if(this.nodeHasSlider(trs[a])){
+                console.log('found a slider');
+                slider_increment++;
+                trs[a].appendChild(this.addPointSlider(slider_increment,position))
+                
+                console.log('1APPLYING LISTENER ON Points'+slider_increment+'_'+position+' and Points'+slider_increment+'_'+position+'_value');
+                $("#Points"+slider_increment+"_"+position).slider({tooltip: 'hide'});  
+                $("#Points"+slider_increment+"_"+position).on("slide", function(slideEvt) {
+                    //$("#Points"+a+"_"+position+"_value").text(slideEvt.value);
+                    $('#'+this.id+'_value').text(' '+slideEvt.value);
+                    recalculate();
+                });
+            }else if(!this.nodeHasPointRange(trs[a])){
+                console.log('found a criteria');
+                trs[a].appendChild(this.createCardFormBodyInputs('Behavior Description',a-1,position,false));
             }else{
-                trs[a].children[1].colSpan=position;
+                // this is a point range
+                trs[a].children[1].colSpan=position+1;
+                console.log('found a poitn label');
             }
                                   
         }
         
         // tfoot changes
         var trs=tfoot.getElementsByTagName('tr');
-        trs[0].children[1].colSpan=position;
+        trs[0].children[1].colSpan=position+1;
         
     },
         
@@ -240,7 +258,21 @@ var RUBRIC = {
         //calculate how many behaiors needed
         var thead=this.tbl.getElementsByTagName('thead');        
         var ths=thead[0].getElementsByTagName('th');        
-        return(ths.length-2);        
+        return(ths.length-1);        
+    },
+    
+    howManyGroups:function(){
+        var total_groups=0;
+        
+        var tbody=this.tbl.getElementsByTagName('tbody');
+        var trs=tbody[0].getElementsByTagName('tr');
+        for(var a=0;a<trs.length;a++){
+            if(this.nodeHasGroupName(trs[a])){
+                total_groups++;
+            }            
+        }
+        
+        return(total_groups);
     },
     
     nodeHasGroupName:function(tr){
@@ -265,10 +297,102 @@ var RUBRIC = {
         
     },
     
+    nodeHasSlider:function(tr){
+        if(tr.children[0].nodeName=='TH'&&tr.children[1].nodeName=='TH'){
+            return(true);            
+        }else{
+            return(false);
+        }       
+    },
+   
+    addPoints:function(){
+        
+        var tr=document.createElement('tr');
+        tr.setAttribute('class','tblrow1 small');
+        
+        // add in 2 spaces, one for the group and one for criteria
+        for(var a=0;a<2;a++){
+            var th=document.createElement('th');
+            th.setAttribute('class','col-sm-2');
+            th.setAttribute('scope','col');
+            th.appendChild(document.createTextNode('\u0020'));
+            tr.appendChild(th);            
+        }
+        
+        var total_groups=this.howManyGroups();
+        var behaviors_required=this.howManyBehaviors();
+                
+        // add in the slider bar
+        for(var a=0;a<behaviors_required;a++){
+            
+            tr.appendChild(this.addPointSlider((total_groups+1),a));           
+        }
+        
+        return(tr);
+        
+    },
+    
+    addPointSlider:function(group_number,behavior_number){        
+        console.log('building point slider, named Points'+group_number+'_'+behavior_number);
+        var point_ranges=this.defaultPoints();
+        
+        var th=document.createElement('th');
+        th.setAttribute('scope','col');
+        var div=document.createElement('div');
+        div.setAttribute('class','form-group');
+        var label=document.createElement('label');
+        label.setAttribute('class','control-label');
+        label.setAttribute('for','Points'+group_number+'_'+behavior_number);
+        label.appendChild(document.createTextNode('Points'));
+        var span=document.createElement('span');
+        span.setAttribute('id','Points'+group_number+'_'+behavior_number+'_value');
+        span.appendChild(document.createTextNode('\u0020'+point_ranges[behavior_number][0]+','+point_ranges[behavior_number][1]));
+        label.appendChild(span);
+        div.appendChild(label);
+        th.appendChild(div);
+        var span=document.createElement('span');
+        span.appendChild(document.createTextNode('0\u0020'));
+        th.appendChild(span);
+        var input=document.createElement('input');
+        input.setAttribute('id','Points'+group_number+'_'+behavior_number);
+        input.setAttribute('class','Points'+group_number+'_'+behavior_number);
+        input.setAttribute('type','text');
+        input.setAttribute('class','form-control');
+        input.setAttribute('value','');
+        input.setAttribute('data-slider-min','0');
+        input.setAttribute('data-slider-max','100');
+        input.setAttribute('data-slider-step','1');
+        input.setAttribute('data-slider-value','['+point_ranges[behavior_number][0]+','+point_ranges[behavior_number][1]+']');
+        th.appendChild(input);
+        var span=document.createElement('span');
+        span.appendChild(document.createTextNode('\u0020100'));
+        th.appendChild(span);
+        console.log('finished building pointslider');
+        return(th);
+    },    
+    
     addGroup:function(){
         
         var tbody=this.tbl.getElementsByTagName('tbody');        
-        var trs=tbody[0].getElementsByTagName('tr');        
+        var trs=tbody[0].getElementsByTagName('tr');
+        
+        // add points to new group        
+        tbody[0].appendChild(this.addPoints());
+        
+        // apply the slider new points
+        var total_groups=this.howManyGroups();
+        total_groups++;
+        var behaviors_required=this.howManyBehaviors();
+        
+        for(var a=0;a<behaviors_required;a++){
+            $("#Points"+total_groups+"_"+a).slider({tooltip: 'hide'});
+  
+            $("#Points"+total_groups+"_"+a).on("slide", function(slideEvt) {
+                $('#'+this.id+'_value').text(' '+slideEvt.value);
+                recalculate();
+            });
+            
+        }
         
         var tr=document.createElement('tr');
         tr.setAttribute('class','tblrow1 small');
@@ -277,6 +401,7 @@ var RUBRIC = {
         tr.appendChild(this.createCardFormBodyInputs('Criteria Label',trs.length-1,0,true));
         
         var behaviors_required=this.howManyBehaviors();
+        console.log('behaviors required is '+behaviors_required);
         
         for(var a=0;a<behaviors_required;a++){
             tr.appendChild(this.createCardFormBodyInputs('Behavior Description',trs.length-1,a,false));
@@ -286,6 +411,7 @@ var RUBRIC = {
         
         //add points
         var tr=document.createElement('tr');
+        tr.setAttribute('class','tblrow1 small');
         var th=document.createElement('th');
         th.setAttribute('class','text-right');
         th.setAttribute('scope','rowgroup');
@@ -300,6 +426,9 @@ var RUBRIC = {
         
         tbody[0].appendChild(tr);
         
+        
+        
+        
     },
     
     delGroup:function(){
@@ -312,10 +441,15 @@ var RUBRIC = {
         
         var total_criteria=parent_tr.children[0].rowSpan;
         
-        //delete group, criteria and point range
+        console.log('deleting '+total_criteria+' rows from group');
+        
+        //delete group, criteria
         for(var a=0;a<=total_criteria;a++){
             trs[selected_group].parentNode.removeChild(trs[selected_group]);
         }
+        
+        // delete the point range
+        trs[selected_group-1].parentNode.removeChild(trs[selected_group-1]);
         
     },
     
@@ -359,7 +493,6 @@ var RUBRIC = {
             
         }
         
-        
     },
     
     addCriteria:function(){
@@ -376,6 +509,7 @@ var RUBRIC = {
         
         //adjust group rowspan
         var tr=document.createElement('tr');
+        tr.setAttribute('class','tblrow1 small');
         tr.appendChild(this.createCardFormBodyInputs('Criteria Label',trs.length,0,true));
         
         var behaviors_required=this.howManyBehaviors();
@@ -613,7 +747,7 @@ var RUBRIC = {
             td.children[0].children[1].children[1].setAttribute('aria-describedby',tmpname+'_WarningStatus'); // input text
             td.children[0].children[3].setAttribute('id',tmpname+'_WarningStatus');// span        
             
-        }else{
+        }else if(type=='behavior'){
             
             tmpname='Behavior_'+g+'_'+c+'_'+b;
             
@@ -622,11 +756,28 @@ var RUBRIC = {
             td.children[0].children[1].setAttribute('name',tmpname); // input text
             td.children[0].children[1].setAttribute('aria-describedby',tmpname+'_WarningStatus'); // input text
             td.children[0].children[3].setAttribute('id',tmpname+'_WarningStatus');// span
+            
+        }else if(type=='point'){
+            
+            tmpname='Points'+g+'_'+b;
+            console.log('changing point id to '+tmpname);
+            
+            console.log('1fixing ids, working on '+td.children[0].children[0].nodeName);
+            td.children[0].children[0].setAttribute('for',tmpname);// label
+            
+            console.log('2fixing ids, working on '+td.children[0].children[0].children[0].nodeName);            
+            td.children[0].children[0].children[0].setAttribute('id',tmpname+'_value'); // span point value
+            
+            console.log('3fixing ids, working on '+td.children[2].children[2].nodeName);
+            td.children[2].children[2].setAttribute('name',tmpname); // input text
+            td.children[2].children[2].setAttribute('id',tmpname); // input text
+                                 
         }
         
     },
     
     reorganize:function(){
+        console.log('reorganizagin');
         //fix for working in Ilias
         var tbody=this.tbl.getElementsByTagName('tbody');        
         var trs=tbody[0].getElementsByTagName('tr');
@@ -637,11 +788,29 @@ var RUBRIC = {
         
         for(var a=0;a<trs.length;a++){
             
-            if(!this.nodeHasPointRange(trs[a])){
+            console.log('tr a values is '+a+', group is '+(group+1)+', trs length is '+trs.length);
+            
+            if(this.nodeHasSlider(trs[a])){
+                // if slider row
+                
+                var ths=trs[a].getElementsByTagName('th');
+                
+                for(var b=2;b<ths.length;b++){
+                    console.log('has sldier, group is '+(group+1));
+                    this.fixids(ths[b],'point',(group+1),criteria,(b-2));
+                    
+                                        
+                }
+                
+                
+                
+            }else if(!this.nodeHasPointRange(trs[a])){
+                // if group row
                 
                 var tds=trs[a].getElementsByTagName('td');
                 
                 if(this.nodeHasGroupName(trs[a])){
+                    // if row has group name
                     
                     // make changes to group, criteria and behaviors
                     for(var b=0;b<tds.length;b++){
@@ -660,7 +829,7 @@ var RUBRIC = {
                     }
                     
                 }else{
-                    // make changes to criteria and behaviors
+                    // no group name, make changes to criteria and behaviors
                     for(var b=0;b<tds.length;b++){
                         
                         if(b==0){
@@ -722,6 +891,7 @@ function rubric_cmd(o){
         }
         
         RUBRIC.updatePoints();
+        RUBRIC.reorganize();// temporary, not sure if this belongs here
         
     }catch(err){
         document.getElementById('rubric_error_message').innerHTML=err;
@@ -780,7 +950,7 @@ function verifyForm(){
     }
 }
 
-function validate(obj){
+function validate(obj){    
     
     var validated=false;
     var validated_error_message='';
@@ -822,17 +992,45 @@ function validate(obj){
     }
     
     if(validated){
-        modified_object.classList.remove('has-error','has-warning');
+        modified_object.classList.remove('has-error');
+        modified_object.classList.remove('has-warning');
         modified_object.classList.add('has-success');
         modified_object.children[2].setAttribute('class','glyphicon glyphicon-ok form-control-feedback');
         modified_object.children[3].innerHTML='(ok)';    
     }else{        
-        modified_object.classList.remove('has-success','has-warning');
+        modified_object.classList.remove('has-warning');
+        modified_object.classList.remove('has-success');
         modified_object.classList.add('has-error');
         modified_object.children[2].setAttribute('class','glyphicon glyphicon-remove form-control-feedback');
         modified_object.children[3].innerHTML='(error)';
     }
     
+    
 }
+
+// default template sliders
+$( document ).ready(function() {
+
+  $("#Points1_0").slider({tooltip: 'hide'});
+  $("#Points1_1").slider({tooltip: 'hide'});
+  $("#Points1_2").slider({tooltip: 'hide'});
+  
+  $("#Points1_0").on("slide", function(slideEvt) {    
+	$('#'+this.id+'_value').text(slideEvt.value);
+    recalculate();
+  });
+  
+  $("#Points1_1").on("slide", function(slideEvt) {    
+	$('#'+this.id+'_value').text(slideEvt.value);
+    recalculate();
+  });
+  
+  $("#Points1_2").on("slide", function(slideEvt) {    
+	$('#'+this.id+'_value').text(slideEvt.value);
+    recalculate();
+  }); 
+
+});
+
 
 
