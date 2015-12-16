@@ -48,9 +48,8 @@ class ilObjectOwnershipManagementGUI
 	
 	function listObjects()
 	{
-		global $tpl, $ilToolbar, $lng, $ilCtrl, $objDefinition;
-		
-		
+		global $tpl, $ilToolbar, $lng, $ilCtrl, $objDefinition;		
+				
 		$objects = ilObject::getAllOwnedRepositoryObjects($this->user_id);
 		
 		if(sizeof($objects))
