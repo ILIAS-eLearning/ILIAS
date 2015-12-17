@@ -765,7 +765,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		{
 			$answer = $this->object->getAnswer($answer_id);
 
-			if($answer->getPoints() > 0)
+			if($answer->getCorrectness())
 			{
 				$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
 				if(strlen($fb))
