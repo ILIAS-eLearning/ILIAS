@@ -1692,7 +1692,8 @@ assessment#:#tst_test_result#:#Testergebnis
 assessment#:#feedback_setting#:#Modus
 assessment#:#feedback_all#:#Zeige Rückmeldungen zu allen Antwortmöglichkeiten.
 assessment#:#feedback_checked#:#Zeige Rückmeldungen zu ausgewählten Antworten des Teilnehmers.
-assessment#:#feedback_correct#:#Zeige Rückmeldung für richtige Antworten (richtige Antworten sind solche, für die es positive Punkte gibt).
+assessment#:#feedback_correct_sc_mc#:#Zeige Rückmeldung für richtige Antworten (richtige Antworten sind solche, für die es bei Auswahl positive Punkte gibt).
+assessment#:#feedback_correct_kprim#:#Zeige Rückmeldung für korrekte Antworten (korrekte Antworten sind solche, bei denen die positive Option zu wählen ist).
 assessment#:#tst_add_quest_cont_edit_mode#:#Bearbeitungsmodus für zusätzliche Frageninhalte
 assessment#:#tst_add_quest_cont_edit_mode_default#:#Standard-Bearbeitungsmodus für zusätzliche Frageninhalte
 assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Bearbeitung zusätzlicher Frageninhalte mit dem ILIAS-Seiteneditor
