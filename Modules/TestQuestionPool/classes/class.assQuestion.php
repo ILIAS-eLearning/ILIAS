@@ -395,7 +395,7 @@ abstract class assQuestion
 			array('integer','text'),
 			array($questionpool_id, $title)
 		);
-		return ($result->numRows() == 1) ? TRUE : FALSE;
+		return ($result->numRows() > 0) ? TRUE : FALSE;
 	}
 
 	/**
