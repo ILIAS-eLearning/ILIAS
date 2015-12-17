@@ -3632,9 +3632,9 @@ class ilObjTestGUI extends ilObjectGUI
 						if ($this->object->getHighscoreEnabled())
 						{
 							// Can also compare results then
-							$btn = ilSubmitButton::getInstance();
+							$btn = ilLinkButton::getInstance();
 							$btn->setCaption('tst_show_toplist');
-							$btn->setCommand('outResultsToplist');
+							$btn->setUrl($this->ctrl->getLinkTargetByClass('ilTestToplistGUI', 'outResultsToplist'));
 							$btn->setPrimary(false);
 							$big_button[] = $btn;
 						}
@@ -3657,9 +3657,9 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 				{
-					$btn = ilSubmitButton::getInstance();
+					$btn = ilLinkButton::getInstance();
 					$btn->setCaption('tst_list_of_answers_show');
-					$btn->setCommand('outUserListOfAnswerPasses');
+					$btn->setUrl($this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'outUserListOfAnswerPasses'));
 					$btn->setPrimary(false);
 					$big_button[] = $btn;
 				}

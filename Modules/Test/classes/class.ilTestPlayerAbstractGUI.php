@@ -151,12 +151,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 	}
 
-	public function outResultsToplistCmd()
-	{
-		global $ilCtrl;
-		$ilCtrl->redirectByClass('ilTestToplistGUI', 'outResultsToplist');
-	}
-
 	/**
 	 * updates working time and stores state saveresult to see if question has to be stored or not
 	 */
@@ -1623,13 +1617,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		$this->ctrl->redirectByClass(
 			array('ilRepositoryGUI', 'ilObjTestGUI', 'ilTestEvaluationGUI'), "outUserResultsOverview"
-		);
-	}
-
-	function outUserListOfAnswerPassesCmd()
-	{
-		$this->ctrl->redirectByClass(
-			array('ilRepositoryGUI', 'ilObjTestGUI', 'ilTestEvaluationGUI'), "outUserListOfAnswerPasses"
 		);
 	}
 
