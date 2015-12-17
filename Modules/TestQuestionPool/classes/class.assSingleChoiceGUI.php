@@ -709,6 +709,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		{
 			foreach ($_POST['choice']['answer'] as $index => $answertext)
 			{
+				$answertext = ilUtil::secureString($answertext);
+
 				$picturefile    = $_POST['choice']['imagename'][$index];
 				$file_org_name  = $_FILES['choice']['name']['image'][$index];
 				$file_temp_name = $_FILES['choice']['tmp_name']['image'][$index];
