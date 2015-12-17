@@ -2516,7 +2516,7 @@ common#:#download_all_returned_files#:#Download all returned files
 common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.
 common#:#download_with_uploaded_filename#:#Download with uploaded filename
 common#:#download#:#Download
-common#:#downloading_settings#:#Downloading Settings
+common#:#downloading_settings#:#Download Settings
 common#:#drafts#:#Drafts
 common#:#drop#:#Drop
 common#:#edit_cat_settings#:#Advanced Category Settings
@@ -3689,7 +3689,7 @@ common#:#obj_calendar#:#Calendar
 common#:#obj_cals_desc#:#General Calendar settings.
 common#:#obj_cals#:#Calendar
 common#:#obj_cat_duplicate#:#Copy Category
-common#:#obj_cat_select#:#-- Please select one Category --
+common#:#obj_cat_select#:#-- Please select one category --
 common#:#obj_cat#:#Category
 common#:#obj_catr#:#Category Reference
 common#:#obj_cen#:#Centra Event
@@ -3702,31 +3702,31 @@ common#:#obj_chat#:#Chat
 common#:#obj_cmps_desc#:#General settings for Repository Plugins
 common#:#obj_cmps#:#Plugins
 common#:#obj_crs_duplicate#:#Copy Course
-common#:#obj_crs_select#:#-- Please select one Course --
+common#:#obj_crs_select#:#-- Please select one course --
 common#:#obj_crs#:#Course
 common#:#obj_crsr#:#Course Reference
 common#:#obj_dbk#:#Digilib Book
 common#:#obj_exc_duplicate#:#Copy Exercise
-common#:#obj_exc_select#:#-- Please select one Exercise --
+common#:#obj_exc_select#:#-- Please select one exercise --
 common#:#obj_exc#:#Exercise
 common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS
 common#:#obj_extt#:#Third Party Software
-common#:#obj_facs_desc#:#Configure access to file and folder objects.
-common#:#obj_facs#:#Files and Folders
+common#:#obj_facs_desc#:#Settings for files and file handling
+common#:#obj_facs#:#Files
 common#:#obj_feed#:#Web Feed
 common#:#obj_file_duplicate#:#Copy File
 common#:#obj_file_inline#:#Learning Module File
-common#:#obj_file_select#:#-- Please select one File --
+common#:#obj_file_select#:#-- Please select one file --
 common#:#obj_file#:#File
 common#:#obj_fold_duplicate#:#Copy Folder
-common#:#obj_fold_select#:#-- Please select one Folder --
+common#:#obj_fold_select#:#-- Please select one folder --
 common#:#obj_fold#:#Folder
 common#:#obj_frm_duplicate#:#Copy Forum
-common#:#obj_frm_select#:#-- Please select one Forum --
+common#:#obj_frm_select#:#-- Please select one forum --
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossary
 common#:#obj_grp_duplicate#:#Copy Group
-common#:#obj_grp_select#:#-- Please select one Group --
+common#:#obj_grp_select#:#-- Please select one group --
 common#:#obj_grp#:#Group
 common#:#obj_htlm#:#Learning Module HTML
 common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
@@ -3746,7 +3746,7 @@ common#:#obj_mcts#:#Mediacast
 common#:#obj_mep#:#Media Pool
 common#:#obj_mob#:#Media Object
 common#:#obj_mobs_desc#:#Settings for media objects and media pools.
-common#:#obj_mobs#:#Media Objects/Pools
+common#:#obj_mobs#:#Media Objects and Pools
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_note#:#Note
 common#:#obj_notf#:#Note Administration
@@ -3764,10 +3764,10 @@ common#:#obj_pg#:#Page
 common#:#obj_ps_desc#:#Configure global privacy and security settings here.
 common#:#obj_ps#:#Privacy and Security
 common#:#obj_qpl_duplicate#:#Copy Question Pool Test
-common#:#obj_qpl_select#:#-- Please select one Question Pool Test --
+common#:#obj_qpl_select#:#-- Please select one question pool test --
 common#:#obj_qpl#:#Question Pool Test
 common#:#obj_rcrs#:#ECS Course
-common#:#obj_recf_desc#:#Contains restored Objects from System Check.
+common#:#obj_recf_desc#:#Contains restored objects from System Check.
 common#:#obj_recf#:#Restored Objects
 common#:#obj_role#:#Role
 common#:#obj_rolf_desc#:#Manage your roles here.
@@ -3781,17 +3781,17 @@ common#:#obj_sco#:#SCO
 common#:#obj_seas_desc#:#Manage the search settings here.
 common#:#obj_seas#:#Search
 common#:#obj_sess_duplicate#:#Copy Session
-common#:#obj_sess_select#:#-- Please select one Session --
+common#:#obj_sess_select#:#-- Please select one session --
 common#:#obj_sess#:#Session
 common#:#obj_spl_duplicate#:#Copy Question Pool Survey
-common#:#obj_spl_select#:#-- Please select one Question Pool Survey --
+common#:#obj_spl_select#:#-- Please select one question pool survey --
 common#:#obj_spl#:#Question Pool Survey
 common#:#obj_st#:#Chapter
 common#:#obj_sty#:#Style
 common#:#obj_stys_desc#:#Manage system skin and style settings here
 common#:#obj_stys#:#Layout and Styles
 common#:#obj_svy_duplicate#:#Copy Survey
-common#:#obj_svy_select#:#-- Please select one Survey --
+common#:#obj_svy_select#:#-- Please select one survey --
 common#:#obj_svy#:#Survey
 common#:#obj_svyf_desc#:#Platform settings for the Survey Tool
 common#:#obj_svyf#:#Survey
@@ -3803,7 +3803,7 @@ common#:#obj_taxf#:#Taxonomies
 common#:#obj_trac_desc#:#Statistics and Learning Progress Settings and Overview
 common#:#obj_trac#:#Statistics and Learning Progress
 common#:#obj_tst_duplicate#:#Copy Test
-common#:#obj_tst_select#:#-- Please select one Test --
+common#:#obj_tst_select#:#-- Please select one test --
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Object Type Definition
 common#:#obj_type#:#Object Type
@@ -3814,7 +3814,7 @@ common#:#obj_usr#:#User
 common#:#obj_usrf_desc#:#Manage user accounts here.
 common#:#obj_usrf#:#User Management
 common#:#obj_webr_duplicate#:#Copy Weblink list
-common#:#obj_webr_select#:#-- Please select one Weblink list --
+common#:#obj_webr_select#:#-- Please select one weblink list --
 common#:#obj_webr#:#Weblink
 common#:#obj_wiki#:#Wiki
 common#:#obj#:#Object
@@ -12898,7 +12898,7 @@ administration#:#adm_user_starting_point_personal_info#:#If activated users may 
 rbac#:#internal_mail#:#Internal Mail
 rbac#:#mail_internal_mail#:#User can use internal mail system (ILIAS)
 common#:#obj_itgr_duplicate#:#Copy Item Group
-common#:#obj_itgr_select#:#-- Please select one Item Group --
+common#:#obj_itgr_select#:#-- Please select one item group --
 common#:#obj_itgr#:#Item Group
 common#:#objs_itgr#:#Item Groups
 itgr#:#itgr_edit#:#Edit Item Groups
@@ -13510,7 +13510,7 @@ common#:#uploading#:#Uploading...
 common#:#extracting#:#Extracting...
 common#:#drop_files_on_repo_obj_info#:#Drop the files here to upload them into this object.
 common#:#error_extraction_failed#:#The extraction of the archive and its directories failed. Probably because you don’t have the rights to create folders or categories within this object.
-common#:#upload_settings#:#Uploading Settings
+common#:#upload_settings#:#Upload Settings
 common#:#enable_dnd_upload#:#Enable drag-and-drop upload
 common#:#enable_dnd_upload_info#:#Files can be uploaded with drag-and-drop from the local computer if enabled.
 common#:#enable_repository_dnd_upload#:#Enable in Repository
@@ -16036,7 +16036,7 @@ prg#:#prg_added_member#:#The new member was added successfully.
 prg#:#prg_added_members#:#The new members were added successfully.
 prg#:#prg_acknowledge_completed_courses#:#Acknowledge Completed Courses
 common#:#obj_prg_duplicate#:#Copy Study Programme
-common#:#obj_prg_select#:#-- Please select one Study Programme --
+common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme
 common#:#obj_prgs#:#Study Programmes
 common#:#obj_prgs_desc#:#Study Programme Administration
@@ -16135,3 +16135,10 @@ mcst#:#mcst_copy#:#Copy Mediacast
 prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.
 scov#:#scov_create#:#Create SCORM Certificate
 scov#:#scov_create_info#:#Select a completed SCORM module to generate a certificate for it
+administration#:#adm_container#:#Container Objects
+administration#:#adm_content_objects#:#Content Objects
+administration#:#adm_content_services#:#Content Services
+administration#:#adm_learning_outcomes#:#Learning Outcomes
+administration#:#adm_maintenance#:#Maintenance
+administration#:#adm_user_administration#:#User Administration
+administration#:#adm_user_services#:#User Services

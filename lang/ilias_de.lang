@@ -4318,8 +4318,8 @@ common#:#obj_exc_duplicate#:#Übung kopieren
 common#:#obj_exc_select#:#-- Bitte wählen Sie eine Übung aus --
 common#:#obj_extt#:#Software von Drittanbietern
 common#:#obj_extt_desc#:#Konfigurieren Sie hier externe Software und Dienste, welche von ILIAS unterstützt werden
-common#:#obj_facs#:#Dateien und Ordner
-common#:#obj_facs_desc#:#Konfigurieren Sie hier den Zugriff auf Dateien und Ordner.
+common#:#obj_facs#:#Dateien
+common#:#obj_facs_desc#:#Einstellungen für Dateien und Dateiverwaltung.
 common#:#obj_feed#:#Webfeed
 common#:#obj_file#:#Datei
 common#:#obj_file_duplicate#:#Datei kopieren
@@ -16132,3 +16132,10 @@ mcst#:#mcst_copy#:#Mediacast kopieren
 prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind.
 scov#:#scov_create#:#SCORM-Zertifikat erstellen
 scov#:#scov_create_info#:#Wählen Sie ein SCORM-Modul, für das Sie ein Zertifikat benötigen
+administration#:#adm_container#:#Containerobjekte
+administration#:#adm_content_objects#:#Inhaltsobjekte
+administration#:#adm_content_services#:#Content-Services
+administration#:#adm_learning_outcomes#:#Lernergebnisse
+administration#:#adm_maintenance#:#Wartung
+administration#:#adm_user_administration#:#Benutzerverwaltung
+administration#:#adm_user_services#:#Benutzer-Services
