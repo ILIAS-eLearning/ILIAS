@@ -47,7 +47,12 @@ class ilMimeMail
 	 * 	paths of attached files
 	 * 	@var array
 	 */
-	var $aattach = array();
+	protected $aattach = array();
+
+	/**
+	 * @var array
+	 */
+	protected $adisplay = array();
 
 	/**
 	 * 	list of message headers
@@ -388,9 +393,17 @@ class ilMimeMail
 			}
 		}
 
+		$i = 0;
 		foreach($this->aattach as $attachment)
 		{
-			$mail->AddAttachment($attachment);
+			$name = '';
+			if(isset($this->adisplay[$i]) && strlen($this->adisplay[$i]) > 0)
+			{
+				$name = $this->adisplay[$i];
+			}
+
+			$mail->AddAttachment($attachment, $name);
+			++$i;
 		}
 
 		ilLoggerFactory::getLogger('mail')->debug(sprintf(
