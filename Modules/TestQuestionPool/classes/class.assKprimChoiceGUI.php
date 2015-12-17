@@ -303,9 +303,26 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
 		$answers = $form->getItemByPostVar('kprim_answers')->getValues();
+		$answers = $this->handleAnswerTextsSubmit($answers);
 		$files = $form->getItemByPostVar('kprim_answers')->getFiles();
+		
 		$this->object->handleFileUploads($answers, $files);
 		$this->object->setAnswers($answers);
+	}
+	
+	private function handleAnswerTextsSubmit($answers)
+	{
+		if( $this->object->getAnswerType() == assKprimChoice::ANSWER_TYPE_MULTI_LINE )
+		{
+			return $answers;
+		}
+		
+		foreach($answers as $key => $answer)
+		{
+			$answer->setAnswerText(ilUtil::secureString($answer->getAnswerText()));
+		}
+		
+		return $answers;
 	}
 	
 	/**
