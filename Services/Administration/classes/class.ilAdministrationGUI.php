@@ -442,20 +442,26 @@ class ilAdministrationGUI
 		$layout = array(
 			1 => array(
 				"basic" =>
-					array("adm", "stys", "adve", "lngf", "cmps", "accs", "hlps", "trac",'sysc'),
-				"users" =>
-					array("usrf", 'tos', "rolf", "auth", "ps", "orgu")
+					array("adm", "stys", "adve", "lngf", "hlps", "accs", "cmps", "extt"),
+				"user_administration" =>
+					array("usrf", 'tos', "rolf", "auth", "ps", "orgu"),
+				"learning_outcomes" =>
+					array("skmg", "cert", "trac")
 				),
 			2 => array(
-				"services" =>
-					array("pdts", "nwss", "tags", "prfa", "skmg", "cals", "mail", 
-						"---", "seas", "awra", "cadm", "mds", "taxs", "cert", 'ecss', "pays", "extt", 'logs')
+				"user_services" =>
+					array("pdts", "prfa", "nwss", "awra", "cadm", "cals", "mail"),
+				"content_services" =>
+					array("seas", "mds", "tags", "taxs", 'ecss', "pays", "otpl"),
+				"maintenance" =>
+					array('sysc', "recf", 'logs', "root")
 				),
 			3 => array(
-				"objects" =>
-					array("reps", "---", "bibs", "blga", "chta", "crss", "excs", "facs", "frma",
-						"grps", "lrss", "mcts", "mobs", "svyf", "assf", "wbrs", "wiks", "prgs",
-						"---", 'otpl',"root", "recf")
+				"container" =>
+					array("reps", "crss", "grps", "prgs"),
+				"content_objects" =>
+					array("bibs", "blga", "chta", "excs", "facs", "frma",
+						"lrss", "mcts", "mobs", "svyf", "assf", "wbrs", "wiks")
 				)
 			);
 		

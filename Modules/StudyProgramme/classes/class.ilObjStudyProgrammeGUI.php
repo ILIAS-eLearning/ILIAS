@@ -612,36 +612,17 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	protected function fillInfoScreen($a_info_screen) {
 		require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 		require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		require_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		require_once('./Services/ADT/classes/class.ilADTFactory.php');
 
 		$type = ilStudyProgrammeType::find($this->object->getSubtypeId());
 		if (!$type) {
 			return;
 		}
-		$assigned_record_ids = $type->getAssignedAdvancedMDRecordIds();
 
-		foreach (ilAdvancedMDValues::getInstancesForObjectId($this->object->getId(), 'prg') as $record_id => $a_values) {
-			// Skip record ids not assigned to the type
-			if (!in_array($record_id, $assigned_record_ids)) {
-				continue;
-			}
-
-			// Note that we have to do this because with the instances above the sub-type and sub-id are missing...
-			$a_values = new ilAdvancedMDValues($record_id, $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
-
-			// this correctly binds group and definitions
-			$a_values->read();
-
-			$a_info_screen->addSection(ilAdvancedMDRecord::_lookupTitle($record_id));
-
-			$defs = $a_values->getDefinitions();
-			foreach ($a_values->getADTGroup()->getElements() as $element_id => $element) {
-				if (!$element->isNull()) {
-					$a_info_screen->addProperty($defs[$element_id]->getTitle(), ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)
-						->getHTML());
-				}
-			}
-		}
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
+		$record_gui->setInfoObject($a_info_screen);
+		$record_gui->parse();
 	}
 
 	protected function edit(){

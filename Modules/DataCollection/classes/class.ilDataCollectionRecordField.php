@@ -79,7 +79,11 @@ class ilDataCollectionRecordField {
 		$set = $this->db->query($query);
 		$rec = $this->db->fetchAssoc($set);
 		$this->id = $rec['id'];
-		
+
+		if ($this->id == null) {
+			$this->doCreate();
+		}
+
 		$this->loadValue();
 	}
 
@@ -87,7 +91,7 @@ class ilDataCollectionRecordField {
 	/**
 	 * Creates an Id and a database entry.
 	 */
-	public function doCreate() {
+	protected function doCreate() {
 		$id = $this->db->nextId("il_dcl_record_field");
 		$query = "INSERT INTO il_dcl_record_field (id, record_id, field_id) VALUES (" . $this->db->quote($id, "integer") . ", "
 			. $this->db->quote($this->record->getId(), "integer") . ", " . $this->db->quote($this->field->getId(), "text") . ")";
@@ -101,6 +105,9 @@ class ilDataCollectionRecordField {
 	 */
 	public function doUpdate() {
 		//$this->loadValue(); //Removed Mantis #0011799
+		if (!$this->id) {
+			$this->doCreate();
+		}
 		$datatype = $this->field->getDatatype();
 		$query = "DELETE FROM il_dcl_stloc" . $datatype->getStorageLocation() . "_value WHERE record_field_id = "
 			. $this->db->quote($this->id, "integer");

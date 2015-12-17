@@ -2269,7 +2269,7 @@ class ilMail
 			{
 				foreach ($a_attachments as $attachment)
 				{
-					$mmail->Attach($this->mfile->getAbsolutePath($attachment));
+					$mmail->Attach($this->mfile->getAbsolutePath($attachment), '', 'inline', $attachment);
 				}
 			}
 

@@ -2153,9 +2153,9 @@ chatroom#:#chat_connection_established#:#+++ <b>#username#</b> hat den Chatraum 
 chatroom#:#chat_create_new_private_room#:#Neues Séparée anlegen
 chatroom#:#chat_create_private_room_button#:#Séparée anlegen
 chatroom#:#chat_delete#:#Löschen
-chatroom#:#chat_invitation#:#Einladung von [INVITER_NAME] in den Chatraum [ROOM_NAME]
+chatroom#:#chat_invitation#:#"[INVITER_NAME]" lädt ein in Chatraum "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nSie wurden in einen Chatraum eingeladen:\nTitel des Chatraums: [ROOM_NAME]\nEingeladen von: [INVITER_NAME]\nURL: [LINK]\n\nZum Betreten des Chatraums folgen Sie bitte der angegebenen URL.
-chatroom#:#chat_invitation_short#:#Klicken Sie auf den Titel um den Chatraum zu betreten.
+chatroom#:#chat_invitation_short#:#Klicken Sie auf den Titel, um den Chatraum zu betreten.
 chatroom#:#chat_invite#:#Einladen
 chatroom#:#chat_invite_users#:#Benutzer einladen
 chatroom#:#chat_join#:#Betreten
@@ -4318,8 +4318,8 @@ common#:#obj_exc_duplicate#:#Übung kopieren
 common#:#obj_exc_select#:#-- Bitte wählen Sie eine Übung aus --
 common#:#obj_extt#:#Software von Drittanbietern
 common#:#obj_extt_desc#:#Konfigurieren Sie hier externe Software und Dienste, welche von ILIAS unterstützt werden
-common#:#obj_facs#:#Dateien und Ordner
-common#:#obj_facs_desc#:#Konfigurieren Sie hier den Zugriff auf Dateien und Ordner.
+common#:#obj_facs#:#Dateien
+common#:#obj_facs_desc#:#Einstellungen für Dateien und Dateiverwaltung.
 common#:#obj_feed#:#Webfeed
 common#:#obj_file#:#Datei
 common#:#obj_file_duplicate#:#Datei kopieren
@@ -5684,7 +5684,7 @@ content#:#cont_deactivate_js#:#Formularmodus aktivieren
 content#:#cont_deactivate_media#:#Medien deaktivieren
 content#:#cont_deactivate_page#:#Seite deaktivieren
 content#:#cont_deactivated#:#Deaktiviert
-content#:#cont_debug#:#Testwerkzeug bereitsstellen
+content#:#cont_debug#:#Testwerkzeug bereitstellen
 content#:#cont_debug_deactivate#:#Es wird ein Testwerkzeug angezeigt. Es liefert im Präsentationsmodus des SCORM-Lernmoduls Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert. Um das Testwerkzeug aufzurufen, muss der linke Navigationsbaum angezeigt werden.
 content#:#cont_debug_deactivated#:#Hinweis: Das Werkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität ist global für alle Lernmodule deaktiviert.
 content#:#cont_debugpw#:#Zugangspasswort
@@ -10229,9 +10229,13 @@ rbac#:#recf_read#:#Lesezugriff auf Wiederhergestellte Objekte
 rbac#:#recf_visible#:#Verwaltung wiederhergestellter Objekte ist sichtbar
 rbac#:#recf_write#:#Objekte wiederherstellen
 rbac#:#role_block_role#:#Rolle sperren
+rbac#:#role_confirm_block_role#:#Rollen-Status speichern
+rbac#:#role_blocked#:#: <i>Rolle wird gesperrt</i>
+rbac#:#role_unblocked#:#: <i>Sperrung der Rolle wird aufgehoben</i>
 rbac#:#role_block_role_desc#:#Alle Rechte für dieses Objekt und seine Unterobjekte werden weggenommen.
-rbac#:#role_confirm_block_role_header#:#Möchten Sie wirklich die ausgewählten Rollen sperren?
-rbac#:#role_confirm_block_role_info#:#Die folgenden Einstellungsänderungen werden vorgenommen:<br /><br />• Alle Rechte der Rolle für dieses Objekt und die darin enthaltenen Unterobjekte werden entfernt.<br />• Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem <i>Rolle sperren</i> wieder aufgehoben wird.
+rbac#:#role_confirm_block_role_header#:#Möchten Sie wirklich den Status der ausgewählten Rollen ändern?
+rbac#:#role_confirm_block_role_info#:#Für die Aktion "Rolle sperren" werden folgende Aktionen durchgeführt:<br /><br />• Alle Rechte aller blockierten Rollen für dieses Objekt und die darin enthaltenen Unterobjekte werden entfernt.<br />• Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem <i>Rolle sperren</i> wieder aufgehoben wird.
+rbac#:#role_confirm_unblock_role_info#:#Für die Aktion "Rolle sperren" aufheben:<br /><br />• Die lokale Zugriffsregelung wird aufgeboben.<br />• Die Rechte der entsperrten Rolle werden auf Basis der aktuell gültigen Rechtevorgaben (Rollenvorlage) dieser Rolle neu gesetzt. Dies gilt für das aktuelle Objekt und alle seine enthaltenen Unterobjekte.
 rbac#:#rbac_create_book#:#Buchungspool anlegen
 rbac#:#rbac_create_catr#:#Kategorienreferenz anlegen
 rbac#:#rbac_create_chtr#:#Chatraum anlegen
@@ -12355,7 +12359,7 @@ wsp#:#wsp_password_for#:#Passwort für
 wsp#:#wsp_password_protected_resource#:#Passwort-geschützte Ressource
 wsp#:#wsp_password_protected_resource_info#:#Für den Zugang zu dieser Ressource benötigen Sie ein Passwort.
 wsp#:#wsp_permission_add_users#:#Benutzer hinzufügen
-wsp#:#wsp_permission_all_info#:#Diese Objekt ist ohne Registrierung sichtbar.
+wsp#:#wsp_permission_all_info#:#Dieses Objekt ist ohne Registrierung sichtbar.
 wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten Benutzer freigegeben.
 wsp#:#wsp_permission_removed#:#Der Eintrag wurde gelöscht.
 wsp#:#wsp_permissions#:#Freigabe
@@ -16126,3 +16130,12 @@ content#:#cont_ov_preview#:#Die Fragenübersicht funktioniert nicht im Seitenedi
 wiki#:#wiki_copy#:#Wiki kopieren
 mcst#:#mcst_copy#:#Mediacast kopieren
 prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind.
+scov#:#scov_create#:#SCORM-Zertifikat erstellen
+scov#:#scov_create_info#:#Wählen Sie ein SCORM-Modul, für das Sie ein Zertifikat benötigen
+administration#:#adm_container#:#Containerobjekte
+administration#:#adm_content_objects#:#Inhaltsobjekte
+administration#:#adm_content_services#:#Content-Services
+administration#:#adm_learning_outcomes#:#Lernergebnisse
+administration#:#adm_maintenance#:#Wartung
+administration#:#adm_user_administration#:#Benutzerverwaltung
+administration#:#adm_user_services#:#Benutzer-Services

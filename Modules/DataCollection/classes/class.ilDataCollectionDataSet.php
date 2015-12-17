@@ -309,7 +309,6 @@ class ilDataCollectionDataSet extends ilDataSet {
 					$record = ilDataCollectionCache::getRecordCache($record_id);
 					$field = ilDataCollectionCache::getFieldCache($field_id);
 					$record_field = new ilDataCollectionRecordField($record, $field);
-					$record_field->doCreate();
 					$a_mapping->addMapping('Modules/DataCollection', 'il_dcl_record_field', $a_rec['id'], $record_field->getId());
 					$this->import_record_field_cache[$record_field->getId()] = $record_field;
 				}
@@ -370,7 +369,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 	 */
 	public function beforeFinishImport(ilImportMapping $a_mapping) {
 		foreach ($this->import_temp_new_mob_ids as $new_mob_id) {
-			ilObjMediaObject::_saveUsage($new_mob_id, "dcl:html", $a_mapping->getTargetId());
+			ilObjMediaObject::_saveUsage($new_mob_id, "dcl:html", $this->import_dc_object->getId());
 		}
 		foreach ($this->import_temp_refs as $record_field_id => $old_record_id) {
 			$new_record_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_record', $old_record_id);

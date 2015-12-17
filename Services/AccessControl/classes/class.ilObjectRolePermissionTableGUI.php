@@ -197,7 +197,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 				$this->tpl->setCurrentBlock('role_option');
 				$this->tpl->setVariable('INHERIT_ROLE_ID',$role_id);
 				$this->tpl->setVariable('INHERIT_CHECKED',$role_info['local_policy'] ? 'checked=checked' : '');
-				$this->tpl->setVariable('INHERIT_DISABLED',($role_info['protected'] or $role_info['isLocal']) ? 'disabled="disabled"' : '');
+				$this->tpl->setVariable('INHERIT_DISABLED',($role_info['protected'] or $role_info['isLocal'] or $role_info['blocked']) ? 'disabled="disabled"' : '');
 				$this->tpl->setVariable('TXT_INHERIT',$this->lng->txt('rbac_local_policy'));
 				$this->tpl->setVariable('INHERIT_LONG',$this->lng->txt('perm_use_local_policy_desc'));
 				$this->tpl->parseCurrentBlock();
@@ -229,7 +229,15 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 				$this->tpl->setVariable('BLOCK_ROLE_ID',$role_info['obj_id']);
 				$this->tpl->setVariable('TXT_BLOCK',$this->lng->txt('role_block_role'));
 				$this->tpl->setVariable('BLOCK_LONG',$this->lng->txt('role_block_role_desc'));
-				if($role_info['protected'] == 'y')
+				if($role_info['blocked'])
+				{
+					$this->tpl->setVariable('BLOCK_CHECKED','checked="checked"');
+				}
+				ilLoggerFactory::getLogger('ac')->debug(print_r($role_info,TRUE));
+				if(
+					($role_info['protected'] == 'y') || 
+					($role_info['assign'] == 'y' and ($role_info['parent'] == $this->getRefId()))
+				)
 				{
 					$this->tpl->setVariable('BLOCK_DISABLED','disabled="disabled');
 				}
@@ -323,9 +331,9 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 				$this->tpl->setVariable('PERM_LONG',$this->lng->txt($this->getObjType().'_'.$row['perm']['operation']));
 			}
 			
-			if($role_info['protected'])
+			if($role_info['protected'] || $role_info['blocked'])
 			{
-				$this->tpl->setVariable('PERM_DISABLED',$role_info['protected'] ? 'disabled="disabled"' : '');
+				$this->tpl->setVariable('PERM_DISABLED','disabled="disabled"');
 			}
 			if($role_info['permission_set'])
 			{
@@ -372,6 +380,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			foreach($this->getVisibleRoles() as $role_id => $role_data)
 			{
 				$roles[$role_data['obj_id']] = array(
+					'blocked' => $role_data['blocked'],
 					'protected' => $role_data['protected'],
 					'local_policy' => in_array($role_data['obj_id'],$local_roles),
 					'isLocal' => ($this->getRefId() == $role_data['parent']) && $role_data['assign'] == 'y'
@@ -390,8 +399,10 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			foreach($this->getVisibleRoles() as $role_id => $role_data)
 			{
 				$roles[$role_data['obj_id']] = array(
+					'blocked' => $role_data['blocked'],
 					'protected_allowed' => $rbacreview->isAssignable($role_data['obj_id'],$this->getRefId()),
-					'protected_status' => $rbacreview->isProtected($role_data['parent'], $role_data['obj_id'])
+					'protected_status' => $rbacreview->isProtected($role_data['parent'], $role_data['obj_id']),
+					'isLocal' => ($this->getRefId() == $role_data['parent']) && $role_data['assign'] == 'y'
 				);
 			}
 			$perms[$counter]['roles'] = $roles;
@@ -421,11 +432,12 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			$roles = array();
 			foreach($this->getVisibleRoles() as $role_data)
 			{
-				
 				$roles[$role_data['obj_id']] = 
 					array(
+						'blocked' => $role_data['blocked'],
 						'protected' => $role_data['protected'],
-						'permission_set' => in_array($operation,(array) $operations[$role_data['obj_id']])
+						'permission_set' => in_array($operation,(array) $operations[$role_data['obj_id']]),
+						'isLocal' => ($this->getRefId() == $role_data['parent']) && $role_data['assign'] == 'y'
 					);
 			}
 			
@@ -475,8 +487,11 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			{
 				$roles[$role_data['obj_id']] = 
 					array(
+						'blocked' => $role_data['blocked'],
 						'protected' => $role_data['protected'],
-						'permission_set' => in_array($ops_id,(array) $operations[$role_data['obj_id']])
+						'permission_set' => in_array($ops_id,(array) $operations[$role_data['obj_id']]),
+						'isLocal' => ($this->getRefId() == $role_data['parent']) && $role_data['assign'] == 'y'
+						
 					);
 			}
 			
@@ -515,10 +530,22 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			$roles,
 			$this->getFilterItemByPostVar('role')->getValue()
 		);
-
-		if(count($roles))
+		
+		$possible_roles = array();
+		foreach($roles as $role)
 		{
-			$column_width = 100/count($roles);
+			if($rbacreview->isBlockedInUpperContext($role['obj_id'],$this->getRefId()))
+			{
+				ilLoggerFactory::getLogger('ac')->debug('Ignoring blocked role: ' . $role['obj_id']);
+				continue;
+			}
+			$possible_roles[] = $role;
+		}
+		
+		
+		if(count($possible_roles))
+		{
+			$column_width = 100/count($possible_roles);
 			$column_width .= '%';
 		}
 		else
@@ -527,13 +554,14 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		}
 		
 		$all_roles = array();
-		foreach($roles as $role)
+		foreach($possible_roles as $role)
 		{
 			if($role['obj_id'] == SYSTEM_ROLE_ID)
 			{
 				continue;
 			}
 			
+			$role['blocked'] = (bool) $rbacreview->isBlockedAtPosition($role['obj_id'],$this->getRefId());
 			$role['role_type'] = $rbacreview->isGlobalRole($role['obj_id']) ? 'global' : 'local';
 			
 			// TODO check filter
@@ -638,6 +666,10 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		{
 			return $role['title'];
 		} 
+		if($role['blocked'])
+		{
+			return $role['title'];
+		}
 		$ilCtrl->setParameterByClass('ilobjrolegui', 'obj_id', $role['obj_id']);
 		
 		return '<a class="tblheader" href="'.$ilCtrl->getLinkTargetByClass('ilobjrolegui','').'" >'.$role['title'].'</a>';

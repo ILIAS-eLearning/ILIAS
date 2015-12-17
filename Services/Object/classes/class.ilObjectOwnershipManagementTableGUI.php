@@ -36,53 +36,53 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 		
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
-		
-		if($a_data)
-		{
-			$this->initItems($a_data);
-		}
+			
+		$this->initItems($a_data);		
 	}
 	
 	protected function initItems($a_data)
 	{		
-		global $ilAccess, $lng, $tree;
+		global $ilAccess, $tree;
 				
 		$data = array();
 		
-		if(!$this->user_id)
+		if(sizeof($a_data))
 		{
-			$is_admin = $ilAccess->checkAccess("visible", "", SYSTEM_FOLDER_ID);
-		}
-				
-		foreach($a_data as $id => $item)
-		{
-			// workspace objects won't have references
-			$refs = ilObject::_getAllReferences($id);
-			if($refs)
-			{						
-				foreach($refs as $idx => $ref_id)
+			if(!$this->user_id)
+			{
+				$is_admin = $ilAccess->checkAccess("visible", "", SYSTEM_FOLDER_ID);
+			}
+
+			foreach($a_data as $id => $item)
+			{
+				// workspace objects won't have references
+				$refs = ilObject::_getAllReferences($id);
+				if($refs)
 				{						
-					// objects in trash are hidden
-					if(!$tree->isDeleted($ref_id))
-					{
-						if($this->user_id)
+					foreach($refs as $idx => $ref_id)
+					{						
+						// objects in trash are hidden
+						if(!$tree->isDeleted($ref_id))
 						{
-							$readable = $ilAccess->checkAccessOfUser($this->user_id, "read", "", $ref_id, $a_type);	
-						}
-						else
-						{
-							$readable = $is_admin;
-						}
-												
-						$data[$ref_id] = array("obj_id" => $id,
-							"ref_id" => $ref_id,
-							"type" => ilObject::_lookupType($id),
-							"title" => $item,
-							"path" => $this->buildPath($ref_id),
-							"readable" => $readable);							
-					}					
-				}				
-			}														
+							if($this->user_id)
+							{
+								$readable = $ilAccess->checkAccessOfUser($this->user_id, "read", "", $ref_id, $a_type);	
+							}
+							else
+							{
+								$readable = $is_admin;
+							}
+
+							$data[$ref_id] = array("obj_id" => $id,
+								"ref_id" => $ref_id,
+								"type" => ilObject::_lookupType($id),
+								"title" => $item,
+								"path" => $this->buildPath($ref_id),
+								"readable" => $readable);							
+						}					
+					}				
+				}														
+			}
 		}
 
 		$this->setData($data);			
