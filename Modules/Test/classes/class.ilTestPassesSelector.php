@@ -65,11 +65,6 @@ class ilTestPassesSelector
 	public function getReportablePasses()
 	{
 		$existingPasses = $this->loadExistingPasses();
-		
-		if( $this->isAdminModeEnabled() )
-		{
-			return $existingPasses;
-		}
 			
 		$reportablePasses = $this->fetchReportablePasses($existingPasses);
 
