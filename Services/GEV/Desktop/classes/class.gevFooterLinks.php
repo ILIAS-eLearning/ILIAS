@@ -24,7 +24,12 @@ class gevFooterLinks {
 									 					 ,"display" => function() use ($uutils) {
 									 					 						if($uutils) {
 									 					 							if($uutils->seeBiproAgent()) {
-									 					 								return true;
+									 					 								$today = date("Y-m-d");
+									 					 								if($today < "2016-01-01") {
+									 					 									return true;
+									 					 								} else {
+									 					 									return false;
+									 					 								}
 									 					 							}
 																					return false;
 									 					 						}
@@ -36,7 +41,12 @@ class gevFooterLinks {
 								 					 ,"display" => function() use ($uutils) {
 																			if($uutils) {
 																				if($uutils->seeBiproSuperior()) {
-								 					 								return true;
+								 					 								$today = date("Y-m-d");
+								 					 								if($today < "2016-01-01") {
+								 					 									return true;
+								 					 								} else {
+								 					 									return false;
+								 					 								}
 								 					 							}
 																				return false;
 																			}
