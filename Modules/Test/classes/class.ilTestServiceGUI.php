@@ -152,7 +152,7 @@ class ilTestServiceGUI
 	 * @param $short
 	 * @return array
 	 */
-	public function getPassOverviewTableData(ilTestSession $testSession, ilTestPassesSelector $testPassesSelector, $withResults)
+	public function getPassOverviewTableData(ilTestSession $testSession, $passes, $withResults)
 	{
 		$data = array();
 
@@ -170,11 +170,7 @@ class ilTestServiceGUI
 
 		$scoredPass = $this->object->_getResultPass($testSession->getActiveId());
 
-		$testPassesSelector->setActiveId($testSession->getActiveId());
-		$lastFinishedPass = $testSession->getLastFinishedPass();
-		$testPassesSelector->setLastFinishedPass($lastFinishedPass);
-
-		foreach($testPassesSelector->getReportablePasses() as $pass)
+		foreach($passes as $pass)
 		{
 			$row = array();
 
