@@ -181,42 +181,31 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 				}
 				if($getType == CLOZE_NUMERIC)
 				{
-					$_POST['gap_' . $key . 'numeric']        = ilUtil::stripSlashes($_POST['gap_' . $key . 'numeric'], FALSE);
-					$_POST['gap_' . $key . 'numeric_lower']  = ilUtil::stripSlashes($_POST['gap_' . $key . 'numeric_lower'], FALSE);
-					$_POST['gap_' . $key . 'numeric_upper']  = ilUtil::stripSlashes($_POST['gap_' . $key . 'numeric_upper'], FALSE);
-					$_POST['gap_' . $key . 'numeric_points'] = ilUtil::stripSlashes($_POST['gap_' . $key . 'numeric_points']);
-					$mark_errors                             = array('answer' => false, 'lower' => false, 'upper' => false, 'points' => false);
-					$eval                                    = new EvalMath();
-					$eval->suppress_errors                   = true;
-					$formula                                 = $_POST['gap_' . $key . '_numeric'];
-					$result                                  = $eval->e(str_replace(',', '.', $_POST['gap_' . $key . '_numeric'], $formula));
+// fau: fixGapFormula - fix post indices, streamlined checks
+					include_once("./Services/Math/classes/class.EvalMath.php");
+					$eval = new EvalMath();
+					$eval->suppress_errors = true;
 
-					if($result === false)
+					$mark_errors  = array('answer' => false, 'lower' => false, 'upper' => false, 'points' => false);
+					foreach (array(	'answer' => '_numeric',
+								 	'lower' => '_numeric_lower',
+								 	'upper' => '_numeric_upper',
+							 		'points' => '_numeric_points') as $part => $suffix)
 					{
-						$error = true;
+						$val = ilUtil::stripSlashes($_POST['gap_'.$key.$suffix], FALSE);
+						$val  = str_replace(',', '.', $val);
+						if ($eval->e($val) === FALSE)
+						{
+							$mark_errors[$part] = true;
+							$error = true;
+						}
+
+						if ($part == 'points')
+						{
+							$points = $val;
+						}
 					}
-
-					$lower              = $_POST['gap_' . $key . '_numeric_lower'];
-					$assClozeTestObject = new assClozeTest();
-					$has_valid_chars    = $assClozeTestObject->checkForValidFormula($lower);
-					$result             = $eval->e(str_replace(',', '.', $lower), FALSE);
-
-					if($result === false || !$has_valid_chars)
-					{
-						$error = true;
-					}
-
-					$_POST['gap_' . $key . '_numeric_lower'] = $result;
-					$result                                  = $eval->e(str_replace(',', '.', $_POST['gap_' . $key . '_numeric_upper']), FALSE);
-
-					if($result === false)
-					{
-						$error = true;
-					}
-
-					$_POST['gap_' . $key . '_numeric_upper'] = $result;
-					$points                                  = $_POST['gap_' . $key . '_numeric_points'];
-
+// fau.
 					if(is_array($gap_with_points) && array_key_exists($key, $gap_with_points))
 					{
 						$points += $gap_with_points[$key];

@@ -69,6 +69,7 @@ class assAnswerCloze extends ASS_AnswerSimple
 		$this->gap_size = 0;
 	}
 
+// fau: fixGapFormula - allow formula evaluation when checking bounds, save bound text instead of number
 	/**
 	 * Sets the lower boind
 	 *
@@ -77,22 +78,16 @@ class assAnswerCloze extends ASS_AnswerSimple
 	 */
 	function setLowerBound($bound)
 	{
-		$bound = str_replace(",", ".", $bound);
-		
+		$boundvalue = $this->getNumericValueFromText($bound);
 		$value = $this->getNumericValueFromAnswerText();
 
-		if ($bound > $value || strlen($bound) == 0)
+		if ($boundvalue === false || $boundvalue > $value)
 		{
-			$bound = $value;
-		}
-
-		if ( is_numeric($bound) )
-		{
-			$this->lowerBound = $bound;
+			$this->lowerBound = $this->getAnswertext();
 		}
 		else
 		{
-			$this->lowerBound = $this->getAnswertext();
+			$this->lowerBound = $bound;
 		}
 	}
 
@@ -104,32 +99,32 @@ class assAnswerCloze extends ASS_AnswerSimple
 	 */
 	public function setUpperBound($bound)
 	{
-		$bound = str_replace(",", ".", $bound);
-
+		$boundvalue = $this->getNumericValueFromText($bound);
 		$value = $this->getNumericValueFromAnswerText();
 		
-		if ($bound < $value || strlen($bound) == 0)
+		if ($boundvalue === false || $boundvalue < $value)
 		{
-			$bound = $value;
-		}
-		
-		if ( is_numeric($bound) )
-		{
-			$this->upperBound = $bound;
+			$this->upperBound = $this->getAnswertext();
 		}
 		else
 		{
-			$this->upperBound = $this->getAnswertext();
+			$this->upperBound = $bound;
 		}
 	}
 	
 	protected function getNumericValueFromAnswerText()
 	{
+		return $this->getNumericValueFromText($this->getAnswertext());
+	}
+
+	protected function getNumericValueFromText($text)
+	{
 		include_once("./Services/Math/classes/class.EvalMath.php");
 		$eval = new EvalMath();
 		$eval->suppress_errors = true;
-		return $eval->e(str_replace(",", ".", ilUtil::stripSlashes($this->getAnswertext(), FALSE)));
+		return $eval->e(str_replace(",", ".", ilUtil::stripSlashes($text, FALSE)));
 	}
+// fau.
 
 	/**
 	 * Returns the lower bound
