@@ -646,7 +646,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
-		if($this->getQuestionActionCmd())
+		if($this->getQuestionActionCmd()  && strlen($this->getTargetGuiClass()))
 		{
 			$hrefArea = $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), $this->getQuestionActionCmd());
 		}
