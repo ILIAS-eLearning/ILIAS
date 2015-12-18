@@ -249,9 +249,6 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             $rubric_grade_tpl->get()            
         );
         
-        // add in our javascript file
-        //$this->tpl->addJavaScript('./Services/Tracking/js/ilRubricCard.js');
-        
         // add in the slider for label point ranges
         $this->tpl->addJavaScript('./Services/Tracking/js/slider.js');
         $this->tpl->addCss('./Services/Tracking/css/slider.css'); 
@@ -490,70 +487,6 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         
     }
     
-    /*
-    
-    // default template sliders
-$( document ).ready(function() {
-
-  $("#Points1_0").slider({tooltip: 'hide'});
-  $("#Points1_1").slider({tooltip: 'hide'});
-  $("#Points1_2").slider({tooltip: 'hide'});
-  
-  $("#Points1_0").on("slide", function(slideEvt) {    
-	$('#'+this.id+'_value').text(slideEvt.value);
-    recalculate();
-  });
-  
-  $("#Points1_1").on("slide", function(slideEvt) {    
-	$('#'+this.id+'_value').text(slideEvt.value);
-    recalculate();
-  });
-  
-  $("#Points1_2").on("slide", function(slideEvt) {    
-	$('#'+this.id+'_value').text(slideEvt.value);
-    recalculate();
-  }); 
-
-});
-
-*/
-    
-    /*
-    <tr class="tblrow1 small">
-            
-                <th scope="col" class="col-sm-2">
-                    &nbsp;
-
-                </th>
-                
-                <th scope="col" class="col-sm-2">
-                    &nbsp;
-                </th>
-                
-                <th scope="col">                   
-                    <div class="form-group">
-                        <label class="control-label" for="Points1_0">{POINT} <span id="Points1_0_value">50,70</span></label>
-                    </div>    
-                    <span>0&nbsp;</span><input id="Points1_0" name="Points1_0" type="text" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[50,70]"/><span>&nbsp;100</span>
-                </th>
-                
-                <th scope="col">                    
-                    <div class="form-group">
-                        <label class="control-label" for="Points1_1">{POINT} <span id="Points1_1_value">40,60</span></label>
-                    </div>    
-                    <span>0&nbsp;</span><input id="Points1_1" name="Points1_1" type="text" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[40,60]"/><span>&nbsp;100</span>
-                </th>
-                
-                <th scope="col">                    
-                    <div class="form-group">
-                        <label class="control-label" for="Points1_2">{POINT} <span id="Points1_2_value">30,50</span></label>
-                    </div>    
-                    <span>0&nbsp;</span><input id="Points1_2" name="Points1_2" type="text" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[30,50]"/><span>&nbsp;100</span>
-                </th>
-                
-            </tr>
-            */
-    
     private function getMinMaxLabel($weights)
     {
         //figure out min / max points for group
@@ -571,21 +504,7 @@ $( document ).ready(function() {
                 }
             }
         }
-        /* 
-        $min=$max=0;
-        foreach($this->rubric_data['labels'] as $k => $label){
-            if($k==0){
-                $min=$max=$label['weight'];
-            }else{
-                if($label['weight']>$max){
-                    $max=$label['weight'];
-                }
-                if($label['weight']<$min){
-                    $min=$label['weight'];
-                }                
-            }
-        }
-        */
+        
         return(array('min'=>$min_points,'max'=>$max_points));
     }
     
@@ -633,8 +552,6 @@ $( document ).ready(function() {
     
     private function buildTemplateCard()
     {
-        //$point_range=$this->getMinMaxLabel();
-        
         $colspan=count($this->rubric_data['labels']);
         
         $tmp_write="";
@@ -658,8 +575,7 @@ $( document ).ready(function() {
                         
                         </tr>";
         }
-        return($tmp_write.$tmp_script);
-        
+        return($tmp_write.$tmp_script);        
     }
     
     

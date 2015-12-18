@@ -208,7 +208,6 @@ var RUBRIC = {
                 
                 $("#Points"+slider_increment+"_"+position).slider({tooltip: 'hide'});  
                 $("#Points"+slider_increment+"_"+position).on("slide", function(slideEvt) {
-                    //$("#Points"+a+"_"+position+"_value").text(slideEvt.value);
                     $('#'+this.id+'_value').text(' '+slideEvt.value);
                     recalculate();
                 });
@@ -1033,6 +1032,3 @@ $( document ).ready(function() {
         });    
     }
 });
-
-
-

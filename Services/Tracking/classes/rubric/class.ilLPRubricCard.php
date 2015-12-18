@@ -24,13 +24,6 @@ class ilLPRubricCard
         
     }
     
-    /*
-    public function setRubricId($rubric_id)
-    {
-        $this->rubric_id=$rubric_id;        
-    } 
-    */   
-    
     public function getPassingGrade()
     {
         return($this->passing_grade);    
@@ -427,14 +420,9 @@ class ilLPRubricCard
                     
                     //if this behavior exists, check to see if it is the correct label
                     $is_new_behavior=true;
-                    if(count($row)>0){
-                        //does this new behavior already exist for this label (weight)
-                        //if($row['rubric_label_id']==$labels[($__new_sort_order-1)]['rubric_label_id']&&$row['sort_order']==$__new_sort_order){
-                            //not a new behavior, update deleted to not null
-                            $this->ilDB->manipulate("update rubric_behavior set deleted=null where rubric_behavior_id=".$this->ilDB->quote($row['rubric_behavior_id'], "integer"));
-                            $is_new_behavior=false;
-                        //}
-                        
+                    if(count($row)>0){                    
+                        $this->ilDB->manipulate("update rubric_behavior set deleted=null where rubric_behavior_id=".$this->ilDB->quote($row['rubric_behavior_id'], "integer"));
+                        $is_new_behavior=false;
                     }
                     
                     if($is_new_behavior===true){
