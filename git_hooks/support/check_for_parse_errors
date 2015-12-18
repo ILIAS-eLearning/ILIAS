@@ -8,9 +8,9 @@ reset=`tput sgr0`
 
 for file in $(git diff --cached --name-only --diff-filter=ACM | grep -e '\.php$')
 do
-  	if 	php -l ${file}
-   	then
-	    echo "${green}$file ok${reset}"
+	if 	php -l ${file}
+	then
+		echo "${green}$file ok${reset}"
 	else
 		echo -e "${red}$file not ok${reset}\n"
 		count+=1
