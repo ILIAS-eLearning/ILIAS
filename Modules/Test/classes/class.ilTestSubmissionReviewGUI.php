@@ -129,6 +129,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 		);
 		
 		$testevaluationgui = new ilTestEvaluationGUI($this->object);
+		$testevaluationgui->setContextWithinTestPass(true);
 		$results_output = $testevaluationgui->getPassListOfAnswers(
 			$results, $active, $this->testSession->getPass(), false, false, false, false, false,
 			$objectivesList, $testResultHeaderLabelBuilder
