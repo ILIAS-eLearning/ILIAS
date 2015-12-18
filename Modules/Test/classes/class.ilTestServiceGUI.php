@@ -81,22 +81,22 @@ class ilTestServiceGUI
 	 */
 	private $objectiveOrientedContainer;
 	
-	private $contextWithinTestPass = false;
+	private $contextResultPresentation = true;
 
 	/**
 	 * @return boolean
 	 */
-	public function isContextWithinTestPass()
+	public function isContextResultPresentation()
 	{
-		return $this->contextWithinTestPass;
+		return $this->contextResultPresentation;
 	}
 
 	/**
-	 * @param boolean $contextWithinTestPass
+	 * @param boolean $contextResultPresentation
 	 */
-	public function setContextWithinTestPass($contextWithinTestPass)
+	public function setContextResultPresentation($contextResultPresentation)
 	{
-		$this->contextWithinTestPass = $contextWithinTestPass;
+		$this->contextResultPresentation = $contextResultPresentation;
 	}
 	
 	/**
@@ -409,8 +409,8 @@ class ilTestServiceGUI
 
 						$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
 
-						$showFeedback = !$this->isContextWithinTestPass() && $this->object->getShowSolutionFeedback();
-						$show_solutions = !$this->isContextWithinTestPass() && $show_solutions;
+						$showFeedback = $this->isContextResultPresentation() && $this->object->getShowSolutionFeedback();
+						$show_solutions = $this->isContextResultPresentation() && $show_solutions;
 						
 						if($show_solutions)
 						{

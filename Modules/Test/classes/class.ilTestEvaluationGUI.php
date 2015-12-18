@@ -1510,6 +1510,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			{
 				$showAllAnswers = FALSE;
 			}
+			$this->setContextResultPresentation(false);
 			$answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, FALSE, $showAllAnswers, false, false, false, $objectivesList, $testResultHeaderLabelBuilder);
 			$template->setVariable("PASS_DETAILS", $answers);
 		}
