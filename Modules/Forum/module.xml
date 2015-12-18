@@ -23,6 +23,10 @@
 		<event type="listen" id="Modules/Course" />
 		<event type="listen" id="Modules/Group" />
 		<event type="listen" id="Modules/Forum" />
+		<event type="raise" id="createdPost" />
+		<event type="raise" id="updatedPost" />
+		<event type="raise" id="censoredPost" />
+		<event type="raise" id="deletedPost" />
 	</events>
 	<crons>		
 		<cron id="frm_notification" class="ilForumCronNotification" />
