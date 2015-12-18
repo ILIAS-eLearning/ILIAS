@@ -164,7 +164,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 			}
 			else
 			{
-				$template->setVariable("CANCEL_CMD_BOTTOM", 'backFromSummary');
+				$template->setVariable("CANCEL_CMD_BOTTOM", ilTestPlayerCommands::BACK_FROM_FINISHING);
 			}
 			$template->setVariable("BUTTON_CONTINUE_BOTTOM", $this->lng->txt("btn_next"));
 			$template->setVariable("BUTTON_BACK_BOTTOM", $this->lng->txt("btn_previous"));
