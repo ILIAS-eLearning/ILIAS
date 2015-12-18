@@ -40,8 +40,8 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 		$this->setStyle('table', 'fullwidth');
 
 		$this->addColumn('','f','1%');
-		$this->addColumn($this->lng->txt("login"),'login', '');
 		$this->addColumn($this->lng->txt("name"),'name', '');
+		$this->addColumn($this->lng->txt("login"),'login', '');
 		/*
 		$this->addColumn($this->lng->txt("lastname"),'lastname', '');
 		$this->addColumn($this->lng->txt("firstname"),'firstname', '');
@@ -73,11 +73,6 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 			$this->addMultiCommand('showDetailedResults', $this->lng->txt('show_detailed_results'));
 		}
 		$this->addMultiCommand('deleteSingleUserResults', $this->lng->txt('delete_user_data'));
-
-		if ($nrOfDatasets)
-		{
-			$this->addCommandButton('deleteAllUserResults', $this->lng->txt('delete_all_user_data'));
-		}
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
