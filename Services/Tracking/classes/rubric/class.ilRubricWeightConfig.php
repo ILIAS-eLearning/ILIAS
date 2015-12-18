@@ -39,6 +39,15 @@ class rubricWeightConfig extends ActiveRecord {
          * @db_fieldtype    integer
          * @db_length       4
          */
+        protected $rubric_group_id = null;
+        
+        /**
+         * @var int
+         *
+         * @db_has_field    true
+         * @db_fieldtype    integer
+         * @db_length       4
+         */
         protected $weight_min = null;
         
         /**

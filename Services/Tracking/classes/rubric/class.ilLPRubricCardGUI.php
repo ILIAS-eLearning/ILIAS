@@ -133,6 +133,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             'RUBRIC_SAVE'=>'rubric_card_save',
             'OUT_OF'=>'rubric_out_of',            
             'GRAND_TOTAL'=>'rubric_grand_total',
+            'GRADE_RANGE'=>'rubric_grade_range',           
         );        
          
         $rubric_form_tpl=new ilTemplate($filename,true,true,'Services/Tracking');
@@ -249,7 +250,15 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         );
         
         // add in our javascript file
+        //$this->tpl->addJavaScript('./Services/Tracking/js/ilRubricCard.js');
+        
+        // add in the slider for label point ranges
+        $this->tpl->addJavaScript('./Services/Tracking/js/slider.js');
+        $this->tpl->addCss('./Services/Tracking/css/slider.css'); 
+        
+        // add in our javascript file
         $this->tpl->addJavaScript('./Services/Tracking/js/ilRubricCard.js');
+        $this->tpl->addCss('./Services/Tracking/css/ilRubricCard.css');
     }
     
     
@@ -284,37 +293,11 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     
     private function buildGradeBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment)
     {
-        $tmp_behavior_name='Behavior_'.$group_increment.'_'.$criteria_increment.'_'.$behavior_increment;
-        $tmp_radio_name="Criteria_${group_increment}_${criteria_increment}";
+        $tmp_write.="<td scope=\"rowgroup\">                            
+                        ${behavior['description']}
+                    </td>";   
         
-        $checked='';
-        $class='';
-        foreach($this->user_data as $k => $user_data){
-            if($user_data['rubric_behavior_id']==$behavior['behavior_id']){
-                $checked='checked="checked"';
-                $class='class="success"';
-                break;
-            }
-        }
-        
-        if($this->student_view){
-            $tmp_write.="<td scope=\"rowgroup\" $class>                            
-                            ${behavior['description']}
-                        </td>";
-            
-        }else{
-            $tmp_write="<td scope=\"rowgroup\">
-                            <div class=\"radio\">
-                                <label>
-                                    <input type=\"radio\" name=\"$tmp_radio_name\" value=\"${behavior['behavior_id']}\" onclick=\"updateGrade(this)\" $checked> ${behavior['description']}
-                                </label>
-                            </div>
-                        </td>";
-        }
-        
-        
-        return($tmp_write);
-        
+        return($tmp_write);        
     }
     
     private function buildTemplateBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment)
@@ -343,25 +326,35 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                         ${criteria['criteria']}
                     </td>";
         $tmp_comment='';
+        $tmp_point='';
         
-        foreach($criteria['behaviors'] as $behavior_increment => $behavior){
-            $tmp_write.=$this->buildGradeBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment);
-            
-            // is there a comment for this behavior?
-            foreach($this->user_data as $k => $user_data){
-                if($user_data['rubric_behavior_id']==$behavior['behavior_id']){
-                    $tmp_comment=$user_data['behavior_comment'];
-                }                
+        //get comment and point value        
+        foreach($this->user_data as $u => $user_data){
+            if($user_data['rubric_criteria_id']==$criteria['criteria_id']){
+                $tmp_comment=$user_data['criteria_comment'];
+                $tmp_point=$user_data['criteria_point'];
             }
-                        
         }
+        
+        //get behaviors
+        foreach($criteria['behaviors'] as $behavior_increment => $behavior){
+            $tmp_write.=$this->buildGradeBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment);                   
+        }
+        
         if($this->student_view){
             $tmp_write.="<td scope=\"rowgroup\">                        
+                            $tmp_point 
+                        </td>
+                        <td scope=\"rowgroup\">                        
                             $tmp_comment 
                         </td>";
         }else{
-            $tmp_write.="<td scope=\"rowgroup\">                        
-                            <input type=\"text\" name=\"$tmp_comment_name\" value=\"$tmp_comment\" placeholder=\"{COMMENT}\"> 
+            $tmp_id="Grade${group_increment}_${criteria_increment}";
+            $tmp_write.="<td scope=\"rowgroup\">
+                            <input id=\"${tmp_id}\" name=\"${tmp_id}\" type=\"text\" class=\"form-control\" placeholder=\"Grade\" value=\"$tmp_point\" onkeyup=\"verifyGrade(this)\" oninput=\"verifyGrade(this)\">
+                        </td>
+                        <td scope=\"rowgroup\">
+                            <input type=\"text\" name=\"$tmp_comment_name\" value=\"$tmp_comment\" class=\"form-control\" placeholder=\"{COMMENT}\"> 
                         </td>";
         }
         
@@ -392,6 +385,20 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         
         return($tmp_write);
         
+    }
+    
+    private function buildGradeGroupPoints($weights)
+    {
+        $tmp_write="<tr class=\"tblrow1 small\">
+                        <th>&nbsp;</th>
+                        <th style=\"text-align:right\">{GRADE_RANGE}</th>";
+        
+        foreach($weights as $k => $weight){
+            $tmp_write.="<th>${weight['weight_min']} - ${weight['weight_max']}";
+        }
+        $tmp_write.="<th colspan=\"2\">&nbsp;</th>
+                    </tr>";
+        return($tmp_write);
     }
     
     private function buildGradeGroup($group,$group_increment)
@@ -444,8 +451,127 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         return($tmp_write);
     }
     
-    private function getMinMaxLabel()
+    private function buildTemplateGroupPoints($weights,$group_id)
     {
+        $group_id++;//increment, base 1 
+        $tmp_script="<script type=\"text/javascript\">
+                    $( document ).ready(function() {";
+        $tmp_write="<tr class=\"tblrow1 small\">            
+                        <th scope=\"col\" class=\"col-sm-2\">
+                            &nbsp;
+                        </th>                
+                        <th scope=\"col\" class=\"col-sm-2\">
+                            &nbsp;
+                        </th>";
+                        
+        foreach($weights as $k => $weight){
+            $tmp_name="Points${group_id}_${k}";
+            $tmp_write.="<th scope=\"col\">
+                            <div class=\"form-group\">
+                                <label class=\"control-label\" for=\"$tmp_name\">{POINT} <span id=\"${tmp_name}_value\">${weight['weight_min']},${weight['weight_max']}</span></label>
+                            </div>    
+                            <span>0&nbsp;</span><input id=\"$tmp_name\" name=\"$tmp_name\" type=\"text\" value=\"\" data-slider-min=\"0\" data-slider-max=\"100\" data-slider-step=\"1\" data-slider-value=\"[${weight['weight_min']},${weight['weight_max']}]\"/><span>&nbsp;100</span>
+                        </th>";
+            $tmp_script.="
+                $(\"#$tmp_name\").slider({tooltip: 'hide'});
+                $(\"#$tmp_name\").on(\"slide\", function(slideEvt) {    
+                	$('#${tmp_name}_value').text(slideEvt.value);
+                    recalculate();
+                  });
+            ";
+        }
+        
+        $tmp_script.="});
+                    </script>";
+        
+        
+        
+        return(array('tmp_write'=>$tmp_write,'tmp_script'=>$tmp_script));
+        
+    }
+    
+    /*
+    
+    // default template sliders
+$( document ).ready(function() {
+
+  $("#Points1_0").slider({tooltip: 'hide'});
+  $("#Points1_1").slider({tooltip: 'hide'});
+  $("#Points1_2").slider({tooltip: 'hide'});
+  
+  $("#Points1_0").on("slide", function(slideEvt) {    
+	$('#'+this.id+'_value').text(slideEvt.value);
+    recalculate();
+  });
+  
+  $("#Points1_1").on("slide", function(slideEvt) {    
+	$('#'+this.id+'_value').text(slideEvt.value);
+    recalculate();
+  });
+  
+  $("#Points1_2").on("slide", function(slideEvt) {    
+	$('#'+this.id+'_value').text(slideEvt.value);
+    recalculate();
+  }); 
+
+});
+
+*/
+    
+    /*
+    <tr class="tblrow1 small">
+            
+                <th scope="col" class="col-sm-2">
+                    &nbsp;
+
+                </th>
+                
+                <th scope="col" class="col-sm-2">
+                    &nbsp;
+                </th>
+                
+                <th scope="col">                   
+                    <div class="form-group">
+                        <label class="control-label" for="Points1_0">{POINT} <span id="Points1_0_value">50,70</span></label>
+                    </div>    
+                    <span>0&nbsp;</span><input id="Points1_0" name="Points1_0" type="text" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[50,70]"/><span>&nbsp;100</span>
+                </th>
+                
+                <th scope="col">                    
+                    <div class="form-group">
+                        <label class="control-label" for="Points1_1">{POINT} <span id="Points1_1_value">40,60</span></label>
+                    </div>    
+                    <span>0&nbsp;</span><input id="Points1_1" name="Points1_1" type="text" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[40,60]"/><span>&nbsp;100</span>
+                </th>
+                
+                <th scope="col">                    
+                    <div class="form-group">
+                        <label class="control-label" for="Points1_2">{POINT} <span id="Points1_2_value">30,50</span></label>
+                    </div>    
+                    <span>0&nbsp;</span><input id="Points1_2" name="Points1_2" type="text" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[30,50]"/><span>&nbsp;100</span>
+                </th>
+                
+            </tr>
+            */
+    
+    private function getMinMaxLabel($weights)
+    {
+        //figure out min / max points for group
+        $min_points=$max_points=0;
+        foreach($weights as $k => $weight){
+            if($k==0){
+                $min_points=$weight['weight_min'];
+                $max_points=$weight['weight_max'];
+            }else{
+                if($weigth['weight_max']>$max_points){
+                    $max_points=$weigtht['weight_max'];
+                }
+                if($weight['weight_min']<$min_points){
+                    $min_points=$weight['weight_min'];
+                }
+            }
+        }
+        /* 
         $min=$max=0;
         foreach($this->rubric_data['labels'] as $k => $label){
             if($k==0){
@@ -459,36 +585,31 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                 }                
             }
         }
-        return(array('min'=>$min,'max'=>$max));
+        */
+        return(array('min'=>$min_points,'max'=>$max_points));
     }
     
     private function buildGradeCard()
     {
-        $point_range=$this->getMinMaxLabel();
-        
-        $colspan=count($this->rubric_data['labels'])+1;
+        $colspan=count($this->rubric_data['labels'])+2;
         
         $tmp_write="";
         foreach($this->rubric_data['groups'] as $group_increment => $group){
             
+            $point_range=$this->getMinMaxLabel($group['weights']);
+            
             $min_points=0;
-            $max_points=number_format(count($group['criteria'])*$point_range['max'],2);
+            $max_points=count($group['criteria'])*$point_range['max'];
             
             //calculate min_points
             if(isset($this->user_data)){
                 
                 foreach($group['criteria'] as $c => $criteria){
-                    foreach($criteria['behaviors'] as $b => $behavior){
-                        foreach($this->user_data as $u => $user_data){
-                            if($user_data['rubric_behavior_id']==$behavior['behavior_id']){
-                                //get weigth from label
-                                foreach($this->rubric_data['labels'] as $_k => $label){
-                                    if($label['rubric_label_id']==$user_data['rubric_label_id']){
-                                        $min_points+=$label['weight'];
-                                        break;
-                                    }                    
-                                }
-                            }
+                    
+                    foreach($this->user_data as $u => $user_data){
+                        
+                        if($user_data['rubric_criteria_id']==$criteria['criteria_id']){
+                            $min_points+=$user_data['criteria_point'];
                         }
                         
                     }
@@ -497,8 +618,8 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                 
             }
             
-            $min_points=number_format($min_points,2);            
-            
+            $min_points=$min_points;            
+            $tmp_write.=$this->buildGradeGroupPoints($group['weights']);
             $tmp_write.=$this->buildGradeGroup($group,$group_increment);
             $tmp_write.="            
                         <tr>
@@ -512,15 +633,22 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     
     private function buildTemplateCard()
     {
-        $point_range=$this->getMinMaxLabel();
+        //$point_range=$this->getMinMaxLabel();
         
         $colspan=count($this->rubric_data['labels']);
         
         $tmp_write="";
+        $tmp_script="";
         foreach($this->rubric_data['groups'] as $group_increment => $group){
             
-            $min_points=number_format(count($group['criteria'])*$point_range['min'],2);
-            $max_points=number_format(count($group['criteria'])*$point_range['max'],2);
+            $point_range=$this->getMinMaxLabel($group['weights']);
+            
+            $min_points=count($group['criteria'])*$point_range['min'];
+            $max_points=count($group['criteria'])*$point_range['max'];
+            
+            $tmp=$this->buildTemplateGroupPoints($group['weights'],$group_increment);
+            $tmp_write.=$tmp['tmp_write'];
+            $tmp_script.=$tmp['tmp_script'];
             
             $tmp_write.=$this->buildTemplateGroup($group,$group_increment);
             $tmp_write.="            
@@ -530,7 +658,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                         
                         </tr>";
         }
-        return($tmp_write);
+        return($tmp_write.$tmp_script);
         
     }
     
@@ -546,12 +674,6 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                                 <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
                                 <span id=\"Label${k}WarningStatus\" class=\"sr-only\">(ok)</span>
                             </div>
-                            <div class=\"form-group has-success has-feedback\">
-                                <label class=\"control-label\" for=\"Points${k}\">{POINT}</label>
-                                <input id=\"Points${k}\" name=\"Points${k}\" type=\"text\" class=\"form-control\" placeholder=\"".$label['weight']."\" value=\"".$label['weight']."\" aria-describedby=\"Points${k}WarningStatus\" onkeyup=\"validate(this)\" onblur=\"recalculate()\" oninput=\"validate(this)\">
-                                <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
-                                <span id=\"Points${k}WarningStatus\" class=\"sr-only\">(ok)</span>
-                            </div>
                         </th>";
             
             
@@ -565,7 +687,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         $tmp_write="";
         foreach($this->rubric_data['labels'] as $k => $label){
             $tmp_write.="<th scope=\"col\">
-                            ".$label['label']." (".$label['weight'].")
+                            ".$label['label']."
                         </th>";
         }
         return($tmp_write);
@@ -574,15 +696,15 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     
     private function buildCompleteTemplate()
     {
-        // build min / max point range for overall
-        $point_range=$this->getMinMaxLabel();
+        // build min / max point range for overall        
         $min_points=$max_points=0;
         foreach($this->rubric_data['groups'] as $k => $group){
+            $point_range=$this->getMinMaxLabel($group['weights']);
             $min_points+=count($group['criteria'])*$point_range['min'];
             $max_points+=count($group['criteria'])*$point_range['max'];
         }
-        $min_points=number_format($min_points,2);
-        $max_points=number_format($max_points,2);
+        $min_points=$min_points;
+        $max_points=$max_points;
         
         // define colspan for tfoot
         $colspan=count($this->rubric_data['labels']);
@@ -596,13 +718,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                     
                         <thead>            
                             <tr>                            
-                                <th scope=\"col\">
-                                    {GROUP}
-                                </th>
-                                
-                                <th scope=\"col\">
-                                    {CRITERIA}
-                                </th>".
+                                <th colspan=\"2\">&nbsp;</th>".                                
                                 $this->buildTemplateLabels().                                
                             "</tr>            
                         </thead>
@@ -628,27 +744,25 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     
     private function buildGradeTemplate()
     {        
-        $point_range=$this->getMinMaxLabel();
-        $max_points=0;
-        $min_points=0;
-        foreach($this->rubric_data['groups'] as $k => $group){        
-            $max_points+=count($group['criteria'])*$point_range['max'];
-        }
-        $max_points=number_format($max_points,2);
         
-        if(isset($this->user_data)){
-            foreach($this->user_data as $k => $user_data){
-                foreach($this->rubric_data['labels'] as $_k => $label){
-                    if($label['rubric_label_id']==$user_data['rubric_label_id']){
-                        $min_points+=$label['weight'];
-                        break;
+        $overall_max_points=0;
+        $overall_min_points=0;
+        foreach($this->rubric_data['groups'] as $k => $group){
+            $point_range=$this->getMinMaxLabel($group['weights']);
+            $overall_max_points+=count($group['criteria'])*$point_range['max'];
+            if(isset($this->user_data)){
+                foreach($group['criteria'] as $c => $criteria){                    
+                    foreach($this->user_data as $u => $user_data){
+                        if($criteria['criteria_id']==$user_data['rubric_criteria_id']){
+                            $overall_min_points+=$user_data['criteria_point'];
+                        }                        
                     }                    
-                }
+                }                
             }
         }
-        $min_points=number_format($min_points,2);
-        
-        $colspan=count($this->rubric_data['labels'])+1;
+         
+                
+        $colspan=count($this->rubric_data['labels'])+2;
         // here we temporarily build the template, then destroy it after
         $filename="./Services/Tracking/templates/default/tpl.lp_rubricgrade_generated_".time().".html";
         
@@ -658,15 +772,15 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                     
                         <thead>            
                             <tr>                            
-                                <th scope=\"col\">
-                                    {GROUP}
-                                </th>
+                                <th colspan=\"2\">&nbsp;</th>".
                                 
-                                <th scope=\"col\">
-                                    {CRITERIA}
-                                </th>".
                                 $this->buildGradeLabels().
-                                "<th scope=\"col\">
+                                
+                                "
+                                <th scope=\"col\">
+                                    GRADE
+                                </th>
+                                <th scope=\"col\">
                                     {COMMENT}
                                 </th>
                             </tr>            
@@ -675,7 +789,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                         <tfoot>
                             <tr>
                                 <th colspan=\"2\" class=\"text-right\">{GRAND_TOTAL}</th>
-                                <td colspan=\"$colspan\">$min_points {OUT_OF} $max_points</td>
+                                <td colspan=\"$colspan\">$overall_min_points {OUT_OF} $overall_max_points</td>
                             </tr>
                         </tfoot>
                         

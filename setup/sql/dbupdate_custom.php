@@ -59,8 +59,23 @@ $ilDB->manipulate('truncate table rubric_label');
 $ilDB->manipulate('truncate table rubric_label_seq');
 $ilDB->manipulate('truncate table rubric_seq');
 
-
 // Add rubric_weight table 
 require_once('./Services/Tracking/classes/rubric/class.ilRubricWeightConfig.php');
 rubricWeightConfig::installDB();
+?>
+<#3>
+<?php
+
+// Rename rubric_data.behavior_comment to rubric_data.criteria_comment
+$ilDB->renameTableColumn("rubric_data", "behavior_comment", "criteria_comment");
+
+// Rename rubric_data.rubric_behavior_id to rubric_data.rubric_criteria_id
+$ilDB->renameTableColumn("rubric_data", "rubric_behavior_id", "rubric_criteria_id");
+
+// Remove rubric_data.rubric_label_id
+$ilDB->dropTableColumn("rubric_data", "rubric_label_id");
+
+// Add rubric_data.criteria_point
+$ilDB->addTableColumn("rubric_data", "criteria_point", array("type" => "integer", "length" => 3));
+
 ?>
