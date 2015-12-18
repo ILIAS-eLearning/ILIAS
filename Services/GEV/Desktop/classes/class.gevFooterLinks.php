@@ -42,13 +42,13 @@ class gevFooterLinks {
 			, "display" => function() use ($uutils) {
 					if($uutils) {
 						if($uutils->seeBiproSuperior()) {
- 								$today = date("Y-m-d");
- 								if($today < "2016-01-01") {
- 									return true;
- 								} else {
- 									return false;
- 								}
- 							}
+							$today = date("Y-m-d");
+							if($today < "2016-01-01") {
+								return true;
+							} else {
+								return false;
+							}
+						}
 						return false;
 					}
 				}
