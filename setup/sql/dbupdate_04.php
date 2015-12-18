@@ -12500,3 +12500,7 @@ foreach ($indices as $table_name => $field_names) {
 	}
 }
 ?>
+<#4801>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

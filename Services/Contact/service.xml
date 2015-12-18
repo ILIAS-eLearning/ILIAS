@@ -9,7 +9,7 @@
 	<events>
 		<event type="listen" id="Services/User" />
 		<event type="listen" id="Services/Contact" />
-		<event type="raise" id="Services/Contact" />
+		<event type="raise" id="contactRequested" />
 	</events>
 	<logging />
 </service>
