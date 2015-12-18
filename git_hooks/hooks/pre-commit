@@ -5,7 +5,7 @@
 #make this file executable via chmod +x pre-commit
 #copy this file and check_for_parse_errors onto .git/hooks/pre-commit
 #happy errorfree commiting!
-if .git_hooks/check_for_parse_errors 
+if ./git_hooks/support/check_for_parse_errors 
 then
 	exit 0
 else

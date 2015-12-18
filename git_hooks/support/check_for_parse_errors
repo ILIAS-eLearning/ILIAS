@@ -1,13 +1,18 @@
 #!/bin/bash
 
 count=0
+
+red=`tput setaf 1`
+green=`tput setaf 2`
+reset=`tput sgr0`
+
 for file in $(git diff --cached --name-only --diff-filter=ACM | grep -e '\.php$')
 do
   	if 	php -l ${file}
    	then
-	    echo "$file ok"
+	    echo "${green}$file ok${reset}"
 	else
-		echo "$file not ok"
+		echo -e "${red}$file not ok${reset}\n"
 		count+=1
 	fi
 done
