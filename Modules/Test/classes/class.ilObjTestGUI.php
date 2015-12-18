@@ -1276,6 +1276,10 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$qtiParser = new ilQTIParser($_SESSION["tst_import_qti_file"], IL_MO_PARSE_QTI, $qpl_id, $_POST["ident"]);
+		if( !isset($_POST["ident"]) || !is_array($_POST["ident"]) || !count($_POST["ident"]) )
+		{
+			$qtiParser->setIgnoreItemsEnabled(true);
+		}
 		$qtiParser->setTestObject($newObj);
 		$result = $qtiParser->startParsing();
 		$newObj->saveToDb();
@@ -1286,12 +1290,15 @@ class ilObjTestGUI extends ilObjectGUI
 		$contParser->setQuestionMapping($qtiParser->getImportMapping());
 		$contParser->startParsing();
 
-		// import test results
-		if (@file_exists($_SESSION["tst_import_results_file"]))
+		if( isset($_POST["ident"]) && is_array($_POST["ident"]) && count($_POST["ident"]) == $qtiParser->getFoundItems() )
 		{
-			include_once ("./Modules/Test/classes/class.ilTestResultsImportParser.php");
-			$results = new ilTestResultsImportParser($_SESSION["tst_import_results_file"], $newObj);
-			$results->startParsing();
+			// import test results
+			if (@file_exists($_SESSION["tst_import_results_file"]))
+			{
+				include_once ("./Modules/Test/classes/class.ilTestResultsImportParser.php");
+				$results = new ilTestResultsImportParser($_SESSION["tst_import_results_file"], $newObj);
+				$results->startParsing();
+			}
 		}
 
 		// delete import directory

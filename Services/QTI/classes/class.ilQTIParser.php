@@ -100,6 +100,27 @@ class ilQTIParser extends ilSaxParser
 	 * @var bool
 	 */
 	protected $in_prensentation_material = false;
+
+	/**
+	 * @var bool
+	 */
+	protected $ignoreItemsEnabled = false;
+
+	/**
+	 * @return boolean
+	 */
+	public function isIgnoreItemsEnabled()
+	{
+		return $this->ignoreItemsEnabled;
+	}
+
+	/**
+	 * @param boolean $ignoreItemsEnabled
+	 */
+	public function setIgnoreItemsEnabled($ignoreItemsEnabled)
+	{
+		$this->ignoreItemsEnabled = $ignoreItemsEnabled;
+	}
 	
 	/**
 	* Constructor
@@ -965,7 +986,11 @@ class ilQTIParser extends ilSaxParser
 								$this->item->setIliasSourceNic(
 									$this->fetchSourceNicFromItemIdent($value)
 								);
-								if (count($this->import_idents) > 0)
+								if( $this->isIgnoreItemsEnabled() )
+								{
+									$this->do_nothing = true;
+								}
+								elseif (count($this->import_idents) > 0)
 								{
 									if (!in_array($value, $this->import_idents))
 									{
