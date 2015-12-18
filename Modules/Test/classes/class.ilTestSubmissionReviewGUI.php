@@ -113,6 +113,7 @@ class ilTestSubmissionReviewGUI
 		$active = $this->test->getActiveIdOfUser($ilUser->getId());
 
 		$testevaluationgui = new ilTestEvaluationGUI($this->test);
+		$testevaluationgui->setContextWithinTestPass(true);
 		$results = $this->test->getTestResult($active, $this->testSession->getPass());
 		$results_output = $testevaluationgui->getPassListOfAnswers(
 			$results, $active, $this->testSession->getPass(), false, false, false, false
