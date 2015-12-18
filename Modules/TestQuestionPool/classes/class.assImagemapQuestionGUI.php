@@ -5,6 +5,7 @@ require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoringAdjustable.php';
 include_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once  'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
 
 /**
  * Image map question GUI representation
@@ -549,7 +550,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		{
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		}
-		$template->setVariable("IMG_SRC", "$imagepath");
+		
+		$template->setVariable("IMG_SRC", ilWACSignedPath::signFile($imagepath));
 		$template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
 		$template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
 		if (($active_id > 0) && (!$show_correct_solution))
@@ -677,7 +679,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$template->setVariable("IMG_SRC", "$imagepath");
+		$template->setVariable("IMG_SRC", ilWACSignedPath::signFile($imagepath));
 		$template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
 		$template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
 		$questionoutput = $template->get();
@@ -779,7 +781,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$template->setVariable("IMG_SRC", "$imagepath");
+		$template->setVariable("IMG_SRC", ilWACSignedPath::signFile($imagepath));
 		$template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
 		$template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
 		$questionoutput = $template->get();
