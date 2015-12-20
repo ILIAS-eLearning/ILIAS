@@ -12508,3 +12508,83 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4803>
+<?php
+if(!$ilDB->tableColumnExists('adl_shared_data','cp_node_id')) 
+{
+	$ilDB->addTableColumn(
+        'adl_shared_data',
+        'cp_node_id',
+	array (
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true,
+		"default" => "0"
+        ));
+
+	$dataRes = $ilDB->query(
+		"select cp_datamap.cp_node_id, cp_datamap.slm_id, cp_datamap.target_id from cp_datamap, adl_shared_data "
+		."WHERE cp_datamap.slm_id = adl_shared_data.slm_id AND cp_datamap.target_id = adl_shared_data.target_id"
+		);
+	while( $row = $ilDB->fetchAssoc($dataRes) )
+	{
+		$ilDB->manipulateF(
+			"UPDATE adl_shared_data SET cp_node_id = %s WHERE slm_id = %s AND target_id = %s",
+			array("integer","integer","text"),
+			array($row["cp_node_id"],$row["slm_id"],$row["target_id"])
+		);
+	}
+	$ilDB->manipulate("delete from adl_shared_data WHERE cp_node_id = 0");
+	
+	$ilDB->addPrimaryKey("adl_shared_data", array('cp_node_id','user_id'));
+}
+?>
+<#4804>
+<?php
+	$query = "show index from sahs_sc13_seq_templ where Key_name = 'PRIMARY'";
+	$res = $ilDB->query($query);
+	if (!$ilDB->numRows($res)) {
+		$ilDB->addPrimaryKey('sahs_sc13_seq_templ', array('seqnodeid','id'));
+	}
+?>
+<#4805>
+<?php
+	$query = "show index from sahs_sc13_seq_tree where Key_name = 'PRIMARY'";
+	$res = $ilDB->query($query);
+	if (!$ilDB->numRows($res)) {
+		$ilDB->addPrimaryKey('sahs_sc13_seq_tree', array('child','importid','parent'));
+	}
+?>
+<#4806>
+<?php
+	$query = "show index from sahs_sc13_tree where Key_name = 'PRIMARY'";
+	$res = $ilDB->query($query);
+	if (!$ilDB->numRows($res)) {
+		$ilDB->addPrimaryKey('sahs_sc13_tree', array('child','parent','slm_id'));
+	}
+?>
+<#4807>
+<?php
+	$query = "show index from scorm_tree where Key_name = 'PRIMARY'";
+	$res = $ilDB->query($query);
+	if (!$ilDB->numRows($res)) {
+		$ilDB->addPrimaryKey('scorm_tree', array('slm_id','child'));
+	}
+?>
+<#4808>
+<?php
+	$ilDB->modifyTableColumn('cp_tree', 'obj_id', array(
+		"notnull" => true,
+		"default" => "0"
+	));
+	$ilDB->modifyTableColumn('cp_tree', 'child', array(
+		"notnull" => true,
+		"default" => "0"
+	));
+
+	$query = "show index from cp_tree where Key_name = 'PRIMARY'";
+	$res = $ilDB->query($query);
+	if (!$ilDB->numRows($res)) {
+		$ilDB->addPrimaryKey('cp_tree', array('obj_id','child'));
+	}
+?>
