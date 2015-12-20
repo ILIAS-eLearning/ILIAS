@@ -129,6 +129,10 @@ class ilSCORMPresentationGUI
 				$this->tpl->show("DEFAULT", false);
 			}
 		} else {
+			//WAC
+			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+			ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory().'/imsmanifest.xml');
+
 			$debug = $this->slm->getDebug();
 			if (count($items) > 1
 				|| strtolower(get_class($this->slm)) == "ilobjaicclearningmodule"
@@ -803,6 +807,9 @@ class ilSCORMPresentationGUI
 
 	function pingSession()
 	{
+		//WAC
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+		ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory().'/imsmanifest.xml');
 		return true;
 	}
 
