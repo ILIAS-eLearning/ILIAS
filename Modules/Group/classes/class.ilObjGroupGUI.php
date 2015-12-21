@@ -238,7 +238,9 @@ class ilObjGroupGUI extends ilContainerGUI
 			default:
 			
 				// check visible permission
-				if (!$this->getCreationMode() and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'grp'))
+				if (!$this->getCreationMode() and
+						!$ilAccess->checkAccess('visible','',$this->object->getRefId(),'grp') and
+						!$ilAccess->checkAccess('read','',$this->object->getRefId(),'grp') )
 				{
 					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 				}
