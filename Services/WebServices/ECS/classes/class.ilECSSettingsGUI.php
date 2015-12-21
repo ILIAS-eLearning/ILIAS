@@ -1787,34 +1787,34 @@ class ilECSSettingsGUI
 			$writer->addColumn(ilObject::_lookupTitle($obj_id));
 			$writer->addColumn(ilObject::_lookupDescription($obj_id));
 			
-			$field = $settings->getMappingByECSName('courseID');
+			$field = $settings->getMappingByECSName(0, 'courseID');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('term');
+			$field = $settings->getMappingByECSName(0,'term');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('lecturer');
+			$field = $settings->getMappingByECSName(0,'lecturer');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('courseType');
+			$field = $settings->getMappingByECSName(0,'courseType');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('semester_hours');
+			$field = $settings->getMappingByECSName(0,'semester_hours');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('credits');
+			$field = $settings->getMappingByECSName(0,'credits');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('room');
+			$field = $settings->getMappingByECSName(0,'room');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('cycle');
+			$field = $settings->getMappingByECSName(0,'cycle');
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
-			$field = $settings->getMappingByECSName('begin');
+			$field = $settings->getMappingByECSName(0,'begin');
 			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
 			
-			$field = $settings->getMappingByECSName('end');
+			$field = $settings->getMappingByECSName(0,'end');
 			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
 			
 			$writer->addColumn($ilObjDataCache->lookupLastUpdate($obj_id));
