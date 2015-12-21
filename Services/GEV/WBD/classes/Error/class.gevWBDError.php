@@ -11,6 +11,9 @@
 */
 class gevWBDError extends WBDError{
 
+	const ERROR_GROUP_CRS = "crs";
+	const ERROR_GROUP_USER = "user";
+
 	protected $ilDB;
 	protected $errMessage;
 	protected $reason;
@@ -19,6 +22,7 @@ class gevWBDError extends WBDError{
 	protected $usr_id;
 	protected $crs_id;
 	protected $row_id;
+	protected $error_group;
 
 	protected static $valid_services 
 		= array(
@@ -31,7 +35,7 @@ class gevWBDError extends WBDError{
 			,'cp_request'
 			);
 
-	public function __construct($errMessage, $service, $usr_id, $row_id, $crs_id = 0) {
+	public function __construct($errMessage, $error_group ,$service, $usr_id, $row_id, $crs_id = 0) {
 
 		global $ilDB;
 
@@ -42,6 +46,7 @@ class gevWBDError extends WBDError{
 		$this->crs_id = $crs_id;
 		$this->service = $service;
 		$this->errMessage = $errMessage;
+		$this->error_group = $error_group;
 		$this->findReason();
 
 		if($this->usr_id === null) {
@@ -64,8 +69,10 @@ class gevWBDError extends WBDError{
 			debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 			die();
 		}
-		$sql = "SELECT reason_string, internal FROM wbd_errors_categories WHERE LOCATE( failure,"
-			.$this->ilDB->quote($this->errMessage,"text")." ) > 0";
+		$sql = "SELECT reason_string, internal\n"
+				." FROM wbd_errors_categories\n"
+				." WHERE error_group = ".$this->ilDB->quote($this->error_group,"text")."\n"
+				." AND LOCATE( failure,".$this->ilDB->quote($this->errMessage,"text")." ) > 0";
 
 		$res = $this->ilDB->fetchAssoc($this->ilDB->query($sql));
 		$this->reason = $res["reason_string"] ? $res["reason_string"] : '-unknown-';
