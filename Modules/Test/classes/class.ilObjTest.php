@@ -8301,20 +8301,44 @@ function getAnswerFeedbackPoints()
 	function getPassFinishDate($active_id, $pass)
 	{
 		global $ilDB;
-		if (is_null($pass)) $pass = 0;
-		$result = $ilDB->queryF("SELECT tst_test_result.tstamp FROM tst_test_result WHERE active_fi = %s AND pass = %s ORDER BY tst_test_result.tstamp DESC",
+		
+		if (is_null($pass))
+		{
+			$pass = 0;
+		}
+		
+		$query = "
+			SELECT	tst_pass_result.tstamp pass_res_tstamp,
+					tst_test_result.tstamp quest_res_tstamp
+			
+			FROM tst_pass_result
+			
+			LEFT JOIN tst_test_result
+			ON tst_test_result.active_fi = tst_pass_result.active_fi
+			AND tst_test_result.pass = tst_pass_result.pass
+			
+			WHERE tst_pass_result.active_fi = %s
+			AND tst_pass_result.pass = %s
+			
+			ORDER BY tst_test_result.tstamp DESC
+		";
+		
+		$result = $ilDB->queryF($query,
 			array('integer', 'integer'),
 			array($active_id, $pass)
 		);
-		if ($result->numRows())
+		
+		while( $row = $ilDB->fetchAssoc($result) )
 		{
-			$row = $ilDB->fetchAssoc($result);
-			return $row["tstamp"];
+			if( $row['qres_tstamp'] )
+			{
+				return $row['quest_res_tstamp'];
+			}
+			
+			return $row['pass_res_tstamp'];
 		}
-		else
-		{
-			return 0;
-		}
+		
+		return 0;
 	}
 
 	/**
