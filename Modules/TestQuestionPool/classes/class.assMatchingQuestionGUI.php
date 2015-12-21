@@ -637,8 +637,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		switch ($this->object->getShuffle())
 		{
 			case 1:
+				$seed = $this->object->getShuffler()->getSeed();
+				$this->object->getShuffler()->setSeed($seed.'1');
 				$terms = $this->object->getShuffler()->shuffle($terms);
+				$this->object->getShuffler()->setSeed($seed.'2');
 				$definitions = $this->object->getShuffler()->shuffle($definitions);
+				$this->object->getShuffler()->setSeed($seed);
 				break;
 			case 2:
 				$terms = $this->object->getShuffler()->shuffle($terms);
@@ -819,6 +823,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		switch ($this->object->getShuffle())
 		{
 			case 1:
+				$seed = $this->object->getShuffler()->getSeed();
+				$this->object->getShuffler()->setSeed($seed.'1');
 				$terms = $this->object->getShuffler()->shuffle($terms);
 				if (count($solutions))
 				{
@@ -826,8 +832,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				}
 				else
 				{
+					$this->object->getShuffler()->setSeed($seed.'2');
 					$definitions = $this->object->getShuffler()->shuffle($definitions);
 				}
+				$this->object->getShuffler()->setSeed($seed);
 				break;
 			case 2:
 				$terms = $this->object->getShuffler()->shuffle($terms);
