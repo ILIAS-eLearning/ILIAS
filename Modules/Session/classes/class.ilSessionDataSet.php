@@ -20,7 +20,7 @@ class ilSessionDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.1.0");
+		return array("4.1.0", "5.0.0");
 	}
 	
 	/**
@@ -63,6 +63,28 @@ class ilSessionDataSet extends ilDataSet
 						"EndingTime" => "integer",
 						"Fulltime" => "integer"
 						);
+				case "5.0.0":
+					return array(
+							"Id" => "integer",
+							"Title" => "text",
+							"Description" => "text",
+							"Location" => "text",
+							"TutorName" => "text",
+							"TutorEmail" => "text",
+							"TutorPhone" => "text",
+							"Details" => "text",
+							"Registration" => "integer",
+							"EventStart" => "text",
+							"EventEnd" => "text",
+							"StartingTime" => "integer",
+							"EndingTime" => "integer",
+							"Fulltime" => "integer",
+							"LimitedRegistration" => "integer",
+							"WaitingList" => "integer",
+							"AutoWait" => "integer",
+							"LimitUsers" => "integer",
+							"MinUsers" => "integer"
+					);
 			}
 		}
 
@@ -71,6 +93,7 @@ class ilSessionDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
+				case "5.0.0":
 					return array(
 						"SessionId" => "integer",
 						"ItemId" => "text",
@@ -108,6 +131,18 @@ class ilSessionDataSet extends ilDataSet
 						"WHERE ".
 						$ilDB->in("ev.obj_id", $a_ids, false, "integer"));
 					break;
+				case "5.0.0":
+					$this->getDirectDataFromQuery($q = "SELECT ev.obj_id id, od.title title, odes.description description, ".
+							" location, tutor_name, tutor_email, tutor_phone, details, reg_type registration, ".
+							" reg_limited limited_registration, reg_waiting_list waiting_list, reg_auto_wait auto_wait, ".
+							" reg_limit_users limit_users, reg_min_users min_users, ".
+							" e_start event_start, e_end event_end, starting_time, ending_time, fulltime ".
+							" FROM event ev JOIN object_data od ON (ev.obj_id = od.obj_id) ".
+							" JOIN event_appointment ea ON (ev.obj_id = ea.event_id)  ".
+							" JOIN object_description odes ON (ev.obj_id = odes.obj_id) ".
+							"WHERE ".
+							$ilDB->in("ev.obj_id", $a_ids, false, "integer"));
+					break;
 			}
 		}
 
@@ -116,6 +151,7 @@ class ilSessionDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
+				case "5.0.0":
 					$this->getDirectDataFromQuery($q = "SELECT event_id session_id, item_id ".
 						" FROM event_items ".
 						"WHERE ".
@@ -204,6 +240,19 @@ class ilSessionDataSet extends ilDataSet
 				$newObj->setPhone($a_rec["TutorPhone"]);
 				$newObj->setEmail($a_rec["TutorEmail"]);
 				$newObj->setDetails($a_rec["Details"]);
+
+				if($a_schema_version == "5.0.0")
+				{
+					$newObj->setRegistrationType($a_rec["Registration"]);
+
+					$newObj->enableRegistrationUserLimit($a_rec["LimitedRegistration"]);
+					$newObj->setRegistrationMaxUsers($a_rec["LimitUsers"]);
+					$newObj->setRegistrationMinUsers($a_rec["MinUsers"]);
+
+					$newObj->enableRegistrationWaitingList($a_rec["WaitingList"]);
+					$newObj->setWaitingListAutoFill($a_rec["AutoWait"]);
+				}
+
 				$newObj->update();
 
 				$start = new ilDateTime($a_rec["EventStart"], IL_CAL_DATETIME, "UTC");
