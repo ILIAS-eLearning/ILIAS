@@ -872,7 +872,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		}
 
 		$mcScoring = $form->getItemByPostVar('mc_scoring');
-		if( is_object($mcScoring) && $mcScoring != $this->testOBJ->getMCScoring() )
+		if( is_object($mcScoring) && $mcScoring->getValue() != $this->testOBJ->getMCScoring() )
 		{
 			return true;
 		}
