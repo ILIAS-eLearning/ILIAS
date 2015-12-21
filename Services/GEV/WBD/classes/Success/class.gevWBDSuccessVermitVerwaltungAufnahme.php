@@ -8,18 +8,15 @@
 * @version	$Id$
 *
 */
+require_once("Services/GEV/WBD/classes/Success/trait.gevWBDSuccess.php");
 class gevWBDSuccessVermitVerwaltungAufnahme extends WBDSuccessVermitVerwaltungAufnahme {
+	use gevWBDSuccess;
+	
 	protected $usr_id;
 	protected $row_id;
 
 	public function __construct($usr_id, $row_id) {
-		if(!$usr_id) {
-			throw new LogicException("gevWBDSuccessVermitVerwaltungAufnahme: a usr_id must be provided");
-		}
-		
-		if(!$row_id) {
-			throw new LogicException("gevWBDSuccessVermitVerwaltungAufnahme: a row_id must be provided");
-		}
+		parent::__construct();
 
 		$this->row_id = $row_id;
 		$this->usr_id = $usr_id;
