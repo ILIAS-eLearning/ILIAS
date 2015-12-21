@@ -27,14 +27,14 @@ class gevWBDDataCollector implements WBDDataCollector {
 
 	public function __construct() {
 		chdir("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/");
-		require_once ("Services/GEV/WBD/classes/Requests/class.gevWBDRequestVermitVerwaltungAufnahme.php");
-		require_once ("Services/GEV/WBD/classes/Requests/class.gevWBDRequestVermitVerwaltungTransferfaehig.php");
-		require_once ("Services/GEV/WBD/classes/Requests/class.gevWBDRequestVvAenderung.php");
-		require_once ("Services/GEV/WBD/classes/Requests/class.gevWBDRequestVvErstanlage.php");
-		require_once ("Services/GEV/WBD/classes/Requests/class.gevWBDRequestWPAbfrage.php");
-		require_once ("Services/GEV/WBD/classes/Requests/class.gevWBDRequestWPMeldung.php");
-		require_once ("Services/GEV/WBD/classes/Requests/class.gevWBDRequestWPStorno.php");
-		require_once ("Services/GEV/WBD/classes/Utils/class.gevSettings.php");
+		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestVermitVerwaltungAufnahme.php");
+		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestVermitVerwaltungTransferfaehig.php");
+		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestVvAenderung.php");
+		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestVvErstanlage.php");
+		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestWPAbfrage.php");
+		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestWPMeldung.php");
+		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestWPStorno.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
 		require_once "./Services/Context/classes/class.ilContext.php";
@@ -81,7 +81,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$res = $db->query($this->newUserListQuery());
 		
 		while ($rec = $db->fetchAssoc($res)) {
-			$uutils = gevUserUtils::getInstanceByObjOrId($record['user_id']);
+			$uutils = gevUserUtils::getInstanceByObjOrId($rec['user_id']);
 
 			if ($uutils->wbdShouldBeRegisteredAsNew()) {
 				$rec["address_type"] = "geschäftlich";
@@ -90,10 +90,9 @@ class gevWBDDataCollector implements WBDDataCollector {
 				$rec["data_secure"] = true;
 				$rec["country"] = "D";
 				$rec["degree"] = "";
-				$rec["training_pass"] = true;
 				$rec["address_info"] = "";
 
-				switch($rec["wbd_next_action"]) {
+				switch($rec["next_wbd_action"]) {
 					case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE:
 						$rec["wbd_type"] = self::WBD_TP_SERVICE;
 						break;
@@ -112,6 +111,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 				$returns[] = $object;
 			}
 		}
+
 		return $returns;
 	}
 
@@ -175,7 +175,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$res = $db->query($this->releaseUserListQuery());
 
 		while ($rec = $db->fetchAssoc($res)) {
-			$uutils = gevUserUtils::getInstanceByObjOrId($record['user_id']);
+			$uutils = gevUserUtils::getInstanceByObjOrId($rec['user_id']);
 
 			if ($uutils->wbdShouldBeReleased()) {
 				$object = gevWBDRequestVermitVerwaltungTransferfaehig::getInstance($rec);
@@ -213,7 +213,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$res = $db->query($this->affiliateUserListQuery());
 
 		while ($rec = $db->fetchAssoc($res)) {
-			$uutils = gevUserUtils::getInstanceByObjOrId($record['user_id']);
+			$uutils = gevUserUtils::getInstanceByObjOrId($rec['user_id']);
 
 			if ($uutils->wbdShouldBeAffiliateAsTPService()) {
 				$object = gevWBDRequestVermitVerwaltungAufnahme::getInstance($rec);
@@ -354,12 +354,12 @@ class gevWBDDataCollector implements WBDDataCollector {
 	*
 	* @return string 	$sql
 	*/
-	protected function newUserListQuery($next_action = array(gevSettings::NEXT_ACTION_NEW_TP_SERVICE
-															,gevSettings::NEXT_ACTION_NEW_TP_BASIS), $limit = null) 
+	protected function newUserListQuery($next_action = array(gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE
+															,gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS), $limit = null) 
 	{
 		//check for valid service types
-		if(count(array_intersect($next_action, array(gevSettings::NEXT_ACTION_NEW_TP_SERVICE
-													  ,gevSettings::NEXT_ACTION_NEW_TP_BASIS))) != count($next_action)) 
+		if(count(array_intersect($next_action, array(gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE
+													  ,gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS))) != count($next_action)) 
 		{
 			throw new LogicException("One or more invalid next_actions");
 		}
@@ -367,14 +367,15 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$sql = "SELECT row_id, user_id, gender, email, wbd_email, mobile_phone_nr, birthday, lastname, firstname, city, next_wbd_action\n"
 				.", zipcode, phone_nr, wbd_agent_status, okz, wbd_type, street\n"
 				." FROM hist_user\n"
-				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
-				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
+				." WHERE hist_historic = ".$this->gDB->quote(0, "integer")."\n"
+				."    AND deleted = ".$this->gDB->quote(0, "integer")."\n"
 				."    AND last_wbd_report IS NULL"
-				."    AND ".$this->ilDB->in("next_wbd_action",$next_action,false, "text")."\n";
+				."    AND ".$this->gDB->in("next_wbd_action",$next_action,false, "text")."\n";
 
 		if($limit) {
 			$sql .= " LIMIT ".$this->gDB->quote($limit,'integer');
 		}
+
 		return $sql;
 	}
 
@@ -427,16 +428,16 @@ class gevWBDDataCollector implements WBDDataCollector {
 			throw new LogicException("One or more invalid next_action");
 		}
 
-		$sql = "SELECT row_id, user_id, email, mobile_phone_nr, bwv_id FROM hist_user\n"
-				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
-				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
-				."    AND last_wbd_report IS NULL\n"
-				."    AND ".$this->ilDB->in("next_wbd_action",$next_action,false, "text")."\n";
+		$sql = "SELECT row_id, user_id, email, mobile_phone_nr, bwv_id\n"
+				." FROM hist_user\n"
+				." WHERE hist_historic = ".$this->gDB->quote(0, "integer")."\n"
+				."    AND deleted = ".$this->gDB->quote(0, "integer")."\n"
+				."    AND ".$this->gDB->in("next_wbd_action",$next_action,false, "text")."\n";
 
 		if($limit) {
 			$sql .= " LIMIT ".$this->gDB->quote($limit,'integer');
 		}
-		
+
 		return $sql;
 	}
 
@@ -454,10 +455,11 @@ class gevWBDDataCollector implements WBDDataCollector {
 		}
 
 		$sql = "SELECT row_id, user_id, email, mobile_phone_nr, birthday, bwv_id, lastname, firstname\n"
-				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
-				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
+				." FROM hist_user\n"
+				." WHERE hist_historic = ".$this->gDB->quote(0, "integer")."\n"
+				."    AND deleted = ".$this->gDB->quote(0, "integer")."\n"
 				."    AND last_wbd_report IS NULL\n"
-				."    AND ".$this->ilDB->in("next_wbd_action",$next_action,false, "text")."\n";
+				."    AND ".$this->gDB->in("next_wbd_action",$next_action,false, "text")."\n";
 
 		return $sql;
 	}
@@ -480,6 +482,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 					.", hist_usercoursestatus.credit_points, hist_course.type, hist_course.wbd_topic\n"
 					.", hist_course.crs_id"
 					.", hist_course.title, hist_user.bwv_id\n"
+					.", hist_user.begin_of_certification\n"
 					.", count(wbd_errors.usr_id) AS errors\n"
 				." FROM hist_usercoursestatus\n"
 				." JOIN hist_course\n"
@@ -650,11 +653,11 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$usr_id = $success_data->usrId();
 		$row_id = $success_data->rowId();
 
-		$usr_utils = gevUserUtils::getInstance();
+		$usr_utils = gevUserUtils::getInstance($usr_id);
 		$usr_utils->setWBDTPType(gevUserUtils::WBD_TP_SERVICE);
 		
 		$this->setNextWBDActionToNothing($usr_id);
-		$this->raiseEventUserChanged($usr_utils->getId());
+		$this->raiseEventUserChanged($usr_utils->getUser());
 		$this->setLastWBDReportForAutoHistRows($usr_id);
 
 		$this->setLastWBDReport('hist_user', array($row_id));
@@ -668,7 +671,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 	public function successNewEduRecord(gevWBDSuccessWPMeldung $success_data) {
 		$this->setLastWBDReport('hist_usercoursestatus', array($success_data->rowId()));
 		$this->setBookingId($success_data->rowId(), $success_data->wbdBookingId());
-
+		
 		if($success_data->doUpdateBeginOfCertification()) {
 			$usr_id = $success_data->usrId();
 			$usr_utils = gevUserUtils::getInstance($usr_id);
@@ -777,7 +780,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 	*/
 	protected function setLastWBDReport($table ,array $rows) {
 		$sql = "UPDATE ".$table."\n"
-				." SET last_wbd_report = "$this->gDB->quote($this->getCurrentDate(),"text")."\n"
+				." SET last_wbd_report = ".$this->gDB->quote($this->getCurrentDate(),"text")."\n"
 				." WHERE ".$this->gDB->in("row_id",$rows,false,'text')."\n";
 		$this->gDB->manipulate($sql);
 	}
