@@ -2613,17 +2613,19 @@ class ilObjTestGUI extends ilObjectGUI
 			include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 			ilRepositorySearchGUI::fillAutoCompleteToolbar(
 				$this,
-				$tb,
+				$ilToolbar,
 				array(
 					'auto_complete_name'	=> $lng->txt('user'),
 					'submit_name'			=> $lng->txt('add')
 				)
 			);
 
-			// search button
-			$ilToolbar->addButton($this->lng->txt("tst_search_users"),
-				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
-
+			$ilToolbar->addSeparator();
+			$search_btn = ilLinkButton::getInstance();
+			$search_btn->setCaption('tst_search_users');
+			$search_btn->setUrl($this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+			$ilToolbar->addButtonInstance($search_btn);
+			require_once  'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 
 			$participants =& $this->object->getInvitedUsers();
 			$rows = array();
@@ -2685,7 +2687,16 @@ class ilObjTestGUI extends ilObjectGUI
 			$table_gui->setResetCommand('fpResetFiler');
 			$rows = $this->applyFilterCriteria($rows);
 			$table_gui->setData($rows);
-			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
+			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
+
+			if(count($rows) > 0)
+			{
+				$ilToolbar->addSeparator();
+				$delete_all_results_btn = ilLinkButton::getInstance();
+				$delete_all_results_btn->setCaption('delete_all_user_data');
+				$delete_all_results_btn->setUrl($this->ctrl->getLinkTarget($this, 'deleteAllUserResults'));
+				$ilToolbar->addButtonInstance($delete_all_results_btn);
+			}
 		}
 		else
 		{
@@ -2727,6 +2738,16 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken(),
 					$this->object->getAnonymity(), count($rows)
 			);
+
+			if(count($rows) > 0)
+			{
+				require_once  'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+				$delete_all_results_btn = ilLinkButton::getInstance();
+				$delete_all_results_btn->setCaption('delete_all_user_data');
+				$delete_all_results_btn->setUrl($this->ctrl->getLinkTarget($this, 'deleteAllUserResults'));
+				$ilToolbar->addStickyItem($delete_all_results_btn);
+			}
+
 			$table_gui->setFilterCommand('npSetFilter');
 			$table_gui->setResetCommand('npResetFilter');
 			$rows = $this->applyFilterCriteria($rows);

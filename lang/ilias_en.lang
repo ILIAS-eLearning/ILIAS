@@ -335,7 +335,7 @@ assessment#:#out_of_range#:#Out of range
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
-assessment#:#confirm_delete_all_user_data#:#Are you sure you want to remove all user data of the test?
+assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
 assessment#:#confirm_delete_single_user_data#:#Are you sure you want to remove the test data of the selected users?
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
 assessment#:#coordinates#:#Coordinates
@@ -351,8 +351,8 @@ assessment#:#definition_image#:#Definition Image
 assessment#:#definition_text#:#Definition Text
 assessment#:#definition#:#Definition
 assessment#:#definitions#:#Definitions
-assessment#:#delete_all_user_data_confirmation#:#Do you really want to remove the test data of all users in this test?
-assessment#:#delete_all_user_data#:#Remove Test Data of all Users
+assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?
+assessment#:#delete_all_user_data#:#Delete Test Data of all Users
 assessment#:#delete_area#:#Delete Area
 assessment#:#delete_image_header#:#Remove image
 assessment#:#delete_image_question#:#Do you really want to remove the image?

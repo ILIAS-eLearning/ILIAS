@@ -1,7 +1,7 @@
 ﻿/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator 5.1.x 2015-10-21 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator 5.1.x 2015-12-09 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @translator 31603 Antónia Berecz <berecz@gdf.hu>
 * @module       setup language file hungarian
 * @modulegroup  language
@@ -71,7 +71,7 @@ clone_source#:#Válassza ki a forrást a klónozáshoz
 clone_selectsource#:#Forrás
 clone_areyousure#:#Biztos benne?
 cloneit#:#Indítás
-collation#:#Karakterrendezési szabálygyűjtemény (collation)
+collation#:#Illesztés
 contact_data#:#Kapcsolattartási információk
 contact#:#Kapcsolattartási információk
 convert_path_comment_win#:#Képek miniatürizált változatainak megjelenítéséhez szükséges, pl. 'C:/tools/ImageMagick/convert.exe'.
@@ -117,7 +117,7 @@ db_error_please_check#:#Ellenőrizze az adatbázis-kiszolgáló nevét, a felhas
 db_host#:#Adatbázis-kiszolgáló
 db_mysql#:#MySQL (MyISAM)
 db_name#:#Adatbázisnév
-db_needs_update#:#Az adatbázist frissíteni szükséges.
+db_needs_update#:#Adatbázisa frissítésre szorul.
 db_not_installed#:#Nincs telepítve az adatbázis.
 db_oracle#:#Oracle
 db_pass#:#Adatbázisjelszó
@@ -161,13 +161,13 @@ error_recipient#:#Hibás címzett
 example#:#Példa
 feedback_recipient#:#Visszajelzési címzett
 file_does_not_exist#:#A fájl nem létezik.
-file_version#:#Fájlverzió
+file_version#:#Adatbázisfájl-verzió
 fill_both_fields#:#Töltse ki mindkét mezőt.
 fill_out_required_fields#:#Minden megjelölt mezőt töltsön ki.
 filled_out#:#helyesen kitöltve.
 finish_initial_setup_first#:#Először fejezze be a megkezdett setup-ot.
 finish_setup#:#Setup befejezése
-finish#:#A setup befejeződött
+finish#:#Setup befejezése
 firstname#:#Keresztnév
 fop_path_comment#:#PDF dokumentumok készítéséhez szükséges.
 fop_path#:#FOP elérési útvonal
@@ -190,13 +190,13 @@ ilias_setup#:#ILIAS setup
 ilias_version#:#ILIAS verzió
 include_local#:#Helyit is tartalmazza
 info_text_3rdparty#:#Itt állítsa be az ILIAS-nak szükséges 3. fél eszközöket. Ennek a lépésnek a befejezéséhez kövesse a setup információkat az egyes add-on-ok esetében.
-info_text_clone#:#Ez a funkció a jelenleg kiválasztott klienst felülírja egy másik másolatával.<p><i>Figyeljen arra, hogy csak letiltott klienst tud felölteni, és az nem szerepelhet 'master' a névben.<br>Jelenleg csak a MySQL támogatott.</i><p><b>Figyelem! Ez nem visszavonható! A kliens felülíródik az Ön által itt kiválasztott forrás tartalmával.</b>
-info_text_contact#:#Itt további kliensinformációkat és ezen kliens rendszergazdájának kapcsolati adatait állíthatja be. Minden információt az Ön adatbázisában tárolunk. A következő képernyőn regisztrálhatja telepítését az ILIAS nyílt forráskódú projekt szerveren.
-info_text_db_collation1#:#Ha az Ön által használni kívánt karakterrendezési szabálygyűjtemény (collation) nincs a támogatott UTF-8 collation-ok között, adatbázisát is manuálisan kell létrehoznia. Minden esetben győződjön meg arról, hogy az adatbázis karakterkészlete utf8.
-info_text_db_collation2#:#További információkat a MySQL karakterrendezési szabálygyűjteményről (collation) a MySQL weboldalán talál.
-info_text_db#:#Az adatbázis nem létezik vagy üres. Ha nem létezik még az adatbázis, jelölje be az 'Adatbázis létrehozása' opciót alul. Az ILIAS meg fogja próbálni automatikusan létrehozni adatbázisát. Ha a létrehozás nem sikerül, vagy az Ön által kívánt egyezés nem elérhető, hozza létre manuálisan az adatbázist az alábbi parancs használatával:
+info_text_clone#:#Ez a funkció a jelenleg kiválasztott klienst felülírja egy másik másolatával.<p><i>Figyeljen arra, hogy csak letiltott klienst tud felölteni, és nem szerepelhet 'master' a névében.<br>Jelenleg csak a MySQL támogatott.</i><p><b>Figyelem! Ez nem visszavonható! A kliens felülíródik az Ön által itt kiválasztott forrás tartalmával!</b>
+info_text_contact#:#Itt további kliensinformációkat és ezen kliens rendszergazdájának kapcsolati adatait állíthatja be. Minden információt az Ön adatbázisában tárolunk.
+info_text_db_collation1#:#Ha az Ön által használni kívánt illesztés (collation) nincs a támogatott UTF-8 collation-ok között, adatbázisát is manuálisan kell létrehoznia. Minden esetben győződjön meg arról, hogy az adatbázis karakterkészlete utf8.
+info_text_db_collation2#:#További információkat az illesztésről a MySQL weboldalán talál.
+info_text_db#:#Az adatbázis nem létezik vagy üres. Ha még nem létezik az adatbázis, jelölje be alul az 'Adatbázis létrehozása' opciót, ekkor az ILIAS megpróbálja létrehozni az adatbázist. Ha a létrehozás nem sikerül vagy a szükséges illesztés (collation) nem elérhető, hozza létre manuálisan az adatbázist az alábbi parancs használatával:
 info_text_db2#:#Bizonyosodjon meg arról, hogy adatbázisa a 'CHARACTER SET utf8' beállítással lett létrehozva.
-info_text_delete#:#Ezt a klienst az alul levő gombra kattintva törölheti. Csak a client.ini fájlja kerül eltávolításra, minden fájl a kliens adatkönyvtárakban és az adatbázisban megmarad. A fájlokat és adatbázist a rendszergazdának manuálisan kell eltávolítania.
+info_text_delete#:#Ezt a klienst az alul levő gombra kattintva törölheti. Csak a kliens ini-fájlja kerül eltávolításra, minden fájl a kliens adatkönyvtárakban és az adatbázisban megmarad. A fájlokat és az adatbázist a rendszergazdának manuálisan kell eltávolítania.
 info_text_finish1#:#Gratulálunk! Kliens beállítása sikeres volt. Kattintson a 'Bejelentkezés'-re, hogy belépjen és konfigurálja ILIAS-telepítését.
 info_text_finish2#:#Néhány beállítás még hiányzik vagy nem pontos. Nézze meg az eljárásvázlatot, hogy megtudhassa, mit kell elvégeznie.
 info_text_first_client#:#Alapbeállításai elmentésre kerültek. Most beállítjuk (setup) első kliensét. A setup végigvezeti Önt a telepítési folyamaton. A jobb oldali panelen mindig láthatja a telepítési folyamat aktuális állapotát.
@@ -228,7 +228,7 @@ inifile_firsttime#:#Nincs előzetes ini-fájl. Úgy tűnik, ez az első indítá
 inifile_written#:#Az ini-fájl sikeresen elmentésre került kiszolgálójára.
 inifile#:#ini-fájl
 input_error#:#Bementi hiba
-inst_identification#:#Telepítési azonosítás
+inst_identification#:#Telepítés azonosítása
 inst_name#:#Telepítés neve
 install#:#Installálás
 installation#:#Telepítés
@@ -286,8 +286,8 @@ list_clients#:#Kliensek listája
 list_disabled#:#Kliensválasztás tiltva
 list_enabled#:#Kliensválasztás engedélyezve
 list#:#lista
-log_path_comment_win#:#Pl. 'C:/iliasdata/iliaslog.txt' (A fájl létre jön.)
-log_path_comment#:#Pl. '/path_to_log_dir/ilias.log' (A fálj létre jön.)
+log_path_comment_win#:#Például 'C:/iliasdata/iliaslog.txt' (A fájlt az ILIAS létrehozza.)
+log_path_comment#:#Például '/path_to_log_dir/ilias.log' (A fájlt az ILIAS létrehozza.)
 log_path#:#Naplófájl elérési útvonala
 logged_out#:#Kijelentkezett.
 logging#:#Naplózás (logging)
@@ -298,25 +298,25 @@ logout#:#Kijelentkezés
 main_datadir_outside_webspace#:#A webhelyen kívüli fő adatkönyvtár
 master_password#:#Mesterjelszó
 missing_data#:#Hiányzó adatok
-ffmpeg_path_comment#:#Audió/videó konvertálás lehetősége, pl. '/your_path/ffmpeg'
+ffmpeg_path_comment#:#Audió/videó konvertálás lehetősége, pl. '/your_path/ffmpeg'.
 ffmpeg_path#:#ffmpeg elérési útvonal
 msg_input_is_required#:#Ez az input kötelező. Adjon meg egy értéket.
 mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x vagy alacsonyabb verzió
 mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x vagy magasabb verzió
 name#:#Név
-need_mysql_4_1_or_higher#:#Az Ön MySQL verziója nem támogatott. Installáljon MysQL 4.1.x-et vagy magasabb verziót az ILIAS futtatásához!
+need_mysql_4_1_or_higher#:#Az Ön MySQL verziója nem támogatott. Installáljon MySQL 4.1.x-es vagy magasabb verziót az ILIAS futtatásához.
 new_client#:#Új kliens
 new#:#új
-next_update_break_info#:#Telepítése méretétől függően általában nem tanácsos egy menetben végezni a nagy frissítéseket.
+next_update_break_info#:#Telepítése méretétől függő, de általában nem tanácsos egy futtatásban végrehajtani a nagy frissítéseket.
 next_update_break#:#Következő frissítési megszakítás
 next#:#Következő
 nic_not_disabled#:#Nincs NIC-ID és nem engedélyezett
 nic_reg_disable_comment#:#(regisztráció később)
 nic_reg_disable_info#:#Később bármikor regisztrálhat.
-nic_reg_disable#:#Regisztrációra kihagyása.
+nic_reg_disable#:#Regisztráció kihagyása.
 nic_reg_disabled#:#Letiltva
 nic_reg_email#:#Regisztráció e-mail-en keresztül
-nic_reg_enabled#:#Engedélyezett
+nic_reg_enabled#:#Regisztrációt engedélyezte
 nic_reg_enter_checksum#:#Elküldött ellenőrzőösszeg megadása
 nic_reg_enter_correct_id#:#Pontos nic_id-t adjon meg!
 nic_reg_enter_id#:#Elküldött NIC ID megadása
@@ -328,7 +328,7 @@ no_client_id#:#Nincs megadva kliens-azonosító (ID)
 no_client_name#:#NINCS KLIENSNÉV
 no_clients_available#:#Nincs elérhető kliens
 no_database#:#Nincs adatbázis
-no_db_connect_consult_admin#:#Nem tudott kapcsolódni az adatbázishoz. Keresse a rendszergazdát.
+no_db_connect_consult_admin#:#Nem sikerült kapcsolódni az adatbázishoz. Keresse a rendszergazdát.
 no_db_update_file#:#a dbupdate.php nem található.
 no_items#:#Nincs bejegyzés
 no_latex_url#:#Nincs megadva LaTeX CGI script URL.
@@ -519,7 +519,7 @@ unzip_path_comment_win#:#Importfájlok kicsomagolásához szükséges, pl. 'C:/t
 unzip_path_comment#:#Importfájlok kicsomagolásához szükséges, pl. 'C:/tools/unzip/unzip.exe'.
 unzip_path#:#Unzip elérési útvonal
 unzip#:#Kicsomagolás
-update_applied#:#Frissítés(ek) sikeren telepítve
+update_applied#:#Frissítés(ek) sikeresen telepítve
 update_error#:#Hiba frissítés közben
 update_not_found#:#A frissítés nem található
 url_to_latex#:#LaTeX CGI script URL-je
