@@ -1046,6 +1046,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 
 		$user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, TRUE);
+		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
 		if( !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
 		{
@@ -1055,8 +1056,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 			else
 			{
-				global $ilUser;
-				$user_id = $ilUser->getId();
 				$uname = $this->object->userLookupFullName($user_id, TRUE);
 				$template->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name"), $uname));
 				$template->setVariable("USER_DATA", $user_data);
@@ -1065,7 +1064,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		
 		$template->parseCurrentBlock();
 
-		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
