@@ -98,6 +98,8 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		if (!$bd_name) {
 			$this->ilPersonalOrgUnitsError("getBDOrgUnitRefIdFor", "Could not find BD-Name for $a_user_id.");
 		}
+		
+		//HIER NOCH WAS VERÄNDERN AUF DEN NEUEN TYPEN
 		$children = $this->tree->getChilds($this->base_ref_id);
 		foreach ($children as $child) {
 			if (ilObject::_lookupTitle($child["obj_id"]) == $bd_name) {
@@ -123,7 +125,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 			}
 		}
 		
-		$sub_orgu_ref_id = $this->createBDOrgUnit($sub_orgu_title)->getRefId();
+		$sub_orgu_ref_id = $this->createBDSubOrgUnit($sub_orgu_title)->getRefId();
 		$this->tree->moveTree($sub_orgu_ref_id, $bd_org_unit_ref_id);
 
 		return $sub_orgu_ref_id;
@@ -215,6 +217,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 	protected function createBDOrgUnit($a_bd_name) {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		
 		$orgu = new ilObjOrgUnit();
 		$orgu->setTitle($a_bd_name);
@@ -223,10 +226,26 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		$orgu->update();
 		$orgu->putInTree($this->base_ref_id);
 		$orgu->initDefaultRoles();
-		
+
 		$orgutils = gevOrgUnitUtils::getInstance($orgu->getId());
-		$orgutils->setType(gevSettings::ORG_TYPE_DEFAULT);
+		$orgutils->setType(gevSettings::REF_ID_ORG_UNIT_TYPE_BD);
 		
+		return $orgu;
+	}
+
+	protected function createBDSubOrgUnit($a_bd_name) {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		$orgu = new ilObjOrgUnit();
+		$orgu->setTitle($a_bd_name);
+		$orgu->create();
+		$orgu->createReference();
+		$orgu->update();
+		$orgu->putInTree($this->base_ref_id);
+		$orgu->initDefaultRoles();
+
 		return $orgu;
 	}
 }

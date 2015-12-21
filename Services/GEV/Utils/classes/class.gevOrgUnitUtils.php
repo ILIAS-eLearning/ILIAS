@@ -1016,18 +1016,18 @@ class gevOrgUnitUtils {
 		return gevUserUtils::removeInactiveUsers($sups);
 	}
 
-	static public function getOrguUnitsXLevelAbove($org_ref_id, $lvl) {
+	static public function getBDOf($org_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		$ou_tree = ilObjOrgUnitTree::_getInstance();
-		$ret = $org_ref_id;
-		for($i = 0; $i< $lvl; $i++) {
-			$ret = $ou_tree->getParent($ret);
+		$parent = $ou_tree->getParent($org_ref_id);
+		$orgutils = gevOrgUnitUtils::getInstance(gevObjectUtils::getObjId($parent));
 
-			if($ret == ilObjOrgUnit::getRootOrgRefId()) {
-				break;
-			}
+		if($orgutils->getType() == gevSettings::REF_ID_ORG_UNIT_TYPE_BD) {
+			return $parent;
 		}
 
-		return $ret;
+		return gevOrgUnitUtils::getBDOf($parent);
 	}
 }
 

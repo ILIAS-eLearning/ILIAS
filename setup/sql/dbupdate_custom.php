@@ -4796,3 +4796,37 @@ $ilDB->manipulate($s);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#194>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	require_once('Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php');
+	require_once('Services/GEV/Utils/classes/class.gevSettings.php');
+
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	ilCustomInstaller::maybeInitSettings();
+
+	$record_ids = array(9,10,14);
+
+	$type = new ilOrgUnitType();
+	$type->setDefaultLang("de");
+	$type->setTitle("BD", "de");
+	$type->setDescription("Identifiziert eine Organisationseinheiten als BD", "de");
+	$type->setTitle("BD", "en");
+	$type->setDescription("Identifies an Organisational Unit as BD", "en");
+	$type->save();
+
+	foreach ($record_ids as $record_id) {
+		$type->assignAdvancedMDRecord($record_id);
+	}
+
+	$settings = gevSettings::getInstance();
+	$settings->setRefIDOrgUnitTypeDB($type->getId());
+?>

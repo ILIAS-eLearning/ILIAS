@@ -1639,7 +1639,8 @@ class gevDecentralTrainingGUI {
 			$usr_utils = gevUserUtils::getInstance($trainer_id);
 			if($usr_utils->isUVGDBV()) {
 				if($pers_org_unit = $uvg_org_units->getOrgUnitIdOf($usr_utils->getId())) {
-					$above_ref_id = gevOrgUnitUtils::getOrguUnitsXLevelAbove(gevObjectUtils::getRefId($pers_org_unit),2);
+					$above_ref_id = gevOrgUnitUtils::getBDOf(gevObjectUtils::getRefId($pers_org_unit));
+					
 					$trainer_orgus[] = $above_ref_id;
 				}
 			} else {

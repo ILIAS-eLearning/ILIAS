@@ -145,10 +145,13 @@ class gevSettings {
 	const ORG_TYPE_VENUE			= "org_unit_type_venue";
 	const ORG_TYPE_PROVIDER			= "org_unit_type_provider";
 	const ORG_TYPE_DEFAULT			= "org_unit_type_default";
-	
+	//Ref ID für OorgUnit Type BD
+	const REF_ID_ORG_UNIT_TYPE_BD = "ref_id_org_unit_type_bd";
+
 	static $all_org_types = array( gevSettings::ORG_TYPE_VENUE
 								 , gevSettings::ORG_TYPE_PROVIDER
 								 , gevSettings::ORG_TYPE_DEFAULT
+								 , gevSettings::REF_ID_ORG_UNIT_TYPE_BD
 								 );
 
 		static $dbv_hot_topics = array("3D Pflegevorsorge"
@@ -156,6 +159,8 @@ class gevSettings {
 								 , "bAV"
 								 );
 	
+
+
 	// AMD für alle Org-Units (vgl. Konzept, Abschnitte Veranstaltungsorte, Anbieter)
 	// Straße
 	const ORG_AMD_STREET			= "org_amd_street";
@@ -736,5 +741,13 @@ class gevSettings {
 		$ref_id = $this->settings->get(self::DCT_TPL_FLEX_WEBINAR);
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		return gevObjectUtils::getObjId($ref_id);
+	}
+
+	public function setRefIDOrgUnitTypeDB($ref_id) {
+		$this->settings->set(self::REF_ID_ORG_UNIT_TYPE_BD, $ref_id);
+	}
+
+	public function getRefIDOrgUnitTypeDB() {
+		return $this->settings->get(self::REF_ID_ORG_UNIT_TYPE_BD);
 	}
 }

@@ -272,7 +272,7 @@ class gevDBVUtils {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		$uvg_children = $this->orgu_tree->getChildren($this->pou->getBaseRefId());
 		$orgu_ref_id = gevObjectUtils::getRefId($a_orgu_obj_id);
-		$parent_ref_id = gevOrgUnitUtils::getOrguUnitsXLevelAbove($orgu_ref_id,2);
+		$parent_ref_id = gevOrgUnitUtils::getBDOf($orgu_ref_id);
 		if (in_array($orgu_ref_id, $uvg_children)) {
 			return $a_orgu_obj_id;
 		}
