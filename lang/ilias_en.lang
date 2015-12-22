@@ -12243,6 +12243,7 @@ scormdebug#:#scormdebug_disable_cache_info#:#This prevents the storage of the SC
 content#:#cont_sequencing#:#Sequencing and Navigation
 content#:#cont_interactions#:#Store Results of Interactions
 content#:#cont_interactions_info#:#Typically results from interactions in learning modules are simply stored without being read / loaded again. If you ensured this is how your learning module operates, this option will improve performance.
+content#:#cont_interactions_info_12#:#Results from interactions in SCORM 1.2 learning modules are simply stored. This option will improve performance.
 content#:#cont_objectives#:#Store Learning Objectives Data
 content#:#cont_objectives_info#:#If you ensured that this learning module runs properly, this option improves performance.
 content#:#cont_comments#:#Store Comments
@@ -14434,8 +14435,8 @@ adve#:#char_selector_unicode_all#:#All Unicode Blocks
 adve#:#adve_char_selector_settings#:#Character Selector
 common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS Username as cmi.learner_id
 common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of the User ID is set for cmi.learner_id.
-content#:#cont_sc_auto_review_2004#:#Lock Tracking Status Once it is Established
-content#:#cont_sc_auto_review_info_2004#:#After a user has acquired the tracking status set above for a chapter / SCO, this status is locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
+content#:#cont_sc_auto_review_2004#:#Store Data
+content#:#cont_sc_auto_review_info_2004#:#After a user has acquired a tracking status set above for a chapter / SCO, this status could be locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
 content#:#cont_sc_auto_review_no#:#always (recommended)
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#keep tracking data if achieved status is completed or passed, but not failed
 content#:#cont_sc_auto_review_passed#:#keep tracking data if achieved status is passed
@@ -14445,7 +14446,7 @@ content#:#cont_sc_auto_review_completed_and_passed#:#keep tracking data if achie
 content#:#cont_sc_auto_review_completed_or_passed#:#keep tracking data if achieved status is completed or passed
 content#:#cont_sc_store_if_previous_score_was_lower#:#keep tracking data if achieved score in previous attempt was higher or equal
 content#:#cont_auto_suspend#:#Safeguard tracking data
-content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit<br />It will ensure that tracking data is stored irrespectively of the user not closing the learning module properly for instance by simply closing the browser.
+content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit.
 administration#:#adm_captcha_anonymous_frm#:#Activate captcha for anonymous in forums. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_auth#:#Activate captcha for anonymous in login form. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_reg#:#Activate captcha for anonymous in registration form. Please keep in mind that this may effect the accessibility of your installation.

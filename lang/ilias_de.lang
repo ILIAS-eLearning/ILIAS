@@ -5923,6 +5923,7 @@ content#:#cont_insert_verification#:#Zertifikat hinzufügen
 content#:#cont_inst_map_areas#:#Verlinkte Bereiche der Instanz
 content#:#cont_interactions#:#Ergebnisse der Aufgaben speichern
 content#:#cont_interactions_info#:#Die Daten zu Ergebnissen aus Aufgaben (interactions) werden von Lernmodulen meist nur geschrieben und nicht mehr eingelesen. Wenn Sie sicher sind, dass dieses Lernmodul so verfährt, erhöht diese Option die Performanz.
+content#:#cont_interactions_info_12#:#Die Daten zu Ergebnissen aus Aufgaben (interactions) können von SCORM 1.2 Lernmodulen nur geschrieben und nicht mehr eingelesen werden. Diese Option erhöht die Performanz.
 content#:#cont_internal#:#intern
 content#:#cont_internal_link#:#interner Link
 content#:#cont_internal_links#:#Interne Links
@@ -14371,7 +14372,7 @@ adve#:#adve_char_selector_settings#:#Zeichenauswahl
 common#:#scorm_login_as_learner_id#:#SCORM 2004: verwende ILIAS-Benutzername als cmi.learner_id
 common#:#scorm_login_as_learner_id_info#:#Lernmodule erhalten den ILIAS-Benutzernamen statt der UserId bei Abfrage von cmi.learner_id.
 content#:#cont_sc_auto_review_2004#:#Daten speichern
-content#:#cont_sc_auto_review_info_2004#:#Wenn Benutzer für ein Kapitel / SCO den ausgewählten Status in einer Bearbeitungssitzung erreicht haben, wird dieser festgeschrieben. Benutzer können den Status auch in späteren Bearbeitungssitzungen nicht mehr ändern. <br />Im seltenen Fall, dass das Lernmodul 'Sequencing & Navigation' gemäß SCORM 2004 nutzt, sollte die Option 'immer (empfohlen)' gewählt werden.<br />
+content#:#cont_sc_auto_review_info_2004#:#Wenn Benutzer für ein Kapitel / SCO einen auszuwählenden Status in einer Bearbeitungssitzung erreicht haben, wird dieser festgeschrieben. Benutzer können den Status auch in späteren Bearbeitungssitzungen nicht mehr ändern. <br />Im seltenen Fall, dass das Lernmodul 'Sequencing & Navigation' gemäß SCORM 2004 nutzt, sollte die Option 'immer (empfohlen)' gewählt werden.
 content#:#cont_sc_auto_review_no#:#immer (empfohlen)
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#nicht speichern ab Status 'vollständig bearbeitet' (sofern nicht 'nicht bestanden') oder 'bestanden' 
 content#:#cont_sc_auto_review_passed#:#nicht speichern ab Status 'bestanden'
@@ -14381,7 +14382,7 @@ content#:#cont_sc_auto_review_completed_and_passed#:#nicht speichern ab Status '
 content#:#cont_sc_auto_review_completed_or_passed#:#nicht speichern ab Status 'vollständig bearbeitet' oder 'bestanden'
 content#:#cont_sc_store_if_previous_score_was_lower#:#nicht speichern wenn der zuvor erzielte Punktestand höher oder gleich war
 content#:#cont_auto_suspend#:#Abruf vorhandener Lernstandsdaten sicherstellen
-content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in unzureichender Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.<br />Unabhängig von der Vorgehensweise des Benutzers beim Beenden des Lernmoduls, etwa durch Schließen des Browser-Fensters, wird die letzte Aktion des Benutzers aufgezeichnet und der Lernstand gespeichert.
+content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in unzureichender Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.
 content#:#cont_check_values_info#:#Das Testwerkzeug prüft die vom SCO geschickten Werte auf Standard-Kompatibilität.<br />Der SCORM-Standard ist sehr genau, was die zu speichernden Daten angeht. Nicht jedes SCORM-Lernmodul ist in seiner Datenausgabe so präzise wie der Standard es eigentlich erfordert. Daher kann das Überprüfen der Werte deaktiviert werden, wenn Sie etwa nur prüfen wollen, ob das Lernmodul in ILIAS lauffähig ist und nicht, ob es genau dem SCORM-Standard entspricht.<br />
 content#:#cont_current_lang#:#Aktuelle Sprache
 content#:#cont_edit_language_version#:#Version bearbeiten
