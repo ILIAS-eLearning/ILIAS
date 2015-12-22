@@ -784,7 +784,7 @@ assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdu
 assessment#:#maintenance#:#Wartung
 assessment#:#manscoring#:#Manuelle Bewertung
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
-assessment#:#manscoring_hint#:#Im Test ist mindestens eine Frage enthalten, die manuell bewertet werden muss. Um eine vollständige Bewertung aller Tests zu gewährleisten, darf bis zum Abschluß der manuellen Bewertung kein Zugang der Teilnehmer zu ihren Testergebnissen gewährt werden. Legen Sie daher ein entsprechend spätes Datum für den Zugang zu den Testergebnissen fest.
+assessment#:#manscoring_hint#:#Im Test ist mindestens eine Frage enthalten, die manuell bewertet werden kann. Wenn Sie planen, Testfragen manuell zu bewerten, sollten Sie ein entsprechend spätes Datum für den Zugang der Teilnehmer zu ihren Testergebnissen festlegen, damit Sie vorher die Bewertung noch durchführen können.
 assessment#:#manscoring_none#:#Nicht bewertete Teilnehmer
 assessment#:#manscoring_not_allowed#:#Die manuelle Bewertung wurde für keinen Fragetyp aktiviert. Sie können daher diese Funktion nicht verwenden!
 assessment#:#manscoring_pending#:#Teilweise bewertete Teilnehmer

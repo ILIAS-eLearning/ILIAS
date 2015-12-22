@@ -671,7 +671,7 @@ assessment#:#log_user_entered_values#:#User entered values
 assessment#:#log_user_not_entered_values#:#User did not enter values
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring_done#:#Scored Participants
-assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To guarantee a valid presentation of the test results for the participants it is strongly recommended to restrict the access to the test results using a specified date and time.
+assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To avoid that participants get already access to the test results before you finished manual scoring, please define a suitable date for the access to the test results.
 assessment#:#manscoring_none#:#Unscored Participants
 assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn‘t activated for a question type. You are not allowed to use this tab.
 assessment#:#manscoring_pending#:#Partially Scored Participants
