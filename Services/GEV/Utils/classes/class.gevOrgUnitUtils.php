@@ -1020,14 +1020,51 @@ class gevOrgUnitUtils {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		$ou_tree = ilObjOrgUnitTree::_getInstance();
-		$parent = $ou_tree->getParent($org_ref_id);
-		$orgutils = gevOrgUnitUtils::getInstance(gevObjectUtils::getObjId($parent));
 
-		if($orgutils->getType() == gevSettings::REF_ID_ORG_UNIT_TYPE_BD) {
+		$parent = $ou_tree->getParent($org_ref_id);
+		if(self::isBD(ilObject::_lookupObjId($parent))) {
 			return $parent;
 		}
 
 		return gevOrgUnitUtils::getBDOf($parent);
+	}
+
+	static public function getBDByName($bd_name, $org_ref_id = null) {
+		global $tree, $ilLog;
+
+		if(!$org_ref_id) {
+			$org_ref_id = self::getUVGOrgUnitRefId();
+		}
+
+		$children = $tree->getChilds($org_ref_id);
+		foreach ($children as $child) {
+			if ($child["type"] == "orgu" && self::isBD($child["obj_id"]) && ilObject::_lookupTitle($child["obj_id"]) == $bd_name) {
+				return $child["ref_id"];
+			}
+		}
+
+		//chache problem in ilObjOrgUnitTree::getChildrens()
+		/*$ou_tree = ilObjOrgUnitTree::_getInstance();
+		$children = $ou_tree->getChildren($org_ref_id);
+		foreach ($children as $child) {
+			$obj_id = ilObject::_lookupObjId($child);
+			if (self::isBD($obj_id) && ilObject::_lookupTitle($obj_id) == $bd_name) {
+				return $child;
+			}
+		}*/
+
+		return null;
+	}
+
+	static protected function isBD($obj_id) {
+		global $ilLog;
+		$orgutils = gevOrgUnitUtils::getInstance($obj_id);
+		$ilLog->dump($orgutils->getType());
+		if($orgutils->getType() == gevSettings::REF_ID_ORG_UNIT_TYPE_BD) {
+			return true;
+		}
+
+		return false;
 	}
 }
 
