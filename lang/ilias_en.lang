@@ -1,4 +1,3 @@
-
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
@@ -3088,7 +3087,7 @@ common#:#import_lm#:#Import ILIAS Learning module
 common#:#import_qpl#:#Import Question Pool Test
 common#:#import_questions_into_qpl#:#Import question(s) into question pool
 common#:#import_root_user#:#Import Root User
-common#:#import_sahs#:#Import SCORM/AICC Package
+common#:#import_sahs#:#Import SCORM Package
 common#:#import_spl#:#Import Question Pool Survey
 common#:#import_svy#:#Import Survey
 common#:#import_tst#:#Import Test
@@ -3777,7 +3776,7 @@ common#:#obj_rolf_local#:#Local Roles
 common#:#obj_rolf#:#Roles
 common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#Repository - Home
-common#:#obj_sahs#:#Learning Module SCORM/AICC
+common#:#obj_sahs#:#Learning Module SCORM
 common#:#obj_sco#:#SCO
 common#:#obj_seas_desc#:#Manage the search settings here.
 common#:#obj_seas#:#Search
@@ -3864,7 +3863,7 @@ common#:#objs_qst#:#Questions
 common#:#objs_rcrs#:#ECS Courses
 common#:#objs_role#:#Roles
 common#:#objs_rolt#:#Role Templates
-common#:#objs_sahs#:#SCORM/AICC Learning Modules
+common#:#objs_sahs#:#SCORM Learning Modules
 common#:#objs_sess#:#Sessions
 common#:#objs_spl#:#Question Pools Survey
 common#:#objs_st#:#Chapters
@@ -4208,21 +4207,21 @@ common#:#row#:#Row
 common#:#rows#:#Rows
 common#:#rte_editor_disabled#:#Rich Text Editor disabled
 common#:#rte_editor_enabled#:#Rich Text Editor enabled
-common#:#sahs_added#:#SCORM/AICC Learning Module added
-rbac#:#sahs_copy#:#User can copy SCORM/AICC learning module
-common#:#sahs_create#:#Create SCORM/AICC Learning Module
-rbac#:#sahs_delete#:#User can move or delete SCORM/AICC learning module
+common#:#sahs_added#:#SCORM Learning Module added
+rbac#:#sahs_copy#:#User can copy SCORM learning module
+common#:#sahs_create#:#Create SCORM Learning Module
+rbac#:#sahs_delete#:#User can move or delete SCORM learning module
 rbac#:#sahs_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#sahs_edit_permission#:#User can change permission settings
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
-common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module
-common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module
-rbac#:#sahs_read#:#User can read SCORM/AICC learning module
-rbac#:#sahs_visible#:#SCORM/AICC learning module is visible
-rbac#:#sahs_write#:#User can edit content and settings of SCORM/AICC learning module
-common#:#sahs#:#Learning Module SCORM/AICC
+common#:#sahs_join#:#Subscribe to SCORM Learning Module
+common#:#sahs_leave#:#Unsubscribe from SCORM Learning Module
+rbac#:#sahs_read#:#User can read SCORM learning module
+rbac#:#sahs_visible#:#SCORM learning module is visible
+rbac#:#sahs_write#:#User can edit content and settings of SCORM learning module
+common#:#sahs#:#Learning Module SCORM
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
 common#:#salutation#:#Salutation
@@ -8865,7 +8864,7 @@ rbac#:#rbac_create_mcst#:#Create Mediacast
 rbac#:#rbac_create_mep#:#Create Media Pool
 rbac#:#rbac_create_qpl#:#Create Question Pool Test
 rbac#:#rbac_create_rcrs#:#Create ECS Course 
-rbac#:#rbac_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#rbac_create_sahs#:#Create SCORM Learning Module
 rbac#:#rbac_create_spl#:#Create Question Pool Survey
 rbac#:#rbac_create_svy#:#Create Survey
 rbac#:#rbac_create_tst#:#Create Test
@@ -12070,7 +12069,7 @@ administration#:#adm_users#:#Users
 administration#:#adm_services#:#Services
 administration#:#adm_objects#:#Objects
 common#:#enable_sahs_protocol_data#:#Activate Protocol Data
-common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM/AICC)
+common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM)
 search#:#lucene_max_fs#:#Maximum File Size (in MB)
 search#:#lucene_max_fs_info#:#Defines the file size limit. Bigger files will not be included in the index.
 trac#:#trac_determines_learning_progress#:#Determines Learning Progress

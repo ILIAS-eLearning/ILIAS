@@ -3129,7 +3129,7 @@ common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaScript-Editor für
 common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
 common#:#enable_registration#:#Registrierung von Benutzerkonten zulassen
 common#:#enable_sahs_protocol_data#:#Protokolldaten aktivieren
-common#:#enable_sahs_protocol_data_desc#:#Anzeige der Protokolldaten (SCORM/AICC)
+common#:#enable_sahs_protocol_data_desc#:#Anzeige der Protokolldaten (SCORM)
 common#:#enable_search_engine#:#Öffentlichen Bereich für Suchmaschinen (z.B. Google) freigeben.<br />Bitte beachten Sie, dass für diese Einstellung das Apache-Modul "rewrite" benötigt wird, und dass .htaccess-Konfigurationen genutzt werden müssen.
 common#:#enable_trash#:#Papierkorb verwenden
 common#:#enable_trash_info#:#Wenn aktiviert, werden gelöschte Objekte in den Papierkorb verschoben und können später wieder hergestellt werden. Ist der Papierkorb deaktiviert, werden gelöschte Objekte unwiderruflich aus dem System entfernt!
@@ -3675,7 +3675,7 @@ common#:#import_lm#:#ILIAS-Lernmodul importieren
 common#:#import_qpl#:#Fragenpool für Tests importieren
 common#:#import_questions_into_qpl#:#Frage(n) in den Fragenpool importieren
 common#:#import_root_user#:#Root Benutzer importieren
-common#:#import_sahs#:#SCORM/AICC-Lernmodul importieren
+common#:#import_sahs#:#SCORM-Lernmodul importieren
 common#:#import_spl#:#Fragenpool für Umfragen importieren
 common#:#import_svy#:#Umfrage importieren
 common#:#import_tst#:#Test importieren
@@ -4386,7 +4386,7 @@ common#:#obj_rolf_local#:#Lokale Rollen
 common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
 common#:#obj_root#:#Magazin - Einstiegsseite
-common#:#obj_sahs#:#Lernmodul SCORM/AICC
+common#:#obj_sahs#:#Lernmodul SCORM
 common#:#obj_sco#:#SCO
 common#:#obj_seas#:#Suche
 common#:#obj_seas_desc#:#Konfigurieren Sie hier die Suche.
@@ -4479,7 +4479,7 @@ common#:#objs_qst#:#Fragen
 common#:#objs_rcrs#:#ECS-Kurs
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rollenvorlagen
-common#:#objs_sahs#:#SCORM/AICC-Lernmodule
+common#:#objs_sahs#:#SCORM-Lernmodule
 common#:#objs_sess#:#Sitzungen
 common#:#objs_spl#:#Fragenpools für Umfragen
 common#:#objs_st#:#Kapitel
@@ -4844,20 +4844,20 @@ common#:#row#:#Zeile
 common#:#rows#:#Zeilen
 common#:#rte_editor_disabled#:#Ohne Rich-Text-Editor arbeiten
 common#:#rte_editor_enabled#:#Mit Rich-Text-Editor arbeiten
-common#:#sahs#:#Lernmodul SCORM/AICC
-common#:#sahs_added#:#SCORM/AICC-Lernmodul angelegt
-common#:#sahs_create#:#Neues SCORM/AICC-Lernmodul anlegen
-rbac#:#sahs_delete#:#SCORM/AICC-Lernmodul löschen oder verschieben
+common#:#sahs#:#Lernmodul SCORM
+common#:#sahs_added#:#SCORM-Lernmodul angelegt
+common#:#sahs_create#:#Neues SCORM-Lernmodul anlegen
+rbac#:#sahs_delete#:#SCORM-Lernmodul löschen oder verschieben
 rbac#:#sahs_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#sahs_edit_permission#:#Rechteeinstellungen ändern
 common#:#sahs_insert_chap_from_clip#:#Füge Kapitel aus Zwischenablage ein
 common#:#sahs_insert_page_from_clip#:#Füge Seiten aus Zwischenablage ein
 common#:#sahs_insert_sco_from_clip#:#Füge SCOs aus Zwischenablage ein
-common#:#sahs_join#:#SCORM/AICC-Lernmodul abonnieren
-common#:#sahs_leave#:#SCORM/AICC-Lernmodulabonnement aufheben
-rbac#:#sahs_read#:#SCORM/AICC-Lernmodul lesen
-rbac#:#sahs_visible#:#SCORM/AICC-Lernmodul ist sichtbar
-rbac#:#sahs_write#:#Inhalt und Einstellungen des SCORM/AICC-Lernmoduls bearbeiten
+common#:#sahs_join#:#SCORM-Lernmodul abonnieren
+common#:#sahs_leave#:#SCORM-Lernmodulabonnement aufheben
+rbac#:#sahs_read#:#SCORM-Lernmodul lesen
+rbac#:#sahs_visible#:#SCORM-Lernmodul ist sichtbar
+rbac#:#sahs_write#:#Inhalt und Einstellungen des SCORM-Lernmoduls bearbeiten
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
@@ -4874,7 +4874,7 @@ common#:#save_user_related_data#:#Benutzerspezifische Zugriffsdaten speichern
 common#:#saved#:#Gespeichert
 common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#saving#:#Sichert...
-common#:#scorm_add#:#SCORM/AICC-Lernmodul anlegen
+common#:#scorm_add#:#SCORM-Lernmodul anlegen
 common#:#scorm_create_export_file_html#:#Erzeuge Exportdatei (HTML)
 common#:#scorm_create_export_file_iso#:#Erzeuge Exportdatei (ISO for CD-ROM)
 common#:#scorm_create_export_file_pdf#:#Erzeuge Exportdatei (PDF)
@@ -10255,7 +10255,7 @@ rbac#:#rbac_create_mcst#:#Mediacast anlegen
 rbac#:#rbac_create_mep#:#Medienpool anlegen
 rbac#:#rbac_create_qpl#:#Fragenpool für Tests anlegen
 rbac#:#rbac_create_rcrs#:#ECS-Kurs anlegen
-rbac#:#rbac_create_sahs#:#SCORM/AICC-Lernmodul anlegen
+rbac#:#rbac_create_sahs#:#SCORM-Lernmodul anlegen
 rbac#:#rbac_create_spl#:#Fragenpool für Umfragen anlegen
 rbac#:#rbac_create_svy#:#Umfrage anlegen
 rbac#:#rbac_create_tst#:#Test anlegen
@@ -12952,7 +12952,7 @@ fm#:#fm_settings_local_info#:#Wenn aktiviert, wird der Dateimanager in einer Zwe
 fm#:#fm_settings_filesize#:#Maximal Upload-Dateigrösse
 fm#:#fm_settings_filesize_info#:#Bitte geben Sie die maximale Upload-Dateigröße in MebiByte an.
 common#:#chat_invite_public_room#:#Öffentlicher Chatraum
-rbac#:#sahs_copy#:#Benutzer kann SCORM/AICC-Lernmodul kopieren
+rbac#:#sahs_copy#:#Benutzer kann SCORM-Lernmodul kopieren
 content#:#cont_LocalFile#:#Likale Datei
 ecs#:#ecs_cms_directory_trees_tbl#:#CMS-Verzeichnisbäume
 ecs#:#ecs_node_mapping_status_1#:#Den gesamten Baum mappen
