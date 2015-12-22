@@ -16146,3 +16146,6 @@ rbac#:#awra_visible#:#Verwaltung der „Wer ist online?“-Anzeige ist sichtbar
 rbac#:#awra_read#:#Lesezugriff auf Verwaltung der „Wer ist online?“-Anzeige
 rbac#:#awra_write#:#Schreibzugriff auf Verwaltung der „Wer ist online?“-Anzeige
 rbac#:#awra_edit_permission#:#Rechteeinstellungen für die Verwaltung der „Wer ist online?“-Anzeige ändern
+rbac#:#svy_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#svy_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
+rbac#:#sess_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten

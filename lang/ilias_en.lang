@@ -16124,9 +16124,9 @@ administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings
 administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.
 survey#:#svy_export_format#:#Export survey data as
 survey#:#svy_fraction_of_selections#:#Fraction of selections
-prg#:#prg_show_programmes_on_pd_always#:#Study Programme always visible on personal Desktop.
-prg#:#prg_show_programmes_on_pd_only_read#:#Study Programme only visible on personal Desktop with read Permissions.
-prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more Objects you can't see because of less Permissions.
+prg#:#prg_show_programmes_on_pd_always#:#Study Programmes are always visible on Personal Desktop.
+prg#:#prg_show_programmes_on_pd_only_read#:#Study Programmes are only visible on Personal Desktop with ‘read’ permissions.
+prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more objects you can't see because of less permissions.
 cmps#:#cmps_uninstall_inactive_confirm#:#The plugin "%1$s" can currently not be activated ("%2$s"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?
 pd#:#pd_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
 log#:#log_cache_info#:#Only if a message reaches or surpasses the caching level, all messages which have at least the log level will be added to the log for the current request.
@@ -16148,3 +16148,6 @@ rbac#:#awra_visible#:#‘Who is online?’ administration is visible
 rbac#:#awra_read#:#User has read access to ‘Who is online?’ administration
 rbac#:#awra_write#:#Edit settings in ‘Who is online?’ administration
 rbac#:#awra_edit_permission#:#User can change permission settings in ‘Who is online?’ administration
+rbac#:#svy_read_learning_progress#:#User can view learning progress of other users
+rbac#:#svy_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#sess_edit_learning_progress#:#User can edit learning progress settings
