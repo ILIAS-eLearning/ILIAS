@@ -380,12 +380,20 @@ class ilLocalUserGUI {
 			"title",
 			"description",
 			"type"
-		), array(
+		), (get_class($this->parent_gui) == 'ilObjOrgUnitGUI') ? array(
+			"ref_id" => $this->object->getRefId(),
+			"cmd" => "assignRoles",
+			"obj_id" => $_GET['obj_id'],
+			"cmdNode" => $_GET["cmdNode"],
+			"baseClass" => 'ilAdministrationGUI',
+			"admin_mode" => "settings"
+		) : array(
 			"ref_id" => $this->object->getRefId(),
 			"cmd" => "assignRoles",
 			"obj_id" => $_GET['obj_id'],
 			"cmdClass" => "ilobjcategorygui",
-			"cmdNode" => $_GET["cmdNode"]
+			"baseClass" => 'ilRepositoryGUI',
+			"cmdNode" => $_GET["cmdNode"],
 		));
 		$tbl->setColumnWidth(array( "4%", "35%", "45%", "16%" ));
 		$this->set_unlimited = true;

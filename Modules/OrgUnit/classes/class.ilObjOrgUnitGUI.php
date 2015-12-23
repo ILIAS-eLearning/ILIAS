@@ -668,7 +668,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	 * @return ilTableGUI
 	 * @description Make protected function avaiable for ilLocalUserGUI...
 	 */
-	public function __setTableGUIBasicData($tbl, $a_result_set, $a_from, $a_form) {
+	public function __setTableGUIBasicData(&$tbl, &$a_result_set, $a_from, $a_form) {
 		return parent::__setTableGUIBasicData($tbl, $a_result_set, $a_from, $a_form);
 	}
 }
