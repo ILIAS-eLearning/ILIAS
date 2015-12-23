@@ -943,15 +943,15 @@ assessment#:#search_results#:#Search Results
 assessment#:#search_roles#:#Search Roles
 assessment#:#search_term#:#Search Term
 assessment#:#search_users#:#Search Users
-assessment#:#tst_instant_feedback_handling#:#tst_instant_feedback_handling
-assessment#:#tst_instant_feedback_handling_none#:#tst_instant_feedback_handling_none
-assessment#:#tst_instant_feedback_handling_none_desc#:#tst_instant_feedback_handling_desc
-assessment#:#tst_instant_feedback_handling_freeze#:#tst_instant_feedback_handling_freeze
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#tst_instant_feedback_handling_freeze_desc
-assessment#:#tst_instant_feedback_handling_force_and_freeze#:#tst_instant_feedback_handling_force_and_freeze
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#tst_instant_feedback_handling_force_and_freeze_desc
-assessment#:#tst_instant_feedback_handling_force#:#Do not freeze answers but force feedback
-assessment#:#tst_instant_feedback_handling_force_desc#:#tst_instant_feedback_handling_force_desc
+assessment#:#tst_instant_feedback_handling#:#Lock Answers
+assessment#:#tst_instant_feedback_handling_none#:#Do Not Lock Answers
+assessment#:#tst_instant_feedback_handling_none_desc#:#Participants can change their answers in all test passes they have.
+assessment#:#tst_instant_feedback_handling_freeze#:#Lock Answers, Feedback upon Request
+assessment#:#tst_instant_feedback_handling_freeze_desc#:#After participants click 'Answer', they can no longer change their answer. Participants can request feedback by clicking 'Check'. Please configure feedback behavior in the option 'Instant feedback'.
+assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Lock Answers and Force Feedback
+assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#After participants click 'Answer', they can no longer change their answer. Participants will be automatically presented with feedback as configured in the option 'Instant feedback'.
+assessment#:#tst_instant_feedback_handling_force#:#Do Not Lock Answers but Force Feedback
+assessment#:#tst_instant_feedback_handling_force_desc#:#After participants click 'Answer', they will be automatically presented with feedback as configured in the option 'Instant feedback'. They may however change their answers afterwards.
 assessment#:#see_details_for_further_information#:#See details for suggested solutions
 assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select Gap
@@ -10064,7 +10064,7 @@ trac#:#trac_mode_collection_info#:#A user's learning progress status is determin
 trac#:#trac_mode_collection#:#Status is Determined by a Collection of Items
 trac#:#trac_mode_deactivated_info#:#No progress will be calculated.
 trac#:#trac_mode_deactivated#:#Learning Progress is Deactivated
-trac#:#trac_mode_event#:#Tutors Monitor and Record Attendance in Session
+trac#:#trac_mode_event#:#Tutors Monitor and Record Attendance
 trac#:#trac_mode_exercise_returned_info#:#Tutors decide if users have accomplished the excercise. Tutors manually set the overall status i.e. ‘Completed’ or ‘Failed’.
 trac#:#trac_mode_exercise_returned#:#Tutors Monitor and Set Status
 trac#:#trac_mode_manual_by_tutor_info#:#Tutors decide if users have accomplished the object. Tutors manually set the overall status i.e. ‘Completed’ or ‘Failed’.
@@ -12617,7 +12617,7 @@ rep#:#rep_activation_access#:#Access
 rep#:#rep_activation_limited_start#:#Start Time
 rep#:#rep_activation_limited_end#:#Finish Time
 rep#:#rep_activation_limited_visibility#:#Always Visible
-crs#:#crs_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability.
+crs#:#crs_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability but members cannot access the course.
 tax#:#tax_delete_taxonomy#:#Delete Taxonomy
 tax#:#tax_confirm_deletion#:#Do you really want to delete the whole taxonomy and all its relations?
 tax#:#tax_tax_deleted#:#The taxonomy has been deleted.
@@ -13092,7 +13092,7 @@ blog#:#blog_author#:#Written by
 blog#:#blog_enable_approval#:#Approve Postings
 blog#:#blog_enable_approval_info#:#Postings are published only after being approved by a user with permission ‘Edit Settings’ for this blog.
 blog#:#blog_approve#:#Approve Posting
-blog#:#blog_needs_approval#:#Posting is not approved yet
+blog#:#blog_needs_approval#:#Posting is not yet approved
 sess#:#sess_copy#:#Copy Session
 grp#:#events#:#Sessions
 book#:#book_additional_info_file#:#Additional Description
@@ -13162,7 +13162,7 @@ content#:#cont_presentation#:#Presentation
 content#:#cont_scorm_options#:#SCORM Options
 content#:#cont_rte_settings#:#RTE Settings
 content#:#cont_debugging#:#Debugging
-content#:#cont_auto_last_visited_info#:#Users are presented with the SCO/asset they most recently visited when opening the learning module again.
+content#:#cont_auto_last_visited_info#:#Users are presented with the SCO/Asset they most recently visited when opening the learning module again.
 content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is ‘normal’.
 content#:#cont_sc_auto_review_info_12#:#Set the lesson mode to ‘review’ when a learner has completed or passed a SCO.
 content#:#cont_sc_usession_info#:#Periodical requests will be sent to ILIAS to keep the session alive. Otherwise ILIAS will categorize working on the learning module as idleness, terminate the session and loose the tracking data.
@@ -14434,8 +14434,8 @@ adve#:#char_selector_unicode_all#:#All Unicode Blocks
 adve#:#adve_char_selector_settings#:#Character Selector
 common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS Username as cmi.learner_id
 common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of the User ID is set for cmi.learner_id.
-content#:#cont_sc_auto_review_2004#:#Store Data
-content#:#cont_sc_auto_review_info_2004#:#After a user has acquired a tracking status set above for a chapter / SCO, this status could be locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
+content#:#cont_sc_auto_review_2004#:#Lock Tracking Status Once it is Established
+content#:#cont_sc_auto_review_info_2004#:#After a user has acquired the tracking status set above for a chapter /SCO, this Status is locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
 content#:#cont_sc_auto_review_no#:#always (recommended)
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#keep tracking data if achieved status is completed or passed, but not failed
 content#:#cont_sc_auto_review_passed#:#keep tracking data if achieved status is passed
@@ -14445,7 +14445,7 @@ content#:#cont_sc_auto_review_completed_and_passed#:#keep tracking data if achie
 content#:#cont_sc_auto_review_completed_or_passed#:#keep tracking data if achieved status is completed or passed
 content#:#cont_sc_store_if_previous_score_was_lower#:#keep tracking data if achieved score in previous attempt was higher or equal
 content#:#cont_auto_suspend#:#Safeguard tracking data
-content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit.
+content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, which support SCORM 2004 in an inadequate way by not sending proper values for cmi.exit<br />It will ensure that tracking data is stored irrespectively of the user not closing the learning module properly for instance by simply closing the browser.
 administration#:#adm_captcha_anonymous_frm#:#Activate captcha for anonymous in forums. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_auth#:#Activate captcha for anonymous in login form. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_reg#:#Activate captcha for anonymous in registration form. Please keep in mind that this may effect the accessibility of your installation.
@@ -15148,7 +15148,7 @@ bibl#:#bibl_library_show_in_list#:#Show as link in the list
 content#:#cont_ie_compatibility#:#Internet Explorer 7 Compatibility Mode
 content#:#cont_ie_compatibility_info#:#Reduces problems with displaying older SCORM Learning Modules that were optimised for the Internet Explorer. If the Compatibility Mode is switched off in newer versions of the Internet Explorer, this setting does not become effective.
 content#:#cont_ie_force_render#:#Force Internet Explorer to re-render
-content#:#cont_ie_force_render_info#:#Learning modules with many frames or iFrames will be displayed correctly after rendering the Content once more.
+content#:#cont_ie_force_render_info#:#Learning modules with many frames or iFrames will be displayed correctly after rendering the content once more.
 ecs#:#ecs_token_mechanism#:#Authentication Token
 ecs#:#ecs_token_mechanism_info#:#If enabled, the authentication on the hosting platform for remote objects, is done by the ECS-Token-Mechanism.
 ecs#:#ecs_part_settings#:#Settings for Participant:
@@ -15711,7 +15711,7 @@ crs#:#crs_subscription_min_members_info#:#Define the number of users that is min
 crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill
 crs#:#crs_waiting_list_autofill#:#With Auto-Fill
 crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
-crs#:#crs_cancellation_end#:#Limit for 'Unsubscribe from Course'
+crs#:#crs_cancellation_end#:#Limit 'Unsubscribe from Course'
 crs#:#crs_period#:#Course Period
 crs#:#crs_course_period_not_valid#:#The course period is not valid.
 crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.
@@ -16104,16 +16104,16 @@ crs#:#crs_loc_settings_passed_mode_mark#:#Test questions for mastered learning o
 crs#:#crs_checklist_objective#:#Checklist Objective
 prtf#:#prtf_set_default_publish_global#:#Share with unregistered users also
 prtf#:#prtf_set_default_publish_registered#:#Share with registered users only
-crs#:#crs_loc_settings_type_it_placement_all_info#:#Diagnostischer Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_type_it_placement_sel_info#:#Diagnostischer Einstiegstest pro Lernziel
-crs#:#crs_loc_settings_type_it_qualifying_all_info#:#Qualifizierender Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Qualifizierender Einstiegstest pro Lernziel
-crs#:#crs_loc_settings_type_it_none_info#:#Kein Einstiegstest
-crs#:#crs_loc_settings_type_q_all_info#:#Abschlusstest über alle Lernziele
-crs#:#crs_loc_settings_type_q_selected_info#:#Abschlusstest pro Lernziel
-crs#:#crs_visibility_until_info#:#---
-crs#:#crs_registration_limited_info#:#---
-crs#:#crs_subscription_max_members_short_info#:#---
+crs#:#crs_loc_settings_type_it_placement_all_info#:#Placement test on all learning objectives
+crs#:#crs_loc_settings_type_it_placement_sel_info#:#Placement test per single learning objective
+crs#:#crs_loc_settings_type_it_qualifying_all_info#:#Achievement test on all learning objectives
+crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Achievement test per sinble learning objective
+crs#:#crs_loc_settings_type_it_none_info#:#No placement test
+crs#:#crs_loc_settings_type_q_all_info#:#Achievement test on all learning objectives
+crs#:#crs_loc_settings_type_q_selected_info#:#Achievement test per sinble learning objective
+crs#:#crs_visibility_until_info#:#The course will be visible to it's members in a specific period of time.
+crs#:#crs_registration_limited_info#:#Members can only register for this course during a specific period of time.
+crs#:#crs_subscription_max_members_short_info#:#The minimal respectively maximial number of members can be set. A waiting list can be set up.
 crs#:#crs_unsubscribe_member_explanation#:#You receive this message because you unsubscribed from the course mentioned above.
 rbac#:#prg_read#:#User has read access to Study Programme
 sess#:#sess_max_members_needed#:#A maximum number of members is needed for the waiting list feature.
