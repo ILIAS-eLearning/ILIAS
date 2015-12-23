@@ -653,7 +653,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 		$obj_id = $this->getID();
 		$fields = fgetcsv($fhandle, pow(2, 16), ';');
-		// $users = array();
+		$users = array();
+		$usersToDelete = array();
 		while(($csv_rows = fgetcsv($fhandle, pow(2, 16), ";")) !== FALSE)
 		{
 			$data = array_combine($fields, $csv_rows);
@@ -674,7 +675,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				}
 				
 				$status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
-				// $users[] = $user_id;
+				
 				if ($data["Status"]) {
 					if (is_int($data["Status"])) $status = $data["Status"];
 					else if ($data["Status"] == "0" || $data["Status"] == "1" || $data["Status"] == "2" || $data["Status"] == "3") $status = (int) $data["Status"];
@@ -682,6 +683,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 					else if ($data["Status"] == ilLPStatus::LP_STATUS_IN_PROGRESS) $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
 					else if ($data["Status"] == ilLPStatus::LP_STATUS_FAILED) $status = ilLPStatus::LP_STATUS_FAILED_NUM;
 				}
+
 				$attempts = null;
 				if($data["Attempts"]) $attempts = $data["Attempts"];
 				
@@ -692,7 +694,12 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				$sco_total_time_sec = null;
 				if ($data['SumTotal_timeSeconds']) $sco_total_time_sec = $data['SumTotal_timeSeconds'];
 				
-				$this->importSuccessForSahsUser($user_id, $last_access, $status, $attempts, $percentage_completed, $sco_total_time_sec);
+				if ($status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED) {
+					$usersToDelete[] = $user_id;
+				} else {
+					$this->importSuccessForSahsUser($user_id, $last_access, $status, $attempts, $percentage_completed, $sco_total_time_sec);
+					$users[] = $user_id;
+				}
 				
 				if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
 					foreach ($scos as $sco_id) 
@@ -738,10 +745,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				//echo "Warning! User $csv_rows[0] does not exist in ILIAS. Data for this user was skipped.\n";
 			}
 		}
-		
+		if (count($usersToDelete)>0) {
+			// include_once("./Services/Tracking/classes/class.ilLPMarks.php");
+			// ilLPMarks::_deleteForUsers($this->getId(), $usersToDelete);
+			$this->deleteTrackingDataOfUsers($usersToDelete);
+		}
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_refreshStatus($this->getId());
-//		<4.2.6: foreach ($users as $user_id) {ilLPStatusWrapper::_updateStatus($obj_id, $user_id);}
+		ilLPStatusWrapper::_refreshStatus($this->getId(),$users);
 		return 0;
 	}
 
