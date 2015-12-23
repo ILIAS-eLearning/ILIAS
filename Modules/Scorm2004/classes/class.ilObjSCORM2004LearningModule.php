@@ -386,6 +386,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		global $ilDB;
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004DeleteData.php");
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+		include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
+		ilChangeEvent::_deleteReadEventsForUsers($this->getId(), $a_users);
 		
 		foreach($a_users as $user)
 		{
@@ -555,7 +557,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 		$obj_id = $this->getID();
 		$users = array();
-
+		$usersToDelete = array();
 		$fields = fgetcsv($fhandle, 4096, ';');
 		while(($csv_rows = fgetcsv($fhandle, 4096, ";")) !== FALSE) {
 			$data = array_combine($fields, $csv_rows);
@@ -575,7 +577,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				}
 				
 				$status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
-				// $users[] = $user_id;
+
 				if ($data["Status"]) {
 					if (is_int($data["Status"])) $status = $data["Status"];
 					else if ($data["Status"] == ilLPStatus::LP_STATUS_NOT_ATTEMPTED) $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
@@ -592,7 +594,12 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				$sco_total_time_sec = null;
 				if ($data['SumTotal_timeSeconds']) $sco_total_time_sec = $data['SumTotal_timeSeconds'];
 				
-				$this->importSuccessForSahsUser($user_id, $last_access, $status, $attempts, $percentage_completed, $sco_total_time_sec);
+				if ($status == ilLPStatus::LP_STATUS_NOT_ATTEMPTED) {
+					$usersToDelete[] = $user_id;
+				} else {
+					$this->importSuccessForSahsUser($user_id, $last_access, $status, $attempts, $percentage_completed, $sco_total_time_sec);
+					$users[] = $user_id;
+				}
 				
 				if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
 					foreach ($scos as $sco_id) 
@@ -631,9 +638,13 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			}
 		}
 		
-		// update learning progress
+		if (count($usersToDelete)>0) {
+			// include_once("./Services/Tracking/classes/class.ilLPMarks.php");
+			// ilLPMarks::_deleteForUsers($this->getId(), $usersToDelete);
+			$this->deleteTrackingDataOfUsers($usersToDelete);
+		}
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_refreshStatus($this->getId());
+		ilLPStatusWrapper::_refreshStatus($this->getId(),$users);
 
 		return 0;
 	}
