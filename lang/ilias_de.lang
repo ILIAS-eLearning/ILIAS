@@ -1066,15 +1066,15 @@ assessment#:#search_results#:#Suchergebnisse
 assessment#:#search_roles#:#nach Rollen
 assessment#:#search_term#:#Suchbegriff
 assessment#:#search_users#:#nach Benutzern
-assessment#:#tst_instant_feedback_handling#:#Antworten festschreiben
+assessment#:#tst_instant_feedback_handling#:#Antworten nach Rückmeldung festschreiben
 assessment#:#tst_instant_feedback_handling_none#:#Antworten nicht festschreiben
 assessment#:#tst_instant_feedback_handling_none_desc#:#Teilnehmer können ihre Antworten im Rahmen der erlaubten Testdurchläufe ändern.
-assessment#:#tst_instant_feedback_handling_freeze#:#Antworten festschreiben, Rückmeldungen können angefordert werden
+assessment#:#tst_instant_feedback_handling_freeze#:#Antworten festschreiben, wenn Rückmeldung angefordert wird
 assessment#:#tst_instant_feedback_handling_freeze_desc#:#Klicken Teilnehmer auf 'Antwort einreichen', so können sie ihre Antworten danach nicht mehr ändern. Teilnehmer können über einen Button nach Bedarf eine Rückmeldung anfordern. Rückmeldungen werden in der Option 'Direkte Rückmeldung' konfiguriert . <br />
-assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Antworten festschreiben und automatische Rückmeldung
+assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Automatische Rückmeldung und Antwort festschreiben
 assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#Klicken Teilnehmer auf 'Antwort einreichen', so können sie ihre Antworten danach nicht mehr ändern. ILIAS präsentiert sofort die in der Option 'Direkte Rückmeldung' konfigurierte Rückmeldung.
-assessment#:#tst_instant_feedback_handling_force#:#Antworten nicht festschreiben aber automatische Rückmeldung
-assessment#:#tst_instant_feedback_handling_force_desc#:#
+assessment#:#tst_instant_feedback_handling_force#:#Automatische Rückmeldung, aber Antwort nicht festschreiben
+assessment#:#tst_instant_feedback_handling_force_desc#:#Klicken Teilnehmer auf 'Antwort einreichen', so ILIAS präsentiert sofort die in der Option 'Direkte Rückmeldung' konfigurierte Rückmeldung. Teilnehmer können danach ihre Antworten im Rahmen der erlaubten Testdurchläufe ändern.
 assessment#:#see_details_for_further_information#:#Inhalte zur Wiederholung: siehe Fragendetails
 assessment#:#select_an_answer#:#--- Bitte wählen Sie eine Antwort aus ---
 assessment#:#select_gap#:#Auswahl-Lücke
@@ -6798,9 +6798,9 @@ crs#:#crs_objective_self_assessment#:#Fragen Einstiegstest
 crs#:#crs_objective_status#:#Lernzielstatus
 crs#:#crs_objective_step#:#Schritt
 crs#:#crs_objective_updated_test#:#Die Änderungen wurden übernommen.
-crs#:#crs_objective_wiz_final#:#Fragen des Qualifizierenden Tests festlegen
-crs#:#crs_objective_wiz_final_info#:#Legen Sie nun die Fragen des Qualifizierenden Tests fest, die das Erreichen des Lernziels überprüfen sollen.
-crs#:#crs_objective_wiz_final_limit#:#Grenzen des Qualifizierenden Tests festlegen
+crs#:#crs_objective_wiz_final#:#Fragen des  Abschlusstests festlegen
+crs#:#crs_objective_wiz_final_info#:#Legen Sie nun die Fragen des Abschlusstests fest, die das Erreichen des Lernziels überprüfen sollen.
+crs#:#crs_objective_wiz_final_limit#:#Grenzen des Abschlusstests festlegen
 crs#:#crs_objective_wiz_final_limit_info#:#Bitte tragen Sie nun die Punktzahl ein, die ein Kursteilnehmer benötigt, um das Lernziel zu bestehen.
 crs#:#crs_objective_wiz_materials#:#Lerninhalte zuordnen
 crs#:#crs_objective_wiz_materials_info#:#Hier legen Sie fest, welche Lerninhalte zur Bearbeitung des Lernziels empfohlen werden.
@@ -6911,7 +6911,7 @@ crs#:#crs_sortorder#:#Sortierung
 crs#:#crs_sortorder_abo#:#Sortierung
 crs#:#crs_start#:#Start
 crs#:#crs_start_objects#:#Startobjekte
-crs#:#crs_starter_delete_sure#:#Wollen Sie wirklich die folgenden Startobjekte löschen?
+crs#:#crs_starter_delete_sure#:#Wollen Sie wirklich, dass die folgenden Objekte nicht mehr Startobjekte sind?
 crs#:#crs_starter_deleted#:#Die Zuordnung wurde entfernt.
 crs#:#crs_starters_already_assigned#:#Dieses Objekt wurde bereits zugewiesen.
 crs#:#crs_status#:#Status
@@ -15022,12 +15022,12 @@ crs#:#crs_objective_status_configure#:#Checkliste Kurs
 crs#:#crs_objective_status_settings#:#Kurseinstellungen vornehmen
 crs#:#crs_objective_status_materials#:#Lerninhalte  hinzufügen
 crs#:#crs_objective_status_itest#:#Einstiegstest konfigurieren
-crs#:#crs_objective_status_qtest#:#Qualifizierenden Test konfigurieren
+crs#:#crs_objective_status_qtest#:#Abschlusstest konfigurieren
 crs#:#crs_objective_status_objectives#:#Lernziele konfigurieren
 crs#:#crs_objective_status_start#:#Startobjekte definieren
 crs#:#crs_objective_status_fullfilled#:#OK
 crs#:#crs_objective_action_materials#:#Lerninhalte zuordnen 
-crs#:#crs_objective_action_qtest#:#Fragen des Qualifizierenden Tests festlegen
+crs#:#crs_objective_action_qtest#:#Fragen des Abschlusstests festlegen
 crs#:#crs_objective_action_itest#:#Fragen des Einstiegstests festlegen
 crs#:#crs_loc_qt_visibility#:#Anzeige des Qualifizierenden Tests
 crs#:#crs_loc_qt_visibility_all#:#Qualifizierenden Test über alle Lernziele anzeigen
@@ -15051,7 +15051,7 @@ content#:#cont_to_focus_return_crs#:#Zurück zum Kurs
 crs#:#crs_loc_learning_objective#:#Lernziel
 crs#:#crs_loc_suggested#:#Bearbeiten Sie bitte die links aufgeführten Materialien, um das Lernziel zu erreichen.
 crs#:#crs_loc_itest_info#:#Einstiegstest
-crs#:#crs_loc_qtest_info#:#Qualifizierender Test
+crs#:#crs_loc_qtest_info#:#Abschlusstest
 crs#:#crs_loc_tt_info#:#Sie haben %1$d%% erreicht. Der Test gilt mit %2$d%% als bestanden.
 crs#:#crs_loc_subtab_creation#:#Erstellen
 crs#:#crs_loc_settings_tbl#:#Einstellungen zum Lernziel-orientierten Kurs
@@ -15062,7 +15062,7 @@ crs#:#crs_loc_type_qualified#:#Qualifizierender Test mit Nachtest zu nicht errei
 crs#:#crs_loc_type_practise#:#Freier Lern- und Übungsteil mit Abschlusstest
 crs#:#crs_loc_tab_materials#:#Materialien
 crs#:#crs_loc_tab_itest#:#Einstiegstest
-crs#:#crs_loc_tab_qtest#:#Qualifizierender Test
+crs#:#crs_loc_tab_qtest#:#Abschlusstest
 crs#:#crs_loc_settings_itest_tbl#:#Einstellungen für Einstiegstest
 crs#:#crs_loc_tab_objectives#:#Lernziele
 crs#:#crs_loc_settings_qtest_tbl#:#Einstellungen für Qualifizierenden Test
@@ -15106,7 +15106,7 @@ crs#:#crs_loc_tst_new_run#:#Neuen Test starten
 crs#:#crs_loc_tst_resume#:#Alten Test fortsetzen
 crs#:#crs_loc_settings_reset#:#Testergebnisse
 crs#:#crs_loc_settings_reset_enable_info#:#Kursmitglieder können die eigenen Testergebnisse löschen, um den Kurs von neuem zu beginnen. Diese Einstellung sollte nur in der Entwicklungsphase des Kurses genutzt werden, um dessen Ablauf leichter zu überprüfen.
-crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und danach den Qualifizierenden Test.
+crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und danach den Abschlusstest.
 ecs#:#ecs_part_settings#:#Einstellungen für Teilnehmer:
 bibl#:#bibl_library_show_in_list#:#Link auch in der Liste anzeigen
 content#:#cont_ie_compatibility#:#Internet Explorer 7 Kompatibilitätsmodus
@@ -16109,9 +16109,9 @@ crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Qualifizierender Einstiegst
 crs#:#crs_loc_settings_type_it_none_info#:#Kein Einstiegstest
 crs#:#crs_loc_settings_type_q_all_info#:#Abschlusstest über alle Lernziele
 crs#:#crs_loc_settings_type_q_selected_info#:#Abschlusstest pro Lernziel
-crs#:#crs_visibility_until_info#:#---
-crs#:#crs_registration_limited_info#:#---
-crs#:#crs_subscription_max_members_short_info#:#---
+crs#:#crs_visibility_until_info#:#Der Kurs wird seinen Mitgliedern nur für einen bestimmten Zeitraum angezeigt.
+crs#:#crs_registration_limited_info#:#Mitglieder können dem Kurs nur in einen bestimmten Zeitraum beitreten.
+crs#:#crs_subscription_max_members_short_info#:#Es kann eine minimale bzw. maximale Anzahl von Mitgliedern festgelegt werden. Es kann eine Warteliste eingerichtet werden.
 crs#:#crs_unsubscribe_member_explanation#:#Sie erhalten diese Mail, da Sie die Kursmitgliedschaft des oben genannten Kurses beendet haben.
 rbac#:#prg_read#:#Seiteninhalt des Studienprogramms kann gelesen werden
 sess#:#sess_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
