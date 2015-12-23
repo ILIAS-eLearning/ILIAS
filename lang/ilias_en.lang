@@ -12751,7 +12751,7 @@ dcl#:#dcl_integer#:#Integer
 dcl#:#dcl_text#:#Text
 dcl#:#dcl_reference#:#Reference
 dcl#:#dcl_boolean#:#Boolean
-dcl#:#dcl_datetime#:#Datetime
+dcl#:#dcl_datetime#:#Date
 dcl#:#dcl_file#:#Fileupload
 dcl#:#dcl_field_description#:#Description
 dcl#:#dcl_field_required#:#Required
@@ -15433,7 +15433,7 @@ file#:#file_import#:#Import File
 dcl#:#dcl_boolean_desc#:#Checkbox for "True" or "False"
 dcl#:#dcl_text_desc#:#Textfield for text, links or e-mail addresses.
 dcl#:#dcl_integer_desc#:#Field for integer values. No decimals or fractions.
-dcl#:#dcl_datetime_desc#:#Field for a date and time.
+dcl#:#dcl_datetime_desc#:#Field for a date.
 dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will be displayed directly in the datacollection. Allowed datatypes: %s
 dcl#:#dcl_file_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
 dcl#:#dcl_reference_desc#:#Field to reference options stored in a different field of a table.
