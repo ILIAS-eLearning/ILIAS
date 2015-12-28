@@ -30,11 +30,13 @@ class ilWACSecurePath extends ActiveRecord {
 		 * @var $obj ilWACSecurePath
 		 */
 		$obj = self::find($ilWACPath->getSecurePathId());
-		if (! $obj) {
+		if (!$obj) {
+			ilWACLog::getInstance()->write('No Checking Instance not found for id: ' . $ilWACPath->getSecurePathId());
 			return NULL;
 		}
 		$secure_path_checking_class = $obj->getComponentDirectory() . '/classes/class.' . $obj->getCheckingClass() . '.php';
-		if (! file_exists($secure_path_checking_class)) {
+		if (!file_exists($secure_path_checking_class)) {
+			ilWACLog::getInstance()->write('Checking Instance not found in path: ' . $secure_path_checking_class);
 			return NULL;
 		}
 
@@ -113,7 +115,10 @@ class ilWACSecurePath extends ActiveRecord {
 	 * @return string
 	 */
 	public function getComponentDirectory() {
-		return $this->component_directory;
+		preg_match("/\\/(Services|Modules|Customizing)\\/.*/u", $this->component_directory, $matches);
+
+		// return $this->component_directory;
+		return '.' . $matches[0];
 	}
 
 
