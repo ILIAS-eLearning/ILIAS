@@ -12588,3 +12588,15 @@ if(!$ilDB->tableColumnExists('adl_shared_data','cp_node_id'))
 		$ilDB->addPrimaryKey('cp_tree', array('obj_id','child'));
 	}
 ?>
+<#4809>
+<?php
+if(!$ilDB->tableColumnExists('notification_osd', 'visible_for'))
+{
+	$ilDB->addTableColumn('notification_osd', 'visible_for', array(
+		'type'    => 'integer',
+		'length'  => 4,
+		'notnull' => true,
+		'default' => 0)
+	);
+}
+?>
