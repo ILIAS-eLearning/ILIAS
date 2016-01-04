@@ -57,20 +57,38 @@ class ilLearningModuleImporter extends ilXmlImporter
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
 			$newObj->createLMTree();
 			$newObj->setImportDirectory(dirname(rtrim($this->getImportDirectory(),'/')));
+			$mess = $newObj->importFromDirectory($this->getImportDirectory(),true);
+			$GLOBALS['ilLog']->write(__METHOD__.': Import message is: '.$mess);
+			$a_mapping->addMapping("Modules/LearningModule", "lm", $a_id, $newObj->getId());
+			$a_mapping->addMapping("Services/Object", "obj", $a_id, $newObj->getId());
 		}
 		else	// case ii, non container
 		{
 			include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
 			$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
 				$a_xml, $this->ds, $a_mapping);
-			return;
 		}
-		
-		$mess = $newObj->importFromDirectory($this->getImportDirectory(),true);
-		$GLOBALS['ilLog']->write(__METHOD__.': Import message is: '.$mess);
 
-		$a_mapping->addMapping("Modules/LearningModule", "lm", $a_id, $newObj->getId());
-		$a_mapping->addMapping("Services/Object", "obj", $a_id, $newObj->getId());
+		// import qti stuff
+		$qti_file = $this->getImportDirectory().'/qti.xml';
+		$this->qtis = array();
+		if (is_file($qti_file))
+		{
+			include_once "./Services/QTI/classes/class.ilQTIParser.php";
+			include_once("./Modules/Test/classes/class.ilObjTest.php");
+			$qtiParser = new ilQTIParser ($qti_file,
+					IL_MO_VERIFY_QTI, 0, "");
+			$result = $qtiParser->startParsing ();
+			$founditems = & $qtiParser->getFoundItems ();
+			$testObj = new ilObjTest(0, true);
+			if (count($founditems) > 0)
+			{
+				$qtiParser = new ilQTIParser($qti_file, IL_MO_PARSE_QTI, 0, "");
+				$qtiParser->setTestObject($testObj);
+				$result = $qtiParser->startParsing();
+				$this->qtis = array_merge($this->qtis, $qtiParser->getImportMapping());
+			}
+		}
 	}
 
 	/**
@@ -111,28 +129,37 @@ class ilLearningModuleImporter extends ilXmlImporter
 		}
 
 
-	// in translation mode use link mapping to fix internal links
-		//$a_mapping->addMapping("Modules/LearningModule", "link",
-		if ($this->config->getTranslationImportMode())
+		$link_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "link");
+		$pages = $a_mapping->getMappingsOfEntity("Services/COPage", "pgl");
+		foreach ($pages as $p)
 		{
-			$link_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "link");
-			$pages = $a_mapping->getMappingsOfEntity("Services/COPage", "pgl");
-			foreach ($pages as $p)
+			$id = explode(":", $p);
+			if (count($id) == 3)
 			{
-				$id = explode(":", $p);
-				if (count($id) == 3)
+				include_once("./Services/COPage/classes/class.ilPageObject.php");
+				if (ilPageObject::_exists($id[0], $id[1], $id[2], true))
 				{
-					include_once("./Services/COPage/classes/class.ilPageObject.php");
-					if (ilPageObject::_exists($id[0], $id[1], $id[2], true))
+					include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+					$new_page = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $id[2]);
+					$new_page->buildDom();
+
+					// fix question references
+					$updated = $new_page->resolveQuestionReferences($this->qtis);
+
+					// in translation mode use link mapping to fix internal links
+					//$a_mapping->addMapping("Modules/LearningModule", "link",
+					if ($this->config->getTranslationImportMode())
 					{
-						include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
-						$new_page = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $id[2]);
-						$new_page->buildDom();
 						$il = $new_page->resolveIntLinks($link_map);
 						if ($il)
 						{
-							$new_page->update(false, true);
+							$updated = true;
 						}
+					}
+
+					if ($updated)
+					{
+						$new_page->update(false, true);
 					}
 				}
 			}
