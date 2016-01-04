@@ -1018,7 +1018,7 @@ assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
 assessment#:#tst_allowed_users#:#Limit Number of Concurrent Participants
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_already_taken#:#Tests Already Taken
-assessment#:#tst_anonymity#:#Test Record
+assessment#:#tst_anonymity#:#Privacy
 assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_answered_questions#:#Answered Questions
@@ -11130,8 +11130,8 @@ survey#:#no_question_selected_for_copy_to_pool#:#Please select at least one ques
 survey#:#survey_copy_select_questionpool#:#Question pool to put the copies
 survey#:#survey_copy_to_questionpool_success#:#The questions were copied into the pool successfully.
 assessment#:#test_using_template#:#This test uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
-assessment#:#tst_anonymity_no_anonymization#:#Participants' Results and Names are Tracked
-assessment#:#tst_anonymity_anonymous_test#:#Participants Take Test Anonymously
+assessment#:#tst_anonymity_no_anonymization#:#Results with Names
+assessment#:#tst_anonymity_anonymous_test#:#Results without Names / Anonymous Test
 assessment#:#tst_beginning_ending_information#:#Information at Beginning and End of Test
 assessment#:#tst_presentation_properties#:#Administering the Test: Behavior of the Question
 assessment#:#tst_settings_template#:#Template
