@@ -301,6 +301,7 @@ class ilAssQuestionPreviewGUI
 		//$pageGUI->setTemplateTargetVar("ADM_CONTENT"); // NOT REQUIRED, OR IS?
 
 		$tpl->setCurrentBlock('solution_output');
+		$tpl->setVariable('TXT_CORRECT_SOLUTION', $this->lng->txt('tst_best_solution_is'));
 		$tpl->setVariable('SOLUTION_OUTPUT', $pageGUI->preview());
 		$tpl->parseCurrentBlock();
 	}
