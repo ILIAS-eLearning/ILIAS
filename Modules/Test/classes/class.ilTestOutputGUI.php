@@ -466,13 +466,24 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	
 	protected function skipQuestionCmd()
 	{
-		if( $this->object->isPostponingEnabled() )
+		$curSequenceElement = $this->getCurrentSequenceElement();
+		$nextSequenceElement = $this->testSequence->getNextSequence($curSequenceElement);
+
+		if(!$this->isValidSequenceElement($nextSequenceElement))
 		{
-			$this->testSequence->postponeSequence($this->getCurrentSequenceElement());
-			$this->testSequence->saveToDb();
+			$nextSequenceElement = $this->testSequence->getFirstSequence();
 		}
 		
-		$this->nextQuestionCmd();
+		if( $this->object->isPostponingEnabled() )
+		{
+			$this->testSequence->postponeSequence($curSequenceElement);
+			$this->testSequence->saveToDb();
+		}
+
+		$this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
+		$this->ctrl->setParameter($this, 'pmode', '');
+
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	protected function nextQuestionCmd()
