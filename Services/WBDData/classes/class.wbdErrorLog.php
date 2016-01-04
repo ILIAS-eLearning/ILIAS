@@ -49,6 +49,10 @@ class wbdErrorLog {
 			'endswith' => ''
 		),
 
+		'USER_NOT_IN_POOL' => array(
+			'Der Vermittler ist nicht transferfähig.'
+		),
+
 		'WRONG_USERDATA' => array(
 			'not well formed: auth_phone_nr',
 			'mandatory field missing: street',
