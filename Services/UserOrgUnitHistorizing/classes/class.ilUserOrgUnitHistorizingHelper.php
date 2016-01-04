@@ -98,5 +98,3 @@ class ilUserOrgUnitHistorizingHelper
 		return array($orgu_1_title, $orgu_2_title);
 	}
 }
-
-?>
