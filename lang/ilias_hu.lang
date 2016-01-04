@@ -14402,7 +14402,5 @@ common#:#il_orgu_superior#:#Felettes
 common#:#il_orgu_employee#:#Alkalmazott
 common#:#view_learning_progress#:#Tanulási haladás megjelenítése
 common#:#view_learning_progress_rec#:#Egység és alegységei Tanulási haladásának megjelenítése
-rbac#:#orgu_copy#:#Szervezeti egység másolása
-rbac#:#orgu_view_learning_progress_rec#:#Egység és alegységei Tanulási haladásának megjelenítése
 user#:#feedhash#:#Hírcsatorna-hash
 export#:#no_file#:#Nincs fájl
