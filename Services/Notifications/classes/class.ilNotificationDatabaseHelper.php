@@ -210,26 +210,28 @@ class ilNotificationDatabaseHandler
         return $result;
     }
 
-    public static function enqueueByUsers(ilNotificationConfig $notification, array $userids) {
-        if (!$userids)
+    public static function enqueueByUsers(ilNotificationConfig $notification, array $userids)
+    {
+        if(!$userids)
             return;
 
         global $ilDB;
 
         $notification_id = ilNotificationDatabaseHandler::storeNotification($notification);
-        $valid_until = $notification->getValidForSeconds() ? (time() + $notification->getValidForSeconds()) : 0;
+        $valid_until     = $notification->getValidForSeconds() ? (time() + $notification->getValidForSeconds()) : 0;
 
-        foreach($userids as $userid) {
+        foreach($userids as $userid)
+        {
             $ilDB->insert(
                 ilNotificationSetupHelper::$tbl_notification_queue,
-                    array(
-                        'notification_id' => array('integer', $notification_id),
-                        'usr_id' => array('integer', $userid),
-                        'valid_until' => array('integer', $valid_until),
-                    )
+                array(
+                    'notification_id' => array('integer', $notification_id),
+                    'usr_id'          => array('integer', $userid),
+                    'valid_until'     => array('integer', $valid_until),
+                    'visible_for'     => array('integer', $notification->getVisibleForSeconds())
+                )
             );
         }
-
     }
 
     public static function enqueueByListener(ilNotificationConfig $notification, $ref_id) {
@@ -238,12 +240,12 @@ class ilNotificationDatabaseHandler
         $notification_id = ilNotificationDatabaseHandler::storeNotification($notification);
         $valid_until = $notification->getValidForSeconds() ? (time() + $notification->getValidForSeconds()) : 0;
 
-        $query = 'INSERT INTO ' . ilNotificationSetupHelper::$tbl_notification_queue . ' (notification_id, usr_id, valid_until) '
-                .' (SELECT %s, usr_id, %s FROM '. ilNotificationSetupHelper::$tbl_userlistener .' WHERE disabled = 0 AND module = %s AND sender_id = %s)';
+        $query = 'INSERT INTO ' . ilNotificationSetupHelper::$tbl_notification_queue . ' (notification_id, usr_id, valid_until, visible_for) '
+                .' (SELECT %s, usr_id, %s, %s FROM '. ilNotificationSetupHelper::$tbl_userlistener .' WHERE disabled = 0 AND module = %s AND sender_id = %s)';
 
-        $types = array('integer', 'integer', 'text', 'integer');
+        $types = array('integer', 'integer', 'integer', 'text', 'integer');
 
-        $values = array($notification_id, $valid_until, $notification->getType(), $ref_id);
+        $values = array($notification_id, $valid_until, $notification->getVisibleForSeconds(), $notification->getType(), $ref_id);
 
         $ilDB->manipulateF($query, $types, $values);
     }
