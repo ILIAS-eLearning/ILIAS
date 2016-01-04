@@ -1164,9 +1164,9 @@ assessment#:#tst_allowed_users#:#Anzahl gleichzeitiger Teilnehmer begrenzen
 assessment#:#tst_allowed_users_time_gap#:#Inaktivitätszeit der Teilnehmer
 assessment#:#tst_already_submitted#:#Der Test wurde bereits beendet und die Antworten abgeschickt.
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
-assessment#:#tst_anonymity#:#Anonymität
-assessment#:#tst_anonymity_anonymous_test#:#Anonymer Test
-assessment#:#tst_anonymity_no_anonymization#:#Keine Anonymisierung
+assessment#:#tst_anonymity#:#Datenschutz
+assessment#:#tst_anonymity_anonymous_test#:#Testergebnisse ohne Namen / Anonymer Test
+assessment#:#tst_anonymity_no_anonymization#:#Testergebnisse mit Namen
 assessment#:#tst_answer_sheet#:#Test und Assessment - Antwortenübersicht
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
