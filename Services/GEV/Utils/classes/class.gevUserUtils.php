@@ -57,6 +57,7 @@ class gevUserUtils {
 	const WBD_ERROR_NO_RELEASE			= 'NO_RELEASE';
 	const WBD_ERROR_USER_EXISTS_TP 		= 'USER_EXISTS_TP';
 	const WBD_ERROR_USER_EXISTS 		= 'USER_EXISTS';
+	const WBD_ERROR_USER_NOT_IN_POOL	= 'USER_NOT_IN_POOL';
 
 	static $wbd_agent_status_mapping = array(
 		//1 - Angestellter Außendienst
@@ -2277,7 +2278,8 @@ class gevUserUtils {
 							, self::WBD_ERROR_USER_SERVICETYPE
 							, self::WBD_ERROR_USER_DIFFERENT_TP
 							, self::WBD_ERROR_USER_UNKNOWN
-							, self::WBD_ERROR_USER_DEACTIVATED);
+							, self::WBD_ERROR_USER_DEACTIVATED
+							, self::WBD_ERROR_USER_NOT_IN_POOL);
 
 		return $this->hasDoneWBDRegistration() && $this->hasWBDRelevantRole() && $this->userExists() && $this->isActive() && !$this->hasSpecialUserId()
 				&& $this->entryDatePassed() && !$this->isWBDBWVIdEmpty() && !$this->hasWBDType(self::WBD_TP_SERVICE) 
