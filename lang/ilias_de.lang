@@ -15049,7 +15049,7 @@ crs#:#crs_loc_err_no_active_qt#:#Lernziele ohne Qualifizierenden Test vorhanden
 crs#:#crs_loc_err_no_active_lo#:#Kein aktives Lernziel
 content#:#cont_to_focus_return_crs#:#Zurück zum Kurs
 crs#:#crs_loc_learning_objective#:#Lernziel
-crs#:#crs_loc_suggested#:#Bearbeiten Sie bitte die links aufgeführten Materialien, um das Lernziel zu erreichen.
+crs#:#crs_loc_suggested#:#Bearbeiten Sie bitte die aufgeführten Materialien, um das Lernziel zu erreichen.
 crs#:#crs_loc_itest_info#:#Einstiegstest
 crs#:#crs_loc_qtest_info#:#Abschlusstest
 crs#:#crs_loc_tt_info#:#Sie haben %1$d%% erreicht. Der Test gilt mit %2$d%% als bestanden.
