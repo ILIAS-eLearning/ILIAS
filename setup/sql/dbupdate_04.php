@@ -12587,7 +12587,6 @@ if(!$ilDB->tableColumnExists('adl_shared_data','cp_node_id'))
 	if (!$ilDB->numRows($res)) {
 		$ilDB->addPrimaryKey('cp_tree', array('obj_id','child'));
 	}
-?>
 
 	
 	
@@ -12600,3 +12599,4 @@ if(!$ilDB->tableColumnExists('adl_shared_data','cp_node_id'))
 //
 //////////////////////////////////////////////////////////////////
 
+?>
