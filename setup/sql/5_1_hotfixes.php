@@ -11,3 +11,15 @@
 // 1. If the hotfixes have been applied.
 // 2. If the hotfixes have not been applied.
 ?>
+<#1>
+<?php
+if(!$ilDB->tableColumnExists('notification_osd', 'visible_for'))
+{
+	$ilDB->addTableColumn('notification_osd', 'visible_for', array(
+		'type'    => 'integer',
+		'length'  => 4,
+		'notnull' => true,
+		'default' => 0)
+	);
+}
+?>
