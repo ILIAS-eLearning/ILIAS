@@ -4796,3 +4796,9 @@ $ilDB->manipulate($s);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#194>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
