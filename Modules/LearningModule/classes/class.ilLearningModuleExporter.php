@@ -112,6 +112,44 @@ class ilLearningModuleExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
+		// workaround: old question export
+		$q_ids = array();
+		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
+		$pages = ilLMPageObject::getPageList($a_id);
+		foreach ($pages as $p)
+		{
+			$langs = array("-");
+			if (!$this->config->getMasterLanguageOnly())
+			{
+				$trans = ilPageObject::lookupTranslations("lm", $p["obj_id"]);
+				foreach ($trans as $t)
+				{
+					if ($t != "-")
+					{
+						$langs[] = $t;
+					}
+				}
+			}
+			foreach ($langs as $l)
+			{
+				// collect questions
+				include_once("./Services/COPage/classes/class.ilPCQuestion.php");
+				foreach (ilPCQuestion::_getQuestionIdsForPage("lm", $p["obj_id"], $l) as $q_id)
+				{
+					$q_ids[$q_id] = $q_id;
+				}
+			}
+		}
+		if (count($q_ids) > 0)
+		{
+			$dir = $this->getExport()->export_run_dir;
+			$qti_file = fopen($dir."/qti.xml", "w");
+			include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
+			$pool = new ilObjQuestionPool();
+			fwrite($qti_file, $pool->toXML($q_ids));
+			fclose($qti_file);
+		}
+
 		return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
 
 		/*include_once './Modules/LearningModule/classes/class.ilObjLearningModule.php';
@@ -120,7 +158,6 @@ class ilLearningModuleExporter extends ilXmlExporter
 		include_once './Modules/LearningModule/classes/class.ilContObjectExport.php';
 		$exp = new ilContObjectExport($lm);
 		$zip = $exp->buildExportFile();*/
-		
 	}
 
 	/**
