@@ -139,7 +139,8 @@ class ilAwarenessAct
 		$notification->setAutoDisable(false);
 		//$notification->setLink();
 		$notification->setIconPath('templates/default/images/icon_usr.svg');
-		$notification->setValidForSeconds(1);
+		$notification->setValidForSeconds(30 * 60);
+		$notification->setVisibleForSeconds(5);
 
 		//$notification->setHandlerParam('mail.sender', $sender_id);
 
