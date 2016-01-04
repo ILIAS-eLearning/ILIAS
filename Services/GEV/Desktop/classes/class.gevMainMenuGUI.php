@@ -327,7 +327,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			, "gev_report_wbd_edupoints" => array($this->canViewReport("gev_report_wbd_edupoints"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportWBDEdupoints",$this->gLng->txt("gev_report_wbd_edupoints"))
 			, "gev_report_wbd_errors" => array($this->canViewReport("gev_report_wbd_errors"), "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->gLng->txt("gev_report_wbd_errors"))
 			, "gev_report_dbv_report" => array($this->canViewReport("gev_report_dbv_report"), "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReport",$this->gLng->txt("gev_report_dbv_report"))
-			, "gev_report_trainer_workload" => array($this->canViewReport("gev_report_trainer_workload"), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerWorkload",$this->gLng->txt("gev_report_trainer_workload"))
 			, "gev_report_trainer_operation_by_orgu_trainer" => array($this->canViewReport("gev_report_trainer_operation_by_orgu_trainer"), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerOperationByOrgUnitAndTrainer",$this->gLng->txt("gev_report_trainer_operation_by_orgu_trainer"))
 			);
 
@@ -364,7 +363,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				|| $this->canViewReport("gev_report_wbd_edupoints")
 				|| $this->canViewReport("gev_report_wbd_errors")
 				|| $this->canViewReport("gev_report_dbv_report")
-				|| $this->canViewReport("gev_report_trainer_workload")
 				|| $this->canViewReport("gev_report_trainer_operation_by_orgu_trainer")
 				|| count($visible_repo_reports) > 0
 				;
@@ -394,7 +392,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				return $this->user_utils && $this->user_utils->isAdmin();
 			case "gev_report_dbv_report":
 				return $this->user_utils && $this->user_utils->hasRoleIn(array("DBV-Fin-UVG"));
-			case "gev_report_trainer_workload":
 			case "gev_report_trainer_operation_by_orgu_trainer":
 				return $this->user_utils && $this->user_utils->isAdmin();
 			default:

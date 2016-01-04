@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for file in $(ls ./git_hooks/hooks/)
+do
+   	cp git_hooks/hooks/${file} ./.git/hooks/
+	chmod +x .git/hooks/${file}
+done
