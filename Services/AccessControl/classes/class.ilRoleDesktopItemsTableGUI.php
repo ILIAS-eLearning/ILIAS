@@ -30,6 +30,7 @@ class ilRoleDesktopItemsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('path'));
 		
 		$this->setRowTemplate("tpl.role_desktop_item_list.html", "Services/AccessControl");
+		$this->setDefaultOrderField('title');
 				
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));		
 		$this->addMultiCommand('askDeleteDesktopItem', $this->lng->txt('delete'));
