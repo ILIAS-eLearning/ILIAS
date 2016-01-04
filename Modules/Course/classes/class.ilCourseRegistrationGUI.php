@@ -394,10 +394,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 				if($this->participants->isSubscriber($ilUser->getId()))
 				{
 					$this->form->clearCommandButtons();
-					if($this->isRegistrationPossible())
-					{
-						$this->form->addCommandButton('updateSubscriptionRequest', $this->lng->txt('crs_update_subscr_request'));
-					}
+					$this->form->addCommandButton('updateSubscriptionRequest', $this->lng->txt('crs_update_subscr_request'));
 					$this->form->addCommandButton('cancelSubscriptionRequest', $this->lng->txt('crs_cancel_subscr_request'));				
 				}
 				elseif($this->isRegistrationPossible())
