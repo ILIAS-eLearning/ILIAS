@@ -97,4 +97,14 @@ class ilUserOrgUnitHistorizingHelper
 
 		return array($orgu_1_title, $orgu_2_title);
 	}
+
+	public function lookupTypeByRefId($ref_id) {
+		require_once 'Services/Object/classes/class.ilObject.php';
+		return ilObject::_lookupType($ref_id ,true);
+	}
+
+	public function lookupObjIdByRefId($ref_id) {
+		require_once 'Services/Object/classes/class.ilObject.php';
+		return ilObject::_lookupObjectId($ref_id);
+	}
 }
