@@ -166,7 +166,8 @@ class ilUserOrgUnitHistorizing extends ilHistorizingStorage {
 		if($a_current_data['action'] === null && $a_new_data['action'] == -1) {
 			return false;
 		}
-		if($a_current_data['action'] === null && $a_new_data['action'] == 0) {
+		if(($a_current_data['action'] === null || $a_current_data['action'] === -1 || $a_current_data['action'] === "-1")
+			&& $a_new_data['action'] == 0) {
 			return false;
 		}
 		return parent::containsChanges($a_current_data, $a_new_data);
