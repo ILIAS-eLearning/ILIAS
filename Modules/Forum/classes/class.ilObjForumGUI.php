@@ -354,11 +354,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->settingsTabs();
 
 		//sorting for threads
-		$rg_thr = new ilRadioGroupInputGUI($this->lng->txt('frm_sorting_threads'), 'thread_sorting');
-		$rg_thr->addOption(new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('date'), '0'));
-		$rg_thr->addOption(new ilRadioOption($this->lng->txt('sorting_manual_sticky'), '1'));
-		$a_form->addItem($rg_thr);
-		$rg_thr->setInfo($this->lng->txt('sticky_threads_always_on_top'));
+		$cb_sort = new ilCheckboxInputGUI($this->lng->txt('sorting_manual_sticky'),	'thread_sorting');
+		$cb_sort->setValue('1');
+		$cb_sort->setInfo($this->lng->txt('sticky_threads_always_on_top'));
+		$a_form->addItem($cb_sort);
 
 		// sorting for postings
 		$rg_pro = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'default_view');
@@ -383,7 +382,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$cb_prop->setInfo($this->lng->txt('frm_anonymous_posting_desc'));
 			$a_form->addItem($cb_prop);
 		}
-
+		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('mark_moderator_posts'), 'mark_mod_posts');
+		$cb_prop->setValue('1');
+		$cb_prop->setInfo($this->lng->txt('mark_moderator_posts_desc'));
+		$a_form->addItem($cb_prop);
+		
 		if($ilSetting->get('enable_fora_statistics', false))
 		{
 			$cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_statistics_enabled'), 'statistics_enabled');
@@ -403,11 +406,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$frm_subject->addOption(new ilRadioOption($this->lng->txt('empty_subject'), 'empty_subject'));
 
 		$a_form->addItem($frm_subject);
-
-		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('mark_moderator_posts'), 'mark_mod_posts');
-		$cb_prop->setValue('1');
-		$cb_prop->setInfo($this->lng->txt('mark_moderator_posts_desc'));
-		$a_form->addItem($cb_prop);
 
 		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('enable_thread_ratings'), 'thread_rating');
 		$cb_prop->setValue(1);
@@ -727,14 +725,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->create_form_gui->addItem($description_gui);
 		
 		// view sorting threads
-		$sorting_threads_gui = new ilRadioGroupInputGUI($this->lng->txt('frm_sorting_threads'), 'thread_sorting');
-		$sort_dat = new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('date'), 0);
-		$sorting_threads_gui->addOption($sort_dat);
-
-		$sort_man = new ilRadioOption($this->lng->txt('sorting_manual_sticky'), 1);
-		$sorting_threads_gui->addOption($sort_man);
-		$sorting_threads_gui->setInfo($this->lng->txt('sticky_threads_always_on_top'));
-		$this->create_form_gui->addItem($sorting_threads_gui);
+		$sort_man = new ilCheckboxInputGUI($this->lng->txt('sorting_manual_sticky'), 'thread_sorting');
+		$sort_man->setInfo($this->lng->txt('sticky_threads_always_on_top'));
+		$sort_man->setValue(1);
+		$this->create_form_gui->addItem($sort_man);
 
 		// view
 		$view_group_gui = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'sort');

@@ -1059,7 +1059,7 @@ class ilForum
 			$excluded_ids_condition = ' AND ' . $ilDB->in('thr_pk', $params['excluded_ids'], true, 'integer') . ' ';
 		}
 		
-		if(!in_array(strtolower($params['order_column']), array('lp_date', 'rating', 'thr_subject')))
+		if(!in_array(strtolower($params['order_column']), array('lp_date', 'rating', 'thr_subject', 'num_visit', 'article_stats')))
 		{
 			$params['order_column'] = 'post_date';
 		}
@@ -1109,6 +1109,14 @@ class ilForum
 		if($params['order_column'] == 'thr_subject')
 		{
 			$dynamic_columns = array(',thr_subject ' . $params['order_direction']);
+		}
+		else if($params['order_column'] == 'article_stats')
+		{
+			$dynamic_columns = array(',thr_num_posts ' . $params['order_direction']);
+		}
+		else if($params['order_column'] == 'num_visit')
+		{
+			$dynamic_columns = array(',visits ' . $params['order_direction']);
 		}
 		else
 		{
