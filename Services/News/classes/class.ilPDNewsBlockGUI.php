@@ -52,7 +52,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$this->cache_hit = false;
 		if ($this->acache->getLastAccessStatus() == "hit")
 		{
-			self::$st_data = unserialize($cres);
+			self::$st_data = ilNewsItem::prepareNewsDataFromCache($cres);;
 			$this->cache_hit = true;
 		}
 
