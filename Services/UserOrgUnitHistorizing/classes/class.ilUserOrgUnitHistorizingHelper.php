@@ -17,10 +17,13 @@ class ilUserOrgUnitHistorizingHelper
 	/** @var int $variant Used to control predictable nonsense hash. Change to get alternative data for historizing */
 	protected static $variant = 1;
 	protected $role_utils;
+	protected $gTree;
 	#region Singleton
 
 
 	private function __construct() {
+		global $tree;
+		$this->gTree = $tree;
 		$this->role_utils = gevRoleUtils::getInstance();
 	}
 
@@ -72,9 +75,9 @@ class ilUserOrgUnitHistorizingHelper
 		}		
 		$root_ref_id = ilObjOrgUnit::getRootOrgRefId();
 		$orgu_refid = gevObjectUtils::getRefId($orgu_id);
-		$orgu_1_refid = $tree->getParent($orgu_refid);
+		$orgu_1_refid = $this->gTree->getParentId($orgu_refid);
 
-		$orgu_2_refid = ($orgu_1_refid == $root_ref_id) ? $orgu_1_refid : $tree->getParent($orgu_1_refid);
+		$orgu_2_refid = ($orgu_1_refid == $root_ref_id) ? $orgu_1_refid : $this->gTree->getParentId($orgu_1_refid);
 
 		$titles = $tree->getTitles(array($orgu_1_refid, $orgu_2_refid));
 
