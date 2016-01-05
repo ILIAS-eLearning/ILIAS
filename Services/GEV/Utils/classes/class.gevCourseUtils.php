@@ -1289,6 +1289,16 @@ class gevCourseUtils {
 		}
 	}
 
+	public function deleteVCAssignment() {
+		require_once("Services/VCPool/classes/class.ilVCPool.php");
+		$vc_pool = ilVCPool::getInstance();
+		$assigned_vcs = $vc_pool->getVCAssignmentsByObjId($this->crs_id);
+
+		foreach($assigned_vcs as $avc) {
+			$avc->release();
+		}
+	}
+
 
 	public function getVirtualClassLink() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_VC_LINK);
