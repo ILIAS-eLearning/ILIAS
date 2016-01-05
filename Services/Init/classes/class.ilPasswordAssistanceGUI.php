@@ -247,8 +247,8 @@ class ilPasswordAssistanceGUI
 			// The anonymous user and users who are system administrators are
 			// not allowed to use this feature
 			if(
-				$this->rbacreview->isAssigned($userObj->getId, ANONYMOUS_ROLE_ID) ||
-				$this->rbacreview->isAssigned($userObj->getId, SYSTEM_ROLE_ID)
+				$this->rbacreview->isAssigned($userObj->getId(), ANONYMOUS_ROLE_ID) ||
+				$this->rbacreview->isAssigned($userObj->getId(), SYSTEM_ROLE_ID)
 			)
 			{
 				ilUtil::sendFailure(str_replace("\\n", '', $this->lng->txt('pwassist_not_permitted')));
