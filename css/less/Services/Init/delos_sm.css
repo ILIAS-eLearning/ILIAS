@@ -1,0 +1,20 @@
+/* Services/Init */
+div#il_startup_logo img {
+  margin: 10px;
+  max-width: 100%;
+}
+div.ilStartupFrame {
+  width: 100%;
+}
+div#il_startup_content {
+  padding: 10px;
+}
+#il_startup_content form table {
+  width: auto;
+}
+div.ilStartupSection form.form-horizontal {
+  width: auto;
+}
+.ilStartupSection {
+  padding-top: 15px;
+}
