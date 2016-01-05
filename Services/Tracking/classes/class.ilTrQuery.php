@@ -1646,6 +1646,11 @@ class ilTrQuery
 			include_once "Modules/Course/classes/class.ilCourseObjective.php";
 			$objective_ids = ilCourseObjective::_getObjectiveIds($a_parent_obj_id,true);
 			
+			// #17402 - are initital test(s) qualifying?
+			include_once "Modules/Course/classes/Objectives/class.ilLOSettings.php";
+			$lo_set = ilLOSettings::getInstanceByObjId($a_parent_obj_id);
+			$initial_qualifying = $lo_set->isInitialTestQualifying();	
+			
 			// there may be missing entries for any user / objective combination
 			foreach($objective_ids as $objective_id)
 			{
@@ -1657,13 +1662,19 @@ class ilTrQuery
 			
 			$query = "SELECT * FROM loc_user_results".
 				" WHERE ".$ilDB->in("objective_id", $objective_ids, "", "integer").
-				" AND ".$ilDB->in("user_id", $a_users, "", "integer").
-				" AND type = ".$ilDB->quote(ilLOUserResults::TYPE_QUALIFIED, "integer");
+				" AND ".$ilDB->in("user_id", $a_users, "", "integer");
+			if(!(bool)$initial_qualifying)
+			{
+				$query .= " AND type = ".$ilDB->quote(ilLOUserResults::TYPE_QUALIFIED, "integer");
+			}	
+			$query .= " ORDER BY type"; // qualified must come last!
 			$set = $ilDB->query($query);
 			while($row = $ilDB->fetchAssoc($set))
 			{
 				$objective_id = $row["objective_id"];
 				$user_id = $row["user_id"];
+				
+				// if both initial and qualified, qualified will overwrite initial
 				
 				// #15873 - see ilLOUserResults::getObjectiveStatusForLP()
 				if($row["status"] == ilLOUserResults::STATUS_COMPLETED)
