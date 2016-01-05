@@ -822,13 +822,10 @@ class ilDataCollectionTable {
 	 */
 	protected function checkLimit() {
 		if ($this->getLimited()) {
-			$now = new ilDateTime(time(), IL_CAL_UNIX);
+			$now = new ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATE);
 			$from = new ilDateTime($this->getLimitStart(), IL_CAL_DATE);
 			$to = new ilDateTime($this->getLimitEnd(), IL_CAL_DATE);
-
-			if (! ($from <= $now && $now <= $to)) {
-				return false;
-			}
+			return ($from <= $now && $now <= $to);
 		}
 
 		return true;
@@ -1578,14 +1575,16 @@ class ilDataCollectionTable {
 		$sql .= $join_str;
 		$sql .= " WHERE record.table_id = " . $ilDB->quote($this->getId(), 'integer') . $where_additions;
 		if ($has_nref) {
-			$sql .= " GROUP BY record.id";
+			$sql .= " GROUP BY record.id, record.owner";
 		}
 		if($id != 'comments' && $sort_field->getDatatypeId() != ilDataCollectionDatatype::INPUTFORMAT_FORMULA) {
 			$sql .= " ORDER BY field_{$id} {$direction}";
-		}		$set = $ilDB->query($sql);
+		}
+		$set = $ilDB->query($sql);
 		$total_record_ids = array();
 		// Save record-ids in session to enable prev/next links in detail view
 		$_SESSION['dcl_record_ids'] = array();
+        $_SESSION['dcl_table_id'] = $this->getId();
 		$is_allowed_to_view = ilObjDataCollectionAccess::hasWriteAccess(array_pop(ilObject::_getAllReferences($this->getObjId())));
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			// Quick check if the current user is allowed to view the record

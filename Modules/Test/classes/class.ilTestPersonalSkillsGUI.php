@@ -45,6 +45,8 @@ class ilTestPersonalSkillsGUI
 
 		$gui->setGapAnalysisActualStatusModePerObject($this->getTestId(), $this->lng->txt('tst_test_result'));
 
+		//$gui->setHistoryView(true); // NOT IMPLEMENTED YET
+
 		// this is not required, we have no self evals in the test context,
 		// getReachedSkillLevel is a "test evaluation"
 		//$gui->setGapAnalysisSelfEvalLevels($this->getReachedSkillLevels());

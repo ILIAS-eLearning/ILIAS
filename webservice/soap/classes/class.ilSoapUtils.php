@@ -59,9 +59,6 @@ class ilSoapUtils extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}			
 
-
-		global $ilLog;
-
 		include_once 'Services/Mail/classes/class.ilMimeMail.php';
 
 		if(strpos($sender, '#:#') !== false)
@@ -97,16 +94,23 @@ class ilSoapUtils extends ilSoapAdministration
 			}
 			else
 			{
-				$attachments = explode(',', $attach);	
+				$attachments = explode(',', $attach);
 			}
-			foreach ($attachments as $attachment)
+
+			foreach($attachments as $attachment)
 			{
-				$mmail->Attach($attachment);
+				$final_filename = null;
+				$filename       = basename($attachment);
+				if(strlen($filename) > 0)
+				{
+					// #17740
+					$final_filename = preg_replace('/^(\d+?_)(.*)/', '$2', $filename);
+				}
+				$mmail->Attach($attachment, '', 'inline', $final_filename);
 			}
 		}
 
 		$mmail->Send();
-		$ilLog->write('SOAP: sendMail(): '.$to.', '.$cc.', '.$bcc);
 
 		return true;
 	}

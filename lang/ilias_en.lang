@@ -1,4 +1,3 @@
-
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
@@ -335,7 +334,7 @@ assessment#:#out_of_range#:#Out of range
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Concatenation
-assessment#:#confirm_delete_all_user_data#:#Are you sure you want to remove all user data of the test?
+assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
 assessment#:#confirm_delete_single_user_data#:#Are you sure you want to remove the test data of the selected users?
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
 assessment#:#coordinates#:#Coordinates
@@ -351,8 +350,8 @@ assessment#:#definition_image#:#Definition Image
 assessment#:#definition_text#:#Definition Text
 assessment#:#definition#:#Definition
 assessment#:#definitions#:#Definitions
-assessment#:#delete_all_user_data_confirmation#:#Do you really want to remove the test data of all users in this test?
-assessment#:#delete_all_user_data#:#Remove Test Data of all Users
+assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?
+assessment#:#delete_all_user_data#:#Delete Test Data of all Users
 assessment#:#delete_area#:#Delete Area
 assessment#:#delete_image_header#:#Remove image
 assessment#:#delete_image_question#:#Do you really want to remove the image?
@@ -650,6 +649,7 @@ assessment#:#tst_skl_level_thresholds_link#:#Configure Competence-Thresholds
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.
 assessment#:#locked#:#locked
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
+assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
 assessment#:#log_create_new_test#:#Created new test
 assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s
@@ -671,7 +671,7 @@ assessment#:#log_user_entered_values#:#User entered values
 assessment#:#log_user_not_entered_values#:#User did not enter values
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring_done#:#Scored Participants
-assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To guarantee a valid presentation of the test results for the participants it is strongly recommended to restrict the access to the test results using a specified date and time.
+assessment#:#manscoring_hint#:#You have added at least one question which may require manual scoring. To avoid that participants get already access to the test results before you finished manual scoring, please define a suitable date for the access to the test results.
 assessment#:#manscoring_none#:#Unscored Participants
 assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn‘t activated for a question type. You are not allowed to use this tab.
 assessment#:#manscoring_pending#:#Partially Scored Participants
@@ -925,11 +925,11 @@ assessment#:#submit_answer#:#Save Answer and Next
 assessment#:#skip_question#:#Do not Answer and Next
 assessment#:#discard_answer#:#Delete Answer
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
-assessment#:#tst_denied_nav_modal_header#:#Decision about Answers
-assessment#:#tst_denied_nav_modal_text#:#What to do with the answers you possibly entered for this question?
-assessment#:#tst_denied_nav_modal_save_btn#:#Save
-assessment#:#tst_denied_nav_modal_nosave_btn#:#Do Not Save
-assessment#:#tst_denied_nav_modal_cancel_btn#:#Cancel
+assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers
+assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?
+assessment#:#tst_nav_while_edit_modal_save_btn#:#Save
+assessment#:#tst_nav_while_edit_modal_nosave_btn#:#Do Not Save
+assessment#:#tst_nav_while_edit_modal_cancel_btn#:#Cancel
 assessment#:#edit_answer#:#Edit Answer
 assessment#:#answer_question#:#Answer Question
 assessment#:#back_to_objective_container#:#Go to Course
@@ -943,15 +943,15 @@ assessment#:#search_results#:#Search Results
 assessment#:#search_roles#:#Search Roles
 assessment#:#search_term#:#Search Term
 assessment#:#search_users#:#Search Users
-assessment#:#tst_instant_feedback_handling#:#tst_instant_feedback_handling
-assessment#:#tst_instant_feedback_handling_none#:#tst_instant_feedback_handling_none
-assessment#:#tst_instant_feedback_handling_none_desc#:#tst_instant_feedback_handling_desc
-assessment#:#tst_instant_feedback_handling_freeze#:#tst_instant_feedback_handling_freeze
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#tst_instant_feedback_handling_freeze_desc
-assessment#:#tst_instant_feedback_handling_force_and_freeze#:#tst_instant_feedback_handling_force_and_freeze
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#tst_instant_feedback_handling_force_and_freeze_desc
-assessment#:#tst_instant_feedback_handling_force#:#Do not freeze answers but force feedback
-assessment#:#tst_instant_feedback_handling_force_desc#:#tst_instant_feedback_handling_force_desc
+assessment#:#tst_instant_feedback_handling#:#Lock Answers
+assessment#:#tst_instant_feedback_handling_none#:#Do Not Lock Answers
+assessment#:#tst_instant_feedback_handling_none_desc#:#Participants can change their answers in all test passes they have.
+assessment#:#tst_instant_feedback_handling_freeze#:#Lock Answers, Feedback upon Request
+assessment#:#tst_instant_feedback_handling_freeze_desc#:#After participants click 'Answer', they can no longer change their answer. Participants can request feedback by clicking 'Check'. Please configure feedback behavior in the option 'Instant feedback'.
+assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Lock Answers and Force Feedback
+assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#After participants click 'Answer', they can no longer change their answer. Participants will be automatically presented with feedback as configured in the option 'Instant feedback'.
+assessment#:#tst_instant_feedback_handling_force#:#Do Not Lock Answers but Force Feedback
+assessment#:#tst_instant_feedback_handling_force_desc#:#After participants click 'Answer', they will be automatically presented with feedback as configured in the option 'Instant feedback'. They may however change their answers afterwards.
 assessment#:#see_details_for_further_information#:#See details for suggested solutions
 assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select Gap
@@ -1018,7 +1018,7 @@ assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
 assessment#:#tst_allowed_users#:#Limit Number of Concurrent Participants
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_already_taken#:#Tests Already Taken
-assessment#:#tst_anonymity#:#Test Record
+assessment#:#tst_anonymity#:#Privacy
 assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_answered_questions#:#Answered Questions
@@ -1030,9 +1030,9 @@ assessment#:#tst_confirm_delete_results#:#You are about to remove all your previ
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button.
 assessment#:#tst_count_correct_solutions#:#Only Correct and Complete Answers Score Points
-assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case.
+assessment#:#tst_count_correct_solutions_desc#:#Participants score either the maximum number of points for a fully correct and complete answer or 0 points in every other case. This is also valid for questions that define points for partial answers.
 assessment#:#tst_count_partial_solutions#:#Incomplete or Partly Wrong Answers Score Points
-assessment#:#tst_count_partial_solutions_desc#:#Points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers.
+assessment#:#tst_count_partial_solutions_desc#:#When a question defines points for partial answers, points for correctly provided partial answers are added up: Participants can score points for incomplete or partly wrong answers on these questions.
 assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains participant data sets.
 assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!
@@ -1512,7 +1512,8 @@ assessment#:#tst_test_result#:#Test Result
 assessment#:#feedback_setting#:#Mode of answer specific feedback.
 assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
-assessment#:#feedback_correct#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
+assessment#:#feedback_correct_sc_mc#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
+assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).
 assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content
 assessment#:#tst_add_quest_cont_edit_mode_default#:#Default Editing Mode for Additional Question Content
 assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Editor
@@ -2515,7 +2516,7 @@ common#:#download_all_returned_files#:#Download all returned files
 common#:#download_with_uploaded_filename_info#:#Select this option exclusively for backwards compatibility with ILIAS 3.9 and older versions: When this option is selected, the filename of a downloaded file is equal to the filename that was used for uploading the file into ILIAS. If this option is not selected, the filename of a downloaded file is equal to the title of the file object in ILIAS. This option does not affect WebDAV. For WebDAV the filename of a downloaded file is always equal to the title of the file object.
 common#:#download_with_uploaded_filename#:#Download with uploaded filename
 common#:#download#:#Download
-common#:#downloading_settings#:#Downloading Settings
+common#:#downloading_settings#:#Download Settings
 common#:#drafts#:#Drafts
 common#:#drop#:#Drop
 common#:#edit_cat_settings#:#Advanced Category Settings
@@ -3086,7 +3087,7 @@ common#:#import_lm#:#Import ILIAS Learning module
 common#:#import_qpl#:#Import Question Pool Test
 common#:#import_questions_into_qpl#:#Import question(s) into question pool
 common#:#import_root_user#:#Import Root User
-common#:#import_sahs#:#Import SCORM/AICC Package
+common#:#import_sahs#:#Import SCORM Package
 common#:#import_spl#:#Import Question Pool Survey
 common#:#import_svy#:#Import Survey
 common#:#import_tst#:#Import Test
@@ -3623,6 +3624,7 @@ common#:#no_date#:#No date
 common#:#no_description#:#No description
 common#:#no_frm_in_personal_list#:#No forums in personal list.
 common#:#no_global_role_left#:#Every user has to be assigned to one role.
+common#:#user_not_found_to_delete#:#A user could not be found to delete.
 common#:#no_grp_in_personal_list#:#No groups in personal list.
 common#:#no_import_available#:#Import not available for type
 common#:#no_import_file_found#:#No import file found
@@ -3687,7 +3689,7 @@ common#:#obj_calendar#:#Calendar
 common#:#obj_cals_desc#:#General Calendar settings.
 common#:#obj_cals#:#Calendar
 common#:#obj_cat_duplicate#:#Copy Category
-common#:#obj_cat_select#:#-- Please select one Category --
+common#:#obj_cat_select#:#-- Please select one category --
 common#:#obj_cat#:#Category
 common#:#obj_catr#:#Category Reference
 common#:#obj_cen#:#Centra Event
@@ -3700,31 +3702,31 @@ common#:#obj_chat#:#Chat
 common#:#obj_cmps_desc#:#General settings for Repository Plugins
 common#:#obj_cmps#:#Plugins
 common#:#obj_crs_duplicate#:#Copy Course
-common#:#obj_crs_select#:#-- Please select one Course --
+common#:#obj_crs_select#:#-- Please select one course --
 common#:#obj_crs#:#Course
 common#:#obj_crsr#:#Course Reference
 common#:#obj_dbk#:#Digilib Book
 common#:#obj_exc_duplicate#:#Copy Exercise
-common#:#obj_exc_select#:#-- Please select one Exercise --
+common#:#obj_exc_select#:#-- Please select one exercise --
 common#:#obj_exc#:#Exercise
 common#:#obj_extt_desc#:#Configure external software or services that are supported by ILIAS
 common#:#obj_extt#:#Third Party Software
-common#:#obj_facs_desc#:#Configure access to file and folder objects.
-common#:#obj_facs#:#Files and Folders
+common#:#obj_facs_desc#:#Settings for files and file handling
+common#:#obj_facs#:#Files
 common#:#obj_feed#:#Web Feed
 common#:#obj_file_duplicate#:#Copy File
 common#:#obj_file_inline#:#Learning Module File
-common#:#obj_file_select#:#-- Please select one File --
+common#:#obj_file_select#:#-- Please select one file --
 common#:#obj_file#:#File
 common#:#obj_fold_duplicate#:#Copy Folder
-common#:#obj_fold_select#:#-- Please select one Folder --
+common#:#obj_fold_select#:#-- Please select one folder --
 common#:#obj_fold#:#Folder
 common#:#obj_frm_duplicate#:#Copy Forum
-common#:#obj_frm_select#:#-- Please select one Forum --
+common#:#obj_frm_select#:#-- Please select one forum --
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossary
 common#:#obj_grp_duplicate#:#Copy Group
-common#:#obj_grp_select#:#-- Please select one Group --
+common#:#obj_grp_select#:#-- Please select one group --
 common#:#obj_grp#:#Group
 common#:#obj_htlm#:#Learning Module HTML
 common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
@@ -3744,7 +3746,7 @@ common#:#obj_mcts#:#Mediacast
 common#:#obj_mep#:#Media Pool
 common#:#obj_mob#:#Media Object
 common#:#obj_mobs_desc#:#Settings for media objects and media pools.
-common#:#obj_mobs#:#Media Objects/Pools
+common#:#obj_mobs#:#Media Objects and Pools
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_note#:#Note
 common#:#obj_notf#:#Note Administration
@@ -3762,10 +3764,10 @@ common#:#obj_pg#:#Page
 common#:#obj_ps_desc#:#Configure global privacy and security settings here.
 common#:#obj_ps#:#Privacy and Security
 common#:#obj_qpl_duplicate#:#Copy Question Pool Test
-common#:#obj_qpl_select#:#-- Please select one Question Pool Test --
+common#:#obj_qpl_select#:#-- Please select one question pool test --
 common#:#obj_qpl#:#Question Pool Test
 common#:#obj_rcrs#:#ECS Course
-common#:#obj_recf_desc#:#Contains restored Objects from System Check.
+common#:#obj_recf_desc#:#Contains restored objects from System Check.
 common#:#obj_recf#:#Restored Objects
 common#:#obj_role#:#Role
 common#:#obj_rolf_desc#:#Manage your roles here.
@@ -3774,22 +3776,22 @@ common#:#obj_rolf_local#:#Local Roles
 common#:#obj_rolf#:#Roles
 common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#Repository - Home
-common#:#obj_sahs#:#Learning Module SCORM/AICC
+common#:#obj_sahs#:#Learning Module SCORM
 common#:#obj_sco#:#SCO
 common#:#obj_seas_desc#:#Manage the search settings here.
 common#:#obj_seas#:#Search
 common#:#obj_sess_duplicate#:#Copy Session
-common#:#obj_sess_select#:#-- Please select one Session --
+common#:#obj_sess_select#:#-- Please select one session --
 common#:#obj_sess#:#Session
 common#:#obj_spl_duplicate#:#Copy Question Pool Survey
-common#:#obj_spl_select#:#-- Please select one Question Pool Survey --
+common#:#obj_spl_select#:#-- Please select one question pool survey --
 common#:#obj_spl#:#Question Pool Survey
 common#:#obj_st#:#Chapter
 common#:#obj_sty#:#Style
 common#:#obj_stys_desc#:#Manage system skin and style settings here
 common#:#obj_stys#:#Layout and Styles
 common#:#obj_svy_duplicate#:#Copy Survey
-common#:#obj_svy_select#:#-- Please select one Survey --
+common#:#obj_svy_select#:#-- Please select one survey --
 common#:#obj_svy#:#Survey
 common#:#obj_svyf_desc#:#Platform settings for the Survey Tool
 common#:#obj_svyf#:#Survey
@@ -3801,7 +3803,7 @@ common#:#obj_taxf#:#Taxonomies
 common#:#obj_trac_desc#:#Statistics and Learning Progress Settings and Overview
 common#:#obj_trac#:#Statistics and Learning Progress
 common#:#obj_tst_duplicate#:#Copy Test
-common#:#obj_tst_select#:#-- Please select one Test --
+common#:#obj_tst_select#:#-- Please select one test --
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Object Type Definition
 common#:#obj_type#:#Object Type
@@ -3812,7 +3814,7 @@ common#:#obj_usr#:#User
 common#:#obj_usrf_desc#:#Manage user accounts here.
 common#:#obj_usrf#:#User Management
 common#:#obj_webr_duplicate#:#Copy Weblink list
-common#:#obj_webr_select#:#-- Please select one Weblink list --
+common#:#obj_webr_select#:#-- Please select one weblink list --
 common#:#obj_webr#:#Weblink
 common#:#obj_wiki#:#Wiki
 common#:#obj#:#Object
@@ -3861,7 +3863,7 @@ common#:#objs_qst#:#Questions
 common#:#objs_rcrs#:#ECS Courses
 common#:#objs_role#:#Roles
 common#:#objs_rolt#:#Role Templates
-common#:#objs_sahs#:#SCORM/AICC Learning Modules
+common#:#objs_sahs#:#SCORM Learning Modules
 common#:#objs_sess#:#Sessions
 common#:#objs_spl#:#Question Pools Survey
 common#:#objs_st#:#Chapters
@@ -4205,21 +4207,21 @@ common#:#row#:#Row
 common#:#rows#:#Rows
 common#:#rte_editor_disabled#:#Rich Text Editor disabled
 common#:#rte_editor_enabled#:#Rich Text Editor enabled
-common#:#sahs_added#:#SCORM/AICC Learning Module added
-rbac#:#sahs_copy#:#User can copy SCORM/AICC learning module
-common#:#sahs_create#:#Create SCORM/AICC Learning Module
-rbac#:#sahs_delete#:#User can move or delete SCORM/AICC learning module
+common#:#sahs_added#:#SCORM Learning Module added
+rbac#:#sahs_copy#:#User can copy SCORM learning module
+common#:#sahs_create#:#Create SCORM Learning Module
+rbac#:#sahs_delete#:#User can move or delete SCORM learning module
 rbac#:#sahs_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#sahs_edit_permission#:#User can change permission settings
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
-common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module
-common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module
-rbac#:#sahs_read#:#User can read SCORM/AICC learning module
-rbac#:#sahs_visible#:#SCORM/AICC learning module is visible
-rbac#:#sahs_write#:#User can edit content and settings of SCORM/AICC learning module
-common#:#sahs#:#Learning Module SCORM/AICC
+common#:#sahs_join#:#Subscribe to SCORM Learning Module
+common#:#sahs_leave#:#Unsubscribe from SCORM Learning Module
+rbac#:#sahs_read#:#User can read SCORM learning module
+rbac#:#sahs_visible#:#SCORM learning module is visible
+rbac#:#sahs_write#:#User can edit content and settings of SCORM learning module
+common#:#sahs#:#Learning Module SCORM
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
 common#:#salutation#:#Salutation
@@ -4386,7 +4388,7 @@ common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#1
 common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the selected Social Bookmarking services?
 common#:#sort_by_this_column#:#Sort by this column
 common#:#sorting_header#:#Content Item Sorting
-common#:#sorting_info_manual#:#Content items can be arranged manually in a preferred order.
+common#:#sorting_info_manual#:#Content items can be arranged manually in a preferred order. Additionallyi, please define the standard sorting settings for new objects.
 common#:#sorting_info_title#:#Content items are arranged automatically by title in alphabetical order.
 common#:#sorting_manual_header#:#Manually
 common#:#sorting_save#:#Save Sorting
@@ -4614,7 +4616,7 @@ common#:#ums_explanation_3#:#Your external account could not be mapped to an ILI
 common#:#ums_explanation_4#:#If none of them is your account, please hit ‘Create New Account’.
 common#:#ums_explanation#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found an account with your e-mail address. If this is your account, please login with your ILIAS password.
 common#:#ums_login_account#:#Login Account
-common#:#unambiguousness#:#Distinguishing mark
+common#:#unambiguousness#:#Distinguishing Mark
 common#:#uncheck_all#:#Uncheck all
 common#:#unchecked#:#Unchecked
 common#:#uninstall#:#Uninstall
@@ -7372,7 +7374,9 @@ mail#:#send_mail_to#:#Mail to
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_use_custom_server#:#Use custom server
-maps#:#maps_custom_server_info#:#Activate custom servers to provide tile- and geolocation-data. Multiple inputs should be separated by spaces. Defaults are "%s" for tiles and "%s" for geolocation.
+maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
+maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.
+maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
 maps#:#maps_tile_server#:#Server for Tiles
 maps#:#maps_geolocation_server#:#Server for Reverse Geolocation
 maps#:#maps_extt_maps#:#Maps
@@ -8860,7 +8864,7 @@ rbac#:#rbac_create_mcst#:#Create Mediacast
 rbac#:#rbac_create_mep#:#Create Media Pool
 rbac#:#rbac_create_qpl#:#Create Question Pool Test
 rbac#:#rbac_create_rcrs#:#Create ECS Course 
-rbac#:#rbac_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#rbac_create_sahs#:#Create SCORM Learning Module
 rbac#:#rbac_create_spl#:#Create Question Pool Survey
 rbac#:#rbac_create_svy#:#Create Survey
 rbac#:#rbac_create_tst#:#Create Test
@@ -10060,7 +10064,7 @@ trac#:#trac_mode_collection_info#:#A user's learning progress status is determin
 trac#:#trac_mode_collection#:#Status is Determined by a Collection of Items
 trac#:#trac_mode_deactivated_info#:#No progress will be calculated.
 trac#:#trac_mode_deactivated#:#Learning Progress is Deactivated
-trac#:#trac_mode_event#:#Tutors Monitor and Record Attendance in Session
+trac#:#trac_mode_event#:#Tutors Monitor and Record Attendance
 trac#:#trac_mode_exercise_returned_info#:#Tutors decide if users have accomplished the excercise. Tutors manually set the overall status i.e. ‘Completed’ or ‘Failed’.
 trac#:#trac_mode_exercise_returned#:#Tutors Monitor and Set Status
 trac#:#trac_mode_manual_by_tutor_info#:#Tutors decide if users have accomplished the object. Tutors manually set the overall status i.e. ‘Completed’ or ‘Failed’.
@@ -10345,7 +10349,7 @@ trac#:#trac_user_objects#:#Learning Objects for User
 content#:#cont_link_whole_picture#:#Link Whole Picture
 content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)
 user#:#enable_local_user_administration#:#Enable Local User Administration
-user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.
+user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories and organisational units.
 user#:#restrict_user_access#:#Restricted Access to User Accounts
 user#:#restrict_user_access_info#:#Enabled this option only if you want to restrict the access to user accounts. If enabled access to local and global user accounts is only granted when a role has the permission ‘Read Access to User Account’.
 common#:#backto_lua#:#Back to Local User Administration
@@ -10767,9 +10771,13 @@ administration#:#adm_synchronize_rep_tree_info#:#This highlights the current pos
 rbac#:#write#:#Edit Settings
 rbac#:#rbac_local_policy#:#Local Policy
 rbac#:#role_block_role#:#Block Role
+rbac#:#role_confirm_block_role#:#Save Role Status
+rbac#:#role_blocked#:#: <i>Role will be blocked</i>
+rbac#:#role_unblocked#:#: <i>Role will be unblocked</i>
 rbac#:#role_block_role_desc#:#The access to this and all subordinated objects is will be revoked.
-rbac#:#role_confirm_block_role_info#:#The following operations will be performed:<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.
-rbac#:#role_confirm_block_role_header#:#Do you really want to block the chosen roles?
+rbac#:#role_confirm_block_role_info#:#The following steps will be performed for the action "Block Role":<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.
+rbac#:#role_confirm_unblock_role_info#:#The following steps will be performed for the action "Unblock Role":<br /><br />- the local policy will be deleted.
+rbac#:#role_confirm_block_role_header#:#Do you really want to change the block role status of the chosen roles?
 dateplaner#:#cal_ch_manager#:#Consultation Hour Manager
 dateplaner#:#cal_ch_manager_info#:#Login of the user who will manage your consultation hours.
 dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.
@@ -11122,8 +11130,8 @@ survey#:#no_question_selected_for_copy_to_pool#:#Please select at least one ques
 survey#:#survey_copy_select_questionpool#:#Question pool to put the copies
 survey#:#survey_copy_to_questionpool_success#:#The questions were copied into the pool successfully.
 assessment#:#test_using_template#:#This test uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
-assessment#:#tst_anonymity_no_anonymization#:#Participants' Results and Names are Tracked
-assessment#:#tst_anonymity_anonymous_test#:#Participants Take Test Anonymously
+assessment#:#tst_anonymity_no_anonymization#:#Results with Names
+assessment#:#tst_anonymity_anonymous_test#:#Results without Names / Anonymous Test
 assessment#:#tst_beginning_ending_information#:#Information at Beginning and End of Test
 assessment#:#tst_presentation_properties#:#Administering the Test: Behavior of the Question
 assessment#:#tst_settings_template#:#Template
@@ -11744,7 +11752,7 @@ chatroom#:#chat_to_mainroom#:#To Main Room
 chatroom#:#chat_create_private_room_button#:#Create Private Room
 chatroom#:#moderate#:#Moderate
 chatroom#:#chatroom_smiley_keyword#:#Keyword
-chatroom#:#chat_invitation#:#Invitation from [INVITER_NAME] to chat room [ROOM_NAME]
+chatroom#:#chat_invitation#:#"[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nYou have been invited to a chat room:\nChat room Title: [ROOM_NAME]\nInvited by: [INVITER_NAME]\nURL: [LINK]\n\nTo join the chat room, please follow the given URL.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chat room.
 chatroom#:#settings_title#:#Settings
@@ -12061,7 +12069,7 @@ administration#:#adm_users#:#Users
 administration#:#adm_services#:#Services
 administration#:#adm_objects#:#Objects
 common#:#enable_sahs_protocol_data#:#Activate Protocol Data
-common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM/AICC)
+common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM)
 search#:#lucene_max_fs#:#Maximum File Size (in MB)
 search#:#lucene_max_fs_info#:#Defines the file size limit. Bigger files will not be included in the index.
 trac#:#trac_determines_learning_progress#:#Determines Learning Progress
@@ -12234,6 +12242,7 @@ scormdebug#:#scormdebug_disable_cache_info#:#This prevents the storage of the SC
 content#:#cont_sequencing#:#Sequencing and Navigation
 content#:#cont_interactions#:#Store Results of Interactions
 content#:#cont_interactions_info#:#Typically results from interactions in learning modules are simply stored without being read / loaded again. If you ensured this is how your learning module operates, this option will improve performance.
+content#:#cont_interactions_info_12#:#Results from interactions in SCORM 1.2 learning modules are simply stored. This option will improve performance.
 content#:#cont_objectives#:#Store Learning Objectives Data
 content#:#cont_objectives_info#:#If you ensured that this learning module runs properly, this option improves performance.
 content#:#cont_comments#:#Store Comments
@@ -12428,7 +12437,8 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s
 content#:#cont_online_help_ids#:#Screen-IDs
 content#:#cont_screen_ids#:#Screen-IDs
 assessment#:#tst_manscoring_user_notification#:#Send Notification
-assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s for %s was saved successfully.
+assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s for %s has been saved successfully.
+assessment#:#tst_saved_manscoring_by_question_successfully#:#The manual scoring for the question %s for test pass %s has been saved successfully.
 assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.
 assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question
@@ -12607,7 +12617,7 @@ rep#:#rep_activation_access#:#Access
 rep#:#rep_activation_limited_start#:#Start Time
 rep#:#rep_activation_limited_end#:#Finish Time
 rep#:#rep_activation_limited_visibility#:#Always Visible
-crs#:#crs_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability.
+crs#:#crs_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability but members cannot access the course.
 tax#:#tax_delete_taxonomy#:#Delete Taxonomy
 tax#:#tax_confirm_deletion#:#Do you really want to delete the whole taxonomy and all its relations?
 tax#:#tax_tax_deleted#:#The taxonomy has been deleted.
@@ -12741,7 +12751,7 @@ dcl#:#dcl_integer#:#Integer
 dcl#:#dcl_text#:#Text
 dcl#:#dcl_reference#:#Reference
 dcl#:#dcl_boolean#:#Boolean
-dcl#:#dcl_datetime#:#Datetime
+dcl#:#dcl_datetime#:#Date
 dcl#:#dcl_file#:#Fileupload
 dcl#:#dcl_field_description#:#Description
 dcl#:#dcl_field_required#:#Required
@@ -12889,7 +12899,7 @@ administration#:#adm_user_starting_point_personal_info#:#If activated users may 
 rbac#:#internal_mail#:#Internal Mail
 rbac#:#mail_internal_mail#:#User can use internal mail system (ILIAS)
 common#:#obj_itgr_duplicate#:#Copy Item Group
-common#:#obj_itgr_select#:#-- Please select one Item Group --
+common#:#obj_itgr_select#:#-- Please select one item group --
 common#:#obj_itgr#:#Item Group
 common#:#objs_itgr#:#Item Groups
 itgr#:#itgr_edit#:#Edit Item Groups
@@ -13082,7 +13092,7 @@ blog#:#blog_author#:#Written by
 blog#:#blog_enable_approval#:#Approve Postings
 blog#:#blog_enable_approval_info#:#Postings are published only after being approved by a user with permission ‘Edit Settings’ for this blog.
 blog#:#blog_approve#:#Approve Posting
-blog#:#blog_needs_approval#:#Posting is not approved yet
+blog#:#blog_needs_approval#:#Posting is not yet approved
 sess#:#sess_copy#:#Copy Session
 grp#:#events#:#Sessions
 book#:#book_additional_info_file#:#Additional Description
@@ -13152,7 +13162,7 @@ content#:#cont_presentation#:#Presentation
 content#:#cont_scorm_options#:#SCORM Options
 content#:#cont_rte_settings#:#RTE Settings
 content#:#cont_debugging#:#Debugging
-content#:#cont_auto_last_visited_info#:#Users are presented with the SCO/asset they most recently visited when opening the learning module again.
+content#:#cont_auto_last_visited_info#:#Users are presented with the SCO/Asset they most recently visited when opening the learning module again.
 content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is ‘normal’.
 content#:#cont_sc_auto_review_info_12#:#Set the lesson mode to ‘review’ when a learner has completed or passed a SCO.
 content#:#cont_sc_usession_info#:#Periodical requests will be sent to ILIAS to keep the session alive. Otherwise ILIAS will categorize working on the learning module as idleness, terminate the session and loose the tracking data.
@@ -13501,7 +13511,7 @@ common#:#uploading#:#Uploading...
 common#:#extracting#:#Extracting...
 common#:#drop_files_on_repo_obj_info#:#Drop the files here to upload them into this object.
 common#:#error_extraction_failed#:#The extraction of the archive and its directories failed. Probably because you don’t have the rights to create folders or categories within this object.
-common#:#upload_settings#:#Uploading Settings
+common#:#upload_settings#:#Upload Settings
 common#:#enable_dnd_upload#:#Enable drag-and-drop upload
 common#:#enable_dnd_upload_info#:#Files can be uploaded with drag-and-drop from the local computer if enabled.
 common#:#enable_repository_dnd_upload#:#Enable in Repository
@@ -14069,6 +14079,7 @@ orgu#:#orgu_adv_settings#:#Advanced Settings
 orgu#:#orgu_type_msg_error_custom_icon#:#Could not save the custom icon
 orgu#:#orgu_type_available_amd_sets#:#Available Advanced Metadata sets
 orgu#:#orgu_type_assign_amd_sets#:#Assign Advanced Metadata sets
+orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.
 cld#:#cld_object_added#:#A new Cloud object has been added
 exc#:#exc_peer_review_deadline#:#Feedback Deadline 
 exc#:#exc_peer_review_deadline_info#:#Feedback can be given up to this date and received feedback is only accessible from then on.
@@ -14424,7 +14435,7 @@ adve#:#adve_char_selector_settings#:#Character Selector
 common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS Username as cmi.learner_id
 common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of the User ID is set for cmi.learner_id.
 content#:#cont_sc_auto_review_2004#:#Lock Tracking Status Once it is Established
-content#:#cont_sc_auto_review_info_2004#:#After a user has acquired the tracking status set above for a chapter / SCO, this status is locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
+content#:#cont_sc_auto_review_info_2004#:#After a user has acquired the tracking status set above for a chapter /SCO, this Status is locked. No further tracking data will recorded for these chapters / SCOs in later visits. Select 'always' if the learning module makes use of Sequencing & Navigation according to SCORM 2004.
 content#:#cont_sc_auto_review_no#:#always (recommended)
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#keep tracking data if achieved status is completed or passed, but not failed
 content#:#cont_sc_auto_review_passed#:#keep tracking data if achieved status is passed
@@ -14948,10 +14959,11 @@ classification#:#clsfct_block_title#:#Selection by Topics
 classification#:#clsfct_block_info#:#Your Selection filters the objects.
 classification#:#clsfct_content_title#:#Objects matching your selection
 classification#:#clsfct_content_no_match#:#No hits
-cntr#:#sorting_new_items_position#:#Position For New Objects
+cntr#:#sorting_new_items_position#:#Position for New Objects
 cntr#:#sorting_new_items_at_top#:#Top
 cntr#:#sorting_new_items_at_bottom#:#Bottom
-cntr#:#sorting_new_items_order#:#Order For New Objects
+cntr#:#sorting_new_items_order#:#Order for New Objects
+cntr#:#sorting_new_items_direction#:#Sorting Direction for New Objects
 form#:#form_location_radius#:#Radius
 form#:#form_location_radius_km#:#km
 content#:#cont_question_stats#:#Statistic
@@ -15000,16 +15012,17 @@ mmbr#:#mmbr_selected_users#:#Selected Participants
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
 sess#:#sess_reg_type#:# Registration Procedure
-sess#:#sess_reg_direct#:#Direct Registration
-sess#:#sess_reg_request#:#Request Participation
+sess#:#sess_reg_direct#:#Declare Participation
+sess#:#sess_reg_direct_info#:#User has to click ‘Join’ to participate in session
+sess#:#sess_reg_request#:#Apply for Participation
 sess#:#sess_reg_disabled#:#No Registration Necessary
-sess#:#sess_reg_request_info#:#An administrator has to apply each user's request for participating at this session.
-sess#:#sess_reg_disabled_info#:#The registration is not deactivated for this session appointment
+sess#:#sess_reg_request_info#:#An administrator has to decide upon each user's apply for participating in session.
+sess#:#sess_reg_disabled_info#:#Users do not need to register to participate in session.
 sess#:#sess_reg_max_members_short#:#Number of Members
 sess#:#sess_reg_max_members#:#Limited Number of Members
-sess#:#sess_reg_max_members_info#:#Define the maximum number of users that can participate to this session.
+sess#:#sess_reg_max_members_info#:#Define the maximum number of users that can participate in session.
 sess#:#sess_reg_waiting_list#:#Waiting List
-sess#:#sess_reg_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
+sess#:#sess_reg_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new requests for participation will be placed on a waiting list.
 wiki#:#wiki_page_exists#:#Existing Page
 sess#:#sess_section_reg#:#Registration Settings
 assessment#:#save_and_next#:#Save and Continue
@@ -15018,7 +15031,7 @@ sess#:#sess_users_already_assigned#:#The user is already registered for this ses
 sess#:#sess_users_removed_from_list#:#The selected users have been removed from the waiting list.
 sess#:#sess_msg_applicants_assigned#:#Applicant(s) registered for session.
 sess#:#sess_msg_applicants_removed#:#Applicant(s) removed from list.
-sess#:#sess_registered_confirm#:#The registration requires a confirmation of an administrator. You will be notified after the registration process is completed.
+sess#:#sess_registered_confirm#:#Participation requires confirmation by an administrator. You will be notified when your application has been handled.
 style#:#sty_switch#:#Switch
 style#:#sty_default#:#Default
 style#:#sty_media_queries#:#Media Queries
@@ -15135,7 +15148,7 @@ bibl#:#bibl_library_show_in_list#:#Show as link in the list
 content#:#cont_ie_compatibility#:#Internet Explorer 7 Compatibility Mode
 content#:#cont_ie_compatibility_info#:#Reduces problems with displaying older SCORM Learning Modules that were optimised for the Internet Explorer. If the Compatibility Mode is switched off in newer versions of the Internet Explorer, this setting does not become effective.
 content#:#cont_ie_force_render#:#Force Internet Explorer to re-render
-content#:#cont_ie_force_render_info#:#Learning modules with many frames or iFrames will be displayed correctly after rendering the Content once more.
+content#:#cont_ie_force_render_info#:#Learning modules with many frames or iFrames will be displayed correctly after rendering the content once more.
 ecs#:#ecs_token_mechanism#:#Authentication Token
 ecs#:#ecs_token_mechanism_info#:#If enabled, the authentication on the hosting platform for remote objects, is done by the ECS-Token-Mechanism.
 ecs#:#ecs_part_settings#:#Settings for Participant:
@@ -15276,7 +15289,7 @@ prtf#:#prtf_allow_my_courses_info#:#Enables to include a list of current course 
 prtf#:#prtf_page_element_teaser_my_courses_inactive#:#This type of page element has been deactivated.
 cntr#:#cntr_taxonomy_definitions#:#Taxonomy Definition
 cntr#:#cntr_tax_list_info#:#The following are all taxonomies that have been defined for this object.
-common#:#scorm_lp_auto_activate#:#default settings for learning progress
+common#:#scorm_lp_auto_activate#:#Default setting for learning progress
 common#:#scorm_lp_auto_activate_info#:#If learning progress is activated in general, the settings for new SCORM learning modules are set to ‘Collection of SCORM Items’ and all SCOs are selected for learning progress determination. Adjustments are still possible for every SCORM learning module.
 ecs#:#ecs_deprecated_token#:#Support for Deprecated Authentication Token
 ecs#:#ecs_deprecated_token_info#:#Offers support for installations (e.g ILIAS installations of version 4.x) which use a deprecated token authentication mechanism.
@@ -15417,28 +15430,28 @@ meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries
 meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing entry
 meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
 file#:#file_import#:#Import File
-dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
-dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
-dcl#:#dcl_integer_desc#:#Eingabefeld für ganze Zahlen. Nicht erlaubt sind Brüche und Dezimalzahlen.
-dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender
-dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
-dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
-dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden
-dcl#:#dcl_reference_title#:#Referenz zu Tabelle und Feld
-dcl#:#dcl_ILIAS_reference_desc#:#Suchfeld, um ein Objekt in ILIAS auszuwählen und zu verlinken
-dcl#:#dcl_rating_desc#:#Benutzer können Einträge mit bis zu fünf Sternen bewerten.
-dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.
-dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.
-dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren
-dcl#:#dcl_default_sort_field_desc#:#Tabelle wird standardmässig nach dem ausgewählten Feld sortiert.
-dcl#:#dcl_visible_desc#:#Benutzer können diese Tabelle über das Auswahlmenü "Tabelle" aufrufen.
-dcl#:#dcl_ILIAS_reference_link_desc#:#Objekt kann per Link aufgerufen werden, wenn Leserecht vorhanden ist
-dcl#:#dcl_learning_progress_desc#:#Wenn vorhanden, wird der Lernfortschritts des Benutzers angezeigt
-dcl#:#dcl_display_action_menu_desc#:#Objekt kann kopiert oder verknüpft werden, wenn der Benutzer entsprechende Rechte besitzt
-dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selber exportieren. Dazu müssen in der Übersicht "Felder der ausgewählten Tabelle" die Felder einzeln als exportierbar ausgewählt werden.
-dcl#:#dcl_add_perm_desc#:#Benutzer können Einträge in dieser Tabelle erstellen.
-dcl#:#dcl_limited_desc#:#Benutzer können Einträge nur bis zum gewählten Datum hinzufügen, bearbeiten und löschen.
-dcl#:#dcl_unique_desc#:#In dieses Feld kann ein gleichlautender Eintrag nur einmal vorgenommen werden.
+dcl#:#dcl_boolean_desc#:#Checkbox for "True" or "False"
+dcl#:#dcl_text_desc#:#Textfield for text, links or e-mail addresses.
+dcl#:#dcl_integer_desc#:#Field for integer values. No decimals or fractions.
+dcl#:#dcl_datetime_desc#:#Field for a date.
+dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will be displayed directly in the datacollection. Allowed datatypes: %s
+dcl#:#dcl_file_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
+dcl#:#dcl_reference_desc#:#Field to reference options stored in a different field of a table.
+dcl#:#dcl_reference_title#:#Reference to table and field
+dcl#:#dcl_ILIAS_reference_desc#:#Searchfield to select an ILIAS object.
+dcl#:#dcl_rating_desc#:#Users can rate entries with up to five stars.
+dcl#:#dcl_formula_desc#:#You can aggregate several entries in a record with a formula.
+dcl#:#dcl_additional_info_desc#:#The text will be displayed directly above the table.
+dcl#:#dcl_public_comments_desc#:#Users can comment on entries of the table.
+dcl#:#dcl_default_sort_field_desc#:#The table will be sorted by this field by default.
+dcl#:#dcl_visible_desc#:#Users can access this table.
+dcl#:#dcl_ILIAS_reference_link_desc#:#The object can be accesses via link, if they have read permission to that object.
+dcl#:#dcl_learning_progress_desc#:#If available the learning progress of the object will be displayed.
+dcl#:#dcl_display_action_menu_desc#:#Object can be copied or linked if the user has the permissions to do so.
+dcl#:#dcl_export_enabled_desc#:#All users can export the data of this table. You have to specify in the table overview which fields will get exported.
+dcl#:#dcl_add_perm_desc#:#Users can add entries in this table.
+dcl#:#dcl_limited_desc#:#Users can only edit entries in the given time span.
+dcl#:#dcl_unique_desc#:#The value in this field needs to be unique among all entires.
 dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.
 dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.
 dcl#:#dcl_text_email_title#:#Title
@@ -15698,7 +15711,7 @@ crs#:#crs_subscription_min_members_info#:#Define the number of users that is min
 crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill
 crs#:#crs_waiting_list_autofill#:#With Auto-Fill
 crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations.
-crs#:#crs_cancellation_end#:#Limit for 'Unsubscribe from Course'
+crs#:#crs_cancellation_end#:#Limit 'Unsubscribe from Course'
 crs#:#crs_period#:#Course Period
 crs#:#crs_course_period_not_valid#:#The course period is not valid.
 crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.
@@ -16024,7 +16037,7 @@ prg#:#prg_added_member#:#The new member was added successfully.
 prg#:#prg_added_members#:#The new members were added successfully.
 prg#:#prg_acknowledge_completed_courses#:#Acknowledge Completed Courses
 common#:#obj_prg_duplicate#:#Copy Study Programme
-common#:#obj_prg_select#:#-- Please select one Study Programme --
+common#:#obj_prg_select#:#-- Please select one study programme --
 common#:#obj_prg#:#Study Programme
 common#:#obj_prgs#:#Study Programmes
 common#:#obj_prgs_desc#:#Study Programme Administration
@@ -16052,6 +16065,7 @@ wsp#:#wsp_shared_filter_reset_button#:#Reset Search
 wsp#:#wsp_shared_filter_button#:#Search
 wiki#:#wiki_page_title_too_long#:#Sorry, the title of the wiki page is too long. Please replace it with a shorter title.
 exc#:#exc_direct_submit#:#Submit
+membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one precondition is not fullfilled.
 export#:#no_file#:#No file
 content#:#lm_no_download_files#:#There are currently no files for download available.
 rbac#:#feed_copy#:#User can copy webfeed
@@ -16090,16 +16104,16 @@ crs#:#crs_loc_settings_passed_mode_mark#:#Test questions for mastered learning o
 crs#:#crs_checklist_objective#:#Checklist Objective
 prtf#:#prtf_set_default_publish_global#:#Share with unregistered users also
 prtf#:#prtf_set_default_publish_registered#:#Share with registered users only
-crs#:#crs_loc_settings_type_it_placement_all_info#:#Diagnostischer Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_type_it_placement_sel_info#:#Diagnostischer Einstiegstest pro Lernziel
-crs#:#crs_loc_settings_type_it_qualifying_all_info#:#Qualifizierender Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Qualifizierender Einstiegstest pro Lernziel
-crs#:#crs_loc_settings_type_it_none_info#:#Kein Einstiegstest
-crs#:#crs_loc_settings_type_q_all_info#:#Abschlusstest über alle Lernziele
-crs#:#crs_loc_settings_type_q_selected_info#:#Abschlusstest pro Lernziel
-crs#:#crs_visibility_until_info#:#---
-crs#:#crs_registration_limited_info#:#---
-crs#:#crs_subscription_max_members_short_info#:#---
+crs#:#crs_loc_settings_type_it_placement_all_info#:#Placement test on all learning objectives
+crs#:#crs_loc_settings_type_it_placement_sel_info#:#Placement test per single learning objective
+crs#:#crs_loc_settings_type_it_qualifying_all_info#:#Achievement test on all learning objectives
+crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Achievement test per sinble learning objective
+crs#:#crs_loc_settings_type_it_none_info#:#No placement test
+crs#:#crs_loc_settings_type_q_all_info#:#Achievement test on all learning objectives
+crs#:#crs_loc_settings_type_q_selected_info#:#Achievement test per sinble learning objective
+crs#:#crs_visibility_until_info#:#The course will be visible to it's members in a specific period of time.
+crs#:#crs_registration_limited_info#:#Members can only register for this course during a specific period of time.
+crs#:#crs_subscription_max_members_short_info#:#The minimal respectively maximial number of members can be set. A waiting list can be set up.
 crs#:#crs_unsubscribe_member_explanation#:#You receive this message because you unsubscribed from the course mentioned above.
 rbac#:#prg_read#:#User has read access to Study Programme
 sess#:#sess_max_members_needed#:#A maximum number of members is needed for the waiting list feature.
@@ -16110,3 +16124,30 @@ administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings
 administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.
 survey#:#svy_export_format#:#Export survey data as
 survey#:#svy_fraction_of_selections#:#Fraction of selections
+prg#:#prg_show_programmes_on_pd_always#:#Study Programmes are always visible on Personal Desktop.
+prg#:#prg_show_programmes_on_pd_only_read#:#Study Programmes are only visible on Personal Desktop with ‘read’ permissions.
+prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more objects you can't see because of less permissions.
+cmps#:#cmps_uninstall_inactive_confirm#:#The plugin "%1$s" can currently not be activated ("%2$s"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?
+pd#:#pd_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
+log#:#log_cache_info#:#Only if a message reaches or surpasses the caching level, all messages which have at least the log level will be added to the log for the current request.
+content#:#cont_ov_preview#:#The question overview does not work in the page editor context. Use the SCO or SCORM level preview instead.
+wiki#:#wiki_copy#:#Copy Wiki
+mcst#:#mcst_copy#:#Copy Mediacast
+prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.
+scov#:#scov_create#:#Create SCORM Certificate
+scov#:#scov_create_info#:#Select a completed SCORM module to generate a certificate for it
+administration#:#adm_container#:#Container Objects
+administration#:#adm_content_objects#:#Content Objects
+administration#:#adm_content_services#:#Content Services
+administration#:#adm_learning_outcomes#:#Learning Outcomes
+administration#:#adm_maintenance#:#Maintenance
+administration#:#adm_user_administration#:#User Administration
+administration#:#adm_user_services#:#User Services
+common#:#enter_new_name#:#Please enter a name
+rbac#:#awra_visible#:#‘Who is online?’ administration is visible
+rbac#:#awra_read#:#User has read access to ‘Who is online?’ administration
+rbac#:#awra_write#:#Edit settings in ‘Who is online?’ administration
+rbac#:#awra_edit_permission#:#User can change permission settings in ‘Who is online?’ administration
+rbac#:#svy_read_learning_progress#:#User can view learning progress of other users
+rbac#:#svy_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#sess_edit_learning_progress#:#User can edit learning progress settings

@@ -292,9 +292,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		// type selection
 		$options = array(
 			"scorm2004" => $lng->txt("lm_type_scorm2004"),
-			"scorm" => $lng->txt("lm_type_scorm"),
-			"aicc" => $lng->txt("lm_type_aicc"),
-			"hacp" => $lng->txt("lm_type_hacp")
+			"scorm" => $lng->txt("lm_type_scorm")
+			// "aicc" => $lng->txt("lm_type_aicc"),
+			// "hacp" => $lng->txt("lm_type_hacp")
 			);
 		$si = new ilSelectInputGUI($this->lng->txt("type"), "sub_type");
 		$si->setOptions($options);

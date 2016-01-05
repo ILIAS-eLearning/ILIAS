@@ -833,13 +833,13 @@ class ilObjTestGUI extends ilObjectGUI
 			if( $_SESSION['tst_results_show_best_solutions'] )
 			{
 				$this->ctrl->setParameter($this, 'hide_best_solutions', '1');
-				$toolbar->setHideBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, 'showUserAnswers'));
+				$toolbar->setHideBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, $this->ctrl->getCmd()));
 				$this->ctrl->setParameter($this, 'hide_best_solutions', '');
 			}
 			else
 			{
 				$this->ctrl->setParameter($this, 'show_best_solutions', '1');
-				$toolbar->setShowBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, 'showUserAnswers'));
+				$toolbar->setShowBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, $this->ctrl->getCmd()));
 				$this->ctrl->setParameterByClass('', 'show_best_solutions', '');
 			}
 		}
@@ -899,10 +899,12 @@ class ilObjTestGUI extends ilObjectGUI
 		if( $this->isPdfDeliveryRequest() )
 		{
 			require_once 'class.ilTestPDFGenerator.php';
-			
+
 			ilTestPDFGenerator::generatePDF(
 				$template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle()
 			);
+			
+			exit;
 		}
 		else
 		{
@@ -1143,12 +1145,11 @@ class ilObjTestGUI extends ilObjectGUI
 			include_once "./Services/QTI/classes/class.ilQTIItem.php";
 			switch ($item["type"])
 			{
-				case "MULTIPLE CHOICE QUESTION":
+				case MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
 				case QT_MULTIPLE_CHOICE_MR:
-					//$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_multiple_choice"));
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMultipleChoice"));
 					break;
-				case "SINGLE CHOICE QUESTION":
+				case SINGLE_CHOICE_QUESTION_IDENTIFIER:
 				case QT_MULTIPLE_CHOICE_SR:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assSingleChoice"));
 					break;
@@ -1158,39 +1159,59 @@ class ilObjTestGUI extends ilObjectGUI
 					break;
 				case LONG_MENU_QUESTION_IDENTIFIER:
 				case QT_LONG_MENU:
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assKprimChoice"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assLongMenu"));
 					break;
-				case "NUMERIC QUESTION":
+				case NUMERIC_QUESTION_IDENTIFIER:
 				case QT_NUMERIC:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assNumeric"));
 					break;
-				case "TEXTSUBSET QUESTION":
+				case FORMULA_QUESTION_IDENTIFIER:
+				case QT_FORMULA:
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFormulaQuestion"));
+					break;
+				case TEXTSUBSET_QUESTION_IDENTIFIER:
 				case QT_TEXTSUBSET:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextSubset"));
 					break;
-				case "CLOZE QUESTION":
+				case CLOZE_TEST_IDENTIFIER:
 				case QT_CLOZE:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assClozeTest"));
 					break;
-				case "IMAGE MAP QUESTION":
+				case ERROR_TEXT_IDENTIFIER:
+				case QT_ERRORTEXT:
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assErrorText"));
+					break;
+				case IMAGEMAP_QUESTION_IDENTIFIER:
 				case QT_IMAGEMAP:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
 					break;
-				case "JAVA APPLET QUESTION":
+				case JAVAAPPLET_QUESTION_IDENTIFIER:
 				case QT_JAVAAPPLET:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assJavaApplet"));
 					break;
-				case "MATCHING QUESTION":
+				case FLASHAPPLET_QUESTION_IDENTIFIER:
+				case QT_FLASHAPPLET:
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFlashApplet"));
+					break;
+				case MATCHING_QUESTION_IDENTIFIER:
 				case QT_MATCHING:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMatchingQuestion"));
 					break;
-				case "ORDERING QUESTION":
+				case ORDERING_QUESTION_IDENTIFIER:
 				case QT_ORDERING:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingQuestion"));
 					break;
-				case "TEXT QUESTION":
+				case ORDERING_HORIZONTAL_IDENTIFIER:
+				case QT_ORDERING_HORIZONTAL:
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingHorizontal"));
+					break;
+				case TEXT_QUESTION_IDENTIFIER:
 				case QT_TEXT:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextQuestion"));
+					break;
+				case FILE_UPLOAD_IDENTIFIER:
+				case QT_FILEUPLOAD:
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFileUpload"));
 					break;
 			}
 			$this->tpl->parseCurrentBlock();
@@ -1255,6 +1276,10 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$qtiParser = new ilQTIParser($_SESSION["tst_import_qti_file"], IL_MO_PARSE_QTI, $qpl_id, $_POST["ident"]);
+		if( !isset($_POST["ident"]) || !is_array($_POST["ident"]) || !count($_POST["ident"]) )
+		{
+			$qtiParser->setIgnoreItemsEnabled(true);
+		}
 		$qtiParser->setTestObject($newObj);
 		$result = $qtiParser->startParsing();
 		$newObj->saveToDb();
@@ -1265,12 +1290,15 @@ class ilObjTestGUI extends ilObjectGUI
 		$contParser->setQuestionMapping($qtiParser->getImportMapping());
 		$contParser->startParsing();
 
-		// import test results
-		if (@file_exists($_SESSION["tst_import_results_file"]))
+		if( isset($_POST["ident"]) && is_array($_POST["ident"]) && count($_POST["ident"]) == $qtiParser->getFoundItems() )
 		{
-			include_once ("./Modules/Test/classes/class.ilTestResultsImportParser.php");
-			$results = new ilTestResultsImportParser($_SESSION["tst_import_results_file"], $newObj);
-			$results->startParsing();
+			// import test results
+			if (@file_exists($_SESSION["tst_import_results_file"]))
+			{
+				include_once ("./Modules/Test/classes/class.ilTestResultsImportParser.php");
+				$results = new ilTestResultsImportParser($_SESSION["tst_import_results_file"], $newObj);
+				$results->startParsing();
+			}
 		}
 
 		// delete import directory
@@ -1716,6 +1744,7 @@ class ilObjTestGUI extends ilObjectGUI
 		    global $ilCtrl;
 
 		    $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'sel_question_types', $_REQUEST["sel_question_types"]);
+		    $ilCtrl->setParameterByClass('iltestexpresspageobjectgui', 'add_quest_cont_edit_mode', $_REQUEST["add_quest_cont_edit_mode"]);
 		    $link = $ilCtrl->getLinkTargetByClass('iltestexpresspageobjectgui', 'handleToolbarCommand','',false,false);
 		    ilUtil::redirect($link);
 		}
@@ -2584,17 +2613,19 @@ class ilObjTestGUI extends ilObjectGUI
 			include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 			ilRepositorySearchGUI::fillAutoCompleteToolbar(
 				$this,
-				$tb,
+				$ilToolbar,
 				array(
 					'auto_complete_name'	=> $lng->txt('user'),
 					'submit_name'			=> $lng->txt('add')
 				)
 			);
 
-			// search button
-			$ilToolbar->addButton($this->lng->txt("tst_search_users"),
-				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
-
+			$ilToolbar->addSeparator();
+			$search_btn = ilLinkButton::getInstance();
+			$search_btn->setCaption('tst_search_users');
+			$search_btn->setUrl($this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+			$ilToolbar->addButtonInstance($search_btn);
+			require_once  'Services/UIComponent/Button/classes/class.ilLinkButton.php';
 
 			$participants =& $this->object->getInvitedUsers();
 			$rows = array();
@@ -2656,7 +2687,16 @@ class ilObjTestGUI extends ilObjectGUI
 			$table_gui->setResetCommand('fpResetFiler');
 			$rows = $this->applyFilterCriteria($rows);
 			$table_gui->setData($rows);
-			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
+			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
+
+			if(count($rows) > 0)
+			{
+				$ilToolbar->addSeparator();
+				$delete_all_results_btn = ilLinkButton::getInstance();
+				$delete_all_results_btn->setCaption('delete_all_user_data');
+				$delete_all_results_btn->setUrl($this->ctrl->getLinkTarget($this, 'deleteAllUserResults'));
+				$ilToolbar->addButtonInstance($delete_all_results_btn);
+			}
 		}
 		else
 		{
@@ -2698,6 +2738,16 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken(),
 					$this->object->getAnonymity(), count($rows)
 			);
+
+			if(count($rows) > 0)
+			{
+				require_once  'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+				$delete_all_results_btn = ilLinkButton::getInstance();
+				$delete_all_results_btn->setCaption('delete_all_user_data');
+				$delete_all_results_btn->setUrl($this->ctrl->getLinkTarget($this, 'deleteAllUserResults'));
+				$ilToolbar->addStickyItem($delete_all_results_btn);
+			}
+
 			$table_gui->setFilterCommand('npSetFilter');
 			$table_gui->setResetCommand('npResetFilter');
 			$rows = $this->applyFilterCriteria($rows);
@@ -3004,11 +3054,14 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$template = $this->createUserResults( $show_pass_details, $show_answers, $show_reached_points, $show_user_results);
 
-		$this->tpl->setVariable("ADM_CONTENT", $template->get());
-		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
-		if ($this->object->getShowSolutionAnswersOnly())
+		if($template instanceof ilTemplate)
 		{
-			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
+			$this->tpl->setVariable("ADM_CONTENT", $template->get());
+			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
+			if ($this->object->getShowSolutionAnswersOnly())
+			{
+				$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
+			}
 		}
 	}
 
@@ -3607,9 +3660,9 @@ class ilObjTestGUI extends ilObjectGUI
 						if ($this->object->getHighscoreEnabled())
 						{
 							// Can also compare results then
-							$btn = ilSubmitButton::getInstance();
+							$btn = ilLinkButton::getInstance();
 							$btn->setCaption('tst_show_toplist');
-							$btn->setCommand('outResultsToplist');
+							$btn->setUrl($this->ctrl->getLinkTargetByClass('ilTestToplistGUI', 'outResultsToplist'));
 							$btn->setPrimary(false);
 							$big_button[] = $btn;
 						}
@@ -3632,9 +3685,9 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 				{
-					$btn = ilSubmitButton::getInstance();
+					$btn = ilLinkButton::getInstance();
 					$btn->setCaption('tst_list_of_answers_show');
-					$btn->setCommand('outUserListOfAnswerPasses');
+					$btn->setUrl($this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'outUserListOfAnswerPasses'));
 					$btn->setPrimary(false);
 					$big_button[] = $btn;
 				}
@@ -4154,7 +4207,8 @@ class ilObjTestGUI extends ilObjectGUI
 			// tab handling happens within GUIs
 			case 'iltestevaluationgui':
 				$nonSelfTabbingCommands = array(
-					'outParticipantsResultsOverview', 'outEvaluation'
+					'outParticipantsResultsOverview', 'outEvaluation',
+					'eval_a', 'singleResults', 'detailedEvaluation'
 				);
 				if( in_array($this->ctrl->getCmd(), $nonSelfTabbingCommands) )
 				{

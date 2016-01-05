@@ -10,8 +10,7 @@ include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 * @author Alex Killing
 * @version $Id$
 */
-class
-ilMainMenuGUI
+class ilMainMenuGUI
 {
 	/**
 	* ilias objectm
@@ -811,18 +810,30 @@ ilMainMenuGUI
 		return $this->tpl->get();
 	}
 	
+	/**
+	 * Init member view
+	 * @global type $lng
+	 */
 	protected function initMemberView()
 	{
 		global $lng;
-		
+
+		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
+		$ref_id = ilMemberViewSettings::getInstance()->getCurrentRefId();
+
+		if(!$ref_id)
+		{
+			return FALSE;
+		}	
+			
 		include_once './Services/Link/classes/class.ilLink.php';
 		$url = ilLink::_getLink(
-			(int) $_GET['ref_id'],
-			ilObject::_lookupType(ilObject::_lookupObjId((int) $_GET['ref_id'])),
+			$ref_id,
+			ilObject::_lookupType(ilObject::_lookupObjId($ref_id)),
 			array('mv' => 0));
-		
+
 		$this->setMode(self::MODE_TOPBAR_MEMBERVIEW);
-		$this->setTopBarBack($url, $lng->txt('mem_view_close'));				
+		$this->setTopBarBack($url, $lng->txt('mem_view_close'));
 	}
 
 	/**

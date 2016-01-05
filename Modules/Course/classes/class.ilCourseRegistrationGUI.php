@@ -1,26 +1,5 @@
 <?php
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
-
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once('./Services/Membership/classes/class.ilRegistrationGUI.php');
 
@@ -336,7 +315,9 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 
 				// no "request" info if waiting list is active
 				if($this->isWaitingListActive())
+				{
 					return true;
+				}
 
 				$txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
 				$txt->setValue($this->lng->txt('crs_info_reg_direct'));
@@ -364,7 +345,9 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 
 				// no "request" info if waiting list is active
 				if($this->isWaitingListActive())
+				{
 					return true;
+				}
 
 				$txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
 				$txt->setValue($this->lng->txt('crs_subscription_options_confirmation'));
@@ -411,7 +394,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 				if($this->participants->isSubscriber($ilUser->getId()))
 				{
 					$this->form->clearCommandButtons();
-					$this->form->addCommandButton('updateSubscriptionRequest', $this->lng->txt('crs_update_subscr_request'));				
+					$this->form->addCommandButton('updateSubscriptionRequest', $this->lng->txt('crs_update_subscr_request'));
 					$this->form->addCommandButton('cancelSubscriptionRequest', $this->lng->txt('crs_cancel_subscr_request'));				
 				}
 				elseif($this->isRegistrationPossible())

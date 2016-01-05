@@ -691,7 +691,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$a_mob->setDescription($format);
 
 		// determine width and height of known image types
-		$wh = ilObjMediaObject::_determineWidthHeight(500, 400, $format,
+		$wh = ilObjMediaObject::_determineWidthHeight($format,
 			$_POST["standard_type"], $mob_dir."/".$location, $media_item->getLocation(),
 			$_POST["standard_width_height"]["constr_prop"], ($_POST["standard_size"] == "original"),
 			$_POST["standard_width_height"]["width"], $_POST["standard_width_height"]["height"]);
@@ -774,7 +774,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			}
 
 			// determine width and height of known image types
-			$wh = ilObjMediaObject::_determineWidthHeight(500, 400, $format,
+			$wh = ilObjMediaObject::_determineWidthHeight($format,
 				$type, $mob_dir."/".$location, $media_item2->getLocation(),
 				$_POST["full_width_height"]["constr_prop"], ($_POST["full_size"] == "original"),
 				$_POST["full_width_height"]["width"], $_POST["full_width_height"]["height"]);
@@ -961,7 +961,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$this->object->setDescription($format);
 			
 			// determine width and height of known image types
-			$wh = ilObjMediaObject::_determineWidthHeight(500, 400, $format,
+			$wh = ilObjMediaObject::_determineWidthHeight($format,
 				$_POST["standard_type"], $mob_dir."/".$location, $std_item->getLocation(),
 				$_POST["standard_width_height"]["constr_prop"], ($_POST["standard_size"] == "original"),
 				$_POST["standard_width_height"]["width"], $_POST["standard_width_height"]["height"]);
@@ -1093,7 +1093,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				}
 				
 				// determine width and height of known image types
-				$wh = ilObjMediaObject::_determineWidthHeight(500, 400, $format,
+				$wh = ilObjMediaObject::_determineWidthHeight($format,
 					$type, $mob_dir."/".$location, $full_item->getLocation(),
 					$_POST["full_width_height"]["constr_prop"], ($_POST["full_size"] == "original"),
 					$_POST["full_width_height"]["width"], $_POST["full_width_height"]["height"]);

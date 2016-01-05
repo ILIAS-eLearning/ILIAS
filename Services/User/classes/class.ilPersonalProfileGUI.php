@@ -611,7 +611,10 @@ class ilPersonalProfileGUI
 			$this->lng->txt("export")."/".$this->lng->txt("import"),
 			$this->ctrl->getLinkTarget($this, "showExportImport"));
 
-		if($ilUser->getPref("public_profile") != "n" || $this->getProfilePortfolio())
+		// #17570
+		if(($ilUser->getPref("public_profile") && 
+			$ilUser->getPref("public_profile") != "n") || 
+			$this->getProfilePortfolio())
 		{			
 			// profile preview
 			$ilTabs->addNonTabbedLink("profile_preview",
@@ -910,10 +913,14 @@ class ilPersonalProfileGUI
 			include_once("./Services/Maps/classes/class.ilMapUtil.php");
 			if (ilMapUtil::isActivated())
 			{
+				// #17619 - proper escaping
 				$location = $this->form->getInput("location");
-				$ilUser->setLatitude(ilUtil::stripSlashes($location["latitude"]));
-				$ilUser->setLongitude(ilUtil::stripSlashes($location["longitude"]));
-				$ilUser->setLocationZoom(ilUtil::stripSlashes($location["zoom"]));
+				$lat = ilUtil::stripSlashes($location["latitude"]);
+				$long = ilUtil::stripSlashes($location["longitude"]);
+				$zoom = ilUtil::stripSlashes($location["zoom"]);
+				$ilUser->setLatitude(is_numeric($lat) ? $lat : null);
+				$ilUser->setLongitude(is_numeric($long) ? $long : null);
+				$ilUser->setLocationZoom(is_numeric($zoom) ? $zoom : null);
 			}				
 			
 			// Set user defined data

@@ -11749,7 +11749,6 @@ assessment#:#tst_highscore_top_num_unit#:#条目
 assessment#:#feedback_setting#:#答案指定回馈的模式。
 assessment#:#feedback_all#:#为所有答案显示答案指定回馈。
 assessment#:#feedback_checked#:#显示所有已选择/选定答案的指定回馈。
-assessment#:#feedback_correct#:#为所有正确答案显示答案指定回馈(正确答案是当已选择/选定时，获得一个正分数)。
 common#:#chat_chatviewer#:#聊天查看器
 chatroom#:#chat_settings#:#聊天设置
 common#:#chat_users_active#:#活跃用户
@@ -15375,7 +15374,6 @@ mail#:#mail_entry_of_contacts#:#Entry of Contacts###30 08 2015 new variable
 mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already assigned all of your contacts to this mailing list.###30 08 2015 new variable
 mail#:#mail_mailing_lists_no_contact_entries#:#You have no entries in your contacts to add to a list.###30 08 2015 new variable
 maps#:#maps_use_custom_server#:#Use custom server###30 08 2015 new variable
-maps#:#maps_custom_server_info#:#Activate custom servers to provide tile- and geolocation-data. Multiple inputs should be separated by spaces. Defaults are "%s" for tiles and "%s" for geolocation.###30 08 2015 new variable
 maps#:#maps_tile_server#:#Server for Tiles###30 08 2015 new variable
 maps#:#maps_geolocation_server#:#Server for Reverse Geolocation###30 08 2015 new variable
 dcl#:#dcl_all_entries#:#All entries###30 08 2015 new variable
@@ -16059,3 +16057,96 @@ crs#:#mem_cron_min_members_task#:#Please inform the participants if the course w
 crs#:#crs_loc_settings_passed_mode#:#Bestandene Lernziele###25 10 2015 new variable
 crs#:#crs_loc_settings_passed_mode_hide#:#Testfragen zu bestandenen Lernzielen werden ausgeblendet###25 10 2015 new variable
 crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen werden markiert###25 10 2015 new variable
+assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
+assessment#:#answer_options#:#Answer Options: ###23 12 2015 new variable
+assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
+assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'###23 12 2015 new variable
+assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers###23 12 2015 new variable
+assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?###23 12 2015 new variable
+assessment#:#tst_nav_while_edit_modal_save_btn#:#Save###23 12 2015 new variable
+assessment#:#tst_nav_while_edit_modal_nosave_btn#:#Do Not Save###23 12 2015 new variable
+assessment#:#tst_nav_while_edit_modal_cancel_btn#:#Cancel###23 12 2015 new variable
+assessment#:#tst_position_without_total#:#Question %s###23 12 2015 new variable
+assessment#:#feedback_correct_sc_mc#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).###23 12 2015 new variable
+assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).###23 12 2015 new variable
+common#:#user_not_found_to_delete#:#A user could not be found to delete.###23 12 2015 new variable
+maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".###23 12 2015 new variable
+maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.###23 12 2015 new variable
+maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.###23 12 2015 new variable
+rbac#:#role_confirm_block_role#:#Save Role Status###23 12 2015 new variable
+rbac#:#role_blocked#:#: <i>Role will be blocked</i>###23 12 2015 new variable
+rbac#:#role_unblocked#:#: <i>Role will be unblocked</i>###23 12 2015 new variable
+rbac#:#role_confirm_unblock_role_info#:#The following steps will be performed for the action "Unblock Role":<br /><br />- the local policy will be deleted.###23 12 2015 new variable
+content#:#cont_interactions_info#:#Typically results from interactions in learning modules are simply stored without being read / loaded again. If you ensured this is how your learning module operates, this option will improve performance.###23 12 2015 new variable
+content#:#cont_interactions_info_12#:#Results from interactions in SCORM 1.2 learning modules are simply stored. This option will improve performance.###23 12 2015 new variable
+content#:#cont_objectives_info#:#If you ensured that this learning module runs properly, this option improves performance.###23 12 2015 new variable
+content#:#cont_comments_info#:#Some SCORM 2004 learning modules allow users providing comments within the module. This option allows saving those comments.###23 12 2015 new variable
+assessment#:#tst_saved_manscoring_by_question_successfully#:#The manual scoring for the question %s for test pass %s has been saved successfully.###23 12 2015 new variable
+content#:#cont_check_values_info#:#The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not.###23 12 2015 new variable
+orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.###23 12 2015 new variable
+cntr#:#sorting_new_items_direction#:#Sorting Direction for New Objects###23 12 2015 new variable
+sess#:#sess_reg_direct_info#:#User has to click ‘Join’ to participate in session###23 12 2015 new variable
+buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.###23 12 2015 new variable
+buddysystem#:#buddy_enable#:#Activate ‘Contacts’###23 12 2015 new variable
+buddysystem#:#buddy_enable_info#:#If enabled, users are allowed to contact each other by initiating contact requests. Additionally, there is a personal user setting to allow or prevent being contacted.###23 12 2015 new variable
+buddysystem#:#buddy_allow_to_contact_me#:#Allow to contact me###23 12 2015 new variable
+buddysystem#:#buddy_allow_to_contact_me_info#:#If enabled, other users are able to send me request for getting into contact.###23 12 2015 new variable
+common#:#obj_cadm#:#Contacts###23 12 2015 new variable
+common#:#obj_cadm_desc#:#Contacts Administration###23 12 2015 new variable
+rbac#:#cadm_visible#:#User connection administration is visible###23 12 2015 new variable
+rbac#:#cadm_read#:#User has read access to user connection administration###23 12 2015 new variable
+rbac#:#cadm_write#:#User has write access to user connection administration###23 12 2015 new variable
+rbac#:#cadm_edit_permission#:#User can change permission settings###23 12 2015 new variable
+membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one precondition is not fullfilled.###23 12 2015 new variable
+common#:#prg_copy_threads_info#:#Please decide which Study Program elements should be copied, linked or even omitted.###23 12 2015 new variable
+common#:#prg_wizard_page#:#Copy Study Program (Step 2/2)###23 12 2015 new variable
+crs#:#crs_checklist_objective#:#Checklist Objective###23 12 2015 new variable
+prtf#:#prtf_set_default_publish_global#:#Share with unregistered users also###23 12 2015 new variable
+prtf#:#prtf_set_default_publish_registered#:#Share with registered users only###23 12 2015 new variable
+crs#:#crs_loc_settings_type_it_placement_all_info#:#Placement test on all learning objectives###23 12 2015 new variable
+crs#:#crs_loc_settings_type_it_placement_sel_info#:#Placement test per single learning objective###23 12 2015 new variable
+crs#:#crs_loc_settings_type_it_qualifying_all_info#:#Achievement test on all learning objectives###23 12 2015 new variable
+crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Achievement test per sinble learning objective###23 12 2015 new variable
+crs#:#crs_loc_settings_type_it_none_info#:#No placement test###23 12 2015 new variable
+crs#:#crs_loc_settings_type_q_all_info#:#Achievement test on all learning objectives###23 12 2015 new variable
+crs#:#crs_loc_settings_type_q_selected_info#:#Achievement test per sinble learning objective###23 12 2015 new variable
+crs#:#crs_visibility_until_info#:#The course will be visible to it's members in a specific period of time.###23 12 2015 new variable
+crs#:#crs_registration_limited_info#:#Members can only register for this course during a specific period of time.###23 12 2015 new variable
+crs#:#crs_subscription_max_members_short_info#:#The minimal respectively maximial number of members can be set. A waiting list can be set up.###23 12 2015 new variable
+crs#:#crs_unsubscribe_member_explanation#:#You receive this message because you unsubscribed from the course mentioned above.###23 12 2015 new variable
+rbac#:#prg_read#:#User has read access to Study Programme###23 12 2015 new variable
+sess#:#sess_max_members_needed#:#A maximum number of members is needed for the waiting list feature.###23 12 2015 new variable
+obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type. The filename must not be modified after export. Error Message:###23 12 2015 new variable
+content#:#cont_sqst#:#Survey Question (Assigned Material)###23 12 2015 new variable
+mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?###23 12 2015 new variable
+administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings###23 12 2015 new variable
+administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.###23 12 2015 new variable
+survey#:#svy_export_format#:#Export survey data as###23 12 2015 new variable
+survey#:#svy_fraction_of_selections#:#Fraction of selections###23 12 2015 new variable
+prg#:#prg_show_programmes_on_pd_always#:#Study Programmes are always visible on Personal Desktop.###23 12 2015 new variable
+prg#:#prg_show_programmes_on_pd_only_read#:#Study Programmes are only visible on Personal Desktop with ‘read’ permissions.###23 12 2015 new variable
+prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more objects you can't see because of less permissions.###23 12 2015 new variable
+cmps#:#cmps_uninstall_inactive_confirm#:#The plugin "%1$s" can currently not be activated ("%2$s"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?###23 12 2015 new variable
+pd#:#pd_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.###23 12 2015 new variable
+log#:#log_cache_info#:#Only if a message reaches or surpasses the caching level, all messages which have at least the log level will be added to the log for the current request.###23 12 2015 new variable
+content#:#cont_ov_preview#:#The question overview does not work in the page editor context. Use the SCO or SCORM level preview instead.###23 12 2015 new variable
+wiki#:#wiki_copy#:#Copy Wiki###23 12 2015 new variable
+mcst#:#mcst_copy#:#Copy Mediacast###23 12 2015 new variable
+prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.###23 12 2015 new variable
+scov#:#scov_create#:#Create SCORM Certificate###23 12 2015 new variable
+scov#:#scov_create_info#:#Select a completed SCORM module to generate a certificate for it###23 12 2015 new variable
+administration#:#adm_container#:#Container Objects###23 12 2015 new variable
+administration#:#adm_content_objects#:#Content Objects###23 12 2015 new variable
+administration#:#adm_content_services#:#Content Services###23 12 2015 new variable
+administration#:#adm_learning_outcomes#:#Learning Outcomes###23 12 2015 new variable
+administration#:#adm_maintenance#:#Maintenance###23 12 2015 new variable
+administration#:#adm_user_administration#:#User Administration###23 12 2015 new variable
+administration#:#adm_user_services#:#User Services###23 12 2015 new variable
+common#:#enter_new_name#:#Please enter a name###23 12 2015 new variable
+rbac#:#awra_visible#:#‘Who is online?’ administration is visible###23 12 2015 new variable
+rbac#:#awra_read#:#User has read access to ‘Who is online?’ administration###23 12 2015 new variable
+rbac#:#awra_write#:#Edit settings in ‘Who is online?’ administration###23 12 2015 new variable
+rbac#:#awra_edit_permission#:#User can change permission settings in ‘Who is online?’ administration###23 12 2015 new variable
+rbac#:#svy_read_learning_progress#:#User can view learning progress of other users###23 12 2015 new variable
+rbac#:#svy_edit_learning_progress#:#User can edit learning progress settings###23 12 2015 new variable
+rbac#:#sess_edit_learning_progress#:#User can edit learning progress settings###23 12 2015 new variable

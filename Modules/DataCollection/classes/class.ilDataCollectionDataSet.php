@@ -145,19 +145,28 @@ class ilDataCollectionDataSet extends ilDataSet {
 	public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version) {
 		switch ($a_entity) {
 			case 'dcl':
+				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['id']))
+				{
+					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
+				}
+				else
+				{
+					$newObj = new ilObjDataCollection();
+					$newObj->create(true);
+				}
 				// Calling new_obj->create() will create the main table for us
-				$new_obj = new ilObjDataCollection();
-				$new_obj->setTitle($a_rec['title']);
-				$new_obj->setDescription($a_rec['description']);
-				$new_obj->setApproval($a_rec['approval']);
-				$new_obj->setPublicNotes($a_rec['public_notes']);
-				$new_obj->setNotification($a_rec['notification']);
-				$new_obj->setPublicNotes($a_rec['public_notes']);
-				$new_obj->setOnline(false);
-				$new_obj->setRating($a_rec['rating']);
-				$new_obj->create();
-				$this->import_dc_object = $new_obj;
-				$a_mapping->addMapping('Modules/DataCollection', 'dcl', $a_rec['id'], $new_obj->getId());
+				$newObj->setTitle($a_rec['title']);
+				$newObj->setDescription($a_rec['description']);
+				$newObj->setApproval($a_rec['approval']);
+				$newObj->setPublicNotes($a_rec['public_notes']);
+				$newObj->setNotification($a_rec['notification']);
+				$newObj->setPublicNotes($a_rec['public_notes']);
+				$newObj->setOnline(false);
+				$newObj->setRating($a_rec['rating']);
+
+				$newObj->update();
+				$this->import_dc_object = $newObj;
+				$a_mapping->addMapping('Modules/DataCollection', 'dcl', $a_rec['id'], $newObj->getId());
 				break;
 			case 'il_dcl_table':
 				// If maintable, update. Other tables must be created as well
@@ -299,7 +308,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 				if ($record_id && $field_id) {
 					$record = ilDataCollectionCache::getRecordCache($record_id);
 					$field = ilDataCollectionCache::getFieldCache($field_id);
-					$record_field = new ilDataCollectionRecordField($record, $field); // Created in constructor if not existing
+					$record_field = new ilDataCollectionRecordField($record, $field);
 					$a_mapping->addMapping('Modules/DataCollection', 'il_dcl_record_field', $a_rec['id'], $record_field->getId());
 					$this->import_record_field_cache[$record_field->getId()] = $record_field;
 				}
@@ -360,7 +369,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 	 */
 	public function beforeFinishImport(ilImportMapping $a_mapping) {
 		foreach ($this->import_temp_new_mob_ids as $new_mob_id) {
-			ilObjMediaObject::_saveUsage($new_mob_id, "dcl:html", $a_mapping->getTargetId());
+			ilObjMediaObject::_saveUsage($new_mob_id, "dcl:html", $this->import_dc_object->getId());
 		}
 		foreach ($this->import_temp_refs as $record_field_id => $old_record_id) {
 			$new_record_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_record', $old_record_id);

@@ -219,6 +219,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		$tag_input->setTypeAhead(true);
 		$tag_input->setPostVar('taggable');
 		$tag_input->setJsSelfInit(false);
+		$tag_input->setTypeAheadMinLength(assLongMenu::MIN_LENGTH_AUTOCOMPLETE);
 		$tpl->setVariable("TAGGING_PROTOTYPE", 	$tag_input->render(''));
 		
 		$tpl->setVariable("MY_MODAL", 			$modal->getHTML());
@@ -286,9 +287,12 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 		$feedback = '';
 		if($show_feedback)
 		{
-			$fb = $this->getGenericFeedbackOutput($active_id, $pass);
-			$feedback .=  strlen($fb) ? $fb : '';
-
+			if( !$this->isTestPresentationContext() )
+			{
+				$fb = $this->getGenericFeedbackOutput($active_id, $pass);
+				$feedback .= strlen($fb) ? $fb : '';
+			}
+			
 			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
 			$feedback .=  strlen($fb) ? $fb : '';
 		}

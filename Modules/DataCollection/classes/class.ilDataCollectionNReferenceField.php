@@ -181,6 +181,19 @@ class ilDataCollectionNReferenceField extends ilDataCollectionReferenceField {
 		return $ilDataCollectionNReferenceFieldGUI->getHTML();
 	}
 
+	public function getValueFromExcel($excel, $row, $col){
+		global $lng;
+		$stringValue = $excel->val($row, $col);
+		$this->getReferencesFromString($stringValue);
+		$referenceIds = $this->getReferencesFromString($stringValue);
+		if (!count($referenceIds)) {
+			$warning = "(" . $col . ", " . ilDataCollectionImporter::getExcelCharForInteger($col) . ") " . $lng->txt("dcl_no_such_reference") . " "
+				. $stringValue;
+			return array('warning' => $warning);
+		}
+
+		return $referenceIds;
+	}
 
 	/**
 	 * @return int|string
@@ -204,6 +217,39 @@ class ilDataCollectionNReferenceField extends ilDataCollectionReferenceField {
 		$string = substr($string, 0, - 2);
 
 		return $string;
+	}
+
+	/**
+	 * This method tries to get as many valid references out of a string separated by commata. This is problematic as a string value could contain commata itself.
+	 * It is optimized to work with an exported list from this DataCollection. And works fine in most cases. Only areference list with the values "hello" and "hello, world"
+	 * Will mess with it.
+	 * @param $stringValues string
+	 * @return int[]
+	 */
+	protected function getReferencesFromString($stringValues) {
+		$slicedStrings = explode(", ", $stringValues);
+		$slicedReferences = array();
+		$resolved = 0;
+		for($i = 0; $i < count($slicedStrings); $i++) {
+			//try to find a reference since the last resolved value separated by a comma.
+			// $i = 1; $resolved = 0; $string = "hello, world, gaga" -> try to match "hello, world".
+			$searchString = implode(array_slice($slicedStrings, $resolved, $i - $resolved + 1));
+			if($ref = $this->getReferenceFromValue($searchString)){
+				$slicedReferences[] = $ref;
+				$resolved = $i;
+				continue;
+			}
+
+			//try to find a reference with the current index.
+			// $i = 1; $resolved = 0; $string = "hello, world, gaga" -> try to match "world".
+			$searchString = $slicedStrings[$i];
+			if($ref = $this->getReferenceFromValue($searchString)){
+				$slicedReferences[] = $ref;
+				$resolved = $i;
+				continue;
+			}
+		}
+		return $slicedReferences;
 	}
 }
 

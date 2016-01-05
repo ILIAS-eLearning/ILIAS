@@ -195,8 +195,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function listDesktopItemsObject()
 	{
-		global $rbacsystem,$rbacreview,$tree;
-
+		global $rbacsystem,$rbacreview;
 
 		if(!$rbacreview->isAssignable($this->object->getId(),$this->obj_ref_id) &&
 			$this->obj_ref_id != ROLE_FOLDER_ID)
@@ -205,49 +204,15 @@ class ilObjRoleGUI extends ilObjectGUI
 			return true;
 		}
 
-
-		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
-		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
-
 		if($rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
 		{
 			$this->__showButton('selectDesktopItem',$this->lng->txt('role_desk_add'));
 		}
-		if(!count($items = $role_desk_item_obj->getAll()))
-		{
-			ilUtil::sendInfo($this->lng->txt('role_desk_none_created'));
-			return true;
-		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_desktop_item_list.html", "Services/AccessControl");
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role.svg'));
-		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_role'));
-		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('role_assigned_desk_items').' ('.$this->object->getTitle().')');
-		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
-		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.svg'));
-
-		$counter = 0;
-
-		foreach($items as $role_item_id => $item)
-		{
-			$tmp_obj = ilObjectFactory::getInstanceByRefId($item['item_id']);
-			
-			if(strlen($desc = $tmp_obj->getDescription()))
-			{
-				$this->tpl->setCurrentBlock("description");
-				$this->tpl->setVariable("DESCRIPTION_DESK",$desc);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("desk_row");
-			$this->tpl->setVariable("DESK_TITLE",$tmp_obj->getTitle());
-			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-			$this->tpl->setVariable("CHECK_DESK",ilUtil::formCheckBox(0,'del_desk_item[]',$role_item_id));
-			$this->tpl->setVariable("TXT_PATH",$this->lng->txt('path').':');
-			$this->tpl->setVariable("PATH",$this->__formatPath($tree->getPathFull($item['item_id'])));
-			$this->tpl->parseCurrentBlock();
-		}
-
+		
+		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItemsTableGUI.php';
+		$tbl = new ilRoleDesktopItemsTableGUI($this, 'listDesktopItems', $this->object);
+		$this->tpl->setContent($tbl->getHTML());
+		
 		return true;
 	}
 
@@ -271,42 +236,34 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->listDesktopItemsObject();
 
 			return true;
-		}
-		ilUtil::sendQuestion($this->lng->txt('role_sure_delete_desk_items'));
+		}		
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_ask_delete_desktop_item.html", "Services/AccessControl");
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role.svg'));
-		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_role'));
-		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('role_assigned_desk_items').' ('.$this->object->getTitle().')');
-		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
-		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
-		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt('cancel'));
-
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$confirmation_gui = new ilConfirmationGUI();
+		$confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
+		$confirmation_gui->setHeaderText($this->lng->txt('role_assigned_desk_items').
+			' "'.$this->object->getTitle().'": '.
+			$this->lng->txt('role_sure_delete_desk_items'));
+		$confirmation_gui->setCancel($this->lng->txt("cancel"), "listDesktopItems");
+		$confirmation_gui->setConfirm($this->lng->txt("delete"), "deleteDesktopItems");
+		
 		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
-
-		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
-
+		$role_desk_item_obj = new ilRoleDesktopItem($this->object->getId());
 		$counter = 0;
-
 		foreach($_POST['del_desk_item'] as $role_item_id)
 		{
 			$item_data = $role_desk_item_obj->getItem($role_item_id);
 			$tmp_obj =& ilObjectFactory::getInstanceByRefId($item_data['item_id']);
-
+									
 			if(strlen($desc = $tmp_obj->getDescription()))
-			{
-				$this->tpl->setCurrentBlock("description");
-				$this->tpl->setVariable("DESCRIPTION_DESK",$desc);
-				$this->tpl->parseCurrentBlock();
+			{				
+				$desc = '<div class="il_Description_no_margin">'.$desc.'</div>';				
 			}
-			$this->tpl->setCurrentBlock("desk_row");
-			$this->tpl->setVariable("DESK_TITLE",$tmp_obj->getTitle());
-			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-			$this->tpl->parseCurrentBlock();
+			
+			$confirmation_gui->addItem("del_desk_item[]", $role_item_id, $tmp_obj->getTitle().$desc);
 		}
-
-		$_SESSION['role_del_desk_items'] = $_POST['del_desk_item'];
+		
+		$this->tpl->setContent($confirmation_gui->getHTML());
 
 		return true;
 	}
@@ -325,7 +282,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if (!count($_SESSION['role_del_desk_items']))
+		if (!count($_POST['del_desk_item']))
 		{
 			ilUtil::sendFailure($this->lng->txt('role_select_one_item'));
 
@@ -338,7 +295,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
 
-		foreach ($_SESSION['role_del_desk_items'] as $role_item_id)
+		foreach ($_POST['del_desk_item'] as $role_item_id)
 		{
 			$role_desk_item_obj->delete($role_item_id);
 		}
@@ -1424,30 +1381,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->__showSearchUserTable($f_result,$user_ids,"listUsersRole");
 
 		return true;
-	}
-
-
-
-	function __formatPath($a_path_arr)
-	{
-		$counter = 0;
-
-		foreach ($a_path_arr as $data)
-		{
-			if ($counter++)
-			{
-				$path .= " -> ";
-			}
-
-			$path .= $data['title'];
-		}
-
-		if (strlen($path) > 50)
-		{
-			return '...'.substr($path,-50);
-		}
-
-		return $path;
 	}
 
 	function __prepareOutput()

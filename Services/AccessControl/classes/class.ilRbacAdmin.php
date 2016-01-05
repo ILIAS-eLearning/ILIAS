@@ -38,6 +38,23 @@ class ilRbacAdmin
 			$this->ilErr =& $ilErr;
 		}
 	}
+	
+	/**
+	 * Set blocked status
+	 * @param type $a_role_id
+	 * @param type $a_ref_id
+	 * @param type $a_blocked_status
+	 */
+	public function setBlockedStatus($a_role_id, $a_ref_id, $a_blocked_status)
+	{
+		global $ilDB;
+		
+		ilLoggerFactory::getLogger('crs')->logStack();
+		$query = 'UPDATE rbac_fa set blocked = '. $ilDB->quote($a_blocked_status,'integer').' '.
+				'WHERE rol_id = '.$ilDB->quote($a_role_id,'integer').' '.
+				'AND parent = '.$ilDB->quote($a_ref_id,'integer');
+		$ilDB->manipulate($query);
+	}
 
 	/**
 	 * deletes a user from rbac_ua
@@ -1005,6 +1022,8 @@ class ilRbacAdmin
 		{
 			$a_assign = "n";
 		}
+		
+		ilLoggerFactory::getLogger('ac')->debug('Assign role to folder: ' . $a_rol_id.' '. $a_parent);
 
 		$query = sprintf('INSERT INTO rbac_fa (rol_id, parent, assign, protected) '.
 			'VALUES (%s,%s,%s,%s)',

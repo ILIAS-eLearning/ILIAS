@@ -92,8 +92,11 @@ class ilWACPath {
 	 */
 	public function __construct($path) {
 		$this->setOriginalRequest($path);
-		preg_match("/\\/" . self::DIR_DATA . "\\/([\\w]*)\\/(" . self::DIR_SEC . "\\/|)([\\w]*)\\/(.*)/ui", $path, $results);
-		preg_match("/(\\/" . self::DIR_DATA . "\\/[\\w]*\\/[\\w]*\\/.*)\\?/ui", $path, $results2);
+
+		$regex_client = "[\\w-\\.]*";
+
+		preg_match("/\\/" . self::DIR_DATA . "\\/({$regex_client})\\/(" . self::DIR_SEC . "\\/|)([\\w]*)\\/(.*)/ui", $path, $results);
+		preg_match("/(\\/" . self::DIR_DATA . "\\/{$regex_client}\\/[\\w]*\\/.*)\\?/ui", $path, $results2);
 		$this->setPathWithoutQuery(isset($results2[1]) ? '.' . $results2[1] : '.' . $results[0]);
 		$this->setPath('.' . $results[0]);
 		$this->setClient($results[1]);
@@ -105,7 +108,7 @@ class ilWACPath {
 		parse_str($parts['query'], $query);
 		$this->setParameters($query);
 		$this->setSuffix(pathinfo($parts['path'], PATHINFO_EXTENSION));
-		preg_match("/\\/" . self::DIR_DATA . "\\/([\\w]*)\\/(" . self::DIR_SEC . "\\/[\\w]*\\/[\\d]*\\/|[\\w]*\\/)([\\w]*)\\//ui", $path, $results3);
+		preg_match("/\\/" . self::DIR_DATA . "\\/({$regex_client})\\/(" . self::DIR_SEC . "\\/[\\w]*\\/[\\d]*\\/|[\\w]*\\/)([\\w]*)\\//ui", $path, $results3);
 		$this->setSecurePath(isset($results3[0]) ? '.' . $results3[0] : NULL);
 	}
 
@@ -125,12 +128,14 @@ class ilWACPath {
 		return in_array(strtolower($this->getSuffix()), self::$video_suffixes);
 	}
 
+
 	/**
 	 * @return bool
 	 */
 	public function isAudio() {
 		return in_array(strtolower($this->getSuffix()), self::$audio_suffixes);
 	}
+
 
 	/**
 	 * @return bool

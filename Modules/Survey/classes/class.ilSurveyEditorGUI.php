@@ -1374,7 +1374,7 @@ class ilSurveyEditorGUI
 			$printbody->setVariable("TITLE", sprintf($this->lng->txt("tst_result_user_name"), $uname));
 			$printbody->setVariable("ADM_CONTENT", $template->get());
 			$printoutput = $printbody->get();
-			$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);
+			$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);		
 			$fo = $this->object->processPrintoutput2FO($printoutput);
 			// #11436
 			if(!$fo || !$this->object->deliverPDFfromFO($fo))

@@ -9165,20 +9165,20 @@ while ($rec = $ilDB->fetchAssoc($set))
 ?>
 <#4648>
 <?php
-$ilDB->query('ALTER TABLE il_dcl_record_field ADD INDEX (record_id)');
-$ilDB->query('ALTER TABLE il_dcl_record_field ADD INDEX (field_id)');
-$ilDB->query('ALTER TABLE il_dcl_record ADD INDEX (table_id)');
-$ilDB->query('ALTER TABLE il_dcl_stloc1_value ADD INDEX (record_field_id)');
-$ilDB->query('ALTER TABLE il_dcl_stloc2_value ADD INDEX (record_field_id)');
-$ilDB->query('ALTER TABLE il_dcl_stloc3_value ADD INDEX (record_field_id)');
-$ilDB->query('ALTER TABLE il_dcl_field ADD INDEX (table_id)');
-$ilDB->query('ALTER TABLE il_dcl_field_prop ADD INDEX (field_id)');
-$ilDB->query('ALTER TABLE il_dcl_field_prop ADD INDEX (datatype_prop_id)');
-$ilDB->query('ALTER TABLE il_dcl_viewdefinition ADD INDEX (view_id)');
-$ilDB->query('ALTER TABLE il_dcl_view ADD INDEX (table_id)');
-$ilDB->query('ALTER TABLE il_dcl_view ADD INDEX (type)');
-$ilDB->query('ALTER TABLE il_dcl_data ADD INDEX (main_table_id)');
-$ilDB->query('ALTER TABLE il_dcl_table ADD INDEX (obj_id)');
+//$ilDB->query('ALTER TABLE il_dcl_record_field ADD INDEX (record_id)');
+//$ilDB->query('ALTER TABLE il_dcl_record_field ADD INDEX (field_id)');
+//$ilDB->query('ALTER TABLE il_dcl_record ADD INDEX (table_id)');
+//$ilDB->query('ALTER TABLE il_dcl_stloc1_value ADD INDEX (record_field_id)');
+//$ilDB->query('ALTER TABLE il_dcl_stloc2_value ADD INDEX (record_field_id)');
+//$ilDB->query('ALTER TABLE il_dcl_stloc3_value ADD INDEX (record_field_id)');
+//$ilDB->query('ALTER TABLE il_dcl_field ADD INDEX (table_id)');
+//$ilDB->query('ALTER TABLE il_dcl_field_prop ADD INDEX (field_id)');
+//$ilDB->query('ALTER TABLE il_dcl_field_prop ADD INDEX (datatype_prop_id)');
+//$ilDB->query('ALTER TABLE il_dcl_viewdefinition ADD INDEX (view_id)');
+//$ilDB->query('ALTER TABLE il_dcl_view ADD INDEX (table_id)');
+//$ilDB->query('ALTER TABLE il_dcl_view ADD INDEX (type)');
+//$ilDB->query('ALTER TABLE il_dcl_data ADD INDEX (main_table_id)');
+//$ilDB->query('ALTER TABLE il_dcl_table ADD INDEX (obj_id)');
 ?>
 <#4649>
 <?php
@@ -12369,4 +12369,234 @@ while($row = $ilDB->fetchAssoc($res))
 	{
 		$ilDB->addIndex('help_tooltip', array('tt_id', 'module_id'), 'i1');
 	}
+?>
+<#4792>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4793>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4794>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4795>
+<?php
+
+	$query = 'SELECT server_id FROM ldap_server_settings';
+	$res = $ilDB->query($query);
+	
+	$server_id = 0;
+	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$server_id = $row->server_id;
+	}
+	
+	if($server_id)
+	{
+		$query = 'UPDATE usr_data SET auth_mode = '.$ilDB->quote('ldap_'.(int) $server_id,'text').' '.
+				'WHERE auth_mode = '.$ilDB->quote('ldap','text');
+		$ilDB->manipulate($query);
+	}
+?>
+<#4796>
+<?php
+$delQuery = "
+	DELETE FROM tax_node_assignment
+	WHERE node_id = %s
+	AND component = %s
+	AND obj_id = %s
+	AND item_type = %s
+	AND item_id = %s
+";
+
+$types = array('integer', 'text', 'integer', 'text', 'integer');
+
+$selQuery = "
+	SELECT tax_node_assignment.* FROM tax_node_assignment
+	LEFT JOIN qpl_questions ON question_id = item_id
+	WHERE component = %s
+	AND item_type = %s
+	AND question_id IS NULL
+";
+
+$res = $ilDB->queryF($selQuery, array('text', 'text'), array('qpl', 'quest'));
+
+while($row = $ilDB->fetchAssoc($res))
+{
+	$ilDB->manipulateF($delQuery, $types, array(
+		$row['node_id'], $row['component'], $row['obj_id'], $row['item_type'], $row['item_id'] 
+	));
+}
+?>
+<#4797>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4798>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+<#4799>
+<?php
+
+	if(!$ilDB->tableColumnExists('rbac_fa', 'blocked'))
+	{
+		$ilDB->addTableColumn('rbac_fa', 'blocked', array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0)
+		);
+	}
+?>
+<#4800>
+<?php
+$indices = array(
+	'il_dcl_record_field' => array(
+		'record_id',
+		'field_id'
+	),
+	'il_dcl_record' => array( 'table_id' ),
+	'il_dcl_stloc1_value' => array( 'record_field_id' ),
+	'il_dcl_stloc2_value' => array( 'record_field_id' ),
+	'il_dcl_stloc3_value' => array( 'record_field_id' ),
+	'il_dcl_field' => array(
+		'datatype_id',
+		'table_id'
+	),
+	'il_dcl_field_prop' => array(
+		'field_id',
+		'datatype_prop_id'
+	),
+	'il_dcl_viewdefinition' => array( 'view_id' ),
+	'il_dcl_view' => array(
+		'table_id',
+		'type'
+	),
+	'il_dcl_data' => array( 'main_table_id' ),
+	'il_dcl_table' => array( 'obj_id' ),
+);
+
+$manager = $ilDB->db->loadModule('Manager');
+
+foreach ($indices as $table_name => $field_names) {
+	if ($manager) {
+		foreach ($manager->listTableIndexes($table_name) as $idx_name) {
+			if ($ilDB->getDbType() == 'oracle' || $ilDB->getDbType() == 'postgres') {
+				$manager->getDBInstance()->exec('DROP INDEX ' . $idx_name);
+				$manager->getDBInstance()->exec('DROP INDEX ' . $idx_name . '_idx');
+			} else {
+				$manager->getDBInstance()->exec('DROP INDEX ' . $idx_name . ' ON ' . $table_name);
+				$manager->getDBInstance()->exec('DROP INDEX ' . $idx_name . '_idx ON ' . $table_name);
+			}
+		}
+		foreach ($field_names as $i => $field_name) {
+			$ilDB->addIndex($table_name, array( $field_name ), 'i' . ($i + 1));
+		}
+	}
+}
+?>
+<#4801>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4802>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4803>
+<?php
+if(!$ilDB->tableColumnExists('adl_shared_data','cp_node_id')) 
+{
+	$ilDB->addTableColumn(
+        'adl_shared_data',
+        'cp_node_id',
+	array (
+		"type" => "integer",
+		"length" => 4,
+		"notnull" => true,
+		"default" => "0"
+        ));
+
+	$dataRes = $ilDB->query(
+		"select cp_datamap.cp_node_id, cp_datamap.slm_id, cp_datamap.target_id from cp_datamap, adl_shared_data "
+		."WHERE cp_datamap.slm_id = adl_shared_data.slm_id AND cp_datamap.target_id = adl_shared_data.target_id"
+		);
+	while( $row = $ilDB->fetchAssoc($dataRes) )
+	{
+		$ilDB->manipulateF(
+			"UPDATE adl_shared_data SET cp_node_id = %s WHERE slm_id = %s AND target_id = %s",
+			array("integer","integer","text"),
+			array($row["cp_node_id"],$row["slm_id"],$row["target_id"])
+		);
+	}
+	$ilDB->manipulate("delete from adl_shared_data WHERE cp_node_id = 0");
+	
+	$ilDB->addPrimaryKey("adl_shared_data", array('cp_node_id','user_id'));
+}
+?>
+<#4804>
+<?php
+	$query = "show index from sahs_sc13_seq_templ where Key_name = 'PRIMARY'";
+	$res = $ilDB->query($query);
+	if (!$ilDB->numRows($res)) {
+		$ilDB->addPrimaryKey('sahs_sc13_seq_templ', array('seqnodeid','id'));
+	}
+?>
+<#4805>
+<?php
+	$query = "show index from sahs_sc13_seq_tree where Key_name = 'PRIMARY'";
+	$res = $ilDB->query($query);
+	if (!$ilDB->numRows($res)) {
+		$ilDB->addPrimaryKey('sahs_sc13_seq_tree', array('child','importid','parent'));
+	}
+?>
+<#4806>
+<?php
+	$query = "show index from sahs_sc13_tree where Key_name = 'PRIMARY'";
+	$res = $ilDB->query($query);
+	if (!$ilDB->numRows($res)) {
+		$ilDB->addPrimaryKey('sahs_sc13_tree', array('child','parent','slm_id'));
+	}
+?>
+<#4807>
+<?php
+	$query = "show index from scorm_tree where Key_name = 'PRIMARY'";
+	$res = $ilDB->query($query);
+	if (!$ilDB->numRows($res)) {
+		$ilDB->addPrimaryKey('scorm_tree', array('slm_id','child'));
+	}
+?>
+<#4808>
+<?php
+	$ilDB->modifyTableColumn('cp_tree', 'obj_id', array(
+		"notnull" => true,
+		"default" => "0"
+	));
+	$ilDB->modifyTableColumn('cp_tree', 'child', array(
+		"notnull" => true,
+		"default" => "0"
+	));
+
+	$query = "show index from cp_tree where Key_name = 'PRIMARY'";
+	$res = $ilDB->query($query);
+	if (!$ilDB->numRows($res)) {
+		$ilDB->addPrimaryKey('cp_tree', array('obj_id','child'));
+	}
+?>
+<#4809>
+<?php
+if(!$ilDB->tableColumnExists('notification_osd', 'visible_for'))
+{
+	$ilDB->addTableColumn('notification_osd', 'visible_for', array(
+		'type'    => 'integer',
+		'length'  => 4,
+		'notnull' => true,
+		'default' => 0)
+	);
+}
 ?>

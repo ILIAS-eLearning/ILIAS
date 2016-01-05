@@ -37,6 +37,14 @@ class ilCourseObjective
 	}
 	
 	/**
+	 * @return ilObjCourse
+	 */
+	public function getCourse()
+	{
+		return $this->course_obj;
+	}
+	
+	/**
 	 * Get container of object 
 	 *
 	 * @access public
@@ -120,7 +128,7 @@ class ilCourseObjective
 	{
 		global $ilLog;
 		
-		$ilLog->write(__METHOD__.': Start cloning learning objectives...');
+		ilLoggerFactory::getLogger('crs')->debug('Start cloning learning objectives');
 		
 	 	$query = "SELECT * FROM crs_objectives ".
 	 		"WHERE crs_id  = ".$this->db->quote($this->course_obj->getId() ,'integer').' '.
@@ -128,13 +136,13 @@ class ilCourseObjective
 	 	$res = $this->db->query($query);
 	 	if(!$res->numRows())
 	 	{
-			$ilLog->write(__METHOD__.': ... no objectives found.');
+			ilLoggerFactory::getLogger('crs')->debug('.. no objectives found');
 	 		return true;
 	 	}
 	 	
 	 	if(!is_object($new_course = ilObjectFactory::getInstanceByRefId($a_target_id,false)))
 	 	{
-			$ilLog->write(__METHOD__.': Cannot init new course object.');
+			ilLoggerFactory::getLogger('crs')->warning('Cannot create course instance');
 	 		return true;
 	 	}
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -144,16 +152,30 @@ class ilCourseObjective
 			$new_objective->setDescription($row->description);
 			$new_objective->setActive($row->active);
 			$objective_id = $new_objective->add();
-			$ilLog->write(__METHOD__.': Added new objective nr: '.$objective_id);
+			ilLoggerFactory::getLogger('crs')->debug('Added new objective nr: ' . $objective_id);
 			
 			// Clone crs_objective_tst entries
 			include_once('Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
 			$objective_qst = new ilCourseObjectiveQuestion($row->objective_id);
 			$objective_qst->cloneDependencies($objective_id,$a_copy_id);
 			
-			include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+			include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
 			include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+			$random_i = new ilLORandomTestQuestionPools(
+				$this->getCourse()->getId(),
+				$row->objective_id,
+				ilLOSettings::TYPE_TEST_INITIAL
+			);
+			$random_i->copy($a_copy_id, $new_course->getId(), $objective_id);
 			
+			$random_q = new ilLORandomTestQuestionPools(
+				$this->getCourse()->getId(),
+				$row->objective_id,
+				ilLOSettings::TYPE_TEST_QUALIFIED
+			);
+			$random_q->copy($a_copy_id, $new_course->getId(), $objective_id);
+			
+			include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
 			$assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
 			$assignment_it = $assignments->getAssignmentByObjective($row->objective_id, ilLOSettings::TYPE_TEST_INITIAL);
 			if($assignment_it)
@@ -167,14 +189,14 @@ class ilCourseObjective
 				$assignment_qt->cloneSettings($a_copy_id, $new_course->getId(), $objective_id);
 			}
 
-			$ilLog->write(__METHOD__.': Finished objective question dependencies: '.$objective_id);
+			ilLoggerFactory::getLogger('crs')->debug('Finished copying question dependencies');
 			
 			// Clone crs_objective_lm entries (assigned course materials)
 			include_once('Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
 			$objective_material = new ilCourseObjectiveMaterials($row->objective_id);
 			$objective_material->cloneDependencies($objective_id,$a_copy_id);
 	 	}
-		$ilLog->write(__METHOD__.': Finished cloning objectives.');
+		ilLoggerFactory::getLogger('crs')->debug('Finished copying objectives');
 	}
 	
 	// begin-patch lok

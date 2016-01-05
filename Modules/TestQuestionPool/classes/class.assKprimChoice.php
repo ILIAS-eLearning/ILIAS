@@ -4,6 +4,7 @@
 require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once 'Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
 require_once 'Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
+require_once 'Modules/TestQuestionPool/interfaces/interface.ilAssSpecificFeedbackOptionLabelProvider.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -11,7 +12,7 @@ require_once 'Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAd
  *
  * @package     Modules/TestQuestionPool
  */
-class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
+class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, ilAssSpecificFeedbackOptionLabelProvider
 {
 	const NUM_REQUIRED_ANSWERS = 4;
 	
@@ -1020,6 +1021,11 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		}
 		
 		return 0;
+	}
+	
+	public function getSpecificFeedbackAllCorrectOptionLabel()
+	{
+		return 'feedback_correct_kprim';
 	}
 	
 	public static function isObligationPossible($questionId)

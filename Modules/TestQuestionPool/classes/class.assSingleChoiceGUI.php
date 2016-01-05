@@ -327,7 +327,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		}
 		$questionoutput = $template->get();
-		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
+		$feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
 		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback, true ));
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
@@ -716,6 +716,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		{
 			foreach ($_POST['choice']['answer'] as $index => $answertext)
 			{
+				$answertext = ilUtil::secureString($answertext);
+
 				$picturefile    = $_POST['choice']['imagename'][$index];
 				$file_org_name  = $_FILES['choice']['name']['image'][$index];
 				$file_temp_name = $_FILES['choice']['tmp_name']['image'][$index];

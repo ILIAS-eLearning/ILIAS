@@ -227,7 +227,9 @@ class ilAssQuestionHintTracking
 			return $nextHint;
 		}
 		
-		throw new ilTestException(
+		require_once 'Modules/Test/exceptions/class.ilTestNoNextRequestableHintExistsException.php';
+		
+		throw new ilTestNoNextRequestableHintExistsException(
 			"no next hint found for questionId={$this->getQuestionId()}, activeId={$this->getActiveId()}, pass={$this->getPass()}"
 		);
 	}

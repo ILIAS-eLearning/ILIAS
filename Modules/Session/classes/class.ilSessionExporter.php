@@ -54,6 +54,12 @@ class ilSessionExporter extends ilXmlExporter
 				"xsd_file" => "ilias_sess_4_1.xsd",
 				"uses_dataset" => true,
 				"min" => "4.1.0",
+				"max" => "4.4.999"),
+			"5.0.0" => array(
+				"namespace" => "http://www.ilias.de/Modules/Session/sess/5_0",
+				"xsd_file" => "ilias_sess_5_0.xsd",
+				"uses_dataset" => true,
+				"min" => "5.0.0",
 				"max" => "")
 		);
 	}

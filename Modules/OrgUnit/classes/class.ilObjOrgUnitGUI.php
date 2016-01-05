@@ -191,16 +191,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 					$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE);
 				}
 				$info = new ilInfoScreenGUI($this);
-				$this->parseInfoScreen($info);
+				$amd_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'orgu', $this->object->getId(), 'orgu_type', $this->object->getOrgUnitTypeId());
+				$amd_gui->setInfoObject($info);
+				$amd_gui->parse();
 				$this->ctrl->forwardCommand($info);
-
-				// I guess this is how it was supposed to work, but it doesn't... it won't respect our sub-id and sub-type when creating the objects!
-				// So we reimplemented the stuff in the method parseInfoScreen()
-				//                $info = new ilInfoScreenGUI($this);
-				//                $amd_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'orgu', $this->object->getId(), 'orgu_type', $this->object->getOrgUnitTypeId());
-				//                $amd_gui->setInfoObject($info);
-				//                $amd_gui->parse();
-				//                $this->ctrl->forwardCommand($info);
 				break;
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
@@ -563,48 +557,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}
 	}
 
-
-	/**
-	 * Add Advanced Meta Data Information to the Info Screen
-	 *
-	 * @param ilInfoScreenGUI $info
-	 */
-	protected function parseInfoScreen(ilInfoScreenGUI $info) {
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		include_once('Services/ADT/classes/class.ilADTFactory.php');
-
-		$type = $this->object->getOrgUnitType();
-		if (!$type) {
-			return;
-		}
-		$assigned_record_ids = $type->getAssignedAdvancedMDRecordIds();
-
-		foreach (ilAdvancedMDValues::getInstancesForObjectId($this->object->getId(), 'orgu') as $record_id => $a_values) {
-			// Skip record ids not assigned to the type
-			if (!in_array($record_id, $assigned_record_ids)) {
-				continue;
-			}
-
-			// Note that we have to do this because with the instances above the sub-type and sub-id are missing...
-			$a_values = new ilAdvancedMDValues($record_id, $this->object->getId(), 'orgu_type', $this->object->getOrgUnitTypeId());
-
-			// this correctly binds group and definitions
-			$a_values->read();
-
-			$info->addSection(ilAdvancedMDRecord::_lookupTitle($record_id));
-
-			$defs = $a_values->getDefinitions();
-			foreach ($a_values->getADTGroup()->getElements() as $element_id => $element) {
-				if (!$element->isNull()) {
-					$info->addProperty($defs[$element_id]->getTitle(), ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)
-						->getHTML());
-				}
-			}
-		}
-	}
-
-
 	public function editSettings() {
 		if (!$this->ilAccess->checkAccess("write", "", $this->ref_id)) {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
@@ -716,7 +668,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	 * @return ilTableGUI
 	 * @description Make protected function avaiable for ilLocalUserGUI...
 	 */
-	public function __setTableGUIBasicData($tbl, $a_result_set, $a_from, $a_form) {
+	public function __setTableGUIBasicData(&$tbl, &$a_result_set, $a_from, $a_form) {
 		return parent::__setTableGUIBasicData($tbl, $a_result_set, $a_from, $a_form);
 	}
 }

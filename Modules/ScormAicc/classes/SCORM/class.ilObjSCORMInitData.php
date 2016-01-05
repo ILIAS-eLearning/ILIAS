@@ -42,7 +42,9 @@ class ilObjSCORMInitData
 		if ($_GET["autolaunch"] != "") $launchId=$_GET["autolaunch"];
 		$session_timeout = 0; //unlimited sessions
 		if ($slm_obj->getSession()) {
-			$session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
+			// $session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
+			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+			$session_timeout = (int)ilWACSignedPath::getCookieMaxLifetimeInSeconds()-1;
 		}
 		$b_autoReview='false';
 		if ($slm_obj->getAutoReview()) $b_autoReview='true';

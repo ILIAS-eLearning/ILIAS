@@ -131,7 +131,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 			default:
 
-				if( $this->isTestExecutionCommand($cmd) )
+				if( ilTestPlayerCommands::isTestExecutionCommand($cmd) )
 				{
 					$this->checkTestExecutable();
 				}
@@ -141,16 +141,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				break;
 		}
 		return $ret;
-	}
-
-	protected function isTestExecutionCommand($cmd)
-	{
-		if( $cmd == 'autosave' || $cmd == 'redirectAfterAutosave' )
-		{
-			return false;
-		}
-		
-		return true;
 	}
 
 	protected function startTestCmd()
@@ -429,8 +419,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->getQuestionInstance($questionId)->removeIntermediateSolution(
 				$this->testSession->getActiveId(), $this->testSession->getPass()
 			);
-			
-			$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 
 			if( $this->object->isForceInstantFeedbackEnabled() )
 			{
@@ -439,6 +427,19 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$this->testSequence->setQuestionChecked($questionId);
 				$this->testSequence->saveToDb();
 			}
+			
+			if( $this->getNextCommandParameter() )
+			{
+				if( $this->getNextSequenceParameter() )
+				{
+					$this->ctrl->setParameter($this, 'sequence', $this->getNextSequenceParameter());
+					$this->ctrl->setParameter($this, 'pmode', '');
+				}
+				
+				$this->ctrl->redirect($this, $this->getNextCommandParameter());
+			}
+			
+			$this->ctrl->setParameter($this, 'pmode', ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW);
 		}
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
@@ -465,13 +466,24 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	
 	protected function skipQuestionCmd()
 	{
-		if( $this->object->isPostponingEnabled() )
+		$curSequenceElement = $this->getCurrentSequenceElement();
+		$nextSequenceElement = $this->testSequence->getNextSequence($curSequenceElement);
+
+		if(!$this->isValidSequenceElement($nextSequenceElement))
 		{
-			$this->testSequence->postponeSequence($this->getCurrentSequenceElement());
-			$this->testSequence->saveToDb();
+			$nextSequenceElement = $this->testSequence->getFirstSequence();
 		}
 		
-		$this->nextQuestionCmd();
+		if( $this->object->isPostponingEnabled() )
+		{
+			$this->testSequence->postponeSequence($curSequenceElement);
+			$this->testSequence->saveToDb();
+		}
+
+		$this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
+		$this->ctrl->setParameter($this, 'pmode', '');
+
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
 	protected function nextQuestionCmd()
@@ -793,6 +805,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	{
 		ilUtil::sendFailure(sprintf($this->lng->txt('tst_objective_oriented_test_pass_without_questions'), $this->object->getTitle()), true);
 
-		$this->redirectBackCmd();
+		$this->backToInfoScreenCmd();
 	}
 }

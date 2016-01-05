@@ -564,12 +564,7 @@ function LMSSetValue(s_el,value){
 	}
 	//store
 	var b_storeDB=true;
-	if (iv.b_storeInteractions==false && s_el.indexOf("cmi.interactions")>-1) b_storeDB=false;
-	else if (iv.b_storeObjectives==false && s_el.indexOf("cmi.objectives")>-1) b_storeDB=false;
-	if (b_scoCredit==false && (s_el.indexOf("score")>-1 || s_el.indexOf("status")>-1)) b_storeDB=false;
-
-	var b_result=setValueIntern(sco_id,s_el,value,b_storeDB);
-	if (b_result==false) return setreturn(201,"out of order");
+	var b_result=true;
 	if (s_el=='cmi.core.session_time' && iv.c_storeSessionTime=="s"){
 		var ttime = addTime(totalTimeAtInitialize, value);
 		b_result=setValueIntern(sco_id,'cmi.core.total_time',ttime,true);
@@ -578,6 +573,14 @@ function LMSSetValue(s_el,value){
 		if (value=='suspend') b_result=setValueIntern(sco_id,'cmi.core.entry',"resume",true);
 		else b_result=setValueIntern(sco_id,'cmi.core.entry',"",true);
 	}
+	//since 5.1 for no-credit/browse
+	if (b_scoCredit==false && (s_el.indexOf("score")>-1 || s_el.indexOf("status")>-1)) return setreturn(0,"");
+
+	if (iv.b_storeInteractions==false && s_el.indexOf("cmi.interactions")>-1) b_storeDB=false;
+	else if (iv.b_storeObjectives==false && s_el.indexOf("cmi.objectives")>-1) b_storeDB=false;
+	b_result=setValueIntern(sco_id,s_el,value,b_storeDB);
+	if (b_result==false) return setreturn(201,"out of order");
+
 	return setreturn(0,"");
 }
 

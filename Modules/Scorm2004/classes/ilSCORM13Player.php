@@ -940,7 +940,7 @@ class ilSCORM13Player
 			{
 				//Check for writability
 				$res = $ilDB->queryF(
-					'SELECT write_shared_data '
+					'SELECT write_shared_data, cp_node_id '
 					  . 'FROM cp_datamap '
 					  . 'WHERE target_id = %s '
 					  . 'AND slm_id = %s '
@@ -956,9 +956,9 @@ class ilSCORM13Player
 				
 				//If it's writeable, then add the new value into the database
 				$res = $ilDB->manipulateF(
-					'INSERT INTO adl_shared_data VALUES (%s, %s, %s, %s)',
-					array('integer', 'integer', 'text', 'text'),
-					array($this->packageId, $this->userId, $key, $obj));			
+					'INSERT INTO adl_shared_data (slm_id, user_id, target_id, store, cp_node_id) VALUES (%s, %s, %s, %s, %s)',
+					array('integer', 'integer', 'text', 'text', 'integer'),
+					array($this->packageId, $this->userId, $key, $obj, $row["cp_node_id"]));			
 			}
 		}
 	    echo "1";

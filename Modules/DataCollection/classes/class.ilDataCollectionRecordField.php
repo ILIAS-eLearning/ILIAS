@@ -71,21 +71,25 @@ class ilDataCollectionRecordField {
 	 * Read object data from database
 	 */
 	protected function doRead() {
+		if(!$this->record->getId())
+			return;
+
 		$query = "SELECT * FROM il_dcl_record_field WHERE field_id = " . $this->db->quote($this->field->getId(), "integer") . " AND record_id = "
 			. $this->db->quote($this->record->getId(), "integer");
 		$set = $this->db->query($query);
 		$rec = $this->db->fetchAssoc($set);
 		$this->id = $rec['id'];
 
-		if ($this->id == NULL) {
+		if ($this->id == null) {
 			$this->doCreate();
 		}
+
 		$this->loadValue();
 	}
 
 
 	/**
-	 * Create object in database
+	 * Creates an Id and a database entry.
 	 */
 	protected function doCreate() {
 		$id = $this->db->nextId("il_dcl_record_field");
@@ -101,6 +105,9 @@ class ilDataCollectionRecordField {
 	 */
 	public function doUpdate() {
 		//$this->loadValue(); //Removed Mantis #0011799
+		if (!$this->id) {
+			$this->doCreate();
+		}
 		$datatype = $this->field->getDatatype();
 		$query = "DELETE FROM il_dcl_stloc" . $datatype->getStorageLocation() . "_value WHERE record_field_id = "
 			. $this->db->quote($this->id, "integer");
@@ -160,7 +167,7 @@ class ilDataCollectionRecordField {
 				$this->value = $tmp;
 				//delete old file from filesystem
 				// TODO Does not belong here, create separate class ilDataCollectionFileField and overwrite setValue method
-				if ($old && $this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE) {
+				if ($old && $old != $this->value && $this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE) {
 					$this->record->deleteFile($old);
 				}
 			}
@@ -191,7 +198,6 @@ class ilDataCollectionRecordField {
 	 */
 	public function getValueFromExcel($excel, $row, $col) {
 		$value = $excel->val($row, $col);
-		$value = utf8_encode($value);
 		if ($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
 			$value = array(
 				'date' => date('Y-m-d', strtotime($value)),

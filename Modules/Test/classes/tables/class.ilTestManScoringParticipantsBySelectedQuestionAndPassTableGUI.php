@@ -18,6 +18,8 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 	const PARENT_SAVE_SCORING_CMD = 'saveManScoringByQuestion';
 	
 	private $manPointsPostData = array();
+	
+	private $curQuestionMaxPoints = null;
 
 	public function __construct($parentObj)
 	{
@@ -179,11 +181,23 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 			return false;
 		}
 		
-		return $this->manPointsPostData[$pass_id][$active_id][$qst_id];
+		$submittedPoints = $this->manPointsPostData[$pass_id][$active_id][$qst_id];
+		
+		return $submittedPoints > $this->getCurQuestionMaxPoints();
 	}
 	
 	public function setManualScoringPointsPostData($manPointsPostData)
 	{
 		$this->manPointsPostData = $manPointsPostData;
+	}
+
+	public function getCurQuestionMaxPoints()
+	{
+		return $this->curQuestionMaxPoints;
+	}
+
+	public function setCurQuestionMaxPoints($curQuestionMaxPoints)
+	{
+		$this->curQuestionMaxPoints = $curQuestionMaxPoints;
 	}
 }

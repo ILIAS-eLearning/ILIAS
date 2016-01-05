@@ -269,6 +269,16 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		return $errors;
 	}
 
+	private function isDefImgUploadCommand()
+	{
+		return $this->ctrl->getCmd() == 'uploaddefinitions';
+	}
+
+	private function isTermImgUploadCommand()
+	{
+		return $this->ctrl->getCmd() == 'uploadterms';
+	}
+
 	/**
 	 * for mode 1:1 terms count must not be less than definitions count
 	 * for mode n:n this limitation is cancelled
@@ -317,7 +327,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		$definitionvalues = $this->object->getDefinitions();
 		$definitions->setValues( $definitionvalues );
-		$definitions->checkInput();
+		if( $this->isDefImgUploadCommand() )
+		{
+			$definitions->checkInput();
+		}
 		$form->addItem( $definitions );
 
 		// Terms
@@ -334,7 +347,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$this->object->addTerm( new assAnswerMatchingTerm() );
 		$termvalues = $this->object->getTerms();
 		$terms->setValues( $termvalues );
-		$terms->checkInput();
+		if( $this->isTermImgUploadCommand() )
+		{
+			$terms->checkInput();
+		}
 		$form->addItem( $terms );
 
 		// Matching Pairs
@@ -572,8 +588,11 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$feedback = '';
 		if($show_feedback)
 		{
-			$fb = $this->getGenericFeedbackOutput($active_id, $pass);
-			$feedback .=  strlen($fb) ? $fb : '';
+			if( !$this->isTestPresentationContext() )
+			{
+				$fb = $this->getGenericFeedbackOutput($active_id, $pass);
+				$feedback .= strlen($fb) ? $fb : '';
+			}
 			
 			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
 			$feedback .=  strlen($fb) ? $fb : '';
@@ -618,8 +637,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		switch ($this->object->getShuffle())
 		{
 			case 1:
+				$seed = $this->object->getShuffler()->getSeed();
+				$this->object->getShuffler()->setSeed($seed.'1');
 				$terms = $this->object->getShuffler()->shuffle($terms);
+				$this->object->getShuffler()->setSeed($seed.'2');
 				$definitions = $this->object->getShuffler()->shuffle($definitions);
+				$this->object->getShuffler()->setSeed($seed);
 				break;
 			case 2:
 				$terms = $this->object->getShuffler()->shuffle($terms);
@@ -800,6 +823,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		switch ($this->object->getShuffle())
 		{
 			case 1:
+				$seed = $this->object->getShuffler()->getSeed();
+				$this->object->getShuffler()->setSeed($seed.'1');
 				$terms = $this->object->getShuffler()->shuffle($terms);
 				if (count($solutions))
 				{
@@ -807,8 +832,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				}
 				else
 				{
+					$this->object->getShuffler()->setSeed($seed.'2');
 					$definitions = $this->object->getShuffler()->shuffle($definitions);
 				}
+				$this->object->getShuffler()->setSeed($seed);
 				break;
 			case 2:
 				$terms = $this->object->getShuffler()->shuffle($terms);

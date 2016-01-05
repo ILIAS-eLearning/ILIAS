@@ -38,6 +38,7 @@ class ilGlossaryExporter extends ilXmlExporter
 		if ($a_entity == "glo")
 		{
 			include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 
 			$md_ids = array();
 

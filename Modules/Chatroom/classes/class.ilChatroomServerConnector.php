@@ -10,6 +10,11 @@
 class ilChatroomServerConnector
 {
 	/**
+	 * @var null|bool
+	 */
+	protected static $connection_status = null;
+
+	/**
 	 * @var ilChatroomServerSettings
 	 */
 	private $settings;
@@ -27,7 +32,7 @@ class ilChatroomServerConnector
 	/**
 	 * @param string $url
 	 * @param array  $stream_context_params
-	 * @return string
+	 * @return string|false
 	 */
 	private function file_get_contents($url, array $stream_context_params = null)
 	{
@@ -45,7 +50,17 @@ class ilChatroomServerConnector
 			$ctx = array_merge_recursive($ctx, $stream_context_params);
 		}
 
-		return file_get_contents($url, null, stream_context_create($ctx));
+		try
+		{
+			$response = file_get_contents($url, null, stream_context_create($ctx));
+			return $response;
+		}
+		catch(Exception $e)
+		{
+			ilLoggerFactory::getLogger('chatroom')->alert($e->getMessage());
+		}
+
+		return false;
 	}
 
 	/**
@@ -257,7 +272,7 @@ class ilChatroomServerConnector
 	 */
 	public function isServerAlive()
 	{
-		$response = @$this->file_get_contents(
+		$response = $this->file_get_contents(
 			$this->settings->getURL('Status', 0),
 			array(
 				'http'  => array(
@@ -275,13 +290,20 @@ class ilChatroomServerConnector
 	}
 
 	/**
+	 * @param bool|true $use_cache
 	 * @return bool
 	 */
-	public static function checkServerConnection()
+	public static function checkServerConnection($use_cache = true)
 	{
+		if($use_cache && self::$connection_status !== null)
+		{
+			return self::$connection_status;
+		}
+
 		require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
-		$settings  = ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
-		$connector = new ilChatroomServerConnector($settings);
-		return $connector->isServerAlive();
+		$connector = new self(ilChatroomAdmin::getDefaultConfiguration()->getServerSettings());
+		self::$connection_status = (bool)$connector->isServerAlive();
+
+		return self::$connection_status;
 	}
 }

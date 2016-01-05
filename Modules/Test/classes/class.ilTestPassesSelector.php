@@ -65,6 +65,7 @@ class ilTestPassesSelector
 	public function getReportablePasses()
 	{
 		$existingPasses = $this->loadExistingPasses();
+			
 		$reportablePasses = $this->fetchReportablePasses($existingPasses);
 
 		return $reportablePasses;
@@ -74,7 +75,7 @@ class ilTestPassesSelector
 	{
 		$query = "
 			SELECT DISTINCT tst_pass_result.pass FROM tst_pass_result
-			INNER JOIN tst_test_result
+			LEFT JOIN tst_test_result
 			ON tst_pass_result.pass = tst_test_result.pass
 			AND tst_pass_result.active_fi = tst_test_result.active_fi
 			WHERE tst_pass_result.active_fi = %s

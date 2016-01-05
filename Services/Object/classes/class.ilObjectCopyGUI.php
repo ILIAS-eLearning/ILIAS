@@ -473,7 +473,7 @@ class ilObjectCopyGUI
 			foreach((array) $this->getTargets() as $target_ref_id)
 			{
 				$target_type = ilObject::_lookupType($target_ref_id, TRUE);
-				$target_class_name = ilObjectFactory::getClassByType($taget_type);
+				$target_class_name = ilObjectFactory::getClassByType($target_type);
 				$target_object = new $target_class_name($target_ref_id);
 				$possible_subtypes = $target_object->getPossibleSubObjects();
 
@@ -787,7 +787,7 @@ class ilObjectCopyGUI
 			foreach((array) $this->getTargets() as $target_ref_id)
 			{
 				$target_type = ilObject::_lookupType($target_ref_id, TRUE);
-				$target_class_name = ilObjectFactory::getClassByType($taget_type);
+				$target_class_name = ilObjectFactory::getClassByType($target_type);
 				$target_object = new $target_class_name($target_ref_id);
 				$possible_subtypes = $target_object->getPossibleSubObjects();
 

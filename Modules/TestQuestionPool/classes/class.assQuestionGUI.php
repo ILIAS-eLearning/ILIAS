@@ -464,7 +464,9 @@ abstract class assQuestionGUI
 		if(strlen($return_to_feedback))
 		{
 			$this->ctrl->setParameter($this, 'return_to_fb', 'true');
-		}	
+		}
+
+		$this->ctrl->saveParameter($this, 'test_express_mode');
 		
 		$template = new ilTemplate("tpl.il_as_qpl_sync_original.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$template->setVariable("BUTTON_YES", $this->lng->txt("yes"));
@@ -503,7 +505,15 @@ abstract class assQuestionGUI
 				ilUtil::redirect(ilLink::_getLink($ref_id));
 			}
 			$_GET["ref_id"] = $_GET["calling_test"];
-			ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
+			
+			if($_REQUEST['test_express_mode'])
+			{
+				ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
+			}
+			else
+			{
+				ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
+			}
 		}
 	}
 
@@ -531,7 +541,15 @@ abstract class assQuestionGUI
 				ilUtil::redirect(ilLink::_getLink($ref_id));
 			}
 			$_GET["ref_id"] = $_GET["calling_test"];
-			ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
+
+			if($_REQUEST['test_express_mode'])
+			{
+				ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
+			}
+			else
+			{
+				ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
+			}
 		}
 	}
 	
@@ -725,6 +743,7 @@ abstract class assQuestionGUI
 			if(($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int)$_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
 				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+				$this->ctrl->setParameter($this, 'test_express_mode', $_REQUEST['test_express_mode']);
 				$this->ctrl->redirect($this, "originalSyncForm");
 				return;
 			}
@@ -1132,11 +1151,6 @@ abstract class assQuestionGUI
 	*/
 	function getAnswerFeedbackOutput($active_id, $pass)
 	{
-		if( $this->isTestPresentationContext() )
-		{
-			return '';
-		}
-		
 		return $this->getGenericFeedbackOutput($active_id, $pass);
 	}
 

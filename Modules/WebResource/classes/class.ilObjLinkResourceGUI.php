@@ -1442,8 +1442,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
-		// output locator
-		$this->__setLocator();
+		$this->tpl->setLocator();
 
 		// output message
 		if ($this->message)
@@ -1455,71 +1454,16 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		ilUtil::infoPanel();;
 	}
 
-	function __setLocator()
+	function addLocatorItems()
 	{
-		global $tree;
-		global $lng, $ilCtrl;
+		global $ilLocator;
 
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
-
-		$counter = 0;
-		
-		//$this->tpl->touchBlock('locator_separator');
-		//$this->tpl->touchBlock('locator_item');
-		
-		foreach ($tree->getPathFull($this->object->getRefId()) as $key => $row)
+		if (is_object($this->object))
 		{
-			
-			//if ($row["child"] == $tree->getRootId())
-			//{
-			//	continue;
-			//}
-			
-			if($counter++)
-			{
-				$this->tpl->touchBlock('locator_separator_prefix');
-			}
-
-			if ($row["child"] > 0)
-			{
-				$this->tpl->setCurrentBlock("locator_img");
-				$this->tpl->setVariable("IMG_SRC",
-					ilUtil::getImagePath("icon_".$row["type"].".svg"));
-				$this->tpl->setVariable("IMG_ALT",
-					$lng->txt("obj_".$type));
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("locator_item");
-
-			if($row["type"] == 'webr')
-			{
-				$this->tpl->setVariable("ITEM",$this->object->getTitle());
-				$this->tpl->setVariable("LINK_ITEM",$this->ctrl->getLinkTarget($this));
-			}
-			elseif ($row["child"] != $tree->getRootId())
-			{
-				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $row["child"]);
-				$this->tpl->setVariable("ITEM", $row["title"]);
-				$this->tpl->setVariable("LINK_ITEM",
-					$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
-			}
-			else
-			{
-				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $row["child"]);
-				$this->tpl->setVariable("ITEM", $this->lng->txt("repository"));
-				$this->tpl->setVariable("LINK_ITEM",
-					$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
-			}
-			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
-
-			$this->tpl->parseCurrentBlock();
+			$ilLocator->addItem($this->object->getTitle(),$this->ctrl->getLinkTarget($this),"",$this->object->getRefId(), "webr");
 		}
-
-		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
-		$this->tpl->parseCurrentBlock();
 	}
-	
+
 	protected function handleSubItemLinks($a_target)
 	{
 		// #15647 - handle internal links

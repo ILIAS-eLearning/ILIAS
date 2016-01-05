@@ -278,7 +278,7 @@ class ilBuddySystemGUI
 			$relation = $this->buddylist->getRelationByUserId($usr_id);
 
 			// The ILIAS JF decided to add a new personal setting 
-			if($relation->isUnlinked() && !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUserId(), 'buddy_allow_to_contact_me')))
+			if($relation->isUnlinked() && !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUserId(), 'bs_allow_to_contact_me')))
 			{
 				throw new ilException("The requested user does not want to get contact requests");
 			}

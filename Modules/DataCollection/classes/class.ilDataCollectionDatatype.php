@@ -46,7 +46,7 @@ class ilDataCollectionDatatype {
 	const INPUTFORMAT_FORMULA = 11;
 	const INPUTFORMAT_NON_EDITABLE_VALUE = 12;
 	const LINK_MAX_LENGTH = 40;
-	public static $mob_suffixes = array( 'jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv' );
+	public static $mob_suffixes = array('jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv');
 	/**
 	 * @var int
 	 */
@@ -247,16 +247,16 @@ class ilDataCollectionDatatype {
 						$input->setMaxLength($field->getLength());
 					}
 				}
-                $properties = $field->getProperties();
-                if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
-                    $input->setInfo($lng->txt('dcl_text_email_detail_desc'));
-					$title_field = new ilTextInputGUI($lng->txt('dcl_text_email_title'), 'field_'.$field->getId().'_title');
+				$properties = $field->getProperties();
+				if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
+					$input->setInfo($lng->txt('dcl_text_email_detail_desc'));
+					$title_field = new ilTextInputGUI($lng->txt('dcl_text_email_title'), 'field_' . $field->getId() . '_title');
 					$title_field->setInfo($lng->txt('dcl_text_email_title_info'));
 					$input->addSubItem($title_field);
-                }
+				}
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
-				$input = new ilTextInputGUI($title, 'field_' . $field->getId());
+				$input = new ilNumberInputGUI($title, 'field_' . $field->getId());
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN:
 				$input = new ilDclCheckboxInputGUI($title, 'field_' . $field->getId());
@@ -273,6 +273,8 @@ class ilDataCollectionDatatype {
 					$input = new ilSelectInputGUI($title, 'field_' . $field->getId());
 				} else {
 					$input = new ilMultiSelectInputGUI($title, 'field_' . $field->getId());
+					$input->setWidth(100);
+					$input->setWidthUnit('%');
 				}
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
@@ -290,10 +292,10 @@ class ilDataCollectionDatatype {
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_FORMULA:
 				$input = new ilTextInputGUI($title, 'field_' . $field->getId());
-                $input->setDisabled(true);
-                $input->setValue('-');
-                $input->setInfo($lng->txt('dcl_formula_detail_desc'));
-                break;
+				$input->setDisabled(true);
+				$input->setValue('-');
+				$input->setInfo($lng->txt('dcl_formula_detail_desc'));
+				break;
 		}
 		if ($field->getDescription() && $input !== NULL) {
 			$input->setInfo($field->getDescription() . ($input->getInfo() ? "<br>" . $input->getInfo() : ""));
@@ -354,12 +356,12 @@ class ilDataCollectionDatatype {
 				}
 				// Sort by values ASC
 				asort($options);
-				$options = array( '' => $lng->txt('dcl_any') ) + $options;
+				$options = array('' => $lng->txt('dcl_any')) + $options;
 				$input->setOptions($options);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
 				$input = $table->addFilterItemByMetaType("filter_" . $field->getId(), ilTable2GUI::FILTER_SELECT, false, $field->getId());
-				$options = array( "" => $lng->txt("dcl_any"), 1 => ">1", 2 => ">2", 3 => ">3", 4 => ">4", 5 => "5" );
+				$options = array("" => $lng->txt("dcl_any"), 1 => ">1", 2 => ">2", 3 => ">3", 4 => ">4", 5 => "5");
 				$input->setOptions($options);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_MOB:
@@ -382,7 +384,7 @@ class ilDataCollectionDatatype {
 				}
 				// Sort by values ASC
 				asort($options);
-				$options = array( '' => $lng->txt('dcl_any') ) + $options;
+				$options = array('' => $lng->txt('dcl_any')) + $options;
 				$input->setOptions($options);
 				break;
 		}
@@ -397,7 +399,7 @@ class ilDataCollectionDatatype {
 
 	/**
 	 * @param ilDataCollectionRecord $record
-	 * @param ilDataCollectionField  $field
+	 * @param ilDataCollectionField $field
 	 * @param                        $filter
 	 *
 	 * @return bool
@@ -514,7 +516,7 @@ class ilDataCollectionDatatype {
 				$return = $record_field->getValue();
 			}
 		} elseif ($this->id == ilDataCollectionDatatype::INPUTFORMAT_MOB) {
-			if ($value == - 1) //marked for deletion.
+			if ($value == -1) //marked for deletion.
 			{
 				return 0;
 			}
@@ -551,7 +553,7 @@ class ilDataCollectionDatatype {
 							//resize proportional
 							if (!$new_height || !$new_width) {
 								$format = ilObjMediaObject::getMimeType($file);
-								$wh = ilObjMediaObject::_determineWidthHeight("", "", $format, "File", $file, "", true, false, $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH], (int)$arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]);
+								$wh = ilObjMediaObject::_determineWidthHeight($format, "File", $file, "", true, false, $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH], (int)$arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]);
 							} else {
 								$wh['width'] = (int)$arr_properties[ilDataCollectionField::PROPERTYID_WIDTH];
 								$wh['height'] = (int)$arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT];
@@ -704,7 +706,10 @@ class ilDataCollectionDatatype {
 
 		switch ($this->id) {
 			case self::INPUTFORMAT_DATETIME:
+				$format = ilDatePresentation::useRelativeDates();
+				ilDatePresentation::setUseRelativeDates(false);
 				$html = ilDatePresentation::formatDate(new ilDate($value, IL_CAL_DATETIME));
+				ilDatePresentation::setUseRelativeDates($format);
 				break;
 
 			case self::INPUTFORMAT_FILE:
@@ -752,7 +757,7 @@ class ilDataCollectionDatatype {
 				$arr_properties = $record_field->getField()->getProperties();
 				$is_linked_field = $arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_MOB];
 				$has_view = ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId());
-				if (in_array($med->getSuffix(), array( 'jpg', 'jpeg', 'png', 'gif' ))) {
+				if (in_array($med->getSuffix(), array('jpg', 'jpeg', 'png', 'gif'))) {
 					// Image
 					$dir = ilObjMediaObject::_getDirectory($mob->getId());
 					$width = (int)$arr_properties[ilDataCollectionField::PROPERTYID_WIDTH];
@@ -806,9 +811,9 @@ class ilDataCollectionDatatype {
 						$link_value = $this->shortenLink($value);
 					}
 
-                    if (substr($link, 0, 3) === 'www') {
-                        $link = 'http://' . $link;
-                    }
+					if (substr($link, 0, 3) === 'www') {
+						$link = 'http://' . $link;
+					}
 					if (preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i", $link)) {
 						$link = "mailto:" . $link;
 					} elseif (!(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $link))) {
@@ -860,7 +865,7 @@ class ilDataCollectionDatatype {
 		if (strlen($value) > self::LINK_MAX_LENGTH) {
 			$link = substr($value, 0, (self::LINK_MAX_LENGTH - 3) / 2);
 			$link .= "...";
-			$link .= substr($value, - (self::LINK_MAX_LENGTH - 3) / 2);
+			$link .= substr($value, -(self::LINK_MAX_LENGTH - 3) / 2);
 		}
 
 		return $link;
@@ -882,7 +887,7 @@ class ilDataCollectionDatatype {
 				}
 				//$datetime = new DateTime();
 				$input = array(
-					"date" => substr($value, 0, - 9),
+					"date" => substr($value, 0, -9),
 					"time" => "00:00:00"
 				);
 				break;

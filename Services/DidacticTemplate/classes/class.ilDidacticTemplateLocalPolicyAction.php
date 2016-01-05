@@ -368,11 +368,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	{
 		global $rbacreview, $rbacadmin;
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': Using role: '.print_r($role,true));
-
-
 		// Add local policy
-
 		if(!$rbacreview->isRoleAssignedToObject($role['obj_id'],$source->getRefId()))
 		{
 			$rbacadmin->assignRoleToFolder($role['obj_id'],$source->getRefId(),'n');
@@ -382,7 +378,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		{
 			case self::TPL_ACTION_UNION:
 
-				$GLOBALS['ilLog']->write(__METHOD__.': Using ilRbacAdmin::copyRolePermissionUnion()');
+				ilLoggerFactory::getLogger('otpl')->info('Using ilRbacAdmin::copyRolePermissionUnion()');
 				$rbacadmin->copyRolePermissionUnion(
 					$role['obj_id'],
 					$role['parent'],
@@ -395,7 +391,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
 			case self::TPL_ACTION_OVERWRITE:
 
-				$GLOBALS['ilLog']->write(__METHOD__.': Using ilRbacAdmin::copyRoleTemplatePermissions()');
+				ilLoggerFactory::getLogger('otpl')->info('Using ilRbacAdmin::copyRoleTemplatePermission()');
 				$rbacadmin->copyRoleTemplatePermissions(
 					$this->getRoleTemplateId(),
 					ROLE_FOLDER_ID,
@@ -407,7 +403,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
 			case self::TPL_ACTION_INTERSECT:
 
-				$GLOBALS['ilLog']->write(__METHOD__.': Using ilRbacAdmin::copyRolePermissionIntersection()');
+				ilLoggerFactory::getLogger('otpl')->info('Using ilRbacAdmin::copyRolePermissionIntersection()');
 				$rbacadmin->copyRolePermissionIntersection(
 					$role['obj_id'],
 					$role['parent'],
@@ -436,13 +432,12 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 	{
 		global $rbacadmin, $rbacreview, $ilDB;
 
-		$GLOBALS['ilLog']->write(__METHOD__.': Reverting policy for role: '.print_r($role,true));
-
+		ilLoggerFactory::getLogger('otpl')->info('Reverting policy for role '. $role['title']);
 		// Local policies can only be reverted for auto generated roles. Otherwise the
 		// original role settings are unknown
 		if(substr($role['title'],0,3) != 'il_')
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Cannot revert local policy for role '. $role['title']);
+			ilLoggerFactory::getLogger('otpl')->warning('Cannot revert local policy for role '. $role['title']);
 			return false;
 		}
 

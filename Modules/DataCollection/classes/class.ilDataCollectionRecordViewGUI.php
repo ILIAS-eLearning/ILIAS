@@ -10,6 +10,8 @@ require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordViewV
 require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
 require_once('class.ilDataCollectionRecordEditGUI.php');
 require_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
+require_once("Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php");
+require_once("Modules/DataCollection/classes/class.ilDataCollectionRecordListGUI.php");
 
 /**
  * Class ilDataCollectionRecordViewGUI
@@ -234,7 +236,7 @@ class ilDataCollectionRecordViewGUI {
 		$rctpl->setVariable("CONTENT", $html);
 
 		//Permanent Link
-		$perma_link = new ilPermanentLinkGUI("dcl", $_GET["ref_id"], "_" . $_GET['record_id']);
+		$perma_link = new ilPermanentLinkGUI("dcl", $_GET["ref_id"], "_" . $this->record_obj->getId());
 		$tpl->setVariable('PRMLINK', $perma_link->getHTML());
 
 		// Buttons for previous/next records
@@ -260,7 +262,9 @@ class ilDataCollectionRecordViewGUI {
 			$rctpl->setVariable('EDIT_RECORD_BUTTON', $button->render());
 		}
 
-		// Comments
+//        var_dump($_SESSION['dcl_record_ids']);
+
+        // Comments
 		if ($this->table->getPublicCommentsEnabled()) {
 			$rctpl->setVariable('COMMENTS', $this->renderComments($editComments));
 		}
@@ -336,6 +340,10 @@ class ilDataCollectionRecordViewGUI {
 	 * Find the previous/next record from the current position. Also determine position of current record in whole set.
 	 */
 	protected function determineNextPrevRecords() {
+        if(!isset($_SESSION['dcl_record_ids']) || $_SESSION['dcl_table_id'] != $this->table->getId()) {
+            $this->loadSession();
+        }
+
 		if (isset($_SESSION['dcl_record_ids']) && count($_SESSION['dcl_record_ids'])) {
 			$this->record_ids = $_SESSION['dcl_record_ids'];
 			foreach ($this->record_ids as $k => $recId) {
@@ -402,6 +410,17 @@ class ilDataCollectionRecordViewGUI {
 
 		return $options;
 	}
+
+    /**
+     * If we come from a goto Link we need to build up the session data.
+     */
+    private function loadSession()
+    {
+        // We need the default sorting etc. to dertermine on which position we currently are, thus we instantiate the table gui.
+        $list = new ilDataCollectionRecordListTableGUI(new ilDataCollectionRecordListGUI($this->dcl_gui_object, $this->table->getId()), "listRecords", $this->table);
+        //we then partially load the records. note that this also fills up session data.
+        $this->table->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $list->getLimit(), $list->getOffset(), $list->getFilter());
+    }
 }
 
 ?>

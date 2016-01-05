@@ -20,6 +20,34 @@ class ilDidacticTemplateCopier
 	{
 		$this->tpl_id = $a_tpl_id;
 	}
+	
+	/**
+	 * 
+	 * @param type $a_orig_title
+	 */
+	public static function appendCopyInfo($a_orig_title)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT title FROM didactic_tpl_settings '.
+				'WHERE title = '.$ilDB->quote($a_orig_title,'text');
+		$res = $ilDB->query($query);
+		$num = 0;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			++$num;
+		}
+		if(!$num)
+		{
+			return $a_orig_title;
+		}
+		if($num == 1)
+		{
+			return $a_orig_title.' '.$GLOBALS['lng']->txt('copy_of_suffix');
+		}
+		return $a_orig_title. ' '.sprintf($GLOBALS['lng']->txt('copy_n_of_suffix'),$num);
+	}
+	
 
 	/**
 	 * Get template id

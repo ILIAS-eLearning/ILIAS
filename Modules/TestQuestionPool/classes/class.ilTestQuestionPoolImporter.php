@@ -14,6 +14,11 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
 class ilTestQuestionPoolImporter extends ilXmlImporter
 {
 	/**
+	 * @var ilObjQuestionPool
+	 */
+	private $poolOBJ;
+	
+	/**
 	 * Import XML
 	 *
 	 * @param
@@ -28,9 +33,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
-
 			$newObj->setOnline(true);
-			$newObj->saveToDb();
 		}
 		else if ($new_id = $a_mapping->getMapping('Modules/TestQuestionPool','qpl', "new_id"))
 		{
@@ -58,6 +61,17 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		ilObjQuestionPool::_setImportDirectory($this->getImportDirectory());
+		
+		$newObj->fromXML($xml_file);
+
+		// set another question pool name (if possible)
+		if( isset($_POST["qpl_new"]) && strlen($_POST["qpl_new"]) )
+		{
+			$newObj->setTitle($_POST["qpl_new"]);
+		}
+		
+		$newObj->update();
+		$newObj->saveToDb();
 
 		// FIXME: Copied from ilObjQuestionPoolGUI::importVerifiedFileObject
 		// TODO: move all logic to ilObjQuestionPoolGUI::importVerifiedFile and call 
@@ -105,12 +119,14 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 
 		$a_mapping->addMapping("Modules/TestQuestionPool", "qpl", $a_id, $newObj->getId());
 		ilObjQuestionPool::_setImportDirectory(null);
+		
+		$this->poolOBJ = $newObj;
 	}
 
 	/**
 	 * Final processing
 	 *
-	 * @param
+	 * @param ilImportMapping $a_mapping
 	 * @return
 	 */
 	function finalProcessing($a_mapping)
@@ -131,6 +147,17 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 					foreach($tax_ids as $tid)
 					{
 						ilObjTaxonomy::saveUsage($tid, $new);
+					}
+				}
+				
+				$taxMappings = $a_mapping->getMappingsOfEntity('Services/Taxonomy', 'tax');
+				foreach($taxMappings as $oldTaxId => $newTaxId)
+				{
+					if( $oldTaxId == $this->poolOBJ->getNavTaxonomyId() )
+					{
+						$this->poolOBJ->setNavTaxonomyId($newTaxId);
+						$this->poolOBJ->saveToDb();
+						break;
 					}
 				}
 			}

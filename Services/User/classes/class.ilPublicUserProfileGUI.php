@@ -341,6 +341,16 @@ class ilPublicUserProfileGUI
 		$tpl->setVariable("FIRSTNAME", $first_name);
 		$tpl->setVariable("LASTNAME", $user->getLastName());
 		
+		if($user->getBirthday() &&
+			$this->getPublicPref($user, "public_birthday") == "y")
+		{
+			// #17574
+			$tpl->setCurrentBlock("bday_bl");
+			$tpl->setVariable("TXT_BIRTHDAY", $lng->txt("birthday"));
+			$tpl->setVariable("VAL_BIRTHDAY", ilDatePresentation::formatDate(new ilDate($user->getBirthday(), IL_CAL_DATE)));
+			$tpl->parseCurrentBlock();
+		}
+		
 		if(!$this->offline)
 		{
 			// vcard

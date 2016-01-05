@@ -7,6 +7,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScori
 require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
 require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
+require_once 'Modules/TestQuestionPool/interfaces/interface.ilAssSpecificFeedbackOptionLabelProvider.php';
 
 /**
  * Class for multiple choice tests.
@@ -23,7 +24,7 @@ require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php'
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
+class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider
 {
 	/**
 	 * The given answers of the multiple choice question
@@ -1136,6 +1137,11 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		{
 			return 1;
 		}
+	}
+
+	public function getSpecificFeedbackAllCorrectOptionLabel()
+	{
+		return 'feedback_correct_sc_mc';
 	}
 	
 	/**

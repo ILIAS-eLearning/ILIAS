@@ -34,7 +34,7 @@ class ilMapUtil
 	static $_settings = null;
 
 	const DEFAULT_TILE = "a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org";
-	const DEFAULT_GEOLOCATION = "open.mapquestapi.com";
+	const DEFAULT_GEOLOCATION = null;
 
 	// Settings
 
@@ -105,7 +105,7 @@ class ilMapUtil
 		return self::settings()->get("std_zoom");
 	}
 
-	static function setStdTileServers($a_tile) 
+	static function setStdTileServers($a_tile)
 	{
 		self::settings()->set("std_tile", $a_tile);
 	}
@@ -113,20 +113,12 @@ class ilMapUtil
 	/**
 	 * Returns the tile server to be used in the installation.
 	 *
-	 * If $enforce_custom returns the url found in the settings.
-	 *
-	 * @param	bool		$enforce_custom
 	 * @return	string		tile server url
 	 */
-	static function getStdTileServers($enforce_custom = false) 
+	static function getStdTileServers() 
 	{
 		$std_tile = self::settings()->get("std_tile");	
-
-		if(($enforce_custom || self::getStdUseCustomMapServers()) && $std_tile) {
-			return $std_tile;
-		} else {
-			return self::DEFAULT_TILE;	
-		}
+		return $std_tile ? $std_tile : self::DEFAULT_TILE;
 	}
 	
 
@@ -138,29 +130,12 @@ class ilMapUtil
 	/**
 	 * Returns the reverse geolocation server to be used in the installation.
 	 *
-	 * If $enforce_custom returns the url found in the settings.
-	 *
-	 * @param	bool		$enforce_custom
 	 * @return	string		tile server url
 	 */
-	static function getStdGeolocationServer($enforce_custom = false) 
+	static function getStdGeolocationServer()
 	{
-		$std_geolocation = self::settings()->get("std_geolocation");
-		if(($enforce_custom || self::getStdUseCustomMapServers()) && $std_geolocation) {
-			return $std_geolocation;
-		} else {
-			return self::DEFAULT_GEOLOCATION;
-		}
-	}
-
-	static function setStdUseCustomMapServers($a_bool) 
-	{
-		self::settings()->set("std_use_custom_map_server", $a_bool);
-	}
-	
-	static function getStdUseCustomMapServers() 
-	{
-		return self::settings()->get("std_use_custom_map_server");
+		$std_geoloc = self::settings()->get("std_geolocation");
+		return $std_geoloc ? $std_geoloc : self::DEFAULT_GEOLOCATION;
 	}
 
 	/**

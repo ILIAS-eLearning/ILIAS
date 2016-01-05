@@ -93,7 +93,8 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			$template->setVariable("CANCEL_CMD", 'backFromSummary');
+			require_once 'Modules/Test/classes/class.ilTestPlayerCommands.php';
+			$template->setVariable("CANCEL_CMD", ilTestPlayerCommands::BACK_FROM_FINISHING);
 		}
 
 		$active = $this->object->getActiveIdOfUser($ilUser->getId());
@@ -128,6 +129,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 		);
 		
 		$testevaluationgui = new ilTestEvaluationGUI($this->object);
+		$testevaluationgui->setContextResultPresentation(false);
 		$results_output = $testevaluationgui->getPassListOfAnswers(
 			$results, $active, $this->testSession->getPass(), false, false, false, false, false,
 			$objectivesList, $testResultHeaderLabelBuilder
@@ -163,7 +165,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 			}
 			else
 			{
-				$template->setVariable("CANCEL_CMD_BOTTOM", 'backFromSummary');
+				$template->setVariable("CANCEL_CMD_BOTTOM", ilTestPlayerCommands::BACK_FROM_FINISHING);
 			}
 			$template->setVariable("BUTTON_CONTINUE_BOTTOM", $this->lng->txt("btn_next"));
 			$template->setVariable("BUTTON_BACK_BOTTOM", $this->lng->txt("btn_previous"));

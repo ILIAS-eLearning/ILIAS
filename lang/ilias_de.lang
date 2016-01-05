@@ -760,6 +760,7 @@ assessment#:#tst_skl_level_thresholds_link#:#Kompetenz-Schwellenwerte konfigurie
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Beachten Sie, dass die Kompetenzergebnisse eines einzelnen Tests nur bedingt aussagekräftig sind. Je mehr Informationen zu den einzelnen Kompetenzen gesammelt werden, desto valider die Aussage. Sollten einzelne Kompetenzen keinen Eintrag erhalten haben, standen für diese Kompetenz zu wenig Informationen zur Verfügung.
 assessment#:#locked#:#gesperrt
 assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilnehmers %s von %d auf %d Punkte durch %s
+assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben. Eingabe: '%s'
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.
 assessment#:#log_create_new_test#:#Neuer Test erzeugt
 assessment#:#log_manual_feedback#:#%s hat eine manuelle Bewertung für den Teilnehmer %s und die Frage %s erstellt: %s
@@ -783,7 +784,7 @@ assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdu
 assessment#:#maintenance#:#Wartung
 assessment#:#manscoring#:#Manuelle Bewertung
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
-assessment#:#manscoring_hint#:#Im Test ist mindestens eine Frage enthalten, die manuell bewertet werden muss. Um eine vollständige Bewertung aller Tests zu gewährleisten, darf bis zum Abschluß der manuellen Bewertung kein Zugang der Teilnehmer zu ihren Testergebnissen gewährt werden. Legen Sie daher ein entsprechend spätes Datum für den Zugang zu den Testergebnissen fest.
+assessment#:#manscoring_hint#:#Im Test ist mindestens eine Frage enthalten, die manuell bewertet werden kann. Wenn Sie planen, Testfragen manuell zu bewerten, sollten Sie ein entsprechend spätes Datum für den Zugang der Teilnehmer zu ihren Testergebnissen festlegen, damit Sie vorher die Bewertung noch durchführen können.
 assessment#:#manscoring_none#:#Nicht bewertete Teilnehmer
 assessment#:#manscoring_not_allowed#:#Die manuelle Bewertung wurde für keinen Fragetyp aktiviert. Sie können daher diese Funktion nicht verwenden!
 assessment#:#manscoring_pending#:#Teilweise bewertete Teilnehmer
@@ -1040,11 +1041,11 @@ assessment#:#submit_answer#:#Speichern und weiter
 assessment#:#skip_question#:#Nicht antworten und weiter
 assessment#:#discard_answer#:#Antwort löschen
 assessment#:#discard_answer_confirmation#:#Ihre Antwort wird vollständig und endgültig gelöscht. Zu einem späteren Zeitpunkt können Sie die Frage aber erneut beantworten.<br /><br />Soll Ihre Antwort endgültig gelöscht werden?
-assessment#:#tst_denied_nav_modal_header#:#Entscheidung über Antworten
-assessment#:#tst_denied_nav_modal_text#:#Was soll mit den Antworten dieser Fragen geschehen, die Sie ggfs. bereits gegeben haben?
-assessment#:#tst_denied_nav_modal_save_btn#:#Speichern
-assessment#:#tst_denied_nav_modal_nosave_btn#:#Nicht Speichern
-assessment#:#tst_denied_nav_modal_cancel_btn#:#Abbrechen
+assessment#:#tst_nav_while_edit_modal_header#:#Entscheidung über Antworten
+assessment#:#tst_nav_while_edit_modal_text#:#Was soll mit den Antworten dieser Fragen geschehen, die Sie ggfs. bereits gegeben haben?
+assessment#:#tst_nav_while_edit_modal_save_btn#:#Speichern
+assessment#:#tst_nav_while_edit_modal_nosave_btn#:#Nicht Speichern
+assessment#:#tst_nav_while_edit_modal_cancel_btn#:#Abbrechen
 assessment#:#edit_answer#:#Antwort ändern
 assessment#:#answer_question#:#Frage beantworten
 assessment#:#back_to_objective_container#:#Zurück zum Kurs
@@ -1065,15 +1066,15 @@ assessment#:#search_results#:#Suchergebnisse
 assessment#:#search_roles#:#nach Rollen
 assessment#:#search_term#:#Suchbegriff
 assessment#:#search_users#:#nach Benutzern
-assessment#:#tst_instant_feedback_handling#:#Antworten festschreiben
+assessment#:#tst_instant_feedback_handling#:#Antworten nach Rückmeldung festschreiben
 assessment#:#tst_instant_feedback_handling_none#:#Antworten nicht festschreiben
 assessment#:#tst_instant_feedback_handling_none_desc#:#Teilnehmer können ihre Antworten im Rahmen der erlaubten Testdurchläufe ändern.
-assessment#:#tst_instant_feedback_handling_freeze#:#Antworten festschreiben, Rückmeldungen können angefordert werden
+assessment#:#tst_instant_feedback_handling_freeze#:#Antworten festschreiben, wenn Rückmeldung angefordert wird
 assessment#:#tst_instant_feedback_handling_freeze_desc#:#Klicken Teilnehmer auf 'Antwort einreichen', so können sie ihre Antworten danach nicht mehr ändern. Teilnehmer können über einen Button nach Bedarf eine Rückmeldung anfordern. Rückmeldungen werden in der Option 'Direkte Rückmeldung' konfiguriert . <br />
-assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Antworten festschreiben und automatische Rückmeldung
+assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Automatische Rückmeldung und Antwort festschreiben
 assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#Klicken Teilnehmer auf 'Antwort einreichen', so können sie ihre Antworten danach nicht mehr ändern. ILIAS präsentiert sofort die in der Option 'Direkte Rückmeldung' konfigurierte Rückmeldung.
-assessment#:#tst_instant_feedback_handling_force#:#Antworten nicht festschreiben aber automatische Rückmeldung
-assessment#:#tst_instant_feedback_handling_force_desc#:#
+assessment#:#tst_instant_feedback_handling_force#:#Automatische Rückmeldung, aber Antwort nicht festschreiben
+assessment#:#tst_instant_feedback_handling_force_desc#:#Klicken Teilnehmer auf 'Antwort einreichen', so ILIAS präsentiert sofort die in der Option 'Direkte Rückmeldung' konfigurierte Rückmeldung. Teilnehmer können danach ihre Antworten im Rahmen der erlaubten Testdurchläufe ändern.
 assessment#:#see_details_for_further_information#:#Inhalte zur Wiederholung: siehe Fragendetails
 assessment#:#select_an_answer#:#--- Bitte wählen Sie eine Antwort aus ---
 assessment#:#select_gap#:#Auswahl-Lücke
@@ -1163,9 +1164,9 @@ assessment#:#tst_allowed_users#:#Anzahl gleichzeitiger Teilnehmer begrenzen
 assessment#:#tst_allowed_users_time_gap#:#Inaktivitätszeit der Teilnehmer
 assessment#:#tst_already_submitted#:#Der Test wurde bereits beendet und die Antworten abgeschickt.
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
-assessment#:#tst_anonymity#:#Anonymität
-assessment#:#tst_anonymity_anonymous_test#:#Anonymer Test
-assessment#:#tst_anonymity_no_anonymization#:#Keine Anonymisierung
+assessment#:#tst_anonymity#:#Datenschutz
+assessment#:#tst_anonymity_anonymous_test#:#Testergebnisse ohne Namen / Anonymer Test
+assessment#:#tst_anonymity_no_anonymization#:#Testergebnisse mit Namen
 assessment#:#tst_answer_sheet#:#Test und Assessment - Antwortenübersicht
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
@@ -1177,9 +1178,9 @@ assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse w
 assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
 assessment#:#tst_confirm_submit_answers#:#Bitte bestätigen Sie, dass Sie den Test beenden und die gegebenen Antworten abschicken möchten. Nach dem Abschicken gibt es keine Möglichkeit mehr, Anworten einzugeben oder zu korrigieren.
 assessment#:#tst_count_correct_solutions#:#Nur richtige und vollständige Antworten erzielen Punkte
-assessment#:#tst_count_correct_solutions_desc#:#Teilnehmer erhalten entweder die maximale Punktzahl für vollständige und richtige Antworten oder 0 Punkte in allen anderen Fällen.
+assessment#:#tst_count_correct_solutions_desc#:#Teilnehmer erhalten entweder die maximale Punktzahl für vollständige und richtige Antworten oder 0 Punkte in allen anderen Fällen. Dies gilt auch für Fragen, welche Punkte für Teilantworten definieren.
 assessment#:#tst_count_partial_solutions#:#Auch teilweise falsche Antworten erzielen Punkte
-assessment#:#tst_count_partial_solutions_desc#:#Punkte für die korrekt gegebenen Teilantworten einer Frage werden aufsummiert. Es werden also  für auch insgesamt unvollständige oder teilweise falsche Antworten Punkte vergeben.
+assessment#:#tst_count_partial_solutions_desc#:#Sofern eine Frage Punkte für Teilantworten definiert, werden Punkte für die korrekt gegebenen Teilantworten der Frage aufsummiert. Es werden also für auch insgesamt unvollständige oder teilweise falsche Antworten je nach Frage Punkte vergeben.
 assessment#:#tst_default_settings#:#Persönliche Standardeinstellungen
 assessment#:#tst_defaults_applied#:#Die ausgewählten Standardeinstellungen wurden angewendet.
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS konnte die ausgewählten Standardeinstellungen nicht auf diesen Test anwenden! Eventuell enthält dieser Test bereits Teilnehmerdatensätze, die verhindern, dass bestimmte Standardeinstellungen übernommen werden können.
@@ -1422,6 +1423,7 @@ assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung
 assessment#:#tst_results_print_best_solution_info#:#Zusätzlich wird für jede Frage die bestmögliche Lösung angezeigt.
 assessment#:#tst_resume_test#:#Test fortsetzen
 assessment#:#tst_saved_manscoring_successfully#:#Die manuelle Bewertung für Testdurchlauf %s von %s wurde erfolgreich gespeichert.
+assessment#:#tst_saved_manscoring_by_question_successfully#:#Die manuelle Bewertung der Frage %s für Testdurchlauf %s wurde erfolgreich gespeichert.
 assessment#:#tst_save_manscoring_failed#:#Die manuelle Bewertung für Testdurchlauf %s konnte nicht gespeichert werden.
 assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#Die maximale Anzahl von %s Punkt(en) ist überschritten!
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximale Punktezahl für die Frage
@@ -1454,7 +1456,7 @@ assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchl
 assessment#:#tst_sequence_properties#:#Durchführung: Funktionen für Teilnehmer
 assessment#:#tst_final_information#:#Test abschliessen
 assessment#:#tst_session_settings#:#Durchführung
-assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde auf Offline gesetzt, da der Testmodus gewechselt wurde. Sie müssen eine neue Testmodus-bezogene Fragenkonfiguration erstellen, bevor Sie den Test wieder online setzen können.
+assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde offline gesetzt, da sich die Einstellung zur Auswahl der Testfragen geändert hat. Weisen Sie dem Test wieder Fragen zu. Anschließend können Sie den Test wieder online setzen.
 assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#Der Test konnte nicht auf online gesetzt werden, da der Testmodus gewechselt wurde. Sie müssen eine neue Testmodus-bezogene Fragenkonfiguration erstellen, bevor Sie den Test wieder online setzen können.
 assessment#:#tst_settings_template#:#Vorlage
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
@@ -1615,7 +1617,7 @@ assessment#:#tst_question_set_type_random#:#Zufällige Fragenauswahl
 assessment#:#tst_question_set_type_random_desc#:#Jedem Teilnehmer werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
 assessment#:#tst_question_set_type_dynamic#:#Wiedervorlagenmodus - alle Fragen eines Fragenpools
 assessment#:#tst_question_set_type_dynamic_desc#:#Allen Teilnehmern werden nach und nach alle Fragen aus einem definierten Fragenpool gestellt. Falsch beantwortete Fragen legt ILIAS erneut vor. Auch Fragen bereits laufender Tests können hinzugefügt oder geändert werden.
-assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Sie sind im Begriff den Test-Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test-Modus-abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen, wenn Sie den Test-Modus ändern.
+assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Wenn Sie die Auswahl der Testfragen von <b>%s</b> auf <b>%s</b> ändern, geht die aktuelle Fragenzuordnung verloren. Sie müssen dann für die neue Konfiguration erneut Fragen zuordnen bzw. den Fragenpool entsprechend konfigurieren.<br />Klicken Sie auf <b>Bestätigen</b>, um die neue Einstellung zu verwenden, oder wählen Sie <b>Abbrechen</b>, wenn die aktuell eingestellte Auswahl der Testfragen beibehalten werden soll.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenauswahl wurde geändert.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
 assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#Die Konfiguration für die zufällige Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
@@ -1690,7 +1692,8 @@ assessment#:#tst_test_result#:#Testergebnis
 assessment#:#feedback_setting#:#Modus
 assessment#:#feedback_all#:#Zeige Rückmeldungen zu allen Antwortmöglichkeiten.
 assessment#:#feedback_checked#:#Zeige Rückmeldungen zu ausgewählten Antworten des Teilnehmers.
-assessment#:#feedback_correct#:#Zeige Rückmeldung für richtige Antworten (richtige Antworten sind solche, für die es positive Punkte gibt).
+assessment#:#feedback_correct_sc_mc#:#Zeige Rückmeldung für richtige Antworten (richtige Antworten sind solche, für die es bei Auswahl positive Punkte gibt).
+assessment#:#feedback_correct_kprim#:#Zeige Rückmeldung für korrekte Antworten (korrekte Antworten sind solche, bei denen die positive Option zu wählen ist).
 assessment#:#tst_add_quest_cont_edit_mode#:#Bearbeitungsmodus für zusätzliche Frageninhalte
 assessment#:#tst_add_quest_cont_edit_mode_default#:#Standard-Bearbeitungsmodus für zusätzliche Frageninhalte
 assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Bearbeitung zusätzlicher Frageninhalte mit dem ILIAS-Seiteneditor
@@ -2151,9 +2154,9 @@ chatroom#:#chat_connection_established#:#+++ <b>#username#</b> hat den Chatraum 
 chatroom#:#chat_create_new_private_room#:#Neues Séparée anlegen
 chatroom#:#chat_create_private_room_button#:#Séparée anlegen
 chatroom#:#chat_delete#:#Löschen
-chatroom#:#chat_invitation#:#Einladung von [INVITER_NAME] in den Chatraum [ROOM_NAME]
+chatroom#:#chat_invitation#:#"[INVITER_NAME]" lädt ein in Chatraum "[ROOM_NAME]"
 chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nSie wurden in einen Chatraum eingeladen:\nTitel des Chatraums: [ROOM_NAME]\nEingeladen von: [INVITER_NAME]\nURL: [LINK]\n\nZum Betreten des Chatraums folgen Sie bitte der angegebenen URL.
-chatroom#:#chat_invitation_short#:#Klicken Sie auf den Titel um den Chatraum zu betreten.
+chatroom#:#chat_invitation_short#:#Klicken Sie auf den Titel, um den Chatraum zu betreten.
 chatroom#:#chat_invite#:#Einladen
 chatroom#:#chat_invite_users#:#Benutzer einladen
 chatroom#:#chat_join#:#Betreten
@@ -3126,7 +3129,7 @@ common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaScript-Editor für
 common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
 common#:#enable_registration#:#Registrierung von Benutzerkonten zulassen
 common#:#enable_sahs_protocol_data#:#Protokolldaten aktivieren
-common#:#enable_sahs_protocol_data_desc#:#Anzeige der Protokolldaten (SCORM/AICC)
+common#:#enable_sahs_protocol_data_desc#:#Anzeige der Protokolldaten (SCORM)
 common#:#enable_search_engine#:#Öffentlichen Bereich für Suchmaschinen (z.B. Google) freigeben.<br />Bitte beachten Sie, dass für diese Einstellung das Apache-Modul "rewrite" benötigt wird, und dass .htaccess-Konfigurationen genutzt werden müssen.
 common#:#enable_trash#:#Papierkorb verwenden
 common#:#enable_trash_info#:#Wenn aktiviert, werden gelöschte Objekte in den Papierkorb verschoben und können später wieder hergestellt werden. Ist der Papierkorb deaktiviert, werden gelöschte Objekte unwiderruflich aus dem System entfernt!
@@ -3148,7 +3151,7 @@ common#:#err_check_input#:#Die Einstellungen konnten nicht gespeichert werden. B
 common#:#err_count_param#:#Grund: Falsche Parameteranzahl
 common#:#err_enter_current_passwd#:#Bitte geben Sie Ihr momentanes Passwort an!
 common#:#err_in_line#:#Fehler in Zeile
-common#:#err_inactive#:#Dieser Benutzer ist noch nicht aktiviert worden. Bitte kontaktieren Sie den Systemadministrator.
+common#:#err_inactive#:#Dieses Benutzerkonto ist nicht aktiv bzw. noch nicht aktiviert worden. Bitte kontaktieren Sie den Technischen Support (siehe Link unten) für weitere Unterstützung.
 common#:#err_invalid_port#:#Ungültige Portnummer
 common#:#err_ldap_auth_failed#:#Benutzer konnte nicht authentifiziert werden! Bitte überprüfen Sie, ob ILIAS- und LDAP-Passwort übereinstimmen
 common#:#err_ldap_connect_failed#:#Verbindung zum LDAP-Server fehlgeschlagen! Bitte überprüfen Sie Serveradresse und Port
@@ -3672,7 +3675,7 @@ common#:#import_lm#:#ILIAS-Lernmodul importieren
 common#:#import_qpl#:#Fragenpool für Tests importieren
 common#:#import_questions_into_qpl#:#Frage(n) in den Fragenpool importieren
 common#:#import_root_user#:#Root Benutzer importieren
-common#:#import_sahs#:#SCORM/AICC-Lernmodul importieren
+common#:#import_sahs#:#SCORM-Lernmodul importieren
 common#:#import_spl#:#Fragenpool für Umfragen importieren
 common#:#import_svy#:#Umfrage importieren
 common#:#import_tst#:#Test importieren
@@ -4221,6 +4224,7 @@ common#:#no_date#:#Kein Datum
 common#:#no_description#:#Keine Beschreibung
 common#:#no_frm_in_personal_list#:#Es sind keine Foren abonniert.
 common#:#no_global_role_left#:#Jeder Benutzer muss mindestens einer globalen Rolle zugeordnet sein.
+common#:#user_not_found_to_delete#:#Ein Benutzer, der gelöscht werden sollte, konnte nicht gefunden werden.
 common#:#no_grp_in_personal_list#:#Es sind keine Gruppen abonniert.
 common#:#no_import_available#:#Import nicht verfügbar für Typ
 common#:#no_import_file_found#:#Keine Importdatei gefunden
@@ -4315,8 +4319,8 @@ common#:#obj_exc_duplicate#:#Übung kopieren
 common#:#obj_exc_select#:#-- Bitte wählen Sie eine Übung aus --
 common#:#obj_extt#:#Software von Drittanbietern
 common#:#obj_extt_desc#:#Konfigurieren Sie hier externe Software und Dienste, welche von ILIAS unterstützt werden
-common#:#obj_facs#:#Dateien und Ordner
-common#:#obj_facs_desc#:#Konfigurieren Sie hier den Zugriff auf Dateien und Ordner.
+common#:#obj_facs#:#Dateien
+common#:#obj_facs_desc#:#Einstellungen für Dateien und Dateiverwaltung.
 common#:#obj_feed#:#Webfeed
 common#:#obj_file#:#Datei
 common#:#obj_file_duplicate#:#Datei kopieren
@@ -4382,7 +4386,7 @@ common#:#obj_rolf_local#:#Lokale Rollen
 common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
 common#:#obj_root#:#Magazin - Einstiegsseite
-common#:#obj_sahs#:#Lernmodul SCORM/AICC
+common#:#obj_sahs#:#Lernmodul SCORM
 common#:#obj_sco#:#SCO
 common#:#obj_seas#:#Suche
 common#:#obj_seas_desc#:#Konfigurieren Sie hier die Suche.
@@ -4475,7 +4479,7 @@ common#:#objs_qst#:#Fragen
 common#:#objs_rcrs#:#ECS-Kurs
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rollenvorlagen
-common#:#objs_sahs#:#SCORM/AICC-Lernmodule
+common#:#objs_sahs#:#SCORM-Lernmodule
 common#:#objs_sess#:#Sitzungen
 common#:#objs_spl#:#Fragenpools für Umfragen
 common#:#objs_st#:#Kapitel
@@ -4717,7 +4721,7 @@ common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
 common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
 common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
 common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Ihr Bestätigungslink
-common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten anzugebende E-Mail-Adresse geschickt.
+common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten eingegebende E-Mail-Adresse geschickt.
 common#:#register#:#Registrieren
 common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich zu registrieren (Die mit Stern gekennzeichneten Felder sind Pflichtangaben).
 common#:#registered_since#:#Eingetragen seit
@@ -4840,20 +4844,20 @@ common#:#row#:#Zeile
 common#:#rows#:#Zeilen
 common#:#rte_editor_disabled#:#Ohne Rich-Text-Editor arbeiten
 common#:#rte_editor_enabled#:#Mit Rich-Text-Editor arbeiten
-common#:#sahs#:#Lernmodul SCORM/AICC
-common#:#sahs_added#:#SCORM/AICC-Lernmodul angelegt
-common#:#sahs_create#:#Neues SCORM/AICC-Lernmodul anlegen
-rbac#:#sahs_delete#:#SCORM/AICC-Lernmodul löschen oder verschieben
+common#:#sahs#:#Lernmodul SCORM
+common#:#sahs_added#:#SCORM-Lernmodul angelegt
+common#:#sahs_create#:#Neues SCORM-Lernmodul anlegen
+rbac#:#sahs_delete#:#SCORM-Lernmodul löschen oder verschieben
 rbac#:#sahs_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#sahs_edit_permission#:#Rechteeinstellungen ändern
 common#:#sahs_insert_chap_from_clip#:#Füge Kapitel aus Zwischenablage ein
 common#:#sahs_insert_page_from_clip#:#Füge Seiten aus Zwischenablage ein
 common#:#sahs_insert_sco_from_clip#:#Füge SCOs aus Zwischenablage ein
-common#:#sahs_join#:#SCORM/AICC-Lernmodul abonnieren
-common#:#sahs_leave#:#SCORM/AICC-Lernmodulabonnement aufheben
-rbac#:#sahs_read#:#SCORM/AICC-Lernmodul lesen
-rbac#:#sahs_visible#:#SCORM/AICC-Lernmodul ist sichtbar
-rbac#:#sahs_write#:#Inhalt und Einstellungen des SCORM/AICC-Lernmoduls bearbeiten
+common#:#sahs_join#:#SCORM-Lernmodul abonnieren
+common#:#sahs_leave#:#SCORM-Lernmodulabonnement aufheben
+rbac#:#sahs_read#:#SCORM-Lernmodul lesen
+rbac#:#sahs_visible#:#SCORM-Lernmodul ist sichtbar
+rbac#:#sahs_write#:#Inhalt und Einstellungen des SCORM-Lernmoduls bearbeiten
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
@@ -4870,7 +4874,7 @@ common#:#save_user_related_data#:#Benutzerspezifische Zugriffsdaten speichern
 common#:#saved#:#Gespeichert
 common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#saving#:#Sichert...
-common#:#scorm_add#:#SCORM/AICC-Lernmodul anlegen
+common#:#scorm_add#:#SCORM-Lernmodul anlegen
 common#:#scorm_create_export_file_html#:#Erzeuge Exportdatei (HTML)
 common#:#scorm_create_export_file_iso#:#Erzeuge Exportdatei (ISO for CD-ROM)
 common#:#scorm_create_export_file_pdf#:#Erzeuge Exportdatei (PDF)
@@ -5045,7 +5049,7 @@ common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#sort_inherit_prefix#:#Durch Kurs/Gruppe bestimmt
 common#:#sorting_header#:#Sortierung
 common#:#sorting_info_inherit#:#Wird die Sortierung des übergeordneten Kurses bzw. der Gruppe geändert, ändert sich auch diese Sortierung.
-common#:#sorting_info_manual#:#Die enthaltenen Objekte können in einer gewünschten Reihenfolge angeordnet werden.
+common#:#sorting_info_manual#:#Die enthaltenen Objekte können in einer gewünschten Reihenfolge angeordnet werden. Bitte legen sie zusätzlich fest, wie neue Objekte in eine vorhandene manuelle Reihenfolge einsortiert werden sollen.
 common#:#sorting_info_title#:#Die enthaltenen Objekte werden automatisch nach ihrem Titel sortiert. 
 common#:#sorting_manual_header#:#Manuell
 common#:#sorting_save#:#Sortierung speichern
@@ -5507,7 +5511,7 @@ common#:#with#:#mit
 common#:#wizard_search_list#:#Ihre Suche ergab folgende Ergebnisse. Bitte wählen Sie eines aus.
 common#:#wizard_title_info#:#Bitte geben Sie den Titel des zu kopierenden Objektes ein.
 common#:#write#:#Schreiben
-common#:#wrong_ip_detected#:#Der Zugang zum System wird aufgrund einer falschen Client IP verweigert.<br>Ihre aktuelle IP-Adresse: %s<br>Bitte kontaktieren Sie den Systemadministrator.
+common#:#wrong_ip_detected#:#Der Zugang zum System wird aufgrund einer falschen Client IP verweigert.<br>Ihre aktuelle IP-Adresse: %s<br>Bitte kontaktieren Sie die Technische Betreuung / Systemadministration.
 common#:#year#:#Jahr
 common#:#yearly#:#jährlich
 common#:#years#:#Jahre
@@ -5681,7 +5685,7 @@ content#:#cont_deactivate_js#:#Formularmodus aktivieren
 content#:#cont_deactivate_media#:#Medien deaktivieren
 content#:#cont_deactivate_page#:#Seite deaktivieren
 content#:#cont_deactivated#:#Deaktiviert
-content#:#cont_debug#:#Testwerkzeug bereitsstellen
+content#:#cont_debug#:#Testwerkzeug bereitstellen
 content#:#cont_debug_deactivate#:#Es wird ein Testwerkzeug angezeigt. Es liefert im Präsentationsmodus des SCORM-Lernmoduls Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert. Um das Testwerkzeug aufzurufen, muss der linke Navigationsbaum angezeigt werden.
 content#:#cont_debug_deactivated#:#Hinweis: Das Werkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität ist global für alle Lernmodule deaktiviert.
 content#:#cont_debugpw#:#Zugangspasswort
@@ -5919,6 +5923,7 @@ content#:#cont_insert_verification#:#Zertifikat hinzufügen
 content#:#cont_inst_map_areas#:#Verlinkte Bereiche der Instanz
 content#:#cont_interactions#:#Ergebnisse der Aufgaben speichern
 content#:#cont_interactions_info#:#Die Daten zu Ergebnissen aus Aufgaben (interactions) werden von Lernmodulen meist nur geschrieben und nicht mehr eingelesen. Wenn Sie sicher sind, dass dieses Lernmodul so verfährt, erhöht diese Option die Performanz.
+content#:#cont_interactions_info_12#:#Die Daten zu Ergebnissen aus Aufgaben (interactions) können von SCORM 1.2 Lernmodulen nur geschrieben und nicht mehr eingelesen werden. Diese Option erhöht die Performanz.
 content#:#cont_internal#:#intern
 content#:#cont_internal_link#:#interner Link
 content#:#cont_internal_links#:#Interne Links
@@ -6793,9 +6798,9 @@ crs#:#crs_objective_self_assessment#:#Fragen Einstiegstest
 crs#:#crs_objective_status#:#Lernzielstatus
 crs#:#crs_objective_step#:#Schritt
 crs#:#crs_objective_updated_test#:#Die Änderungen wurden übernommen.
-crs#:#crs_objective_wiz_final#:#Fragen des Qualifizierenden Tests festlegen
-crs#:#crs_objective_wiz_final_info#:#Legen Sie nun die Fragen des Qualifizierenden Tests fest, die das Erreichen des Lernziels überprüfen sollen.
-crs#:#crs_objective_wiz_final_limit#:#Grenzen des Qualifizierenden Tests festlegen
+crs#:#crs_objective_wiz_final#:#Fragen des  Abschlusstests festlegen
+crs#:#crs_objective_wiz_final_info#:#Legen Sie nun die Fragen des Abschlusstests fest, die das Erreichen des Lernziels überprüfen sollen.
+crs#:#crs_objective_wiz_final_limit#:#Grenzen des Abschlusstests festlegen
 crs#:#crs_objective_wiz_final_limit_info#:#Bitte tragen Sie nun die Punktzahl ein, die ein Kursteilnehmer benötigt, um das Lernziel zu bestehen.
 crs#:#crs_objective_wiz_materials#:#Lerninhalte zuordnen
 crs#:#crs_objective_wiz_materials_info#:#Hier legen Sie fest, welche Lerninhalte zur Bearbeitung des Lernziels empfohlen werden.
@@ -6906,7 +6911,7 @@ crs#:#crs_sortorder#:#Sortierung
 crs#:#crs_sortorder_abo#:#Sortierung
 crs#:#crs_start#:#Start
 crs#:#crs_start_objects#:#Startobjekte
-crs#:#crs_starter_delete_sure#:#Wollen Sie wirklich die folgenden Startobjekte löschen?
+crs#:#crs_starter_delete_sure#:#Wollen Sie wirklich, dass die folgenden Objekte nicht mehr Startobjekte sind?
 crs#:#crs_starter_deleted#:#Die Zuordnung wurde entfernt.
 crs#:#crs_starters_already_assigned#:#Dieses Objekt wurde bereits zugewiesen.
 crs#:#crs_status#:#Status
@@ -10226,9 +10231,13 @@ rbac#:#recf_read#:#Lesezugriff auf Wiederhergestellte Objekte
 rbac#:#recf_visible#:#Verwaltung wiederhergestellter Objekte ist sichtbar
 rbac#:#recf_write#:#Objekte wiederherstellen
 rbac#:#role_block_role#:#Rolle sperren
+rbac#:#role_confirm_block_role#:#Rollen-Status speichern
+rbac#:#role_blocked#:#: <i>Rolle wird gesperrt</i>
+rbac#:#role_unblocked#:#: <i>Sperrung der Rolle wird aufgehoben</i>
 rbac#:#role_block_role_desc#:#Alle Rechte für dieses Objekt und seine Unterobjekte werden weggenommen.
-rbac#:#role_confirm_block_role_header#:#Möchten Sie wirklich die ausgewählten Rollen sperren?
-rbac#:#role_confirm_block_role_info#:#Die folgenden Einstellungsänderungen werden vorgenommen:<br /><br />• Alle Rechte der Rolle für dieses Objekt und die darin enthaltenen Unterobjekte werden entfernt.<br />• Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem <i>Rolle sperren</i> wieder aufgehoben wird.
+rbac#:#role_confirm_block_role_header#:#Möchten Sie wirklich den Status der ausgewählten Rollen ändern?
+rbac#:#role_confirm_block_role_info#:#Für die Aktion "Rolle sperren" werden folgende Aktionen durchgeführt:<br /><br />• Alle Rechte aller blockierten Rollen für dieses Objekt und die darin enthaltenen Unterobjekte werden entfernt.<br />• Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem <i>Rolle sperren</i> wieder aufgehoben wird.
+rbac#:#role_confirm_unblock_role_info#:#Für die Aktion "Rolle sperren" aufheben:<br /><br />• Die lokale Zugriffsregelung wird aufgeboben.<br />• Die Rechte der entsperrten Rolle werden auf Basis der aktuell gültigen Rechtevorgaben (Rollenvorlage) dieser Rolle neu gesetzt. Dies gilt für das aktuelle Objekt und alle seine enthaltenen Unterobjekte.
 rbac#:#rbac_create_book#:#Buchungspool anlegen
 rbac#:#rbac_create_catr#:#Kategorienreferenz anlegen
 rbac#:#rbac_create_chtr#:#Chatraum anlegen
@@ -10246,7 +10255,7 @@ rbac#:#rbac_create_mcst#:#Mediacast anlegen
 rbac#:#rbac_create_mep#:#Medienpool anlegen
 rbac#:#rbac_create_qpl#:#Fragenpool für Tests anlegen
 rbac#:#rbac_create_rcrs#:#ECS-Kurs anlegen
-rbac#:#rbac_create_sahs#:#SCORM/AICC-Lernmodul anlegen
+rbac#:#rbac_create_sahs#:#SCORM-Lernmodul anlegen
 rbac#:#rbac_create_spl#:#Fragenpool für Umfragen anlegen
 rbac#:#rbac_create_svy#:#Umfrage anlegen
 rbac#:#rbac_create_tst#:#Test anlegen
@@ -12151,7 +12160,7 @@ trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
 tstv#:#tstv_create#:#Testzertifikat erstellen
 tstv#:#tstv_create_info#:#Wählen Sie einen Test, für den Sie ein Zertifikat benötigen
 user#:#enable_local_user_administration#:#Lokale Benutzerverwaltung aktivieren
-user#:#enable_local_user_administration_info#:#Wenn aktiviert, können Benutzerzugänge in Kategorien angelegt und verwaltet werden.
+user#:#enable_local_user_administration_info#:#Wenn aktiviert, können Benutzerzugänge in Kategorien und Organisationseinheiten angelegt und verwaltet werden.
 user#:#restrict_user_access#:#Eingeschränkter Zugriff auf Benutzerkonten
 user#:#restrict_user_access_info#:#Aktivieren Sie diese Option nur, wenn Sie den Zugriff auf Benutzerkonten beschränken möchten. Wenn aktiviert, benötigen Benutzer das Recht "Lesezugriff auf Benutzerkonten", um auf lokale Benutzerkonten in Kategorien und auf die globalen Benutzerkonten zugreifen zu können.
 user#:#user_access_limited#:#Zeitlich begrenzt
@@ -12161,7 +12170,7 @@ user#:#user_account_code_generated#:#Erzeugt am
 user#:#user_account_code_generated_all#:#Alle Daten
 user#:#user_account_code_not_valid#:#Der gegebene Code ist ungültig oder wurde bereits benutzt.
 user#:#user_account_code_setting#:#Account-Reaktivierung durch Codes ermöglichen
-user#:#user_account_code_setting_info#:#Benutzer können mithilfe eines Registrierungscodes ihren inaktiven Account reaktieren. Entsprechende Codes für die Verlängerung zeitlich begrenzter Benutzerkonten werden in 'Administration » Authentifizierung / Neuanmeldung » ILIAS-Auth/Selbstregistrierung : Registrierungscodes' erzeugt.
+user#:#user_account_code_setting_info#:#Benutzer können mithilfe eines Registrierungscodes ihren abgelaufenen Account reaktieren. Entsprechende Codes für die Verlängerung zeitlich begrenzter Benutzerkonten werden in 'Administration » Authentifizierung / Neuanmeldung » ILIAS-Auth/Selbstregistrierung : Registrierungscodes' erzeugt. Inaktive Accounts können mit Codes nicht reaktiviert werden.
 user#:#user_account_code_used#:#Verbraucht am
 user#:#user_account_code_valid_until#:#Gültig bis
 user#:#user_account_code_valid_until_dynamic#:#Anzahl Tage
@@ -12198,7 +12207,7 @@ user#:#user_portfolios#:#Portfolios
 user#:#user_portfolios_desc#:#Benutzer können Portfolios anlegen und als Profil verwenden.
 user#:#user_profile_portfolio#:#Wenn Sie ein Portfolio als Ihr Profil nutzen möchten, setzen Sie im Portfolio-Bereich das Attribut "Mein Profil".
 user#:#user_profile_portfolio_selected#:#Sie benutzen momentan ein Portfolio als Ihr Profil. Die Aktivierung erfolgt dort über den Reiter "Freigabe".
-user#:#user_profile_preview#:#Preview
+user#:#user_profile_preview#:#Vorschau
 user#:#user_public_profile_info#:#Bitte wählen Sie aus, welche Daten in Ihrem Profil erscheinen sollen und welche Benutzer es betrachten können.
 user#:#user_save_ordering_and_titles#:#Reihenfolge und Titel speichern
 user#:#user_screen_reader_optimization#:#Screen-Reader-Optimierung
@@ -12352,7 +12361,7 @@ wsp#:#wsp_password_for#:#Passwort für
 wsp#:#wsp_password_protected_resource#:#Passwort-geschützte Ressource
 wsp#:#wsp_password_protected_resource_info#:#Für den Zugang zu dieser Ressource benötigen Sie ein Passwort.
 wsp#:#wsp_permission_add_users#:#Benutzer hinzufügen
-wsp#:#wsp_permission_all_info#:#Diese Objekt ist ohne Registrierung sichtbar.
+wsp#:#wsp_permission_all_info#:#Dieses Objekt ist ohne Registrierung sichtbar.
 wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten Benutzer freigegeben.
 wsp#:#wsp_permission_removed#:#Der Eintrag wurde gelöscht.
 wsp#:#wsp_permissions#:#Freigabe
@@ -12943,7 +12952,7 @@ fm#:#fm_settings_local_info#:#Wenn aktiviert, wird der Dateimanager in einer Zwe
 fm#:#fm_settings_filesize#:#Maximal Upload-Dateigrösse
 fm#:#fm_settings_filesize_info#:#Bitte geben Sie die maximale Upload-Dateigröße in MebiByte an.
 common#:#chat_invite_public_room#:#Öffentlicher Chatraum
-rbac#:#sahs_copy#:#Benutzer kann SCORM/AICC-Lernmodul kopieren
+rbac#:#sahs_copy#:#Benutzer kann SCORM-Lernmodul kopieren
 content#:#cont_LocalFile#:#Likale Datei
 ecs#:#ecs_cms_directory_trees_tbl#:#CMS-Verzeichnisbäume
 ecs#:#ecs_node_mapping_status_1#:#Den gesamten Baum mappen
@@ -14017,6 +14026,7 @@ orgu#:#ext_id#:#Externe ID
 orgu#:#ext_id_updated#:#Die externe ID wurde erfolgreich bearbeitet.n, da die Daten anonymisiert gespeichert werden.
 orgu#:#no_roles#:#Es gibt keine weiteren lokalen Rollen an dieser Stelle.
 orgu#:#local_other_roles#:#Weitere lokale Rollen %s
+orgu#:#not_movable_to_subtree#:#Eine Organisationseinheit kann nicht in ihre eigenen Untereinheiten eingeteilt werden, dies würde eine Schlaufe bilden.
 cld#:#cld_object_added#:#Ein neues Cloud Objekt wurde hinzugefügt
 exc#:#exc_peer_review_deadline#:#Ende des Bewertungszeitraums
 exc#:#exc_peer_review_deadline_info#:#Bis zu diesem Termin können Bewertungen abgegeben werden. Anschließend ist das erhaltene Feedback einsehbar.
@@ -14215,13 +14225,13 @@ bibl#:#bib_default_author#:#Autor
 bibl#:#bib_default_booktitle#:#Titel
 bibl#:#bib_default_chapter#:#Kapitel
 bibl#:#bib_default_edition#:#Auflage
-bibl#:#bib_default_editor#:#Verlag
+bibl#:#bib_default_editor#:#Herausgeber
 bibl#:#bib_default_institution#:#Institution
 bibl#:#bib_default_journal#:#Journal/Zeitschrift
 bibl#:#bib_default_number#:#Nummer
 bibl#:#bib_default_organization#:#Organisation
 bibl#:#bib_default_pages#:#Seiten
-bibl#:#bib_default_publisher#:#Herausgeber
+bibl#:#bib_default_publisher#:#Verlag
 bibl#:#bib_default_title#:#Titel
 bibl#:#bib_default_type#:#Typ
 bibl#:#bib_default_volume#:#Auflage
@@ -14362,7 +14372,7 @@ adve#:#adve_char_selector_settings#:#Zeichenauswahl
 common#:#scorm_login_as_learner_id#:#SCORM 2004: verwende ILIAS-Benutzername als cmi.learner_id
 common#:#scorm_login_as_learner_id_info#:#Lernmodule erhalten den ILIAS-Benutzernamen statt der UserId bei Abfrage von cmi.learner_id.
 content#:#cont_sc_auto_review_2004#:#Daten speichern
-content#:#cont_sc_auto_review_info_2004#:#Wenn Benutzer für ein Kapitel / SCO den ausgewählten Status in einer Bearbeitungssitzung erreicht haben, wird dieser festgeschrieben. Benutzer können den Status auch in späteren Bearbeitungssitzungen nicht mehr ändern. <br />Im seltenen Fall, dass das Lernmodul 'Sequencing & Navigation' gemäß SCORM 2004 nutzt, sollte die Option 'immer (empfohlen)' gewählt werden.<br />
+content#:#cont_sc_auto_review_info_2004#:#Wenn Benutzer für ein Kapitel / SCO einen auszuwählenden Status in einer Bearbeitungssitzung erreicht haben, wird dieser festgeschrieben. Benutzer können den Status auch in späteren Bearbeitungssitzungen nicht mehr ändern. <br />Im seltenen Fall, dass das Lernmodul 'Sequencing & Navigation' gemäß SCORM 2004 nutzt, sollte die Option 'immer (empfohlen)' gewählt werden.
 content#:#cont_sc_auto_review_no#:#immer (empfohlen)
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#nicht speichern ab Status 'vollständig bearbeitet' (sofern nicht 'nicht bestanden') oder 'bestanden' 
 content#:#cont_sc_auto_review_passed#:#nicht speichern ab Status 'bestanden'
@@ -14372,7 +14382,7 @@ content#:#cont_sc_auto_review_completed_and_passed#:#nicht speichern ab Status '
 content#:#cont_sc_auto_review_completed_or_passed#:#nicht speichern ab Status 'vollständig bearbeitet' oder 'bestanden'
 content#:#cont_sc_store_if_previous_score_was_lower#:#nicht speichern wenn der zuvor erzielte Punktestand höher oder gleich war
 content#:#cont_auto_suspend#:#Abruf vorhandener Lernstandsdaten sicherstellen
-content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in unzureichender Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.<br />Unabhängig von der Vorgehensweise des Benutzers beim Beenden des Lernmoduls, etwa durch Schließen des Browser-Fensters, wird die letzte Aktion des Benutzers aufgezeichnet und der Lernstand gespeichert.
+content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in unzureichender Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.
 content#:#cont_check_values_info#:#Das Testwerkzeug prüft die vom SCO geschickten Werte auf Standard-Kompatibilität.<br />Der SCORM-Standard ist sehr genau, was die zu speichernden Daten angeht. Nicht jedes SCORM-Lernmodul ist in seiner Datenausgabe so präzise wie der Standard es eigentlich erfordert. Daher kann das Überprüfen der Werte deaktiviert werden, wenn Sie etwa nur prüfen wollen, ob das Lernmodul in ILIAS lauffähig ist und nicht, ob es genau dem SCORM-Standard entspricht.<br />
 content#:#cont_current_lang#:#Aktuelle Sprache
 content#:#cont_edit_language_version#:#Version bearbeiten
@@ -14891,6 +14901,7 @@ cntr#:#sorting_new_items_position#:#Position neuer Objekte
 cntr#:#sorting_new_items_at_top#:#Oben
 cntr#:#sorting_new_items_at_bottom#:#Unten
 cntr#:#sorting_new_items_order#:#Reihenfolge neuer Objekte
+cntr#:#sorting_new_items_direction#:#Sortierungsrichtung neuer Objekte
 form#:#form_location_radius#:#Umkreis
 form#:#form_location_radius_km#:#km
 content#:#cont_question_stats#:#Statistik
@@ -14979,11 +14990,12 @@ trac#:#trac_mode_questions_info#:#Benutzer, die alle Fragen richtig beantwortet 
 mmbr#:#mmbr_selected_users#:#Ausgewählte Teilnehmer
 mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
 sess#:#sess_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
-sess#:#sess_reg_type#:#Anmeldungsverfahren
+sess#:#sess_reg_type#:#Anmeldeverfahren
 sess#:#sess_reg_direct#:#Direkte Anmeldung
+sess#:#sess_reg_direct_info#:#Benutzer müssen auf „Anmelden“ klicken, wenn Sie an dieser Sitzung teilnehmen möchten.
 sess#:#sess_reg_request#:#Teilnahme beantragen
 sess#:#sess_reg_disabled#:#Keine Anmeldung erforderlich
-sess#:#sess_reg_request_info#:#Eine Aufnahme erfolgt nur, wenn sie durch einen Administrator bestätigt wurde.
+sess#:#sess_reg_request_info#:#Eine Teilnahme an der Sitzung erfordert die Zustimmung durch einen Administrator.
 sess#:#sess_reg_disabled_info#:#Für diesen Sitzungstermin ist eine Anmeldung nicht erforderlich.
 sess#:#sess_reg_max_members_short#:#Begrenzte Teilnehmeranzahl
 sess#:#sess_reg_max_members#:#Maximale Anzahl
@@ -15010,12 +15022,12 @@ crs#:#crs_objective_status_configure#:#Checkliste Kurs
 crs#:#crs_objective_status_settings#:#Kurseinstellungen vornehmen
 crs#:#crs_objective_status_materials#:#Lerninhalte  hinzufügen
 crs#:#crs_objective_status_itest#:#Einstiegstest konfigurieren
-crs#:#crs_objective_status_qtest#:#Qualifizierenden Test konfigurieren
+crs#:#crs_objective_status_qtest#:#Abschlusstest konfigurieren
 crs#:#crs_objective_status_objectives#:#Lernziele konfigurieren
 crs#:#crs_objective_status_start#:#Startobjekte definieren
 crs#:#crs_objective_status_fullfilled#:#OK
 crs#:#crs_objective_action_materials#:#Lerninhalte zuordnen 
-crs#:#crs_objective_action_qtest#:#Fragen des Qualifizierenden Tests festlegen
+crs#:#crs_objective_action_qtest#:#Fragen des Abschlusstests festlegen
 crs#:#crs_objective_action_itest#:#Fragen des Einstiegstests festlegen
 crs#:#crs_loc_qt_visibility#:#Anzeige des Qualifizierenden Tests
 crs#:#crs_loc_qt_visibility_all#:#Qualifizierenden Test über alle Lernziele anzeigen
@@ -15037,9 +15049,9 @@ crs#:#crs_loc_err_no_active_qt#:#Lernziele ohne Qualifizierenden Test vorhanden
 crs#:#crs_loc_err_no_active_lo#:#Kein aktives Lernziel
 content#:#cont_to_focus_return_crs#:#Zurück zum Kurs
 crs#:#crs_loc_learning_objective#:#Lernziel
-crs#:#crs_loc_suggested#:#Bearbeiten Sie die folgenden Materialien.
+crs#:#crs_loc_suggested#:#Bearbeiten Sie bitte die aufgeführten Materialien, um das Lernziel zu erreichen.
 crs#:#crs_loc_itest_info#:#Einstiegstest
-crs#:#crs_loc_qtest_info#:#Qualifizierender Test
+crs#:#crs_loc_qtest_info#:#Abschlusstest
 crs#:#crs_loc_tt_info#:#Sie haben %1$d%% erreicht. Der Test gilt mit %2$d%% als bestanden.
 crs#:#crs_loc_subtab_creation#:#Erstellen
 crs#:#crs_loc_settings_tbl#:#Einstellungen zum Lernziel-orientierten Kurs
@@ -15050,7 +15062,7 @@ crs#:#crs_loc_type_qualified#:#Qualifizierender Test mit Nachtest zu nicht errei
 crs#:#crs_loc_type_practise#:#Freier Lern- und Übungsteil mit Abschlusstest
 crs#:#crs_loc_tab_materials#:#Materialien
 crs#:#crs_loc_tab_itest#:#Einstiegstest
-crs#:#crs_loc_tab_qtest#:#Qualifizierender Test
+crs#:#crs_loc_tab_qtest#:#Abschlusstest
 crs#:#crs_loc_settings_itest_tbl#:#Einstellungen für Einstiegstest
 crs#:#crs_loc_tab_objectives#:#Lernziele
 crs#:#crs_loc_settings_qtest_tbl#:#Einstellungen für Qualifizierenden Test
@@ -15082,7 +15094,7 @@ crs#:#crs_loc_progress_result_itest#:#Ergebnis Einstiegstest
 crs#:#crs_loc_progress_result_qtest#:#Ergebnis
 crs#:#crs_loc_progress_no_result_do_initial#:#Bearbeiten Sie den Einstiegstest
 crs#:#crs_loc_progress_objective_complete#:#Sie haben das Lernziel erreicht.
-crs#:#crs_loc_progress_do_qualifying#:#Bearbeiten Sie nur noch den Qualifizierenden Test
+crs#:#crs_loc_progress_do_qualifying#:#Machen Sie den Qualifizierenden Test, um das Lernziel abzuschließen.
 crs#:#crs_loc_progress_do_qualifying_again#:#Bitte bearbeiten Sie das Lernziel erneut.
 content#:#cont_out_of_focus_message_last_page#:#Sie befinden sich auf der letzten Seite der Inhalte zum aktuellen Lernziel.
 crs#:#crs_loc_err_nr_tries_exceeded#:#Die Anzahl der Testdurchläufe pro Lernziel übersteigt die Anzahl möglicher Testdurchläufe des Qualifizierenden Tests.
@@ -15094,7 +15106,7 @@ crs#:#crs_loc_tst_new_run#:#Neuen Test starten
 crs#:#crs_loc_tst_resume#:#Alten Test fortsetzen
 crs#:#crs_loc_settings_reset#:#Testergebnisse
 crs#:#crs_loc_settings_reset_enable_info#:#Kursmitglieder können die eigenen Testergebnisse löschen, um den Kurs von neuem zu beginnen. Diese Einstellung sollte nur in der Entwicklungsphase des Kurses genutzt werden, um dessen Ablauf leichter zu überprüfen.
-crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und danach den Qualifizierenden Test.
+crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und danach den Abschlusstest.
 ecs#:#ecs_part_settings#:#Einstellungen für Teilnehmer:
 bibl#:#bibl_library_show_in_list#:#Link auch in der Liste anzeigen
 content#:#cont_ie_compatibility#:#Internet Explorer 7 Kompatibilitätsmodus
@@ -15240,10 +15252,10 @@ survey#:#survey_activate_skill_service_info#:#Es wird ein weiterer Reiter 'Kompe
 survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden? Sie können danach Ihre Antworten nicht mehr korrigieren.
 survey#:#survey_execution_exit#:#Zurück zum Magazin
 news#:#news_inactive_private_feed_info#:#Ihr privater Newsfeed ist deaktiviert. Vergeben Sie ein Passwort in den Einstellungen.
-sess#:#sess_mail_sub_dec_sub#:#Ablehnung der Anmeldung für Sitzung "%s"
-sess#:#sess_mail_sub_dec_bod#:#Ihr Aufnahmeantrag für die Sitzung "%s" ist abgelehnt worden.
-sess#:#sess_mail_sub_acc_sub#:#Anmeldung für Sitzung "%s"
-sess#:#sess_mail_sub_acc_bod#:#Sie wurden für den Sitzungstermin "%s" angemeldet.
+sess#:#sess_mail_sub_dec_sub#:#Ablehnung der Teilnahme an Sitzung "%s"
+sess#:#sess_mail_sub_dec_bod#:#Ihr Antrag auf Teilnahme an der Sitzung "%s" ist abgelehnt worden.
+sess#:#sess_mail_sub_acc_sub#:#Teilnahme an Sitzung "%s"
+sess#:#sess_mail_sub_acc_bod#:#Sie wurden für die Teilnahme am Sitzungstermin "%s" zugelassen.
 content#:#cont_notify_on_blocked_users#:#Benachrichtigung über gesperrte Benutzer
 content#:#cont_notify_on_blocked_users_info#:#Sie werden benachrichtigt, sobald Benutzer gesperrt werden, weil sie die maximale Anzahl an Antwortversuchen überschritten haben.
 content#:#cont_user_blocked#:#Gesperrte Benutzer ohne weitere Antwortversuche im Lernmodul "%s".
@@ -15304,7 +15316,7 @@ payment#:#enable_topics_info#:#Wenn aktiviert, können Sie kaufbare Objekte selb
 exc#:#exc_assignment_type#:#Abgabetyp
 trac#:#trac_mode_event_info#:#Tutoren prüfen, welche Teilnehmer an der Sitzung teilgenommen haben, und erfassen die Teilnahme händisch im Reiter 'Sitzungsteilnehmer verwalten'.
 sess#:#sess_lp_preset#:#Lernfortschritt aktivieren
-sess#:#sess_lp_preset_info#:#Den Lernfortschritt für alle anzulegenden Session-Termine aktivieren.
+sess#:#sess_lp_preset_info#:#Den Lernfortschritt für alle anzulegenden Sitzungstermine aktivieren.
 glo#:#glo_copy#:#Glossar kopieren
 form#:#form_open_answer#:#Freitext
 survey#:#survey_access_codes#:#Authentifizierung mit Zugangsschlüsseln
@@ -15477,8 +15489,8 @@ forum#:#file_upload_allowed_fora_desc#:#Wenn "Anhängen von Dateien in ausgewäh
 forum#:#file_upload_allowed_fora#:#Dateien anhängen
 forum#:#file_upload_option_allow#:#Anhängen von Dateien in allen Foren erlauben
 forum#:#file_upload_option_disallow#:#Anhängen von Dateien in ausgewählten Foren erlauben
-forum#:#file_upload_allowed#:#Erlaube das Anhängen von Dateien
-forum#:#allow_file_upload_desc#:#Wenn diese Option aktiviert ist, wird das Anhängen von Dateien in diesem Forum ermöglicht.
+forum#:#file_upload_allowed#:#Dateien anhängen
+forum#:#allow_file_upload_desc#:#Wenn aktiviert, können in diesem Forum Dateien an Forenbeiträge angehängt werden.
 sysc#:#sysc_overview#:#Übersicht
 sysc#:#sysc_groups#:#Systemcheck-Gruppen
 sysc#:#sysc_grp_tree#:#Magazinbaum
@@ -15569,9 +15581,9 @@ forum#:#frm_noti_subject_cens_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" ze
 forum#:#frm_noti_subject_uncens_post#:#Zensur aufgehoben für einen Beitrag im Forum "%1$s" zum Thema "%2$s"
 forum#:#frm_noti_subject_del_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" gelöscht
 search#:#search_show_inactive_user#:#Zeige Inaktive Benutzer
-search#:#search_show_inactive_user_info#:#Inaktive Benutzer werden in der Benutzersuche angezeigt.
+search#:#search_show_inactive_user_info#:#In der Benutzersuche werden auch Benutzer angezeigt, deren Konto nicht aktiv ist.
 search#:#search_show_limited_user#:#Zeige Begrenzte Benutzer
-search#:#search_show_limited_user_info#:#Benutzer mit begrenztem Zugang, die außerhalb ihrer zeitlichen Begrenzung sind werden in der Benutzersuche angezeigt.
+search#:#search_show_limited_user_info#:#In der Benutzersuche werden auch Benutzer mit zeitlichem begrenztem Zugang angezeigt, die entweder noch nicht oder nicht mehr auf ILIAS zugreifen können.
 trac#:#trac_mode_visited_pages#:#Besuchte Seiten
 trac#:#trac_mode_visited_pages_info#:#Benutzer, die alle Seiten des Lernmoduls besucht haben, erhalten automatisch den Status 'Bearbeitet'.
 exc#:#exc_peer_review_given#:#Gegebenes Feedback zeigen
@@ -15666,8 +15678,8 @@ content#:#cont_active_from#:#Aktiv ab
 content#:#cont_active_to#:#Aktiv bis
 pd#:#pd_comments_notification#:#Generelle Benachrichtigung über alle Kommentare
 pd#:#pd_comments_notification_info#:#Kommagetrennte Liste von Benutzeraccounts, welche jeden Kommentar als e-Mail erhalten.
-note#:#note_comment_notification_subject#:#Ein neuer Kommentar wurde hinzugefügt zu "%s".
-note#:#note_comment_notification_subjectc#:#Ein Kommentar wurde geändert in "%s".
+note#:#note_comment_notification_subject#:#Neuer Kommentar in "%s".
+note#:#note_comment_notification_subjectc#:#Geänderter Kommentar in "%s".
 note#:#note_comment_notification_salutation#:#Hallo %s,
 note#:#note_by#:#Von
 note#:#note_comment_notification_link#:#Link
@@ -15703,7 +15715,7 @@ grp#:#reg_grp_min_members#:#Minimale Anzahl
 grp#:#grp_cancellation_end#:#Spätester Gruppenaustritt
 grp#:#grp_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht. Ein Austritt aus der Gruppe ist jetzt nicht mehr möglich.
 sess#:#sess_reg_min_members#:#Minimale Teilnehmeranzahl
-sess#:#sess_reg_min_members_info#:#Eine minimale Zahl an Teilnehmern muss sich registrieren.
+sess#:#sess_reg_min_members_info#:#Eine minimale Zahl an Teilnehmern muss sich anmelden.
 crs#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
 crs#:#mem_cron_min_members_intro#:#Die folgenden Kurse und Gruppen erreichen aktuell nicht die für sie definierte minimale Teilnehmerzahl.
 grp#:#grp_waiting_list_autofill#:#Mit automatischem Aufrücken
@@ -15711,7 +15723,7 @@ grp#:#grp_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 grp#:#grp_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste auf.
 sess#:#sess_reg_waiting_list_none#:#Keine
 sess#:#sess_reg_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
-sess#:#sess_reg_waiting_list_no_autofill_info#:#Ist die maximale Mitgliederanzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
+sess#:#sess_reg_waiting_list_no_autofill_info#:#Ist die maximale Teilnehmeranzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 sess#:#sess_reg_waiting_list_autofill#:#Mit automatischem Aufrücken
 sess#:#sess_reg_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.
 grp#:#grp_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbständig die Gruppenmitgliedschaft beenden.
@@ -15949,8 +15961,8 @@ prg#:#prg_assessment#:#Studienprogrammbewertung
 prg#:#prg_points#:#Punkte
 prg#:#prg_status#:#Status
 prg#:#prg_status_draft#:#Entwurf
-prg#:#prg_status_active#:#aktiv
-prg#:#prg_status_outdated#:#abgelaufen
+prg#:#prg_status_active#:#Aktiv
+prg#:#prg_status_outdated#:#Abgelaufen
 prg#:#prg_status_in_progress#:#In Bearbeitung
 prg#:#prg_status_completed#:#Abgeschlossen
 prg#:#prg_status_accredited#:#Akkreditiert
@@ -16020,7 +16032,6 @@ trac#:#trac_mode_study_programme#:#Studienprogramm abgeschlossen
 trac#:#trac_mode_study_programme_info#:#Das Studienprogramm muss vom Benutzer abgeschlossen sein um den Lernfortschritt "bearbeitet" zu erhalten.
 common#:#manage_members#:#Mitglieder verwalten
 maps#:#maps_use_custom_server#:#Use custom server###30 08 2015 new variable
-maps#:#maps_custom_server_info#:#Activate custom servers to provide tile- and geolocation-data. Multiple inputs should be separated by spaces. Defaults are "%s" for tiles and "%s" for geolocation.###30 08 2015 new variable
 maps#:#maps_tile_server#:#Server for Tiles###30 08 2015 new variable
 maps#:#maps_geolocation_server#:#Server for Reverse Geolocation###30 08 2015 new variable
 mail#:#orphaned_mail_subject#:#Benachrichtigung über verwaiste Mails
@@ -16049,6 +16060,7 @@ wsp#:#wsp_shared_filter_reset_button#:#Suche zurücksetzen
 wsp#:#wsp_shared_filter_button#:#Suche
 wiki#:#wiki_page_title_too_long#:#Die Seite konnte nicht angelegt werden, da der Titel zu lang ist. Bitte wählen Sie einen kürzeren Seitentitel.
 exc#:#exc_direct_submit#:#Abgeben
+membership#:#mem_error_preconditions#:#Die Aufnahme konnte nicht erfolgen, da Vorbedingungen zum Beitritt nicht erfüllt sind.
 export#:#no_file#:#Keine Datei
 content#:#lm_no_download_files#:#Zurzeit stehen keine Download-Dateien zur Verfügung.
 rbac#:#feed_copy#:#Webfeed kopieren
@@ -16096,16 +16108,46 @@ crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Qualifizierender Einstiegst
 crs#:#crs_loc_settings_type_it_none_info#:#Kein Einstiegstest
 crs#:#crs_loc_settings_type_q_all_info#:#Abschlusstest über alle Lernziele
 crs#:#crs_loc_settings_type_q_selected_info#:#Abschlusstest pro Lernziel
-crs#:#crs_visibility_until_info#:#---
-crs#:#crs_registration_limited_info#:#---
-crs#:#crs_subscription_max_members_short_info#:#---
+crs#:#crs_visibility_until_info#:#Der Kurs wird seinen Mitgliedern nur für einen bestimmten Zeitraum angezeigt.
+crs#:#crs_registration_limited_info#:#Mitglieder können dem Kurs nur in einen bestimmten Zeitraum beitreten.
+crs#:#crs_subscription_max_members_short_info#:#Es kann eine minimale bzw. maximale Anzahl von Mitgliedern festgelegt werden. Es kann eine Warteliste eingerichtet werden.
 crs#:#crs_unsubscribe_member_explanation#:#Sie erhalten diese Mail, da Sie die Kursmitgliedschaft des oben genannten Kurses beendet haben.
 rbac#:#prg_read#:#Seiteninhalt des Studienprogramms kann gelesen werden
 sess#:#sess_max_members_needed#:#Für die Warteliste wird eine maximale Anzahl Mitglieder benötigt.
-obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiename unverändert ist. Fehlermeldung:
+obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiname unverändert ist. Fehlermeldung:
 content#:#cont_sqst#:#Frage in Umfrage (Material)
 mmbr#:#info_refuse_sure#:#Sind Sie sicher, dass Sie den/die folgenden Benutzer ablehnen möchten?
 administration#:#adm_user_starting_point_inherit#:#Standard-Einstellungen übernehmen
 administration#:#adm_user_starting_point_inherit_info#:#Es werden die Einstellungen übernommen, wie sie vom Administrator für die ganze Plattform  global aktiviert wurden.
 survey#:#svy_export_format#:#Umfragen exportieren als
 survey#:#svy_fraction_of_selections#:#Anteil an den insgesamt ausgewählten Antwortoptionen
+prg#:#prg_show_programmes_on_pd_always#:#Studienprogramme sind auf dem persönlichen Schreibtisch immer sichtbar.
+prg#:#prg_show_programmes_on_pd_only_read#:#Studienprogramme sind auf dem persönlichen Schreibtisch nur sichtbar, wenn der Lesezugriff möglich ist.
+prg#:#prg_more_objects_without_read_permission#:#Das Studienprogramm beinhaltet weitere Elemente, die Sie aufgrund von fehlenden Rechten nicht einsehen dürfen.
+cmps#:#cmps_uninstall_inactive_confirm#:#Das Plugin "%1$s" ist aktuell nicht aktivierbar ("%2$s"). In diesem Status können Plugins nicht komplett deinstalliert werden. Da nur die Systemintegration entfernt wird, könnten Plugin-eigene Daten zurückbleiben. Möchten Sie mit der teilweisen Deinstallation fortfahren?
+pd#:#pd_enable_comments_del_tutor_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" an einem Objekt können alle darin gemachten Kommentare löschen.
+log#:#log_cache_info#:#Erst wenn eine Nachricht den eingestellten Caching-Level erreicht oder überschreitet, werden innerhalb des aktuellen Server-Requests alle Nachrichten protokolliert, deren Level mindestens dem Log-Level entspricht.
+content#:#cont_ov_preview#:#Die Fragenübersicht funktioniert nicht im Seiteneditor-Kontext. Benutzen Sie stattdessen die Vorschau auf SCO- oder SCORM-Level.
+wiki#:#wiki_copy#:#Wiki kopieren
+mcst#:#mcst_copy#:#Mediacast kopieren
+prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verwalten, da Ihm bereits Mitglieder zugeordnet sind.
+scov#:#scov_create#:#SCORM-Zertifikat erstellen
+scov#:#scov_create_info#:#Wählen Sie ein SCORM-Modul, für das Sie ein Zertifikat benötigen
+administration#:#adm_container#:#Containerobjekte
+administration#:#adm_content_objects#:#Inhaltsobjekte
+administration#:#adm_content_services#:#Content-Services
+administration#:#adm_learning_outcomes#:#Lernergebnisse
+administration#:#adm_maintenance#:#Wartung
+administration#:#adm_user_administration#:#Benutzerverwaltung
+administration#:#adm_user_services#:#Benutzer-Services
+common#:#enter_new_name#:#Bitte geben Sie einen Namen an
+rbac#:#awra_visible#:#Verwaltung der „Wer ist online?“-Anzeige ist sichtbar
+rbac#:#awra_read#:#Lesezugriff auf Verwaltung der „Wer ist online?“-Anzeige
+rbac#:#awra_write#:#Schreibzugriff auf Verwaltung der „Wer ist online?“-Anzeige
+rbac#:#awra_edit_permission#:#Rechteeinstellungen für die Verwaltung der „Wer ist online?“-Anzeige ändern
+rbac#:#svy_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#svy_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
+rbac#:#sess_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
+maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".###23 12 2015 new variable
+maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.###23 12 2015 new variable
+maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.###23 12 2015 new variable

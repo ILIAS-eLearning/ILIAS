@@ -1,6 +1,6 @@
 @import "less/font.less"; 
  /* rtl-review is this font safe for RTL languages? */
- 
+
  /* rtl-review */
 [dir="ltr"] * { direction: ltr; unicode-bidi: embed; } //bidi-override
 [dir="rtl"] * { text-align: right; direction: rtl; unicode-bidi: embed; } //bidi-override
@@ -259,6 +259,11 @@ span.ilAlert {
 
 html, body {
 	height:100%;
+}
+
+/* see bug ILIAS bug #17589 and http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that */
+body{
+	-ms-overflow-style: scrollbar;
 }
 
 #ilAll {
@@ -993,13 +998,13 @@ div.ilHeaderDesc {
 	font-size: 90%;
 	padding: 0;
 	color: lighten(@text-color, 25%);
-	font-family: 'Open Sans Light'
+	font-weight: 300;
 }
 
 div.ilHeaderAlert {
 	font-size: 90%;
 	padding: 0;
-	font-family: 'Open Sans Light';
+	font-weight: 300;
 	color: @brand-warning;
 }
 
@@ -1060,6 +1065,20 @@ footer.ilFooter {
 
 [dir="rtl"] footer.ilFooter {
 	text-align: right;
+}
+
+#devmodeBlock {
+    background-color: white;
+    color: black;
+    border: 1px dashed grey;
+    padding: 10px;
+    margin-top: 25px;
+    table {
+        @media only screen and (max-width: @grid-float-breakpoint-max) {
+            table-layout: fixed;
+            width: 100%;
+        }
+    }
 }
 
 /* ----------------- permanent link  ------------- */

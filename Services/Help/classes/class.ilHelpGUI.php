@@ -375,7 +375,7 @@ class ilHelpGUI
 		global $ilUser, $ilSetting;
 
 		$module_id = (int) $ilSetting->get("help_module");
-		
+
 		if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de")
 		{
 			if (ilSession::get("help_pg") > 0)
@@ -384,7 +384,8 @@ class ilHelpGUI
 			}
 			if ($ilUser->getPref("hide_help_tt"))
 			{
-				$a_tpl->addOnLoadCode("if (il && il.Help) il.Help.switchTooltips();", 3);
+				$a_tpl->addJavascript("./Services/Help/js/ilHelp.js");
+				$a_tpl->addOnLoadCode("if (il && il.Help) {il.Help.switchTooltips();}", 3);
 			}
 		}
 	}

@@ -9,6 +9,9 @@ require_once("./Services/Object/classes/class.ilObject2.php");
  *
  */
 class ilObjStudyProgrammeAdmin extends ilObject2 {
+	const SETTING_VISIBLE_ON_PD = "prgs_visible_on_personal_desktop";
+	const SETTING_VISIBLE_ON_PD_ALLWAYS = "allways";
+	const SETTING_VISIBLE_ON_PD_READ = "read";
 
 	/**
 	 * Constructor

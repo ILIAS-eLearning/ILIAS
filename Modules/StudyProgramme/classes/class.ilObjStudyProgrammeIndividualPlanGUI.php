@@ -148,7 +148,6 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		$changed = false;
 		
 		$changed = $this->updateStatus();
-		$changed = $this->updateRequiredPoints() || $changed;
 		
 		$this->ctrl->setParameter($this, "ass_id", $this->getAssignmentId());
 		if ($changed) {
@@ -179,32 +178,35 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 				$prgrs->markAccredited($this->user->getId());
 				$changed = true;
 			}
+
+			if($cur_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+				$changed = $this->updateRequiredPoints($prgrs_id) || $changed;
+			}
 		}
 		return $changed;
 	}
 	
-	protected function updateRequiredPoints() {
-		$points_updates = $this->getRequiredPointsUpdates();
+	protected function updateRequiredPoints($prgrs_id) {
+		$required_points = $this->getRequiredPointsUpdates($prgrs_id);
 		$changed = false;
-		foreach ($points_updates as $prgrs_id => $required_points) {
-			$prgrs = ilStudyProgrammeUserProgress::getInstanceById($prgrs_id);
-			$cur_status = $prgrs->getStatus();
-			if ($cur_status != ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
-				continue;
-			}
-			$required_points = (int)$required_points;
-			if ($required_points < 0) {
-				$required_points = 0;
-			}
-			
-			if ($required_points == $prgrs->getAmountOfPoints()) {
-				continue;
-			}
-			
-			$prgrs->setRequiredAmountOfPoints($required_points);
-			$changed = true;
+	
+		$prgrs = ilStudyProgrammeUserProgress::getInstanceById($prgrs_id);
+		$cur_status = $prgrs->getStatus();
+		if ($cur_status != ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+			return false;
 		}
-		return $changed;
+		
+		if ($required_points < 0) {
+			$required_points = 0;
+		}
+		
+		if ($required_points == $prgrs->getAmountOfPoints()) {
+			return false;
+		}
+		
+		$prgrs->setRequiredAmountOfPoints($required_points, $this->user->getId());
+		return true;
+		
 	}
 	
 	protected function showSuccessMessage($a_lng_var) {
@@ -220,12 +222,14 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 		return $_POST[$post_var];
 	}
 	
-	protected function getRequiredPointsUpdates() {
+	protected function getRequiredPointsUpdates($prgrs_id) {
 		$post_var = $this->getRequiredPointsPostVarTitle();
 		if (!array_key_exists($post_var, $_POST)) {
 			throw new ilException("Expected array $post_var in POST");
 		}
-		return $_POST[$post_var];
+
+		$post_value = $_POST[$post_var];
+		return (int)$post_value[$prgrs_id];
 	}
 	
 	

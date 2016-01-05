@@ -2729,7 +2729,7 @@ class ilUtil
 			if ($a_allow == "")
 			{
 				$allow_array = array ("b", "i", "strong", "em", "code", "cite",
-					"gap", "sub", "sup", "pre", "strike");
+					"gap", "sub", "sup", "pre", "strike", "bdo");
 			}
 
 			// this currently removes parts of strings like "a <= b"
@@ -2761,7 +2761,7 @@ class ilUtil
 	public static function getSecureTags()
 	{
 		return array("strong", "em", "u", "strike", "ol", "li", "ul", "p", "div",
-			"i", "b", "code", "sup", "sub", "pre", "gap", "a", "img");
+			"i", "b", "code", "sup", "sub", "pre", "gap", "a", "img", "bdo");
 	}
 
 	public static function maskSecureTags($a_str, $allow_array)
@@ -3046,8 +3046,8 @@ class ilUtil
 	{
 		//$a_str = strip_tags($a_str, $a_allow);
 
-		$negativestr = "a,abbr,acronym,address,applet,area,b,base,basefont,".
-			"bdo,big,blockquote,body,br,button,caption,center,cite,code,col,".
+		$negativestr = "a,abbr,acronym,address,applet,area,base,basefont,".
+			"big,blockquote,body,br,button,caption,center,cite,code,col,".
 			"colgroup,dd,del,dfn,dir,div,dl,dt,em,fieldset,font,form,frame,".
 			"frameset,h1,h2,h3,h4,h5,h6,head,hr,html,i,iframe,img,input,ins,isindex,kbd,".
 			"label,legend,li,link,map,menu,meta,noframes,noscript,object,ol,".
@@ -4753,8 +4753,12 @@ class ilUtil
 
 	public static function getFileSizeInfo()
 	{
+		$max_filesize = self::formatBytes(
+			self::getUploadSizeLimitBytes()
+		);
+		
 		global $lng;
-
+		/*
 		// get the value for the maximal uploadable filesize from the php.ini (if available)
 		$umf=get_cfg_var("upload_max_filesize");
 		// get the value for the maximal post data from the php.ini (if available)
@@ -4763,9 +4767,59 @@ class ilUtil
 		// use the smaller one as limit
 		$max_filesize=min($umf, $pms);
 		if (!$max_filesize) $max_filesize=max($umf, $pms);
-
+		*/
 		return $lng->txt("file_notice")." $max_filesize.";
 	 }
+
+	public static function formatBytes($size, $decimals = 0)
+	{
+		$unit = array('', 'K', 'M', 'G', 'T', 'P');
+
+		for($i = 0, $maxUnits = count($unit); $size >= 1024 && $i <= $maxUnits; $i++)
+		{
+			$size /= 1024;
+		}
+
+		return round($size, $decimals).$unit[$i];
+	}	
+	
+	public static function getUploadSizeLimitBytes()
+	{
+		$uploadSizeLimitBytes = min(
+			self::convertPhpIniSizeValueToBytes(ini_get('post_max_size')),
+			self::convertPhpIniSizeValueToBytes(ini_get('upload_max_filesize'))
+		);
+		
+		return $uploadSizeLimitBytes;
+	}
+	
+	public static function convertPhpIniSizeValueToBytes($phpIniSizeValue)
+	{
+		if( is_numeric($phpIniSizeValue) )
+		{
+			return $phpIniSizeValue;
+    	}
+
+		$suffix = substr($phpIniSizeValue, -1);
+		$value = substr($phpIniSizeValue, 0, -1);
+		
+		switch( strtoupper($suffix) )
+		{
+			case 'P':
+				$value *= 1024;
+			case 'T':
+				$value *= 1024;
+			case 'G':
+				$value *= 1024;
+			case 'M':
+				$value *= 1024;
+			case 'K':
+				$value *= 1024;
+				break;
+		}
+		
+		return $value;
+	}
 
     /**
     *  extract ref id from role title, e.g. 893 from 'il_crs_member_893'

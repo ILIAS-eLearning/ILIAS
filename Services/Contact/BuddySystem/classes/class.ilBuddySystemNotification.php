@@ -63,7 +63,7 @@ class ilBuddySystemNotification
 			$notification->setTitleVar('buddy_notification_contact_request', array(), 'buddysystem');
 
 			$bodyParams = array(
-				'SALUTATION'      => ilMail::getSalutation($usr_id, $rcp_lng),
+				'SALUTATION'      => ilMail::getSalutation($user->getId(), $rcp_lng),
 				'BR'              => nl2br("\n"),
 				'APPROVE_REQUEST' => '<a href="' . ilLink::_getStaticLink($this->sender->getId(), 'usr', true, '_contact_approved') . '">' . $rcp_lng->txt('buddy_notification_contact_request_link_osd') . '</a>',
 				'IGNORE_REQUEST'  => '<a href="' . ilLink::_getStaticLink($this->sender->getId(), 'usr', true, '_contact_ignored') . '">' . $rcp_lng->txt('buddy_notification_contact_request_ignore_osd') . '</a>',
@@ -72,7 +72,7 @@ class ilBuddySystemNotification
 			$notification->setShortDescriptionVar('buddy_notification_contact_request_short', $bodyParams, 'buddysystem');
 
 			$bodyParams = array(
-				'SALUTATION'          => ilMail::getSalutation($usr_id, $rcp_lng),
+				'SALUTATION'          => ilMail::getSalutation($user->getId(), $rcp_lng),
 				'BR'                  => "\n",
 				'APPROVE_REQUEST'     => ilLink::_getStaticLink($this->sender->getId(), 'usr', true, '_contact_approved'),
 				'APPROVE_REQUEST_TXT' => $rcp_lng->txt('buddy_notification_contact_request_link'),
@@ -83,7 +83,8 @@ class ilBuddySystemNotification
 			$notification->setLongDescriptionVar('buddy_notification_contact_request_long', $bodyParams, 'buddysystem');
 
 			$notification->setAutoDisable(false);
-			$notification->setValidForSeconds(30);
+			$notification->setValidForSeconds(30 * 60);
+			$notification->setVisibleForSeconds(5);
 			$notification->setIconPath('templates/default/images/icon_usr.svg');
 			$notification->setHandlerParam('mail.sender', ANONYMOUS_USER_ID);
 			$notification->notifyByUsers(array($user->getId()));

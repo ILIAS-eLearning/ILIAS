@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+
 /**
  * this class encapsulates the PHP mail() function.
  * implements CC, Bcc, Priority headers
@@ -45,7 +47,12 @@ class ilMimeMail
 	 * 	paths of attached files
 	 * 	@var array
 	 */
-	var $aattach = array();
+	protected $aattach = array();
+
+	/**
+	 * @var array
+	 */
+	protected $adisplay = array();
 
 	/**
 	 * 	list of message headers
@@ -313,6 +320,11 @@ class ilMimeMail
 	 */
 	function BuildMail()
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
+		global $ilUser;
+
 		require_once './Services/Mail/phpmailer/class.phpmailer.php';
 		$mail = new PHPMailer();
 
@@ -381,12 +393,43 @@ class ilMimeMail
 			}
 		}
 
+		$i = 0;
 		foreach($this->aattach as $attachment)
 		{
-			$mail->AddAttachment($attachment);
+			$name = '';
+			if(isset($this->adisplay[$i]) && strlen($this->adisplay[$i]) > 0)
+			{
+				$name = $this->adisplay[$i];
+			}
+
+			$mail->AddAttachment($attachment, $name);
+			++$i;
 		}
 
-		$mail->Send();
+		ilLoggerFactory::getLogger('mail')->debug(sprintf(
+			"Trying to delegate external external email delivery:" .
+			" Initiated by: " . $ilUser->getLogin() . " (" . $ilUser->getId() . ")" .
+			" | From: " . $this->xheaders['From'] .
+			" | To: " . implode(', ', $this->sendto) .
+			" | CC: " . implode(', ', $this->abcc) .
+			" | BCC: " . implode(', ', $this->acc) .
+			" | Subject: " .$mail->Subject
+		));
+
+		$result = $mail->Send();
+
+		if($result)
+		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				'Successfully delegated external mail delivery'
+			));
+		}
+		else
+		{
+			ilLoggerFactory::getLogger('mail')->debug(sprintf(
+				'Could not deliver external email: ', $mail->ErrorInfo
+			));
+		}
 	}
 
 	/**

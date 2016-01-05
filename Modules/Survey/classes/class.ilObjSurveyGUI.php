@@ -664,38 +664,67 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				else
 				{				
-					$this->object->setEvaluationAccess($_POST["evaluation_access"]);
+					if(!$template_settings["evaluation_access"]["hide"])
+					{
+						$this->object->setEvaluationAccess($_POST["evaluation_access"]);
+					}
 
 					$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
 					if (!$hasDatasets)
-					{
-						$codes = (bool)$_POST["acc_codes"];
-						$anon = ((string)$_POST["anonymization_options"] == "statanon");						
-						if (!$anon)
-						{			
-							if (!$codes)
+					{						
+						$hide_codes = $template_settings["acc_codes"]["hide"];
+						$hide_anon = $template_settings["anonymization_options"]["hide"];						
+						if(!$hide_codes || !$hide_anon)
+						{					
+							$current = $this->object->getAnonymize();
+							
+							// get current setting if property is hidden
+							if(!$hide_codes)
 							{
-								$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_OFF);
+								$codes = (bool)$_POST["acc_codes"];
 							}
 							else
 							{
-								$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL);
+								$codes = ($current == ilObjSurvey::ANONYMIZE_CODE_ALL ||
+									$current == ilObjSurvey::ANONYMIZE_ON);
 							}
+							if(!$hide_anon)
+							{
+								$anon = ((string)$_POST["anonymization_options"] == "statanon");	
+							}
+							else
+							{
+								$anon = ($current == ilObjSurvey::ANONYMIZE_FREEACCESS ||
+									$current == ilObjSurvey::ANONYMIZE_ON);
+							}
+							
+							// parse incoming values
+							if (!$anon)
+							{			
+								if (!$codes)
+								{
+									$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_OFF);
+								}
+								else
+								{
+									$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL);
+								}
+							}
+							else
+							{
+								if ($codes)
+								{
+									$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_ON);
+								}
+								else
+								{
+									$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_FREEACCESS);
+								}
+							}	
+
+							// if settings were changed get rid of existing code
+							unset($_SESSION["anonymous_id"][$this->object->getId()]);
 						}
-						else
-						{
-							if ($codes)
-							{
-								$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_ON);
-							}
-							else
-							{
-								$this->object->setAnonymize(ilObjSurvey::ANONYMIZE_FREEACCESS);
-							}
-						}	
-						
-						// if settings were changed get rid of existing code
-						unset($_SESSION["anonymous_id"][$this->object->getId()]);
 					}
 				}
 

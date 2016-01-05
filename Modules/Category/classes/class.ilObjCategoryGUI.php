@@ -1427,7 +1427,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 								  "cmd" => "assignRoles",
 								  "obj_id" => $_GET['obj_id'],
 								  "cmdClass" => "ilobjcategorygui",
-								  "cmdNode" => $_GET["cmdNode"]));
+								  "cmdNode" => $_GET["cmdNode"],
+								  "baseClass" => "ilRepositoryGUI")
+		);
 		$tbl->setColumnWidth(array("4%","35%","45%","16%"));
 
 		$this->set_unlimited = true;

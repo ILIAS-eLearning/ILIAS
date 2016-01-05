@@ -1166,7 +1166,7 @@ abstract class ilPageObject
 					include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 					$question = assQuestion::_instantiateQuestion($q_id);
 					// check due to #16557
-					if (is_object($question))
+					if (is_object($question) && $question->isComplete())
 					{
 						// check if page for question exists
 						// due to a bug in early 4.2.x version this is possible
@@ -2095,6 +2095,7 @@ abstract class ilPageObject
 		$xpc = xpath_new_context($this->dom);
 		$path = "//Question";
 		$res =& xpath_eval($xpc, $path);
+		$updated = false;
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$qref = $res->nodeset[$i]->get_attribute("QRef");
@@ -2102,9 +2103,12 @@ abstract class ilPageObject
 			if (isset($a_mapping[$qref]))
 			{
 				$res->nodeset[$i]->set_attribute("QRef", "il__qst_".$a_mapping[$qref]["pool"]);
+				$updated = true;
 			}	
 		}
 		unset($xpc);
+
+		return $updated;
 	}
 
 

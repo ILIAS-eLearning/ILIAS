@@ -129,6 +129,10 @@ class ilSCORMPresentationGUI
 				$this->tpl->show("DEFAULT", false);
 			}
 		} else {
+			//WAC
+			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+			ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory().'/imsmanifest.xml');
+
 			$debug = $this->slm->getDebug();
 			if (count($items) > 1
 				|| strtolower(get_class($this->slm)) == "ilobjaicclearningmodule"
@@ -406,7 +410,8 @@ class ilSCORMPresentationGUI
 		$this->tpl->setVariable("ACTION", "ilias.php?baseClass=ilSAHSPresentationGUI&cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
 			"&ref_id=".$this->slm->getRefId()."&scexpand=".$_GET["scexpand"]);
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->show();
+		//BUG 16794? $this->tpl->show();
+		$this->tpl->show("DEFAULT", false);
 	}
 
 
@@ -802,6 +807,9 @@ class ilSCORMPresentationGUI
 
 	function pingSession()
 	{
+		//WAC
+		require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+		ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory().'/imsmanifest.xml');
 		return true;
 	}
 

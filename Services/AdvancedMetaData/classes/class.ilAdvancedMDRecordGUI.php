@@ -343,7 +343,7 @@ class ilAdvancedMDRecordGUI
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 		include_once('Services/ADT/classes/class.ilADTFactory.php');
 								
-		foreach(ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type) as $record_id => $a_values)
+		foreach(ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type, $this->sub_type, $this->sub_id) as $record_id => $a_values)
 		{					
 			// this correctly binds group and definitions
 			$a_values->read();
@@ -435,7 +435,7 @@ class ilAdvancedMDRecordGUI
 		$time->setDisabled($value_start->isDisabled());
 		
 		$mapping = ilECSDataMappingSettings::_getInstance();
-		if($field_id = $mapping->getMappingByECSName('end'))
+		if($field_id = $mapping->getMappingByECSName(0,'end'))
 		{
 			$value_end = ilAdvancedMDValue::_getInstance($this->obj_id,$field_id);
 			
@@ -450,7 +450,7 @@ class ilAdvancedMDRecordGUI
 			$time->addSubItem($duration);
 		}
 
-		if($field_id = $mapping->getMappingByECSName('cycle'))
+		if($field_id = $mapping->getMappingByECSName(0,'cycle'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->obj_id,$field_id);
 			$cycle_def = ilAdvancedMDFieldDefinition::getInstance($field_id);
@@ -474,7 +474,7 @@ class ilAdvancedMDRecordGUI
  					break;
 			}
 		}
-		if($field_id = $mapping->getMappingByECSName('room'))
+		if($field_id = $mapping->getMappingByECSName(0,'room'))
 		{
 			$value = ilAdvancedMDValue::_getInstance($this->obj_id,$field_id);
 			$room_def = ilAdvancedMDFieldDefinition::getInstance($field_id);

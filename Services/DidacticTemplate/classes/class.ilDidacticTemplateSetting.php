@@ -393,6 +393,8 @@ class ilDidacticTemplateSetting
 	public function  __clone()
 	{
 		$this->setId(0);
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateCopier.php';
+		$this->setTitle(ilDidacticTemplateCopier::appendCopyInfo($this->getTitle()));
 		$this->enable(false);
 	}
 }

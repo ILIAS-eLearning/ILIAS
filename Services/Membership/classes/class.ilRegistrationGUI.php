@@ -39,7 +39,10 @@ abstract class ilRegistrationGUI
 	protected $container = null;
 	protected $ref_id;
 	protected $obj_id;
-	
+
+	/**
+	 * @var ilParticipants
+	 */
 	protected $participants;
 	protected $waiting_list = null;
 	protected $form;
@@ -574,7 +577,7 @@ abstract class ilRegistrationGUI
 		{
 			$this->fillRegistrationPeriod();
 		}
-		if($this->isRegistrationPossible())
+		if($this->isRegistrationPossible() || $this->participants->isSubscriber($ilUser->getId()))
 		{
 			$this->fillRegistrationType();
 		}

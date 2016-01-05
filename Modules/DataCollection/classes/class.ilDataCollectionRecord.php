@@ -325,6 +325,7 @@ class ilDataCollectionRecord {
 	 * @param $row
 	 * @param $col
 	 * @param $field ilDataCollectionField
+	 * @return array|string
 	 */
 	public function getRecordFieldValueFromExcel($excel, $row, $col, $field) {
 		$this->loadRecordFields();
@@ -685,7 +686,7 @@ class ilDataCollectionRecord {
 	 * @param $obj_id
 	 */
 	public function deleteMob($obj_id) {
-		if (ilObject2::_lookupObjId($obj_id)) {
+		if (ilObject2::_exists($obj_id)) {
 			$mob = new ilObjMediaObject($obj_id);
 			$mob->delete();
 		}
@@ -744,7 +745,7 @@ class ilDataCollectionRecord {
 
 
 	/**
-	 * @return array
+	 * @return ilDataCollectionRecordField[]
 	 */
 	public function getRecordFields() {
 		$this->loadRecordFields();

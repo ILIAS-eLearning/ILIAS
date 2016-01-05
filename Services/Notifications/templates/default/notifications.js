@@ -8,13 +8,11 @@ var OSDNotifications = function (settings) {
 		settings
 	);
 
-	return function () {
+	return (function () {
 		return new function () {
-			var me = this;
-
-			var lastRequest = 0;
-
-			var items = {};
+			var me = this,
+				lastRequest = 0,
+				items = {};
 
 			$(settings.initialNotifications).each(function () {
 				items['osdNotification_' + this.notification_osd_id] = this;
@@ -33,9 +31,10 @@ var OSDNotifications = function (settings) {
 				$.get(
 					"ilias.php",
 					{
-						baseClass:      'ilObjChatroomGUI',
-						cmd:            'removeOSDNotifications',
-						notification_id:id
+						baseClass:       'ilObjChatroomGUI',
+						cmd:             'removeOSDNotifications',
+						cmdMode:         'asynch',
+						notification_id: id
 					},
 					function (data) {
 						closeNotification($('#osdNotification_' + id));
@@ -47,7 +46,7 @@ var OSDNotifications = function (settings) {
 						}
 					}
 				);
-			}
+			};
 
 			function getParam(params, ns, defaultValue) {
 				if (typeof params == 'undefined')
@@ -63,18 +62,17 @@ var OSDNotifications = function (settings) {
 			}
 
 			function renderItems(data, init) {
-				var currentTime = parseInt(new Date().getTime() / 1000);
-
-				var newItems = false;
+				var currentTime = parseInt(new Date().getTime() / 1000),
+					newItems = false;
 
 				$(data.notifications).each(function () {
 					if (this.type == 'osd_maint') {
 						if (this.data.title == 'deleted') {
 							closeNotification($('#osdNotification_' + this.data.shortDescription));
 						}
-					}
-					else {
+					} else {
 						var id = this.notification_osd_id;
+
 						if ($('#osdNotification_' + id).length == 0 && (this.valid_until > currentTime || this.valid_until == 0)) {
 							newItems = true;
 
@@ -98,12 +96,17 @@ var OSDNotifications = function (settings) {
 
 								});
 							}
+
+							if (this.visible_for != 0) {
+								window.setTimeout(function() {
+									me.removeNotification(id);
+								}, this.visible_for * 1000);
+							}
 						}
 						items['osdNotification_' + this.notification_osd_id] = this;
 					}
 
 					if (!init && settings.playSound && newItems) {
-						//console.log('Ring');
 						var id = 'notification_' + Math.random().toString(36).substr(2, 5);
 						if($.browser.msie)
 						{
@@ -132,9 +135,7 @@ var OSDNotifications = function (settings) {
 				});
 
 				$.each(items, function () {
-					//console.log(this);
 					if (this.valid_until < data.server_time && this.valid_until != 0) {
-
 						closeNotification($('#osdNotification_' + this.notification_osd_id));
 						if (items['osdNotification_' + this.notification_osd_id])
 							delete items['osdNotification_' + this.notification_osd_id];
@@ -148,6 +149,7 @@ var OSDNotifications = function (settings) {
 					{
 						baseClass:'ilObjChatroomGUI',
 						cmd:      'getOSDNotifications',
+						cmdMode:  'asynch',
 						/*
 						 * minus 10 seconds for getting really all messages, even if they
 						 * arrived while processing
@@ -166,13 +168,13 @@ var OSDNotifications = function (settings) {
 					},
 					'json'
 				);
-			}
+			};
 
 			renderItems({notifications:settings.initialNotifications}, true);
 
 			if (settings.pollingIntervall * 1000) {
 				window.setTimeout(me.poll, settings.pollingIntervall * 1000);
 			}
-		}
-	}();
+		};
+	})();
 };

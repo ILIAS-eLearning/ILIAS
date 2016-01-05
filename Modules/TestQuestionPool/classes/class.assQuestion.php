@@ -395,7 +395,7 @@ abstract class assQuestion
 			array('integer','text'),
 			array($questionpool_id, $title)
 		);
-		return ($result->numRows() == 1) ? TRUE : FALSE;
+		return ($result->numRows() > 0) ? TRUE : FALSE;
 	}
 
 	/**
@@ -1946,6 +1946,8 @@ abstract class assQuestion
 			$assignment->deleteFromDb();
 		}
 
+		$this->deleteTaxonomyAssignments();
+		
 		try
 		{
 			// update question count of question pool
@@ -1961,6 +1963,19 @@ abstract class assQuestion
 		$this->notifyQuestionDeleted($this);
 		
 		return true;
+	}
+	
+	private function deleteTaxonomyAssignments()
+	{
+		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+		require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
+		$taxIds = ilObjTaxonomy::getUsageOfObject($this->getObjId());
+		
+		foreach($taxIds as $taxId)
+		{
+			$taxNodeAssignment = new ilTaxNodeAssignment('qpl', $this->getObjId(), 'quest', $taxId);
+			$taxNodeAssignment->deleteAssignmentsOfItem($this->getId());
+		}
 	}
 
 	/**

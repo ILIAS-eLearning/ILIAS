@@ -772,16 +772,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 			}
 		}
 
-		// anonymity
-		$anonymity = new ilRadioGroupInputGUI($this->lng->txt('tst_anonymity'), 'anonymity');
-		if ($this->testOBJ->participantDataExist()) $anonymity->setDisabled(true);
-		$rb = new ilRadioOption($this->lng->txt('tst_anonymity_no_anonymization'), 0);
-		$anonymity->addOption($rb);
-		$rb = new ilRadioOption($this->lng->txt('tst_anonymity_anonymous_test'), 1);
-		$anonymity->addOption($rb);
-		$anonymity->setValue((int)$this->testOBJ->getAnonymity());
-		$form->addItem($anonymity);
-
 		// enable_archiving
 		$enable_archiving = new ilCheckboxInputGUI($this->lng->txt('test_enable_archiving'), 'enable_archiving');
 		$enable_archiving->setInfo($this->lng->txt('test_enable_archiving_desc'));
@@ -800,16 +790,17 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		{
 			if( !$this->isHiddenFormItem('results_tax_filters') && count($this->getAvailableTaxonomyIds()) )
 			{
-				$this->testOBJ->setResultFilterTaxIds( array_intersect(
-					$this->getAvailableTaxonomyIds(), $form->getItemByPostVar('results_tax_filters')->getValue()
-				));
-			}
-		}
+				$taxFilters = array();
+				
+				if( is_array($form->getItemByPostVar('results_tax_filters')->getValue()) )
+				{
+					$taxFilters = array_intersect(
+						$this->getAvailableTaxonomyIds(), $form->getItemByPostVar('results_tax_filters')->getValue()
+					);
+				}
 
-		if( $this->formPropertyExists($form, 'anonymity') )
-		{
-			// anonymity setting
-			$this->testOBJ->setAnonymity($form->getItemByPostVar('anonymity')->getValue());
+				$this->testOBJ->setResultFilterTaxIds($taxFilters);
+			}
 		}
 
 		if( $this->formPropertyExists($form, 'enable_archiving') )
@@ -872,7 +863,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		}
 
 		$mcScoring = $form->getItemByPostVar('mc_scoring');
-		if( is_object($mcScoring) && $mcScoring != $this->testOBJ->getMCScoring() )
+		if( is_object($mcScoring) && $mcScoring->getValue() != $this->testOBJ->getMCScoring() )
 		{
 			return true;
 		}
