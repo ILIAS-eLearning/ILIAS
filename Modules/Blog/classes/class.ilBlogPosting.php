@@ -473,6 +473,84 @@ class ilBlogPosting extends ilPageObject
 		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
 		return ilMDKeyword::lookupKeywords($a_obj_id, $a_posting_id);
 	}	
+		
+	/**
+	 * Handle news item
+	 * 
+	 * @param bool $a_update
+	 */
+	public function handleNews($a_update = false)
+	{		
+		global $lng;
+		
+		// see ilWikiPage::updateNews()
+
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$news_item = null;
+		
+		// try to re-use existing news item		
+		if((bool)$a_update)
+		{
+			// get last news item of the day (if existing)
+			$news_id = ilNewsItem::getLastNewsIdForContext(
+				$this->getBlogId(), 
+				"blog",
+				$this->getId(), 
+				$this->getParentType(), 
+				true
+			);
+			if($news_id > 0)
+			{
+				$news_item = new ilNewsItem($news_id);
+			}
+		}
+		
+		// create new news item
+		if(!$news_item)
+		{						
+			$news_set = new ilSetting("news");
+			$default_visibility = $news_set->get("default_visibility", "users");		
+			
+			$news_item = new ilNewsItem();
+			$news_item->setContext(
+				$this->getBlogId(), 
+				"blog",
+				$this->getId(), 
+				$this->getParentType()
+			);
+			$news_item->setPriority(NEWS_NOTICE);
+			$news_item->setVisibility($default_visibility);
+		}
+		
+		// news author
+		$news_item->setUserId($this->getAuthor());
+		
+		// posting author
+		include_once "Services/User/classes/class.ilUserUtil.php";
+		$news_item->setTitle(sprintf(
+			$lng->txt("blog_news_title"), 
+			$this->getTitle(), 
+			ilUserUtil::getNamePresentation($this->getAuthor())
+		));		
+		
+		$news_item->setContentTextIsLangVar(true);
+		$news_item->setContent($a_update 
+			? "blog_news_posting_updated"
+			: "blog_news_posting_published");	
+		
+		include_once "Modules/Blog/classes/class.ilBlogPostingGUI.php";
+		$snippet = ilBlogPostingGUI::getSnippet($this->getId());
+		$news_item->setContentLong($snippet);
+			
+		if(!$news_item->getId())
+		{
+			$news_item->create();
+		}
+		else
+		{
+			$news_item->update(true);
+		}		
+	}
 }
 
 ?>
