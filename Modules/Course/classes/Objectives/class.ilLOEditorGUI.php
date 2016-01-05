@@ -573,7 +573,7 @@ class ilLOEditorGUI
 		$confirm = new ilConfirmationGUI();
 		$confirm->setHeaderText($this->lng->txt('crs_loc_confirm_delete_tst'));
 		$confirm->setFormAction($this->ctrl->getFormAction($this));
-		$confirm->setConfirm($this->lng->txt('delete'), 'deleteTests');
+		$confirm->setConfirm($this->lng->txt('crs_loc_delete_assignment'), 'deleteTests');
 		$confirm->setCancel($this->lng->txt('cancel'), 'testsOverview');
 		
 		foreach((array) $_REQUEST['tst'] as $assign_id)
@@ -625,7 +625,7 @@ class ilLOEditorGUI
 		$confirm = new ilConfirmationGUI();
 		$confirm->setHeaderText($this->lng->txt('crs_loc_confirm_delete_tst'));
 		$confirm->setFormAction($this->ctrl->getFormAction($this));
-		$confirm->setConfirm($this->lng->txt('delete'), 'deleteTest');
+		$confirm->setConfirm($this->lng->txt('crs_loc_delete_assignment'), 'deleteTest');
 		$confirm->setCancel($this->lng->txt('cancel'), 'testOverview');
 		
 		foreach((array) $_REQUEST['tst'] as $tst_id)
