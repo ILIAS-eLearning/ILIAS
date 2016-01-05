@@ -5,6 +5,11 @@
  */
 class ilNotificationConfig
 {
+	const TTL_LONG  = 1800;
+	const TTL_SHORT = 120;
+
+	const DEFAULT_TTS = 5; 
+
 	/**
 	 * the type of the notification
 	 * @var string
