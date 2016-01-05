@@ -6135,7 +6135,6 @@ crs#:#event_location#:#Location
 crs#:#event_materials#:#Session Materials
 crs#:#event_not_participated#:#Not Participated
 crs#:#event_overview#:#Participation in Sessions
-crs#:#event_participant_selection#:#Participant Selection
 crs#:#event_participated#:#Participated
 crs#:#event_participation#:#Participation
 crs#:#event_register#:#Register
@@ -6149,12 +6148,9 @@ crs#:#event_select_one#:#-- Please select one session --
 crs#:#event_start_date#:#Start
 crs#:#event_table_create#:#New Session
 crs#:#event_table_update#:#Edit Session
-crs#:#event_tbl_admins#:#Administrators
-crs#:#event_tbl_members#:#Members
 crs#:#event_tbl_participants#:#List of Participants
 crs#:#event_tbl_participated#:#Attended
 crs#:#event_tbl_registered#:#Registered
-crs#:#event_tbl_tutors#:#Tutors
 crs#:#event_time#:#Time
 crs#:#event_title#:#Title
 crs#:#event_tutor_data#:#Information About the Lecturer
@@ -16151,3 +16147,11 @@ rbac#:#awra_edit_permission#:#User can change permission settings in ‘Who is o
 rbac#:#svy_read_learning_progress#:#User can view learning progress of other users
 rbac#:#svy_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#sess_edit_learning_progress#:#User can edit learning progress settings
+crs#:#event_user_selection_include_role#:# Include all users with role "%1$s"
+crs#:#event_user_selection_include_waiting_list#:#Include all users on "Waiting List"
+crs#:#event_user_selection_include_requests#:#Include all users on list "Join Requests"
+crs#:#event_user_selection_include_filter#:#Include "%1$s"
+crs#:#event_user_selection#:#Selection of Users
+crs#:#event_tbl_admin#:#Administrator
+crs#:#event_tbl_member#:#Member
+crs#:#event_tbl_tutor#:#Tutor

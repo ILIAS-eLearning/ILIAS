@@ -7063,7 +7063,6 @@ crs#:#event_location#:#Ort
 crs#:#event_materials#:#Materialien zur Sitzung
 crs#:#event_not_participated#:#Nicht teilgenommen
 crs#:#event_overview#:#Teilnahme an Sitzungen
-crs#:#event_participant_selection#:#Teilnehmerauswahl
 crs#:#event_participated#:#Teilgenommen
 crs#:#event_participation#:#Teilnahme
 crs#:#event_register#:#Anmelden
@@ -7077,12 +7076,9 @@ crs#:#event_select_one#:#-- Bitte wählen Sie eine Sitzung zum Kopieren aus --
 crs#:#event_start_date#:#Start
 crs#:#event_table_create#:#Neue Sitzung
 crs#:#event_table_update#:#Sitzung bearbeiten
-crs#:#event_tbl_admins#:#Administratoren
-crs#:#event_tbl_members#:#Mitglieder
 crs#:#event_tbl_participants#:#Teilnehmer der Sitzung
 crs#:#event_tbl_participated#:#Teilgenommen
 crs#:#event_tbl_registered#:#Angemeldet
-crs#:#event_tbl_tutors#:#Tutoren
 crs#:#event_time#:#Uhrzeit
 crs#:#event_title#:#Titel
 crs#:#event_tutor_data#:#Persönliche Daten des/der Vortragenden
@@ -16151,3 +16147,11 @@ rbac#:#sess_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".###23 12 2015 new variable
 maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.###23 12 2015 new variable
 maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.###23 12 2015 new variable
+crs#:#event_user_selection_include_role#:#Binde alle Benutzer der Rolle "%1$s" ein
+crs#:#event_user_selection_include_waiting_list#:#Binde alle Benutzer der "Warteliste" ein
+crs#:#event_user_selection_include_requests#:#Binde alle Benutzer der Liste "Aufnahmeanträge" ein
+crs#:#event_user_selection_include_filter#:#Binde "%1$s" ein
+crs#:#event_user_selection#:#Auswahl von Benutzern
+crs#:#event_tbl_tutor#:#Tutor
+crs#:#event_tbl_admin#:#Administrator
+crs#:#event_tbl_member#:#Mitglied

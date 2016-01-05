@@ -60,16 +60,16 @@ class ilAttendanceList
 			{
 				case 'il_crs_a':
 				case 'il_grp_a':					
-					$this->addRole($role_id, $lng->txt('event_tbl_admins'), 'admin');					
+					$this->addRole($role_id, $lng->txt('event_tbl_admin'), 'admin');
 					break;
 				
 				case 'il_crs_t':					
-					$this->addRole($role_id, $lng->txt('event_tbl_tutors'), 'tutor');					
+					$this->addRole($role_id, $lng->txt('event_tbl_tutor'), 'tutor');
 					break;
 				
 				case 'il_crs_m':
 				case 'il_grp_m':
-					$this->addRole($role_id, $lng->txt('event_tbl_members'), 'member');
+					$this->addRole($role_id, $lng->txt('event_tbl_member'), 'member');
 					break;
 				
 				// local
@@ -289,45 +289,44 @@ class ilAttendanceList
 		{
 			$blank->setValue($this->pre_blanks);
 		}
-		
-		$part = new ilFormSectionHeaderGUI();
-		$part->setTitle($lng->txt('event_participant_selection'));
-		$form->addItem($part);
-		
+
+		$checked = array();
+
+		$chk_grp = new ilCheckboxGroupInputGUI($lng->txt('event_user_selection'), 'selection_of_users');
+
 		// participants by roles
 		foreach($this->role_data as $role_id => $role_data)
 		{
-			$chk = new ilCheckboxInputGUI($role_data[0], 'role_'.$role_id);			
-			$chk->setValue(1);
-			$chk->setChecked(1);
-			$form->addItem($chk);
+			$chk = new ilCheckboxOption(sprintf($lng->txt('event_user_selection_include_role'),$role_data[0]), 'role_'.$role_id);
+			$checked[] = 'role_'.$role_id;
+			$chk_grp->addOption($chk);
 		}
-				
-		// not in sessions
+
 		if($this->waiting_list)
 		{
-			$chk = new ilCheckboxInputGUI($lng->txt('group_new_registrations'), 'subscr');			
-			$chk->setValue(1);		
-			$form->addItem($chk);		
+			$chk = new ilCheckboxOption($lng->txt('event_user_selection_include_requests'), 'subscr');
+			$chk_grp->addOption($chk);
 
-			$chk = new ilCheckboxInputGUI($lng->txt('crs_waiting_list'), 'wlist');			
-			$chk->setValue(1);
-			$form->addItem($chk);
+			$chk = new ilCheckboxOption($lng->txt('event_user_selection_include_waiting_list'), 'wlist');
+			$chk_grp->addOption($chk);
 		}
-			
+
 		if($this->user_filters)
 		{
 			foreach($this->user_filters as $sub_id => $sub_item)
 			{
-				$sub = new ilCheckboxInputGUI($sub_item[0], 'members_'.$sub_id);
+				$chk = new ilCheckboxOption(sprintf($lng->txt('event_user_selection_include_filter'),$sub_item[0]),
+											'members_'.$sub_id);
 				if($sub_item[1])
 				{
-					$sub->setChecked(true);
+					$checked[] = 'members_'.$sub_id;
 				}
-				$form->addItem($sub);
+				$chk_grp->addOption($chk);
 			}
 		}
-		
+		$chk_grp->setValue($checked);
+		$form->addItem($chk_grp);
+
 		$form->addCommandButton($a_cmd,$lng->txt('sess_print_attendance_list'));
 		
 		if($this->id && $a_cmd)
@@ -366,12 +365,14 @@ class ilAttendanceList
 			}
 			
 			$this->setTitle($form->getInput('title'), $form->getInput('desc'));
-			$this->setBlankColumns($form->getInput('blank'));	
-			
+			$this->setBlankColumns($form->getInput('blank'));
+
+			$selection_of_users = $form->getInput('selection_of_users');
+
 			$roles = array();
 			foreach(array_keys($this->role_data) as $role_id)
 			{
-				if($form->getInput('role_'.$role_id))
+				if(in_array('role_'.$role_id, $selection_of_users))
 				{
 					$roles[] = $role_id;
 				}
@@ -381,15 +382,15 @@ class ilAttendanceList
 			// not in sessions
 			if($this->waiting_list)
 			{
-				$this->include_subscribers = (bool)$form->getInput('subscr');			
-				$this->include_waiting_list = (bool)$form->getInput('wlist');
+				$this->include_subscribers = (bool)in_array('subscr', $selection_of_users);
+				$this->include_waiting_list = (bool)in_array('wlist', $selection_of_users);
 			}
 			
 			if($this->user_filters)
 			{
 				foreach(array_keys($this->user_filters) as $msub_id)
 				{
-					$this->user_filters[$msub_id][2] = $form->getInput("members_".$msub_id);
+					$this->user_filters[$msub_id][2] = (bool)in_array("members_".$msub_id, $selection_of_users);
 				}			
 			}				
 			
