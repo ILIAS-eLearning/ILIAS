@@ -460,52 +460,6 @@ class ilTrQuery
 		$queries = array();
 		$queries[] = array("fields"=>$fields, "query"=>$query);
 
-		/* objectives data 
-		if($objects["objectives_parent_id"])
-		{
-			$objective_fields = array("crs_objectives.objective_id AS obj_id", "title",
-				$ilDB->quote("lobj", "text")." as type");
-			
-			include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";	
-				
-			if (is_array($a_additional_fields))
-			{
-              foreach($a_additional_fields as $field)
-			  {
-				if($field != "status")
-				{
-					$objective_fields[] = "NULL AS ".$field;
-				}
-				else
-				{
-					// #15873 - see ilLOUserResults::getObjectiveStatusForLP()
-		            include_once("Services/Tracking/classes/class.ilLPStatus.php");
-					$objective_fields[] = "CASE WHEN status = ".$ilDB->quote(ilLOUserResults::STATUS_COMPLETED, "integer").
-						" THEN ".ilLPStatus::LP_STATUS_COMPLETED_NUM.
-						" WHEN (status = ".$ilDB->quote(ilLOUserResults::STATUS_FAILED, "integer").
-						" AND is_final = ".$ilDB->quote(1, "integer").")".
-						" THEN ".ilLPStatus::LP_STATUS_FAILED_NUM.
-						" WHEN status = ".$ilDB->quote(ilLOUserResults::STATUS_FAILED, "integer").
-						" THEN ".ilLPStatus::LP_STATUS_IN_PROGRESS_NUM.
-						" ELSE NULL END AS status";
-				}
-			  }
-			}
-
-			$where = array();
-			$where[] = "crs_objectives.crs_id = ".$ilDB->quote($objects["objectives_parent_id"], "integer");
-			$where[] = "crs_objectives.active = ".$ilDB->quote(1, "integer");
-		
-			$objectives_query = " FROM crs_objectives".
-				" LEFT JOIN loc_user_results ON (crs_objectives.objective_id = loc_user_results.objective_id".
-				" AND loc_user_results.user_id = ".$ilDB->quote($a_user_id, "integer").
-				" AND loc_user_results.type = ".$ilDB->quote(ilLOUserResults::TYPE_QUALIFIED, "integer").")".			
-				self::buildFilters($where, $a_filters);
-			
-			$queries[] = array("fields"=>$objective_fields, "query"=>$objectives_query, "count"=>"crs_objectives.objective_id");
-		}
-		*/
-		
 		if(!in_array($a_order_field, $fields))
 		{
 			$a_order_field = "title";
@@ -1646,6 +1600,11 @@ class ilTrQuery
 			include_once "Modules/Course/classes/class.ilCourseObjective.php";
 			$objective_ids = ilCourseObjective::_getObjectiveIds($a_parent_obj_id,true);
 			
+			// #17402 - are initital test(s) qualifying?
+			include_once "Modules/Course/classes/Objectives/class.ilLOSettings.php";
+			$lo_set = ilLOSettings::getInstanceByObjId($a_parent_obj_id);
+			$initial_qualifying = $lo_set->isInitialTestQualifying();	
+		
 			// there may be missing entries for any user / objective combination
 			foreach($objective_ids as $objective_id)
 			{
@@ -1657,13 +1616,19 @@ class ilTrQuery
 			
 			$query = "SELECT * FROM loc_user_results".
 				" WHERE ".$ilDB->in("objective_id", $objective_ids, "", "integer").
-				" AND ".$ilDB->in("user_id", $a_users, "", "integer").
-				" AND type = ".$ilDB->quote(ilLOUserResults::TYPE_QUALIFIED, "integer");
+				" AND ".$ilDB->in("user_id", $a_users, "", "integer");
+			if(!(bool)$initial_qualifying)
+			{
+				$query .= " AND type = ".$ilDB->quote(ilLOUserResults::TYPE_QUALIFIED, "integer");
+			}	
+			$query .= " ORDER BY type"; // qualified must come last!
 			$set = $ilDB->query($query);
 			while($row = $ilDB->fetchAssoc($set))
 			{
 				$objective_id = $row["objective_id"];
 				$user_id = $row["user_id"];
+				
+				// if both initial and qualified, qualified will overwrite initial
 				
 				// #15873 - see ilLOUserResults::getObjectiveStatusForLP()
 				if($row["status"] == ilLOUserResults::STATUS_COMPLETED)
