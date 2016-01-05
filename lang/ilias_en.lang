@@ -6870,7 +6870,7 @@ forum#:#forums_thread_new_entry#:#New topic has been created
 forum#:#forums_thread#:#Thread
 forum#:#forums_your_reply#:#Your Reply
 forum#:#forums#:#Forums
-forum#:#frm_anonymous_posting_desc#:#If enabled, registered users can post to this forum only by using a pseudonym or without name.
+forum#:#frm_anonymous_posting_desc#:#If enabled, registered users can post to this forum only by using a pseudonym or without name. If the option "Mark moderators posts" is also enabled, moderators can not use a pseudonym.
 forum#:#frm_anonymous_posting#:#Posting with pseudonym
 forum#:#frm_default_view#:#Default View
 forum#:#frm_detach_moderator_role#:#Detach Moderator Role

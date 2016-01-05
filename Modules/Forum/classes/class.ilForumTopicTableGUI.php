@@ -175,8 +175,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		}
 		$this->setShowRowsSelector(true);
 		$this->setRowSelectorLabel($this->lng->txt('number_of_threads'));
-		$this->setOrderColumn('post_date');
-		$this->setOrderDirection('desc');
 	}	
 	
 	public function initMergeThreadsTable()
