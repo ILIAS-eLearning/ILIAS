@@ -903,12 +903,16 @@ class ilNote
 				}
 				$message = sprintf($ulng->txt('note_comment_notification_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
 
-				$message .= $ulng->txt('note_by').": ".ilUserUtil::getNamePresentation($this->getAuthor())."\n\n";
+				$message.= sprintf($ulng->txt('note_comment_notification_user_has_written'), ilUserUtil::getNamePresentation($this->getAuthor()))."\n\n";
+
+				$message .= $this->getText()."\n\n";
+
 				if ($link != "")
 				{
 					$message .= $ulng->txt('note_comment_notification_link').": ".$link."\n\n";
 				}
-				$message .= $ulng->txt('note_comment_text').": ".$this->getText()."\n\n";
+
+				$message .= $ulng->txt('note_comment_notification_reason')."\n\n";
 
 				$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 				$mail_obj->appendInstallationSignature(true);
