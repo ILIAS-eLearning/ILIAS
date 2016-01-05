@@ -1564,6 +1564,41 @@ class ilNewsItem extends ilNewsItemGen
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
 			);		
 	}
-	
+
+	/**
+	 * Prepare news data from cache
+	 *
+	 * @param string $a_cres cache string
+	 * @return array news array
+	 */
+	static function prepareNewsDataFromCache($a_cres)
+	{
+		global $ilDB;
+
+		$data = unserialize($a_cres);
+		$news_ids = array_keys($data);
+		$set = $ilDB->query("SELECT id FROM il_news_item ".
+			" WHERE ".$ilDB->in("id", $news_ids, false, "integer"));
+		$existing_ids = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$existing_ids[] = $rec["id"];
+		}
+		//var_dump($existing_ids);
+		$existing_news = array();
+		foreach ($data as $k => $v)
+		{
+			if (in_array($k, $existing_ids))
+			{
+				$existing_news[$k] = $v;
+			}
+		}
+
+		//var_dump($data);
+		//var_dump($existing_news);
+
+		return $existing_news;
+	}
+
 }
 ?>

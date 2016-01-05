@@ -46,7 +46,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 		if ($this->acache->getLastAccessStatus() == "hit")
 		{
-			self::$st_data = unserialize($cres);
+			self::$st_data = ilNewsItem::prepareNewsDataFromCache($cres);
 			$this->cache_hit = true;
 		}
 		if ($this->getDynamic() && !$this->cache_hit)
@@ -484,7 +484,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function showNews()
 	{
-		global $lng, $ilCtrl, $ilUser;
+		global $lng, $ilCtrl, $ilUser, $ilAccess;
 		
 // workaround for dynamic mode (if cache is disabled, showNews has no data)
 if (empty(self::$st_data))
@@ -566,9 +566,31 @@ if (empty(self::$st_data))
                 "title" => $news->getTitle());
 			ilNewsItem::_setRead($ilUser->getId(), $_GET["news_id"]);
 		}
-			
+
+		$row_css = "";
+		$cache_deleted = false;
 		foreach ($news_list as $item)
 		{
+			$row_css = ($row_css != "tblrow1")
+					? "tblrow1"
+					: "tblrow2";
+
+			if ($item["ref_id"] > 0 && !$ilAccess->checkAccess("read", "", $item["ref_id"]))
+			{
+				$tpl->setCurrentBlock("content");
+				$tpl->setVariable("VAL_CONTENT", $lng->txt("news_sorry_not_accessible_anymore"));
+				$tpl->parseCurrentBlock();
+				$tpl->setCurrentBlock("item");
+				$tpl->setVariable("ITEM_ROW_CSS", $row_css);
+				$tpl->parseCurrentBlock();
+				if (!$cache_deleted)
+				{
+					$this->acache->deleteEntry($ilUser->getId() . ":" . $_GET["ref_id"]);
+					$cache_deleted = true;
+				}
+				continue;
+			}
+
 			// user
 			if ($item["user_id"] > 0 && ilObject::_exists($item["user_id"]))
 			{
@@ -766,10 +788,7 @@ if (empty(self::$st_data))
 				$item["title"], $item["content_is_lang_var"], $item["agg_ref_id"],
 				$item["aggregation"]));
 			
-			$row_css = ($row_css != "tblrow1")
-				? "tblrow1"
-				: "tblrow2";
-			
+
 			$tpl->setCurrentBlock("item");
 			$tpl->setVariable("ITEM_ROW_CSS", $row_css);
 			$tpl->parseCurrentBlock();
