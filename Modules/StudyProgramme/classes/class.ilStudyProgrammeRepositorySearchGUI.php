@@ -56,7 +56,8 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI {
 
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 		$ul = new ilTextInputGUI($a_options['auto_complete_name'], 'user_login');
-		$ul->setDataSource($ajax_url);		
+		$ul->setDataSource($ajax_url);
+		$ul->setMoreLinkInAutocomplete(true);
 		$ul->setSize($a_options['auto_complete_size']);
 		if(!$a_sticky)
 		{

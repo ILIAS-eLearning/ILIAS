@@ -399,6 +399,7 @@ class ilUserTableGUI extends ilTable2GUI
 			$lng->txt("name"), "query");
 		$ul->setDataSource($ilCtrl->getLinkTarget($this->getParentObject(),
 			"addUserAutoComplete", "", true));
+		$ul->setMoreLinkInAutocomplete(true);
 		$ul->setSize(20);
 		$ul->setSubmitFormOnEnter(true);
 		$this->addFilterItem($ul);
