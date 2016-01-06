@@ -1626,14 +1626,14 @@ print $sql;
 	public function fail_affiliate_user($a_row_id, $a_exception) {
 		print "\n";
 		print 'ERROR on affiliateUser: ';
-		print $row_id;
+		print $a_row_id;
 		print "\n";
 		print_r($a_exception->getReason());
 		print "\n\n";
 
 		//ERROR-LOG:
 		$sql = " SELECT user_id FROM hist_user WHERE"
-			." row_id=" .$row_id; 
+			." row_id=" .$a_row_id; 
 		$result = $this->ilDB->query($sql);
 		$record = $this->ilDB->fetchAssoc($result);
 
@@ -1642,7 +1642,7 @@ print $sql;
 			0,
 			$record['user_id'],
 			0,
-			$row_id
+			$a_row_id
 		);
 	}
 
