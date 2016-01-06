@@ -174,6 +174,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
 		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
 
+		//MYSQL_CONNECT is deprecated since PHP 5.5.0
 		$mysql = mysql_connect($host, $user, $pass) 
 				or die( "MySQL: ".mysql_error()." ### "
 						." Is the shadowdb initialized?"
@@ -192,8 +193,13 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		$result = mysql_query($sql);
 		$data = mysql_fetch_assoc($result);
 
+		if(mysql_num_rows($result) > 1) {
+			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance OR Composite in more OrgUnits then one OrgUnit."
+								." Just one Unit will be created.");
+		}
+
 		if($data["finance"] && $data["composite"]) {
-			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance AND Composite. Just Finance would be created.");
+			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance AND Composite in one OrgUnit. Just finance will be created.");
 		}
 
 		if($data["finance"]) {

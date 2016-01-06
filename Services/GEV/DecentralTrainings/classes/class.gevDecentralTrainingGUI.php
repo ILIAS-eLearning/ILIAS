@@ -1638,10 +1638,18 @@ class gevDecentralTrainingGUI {
 		foreach ($trainer_ids as $key => $trainer_id) {
 			$usr_utils = gevUserUtils::getInstance($trainer_id);
 			if($usr_utils->isUVGDBV()) {
-				if($pers_org_unit = $uvg_org_units->getOrgUnitIdOf($usr_utils->getId())) {
-					$above_ref_id = gevOrgUnitUtils::getBDOf(gevObjectUtils::getRefId($pers_org_unit));
-					
-					$trainer_orgus[] = $above_ref_id;
+				if($usr_utils->isSuperior()) {
+					$sup_ids = array($usr_utils->getId());
+				} else {
+					$sup_ids = gevOrgUnitUtils::getSuperiorsOfUser($usr_utils->getId());
+				}
+
+				foreach ($sup_ids as $sup_id) {
+					$pers_org_unit = $uvg_org_units->getOrgUnitIdOf($sup_id);
+					if($pers_org_unit) {
+						$above_ref_id = gevOrgUnitUtils::getBDOf(gevObjectUtils::getRefId($pers_org_unit));
+						$trainer_orgus[] = $above_ref_id;
+					}
 				}
 			} else {
 				$trainer_orgus = null;
