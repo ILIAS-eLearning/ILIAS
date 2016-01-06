@@ -266,12 +266,13 @@ class ilRepositorySearchGUI
 
 		include_once './Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
-		
+
 		if(($_REQUEST['fetchall']))
 		{
 			$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
 		}
-		
+
+		$auto->setMoreLinkAvailable(true);
 		$auto->setSearchFields($a_fields);
 		$auto->setResultField($result_field);
 		$auto->enableFieldSearchableCheck(true);
