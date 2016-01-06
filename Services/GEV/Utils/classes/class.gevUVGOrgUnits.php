@@ -197,7 +197,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		$result = mysql_query($sql);
 		$data = mysql_fetch_assoc($result);
 
-		if(pg_num_rows($result) > 1) {
+		if(mysql_num_rows($result) > 1) {
 			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance AND Composite in different OrgUnits."
 								." Just one Unit will be created.");
 		}
