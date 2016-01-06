@@ -249,7 +249,8 @@ class ilRepositorySearchGUI
 		{
 			$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
 		}
-		
+
+		$auto->setMoreLinkAvailable(true);
 		$auto->setSearchFields($a_fields);
 		$auto->setResultField($result_field);
 		$auto->enableFieldSearchableCheck(true);
