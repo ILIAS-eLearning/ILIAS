@@ -14,11 +14,14 @@ require_once("Modules/OrgUnit/classes/PersonalOrgUnit/class.ilPersonalOrgUnits.p
 
 class gevUVGOrgUnits extends ilPersonalOrgUnits {
 	static $instance;
+	const BD_SUB_TITLE_FINANCE = "Finanzen";
+	const BD_SUB_TITLE_COMPOSITE = "Komposit";
 
 	protected function __construct() {
-		global $ilDB, $tree;
+		global $ilDB, $tree, $ilLog;
 		$this->db = $ilDB;
 		$this->tree = $tree;
+		$this->gLog = $ilLog;
 		
 		$this->gev_settings = gevSettings::getInstance();
 		
@@ -52,7 +55,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		$this->moveToBDFromIV($orgu);
 		return $orgu;
 	}
-	
+
 	/**
 	 * Moves the given personal org unit to the appropriate location in the UVG-structure,
 	 * i.e. moves to a subunit where name equals the name found in iv. Throws when given
@@ -67,6 +70,8 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 
 		try {
 			$target_ref_id = $this->getBDOrgUnitRefIdFor($owner);
+			//Erstellt und/oder sucht nach komposit oder finanz org unit
+			$target_sub_ref_id = $this->getBDSubOrgUnitRefIdFor($owner, $target_ref_id);
 		}
 		catch (ilPersonalOrgUnitsException $excp) {
 			$target_ref_id = $this->base_ref_id;
@@ -79,7 +84,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 					"Could not find ref_id for ".$a_orgu->getId().".");
 		}
 		
-		$this->tree->moveTree($ref_id, $target_ref_id);
+		$this->tree->moveTree($ref_id, $target_sub_ref_id);
 	}
 	
 	protected function getJobNumberOf($a_user_id) {
@@ -103,6 +108,25 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		// Apparently there is no org unit beneath the base that matches the desired name.
 		// We need to create a new one
 		return $this->createBDOrgUnit($bd_name)->getRefId();
+	}
+
+	protected function getBDSubOrgUnitRefIdFor($user_id, $bd_org_unit_ref_id) {
+		$sub_orgu_title = $this->getBDSubFromIVOf($user_id);
+
+		if(!$sub_orgu_title) {
+			$this->ilPersonalOrgUnitsError("getBDSubOrgUnitRefIdFor", "Could not find BD-SubOrgu-Name for $a_user_id.");
+		}
+		$children = $this->tree->getChilds($this->base_ref_id);
+		foreach ($children as $child) {
+			if (ilObject::_lookupTitle($child["obj_id"]) == $sub_orgu_title) {
+				return $child["ref_id"];
+			}
+		}
+		
+		$sub_orgu_ref_id = $this->createBDOrgUnit($sub_orgu_title)->getRefId();
+		$this->tree->moveTree($sub_orgu_ref_id, $bd_org_unit_ref_id);
+
+		return $sub_orgu_ref_id;
 	}
 	
 	public function getBDFromIVOf($a_user_id) {
@@ -143,6 +167,48 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 			$name = "BD ".$matches[1];
 		}
 		return $name;
+	}
+
+	protected function getBDSubFromIVOf($user_id) {
+		global $ilClientIniFile;
+		global $ilDB;
+
+		$host = $ilClientIniFile->readVariable('shadowdb', 'host');
+		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
+		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
+		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
+
+		$mysql = mysql_connect($host, $user, $pass) 
+				or die( "MySQL: ".mysql_error()." ### "
+						." Is the shadowdb initialized?"
+						." Are the settings for the shadowdb initialized in the client.ini.php?"
+					  );
+		mysql_select_db($name, $mysql);
+		mysql_set_charset('utf8', $mysql);
+
+		$agent_key = $this->getJobNumberOf($user_id);
+
+		$sql = 	 "SELECT IF(dbaf = ".$ilDB->quote($agent_key,"text").", dbaf, null) as finance\n"
+					.", IF(dbvg = ".$ilDB->quote($agent_key,"text").", dbvg, null) as composite\n"
+					." FROM `ivimport_orgunit`\n"
+					." WHERE `dbaf` = ".$ilDB->quote($agent_key,"text")." OR `dbvg` = ".$ilDB->quote($agent_key,"text");
+		
+		$result = mysql_query($sql);
+		$data = mysql_fetch_assoc($result);
+
+		if($data["finance"] && $data["composite"]) {
+			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance AND Composite. Just Finance would be created.");
+		}
+
+		if($data["finance"]) {
+			return self::BD_SUB_TITLE_FINANCE;
+		}
+
+		if($data["composite"]) {
+			return self::BD_SUB_TITLE_COMPOSITE;
+		}
+
+		return false;
 	}
 	
 	
