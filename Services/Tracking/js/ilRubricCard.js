@@ -715,10 +715,10 @@ var RUBRIC = {
                                 min=broken_range[0];
                                 max=broken_range[1];
                             }else{
-                                if(broken_range[0]<min){
+                                if(parseInt(broken_range[0])<parseInt(min)){
                                     min=broken_range[0];
                                 }
-                                if(broken_range[1]>max){
+                                if(parseInt(broken_range[1])>parseInt(max)){
                                     max=broken_range[1];
                                 }
                             }                            
@@ -729,11 +729,11 @@ var RUBRIC = {
                     tmp=range_row;
                                 
                 }// while looking for range
-                
+               
                 //is the value within the range and a number ?                
                 var test_value=parseInt(inputs[a].value);       
                 if(isNaN(inputs[a].value)||test_value>max||test_value<min||inputs[a].value==''){
-                    // value is out of range or not a number                   
+                    // value is out of range or not a number                  
                     inputs[a].setAttribute('style','border-color:default');
                     verified=false;
                 }else{
