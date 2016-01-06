@@ -304,7 +304,6 @@ class ilMailFormGUI
 		$inp->setSize(30);
 		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', true, false);
 		$inp->setDataSource($dsDataLink);
-		$inp->setMoreLinkInAutocomplete(true);
 		
 		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
 		{
@@ -693,7 +692,6 @@ class ilMailFormGUI
 		$inp->setSize(50);
 		$inp->setValue($mailData["rcp_to"]);
 		$inp->setDataSource($dsDataLink, ",");
-		$inp->setMoreLinkInAutocomplete(true);
 		$inp->setMaxLength(null);
 		$form_gui->addItem($inp);
 
@@ -702,7 +700,6 @@ class ilMailFormGUI
 		$inp->setSize(50);
 		$inp->setValue($mailData["rcp_cc"]);
 		$inp->setDataSource($dsDataLink, ",");
-		$inp->setMoreLinkInAutocomplete(true);
 		$inp->setMaxLength(null);
 		$form_gui->addItem($inp);
 
@@ -711,7 +708,6 @@ class ilMailFormGUI
 		$inp->setSize(50);
 		$inp->setValue($mailData["rcp_bcc"]);
 		$inp->setDataSource($dsDataLink, ",");
-		$inp->setMoreLinkInAutocomplete(true);
 		$inp->setMaxLength(null);
 		$form_gui->addItem($inp);
 

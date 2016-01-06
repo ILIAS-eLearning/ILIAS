@@ -176,7 +176,6 @@ class ilMailSearchGUI
 		$inp->setSize(30);
 		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', true, false);
 		$inp->setDataSource($dsDataLink);
-		$inp->setMoreLinkInAutocomplete(true);
 		
 		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
 		{

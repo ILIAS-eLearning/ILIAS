@@ -23,7 +23,7 @@
 						});
 
 						that.options.requestUrl = that.options.requestUrl.replace(/&fetchall=1/g, '');
-						<!-- BEGIN autocomplete_more_link_avaiable -->
+
 						if (that.more) {
 							ul.append("<li class='ui-menu-category ui-menu-more ui-state-disabled'><span>&raquo;{MORE_TXT}</span></li>");
 							ul.find('li').last().on('click', function(e) {
@@ -33,7 +33,6 @@
 								e.preventDefault();
 							});
 						}
-						<!-- END autocomplete_more_link_avaiable -->
 					}
 				});
 

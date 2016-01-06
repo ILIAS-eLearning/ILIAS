@@ -118,12 +118,6 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilChatroomTaskHandler
 		{
 			$auto->setSearchType(ilUserAutoComplete::SEARCH_TYPE_EQUALS);
 		}
-
-		if(($_REQUEST['fetchall']))
-		{
-			$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
-		}
-
 		$auto->setSearchFields(array('firstname', 'lastname'));
 		$auto->setResultField('login');
 		$auto->enableFieldSearchableCheck(true);

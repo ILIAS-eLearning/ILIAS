@@ -28,7 +28,6 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	protected $ajax_datasource_commit = FALSE;
 	protected $ajax_datasource_commit_url;
 	protected $submit_form_on_enter = false;
-	protected $more_link_in_autocomplete_available = false;
 
 	/**
 	 * @var bool Flag whether the html autocomplete attribute should be set to "off" or not
@@ -511,12 +510,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			}
 			$tpl->parseCurrentBlock();
 
-			if($this->isMoreLinkInAutocompleteAvailable())
-			{
-				$tpl->touchBlock("autocomplete_more_link_avaiable");
-				$tpl->setVariable('MORE_TXT', $lng->txt('autocomplete_more'));
-
-			}
+			$tpl->setVariable('MORE_TXT', $lng->txt('autocomplete_more'));
 		}
 		
 		if ($a_mode == "toolbar")
@@ -592,24 +586,6 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	public function isHtmlAutoCompleteDisabled()
 	{
 		return $this->autocomplete_disabled;
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function isMoreLinkInAutocompleteAvailable()
-	{
-		return $this->more_link_in_autocomplete_available;
-	}
-
-	/**
-	 * remember to fetch request parameter 'fetchall' to use this function
-	 *
-	 * @param boolean $more_link_in_autocomplete
-	 */
-	public function setMoreLinkInAutocomplete($more_link_in_autocomplete)
-	{
-		$this->more_link_in_autocomplete_available = (bool)$more_link_in_autocomplete;
 	}
 }
 ?>

@@ -154,8 +154,7 @@ class ilRepositorySearchGUI
 
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 		$ul = new ilTextInputGUI($a_options['auto_complete_name'], 'user_login');
-		$ul->setDataSource($ajax_url);
-		$ul->setMoreLinkInAutocomplete(true);
+		$ul->setDataSource($ajax_url);		
 		$ul->setSize($a_options['auto_complete_size']);
 		if(!$a_sticky)
 		{
@@ -268,15 +267,15 @@ class ilRepositorySearchGUI
 		include_once './Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
 		
-		$auto->setSearchFields($a_fields);
-		$auto->setResultField($result_field);
-		$auto->enableFieldSearchableCheck(true);
-		$auto->setUserLimitations($this->getUserLimitations());
-
 		if(($_REQUEST['fetchall']))
 		{
 			$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
 		}
+		
+		$auto->setSearchFields($a_fields);
+		$auto->setResultField($result_field);
+		$auto->enableFieldSearchableCheck(true);
+		$auto->setUserLimitations($this->getUserLimitations());
 
 		echo $auto->getList($_REQUEST['term']);
 		exit();
@@ -484,8 +483,7 @@ class ilRepositorySearchGUI
 								)
 						);
 						$ul->setDataSource($ilCtrl->getLinkTarget($this,
-							"doUserAutoComplete", "", true));
-						$ul->setMoreLinkInAutocomplete(true);
+							"doUserAutoComplete", "", true));					
 						$ul->setSize(30);
 						$ul->setMaxLength(120);
 						

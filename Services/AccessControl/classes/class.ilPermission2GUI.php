@@ -63,8 +63,7 @@ class ilPermission2GUI
 		
 		$login = new ilTextInputGUI($this->lng->txt("login"), "owner");
 		$login->setDataSource($this->ctrl->getLinkTargetByClass(array(get_class($this),
-			'ilRepositorySearchGUI'), 'doUserAutoComplete', '', true));
-		$login->setMoreLinkInAutocomplete(true);
+			'ilRepositorySearchGUI'), 'doUserAutoComplete', '', true));		
 		$login->setRequired(true);
 		$login->setSize(50);
 		$login->setInfo($this->lng->txt("chown_warning"));

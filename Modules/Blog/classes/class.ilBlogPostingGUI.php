@@ -612,7 +612,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		// $txt->setRequired(true); #10504
 		$txt->setMulti(true);
 		$txt->setDataSource($this->ctrl->getLinkTarget($this, "keywordAutocomplete", "", true));
-		$txt->setMoreLinkInAutocomplete(true);
 		$txt->setMaxLength(200);
 		$txt->setSize(50);
 		$txt->setInfo($this->lng->txt("blog_keywords_info"));

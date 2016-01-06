@@ -1072,7 +1072,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}		
 			$tut_ids = new ilTextInputGUI($this->lng->txt("survey_notification_tutor_recipients"), "tut_ids");
 			$tut_ids->setDataSource($this->ctrl->getLinkTarget($this, "doAutoComplete", "", true));
-			$tut_ids->setMoreLinkInAutocomplete(true);
 			$tut_ids->setRequired(true);
 			$tut_ids->setMulti(true);		
 			$tut_ids->setMultiValues($tut_logins);
@@ -1307,12 +1306,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$auto->setSearchFields($fields);
 		$auto->setResultField('login');
 		$auto->enableFieldSearchableCheck(true);
-
-		if(($_REQUEST['fetchall']))
-		{
-			$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
-		}
-
 		echo $auto->getList(ilUtil::stripSlashes($_REQUEST['term']));
 		exit();
 	}			

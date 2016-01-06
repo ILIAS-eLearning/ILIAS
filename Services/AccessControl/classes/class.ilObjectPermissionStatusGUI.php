@@ -116,7 +116,6 @@ class ilObjectPermissionStatusGUI
 		$login = new ilTextInputGUI($this->lng->txt("username"), "user_login");
 		$login->setDataSource($this->ilCtrl->getLinkTargetByClass(array(get_class($this),
 			'ilRepositorySearchGUI'), 'doUserAutoComplete', '', true));
-		$login->setMoreLinkInAutocomplete(true);
 		$login->setSize(15);
 		$login->setValue($this->user->getLogin());
 

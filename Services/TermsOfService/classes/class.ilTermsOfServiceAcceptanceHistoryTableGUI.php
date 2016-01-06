@@ -160,7 +160,6 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 		include_once 'Services/Form/classes/class.ilTextInputGUI.php';
 		$ul = new ilTextInputGUI($this->lng->txt('login').'/'.$this->lng->txt('email').'/'.$this->lng->txt('name'), 'query');
 		$ul->setDataSource($this->ctrl->getLinkTarget($this->getParentObject(), 'addUserAutoComplete', '', true));
-		$ul->setMoreLinkInAutocomplete(true);
 		$ul->setSize(20);
 		$ul->setSubmitFormOnEnter(true);
 		$this->addFilterItem($ul);
