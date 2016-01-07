@@ -1449,5 +1449,6 @@ gev#:#gev_dec_training_no_mail#:#Es soll keine Einladung versendet werden.
 gev#:#gev_no_trainer#:#An diesem Training ist kein Trainer hinterlegt. Die Finalisierung des Teilnahmestatus ist daher nicht möglich.
 gev#:#gev_crs_src_clear_search#:#Ergebnis zurücksetzen
 gev#:#gev_dec_training_custom_attachment_exist#:#Der Dateianhang ist bereits vorhanden.
+gev#:#gev_dec_training_custom_attachment_exist#:#Der Dateianhang ist bereits vorhanden.
 gev#:#gev_dec_training_no_blocks_no_training#:#Bitte legen Sie Trainingsblöcke an. Das dezentrale Training wird nicht erstellt.
 gev#:#gev_dec_training_no_blocks_no_save#:#Bitte legen Sie Trainingsblöcke an.

@@ -10,6 +10,7 @@
 */
 
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
 require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -28,6 +29,7 @@ class gevWBDTPServiceRegistrationGUI {
 		$this->log = &$ilLog;
 		$this->user = &$ilUser;
 		$this->user_utils = gevUserUtils::getInstanceByObj($this->user);
+		$this->wbd = gevWBD::getInstanceByObj($this->user);
 	}
 
 	public function executeCommand() {
@@ -59,14 +61,14 @@ class gevWBDTPServiceRegistrationGUI {
 	}
 
 	protected function checkWBDRelevantRole() {
-		if (!$this->user_utils->hasWBDRelevantRole()) {
+		if (!$this->wbd->hasWBDRelevantRole()) {
 			$this->redirectToBookingOr("");
 			exit();
 		}
 	}
 
 	protected function checkAlreadyRegistered() {
-		if ($this->user_utils->hasDoneWBDRegistration()) {
+		if ($this->wbd->hasDoneWBDRegistration()) {
 			$this->redirectToBookingOr("");
 			exit();
 		}
@@ -84,7 +86,7 @@ class gevWBDTPServiceRegistrationGUI {
 	}
 
 	protected function setBWVId() {
-		if (!gevUserUtils::isValidBWVId($_POST["bwv_id"])) {
+		if (!gevWBD::isValidBWVId($_POST["bwv_id"])) {
 			ilUtil::sendFailure($this->lng->txt("gev_bwv_id_input_not_valid"));
 			
 			return $this->noServiceReg();
@@ -95,9 +97,9 @@ class gevWBDTPServiceRegistrationGUI {
 			return $this->noServiceReg();
 		}
 
-		$this->user_utils->setWBDBWVId($_POST["bwv_id"]);
-		$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
-		$this->user_utils->setWBDRegistrationDone();
+		$this->wbd->setWBDBWVId($_POST["bwv_id"]);
+		$this->wbd->setWBDTPType(gevWBD::WBD_EDU_PROVIDER);
+		$this->wbd->setWBDRegistrationDone();
 		
 		$usr = new ilObjUser($this->user_utils->getUser()->getId());
 		$usr->update();
@@ -107,8 +109,8 @@ class gevWBDTPServiceRegistrationGUI {
 	}
 
 	protected function noBWVId() {
-		$this->user_utils->setRawWBDOKZ(gevUserUtils::WBD_NO_OKZ);
-		$this->user_utils->setWBDRegistrationDone();
+		$this->user_utils->setRawWBDOKZ(gevWBD::WBD_NO_OKZ);
+		$this->wbd->setWBDRegistrationDone();
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_no_bwv_id_service"), true);
 		$this->redirectToBookingOr("");
 	}
@@ -175,13 +177,13 @@ class gevWBDTPServiceRegistrationGUI {
 			return $this->newWBDAccount($form);
 		}
 
-		$this->user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE);
+		$this->wbd->setNextWBDAction(gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE);
 
 		if ($form->getInput("notifications") == "diff") {
-			$this->user_utils->setWBDCommunicationEmail($form->getInput("email"));
+			$this->wbd->setWBDCommunicationEmail($form->getInput("email"));
 		}
 
-		$this->user_utils->setWBDRegistrationDone();
+		$this->wbd->setWBDRegistrationDone();
 
 		$usr = new ilObjUser($this->user_utils->getUser()->getId());
 		$usr->update();
@@ -209,7 +211,7 @@ class gevWBDTPServiceRegistrationGUI {
 			}
 		}
 
-		if (!gevUserUtils::isValidBWVId($_POST["bwv_id"])) {
+		if (!gevWBD::isValidBWVId($_POST["bwv_id"])) {
 			ilUtil::sendFailure($this->lng->txt("gev_bwv_id_input_not_valid"));
 			$err = true;
 		}
@@ -218,16 +220,16 @@ class gevWBDTPServiceRegistrationGUI {
 			return $this->existingWBDAccount($form);
 		}
 
-		$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
-		$this->user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_AFFILIATE);
-		$this->user_utils->setWBDBWVId($form->getInput("bwv_id"));
-		$this->user_utils->setTPServiceOld($form->getInput("tp_service_old"));
+		$this->wbd->setWBDTPType(gevWBD::WBD_EDU_PROVIDER);
+		$this->wbd->setNextWBDAction(gevWBD::USR_WBD_NEXT_ACTION_AFFILIATE);
+		$this->wbd->setWBDBWVId($form->getInput("bwv_id"));
+		$this->wbd->setTPServiceOld($form->getInput("tp_service_old"));
 
 		if ($form->getInput("notifications") == "diff") {
-			$this->user_utils->setWBDCommunicationEmail($form->getInput("email"));
+			$this->wbd->setWBDCommunicationEmail($form->getInput("email"));
 		}
 
-		$this->user_utils->setWBDRegistrationDone();
+		$this->wbd->setWBDRegistrationDone();
 
 		$usr = new ilObjUser($this->user_utils->getUser()->getId());
 		$usr->update();

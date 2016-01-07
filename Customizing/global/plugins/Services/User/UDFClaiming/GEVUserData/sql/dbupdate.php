@@ -331,8 +331,9 @@ gevUDFUtils::createUDFFields($fields);
 
 require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
 require_once("Services/User/classes/class.ilUserDefinedFields.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 
-$fields = array( "TP-Typ"	=> array( gevSettings::USR_TP_TYPE
+$fields = array( "TP-Typ"	=> array( gevWBD::USR_TP_TYPE
 											, UDF_TYPE_SELECT
 											, array( "visible"				=> true
 												   , "changeable"			=> false
@@ -352,7 +353,7 @@ $fields = array( "TP-Typ"	=> array( gevSettings::USR_TP_TYPE
 												   , "3 - TP-Service"
 												   )
 											)
-				, "BWV-ID"	=> array( gevSettings::USR_BWV_ID
+				, "BWV-ID"	=> array( gevWBD::USR_BWV_ID
 				 							, UDF_TYPE_TEXT
 											, array( "visible"				=> true
 												   , "changeable"			=> false
@@ -368,7 +369,7 @@ $fields = array( "TP-Typ"	=> array( gevSettings::USR_TP_TYPE
 												   )
 											, null
 				 							)
-				, "Zuweisung WBD OKZ" => array( gevSettings::USR_WBD_OKZ
+				, "Zuweisung WBD OKZ" => array( gevWBD::USR_WBD_OKZ
 											, UDF_TYPE_SELECT
 											, array( "visible"				=> true
 												   , "changeable"			=> false
@@ -389,7 +390,7 @@ $fields = array( "TP-Typ"	=> array( gevSettings::USR_TP_TYPE
 												   , "4 - keine Zuordnung"
 												   )
 											)
-				, "Zuweisung WBD Vermittlerstatus" => array( gevSettings::USR_WBD_STATUS
+				, "Zuweisung WBD Vermittlerstatus" => array( gevWBD::USR_WBD_STATUS
 											, UDF_TYPE_SELECT
 											, array( "visible"				=> true
 												   , "changeable"			=> false
@@ -424,9 +425,10 @@ gevUDFUtils::createUDFFields($fields);
 
 require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
 require_once("Services/User/classes/class.ilUserDefinedFields.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 
 gevUDFUtils::createUDFFields(array(
-	"Beginn erste Zertifizierungsperiode" => array( gevSettings::USR_WBD_CERT_PERIOD_BEGIN
+	"Beginn erste Zertifizierungsperiode" => array( gevWBD::USR_WBD_CERT_PERIOD_BEGIN
 											, UDF_TYPE_TEXT
 											, array( "visible"				=> true
 												   , "changeable"			=> false
@@ -451,10 +453,11 @@ gevUDFUtils::createUDFFields(array(
 <?php
 
 require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 require_once("Services/User/classes/class.ilUserDefinedFields.php");
 
 gevUDFUtils::createUDFFields(array(
-	"Hat WBD-Registrierung durchgeführt" => array( gevSettings::USR_WBD_DID_REGISTRATION
+	"Hat WBD-Registrierung durchgeführt" => array( gevWBD::USR_WBD_DID_REGISTRATION
 											, UDF_TYPE_SELECT
 											, array( "visible"				=> true
 												   , "changeable"			=> false
@@ -480,10 +483,11 @@ gevUDFUtils::createUDFFields(array(
 <?php
 
 require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 require_once("Services/User/classes/class.ilUserDefinedFields.php");
 
 gevUDFUtils::createUDFFields(array(
-	"Email WBD" => array( gevSettings::USR_WBD_COM_EMAIL
+	"Email WBD" => array( gevWBD::USR_WBD_COM_EMAIL
 											, UDF_TYPE_TEXT
 											, array( "visible"				=> true
 												   , "changeable"			=> false
@@ -569,6 +573,7 @@ foreach ($delete_fields as $udf_const) {
 
 <#8>
 <?php
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 
 gevUDFUtils::updateUDFFields(array(
 		  gevSettings::USR_WBD_OKZ => array( "Zuweisung WBD OKZ"
@@ -591,7 +596,7 @@ gevUDFUtils::updateUDFFields(array(
 												   , "4 - keine Zuordnung"
 												   )
 											)
-		,  gevSettings::USR_WBD_STATUS => array( "Zuweisung WBD Vermittlerstatus"
+		,  gevWBD::USR_WBD_STATUS => array( "Zuweisung WBD Vermittlerstatus"
 											, array( "visible"				=> true
 												   , "changeable"			=> false
 												   , "searchable"			=> true
@@ -688,10 +693,11 @@ gevUDFUtils::getInstance()->createUDFFields(array(
 <?php
 
 require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 require_once("Services/User/classes/class.ilUserDefinedFields.php");
 
 gevUDFUtils::createUDFFields(array(
-	"Austrittsdatum WBD" => array( gevSettings::USR_WBD_EXIT_DATE
+	"Austrittsdatum WBD" => array( gevWBD::USR_WBD_EXIT_DATE
 											, UDF_TYPE_TEXT
 											, array( "visible"				=> true
 												   , "changeable"			=> false
@@ -715,10 +721,11 @@ gevUDFUtils::createUDFFields(array(
 <?php
 
 require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 require_once("Services/User/classes/class.ilUserDefinedFields.php");
 
 gevUDFUtils::createUDFFields(array(
-	"Nächste durchzuführende WBD Aktion" => array( gevSettings::USR_WBD_NEXT_ACTION
+	"Nächste durchzuführende WBD Aktion" => array( gevWBD::USR_WBD_NEXT_ACTION
 											, UDF_TYPE_SELECT
 											, array( "visible"				=> true
 												   , "changeable"			=> false
@@ -732,11 +739,11 @@ gevUDFUtils::createUDFFields(array(
 												   , "changeable_lua"		=> false
 												   , "certificate"			=> false
 												   )
-											, array(gevSettings::USR_WBD_NEXT_ACTION_NOTHING
-													,gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE
-													,gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS
-													,gevSettings::USR_WBD_NEXT_ACTION_AFFILIATE
-													,gevSettings::USR_WBD_NEXT_ACTION_RELEASE
+											, array(gevWBD::USR_WBD_NEXT_ACTION_NOTHING
+													,gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE
+													,gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_BASIS
+													,gevWBD::USR_WBD_NEXT_ACTION_AFFILIATE
+													,gevWBD::USR_WBD_NEXT_ACTION_RELEASE
 												)
 											)
 	));
@@ -747,10 +754,11 @@ gevUDFUtils::createUDFFields(array(
 <?php
 
 require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 require_once("Services/User/classes/class.ilUserDefinedFields.php");
 
 gevUDFUtils::createUDFFields(array(
-	"Vorheriger TP-Service" => array( gevSettings::USR_WBD_TP_SERVICE_OLD
+	"Vorheriger TP-Service" => array( gevWBD::USR_WBD_TP_SERVICE_OLD
 											, UDF_TYPE_TEXT
 											, array( "visible"				=> true
 												   , "changeable"			=> false
@@ -768,4 +776,12 @@ gevUDFUtils::createUDFFields(array(
 											)
 	));
 
+?>
+
+<#14>
+<?php
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+gevUDFUtils::removeUDFField(gevSettings::USR_UDF_PRIV_PHONE);
 ?>
