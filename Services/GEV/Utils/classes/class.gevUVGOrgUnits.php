@@ -93,17 +93,21 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 	}
 	
 	protected function getBDOrgUnitRefIdFor($a_user_id) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$bd_name = $this->getBDFromIVOf($a_user_id);
 		if (!$bd_name) {
 			$this->ilPersonalOrgUnitsError("getBDOrgUnitRefIdFor", "Could not find BD-Name for $a_user_id.");
 		}
-		
-		$bd_ref = gevOrgUnitUtils::getBDByName($bd_name, $this->base_ref_id);
-		if(!$bd_ref) {
-			return $this->createBDOrgUnit($bd_name)->getRefId();
+		$children = $this->tree->getChilds($this->base_ref_id);
+		foreach ($children as $child) {
+			if (ilObject::_lookupTitle($child["obj_id"]) == $bd_name) {
+				return $child["ref_id"];
+			}
 		}
-
-		return $bd_ref;
+		
+		// Apparently there is no org unit beneath the base that matches the desired name.
+		// We need to create a new one
+		return $this->createBDOrgUnit($bd_name)->getRefId();
 	}
 
 	protected function getBDSubOrgUnitRefIdFor($user_id, $bd_org_unit_ref_id) {
