@@ -4828,7 +4828,7 @@ $ilDB->manipulate($s);
 	}
 
 	$settings = gevSettings::getInstance();
-	$settings->setRefIDOrgUnitTypeDB($type->getId());
+	$settings->setTypeIDOrgUnitTypeDB($type->getId());
 ?>
 
 <#195>

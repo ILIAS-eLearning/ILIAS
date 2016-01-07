@@ -1043,16 +1043,6 @@ class gevOrgUnitUtils {
 			}
 		}
 
-		//chache problem in ilObjOrgUnitTree::getChildrens()
-		/*$ou_tree = ilObjOrgUnitTree::_getInstance();
-		$children = $ou_tree->getChildren($org_ref_id);
-		foreach ($children as $child) {
-			$obj_id = ilObject::_lookupObjId($child);
-			if (self::isBD($obj_id) && ilObject::_lookupTitle($obj_id) == $bd_name) {
-				return $child;
-			}
-		}*/
-
 		return null;
 	}
 
