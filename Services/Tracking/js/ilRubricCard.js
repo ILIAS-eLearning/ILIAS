@@ -5,12 +5,12 @@ var RUBRIC = {
     defaultPoints:function(){
         
         var point_ranges=new Array();
-        point_ranges[0]=new Array(50,70,'Excellent');
-        point_ranges[1]=new Array(40,60,'Good');
-        point_ranges[2]=new Array(30,50,'Acceptable');
-        point_ranges[3]=new Array(20,40,'Fair');
-        point_ranges[4]=new Array(10,30,'Poor');
-        point_ranges[5]=new Array(0,20,'Bad');
+        point_ranges[0]=new Array(60,69,'Excellent');
+        point_ranges[1]=new Array(50,59,'Good');
+        point_ranges[2]=new Array(40,49,'Acceptable');
+        point_ranges[3]=new Array(30,39,'Fair');
+        point_ranges[4]=new Array(20,29,'Poor');
+        point_ranges[5]=new Array(10,19,'Bad');
         
         return(point_ranges);        
     },    
@@ -111,6 +111,7 @@ var RUBRIC = {
                             min=broken_range[0];
                         }
                     }
+                    
                 }
                 groups++;// update group increment                
                 
@@ -864,6 +865,7 @@ var RUBRIC = {
 function rubric_cmd(o){
     
     document.getElementById('rubric_error_message').innerHTML='';
+    document.getElementById('rubric_error_message').setAttribute('style','');
     
     var cmd=document.getElementById('selected_cmdrubric').value;
     
@@ -894,10 +896,11 @@ function rubric_cmd(o){
             default:break;
         }
         
-        RUBRIC.updatePoints();
-        RUBRIC.reorganize();// temporary, not sure if this belongs here
+        RUBRIC.reorganize();
+        RUBRIC.updatePoints();        
         
     }catch(err){
+        document.getElementById('rubric_error_message').setAttribute('style','background-color:rgb(241,221,221);border-radius: 1px;padding:5px;');
         document.getElementById('rubric_error_message').innerHTML=err;
     }       
     
@@ -937,6 +940,7 @@ function verifyGrade(){
 function verifyForm(){
     
     document.getElementById('rubric_error_message').innerHTML='';
+    document.getElementById('rubric_error_message').setAttribute('style','');
     
     RUBRIC.tbl=document.getElementById('jkn_table_rubric');
     RUBRIC.reorganize();
@@ -948,7 +952,8 @@ function verifyForm(){
         
     }catch(err){
         
-        document.getElementById('rubric_error_message').innerHTML=err;        
+        document.getElementById('rubric_error_message').innerHTML=err;
+        document.getElementById('rubric_error_message').setAttribute('style','background-color:rgb(241,221,221);border-radius: 1px;padding:5px;');
         return(false);
     }
 }

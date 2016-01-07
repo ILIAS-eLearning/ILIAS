@@ -89,7 +89,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             'behavior_3'=>$this->lng->txt('rubric_option_behavior_3'),
             'behavior_4'=>$this->lng->txt('rubric_option_behavior_4'),
             'behavior_5'=>$this->lng->txt('rubric_option_behavior_5'),
-            'behavior_6'=>$this->lng->txt('rubric_option_behavior_6'),
+            //'behavior_6'=>$this->lng->txt('rubric_option_behavior_6'),
             'add_group'=>$this->lng->txt('rubric_option_add_group'),
             'del_group'=>$this->lng->txt('rubric_option_del_group'),
             'add_criteria'=>$this->lng->txt('rubric_option_add_criteria'),
@@ -133,7 +133,8 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             'RUBRIC_SAVE'=>'rubric_card_save',
             'OUT_OF'=>'rubric_out_of',            
             'GRAND_TOTAL'=>'rubric_grand_total',
-            'GRADE_RANGE'=>'rubric_grade_range',           
+            'GRADE_RANGE'=>'rubric_grade_range',          
+            'RUBRIC_GRADE'=>'rubric_grade', 
         );        
          
         $rubric_form_tpl=new ilTemplate($filename,true,true,'Services/Tracking');
@@ -339,7 +340,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         }
         
         if($this->student_view){
-            $tmp_write.="<td scope=\"rowgroup\">                        
+            $tmp_write.="<td scope=\"rowgroup\" style=\"background-color:rgba(51,255,102,.4);\">                        
                             $tmp_point 
                         </td>
                         <td scope=\"rowgroup\">                        
@@ -386,9 +387,15 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     
     private function buildGradeGroupPoints($weights)
     {
-        $tmp_write="<tr class=\"tblrow1 small\">
+        if($this->student_view){
+            $tmp_write="<tr class=\"tblrow1 small\">
+                        <th>Group</th>
+                        <th>Criteria</th>";
+        }else{
+            $tmp_write="<tr class=\"tblrow1 small\">
                         <th>&nbsp;</th>
-                        <th style=\"text-align:right\">{GRADE_RANGE}</th>";
+                        <th style=\"text-align:right\">{GRADE_RANGE}</th>";    
+        }
         
         foreach($weights as $k => $weight){
             $tmp_write.="<th>${weight['weight_min']} - ${weight['weight_max']}";
@@ -694,7 +701,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                                 
                                 "
                                 <th scope=\"col\">
-                                    GRADE
+                                    {RUBRIC_GRADE}
                                 </th>
                                 <th scope=\"col\">
                                     {COMMENT}

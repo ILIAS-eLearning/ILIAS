@@ -136,12 +136,24 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		$this->setEnableTitle(true);
 		$this->setSelectAllCheckbox("member");
 
-		$this->addMultiCommand("saveStatus", $lng->txt("exc_save_selected"));
-		$this->addMultiCommand("redirectFeedbackMail", $lng->txt("exc_send_mail"));
-		$this->addMultiCommand("sendMembers", $lng->txt("exc_send_assignment"));
-		$this->addMultiCommand("confirmDeassignMembers", $lng->txt("exc_deassign_members"));	
-		
-		$this->addCommandButton("saveStatusAll", $lng->txt("exc_save_all"));	
+                // START PATCH RUBRIC CPKN 2015
+                include_once 'Services/Object/classes/class.ilObjectLP.php';
+                $olp = ilObjectLP::getInstance($this->exc_id);
+                $lp_mode = $olp->getCurrentMode();
+                if($lp_mode==92)
+                {
+                    $this->addMultiCommand("redirectFeedbackMail", $lng->txt("exc_send_mail"));
+                    $this->addMultiCommand("sendMembers", $lng->txt("exc_send_assignment"));
+                    $this->addMultiCommand("confirmDeassignMembers", $lng->txt("exc_deassign_members")); 
+                }else{
+                     $this->addMultiCommand("saveStatus", $lng->txt("exc_save_selected"));
+                    $this->addMultiCommand("redirectFeedbackMail", $lng->txt("exc_send_mail"));
+                    $this->addMultiCommand("sendMembers", $lng->txt("exc_send_assignment"));
+                    $this->addMultiCommand("confirmDeassignMembers", $lng->txt("exc_deassign_members"));
+    
+                    $this->addCommandButton("saveStatusAll", $lng->txt("exc_save_all"));
+                }
+                // END PATCH RUBRIC CPKN 2015
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		include_once "Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php";
@@ -359,7 +371,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$lcomment->setRows(10);			
 			$lcomment_form->addItem($lcomment);
 			
-			$lcomment_form->addCommandButton("save", $lng->txt("save"));
+			$lcomment_form->addCommandButton("save", $lng->txt("save1"));
 			// $lcomment_form->addCommandButton("cancel", $lng->txt("cancel"));
 			
 			$this->overlay_tpl->setCurrentBlock("overlay_bl");			

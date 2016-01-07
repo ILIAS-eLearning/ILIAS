@@ -13,7 +13,7 @@ class ilLPRubricCard
     protected $obj_id;
     
     private $rubric_id;
-    private $passing_grade=50;
+    private $passing_grade=80;
     
     public function __construct($obj_id)
     {

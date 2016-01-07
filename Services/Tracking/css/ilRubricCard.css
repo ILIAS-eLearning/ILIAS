@@ -7,3 +7,10 @@
 .col-custom-8{
     width: 12.5%;
 }
+
+<!-- For Error Messages -->
+.rubric_error{
+    background-color:red;
+    border-radius: 5px;
+    color:#FFF;
+}
