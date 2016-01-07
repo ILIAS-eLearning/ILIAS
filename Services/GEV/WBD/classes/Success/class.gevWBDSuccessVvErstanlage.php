@@ -9,8 +9,7 @@
 *
 */
 require_once("Services/GEV/WBD/classes/Success/trait.gevWBDSuccess.php");
-require_once ("Services/GEV/Utils/classes/class.gevSettings.php");
-require_once ("Services/GEV/Utils/classes/class.gevUserUtils.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 class gevWBDSuccessVvErstanlage extends WBDSuccessVvErstanlage{
 	use gevWBDSuccess;
 
@@ -29,11 +28,11 @@ class gevWBDSuccessVvErstanlage extends WBDSuccessVvErstanlage{
 		$this->begin_of_certification_period = $this->createDate($begin_of_certification_period);
 
 		switch ($next_wbd_action) {
-			case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE:
-				$this->wbd_type = gevUserUtils::WBD_TP_SERVICE;
+			case gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE:
+				$this->wbd_type = gevWBD::WBD_TP_SERVICE;
 				break;
-			case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS:
-				$this->wbd_type = gevUserUtils::WBD_TP_BASIS;
+			case gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_BASIS:
+				$this->wbd_type = gevWBD::WBD_TP_BASIS;
 				break;
 			default:
 				throw new LogicException ("gevWBDSuccessVvErstanlage::__construct:no next_wbd_action");

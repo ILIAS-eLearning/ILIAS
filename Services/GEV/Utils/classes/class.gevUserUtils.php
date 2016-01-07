@@ -54,7 +54,6 @@ class gevUserUtils {
 		$this->courseBookings = ilUserCourseBookings::getInstance($a_user_id);
 		$this->gev_set = gevSettings::getInstance();
 		$this->udf_utils = gevUDFUtils::getInstance();
-		$this->wbd = gevWBD::getInstance($a_user_id);
 		$this->db = &$ilDB;
 		$this->access = &$ilAccess;
 		$this->user_obj = null;
@@ -515,7 +514,8 @@ class gevUserUtils {
 	}*/
 
 	public function isProfileComplete() {
-		if (!$this->wbd->forceWBDUserProfileFields()) {
+		$wbd = gevWBD::getInstance($this->getId());
+		if (!$wbd->forceWBDUserProfileFields()) {
 			return true;
 		}
 		require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
@@ -1769,17 +1769,6 @@ class gevUserUtils {
  		}
 
 	 	return $actions;
-	}
-
-	/**
-	* sets the WBD EXIT DATA on the GOA-User and hist_user
-	*
-	*/
-	public function setWbdExitUserData($exit_date) {
-		require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
-		$udf_utils = gevUDFUtils::getInstance();
-		$udf_utils->setField($this->getId(),gevSettings::USR_WBD_EXIT_DATE, $exit_date);
-		$udf_utils->setField($this->getId(),gevSettings::USR_TP_TYPE, "1 - Bildungsdienstleister");
 	}
 
 	public function seeBiproAgent() {

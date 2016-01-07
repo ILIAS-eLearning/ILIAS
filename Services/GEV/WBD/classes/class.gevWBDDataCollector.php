@@ -34,8 +34,9 @@ class gevWBDDataCollector implements WBDDataCollector {
 		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestWPAbfrage.php");
 		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestWPMeldung.php");
 		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestWPStorno.php");
-		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+
 
 		require_once "./Services/Context/classes/class.ilContext.php";
 		ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
@@ -81,9 +82,11 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$res = $db->query($this->newUserListQuery());
 		
 		while ($rec = $db->fetchAssoc($res)) {
-			$uutils = gevUserUtils::getInstanceByObjOrId($rec['user_id']);
+			$wbd = gevWBD::getInstance($rec['user_id']);
 
-			if ($uutils->wbdShouldBeRegisteredAsNew()) {
+			$do = $wbd->wbdShouldBeRegisteredAsNew();
+			//echo "\n\n";
+			if ($do) {
 				$rec["address_type"] = "geschäftlich";
 				$rec["info_via_mail"] = false;
 				$rec["send_data"] = true;
@@ -93,10 +96,10 @@ class gevWBDDataCollector implements WBDDataCollector {
 				$rec["address_info"] = "";
 
 				switch($rec["next_wbd_action"]) {
-					case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE:
+					case gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE:
 						$rec["wbd_type"] = self::WBD_TP_SERVICE;
 						break;
-					case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS:
+					case gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_BASIS:
 						$rec["wbd_type"] = self::WBD_TP_BASIS;
 						break;
 				}
@@ -175,9 +178,9 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$res = $db->query($this->releaseUserListQuery());
 
 		while ($rec = $db->fetchAssoc($res)) {
-			$uutils = gevUserUtils::getInstanceByObjOrId($rec['user_id']);
+			$wbd = gevWBD::getInstanceByObjOrId($rec['user_id']);
 
-			if ($uutils->wbdShouldBeReleased()) {
+			if ($wbd->wbdShouldBeReleased()) {
 				$object = gevWBDRequestVermitVerwaltungTransferfaehig::getInstance($rec);
 				if(is_array($object)) {
 					foreach ($object as $error) {
@@ -213,9 +216,9 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$res = $db->query($this->affiliateUserListQuery());
 
 		while ($rec = $db->fetchAssoc($res)) {
-			$uutils = gevUserUtils::getInstanceByObjOrId($rec['user_id']);
+			$wbd = gevWBD::getInstanceByObjOrId($rec['user_id']);
 
-			if ($uutils->wbdShouldBeAffiliateAsTPService()) {
+			if ($wbd->wbdShouldBeAffiliateAsTPService()) {
 				$object = gevWBDRequestVermitVerwaltungAufnahme::getInstance($rec);
 				if(is_array($object)) {
 					foreach ($object as $error) {
@@ -354,12 +357,12 @@ class gevWBDDataCollector implements WBDDataCollector {
 	*
 	* @return string 	$sql
 	*/
-	protected function newUserListQuery($next_action = array(gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE
-															,gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS), $limit = null) 
+	protected function newUserListQuery($next_action = array(gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE
+															,gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_BASIS), $limit = null) 
 	{
 		//check for valid service types
-		if(count(array_intersect($next_action, array(gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE
-													  ,gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS))) != count($next_action)) 
+		if(count(array_intersect($next_action, array(gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE
+													  ,gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_BASIS))) != count($next_action)) 
 		{
 			throw new LogicException("One or more invalid next_actions");
 		}
@@ -422,9 +425,9 @@ class gevWBDDataCollector implements WBDDataCollector {
 	*
 	* @return string 	$sql
 	*/
-	protected function releaseUserListQuery($next_action = array(gevSettings::USR_WBD_NEXT_ACTION_RELEASE), $limit = null) {
+	protected function releaseUserListQuery($next_action = array(gevWBD::USR_WBD_NEXT_ACTION_RELEASE), $limit = null) {
 		//check for valid service types
-		if(count(array_intersect($next_action, array(gevSettings::USR_WBD_NEXT_ACTION_RELEASE))) != count($next_action)) {
+		if(count(array_intersect($next_action, array(gevWBD::USR_WBD_NEXT_ACTION_RELEASE))) != count($next_action)) {
 			throw new LogicException("One or more invalid next_action");
 		}
 
@@ -448,9 +451,9 @@ class gevWBDDataCollector implements WBDDataCollector {
 	*
 	* @return string 	$sql
 	*/
-	protected function affiliateUserListQuery($next_action = array(gevSettings::USR_WBD_NEXT_ACTION_AFFILIATE), $limit = null) {
+	protected function affiliateUserListQuery($next_action = array(gevWBD::USR_WBD_NEXT_ACTION_AFFILIATE), $limit = null) {
 		//check for valid service types
-		if(count(array_intersect($next_action, array(gevSettings::USR_WBD_NEXT_ACTION_AFFILIATE))) != count($next_action)) {
+		if(count(array_intersect($next_action, array(gevWBD::USR_WBD_NEXT_ACTION_AFFILIATE))) != count($next_action)) {
 			throw new LogicException("One or more invalid next_action");
 		}
 
@@ -602,10 +605,11 @@ class gevWBDDataCollector implements WBDDataCollector {
 	public function successNewUser(gevWBDSuccessVvErstanlage $success_data) {
 		$usr_id = $success_data->internalAgentId();
 		$usr_utils = gevUserUtils::getInstance($usr_id);
+		$wbd = gevWBD::getInstance($usr_id);
 
-		$usr_utils->setWBDBWVId($success_data->agentId());
-		$usr_utils->setWBDFirstCertificationPeriodBegin($success_data->beginOfCertificationPeriod());
-		$usr_utils->setWBDTPType($success_data->wbdType());
+		$wbd->setWBDBWVId($success_data->agentId());
+		$wbd->setWBDFirstCertificationPeriodBegin($success_data->beginOfCertificationPeriod());
+		$wbd->setWBDTPType($success_data->wbdType());
 
 		$this->setNextWBDActionToNothing($usr_id);
 		$this->raiseEventUserChanged($usr_utils->getUser());
@@ -635,7 +639,8 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$usr_id = $success_data->usrId();
 
 		$usr_utils = gevUserUtils::getInstance($usr_id);
-		$usr_utils->setWbdExitUserData($this->getCurrentDate());
+		$wbd = gevWBD::getInstance($usr_id);
+		$wbd->setWbdExitUserData($this->getCurrentDate());
 
 		$this->setNextWBDActionToNothing($usr_id);
 		$this->raiseEventUserChanged($usr_utils->getUser());
@@ -654,7 +659,8 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$row_id = $success_data->rowId();
 
 		$usr_utils = gevUserUtils::getInstance($usr_id);
-		$usr_utils->setWBDTPType(gevUserUtils::WBD_TP_SERVICE);
+		$wbd = gevWBD::getInstance($usr_id);
+		$wbd->setWBDTPType(gevWBD::WBD_TP_SERVICE);
 		
 		$this->setNextWBDActionToNothing($usr_id);
 		$this->raiseEventUserChanged($usr_utils->getUser());
@@ -675,7 +681,8 @@ class gevWBDDataCollector implements WBDDataCollector {
 		if($success_data->doUpdateBeginOfCertification()) {
 			$usr_id = $success_data->usrId();
 			$usr_utils = gevUserUtils::getInstance($usr_id);
-			$usr_utils->setWBDFirstCertificationPeriodBegin($success_data->beginOfCertificationPeriod());
+			$wbd = gevWBD::getInstance($usr_id);
+			$wbd->setWBDFirstCertificationPeriodBegin($success_data->beginOfCertificationPeriod());
 			$this->raiseEventUserChanged($usr_utils->getUser());
 			$this->setLastWBDReportForAutoHistRows($usr_id);
 		}
@@ -938,12 +945,10 @@ class gevWBDDataCollector implements WBDDataCollector {
 	 * @param integer 				$user_id 	id of user
 	**/
 	protected function assignUserToSeminar(gevImportCourseData $values, $crs_id, $user_id) {
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$usr_id = $user_id;
+		$wbd = gevWBD::getInstanceByObjOrId($usr_id);
 
-		$uutils = gevUserUtils::getInstanceByObjOrId($usr_id);
-
-		$okz 			= $uutils->getWBDOKZ();
+		$okz 			= $wbd->getWBDOKZ();
 		$booking_id		= $values->wbdBookingId();
 		$credit_points 	= $values->creditPoints();
 		$begin_date		= $values->beginDate()->get(IL_CAL_DATE); // date('Y-m-d', strtotime($rec['Beginn']));
@@ -1002,6 +1007,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 	}
 
 	protected function getCurrentDate() {
+		return "2015-12-17";
 		return date("Y-m-d");
 	}
 
@@ -1011,8 +1017,8 @@ class gevWBDDataCollector implements WBDDataCollector {
 	* @param string $user_id 
 	*/
 	public function setNextWBDActionToNothing($user_id) {
-		$uutils = gevUserUtils::getInstance($user_id);
-		$uutils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
+		$wbd = gevWBD::getInstance($user_id);
+		$wbd->setNextWBDAction(gevWBD::USR_WBD_NEXT_ACTION_NOTHING);
 	}
 
 	/**
