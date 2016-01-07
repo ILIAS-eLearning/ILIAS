@@ -74,7 +74,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 			$target_sub_ref_id = $this->getBDSubOrgUnitRefIdFor($owner, $target_ref_id);
 		}
 		catch (ilPersonalOrgUnitsException $excp) {
-			$target_ref_id = $this->base_ref_id;
+			$target_sub_ref_id = $this->base_ref_id;
 		}
 		
 		$ref_id = $a_orgu->getRefId();
