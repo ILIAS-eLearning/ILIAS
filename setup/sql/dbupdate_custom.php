@@ -4799,6 +4799,29 @@ $ilDB->manipulate($s);
 
 <#194>
 <?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#195>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "EventHandling", "evhk", "GEVCourseDelete");
+?>
+
+<#196>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
+?>
+
+<#197>
+<?php
 	require_once "Customizing/class.ilCustomInstaller.php";
 	require_once('Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php');
 	require_once('Services/GEV/Utils/classes/class.gevSettings.php');
@@ -4829,9 +4852,4 @@ $ilDB->manipulate($s);
 
 	$settings = gevSettings::getInstance();
 	$settings->setTypeIDOrgUnitTypeDB($type->getId());
-?>
-
-<#195>
-<?php
-	$ilCtrlStructureReader->getStructure();
 ?>

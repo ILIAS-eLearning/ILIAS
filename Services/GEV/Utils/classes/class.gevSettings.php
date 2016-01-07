@@ -272,37 +272,6 @@ class gevSettings {
 	// HPE
 	const USR_UDF_HPE				= "usr_udf_hpe"; //deprecated
 	
-	// WBD-Stuff
-	// type of service for user
-	const USR_TP_TYPE				= "usr_udf_tp_type";
-	// Vermittlernummer bei der WBD
-	const USR_BWV_ID				= "usr_udf_bwv_id";
-	// how is the okz of the user determined
-	const USR_WBD_OKZ				= "usr_udf_wbd_okz";
-	
-	// how is the "Vermittlungstätigkeit" determined
-	/*
-	global roles -> USR_WBD_STATUS
-	"OD/LD/BD/VD/VTWL", "DBV/VL-EVG", "DBV-UVG" -> 1 - Angestellter Außendienst
-	"AVL", "HA", "BA", "NA" -> 2 - Ausschließlichkeitsvermittler
-	"VP" -> 3 - Makler
-	*/
-
-	const USR_WBD_STATUS			= "usr_udf_wbd_status";
-	const USR_WBD_CERT_PERIOD_BEGIN = "usr_udf_wbd_cert_period_begin";
-	const USR_WBD_DID_REGISTRATION	= "usr_udf_wbd_did_registration";
-	const USR_WBD_COM_EMAIL			= "usr_udf_wbd_com_email";
-	const USR_WBD_EXIT_DATE			= "usr_udf_wbd_exit_date";
-	const USR_WBD_NEXT_ACTION		= "usr_udf_wbd_next_action";
-
-	const USR_WBD_NEXT_ACTION_NOTHING			= "0 - keine Aktion";
-	const USR_WBD_NEXT_ACTION_NEW_TP_SERVICE	= "1 - Erstanlage TP Service";
-	const USR_WBD_NEXT_ACTION_NEW_TP_BASIS		= "2 - Erstanlage TP Basis";
-	const USR_WBD_NEXT_ACTION_AFFILIATE			= "3 - Aufnahme";
-	const USR_WBD_NEXT_ACTION_RELEASE			= "4 - Transferfähig machen";
-
-	const USR_WBD_TP_SERVICE_OLD		= "usr_udf_wbd_tp_service_old";
-
 	//basic templates for flexible decentral trainings
 	const DCT_TPL_FLEX_PRESENCE = "dct_tpl_flex_presence";
 	const DCT_TPL_FLEX_WEBINAR = "dct_tpl_flex_webinar";
