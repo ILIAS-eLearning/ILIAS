@@ -994,6 +994,20 @@ class gevOrgUnitUtils {
 		$sups = array_unique($sups);
 		return gevUserUtils::removeInactiveUsers($sups);
 	}
+
+	static public function getOrguUnitsXLevelAbove($org_ref_id, $lvl) {
+		$ou_tree = ilObjOrgUnitTree::_getInstance();
+		$ret = $org_ref_id;
+		for($i = 0; $i< $lvl; $i++) {
+			$ret = $ou_tree->getParent($ret);
+
+			if($ret == ilObjOrgUnit::getRootOrgRefId()) {
+				break;
+			}
+		}
+
+		return $ret;
+	}
 }
 
 class gevOrgUnitCache {
