@@ -4802,3 +4802,12 @@ $ilDB->manipulate($s);
 	$ilCtrlStructureReader->getStructure();
 ?>
 
+<#195>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "EventHandling", "evhk", "GEVCourseDelete");
+
+?>
