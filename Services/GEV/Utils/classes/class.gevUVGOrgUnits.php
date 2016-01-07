@@ -178,21 +178,16 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 
 		$agent_key = $this->getJobNumberOf($user_id);
 
-		$sql = 	 "SELECT IF(dbaf = ".$ilDB->quote($agent_key,"text").", dbaf, null) as finance\n"
-					.", IF(dbvg = ".$ilDB->quote($agent_key,"text").", dbvg, null) as composite\n"
+		$sql = 	 "SELECT SUM(IF(dbaf = ".$ilDB->quote($agent_key,"text").", 1, 0)) as finance\n"
+					.", SUM(IF(dbvg = ".$ilDB->quote($agent_key,"text").", 1, 0)) as composite\n"
 					." FROM `ivimport_orgunit`\n"
 					." WHERE `dbaf` = ".$ilDB->quote($agent_key,"text")." OR `dbvg` = ".$ilDB->quote($agent_key,"text");
-		
+
 		$result = mysql_query($sql);
 		$data = mysql_fetch_assoc($result);
 
-		if(mysql_num_rows($result) > 1) {
-			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance AND Composite in different OrgUnits."
-								." Just one Unit will be created.");
-		}
-
-		if($data["finance"] && $data["composite"]) {
-			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance AND Composite in one OrgUnit. Just finance will be created.");
+		if($data["finance"] > 0 && $data["composite"] > 0) {
+			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance AND Composite. Just finance will be created.");
 		}
 
 		if($data["finance"]) {
