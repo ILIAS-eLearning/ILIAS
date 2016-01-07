@@ -116,7 +116,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		if(!$sub_orgu_title) {
 			$this->ilPersonalOrgUnitsError("getBDSubOrgUnitRefIdFor", "Could not find BD-SubOrgu-Name for $a_user_id.");
 		}
-		$children = $this->tree->getChilds($this->base_ref_id);
+		$children = $this->tree->getChilds($bd_org_unit_ref_id);
 		foreach ($children as $child) {
 			if (ilObject::_lookupTitle($child["obj_id"]) == $sub_orgu_title) {
 				return $child["ref_id"];
