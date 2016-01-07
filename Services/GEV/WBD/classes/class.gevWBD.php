@@ -9,6 +9,7 @@
 * @version	$Id$
 */
 require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+
 class gevWBD {
 	protected $udf_utils;
 	protected $instance = array();
@@ -62,6 +63,10 @@ class gevWBD {
 	const USR_WBD_NEXT_ACTION		= "usr_udf_wbd_next_action";
 	const USR_WBD_TP_SERVICE_OLD	= "usr_udf_wbd_tp_service_old";
 	const USR_WBD_OKZ				= "usr_udf_wbd_okz";
+
+	//WBD Perioden Definer
+	const WBD_YEARS_FOR_A_PERIOD 	= 5;
+	const WBD_YEARS_FOR_A_YEAR 		= 1;
 
 	//Statics
 	static protected $instances = array(); 
@@ -643,5 +648,29 @@ class gevWBD {
 	*/
 	protected function nextWBDActionIs($next_wbd_action) {
 		return $this->getNextWBDAction() == $next_wbd_action;
+	}
+
+	public function getStartOfCurrentCertificationPeriod() {
+		return $this->getStartOfCurrentCertificationX(self::WBD_YEARS_FOR_A_PERIOD);
+	}
+	
+	public function getStartOfCurrentCertificationYear() {
+		return $this->getStartOfCurrentCertificationX(self::WBD_YEARS_FOR_A_YEAR);
+	}
+	
+	protected function getStartOfCurrentCertificationX($a_year_step) {
+		require_once("Services/Calendar/classes/class.ilDateTime.php");
+		
+		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+		$start = $this->getWBDFirstCertificationPeriodBegin();
+		while(   ilDateTime::_before($start, $now)
+			  && !ilDateTime::_equals($start, $now)) {
+			$start->increment(ilDateTime::YEAR, $a_year_step);
+		}
+		if (!ilDateTime::_equals($start, $now)) {
+			$start->increment(ilDateTime::YEAR, -1 * $a_year_step);
+		}
+		
+		return $start;
 	}
 }

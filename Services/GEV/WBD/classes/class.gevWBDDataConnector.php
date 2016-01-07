@@ -1581,20 +1581,20 @@ print $sql;
 	* @param 	string 		$a_row_id 	Number to identify the row in hist_user
 	*/
 	public function success_affiliate_user($row_id) {
-        $sql = "SELECT user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($row_id, "integer")."";
-        $res = $this->ilDB->query($sql);
-        assert($this->ilDB->numRows($res) == 1);
+		$sql = "SELECT user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($row_id, "integer")."";
+		$res = $this->ilDB->query($sql);
+		assert($this->ilDB->numRows($res) == 1);
 
-        if($this->ilDB->numRows($res) == 1) {
-                $row = $this->ilDb->fetchAssoc($res);
-                require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-                $user_utils = gevUserUtils::getInstance($row["user_id"]);
-                $user_utils->setWBDTPType(gevUserUtils::WBD_TP_SERVICE);
-                $user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
-                $this->_set_last_wbd_report('hist_user', $row_id);
-                $this->raiseEventUserChanged($user_utils->getId());
-        }
-    }
+		if($this->ilDB->numRows($res) == 1) {
+			$row = $this->ilDb->fetchAssoc($res);
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+			$user_utils = gevUserUtils::getInstance($row["user_id"]);
+			$user_utils->setWBDTPType(gevUserUtils::WBD_TP_SERVICE);
+			$user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
+			$this->_set_last_wbd_report('hist_user', $row_id);
+			$this->raiseEventUserChanged($user_utils->getId());
+		}
+	}
 
 	/*
 	* callback on faliure

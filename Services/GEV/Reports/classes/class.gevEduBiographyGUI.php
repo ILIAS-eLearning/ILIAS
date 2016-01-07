@@ -225,19 +225,19 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 	
 	protected function renderWBDPoints($tpl) {
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
-		$uutils = gevUserUtils::getInstance($this->target_user_id);
+		$wbd = gevWBD::getInstance($this->target_user_id);
 
 		$tpl->setVariable("WBD_SUM_TITLE", $this->lng->txt("gev_points_in_wbd"));
 		$tpl->setVariable("WBD_SUM_CERT_PERIOD_TITLE", $this->lng->txt("gev_points_in_wbd_cert_period"));
 		$tpl->setVariable("WBD_SUM_CUR_YEAR_TITLE", $this->lng->txt("gev_points_in_wbd_cert_year"));
 		$tpl->setVariable("WBD_SUM_CUR_YEAR_PRED_TITLE", $this->lng->txt("gev_points_at_end_of_cert_year"));
 		
-		$cy_start = $uutils->getStartOfCurrentCertificationYear();
-		$cy_end = $uutils->getStartOfCurrentCertificationYear();
+		$cy_start = $wbd->getStartOfCurrentCertificationYear();
+		$cy_end = $wbd->getStartOfCurrentCertificationYear();
 		$cy_end->increment(ilDateTime::YEAR, 1);
 		
-		$cp_start = $uutils->getStartOfCurrentCertificationPeriod();
-		$cp_end = $uutils->getStartOfCurrentCertificationPeriod();
+		$cp_start = $wbd->getStartOfCurrentCertificationPeriod();
+		$cp_end = $wbd->getStartOfCurrentCertificationPeriod();
 		$cp_end->increment(ilDateTime::YEAR, 5);
 		
 		$tpl->setVariable("WBD_CERT_PERIOD", ilDatePresentation::formatPeriod($cp_start, $cp_end));
