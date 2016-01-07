@@ -129,6 +129,7 @@ class ilObjStudyProgrammeSettingsGUI {
 	}*/
 	
 	protected function update() {
+
 		$form = $this->buildForm();
 		$form->setValuesByPost();
 		if ($this->checkForm($form)) {
@@ -141,11 +142,10 @@ class ilObjStudyProgrammeSettingsGUI {
 			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>false, "errors"=>$form->getErrors()));
 		}
 
-		//TODO: needs clean up (ugly workaround)
 		if($this->ctrl->isAsynch()) {
 			return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
 		} else {
-			$this->ctrl->redirect($this);
+			return $form->getHTML();
 		}
 	}
 
@@ -185,6 +185,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		$form->addItem($header);
 		
 		$item = new ilTextInputGUI($this->lng->txt("title"), self::PROP_TITLE);
+		$item->setRequired(true);
 		$form->addItem($item);
 		
 		$item = new ilTextAreaInputGUI($this->lng->txt("description"), self::PROP_DESC);
