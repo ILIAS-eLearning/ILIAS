@@ -33,7 +33,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 * @param bool $a_may_contribute
 	 * @return ilBlogPostingGUI
 	 */
-	function __construct($a_node_id, $a_access_handler = null, $a_id = 0, $a_old_nr = 0, $a_enable_public_notes = true, $a_may_contribute = true)
+	function __construct($a_node_id, $a_access_handler = null, $a_id = 0, $a_old_nr = 0, $a_enable_public_notes = true, $a_may_contribute = true, $a_style_sheet_id = 0)
 	{
 		global $tpl, $lng;
 
@@ -60,10 +60,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			ilObjStyleSheet::getSyntaxStylePath());
 		$tpl->parseCurrentBlock();
 		
+		// #17814
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath(0));
+			ilObjStyleSheet::getContentStylePath($a_style_sheet_id));
 		$tpl->parseCurrentBlock();		
+					
+		// needed for editor			
+		$this->setStyleId($a_style_sheet_id);	
 	}
 
 	/**
