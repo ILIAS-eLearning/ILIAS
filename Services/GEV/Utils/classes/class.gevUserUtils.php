@@ -2362,6 +2362,10 @@ class gevUserUtils {
 		$now = date("Y-m-d");
 		$entry_date = $this->getEntryDate();
 
+		if($this->getNextWBDAction() == gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS) {
+			return true;
+		}
+
 		if(!$entry_date) {
 			return false;
 		}
