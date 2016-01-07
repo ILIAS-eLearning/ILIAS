@@ -134,11 +134,8 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
 		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
 
-		$mysql = mysql_connect($host, $user, $pass) 
-				or die( "MySQL: ".mysql_error()." ### "
-						." Is the shadowdb initialized?"
-						." Are the settings for the shadowdb initialized in the client.ini.php?"
-					  );
+		//MYSQL_CONNECT is deprecated since PHP 5.5.0
+		$mysql = mysql_connect($host, $user, $pass);
 		mysql_select_db($name, $mysql);
 		mysql_set_charset('utf8', $mysql);
 
@@ -175,11 +172,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
 
 		//MYSQL_CONNECT is deprecated since PHP 5.5.0
-		$mysql = mysql_connect($host, $user, $pass) 
-				or die( "MySQL: ".mysql_error()." ### "
-						." Is the shadowdb initialized?"
-						." Are the settings for the shadowdb initialized in the client.ini.php?"
-					  );
+		$mysql = mysql_connect($host, $user, $pass);
 		mysql_select_db($name, $mysql);
 		mysql_set_charset('utf8', $mysql);
 
