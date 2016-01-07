@@ -28,6 +28,7 @@ require_once("./include/inc.header.php");
 //require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 //require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 //require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 
 
 
@@ -247,7 +248,9 @@ class gevDebug {
 
 	public function getCurrentUserData(){
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 		$uutils = gevUserUtils::getInstanceByObjOrId($this->user);
+		$wbd = gevWBD::getInstanceByObjOrId($this->user);
 
 		print_r(
 		 array(
@@ -258,7 +261,7 @@ class gevDebug {
 			//'biz_mobile' => $this->user->getPrivatePhone(),
 			'mobile' => $uutils->getPrivatePhone(),
 			'Status' => $uutils->getStatus(),
-			'AgentStatus' => $uutils->getWBDAgentStatus(),
+			'AgentStatus' => $wbd->getWBDAgentStatus(),
 		));
 		return $this->user;
 	}
@@ -288,9 +291,9 @@ class gevDebug {
 
 
 	public function updateHistoryForUserIfStellung($usr){
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		$uutils = gevUserUtils::getInstanceByObjOrId($usr->getId());
-		if($uutils->getRawWBDAgentStatus() == '0 - aus Stellung'){
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+		$wbd = gevWBD::getInstanceByObjOrId($usr->getId());
+		if($wbd->getRawWBDAgentStatus() == '0 - aus Stellung'){
 			print '<br>new hist case'.
 			self::updateHistoryForUser($usr);
 		}
@@ -303,16 +306,17 @@ class gevDebug {
 		//global $rbacreview;
 		//$user_roles = $rbacreview->assignedRoles($user_id);
 		
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 		$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($user_id);
+		$wb = gevWBD::getInstance($user_id);
 
 		foreach($roles as $key => $value) {
 			$roles[$key] = ilObject::_lookupTitle($value);
 		}
 		print_r($roles);
 		print '<br>-----<br>';
-		print_r($uutils->getWBDAgentStatus());
+		print_r($wbd->getWBDAgentStatus());
 
 		if(
 			in_array("OD/LD/BD/VD/VTWL", $roles) ||
@@ -320,7 +324,7 @@ class gevDebug {
 			in_array("DBV-UVG", $roles) 
 		){
 			print '<br>new state: 1 - Angestellter Außendienst' ;
-			$uutils->setWBDAgentStatus('1 - Angestellter Außendienst');
+			$wbd->setWBDAgentStatus('1 - Angestellter Außendienst');
 		}
 		if(
 			in_array("AVL", $roles) ||
@@ -329,13 +333,13 @@ class gevDebug {
 			in_array("NA", $roles) 
 		){
 			print '<br>new state: 2 - Ausschließlichkeitsvermittler' ;
-			$uutils->setWBDAgentStatus('2 - Ausschließlichkeitsvermittler');
+			$wbd->setWBDAgentStatus('2 - Ausschließlichkeitsvermittler');
 		}
 		if(
 			in_array("VP", $roles) 
 		){
 			print '<br>new state: 3 - Makler' ;
-			$uutils->setWBDAgentStatus('3 - Makler');
+			$wbd->setWBDAgentStatus('3 - Makler');
 		}
 
 		/*
@@ -350,13 +354,15 @@ class gevDebug {
 	public function revertSetAgentStateForUser($user_id){
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 		$uutils = gevUserUtils::getInstanceByObjOrId($user_id);
+		$wbd = gevWBD::getInstanceByObjOrId($user_id);
 		$possibleNewRoles = array(
 			'1 - Angestellter Außendienst',
 			'2 - Ausschließlichkeitsvermittler',
 			'3 - Makler'
 		);
-		if(in_array($uutils->getRawWBDAgentStatus(), $possibleNewRoles)){
+		if(in_array($wbd->getRawWBDAgentStatus(), $possibleNewRoles)){
 			//if roles also match:
 			$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($user_id);
 			foreach($roles as $key => $value) {
@@ -433,8 +439,8 @@ class gevDebug {
 			." AND hist_historic=0";
 		$result = $this->db->query($sql);
 		while($record=$this->db->fetchAssoc($result)){
-			$uutils = gevUserUtils::getInstanceByObjOrId($record['user_id']);
-			$agent_status = $uutils->getWBDAgentStatus();
+			$wbd = gevWBD::getInstanceByObjOrId($record['user_id']);
+			$agent_status = $wbd->getWBDAgentStatus();
 			$sql = "UPDATE hist_user SET"
 				." wbd_agent_status='" .$agent_status ."'"
 				." WHERE row_id = " .$record['row_id'];
@@ -449,8 +455,8 @@ class gevDebug {
 			." AND hist_historic=0";
 		$result = $this->db->query($sql);
 		while($record=$this->db->fetchAssoc($result)){
-			$uutils = gevUserUtils::getInstanceByObjOrId($record['user_id']);
-			$okz = $uutils->getWBDOKZ();
+			$wbd = gevWBD::getInstanceByObjOrId($record['user_id']);
+			$okz = $wbd->getWBDOKZ();
 
 			if($okz) {
 				$sql = "UPDATE hist_user SET"
@@ -528,7 +534,7 @@ class gevDebug {
 
 	public function rectify_wbdreg_vfs_olddata(){
 		
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 		
 		$sql = "SELECT interimUsers.ilid FROM usr_data"
 			." INNER JOIN interimUsers on usr_data.usr_id = interimUsers.ilid_vfs"
@@ -540,8 +546,8 @@ class gevDebug {
 		$result = mysql_query($sql, $this->importDB);
 		while($record = mysql_fetch_assoc($result)) {
 			$notAgreedUsersVFS[] = $record['ilid'];
-			$uutils = gevUserUtils::getInstanceByObjOrId($record['ilid']);
-			$uutils->setWBDRegistrationNotDone();
+			$wbd = gevWBD::getInstanceByObjOrId($record['ilid']);
+			$wbd->setWBDRegistrationNotDone();
 			print '<hr>';
 			print_r($record);
 

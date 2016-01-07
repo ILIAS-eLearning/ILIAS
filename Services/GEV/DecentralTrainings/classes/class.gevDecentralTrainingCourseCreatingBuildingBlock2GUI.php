@@ -725,6 +725,10 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 				$this->render();
 				return;
 			}
+		} else {
+			ilUtil::sendInfo($this->lng->txt("gev_dec_training_no_blocks_no_training"), false);
+			$this->render();
+			return;
 		}
 
 		require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
@@ -866,6 +870,12 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 	}
 
 	protected function toTEP() {
+		if(count(gevCourseBuildingBlockUtils::getAllCourseBuildingBlocksRaw($this->crs_ref_id,$this->crs_request_id)) == 0) {
+			ilUtil::sendInfo($this->lng->txt("gev_dec_training_no_blocks_no_save"), false);
+			$this->render();
+			return;
+		}
+
 		$this->ctrl->redirectByClass(array("ilTEPGUI"));
 	}
 
@@ -896,6 +906,12 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 			if(gevCourseBuildingBlockUtils::timeIssuesCrs($this->crs_ref_id,$this->crs_request_id)) {
 				$message = $this->lng->txt("gev_dec_training_blocks_time_issue_course")."<br/>".$this->lng->txt("gev_dec_training_crs_will_not_created");
 				ilUtil::sendInfo($message, false);
+				$this->render();
+				return;
+			}
+		} else {
+			if ($this->crs_ref_id) {
+				ilUtil::sendInfo($this->lng->txt("gev_dec_training_no_blocks_no_save"), false);
 				$this->render();
 				return;
 			}

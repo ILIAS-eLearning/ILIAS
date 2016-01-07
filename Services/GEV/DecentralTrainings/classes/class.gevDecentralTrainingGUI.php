@@ -318,6 +318,7 @@ class gevDecentralTrainingGUI {
 		$fill = true;
 
 		$form_values = $this->getFormValuesByRequestId($this->crs_request_id);
+		$this->template_id = $form_values["template_id"];
 		$is_flexible = $this->isTemplateFlexible($form_values["template_id"]);
 		$crs_utils = gevCourseUtils::getInstance($form_values["template_id"]);
 		$form_values["ltype"] = $crs_utils->getType();
@@ -412,6 +413,7 @@ class gevDecentralTrainingGUI {
 		if(!$this->tmp_path_string) {
 			$this->tmp_path_string = $this->randomstring();
 		}
+
 		$form_values["tmp_path_string"] = $this->tmp_path_string;
 
 		//ATTACHMENTS
@@ -463,7 +465,6 @@ class gevDecentralTrainingGUI {
 			$this->tmp_path_string = $this->randomstring();
 		}
 		$form_values["tmp_path_string"] = $this->tmp_path_string;
-
 		//ATTACHMENTS
 		$form_values["added_files"] = $this->attachmentHandling();
 
@@ -515,7 +516,14 @@ class gevDecentralTrainingGUI {
 		$form_values["utils_id"] = $obj_id;
 		$form_values["obj_id"] = $obj_id;
 		$is_flexible = $this->isCrsTemplateFlexible($obj_id);
-		$form_values["added_files"] = $this->handleCustomAttachments();
+
+		try {
+			$form_values["added_files"] = $this->handleCustomAttachments();
+		} catch (Exception $e) {
+			ilUtil::sendInfo($this->lng->txt("gev_dec_training_custom_attachment_exist"),false);
+			return $this->showSettings($form);
+		}
+		
 		$form = $this->buildTrainingOptionsForm(false, $is_flexible, $form_values);
 		$form->setValuesByPost();
 
@@ -652,9 +660,13 @@ class gevDecentralTrainingGUI {
 			$form = $a_form;
 			$obj_id = intval($_POST["obj_id"]);
 			$is_flexible = $this->isCrsTemplateFlexible($obj_id);
+			$this->template_id = $obj_id;
 			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 			$crs_utils = gevCourseUtils::getInstance($obj_id);
 			$is_started = $crs_utils->isStarted();
+			require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
+			$inv_mail_settings = new gevCrsInvitationMailSettings($obj_id);
+			$this->mail_tpl_id = $inv_mail_settings->getTemplateFor("Mitglied");
 		}
 
 		$title = new catTitleGUI("gev_dec_training_settings_header"
@@ -710,7 +722,12 @@ class gevDecentralTrainingGUI {
 		$this->crs_ref_id = gevObjectUtils::getRefId($obj_id);
 		$is_flexible = $this->isCrsTemplateFlexible($obj_id);
 
-		$form_values["added_files"] = $this->handleCustomAttachments();
+		try {
+			$form_values["added_files"] = $this->handleCustomAttachments();
+		} catch (Exception $e) {
+			ilUtil::sendInfo($this->lng->txt("gev_dec_training_custom_attachment_exist"),false);
+			return $this->showSettings($form);
+		}
 
 		$form = $this->buildTrainingOptionsForm(false, $is_flexible, $form_values);
 
@@ -1556,7 +1573,12 @@ class gevDecentralTrainingGUI {
 		$form_values["obj_id"] = $obj_id;
 		$is_flexible = $this->isCrsTemplateFlexible($obj_id);
 
-		$form_values["added_files"] = $this->handleCustomAttachments();
+		try {
+			$form_values["added_files"] = $this->handleCustomAttachments();
+		} catch (Exception $e) {
+			ilUtil::sendInfo($this->lng->txt("gev_dec_training_custom_attachment_exist"),false);
+			return $this->showSettings($form);
+		}
 
 		$form = $this->buildTrainingOptionsForm(false, $is_flexible, $form_values);
 
@@ -1616,10 +1638,18 @@ class gevDecentralTrainingGUI {
 		foreach ($trainer_ids as $key => $trainer_id) {
 			$usr_utils = gevUserUtils::getInstance($trainer_id);
 			if($usr_utils->isUVGDBV()) {
-				if($pers_org_unit = $uvg_org_units->getOrgUnitIdOf($usr_utils->getId())) {
-					$tree = ilObjOrgUnitTree::_getInstance();
-					$above_ref_id = $tree->getParent(gevObjectUtils::getRefId($pers_org_unit));
-					$trainer_orgus[] = $above_ref_id;
+				if($usr_utils->isSuperior()) {
+					$sup_ids = array($usr_utils->getId());
+				} else {
+					$sup_ids = gevOrgUnitUtils::getSuperiorsOfUser($usr_utils->getId());
+				}
+
+				foreach ($sup_ids as $sup_id) {
+					$pers_org_unit = $uvg_org_units->getOrgUnitIdOf($sup_id);
+					if($pers_org_unit) {
+						$above_ref_id = gevOrgUnitUtils::getOrguUnitsXLevelAbove(gevObjectUtils::getRefId($pers_org_unit),2);
+						$trainer_orgus[] = $above_ref_id;
+					}
 				}
 			} else {
 				$trainer_orgus = null;
@@ -1911,6 +1941,7 @@ class gevDecentralTrainingGUI {
 	protected function attachmentHandling() {
 		$old_files = array();
 		$new_files = array();
+		$files_new_for_form = array();
 		if($this->added_files) {
 			foreach ($this->added_files as $key => $value) {
 				$old_files[$value] = $value;

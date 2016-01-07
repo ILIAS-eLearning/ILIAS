@@ -25,7 +25,10 @@ class wbdErrorLog {
 		'USER_EXISTS' => 'Der Benutzer wurde bereits angelegt:',
 		'USER_EXISTS_TP' => 'Der Benutzer wurde von einem anderen TP angelegt:',
 		
-		'USER_UNKNOWN' => 'Die VermittlerID ist nicht vorhanden.',
+		'USER_UNKNOWN' => array(
+			'Die VermittlerID ist nicht vorhanden.',
+			'Die Vermittler-ID ist nicht vorhanden.'
+		),
 		'USER_DIFFERENT_TP' => array(
 			'beginswith'=>'Der TP 95473000 ist dem Vermittler',
 			'endswith'=>'nicht zugeordnet',
@@ -39,6 +42,15 @@ class wbdErrorLog {
 
 		'USER_SERVICETYPE' => array(
 			'nicht zugeordnet. VV-Selbstverwalter'
+		),
+
+		'USER_SERVICETYPE' => array(
+			'beginswith' => 'Keine Berechtigung zum Bearbeiten des Vermittlers',
+			'endswith' => ''
+		),
+
+		'USER_NOT_IN_POOL' => array(
+			'Der Vermittler ist nicht transferfähig.'
 		),
 
 		'WRONG_USERDATA' => array(

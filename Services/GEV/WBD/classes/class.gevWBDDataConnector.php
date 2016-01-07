@@ -63,23 +63,10 @@ require_once("./include/inc.header.php");
 //get base class
 require_once("./Services/WBDData/classes/class.wbdDataConnector.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 
 
 class gevWBDDataConnector extends wbdDataConnector {
-
-	const WBD_NO_SERVICE 		= "0 - kein Service";
-	const WBD_EDU_PROVIDER		= "1 - Bildungsdienstleister";
-	const WBD_TP_BASIS			= "2 - TP-Basis";
-	const WBD_TP_SERVICE		= "3 - TP-Service";
-
-
-	/*
-	const WBD_NO_SERVICE 		= "kein Service";
-	const WBD_EDU_PROVIDER		= "Bildungsdienstleister";
-	const WBD_TP_BASIS			= "TP-Basis";
-	const WBD_TP_SERVICE		= "TP-Service";
-	*/
-
 	private $empty_bwv_id_text = "-empty-";
 	private $empty_date_text = "0000-00-00";
 
@@ -245,11 +232,11 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$wbd_next_action = $record['next_wbd_action'];
 
 		switch($wbd_next_action) {
-			case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE:
-				$wbd_type = self::WBD_TP_SERVICE;
+			case gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE:
+				$wbd_type = gevWBD::WBD_TP_SERVICE;
 				break;
-			case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS:
-				$wbd_type = self::WBD_TP_BASIS;
+			case gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_BASIS:
+				$wbd_type = gevWBD::WBD_TP_BASIS;
 				break;
 			default:
 				$wbd_type = $record['wbd_type'];
@@ -545,12 +532,13 @@ class gevWBDDataConnector extends wbdDataConnector {
 	**/
 	private function assignUserToSeminar($rec, $crs_id){
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 
 		// get user (hist_user is ok, since bwv-id must not change 
 		// and was the starting point, anyway)
 		$sql = "SELECT user_id\n"
 				." FROM hist_user "
-				." WHERE bwv_id = ".$this->IlDB->quote($rec['bwv_id'],"text")."\n"
+				." WHERE bwv_id = ".$this->ilDB->quote($rec['bwv_id'],"text")."\n"
 				."    AND hist_historic = ".$this->ilDB->quote(0,"integer")."\n";
 
 		$result = $this->ilDB->query($sql);
@@ -563,9 +551,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		//HINWEIS!!!
 		//Schmeißt neuerdings eine Fehlermeldung, wenn die usr_id nicht vorhanden ist
-		$uutils = gevUserUtils::getInstanceByObjOrId($usr_id);
+		$wbd = gevWBD::getInstanceByObjOrId($usr_id);
 
-		$okz 			= $uutils->getWBDOKZ();
+		$okz 			= $wbd->getWBDOKZ();
 		$booking_id		= $rec['wbd_booking_id'];
 		$credit_points 	= $rec['credit_points'];
 		$begin_date 	= $rec['begin']; // date('Y-m-d', strtotime($rec['Beginn']));
@@ -649,10 +637,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 			return true;
 		}
 
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		global $ilAppEventHandler;
-		$uutils = gevUserUtils::getInstance($user_id);
-		$uutils->setWBDBWVId($bwv_id);
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+		$wbd = gevWBD::getInstance($user_id);
+		$wbd->setWBDBWVId($bwv_id);
 		
 		return true;
 	}
@@ -665,12 +652,12 @@ class gevWBDDataConnector extends wbdDataConnector {
 	* @param date $a_certification_begin
 	*/
 	public function setBeginOfCertification($a_user_id, $a_certification_begin) {
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 		require_once("Services/Calendar/classes/class.ilDate.php");
-		$uutils = gevUserUtils::getInstance($a_user_id);
+		$wbd = gevWBD::getInstance($a_user_id);
 		$str = explode("T",$a_certification_begin);
 		$begin_of_certification = new ilDate($str[0],IL_CAL_DATE);
-		$uutils->setWBDFirstCertificationPeriodBegin($begin_of_certification);
+		$wbd->setWBDFirstCertificationPeriodBegin($begin_of_certification);
 
 		return;
 	}
@@ -681,16 +668,16 @@ class gevWBDDataConnector extends wbdDataConnector {
 	* @param string $user_id
 	*/
 	public function setNewTPType($user_id) {
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		$uutils = gevUserUtils::getInstance($user_id);
-		$next_action = $uutils->getNextWBDAction();
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+		$wbd = gevWBD::getInstance($user_id);
+		$next_action = $wbd->getNextWBDAction();
 
 		switch ($next_action) {
-			case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE:
-				$uutils->setWBDTPType(gevUserUtils::WBD_TP_SERVICE);
+			case gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE:
+				$wbd->setWBDTPType(gevWBD::WBD_TP_SERVICE);
 				break;
-			case gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS:
-				$uutils->setWBDTPType(gevUserUtils::WBD_TP_BASIS);
+			case gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_BASIS:
+				$wbd->setWBDTPType(gevWBD::WBD_TP_BASIS);
 				break;
 		}
 	}
@@ -701,9 +688,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 	* @param string $user_id 
 	*/
 	public function setNextWBDActionToNothing($user_id) {
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		$uutils = gevUserUtils::getInstance($user_id);
-		$uutils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+		$wbd = gevWBD::getInstance($user_id);
+		$wbd->setNextWBDAction(gevWBD::USR_WBD_NEXT_ACTION_NOTHING);
 	}
 
 	/**
@@ -749,7 +736,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 			return array();
 		}
 
-		$tp_types = array(gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE, gevSettings::USR_WBD_NEXT_ACTION_NEW_TP_BASIS);
+		$tp_types = array(gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE, gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_BASIS);
 		$sql = "SELECT * FROM hist_user\n"
 				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
 				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
@@ -759,11 +746,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$ret = array();
 		$result = $this->ilDB->query($sql);
 
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 		while($record = $this->ilDB->fetchAssoc($result)) {
-
-			$uutils = gevUserUtils::getInstanceByObjOrId($record['user_id']);
-			if ($uutils->wbdShouldBeRegisteredAsNew()) {
+			$wbd = gevWBD::getInstanceByObjOrId($record['user_id']);
+			if ($wbd->wbdShouldBeRegisteredAsNew()) {
 
 				$udata = $this->_map_userdata($record);
 
@@ -857,7 +843,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 
 		// manage accounts for TP_Service only:
-		$sql .= " AND wbd_type = '" .self::WBD_TP_SERVICE ."'";
+		$sql .= " AND wbd_type = '" .gevWBD::WBD_TP_SERVICE ."'";
 
 
 		//dev-safety:
@@ -1007,9 +993,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		// report edupoints for TP_Service, TP_Basis and Edu_Provider only:
 		$sql .= " AND wbd_type IN ('"
-			.self::WBD_TP_SERVICE."', '"
-			.self::WBD_EDU_PROVIDER."', '"
-			.self::WBD_TP_BASIS
+			.gevWBD::WBD_TP_SERVICE."', '"
+			.gevWBD::WBD_EDU_PROVIDER."', '"
+			.gevWBD::WBD_TP_BASIS
 			."')";
 
 
@@ -1242,15 +1228,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 			." WHERE bwv_id != '-empty-'"
 			." AND hist_historic=0";
 
-		// for TP_Service only:
-		/*
-		$sql .= " AND wbd_type IN ('"
-			.self::WBD_TP_SERVICE."', '"
-			.self::WBD_TP_BASIS
-			."')";
-		*/
+		
 
-		$sql .= " AND wbd_type='" .self::WBD_TP_SERVICE ."'"; 
+		$sql .= " AND wbd_type='" .gevWBD::WBD_TP_SERVICE ."'"; 
 	
 //		$sql .= " AND user_id=6776"; 
 
@@ -1397,9 +1377,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 		// report edupoints for TP_Service, TP_Basis and Edu_Provider only:
 		$sql .= " AND wbd_type IN ('"
-			.self::WBD_TP_SERVICE."', '"
-			.self::WBD_EDU_PROVIDER."', '"
-			.self::WBD_TP_BASIS
+			.gevWBD::WBD_TP_SERVICE."', '"
+			.gevWBD::WBD_EDU_PROVIDER."', '"
+			.gevWBD::WBD_TP_BASIS
 			."')";
 
 
@@ -1468,8 +1448,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$sql = "SELECT * FROM hist_user\n"
 				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
 				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
-				."    AND last_wbd_report IS NULL\n"
-				."    AND next_wbd_action = ".$this->ilDB->quote(gevSettings::USR_WBD_NEXT_ACTION_RELEASE,"text")."\n";
+				."    AND next_wbd_action = ".$this->ilDB->quote(gevWBD::USR_WBD_NEXT_ACTION_RELEASE,"text")."\n";
 
 		/*$sql = "SELECT * FROM hist_user"
 					." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")
@@ -1478,7 +1457,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 					." AND exit_date < CURDATE()"
 					." AND exit_date_wbd = ".$this->ilDB->quote($this->empty_date_text, "text")."";
 		// manage accounts for TP_Service only:
-		$sql .= " AND ".$this->ilDB->in("wbd_type", array(self::WBD_TP_SERVICE), false, "text")."";
+		$sql .= " AND ".$this->ilDB->in("wbd_type", array(gevWBD::WBD_TP_SERVICE), false, "text")."";
 
 		//dev-safety:
 		$sql .= ' AND user_id in (SELECT usr_id FROM usr_data)';
@@ -1500,10 +1479,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 		$res = $this->ilDB->query($sql);
 		$ret = array();
 		while($row = $this->ilDB->fetchAssoc($res)) {
-			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-			$user_utils = gevUserUtils::getInstance($row["user_id"]);
+			require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+			$wbd = gevWBD::getInstance($row["user_id"]);
 			
-			if($user_utils->wbdShouldBeReleased()) {
+			if($wbd->wbdShouldBeReleased()) {
 				$udata = $this->_map_userdata($row);
 
 				$valid = $this->validateUserRecord($udata);
@@ -1531,19 +1510,20 @@ class gevWBDDataConnector extends wbdDataConnector {
 	}
 
 	public function success_exit_user($row_id) {
-		$this->setWbdExitUserData($row_id);
-		$this->_set_last_wbd_report('hist_user', $row_id);
+	    $this->setWbdExitUserData($row_id);
+	    $this->_set_last_wbd_report('hist_user', $row_id);
 
-		$sql = "SELECT user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($a_row_id, "integer")."";
-		$res = $this->ilDB->query($sql);
-		assert($this->ilDB->numRows($res) == 1);
+	    $sql = "SELECT user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($row_id, "integer")."";
+	    $res = $this->ilDB->query($sql);
+	    assert($this->ilDB->numRows($res) == 1);
 
-		if($this->ilDB->numRows($res) == 1) {
-			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-			$user_utils = gevUserUtils::getInstance($res["user_id"]);
-			$user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
-			$this->raiseEventUserChanged($user_utils->getId());
-		}
+	    if($this->ilDB->numRows($res) == 1) {
+	            $row = $ilDB->fetchAssoc($res);
+	            require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+	            $user_utils = gevUserUtils::getInstance($row["user_id"]);
+	            $user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
+	            $this->raiseEventUserChanged($user_utils->getId());
+	    }
 	}
 	
 	public function fail_exit_user($row_id, $a_exception) {
@@ -1596,15 +1576,15 @@ class gevWBDDataConnector extends wbdDataConnector {
 				." WHERE hist_historic = ".$this->ilDB->quote(0, "integer")."\n"
 				."    AND deleted = ".$this->ilDB->quote(0, "integer")."\n"
 				."    AND last_wbd_report IS NULL\n"
-				."    AND next_wbd_action = ".$this->ilDB->quote(gevSettings::USR_WBD_NEXT_ACTION_AFFILIATE, "text")."\n";
+				."    AND next_wbd_action = ".$this->ilDB->quote(gevWBD::USR_WBD_NEXT_ACTION_AFFILIATE, "text")."\n";
 
 		$res = $this->ilDB->query($sql);
 		$ret = array();
 		while($row = $this->ilDB->fetchAssoc($res)) {
-			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-			$user_utils = gevUserUtils::getInstance($row["user_id"]);
+			require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+			$wbd = gevWBD::getInstance($row["user_id"]);
 			
-			if($user_utils->wbdShouldBeAffiliateAsTPService()) {
+			if($wbd->wbdShouldBeAffiliateAsTPService()) {
 				$udata = $this->_map_userdata($row);
 				$valid = $this->validateUserRecord($udata);
 
@@ -1635,15 +1615,15 @@ class gevWBDDataConnector extends wbdDataConnector {
 	* 
 	* @param 	string 		$a_row_id 	Number to identify the row in hist_user
 	*/
-	public function success_affiliate_user($a_row_id) {
-
-		$sql = "SELECT user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($a_row_id, "integer")."";
+	public function success_affiliate_user($row_id) {
+		$sql = "SELECT user_id FROM hist_user WHERE row_id = ".$this->ilDB->quote($row_id, "integer")."";
 		$res = $this->ilDB->query($sql);
 		assert($this->ilDB->numRows($res) == 1);
 
 		if($this->ilDB->numRows($res) == 1) {
+			$row = $this->ilDb->fetchAssoc($res);
 			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-			$user_utils = gevUserUtils::getInstance($res["user_id"]);
+			$user_utils = gevUserUtils::getInstance($row["user_id"]);
 			$user_utils->setWBDTPType(gevUserUtils::WBD_TP_SERVICE);
 			$user_utils->setNextWBDAction(gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
 			$this->_set_last_wbd_report('hist_user', $row_id);
@@ -1660,14 +1640,14 @@ class gevWBDDataConnector extends wbdDataConnector {
 	public function fail_affiliate_user($a_row_id, $a_exception) {
 		print "\n";
 		print 'ERROR on affiliateUser: ';
-		print $row_id;
+		print $a_row_id;
 		print "\n";
 		print_r($a_exception->getReason());
 		print "\n\n";
 
 		//ERROR-LOG:
 		$sql = " SELECT user_id FROM hist_user WHERE"
-			." row_id=" .$row_id; 
+			." row_id=" .$a_row_id; 
 		$result = $this->ilDB->query($sql);
 		$record = $this->ilDB->fetchAssoc($result);
 
@@ -1676,7 +1656,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 			0,
 			$record['user_id'],
 			0,
-			$row_id
+			$a_row_id
 		);
 	}
 }

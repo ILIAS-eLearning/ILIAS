@@ -16,6 +16,7 @@ require_once("Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitAccess.php");
 
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 
@@ -46,6 +47,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		
 		if($this->gUser->getId() !== 0) {
 			$this->user_utils = gevUserUtils::getInstance($this->gUser->getId());
+			$this->wbd = gevWBD::getInstance($this->gUser->getId());
 		}
 
 		$this->gLng->loadLanguageModule("gev");
@@ -109,7 +111,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 
 		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices || $local_user_admin || $can_create_ha_unit;
 		$is_trainer = $tep; // $tep_permissions->isTutor();
-		$could_do_wbd_registration = $this->user_utils->hasWBDRelevantRole() && !$this->user_utils->getWBDBWVId() && ($this->user_utils->getNextWBDAction() == gevSettings::USR_WBD_NEXT_ACTION_NOTHING);
+		$could_do_wbd_registration = $this->wbd->hasWBDRelevantRole() && !$this->wbd->getWBDBWVId() && ($this->wbd->getNextWBDAction() == gevWBD::USR_WBD_NEXT_ACTION_NOTHING);
 
 		$manage_course_block_units = true;
 
@@ -325,7 +327,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			, "gev_report_wbd_edupoints" => array($this->canViewReport("gev_report_wbd_edupoints"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportWBDEdupoints",$this->gLng->txt("gev_report_wbd_edupoints"))
 			, "gev_report_wbd_errors" => array($this->canViewReport("gev_report_wbd_errors"), "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->gLng->txt("gev_report_wbd_errors"))
 			, "gev_report_dbv_report" => array($this->canViewReport("gev_report_dbv_report"), "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReport",$this->gLng->txt("gev_report_dbv_report"))
-			, "gev_report_trainer_workload" => array($this->canViewReport("gev_report_trainer_workload"), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerWorkload",$this->gLng->txt("gev_report_trainer_workload"))
 			, "gev_report_trainer_operation_by_orgu_trainer" => array($this->canViewReport("gev_report_trainer_operation_by_orgu_trainer"), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerOperationByOrgUnitAndTrainer",$this->gLng->txt("gev_report_trainer_operation_by_orgu_trainer"))
 			);
 
@@ -362,7 +363,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				|| $this->canViewReport("gev_report_wbd_edupoints")
 				|| $this->canViewReport("gev_report_wbd_errors")
 				|| $this->canViewReport("gev_report_dbv_report")
-				|| $this->canViewReport("gev_report_trainer_workload")
 				|| $this->canViewReport("gev_report_trainer_operation_by_orgu_trainer")
 				|| count($visible_repo_reports) > 0
 				;
@@ -392,7 +392,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				return $this->user_utils && $this->user_utils->isAdmin();
 			case "gev_report_dbv_report":
 				return $this->user_utils && $this->user_utils->hasRoleIn(array("DBV-Fin-UVG"));
-			case "gev_report_trainer_workload":
 			case "gev_report_trainer_operation_by_orgu_trainer":
 				return $this->user_utils && $this->user_utils->isAdmin();
 			default:

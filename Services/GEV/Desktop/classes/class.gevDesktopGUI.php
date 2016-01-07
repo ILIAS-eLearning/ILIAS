@@ -33,7 +33,6 @@
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingBuildingBlockAdminGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCourseCreatingBuildingBlockGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCourseCreatingBuildingBlock2GUI
-* @ilCtrl_Calls gevDesktopGUI: gevTrainerWorkloadGUI
 * @ilCtrl_Calls gevDesktopGUI: gevTrainerOperationByOrgUnitAndTrainerGUI
 * @ilCtrl_Calls gevDesktopGUI: ilObjCourseGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCreateMailPreviewDataGUI
@@ -232,12 +231,6 @@ class gevDesktopGUI {
 				$gui = new gevDecentralTrainingCourseCreatingBuildingBlock2GUI($crs_obj_id);
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-			case "gevtrainerworkloadgui":
-				$ilMainMenu->setActive("gev_reporting_menu");
-				require_once("Services/GEV/Reports/classes/class.gevTrainerWorkloadGUI.php");
-				$gui = new gevTrainerWorkloadGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
-				break;
 			case "gevtraineroperationbyorgunitandtrainergui":
 				$ilMainMenu->setActive("gev_reporting_menu");
 				require_once("Services/GEV/Reports/classes/class.gevTrainerOperationByOrgUnitAndTrainerGUI.php");
@@ -297,7 +290,6 @@ class gevDesktopGUI {
 			case "toWBDErrors":
 			case "createHAUnit":
 			case "toDctBuildingBlockAdm":
-			case "toTrainerWorkload":
 			case "toTrainerOperationByOrgUnitAndTrainer":
 			case "toSaveTrainingSettings":
 			case "toAddCrsBuildingBlock":
@@ -365,10 +357,6 @@ class gevDesktopGUI {
 
 	protected function toDBVReport() {
 		$this->ctrl->redirectByClass("gevDBVReportGUI");
-	}
-
-	protected function toTrainerWorkload() {
-		$this->ctrl->redirectByClass("gevTrainerWorkloadGUI");
 	}
 
 	protected function toTrainerOperationByOrgUnitAndTrainer() {
@@ -484,13 +472,13 @@ class gevDesktopGUI {
 	}
 	
 	protected function checkNeedsWBDRegistration($cmd, $next_class) {
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 		global $ilUser;
-		$utils = gevUserUtils::getInstanceByObj($ilUser);
-		if ($utils->hasWBDRelevantRole() && !$utils->hasDoneWBDRegistration()) {
+		$wbd = gevWBD::getInstanceByObj($ilUser);
+		if ($wbd->hasWBDRelevantRole() && !$wbd->hasDoneWBDRegistration()) {
 
 			//two ways: GEV is TP or  TPBasic
-			if ($utils->canBeRegisteredAsTPService()) {
+			if ($wbd->canBeRegisteredAsTPService()) {
 				if ($next_class != "gevwbdtpserviceregistrationgui") {
 					$this->ctrl->redirectByClass("gevWBDTPServiceRegistrationGUI");
 				}
