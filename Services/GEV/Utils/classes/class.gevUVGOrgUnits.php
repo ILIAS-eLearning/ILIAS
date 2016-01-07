@@ -74,7 +74,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 			$target_sub_ref_id = $this->getBDSubOrgUnitRefIdFor($owner, $target_ref_id);
 		}
 		catch (ilPersonalOrgUnitsException $excp) {
-			$target_ref_id = $this->base_ref_id;
+			$target_sub_ref_id = $this->base_ref_id;
 		}
 		
 		$ref_id = $a_orgu->getRefId();
@@ -93,17 +93,21 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 	}
 	
 	protected function getBDOrgUnitRefIdFor($a_user_id) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$bd_name = $this->getBDFromIVOf($a_user_id);
 		if (!$bd_name) {
 			$this->ilPersonalOrgUnitsError("getBDOrgUnitRefIdFor", "Could not find BD-Name for $a_user_id.");
 		}
-		
-		$bd_ref = gevOrgUnitUtils::getBDByName($bd_name, $this->base_ref_id);
-		if(!$bd_ref) {
-			return $this->createBDOrgUnit($bd_name)->getRefId();
+		$children = $this->tree->getChilds($this->base_ref_id);
+		foreach ($children as $child) {
+			if (ilObject::_lookupTitle($child["obj_id"]) == $bd_name) {
+				return $child["ref_id"];
+			}
 		}
-
-		return $bd_ref;
+		
+		// Apparently there is no org unit beneath the base that matches the desired name.
+		// We need to create a new one
+		return $this->createBDOrgUnit($bd_name)->getRefId();
 	}
 
 	protected function getBDSubOrgUnitRefIdFor($user_id, $bd_org_unit_ref_id) {
@@ -112,7 +116,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		if(!$sub_orgu_title) {
 			$this->ilPersonalOrgUnitsError("getBDSubOrgUnitRefIdFor", "Could not find BD-SubOrgu-Name for $a_user_id.");
 		}
-		$children = $this->tree->getChilds($this->base_ref_id);
+		$children = $this->tree->getChilds($bd_org_unit_ref_id);
 		foreach ($children as $child) {
 			if (ilObject::_lookupTitle($child["obj_id"]) == $sub_orgu_title) {
 				return $child["ref_id"];
