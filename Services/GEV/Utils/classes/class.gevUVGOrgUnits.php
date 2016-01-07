@@ -93,21 +93,17 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 	}
 	
 	protected function getBDOrgUnitRefIdFor($a_user_id) {
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$bd_name = $this->getBDFromIVOf($a_user_id);
 		if (!$bd_name) {
 			$this->ilPersonalOrgUnitsError("getBDOrgUnitRefIdFor", "Could not find BD-Name for $a_user_id.");
 		}
-		$children = $this->tree->getChilds($this->base_ref_id);
-		foreach ($children as $child) {
-			if (ilObject::_lookupTitle($child["obj_id"]) == $bd_name) {
-				return $child["ref_id"];
-			}
-		}
 		
-		// Apparently there is no org unit beneath the base that matches the desired name.
-		// We need to create a new one
-		return $this->createBDOrgUnit($bd_name)->getRefId();
+		$bd_ref = gevOrgUnitUtils::getBDByName($bd_name, $this->base_ref_id);
+		if(!$bd_ref) {
+			return $this->createBDOrgUnit($bd_name)->getRefId();
+		}
+
+		return $bd_ref;
 	}
 
 	protected function getBDSubOrgUnitRefIdFor($user_id, $bd_org_unit_ref_id) {
@@ -123,7 +119,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 			}
 		}
 		
-		$sub_orgu_ref_id = $this->createBDOrgUnit($sub_orgu_title)->getRefId();
+		$sub_orgu_ref_id = $this->createBDSubOrgUnit($sub_orgu_title)->getRefId();
 		$this->tree->moveTree($sub_orgu_ref_id, $bd_org_unit_ref_id);
 
 		return $sub_orgu_ref_id;
@@ -198,7 +194,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		$data = mysql_fetch_assoc($result);
 
 		if(mysql_num_rows($result) > 1) {
-			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance OR Composite in more OrgUnits then one OrgUnit."
+			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance AND Composite in different OrgUnits."
 								." Just one Unit will be created.");
 		}
 
@@ -221,6 +217,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 	protected function createBDOrgUnit($a_bd_name) {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		
 		$orgu = new ilObjOrgUnit();
 		$orgu->setTitle($a_bd_name);
@@ -229,10 +226,26 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		$orgu->update();
 		$orgu->putInTree($this->base_ref_id);
 		$orgu->initDefaultRoles();
-		
+
 		$orgutils = gevOrgUnitUtils::getInstance($orgu->getId());
-		$orgutils->setType(gevSettings::ORG_TYPE_DEFAULT);
+		$orgutils->setType(gevSettings::REF_ID_ORG_UNIT_TYPE_BD);
 		
+		return $orgu;
+	}
+
+	protected function createBDSubOrgUnit($a_bd_name) {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		$orgu = new ilObjOrgUnit();
+		$orgu->setTitle($a_bd_name);
+		$orgu->create();
+		$orgu->createReference();
+		$orgu->update();
+		$orgu->putInTree($this->base_ref_id);
+		$orgu->initDefaultRoles();
+
 		return $orgu;
 	}
 }
