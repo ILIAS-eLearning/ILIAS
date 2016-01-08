@@ -15695,7 +15695,7 @@ crs#:#crs_subscription_min_members#:#Minimale Anzahl
 crs#:#crs_subscription_min_members_info#:#Wird die geforderte Mindestanzahl an Mitgliedern nicht erreicht, kann der Kurs nicht stattfinden. Wird die Mindestanzahl bis zum Ende des Beitrittszeitraums bzw. dem spätesten Kursaustritt nicht erreicht, versendet ILIAS eine Mail an jene Kursadministratoren oder -tutoren, für die im Reiter 'Mitglieder' die Option 'Benachrichtigung' aktiviert ist.
 crs#:#crs_waiting_list_autofill#:#Mit automatischem Aufrücken
 crs#:#crs_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
-crs#:#crs_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.
+crs#:#crs_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach. Dies sollte nicht in Verbindung mit dem Beitrittsverfahren "Beitritt nach Bestätigung" benutzt werden, da die Bestätigung so umgangen wird.
 crs#:#crs_cancellation_end#:#Spätester Kursaustritt
 crs#:#crs_period#:#Veranstaltungszeitraum
 crs#:#crs_course_period_not_valid#:#DerKurszeitraum ist nicht gültig.
@@ -15716,12 +15716,12 @@ crs#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilneh
 crs#:#mem_cron_min_members_intro#:#Die folgenden Kurse und Gruppen erreichen aktuell nicht die für sie definierte minimale Teilnehmerzahl.
 grp#:#grp_waiting_list_autofill#:#Mit automatischem Aufrücken
 grp#:#grp_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
-grp#:#grp_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste auf.
+grp#:#grp_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste auf.  Dies sollte nicht in Verbindung mit dem Beitrittsverfahren "Beitritt nach Bestätigung" benutzt werden, da die Bestätigung so umgangen wird.
 sess#:#sess_reg_waiting_list_none#:#Keine
 sess#:#sess_reg_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 sess#:#sess_reg_waiting_list_no_autofill_info#:#Ist die maximale Teilnehmeranzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 sess#:#sess_reg_waiting_list_autofill#:#Mit automatischem Aufrücken
-sess#:#sess_reg_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach.
+sess#:#sess_reg_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach. Dies sollte nicht in Verbindung mit dem Anmeldeverfahren "Teilnahme beantragen" benutzt werden, da die Bestätigung so umgangen wird.
 grp#:#grp_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbständig die Gruppenmitgliedschaft beenden.
 crs#:#crs_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbständig die Kursmitgliedschaft beenden.
 crs#:#crs_period_info#:#Information zum Start und Ende der Veranstaltung, die mit dem Kurs unterstützt werden soll.
