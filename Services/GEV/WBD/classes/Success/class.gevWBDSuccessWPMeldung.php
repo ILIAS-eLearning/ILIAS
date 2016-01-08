@@ -10,6 +10,7 @@
 */
 require_once("Services/Calendar/classes/class.ilDate.php");
 require_once("Services/GEV/WBD/classes/Success/trait.gevWBDSuccess.php");
+
 class gevWBDSuccessWPMeldung extends WBDSuccessWPMeldung {
 	use gevWBDSuccess;
 	

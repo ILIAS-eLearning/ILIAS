@@ -10,6 +10,7 @@
 */
 require_once("Services/GEV/WBD/classes/Success/trait.gevWBDSuccess.php");
 require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+
 class gevWBDSuccessVvErstanlage extends WBDSuccessVvErstanlage{
 	use gevWBDSuccess;
 

@@ -11,6 +11,7 @@
 require_once("Services/GEV/WBD/classes/Requests/trait.gevWBDRequest.php");
 require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessWPStorno.php");
 require_once("Services/GEV/WBD/classes/Error/class.gevWBDError.php");
+
 class gevWBDRequestWPStorno extends WBDRequestWPStorno {
 	use gevWBDRequest;
 

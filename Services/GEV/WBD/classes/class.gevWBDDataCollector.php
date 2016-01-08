@@ -1007,7 +1007,6 @@ class gevWBDDataCollector implements WBDDataCollector {
 	}
 
 	protected function getCurrentDate() {
-		return "2015-12-17";
 		return date("Y-m-d");
 	}
 

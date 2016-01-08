@@ -9,6 +9,7 @@
 *
 */
 require_once("Services/GEV/WBD/classes/Success/trait.gevWBDSuccess.php");
+
 class gevWBDSuccessVvAenderung extends WBDSuccessVvAenderung {
 	use gevWBDSuccess;
 

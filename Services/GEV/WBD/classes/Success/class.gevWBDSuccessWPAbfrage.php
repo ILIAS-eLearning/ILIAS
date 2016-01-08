@@ -10,6 +10,7 @@
 */
 require_once("Services/GEV/WBD/classes/Success/trait.gevWBDSuccess.php");
 require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
+
 class gevWBDSuccessWPAbfrage extends WBDSuccessWPAbfrage {
 	use gevWBDSuccess;
 
