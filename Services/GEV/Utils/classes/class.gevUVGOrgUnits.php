@@ -220,7 +220,6 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		$orgu->initDefaultRoles();
 
 		$orgutils = gevOrgUnitUtils::getInstance($orgu->getId());
-		$orgutils->setType(gevSettings::REF_ID_ORG_UNIT_TYPE_BD);
 		
 		return $orgu;
 	}
