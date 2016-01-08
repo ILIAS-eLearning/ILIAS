@@ -115,8 +115,11 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         if($lp_mode==92){
             
             $passing_grade=$this->saveRubricGrade();
-                        
-            $this->__updateUserRubric($_REQUEST['user_id'], $this->details_obj_id,$passing_grade);
+            
+            //only update progress if grading is completed
+            if($passing_grade!==false){
+                $this->__updateUserRubric($_REQUEST['user_id'], $this->details_obj_id,$passing_grade);                
+            }
             
         }else{
 		
@@ -444,7 +447,11 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
             ilUtil::sendFailure($this->lng->txt('rubric_card_not_defined'));                
         }
         
-        return($rubricObj->getPassingGrade());
+        if($rubricObj->isGradeCompleted()){
+            return($rubricObj->getPassingGrade());            
+        }else{
+            return(false);
+        }
         
     }
     /**

@@ -155,7 +155,27 @@ class ilLPRubricCard
         $form=new ilPropertyFormGUI();
         
         return($form->getInput('user_id',false));
-    }    
+    }  
+    
+    public function isGradeCompleted()
+    {
+        $user_id=$this->getGradeUserId();
+        $set=$this->ilDB->query("select 
+                                    rubric_data_id 
+                                from rubric_data 
+                                where 
+                                    deleted is null and 
+                                    rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")." and 
+                                    usr_id=".$this->ilDB->quote($user_id, "integer")." and 
+                                    criteria_point is null"
+        );
+        
+        if($this->ilDB->numRows($set)>0){
+            return(false);
+        }else{
+            return(true);
+        }
+    }  
     
     public function grade($rubric_data)
     {
@@ -181,34 +201,68 @@ class ilLPRubricCard
             $row=$this->ilDB->fetchAssoc($set);
             if(!empty($row)){
                 //update
-                $this->ilDB->manipulate(
-                    "update rubric_data set 
-                        rubric_criteria_id=".$this->ilDB->quote($criteria_id, "integer").",
-                        criteria_point=".$this->ilDB->quote($grade['point'], "integer").",
-                        criteria_comment=".$this->ilDB->quote($grade['comment'], "text").",
-                        deleted=NULL,
-                        last_update=NOW(),
-                        owner=".$this->ilDB->quote($_SESSION['AccountId'], "integer")." 
-                    where rubric_data_id=".$this->ilDB->quote($row['rubric_data_id'], "integer")
-                );
+                if($grade['point']!=''){
+                    $this->ilDB->manipulate(
+                        "update rubric_data set 
+                            rubric_criteria_id=".$this->ilDB->quote($criteria_id, "integer").",
+                            criteria_point=".$this->ilDB->quote($grade['point'], "integer").",
+                            criteria_comment=".$this->ilDB->quote($grade['comment'], "text").",
+                            deleted=NULL,
+                            last_update=NOW(),
+                            owner=".$this->ilDB->quote($_SESSION['AccountId'], "integer")." 
+                        where rubric_data_id=".$this->ilDB->quote($row['rubric_data_id'], "integer")
+                    );
+                }else{
+                    $this->ilDB->manipulate(
+                        "update rubric_data set 
+                            rubric_criteria_id=".$this->ilDB->quote($criteria_id, "integer").",
+                            criteria_point=NULL,
+                            criteria_comment=".$this->ilDB->quote($grade['comment'], "text").",
+                            deleted=NULL,
+                            last_update=NOW(),
+                            owner=".$this->ilDB->quote($_SESSION['AccountId'], "integer")." 
+                        where rubric_data_id=".$this->ilDB->quote($row['rubric_data_id'], "integer")
+                    );                    
+                }
+                
             }else{
                 //new record, insert
                 $new_rubric_data_id=$this->incrementSequence('rubric_data_seq');
+                
+                if($grade['point']!=''){
+                    $this->ilDB->manipulate(
+                        "insert into rubric_data (rubric_data_id,rubric_id,usr_id,rubric_criteria_id,criteria_point,criteria_comment,owner,create_date,last_update) values (
+                            ".$this->ilDB->quote($new_rubric_data_id, "integer").",                    
+                            ".$this->ilDB->quote($this->rubric_id, "integer").",
+                            ".$this->ilDB->quote($user_id, "integer").",
+                            ".$this->ilDB->quote($criteria_id, "integer").",
+                            ".$this->ilDB->quote($grade['point'], "integer").",
+                            ".$this->ilDB->quote($grade['comment'], "text").",
+                            ".$this->ilDB->quote($_SESSION['AccountId'], "integer").",                    
+                            NOW(),
+                            NOW()
+                            
+                        )"
+                    );
+                    
+                }else{
+                    $this->ilDB->manipulate(
+                        "insert into rubric_data (rubric_data_id,rubric_id,usr_id,rubric_criteria_id,criteria_comment,owner,create_date,last_update) values (
+                            ".$this->ilDB->quote($new_rubric_data_id, "integer").",                    
+                            ".$this->ilDB->quote($this->rubric_id, "integer").",
+                            ".$this->ilDB->quote($user_id, "integer").",
+                            ".$this->ilDB->quote($criteria_id, "integer").",
+                            ".$this->ilDB->quote($grade['comment'], "text").",
+                            ".$this->ilDB->quote($_SESSION['AccountId'], "integer").",                    
+                            NOW(),
+                            NOW()
+                            
+                        )"
+                    );
+                    
+                }
             
-                $this->ilDB->manipulate(
-                    "insert into rubric_data (rubric_data_id,rubric_id,usr_id,rubric_criteria_id,criteria_point,criteria_comment,owner,create_date,last_update) values (
-                        ".$this->ilDB->quote($new_rubric_data_id, "integer").",                    
-                        ".$this->ilDB->quote($this->rubric_id, "integer").",
-                        ".$this->ilDB->quote($user_id, "integer").",
-                        ".$this->ilDB->quote($criteria_id, "integer").",
-                        ".$this->ilDB->quote($grade['point'], "integer").",
-                        ".$this->ilDB->quote($grade['comment'], "text").",
-                        ".$this->ilDB->quote($_SESSION['AccountId'], "integer").",                    
-                        NOW(),
-                        NOW()
-                        
-                    )"
-                );
+                
                 
             }
             

@@ -743,7 +743,7 @@ var RUBRIC = {
                
                 //is the value within the range and a number ?                
                 var test_value=parseInt(inputs[a].value);       
-                if(isNaN(inputs[a].value)||test_value>max||test_value<min||inputs[a].value==''){
+                if(isNaN(inputs[a].value)||test_value>max||test_value<min){
                     // value is out of range or not a number                  
                     inputs[a].setAttribute('style','border-color:default');
                     verified=false;
