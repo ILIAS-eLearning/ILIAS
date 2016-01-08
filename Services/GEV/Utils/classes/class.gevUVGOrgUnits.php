@@ -74,7 +74,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 			$target_sub_ref_id = $this->getBDSubOrgUnitRefIdFor($owner, $target_ref_id);
 		}
 		catch (ilPersonalOrgUnitsException $excp) {
-			$target_ref_id = $this->base_ref_id;
+			$target_sub_ref_id = $this->base_ref_id;
 		}
 		
 		$ref_id = $a_orgu->getRefId();
@@ -116,14 +116,14 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		if(!$sub_orgu_title) {
 			$this->ilPersonalOrgUnitsError("getBDSubOrgUnitRefIdFor", "Could not find BD-SubOrgu-Name for $a_user_id.");
 		}
-		$children = $this->tree->getChilds($this->base_ref_id);
+		$children = $this->tree->getChilds($bd_org_unit_ref_id);
 		foreach ($children as $child) {
 			if (ilObject::_lookupTitle($child["obj_id"]) == $sub_orgu_title) {
 				return $child["ref_id"];
 			}
 		}
 		
-		$sub_orgu_ref_id = $this->createBDOrgUnit($sub_orgu_title)->getRefId();
+		$sub_orgu_ref_id = $this->createBDSubOrgUnit($sub_orgu_title)->getRefId();
 		$this->tree->moveTree($sub_orgu_ref_id, $bd_org_unit_ref_id);
 
 		return $sub_orgu_ref_id;
@@ -138,11 +138,8 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
 		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
 
-		$mysql = mysql_connect($host, $user, $pass) 
-				or die( "MySQL: ".mysql_error()." ### "
-						." Is the shadowdb initialized?"
-						." Are the settings for the shadowdb initialized in the client.ini.php?"
-					  );
+		//MYSQL_CONNECT is deprecated since PHP 5.5.0
+		$mysql = mysql_connect($host, $user, $pass);
 		mysql_select_db($name, $mysql);
 		mysql_set_charset('utf8', $mysql);
 
@@ -179,31 +176,22 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
 
 		//MYSQL_CONNECT is deprecated since PHP 5.5.0
-		$mysql = mysql_connect($host, $user, $pass) 
-				or die( "MySQL: ".mysql_error()." ### "
-						." Is the shadowdb initialized?"
-						." Are the settings for the shadowdb initialized in the client.ini.php?"
-					  );
+		$mysql = mysql_connect($host, $user, $pass);
 		mysql_select_db($name, $mysql);
 		mysql_set_charset('utf8', $mysql);
 
 		$agent_key = $this->getJobNumberOf($user_id);
 
-		$sql = 	 "SELECT IF(dbaf = ".$ilDB->quote($agent_key,"text").", dbaf, null) as finance\n"
-					.", IF(dbvg = ".$ilDB->quote($agent_key,"text").", dbvg, null) as composite\n"
+		$sql = 	 "SELECT SUM(IF(dbaf = ".$ilDB->quote($agent_key,"text").", 1, 0)) as finance\n"
+					.", SUM(IF(dbvg = ".$ilDB->quote($agent_key,"text").", 1, 0)) as composite\n"
 					." FROM `ivimport_orgunit`\n"
 					." WHERE `dbaf` = ".$ilDB->quote($agent_key,"text")." OR `dbvg` = ".$ilDB->quote($agent_key,"text");
-		
+
 		$result = mysql_query($sql);
 		$data = mysql_fetch_assoc($result);
 
-		if(mysql_num_rows($result) > 1) {
-			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance OR Composite in more OrgUnits then one OrgUnit."
-								." Just one Unit will be created.");
-		}
-
-		if($data["finance"] && $data["composite"]) {
-			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance AND Composite in one OrgUnit. Just finance will be created.");
+		if($data["finance"] > 0 && $data["composite"] > 0) {
+			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance AND Composite. Just finance will be created.");
 		}
 
 		if($data["finance"]) {
@@ -221,6 +209,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 	protected function createBDOrgUnit($a_bd_name) {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		
 		$orgu = new ilObjOrgUnit();
 		$orgu->setTitle($a_bd_name);
@@ -229,10 +218,26 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		$orgu->update();
 		$orgu->putInTree($this->base_ref_id);
 		$orgu->initDefaultRoles();
-		
+
 		$orgutils = gevOrgUnitUtils::getInstance($orgu->getId());
-		$orgutils->setType(gevSettings::ORG_TYPE_DEFAULT);
+		$orgutils->setType(gevSettings::REF_ID_ORG_UNIT_TYPE_BD);
 		
+		return $orgu;
+	}
+
+	protected function createBDSubOrgUnit($a_bd_name) {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		
+		$orgu = new ilObjOrgUnit();
+		$orgu->setTitle($a_bd_name);
+		$orgu->create();
+		$orgu->createReference();
+		$orgu->update();
+		$orgu->putInTree($this->base_ref_id);
+		$orgu->initDefaultRoles();
+
 		return $orgu;
 	}
 }

@@ -516,7 +516,7 @@ class gevDecentralTrainingGUI {
 		$form_values["utils_id"] = $obj_id;
 		$form_values["obj_id"] = $obj_id;
 		$is_flexible = $this->isCrsTemplateFlexible($obj_id);
-		
+
 		try {
 			$form_values["added_files"] = $this->handleCustomAttachments();
 		} catch (Exception $e) {
