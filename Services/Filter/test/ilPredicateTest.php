@@ -201,4 +201,21 @@ class ilPredicateTest extends PHPUnit_Framework_TestCase {
 		// other comparisons.
 		$this->assertFalse("Implement me!");
 	}
+
+	public function test_fields() {
+		$f = $this->factory;
+		$i = $this->interpreter;
+
+		$this->assertEquals(array(), $f->_TRUE()->fields());
+
+		$f1 = $f->field("foo");
+		$f2 = $f->field("bar");
+		$f3 = $f->field("baz");
+
+		$this->assertEquals(array($f1, $f2), $f1->EQ($f2)->fields());
+		$this->assertEquals(array($f1, $f2, $f3), $f1->EQ($f2)->fields()->OR($f2->LE($f3)));
+
+		// Implement some more variations
+		$this->assertFalse("Implement me!");
+	}
 }

@@ -18,6 +18,10 @@ class ilPredicateNot extends ilPredicate {
 		$this->sub = $sub;
 	}
 
+	public function fields() {
+		return array();
+	}
+
 	/**
 	 * Get the predicate without negation.
 	 *

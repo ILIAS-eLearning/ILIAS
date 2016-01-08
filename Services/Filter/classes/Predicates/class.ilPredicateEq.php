@@ -7,5 +7,5 @@ require_once("Services/Filter/classes/Predicates/class.ilPredicateComparison.php
 /**
  * A predicate to compare two values.
  */
-class ilPredicateEq extends ilPredicate {
+class ilPredicateEq extends ilPredicateComparison {
 }

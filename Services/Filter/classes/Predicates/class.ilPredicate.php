@@ -22,6 +22,13 @@ abstract class ilPredicate {
 	}
 
 	/**
+	 * Get all fields that are used in this predicate.
+	 *
+	 * @return	ilField[]
+	 */
+	abstract public function fields();
+
+	/**
 	 * @param	Predicate|null	$other
 	 * @return	Predicate
 	 */

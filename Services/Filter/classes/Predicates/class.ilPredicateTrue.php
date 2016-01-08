@@ -11,4 +11,8 @@ class ilPredicateTrue extends ilPredicate {
 	public function __construct(ilPredicateFactory $factory) {
 		$this->setFactory($factory);
 	}
+
+	public function fields() {
+		return array();
+	}
 }

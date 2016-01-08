@@ -21,6 +21,10 @@ abstract class ilPredicateBundle extends ilPredicate {
 		$this->setFactory($factory);
 	}
 
+	public function fields() {
+		return array();
+	}
+
 	/**
 	 * Get the bundled predicates a array.
 	 *

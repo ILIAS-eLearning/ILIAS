@@ -24,6 +24,10 @@ abstract class ilPredicateComparison extends ilPredicate {
 		$this->setFactory($factory);
 	}
 
+	public function fields() {
+		return array();
+	}
+
 	/**
 	 * Get the left side of the comparison.
 	 *
