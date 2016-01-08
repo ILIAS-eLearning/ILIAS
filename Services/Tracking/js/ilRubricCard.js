@@ -981,49 +981,65 @@ function validate(obj){
     switch(obj.id.substr(0,5).toLowerCase()){
         case 'label':
             modified_object=obj.parentNode;
-            if(obj.value.length>1&&obj.value.length<50&&obj.value!=''){
+            if(obj.value.length>1&&obj.value.length<50){
                 validated=true;
+            }else if(obj.value==''){
+                validated='warning';
             }
         break;
         case 'group':
         case 'crite':
             modified_object=obj.parentNode.parentNode;
-            if(obj.value.length>3&&obj.value.length<50&&obj.value!=''){
+            if(obj.value.length>3&&obj.value.length<50){
                 validated=true;
+            }else if(obj.value==''){
+                validated='warning';
             }
         break;
         case 'behav':
             modified_object=obj.parentNode;
-            if(obj.value.length>5&&obj.value.length<4000&&obj.value!=''){
+            if(obj.value.length>5&&obj.value.length<4000){
                 validated=true;
+            }else if(obj.value==''){
+                validated='warning';
             }
         break;
         case 'point':
             modified_object=obj.parentNode;
-            if(obj.value>=0&&obj.value!=''){
+            if(obj.value>=0){
                 validated=true;
+            }else if(obj.value==''){
+                validated='warning';
             }
         break;
         case 'passi':
             modified_object=obj.parentNode;
-            if(obj.value>=0&&obj.value<=100&&obj.value!=''&&obj.value.indexOf( '.' ) == -1){
+            if(obj.value>=0&&obj.value<=100&&obj.value.indexOf( '.' ) == -1){
                 validated=true;
+            }else if(obj.value==''){
+                validated='warning';
             }
         break;        
     }
     
-    if(validated){
+    if(validated===true){
         modified_object.classList.remove('has-error');
         modified_object.classList.remove('has-warning');
         modified_object.classList.add('has-success');
         modified_object.children[2].setAttribute('class','glyphicon glyphicon-ok form-control-feedback');
         modified_object.children[3].innerHTML='(ok)';    
-    }else{        
+    }else if(validated===false){        
         modified_object.classList.remove('has-warning');
         modified_object.classList.remove('has-success');
         modified_object.classList.add('has-error');
         modified_object.children[2].setAttribute('class','glyphicon glyphicon-remove form-control-feedback');
         modified_object.children[3].innerHTML='(error)';
+    }else{
+        modified_object.classList.remove('has-error');
+        modified_object.classList.remove('has-success');
+        modified_object.classList.add('has-warning');
+        modified_object.children[2].setAttribute('class','glyphicon glyphicon-warning-sign form-control-feedback');
+        modified_object.children[3].innerHTML='(warning)';
     }
 }
 
