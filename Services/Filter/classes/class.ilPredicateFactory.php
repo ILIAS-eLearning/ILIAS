@@ -69,6 +69,17 @@ class ilPredicateFactory {
 	}
 
 	/**
+	 * Get a reference to a field.
+	 *
+	 * @param	str		$name
+	 * @return	ilField
+	 */
+	public function field($name) {
+		require_once("Services/Filter/classes/Predicates/class.ilField.php");
+		return new ilField($this, $name);
+	}
+
+	/**
 	 * A predicate that is true if l equals r.
 	 *
 	 * @param	ilValueLike		$l

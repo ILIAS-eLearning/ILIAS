@@ -19,7 +19,7 @@ abstract class ilValue extends ilValueLike {
 		if ($err) {
 			throw new \InvalidArgumentException($err);
 		}
-		$this->value = $value;#
+		$this->value = $value;
 		$this->setFactory($factory);
 	}
 

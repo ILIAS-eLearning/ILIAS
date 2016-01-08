@@ -33,4 +33,14 @@ class ilFluentPredicateAtomFactory {
 		$c = $this->continue;
 		return $c($this->factory->str($value));
 	}
+
+	public function date($value) {
+		$c = $this->continue;
+		return $c($this->factory->date($value));
+	}
+
+	public function field($name) {
+		$c = $this->continue;
+		return $c($this->factory->field($name));
+	}
 }

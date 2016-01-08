@@ -169,4 +169,36 @@ class ilPredicateTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse("Implement me!");
 	}
 
+	public function test_one_field() {
+		$f = $this->factory;
+		$i = $this->interpreter;
+
+		$p = $f->int(1)->EQ()->field("one");
+
+		$this->assertFalse($i->interpret($p, array()));
+		$this->assertFalse($i->interpret($p, array("one" => 2)));
+		$this->assertTrue($i->interpret($p, array("one" => 1)));
+		$this->assertTrue($i->interpret($p, array("one" => 1, "two" => 2)));
+
+		// Implement some more variations on the predicate, like switching
+		// value and field or using some other comparisons.
+		$this->assertFalse("Implement me!");
+	}
+
+	public function test_two_field() {
+		$f = $this->factory;
+		$i = $this->interpreter;
+
+		$p = $f->field("one")->EQ()->field("two");
+
+		$this->assertFalse($i->interpret($p, array()));
+		$this->assertFalse($i->interpret($p, array("one" => 1)));
+		$this->assertFalse($i->interpret($p, array("one" => 1, "two" => 2)));
+		$this->assertTrue($i->interpret($p, array("one" => 1, "two" => 1)));
+		$this->assertTrue($i->interpret($p, array("one" => 2, "two" => 2)));
+
+		// Implement some more variations on the predicate, like using some
+		// other comparisons.
+		$this->assertFalse("Implement me!");
+	}
 }
