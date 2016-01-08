@@ -693,7 +693,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                                 
                                 "
                                 <th scope=\"col\">
-                                    GRADE
+                                    Grade
                                 </th>
                                 <th scope=\"col\">
                                     {COMMENT}
