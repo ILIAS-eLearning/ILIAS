@@ -113,7 +113,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$is_trainer = $tep; // $tep_permissions->isTutor();
 		$could_do_wbd_registration = $this->wbd && $this->wbd->hasWBDRelevantRole() && !$this->wbd->getWBDBWVId() && ($this->wbd->getNextWBDAction() == gevWBD::USR_WBD_NEXT_ACTION_NOTHING);
 
-		$manage_course_block_units = ($this->user_utils && !$this->user_utils->hasRoleIn(array("Admin-Ansicht")));
+		$manage_course_block_units = ($this->user_utils && !$this->user_utils->notEditBuildingBlocks());
 
 		//get all OrgUnits of superior
 		$arr_org_units_of_superior = $this->user_utils ? $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior() : array();
