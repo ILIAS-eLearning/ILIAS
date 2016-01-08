@@ -1452,3 +1452,4 @@ gev#:#gev_dec_training_custom_attachment_exist#:#Der Dateianhang ist bereits vor
 gev#:#gev_dec_training_custom_attachment_exist#:#Der Dateianhang ist bereits vorhanden.
 gev#:#gev_dec_training_no_blocks_no_training#:#Bitte legen Sie Trainingsblöcke an. Das dezentrale Training wird nicht erstellt.
 gev#:#gev_dec_training_no_blocks_no_save#:#Bitte legen Sie Trainingsblöcke an.
+gev#:#gev_crs_tpl_dates_set#:#Diese Vorlage hat ein Start und Enddatum!

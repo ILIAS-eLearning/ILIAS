@@ -3573,4 +3573,14 @@ class gevCourseUtils {
 		$mimetype = ilFileUtils::_lookupMimeType($a_path);
 		ilUtil::deliverFile($a_path, $a_name, $mimetype, false, false, true);
 	}
+
+	/**
+	* Check if crs is a template and start and/or end date is defined
+	*
+	*/
+	public function warningIfTemplateWithDates() {
+		if($this->isStartAndEndDateSet()) {
+			ilUtil::sendInfo($this->lng->txt("gev_crs_tpl_dates_set"));
+		}
+	}
 }
