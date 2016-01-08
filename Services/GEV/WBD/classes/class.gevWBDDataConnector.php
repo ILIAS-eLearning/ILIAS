@@ -773,6 +773,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				}
 			} else {
 				echo "keine rolle";
+
 			}
 		}
 		$this->valid_newusers = $ret;
@@ -1366,9 +1367,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				hist_user
 			ON
 				hist_usercoursestatus.usr_id = hist_user.user_id
-
 				AND hist_user.hist_historic = 0
-
 			WHERE
 				hist_user.bwv_id != '-empty-'
 		
@@ -1549,7 +1548,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 			$row_id
 		);
 	}
-
 
 	protected function getDate() {
 		return date("Y-m-d");
