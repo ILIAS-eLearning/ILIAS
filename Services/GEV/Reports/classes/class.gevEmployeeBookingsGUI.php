@@ -10,7 +10,6 @@
 */
 
 require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
-require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
@@ -97,7 +96,7 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
-		
+		$this->relevant_parameters = array(); 
 		$this->employee_ids_for_booking_cancellation = $this->user_utils->getEmployeeIdsForBookingCancellations();
 	}
 	
@@ -257,5 +256,3 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 		return $val;
 	}
 }
-
-?>

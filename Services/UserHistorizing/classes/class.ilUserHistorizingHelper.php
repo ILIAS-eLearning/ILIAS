@@ -108,8 +108,8 @@ class ilUserHistorizingHelper
 	 */
 	public static function getBWVIdOf($user)
 	{
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		return gevUserUtils::getInstanceByObjOrId($user)->getWBDBWVId();
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+		return gevWBD::getInstanceByObjOrId($user)->getWBDBWVId();
 	}
 
 	/**
@@ -121,8 +121,8 @@ class ilUserHistorizingHelper
 	 */
 	public static function getBeginOfCertificationPeriodOf($user)
 	{
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		return gevUserUtils::getInstanceByObjOrId($user)->getWBDFirstCertificationPeriodBegin();
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+		return gevWBD::getInstanceByObjOrId($user)->getWBDFirstCertificationPeriodBegin();
 	}
 
 	/**
@@ -134,8 +134,8 @@ class ilUserHistorizingHelper
 	 */
 	public static function getOKZOf($user)
 	{
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		return gevUserUtils::getInstanceByObjOrId($user)->getWBDOKZ();
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+		return gevWBD::getInstanceByObjOrId($user)->getWBDOKZ();
 	}
 
 
@@ -148,10 +148,8 @@ class ilUserHistorizingHelper
 	 */
 	public static function getWBDAgentStatusOf($user)
 	{
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		//return gevUserUtils::getInstanceByObjOrId($user)->getAgentStatus();
-		return gevUserUtils::getInstanceByObjOrId($user)->getWBDAgentStatus();
-		//USR_WBD_STATUS
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+		return gevWBD::getInstanceByObjOrId($user)->getWBDAgentStatus();
 	}
 
 
@@ -167,10 +165,8 @@ class ilUserHistorizingHelper
 	 */
 	public static function getWBDTypeOf($user)
 	{
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		//return gevUserUtils::getInstanceByObjOrId($user)->getAgentStatus();
-		return gevUserUtils::getInstanceByObjOrId($user)->getWBDTPType();
-		//USR_WBD_STATUS
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+		return gevWBD::getInstanceByObjOrId($user)->getWBDTPType();
 	}
 
 
@@ -222,14 +218,14 @@ class ilUserHistorizingHelper
 
 	public static function getWBDEMailOf($user)
 	{
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		return gevUserUtils::getInstanceByObjOrId($user)->getWBDCommunicationEmail();
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+		return gevWBD::getInstanceByObjOrId($user)->getWBDCommunicationEmail();
 	}
 
 	public static function getExitDateWBDOf($user)
 	{
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		return gevUserUtils::getInstanceByObjOrId($user)->getExitDateWBD();
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+		return gevWBD::getInstanceByObjOrId($user)->getExitDateWBD();
 	}
 
 	public static function getOrgUnitsAboveOf($user)
@@ -306,5 +302,9 @@ class ilUserHistorizingHelper
 		return $user->getActive();
 	}
 
-
+	public static function getNextWBDAction($user) {
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+		$wbd = gevWBD::getInstanceByObjOrId($user);
+		return $wbd->getNextWBDAction();
+	}
 }

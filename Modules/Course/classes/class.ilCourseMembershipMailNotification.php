@@ -45,6 +45,10 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 	 */
 	public function send()
 	{
+		// cat-patch start
+		return true;
+		// cat-patch end
+
 		global $ilSetting;
 
 		if( (int) $this->getRefId() &&

@@ -238,7 +238,7 @@ class ilCourseBookingPermissions
 
 		// see ilObjCourseAccess::_checkAccess()
 		
-		return ($helper->isBookable() &&
+		return ($helper->isBookable($this->getUserId()) &&
 			$ilAccess->checkAccessOfUser($this->getUserId(), "join", "", $this->getCourseId()));
 	}
 	

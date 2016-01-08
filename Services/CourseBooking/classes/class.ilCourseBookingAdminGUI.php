@@ -234,10 +234,10 @@ class ilCourseBookingAdminGUI
 	{
 		global $ilToolbar, $ilCtrl, $lng, $tpl;
 		
-		$this->setTabs("listBookings");		
+		$this->setTabs("listBookings");
 				
 		if($this->isBookingAllowed())
-		{				
+		{
 			$bookings = ilCourseBookings::getInstance($this->getCourse());
 			if($bookings->isWaitingListActivated())
 			{
@@ -267,7 +267,7 @@ class ilCourseBookingAdminGUI
 			$ilToolbar->addSeparator();
 
 			$ilToolbar->addButton($lng->txt("crsbook_admin_add_org_unit"),
-				$ilCtrl->getLinkTarget($this, "addOrgUnit"));			
+				$ilCtrl->getLinkTarget($this, "addOrgUnit"));
 		}		
 		
 		require_once "Services/CourseBooking/classes/class.ilCourseBookingMembersTableGUI.php";
@@ -289,10 +289,10 @@ class ilCourseBookingAdminGUI
 
 		if($this->getPermissions()->bookCourseForOthers()){
 			require_once "Services/GEV/Utils/classes/class.gevCourseUtils.php";
-			$crs_ultils = gevCourseUtils::getInstance($this->getCourse()->getId());			
+			$crs_utils = gevCourseUtils::getInstance($this->getCourse()->getId());			
 
-			if($crs_ultils->isDecentralTraining() &&
-				$crs_ultils->hasTrainer($this->ilUser->getId()) && 
+			if($crs_utils->isDecentralTraining() &&
+				$crs_utils->hasTrainer($this->ilUser->getId()) && 
 				$crs_booking_helper->isBookingDeadlineReached() )
 			{				
 					return false;
@@ -582,7 +582,9 @@ class ilCourseBookingAdminGUI
 			
 			require_once "Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php";
 			$ou_tree = ilObjOrgUnitTree::_getInstance();	
-			$user_ids = $ou_tree->getEmployees($org_ref_id, $org_subs);			
+			$user_ids = $ou_tree->getEmployees($org_ref_id, $org_subs);	
+			$user_ids = array_unique(array_merge($user_ids, $ou_tree->getSuperiors($org_ref_id, $org_subs)));	
+
 			if(sizeof($user_ids))
 			{								
 				$this->setTabs("listBookings");
@@ -873,13 +875,37 @@ class ilCourseBookingAdminGUI
 						$automails = new gevCrsAutoMails($this->getCourse()->getId());
 						
 						require_once "Services/GEV/Utils/classes/class.gevCourseUtils.php";
-						$crs_ultils = gevCourseUtils::getInstance($this->getCourse()->getId());
+						$crs_utils = gevCourseUtils::getInstance($this->getCourse()->getId());
 
-						if(!$crs_ultils->isDecentralTraining()) {
+						require_once "Services/GEV/Mailing/classes/class.gevDeadlineMailingJob.php";
+						$deadline_job_ran = gevDeadlineMailingJob::isMailSend($this->getCourse()->getId(), "invitation");
+
+						if(!$crs_utils->isDecentralTraining()) {
 							$automails->sendDeferred("admin_booking_to_booked", array($user_id));
 						}
 						
-						$automails->sendDeferred("invitation", array($user_id));
+						$days_before_course_start = $addMailSettings->getInvitationMailingDate();
+						$date = $crs_utils->getStartDate();
+						$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+						if ($date) {
+							$date_d = $date->get(IL_CAL_DATE);
+							$now_d = $now->get(IL_CAL_DATE);
+							
+							// Implementation of #1623: send invitations directly
+							// when user is booked at the day where the course starts.
+							if ($now_d == $date_d) {
+								$automails->send("invitation", array($user_id));
+							}
+							else {
+								$date->increment(IL_CAL_DAY, -1 * $days_before_course_start);
+								$date_unix = $date->get(IL_CAL_UNIX);
+								$now_unix = $now->get(IL_CAL_UNIX);
+
+								if($now_unix > $date_unix && $deadline_job_ran) {
+									$automails->sendDeferred("invitation", array($user_id));
+								}
+							}
+						}
 					}
 					
 					$this->setDefaultAccomodations($user_id);

@@ -22,17 +22,20 @@ if (isset($_GET["goto"]) && ($_GET["goto"] == "startNARegistration" || $_GET["go
 	$ilCtrl->setCmd($_GET["goto"]);
 }
 else {
-	if (!isset($_POST["cmd"])) {
-		$ilCtrl->setCmd("startRegistration");
-	}
-	else {
-		$cmds = array_keys($_POST["cmd"]);
-		$ilCtrl->setCmd($cmds[0]);
+	if(isset($_GET["cmdClass"]) && $_GET["cmdClass"] == "ilpasswordassistancegui") {
+		$cmd = $_GET["cmd"];
+		$ilCtrl->setCmd($cmd);
+	}else {
+		if (!isset($_POST["cmd"])) {
+			$ilCtrl->setCmd("startRegistration");
+		}
+		else {
+			$cmds = array_keys($_POST["cmd"]);
+			$ilCtrl->setCmd($cmds[0]);
+		}
 	}
 }
 
 $ilCtrl->callBaseClass();
 $ilBench->save();
-
-
 ?>

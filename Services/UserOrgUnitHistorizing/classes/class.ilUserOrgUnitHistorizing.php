@@ -153,14 +153,21 @@ class ilUserOrgUnitHistorizing extends ilHistorizingStorage {
 		if($data['action'] == -1 && $version == 1) {
 			return;
 		}
+		if($data['action'] == 0 && $version == 1) {
+			return;
+		}
 		return parent::createRecord($case_id, $data, $version, $record_creator, $creation_timestamp);
 	}
 
 	public static function containsChanges(&$a_current_data, &$a_new_data) {
-		if($a_current_data['action'] == $a_new_data['action']) {
+		if((string)$a_current_data['action'] === (string)$a_new_data['action'] && (string)$a_current_data['action'] !== "0") {
 			return false;
 		}
 		if($a_current_data['action'] === null && $a_new_data['action'] == -1) {
+			return false;
+		}
+		if(($a_current_data['action'] === null || (string)$a_current_data['action'] === "-1")
+			&& $a_new_data['action'] == 0) {
 			return false;
 		}
 		return parent::containsChanges($a_current_data, $a_new_data);

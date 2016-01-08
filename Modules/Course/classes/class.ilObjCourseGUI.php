@@ -22,8 +22,8 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 *
 * // gev-patch start
 * @ilCtrl_Calls ilObjCourseGUI: gevCrsMailingGUI
-* @ilCtrl_Calls ilObjCourseGUI: gevDecentralTrainingCourseBuildingBlockGUI
-* // gev-patch end * @ilCtrl_Calls ilObjCourseGUI: gevDecentralTrainingCourseBuildingBlockGUI
+* @ilCtrl_Calls ilObjCourseGUI: gevDecentralTrainingCourseCreatingBuildingBlock2GUI
+* // gev-patch end * 
 *
 * @extends ilContainerGUI
 */
@@ -693,8 +693,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
-		}
-		*/
+		}*/
 		$this->setSubTabs('properties');
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('crs_info_settings');
@@ -812,6 +811,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function initInfoEditor()
 	{
+		global $ilUser;
+
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this,'updateInfo'));
@@ -892,6 +893,19 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'crs',$this->object->getId());
 		$this->record_gui->setPropertyForm($form);
 		$this->record_gui->parse();
+
+		//gev patch start
+		include_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		include_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		$user_util = gevUserUtils::getInstance($ilUser->getId());
+		$gev_set = gevSettings::getInstance();
+		$highlight_field_id = $gev_set->getAMDFieldId(gevSettings::CRS_AMD_HIGHLIGHT);
+
+		if(!$user_util->isAdmin()) {
+			$ele = $form->getItemByPostvar($highlight_field_id);
+			$ele->setDisabled (true);
+		}
+		//gev patch end
 
 		return $form;
 	}
@@ -1724,11 +1738,11 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 
 				if(gevCourseUtils::getInstanceByObj($this->object)->isFlexibleDecentrallTraining()) {
-					$this->ctrl->setParameterByClass('gevDecentralTrainingCourseBuildingBlockGUI', 'obj_id', $this->object->getId());
+					$this->ctrl->setParameterByClass('gevDecentralTrainingCourseCreatingBuildingBlock2GUI', 'obj_id', $this->object->getId());
 					$this->tabs_gui->addSubTabTarget('gev_dec_crs_building_block_sub_menu_title',
-						$this->ctrl->getLinkTargetByClass('gevDecentralTrainingCourseBuildingBlockGUI',''), 
-						'', 'gevDecentralTrainingCourseBuildingBlockGUI');
-					$this->ctrl->setParameterByClass('gevDecentralTrainingCourseBuildingBlockGUI', 'obj_id', '');
+						$this->ctrl->getLinkTargetByClass('gevDecentralTrainingCourseCreatingBuildingBlock2GUI',''), 
+						'', 'gevDecentralTrainingCourseCreatingBuildingBlock2GUI');
+					$this->ctrl->setParameterByClass('gevDecentralTrainingCourseCreatingBuildingBlock2GUI', 'obj_id', '');
 				}
 				// gev-patch end
 
@@ -1808,7 +1822,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->ctrl->getLinkTargetByClass(array('ilcoursebookinggui', 'ilcoursebookingadmingui'),''),
 					"", 'ilcoursebookingadmingui');		
 				$this->ctrl->setParameterByClass('ilcoursebookingadmingui', 'ref_id', '');
-				
+
 				require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusHelper.php");
 				$ps_helper = ilParticipationStatusHelper::getInstance($this->object);
 				if (   $ps_helper->isStartForParticipationStatusSettingReached()
@@ -1824,7 +1838,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$crs_utils = gevCourseUtils::getInstanceByObj($this->object);
 				$crs_start = $crs_utils->getStartDate();
 				$crs_end = $crs_utils->getEndDate();
-				
+					
 				if ( $crs_utils->getAccomodation() !== null 
 				  && $crs_start !== null
 				  && $crs_end !== null) {
@@ -1842,6 +1856,14 @@ class ilObjCourseGUI extends ilContainerGUI
 						$this->ctrl->getLinkTargetByClass(array('iltepgui', 'iltepoperationdaysgui'),''),
 						"", 'ilcoursebookingadmingui');		
 					$this->ctrl->setParameterByClass('iltepoperationdaysgui', 'ref_id', '');
+				}
+
+				if( $rbacsystem->checkAccess('book_users',$this->object->getRefId()) && $crs_utils->getFee()) {
+					$this->ctrl->setParameterByClass('ilcoursebillingadmingui', 'ref_id', $this->object->getRefId());
+					$this->tabs_gui->addSubTabTarget("edit_course_bill_data",
+						$this->ctrl->getLinkTargetByClass(array('ilcoursebillinggui', 'ilcoursebillingadmingui'),''),
+						"", 'ilcoursebillingadmingui');		
+					$this->ctrl->setParameterByClass('ilcoursebillingadmingui', 'ref_id', '');
 				}
 				// gev-patch end
 				
@@ -2190,9 +2212,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		$ilToolbar->addButton( $this->lng->txt("gev_uvg")
 							 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=uvg&baseClass=gevMemberListDeliveryGUI"
 		);
-		/*$ilToolbar->addButton( $this->lng->txt("gev_signature_list")
-							 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=download_signature_list&baseClass=gevMemberListDeliveryGUI"
-		);*/
+		if(!in_array($utils->getType(), array("Webinar", "Spezialistenschulung Webinar"))) {
+			$ilToolbar->addButton( $this->lng->txt("gev_signature_list")
+								 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=download_signature_list&baseClass=gevMemberListDeliveryGUI"
+			);
+		}
 		if (in_array($utils->getType(), array("Webinar", "Spezialistenschulung Webinar"))) {
 			$ilToolbar->addButton( $this->lng->txt("gev_csn")
 								 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=csn&baseClass=gevMemberListDeliveryGUI"
@@ -2204,9 +2228,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		
 		// i know this has timezone issues...
-		$now = @date("Y-m-d");
-		$start_date = $utils->getStartDate();
-		if (!$this->object->getOfflineStatus() && $start_date !== null && $start_date->get(IL_CAL_DATE) > $now) {
+		if ($utils->userCanCancelCourse($ilUser->getId())) 
+		{
 			$ilToolbar->addButton( $this->lng->txt("gev_cancellation")
 								 , $this->ctrl->getLinkTarget($this, "confirmTrainingCancellation"));
 		}
@@ -4543,7 +4566,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-	
 		$this->prepareOutput();
 		
 		// show repository tree
@@ -4862,9 +4884,29 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->activateTab("mailing");
 				$this->ctrl->forwardCommand($mailing_gui);
 				break;
-			case "gevdecentraltrainingcoursebuildingblockgui":
-				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseBuildingBlockGUI.php");
-				$bb_gui = new gevDecentralTrainingCourseBuildingBlockGUI();
+			case "gevdecentraltrainingcoursecreatingbuildingblock2gui":
+				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCourseCreatingBuildingBlock2GUI.php");
+				
+				$crs_obj_id = null;
+				if(isset($_GET["crs_obj_id"])){
+					$crs_obj_id = (int)$_GET["crs_obj_id"];
+				}
+
+				if(isset($_POST["crs_obj_id"])){
+					$crs_obj_id = (int)$_POST["crs_obj_id"];
+				}
+				
+				if(isset($_GET["crs_ref_id"])){
+					require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+					$crs_obj_id = (int)gevObjectUtils::getObjId((int)$_GET["crs_ref_id"]);
+				}
+
+				if(isset($_POST["crs_ref_id"])){
+					require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+					$crs_obj_id = (int)gevObjectUtils::getObjId((int)$_POST["crs_ref_id"]);
+				}
+
+				$bb_gui = new gevDecentralTrainingCourseCreatingBuildingBlock2GUI($crs_obj_id,null,false,false);
 				$this->setSubTabs("properties");
 				$this->tabs_gui->activateTab("settings");
 				$this->ctrl->forwardCommand($bb_gui);

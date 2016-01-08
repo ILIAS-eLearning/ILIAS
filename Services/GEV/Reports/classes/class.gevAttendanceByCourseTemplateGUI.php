@@ -12,10 +12,9 @@
 */
 
 require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
-require_once("Services/GEV/Reports/classes/class.catFilter.php");
-require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
@@ -146,11 +145,17 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 						->multiselect("participation_status"
 									 , $this->lng->txt("gev_participation_status")
 									 , "participation_status"
-									 , gevCourseUtils::getParticipationStatusFromHisto()
+									 , array(	"teilgenommen"=>"teilgenommen"
+									 			,"fehlt ohne Absage"=>"fehlt ohne Absage"
+									 			,"fehlt entschuldigt"=>"fehlt entschuldigt"
+									 			,"gebucht, noch nicht abgeschlossen"=>"nicht gesetzt")
 									 , array()
 									 , ""
-									 , 200
+									 , 220
 									 , 160
+									 , "text"
+									 , "asc"
+									 , true
 									 )
 						->multiselect("booking_status"
 									 , $this->lng->txt("gev_booking_status")
@@ -187,10 +192,16 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 									 , array()
 									 )
 */
+						->static_condition(" crs.hist_historic = 0")
 						->static_condition(" usrcrs.hist_historic = 0")
+						->static_condition(" crs.template_title != ".$this->db->quote('-empty-','text') )
+						->static_condition(" usrcrs.booking_status != ".$this->db->quote('-empty-','text'))
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
+		$this->relevant_parameters = array(
+			$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			); 
 		$this->filtered_orgus = $this->filter->get("org_unit");
 					
 
@@ -267,7 +278,7 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 				"JOIN (SELECT DISTINCT usr_id ,".$this->db->quote($this->filtered_orgus[0])." AS orgu_title \n"
 					."	FROM hist_userorgu \n"
 					." 	WHERE ".$this->db->in("orgu_title", $this->filtered_orgus, false, "text")." \n"
-					."	AND hist_historic = 0 AND `action` = 1) as orgu ON usrcrs.usr_id = orgu.usr_id \n";
+					."	AND hist_historic = 0 AND `action` >= 0) as orgu ON usrcrs.usr_id = orgu.usr_id \n";
 		$this->query = catReportQuery::create()
 						//->distinct()
 
@@ -283,9 +294,9 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 						->select_raw($this->sql_sum_parts['sum_excused'])
 						->select_raw($this->sql_sum_parts['sum_unexcused'])
 						->select_raw($this->sql_sum_parts['sum_exit'])
-						->from("hist_usercoursestatus usrcrs")
-						->join("hist_course crs")
-							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0");
+						->from("hist_course crs")
+						->join("hist_usercoursestatus usrcrs")
+							->on("crs.crs_id = usrcrs.crs_id");
 		if(count($this->filtered_orgus)>0) {
 			$this->query->raw_join($this->orgu_filter );
 		}
@@ -344,12 +355,11 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 		."SUM( CASE WHEN LCASE(participation_status) = 'fehlt ohne Absage' THEN 1 END ) AS sum_unexcused,\n"
 		."SUM( CASE WHEN LCASE(participation_status) = 'canceled_exit' THEN 1 END ) AS sum_exit \n"
 		."FROM( \n"
-		."	SELECT DISTINCT usr.user_id, crs.crs_id, usrcrs.booking_status, \n"
+		."	SELECT DISTINCT usrcrs.usr_id, crs.crs_id, usrcrs.booking_status, \n"
 		."		usrcrs.participation_status, crs.type \n"
-		."		FROM `hist_user` usr \n" 
-		."			LEFT JOIN `hist_usercoursestatus` usrcrs ON usrcrs.usr_id = usr.user_id AND usr.hist_historic = 0 \n"
-		."			LEFT JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 \n"
-		."			LEFT JOIN hist_userorgu orgu ON orgu.usr_id = usr.user_id \n"
+		."		FROM `hist_usercoursestatus` usrcrs \n" 
+		."			JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id \n"
+		."			LEFT JOIN hist_userorgu orgu ON orgu.usr_id = usrcrs.usr_id \n"
 		.$this->queryWhere()
 		.") as temp";
 		$res = $this->db->query($sum_sql);
@@ -365,9 +375,10 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 		}
 
 		$table->setData(array($this->summed_data));
-		return $table->getHtml();
+		$this->enableRelevantParametersCtrl();
+		$return = $table->getHtml();
+		$this->disableRelevantParametersCtrl();
+		return $return;
 	}
 
 }
-
-?>

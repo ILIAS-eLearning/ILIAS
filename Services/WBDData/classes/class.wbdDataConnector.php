@@ -548,6 +548,33 @@ abstract class wbdDataConnector {
 	*/
 	public function fail_exit_user($a_row_id, $a_exception) {}
 
+
+	/**
+	* BLOCK affilaite user
+	*/
+
+	/** 
+	* get user-records from GOA to affiliate
+	* 
+	* @return 	array 	user records 
+	*/
+	public function get_affilaite_users() {}
+
+	/*
+	* callback on success
+	* 
+	* @param 	string 		$a_row_id 	Number to identify the row in hist_user
+	*/
+	public function success_affiliate_user($a_row_id) {}
+
+	/*
+	* callback on faliure
+	*
+	* @param 	string 		$a_row_id 	Number to identify the row in hist_user
+	* @param 	excepteion	$a_exception 	Exception Message
+	*/
+	public function fail_affiliate_user($a_row_id, $a_exception) {}
+
 }
 
 ?>

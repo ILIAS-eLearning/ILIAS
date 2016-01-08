@@ -19,6 +19,7 @@ class gevCrsMailAttachments extends ilMailAttachments {
 	const MATERIAL_LIST = "Materialliste.xls";
 	const ICAL_ENTRY = "Kalendereintrag.ics";
 	const SCHEDULE = "Ablaufplan.xls";
+	const SCHEDULE_PDF = "Ablaufplan.pdf";
 	
 	public function __construct($a_obj_id) {
 		parent::__construct($a_obj_id);
@@ -35,6 +36,7 @@ class gevCrsMailAttachments extends ilMailAttachments {
 		$crs_utils = $this->getCourseUtils();
 		if ($crs_utils->isFlexibleDecentrallTraining()) {
 			$this->generated_files[] = self::SCHEDULE;
+			$this->generated_files[] = self::SCHEDULE_PDF;
 		}
 	}
 	
@@ -157,6 +159,9 @@ class gevCrsMailAttachments extends ilMailAttachments {
 				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingUtils.php");
 				$dec_utils = gevDecentralTrainingUtils::getInstance();
 				$dec_utils->buildScheduleXLS($this->obj_id, false, $path);
+				return;
+			case self::SCHEDULE_PDF:
+				$this->getCourseUtils()->buildCrsScheduleList($path,false);
 				return;
 		}
 		throw new Exception("Don't know how to generate file '".$a_filename."'.");

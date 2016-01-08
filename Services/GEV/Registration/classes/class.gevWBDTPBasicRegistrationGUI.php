@@ -10,6 +10,7 @@
 */
 
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 
 class gevWBDTPBasicRegistrationGUI {
 	public function __construct() {
@@ -20,6 +21,7 @@ class gevWBDTPBasicRegistrationGUI {
 		$this->log = &$ilLog;
 		$this->user = &$ilUser;
 		$this->user_utils = gevUserUtils::getInstanceByObj($this->user);
+		$this->wbd = gevWBD::getInstanceByObj($this->user);
 	}
 
 	public function executeCommand() {
@@ -53,16 +55,27 @@ class gevWBDTPBasicRegistrationGUI {
 	}
 
 	protected function checkWBDRelevantRole() {
-		if (!$this->user_utils->hasWBDRelevantRole()) {
-			ilUtil::redirect("");
+		if (!$this->wbd->hasWBDRelevantRole()) {
+			$this->redirectToBookingOr("");
 			exit();
 		}
 	}
 
 	protected function checkAlreadyRegistered() {
-		if ($this->user_utils->hasDoneWBDRegistration()) {
-			ilUtil::redirect("");
+		if ($this->wbd->hasDoneWBDRegistration()) {
+			$this->redirectToBookingOr("");
 			exit();
+		}
+	}
+	
+	protected function redirectToBookingOr($a_target) {
+		require_once("Services/Authentication/classes/class.ilSession.php");
+		$after_registration = ilSession::get("gev_after_registration");
+		if ($after_registration) {
+			ilUtil::redirect($after_registration);
+		}
+		else {
+			ilUtil::redirect($a_target);
 		}
 	}
 
@@ -92,7 +105,7 @@ class gevWBDTPBasicRegistrationGUI {
 	}
 
 	protected function setBWVId() {
-		if (!gevUserUtils::isValidBWVId($_POST["bwv_id"])) {
+		if (!gevWBD::isValidBWVId($_POST["bwv_id"])) {
 			ilUtil::sendFailure($this->lng->txt("gev_bwv_id_input_not_valid"));
 			return $this->startRegistration($_POST["bwv_id"]);
 		}
@@ -102,22 +115,22 @@ class gevWBDTPBasicRegistrationGUI {
 			return $this->startRegistration($_POST["bwv_id"]);
 		}
 
-		$this->user_utils->setWBDBWVId($_POST["bwv_id"]);
-		$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
-		$this->user_utils->setWBDRegistrationDone();
+		$this->wbd->setWBDBWVId($_POST["bwv_id"]);
+		$this->wbd->setWBDTPType(gevWBD::WBD_EDU_PROVIDER);
+		$this->wbd->setWBDRegistrationDone();
 		
 		$usr = new ilObjUser($this->user_utils->getUser()->getId());
 		$usr->update();
 		
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_has_bwv_id"), true);
-		ilUtil::redirect("");
+		$this->redirectToBookingOr("");
 	}
 
 	protected function noBWVId() {
-		$this->user_utils->setRawWBDOKZ(gevUserUtils::WBD_NO_OKZ);
-		$this->user_utils->setWBDRegistrationDone();
+		$this->user_utils->setRawWBDOKZ(gevWBD::WBD_NO_OKZ);
+		$this->wbd->setWBDRegistrationDone();
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_no_bwv_id"), true);
-		ilUtil::redirect("");
+		$this->redirectToBookingOr("");
 	}
 
 	protected function createBWVId() {
@@ -195,16 +208,16 @@ class gevWBDTPBasicRegistrationGUI {
 			return $this->createTPBasisBWVId($form);
 		}
 
-		$this->user_utils->setWBDTPType(gevUserUtils::WBD_TP_BASIS);
+		$this->wbd->setNextWBDAction(gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_BASIS);
 
 		if ($form->getInput("notifications") == "diff") {
-			$this->user_utils->setWBDCommunicationEmail($form->getInput("email"));
+			$this->wbd->setWBDCommunicationEmail($form->getInput("email"));
 		}
 		else {
-			$this->user_utils->setWBDCommunicationEmail($this->user_utils->getUser()->getEmail());
+			$this->wbd->setWBDCommunicationEmail($this->user_utils->getUser()->getEmail());
 		}
 
-		$this->user_utils->setWBDRegistrationDone();
+		$this->wbd->setWBDRegistrationDone();
 
 		$usr = new ilObjUser($this->user_utils->getUser()->getId());
 		$usr->update();
@@ -212,7 +225,7 @@ class gevWBDTPBasicRegistrationGUI {
 		/*$tpl = new ilTemplate("tpl.gev_wbd_registration_finished.html", false, false, "Services/GEV/Registration");
 		return $tpl->get();*/
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_create_bwv_id"), true);
-		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
+		$this->redirectToBookingOr("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 	}
 	
 	protected function buildTPBasisProfileForm() {

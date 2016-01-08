@@ -1,0 +1,22 @@
+<!-- language file start -->
+obj_xrbi#:#Rechnungsreport
+objs_xrbi#:#Rechnungsreports
+obj_xrbi_duplicate#:#Rechnungsreport kopieren
+objs_xrbi_duplicate#:#Rechnungsreports kopieren
+obj_xrbi_select#:#Rechnungsreport auswählen
+xrbi_add#:#Rechnungsreport hinzufügen
+xrbi_new#:#Neuen Rechnungsreport hinzufügen
+xrbi_read#:#Lesezugriff zum Rechnungsreport
+xrbi_write#:#Rechnungsreport bearbeiten
+xrbi_delete#:#Rechnungsreport löschen
+xrbi_visible#:#sichtbar
+xrbi_edit_permission#:#schreibberechtigt
+crs_create_xrbi#:#Rechnungsreport erzeugen
+grp_create_xrbi#:#Rechnungsreport erzeugen
+fold_create_xrbi#:#Rechnungsreport erzeugen
+root_create_xrbi#:#Rechnungsreport erzeugen
+cat_create_xrbi#:#Rechnungsreport erzeugen
+rep_robj_xrbi_status#:#Status
+rep_robj_xrbi_offline#:#Offline
+xrbi_content#:#Report
+xrbi_properties#:#Eigenschaften

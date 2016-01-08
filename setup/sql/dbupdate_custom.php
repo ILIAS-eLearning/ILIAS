@@ -3464,14 +3464,14 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 						."   AND oref.deleted IS NULL"
 						."   AND od.type = 'orgu'"
 						);
-/*
+
 	if ($rec = $ilDB->fetchAssoc($res)) {
 		gevOrgUnitUtils::grantPermissionsRecursivelyFor($rec["ref_id"], "superior",
 					array( "view_learning_progress_rec"));
 	}
 	else {
 		die("Custom Update #109: Expected to find org_unit with import_id = 'gev_base'");
-	}*/
+	}
 
 ?>
 
@@ -4063,7 +4063,764 @@ if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'gev_id')) {
 	));
 ?>
 
-<#148>
+<#148> 
+<?php
+
+	$ilDB->renameTableColumn('hist_course', 'webex_vc_type', 'virtual_classroom_type');
+
+?>
+
+<#149>
+<?php
+	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+	
+	$ilDB->manipulate("UPDATE settings SET keyword = ".$ilDB->quote(gevSettings::CRS_AMD_VC_LINK,"text")
+		." WHERE keyword = ".$ilDB->quote(gevSettings::CRS_AMD_WEBEX_LINK,"text"));
+
+	$ilDB->manipulate("UPDATE settings SET keyword = ".$ilDB->quote(gevSettings::CRS_AMD_VC_PASSWORD,"text")
+		." WHERE keyword = ".$ilDB->quote(gevSettings::CRS_AMD_WEBEX_PASSWORD,"text"));
+
+	$ilDB->manipulate("UPDATE settings SET keyword = ".$ilDB->quote(gevSettings::CRS_AMD_VC_PASSWORD_TUTOR,"text")
+		." WHERE keyword = ".$ilDB->quote(gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR,"text"));
+
+	$ilDB->manipulate("UPDATE settings SET keyword = ".$ilDB->quote(gevSettings::CRS_AMD_VC_CLASS_TYPE,"text")
+		." WHERE keyword = ".$ilDB->quote(gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE,"text"));
+
+	$ilDB->manipulate("UPDATE settings SET keyword = ".$ilDB->quote(gevSettings::CRS_AMD_VC_LOGIN_TUTOR,"text")
+		." WHERE keyword = ".$ilDB->quote(gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR,"text"));
+
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::initPluginEnv();
+	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+
+?>
+
+<#150>
+<?php
+	
+	$ilDB->dropTableColumn('hist_usercoursestatus', 'org_unit');
+
+?>
+
+<#151>
+<?php
+
+	if(!$ilDB->tableColumnExists('mail_log', "mail_id")){
+		$ilDB->addTableColumn('mail_log', "mail_id", array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+			)
+		);	
+	}
+?>
+
+<#152>
+<?php
+
+	if(!$ilDB->tableColumnExists('mail_log', "recipient_id")){
+		$ilDB->addTableColumn('mail_log', "recipient_id", array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			)
+		);	
+	}
+?>
+
+<#153>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#154>
+<?php
+if(!$ilDB->tableColumnExists('dct_building_block', 'gdv_topic')) {
+	$ilDB->addTableColumn('dct_building_block','gdv_topic', array(
+		'type' => 'text',
+		'length' => 100,
+		'notnull' => true,
+	));
+}
+
+if(!$ilDB->tableColumnExists('dct_building_block', 'training_categories')) {
+	$ilDB->addTableColumn('dct_building_block','training_categories', array(
+		'type' => 'text',
+		'length' => 4000,
+		'notnull' => true,
+	));
+}
+
+if($ilDB->tableColumnExists('dct_crs_building_block', 'method')) {
+	$ilDB->dropTableColumn('dct_crs_building_block','method');
+}
+
+if($ilDB->tableColumnExists('dct_crs_building_block', 'media')) {
+	$ilDB->dropTableColumn('dct_crs_building_block','media');
+}
+?>
+
+<#155>
+<?php
+if(!$ilDB->tableColumnExists('dct_building_block', 'topic')) {
+	$ilDB->addTableColumn('dct_building_block','topic', array(
+		'type' => 'text',
+		'length' => 100,
+		'notnull' => true,
+	));
+}
+
+if(!$ilDB->tableColumnExists('dct_building_block', 'dbv_topic')) {
+	$ilDB->addTableColumn('dct_building_block','dbv_topic', array(
+		'type' => 'text',
+		'length' => 100,
+		'notnull' => true,
+	));
+}
+?>
+
+<#156>
+<?php
+if($ilDB->tableColumnExists('dct_crs_building_block', 'start_date')) {
+	$ilDB->renameTableColumn('dct_crs_building_block', 'start_date', 'start_time');
+
+	$ilDB->modifyTableColumn('dct_crs_building_block','start_time', array(
+		'type' => 'time',
+		'notnull' => true,
+	));
+}
+
+if($ilDB->tableColumnExists('dct_crs_building_block', 'end_date')) {
+	$ilDB->renameTableColumn('dct_crs_building_block', 'end_date', 'end_time');
+
+	$ilDB->modifyTableColumn('dct_crs_building_block','end_time', array(
+		'type' => 'time',
+		'notnull' => true,
+	));
+}
+?>
+
+<#157>
+<?php
+if(!$ilDB->tableColumnExists('dct_crs_building_block', 'credit_points')) {
+	$ilDB->addTableColumn('dct_crs_building_block','credit_points', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+	));
+}
+?>
+
+<#158>
+<?php
+if(!$ilDB->tableColumnExists('dct_building_block', 'move_to_course')) {
+	$ilDB->addTableColumn('dct_building_block','move_to_course', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => 1
+	));
+}
+?>
+
+<#159>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#160>
+<?php
+if($ilDB->tableColumnExists('dct_building_block', 'content')) {
+
+	$ilDB->modifyTableColumn('dct_building_block','content', array(
+		'type' => 'text',
+		'length' => 200,
+		'notnull' => true,
+		'default' => ""
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
+
+	$ilDB->modifyTableColumn('dct_building_block','learning_dest', array(
+		'type' => 'text',
+		'length' => 200,
+		'notnull' => true,
+		'default' => ""
+	));
+}
+?>
+
+<#161>
+<?php
+$new_crs_ops = array(
+	'view_schedule_pdf' => array('View Schedule PDF', 6002)
+);
+require_once "Customizing/class.ilCustomInstaller.php";
+ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+?>
+
+<#162>
+<?php
+if($ilDB->tableColumnExists('dct_building_block', 'gdv_topic')) {
+	$ilDB->modifyTableColumn('dct_building_block','gdv_topic', array(
+		'type' => 'text',
+		'length' => 100,
+		'notnull' => false,
+	));
+}
+?>
+
+<#163>
+<?php
+if($ilDB->tableColumnExists('dct_building_block', 'content')) {
+
+	$ilDB->modifyTableColumn('dct_building_block','content', array(
+		'type' => 'text',
+		'length' => 500,
+		'notnull' => true,
+		'default' => ""
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
+
+	$ilDB->modifyTableColumn('dct_building_block','learning_dest', array(
+		'type' => 'text',
+		'length' => 500,
+		'notnull' => true,
+		'default' => ""
+	));
+}
+
+if($ilDB->tableColumnExists('dct_crs_building_block', 'credit_points')) {
+
+	$ilDB->modifyTableColumn('dct_crs_building_block','credit_points', array(
+		'type' => 'float'
+	));
+}
+?>
+
+<#164>
+<?php
+if(!$ilDB->tableColumnExists('dct_crs_building_block', 'practice_session')) {
+
+	$ilDB->addTableColumn('dct_crs_building_block','practice_session', array(
+		'type' => 'float',
+		'notnull' => false
+	));
+}
+?>
+
+<#165>
+<?php
+if($ilDB->tableColumnExists('dct_building_block', 'content')) {
+
+	$ilDB->modifyTableColumn('dct_building_block','content', array(
+		'type' => 'text',
+		'length' => 500,
+		'notnull' => false
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
+	$ilDB->modifyTableColumn('dct_building_block','learning_dest', array(
+		'type' => 'text',
+		'length' => 500,
+		'notnull' => false
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'dbv_topic')) {
+	$ilDB->modifyTableColumn('dct_building_block','dbv_topic', array(
+		'type' => 'text',
+		'length' => 100,
+		'notnull' => false
+	));
+}
+
+if($ilDB->tableColumnExists('dct_building_block', 'training_categories')) {
+	$ilDB->modifyTableColumn('dct_building_block','training_categories', array(
+		'type' => 'text',
+		'length' => 4000,
+		'notnull' => false
+	));
+}
+?>
+
+<#166>
+<?php
+$new_crs_ops = array(
+	'change_trainer' => array('Change Trainer', 6003)
+);
+require_once "Customizing/class.ilCustomInstaller.php";
+ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+?>
+
+<#167>
+<?php
+$new_crs_ops = array(
+	'load_signature_list' => array('Load Signature List', 6004)
+	,'load_member_list' => array('Load Member List', 6005)
+);
+require_once "Customizing/class.ilCustomInstaller.php";
+ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+?>
+
+<#168>
+<?php
+$new_crs_ops = array(
+	'load_csn_list' => array('Load CSN List', 6006)
+);
+require_once "Customizing/class.ilCustomInstaller.php";
+ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+?>
+
+<#169>
+<?php
+$new_crs_ops = array(
+	'view_maillog' => array('View Maillog', 6007)
+);
+require_once "Customizing/class.ilCustomInstaller.php";
+ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+?>
+
+<#170>
+<?php
+require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::initPluginEnv();
+	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+?>
+
+
+<#171>
+<?php
+
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+require_once("Services/Object/classes/class.ilObjectFactory.php");
+
+global $ilias;
+$ilias->db = $ilDB;
+
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
+$central_training_category_ref_ids = array(1696, 1783, 1621, 1644, 1686, 47318 , 43277, 1699, 34937);
+
+foreach ($central_training_category_ref_ids as $ref_id) {
+	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "Admin-eingeschraenkt", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+}
+
+?>
+
+<#172>
+<?php
+
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+require_once("Services/Object/classes/class.ilObjectFactory.php");
+
+global $ilias;
+$ilias->db = $ilDB;
+
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
+$fixed_dec_training_category_ref_id = 49841;
+
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "DBV UVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "DBV EVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "RTL", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "flex-dez-Training", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-dez-ID", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Trainingsersteller", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+
+
+$flex_dec_training_category_ref_id = 49840;
+
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "DBV UVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "flex-dez-Training", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Trainingsersteller", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+
+?>
+
+<#173>
+<?php
+
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+require_once("Services/Object/classes/class.ilObjectFactory.php");
+
+global $ilias;
+$ilias->db = $ilDB;
+
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
+$fixed_dec_training_category_ref_id = 49841;
+
+gevCourseUtils::revokePermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "DBV UVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::revokePermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "DBV EVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+
+$flex_dec_training_category_ref_id = 49840;
+
+gevCourseUtils::revokePermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "DBV UVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+
+?>
+
+<#174>
+<?php
+$new_crs_ops = array(
+	'cancel_training' => array('Cancel Training', 6008)
+);
+require_once "Customizing/class.ilCustomInstaller.php";
+ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+
+?>
+
+<#175>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#176>
+<?php
+if($ilDB->tableColumnExists('dct_building_block', 'learning_dest')) {
+	$ilDB->renameTableColumn('dct_building_block','learning_dest','target');
+}
+?>
+
+<#177>
+<?php
+require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::initPluginEnv();
+	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+?>
+
+<#178>
+<?php
+	require_once("Services/Administration/classes/class.ilSetting.php");
+	$set = new ilSetting();
+	$set->set("enable_trash",0);
+?>
+
+<#179>
+<?php
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+
+global $ilias;
+$ilias->db = $ilDB;
+global $ilClientIniFile;
+$ilias->ini = $ilClientIniFile;
+
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+$gev_set = gevSettings::getInstance();
+$private_email_field_id = $gev_set->getUDFFieldId(gevSettings::USR_UDF_PRIV_EMAIL);
+
+$res = $ilDB->query(
+<<<SQL
+	SELECT usr.usr_id, udf.value
+	FROM usr_data usr
+	JOIN udf_text udf ON usr.usr_id = udf.usr_id AND udf.field_id = $private_email_field_id
+	WHERE
+		NOT udf.value IS NULL
+SQL
+);
+
+while ($rec = $ilDB->fetchAssoc($res)) {
+	$usr_id = $rec["usr_id"];
+	$utils = gevUserUtils::getInstance($usr_id);
+	$user = $utils->getUser();
+	$user->setEmail($rec["value"]);
+	$user->update();
+}
+?>
+
+<#180>
+<?php
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+gevUDFUtils::removeUDFField(gevSettings::USR_UDF_PRIV_EMAIL);
+?>
+
+<#181>
+<?php
+require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingCreationRequestDB.php");
+gevDecentralTrainingCreationRequestDB::install_step6($ilDB);
+?>
+
+<#182>
+<?php
+if( !$ilDB->tableExists('crs_custom_attachments') )
+{
+	$ilDB->createTable('crs_custom_attachments', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'file_name' => array(
+			'type' => 'text',
+			'length' => 250,
+			'notnull' => true,
+			'default' => "-"
+		)	
+	));
+		
+	$ilDB->addPrimaryKey('crs_custom_attachments', array('obj_id', 'file_name'));
+}
+?>
+
+<#183>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#184>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
+?>
+
+<#185>
+<?php
+if(!$ilDB->tableColumnExists('hist_user', 'next_wbd_action')) {
+	$ilDB->addTableColumn('hist_user', 'next_wbd_action', array(
+		'type' => 'text',
+		'length' => 255,
+		'notnull' => false
+		)
+	);
+}
+?>
+
+<#186>
+<?php
+
+		$ilDB->addTableColumn('hist_course', 'dct_type', array(
+			'type' => 'text',
+			'length' => 30,
+			'notnull' => false
+			)
+		);	
+
+?>
+
+<#187>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
+?>
+
+<#188>
+<?php
+	if(!$ilDB->tableColumnExists('hist_course', 'template_obj_id')) {
+		$ilDB->addTableColumn('hist_course', 'template_obj_id', array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+			)
+		);
+	}
+?>
+
+<#189>
+<?php
+if($ilDB->tableExists('hist_userrole')) {
+	$s = "ALTER TABLE hist_userrole ADD INDEX rol_ind (rol_id);";
+	$ilDB->manipulate($s);
+
+	$s = "ALTER TABLE hist_userrole ADD INDEX usr_ind (usr_id);";
+	$ilDB->manipulate($s);
+}
+?>
+
+<#190>
+<?php
+
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+require_once("Services/Object/classes/class.ilObjectFactory.php");
+
+global $ilias;
+$ilias->db = $ilDB;
+
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
+$fixed_dec_training_category_ref_id = 49841;
+
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-eingeschraenkt", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "RTL", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "flex-dez-Training", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-dez-ID", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Trainingsersteller", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training", "write_reduced_settings"));
+gevCourseUtils::revokePermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Trainingsersteller", array("write"));
+
+
+$flex_dec_training_category_ref_id = 49840;
+
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "flex-dez-Training", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Trainingsersteller", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training", "write_reduced_settings"));
+gevCourseUtils::revokePermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Trainingsersteller", array("write"));
+
+?>
+
+<#191>
+<?php
+
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
+require_once("Services/Object/classes/class.ilObjectFactory.php");
+
+global $ilias;
+$ilias->db = $ilDB;
+
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
+$fixed_dec_training_category_ref_id = 49841;
+
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Trainingsersteller", array("visible", "read", "view_bookings", "book_users", "cancel_bookings", "view_participation_status", "set_participation_status", "review_participation_status"));
+
+$flex_dec_training_category_ref_id = 49840;
+
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Trainingsersteller", array("visible", "read", "view_bookings", "book_users", "cancel_bookings", "view_participation_status", "set_participation_status", "review_participation_status"));
+
+?>
+
+<#192>
+<?php
+// TEP categories
+$s = "INSERT INTO tep_type (id, title, bg_color, font_color, tep_active) VALUES (25, 'Weiterbildungstage', 'bf6364', '000000', 1)";
+$ilDB->manipulate($s);
+?>
+
+<#193>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#194>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#195>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "EventHandling", "evhk", "GEVCourseDelete");
+?>
+
+<#196>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
+?>
+
+<#197>
 <?php
 if( !$ilDB->tableExists('wbd_errors_categories') )
 {

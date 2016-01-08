@@ -1,5 +1,8 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$" name="Billing" short="billing" dir="Services/Billing" id="billing">
+	<baseclasses>
+		<baseclass name="ilCourseBillingGUI" dir="classes" />	
+	</baseclasses>	
 	<events>
 		<event type="raise" id="billFinalized" />
 		<event type="raise" id="couponsCreated" />

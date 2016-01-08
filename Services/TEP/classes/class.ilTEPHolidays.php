@@ -46,8 +46,7 @@ class ilTEPHolidays
 			$easter = new DateTime();
 			$easter->setTimestamp(easter_date($a_year));
 			
-			$today = new DateTime();
-			$today->setTimestamp(time());
+			$today = new DateTime("$a_year/$a_month/$a_day");
 			
 			$diff = $easter->diff($today);
 			$diff_days = $diff->days * ($diff->invert ? -1 : 1);

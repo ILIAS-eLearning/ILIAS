@@ -78,7 +78,7 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 		}
 		
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		$user_utils = gevUserUtils::getInstance($a_crs_id);
+		$user_utils = gevUserUtils::getInstance($a_user_id);
 		
 		if (!$user_utils->paysFees()) {
 			// no billing here too.

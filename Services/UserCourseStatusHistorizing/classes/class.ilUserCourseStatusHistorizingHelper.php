@@ -208,12 +208,13 @@ class ilUserCourseStatusHistorizingHelper
 	 *
 	 * @return null
 	 */
-	public function setIndividualStartAndEnd($user_id, $course_is, &$payload) {
+	public function setIndividualStartAndEnd($user_id, $course_id, &$payload) {
 		require_once("Services/UserCourseStatusHistorizing/classes/class.ilUserCourseStatusHistorizing.php");
 		require_once("Services/Calendar/classes/class.ilDateTime.php");
-		
-		$case_id = array( 'usr_id'	 =>	$user_id
-						, 'crs_id'	 =>	$course_id
+
+
+		$case_id = array( 'usr_id'	 =>	(int)$user_id
+						, 'crs_id'	 =>	(int)$course_id
 						);
 		
 		if (!ilUserCourseStatusHistorizing::caseExists($case_id)) {

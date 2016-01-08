@@ -18,7 +18,6 @@ set_time_limit(0);
 
 require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
-require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
@@ -32,6 +31,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 	public function __construct() {
 		
 		parent::__construct();
+		$this->checkPermissionOnTarget();
 
 		$this->title = catTitleGUI::create()
 						->title("gev_rep_attendance_by_orgunit_title")
@@ -141,12 +141,11 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									 , array()
 									 , ""
 									 , 300
-									 , 160	
+									 , 160
 									 )
 						->multiselect("edu_program"
 									 , $this->lng->txt("gev_edu_program")
 									 , "edu_program"
-									 //, gevCourseUtils::getEduProgramsFromHisto()
 									 , gevCourseUtils::getEduProgramsFromHisto()
 									 , array()
 									 , ""
@@ -174,11 +173,17 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->multiselect("participation_status"
 									 , $this->lng->txt("gev_participation_status")
 									 , "participation_status"
-									 , gevCourseUtils::getParticipationStatusFromHisto()
+									 , array(	"teilgenommen"=>"teilgenommen"
+									 			,"fehlt ohne Absage"=>"fehlt ohne Absage"
+									 			,"fehlt entschuldigt"=>"fehlt entschuldigt"
+									 			,"gebucht, noch nicht abgeschlossen"=>"nicht gesetzt")
 									 , array()
 									 , ""
-									 , 200
-									 , 160	
+									 , 220
+									 , 160
+									 , "text"
+									 , "asc"
+									 , true
 									 )
 						->multiselect("booking_status"
 									 , $this->lng->txt("gev_booking_status")
@@ -219,13 +224,19 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
 						->static_condition("usr.hist_historic = 0")
 						->static_condition("orgu.hist_historic = 0")
-						->static_condition("orgu.action = 1")
+						->static_condition("orgu.action >= 0")
+						->static_condition("usrcrs.booking_status != ".$this->db->quote('-empty-','text'))
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
+		$this->relevant_parameters = array(
+			$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			); 
 		$this->dates = $this->filter->get("period");
         foreach($this->dates as &$il_date_obj) {
             $il_date_obj = $il_date_obj->get(IL_CAL_DATE);
         }
+
+
 
 	//Saving this fields outside the filter will enable us to cout the right employee-numbers,
 	//including the ones, that did not participate in a training or did so outside the period defined above	
@@ -441,12 +452,18 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 		}
 
 		$table->setData(array($this->summed_data));
-		return $table->getHtml();
+		$this->enableRelevantParametersCtrl();
+		$return = $table->getHtml();
+		$this->disableRelevantParametersCtrl();
+		return $return;
+	}
+
+	protected function checkPermissionOnTarget() {
+		if (  $this->user_utils->isAdmin() ||  $this->user_utils->hasRoleIn(array("Admin-Ansicht"))) {
+			return;
+		}
+		throw new Exception("No permission to view report for user $a_target_user_id");
 	}
 
 
-
-
 }
-
-?>

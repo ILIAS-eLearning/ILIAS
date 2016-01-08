@@ -160,6 +160,22 @@ class ilVCPool {
 
 		return $ret;
 	}
+	
+	/**
+	 * Get all known VC-Types.
+	 *
+	 * @return string[]
+	 */
+	public function getVCTypes() {
+		$ilDB = $this->getDB();
+		
+		$res = $ilDB->query("SELECT DISTINCT vc_type FROM ".self::URL_POOL_TABLE);
+		$return = array();
+		while($rec = $ilDB->fetchAssoc($res)) {
+			$return[] = $rec["vc_type"];
+		}
+		return $return;
+	}
 }
 
 ?>

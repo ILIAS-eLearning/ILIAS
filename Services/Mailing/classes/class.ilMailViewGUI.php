@@ -8,7 +8,10 @@
 */
 
 class ilMailViewGUI {
-	public function __construct($a_view_title, $a_backlink, $a_subject, $a_text, $a_frame = null, $a_image_path = null, $a_image_style = null, $a_attachments = array(), $a_recipient = null, $a_cc = null, $a_bcc = null) {
+	public function __construct($a_view_title, $a_backlink, $a_subject, $a_text
+							   , $a_frame = null, $a_image_path = null, $a_image_style = null
+							   , $a_attachments = array(), $a_recipient = null, $a_cc = null
+							   , $a_bcc = null, $a_resend_link = null) {
 		global $lng;
 
 		$this->lng = &$lng;
@@ -24,6 +27,7 @@ class ilMailViewGUI {
 		$this->recipient = $a_recipient;
 		$this->cc = $a_cc;
 		$this->bcc = $a_bcc;
+		$this->resend_link = $a_resend_link;
 	}
 
 	private function fillRow($tpl, $name, $value) {	
@@ -39,6 +43,13 @@ class ilMailViewGUI {
 		$tpl->setVariable("BACKLINK", $this->backlink);
 		$tpl->setVariable("BACKLINK_TITLE", $this->lng->txt("back"));
 		$tpl->setVariable("TITLE", $this->view_title);
+		
+		if ($this->resend_link) {
+			$tpl->setCurrentBlock("resend");
+			$tpl->setVariable("RESEND_TITLE", $this->lng->txt("gev_resend_mail"));
+			$tpl->setVariable("RESEND_TARGET", $this->resend_link);
+			$tpl->parseCurrentBlock();
+		}
 
 		if ($this->recipient !== null) {
 			$this->fillRow($tpl, $this->lng->txt("recipient"), $this->recipient);

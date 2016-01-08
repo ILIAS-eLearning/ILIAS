@@ -2,6 +2,7 @@
 
 require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 
 class gevEduBiographyGUI extends catBasicReportGUI {
 	public function __construct() {
@@ -89,8 +90,9 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->left_join("object_reference oref")
 							->on("crs.crs_id = oref.obj_id")
 						->compile();
-		
+
 		$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
+
 		$this->filter = catFilter::create()
 						->dateperiod( "period"
 									, $this->lng->txt("gev_period")
@@ -111,6 +113,12 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->static_condition("(crs.crs_id < 0 OR oref.deleted IS NULL)")
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
+		$this->ctrl->setParameter($this, "target_user_id",null);
+
+		$this->relevant_parameters = array(
+			"target_user_id" => $this->target_user_id
+			,$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			); 
 	}
 	
 	public function executeCommand() {
@@ -146,24 +154,24 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 	}
 	
 	public function renderOverview() {
-		$user_utils = gevUserUtils::getInstance($this->target_user_id);
+		$wbd = gevWBD::getInstance($this->target_user_id);
 		$tpl = new ilTemplate("tpl.gev_edu_bio_overview.html", true, true, "Services/GEV/Reports");
 
 		$this->renderAcademyPoints($tpl);
 		
-		if ($user_utils->transferPointsFromWBD()) {
+		if ($wbd->transferPointsFromWBD()) {
 			$this->renderWBDPoints($tpl);
 			$tpl->setVariable("WBDPOINTSVISIBIBLE", "visible");
 		}
 		else {
 			$tpl->setVariable("WBDPOINTSVISIBIBLE", "invisible");
-			if($user_utils->transferPointsToWBD()) {
+			if($wbd->transferPointsToWBD()) {
 				$tpl->setVariable("WBDTRANSVISIBIBLE", "visible");
 				$tpl->setCurrentBlock("wbd_transfer");
 				$tpl->setVariable("TRANSFER_TITLE", $this->lng->txt("gev_wbd_transfer_on"));
 				$tpl->parseCurrentBlock();
 			}
-			else if ($user_utils->wbdRegistrationIsPending()){
+			else if ($wbd->wbdRegistrationIsPending()){
 				$tpl->setVariable("WBDPOINTSVISIBIBLE", "invisible");
 				$tpl->setCurrentBlock("wbd_reg_pending");
 				$tpl->setVariable("WBDREGPENDINGVISIBIBLE", "visible");
@@ -217,19 +225,19 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 	
 	protected function renderWBDPoints($tpl) {
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
-		$user_utils = gevUserUtils::getInstance($this->target_user_id);
+		$wbd = gevWBD::getInstance($this->target_user_id);
 
 		$tpl->setVariable("WBD_SUM_TITLE", $this->lng->txt("gev_points_in_wbd"));
 		$tpl->setVariable("WBD_SUM_CERT_PERIOD_TITLE", $this->lng->txt("gev_points_in_wbd_cert_period"));
 		$tpl->setVariable("WBD_SUM_CUR_YEAR_TITLE", $this->lng->txt("gev_points_in_wbd_cert_year"));
 		$tpl->setVariable("WBD_SUM_CUR_YEAR_PRED_TITLE", $this->lng->txt("gev_points_at_end_of_cert_year"));
 		
-		$cy_start = $user_utils->getStartOfCurrentCertificationYear();
-		$cy_end = $user_utils->getStartOfCurrentCertificationYear();
+		$cy_start = $wbd->getStartOfCurrentCertificationYear();
+		$cy_end = $wbd->getStartOfCurrentCertificationYear();
 		$cy_end->increment(ilDateTime::YEAR, 1);
 		
-		$cp_start = $user_utils->getStartOfCurrentCertificationPeriod();
-		$cp_end = $user_utils->getStartOfCurrentCertificationPeriod();
+		$cp_start = $wbd->getStartOfCurrentCertificationPeriod();
+		$cp_end = $wbd->getStartOfCurrentCertificationPeriod();
 		$cp_end->increment(ilDateTime::YEAR, 5);
 		
 		$tpl->setVariable("WBD_CERT_PERIOD", ilDatePresentation::formatPeriod($cp_start, $cp_end));
@@ -426,6 +434,20 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 					."   AND ".$this->db->in("usrcrs.booking_status", array("gebucht", "kostenpflichtig storniert", "kostenfrei storniert"), false, "text")
 					;
 	}
-}
 
-?>
+	protected function _process_xls_status($val) {
+
+		$this->lng->loadLanguageModule("assessment");
+		$val = str_replace($this->success_img, $this->lng->txt("passed_official") ,$val);
+		$val = str_replace($this->failed_img, $this->lng->txt("failed_official") ,$val);
+		$val = str_replace($this->in_progress_img, $this->lng->txt("tst_status_progress") ,$val);
+		return $val;
+	}
+
+	protected function _process_xls_date($val) {
+		$val = str_replace('<br>', '',$val);
+		$val = str_replace('<br/>', '',$val);
+
+		return $val;
+	}
+}

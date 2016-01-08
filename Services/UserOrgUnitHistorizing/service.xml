@@ -3,5 +3,6 @@
 	<events>
 		<event type="listen" id="Services/AccessControl" />
 		<event type="listen" id="Modules/OrgUnit" />
+		<event type="listen" id="Services/Tree" />
 	</events>
 </service>

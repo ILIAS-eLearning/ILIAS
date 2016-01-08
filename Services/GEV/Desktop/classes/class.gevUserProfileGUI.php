@@ -10,6 +10,7 @@
 */
 
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 
 class gevUserProfileGUI {
 	static $telno_regexp = "/^((00|[+])49((\s|[-\/])?)|0)1[5-7][0-9]([0-9]?)((\s|[-\/])?)([0-9 ]{7,12})$/";
@@ -25,6 +26,7 @@ class gevUserProfileGUI {
 		$this->user = &$ilUser;
 		$this->user_id = $this->user->getId();
 		$this->user_utils = gevUserUtils::getInstance($this->user_id);
+		$this->wbd = gevWBD::getInstance($this->user_id);
 
 		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->lng->txt("gev_user_profile"));
@@ -68,9 +70,9 @@ class gevUserProfileGUI {
 				$err = true;
 			}
 			
-			if ($this->user_utils->hasWBDRelevantRole() 
-				&& $this->user_utils->hasDoneWBDRegistration()
-				&& !gevUserUtils::isValidBWVId($form->getInput("bwv_id"))
+			if ($this->wbd->hasWBDRelevantRole() 
+				&& $this->wbd->hasDoneWBDRegistration()
+				&& !gevWBD::isValidBWVId($form->getInput("bwv_id"))
 				&& ! $form->getInput("bwv_id") == ''
 				) {
 				$form->getItemByPostVar("bwv_id")->setAlert("gev_bwv_id_invalid");
@@ -89,30 +91,23 @@ class gevUserProfileGUI {
 				$this->user->setStreet($form->getInput("b_street"));
 				$this->user->setCity($form->getInput("b_city"));
 				$this->user->setZipcode($form->getInput("b_zipcode"));
-				//$this->user->setCountry($form->getInput("b_country"));
 				$this->user->setPhoneOffice($form->getInput("b_phone"));
-				//$this->user->setFax($form->getInput("b_fax"));
 				$this->user->setPhoneMobile($form->getInput("p_phone"));
 
 				$this->user_utils->setBirthplace($form->getInput("birthplace"));
 				$this->user_utils->setBirthname($form->getInput("birthname"));
 				$this->user_utils->setIHKNumber($form->getInput("ihk_number"));
-				$this->user_utils->setPrivateEmail($form->getInput("p_email"));
 				$this->user_utils->setPrivateStreet($form->getInput("p_street"));
 				$this->user_utils->setPrivateCity($form->getInput("p_city"));
 				$this->user_utils->setPrivateZipcode($form->getInput("p_zipcode"));
-				//$this->user_utils->setPrivateState($form->getInput("p_country"));
-				//$this->user_utils->setPrivatePhone($form->getInput("p_phone"));
-
-				//$this->user_utils->setPrivateFax($form->getInput("p_fax"));
 				
 				$this->user->readUserDefinedFields();
 				$this->user->update();
 				
 				$bwv_id = $form->getInput("bwv_id");
 				if ($bwv_id && !$bwv_id=='') {
-					$this->user_utils->setWBDBWVId($bwv_id);
-					$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
+					$this->wbd->setWBDBWVId($bwv_id);
+					$this->wbd->setWBDTPType(gevWBD::WBD_EDU_PROVIDER);
 					
 					$inp = $form->getItemByPostVar("bwv_id");
 					if ($inp) {
@@ -126,7 +121,7 @@ class gevUserProfileGUI {
 			
 				ilUtil::sendSuccess($this->lng->txt("gev_user_profile_saved"), true);
 				
-				if($this->user_utils->hasWBDRelevantRole() && !$this->user_utils->hasDoneWBDRegistration()) {
+				if($this->wbd->hasWBDRelevantRole() && !$this->wbd->hasDoneWBDRegistration()) {
 					ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 				}
 			}
@@ -194,7 +189,7 @@ class gevUserProfileGUI {
 		$birthday = new ilBirthdayInputGUI($this->lng->txt("birthday"), "birthday");
 		$date = new ilDateTime($this->user->getBirthday(), IL_CAL_DATE);
 		$birthday->setDate($date);
-		$birthday->setRequired($this->user_utils->forceWBDUserProfileFields());
+		$birthday->setRequired($this->wbd->forceWBDUserProfileFields());
 		$birthday->setStartYear(1900);
 		$form->addItem($birthday);
 		
@@ -213,20 +208,28 @@ class gevUserProfileGUI {
 		$ihk->setValue($this->user_utils->getIHKNumber());
 		$form->addItem($ihk);
 		
-		if ($this->user_utils->hasWBDRelevantRole() && $this->user_utils->hasDoneWBDRegistration()) {
-			$_bwv_id = $this->user_utils->getWBDBWVId();
+		if ($this->wbd->hasWBDRelevantRole()) {
+			$_bwv_id = $this->wbd->getWBDBWVId();
+			$next_wbd_action = $this->wbd->getNextWBDAction();
+			$new_user_actions = array(gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE
+										,gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_BASIS);
 			if (!$_bwv_id) {
-				$bwv_id = new ilTextInputGUI($this->lng->txt("gev_bwv_id"), "bwv_id");
-				$item_to_add = new ilCheckboxInputGUI("", "wbd_acceptance");
-				$item_to_add->setOptionTitle($this->lng->txt("evg_wbd"));
-				$item_to_add->addSubItem($bwv_id);
+				$bwv_id_value = $this->lng->txt("gev_bwv_id_info");
+
+				if(in_array($next_wbd_action,$new_user_actions)){
+					$bwv_id_value = $this->lng->txt("gev_bwv_id_info_get_new");
+				}
 			}
 			else {
-				$bwv_id = new ilNonEditableValueGUI($this->lng->txt("gev_bwv_id"));
-				$item_to_add = $bwv_id;
+				$bwv_id_value = $_bwv_id;
 			}
-			$bwv_id->setValue($_bwv_id);
-			$form->addItem($item_to_add);
+			$bwv_id = new ilNonEditableValueGUI($this->lng->txt("gev_bwv_id"));
+			$bwv_id->setValue($bwv_id_value);
+			$form->addItem($bwv_id);
+
+			$tp_type = new ilNonEditableValueGUI($this->lng->txt("gev_wbd_type"));
+			$tp_type->setValue($this->wbd->getWBDTPType());
+			$form->addItem($tp_type);
 		}
 		
 		$ad_title = new ilNonEditableValueGUI($this->lng->txt("gev_ad_title"));
@@ -245,9 +248,10 @@ class gevUserProfileGUI {
 		$section2->setTitle($this->lng->txt("gev_business_contact"));
 		$form->addItem($section2);
 		
-		$b_email = new ilNonEditableValueGUI($this->lng->txt("gev_email"), "b_email");
+		$b_email = new ilEMailInputGUI($this->lng->txt("gev_email"), "b_email");
 		$_b_email = $this->user->getEmail();
 		$b_email->setValue($_b_email);
+		$b_email->setRequired($this->wbd->forceWBDUserProfileFields());
 		$form->addItem($b_email);
 		
 		$b_phone = new ilTextInputGUI($this->lng->txt("gev_profile_phone"), "b_phone");
@@ -256,36 +260,30 @@ class gevUserProfileGUI {
 		
 		$b_street = new ilTextInputGUI($this->lng->txt("street"), "b_street");
 		$b_street->setValue($this->user->getStreet());
-		$b_street->setRequired($this->user_utils->forceWBDUserProfileFields());
+		$b_street->setRequired($this->wbd->forceWBDUserProfileFields());
 		$form->addItem($b_street);
 		
 		$b_city = new ilTextInputGUI($this->lng->txt("city"), "b_city");
 		$b_city->setValue($this->user->getCity());
-		$b_city->setRequired($this->user_utils->forceWBDUserProfileFields());
+		$b_city->setRequired($this->wbd->forceWBDUserProfileFields());
 		$form->addItem($b_city);
 		
 		$b_zipcode = new ilTextInputGUI($this->lng->txt("zipcode"), "b_zipcode");
 		$b_zipcode->setValue($this->user->getZipcode());
-		$b_zipcode->setRequired($this->user_utils->forceWBDUserProfileFields());
+		$b_zipcode->setRequired($this->wbd->forceWBDUserProfileFields());
 		$form->addItem($b_zipcode);
 		
 		$info = new ilNonEditableValueGUI("");
 		$info->setValue($this->lng->txt("gev_private_contact_info"));
 		$form->addItem($info);
 		
-		$p_email = new ilEMailInputGUI($this->lng->txt("gev_com_email"), "p_email");
-		$_p_email = $this->user_utils->getPrivateEmail();
-		$p_email->setValue($_p_email?$_p_email:$_b_email);
-		$p_email->setRequired($this->user_utils->forceWBDUserProfileFields());
-		$form->addItem($p_email);
-		
 		$p_phone = new ilTextInputGUI($this->lng->txt("gev_mobile"), "p_phone");
 		$telno = $this->user_utils->getMobilePhone();
 		$p_phone->setValue($telno);
-		if (!preg_match(self::$telno_regexp, $telno) && $this->user_utils->forceWBDUserProfileFields()) {
+		if (!preg_match(self::$telno_regexp, $telno) && $this->wbd->forceWBDUserProfileFields()) {
 				$p_phone->setAlert($this->lng->txt("gev_telno_wbd_alert"));
 		}
-		$p_phone->setRequired($this->user_utils->forceWBDUserProfileFields());
+		$p_phone->setRequired($this->wbd->forceWBDUserProfileFields());
 		$form->addItem($p_phone);
 		
 		$section3 = new ilFormSectionHeaderGUI();
@@ -321,5 +319,3 @@ class gevUserProfileGUI {
 		return $form;
 	}
 }
-
-?>

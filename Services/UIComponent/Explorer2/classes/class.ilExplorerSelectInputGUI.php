@@ -190,8 +190,19 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 		$tpl->setVariable("POST_VAR", $this->getPostVar());
 		$tpl->setVariable("ID", $this->getFieldId());
 //		$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
-		$tpl->setVariable("TXT_SELECT", $lng->txt("select"));
-		$tpl->setVariable("TXT_RESET", $lng->txt("reset"));
+		
+		//added disabled
+		if(!$this->disabled) {
+			$tpl->setCurrentBlock("txt_select");
+			$tpl->setVariable("TXT_SELECT", $lng->txt("select"));
+			$tpl->setVariable("ID_TXT_SELECT", $this->getFieldId());
+			$tpl->parseCurrentBlock();
+
+			$tpl->setCurrentBlock("txt_reset");
+			$tpl->setVariable("TXT_RESET", $lng->txt("reset"));
+			$tpl->setVariable("ID_TXT_RESET", $this->getFieldId());
+			$tpl->parseCurrentBlock();
+		}
 		
 		$tpl->setVariable("EXPL", $this->explorer_gui->getHTML());
 		

@@ -119,9 +119,17 @@ $watch_jobs = array
 		)*/
 	, "dct_creation" => array
 		( "check" => function($job_data) {
-				return	last_run(300, $job_data)
-					&&	(	(is_running($job_data) && last_pinged(180, $job_data))
-						||	((!is_running($job_data)) && is_activated($job_data))
+				return	(	(is_running($job_data) && last_pinged(180, $job_data))
+						||	((!is_running($job_data)) && is_activated($job_data) && last_run(300, $job_data))
+						);
+			}
+		, "fail_message" => "Job is not active or running and did not ping for 180s or did not run for 5m."
+		)
+		, "gev_decentral_trainings_cleanup" => array
+		( "check" => function($job_data) {
+				return	is_activated($job_data)
+					&&	(  !is_running($job_data) 
+						|| (is_running($job_data) && has_max_running_time(600, $job_data))
 						);
 			}
 		, "fail_message" => "Job is not active or running and did not ping for 180s or did not run for 5m."
@@ -155,7 +163,7 @@ foreach($watch_jobs as $job_id => $params) {
 if (count($not_ok_jobs) > 0) {
 	echo "ILIAS CRON NOT OK - Broken jobs: ".implode(", ", $not_ok_jobs)."\n\n";
 	echo $output;
-	exit(2);
+	exit(1);
 }
 else {
 	echo "ILIAS CRON OK - All cron jobs are fine.\n\n";

@@ -5,6 +5,7 @@ require_once("Services/Mailing/classes/class.ilMailingGUI.php");
 require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
 require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 
 /**
 * Class gevCrsMailingGUI
@@ -214,16 +215,8 @@ class gevCrsMailingGUI extends ilMailingGUI {
 
 	protected function getFunctionsForInvitationMails() {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-
-		$roles = gevCourseUtils::getCustomRoles($this->obj_id);
-		$ret = array($this->lng->txt("crs_member"));		
-		$ret[] = $this->lng->txt("crs_tutor");
-
-		foreach($roles as $role) {
-			$ret[] = $role["title"];
-		}
-
-		return $ret;
+		$crs_utils = gevCourseUtils::getInstance($this->obj_id);
+		return $crs_utils->getFunctionsForInvitationMails();
 	}
 
 	protected function showInvitationMails() {
@@ -566,5 +559,29 @@ class gevCrsMailingGUI extends ilMailingGUI {
 		$form->addItem($suppress_mails);
 		
 		return $form;
+	}
+
+	/**
+	 * Remove the attachment and show other attachments.
+	 *
+	 * Second step on removal workflow.
+	 */
+	protected function removeAttachment() {
+		$filename = $_GET["filename"];
+
+		// Check this again, since removeAttachment will throw
+		// if that fails.
+		// That would not look nice to the user...
+		if($this->getMailAttachments()->isLocked($filename)) {
+			$this->showAttachmentFailure($this->getAttachmentIsLockedFailure($filename));
+			return;
+		}
+
+		$this->getMailAttachments()->removeAttachment($filename);
+		$crs_utils = gevCourseUtils::getInstance(gevObjectUtils::getObjId($_GET["ref_id"]));
+		$crs_utils->deleteCustomAttachment(array($filename));
+		ilUtil::sendSuccess(sprintf($this->lng->txt("remove_attachment_success"), $filename));
+
+		$this->showAttachments();
 	}
 }

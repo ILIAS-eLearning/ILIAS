@@ -391,8 +391,8 @@ class ilAdvancedMDRecordGUI
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 		$amd_utils = gevAMDUtils::getInstance();
-		$field_ids[] = $amd_utils->getFieldId(gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR);
-		$field_ids[] = $amd_utils->getFieldId(gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR);
+		$field_ids[] = $amd_utils->getFieldId(gevSettings::CRS_AMD_VC_PASSWORD_TUTOR);
+		$field_ids[] = $amd_utils->getFieldId(gevSettings::CRS_AMD_VC_LOGIN_TUTOR);
 		// gev patch end
 
 		foreach(ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type) as $record_id => $a_values)
@@ -408,7 +408,7 @@ class ilAdvancedMDRecordGUI
 				if(!$element->isNull())
 				{	
 					// gev patch start
-					// do not show WebExPasswordTutor
+					// do not show Virtual Classroom PasswordTutor
 					if(in_array($element_id, $field_ids)) {
 						continue;
 					}

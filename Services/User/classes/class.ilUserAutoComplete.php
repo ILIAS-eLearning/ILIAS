@@ -175,6 +175,26 @@ class ilUserAutoComplete
 		return $this->possible_fields;
 	}
 
+	//gev patch start
+	/**
+	* set searchable udf field
+	*
+	* @param array udf field ids
+	*/
+	public function setUDFSearchFieldIds(array $udf_search_field_ids) {
+		$this->udf_search_field_ids = $udf_search_field_ids;
+	}
+
+	/**
+	* set searchable udf field
+	*
+	* @param array udf field ids
+	*/
+	public function getUDFSearchFieldIds(array $udf_search_field_ids) {
+		return $this->udf_search_field_ids;
+	}
+	//gev patch end
+
 	/**
 	 * Get searchable fields
 	 * @return array
@@ -217,7 +237,7 @@ class ilUserAutoComplete
 		 * @var $ilDB  ilDB
 		 * @var $ilLog ilLog
 		 */
-		global $ilDB, $ilLog;
+		global $ilDB, $ilLog, $lng;
 
 		$select_part   = $this->getSelectPart();
 		$where_part    = $this->getWherePart($a_str);
@@ -247,8 +267,17 @@ class ilUserAutoComplete
 		$result = array();
 		while(($rec = $ilDB->fetchAssoc($res)) && $cnt < $max)
 		{
+			//gev-patch start
+			$exit = "";
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+			$usr_utils = gevUserUtils::getInstance($rec['usr_id']);
+			if($usr_utils->isExitDatePassed()){
+				$exit = $lng->txt("gev_user_is_inactive");
+			}
+
 			// @todo: Open discussion: We should remove all non public fields from result
-			$label = $rec['lastname'] . ', ' . $rec['firstname'] . ' [' . $rec['login'] . ']';
+			$label = $rec['lastname'] .', ' . $rec['firstname'] . ' [' . $rec['login'] . ']'.' '.$exit;
+			//gev-oatch end
 
 			if($add_email && $rec['email'] && (self::PRIVACY_MODE_RESPECT_USER_SETTING != $this->getPrivacyMode() || 'y' == $rec['email_value']))
 			{
@@ -271,6 +300,9 @@ class ilUserAutoComplete
 	protected function getSelectPart()
 	{
 		$fields = array(
+			//gev-patch start
+			'usr_data.usr_id',
+			//gev-patch end
 			'login',
 			'firstname',
 			'lastname',
@@ -307,6 +339,14 @@ class ilUserAutoComplete
 			$joins[] = 'LEFT JOIN usr_pref pubemail
 				ON pubemail.usr_id = usr_data.usr_id
 				AND pubemail.keyword = ' . $ilDB->quote('public_email', 'text');
+		}
+
+		if($this->udf_search_field_ids) {
+			foreach ($this->udf_search_field_ids as $key => $field_id) {
+				$joins[] = "LEFT JOIN udf_text udft_".$field_id
+							." ON usr_data.usr_id = udft_".$field_id.".usr_id"
+							." AND udft_".$field_id.".field_id = ".$ilDB->quote($field_id,"integer");
+			}
 		}
 
 		if($joins)
@@ -401,10 +441,20 @@ class ilUserAutoComplete
 			$outer_conditions[] = $ilDB->in('time_limit_owner', ilUserFilter::getInstance()->getFolderIds(), false, 'integer');
 		}
 
+		//gev patch start
+		if($this->udf_search_field_ids) {
+			foreach ($this->udf_search_field_ids as $key => $field_id) {
+				$field_conditions[] = "udft_".$field_id.".value LIKE ".$ilDB->quote($search_query."%","text");
+			}
+		}
+		//gev patch end
+
 		if($field_conditions)
 		{
 			$outer_conditions[] = '(' . implode(' OR ', $field_conditions) . ')';
 		}
+
+		
 
 		return implode(' AND ', $outer_conditions);
 	}

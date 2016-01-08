@@ -314,4 +314,12 @@ class ilCalDerivedEntry
 		return $res;*/
 		// gev-patch end
 	}
+
+	/**
+	* It turned out, that the cache is lazy when it comes to deleting entries. This is harmfull during, since it the lags by one update-step, when historizing user-updates.
+	* It would be more formal to update the cache, when deleting entries, this, however, would take a much deeper analysis...
+	*/
+	public static function invalidateCache() {
+		self::$master_entry_cache = array();
+	}
 }

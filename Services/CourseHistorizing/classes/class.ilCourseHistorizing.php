@@ -108,30 +108,32 @@ class ilCourseHistorizing extends ilHistorizingStorage
 	protected function getContentColumnsDefinition()
 	{
 		$definition =  array(
-			'custom_id'			=> 'text',
-			'title'				=> 'text',
-			'template_title'	=> 'text',
-			'type'				=> 'text',
-			'topic_set'			=> 'integer',
-			'begin_date'		=> 'date',
-			'end_date'			=> 'date',
-			'hours'				=> 'integer',
-			'is_expert_course'	=> 'integer',
-			'venue'				=> 'text',
-			'provider'			=> 'text',
-			'tutor'				=> 'text',
-			'max_credit_points'	=> 'text',
-			'fee'				=> 'float',
-			'is_template'		=> 'text',
-			'wbd_topic'			=> 'text',
-			'edu_program'		=> 'text',
-			'is_online'			=> 'integer',
-			'dl_invitation'		=> 'integer',
-			'dl_storno'			=> 'integer',
-			'dl_booking'		=> 'integer',
-			'dl_waitinglist'	=> 'integer',
-			'dbv_hot_topic'		=> 'text',
-			'webex_vc_type'		=> 'text'		
+			'custom_id'				=> 'text',
+			'title'					=> 'text',
+			'template_title'		=> 'text',
+			'type'					=> 'text',
+			'topic_set'				=> 'integer',
+			'begin_date'			=> 'date',
+			'end_date'				=> 'date',
+			'hours'					=> 'integer',
+			'is_expert_course'		=> 'integer',
+			'venue'					=> 'text',
+			'provider'				=> 'text',
+			'tutor'					=> 'text',
+			'max_credit_points'		=> 'text',
+			'fee'					=> 'float',
+			'is_template'			=> 'text',
+			'wbd_topic'				=> 'text',
+			'edu_program'			=> 'text',
+			'is_online'				=> 'integer',
+			'dl_invitation'			=> 'integer',
+			'dl_storno'				=> 'integer',
+			'dl_booking'			=> 'integer',
+			'dl_waitinglist'		=> 'integer',
+			'dbv_hot_topic'			=> 'text',
+			'virtual_classroom_type'=> 'text',
+			'dct_type'				=> 'text',
+			'template_obj_id'		=> 'integer'
 
 		);
 
@@ -190,7 +192,7 @@ class ilCourseHistorizing extends ilHistorizingStorage
 	 * @param null $a_creation_timestamp          Integer|Null    Unix-timestamp of creation, set to now if null.
 	 * @param bool $mass_modification_allowed     Boolean|False    In order to make mass-updates, set this true.
 	 *
-	 * @throws Exception|ilException
+	 * @throws Exception|ilHistorizingException
 	 */
 	public static function updateHistorizedData(
 		$a_case_id,

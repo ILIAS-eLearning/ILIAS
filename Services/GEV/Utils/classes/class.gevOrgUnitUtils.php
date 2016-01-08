@@ -101,7 +101,13 @@ class gevOrgUnitUtils {
 			$ou_ids2[] = $ids["obj_id"];
 		}
 
-		$ou_info = gevAMDUtils::getInstance()->getTable(array_merge($ou_ids1, $ou_ids2), array(gevSettings::ORG_AMD_CITY => "city"));
+		$uvg_ref_id = gevOrgUnitUtils::getUVGOrgUnitRefId();
+		$ou_ids3 = array();
+		foreach (gevOrgUnitUtils::getOrgUnitsOneTreeLevelBelowRefId($uvg_ref_id) as $ids) {
+			$ou_ids3[] = $ids["obj_id"];
+		}
+
+		$ou_info = gevAMDUtils::getInstance()->getTable(array_merge($ou_ids1, $ou_ids2, $ou_ids3), array(gevSettings::ORG_AMD_CITY => "city"));
 
 		gevOrgUnitUtils::$venue_names = array();
 		foreach ($ou_info as $values) {
@@ -148,6 +154,22 @@ class gevOrgUnitUtils {
 		}
 		throw new ilException("gevOrgUnitUtils::getEVGOrgUnitRefId: could not find org unit with import_id = 'evg'");
 	}
+
+	static public function getUVGOrgUnitRefId() {
+		global $ilDB;
+		
+		$res = $ilDB->query("SELECT DISTINCT oref.ref_id "
+						   ."  FROM object_data od "
+						   ."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
+						   ." WHERE import_id = 'uvg'"
+						   ."   AND oref.deleted IS NULL"
+						   ."   AND od.type = 'orgu'"
+						   );
+		if ($rec = $ilDB->fetchAssoc($res)) {
+			return $rec["ref_id"];
+		}
+		throw new ilException("gevOrgUnitUtils::getEVGOrgUnitRefId: could not find org unit with import_id = 'uvg'");
+	}
 	
 	public function getOrgUnitAbove() {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
@@ -174,6 +196,27 @@ class gevOrgUnitUtils {
 			  ." FROM object_reference oref"
 			  ." JOIN object_data od ON od.obj_id = oref.obj_id"
 			  ." JOIN tree tr ON tr.parent = ".$ref_id
+			  ." WHERE od.type = 'orgu' AND oref.ref_id = tr.child AND oref.deleted IS NULL";
+
+		$res = $ilDB->query($sql);
+		$first_child_org = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			$first_child_org[] = array( "ref_id" => $rec["ref_id"]
+										 , "obj_id" => $rec["obj_id"]
+										 );
+		}
+
+		return $first_child_org;
+	}
+
+	static public function getOrgUnitsOneTreeLevelBelowRefId($a_ref_id) {
+		global $ilDB;
+
+
+		$sql = "SELECT DISTINCT oref.ref_id, oref.obj_id"
+			  ." FROM object_reference oref"
+			  ." JOIN object_data od ON od.obj_id = oref.obj_id"
+			  ." JOIN tree tr ON tr.parent = ".$a_ref_id
 			  ." WHERE od.type = 'orgu' AND oref.ref_id = tr.child AND oref.deleted IS NULL";
 
 		$res = $ilDB->query($sql);
@@ -545,7 +588,6 @@ class gevOrgUnitUtils {
 			."  JOIN object_data od ON od.obj_id = fa.rol_id"
 			." WHERE ua.rol_id = fa.rol_id"
 			."   AND od.title LIKE 'il_orgu_superior_%'";
-			echo $sql;
 
 		$res = $ilDB->query(
 			 "SELECT ua.usr_id"
@@ -922,9 +964,51 @@ class gevOrgUnitUtils {
 
 		}
 	}
+
+	public static function getSuperiorsOfUser($user_id) {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+
+		$tree = ilObjOrgUnitTree::_getInstance();
+		$sups = array();
+		$look_above_orgus = array();
+		$orgus = $tree->getOrgUnitOfUser($user_id);
+
+		foreach( $orgus as $ref_id ) {
+			$employees = $tree->getEmployees($ref_id);
+			$superiors = $tree->getSuperiors($ref_id);
+
+			if(in_array($user_id,$employees)) {
+				$sups = array_merge($sups,$superiors);
+			}
+		}
+		foreach($orgus as $org) {
+
+			$org_aux = $tree->getParent($org);
+
+			while ($org_aux != ROOT_FOLDER_ID) {
+				$sups = array_merge($sups,$tree->getSuperiors($org_aux));
+				$org_aux = $tree->getParent($org_aux);
+			}
+		}
+		$sups = array_unique($sups);
+		return gevUserUtils::removeInactiveUsers($sups);
+	}
+
+	static public function getOrguUnitsXLevelAbove($org_ref_id, $lvl) {
+		$ou_tree = ilObjOrgUnitTree::_getInstance();
+		$ret = $org_ref_id;
+		for($i = 0; $i< $lvl; $i++) {
+			$ret = $ou_tree->getParent($ret);
+
+			if($ret == ilObjOrgUnit::getRootOrgRefId()) {
+				break;
+			}
+		}
+
+		return $ret;
+	}
 }
-
-
 
 class gevOrgUnitCache {
 	protected $root_id;
@@ -965,5 +1049,3 @@ class gevOrgUnitCache {
 		return $this->cache[$import_id];
 	}
 }
-
-?>

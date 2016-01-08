@@ -351,6 +351,7 @@ class ilTEP
 	 */
 	public static function getPossibleOrgUnitsForTEPEntries() {
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		$evg = gevOrgUnitUtils::getInstanceByImportId("evg");
 		$evg_ref_id = $evg->getRefId();
 		$ous = array($evg_ref_id => $evg->getTitle());
@@ -360,7 +361,22 @@ class ilTEP
 		
 		$uvg = gevOrgUnitUtils::getInstanceByImportId("uvg");
 		$ous[$uvg->getRefId()] = $uvg->getTitle();
-		
+		foreach ($uvg->getChildren() as $ids) {
+			if(ilObject::_lookupObjId($ids["ref_id"]) != gevSettings::getInstance()->getDBVPOUTemplateUnitId()) {
+				$ous[$ids["ref_id"]] = ilObject::_lookupTitle($ids["obj_id"]);
+				$orgu = gevOrgUnitUtils::getInstance(ilObject::_lookupObjId($ids["ref_id"]));
+
+				$childs = $orgu->getOrgUnitsOneTreeLevelBelow();
+				$childs = array_map(function($v) { return $v["ref_id"];}, $childs);
+
+				if(!empty($childs)) {
+					foreach (gevOrgUnitUtils::getAllChildren($childs) as $child) {
+						$ous[$child["ref_id"]] = ilObject::_lookupTitle($child["obj_id"]);
+					}
+				}
+			}
+		}
+
 		$base = gevOrgUnitUtils::getInstanceByImportId("gev_base");
 		$base_ref_id = $base->getRefId();
 		
@@ -376,6 +392,16 @@ class ilTEP
 		
 		return array( "view" => self::getOrgUnitNamesAndIds(array($uvg->getRefId()))
 					, "view_rekru" => self::getOrgUnitNamesAndIds(array($evg->getRefId()))
+					);
+	}
+
+	public static function getPossibleOrgUnitsForDecentralTrainingEntriesSeparated() {
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$evg = gevOrgUnitUtils::getInstanceByImportId("evg");
+		$uvg = gevOrgUnitUtils::getInstanceByImportId("uvg");
+		
+		return array( "view" => array()
+					, "view_rekru" => self::getOrgUnitNamesAndIds(array($evg->getRefId(),$uvg->getRefId()))
 					);
 	}
 	// gev-patch end

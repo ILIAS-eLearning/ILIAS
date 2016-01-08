@@ -13,6 +13,7 @@
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/GEV/Utils/classes/class.gevUVGOrgUnits.php");
 require_once("Modules/OrgUnit/classes/PersonalOrgUnit/class.ilPersonalOrgUnits.php");
+require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 
 class gevDBVUtils {
 	static $instance;
@@ -23,6 +24,7 @@ class gevDBVUtils {
 		$this->ilias = &$ilias;
 		$this->log = &$ilLog;
 		$this->appEventHandler = &$ilAppEventHandler;
+		$this->orgu_tree = ilObjOrgUnitTree::_getInstance();
 		
 		$this->gev_settings = gevSettings::getInstance();
 
@@ -100,6 +102,37 @@ class gevDBVUtils {
 		// make new assignments
 		$this->assignUserToDBVsByShadowDB($a_user_id);
 	}
+	/**
+	* DBV_update refactoring to avoid reassignments into the same org unit. 
+	* This creates a lot of pointless entries in hist_userorgu table and slows down reports. 
+	*/
+	public function updateUsersDBVAssignmentsByShadowDB_new($a_user_id) {
+		$cpool_id = $this->gev_settings->getCPoolUnitId();
+		$dbvs_init = $this->pou->getSuperiorsOf($a_user_id);
+		$dbvs_final = $this->iv_getDBVsUserIdsOf($a_user_id);
+		$dbvs_out = array_diff($dbvs_init, $dbvs_final);
+		$dbvs_in = array_diff($dbvs_final, $dbvs_init);
+
+		foreach ($dbvs_out as $dbv) {
+			$this->pou->deassignEmployee($dbv, $a_user_id);
+		}
+
+		if(count($dbvs_final) == 0) {
+			if (!$cpool_id) {
+				throw new Exception("gevDBVUtils::assignUserToDBVsByShadowDB: No CPool-Org-Unit set.");
+			}
+			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+			gevOrgUnitUtils::getInstance($cpool_id)->assignUser($a_user_id, "Mitarbeiter");
+		} else {
+			if(count($dbv_init) == 0) { 
+				gevOrgUnitUtils::getInstance($cpool_id)->deassignUser($a_user_id, "Mitarbeiter");
+			}
+			foreach ($dbvs_in as $dbv) {
+				$this->pou->assignEmployee($dbv, $a_user_id);
+			}
+		}
+		$this->appEventHandler->raise("Modules/OrgUnit", "afterUpdate", array("user_id" => $a_user_id));
+	}
 
 	/**
 	 * Gibt die Benutzernummern der DBVs eines Benutzer mit Daten aus der IV
@@ -108,8 +141,6 @@ class gevDBVUtils {
 	 * @param integer $a_user_id
 	 */
 	public function iv_getDBVsUserIdsOf($a_user_id) {
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-
 		$job_number_field_id = $this->gev_settings->getUDFFieldId(gevSettings::USR_UDF_JOB_NUMMER);
 		
 		$job_numbers = $this->iv_getJobNumbersOfDBVsOf($a_user_id);
@@ -120,10 +151,7 @@ class gevDBVUtils {
 							   );
 		$result = array();
 		while ($rec = $this->db->fetchAssoc($res)) {
-			$utils = gevUserUtils::getInstance($rec["usr_id"]);
-			if ($utils->isUVGDBV()) {
 				$result[] = $rec["usr_id"];
-			}
 		}
 		return $result;
 	}
@@ -217,8 +245,42 @@ class gevDBVUtils {
 		return $this->pou->getEmployeesOf($a_dbv_id);
 	} 
 
+	/**
+	 * Gibt eine Liste aller ObjIds von Organisationseinheiten unterhalb von UVG in 
+	 * denen der Benutzer Mitglied ist.
+	 *
+	 * @param 	int			$a_user_id
+	 * @param	array[]		obj_ids der Organisationseinheiten
+	 */
+	public function getUVGOrgUnitObjIdsIOf($a_user_id) {
+		return array_map(function($a_ref_id) {
+			return ilObject::_lookupObjId($a_ref_id);
+		}
+		, $this->orgu_tree->getOrgUnitOfUser($a_user_id, $this->pou->getBaseRefId()));
+	}
 
-
+	/**
+	 * Gibt die ObjId der Organisationseinheit auf der Ebene direkt unterhalb von
+	 * UVG zurück, zu der die gegebene Organisationseinheit gehört.
+	 *
+	 * @param	int			$a_orgu_obj_id
+	 * @throws	ilException					Wenn die gegebene Organisationseinheit 
+	 *										nicht zum UVG gehört.
+	 * @return	int							obj_id
+	 */
+	public function getUVGTopLevelOrguIdFor($a_orgu_obj_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$uvg_children = $this->orgu_tree->getChildren($this->pou->getBaseRefId());
+		$orgu_ref_id = gevObjectUtils::getRefId($a_orgu_obj_id);
+		$parent_ref_id = gevOrgUnitUtils::getOrguUnitsXLevelAbove($orgu_ref_id,2);
+		if (in_array($orgu_ref_id, $uvg_children)) {
+			return $a_orgu_obj_id;
+		}
+		if (!in_array($parent_ref_id, $uvg_children)) {
+			throw new ilException("Parent of $orgu_ref_id is no children of UVG");
+		}
+		return gevObjectUtils::getObjId($parent_ref_id);
+	}
 }
 
 ?>

@@ -948,6 +948,8 @@ class gevUserImport {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$user_utils = gevUserUtils::getInstance($il_user_id);
 
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
+		$wbd = gevWBD::getInstance($il_user_id);
 
 		$user_utils->setBirthplace($user_record['bcity']);
 		$user_utils->setBirthname($user_record['bname']);
@@ -968,26 +970,26 @@ class gevUserImport {
 
 		
 		if($user_record['tp_type']){
-			$user_utils->setWBDTPType($user_record['tp_type']);
+			$wbd->setWBDTPType($user_record['tp_type']);
 		}
 
 		if($user_record['bwvid']){
-			$user_utils->setWBDBWVId($user_record['bwvid']);
+			$wbd->setWBDBWVId($user_record['bwvid']);
 		}
 		if($user_record['wbd_okz']){
 			$okz = $user_record['wbd_okz'];
 			$okz = str_replace('aus Stellung', 'aus Rolle', $okz);
-			$user_utils->setRawWBDOKZ($okz);
+			$wbd->setRawWBDOKZ($okz);
 		}
 		if($user_record['wbd_status']){
 			$status = $user_record['wbd_status'];
 			$status = str_replace('aus Stellung', 'aus Rolle', $status);
-			$user_utils->setRawWBDAgentStatus($status);
+			$wbd->setRawWBDAgentStatus($status);
 		}
 		if($user_record['wbd_registered'] == '1 - Ja'){
-			$user_utils->setWBDRegistrationDone();
+			$wbd->setWBDRegistrationDone();
 		}
-		$user_utils->setWBDCommunicationEmail($user_record['mail_wbd']);
+		$wbd->setWBDCommunicationEmail($user_record['mail_wbd']);
 		$user_utils->setIHKNumber($user_record['ihknr']);
 		$user_utils->setAgentPositionVFS($user_record['pos_vfs']);
 
@@ -1006,15 +1008,8 @@ class gevUserImport {
 			$user_utils->setADPNumberGEV($user_record["adp_gev"]);
 		}
 
-		//setFinancialAccountVFS
-
-
-		//$user_utils->setWBDFirstCertificationPeriodBegin($user_record['wbd_cert_begin']));
-
-
 		$user = new ilObjUser($il_user_id);
 		$user->update();
-
 	}
 
 
@@ -1813,10 +1808,8 @@ class gevUserImport {
 				$this->prnt($record['user_id'] .' -> '.$period_begin, 3);
 			}
 
-
-			
-			$user_utils = gevUserUtils::getInstance($record['user_id']);
-			$user_utils->setWBDFirstCertificationPeriodBegin($period_begin);
+			$wbd = gevWBD::getInstance($record['user_id']);
+			$wbd->setWBDFirstCertificationPeriodBegin($period_begin);
 			$user = new ilObjUser($record['user_id']);
 			$user->update();
 			
@@ -1893,7 +1886,8 @@ class gevUserImport {
 		while ($record = mysql_fetch_assoc($result)){
 			if((int)$record['ilid'] != 12348){
 				$user_utils = gevUserUtils::getInstance($record['ilid']);
-				$user_utils->setWBDTPType('3 - TP-Service');
+				$wbd = gevWBD::getInstance($record['ilid']);
+				$wbd->setWBDTPType('3 - TP-Service');
 				$user = $user_utils->getUser();
 				$user->update();
 

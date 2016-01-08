@@ -10,7 +10,6 @@
 */
 
 require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
-require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
@@ -123,6 +122,11 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
+
+		$this->relevant_parameters = array(
+				$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			);
+		
 		$this->filtered_orgus = $this->filter->get('org_unit');
 
 		$earliest_possible_cert_period_begin = "2013-09-01";
@@ -133,7 +137,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 							."		FROM hist_userorgu huo1 "
 							." 		JOIN hist_userorgu huo2 ON huo1.usr_id = huo2.usr_id AND huo1.orgu_id = huo2.orgu_id "
 							."			AND huo1.rol_id = huo2.rol_id "
-							."		WHERE  huo1.`action` = 1 AND huo1.hist_historic = 0 AND huo2.`action` = 1 AND huo2.hist_historic = 0";
+							."		WHERE  huo1.`action` >= 0 AND huo1.hist_historic = 0 AND huo2.`action` >= 0 AND huo2.hist_historic = 0";
 		if(count($this->filtered_orgus)>0) {
 		$this->orgu_filter .="		AND (".$this->db->in("huo2.orgu_title", $this->filtered_orgus, false, "text")
 							."		OR ".$this->db->in("huo2.org_unit_above1", $this->filtered_orgus, false, "text")
@@ -267,5 +271,3 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		return $val;
 	}
 }
-
-?>

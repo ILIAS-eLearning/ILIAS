@@ -268,6 +268,13 @@ class ilVCPoolTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("member_pw3", $vc->getMemberPassword());
 	}
 	
+	public function testVCTypes() {
+		$vc_pool = ilVCPool::getInstance();
+		
+		$vc_types = $vc_pool->getVCTypes();
+		$this->assertEquals(array("cat", "other"), $vc_types);
+	}
+	
 	protected function tearDown() {
 		if ($this->no_trunc) {
 			return;

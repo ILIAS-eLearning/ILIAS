@@ -19,16 +19,21 @@ class ilUserOrgUnitHistorizingAppEventListener {
 	static $relevant_events = array(
 		'Services/AccessControl' 
 			=> array(
-			'removeUser',
-			'deleteOrguRole',
-			'assignUserOrguRole',
-			'deassignUserOrguRole',
-			'deassignUsersOrguRole'
-			),
+				'removeUser',
+				'deleteOrguRole',
+				'assignUserOrguRole',
+				'deassignUserOrguRole',
+				'deassignUsersOrguRole'
+				),
 		'Modules/OrgUnit'
 			=> array(
-			'delete'
-			)
+				'delete',
+				'update'
+				),
+		'Services/Tree'
+			=> array(
+				'moveTree'
+				)
 	);
 
 	/**
@@ -47,15 +52,59 @@ class ilUserOrgUnitHistorizingAppEventListener {
 	{
 		self::initEventHandler();
 
-		if(in_array($a_event, self::$relevant_events[$a_component])) {
+		if(self::eventIsRelevant($a_component, $a_event, $a_parameter)) {
+			$parameter = self::formatParameter($a_component, $a_event, $a_parameter);
 			self::$ilUserOrgUnitHistorizing->updateHistorizedData(
-				self::getCaseId($a_component, $a_event, $a_parameter), 
-				self::getStateData($a_component, $a_event, $a_parameter), 
-				self::getRecordCreator($a_event, $a_parameter), 
-				self::getCreationTimestamp($a_event, $a_parameter), 
+				self::getCaseId($a_component, $a_event, $parameter),
+				self::getStateData($a_component, $a_event, $parameter),
+				self::getRecordCreator($a_event, $parameter),
+				self::getCreationTimestamp($a_event, $parameter),
 				self::massAction($a_component, $a_event)
 			);
 		}
+	}
+
+	/**
+	*
+	* Do various checks on wether the event is relevant and needs to be historized.
+	*
+	* @static
+	*
+	* @param	string	$a_component	Component which has thrown the event to be handled.
+	* @param	string	$a_event		Name of the event
+	* @param 	mixed	$a_parameter	Parameters for the event
+	*/
+	protected static function eventIsRelevant($a_component, $a_event, $a_parameter) {
+
+		if(!in_array($a_event, self::$relevant_events[$a_component])) {
+			return false;
+		}
+
+		if($a_component == 'Services/Tree' && $a_event == 'moveTree') {
+			if('orgu' !== self::$ilUserOrgUnitHistorizingHelper->lookupTypeByRefId($a_parameter['source_id'])) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	*
+	* Any event may provide different parameters which may need to be formatted.
+	*
+	* @static
+	*
+	* @param	string	$a_component	Component which has thrown the event to be handled.
+	* @param	string	$a_event		Name of the event
+	* @param 	mixed	$a_parameter	Parameters for the event
+	*/
+	protected static function formatParameter($a_component, $a_event, $a_parameter) {
+		if($a_component !== 'Services/Tree') {
+			return $a_parameter;
+		}
+		$a_parameter['obj_id'] = self::$ilUserOrgUnitHistorizingHelper->lookupObjIdByRefId($a_parameter['source_id']);
+		return $a_parameter;
 	}
 
 	/**
@@ -123,6 +172,16 @@ class ilUserOrgUnitHistorizingAppEventListener {
 				case 'delete':
 					$case_id = array('orgu_id' => $parameter['obj_id']);
 					break;
+				case 'update':
+					$case_id = array('orgu_id' => $parameter['obj_id']);
+					break;		
+			}
+		}
+		if($component == 'Services/Tree') {
+			switch ($event) {
+				case 'moveTree':
+					$case_id = array('orgu_id' => $parameter['obj_id']);
+					break;
 			}
 		}
 		return $case_id;		
@@ -176,14 +235,29 @@ class ilUserOrgUnitHistorizingAppEventListener {
 				case 'delete':
 					$data_payload = array('action' => -1);	
 					break;
+				case 'update':
+					$data_payload = array('action' => 0, 'orgu_title' => $parameter['orgu_title']);
+					break;
+			}
+		}
+		if($component == 'Services/Tree') {
+			switch ($event) {
+				case 'moveTree':
+					$data_payload = array('action' => 0);
+					$orgus_above =
+						self::$ilUserOrgUnitHistorizingHelper
+						->getOrgUnitsAboveOf($parameter['obj_id']);
+					$data_payload['org_unit_above1'] = $orgus_above[0];
+					$data_payload['org_unit_above2'] = $orgus_above[1];
+					break;
 			}
 		}
 		return $data_payload;
 	}
 
 	protected static function massAction($a_component, $a_event) {
-		if($component == 'Services/AccessControl') {
-			switch ($event) {
+		if($a_component == 'Services/AccessControl') {
+			switch ($a_event) {
 				case 'removeUser':
 					return true;
 				case 'deleteOrguRole':
@@ -196,9 +270,17 @@ class ilUserOrgUnitHistorizingAppEventListener {
 					return true;
 			}
 		}
-		if($component == 'Modules/OrgUnit') {
-			switch ($event) {
+		if($a_component == 'Modules/OrgUnit') {
+			switch ($a_event) {
 				case 'delete':
+					return true;
+				case 'update':
+					return true;
+			}
+		}
+		if($a_component == 'Services/Tree') {
+			switch ($a_event) {
+				case 'moveTree':
 					return true;
 			}
 		}

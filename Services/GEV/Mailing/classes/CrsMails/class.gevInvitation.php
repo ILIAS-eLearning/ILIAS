@@ -91,16 +91,19 @@ class gevInvitation extends gevCrsAutoMail {
 			return null;
 		}
 
-		
 		// this really is no good style.
-		if (   !gevDeadlineMailingJob::isMailSend($this->getCourse()->getId(), $this->getId()) 
-			&& ilContext::getType() !== ilContext::CONTEXT_CRON 
-			&& $_GET["cmdClass"] !== "ilcronmanagergui"
-			&& $_GET["cmdClass"] !== "gevcrsmailinggui"
-			&& $_GET["cmdClass"] !== "gevdecentraltraininggui"
-			&& $this->days_before_course_start != 0) {
-			
-			return null;
+		$start_date = $this->getCourseUtils()->getStartDate();
+		$now = date("Y-m-d");
+		if ($start_date && $start_date->get(IL_CAL_DATE) != $now) {
+			if (   !gevDeadlineMailingJob::isMailSend($this->getCourse()->getId(), $this->getId()) 
+				&& ilContext::getType() !== ilContext::CONTEXT_CRON 
+				&& $_GET["cmdClass"] !== "ilcronmanagergui"
+				&& $_GET["cmdClass"] !== "gevcrsmailinggui"
+				&& $_GET["cmdClass"] !== "gevdecentraltraininggui"
+				&& $this->days_before_course_start != 0) {
+
+				return null;
+			}
 		}
 
 		$function = $this->getUserFunction($a_recipient);

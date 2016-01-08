@@ -834,20 +834,23 @@ class ilTemplate extends ilTemplateX
 		
 		// gev-patch start
 		global $ilUser;
-		$agent_agbs = false;
+		$footerLinks = array();
 		if ($ilUser->getId()) {
-			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-			$uutils = gevUserUtils::getInstance($ilUser->getId());
-			if ($uutils->hasRoleIn(array("VP"))) {
-				$agent_agbs = true;
-			}
+			require_once("Services/GEV/Desktop/classes/class.gevFooterLinks.php");
+			$links = new gevFooterLinks();
+			$footerLinks = $links->getFooterLinksFor($ilUser->getId());
+
+		} else {
+			require_once("Services/GEV/Desktop/classes/class.gevFooterLinks.php");
+			$links = new gevFooterLinks();
+			$footerLinks =  $links->getFooterLinksFor();
 		}
-		if ($agent_agbs) {
-			$ftpl->setVariable("AGBS_LINK", "./Customizing/global/skin/genv/static/documents/"
-										  ."GEV_Makler_Finale_Nutzungsbedingungen.pdf");
-		}
-		else {
-			$ftpl->setVariable("AGBS_LINK", "./static_pages.php?tpl=agb");
+
+		foreach ($footerLinks as $key => $value) {
+			$ftpl->setCurrentBlock("footer_link");
+			$ftpl->setVariable("LINK",$value["link"]);
+			$ftpl->setVariable("DESC",$lng->txt($value["desc"]));
+			$ftpl->parseCurrentBlock();
 		}
 		// gev-patch end
 

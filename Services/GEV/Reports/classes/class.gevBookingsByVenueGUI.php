@@ -19,7 +19,6 @@
 */
 
 require_once("Services/GEV/Reports/classes/class.catBasicReportGUI.php");
-require_once("Services/GEV/Reports/classes/class.catFilter.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 
 
@@ -42,6 +41,42 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 				}
 			}
 		}
+
+		$this->filter = catFilter::create()
+				->checkbox("show_past_events"
+								, $this->lng->txt("gev_rep_filter_show_past_events")
+								," checked >= 0 "
+								," checked = 0 "
+								, true
+								// , null
+								// , "crs.end_date < '".date("Y-m-d")."'"
+								)
+				->dateperiod( "period"
+								, $this->lng->txt("gev_period")
+								, $this->lng->txt("gev_until")
+								, "crs.begin_date"
+								, "crs.end_date"
+								, date("Y")."-01-01"
+								, date("Y")."-12-31"
+								, false
+								," OR TRUE "
+								)
+				->static_condition("crs.hist_historic = 0")
+				->static_condition("crs.venue != '-empty-'")
+				->static_condition("crs.venue NOT LIKE 'Online%'")
+				->static_condition("oref.deleted IS NULL")
+				->static_condition("cs.activation_type = 1")
+				->static_condition($this->db->in("venue", $venue_names, false, "text"))
+				->action($this->ctrl->getLinkTarget($this, "view"))
+				->compile()
+				;
+		$this->relevant_parameters = array(
+				$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
+			);
+		$this->checked_filter = $this->filter->get("show_past_events");
+
+		$this->crs_begin_filter = $this->filter->get("period")["start"]->get(IL_CAL_DATE);
+		$this->crs_end_filter = $this->filter->get("period")["end"]->get(IL_CAL_DATE);
 
 		$this->title = catTitleGUI::create()
 						->title("gev_rep_bookings_by_venue_title")
@@ -75,6 +110,11 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 						->select("begin_date")
 						->select("end_date")
 						->select("venue")
+						->select_raw(
+							" IF(begin_date < ".$this->db->quote($this->crs_end_filter,"date")
+							."      AND end_date > ".$this->db->quote($this->crs_begin_filter,"date")
+							."      ,0,IF(begin_date <".$this->db->quote($this->crs_begin_filter,"date").",1,-1))"
+							." as checked ")
 						->from("hist_course crs")
 						->join("object_reference oref")
 							->on("oref.obj_id = crs.crs_id")
@@ -83,28 +123,6 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 						->compile()
 						;
 
-		$this->filter = catFilter::create()
-						->checkbox("show_past_events"
-								  , $this->lng->txt("gev_rep_filter_show_past_events")
-								  , null
-								  , "crs.end_date > '".date("Y-m-d")."'"
-								  )
-						->dateperiod( "period"
-									, $this->lng->txt("gev_period")
-									, $this->lng->txt("gev_until")
-									, "crs.begin_date"
-									, "crs.end_date"
-									, date("Y")."-01-01"
-									, date("Y")."-12-31"
-									)
-						->static_condition("crs.hist_historic = 0")
-						->static_condition("crs.venue != '-empty-'")
-						->static_condition("oref.deleted IS NULL")
-						->static_condition("cs.activation_type = 1")
-						->static_condition($this->db->in("venue", $venue_names, false, "text"))
-						->action($this->ctrl->getLinkTarget($this, "view"))
-						->compile()
-						;
 	}
 
 	protected function executeCustomCommand($a_cmd) {
@@ -236,5 +254,3 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 	}
 
 }
-
-?>

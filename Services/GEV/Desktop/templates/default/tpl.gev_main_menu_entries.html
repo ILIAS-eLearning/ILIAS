@@ -4,15 +4,9 @@
 		<a {ENTRY_ID} class="{MM_CLASS}" href="{ENTRY_TARGET}">{ENTRY_TITLE}</a>
 	</li>
 	<!-- END single_entry -->
-	<!-- BEGIN dropdown_entry -->
+	<!-- BEGIN multi_entry -->
 	<li class="ilMainMenu">
-		<a {ENTRY_ID} class="{MM_CLASS}" href="#" target="_top">{ENTRY_TITLE}</a>
-		<div {ENTRY_ID_OV} class="ilOverlay ilNoDisplay">
-			{ENTRY_CONT}
-		</div>
+		{CONTENT}
 	</li>
-	<!-- END dropdown_entry -->
-	<!-- BEGIN admin_entry -->
-	<li class="ilMainMenu">{ADMIN_DROP_DOWN}{SEL}</li>
-	<!-- BEGIN admin_entry -->
+	<!-- END multi_entry -->
 </ul>

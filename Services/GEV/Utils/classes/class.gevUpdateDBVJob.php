@@ -93,7 +93,7 @@ class gevUpdateDBVJob extends ilCronJob {
 		foreach ($vps as $vp) {
 			$user_utils = gevUserUtils::getInstance($vp);
 			if ($user_utils->hasRoleIn(array("VP"))) {
-				$dbv_utils->updateUsersDBVAssignmentsByShadowDB($vp);
+				$dbv_utils->updateUsersDBVAssignmentsByShadowDB_new($vp);
 			}
 			
 			ilCronManager::ping($this->getId());

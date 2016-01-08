@@ -15,158 +15,17 @@ require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 require_once("Services/CourseBooking/classes/class.ilUserCourseBookings.php");
 require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevGeneralUtils.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 
 
 class gevUserUtils {
 	static protected $instances = array();
 
-
-	// wbd stuff
-	const WBD_NO_SERVICE 		= "0 - kein Service";
-	const WBD_EDU_PROVIDER		= "1 - Bildungsdienstleister";
-	const WBD_TP_BASIS			= "2 - TP-Basis";
-	const WBD_TP_SERVICE		= "3 - TP-Service";
-	
-	const WBD_OKZ_FROM_POSITION	= "0 - aus Rolle";
-	const WBD_OKZ1				= "1 - OKZ1";
-	const WBD_OKZ2				= "2 - OKZ2";
-	const WBD_OKZ3				= "3 - OKZ3";
-	const WBD_NO_OKZ			= "4 - keine Zuordnung";
-	
-	const WBD_AGENTSTATUS0	= "0 - aus Rolle";
-	const WBD_AGENTSTATUS1	= "1 - Angestellter Außendienst";
-	const WBD_AGENTSTATUS2	= "2 - Ausschließlichkeitsvermittler";
-	const WBD_AGENTSTATUS3	= "3 - Makler";
-	const WBD_AGENTSTATUS4	= "4 - Mehrfachagent";
-	const WBD_AGENTSTATUS5	= "5 - Mitarbeiter eines Vermittlers";
-	const WBD_AGENTSTATUS6	= "6 - Sonstiges";
-	const WBD_AGENTSTATUS7	= "7 - keine Zuordnung";
-	
-
-	static $wbd_agent_status_mapping = array(
-		//1 - Angestellter Außendienst
-		self::WBD_AGENTSTATUS1 => array(
-			/* GOA V1:
-			"OD/LD/BD/VD/VTWL"
-			,"DBV/VL-EVG"
-			,"DBV-UVG"
-			*/
-			"OD /BD"
-			,"OD/BD"
-			,"FD"
-			,"Org PV 59"
-			,"PV 59"
-			,"Ausbildungsbeauftragter"
-			,"VA 59"
-			,"VA HGB 84"
-			,"NFK"
-			,"OD-Betreuer"
-			,"DBV UVG"
-			,"DBV EVG"
-		),
-
-		//2 - Ausschließlichkeitsvermittler
-		self::WBD_AGENTSTATUS2 => array(
-			/* GOA V1:
-			"AVL"
-			,"HA"
-			,"BA"
-			,"NA"
-			*/
-			"UA"
-			,"HA 84"
-			,"BA 84"
-			,"NA"
-			,"AVL" 
-		),
-		//3 - Makler
-		self::WBD_AGENTSTATUS3 => array(
-			"VP"
-		),
-
-		//5 - Mitarbeiter eines Vermittlers
-		self::WBD_AGENTSTATUS5 => array(
-			"Agt-ID"
-		),
-		//6 - Sonstiges
-		self::WBD_AGENTSTATUS6 => array(
-			'Administrator'
-			,'Admin-Voll'
-			,'Admin-eingeschraenkt'
-			,'Admin-Ansicht'
-			,'ID FK'
-			,'ID MA'
-			,'OD/FD/BD ID'
-			,'FDA'
-			,'Ausbilder'
-			,'Azubi'
-			,'Buchhaltung'
-			,'Veranstalter'
-			,'int. Trainer'
-			,'ext. Trainer'
-			,'TP Service'
-			,'TP Basis'
-			,'VFS'
-
-		)
-
-	);
-
-	/* GOA V1:
-	static $wbd_relevant_roles	= array( //"OD/LD/BD/VD/VTWL"
-									     "DBV/VL-EVG"
-									   , "DBV-UVG"
-									   , "AVL"
-									   , "HA"
-									   , "BA"
-									   //, "NA"
-									   , "VP"
-									   , "TP-Basis Registrierung"
-									   , "TP-Service Registrierung"
-									   );
-
-	static $wbd_tp_service_roles = array( //"OD/LD/BD/VD/VTWL"
-									     "DBV/VL-EVG"
-									   , "DBV-UVG"
-									   , "AVL"
-									   , "HA"
-									   , "BA"
-									   //, "NA"
-									   , "TP-Service Registrierung"
-									   );
-	*/
-
-	static $wbd_tp_service_roles = array(
-		"UA"
-		,"HA 84"
-		,"BA 84"
-		,"Org PV 59"
-		,"PV 59"
-		,"AVL"
-		,"DBV UVG"
-		,"DBV EVG"
-		,"TP Service"
-	);
-	
-	static $wbd_relevant_roles = array(
-		"UA"
-		,"HA 84"
-		,"BA 84"
-		,"Org PV 59"
-		,"PV 59"
-		,"AVL"
-		,"DBV UVG"
-		,"DBV EVG"
-		,"TP Service"
-		,"TP Basis"
-		,"VP"
-	);
-
-	
 	// Für diese Rollen wird bei der Selbstbuchung der Hinweis "Vorabendanreise 
 	// mit Führungskraft klären" angezeigt.
 	static $roles_with_prearrival_note = array(
@@ -187,10 +46,6 @@ class gevUserUtils {
 		, "DBV EVG"
 	);
 
-
-	
-
-
 	protected function __construct($a_user_id) {
 		global $ilDB;
 		global $ilAccess;
@@ -199,6 +54,7 @@ class gevUserUtils {
 		$this->courseBookings = ilUserCourseBookings::getInstance($a_user_id);
 		$this->gev_set = gevSettings::getInstance();
 		$this->udf_utils = gevUDFUtils::getInstance();
+		$this->wbd = gevWBD::getInstance($a_user_id);
 		$this->db = &$ilDB;
 		$this->access = &$ilAccess;
 		$this->user_obj = null;
@@ -242,10 +98,20 @@ class gevUserUtils {
 	}
 	
 	static public function getInstance($a_user_id) {
+		if($a_user_id === null) {
+			throw new Exception("gevUserUtils::getInstance: ".
+								"No User-ID given.");
+		}
+
+		if(!self::userIdExists($a_user_id)) {
+			throw new Exception("gevUserUtils::getInstance: ".
+									"User with ID '".$a_user_id."' does not exist.");
+		}
+
 		if (array_key_exists($a_user_id, self::$instances)) {
 			return self::$instances[$a_user_id];
 		}
-		
+
 		self::$instances[$a_user_id] = new gevUserUtils($a_user_id);
 		return self::$instances[$a_user_id];
 	}
@@ -263,6 +129,19 @@ class gevUserUtils {
 		else {
 			return self::getInstanceByObj($a_user);
 		}
+	}
+
+	static public function userIdExists($a_user_id) {
+		global $ilDB;
+
+		$sql = "SELECT usr_id FROM usr_data WHERE usr_id = ".$ilDB->quote($a_user_id, "integer");
+		$res = $ilDB->query($sql);
+
+		if($ilDB->numRows($res) == 0) {
+			return false;
+		}
+
+		return true;
 	}
 	
 	public function getNextCourseId() {
@@ -310,82 +189,6 @@ class gevUserUtils {
 		$ilCtrl->clearParametersByClass("gevEduBiographyGUI");
 		return $link;
 	}
-	
-	public function getCourseHighlights() {
-		require_once("Modules/Course/classes/class.ilObjCourse.php");
-		require_once("Services/CourseBooking/classes/class.ilCourseBookings.php");
-		
-		global $ilUser;
-		
-		$is_tmplt_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
-		$start_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
-		$type_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
-		$bk_deadl_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_BOOKING_DEADLINE);
-		
-		$query = "SELECT DISTINCT cs.obj_id ".
-				 " FROM crs_settings cs".
-				 " LEFT JOIN object_reference oref".
-				 "   ON cs.obj_id = oref.obj_id".
-				 // this is knowledge from the course amd plugin!
-				 " LEFT JOIN adv_md_values_text tmplt".
-				 "   ON cs.obj_id = tmplt.obj_id ".
-				 "   AND tmplt.field_id = ".$this->db->quote($is_tmplt_field_id, "integer").
-				 // this is knowledge from the course amd plugin
-				 " LEFT JOIN adv_md_values_date start_date".
-				 "   ON cs.obj_id = start_date.obj_id ".
-				 "   AND start_date.field_id = ".$this->db->quote($start_date_field_id, "integer").
-				 // this is knowledge from the course amd plugin
-				 " LEFT JOIN adv_md_values_text ltype".
-				 "   ON cs.obj_id = ltype.obj_id ".
-				 "   AND ltype.field_id = ".$this->db->quote($type_field_id, "integer").
-				 " LEFT JOIN adv_md_values_int bk_deadl ".
-				 "   ON cs.obj_id = bk_deadl.obj_id ".
-				 "   AND bk_deadl.field_id = ".$this->db->quote($bk_deadl_field_id, "integer").
-				 " WHERE cs.activation_type = 1".
-				 "   AND cs.activation_start < ".time().
-				 "   AND cs.activation_end > ".time().
-				 "   AND oref.deleted IS NULL".
-				 "   AND tmplt.value = ".$this->db->quote("Nein", "text").
-				 "   AND start_date.value > ".$this->db->quote(date("Y-m-d"), "date").
-				 "   AND NOT start_date.value IS NULL ".
-				 // generali konzept "Trainingsbewerbung"
-				 "   AND (".
-				 "            (   ltype.value LIKE 'Pr_senztraining' ".
-				 "            AND ADDDATE(start_date.value, -1 * bk_deadl.value) < ".
-				 			     $this->db->quote(date("Y-m-d", time() + 14 * 24 * 60 * 60), "date").
-				 "            )".
-				 "       OR   (   ltype.value = ".$this->db->quote("Webinar", "text").
-				 "            AND ADDDATE(start_date.value, -1 * bk_deadl.value) < ".	
-				 				 $this->db->quote(date("Y-m-d", time() + 7 * 24 * 60 * 60), "date").
-				 "            )".
-				 "       )".
-				 "   AND ADDDATE(start_date.value, -1 * bk_deadl.value) >= ".$this->db->quote(date("Y-m-d"), "text").
-				 "";
-
-		$res = $this->db->query($query);
-
-		$ret = array();
-		while($val = $this->db->fetchAssoc($res)) {
-			$crs = new ilObjCourse($val["obj_id"], false);
-			$crs_utils = gevCourseUtils::getInstanceByObj($crs);
-			$crs_booking = ilCourseBookings::getInstance($crs);
-			
-			$crs_booking->getFreePlaces();
-			
-			if ( $ilUser->getId() && !$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)) {
-				continue;
-			}
-			
-			if (gevObjectUtils::checkAccessOfUser($this->user_id, "visible",  "", $val["obj_id"], "crs")
-			&& $crs_booking->getFreePlaces() > 4) {
-				$ret[] = $val["obj_id"];
-			}
-		}
-
-		return $ret;
-	}
-
-
 
 	public function filter_for_online_courses($ar){
 		/*
@@ -448,10 +251,16 @@ class gevUserUtils {
 			$booked_amd[$key]["location"] = $orgu_utils->getLongTitle();
 			$booked_amd[$key]["fee"] = floatval($booked_amd[$key]["fee"]);
 			$list = "";
-			foreach ($booked_amd[$key]["target_group_list"] as $val) {
-				$list .= "<li>".$val."</li>";
+
+			if(is_array($booked_amd[$key]["target_group_list"])) {
+				foreach ($booked_amd[$key]["target_group_list"] as $val) {
+					$list .= "<li>".$val."</li>";
+				}
 			}
-			$booked_amd[$key]["target_group"] = "<ul>".$list."</ul>".$booked_amd[$key]["target_group"];
+			
+			if($lis != "") {
+				$booked_amd[$key]["target_group"] = "<ul>".$list."</ul>".$booked_amd[$key]["target_group"];
+			}
 		}
 
 
@@ -620,366 +429,6 @@ class gevUserUtils {
 			//sort?
 			return $ret;
 	}
-
-
-
-	public function getPotentiallyBookableCourseIds($a_search_options) {
-		global $ilUser;
-		$hash = md5(serialize($a_search_options));
-		if ($this->potentiallyBookableCourses[$hash] !== null) {
-			return $this->potentiallyBookableCourses[$hash];
-		}
-		
-		$is_tmplt_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
-		$start_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
-		$type_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
-		$bk_deadl_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_BOOKING_DEADLINE);
-		$schedule_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_SCHEDULE);
-		
-		// include search options 
-		$additional_join = "";
-		$additional_where = "";
-		
-		if (array_key_exists("title", $a_search_options)) {
-			$additional_join .= " LEFT JOIN object_data od ON cs.obj_id = od.obj_id ";
-			$additional_where .= " AND od.title LIKE ".$this->db->quote("%".$a_search_options["title"]."%", "text");
-		}
-		if (array_key_exists("custom_id", $a_search_options)) {
-			$custom_id_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_CUSTOM_ID);
-			
-			// this is knowledge from the course amd plugin!
-			$additional_join .= 
-				" LEFT JOIN adv_md_values_text custom_id".
-				"   ON cs.obj_id = custom_id.obj_id ".
-				"   AND custom_id.field_id = ".$this->db->quote($custom_id_field_id, "integer")
-				;
-			$additional_where .=
-				" AND custom_id.value LIKE ".$this->db->quote("%".$a_search_options["custom_id"]."%", "text");
-		}
-		if (array_key_exists("type", $a_search_options)) {
-			$additional_where .=
-				" AND ltype.value LIKE ".$this->db->quote("%".$a_search_options["type"]."%", "text");
-		}
-		if (array_key_exists("categorie", $a_search_options)) {
-			$categorie_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_TOPIC);
-			
-			// this is knowledge from the course amd plugin!
-			$additional_join .= 
-				" LEFT JOIN adv_md_values_text categorie".
-				"   ON cs.obj_id = categorie.obj_id ".
-				"   AND categorie.field_id = ".$this->db->quote($categorie_field_id, "integer")
-				;
-			$additional_where .=
-				" AND categorie.value LIKE ".$this->db->quote("%".$a_search_options["categorie"]."%", "text");
-		}
-		if (array_key_exists("target_group", $a_search_options)) {
-			$target_group_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_TARGET_GROUP);
-			
-			// this is knowledge from the course amd plugin!
-			$additional_join .= 
-				" LEFT JOIN adv_md_values_text target_group".
-				"   ON cs.obj_id = target_group.obj_id ".
-				"   AND target_group.field_id = ".$this->db->quote($target_group_field_id, "integer")
-				;
-			$additional_where .=
-				" AND target_group.value LIKE ".$this->db->quote("%".$a_search_options["target_group"]."%", "text");
-		}
-		if (array_key_exists("location", $a_search_options)) {
-			$location_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_VENUE);
-			
-			// this is knowledge from the course amd plugin!
-			$additional_join .= 
-				" LEFT JOIN adv_md_values_text location".
-				"   ON cs.obj_id = location.obj_id ".
-				"   AND location.field_id = ".$this->db->quote($location_field_id, "integer")
-				;
-			$additional_where .=
-				" AND location.value LIKE ".$this->db->quote("%".$a_search_options["location"]."%", "text");
-		}
-		if (array_key_exists("provider", $a_search_options)) {
-			$provider_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_PROVIDER);
-			
-			// this is knowledge from the course amd plugin!
-			$additional_join .= 
-				" LEFT JOIN adv_md_values_text provider".
-				"   ON cs.obj_id = provider.obj_id ".
-				"   AND provider.field_id = ".$this->db->quote($provider_field_id, "integer")
-				;
-			$additional_where .=
-				" AND provider.value LIKE ".$this->db->quote("%".$a_search_options["provider"]."%", "text");
-		}
-		if (array_key_exists("period", $a_search_options)) {
-			$end_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
-			
-			// this is knowledge from the course amd plugin!
-			$additional_join .=
-				" LEFT JOIN adv_md_values_date end_date".
-				"   ON cs.obj_id = end_date.obj_id ".
-				"   AND end_date.field_id = ".$this->db->quote($end_date_field_id, "integer")
-				;
-			$additional_where .=
-				" AND ( ( NOT start_date.value > ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["end"]))." ) ".
-				"       OR ".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
-				" AND ( ( NOT end_date.value < ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"]))." ) ".
-				"       OR ".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
-				"       OR (end_date.value IS NULL AND NOT start_date.value < ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"])).")"
-				;
-		}
-		$hour = $this->db->quote(date("H"), "text");
-		$minute = $this->db->quote(date("i"),"text");
-		// try to narrow down the set as much as possible to avoid permission checks
-		$query = "SELECT DISTINCT cs.obj_id ".
-				 " FROM crs_settings cs".
-				 " LEFT JOIN object_reference oref".
-				 "   ON cs.obj_id = oref.obj_id".
-				 // this is knowledge from the course amd plugin!
-				 " LEFT JOIN adv_md_values_text is_template".
-				 "   ON cs.obj_id = is_template.obj_id ".
-				 "   AND is_template.field_id = ".$this->db->quote($is_tmplt_field_id, "integer").
-				 // this is knowledge from the course amd plugin
-				 " LEFT JOIN adv_md_values_date start_date".
-				 "   ON cs.obj_id = start_date.obj_id ".
-				 "   AND start_date.field_id = ".$this->db->quote($start_date_field_id, "integer").
-				 // this is knowledge from the course amd plugin
-				 " LEFT JOIN adv_md_values_text ltype".
-				 "   ON cs.obj_id = ltype.obj_id ".
-				 "   AND ltype.field_id = ".$this->db->quote($type_field_id, "integer").
-				 // this is knowledge from the course amd plugin				 
-				 " LEFT JOIN adv_md_values_text schedule".
-				 "   ON cs.obj_id = schedule.obj_id ".
-				 "   AND schedule.field_id = ".$this->db->quote($schedule_field_id, "integer").
-				 // this is knowledge from the course amd plugin
-/*				 " LEFT JOIN adv_md_values_int bk_deadl ".
-				 "   ON cs.obj_id = bk_deadl.obj_id ".
-				 "   AND bk_deadl.field_id = ".$this->db->quote($bk_deadl_field_id, "integer").*/
-				 $additional_join.
-				 " WHERE cs.activation_type = 1".
-				 "   AND cs.activation_start < ".time().
-				 "   AND cs.activation_end > ".time().
-				 "   AND oref.deleted IS NULL".
-				 "   AND is_template.value = ".$this->db->quote("Nein", "text").
-				 "   AND (  ( (ltype.value LIKE 'Pr_senztraining' OR ltype.value = 'Webinar' OR ltype.value = 'Virtuelles Training')".
-				 "            AND start_date.value > ".$this->db->quote(date("Y-m-d"), "text").
-				 "		    )".
-				 "		 OR (".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").
-				 "			)".
-				 "		 OR (ltype.value = 'Webinar' AND start_date.value = ".$this->db->quote(date("Y-m-d"), "text").
-			 	 "			AND (".
-				 "					(".
-				 "						SUBSTRING(schedule.value,19,2)>=30 AND ".
-				 "					 	(	".
-				 "					 		SUBSTRING(schedule.value,16,2) > ".$hour.
-				 "					   		OR ".
-				 "					   		(".
-				 "					   			SUBSTRING(schedule.value,16,2) = ".$hour.
-				 "					   	  	  	AND ".
-				 "				       			SUBSTRING(schedule.value,19,2)-30 > ".$minute.
-				 "		   		      	  	)".
-				 "					 	)".
-				 "					)	 ".
-				 "					OR".
-				 "					(".
-				 "						SUBSTRING(schedule.value,19,2)<30 AND".
-				 "						(".
-				 "							SUBSTRING(schedule.value,16,2) -1 > ".$hour.
-				 "							OR".
-				 "							(".
-				 "								SUBSTRING(schedule.value,16,2) -1 = ".$hour.
-				 "					   	  	  	AND ".
-				 "				       			SUBSTRING(schedule.value,19,2)+30 > ".$minute.
-				 "					  	  	)".
-				 "				  		)".
-				 "			 		)".
-				 "		 		)".
-				 "			)".
-				 "		)".
-				 $additional_where.
-				 "";
-
-		$res = $this->db->query($query);
-		$crss = array();
-		while($val = $this->db->fetchAssoc($res)) {
-			$crs_utils = gevCourseUtils::getInstance($val["obj_id"]);
-			
-			if ( $ilUser->getId() !== 0 && (
-					!$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)
-					|| in_array($crs_utils->getBookingStatusOf($this->user_id)
-							   , array(ilCourseBooking::STATUS_BOOKED, ilCourseBooking::STATUS_WAITING)
-							   )
-					|| $crs_utils->isMember($this->user_id)
-					)) {
-				continue;
-			}
-			
-			if (gevObjectUtils::checkAccessOfUser($this->user_id, "visible",  "", $val["obj_id"], "crs")) {
-				$crss[] = $val["obj_id"];
-			}
-		}
-
-		$this->potentiallyBookableCourses[$hash] = $crss;
-		return $crss;
-	}
-	
-	public function getPotentiallyBookableCourseInformation($a_search_options, $a_offset, $a_limit, $a_order = "title", $a_direction = "desc") {
-		require_once("Modules/Course/classes/class.ilObjCourse.php");
-		require_once("Services/CourseBooking/classes/class.ilCourseBookings.php");
-		require_once("Services/CourseBooking/classes/class.ilCourseBookingPermissions.php");
-		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
-		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-
-		if ($a_order == "") {
-			$a_order = "title";
-		}
-		
-		if (!in_array($a_order, array("title", "start_date", "end_date", "booking_date", "location"
-									 , "points", "fee", "target_group", "goals", "content", "type"))) 
-		{
-			throw new Exception("gevUserUtils::getPotentiallyBookableCourseInformation: unknown order '".$a_order."'");
-		}
-		
-		if ($a_direction !== "asc" && $a_direction !== "desc") {
-			throw new Exception("gevUserUtils::getPotentiallyBookableCourseInformation: unknown direction '".$a_direction."'");
-		}
-		
-		$crss = $this->getPotentiallyBookableCourseIds($a_search_options);
-		
-		$crs_amd = 
-			array( gevSettings::CRS_AMD_START_DATE			=> "start_date"
-				 , gevSettings::CRS_AMD_END_DATE 			=> "end_date"
-				 , gevSettings::CRS_AMD_BOOKING_DEADLINE	=> "booking_date"
-				 //, gevSettings::CRS_AMD_ => "title"
-				 //, gevSettings::CRS_AMD_START_DATE => "status"
-				 , gevSettings::CRS_AMD_TYPE 				=> "type"
-				 , gevSettings::CRS_AMD_VENUE 				=> "location_id"
-				 , gevSettings::CRS_AMD_CREDIT_POINTS 		=> "points"
-				 , gevSettings::CRS_AMD_FEE					=> "fee"
-				 , gevSettings::CRS_AMD_TARGET_GROUP_DESC	=> "target_group"
-				 , gevSettings::CRS_AMD_TARGET_GROUP		=> "target_group_list"
-				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
-				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
-				 , gevSettings::CRS_AMD_MAX_PARTICIPANTS	=> "max_participants"
-				 , gevSettings::CRS_AMD_CANCEL_DEADLINE		=> "cancel_date"
-				 , gevSettings::CRS_AMD_SCHEDULE			=> "schedule"
-			);
-			
-		$city_amd_id = $this->gev_set->getAMDFieldId(gevSettings::ORG_AMD_CITY);
-		$amd_util = gevAMDUtils::getInstance();
-
-		$info = $amd_util->getTable($crss, $crs_amd, 
-								array("CONCAT(od_city.title, ', ', city.value) as location","if(type_sort.value = 'Selbstlernkurs',1,0) as tp_sort"), 
-								array(" LEFT JOIN object_data od_city ".
-									  "   ON od_city.obj_id = amd4.value "
-									 ," LEFT JOIN adv_md_values_text city ".
-									  "   ON city.field_id = ".$this->db->quote($city_amd_id, "integer").
-									  "  AND city.obj_id = amd4.value "
-									 ," LEFT JOIN adv_md_values_text type_sort ".
-									 "    ON type_sort.field_id = ".$this->db->quote($amd_util->getFieldId(gevSettings::CRS_AMD_TYPE), "integer").
-									 "    AND type_sort.obj_id = od.obj_id"
-									 ),
-								 "ORDER BY tp_sort, ".$a_order." ".$a_direction." ".
-								 " LIMIT ".$a_limit." OFFSET ".$a_offset);
-
-		foreach ($info as $key => $value) {
-			// TODO: This surely could be tweaked to be faster if there was no need
-			// to instantiate the course to get booking information about it.
-			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
-/*			$crs = new ilObjCourse($info["obj_id"], false);
-			$crs_booking = ilCourseBookings::getInstance($crs);
-			$crs_booking_perms = ilCourseBookingPermissions::getInstance($crs);*/
-			//$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
-			
-			/*if (   (   !$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)
-					|| in_array($crs_utils->getBookingStatusOf($this->user_id)
-							   , array(ilCourseBooking::STATUS_BOOKED, ilCourseBooking::STATUS_WAITING)
-							   )
-					|| $crs_utils->isMember($this->user_id)
-					)
-				) {
-				unset($info[$key]);
-				continue;
-			}*/
-			
-			$list = "";
-			foreach ($info[$key]["target_group_list"] as $val) {
-				$list .= "<li>".$val."</li>";
-			}
-			$info[$key]["target_group"] = "<ul>".$list."</ul>".$info[$key]["target_group"];
-			
-			//$info[$key]["location"] = $orgu_utils->getLongTitle();
-			$info[$key]["booking_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
-																		, $value["booking_date"]
-																		);
-			$info[$key]["cancel_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
-																		, $value["cancel_date"]
-																		);
-
-			$info[$key]["free_places"] = $crs_utils->getFreePlaces();
-			$info[$key]["waiting_list_active"] = $crs_utils->isWaitingListActivated();
-			/*$info[$key]["bookable"] = $info[$key]["free_places"] === null 
-									|| $info[$key]["free_places"] > 0
-									|| $crs_utils->isWaitingListActivated();*/
-
-			
-		}
-
-		return $info;
-	}
-	
-	
-	public function hasUserSelectorOnSearchGUI() {
-		return $this->isSuperior() && count($this->getEmployeesForCourseSearch()) > 0;
-	}
-	
-	public function getEmployeeIdsForCourseSearch() {
-		if ($this->employee_ids_for_course_search) {
-			return $this->employee_ids_for_course_search;
-		}
-		
-		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-		
-		// we need the employees in those ous
-		$_d_ous = $this->getOrgUnitsWhereUserCanBookEmployees();
-		// we need the employees in those ous and everyone in the ous
-		// below those.
-		$_r_ous = $this->getOrgUnitsWhereUserCanBookEmployeesRecursive();
-		
-		$e_ous = array_merge($_d_ous, $_r_ous);
-		$a_ous = array();
-		foreach(gevOrgUnitUtils::getAllChildren($_r_ous) as $val) {
-			$a_ous[] = $val["ref_id"];
-		}
-		
-		$e_ids = array_unique(array_merge( gevOrgUnitUtils::getEmployeesIn($e_ous)
-										 , gevOrgUnitUtils::getAllPeopleIn($a_ous)
-										 )
-							 );
-		
-		$this->employee_ids_for_course_search = gevUserUtils::removeInactiveUsers($e_ids);
-		return $this->employee_ids_for_course_search;
-	}
-	
-	public function getEmployeesForCourseSearch() {
-		if ($this->employees_for_course_search) {
-			return $this->employees_for_course_search;
-		}
-		
-		$e_ids = $this->getEmployeeIdsForCourseSearch();
-		
-		$res = $this->db->query( "SELECT usr_id, firstname, lastname"
-								." FROM usr_data "
-								." WHERE ".$this->db->in("usr_id", $e_ids, false, "integer")
-								." ORDER BY lastname, firstname ASC"
-								);
-		
-		$this->employees_for_course_search = array();
-		while($rec = $this->db->fetchAssoc($res)) {
-			$this->employees_for_course_search[] = $rec;
-		}
-		
-		$this->employees_for_course_search = $this->employees_for_course_search;
-		
-		return $this->employees_for_course_search;
-	}
 	
 	public function getEmployeeIdsForBookingView() {
 		if ($this->employee_ids_for_booking_view) {
@@ -1057,20 +506,20 @@ class gevUserUtils {
 		return $this->employees_for_booking_cancellations;
 	}
 
-	public function forceWBDUserProfileFields() {
+	/*public function forceWBDUserProfileFields() {
 		return $this->hasWBDRelevantRole()
 			&& $this->hasDoneWBDRegistration()
 			&& (   $this->getWBDTPType() == self::WBD_TP_SERVICE
 				|| $this->getWBDTPType() == self::WBD_TP_BASIS
 				);
-	}
+	}*/
 
 	public function isProfileComplete() {
-		if (!$this->forceWBDUserProfileFields()) {
+		if (!$this->wbd->forceWBDUserProfileFields()) {
 			return true;
 		}
 		require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
-		$email = $this->getPrivateEmail();
+		$email = $this->getEmail();
 		$mobile = $this->getMobilePhone();
 		$bday = $this->getUser()->getBirthday();
 		$street = $this->getUser()->getStreet();
@@ -1119,6 +568,10 @@ class gevUserUtils {
 	
 	public function getEMail() {
 		return $this->getUser()->getEmail();
+	}
+	
+	public function setEMail($email) {
+		return $this->getUser()->setEmail($email);
 	}
 	
 	public function getOrgUnitId() {
@@ -1292,14 +745,6 @@ class gevUserUtils {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_COMPANY_NAME, $a_name);
 	}
 	
-	public function getPrivateEmail() {
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_PRIV_EMAIL);
-	}
-	
-	public function setPrivateEmail($a_email) {
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_PRIV_EMAIL, $a_email);
-	}
-	
 	public function getPrivateStreet() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_PRIV_STREET);
 	}
@@ -1387,6 +832,21 @@ class gevUserUtils {
 		catch (Exception $e) {
 			return null;
 		}
+	}
+
+	public function isExitDatePassed() {
+		$now = date("Y-m-d");
+		$exit_date = $this->getExitDate();
+
+		if(!$exit_date) {
+			return false;
+		}
+
+		if($now > $exit_date) {
+			return true;
+		}
+
+		return false;
 	}
 	
 	public function setExitDate(ilDate $a_date) {
@@ -1501,8 +961,9 @@ class gevUserUtils {
 	}
 
 	public function isUVGDBV() {
+		return $this->hasRoleIn(array("DBV UVG"));
 		// TODO: implement this correctly
-		return true;
+		//return true;
 	}
 
 	public function getOD() {
@@ -1657,7 +1118,7 @@ class gevUserUtils {
 			   ."              )"
 			   ."       )"
 			   ;
-			
+		
 		$res = $this->db->query($sql);
 		if ($rec = $this->db->fetchAssoc($res)) {
 			return $rec["cnt"] == 0;
@@ -1694,10 +1155,8 @@ class gevUserUtils {
 	}
 	
 	public function isSuperiorOf($a_user_id) {
-		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
-		$tree = ilObjOrgUnitTree::_getInstance();
-		// propably faster then checking the employees of this->user
-		return in_array($this->user_id, $tree->getSuperiorsOfUser($a_user_id));
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		return in_array($this->user_id, gevOrgUnitUtils::getSuperiorsOfUser($a_user_id));
 	}
 	
 	static public function removeInactiveUsers($a_usr_ids) {
@@ -1718,30 +1177,60 @@ class gevUserUtils {
 	public function getDirectSuperiors() {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
-		$sups = $tree->getSuperiorsOfUser($this->user_id, false);
-		if (count($sups) > 0) {
-			return gevUserUtils::removeInactiveUsers($sups);
+
+		// This starts with all the org units the user is member in.
+		// During the loop we might fill this array with more org units
+		// if we could not find any superiors for the user in them.
+		$orgus = array_values($tree->getOrgUnitOfUser($this->user_id));
+
+		if (count($orgus) == 0) {
+			return array();
 		}
-		// ok, so there are no superiors in any org-unit where the user is employee
-		// we need to find the superiors by ourselves
-		$sups = array();
-		$orgus = $tree->getOrgUnitOfUser($this->user_id);
-		$parents = array();
-		
-		while (count ($sups) == 0) {
-			foreach ($orgus as $ref) {
-				$parents = $tree->getParent($ref);
+
+		$the_superiors = array();
+
+		$i = -1;
+		$initial_amount = count($orgus);
+		// We need to check this on every loop as the amount of orgus might change
+		// during looping.
+		while ($i < count($orgus)) {
+			$i++;
+			$ref_id = $orgus[$i];
+
+			// Reached the top of the tree.
+			if (!$ref_id || $ref_id == ROOT_FOLDER_ID) {
+				continue;
 			}
-			if (count($parents) == 0) {
-				return array();
+
+			$superiors = $tree->getSuperiors($ref_id);
+			$user_is_superior = in_array($this->user_id, $superiors);
+			$in_initial_orgus = $i < $initial_amount;
+
+			// I always need to go one org unit up if we are in the original
+			// orgu and the user is superior there.
+			if ( $in_initial_orgus && $user_is_superior) {
+				$orgus[] = $tree->getParent($ref_id);
 			}
-			$parents = array_unique($parents);
-			foreach ($parents as $ref) {
-				$sups = array_merge($sups, $tree->getSuperiors($ref, false));
+
+			// Skip the orgu if there are no superiors there.
+			if ( count($superiors) == 0
+			|| (   $in_initial_orgus
+				// This is only about the org units the user actually is a member of
+				&& $user_is_superior
+				// If a user is an employee and a superior in one orgunit, he
+				// actually seem to be his own superior.
+				&& !in_array($this->user_id, $tree->getEmployees($ref_id)))
+			) {
+				$orgus[] = $tree->getParent($ref_id);
+				continue;
 			}
-			$orgus = $parents;
+
+			$the_superiors[] = $superiors;
 		}
-		return gevUserUtils::removeInactiveUsers($sups);
+
+		$the_superiors = call_user_func_array("array_merge", $the_superiors);
+
+		return gevUserUtils::removeInactiveUsers(array_unique($the_superiors));
 	}
 	
 	public function isEmployeeOf($a_user_id) {
@@ -1944,10 +1433,10 @@ class gevUserUtils {
 		return $tree->getOrgusWhereUserHasPermissionForOperation("book_employees_rcrsv");
 	}
 	
-	public function getOrgUnitsWhereUserCanViewEmployeeBookings() {
+	public function getOrgUnitsWhereUserCanViewEmployeeBookings($user_id = null) {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();
-		return $tree->getOrgusWhereUserHasPermissionForOperation("view_employee_bookings");
+		return $tree->getOrgusWhereUserHasPermissionForOperation("view_employee_bookings", $user_id);
 	}
 	
 	public function getOrgUnitsWhereUserCanViewEmployeeBookingsRecursive() {
@@ -1968,6 +1457,12 @@ class gevUserUtils {
 		return $tree->getOrgusWhereUserHasPermissionForOperation("cancel_employee_bookings_rcrsv");
 	}
 	
+	public function getOrgUnitsWhereUserIsTutor() {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
+		return $tree->getOrgusWhereUserHasPermissionForOperation("tep_is_tutor", $this->user_id);
+	}
+
 	public function canViewEmployeeBookings() {
 		return count($this->getOrgUnitsWhereUserCanViewEmployeeBookings()) > 0
 			|| count($this->getOrgUnitsWhereUserCanViewEmployeeBookingsRecursive()) > 0;
@@ -2114,252 +1609,6 @@ class gevUserUtils {
 			return null;
 		}
 	}
-
-
-
-	public function getWBDTPType() {
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_TP_TYPE);
-	}
-	
-	public function setWBDTPType($a_type) {
-		if (!in_array($a_type, array( self::WBD_NO_SERVICE, self::WBD_EDU_PROVIDER
-									, self::WBD_TP_BASIS, self::WBD_TP_SERVICE))
-			) {
-			throw new Exception("gevUserUtils::setWBDTPType: ".$a_type." is no valid type.");
-		}
-
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_TP_TYPE, $a_type);
-	}
-	
-	public function getWBDBWVId() {
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_BWV_ID);
-	}
-	
-	public function setWBDBWVId($a_id) {
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_BWV_ID, $a_id);
-	}
-	
-
-
-	public function getRawWBDOKZ() {
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_OKZ);
-	}
-	
-	public function setRawWBDOKZ($a_okz) {
-		if (!in_array($a_okz, array( self::WBD_OKZ_FROM_POSITION, self::WBD_NO_OKZ
-								   , self::WBD_OKZ1, self::WBD_OKZ2, self::WBD_OKZ3))
-		   ) {
-			throw new Exception("gevUserUtils::setRawWBDOKZ: ".$a_okz." is no valid okz.");
-		}
-		
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_OKZ, $a_okz);
-	}
-	
-	public function getWBDOKZ() {
-		$okz = $this->getRawWBDOKZ();
-		
-		if ($okz == WBD_NO_OKZ) {
-			return null;
-		}
-		
-		if (in_array($okz, array(self::WBD_OKZ1, self::WBD_OKZ2, self::WBD_OKZ3))) {
-			$spl = explode("-", $okz);
-			return trim($spl[1]);
-		}
-		
-		
-		// Everyone who has a wbd relevant role also has okz1
-		if ($this->hasWBDRelevantRole()) {
-			return "OKZ1";
-		}
-		
-		return;
-	}
-	
-
-
-	public function getRawWBDAgentStatus() {
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_STATUS);
-	}
-
-	public function getWBDAgentStatus() {
-		$agent_status_user =  $this->getRawWBDAgentStatus();
-
-		if(  $agent_status_user == self::WBD_AGENTSTATUS0
-		  // When user gets created and nobody clicked "save" on his profile, the
-		  // udf-field will not contain a value, thus getRawWBDAgentStatus returned null.
-		  // The default for the agent status is to determine it based on the role of
-		  // a user.
-		  || $agent_status_user === null)
-		{
-			//0 - aus Stellung	//0 - aus Rolle
-			require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
-			$roles = $this->getGlobalRoles();
-			foreach($roles as $key => $value) {
-				$roles[$key] = ilObject::_lookupTitle($value);
-			}
-		
-			foreach (self::$wbd_agent_status_mapping as $agent_status => $relevant_roles) {
-				foreach ($roles as $role) {
-					if(in_array($role, $relevant_roles)){
-						$ret = explode("-", $agent_status);
-						return trim($ret[1]);
-					}
-				}
-			}
-			
-			return null;
-		}
-		$ret = explode("-", $agent_status_user);
-		return trim($ret[1]);
-	}
-	
-	public function setRawWBDAgentStatus($a_state) {
-	
-		if (!in_array($a_state, array( self::WBD_AGENTSTATUS0,
-									   self::WBD_AGENTSTATUS1,
-									   self::WBD_AGENTSTATUS2,
-									   self::WBD_AGENTSTATUS3,
-									   self::WBD_AGENTSTATUS4,
-									   self::WBD_AGENTSTATUS5,
-									   self::WBD_AGENTSTATUS6,
-									   self::WBD_AGENTSTATUS7,
-									   )
-				)
-			) {
-			throw new Exception("gevUserUtils::setWBDAgentStatus: ".$a_state." is no valid agent status.");
-		}
-		
-		return $this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_STATUS, $a_state);
-	}
-	
-
-
-
-
-
-	static public function isValidBWVId($a_id) {
-		return 1 == preg_match("/\d{8}-.{6}-../", $a_id);
-	}
-	
-	public function transferPointsToWBD() {
-		return (   in_array($this->getWBDOKZ(), 
-							array("OKZ1", "OKZ2", "OKZ3"))
-				&& in_array($this->getWBDTPType(), 
-							array(self::WBD_EDU_PROVIDER, self::WBD_TP_BASIS, self::WBD_TP_SERVICE))
-				&& $this->getWBDBWVId()
-				);
-	}
-	
-	public function transferPointsFromWBD() {
-		return (   in_array($this->getWBDOKZ(), 
-							array("OKZ1", "OKZ2", "OKZ3"))
-				&& $this->getWBDTPType() == self::WBD_TP_SERVICE
-				&& $this->getWBDBWVId()
-				);
-	}
-	
-	public function wbdRegistrationIsPending() {
-		return (   in_array($this->getWBDOKZ(), 
-							array("OKZ1", "OKZ2", "OKZ3"))
-				&& in_array($this->getWBDTPType(),
-							array(self::WBD_TP_SERVICE, self::WBD_TP_BASIS)
-							)
-				);	
-	}
-	
-	public function getWBDFirstCertificationPeriodBegin() {
-		$date = $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_CERT_PERIOD_BEGIN);
-		return new ilDate($date, IL_CAL_DATE);
-	}
-	
-	public function setWBDFirstCertificationPeriodBegin(ilDate $a_start) {
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_CERT_PERIOD_BEGIN, $a_start->get(IL_CAL_DATE));
-	}
-	
-	public function getStartOfCurrentCertificationPeriod() {
-		return $this->getStartOfCurrentCertificationX(5);
-	}
-	
-	public function getStartOfCurrentCertificationYear() {
-		return $this->getStartOfCurrentCertificationX(1);
-	}
-	
-	protected function getStartOfCurrentCertificationX($a_year_step) {
-		require_once("Services/Calendar/classes/class.ilDateTime.php");
-		
-		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-		$start = $this->getWBDFirstCertificationPeriodBegin();
-		while(   ilDateTime::_before($start, $now)
-			  && !ilDateTime::_equals($start, $now)) {
-			$start->increment(ilDateTime::YEAR, $a_year_step);
-		}
-		if (!ilDateTime::_equals($start, $now)) {
-			$start->increment(ilDateTime::YEAR, -1 * $a_year_step);
-		}
-		
-		return $start;
-	}
-	
-	public function hasWBDRelevantRole() {
-		$query = "SELECT COUNT(*) cnt "
-				."  FROM rbac_ua ua "
-				."  JOIN object_data od ON od.obj_id = ua.rol_id "
-				." WHERE ua.usr_id = ".$this->db->quote($this->user_id, "integer")
-				."   AND od.type = 'role' "
-				."   AND ".$this->db->in("od.title", self::$wbd_relevant_roles, false, "text")
-				;
-
-		$res = $this->db->query($query);
-		if ($rec = $this->db->fetchAssoc($res)) {
-			return $rec["cnt"] > 0;
-		}
-		return false;
-	}
-	
-	public function hasDoneWBDRegistration() {
-		return ($this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_DID_REGISTRATION) == "1 - Ja");
-	}
-	
-	public function setWBDRegistrationDone() {
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_DID_REGISTRATION, "1 - Ja");
-	}
-	public function setWBDRegistrationNotDone() {
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_DID_REGISTRATION, "0 - Nein");
-	}
-	
-	public function canBeRegisteredAsTPService() {
-		$query = "SELECT COUNT(*) cnt "
-				."  FROM rbac_ua ua "
-				."  JOIN object_data od ON od.obj_id = ua.rol_id "
-				." WHERE ua.usr_id = ".$this->db->quote($this->user_id, "integer")
-				."   AND od.type = 'role' "
-				."   AND ".$this->db->in("od.title", self::$wbd_tp_service_roles, false, "text")
-				;
-
-		$res = $this->db->query($query);
-		if ($rec = $this->db->fetchAssoc($res)) {
-			return $rec["cnt"] > 0;
-		}
-		return false;
-	}
-	
-	public function getWBDCommunicationEmail() {
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_COM_EMAIL);
-	}
-	
-	public function setWBDCommunicationEmail($a_email) {
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_COM_EMAIL, $a_email);
-	}
-	
-	public function getExitDateWBD() {
-		$date = $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_EXIT_DATE);		
-		if (!trim($date)) {
-			return null;
-		}
-
-		return new ilDate($date, IL_CAL_DATE);
-	}
 	
 	static $hist_position_keys = null;
 
@@ -2377,8 +1626,6 @@ class gevUserUtils {
 		}
 		return self::$hist_position_keys;
 	}
-
-
 
 	public function getPaisyNr() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_PAISY_NUMBER);
@@ -2406,45 +1653,14 @@ class gevUserUtils {
 		return false;
 	}
 
-	public function getBDFromIV() {
-
-		global $ilClientIniFile;
-		global $ilDB;
-
-		$host = $ilClientIniFile->readVariable('shadowdb', 'host');
-		$user = $ilClientIniFile->readVariable('shadowdb', 'user');
-		$pass = $ilClientIniFile->readVariable('shadowdb', 'pass');
-		$name = $ilClientIniFile->readVariable('shadowdb', 'name');
-
-		$mysql = mysql_connect($host, $user, $pass) 
-				or die( "MySQL: ".mysql_error()." ### "
-						." Is the shadowdb initialized?"
-						." Are the settings for the shadowdb initialized in the client.ini.php?"
-					  );
-		mysql_select_db($name, $mysql);
-		mysql_set_charset('utf8', $mysql);
-
-		$agent_key = $this->getJobNumber();
-
-		$sql = 	 "SELECT `ivimport_orgunit`.`name`"
-				."  FROM `ivimport_stelle`"
-				."  INNER JOIN `ivimport_orgunit`"
-				."          ON `ivimport_orgunit`.`id` = `ivimport_stelle`.`sql_org_unit_id`"
-				." WHERE `ivimport_stelle`.`stellennummer` = ".$ilDB->quote($agent_key,"text");
-		
-		$data = mysql_query($sql);
-		$data = mysql_fetch_assoc($data);
-
-		// Shorten Name
-		$name = $data["name"];
-		$matches = array();
-		if (preg_match("/^Generali Versicherung AG (.*)$/", $name, $matches)) {
-			$name = $matches[1];
+	public function getUVGBDOrCPoolNames() {
+		$names = array();
+		$dbv_utils = gevDBVUtils::getInstance();
+		foreach ($dbv_utils->getUVGOrgUnitObjIdsIOf($this->getId()) as $obj_id) {
+			$uvg_top_level_orgu_obj_id = $dbv_utils->getUVGTopLevelOrguIdFor($obj_id);
+			$names[] = ilObject::_lookupTitle($uvg_top_level_orgu_obj_id);
 		}
-		if (preg_match("/^Bereichsdirektion (.*)$/", $name, $matches)) {
-			$name = "BD ".$matches[1];
-		}
-		return $name;
+		return $names;
 	}
 
 	/*
@@ -2452,25 +1668,37 @@ class gevUserUtils {
 	*
 	* @return array
 	*/
-	public function getUserDataForSuperiorWeeklyReport($a_start_ts, $a_end_ts, $org_unit_obj_id) {
+	public function getUserDataForSuperiorWeeklyReport($a_start_ts, $a_end_ts) {
 		$booking_status = array("gebucht" => "gebucht"
 						,"kostenfrei_storniert" => "kostenfrei storniert"
 						,"kostenpflichtig_storniert" => "kostenpflichtig storniert"
-						,"auf_warteliste" => "auf Warteliste");
+//						,"auf_warteliste" => "auf Warteliste"
+						,"fehlt_ohne_absage" => "fehlt ohne Absage"
+						);
 
 		$actions = array(); 
  		$actions["gebucht"] = array();
-		$actions["kostenfrei storniert"] = array();
-		$actions["kostenpflichtig storniert"] = array();
-		$actions["auf Warteliste"] = array();
+		$actions["kostenfrei_storniert"] = array();
+		$actions["kostenpflichtig_storniert"] = array();
+//		$actions["auf_Warteliste"] = array();
 		$actions["teilgenommen"] = array();
+		$actions["fehlt_ohne_Absage"] = array();
 
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
 		$org_units = $this->getOrgUnitsWhereUserIsDirectSuperior();
+		$has_view_empl_perm_ref_ids = $this->getOrgUnitsWhereUserCanViewEmployeeBookings($this->user_id);
 		$ref_ids = array();
 		$ref_id_child_orgunit = array();
 		
 		foreach ($org_units as $org_unit) {
+			// Only take the org units where the user is superior and also has the permission
+			// to view bookings of employees.
+			if (!in_array($org_unit["ref_id"], $has_view_empl_perm_ref_ids)) {
+				continue;
+			}
+
 			$ref_ids[] = $org_unit["ref_id"];
 			$org_util = gevOrgUnitUtils::getInstance($org_unit["obj_id"]);
 			foreach($org_util->getOrgUnitsOneTreeLevelBelow() as $org_unit_child) {
@@ -2492,22 +1720,21 @@ class gevUserUtils {
 		if(!empty($empl) || !empty($sup)) {
 			$to_search = array_merge($empl,$sup);
 
-			$sql_emp = "SELECT" 
-					." histucs.begin_date, histucs.end_date, histucs.overnights, histucs.booking_status, histucs.participation_status,"
-					." histu.firstname, histu.lastname,"
-					." histc.title, histc.type,"
-					." IF(crsa_start.night IS NULL, false, true) AS prenight,"
-					." IF(crsa_end.night IS NULL, false, true) AS lastnight"
-				." FROM hist_usercoursestatus histucs"
-				." JOIN hist_user histu ON histu.user_id = histucs.usr_id AND histu.hist_historic = 0"
-				." JOIN hist_course histc ON histc.crs_id = histucs.crs_id AND histc.hist_historic = 0"
-				." LEFT JOIN crs_acco crsa_start ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_start.night = DATE_SUB(histucs.begin_date, INTERVAL 1 DAY)"
-				." LEFT JOIN crs_acco crsa_end ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_end.night = histucs.end_date"
-				." WHERE histucs.created_ts BETWEEN ".$this->db->quote($a_start_ts, "integer")." AND ".$this->db->quote($a_end_ts, "integer").""
-				." AND ".$this->db->in("histucs.booking_status", $booking_status, false, "text").""
-				." AND histucs.hist_historic = 0"
-				." AND ".$this->db->in("histu.user_id", $to_search, false, "integer").""
-				." ORDER BY histucs.booking_status";
+			$sql_emp = "SELECT DISTINCT" 
+					." histc.crs_id, histc.begin_date, histc.end_date, histucs.overnights, histucs.booking_status,"
+					." histucs.participation_status, histu.firstname, histu.lastname, histc.title, histc.type, histc.edu_program, "
+					." IF(crsa_start.night IS NULL, false, true) AS prearrival,"
+					." IF(crsa_end.night IS NULL, false, true) AS postdeparture"
+					." FROM hist_usercoursestatus histucs"
+					." JOIN hist_user histu ON histu.user_id = histucs.usr_id AND histu.hist_historic = 0"
+					." JOIN hist_course histc ON histc.crs_id = histucs.crs_id AND histc.hist_historic = 0"
+					." LEFT JOIN crs_acco crsa_start ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_start.night = DATE_SUB(histucs.begin_date, INTERVAL 1 DAY)"
+					." LEFT JOIN crs_acco crsa_end ON crsa_start.user_id = histu.user_id AND crsa_start.crs_id = histc.crs_id AND crsa_end.night = histucs.end_date"
+					." WHERE histucs.created_ts BETWEEN ".$this->db->quote($a_start_ts, "integer")." AND ".$this->db->quote($a_end_ts, "integer").""
+					." AND ".$this->db->in("histucs.booking_status", $booking_status, false, "text").""
+					." AND histucs.hist_historic = 0"
+					." AND ".$this->db->in("histu.user_id", $to_search, false, "integer").""
+					." ORDER BY histucs.booking_status, histu.lastname, histu.firstname, histucs.created_ts";
 
 			$res_emp = $this->db->query($sql_emp);
 
@@ -2519,17 +1746,22 @@ class gevUserUtils {
 							break;
 						}
 
+						if($row_emp["participation_status"] == "fehlt ohne Absage") {
+							$actions["fehlt_ohne_Absage"][] = $row_emp;
+							break;
+						}
+
 						$actions["gebucht"][] = $row_emp;
 						break;
 					case "kostenfrei storniert":
-						$actions["kostenfrei storniert"][] = $row_emp;
+						$actions["kostenfrei_storniert"][] = $row_emp;
 						break;
 					case "kostenpflichtig storniert":
-						$actions["kostenpflichtig storniert"][] = $row_emp;
+						$actions["kostenpflichtig_storniert"][] = $row_emp;
 						break;
-					case "auf Warteliste":
-						$actions["auf Warteliste"][] = $row_emp;
-						break;
+/*					case "auf Warteliste":
+						$actions["auf_Warteliste"][] = $row_emp;
+						break;*/
 					default:
 						break;
 				}
@@ -2539,16 +1771,53 @@ class gevUserUtils {
 	 	return $actions;
 	}
 
-	/**
-	* sets the WBD EXIT DATA on the GOA-User and hist_user
-	*
-	*/
-	public function setWbdExitUserData($exit_date) {
-		require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
-		$udf_utils = gevUDFUtils::getInstance();
-		$udf_utils->setField($this->getId(),gevSettings::USR_WBD_EXIT_DATE, $exit_date);
-		$udf_utils->setField($this->getId(),gevSettings::USR_TP_TYPE, "1 - Bildungsdienstleister");
+	public function seeBiproAgent() {
+		$roles = array("Administrator"
+					   ,"Admin-Voll"
+					   ,"Admin-eingeschraenkt"
+					   ,"Admin-Ansicht"
+					   ,"OD/BD"
+					   ,"FD"
+					   ,"UA"
+					   ,"HA 84"
+					   ,"BA 84"
+					   ,"Org PV 59"
+					   ,"PV 59"
+					   ,"AVL"
+					   ,"ID FK"
+					   ,"ID MA"
+					   ,"OD/FD/BD ID"
+					   ,"Agt-ID"
+					   ,"NFK"
+					   ,"FDA"
+					   ,"int. Trainer"
+					   ,"OD-Betreuer"
+					   ,"DBV UVG"
+					   ,"DBV EVG"
+					   ,"DBV-Fin-UVG"
+					   ,"RTL"
+					);
+
+		return $this->hasRoleIn($roles);
+	}
+
+	public function seeBiproSuperior() {
+		$roles = array("Administrator"
+					   ,"Admin-Voll"
+					   ,"Admin-eingeschraenkt"
+					   ,"Admin-Ansicht"
+					   ,"OD/BD"
+					   ,"FD"
+					   ,"UA"
+					   ,"AVL"
+					   ,"ID FK"
+					   ,"NFK"
+					   ,"FDA"
+					   ,"int. Trainer"
+					   ,"OD-Betreuer"
+					   ,"RTL"
+					);
+		
+		return $this->hasRoleIn($roles);
 	}
 }
-
-?>
