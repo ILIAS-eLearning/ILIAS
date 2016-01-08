@@ -478,6 +478,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				}				
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, ""));
+				
+				$style_sheet_id = ilObjStyleSheet::getEffectiveContentStyleId(
+					$this->object->getStyleSheetId(), "blog");
 					
 				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$bpost_gui = new ilBlogPostingGUI($this->node_id, 
@@ -485,12 +488,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					$_GET["blpg"], 
 					$_GET["old_nr"], 
 					($this->object->getNotesStatus() && !$this->disable_notes),
-					$this->mayContribute($_GET["blpg"]));
+					$this->mayContribute($_GET["blpg"]),
+					$style_sheet_id);
 				
-				// needed for editor			
-				$bpost_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-					$this->object->getStyleSheetId(), "blog"));				
-			
 				// keep preview mode through notes gui (has its own commands)
 				switch($cmd)
 				{
