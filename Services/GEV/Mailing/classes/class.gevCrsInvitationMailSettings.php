@@ -16,8 +16,8 @@ class gevCrsInvitationMailSettings {
 	protected $template_api;
 
 	private static $template_type = "CrsInv";
-	protected $tutor_standard_function_name;
-	protected $tutor_standard_template_id;
+	protected $no_mail_standard_function_names;
+	protected $no_mail_standard_template_id;
 
 	public function __construct($a_crs_id) {
 		global $ilDB, $ilCtrl;
@@ -27,8 +27,8 @@ class gevCrsInvitationMailSettings {
 		$this->attachments_path = null;
 		$this->template_api = null;
 
-		$this->tutor_standard_function_name = "Trainer";
-		$this->tutor_standard_template_id = -2;
+		$this->no_mail_standard_function_names = array("Trainer", "Trainingsersteller");
+		$this->no_mail_standard_template_id = -2;
 
 		$this->read();
 	}
@@ -45,8 +45,8 @@ class gevCrsInvitationMailSettings {
 		* AND function_name euqals tutor standard function name
 		* return tutor standard template id
 		*/
-		if($this->tutor_standard_function_name == $a_local_role_name) {
-			return $this->tutor_standard_template_id;
+		if(in_array($a_local_role_name, $this->no_mail_standard_function_names)) {
+			return $this->no_mail_standard_template_id;
 		}
 
 		return -1;
