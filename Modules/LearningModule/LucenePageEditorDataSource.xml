@@ -3,10 +3,9 @@
 	<Query>
 		SELECT content FROM page_object
 		WHERE page_id = ?
-		AND parent_type = ? 
+		AND parent_type = 'cont'
 	</Query>
 	<Param format="list" type="int" value="objId" />
-	<Param format="list" type="string" value="objType" />
 	<Field store="YES" index="ANALYZED" column="content" type="text" name="content">
 		<Transformer name="ContentObjectTransformer" />
 	</Field>
