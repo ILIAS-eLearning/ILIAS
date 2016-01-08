@@ -58,7 +58,8 @@ class ilLPRubricCard
         $labels=array();        
         for($a=0;$a<7;$a++){
             $tmp_label=$form->getInput("Label$a",false);
-            if(!empty($tmp_label)){
+            //if(!empty($tmp_label)){
+            if(isset($_POST["Label$a"])){
                 array_push($labels,array('label'=>$tmp_label));                
             }else{
                 break;
@@ -73,7 +74,12 @@ class ilLPRubricCard
         $groups=array();
         $tmp_group=$form->getInput("Group_${g}",false);
         
-        while(!empty($tmp_group)){
+        if($tmp_group==''){
+            $tmp_group='|||incomplete|||';
+        }
+        
+        //while(!empty($tmp_group)){
+        while(isset($_POST["Group_${g}"])){
             $c=1;// set criteria increment
                        
             $groups[$g]=array('group_name'=>$tmp_group);
@@ -86,6 +92,9 @@ class ilLPRubricCard
             
             
             $tmp_criteria=$form->getInput("Criteria_${g}_${c}",false);
+            if($tmp_criteria==''){
+                $tmp_criteria='|||incomplete|||';
+            }
             
             do{
                 
@@ -93,20 +102,30 @@ class ilLPRubricCard
                 $groups[$g]['criteria'][$c]=array('criteria_name'=>$tmp_criteria);
                 
                 for($b=1;$b<=count($labels);$b++){
-                    $groups[$g]['criteria'][$c]['behavior'][$b]=array('behavior_name'=>$form->getInput("Behavior_${g}_${c}_${b}",false));
+                    $tmp_behavior=$form->getInput("Behavior_${g}_${c}_${b}",false);
+                    if($tmp_behavior==''){
+                        $tmp_behavior='|||incomplete|||';
+                    }
+                    $groups[$g]['criteria'][$c]['behavior'][$b]=array('behavior_name'=>$tmp_behavior);
                 }
                 
                 $c++;
                 
                 $tmp_criteria=$form->getInput("Criteria_${g}_${c}",false);
-                
-            }while(!empty($tmp_criteria));
+                if($tmp_criteria==''){
+                    $tmp_criteria='|||incomplete|||';
+                }
+            }while(isset($_POST["Criteria_${g}_${c}"]));    
+            //}while(!empty($tmp_criteria));
             
             $g++;
             
             $tmp_group=$form->getInput("Group_${g}",false);
+            
+            if($tmp_group==''){
+                $tmp_group='|||incomplete|||';
+            }
         }
-        
         return(array('groups'=>$groups,'labels'=>$labels));        
     }
     
@@ -280,7 +299,7 @@ class ilLPRubricCard
             
             array_push($data,array(
                 'group_id'=>$row->rubric_group_id,
-                'group_name'=>$row->group_name,
+                'group_name'=>($row->group_name=='|||incomplete|||')?(''):($row->group_name),
                 'criteria'=>$this->getRubricCriteriaByGroupId($row->rubric_group_id),
                 'weights'=>$this->getRubricWeightsByGroupId($row->rubric_group_id),                
             ));
@@ -294,10 +313,13 @@ class ilLPRubricCard
         $data=array();
         
         $res=$this->ilDB->query(
-            'select rubric_weight_id,rubric_label_id,weight_max,weight_min from rubric_weight  
-            where
-                rubric_group_id='.$this->ilDB->quote($rubric_group_id, "integer").' and 
-                deleted is null'
+            'select w.rubric_weight_id,w.rubric_label_id,w.weight_max,w.weight_min 
+             from rubric_weight w
+                inner join rubric_label l on w.rubric_label_id=l.rubric_label_id
+             where
+                w.rubric_group_id='.$this->ilDB->quote($rubric_group_id, "integer").' and 
+                w.deleted is null
+             order by l.sort_order'
         );
         
         while($row=$res->fetchRow(DB_FETCHMODE_OBJECT)){
@@ -322,12 +344,13 @@ class ilLPRubricCard
                                         where
                                             rubric_group_id='.$this->ilDB->quote($rubric_group_id, "integer").' and 
                                             deleted is null
+                                        order by sort_order
         ');
         while($row=$res->fetchRow(DB_FETCHMODE_OBJECT)){
             
             array_push($data,array(
                 'criteria_id'=>$row->rubric_criteria_id,
-                'criteria'=>$row->criteria,
+                'criteria'=>($row->criteria=='|||incomplete|||')?(''):($row->criteria),
                 'behaviors'=>$this->getRubricBehaviorByCriteriaId($row->rubric_criteria_id),
             ));
             
@@ -352,7 +375,7 @@ class ilLPRubricCard
         while($row=$res->fetchRow(DB_FETCHMODE_OBJECT)){
             array_push($data,array(
                 'behavior_id'=>$row->rubric_behavior_id,
-                'description'=>$row->description,
+                'description'=>($row->description=='|||incomplete|||')?(''):($row->description),
             ));
         }
         
@@ -483,11 +506,11 @@ class ilLPRubricCard
                         inner join rubric_criteria c on g.rubric_group_id=c.rubric_group_id 
                      where 
                         g.deleted is null and
-                        criteria=".$this->ilDB->quote($new_criteria_name['criteria_name'], "text")." and
+                        c.criteria=".$this->ilDB->quote($new_criteria_name['criteria_name'], "text")." and
                         g.group_name=".$this->ilDB->quote($new_group_name['group_name'], "text")." and
                         c.sort_order=".$this->ilDB->quote($_new_sort_order, "integer")." and
                         g.sort_order=".$this->ilDB->quote($new_sort_order,"integer")." and
-			g.rubric_id=".$this->ilDB->quote($this->rubric_id,"integer")
+			            g.rubric_id=".$this->ilDB->quote($this->rubric_id,"integer")
                 );
                 $row=$this->ilDB->fetchAssoc($set);
                 
@@ -598,7 +621,6 @@ class ilLPRubricCard
     {
         // null out weight for group id
         $this->ilDB->manipulate("update rubric_weight set deleted=NOW() where deleted is null and rubric_group_id=".$this->ilDB->quote($rubric_group_id, "integer"));
-        
         //update the weight min/max for this rubric_group_id
         foreach($labels as $k => $label){
             
@@ -655,33 +677,32 @@ class ilLPRubricCard
         /**
          *      Add/Update Rubric Labels
          */
-         
+        $new_labels=array(); 
         //get the current active labels
         $current_labels=array();
-        $set=$this->ilDB->query("select rubric_label_id,label from rubric_label where deleted is null and rubric_id=".$this->ilDB->quote($this->rubric_id, "integer"));
+        $set=$this->ilDB->query("select rubric_label_id,label,sort_order from rubric_label where deleted is null and rubric_id=".$this->ilDB->quote($this->rubric_id, "integer"));
         while($row=$this->ilDB->fetchAssoc($set)){
-            $current_labels[$row['rubric_label_id']]=$row['label'];
+            $current_labels[$row['rubric_label_id']]=array('label_name'=>$row['label'],'sort_order'=>$row['sort_order']);
         }
-        
         // null out labels
         $this->ilDB->manipulate("update rubric_label set deleted=NOW() where deleted is null and rubric_id=".$this->ilDB->quote($this->rubric_id, "integer"));
-        
         $sort_order=0;
         foreach($labels as $k => $new_label){
                         
             //does this label already exist?
             $is_new_label=true;
-                        
+                              
             foreach($current_labels as $rubric_label_id => $compare_label){
                 
-                if($compare_label==$new_label['label']){
+                if($compare_label['label_name']==$new_label['label']&&$compare_label['sort_order']==$sort_order){
                     
                     //nothing has changed, remove deleted status
                     $this->ilDB->manipulate("update rubric_label set deleted=null, sort_order=".$this->ilDB->quote($sort_order, "integer")." where rubric_label_id=".$this->ilDB->quote($rubric_label_id, "integer"));
                     
                     $is_new_label=false;
                     
-                    $labels[$k]['rubric_label_id']=$rubric_label_id;
+                    //$labels[$k]['rubric_label_id']=$rubric_label_id;
+                    $new_labels[$k]['rubric_label_id']=$rubric_label_id;
                     
                 }
                 
@@ -704,14 +725,15 @@ class ilLPRubricCard
                     )"
                 );
                 
-                $labels[$k]['rubric_label_id']=$new_rubric_label_id;
+                //$labels[$k]['rubric_label_id']=$new_rubric_label_id;
+                $new_labels[$k]['rubric_label_id']=$new_rubric_label_id;
             }
             
             $sort_order++;
             
         }// foreach label
-        
-        return($labels);
+        //return($labels);
+        return($new_labels);
     }
     
     private function saveRubricCardTbl()

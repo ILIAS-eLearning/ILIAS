@@ -676,7 +676,7 @@ var RUBRIC = {
                 }
                 
                 if(requires_verification===true){
-                    if(verified_object===false||verified_object.childNodes[0].nodeValue!='(ok)'){
+                    if(verified_object===false||verified_object.childNodes[0].nodeValue=='(error)'){
                         throw 'Missing Data for Rubric';                
                     }                    
                 }

@@ -133,8 +133,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             'RUBRIC_SAVE'=>'rubric_card_save',
             'OUT_OF'=>'rubric_out_of',            
             'GRAND_TOTAL'=>'rubric_grand_total',
-            'GRADE_RANGE'=>'rubric_grade_range',          
-            'RUBRIC_GRADE'=>'rubric_grade', 
+            'GRADE_RANGE'=>'rubric_grade_range',           
         );        
          
         $rubric_form_tpl=new ilTemplate($filename,true,true,'Services/Tracking');
@@ -340,7 +339,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         }
         
         if($this->student_view){
-            $tmp_write.="<td scope=\"rowgroup\" style=\"background-color:rgba(51,255,102,.4);\">                        
+            $tmp_write.="<td scope=\"rowgroup\">                        
                             $tmp_point 
                         </td>
                         <td scope=\"rowgroup\">                        
@@ -387,15 +386,9 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     
     private function buildGradeGroupPoints($weights)
     {
-        if($this->student_view){
-            $tmp_write="<tr class=\"tblrow1 small\">
-                        <th>Group</th>
-                        <th>Criteria</th>";
-        }else{
-            $tmp_write="<tr class=\"tblrow1 small\">
+        $tmp_write="<tr class=\"tblrow1 small\">
                         <th>&nbsp;</th>
-                        <th style=\"text-align:right\">{GRADE_RANGE}</th>";    
-        }
+                        <th style=\"text-align:right\">{GRADE_RANGE}</th>";
         
         foreach($weights as $k => $weight){
             $tmp_write.="<th>${weight['weight_min']} - ${weight['weight_max']}";
@@ -503,15 +496,14 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                 $min_points=$weight['weight_min'];
                 $max_points=$weight['weight_max'];
             }else{
-                if($weigth['weight_max']>$max_points){
-                    $max_points=$weigtht['weight_max'];
+                if($weight['weight_max']>$max_points){
+                    $max_points=$weight['weight_max'];
                 }
                 if($weight['weight_min']<$min_points){
                     $min_points=$weight['weight_min'];
                 }
             }
         }
-        
         return(array('min'=>$min_points,'max'=>$max_points));
     }
     
@@ -701,7 +693,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                                 
                                 "
                                 <th scope=\"col\">
-                                    {RUBRIC_GRADE}
+                                    GRADE
                                 </th>
                                 <th scope=\"col\">
                                     {COMMENT}
