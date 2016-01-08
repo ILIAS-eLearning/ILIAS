@@ -15,11 +15,12 @@ var RUBRIC = {
         return(point_ranges);        
     },    
     
-    updateGrade:function(){
+    updateGrade:function(){        
         var points=new Array();
         
         var group_total=group_max=0;
         var overall_total=overall_max=0;
+        var points_max=0;
         
         var tbody=this.tbl.getElementsByTagName('tbody');
         var tfoot=this.tbl.getElementsByTagName('tfoot');
@@ -30,6 +31,11 @@ var RUBRIC = {
             if(this.nodeHasGroupRange(trs[a])){                
                 // grab the range
                 var points=this.gatherPointValues(trs[a]);
+                for(var b=0;b<points.length;b++){
+                    if(points[b]['max']>points_max){
+                        points_max=points[b]['max'];
+                    }
+                }
             }else if(this.nodeHasPointRange(trs[a])){
                 // update the group total
                 trs[a].children[1].innerHTML=group_total+' out of '+group_max;
@@ -37,13 +43,16 @@ var RUBRIC = {
                 //reset group values
                 group_max=group_total=0;                
             }else if(this.nodeHasGrade(trs[a])){
-                // get the group grades
-                group_max+=parseInt(points[0]['max']);
-                overall_max+=parseInt(points[0]['max']);
+                // get the group grades                
+                group_max+=parseInt(points_max);
+                overall_max+=parseInt(points_max);
                 
                 var inputs=trs[a].getElementsByTagName('input');                
-                group_total+=parseInt(inputs[0].value);
-                overall_total+=parseInt(inputs[0].value);
+                if(isNaN(parseInt(inputs[0].value))===false){
+                    group_total+=parseInt(inputs[0].value);
+                    overall_total+=parseInt(inputs[0].value);                    
+                }                
+                
             }
         }
         
@@ -62,9 +71,10 @@ var RUBRIC = {
         for(var a=2;a<(ths.length-1);a++){
             var broken_range=ths[a].innerHTML.split('-');
             
-            points[a-2]=new Array();
-            points[a-2]['min']=broken_range[0];
-            points[a-2]['max']=broken_range[1];
+            var key=a-2;
+            points[key]=new Array();
+            points[key]['min']=broken_range[0];
+            points[key]['max']=broken_range[1];
         }
         
         return(points);
@@ -921,16 +931,19 @@ function updateGrade(obj){
     
 }
 
-function verifyGrade(){    
+function verifyGrade(){
     RUBRIC.tbl=document.getElementById('jkn_table_rubric');
+        
+    RUBRIC.updateGrade();
         
     try{        
         
         RUBRIC.verifyGrade();
-        RUBRIC.updateGrade();     
+             
         return(true);
         
-    }catch(err){                
+    }catch(err){
+        
         return(false);
         
     }
