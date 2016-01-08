@@ -9,13 +9,16 @@
 *
 */
 require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
+require_once("Services/GEV/WBD/classes/Requests/trait.gevWBDRequest.php");
 require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessVvErstanlage.php");
+require_once("Services/GEV/WBD/classes/Error/class.gevWBDError.php");
+
 class gevWBDRequestVvErstanlage extends WBDRequestVvErstanlage {
 	use gevWBDRequest;
 
-	protected function __construct($data) {
-		parent::__construct();
+	protected $error_group;
 
+	protected function __construct($data) {
 		$this->address_type 		= new WBDData("AdressTyp", $this->getDictionary()->getWBDName($data["address_type"], gevWBDDictionary::SERACH_IN_ADDRESS_TYPE));
 		$this->address_info 		= new WBDData("AdressBemerkung", $data["address_info"]);
 		$this->title 				= new WBDData("AnredeSchluessel", $this->getDictionary()->getWBDName($data["gender"], gevWBDDictionary::SERACH_IN_GENDER));
@@ -37,23 +40,25 @@ class gevWBDRequestVvErstanlage extends WBDRequestVvErstanlage {
 		$this->city 				= new WBDData("Ort", $data["city"]);
 		$this->zipcode 				= new WBDData("Postleitzahl", $data["zipcode"]);
 		$this->street 				= new WBDData("Strasse", $data["street"]);
-		$this->phone_nr 			= new WBDData("Telefonnummer", $data["phone_nr"]);
+
+		$this->phone_nr 			= new WBDData("Telefonnummer", ($data["phone_nr"] != "") ? $data["phone_nr"] : $data["mobile_phone_nr"]);
+		
 		$this->degree 				= new WBDData("Titel", $data["degree"]);
 		$this->wbd_agent_status 	= new WBDData("VermittlerStatus", $this->getDictionary()->getWBDName($data["wbd_agent_status"], gevWBDDictionary::SERACH_IN_AGENT_STATUS));
 		$this->okz 					= new WBDData("VermittlungsTaetigkeit",$data["okz"]);
 		$this->firstname 			= new WBDData("VorName", $data["firstname"]);
 		$this->wbd_type 			= new WBDData("TpKennzeichen", $this->getDictionary()->getWBDName($data["wbd_type"], gevWBDDictionary::SEARCH_IN_WBD_TYPE));
-		$this->training_pass 		= new WBDData("WeiterbildungsAusweisBeantragt", $data["training_pass"]);
 
+		$this->user_id = $data["user_id"];
+		$this->row_id = $data["row_id"];
+		$this->next_wbd_action = $data["next_wbd_action"];
+		$this->error_group = gevWBDError::ERROR_GROUP_USER;
+		
 		$errors = $this->checkData();
 
 		if(!empty($errors)) {
 			throw new myLogicException("gevWBDRequestVvErstanlage::__construct:checkData failed",0,null, $errors);
 		}
-
-		$this->user_id = $data["user_id"];
-		$this->row_id = $data["row_id"];
-		$this->next_wbd_action = $data["next_wbd_action"];
 	}
 
 	public static function getInstance(array $data) {
@@ -65,7 +70,7 @@ class gevWBDRequestVvErstanlage extends WBDRequestVvErstanlage {
 			return $e->options();
 		} catch(LogicException $e) {
 			$errors = array();
-			$errors[] =  self::createWBDError($e->getMessage(), static::$request_type, $data["user_id"], $data["row_id"],0);
+			$errors[] =  self::createError($e->getMessage(), gevWBDError::ERROR_GROUP_USER, static::$request_type, $data["user_id"], $data["row_id"],0);
 			return $errors;
 		}
 	}
@@ -75,13 +80,8 @@ class gevWBDRequestVvErstanlage extends WBDRequestVvErstanlage {
 	*
 	* @return array
 	*/
-	protected function checkData(&$data) {
-		$result = $this->checkSzenarios($data);
-		if(empty($result)) {
-			if($data["phone_nr"] == "") {
-				$data["phone_nr"] = $data["mobile_phone_nr"];
-			}
-		}
+	protected function checkData() {
+		$result = $this->checkSzenarios();
 		return $result;
 	}
 
@@ -93,25 +93,7 @@ class gevWBDRequestVvErstanlage extends WBDRequestVvErstanlage {
 	* @return boolean
 	*/
 	public function createWBDSuccess($response) {
-		$this->wbd_success = new gevWBDSuccessVvErstanlage($response,$this->row_id, $this->next_wbd_action);
-	}
-
-	/**
-	* gets the firstname
-	*
-	* @return string
-	*/
-	public function firstname() {
-		return $this->firstname;
-	}
-
-	/**
-	* gets the lasttname
-	*
-	* @return string
-	*/
-	public function lastname() {
-		return $this->lastname;
+		$this->wbd_success = new gevWBDSuccessVvErstanlage($response, (int)$this->row_id, $this->next_wbd_action);
 	}
 
 	/**
@@ -130,5 +112,15 @@ class gevWBDRequestVvErstanlage extends WBDRequestVvErstanlage {
 	*/
 	public function rowId() {
 		return $this->row_id;
+	}
+
+	/**
+	* gets a new WBD Error
+	*
+	* @return integer
+	*/
+	public function createWBDError($message) {
+		$reason = $this->parseReason($message);
+		$this->wbd_error = self::createError($reason, $this->error_group, $this->user_id, $this->row_id);
 	}
 }

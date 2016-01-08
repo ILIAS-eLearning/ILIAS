@@ -8,47 +8,39 @@
 * @version	$Id$
 *
 */
-require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
-require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
 require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessWPAbfrage.php");
-require_once("Services/GEV/WBD/classes/Data/class.gevWBDData.php");
-class gevWBDRequestWPAbfrage extends gevWBDRequest {
-	
-	protected $certification_period;
-	protected $agent_id;
+require_once("Services/GEV/WBD/classes/Requests/trait.gevWBDRequest.php");
+require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
+require_once("Services/GEV/WBD/classes/Error/class.gevWBDError.php");
 
-	protected $xml_tmpl_file_name;
+class gevWBDRequestWPAbfrage extends WBDRequestWPAbfrage {
+	use gevWBDRequest;
 
-	static $request_type = "CP_REQUEST";
-	static $check_szenarios = array('bwv_id'					=> array('mandatory' => 1)
-									,'certification_period'		=> array('mandatory' => 1)
-								);
+	protected $error_group;
 
 	protected function __construct($data) {
-		parent::__construct();
-
-		$this->agent_id 					= new gevWBDData("VermittlerId",$data["bwv_id"]);
-		$this->certification_period 	= new gevWBDData("ZertifizierungsPeriode",$this->dictionary->getWBDName($data["certification_period"],gevWBDDictionary::SEARCH_IN_CERTIFICATION_PERIOD));
-		
-		$this->xml_tmpl_file_name = "WpAbfrage.xml";
-		$this->wbd_service_name = "WpAbfrageService";
+		$this->agent_id 				= new WBDData("VermittlerId",$data["bwv_id"]);
+		$this->certification_period 	= new WBDData("ZertifizierungsPeriode",$this->getDictionary()->getWBDName($data["certification_period"],gevWBDDictionary::SEARCH_IN_CERTIFICATION_PERIOD));
 
 		$this->user_id = $data["user_id"];
 		$this->row_id = $data["row_id"];
+		$this->error_group = gevWBDError::ERROR_GROUP_USER;
+
+		$errors = $this->checkData();
+
+		if(!empty($errors)) {
+			throw new myLogicException("gevWBDRequestWPAbfrage::__construct:checkData failed",0,null, $errors);
+		}
 	}
 
 	public static function getInstance(array $data) {
-		$errors = self::checkData($data);
-
-		if(!count($errors)) {
-			try {
-				return new gevWBDRequestWPAbfrage($data);
-			} catch(LogicException $e) {
-				$errors = array();
-				$errors[] =  new gevWBDError($e->getMessage(), static::$request_type, $data["user_id"], $data["row_id"]);
-				return $errors;
-			}
-		} else {
+		try {
+			return new gevWBDRequestWPAbfrage($data);
+		}catch(myLogicException $e) {
+			return $e->options();
+		} catch(LogicException $e) {
+			$errors = array();
+			$errors[] =  self::createError($e->getMessage(), gevWBDError::ERROR_GROUP_USER, static::$request_type, $data["user_id"], $data["row_id"],0);
 			return $errors;
 		}
 	}
@@ -60,8 +52,8 @@ class gevWBDRequestWPAbfrage extends gevWBDRequest {
 	* 
 	* @return string
 	*/
-	private static function checkData($data) {
-		return self::checkSzenarios($data);
+	protected function checkData() {
+		return $this->checkSzenarios();
 	}
 
 	/**
@@ -74,11 +66,12 @@ class gevWBDRequestWPAbfrage extends gevWBDRequest {
 	}
 
 	/**
-	* gets the agent_id
+	* gets a new WBD Error
 	*
-	* @return string
+	* @return integer
 	*/
-	public function agentId() {
-		return $this->agent_id;
+	public function createWBDError($message) {
+		$reason = $this->parseReason($message);
+		$this->wbd_error = self::createError($reason, $this->error_group, $this->user_id, $this->row_id);
 	}
 }

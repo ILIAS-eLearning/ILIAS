@@ -9,121 +9,63 @@
 *
 */
 require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
-require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
+require_once("Services/GEV/WBD/classes/Requests/trait.gevWBDRequest.php");
 require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessVvAenderung.php");
-require_once("Services/GEV/WBD/classes/Data/class.gevWBDData.php");
-class gevWBDRequestVvAenderung extends gevWBDRequest {
+require_once("Services/GEV/WBD/classes/Error/class.gevWBDError.php");
 
-	protected $address_type;
-	protected $address_info;
-	protected $title;
-	protected $auth_email;
-	protected $auth_mobile_phone_nr;
-	protected $info_via_mail;
-	protected $email;
-	protected $birthday;
-	protected $house_number;
-	protected $internal_agent_id;
-	protected $country;
-	protected $lastname;
-	protected $mobile_phone_nr;
-	protected $city;
-	protected $zipcode;
-	protected $street;
-	protected $phone_nr;
-	protected $degree;
-	protected $agent_id;
-	protected $wbd_agent_status;
-	protected $okz;
-	protected $firstname;
+class gevWBDRequestVvAenderung extends WBDRequestVvAenderung {
+	use gevWBDRequest;
 
-	protected $xml_tmpl_file_name;
-
-	static $request_type = "UPDATE_USER";
-	static $check_szenarios = array('gender' 			=> array('mandatory'=>1,
-															 	 'list'=> array(
-															 	 		'm', 
-															 	 		'f', 
-															 	 		'w'
-															 	 	)
-															 	 )
-									,'degree' 			=> array('maxlen' => 30)
-									,'firstname' 		=> array('mandatory'=>1, 'maxlen' => 30)
-									,'lastname' 		=> array('mandatory'=>1, 'maxlen' => 50)
-									,'birthday' 		=> array('custom' => 'datebefore2000')
-									,'email' 			=> array('mandatory' => 1)
-									,'mobile_phone_nr' 	=> array('mandatory' => 1, 'custom' => 'regexpMobilePhone')
-									,'phone_nr'	 		=> array('custom' => 'regexpPhone')
-									,'zipcode' 			=> array('mandatory'=>1, 'maxlen' => 10)
-									,'city' 			=> array('mandatory'=>1, 'maxlen' => 50)
-									,'street' 			=> array('mandatory'=>1, 'maxlen' => 50)
-									,'house_number' 	=> array('mandatory'=>1, 'maxlen' => 10)
-									,'okz' 				=> array('mandatory'=>1, 
-																 'list' => array(
-																 	'OKZ1',
-																 	'OKZ2',
-																 	'OKZ3'
-																 	)
-																 )
-									,'wbd_agent_status'	=> array('mandatory'=>1)
-									,'info_via_mail'	=> array('mandatory'=>1,'custom'=>'isBool')
-									,'user_id'			=> array('mandatory'=>1,'maxlen'=>50)
-									,'row_id'			=> array('mandatory'=>1)
-									,'address_type'		=> array('list' => array('','geschäftlich','privat','sonstiges'))
-									,'address_info'		=> array('maxlen'=>50)
-									,'country'			=> array('mandatory'=>1)
-									,'bwv_id'			=> array('mandatory'=>1)
-								);
+	protected $error_group;
 
 	protected function __construct($data) {
-		parent::__construct();
-
-		$this->address_type 		= new gevWBDData("AdressTyp",$this->dictionary->getWBDName($data["address_type"],gevWBDDictionary::SERACH_IN_ADDRESS_TYPE));
-		$this->address_info 		= new gevWBDData("AdressBemerkung",$data["address_info"]);
-		$this->title 				= new gevWBDData("AnredeSchluessel",$this->dictionary->getWBDName($data["gender"],gevWBDDictionary::SERACH_IN_GENDER));
-		$this->auth_email 			= new gevWBDData("AuthentifizierungsEmail",$data["email"]);
-		$this->auth_mobile_phone_nr = new gevWBDData("AuthentifizierungsTelefonnummer",$data["mobile_phone_nr"]);
-		$this->info_via_mail 		= new gevWBDData("BenachrichtigungPerEmail",$data["info_via_mail"]);
+		$this->address_type 		= new WBDData("AdressTyp",$this->getDictionary()->getWBDName($data["address_type"],gevWBDDictionary::SERACH_IN_ADDRESS_TYPE));
+		$this->address_info 		= new WBDData("AdressBemerkung",$data["address_info"]);
+		$this->title 				= new WBDData("AnredeSchluessel",$this->getDictionary()->getWBDName($data["gender"],gevWBDDictionary::SERACH_IN_GENDER));
+		$this->auth_email 			= new WBDData("AuthentifizierungsEmail",$data["email"]);
+		$this->auth_mobile_phone_nr = new WBDData("AuthentifizierungsTelefonnummer",$data["mobile_phone_nr"]);
+		$this->info_via_mail 		= new WBDData("BenachrichtigungPerEmail",$data["info_via_mail"]);
 
 		$normal_email = ($data['wbd_email'] != '') ? $data['wbd_email'] : $data['email'];
-		$this->email 				= new gevWBDData("Emailadresse",$normal_email);
+		$this->email 				= new WBDData("Emailadresse",$normal_email);
+	
+		$this->birthday 			= new WBDData("Geburtsdatum",$data["birthday"]);
+		$this->house_number			= new WBDData("Hausnummer",$data["house_number"]);
+		$this->internal_agent_id 	= new WBDData("InterneVermittlerId",$data["user_id"]);
+		$this->country 				= new WBDData("IsoLaendercode",$data["country"]);
+		$this->lastname 			= new WBDData("Name",$data["lastname"]);
+		$this->mobile_phone_nr 		= new WBDData("Mobilfunknummer",$data["mobile_phone_nr"]);
+		$this->city 				= new WBDData("Ort",$data["city"]);
+		$this->zipcode 				= new WBDData("Postleitzahl",$data["zipcode"]);
+		$this->street 				= new WBDData("Strasse",$data["street"]);
+		$this->phone_nr 			= new WBDData("Telefonnummer", ($data["phone_nr"] != "") ? $data["phone_nr"] : $data["mobile_phone_nr"]);
+		$this->degree 				= new WBDData("Titel",$data["degree"]);
+		$this->agent_id 			= new WBDData("VermittlerId",$data["bwv_id"]);
+		$this->wbd_agent_status 	= new WBDData("VermittlerStatus",$this->getDictionary()->getWBDName($data["wbd_agent_status"],gevWBDDictionary::SERACH_IN_AGENT_STATUS));
+		$this->okz 					= new WBDData("VermittlungsTaetigkeit",$data["okz"]);
+		$this->firstname 			= new WBDData("VorName",$data["firstname"]);
 		
-		$this->birthday 			= new gevWBDData("Geburtsdatum",$data["birthday"]);
-		$this->house_number			= new gevWBDData("Hausnummer",$data["house_number"]);
-		$this->internal_agent_id 	= new gevWBDData("InterneVermittlerId",$data["user_id"]);
-		$this->country 				= new gevWBDData("IsoLaendercode",$data["country"]);
-		$this->lastname 			= new gevWBDData("Name",$data["lastname"]);
-		$this->mobile_phone_nr 		= new gevWBDData("Mobilfunknummer",$data["mobile_phone_nr"]);
-		$this->city 				= new gevWBDData("Ort",$data["city"]);
-		$this->zipcode 				= new gevWBDData("Postleitzahl",$data["zipcode"]);
-		$this->street 				= new gevWBDData("Strasse",$data["street"]);
-		$this->phone_nr 			= new gevWBDData("Telefonnummer",$data["phone_nr"]);
-		$this->degree 				= new gevWBDData("Titel",$data["degree"]);
-		$this->agent_id 			= new gevWBDData("VermittlerId",$data["bwv_id"]);
-		$this->wbd_agent_status 	= new gevWBDData("VermittlerStatus",$this->dictionary->getWBDName($data["wbd_agent_status"],gevWBDDictionary::SERACH_IN_AGENT_STATUS));
-		$this->okz 					= new gevWBDData("VermittlungsTaetigkeit",$data["okz"]);
-		$this->firstname 			= new gevWBDData("VorName",$data["firstname"]);
-
 		$this->user_id = $data["user_id"];
 		$this->row_id = $data["row_id"];
+		$this->error_group = gevWBDError::ERROR_GROUP_USER;
 
-		$this->xml_tmpl_file_name = "VvAenderung.xml";
-		$this->wbd_service_name = "VvAnderungService";
+		$errors = $this->checkData();
+
+		if(!empty($errors)) {
+			throw new myLogicException("gevWBDRequestVvAenderung::__construct:checkData failed",0,null, $errors);
+		}
 	}
 
 	public static function getInstance(array $data) {
 		$data = self::polishInternalData($data);
-		$errors = self::checkData($data);
 		
-		if(!count($errors)) {
-			try {
-				return new gevWBDRequestVvAenderung($data);
-			} catch(LogicException $e) {
-				$errors = array();
-				$errors[] =  new gevWBDError($e->getMessage(), static::$request_type, $data["user_id"], $data["row_id"]);
-				return $errors;
-			}
-		} else {
+		try {
+			return new gevWBDRequestVvAenderung($data);
+		}catch(myLogicException $e) {
+			return $e->options();
+		} catch(LogicException $e) {
+			$errors = array();
+			$errors[] =  self::createError($e->getMessage(), gevWBDError::ERROR_GROUP_USER, static::$request_type, $data["user_id"], $data["row_id"],0);
 			return $errors;
 		}
 	}
@@ -135,13 +77,8 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 	* 
 	* @return string
 	*/
-	private static function checkData(&$data) {
-		$result = self::checkSzenarios($data);
-		if(empty($result)) {
-			if($data["phone_nr"] == "") {
-				$data["phone_nr"] = $data["mobile_phone_nr"];
-			}
-		}
+	protected function checkData() {
+		$result = $this->checkSzenarios();
 		return $result;
 	}
 
@@ -155,24 +92,6 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 	}
 
 	/**
-	* gets the firstname
-	*
-	* @return string
-	*/
-	public function firstname() {
-		return $this->firstname;
-	}
-
-	/**
-	* gets the lasttname
-	*
-	* @return string
-	*/
-	public function lastname() {
-		return $this->lastname;
-	}
-
-	/**
 	* gets the user_id
 	*
 	* @return integer
@@ -182,20 +101,21 @@ class gevWBDRequestVvAenderung extends gevWBDRequest {
 	}
 
 	/**
-	* gets the agent_id
-	*
-	* @return string
-	*/
-	public function agentId() {
-		return $this->agent_id;
-	}
-
-	/**
 	* gets the row_id
 	*
 	* @return integer
 	*/
 	public function rowId() {
 		return $this->row_id;
+	}
+
+	/**
+	* gets a new WBD Error
+	*
+	* @return integer
+	*/
+	public function createWBDError($message) {
+		$reason = $this->parseReason($message);
+		$this->wbd_error = self::createError($reason, $this->error_group, $this->user_id, $this->row_id);
 	}
 }

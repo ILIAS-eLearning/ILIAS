@@ -9,50 +9,41 @@
 * @version	$Id$
 *
 */
-require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequest.php");
-require_once("Services/GEV/WBD/classes/Data/class.gevWBDData.php");
+require_once("Services/GEV/WBD/classes/Requests/trait.gevWBDRequest.php");
 require_once("Services/GEV/WBD/classes/Success/class.gevWBDSuccessVermitVerwaltungTransferfaehig.php");
-class gevWBDRequestVermitVerwaltungTransferfaehig extends gevWBDRequest {
-	
-	protected $auth_email;
-	protected $auth_mobile_phone_nr;
-	protected $agent_id;
+require_once("Services/GEV/WBD/classes/Error/class.gevWBDError.php");
 
-	protected $xml_tmpl_file_name;
+class gevWBDRequestVermitVerwaltungTransferfaehig extends WBDRequestVermitVerwaltungTransferfaehig {
+	use gevWBDRequest;
 
-	static $request_type = "RELEASE_USER";
-	static $check_szenarios = array('email' 			=> array('mandatory' => 1)
-									,'mobile_phone_nr' 	=> array('mandatory' => 1, 'custom' => 'regexpMobilePhone')
-									,'bwv_id'			=> array('mandatory'=>1)
-								);
+	protected $error_group;
 
 	protected function __construct($data) {
-		parent::__construct();
-
-		$this->auth_email 			= new gevWBDData("AuthentifizierungsEmail",$data["email"]);
-		$this->auth_mobile_phone_nr = new gevWBDData("AuthentifizierungsTelefonnummer",$data["mobile_phone_nr"]);
-		$this->agent_id 			= new gevWBDData("VermittlerId",$data["bwv_id"]);
-
-		$this->xml_tmpl_file_name = "VermittlerVerwaltung_TransferfaehigMachen.xml";
-		$this->wbd_service_name = "VermittlerVerwaltungService";
+		$this->auth_email 			= new WBDData("AuthentifizierungsEmail",$data["email"]);
+		$this->auth_mobile_phone_nr = new WBDData("AuthentifizierungsTelefonnummer",$data["mobile_phone_nr"]);
+		$this->agent_id 			= new WBDData("VermittlerId",$data["bwv_id"]);
 
 		$this->user_id = $data["user_id"];
 		$this->row_id = $data["row_id"];
+		$this->error_group = gevWBDError::ERROR_GROUP_USER;
+
+		$errors = $this->checkData();
+
+		if(!empty($errors)) {
+			throw new myLogicException("gevWBDRequestVermitVerwaltungTransferfaehig::__construct:checkData failed",0,null, $errors);
+		}
 	}
 
 	public static function getInstance(array $data) {
 		$data = self::polishInternalData($data);
-		$errors = self::checkData($data);
 
-		if(!count($errors)) {
-			try {
-				return new gevWBDRequestVermitVerwaltungTransferfaehig($data);
-			} catch(LogicException $e) {
-				$errors = array();
-				$errors[] =  new gevWBDError($e->getMessage(), static::$request_type, $data["user_id"], $data["row_id"]);
-				return $errors;
-			}
-		} else {
+		try {
+			return new gevWBDRequestVermitVerwaltungTransferfaehig($data);
+		}catch(myLogicException $e) {
+			return $e->options();
+		} catch(LogicException $e) {
+			$errors = array();
+			$errors[] =  self::createError($e->getMessage(), gevWBDError::ERROR_GROUP_USER, static::$request_type, $data["user_id"], $data["row_id"],0);
 			return $errors;
 		}
 	}
@@ -64,8 +55,8 @@ class gevWBDRequestVermitVerwaltungTransferfaehig extends gevWBDRequest {
 	* 
 	* @return string
 	*/
-	private static function checkData($data) {
-		return self::checkSzenarios($data);
+	protected function checkData() {
+		return $this->checkSzenarios();
 	}
 
 	/**
@@ -96,11 +87,12 @@ class gevWBDRequestVermitVerwaltungTransferfaehig extends gevWBDRequest {
 	}
 
 	/**
-	* gets the agent_id
+	* gets a new WBD Error
 	*
 	* @return integer
 	*/
-	public function agentId() {
-		return $this->agent_id;
+	public function createWBDError($message) {
+		$reason = $this->parseReason($message);
+		$this->wbd_error = self::createError($reason, $this->error_group, $this->user_id, $this->row_id);
 	}
 }

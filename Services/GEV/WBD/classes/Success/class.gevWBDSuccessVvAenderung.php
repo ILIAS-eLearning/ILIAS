@@ -8,16 +8,17 @@
 * @version	$Id$
 *
 */
+require_once("Services/GEV/WBD/classes/Success/trait.gevWBDSuccess.php");
+
 class gevWBDSuccessVvAenderung extends WBDSuccessVvAenderung {
+	use gevWBDSuccess;
+
 	protected $row_id;
 
 	public function __construct($response, $row_id) {
-		if(!$row_id) {
-			throw new LogicException("gevWBDSuccessVvAenderung: a row_id must be provided");
-		}
 		parent::__construct($response);
+
 		$this->row_id = $row_id;
-		
 	}
 
 	/**

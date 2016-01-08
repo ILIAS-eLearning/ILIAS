@@ -771,6 +771,9 @@ class gevWBDDataConnector extends wbdDataConnector {
 						$udata
 					);
 				}
+			} else {
+				echo "keine rolle";
+
 			}
 		}
 		$this->valid_newusers = $ret;
@@ -1357,6 +1360,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				hist_course
 			ON
 				hist_usercoursestatus.crs_id = hist_course.crs_id
+
 				AND hist_course.hist_historic = 0
 
 			INNER JOIN
@@ -1545,13 +1549,10 @@ class gevWBDDataConnector extends wbdDataConnector {
 		);
 	}
 
-
-	//TESTZEUG
 	protected function getDate() {
 		return date("Y-m-d");
 		//return "2015-09-29";
 	}
-	//TESTZEUGS
 
 	/**
 	* BLOCK affiliate user
@@ -1656,8 +1657,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 			$a_row_id
 		);
 	}
-
-
 }
 
 //normalize classname for wdb-connector-script

@@ -9,6 +9,8 @@
 *
 */
 require_once("Services/Calendar/classes/class.ilDate.php");
+require_once("Services/GEV/WBD/classes/Error/class.gevWBDError.php");
+require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
 trait gevWBDRequest{
 	static $USR_STREET = "street";
 	static $USR_HOUSE_NUMBER = "house_number";
@@ -177,8 +179,8 @@ trait gevWBDRequest{
 	*
 	* @return gevWBDError
 	*/
-	static public function createWBDError($message, $user_id, $row_id, $crs_id) {
-		return new gevWBDError($message,static::$request_type, $user_id, $row_id,$crs_id);
+	static public function createError($reason, $error_group, $user_id, $row_id, $crs_id = 0) {
+		return new gevWBDError($reason, $error_group, static::$request_type, $user_id, $row_id, $crs_id);
 	}
 
 	/**
@@ -192,5 +194,78 @@ trait gevWBDRequest{
 		}
 
 		return $this->dictionary;
+	}
+
+	/**
+	* Checks the Data for each szenario
+	*
+	*
+	* @return bool 						true if no error
+	*									false if errer
+	*/
+	protected function checkSzenarios() {
+		$errors = array();
+		$wbd_data = $this->getWBDPropertys();
+
+		$this->crs_id = (isset($this->crs_id) && $this->crs_id !== null) ? $this->crs_id : 0;
+
+		if($wbd_data[self::WBD_VALUE_SEMINAR_FROM] && $wbd_data[self::WBD_VALUE_SEMINAR_TO]) {
+			$from = new DateTime($wbd_data[self::WBD_VALUE_SEMINAR_FROM]);
+			$till = new DateTime($wbd_data[self::WBD_VALUE_SEMINAR_TO]);
+			if($from > $till){
+				$errors[] = self::createError("dates implausible: begin > end <br>", $this->error_group, $this->user_id, $this->row_id, $this->crs_id);
+			}
+		}
+
+		
+		foreach (static::$check_szenarios as $field => $szenario) {
+			if(!array_key_exists($field, $wbd_data)) {
+				throw new LogicException("Key not found in data".$field, $this->error_group, $this->user_id, $this->row_id, $this->crs_id);
+			}
+
+			$value = $wbd_data[$field];
+			foreach ($szenario as $rule => $setting) {
+				switch ($rule) {
+					case "mandatory":
+						if($setting==1 && (!is_bool($value) && trim($value) == "")){
+							$errors[] = self::createError("mandatory field missing: ".$field, $this->error_group, $this->user_id, $this->row_id, $this->crs_id);
+						}
+						break;
+					case "maxlen":
+						if(strlen($value) > $setting){
+							$errors[] = self::createError("too long: ".$field, $this->error_group, $this->user_id, $this->row_id, $this->crs_id);
+						}
+						break;
+					case "list":
+						if($value == ""){
+							$errors[] = self::createError( "empty value not in list: ".$field, $this->error_group, $this->user_id, $this->row_id, $this->crs_id);
+						}
+						if(!in_array($value, $setting)){
+							$errors[] = self::createError("not in list: ".$field, $this->error_group, $this->user_id, $this->row_id, $this->crs_id);
+						}
+						break;
+					case "form":
+						if(!preg_match($setting, $value) && $value != ""){
+							$errors[] = self::createError("not well formed: ".$field, $this->error_group, $this->user_id, $this->row_id, $this->crs_id);
+						}
+						break;
+					case "min_int_value":
+						if((int)$value < $setting) {
+							$errors[] = self::createError("integer to smaller then $setting: ".$field, $this->error_group, $this->user_id, $this->row_id, $this->crs_id);
+						}
+						break;
+					case "custom":
+						$r = self::$setting($value);
+						$result = $r[0];
+						$err = $r[1];
+						if(!$result){
+							$errors[] = self::createError( "$err ( $field )", $this->error_group, $this->user_id, $this->row_id, $this->crs_id);
+						}
+						break;
+				}
+			}
+		}
+
+		return $errors;
 	}
 }

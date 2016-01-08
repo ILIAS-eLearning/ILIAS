@@ -11,7 +11,7 @@
 require_once("Services/Calendar/classes/class.ilDate.php");
 trait gevWBDSuccess{
 
-	const DATE_SPLITTER = "T";
+	static $DATE_SPLITTER = "T";
 
 	/**
 	* get the date out of iso date
@@ -20,8 +20,14 @@ trait gevWBDSuccess{
 	*
 	* @return ilDate
 	*/
-	protected function createDate($iso_date_string) {
-		$split = explode(self::DATE_SPLITTER,$iso_date_string);
-		return new ilDate($split[0],IL_CALC_DATE);
+	public function createDate($iso_date_string) {
+		$date_str = $iso_date_string;
+
+		if(strpos($iso_date_string, self::$DATE_SPLITTER)) {
+			$split = explode(self::$DATE_SPLITTER,$iso_date_string);
+			$date_str = $split[0];
+		}
+
+		return new ilDate($date_str,IL_CAL_DATE);
 	}
 }
