@@ -30,7 +30,73 @@ class ilPredicateFactory {
 		return $this->_NOT()->_TRUE();
 	}
 
-	// ATOMS FOR PREDICATES
+	// ATOMS FOR BUILDING PREDICATES
+
+	/**
+	 * An integer value.
+	 *
+	 * @param	int		$i
+	 * @throws	\InvalidArgumentException
+	 * @return	ilValue
+	 */
+	public function int($i) {
+		require_once("Services/Filter/classes/Predicates/class.ilValueInt.php");
+		return new ilValueInt($this, $i);
+	}
+
+	/**
+	 * An string value.
+	 *
+	 * @param	str		$s
+	 * @throws	\InvalidArgumentException
+	 * @return	ilValue
+	 */
+	public function str($s) {
+		require_once("Services/Filter/classes/Predicates/class.ilValueStr.php");
+		return new ilValueStr($this, $s);
+	}
+
+	/**
+	 * An date value.
+	 *
+	 * @param	str		$s
+	 * @throws	\InvalidArgumentException
+	 * @return	ilValue
+	 */
+	public function date($d) {
+		require_once("Services/Filter/classes/Predicates/class.ilValueDate.php");
+		return new ilValueDate($this, $d);
+	}
+
+	/**
+	 * A predicate that is true if l equals r.
+	 *
+	 * @param	ilValueLike		$l
+	 * @param	ilValueLike		$r
+	 * @return	ilPredicate
+	 */
+	public function EQ(ilValueLike $l, ilValueLike $r) {
+		require_once("Services/Filter/classes/Predicates/class.ilPredicateEq.php");
+		return new ilPredicateEq($this, $l, $r);
+	}
+
+	/**
+	 * A predicate that is true if l is lower or equals r.
+	 *
+	 * @param	ilValueLike		$l
+	 * @param	ilValueLike		$r
+	 * @return	ilPredicate
+	 */
+	public function LE(ilValueLike $l, ilValueLike $r) {
+		require_once("Services/Filter/classes/Predicates/class.ilPredicateLe.php");
+		return new ilPredicateLe($this, $l, $r);
+	}
+
+	// TODO:
+	//		- NEQ
+	//		- LT
+	//		- GE
+	//		- GT
 
 	// COMBINATORS
 

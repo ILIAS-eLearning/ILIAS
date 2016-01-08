@@ -8,7 +8,7 @@
  * A predicate is some abstract function from some record (like a dictionary,
  * a row in a table) to true or false.
  */
-class ilFluentPredicateFactory {
+class ilFluentPredicateAtomFactory {
 	/**
 	 * @var	\Closure
 	 */
@@ -24,27 +24,13 @@ class ilFluentPredicateFactory {
 		$this->factory = $factory;
 	}
 
-	// BASIC PREDICATES
-
-	/**
-	 * A predicate that always matches.
-	 *
-	 * @return	ilPredicate
-	 */
-	public function _TRUE() {
+	public function int($value) {
 		$c = $this->continue;
-		return $c($this->factory->_TRUE());
+		return $c($this->factory->int($value));
 	}
 
-	/**
-	 * A predicate that never matches.
-	 *
-	 * @return	ilPredicate
-	 */
-	public function _FALSE() {
+	public function str($value) {
 		$c = $this->continue;
-		return $c($this->factory->_FALSE());
+		return $c($this->factory->str($value));
 	}
-
-	// TODO: ATOMS FOR BUILDING PREDICATES
 }
