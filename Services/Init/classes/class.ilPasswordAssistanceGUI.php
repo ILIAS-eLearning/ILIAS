@@ -404,7 +404,8 @@ class ilPasswordAssistanceGUI
 			$pwassist_session['expires'] < time()
 		)
 		{
-			$this->showAssistanceForm(null, $this->lng->txt('pwassist_session_expired'));
+			ilUtil::sendFailure($this->lng->txt('pwassist_session_expired'));
+			$this->showAssistanceForm(null);
 		}
 		else
 		{

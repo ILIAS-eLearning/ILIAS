@@ -171,6 +171,7 @@ class ilMailGUI
 
 			case 'ilcontactgui':
 				require_once 'Services/Contact/classes/class.ilContactGUI.php';
+				$this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 				$this->ctrl->forwardCommand(new ilContactGUI());
 				break;
 
