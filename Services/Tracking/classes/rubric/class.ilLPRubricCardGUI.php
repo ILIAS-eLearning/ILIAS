@@ -388,7 +388,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     {
         $tmp_write="<tr class=\"tblrow1 small\">
                         <th>&nbsp;</th>
-                        <th style=\"text-align:right\">{GRADE_RANGE}</th>";
+                        <th style=\"text-align:right\">Range</th>";
         
         foreach($weights as $k => $weight){
             $tmp_write.="<th>${weight['weight_min']} - ${weight['weight_max']}";
