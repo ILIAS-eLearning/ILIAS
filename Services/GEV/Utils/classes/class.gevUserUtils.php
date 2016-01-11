@@ -54,7 +54,6 @@ class gevUserUtils {
 		$this->courseBookings = ilUserCourseBookings::getInstance($a_user_id);
 		$this->gev_set = gevSettings::getInstance();
 		$this->udf_utils = gevUDFUtils::getInstance();
-		$this->wbd = gevWBD::getInstance($a_user_id);
 		$this->db = &$ilDB;
 		$this->access = &$ilAccess;
 		$this->user_obj = null;
@@ -515,7 +514,8 @@ class gevUserUtils {
 	}*/
 
 	public function isProfileComplete() {
-		if (!$this->wbd->forceWBDUserProfileFields()) {
+		$wbd = gevWBD::getInstance($this->getId());
+		if (!$wbd->forceWBDUserProfileFields()) {
 			return true;
 		}
 		require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");

@@ -9,6 +9,9 @@
 * @version	$Id$
 */
 require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 
 class gevWBD {
 	protected $udf_utils;
@@ -44,6 +47,7 @@ class gevWBD {
 	const WBD_ERROR_NO_RELEASE			= 'NO_RELEASE';
 	const WBD_ERROR_USER_EXISTS_TP 		= 'USER_EXISTS_TP';
 	const WBD_ERROR_USER_EXISTS 		= 'USER_EXISTS';
+	const WBD_ERROR_USER_NOT_IN_POOL	= 'USER_NOT_IN_POOL';
 
 	//aus Settings
 	const USR_TP_TYPE				= "usr_udf_tp_type";
@@ -166,10 +170,12 @@ class gevWBD {
 	);
 
 
-	protected function __construct() {
+	protected function __construct($a_user_id) {
 		global $ilDB;
 
 		$this->gDB = $ilDB;
+		$this->user_id = $a_user_id;
+		$this->user_utils = gevUserUtils::getInstance($a_user_id);
 		$this->udf_utils = gevUDFUtils::getInstance();
 	}
 
@@ -317,7 +323,7 @@ class gevWBD {
 		{
 			//0 - aus Stellung	//0 - aus Rolle
 			require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
-			$roles = $this->getGlobalRoles();
+			$roles = $this->user_utils->getGlobalRoles();
 			foreach($roles as $key => $value) {
 				$roles[$key] = ilObject::_lookupTitle($value);
 			}
@@ -350,7 +356,7 @@ class gevWBD {
 									   )
 				)
 			) {
-			throw new Exception("gevUserUtils::setWBDAgentStatus: ".$a_state." is no valid agent status.");
+			throw new Exception("gevWBD::setWBDAgentStatus: ".$a_state." is no valid agent status.");
 		}
 		
 		return $this->udf_utils->setField($this->user_id, self::USR_WBD_STATUS, $a_state);
@@ -533,7 +539,7 @@ class gevWBD {
 							, self::WBD_ERROR_NO_RELEASE);
 
 		return $this->userExists() && !$this->hasSpecialUserId()
-				&& $this->isExitDatePassed() && !$this->hasExitDateWBD() && $this->hasWBDType(self::WBD_TP_SERVICE) && !$this->isWBDBWVIdEmpty()
+				&& $this->user_utils->isExitDatePassed() && !$this->hasExitDateWBD() && $this->hasWBDType(self::WBD_TP_SERVICE) && !$this->isWBDBWVIdEmpty()
 				&& !$this->hasOpenWBDErrors($wbd_errors);
 	}
 
@@ -552,7 +558,7 @@ class gevWBD {
 	* @return boolean
 	*/
 	protected function isActive() {
-		return $this->getUser()->getActive();
+		return $this->user_utils->getUser()->getActive();
 	}
 
 	/**
@@ -581,13 +587,13 @@ class gevWBD {
 	* @return boolean
 	*/
 	protected function entryDatePassed() {
+		
 		$now = date("Y-m-d");
-		$entry_date = $this->getEntryDate();
+		$entry_date = $this->user_utils->getEntryDate();;
 
 		if(!$entry_date) {
 			return false;
 		}
-
 		return $entry_date->get(IL_CAL_DATE) <= $now;
 	}
 
@@ -618,6 +624,7 @@ class gevWBD {
 	* @return boolean
 	*/
 	protected function hasOpenWBDErrors(array $wbd_errors) {
+		
 		$sql = "SELECT DISTINCT count(usr_id) as cnt\n"
 				." FROM wbd_errors\n"
 				." WHERE resolved=0\n"
@@ -674,5 +681,12 @@ class gevWBD {
 		}
 		
 		return $start;
+	}
+
+	public function setWbdExitUserData($exit_date) {
+		require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+		$udf_utils = gevUDFUtils::getInstance();
+		$udf_utils->setField($this->user_id,self::USR_WBD_EXIT_DATE, $exit_date);
+		$udf_utils->setField($this->user_id,self::USR_TP_TYPE, "1 - Bildungsdienstleister");
 	}
 }
