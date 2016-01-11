@@ -35,7 +35,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	}
 
 
-	final public function prepareReport() {
+	public function prepareReport() {
 		$this->filter = $this->buildFilter(catFilter::create());
 		$this->table = $this->buildTable(catReportTable::create());
 		$this->query = $this->buildQuery(catReportQuery::create());
@@ -56,12 +56,14 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	public function deliverFilter() {
 		return $this->filter;
 	}
+
 	public function deliverTable() {
 		if($this->table !== null ) {
 			return $this->table;
 		}
 		throw new Exception("cilObjReportBase::deliverTable: you need to define a table.");
 	}
+
 	public function deliverOrder() {
 		return $this->order;
 	}
