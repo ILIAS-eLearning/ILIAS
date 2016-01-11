@@ -25,8 +25,8 @@ class gevWBDDataCollector implements WBDDataCollector {
 	const WBD_TP_BASIS			= "2 - TP-Basis";
 	const WBD_TP_SERVICE		= "3 - TP-Service";
 
-	public function __construct() {
-		chdir("/Library/WebServer/Documents/dev/4_4_generali2_new_wbd/");
+	public function __construct($lms_folder) {
+		chdir($lms_folder);
 		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestVermitVerwaltungAufnahme.php");
 		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestVermitVerwaltungTransferfaehig.php");
 		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestVvAenderung.php");
