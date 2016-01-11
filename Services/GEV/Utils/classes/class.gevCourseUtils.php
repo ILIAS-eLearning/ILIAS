@@ -1587,7 +1587,7 @@ class gevCourseUtils {
 	}
 
 	public function getBookedUser() {
-		return $this->getMembership()->getMembers();
+		return $this->getParticipants();
 	}
 	
 	public function getSpecialMembers() {		
@@ -2068,7 +2068,7 @@ class gevCourseUtils {
 							   );
 		
 		$role_utils = gevRoleUtils::getInstance();
-		$user_ids = $this->getCourse()->getMembersObject()->getMembers();
+		$user_ids = $this->getParticipants();
 		$participations = $this->getParticipations();
 		$maxPoints = $participations->getMaxCreditPoints();
 		$dbv_utils = gevDBVUtils::getInstance();
@@ -2247,8 +2247,8 @@ class gevCourseUtils {
 							   , $a_type
 							   );
 
-		$user_ids = $this->getCourse()->getMembersObject()->getMembers();
-		$tutor_ids = $this->getCourse()->getMembersObject()->getTutors();
+		$user_ids = $this->getParticipants();
+		$tutor_ids = $this->getTrainers();
 
 		$user_ids = array_unique(array_merge($user_ids, $tutor_ids));
 
@@ -3154,9 +3154,7 @@ class gevCourseUtils {
 				$info[$key]["trainer"] = '-';
 			}
 
-			$ms = $crs_utils->getMembership();
-			
-			$mbr_booked_userids = $ms->getMembers();
+			$mbr_booked_userids = $crs_utils->getParticipants();
 			$mbr_waiting_userids = $crs_utils->getWaitingMembers($id);
 
 			$mbr_booked = count($mbr_booked_userids);

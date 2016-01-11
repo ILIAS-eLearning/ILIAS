@@ -4822,6 +4822,37 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData"
 
 <#197>
 <?php
+if( !$ilDB->tableExists('wbd_errors_categories') )
+{
+	$ilDB->createTable('wbd_errors_categories', array(
+													'id' => array(
+														'type' => 'integer',
+														'length' => 4,
+														'notnull' => true,
+														'default' => 0
+													),
+													'reason_string' => array(
+														'type' => 'text',
+														'length' => 200,
+														'notnull' => false
+													),
+													'internal' => array(
+														'type' => 'integer',
+														'length' => 1,
+														'notnull' => false
+													),
+													'failure' => array(
+														'type' => 'text',
+														'length' => 1000,
+														'notnull' => false
+													)
+												)
+					);
+}
+?>
+
+<#198>
+<?php
 	require_once "Customizing/class.ilCustomInstaller.php";
 	require_once('Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php');
 	require_once('Services/GEV/Utils/classes/class.gevSettings.php');

@@ -74,7 +74,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 			$target_sub_ref_id = $this->getBDSubOrgUnitRefIdFor($owner, $target_ref_id);
 		}
 		catch (ilPersonalOrgUnitsException $excp) {
-			$target_ref_id = $this->base_ref_id;
+			$target_sub_ref_id = $this->base_ref_id;
 		}
 		
 		$ref_id = $a_orgu->getRefId();
@@ -93,17 +93,21 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 	}
 	
 	protected function getBDOrgUnitRefIdFor($a_user_id) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		$bd_name = $this->getBDFromIVOf($a_user_id);
 		if (!$bd_name) {
 			$this->ilPersonalOrgUnitsError("getBDOrgUnitRefIdFor", "Could not find BD-Name for $a_user_id.");
 		}
-		
-		$bd_ref = gevOrgUnitUtils::getBDByName($bd_name, $this->base_ref_id);
-		if(!$bd_ref) {
-			return $this->createBDOrgUnit($bd_name)->getRefId();
+		$children = $this->tree->getChilds($this->base_ref_id);
+		foreach ($children as $child) {
+			if (ilObject::_lookupTitle($child["obj_id"]) == $bd_name) {
+				return $child["ref_id"];
+			}
 		}
-
-		return $bd_ref;
+		
+		// Apparently there is no org unit beneath the base that matches the desired name.
+		// We need to create a new one
+		return $this->createBDOrgUnit($bd_name)->getRefId();
 	}
 
 	protected function getBDSubOrgUnitRefIdFor($user_id, $bd_org_unit_ref_id) {
@@ -112,7 +116,7 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		if(!$sub_orgu_title) {
 			$this->ilPersonalOrgUnitsError("getBDSubOrgUnitRefIdFor", "Could not find BD-SubOrgu-Name for $a_user_id.");
 		}
-		$children = $this->tree->getChilds($this->base_ref_id);
+		$children = $this->tree->getChilds($bd_org_unit_ref_id);
 		foreach ($children as $child) {
 			if (ilObject::_lookupTitle($child["obj_id"]) == $sub_orgu_title) {
 				return $child["ref_id"];
@@ -178,21 +182,16 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 
 		$agent_key = $this->getJobNumberOf($user_id);
 
-		$sql = 	 "SELECT IF(dbaf = ".$ilDB->quote($agent_key,"text").", dbaf, null) as finance\n"
-					.", IF(dbvg = ".$ilDB->quote($agent_key,"text").", dbvg, null) as composite\n"
+		$sql = 	 "SELECT SUM(IF(dbaf = ".$ilDB->quote($agent_key,"text").", 1, 0)) as finance\n"
+					.", SUM(IF(dbvg = ".$ilDB->quote($agent_key,"text").", 1, 0)) as composite\n"
 					." FROM `ivimport_orgunit`\n"
 					." WHERE `dbaf` = ".$ilDB->quote($agent_key,"text")." OR `dbvg` = ".$ilDB->quote($agent_key,"text");
-		
+
 		$result = mysql_query($sql);
 		$data = mysql_fetch_assoc($result);
 
-		if(mysql_num_rows($result) > 1) {
-			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance OR Composite in more OrgUnits then one OrgUnit."
-								." Just one Unit will be created.");
-		}
-
-		if($data["finance"] && $data["composite"]) {
-			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance AND Composite in one OrgUnit. Just finance will be created.");
+		if($data["finance"] > 0 && $data["composite"] > 0) {
+			$this->gLog->write("gevUVGOrgUnits::getBDSubFromIVOf: DBV (ILIAS ID:".$user_id.") is Finance AND Composite. Just finance will be created.");
 		}
 
 		if($data["finance"]) {
@@ -221,7 +220,6 @@ class gevUVGOrgUnits extends ilPersonalOrgUnits {
 		$orgu->initDefaultRoles();
 
 		$orgutils = gevOrgUnitUtils::getInstance($orgu->getId());
-		$orgutils->setType(gevSettings::REF_ID_ORG_UNIT_TYPE_BD);
 		
 		return $orgu;
 	}
