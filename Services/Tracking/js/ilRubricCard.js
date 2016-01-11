@@ -32,7 +32,7 @@ var RUBRIC = {
                 // grab the range
                 var points=this.gatherPointValues(trs[a]);
                 for(var b=0;b<points.length;b++){
-                    if(points[b]['max']>points_max){
+                    if(parseInt(points[b]['max'])>points_max){                        
                         points_max=points[b]['max'];
                     }
                 }
@@ -114,10 +114,10 @@ var RUBRIC = {
                         max=broken_range[1];
                         min=broken_range[0];
                     }else{
-                        if(broken_range[1]>max){
+                        if(parseInt(broken_range[1])>max){
                             max=broken_range[1];
                         }
-                        if(broken_range[0]<min){
+                        if(parseInt(broken_range[0])<min){
                             min=broken_range[0];
                         }
                     }
