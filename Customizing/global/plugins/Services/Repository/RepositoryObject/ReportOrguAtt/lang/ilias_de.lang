@@ -19,3 +19,25 @@ fold_create_xroa#:#Report Teilanhmen nach Organisationseinheit erzeugen
 root_create_xroa#:#Report Teilanhmen nach Organisationseinheit erzeugen
 cat_create_xroa#:#Report Teilanhmen nach Organisationseinheit erzeugen
 online#:#Online
+od_bd#:#OD/BD
+sum_waiting#:#Warteliste
+sum_excused#:#entschuldigt
+sum_unexcused#:#nicht entschuldigt
+sum_exit#:#ausgeschieden
+sum_employees#:#Mitarbeiter
+sum_booked#:#gebucht
+sum_booked_wbt#:#Selbsternkurs, gebucht
+sum_attended#:#teilgenommen
+sum_attended_wbt#:#Selbstlernkurs, teilgenommen
+period#:#Zeitraum
+until#:#bis
+org_unit_short#:#Org.-Einheit
+edu_program#:#Bildungsprogram
+course_type#:#Trainingstyp
+crs_title#:#Trainingstitel
+participation_status#:#Teilnahmestatus
+booking_status#:#Buchungsstatus
+gender#:#Geschlecht
+venue#:#Veranstaltungsort
+provider#:#Bildungsdienstleister
+orgu_title#:#Titel
