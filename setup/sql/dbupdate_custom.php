@@ -4858,8 +4858,7 @@ if (!$ilDB->tableColumnExists('wbd_errors_categories', 'error_group'))
 		$ilDB->addTableColumn('wbd_errors_categories', 'error_group', array(
 			"type" => "text",
 			"length" => 50,
-			"notnull" => true,
-			"default" => ""
+			"notnull" => false
 		));
 	}
 ?>
