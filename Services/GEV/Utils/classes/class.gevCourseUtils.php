@@ -1297,6 +1297,20 @@ class gevCourseUtils {
 		foreach($assigned_vcs as $avc) {
 			$avc->release();
 		}
+
+		if ($this->getVirtualClassLink() == $avc->getVC()->getUrl()) {
+			$this->setVirtualClassLink(null);
+		}
+
+		if ($this->getVirtualClassPassword() == $avc->getVC()->getMemberPassword()) {
+			$this->setVirtualClassPassword(null);
+		}
+		if ($this->getVirtualClassPasswordTutor() == $avc->getVC()->getTutorPassword()) {
+			$this->setVirtualClassPasswordTutor(null);
+		}
+		if ($this->getVirtualClassLoginTutor() == $avc->getVC()->getTutorLogin()) {
+			$this->setVirtualClassLoginTutor(null);
+		}
 	}
 
 
@@ -2653,6 +2667,9 @@ class gevCourseUtils {
 		foreach($trainers as $trainer) {
 			$membership->delete($trainer);
 		}
+
+		// Delete VC Assignments
+		$this->deleteVCAssignment();
 	}
 
 	public function cancelTrainer(array $trainer_id) {
@@ -3570,5 +3587,15 @@ class gevCourseUtils {
 
 		$mimetype = ilFileUtils::_lookupMimeType($a_path);
 		ilUtil::deliverFile($a_path, $a_name, $mimetype, false, false, true);
+	}
+
+	/**
+	* Check if crs is a template and start and/or end date is defined
+	*
+	*/
+	public function warningIfTemplateWithDates() {
+		if($this->isStartAndEndDateSet()) {
+			ilUtil::sendInfo($this->lng->txt("gev_crs_tpl_dates_set"));
+		}
 	}
 }

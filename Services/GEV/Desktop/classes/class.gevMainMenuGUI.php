@@ -111,9 +111,9 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 
 		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices || $local_user_admin || $can_create_ha_unit;
 		$is_trainer = $tep; // $tep_permissions->isTutor();
-		$could_do_wbd_registration = $this->wbd->hasWBDRelevantRole() && !$this->wbd->getWBDBWVId() && ($this->wbd->getNextWBDAction() == gevWBD::USR_WBD_NEXT_ACTION_NOTHING);
+		$could_do_wbd_registration = $this->wbd && $this->wbd->hasWBDRelevantRole() && !$this->wbd->getWBDBWVId() && ($this->wbd->getNextWBDAction() == gevWBD::USR_WBD_NEXT_ACTION_NOTHING);
 
-		$manage_course_block_units = true;
+		$manage_course_block_units = ($this->user_utils && !$this->user_utils->notEditBuildingBlocks());
 
 		//get all OrgUnits of superior
 		$arr_org_units_of_superior = $this->user_utils ? $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior() : array();

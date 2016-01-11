@@ -1820,4 +1820,10 @@ class gevUserUtils {
 		
 		return $this->hasRoleIn($roles);
 	}
+
+	public function notEditBuildingBlocks() {
+		$roles = array("Admin-Ansicht");
+
+		return $this->hasRoleIn($roles);
+	}
 }

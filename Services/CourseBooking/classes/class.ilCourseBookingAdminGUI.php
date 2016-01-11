@@ -537,7 +537,9 @@ class ilCourseBookingAdminGUI
 		
 		if(!sizeof($ou_ids))
 		{
-			ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
+			//gev-patch start
+			ilUtil::sendFailure($lng->txt("gev_crs_book_no_perm_at_any_org_units"), true);
+			//gev-patch end
 			$ilCtrl->redirect($this, "listBookings");
 		}
 		
