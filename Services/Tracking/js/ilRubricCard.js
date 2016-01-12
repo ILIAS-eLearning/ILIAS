@@ -33,15 +33,14 @@ var RUBRIC = {
                 var points=this.gatherPointValues(trs[a]);
                 for(var b=0;b<points.length;b++){
                     if(parseInt(points[b]['max'])>points_max){                        
-                        points_max=points[b]['max'];
+                        points_max=parseInt(points[b]['max']);
                     }
                 }
             }else if(this.nodeHasPointRange(trs[a])){
                 // update the group total
                 trs[a].children[1].innerHTML=group_total+' out of '+group_max;
-                
                 //reset group values
-                group_max=group_total=0;                
+                group_max=group_total=points_max=0;                
             }else if(this.nodeHasGrade(trs[a])){
                 // get the group grades                
                 group_max+=parseInt(points_max);
@@ -76,7 +75,7 @@ var RUBRIC = {
             points[key]['min']=broken_range[0];
             points[key]['max']=broken_range[1];
         }
-        
+
         return(points);
     },
     
