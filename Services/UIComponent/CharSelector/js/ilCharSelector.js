@@ -338,13 +338,13 @@ il.CharSelector = new function() {
 
         if($('body.kiosk').length > 0)
         {
-		var topsize = ($("#kioskOptions[name='SEBPlugin']").length > 0) ? $("#kioskOptions").css('height') : "0px";
-		$('#ilCharSelectorPanel').css('top',topsize);
+		    var topsize = ($("#kioskOptions[name='SEBPlugin']").length > 0) ? $("#kioskOptions").css('height') : "0px";
+		    $('#ilCharSelectorPanel').css('top',topsize);
         }
         else
         {
-            var offset = $('.ilMainHeader').offset();
-            $('#ilCharSelectorPanel').css('top', offset.top + $('.ilMainHeader').height());
+            var position = $('.ilMainHeader').position();
+            $('#ilCharSelectorPanel').css('top', position.top + $('.ilMainHeader').height());
         }
 
         $('#ilCharSelectorSpacer').height($('#ilCharSelectorPanel').height()+30);
