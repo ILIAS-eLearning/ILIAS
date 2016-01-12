@@ -70,9 +70,9 @@
         this.max = this.element.data('slider-max')||options.max;
         this.step = this.element.data('slider-step')||options.step;
         this.value = this.element.data('slider-value')||options.value;
-        if (this.value[1]) {
+        //if (this.value[1]) {
             this.range = true;
-        }
+        //}
 
         this.selection = this.element.data('slider-selection')||options.selection;
         this.selectionEl = this.picker.find('.slider-selection');
@@ -176,6 +176,7 @@
                 this.selectionElStyle.left = Math.min(this.percentage[0], this.percentage[1]) +'%';
                 this.selectionElStyle.width = Math.abs(this.percentage[0] - this.percentage[1]) +'%';
             }
+                            
             if (this.range) {
                 this.tooltipInner.text(
                     this.formater(this.value[0]) + 
