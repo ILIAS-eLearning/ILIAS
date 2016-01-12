@@ -15639,3 +15639,6 @@ sysc#:#sysc_btn_tree_structure#:#Baumstruktur neu generieren
 wiki#:#wiki_page_list_mode#:#Listentyp
 wiki#:#wiki_page_list_mode_unordered#:#Nicht nummeriert
 wiki#:#wiki_page_list_mode_ordered#:#Nummeriert
+blog#:#blog_news_title#:#%1$s von %2$s
+blog#:#blog_news_posting_updated#:#Ein Blogbeitrag wurde aktualisiert.
+blog#:#blog_news_posting_published#:#Ein neuer Blogbeitrag wurde veröffentlicht.
