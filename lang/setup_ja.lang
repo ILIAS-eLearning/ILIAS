@@ -15,13 +15,14 @@
 <!-- language file start -->
 3rd_party_software#:#サードパーティｰ製のツール
 3rd_party_software_opt#:#サードパーティｰ製ツールオプション
-3rd_party_software_req#:#サードパーティｰ製ツールが必要
+3rd_party_software_req#:#サードパーティｰ製ツールの要件
 3rdparty#:#サードパーティｰ製のツール
 absolute_path#:#絶対Path
 access#:#アクセス
 access_status#:#アクセス状態
 activate_global_cache#:#有効
 admin_login#:#マスターパスワードでログイン
+alert#:#警告
 antivir#:#ウイルス監視
 applied_custom_updates#:#カスタム更新適用済
 applied_hotfixes#:#適用済みHotfix
@@ -33,6 +34,16 @@ available_hotfixes#:#適用可能なHotfix
 available_languages#:#利用可能な言語
 back#:#戻る
 basic_settings#:#基本設定
+cache_activate_clng#:#言語
+cache_activate_comp#:#コンポーネント
+cache_activate_events#:#イベント
+cache_activate_ilctrl#:#コントロールフロー
+cache_activate_obj_def#:#オブジェクト定義
+cache_activate_tpl#:#テンプレート(HTML)
+cache_activate_tpl_blocks#:#テンプレート(Blocks)
+cache_activate_tpl_variables#:#テンプレート(変数)
+cache_activated_components#:#アクティブ化済みコンポーネント
+cache_flush#:#全てのキャッシュをフラッシュ
 cannot_create_datadir_no_write_access#:#書込み禁止。データディレクトリを作成できません。
 change#:#変更
 change_basic_settings#:#基本設定の変更
@@ -90,7 +101,7 @@ create_webdir_failed#:#Webディレクトリの作成に失敗しました。
 ctrl_missing_desc#:#制御構造が未設定です。'リロード'を押してください。
 ctrl_structure#:#制御構造
 ctrl_structure_desc#:#アップデートやパッチの手順書に明確な説明がない限りこの機能は使用しないでください。
-ctrl_structure_reload#:#リロード制御構造
+ctrl_structure_reload#:#制御構造をリロード
 ctrl_structure_reloaded#:#制御構造をリロードしました。
 custom_update_applied#:#カスタム更新が適用されました
 custom_updates_available#:#カスタム更新可能
@@ -148,7 +159,7 @@ delete#:#削除
 delete_confirm#:#クライアント削除の確認
 delete_info#:#本当に実行しますか?
 details#:#詳細
-determine_tools_paths#:#ツールのPathを決定
+determine_tools_paths#:#ツールPath決定を実行
 dir_exists_create#:#すでにデイレクトリーが存在します。"作成"のチェックを外して、このディレクトリをデータディレクトリにします。
 disable#:#表示しない
 disable_check#:#確認
@@ -238,7 +249,7 @@ info_text_list#:#ここでは利用可能な全ユーザーやセットアップ
 info_text_login#:#インストールとアカウントデータのクライアントIDを入力してください。アカウントは管理者役割で割り当てる必要があります。
 info_text_nic#:#登録オプションでILIASオープンソースコミュニティーサーバからインストールID(NIC-ID)を入手します。別のILIASインストールと内容を共有したい場合はNIC-IDの入手が可能です。
 info_text_nic3#:#インストールを登録しました。ネットワークインターフェースカードのIDです
-info_text_password#:#セットアッププログラムのマスターパスワードをここで変更できます。
+info_text_passwd#:#パスワード設定
 info_text_password#:#セットアッププログラム用のマスターパスワードを変更できます
 info_text_pathes#:#ILIASは異なるデータベースのマルチクライアントをサポートします。データベースのディレクトリ、ログファイルの場所、サードパーティ製ツールのPathを以下に入力してください。これらの設定はすべてのクライアントを作成した後に有効になります。
 info_text_proxy#:#Proxy設定
@@ -331,6 +342,18 @@ login_to_ilias#:#ILIASへログイン
 logout#:#ログアウト
 main_datadir_outside_webspace#:#外部のWeb上のメインデータディレクトリ
 master_password#:#マスターパスワードです。
+memcache_actions#:#Actions
+memcache_add#:#Memcached nodeを追加
+memcache_cancel#:#キャンセル
+memcache_delete#:#nodeを削除
+memcache_edit#:#nodeを編集
+memcache_host#:#Host
+memcache_port#:#Port
+memcache_servers#:#Memcached-Nodes
+memcache_status#:#アクティブ
+memcache_status_server#:#到達可能
+memcache_update#:#ノードを保存
+memcache_weight#:#Weight
 missing_data#:#データ未入力
 msg_input_is_required#:#入力必須です。値を入力してください。
 mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x以前
@@ -438,12 +461,14 @@ pre_gd_missing#:#PHPインストール中のGDサポートを可能にしてく�
 pre_intro#:#この環境においてインストールの要件を満たしILIASが稼働するかどうかを最初に確認します。
 pre_javascript_comment#:#JavaScriptなしでILIASは動作しますが利用できないインターフェース機能があります。
 pre_javascript_enabled#:#JavaScriptを有効にしました
+pre_load_comments#:#PHP-OPCache load_comments
 pre_memory#:#PHPメモリー制限の設定(php.ini)
 pre_memory_limit_recommend#:#80M以上の設定を推奨します。
 pre_memory_limit_too_low#:#PHPのメモリー制限値は最低でも40Mに設定してください。80M以上を推奨します。
 pre_mysql#:#MySQLのサポート
 pre_mysql_4_1_or_higher#:#ILIASを稼働するにはMySQL 4.1以降が必要です。
 pre_mysql_missing#:#PHPインストールの際には、MySQLのサポート(バージョンは4.1以降)を有効にしてください。
+pre_opcache_comments#:#opcache.load_commentsを1に設定
 pre_php#:#PHPのバージョン
 pre_php_version_too_low#:#このPHPバージョンはサポートしていません。PHP 5.2.1以降のご利用を推奨します。PHP 6.0は未テストです。
 pre_root#:#書き込み可能なWeb上のメインフォルダー
@@ -582,10 +607,10 @@ tinymce_wysiwyg_editor#:#TinyMCE WYSIWYGエディター
 title#:#役職
 tools#:#ツール
 tree_implementation#:#ツリー構造
-tree_implementation_mp#:#経路実体化モデル
+tree_implementation_mp#:#経路列挙モデル
 tree_implementation_ns#:#入れ子集合モデル
-tree_implementation_switch_btn#:#ツリー構造へ切り替え
-tree_implementation_switched#:#ツリー構造タイプが切り替えました。
+tree_implementation_switch_btn#:#ツリー構造を切り替え
+tree_implementation_switched#:#ツリー構造タイプが切り替わりました。
 unknown_client_id#:#不明なクライアント
 unknown_command#:#不明なコマンド
 unknown_display_mode#:#不明な表示モード
@@ -608,29 +633,3 @@ zip_path#:#ZipのPath
 zip_path_comment#:#エクスポートファイルの作成用　例 '/your_path/zip'
 zip_path_comment_win#:#インポートファイルの解凍用　例 'C
 zipcode#:#郵便番号
-info_text_passwd#:#Password Settings###30 08 2015 new variable
-alert#:#Warning###30 08 2015 new variable
-pre_opcache_comments#:#Set opcache.load_comments to 1###30 08 2015 new variable
-pre_load_comments#:#PHP-OPCache load_comments###30 08 2015 new variable
-memcache_servers#:#Memcached-Nodes###30 08 2015 new variable
-memcache_status#:#Active###30 08 2015 new variable
-memcache_host#:#Host###30 08 2015 new variable
-memcache_port#:#Port###30 08 2015 new variable
-memcache_weight#:#Weight###30 08 2015 new variable
-memcache_actions#:#Actions###30 08 2015 new variable
-memcache_edit#:#Edit node###30 08 2015 new variable
-memcache_add#:#Add Memcached node###30 08 2015 new variable
-memcache_delete#:#Delete node###30 08 2015 new variable
-memcache_cancel#:#Cancel###30 08 2015 new variable
-memcache_update#:#Save node###30 08 2015 new variable
-memcache_status_server#:#Reachable###30 08 2015 new variable
-cache_activate_clng#:#Language###30 08 2015 new variable
-cache_activate_obj_def#:#Object Definition###30 08 2015 new variable
-cache_activate_ilctrl#:#Control Flow###30 08 2015 new variable
-cache_activate_comp#:#Components###30 08 2015 new variable
-cache_activate_tpl#:#Template (HTML)###30 08 2015 new variable
-cache_activate_events#:#Events###30 08 2015 new variable
-cache_activated_components#:#Activated Components###30 08 2015 new variable
-cache_flush#:#Flush all caches###30 08 2015 new variable
-cache_activate_tpl_blocks#:#Template (Blocks)###30 08 2015 new variable
-cache_activate_tpl_variables#:#Template (Variablen###30 08 2015 new variable
