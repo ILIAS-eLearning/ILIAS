@@ -1306,6 +1306,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$auto->setSearchFields($fields);
 		$auto->setResultField('login');
 		$auto->enableFieldSearchableCheck(true);
+		$auto->setMoreLinkAvailable(true);
+
+		if(($_REQUEST['fetchall']))
+		{
+			$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
+		}
+
 		echo $auto->getList(ilUtil::stripSlashes($_REQUEST['term']));
 		exit();
 	}			

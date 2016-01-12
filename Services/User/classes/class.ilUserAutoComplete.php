@@ -70,6 +70,11 @@ class ilUserAutoComplete
 	private $user_limitations = true;
 
 	/**
+	 * @var bool
+	 */
+	private $more_link_available = false;
+
+	/**
 	 * Default constructor
 	 */
 	public function __construct()
@@ -266,7 +271,7 @@ class ilUserAutoComplete
 		$result = array();
 		while(($rec = $ilDB->fetchAssoc($res)) && $cnt < ($max + 1))
 		{
-			if($cnt >= $max)
+			if($cnt >= $max && $this->isMoreLinkAvailable())
 			{
 				$more_results = TRUE;
 				break;
@@ -513,4 +518,24 @@ class ilUserAutoComplete
 	{
 		return $this->user_limitations;
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isMoreLinkAvailable()
+	{
+		return $this->more_link_available;
+	}
+
+	/**
+	 * IMPORTANT: remember to read request parameter 'fetchall' to use this function
+	 *
+	 * @param boolean $more_link_available
+	 */
+	public function setMoreLinkAvailable($more_link_available)
+	{
+		$this->more_link_available = $more_link_available;
+	}
+
+
 }
