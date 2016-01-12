@@ -9885,7 +9885,7 @@ li.smallPad {
   padding-left: 10px;
 }
 .ilCourseObjectiveProgressBarContainer > .progress {
-  margin: 5px 0 0;
+  margin: 2px 0 0;
   border: 1px solid #BBB;
   background-color: white;
 }
