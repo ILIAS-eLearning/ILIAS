@@ -79,3 +79,8 @@ $ilDB->dropTableColumn("rubric_data", "rubric_label_id");
 $ilDB->addTableColumn("rubric_data", "criteria_point", array("type" => "integer", "length" => 3));
 
 ?>
+<#4>
+<?php
+$ilDB->modifyTableColumn('rubric_behavior', 'description',array("type" => "text", "length" => 1000));
+?>
+
