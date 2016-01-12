@@ -12,9 +12,7 @@ set_time_limit(0);
 
 class ilObjReportOrguAtt extends ilObjReportBase {
 	protected $relevant_parameters = array();
-	protected $sum_parts_reg = array();
-	protected $sum_parts_sum = array();
-
+	protected $sum_parts = array();
 	public function __construct($ref_id) {
 		parent::__construct($ref_id);
 
@@ -31,7 +29,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 	}
 
 	protected function buildSumTable(catReportTable $table) {
-		foreach ($this->sum_parts_sum as $title => $query) {
+		foreach ($this->sum_parts as $title => $query) {
 			$table
 				->column($title,$this->plugin->txt($title),true);
 		}
@@ -53,9 +51,9 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 	protected function buildTable($table) {
 		$table	->column("orgu_title", $this->plugin->txt('orgu_title'),true)
 				->column("odbd", $this->plugin->txt('od_bd'),true);
-		foreach ($this->sum_parts_reg as $title => $query) {
+		foreach ($this->sum_parts as $title => $query) {
 			$table
-				->column($title,$this->plugin->txt($title),true);
+				->column($title, $this->plugin->txt($title),true);
 		}
 		return parent::buildTable($table);
 	}
@@ -68,9 +66,9 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		$query	->select("orgu.orgu_title")
 				->select("orgu.org_unit_above1")
 				->select("orgu.org_unit_above2");
-		foreach ($this->sum_parts_reg as $title => $query_term) {
+		foreach ($this->sum_parts as $title => $query_term) {
 			$query
-				->select_raw($query_term);
+				->select_raw($query_term["regular"]);
 		}
 		$query	->from("hist_userorgu orgu")
 				->left_join("hist_usercoursestatus usrcrs")
@@ -83,9 +81,13 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 	}
 
 	protected function deliverSumQuery() {
+		$sum_terms = array();
+		foreach ($this->sum_parts as $title => $query_term) {
+			$sum_terms[] = $query_term["sum"];
+		}
 		$sum_sql = 
 		"SELECT  "
-		."	".implode(",\n", $this->sum_parts_sum)
+		."	".implode(', ',$sum_terms)
 		." 	FROM("
 		."		SELECT DISTINCT orgu.usr_id, crs.crs_id, usrcrs.booking_status, "
 		."			usrcrs.participation_status, crs.type "
@@ -100,17 +102,17 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		return $sum_sql;
 	}
 
-	public function insertSumData($table) {
+	public function insertSumData($table, callable $callback) {
 		$res = $this->gIldb->query($this->deliverSumQuery());
 		$summed_data = $this->gIldb->fetchAssoc($res);
 
 		if(count($summed_data) == 0) {
 			$summed_data = array();
-			foreach($this->sum_parts_sum as $name => $query) {
+			foreach($this->sum_parts as $name => $query) {
 				$summed_data[$name] = 0;
 			}
 		}
-		$table->setData(array($summed_data));
+		$table->setData(array(call_user_func($callback,$summed_data)));
 		return $table;
 	}
 
