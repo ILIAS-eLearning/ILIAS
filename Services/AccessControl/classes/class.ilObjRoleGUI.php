@@ -53,7 +53,13 @@ class ilObjRoleGUI extends ilObjectGUI
 		define("USER_FOLDER_ID",7);
 		
 		// Add ref_id of object that contains this role folder
-		$this->obj_ref_id = (int) $_GET['ref_id'];
+		
+		$this->obj_ref_id = 
+				((int) $_REQUEST['rolf_ref_id'] ?
+				(int) $_REQUEST['rolf_ref_id'] :
+				(int) $_REQUEST['ref_id']
+		);
+		
 		$this->obj_obj_id = ilObject::_lookupObjId($this->getParentRefId());
 		$this->obj_obj_type = ilObject::_lookupType($this->getParentObjId());
 		
@@ -61,7 +67,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->type = "role";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
-		$this->ctrl->saveParameter($this, array("obj_id"));
+		$this->ctrl->saveParameter($this, array('obj_id', 'rolf_ref_id'));
 	}
 
 
