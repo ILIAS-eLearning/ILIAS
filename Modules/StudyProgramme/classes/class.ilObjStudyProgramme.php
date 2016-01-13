@@ -209,7 +209,7 @@ class ilObjStudyProgramme extends ilContainer {
 		try {
 			$this->deleteAssignments();
 		} catch(ilStudyProgrammeTreeException $e) {
-			
+	        // This would be the case when SP is in trash (#17797)
 		}
 		
 		return true;
