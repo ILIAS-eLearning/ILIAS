@@ -1250,6 +1250,10 @@ class gevCourseUtils {
 					ilUtil::sendInfo($this->lng->txt("gev_vc_send_invitation_mail_reminder"));
 				}
 				else {
+					$this->setVirtualClassLink(null);
+					$this->setVirtualClassPassword(null);
+					$this->setVirtualClassPasswordTutor(null);
+					$this->setVirtualClassLoginTutor(null);
 					ilUtil::sendFailure($this->lng->txt("gev_vc_no_free_url"));
 				}
 			}
@@ -1281,6 +1285,10 @@ class gevCourseUtils {
 				ilUtil::sendInfo($this->lng->txt("gev_vc_send_invitation_mail_reminder"));
 			}
 			else {
+				$this->setVirtualClassLink(null);
+				$this->setVirtualClassPassword(null);
+				$this->setVirtualClassPasswordTutor(null);
+				$this->setVirtualClassLoginTutor(null);
 				ilUtil::sendFailure($this->lng->txt("gev_vc_no_free_url"));
 			}
 		}
