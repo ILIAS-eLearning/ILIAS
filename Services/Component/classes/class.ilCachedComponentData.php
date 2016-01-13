@@ -12,15 +12,11 @@ class ilCachedComponentData {
 	/**
 	 * @var array
 	 */
-	protected static $cached_results = array();
+	protected $cached_results = array();
 	/**
 	 * @var ilCachedComponentData
 	 */
 	protected static $instance;
-	/**
-	 * @var array
-	 */
-	protected static $stored_results = array();
 	/**
 	 * @var bool
 	 */
@@ -450,8 +446,8 @@ class ilCachedComponentData {
 	public function lookupSubObjForParent($parent) {
 		if (is_array($parent)) {
 			$index = md5(serialize($parent));
-			if (isset(self::$cached_results['subop_par'][$index])) {
-				return self::$cached_results['subop_par'][$index];
+			if (isset($this->cached_results['subop_par'][$index])) {
+				return $this->cached_results['subop_par'][$index];
 			}
 
 			$return = array();
@@ -463,7 +459,7 @@ class ilCachedComponentData {
 				}
 			}
 
-			self::$cached_results['subop_par'][$index] = $return;
+			$this->cached_results['subop_par'][$index] = $return;
 			$this->changed = true;
 
 			return $return;
@@ -504,8 +500,10 @@ class ilCachedComponentData {
 
 
 	public function __destruct() {
-		if ($this->changed) {
-			$this->global_cache->set('ilCachedComponentData', $this);
+		$ilGlobalCache = ilGlobalCache::getInstance(ilGlobalCache::COMP_COMPONENT);
+		if ($this->changed && $ilGlobalCache->isActive()) {
+			$this->changed = false;
+			$ilGlobalCache->set('ilCachedComponentData', $this);
 		}
 	}
 
@@ -534,7 +532,7 @@ class ilCachedComponentData {
 				}
 			}
 			$this->changed = true;
-			$cached_results['grpd_repo'][$index] = $return;
+			$this->cached_results['grpd_repo'][$index] = $return;
 
 			return $return;
 		} else {
