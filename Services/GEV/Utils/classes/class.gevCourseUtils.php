@@ -27,12 +27,13 @@ class gevCourseUtils {
 	const RECIPIENT_STANDARD = "standard";
 	
 	protected function __construct($a_crs_id) {
-		global $ilDB, $ilLog, $lng, $ilCtrl, $rbacreview, $rbacadmin, $rbacsystem;
+		global $ilDB, $ilLog, $lng, $ilCtrl, $rbacreview, $rbacadmin, $rbacsystem, $tree;
 		
 		$this->db = &$ilDB;
 		$this->log = &$ilLog;
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
+		$this->gTree = $tree;
 		
 		$this->lng->loadLanguageModule("crs");
 		
@@ -3597,5 +3598,21 @@ class gevCourseUtils {
 		if($this->isStartAndEndDateSet()) {
 			ilUtil::sendInfo($this->lng->txt("gev_crs_tpl_dates_set"));
 		}
+	}
+
+	/**
+	* Gets the Categoryname X Level Above
+	*
+	* @param int 		$level
+	* @return string
+	*/
+	public function getCategoryNameXLevelAbove($level) {
+		$ret = "";
+		$obj_ref_id = $this->getRefId();
+		for($i = 0; $i < $level; $i++) {
+			$obj_ref_id = $this->gTree->getParentId($obj_ref_id);
+		}
+
+		return ilObject::_lookupTitle(ilObject::_lookupObjId($obj_ref_id));
 	}
 }

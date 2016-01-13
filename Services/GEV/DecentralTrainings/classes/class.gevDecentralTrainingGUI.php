@@ -33,6 +33,7 @@ require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevUVGOrgUnits.php");
 require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+require_once("Services/GEV/Form/classes/class.gevOptgroupSelectInputGUI.php");
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 require_once("Services/Form/classes/class.ilMultiSelectInputGUI.php");
 
@@ -901,32 +902,14 @@ class gevDecentralTrainingGUI {
 			if ($key === null) {
 				$key = strtolower(str_replace(" ", "_", $info["ltype"]));
 			}
-			$templates[$info["ltype"]][$info["obj_id"]] = $info["title"];
+			$templates[$info["ltype"]][$info["group"]][$info["obj_id"]] = $info["title"];
 		}
-		
-		//load templates id's for flexible trainings
-		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
-		$settings_utils = gevSettings::getInstance();
-		$presence_flexible_tpl_id = $settings_utils->getDctTplFlexPresenceObjId();
-		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
-		$should_see_presence_flexible = false;
-		$should_see_webinar_flexible = false;
 
 		$ltype_choice = new ilRadioGroupInputGUI($this->lng->txt("gev_course_type"), "ltype");
 		$form->addItem($ltype_choice);
-		$selected = "presence_flexible";
+		$selected = "";
 
-		foreach ($templates as $ltype => $tmplts) {
-			if(array_key_exists($presence_flexible_tpl_id,$tmplts)) {
-				$should_see_presence_flexible = true;
-				unset($tmplts[$presence_flexible_tpl_id]);
-			}
-
-			if(array_key_exists($webinar_flexible_tpl_id,$tmplts)) {
-				$should_see_webinar_flexible = true;
-				unset($tmplts[$webinar_flexible_tpl_id]);
-			}
-
+		foreach ($templates as $ltype => $groups) {
 			$desc = "";
 			if($ltype == "Präsenztraining") {
 				$desc = $this->lng->txt("gev_dec_training_presence_fix");
@@ -941,27 +924,28 @@ class gevDecentralTrainingGUI {
 				}
 			}
 
-			if(empty($tmplts)) {
-				if($selected != "präsenztraining") {
-					$selected = "presence_flexible";
-				}
-				continue;
-			}
-
 			$key = strtolower(str_replace(" ", "_", $ltype));
 			$ltype_opt = new ilRadioOption($desc, $key);
 			$ltype_choice->addOption($ltype_opt);
 			
-			$training_select = new ilSelectInputGUI($this->lng->txt("gev_dec_training_template"), $key."_template");
-			$tmplts = array("-1"=>"-") + $tmplts;
-			$training_select->setOptions($tmplts);
+			$training_select = new gevOptgroupSelectInputGUI($this->lng->txt("gev_dec_training_template"), $key."_template");
+			$training_select->setOptions($groups);
 
 			$ltype_opt->addSubItem($training_select);
 		}
 		
-	
+		//load templates id's for flexible trainings
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		$settings_utils = gevSettings::getInstance();
+		$presence_flexible_tpl_id = $settings_utils->getDctTplFlexPresenceObjId();
+		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
+
 		//Präsenztraining Flexsibel
-		if($should_see_presence_flexible) {
+		if($presence_flexible_tpl_id) {
+			if($selected == "") {
+				$selected = "presence_flexible";
+			}
+
 			$presence_flexible = new ilRadioOption($this->lng->txt("gev_dec_training_presence_flex"), "presence_flexible");
 			$ltype_choice->addOption($presence_flexible);
 		
@@ -969,10 +953,13 @@ class gevDecentralTrainingGUI {
 			$presence_flexible_tpl_id_hidden->setValue($presence_flexible_tpl_id);
 			$form->addItem($presence_flexible_tpl_id_hidden);
 		}
-		
-		
+
 		//Webinar Flexsibel
-		if($should_see_webinar_flexible) {
+		if($webinar_flexible_tpl_id) {
+			if($selected == "") {
+				$selected = "webinar_flexible";
+			}
+
 			$webinar_flexible = new ilRadioOption($this->lng->txt("gev_dec_training_webinar_flex"), "webinar_flexible");
 			$ltype_choice->addOption($webinar_flexible);
 		
