@@ -12,15 +12,11 @@ class ilCachedComponentData {
 	/**
 	 * @var array
 	 */
-	protected static $cached_results = array();
+	protected $cached_results = array();
 	/**
 	 * @var ilCachedComponentData
 	 */
 	protected static $instance;
-	/**
-	 * @var array
-	 */
-	protected static $stored_results = array();
 	/**
 	 * @var bool
 	 */
@@ -397,7 +393,7 @@ class ilCachedComponentData {
 	 * @return ilCachedComponentData
 	 */
 	public static function getInstance() {
-		if (! isset(self::$instance)) {
+		if (!isset(self::$instance)) {
 			$global_cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_COMPONENT);
 			$cached_obj = $global_cache->get('ilCachedComponentData');
 			if ($cached_obj instanceof ilCachedComponentData) {
@@ -450,8 +446,8 @@ class ilCachedComponentData {
 	public function lookupSubObjForParent($parent) {
 		if (is_array($parent)) {
 			$index = md5(serialize($parent));
-			if (isset(self::$cached_results['subop_par'][$index])) {
-				return self::$cached_results['subop_par'][$index];
+			if (isset($this->cached_results['subop_par'][$index])) {
+				return $this->cached_results['subop_par'][$index];
 			}
 
 			$return = array();
@@ -463,7 +459,7 @@ class ilCachedComponentData {
 				}
 			}
 
-			self::$cached_results['subop_par'][$index] = $return;
+			$this->cached_results['subop_par'][$index] = $return;
 			$this->changed = true;
 
 			return $return;
@@ -491,7 +487,7 @@ class ilCachedComponentData {
 	 * @return mixed
 	 */
 	public function lookupCompInfo($type, $name) {
-		if (! $type) {
+		if (!$type) {
 			if (isset($this->obj_def_name_and_type_raw['Modules'][$name])) {
 				$type = 'Modules';
 			} else {
@@ -506,6 +502,7 @@ class ilCachedComponentData {
 	public function __destruct() {
 		$ilGlobalCache = ilGlobalCache::getInstance(ilGlobalCache::COMP_COMPONENT);
 		if ($this->changed && $ilGlobalCache->isActive()) {
+			$this->changed = false;
 			$ilGlobalCache->set('ilCachedComponentData', $this);
 		}
 	}
@@ -528,14 +525,14 @@ class ilCachedComponentData {
 			foreach ($parent as $p) {
 				$s = $this->grouped_rep_obj_types[$p];
 				foreach ($s as $child) {
-					if (! in_array($child['sid'], $sids)) {
+					if (!in_array($child['sid'], $sids)) {
 						$sids[] = $child['sid'];
 						$return[] = $child;
 					}
 				}
 			}
 			$this->changed = true;
-			$cached_results['grpd_repo'][$index] = $return;
+			$this->cached_results['grpd_repo'][$index] = $return;
 
 			return $return;
 		} else {
