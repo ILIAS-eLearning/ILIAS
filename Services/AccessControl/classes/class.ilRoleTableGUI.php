@@ -341,7 +341,13 @@ class ilRoleTableGUI extends ilTable2GUI
 		$rows = array();
 		foreach((array) $role_list as $role)
 		{
-			if($role['parent'] and $GLOBALS['tree']->isDeleted($role['parent']))
+			if(
+				$role['parent'] and 
+					(
+						$GLOBALS['tree']->isDeleted($role['parent']) or
+						!$GLOBALS['tree']->isInTree($role['parent'])
+					)
+			)
 			{
 				continue;
 			}
