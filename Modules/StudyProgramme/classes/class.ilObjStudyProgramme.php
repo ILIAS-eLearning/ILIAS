@@ -206,7 +206,12 @@ class ilObjStudyProgramme extends ilContainer {
 		}
 
 		$this->deleteSettings();
-		$this->deleteAssignments();
+		try {
+			$this->deleteAssignments();
+		} catch(ilStudyProgrammeTreeException $e) {
+			
+		}
+		
 		return true;
 	}
 	
