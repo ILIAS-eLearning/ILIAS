@@ -7782,13 +7782,9 @@ a.il_HighlightedNode,
   padding: 0 5px;
 }
 li.ilExplSecHighlight {
-<<<<<<< HEAD
-  background-color: #FFFFFF !important;
+  background-color: #ffffff !important;
   border-top: solid 2px #e9ea00;
   border-bottom: solid 2px #e9ea00;
-=======
-  background-color: #ffffff !important;
->>>>>>> 9eb93b5... fixed bug #15139: Usability: Edit lock time should be displayed for editor
 }
 div.il_ExplorerItemDescription {
   margin-left: 40px;
@@ -8096,11 +8092,11 @@ div.ilFrmPostHeader span.small {
   margin: 0 0 3px;
 }
 .ilModeratorPosting {
-  background-color: #FF9;
+  background-color: #ffff99;
   padding: 0 5px;
 }
 .ilPostingNeedsActivation {
-  background-color: #FFE4E4;
+  background-color: #ffe4e4;
   padding: 0 5px;
 }
 .ilFrmBottomToolbar {
@@ -9889,7 +9885,7 @@ li.smallPad {
   padding-left: 10px;
 }
 .ilCourseObjectiveProgressBarContainer > .progress {
-  margin: 2px 0 0;
+  margin: 5px 0 0;
   border: 1px solid #BBB;
   background-color: white;
 }
@@ -10533,15 +10529,7 @@ div#il_startup_logo img {
 /* Services/UIComponent/Toolbar */
 .ilToolbar.navbar {
   border: 0;
-<<<<<<< HEAD
-  background-color: #F9F9F9;
-=======
   background-color: #f9f9f9;
-  margin-bottom: 20px;
-  font-size: 90%;
-  white-space: nowrap;
-  border-radius: 0;
->>>>>>> 9eb93b5... fixed bug #15139: Usability: Edit lock time should be displayed for editor
 }
 .ilToolbar .ilToolbarItems {
   padding: 0;
