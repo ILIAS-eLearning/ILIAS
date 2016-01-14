@@ -1224,6 +1224,10 @@ return;
 					$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
 					$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
 
+					include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
+					ilModalGUI::initJS();
+					$lng->toJS("cont_error");
+
 					include_once './Services/Style/classes/class.ilObjStyleSheet.php';
 					$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
 						preloader.src = './templates/default/images/loader.svg';
