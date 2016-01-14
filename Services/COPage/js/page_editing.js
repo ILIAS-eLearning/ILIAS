@@ -53,7 +53,7 @@ var ilCOPage =
 		 "<a href='http://www.ilias.de/mantis' target='_blank'>http://www.ilias.de/mantis</a>." +
 		 "<p><b>User Agent</b></p>" +
 		 navigator.userAgent + */
-		estr = "<p><b>Error</b></p>";
+		estr = "";
 
 		if (ilCOPage.error_str.substr(0,10) == "nocontent#") {
 			ilCOPage.error_str = ilCOPage.error_str.substr(10);
@@ -68,32 +68,13 @@ var ilCOPage =
 			estr = estr + content;
 		}
 
-
-		var epan = document.getElementById('error_panel_inner');
-		if (!epan)
-		{
-			var ediv = document.createElement('div');
-//			var mc = document.getElementById("il_CenterColumn");
-
-			ediv.innerHTML = "<div style='background-color:#FFFFFF;' id='error_panel'>" +
-				"<div style='padding:20px; width:800px; height: 350px; overflow:auto;' id='error_panel_inner'>" + estr + "</div></div>";
-			ediv.className = "yui-skin-sam";
-			$('body').append(ediv);
-//			ediv = mc.appendChild(ediv);
-			var error_panel = new YAHOO.widget.Panel("error_panel", {
-				close: true,
-				constraintoviewport:true
-			});
-			error_panel.render();
-			error_panel.moveTo(20, 20);
-			ilCOPage.error_panel = error_panel;
-		}
-		else
-		{
-			epan.innerHTML =
-				estr;
-			ilCOPage.error_panel.show();
-		}
+		il.Modal.dialogue({
+			id: "il_pg_error_modal",
+			show: true,
+			header: il.Language.txt("cont_error"),
+			buttons: {}
+		});
+		$("#il_pg_error_modal .modal-body").html(estr + "<br />");
 	},
 
 	////
