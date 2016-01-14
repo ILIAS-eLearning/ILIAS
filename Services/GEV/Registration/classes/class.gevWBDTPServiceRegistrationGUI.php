@@ -109,7 +109,7 @@ class gevWBDTPServiceRegistrationGUI {
 	}
 
 	protected function noBWVId() {
-		$this->user_utils->setRawWBDOKZ(gevWBD::WBD_NO_OKZ);
+		$this->wbd->setRawWBDOKZ(gevWBD::WBD_NO_OKZ);
 		$this->wbd->setWBDRegistrationDone();
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_no_bwv_id_service"), true);
 		$this->redirectToBookingOr("");
