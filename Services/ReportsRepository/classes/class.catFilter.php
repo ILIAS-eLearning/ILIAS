@@ -621,7 +621,8 @@ class catMultiSelectFilter {
 	// height (optional, defaults to 75)
 	// field type (optional, default to "text")
 	// filter-options sorting (defaults to "asc", also possible  "desc", "none")
-	
+	// custom labels
+	// ignore in filterWhere
 	public function checkConfig($a_conf) {
 		if (count($a_conf) < 6) {
 			// one parameter less, since type is encoded in first parameter but not passed by user.
@@ -635,6 +636,7 @@ class catMultiSelectFilter {
 			$a_conf[] = "text"; // type
 			$a_conf[] = "asc"; //filter-options sorting
 			$a_conf[] = false; //filter-options custom labels
+			$a_conf[] = false; //ignore in filterwhere
 		}
 		else if (count($a_conf) === 7) {
 			$a_conf[] = 200; // width
@@ -642,24 +644,31 @@ class catMultiSelectFilter {
 			$a_conf[] = "text"; // type
 			$a_conf[] = "asc"; //filter-options sorting
 			$a_conf[] = false; //filter-options custom labels
+			$a_conf[] = false; //ignore in filterwhere
 		}
 		else if (count($a_conf) === 8) {
 			$a_conf[] = 160; // height
 			$a_conf[] = "text"; // type
 			$a_conf[] = "asc"; //filter-options sorting
 			$a_conf[] = false; //filter-options custom labels
+			$a_conf[] = false; //ignore in filterwhere
 		}
 		else if (count($a_conf) === 9) {
 			$a_conf[] = "text"; // type
 			$a_conf[] = "asc"; //filter-options sorting
 			$a_conf[] = false; //filter-options custom labels
+			$a_conf[] = false; //ignore in filterwhere
 		}
 		else if (count($a_conf) === 10) {
 			$a_conf[] = "asc"; //filter-options sorting
 			$a_conf[] = false; //filter-options custom labels
+			$a_conf[] = false; //ignore in filterwhere
 		}
 		else if (count($a_conf) === 11) {
 			$a_conf[] = false; //filter-options custom labels
+			$a_conf[] = false; //ignore in filterwhere
+		} else if (count($a_conf) === 12) {
+			$a_conf[] = false; //ignore in filterwhere
 		}
 		
 		return $a_conf;
@@ -722,7 +731,7 @@ class catMultiSelectFilter {
 	
 	public function sql($a_conf, $a_pars) {
 		global $ilDB;
-		if (count($a_pars) == 0) {
+		if ($a_conf[12] || count($a_pars) == 0) {
 			return " TRUE ";
 		}
 		
@@ -932,4 +941,146 @@ class catMultiSelectCustomFilter {
 		return $a_post;
 	}
 }
+
 catFilter::addFilterType(catMultiSelectCustomFilter::ID, new catMultiSelectCustomFilter());
+
+class recursiveOrguFilter {
+	protected $filter_options;
+	protected $filtered_orgus;
+	protected $field;
+	protected $recursive;
+	protected $filter;
+	protected $id;
+	protected $gIldb;
+
+	public function __construct($id, $field, $possibly_recursive, $ignore_in_filter_where) {
+		$this->id = $id;
+		$this->possibly_recursive = $possibly_recursive;
+		$this->field = $field;
+		global $ilDB;
+		$this->gIldb = $ilDB;
+	}
+
+	public function addToFilter($filter) {
+		global $lng;
+		if($this->possibly_recursive) {
+			$filter	->checkbox(	   $this->id.'_recursive'
+								 , $lng->txt("gev_org_unit_recursive")
+								 , " TRUE "
+								 , " TRUE "
+								 );
+		}
+		$filter		->multiselect( $this->id
+								 , $lng->txt("gev_org_unit_short")
+								 , $this->field
+								 , $this->filter_options
+								 , array()
+								 , ""
+								 , 300
+								 , 160
+								 , "text"
+								 , "asc"
+								 , true
+								 , $this->possibly_recursive || $this->ignore_in_filter_where
+								 );
+		$this->filter = $filter;
+		return $filter;
+	}
+
+	public function setFilterOptionsByArray(array $org_ids) {
+		$options = array();
+
+		foreach ($org_ids as $obj_id) {
+			$options[ilObject::_lookupTitle($obj_id)] = $obj_id;
+		}
+
+		$this->filter_options = $options;
+	}
+
+	public function setFilterOptionsByUser(gevUserUtils $user_utils) {
+		$never_skip = $user_utils->getOrgUnitsWhereUserIsDirectSuperior();
+
+		array_walk($never_skip,
+			function (&$obj_ref_id) {
+				$obj_ref_id = $obj_ref_id["obj_id"];
+			}
+		);
+
+		$superior_orgunits = $user_utils->getOrgUnitsWhereUserIsSuperior();
+		array_walk($superior_orgunits,
+			function (&$obj_ref_id) {
+				$obj_ref_id = $obj_ref_id["obj_id"];
+			}
+		);
+
+		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
+		array_walk($skip_org_units_in_filter_below,
+			function(&$title) {
+				/*$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
+				$title = gevObjectUtils::getRefId($title);
+				$aux = array();
+				foreach (gevOrgUnitUtils::getAllChildren(array($title)) as $child) {
+					$aux[] = $child["obj_id"];
+				}*/
+				$title = $this->getChildrenOf(ilObjOrgUnit::_getIdsForTitle($title)[0]); 
+			}
+		);
+
+		$skip_org_units_in_filter = array();
+		foreach ($skip_org_units_in_filter_below as $org_units) {
+			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
+		}
+		array_unique($skip_org_units_in_filter);
+
+		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
+
+		$org_units_filter_otions_ids = array_diff($superior_orgunits, $skip_org_units_in_filter);
+		$options = array();
+		foreach ($org_units_filter_otions_ids as $obj_id) {
+			$options[ilObject::_lookupTitle($obj_id)] = $obj_id;
+		}
+		ksort($options);
+
+		$this->filter_options = $options;
+	}
+
+	public function getRecursiveSelection() {
+		return $this->filter->get($this->id.'_recursive');
+	}
+
+	public function getSelection() {
+		$top_orgu_ids = $this->filter->get($this->id);
+		return $top_orgu_ids;
+	}
+
+	public function getSelectionAndRecursive($force_recursive = false) {
+		$orgu_ids = $this->getSelection();
+		if($this->getRecursiveSelection() || $force_recursive) {
+			return array_unique(array_intersect(array_merge($this->getChildrenOf($orgu_ids),$orgu_ids),array_values($this->filter_options)));
+		}
+		return $orgu_ids;
+	}
+
+	protected function getChildrenOf($orgu_ids) {
+		$aux = array();
+		foreach($orgu_ids as $orgu_id) {
+			$ref_id = gevObjectUtils::getRefId($orgu_id);
+			foreach (gevOrgUnitUtils::getAllChildren(array($ref_id)) as $child) {
+				$aux[] = $child["obj_id"];
+			}
+		}
+		return $aux;
+	}
+
+	public function deliverQuery() {
+		$orgus = $this->possibly_recursive ? $this->getSelectionAndRecursive() : $this->getSelection();
+		if(count($orgus) > 0) {
+			return $this->gIldb->in($this->field, $orgus, false, 'integer');
+		}
+		return ' TRUE ';
+	}
+
+	public function addToQuery(catReportQuery $query) {
+		return $query->where($this->deliverQuery());
+	}
+}
