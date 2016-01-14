@@ -61,6 +61,11 @@ class ilPageObjectGUI
 	private $abstract_only = false;
 	protected $parent_type = "";
 
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
 	//var $pl_start = "&#123;&#123;&#123;&#123;&#123;";
 	//var $pl_end = "&#125;&#125;&#125;&#125;&#125;";
 	var $pl_start = "{{{{{";
@@ -79,6 +84,8 @@ class ilPageObjectGUI
 		$a_prevent_get_id = false, $a_lang = "")
 	{
 		global $tpl, $lng, $ilCtrl,$ilTabs;
+
+		$this->log = ilLoggerFactory::getLogger('copg');
 
 		$this->setParentType($a_parent_type);
 		$this->setId($a_id);		
@@ -1155,6 +1162,8 @@ return;
 		//{
 			if($this->getOutputMode() == "edit")
 			{
+				$this->log->debug("ilPageObjectGUI, showPage() in edit mode.");
+
 //echo ":".$this->getTemplateTargetVar().":";
 				$tpl = new ilTemplate("tpl.page_edit_wysiwyg.html", true, true, "Services/COPage");
 				//$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", "Services/COPage");
