@@ -25,7 +25,6 @@ class ilRbacReview
 	const FILTER_NOT_INTERNAL = 5;
 	const FILTER_TEMPLATES = 6;
 
-	protected $assigned_roles = array();
 	var $log = null;
 
     // Cache operation ids
