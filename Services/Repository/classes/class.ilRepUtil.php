@@ -389,25 +389,6 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 				throw new ilRepositoryException('Restore from trash failed with message: ' . $e->getMessage());
 			}
 
-			include_once './Services/Object/classes/class.ilObjectFactory.php';
-			$factory = new ilObjectFactory();
-			$ref_obj = $factory->getInstanceByRefId($id,FALSE);
-			if($ref_obj instanceof ilObject)
-			{
-				$lroles = $GLOBALS['rbacreview']->getRolesOfRoleFolder($id,FALSE);
-				foreach($lroles as $role_id)
-				{
-					include_once './Services/AccessControl/classes/class.ilObjRole.php';
-					$role = new ilObjRole($role_id);
-					$role->setParent($id);
-					$role->delete();
-				}
-				$parent_ref = $GLOBALS['tree']->getParentId($id);
-				if($parent_ref)
-				{
-					$ref_obj->setPermissions($parent_ref);
-				}
-			}
 			
 			// BEGIN ChangeEvent: Record undelete. 
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -458,17 +439,25 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			ilLoggerFactory::getLogger('rep')->error('Restore from trash failed with message: ' . $e->getMessage());
 			throw $e;
 		}
-
-		// SET PERMISSIONS
-		$parentRoles = $rbacreview->getParentRoleIds($a_dest_id);
-		$obj =& ilObjectFactory::getInstanceByRefId($a_source_id);
-
-		foreach ($parentRoles as $parRol)
+		
+		include_once './Services/Object/classes/class.ilObjectFactory.php';
+		$factory = new ilObjectFactory();
+		$ref_obj = $factory->getInstanceByRefId($a_source_id,FALSE);
+		if($ref_obj instanceof ilObject)
 		{
-			$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"], $obj->getType(), $parRol["parent"]);
-			$rbacadmin->grantPermission($parRol["obj_id"],$ops,$a_source_id);
+			$lroles = $GLOBALS['rbacreview']->getRolesOfRoleFolder($a_source_id,FALSE);
+			foreach($lroles as $role_id)
+			{
+				include_once './Services/AccessControl/classes/class.ilObjRole.php';
+				$role = new ilObjRole($role_id);
+				$role->setParent($a_source_id);
+				$role->delete();
+			}
+			if($a_dest_id)
+			{
+				$ref_obj->setPermissions($a_dest_id);
+			}
 		}
-
 		foreach ($childs as $child)
 		{
 			ilRepUtil::insertSavedNodes($child["child"],$a_source_id,$a_tree_id,$a_affected_ids);
