@@ -921,6 +921,8 @@ return;
 
 		$next_class = $this->ctrl->getNextClass($this);
 
+		$this->log->debug("next_class: ".$next_class);
+
 		$cmd = $this->ctrl->getCmd();
 		//$this->ctrl->addTab("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
 		//	, "view", "ilEditClipboardGUI");
