@@ -9,4 +9,5 @@
 		<systemcheck_task identifier="missing_reference" />
 		<systemcheck_task identifier="duplicates" />
 	</systemcheck> 
+	<logging />
 </service>

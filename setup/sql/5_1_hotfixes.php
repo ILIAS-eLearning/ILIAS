@@ -23,3 +23,7 @@ if(!$ilDB->tableColumnExists('notification_osd', 'visible_for'))
 	);
 }
 ?>
+<#2>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
