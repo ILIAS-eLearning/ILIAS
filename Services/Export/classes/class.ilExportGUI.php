@@ -477,19 +477,19 @@ class ilExportGUI
 			{
 				$obj_id = ilObject::_lookupObjId($ref_id);
 				$type = ilObject::_lookupType($obj_id);
-				$exp->exportObject($type,$obj_id,'4.1.0');
+				$exp->exportObject($type,$obj_id);
 			}
 			// Fixme: there is a naming conflict between the container settings xml and the container subitem xml. 
 			sleep(1);
 			// Export container
 			include_once './Services/Export/classes/class.ilExportContainer.php';
 			$cexp = new ilExportContainer($eo);
-			$cexp->exportObject($this->obj->getType(),$this->obj->getId(),'4.1.0');
+			$cexp->exportObject($this->obj->getType(),$this->obj->getId());
 		}
 		else
 		{
 			$exp = new ilExport();
-			$exp->exportObject($this->obj->getType(),$this->obj->getId(), "4.1.0");
+			$exp->exportObject($this->obj->getType(),$this->obj->getId());
 		}
 
 		// Delete export options
