@@ -10,7 +10,7 @@ include_once 'Services/Form/interfaces/interface.ilMultiValuesItem.php';
 /**
 * This class represents a selection list property in a property form.
 *
-* @author Alex Killing <alex.killing@gmx.de> 
+* @author Stefan Hecken <stefan.hecken@concepts-and-training.de> 
 * @version $Id$
 * @ingroup	ServicesForm
 */
