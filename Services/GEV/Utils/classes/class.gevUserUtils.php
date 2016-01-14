@@ -291,7 +291,7 @@ class gevUserUtils {
 		return array_merge($booked_amd, $waiting_amd);
 	}
 	
-	protected function getCourseIdsWhereUserIs($roles) {
+	protected function getCourseIdsWhereUserIs($roles, $search_opts = null) {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		
 		$like_role = array();
@@ -301,7 +301,8 @@ class gevUserUtils {
 		$like_role = implode(" OR ", $like_role);
 		
 		$tmplt_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
-		
+		$search_opts_adds = $this->getSearchOptsAdds($search_opts);
+
 		$res = $this->db->query(
 			 "SELECT oref.obj_id, oref.ref_id "
 			."  FROM object_reference oref"
@@ -313,11 +314,13 @@ class gevUserUtils {
 			." LEFT JOIN adv_md_values_text is_template "
 			."    ON oref.obj_id = is_template.obj_id "
 			."   AND is_template.field_id = ".$this->db->quote($tmplt_field_id, "integer")
+			.$search_opts_adds["joins"]
 			." WHERE oref.ref_id = tr.parent"
 			."   AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
 			."   AND od2.type = 'crs'"
 			."   AND oref.deleted IS NULL"
 			."   AND is_template.value = 'Nein'"
+			.$search_opts_adds["wheres"]
 			);
 
 		$crs_ids = array();
@@ -327,6 +330,37 @@ class gevUserUtils {
 		}
 
 		return $crs_ids;
+	}
+
+	protected function getSearchOptsAdds($search_opts) {
+		if(!$search_opts) {
+			return array("joins"=>"", "wheres"=>"");
+		}
+
+		$additional_join = "";
+		$additional_where = "";
+		if (array_key_exists("period", $search_opts)) {
+			$start_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
+			$end_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_END_DATE);
+			
+			// this is knowledge from the course amd plugin!
+			$additional_join .=
+				" LEFT JOIN adv_md_values_date end_date\n".
+				"   ON oref.obj_id = end_date.obj_id\n".
+				"   AND end_date.field_id = ".$this->db->quote($end_date_field_id, "integer")."\n"
+				;
+			$additional_join .=
+				" LEFT JOIN adv_md_values_date start_date\n".
+				"   ON oref.obj_id = start_date.obj_id\n".
+				"   AND start_date.field_id = ".$this->db->quote($start_date_field_id, "integer")."\n"
+				;
+
+			$additional_where .=
+				" AND ( start_date.value < ".$this->db->quote(date("Y-m-d", $search_opts["period"]["end"]))." \n".
+				"       AND end_date.value > ".$this->db->quote(date("Y-m-d", $search_opts["period"]["start"]))." ) \n";
+		}
+
+		return array("joins"=>$additional_join, "wheres"=>$additional_where);
 	}
 
 	public function getMyAppointmentsCourseInformation($a_order_field = null, $a_order_direction = null) {
@@ -428,7 +462,7 @@ class gevUserUtils {
 			return $ret;
 	}
 
-	public function getMyTrainingsAdminCourseInformation($a_order_field, $a_order_direction) {
+	public function getMyTrainingsAdminCourseInformation($a_order_field, $a_order_direction, $search_opts = null) {
 			// used by gevMyTrainingsApTable, i.e.
 		
 			if ((!$a_order_field && $a_order_direction) || ($a_order_field && !$a_order_direction)) {
@@ -452,7 +486,7 @@ class gevUserUtils {
 			require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusHelper.php");
 			require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusPermissions.php");
 			
-			$crss = $this->getCourseIdsWhereUserIs(gevSettings::$CRS_MANAGER_ROLES);
+			$crss = $this->getCourseIdsWhereUserIs(gevSettings::$CRS_MANAGER_ROLES, $search_opts);
 			$crss_ids = array_keys($crss);
 			
 			//do the amd-dance
@@ -1917,8 +1951,21 @@ class gevUserUtils {
 	}
 
 	public function isTrainingManagerOnAnyCourse() {
-		//$query = "SELECT "
-		return true;
+		$query = "SELECT count(*) as cnt\n"
+				." FROM `rbac_ua` rua\n"
+				." JOIN object_data od ON rua.rol_id = od.obj_id\n"
+				." WHERE rua.usr_id = ".$this->db->quote($this->user_id,"integer")."\n"
+				."       AND (od.title LIKE ".$this->db->quote("il_crs_admin_%", "text")."\n"
+				."            OR title = ".$this->db->quote("Trainingsersteller","text").")";
+
+		$res = $this->db->query($query);
+		$row = $this->db->fetchAssoc($res);
+
+		if($row["cnt"] > 0) {
+			return true;
+		}
+
+		return false;
 	}
 
 	protected function userHasRightOf($right_name) {
