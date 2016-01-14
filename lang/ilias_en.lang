@@ -14083,7 +14083,7 @@ search#:#search_user_search_info_form#:#Data in personal profiles of users is in
 adve#:#adve_blocking_mode#:#Edit Lock
 adve#:#adve_minutes#:#Minutes
 adve#:#adve_minutes_info#:#Minutes of inactivity before an edit lock expires and a page can be edited by another user.
-content#:#content_until#:#At least locked until: 
+content#:#content_until#:#At least locked until
 content#:#content_no_edit_lock#:#The page is currently locked by another user.
 exc#:#exc_fb_tutor_info#:#When a feedback file is uploaded, a notification is sent to the user and the feedback file will be listed in the user's assignment view.
 obj#:#svy_results#:#Results
@@ -15314,3 +15314,4 @@ content#:#cont_sqst#:#Survey Question (Assigned Material)
 mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?
 administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings
 administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.
+content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.

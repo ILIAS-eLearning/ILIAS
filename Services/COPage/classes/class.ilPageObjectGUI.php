@@ -2883,18 +2883,23 @@ return;
 		// edit lock
 		if (!$this->getPageObject()->getEditLock())
 		{
-			$info = $lng->txt("content_no_edit_lock");
-			
 			include_once("./Services/User/classes/class.ilUserUtil.php");
-			
+			$info = $lng->txt("content_no_edit_lock");
 			$lock = $this->getPageObject()->getEditLockInfo();
-			$info.= "</br>".$lng->txt("content_until").": ".
-				ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"],IL_CAL_UNIX));
-			$info.= "</br>".$lng->txt("obj_usr").": ".
-				ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
-			
-			ilUtil::sendInfo($info);
-			return "";
+			$info .= "</br>" . $lng->txt("content_until") . ": " .
+					ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX));
+			$info .= "</br>" . $lng->txt("obj_usr") . ": " .
+					ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
+			if (!$ilCtrl->isAsynch())
+			{
+				ilUtil::sendInfo($info);
+				return "";
+			}
+			else
+			{
+				echo $this->tpl->getMessageHTML($info);
+				exit;
+			}
 		}
 		else
 		{
