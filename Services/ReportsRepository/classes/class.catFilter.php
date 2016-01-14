@@ -943,7 +943,10 @@ class catMultiSelectCustomFilter {
 }
 
 catFilter::addFilterType(catMultiSelectCustomFilter::ID, new catMultiSelectCustomFilter());
-
+	/**
+	* We need orgu filters which may be recursive and are consitent throughout all of our reports.
+	* This helper class should ensure the requirements.
+	*/
 class recursiveOrguFilter {
 	protected $filter_options;
 	protected $filtered_orgus;
@@ -961,6 +964,10 @@ class recursiveOrguFilter {
 		$this->gIldb = $ilDB;
 	}
 
+	/**
+	* Include a configured orgu-filter to @param catFilter filter.
+	* @return catFilter filter.
+	*/
 	public function addToFilter($filter) {
 		global $lng;
 		if($this->possibly_recursive) {
@@ -987,6 +994,9 @@ class recursiveOrguFilter {
 		return $filter;
 	}
 
+	/**
+	* Define the filter options by directly providing an associative @param array(orgu_title => orgu_id)
+	*/
 	public function setFilterOptionsByArray(array $org_ids) {
 		$options = array();
 
@@ -997,6 +1007,10 @@ class recursiveOrguFilter {
 		$this->filter_options = $options;
 	}
 
+	/**
+	* Define the filter options by directly providing a usr object @param gevUserUtils $user_utils.
+	* The logic by which relevant orgus are extracted is defined later, but will be consistent for any report.
+	*/
 	public function setFilterOptionsByUser(gevUserUtils $user_utils) {
 		$never_skip = $user_utils->getOrgUnitsWhereUserIsDirectSuperior();
 
@@ -1016,12 +1030,6 @@ class recursiveOrguFilter {
 		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
 		array_walk($skip_org_units_in_filter_below,
 			function(&$title) {
-				/*$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
-				$title = gevObjectUtils::getRefId($title);
-				$aux = array();
-				foreach (gevOrgUnitUtils::getAllChildren(array($title)) as $child) {
-					$aux[] = $child["obj_id"];
-				}*/
 				$title = $this->getChildrenOf(ilObjOrgUnit::_getIdsForTitle($title)[0]); 
 			}
 		);
@@ -1044,15 +1052,25 @@ class recursiveOrguFilter {
 		$this->filter_options = $options;
 	}
 
+	/**
+	* @return bool recursive filter selection
+	*/
 	public function getRecursiveSelection() {
 		return $this->filter->get($this->id.'_recursive');
 	}
 
+	/**
+	* @return array(orgu_ids) orgu filter selection
+	*/
 	public function getSelection() {
 		$top_orgu_ids = $this->filter->get($this->id);
 		return $top_orgu_ids;
 	}
 
+	/**
+	* @return array(orgu_ids) orgu filter selection and possibly the orgu_ids below selected orgus,
+	* depending on @param (bool)$force_recursive and filter selection for recursive filtering (see function getRecursiveSelection).
+	*/
 	public function getSelectionAndRecursive($force_recursive = false) {
 		$orgu_ids = $this->getSelection();
 		if($this->getRecursiveSelection() || $force_recursive) {
@@ -1061,6 +1079,11 @@ class recursiveOrguFilter {
 		return $orgu_ids;
 	}
 
+	/**
+	* helper method
+	* @return array(orgu_ids) all children of
+	* @param array(orgu_ids)
+	*/
 	protected function getChildrenOf($orgu_ids) {
 		$aux = array();
 		foreach($orgu_ids as $orgu_id) {
@@ -1072,6 +1095,9 @@ class recursiveOrguFilter {
 		return $aux;
 	}
 
+	/**
+	* @return a sql string which reflects the filter selection
+	*/
 	public function deliverQuery() {
 		$orgus = $this->possibly_recursive ? $this->getSelectionAndRecursive() : $this->getSelection();
 		if(count($orgus) > 0) {
@@ -1080,6 +1106,10 @@ class recursiveOrguFilter {
 		return ' TRUE ';
 	}
 
+	/**
+	* add a where statement to @param catReportQuery $query which reflects the filter selection
+	* @return catReportQuery $query
+	*/
 	public function addToQuery(catReportQuery $query) {
 		return $query->where($this->deliverQuery());
 	}
