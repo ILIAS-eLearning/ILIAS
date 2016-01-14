@@ -5,8 +5,8 @@ class gevMemberListDeliveryGUI {
 	public function __construct() {
 		global $ilCtrl, $ilAccess, $ilUser;
 		
-		$this->ctrl = &$ilCtrl;
-		$this->access = &$ilAccess;
+		$this->gCtrl = &$ilCtrl;
+		$this->gAccess = &$ilAccess;
 		$this->user_id = $ilUser->getId();
 	}
 	
@@ -15,7 +15,7 @@ class gevMemberListDeliveryGUI {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
-		$cmd = $this->ctrl->getCmd();
+		$cmd = $this->gCtrl->getCmd();
 		$ref_id = intval($_GET["ref_id"]);
 		$obj_id = gevObjectUtils::getObjId($ref_id);
 		$crs_utils = gevCourseUtils::getInstance($obj_id);
@@ -26,7 +26,7 @@ class gevMemberListDeliveryGUI {
 		switch($cmd) {
 
 			case "hotel":
-				if (!$this->access->checkAccess("write", "", $ref_id, "crs", $obj_id)) {
+				if (!$this->gAccess->checkAccess("write", "", $ref_id, "crs", $obj_id)) {
 					break;
 				}
 				$crs_utils->deliverMemberList(gevCourseUtils::MEMBERLIST_HOTEL);
@@ -34,7 +34,7 @@ class gevMemberListDeliveryGUI {
 
 			case "trainer":
 				if (!$crs_utils->userHasRightOf($this->user_id,gevSettings::LOAD_MEMBER_LIST)
-					&& !$this->access->checkAccess("write", "", $ref_id, "crs", $obj_id)
+					&& !$this->gAccess->checkAccess("write", "", $ref_id, "crs", $obj_id)
 					) {
 					break;
 				}
@@ -42,7 +42,7 @@ class gevMemberListDeliveryGUI {
 				return;
 
 			case "participant":
-				if (!$this->access->checkAccess("write", "", $ref_id, "crs", $obj_id)) {
+				if (!$this->gAccess->checkAccess("write", "", $ref_id, "crs", $obj_id)) {
 					break;
 				}
 				$crs_utils->deliverMemberList(gevCourseUtils::MEMBERLIST_PARTICIPANT);
@@ -50,7 +50,7 @@ class gevMemberListDeliveryGUI {
 
 			case "csn":
 				if (!$crs_utils->userHasRightOf($$this->user_id, gevSettings::LOAD_CSN_LIST)
-					&& !$this->access->checkAccess("write", "", $ref_id, "crs", $obj_id)
+					&& !$this->gAccess->checkAccess("write", "", $ref_id, "crs", $obj_id)
 					) {
 					break;
 				}
@@ -58,7 +58,7 @@ class gevMemberListDeliveryGUI {
 				return;
 
 			case "uvg":
-				if (!$this->access->checkAccess("write", "", $ref_id, "crs", $obj_id)) {
+				if (!$this->gAccess->checkAccess("write", "", $ref_id, "crs", $obj_id)) {
 					break;
 				}
 				$crs_utils->deliverUVGList();
@@ -66,7 +66,7 @@ class gevMemberListDeliveryGUI {
 
 			case "download_signature_list":
 				if (!$crs_utils->userHasRightOf($this->user_id,gevSettings::LOAD_SIGNATURE_LIST)
-					&& !$this->access->checkAccess("write", "", $ref_id, "crs", $obj_id)
+					&& !$this->gAccess->checkAccess("write", "", $ref_id, "crs", $obj_id)
 					) {
 					break;
 				}
@@ -75,7 +75,7 @@ class gevMemberListDeliveryGUI {
 
 			case "download_crs_schedule":
 				if (!$crs_utils->userHasRightOf($this->user_id,gevSettings::VIEW_SCHEDULE_PDF)
-					&& !$this->access->checkAccess("write", "", $ref_id, "crs", $obj_id)
+					&& !$this->gAccess->checkAccess("write", "", $ref_id, "crs", $obj_id)
 					) {
 					break;
 				}
@@ -86,7 +86,7 @@ class gevMemberListDeliveryGUI {
 				break;
 		}
 
-		$this->ctrl->redirectByClass("gevDesktopGUI");
+		$this->gCtrl->redirectByClass("gevDesktopGUI");
 	}
 }
 
