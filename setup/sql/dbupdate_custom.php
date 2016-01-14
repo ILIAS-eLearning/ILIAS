@@ -4862,3 +4862,8 @@ if (!$ilDB->tableColumnExists('wbd_errors_categories', 'error_group'))
 		));
 	}
 ?>
+
+<#199>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

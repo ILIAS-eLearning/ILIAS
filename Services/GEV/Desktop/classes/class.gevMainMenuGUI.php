@@ -114,6 +114,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$could_do_wbd_registration = $this->wbd && $this->wbd->hasWBDRelevantRole() && !$this->wbd->getWBDBWVId() && ($this->wbd->getNextWBDAction() == gevWBD::USR_WBD_NEXT_ACTION_NOTHING);
 
 		$manage_course_block_units = ($this->user_utils && !$this->user_utils->notEditBuildingBlocks());
+		$is_training_manager = true;
 
 		//get all OrgUnits of superior
 		$arr_org_units_of_superior = $this->user_utils ? $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior() : array();
@@ -145,6 +146,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_my_groups" => array(false, "NYI!",$this->gLng->txt("gev_my_groups"))
 				, "gev_my_roadmap" => array(false, "NYI!",$this->gLng->txt("gev_my_roadmap"))
 				, "gev_my_trainer_ap" => array($is_trainer, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAp",$this->gLng->txt("gev_my_trainer_ap"))
+				, "gev_my_trainer_ap_admin" => array($is_training_manager, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAdmin",$this->gLng->txt("gev_my_trainings_admin"))
 				, "gev_wbd_registration" => array($could_do_wbd_registration, "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDRegistration",$this->gLng->txt("gev_wbd_registration"))
 
 				), $this->gLng->txt("gev_me_menu"))

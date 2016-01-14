@@ -6,6 +6,7 @@
 * Desktop for the Generali
 *
 * @author	Richard Klees <richard.klees@concepts-and-training.de>
+* @author	Stefan Hecken <stefan.hecken@concepts-and-training.de>
 * @version	$Id$
 *
 * @ilCtrl_Calls gevDesktopGUI: gevMyCoursesGUI
@@ -38,6 +39,8 @@
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCreateMailPreviewDataGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCreateBuildingBlockDataGUI
 * @ilCtrl_Calls gevDesktopGUI: gevCrsMailingGUI
+* @ilCtrl_Calls gevDesktopGUI: gevMyTrainingsAdminGUI
+* @ilCtrl_Calls gevDesktopGUI: ilInfoScreenGUI
 */
 
 class gevDesktopGUI {
@@ -65,7 +68,7 @@ class gevDesktopGUI {
 		if($cmd == "") {
 			$cmd = "toMyCourses";
 		}
-
+//die($cmd);
 		global $ilMainMenu;
 		switch($next_class) {
 			case "gevmycoursesgui":
@@ -257,6 +260,18 @@ class gevDesktopGUI {
 				$gui = new gevCrsMailingGUI();
 				$this->ctrl->forwardCommand($gui);
 				break;
+			case "gevmytrainingsadmingui":
+				$ilMainMenu->setActive("gev_me_menu");
+				require_once("Services/GEV/Desktop/classes/class.gevMyTrainingsAdminGUI.php");
+				$gui = new gevMyTrainingsAdminGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+			case "ilinfoscreengui":
+				$ilMainMenu->setActive("gev_me_menu");
+				require_once("Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+				$gui = new ilInfoScreenGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
 			default:
 				$this->dispatchCmd($cmd);
 				break;
@@ -300,6 +315,7 @@ class gevDesktopGUI {
 			case "toChangeCourseData":
 			case "showOpenRequests":
 			case "toWBDRegistration":
+			case "toMyTrainingsAdmin":
 				$this->$a_cmd();
 			case "handleExplorerCommand":
 				break;
@@ -338,6 +354,10 @@ class gevDesktopGUI {
 
 	protected function toMyTrainingsAp() {
 		$this->ctrl->redirectByClass("gevMyTrainingsApGUI");
+	}
+
+	protected function toMyTrainingsAdmin() {
+		$this->ctrl->redirectByClass("gevMyTrainingsAdminGUI");
 	}
 
 	protected function toReportAttendanceByEmployee() {
