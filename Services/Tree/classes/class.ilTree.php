@@ -724,6 +724,48 @@ class ilTree
 	}
 	
 	/**
+	 * Insert node from trash deletes trash entry.
+	 * If we have database query exceptions we could wrap insertNode in try/catch 
+	 * and rollback if the insert failed.
+	 * 
+	 * @param type $a_source_id
+	 * @param type $a_target_id
+	 * @param type $a_tree_id
+	 */
+	public function insertNodeFromTrash($a_source_id, $a_target_id, $a_tree_id, $a_pos = IL_LAST_NODE, $a_reset_deleted_date = false)
+	{
+		global $ilDB;
+		
+		if($this->__isMainTree())
+		{
+			if($a_source_id <= 1 or $a_target_id <= 0)
+			{
+				ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::INFO);
+				throw new InvalidArgumentException('Invalid parameter given for ilTree::insertNodeFromTrash');
+			}
+		}
+		if (!isset($a_source_id) or !isset($a_target_id))
+		{
+			ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::INFO);
+			throw new InvalidArgumentException('Missing parameter for ilTree::insertNodeFromTrash');
+		}
+		if($this->isInTree($a_source_id))
+		{
+			ilLoggerFactory::getLogger('tree')->error('Node already in tree');
+			ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::INFO);
+			throw new InvalidArgumentException('Node already in tree.');
+		}
+		
+		$query = 'DELETE from tree '.
+				'WHERE tree = '.$ilDB->quote($a_tree_id,'integer').' '.
+				'AND child = '.$ilDB->quote($a_source_id,'integer');
+		$ilDB->manipulate($query);
+		
+		$this->insertNode($a_source_id, $a_target_id, IL_LAST_NODE, $a_reset_deleted_date);
+	}
+	
+	
+	/**
 	* insert new node with node_id under parent node with parent_id
 	* @access	public
 	* @param	integer		node_id

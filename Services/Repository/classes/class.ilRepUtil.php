@@ -381,12 +381,14 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			$affected_ids[$id] = $id;
 			
 			// INSERT AND SET PERMISSIONS
-			ilRepUtil::insertSavedNodes($id, $a_cur_ref_id, -(int) $id, $affected_ids);
-			
-			// DELETE SAVED TREE
-			$saved_tree = new ilTree(-(int)$id);
-			$saved_tree->deleteTree($saved_tree->getNodeData($id));
-			
+			try {
+				ilRepUtil::insertSavedNodes($id, $a_cur_ref_id, -(int) $id, $affected_ids);
+			} 
+			catch (Exception $e) {
+				include_once("./Services/Repository/exceptions/class.ilRepositoryException.php");
+				throw new ilRepositoryException('Restore from trash failed with message: ' . $e->getMessage());
+			}
+
 			include_once './Services/Object/classes/class.ilObjectFactory.php';
 			$factory = new ilObjectFactory();
 			$ref_obj = $factory->getInstanceByRefId($id,FALSE);
@@ -441,11 +443,21 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	{
 		global $rbacadmin, $rbacreview, $log, $tree;
 
-		$tree->insertNode($a_source_id,$a_dest_id, IL_LAST_NODE, true);
-		$a_affected_ids[$a_source_id] = $a_source_id;
+		ilLoggerFactory::getLogger('rep')->debug('Restoring from trash: source_id: '. $a_source_id.', dest_id: '. $a_dest_id.', tree_id:'. $a_tree_id);
+		ilLoggerFactory::getLogger('rep')->info('Restoring ref_id  ' . $a_source_id . ' from trash.');
 		
-		// write log entry
-		$log->write("ilRepUtil::insertSavedNodes(), restored ref_id $a_source_id from trash");
+		// read child of node
+		$saved_tree = new ilTree($a_tree_id);
+		$childs = $saved_tree->getChilds($a_source_id);
+		
+		// then delete node and put in tree
+		try {
+			$tree->insertNodeFromTrash($a_source_id, $a_dest_id, $a_tree_id, IL_LAST_NODE, true);
+		} 
+		catch (Exception $e) {
+			ilLoggerFactory::getLogger('rep')->error('Restore from trash failed with message: ' . $e->getMessage());
+			throw $e;
+		}
 
 		// SET PERMISSIONS
 		$parentRoles = $rbacreview->getParentRoleIds($a_dest_id);
@@ -456,9 +468,6 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"], $obj->getType(), $parRol["parent"]);
 			$rbacadmin->grantPermission($parRol["obj_id"],$ops,$a_source_id);
 		}
-
-		$saved_tree = new ilTree($a_tree_id);
-		$childs = $saved_tree->getChilds($a_source_id);
 
 		foreach ($childs as $child)
 		{
