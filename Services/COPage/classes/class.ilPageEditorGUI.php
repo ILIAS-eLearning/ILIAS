@@ -45,6 +45,11 @@ class ilPageEditorGUI
 	var $enable_anchors;
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
 	* Constructor
 	*
 	* @param	object		$a_page_object		page object
@@ -53,6 +58,8 @@ class ilPageEditorGUI
 	function ilPageEditorGUI(&$a_page_object, &$a_page_object_gui)
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,$ilTabs;
+
+		$this->log = ilLoggerFactory::getLogger('copg');
 
 		// initiate variables
 		$this->ilias =& $ilias;
@@ -123,6 +130,8 @@ class ilPageEditorGUI
 	function &executeCommand()
 	{
 		global $ilCtrl, $ilHelp;;
+
+		$this->log->debug("ilPageEditorGUI: executeCommand begin");
 
 		$cmd = $this->ctrl->getCmd("displayPage");
 //echo "-$cmd-"; exit;
@@ -262,6 +271,7 @@ exit;
 					$cont_obj =& $this->page->getContentObject($hier_id, $pc_id);
 					if (!is_object($cont_obj))
 					{
+						$this->log->debug("ilPageEditorGUI: ...returnToParent");
 						$ilCtrl->returnToParent($this);
 					}
 					$ctype = $cont_obj->getType();
@@ -311,6 +321,8 @@ exit;
 		}
 		
 //echo "hier_id:$hier_id:type:$type:cmd:$cmd:ctype:$ctype:next_class:$next_class:<br>"; exit;
+		$this->log->debug("ilPageEditorGUI: ... next_class:".$next_class.", pc_id:".$pc_id.
+				", hier_id:".$hier_id.", ctype:".$ctype.", cmd:".$cmd);
 		switch($next_class)
 		{
 			case "ilinternallinkgui":
@@ -435,6 +447,8 @@ exit;
 				break;
 
 		}
+
+		$this->log->debug("ilPageEditorGUI: executeCommand end");
 
 		return $ret;
 	}
