@@ -388,6 +388,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	{
 		global $ilCtrl;
 
+		$this->log->debug("start");
+
 		$this->updated = $this->content_obj->saveJS($this->pg_obj,
 			$_POST["ajaxform_content"],
 			ilUtil::stripSlashes($_POST["ajaxform_char"]),

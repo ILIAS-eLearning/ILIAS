@@ -4935,7 +4935,7 @@ abstract class ilPageObject
 	function getEditLock()
 	{
 		global $ilUser, $ilDB;
-		
+		//return false;
 		$aset = new ilSetting("adve");
 		
 		$min = (int) $aset->get("block_mode_minutes") ;
