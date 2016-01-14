@@ -1251,6 +1251,7 @@ class gevCourseUtils {
 					ilUtil::sendInfo($this->lng->txt("gev_vc_send_invitation_mail_reminder"));
 				}
 				else {
+					$this->cleanupAllVirtualClassAssignmentAMDFields();
 					ilUtil::sendFailure($this->lng->txt("gev_vc_no_free_url"));
 				}
 			}
@@ -1282,12 +1283,20 @@ class gevCourseUtils {
 				ilUtil::sendInfo($this->lng->txt("gev_vc_send_invitation_mail_reminder"));
 			}
 			else {
+				$this->cleanupAllVirtualClassAssignmentAMDFields();
 				ilUtil::sendFailure($this->lng->txt("gev_vc_no_free_url"));
 			}
 		}
 		else { // $!has_vc_assigned && !$should_get_vc_assignment
 			// DON'T TOUCH THIS.
 		}
+	}
+
+	protected function cleanupAllVirtualClassAssignmentAMDFields() {
+		$this->setVirtualClassLink(null);
+		$this->setVirtualClassPassword(null);
+		$this->setVirtualClassPasswordTutor(null);
+		$this->setVirtualClassLoginTutor(null);
 	}
 
 	public function deleteVCAssignment() {
