@@ -95,7 +95,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 
 		$this->allowed_user_ids = $this->user_utils->getEmployees();
 
-		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
+		/*$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
 
 		array_walk($never_skip, 
 			function (&$obj_ref_id) {
@@ -119,7 +119,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 
 		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
 		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserIsSuperior(), $skip_org_units_in_filter);
-		sort($org_units_filter);
+		sort($org_units_filter);*/
 
 		$this->filter = catFilter::create()
 		
@@ -132,8 +132,11 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									, date("Y")."-12-31"
 									, false
 									," OR TRUE"
-									)
-						->multiselect( "org_unit"
+									);
+		$orgu_filter = new recursiveOrguFilter('org_unit', 'orgu.orgu_id', true, true);
+		$orgu_filter->setFilterOptionsByUser($this->user_utils);
+		$orgu_filter->addToFilter($this->filter);
+						/*->multiselect( "org_unit"
 									 , $this->lng->txt("gev_org_unit_short")
 									 , array("orgu.orgu_title", "orgu.org_unit_above1", "orgu.org_unit_above2")
 									 //, array("usr.org_unit")
@@ -142,8 +145,8 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 									 , ""
 									 , 300
 									 , 160
-									 )
-						->multiselect("edu_program"
+									 )*/
+		$this->filter		->multiselect("edu_program"
 									 , $this->lng->txt("gev_edu_program")
 									 , "edu_program"
 									 , gevCourseUtils::getEduProgramsFromHisto()
@@ -336,8 +339,9 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 						->select_raw($this->sql_sum_parts['sum_waiting'])
 						->select_raw($this->sql_sum_parts['sum_excused'])
 						->select_raw($this->sql_sum_parts['sum_unexcused'])
-						->select_raw($this->sql_sum_parts['sum_exit'])
-						->from("hist_user usr")
+						->select_raw($this->sql_sum_parts['sum_exit']);
+		$orgu_filter->addToQuery($this->query);
+		$this->query	->from("hist_user usr")
 						->left_join("hist_usercoursestatus usrcrs")
 							->on("usrcrs.usr_id = usr.user_id AND usrcrs.hist_historic = 0 "
 							."	AND ((`usrcrs`.`end_date` >= ".$this->db->quote($this->dates["start"],"date")
@@ -348,7 +352,7 @@ class gevAttendanceByOrgUnitGUI extends catBasicReportGUI{
 							->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0")
 						->join("hist_userorgu orgu")
 							->on("usr.user_id = orgu.usr_id")
-						->group_by("orgu.orgu_title")
+						->group_by("orgu.orgu_id")
 						->compile();
 	}
 
