@@ -1767,11 +1767,21 @@ class ilObjGroupGUI extends ilContainerGUI
 			{
 				case $this->object->getDefaultAdminRole():
 					$part->add($new_member, IL_GRP_ADMIN);
+					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+					$part->sendNotification(
+						ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
+						$new_member
+					);
 					$assigned = TRUE;
 					break;
 				
 				default:
 					$part->add($new_member, IL_GRP_MEMBER);
+					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+					$part->sendNotification(
+						ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
+						$new_member
+					);
 					$assigned = TRUE;
 					break;
 			}
