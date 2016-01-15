@@ -75,14 +75,29 @@ class ilSystemSupportContactsGUI
 	 */
 	static function getFooterLink()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilUser;
 
 		include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
 
 		$users = ilSystemSupportContacts::getValidSupportContactIds();
 		if (count($users) > 0)
 		{
-			return $ilCtrl->getLinkTargetByClass("ilsystemsupportcontactsgui", "");
+			// #17847 - we cannot use a proper GUI on the login screen 
+			if(!$ilUser->getId())
+			{
+				foreach($users as $user)
+				{
+					$mail = ilObjUser::_lookupEmail($user);
+					if(trim($mail))
+					{
+						return "mailto:".$mail;
+					}
+				}
+			}
+			else
+			{
+				return $ilCtrl->getLinkTargetByClass("ilsystemsupportcontactsgui", "");
+			}
 		}
 
 
