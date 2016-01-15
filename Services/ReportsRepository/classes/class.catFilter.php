@@ -410,9 +410,10 @@ class catDatePeriodFilterType {
 	// default_end
 	// as_timestamp (optional, defaults to false)
 	// additional_clause (optional, defaults to "")
+	// additional_clause_from_func (optional, defaults to function returning nothing)
 	
 	public function checkConfig($a_conf) {
-		if (count($a_conf) !== 8 && count($a_conf) !== 9 && count($a_conf) !== 10) {
+		if (count($a_conf) !== 8 && count($a_conf) !== 9 && count($a_conf) !== 10 && count($a_conf) !== 11) {
 			// one parameter less, since type is encoded in first parameter but not passed by user.
 			throw new Exception ("catDatePeriodFilterType::checkConfig: expected 7-9 parameters for dateperiod.");
 		}
@@ -420,9 +421,14 @@ class catDatePeriodFilterType {
 		if (count($a_conf) === 8) {
 			$a_conf[8] = false;
 			$a_conf[9] = "";
+			$a_conf[10] = function($start, $end) { return ""; };
 		}
 		if (count($a_conf) === 9) {
 			$a_conf[9] = "";
+			$a_conf[10] = function($start, $end) { return ""; };
+		}
+		if (count($a_conf) === 10) {
+			$a_conf[10] = function($start, $end) { return ""; };
 		}
 		
 		return $a_conf;
@@ -494,7 +500,8 @@ class catDatePeriodFilterType {
 				  ."   AND ".catFilter::quoteDBId($a_conf[4])
 				  			." <= ".$ilDB->quote($a_pars["end"], "date")
 				  ."  )"
-				  .$a_conf[9]
+				  .$a_conf[9]." "
+				  .$a_conf[10]($a_pars["start"], $a_pars["end"])
 				  .")"
 				  ;
 		}

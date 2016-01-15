@@ -87,6 +87,17 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 							 , "hucs.end_date"
 							 , date("Y")."-01-01"
 							 , date("Y")."-12-31"
+							 , false
+							 , ""
+							 , function ($start, $end) {
+									global $ilDB;
+									return
+									"AND ( hc.type <> 'Selbstlernkurs'\n".
+									"      OR ( hucs.begin_date >= ".$ilDB->quote($start, "date")."\n".
+									"           AND hucs.begin_date <= ".$ilDB->quote($end, "date")."\n".
+									"         )\n".
+									"    )\n";
+								}
 							 )
 				->multiselect( "orgu"
 							 , $this->plugin->txt("org_unit_short")
