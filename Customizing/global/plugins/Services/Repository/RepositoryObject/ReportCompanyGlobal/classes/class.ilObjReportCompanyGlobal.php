@@ -93,8 +93,12 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 									global $ilDB;
 									return
 									"AND ( hc.type <> 'Selbstlernkurs'\n".
-									"      OR ( hucs.begin_date >= ".$ilDB->quote($start, "date")."\n".
+									"      OR ( (hucs.end_date = '0000-00-00' OR hucs.end_date = '-empty-')\n".
+									"           AND hucs.begin_date >= ".$ilDB->quote($start, "date")."\n".
 									"           AND hucs.begin_date <= ".$ilDB->quote($end, "date")."\n".
+									"         )\n".
+									"      OR ( hucs.end_date >= ".$ilDB->quote($start, "date")."\n".
+									"           AND hucs.end_date <= ".$ilDB->quote($end, "date")."\n".
 									"         )\n".
 									"    )\n";
 								}
