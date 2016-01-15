@@ -12602,7 +12602,7 @@ if(!$ilDB->tableColumnExists('notification_osd', 'visible_for'))
 ?>
 <#4810>
 <?php
-if(!$ilDB->tableColumnExists('svy_times', 'first_question'))
+if($ilDB->tableColumnExists('svy_times', 'first_question'))
 {
 	$ilDB->modifyTableColumn('svy_times', 'first_question', array(
 			'type'	=> 'integer',
