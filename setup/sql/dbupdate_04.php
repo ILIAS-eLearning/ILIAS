@@ -9972,7 +9972,7 @@ if (!$ilDB->tableExists('rbac_log'))
 		),
 		'action'	=> array(
 			'type'	=> 'integer',
-			'length'=> 1,
+			'length'=> 4,
 			'notnull' => TRUE
 		),
 		'data' 		=> array(
@@ -10320,7 +10320,7 @@ if (!$ilDB->tableExists('svy_times'))
 		),
 		'first_question'	=> array(
 			'type'	=> 'integer',
-			'length'=> 1,
+			'length'=> 4,
 		)
 	));
 	$ilDB->addPrimaryKey('svy_times', array('id'));
@@ -12597,6 +12597,16 @@ if(!$ilDB->tableColumnExists('notification_osd', 'visible_for'))
 		'length'  => 4,
 		'notnull' => true,
 		'default' => 0)
+	);
+}
+?>
+<#4810>
+<?php
+if(!$ilDB->tableColumnExists('svy_times', 'first_question'))
+{
+	$ilDB->modifyTableColumn('svy_times', 'first_question', array(
+			'type'	=> 'integer',
+			'length'=> 4)
 	);
 }
 ?>
