@@ -247,21 +247,13 @@ class ilImport
 	 */
 	protected function doImportObject($dir, $a_type, $a_component = "", $a_tmpdir = "")
 	{
-		global $objDefinition, $tpl;
+		global $objDefinition;
 
 		if ($a_component == "")
 		{
-			$comp = $objDefinition->getComponentForType($a_type);
-			$class = $objDefinition->getClassName($a_type);
-		}
-		else
-		{
-			$comp = $a_component;
-			$c = explode("/", $comp);
-			$class = $c[count($c) - 1];
-		}
-
-		$this->comp = $comp;
+			$a_component = $objDefinition->getComponentForType($a_type);		
+		}		
+		$this->comp = $a_component;
 
 		// get import class
 		$success = true;
@@ -295,14 +287,12 @@ class ilImport
 		$expfiles = $parser->getExportFiles();
 		
 		include_once("./Services/Export/classes/class.ilExportFileParser.php");
+		include_once("./Services/Export/classes/class.ilImportExportFactory.php");	
 		$all_importers = array();
 		foreach ($expfiles as $expfile)
-		{
+		{								
 			$comp = $expfile["component"];
-			$comp_arr = explode("/", $comp);
-			$import_class_file = "./".$comp."/classes/class.il".$comp_arr[1]."Importer.php";
-			$class = "il".$comp_arr[1]."Importer";
-			include_once($import_class_file);
+			$class = ilImportExportFactory::getImporterClass($comp);			
 			$this->importer = new $class();
 			$this->importer->setImport($this);
 			$all_importers[] = $this->importer;

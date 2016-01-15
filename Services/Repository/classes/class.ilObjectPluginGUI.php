@@ -90,7 +90,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$ilTabs->setTabActive("perm_settings");
-				$ret = $ilCtrl->forwardCommand($perm_gui);
+				$ilCtrl->forwardCommand($perm_gui);
 				break;
 		
 			case 'ilobjectcopygui':
@@ -98,6 +98,13 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType($this->getType());
 				$this->ctrl->forwardCommand($cp);
+				break;
+			
+			case 'ilexportgui':
+				include_once './Services/Export/classes/class.ilExportGUI.php';
+				$exp = new ilExportGUI($this);		
+				$exp->addFormat('xml');
+				$this->ctrl->forwardCommand($exp);
 				break;
 						
 			case 'illearningprogressgui':

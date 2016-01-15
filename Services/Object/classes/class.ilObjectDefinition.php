@@ -75,9 +75,7 @@ class ilObjectDefinition// extends ilSaxParser
 	}
 
 
-	protected function readDefinitionDataFromCache() {
-		global $ilPluginAdmin;
-
+	protected function readDefinitionDataFromCache() {	
 		$this->obj_data = array();
 		$defIds = array();
 		$global_cache = ilCachedComponentData::getInstance();
@@ -125,52 +123,14 @@ class ilObjectDefinition// extends ilSaxParser
 		}
 		$this->obj_group = $global_cache->getIlObjectGroup();
 
-		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
-		foreach ($pl_names as $pl_name) {
-			include_once("./Services/Component/classes/class.ilPlugin.php");
-			$pl_id = ilPlugin::lookupIdForName(IL_COMP_SERVICE, "Repository", "robj", $pl_name);
-			if ($pl_id != "" && ! isset($this->obj_data[$pl_id])) {
-				include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
-				$loc = ilPlugin::_getDirectory(IL_COMP_SERVICE, "Repository", "robj", $pl_name) . "/classes";
-
-				$this->obj_data[$pl_id] = array(
-					"name" => $pl_id,
-					"class_name" => $pl_name,
-					"plugin" => "1",
-					"location" => $loc,
-					"checkbox" => "1",
-					"inherit" => "0",
-					"component" => "",
-					"translate" => "0",
-					"devmode" => "0",
-					"allow_link" => "1",
-					"allow_copy" => "0",
-					"rbac" => "1",
-					"group" => NULL,
-					"system" => "0",
-					"default_pos" => "99992000", // "unassigned" group
-					'repository' => '1',
-					'workspace' => '0',
-					'administration' => '0',
-					"sideblock" => "0"
-				);
-				$this->obj_data[$rec["id"]]["subobjects"] = array();
-
-				// plugins have to be marked as such - see ilContainerGUI::showPossibleSubObjects()
-				$this->obj_data["crs"]["subobjects"][$pl_id] = array( "name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true );
-				$this->obj_data["fold"]["subobjects"][$pl_id] = array( "name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true );
-				$this->obj_data["grp"]["subobjects"][$pl_id] = array( "name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true );
-				$this->obj_data["cat"]["subobjects"][$pl_id] = array( "name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true );
-				$this->obj_data["root"]["subobjects"][$pl_id] = array( "name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true );
-			}
-		}
+		$this->initPluginDefinitionData();
 
 		$this->sub_types = $global_cache->getIlObjectSubType();
 	}
 
 
 	protected function readDefinitionDataFromDB() {
-		global $ilDB, $ilPluginAdmin;
+		global $ilDB;
 
 		$this->obj_data = array();
 
@@ -226,7 +186,20 @@ class ilObjectDefinition// extends ilSaxParser
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			$this->obj_group[$rec["id"]] = $rec;
 		}
+		
+		$this->initPluginDefinitionData();
 
+		$set = $ilDB->query("SELECT * FROM il_object_sub_type ");
+		$this->sub_types = array();
+		while ($rec = $ilDB->fetchAssoc($set)) {
+			$this->sub_types[$rec["obj_type"]][] = $rec;
+		}
+	}
+
+	protected function initPluginDefinitionData()
+	{				
+		global $ilPluginAdmin;
+		
 		// now get objects from repository plugin
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
 		foreach ($pl_names as $pl_name) {
@@ -255,9 +228,10 @@ class ilObjectDefinition// extends ilSaxParser
 					'repository' => '1',
 					'workspace' => '0',
 					'administration' => '0',
-					"sideblock" => "0"
+					"sideblock" => "0",
+					"export" => $ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "Repository", "robj", $pl_name)
 				);
-				$this->obj_data[$rec["id"]]["subobjects"] = array();
+				$this->obj_data[$pl_id]["subobjects"] = array();
 
 				// plugins have to be marked as such - see ilContainerGUI::showPossibleSubObjects()
 				$this->obj_data["crs"]["subobjects"][$pl_id] = array( "name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true );
@@ -269,14 +243,7 @@ class ilObjectDefinition// extends ilSaxParser
 		}
 		//var_dump($this->obj_data["root"]["subobjects"]);
 		//var_dump($this->obj_data2["root"]);
-
-		$set = $ilDB->query("SELECT * FROM il_object_sub_type ");
-		$this->sub_types = array();
-		while ($rec = $ilDB->fetchAssoc($set)) {
-			$this->sub_types[$rec["obj_type"]][] = $rec;
-		}
 	}
-
 		
 	/**
 	* Read object definition data
