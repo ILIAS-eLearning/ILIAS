@@ -1,0 +1,21 @@
+{
+    "name": "ilias/deps",
+    "description": "Dependencies of ILIAS",
+    "license": "GPL v3",
+    "authors": [
+        {
+            "name": "Richard Klees",
+            "email": "richard.klees@concepts-and-training.de"
+        }
+    ],
+    "require": {
+        "pimple/pimple": "^3.0"
+    },
+    "extra": {
+        "pimple/pimple" : {
+            "added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
+            "used_by" : "ILIAS",
+            "wrapped_by" : null
+        }
+    }
+}
