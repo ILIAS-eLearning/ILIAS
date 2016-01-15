@@ -5,7 +5,7 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
 abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
 {
 	private $settings = null;
-	private $ref_id = 0;
+	protected $ref_id = 0;
 	private $search_term = '';
 	
 	private $results = null;
