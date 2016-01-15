@@ -403,7 +403,7 @@ class ilTestServiceGUI
 						if( $objectivesList !== null )
 						{
 							$objectives = $this->lng->txt('tst_res_lo_objectives_header').': ';
-							$objectives .= $objectivesList->getQuestionRelatedObjectiveTitle($question_gui->object->getId());
+							$objectives .= $objectivesList->getQuestionRelatedObjectiveTitles($question_gui->object->getId());
 							$template->setVariable("OBJECTIVES", $objectives);
 						}
 
@@ -749,7 +749,7 @@ class ilTestServiceGUI
 		if( $objectivesList !== null )
 		{
 			$objectives = $this->lng->txt('tst_res_lo_objectives_header').': ';
-			$objectives .= $objectivesList->getQuestionRelatedObjectiveTitle($question_gui->object->getId());
+			$objectives .= $objectivesList->getQuestionRelatedObjectiveTitles($question_gui->object->getId());
 			$template->setVariable('OBJECTIVES', $objectives);
 		}
 		$template->setVariable("SOLUTION_OUTPUT", $result_output);
