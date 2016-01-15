@@ -312,7 +312,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$objectivesAdapter->buildQuestionRelatedObjectiveList($this->testSequence, $this->questionRelatedObjectivesList);
 			$this->questionRelatedObjectivesList->loadObjectivesTitles();
 
-			$objectivesString = $this->questionRelatedObjectivesList->getQuestionRelatedObjectiveTitle($questionId);
+			$objectivesString = $this->questionRelatedObjectivesList->getQuestionRelatedObjectiveTitles($questionId);
 			$headerBlockBuilder->setQuestionRelatedObjectives($objectivesString);
 		}
 		$questionGui->setQuestionHeaderBlockBuilder($headerBlockBuilder);
