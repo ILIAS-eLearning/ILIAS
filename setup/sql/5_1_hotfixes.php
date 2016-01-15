@@ -27,3 +27,13 @@ if(!$ilDB->tableColumnExists('notification_osd', 'visible_for'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3>
+<?php
+if($ilDB->tableColumnExists('svy_times', 'first_question'))
+{
+	$ilDB->modifyTableColumn('svy_times', 'first_question', array(
+											'type'	=> 'integer',
+											'length'=> 4)
+	);
+}
+?>
