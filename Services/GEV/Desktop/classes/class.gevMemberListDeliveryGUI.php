@@ -49,7 +49,7 @@ class gevMemberListDeliveryGUI {
 				return;
 
 			case "csn":
-				if (!$crs_utils->userHasRightOf($$this->user_id, gevSettings::LOAD_CSN_LIST)
+				if (!$crs_utils->userHasRightOf($this->user_id, gevSettings::LOAD_CSN_LIST)
 					&& !$this->gAccess->checkAccess("write", "", $ref_id, "crs", $obj_id)
 					) {
 					break;
