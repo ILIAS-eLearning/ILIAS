@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.0.x 2015-11-11 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.0.x 2016-01-16 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -876,9 +876,9 @@ assessment#:#tst_confirm_delete_results#:#Ön ebben a tesztben levő minden eddi
 assessment#:#tst_confirm_print#:#Nyomja meg a gombot az összes kérdés pontokkal és megoldásokkal való nyomtatásához. A kérdések a lap alján lesznek.
 assessment#:#tst_confirm_submit_answers#:#Ellenőrizze megoldását! Az elküldés gomb megnyomása után már nem fogja tudni visszavonni válaszait.
 assessment#:#tst_count_correct_solutions#:#Csak a teljesen hibátlan megoldások érnek pontot
-assessment#:#tst_count_correct_solutions_desc#:#A tökéletes, teljesen hibátlan megoldás maximális pontszámot, minden egyéb 0 pontot ér.
+assessment#:#tst_count_correct_solutions_desc#:#A tökéletes, teljesen hibátlan megoldás maximális pontszámot, minden egyéb 0 pontot ér. Ez azokra a kérdésekre is érvényes, melyeknél részmegoldásért is járna pont.
 assessment#:#tst_count_partial_solutions#:#Nem teljes vagy részben hibás megoldások is érnek pontot
-assessment#:#tst_count_partial_solutions_desc#:#A részmegoldásért jár pont. A helyes részmegoldások pontszámai összeadódnak.
+assessment#:#tst_count_partial_solutions_desc#:#A részmegoldásért jár pont. A helyes részmegoldások pontszámai összeadódnak: a résztvevők pontot kapnak a nem teljes vagy részben hibás megoldásokért ezeknél a kérdéseknél.
 assessment#:#tst_defaults_applied#:#A kiválasztott alapértelmezett beállításokat alkalmaztuk a tesztre.
 assessment#:#tst_defaults_apply_not_possible#:#Az ILIAS nem tudja alkalmazni a kiválasztott alapértelmezett értékeket ehhez a teszthez! Lehet, hogy a tesztet töltik.
 assessment#:#tst_defaults_apply_select_one#:#Pontosan egy alapértelmezett tesztbejegyzést válasszon ezen teszt alapértelmezett értékeinek megadásához.
@@ -3450,6 +3450,7 @@ common#:#no_date#:#Nincs dátum
 common#:#no_description#:#Nincs leírás
 common#:#no_frm_in_personal_list#:#Nincs fórum a személyes listában.
 common#:#no_global_role_left#:#Minden felhasználónak hozzá kell lennie rendelve egy szerephez.
+common#:#user_not_found_to_delete#:#A törlendő felhasználó nem található.
 common#:#no_grp_in_personal_list#:#Nincs csoport a személyes listában.
 common#:#no_import_available#:#Az import nem elérhető a típus számára
 common#:#no_import_file_found#:#Nem található import fájl.
@@ -10169,7 +10170,7 @@ content#:#cont_edit_shape_whole_picture#:#Alakzat szerkesztése (teljes kép)
 common#:#settings_for_all_members#:#Értesítés bekapcsolva minden kurzus-/csoporttagnak
 common#:#settings_per_users#:#Beállítások kurzus-/csoporttagonként
 user#:#enable_local_user_administration#:#Helyi ILIAS-fiókok kezelésének engedélyezése
-user#:#enable_local_user_administration_info#:#Ha be van kapcsolva, a 'Helyi felhasználókezelés' fül megjelenik a kategóriáknál.
+user#:#enable_local_user_administration_info#:#Ha be van kapcsolva, a 'Helyi felhasználókezelés' fül megjelenik a kategóriáknál és a szervezeti egységeknél.
 user#:#restrict_user_access#:#Korlátozott hozzáférés az ILIAS-fiókokhoz
 user#:#restrict_user_access_info#:#Csak akkor engedélyezze, ha korlátozni szeretné a hozzáférést az ILIAS-fiókokhoz. 'Olvasási elérés a helyi ILIAS-fiókhoz' jogosultság szükséges a helyi és a globális ILIAS-fiókok hozzáféréséhez.
 common#:#backto_lua#:#Vissza a helyi ILIAS-fiókok kezeléséhez
@@ -13898,6 +13899,7 @@ orgu#:#orgu_adv_settings#:#További beállítások
 orgu#:#orgu_type_msg_error_custom_icon#:#Egyedi ikon beállítása nem sikerült
 orgu#:#orgu_type_available_amd_sets#:#Elérhető bővített metaadat készletek
 orgu#:#orgu_type_assign_amd_sets#:#Bővített metaadata készletek hozzárendelése
+orgu#:#not_movable_to_subtree#:#Szervezeti egység nem mozgatható saját fájába, mert az hurkot hozna létre.
 cld#:#cld_object_added#:#Új felhő-objektum hozzáadva
 exc#:#exc_peer_review_deadline#:#Visszajelzés határideje
 exc#:#exc_peer_review_deadline_info#:#Visszajelzés eddig az időpontig adható, és a kapott visszajelzés is csak ekkortól elérhető el.
@@ -14081,7 +14083,7 @@ search#:#search_user_search_info_form#:#A felhasználói profilok adatai indexel
 adve#:#adve_blocking_mode#:#Szerkesztése zárolása
 adve#:#adve_minutes#:#Percek
 adve#:#adve_minutes_info#:#Inaktivitás percben, mielőtt egy szerkesztési zárolás lejár és az oldalt másik felhasználó szerkesztheti.
-content#:#content_until#:#Zárolás fenntartása legalább az alábbi időpontig: 
+content#:#content_until#:#Zárolás fenntartása legalább az alábbi időpontig:
 content#:#content_no_edit_lock#:#Másik felhasználó jelenleg zárolja az oldalt.
 exc#:#exc_fb_tutor_info#:#Ha egy visszajelzésfájlt feltölt, figyelmeztetés küldünk a felhasználónak, valamint a fájl a felhasználó nézetében megjelenik.
 obj#:#svy_results#:#Végeredmények
@@ -14442,7 +14444,7 @@ content#:#cont_language#:#Nyelv
 content#:#cont_add_lang#:#Nyelv hozzáadása 
 content#:#cont_conf_delete_lang#:#Biztos, hogy törli az alábbi nyelvi támogatásokat?
 content#:#cont_back_to_page#:#Vissza az oldalra
-content#:#cont_got_lock#:#Az oldalt szerkesztés miatt zároltuk. A szerkesztés végeztével oldja fel a zárolást.
+content#:#cont_got_lock_until#:#%1-ig az oldalt zároltuk, mert Ön azt szerkesztésre megnyitotta. A zárolást feloldhatja: %2
 content#:#cont_finish_editing#:#Szerkesztés befejezése
 content#:#cont_page_lock_released#:#Szerkesztés vége. Az oldal zárolása feloldva.
 notes#:#note_content_removed#:#Tartalom eltávolítva.
@@ -15312,3 +15314,4 @@ content#:#cont_sqst#:#Kérdőívkérdés (segédanyag)
 mmbr#:#info_refuse_sure#:#Biztos, hogy elutasítja az alábbi felhasználó(k)at?
 administration#:#adm_user_starting_point_inherit#:#Általános beállítások használata
 administration#:#adm_user_starting_point_inherit_info#:#A rendszergazda összes beállításának használata a rendszerre.
+content#:#cont_not_saved_edit_lock_expired#:#Sajnáljuk, módosításait nem sikerült menteni, mert időközben egy másik felhasználó szerkesztésre zárolta ezt az oldalt. Az üzenet bezárása után a tartalmat vágólapra másolhatja.
