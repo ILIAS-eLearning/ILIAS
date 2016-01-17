@@ -7,7 +7,7 @@
 class ilServicesContextSuite extends PHPUnit_Framework_TestSuite {
     public static function suite()
     {
-        $suite = new ilModulesStudyProgrammeSuite();
+        $suite = new ilServicesContextSuite();
 
         require_once("/Services/Context/test/ilContextTest.php");
 
