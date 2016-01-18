@@ -102,11 +102,12 @@ class ilUserOrgUnitHistorizing extends ilHistorizingStorage {
 	 */
 	protected function getContentColumnsDefinition() {
 		$definition =  array(
+			't_in'				=> 'integer',
 			'action'	 		=> 'integer',
 			'orgu_title' 		=> 'text',
 			'rol_title' 		=> 'text',
 			'org_unit_above1' 	=> 'text',
-			'org_unit_above2' 	=> 'text'			
+			'org_unit_above2' 	=> 'text'		
 		);
 
 		return $definition;
