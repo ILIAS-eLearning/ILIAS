@@ -1003,7 +1003,7 @@ class gevOrgUnitUtils {
 		$parent = $ou_tree->getParent($org_ref_id);
 
 		if($parent == ilObjOrgUnit::getRootOrgRefId()) {
-			return $parent;
+			throw new Exception("NOT IN BD!");
 		}
 
 		if(self::isBD(ilObject::_lookupObjId($parent))) {
