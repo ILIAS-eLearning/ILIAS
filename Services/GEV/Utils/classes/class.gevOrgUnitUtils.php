@@ -1001,6 +1001,11 @@ class gevOrgUnitUtils {
 		$ou_tree = ilObjOrgUnitTree::_getInstance();
 
 		$parent = $ou_tree->getParent($org_ref_id);
+
+		if($parent == ilObjOrgUnit::getRootOrgRefId()) {
+			return $parent;
+		}
+
 		if(self::isBD(ilObject::_lookupObjId($parent))) {
 			return $parent;
 		}
@@ -1028,8 +1033,8 @@ class gevOrgUnitUtils {
 	static protected function isBD($obj_id) {
 		global $ilLog;
 		$orgutils = gevOrgUnitUtils::getInstance($obj_id);
-		$ilLog->dump($orgutils->getType());
-		if($orgutils->getType() == gevSettings::REF_ID_ORG_UNIT_TYPE_BD) {
+
+		if($orgutils->getType() == gevSettings::TYPE_ID_ORG_UNIT_TYPE_BD) {
 			return true;
 		}
 
