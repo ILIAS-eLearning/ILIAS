@@ -252,7 +252,7 @@ class gevDBVUtils {
 	 * @param 	int			$a_user_id
 	 * @param	array[]		obj_ids der Organisationseinheiten
 	 */
-	public function getUVGOrgUnitObjIdsIOf($a_user_id) {
+	public function getUVGOrgUnitsOf($a_user_id) {
 		return array_map(function($a_ref_id) {
 			return ilObject::_lookupObjId($a_ref_id);
 		}
@@ -270,15 +270,22 @@ class gevDBVUtils {
 	 */
 	public function getUVGTopLevelOrguIdFor($a_orgu_obj_id) {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		//gets children ov UVG
 		$uvg_children = $this->orgu_tree->getChildren($this->pou->getBaseRefId());
+
+		//if user orgunit is child of uvg, orgunit is c-pool OR personal orgunit is NOT IN bd
 		$orgu_ref_id = gevObjectUtils::getRefId($a_orgu_obj_id);
-		$parent_ref_id = gevOrgUnitUtils::getBDOf($orgu_ref_id);
 		if (in_array($orgu_ref_id, $uvg_children)) {
 			return $a_orgu_obj_id;
 		}
+
+		//get ref_id of the BD. check if BD is below UVG
+		$parent_ref_id = gevOrgUnitUtils::getBDOf($orgu_ref_id);
 		if (!in_array($parent_ref_id, $uvg_children)) {
 			throw new ilException("Parent of $orgu_ref_id is no children of UVG");
 		}
+
+		//return BD ref_id
 		return gevObjectUtils::getObjId($parent_ref_id);
 	}
 }
