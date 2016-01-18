@@ -301,7 +301,7 @@ class gevUserUtils {
 		$like_role = implode(" OR ", $like_role);
 		
 		$tmplt_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
-		$search_opts_adds = $this->getSearchOptsAdds($search_opts);
+		$join_n_wheres = $this->createJoinNWheresFromSearchOpts($search_opts);
 
 		$res = $this->db->query(
 			 "SELECT oref.obj_id, oref.ref_id "
@@ -314,13 +314,13 @@ class gevUserUtils {
 			." LEFT JOIN adv_md_values_text is_template "
 			."    ON oref.obj_id = is_template.obj_id "
 			."   AND is_template.field_id = ".$this->db->quote($tmplt_field_id, "integer")
-			.$search_opts_adds["joins"]
+			.$join_n_wheres["joins"]
 			." WHERE oref.ref_id = tr.parent"
 			."   AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
 			."   AND od2.type = 'crs'"
 			."   AND oref.deleted IS NULL"
 			."   AND is_template.value = 'Nein'"
-			.$search_opts_adds["wheres"]
+			.$join_n_wheres["wheres"]
 			);
 
 		$crs_ids = array();
@@ -332,7 +332,7 @@ class gevUserUtils {
 		return $crs_ids;
 	}
 
-	protected function getSearchOptsAdds($search_opts) {
+	protected function createJoinNWheresFromSearchOpts($search_opts) {
 		if(!$search_opts) {
 			return array("joins"=>"", "wheres"=>"");
 		}

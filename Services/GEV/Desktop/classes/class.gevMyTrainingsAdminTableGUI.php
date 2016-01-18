@@ -165,13 +165,13 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 		$current_selection_list->setAsynch(true && false);
 		$current_selection_list->setAsynchUrl(true);
 		$current_selection_list->setListTitle($this->gLng ->txt("actions"));
-		$current_selection_list->setId("act_".$this->getUniqueItemId());
+		$current_selection_list->setId($a_set["obj_id"]);
 		$current_selection_list->setSelectionHeaderClass("small");
 		$current_selection_list->setItemLinkClass("xsmall");
 		$current_selection_list->setLinksMode("il_ContainerItemCommand2");
 		$current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 		$current_selection_list->setUseImages(false);
-		$current_selection_list->setAdditionalToggleElement($this->getUniqueItemId("sd"), "ilContainerListItemOuterHighlight");
+		$current_selection_list->setAdditionalToggleElement("obj_id.".$a_set["obj_id"], "ilContainerListItemOuterHighlight");
 		
 		$this->addActionMenuItems($current_selection_list, $a_set);
 
@@ -262,11 +262,6 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 		}
 
 		return $items;
-	}
-
-	protected function getUniqueItemId($prefix = "") {
-		$this->id++;
-		return $prefix.$this->id;
 	}
 
 	protected function getCourseLink($crs_obj_id, $crs_ref_id) {

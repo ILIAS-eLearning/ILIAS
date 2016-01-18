@@ -113,13 +113,13 @@ class gevMyTrainingsAdminGUI {
 	public function getCrsRefId() {
 		$crs_ref_id = $_GET['crsrefid'];
 
-        if(!$crs_ref_id) {
-            $crs_ref_id = $_GET['ref_id'];
-        } 
+		if(!$crs_ref_id) {
+			$crs_ref_id = $_GET['ref_id'];
+		}
 
-        if(!$crs_ref_id){
-            throw new ilException("gevMyTrainingsApGUI - needs course-refid");
-        }
+		if(!$crs_ref_id){
+			throw new ilException("gevMyTrainingsApGUI - needs course-refid");
+		}
 		return $crs_ref_id;
 	}
 

@@ -68,7 +68,7 @@ class gevDesktopGUI {
 		if($cmd == "") {
 			$cmd = "toMyCourses";
 		}
-//die($cmd);
+
 		global $ilMainMenu;
 		switch($next_class) {
 			case "gevmycoursesgui":
