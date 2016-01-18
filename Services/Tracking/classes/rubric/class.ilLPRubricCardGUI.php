@@ -84,7 +84,8 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         //configure the command row
         $rubric_commandrow_tpl=new ilTemplate('tpl.lp_rubricform_commandrow.html',true,true,'Services/Tracking');        
         $select_prop=new ilSelectInputGUI('Title','selected_cmdrubric');
-        $options=array(                      
+        $options=array(                     
+            'behavior_1'=>$this->lng->txt('rubric_option_behavior_1'), 
             'behavior_2'=>$this->lng->txt('rubric_option_behavior_2'),
             'behavior_3'=>$this->lng->txt('rubric_option_behavior_3'),
             'behavior_4'=>$this->lng->txt('rubric_option_behavior_4'),

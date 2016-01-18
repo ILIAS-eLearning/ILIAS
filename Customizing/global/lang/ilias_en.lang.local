@@ -19,6 +19,7 @@ trac#:#rubric_label_bad#:#Bad
 trac#:#trac_rubric#:#Rubric Card
 trac#:#trac_mode_rubric#:#Manual by Rubric
 trac#:#trac_mode_rubric_info#:#The learning progress status will be determined by the Rubric.
+trac#:#rubric_option_behavior_1#:#Enable 1 Behaviors
 trac#:#rubric_option_behavior_2#:#Enable 2 Behaviors
 trac#:#rubric_option_behavior_3#:#Enable 3 Behaviors
 trac#:#rubric_option_behavior_4#:#Enable 4 Behaviors

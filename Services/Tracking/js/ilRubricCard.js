@@ -895,6 +895,7 @@ function rubric_cmd(o){
             case 'del_criteria':
                 RUBRIC.delCriteria();
             break;
+            case 'behavior_1':
             case 'behavior_2':
             case 'behavior_3':
             case 'behavior_4':
