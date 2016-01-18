@@ -208,6 +208,7 @@ class ilUserOrgUnitHistorizingAppEventListener {
 					break;
 				case 'assignUserOrguRole':
 					$data_payload = array('action' => 1);
+					$data_payload['t_in'] = time(); 
 					$orgus_above = 
 						self::$ilUserOrgUnitHistorizingHelper
 						->getOrgUnitsAboveOf($parameter['rol_obj_id']);
