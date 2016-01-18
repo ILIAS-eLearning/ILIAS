@@ -4862,3 +4862,15 @@ if (!$ilDB->tableColumnExists('wbd_errors_categories', 'error_group'))
 		));
 	}
 ?>
+
+<#199>
+<?php
+if (!$ilDB->tableColumnExists('hist_userorgu', 't_in'))
+	{		
+		$ilDB->addTableColumn('hist_userorgu', 't_in', array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false
+		));
+	}
+?>
