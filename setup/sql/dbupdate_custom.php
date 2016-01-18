@@ -4853,6 +4853,18 @@ if( !$ilDB->tableExists('wbd_errors_categories') )
 
 <#198>
 <?php
+if (!$ilDB->tableColumnExists('wbd_errors_categories', 'error_group'))
+	{		
+		$ilDB->addTableColumn('wbd_errors_categories', 'error_group', array(
+			"type" => "text",
+			"length" => 50,
+			"notnull" => false
+		));
+	}
+?>
+
+<#199>
+<?php
 	require_once "Customizing/class.ilCustomInstaller.php";
 	require_once('Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php');
 	require_once('Services/GEV/Utils/classes/class.gevSettings.php');

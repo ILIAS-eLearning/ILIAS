@@ -822,3 +822,41 @@ $gev_settings = array(gevSettings::CRS_AMD_MIN_PARTICIPANTS
 	$amdutils = gevAMDUtils::getInstance();
 	$amdutils->updatePositionOrderAMDField($gev_settings);
 ?>
+
+<#24>
+<?php
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+$amdutils = gevAMDUtils::getInstance();
+
+$options = array
+	( "Fachwissen"
+	, "SUHK - Privatkunden"
+	, "SUHK - Firmenkunden"
+	, "Leben und Rente"
+	, "Betriebliche Altersvorsorge"
+	, "Kooperationspartner"
+	, "Vertrieb"
+	, "Akquise / Verkauf"
+	, "Beratungs- und Tarifierungstools"
+	, "Büromanagment"
+	, "Neue Medien"
+	, "Unternehmensführung"
+	, "Agenturmanagment"
+	, "Führung"
+	, "Persönlichkeit"
+	, "Grundausbildung"
+	, "Ausbilder"
+	, "Erstausbildung"
+	, "Qualifizierungsprogramme"
+	, "Assistanceleistungen"
+	, "Investment"
+	, "Kranken und Pflege"
+	, "Rechtsschutz"
+	, "Bausparen und Finanzieren"
+	);
+
+$amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_TOPIC, $options);
+?>

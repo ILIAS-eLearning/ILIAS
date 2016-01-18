@@ -83,10 +83,25 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		$filter ->dateperiod( "period"
 							 , $this->plugin->txt("period")
 							 , $this->plugin->txt("until")
-							 , "hc.end_date"
-							 , "hc.end_date"
+							 , "hucs.end_date"
+							 , "hucs.end_date"
 							 , date("Y")."-01-01"
 							 , date("Y")."-12-31"
+							 , false
+							 , ""
+							 , function ($start, $end) {
+									global $ilDB;
+									return
+									"AND ( hc.type <> 'Selbstlernkurs'\n".
+									"      OR ( (hucs.end_date = '0000-00-00' OR hucs.end_date = '-empty-')\n".
+									"           AND hucs.begin_date >= ".$ilDB->quote($start, "date")."\n".
+									"           AND hucs.begin_date <= ".$ilDB->quote($end, "date")."\n".
+									"         )\n".
+									"      OR ( hucs.end_date >= ".$ilDB->quote($start, "date")."\n".
+									"           AND hucs.end_date <= ".$ilDB->quote($end, "date")."\n".
+									"         )\n".
+									"    )\n";
+								}
 							 )
 				->multiselect( "orgu"
 							 , $this->plugin->txt("org_unit_short")
