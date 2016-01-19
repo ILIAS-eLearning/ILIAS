@@ -1046,6 +1046,8 @@ class recursiveOrguFilter {
 		array_unique($skip_org_units_in_filter);
 
 		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
+		$org_units_filter_otions_ids = array_diff($superior_orgunits, $skip_org_units_in_filter);
+		
 		$options = array();
 		foreach ($org_units_filter_otions_ids as $obj_id) {
 			$options[ilObject::_lookupTitle($obj_id)] = $obj_id;
