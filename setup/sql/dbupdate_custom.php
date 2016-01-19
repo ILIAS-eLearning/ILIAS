@@ -4867,3 +4867,8 @@ if (!$ilDB->tableColumnExists('wbd_errors_categories', 'error_group'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#200>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
