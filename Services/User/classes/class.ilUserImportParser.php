@@ -508,7 +508,7 @@ class ilUserImportParser extends ilSaxParser
 				$this->style = "";
 				$this->personalPicture = null;
 				$this->userCount++;
-				$this->userObj = new ilObjUser();
+				$this->userObj = new ilObjUser(ilObjUser::_lookupId($a_attribs["Id"]));
 
 				// user defined fields
 				$this->udf_data = array();
@@ -642,7 +642,7 @@ class ilUserImportParser extends ilSaxParser
 
 			case "User":
 				$this->userCount++;
-				$this->userObj = new ilObjUser();
+				$this->userObj = new ilObjUser(ilObjUser::_lookupId($a_attribs["Id"]));
 				$this->userObj->setLanguage($a_attribs["Language"]);
 				$this->userObj->setImportId($a_attribs["Id"]);
 				$this->currentPrefKey = null;
