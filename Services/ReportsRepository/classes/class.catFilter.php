@@ -1025,28 +1025,20 @@ class recursiveOrguFilter {
 	* The logic by which relevant orgus are extracted is defined later, but will be consistent for any report.
 	*/
 	public function setFilterOptionsByUser(gevUserUtils $user_utils) {
-		$never_skip = $user_utils->getOrgUnitsWhereUserIsDirectSuperior();
 
-		array_walk($never_skip,
-			function (&$obj_ref_id) {
-				$obj_ref_id = $obj_ref_id["obj_id"];
-			}
+		$project_onto_object_id =
+			function ($obj_and_ref_id) {
+				return $obj_and_ref_id["obj_id"];
+			};
+
+		$never_skip = array_map($project_onto_object_id, $user_utils->getOrgUnitsWhereUserIsDirectSuperior());
+		$superior_orgunits = array_map($project_onto_object_id, $user_utils->getOrgUnitsWhereUserIsSuperior());
+
+		$skip_org_units_in_filter_below = array_map(
+			function($title) {
+				return $this->getChildrenOf(ilObjOrgUnit::_getIdsForTitle($title));
+			}, array('Nebenberufsagenturen')
 		);
-
-		$superior_orgunits = $user_utils->getOrgUnitsWhereUserIsSuperior();
-		array_walk($superior_orgunits,
-			function (&$obj_ref_id) {
-				$obj_ref_id = $obj_ref_id["obj_id"];
-			}
-		);
-
-		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
-		array_walk($skip_org_units_in_filter_below,
-			function(&$title) {
-				$title = $this->getChildrenOf(ilObjOrgUnit::_getIdsForTitle($title)[0]); 
-			}
-		);
-
 		$skip_org_units_in_filter = array();
 		foreach ($skip_org_units_in_filter_below as $org_units) {
 			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
@@ -1054,14 +1046,11 @@ class recursiveOrguFilter {
 		array_unique($skip_org_units_in_filter);
 
 		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
-
-		$org_units_filter_otions_ids = array_diff($superior_orgunits, $skip_org_units_in_filter);
 		$options = array();
 		foreach ($org_units_filter_otions_ids as $obj_id) {
 			$options[ilObject::_lookupTitle($obj_id)] = $obj_id;
 		}
 		ksort($options);
-
 		$this->filter_options = $options;
 	}
 
