@@ -568,7 +568,7 @@ class catCheckboxFilterType {
 	
 	public function render($a_tpl, $a_postvar, $a_conf, $a_pars) {
 		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-		$a_tpl->setVariable("PROPERTY_CHECKED", $this->initialLoad($a_conf) ? 
+		$a_tpl->setVariable("PROPERTY_CHECKED", $this->initialLoad() ?
 													($a_conf[6] ? "checked" : "") : 
 														($a_pars ? "checked" : ""));
 		$a_tpl->setVariable("OPTION_TITLE", $a_conf[2]);
@@ -576,8 +576,8 @@ class catCheckboxFilterType {
 		return true;
 	}
 
-	protected function initialLoad($a_conf) {
-		return !($_POST["filter_".$a_conf[1]."_new_load"]);
+	protected function initialLoad() {
+		return !$_POST;
 	}
 	
 	public function isInWhere($a_conf) {
@@ -587,7 +587,7 @@ class catCheckboxFilterType {
 	public function sql($a_conf, $a_pars) {
 		global $ilDB;
 	
-		if ($a_pars && $a_conf[3] !== null) {
+		if (($a_pars || ($this->initialLoad() && $a_conf[6])) && $a_conf[3] !== null) {
 			return $a_conf[3];
 		}
 		
@@ -1077,7 +1077,7 @@ class recursiveOrguFilter {
 	*/
 	public function getSelection() {
 		$top_orgu_ids = $this->filter->get($this->id);
-		return $top_orgu_ids;
+		return $top_orgu_ids ? $top_orgu_ids : $this->filter_options;
 	}
 
 	/**
