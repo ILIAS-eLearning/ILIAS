@@ -1026,13 +1026,13 @@ class recursiveOrguFilter {
 	*/
 	public function setFilterOptionsByUser(gevUserUtils $user_utils) {
 
-		$project_onto_object_id =
+		$fn_extract_obj_id =
 			function ($obj_and_ref_id) {
 				return $obj_and_ref_id["obj_id"];
 			};
 
-		$never_skip = array_map($project_onto_object_id, $user_utils->getOrgUnitsWhereUserIsDirectSuperior());
-		$superior_orgunits = array_map($project_onto_object_id, $user_utils->getOrgUnitsWhereUserIsSuperior());
+		$never_skip = array_map($fn_extract_obj_id, $user_utils->getOrgUnitsWhereUserIsDirectSuperior());
+		$superior_orgunits = array_map($fn_extract_obj_id, $user_utils->getOrgUnitsWhereUserIsSuperior());
 
 		$skip_org_units_in_filter_below = array_map(
 			function($title) {
@@ -1047,7 +1047,7 @@ class recursiveOrguFilter {
 
 		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
 		$org_units_filter_otions_ids = array_diff($superior_orgunits, $skip_org_units_in_filter);
-		
+
 		$options = array();
 		foreach ($org_units_filter_otions_ids as $obj_id) {
 			$options[ilObject::_lookupTitle($obj_id)] = $obj_id;
