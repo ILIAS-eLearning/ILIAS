@@ -546,14 +546,20 @@ class catCheckboxFilterType {
 	// sql_checked
 	// sql_unchecked
 	// is_in_having (optional, default to false)
+	// default_checked default false
 	
 	public function checkConfig($a_conf) {
-		if (count($a_conf) !== 5 && count($a_conf) !== 6) {
+		if (count($a_conf) !== 5 && count($a_conf) !== 6 && count($a_conf) !== 7) {
 			// one parameter less, since type is encoded in first parameter but not passed by user.
 			throw new Exception ("catCheckboxFilterType::checkConfig: expected 4 or 5 parameters for checkbox.");
 		}
 		
 		if (count($a_conf) === 5) {
+			$a_conf[] = false;
+			$a_conf[] = false;
+		}
+
+		if (count($a_conf) === 6) {
 			$a_conf[] = false;
 		}
 		
@@ -562,11 +568,16 @@ class catCheckboxFilterType {
 	
 	public function render($a_tpl, $a_postvar, $a_conf, $a_pars) {
 		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-		
-		$a_tpl->setVariable("PROPERTY_CHECKED", $a_pars ? "checked" : "");
+		$a_tpl->setVariable("PROPERTY_CHECKED", $this->initialLoad($a_conf) ? 
+													($a_conf[6] ? "checked" : "") : 
+														($a_pars ? "checked" : ""));
 		$a_tpl->setVariable("OPTION_TITLE", $a_conf[2]);
 		
 		return true;
+	}
+
+	protected function initialLoad($a_conf) {
+		return !($_POST["filter_".$a_conf[1]."_new_load"]);
 	}
 	
 	public function isInWhere($a_conf) {
@@ -975,6 +986,8 @@ class recursiveOrguFilter {
 								 , $lng->txt("gev_org_unit_recursive")
 								 , " TRUE "
 								 , " TRUE "
+								 , false
+								 , true
 								 );
 		}
 		$filter		->multiselect( $this->id
