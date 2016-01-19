@@ -553,14 +553,20 @@ class catCheckboxFilterType {
 	// sql_checked
 	// sql_unchecked
 	// is_in_having (optional, default to false)
+	// default_checked default false
 	
 	public function checkConfig($a_conf) {
-		if (count($a_conf) !== 5 && count($a_conf) !== 6) {
+		if (count($a_conf) !== 5 && count($a_conf) !== 6 && count($a_conf) !== 7) {
 			// one parameter less, since type is encoded in first parameter but not passed by user.
 			throw new Exception ("catCheckboxFilterType::checkConfig: expected 4 or 5 parameters for checkbox.");
 		}
 		
 		if (count($a_conf) === 5) {
+			$a_conf[] = false;
+			$a_conf[] = false;
+		}
+
+		if (count($a_conf) === 6) {
 			$a_conf[] = false;
 		}
 		
@@ -569,11 +575,16 @@ class catCheckboxFilterType {
 	
 	public function render($a_tpl, $a_postvar, $a_conf, $a_pars) {
 		require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-		
-		$a_tpl->setVariable("PROPERTY_CHECKED", $a_pars ? "checked" : "");
+		$a_tpl->setVariable("PROPERTY_CHECKED", $this->initialLoad() ?
+													($a_conf[6] ? "checked" : "") : 
+														($a_pars ? "checked" : ""));
 		$a_tpl->setVariable("OPTION_TITLE", $a_conf[2]);
 		
 		return true;
+	}
+
+	protected function initialLoad() {
+		return !$_POST;
 	}
 	
 	public function isInWhere($a_conf) {
@@ -583,7 +594,7 @@ class catCheckboxFilterType {
 	public function sql($a_conf, $a_pars) {
 		global $ilDB;
 	
-		if ($a_pars && $a_conf[3] !== null) {
+		if (($a_pars || ($this->initialLoad() && $a_conf[6])) && $a_conf[3] !== null) {
 			return $a_conf[3];
 		}
 		
@@ -628,7 +639,8 @@ class catMultiSelectFilter {
 	// height (optional, defaults to 75)
 	// field type (optional, default to "text")
 	// filter-options sorting (defaults to "asc", also possible  "desc", "none")
-	
+	// custom labels
+	// ignore in filterWhere
 	public function checkConfig($a_conf) {
 		if (count($a_conf) < 6) {
 			// one parameter less, since type is encoded in first parameter but not passed by user.
@@ -642,6 +654,7 @@ class catMultiSelectFilter {
 			$a_conf[] = "text"; // type
 			$a_conf[] = "asc"; //filter-options sorting
 			$a_conf[] = false; //filter-options custom labels
+			$a_conf[] = false; //ignore in filterwhere
 		}
 		else if (count($a_conf) === 7) {
 			$a_conf[] = 200; // width
@@ -649,24 +662,31 @@ class catMultiSelectFilter {
 			$a_conf[] = "text"; // type
 			$a_conf[] = "asc"; //filter-options sorting
 			$a_conf[] = false; //filter-options custom labels
+			$a_conf[] = false; //ignore in filterwhere
 		}
 		else if (count($a_conf) === 8) {
 			$a_conf[] = 160; // height
 			$a_conf[] = "text"; // type
 			$a_conf[] = "asc"; //filter-options sorting
 			$a_conf[] = false; //filter-options custom labels
+			$a_conf[] = false; //ignore in filterwhere
 		}
 		else if (count($a_conf) === 9) {
 			$a_conf[] = "text"; // type
 			$a_conf[] = "asc"; //filter-options sorting
 			$a_conf[] = false; //filter-options custom labels
+			$a_conf[] = false; //ignore in filterwhere
 		}
 		else if (count($a_conf) === 10) {
 			$a_conf[] = "asc"; //filter-options sorting
 			$a_conf[] = false; //filter-options custom labels
+			$a_conf[] = false; //ignore in filterwhere
 		}
 		else if (count($a_conf) === 11) {
 			$a_conf[] = false; //filter-options custom labels
+			$a_conf[] = false; //ignore in filterwhere
+		} else if (count($a_conf) === 12) {
+			$a_conf[] = false; //ignore in filterwhere
 		}
 		
 		return $a_conf;
@@ -729,7 +749,7 @@ class catMultiSelectFilter {
 	
 	public function sql($a_conf, $a_pars) {
 		global $ilDB;
-		if (count($a_pars) == 0) {
+		if ($a_conf[12] || count($a_pars) == 0) {
 			return " TRUE ";
 		}
 		
@@ -939,4 +959,169 @@ class catMultiSelectCustomFilter {
 		return $a_post;
 	}
 }
+
 catFilter::addFilterType(catMultiSelectCustomFilter::ID, new catMultiSelectCustomFilter());
+	/**
+	* We need orgu filters which may be recursive and are consitent throughout all of our reports.
+	* This helper class should ensure the requirements.
+	*/
+class recursiveOrguFilter {
+	protected $filter_options;
+	protected $filtered_orgus;
+	protected $field;
+	protected $recursive;
+	protected $filter;
+	protected $id;
+	protected $gIldb;
+
+	public function __construct($id, $field, $possibly_recursive, $ignore_in_filter_where) {
+		$this->id = $id;
+		$this->possibly_recursive = $possibly_recursive;
+		$this->field = $field;
+		global $ilDB;
+		$this->gIldb = $ilDB;
+	}
+
+	/**
+	* Include a configured orgu-filter to @param catFilter filter.
+	* @return catFilter filter.
+	*/
+	public function addToFilter($filter) {
+		global $lng;
+		if($this->possibly_recursive) {
+			$filter	->checkbox(	   $this->id.'_recursive'
+								 , $lng->txt("gev_org_unit_recursive")
+								 , " TRUE "
+								 , " TRUE "
+								 , false
+								 , true
+								 );
+		}
+		$filter		->multiselect( $this->id
+								 , $lng->txt("gev_org_unit_short")
+								 , $this->field
+								 , $this->filter_options
+								 , array()
+								 , ""
+								 , 300
+								 , 160
+								 , "text"
+								 , "asc"
+								 , true
+								 , $this->possibly_recursive || $this->ignore_in_filter_where
+								 );
+		$this->filter = $filter;
+		return $filter;
+	}
+
+	/**
+	* Define the filter options by directly providing an associative @param array(orgu_title => orgu_id)
+	*/
+	public function setFilterOptionsByArray(array $org_ids) {
+		$options = array();
+
+		foreach ($org_ids as $obj_id) {
+			$options[ilObject::_lookupTitle($obj_id)] = $obj_id;
+		}
+
+		$this->filter_options = $options;
+	}
+
+	/**
+	* Define the filter options by directly providing a usr object @param gevUserUtils $user_utils.
+	* The logic by which relevant orgus are extracted is defined later, but will be consistent for any report.
+	*/
+	public function setFilterOptionsByUser(gevUserUtils $user_utils) {
+
+		$fn_extract_obj_id =
+			function ($obj_and_ref_id) {
+				return $obj_and_ref_id["obj_id"];
+			};
+
+		$never_skip = array_map($fn_extract_obj_id, $user_utils->getOrgUnitsWhereUserIsDirectSuperior());
+		$superior_orgunits = array_map($fn_extract_obj_id, $user_utils->getOrgUnitsWhereUserIsSuperior());
+
+		$skip_org_units_in_filter_below = array_map(
+			function($title) {
+				return $this->getChildrenOf(ilObjOrgUnit::_getIdsForTitle($title));
+			}, array('Nebenberufsagenturen')
+		);
+		$skip_org_units_in_filter = array();
+		foreach ($skip_org_units_in_filter_below as $org_units) {
+			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
+		}
+		array_unique($skip_org_units_in_filter);
+
+		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
+		$org_units_filter_otions_ids = array_diff($superior_orgunits, $skip_org_units_in_filter);
+
+		$options = array();
+		foreach ($org_units_filter_otions_ids as $obj_id) {
+			$options[ilObject::_lookupTitle($obj_id)] = $obj_id;
+		}
+		ksort($options);
+		$this->filter_options = $options;
+	}
+
+	/**
+	* @return bool recursive filter selection
+	*/
+	public function getRecursiveSelection() {
+		return $this->filter->get($this->id.'_recursive');
+	}
+
+	/**
+	* @return array(orgu_ids) orgu filter selection
+	*/
+	public function getSelection() {
+		$top_orgu_ids = $this->filter->get($this->id);
+		return $top_orgu_ids ? $top_orgu_ids : $this->filter_options;
+	}
+
+	/**
+	* @return array(orgu_ids) orgu filter selection and possibly the orgu_ids below selected orgus,
+	* depending on @param (bool)$force_recursive and filter selection for recursive filtering (see function getRecursiveSelection).
+	*/
+	public function getSelectionAndRecursive($force_recursive = false) {
+		$orgu_ids = $this->getSelection();
+		if($this->getRecursiveSelection() || $force_recursive) {
+			return array_unique(array_intersect(array_merge($this->getChildrenOf($orgu_ids),$orgu_ids),array_values($this->filter_options)));
+		}
+		return $orgu_ids;
+	}
+
+	/**
+	* helper method
+	* @return array(orgu_ids) all children of
+	* @param array(orgu_ids)
+	*/
+	protected function getChildrenOf($orgu_ids) {
+		$aux = array();
+		foreach($orgu_ids as $orgu_id) {
+			$ref_id = gevObjectUtils::getRefId($orgu_id);
+			foreach (gevOrgUnitUtils::getAllChildren(array($ref_id)) as $child) {
+				$aux[] = $child["obj_id"];
+			}
+		}
+		return $aux;
+	}
+
+	/**
+	* @return a sql string which reflects the filter selection
+	*/
+	public function deliverQuery() {
+		$orgus = $this->possibly_recursive ? $this->getSelectionAndRecursive() : $this->getSelection();
+		if(count($orgus) > 0) {
+			return $this->gIldb->in($this->field, $orgus, false, 'integer');
+		}
+		return ' TRUE ';
+	}
+
+	/**
+	* add a where statement to @param catReportQuery $query which reflects the filter selection
+	* @return catReportQuery $query
+	*/
+	public function addToQuery(catReportQuery $query) {
+		return $query->where($this->deliverQuery());
+	}
+}

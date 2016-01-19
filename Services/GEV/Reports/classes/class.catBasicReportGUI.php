@@ -303,13 +303,11 @@ class catBasicReportGUI {
 	}
 
 	protected function queryWhere() {
-		if ($this->filter === null) {
-			return " WHERE TRUE";
-		}
-		
-		return " WHERE ".$this->filter->getSQLWhere();
+		$query_part = $this->query ? $this->query->getSqlWhere() : ' TRUE ';
+		$filter_part = $this->filter ? $this->filter->getSQLWhere() : ' TRUE ';
+		return ' WHERE '.$filter_part.' AND '.$query_part;
 	}
-	
+
 	protected function queryHaving() {
 		if ($this->filter === null) {
 			return "";
