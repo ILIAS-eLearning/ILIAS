@@ -511,8 +511,11 @@ var RUBRIC = {
             tr.appendChild(this.createCardFormBodyInputs('Behavior Description',trs.length,a,false));
         }
         
-        parent_tr.parentNode.insertBefore(tr,parent_tr.nextSibling);
-        
+        // add on the new tr right before the point range
+        while(!this.nodeHasPointRange(parent_tr)){            
+            parent_tr=parent_tr.nextElementSibling;
+        }
+        parent_tr.parentNode.insertBefore(tr,parent_tr);
     },
     
     getOneSelected:function(trs,looking_for){
