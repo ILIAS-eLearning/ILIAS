@@ -990,7 +990,7 @@ function validate(obj){
         case 'group':
         case 'crite':
             modified_object=obj.parentNode.parentNode;
-            if(obj.value.length>3&&obj.value.length<50){
+            if(obj.value.length>3&&obj.value.length<256){
                 validated=true;
             }else if(obj.value==''){
                 validated='warning';
