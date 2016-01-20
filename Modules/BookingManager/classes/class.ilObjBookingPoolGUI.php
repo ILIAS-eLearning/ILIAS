@@ -1501,6 +1501,12 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 					new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
 					new ilDateTime($rsv->getTo()+1, IL_CAL_UNIX));
 			
+			// #17869
+			if(is_array($ids))
+			{
+				$caption .= " (".sizeof($ids).")";
+			}
+			
 			$item = new ilNumberInputGUI($caption, "rsv_id_".$idx);
 			$item->setRequired(true);
 			$item->setMinValue(0);
