@@ -17,12 +17,6 @@ class ilObjReportASTDGUI extends ilObjReportBaseGUI {
 	protected function settingsForm($data = null) {
 		$settings_form = parent::settingsForm($data);
 
-		$is_online = new ilCheckboxInputGUI($this->gLng->txt('online'),'online');
-		if(isset($data['online'])) {
-			$is_online->setChecked($data['online']);
-		}
-		$settings_form->addItem($is_online);
-
 		$accomodation_cost = new ilNumberInputGUI($this->gLng->txt('astd_accomodation_cost_per_day_person'),'accomodation_cost');
 		$accomodation_cost->allowDecimals(true);
 		if(isset($data['accomodation_cost'])) {
@@ -41,13 +35,11 @@ class ilObjReportASTDGUI extends ilObjReportBaseGUI {
 
 	protected function getSettingsData() {
 		$data = parent::getSettingsData();
-		$data['online'] = $this->object->getOnline();
 		$data['accomodation_cost'] = $this->object->getAccomodationCost();
 		return $data;
 	}
 
 	protected function saveSettingsData($data) {
-		$this->object->setOnline($data['online']);
 		$this->object->setAccomodationCost($data['accomodation_cost']);
 		parent::saveSettingsData($data);
 	}

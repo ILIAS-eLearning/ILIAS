@@ -18,6 +18,7 @@ root_create_xrcg#:#Unternehmensreport erzeugen
 cat_create_xrcg#:#Unternehmensreport erzeugen
 rep_robj_xrcg_status#:#Status
 rep_robj_xrcg_offline#:#Offline
+online#:#Online
 sum#:#Summe
 header_book#:#Buchungen <br> (noch kein Teilnahmestatus)
 header_part#:#Teilnahmen <br> (Teilnahmestatus vorhanden)

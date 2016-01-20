@@ -995,18 +995,50 @@ class gevOrgUnitUtils {
 		return gevUserUtils::removeInactiveUsers($sups);
 	}
 
-	static public function getOrguUnitsXLevelAbove($org_ref_id, $lvl) {
+	static public function getBDOf($org_ref_id) {
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		$ou_tree = ilObjOrgUnitTree::_getInstance();
-		$ret = $org_ref_id;
-		for($i = 0; $i< $lvl; $i++) {
-			$ret = $ou_tree->getParent($ret);
 
-			if($ret == ilObjOrgUnit::getRootOrgRefId()) {
-				break;
+		$parent = $ou_tree->getParent($org_ref_id);
+
+		if($parent == ilObjOrgUnit::getRootOrgRefId()) {
+			throw new Exception("NOT IN BD!");
+		}
+
+		if(self::isBD(ilObject::_lookupObjId($parent))) {
+			return $parent;
+		}
+
+		return gevOrgUnitUtils::getBDOf($parent);
+	}
+
+	static public function getBDByName($bd_name, $org_ref_id = null) {
+		global $tree, $ilLog;
+
+		if(!$org_ref_id) {
+			$org_ref_id = self::getUVGOrgUnitRefId();
+		}
+
+		$children = $tree->getChilds($org_ref_id);
+		foreach ($children as $child) {
+			if ($child["type"] == "orgu" && self::isBD($child["obj_id"]) && ilObject::_lookupTitle($child["obj_id"]) == $bd_name) {
+				return $child["ref_id"];
 			}
 		}
 
-		return $ret;
+		return null;
+	}
+
+	static protected function isBD($obj_id) {
+		global $ilLog;
+		$orgutils = gevOrgUnitUtils::getInstance($obj_id);
+
+		if($orgutils->getType() == gevSettings::TYPE_ID_ORG_UNIT_TYPE_BD) {
+			return true;
+		}
+
+		return false;
 	}
 }
 
