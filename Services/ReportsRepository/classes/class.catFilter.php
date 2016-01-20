@@ -1075,7 +1075,7 @@ class recursiveOrguFilter {
 	*/
 	public function getSelection() {
 		$top_orgu_ids = $this->filter->get($this->id);
-		return $top_orgu_ids ? $top_orgu_ids : $this->filter_options;
+		return $top_orgu_ids;
 	}
 
 	/**
@@ -1084,7 +1084,7 @@ class recursiveOrguFilter {
 	*/
 	public function getSelectionAndRecursive($force_recursive = false) {
 		$orgu_ids = $this->getSelection();
-		if($this->getRecursiveSelection() || $force_recursive) {
+		if(count($orgu_ids)>0 && ($this->getRecursiveSelection() || $force_recursive)) {
 			return array_unique(array_intersect(array_merge($this->getChildrenOf($orgu_ids),$orgu_ids),array_values($this->filter_options)));
 		}
 		return $orgu_ids;
@@ -1096,6 +1096,7 @@ class recursiveOrguFilter {
 	* @param array(orgu_ids)
 	*/
 	protected function getChildrenOf($orgu_ids) {
+		require_once 'Services/GEV/Utils/classes/class.gevOrgUnitUtils.php';
 		$aux = array();
 		foreach($orgu_ids as $orgu_id) {
 			$ref_id = gevObjectUtils::getRefId($orgu_id);
