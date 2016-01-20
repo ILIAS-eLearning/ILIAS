@@ -20,30 +20,6 @@ class ilObjReportDBVSuperiorGUI extends ilObjReportBaseGUI {
 		return $a_title;
 	}
 
-	protected function settingsForm($data = null) {
-		$settings_form = parent::settingsForm($data);
-
-		$is_online = new ilCheckboxInputGUI($this->gLng->txt('online'),'online');
-		$is_online->setValue(1);
-		if(isset($data["online"])) {
-			$is_online->setChecked($data["online"]);
-		}
-		$settings_form->addItem($is_online);
-
-		return $settings_form;
-	}
-
-	protected function getSettingsData() {
-		$data = parent::getSettingsData();
-		$data["online"] = $this->object->getOnline();
-		return $data;
-	}
-
-	protected function saveSettingsData($data) {
-		$this->object->setOnline($data["online"]);
-		parent::saveSettingsData($data);
-	}
-
 	public static function transformResultRow($rec) {
 		global $ilCtrl;
 		$rec['odbd'] = $rec['org_unit_above1'];

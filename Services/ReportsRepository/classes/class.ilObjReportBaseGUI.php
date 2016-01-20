@@ -370,7 +370,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	}
 
 	protected function getSettingsData() {
-
+		$data["online"] = $this->object->getOnline();
 		$data["title"] = $this->object->getTitle();
 		$data["description"] = $this->object->getDescription();
 
@@ -381,6 +381,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	* call this method last in static::saveSettingsData
 	*/
 	protected function saveSettingsData($data) {
+		$this->object->setOnline($data["online"]);
 		$this->object->setTitle($data["title"]);
 		$this->object->setDescription($data["description"]);
 		$this->object->doUpdate();
@@ -407,6 +408,13 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			$description->setValue($data["description"]);
 		}
 		$settings_form->addItem($description);
+
+		$is_online = new ilCheckboxInputGUI($this->object->plugin->txt('online'),'online');
+		$is_online->setValue(1);
+		if(isset($data["online"])) {
+			$is_online->setChecked($data["online"]);
+		}
+		$settings_form->addItem($is_online);
 
 		return $settings_form;
 	}
