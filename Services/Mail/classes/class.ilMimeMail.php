@@ -427,7 +427,7 @@ class ilMimeMail
 		else
 		{
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				'Could not deliver external email: ', $mail->ErrorInfo
+				'Could not deliver external email: %s', $mail->ErrorInfo
 			));
 		}
 	}
