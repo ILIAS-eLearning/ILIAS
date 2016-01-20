@@ -95,7 +95,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 									 , array(	"teilgenommen"=>"teilgenommen"
 									 			,"fehlt ohne Absage"=>"fehlt ohne Absage"
 									 			,"fehlt entschuldigt"=>"fehlt entschuldigt"
-									 			,"gebucht, noch nicht abgeschlossen"=>"nicht gesetzt")
+									 			,"nicht gesetzt"=>"gebucht, noch nicht abgeschlossen")
 									 , array()
 									 , ""
 									 , 220
