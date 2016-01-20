@@ -4879,8 +4879,6 @@ if (!$ilDB->tableColumnExists('wbd_errors_categories', 'error_group'))
 	ilCustomInstaller::maybeInitUserToRoot();
 	ilCustomInstaller::maybeInitSettings();
 
-	$record_ids = array(9,10,14);
-
 	$type = new ilOrgUnitType();
 	$type->setDefaultLang("de");
 	$type->setTitle("BD", "de");
@@ -4889,14 +4887,8 @@ if (!$ilDB->tableColumnExists('wbd_errors_categories', 'error_group'))
 	$type->setDescription("Identifies an Organisational Unit as BD", "en");
 	$type->save();
 
-	foreach ($record_ids as $record_id) {
-		$type->assignAdvancedMDRecord($record_id);
-	}
-
 	$settings = gevSettings::getInstance();
 	$settings->setTypeIDOrgUnitTypeDB($type->getId());
-
-	$ilCtrlStructureReader->getStructure();
 ?>
 
 <#200>
