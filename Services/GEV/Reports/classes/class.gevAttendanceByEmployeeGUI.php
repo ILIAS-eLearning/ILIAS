@@ -62,7 +62,66 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->defaultOrder("lastname", "ASC")
 						;
 
-		$this->query = catReportQuery::create()
+
+		$this->allowed_user_ids = $this->user_utils->getEmployees();
+
+		$orgu_filter = new recursiveOrguFilter("org_unit","orgu.orgu_id",true,true);
+		$orgu_filter->setFilterOptionsByUser($this->user_utils);
+
+		$this->filter = catFilter::create()
+						->dateperiod( "period"
+									, $this->lng->txt("gev_period")
+									, $this->lng->txt("gev_until")
+									, "usrcrs.begin_date"
+									, "usrcrs.end_date"
+									, date("Y")."-01-01"
+									, date("Y")."-12-31"
+									, false
+									, " OR usrcrs.hist_historic IS NULL"
+									);
+		$orgu_filter->addToFilter($this->filter);
+		$this->filter	->multiselect("template_title"
+									 , $this->lng->txt("crs_title")
+									 , "template_title"
+									 , gevCourseUtils::getTemplateTitleFromHisto()
+									 , array()
+									 , ""
+									 , 300
+									 , 160
+									 )
+						->multiselect("participation_status"
+									 , $this->lng->txt("gev_participation_status")
+									 , "participation_status"
+									 , array(	"teilgenommen"=>"teilgenommen"
+									 			,"fehlt ohne Absage"=>"fehlt ohne Absage"
+									 			,"fehlt entschuldigt"=>"fehlt entschuldigt"
+									 			,"gebucht, noch nicht abgeschlossen"=>"nicht gesetzt")
+									 , array()
+									 , ""
+									 , 220
+									 , 160
+									 , "text"
+									 , "asc"
+									 , true
+									 )
+						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
+						->static_condition(" usr.hist_historic = 0")
+						->static_condition("( usrcrs.booking_status != '-empty-'"
+										  ." OR usrcrs.hist_historic IS NULL )")
+						->static_condition("(   usrcrs.participation_status != '-empty-'"
+										  ." OR usrcrs.hist_historic IS NULL )")
+						->static_condition("(   usrcrs.booking_status != 'kostenfrei storniert'"
+										  ." OR usrcrs.hist_historic IS NULL )")
+						->static_condition("(   usrcrs.booking_status != ".$this->db->quote('-empty-','text')
+										  ." OR usrcrs.hist_historic IS NULL )" )
+						->static_condition("orgu.action >= 0")
+						->static_condition("orgu.hist_historic = 0")
+						->static_condition("orgu.rol_title = 'Mitarbeiter'")
+						->action($this->ctrl->getLinkTarget($this, "view"))
+						->compile()
+						;
+
+				$this->query = catReportQuery::create()
 						->distinct()
 						->select("usr.user_id")
 						->select("usr.lastname")
@@ -86,8 +145,9 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->select("crs.begin_date")
 						->select("crs.end_date")
 						->select("crs.edu_program")
-						->from("hist_user usr")
-						->left_join("hist_usercoursestatus usrcrs")
+						->from("hist_user usr");
+			$orgu_filter->addToQuery($this->query);		
+			$this->query->left_join("hist_usercoursestatus usrcrs")
 							->on("usr.user_id = usrcrs.usr_id AND (usrcrs.hist_historic = 0 OR usrcrs.hist_historic IS NULL)")
 						->left_join("hist_course crs")
 							->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
@@ -95,118 +155,6 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 							->on("orgu.usr_id = usr.user_id")
 						->group_by("usr.user_id")
 						->group_by("usrcrs.crs_id")
-						->compile()
-						;
-
-		$this->allowed_user_ids = $this->user_utils->getEmployees();
-
-		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
-		array_walk($never_skip, 
-			function (&$obj_ref_id) {
-				$aux = new ilObjOrgUnit($obj_ref_id["ref_id"]);
-				$obj_ref_id = $aux->getTitle();
-			}
-		);
-		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
-		array_walk($skip_org_units_in_filter_below, 
-			function(&$title) { 
-				$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
-				$title = gevObjectUtils::getRefId($title);
-				$title = gevOrgUnitUtils::getAllChildrenTitles(array($title));
-			}
-		);
-		$skip_org_units_in_filter = array();
-		foreach ($skip_org_units_in_filter_below as $org_units) {
-			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
-		}
-		array_unique($skip_org_units_in_filter);
-		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
-		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserIsSuperior(), $skip_org_units_in_filter);
-		sort($org_units_filter);
-
-		$this->filter = catFilter::create()
-						->dateperiod( "period"
-									, $this->lng->txt("gev_period")
-									, $this->lng->txt("gev_until")
-									, "usrcrs.begin_date"
-									, "usrcrs.end_date"
-									, date("Y")."-01-01"
-									, date("Y")."-12-31"
-									, false
-									, " OR usrcrs.hist_historic IS NULL"
-									)
-						->multiselect( "org_unit"
-									 , $this->lng->txt("gev_org_unit_short")
-									 , array("orgu.orgu_title", "orgu.org_unit_above1", "orgu.org_unit_above2")
-									 , $org_units_filter
-									 , array()
-									 , ""
-									 , 300
-									 , 160
-									 )
-						/*->multiselect("edu_program"
-									 , $this->lng->txt("gev_edu_program")
-									 , "edu_program"
-									 , gevCourseUtils::getEduProgramsFromHisto()
-									 , array()
-									 )
-						->multiselect("type"
-									 , $this->lng->txt("gev_course_type")
-									 , "type"
-									 , gevCourseUtils::getLearningTypesFromHisto()
-									 , array()
-									 )*/
-						->multiselect("template_title"
-									 , $this->lng->txt("crs_title")
-									 , "template_title"
-									 , gevCourseUtils::getTemplateTitleFromHisto()
-									 , array()
-									 , ""
-									 , 300
-									 , 160
-									 )
-						->multiselect("participation_status"
-									 , $this->lng->txt("gev_participation_status")
-									 , "participation_status"
-									 , array(	"teilgenommen"=>"teilgenommen"
-									 			,"fehlt ohne Absage"=>"fehlt ohne Absage"
-									 			,"fehlt entschuldigt"=>"fehlt entschuldigt"
-									 			,"gebucht, noch nicht abgeschlossen"=>"nicht gesetzt")
-									 , array()
-									 , ""
-									 , 220
-									 , 160
-									 , "text"
-									 , "asc"
-									 , true
-									 )/*
-						->multiselect("position_key"
-									 , $this->lng->txt("gev_position_key")
-									 , "position_key"
-									 , gevUserUtils::getPositionKeysFromHisto()
-									 , array()
-									 )*/
-						->static_condition($this->db->in("usr.user_id", $this->allowed_user_ids, false, "integer"))
-						->static_condition(" usr.hist_historic = 0")
-						->static_condition("( usrcrs.booking_status != '-empty-'"
-										  ." OR usrcrs.hist_historic IS NULL )")
-						->static_condition("(   usrcrs.participation_status != '-empty-'"
-										  ." OR usrcrs.hist_historic IS NULL )")
-						->static_condition("(   usrcrs.booking_status != 'kostenfrei storniert'"
-										  ." OR usrcrs.hist_historic IS NULL )")
-						->static_condition("(   usrcrs.booking_status != ".$this->db->quote('-empty-','text')
-										  ." OR usrcrs.hist_historic IS NULL )" )
-						->static_condition("orgu.action >= 0")
-						->static_condition("orgu.hist_historic = 0")
-						->static_condition("orgu.rol_title = 'Mitarbeiter'")
-						/*->static_condition("IF(UNIX_TIMESTAMP(usrcrs.begin_date)=0 "
-                                          ."OR usrcrs.begin_date IS NULL, TRUE,"
-                                          ."UNIX_TIMESTAMP(usrcrs.begin_date)> orgu.in_ts)")
-                 		->static_condition("IF(UNIX_TIMESTAMP(usrcrs.end_date)=0 "
-                                          ."OR usrcrs.end_date IS NULL "
-                                          ."OR orgu.out_ts IS NULL, TRUE,"
-                                          ."UNIX_TIMESTAMP(usrcrs.end_date)< orgu.out_ts )")*/
-						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
 			$this->relevant_parameters = array(
