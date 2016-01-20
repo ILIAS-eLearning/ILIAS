@@ -701,7 +701,7 @@ class gevOrgUnitUtils {
 			." LEFT JOIN object_reference oref ON oref.ref_id = c.child"
 			." LEFT JOIN object_data od ON od.obj_id = oref.obj_id"
 			." WHERE ".$ilDB->in("p.child", $a_ref_ids, false, "integer")
-			."   AND od.type = 'orgu'"
+			."   AND od.type = 'orgu' AND oref.deleted IS NULL"
 			);
 	
 		$ret = array();
@@ -721,7 +721,7 @@ class gevOrgUnitUtils {
 			." LEFT JOIN object_reference oref ON oref.ref_id = c.child"
 			." LEFT JOIN object_data od ON od.obj_id = oref.obj_id"
 			." WHERE ".$ilDB->in("p.child", $a_ref_ids, false, "integer")
-			."   AND od.type = 'orgu'"
+			."   AND od.type = 'orgu' AND oref.deleted IS NULL"
 			);
 	
 		$ret = array();
