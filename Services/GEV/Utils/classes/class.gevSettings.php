@@ -478,6 +478,12 @@ class gevSettings {
 		  "il_orgu_employee_%"
 		);
 
+	// Names of roles that count as crs manager
+	static $CRS_MANAGER_ROLES = array(
+		  "il_crs_admin_%"
+		  ,"Trainingsersteller"
+		);
+
 	// Will store the ref id of the orgu where the exited users should be put.
 	const ORG_UNIT_EXITED = "org_unit_exited";
 	

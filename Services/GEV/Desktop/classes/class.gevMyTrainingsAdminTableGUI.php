@@ -3,9 +3,9 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */#
 
 /**
-* Table showing courses the user is tutoring.
+* Table showing courses the user is training creator or manager.
 *
-* @author	Nils Haagen <nhaagen@concepts-and-training.de>
+* @author	Stefan Hecken <stefan.hecken@concepts-and-training.de>
 * @version	$Id$
 *
 */
@@ -27,8 +27,8 @@ require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 
 require_once("Services/TEP/classes/class.ilTEPView.php");
 
-class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
-	public function __construct($a_user_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
+class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
+	public function __construct($a_user_id, $a_parent_obj, $search_opts = null, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
 		global $ilCtrl, $lng, $ilAccess;
@@ -42,8 +42,8 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->id = 0;
 
 		$this->setEnableTitle(true);
-		$this->setTitle("gev_mytrainingsap_title");
-		$this->setSubtitle("gev_mytrainingsap_title_desc");
+		$this->setTitle("gev_my_trainings_admin_title");
+		$this->setSubtitle("gev_my_trainings_admin_title_desc");
 		$this->setImage("GEV_img/ico-head-my-training-deployments.png");
 	
 		$this->memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
@@ -57,10 +57,8 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->csn_list_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-calllist.png").'" />';
 		$this->cancel_training_img = '<img src="'.ilUtil::getImagePath("gev_cancel_action.png").'" />';
 
-		$this->setRowTemplate("tpl.gev_my_trainingsap_row.html", "Services/GEV/Desktop");
+		$this->setRowTemplate("tpl.gev_my_trainingsadmin_row.html", "Services/GEV/Desktop");
 
-		//$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
-		
 		$this->setExternalSegmentation(true);
 		$this->setExternalSorting(true);
 		$this->setTopCommands(false);
@@ -71,15 +69,18 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->addColumn($this->gLng->txt("title"), "title");
 		$this->addColumn($this->gLng->txt("gev_training_id"), "custom_id");
 		$this->addColumn($this->gLng->txt("gev_learning_type"), "type");
-		//$this->addColumn($this->gLng->txt("gev_learning_cat"), "category");
 		$this->addColumn($this->gLng->txt("gev_location"), "location");
 		$this->addColumn($this->gLng->txt("date"), "start_date", "112px");
-		$this->addColumn($this->gLng->txt("apdays"));
+		$this->addColumn($this->gLng->txt("tutor"));
+		$this->addColumn($this->gLng->txt("gev_my_trainings_admin_credit_points"));
 		$this->addColumn($this->gLng->txt("mbrcount"));
 		$this->addColumn($this->gLng->txt("action"));
 
-		$tmp = explode(":", $_GET["_table_nav"]);
-		$data = $user_util->getMyAppointmentsCourseInformation($tmp[0], $tmp[1]);
+		$this->setDefaultOrderField("start_date");
+		$this->setDefaultOrderDirection("asc");
+		$this->determineOffsetAndOrder();
+
+		$data = $user_util->getMyTrainingsAdminCourseInformation($this->getOrderField(), $this->getOrderDirection(), $search_opts);
 
 		$this->setData($data);
 	}
@@ -113,12 +114,10 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 
 		//$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
 		//trainer days:
-		$apdays_str = gevGeneralUtils::foldConsecutiveDays($a_set['apdays'], "<br />");
-		
 		$mbrs = $a_set['mbr_booked'] .' (' .$a_set['mbr_waiting'] .')'
 				.' / ' .$a_set['mbr_min'] .'-' .$a_set['mbr_max'];
 
-		$course_link = ilTEPView::getTitleLinkForCourse($this->gAccess, $this->gCtrl, $a_set["crs_ref_id"]);
+		$course_link = $this->getCourseLink($a_set["obj_id"], $a_set["crs_ref_id"]);
 
 		$this->tpl->setVariable("TITLE_LINK", $course_link);
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
@@ -127,7 +126,8 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		//$this->tpl->setVariable("CATEGORY", $a_set["category"]);
 		$this->tpl->setVariable("LOCATION", ($a_set["location"] != "") ? $a_set["location"] : $a_set["location_free_text"]);
 		$this->tpl->setVariable("DATE", $date);
-		$this->tpl->setVariable("APDAYS", $apdays_str);
+		$this->tpl->setVariable("TUTOR", implode($a_set["tutor"]));
+		$this->tpl->setVariable("CREDIT_POINTS", $a_set["credit_points"]);
 		$this->tpl->setVariable("MBRS", $mbrs);
 		$this->tpl->setVariable("ACTIONS", $this->addActionMenu($a_set));
 
@@ -141,21 +141,9 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("MBMRLST_LINK_TXT", $this->gLng->txt('gev_mytrainingsap_btn_memberlist'));
 		$this->tpl->setVariable("SIGNATURE_LIST_LINK", $signature_list_link);
 		$this->tpl->setVariable("SIGNATURE_LIST_LINK_TXT", $this->gLng->txt('gev_signature_list'));
-		if ($a_set['may_finalize']) {
-			$this->tpl->setCurrentBlock("set_stat");
-			$this->tpl->setVariable("SETSTAT_LINK", $setstatus_link);
-			$this->tpl->setVariable("SETSTAT_LINK_TXT", $this->gLng->txt('gev_mytrainingsap_btn_setstatus'));
-			$this->tpl->parseCurrentBlock();
-		}
-		if( $crs_utils->canViewBookings($this->user_id) ) {
-			$this->tpl->setCurrentBlock("view_bookings");
-			$this->tpl->setVariable("VIEW_BOOKINGS_LINK", $bookings_link);
-			$this->tpl->setVariable("VIEW_BOOKINGS_LINK_TXT", $this->gLng->txt('gev_mytrainingsap_btn_bookings'));
-			$this->tpl->parseCurrentBlock();
-		}
 
-		$actions = "";
 		if($crs_utils->isVirtualTraining()) {
+			$actions = "";
 			$this->tpl->setVariable("VC_HEADER", "Zugangsdaten virtueller Klassenraum");
 		
 			if($crs_utils->getVirtualClassLoginTutor()) {
@@ -183,7 +171,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$current_selection_list->setLinksMode("il_ContainerItemCommand2");
 		$current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 		$current_selection_list->setUseImages(false);
-		$current_selection_list->setAdditionalToggleElement("obj_id".$a_set["obj_id"], "ilContainerListItemOuterHighlight");
+		$current_selection_list->setAdditionalToggleElement("obj_id.".$a_set["obj_id"], "ilContainerListItemOuterHighlight");
 		
 		$this->addActionMenuItems($current_selection_list, $a_set);
 
@@ -219,6 +207,10 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->gCtrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
 		$maillog = $this->gCtrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog");
 		$this->gCtrl->clearParametersByClass("gevMaillogGUI");
+
+		$this->gCtrl->setParameterByClass("ilObjCourseGUI", "ref_id", $a_set["crs_ref_id"]);
+		$edit_settings_link = $this->gCtrl->getLinkTargetByClass("ilObjCourseGUI", "edit");
+		$this->gCtrl->clearParametersByClass("ilObjCourseGUI");
 
 		//prepare crs utils
 		$crs_utils = gevCourseUtils::getInstance($a_set["obj_id"]);
@@ -261,12 +253,37 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$items[] = array("title" => $this->gLng->txt("gev_csn_list"), "link" => $csn_list_link, "image" => $this->csn_list_img, "frame"=>"");
 		}
 
+		if($crs_utils->userHasRightOf($this->user_id, "write")){
+			$items[] = array("title" => $this->gLng->txt("gev_my_trainings_admin_edit_settings"), "link" => $edit_settings_link, "image" => "", "frame"=>"");
+		}
+
 		if ($crs_utils->userCanCancelCourse($this->user_id)){
 			$items[] = array("title" => $this->gLng->txt("gev_cancel_training"), "link" => $cancel_training_link, "image" => $this->cancel_training_img, "frame"=>"");
 		}
 
 		return $items;
 	}
-}
 
-?>
+	protected function getCourseLink($crs_obj_id, $crs_ref_id) {
+		$crs_utils = gevCourseUtils::getInstance($crs_obj_id);
+
+		if($crs_utils->userHasRightOf($this->user_id, "write")){
+			$this->gCtrl->setParameterByClass("ilRepositoryGUI", "ref_id", $crs_ref_id);
+			$info_crs_link = $this->gCtrl->getLinkTargetByClass("ilRepositoryGUI", "");
+			$this->gCtrl->clearParametersByClass("ilRepositoryGUI");
+			return $info_crs_link;
+		} else if($crs_utils->userHasRightOf($this->user_id, "write_reduced_settings")) {
+			$this->gCtrl->setParameterByClass("gevDecentralTrainingGUI", "ref_id", $crs_ref_id);
+			$small_settings_link = $this->gCtrl->getLinkTargetByClass("gevDecentralTrainingGUI", "showSettings");
+			$this->gCtrl->clearParametersByClass("gevDecentralTrainingGUI");
+			return $small_settings_link;
+		} else {
+			$this->gCtrl->setParameterByClass("ilObjCourseGUI", "ref_id", $crs_ref_id);
+			$small_settings_link = $this->gCtrl->getLinkTargetByClass("ilObjCourseGUI", "view");
+			$this->gCtrl->clearParametersByClass("ilObjCourseGUI");
+			return $small_settings_link;
+		}
+
+		
+	}
+}

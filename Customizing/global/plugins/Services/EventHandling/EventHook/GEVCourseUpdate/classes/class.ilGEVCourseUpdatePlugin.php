@@ -68,6 +68,8 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 			$this->maybeSetTemplateCustomId();
 			$this->crs_utils->updateDerivedCourses();
 			
+			$this->crs_utils->warningIfTemplateWithDates();
+			
 			if ($max_participants == 0) {
 				$this->crs_utils->setWaitingListActive(false, false);
 			}

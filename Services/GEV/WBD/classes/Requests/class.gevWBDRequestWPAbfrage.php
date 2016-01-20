@@ -40,7 +40,7 @@ class gevWBDRequestWPAbfrage extends WBDRequestWPAbfrage {
 			return $e->options();
 		} catch(LogicException $e) {
 			$errors = array();
-			$errors[] =  self::createError($e->getMessage(), gevWBDError::ERROR_GROUP_USER, static::$request_type, $data["user_id"], $data["row_id"],0);
+			$errors[] =  self::createError($e->getMessage(), gevWBDError::ERROR_GROUP_USER,  $data["user_id"], $data["row_id"],0);
 			return $errors;
 		}
 	}

@@ -4895,4 +4895,11 @@ if (!$ilDB->tableColumnExists('wbd_errors_categories', 'error_group'))
 
 	$settings = gevSettings::getInstance();
 	$settings->setTypeIDOrgUnitTypeDB($type->getId());
+
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#200>
+<?php
+	$ilCtrlStructureReader->getStructure();
 ?>

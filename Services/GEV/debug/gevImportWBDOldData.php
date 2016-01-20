@@ -47,6 +47,7 @@ $UMLAUT_REPLACEMENT = array(
 
 $CORRECTIONS = array(
 			'Privat-Vorsorge-Lebens-/Rentenversicherung' => 'Privat-Vorsorge-Lebens-/Rentenversicherung',
+			'Privat-Vorsorge-Lebens/Rentenversicherung' => 'Privat-Vorsorge-Lebens-/Rentenversicherung',
 			'Privat-Vorsorge-Lebens-/Rentenverischerung' => 'Privat-Vorsorge-Lebens-/Rentenversicherung',
 			'Privat-Vorsorge-Kranken-/Pflegeversicherung' => 'Privat-Vorsorge-Kranken-/Pflegeversicherung',
 

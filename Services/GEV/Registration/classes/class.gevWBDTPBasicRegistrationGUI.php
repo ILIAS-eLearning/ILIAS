@@ -208,6 +208,7 @@ class gevWBDTPBasicRegistrationGUI {
 			return $this->createTPBasisBWVId($form);
 		}
 
+		$this->wbd->setWBDTPType(gevWBD::WBD_NO_SERVICE);
 		$this->wbd->setNextWBDAction(gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_BASIS);
 
 		if ($form->getInput("notifications") == "diff") {
