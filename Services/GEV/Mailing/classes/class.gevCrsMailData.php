@@ -58,7 +58,7 @@ class gevCrsMailData extends ilMailData {
 		}
 	}
 	
-	function getPlaceholderLocalized($a_placeholder_code, $a_lng, $a_markup = false) {
+	function getPlaceholderLocalized($a_placeholder_code, $a_lng = "de", $a_markup = false) {
 		if (  $this->crs_utils === null) {
 			throw new Exception("gevCrsMailData::getPlaceholderLocalized: course utilities not initialized.");
 		}
@@ -103,7 +103,12 @@ class gevCrsMailData extends ilMailData {
 				$val = $this->crs_utils->getType();
 				break;
 			case "TRAININGSTHEMEN":
-				$val = implode(", ", $this->crs_utils->getTopics());
+				if(!empty($this->crs_utils->getTopics())) {
+					$val = implode(", ", $this->crs_utils->getTopics());
+				} else {
+					$val = "";
+				}
+				
 				break;
 			case "WP":
 				$val = $this->crs_utils->getCreditPoints();
