@@ -2,6 +2,7 @@
 
 require_once("./Services/EventHandling/classes/class.ilEventHookPlugin.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+require_once("Services/UICore/classes/class.ilTemplate.php");
 
 class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 {
@@ -14,23 +15,25 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 			return;
 		}
 		
-		global $ilLog;
+		global $ilLog, $lng, $ilCtrl;
 		
 		$this->log = $ilLog;
+		$this->gLng = $lng;
+		$this->gCtrl = $ilCtrl;
 		
 		$this->crs_utils = gevCourseUtils::getInstanceByObj($a_parameter["object"]);
 		$this->crs = $a_parameter["object"];
 		$this->crs_id = $a_parameter["obj_id"];
 		
 		if(!$this->crs_utils->isTemplate()) {
-			$this->updatedCourse();
+			$this->updatedCourse($a_parameter);
 		}
 		else {
 			$this->updateTemplateCourse();
 		}
 	}
 
-	public function updatedCourse() {
+	public function updatedCourse($a_parameter) {
 		try {
 			$max_participants = intval($this->crs_utils->getMaxParticipants());
 			$this->crs->enableWaitingList($this->crs_utils->getWaitingListActive() && $max_participants > 0);
@@ -52,6 +55,10 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 			$this->crs_utils->fillFreePlacesFromWaitingList();
 
 			$this->crs_utils->adjustVCAssignment();
+
+			if(isset($a_parameter["comparsion"]) && count($a_parameter["comparsion"] == 2)) {
+				$this->compareCourse($a_parameter["comparsion"]);
+			}
 		}
 		catch (Exception $e) {
 			$this->log->write("Error in GEVCourseUpdate::updatedCourse: ".print_r($e, true));
@@ -99,6 +106,25 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 		$this->crs_utils->setCustomId($custom_id);
 
 	}
-}
 
-?>
+	protected function compareCourse(array $crs_to_compare) {
+		$old = $crs_to_compare["bevor_update"];
+		$new = $crs_to_compare["after_update"];
+
+		if($old->compareWith($new)) {
+			$this->log->write("ilGEVCourseUpdatePlugin::compareCourse:compared courseInfos are different!");
+			
+			$this->gCtrl->setParameterByClass("gevCrsMailingGUI","ref_id", $new->refId());
+			$this->gCtrl->setParameterByClass("gevCrsMailingGUI","auto_mail_id", "invitation");
+			$link = $this->gCtrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjCourseGUI", "gevCrsMailingGUI"),"sendAutoMail");
+			$this->gCtrl->clearParametersByClass("gevCrsMailingGUI");
+
+			$tpl = new ilTemplate("tpl.gev_resend_mail_info.html", true, true, "Services/GEV/Course");
+			$tpl->setVariable("MESSAGE", $this->gLng->txt("gev_crs_resend_invitation_info"));
+			$tpl->setVariable("HREF_LINK", $link);
+			$tpl->setVariable("HREF_TEXT", $this->gLng->txt("gev_crs_resend_invitation"));
+
+			ilUtil::sendInfo($tpl->get(), true);
+		}
+	}
+}

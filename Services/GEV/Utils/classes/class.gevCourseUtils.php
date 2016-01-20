@@ -265,6 +265,10 @@ class gevCourseUtils {
 		return $custom_roles;
 	}
 	
+	public function refreshCourse() {
+		$this->crs_obj = new ilObjCourse($this->crs_id, false);
+		$this->crs_obj->setRefId(gevObjectUtils::getRefId($this->crs_id));
+	}
 	
 	public function getCourse() {
 		require_once("Modules/Course/classes/class.ilObjCourse.php");

@@ -1888,11 +1888,11 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	/**
 	 * Prepare calendar appointments
 	 *
-	 * @access protected
+	 * @access public
 	 * @param string mode UPDATE|CREATE|DELETE
 	 * @return
 	 */
-	protected function prepareAppointments($a_mode = 'create')
+	public function prepareAppointments($a_mode = 'create')
 	{
 		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentTemplate.php');
 		include_once('./Services/Calendar/classes/class.ilDateTime.php');

@@ -4,6 +4,10 @@
 
 require_once "./Services/Container/classes/class.ilContainerGUI.php";
 
+//gev-patch start
+require_once("Services/GEV/Course/classes/class.ilCourseInfo.php");
+//gev-patch end
+
 /**
 * Class ilObjCourseGUI
 *
@@ -912,10 +916,14 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	function updateInfoObject()
 	{
-		global $ilErr,$ilAccess;
+		global $ilErr,$ilAccess, $ilAppEventHandler;
 
 		$this->checkPermission('write');
-		
+
+		//gev-patch start
+		$bevore_update = new ilCourseInfo($this->object->getId());
+		//gev-patch end
+
 		include_once 'Modules/Course/classes/class.ilCourseFile.php';
 		$file_obj = new ilCourseFile();
 		$file_obj->setCourseId($this->object->getId());
@@ -969,7 +977,17 @@ class ilObjCourseGUI extends ilContainerGUI
 		// gev-patch start
 		$file_obj->create();
 		$this->record_gui->writeEditForm();
-		$this->object->update();
+		$this->object->update(false);
+
+		$after_update = new ilCourseInfo($this->object->getId());
+
+		$ilAppEventHandler->raise('Modules/Course',
+				'update',
+				array('object' => $this->object
+					,'obj_id' => $this->object->getId()
+					,'appointments' => $this->object->prepareAppointments('update')
+					,'comparsion' => array("bevor_update"=>$bevore_update, "after_update"=>$after_update))
+					);
 		// gev-patch end
 		
 		
@@ -985,9 +1003,15 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function updateObject()
 	{
+		global $ilAppEventHandler;
+
 		$form = $this->initEditForm();
 		$form->checkInput();
 		
+		//gev-patch start
+		$bevore_update = new ilCourseInfo($this->object->getId());
+		//gev-patch end
+
 		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST['desc']));		
 					
@@ -1096,7 +1120,18 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if($this->object->validate())
 		{
-			$this->object->update();
+			$this->object->update(false);
+			//gev-patch start
+			$after_update = new ilCourseInfo($this->object->getId());
+
+			$ilAppEventHandler->raise('Modules/Course',
+				'update',
+				array('object' => $this->object
+					,'obj_id' => $this->object->getId()
+					,'appointments' => $this->object->prepareAppointments('update')
+					,'comparsion' => array("bevor_update"=>$bevore_update, "after_update"=>$after_update))
+					);
+			//gev-patch end
 			
 			// BEGIN ChangeEvent: Record write event
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');

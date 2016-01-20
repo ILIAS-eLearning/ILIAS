@@ -243,6 +243,21 @@ class ilSetAccomodationsGUI
 		);
 		if($tbl->processPostVars())
 		{
+			//gev-patch start
+			require_once("Services/UICore/classes/class.ilTemplate.php");
+			$ilCtrl->setParameterByClass("gevCrsMailingGUI","ref_id", $this->getCourse()->getRefId());
+			$ilCtrl->setParameterByClass("gevCrsMailingGUI","auto_mail_id", "invitation");
+			$link = $ilCtrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjCourseGUI", "gevCrsMailingGUI"),"sendAutoMail");
+			$ilCtrl->clearParametersByClass("gevCrsMailingGUI");
+
+			$tpl = new ilTemplate("tpl.gev_resend_mail_info.html", true, true, "Services/GEV/Course");
+			$tpl->setVariable("MESSAGE", $lng->txt("gev_crs_resend_invitation_accomodation_info"));
+			$tpl->setVariable("HREF_LINK", $link);
+			$tpl->setVariable("HREF_TEXT", $lng->txt("gev_crs_resend_invitation"));
+
+			ilUtil::sendInfo($tpl->get(), true);
+			//gev-patch end
+
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		}
 		$ilCtrl->redirect($this, "listAccomodations");
