@@ -1021,7 +1021,7 @@ class recursiveOrguFilter {
 		$options = array();
 
 		foreach ($org_ids as $obj_id) {
-			$options[ilObject::_lookupTitle($obj_id)] = $obj_id;
+			$options[$obj_id] =ilObject::_lookupTitle($obj_id);
 		}
 
 		$this->filter_options = $options;
