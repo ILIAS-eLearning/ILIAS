@@ -702,11 +702,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$a_form = $this->initInfoEditor();
 		}
-
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.edit_info.html','Modules/Course');
+		$this->tpl->setVariable('INFO_TABLE',$a_form->getHTML());
 		
-		$this->tpl->setVariable('INFO_TABLE', $a_form->getHTML());
-
 		if(!count($files = ilCourseFile::_readFilesByCourse($this->object->getId())))
 		{
 			return true;
@@ -917,7 +915,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $ilErr,$ilAccess;
 
 		$this->checkPermission('write');
-
+		
 		include_once 'Modules/Course/classes/class.ilCourseFile.php';
 		$file_obj = new ilCourseFile();
 		$file_obj->setCourseId($this->object->getId());
@@ -950,16 +948,16 @@ class ilObjCourseGUI extends ilContainerGUI
 			$error = $ilErr->getMessage();
 		}
 			
-		// needed for proper advanced MD validation
+		// needed for proper advanced MD validation	 		
 		$form = $this->initInfoEditor();
-		$form->checkInput();
+		$form->checkInput();			
 		if(!$this->record_gui->importEditFormPostValues())
-		{
+		{	
 			$error = true;
-		}
+		}	
 		
 		if($error)
-		{
+		{								
 			if($error !== true)
 			{
 				ilUtil::sendFailure($ilErr->getMessage());
@@ -970,17 +968,16 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// gev-patch start
 		$file_obj->create();
-
 		$this->record_gui->writeEditForm();
 		$this->object->update();
 		// gev-patch end
-
-
+		
+		
 		// Update ecs content
 		include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';
 		$ecs = new ilECSCourseSettings($this->object);
 		$ecs->handleContentUpdate();
-
+	
 		ilUtil::sendSuccess($this->lng->txt("crs_settings_saved"));
 		$this->editInfoObject();
 		return true;
@@ -1002,7 +999,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		// gev-patch start									
 		//$sub_period = $form->getItemByPostVar("subscription_period");		
 		// gev-patch end
-
+		
 		if((int)$_POST['activation_type'])
 		{
 			$this->object->setActivationType(IL_CRS_ACTIVATION_LIMITED);
@@ -5876,7 +5873,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->tpl->setContent($conf->getHTML());
 	}
-
+	
 	protected function cancelTrainingObject() {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		
