@@ -98,9 +98,12 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 							)
 				->multiselect_custom( "dct_type"
 							 , $this->plugin->txt("course_type")
-							 , array($this->plugin->txt("dec_fixed") => "hc.edu_program = ".$this->gIldb->quote("dezentrales Training","text")." AND hc.dct_type = ".$this->gIldb->quote("fixed","text")
-									,$this->plugin->txt("dec_flexible") => "hc.edu_program = ".$this->gIldb->quote("dezentrales Training","text")." AND hc.dct_type = ".$this->gIldb->quote("flexible","text")
-									,$this->plugin->txt("non_dec") => "hc.edu_program != ".$this->gIldb->quote("dezentrales Training","text"))
+							 , array("hc.edu_program = ".$this->gIldb->quote("dezentrales Training","text")." AND hc.dct_type = ".$this->gIldb->quote("fixed","text") 
+							 			=> $this->plugin->txt("dec_fixed")
+									,"hc.edu_program = ".$this->gIldb->quote("dezentrales Training","text")." AND hc.dct_type = ".$this->gIldb->quote("flexible","text")
+										=> $this->plugin->txt("dec_flexible")
+									,"hc.edu_program != ".$this->gIldb->quote("dezentrales Training","text")
+							 			=> $this->plugin->txt("non_dec"))
 							 , array()
 							 , ""
 							 , 200
@@ -110,7 +113,10 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 							 )
 				->multiselect_custom( 'wbd_relevant'
 							 , $this->plugin->txt('wbd_relevant')
-							 , array( $this->plugin->txt('yes') => $this->gIldb->in('hucs.okz',self::$wbd_relevant,false,'text') , $this->plugin->txt('no') => $this->gIldb->in('hucs.okz',self::$wbd_relevant,true,'text') )
+							 , array($this->gIldb->in('hucs.okz',self::$wbd_relevant,false,'text') 
+							 			=> $this->plugin->txt('yes')
+							 		,$this->gIldb->in('hucs.okz',self::$wbd_relevant,true,'text') 
+							 			=> $this->plugin->txt('no'))
 							 , array()
 							 , ""
 							 , 200
@@ -122,8 +128,10 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 				->multiselect_custom( 'wb_points'
 							 , $this->plugin->txt('edupoints')
 							 , array( 
-								$this->plugin->txt('trainings_w_points') => ' hc.max_credit_points > 0 OR hc.crs_id < 0'
-								,$this->plugin->txt('trainings_wo_points') => $this->gIldb->in("hc.max_credit_points ",array('0','-empty-') ,false,'text')." AND hc.crs_id > 0")
+								' hc.max_credit_points > 0 OR hc.crs_id < 0'
+									=> $this->plugin->txt('trainings_w_points') 
+								,$this->gIldb->in("hc.max_credit_points ",array('0','-empty-') ,false,'text')." AND hc.crs_id > 0"
+									=> $this->plugin->txt('trainings_wo_points'))
 							 , array()
 							 , ""
 							 , 200
