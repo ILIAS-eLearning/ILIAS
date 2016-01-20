@@ -317,9 +317,35 @@ class ilBookingReservation
 				$counter[$row['object_id']] = (int)$nr_map[$row['object_id']]-(int)$row['cnt'];
 			}
 		}		
+		
+		// #17868 - validate against schedule availability
+		foreach($a_ids as $obj_id)
+		{			
+			$bobj = new ilBookingObject($obj_id);
+			if($bobj->getScheduleId())
+			{
+				include_once "Modules/BookingManager/classes/class.ilBookingSchedule.php";
+				$schedule = new ilBookingSchedule($bobj->getScheduleId());
+
+				$av_from = ($schedule->getAvailabilityFrom() && !$schedule->getAvailabilityFrom()->isNull())
+					? $schedule->getAvailabilityFrom()->get(IL_CAL_UNIX)
+					: null;
+				$av_to = ($schedule->getAvailabilityTo() && !$schedule->getAvailabilityTo()->isNull())
+					? $schedule->getAvailabilityTo()->get(IL_CAL_UNIX)
+					: null;
+				
+				if(($av_from && $a_from < $av_from) ||
+					($av_to && $a_to > $av_to))
+				{
+					$blocked[] = $obj_id;
+					unset($counter[$obj_id]);
+				}
+			}
+		}
+		
 		$available = array_diff($a_ids, $blocked);
 		if(sizeof($available))
-		{
+		{									
 			if($a_return_counter)
 			{
 				foreach($a_ids as $id)
