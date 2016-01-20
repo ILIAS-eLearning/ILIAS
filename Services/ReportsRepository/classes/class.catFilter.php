@@ -716,7 +716,7 @@ class catMultiSelectFilter {
 		// for some unknown reason, the var POST_VAR gets
 		// not filled in all places if i call it from catFilter::render.
 		if($a_conf[11]) {
-			foreach ($a_conf[4] as $title => $value) {
+			foreach ($a_conf[4] as $value => $title) {
 				$a_tpl->setCurrentBlock("multiselect_item");
 				$a_tpl->setVariable("CNT", $count);
 				$a_tpl->setVariable("OPTION_VALUE", $value);
@@ -921,7 +921,7 @@ class catMultiSelectCustomFilter {
 		}
 		// for some unknown reason, the var POST_VAR gets
 		// not filled in all places if i call it from catFilter::render.
-		foreach ($a_conf[3] as $title => $value) {
+		foreach ($a_conf[3] as $value => $title) {
 			$a_tpl->setCurrentBlock("multiselect_item");
 			$a_tpl->setVariable("CNT", $count);
 			$a_tpl->setVariable("OPTION_VALUE", $value);
@@ -1057,7 +1057,7 @@ class recursiveOrguFilter {
 
 		$options = array();
 		foreach ($org_units_filter_otions_ids as $obj_id) {
-			$options[ilObject::_lookupTitle($obj_id)] = $obj_id;
+			$options[$obj_id] = ilObject::_lookupTitle($obj_id);
 		}
 		ksort($options);
 		$this->filter_options = $options;
@@ -1085,7 +1085,7 @@ class recursiveOrguFilter {
 	public function getSelectionAndRecursive($force_recursive = false) {
 		$orgu_ids = $this->getSelection();
 		if(count($orgu_ids)>0 && ($this->getRecursiveSelection() || $force_recursive)) {
-			return array_unique(array_intersect(array_merge($this->getChildrenOf($orgu_ids),$orgu_ids),array_values($this->filter_options)));
+			return array_unique(array_intersect(array_merge($this->getChildrenOf($orgu_ids),$orgu_ids),array_keys($this->filter_options)));
 		}
 		return $orgu_ids;
 	}
