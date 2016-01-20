@@ -1,0 +1,35 @@
+<tr>
+	<td><a class="{ACCORDION_BUTTON_CLASS}">EX</a></td>
+	<td><a href="{TITLE_LINK}">{TITLE}</a></td>
+	<td>{CUSTOM_ID}</td>
+	<td>{TYPE}</td>
+	<!--td>{CATEGORY}</td-->
+	<td>{LOCATION}</td>
+	<td>{DATE}</td>
+	<td>{APDAYS}</td>
+	<td>{MBRS}</td>
+	<td>{ACTIONS}</td>
+</tr>
+<tr class="{ACCORDION_ROW}" style="display:none">
+	<td  colspan="{COLSPAN}">
+		<div>
+			<h4>Zielgruppe</h4>
+			<p>
+				{TARGET_GROUP}
+				{TARGET_GROUP_DESC}
+			</p>
+			<h4>Ziele und Nutzen</h4><p>{GOALS}</p>
+			<h4>Inhalte</h4><p>{CONTENTS}</p>
+
+			<br>
+			<a href="{MBMRLST_LINK}">{MBMRLST_ICO} {MBMRLST_LINK_TXT}</a>
+			<a href="{SIGNATURE_LIST_LINK}">{SIGNATURE_LIST_ICO} {SIGNATURE_LIST_LINK_TXT}</a>
+			<!-- BEGIN set_stat -->
+			<a href="{SETSTAT_LINK}">{SETSTAT_ICO} {SETSTAT_LINK_TXT}</a>
+			<!-- END set_stat -->
+			<!-- BEGIN view_bookings -->
+			<a href="{VIEW_BOOKINGS_LINK}">{VIEW_BOOKINGS_ICO} {VIEW_BOOKINGS_LINK_TXT}</a>
+			<!-- END view_bookings -->
+		</div>
+	</td>
+</tr>

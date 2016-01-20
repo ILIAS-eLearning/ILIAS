@@ -304,7 +304,7 @@ class gevDecentralTrainingCreationRequest {
 			$rolf_data = $rbacreview->getRoleFolderOfObject($a_trgt_ref_id);
 			$rolf = $object_factory->getInstanceByRefId($rolf_data["ref_id"]);
 			$creator_role = $rolf->createRole( self::CREATOR_ROLE_TITLE
-											 , sprintf(self::CREATOR_ROLE_DESC, $trgt_ref_id)
+											 , sprintf(self::CREATOR_ROLE_DESC, $a_trgt_ref_id)
 											 );
 			
 			// Adjust permissions according to role template. 

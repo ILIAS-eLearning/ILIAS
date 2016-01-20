@@ -21,12 +21,6 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 	protected function settingsForm($data = null) {
 		$settings_form = parent::settingsForm($data);
 
-		$is_online = new ilCheckboxInputGUI($this->gLng->txt('online'),'online');
-		if(isset($data["online"])) {
-			$is_online->setChecked($data["online"]);
-		}
-		$settings_form->addItem($is_online);
-
 		$admin_mode = new ilCheckboxInputGUI($this->gLng->txt('gev_coupon_report_admin_mode'),'admin_mode');
 		if(isset($data["admin_mode"])) {
 			$admin_mode->setChecked($data["admin_mode"]);
@@ -44,14 +38,12 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 
 	protected function getSettingsData() {
 		$data = parent::getSettingsData();
-		$data["online"] = $this->object->getOnline();
 		$data["admin_mode"] = $this->object->getAdminMode();
 		return $data;
 	}
 
 
 	protected function saveSettingsData($data) {
-		$this->object->setOnline($data["online"]);
 		$this->object->setAdminMode($data["admin_mode"]);
 		parent::saveSettingsData($data);
 	}

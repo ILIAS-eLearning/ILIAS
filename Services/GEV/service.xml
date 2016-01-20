@@ -22,6 +22,7 @@
 		<cron id="gev_user_not_in_org_unit" class="gevUserNotInOrgUnitJob" path="Services/GEV/Utils/classes/" />
 		<cron id="gev_update_dbv" class="gevUpdateDBVJob" path="Services/GEV/Utils/classes/" />
 		<cron id="gev_orgu_superior_mailing" class="gevOrguSuperiorMailingJob" path="Services/GEV/Mailing/classes/CronJobs/" />
+		<cron id="gev_mail_reminder_webinar" class="gevReminderWebinarJob" path="Services/GEV/Mailing/classes/CronJobs/" />
 		<cron id="dct_creation" class="gevDecentralTrainingCreationJob" path="Services/GEV/DecentralTrainings/classes/" />
 		<cron id="gev_decentral_trainings_cleanup" class="gevDecentralTrainingsCleanupJob" path="Services/GEV/Utils/classes/" />
 	</crons>

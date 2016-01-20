@@ -24,6 +24,7 @@ class gevDecentralTrainingUtils {
 	protected $creation_users = array();
 
 	const AUTO_RELOAD_TIMEOUT_MS = 5000;
+	const FIND_CATEGORY_NAMES_X_LEVEL_ABOVE = 2;
 	
 	protected function __construct() {
 		global $ilDB, $ilias, $ilLog, $ilAccess, $tree, $lng, $rbacreview, $rbacadmin, $rbacsystem, $ilUser, $ilCtrl;
@@ -139,12 +140,15 @@ class gevDecentralTrainingUtils {
 				." ORDER BY od.title ASC";
 	}
 	
-	public function getAvailableTemplatesFor($a_user_id) {
+	public function getAvailableTemplatesFor($a_user_id, $without_flexible = true) {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
-		
-		$ltype_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
-		$edu_prog_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_EDU_PROGRAMM);
-		$is_tmplt_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
+		$settings_utils = gevSettings::getInstance();
+
+		$ltype_field_id = $settings_utils->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
+		$edu_prog_field_id = $settings_utils->getAMDFieldId(gevSettings::CRS_AMD_EDU_PROGRAMM);
+		$is_tmplt_field_id = $settings_utils->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
+		$presence_flexible_tpl_id = $settings_utils->getDctTplFlexPresenceObjId();
+		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
 		
 		$query = $this->templateBaseQuery();
 		$res = $this->db->query($query);
@@ -155,11 +159,22 @@ class gevDecentralTrainingUtils {
 			if (   $this->access->checkAccessOfUser($a_user_id, "visible",  "", $rec["ref_id"], "crs")
 				&& $this->access->checkAccessOfUser($a_user_id, "copy", "", $rec["ref_id"], "crs")
 				&& $this->access->checkAccessOfUser($a_user_id, "create_crs", "", $parent, "cat")) {
+
+				if($without_flexible && ($rec["obj_id"] == $presence_flexible_tpl_id || $rec["obj_id"] == $webinar_flexible_tpl_id)) {
+					continue;
+				}
+
+				$rec["group"] = $this->getGroupCategoryNameOf($rec["obj_id"]);
 				$ret[$rec["obj_id"]] = $rec;
 			}
 		}
 		
 		return $ret;
+	}
+
+	protected function getGroupCategoryNameOf($obj_id) {
+		$crs_utils = gevCourseUtils::getInstance($obj_id);
+		return $crs_utils->getCategoryNameXLevelAbove(self::FIND_CATEGORY_NAMES_X_LEVEL_ABOVE);
 	}
 	
 	public function getTemplateInfoFor($a_user_id, $a_template_id) {

@@ -39,6 +39,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 
 		$user_util = gevUserUtils::getInstance($a_user_id);
 		$this->user_id = $a_user_id;
+		$this->id = 0;
 
 		$this->setEnableTitle(true);
 		$this->setTitle("gev_mytrainingsap_title");
@@ -56,21 +57,6 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->csn_list_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-calllist.png").'" />';
 		$this->cancel_training_img = '<img src="'.ilUtil::getImagePath("gev_cancel_action.png").'" />';
 
-		$legend = new catLegendGUI();
-		$legend->addItem($this->memberlist_img, "gev_mytrainingsap_legend_memberlist")
-			   ->addItem($this->setstatus_img, "gev_mytrainingsap_legend_setstatus")
-			   ->addItem($this->overnight_img, "gev_mytrainingsap_legend_overnights")
-			   ->addItem($this->bookings_img, "gev_mytrainingsap_legend_view_bookings")
-			   ->addItem($this->virtualclass_img, "gev_virtual_class")
-			   ->addItem($this->maillog_img, "gev_mail_log")
-			   ->addItem($this->signature_list_img, "gev_signature_list")
-			   ->addItem($this->schedule_list_img, "gev_dec_crs_building_block_title")
-			   ->addItem($this->csn_list_img, "gev_csn_list")
-			   ->addItem($this->cancel_training_img, "gev_cancel_training")
-			   ;
-		$this->setLegend($legend);
-
-		
 		$this->setRowTemplate("tpl.gev_my_trainingsap_row.html", "Services/GEV/Desktop");
 
 		//$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
@@ -90,7 +76,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->addColumn($this->gLng->txt("date"), "start_date", "112px");
 		$this->addColumn($this->gLng->txt("apdays"));
 		$this->addColumn($this->gLng->txt("mbrcount"));
-		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', null, "30px", false);
+		$this->addColumn($this->gLng->txt("action"));
 
 		$tmp = explode(":", $_GET["_table_nav"]);
 		$data = $user_util->getMyAppointmentsCourseInformation($tmp[0], $tmp[1]);
@@ -132,74 +118,6 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$mbrs = $a_set['mbr_booked'] .' (' .$a_set['mbr_waiting'] .')'
 				.' / ' .$a_set['mbr_min'] .'-' .$a_set['mbr_max'];
 
-		
-		$this->gCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $a_set["crs_ref_id"]);
-		$memberlist_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer");
-		$signature_list_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_signature_list");
-		$schedule_list_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_crs_schedule");
-		$csn_list_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "csn");
-		$this->gCtrl->clearParametersByClass("gevMemberListDeliveryGUI");
-		
-		$this->gCtrl->setParameter($this->parent_obj, "crsrefid", $a_set['crs_ref_id']);
-		$this->gCtrl->setParameter($this->parent_obj, "crs_id", $a_set['obj_id']);
-		$setstatus_link = $this->gCtrl->getLinkTarget($this->parent_obj, "listStatus");
-		$overnights_link = $this->gCtrl->getLinkTarget($this->parent_obj, "showOvernights");
-		$bookings_link = $this->gCtrl->getLinkTarget($this->parent_obj, "viewBookings");
-		$this->gCtrl->clearParameters($this->parent_obj);
-
-		$this->gCtrl->setParameterByClass("ilObjCourseGUI", "ref_id", $a_set["crs_ref_id"]);
-		$cancel_training_link = $this->gCtrl->getLinkTargetByClass("ilObjCourseGUI","confirmTrainingCancellation");
-		$this->gCtrl->clearParametersByClass("ilObjCourseGUI");
-
-		$view_bookings = $crs_utils->canViewBookings($this->user_id);
-
-		$actions = "";
-
-		if($crs_utils->userHasRightOf($this->user_id, gevSettings::LOAD_MEMBER_LIST)){
-			$actions .= '<a href="'.$memberlist_link.'" title="'.$this->gLng->txt("gev_mytrainingsap_legend_memberlist").'">'.$this->memberlist_img.'</a>';
-		}
-
-		if($a_set['may_finalize']) {
-			$actions .='&nbsp;<a href="'.$setstatus_link.'" title="'.$this->gLng->txt("gev_mytrainingsap_legend_setstatus").'">'.$this->setstatus_img.'</a>';
-		}
-		
-		// is true after training start
-		if ($crs_utils->isWithAccomodations() && !$a_set["may_finalize"]) {
-			$actions .= '&nbsp;<a href="'.$overnights_link.'" title="'.$this->gLng->txt("gev_mytrainingsap_legend_overnights").'">'.$this->overnight_img.'</a>';
-		}
-		
-		if ($view_bookings) {
-			$actions .= '&nbsp;<a href="'.$bookings_link.'" title="'.$this->gLng->txt("gev_mytrainingsap_legend_view_bookings").'">'.$this->bookings_img.'</a>';
-		}
-
-		if ($crs_utils->getVirtualClassLink() !== null) {
-			$actions .= '&nbsp;<a href="'.$crs_utils->getVirtualClassLink().'" target="_blank" title="'.$this->gLng->txt("gev_virtual_class").'">'.$this->virtualclass_img.'</a>';
-		}
-
-		if($crs_utils->userHasRightOf($this->user_id, gevSettings::VIEW_MAILLOG)){
-			$this->gCtrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
-			$actions .= '&nbsp;<a href="'.$this->gCtrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog").'" title="'.$this->gLng->txt("gev_mail_log").'">'.$this->maillog_img.'</a>';
-			$this->gCtrl->clearParametersByClass("gevMaillogGUI");
-		}
-
-		if($crs_utils->userHasRightOf($this->user_id, gevSettings::LOAD_SIGNATURE_LIST)){
-			$actions .= '&nbsp;<a href="'.$signature_list_link.'" title="'.$this->gLng->txt("gev_signature_list").'">'.$this->signature_list_img.'</a>';
-		}
-		
-
-		if($crs_utils->isFlexibleDecentrallTraining() && ($crs_utils->hasTrainer($this->user_id) && $crs_utils->userHasRightOf($this->user_id, gevSettings::VIEW_SCHEDULE_PDF))) {
-			$actions .= '&nbsp;<a href="'.$schedule_list_link.'" title="'.$this->gLng->txt("gev_dec_crs_building_block_title").'">'.$this->schedule_list_img.'</a>';
-		}
-
-		if($crs_utils->userHasRightOf($this->user_id, gevSettings::LOAD_CSN_LIST) && $crs_utils->getVirtualClassType() == "CSN"){
-			$actions .= '&nbsp;<a href="'.$csn_list_link.'" title="'.$this->gLng->txt("gev_csn_list").'">'.$this->csn_list_img.'</a>';
-		}
-
-		if ($crs_utils->userCanCancelCourse($this->user_id)) 
-		{
-			$actions .= '&nbsp;<a href="'.$cancel_training_link.'" title="'.$this->gLng->txt("gev_cancel_training").'">'.$this->cancel_training_img.'</a>';
-		}
-
 		$course_link = ilTEPView::getTitleLinkForCourse($this->gAccess, $this->gCtrl, $a_set["crs_ref_id"]);
 
 		$this->tpl->setVariable("TITLE_LINK", $course_link);
@@ -209,11 +127,10 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		//$this->tpl->setVariable("CATEGORY", $a_set["category"]);
 		$this->tpl->setVariable("LOCATION", ($a_set["location"] != "") ? $a_set["location"] : $a_set["location_free_text"]);
 		$this->tpl->setVariable("DATE", $date);
-		
 		$this->tpl->setVariable("APDAYS", $apdays_str);
-
 		$this->tpl->setVariable("MBRS", $mbrs);
-		$this->tpl->setVariable("ACTIONS", $actions);
+		$this->tpl->setVariable("ACTIONS", $this->addActionMenu($a_set));
+
 		//inner content
 		//$this->tpl->setVariable("TARGET_GROUP", $a_set["target_group"]);
 		$this->tpl->setVariable("TARGET_GROUP", $target_groups_str);
@@ -230,7 +147,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$this->tpl->setVariable("SETSTAT_LINK_TXT", $this->gLng->txt('gev_mytrainingsap_btn_setstatus'));
 			$this->tpl->parseCurrentBlock();
 		}
-		if( $view_bookings ) {
+		if( $crs_utils->canViewBookings($this->user_id) ) {
 			$this->tpl->setCurrentBlock("view_bookings");
 			$this->tpl->setVariable("VIEW_BOOKINGS_LINK", $bookings_link);
 			$this->tpl->setVariable("VIEW_BOOKINGS_LINK_TXT", $this->gLng->txt('gev_mytrainingsap_btn_bookings'));
@@ -252,6 +169,103 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$this->tpl->setVariable("VC_DATA", $actions);
 		}
 		
+	}
+
+	protected function addActionMenu($a_set) {
+		include_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$current_selection_list = new ilAdvancedSelectionListGUI();
+		$current_selection_list->setAsynch(true && false);
+		$current_selection_list->setAsynchUrl(true);
+		$current_selection_list->setListTitle($this->gLng ->txt("actions"));
+		$current_selection_list->setId($a_set["obj_id"]);
+		$current_selection_list->setSelectionHeaderClass("small");
+		$current_selection_list->setItemLinkClass("xsmall");
+		$current_selection_list->setLinksMode("il_ContainerItemCommand2");
+		$current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
+		$current_selection_list->setUseImages(false);
+		$current_selection_list->setAdditionalToggleElement("obj_id".$a_set["obj_id"], "ilContainerListItemOuterHighlight");
+		
+		$this->addActionMenuItems($current_selection_list, $a_set);
+
+		return $current_selection_list->getHTML();
+	}
+
+	protected function addActionMenuItems($current_selection_list, $a_set) {
+		foreach ($this->getActionMenuItems($a_set) as $key => $value) {
+			$current_selection_list->addItem($value["title"],"",$value["link"],$value["image"],"",$value["frame"]);
+		}
+	}
+
+	protected function getActionMenuItems($a_set) {
+		//Prepare links
+		$this->gCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $a_set["crs_ref_id"]);
+		$memberlist_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer");
+		$signature_list_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_signature_list");
+		$schedule_list_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_crs_schedule");
+		$csn_list_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "csn");
+		$this->gCtrl->clearParametersByClass("gevMemberListDeliveryGUI");
+		
+		$this->gCtrl->setParameter($this->parent_obj, "crsrefid", $a_set['crs_ref_id']);
+		$this->gCtrl->setParameter($this->parent_obj, "crs_id", $a_set['obj_id']);
+		$setstatus_link = $this->gCtrl->getLinkTarget($this->parent_obj, "listStatus");
+		$overnights_link = $this->gCtrl->getLinkTarget($this->parent_obj, "showOvernights");
+		$bookings_link = $this->gCtrl->getLinkTarget($this->parent_obj, "viewBookings");
+		$this->gCtrl->clearParameters($this->parent_obj);
+
+		$this->gCtrl->setParameterByClass("ilObjCourseGUI", "ref_id", $a_set["crs_ref_id"]);
+		$cancel_training_link = $this->gCtrl->getLinkTargetByClass("ilObjCourseGUI","confirmTrainingCancellation");
+		$this->gCtrl->clearParametersByClass("ilObjCourseGUI");
+
+		$this->gCtrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
+		$maillog = $this->gCtrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog");
+		$this->gCtrl->clearParametersByClass("gevMaillogGUI");
+
+		//prepare crs utils
+		$crs_utils = gevCourseUtils::getInstance($a_set["obj_id"]);
+
+		$items = array();
+		if($crs_utils->userHasRightOf($this->user_id, gevSettings::LOAD_MEMBER_LIST)){
+			$items[] = array("title" => $this->gLng->txt("gev_mytrainingsap_legend_memberlist"), "link" => $memberlist_link, "image" => $this->memberlist_img, "frame"=>"");
+		}
+
+		if($a_set['may_finalize']) {
+			$items[] = array("title" => $this->gLng->txt("gev_mytrainingsap_legend_setstatus"), "link" => $setstatus_link, "image" => $this->setstatus_img, "frame"=>"");
+		}
+		
+		// is true after training start
+		if ($crs_utils->isWithAccomodations() && !$a_set["may_finalize"]) {
+			$items[] = array("title" => $this->gLng->txt("gev_mytrainingsap_legend_overnights"), "link" => $overnights_link, "image" => $this->overnight_img, "frame"=>"");
+		}
+		
+		if ($crs_utils->canViewBookings($this->user_id)) {
+			$items[] = array("title" => $this->gLng->txt("gev_mytrainingsap_legend_view_bookings"), "link" => $bookings_link, "image" => $this->bookings_img, "frame"=>"");
+		}
+
+		if ($crs_utils->getVirtualClassLink() !== null) {
+			$items[] = array("title" => $this->gLng->txt("gev_virtual_class"), "link" => $crs_utils->getVirtualClassLink(), "image" => $this->virtualclass_img, "frame"=>"_blank");
+		}
+
+		if($crs_utils->userHasRightOf($this->user_id, gevSettings::VIEW_MAILLOG)){
+			$items[] = array("title" => $this->gLng->txt("gev_mail_log"), "link" => $maillog, "image" => $this->maillog_img, "frame"=>"");
+		}
+
+		if($crs_utils->userHasRightOf($this->user_id, gevSettings::LOAD_SIGNATURE_LIST)){
+			$items[] = array("title" => $this->gLng->txt("gev_signature_list"), "link" => $signature_list_link, "image" => $this->signature_list_img, "frame"=>"");
+		}
+
+		if($crs_utils->isFlexibleDecentrallTraining() && ($crs_utils->hasTrainer($this->user_id) && $crs_utils->userHasRightOf($this->user_id, gevSettings::VIEW_SCHEDULE_PDF))) {
+			$items[] = array("title" => $this->gLng->txt("gev_dec_crs_building_block_title"), "link" => $schedule_list_link, "image" => $this->schedule_list_img, "frame"=>"");
+		}
+
+		if($crs_utils->userHasRightOf($this->user_id, gevSettings::LOAD_CSN_LIST) && $crs_utils->getVirtualClassType() == "CSN"){
+			$items[] = array("title" => $this->gLng->txt("gev_csn_list"), "link" => $csn_list_link, "image" => $this->csn_list_img, "frame"=>"");
+		}
+
+		if ($crs_utils->userCanCancelCourse($this->user_id)){
+			$items[] = array("title" => $this->gLng->txt("gev_cancel_training"), "link" => $cancel_training_link, "image" => $this->cancel_training_img, "frame"=>"");
+		}
+
+		return $items;
 	}
 }
 

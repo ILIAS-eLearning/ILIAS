@@ -145,10 +145,13 @@ class gevSettings {
 	const ORG_TYPE_VENUE			= "org_unit_type_venue";
 	const ORG_TYPE_PROVIDER			= "org_unit_type_provider";
 	const ORG_TYPE_DEFAULT			= "org_unit_type_default";
-	
+	//Ref ID für OorgUnit Type BD
+	const TYPE_ID_ORG_UNIT_TYPE_BD = "type_id_org_unit_type_bd";
+
 	static $all_org_types = array( gevSettings::ORG_TYPE_VENUE
 								 , gevSettings::ORG_TYPE_PROVIDER
 								 , gevSettings::ORG_TYPE_DEFAULT
+								 , gevSettings::TYPE_ID_ORG_UNIT_TYPE_BD
 								 );
 
 		static $dbv_hot_topics = array("3D Pflegevorsorge"
@@ -156,6 +159,8 @@ class gevSettings {
 								 , "bAV"
 								 );
 	
+
+
 	// AMD für alle Org-Units (vgl. Konzept, Abschnitte Veranstaltungsorte, Anbieter)
 	// Straße
 	const ORG_AMD_STREET			= "org_amd_street";
@@ -473,6 +478,12 @@ class gevSettings {
 		  "il_orgu_employee_%"
 		);
 
+	// Names of roles that count as crs manager
+	static $CRS_MANAGER_ROLES = array(
+		  "il_crs_admin_%"
+		  ,"Trainingsersteller"
+		);
+
 	// Will store the ref id of the orgu where the exited users should be put.
 	const ORG_UNIT_EXITED = "org_unit_exited";
 	
@@ -705,5 +716,13 @@ class gevSettings {
 		$ref_id = $this->settings->get(self::DCT_TPL_FLEX_WEBINAR);
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		return gevObjectUtils::getObjId($ref_id);
+	}
+
+	public function setTypeIDOrgUnitTypeDB($ref_id) {
+		$this->settings->set(self::TYPE_ID_ORG_UNIT_TYPE_BD, $ref_id);
+	}
+
+	public function getTypeIDOrgUnitTypeDB() {
+		return $this->settings->get(self::TYPE_ID_ORG_UNIT_TYPE_BD);
 	}
 }

@@ -8,6 +8,7 @@ class catReportQuery {
 		$this->joins = array();
 		$this->left_joins = array();
 		$this->raw_joins = array();
+		$this->nonfilter_where = array();
 		$this->compiled = false;
 		$this->sql_str = null;
 		$this->sql_from = null;
@@ -24,6 +25,19 @@ class catReportQuery {
 		return $this;
 	}
     
+	public function where($sttmnt) {
+		$this->checkNotCompiled();
+		$this->nonfilter_where[] = $sttmnt;
+		return $this;
+	}
+
+	public function getSqlWhere() {
+		if(count($this->nonfilter_where) > 0) {
+			return implode(' AND ',$this->nonfilter_where);
+		}
+		return 'TRUE';
+	}
+
 	public function select($a_field) {
 		$this->checkNotCompiled();
 		if (!is_array($a_field)) {

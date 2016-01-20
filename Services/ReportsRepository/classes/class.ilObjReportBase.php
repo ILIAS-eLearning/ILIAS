@@ -35,7 +35,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	}
 
 
-	final public function prepareReport() {
+	public function prepareReport() {
 		$this->filter = $this->buildFilter(catFilter::create());
 		$this->table = $this->buildTable(catReportTable::create());
 		$this->query = $this->buildQuery(catReportQuery::create());
@@ -56,12 +56,14 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	public function deliverFilter() {
 		return $this->filter;
 	}
+
 	public function deliverTable() {
 		if($this->table !== null ) {
 			return $this->table;
 		}
 		throw new Exception("cilObjReportBase::deliverTable: you need to define a table.");
 	}
+
 	public function deliverOrder() {
 		return $this->order;
 	}
@@ -78,11 +80,9 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	* The sql-query is built by the following methods.
 	*/
 	protected function queryWhere() {
-		if ($this->filter === null) {
-			return " WHERE TRUE";
-		}
-		
-		return " WHERE ".$this->filter->getSQLWhere();
+		$query_part = $this->query ? $this->query->getSqlWhere() : ' TRUE ';
+		$filter_part = $this->filter ? $this->filter->getSQLWhere() : ' TRUE ';
+		return ' WHERE '.$filter_part.' AND '.$query_part;
 	}
 	
 	protected function queryHaving() {

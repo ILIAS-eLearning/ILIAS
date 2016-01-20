@@ -70,30 +70,9 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 						->template("tpl.gev_attendance_by_coursetemplate_sums_row.html", "Services/GEV/Reports")
 						;
 		$this->summed_data = array();
-		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
-		array_walk($never_skip, 
-			function (&$obj_ref_id) {
-				$aux = new ilObjOrgUnit($obj_ref_id["ref_id"]);
-				$obj_ref_id = $aux->getTitle();
-			}
-		);
-		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
-		array_walk($skip_org_units_in_filter_below, 
-			function(&$title) { 
-				$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
-				$title = gevObjectUtils::getRefId($title);
-				$title = gevOrgUnitUtils::getAllChildrenTitles(array($title));
-			}
-		);
-		$skip_org_units_in_filter = array();
-		foreach ($skip_org_units_in_filter_below as $org_units) {
-			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
-		}
-		array_unique($skip_org_units_in_filter);
-		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
-		$org_units_filter = array_diff( $this->user_utils->getOrgUnitNamesWhereUserIsSuperior(), $skip_org_units_in_filter);
-		sort($org_units_filter);
-		
+
+		$this->orgu_filter = new recursiveOrguFilter("org_unit","orgu_id",true,true);
+		$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
 		$this->filter = catFilter::create()
 						->dateperiod( "period"
 									, $this->lng->txt("gev_period")
@@ -104,18 +83,9 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 									, date("Y")."-12-31"
 									, false
 									, " OR usrcrs.hist_historic IS NULL"
-									)
-						->multiselect( "org_unit"
-									 , $this->lng->txt("gev_org_unit_short")
-									 //, array("usr.org_unit", "org_unit_above1", "org_unit_above2")
-									 , array("orgu.orgu_title")
-									 , $org_units_filter
-									 , array()
-									 , ""
-									 , 300
-									 , 160	
-									 )
-						->multiselect("edu_program"
+									);
+		$this->orgu_filter->addToFilter($this->filter);
+		$this->filter	->multiselect("edu_program"
 									 , $this->lng->txt("gev_edu_program")
 									 , "edu_program"
 									 , gevCourseUtils::getEduProgramsFromHisto()
@@ -184,14 +154,6 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 									 , 300
 									 , 160	
 									 )
-/*
-						->multiselect("gender"
-									 , $this->lng->txt("gender")
-									 , "gender"
-									 , array('f', 'm')
-									 , array()
-									 )
-*/
 						->static_condition(" crs.hist_historic = 0")
 						->static_condition(" usrcrs.hist_historic = 0")
 						->static_condition(" crs.template_title != ".$this->db->quote('-empty-','text') )
@@ -202,8 +164,6 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 		$this->relevant_parameters = array(
 			$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
 			); 
-		$this->filtered_orgus = $this->filter->get("org_unit");
-					
 
 		$this->sql_sum_parts = array(
 
@@ -274,14 +234,12 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 					) AS sum_exit"
 
 			);
-		$this->orgu_filter = 	
-				"JOIN (SELECT DISTINCT usr_id ,".$this->db->quote($this->filtered_orgus[0])." AS orgu_title \n"
+		$this->orgu_filter_query = 	
+				"JOIN (SELECT DISTINCT usr_id  \n"
 					."	FROM hist_userorgu \n"
-					." 	WHERE ".$this->db->in("orgu_title", $this->filtered_orgus, false, "text")." \n"
+					." 	WHERE ".$this->orgu_filter->deliverQuery()." \n"
 					."	AND hist_historic = 0 AND `action` >= 0) as orgu ON usrcrs.usr_id = orgu.usr_id \n";
 		$this->query = catReportQuery::create()
-						//->distinct()
-
 						->select("crs.template_title")
 						->select("crs.edu_program")
 
@@ -297,25 +255,14 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 						->from("hist_course crs")
 						->join("hist_usercoursestatus usrcrs")
 							->on("crs.crs_id = usrcrs.crs_id");
-		if(count($this->filtered_orgus)>0) {
-			$this->query->raw_join($this->orgu_filter );
+		if($this->orgu_filter->getSelection()) {
+			$this->query->raw_join($this->orgu_filter_query );
 		}
 		$this->query 	->group_by("crs.template_title")
 						->compile();
-
-	
-
 	}
 
 	protected function transformResultRow($rec) {
-		//foreach(array_keys($this->table_sums->columns) as $field) {
-		//	if (! array_key_exists($field, $this->summed_data)) {
-		//		$this->summed_data[$field] = 0;
-		//	}
-			
-		//	$this->summed_data[$field] +=  intval($rec[$field]);
-		//}
-			
 		return $this->replaceEmpty($rec);
 	}
 
@@ -325,7 +272,6 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 		return 	$this->renderSumTable()
 				.$main_table;
 	}
-
 
 	private function renderSumTable(){
 		$table = new catTableGUI($this, "view");
@@ -361,6 +307,7 @@ class gevAttendanceByCourseTemplateGUI extends catBasicReportGUI{
 		."			JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id \n"
 		."			LEFT JOIN hist_userorgu orgu ON orgu.usr_id = usrcrs.usr_id \n"
 		.$this->queryWhere()
+		." AND ".$this->orgu_filter->deliverQuery()
 		.") as temp";
 		$res = $this->db->query($sum_sql);
 		$this->summed_data = $this->db->fetchAssoc($res);

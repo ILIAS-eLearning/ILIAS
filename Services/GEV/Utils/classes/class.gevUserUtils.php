@@ -291,17 +291,18 @@ class gevUserUtils {
 		return array_merge($booked_amd, $waiting_amd);
 	}
 	
-	public function getCourseIdsWhereUserIsTutor() {
+	protected function getCourseIdsWhereUserIs($roles, $search_opts = null) {
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		
 		$like_role = array();
-		foreach (gevSettings::$TUTOR_ROLES as $role) {
+		foreach ($roles as $role) {
 			$like_role[] = "od.title LIKE ".$this->db->quote($role);
 		}
 		$like_role = implode(" OR ", $like_role);
 		
 		$tmplt_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
-		
+		$join_n_wheres = $this->createJoinNWheresFromSearchOpts($search_opts);
+
 		$res = $this->db->query(
 			 "SELECT oref.obj_id, oref.ref_id "
 			."  FROM object_reference oref"
@@ -313,11 +314,13 @@ class gevUserUtils {
 			." LEFT JOIN adv_md_values_text is_template "
 			."    ON oref.obj_id = is_template.obj_id "
 			."   AND is_template.field_id = ".$this->db->quote($tmplt_field_id, "integer")
+			.$join_n_wheres["joins"]
 			." WHERE oref.ref_id = tr.parent"
 			."   AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
 			."   AND od2.type = 'crs'"
 			."   AND oref.deleted IS NULL"
 			."   AND is_template.value = 'Nein'"
+			.$join_n_wheres["wheres"]
 			);
 
 		$crs_ids = array();
@@ -327,6 +330,37 @@ class gevUserUtils {
 		}
 
 		return $crs_ids;
+	}
+
+	protected function createJoinNWheresFromSearchOpts($search_opts) {
+		if(!$search_opts) {
+			return array("joins"=>"", "wheres"=>"");
+		}
+
+		$additional_join = "";
+		$additional_where = "";
+		if (array_key_exists("period", $search_opts)) {
+			$start_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
+			$end_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_END_DATE);
+			
+			// this is knowledge from the course amd plugin!
+			$additional_join .=
+				" LEFT JOIN adv_md_values_date end_date\n".
+				"   ON oref.obj_id = end_date.obj_id\n".
+				"   AND end_date.field_id = ".$this->db->quote($end_date_field_id, "integer")."\n"
+				;
+			$additional_join .=
+				" LEFT JOIN adv_md_values_date start_date\n".
+				"   ON oref.obj_id = start_date.obj_id\n".
+				"   AND start_date.field_id = ".$this->db->quote($start_date_field_id, "integer")."\n"
+				;
+
+			$additional_where .=
+				" AND ( start_date.value < ".$this->db->quote(date("Y-m-d", $search_opts["period"]["end"]))." \n".
+				"       AND end_date.value > ".$this->db->quote(date("Y-m-d", $search_opts["period"]["start"]))." ) \n";
+		}
+
+		return array("joins"=>$additional_join, "wheres"=>$additional_where);
 	}
 
 	public function getMyAppointmentsCourseInformation($a_order_field = null, $a_order_direction = null) {
@@ -353,7 +387,7 @@ class gevUserUtils {
 			require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusHelper.php");
 			require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusPermissions.php");
 			
-			$crss = $this->getCourseIdsWhereUserIsTutor();
+			$crss = $this->getCourseIdsWhereUserIs(gevSettings::$TUTOR_ROLES);
 			$crss_ids = array_keys($crss);
 			
 			//do the amd-dance
@@ -412,13 +446,102 @@ class gevUserUtils {
 					$tep_opdays =array();
 				}
 				
-				$ms = $crs_utils->getMembership();
-				$entry['mbr_booked_userids'] = $ms->getMembers();
+				$entry['mbr_booked_userids'] = $crs_utils->getParticipants();
 				$entry['mbr_booked'] = count($entry['mbr_booked_userids']);
 				$entry['mbr_waiting_userids'] = $crs_utils->getWaitingMembers($id);
 				$entry['mbr_waiting'] = count($entry['mbr_waiting_userids']);
 				$entry['apdays'] = $tep_opdays;
 				//$entry['category'] = '-';
+				
+				$entry['may_finalize'] = $crs_utils->canModifyParticipationStatus($this->user_id);
+
+				$ret[$id] = $entry;
+			}
+
+			//sort?
+			return $ret;
+	}
+
+	public function getMyTrainingsAdminCourseInformation($a_order_field, $a_order_direction, $search_opts = null) {
+			// used by gevMyTrainingsApTable, i.e.
+		
+			if ((!$a_order_field && $a_order_direction) || ($a_order_field && !$a_order_direction)) {
+				throw new Exception("gevUserUtils::getMyTrainingsAdminCourseInformation: ".
+									"You need to set both: order_field and order_direction.");
+			}
+			
+			if ($a_order_direction) {
+				$a_order_direction = strtoupper($a_order_direction);
+				if (!in_array($a_order_direction, array("ASC", "DESC"))) {
+					throw new Exception("gevUserUtils::getMyTrainingsAdminCourseInformation: ".
+										"order_direction must be ASC or DESC.");
+				}
+			}
+			
+			//require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
+			require_once("Services/TEP/classes/class.ilTEPCourseEntries.php");
+			require_once "Modules/Course/classes/class.ilObjCourse.php";
+			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+			require_once("Services/ParticipationStatus/classes/class.ilParticipationStatus.php");
+			require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusHelper.php");
+			require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusPermissions.php");
+			
+			$crss = $this->getCourseIdsWhereUserIs(gevSettings::$CRS_MANAGER_ROLES, $search_opts);
+			$crss_ids = array_keys($crss);
+			
+			//do the amd-dance
+			$crs_amd = 
+			array( gevSettings::CRS_AMD_START_DATE			=> "start_date"
+				 , gevSettings::CRS_AMD_END_DATE 			=> "end_date"
+				 
+				 , gevSettings::CRS_AMD_CUSTOM_ID			=> "custom_id"
+				 , gevSettings::CRS_AMD_TYPE 				=> "type"
+				 
+				 , gevSettings::CRS_AMD_VENUE 				=> "location"
+				 , gevSettings::CRS_AMD_VENUE_FREE_TEXT 	=> "location_free_text"
+
+				 , gevSettings::CRS_AMD_MAX_PARTICIPANTS	=> "mbr_max"
+				 , gevSettings::CRS_AMD_MIN_PARTICIPANTS	=> "mbr_min"
+				 
+				 , gevSettings::CRS_AMD_TARGET_GROUP		=> "target_group"
+				 , gevSettings::CRS_AMD_TARGET_GROUP_DESC	=> "target_group_desc"
+				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
+				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
+				 , gevSettings::CRS_AMD_CREDIT_POINTS 		=> "credit_points"
+			);
+			
+			if ($a_order_field) {
+				$order_sql = " ORDER BY ".$this->db->quoteIdentifier($a_order_field)." ".$a_order_direction;
+			}
+			else {
+				$order_sql = "";
+			}
+			
+			$crss_amd = gevAMDUtils::getInstance()->getTable($crss_ids, $crs_amd, array("pstatus.state pstate"),
+				// Join over participation status table to remove courses, where state is already
+				// finalized
+				array(" LEFT JOIN crs_pstatus_crs pstatus ON pstatus.crs_id = od.obj_id "),
+				" AND ( pstatus.state != ".$this->db->quote(ilParticipationStatus::STATE_FINALIZED, "integer").
+			    "       OR pstatus.state IS NULL) ".$order_sql
+				);
+
+			$ret = array();
+
+			foreach ($crss_amd as $id => $entry) {
+				$entry['crs_ref_id'] = $crss[$id];
+
+				$crs_utils = gevCourseUtils::getInstance($id);
+				$orgu_utils = gevOrgUnitUtils::getInstance($entry["location"]);
+				$ps_helper = ilParticipationStatusHelper::getInstance($crs_utils->getCourse());
+				$ps_permission = ilParticipationStatusPermissions::getInstance($crs_utils->getCourse(), $this->user_id);
+
+				$entry["location"] = $orgu_utils->getLongTitle();
+
+				$entry['mbr_booked_userids'] = $crs_utils->getParticipants();
+				$entry['mbr_booked'] = count($entry['mbr_booked_userids']);
+				$entry['mbr_waiting_userids'] = $crs_utils->getWaitingMembers($id);
+				$entry['mbr_waiting'] = count($entry['mbr_waiting_userids']);
+				$entry['tutor'] = $crs_utils->getTrainers(true);
 				
 				$entry['may_finalize'] = $crs_utils->canModifyParticipationStatus($this->user_id);
 
@@ -1656,7 +1779,7 @@ class gevUserUtils {
 	public function getUVGBDOrCPoolNames() {
 		$names = array();
 		$dbv_utils = gevDBVUtils::getInstance();
-		foreach ($dbv_utils->getUVGOrgUnitObjIdsIOf($this->getId()) as $obj_id) {
+		foreach ($dbv_utils->getUVGOrgUnitsOf($this->getId()) as $obj_id) {
 			$uvg_top_level_orgu_obj_id = $dbv_utils->getUVGTopLevelOrguIdFor($obj_id);
 			$names[] = ilObject::_lookupTitle($uvg_top_level_orgu_obj_id);
 		}
@@ -1819,5 +1942,33 @@ class gevUserUtils {
 					);
 		
 		return $this->hasRoleIn($roles);
+	}
+
+	public function notEditBuildingBlocks() {
+		$roles = array("Admin-Ansicht");
+
+		return $this->hasRoleIn($roles);
+	}
+
+	public function isTrainingManagerOnAnyCourse() {
+		$query = "SELECT count(*) as cnt\n"
+				." FROM `rbac_ua` rua\n"
+				." JOIN object_data od ON rua.rol_id = od.obj_id\n"
+				." WHERE rua.usr_id = ".$this->db->quote($this->user_id,"integer")."\n"
+				."       AND (od.title LIKE ".$this->db->quote("il_crs_admin_%", "text")."\n"
+				."            OR title = ".$this->db->quote("Trainingsersteller","text").")";
+
+		$res = $this->db->query($query);
+		$row = $this->db->fetchAssoc($res);
+
+		if($row["cnt"] > 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+	protected function userHasRightOf($right_name) {
+		return $this->rbacsystem->checkAccessOfUser($this->user_id, $right_name, $this->getRefId());
 	}
 }

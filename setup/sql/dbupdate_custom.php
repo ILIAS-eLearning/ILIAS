@@ -4865,6 +4865,39 @@ if (!$ilDB->tableColumnExists('wbd_errors_categories', 'error_group'))
 
 <#199>
 <?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	require_once('Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php');
+	require_once('Services/GEV/Utils/classes/class.gevSettings.php');
+
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	ilCustomInstaller::maybeInitSettings();
+
+	$type = new ilOrgUnitType();
+	$type->setDefaultLang("de");
+	$type->setTitle("BD", "de");
+	$type->setDescription("Identifiziert eine Organisationseinheiten als BD", "de");
+	$type->setTitle("BD", "en");
+	$type->setDescription("Identifies an Organisational Unit as BD", "en");
+	$type->save();
+
+	$settings = gevSettings::getInstance();
+	$settings->setTypeIDOrgUnitTypeDB($type->getId());
+?>
+
+<#200>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#201>
+<?php
 if (!$ilDB->tableColumnExists('hist_userorgu', 't_in'))
 	{		
 		$ilDB->addTableColumn('hist_userorgu', 't_in', array(

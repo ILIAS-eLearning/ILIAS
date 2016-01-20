@@ -30,13 +30,6 @@ class ilObjReportTrainerWorkloadGUI extends ilObjReportBaseGUI {
 	protected function settingsForm($data = null) {
 		$settings_form = parent::settingsForm($data);
 
-		$is_online = new ilCheckboxInputGUI($this->object->plugin->txt('online'),'online');
-		$is_online->setValue(1);
-		if(isset($data["online"])) {
-			$is_online->setChecked($data["online"]);
-		}
-		$settings_form->addItem($is_online);
-
 		$annual_norm_training = new ilNumberInputGUI($this->object->plugin->txt('annual_norm_training'),'annual_norm_training');
 		if(isset($data['annual_norm_training'])) {
 			$annual_norm_training->setValue($data['annual_norm_training']);
@@ -101,7 +94,6 @@ class ilObjReportTrainerWorkloadGUI extends ilObjReportBaseGUI {
 
 	protected function getSettingsData() {
 		$data = parent::getSettingsData();
-		$data["online"] = $this->object->getOnline();
 		$data["annual_norm_training"] = $this->object->getAnnualNormTraining();
 		$data["annual_norm_operation"] = $this->object->getAnnualNormOperation();
 		$data["annual_norm_office"] = $this->object->getAnnualNormOffice();
@@ -109,7 +101,6 @@ class ilObjReportTrainerWorkloadGUI extends ilObjReportBaseGUI {
 	}
 
 	protected function saveSettingsData($data) {
-		$this->object->setOnline($data["online"]);
 		$this->object->setAnnualNormTraining($data["annual_norm_training"]);
 		$this->object->setAnnualNormOperation($data["annual_norm_operation"]);
 		$this->object->setAnnualNormOffice($data["annual_norm_office"]);

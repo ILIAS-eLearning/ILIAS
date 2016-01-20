@@ -198,7 +198,7 @@ class gevCourseSearch {
 				" AND provider.value LIKE ".$this->gDB->quote("%".$a_search_options["provider"]."%", "text")."\n";
 		}
 		if (array_key_exists("period", $a_search_options)) {
-			$end_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
+			$end_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_END_DATE);
 			
 			// this is knowledge from the course amd plugin!
 			$additional_join .=

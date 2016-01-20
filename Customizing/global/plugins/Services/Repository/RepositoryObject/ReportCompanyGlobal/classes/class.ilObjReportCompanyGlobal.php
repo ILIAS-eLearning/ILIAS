@@ -41,45 +41,19 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		$this->query_class = get_class($query);
 
 		// this is quite a hack, but once we have the new filter-api it can be fixed
-		$filter_orgus = $this->filter->get('orgu');
+		$filter_orgus = $this->orgu_filter->getSelection();
 		if(count($filter_orgus) > 0) {
 			$this->sql_filter_orgus = 
-			"SELECT DISTINCT usr_id, ".$this->gIldb->quote($filter_orgus[0],"text")." orgu FROM hist_userorgu"
-			."	WHERE ".$this->gIldb->in('orgu_title',$filter_orgus,false,'text')
-			." OR ".$this->gIldb->in('org_unit_above1',$filter_orgus,false,'text')
-			." OR ".$this->gIldb->in('org_unit_above2',$filter_orgus,false,'text')
+			"SELECT DISTINCT usr_id FROM hist_userorgu"
+			."	WHERE ".$this->orgu_filter->deliverQuery()
 			."	AND hist_historic = 0 AND action >= 0 ";
 		}
 		return null;
 	}
 
 	protected function buildFilter($filter) {
-		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
-
-		array_walk($never_skip, 
-			function (&$obj_ref_id) {
-				$aux = new ilObjOrgUnit($obj_ref_id["ref_id"]);
-				$obj_ref_id = $aux->getTitle();
-			}
-		);
-		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
-		array_walk($skip_org_units_in_filter_below, 
-			function(&$title) { 
-				$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
-				$title = gevObjectUtils::getRefId($title);
-				$title = gevOrgUnitUtils::getAllChildrenTitles(array($title));
-			}
-		);
-		$skip_org_units_in_filter = array();
-		foreach ($skip_org_units_in_filter_below as $org_units) {
-			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
-		}
-		array_unique($skip_org_units_in_filter);
-
-		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
-		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserIsSuperior(), $skip_org_units_in_filter);
-		sort($org_units_filter);
-
+		$this->orgu_filter = new recursiveOrguFilter('org_unit', 'orgu_id', true, true);
+		$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
 		$filter ->dateperiod( "period"
 							 , $this->plugin->txt("period")
 							 , $this->plugin->txt("until")
@@ -102,17 +76,9 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 									"         )\n".
 									"    )\n";
 								}
-							 )
-				->multiselect( "orgu"
-							 , $this->plugin->txt("org_unit_short")
-							 , array("orgu.orgu")
-							 , $org_units_filter
-							 , array()
-							 , " OR TRUE "
-							 , 200
-							 , 160
-							 )
-				->multiselect("edu_program"
+							 );
+		$this->orgu_filter->addToFilter($filter);
+		$filter->multiselect("edu_program"
 							 , $this->plugin->txt("edu_program")
 							 , "edu_program"
 							 , gevCourseUtils::getEduProgramsFromHisto()
@@ -235,8 +201,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 						->on('hc.crs_id = hucs.crs_id'
 							.'	AND '.$this->gIldb->in('hucs.participation_status' , self::$participated, !$has_participated, 'text'));
 		if($this->sql_filter_orgus) {
-			$query	->raw_join(' JOIN ('.$this->sql_filter_orgus.') as orgu ON orgu.usr_id = hucs.usr_id ')
-					->select('orgu.orgu');
+			$query	->raw_join(' JOIN ('.$this->sql_filter_orgus.') as orgu ON orgu.usr_id = hucs.usr_id ');
 		}
 			$query	->group_by('hc.type')
 					->compile();
