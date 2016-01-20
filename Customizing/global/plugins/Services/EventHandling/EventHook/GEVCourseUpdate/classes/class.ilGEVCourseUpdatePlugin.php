@@ -17,7 +17,7 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 		
 		global $ilLog, $lng, $ilCtrl;
 		
-		$this->log = $ilLog;
+		$this->gLog = $ilLog;
 		$this->gLng = $lng;
 		$this->gCtrl = $ilCtrl;
 		
@@ -61,7 +61,7 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 			}
 		}
 		catch (Exception $e) {
-			$this->log->write("Error in GEVCourseUpdate::updatedCourse: ".print_r($e, true));
+			$this->gLog->write("Error in GEVCourseUpdate::updatedCourse: ".print_r($e, true));
 		}
 	}
 	
@@ -84,7 +84,7 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 			$this->crs->update(false);
 		}
 		catch (Exception $e) {
-			$this->log->write("Error in GEVCourseUpdate::updateTemplateCourse: ".print_r($e, true));
+			$this->gLog->write("Error in GEVCourseUpdate::updateTemplateCourse: ".print_r($e, true));
 		}
 	}
 	
@@ -112,7 +112,7 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 		$new = $crs_to_compare["after_update"];
 
 		if($old->compareWith($new)) {
-			$this->log->write("ilGEVCourseUpdatePlugin::compareCourse:compared courseInfos are different!");
+			$this->gLog->write("ilGEVCourseUpdatePlugin::compareCourse:compared courseInfos are different!");
 			
 			$this->gCtrl->setParameterByClass("gevCrsMailingGUI","ref_id", $new->refId());
 			$this->gCtrl->setParameterByClass("gevCrsMailingGUI","auto_mail_id", "invitation");
