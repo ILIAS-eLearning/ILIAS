@@ -57,7 +57,9 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 	}
 
 	protected function buildFilter($filter) {
-		$this->getRelevantOrgus();
+		$this->orgu_filter = new recursiveOrguFilter('org_unit', 'huo.orgu_id', true, true);
+		$this->orgu_filter->setFilterOptionsByArray($this->getRelevantOrgus());
+		$this->orgu_filter->addToFilter($filter);
 		$filter	->dateperiod( 	"period"
 								 , $this->plugin->txt("period")
 								 , $this->plugin->txt("until")
@@ -66,15 +68,6 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 								 , date("Y")."-01-01"
 								 , date("Y")."-12-31"
 								 , false
-								 )
-				->multiselect( "org_unit"
-								 , $this->plugin->txt("org_unit_short")
-								 , "orgu_title"
-								 , $this->getRelevantOrgus()
-								 , array()
-								 , "OR TRUE"
-								 , 200
-								 , 160	
 								 )
 				->static_condition("hu.hist_historic = 0")
 				->static_condition("ht.hist_historic = 0")
@@ -199,7 +192,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 	}
 
 	protected function getRelevantOrgus() {
-		$sql = 	"SELECT DISTINCT oda.title , rpa.ops_id, rop.ops_id AS chk "
+		$sql = 	"SELECT DISTINCT oda.title, oda.obj_id, rpa.ops_id, rop.ops_id AS chk "
 				."	FROM rbac_pa rpa"
 				."	JOIN rbac_operations rop "
 				."		ON rop.operation = ".$this->gIldb->quote(OP_TUTOR_IN_ORGU,"text")
@@ -214,7 +207,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 		while($rec = $this->gIldb->fetchAssoc($res)) {
 			$perm_check = unserialize($rec['ops_id']);
 			if(in_array($rec["chk"], $perm_check)) {
-				$relevant_orgus[] = $rec['title'];
+				$relevant_orgus[] = $rec['obj_id'];
 			}
 		}
 		return array_unique($relevant_orgus);
@@ -246,7 +239,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 				."			AND ore.obj_id = huo.orgu_id ";
 		$org_units_filter = $this->filter->get("org_unit");
 		if(count($org_units_filter)>0) {
-			$sql .= " 	AND ".$this->gIldb->in('huo.orgu_title',$this->filter->get("org_unit"),false,'text');
+			$sql .= " 	AND ".$this->orgu_filter->deliverQuery();
 		}
 		$sql .= "	WHERE hur.hist_historic IS NULL";
 

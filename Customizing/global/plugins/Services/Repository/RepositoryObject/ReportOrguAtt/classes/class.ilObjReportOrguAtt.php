@@ -70,6 +70,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 			$query
 				->select_raw($query_term["regular"]);
 		}
+		$this->orgu_filter->addToQuery($query);
 		$query	->from("hist_userorgu orgu")
 				->left_join("hist_usercoursestatus usrcrs")
 					->on("usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0 ")
@@ -146,8 +147,9 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 	}
 
 	protected function buildFilter($filter) {
-
-		$org_units_filter = $this->getOrgusForFilter();
+		$this->orgu_filter = new recursiveOrguFilter('org_unit', 'orgu.orgu_id', true, true);
+		$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
+		$this->orgu_filter->addToFilter($filter);
 		$filter	->dateperiod( "period"
 							, $this->plugin->txt("period")
 							, $this->plugin->txt("until")
@@ -158,16 +160,6 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 							, false
 							," OR usrcrs.hist_historic IS NULL "
 							)
-				->multiselect( "org_unit"
-							 , $this->plugin->txt("org_unit_short")
-							 , array("orgu.orgu_title", "orgu.org_unit_above1", "orgu.org_unit_above2")
-							 //, array("usr.org_unit")
-							 , $org_units_filter
-							 , array()
-							 , ""
-							 , 300
-							 , 160
-							 )
 				->multiselect("edu_program"
 							 , $this->plugin->txt("edu_program")
 							 , "edu_program"
