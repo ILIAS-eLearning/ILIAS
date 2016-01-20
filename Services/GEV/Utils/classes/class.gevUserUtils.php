@@ -356,8 +356,8 @@ class gevUserUtils {
 				;
 
 			$additional_where .=
-				" AND ( start_date.value < ".$this->db->quote(date("Y-m-d", $search_opts["period"]["end"]))." \n".
-				"       AND end_date.value > ".$this->db->quote(date("Y-m-d", $search_opts["period"]["start"]))." ) \n";
+				" AND ( start_date.value <= ".$this->db->quote(date("Y-m-d", $search_opts["period"]["end"]))." \n".
+				"       AND end_date.value >= ".$this->db->quote(date("Y-m-d", $search_opts["period"]["start"]))." ) \n";
 		}
 
 		return array("joins"=>$additional_join, "wheres"=>$additional_where);
