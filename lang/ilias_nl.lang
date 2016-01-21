@@ -6213,7 +6213,6 @@ content#:#cont_glo_create#:#Aanmaken woordenlijst
 content#:#cont_glo_detach#:#Ontkoppelen woordenlijst
 content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Eigenschappen
-content#:#cont_got_lock#:#Deze pagina is vergrendeld voor je wijzigingen. Vergeet niet de pagina weer vrij te geven als je klaar bent met je wijzigingen.
 content#:#cont_header#:#Hoofding
 content#:#cont_Headline1#:#Kopregel 1
 content#:#cont_Headline2#:#Kopregel 2
@@ -7662,7 +7661,6 @@ crs#:#event_location#:#Locatie
 crs#:#event_materials#:#Sessie materialen
 crs#:#event_not_participated#:#Niet deelgenomen
 crs#:#event_overview#:#Deelnames in sessies
-crs#:#event_participant_selection#:#Deelnemer Selectie
 crs#:#event_participated#:#Deelgenomen
 crs#:#event_participation#:#Deelneming
 crs#:#event_register#:#Registeer
@@ -7676,12 +7674,9 @@ crs#:#event_select_one#:#-- Selecteer een sessie --
 crs#:#event_start_date#:#Datum
 crs#:#event_table_create#:#Nieuwe sessie
 crs#:#event_table_update#:#Wijzig sessie
-crs#:#event_tbl_admins#:#Beheerders
-crs#:#event_tbl_members#:#Deelnemers
 crs#:#event_tbl_participants#:#Lijst van de deelnemers
 crs#:#event_tbl_participated#:#Deelgenomen
 crs#:#event_tbl_registered#:#Geregistreerd
-crs#:#event_tbl_tutors#:#Docenten
 crs#:#event_time#:#Tijd
 crs#:#event_title#:#Titel
 crs#:#event_tutor_data#:#Informatie over de leerkacht
@@ -16151,3 +16146,20 @@ rbac#:#awra_edit_permission#:#User can change permission settings in ‘Who is o
 rbac#:#svy_read_learning_progress#:#User can view learning progress of other users###23 12 2015 new variable
 rbac#:#svy_edit_learning_progress#:#User can edit learning progress settings###23 12 2015 new variable
 rbac#:#sess_edit_learning_progress#:#User can edit learning progress settings###23 12 2015 new variable
+assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress###21 01 2016 new variable
+assessment#:#tst_objective_progress_header#:#Learning Objective Progress###21 01 2016 new variable
+content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2###21 01 2016 new variable
+crs#:#event_user_selection_include_role#:# Include all users with role "%1$s"###21 01 2016 new variable
+crs#:#event_user_selection_include_waiting_list#:#Include all users on "Waiting List"###21 01 2016 new variable
+crs#:#event_user_selection_include_requests#:#Include all users on list "Join Requests"###21 01 2016 new variable
+crs#:#event_user_selection_include_filter#:#Include "%1$s"###21 01 2016 new variable
+crs#:#event_user_selection#:#Selection of Users###21 01 2016 new variable
+crs#:#event_tbl_admin#:#Administrator###21 01 2016 new variable
+crs#:#event_tbl_member#:#Member###21 01 2016 new variable
+crs#:#event_tbl_tutor#:#Tutor###21 01 2016 new variable
+news#:#news_sorry_not_accessible_anymore#:#Sorry, this item is not accessible anymore.###21 01 2016 new variable
+note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration (Personal Desktop settings).###21 01 2016 new variable
+note#:#note_comment_notification_user_has_written#:#%s has written:###21 01 2016 new variable
+prg#:#prg_show_programmes#:#Visibility###21 01 2016 new variable
+content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###21 01 2016 new variable
+content#:#cont_error#:#An Error Occured###21 01 2016 new variable

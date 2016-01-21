@@ -6671,7 +6671,6 @@ content#:#cont_glo_detach#:#用語集を切り離す
 content#:#cont_glo_menu#:#メニュー
 content#:#cont_glo_properties#:#用語集のプロパティ
 content#:#cont_glossaries#:#用語集
-content#:#cont_got_lock#:#このページは編集用にロックされています。全ての変更が完了したらページを開放してください。
 content#:#cont_header#:#ヘッダー
 content#:#cont_Headline1#:#ヘッダー行 1
 content#:#cont_Headline2#:#ヘッダー行2
@@ -8216,7 +8215,6 @@ crs#:#event_location#:#ロケーション
 crs#:#event_materials#:#セッション教材
 crs#:#event_not_participated#:#不参加
 crs#:#event_overview#:#セッションの受講者
-crs#:#event_participant_selection#:#受講者選択
 crs#:#event_participated#:#受講済
 crs#:#event_participation#:#受講
 crs#:#event_register#:#登録
@@ -8230,12 +8228,9 @@ crs#:#event_select_one#:#-- セッションを一つ選択 --
 crs#:#event_start_date#:#開始
 crs#:#event_table_create#:#新セッション
 crs#:#event_table_update#:#セッションを編集
-crs#:#event_tbl_admins#:#管理者
-crs#:#event_tbl_members#:#メンバー
 crs#:#event_tbl_participants#:#受講者リスト
 crs#:#event_tbl_participated#:#受講済
 crs#:#event_tbl_registered#:#登録済
-crs#:#event_tbl_tutors#:#指導教員
 crs#:#event_time#:#時間
 crs#:#event_title#:#タイトル
 crs#:#event_tutor_data#:#講師に関する情報
@@ -16151,3 +16146,20 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
+assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress###21 01 2016 new variable
+assessment#:#tst_objective_progress_header#:#Learning Objective Progress###21 01 2016 new variable
+content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2###21 01 2016 new variable
+crs#:#event_user_selection_include_role#:# Include all users with role "%1$s"###21 01 2016 new variable
+crs#:#event_user_selection_include_waiting_list#:#Include all users on "Waiting List"###21 01 2016 new variable
+crs#:#event_user_selection_include_requests#:#Include all users on list "Join Requests"###21 01 2016 new variable
+crs#:#event_user_selection_include_filter#:#Include "%1$s"###21 01 2016 new variable
+crs#:#event_user_selection#:#Selection of Users###21 01 2016 new variable
+crs#:#event_tbl_admin#:#Administrator###21 01 2016 new variable
+crs#:#event_tbl_member#:#Member###21 01 2016 new variable
+crs#:#event_tbl_tutor#:#Tutor###21 01 2016 new variable
+news#:#news_sorry_not_accessible_anymore#:#Sorry, this item is not accessible anymore.###21 01 2016 new variable
+note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration (Personal Desktop settings).###21 01 2016 new variable
+note#:#note_comment_notification_user_has_written#:#%s has written:###21 01 2016 new variable
+prg#:#prg_show_programmes#:#Visibility###21 01 2016 new variable
+content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###21 01 2016 new variable
+content#:#cont_error#:#An Error Occured###21 01 2016 new variable

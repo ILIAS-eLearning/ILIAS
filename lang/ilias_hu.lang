@@ -6135,7 +6135,6 @@ crs#:#event_location#:#Helyszín
 crs#:#event_materials#:#Segédanyagok megjelenítése
 crs#:#event_not_participated#:#Nem vett részt
 crs#:#event_overview#:#Jelenlétek eseményeken
-crs#:#event_participant_selection#:#Felsorolandók kiválasztása
 crs#:#event_participated#:#Részt vett
 crs#:#event_participation#:#Résztvétel
 crs#:#event_register#:#Feljelentkezés
@@ -6149,12 +6148,9 @@ crs#:#event_select_one#:#-- Válasszon egy eseményt --
 crs#:#event_start_date#:#Kezdő időpont
 crs#:#event_table_create#:#Új esemény
 crs#:#event_table_update#:#Esemény szerkesztése
-crs#:#event_tbl_admins#:#Vezetők
-crs#:#event_tbl_members#:#Tagok
 crs#:#event_tbl_participants#:#Résztvevők listája
 crs#:#event_tbl_participated#:#Részt vett
 crs#:#event_tbl_registered#:#Feljelentkezett
-crs#:#event_tbl_tutors#:#Tutorok
 crs#:#event_time#:#Idő
 crs#:#event_title#:#Cím
 crs#:#event_tutor_data#:#Információk az előadóról
@@ -14624,7 +14620,6 @@ content#:#cont_language#:#Nyelv
 content#:#cont_add_lang#:#Nyelv hozzáadása 
 content#:#cont_conf_delete_lang#:#Biztos, hogy törli az alábbi nyelvi támogatásokat?
 content#:#cont_back_to_page#:#Vissza az oldalra
-content#:#cont_got_lock#:#Az oldalt szerkesztés miatt zároltuk. A szerkesztés végeztével oldja fel a zárolást.
 content#:#cont_finish_editing#:#Szerkesztés befejezése
 content#:#cont_page_lock_released#:#Szerkesztése véget ért. Az oldal zárolását feloldottuk.
 notes#:#note_content_removed#:#Tartalom eltávolítva.
@@ -16151,3 +16146,20 @@ rbac#:#awra_edit_permission#:#User can change permission settings in ‘Who is o
 rbac#:#svy_read_learning_progress#:#User can view learning progress of other users###23 12 2015 new variable
 rbac#:#svy_edit_learning_progress#:#User can edit learning progress settings###23 12 2015 new variable
 rbac#:#sess_edit_learning_progress#:#User can edit learning progress settings###23 12 2015 new variable
+assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress###21 01 2016 new variable
+assessment#:#tst_objective_progress_header#:#Learning Objective Progress###21 01 2016 new variable
+content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2###21 01 2016 new variable
+crs#:#event_user_selection_include_role#:# Include all users with role "%1$s"###21 01 2016 new variable
+crs#:#event_user_selection_include_waiting_list#:#Include all users on "Waiting List"###21 01 2016 new variable
+crs#:#event_user_selection_include_requests#:#Include all users on list "Join Requests"###21 01 2016 new variable
+crs#:#event_user_selection_include_filter#:#Include "%1$s"###21 01 2016 new variable
+crs#:#event_user_selection#:#Selection of Users###21 01 2016 new variable
+crs#:#event_tbl_admin#:#Administrator###21 01 2016 new variable
+crs#:#event_tbl_member#:#Member###21 01 2016 new variable
+crs#:#event_tbl_tutor#:#Tutor###21 01 2016 new variable
+news#:#news_sorry_not_accessible_anymore#:#Sorry, this item is not accessible anymore.###21 01 2016 new variable
+note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration (Personal Desktop settings).###21 01 2016 new variable
+note#:#note_comment_notification_user_has_written#:#%s has written:###21 01 2016 new variable
+prg#:#prg_show_programmes#:#Visibility###21 01 2016 new variable
+content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###21 01 2016 new variable
+content#:#cont_error#:#An Error Occured###21 01 2016 new variable

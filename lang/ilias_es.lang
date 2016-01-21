@@ -6530,7 +6530,6 @@ crs#:#event_location#:#Lugar
 crs#:#event_materials#:#Materiales de sesión
 crs#:#event_not_participated#:#No participó
 crs#:#event_overview#:#Participación en sesiones
-crs#:#event_participant_selection#:#Selección de participantes
 crs#:#event_participated#:#Participó
 crs#:#event_participation#:#Participación
 crs#:#event_registered#:#Ha sido registrado en esta sesión
@@ -6548,12 +6547,9 @@ crs#:#events#:#Sesiones
 crs#:#event_start_date#:#Fecha
 crs#:#event_table_create#:#Nueva sesión
 crs#:#event_table_update#:#Editar sesión
-crs#:#event_tbl_admins#:#Administradores
-crs#:#event_tbl_members#:#Miembros
 crs#:#event_tbl_participants#:#Lista de Participantes
 crs#:#event_tbl_participated#:#Participaron
 crs#:#event_tbl_registered#:#Registrados
-crs#:#event_tbl_tutors#:#Tutores
 crs#:#event_time#:#Fecha
 crs#:#event_title#:#Título
 crs#:#event_tutor_data#:#Información sobre el Responsable
@@ -14048,7 +14044,6 @@ content#:#cont_language#:#Language###30 12 2013 new variable
 content#:#cont_add_lang#:#Add Language###30 12 2013 new variable
 content#:#cont_conf_delete_lang#:#Do you really want to drop support for the following languages?###30 12 2013 new variable
 content#:#cont_back_to_page#:#Back to Page###30 12 2013 new variable
-content#:#cont_got_lock#:#This page has been locked for your editing. Please release the page after you have done all your changes.###30 12 2013 new variable
 content#:#cont_finish_editing#:#Finish Editing###30 12 2013 new variable
 content#:#cont_page_lock_released#:#Editing finished. Page lock has been released.###30 12 2013 new variable
 assessment#:#preserve_manscoring#:#Preserve manual scorings###04 01 2014 new variable
@@ -16151,3 +16146,20 @@ rbac#:#awra_edit_permission#:#User can change permission settings in ‘Who is o
 rbac#:#svy_read_learning_progress#:#User can view learning progress of other users###23 12 2015 new variable
 rbac#:#svy_edit_learning_progress#:#User can edit learning progress settings###23 12 2015 new variable
 rbac#:#sess_edit_learning_progress#:#User can edit learning progress settings###23 12 2015 new variable
+assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress###21 01 2016 new variable
+assessment#:#tst_objective_progress_header#:#Learning Objective Progress###21 01 2016 new variable
+content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2###21 01 2016 new variable
+crs#:#event_user_selection_include_role#:# Include all users with role "%1$s"###21 01 2016 new variable
+crs#:#event_user_selection_include_waiting_list#:#Include all users on "Waiting List"###21 01 2016 new variable
+crs#:#event_user_selection_include_requests#:#Include all users on list "Join Requests"###21 01 2016 new variable
+crs#:#event_user_selection_include_filter#:#Include "%1$s"###21 01 2016 new variable
+crs#:#event_user_selection#:#Selection of Users###21 01 2016 new variable
+crs#:#event_tbl_admin#:#Administrator###21 01 2016 new variable
+crs#:#event_tbl_member#:#Member###21 01 2016 new variable
+crs#:#event_tbl_tutor#:#Tutor###21 01 2016 new variable
+news#:#news_sorry_not_accessible_anymore#:#Sorry, this item is not accessible anymore.###21 01 2016 new variable
+note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration (Personal Desktop settings).###21 01 2016 new variable
+note#:#note_comment_notification_user_has_written#:#%s has written:###21 01 2016 new variable
+prg#:#prg_show_programmes#:#Visibility###21 01 2016 new variable
+content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###21 01 2016 new variable
+content#:#cont_error#:#An Error Occured###21 01 2016 new variable

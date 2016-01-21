@@ -6283,7 +6283,6 @@ content#:#cont_glo_detach#:#Eemalda sõnastik
 content#:#cont_glo_menu#:#Menüü
 content#:#cont_glo_properties#:#Sõnastiku seaded
 content#:#cont_glossaries#:#Glossaries
-content#:#cont_got_lock#:#This page has been locked for your editing. Please release the page after you have done all your changes.
 content#:#cont_header#:#Päis
 content#:#cont_Headline1#:#Pealkiri 1
 content#:#cont_Headline2#:#Pealkiri 2
@@ -7753,7 +7752,6 @@ crs#:#event_location#:#Koht
 crs#:#event_materials#:#Sessiooni materjalid
 crs#:#event_not_participated#:#Pole osalenud
 crs#:#event_overview#:#Osalemine kohtumistel
-crs#:#event_participant_selection#:#Osaleja valik
 crs#:#event_participated#:#Osales
 crs#:#event_participation#:#Osavõtt
 crs#:#event_register#:#Registreeri
@@ -7767,12 +7765,9 @@ crs#:#event_select_one#:#-- Vali üks kohtumine --
 crs#:#event_start_date#:#Algus
 crs#:#event_table_create#:#Uus kohtumine
 crs#:#event_table_update#:#Muuda kohtumist
-crs#:#event_tbl_admins#:#Administraatorid
-crs#:#event_tbl_members#:#Liikmed
 crs#:#event_tbl_participants#:#Osalejate nimestik
 crs#:#event_tbl_participated#:#Osales
 crs#:#event_tbl_registered#:#Registreeritud
-crs#:#event_tbl_tutors#:#Tuutorid
 crs#:#event_time#:#Aeg
 crs#:#event_title#:#Pealkiri
 crs#:#event_tutor_data#:#Lektori info
@@ -16151,3 +16146,20 @@ rbac#:#awra_edit_permission#:#User can change permission settings in ‘Who is o
 rbac#:#svy_read_learning_progress#:#User can view learning progress of other users###23 12 2015 new variable
 rbac#:#svy_edit_learning_progress#:#User can edit learning progress settings###23 12 2015 new variable
 rbac#:#sess_edit_learning_progress#:#User can edit learning progress settings###23 12 2015 new variable
+assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress###21 01 2016 new variable
+assessment#:#tst_objective_progress_header#:#Learning Objective Progress###21 01 2016 new variable
+content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2###21 01 2016 new variable
+crs#:#event_user_selection_include_role#:# Include all users with role "%1$s"###21 01 2016 new variable
+crs#:#event_user_selection_include_waiting_list#:#Include all users on "Waiting List"###21 01 2016 new variable
+crs#:#event_user_selection_include_requests#:#Include all users on list "Join Requests"###21 01 2016 new variable
+crs#:#event_user_selection_include_filter#:#Include "%1$s"###21 01 2016 new variable
+crs#:#event_user_selection#:#Selection of Users###21 01 2016 new variable
+crs#:#event_tbl_admin#:#Administrator###21 01 2016 new variable
+crs#:#event_tbl_member#:#Member###21 01 2016 new variable
+crs#:#event_tbl_tutor#:#Tutor###21 01 2016 new variable
+news#:#news_sorry_not_accessible_anymore#:#Sorry, this item is not accessible anymore.###21 01 2016 new variable
+note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration (Personal Desktop settings).###21 01 2016 new variable
+note#:#note_comment_notification_user_has_written#:#%s has written:###21 01 2016 new variable
+prg#:#prg_show_programmes#:#Visibility###21 01 2016 new variable
+content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###21 01 2016 new variable
+content#:#cont_error#:#An Error Occured###21 01 2016 new variable
