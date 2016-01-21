@@ -656,13 +656,11 @@ class ilStudyProgrammeUserProgress {
 			return null;
 		}
 
-		try {
-			return $parent->getProgressForAssignment($this->progress->getAssignmentId());
-		} catch(ilStudyProgrammeNoProgressForAssignmentException $e) {
-			return null;
-		} catch(Exception $e) {
+		if($this->getStudyProgramme()->getId() == $this->getAssignment()->getStudyProgramme()->getId()) {
 			return null;
 		}
+
+		return $parent->getProgressForAssignment($this->progress->getAssignmentId());
 	}
 	
 	/**
