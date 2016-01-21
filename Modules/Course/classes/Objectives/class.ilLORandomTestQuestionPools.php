@@ -72,7 +72,7 @@ class ilLORandomTestQuestionPools
 	/**
 	 * Lookup objective id by sequence
 	 */
-	public static function lookupObjectiveIdBySequence($a_container_id, $a_seq_id)
+	public static function lookupObjectiveIdsBySequence($a_container_id, $a_seq_id)
 	{
 		global $ilDB;
 		
@@ -80,11 +80,12 @@ class ilLORandomTestQuestionPools
 				'WHERE container_id = '.$ilDB->quote($a_container_id,'integer').' '.
 				'AND qp_seq = '.$ilDB->quote($a_seq_id,'integer');
 		$res = $ilDB->query($query);
+		$objectiveIds = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return $row->objective_id;
+			$objectiveIds[] = $row->objective_id;
 		}
-		return 0;
+		return $objectiveIds;
 	}
 
 

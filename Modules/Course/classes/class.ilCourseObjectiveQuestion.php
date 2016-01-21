@@ -61,18 +61,19 @@ class ilCourseObjectiveQuestion
 	 * @param type $a_qid
 	 * @return int
 	 */
-	public static function lookupObjectiveOfQuestion($a_qid)
+	public static function lookupObjectivesOfQuestion($a_qid)
 	{
 		global $ilDB;
 		
 		$query = 'SELECT objective_id FROM crs_objective_qst '.
 				'WHERE question_id = '.$ilDB->quote($a_qid,'integer');
 		$res = $ilDB->query($query);
+		$objectiveIds = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return $row->objective_id;
+			$objectiveIds[] = $row->objective_id;
 		}
-		return 0;
+		return $objectiveIds;
 	}
 	
 	/**

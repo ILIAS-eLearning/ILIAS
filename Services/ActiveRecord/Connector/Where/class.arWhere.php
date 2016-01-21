@@ -69,7 +69,11 @@ class arWhere extends arStatement {
 				$statement .= ')';
 			} else {
 				if ($this->getValue() === NULL) {
-					$this->setOperator('IS');
+					$operator = 'IS';
+					if (in_array($this->getOperator(), array('IS', 'IS NOT'))) {
+						$operator = $this->getOperator();
+					}
+					$this->setOperator($operator);
 				}
 				$statement .= ' ' . $this->getOperator();
 				$statement .= ' ' . $ar->getArConnector()->quote($this->getValue(), $type);

@@ -95,11 +95,10 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 			$command_solution_details = "outCorrectSolution";
 		}
 
-		$questionAnchorNav = false;
-		if( $this->object->canShowSolutionPrintview() )
+		$questionAnchorNav = $listOfAnswers = $this->object->canShowSolutionPrintview();
+		
+		if( $listOfAnswers )
 		{
-			$questionAnchorNav = true;
-			
 			$list_of_answers = $this->getPassListOfAnswers(
 				$userResults, $testSession->getActiveId(), null, $this->object->getShowSolutionListComparison(),
 				false, false, false, true, $objectivesList, $testResultHeaderLabelBuilder
@@ -107,14 +106,30 @@ class ilTestEvalObjectiveOrientedGUI extends ilTestServiceGUI
 			$tpl->setVariable("LIST_OF_ANSWERS", $list_of_answers);
 		}
 
-		$overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
-			$userResults, $testSession->getActiveId(), null, $this, "showVirtualPass",
-			$command_solution_details, $questionAnchorNav, $objectivesList
-		);
-		$overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getVirtualPassDetailsHeaderLabel(
-			$objectivesList->getUniqueObjectivesString()
-		));
-		$tpl->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
+		foreach($objectivesList->getObjectives() as $loId => $loTitle)
+		{
+			$userResultsForLO = $objectivesList->filterResultsByObjective($userResults, $loId);
+			
+			$overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
+				$userResultsForLO, $testSession->getActiveId(), null, $this, "showVirtualPass",
+				$command_solution_details, $questionAnchorNav, $objectivesList
+			);
+			$overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getVirtualPassDetailsHeaderLabel(
+				$objectivesList->getObjectiveTitleById($loId)
+			));
+			$overviewTableGUI->setMultipleObjectivesInvolved(false);
+
+			require_once 'Modules/Test/classes/class.ilTestLearningObjectivesStatusGUI.php';
+			$loStatus = new ilTestLearningObjectivesStatusGUI($this->lng);
+			$loStatus->setCrsObjId($this->getObjectiveOrientedContainer()->getObjId());
+			$loStatus->setUsrId($testSession->getUserId());
+			$lostatus = $loStatus->getHTML($loId);
+			
+			$tpl->setCurrentBlock('pass_details');
+			$tpl->setVariable("PASS_DETAILS", $overviewTableGUI->getHTML());
+			$tpl->setVariable("LO_STATUS", $lostatus);
+			$tpl->parseCurrentBlock();
+		}
 
 		$this->populateContent($this->ctrl->getHTML($toolbar).$tpl->get());
 	}

@@ -38,8 +38,15 @@ class ilExportContainer extends ilExport
 	 * @param object $a_target_release
 	 * @return 
 	 */
-	public function exportObject($a_type, $a_id, $a_target_release)
+	public function exportObject($a_type, $a_id, $a_target_release = "")
 	{
+		// if no target release specified, use latest major release number
+		if ($a_target_release == "")
+		{
+			$v = explode(".", ILIAS_VERSION_NUMERIC);
+			$a_target_release = $v[0].".".$v[1].".0";
+		}
+				
 		// Create base export directory
 		ilExport::_createExportDirectory($a_id, "xml", $a_type);
 		$export_dir = ilExport::_getExportDirectory($a_id, "xml", $a_type);

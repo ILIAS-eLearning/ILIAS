@@ -407,7 +407,7 @@ class ilMimeMail
 		}
 
 		ilLoggerFactory::getLogger('mail')->debug(sprintf(
-			"Trying to delegate external external email delivery:" .
+			"Trying to delegate external email delivery:" .
 			" Initiated by: " . $ilUser->getLogin() . " (" . $ilUser->getId() . ")" .
 			" | From: " . $this->xheaders['From'] .
 			" | To: " . implode(', ', $this->sendto) .
@@ -427,7 +427,7 @@ class ilMimeMail
 		else
 		{
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				'Could not deliver external email: ', $mail->ErrorInfo
+				'Could not deliver external email: %s', $mail->ErrorInfo
 			));
 		}
 	}

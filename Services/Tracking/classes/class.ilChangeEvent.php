@@ -335,6 +335,7 @@ class ilChangeEvent
 		$now = time();
 
 		$fields = array();
+		$fields['log_id'] = array("integer", $ilDB->nextId('obj_stat_log'));
 		$fields["obj_id"] = array("integer", $a_obj_id);
 		$fields["obj_type"] = array("text", ilObject::_lookupType($a_obj_id));
 		$fields["tstamp"] = array("timestamp", $now);

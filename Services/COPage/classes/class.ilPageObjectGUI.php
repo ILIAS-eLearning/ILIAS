@@ -61,6 +61,11 @@ class ilPageObjectGUI
 	private $abstract_only = false;
 	protected $parent_type = "";
 
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
 	//var $pl_start = "&#123;&#123;&#123;&#123;&#123;";
 	//var $pl_end = "&#125;&#125;&#125;&#125;&#125;";
 	var $pl_start = "{{{{{";
@@ -79,6 +84,8 @@ class ilPageObjectGUI
 		$a_prevent_get_id = false, $a_lang = "")
 	{
 		global $tpl, $lng, $ilCtrl,$ilTabs;
+
+		$this->log = ilLoggerFactory::getLogger('copg');
 
 		$this->setParentType($a_parent_type);
 		$this->setId($a_id);		
@@ -914,6 +921,8 @@ return;
 
 		$next_class = $this->ctrl->getNextClass($this);
 
+		$this->log->debug("next_class: ".$next_class);
+
 		$cmd = $this->ctrl->getCmd();
 		//$this->ctrl->addTab("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
 		//	, "view", "ilEditClipboardGUI");
@@ -1155,6 +1164,8 @@ return;
 		//{
 			if($this->getOutputMode() == "edit")
 			{
+				$this->log->debug("ilPageObjectGUI, showPage() in edit mode.");
+
 //echo ":".$this->getTemplateTargetVar().":";
 				$tpl = new ilTemplate("tpl.page_edit_wysiwyg.html", true, true, "Services/COPage");
 				//$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", "Services/COPage");
@@ -1212,6 +1223,10 @@ return;
 					ilYuiUtil::initPanel(false);
 					$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
 					$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
+
+					include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
+					ilModalGUI::initJS();
+					$lng->toJS("cont_error");
 
 					include_once './Services/Style/classes/class.ilObjStyleSheet.php';
 					$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
@@ -2925,18 +2940,23 @@ return;
 		// edit lock
 		if (!$this->getPageObject()->getEditLock())
 		{
-			$info = $lng->txt("content_no_edit_lock");
-			
 			include_once("./Services/User/classes/class.ilUserUtil.php");
-			
+			$info = $lng->txt("content_no_edit_lock");
 			$lock = $this->getPageObject()->getEditLockInfo();
-			$info.= "</br>".$lng->txt("content_until").": ".
-				ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"],IL_CAL_UNIX));
-			$info.= "</br>".$lng->txt("obj_usr").": ".
-				ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
-			
-			ilUtil::sendInfo($info);
-			return "";
+			$info .= "</br>" . $lng->txt("content_until") . ": " .
+					ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX));
+			$info .= "</br>" . $lng->txt("obj_usr") . ": " .
+					ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
+			if (!$ilCtrl->isAsynch())
+			{
+				ilUtil::sendInfo($info);
+				return "";
+			}
+			else
+			{
+				echo $this->tpl->getMessageHTML($info);
+				exit;
+			}
 		}
 		else
 		{
@@ -2945,15 +2965,19 @@ return;
 			$min = (int) $aset->get("block_mode_minutes") ;
 			if ($min > 0)
 			{
-				$info = $lng->txt("cont_got_lock");
 				include_once("./Services/User/classes/class.ilUserUtil.php");
 				$lock = $this->getPageObject()->getEditLockInfo();
+				$info = $lng->txt("cont_got_lock_until");
+				$info = str_replace("%1", ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"],IL_CAL_UNIX)), $info);
 				//$info.= "</br>".$lng->txt("content_until").": ".
 				//	ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"],IL_CAL_UNIX));
 				//$info.= "</br>".$lng->txt("obj_usr").": ".
 				//	ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
-				$info.= " <a class='small submit' href='".$ilCtrl->getLinkTarget($this, "releasePageLock")."'>".
-					$lng->txt("cont_finish_editing")."</a>";
+				include_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
+				$but = ilLinkButton::getInstance();
+				$but->setCaption("cont_finish_editing");
+				$but->setUrl($ilCtrl->getLinkTarget($this, "releasePageLock"));
+				$info = str_replace("%2", $but->render(), $info);
 				ilUtil::sendInfo($info);
 			}
 		}

@@ -338,13 +338,13 @@ il.CharSelector = new function() {
            
         if($('body.kiosk').length > 0)
         {
-		var topsize = ($("#kioskOptions[name='SEBPlugin']").length > 0) ? $("#kioskOptions").css('height') : "0px";
-		$('#ilCharSelectorPanel').css('top',topsize);
+		    var topsize = ($("#kioskOptions[name='SEBPlugin']").length > 0) ? $("#kioskOptions").css('height') : "0px";
+		    $('#ilCharSelectorPanel').css('top',topsize);
         }
         else
         {
-            var offset = $('.ilMainHeader').offset();
-            $('#ilCharSelectorPanel').css('top', offset.top + $('.ilMainHeader').height());
+            var position = $('.ilMainHeader').position();
+            $('#ilCharSelectorPanel').css('top', position.top + $('.ilMainHeader').height());
         }
 
         $('#ilCharSelectorSpacer').height($('#ilCharSelectorPanel').height()+30);
@@ -374,7 +374,7 @@ il.CharSelector = new function() {
 		var element = doc.activeElement;
 		
 		// special handling of tinyMCE
-		if (element.tagName == 'IFRAME') {
+		if (element.tagName.toLowerCase() == 'iframe') {
 			if ($(element).parent().hasClass('mceIframeContainer')) {
 				tinymce.activeEditor.execCommand('mceInsertContent', false, char);
 				return;
@@ -382,21 +382,23 @@ il.CharSelector = new function() {
 		}
 		
 		// normal form elements
-		switch (element.tagName) {
-			case "INPUT":
-				switch ($(element).attr('type').toLowerCase()) {
-					case '':
-					case 'text':
-					case 'password':
-					case 'email':
-					case 'search':
-					case 'url':
-						break;					
-					default:
-						return false;	// no insertion possible
-				}
+		switch (element.tagName.toLowerCase()) {
+			case "input":
+                if ($(element).attr('type')) {
+                    switch ($(element).attr('type').toLowerCase()) {
+                        case '':
+                        case 'text':
+                        case 'password':
+                        case 'email':
+                        case 'search':
+                        case 'url':
+                            break;
+                        default:
+                            return false;	// no insertion possible
+                    }
+                }
 				break;
-			case "TEXTAREA":
+			case "textarea":
 				break;
 			default:
 				return false;			// no insertion possible

@@ -80,6 +80,15 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 			$row = array();
 			$type = ilObject::_lookupType($object_id);
 			
+			if($type == 'role')
+			{
+				if($GLOBALS['rbacreview']->isRoleDeleted($object_id))
+				{
+					continue;
+				}				
+			}
+			
+			
 			$row['title'] = ilObject::_lookupTitle($object_id);
 			$row['desc'] = ilObject::_lookupDescription($object_id);
 			$row['id'] = $object_id;

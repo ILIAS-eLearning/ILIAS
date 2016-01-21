@@ -9644,7 +9644,7 @@ span.bibl_text_inline_Emph {
   width: 306px;
   color: #F0F0F0;
   margin-top: -240px;
-  background: url("images//black60.png");
+  background: url("images/black60.png");
 }
 .ilPlayerPreviewOverlay img {
   cursor: pointer;
@@ -11202,6 +11202,12 @@ div.ilPCMyCoursesPath {
 .ilAwrnBadgeHidden {
   visibility: hidden;
 }
+/* due to bug #17839 */
+#awareness-content .dropdown-backdrop {
+  display: none;
+  right: auto;
+  width: 0px;
+}
 /* Services/UIComponent/Modal */
 .modal-body .jstree li {
   overflow: hidden;
@@ -11305,6 +11311,9 @@ table.mceToolbar td {
 }
 .alert > a {
   text-decoration: underline;
+}
+.alert > a.btn {
+  text-decoration: none;
 }
 /* basic responsiveness (beta)
 

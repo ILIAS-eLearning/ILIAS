@@ -188,16 +188,16 @@ class ilLOTestQuestionAdapter
 			if( $a_test_sequence instanceof ilTestRandomQuestionSequence )
 			{
 				$definitionId = $a_test_sequence->getResponsibleSourcePoolDefinitionId($questionId);
-				$objectiveId = $this->lookupObjectiveIdByRandomQuestionSelectionDefinitionId($definitionId);
+				$objectiveIds = $this->lookupObjectiveIdByRandomQuestionSelectionDefinitionId($definitionId);
 			}
 			else
 			{
-				$objectiveId = $this->lookupObjectiveIdByFixedQuestionId($questionId);
+				$objectiveIds = $this->lookupObjectiveIdByFixedQuestionId($questionId);
 			}
 
-			if($objectiveId)
+			if( count($objectiveIds) )
 			{
-				$a_objectives_list->addQuestionRelatedObjective($questionId, $objectiveId);
+				$a_objectives_list->addQuestionRelatedObjectives($questionId, $objectiveIds);
 			}
 		}
 	}
@@ -205,13 +205,13 @@ class ilLOTestQuestionAdapter
 	protected function lookupObjectiveIdByRandomQuestionSelectionDefinitionId($a_id)
 	{
 		include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
-		return ilLORandomTestQuestionPools::lookupObjectiveIdBySequence($this->getContainerId(),$a_id);
+		return ilLORandomTestQuestionPools::lookupObjectiveIdsBySequence($this->getContainerId(),$a_id);
 	}
 
 	protected function lookupObjectiveIdByFixedQuestionId($a_question_id)
 	{
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
-		return ilCourseObjectiveQuestion::lookupObjectiveOfQuestion($a_question_id);
+		return ilCourseObjectiveQuestion::lookupObjectivesOfQuestion($a_question_id);
 	}
 	
 	protected function getUserId()
@@ -412,7 +412,7 @@ class ilLOTestQuestionAdapter
 		$seq->clearOptionalQuestions();
 		foreach($seq->getQuestionIds() as $qid)
 		{
-			if(!$this->isInRun($qid))
+			if(!$this->isInRun($qid)) // but is assigned to any LO
 			{
 				$seq->setQuestionOptional($qid);
 			}
