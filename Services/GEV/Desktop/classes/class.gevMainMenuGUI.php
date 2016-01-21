@@ -386,7 +386,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			case "gev_report_trainer_operation_by_tep_category":
 				return $this->user_utils && $this->user_utils->isAdmin();
 			case "gev_report_attendance_by_orgunit":
-				return $this->user_utils && ($this->user_utils->isAdmin() ||  $this->user_utils->hasRoleIn(array("Admin-Ansicht")));
+				return $this->user_utils && $this->user_utils->isAdmin();
 			case "gev_report_attendance_by_coursetemplate":
 				return $this->user_utils && $this->user_utils->isAdmin();
 			case "gev_report_wbd_edupoints":
