@@ -7654,6 +7654,12 @@ div[id^="ilFormField"] {
   cursor: inherit;
   display: block;
 }
+.ilFormInnerCol {
+  padding: 0;
+}
+.ilFormInnerCol .form-group {
+  margin: 0;
+}
 /* Services/UI/Explorer2 */
 table.ilExplorer {
   width: 100%;
@@ -10573,7 +10579,7 @@ button.btn:not(.btn-link) > span:first-child:not(:empty) {
 }
 */
 .btn-default {
-  color: white;
+  color: #ffffff;
   background-color: #708bae;
   border-color: #708bae;
 }
@@ -10582,7 +10588,7 @@ button.btn:not(.btn-link) > span:first-child:not(:empty) {
 .btn-default:active,
 .btn-default.active,
 .open > .dropdown-toggle.btn-default {
-  color: white;
+  color: #ffffff;
   background-color: #557196;
   border-color: #526c90;
 }
@@ -10611,10 +10617,10 @@ fieldset[disabled] .btn-default.active {
 }
 .btn-default .badge {
   color: #708bae;
-  background-color: white;
+  background-color: #ffffff;
 }
 .btn-primary {
-  color: white;
+  color: #ffffff;
   background-color: #6ea03c;
   border-color: #6ea03c;
 }
@@ -10623,7 +10629,7 @@ fieldset[disabled] .btn-default.active {
 .btn-primary:active,
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
-  color: white;
+  color: #ffffff;
   background-color: #557b2e;
   border-color: #4f732b;
 }
@@ -10652,11 +10658,11 @@ fieldset[disabled] .btn-primary.active {
 }
 .btn-primary .badge {
   color: #6ea03c;
-  background-color: white;
+  background-color: #ffffff;
 }
 .btn-info {
   color: #557196;
-  background-color: white;
+  background-color: #ffffff;
   border-color: #c2cddc;
 }
 .btn-info:hover,
@@ -10688,11 +10694,11 @@ fieldset[disabled] .btn-info:active,
 .btn-info.disabled.active,
 .btn-info[disabled].active,
 fieldset[disabled] .btn-info.active {
-  background-color: white;
+  background-color: #ffffff;
   border-color: #c2cddc;
 }
 .btn-info .badge {
-  color: white;
+  color: #ffffff;
   background-color: #557196;
 }
 .btn-link {
