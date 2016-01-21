@@ -72,6 +72,8 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		}
 		$this->orgu_filter->addToQuery($query);
 		$query	->from("hist_userorgu orgu")
+				->join('hist_user usr')
+					->on('usr.user_id = orgu.usr_id')
 				->left_join("hist_usercoursestatus usrcrs")
 					->on("usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0 ")
 				->left_join("hist_course crs")
@@ -93,6 +95,8 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		."		SELECT DISTINCT orgu.usr_id, crs.crs_id, usrcrs.booking_status, "
 		."			usrcrs.participation_status, crs.type "
 		."			FROM hist_userorgu orgu "
+		."			JOIN hist_user usr"
+		."				ON orgu.usr_id = usr.user_id"
 		."			LEFT JOIN `hist_usercoursestatus` usrcrs "
 		."				ON usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0 "
 		."			LEFT JOIN `hist_course` crs "
@@ -239,6 +243,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 							 , 160	
 							 )
 				->static_condition($this->gIldb->in("orgu.usr_id", $this->user_utils->getEmployees(), false, "integer"))
+				->static_condition('usr.hist_historic = 0')
 				->static_condition("orgu.hist_historic = 0")
 				->static_condition("orgu.action >= 0")
 				->static_condition("usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text'))
