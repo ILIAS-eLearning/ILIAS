@@ -346,18 +346,34 @@ class ilMimeMail
 		$bracket = file_get_contents($bracket_path);
 
 		$mail->SetFrom($this->xheaders['From'], $this->xheaders['FromName']);
-		foreach($this->sendto as $recipient)
+
+		foreach($this->sendto as $recipients)
 		{
-			$mail->AddAddress($recipient, '');
+			$recipient_pieces = array_filter(array_map('trim', explode(',', $recipients)));
+			foreach($recipient_pieces as $recipient)
+			{
+				$mail->AddAddress($recipient, '');
+			}
 		}
-		foreach($this->acc as $carbon_copy)
+
+		foreach($this->acc as $carbon_copies)
 		{
-			$mail->AddCC($carbon_copy, '');
+			$cc_pieces = array_filter(array_map('trim', explode(',', $carbon_copies)));
+			foreach($cc_pieces as $carbon_copy)
+			{
+				$mail->AddCC($carbon_copy, '');
+			}
 		}
-		foreach($this->abcc as $blind_carbon_copy)
+
+		foreach($this->abcc as $blind_carbon_copies)
 		{
-			$mail->AddBCC($blind_carbon_copy, '');
+			$bcc_pieces = array_filter(array_map('trim', explode(',', $blind_carbon_copies)));
+			foreach($bcc_pieces as $blind_carbon_copy)
+			{
+				$mail->AddBCC($blind_carbon_copy, '');
+			}
 		}
+
 		$mail->CharSet = 'utf-8';
 		$mail->Subject = $this->xheaders['Subject'];
 
