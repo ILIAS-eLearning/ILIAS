@@ -339,14 +339,13 @@ class ilAdvancedMDRecord
 		
 		if($optional)
 		{
-			if(!$config_setting && 
-				($a_sub_type == "orgu_type" OR $a_sub_type == "prg_type")) // #16925
+			if(!$config_setting && !in_array($a_sub_type, array("orgu_type", "prg_type")) //#16925 + #17777
 			{
-				$selected = self::getObjRecSelection($a_obj_id, $a_sub_type);
+				$selected = array();
 			}
 			else
 			{
-				$selected = array();
+				$selected = self::getObjRecSelection($a_obj_id, $a_sub_type);
 			}
 			foreach($optional as $record_id)
 			{
