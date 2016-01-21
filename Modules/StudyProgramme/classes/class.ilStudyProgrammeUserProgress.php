@@ -655,6 +655,11 @@ class ilStudyProgrammeUserProgress {
 		if (!$parent) {
 			return null;
 		}
+
+		if($this->getStudyProgramme()->getId() == $this->getAssignment()->getStudyProgramme()->getId()) {
+			return null;
+		}
+
 		return $parent->getProgressForAssignment($this->progress->getAssignmentId());
 	}
 	
