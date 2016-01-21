@@ -314,8 +314,10 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		}
 		
 		$valid = ($valid_start && $valid_end);	
-				
-		if($valid &&
+		
+		if($valid && 
+			$this->getStart() && 
+			$this->getEnd() &&
 			ilDateTime::_after($this->getStart(), $this->getEnd()))			
 		{
 			$valid = false;			
@@ -334,13 +336,22 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		}	
 		else
 		{			
-			// getInput() should return a generic format	
-			$post_format = $format
-				? IL_CAL_DATETIME
-				: IL_CAL_DATE;			
-			$_POST[$this->getPostVar()]["start"] = $this->getStart()->get($post_format);
-			$_POST[$this->getPostVar()]["end"] = $this->getEnd()->get($post_format);				
-			unset($_POST[$this->getPostVar()]["tgl"]);		
+			if($this->getStart() &&
+				$this->getEnd())
+			{
+				// getInput() should return a generic format	
+				$post_format = $format
+					? IL_CAL_DATETIME
+					: IL_CAL_DATE;			
+				$_POST[$this->getPostVar()]["start"] = $this->getStart()->get($post_format);
+				$_POST[$this->getPostVar()]["end"] = $this->getEnd()->get($post_format);				
+				unset($_POST[$this->getPostVar()]["tgl"]);		
+			}
+			else
+			{
+				$_POST[$this->getPostVar()]["start"] = null;
+				$_POST[$this->getPostVar()]["end"] = null;
+			}
 		}
 		
 		return $valid;
@@ -433,14 +444,20 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		$tpl->setVariable('DATE_START_ID', $this->getPostVar().'[start]');		
 		$tpl->setVariable('DATE_END_ID', $this->getPostVar().'[end]');
 		
+		// placeholder 
+		// :TODO: i18n?
+		$pl_format = ilCalendarUtil::getUserDateFormat($this->getDatePickerTimeFormat());	
+		$tpl->setVariable('START_PLACEHOLDER', $pl_format);	
+		$tpl->setVariable('END_PLACEHOLDER', $pl_format);	
+		
 		
 		// values
 		
 		$date_value = $this->invalid_input_start;			
 		if(!$date_value &&
 			$this->getStart())
-		{			
-			$out_format = ilCalendarUtil::getUserDateFormat($this->getDatePickerTimeFormat(), true);		
+		{						
+			$out_format = ilCalendarUtil::getUserDateFormat($this->getDatePickerTimeFormat(), true);	
 			$date_value = $this->getStart()->get(IL_CAL_FKT_DATE, $out_format, $ilUser->getTimeZone());								
 		}
 		$tpl->setVariable('DATEPICKER_START_VALUE', $date_value);
@@ -448,8 +465,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		$date_value = $this->invalid_input_end;			
 		if(!$date_value &&
 			$this->getEnd())
-		{			
-			$out_format = ilCalendarUtil::getUserDateFormat($this->getDatePickerTimeFormat(), true);		
+		{						
+			$out_format = ilCalendarUtil::getUserDateFormat($this->getDatePickerTimeFormat(), true);	
 			$date_value = $this->getEnd()->get(IL_CAL_FKT_DATE, $out_format, $ilUser->getTimeZone());								
 		}
 		$tpl->setVariable('DATEPICKER_END_VALUE', $date_value);

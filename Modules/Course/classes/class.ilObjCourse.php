@@ -1108,8 +1108,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->appendMessage($this->lng->txt('err_check_input'));
 		}
 		
-		if($this->getCourseStart() && 
-			$this->getCourseStart()->get(IL_CAL_UNIX) > $this->getCourseEnd()->get(IL_CAL_UNIX))
+		// :TODO: checkInput() is not used properly
+		if(($this->getCourseStart() && !$this->getCourseEnd()) ||
+			(!$this->getCourseStart() && $this->getCourseEnd()) ||
+			($this->getCourseStart() && $this->getCourseEnd() && $this->getCourseStart()->get(IL_CAL_UNIX) > $this->getCourseEnd()->get(IL_CAL_UNIX)))
 		{
 			$this->appendMessage($this->lng->txt("crs_course_period_not_valid"));
 		}

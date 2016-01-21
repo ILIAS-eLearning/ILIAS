@@ -949,16 +949,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->enableRegistrationAccessCode((int) $_POST['reg_code_enabled']);
 		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
 		
-		$cancel_end = $form->getItemByPostVar("cancel_end");
-		if($_POST[$cancel_end->getActivationPostVar()])
-		{
-			$dt = $cancel_end->getDate()->get(IL_CAL_DATETIME);
-			$this->object->setCancellationEnd(new ilDate($dt, IL_CAL_DATETIME));
-		}
-		else
-		{
-			$this->object->setCancellationEnd(null);
-		}
+		$this->object->setCancellationEnd($form->getItemByPostVar("cancel_end")->getDate());		
 				
 		$this->object->enableSubscriptionMembershipLimitation((int) $_POST['subscription_membership_limitation']);		
 		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);		
@@ -985,19 +976,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 				
 		#$this->object->setSubscriptionNotify((int) $_POST['subscription_notification']);
-				
-		if((bool)$_POST["period_tgl"])
-		{
-			$crs_period = $form->getItemByPostVar("period");				
-			$this->object->setCourseStart($crs_period->getStart());
-			$this->object->setCourseEnd($crs_period->getEnd());
-		}		
-		else
-		{
-			$this->object->setCourseStart(null);
-			$this->object->setCourseEnd(null);
-		}
-				
+					
+		$crs_period = $form->getItemByPostVar("period");				
+		$this->object->setCourseStart($crs_period->getStart());
+		$this->object->setCourseEnd($crs_period->getEnd());		
+		
 		$this->object->setViewMode((int) $_POST['view_mode']);
 
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
@@ -1176,25 +1159,21 @@ class ilObjCourseGUI extends ilContainerGUI
 		// Show didactic template type
 		$this->initDidacticTemplate($form);
 		
-		// period
-		$cdur_tgl = new ilCheckboxInputGUI($this->lng->txt('crs_period'),'period_tgl');
-		$cdur_tgl->setInfo($this->lng->txt('crs_period_info'));
-		$cdur_tgl->setChecked($this->object->getCourseStart());
-		$form->addItem($cdur_tgl);
-		
-			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-			$cdur = new ilDateDurationInputGUI('', 'period');			
-			$cdur->setStartText($this->lng->txt('crs_start'));			
-			$cdur->setEndText($this->lng->txt('crs_end'));				
-			if($this->object->getCourseStart())
-			{
-				$cdur->setStart($this->object->getCourseStart());
-			}		
-			if($this->object->getCourseStart())
-			{
-				$cdur->setEnd($this->object->getCourseEnd());
-			}	
-			$cdur_tgl->addSubItem($cdur);			
+		// period		
+		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+		$cdur = new ilDateDurationInputGUI($this->lng->txt('crs_period'), 'period');			
+		$cdur->setInfo($this->lng->txt('crs_period_info'));
+		$cdur->setStartText($this->lng->txt('crs_start'));			
+		$cdur->setEndText($this->lng->txt('crs_end'));				
+		if($this->object->getCourseStart())
+		{
+			$cdur->setStart($this->object->getCourseStart());
+		}		
+		if($this->object->getCourseStart())
+		{
+			$cdur->setEnd($this->object->getCourseEnd());
+		}	
+		$form->addItem($cdur);			
 		
 			
 		// activation/availability
@@ -1302,20 +1281,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		$form->addItem($reg_code);
 		
 		
-		// time limit
-		$time_limit = new ilCheckboxInputGUI($this->lng->txt('crs_registration_limited'),'subscription_limitation_type');
-		$time_limit->setChecked(($this->object->getSubscriptionLimitationType() ==  IL_CRS_SUBSCRIPTION_LIMITED) ? true : false);
-
-			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-			$sdur = new ilDateDurationInputGUI($this->lng->txt('crs_registration_period'), "subscription_period");
-			$sdur->setShowTime(true);																	
-			$sdur->setStart(new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX));
-			$sdur->setStartText($this->lng->txt('crs_start'));				
-			$sdur->setEnd(new ilDateTime($this->object->getSubscriptionEnd(),IL_CAL_UNIX));
-			$sdur->setEndText($this->lng->txt('crs_end'));				
-			
-		$time_limit->addSubItem($sdur);
-		$form->addItem($time_limit);
+		// time limit		
+		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+		$sdur = new ilDateDurationInputGUI($this->lng->txt('crs_registration_limited'), "subscription_period");
+		$sdur->setShowTime(true);																	
+		$sdur->setStart(new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX));
+		$sdur->setStartText($this->lng->txt('crs_start'));				
+		$sdur->setEnd(new ilDateTime($this->object->getSubscriptionEnd(),IL_CAL_UNIX));
+		$sdur->setEndText($this->lng->txt('crs_end'));				
+		$form->addItem($sdur);
 		
 		// cancellation limit		
 		$cancel = new ilDateTimeInputGUI($this->lng->txt('crs_cancellation_end'), 'cancel_end');

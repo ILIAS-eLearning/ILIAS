@@ -220,11 +220,18 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		}
 		else
 		{
-			// getInput() should return a generic format
-			$post_format = $this->getShowTime()
-				? IL_CAL_DATETIME
-				: IL_CAL_DATE;
-			$_POST[$this->getPostVar()] = $this->getDate()->get($post_format);
+			if($this->getDate() !== null)
+			{
+				// getInput() should return a generic format
+				$post_format = $this->getShowTime()
+					? IL_CAL_DATETIME
+					: IL_CAL_DATE;
+				$_POST[$this->getPostVar()] = $this->getDate()->get($post_format);
+			}
+			else
+			{
+				$_POST[$this->getPostVar()] = null;
+			}
 		}
 			
 		return $valid;
@@ -275,6 +282,10 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		{
 			$tpl->setVariable('DATEPICKER_DISABLED', 'disabled="disabled" ');	
 		}		
+		
+		// :TODO: i18n?
+		$pl_format = ilCalendarUtil::getUserDateFormat($this->getDatePickerTimeFormat());	
+		$tpl->setVariable('PLACEHOLDER', $pl_format);		
 		
 		// current value		
 		$date_value = $this->invalid_input;			

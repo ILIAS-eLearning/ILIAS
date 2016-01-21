@@ -231,10 +231,12 @@ il.Form = {
 		// init		
 
 		// set limit by current date of other picker
+		/*
 		if(dp2.date())
 		{		
 			dp.maxDate(dp2.date());
 		}
+		*/
 		if(dp.date())
 		{		
 			dp2.minDate(dp.date()); 
@@ -264,12 +266,13 @@ il.Form = {
 
 		});
 
+		/*
 		$(el2).on("dp.change", function(e) { 	
 
 			// limit to value of start picker
 			dp.maxDate(e.date);		
 		});
-
+		*/
 
 		// toggle
 
