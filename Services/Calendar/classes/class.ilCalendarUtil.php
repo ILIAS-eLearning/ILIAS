@@ -609,7 +609,10 @@ class ilCalendarUtil
 			,'showTodayButton' => true
 			,'showClear' => true
 			,'showClose' => true
-			,'keepInvalid' => true			
+			,'keepInvalid' => true
+			,'sideBySide' => true
+			,'toolbarPlacement' => 'top'
+			// ,'collapse' => false
 			,'format' => self::getUserDateFormat($a_add_time)
 		);
 		
