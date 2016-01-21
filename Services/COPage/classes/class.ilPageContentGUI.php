@@ -26,6 +26,11 @@ class ilPageContentGUI
 	var $return_location;
 	var $page_config = null;
 
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
 	static $style_selector_reset = "margin-top:2px; margin-bottom:2px; text-indent:0px; position:static; float:none; width: auto;";
 
 	// common bb buttons (special ones are iln and wln)
@@ -44,6 +49,9 @@ class ilPageContentGUI
 	function ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
+
+		$this->log = ilLoggerFactory::getLogger('copg');
+
 		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->lng = $lng;

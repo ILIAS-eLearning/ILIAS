@@ -1094,14 +1094,17 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			}
 		}
 		else
-		{
-			$form->setValuesByPost();
-			
+		{			
 			// ilDateTimeInputGUI does NOT add hidden values on disabled!
 			
 			$rece_year = $_POST["rece"]["date"]["y"];
 			$rece_month = str_pad($_POST["rece"]["date"]["m"], 2, "0", STR_PAD_LEFT);
 			$rece_day = str_pad($_POST["rece"]["date"]["d"], 2, "0", STR_PAD_LEFT);
+			
+			// ilDateTimeInputGUI will choke on POST array format
+			$_POST["rece"] = null;		
+			
+			$form->setValuesByPost();
 			
 			$form->getItemByPostVar("rece")->setDate(new ilDate($rece_year."-".$rece_month."-".$rece_day, IL_CAL_DATE));
 			$form->getItemByPostVar("recm")->setHideSubForm($_POST["recm"] < 1);
@@ -1500,6 +1503,12 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$caption = $obj->getTitle().", ".ilDatePresentation::formatPeriod(
 					new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
 					new ilDateTime($rsv->getTo()+1, IL_CAL_UNIX));
+			
+			// #17869
+			if(is_array($ids))
+			{
+				$caption .= " (".sizeof($ids).")";
+			}
 			
 			$item = new ilNumberInputGUI($caption, "rsv_id_".$idx);
 			$item->setRequired(true);

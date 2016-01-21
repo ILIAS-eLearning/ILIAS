@@ -107,14 +107,16 @@ class ilLoggerFactory
 		{
 			return TRUE;
 		}
-		
+
+		include_once("./Services/Logging/classes/extensions/class.ilLineFormatter.php");
+
 		foreach($this->loggers as $a_component_id => $logger)
 		{
 			if($this->isConsoleAvailable())
 			{
 				$browser_handler = new BrowserConsoleHandler();
 				$browser_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
-				$browser_handler->setFormatter(new LineFormatter(static::DEFAULT_FORMAT, 'Y-m-d H:i:s.u',TRUE,TRUE));
+				$browser_handler->setFormatter(new ilLineFormatter(static::DEFAULT_FORMAT, 'Y-m-d H:i:s.u',TRUE,TRUE));
 				$logger->getLogger()->pushHandler($browser_handler);
 			}
 		}
@@ -206,7 +208,8 @@ class ilLoggerFactory
 		}
 		
 		// format lines
-		$line_formatter = new LineFormatter(static::DEFAULT_FORMAT, 'Y-m-d H:i:s.u',TRUE,TRUE);
+		include_once("./Services/Logging/classes/extensions/class.ilLineFormatter.php");
+		$line_formatter = new ilLineFormatter(static::DEFAULT_FORMAT, 'Y-m-d H:i:s.u',TRUE,TRUE);
 		$stream_handler->setFormatter($line_formatter);
 		
 		if($this->getSettings()->isCacheEnabled())

@@ -13,14 +13,24 @@ class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTable
 	 */
 	public function parse()
 	{
-		global $ilCtrl;
+		/**
+		 * @var $ilObjDataCache ilObjectDataCache 
+		 */
+		global $ilCtrl, $ilObjDataCache;
+
+		$valid_threads = ilForum::_getThreads($ilObjDataCache->lookupObjId($this->ref_id));
 
 		$rows = array();
 		foreach($this->getResults()->getResults() as $result_set)
 		{
+			if(!array_key_exists($result_set['item_id'], $valid_threads))
+			{
+				continue;
+			}
+
 			$row          = array();
 
-			$row['title'] = ilObjForum::_lookupThreadSubject($result_set['item_id']);
+			$row['title'] = $valid_threads[$result_set['item_id']];
 
 			$ilCtrl->setParameterByClass('ilObjForumGUI', 'thr_pk', $result_set['item_id']);
 			$row['link'] = $ilCtrl->getLinkTargetByClass('ilObjForumGUI', 'viewThread');

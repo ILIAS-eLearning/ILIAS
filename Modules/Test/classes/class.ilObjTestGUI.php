@@ -4233,7 +4233,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			require_once 'Services/Link/classes/class.ilLink.php';
 			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
-			$tabs_gui->setBackTarget($this->lng->txt('back_to_objective_container'), $courseLink);
+			$tabs_gui->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
 		}
 
 		switch($this->ctrl->getCmd())

@@ -1,7 +1,7 @@
 @import "less/font.less"; 
- /* rtl-review is this font safe for RTL languages? */
+/* rtl-review is this font safe for RTL languages? */
 
- /* rtl-review */
+/* rtl-review */
 [dir="ltr"] * { direction: ltr; unicode-bidi: embed; } //bidi-override
 [dir="rtl"] * { text-align: right; direction: rtl; unicode-bidi: embed; } //bidi-override
 
@@ -1760,6 +1760,11 @@ table.mceToolbar {
 .alert {
 	> a {
 		text-decoration: underline;
+	}
+}
+.alert {
+	> a.btn {
+		text-decoration: none;
 	}
 }
 /* basic responsiveness (beta)

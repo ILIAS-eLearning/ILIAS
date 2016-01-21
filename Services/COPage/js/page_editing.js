@@ -48,45 +48,33 @@ var ilCOPage =
 	displayError: function(str)
 	{
 		// build error string
-		var estr;
+		var estr, show_content = true;
 		/* estr = "Sorry, an error occured. Please copy the content of this window and report the error at:<br /> " +
 		 "<a href='http://www.ilias.de/mantis' target='_blank'>http://www.ilias.de/mantis</a>." +
 		 "<p><b>User Agent</b></p>" +
 		 navigator.userAgent + */
-		estr = "<p><b>Error</b></p>";
+		estr = "";
+
+		if (ilCOPage.error_str.substr(0,10) == "nocontent#") {
+			ilCOPage.error_str = ilCOPage.error_str.substr(10);
+			show_content = false;
+		}
 		estr = estr + ilCOPage.error_str;
-		estr = estr + "<p><b>Content</b></p>";
-		var content = tinyMCE.get('tinytarget').getContent();
-		content = content.split("<").join("&lt;");
-		content = content.split(">").join("&gt;");
-		estr = estr + content;
-
-
-		var epan = document.getElementById('error_panel_inner');
-		if (!epan)
-		{
-			var ediv = document.createElement('div');
-//			var mc = document.getElementById("il_CenterColumn");
-
-			ediv.innerHTML = "<div style='background-color:#FFFFFF;' id='error_panel'>" +
-				"<div style='padding:20px; width:800px; height: 350px; overflow:auto;' id='error_panel_inner'>" + estr + "</div></div>";
-			ediv.className = "yui-skin-sam";
-			$('body').append(ediv);
-//			ediv = mc.appendChild(ediv);
-			var error_panel = new YAHOO.widget.Panel("error_panel", {
-				close: true,
-				constraintoviewport:true
-			});
-			error_panel.render();
-			error_panel.moveTo(20, 20);
-			ilCOPage.error_panel = error_panel;
+		if (show_content) {
+			estr = estr + "<p><b>Content</b></p>";
+			var content = tinyMCE.get('tinytarget').getContent();
+			content = content.split("<").join("&lt;");
+			content = content.split(">").join("&gt;");
+			estr = estr + content;
 		}
-		else
-		{
-			epan.innerHTML =
-				estr;
-			ilCOPage.error_panel.show();
-		}
+
+		il.Modal.dialogue({
+			id: "il_pg_error_modal",
+			show: true,
+			header: il.Language.txt("cont_error"),
+			buttons: {}
+		});
+		$("#il_pg_error_modal .modal-body").html(estr + "<br />");
 	},
 
 	////
