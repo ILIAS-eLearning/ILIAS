@@ -1968,7 +1968,7 @@ class gevUserUtils {
 		return false;
 	}
 
-	protected function userHasRightOf($right_name) {
+	protected function userHasPermissionOf($right_name) {
 		return $this->rbacsystem->checkAccessOfUser($this->user_id, $right_name, $this->getRefId());
 	}
 }

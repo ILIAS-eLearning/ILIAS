@@ -690,7 +690,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				}
 			}
 
-			if ($crs_utils->userHasRightOf($cur_user_id,gevSettings::LOAD_MEMBER_LIST)) {
+			if ($crs_utils->userHasPermissionOf($cur_user_id,gevSettings::LOAD_MEMBER_LIST)) {
 				$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer")
@@ -698,7 +698,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", null);
 			}
 
-			if ($crs_utils->userHasRightOf($cur_user_id, gevSettings::LOAD_SIGNATURE_LIST)) {
+			if ($crs_utils->userHasPermissionOf($cur_user_id, gevSettings::LOAD_SIGNATURE_LIST)) {
 				$signatures_img = '<img src="'.ilUtil::getImagePath("GEV_img/icon-table-signature.png").'" />';
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_signature_list")
@@ -732,7 +732,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 							."' title='".$lng->txt("gev_virtual_class")."' target='_blank'>".$vc_img."</a>&nbsp;";
 			}
 
-			if($crs_utils->userHasRightOf($cur_user_id, gevSettings::VIEW_MAILLOG)){
+			if($crs_utils->userHasPermissionOf($cur_user_id, gevSettings::VIEW_MAILLOG)){
 				$ilCtrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
 				$ilCtrl->setParameterByClass("ilTEPGUI", "obj_id", $a_set["obj_id"]);
 				$maillog_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
@@ -742,8 +742,8 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			}
 
 			if($crs_utils->isFlexibleDecentrallTraining() && 
-					(($crs_utils->hasTrainer($cur_user_id) && $crs_utils->userHasRightOf($cur_user_id,gevSettings::VIEW_SCHEDULE_PDF)) 
-						|| $crs_utils->userHasRightOf($cur_user_id,gevSettings::VIEW_SCHEDULE_PDF))) 
+					(($crs_utils->hasTrainer($cur_user_id) && $crs_utils->userHasPermissionOf($cur_user_id,gevSettings::VIEW_SCHEDULE_PDF)) 
+						|| $crs_utils->userHasPermissionOf($cur_user_id,gevSettings::VIEW_SCHEDULE_PDF))) 
 			{
 				$schedule_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-flowchart.png").'" />';
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
@@ -752,7 +752,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", null);
 			}
 			
-			if($crs_utils->userHasRightOf($cur_user_id, gevSettings::LOAD_CSN_LIST) && $crs_utils->getVirtualClassType() == "CSN"){
+			if($crs_utils->userHasPermissionOf($cur_user_id, gevSettings::LOAD_CSN_LIST) && $crs_utils->getVirtualClassType() == "CSN"){
 				$csn_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-calllist.png").'" />';
 				$ilCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $ref_id);
 				$actions .=  "<a href='".$ilCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "csn")
