@@ -16027,8 +16027,8 @@ prg#:#prg_warning_img_alt#:#Warning!
 prg#:#prg_successful_img_alt#:#successful
 prg#:#prg_in_progress_img_alt#:#in progress
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.
-prg#:#prg_progress_status#:# %1$d of possible %2$d Points
-prg#:#prg_progress_status_with_child_sp#:# %1$d of %2$d Points
+prg#:#prg_progress_status#:# %1$d of %2$d Points
+prg#:#prg_progress_status_with_child_sp#:# %1$d of possible %2$d Points
 prg#:#prg_no_members_not_active#:#Can't add members, as this programme is not active.
 prg#:#prg_type_msg_missing_title#:#Title cannot be empty.
 prg#:#prg_added_member#:#The new member was added successfully.
