@@ -69,10 +69,16 @@ class ilRepUtil
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO DELETE
 		if (count($not_deletable))
 		{
-			$not_deletable = implode(',',$not_deletable);
+			$not_deletable_titles = array();
+			foreach ($not_deletable as $key => $ref_id) {
+				$obj_id = ilObject::_lookupObjId($ref_id);
+				$type = ilObject::_lookupType($obj_id);
+				$not_deletable_titles[] = call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'), $obj_id);
+			}
+			
 			ilSession::clear("saved_post");
 			throw new ilRepositoryException(
-				$lng->txt("msg_no_perm_delete")." ".$not_deletable."<br/>".$lng->txt("msg_cancel"));
+				$lng->txt("msg_no_perm_delete")." ".implode(', ',$not_deletable_titles)."<br/>".$lng->txt("msg_cancel"));
 		}
 
 		if(count($buyable))
