@@ -68,12 +68,19 @@ abstract class ilPageObject
 	protected $import_mode = false;
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
 	* Constructor
 	* @access	public
 	*/
 	final public function ilPageObject($a_id = 0, $a_old_nr = 0, $a_lang = "-")
 	{
 		global $ilias;
+
+		$this->log = ilLoggerFactory::getLogger('copg');
 
 		// @todo: move this elsewhere
 		require_once("./Services/COPage/syntax_highlight/php/Beautifier/Init.php");
@@ -2401,11 +2408,16 @@ abstract class ilPageObject
 	{
 		global $lng, $ilDB, $ilUser;
 
+		$this->log->debug("ilPageObject, updateFromXML(): start, id: ".$this->getId());
+
 //echo "<br>PageObject::updateFromXML[".$this->getId()."]";
 //echo "update:".ilUtil::prepareDBString(($this->getXMLContent())).":<br>";
 //echo "update:".htmlentities($this->getXMLContent()).":<br>";
 
 		$content = $this->getXMLContent();
+
+		$this->log->debug("ilPageObject, updateFromXML(): content: ".substr($content, 0, 100));
+
 		$this->buildDom(true);
 		$dom_doc = $this->getDomDoc();
 
@@ -2430,6 +2442,8 @@ abstract class ilPageObject
 
 		// after update event
 		$this->__afterUpdate($dom_doc, $content);
+
+		$this->log->debug("ilPageObject, updateFromXML(): end");
 
 		return true;
 	}
@@ -2489,7 +2503,9 @@ abstract class ilPageObject
 	function update($a_validate = true, $a_no_history = false)
 	{
 		global $lng, $ilDB, $ilUser, $ilLog, $ilCtrl;
-		
+
+		$this->log->debug("ilPageObject, update(): start, id: ".$this->getId());
+
 		$lm_set = new ilSetting("lm");
 		
 //echo "<br>**".$this->getId()."**";
@@ -2515,11 +2531,18 @@ abstract class ilPageObject
 		{
 			include_once("./Services/User/classes/class.ilUserUtil.php");
 			$lock = $this->getEditLockInfo();
-			$errors = $lng->txt("cont_not_saved_edit_lock_expired");
-			$errors.= "</br>".$lng->txt("obj_usr").": ".
-				ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
-			$errors.= "</br>".$lng->txt("content_until").": ".
-				ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"],IL_CAL_UNIX));
+			$errors[0] = array(0 => 0,
+				1 => "nocontent#".$lng->txt("cont_not_saved_edit_lock_expired")."<br />".
+				$lng->txt("obj_usr").": ".
+				ilUserUtil::getNamePresentation($lock["edit_lock_user"])."<br />".
+				$lng->txt("content_until").": ".
+				ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"],IL_CAL_UNIX))
+			);
+		}
+
+		if (!empty($errors))
+		{
+			$this->log->debug("ilPageObject, update(): errors: ".print_r($errors, true));
 		}
 
 //echo "-".htmlentities($this->getXMLFromDom())."-"; exit;
@@ -2624,6 +2647,8 @@ abstract class ilPageObject
 						
 			// after update event
 			$this->__afterUpdate($dom_doc, $content);
+
+			$this->log->debug("ilPageObject, update(): updated and returning true, content: ".substr($this->getXMLContent(), 0, 100));
 
 //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
 			return true;
@@ -4912,7 +4937,7 @@ abstract class ilPageObject
 	function getEditLock()
 	{
 		global $ilUser, $ilDB;
-		
+		//return false;
 		$aset = new ilSetting("adve");
 		
 		$min = (int) $aset->get("block_mode_minutes") ;

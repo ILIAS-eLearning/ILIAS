@@ -381,31 +381,14 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			$affected_ids[$id] = $id;
 			
 			// INSERT AND SET PERMISSIONS
-			ilRepUtil::insertSavedNodes($id, $a_cur_ref_id, -(int) $id, $affected_ids);
-			
-			// DELETE SAVED TREE
-			$saved_tree = new ilTree(-(int)$id);
-			$saved_tree->deleteTree($saved_tree->getNodeData($id));
-			
-			include_once './Services/Object/classes/class.ilObjectFactory.php';
-			$factory = new ilObjectFactory();
-			$ref_obj = $factory->getInstanceByRefId($id,FALSE);
-			if($ref_obj instanceof ilObject)
-			{
-				$lroles = $GLOBALS['rbacreview']->getRolesOfRoleFolder($id,FALSE);
-				foreach($lroles as $role_id)
-				{
-					include_once './Services/AccessControl/classes/class.ilObjRole.php';
-					$role = new ilObjRole($role_id);
-					$role->setParent($id);
-					$role->delete();
-				}
-				$parent_ref = $GLOBALS['tree']->getParentId($id);
-				if($parent_ref)
-				{
-					$ref_obj->setPermissions($parent_ref);
-				}
+			try {
+				ilRepUtil::insertSavedNodes($id, $a_cur_ref_id, -(int) $id, $affected_ids);
+			} 
+			catch (Exception $e) {
+				include_once("./Services/Repository/exceptions/class.ilRepositoryException.php");
+				throw new ilRepositoryException('Restore from trash failed with message: ' . $e->getMessage());
 			}
+
 			
 			// BEGIN ChangeEvent: Record undelete. 
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -441,25 +424,40 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	{
 		global $rbacadmin, $rbacreview, $log, $tree;
 
-		$tree->insertNode($a_source_id,$a_dest_id, IL_LAST_NODE, true);
-		$a_affected_ids[$a_source_id] = $a_source_id;
+		ilLoggerFactory::getLogger('rep')->debug('Restoring from trash: source_id: '. $a_source_id.', dest_id: '. $a_dest_id.', tree_id:'. $a_tree_id);
+		ilLoggerFactory::getLogger('rep')->info('Restoring ref_id  ' . $a_source_id . ' from trash.');
 		
-		// write log entry
-		$log->write("ilRepUtil::insertSavedNodes(), restored ref_id $a_source_id from trash");
-
-		// SET PERMISSIONS
-		$parentRoles = $rbacreview->getParentRoleIds($a_dest_id);
-		$obj =& ilObjectFactory::getInstanceByRefId($a_source_id);
-
-		foreach ($parentRoles as $parRol)
-		{
-			$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"], $obj->getType(), $parRol["parent"]);
-			$rbacadmin->grantPermission($parRol["obj_id"],$ops,$a_source_id);
-		}
-
+		// read child of node
 		$saved_tree = new ilTree($a_tree_id);
 		$childs = $saved_tree->getChilds($a_source_id);
-
+		
+		// then delete node and put in tree
+		try {
+			$tree->insertNodeFromTrash($a_source_id, $a_dest_id, $a_tree_id, IL_LAST_NODE, true);
+		} 
+		catch (Exception $e) {
+			ilLoggerFactory::getLogger('rep')->error('Restore from trash failed with message: ' . $e->getMessage());
+			throw $e;
+		}
+		
+		include_once './Services/Object/classes/class.ilObjectFactory.php';
+		$factory = new ilObjectFactory();
+		$ref_obj = $factory->getInstanceByRefId($a_source_id,FALSE);
+		if($ref_obj instanceof ilObject)
+		{
+			$lroles = $GLOBALS['rbacreview']->getRolesOfRoleFolder($a_source_id,FALSE);
+			foreach($lroles as $role_id)
+			{
+				include_once './Services/AccessControl/classes/class.ilObjRole.php';
+				$role = new ilObjRole($role_id);
+				$role->setParent($a_source_id);
+				$role->delete();
+			}
+			if($a_dest_id)
+			{
+				$ref_obj->setPermissions($a_dest_id);
+			}
+		}
 		foreach ($childs as $child)
 		{
 			ilRepUtil::insertSavedNodes($child["child"],$a_source_id,$a_tree_id,$a_affected_ids);

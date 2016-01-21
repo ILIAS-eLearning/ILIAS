@@ -356,18 +356,18 @@ class ilTestResultHeaderLabelBuilder
 		return $this->lng->txt('tst_eval_results_lo');
 	}
 	
-	public function getVirtualPassDetailsHeaderLabel($objectivesString)
+	public function getVirtualPassDetailsHeaderLabel($objectiveTitle)
 	{
 		if( $this->isInitialTest() )
 		{
 			return sprintf(
-				$this->lng->txt('tst_virtual_pass_header_lo_initial'), $objectivesString
+				$this->lng->txt('tst_virtual_pass_header_lo_initial'), $objectiveTitle
 			);
 		}
 		elseif( $this->isQualifyingTest() )
 		{
 			return sprintf(
-				$this->lng->txt('tst_virtual_pass_header_lo_qualifying'), $objectivesString
+				$this->lng->txt('tst_virtual_pass_header_lo_qualifying'), $objectiveTitle
 			);
 		}
 		

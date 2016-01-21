@@ -255,9 +255,9 @@ assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Initial Test Re
 assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifying Test Results<br />for the Learning Objectives within the Course %s
 assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifying Test Results<br />for the Learning Objectives %s within the Course %s
 assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s
-assessment#:#tst_virtual_pass_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s
+assessment#:#tst_virtual_pass_header_lo_initial#:#Initial Test Results for the Learning Objective<br />%s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s
-assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s
+assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifying Test Results for the Learning Objective<br />%s
 assessment#:#ass_create_export_file#:#Create Test Export File
 assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
@@ -265,6 +265,8 @@ assessment#:#ass_export_files#:#Export Files
 assessment#:#ass_file#:#File
 assessment#:#ass_question#:#Question
 assessment#:#ass_size#:#Size
+assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress
+assessment#:#tst_objective_progress_header#:#Learning Objective Progress
 assessment#:#assClozeTest#:#Cloze Question
 assessment#:#assErrorText#:#Error Text
 assessment#:#assessment_eval_settings#:#Show the following fields in Evaluation for All Users
@@ -385,7 +387,7 @@ assessment#:#ects_grade_c#:#generally sound work with a number of notable errors
 assessment#:#ects_grade_d_short#:#SATISFACTORY
 assessment#:#ects_grade_d#:#fair but with significant shortcomings
 assessment#:#ects_grade_e_short#:#SUFFICIENT
-assessment#:#ects_grade_e#:#performance meets the minimum criteria
+assessment#:#ects_grade_e#:#performance meets the minimum criterion
 assessment#:#ects_grade_f_short#:#FAIL
 assessment#:#ects_grade_f#:#considerable further work is required
 assessment#:#ects_grade_fx_short#:#FAIL
@@ -4709,7 +4711,7 @@ common#:#usr_agreement_empty#:#The agreement contains no text
 common#:#usr_agreement#:#User Agreement
 common#:#usr_edit#:#Edit User
 common#:#usr_filter_coursemember#:#Member of course
-common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria
+common#:#usr_filter_empty_result#:#No users found that match the selected filter criterion
 common#:#usr_filter_groupmember#:#Member of group
 common#:#usr_filter_lastlogin#:#Last login of user
 common#:#usr_filter_role#:#Assigned role
@@ -11393,8 +11395,8 @@ ecs#:#ecs_server_addr#:#Server Address
 ecs#:#ecs_activate#:#Activate
 ecs#:#ecs_deactivate#:#Deactivate
 ecs#:#ecs_not_configured#:#Not configured
-administration#:#user_criteria#:#Unique user criteria
-administration#:#user_criteria_desc#:#Unique user criteria that is used for test results import/export. This is needed to identify identical users on different ILIAS systems.
+administration#:#user_criteria#:#Unique user criterion
+administration#:#user_criteria_desc#:#Unique user criterion that is used for test results import/export. This is needed to identify identical users on different ILIAS systems.
 assessment#:#imported#:#imported
 ecs#:#ecs_tbl_import#:#Import
 ecs#:#ecs_tbl_export#:#Export
@@ -14259,7 +14261,7 @@ search#:#search_user_search_info_form#:#Data in personal profiles of users is in
 adve#:#adve_blocking_mode#:#Edit Lock
 adve#:#adve_minutes#:#Minutes
 adve#:#adve_minutes_info#:#Minutes of inactivity before an edit lock expires and a page can be edited by another user.
-content#:#content_until#:#At least locked until: 
+content#:#content_until#:#At least locked until
 content#:#content_no_edit_lock#:#The page is currently locked by another user.
 exc#:#exc_fb_tutor_info#:#When a feedback file is uploaded, a notification is sent to the user and the feedback file will be listed in the user's assignment view.
 obj#:#svy_results#:#Results
@@ -14621,7 +14623,7 @@ content#:#cont_language#:#Language
 content#:#cont_add_lang#:#Add Language
 content#:#cont_conf_delete_lang#:#Do you really want to drop support for the following languages?
 content#:#cont_back_to_page#:#Back to Page
-content#:#cont_got_lock#:#This page has been locked for your editing. Please release the page after you have done all your changes.
+content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2
 content#:#cont_finish_editing#:#Finish Editing
 content#:#cont_page_lock_released#:#Editing finished. Page lock has been released.
 notes#:#note_content_removed#:#The content has been removed.
@@ -16025,8 +16027,8 @@ prg#:#prg_warning_img_alt#:#Warning!
 prg#:#prg_successful_img_alt#:#successful
 prg#:#prg_in_progress_img_alt#:#in progress
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.
-prg#:#prg_progress_status#:# %1$d of possible %2$d Points
-prg#:#prg_progress_status_with_child_sp#:# %1$d of %2$d Points
+prg#:#prg_progress_status#:# %1$d of %2$d Points
+prg#:#prg_progress_status_with_child_sp#:# %1$d of possible %2$d Points
 prg#:#prg_no_members_not_active#:#Can't add members, as this programme is not active.
 prg#:#prg_type_msg_missing_title#:#Title cannot be empty.
 prg#:#prg_added_member#:#The new member was added successfully.
@@ -16158,3 +16160,6 @@ crs#:#event_tbl_tutor#:#Tutor
 news#:#news_sorry_not_accessible_anymore#:#Sorry, this item is not accessible anymore.
 note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration (Personal Desktop settings).
 note#:#note_comment_notification_user_has_written#:#%s has written:
+prg#:#prg_show_programmes#:#Visibility
+content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.
+content#:#cont_error#:#An Error Occured

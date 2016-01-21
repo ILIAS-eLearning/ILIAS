@@ -396,6 +396,11 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$this->setData($data);
 	}
 	
+	public function getAdvMDRecordGUI()
+	{
+		return $this->record_gui;
+	}
+	
 	public function getOrderField()
 	{
 		$field = parent::getOrderField();

@@ -353,9 +353,9 @@ assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Einstiegstester
 assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifizierende Testergebnisse<br />zu den Lernzielen im Kurs %s
 assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifizierende Testergebnisse<br />zum Lernziel %s im Kurs %s
 assessment#:#tst_pass_details_header_lo_initial#:#Einstiegsergebnisse zu den Lernzielen<br />%s - %s
-assessment#:#tst_virtual_pass_header_lo_initial#:#Einstiegsergebnisse zu den Lernzielen<br />%s
+assessment#:#tst_virtual_pass_header_lo_initial#:#Einstiegsergebnisse zum Lernziel<br />%s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifizierende Ergebnisse zu den Lernzielen<br />%s - %s
-assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifizierende Ergebnisse zu den Lernzielen<br />%s
+assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifizierende Ergebnisse zum Lernziel<br />%s
 assessment#:#ass_completion_by_submission#:#Bestehen durch Abgabe
 assessment#:#ass_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösungsdatei zur Vergabe der Maximalpunktzahl für diese Frage. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 assessment#:#ass_create_export_file#:#Erstelle Exportdatei
@@ -365,6 +365,8 @@ assessment#:#ass_export_files#:#Exportdateien
 assessment#:#ass_file#:#Datei
 assessment#:#ass_question#:#Frage
 assessment#:#ass_size#:#Größe
+assessment#:#tst_objectives_progress_header#:#Fortschritte in den Lernzielen
+assessment#:#tst_objective_progress_header#:#Fortschritt im Lernziel
 assessment#:#assClozeTest#:#Lückentextfrage
 assessment#:#assErrorText#:#Fehler/Worte markieren
 assessment#:#assessment_eval_settings#:#Die folgenden Datenfelder in der Auswertung für alle Benutzer anzeigen
@@ -14536,7 +14538,7 @@ crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er dur
 crs#:#crs_reg_no_selfreg#:#Kein selbständiger Beitritt
 crs#:#crs_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um dem Kurs beitreten zu können.
 cat#:#cat_more_translations#:#Weitere Übersetzungen
-content#:#cont_got_lock#:#Diese Seite wurde für Ihre Bearbeitung gesperrt. Bitte geben Sie die Seite nach Ihren Änderungen wieder frei.
+content#:#cont_got_lock_until#:#Diese Seite wurde für Ihre Bearbeitung bis %1 gesperrt. Bitte geben Sie die Seite nach Ihren Änderungen durch klicken auf %2 wieder frei.
 content#:#cont_finish_editing#:#Bearbeitung beenden
 content#:#cont_page_lock_released#:#Die Bearbeitung wurde beendet. Die Seite wurde wieder freigegeben.
 orgu#:#backto_staff#:#Zurück zu Personen
@@ -15988,7 +15990,7 @@ prg#:#prg_type_msg_error_custom_icon#:#Während des Speicherns des individuellen
 prg#:#prg_type_assign_amd_sets#:#Erweitertes Metadatenset zuweisen
 prg#:#prg_type_available_amd_sets#:#Verfügbare Erweitere Metadatensets
 prg#:#prg_type_edit#:#Typ editieren
-prg#:#prg_type_msg_deleted#:#Typ löschen
+prg#:#prg_type_msg_deleted#:#Typ gelöscht.
 prg#:#prg_type_msg_unable_delete#:#Konnte Typ nicht löschen, da er bei folgenden Studienprogrammen verwendet wird: %s
 prg#:#prg_type_msg_missing_title_default_language#:#Es muss eine Standardsprache und ein Titel für die Standardsprache gesetzt sein.
 prg#:#prg_save_tree_order#:#Reihenfolge des Baums speichern
@@ -16158,3 +16160,6 @@ crs#:#event_tbl_member#:#Mitglied
 news#:#news_sorry_not_accessible_anymore#:#Entschuldigung, dieses Objekt befindet sich nicht mehr in Ihrem Zugriff.
 note#:#note_comment_notification_reason#:#Sie erhalten diese Nachricht, da ihr Account als Empfänger für alle Kommentare in der ILIAS Adminstration gepflegt ist (Einstellungen Persönlicher Schreibtisch).
 note#:#note_comment_notification_user_has_written#:#%s hat geschrieben:
+prg#:#prg_show_programmes#:#Anzeigen
+content#:#cont_not_saved_edit_lock_expired#:#Entschuldigung, Ihre Änderungen konnten nicht gespeichert werden. Die Seite wurde zwischenzeitlich von einem anderen Benutzer zur Bearbeitung gesperrt. Sie können diesen Dialog schließen und dann den Inhalt in Ihre Zwischenablage kopieren.
+content#:#cont_error#:#Es ist leider ein Fehler aufgetreten

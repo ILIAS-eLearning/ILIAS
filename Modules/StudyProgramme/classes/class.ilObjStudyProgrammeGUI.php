@@ -234,6 +234,13 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 					case 'getAsynchItemList':
 						parent::getAsynchItemListObject();
 						break;
+					case 'trash':
+					case 'undelete':
+					case 'confirmRemoveFromSystem':
+					case 'removeFromSystem':
+						$cmd .= "Object";
+						$this->$cmd();
+						break;
 					/*case 'editSettings':
 						$this->tabs_gui->setTabActive("settings");
 						$this->setSubTabsSettings('edit_settings');

@@ -136,7 +136,7 @@ class ilStudyProgrammeProgressListGUI {
 		$tooltip_id = "prg_".$a_progress->getId();
 		
 		$required_amount_of_points = $a_progress->getAmountOfPoints();
-		$maximum_possible_amount_of_points = $a_progress->getMaximumPossibleAmountOfPoints();
+		$maximum_possible_amount_of_points = $a_progress->getMaximumPossibleAmountOfPoints(true);
 		$current_amount_of_points = $a_progress->getCurrentAmountOfPoints();
 
 		if ($maximum_possible_amount_of_points > 0) {
