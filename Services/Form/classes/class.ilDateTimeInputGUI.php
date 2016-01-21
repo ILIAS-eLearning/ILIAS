@@ -299,6 +299,11 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		$tpl->setVariable('DATEPICKER_VALUE', $date_value);			
 		$tpl->setVariable('DATE_ID', $this->getPostVar());	
 		
+		if($this->getRequired())
+		{
+			$tpl->setVariable("REQUIRED", "required=\"required\"");
+		}		
+		
 		return $tpl->get();
 	}
 
