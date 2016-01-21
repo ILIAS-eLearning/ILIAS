@@ -152,10 +152,14 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 		{
 			$a_tpl->setVariable("DISABLED",
 				" disabled=\"disabled\"");
-		}
+		}		
 		if($this->isHtmlAutoCompleteDisabled())
 		{
 			$a_tpl->setVariable("AUTOCOMPLETE", "autocomplete=\"off\"");
+		}
+		if($this->getRequired())
+		{
+			$a_tpl->setVariable("REQUIRED", "required=\"required\"");
 		}
 		$a_tpl->parseCurrentBlock();
 	}

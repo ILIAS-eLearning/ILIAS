@@ -364,6 +364,10 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 			{
 				$ptpl->setVariable("AUTOCOMPLETE", "autocomplete=\"off\"");
 			}
+			if($this->getRequired())
+			{
+				$ptpl->setVariable("REQUIRED", "required=\"required\"");
+			}
 		}
 		else
 		{
