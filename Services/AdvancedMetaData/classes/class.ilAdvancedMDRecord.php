@@ -339,7 +339,7 @@ class ilAdvancedMDRecord
 		
 		if($optional)
 		{
-			if(!$config_setting && !in_array($a_sub_type, array("orgu_type", "prg_type")) //#16925 + #17777
+			if(!$config_setting && !in_array($a_sub_type, array("orgu_type", "prg_type"))) //#16925 + #17777
 			{
 				$selected = array();
 			}
