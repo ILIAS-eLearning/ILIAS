@@ -412,10 +412,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 			$this->ctrl->redirect($this);
 		}
 		$form = $this->initAdvancedSettingsForm();
-
-		$obj = ilAdvancedMDRecord::_getSelectedRecordsByObject('prg', $this->object->getId(), $this->object->getSubtypeId());
-		$obj_type = ilAdvancedMDRecord::_getActivatedRecordsByObjectType('prg', 'prg_type');
-
 		$gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
 		$gui->setPropertyForm($form);
 		$gui->parse();

@@ -105,11 +105,14 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 						// currently only optional records for org unit (types)
 						unset($type_options[1]);
 						break;
-						
+					case "prg":
+						// currently only optional records for study programme (types)
+						unset($type_options[1]);
+						break;
 					case "rcrs":
 						// optional makes no sense for ecs-courses
 						unset($type_options[2]);
-						break;																				
+						break;
 				}
 				$select = ilUtil::formSelect(
 						$value, 
