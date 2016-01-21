@@ -470,7 +470,12 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$date_value = $this->getEnd()->get(IL_CAL_FKT_DATE, $out_format, $ilUser->getTimeZone());								
 		}
 		$tpl->setVariable('DATEPICKER_END_VALUE', $date_value);
-				
+						
+		if($this->getRequired())
+		{
+			$tpl->setVariable("START_REQUIRED", "required=\"required\"");
+			$tpl->setVariable("END_REQUIRED", "required=\"required\"");
+		}		
 		
 		return $tpl->get();
 	}

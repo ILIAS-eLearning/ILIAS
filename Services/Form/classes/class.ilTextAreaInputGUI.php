@@ -533,7 +533,11 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 			$ttpl->setVariable("HIDDEN_INPUT",
 				$this->getHiddenTag($this->getPostVar(), $this->getValue()));
 		}
-
+		
+		if($this->getRequired())
+		{
+			$ttpl->setVariable("REQUIRED", "required=\"required\"");
+		}
 		
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $ttpl->get());
