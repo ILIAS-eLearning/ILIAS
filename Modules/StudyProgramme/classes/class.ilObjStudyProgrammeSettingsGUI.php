@@ -132,9 +132,11 @@ class ilObjStudyProgrammeSettingsGUI {
 
 		$form = $this->buildForm();
 		$form->setValuesByPost();
-		if ($this->checkForm($form)) {
+		$update_possible = $this->checkForm($form);
+
+		if ($update_possible) {
 			$this->updateFromFrom($form);
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>true, "message"=>$this->lng->txt("msg_obj_modified")));
 		} else {
 			// TODO:
@@ -145,7 +147,11 @@ class ilObjStudyProgrammeSettingsGUI {
 		if($this->ctrl->isAsynch()) {
 			return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
 		} else {
-			return $form->getHTML();
+			if($update_possible) {
+				$this->ctrl->redirect($this);
+			} else {
+				return $form->getHTML();
+			}
 		}
 	}
 
