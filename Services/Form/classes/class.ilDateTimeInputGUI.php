@@ -204,6 +204,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		}				
 		
 		if($valid && 
+			$this->getDate() &&
 			$this->getStartYear() &&
 			$this->getDate()->get(IL_CAL_FKT_DATE, "Y") < $this->getStartYear())
 		{
