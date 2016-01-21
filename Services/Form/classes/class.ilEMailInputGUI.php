@@ -167,6 +167,11 @@ class ilEMailInputGUI extends ilFormPropertyGUI
 			$ptpl->setVariable('DISABLED', ' disabled="disabled"');
 			$ptpl->setVariable('HIDDEN_INPUT', $this->getHiddenTag($this->getPostVar(), $this->getValue()));
 		}
+		
+		if($this->getRequired())
+		{
+			$ptpl->setVariable("REQUIRED", "required=\"required\"");
+		}
 
 		$a_tpl->setCurrentBlock('prop_generic');
 		$a_tpl->setVariable('PROP_GENERIC', $ptpl->get());

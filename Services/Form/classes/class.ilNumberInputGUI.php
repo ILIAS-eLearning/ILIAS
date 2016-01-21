@@ -415,6 +415,11 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 			$tpl->setVariable("TXT_NUMBER_CONSTRAINTS", $constraints);
 		}
 		
+		if($this->getRequired())
+		{
+			$tpl->setVariable("REQUIRED", "required=\"required\"");
+		}
+		
 		$tpl->parseCurrentBlock();
 
 		return $tpl->get();
