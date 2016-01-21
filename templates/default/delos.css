@@ -7660,6 +7660,10 @@ div[id^="ilFormField"] {
 .ilFormInnerCol .form-group {
   margin: 0;
 }
+input:invalid {
+  background-color: #FFEBEB;
+  border-color: #D08080;
+}
 /* Services/UI/Explorer2 */
 table.ilExplorer {
   width: 100%;
