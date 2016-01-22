@@ -1306,21 +1306,25 @@ class gevCourseUtils {
 
 		foreach($assigned_vcs as $avc) {
 			$avc->release();
+
+			if ($this->getVirtualClassLink() == $avc->getVC()->getUrl()) {
+				$this->setVirtualClassLink(null);
+			}
+
+			if ($this->getVirtualClassPassword() == $avc->getVC()->getMemberPassword()) {
+				$this->setVirtualClassPassword(null);
+			}
+
+			if ($this->getVirtualClassPasswordTutor() == $avc->getVC()->getTutorPassword()) {
+				$this->setVirtualClassPasswordTutor(null);
+			}
+
+			if ($this->getVirtualClassLoginTutor() == $avc->getVC()->getTutorLogin()) {
+				$this->setVirtualClassLoginTutor(null);
+			}
+
 		}
 
-		if ($this->getVirtualClassLink() == $avc->getVC()->getUrl()) {
-			$this->setVirtualClassLink(null);
-		}
-
-		if ($this->getVirtualClassPassword() == $avc->getVC()->getMemberPassword()) {
-			$this->setVirtualClassPassword(null);
-		}
-		if ($this->getVirtualClassPasswordTutor() == $avc->getVC()->getTutorPassword()) {
-			$this->setVirtualClassPasswordTutor(null);
-		}
-		if ($this->getVirtualClassLoginTutor() == $avc->getVC()->getTutorLogin()) {
-			$this->setVirtualClassLoginTutor(null);
-		}
 	}
 
 
