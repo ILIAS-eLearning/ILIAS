@@ -156,11 +156,11 @@ class ilCourseInfo {
 	}
 
 	/**
-	* gets all propertys in an array
+	* gets all properties in an array
 	*
 	* @return array
 	*/
-	public function getAllPropertys() {
+	public function getAllProperties() {
 		return array("title"=>$this->title()
 					, "description"=>$this->description()
 					, "start_date"=>$this->start_date()
@@ -183,9 +183,9 @@ class ilCourseInfo {
 	* @return boolean
 	*/
 	public function compareWith(ilCourseInfo $to_compare) {
-		$to_compare_array = $to_compare->getAllPropertys();
+		$to_compare_array = $to_compare->getAllProperties();
 
-		foreach ($this->getAllPropertys() as $key => $value) {
+		foreach ($this->getAllProperties() as $key => $value) {
 			if(gettype($value) == "array") {
 				if(array_diff_assoc($to_compare_array[$key], $value) || array_diff_assoc($value, $to_compare_array[$key])) {
 					return true;
