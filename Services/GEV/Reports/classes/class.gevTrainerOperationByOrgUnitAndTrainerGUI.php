@@ -44,7 +44,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 
 		parent::__construct();
 
-		$this->createTemplateFile();
+		//$this->createTemplateFile();
 
 		$this->filter = catFilter::create()
 						->multiselect(	"tutor_name"
@@ -309,7 +309,6 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 			$i++;
 		}
 		$tpl .= "\n</tr>";
-		die($tpl);
 		fwrite($str,$tpl);
 		fclose($str);
 	}
