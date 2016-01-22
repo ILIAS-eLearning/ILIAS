@@ -44,6 +44,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	function executeCommand()
 	{					
+		global $lng;
+		
 		// goto link to portfolio page
 		if($_GET["gtp"])
 		{		
@@ -70,11 +72,17 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				{
 					$this->setTabs();
 					$this->tabs_gui->activateTab("share");
+					
+					if($this->access_handler->getPermissions($this->object->getId()) &&
+						!$this->object->isOnline())
+					{
+						ilUtil::sendInfo($lng->txt("prtf_shared_offline_info"));
+					}
 										
 					$this->tpl->setPermanentLink("prtf", $this->object->getId());
 
 					include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
-					$wspacc = new ilWorkspaceAccessGUI($this->object->getId(), $this->access_handler, true, $plink);
+					$wspacc = new ilWorkspaceAccessGUI($this->object->getId(), $this->access_handler, true);
 					$this->ctrl->forwardCommand($wspacc);
 				}
 				break;

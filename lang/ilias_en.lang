@@ -16163,3 +16163,4 @@ note#:#note_comment_notification_user_has_written#:#%s has written:
 prg#:#prg_show_programmes#:#Visibility
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.
 content#:#cont_error#:#An Error Occured
+prtf#:#prtf_shared_offline_info#:#A portfolio has to be online to be accessible by shared users.
