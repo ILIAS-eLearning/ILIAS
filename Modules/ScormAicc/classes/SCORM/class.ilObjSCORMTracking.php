@@ -522,45 +522,10 @@ class ilObjSCORMTracking
 				$status = "failed";
 			}
 			
-			// check max attempts
-			if ($status == "in_progress" && self::_hasMaxAttempts($a_obj_id, $a_user_id))
-			{
-				$status = "failed";					
-			}
 		}
 		return $status;
 	}
 	
-	public static function _hasMaxAttempts($a_obj_id, $a_user_id)
-	{
-		global $ilDB;
-		
-		// see ilSCORMPresentationGUI
-		$val_set = $ilDB->queryF('SELECT max_attempt FROM sahs_lm WHERE id = %s',
-			array('integer'), array($a_obj_id));
-		$val_rec = $ilDB->fetchAssoc($val_set);
-		$max_attempts = $val_rec["max_attempt"]; 
-
-		if ($max_attempts)
-		{
-			$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
-				array('integer','integer'),
-				array($a_obj_id,$a_user_id));
-			$val_rec = $ilDB->fetchAssoc($val_set);	
-			if ($val_rec["package_attempts"] == null) 
-			{
-				$val_rec["package_attempts"] = 0;
-			}
-			$act_attempts = $val_rec["package_attempts"];
-
-			if ($act_attempts >= $max_attempts)
-			{
-				return true;
-			}					
-		}							
-		
-		return false;
-	}
 
 	public static function _countCompleted($a_scos, $a_obj_id, $a_user_id)
 	{

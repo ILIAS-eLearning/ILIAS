@@ -336,44 +336,10 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 			if ($failed == true) $status = "failed";
 			else if ($cntcompleted == count($a_scos)) $status = "completed";
 			
-			// check max attempts
-			if ($status == "in_progress" && self::_hasMaxAttempts($a_obj_id, $a_user_id))
-			{
-				$status = "failed";					
-			}			
 		}
 		return $status;
 	}
 	
-	public static function _hasMaxAttempts($a_obj_id, $a_user_id)
-	{
-		global $ilDB;
-		// see ilSCORM13Player
-		$res = $ilDB->queryF(
-			'SELECT max_attempt FROM sahs_lm WHERE id = %s', 
-			array('integer'),
-			array($a_obj_id)
-		);
-		$row = $ilDB->fetchAssoc($res);
-		$max_attempts = $row['max_attempt'];
-
-		if ($max_attempts)
-		{
-			$val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
-				array('integer','integer'), array($a_obj_id,$a_user_id));
-			$val_rec = $ilDB->fetchAssoc($val_set);
-			$attempts = $val_rec["package_attempts"];
-			if ($attempts == null) $attempts = 0;
-
-			if ($attempts >= $max_attempts)
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-
 	public static function _countCompleted($a_scos, $a_obj_id, $a_user_id,
 		$a_omit_failed = false)
 	{
