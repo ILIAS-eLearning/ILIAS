@@ -552,7 +552,7 @@ class ilMailSearchGUI
 			}
 		}
 
-		if(count($users) || count($visible_groups) || count($entries))
+		if(count($users) || count($visible_groups) || count($relations))
 		{
 			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
 			$this->tpl->setVariable("ALT_ARROW", '');
