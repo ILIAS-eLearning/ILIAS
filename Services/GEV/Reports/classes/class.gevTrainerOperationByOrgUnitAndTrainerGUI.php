@@ -11,8 +11,8 @@ require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/Object/classes/class.ilObject.php");
 
-const MIN_ROW = "3991";
-const shift = "<div>&nbsp;&nbsp;</div>";
+const MIN_ROW = "0";
+const shift = '<div class = "inline_block">&nbsp;&nbsp;</div>';
 
 class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 	protected $meta_categories;
@@ -44,7 +44,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 
 		parent::__construct();
 
-		//$this->createTemplateFile();
+		$this->createTemplateFile();
 
 		$this->filter = catFilter::create()
 						->multiselect(	"tutor_name"
@@ -250,7 +250,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		$return = array("title"=>$title,"trainers"=>$this->pre_data[$title],"children"=>array());
 
 		foreach ($return["trainers"] as &$trainers) {
-			$trainers["title"] = $offset.shift.'<div>'.$trainers["title"].'</div>';
+			$trainers["title"] = $offset.shift.'<div class = "inline_block">'.$trainers["title"].'</div>';
 		}
 
 		asort($return["trainers"]);
@@ -268,7 +268,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 				$return["sum"] = $this->sumMetaCategories(array($return["sum"],$child["sum"]));
 			}
 		}
-		$return["sum"]["title"] = $offset."<div><b>".$return["title"]."</b></div>";
+		$return["sum"]["title"] = $offset.'<div class = "inline_block"><b>'.$return["title"].'</b></div>';
 		return $return;
 	}
 
@@ -309,6 +309,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 			$i++;
 		}
 		$tpl .= "\n</tr>";
+		die($tpl);
 		fwrite($str,$tpl);
 		fclose($str);
 	}

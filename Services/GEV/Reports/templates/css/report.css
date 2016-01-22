@@ -6,6 +6,6 @@
 	font-weight:bold;
 }
 
-td > div {
+.inline_block {
 	display:inline-block;
 }
