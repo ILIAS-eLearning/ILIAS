@@ -182,7 +182,7 @@ class ilCourseInfo {
 	*
 	* @return boolean
 	*/
-	public function compareWith($to_compare) {
+	public function compareWith(ilCourseInfo $to_compare) {
 		$to_compare_array = $to_compare->getAllPropertys();
 
 		foreach ($this->getAllPropertys() as $key => $value) {
