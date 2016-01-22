@@ -551,10 +551,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$definition = $schedule->getDefinition();
 		
 		$av_from = ($schedule->getAvailabilityFrom() && !$schedule->getAvailabilityFrom()->isNull())
-			? $schedule->getAvailabilityFrom()->get(IL_CAL_UNIX)
+			? $schedule->getAvailabilityFrom()->get(IL_CAL_DATE)
 			: null;
 		$av_to = ($schedule->getAvailabilityTo() && !$schedule->getAvailabilityTo()->isNull())
-			? $schedule->getAvailabilityTo()->get(IL_CAL_UNIX)
+			? $schedule->getAvailabilityTo()->get(IL_CAL_DATE)
 			: null;
 		
 		$has_open_slot = false;
@@ -565,7 +565,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			if($av_from || 
 				$av_to)
 			{
-				$today = $date->get(IL_CAL_UNIX);				
+				$today = $date->get(IL_CAL_DATE);				
 				if($av_from > $today ||
 					$av_to < $today)
 				{
