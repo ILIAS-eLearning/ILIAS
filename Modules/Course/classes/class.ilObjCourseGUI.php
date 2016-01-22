@@ -986,7 +986,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				array('object' => $this->object
 					,'obj_id' => $this->object->getId()
 					,'appointments' => $this->object->prepareAppointments('update')
-					,'comparsion' => array("bevor_update"=>$bevore_update, "after_update"=>$after_update))
+					,'comparison' => array("bevor_update"=>$bevore_update, "after_update"=>$after_update))
 					);
 		// gev-patch end
 		
@@ -1129,7 +1129,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				array('object' => $this->object
 					,'obj_id' => $this->object->getId()
 					,'appointments' => $this->object->prepareAppointments('update')
-					,'comparsion' => array("bevor_update"=>$bevore_update, "after_update"=>$after_update))
+					,'comparison' => array("bevor_update"=>$bevore_update, "after_update"=>$after_update))
 					);
 			//gev-patch end
 			

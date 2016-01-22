@@ -56,8 +56,8 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 
 			$this->crs_utils->adjustVCAssignment();
 
-			if(isset($a_parameter["comparsion"]) && count($a_parameter["comparsion"] == 2)) {
-				$this->compareCourse($a_parameter["comparsion"]);
+			if(isset($a_parameter["comparison"]) && count($a_parameter["comparison"] == 2)) {
+				$this->compareCourse($a_parameter["comparison"]);
 			}
 		}
 		catch (Exception $e) {
