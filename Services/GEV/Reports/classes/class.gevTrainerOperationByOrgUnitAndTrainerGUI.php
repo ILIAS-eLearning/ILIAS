@@ -12,7 +12,7 @@ require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/Object/classes/class.ilObject.php");
 
 const MIN_ROW = "3991";
-const shift = "&nbsp;&nbsp;&nbsp;";
+const shift = "<div>&nbsp;&nbsp;</div>";
 
 class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 	protected $meta_categories;
@@ -250,7 +250,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		$return = array("title"=>$title,"trainers"=>$this->pre_data[$title],"children"=>array());
 
 		foreach ($return["trainers"] as &$trainers) {
-			$trainers["title"] = $offset.shift.$trainers["title"];
+			$trainers["title"] = $offset.shift.'<div>'.$trainers["title"].'</div>';
 		}
 
 		asort($return["trainers"]);
@@ -268,7 +268,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 				$return["sum"] = $this->sumMetaCategories(array($return["sum"],$child["sum"]));
 			}
 		}
-		$return["sum"]["title"] = $offset."<b>".$return["title"]."</b>";
+		$return["sum"]["title"] = $offset."<div><b>".$return["title"]."</b></div>";
 		return $return;
 	}
 
@@ -302,7 +302,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 	protected function createTemplateFile() {
 		$str = fopen("Services/GEV/Reports/templates/default/"
 			."tpl.gev_trainer_operation_by_orgu_and_trainer_row.html","w"); 
-		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td class = "bordered_right">{VAL_TITLE}</td>';
+		$tpl = '<tr class="{CSS_ROW}"><td></td>'."\n".'<td class = "bordered_right" style= "white-space:nowrap">{VAL_TITLE}</td>';
 		foreach($this->meta_categories as $meta_category => $categories) {
 			$tpl .= "\n".'<td align = "right">{VAL_'.strtoupper($meta_category).'_D}</td>';
 			$tpl .= "\n".'<td align = "right" class = "bordered_right">{VAL_'.strtoupper($meta_category).'_H}</td>';
