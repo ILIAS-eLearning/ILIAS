@@ -5,3 +5,7 @@
 .bold_content {
 	font-weight:bold;
 }
+
+td > div {
+	display:inline-block;
+}
