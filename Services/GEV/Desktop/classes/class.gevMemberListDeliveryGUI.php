@@ -33,7 +33,7 @@ class gevMemberListDeliveryGUI {
 				return;
 
 			case "trainer":
-				if (!$crs_utils->userHasRightOf($this->user_id,gevSettings::LOAD_MEMBER_LIST)
+				if (!$crs_utils->userHasPermissionTo($this->user_id,gevSettings::LOAD_MEMBER_LIST)
 					&& !$this->gAccess->checkAccess("write", "", $ref_id, "crs", $obj_id)
 					) {
 					break;
@@ -49,7 +49,7 @@ class gevMemberListDeliveryGUI {
 				return;
 
 			case "csn":
-				if (!$crs_utils->userHasRightOf($this->user_id, gevSettings::LOAD_CSN_LIST)
+				if (!$crs_utils->userHasPermissionTo($this->user_id, gevSettings::LOAD_CSN_LIST)
 					&& !$this->gAccess->checkAccess("write", "", $ref_id, "crs", $obj_id)
 					) {
 					break;
@@ -65,7 +65,7 @@ class gevMemberListDeliveryGUI {
 				return;
 
 			case "download_signature_list":
-				if (!$crs_utils->userHasRightOf($this->user_id,gevSettings::LOAD_SIGNATURE_LIST)
+				if (!$crs_utils->userHasPermissionTo($this->user_id,gevSettings::LOAD_SIGNATURE_LIST)
 					&& !$this->gAccess->checkAccess("write", "", $ref_id, "crs", $obj_id)
 					) {
 					break;
@@ -74,7 +74,7 @@ class gevMemberListDeliveryGUI {
 				return;
 
 			case "download_crs_schedule":
-				if (!$crs_utils->userHasRightOf($this->user_id,gevSettings::VIEW_SCHEDULE_PDF)
+				if (!$crs_utils->userHasPermissionTo($this->user_id,gevSettings::VIEW_SCHEDULE_PDF)
 					&& !$this->gAccess->checkAccess("write", "", $ref_id, "crs", $obj_id)
 					) {
 					break;

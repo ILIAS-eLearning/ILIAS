@@ -576,7 +576,7 @@ class gevDecentralTrainingGUI {
 		$crs_utils = gevCourseUtils::getInstance($obj_id);
 		$tmpl_id = gevObjectUtils::getObjId($crs_utils->getTemplateRefId());
 
-		if($crs_utils->userHasRightOf($this->current_user->getId(),"change_trainer")) {
+		if($crs_utils->userHasPermissionTo($this->current_user->getId(),"change_trainer")) {
 			$trainer_ids_new = $form->getInput("tutor_change");
 			$trainer_ids_old = explode("|",$form->getInput("trainer_ids"));
 			$this->updateTrainers($trainer_ids_new,$trainer_ids_old,$crs_utils);
@@ -755,7 +755,7 @@ class gevDecentralTrainingGUI {
 			throw new Exception("gevDecentralTrainingGUI::updateSettings: no permission");
 		}
 
-		if($crs_utils->userHasRightOf($this->current_user->getId(),"change_trainer")) {
+		if($crs_utils->userHasPermissionTo($this->current_user->getId(),"change_trainer")) {
 			$trainer_ids_new = $form->getInput("tutor_change");
 			$trainer_ids_old = explode("|",$form->getInput("trainer_ids"));
 			$this->updateTrainers($trainer_ids_new,$trainer_ids_old,$crs_utils);
@@ -1077,7 +1077,7 @@ class gevDecentralTrainingGUI {
 		$time->setDisabled($a_form_values["no_changes_allowed"]);
 		$form->addItem($time);
 		
-		if($this->crs_ref_id !== null && $crs_utils->userHasRightOf($this->current_user->getId(),"change_trainer")) {
+		if($this->crs_ref_id !== null && $crs_utils->userHasPermissionTo($this->current_user->getId(),"change_trainer")) {
 			$trainer_ids = $this->dctl_utils->getUsersWhereCanCreateFor($this->current_user->getId());
 			
 			if ($this->dctl_utils->canCreateFor($this->current_user->getId(), $this->current_user->getId())) {
@@ -1301,7 +1301,7 @@ class gevDecentralTrainingGUI {
 		$time->setDisabled($a_form_values["no_changes_allowed"]);
 		$form->addItem($time);
 		
-		if($this->crs_ref_id !== null && $crs_utils->userHasRightOf($this->current_user->getId(),"change_trainer")) {
+		if($this->crs_ref_id !== null && $crs_utils->userHasPermissionTo($this->current_user->getId(),"change_trainer")) {
 			$trainer_ids = $this->dctl_utils->getUsersWhereCanCreateFor($this->current_user->getId());
 			
 			if ($this->dctl_utils->canCreateFor($this->current_user->getId(), $this->current_user->getId())) {
@@ -1583,7 +1583,7 @@ class gevDecentralTrainingGUI {
 		$crs_utils = gevCourseUtils::getInstance($obj_id);
 		$tmpl_id = gevObjectUtils::getObjId($crs_utils->getTemplateRefId());
 
-		if($crs_utils->userHasRightOf($this->current_user->getId(),"change_trainer")) {
+		if($crs_utils->userHasPermissionTo($this->current_user->getId(),"change_trainer")) {
 			$trainer_ids_new = $form->getInput("tutor_change");
 			$trainer_ids_old = explode("|",$form->getInput("trainer_ids"));
 			$this->updateTrainers($trainer_ids_new,$trainer_ids_old,$crs_utils);
@@ -1795,7 +1795,7 @@ class gevDecentralTrainingGUI {
 		$crs_utils = gevCourseUtils::getInstance($_POST["obj_id"]);
 		$ref_id = gevObjectUtils::getRefId($_POST["obj_id"]);
 
-		if($crs_utils->userHasRightOf($this->current_user->getId(),"read")){
+		if($crs_utils->userHasPermissionTo($this->current_user->getId(),"read")){
 			$this->ctrl->setParameterByClass("ilObjCourseGUI", "ref_id", $ref_id);
 			$this->ctrl->redirectByClass(array("ilRepositoryGUI","ilObjCourseGUI"), "view");
 		} else {

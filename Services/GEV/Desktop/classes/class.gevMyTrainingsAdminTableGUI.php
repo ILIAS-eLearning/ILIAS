@@ -216,7 +216,7 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 		$crs_utils = gevCourseUtils::getInstance($a_set["obj_id"]);
 
 		$items = array();
-		if($crs_utils->userHasRightOf($this->user_id, gevSettings::LOAD_MEMBER_LIST)){
+		if($crs_utils->userHasPermissionTo($this->user_id, gevSettings::LOAD_MEMBER_LIST)){
 			$items[] = array("title" => $this->gLng->txt("gev_mytrainingsap_legend_memberlist"), "link" => $memberlist_link, "image" => $this->memberlist_img, "frame"=>"");
 		}
 
@@ -237,23 +237,23 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 			$items[] = array("title" => $this->gLng->txt("gev_virtual_class"), "link" => $crs_utils->getVirtualClassLink(), "image" => $this->virtualclass_img, "frame"=>"_blank");
 		}
 
-		if($crs_utils->userHasRightOf($this->user_id, gevSettings::VIEW_MAILLOG)){
+		if($crs_utils->userHasPermissionTo($this->user_id, gevSettings::VIEW_MAILLOG)){
 			$items[] = array("title" => $this->gLng->txt("gev_mail_log"), "link" => $maillog, "image" => $this->maillog_img, "frame"=>"");
 		}
 
-		if($crs_utils->userHasRightOf($this->user_id, gevSettings::LOAD_SIGNATURE_LIST)){
+		if($crs_utils->userHasPermissionTo($this->user_id, gevSettings::LOAD_SIGNATURE_LIST)){
 			$items[] = array("title" => $this->gLng->txt("gev_signature_list"), "link" => $signature_list_link, "image" => $this->signature_list_img, "frame"=>"");
 		}
 
-		if($crs_utils->isFlexibleDecentrallTraining() && ($crs_utils->hasTrainer($this->user_id) && $crs_utils->userHasRightOf($this->user_id, gevSettings::VIEW_SCHEDULE_PDF))) {
+		if($crs_utils->isFlexibleDecentrallTraining() && ($crs_utils->hasTrainer($this->user_id) && $crs_utils->userHasPermissionTo($this->user_id, gevSettings::VIEW_SCHEDULE_PDF))) {
 			$items[] = array("title" => $this->gLng->txt("gev_dec_crs_building_block_title"), "link" => $schedule_list_link, "image" => $this->schedule_list_img, "frame"=>"");
 		}
 
-		if($crs_utils->userHasRightOf($this->user_id, gevSettings::LOAD_CSN_LIST) && $crs_utils->getVirtualClassType() == "CSN"){
+		if($crs_utils->userHasPermissionTo($this->user_id, gevSettings::LOAD_CSN_LIST) && $crs_utils->getVirtualClassType() == "CSN"){
 			$items[] = array("title" => $this->gLng->txt("gev_csn_list"), "link" => $csn_list_link, "image" => $this->csn_list_img, "frame"=>"");
 		}
 
-		if($crs_utils->userHasRightOf($this->user_id, "write")){
+		if($crs_utils->userHasPermissionTo($this->user_id, "write")){
 			$items[] = array("title" => $this->gLng->txt("gev_my_trainings_admin_edit_settings"), "link" => $edit_settings_link, "image" => "", "frame"=>"");
 		}
 
@@ -267,12 +267,12 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 	protected function getCourseLink($crs_obj_id, $crs_ref_id) {
 		$crs_utils = gevCourseUtils::getInstance($crs_obj_id);
 
-		if($crs_utils->userHasRightOf($this->user_id, "write")){
+		if($crs_utils->userHasPermissionTo($this->user_id, "write")){
 			$this->gCtrl->setParameterByClass("ilRepositoryGUI", "ref_id", $crs_ref_id);
 			$info_crs_link = $this->gCtrl->getLinkTargetByClass("ilRepositoryGUI", "");
 			$this->gCtrl->clearParametersByClass("ilRepositoryGUI");
 			return $info_crs_link;
-		} else if($crs_utils->userHasRightOf($this->user_id, "write_reduced_settings")) {
+		} else if($crs_utils->userHasPermissionTo($this->user_id, "write_reduced_settings")) {
 			$this->gCtrl->setParameterByClass("gevDecentralTrainingGUI", "ref_id", $crs_ref_id);
 			$small_settings_link = $this->gCtrl->getLinkTargetByClass("gevDecentralTrainingGUI", "showSettings");
 			$this->gCtrl->clearParametersByClass("gevDecentralTrainingGUI");

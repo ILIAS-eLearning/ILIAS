@@ -265,6 +265,10 @@ class gevCourseUtils {
 		return $custom_roles;
 	}
 	
+	public function refreshCourse() {
+		$this->crs_obj = new ilObjCourse($this->crs_id, false);
+		$this->crs_obj->setRefId(gevObjectUtils::getRefId($this->crs_id));
+	}
 	
 	public function getCourse() {
 		require_once("Modules/Course/classes/class.ilObjCourse.php");
@@ -3405,14 +3409,14 @@ class gevCourseUtils {
 		$amd_utils->setField($obj_id,gevSettings::CRS_AMD_CREDIT_POINTS,$a_wp);
 	}
 
-	public function userHasRightOf($user_id, $right_name) {
+	public function userHasPermissionTo($user_id, $right_name) {
 		return $this->rbacsystem->checkAccessOfUser($user_id, $right_name, $this->getRefId());
 	}
 
 	public function userCanCancelCourse($user_id) {
 		$now = @date("Y-m-d");
 		$start_date = $this->getStartDate();
-		if ($this->userHasRightOf($user_id, gevSettings::CANCEL_TRAINING) && 
+		if ($this->userHasPermissionTo($user_id, gevSettings::CANCEL_TRAINING) && 
 			!$this->getCourse()->getOfflineStatus() && 
 			$start_date !== null && 
 			($start_date->get(IL_CAL_DATE) > $now || ($start_date->get(IL_CAL_DATE) == $now && !$this->isFinalized()))) 
