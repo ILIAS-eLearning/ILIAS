@@ -162,7 +162,7 @@
                     refresh_tree(true);
                 } else {
                     $("body").trigger("study_programme-show_success", {message: data.message, type: 'success', cmd: data.cmd});
-                    refresh_tree();
+                    refresh_tree(true);
                 }
 
             });

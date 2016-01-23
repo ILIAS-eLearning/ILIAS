@@ -196,11 +196,9 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI {
 		$tpl->setCurrentBlock('enable-tree-buttons');
 		$tpl->touchBlock('enable-tree-buttons');
 
-		// show info button only when it not the current node
-		if(!$node_config['is_current_node']) {
-			$info_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeSettingsGUI', 'view', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::INFO));
-			$tpl->setVariable('NODE_INFO_BUTTON', $info_button);
-		}
+		// show info button only when it not the current node		
+		$info_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeSettingsGUI', 'view', array('ref_id'=>$node->getRefId(), 'currentNode'=>$node_config['is_current_node']), ilGlyphGUI::get(ilGlyphGUI::INFO));
+		$tpl->setVariable('NODE_INFO_BUTTON', $info_button);
 
 		// only show add button when create permission is set
 		if($node_config['is_creation_enabled']) {

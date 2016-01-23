@@ -474,7 +474,7 @@ class ilStudyProgrammeUserProgress {
 		
 		$children_progress = $this->getChildrenProgress();
 		foreach ($children_progress as $progress) {
-			if (!$progress->canBeCompleted()) {
+			if ($progress->isRelevant() && !$progress->canBeCompleted()) {
 				return false;
 			}
 		}
@@ -655,6 +655,11 @@ class ilStudyProgrammeUserProgress {
 		if (!$parent) {
 			return null;
 		}
+
+		if($this->getStudyProgramme()->getId() == $this->getAssignment()->getStudyProgramme()->getId()) {
+			return null;
+		}
+
 		return $parent->getProgressForAssignment($this->progress->getAssignmentId());
 	}
 	

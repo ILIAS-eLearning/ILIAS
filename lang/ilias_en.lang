@@ -16027,8 +16027,8 @@ prg#:#prg_warning_img_alt#:#Warning!
 prg#:#prg_successful_img_alt#:#successful
 prg#:#prg_in_progress_img_alt#:#in progress
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.
-prg#:#prg_progress_status#:# %1$d of possible %2$d Points
-prg#:#prg_progress_status_with_child_sp#:# %1$d of %2$d Points
+prg#:#prg_progress_status#:# %1$d of %2$d Points
+prg#:#prg_progress_status_with_child_sp#:# %1$d of possible %2$d Points
 prg#:#prg_no_members_not_active#:#Can't add members, as this programme is not active.
 prg#:#prg_type_msg_missing_title#:#Title cannot be empty.
 prg#:#prg_added_member#:#The new member was added successfully.
@@ -16163,3 +16163,4 @@ note#:#note_comment_notification_user_has_written#:#%s has written:
 prg#:#prg_show_programmes#:#Visibility
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.
 content#:#cont_error#:#An Error Occured
+prtf#:#prtf_shared_offline_info#:#A portfolio has to be online to be accessible by shared users.

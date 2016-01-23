@@ -119,11 +119,12 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
 	protected static function isValidObjType($a_obj_type, $a_is_substitution = false)
 	{
 		// ecs not supported yet
-		$valid = array("crs", "cat", "book", "wiki", "glo", "orgu");
+		$valid = array("crs", "cat", "book", "wiki", "glo", "orgu", "prg");
 
 		if(!$a_is_substitution)
 		{
 			$valid[] = "orgu";
+			$valid[] = "prg";
 		}		 
 		
 		return in_array($a_obj_type, $valid);
