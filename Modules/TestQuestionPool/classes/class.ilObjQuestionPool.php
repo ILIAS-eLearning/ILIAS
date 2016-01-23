@@ -113,7 +113,7 @@ class ilObjQuestionPool extends ilObject
 	{
 		global $ilUser;
 		include_once "./Services/MetaData/classes/class.ilMD.php";
-		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md = new ilMD($this->getId(), 0, $this->getType());
 		$md_gen =& $md->getGeneral();
 		if ($md_gen == false)
 		{
@@ -440,7 +440,7 @@ class ilObjQuestionPool extends ilObject
 		if ($question_id > 0) return assQuestion::_instanciateQuestionGUI($question_id);
 		assQuestion::_includeClass($question_type, 1);
 		$question_type_gui = $question_type . "GUI";
-		$question_gui =& new $question_type_gui();
+		$question_gui = new $question_type_gui();
 		return $question_gui;
 	}
 	
