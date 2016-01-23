@@ -219,7 +219,7 @@ class ilRTE
 		{
 			ilObjMediaObject::_removeUsage($mob, $a_usage_type,
 				$a_usage_id);
-			$mob_obj =& new ilObjMediaObject($mob);
+			$mob_obj = new ilObjMediaObject($mob);
 			$mob_obj->delete();
 		}
 	}
@@ -250,7 +250,7 @@ class ilRTE
 					{
 						if (ilObjMediaObject::_exists($mob))
 						{
-							$mob_obj =& new ilObjMediaObject($mob);
+							$mob_obj = new ilObjMediaObject($mob);
 							$replace = "il_" . $matches[1][$idx] . "_mob_" . $mob;
 							$resulttext = str_replace("src=\"$replace\"", "src=\"" . ILIAS_HTTP_PATH . "/data/" . CLIENT_ID . "/mobs/mm_" . $mob . "/" . $mob_obj->getTitle() . "\"", $resulttext);
 						}
