@@ -1941,7 +1941,7 @@ class ilForum
 		}
 		include_once "./Modules/Forum/classes/class.ilFileDataForum.php";
 		
-		$tmp_file_obj =& new ilFileDataForum($this->getForumId());
+		$tmp_file_obj = new ilFileDataForum($this->getForumId());
 		foreach($a_ids as $pos_id)
 		{
 			$tmp_file_obj->setPosId($pos_id);
