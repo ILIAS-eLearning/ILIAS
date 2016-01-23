@@ -540,7 +540,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	private function saveGeneralProperties(ilPropertyFormGUI $form)
 	{
 		include_once 'Services/MetaData/classes/class.ilMD.php';
-		$md_obj =& new ilMD($this->testOBJ->getId(), 0, "tst");
+		$md_obj = new ilMD($this->testOBJ->getId(), 0, "tst");
 		$md_section = $md_obj->getGeneral();
 
 		// title
