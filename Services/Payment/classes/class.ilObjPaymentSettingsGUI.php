@@ -222,7 +222,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		{
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search = new ilRepositorySearchGUI();
 
 					$rep_search->setCallback($this,
 						'addVendorObject', array()
