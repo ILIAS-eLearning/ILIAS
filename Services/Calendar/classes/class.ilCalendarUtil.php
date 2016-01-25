@@ -584,9 +584,10 @@ class ilCalendarUtil
 	 * @param string $a_id2
 	 * @param array $a_custom_config2
 	 * @param string $a_toggle_id
+	 * @param string $a_subform_id
 	 * @return string
 	 */
-	public static function addDateTimePicker($a_id, $a_add_time = null, array $a_custom_config = null, $a_id2 = null, $a_custom_config2 = null, $a_toggle_id = null)
+	public static function addDateTimePicker($a_id, $a_add_time = null, array $a_custom_config = null, $a_id2 = null, $a_custom_config2 = null, $a_toggle_id = null, $a_subform_id = null)
 	{
 		global $tpl, $ilUser;
 		
@@ -612,7 +613,7 @@ class ilCalendarUtil
 			,'keepInvalid' => true
 			,'sideBySide' => true
 			// ,'collapse' => false						
-			,'format' => self::getUserDateFormat($a_add_time)
+			,'format' => self::getUserDateFormat($a_add_time)			
 		);
 		
 		$config = (!$a_custom_config)
@@ -633,9 +634,14 @@ class ilCalendarUtil
 			
 			$tpl->addOnLoadCode('$("#'.$a_id2.'").datetimepicker('.json_encode($config2).')');			
 						
-			// duration limits and diff handling
-			$tpl->addOnLoadCode('il.Form.initDateDurationPicker("'.$a_id.'","'.$a_id2.'","'.$a_toggle_id.'");');			
+			// duration limits, diff and subform handling
+			$tpl->addOnLoadCode('il.Form.initDateDurationPicker("'.$a_id.'","'.$a_id2.'","'.$a_toggle_id.'","'.$a_subform_id.'");');			
 		}			
+		else if($a_subform_id)
+		{
+			// subform handling
+			$tpl->addOnLoadCode('il.Form.initDatePicker("'.$a_id.'","'.$a_subform_id.'");');	
+		}
 	}
 	
 	/**

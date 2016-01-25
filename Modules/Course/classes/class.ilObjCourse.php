@@ -244,7 +244,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	} 	
 	function getActivationStart()
 	{
-		return $this->activation_start ? $this->activation_start : time();
+		return $this->activation_start;
 	}
 	function setActivationStart($a_value)
 	{
@@ -252,7 +252,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	function getActivationEnd()
 	{
-		return $this->activation_end ? $this->activation_end : mktime(0,0,0,12,12,date("Y",time())+2);
+		return $this->activation_end;
 	}
 	function setActivationEnd($a_value)
 	{

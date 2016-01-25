@@ -221,7 +221,7 @@ il.Form = {
 	// ilDateDurationInputGUI
 	//	
 	
-	initDateDurationPicker: function (picker_id, picker2_id, toggle_id) {		
+	initDateDurationPicker: function (picker_id, picker2_id, toggle_id, subform_id) {		
 		var el = $("#"+picker_id);
 		var dp = $(el).data("DateTimePicker"); 
 		var el2 = $("#"+picker2_id);
@@ -249,30 +249,51 @@ il.Form = {
 		// onchange
 
 		$(el).on("dp.change", function(e) { 
-
+			
 			// limit to value of end picker
 			dp2.minDate(e.date); 
 
 			// keep diff the same
 			var old = $(this).data("DateTimePickerOld"); 
 
-			if(old && dp2.date()) { 
+			if(old && dp2.date() && e.date) { 
 				var diff = dp2.date().diff(old); 
 				dp2.date(e.date.clone().add(diff)); 
 			}
 
 			// keep current date for diff parsing (see above);
 			$(this).data("DateTimePickerOld", e.date);		
-
+				
+			// handle sub-form
+			if(subform_id !== undefined)
+			{
+				if(dp.date() || dp2.date())	{
+					$("#" + subform_id).show();
+				}
+				else {
+					$("#" + subform_id).hide();
+				}				
+			}		
 		});
 
-		/*
 		$(el2).on("dp.change", function(e) { 	
 
+			/*
 			// limit to value of start picker
-			dp.maxDate(e.date);		
+			dp.maxDate(e.date);								
+			*/
+		   
+			// handle sub-form
+			if(subform_id !== undefined)
+			{
+				if(dp.date() || dp2.date())	{
+					$("#" + subform_id).show();
+				}
+				else {
+					$("#" + subform_id).hide();
+				}				
+			}		 
 		});
-		*/
 
 		// toggle
 
@@ -308,6 +329,27 @@ il.Form = {
 
 			});	
 		}
+	},
+	
+	initDatePicker: function (picker_id, subform_id) {		
+		var el = $("#"+picker_id);
+		var dp = $(el).data("DateTimePicker"); 
+		
+		// onchange
+
+		$(el).on("dp.change", function(e) { 
+			
+			// handle sub-form
+			if(subform_id !== undefined)
+			{
+				if(dp.date()) {
+					$("#" + subform_id).show();					
+				}
+				else {
+					$("#" + subform_id).hide();					
+				}				
+			}		
+		});		
 	}
 };
 

@@ -276,7 +276,11 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			ilCalendarUtil::addDateTimePicker(
 				$picker_id, 
 				$this->getDatePickerTimeFormat(),
-				$this->parseDatePickerConfig()
+				$this->parseDatePickerConfig(),
+				null,
+				null,
+				null,
+				"subform_".$this->getPostVar()
 			);
 		}
 		else
@@ -388,6 +392,11 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 		$html = $this->render("toolbar");
 		return $html;
 	}	
+	
+	public function hideSubForm()
+	{
+		return (!$this->getDate() || $this->getDate()->isNull());
+	}
 }
 
 ?>

@@ -420,7 +420,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 				$this->parseDatePickerConfig(),
 				$picker_end_id,
 				$this->parseDatePickerConfig(),
-				$toggle_id
+				$toggle_id,
+				"subform_".$this->getPostVar()
 			);			
 		}
 		else
@@ -528,5 +529,11 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$this->setStart(new ilDateTime($value['start'], IL_CAL_UNIX));
 			$this->setEnd(new ilDateTime($value['end'], IL_CAL_UNIX));
 		}
+	}
+			
+	public function hideSubForm()
+	{
+		return ((!$this->getStart() || $this->getStart()->isNull()) &&
+			(!$this->getEnd() || $this->getEnd()->isNull()));
 	}
 }
