@@ -114,7 +114,9 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$could_do_wbd_registration = $this->wbd && $this->wbd->hasWBDRelevantRole() && !$this->wbd->getWBDBWVId() && ($this->wbd->getNextWBDAction() == gevWBD::USR_WBD_NEXT_ACTION_NOTHING);
 
 		$manage_course_block_units = ($this->user_utils && !$this->user_utils->notEditBuildingBlocks());
-		$is_training_manager = ($this->user_utils && $this->user_utils->isTrainingManagerOnAnyCourse());
+		
+		//Für den Anfang sollen das nur Administratoren sehen
+		$is_training_manager = ($this->user_utils && $this->user_utils->isAdmin());/*($this->user_utils && $this->user_utils->isTrainingManagerOnAnyCourse());*/
 
 		//get all OrgUnits of superior
 		$arr_org_units_of_superior = $this->user_utils ? $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior() : array();
