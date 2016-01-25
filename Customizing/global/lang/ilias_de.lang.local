@@ -1458,7 +1458,7 @@ gev#:#gev_crs_book_no_perm_at_any_org_units#:#Sie dürfen für keine Organisatio
 gev#:#gev_my_trainings_admin#:#Meine Trainings (Admin)
 gev#:#gev_my_trainings_admin_credit_points#:#Punkte
 gev#:#gev_my_trainings_admin_title#:#Meine Trainings (Admin)
-gev#:#gev_my_trainings_admin_title_desc#:#Hier sehen Sie eine Auflistung an Trainings, bei denen Sie entwender der Trainigsersteller oder -betreuer sind.
+gev#:#gev_my_trainings_admin_title_desc#:#Hier sehen Sie eine Auflistung an Trainings, bei denen Sie entwender der Trainigsersteller oder -betreuer sind. Die Trainings verbleiben so lange in dieser Übersicht, bis ihnen der Status Finalisiert gesetzt wurde.
 gev#:#gev_my_trainings_admin_edit_settings#:#Einstellungen bearbeiten
 gev#:#gev_crs_resend_invitation_info#:#Sie haben Änderungen vorgenommen, die ein erneutes Versenden der Einladungsmail notwendig machen. Mit einem Klick auf die Schaltfläche gelangen Sie zu dem Punkt, an dem Sie diese versenden können.
 gev#:#gev_crs_resend_invitation#:#Einladung versenden
