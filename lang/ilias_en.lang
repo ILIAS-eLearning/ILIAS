@@ -1198,7 +1198,7 @@ assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_your_answer_was#:#Your answer was
 assessment#:#tst_your_answers#:#These are your answers given to the following questions.
 assessment#:#test_enable_archiving#:#Enable Archiving
-assessment#:#test_enable_archiving_desc#:#In the ‘Export’-tab the whole test comprising all answers of all participants can be exported and downloaded.
+assessment#:#test_enable_archiving_desc#:#In the ‘Export’-tab, the whole test comprising all answers of all participants can be exported and downloaded. The archive file is generated for every user when a test pass has been finished or when the results have been modified by manual scoring. This increases server load and reduces performance of the system.
 assessment#:#ass_create_archive_export#:#Create Archive-Export
 assessment#:#cannot_export_archive#:#Archive-Export cannot be created.
 assessment#:#tt_assessment#:#Assessment Test
