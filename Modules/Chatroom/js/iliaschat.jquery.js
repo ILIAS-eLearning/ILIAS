@@ -102,7 +102,6 @@ var usermanager = (function () {
 			return isIdInArray(userid, usersByRoom['room_' + roomid]);
 		},
 		usersinroom: function (roomid) {
-			console.log(roomid, usersByRoom);
 			return usersByRoom['room_' + roomid] || [];
 		},
 		clear:       function (roomid) {
@@ -590,7 +589,6 @@ il.Util.addOnLoad(function () {
 						type:    'notice',
 						message: messageObject.type
 					});
-					console.log(messageObject);
 				}
 
 				if ((!messageObject.sub && subRoomId) || (subRoomId && subRoomId != messageObject.sub)) {
