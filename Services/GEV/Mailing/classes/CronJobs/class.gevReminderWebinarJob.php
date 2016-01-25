@@ -11,7 +11,7 @@ class gevReminderWebinarJob extends ilCronJob {
 	}
 	
 	public function getTitle() {
-		return "Versendet eine Erinnerung eine Stunde bevor das Webinar beginnt.";
+		return "Versendet eine Erinnerung eine Stunde bevor das virtuelle Training beginnt.";
 	}
 
 	public function hasAutoActivation() {
