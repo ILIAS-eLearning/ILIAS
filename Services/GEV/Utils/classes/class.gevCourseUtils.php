@@ -403,6 +403,14 @@ class gevCourseUtils {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_IS_TEMPLATE, ($a_val === true)? "Ja" : "Nein" );
 	}
 	
+	public function getIsCancelled() {
+		return "Ja" == $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_IS_CANCELLED);
+	}
+
+	public function setIsCancelled($a_val) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_IS_CANCELLED, ($a_val === true) ? "Ja" : "Nein" );
+	}
+
 	public function getType() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TYPE);
 	}
@@ -2678,6 +2686,11 @@ class gevCourseUtils {
 		// Set training offline
 		$crs = $this->getCourse();
 		$crs->setOfflineStatus(true);
+		// Mark this course as cancelled
+		$this->setIsCancelled(true);
+		if(!preg_match('/\w+'.$this->lng->txt("gev_course_is_cancelled_suffix").'$/',$crs->getTitle())) {
+			$crs->setTitle($this->getTitle().$this->lng->txt("gev_course_is_cancelled_suffix"));
+		}
 		$crs->update();
 
 		// Remove Trainers
@@ -2688,6 +2701,8 @@ class gevCourseUtils {
 
 		// Delete VC Assignments
 		$this->deleteVCAssignment();
+
+		$this->rbacadmin->revokePermission($this->getRefId());
 	}
 
 	public function cancelTrainer(array $trainer_id) {
