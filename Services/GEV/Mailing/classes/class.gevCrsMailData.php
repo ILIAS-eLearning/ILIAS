@@ -103,8 +103,9 @@ class gevCrsMailData extends ilMailData {
 				$val = $this->crs_utils->getType();
 				break;
 			case "TRAININGSTHEMEN":
-				if(!empty($this->crs_utils->getTopics())) {
-					$val = implode(", ", $this->crs_utils->getTopics());
+				$topics = $this->crs_utils->getTopics();
+				if($topics !== null && !empty($topics)) {
+					$val = implode(", ", $topics);
 				} else {
 					$val = "";
 				}
