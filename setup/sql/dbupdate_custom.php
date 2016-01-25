@@ -4907,3 +4907,21 @@ if (!$ilDB->tableColumnExists('hist_userorgu', 't_in'))
 		));
 	}
 ?>
+
+<#202>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::initPluginEnv();
+	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+?>
+
+<#203>
+<?php
+	if (!$ilDB->tableColumnExists('hist_course', 'is_cancelled')) {		
+		$ilDB->addTableColumn('hist_course', 'is_cancelled', array(
+			"type" => "text",
+			"length" => 8,
+			"notnull" => false
+		));
+	}
+?>
