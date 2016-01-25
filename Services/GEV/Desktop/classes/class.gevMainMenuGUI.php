@@ -334,14 +334,18 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			, "gev_report_trainer_operation_by_orgu_trainer" => array($this->canViewReport("gev_report_trainer_operation_by_orgu_trainer"), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerOperationByOrgUnitAndTrainer",$this->gLng->txt("gev_report_trainer_operation_by_orgu_trainer"))
 			);
 
-		$grouped_list = $this->getDropDown($entries);
+
 
 		$visible_repo_reports = ilObjReportBase::getVisibleReportsObjectData($this->gUser);
 		foreach ($visible_repo_reports as $info) {
-			$link = ilLink::_getStaticLink($info["ref_id"], $info["type"]);
-			$grouped_list->addEntry($info["title"], $link, "_top");
+			$entries[] = array(true, ilLink::_getStaticLink($info["ref_id"], $info["type"]),$info["title"]);
 		}
+		// sort entries by title
+		uasort($entries, function ($el1,$el2) {
+			return strcasecmp($el1[2],$el2[2]);
+		});
 
+		$grouped_list = $this->getDropDown($entries);
 		return $grouped_list->getHTML();
 	}
 
