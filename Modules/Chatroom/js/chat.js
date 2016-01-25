@@ -20,41 +20,37 @@
 			}
 		}
 		return false;
-	}
+	};
 
 	$.fn.ilChatDialog = function (method) {
-		var applyStyle = function (dialog) {
-			dialog.css('position', 'absolute');
-		}
-
 		var methods = {
 			init: function (params) {
 				var $content = $(this);
 
 				var defaultButtons = (params.defaultButtons === false) ? [] : [
 					{
-						id:      'ok',
-						label:   translate('ok'),
+						id:      "ok",
+						label:   translate("ok"),
 						callback:function (e) {
 							var close = true;
-							if (typeof params.positiveAction == 'function') {
+							if (typeof params.positiveAction === "function") {
 								close = params.positiveAction.call($content, e);
 							}
-							if (typeof close == 'undefined' || close) {
-								$content.ilChatDialog('close');
+							if (typeof close === "undefined" || close) {
+								$content.ilChatDialog("close");
 							}
 						}
 					},
 					{
-						id:      'cancel',
-						label:   translate('cancel'),
+						id:      "cancel",
+						label:   translate("cancel"),
 						callback:function (e) {
 							var close = true;
-							if (typeof params.negativeAction == 'function') {
+							if (typeof params.negativeAction == "function") {
 								close = params.negativeAction.call($content, e);
 							}
-							if (typeof close == 'undefined' || close) {
-								$content.ilChatDialog('close');
+							if (typeof close === "undefined" || close) {
+								$content.ilChatDialog("close");
 							}
 						}
 					}
@@ -62,76 +58,62 @@
 
 				var properties = $.extend(true, {}, {
 					title:           '',
-					parent:          $('body'),
-					position:        null,
 					buttons:         defaultButtons,
 					disabled_buttons:[]
 				}, params);
 
-				var dialog = $('<div class="ilChatDialog">');
-
-				applyStyle(dialog);
-
-				$(this).data('ilChatDialog', $.extend(properties, {
-					_dialog:dialog,
-					_parent:$(this).parent()
-				}));
-
-				if (properties.title) {
-					var title = $('<h3>').text(properties.title).addClass('chat_block_title');
-					dialog.append(title);
-				}
-
-				$('#modal_alpha').remove();
-
-				$('<div id="modal_alpha" class="chat_modal_overlay">').appendTo($('body'));
-
-				var dialogBody = $('<div class="ilChatDialogBody">').appendTo(dialog);
-				$(this).appendTo(dialogBody).show();
-
-				dialog.appendTo(properties.parent);
+				var dialogBody = $('<div class="ilChatDialogBody">'),
+					buttons = {};
 
 				if (properties.buttons) {
-					var dialogButtons = $('<div class="ilChatDialogButtons">').appendTo(dialog);
 					$.each(properties.buttons, function () {
+						var btn = this;
+
 						// IE: properties.disabled_buttons is of type object instead of array
-						//if (this.id && properties.disabled_buttons.indexOf(this.id) >= 0) {
-						if (this.id && inArray(properties.disabled_buttons, this.id)) {
+
+						if (btn.id && inArray(properties.disabled_buttons, btn.id)) {
 							return;
 						}
-						$('<input type="button" class="btn btn-default btn-sm">')
-							.click(this.callback)
-							.val(this.label)
-							.appendTo(dialogButtons);
+
+						buttons[btn.id] = {
+							type:      "button",
+							label:     this.label,
+							className: "btn btn-default",
+							callback:  function (e, $modal) {
+								if (typeof btn.callback === "function") {
+									btn.callback();
+								}
+							}
+						};
 					});
 				}
 
-				if (!properties.position) {
-					properties.position = {
-						x:($(window).width() - dialog.width()) / 2,
-						y:($(window).height() - dialog.height()) / 2
-					}
-				}
+				$(this).appendTo(dialogBody).show();
 
-				dialog.css('left', properties.position.x)
-					.css('top', properties.position.y);
+				var $modal = il.Modal.dialogue({
+					show: true,
+					header: properties.title || null,
+					body: $(this),
+					buttons: buttons || []
+				});
+
+				$(this).data("ilChatDialog", $.extend(properties, {
+					_modal: $modal,
+					_parent: $(this).parent()
+				}));
 
 				return $(this);
 			},
-			close:function () {
-				var data = $(this).data('ilChatDialog');
+			close: function () {
+				var data = $(this).data("ilChatDialog");
 
-				if (typeof data.close == 'function') {
+				if (typeof data.close === "function") {
 					data.close();
 				}
 
-				if (data._parent) {
-					$(this).appendTo($(data._parent)).hide();
-				}
-				$('#modal_alpha').remove();
-				$(data._dialog).remove();
+				data._modal.hide();
 			}
-		}
+		};
 
 		if (methods[method]) {
 			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -140,7 +122,7 @@
 		} else {
 			$.error('Method ' + method + ' does not exist on jQuery.ilChatDialog');
 		}
-	}
+	};
 
 	function getMenuLine(label, callback, icon) {
 		var line = $('<li></li>');

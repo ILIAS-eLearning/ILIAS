@@ -31,6 +31,7 @@ var myId = {MY_ID};
 		kicked_from_private_room   :{LBL_KICKED_FROM_PRIVATE_ROOM},
 		ok                         :{LBL_OK},
 		cancel                     :{LBL_CANCEL},
+		invite                     :{LBL_INVITE},
 		history_has_been_cleared   :{LBL_HISTORY_CLEARED},
 		clear_room_history         :{LBL_CLEAR_ROOM_HISTORY},
 		clear_room_history_question:{LBL_CLEAR_ROOM_HISTORY_QUESTION},
@@ -47,13 +48,13 @@ var myId = {MY_ID};
 </script>
 
 <div id="invite_users_container" class="ilNoDisplayChat">
-	<div class="ilNoDisplayChat">
-		<input type="radio" name="invite_users_type" id="invite_users_in_room"/><span id="radioText">{LBL_USER_IN_ROOM}&nbsp;&nbsp;</span>
-		<input type="radio" name="invite_users_type" id="invite_users_global"/>{LBL_USER_IN_ILIAS}
+	<div>
+		<input type="radio" name="invite_users_type" id="invite_users_in_room"/><label for="invite_users_in_room" id="labelInviteUsersInRoom">&nbsp;{LBL_USER_IN_ROOM}&nbsp;&nbsp;</label>
+		<input type="radio" name="invite_users_type" id="invite_users_global"/><label for="invite_users_global" id="labelInviteGlobalUsers">&nbsp;{LBL_USER_IN_ILIAS}</label>
 	</div>
 	<div>
 		<p id="invite_user_text_wrapper" class="ilNoDisplayChat"><label for="invite_user_text">{LBL_USER_TEXT}:</label> <input type="text" class="form-control" id="invite_user_text" /></p>
-		<ul id="invite_users_available">
+		<ul id="invite_users_available" class="ilNoDisplay">
 			<li></li>
 		</ul>
 	</div>
