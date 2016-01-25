@@ -370,13 +370,12 @@ class gevMyTrainingsAdminGUI {
 
 
 		$search_title = new catTitleGUI("gev_course_search", "gev_course_search_desc", "GEV_img/ico-head-search.png");
-		$form->setTitle($search_title->render());		
+		$form->setTitle($search_title->render());
 		
 		$period = new ilDateDurationInputGUI($this->gLng->txt("time_segment"), "period");
-		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+		$now = new ilDate(date("Y-01-01"), IL_CAL_DATE);
 		$period->setStart($now);
-		$one_year = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-		$one_year->increment(ilDateTime::YEAR, 1);
+		$one_year = new ilDate(date("Y-01-01"), IL_CAL_DATE);
 		$period->setEnd($one_year);
 		$form->addItem($period);
 		
