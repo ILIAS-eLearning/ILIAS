@@ -2,15 +2,15 @@
 
 require_once("Services/GEV/Mailing/classes/class.gevWebinarAutoMail.php");
 
-class gevReminderWebinarMail extends gevWebinarAutoMail {
+class gevReminderWebinarATAndTMail extends gevWebinarAutoMail {
 	const MINUTES_BEFORE_START = 60;
 
 	public function getTitle() {
-		return "Erinnerung an ein Webinar";
+		return "Erinnerung virtuelle Trainings mit AT&T";
 	}
 	
 	public function _getDescription() {
-		return "Versendet eine Erinnerung ".self::MINUTES_BEFORE_START." Minuten bevor das Webinar beginnt.";
+		return "Erinnerungsemail für virtuelle Training die mit dem Anbieter AT&T abgehandelt werden.";
 	}
 
 	public function getScheduledFor() {
@@ -29,7 +29,7 @@ class gevReminderWebinarMail extends gevWebinarAutoMail {
 	}
 
 	public function getTemplateCategory() {
-		return "W01";
+		return "W02";
 	}
 
 	public function getMail($a_recipient) {
