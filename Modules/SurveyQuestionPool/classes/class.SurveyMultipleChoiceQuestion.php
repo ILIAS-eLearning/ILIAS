@@ -954,7 +954,11 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 	function getPreconditionValueOutput($value)
 	{
 		$category = $this->categories->getCategory($value);
-		return ($value + 1) . " - " . ((strlen($category->title)) ? $category->title : $this->lng->txt('other_answer'));
+		
+		// #17895 - see getPreconditionOptions()
+		return $category->scale . 
+			" - " . 
+			((strlen($category->title)) ? $category->title : $this->lng->txt('other_answer'));
 	}
 
 	public function getCategories()
