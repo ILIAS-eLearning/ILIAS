@@ -11326,7 +11326,8 @@ wsp#:#wsp_set_permission_registered#:#All Registered Users
 wsp#:#wsp_set_permission_all#:#World Wide Web
 wsp#:#wsp_remove_permission#:#Remove Permission
 wsp#:#wsp_permission_registered_info#:#This object is shared with all registered users.
-wsp#:#wsp_permission_all_info#:#This object has been published.
+wsp#:#wsp_permission_all_info#:#This object is visible for all users of the internet.
+wsp#:#wsp_permission_all_pw_info#:#After providing the password this object is visible for all users of the internet.
 style#:#sty_type_iim#:#Interactive Image Content Popup
 style#:#sty_type_marker#:#Interactive Image Marker
 style#:#sty_import_page_layout#:#Import Page Layout
