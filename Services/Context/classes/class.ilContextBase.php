@@ -2,64 +2,18 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** 
+require_once('Services/Context/interfaces/interface.ilContextTemplate.php');
+
+/**
  * Service context base class
- * 
+ *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
- * 
+ *
  * @ingroup ServicesContext
+ *
+ * @deprecated instead of extending from ilContextBase, implement the ihe interface ilContextTemplate
  */
-abstract class ilContextBase
-{			
-	/**
-	 * Are redirects supported?
-	 * 
-	 * @return bool 
-	 */
-	abstract public static function supportsRedirects();
-	
-	/**
-	 * Based on user authentication?
-	 *  
-	 * @return bool
-	 */
-	abstract public static function hasUser();
-	
-	/**
-	 * Uses HTTP aka browser 
-	 * 
-	 * @return bool 
-	 */
-	abstract public static function usesHTTP();
-	
-	/**
-	 * Has HTML output
-	 *  
-	 * @return bool
-	 */
-	abstract public static function hasHTML();
-	
-	/**
-	 * Uses template engine
-	 *  
-	 * @return bool
-	 */
-	abstract public static function usesTemplate();
-	
-	/**
-	 * Init client
-	 *  
-	 * @return bool
-	 */
-	abstract public static function initClient();	
-	
-	/**
-	 * Try authentication
-	 *  
-	 * @return bool
-	 */
-	abstract public static function doAuthentication();	
+abstract class ilContextBase implements ilContextTemplate
+{
 }
-
-?>
