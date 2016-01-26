@@ -1537,7 +1537,7 @@ echo "<br>+".$client_id;
 	/**
 	* Determine Tools
 	*/
-	function determineTools($a_tools = "")
+	function determineTools($a_tools = array())
 	{
 		$cwd = ilUtil::isWindows()
 			? str_replace("\\", "/", getcwd())
