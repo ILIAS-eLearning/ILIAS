@@ -20,6 +20,8 @@ class ilCourseInfo {
 	protected $vc_link; //string
 	protected $vc_password_tutor; //string
 	protected $vc_password_member; //string
+	protected $accomodation_id; //integer
+
 	protected $obj_id; //integer
 	protected $ref_id; //integer
 
@@ -45,6 +47,7 @@ class ilCourseInfo {
 		$this->vc_link = $crs_utils->getVirtualClassLink();
 		$this->vc_password_tutor = $crs_utils->getVirtualClassPasswordTutor();
 		$this->vc_password_member = $crs_utils->getVirtualClassPassword();
+		$this->accomodation_id = $crs_utils->getAccomodationId();
 	}
 
 	/**
@@ -156,6 +159,15 @@ class ilCourseInfo {
 	}
 
 	/**
+	* get the accomodation_id
+	*
+	* @return string
+	*/
+	public function accomodation_id() {
+		return $this->accomodation_id;
+	}
+
+	/**
 	* gets all properties in an array
 	*
 	* @return array
@@ -171,6 +183,7 @@ class ilCourseInfo {
 					, "vc_link"=>$this->vc_link()
 					, "vc_password_tutor"=>$this->vc_password_tutor()
 					, "vc_password_member"=>$this->vc_password_member()
+					, "accomodation_id"=>$thid->accomodation_id()
 				);
 	}
 
