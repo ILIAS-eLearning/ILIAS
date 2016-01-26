@@ -16167,3 +16167,6 @@ prg#:#prg_show_programmes#:#Anzeigen
 content#:#cont_not_saved_edit_lock_expired#:#Entschuldigung, Ihre Änderungen konnten nicht gespeichert werden. Die Seite wurde zwischenzeitlich von einem anderen Benutzer zur Bearbeitung gesperrt. Sie können diesen Dialog schließen und dann den Inhalt in Ihre Zwischenablage kopieren.
 content#:#cont_error#:#Es ist leider ein Fehler aufgetreten
 prtf#:#prtf_shared_offline_info#:#Ein Portfolio muss online sein, um für freigebene Nutzer verfügbar zu sein.
+crs#:#crs_mail_context_member_info#:#Für die Kontakt-Emails auf der Infoseite eines Kurses 
+crs#:#crs_mail_context_tutor_info#:#Für die Teilnehmer-Emails auf den Mitglieds- und Lernfortschrittsansichten eines Kurses
+sahs#:#sahs_mail_context_lp_info#:#Für die Teilnehmer-Emails auf den Lernfortschrittsansichten eines SCORM-Moduls

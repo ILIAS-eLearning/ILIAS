@@ -16167,3 +16167,6 @@ prg#:#prg_show_programmes#:#Visibility
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.
 content#:#cont_error#:#An Error Occured
 prtf#:#prtf_shared_offline_info#:#A portfolio has to be online to be accessible by shared users.
+crs#:#crs_mail_context_member_info#:#For the contact emails on the info screen of a course 
+crs#:#crs_mail_context_tutor_info#:#For the participant emails on the member and learning progress screens of a course
+sahs#:#sahs_mail_context_lp_info#:#For the participant emails on the learning progress screens of a scorm module
