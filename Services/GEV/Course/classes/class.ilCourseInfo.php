@@ -183,7 +183,7 @@ class ilCourseInfo {
 					, "vc_link"=>$this->vc_link()
 					, "vc_password_tutor"=>$this->vc_password_tutor()
 					, "vc_password_member"=>$this->vc_password_member()
-					, "accomodation_id"=>$thid->accomodation_id()
+					, "accomodation_id"=>$this->accomodation_id()
 				);
 	}
 
