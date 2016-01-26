@@ -7,11 +7,11 @@ class gevReminderWebinarMail extends gevWebinarAutoMail {
 	const VC_NAME_AT_AND_T = "AT&T Connect";
 
 	public function getTitle() {
-		return "Erinnerung an ein virtuelles Training";
+		return "Erinnerung an ein Webinar";
 	}
 	
 	public function _getDescription() {
-		return "Erinnerungsemail für virtuelle Training.";
+		return "Erinnerungsemail für Webinare.";
 	}
 
 	public function getScheduledFor() {
