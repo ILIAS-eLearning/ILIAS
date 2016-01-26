@@ -748,7 +748,6 @@ assessment#:#feedback_all#:#Toon antwoord specifiek terugkoppeling voor alle ant
 assessment#:#feedback_answers#:#Terugkoppeling voor elk antwoord van de vraag
 assessment#:#feedback_checked#:#Toon antwoord-specifieke feedback voor alle gekozen/geselecteerde antwoorden
 assessment#:#feedback_complete_solution#:#Juiste oplossing
-assessment#:#feedback_correct#:#Toon antwoord-specifieke feedback voor alle juiste antwoorden (juiste antwoorden zijn die die resulteren in een positieve score)
 assessment#:#feedback_correct_sc_mc#:#Toon antwoord-specifieke feedback voor alle correcte antwoorden (correcte antwoorden zijn die, die leiden tot een positieve score)
 assessment#:#feedback_generic#:#Algemene Oplossing Terugkoppeling
 assessment#:#feedback_incomplete_solution#:#Minstens één antwoord is niet juist
@@ -4645,7 +4644,6 @@ common#:#message_content#:#Bericht
 common#:#message_no_delivered_files#:#Je hebt geen bestand afgeleverd
 common#:#message_to#:#Bericht aan:
 common#:#meta_data#:#Metagegevens
-common#:#mgs_objects_linked_to_the_following_folders#:#De object(en) waren gelinkt aan de volgende map(pen): %s
 common#:#migrate#:#Migreren
 common#:#min_time#:#Minimum tijd
 common#:#minute#:#Minuut
@@ -4722,7 +4720,6 @@ common#:#msg_input_is_required#:#Deze invoer is verplicht. Gelieve een waarde in
 common#:#msg_invalid_filetype#:#Ongeldig bestandsformaat
 common#:#msg_is_last_role#:#U verwijderde de laatste globale rol van de volgende gebruikers
 common#:#msg_last_role_for_registration#:#Tenminste één rol moet beschikbaar zijn in het registratieformulier voor nieuwe gebruikers. Deze rol is momenteel de enige die beschikbaar is
-common#:#msg_link_clipboard#:#Geselecteerde object(en) gekopieerd naar Klembord (Activiteit: Link)
 common#:#msg_linked#:#Geselecteerde object(en) gelinkt.
 common#:#msg_may_not_contain#:#Dit object mag geen objecten van het volgende type bevatten:
 common#:#msg_min_one_active_role#:#Elke gebruiker moet op zijn minst één actieve globale rol hebben!
@@ -6650,7 +6647,6 @@ content#:#cont_glo_detach#:#Ontkoppelen woordenlijst
 content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Eigenschappen
 content#:#cont_glossaries#:#Verklarende Woordenlijsten
-content#:#cont_got_lock#:#Deze pagina is vergrendeld voor je wijzigingen. Vergeet niet de pagina weer vrij te geven als je klaar bent met je wijzigingen.
 content#:#cont_header#:#Hoofding
 content#:#cont_height#:#Hoogte
 content#:#cont_help_no_valid_tooltip_id#:#De tooltip ID die je hebt ingegeven is niet geldig.
@@ -7209,7 +7205,6 @@ content#:#cont_table_width#:#Tabelbreedte
 content#:#cont_tabs#:#Tabs
 content#:#cont_tabs_acc_hor#:#Horizontaal Accordeon
 content#:#cont_tabs_acc_ver#:#Verticaal Accordeon
-content#:#cont_tabs_accordeon#:#Accordeon
 content#:#cont_tabs_carousel#:#Carrousel
 content#:#cont_tabs_confirm_deletion#:#Bevestig dat je alle tabbladen en de inhoud ervan wilt verwijderen:
 content#:#cont_tabs_hor_align_info#:#Horizontale Accordeons zullen altijd links uitgelijnd zijn
@@ -8212,7 +8207,6 @@ crs#:#event_location#:#Locatie
 crs#:#event_materials#:#Sessie materialen
 crs#:#event_not_participated#:#Niet deelgenomen
 crs#:#event_overview#:#Deelnames in sessies
-crs#:#event_participant_selection#:#Deelnemer Selectie
 crs#:#event_participated#:#Deelgenomen
 crs#:#event_participation#:#Deelneming
 crs#:#event_register#:#Registreer
@@ -8226,12 +8220,9 @@ crs#:#event_select_one#:#-- Selecteer een sessie --
 crs#:#event_start_date#:#Datum
 crs#:#event_table_create#:#Nieuwe sessie
 crs#:#event_table_update#:#Wijzig sessie
-crs#:#event_tbl_admins#:#Beheerders
-crs#:#event_tbl_members#:#Deelnemers
 crs#:#event_tbl_participants#:#Lijst van de deelnemers
 crs#:#event_tbl_participated#:#Deelgenomen
 crs#:#event_tbl_registered#:#Geregistreerd
-crs#:#event_tbl_tutors#:#Docenten
 crs#:#event_time#:#Tijd
 crs#:#event_title#:#Titel
 crs#:#event_tutor_data#:#Informatie over de leerkracht
@@ -8755,7 +8746,6 @@ dateplaner#:#long_10#:#Oktober
 dateplaner#:#long_11#:#November
 dateplaner#:#long_12#:#December
 dateplaner#:#main_dates#:#Algemene afspraken
-dateplaner#:#menu#:#Menu
 dateplaner#:#mmonth#:#Vorige maand
 dateplaner#:#month#:#Maand
 dateplaner#:#more#:#Meer
@@ -14265,7 +14255,6 @@ style#:#sty_ha_cntr_class#:#Hor. Accordeon Container
 style#:#sty_ha_icntr_class#:#Hor. Accordeon Item Container
 style#:#sty_ha_icont_class#:#Hor. Accordeon Item Content
 style#:#sty_ha_ihead_class#:#Hor. Accordeon Item Header
-style#:#sty_haccordeon_templates#:#Hor. Accordeon sjablonen
 style#:#sty_height#:#Hoogte
 style#:#sty_hide#:#Hide
 style#:#sty_horizontal#:#Horizontaal
@@ -14474,7 +14463,6 @@ style#:#sty_va_cntr_class#:#Vert. Accordeon Container
 style#:#sty_va_icntr_class#:#Vert. Accordeon Item Container
 style#:#sty_va_icont_class#:#Vert. Accordeon Item Content
 style#:#sty_va_ihead_class#:#Vert. Accordeon Item Header
-style#:#sty_vaccordeon_templates#:#Vert. Accordeon sjablonen
 style#:#sty_vertical#:#Vertical
 style#:#sty_vertical_align#:#Verticale uitlijning
 style#:#sty_white_space#:#Witruimte
@@ -16149,3 +16137,35 @@ wsp#:#wsp_type_scov#:#Certificaat: SCORM
 wsp#:#wsp_type_tstv#:#Certificaat: Toets
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Map
+assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress###26 01 2016 new variable
+assessment#:#tst_objective_progress_header#:#Learning Objective Progress###26 01 2016 new variable
+assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).###26 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s###26 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s###26 01 2016 new variable
+common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.###26 01 2016 new variable
+common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###26 01 2016 new variable
+content#:#cont_tabs_accordion#:#Accordion###26 01 2016 new variable
+dateplaner#:#menue#:#Menu###26 01 2016 new variable
+meta#:#meta_annotation#:#Annotation###26 01 2016 new variable
+news#:#news_hide_news_date#:#Starting Date###26 01 2016 new variable
+style#:#sty_haccordion_templates#:#Hor. Accordion Templates###26 01 2016 new variable
+style#:#sty_vaccordion_templates#:#Vert. Accordion Templates###26 01 2016 new variable
+wsp#:#wsp_permission_all_pw_info#:#After providing the password this object is visible for all users of the internet.###26 01 2016 new variable
+content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2###26 01 2016 new variable
+crs#:#event_user_selection_include_role#:# Include all users with role "%1$s"###26 01 2016 new variable
+crs#:#event_user_selection_include_waiting_list#:#Include all users on "Waiting List"###26 01 2016 new variable
+crs#:#event_user_selection_include_requests#:#Include all users on list "Join Requests"###26 01 2016 new variable
+crs#:#event_user_selection_include_filter#:#Include "%1$s"###26 01 2016 new variable
+crs#:#event_user_selection#:#Selection of Users###26 01 2016 new variable
+crs#:#event_tbl_admin#:#Administrator###26 01 2016 new variable
+crs#:#event_tbl_member#:#Member###26 01 2016 new variable
+crs#:#event_tbl_tutor#:#Tutor###26 01 2016 new variable
+news#:#news_sorry_not_accessible_anymore#:#Sorry, this item is not accessible anymore.###26 01 2016 new variable
+note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration (Personal Desktop settings).###26 01 2016 new variable
+note#:#note_comment_notification_user_has_written#:#%s has written:###26 01 2016 new variable
+prg#:#prg_show_programmes#:#Visibility###26 01 2016 new variable
+content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###26 01 2016 new variable
+content#:#cont_error#:#An Error Occured###26 01 2016 new variable
+crs#:#crs_mail_context_member_info#:#For the contact emails on the info screen of a course ###26 01 2016 new variable
+crs#:#crs_mail_context_tutor_info#:#For the participant emails on the member and learning progress screens of a course###26 01 2016 new variable
+sahs#:#sahs_mail_context_lp_info#:#For the participant emails on the learning progress screens of a scorm module###26 01 2016 new variable

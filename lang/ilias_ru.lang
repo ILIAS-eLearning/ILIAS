@@ -4052,7 +4052,6 @@ common#:#message_content#:#Тело сообщения
 common#:#message_no_delivered_files#:#Вы не отправляли никаких файлов.
 common#:#message_to#:#Сообщение к:
 common#:#meta_data#:#Метаданные
-common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were linked to the following folder(s): %s
 common#:#migrate#:#Перегруппировать
 common#:#min_time#:#Минимальное время
 common#:#minute#:#Минута
@@ -4128,7 +4127,6 @@ common#:#msg_input_is_required#:#This input is required. Please enter a value.
 common#:#msg_invalid_filetype#:#Неправильный тип файла
 common#:#msg_is_last_role#:#Вы переместили последнюю глобальную роль со следующих пользователей
 common#:#msg_last_role_for_registration#:#At least one role must be available in the registration form for new users. This role is currently the only one available.
-common#:#msg_link_clipboard#:#Выделенный(е) объект(ы) сохранен(ы) в буфере обмена (Действие: создать ссылку)
 common#:#msg_linked#:#Выделенный(е) объект(ы) связан(ы).
 common#:#msg_may_not_contain#:#Объект не может содержать объекты типов:
 common#:#msg_min_one_active_role#:#Каждый пользователь должен иметь хотя бы одну активную глобальную роль!
@@ -16163,3 +16161,11 @@ note#:#note_comment_notification_user_has_written#:#%s has written:###21 01 2016
 prg#:#prg_show_programmes#:#Visibility###21 01 2016 new variable
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###21 01 2016 new variable
 content#:#cont_error#:#An Error Occured###21 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s###26 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s###26 01 2016 new variable
+common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.###26 01 2016 new variable
+common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###26 01 2016 new variable
+wsp#:#wsp_permission_all_pw_info#:#After providing the password this object is visible for all users of the internet.###26 01 2016 new variable
+crs#:#crs_mail_context_member_info#:#For the contact emails on the info screen of a course ###26 01 2016 new variable
+crs#:#crs_mail_context_tutor_info#:#For the participant emails on the member and learning progress screens of a course###26 01 2016 new variable
+sahs#:#sahs_mail_context_lp_info#:#For the participant emails on the learning progress screens of a scorm module###26 01 2016 new variable

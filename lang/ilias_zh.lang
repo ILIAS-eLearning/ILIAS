@@ -2824,7 +2824,6 @@ common#:#message_content#:#消息内容
 common#:#message_no_delivered_files#:#您没有发表文件!
 common#:#message_to#:#消息发送到
 common#:#meta_data#:#元数据
-common#:#mgs_objects_linked_to_the_following_folders#:#对象已经链接到以下文件夹：%s
 common#:#migrate#:#移植
 common#:#min_time#:#最短时间
 common#:#minute#:#分钟
@@ -2898,7 +2897,6 @@ common#:#msg_input_is_required#:#这个必填项。请输入一个值。
 common#:#msg_invalid_filetype#:#无效的文件类型
 common#:#msg_is_last_role#:#您取消了下列用户的全局角色
 common#:#msg_last_role_for_registration#:#在新用户注册表单中至少要有一个可用角色。这个角色是当前唯一可用的。
-common#:#msg_link_clipboard#:#选择的对象已存于剪贴板（操作链接）
 common#:#msg_linked#:#选择的对象已链接
 common#:#msg_may_not_contain#:#此对象可能不包含对象类型
 common#:#msg_min_one_active_role#:#每个用户当前必须具有至少一个全局角色！
@@ -16162,3 +16160,11 @@ note#:#note_comment_notification_user_has_written#:#%s has written:###21 01 2016
 prg#:#prg_show_programmes#:#Visibility###21 01 2016 new variable
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###21 01 2016 new variable
 content#:#cont_error#:#An Error Occured###21 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s###26 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s###26 01 2016 new variable
+common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.###26 01 2016 new variable
+common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###26 01 2016 new variable
+wsp#:#wsp_permission_all_pw_info#:#After providing the password this object is visible for all users of the internet.###26 01 2016 new variable
+crs#:#crs_mail_context_member_info#:#For the contact emails on the info screen of a course ###26 01 2016 new variable
+crs#:#crs_mail_context_tutor_info#:#For the participant emails on the member and learning progress screens of a course###26 01 2016 new variable
+sahs#:#sahs_mail_context_lp_info#:#For the participant emails on the learning progress screens of a scorm module###26 01 2016 new variable

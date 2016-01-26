@@ -3517,7 +3517,6 @@ common#:#message_content#:#Treść wiadomości
 common#:#message_no_delivered_files#:#Nie dostarczyłeś plików!
 common#:#message_to#:#Wiadomość do:
 common#:#meta_data#:#Meta dane
-common#:#mgs_objects_linked_to_the_following_folders#:#Obiekty zostały połączone z: %s
 common#:#migrate#:#Migracja
 common#:#min_time#:#Minimalny czas
 common#:#minute#:#Minuta
@@ -3593,7 +3592,6 @@ common#:#msg_input_is_required#:#To pole jest wymagane. Wprowadź wartość.
 common#:#msg_invalid_filetype#:#Błędny typ pliku
 common#:#msg_is_last_role#:#Pozbawiłeś następujących użytkowników ich ról.
 common#:#msg_last_role_for_registration#:#Conajmniej jedna rola musi być dostępna na formularzu rejestracyjnym dla nowych użytkowników. Ta rola jest teraz jedyną dostępną.
-common#:#msg_link_clipboard#:#Wybrane obiekty zostały zapamiętane w schowku (Akcja: łączenie).
 common#:#msg_linked#:#Wybrane obiekty zostały połączone.
 common#:#msg_may_not_contain#:#Ten obiekt nie może zawierać obiektów typu:
 common#:#msg_min_one_active_role#:#Każdy użytkownik musi posiadać conajmniej jedną aktywną rolę!
@@ -16163,3 +16161,11 @@ note#:#note_comment_notification_user_has_written#:#%s has written:###21 01 2016
 prg#:#prg_show_programmes#:#Visibility###21 01 2016 new variable
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###21 01 2016 new variable
 content#:#cont_error#:#An Error Occured###21 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s###26 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s###26 01 2016 new variable
+common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.###26 01 2016 new variable
+common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###26 01 2016 new variable
+wsp#:#wsp_permission_all_pw_info#:#After providing the password this object is visible for all users of the internet.###26 01 2016 new variable
+crs#:#crs_mail_context_member_info#:#For the contact emails on the info screen of a course ###26 01 2016 new variable
+crs#:#crs_mail_context_tutor_info#:#For the participant emails on the member and learning progress screens of a course###26 01 2016 new variable
+sahs#:#sahs_mail_context_lp_info#:#For the participant emails on the learning progress screens of a scorm module###26 01 2016 new variable

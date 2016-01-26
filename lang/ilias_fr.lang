@@ -4015,7 +4015,6 @@ common#:#message_content#:#Contenu du Message
 common#:#message_no_delivered_files#:#Vous n'avez remis aucun fichier
 common#:#message_to#:#Message à :
 common#:#meta_data#:#Métadonnées
-common#:#mgs_objects_linked_to_the_following_folders#:#Le(s) objet(s) ont été liés au(x) dossier(s) : %s
 common#:#migrate#:#Migrer
 common#:#min_time#:#Temps minimum
 common#:#minute#:#Minute
@@ -4091,7 +4090,6 @@ common#:#msg_input_is_required#:#Cette information est obligatoire. Veuillez sai
 common#:#msg_invalid_filetype#:#Type de fichier invalide
 common#:#msg_is_last_role#:#Vous avez retiré le dernier rôle global des utilisateurs suivants
 common#:#msg_last_role_for_registration#:#Au moins un rôle doit être disponible dans le formulaire d'enregistrement des nouveaux utilisateurs. Ce rôle est actuellement le seul disponible.
-common#:#msg_link_clipboard#:#Veuillez choisir la position où les objets sélectionnés doivent être liés puis cliquez sur le bouton Coller.
 common#:#msg_linked#:#Objet(s) sélectionné(s) lié(s).
 common#:#msg_may_not_contain#:#Cet objet ne peut contenir des objets de type :
 common#:#msg_min_one_active_role#:#Chaque utilisateur doit avoir au moins un rôle global actif !
@@ -16163,3 +16161,11 @@ note#:#note_comment_notification_user_has_written#:#%s has written:###21 01 2016
 prg#:#prg_show_programmes#:#Visibility###21 01 2016 new variable
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###21 01 2016 new variable
 content#:#cont_error#:#An Error Occured###21 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s###26 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s###26 01 2016 new variable
+common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.###26 01 2016 new variable
+common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###26 01 2016 new variable
+wsp#:#wsp_permission_all_pw_info#:#After providing the password this object is visible for all users of the internet.###26 01 2016 new variable
+crs#:#crs_mail_context_member_info#:#For the contact emails on the info screen of a course ###26 01 2016 new variable
+crs#:#crs_mail_context_tutor_info#:#For the participant emails on the member and learning progress screens of a course###26 01 2016 new variable
+sahs#:#sahs_mail_context_lp_info#:#For the participant emails on the learning progress screens of a scorm module###26 01 2016 new variable
