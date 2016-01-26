@@ -4368,7 +4368,6 @@ common#:#message_content#:#メッセージ本文
 common#:#message_no_delivered_files#:#ファイル未提出です
 common#:#message_to#:#Message to:
 common#:#meta_data#:#メタデータ
-common#:#mgs_objects_linked_to_the_following_folders#:#オブジェクトは次のフォルダへリンクされました。:%s
 common#:#migrate#:#移行
 common#:#min_time#:#最少時間
 common#:#minute#:#分
@@ -4445,7 +4444,6 @@ common#:#msg_input_is_required#:#入力必須項目です。正しく入力し�
 common#:#msg_invalid_filetype#:#ファイルタイプは無効です
 common#:#msg_is_last_role#:#次のユーザから最後のグローバル役割を削除しました
 common#:#msg_last_role_for_registration#:#最低一つの役割は、新規ユーザの登録中に可能にしなければなりません。この役割は現在唯一利用可能です。
-common#:#msg_link_clipboard#:#次に選択したオブジェクトにリンクして、貼り付け ボタンをクリックする目的の場所を選択してください。
 common#:#msg_linked#:#選択したオブジェクトをリンクしました。
 common#:#msg_may_not_contain#:#このオブジェクトにはオブジェクトのタイプが含まれていません
 common#:#msg_min_one_active_role#:#ユーザはアクティブなグローバル役割を一つは持つ必要があります!
@@ -15315,3 +15313,7 @@ common#:#user_not_found_to_delete#:#A user could not be found to delete.###21 01
 orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.###21 01 2016 new variable
 content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2###21 01 2016 new variable
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###21 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s###26 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s###26 01 2016 new variable
+common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.###26 01 2016 new variable
+common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###26 01 2016 new variable

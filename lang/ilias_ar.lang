@@ -3496,7 +3496,6 @@ common#:#message_content#:#محتوى الرسالة
 common#:#message_no_delivered_files#:#انت لم تقم بتقديم اية ملفات
 common#:#message_to#:#الرسالة الى
 common#:#meta_data#:#بيانات وصفية
-common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were linked to the following folder(s): %s
 common#:#migrate#:#تنقل
 common#:#min_time#:#الحد الادنى
 common#:#minute#:#دقيقة
@@ -3572,7 +3571,6 @@ common#:#msg_input_is_required#:#هذا المدخل مطلوب، الرجاء �
 common#:#msg_invalid_filetype#:#Invalid file type
 common#:#msg_is_last_role#:#لقد قمت بإزالة الوظيفة العامة الاخيرة من المستخدمين التاليين
 common#:#msg_last_role_for_registration#:#يجب ان يوجد على الاقل وظيفة واحدة في نموذج التسجيل للمستخدمين الجدد. وتكون الوظيفة الوحيدة الموجودة حاليا
-common#:#msg_link_clipboard#:#الان، الرجاء اختيار الموقع المرغوب التي يجب ان تصل العناصر المختارة به ثم انقر على زر لصق
 common#:#msg_linked#:#العنصر\العناصر المختارة مرتبطة بروابط
 common#:#msg_may_not_contain#:#This object may not contain objects of type:
 common#:#msg_min_one_active_role#:#Each user must have at least one active global role!
@@ -15315,3 +15313,7 @@ common#:#user_not_found_to_delete#:#A user could not be found to delete.###21 01
 orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.###21 01 2016 new variable
 content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2###21 01 2016 new variable
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###21 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s###26 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s###26 01 2016 new variable
+common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.###26 01 2016 new variable
+common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###26 01 2016 new variable

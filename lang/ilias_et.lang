@@ -4346,7 +4346,6 @@ common#:#message_content#:#Teate sisu
 common#:#message_no_delivered_files#:#Sa ei ole faili saatnud!
 common#:#message_to#:#Sõnum (kellele):
 common#:#meta_data#:#Metaandmed
-common#:#mgs_objects_linked_to_the_following_folders#:#Objekt(id) lingiti järgmisse kausta: %s
 common#:#migrate#:#Siirda
 common#:#min_time#:#Vähim aeg
 common#:#minute#:#minut
@@ -4423,7 +4422,6 @@ common#:#msg_input_is_required#:#Selle välja täitmine on kohustuslik. Palun t�
 common#:#msg_invalid_filetype#:#Vigane failitüüp
 common#:#msg_is_last_role#:#Sa eemaldasid järgmistelt kasutajatelt viimase üldise rolli
 common#:#msg_last_role_for_registration#:#At least one role must be available in the registration form for new users. This role is currently the only one available.
-common#:#msg_link_clipboard#:#Valitud objekt(id) on paigutatud puhvrisse (Action: link)
 common#:#msg_linked#:#Valitud objekt(id) on lingitud.
 common#:#msg_may_not_contain#:#Selles objektis ei saa olla järgmist tüüpi olemeid:
 common#:#msg_min_one_active_role#:#Igal kasutajal peab olema vähemalt üks üldine roll!
@@ -15315,3 +15313,7 @@ common#:#user_not_found_to_delete#:#A user could not be found to delete.###21 01
 orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.###21 01 2016 new variable
 content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2###21 01 2016 new variable
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###21 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s###26 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s###26 01 2016 new variable
+common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.###26 01 2016 new variable
+common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###26 01 2016 new variable

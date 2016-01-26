@@ -3496,7 +3496,6 @@ common#:#message_content#:#შეტყობინების შინაა�
 common#:#message_no_delivered_files#:#თქვენ ჯერ არ ჩაგიბარებიათ ფაილები
 common#:#message_to#:#შეტყობინება ვის:
 common#:#meta_data#:#მეტა მონაცემები
-common#:#mgs_objects_linked_to_the_following_folders#:#ეს ობიექტი დაკავშირებული შემდეგ ფოლდერთან
 common#:#migrate#:#გადატანა
 common#:#min_time#:#მინიმალური დრო
 common#:#minute#:#წუთი
@@ -3572,7 +3571,6 @@ common#:#msg_input_is_required#:#ეს შენატანი მოთხო
 common#:#msg_invalid_filetype#:#არასწორი ფაილის სახეობა
 common#:#msg_is_last_role#:#თქვენ ამოშალეთ ბოლო გლობალური პასუხისმგებლობა შემდეგი მომხმარებლებისგან
 common#:#msg_last_role_for_registration#:#სულ მცირე ერთი პასუხისმგებლობაა შესაძლებელი  რეგისტრაციის ფორმაში ახალი მომხმარებლებისთვის. ამჟამად მხოლოდ ეს პასუხისმგებლობაა შესაძლებელი
-common#:#msg_link_clipboard#:#ახლა, გთხოვთ აირჩიოთ სასურველი ადგილი, სადაც აღნიშნული ობიექტები დაკავშირებული იქნება და დააჭირეთ ღილაკს ,,ასლის ჩასმა"
 common#:#msg_linked#:#მონიშნული ობიექტები დაკავშირებულია
 common#:#msg_may_not_contain#:#ეს ობიექტი შეიძლება არ შეიცავდეს ამ სახეობის ობიექტებს
 common#:#msg_min_one_active_role#:#თითოეული მომხმარებელს აქვს სულ მცირე ერთი გლობალური პასუხისმგებლობა!
@@ -15315,3 +15313,7 @@ common#:#user_not_found_to_delete#:#A user could not be found to delete.###21 01
 orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.###21 01 2016 new variable
 content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2###21 01 2016 new variable
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###21 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s###26 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s###26 01 2016 new variable
+common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.###26 01 2016 new variable
+common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###26 01 2016 new variable
