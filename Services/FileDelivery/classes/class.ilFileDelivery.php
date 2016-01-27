@@ -153,7 +153,7 @@ class ilFileDelivery {
 
 
 	public function stream() {
-		if (! in_array($this->getDeliveryType(), self::$self_streaming_methods)) {
+		if (!in_array($this->getDeliveryType(), self::$self_streaming_methods)) {
 			$this->setDeliveryType(self::DELIVERY_METHOD_PHP_CHUNKED);
 		}
 		$this->deliver();
@@ -161,6 +161,7 @@ class ilFileDelivery {
 
 
 	public function deliver() {
+		$this->cleanDownloadFileName();
 		$this->clearBuffer();
 		$this->checkCache();
 		$this->setGeneralHeaders();
@@ -302,7 +303,7 @@ class ilFileDelivery {
 	 * @return bool
 	 */
 	protected function determineDownloadFileName() {
-		if (! $this->getDownloadFileName()) {
+		if (!$this->getDownloadFileName()) {
 			$download_file_name = basename($this->getPathToFile());
 			$this->setDownloadFileName($download_file_name);
 		}
@@ -334,7 +335,7 @@ class ilFileDelivery {
 
 		require_once('./Services/Environment/classes/class.ilRuntime.php');
 		$ilRuntime = ilRuntime::getInstance();
-		if ((! $ilRuntime->isFPM() && ! $ilRuntime->isHHVM()) && $this->getDeliveryType() == self::DELIVERY_METHOD_XACCEL) {
+		if ((!$ilRuntime->isFPM() && !$ilRuntime->isHHVM()) && $this->getDeliveryType() == self::DELIVERY_METHOD_XACCEL) {
 			$this->setDeliveryType(self::DELIVERY_METHOD_PHP);
 		}
 
@@ -629,7 +630,7 @@ class ilFileDelivery {
 
 		// Start buffered download
 		$buffer = 1024 * 8;
-		while (! feof($fp) && ($p = ftell($fp)) <= $end) {
+		while (!feof($fp) && ($p = ftell($fp)) <= $end) {
 			if ($p + $buffer > $end) {
 				// In case we're only outputtin a chunk, make sure we don't
 				// read past the length
@@ -667,7 +668,7 @@ class ilFileDelivery {
 			return false;
 		}
 
-		if (! isset($_SERVER['HTTP_IF_NONE_MATCH']) || ! isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+		if (!isset($_SERVER['HTTP_IF_NONE_MATCH']) || !isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 			return false;
 		}
 
@@ -725,10 +726,26 @@ class ilFileDelivery {
 
 
 	protected function checkExisting() {
-		if (! file_exists($this->getPathToFile())) {
+		if (!file_exists($this->getPathToFile())) {
 			ilHTTP::status(404);
 			$this->close();
 		}
+	}
+
+
+	protected function cleanDownloadFileName() {
+		$download_file_name = self::returnASCIIFileName($this->getDownloadFileName());
+		$this->setDownloadFileName($download_file_name);
+	}
+
+
+	/**
+	 * @param $original_name
+	 * @return string
+	 */
+	public static function returnASCIIFileName($original_name) {
+		return ilUtil::getASCIIFilename($original_name);
+		//		return iconv("UTF-8", "ASCII//TRANSLIT", $original_name); // proposal
 	}
 }
 
