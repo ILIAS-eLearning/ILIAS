@@ -29,11 +29,14 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	/**
 	 * @var  gevUserUtils
 	 */
-	protected $userUtils = Null;
+	protected $user_utils = Null;
 	/**
 	 * @var ilCtrl
 	 */
-	protected $ctrl = Null;
+	protected $gCtrl = Null;
+	protected $gLng;
+	protected $gAccess;
+	protected $gUser;
 
 	public function __construct() {
 		parent::__construct($a_target, $a_use_start_template);
