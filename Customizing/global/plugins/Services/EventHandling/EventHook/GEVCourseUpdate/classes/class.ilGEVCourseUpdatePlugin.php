@@ -2,7 +2,6 @@
 
 require_once("./Services/EventHandling/classes/class.ilEventHookPlugin.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-require_once("Services/UICore/classes/class.ilTemplate.php");
 
 class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 {
@@ -108,6 +107,11 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 	}
 
 	protected function compareCourse(array $crs_to_compare) {
+		require_once("Services/UICore/classes/class.ilTemplateHTMLITX.php");
+		require_once("Services/PEAR/lib/HTML/Template/ITX.php");
+		require_once("Services/PEAR/lib/HTML/Template/IT.php");
+		require_once("Services/UICore/classes/class.ilTemplate.php");
+
 		$old = $crs_to_compare["bevor_update"];
 		$new = $crs_to_compare["after_update"];
 
