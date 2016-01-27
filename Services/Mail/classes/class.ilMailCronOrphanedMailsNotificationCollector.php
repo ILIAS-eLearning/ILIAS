@@ -6,7 +6,7 @@ include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsFolderMailObj
 
 /**
  * ilMailCronOrphanedMailsNotificationCollector
- * @author Nadia Ahmad <nahmad@databay.de>
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  */
 class ilMailCronOrphanedMailsNotificationCollector
 {

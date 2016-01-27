@@ -5,7 +5,7 @@ require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
 
 /**
  * ilMailCronOrphanedMailsDeletionProcessor
- * @author Nadia Ahmad <nahmad@databay.de> 
+ * @author Nadia Matuschek <nmatuschek@databay.de> 
  */
 class ilMailCronOrphanedMailsDeletionProcessor
 {
@@ -23,7 +23,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
 	}
 	
 	/**
-	 * @param array $attachment_ids
+	 * 
 	 */
 	private function deleteAttachments()
 	{
@@ -91,9 +91,9 @@ class ilMailCronOrphanedMailsDeletionProcessor
 
 		$ilDB->manipulate('DELETE FROM mail_attachment WHERE '. $ilDB->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
 	}
-
+	
 	/**
-	 * @param array $mail_ids
+	 * 
 	 */
 	private function deleteMails()
 	{
@@ -101,15 +101,22 @@ class ilMailCronOrphanedMailsDeletionProcessor
 		
 		$ilDB->manipulate('DELETE FROM mail WHERE ' . $ilDB->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
 	}
-
+	
 	/**
-	 * @param $mail_ids
+	 * Delete entries about notification 
 	 */
 	private function deleteMarkedAsNotified()
 	{
-		global $ilDB;
-		
-		$ilDB->manipulate('DELETE FROM mail_cron_orphaned WHERE ' . $ilDB->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
+		global $ilDB, $ilSetting;
+	
+		if((int)$ilSetting->get('mail_notify_orphaned') >= 1)
+		{
+			$ilDB->manipulate('DELETE FROM mail_cron_orphaned WHERE ' . $ilDB->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
+		}
+		else
+		{
+			$ilDB->manipulate('DELETE FROM mail_cron_orphaned');
+		}
 	}
 	
 	/**
@@ -121,7 +128,6 @@ class ilMailCronOrphanedMailsDeletionProcessor
 		{
 			// delete possible attachments ... 
 			$this->deleteAttachments();
-			
 
 			$this->deleteMails();
 			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';

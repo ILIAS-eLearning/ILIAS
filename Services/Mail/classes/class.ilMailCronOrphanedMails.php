@@ -7,7 +7,7 @@ include_once "./Services/Cron/classes/class.ilCronJobResult.php";
 /**
  * Delete orphaned mails
  *
- * @author Nadia Ahmad <nahmad@databay.de>
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  */
 class ilMailCronOrphanedMails extends ilCronJob
 {
@@ -135,10 +135,18 @@ class ilMailCronOrphanedMails extends ilCronJob
 	{	
 		global $ilSetting;
 
-			$ilSetting->set('mail_threshold', (int)$a_form->getInput('mail_threshold'));
-			$ilSetting->set('mail_only_inbox_trash', (int)$a_form->getInput('mail_only_inbox_trash'));
-			$ilSetting->set('mail_notify_orphaned', (int)$a_form->getInput('mail_notify_orphaned'));
-			return true;
+		$ilSetting->set('mail_threshold', (int)$a_form->getInput('mail_threshold'));
+		$ilSetting->set('mail_only_inbox_trash', (int)$a_form->getInput('mail_only_inbox_trash'));
+		$ilSetting->set('mail_notify_orphaned', (int)$a_form->getInput('mail_notify_orphaned'));
+		
+		if($ilSetting->get('mail_notify_orphaned') == 0)
+		{
+			global $ilDB;
+			//delete all mail_cron_orphaned-table entries! 
+			$ilDB->manipulate('DELETE FROM mail_cron_orphaned');
+		}
+		
+		return true;
 	}
 
 	/**
