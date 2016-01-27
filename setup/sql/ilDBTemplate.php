@@ -26190,25 +26190,25 @@ $pk_fields = array("path");
 $ilDB->addPrimaryKey("il_wac_secure_path", $pk_fields);
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'ilPortfolio'), 'component_directory' => array('text', '/srv/www/www.ilias.de/html/ILIAS51/Modules/Portfolio'), 'checking_class' => array('text', 'ilPortfolioAccessHandler'), 'in_sec_folder' => array('integer', '1')));
+'path' => array('text', 'ilPortfolio'), 'component_directory' => array('text', '/srv/www/www.ilias.de/html/ILIAS512/Modules/Portfolio'), 'checking_class' => array('text', 'ilPortfolioAccessHandler'), 'in_sec_folder' => array('integer', '1')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'lm_data'), 'component_directory' => array('text', '/srv/www/www.ilias.de/html/ILIAS51/Modules/LearningModule'), 'checking_class' => array('text', 'ilObjLearningModuleAccess'), 'in_sec_folder' => array('integer', '0')));
+'path' => array('text', 'lm_data'), 'component_directory' => array('text', '/srv/www/www.ilias.de/html/ILIAS512/Modules/LearningModule'), 'checking_class' => array('text', 'ilObjLearningModuleAccess'), 'in_sec_folder' => array('integer', '0')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'ilBlog'), 'component_directory' => array('text', '/srv/www/www.ilias.de/html/ILIAS51/Modules/Blog'), 'checking_class' => array('text', 'ilObjBlogAccess'), 'in_sec_folder' => array('integer', '1')));
+'path' => array('text', 'ilBlog'), 'component_directory' => array('text', '/srv/www/www.ilias.de/html/ILIAS512/Modules/Blog'), 'checking_class' => array('text', 'ilObjBlogAccess'), 'in_sec_folder' => array('integer', '1')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'ilPoll'), 'component_directory' => array('text', '/srv/www/www.ilias.de/html/ILIAS51/Modules/Poll'), 'checking_class' => array('text', 'ilObjPollAccess'), 'in_sec_folder' => array('integer', '1')));
+'path' => array('text', 'ilPoll'), 'component_directory' => array('text', '/srv/www/www.ilias.de/html/ILIAS512/Modules/Poll'), 'checking_class' => array('text', 'ilObjPollAccess'), 'in_sec_folder' => array('integer', '1')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'usr_images'), 'component_directory' => array('text', '/srv/www/www.ilias.de/html/ILIAS51/Services/User'), 'checking_class' => array('text', 'ilObjUserAccess'), 'in_sec_folder' => array('integer', '0')));
+'path' => array('text', 'usr_images'), 'component_directory' => array('text', '/srv/www/www.ilias.de/html/ILIAS512/Services/User'), 'checking_class' => array('text', 'ilObjUserAccess'), 'in_sec_folder' => array('integer', '0')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'mobs'), 'component_directory' => array('text', '/srv/www/www.ilias.de/html/ILIAS51/Services/MediaObjects'), 'checking_class' => array('text', 'ilObjMediaObjectAccess'), 'in_sec_folder' => array('integer', '0')));
+'path' => array('text', 'mobs'), 'component_directory' => array('text', '/srv/www/www.ilias.de/html/ILIAS512/Services/MediaObjects'), 'checking_class' => array('text', 'ilObjMediaObjectAccess'), 'in_sec_folder' => array('integer', '0')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'thumbs'), 'component_directory' => array('text', '/srv/www/www.ilias.de/html/ILIAS51/Services/MediaObjects'), 'checking_class' => array('text', 'ilObjMediaObjectAccess'), 'in_sec_folder' => array('integer', '0')));
+'path' => array('text', 'thumbs'), 'component_directory' => array('text', '/srv/www/www.ilias.de/html/ILIAS512/Services/MediaObjects'), 'checking_class' => array('text', 'ilObjMediaObjectAccess'), 'in_sec_folder' => array('integer', '0')));
 
 
 //
@@ -30926,7 +30926,7 @@ $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '33'), 'type' => array('text', 'typ'), 'title' => array('text', 'root'), 'description' => array('text', 'Root Folder Object'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2002-12-21 00:04:00'), 'last_update' => array('timestamp', '2003-08-15 12:04:20'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
-'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2016-01-26 21:32:33'), 'import_id' => array('text', '')));
+'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2016-01-27 20:06:51'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '14'), 'type' => array('text', 'role'), 'title' => array('text', 'Anonymous'), 'description' => array('text', 'Default role for anonymous users (with no account)'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2003-08-15 12:06:19'), 'last_update' => array('timestamp', '2005-07-20 15:15:06'), 'import_id' => array('text', '')));
@@ -47403,7 +47403,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'db_update_running'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_1'), 'value' => array('clob', '3')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_1'), 'value' => array('clob', '4')));
 
 
 //
