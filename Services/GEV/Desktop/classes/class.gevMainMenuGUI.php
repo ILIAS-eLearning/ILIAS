@@ -407,5 +407,3 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		}
 	}
 }
-
-?>
