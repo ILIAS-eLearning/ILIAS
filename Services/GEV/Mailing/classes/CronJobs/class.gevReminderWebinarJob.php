@@ -5,13 +5,14 @@ require_once("Services/Cron/classes/class.ilCronJob.php");
 require_once("Services/Cron/classes/class.ilCronJobResult.php");
 
 class gevReminderWebinarJob extends ilCronJob {
+	const VC_NAME_AT_AND_T = "AT&T Connect";
 
 	public function getId() {
 		return "gev_mail_reminder_webinar";
 	}
 	
 	public function getTitle() {
-		return "Versendet eine Erinnerung eine Stunde bevor das virtuelle Training beginnt.";
+		return "Versendet eine Erinnerung eine Stunde bevor das Webinar beginnt.";
 	}
 
 	public function hasAutoActivation() {
@@ -60,6 +61,13 @@ class gevReminderWebinarJob extends ilCronJob {
 
 		while($row = $ilDB->fetchAssoc($res)) {
 			$crs_id = $row["crs_id"];
+			$crs_utils = gevCourseUtils::getInstance($crs_id);
+
+			if($crs_utils->getVirtualClassType() == self::VC_NAME_AT_AND_T) {
+				$ilLog->write("gevReminderWebinarJob::run: webinar (".$crs_id.") has vc ".self::VC_NAME_AT_AND_T.". No mail will be send.");
+				continue;
+			}
+
 			$auto_mails = new gevWebinarAutoMails($crs_id);
 			$mail = $auto_mails->getAutoMail("reminder_webinare");
 			ilCronManager::ping($this->getId());
