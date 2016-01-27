@@ -6,7 +6,7 @@ include_once './Services/Mail/classes/class.ilMimeMail.php';
 
 /**
  * Class ilMailCronOrphanedMailsNotification
- * @author Nadia Ahmad <nahmad@databay.de>
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  */
 class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
 {
