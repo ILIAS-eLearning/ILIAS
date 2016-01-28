@@ -865,7 +865,7 @@ class ilInitialisation
 			return;
 		}
 
-		$GLOBALS["DIC"] = new Pimple\Container();
+		$GLOBALS["DIC"] = new \ILIAS\DIC\Container();
 
 		self::$already_initialized = true;
 
