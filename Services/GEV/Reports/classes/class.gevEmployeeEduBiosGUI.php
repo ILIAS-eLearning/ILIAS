@@ -165,7 +165,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 							->on(" usr.user_id = usrd.usr_id")
 						->raw_join("JOIN (".$this->orgu_filter
 									.") as orgu ON orgu.usr_id = usr.user_id")
-						->raw_join("JOIN ( SELECT usr_id, GROUP_CONCAT(DISTINCT rol_title SEPARATOR ', ') AS roles "
+						->raw_join("JOIN ( SELECT usr_id, GROUP_CONCAT(DISTINCT rol_title ORDER BY rol_title ASC SEPARATOR ', ') AS roles "
 									."		FROM hist_userrole "
 									."		WHERE action = 1 AND hist_historic = 0 "
 									."			AND ".$this->db->in("usr_id", $this->allowed_user_ids, false, "integer")
