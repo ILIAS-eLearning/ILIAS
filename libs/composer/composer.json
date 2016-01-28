@@ -17,8 +17,10 @@
     "extra": {
         "pimple/pimple" : {
             "added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
-            "used_by" : "DIC",
-            "wrapped_by" : null
+            "wrapped_by" : "ILIAS\\DIC\\Container",
+            "last_update" : "2016-01-28",
+            "last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
+            "used_version" : "v3.0.2"
         }
     }
 }
