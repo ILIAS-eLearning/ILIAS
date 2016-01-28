@@ -70,16 +70,16 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 			$this->crs->enableWaitingList($this->crs_utils->getWaitingListActive() && $max_participants > 0);
 			$this->crs->enableSubscriptionMembershipLimitation($this->crs_utils->getWaitingListActive() && $max_participants > 0);
 			$this->crs->setSubscriptionMaxMembers($max_participants);
-			
+			if ($this->crs_utils->getRefId() && $_GET["ref_id"] && $this->crs_utils->getRefId() == $_GET["ref_id"]) {
+				$this->crs_utils->warningIfTemplateWithDates();
+			}
 			$this->maybeSetTemplateCustomId();
+
 			$this->crs_utils->updateDerivedCourses();
-			
-			$this->crs_utils->warningIfTemplateWithDates();
-			
+
 			if ($max_participants == 0) {
 				$this->crs_utils->setWaitingListActive(false, false);
 			}
-		
 			$this->crs->update(false);
 		}
 		catch (Exception $e) {
