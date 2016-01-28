@@ -752,6 +752,9 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		parent::read($a_force_db);
 
+		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
+		$this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
+
 		$this->__readSettings();
 	}
 	function create($a_upload = false)
