@@ -134,7 +134,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 						->select("orgu.org_unit_above1")
 						->select("orgu.org_unit_above2")
 						->select_raw("GROUP_CONCAT(DISTINCT orgu.orgu_title SEPARATOR ', ') AS org_unit")
-						->select_raw("GROUP_CONCAT(DISTINCT role.rol_title SEPARATOR ', ') AS roles")
+						->select_raw("GROUP_CONCAT(DISTINCT role.rol_title ORDER BY role.rol_title SEPARATOR ', ') AS roles")
 						->select("crs.custom_id")
 						->select("crs.title")
 						->select("crs.venue")
