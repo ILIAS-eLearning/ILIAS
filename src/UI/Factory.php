@@ -13,19 +13,25 @@ namespace ILIAS\UI;
  */
 interface Factory {
     /**
-     * @description
+     * Description
      *  * Purpose: Counter inform users about the quantity of items indicated
      *    by a glyph.
-     *  * ...
+     *  * Composition: Counters consist of a number and some background color
+     *    and are placed one the 'end of the line' in reading direction of the
+     *    the item they state the count for.
+     *  * Effect: Counters convey information, they are not interactive.
+     *  * Rival elements: none
+     *
+     * Rules:
+     *  * A counter MUST only be used in combination with a glyph.
+     *  * A counter MUST contain exactly one number greater than zero and no
+     *    other characters.
      *
      * @return  \ILIAS\UI\Factory\Counter
      */
     public function counter();
 
     /**
-     * @description
-     *  ...
-     *
      * @return  \ILIAS\UI\Factory\Glyph
      */
     public function glyph();
