@@ -206,7 +206,31 @@ class gevUserUtils {
 
 		return $ret;
 	}
-	
+
+	public function coursesAfter($date) {
+		$query = "SELECT row_id, crs_id, usr_id, participation_status\n"
+				." ,CASE\n"
+				."    WHEN participation_status = 'teilgenommen' THEN ".self::TEILGENOMMEN."\n"
+				."    WHEN participation_status = 'fehlt entschuldigt' THEN ".self::FEHLT_ENTSCHULDIGT."\n"
+				."    WHEN participation_status = 'fehlt ohne Absage' THEN ".self::FEHLT_OHNE_ABSAGE."\n"
+				."    WHEN participation_status = 'nicht gesetzt' THEN ".self::NICHT_GESETZT."\n"
+				."    ELSE ".self::SONSTIGES."\n"
+				." END as participation_status_level\n"
+				." FROM hist_usercoursestatus\n"
+				." WHERE usr_id = ".$this->db->quote($this->user_id,"integer")."\n"
+				." AND hist_historic = 0\n"
+				." AND begin_date > ".$this->db->quote($date,"text")."\n"
+				." AND booking_status = ".$this->db->quote("gebucht","text")."\n";
+
+		$ret = array();
+		$res = $this->db->query($query);
+		while($row = $this->db->fetchAssoc($res)) {
+			array_push($ret,$row);
+		}
+
+		return $ret;
+	}
+
 	public function getEduBioLink() {
 		return self::getEduBioLinkFor($this->user_id);
 	}
