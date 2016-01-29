@@ -6,7 +6,7 @@ ini_set("memory_limit","2048M");
 ini_set('max_execution_time', 0);
 set_time_limit(0);
 
-const MIN_ROW = "3991";
+const MIN_ROW = "0";
 const OP_TUTOR_IN_ORGU = 'tep_is_tutor';
 
 class ilObjReportTrainerWorkload extends ilObjReportBase {
@@ -71,6 +71,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 								 )
 				->static_condition("hu.hist_historic = 0")
 				->static_condition("ht.hist_historic = 0")
+				->static_condition("(ht.category != 'Training' OR (ht.context_id != 0 AND ht.context_id IS NOT NULL))")
 				->static_condition("ht.deleted = 0")
 				->static_condition("ht.row_id > ".MIN_ROW)
 				->action($this->filter_action)
