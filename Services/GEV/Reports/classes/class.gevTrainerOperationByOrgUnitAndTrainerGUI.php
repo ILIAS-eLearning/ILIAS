@@ -11,7 +11,7 @@ require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/Object/classes/class.ilObject.php");
 
-const MIN_ROW = "0";
+const MIN_ROW = "3991";
 const shift = '<div class = "inline_block">&nbsp;&nbsp;</div>';
 
 class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
