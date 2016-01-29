@@ -77,6 +77,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 										 )
 						->static_condition("hu.hist_historic = 0")
 						->static_condition("ht.hist_historic = 0")
+						->static_condition("(ht.category != 'Training' OR (ht.context_id != 0 AND ht.context_id IS NOT NULL))")
 						->static_condition("ht.deleted = 0")
 						->static_condition("ht.user_id != 0")
 						->static_condition("ht.orgu_title != '-empty-'")
