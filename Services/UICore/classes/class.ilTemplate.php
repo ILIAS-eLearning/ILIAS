@@ -37,7 +37,7 @@ class ilTemplate extends ilTemplateX
 	var $admin_panel_commands = array();
 	
 	private $addFooter; // creates an output of the ILIAS footer
-	
+
 	protected static $il_cache = array();
 	protected $message = "";
 	
@@ -55,7 +55,8 @@ class ilTemplate extends ilTemplateX
 	protected $title_alerts = array();
 	protected $header_action;
 	protected $lightbox = array();
-	
+
+	protected $translation_linked = false; // fix #9992: remember if a translation link is added
 
 	/**
 	* constructor
@@ -318,6 +319,12 @@ class ilTemplate extends ilTemplateX
 			}
 		}
 
+		// fix #9992: save language usages as late as possible
+		if ($this->translation_linked)
+		{
+			ilObjLanguageAccess::_saveUsages();
+		}
+
 		return $html;
 	}
 
@@ -563,7 +570,13 @@ class ilTemplate extends ilTemplateX
 				$html = $gui_class->modifyHTML($html, $resp);
 			}
 		}
-		
+
+		// fix #9992: save language usages as late as possible
+		if ($this->translation_linked)
+		{
+			ilObjLanguageAccess::_saveUsages();
+		}
+
 		print $html;
 		
 		$this->handleReferer();
@@ -878,7 +891,8 @@ class ilTemplate extends ilTemplateX
             include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
             if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation())
             {
-                ilObjLanguageAccess::_saveUsages();
+				// fix #9992: remember linked translation instead of saving language usages here
+				$this->translation_linked = true;
                 $link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
             }
         }
