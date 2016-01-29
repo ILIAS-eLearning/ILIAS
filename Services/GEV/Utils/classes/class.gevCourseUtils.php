@@ -968,7 +968,7 @@ class gevCourseUtils {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_ACCOMODATION, $a_accom);
 	}
 	
-	protected function getAccomodations() {
+	public function getAccomodations() {
 		require_once("Services/Accomodations/classes/class.ilAccomodations.php");
 		return ilAccomodations::getInstance($this->getCourse());
 	}
