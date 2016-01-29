@@ -481,7 +481,7 @@ class ilBlogPosting extends ilPageObject
 	 */
 	public function handleNews($a_update = false)
 	{		
-		global $lng;
+		global $lng, $ilUser;
 		
 		// see ilWikiPage::updateNews()
 
@@ -523,20 +523,43 @@ class ilBlogPosting extends ilPageObject
 		}
 		
 		// news author
-		$news_item->setUserId($this->getAuthor());
+		$news_item->setUserId($ilUser->getId());
 		
-		// posting author
-		include_once "Services/User/classes/class.ilUserUtil.php";
-		$news_item->setTitle(sprintf(
-			$lng->txt("blog_news_title"), 
-			$this->getTitle(), 
-			ilUserUtil::getNamePresentation($this->getAuthor())
-		));		
 		
-		$news_item->setContentTextIsLangVar(true);
-		$news_item->setContent($a_update 
+		// news title/content
+		
+		$news_item->setTitle($this->getTitle());		
+				
+		$content = $a_update 
 			? "blog_news_posting_updated"
-			: "blog_news_posting_published");	
+			: "blog_news_posting_published";
+		
+		// news "author"
+		include_once "Services/User/classes/class.ilUserUtil.php";
+		$content = sprintf($lng->txt($content), ilUserUtil::getNamePresentation($ilUser->getId()));
+		
+		// posting author[s]
+		$contributors = array();
+		foreach(self::getPageContributors($this->getParentType(), $this->getId()) as $user)
+		{
+			$contributors[] = $user["user_id"];
+		}	
+		if(sizeof($contributors) > 1 || !in_array($this->getAuthor(), $contributors))
+		{
+			// original author should come first?
+			$authors = array(ilUserUtil::getNamePresentation($this->getAuthor()));
+			foreach($contributors as $user_id)
+			{
+				if($user_id != $this->getAuthor())
+				{
+					$authors[] = ilUserUtil::getNamePresentation($user_id);
+				}
+			}
+			$content .= "\n".sprintf($lng->txt("blog_news_posting_authors"), implode(", ", $authors));
+		}
+		
+		$news_item->setContentTextIsLangVar(false);				
+		$news_item->setContent($content);	
 		
 		include_once "Modules/Blog/classes/class.ilBlogPostingGUI.php";
 		$snippet = ilBlogPostingGUI::getSnippet($this->getId());

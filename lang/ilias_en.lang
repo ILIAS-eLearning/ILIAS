@@ -15638,5 +15638,6 @@ wiki#:#wiki_page_list_mode#:#Type of List
 wiki#:#wiki_page_list_mode_unordered#:#Not numbered
 wiki#:#wiki_page_list_mode_ordered#:#Numbered
 blog#:#blog_news_title#:#%1$s by %2$s
-blog#:#blog_news_posting_updated#:#A blog posting has been updated. 
-blog#:#blog_news_posting_published#:#A blog posting has been published.
+blog#:#blog_news_posting_updated#:#A blog posting has been updated by %s. 
+blog#:#blog_news_posting_published#:#A blog posting has been published by %s.
+blog#:#blog_news_posting_authors#:#Contributing authors: %s
