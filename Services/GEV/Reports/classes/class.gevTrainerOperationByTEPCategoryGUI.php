@@ -29,7 +29,7 @@ require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
-const MIN_ROW = "3991";
+const MIN_ROW = "0";
 
 class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 
@@ -150,6 +150,7 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 						->static_condition("ht.hist_historic = 0")
 						->static_condition("ht.deleted = 0")
 						->static_condition("hu.hist_historic = 0")
+						->static_condition("(ht.category != 'Training' OR (ht.context_id != 0 AND ht.context_id IS NOT NULL))")
 						->static_condition($min_row_condition) 
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();
