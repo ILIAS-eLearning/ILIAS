@@ -53,7 +53,6 @@ interface Counter {
      *    as red or orange.
      *  * The Novelty Counter MAY be used with the Status Counter.
      *
-     *
      * @param   int         $amount
      * @throws  \InvalidArgumentException   if $amount is not an int.
      * @return  \ILIAS\UI\Element\Counter
