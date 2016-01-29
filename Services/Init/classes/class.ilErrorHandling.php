@@ -138,7 +138,7 @@ class ilErrorHandling extends PEAR
 		//		 * Check for context? The current implementation e.g. would output HTML for
 		//		   for SOAP.
 
-		if ($this->isDevmodeActive()) {
+		if ($this->isDevmodeActive() || $this->isUseWhoopsActive()) {
 			return $this->devmodeHandler();
 		}
 
@@ -351,6 +351,14 @@ class ilErrorHandling extends PEAR
 	 */
 	protected function isDevmodeActive() {
 		return DEVMODE;
+	}
+
+	/**
+	* Is USE_WHOOPS active? USE_WHOOPS mode enables Whoops error handler outside of dev mode.
+	* @return bool
+	*/
+	protected function isUseWhoopsActive() {
+		return USE_WHOOPS;
 	}
 
 	/**
