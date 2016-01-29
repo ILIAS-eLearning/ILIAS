@@ -775,7 +775,8 @@ class ilObjLanguage extends ilObject
 		}
 
 		// header check
-		if (!$content = $this->cut_header(file($lang_file)))
+		$content = $this->cut_header(file($lang_file));
+		if ($content === false)
 		{
 			$this->ilias->raiseError("Wrong Header in ".$lang_file,$this->ilias->error_obj->MESSAGE);
 		}
