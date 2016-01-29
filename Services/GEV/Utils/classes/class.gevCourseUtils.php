@@ -3166,11 +3166,11 @@ class gevCourseUtils {
 				$addsql
 			);
 
-
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Modules/Course/classes/class.ilObjCourseAccess.php");
 		foreach ($info as $key => $value) {
 			// TODO: This surely could be tweaked to be faster if there was no need
 			// to instantiate the course to get booking information about it.
-			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
 			$crs_ref = gevObjectUtils::getRefId($crs_utils->getCourse()->getId());
 			
@@ -3200,8 +3200,7 @@ class gevCourseUtils {
 			
 			$info[$key]["date"] = $info[$key]["start_date"] .'-' .$info[$key]["end_date"];
 			
-			$info[$key]["status"] = ($crs_utils->getCourse()->isActivated()) ? 'online' : 'offline';
-
+			$info[$key]["status"] = ilObjCourseAccess::_isActivated($value["obj_id"]) ? 'online' : 'offline';
 			$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
 			$memberlist_lnk = "ilias.php?cmd=trainer&cmdClass=gevmemberlistdeliverygui&cmdNode=ei&baseClass=gevmemberlistdeliverygui&ref_id=" .$crs_ref;
 			$action = '<a href="'
