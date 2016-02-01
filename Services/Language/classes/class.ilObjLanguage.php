@@ -460,8 +460,7 @@ class ilObjLanguage extends ilObject
 	                        // check for double entries in global file
 							if ($double_checker[$separated[0]][$separated[1]][$this->key])
 							{
-								$this->ilias->raiseError("Duplicate Language Entry: ".
-									$separated[0]."-".$separated[1]."-".$this->key,
+								$this->ilias->raiseError("Duplicate Language Entry in $lang_file:\n$val",
 									$this->ilias->error_obj->MESSAGE);
 							}
 							$double_checker[$separated[0]][$separated[1]][$this->key] = true;
