@@ -1830,6 +1830,13 @@ class gevUserUtils {
 		return false;
 	}
 
+	static public function setUserActiveState($user_id, $active) {
+		require_once("Services/User/classes/class.ilObjUser.php");
+		$user = new ilObjUser($user_id);
+		$user->setActive($active);
+		$user->update();
+	}
+
 	public function getUVGBDOrCPoolNames() {
 		$names = array();
 		$dbv_utils = gevDBVUtils::getInstance();
