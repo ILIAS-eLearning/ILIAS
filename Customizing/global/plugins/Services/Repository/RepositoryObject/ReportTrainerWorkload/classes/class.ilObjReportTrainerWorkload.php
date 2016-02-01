@@ -6,11 +6,12 @@ ini_set("memory_limit","2048M");
 ini_set('max_execution_time', 0);
 set_time_limit(0);
 
-const MIN_ROW = "3991";
-const OP_TUTOR_IN_ORGU = 'tep_is_tutor';
+
 
 class ilObjReportTrainerWorkload extends ilObjReportBase {
-	
+	const MIN_ROW = "3991";
+	const OP_TUTOR_IN_ORGU = 'tep_is_tutor';
+
 	protected $table_sums;
 	protected $relevant_parameters = array();
 
@@ -71,8 +72,9 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 								 )
 				->static_condition("hu.hist_historic = 0")
 				->static_condition("ht.hist_historic = 0")
+				->static_condition("(ht.category != 'Training' OR (ht.context_id != 0 AND ht.context_id IS NOT NULL))")
 				->static_condition("ht.deleted = 0")
-				->static_condition("ht.row_id > ".MIN_ROW)
+				->static_condition("ht.row_id > ".self::MIN_ROW)
 				->action($this->filter_action)
 				->compile()
 				;
@@ -195,7 +197,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 		$sql = 	"SELECT DISTINCT oda.title, oda.obj_id, rpa.ops_id, rop.ops_id AS chk "
 				."	FROM rbac_pa rpa"
 				."	JOIN rbac_operations rop "
-				."		ON rop.operation = ".$this->gIldb->quote(OP_TUTOR_IN_ORGU,"text")
+				."		ON rop.operation = ".$this->gIldb->quote(self::OP_TUTOR_IN_ORGU,"text")
 				."			AND LOCATE( CONCAT( ':', rop.ops_id, ';' ) , rpa.ops_id ) >0 "
 				."	JOIN object_reference ore "
 				."		ON ore.ref_id = rpa.ref_id "
@@ -222,7 +224,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 		$sql = 	"SELECT huo.usr_id, rpa.rol_id, rpa.ops_id, rop.ops_id AS chk "
 				."	FROM rbac_pa rpa"
 				."	JOIN rbac_operations rop "
-				."		ON rop.operation = ".$this->gIldb->quote(OP_TUTOR_IN_ORGU,"text")
+				."		ON rop.operation = ".$this->gIldb->quote(self::OP_TUTOR_IN_ORGU,"text")
 				."			AND LOCATE( CONCAT( ':', rop.ops_id, ';' ) , rpa.ops_id ) >0 "
 				."	JOIN object_reference ore "
 				."		ON ore.ref_id = rpa.ref_id "
