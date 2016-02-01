@@ -25,6 +25,6 @@ We highly appreciate Pull-Request from external developers. Due to some regulati
 
 - Language-Fixes or additions to language-files don't need further steps.
 - Bugfixes need an entry in the Bugtracker: http://mantis.ilias.de . Pull-Request for Bugfixes target always to the branch where the bug occurs. The developer which merges it will cherry-pick the fix to all branches needed
-- Features need an entry in Feature-Wiki and has to get through the existing procedure for Feature-Requests: http://feature.ilias.de
+- Features/Refactorings need an entry in Feature-Wiki and has to get through the existing procedure for Feature-Requests: http://feature.ilias.de . Pull-Request target to trunk.
 
 Pull-Request will be assigned to the responsible maintainer(s). 
