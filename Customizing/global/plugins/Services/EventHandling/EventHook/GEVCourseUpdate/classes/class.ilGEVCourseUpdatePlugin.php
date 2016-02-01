@@ -2,7 +2,6 @@
 
 require_once("./Services/EventHandling/classes/class.ilEventHookPlugin.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-require_once("Services/UICore/classes/class.ilTemplate.php");
 
 class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 {
@@ -71,16 +70,16 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 			$this->crs->enableWaitingList($this->crs_utils->getWaitingListActive() && $max_participants > 0);
 			$this->crs->enableSubscriptionMembershipLimitation($this->crs_utils->getWaitingListActive() && $max_participants > 0);
 			$this->crs->setSubscriptionMaxMembers($max_participants);
-			
+			if ($this->crs_utils->getRefId() && $_GET["ref_id"] && $this->crs_utils->getRefId() == $_GET["ref_id"]) {
+				$this->crs_utils->warningIfTemplateWithDates();
+			}
 			$this->maybeSetTemplateCustomId();
+
 			$this->crs_utils->updateDerivedCourses();
-			
-			$this->crs_utils->warningIfTemplateWithDates();
-			
+
 			if ($max_participants == 0) {
 				$this->crs_utils->setWaitingListActive(false, false);
 			}
-		
 			$this->crs->update(false);
 		}
 		catch (Exception $e) {
@@ -108,6 +107,11 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 	}
 
 	protected function compareCourse(array $crs_to_compare) {
+		require_once("Services/UICore/classes/class.ilTemplateHTMLITX.php");
+		require_once("Services/PEAR/lib/HTML/Template/ITX.php");
+		require_once("Services/PEAR/lib/HTML/Template/IT.php");
+		require_once("Services/UICore/classes/class.ilTemplate.php");
+
 		$old = $crs_to_compare["bevor_update"];
 		$new = $crs_to_compare["after_update"];
 

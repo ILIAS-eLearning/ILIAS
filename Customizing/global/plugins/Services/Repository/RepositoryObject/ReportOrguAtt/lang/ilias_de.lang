@@ -1,23 +1,23 @@
 <!-- language file start -->
 xroa_content#:#Report
 xroa_properties#:#Eigenschaften
-obj_xroa#:#Report Teilanhmen nach Organisationseinheit
-objs_xroa#:#Reports Teilanhmen nach Organisationseinheit
-obj_xroa_duplicate#:#Report Teilanhmen nach Organisationseinheit kopieren
-objs_xroa_duplicate#:#Reports Teilanhmen nach Organisationseinheit kopieren
-obj_xroa_select#:#Report Teilanhmen nach Organisationseinheit auswählen
-xroa_add#:#Report Teilanhmen nach Organisationseinheit hinzufügen
-xroa_new#:#Neuen Report Teilanhmen nach Organisationseinheit hinzufügen
-xroa_read#:#Lesezugriff zum Report Teilanhmen nach Organisationseinheit
-xroa_write#:#Report Teilanhmen nach Organisationseinheit bearbeiten
-xroa_delete#:#Report Teilanhmen nach Organisationseinheit löschen
+obj_xroa#:#Report Teilnahmen nach Organisationseinheit
+objs_xroa#:#Reports Teilnahmen nach Organisationseinheit
+obj_xroa_duplicate#:#Report Teilnahmen nach Organisationseinheit kopieren
+objs_xroa_duplicate#:#Reports Teilnahmen nach Organisationseinheit kopieren
+obj_xroa_select#:#Report Teilnahmen nach Organisationseinheit auswählen
+xroa_add#:#Report Teilnahmen nach Organisationseinheit hinzufügen
+xroa_new#:#Neuen Report Teilnahmen nach Organisationseinheit hinzufügen
+xroa_read#:#Lesezugriff zum Report Teilnahmen nach Organisationseinheit
+xroa_write#:#Report Teilnahmen nach Organisationseinheit bearbeiten
+xroa_delete#:#Report Teilnahmen nach Organisationseinheit löschen
 xroa_visible#:#sichtbar
 xroa_edit_permission#:#schreibberechtigt
-crs_create_xroa#:#Report Teilanhmen nach Organisationseinheit erzeugen
-grp_create_xroa#:#Report Teilanhmen nach Organisationseinheit erzeugen
-fold_create_xroa#:#Report Teilanhmen nach Organisationseinheit erzeugen
-root_create_xroa#:#Report Teilanhmen nach Organisationseinheit erzeugen
-cat_create_xroa#:#Report Teilanhmen nach Organisationseinheit erzeugen
+crs_create_xroa#:#Report Teilnahmen nach Organisationseinheit erzeugen
+grp_create_xroa#:#Report Teilnahmen nach Organisationseinheit erzeugen
+fold_create_xroa#:#Report Teilnahmen nach Organisationseinheit erzeugen
+root_create_xroa#:#Report Teilnahmen nach Organisationseinheit erzeugen
+cat_create_xroa#:#Report Teilnahmen nach Organisationseinheit erzeugen
 online#:#Online
 od_bd#:#OD/BD
 sum_waiting#:#Warteliste

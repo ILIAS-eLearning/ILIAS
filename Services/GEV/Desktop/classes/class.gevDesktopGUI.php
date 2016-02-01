@@ -27,7 +27,6 @@
 * @ilCtrl_Calls gevDesktopGUI: gevEmployeeEduBiosGUI
 * @ilCtrl_Calls gevDesktopGUI: ilFormPropertyDispatchGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDErrorsGUI
-* @ilCtrl_Calls gevDesktopGUI: gevAttendanceByOrgUnitGUI
 * @ilCtrl_Calls gevDesktopGUI: gevAttendanceByCourseTemplateGUI
 * @ilCtrl_Calls gevDesktopGUI: gevTrainerOperationByTEPCategoryGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDBVReportGUI
@@ -182,13 +181,6 @@ class gevDesktopGUI {
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
-			case "gevattendancebyorgunitgui":
-				$ilMainMenu->setActive("gev_reporting_menu");
-				require_once("Services/GEV/Reports/classes/class.gevAttendanceByOrgUnitGUI.php");
-				$gui = new gevAttendanceByOrgUnitGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
-				break;
-
 			case "gevattendancebycoursetemplategui":
 				$ilMainMenu->setActive("gev_reporting_menu");
 				require_once("Services/GEV/Reports/classes/class.gevAttendanceByCourseTemplateGUI.php");
@@ -297,7 +289,6 @@ class gevDesktopGUI {
 			case "toBooking":
 			case "toEmployeeBookings":
 			case "toReportEmployeeEduBios":
-			case "toReportAttendanceByOrgUnit":
 			case "toReportAttendanceByCourseTemplate":
 			case "toReportTrainerOperationByTEPCategory":
 			case "toReportWBDEdupoints":
@@ -388,10 +379,6 @@ class gevDesktopGUI {
 	}
 	protected function toWBDErrors() {
 		$this->ctrl->redirectByClass("gevWBDErrorsGUI");
-	}
-
-	protected function toReportAttendanceByOrgUnit() {
-		$this->ctrl->redirectByClass("gevAttendanceByOrgUnitGUI");
 	}
 
 	protected function toReportAttendanceByCourseTemplate() {
@@ -532,5 +519,3 @@ class gevDesktopGUI {
 
 
 }
-
-?>
