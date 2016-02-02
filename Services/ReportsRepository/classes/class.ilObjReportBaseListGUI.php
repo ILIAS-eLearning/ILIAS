@@ -28,7 +28,7 @@ abstract class ilObjReportBaseListGUI extends ilObjectPluginListGUI {
 			array(
 				"permission" => "write",
 				"cmd" => "settings",
-				"txt" => "edit",
+				"txt" => $this->lng->txt("edit"),
 				"default" => false)
 		);
 	}
