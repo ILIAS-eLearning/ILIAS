@@ -39,6 +39,8 @@ class gevSettings {
 	const CRS_AMD_TYPE 				= "crs_amd_type";
 	// Vorlage
 	const CRS_AMD_IS_TEMPLATE		= "crs_amd_is_template";
+	// Abgesagt
+	const CRS_AMD_IS_CANCELLED		= "crs_amd_is_cancelled";
 	
 	// Trainingsbetreuer -> ILIAS Standard
 	//const CRS_AMD_MAINTAINER		= "crs_amd_maintainer";

@@ -54,6 +54,8 @@ class ilGEVCourseTemplateCreationPlugin extends ilEventHookPlugin
 			$utils->setBookingDeadline(14);
 			// Wartelistenlänge
 			$utils->setWaitingListLength(10);
+			// Ist per default nicht storniert
+			$utils->setIsCancelled(false);
 			// Anbieter Generali
 			if ($generali) {
 				$utils->setProviderId($generali);

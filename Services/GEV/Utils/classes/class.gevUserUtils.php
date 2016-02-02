@@ -1216,6 +1216,10 @@ class gevUserUtils {
 	public function getFunctionAtCourse($a_crs_id) {
 		return gevCourseUtils::getInstance($a_crs_id)->getFunctionOfUser($this->user_id);
 	}
+
+	public function getAllFunctionsAtCourse($a_crs_id) {
+		return gevCourseUtils::getInstance($a_crs_id)->getAllFunctionsOfUser($this->user_id);
+	}
 	
 	public function hasFullfilledPreconditionOf($a_crs_id) {
 		return gevCourseUtils::getInstance($a_crs_id)->userFullfilledPrecondition($this->user_id);
