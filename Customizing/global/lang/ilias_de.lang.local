@@ -774,6 +774,7 @@ gev#:#use_standard_mail#:#Standardmail verwenden
 gev#:#view_others_accomodations#:#Unterbringung von anderen einsehen
 gev#:#view_own_accomodations#:#Eigene Unterbringung einsehen
 gev#:#view_participation_status#:#Teilnahmestatus einsehen
+gev#:#gev_course_is_cancelled_suffix#:# (abgesagt, nicht mehr verwenden)
 gmaps#:#gmaps_enable_gmaps_info#:#Aktiviere Google Maps in Persönlichen Profilen, Trainings und Gruppen
 gmaps#:#gmaps_public_profile_info#:#Wenn angeklickt, wird der eigene Standort Standort auf der Google Map im Profil angezeigt. Dazu muss aber Ihr Profil aktiviert sein. Bei Trainings- und Gruppenkarten wird der Standort ebenfalls angezeigt.
 grp#:#grp_view_inherit#:#Durch Training bestimmt

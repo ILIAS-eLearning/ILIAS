@@ -147,7 +147,8 @@ class ilCourseHistorizingAppEventListener
 			'dbv_hot_topic'						=> self::$ilCourseHistorizingHelper->getDBVHotTopicOf($parameter),
 			'virtual_classroom_type'			=> self::$ilCourseHistorizingHelper->getVirtualClassroomType($parameter),
 			'dct_type'							=> self::$ilCourseHistorizingHelper->getDCTType($parameter),
-			'template_obj_id'					=> self::$ilCourseHistorizingHelper->getTemplateObjId($parameter)
+			'template_obj_id'					=> self::$ilCourseHistorizingHelper->getTemplateObjId($parameter),
+			'is_cancelled'						=> self::$ilCourseHistorizingHelper->getIsCancelled($parameter)
 		);
 
 		$deadline_data = self::$ilCourseHistorizingHelper->getDeadlineDataOf($parameter);
