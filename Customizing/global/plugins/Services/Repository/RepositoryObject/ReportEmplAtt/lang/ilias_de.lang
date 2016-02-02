@@ -1,0 +1,21 @@
+<!-- language file start -->
+obj_xrae#:#Report Teilna für Vorgesetzte
+objs_xrae#:#DBV Reports für Vorgesetzte
+obj_xrae_duplicate#:#DBV Report für Vorgesetzte kopieren
+objs_xrae_duplicate#:#DBV Reports für Vorgesetzte kopieren
+obj_xrae_select#:#DBV Report für Vorgesetzte auswählen
+xrae_add#:#DBV Report für Vorgesetzte hinzufügen
+xrae_new#:#Neuen DBV Report für Vorgesetzte hinzufügen
+xrae_read#:#Lesezugriff zum DBV Report für Vorgesetzte
+xrae_write#:#DBV Report für Vorgesetzte bearbeiten
+xrae_delete#:#DBV Report für Vorgesetzte löschen
+xrae_visible#:#sichtbar
+xrae_edit_permission#:#schreibberechtigt
+crs_create_xrae#:#DBV Report für Vorgesetzte erzeugen
+grp_create_xrae#:#DBV Report für Vorgesetzte erzeugen
+fold_create_xrae#:#DBV Report für Vorgesetzte erzeugen
+root_create_xrae#:#DBV Report für Vorgesetzte erzeugen
+cat_create_xrae#:#DBV Report für Vorgesetzte erzeugen
+xrae_content#:#Report
+xrae_properties#:#Eigenschaften
+online#:#Online
