@@ -111,12 +111,11 @@ class ilUserCourseStatusHistorizingHelper
 	 *
 	 * @return string
 	 */
-	public static function getFunctionOf($user, $course)
+	public static function getFunctionOf($usr_id, $crs_id)
 	{
 		global $lng;
-		$functions = gevUserUtils::getInstanceByObjOrId($user)
-						   ->getAllFunctionsAtCourse(self::getId($course));
-	//	die(var_dump($functions));
+		$functions = gevCourseUtils::getInstance($crs_id)->getAllFunctionsOfUser($usr_id);
+
 		$av_functions = array(	$lng->txt("crs_member")
 								,$lng->txt("crs_tutor")
 								,$lng->txt("crs_admin")
