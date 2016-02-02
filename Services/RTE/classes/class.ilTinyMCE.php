@@ -46,14 +46,14 @@ class ilTinyMCE extends ilRTE
 	protected $remove_img_context_menu_item = false;
 
 
-	function ilTinyMCE($a_version = "")
+	public function __construct($a_version = "")
 	{		
 		if(!$a_version)
 		{
 			$a_version = "3.5.11";
 		}
 		
-		parent::ilRTE($a_version);				
+		parent::__construct($a_version);
 
 		switch ($a_version)
 		{			

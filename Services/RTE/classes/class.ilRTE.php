@@ -54,7 +54,7 @@ class ilRTE
 	protected $initialWidth = null;
 
 
-	function ilRTE($a_version = "")
+	public function __construct($a_version = "")
 	{
 		global $tpl, $ilCtrl, $lng;
 		$this->tpl =& $tpl;
