@@ -38,7 +38,7 @@ if($ilDB->tableColumnExists('svy_times', 'first_question'))
 }
 ?>
 <#4>
-	<?php
+<?php
 	require_once('./Services/Component/classes/class.ilPluginAdmin.php');
 	require_once('./Services/Component/classes/class.ilPlugin.php');
 	require_once('./Services/UICore/classes/class.ilCtrl.php');
