@@ -143,7 +143,7 @@ set_time_limit(0);
 			->static_condition("role.action = 1")
 			->static_condition("role.hist_historic = 0")
 			->action($this->filter_action)
-			->compile()
+			->compile();
 		return $filter;
 	}
 }
