@@ -176,7 +176,61 @@ class gevUserUtils {
 			return null;
 		}
 	}
-	
+
+	CONST TEILGENOMMEN = 3;
+	CONST FEHLT_ENTSCHULDIGT = 2;
+	CONST FEHLT_OHNE_ABSAGE = 1;
+	CONST NICHT_GESETZT = 0;
+	CONST SONSTIGES = -1;
+
+	public function coursesBefore($date) {
+		$query = "SELECT row_id, crs_id, usr_id, participation_status\n"
+				." ,CASE\n"
+				."    WHEN participation_status = 'teilgenommen' THEN ".self::TEILGENOMMEN."\n"
+				."    WHEN participation_status = 'fehlt entschuldigt' THEN ".self::FEHLT_ENTSCHULDIGT."\n"
+				."    WHEN participation_status = 'fehlt ohne Absage' THEN ".self::FEHLT_OHNE_ABSAGE."\n"
+				."    WHEN participation_status = 'nicht gesetzt' THEN ".self::NICHT_GESETZT."\n"
+				."    ELSE ".self::SONSTIGES."\n"
+				." END as participation_status_level\n"
+				." FROM hist_usercoursestatus\n"
+				." WHERE usr_id = ".$this->db->quote($this->user_id,"integer")."\n"
+				." AND hist_historic = 0\n"
+				." AND end_date < ".$this->db->quote($date,"text")."\n"
+				." AND booking_status = ".$this->db->quote("gebucht","text")."\n";
+
+		$ret = array();
+		$res = $this->db->query($query);
+		while($row = $this->db->fetchAssoc($res)) {
+			array_push($ret,$row);
+		}
+
+		return $ret;
+	}
+
+	public function coursesAfter($date) {
+		$query = "SELECT row_id, crs_id, usr_id, participation_status\n"
+				." ,CASE\n"
+				."    WHEN participation_status = 'teilgenommen' THEN ".self::TEILGENOMMEN."\n"
+				."    WHEN participation_status = 'fehlt entschuldigt' THEN ".self::FEHLT_ENTSCHULDIGT."\n"
+				."    WHEN participation_status = 'fehlt ohne Absage' THEN ".self::FEHLT_OHNE_ABSAGE."\n"
+				."    WHEN participation_status = 'nicht gesetzt' THEN ".self::NICHT_GESETZT."\n"
+				."    ELSE ".self::SONSTIGES."\n"
+				." END as participation_status_level\n"
+				." FROM hist_usercoursestatus\n"
+				." WHERE usr_id = ".$this->db->quote($this->user_id,"integer")."\n"
+				." AND hist_historic = 0\n"
+				." AND begin_date > ".$this->db->quote($date,"text")."\n"
+				." AND booking_status = ".$this->db->quote("gebucht","text")."\n";
+
+		$ret = array();
+		$res = $this->db->query($query);
+		while($row = $this->db->fetchAssoc($res)) {
+			array_push($ret,$row);
+		}
+
+		return $ret;
+	}
+
 	public function getEduBioLink() {
 		return self::getEduBioLinkFor($this->user_id);
 	}
@@ -322,7 +376,7 @@ class gevUserUtils {
 			."   AND is_template.value = 'Nein'"
 			.$join_n_wheres["wheres"]
 			);
-
+		
 		$crs_ids = array();
 		while($rec = $this->db->fetchAssoc($res)) {
 			//we need only one ref-id here
@@ -1776,6 +1830,13 @@ class gevUserUtils {
 		return false;
 	}
 
+	static public function setUserActiveState($user_id, $active) {
+		require_once("Services/User/classes/class.ilObjUser.php");
+		$user = new ilObjUser($user_id);
+		$user->setActive($active);
+		$user->update();
+	}
+
 	public function getUVGBDOrCPoolNames() {
 		$names = array();
 		$dbv_utils = gevDBVUtils::getInstance();
@@ -1966,5 +2027,10 @@ class gevUserUtils {
 		}
 
 		return false;
+	}
+
+	public function courseToday($date) {
+		$crs_ids = $this->getCourseIdsWhereUserIs(array("il_crs_member_%"), array("period"=>array("start"=>$date, "end"=>$date)));
+		return count($crs_ids) > 0;
 	}
 }

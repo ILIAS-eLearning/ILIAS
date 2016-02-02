@@ -29,11 +29,14 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	/**
 	 * @var  gevUserUtils
 	 */
-	protected $userUtils = Null;
+	protected $user_utils = Null;
 	/**
 	 * @var ilCtrl
 	 */
-	protected $ctrl = Null;
+	protected $gCtrl = Null;
+	protected $gLng;
+	protected $gAccess;
+	protected $gUser;
 
 	public function __construct() {
 		parent::__construct($a_target, $a_use_start_template);
@@ -326,7 +329,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			, "gev_report_employee_edu_bio" => array($this->canViewReport("gev_report_employee_edu_bio"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportEmployeeEduBios",$this->gLng->txt("gev_report_employee_edu_bios"))
 			, "gev_report_bookingbyvenue" => array($this->canViewReport("gev_report_bookingbyvenue"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportBookingsByVenue",$this->gLng->txt("gev_report_bookingbyvenue"))
 			, "gev_report_trainer_operation_by_tep_category" => array($this->canViewReport("gev_report_trainer_operation_by_tep_category"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportTrainerOperationByTEPCategory",$this->gLng->txt("gev_report_trainer_operation_by_tep_category"))
-			, "gev_report_attendance_by_orgunit" => array($this->canViewReport("gev_report_attendance_by_orgunit"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByOrgUnit",$this->gLng->txt("gev_report_attendancebyorgunit"))
 			, "gev_report_attendance_by_coursetemplate" => array($this->canViewReport("gev_report_attendance_by_coursetemplate"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByCourseTemplate",$this->gLng->txt("gev_report_attendancebycoursetemplate"))
 			, "gev_report_wbd_edupoints" => array($this->canViewReport("gev_report_wbd_edupoints"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportWBDEdupoints",$this->gLng->txt("gev_report_wbd_edupoints"))
 			, "gev_report_wbd_errors" => array($this->canViewReport("gev_report_wbd_errors"), "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->gLng->txt("gev_report_wbd_errors"))
@@ -334,14 +336,18 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			, "gev_report_trainer_operation_by_orgu_trainer" => array($this->canViewReport("gev_report_trainer_operation_by_orgu_trainer"), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerOperationByOrgUnitAndTrainer",$this->gLng->txt("gev_report_trainer_operation_by_orgu_trainer"))
 			);
 
-		$grouped_list = $this->getDropDown($entries);
+
 
 		$visible_repo_reports = ilObjReportBase::getVisibleReportsObjectData($this->gUser);
 		foreach ($visible_repo_reports as $info) {
-			$link = ilLink::_getStaticLink($info["ref_id"], $info["type"]);
-			$grouped_list->addEntry($info["title"], $link, "_top");
+			$entries[] = array(true, ilLink::_getStaticLink($info["ref_id"], $info["type"]),$info["title"]);
 		}
+		// sort entries by title
+		uasort($entries, function ($el1,$el2) {
+			return strcasecmp($el1[2],$el2[2]);
+		});
 
+		$grouped_list = $this->getDropDown($entries);
 		return $grouped_list->getHTML();
 	}
 
@@ -362,7 +368,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				|| $this->canViewReport("gev_report_bookingbyvenue")
 				|| $this->canViewReport("gev_report_employee_edu_bio")
 				|| $this->canViewReport("gev_report_trainer_operation_by_tep_category")
-				|| $this->canViewReport("gev_report_attendance_by_orgunit")
 				|| $this->canViewReport("gev_report_attendance_by_coursetemplate")
 				|| $this->canViewReport("gev_report_wbd_edupoints")
 				|| $this->canViewReport("gev_report_wbd_errors")
@@ -387,8 +392,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				return $this->user_utils && ($this->user_utils->isAdmin() || $this->user_utils->hasRoleIn(array("Veranstalter")));
 			case "gev_report_trainer_operation_by_tep_category":
 				return $this->user_utils && $this->user_utils->isAdmin();
-			case "gev_report_attendance_by_orgunit":
-				return $this->user_utils && $this->user_utils->isAdmin();
 			case "gev_report_attendance_by_coursetemplate":
 				return $this->user_utils && $this->user_utils->isAdmin();
 			case "gev_report_wbd_edupoints":
@@ -403,5 +406,3 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		}
 	}
 }
-
-?>

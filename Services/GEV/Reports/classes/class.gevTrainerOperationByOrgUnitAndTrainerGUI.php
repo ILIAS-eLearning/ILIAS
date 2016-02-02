@@ -11,10 +11,9 @@ require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/Object/classes/class.ilObject.php");
 
-const MIN_ROW = "0";
-const shift = '<div class = "inline_block">&nbsp;&nbsp;</div>';
-
 class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
+	const MIN_ROW = "3991";
+	const shift = '<div class = "inline_block">&nbsp;&nbsp;</div>';
 	protected $meta_categories;
 	protected $meta_categories_names;
 	protected $tree;
@@ -77,10 +76,11 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 										 )
 						->static_condition("hu.hist_historic = 0")
 						->static_condition("ht.hist_historic = 0")
+						->static_condition("(ht.category != 'Training' OR (ht.context_id != 0 AND ht.context_id IS NOT NULL))")
 						->static_condition("ht.deleted = 0")
 						->static_condition("ht.user_id != 0")
 						->static_condition("ht.orgu_title != '-empty-'")
-						->static_condition("ht.row_id > ".MIN_ROW)
+						->static_condition("ht.row_id > ".self::MIN_ROW)
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile()
 						;
@@ -250,13 +250,13 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		$return = array("title"=>$title,"trainers"=>$this->pre_data[$title],"children"=>array());
 
 		foreach ($return["trainers"] as &$trainers) {
-			$trainers["title"] = $offset.shift.'<div class = "inline_block">'.$trainers["title"].'</div>';
+			$trainers["title"] = $offset.self::shift.'<div class = "inline_block">'.$trainers["title"].'</div>';
 		}
 
 		asort($return["trainers"]);
 
 		foreach($children as $child) {
-			$return["children"][] = $this->buildReportTree($child["ref_id"],$offset.shift);
+			$return["children"][] = $this->buildReportTree($child["ref_id"],$offset.self::shift);
 		}
 
 		$return["sum"] = $this->sumMetaCategories($return["trainers"]);
@@ -317,7 +317,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 		$sql = 	"SELECT DISTINCT CONCAT(hu.lastname,', ',hu.firstname) as fullname FROM hist_tep ht \n"
 				."	JOIN hist_user hu ON hu.user_id = ht.user_id \n"
 				."	WHERE ht.hist_historic = 0 AND hu.hist_historic = 0"
-				."		AND ht.row_id > ".$this->db->quote(MIN_ROW);
+				."		AND ht.row_id > ".$this->db->quote(self::MIN_ROW);
 		$res = $this->db->query($sql);
 		$return = array();
 		while($rec = $this->db->fetchAssoc($res)) {

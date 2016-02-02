@@ -27,7 +27,7 @@ class gevWebinarAutoMails extends ilAutoMails {
 	}
 
 	public function getTitle() {
-		return "Mails für virtuelle Trainings";
+		return "Mails für Webinare";
 	}
 
 	public function getSubtitle() {
