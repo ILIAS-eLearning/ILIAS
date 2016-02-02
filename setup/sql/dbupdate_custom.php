@@ -4907,3 +4907,11 @@ if (!$ilDB->tableColumnExists('hist_userorgu', 't_in'))
 		));
 	}
 ?>
+
+<#202>
+<?php
+if ($ilDB->tableColumnExists('tep_type', 'tep_active'))	{		
+	$s_query = "UPDATE tep_type SET tep_active = 0 WHERE title = 'Training'";
+	$ilDB->manipulate($s_query);
+}
+?>
