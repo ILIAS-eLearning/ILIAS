@@ -14,4 +14,22 @@ abstract class ilObjReportBaseListGUI extends ilObjectPluginListGUI {
 	public function initType() {
 		$this->timings_enabled = false;
 	}
+
+	/**
+	* Get commands
+	*/
+	public function initCommands() {
+		return array(
+			array(
+				"permission" => "read",
+				"cmd" => "showContent",
+				"txt" => "show",
+				"default" => true),
+			array(
+				"permission" => "write",
+				"cmd" => "settings",
+				"txt" => "edit",
+				"default" => false)
+		);
+	}
 }
