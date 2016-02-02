@@ -29,16 +29,16 @@ require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
-const MIN_ROW = "3991";
-
 class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
+  	
+	const MIN_ROW = "3991";
 
 	protected $internal_sorting_fields = array("fullname");
 	protected static $important_tep_categories	= array("Training");
 	public function __construct() {
 
 		parent::__construct();
-		$min_row_condition = "ht.row_id > ".MIN_ROW;
+		$min_row_condition = "ht.row_id > ".self::MIN_ROW;
 
 		if(!$this->user_utils->isAdmin()) {
 			return;
@@ -150,6 +150,7 @@ class gevTrainerOperationByTEPCategoryGUI extends catBasicReportGUI{
 						->static_condition("ht.hist_historic = 0")
 						->static_condition("ht.deleted = 0")
 						->static_condition("hu.hist_historic = 0")
+						->static_condition("(ht.category != 'Training' OR (ht.context_id != 0 AND ht.context_id IS NOT NULL))")
 						->static_condition($min_row_condition) 
 						->action($this->ctrl->getLinkTarget($this, "view"))
 						->compile();

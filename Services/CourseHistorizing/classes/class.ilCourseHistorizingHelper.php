@@ -332,4 +332,8 @@ class ilCourseHistorizingHelper
 		return;
 	}
 
+	public static function getIsCancelled($course) {
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
+		return $utils->getIsCancelled() ? 'Ja' : 'Nein';
+	}
 }

@@ -4907,3 +4907,29 @@ if (!$ilDB->tableColumnExists('hist_userorgu', 't_in'))
 		));
 	}
 ?>
+
+<#202>
+<?php
+if ($ilDB->tableColumnExists('tep_type', 'tep_active'))	{		
+	$s_query = "UPDATE tep_type SET tep_active = 0 WHERE title = 'Training'";
+	$ilDB->manipulate($s_query);
+}
+?>
+
+<#203>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::initPluginEnv();
+	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+?>
+
+<#204>
+<?php
+	if (!$ilDB->tableColumnExists('hist_course', 'is_cancelled')) {		
+		$ilDB->addTableColumn('hist_course', 'is_cancelled', array(
+			"type" => "text",
+			"length" => 8,
+			"notnull" => false
+		));
+	}
+?>
