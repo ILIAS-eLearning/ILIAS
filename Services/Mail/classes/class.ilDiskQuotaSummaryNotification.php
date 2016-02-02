@@ -13,13 +13,9 @@ include_once 'Services/WebDAV/classes/class.ilDiskQuotaChecker.php';
 class ilDiskQuotaSummaryNotification extends ilMailNotification
 {
 	/**
-	 *
-	 * Constructor
-	 * 
-	 * @access	public
-	 *
+	 * {@inheritdoc}
 	 */
-	public function __construct()
+	public function __construct($a_is_personal_workspace = false)
 	{		
 		$dqs = new ilSetting('disk_quota');
 		$rcpt = $dqs->get('summary_rcpt');		
@@ -35,7 +31,7 @@ class ilDiskQuotaSummaryNotification extends ilMailNotification
 		}		
 		$this->setRecipients($loginnames);
 		
-		parent::__construct();
+		parent::__construct($a_is_personal_workspace);
 	}
 	
 	/**
