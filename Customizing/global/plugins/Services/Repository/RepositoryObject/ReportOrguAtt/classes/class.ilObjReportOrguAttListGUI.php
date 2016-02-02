@@ -21,25 +21,7 @@ class ilObjReportOrguAttListGUI extends ilObjReportBaseListGUI {
 	public function getGuiClass() {
 		return "ilObjReportOrguAttGUI";
 	}
-
-	/**
-	* Get commands
-	*/
-	public function initCommands() {
-		return array(
-			array(
-				"permission" => "read",
-				"cmd" => "showContent",
-				"txt" => "show",
-				"default" => true),
-			array(
-				"permission" => "write",
-				"cmd" => "settings",
-				"txt" => $this->lng->txt("edit"),
-				"default" => false)
-		);
-	}
-
+	
 	public function getProperties() {
 		$props = array();
 		$this->plugin->includeClass("class.ilObjReportOrguAttAccess.php");
