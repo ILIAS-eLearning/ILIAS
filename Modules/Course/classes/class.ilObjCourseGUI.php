@@ -1169,9 +1169,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		// period		
 		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 		$cdur = new ilDateDurationInputGUI($this->lng->txt('crs_period'), 'period');			
-		$cdur->setInfo($this->lng->txt('crs_period_info'));
-		$cdur->setStartText($this->lng->txt('crs_start'));			
-		$cdur->setEndText($this->lng->txt('crs_end'));				
+		$cdur->setInfo($this->lng->txt('crs_period_info'));			
 		if($this->object->getCourseStart())
 		{
 			$cdur->setStart($this->object->getCourseStart());
@@ -1205,10 +1203,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), "access_period");
 		// $dur->setRequired(true);
 		$dur->setShowTime(true);																	
-		$dur->setStart(new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX));
-		$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
-		$dur->setEnd(new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX));
-		$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
+		$dur->setStart(new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX));				
+		$dur->setEnd(new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX));			
 		$form->addItem($dur);
 
 			$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
@@ -1292,10 +1288,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 		$sdur = new ilDateDurationInputGUI($this->lng->txt('crs_registration_limited'), "subscription_period");
 		$sdur->setShowTime(true);																	
-		$sdur->setStart(new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX));
-		$sdur->setStartText($this->lng->txt('crs_start'));				
-		$sdur->setEnd(new ilDateTime($this->object->getSubscriptionEnd(),IL_CAL_UNIX));
-		$sdur->setEndText($this->lng->txt('crs_end'));				
+		$sdur->setStart(new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX));			
+		$sdur->setEnd(new ilDateTime($this->object->getSubscriptionEnd(),IL_CAL_UNIX));			
 		$form->addItem($sdur);
 		
 		// cancellation limit		

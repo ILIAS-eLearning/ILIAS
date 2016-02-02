@@ -15,8 +15,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 {
 	protected $start = null;
 	protected $startyear = null;	
-	protected $start_text = '';
-	protected $end_text = '';	
+	protected $start_text = null;
+	protected $end_text = null;	
 	protected $minute_step_size = 5;
 	protected $end = null;	
 	protected $showtime = false;	
@@ -387,7 +387,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	*/
 	public function render()
 	{
-		global $ilUser;
+		global $ilUser, $lng;
 		
 		$tpl = new ilTemplate("tpl.prop_datetime_duration.html", true, true, "Services/Form");
 		
@@ -430,14 +430,25 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$tpl->setVariable('DATEPICKER_END_DISABLED', 'disabled="disabled" ');	
 		}		
 		
-		if(strlen($this->getStartText()))
+		$start_txt = $this->getStartText();
+		if($start_txt === null)
 		{
-			$tpl->setVariable('START_LABEL',$this->getStartText());
+			$start_txt = $lng->txt("form_date_duration_start");
+		}
+		if(trim($start_txt))
+		{
+			$tpl->setVariable('START_LABEL', $start_txt);
 			$tpl->touchBlock('start_width_bl');
 		}
-		if(strlen($this->getEndText()))
+		
+		$end_txt = $this->getEndText();
+		if($end_txt === null)
 		{
-			$tpl->setVariable('END_LABEL',$this->getEndText());
+			$end_txt = $lng->txt("form_date_duration_end");
+		}
+		if(trim($end_txt))
+		{
+			$tpl->setVariable('END_LABEL', $end_txt);
 			$tpl->touchBlock('end_width_bl');
 		}
 		

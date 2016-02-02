@@ -554,7 +554,7 @@ class ilCalendarUtil
 		{				
 			$format .= " ".(($ilUser->getTimeFormat() == ilCalendarSettings::TIME_FORMAT_24)
 				? "HH:mm"
-				: "hha:mm");
+				: "hh:mma");
 			if($a_add_time == 2)
 			{
 				$format .= ":ss";
@@ -606,9 +606,9 @@ class ilCalendarUtil
 			,'stepping' => 5
 			,'useCurrent' => false
 			,'calendarWeeks' => true
-			// ,'toolbarPlacement' => 'bottom'
+			,'toolbarPlacement' => 'top'
 			// ,'showTodayButton' => true
-			// ,'showClear' => true
+			,'showClear' => true
 			// ,'showClose' => true
 			,'keepInvalid' => true
 			,'sideBySide' => true
