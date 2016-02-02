@@ -2773,6 +2773,22 @@ class gevCourseUtils {
 		}
 		return null;
 	}
+
+	public function getAllFunctionsOfUser($a_user_id) {
+		//this is a check for ROLES, not for function.
+		//i.e. member has canceled, but is still member of course...
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		$utils = gevRoleUtils::getInstance();
+		$roles = $this->getLocalRoles();
+		$res = $this->db->query( "SELECT rol_id FROM rbac_ua "
+								." WHERE usr_id = ".$this->db->quote($a_user_id)
+								."   AND ".$this->db->in("rol_id", array_keys($roles), false, "integer"));
+		$return = array();
+		if ($rec = $this->db->fetchAssoc($res)) {
+			$return[] = $roles[$rec["rol_id"]];
+		}
+		return $return;
+	}
 	
 	public function getCreditPointsOf($a_user_id) {
 		$sp = $this->getParticipations()->getStatusAndPoints($a_user_id);
