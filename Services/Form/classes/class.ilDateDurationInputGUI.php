@@ -235,6 +235,11 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$this->setStart(ilCalendarUtil::parseIncomingDate($incoming["start"], $format));
 			$this->setEnd(ilCalendarUtil::parseIncomingDate($incoming["end"], $format));
 		}
+		
+		foreach($this->getSubItems() as $item)
+		{
+			$item->setValueByArray($a_values);
+		}
 	}
 	
 	/**
@@ -352,6 +357,11 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 				$_POST[$this->getPostVar()]["start"] = null;
 				$_POST[$this->getPostVar()]["end"] = null;
 			}
+		}
+		
+		if($valid)
+		{
+			$valid = $this->checkSubItemsInput();
 		}
 		
 		return $valid;
@@ -544,6 +554,12 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			
 	public function hideSubForm()
 	{
+		if($this->invalid_input_start ||
+			$this->invalid_input_end)
+		{
+			return false;
+		}
+		
 		return ((!$this->getStart() || $this->getStart()->isNull()) &&
 			(!$this->getEnd() || $this->getEnd()->isNull()));
 	}

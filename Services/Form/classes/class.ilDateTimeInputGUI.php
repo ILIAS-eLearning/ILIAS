@@ -234,7 +234,12 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 				$_POST[$this->getPostVar()] = null;
 			}
 		}
-			
+		
+		if($valid)
+		{
+			$valid = $this->checkSubItemsInput();
+		}
+		
 		return $valid;
 	}
 	
