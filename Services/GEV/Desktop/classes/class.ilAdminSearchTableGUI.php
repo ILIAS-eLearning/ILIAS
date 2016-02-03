@@ -22,10 +22,11 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 	public function __construct($a_search_options, $a_user_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser;
 
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
+		$this->current_user = $ilUser;
 
 		$this->setEnableTitle(true);
 		$this->setTopCommands(false);
@@ -48,13 +49,10 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 		$this->addColumn($this->lng->txt("gev_points"), "points");
 		$this->addColumn("&euro;", "fee");
 		$this->addColumn($this->lng->txt("mbrcount"));
-		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', null, "20px", false);
+		$this->addColumn($this->lng->txt("actions"), null, "20px", false);
 	
 		//legend
 		$this->memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
-		$legend = new catLegendGUI();
-		$legend->addItem($this->memberlist_img, "gev_mytrainingsap_legend_memberlist");
-		$this->setLegend($legend);
 
 		$order = $this->getOrderField();
 		
@@ -98,8 +96,53 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("POINTS", $a_set["points"]);
 		$this->tpl->setVariable("FEE", gevCourseUtils::formatFee($a_set["fee"]));
 		$this->tpl->setVariable("MEMBERS", $a_set["members"]);
-		$this->tpl->setVariable("ACTIONS", $a_set["action"]);
+		$this->tpl->setVariable("ACTIONS", $this->addActionMenu($a_set));
 	}
+
+	protected function addActionMenu($a_set) {
+		include_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$current_selection_list = new ilAdvancedSelectionListGUI();
+		$current_selection_list->setAsynch(true && false);
+		$current_selection_list->setAsynchUrl(true);
+		$current_selection_list->setListTitle($this->lng->txt("actions"));
+		$current_selection_list->setId($a_set["obj_id"]);
+		$current_selection_list->setSelectionHeaderClass("small");
+		$current_selection_list->setItemLinkClass("xsmall");
+		$current_selection_list->setLinksMode("il_ContainerItemCommand2");
+		$current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
+		$current_selection_list->setUseImages(false);
+		$current_selection_list->setAdditionalToggleElement("obj_id.".$a_set["obj_id"], "ilContainerListItemOuterHighlight");
+		
+		$this->addActionMenuItems($current_selection_list, $a_set);
+
+		return $current_selection_list->getHTML();
+	}
+
+	protected function addActionMenuItems(&$current_selection_list, $a_set) {
+		foreach ($this->getActionMenuItems($a_set) as $key => $value) {
+			$current_selection_list->addItem($value["title"],"",$value["link"],$value["image"],"",$value["frame"]);
+		}
+	}
+
+	protected function getActionMenuItems($a_set) {
+		//Prepare links
+		$this->ctrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $a_set["crs_ref_id"]);
+		$memberlist_link = $this->ctrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer");
+		$this->ctrl->clearParametersByClass("gevMemberListDeliveryGUI");
+
+		//prepare crs utils
+		$crs_utils = gevCourseUtils::getInstance($a_set["obj_id"]);
+
+		$items = array();
+		if($crs_utils->userHasPermissionTo($this->current_user->getId(), gevSettings::LOAD_MEMBER_LIST)){
+			$items[] = array("title" => $this->lng->txt("gev_mytrainingsap_legend_memberlist"), "link" => $memberlist_link, "image" => $this->memberlist_img, "frame"=>"");
+		}
+
+
+		return $items;
+	}
+
+	
 }
 
 ?>
