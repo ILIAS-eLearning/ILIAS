@@ -60,30 +60,30 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 
 	protected function buildOrder($order) {
 		$order->mapping("date", "crs.begin_date")
-				//->mapping("od_bd", array("org_unit_above1", "org_unit_above2"))
-				//->defaultOrder("lastname", "ASC")
+				->mapping("od_bd", array("org_unit_above1", "org_unit_above2"))
+				->defaultOrder("lastname", "ASC")
 				;
 		return $order;
 	}
 
 	protected function buildTable($table) {
 		$table
-			->column("lastname", "lastname")
-			->column("firstname", "firstname")
-			->column("email", "email")
-			->column("adp_number", "gev_adp_number")
-			->column("job_number", "gev_job_number")
-			->column("od_bd", "gev_od_bd")
-			->column("org_unit", "gev_org_unit_short")
-			->column("position_key", "gev_agent_key")
-			->column("custom_id", "gev_training_id")
-			->column("title", "title")
-			->column("venue", "gev_location")
-			->column("type", "gev_learning_type")
-			->column("date", "date")
-			->column("credit_points", "gev_credit_points")
-			->column("booking_status", "gev_booking_status")
-			->column("participation_status", "gev_participation_status")
+			->column("lastname", $this->plugin->txt("lastname"), true)
+			->column("firstname", $this->plugin->txt("firstname"), true)
+			->column("email", $this->plugin->txt("email"), true)
+			->column("adp_number", $this->plugin->txt("adp_number"), true)
+			->column("job_number", $this->plugin->txt("job_number"), true)
+			->column("od_bd", $this->plugin->txt("od_bd"),true)
+			->column("org_unit",  $this->plugin->txt("org_unit_short"),true)
+			->column("roles", $this->plugin->txt("roles"),true)
+			->column("custom_id",  $this->plugin->txt("training_id"),true)
+			->column("title",  $this->plugin->txt("title"), true)
+			->column("venue",  $this->plugin->txt("location") ,true)
+			->column("type", $this->plugin->txt("learning_type"),true)
+			->column("date", $this->plugin->txt("date"),true)
+			->column("credit_points", $this->plugin->txt("credit_points"),true)
+			->column("booking_status", $this->plugin->txt("booking_status"),true)
+			->column("participation_status", $this->plugin->txt("participation_status"),true)
 			;
 		return parent::buildTable($table);
 	}
@@ -93,8 +93,8 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		$orgu_filter->setFilterOptionsByUser($this->user_utils);
 
 		$filter	->dateperiod( "period"
-									, $this->lng->txt("gev_period")
-									, $this->lng->txt("gev_until")
+									, $this->plugin->txt("gev_period")
+									, $this->plugin->txt("gev_until")
 									, "usrcrs.begin_date"
 									, "usrcrs.end_date"
 									, date("Y")."-01-01"
@@ -104,7 +104,7 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 									);
 		$orgu_filter->addToFilter($filter);
 		$filter	->multiselect("template_title"
-									 , $this->lng->txt("crs_title")
+									 , $this->plugin->txt("title")
 									 , "template_title"
 									 , gevCourseUtils::getTemplateTitleFromHisto()
 									 , array()
@@ -113,7 +113,7 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 									 , 160
 									 )
 				->multiselect("participation_status"
-									 , $this->lng->txt("gev_participation_status")
+									 , $this->plugin->txt("participation_status")
 									 , "participation_status"
 									 , array(	"teilgenommen"=>"teilgenommen"
 									 			,"fehlt ohne Absage"=>"fehlt ohne Absage"
