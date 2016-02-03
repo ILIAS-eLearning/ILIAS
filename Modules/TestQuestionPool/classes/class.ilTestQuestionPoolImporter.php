@@ -27,7 +27,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		ilObjQuestionPool::_setImportDirectory($this->getImportDirectory());
+		ilObjQuestionPool::_setImportDirectory($this->getImportDirectoryBase());
 
 		// Container import => pool object already created
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
@@ -58,9 +58,6 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 			$GLOBALS['ilLog']->write(__METHOD__.': Cannot find qti definition: '. $qti_file);
 			return false;
 		}
-
-		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		ilObjQuestionPool::_setImportDirectory($this->getImportDirectory());
 		
 		$newObj->fromXML($xml_file);
 
@@ -178,6 +175,13 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 		$qti = $this->getImportDirectory().'/'.preg_replace('/qpl/', 'qti', $basename).'.xml';
 		
 		return array($xml,$qti);
+	}
+
+	private function getImportDirectoryBase()
+	{
+		$dir = $this->getImportDirectory();
+		$dir = dirname($dir);
+		return $dir;
 	}
 }
 

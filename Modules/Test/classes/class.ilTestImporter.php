@@ -22,7 +22,7 @@ class ilTestImporter extends ilXmlImporter
 	{
 		// Container import => test object already created
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		ilObjTest::_setImportDirectory($this->getImportDirectory());
+		ilObjTest::_setImportDirectory($this->getImportDirectoryBase());
 
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
@@ -89,6 +89,13 @@ class ilTestImporter extends ilXmlImporter
 		$qti = $this->getImportDirectory().'/'.preg_replace('/test|tst/', 'qti', $basename).'.xml';
 		
 		return array($xml,$qti);
+	}
+
+	private function getImportDirectoryBase()
+	{
+		$dir = $this->getImportDirectory();
+		$dir = dirname($dir);
+		return $dir;
 	}
 }
 
