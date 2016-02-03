@@ -192,16 +192,13 @@ class ilBookingScheduleGUI
 		
 		$av = new ilFormSectionHeaderGUI();
 		$av->setTitle($lng->txt("obj_activation_list_gui"));
-		$form_gui->addItem($av);
+		$form_gui->addItem($av);		
 		
-		
-		$from = new ilDateTimeInputGUI($lng->txt("from"), "from");
-		$from->enableDateActivation("", "from_tgl", $schedule ? is_object($schedule->getAvailabilityFrom()) : false);
+		$from = new ilDateTimeInputGUI($lng->txt("from"), "from");		
 		$from->setShowTime(true);
 		$form_gui->addItem($from);
 		
-		$to = new ilDateTimeInputGUI($lng->txt("to"), "to");
-		$to->enableDateActivation("", "to_tgl", $schedule ? is_object($schedule->getAvailabilityTo()) : false);
+		$to = new ilDateTimeInputGUI($lng->txt("to"), "to");		
 		$to->setShowTime(true);
 		$form_gui->addItem($to);
 	
@@ -347,13 +344,11 @@ class ilBookingScheduleGUI
 		$schedule->setPoolId($ilObjDataCache->lookupObjId($this->ref_id));
 		$schedule->setDeadline($form->getInput("deadline"));
 		
-		$from = $form->getItemByPostVar("from");
-		$from_tgl = $from->getActivationPostVar();		
-		$schedule->setAvailabilityFrom($_POST[$from_tgl] ? $from->getDate(): null);
+		$from = $form->getItemByPostVar("from");		
+		$schedule->setAvailabilityFrom($from->getDate());
 		
-		$to = $form->getItemByPostVar("to");
-		$to_tgl = $to->getActivationPostVar();		
-		$schedule->setAvailabilityTo($_POST[$to_tgl] ? $to->getDate(): null);
+		$to = $form->getItemByPostVar("to");			
+		$schedule->setAvailabilityTo($to->getDate());
 
 		/*
 		if($form->getInput("type") == "flexible")

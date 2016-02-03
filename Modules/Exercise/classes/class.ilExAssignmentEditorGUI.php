@@ -183,38 +183,21 @@ class ilExAssignmentEditorGUI
 		$ti->setRequired(true);
 		$form->addItem($ti);
 		
-		// start time y/n
-		$cb = new ilCheckboxInputGUI($lng->txt("exc_start_time"), "start_time_cb");
-		$form->addItem($cb);
+		// start time
+		$start_date = new ilDateTimeInputGUI($lng->txt("exc_start_time"), "start_time");
+		$start_date->setShowTime(true);
+		$form->addItem($start_date);
 		
-			// start time
-			$edit_date = new ilDateTimeInputGUI("", "start_time");
-			$edit_date->setRequired(true);
-			$edit_date->setShowTime(true);
-			$cb->addSubItem($edit_date);
+		// Deadline
+		$deadline = new ilDateTimeInputGUI($lng->txt("exc_deadline"), "deadline");
+		$deadline->setShowTime(true);
+		$form->addItem($deadline);
 		
-			
-		// deadline y/n
-		$dcb = new ilCheckboxInputGUI($lng->txt("exc_deadline"), "deadline_cb");
-		$dcb->setChecked(true);
-		$form->addItem($dcb);
-
-			// Deadline
-			$edit_date = new ilDateTimeInputGUI($lng->txt(""), "deadline");
-			$edit_date->setRequired(true);
-			$edit_date->setShowTime(true);
-			$dcb->addSubItem($edit_date);
-			
-			// extended deadline y/n
-			$edcb = new ilCheckboxInputGUI($lng->txt("exc_deadline_extended"), "deadline2_cb");
-			$dcb->addSubItem($edcb);
-			
-				// extended Deadline
-				$deadline2 = new ilDateTimeInputGUI($lng->txt(""), "deadline2");
-				$deadline2->setRequired(true);
-				$deadline2->setInfo($lng->txt("exc_deadline_extended_info"));
-				$deadline2->setShowTime(true);
-				$edcb->addSubItem($deadline2);
+		// extended Deadline
+		$deadline2 = new ilDateTimeInputGUI($lng->txt("exc_deadline_extended"), "deadline2");				
+		$deadline2->setInfo($lng->txt("exc_deadline_extended_info"));
+		$deadline2->setShowTime(true);
+		$deadline->addSubItem($deadline2);
 
 		// mandatory
 		$cb = new ilCheckboxInputGUI($lng->txt("exc_mandatory"), "mandatory");
@@ -346,14 +329,17 @@ class ilExAssignmentEditorGUI
 		{									
 			// dates
 			
-			$time_start = $a_form->getInput("start_time_cb")
-				? $a_form->getItemByPostVar("start_time")->getDate()->get(IL_CAL_UNIX)
+			$time_start = $a_form->getItemByPostVar("start_time")->getDate();
+			$time_start = $time_start
+				? $time_start->get(IL_CAL_UNIX)
 				: null;
-			$time_deadline = $a_form->getInput("deadline_cb")
-				? $a_form->getItemByPostVar("deadline")->getDate()->get(IL_CAL_UNIX)
+			$time_deadline = $a_form->getItemByPostVar("deadline")->getDate();
+			$time_deadline = $time_deadline
+				? $time_deadline->get(IL_CAL_UNIX)
 				: null;
-			$time_deadline_ext = $a_form->getInput("deadline2_cb")
-				? $a_form->getItemByPostVar("deadline2")->getDate()->get(IL_CAL_UNIX)
+			$time_deadline_ext = $a_form->getItemByPostVar("deadline2")->getDate();
+			$time_deadline_ext = $time_deadline_ext
+				? $time_deadline_ext->get(IL_CAL_UNIX)
 				: null;			
 			
 			// handle disabled elements
@@ -608,8 +594,7 @@ class ilExAssignmentEditorGUI
 		$values["instruction"] = $this->assignment->getInstruction();		
 				
 		if ($this->assignment->getStartTime())
-		{
-			$values["start_time_cb"] = true;
+		{			
 			$values["start_time"] = new ilDateTime($this->assignment->getStartTime(), IL_CAL_UNIX);		
 		}
 		
@@ -652,15 +637,13 @@ class ilExAssignmentEditorGUI
 	{				
 		// dates		
 		if($this->assignment->getDeadline() > 0)
-		{
-			$a_form->getItemByPostVar("deadline_cb")->setChecked(true);
+		{			
 			$edit_date = new ilDateTime($this->assignment->getDeadline(), IL_CAL_UNIX);
 			$ed_item = $a_form->getItemByPostVar("deadline");
 			$ed_item->setDate($edit_date);
 			
 			if($this->assignment->getExtendedDeadline() > 0)
-			{
-				$a_form->getItemByPostVar("deadline2_cb")->setChecked(true);
+			{			
 				$edit_date = new ilDateTime($this->assignment->getExtendedDeadline(), IL_CAL_UNIX);
 				$ed_item = $a_form->getItemByPostVar("deadline2");
 				$ed_item->setDate($edit_date);
@@ -688,10 +671,8 @@ class ilExAssignmentEditorGUI
 			$peer_review = new ilExPeerReview($this->assignment);	
 			if($peer_review->hasPeerReviewGroups())
 			{
-				// deadline(s) are past and must not change
-				$a_form->getItemByPostVar("deadline_cb")->setDisabled(true);			
-				$a_form->getItemByPostVar("deadline")->setDisabled(true);	
-				$a_form->getItemByPostVar("deadline2_cb")->setDisabled(true);	
+				// deadline(s) are past and must not change					
+				$a_form->getItemByPostVar("deadline")->setDisabled(true);				
 				$a_form->getItemByPostVar("deadline2")->setDisabled(true);	
 
 				$a_form->getItemByPostVar("peer")->setDisabled(true);			   
@@ -1016,7 +997,6 @@ class ilExAssignmentEditorGUI
 		
 		if($this->assignment->getPeerReviewDeadline() > 0)
 		{
-			$values["peer_dl_tgl"] = true;
 			$values["peer_dl"] = new ilDateTime($this->assignment->getPeerReviewDeadline(), IL_CAL_UNIX);		
 		}				
 		

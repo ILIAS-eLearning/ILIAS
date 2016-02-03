@@ -79,7 +79,10 @@ class ilDateTime
 	
 	public function __clone()
 	{
-		$this->dt_obj = clone $this->dt_obj;
+		if($this->dt_obj)
+		{
+			$this->dt_obj = clone $this->dt_obj;
+		}
 	}
 	
 	public function __sleep()

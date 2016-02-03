@@ -536,7 +536,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		{
 			// :TODO: inactive for now
 		}
-
+		
 		return $mytpl->get();
 	}
 	
@@ -596,33 +596,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				// #13738
 				if($user_settings->getTimeFormat() == ilCalendarSettings::TIME_FORMAT_12)
 				{					
-					if(stristr($period[0], "pm"))
-					{
-						$period[0] = (int)$period[0]+12;
-					}
-					else
-					{
-						$period[0] = (int)$period[0];
-						if($period[0] == 12)
-						{
-							$period[0] = 0;
-						}
-					}					
+					$period[0] = date("H", strtotime($period[0]));						
 					if(sizeof($period) == 2)
 					{
-						if(stristr($period[1], "pm"))
-						{
-							$period[1] = (int)$period[1]+12;
-						}
-						else
-						{
-							$period[1] = (int)$period[1];
-							if($period[1] == 12)
-							{
-								$period[1] = 0;
-							}
-						}
-					}					
+						$period[1] = date("H", strtotime($period[1]));		
+					}							
 				}
 				
 				if(sizeof($period) == 1)
@@ -665,10 +643,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 						{
 							continue;
 						}
-
+						
 						// is slot active in current hour?
 						if((int)$slot['from'] < $period_to && (int)$slot['to'] > $period_from)
-						{
+						{																					
 							$from = ilDatePresentation::formatDate(new ilDateTime($slot_from, IL_CAL_UNIX));
 							$from = array_pop(explode(' ', $from));
 							$to = ilDatePresentation::formatDate(new ilDateTime($slot_to, IL_CAL_UNIX));
