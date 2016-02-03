@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Services/ReportsRepository/classes/class.ilObjReportBase.php';
+require_once 'Services/GEV/Utils/classes/class.gevCourseUtils.php';
 /*
 ini_set("memory_limit","2048M"); 
 ini_set('max_execution_time', 0);
