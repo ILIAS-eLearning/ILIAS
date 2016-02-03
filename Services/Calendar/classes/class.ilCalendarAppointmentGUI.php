@@ -1234,12 +1234,13 @@ class ilCalendarAppointmentGUI
 				break;
 				
 			case 3:
-				$end_dt['year'] = (int) $_POST['until_end']['date']['y'];
-				$end_dt['mon'] = (int) $_POST['until_end']['date']['m'];
-				$end_dt['mday'] = (int) $_POST['until_end']['date']['d'];
-				
-				$this->rec->setFrequenceUntilCount(0);
-				$this->rec->setFrequenceUntilDate(new ilDate($end_dt,IL_CAL_FKT_GETDATE,$this->timezone));
+				$dt = new ilDateTimeInputGUI('','until_end');
+				$dt->setRequired(true);
+				if($dt->checkInput())
+				{								
+					$this->rec->setFrequenceUntilCount(0);
+					$this->rec->setFrequenceUntilDate($dt->getDate());
+				}				
 				break;
 		}
 		

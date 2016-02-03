@@ -85,7 +85,10 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 	{
 		global $lng;
 		
-		$this->loadRecurrence();
+		if(!$this->loadRecurrence())
+		{
+			return false;
+		}
 
 		if($_POST['frequence'] == 'NONE')
 		{
@@ -204,13 +207,18 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 				$this->getRecurrence()->setFrequenceUntilCount((int) $_POST['count']);
 				break;
 				
-			case 3:
-				$end_dt['year'] = (int) $_POST['until_end']['date']['y'];
-				$end_dt['mon'] = (int) $_POST['until_end']['date']['m'];
-				$end_dt['mday'] = (int) $_POST['until_end']['date']['d'];
-				
-				$this->getRecurrence()->setFrequenceUntilCount(0);
-				$this->getRecurrence()->setFrequenceUntilDate(new ilDate($end_dt,IL_CAL_FKT_GETDATE,$this->timezone));
+			case 3:								
+				$dt = new ilDateTimeInputGUI('','until_end');
+				$dt->setRequired(true);
+				if($dt->checkInput())
+				{								
+					$this->getRecurrence()->setFrequenceUntilCount(0);
+					$this->getRecurrence()->setFrequenceUntilDate($dt->getDate());
+				}
+				else
+				{								
+					return false;
+				}
 				break;
 		}
 		
@@ -732,8 +740,10 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 
 		$tpl->setVariable('TXT_UNTIL_END',$this->lng->txt('cal_repeat_until'));
 		$dt = new ilDateTimeInputGUI('','until_end');
+		// no proper subform
+		// $dt->setRequired(true);
 		$dt->setDate(
-			$this->recurrence->getFrequenceUntilDate() ? $this->recurrence->getFrequenceUntilDate() : new ilDate(time(),IL_CAL_UNIX));
+			$this->recurrence->getFrequenceUntilDate() ? $this->recurrence->getFrequenceUntilDate() : null);
 		$tpl->setVariable('UNTIL_END_DATE',$dt->getTableFilterHTML());
 	}	
 }

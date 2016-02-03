@@ -77,9 +77,14 @@ class ilDateTime
 	 	}
 	}
 	
+	public function __clone()
+	{
+		$this->dt_obj = clone $this->dt_obj;
+	}
+	
 	public function __sleep()
 	{
-		return array('timezone', 'default_timezone', 'unix');
+		return array('timezone', 'default_timezone', 'dt_obj');
 	}
 	
 	public function __wakeup()
@@ -88,8 +93,7 @@ class ilDateTime
 		
 		$this->log = $ilLog;
 	}
-	
-	
+		
 	/**
 	 * Check if a date is null (Datetime == '0000-00-00 00:00:00', unixtime == 0,...)
 
@@ -304,18 +308,15 @@ class ilDateTime
 				break;				
 		}
 		
-		if($add)
+		$interval = date_interval_create_from_date_string($count_str);			
+		if(!$sub)
 		{
-			$interval = date_interval_create_from_date_string($add);
-			if(!$sub)
-			{
-				$this->dt_obj->add($count_str);
-			}
-			else
-			{
-				$this->dt_obj->sub($count_str);
-			}			
+			$this->dt_obj->add($interval);
 		}
+		else
+		{
+			$this->dt_obj->sub($interval);
+		}					
 		
 		// ???
 		return $this->getUnixTime();
@@ -482,7 +483,10 @@ class ilDateTime
 	 	}
 	
 		// internally we always use the default timezone
-		$this->dt_obj->setTimeZone(new DateTimeZone($this->default_timezone->getIdentifier()));		
+		if($this->dt_obj)
+		{
+			$this->dt_obj->setTimeZone(new DateTimeZone($this->default_timezone->getIdentifier()));		
+		}
 		
 	 	return true;
 	}
