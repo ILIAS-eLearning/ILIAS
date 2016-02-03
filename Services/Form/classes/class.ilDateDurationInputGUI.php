@@ -328,7 +328,6 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$valid = false;			
 		}
 		
-		// :TODO: proper messages?
 		if(!$valid)
 		{
 			$this->invalid_input_start = $start;
@@ -337,7 +336,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$_POST[$this->getPostVar()]["start"] = null;
 			$_POST[$this->getPostVar()]["end"] = null;
 			
-			$this->setAlert($lng->txt("exc_date_not_valid"));
+			$this->setAlert($lng->txt("form_msg_wrong_date"));
 		}	
 		else
 		{			

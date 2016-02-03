@@ -225,8 +225,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 		
 		$age = new ilDateTimeInputGUI($this->lng->txt('sysc_trash_limit_age'), 'age');
 		$age->setInfo($this->lng->txt('purge_age_limit_desc'));
-		$age->setMinuteStepSize(15);
-		$age->setMode(ilDateTimeInputGUI::MODE_INPUT);
+		$age->setMinuteStepSize(15);		
 		#$earlier = new ilDateTime(time(),IL_CAL_UNIX);
 		#$earlier->increment(IL_CAL_MONTH,-6);
 		#$age->setDate($earlier);
@@ -273,15 +272,11 @@ class ilObjSystemCheckGUI extends ilObjectGUI
 		if($form->checkInput())
 		{
 			$trash = new ilSystemCheckTrash();
-			
-			$dt_arr = $form->getInput('age');
-			
-			$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($dt_arr,TRUE));
-			
-			
-			if($dt_arr['date'])
+						
+			$dt = $form->getItemByPostVar('age')->getDate();			
+			if($dt)
 			{
-				$trash->setAgeLimit(new ilDate($dt_arr['date'],IL_CAL_DATE));
+				$trash->setAgeLimit($dt);
 			}
 			$trash->setNumberLimit($form->getInput('number'));
 			

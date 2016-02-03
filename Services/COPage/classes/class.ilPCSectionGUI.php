@@ -102,24 +102,26 @@ class ilPCSectionGUI extends ilPageContentGUI
 	/**
 	* Insert new section form.
 	*/
-	function insert()
+	function insert(ilPropertyFormGUI $a_form = null)
 	{
-		$this->edit(true);
+		$this->edit(true, $a_form);
 	}
 
 	/**
 	* Edit section form.
 	*/
-	function edit($a_insert = false)
+	function edit($a_insert = false, ilPropertyFormGUI $a_form = null)
 	{
-		global $ilCtrl, $tpl, $lng;
+		global $tpl;
 		
 		$this->displayValidationError();
 
-		$form = $this->initForm($a_insert);
+		if(!$a_form)
+		{
+			$a_form = $this->initForm($a_insert);
+		}
 
-		$html = $form->getHTML();
-		$tpl->setContent($html);
+		$tpl->setContent($a_form->getHTML());
 	}
 
 	/**
@@ -177,8 +179,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 		if (!$a_insert && ($from = $this->content_obj->getActiveFrom()) != "")
 		{
 			$dt_prop->setDate(new ilDateTime($from, IL_CAL_UNIX));
-		}
-		$dt_prop->setMode(ilDateTimeInputGUI::MODE_INPUT);
+		}		
 		$dt_prop->setShowTime(true);
 		$form->addItem($dt_prop);
 
@@ -187,8 +188,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 		if (!$a_insert && ($to = $this->content_obj->getActiveTo()) != "")
 		{
 			$dt_prop->setDate(new ilDateTime($to, IL_CAL_UNIX));
-		}
-		$dt_prop->setMode(ilDateTimeInputGUI::MODE_INPUT);
+		}		
 		$dt_prop->setShowTime(true);
 		$form->addItem($dt_prop);
 
@@ -214,23 +214,21 @@ class ilPCSectionGUI extends ilPageContentGUI
 	function create()
 	{
 		$form = $this->initForm(true);
-		$form->checkInput();
-
-		$this->content_obj = new ilPCSection($this->getPage());
-		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-
-		$this->setValuesFromForm($form);
-
-
-		$this->updated = $this->pg_obj->update();
-		if ($this->updated === true)
+		if($form->checkInput())
 		{
-			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
-		}
-		else
-		{
-			$this->insert();
-		}
+			$this->content_obj = new ilPCSection($this->getPage());
+			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
+
+			$this->setValuesFromForm($form);
+
+			$this->updated = $this->pg_obj->update();
+			if ($this->updated === true)
+			{
+				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			}
+		}		
+		
+		$this->insert($form);		
 	}
 
 	/**
@@ -239,20 +237,19 @@ class ilPCSectionGUI extends ilPageContentGUI
 	function update()
 	{
 		$form = $this->initForm(false);
-		$form->checkInput();
-
-		$this->setValuesFromForm($form);
-
-		$this->updated = $this->pg_obj->update();
-		if ($this->updated === true)
+		if($form->checkInput())
 		{
-			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			$this->setValuesFromForm($form);
+
+			$this->updated = $this->pg_obj->update();
+			if ($this->updated === true)
+			{
+				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			}
 		}
-		else
-		{
-			$this->pg_obj->addHierIDs();
-			$this->edit();
-		}
+		
+		$this->pg_obj->addHierIDs();
+		$this->edit(false, $form);		
 	}
 
 	/**
@@ -264,8 +261,8 @@ class ilPCSectionGUI extends ilPageContentGUI
 	{
 		$this->content_obj->setCharacteristic($_POST["characteristic"]);
 
-		if ($_POST["active_from"]["date"] != "" &&
-			$from = $form->getItemByPostVar("active_from")->getDate())
+		$from = $form->getItemByPostVar("active_from")->getDate();
+		if ($from)
 		{
 			$this->content_obj->setActiveFrom($from->get(IL_CAL_UNIX));
 		}
@@ -274,8 +271,8 @@ class ilPCSectionGUI extends ilPageContentGUI
 			$this->content_obj->setActiveFrom(0);
 		}
 
-		if ($_POST["active_to"]["date"] != "" &&
-			$to = $form->getItemByPostVar("active_to")->getDate())
+		$to = $form->getItemByPostVar("active_to")->getDate();
+		if ($to)
 		{
 			$this->content_obj->setActiveTo($to->get(IL_CAL_UNIX));
 		}

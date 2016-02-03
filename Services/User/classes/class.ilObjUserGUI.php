@@ -592,14 +592,12 @@ class ilObjUserGUI extends ilObjectGUI
 				break;
 		}		
 		
-		$from = $this->form_gui->getItemByPostVar('time_limit_from');
-		$from = $from->getDate();		
+		$from = $this->form_gui->getItemByPostVar('time_limit_from')->getDate();	
 		$user->setTimeLimitFrom($from 
 			? $from->get(IL_CAL_UNIX)
 			: null);
 		
-		$until = $this->form_gui->getItemByPostVar('time_limit_until');
-		$until = $until->getDate();			
+		$until = $this->form_gui->getItemByPostVar('time_limit_until')->getDate();		
 		$user->setTimeLimitUntil($until 
 			? $until->get(IL_CAL_UNIX)
 			: null);

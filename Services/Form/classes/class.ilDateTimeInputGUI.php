@@ -216,8 +216,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 			$this->invalid_input = $post;	
 			$_POST[$this->getPostVar()] = null;
 			
-			// :TODO: proper messages?
-			$this->setAlert($lng->txt("exc_date_not_valid"));
+			$this->setAlert($lng->txt("form_msg_wrong_date"));
 		}
 		else
 		{
