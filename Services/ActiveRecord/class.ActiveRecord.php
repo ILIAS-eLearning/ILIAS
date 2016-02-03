@@ -62,7 +62,6 @@ abstract class ActiveRecord implements arStorageInterface {
 	/**
 	 * @return string
 	 * @description Return the Name of your Database Table
-	 * @deprecated
 	 */
 	abstract static function returnDbTableName();
 
