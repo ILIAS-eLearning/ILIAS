@@ -4915,3 +4915,15 @@ if ($ilDB->tableColumnExists('tep_type', 'tep_active'))	{
 	$ilDB->manipulate($s_query);
 }
 ?>
+
+<#203>
+<?php
+if (!$ilDB->tableColumnExists('dct_building_block', 'pool_id'))
+	{		
+		$ilDB->addTableColumn('dct_building_block', 'pool_id', array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false
+		));
+	}
+?>
