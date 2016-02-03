@@ -242,8 +242,6 @@ class ilCalendarAppointmentGUI
 			$tpl->addJavaScript('./Services/Form/js/date_duration.js');
 			$dur = new ilDateDurationInputGUI($this->lng->txt('cal_fullday'),'event');
 			$dur->setRequired(true);
-			$dur->setStartText($this->lng->txt('cal_start'));
-			$dur->setEndText($this->lng->txt('cal_end'));
 			$dur->enableToggleFullTime(
 				$this->lng->txt('cal_fullday_title'),
 				$this->app->isFullday() ? true : false 
@@ -1092,15 +1090,15 @@ class ilCalendarAppointmentGUI
 		{
 			$this->app->setFullday(true);
 			
-			// for milestones is end date = start date
-			$this->app->setStart($start);			
-			$this->app->setEnd($start);			
+			// for milestones is end date = start date			
+			$this->app->setStart($start);	
+			$this->app->setEnd($start);												
 		}
 		else
 		{
 			$this->app->setFullday($start instanceof ilDate);
-			$this->app->setStart($start);			
-			$this->app->setEnd($end);		
+			$this->app->setStart($start);						
+			$this->app->setEnd($end);					
 		}
 
 		$this->loadNotificationRecipients();
