@@ -31,7 +31,7 @@ class ilSplitButtonGUI extends ilButtonBase
 	/**
 	 * 
 	 */
-	public function __construct()
+	public function __construct($a_type)
 	{
 		/**
 		 * @var $lng ilLanguage
@@ -39,6 +39,8 @@ class ilSplitButtonGUI extends ilButtonBase
 		global $lng;
 
 		$this->lng = $lng;
+
+		parent::__construct($a_type);
 	}
 
 	/**
