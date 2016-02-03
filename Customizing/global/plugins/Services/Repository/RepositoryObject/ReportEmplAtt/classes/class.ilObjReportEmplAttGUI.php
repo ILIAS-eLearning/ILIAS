@@ -10,6 +10,9 @@ require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
 */
 class ilObjReportEmplAttGUI extends ilObjReportBaseGUI {
 
+	static $od_regexp;
+	static $bd_regexp;
+
 	public function getType() {
 		return 'xrea';
 	}
@@ -20,10 +23,11 @@ class ilObjReportEmplAttGUI extends ilObjReportBaseGUI {
 		return $a_title;
 	}
 
-	protected static function transformResultRow($rec) {
+	public static function transformResultRow($rec) {
+		global $lng;
 		// credit_points
 		if ($rec["credit_points"] == -1) {
-			$rec["credit_points"] = $this->lng->txt("gev_table_no_entry");
+			$rec["credit_points"] = $lng->txt("gev_table_no_entry");
 		}
 
 		//date
@@ -40,18 +44,26 @@ class ilObjReportEmplAttGUI extends ilObjReportBaseGUI {
 		$rec['date'] = $date;
 		
 		// od_bd
-		if ( $rec["org_unit_above2"] == "-empty-") {
-			if ($rec["org_unit_above1"] == "-empty-") {
-				$rec["od_bd"] = $this->lng->txt("gev_table_no_entry");
-			}
-			else {
-				$rec["od_bd"] = $rec["org_unit_above1"];
-			}
+		if(!self::$od_regexp || !self::$bd_regexp ) {
+			require_once './Services/ReportsRepository/config/od_bd_strings.php';
 		}
-		else {
-			$rec["od_bd"] = $rec["org_unit_above2"]."/".$rec["org_unit_above1"];
+		$orgu_above1 =  $rec['org_unit_above1'];
+		$orgu_above2 =  $rec['org_unit_above2'];
+		if (preg_match(self::$od_regexp, $orgu_above1)) {
+			$od = $orgu_above1;
+		} elseif(preg_match(self::$od_regexp, $orgu_above2)) {
+			$od = $orgu_above2;
+		} else {
+			$od = '-';
 		}
-
+		if (preg_match(self::$bd_regexp, $orgu_above1)) {
+			$bd = $orgu_above1;
+		} elseif(preg_match(self::$bd_regexp, $orgu_above2)) {
+			$bd = $orgu_above2;
+		} else {
+			$bd = '-';
+		}
+		$rec['od_bd'] = $od .'/' .$bd;
 		if($rec["participation_status"] == "nicht gesetzt") {
 			$rec["participation_status"] = "gebucht, noch nicht abgeschlossen";
 		}
