@@ -80,6 +80,7 @@ class ilLPStatusSCORM extends ilLPStatus
 		$users = array();
 		foreach($status_info['scos'] as $sco_id)
 		{
+			/* #17913 - max attempts were removed in 5.1
 			// max attempts vs. failed
 			if(sizeof($status_info['in_progress'][$sco_id]))
 			{				
@@ -109,6 +110,7 @@ class ilLPStatusSCORM extends ilLPStatus
 					}					
 				}
 			}		
+			*/
 			
 			$users = array_merge($users,(array) $status_info['failed'][$sco_id]);
 		}

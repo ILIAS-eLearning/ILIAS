@@ -142,25 +142,6 @@ h2.current_room_title {
 	width: auto;
 }
 
-.ilChatDialog {
-	background-color: white;
-	border: 1px solid #BCCAE5;
-	padding-top: 0;
-}
-
-.ilChatDialog .ilChatDialogBody {
-	padding: 3px;
-}
-
-.ilChatDialog .ilChatDialogButtons {
-	padding: 3px;
-	text-align: right;
-}
-
-.ilChatDialog .ilChatDialogButtons .submit {
-	margin: 2px;
-}
-
 .chat_block_title {
 	font-weight: bold;
 	padding: 3px;

@@ -460,8 +460,7 @@ class ilObjLanguage extends ilObject
 	                        // check for double entries in global file
 							if ($double_checker[$separated[0]][$separated[1]][$this->key])
 							{
-								$this->ilias->raiseError("Duplicate Language Entry: ".
-									$separated[0]."-".$separated[1]."-".$this->key,
+								$this->ilias->raiseError("Duplicate Language Entry in $lang_file:\n$val",
 									$this->ilias->error_obj->MESSAGE);
 							}
 							$double_checker[$separated[0]][$separated[1]][$this->key] = true;
@@ -776,7 +775,8 @@ class ilObjLanguage extends ilObject
 		}
 
 		// header check
-		if (!$content = $this->cut_header(file($lang_file)))
+		$content = $this->cut_header(file($lang_file));
+		if ($content === false)
 		{
 			$this->ilias->raiseError("Wrong Header in ".$lang_file,$this->ilias->error_obj->MESSAGE);
 		}

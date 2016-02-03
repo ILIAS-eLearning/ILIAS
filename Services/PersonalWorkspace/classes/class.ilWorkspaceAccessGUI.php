@@ -262,7 +262,7 @@ class ilWorkspaceAccessGUI
 		{
 			$this->getAccessHandler()->addPermission($this->node_id, 
 				self::PERMISSION_ALL_PASSWORD, md5($form->getInput("password")));	
-			ilUtil::sendSuccess($this->lng->txt("wsp_permission_all_info"), true);
+			ilUtil::sendSuccess($this->lng->txt("wsp_permission_all_pw_info"), true);
 			$this->ctrl->redirect($this, "share");
 		}
 	

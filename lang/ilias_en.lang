@@ -3433,7 +3433,8 @@ common#:#message_no_delivered_files#:#You have not submitted any files.
 common#:#message_to#:#Message to:
 common#:#message#:#Message
 common#:#meta_data#:#Metadata
-common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were linked to the following folder(s): %s
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s
 common#:#migrate#:#Migrate
 common#:#min_time#:#Minimum time
 common#:#minute#:#Minute
@@ -3513,7 +3514,8 @@ common#:#msg_input_is_required#:#This input is required. Please enter a value.
 common#:#msg_invalid_filetype#:#Invalid file type
 common#:#msg_is_last_role#:#You removed the last global role from the following users
 common#:#msg_last_role_for_registration#:#At least one role must be available in the registration form for new users. This role is currently the only one available.
-common#:#msg_link_clipboard#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.
+common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.
+common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.
 common#:#msg_linked#:#Selected object(s) linked.
 common#:#msg_may_not_contain#:#This object may not contain objects of type:
 common#:#msg_min_one_active_role#:#Each user must have at least one active global role!
@@ -11324,7 +11326,8 @@ wsp#:#wsp_set_permission_registered#:#All Registered Users
 wsp#:#wsp_set_permission_all#:#World Wide Web
 wsp#:#wsp_remove_permission#:#Remove Permission
 wsp#:#wsp_permission_registered_info#:#This object is shared with all registered users.
-wsp#:#wsp_permission_all_info#:#This object has been published.
+wsp#:#wsp_permission_all_info#:#This object is visible for all users of the internet.
+wsp#:#wsp_permission_all_pw_info#:#After providing the password this object is visible for all users of the internet.
 style#:#sty_type_iim#:#Interactive Image Content Popup
 style#:#sty_type_marker#:#Interactive Image Marker
 style#:#sty_import_page_layout#:#Import Page Layout
@@ -16027,8 +16030,8 @@ prg#:#prg_warning_img_alt#:#Warning!
 prg#:#prg_successful_img_alt#:#successful
 prg#:#prg_in_progress_img_alt#:#in progress
 prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.
-prg#:#prg_progress_status#:# %1$d of possible %2$d Points
-prg#:#prg_progress_status_with_child_sp#:# %1$d of %2$d Points
+prg#:#prg_progress_status#:# %1$d of %2$d Points
+prg#:#prg_progress_status_with_child_sp#:# %1$d of possible %2$d Points
 prg#:#prg_no_members_not_active#:#Can't add members, as this programme is not active.
 prg#:#prg_type_msg_missing_title#:#Title cannot be empty.
 prg#:#prg_added_member#:#The new member was added successfully.
@@ -16163,3 +16166,7 @@ note#:#note_comment_notification_user_has_written#:#%s has written:
 prg#:#prg_show_programmes#:#Visibility
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.
 content#:#cont_error#:#An Error Occured
+prtf#:#prtf_shared_offline_info#:#A portfolio has to be online to be accessible by shared users.
+crs#:#crs_mail_context_member_info#:#For the contact emails on the info screen of a course 
+crs#:#crs_mail_context_tutor_info#:#For the participant emails on the member and learning progress screens of a course
+sahs#:#sahs_mail_context_lp_info#:#For the participant emails on the learning progress screens of a scorm module

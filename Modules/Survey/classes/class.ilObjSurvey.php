@@ -944,33 +944,68 @@ class ilObjSurvey extends ilObject
 	function saveQuestionsToDb() 
 	{
 		global $ilDB;
-		// save old questions state
-		$old_questions = array();
-		$result = $ilDB->queryF("SELECT * FROM svy_svy_qst WHERE survey_fi = %s",
-			array('integer'),
-			array($this->getSurveyId())
-		);
-		if ($result->numRows())
-		{
-			while ($row = $ilDB->fetchAssoc($result))
-			{
-				$old_questions[$row["question_fi"]] = $row;
-			}
-		}
 		
-		// delete existing question relations
-		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_svy_qst WHERE survey_fi = %s",
+		// gather old questions state
+		$old_questions = array();
+		$result = $ilDB->queryF("SELECT survey_question_id,question_fi,sequence".
+			" FROM svy_svy_qst WHERE survey_fi = %s",
 			array('integer'),
 			array($this->getSurveyId())
-		);
-		// create new question relations
-		foreach ($this->questions as $key => $value) 
+		);		
+		while($row = $ilDB->fetchAssoc($result))
 		{
-			$next_id = $ilDB->nextId('svy_svy_qst');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_svy_qst (survey_question_id, survey_fi, question_fi, heading, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-				array('integer','integer','integer','text','integer','integer'),
-				array($next_id, $this->getSurveyId(), $value, (strlen($old_questions[$value]["heading"])) ? $old_questions[$value]["heading"] : NULL, $key, time())
-			);
+			$old_questions[$row["question_fi"]] = $row;
+		}		
+		
+		// #15231 - diff with current questions state
+		$insert = $update = $delete = array();		
+		foreach($this->questions as $seq => $fi)
+		{
+			if(!array_key_exists($fi, $old_questions))
+			{
+				$insert[] = $fi;
+ 			}
+			else if($old_questions[$fi]["sequence"] != $seq)
+			{
+				$update[$fi] = $old_questions[$fi]["survey_question_id"];
+			}
+			// keep track of still relevant questions
+			unset($old_questions[$fi]);
+		}		
+		
+		// delete obsolete question relations
+		if(sizeof($old_questions))
+		{
+			$del_ids = array();
+			foreach($old_questions as $old)
+			{
+				$del_ids[] = $old["survey_question_id"];
+			}			
+			$ilDB->manipulate("DELETE FROM svy_svy_qst".
+				" WHERE ".$ilDB->in("survey_question_id", $del_ids, "", "integer"));			
+		}
+		unset($old_questions);
+		
+		// create/update question relations
+		foreach($this->questions as $seq => $fi) 
+		{
+			if(in_array($fi, $insert))
+			{
+				$next_id = $ilDB->nextId('svy_svy_qst');
+				$ilDB->manipulateF("INSERT INTO svy_svy_qst".
+					" (survey_question_id, survey_fi, question_fi, heading, sequence, tstamp)".
+					" VALUES (%s, %s, %s, %s, %s, %s)",
+					array('integer','integer','integer','text','integer','integer'),
+					array($next_id, $this->getSurveyId(), $fi, NULL, $seq, time())
+				);
+			}
+			else if(array_key_exists($fi, $update))
+			{
+				$ilDB->manipulate("UPDATE svy_svy_qst".
+					" SET sequence = ".$ilDB->quote($seq, "integer").
+					", tstamp = ".$ilDB->quote(time(), "integer").
+					" WHERE survey_question_id = ".$ilDB->quote($update[$fi], "integer"));				
+			}
 		}
 	}
 

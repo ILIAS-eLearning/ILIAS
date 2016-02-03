@@ -830,7 +830,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			ilObjMediaObject::_removeUsage($mob, "tst:html", $this->getId());
 			if (ilObjMediaObject::_exists($mob))
 			{
-				$mob_obj =& new ilObjMediaObject($mob);
+				$mob_obj = new ilObjMediaObject($mob);
 				$mob_obj->delete();
 			}
 		}
@@ -6944,7 +6944,7 @@ function getAnswerFeedbackPoints()
 */
 	function saveAuthorToMetadata($a_author = "")
 	{
-		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md = new ilMD($this->getId(), 0, $this->getType());
 		$md_life =& $md->getLifecycle();
 		if (!$md_life)
 		{
@@ -6987,7 +6987,7 @@ function getAnswerFeedbackPoints()
 	{
 		$author = array();
 		include_once "./Services/MetaData/classes/class.ilMD.php";
-		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md = new ilMD($this->getId(), 0, $this->getType());
 		$md_life =& $md->getLifecycle();
 		if ($md_life)
 		{
@@ -7020,7 +7020,7 @@ function getAnswerFeedbackPoints()
 	{
 		$author = array();
 		include_once "./Services/MetaData/classes/class.ilMD.php";
-		$md =& new ilMD($obj_id, 0, "tst");
+		$md = new ilMD($obj_id, 0, "tst");
 		$md_life =& $md->getLifecycle();
 		if ($md_life)
 		{
@@ -9279,7 +9279,7 @@ function getAnswerFeedbackPoints()
 			{
 				if (ilObjMediaObject::_exists($mob))
 				{
-					$mob_obj =& new ilObjMediaObject($mob);
+					$mob_obj = new ilObjMediaObject($mob);
 					$imgattrs = array(
 						"label" => $moblabel,
 						"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()

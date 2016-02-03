@@ -122,6 +122,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	protected function view() {
 		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanProgressListGUI.php");
 		$gui = new ilStudyProgrammeIndividualPlanProgressListGUI($this->getAssignmentObject()->getRootProgress());
+		$gui->setOnlyRelevant(true);
 		// Wrap a frame around the original gui element to correct rendering.
 		$tpl = new ilTemplate("tpl.individual_plan_tree_frame.html", false, false, "Modules/StudyProgramme");
 		$tpl->setVariable("CONTENT", $gui->getHTML());

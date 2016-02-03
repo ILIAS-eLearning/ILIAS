@@ -308,7 +308,7 @@ abstract class assQuestionGUI
 		assQuestion::_includeClass($question_type, 1);
 
 		$question_type_gui = assQuestion::getGuiClassNameByQuestionType($question_type);
-		$question =& new $question_type_gui();
+		$question = new $question_type_gui();
 
 		$feedbackObjectClassname = assQuestion::getFeedbackClassNameByQuestionType($question_type);
 		$question->object->feedbackOBJ = new $feedbackObjectClassname($question->object, $ilCtrl, $ilDB, $lng);
@@ -584,7 +584,7 @@ abstract class assQuestionGUI
 				
 				include_once ("./Modules/Test/classes/class.ilObjTest.php");
 				$_GET["ref_id"] = $_GET["test_ref_id"];
-				$test =& new ilObjTest($_GET["test_ref_id"], true);
+				$test = new ilObjTest($_GET["test_ref_id"], true);
 				
 				require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
 				$testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
@@ -688,7 +688,7 @@ abstract class assQuestionGUI
 						// @todo: bheyser/mbecker wtf? ..... thx@jposselt ....
 						// mbecker: Possible fix: Just instantiate the obj?
 						include_once("./Modules/Test/classes/class.ilObjTest.php");
-						$test =& new ilObjTest($_GET["ref_id"], true);
+						$test = new ilObjTest($_GET["ref_id"], true);
 						$test->moveQuestionAfter($_REQUEST['prev_qid'], $this->object->getId());
 					}
 					if( /*$___test_express_mode || */ $_REQUEST['express_mode'] )

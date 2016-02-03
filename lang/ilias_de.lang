@@ -4028,7 +4028,8 @@ common#:#message_content#:#Inhalt
 common#:#message_no_delivered_files#:#Sie haben noch keine Datei abgegeben.
 common#:#message_to#:#Mail an:
 common#:#meta_data#:#Metadaten
-common#:#mgs_objects_linked_to_the_following_folders#:#Objekte wurden in folgende Bereiche verknüpft: %s
+common#:#mgs_objects_linked_to_the_following_folders_p#:#Die Objekte wurden in folgende Bereiche verknüpft: %s
+common#:#mgs_objects_linked_to_the_following_folders_s#:#Das Objekt wurde in folgende Bereiche verknüpft: %s
 common#:#migrate#:#Migrieren
 common#:#min_time#:#Mindestzeit
 common#:#minute#:#Minute
@@ -4109,7 +4110,8 @@ common#:#msg_input_is_required#:#Hier ist eine Angabe erforderlich. Bitte geben 
 common#:#msg_invalid_filetype#:#Ungültiger Dateityp
 common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Zuweisung zu einer globalen Rolle genommen
 common#:#msg_last_role_for_registration#:#Es muss mindestens eine Rolle im Registrierformular für neue Benutzer verfügbar sein. Diese Rolle ist momentan als einzige Rolle verfügbar.
-common#:#msg_link_clipboard#:#Wählen Sie nun den gewünschten Ort, in den die ausgewählten Objekte verknüpft werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
+common#:#msg_link_clipboard_p#:#Wählen Sie nun den gewünschten Ort, in den die ausgewählten Objekte verknüpft werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
+common#:#msg_link_clipboard_s#:#Wählen Sie nun den gewünschten Ort, in den das ausgewählte Objekt verknüpft werden sollen. Klicken Sie abschließend auf den Einfügen-Button.
 common#:#msg_linked#:#Objekt(e) verknüpft
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
 common#:#msg_min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven globalen Rollen zugewiesen sein!
@@ -12359,7 +12361,8 @@ wsp#:#wsp_password_for#:#Passwort für
 wsp#:#wsp_password_protected_resource#:#Passwort-geschützte Ressource
 wsp#:#wsp_password_protected_resource_info#:#Für den Zugang zu dieser Ressource benötigen Sie ein Passwort.
 wsp#:#wsp_permission_add_users#:#Benutzer hinzufügen
-wsp#:#wsp_permission_all_info#:#Dieses Objekt ist ohne Registrierung sichtbar.
+wsp#:#wsp_permission_all_info#:#Dieses Objekt ist für alle Benutzer im Internet sichtbar.
+wsp#:#wsp_permission_all_pw_info#:#Nach Eingabe des Passworts ist dieses Objekt für alle Benutzer im Internet sichtbar.
 wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten Benutzer freigegeben.
 wsp#:#wsp_permission_removed#:#Der Eintrag wurde gelöscht.
 wsp#:#wsp_permissions#:#Freigabe
@@ -15990,7 +15993,7 @@ prg#:#prg_type_msg_error_custom_icon#:#Während des Speicherns des individuellen
 prg#:#prg_type_assign_amd_sets#:#Erweitertes Metadatenset zuweisen
 prg#:#prg_type_available_amd_sets#:#Verfügbare Erweitere Metadatensets
 prg#:#prg_type_edit#:#Typ editieren
-prg#:#prg_type_msg_deleted#:#Typ löschen
+prg#:#prg_type_msg_deleted#:#Typ gelöscht.
 prg#:#prg_type_msg_unable_delete#:#Konnte Typ nicht löschen, da er bei folgenden Studienprogrammen verwendet wird: %s
 prg#:#prg_type_msg_missing_title_default_language#:#Es muss eine Standardsprache und ein Titel für die Standardsprache gesetzt sein.
 prg#:#prg_save_tree_order#:#Reihenfolge des Baums speichern
@@ -16163,3 +16166,7 @@ note#:#note_comment_notification_user_has_written#:#%s hat geschrieben:
 prg#:#prg_show_programmes#:#Anzeigen
 content#:#cont_not_saved_edit_lock_expired#:#Entschuldigung, Ihre Änderungen konnten nicht gespeichert werden. Die Seite wurde zwischenzeitlich von einem anderen Benutzer zur Bearbeitung gesperrt. Sie können diesen Dialog schließen und dann den Inhalt in Ihre Zwischenablage kopieren.
 content#:#cont_error#:#Es ist leider ein Fehler aufgetreten
+prtf#:#prtf_shared_offline_info#:#Ein Portfolio muss online sein, um für freigebene Nutzer verfügbar zu sein.
+crs#:#crs_mail_context_member_info#:#Für die Kontakt-Emails auf der Infoseite eines Kurses 
+crs#:#crs_mail_context_tutor_info#:#Für die Teilnehmer-Emails auf den Mitglieds- und Lernfortschrittsansichten eines Kurses
+sahs#:#sahs_mail_context_lp_info#:#Für die Teilnehmer-Emails auf den Lernfortschrittsansichten eines SCORM-Moduls

@@ -117,7 +117,7 @@ class ilObjStudyProgrammeSettingsGUI {
 	}
 	
 	protected function view() {
-		$this->buildModalHeading($this->lng->txt('prg_async_settings'));
+		$this->buildModalHeading($this->lng->txt('prg_async_settings'),isset($_GET["currentNode"]));
 
 		$form = $this->buildForm();
 		$this->fillForm($form);
@@ -129,11 +129,14 @@ class ilObjStudyProgrammeSettingsGUI {
 	}*/
 	
 	protected function update() {
+
 		$form = $this->buildForm();
 		$form->setValuesByPost();
-		if ($this->checkForm($form)) {
+		$update_possible = $this->checkForm($form);
+
+		if ($update_possible) {
 			$this->updateFromFrom($form);
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>true, "message"=>$this->lng->txt("msg_obj_modified")));
 		} else {
 			// TODO:
@@ -141,11 +144,14 @@ class ilObjStudyProgrammeSettingsGUI {
 			$response = ilAsyncOutputHandler::encodeAsyncResponse(array("success"=>false, "errors"=>$form->getErrors()));
 		}
 
-		//TODO: needs clean up (ugly workaround)
 		if($this->ctrl->isAsynch()) {
 			return ilAsyncOutputHandler::handleAsyncOutput($form->getHTML(), $response, false);
 		} else {
-			$this->ctrl->redirect($this);
+			if($update_possible) {
+				$this->ctrl->redirect($this);
+			} else {
+				return $form->getHTML();
+			}
 		}
 	}
 
@@ -155,14 +161,19 @@ class ilObjStudyProgrammeSettingsGUI {
 		$this->ctrl->redirect($this->parent_gui);
 	}
 
-	protected function buildModalHeading($label) {
-		$this->ctrl->saveParameterByClass('ilobjstudyprogrammesettingsgui', 'ref_id');
-		$heading_button = ilLinkButton::getInstance();
-		$heading_button->setCaption('prg_open_node');
-		$heading_button->setUrl($this->ctrl->getLinkTargetByClass('ilobjstudyprogrammetreegui', 'view'));
+	protected function buildModalHeading($label, $current_node) {
+		if(!$current_node) {
+			$this->ctrl->saveParameterByClass('ilobjstudyprogrammesettingsgui', 'ref_id');
+			$heading_button = ilLinkButton::getInstance();
+			$heading_button->setCaption('prg_open_node');
+			$heading_button->setUrl($this->ctrl->getLinkTargetByClass('ilobjstudyprogrammetreegui', 'view'));
 
-		$heading = "<div class=''>".$label."<div class='pull-right'>".$heading_button->render()."</div></div>";
-		$this->tmp_heading = $heading;
+			$heading = "<div class=''>".$label."<div class='pull-right'>".$heading_button->render()."</div></div>";
+			$this->tmp_heading = $heading;
+		} else {
+			$this->tmp_heading = "<div class=''>".$label."</div>";
+		}
+		
 	}
 	
 	const PROP_TITLE = "title";
@@ -185,6 +196,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		$form->addItem($header);
 		
 		$item = new ilTextInputGUI($this->lng->txt("title"), self::PROP_TITLE);
+		$item->setRequired(true);
 		$form->addItem($item);
 		
 		$item = new ilTextAreaInputGUI($this->lng->txt("description"), self::PROP_DESC);

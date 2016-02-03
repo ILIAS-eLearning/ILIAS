@@ -202,7 +202,7 @@ class ilQuestionpoolExport
 			{
 				if (ilObjMediaObject::_exists($mob))
 				{
-					$mob_obj =& new ilObjMediaObject($mob);
+					$mob_obj = new ilObjMediaObject($mob);
 					$mob_obj->exportFiles($a_export_dir);
 					unset($mob_obj);
 				}

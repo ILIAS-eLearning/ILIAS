@@ -1751,7 +1751,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$_SESSION["clipboard"] = $clipboard;
 
-		ilUtil::sendInfo($this->lng->txt("msg_link_clipboard"),true);
+		$suffix = 'p';
+		if(count($clipboard["ref_ids"]) == 1)
+		{
+			$suffix = 's';
+		}
+		ilUtil::sendInfo($this->lng->txt("msg_link_clipboard_" . $suffix),true);
 
 		return $this->initAndDisplayLinkIntoMultipleObjectsObject();
 
@@ -1994,7 +1999,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			
 			foreach($_POST['nodes'] as $folder_ref_id)
 			{		
-				$linked_to_folders[] = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($folder_ref_id));
+				$linked_to_folders[$folder_ref_id] = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($folder_ref_id));
 						
 				foreach($ref_ids as $ref_id)
 				{
@@ -2032,8 +2037,23 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	
 				$log->write(__METHOD__.', link finished');
 			}
-			
-			ilUtil::sendSuccess(sprintf($this->lng->txt('mgs_objects_linked_to_the_following_folders'), implode(', ', $linked_to_folders)), true);
+
+			$linked_targets = array();
+			if(count($linked_to_folders))
+			{
+				require_once 'Services/Link/classes/class.ilLink.php';
+				foreach($linked_to_folders as $ref_id => $title)
+				{
+					$linked_targets[] = '<a href="' . ilLink::_getLink($ref_id) . '">' . $title . '</a>';
+				}
+			}
+
+			$suffix = 'p';
+			if(count($ref_ids) == 1)
+			{
+				$suffix = 's';
+			}
+			ilUtil::sendSuccess(sprintf($this->lng->txt('mgs_objects_linked_to_the_following_folders_' . $suffix), implode(', ', $linked_targets)), true);
 		} // END LINK
 
 		// clear clipboard

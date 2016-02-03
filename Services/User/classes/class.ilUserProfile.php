@@ -245,6 +245,7 @@ class ilUserProfile
 						"course_export_hide" => true,
 						"group_export_hide" => true,
 						"lists_hide" => true,
+						"required_hide" => true, // #17302
 						"group" => "instant_messengers"),
 		"matriculation" => array(
 						"input" => "text",
@@ -724,7 +725,7 @@ class ilUserProfile
 							}
 							$im->setMaxLength($p["maxlength"]);
 							$im->setSize($p["size"]);
-							$im->setRequired($ilSetting->get("require_"."instant_messengers"));
+							// $im->setRequired($ilSetting->get("require_"."instant_messengers"));
 							if(!$im->getRequired() || $im->getValue())
 							{
 								$im->setDisabled($ilSetting->get("usr_settings_disable_"."instant_messengers"));

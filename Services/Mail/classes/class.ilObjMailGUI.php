@@ -272,7 +272,7 @@ class ilObjMailGUI extends ilObjectGUI
 	{
 		include_once "./Services/Mail/classes/class.ilFileDataImportMail.php";
 
-		$this->file_obj =& new ilFileDataImportMail();
+		$this->file_obj = new ilFileDataImportMail();
 
 		return true;
 	}
@@ -285,7 +285,7 @@ class ilObjMailGUI extends ilObjectGUI
 			return false;
 		}
 
-		$this->parser_obj =& new ilMailImportParser($a_xml,$a_mode);
+		$this->parser_obj = new ilMailImportParser($a_xml,$a_mode);
 		
 		return true;
 	}
@@ -305,7 +305,7 @@ class ilObjMailGUI extends ilObjectGUI
 		{
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 

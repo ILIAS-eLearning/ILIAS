@@ -746,7 +746,7 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 	{
 		include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
 		
-		$sc_obj =& new ilPaymentShoppingCart($this->user_obj);
+		$sc_obj = new ilPaymentShoppingCart($this->user_obj);
 
 		return $sc_obj->emptyShoppingCart();
 	}
@@ -867,7 +867,7 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 		$counter = 0;
 		foreach($items as $item)
 		{
-			$tmp_pobject =& new ilPaymentObject($this->user_obj,$item['pobject_id']);
+			$tmp_pobject = new ilPaymentObject($this->user_obj,$item['pobject_id']);
 
 			$tmp_obj =& ilObjectFactory::getInstanceByRefId($tmp_pobject->getRefId(), false);
 			if($tmp_obj)

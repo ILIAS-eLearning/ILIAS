@@ -660,7 +660,7 @@ class ilObjForum extends ilObject
 		}
 
 		// delete attachments
-		$tmp_file_obj =& new ilFileDataForum($this->getId());
+		$tmp_file_obj = new ilFileDataForum($this->getId());
 		$tmp_file_obj->delete();
 		unset($tmp_file_obj);
 

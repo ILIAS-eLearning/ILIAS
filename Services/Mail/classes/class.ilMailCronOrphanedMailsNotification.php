@@ -6,16 +6,16 @@ include_once './Services/Mail/classes/class.ilMimeMail.php';
 
 /**
  * Class ilMailCronOrphanedMailsNotification
- * @author Nadia Ahmad <nahmad@databay.de>
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  */
 class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
 {
 	/**
-	 * 
+	 * {@inheritdoc}
 	 */
-	public function __construct()
+	public function __construct($a_is_personal_workspace = false)
 	{
-		parent::__construct();
+		parent::__construct($a_is_personal_workspace);
 	}
 
 	/**

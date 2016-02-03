@@ -107,7 +107,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                     $ilCtrl->redirect($this, "preview");
                 }
 				
-                $page_editor = & new ilPageEditorGUI($this->getPageObject(), $this);
+                $page_editor = new ilPageEditorGUI($this->getPageObject(), $this);
                 $page_editor->setLocator($this->locator);
                 $page_editor->setHeader($this->getHeader());
                 $page_editor->setPageBackTitle($this->page_back_title);

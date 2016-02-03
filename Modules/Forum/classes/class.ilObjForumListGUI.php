@@ -54,20 +54,9 @@ class ilObjForumListGUI extends ilObjectListGUI
 	}
 
 	/**
-	 * @param int    $a_ref_id
-	 * @param int    $a_obj_id
-	 * @param string $a_title
-	 * @param string $a_description
+	 * {@inheritdoc}
 	 */
-	public function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
-	{
-		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getProperties()
+	public function getProperties($a_item = '')
 	{
 		/**
 		 * @var $lng	  ilLanguage
@@ -183,8 +172,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 	}
 
 	/**
-	 * @param string $a_cmd
-	 * @return string
+	 * {@inheritdoc}
 	 */
 	public function getCommandFrame($a_cmd)
 	{
@@ -192,8 +180,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 	}
 
 	/**
-	 * @param string $a_cmd
-	 * @return string
+	 * {@inheritdoc}
 	 */
 	public function getCommandLink($a_cmd)
 	{

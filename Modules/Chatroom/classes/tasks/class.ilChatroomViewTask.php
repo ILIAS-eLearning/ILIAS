@@ -255,6 +255,9 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		$this->renderFileUploadForm($roomTpl);
 		$this->renderSendMessageBox($roomTpl);
 		$this->renderLanguageVariables($roomTpl);
+		
+		require_once 'Services/UIComponent/Modal/classes/class.ilModalGUI.php';
+		ilModalGUI::initJS();
 
 		$roomRightTpl = new ilTemplate('tpl.chatroom_right.html', true, true, 'Modules/Chatroom');
 		$this->renderRightUsersBlock($roomRightTpl);
@@ -306,6 +309,7 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 			'LBL_PRIVATE_ROOM_ENTERED_USER' => 'private_room_entered_user',
 			'LBL_KICKED_FROM_PRIVATE_ROOM' => 'kicked_from_private_room',
 			'LBL_OK' => 'ok',
+			'LBL_INVITE' => 'chat_invite',
 			'LBL_CANCEL' => 'cancel',
 			'LBL_WHISPER_TO' => 'whisper_to',
 			'LBL_SPEAK_TO' => 'speak_to',

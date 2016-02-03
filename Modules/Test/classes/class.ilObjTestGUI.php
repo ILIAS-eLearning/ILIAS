@@ -244,7 +244,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				require_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
-				$serviceGUI =& new ilTestServiceGUI($this->object);
+				$serviceGUI = new ilTestServiceGUI($this->object);
 				$this->ctrl->forwardCommand($serviceGUI);
 				break;
 
@@ -252,15 +252,15 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
-				$ret      =& $this->ctrl->forwardCommand($perm_gui);
+				$perm_gui = new ilPermissionGUI($this);
+				$ret      = $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case "illearningprogressgui":
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				require_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $this->object->getRefId());
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
 
 				break;
@@ -396,7 +396,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				require_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search = new ilRepositorySearchGUI();
 				$rep_search->setCallback($this,
 					'addParticipantsObject',
 					array()
@@ -1329,7 +1329,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		$file = explode("_", $_GET["file_id"]);
 		include_once("./Modules/File/classes/class.ilObjFile.php");
-		$fileObj =& new ilObjFile($file[count($file) - 1], false);
+		$fileObj = new ilObjFile($file[count($file) - 1], false);
 		$fileObj->sendFile();
 		exit;
 	}

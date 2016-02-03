@@ -1918,7 +1918,7 @@ abstract class assQuestion
 				ilObjMediaObject::_removeUsage($mob, "qpl:html", $question_id);
 				if (ilObjMediaObject::_exists($mob))
 				{
-					$mob_obj =& new ilObjMediaObject($mob);
+					$mob_obj = new ilObjMediaObject($mob);
 					$mob_obj->delete();
 				}
 			}
@@ -3399,7 +3399,7 @@ abstract class assQuestion
 				{
 					if (ilObjMediaObject::_exists($mob))
 					{
-						$mob_obj =& new ilObjMediaObject($mob);
+						$mob_obj = new ilObjMediaObject($mob);
 						$imgattrs = array(
 							"label" => $moblabel,
 							"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()

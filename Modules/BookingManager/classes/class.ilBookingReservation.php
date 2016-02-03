@@ -317,9 +317,35 @@ class ilBookingReservation
 				$counter[$row['object_id']] = (int)$nr_map[$row['object_id']]-(int)$row['cnt'];
 			}
 		}		
+		
+		// #17868 - validate against schedule availability
+		foreach($a_ids as $obj_id)
+		{			
+			$bobj = new ilBookingObject($obj_id);
+			if($bobj->getScheduleId())
+			{
+				include_once "Modules/BookingManager/classes/class.ilBookingSchedule.php";
+				$schedule = new ilBookingSchedule($bobj->getScheduleId());
+
+				$av_from = ($schedule->getAvailabilityFrom() && !$schedule->getAvailabilityFrom()->isNull())
+					? $schedule->getAvailabilityFrom()->get(IL_CAL_UNIX)
+					: null;
+				$av_to = ($schedule->getAvailabilityTo() && !$schedule->getAvailabilityTo()->isNull())
+					? strtotime($schedule->getAvailabilityTo()->get(IL_CAL_DATE)." 23:59:59")
+					: null;
+				
+				if(($av_from && $a_from < $av_from) ||
+					($av_to && $a_to > $av_to))
+				{
+					$blocked[] = $obj_id;
+					unset($counter[$obj_id]);
+				}
+			}
+		}
+		
 		$available = array_diff($a_ids, $blocked);
 		if(sizeof($available))
-		{
+		{									
 			if($a_return_counter)
 			{
 				foreach($a_ids as $id)
@@ -642,13 +668,15 @@ class ilBookingReservation
 			}
 			
 			if(!isset($res[$idx]))
-			{								
+			{					
+				$uname = ilObjUser::_lookupName($user_id);
+				
 				$res[$idx] = array(					
 					"object_id" => $obj_id
 					,"title" => $row["title"]
 					,"user_id" => $user_id
 					,"counter" => 1						
-					,"user_name" => ilObjUser::_lookupFullName($user_id)					
+					,"user_name" => $uname["lastname"].", ".$uname["firstname"] // #17862
 				);
 				
 				if($a_has_schedule)

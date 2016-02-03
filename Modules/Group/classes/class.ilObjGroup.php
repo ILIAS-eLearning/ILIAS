@@ -1952,6 +1952,21 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	
 	/**
+	 * Get members objects
+	 * 
+	 * @return ilGroupParticipants
+	 */
+	public function getMembersObject()
+	{
+		// #17886
+		if(!$this->members_obj instanceof ilGroupParticipants)
+		{
+			$this->initParticipants();
+		}
+		return $this->members_obj;
+	}
+	
+	/**
 	 * @see interface.ilMembershipRegistrationCodes
 	 * @return array obj ids
 	 */

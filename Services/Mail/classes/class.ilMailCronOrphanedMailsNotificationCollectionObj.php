@@ -3,7 +3,7 @@
 
 /**
  * ilMailCronOrphanedMailsNotificationCollectionObj
- * @author Nadia Ahmad <nahmad@databay.de> 
+ * @author Nadia Matuschek <nmatuschek@databay.de> 
  */
 class ilMailCronOrphanedMailsNotificationCollectionObj
 {

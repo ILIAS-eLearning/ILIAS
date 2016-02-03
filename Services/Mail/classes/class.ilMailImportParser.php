@@ -160,7 +160,7 @@ class ilMailImportParser extends ilSaxParser
 			case "targetFolder":
 				if(!isset($this->mails[$this->counter]["folder_id"]))
 				{
-					$tmp_mailbox =& new ilMailbox($this->i3_id);
+					$tmp_mailbox = new ilMailbox($this->i3_id);
 					switch($this->cdata)
 					{
 						case "inbox":

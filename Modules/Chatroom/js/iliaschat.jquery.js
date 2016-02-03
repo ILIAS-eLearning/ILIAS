@@ -589,7 +589,6 @@ il.Util.addOnLoad(function () {
 						type:    'notice',
 						message: messageObject.type
 					});
-					console.log(messageObject);
 				}
 
 				if ((!messageObject.sub && subRoomId) || (subRoomId && subRoomId != messageObject.sub)) {
@@ -933,17 +932,23 @@ il.Util.addOnLoad(function () {
 							label:    translate('invite_users'),
 							callback: function () {
 
-								$('#invite_users_container')
-									.ilChatDialog({
-										title:            translate('invite_users'),
-										close:            function () {
-											$("#invite_user_text").val("");
-										},
-										positiveAction:   function () {
+								var resetInvitationField = function(with_value) {
+									var elm = $("#invite_user_text"); 
 
-										},
-										disabled_buttons: ['ok']
-									});
+									if (with_value) {
+										elm.val("");
+										$('#invite_users_available').addClass("ilNoDisplay").children().remove();
+									}
+								};
+
+								$('#invite_users_container').ilChatDialog({
+									title:          translate('invite_users'),
+									defaultButtons: false,
+									buttons:        [],
+									close:          function () {
+										resetInvitationField(true);
+									}
+								});
 
 								var sendInvitation = function (user, type, username) {
 									$.get(
@@ -968,46 +973,62 @@ il.Util.addOnLoad(function () {
 									);
 								};
 
-								$('#invite_users_global').click(function () {
+								$('#invite_users_global').on('click', function () {
 									$('#invite_user_text_wrapper').show();
-									$('#invite_users_available').children().remove();
+									resetInvitationField(true);
 								});
 
-								$('#invite_users_in_room').click(function () {
+								$('#invite_users_in_room').on('click', function () {
 									$('#invite_user_text_wrapper').hide();
+									resetInvitationField(true);
 
-									$('#invite_users_available').children().remove();
-									var show = false;
+									var num_lists_users = 0;
+
 									$.each($('#chat_users').ilChatList('getAll'), function () {
 										var id = this.id;
 
 										if (!isIdInArray(id, usermanager.usersinroom(subRoomId))) {
-											$('#invite_users_available').append(
+											$('#invite_users_available').removeClass("ilNoDisplay").append(
 												$('<li class="invite_user_line_id invite_user_line"></li>')
 													.append($('<a href="#"></a>')
 														.text(this.label)
 														.click(function (e) {
 															e.preventDefault();
 															e.stopPropagation();
+
 															sendInvitation(id, 'byId', $(this).text());
+
+															$('#invite_users_available')
+																.html('')
+																.removeClass("ilNoDisplay");
+
+															$('#invite_users_container').ilChatDialog('close');
 														})
 												)
 											);
-											show = true;
+											++num_lists_users;
 										}
 									});
-									if (show == false) {
+
+									if (num_lists_users === 0) {
+										$('#invite_users_available').addClass("ilNoDisplay");
+
+										$('#invite_users_global').hide();
 										$('#invite_users_in_room').hide();
-										$('#radioText').hide();
+										$('#labelInviteUsersInRoom').hide();
+										$('#labelInviteGlobalUsers').hide();
+										
 										$('input[name=invite_users_type]').removeAttr('checked');
 										setTimeout(function () {
 											$('#invite_users_global').click();
 										}, 300);
+									} else {
+										$('#invite_users_available').removeClass("ilNoDisplay");
 
-									}
-									else {
+										$('#invite_users_global').show();
 										$('#invite_users_in_room').show();
-										$('#radioText').show();
+										$('#labelInviteUsersInRoom').show();
+										$('#labelInviteGlobalUsers').show();
 									}
 								});
 
@@ -1027,11 +1048,15 @@ il.Util.addOnLoad(function () {
 								$invinput.keyup(function() {
 									var val = $(this).val();
 
+									resetInvitationField(false);
+
 									invitationChangeTimeout(function() {
 
 										if (val.length < 2 || val == oldValue) {
 											if (!val.length) {
-												$('#invite_users_available').html('');
+												$('#invite_users_available')
+													.html('')
+													.addClass("ilNoDisplay");
 											}
 											return;
 										}
@@ -1045,6 +1070,8 @@ il.Util.addOnLoad(function () {
 												$('#invite_users_available').html('');
 
 												if (response && $(response.items).size()) {
+													$("#invite_users_available").removeClass("ilNoDisplay");
+
 													$(response.items).each(function () {
 														var login = this.value;
 														var publicName = this.label;
@@ -1054,7 +1081,14 @@ il.Util.addOnLoad(function () {
 																.click(function (e) {
 																	e.preventDefault();
 																	e.stopPropagation();
+
 																	sendInvitation(login, 'byLogin', login);
+
+																	$('#invite_users_available')
+																		.html('')
+																		.addClass("ilNoDisplay");
+
+																	$('#invite_users_container').ilChatDialog('close');
 																})
 														).appendTo($('#invite_users_available'));
 													});

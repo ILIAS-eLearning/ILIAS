@@ -234,6 +234,13 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 					case 'getAsynchItemList':
 						parent::getAsynchItemListObject();
 						break;
+					case 'trash':
+					case 'undelete':
+					case 'confirmRemoveFromSystem':
+					case 'removeFromSystem':
+						$cmd .= "Object";
+						$this->$cmd();
+						break;
 					/*case 'editSettings':
 						$this->tabs_gui->setTabActive("settings");
 						$this->setSubTabsSettings('edit_settings');
@@ -405,10 +412,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 			$this->ctrl->redirect($this);
 		}
 		$form = $this->initAdvancedSettingsForm();
-
-		$obj = ilAdvancedMDRecord::_getSelectedRecordsByObject('prg', $this->object->getId(), $this->object->getSubtypeId());
-		$obj_type = ilAdvancedMDRecord::_getActivatedRecordsByObjectType('prg', 'prg_type');
-
 		$gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
 		$gui->setPropertyForm($form);
 		$gui->parse();
