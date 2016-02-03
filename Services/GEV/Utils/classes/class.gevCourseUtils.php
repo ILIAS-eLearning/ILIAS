@@ -403,6 +403,14 @@ class gevCourseUtils {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_IS_TEMPLATE, ($a_val === true)? "Ja" : "Nein" );
 	}
 	
+	public function getIsCancelled() {
+		return "Ja" == $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_IS_CANCELLED);
+	}
+
+	public function setIsCancelled($a_val) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_IS_CANCELLED, ($a_val === true) ? "Ja" : "Nein" );
+	}
+
 	public function getType() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TYPE);
 	}
@@ -2678,6 +2686,11 @@ class gevCourseUtils {
 		// Set training offline
 		$crs = $this->getCourse();
 		$crs->setOfflineStatus(true);
+		// Mark this course as cancelled
+		$this->setIsCancelled(true);
+		if(!preg_match('/\w+'.$this->lng->txt("gev_course_is_cancelled_suffix").'$/',$crs->getTitle())) {
+			$crs->setTitle($this->getTitle().$this->lng->txt("gev_course_is_cancelled_suffix"));
+		}
 		$crs->update();
 
 		// Remove Trainers
@@ -2688,6 +2701,8 @@ class gevCourseUtils {
 
 		// Delete VC Assignments
 		$this->deleteVCAssignment();
+
+		$this->rbacadmin->revokePermission($this->getRefId());
 	}
 
 	public function cancelTrainer(array $trainer_id) {
@@ -2757,6 +2772,22 @@ class gevCourseUtils {
 			return $roles[$rec["rol_id"]];
 		}
 		return null;
+	}
+
+	public function getAllFunctionsOfUser($a_user_id) {
+		//this is a check for ROLES, not for function.
+		//i.e. member has canceled, but is still member of course...
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		$utils = gevRoleUtils::getInstance();
+		$roles = $this->getLocalRoles();
+		$res = $this->db->query( "SELECT rol_id FROM rbac_ua "
+								." WHERE usr_id = ".$this->db->quote($a_user_id)
+								."   AND ".$this->db->in("rol_id", array_keys($roles), false, "integer"));
+		$return = array();
+		if ($rec = $this->db->fetchAssoc($res)) {
+			$return[] = $roles[$rec["rol_id"]];
+		}
+		return $return;
 	}
 	
 	public function getCreditPointsOf($a_user_id) {
@@ -3166,11 +3197,11 @@ class gevCourseUtils {
 				$addsql
 			);
 
-
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Modules/Course/classes/class.ilObjCourseAccess.php");
 		foreach ($info as $key => $value) {
 			// TODO: This surely could be tweaked to be faster if there was no need
 			// to instantiate the course to get booking information about it.
-			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
 			$crs_ref = gevObjectUtils::getRefId($crs_utils->getCourse()->getId());
 			
@@ -3200,8 +3231,7 @@ class gevCourseUtils {
 			
 			$info[$key]["date"] = $info[$key]["start_date"] .'-' .$info[$key]["end_date"];
 			
-			$info[$key]["status"] = ($crs_utils->getCourse()->isActivated()) ? 'online' : 'offline';
-
+			$info[$key]["status"] = ilObjCourseAccess::_isActivated($value["obj_id"]) ? 'online' : 'offline';
 			$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
 			$memberlist_lnk = "ilias.php?cmd=trainer&cmdClass=gevmemberlistdeliverygui&cmdNode=ei&baseClass=gevmemberlistdeliverygui&ref_id=" .$crs_ref;
 			$action = '<a href="'

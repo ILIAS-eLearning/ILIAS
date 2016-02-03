@@ -774,6 +774,7 @@ gev#:#use_standard_mail#:#Standardmail verwenden
 gev#:#view_others_accomodations#:#Unterbringung von anderen einsehen
 gev#:#view_own_accomodations#:#Eigene Unterbringung einsehen
 gev#:#view_participation_status#:#Teilnahmestatus einsehen
+gev#:#gev_course_is_cancelled_suffix#:# (abgesagt, nicht mehr verwenden)
 gmaps#:#gmaps_enable_gmaps_info#:#Aktiviere Google Maps in Persönlichen Profilen, Trainings und Gruppen
 gmaps#:#gmaps_public_profile_info#:#Wenn angeklickt, wird der eigene Standort Standort auf der Google Map im Profil angezeigt. Dazu muss aber Ihr Profil aktiviert sein. Bei Trainings- und Gruppenkarten wird der Standort ebenfalls angezeigt.
 grp#:#grp_view_inherit#:#Durch Training bestimmt
@@ -1154,6 +1155,7 @@ gev#:#gev_wbd_errors_reason_full#:#Grund (Volltext)
 gev#:#gev_wbd_errors_resolve#:#gelöst
 gev#:#usr_id#:#Benutzer-ID
 gev#:#crs_id#:#Kurs-ID
+gev#:#gev_rep_roles#:#Rollen
 gev#:#ts#:#Zeitpunkt
 gev#:#gev_warning_to_book_crs_self_because_period#:#Sie haben bereits ein oder mehrere andere Trainings im gleichen Zeitraum gebucht.
 gev#:#gev_warning_to_book_crs_for_others_because_period#:#Der Mitarbeiter / Vertriebspartner hat bereits ein oder mehrere andere Trainings im gleichen Zeitraum gebucht.

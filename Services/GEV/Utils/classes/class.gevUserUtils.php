@@ -284,9 +284,13 @@ class gevUserUtils {
 				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
 			);
 		
-		
-		$booked = $this->getBookedCourses();
-		$booked = $this->filter_for_online_courses($booked);
+		require_once("Services/ParticipationStatus/classes/class.ilParticipationStatus.php");
+		$booked = array_diff($this->filter_for_online_courses($this->getBookedCourses()),
+			$this->getCoursesWithStatusIn(array( ilParticipationStatus::STATUS_SUCCESSFUL
+												,ilParticipationStatus::STATUS_ABSENT_EXCUSED
+												,ilParticipationStatus::STATUS_ABSENT_NOT_EXCUSED)
+											)
+							);
 
 		$booked_amd = gevAMDUtils::getInstance()->getTable($booked, $crs_amd);
 		foreach ($booked_amd as $key => $value) {
@@ -1216,6 +1220,10 @@ class gevUserUtils {
 	public function getFunctionAtCourse($a_crs_id) {
 		return gevCourseUtils::getInstance($a_crs_id)->getFunctionOfUser($this->user_id);
 	}
+
+	public function getAllFunctionsAtCourse($a_crs_id) {
+		return gevCourseUtils::getInstance($a_crs_id)->getAllFunctionsOfUser($this->user_id);
+	}
 	
 	public function hasFullfilledPreconditionOf($a_crs_id) {
 		return gevCourseUtils::getInstance($a_crs_id)->userFullfilledPrecondition($this->user_id);
@@ -1270,6 +1278,20 @@ class gevUserUtils {
 		return array_merge($this->getBookedCourses(), $this->getWaitingCourses());
 	}
 	
+	/**
+	*	Get all courses where the participation status is set for user.
+	*/
+	public function getCoursesWithStatusIn (array $stati) {
+		$query = "SELECT crs_id FROM crs_pstatus_usr WHERE "
+					.$this->db->in('status', $stati, false, 'integer');
+		$res = $this->db->query($query);
+		$return = array();
+		while($rec = $this->db->fetchAssoc($res)) {
+			$return[] = $rec["crs_id"];
+		}
+		return $return;
+	}
+
 	public function canBookCourseDerivedFromTemplate($a_tmplt_ref_id) {
 		if ($a_tmplt_ref_id == 0) {
 			return true;

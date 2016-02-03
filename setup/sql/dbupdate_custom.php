@@ -4918,7 +4918,25 @@ if ($ilDB->tableColumnExists('tep_type', 'tep_active'))	{
 
 <#203>
 <?php
-if (!$ilDB->tableColumnExists('dct_building_block', 'pool_id'))
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::initPluginEnv();
+	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
+?>
+
+<#204>
+<?php
+	if (!$ilDB->tableColumnExists('hist_course', 'is_cancelled')) {		
+		$ilDB->addTableColumn('hist_course', 'is_cancelled', array(
+			"type" => "text",
+			"length" => 8,
+			"notnull" => false
+		));
+	}
+?>
+
+<#205>
+<?php
+	if (!$ilDB->tableColumnExists('dct_building_block', 'pool_id'))
 	{		
 		$ilDB->addTableColumn('dct_building_block', 'pool_id', array(
 			"type" => "integer",
@@ -4927,3 +4945,4 @@ if (!$ilDB->tableColumnExists('dct_building_block', 'pool_id'))
 		));
 	}
 ?>
+

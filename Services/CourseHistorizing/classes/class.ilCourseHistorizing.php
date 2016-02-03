@@ -133,8 +133,8 @@ class ilCourseHistorizing extends ilHistorizingStorage
 			'dbv_hot_topic'			=> 'text',
 			'virtual_classroom_type'=> 'text',
 			'dct_type'				=> 'text',
-			'template_obj_id'		=> 'integer'
-
+			'template_obj_id'		=> 'integer',
+			'is_cancelled'			=> 'text'
 		);
 
 		return $definition;

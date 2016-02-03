@@ -78,7 +78,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 					->on("usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0 ")
 				->left_join("hist_course crs")
 					->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0")
-				->group_by("orgu.orgu_title")
+				->group_by("orgu.orgu_id")
 				->compile();
 		return $query;
 	}
