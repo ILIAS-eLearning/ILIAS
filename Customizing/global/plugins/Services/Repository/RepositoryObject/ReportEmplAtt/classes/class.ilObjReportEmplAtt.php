@@ -94,8 +94,8 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		$orgu_filter->setFilterOptionsByUser($this->user_utils);
 
 		$filter	->dateperiod( "period"
-									, $this->plugin->txt("gev_period")
-									, $this->plugin->txt("gev_until")
+									, $this->plugin->txt("period")
+									, $this->plugin->txt("until")
 									, "usrcrs.begin_date"
 									, "usrcrs.end_date"
 									, date("Y")."-01-01"
