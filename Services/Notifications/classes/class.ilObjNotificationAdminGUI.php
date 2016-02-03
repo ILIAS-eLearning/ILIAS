@@ -22,10 +22,10 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function __construct($a_data,$a_id,$a_call_by_reference = true, $a_prepare_output = true) {
+	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true) {
 		$this->type = "nota";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
-                $this->lng->loadLanguageModule('notification');
+		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
+		$this->lng->loadLanguageModule('notification');
 	}
 	
 	function _forwards()
