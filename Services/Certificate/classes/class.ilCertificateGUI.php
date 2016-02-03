@@ -87,7 +87,7 @@ class ilCertificateGUI
 	* @param object $a_object A reference to the test container object
 	* @access public
 	*/
-	function ilCertificateGUI($adapter)
+	public function __construct($adapter)
 	{
 		global $lng, $tpl, $ilCtrl, $ilias, $tree;
 

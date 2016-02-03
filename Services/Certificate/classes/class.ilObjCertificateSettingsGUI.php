@@ -42,9 +42,9 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 	 *
 	 * @access public
 	 */
-	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->type = 'cert';
 		$this->lng->loadLanguageModule("certificate");
 	}
