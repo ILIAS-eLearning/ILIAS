@@ -602,11 +602,11 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 		$entered_values = 0;
 
+		$solutionSubmit = $this->getSolutionSubmit();
+
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
 		$affectedRows = $this->removeCurrentSolution($active_id, $pass, $authorized);
-
-		$solutionSubmit = $this->getSolutionSubmit();
 		
 		foreach($solutionSubmit as $value)
 		{
@@ -862,6 +862,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	protected function getSolutionSubmit()
 	{
 		$solutionSubmit = array();
+		$purifier = $this->getHtmlUserSolutionPurifier();
 		foreach($_POST as $key => $val)
 		{
 			if(preg_match("/^TEXTSUBSET_(\d+)/", $key, $matches))
@@ -869,6 +870,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 				$val = trim($val);
 				if(strlen($val))
 				{
+					$val = $purifier->purify($val);
 					$solutionSubmit[] = $val;
 				}
 			}
