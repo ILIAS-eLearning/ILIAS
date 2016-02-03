@@ -613,12 +613,14 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 			array('integer','integer','integer'),
 			array($active_id, $this->getId(), $pass)
 		);
+		require_once 'Services/Utilities/classes/class.ilUtil.php';
 		foreach ($_POST as $key => $value)
 		{
 			if (preg_match("/^TEXTSUBSET_(\d+)/", $key, $matches))
 			{
 				if (strlen($value))
 				{
+					$value = ilUtil::secureString($value);
 					$next_id = $ilDB->nextId('tst_solutions');
 					$affectedRows = $ilDB->insert("tst_solutions", array(
 						"solution_id" => array("integer", $next_id),
