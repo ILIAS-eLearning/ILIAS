@@ -330,7 +330,6 @@ class ilStartUpGUI
 		$page_editor_html = $this->showLoginForm($page_editor_html);
 		$page_editor_html = $this->showCASLoginForm($page_editor_html);
 		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
-		$page_editor_html = $this->showOpenIdLoginForm($page_editor_html);
 		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
 		$page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
 
@@ -895,8 +894,7 @@ class ilStartUpGUI
 				'[list-user-agreement]',
 				'[list-login-form]',
 				'[list-cas-login-form]',
-				'[list-shibboleth-login-form]',
-				'[list-openid-login-form]'
+				'[list-shibboleth-login-form]'
 			),
 			array('','','','','','',''),
 			$page_editor_html
@@ -1063,28 +1061,6 @@ class ilStartUpGUI
 					$ilAuth = ilAuthFactory::factory($container);
 					$ilAuth->start();
 					break;
-					
-				case 'openid':
-					$_POST['username'] = ilSession::get('dummy');
-					$_POST['password'] = ilSession::get('dummy');
-					$_POST['oid_username'] = ilSession::get('tmp_oid_username');
-					$_POST['oid_provider'] = ilSession::get('tmp_oid_provider');
-					//ilSession::set('force_creation', true);
-					
-					include_once './Services/Authentication/classes/class.ilAuthFactory.php';
-					include_once './Services/OpenId/classes/class.ilAuthContainerOpenId.php';
-					
-					$container = new ilAuthContainerOpenId();
-					$container->forceCreation(true);
-					ilAuthFactory::setContext(ilAuthFactory::CONTEXT_OPENID);
-					include_once './Services/OpenId/classes/class.ilAuthOpenId.php';
-					$ilAuth = ilAuthFactory::factory($container);
-
-					// logout first to initiate a new login session
-					$ilAuth->logout();
-					ilSession::_destroy(session_id());
-					ilSession::set('force_creation', true);
-					$ilAuth->start();
 			}
 			// Redirect to acceptance
 			ilUtil::redirect("ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target=".$_GET["target"]."&cmd=getAcceptance");
@@ -1808,53 +1784,6 @@ class ilStartUpGUI
 		{
 			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg='.$exception->getMessage()."&lang=".$usr_lang);
 		}				
-	}
-	
-	/**
-	 * Show openid login if enabled
-	 * @return 
-	 */
-	protected function showOpenIdLoginForm($page_editor_html)
-	{
-		global $lng,$tpl;
-		
-		include_once './Services/OpenId/classes/class.ilOpenIdSettings.php';
-		if(!ilOpenIdSettings::getInstance()->isActive())
-		{
-			return $page_editor_html;
-		}
-		
-		$lng->loadLanguageModule('auth');
-		
-		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-		$form = new ilPropertyFormGUI();
-		//$form->setTableWidth('500');
-		$form->setShowTopButtons(false);
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($lng->txt('login_to_ilias_via_openid'));
-		
-		$openid = new ilTextInputGUI($lng->txt('auth_openid_login'),'oid_username');
-		$openid->setSize(18);
-		$openid->setMaxLength(255);
-		$openid->setRequired(true);
-		$openid->setCssClass('ilOpenIDBox');
-		$openid->setInfo($lng->txt('auth_openid_login_info_a'));
-		$form->addItem($openid);
-		
-		include_once './Services/OpenId/classes/class.ilOpenIdProviders.php';
-		$pro = new ilSelectInputGUI($lng->txt('auth_openid_provider'),'oid_provider');
-		$pro->setOptions(ilOpenIdProviders::getInstance()->getProviderSelection());
-		$pro->setValue(ilOpenIdProviders::getInstance()->getSelectedProvider());
-		$form->addItem($pro);
-		$form->addCommandButton("showLogin", $lng->txt("log_in"));
-
-		return $this->substituteLoginPageElements(
-			$tpl,
-			$page_editor_html,
-			$form->getHTML(),
-			'[list-openid-login-form]',
-			'OID_LOGIN_FORM'
-		);
 	}
 
 	/**
