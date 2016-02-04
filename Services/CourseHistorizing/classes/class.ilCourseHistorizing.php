@@ -137,7 +137,7 @@ class ilCourseHistorizing extends ilHistorizingStorage
 			'is_cancelled'			=> 'text',
 			'size_waitinglist'		=> 'integer',
 			'waitinglist_active'	=> 'text',
-			'size_course'			=> 'integer',
+			'max_participants'		=> 'integer',
 			'min_participants'		=> 'integer'
 		);
 
