@@ -14535,7 +14535,7 @@ $ilDB->manipulate(
 		'update usr_data set passwd = '. 
 		$ilDB->quote('','text').' , auth_mode = ' . 
 		$ilDB->quote('local','text').', active = '. 
-		$ilDB->quote(0, 'integer'). 'WHERE auth_mode = '. 
+		$ilDB->quote(0, 'integer'). ' WHERE auth_mode = '. 
 		$ilDB->quote('openid','text')
 );
 
