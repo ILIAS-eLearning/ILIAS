@@ -635,7 +635,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 		}
 	}
 	
-	function &getSequenceSummary($obligationsFilter = false)
+	public function getSequenceSummary($obligationsFilterEnabled = false)
 	{
 		$correctedsequence = $this->getCorrectedSequence();
 		$result_array = array();
