@@ -108,6 +108,9 @@ class ilMembershipCronNotifications extends ilCronJob
 								{
 									$this->sendMail($user_id, $ref_id, $user_news);
 									$counter++;
+									
+									// #17928
+									ilCronManager::ping($this->getId());
 								}
 							}
 						}
