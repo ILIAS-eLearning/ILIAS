@@ -276,4 +276,20 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		return (null === $type || $type === $data['type'] )
 			? array('obj_id' => $data['obj_id'], 'ref_id' => $data['ref_id']) : array();
 	}
+
+	/**
+	* It seems to be a common problem to evaluate certain types in a subtree.
+	*/
+	protected function getSubtreeTypeIdsBelowParentType($subtree_type,$parent_type) {
+		$parent_cat_ref_id = $this->getParentObjectOfTypeIds($parent_type)['ref_id'];
+		$subtree_nodes_data = $this->gTree->getSubTree(
+			$this->gTree->getNodeData($parent_cat_ref_id),true, $subtree_type);
+		$return = array();
+		foreach ($subtree_nodes_data as $node) {
+			$return[] = $node["obj_id"];
+		}
+		return $return;
+	}
+
+
 }
