@@ -148,7 +148,11 @@ class ilCourseHistorizingAppEventListener
 			'virtual_classroom_type'			=> self::$ilCourseHistorizingHelper->getVirtualClassroomType($parameter),
 			'dct_type'							=> self::$ilCourseHistorizingHelper->getDCTType($parameter),
 			'template_obj_id'					=> self::$ilCourseHistorizingHelper->getTemplateObjId($parameter),
-			'is_cancelled'						=> self::$ilCourseHistorizingHelper->getIsCancelled($parameter)
+			'is_cancelled'						=> self::$ilCourseHistorizingHelper->getIsCancelled($parameter),
+			'size_waitinglist'					=> self::$ilCourseHistorizingHelper->getSizeWaitinglist($parameter),
+			'waitinglis_active'					=> self::$ilCourseHistorizingHelper->getWaitinglistActive($parameter),
+			'max_participants'					=> self::$ilCourseHistorizingHelper->getMaxParticipants($parameter),
+			'min_participants'					=> self::$ilCourseHistorizingHelper->getMinParticipants($parameter)
 		);
 
 		$deadline_data = self::$ilCourseHistorizingHelper->getDeadlineDataOf($parameter);
