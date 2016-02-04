@@ -150,10 +150,11 @@ class ilCourseHistorizingAppEventListener
 			'template_obj_id'					=> self::$ilCourseHistorizingHelper->getTemplateObjId($parameter),
 			'is_cancelled'						=> self::$ilCourseHistorizingHelper->getIsCancelled($parameter),
 			'size_waitinglist'					=> self::$ilCourseHistorizingHelper->getSizeWaitinglist($parameter),
-			'waitinglis_active'					=> self::$ilCourseHistorizingHelper->getWaitinglistActive($parameter),
+			'waitinglist_active'					=> self::$ilCourseHistorizingHelper->getWaitinglistActive($parameter),
 			'max_participants'					=> self::$ilCourseHistorizingHelper->getMaxParticipants($parameter),
 			'min_participants'					=> self::$ilCourseHistorizingHelper->getMinParticipants($parameter)
 		);
+
 
 		$deadline_data = self::$ilCourseHistorizingHelper->getDeadlineDataOf($parameter);
 		$data_payload = array_merge($data_payload, $deadline_data);
