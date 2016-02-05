@@ -111,6 +111,9 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 					"Services/Taxonomy", "tax_item_obj_id", "qpl:quest:$oldQuestionId", $newObj->getId()
 				);
 
+				$a_mapping->addMapping(
+					"Modules/TestQuestionPool", "quest", $oldQuestionId, $newQuestionId
+				);
 			}
 		}
 
