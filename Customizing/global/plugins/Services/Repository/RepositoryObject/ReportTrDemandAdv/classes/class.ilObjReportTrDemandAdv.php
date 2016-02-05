@@ -26,15 +26,24 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 						."	DELIMITER ', ') as trainers")
 			->from('hist_course tpl')
 				->join('hist_course crs')
-					->on('crs.template_obj_id = tpl.crs_id')
-				->left_join('hist_usercoursestatus usrcrs')
-					->on('usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0')
+					->on(' crs.template_obj_id = tpl.crs_id ')
+				->left_join(' hist_usercoursestatus usrcrs ')
+					->on(' usrcrs.crs_id = crs.crs_id AND usrcrs.hist_historic = 0 ')
 				->left_join('hist_user usr')
-					->on('usr.user_id = usrcrs.usr_id'
-						."AND usrcrs.function = 'Trainer'")
-				->group_by('crs.crs_id')
+					->on('usr.user_id = usrcrs.usr_id '
+						." AND usrcrs.function = 'Trainer' AND usr.hist_historic = 0 ")
+			->group_by('crs.crs_id')
 				->compile();
 		return $query;
+	}
+
+	protected function buildFilter($filter) {
+		$filter
+
+			->static_condition('crs.begin_date >= '.$this->gIldb->quote(date('Y-d-m'),'text'))
+			->static_condition('tpl.hist_historic = 0')
+			->static_condition('crs.hist_historic = 0');
+		return parent::buildFilter($filter);
 	}
 
 	public function getRelevantParameters() {
