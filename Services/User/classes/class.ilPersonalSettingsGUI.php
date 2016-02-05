@@ -601,8 +601,7 @@ class ilPersonalSettingsGUI
 		if ($ilUser->getAuthMode(true) != AUTH_LOCAL &&
 			($ilUser->getAuthMode(true) != AUTH_CAS || !$ilSetting->get("cas_allow_local")) &&
 			($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || !$ilSetting->get("shib_auth_allow_local")) &&
-			($ilUser->getAuthMode(true) != AUTH_SOAP || !$ilSetting->get("soap_auth_allow_local")) &&
-			($ilUser->getAuthMode(true) != AUTH_OPENID)
+			($ilUser->getAuthMode(true) != AUTH_SOAP || !$ilSetting->get("soap_auth_allow_local"))
 			)
 		{
 			return false;
