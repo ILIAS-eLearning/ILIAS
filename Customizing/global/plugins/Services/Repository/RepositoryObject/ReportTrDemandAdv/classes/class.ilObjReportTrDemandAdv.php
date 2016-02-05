@@ -9,6 +9,34 @@ set_time_limit(0);
 
 
 class ilObjReportTrDemandAdv extends ilObjReportBase {
+	protected $is_local;
+
+	protected function buildQuery($query) {
+		$query
+			->select('tpl.title as tpl_title')
+			->select('crs.title as title')
+			->select('crs.begin_date')
+			->select('crs.end_date')
+			->select_raw("SUM(IF(usrcrs.booking_status = 'gebucht',1,0)) as booked")
+			->select_raw('crs.min_participants')
+			->select_raw('crs.max_participants')
+			->select_raw("SUM(IF(usrcrs.booking_status = 'auf Warteliste',1,0)) as booked_wl")
+			->select_raw("GROUP_CONCAT("
+						."	IF(usr.hist_historic IS NOT NULL, CONCAT(usr.firstname,' ',usr.lastname), '')"
+						."	DELIMITER ', ') as trainers")
+			->from('hist_course tpl')
+				->join('hist_course crs')
+					->on('crs.template_obj_id = tpl.crs_id')
+				->left_join('hist_usercoursestatus usrcrs')
+					->on('usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0')
+				->left_join('hist_user usr')
+					->on('usr.user_id = usrcrs.usr_id'
+						."AND usrcrs.function = 'Trainer'")
+				->group_by('crs.crs_id')
+				->compile();
+		return $query;
+	}
+
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
 	}
@@ -56,5 +84,13 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 
 	public function getOnline() {
 		return $this->online;
+	}
+
+	public function getIslocal() {
+		return $this->is_local;
+	}
+
+	public function setIslocal($value) {
+		$this->is_local = $value ? 1 : 0;
 	}
 }
