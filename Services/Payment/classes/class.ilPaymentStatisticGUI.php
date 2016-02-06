@@ -960,7 +960,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 						break;
 					
 					case ilPaymentPrices::TYPE_DURATION_DATE:
-						include_once './Services/Calendar/classes/class.ilDatepresentation.php';
+						include_once './Services/Calendar/classes/class.ilDatePresentation.php';
 						$txt_duration =
 							ilDatePresentation::formatDate(new ilDate($price['duration_from'], IL_CAL_DATE))
 							.' - '.ilDatePresentation::formatDate(new ilDate($price['duration_until'], IL_CAL_DATE))
