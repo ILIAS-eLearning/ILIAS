@@ -15483,7 +15483,7 @@ mail#:#only_inbox_trash_info#:#If enabled, emails are only deleted if they are l
 mail#:#mail_notify_orphaned#:#Notification Mail
 mail#:#mail_notify_orphaned_info#:#If you enter a value here is larger than or equal to 1, ILIAS will send an email to the user before an internal mail is deleted. Please make sure that an external e-mail reception is possible.
 mail#:#orphaned_mail_subject#:#Notification about orphaned mails
-mail#:#orphaned_mail_body#:#There are old or orphaned mails in the following mailboxes. Please note, that these mails will be deleted automatically soon.
+mail#:#orphaned_mail_body#:#The following old or orphaned mails are in your mailbox. Please note, that these mails will be deleted automatically soon.
 prtt#:#prtt_portfolio_created#:#Portfolio Template added
 forum#:#frm_censorship#:#Censor
 forum#:#frm_revoke_censorship#:#Revoke Censorship
