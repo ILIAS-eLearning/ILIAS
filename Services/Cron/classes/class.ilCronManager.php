@@ -477,13 +477,14 @@ class ilCronManager
 				}		
 				
 				$item = array_pop(ilCronManager::getCronJobData($job->getId()));	
-			}
-					
-			if(!$a_only_active ||
-				$item["job_status"] == 1)
-			{
-				$res[$job->getId()] = array($job, $item);	
-			}
+				
+				// #17941
+				if(!$a_only_active ||
+					$item["job_status"] == 1)
+				{
+					$res[$job->getId()] = array($job, $item);	
+				}
+			}			
 		}
 		
 		return $res;
