@@ -157,6 +157,10 @@ $tpl->setVariable(
 	implode(', ', array_map(create_function('$value', 'return ".".$value;'), $tinyMCE_valid_imgs))
 );
 
+include_once "Services/jQuery/classes/class.iljQueryUtil.php";
+$jquery_path = array_pop(explode("Services/", iljQueryUtil::getLocaljQueryPath()));
+$tpl->setVariable("JQUERY", $jquery_path);
+
 if($ilUser->getLanguage() == 'de')
 {
 	$tpl->touchBlock('validation_engine_lang_de');
