@@ -231,7 +231,7 @@ class gevWBD {
 			&& $this->hasDoneWBDRegistration()
 			&& (  ($this->getNextWBDAction() == self::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE
 					|| $this->getNextWBDAction() == self::USR_WBD_NEXT_ACTION_NEW_TP_BASIS
-					|| $this->getNextWBDAction() == self::USR_WBD_NEXT_ACTION_AFFILIAT
+					|| $this->getNextWBDAction() == self::USR_WBD_NEXT_ACTION_AFFILIATE
 				  ) ||
 				  ($this->getWBDTPType() == self::WBD_TP_BASIS
 				  	|| $this->getWBDTPType() == self::WBD_TP_SERVICE)
@@ -390,8 +390,8 @@ class gevWBD {
 	public function wbdRegistrationIsPending() {
 		return (   in_array($this->getWBDOKZ(), 
 							array("OKZ1", "OKZ2", "OKZ3"))
-				&& in_array($this->getWBDTPType(),
-							array(self::WBD_TP_SERVICE, self::WBD_TP_BASIS)
+				&& in_array($this->getNextWBDAction(),
+							array(self::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE, self::USR_WBD_NEXT_ACTION_NEW_TP_BASIS)
 							)
 				);	
 	}
