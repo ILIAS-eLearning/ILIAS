@@ -112,7 +112,6 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 							."		AND ".$orgu_filter->deliverQuery()
 							."		GROUP BY huo.usr_id ";						
 		$this->query = catReportQuery::create()
-						->distinct()
 						->select("usr.user_id")
 						->select("usr.lastname")
 						->select("usr.firstname")
