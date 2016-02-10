@@ -1282,8 +1282,9 @@ class gevUserUtils {
 	*	Get all courses where the participation status is set for user.
 	*/
 	public function getCoursesWithStatusIn (array $stati) {
-		$query = "SELECT crs_id FROM crs_pstatus_usr WHERE "
-					.$this->db->in('status', $stati, false, 'integer');
+		$query = 	"SELECT crs_id FROM crs_pstatus_usr WHERE "
+					."	".$this->db->in('status', $stati, false, 'integer')
+					."	AND user_id = ".$this->db->quote($this->user_id, "integer");
 		$res = $this->db->query($query);
 		$return = array();
 		while($rec = $this->db->fetchAssoc($res)) {

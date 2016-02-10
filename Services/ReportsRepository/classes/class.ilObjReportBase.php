@@ -270,7 +270,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	*/
 	protected function getParentObjectOfTypeIds($type = null) {
 		$data = $this->gTree->getParentNodeData($this->getRefId());
-		while( null !== $type && $type !== $data['type'] && ROOT_FOLDER_ID !== (string)$data['ref_id'] ) {
+		while( null !== $type && $type !== $data['type'] && (string)ROOT_FOLDER_ID !== (string)$data['ref_id'] ) {
 			$data = $this->gTree->getParentNodeData($data['ref_id']);
 		}
 		return (null === $type || $type === $data['type'] )

@@ -67,7 +67,11 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 
 		$this->allowed_user_ids = $this->user_utils->getEmployeesWhereUserCanViewEduBios();
 		$orgu_filter = new recursiveOrguFilter("org_unit","orgu_id",true,true);
-		$orgu_filter->setFilterOptionsByUser($this->user_utils);
+		$orgu_refs = $this->user_utils->getOrgUnitsWhereUserCanViewEduBios();
+		require_once "Services/GEV/Utils/classes/class.gevObjectUtils.php";
+		$orgus = array_map(function ($ref_id) {return gevObjectUtils::getObjId($ref_id);},$orgu_refs);
+		$orgu_filter->setFilterOptionsByArray($orgus);
+
 		$this->filter = catFilter::create()
 						->checkbox( "critical"
 								  , $this->lng->txt("gev_rep_filter_show_critical_persons")
@@ -108,7 +112,6 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 							."		AND ".$orgu_filter->deliverQuery()
 							."		GROUP BY huo.usr_id ";						
 		$this->query = catReportQuery::create()
-						->distinct()
 						->select("usr.user_id")
 						->select("usr.lastname")
 						->select("usr.firstname")
