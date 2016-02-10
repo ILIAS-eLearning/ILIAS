@@ -6,44 +6,154 @@ ini_set("memory_limit","2048M");
 ini_set('max_execution_time', 0);
 set_time_limit(0);
 
-
-
 class ilObjReportTrDemandAdv extends ilObjReportBase {
 	protected $is_local;
 
+
+	public function initType() {
+		 $this->setType("xtda");
+	}
+	
+	protected function getRowTemplateTitle() {
+		return "tpl.gev_training_utilisation_advanced_row.html";
+	}
+
+	protected function buildOrder($order) {
+		return $order;//->defaultOrder("tpl_title", "ASC");
+	}
+
+	protected function buildTable($table) {
+		$table	->column('tpl_title', $this->plugin->txt('tpl_title'), true)
+				->column('title', $this->plugin->txt('crs_title'), true)
+				->column('type', $this->plugin->txt('crs_type'), true)
+				->column('date', $this->plugin->txt('crs_date'), true)
+				->column('bookings', $this->plugin->txt('bookings'), true)
+				->column('min_participants', $this->plugin->txt('min_participants'), true)
+				->column('min_part_achived', $this->plugin->txt('min_part_achived'), true)
+				->column('bookings_left', $this->plugin->txt('bookings_left'), true)
+				->column('waitinglist', $this->plugin->txt('waitinglist'), true)
+				->column('booking_dl', $this->plugin->txt('booking_dl'), true)
+				->column('trainers', $this->plugin->txt('trainers'), true);
+		return parent::buildTable($table);
+	}
+
 	protected function buildQuery($query) {
 		$query
-			->select('tpl.title as tpl_title')
-			->select('crs.title as title')
+			->select_raw('tpl.title as tpl_title')
+			->select_raw('crs.title as title')
+			->select_raw('tpl.type as type')
 			->select('crs.begin_date')
+			->select_raw('DATE_SUB(crs.begin_date,INTERVAL crs.dl_booking DAY) as booking_dl')
 			->select('crs.end_date')
-			->select_raw("SUM(IF(usrcrs.booking_status = 'gebucht',1,0)) as booked")
+			->select('crs.waitinglist_active')
+			->select_raw("SUM(IF(usrcrs.booking_status = 'gebucht' AND usrcrs.function = 'Mitglied',1,0)) as bookings")
 			->select_raw('crs.min_participants')
 			->select_raw('crs.max_participants')
-			->select_raw("SUM(IF(usrcrs.booking_status = 'auf Warteliste',1,0)) as booked_wl")
-			->select_raw("GROUP_CONCAT("
-						."	IF(usr.hist_historic IS NOT NULL, CONCAT(usr.firstname,' ',usr.lastname), '')"
-						."	DELIMITER ', ') as trainers")
+			->select_raw("SUM(IF(usrcrs.booking_status = 'auf Warteliste' AND usrcrs.function = 'Mitglied',1,0)) as booked_wl")
+			->select_raw(" GROUP_CONCAT("
+						." IF(usrcrs.function = 'Trainer',CONCAT(usr.firstname,' ',usr.lastname) ,NULL)"
+						." SEPARATOR ', ') as trainers")
 			->from('hist_course tpl')
-				->join('hist_course crs')
-					->on(' crs.template_obj_id = tpl.crs_id ')
-				->left_join(' hist_usercoursestatus usrcrs ')
+				->left_join('hist_course crs')
+					->on(' crs.template_obj_id = tpl.crs_id '
+						 ." AND (crs.is_cancelled != 'Ja' OR crs.is_cancelled IS NULL)"
+						 ." AND crs.hist_historic = 0")
+				->left_join('hist_usercoursestatus usrcrs')
 					->on(' usrcrs.crs_id = crs.crs_id AND usrcrs.hist_historic = 0 ')
 				->left_join('hist_user usr')
 					->on('usr.user_id = usrcrs.usr_id '
-						." AND usrcrs.function = 'Trainer' AND usr.hist_historic = 0 ")
+						.' AND usr.hist_historic = 0 ')
 			->group_by('crs.crs_id')
+			->group_by('tpl.crs_id')
 				->compile();
 		return $query;
 	}
 
 	protected function buildFilter($filter) {
-		$filter
+		$local_condition = $this->is_local
+			? $this->gIldb->in('tpl.crs_id',array_unique($this->getSubtreeCourseTemplates()),false,'integer')
+			: " tpl.is_template = 'Ja' ";
 
-			->static_condition('crs.begin_date >= '.$this->gIldb->quote(date('Y-d-m'),'text'))
+		/*require_once 'Services/Object/classes/class.ilObject.php';
+		$template_obj_filter_options = array();
+		foreach ($template_obj_ids as $crs_id) {
+			$template_obj_filter_options[$crs_id] = ilObject::_lookupTitle($crs_id);
+		}*/
+		$filter
+			->dateperiod( 	  "period"
+							, $this->plugin->txt("period")
+							, $this->plugin->txt("until")
+							, "crs.begin_date"
+							, "crs.end_date"
+							, date("Y")."-01-01"
+							, date("Y")."-12-31"
+							, false
+							," OR crs.hist_historic IS NULL "
+							)
+		/*	->multiselect(	  'templates'
+							, 'templates'
+							, 'tpl.crs_id'
+							, $template_obj_filter_options
+							, array()
+							, ""
+							, 200
+							, 160
+							, 'integer'
+							, 'asc'
+							, true
+							)*/
+			->multiselect_custom( 'status' 
+								, $this->plugin->txt("status")
+								, array('min_participants > bookings' => $this->plugin->txt('cancel_danger'),
+										'min_participants <= bookings' => $this->plugin->txt('no_cancel_danger'))
+								, array()
+								, ' OR min_participants IS NULL '
+								, 200
+								, 160
+								, "text"
+								, "asc"
+								, true
+								)
+			->multiselect_custom( 'waiting_list' 
+								, $this->plugin->txt('waiting_list_filter')
+								, array("crs.waitinglist_active = 'Ja'" => $this->plugin->txt('waiting_list'),
+									"crs.waitinglist_active = 'Nein'" => $this->plugin->txt('no_waiting_list'))
+								, array()
+								, ''
+								, 200
+								, 160
+								, "text"
+								)
+			->multiselect_custom( 'booking_over'
+								, $this->plugin->txt('booking_over')
+								, array($this->gIldb->quote(date('Y-d-m'),'text')." > booking_dl " 
+											=> $this->plugin->txt('book_dl_over'),
+										$this->gIldb->quote(date('Y-d-m'),'text')." <= booking_dl " 
+											=> $this->plugin->txt('book_dl_not_over'))
+								, array()
+								, ''
+								, 200
+								, 160
+								, "text"
+								, "asc"
+								,true
+								)
+			->multiselect(	   "training_type"
+							 , $this->plugin->txt("training_type")
+							 , 'tpl.type'
+							 , array('Webinar','Präsenztraining','Virtuelles Training')
+							 , array()
+							 , ""
+							 , 200
+							 , 160					
+							)
+			->static_condition('(crs.begin_date >= '.$this->gIldb->quote(date('Y-m-d'),'text').' OR crs.hist_historic IS NULL)')
 			->static_condition('tpl.hist_historic = 0')
-			->static_condition('crs.hist_historic = 0');
-		return parent::buildFilter($filter);
+			->static_condition($local_condition)
+			->static_condition($this->gIldb->in('tpl.type',array('Webinar','Präsenztraining','Virtuelles Training'),false,'text'))
+			->action($this->filter_action)
+			->compile();
+		return $filter;
 	}
 
 	public function getRelevantParameters() {
@@ -66,12 +176,14 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 			);
 		while ($rec = $this->gIldb->fetchAssoc($set)) {
 			$this->setOnline($rec["is_online"]);
+			$this->setIsLocal($rec["is_local"]);
 		}
 	}
 
 	public function doUpdate() {
 		$this->gIldb->manipulate("UPDATE rep_robj_rtda SET "
 			." is_online = ".$this->gIldb->quote($this->getOnline(), "integer")
+			." ,is_local = ".$this->gIldb->quote($this->getIsLocal(), "integer")
 			." WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
 			);
 	}
@@ -84,6 +196,7 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 
 	public function doClone($a_target_id,$a_copy_id,$new_obj) {
 		$new_obj->setOnline($this->getOnline());
+		$new_obj->setIsLocal($this->getIsLocal());
 		$new_obj->update();
 	}
 
@@ -95,11 +208,28 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 		return $this->online;
 	}
 
-	public function getIslocal() {
+	public function getIsLocal() {
 		return $this->is_local;
 	}
 
-	public function setIslocal($value) {
+	public function setIsLocal($value) {
 		$this->is_local = $value ? 1 : 0;
+	}
+
+	protected function getSubtreeCourseTemplates() {
+		$query = 	'SELECT obj_id FROM adv_md_values_text amd_val '
+					.'	WHERE '.$this->gIldb->in('obj_id',
+							$this->getSubtreeTypeIdsBelowParentType('crs','cat'),false,'integer')
+					.'		AND field_id = '.$this->gIldb->quote(
+												gevSettings::getInstance()
+													->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE)
+												,'integer')
+					.'		AND value = '.$this->gIldb->quote('Ja','text');
+		$return = array();
+		$res = $this->gIldb->query($query);
+		while($rec = $this->gIldb->fetchAssoc($res)) {
+			$return[] = $rec['obj_id'];
+		}
+		return $return;
 	}
 }
