@@ -7337,6 +7337,11 @@ function getAnswerFeedbackPoints()
 
 		$newObj->saveToDb();
 		$newObj->updateMetaData();// #14467
+		
+		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
+		$obj_settings = new ilLPObjSettings($this->getId());
+		$obj_settings->cloneSettings($newObj->getId());
+		
 		return $newObj;
 	}
 
