@@ -4933,3 +4933,35 @@ if ($ilDB->tableColumnExists('tep_type', 'tep_active'))	{
 		));
 	}
 ?>
+
+<#205>
+<?php
+	if (!$ilDB->tableColumnExists('hist_course', 'waitinglist_active')) {		
+		$ilDB->addTableColumn('hist_course', 'waitinglist_active', array(
+			"type" => "text",
+			"length" => 8,
+			"notnull" => false
+		));
+	}
+	if (!$ilDB->tableColumnExists('hist_course', 'max_participants')) {		
+		$ilDB->addTableColumn('hist_course', 'max_participants', array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false
+		));
+	}
+	if (!$ilDB->tableColumnExists('hist_course', 'min_participants')) {		
+		$ilDB->addTableColumn('hist_course', 'min_participants', array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false
+		));
+	}
+	if (!$ilDB->tableColumnExists('hist_course', 'size_waitinglist')) {		
+		$ilDB->addTableColumn('hist_course', 'size_waitinglist', array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false
+		));
+	}
+?>

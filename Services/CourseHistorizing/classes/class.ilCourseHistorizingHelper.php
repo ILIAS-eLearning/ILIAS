@@ -336,4 +336,24 @@ class ilCourseHistorizingHelper
 		$utils = gevCourseUtils::getInstanceByObjOrId($course);
 		return $utils->getIsCancelled() ? 'Ja' : 'Nein';
 	}
+
+	public static function getSizeWaitingList($course) {
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
+		return $utils->getWaitingListLength();
+	}
+
+	public static function getMaxParticipants($course) {
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
+		return $utils->getMaxParticipants();
+	}
+
+	public static function getWaitinglistActive($course) {
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
+		return $utils->getWaitingListActive() ? 'Ja' : 'Nein';
+	}
+	
+	public static function getMinParticipants($course) {
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
+		return $utils->getMinParticipants();
+	}
 }
