@@ -1,0 +1,45 @@
+<!-- language file start -->
+xtda_content#:#Report
+xtda_properties#:#Eigenschaften
+obj_xtda#:#Report Trainingsauslastung (Ausblick)
+objs_xtda#:#Reports Trainingsauslastung (Ausblick)
+obj_xtda_duplicate#:#Report Trainingsauslastung (Ausblick) kopieren
+objs_xtda_duplicate#:#Reports Trainingsauslastung (Ausblick) kopieren
+obj_xtda_select#:#Report Trainingsauslastung (Ausblick) auswählen
+xtda_add#:#Report Trainingsauslastung (Ausblick) hinzufügen
+xtda_new#:#Neuen Report Trainingsauslastung (Ausblick) hinzufügen
+xtda_read#:#Lesezugriff zum Report Trainingsauslastung (Ausblick)
+xtda_write#:#Report Trainingsauslastung (Ausblick) bearbeiten
+xtda_delete#:#Report Trainingsauslastung (Ausblick) löschen
+xtda_visible#:#sichtbar
+xtda_edit_permission#:#schreibberechtigt
+crs_create_xtda#:#Report Trainingsauslastung (Ausblick) erzeugen
+grp_create_xtda#:#Report Trainingsauslastung (Ausblick) erzeugen
+fold_create_xtda#:#Report Trainingsauslastung (Ausblick) erzeugen
+root_create_xtda#:#Report Trainingsauslastung (Ausblick) erzeugen
+cat_create_xtda#:#Report Trainingsauslastung (Ausblick) erzeugen
+report_is_local#:#Lokale Auswertung
+online#:#Online
+period#:#Zetraum:
+until#:#bis
+cancel_danger#:#Absagegefährdet
+no_cancel_danger#:#nicht Absagegefährdet
+status#:#Status
+waiting_list_filter#:#Warteliste
+waiting_list#:#Warteliste aktiv
+no_waiting_list#:#Warteliste nicht aktiv
+booking_over#:#Buchungsfrist abgelaufen
+book_dl_over#:#Ja
+book_dl_not_over#:#Nein
+training_type#:#Trainingstyp
+tpl_title#:#Vorlagentitel
+crs_title#:#Titel
+crs_type#:#Trainingstyp
+crs_date#:#Datum
+bookings#:#Anzahl Teilnehmer
+min_participants#:#Mindestteilnehmerzahl
+min_part_achived#:#Erreicht?
+bookings_left#:#Freie Plätze
+waitinglist#:#Warteliste
+booking_dl#:#Buchungsfrist
+trainers#:#Trainer
