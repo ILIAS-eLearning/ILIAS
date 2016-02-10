@@ -21,8 +21,6 @@ class ilObjReportTrDemandAdvGUI extends ilObjReportBaseGUI {
 	}
 
 	public static function transformResultRow($rec) {
-		var_dump($rec);
-		echo "<br>";
 		if($rec['title'] !== null) {
 			$rec['min_part_achived'] = 
 				((string)$rec['min_participants'] === "0" 
@@ -30,11 +28,11 @@ class ilObjReportTrDemandAdvGUI extends ilObjReportBaseGUI {
 					|| $rec['bookings'] >=  $rec['min_participants'])
 					? 'Ja' : 'Nein';
 			$rec['bookings_left'] 
-				= ((string)$rec['max_participants'] === "-1" || $rec['max_participants'] === null)
+				= ((string)$rec['max_participants'] === "0" || $rec['max_participants'] === null)
 					? 'keine Beschränkung'
 					: (string)((int)$rec['max_participants'] - (int)$rec['bookings']);
 			$rec['waitinglist'] = $rec['waitinglist_active'] === 'Ja' 
-											? $rec['bookings_wl'] : 'inaktiv';
+											? $rec['booked_wl'] : 'inaktiv';
 
 			$rec['date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
 					.' - '.date_format(date_create($rec['end_date']),'d.m.Y');
