@@ -229,8 +229,12 @@ class gevWBD {
 	public function forceWBDUserProfileFields() {
 		return $this->hasWBDRelevantRole()
 			&& $this->hasDoneWBDRegistration()
-			&& (   $this->getWBDTPType() == self::WBD_TP_SERVICE
-				|| $this->getWBDTPType() == self::WBD_TP_BASIS
+			&& (  ($this->getNextWBDAction() == self::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE
+					|| $this->getNextWBDAction() == self::USR_WBD_NEXT_ACTION_NEW_TP_BASIS
+					|| $this->getNextWBDAction() == self::USR_WBD_NEXT_ACTION_AFFILIAT
+				  ) ||
+				  ($this->getWBDTPType() == self::WBD_TP_BASIS
+				  	|| $this->getWBDTPType() == self::WBD_TP_SERVICE)
 				);
 	}
 
