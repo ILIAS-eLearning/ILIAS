@@ -278,10 +278,13 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	}
 
 	/**
-	* It seems to be a common problem to evaluate certain types in a subtree.
+	* It seems to be a common problem to ev2aluate certain types in a subtree.
 	*/
 	protected function getSubtreeTypeIdsBelowParentType($subtree_type,$parent_type) {
 		$parent_cat_ref_id = $this->getParentObjectOfTypeIds($parent_type)['ref_id'];
+		if($parent_cat_ref_id === null) {
+			throw new Exception("No parent object of type $parent_type found for ".$this->getTitle());
+		}
 		$subtree_nodes_data = $this->gTree->getSubTree(
 			$this->gTree->getNodeData($parent_cat_ref_id),true, $subtree_type);
 		$return = array();
