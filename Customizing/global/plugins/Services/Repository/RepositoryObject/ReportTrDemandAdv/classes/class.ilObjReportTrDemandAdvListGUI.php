@@ -6,4 +6,30 @@ require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseListGUI.ph
 * together with the corresponfing ...Access class.
 */
 class ilObjReportTrDemandAdvListGUI extends ilObjReportBaseListGUI {
+
+	/**
+	* Init type
+	*/
+	public function initType() {
+		$this->setType("xtda");
+		parent::initType();
+	}
+
+	/**
+	* Get name of gui class handling the commands
+	*/
+	public function getGuiClass() {
+		return "ilObjReportTrDemandAdvGUI";
+	}
+	
+	public function getProperties() {
+		$props = array();
+		$this->plugin->includeClass("class.ilObjReportTrDemandAdvAccess.php");
+
+		if (!ilObjReportTrDemandAdvAccess::checkOnline($this->obj_id)) {
+			$props[] = array("alert" => true, "property" => $this->lng->txt("status"),
+			"value" => $this->lng->txt("offline"));
+		}
+		return $props;
+	}
 }
