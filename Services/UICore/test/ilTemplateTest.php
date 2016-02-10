@@ -57,7 +57,6 @@ class ilTemplateTest extends PHPUnit_Framework_TestCase
 		$actual = $tpl->get();
 
 		// Assert
-		echo phpversion();
 		$expected = "<b>Hello World</b>";
 		$this->assertEquals(
 			$actual,
