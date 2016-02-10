@@ -283,7 +283,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	protected function getSubtreeTypeIdsBelowParentType($subtree_type,$parent_type) {
 		$parent_cat_ref_id = $this->getParentObjectOfTypeIds($parent_type)['ref_id'];
 		if($parent_cat_ref_id === null) {
-			throw new Exception("No parent object of type $parent_type found for ".$this->getTitle());
+			return array();
 		}
 		$subtree_nodes_data = $this->gTree->getSubTree(
 			$this->gTree->getNodeData($parent_cat_ref_id),true, $subtree_type);
