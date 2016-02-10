@@ -19,7 +19,8 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 	}
 
 	protected function buildOrder($order) {
-		return $order;//->defaultOrder("tpl_title", "ASC");
+		return $order
+					->defaultOrder("tpl_title", "ASC");
 	}
 
 	protected function buildTable($table) {
@@ -39,9 +40,9 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 
 	protected function buildQuery($query) {
 		$query
-			->select_raw('tpl.title as tpl_title')
+			->select('crs.template_obj_id')
 			->select_raw('crs.title as title')
-			->select_raw('tpl.type as type')
+			->select_raw('crs.type as type')
 			->select('crs.begin_date')
 			->select_raw('DATE_SUB(crs.begin_date,INTERVAL crs.dl_booking DAY) as booking_dl')
 			->select('crs.end_date')
@@ -49,31 +50,25 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 			->select_raw("SUM(IF(usrcrs.booking_status = 'gebucht' AND usrcrs.function = 'Mitglied',1,0)) as bookings")
 			->select_raw('crs.min_participants')
 			->select_raw('crs.max_participants')
-			->select_raw("SUM(IF(usrcrs.booking_status = 'auf Warteliste' AND usrcrs.function = 'Mitglied',1,0)) as booked_wl")
+			->select_raw("SUM(IF(usrcrs.booking_status = 'auf Warteliste',1,0)) as booked_wl")
 			->select_raw(" GROUP_CONCAT("
 						." IF(usrcrs.function = 'Trainer',CONCAT(usr.firstname,' ',usr.lastname) ,NULL)"
 						." SEPARATOR ', ') as trainers")
-			->from('hist_course tpl')
-				->left_join('hist_course crs')
-					->on(' crs.template_obj_id = tpl.crs_id '
-						 ." AND (crs.is_cancelled != 'Ja' OR crs.is_cancelled IS NULL)"
-						 ." AND crs.hist_historic = 0")
+			->from('hist_course crs')
 				->left_join('hist_usercoursestatus usrcrs')
 					->on(' usrcrs.crs_id = crs.crs_id AND usrcrs.hist_historic = 0 ')
 				->left_join('hist_user usr')
 					->on('usr.user_id = usrcrs.usr_id '
 						.' AND usr.hist_historic = 0 ')
 			->group_by('crs.crs_id')
-			->group_by('tpl.crs_id')
-				->compile();
+			->compile();
 		return $query;
 	}
 
 	protected function buildFilter($filter) {
-		$local_condition = $this->is_local
-			? $this->gIldb->in('tpl.crs_id',array_unique($this->getSubtreeCourseTemplates()),false,'integer')
-			: " tpl.is_template = 'Ja' ";
-
+		$local_condition = $this->is_local 
+			? $this->gIldb->in('crs.template_obj_id',array_unique($this->getSubtreeCourseTemplates()),false,'integer') 
+			: 'TRUE';
 		/*require_once 'Services/Object/classes/class.ilObject.php';
 		$template_obj_filter_options = array();
 		foreach ($template_obj_ids as $crs_id) {
@@ -88,7 +83,6 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 							, date("Y")."-01-01"
 							, date("Y")."-12-31"
 							, false
-							," OR crs.hist_historic IS NULL "
 							)
 		/*	->multiselect(	  'templates'
 							, 'templates'
@@ -119,41 +113,71 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 								, array("crs.waitinglist_active = 'Ja'" => $this->plugin->txt('waiting_list'),
 									"crs.waitinglist_active = 'Nein'" => $this->plugin->txt('no_waiting_list'))
 								, array()
-								, ''
+								, ' '
 								, 200
 								, 160
 								, "text"
 								)
 			->multiselect_custom( 'booking_over'
 								, $this->plugin->txt('booking_over')
-								, array($this->gIldb->quote(date('Y-d-m'),'text')." > booking_dl " 
+								, array($this->gIldb->quote(date('Y-m-d'),'text')." > booking_dl " 
 											=> $this->plugin->txt('book_dl_over'),
-										$this->gIldb->quote(date('Y-d-m'),'text')." <= booking_dl " 
+										$this->gIldb->quote(date('Y-m-d'),'text')." <= booking_dl " 
 											=> $this->plugin->txt('book_dl_not_over'))
 								, array()
-								, ''
+								, ' '
 								, 200
 								, 160
 								, "text"
 								, "asc"
-								,true
+								,	true
 								)
 			->multiselect(	   "training_type"
 							 , $this->plugin->txt("training_type")
-							 , 'tpl.type'
+							 , 'crs.type'
 							 , array('Webinar','Präsenztraining','Virtuelles Training')
 							 , array()
 							 , ""
 							 , 200
 							 , 160					
 							)
-			->static_condition('(crs.begin_date >= '.$this->gIldb->quote(date('Y-m-d'),'text').' OR crs.hist_historic IS NULL)')
-			->static_condition('tpl.hist_historic = 0')
-			->static_condition($local_condition)
-			->static_condition($this->gIldb->in('tpl.type',array('Webinar','Präsenztraining','Virtuelles Training'),false,'text'))
+			->static_condition('crs.begin_date >= '.$this->gIldb->quote(date('Y-m-d'),'text'))
+			->static_condition("(crs.is_cancelled != 'Ja' OR crs.is_cancelled IS NULL)")
+			->static_condition('crs.hist_historic = 0')
+			->static_condition($this->gIldb->in('crs.type',array('Webinar','Präsenztraining','Virtuelles Training'),false,'text'))
 			->action($this->filter_action)
 			->compile();
 		return $filter;
+	}
+
+	protected function fetchData(callable $callback) {
+		if ($this->query === null) {
+			throw new Exception("catBasicReportGUI::fetchData: query not defined.");
+		}
+		$local_condition = $this->is_local
+			? $this->gIldb->in('tpl.crs_id',array_unique($this->getSubtreeCourseTemplates()),false,'integer')
+			: " tpl.is_template = 'Ja' ";
+		
+		$query ='SELECT tpl.title as tpl_title, base.* FROM hist_course tpl LEFT JOIN '
+				.'('.$this->query->sql()."\n "
+			   	. $this->queryWhere()."\n "
+			   	. $this->query->sqlGroupBy()."\n"
+			   	. $this->queryHaving()."\n"
+			   	. ') as base'."\n"
+				.' ON tpl.crs_id = base.template_obj_id'."\n"
+				.' WHERE '.$local_condition
+				.' 	AND tpl.hist_historic = 0 '
+				.'	AND '.$this->gIldb->in('tpl.type',array('Webinar','Präsenztraining','Virtuelles Training'),false,'text')
+				.$this->queryOrder();
+
+		
+		$res = $this->gIldb->query($query);
+		$data = array();
+		
+		while($rec = $this->gIldb->fetchAssoc($res)) {
+			$data[] = call_user_func($callback,$rec);
+		}
+		return $data;
 	}
 
 	public function getRelevantParameters() {
