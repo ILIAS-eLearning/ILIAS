@@ -115,14 +115,12 @@ class ilObjReportTrDemandRet extends ilObjReportBase {
 								, $this->plugin->txt("filter_cancelled")
 								, array("crs.is_cancelled  = 'Ja'" 
 										=> $this->plugin->txt('crs_is_cancelled'),
-										"crs.is_cancelled  != 'Ja' OR crs.is_cancelled SI NULL" 
+										"crs.is_cancelled  != 'Ja' OR crs.is_cancelled IS NULL" 
 										=> $this->plugin->txt('crs_is_not_cancelled'))
 								, array()
 								, ''
 								, 200
 								, 160
-								, "text"
-								, "asc"
 								)
 			->multiselect(	   "training_type"
 							 , $this->plugin->txt("training_type")
@@ -133,7 +131,8 @@ class ilObjReportTrDemandRet extends ilObjReportBase {
 							 , 200
 							 , 160					
 							)
-			->static_condition('crs.end_date < '.$this->gIldb->quote(date('Y-m-d'),'text'))
+			->static_condition("(crs.end_date < ".$this->gIldb->quote(date('Y-m-d'),'text')
+								." OR crs.is_cancelled = 'Ja' )")
 			->static_condition('crs.hist_historic = 0')
 			->static_condition($this->gIldb->in('crs.type',array('Webinar','Präsenztraining','Virtuelles Training'),false,'text'))
 			->action($this->filter_action)
