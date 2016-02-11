@@ -2,7 +2,7 @@
 
 $id = "xbbp";
 
-$version = "0.0.5";
+$version = "0.0.1";
 
 
 $ilias_min_version = "4.2.0";

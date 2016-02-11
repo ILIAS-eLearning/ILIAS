@@ -35,19 +35,9 @@ if(!$ilDB->tableExists("rep_obj_bbpool")) {
 <#2>
 <?php
 $new_xbbp_ops = array(
-	'copy_building_block_pool' => array('Copy Building Block Pool', 10001),
-	'use_building_block' => array('Use Building Block', 10002)
+	'use_building_block' => array('Use Building Block', 10001),
+	'edit_building_blocks' => array('Edit Building Blocks', 10002)
 );
 require_once "Customizing/class.ilCustomInstaller.php";
 ilCustomInstaller::addRBACOps('xbbp', $new_xbbp_ops);
-?>
-
-<#3>
-<?php
-$new_xbbp_ops = array(
-	'edit_building_blocks' => array('Edit Building Blocks', 10003)
-);
-require_once "Customizing/class.ilCustomInstaller.php";
-ilCustomInstaller::addRBACOps('xbbp', $new_xbbp_ops);
-
 ?>

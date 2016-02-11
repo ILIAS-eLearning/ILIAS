@@ -23,7 +23,11 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
 		$this->link_enabled = true;
 		$this->payment_enabled = false;
 		$this->info_screen_enabled = true;
+		
+		//gev-patch start
 		$this->copy_enabled = true;
+		//gev-patch end
+
 		$this->initType();
 		$this->plugin =
 			ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",

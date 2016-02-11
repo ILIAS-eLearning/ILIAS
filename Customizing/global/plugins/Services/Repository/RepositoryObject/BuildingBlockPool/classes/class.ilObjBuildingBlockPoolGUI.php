@@ -45,8 +45,8 @@ class ilObjBuildingBlockPoolGUI extends ilObjectPluginGUI {
 			$this->gCtrl->getLinkTarget($this, "showContent"));
 		}
 
-		// standard epermission tab
-		if ($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
+		// standard permission tab
+		if ($this->gAccess->checkAccess("edit_permission", "", $this->object->getRefId())) {
 			$this->addPermissionTab();
 		}
 	}
