@@ -8,7 +8,7 @@ class ilObjReportTrDemandRetListGUI extends ilObjReportBaseListGUI {
 	* Init type
 	*/
 	public function initType() {
-		$this->setType("xrtw");
+		$this->setType("xtdr");
 		parent::initType();
 	}
 
