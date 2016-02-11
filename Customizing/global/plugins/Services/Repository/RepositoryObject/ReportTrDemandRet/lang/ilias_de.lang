@@ -1,0 +1,40 @@
+<!-- language file start -->
+xtdr_content#:#Report
+xtdr_properties#:#Eigenschaften
+obj_xtdr#:#Report Trainingsauslastung (Auswertung)
+objs_xtdr#:#Reports Trainingsauslastung (Auswertung)
+obj_xtdr_duplicate#:#Report Trainingsauslastung (Auswertung) kopieren
+objs_xtdr_duplicate#:#Reports Trainingsauslastung (Auswertung) kopieren
+obj_xtdr_select#:#Report Trainingsauslastung (Auswertung) auswählen
+xtdr_add#:#Report Trainingsauslastung (Auswertung) hinzufügen
+xtdr_new#:#Neuen Report Trainingsauslastung (Auswertung) hinzufügen
+xtdr_read#:#Lesezugriff zum Report Trainingsauslastung (Auswertung)
+xtdr_write#:#Report Trainingsauslastung (Auswertung) bearbeiten
+xtdr_delete#:#Report Trainingsauslastung (Auswertung) löschen
+xtdr_visible#:#sichtbar
+xtdr_edit_permission#:#schreibberechtigt
+crs_create_xtdr#:#Report Trainingsauslastung (Auswertung) erzeugen
+grp_create_xtdr#:#Report Trainingsauslastung (Auswertung) erzeugen
+fold_create_xtdr#:#Report Trainingsauslastung (Auswertung) erzeugen
+root_create_xtdr#:#Report Trainingsauslastung (Auswertung) erzeugen
+cat_create_xtdr#:#Report Trainingsauslastung (Auswertung) erzeugen
+report_is_local#:#Lokale Auswertung
+online#:#Online
+period#:#Zetraum:
+until#:#bis
+status#:#Status
+training_type#:#Trainingstyp
+tpl_title#:#Vorlagentitel
+crs_title#:#Titel
+crs_type#:#Trainingstyp
+crs_date#:#Datum
+bookings#:#Anzahl Teilnehmer
+trainers#:#Trainer
+filter_cancelled#:#Agesagt
+crs_is_cancelled#:#Ja
+crs_is_not_cancelled#:#Nein
+venue#:#Veranstaltungsort
+accomodation#:#Übernachtungsort
+overnights#:#Übernachtungen
+is_cancelled#:#Absage
+succ_participation#:#erfolgreiche Teilnahmen
