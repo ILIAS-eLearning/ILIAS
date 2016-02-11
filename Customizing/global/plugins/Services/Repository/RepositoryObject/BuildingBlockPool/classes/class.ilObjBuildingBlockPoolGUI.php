@@ -45,10 +45,18 @@ class ilObjBuildingBlockPoolGUI extends ilObjectPluginGUI {
 			$this->gCtrl->getLinkTarget($this, "showContent"));
 		}
 
+		// a "properties" tab
+		/*if ($this->gAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$this->gTabs->addTab("properties", $this->object->plugin->txt("properties"), $this->gCtrl->getLinkTarget($this, "editProperties"));
+		}*/
+
 		// standard permission tab
 		if ($this->gAccess->checkAccess("edit_permission", "", $this->object->getRefId())) {
 			$this->addPermissionTab();
 		}
+
+
 	}
 
 	/**
@@ -146,7 +154,7 @@ class ilObjBuildingBlockPoolGUI extends ilObjectPluginGUI {
 					require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/BuildingBlockPool/classes/class.ilBuildingBlockImportTableGUI.php");
 					$this->gCtrl->setParameter($this,"cmd","importBuildingBlock");
 					$bb_import = new ilBuildingBlockImportTableGUI($this);
-					$bb_import->addCommandButton("importConfirmedBuildingBlock",$this->lng->txt("import"));
+					$bb_import->addCommandButton("importConfirmedBuildingBlock",$this->lng->txt("rep_robj_xbbp_copy_building_block"));
 					$bb_import->addCommandButton("cancelImport",$this->lng->txt("cancel"));
 					$this->gTpl->setContent($bb_import->getHtml());
 					$this->gCtrl->setParameter($this,"cmd",null);
@@ -185,7 +193,7 @@ class ilObjBuildingBlockPoolGUI extends ilObjectPluginGUI {
 		$this->gToolbar->addButton( $this->lng->txt("rep_robj_xbbp_add_building_block"), $add_building_bock_link);
 
 		require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/BuildingBlockPool/classes/class.ilBuildingBlockTableGUI.php");
-		$bb_table = new ilBuildingBlockTableGUI(array("pool_id"=>$this->object->getId()), $this);
+		$bb_table = new ilBuildingBlockTableGUI(array("pool_id"=>$this->object->getId()), $this, true);
 		
 		$bb_table->addCommandButton("importBuildingBlock",$this->lng->txt("rep_robj_xbbp_copy_building_block")); // TODO: set this properly
 

@@ -21,7 +21,7 @@ class ilBuildingBlockImportTableGUI extends ilTable2GUI {
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 
-		$this->setTitle($this->lng->txt("import_header"));
+		$this->setTitle($this->lng->txt("rep_robj_xbbp_copy_header"));
 		$this->setSelectAllCheckbox("bb_obj_id");
 		
 		$this->determineOffsetAndOrder();

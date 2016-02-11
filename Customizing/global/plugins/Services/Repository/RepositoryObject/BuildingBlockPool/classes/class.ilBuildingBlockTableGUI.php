@@ -26,7 +26,7 @@ class ilBuildingBlockTableGUI extends ilTable2GUI {
 		$this->ctrl = $ilCtrl;
 		$this->parent_obj = $a_parent_obj;
 		$this->gAccess = $ilAccess;
-		$this->edit = false;
+		$this->edit = $edit;
 
 		$this->setEnableTitle(true);
 		$this->setTopCommands(true);
