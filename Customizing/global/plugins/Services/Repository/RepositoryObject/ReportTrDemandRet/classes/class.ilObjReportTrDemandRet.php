@@ -38,10 +38,10 @@ class ilObjReportTrDemandRet extends ilObjReportBase {
 				->column('bookings', $this->plugin->txt('bookings'), true)
 				->column('cancellations', $this->plugin->txt('cancellations'), true)
 				->column('venue', $this->plugin->txt('venue'), true)
-				->column('accomodation', $this->plugin->txt('venue'), true)
-				->column('overnights', $this->plugin->txt('venue'), true)
+				->column('accomodation', $this->plugin->txt('accomodation'), true)
+				->column('overnights', $this->plugin->txt('overnights'), true)
 				->column('trainers', $this->plugin->txt('trainers'), true)
-				->column('is_cancelled', $this->plugin->txt('trainers'), true);
+				->column('is_cancelled', $this->plugin->txt('is_cancelled'), true);
 		return parent::buildTable($table);
 	}
 
@@ -113,8 +113,10 @@ class ilObjReportTrDemandRet extends ilObjReportBase {
 							)*/
 			->multiselect_custom( 'cancelled' 
 								, $this->plugin->txt("filter_cancelled")
-								, array("crs.is_cancelled  = 'Ja'" => $this->plugin->txt('crs_is_cancelled'),
-										"crs.is_cancelled  != 'Ja'" => $this->plugin->txt('crs_is_not_cancelled'))
+								, array("crs.is_cancelled  = 'Ja'" 
+										=> $this->plugin->txt('crs_is_cancelled'),
+										"crs.is_cancelled  != 'Ja' OR crs.is_cancelled SI NULL" 
+										=> $this->plugin->txt('crs_is_not_cancelled'))
 								, array()
 								, ''
 								, 200
