@@ -16,14 +16,33 @@ require_once("Services/Database/classes/Exceptions/ilDatabaseException.php");
 class ilDBPdo implements ilDBInterface {
 
 	/**
+	 * @var string
+	 */
+	protected $host = '';
+	/**
+	 * @var string
+	 */
+	protected $dbname = '';
+	/**
+	 * @var string
+	 */
+	protected $charset = 'utf8';
+	/**
+	 * @var string
+	 */
+	protected $username = '';
+	/**
+	 * @var string
+	 */
+	protected $password = '';
+	/**
+	 * @var int
+	 */
+	protected $port = 3306;
+	/**
 	 * @var PDO
 	 */
 	protected $pdo;
-	protected static $staticPbo;
-	/**
-	 * @var ilDB
-	 */
-	protected $ilDB;
 	/**
 	 * @var array
 	 */
@@ -36,35 +55,60 @@ class ilDBPdo implements ilDBInterface {
 		'datetime' => 'TIMESTAMP',
 		'clob' => 'LONGTEXT',
 	);
-
-
-	public function __construct() {
-		$attr = PDO::MYSQL_ATTR_USE_BUFFERED_QUERY;
-	}
+	/**
+	 * @var string
+	 */
+	protected $dsn = '';
+	/**
+	 * @var array
+	 */
+	protected $additional_attributes = array(
+		PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
+		PDO::ATTR_EMULATE_PREPARES => true,
+		PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+		PDO::MYSQL_ATTR_MAX_BUFFER_SIZE => 1048576
+	);
 
 
 	public function connect() {
-		$this->pdo = new PDO('mysql:host=localhost;dbname=ilias_trunk;charset=utf8', 'ilias_trunk', 'ilias_trunk', array(
-			PDO::MYSQL_ATTR_MAX_BUFFER_SIZE => 1024 * 1024 * 1
-		));
-		$this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-		$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
-		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$this->pdo = new PDO($this->getDSN(), $this->getUsername(), $this->getPassword(), $this->additional_attributes);
 	}
 
 
-	public function initFromIniFile() {
-		//TODO
+	/**
+	 * @param null $tmpClientIniFile
+	 */
+	public function initFromIniFile($tmpClientIniFile = null) {
+		global $ilClientIniFile;
+		if ($tmpClientIniFile instanceof ilIniFile) {
+			$clientIniFile = $tmpClientIniFile;
+		} else {
+			$clientIniFile = $ilClientIniFile;
+		}
+
+		$this->setUsername($clientIniFile->readVariable("db", "user"));
+		$this->setHost($clientIniFile->readVariable("db", "host"));
+		$this->setPort((int)$clientIniFile->readVariable("db", "port"));
+		$this->setPassword($clientIniFile->readVariable("db", "pass"));
+		$this->setDbname($clientIniFile->readVariable("db", "name"));
+
+		$this->generateDSN();
 	}
 
 
+	public function generateDSN() {
+		$this->dsn = 'mysql:host=' . $this->getHost() . ';dbname=' . $this->getDbname() . ';charset=' . $this->getCharset();
+	}
+
+
+	/**
+	 * @param $identifier
+	 * @return string
+	 */
 	public function quoteIdentifier($identifier) {
 		return '`' . $identifier . '`';
 	}
-	//
-	//    public function queryRow($query, $something, $fetchmode = DB_FETCHMODE_ASSOC) {
-	//
-	//    }
+
 
 	/**
 	 * @param $table_name string
@@ -392,10 +436,10 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
-	 * Get DSN. This must be overwritten in DBMS specific class.
+	 * @return string
 	 */
-	function getDSN() {
-		// TODO: Implement getDSN() method.
+	public function getDSN() {
+		return $this->dsn;
 	}
 
 
@@ -622,6 +666,102 @@ class ilDBPdo implements ilDBInterface {
 		} else {
 			return "(" . $columns . " = '' OR $columns IS NULL)";
 		}
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getHost() {
+		return $this->host;
+	}
+
+
+	/**
+	 * @param string $host
+	 */
+	public function setHost($host) {
+		$this->host = $host;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getDbname() {
+		return $this->dbname;
+	}
+
+
+	/**
+	 * @param string $dbname
+	 */
+	public function setDbname($dbname) {
+		$this->dbname = $dbname;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getCharset() {
+		return $this->charset;
+	}
+
+
+	/**
+	 * @param string $charset
+	 */
+	public function setCharset($charset) {
+		$this->charset = $charset;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getUsername() {
+		return $this->username;
+	}
+
+
+	/**
+	 * @param string $username
+	 */
+	public function setUsername($username) {
+		$this->username = $username;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getPassword() {
+		return $this->password;
+	}
+
+
+	/**
+	 * @param string $password
+	 */
+	public function setPassword($password) {
+		$this->password = $password;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getPort() {
+		return $this->port;
+	}
+
+
+	/**
+	 * @param int $port
+	 */
+	public function setPort($port) {
+		$this->port = $port;
 	}
 }
 

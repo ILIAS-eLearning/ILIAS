@@ -8,6 +8,7 @@
  */
 interface ilDBInterface {
 
+
 	/**
 	 * Get reserved words. This must be overwritten in DBMS specific class.
 	 * This is mainly used to check whether a new identifier can be problematic
@@ -19,15 +20,14 @@ interface ilDBInterface {
 
 	/**
 	 * @param null $tmpClientIniFile
-	 * @return mixed
 	 */
-	function initFromIniFile($tmpClientIniFile = null);
+	public function initFromIniFile($tmpClientIniFile = null);
 
 
 	/**
 	 * @return void
 	 */
-	function connect();
+	public function connect();
 
 
 	/**
@@ -201,13 +201,13 @@ interface ilDBInterface {
 	/**
 	 * Get DSN. This must be overwritten in DBMS specific class.
 	 */
-	function getDSN();
+	public function getDSN();
 
 
 	/**
 	 * Get DSN. This must be overwritten in DBMS specific class.
 	 */
-	function getDBType();
+	public function getDBType();
 
 
 	/**
