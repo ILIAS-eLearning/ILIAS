@@ -5,7 +5,7 @@ require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
 * User Interface class for example repository object.
 * ...
 * @ilCtrl_isCalledBy ilObjReportTrDemandRetGUI: ilRepositoryGUI, ilAdministrationGUI, ilObjPluginDispatchGUI
-* @ilCtrl_Calls ilObjReportTrDemandRetGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI, gevDBVReportGUI
+* @ilCtrl_Calls ilObjReportTrDemandRetGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjReportTrDemandRetGUI: ilCommonActionDispatcherGUI
 */
 class ilObjReportTrDemandRetGUI extends ilObjReportBaseGUI {
