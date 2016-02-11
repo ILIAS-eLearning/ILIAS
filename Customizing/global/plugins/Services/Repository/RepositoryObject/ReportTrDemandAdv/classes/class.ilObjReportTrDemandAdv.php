@@ -42,8 +42,9 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 	protected function buildQuery($query) {
 		$query
 			->select('crs.template_obj_id')
-			->select_raw('crs.title as title')
-			->select_raw('crs.type as type')
+			->select('crs.crs_id')
+			->select('crs.title')
+			->select('crs.type')
 			->select('crs.begin_date')
 			->select_raw('DATE_SUB(crs.begin_date,INTERVAL crs.dl_booking DAY) as booking_dl')
 			->select('crs.end_date')
