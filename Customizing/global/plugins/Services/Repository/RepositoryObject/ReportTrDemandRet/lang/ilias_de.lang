@@ -37,4 +37,5 @@ venue#:#Veranstaltungsort
 accomodation#:#Übernachtungsort
 overnights#:#Übernachtungen
 is_cancelled#:#Absage
-succ_participation#:#erfolgreiche Teilnahmen
+cancellations#:#Stronierungen
+succ_participations#:#erfolgreiche Teilnahmen
