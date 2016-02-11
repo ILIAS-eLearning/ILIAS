@@ -20,7 +20,8 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 
 	protected function buildOrder($order) {
 		return $order
-					->defaultOrder("tpl_title", "ASC");
+					->defaultOrder("tpl_title", "ASC")
+					->mapping("tpl_title",array("tpl_title","title","begin_date"));
 	}
 
 	protected function buildTable($table) {
@@ -168,7 +169,7 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 				.' WHERE '.$local_condition
 				.' 	AND tpl.hist_historic = 0 '
 				.'	AND '.$this->gIldb->in('tpl.type',array('Webinar','Präsenztraining','Virtuelles Training'),false,'text')
-				.$this->queryOrder();
+				.' '.$this->queryOrder();
 
 		
 		$res = $this->gIldb->query($query);
