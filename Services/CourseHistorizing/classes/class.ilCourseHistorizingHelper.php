@@ -174,6 +174,20 @@ class ilCourseHistorizingHelper
 	}
 
 	/**
+	 * Returns the accomodation of the given course.
+	 *
+	 * @param integer|ilObjCourse $course
+	 *
+	 * @return string
+	 */
+	public static function getAccomodationOf($course)
+	{
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getAccomodationTitle();
+	}
+
+
+	/**
 	 * Returns the venue free text marker of the given course.
 	 *
 	 * @param integer|ilObjCourse $course

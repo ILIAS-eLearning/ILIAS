@@ -152,7 +152,8 @@ class ilCourseHistorizingAppEventListener
 			'size_waitinglist'					=> self::$ilCourseHistorizingHelper->getSizeWaitinglist($parameter),
 			'waitinglist_active'					=> self::$ilCourseHistorizingHelper->getWaitinglistActive($parameter),
 			'max_participants'					=> self::$ilCourseHistorizingHelper->getMaxParticipants($parameter),
-			'min_participants'					=> self::$ilCourseHistorizingHelper->getMinParticipants($parameter)
+			'min_participants'					=> self::$ilCourseHistorizingHelper->getMinParticipants($parameter),
+			'accomodation'						=> self::$ilCourseHistorizingHelper->getAccomodationOf($parameter)
 		);
 
 
