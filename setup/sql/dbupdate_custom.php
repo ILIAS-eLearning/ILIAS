@@ -4965,3 +4965,14 @@ if ($ilDB->tableColumnExists('tep_type', 'tep_active'))	{
 		));
 	}
 ?>
+
+<#206>
+<?php
+	if (!$ilDB->tableColumnExists('hist_course', 'accomodation')) {		
+		$ilDB->addTableColumn('hist_course', 'accomodation', array(
+			"type" => "text",
+			"length" => 255,
+			"notnull" => false
+		));
+	}
+?>
