@@ -269,7 +269,8 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		$form_add_building_block->getTemplate()->setVariable("TOPIC",$topic->render());
 		$form_add_building_block->getTemplate()->setVariable("TOPIC_LABEL",$this->lng->txt("gev_dec_training_preselect_topic"));
 		
-		$blocks = gevBuildingBlockUtils::getPossibleBuildingBlocksGroupByTopic();
+		$blocks = gevBuildingBlockUtils::getPossibleBuildingBlocksGroupByTopic($this->current_user->getId());
+		
 		$options = "";
 		
 		foreach ($blocks as $key => $value) {

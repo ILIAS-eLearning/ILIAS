@@ -61,9 +61,13 @@ class ilObjBuildingBlockPoolGUI extends ilObjectPluginGUI {
 			case "cancelBuildingBlock":
 			case "cancelImport":
 			case "showContent":
-				if($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
+				require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+				if($this->gAccess->checkAccess(gevSettings::EDIT_BUILDING_BLOCKS, "", $this->object->getRefId())) {
 					$this->gTabs->activateTab("content");
 					return $this->showContent();
+				} else if($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
+					$this->gTabs->activateTab("content");
+					return $this->showContentNoEdit();
 				}
 				break;
 			case "editBuildingBlock":
@@ -178,13 +182,19 @@ class ilObjBuildingBlockPoolGUI extends ilObjectPluginGUI {
 
 	protected function showContent() {
 		$add_building_bock_link = $this->gCtrl->getLinkTarget($this, "addBuildingBlock");
-		$this->gToolbar->addButton( $this->lng->txt("add_building_block"), $add_building_bock_link);
+		$this->gToolbar->addButton( $this->lng->txt("rep_robj_xbbp_add_building_block"), $add_building_bock_link);
 
 		require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/BuildingBlockPool/classes/class.ilBuildingBlockTableGUI.php");
 		$bb_table = new ilBuildingBlockTableGUI(array("pool_id"=>$this->object->getId()), $this);
 		
-		$bb_table->addCommandButton("importBuildingBlock",$this->lng->txt("import")); // TODO: set this properly
+		$bb_table->addCommandButton("importBuildingBlock",$this->lng->txt("rep_robj_xbbp_copy_building_block")); // TODO: set this properly
 
+		$this->gTpl->setContent($bb_table->getHTML());
+	}
+
+	protected function showContentNoEdit() {
+		require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/BuildingBlockPool/classes/class.ilBuildingBlockTableGUI.php");
+		$bb_table = new ilBuildingBlockTableGUI(array("pool_id"=>$this->object->getId()), $this, false);
 		$this->gTpl->setContent($bb_table->getHTML());
 	}
 }

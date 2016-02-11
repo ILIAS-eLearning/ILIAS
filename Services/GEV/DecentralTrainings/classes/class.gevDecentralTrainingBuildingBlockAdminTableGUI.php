@@ -20,7 +20,7 @@ class gevDecentralTrainingBuildingBlockAdminTableGUI extends catTableGUI {
 	public function __construct($a_search_opts,$a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser;
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -62,9 +62,9 @@ class gevDecentralTrainingBuildingBlockAdminTableGUI extends catTableGUI {
 		$offset = $this->getOffset();
 		$limit = $this->getLimit();
 
-		$data = gevBuildingBlockUtils::getAllBuildingBlocks($a_search_opts,$order,$order_direction,$offset,$limit);
+		$data = gevBuildingBlockUtils::getAllBuildingBlocks($a_search_opts,$order,$order_direction,$offset,$limit,$ilUser->getId());
 
-		$this->setMaxCount(gevBuildingBlockUtils::countAllBuildingBlocks($a_search_opts));
+		$this->setMaxCount(gevBuildingBlockUtils::countAllBuildingBlocks($a_search_opts,$ilUser->getId()));
 		$this->setData($data);
 	}
 

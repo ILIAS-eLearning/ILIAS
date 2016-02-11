@@ -290,6 +290,10 @@ class gevSettings {
 	const VIEW_MAILLOG = "view_maillog";
 	const CANCEL_TRAINING = "cancel_training";
 
+	//building block permissions
+	const USE_BUILDING_BLOCK = "use_building_block";
+	const EDIT_BUILDING_BLOCKS = "edit_building_blocks";
+
 	static $UDF_FIELD_ORDER = array(
 		'Emailadresse (privat)'
 		,'Geburtsname'
@@ -462,6 +466,11 @@ class gevSettings {
 		  "Administrator"
 		, "Admin-eingeschraenkt"
 		, "Admin-Voll"
+		);
+
+	// Names of roles that count as system admins
+	static $SYSTEM_ADMIN_ROLES = array(
+		  "Administrator"
 		);
 	
 	// Names of roles that count as superiors

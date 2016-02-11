@@ -6,3 +6,6 @@ objs_xbbp_duplicate#:#Trainigsbausteinpool kopieren
 xbbp_content#:#Trainingsbausteine
 objs_xbbp#:#Trainingsbausteinpools
 xbbp_obj_xbbp_duplicate#:#Traininsbausteinpool kopieren
+add_building_block#:#Trainingsbaustein hinzufügen
+copy_building_block#:#Baustein aus anderem Pool kopieren
+edit#:#Inhalt bearbeiten

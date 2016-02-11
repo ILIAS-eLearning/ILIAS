@@ -30,12 +30,7 @@ class ilObjBuildingBlockPoolListGUI extends ilObjectPluginListGUI {
 		return array(array("permission" => "read",
 							"cmd" => "showContent",
 							"default" => true
-						),
-					array("permission" => "write",
-							"cmd" => "editProperties",
-							"txt" => $this->txt("edit"),
-							"default" => false
-						),
+						)
 				);
 	}
 

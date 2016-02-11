@@ -239,18 +239,25 @@ class gevBuildingBlockUtils {
 		return;
 	}
 
-	static public function getAllBuildingBlocks($a_search_opts,$a_order, $a_order_direction, $offset = null, $limit = null) {
+	static public function getAllBuildingBlocks($a_search_opts,$a_order, $a_order_direction, $offset = null, $limit = null, $user_id = null) {
 		global $ilDB;
+
+		$bb_pool_where = "";
+		if($user_id !== null && !gevUserUtils::getInstance($user_id)->isSystemAdmin()) {
+			$bb_pools = $bb_pool = gevUserUtils::getBuildingBlockPoolsUserHasPermissionsTo($user_id, array("visible", gevSettings::EDIT_BUILDING_BLOCKS));
+			$bb_pool_where .= " AND ".$ilDB->in("bb.pool_id", $bb_pools, false, "integer");
+		}
 
 		$add_where = self::createAdditionalWhere($a_search_opts);
 		$sql = "SELECT bb.obj_id, bb.title, bb.content, bb.target\n"
 			  ."     , bb.is_wp_relevant, bb.is_active, bb.gdv_topic, bb.training_categories, bb.topic, bb.dbv_topic\n"
-			  ."	 , usr.login, bb.last_change_date, bb.move_to_course\n"
+			  ."     , usr.login, bb.last_change_date, bb.move_to_course\n"
 			  ."  FROM ".self::TABLE_NAME." bb\n"
 			  ."  JOIN usr_data usr ON usr_id = last_change_user\n"
 			  ."  WHERE is_deleted = ".$ilDB->quote(0,"integer")."\n";
+		$sql .= $bb_pool_where;
 		$sql .= $add_where;
-
+		$sql .= " ORDER BY title";
 		if($a_order !== null) {
 			$sql .= " ORDER BY ".$a_order." ".$a_order_direction;
 		}
@@ -305,13 +312,20 @@ class gevBuildingBlockUtils {
 		return $ret;
 	}
 
-	static public function countAllBuildingBlocks($a_search_opts) {
+	static public function countAllBuildingBlocks($a_search_opts, $user_id = null) {
 		global $ilDB;
+
+		$bb_pool_where = "";
+		if($user_id !== null && !gevUserUtils::getInstance($user_id)->isSystemAdmin()) {
+			$bb_pools = $bb_pool = gevUserUtils::getBuildingBlockPoolsUserHasPermissionsTo($user_id, array("visible", gevSettings::EDIT_BUILDING_BLOCKS));
+			$bb_pool_where .= " AND ".$ilDB->in("pool_id", $bb_pools, false, "integer");
+		}
 
 		$add_where = self::createAdditionalWhere($a_search_opts);
 		$sql = "SELECT count(obj_id) as cnt\n"
 			  ."  FROM ".self::TABLE_NAME."\n"
 			  ."  WHERE is_deleted = ".$ilDB->quote(0,"integer")."\n";
+		$sql .= $bb_pool_where;
 		$sql .= $add_where;
 
 		$ret = array();
@@ -413,11 +427,18 @@ class gevBuildingBlockUtils {
 		return $ret;
 	}
 
-	static function getPossibleBuildingBlocksGroupByTopic() {
+	static function getPossibleBuildingBlocksGroupByTopic($user_id) {
 		global $ilDB;
 
-		$sql = "SELECT obj_id, title, topic FROM ".self::TABLE_NAME." WHERE is_deleted = 0 AND is_active = 1 ORDER BY topic";
-		$res = $ilDB->query($sql);
+		$bb_pool = gevUserUtils::getBuildingBlockPoolsUserHasPermissionsTo($user_id, array(gevSettings::USE_BUILDING_BLOCK, "visible"));
+
+		$query = "SELECT obj_id, title, topic\n"
+				." FROM ".self::TABLE_NAME."\n"
+				." WHERE is_deleted = 0\n"
+				."     AND is_active = 1\n"
+				."     AND ".$ilDB->in("pool_id", $bb_pool, false, "integer")."\n"
+				." ORDER BY topic, title";
+		$res = $ilDB->query($query);
 
 		$ret = array();
 		$curr_topic = "";
@@ -463,19 +484,24 @@ class gevBuildingBlockUtils {
 		return $ret;
 	}
 
-	static function getPossibleBuildingBlocksByTopicName($topic) {
+	static function getPossibleBuildingBlocksByTopicName($topic, $user_id) {
 		global $ilDB;
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		$bb_pool = gevUserUtils::getBuildingBlockPoolsUserHasPermissionsTo($user_id, array(gevSettings::USE_BUILDING_BLOCK, "visible"));
 
 		$sql = "SELECT obj_id, title, topic\n"
 			   ." FROM ".self::TABLE_NAME."\n"
 			   ." WHERE is_deleted = 0\n"
-			   ." AND is_active = 1\n";
-		
+			   ."    AND is_active = 1\n"
+			   ."    AND ".$ilDB->in("pool_id", $bb_pool, false, "integer")."\n";
+
 		if($topic != "0") {
 			$sql .= " AND topic = ".$ilDB->quote($topic,"text")."\n";
+			$sql .= " ORDER BY title";
+		} else {
+			$sql .= " ORDER BY topic, title";
 		}
-
-		$sql .= " ORDER BY topic";
 
 		$res = $ilDB->query($sql);
 

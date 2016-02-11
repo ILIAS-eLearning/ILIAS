@@ -23,6 +23,7 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
 		$this->link_enabled = true;
 		$this->payment_enabled = false;
 		$this->info_screen_enabled = true;
+		$this->copy_enabled = true;
 		$this->initType();
 		$this->plugin =
 			ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",

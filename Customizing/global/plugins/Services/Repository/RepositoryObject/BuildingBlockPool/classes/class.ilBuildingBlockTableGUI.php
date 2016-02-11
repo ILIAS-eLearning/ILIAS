@@ -17,7 +17,7 @@ require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevBuildingBlockUtils.php");
 
 class ilBuildingBlockTableGUI extends ilTable2GUI {
-	public function __construct($a_search_opts,$a_parent_obj, $a_parent_cmd="", $a_template_context="") {
+	public function __construct($a_search_opts,$a_parent_obj, $edit = false, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
 		global $ilCtrl, $lng, $ilAccess;
@@ -26,6 +26,7 @@ class ilBuildingBlockTableGUI extends ilTable2GUI {
 		$this->ctrl = $ilCtrl;
 		$this->parent_obj = $a_parent_obj;
 		$this->gAccess = $ilAccess;
+		$this->edit = false;
 
 		$this->setEnableTitle(true);
 		$this->setTopCommands(true);
@@ -77,7 +78,7 @@ class ilBuildingBlockTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("IS_ACTIVE", ($a_set["is_active"]) ? "Ja" : "Nein");
 		$date = new ilDate($a_set["last_change_date"], IL_CAL_DATE);
 		$this->tpl->setVariable("LAST_CHANGE", $a_set["login"].", ".ilDatePresentation::formatDate($date));
-		$this->tpl->setVariable("ACTION", $this->addActionMenu($a_set));
+		$this->tpl->setVariable("ACTION", $this->edit ? $this->addActionMenu($a_set) : "");
 	}
 
 	protected function addActionMenu($a_set) {
