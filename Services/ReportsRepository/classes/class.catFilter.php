@@ -862,6 +862,7 @@ class catMultiSelectCustomFilter {
 	// height (optional, defaults to 75)
 	// field type (optional, default to "text")
 	// filter-options sorting (defaults to "asc", also possible  "desc", "none")
+	// is in having
 
 	public function checkConfig($a_conf) {
 		if (count($a_conf) < 6) {
@@ -875,31 +876,39 @@ class catMultiSelectCustomFilter {
 			$a_conf[] = 160; // height
 			$a_conf[] = "text"; // type
 			$a_conf[] = "asc"; //filter-options sorting
+			$a_conf[] = false;  //is in having
 		}
 		else if (count($a_conf) === 6) {
 			$a_conf[] = 200; // width
 			$a_conf[] = 160; // height
 			$a_conf[] = "text"; // type
 			$a_conf[] = "asc"; //filter-options sorting
+			$a_conf[] = false;  //is in having
 		}
 		else if (count($a_conf) === 7) {
 			$a_conf[] = 160; // height
 			$a_conf[] = "text"; // type
 			$a_conf[] = "asc"; //filter-options sorting
+			$a_conf[] = false;  //is in having
 		}
 		else if (count($a_conf) === 8) {
 			$a_conf[] = "text"; // type
 			$a_conf[] = "asc"; //filter-options sorting
+			$a_conf[] = false;  //is in having
 		}
 		else if (count($a_conf) === 9) {
 			$a_conf[] = "asc"; //filter-options sorting
+			$a_conf[] = false;  //is in having
+		}
+		else if (count($a_conf) === 10) {
+			$a_conf[] = false;  //is in having
 		}
 
 		return $a_conf;
 	}
 
 	public function isInWhere($a_conf) {
-		return true;
+		return !$a_conf[10];
 	}
 
 	public function render($a_tpl, $a_postvar, $a_conf, $a_pars) {
@@ -912,7 +921,7 @@ class catMultiSelectCustomFilter {
 		$a_tpl->setVariable("HEIGHT", $a_conf[7]);
 
 		$count = 0;
-		if($a_conf[10] == "asc") {
+		if($a_conf[9] == "asc") {
 			asort($a_conf[3]);
 		} else if($a_conf[9] == "desc") {
 			arsort($a_conf[3]);

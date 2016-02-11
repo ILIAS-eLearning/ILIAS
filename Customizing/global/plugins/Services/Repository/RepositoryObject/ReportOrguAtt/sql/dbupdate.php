@@ -17,3 +17,13 @@ $fields =
 $ilDB->createTable("rep_robj_roa", $fields);
 $ilDB->addPrimaryKey("rep_robj_roa", array("id"));
 ?>
+
+<#2>
+<?php
+		$ilDB->addTableColumn('rep_robj_roa', 'is_local', array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0
+		));
+?>

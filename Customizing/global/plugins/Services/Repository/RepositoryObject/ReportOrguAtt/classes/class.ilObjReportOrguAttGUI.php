@@ -31,6 +31,17 @@ class ilObjReportOrguAttGUI extends ilObjReportBaseGUI {
 				. $this->renderTable();
 	}
 
+	protected function settingsForm($data = null) {
+		$settings_form = parent::settingsForm($data);
+		$is_local = new ilCheckboxInputGUI($this->object->plugin->txt('report_is_local'),'is_local');
+		$is_local->setValue(1);
+		if(isset($data["is_local"])) {
+			$is_local->setChecked($data["is_local"]);
+		}
+		$settings_form->addItem($is_local);
+		return $settings_form;
+	}
+
 	private function renderSumTable(){
 		$table = new catTableGUI($this, "showContent");
 		$table->setEnableTitle(false);
@@ -96,5 +107,16 @@ class ilObjReportOrguAttGUI extends ilObjReportBaseGUI {
 			$rec['odbd'] = $od .'/' .$bd;
 		}
 		return parent::transformResultRow($rec);
+	}
+
+	protected function getSettingsData() {
+		$data = parent::getSettingsData();
+		$data['is_local'] = $this->object->getIsLocal();
+		return $data;
+	}
+
+	protected function saveSettingsData($data) {
+		$this->object->setIsLocal($data['is_local']);
+		parent::saveSettingsData($data);
 	}
 }

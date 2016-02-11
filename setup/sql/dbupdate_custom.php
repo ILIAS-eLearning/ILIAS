@@ -4936,6 +4936,48 @@ if ($ilDB->tableColumnExists('tep_type', 'tep_active'))	{
 
 <#205>
 <?php
+	if (!$ilDB->tableColumnExists('hist_course', 'waitinglist_active')) {		
+		$ilDB->addTableColumn('hist_course', 'waitinglist_active', array(
+			"type" => "text",
+			"length" => 8,
+			"notnull" => false
+		));
+	}
+	if (!$ilDB->tableColumnExists('hist_course', 'max_participants')) {		
+		$ilDB->addTableColumn('hist_course', 'max_participants', array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false
+		));
+	}
+	if (!$ilDB->tableColumnExists('hist_course', 'min_participants')) {		
+		$ilDB->addTableColumn('hist_course', 'min_participants', array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false
+		));
+	}
+	if (!$ilDB->tableColumnExists('hist_course', 'size_waitinglist')) {		
+		$ilDB->addTableColumn('hist_course', 'size_waitinglist', array(
+			"type" => "integer",
+			"length" => 4,
+			"notnull" => false
+		));
+	}
+?>
+<#206>
+<?php
+	if (!$ilDB->tableColumnExists('hist_course', 'accomodation')) {		
+		$ilDB->addTableColumn('hist_course', 'accomodation', array(
+			"type" => "text",
+			"length" => 255,
+			"notnull" => false
+		));
+	}
+?>
+
+<#207>
+<?php
 	if (!$ilDB->tableColumnExists('dct_building_block', 'pool_id'))
 	{		
 		$ilDB->addTableColumn('dct_building_block', 'pool_id', array(
@@ -4945,4 +4987,3 @@ if ($ilDB->tableColumnExists('tep_type', 'tep_active'))	{
 		));
 	}
 ?>
-
