@@ -783,6 +783,54 @@ class ilDBPdo implements ilDBInterface {
 	public function setDBHost($host) {
 		$this->setDBHost($host);
 	}
+
+
+	/**
+	 * @param $a_exp
+	 * @return string
+	 */
+	public function upper($a_exp) {
+		return " UPPER(" . $a_exp . ") ";
+	}
+
+
+	/**
+	 * @param $a_exp
+	 * @return string
+	 */
+	public function lower($a_exp) {
+		return " LOWER(" . $a_exp . ") ";
+	}
+
+
+	/**
+	 * @param $a_exp
+	 * @param int $a_pos
+	 * @param int $a_len
+	 * @return string
+	 */
+	public function substr($a_exp, $a_pos = 1, $a_len = - 1) {
+		$lenstr = "";
+		if ($a_len > - 1) {
+			$lenstr = ", " . $a_len;
+		}
+		return " SUBSTR(" . $a_exp . ", " . $a_pos . $lenstr . ") ";
+	}
+
+
+	/**
+	 * @param $a_query
+	 * @param null $a_types
+	 * @return mixed
+	 */
+	public function prepareManip($a_query, $a_types = null) {
+		return $this->pdo->prepare($a_query);
+	}
+
+
+	public function enableResultBuffering($a_status) {
+		$this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $a_status);
+	}
 }
 
 ?>

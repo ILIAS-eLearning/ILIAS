@@ -327,4 +327,39 @@ interface ilDBInterface {
 	 * @param $host
 	 */
 	public function setDBHost($host);
+
+
+	/**
+	 * @param $a_exp
+	 * @return string
+	 */
+	public function upper($a_exp);
+
+
+	/**
+	 * @param $a_exp
+	 * @return string
+	 */
+	public function lower($a_exp);
+
+
+	/**
+	 * @param $a_exp
+	 * @return string
+	 */
+	public function substr($a_exp);
+
+
+	/**
+	 * @param $a_query
+	 * @param null $a_types
+	 * @return mixed
+	 */
+	public function prepareManip($a_query, $a_types = null);
+
+
+	/**
+	 * @param $a_status
+	 */
+	public function enableResultBuffering($a_status);
 }
