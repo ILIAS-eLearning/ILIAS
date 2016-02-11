@@ -5,7 +5,7 @@ require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
 * User Interface class for example repository object.
 * ...
 * @ilCtrl_isCalledBy ilObjReportTrDemandAdvGUI: ilRepositoryGUI, ilAdministrationGUI, ilObjPluginDispatchGUI
-* @ilCtrl_Calls ilObjReportTrDemandAdvGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI, gevDBVReportGUI
+* @ilCtrl_Calls ilObjReportTrDemandAdvGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjReportTrDemandAdvGUI: ilCommonActionDispatcherGUI
 */
 class ilObjReportTrDemandAdvGUI extends ilObjReportBaseGUI {
@@ -22,6 +22,23 @@ class ilObjReportTrDemandAdvGUI extends ilObjReportBaseGUI {
 
 	public static function transformResultRow($rec) {
 		if($rec['title'] !== null) {
+			if(ilObject::_exists($rec['crs_id']) &&'crs' === ilObject::_lookupType($rec['crs_id'])) {
+				$ref_id = current(ilObject::_getAllReferences($rec['crs_id']));
+				global $ilAccess;
+				if($ilAccess->checkAccess("write", "editInfo", $ref_id, "crs", $rec['crs_id'])) {
+					global $ilCtrl;
+					$ilCtrl->setParameterByClass("ilObjCourseGUI","ref_id",$ref_id);
+					$link = $ilCtrl->getLinkTargetByClass(array("ilRepositoryGUI","ilObjCourseGUI"),"editInfo");
+					$ilCtrl->setParameterByClass("ilObjCourseGUI","ref_id",null);
+					$rec["title"] = '<a href = "'.$link.'">'.$rec['title'].'</a>';
+				} elseif ($ilAccess->checkAccess("write_reduced_settings", "showSettings", $ref_id, "crs", $rec['crs_id'])) {
+					global $ilCtrl;
+					$ilCtrl->setParameterByClass("gevDecentralTrainingGUI","ref_id",$ref_id);
+					$link = $ilCtrl->getLinkTargetByClass(array("gevDesktopGUI","gevDecentralTrainingGUI"),"showSettings");
+					$ilCtrl->setParameterByClass("gevDecentralTrainingGUI","ref_id",null);
+					$rec["title"] = '<a href = "'.$link.'">'.$rec['title'].'</a>';
+				}
+			}
 			$rec['min_part_achived'] = 
 				((string)$rec['min_participants'] === "0" 
 					|| $rec['min_participants'] === null 
