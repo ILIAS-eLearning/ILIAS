@@ -218,69 +218,80 @@ class ilChatroomHistoryTask extends ilChatroomTaskHandler
     public function bySessionExport() {
 	    $this->bySession(true);
     }
-    /**
-     * Prepares and displays history period form by day.
-     *
-     * @global ilLanguage $lng
-     * @global ilCtrl2 $ilCtrl
-     * @global ilObjUser $ilUser
-     */
-    public function byDay($export = false)
-    {
-	    global $lng, $ilCtrl, $ilUser, $tpl;
 
-	    $room = ilChatroom::byObjectId( $this->gui->object->getId() );
+	/**
+	 * Prepares and displays history period form by day.
+	 * @global ilLanguage $lng
+	 * @global ilCtrl2    $ilCtrl
+	 * @global ilObjUser  $ilUser
+	 */
+	public function byDay($export = false)
+	{
+		global $lng, $ilCtrl, $ilUser, $tpl;
 
-	    $tpl->addJavaScript('./Services/Form/js/date_duration.js');
+		$room = ilChatroom::byObjectId($this->gui->object->getId());
 
-	    $scope = $room->getRoomId();
+		$tpl->addJavaScript('./Services/Form/js/date_duration.js');
 
-	    $chat_user = new ilChatroomUser( $ilUser, $room );
-	    $formFactory = new ilChatroomFormFactory();
+		$scope = $room->getRoomId();
 
-	    $durationForm = $formFactory->getPeriodForm();
-	    $durationForm->setTitle( $lng->txt('history_byday_title') );
-	    $durationForm->addCommandButton( 'history-byDayExport', $lng->txt( 'export' ) );
-	    $durationForm->addCommandButton( 'history-byDay', $lng->txt( 'show' ) );
-	    $durationForm->setFormAction( $ilCtrl->getFormAction( $this->gui ), 'history-byDay' );
+		$chat_user   = new ilChatroomUser($ilUser, $room);
+		$formFactory = new ilChatroomFormFactory();
 
-	    if( strtolower( $_SERVER['REQUEST_METHOD'] ) == 'post' )
-	    {
-		$durationForm->checkInput();
-		$period = $durationForm->getItemByPostVar( 'timeperiod' );
-		$messages = $room->getHistory(
-			$from = $period->getStart(),
-			$to = $period->getEnd(),
-			/*$room->getSetting( 'restrict_history' ) ?*/ $chat_user->getUserId() /*: null*/,
-			isset($_REQUEST['scope']) ? $_REQUEST['scope'] : 0
-		);
-	    }
-	    else
-	    {
-		    $from = new ilDateTime( time() - 60 * 60, IL_CAL_UNIX );
-		    $to = new ilDateTime( time(), IL_CAL_UNIX );
+		$durationForm = $formFactory->getPeriodForm();
+		$durationForm->setTitle($lng->txt('history_byday_title'));
+		$durationForm->addCommandButton('history-byDayExport', $lng->txt('export'));
+		$durationForm->addCommandButton('history-byDay', $lng->txt('show'));
+		$durationForm->setFormAction($ilCtrl->getFormAction($this->gui), 'history-byDay');
 
-		    $period = $durationForm->getItemByPostVar( 'timeperiod' );
-		    $period->setStart( $from );
-		    $period->setEnd( $to );
+		$set_default_values = true;
+		if(strtolower($_SERVER['REQUEST_METHOD']) == 'post') // <------- WTF?
+		{
+			if($durationForm->checkInput())
+			{
+				$period   = $durationForm->getItemByPostVar('timeperiod');
+				$messages = $room->getHistory(
+					$from = $period->getStart(),
+					$to = $period->getEnd(),
+					/*$room->getSetting( 'restrict_history' ) ?*/
+					$chat_user->getUserId() /*: null*/,
+					isset($_REQUEST['scope']) ? $_REQUEST['scope'] : 0
+				);
+				$set_default_values = false;
+			}
+			else
+			{
+				$export = false;
+				$durationForm->setValuesByPost();
+			}
+		}
 
-		    $messages = $room->getHistory(
+		if($set_default_values)
+		{
+			$from = new ilDateTime(time() - 60 * 60, IL_CAL_UNIX);
+			$to   = new ilDateTime(time(), IL_CAL_UNIX);
+
+			$period = $durationForm->getItemByPostVar('timeperiod');
+			$period->setStart($from);
+			$period->setEnd($to);
+
+			$messages = $room->getHistory(
+				$from,
+				$to,
+				$chat_user->getUserId(),
+				isset($_REQUEST['scope']) ? $_REQUEST['scope'] : 0
+			);
+		}
+
+		$psessions = $room->getPrivateRoomSessions(
 			$from,
 			$to,
 			$chat_user->getUserId(),
-			isset($_REQUEST['scope']) ? $_REQUEST['scope'] : 0
-		    );
-	    }
+			$scope
+		);
 
-	$psessions = $room->getPrivateRoomSessions(
-		$from,
-		$to,
-		$chat_user->getUserId(),
-		$scope
-	);
-
-	$this->showMessages( $messages, $durationForm, $export, $psessions, $from, $to );
-    }
+		$this->showMessages($messages, $durationForm, $export, $psessions, $from, $to);
+	}
 
     /**
      * Prepares and displays history period form by session.
