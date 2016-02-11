@@ -9,10 +9,12 @@ interface ilDBInterface {
      */
     static function getReservedWords();
 
+
     /**
-     * @return void
+     * @param null $tmpClientIniFile
+     * @return mixed
      */
-    function initFromIniFile();
+    function initFromIniFile($tmpClientIniFile = null);
 
     /**
      * @return void
