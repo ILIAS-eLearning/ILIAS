@@ -48,6 +48,7 @@ class ilObjReportTrDemandRet extends ilObjReportBase {
 	protected function buildQuery($query) {
 		$query
 			->select('crs.template_obj_id')
+			->select('crs.crs_id')
 			->select('crs.title')
 			->select('crs.type')
 			->select('crs.begin_date')
