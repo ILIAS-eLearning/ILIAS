@@ -9,6 +9,7 @@ require_once("Services/Database/classes/Exceptions/ilDatabaseException.php");
 /**
  * Class pdoDB
  * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  *
  * TODO: Quote, Oursource QueryBuilder stuff.
  */
