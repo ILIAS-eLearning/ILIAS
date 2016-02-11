@@ -70,12 +70,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case "ilfilesystemgui":
-				$this->fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
+				$this->fs_gui = new ilFileSystemGUI($this->object->getDataDirectory());
 				$this->fs_gui->setUseUploadDirectory(true);
 				$this->fs_gui->setTableId("sahsfs".$this->object->getId());
 				$ret =& $this->ctrl->forwardCommand($this->fs_gui);
@@ -93,14 +93,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			case "illearningprogressgui":
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 
-				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,$this->object->getRefId());
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,$this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
 
 				break;
 
 			case 'illicensegui':
 				include_once("./Services/License/classes/class.ilLicenseGUI.php");
-				$license_gui =& new ilLicenseGUI($this);
+				$license_gui = new ilLicenseGUI($this);
 				$ret =& $this->ctrl->forwardCommand($license_gui);
 				break;
 
@@ -150,7 +150,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				//$this->addLocations();
 				$this->ctrl->setReturn($this, "properties");
 				$ilTabs->clearTargets();
-				$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
+				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
 				if ($cmd == "create" || $_GET["new_type"]=="sty")
 				{

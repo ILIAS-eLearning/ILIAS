@@ -61,7 +61,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*/
 	function validate($directory)
 	{
-		//$this->validator =& new ilObjSCORMValidator($directory);
+		//$this->validator = new ilObjSCORMValidator($directory);
 		//$returnValue = $this->validator->validate();
 		return true;
 	}
@@ -999,7 +999,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
 		$this->slm_tree = new ilSCORM2004Tree($this->getId());
 
-		//$this->slm_tree =& new ilTree($this->getId());
+		//$this->slm_tree = new ilTree($this->getId());
 		//$this->slm_tree->setTreeTablePK("slm_id");
 		//$this->slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 		$this->slm_tree->addTree($this->getId(), 1);

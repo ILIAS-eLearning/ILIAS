@@ -68,7 +68,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 	function isClickable($a_type, $a_id = 0)
 	{
 		if ($a_type=="sbl") {
-			$block_object =& new ilAICCBlock($a_id);
+			$block_object = new ilAICCBlock($a_id);
 			return (strlen($block_object->getDescription())>0);
 		}
 		
@@ -78,7 +78,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 		}
 		else
 		{
-			$sc_object =& new ilAICCUnit($a_id);
+			$sc_object = new ilAICCUnit($a_id);
 			//if ($sc_object->getIdentifierRef() != "")
 			//{
 				return true;
@@ -97,7 +97,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 		}
 		else
 		{
-			$sc_object =& new ilAICCUnit($a_id);
+			$sc_object = new ilAICCUnit($a_id);
 			//if ($sc_object->getIdentifierRef() != "")
 			//{
 				$trdata = $sc_object->getTrackingDataOfUser();

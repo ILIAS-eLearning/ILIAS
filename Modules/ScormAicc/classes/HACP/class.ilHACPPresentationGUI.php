@@ -55,7 +55,7 @@ class ilHACPPresentationGUI extends ilAICCPresentationGUI
 		$cmd = (!empty($_GET["cmd"])) ? $_GET["cmd"] : "frameset";
 
 		// Todo: check lm id
-		$this->slm =& new ilObjHACPLearningModule($_GET["ref_id"], true);
+		$this->slm = new ilObjHACPLearningModule($_GET["ref_id"], true);
 	}
 	
 	/**
@@ -137,10 +137,10 @@ class ilHACPPresentationGUI extends ilAICCPresentationGUI
 			? $_POST["ref_id"]
 			: $_GET["ref_id"];
 
-		$this->slm =& new ilObjAICCLearningModule($ref_id, true);
+		$this->slm = new ilObjAICCLearningModule($ref_id, true);
 
 		include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");
-		$unit =& new ilAICCUnit($sahs_id);
+		$unit = new ilAICCUnit($sahs_id);
 		
 		//guess the url to be able to launch most contents
 		$url=$unit->getCommand_line();

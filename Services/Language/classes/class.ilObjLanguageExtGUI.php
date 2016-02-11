@@ -77,7 +77,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	function assignObject()
 	{
 		require_once("Services/Language/classes/class.ilObjLanguageExt.php");
-		$this->object =& new ilObjLanguageExt($this->id);
+		$this->object = new ilObjLanguageExt($this->id);
 	}
 
     /**

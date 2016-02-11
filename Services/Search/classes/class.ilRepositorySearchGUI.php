@@ -72,7 +72,7 @@ class ilRepositorySearchGUI
 
 		$this->result_obj = new ilSearchResult();
 		$this->result_obj->setMaxHits(1000000);
-		$this->settings =& new ilSearchSettings();
+		$this->settings = new ilSearchSettings();
 
 	}
 

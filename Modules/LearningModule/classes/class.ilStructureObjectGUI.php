@@ -96,7 +96,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				elseif(($cmd == "create") && ($_POST["new_type"] == "pg"))
 				{
 					$this->setTabs();
-					$pg_gui =& new ilLMPageObjectGUI($this->content_object);
+					$pg_gui = new ilLMPageObjectGUI($this->content_object);
 					$ret =& $pg_gui->executeCommand();
 				}
 				else
@@ -391,7 +391,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	function save()
 	{
 
-		$this->obj =& new ilStructureObject($this->content_object);
+		$this->obj = new ilStructureObject($this->content_object);
 
 		$this->obj->setType("st");
 		$this->obj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
@@ -571,7 +571,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	{
 		include_once("./Services/AccessControl/classes/class.ilConditionHandlerGUI.php");
 
-		$this->condHI =& new ilConditionHandlerGUI($this);
+		$this->condHI = new ilConditionHandlerGUI($this);
 		$this->condHI->setBackButtons(array());
 		$this->condHI->setAutomaticValidation(false);
 		$this->condHI->setTargetType("st");

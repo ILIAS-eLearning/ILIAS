@@ -269,7 +269,7 @@ class ilRepositoryExplorer extends ilExplorer
 					if ($a_type == "lm")
 					{
 						include_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-						$lm_obj =& new ilObjLearningModule($a_ref_id);
+						$lm_obj = new ilObjLearningModule($a_ref_id);
 						if((!$lm_obj->getOnline()) && (!$rbacsystem->checkAccess('write',$a_ref_id)))
 						{
 							return false;
@@ -279,7 +279,7 @@ class ilRepositoryExplorer extends ilExplorer
 					if ($a_type == "htlm")
 					{
 						include_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLM.php");
-						$lm_obj =& new ilObjFileBasedLM($a_ref_id);
+						$lm_obj = new ilObjFileBasedLM($a_ref_id);
 						if((!$lm_obj->getOnline()) && (!$rbacsystem->checkAccess('write',$a_ref_id)))
 						{
 							return false;
@@ -289,7 +289,7 @@ class ilRepositoryExplorer extends ilExplorer
 					if ($a_type == "sahs")
 					{
 						include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
-						$lm_obj =& new ilObjSAHSLearningModule($a_ref_id);
+						$lm_obj = new ilObjSAHSLearningModule($a_ref_id);
 						if((!$lm_obj->getOnline()) && (!$rbacsystem->checkAccess('write',$a_ref_id)))
 						{
 							return false;

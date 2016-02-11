@@ -134,7 +134,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$ilTabs->activateTab("perm_settings");
 				$this->addHeaderAction();
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
 				
@@ -566,7 +566,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 
 				include_once 'Services/MetaData/classes/class.ilMD.php';
-				$md_obj =& new ilMD($this->object->getId(), 0, "svy");
+				$md_obj = new ilMD($this->object->getId(), 0, "svy");
 				$md_section = $md_obj->getGeneral();
 
 				// title
@@ -1496,7 +1496,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$ilTabs->activateTab("info_short");
 		
 		include_once "./Modules/Survey/classes/class.ilSurveyExecutionGUI.php";
-		$output_gui =& new ilSurveyExecutionGUI($this->object);		
+		$output_gui = new ilSurveyExecutionGUI($this->object);
 		
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);

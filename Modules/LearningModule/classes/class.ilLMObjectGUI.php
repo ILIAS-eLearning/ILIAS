@@ -158,7 +158,7 @@ class ilLMObjectGUI
 	{
 		$this->setTabs();
 
-		$cont_obj_gui =& new ilObjContentObjectGUI("",$this->content_object->getRefId(),
+		$cont_obj_gui = new ilObjContentObjectGUI("",$this->content_object->getRefId(),
 			true, false);
 		$cont_obj_gui->delete($this->obj->getId());
 	}
@@ -179,7 +179,7 @@ class ilLMObjectGUI
 	*/
 	function confirmedDelete()
 	{
-		$cont_obj_gui =& new ilObjContentObjectGUI("",$this->content_object->getRefId(),
+		$cont_obj_gui = new ilObjContentObjectGUI("",$this->content_object->getRefId(),
 			true, false);
 		$cont_obj_gui->confirmedDelete($this->obj->getId());
 		$this->ctrl->redirect($this, $_GET["backcmd"]);

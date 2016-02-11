@@ -37,7 +37,7 @@ class ilAICCBlockGUI extends ilAICCObjectGUI
 	function ilAICCBlockGUI($a_id)
 	{
 		parent::ilAICCObjectGUI();
-		$this->ac_object =& new ilAICCBlock($a_id);
+		$this->ac_object = new ilAICCBlock($a_id);
 	}
 
 	function view()

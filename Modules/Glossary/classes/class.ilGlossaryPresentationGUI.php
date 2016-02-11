@@ -46,7 +46,7 @@ class ilGlossaryPresentationGUI
 
 		// Todo: check lm id
 		include_once("./Modules/Glossary/classes/class.ilObjGlossaryGUI.php");
-		$this->glossary_gui =& new ilObjGlossaryGUI("", $_GET["ref_id"], true, "");
+		$this->glossary_gui = new ilObjGlossaryGUI("", $_GET["ref_id"], true, "");
 		$this->glossary =& $this->glossary_gui->object;
 
 		// determine term id and check whether it is valid (belongs to
@@ -640,7 +640,7 @@ class ilGlossaryPresentationGUI
 	*/
 	function media($a_mode = "media")
 	{
-		$this->tpl =& new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
+		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -655,7 +655,7 @@ class ilGlossaryPresentationGUI
 		$link_xlm = "";
 
 		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
+		$media_obj = new ilObjMediaObject($_GET["mob_id"]);
 
 		$xml = "<dummy>";
 		// todo: we get always the first alias now (problem if mob is used multiple
@@ -861,11 +861,11 @@ class ilGlossaryPresentationGUI
 	{		
 		//$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
 		require_once ("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
-		$gloss_loc =& new ilGlossaryLocatorGUI();
+		$gloss_loc = new ilGlossaryLocatorGUI();
 		$gloss_loc->setMode("presentation");
 		if (!empty($this->term_id))
 		{
-			$term =& new ilGlossaryTerm($this->term_id);
+			$term = new ilGlossaryTerm($this->term_id);
 			$gloss_loc->setTerm($term);
 		}
 		$gloss_loc->setGlossary($this->glossary);
@@ -887,7 +887,7 @@ class ilGlossaryPresentationGUI
 
 		$file = explode("_", $_GET["file_id"]);
 		include_once("./Modules/File/classes/class.ilObjFile.php");
-		$fileObj =& new ilObjFile($file[count($file) - 1], false);
+		$fileObj = new ilObjFile($file[count($file) - 1], false);
 		$fileObj->sendFile();
 		exit;
 	}

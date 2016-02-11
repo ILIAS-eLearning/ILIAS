@@ -54,7 +54,7 @@ class ilMDClassification extends ilMDBase
 		{
 			return false;
 		}
-		$tax =& new ilMDTaxonPath();
+		$tax = new ilMDTaxonPath();
 		$tax->setMetaId($a_taxon_path_id);
 
 		return $tax;
@@ -63,7 +63,7 @@ class ilMDClassification extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDTaxonPath.php';
 
-		$tax =& new ilMDTaxonPath($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$tax = new ilMDTaxonPath($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$tax->setParentId($this->getMetaId());
 		$tax->setParentType('meta_classification');
 
@@ -84,7 +84,7 @@ class ilMDClassification extends ilMDBase
 		{
 			return false;
 		}
-		$key =& new ilMDKeyword();
+		$key = new ilMDKeyword();
 		$key->setMetaId($a_keyword_id);
 
 		return $key;
@@ -93,7 +93,7 @@ class ilMDClassification extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
 
-		$key =& new ilMDKeyword($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$key = new ilMDKeyword($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$key->setParentId($this->getMetaId());
 		$key->setParentType('meta_classification');
 

@@ -51,7 +51,7 @@ class ilExerciseHandlerGUI
 		{
 			case 'ilobjexercisegui':
 				require_once "./Modules/Exercise/classes/class.ilObjExerciseGUI.php";
-				$ex_gui =& new ilObjExerciseGUI("", (int) $_GET["ref_id"], true, false);
+				$ex_gui = new ilObjExerciseGUI("", (int) $_GET["ref_id"], true, false);
 				$this->ctrl->forwardCommand($ex_gui);
 				break;
 		}

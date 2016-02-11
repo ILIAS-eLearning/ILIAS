@@ -37,7 +37,7 @@ class ilSurveyParticipantsGUI
 		{			
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search = new ilRepositorySearchGUI();
 				
 				if(!$_REQUEST["appr360"] && !$_REQUEST["rate360"])
 				{					

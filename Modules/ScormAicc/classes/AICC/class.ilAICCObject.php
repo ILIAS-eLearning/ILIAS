@@ -224,19 +224,19 @@ class ilAICCObject
 		{
 			case "sbl":					// Block
 				include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCBlock.php");
-				$block =& new ilAICCBlock($a_id);
+				$block = new ilAICCBlock($a_id);
 				return $block;
 				break;
 
 			case "sau":					// assignable unit
 				include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");
-				$sau =& new ilAICCUnit($a_id);
+				$sau = new ilAICCUnit($a_id);
 				return $sau;
 				break;
 				
 			case "shd":					// course
 				include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCCourse.php");
-				$shd =& new ilAICCCourse($a_id);
+				$shd = new ilAICCCourse($a_id);
 				return $shd;
 				break;
 		}

@@ -56,7 +56,7 @@ class ilMDContribute extends ilMDBase
 		{
 			return false;
 		}
-		$ent =& new ilMDEntity();
+		$ent = new ilMDEntity();
 		$ent->setMetaId($a_entity_id);
 
 		return $ent;

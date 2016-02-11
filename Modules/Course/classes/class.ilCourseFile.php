@@ -258,7 +258,7 @@ class ilCourseFile
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchObject($res))
 		{
-			$files[] =& new ilCourseFile($row->file_id);
+			$files[] = new ilCourseFile($row->file_id);
 		}
 		return is_array($files) ? $files : array();
 	}

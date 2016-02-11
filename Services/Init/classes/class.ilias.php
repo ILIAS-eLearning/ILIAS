@@ -119,7 +119,7 @@ class ILIAS
 
 		// create instance of object factory
 		include_once("./Services/Object/classes/class.ilObjectFactory.php");
-		$this->obj_factory =& new ilObjectFactory();
+		$this->obj_factory = new ilObjectFactory();
 	}
 
 	/**

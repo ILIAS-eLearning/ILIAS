@@ -246,7 +246,7 @@ class ilBaseAuthentication
 		include_once './Services/Init/classes/class.ilIniFile.php';
 
 		// get ilias ini file
-		$this->ilias_ini =& new ilIniFile('./ilias.ini.php');
+		$this->ilias_ini = new ilIniFile('./ilias.ini.php');
 		$this->ilias_ini->read();
 
 		if(!@file_exists("./".$this->ilias_ini->readVariable('clients','path')."/".$this->getClient()."/client.ini.php"))
@@ -257,7 +257,7 @@ class ilBaseAuthentication
 			return false;
 		}
 		
-		$this->ini =& new ilIniFile("./".$this->ilias_ini->readVariable('clients','path')."/".$this->getClient()."/client.ini.php");
+		$this->ini = new ilIniFile("./".$this->ilias_ini->readVariable('clients','path')."/".$this->getClient()."/client.ini.php");
 		$this->ini->read();
 		
 		include_once("./Services/Database/classes/class.ilDBWrapperFactory.php");

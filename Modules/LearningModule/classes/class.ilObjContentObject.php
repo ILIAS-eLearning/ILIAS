@@ -325,7 +325,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function createLMTree()
 	{
-		$this->lm_tree =& new ilTree($this->getId());
+		$this->lm_tree = new ilTree($this->getId());
 		$this->lm_tree->setTreeTablePK("lm_id");
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
 		$this->lm_tree->addTree($this->getId(), 1);
@@ -2199,7 +2199,7 @@ class ilObjContentObject extends ilObject
 		$_GET["cmd"] = "nop";
 		$get_transl = $_GET["transl"];
 		$_GET["transl"] = "";
-		$lm_gui =& new ilLMPresentationGUI();
+		$lm_gui = new ilLMPresentationGUI();
 		$lm_gui->setOfflineMode(true, ($a_lang == "all"));
 		$lm_gui->setOfflineDirectory($a_target_dir);
 		$lm_gui->setExportFormat($a_export_format);

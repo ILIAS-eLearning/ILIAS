@@ -181,7 +181,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 		include_once './Services/Search/classes/class.ilQueryParser.php';
 
-		$query_parser =& new ilQueryParser($filter["query"]);
+		$query_parser = new ilQueryParser($filter["query"]);
 		$query_parser->setMinWordLength(0);
 		$query_parser->setCombination(QP_COMBINATION_AND);
 		$query_parser->parse();
@@ -201,7 +201,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		}
 
 		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
-		$object_search =& new ilLikeObjectSearch($query_parser);
+		$object_search = new ilLikeObjectSearch($query_parser);
 		$object_search->setFilter($filter["type"]);
 		if($preset_obj_ids)
 		{

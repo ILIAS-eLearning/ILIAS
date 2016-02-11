@@ -170,7 +170,7 @@ class ilLMPageObject extends ilLMObject
 	function &copyToOtherContObject(&$a_cont_obj, &$a_copied_nodes)
 	{
 		// copy page
-		$lm_page =& new ilLMPageObject($a_cont_obj);
+		$lm_page = new ilLMPageObject($a_cont_obj);
 		$lm_page->setTitle($this->getTitle());
 		$lm_page->setLMId($a_cont_obj->getId());
 		$lm_page->setImportId("il__pg_".$this->getId());
@@ -295,14 +295,14 @@ class ilLMPageObject extends ilLMObject
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");
 
-		$source_lm_page =& new ilLMPageObject($cont_obj, $a_page_id);
+		$source_lm_page = new ilLMPageObject($cont_obj, $a_page_id);
 		$source_page =& $source_lm_page->getPageObject();
 		
 		// get next page
 		$succ = $tree->fetchSuccessorNode($a_page_id, "pg");
 		if ($succ["child"] > 0)
 		{
-			$target_lm_page =& new ilLMPageObject($cont_obj, $succ["child"]);
+			$target_lm_page = new ilLMPageObject($cont_obj, $succ["child"]);
 			$target_page =& $target_lm_page->getPageObject();
 			$target_page->buildDom();
 			$target_page->addHierIds();
@@ -501,7 +501,7 @@ class ilLMPageObject extends ilLMObject
 				}
 			}
 			require_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
-			//$struct_obj =& new ilStructureObject($pred_node["obj_id"]);
+			//$struct_obj = new ilStructureObject($pred_node["obj_id"]);
 			//return $struct_obj->getTitle();
 			return ilStructureObject::_getPresentationTitle($pred_node["obj_id"],
 				$a_include_numbers, false, 0, $a_lang).$cnt_str;

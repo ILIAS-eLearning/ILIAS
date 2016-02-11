@@ -150,7 +150,7 @@ class ilLMObject
 		include_once("Services/MetaData/classes/class.ilMDGeneral.php");
 		include_once("Services/MetaData/classes/class.ilMDDescription.php");
 
-		$md =& new ilMD($this->getLMId(), $this->getId(), $this->getType());
+		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
 		$md_gen =& $md->getGeneral();
 		$md_gen->setTitle($this->getTitle());
 

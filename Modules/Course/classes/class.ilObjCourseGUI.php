@@ -4231,7 +4231,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once './Modules/Course/classes/class.ilCourseObjectivesGUI.php';
 
 				$this->ctrl->setReturn($this,"");
-				$reg_gui =& new ilCourseObjectivesGUI($this->object->getRefId());
+				$reg_gui = new ilCourseObjectivesGUI($this->object->getRefId());
 				$ret =& $this->ctrl->forwardCommand($reg_gui);
 				break;
 
@@ -4240,7 +4240,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 				$this->ctrl->setReturn($this,'edit');
 				$this->setSubTabs('properties');
-				$crs_grp_gui =& new ilObjCourseGroupingGUI($this->object,(int) $_GET['obj_id']);
+				$crs_grp_gui = new ilObjCourseGroupingGUI($this->object,(int) $_GET['obj_id']);
 				$this->ctrl->forwardCommand($crs_grp_gui);
 				$this->tabs_gui->setTabActive('settings');
 				$this->tabs_gui->setSubTabActive('groupings');
@@ -4262,14 +4262,14 @@ class ilObjCourseGUI extends ilContainerGUI
 				// preconditions for whole course				
 				$this->setSubTabs("properties");
 				$this->tabs_gui->setTabActive('settings');
-				$new_gui =& new ilConditionHandlerGUI($this);
+				$new_gui = new ilConditionHandlerGUI($this);
 				$this->ctrl->forwardCommand($new_gui);				
 				break;
 
 			case "illearningprogressgui":
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 
-				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
 													  $this->object->getRefId(),
 													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
 				$this->ctrl->forwardCommand($new_gui);
@@ -4305,7 +4305,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 			case 'illicenseoverviewgui':
 				include_once("./Services/License/classes/class.ilLicenseOverviewGUI.php");
-				$license_gui =& new ilLicenseOverviewGUI($this, ilLicenseOverviewGUI::LIC_MODE_REPOSITORY);
+				$license_gui = new ilLicenseOverviewGUI($this, ilLicenseOverviewGUI::LIC_MODE_REPOSITORY);
 				$ret =& $this->ctrl->forwardCommand($license_gui);
 				$this->tabs_gui->setTabActive('licenses');
 				break;
@@ -4313,13 +4313,13 @@ class ilObjCourseGUI extends ilContainerGUI
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$this->tabs_gui->setTabActive('perm_settings');
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search = new ilRepositorySearchGUI();
 				
 				if(ilCourseParticipant::_getInstanceByObjId($this->object->getId(), $GLOBALS['ilUser']->getId())->isAdmin() or $this->checkPermissionBool('edit_permission'))
 				{
@@ -4630,7 +4630,7 @@ class ilObjCourseGUI extends ilContainerGUI
                     include_once './Modules/Course/classes/class.ilCourseObjectivesGUI.php';
 
                     $this->ctrl->setReturn($this,"");
-                    $obj_gui =& new ilCourseObjectivesGUI($this->object->getRefId());
+                    $obj_gui = new ilCourseObjectivesGUI($this->object->getRefId());
                     $ret =& $this->ctrl->forwardCommand($obj_gui);
                     break;
                 }
@@ -4726,7 +4726,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$licensed_items = ilLicense::_getLicensedChildObjects($this->object->getRefId());
 			foreach ($licensed_items as $item)
 			{
-				$license =& new ilLicense($item['obj_id']);
+				$license = new ilLicense($item['obj_id']);
 				$remaining = $license->getRemainingLicenses();
 				if ($remaining <= $buffer)
 				{

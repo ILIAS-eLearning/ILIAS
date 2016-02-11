@@ -58,7 +58,7 @@ class ilObjCourseGroupingGUI
 	{
 		include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
 
-		$this->grp_obj =& new ilObjCourseGrouping($this->id);
+		$this->grp_obj = new ilObjCourseGrouping($this->id);
 	}
 
 	function getContentType()

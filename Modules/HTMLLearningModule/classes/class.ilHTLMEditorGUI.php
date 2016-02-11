@@ -97,7 +97,7 @@ class ilHTLMEditorGUI
 		{
 			case "ilobjfilebasedlmgui":
 				require_once ("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMGUI.php");
-				$fblm_gui =& new ilObjFileBasedLMGUI("", $_GET["ref_id"],true, false);
+				$fblm_gui = new ilObjFileBasedLMGUI("", $_GET["ref_id"],true, false);
 				$ilCtrl->forwardCommand($fblm_gui);
 				$tpl->show();
 				break;

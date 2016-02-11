@@ -107,13 +107,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
 			case "ilsurveyphrasesgui":
 				include_once("./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrasesGUI.php");
-				$phrases_gui =& new ilSurveyPhrasesGUI($this);
+				$phrases_gui = new ilSurveyPhrasesGUI($this);
 				$ret =& $this->ctrl->forwardCommand($phrases_gui);
 				break;
 				

@@ -190,7 +190,7 @@ class ilSoapAuthentication extends ilBaseAuthentication
 	{
 		include_once './Services/Database/classes/class.ilDB.php';
 
-		//$db =& new ilDB($this->dsn);
+		//$db = new ilDB($this->dsn);
 		$ilDB = $this->db;
 		$ilDB->connect();
 

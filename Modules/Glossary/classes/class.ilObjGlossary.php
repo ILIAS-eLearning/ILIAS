@@ -585,7 +585,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		// get glossary presentation gui class
 		include_once("./Modules/Glossary/classes/class.ilGlossaryPresentationGUI.php");
 		$_GET["cmd"] = "nop";
-		$glo_gui =& new ilGlossaryPresentationGUI();
+		$glo_gui = new ilGlossaryPresentationGUI();
 		$glo_gui->setOfflineMode(true);
 		$glo_gui->setOfflineDirectory($a_target_dir);
 		
@@ -1016,7 +1016,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 			$terms = $this->getTermList();
 			foreach ($terms as $term)
 			{
-				$term_obj =& new ilGlossaryTerm($term["id"]);
+				$term_obj = new ilGlossaryTerm($term["id"]);
 				$term_obj->delete();
 			}
 		}

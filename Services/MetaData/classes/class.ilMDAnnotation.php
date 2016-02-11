@@ -162,7 +162,7 @@ class ilMDAnnotation extends ilMDBase
 				$this->setEntity($row->entity);
 				$this->setDate($row->a_date);
 				$this->setDescription($row->description);
-				$this->description_language =& new ilMDLanguageItem($row->description_language);
+				$this->description_language = new ilMDLanguageItem($row->description_language);
 			}
 		}
 		return true;

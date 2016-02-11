@@ -152,7 +152,7 @@ class ilObjFile extends ilObject2
 	protected function doCreateMetaData()
 	{
 		// add technical section with file size and format
-		$md_obj =& new ilMD($this->getId(),0,$this->getType());
+		$md_obj = new ilMD($this->getId(),0,$this->getType());
 		$technical = $md_obj->addTechnical();
 		$technical->setSize($this->getFileSize());
 		$technical->save();
@@ -447,7 +447,7 @@ class ilObjFile extends ilObject2
 	protected function doUpdateMetaData()
 	{
 		// add technical section with file size and format
-		$md_obj =& new ilMD($this->getId(),0,$this->getType());
+		$md_obj = new ilMD($this->getId(),0,$this->getType());
 		if(!is_object($technical = $md_obj->getTechnical()))
 		{
 			$technical = $md_obj->addTechnical();

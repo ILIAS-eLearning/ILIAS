@@ -55,7 +55,7 @@ class ilMDLifecycle extends ilMDBase
 		{
 			return false;
 		}
-		$con =& new ilMDContribute();
+		$con = new ilMDContribute();
 		$con->setMetaId($a_contribute_id);
 
 		return $con;
@@ -64,7 +64,7 @@ class ilMDLifecycle extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDContribute.php';
 
-		$con =& new ilMDContribute($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$con = new ilMDContribute($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$con->setParentId($this->getMetaId());
 		$con->setParentType('meta_lifecycle');
 

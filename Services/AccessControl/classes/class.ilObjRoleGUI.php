@@ -84,7 +84,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search = new ilRepositorySearchGUI();
 				$rep_search->setTitle($this->lng->txt('role_add_user'));
 				$rep_search->setCallback($this,'addUserObject');
 
@@ -299,7 +299,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
 
-		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
+		$role_desk_item_obj = new ilRoleDesktopItem($this->object->getId());
 
 		foreach ($_POST['del_desk_item'] as $role_item_id)
 		{
@@ -368,7 +368,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
 
-		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
+		$role_desk_item_obj = new ilRoleDesktopItem($this->object->getId());
 		$role_desk_item_obj->add((int) $_GET['item_id'],ilObject::_lookupType((int) $_GET['item_id'],true));
 
 		ilUtil::sendSuccess($this->lng->txt('role_assigned_desktop_item'));

@@ -77,7 +77,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			if($child["c_type"] == "sit")
 			{
 				include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
-				$sc_item =& new ilSCORMItem($child["obj_id"]);
+				$sc_item = new ilSCORMItem($child["obj_id"]);
 				if ($sc_item->getIdentifierRef() != "")
 				{
 					$items[count($items)] =& $sc_item;
@@ -270,7 +270,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		while($sco_rec = $ilDB->fetchAssoc($sco_set))
 		{
 			include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
-			$sc_item =& new ilSCORMItem($sco_rec["sco_id"]);
+			$sc_item = new ilSCORMItem($sco_rec["sco_id"]);
 			if ($sc_item->getIdentifierRef() != "")
 			{
 				$items[count($items)] =& $sc_item;
@@ -487,7 +487,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			}
 			//create sco_object
 			include_once './Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php';
-			$sc_item =& new ilSCORMItem($sco_rec["sco_id"]);
+			$sc_item = new ilSCORMItem($sco_rec["sco_id"]);
 			$data[] = array("sco_id"=>$sco_rec["sco_id"], "title" => $sc_item->getTitle(),
 			"score" => $score, "time" => $time, "status" => $status);
 				

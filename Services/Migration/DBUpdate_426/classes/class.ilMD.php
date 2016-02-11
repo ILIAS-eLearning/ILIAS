@@ -49,7 +49,7 @@ class ilMD extends ilMDBase
 
 		if($id = ilMDGeneral::_getId($this->getRBACId(),$this->getObjId()))
 		{
-			$gen =& new ilMDGeneral();
+			$gen = new ilMDGeneral();
 			$gen->setMetaId($id);
 
 			return $gen;
@@ -60,7 +60,7 @@ class ilMD extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDGeneral.php';
 
-		$gen =& new ilMDGeneral($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$gen = new ilMDGeneral($this->getRBACId(),$this->getObjId(),$this->getObjType());
 
 		return $gen;
 	}
@@ -72,7 +72,7 @@ class ilMD extends ilMDBase
 		
 		if($id = ilMDLifecycle::_getId($this->getRBACId(),$this->getObjId()))
 		{
-			$lif =& new ilMDLifecycle();
+			$lif = new ilMDLifecycle();
 			$lif->setMetaId($id);
 
 			return $lif;
@@ -83,7 +83,7 @@ class ilMD extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLifecycle.php';
 
-		$lif =& new ilMDLifecycle($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$lif = new ilMDLifecycle($this->getRBACId(),$this->getObjId(),$this->getObjType());
 
 		return $lif;
 	}
@@ -94,7 +94,7 @@ class ilMD extends ilMDBase
 
 		if($id = ilMDMetaMetadata::_getId($this->getRBACId(),$this->getObjId()))
 		{
-			$met =& new ilMDMetaMetadata();
+			$met = new ilMDMetaMetadata();
 			$met->setMetaId($id);
 			
 			return $met;
@@ -105,7 +105,7 @@ class ilMD extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDMetaMetadata.php';
 
-		$met =& new ilMDMetaMetadata($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$met = new ilMDMetaMetadata($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		
 		return $met;
 	}
@@ -116,7 +116,7 @@ class ilMD extends ilMDBase
 
 		if($id = ilMDTechnical::_getId($this->getRBACId(),$this->getObjId()))
 		{
-			$tec =& new ilMDTechnical();
+			$tec = new ilMDTechnical();
 			$tec->setMetaId($id);
 			
 			return $tec;
@@ -127,7 +127,7 @@ class ilMD extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDTechnical.php';
 
-		$tec =& new ilMDTechnical($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$tec = new ilMDTechnical($this->getRBACId(),$this->getObjId(),$this->getObjType());
 
 		return $tec;
 	}
@@ -138,7 +138,7 @@ class ilMD extends ilMDBase
 
 		if($id = ilMDEducational::_getId($this->getRBACId(),$this->getObjId()))
 		{
-			$edu =& new ilMDEducational();
+			$edu = new ilMDEducational();
 			$edu->setMetaId($id);
 			
 			return $edu;
@@ -149,7 +149,7 @@ class ilMD extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDEducational.php';
 
-		$edu =& new ilMDEducational($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$edu = new ilMDEducational($this->getRBACId(),$this->getObjId(),$this->getObjType());
 
 		return $edu;
 	}
@@ -159,7 +159,7 @@ class ilMD extends ilMDBase
 
 		if($id = ilMDRights::_getId($this->getRBACId(),$this->getObjId()))
 		{
-			$rig =& new ilMDRights();
+			$rig = new ilMDRights();
 			$rig->setMetaId($id);
 			
 			return $rig;
@@ -170,7 +170,7 @@ class ilMD extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDRights.php';
 
-		$rig =& new ilMDRights($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$rig = new ilMDRights($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		
 		return $rig;
 	}
@@ -190,7 +190,7 @@ class ilMD extends ilMDBase
 			return false;
 		}
 
-		$rel =& new ilMDRelation();
+		$rel = new ilMDRelation();
 		$rel->setMetaId($a_relation_id);
 		
 		return $rel;
@@ -199,7 +199,7 @@ class ilMD extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDRelation.php';
 
-		$rel =& new ilMDRelation($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$rel = new ilMDRelation($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		
 		return $rel;
 	}
@@ -219,7 +219,7 @@ class ilMD extends ilMDBase
 		}
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDAnnotation.php';
 
-		$ann =& new ilMDAnnotation();
+		$ann = new ilMDAnnotation();
 		$ann->setMetaId($a_annotation_id);
 
 		return $ann;
@@ -228,7 +228,7 @@ class ilMD extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDAnnotation.php';
 		
-		$ann =& new ilMDAnnotation($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$ann = new ilMDAnnotation($this->getRBACId(),$this->getObjId(),$this->getObjType());
 
 		return $ann;
 	}
@@ -248,7 +248,7 @@ class ilMD extends ilMDBase
 
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDClassification.php';
 
-		$cla =& new ilMDClassification();
+		$cla = new ilMDClassification();
 		$cla->setMetaId($a_classification_id);
 
 		return $cla;
@@ -257,7 +257,7 @@ class ilMD extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDClassification.php';
 
-		$cla =& new ilMDClassification($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$cla = new ilMDClassification($this->getRBACId(),$this->getObjId(),$this->getObjType());
 
 		return $cla;
 	}

@@ -152,7 +152,7 @@ class ilSurveyExport
 		$mobs = ilObjMediaObject::_getMobsOfObject("svy:html", $this->survey_obj->getId());
 		foreach ($mobs as $mob)
 		{
-			$mob_obj =& new ilObjMediaObject($mob);
+			$mob_obj = new ilObjMediaObject($mob);
 			$mob_obj->exportFiles($a_export_dir);
 			unset($mob_obj);
 		}
@@ -162,7 +162,7 @@ class ilSurveyExport
 			$mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $question_id);
 			foreach ($mobs as $mob)
 			{
-				$mob_obj =& new ilObjMediaObject($mob);
+				$mob_obj = new ilObjMediaObject($mob);
 				$mob_obj->exportFiles($a_export_dir);
 				unset($mob_obj);
 			}

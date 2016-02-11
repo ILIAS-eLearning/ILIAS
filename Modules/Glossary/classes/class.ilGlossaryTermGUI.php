@@ -40,7 +40,7 @@ class ilGlossaryTermGUI
 
 		if($a_id != 0)
 		{
-			$this->term =& new ilGlossaryTerm($a_id);
+			$this->term = new ilGlossaryTerm($a_id);
 		}
 	}
 
@@ -58,7 +58,7 @@ class ilGlossaryTermGUI
 		{
 			case "iltermdefinitioneditorgui":
 				//$this->ctrl->setReturn($this, "listDefinitions");
-				$def_edit =& new ilTermDefinitionEditorGUI();
+				$def_edit = new ilTermDefinitionEditorGUI();
 				//$ret =& $def_edit->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($def_edit);
 				$this->quickList("edit", $def_edit);
@@ -536,7 +536,7 @@ class ilGlossaryTermGUI
 
 		$this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
 
-		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$definition = new ilGlossaryDefinition($_GET["def"]);
 		$page_gui = new ilGlossaryDefPageGUI($definition->getId());
 		$page_gui->setTemplateOutput(false);
 		$page_gui->setStyleId($this->glossary->getStyleSheetId());
@@ -565,7 +565,7 @@ class ilGlossaryTermGUI
 
 	function deleteDefinition()
 	{
-		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$definition = new ilGlossaryDefinition($_GET["def"]);
 		$definition->delete();
 		$this->ctrl->redirect($this, "listDefinitions");
 	}
@@ -576,7 +576,7 @@ class ilGlossaryTermGUI
 	*/
 	function moveUp()
 	{
-		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$definition = new ilGlossaryDefinition($_GET["def"]);
 		$definition->moveUp();
 		$this->ctrl->redirect($this, "listDefinitions");
 	}
@@ -587,7 +587,7 @@ class ilGlossaryTermGUI
 	*/
 	function moveDown()
 	{
-		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$definition = new ilGlossaryDefinition($_GET["def"]);
 		$definition->moveDown();
 		$this->ctrl->redirect($this, "listDefinitions");
 	}
@@ -639,7 +639,7 @@ class ilGlossaryTermGUI
 	*/
 	function saveDefinition()
 	{
-		$def =& new ilGlossaryDefinition();
+		$def = new ilGlossaryDefinition();
 		$def->setTermId($_GET["term_id"]);
 		$def->setTitle(ilUtil::stripSlashes($_POST["title"]));#"content object ".$newObj->getId());		// set by meta_gui->save
 		$def->setDescription(ilUtil::stripSlashes($_POST["desc"]));	// set by meta_gui->save
@@ -673,7 +673,7 @@ class ilGlossaryTermGUI
 	function displayLocator()
 	{
 		require_once ("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
-		$gloss_loc =& new ilGlossaryLocatorGUI();
+		$gloss_loc = new ilGlossaryLocatorGUI();
 		$gloss_loc->setTerm($this->term);
 		$gloss_loc->setGlossary($this->glossary);
 		//$gloss_loc->setDefinition($this->definition);

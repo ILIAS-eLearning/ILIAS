@@ -58,7 +58,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		{
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
@@ -67,9 +67,9 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 				$this->tpl->getStandardTemplate();
 				$this->ctrl->setReturn($this, "edit");
 				if ($this->pg_id!=null) {
-					$layout_gui =& new ilPageLayoutGUI($this->type,$this->pg_id);
+					$layout_gui = new ilPageLayoutGUI($this->type,$this->pg_id);
 				} else {
-					$layout_gui =& new ilPageLayoutGUI($this->type,$_GET["obj_id"]);	
+					$layout_gui = new ilPageLayoutGUI($this->type,$_GET["obj_id"]);
 				}				
 				$layout_gui->setTabs();
 				$layout_gui->setEditPreview(true);

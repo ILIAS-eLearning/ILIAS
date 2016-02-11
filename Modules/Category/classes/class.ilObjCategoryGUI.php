@@ -117,7 +117,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->prepareOutput();
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
@@ -131,7 +131,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				
 			case 'ilcontainerlinklistgui':
 				include_once("Services/Container/classes/class.ilContainerLinkListGUI.php");
-				$link_list_gui =& new ilContainerLinkListGUI();
+				$link_list_gui = new ilContainerLinkListGUI();
 				$ret =& $this->ctrl->forwardCommand($link_list_gui);
 				break;
 

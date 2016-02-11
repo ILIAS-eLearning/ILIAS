@@ -55,7 +55,7 @@ class ilMDMetaMetadata extends ilMDBase
 		{
 			return false;
 		}
-		$ide =& new ilMDIdentifier();
+		$ide = new ilMDIdentifier();
 		$ide->setMetaId($a_identifier_id);
 
 		return $ide;
@@ -64,7 +64,7 @@ class ilMDMetaMetadata extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDIdentifier.php';
 
-		$ide =& new ilMDIdentifier($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$ide = new ilMDIdentifier($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$ide->setParentId($this->getMetaId());
 		$ide->setParentType('meta_meta_data');
 
@@ -85,7 +85,7 @@ class ilMDMetaMetadata extends ilMDBase
 		{
 			return false;
 		}
-		$con =& new ilMDContribute();
+		$con = new ilMDContribute();
 		$con->setMetaId($a_contribute_id);
 
 		return $con;
@@ -94,7 +94,7 @@ class ilMDMetaMetadata extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDContribute.php';
 
-		$con =& new ilMDContribute($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$con = new ilMDContribute($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$con->setParentId($this->getMetaId());
 		$con->setParentType('meta_meta_data');
 

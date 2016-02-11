@@ -331,12 +331,12 @@ class ilCourseObjective
 		
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 
-		$tmp_obj_qst =& new ilCourseObjectiveQuestion($this->getObjectiveId());
+		$tmp_obj_qst = new ilCourseObjectiveQuestion($this->getObjectiveId());
 		$tmp_obj_qst->deleteAll();
 
 		include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
 
-		$tmp_obj_lm =& new ilCourseObjectiveMaterials($this->getObjectiveId());
+		$tmp_obj_lm = new ilCourseObjectiveMaterials($this->getObjectiveId());
 		$tmp_obj_lm->deleteAll();
 
 

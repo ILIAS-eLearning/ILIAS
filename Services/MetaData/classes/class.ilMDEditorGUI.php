@@ -34,7 +34,7 @@ class ilMDEditorGUI
 	{
 		global $ilCtrl,$lng,$tpl,$ilTabs;
 
-		$this->md_obj =& new ilMD($a_rbac_id,$a_obj_id,$a_obj_type);
+		$this->md_obj = new ilMD($a_rbac_id,$a_obj_id,$a_obj_type);
 		$this->ctrl =& $ilCtrl;
 
 		$this->lng =& $lng;
@@ -84,7 +84,7 @@ class ilMDEditorGUI
 		include_once 'Services/MetaData/classes/class.ilMD2XML.php';
 
 
-		$xml_writer =& new ilMD2XML($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType());
+		$xml_writer = new ilMD2XML($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType());
 		$xml_writer->startExport();
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.md_editor.html','Services/MetaData');

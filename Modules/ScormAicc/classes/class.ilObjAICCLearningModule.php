@@ -196,7 +196,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 			if($child["c_type"] == "sau")
 			{
 				include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");
-				$ac_item =& new ilAICCUnit($child["obj_id"]);
+				$ac_item = new ilAICCUnit($child["obj_id"]);
 				$items[count($items)] =& $ac_item;
 			}
 		}
@@ -220,7 +220,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		while($sco_rec = $ilDB->fetchAssoc($sco_set))
 		{
 			include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");	
-			$ac_item =& new ilAICCUnit($sco_rec["sco_id"]);
+			$ac_item = new ilAICCUnit($sco_rec["sco_id"]);
 			$items[count($items)] =& $ac_item;
 
 		}		

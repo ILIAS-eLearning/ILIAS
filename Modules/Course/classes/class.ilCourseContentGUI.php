@@ -180,7 +180,7 @@ class ilCourseContentGUI
 		$this->tpl->setVariable("HEADER_EDITED",$this->lng->txt('crs_objective_accomplished'));
 
 
-		$lm_continue =& new ilCourseLMHistory($this->course_obj->getRefId(),$ilUser->getId());
+		$lm_continue = new ilCourseLMHistory($this->course_obj->getRefId(),$ilUser->getId());
 		$continue_data = $lm_continue->getLMHistory();
 
 		$counter = 0;

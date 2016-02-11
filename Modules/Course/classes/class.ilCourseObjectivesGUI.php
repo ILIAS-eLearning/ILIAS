@@ -189,7 +189,7 @@ class ilCourseObjectivesGUI
 
 		ilUtil::sendQuestion($this->lng->txt('crs_delete_objectve_sure'));
 
-		$tpl =& new ilTemplate("tpl.table.html", true, true);
+		$tpl = new ilTemplate("tpl.table.html", true, true);
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_delete_row.html",'Modules/Course');
 
 		$counter = 0;
@@ -394,7 +394,7 @@ class ilCourseObjectivesGUI
 	function __initLMObject($a_objective_id = 0)
 	{
 		include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
-		$this->objectives_lm_obj =& new ilCourseObjectiveMaterials($a_objective_id);
+		$this->objectives_lm_obj = new ilCourseObjectiveMaterials($a_objective_id);
 
 		return true;
 	}
@@ -408,7 +408,7 @@ class ilCourseObjectivesGUI
 	function __initQuestionObject($a_objective_id = 0)
 	{
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
-		$this->objectives_qst_obj =& new ilCourseObjectiveQuestion($a_objective_id);
+		$this->objectives_qst_obj = new ilCourseObjectiveQuestion($a_objective_id);
 
 		return $this->objectives_qst_obj;
 	}

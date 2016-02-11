@@ -141,7 +141,7 @@ class ilHACPExplorer extends ilAICCExplorer
 						
 					} else {
 						include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");
-						$unit =& new ilAICCUnit($a_node_id);
+						$unit = new ilAICCUnit($a_node_id);
 						
 						//guess the url to be able to launch most contents
 						$url=$unit->getCommand_line();

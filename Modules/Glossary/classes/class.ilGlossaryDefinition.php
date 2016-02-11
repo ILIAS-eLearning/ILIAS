@@ -185,7 +185,7 @@ class ilGlossaryDefinition
 	{
 		global $ilDB;
 		
-		$term =& new ilGlossaryTerm($this->getTermId());
+		$term = new ilGlossaryTerm($this->getTermId());
 
 		$this->setId($ilDB->nextId("glossary_definition"));
 		
@@ -565,7 +565,7 @@ class ilGlossaryDefinition
 		include_once("Services/MetaData/classes/class.ilMDDescription.php");
 
 		$glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
-		$md =& new ilMD($glo_id, $this->getId(), $this->getType());
+		$md = new ilMD($glo_id, $this->getId(), $this->getType());
 		$md_gen =& $md->getGeneral();
 		$md_gen->setTitle($this->getTitle());
 
@@ -616,7 +616,7 @@ class ilGlossaryDefinition
 
 				// Update Title and description
 				$glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
-				$md =& new ilMD($glo_id, $this->getId(), $this->getType());
+				$md = new ilMD($glo_id, $this->getId(), $this->getType());
 				$md_gen = $md->getGeneral();
 
 				//ilObject::_writeTitle($this->getId(),$md_gen->getTitle());

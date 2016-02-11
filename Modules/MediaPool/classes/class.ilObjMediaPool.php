@@ -562,7 +562,7 @@ class ilObjMediaPool extends ilObject
 			{
 				if (ilObject::_lookupType($fid) == "mob")
 				{
-					$obj =& new ilObjMediaObject($fid);
+					$obj = new ilObjMediaObject($fid);
 					$obj->delete();
 				}
 			}

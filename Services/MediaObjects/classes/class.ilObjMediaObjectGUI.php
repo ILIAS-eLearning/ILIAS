@@ -120,7 +120,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	{
 		if ($this->id != 0)
 		{
-			$this->object =& new ilObjMediaObject($this->id);
+			$this->object = new ilObjMediaObject($this->id);
 		}
 	}
 
@@ -159,7 +159,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				
 			case "ilfilesystemgui":
 				include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
-				$fs_gui =& new ilFileSystemGUI(ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId());
+				$fs_gui = new ilFileSystemGUI(ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId());
 				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
 				$fs_gui->setTableId("mobfs".$this->object->getId());
 				$fs_gui->labelFile($this->object->getMediaItem("Standard")->getLocation(),
@@ -653,7 +653,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$a_mob->createDirectory();
 		$mob_dir = ilObjMediaObject::_getDirectory($a_mob->getId());
 
-		$media_item =& new ilMediaItem();
+		$media_item = new ilMediaItem();
 		$a_mob->addMediaItem($media_item);
 		$media_item->setPurpose("Standard");
 
@@ -1438,7 +1438,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$std_item =& $this->object->getMediaItem("Standard");
 			$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId();
 			$file = $mob_dir."/".$location;
-			$full_item =& new ilMediaItem();
+			$full_item = new ilMediaItem();
 			$full_item->setMobId($std_item->getMobId());
 			$full_item->setLocation($location);
 			$full_item->setLocationType("LocalFile");
@@ -1481,7 +1481,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		if (!$this->object->hasFullScreenItem())
 		{
 			$std_item =& $this->object->getMediaItem("Standard");
-			$full_item =& new ilMediaItem();
+			$full_item = new ilMediaItem();
 			$full_item->setMobId($std_item->getMobId());
 			$full_item->setLocation($std_item->getLocation());
 			$full_item->setLocationType($std_item->getLocationType());
@@ -1622,7 +1622,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	{
 		global $lng;
 
-		$tpl =& new ilTemplate("tpl.media_info.html", true, true, "Services/MediaObjects");
+		$tpl = new ilTemplate("tpl.media_info.html", true, true, "Services/MediaObjects");
 		$types = array("Standard", "Fullscreen");
 		foreach ($types as $type)
 		{

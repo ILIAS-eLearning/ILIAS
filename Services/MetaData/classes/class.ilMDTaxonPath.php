@@ -54,7 +54,7 @@ class ilMDTaxonPath extends ilMDBase
 		{
 			return false;
 		}
-		$tax =& new ilMDTaxon();
+		$tax = new ilMDTaxon();
 		$tax->setMetaId($a_taxon_id);
 
 		return $tax;
@@ -63,7 +63,7 @@ class ilMDTaxonPath extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDTaxon.php';
 
-		$tax =& new ilMDTaxon($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$tax = new ilMDTaxon($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$tax->setParentId($this->getMetaId());
 		$tax->setParentType('meta_taxon_path');
 

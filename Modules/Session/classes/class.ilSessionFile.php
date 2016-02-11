@@ -246,7 +246,7 @@ class ilSessionFile
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$files[] =& new ilSessionFile($row->file_id);
+			$files[] = new ilSessionFile($row->file_id);
 		}
 		return is_array($files) ? $files : array();
 	}

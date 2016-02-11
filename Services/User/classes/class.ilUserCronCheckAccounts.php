@@ -87,7 +87,7 @@ class ilUserCronCheckAccounts extends ilCronJob
 			$data['owner'] = $row->time_limit_owner;
 
 			// Send mail
-			$mail =& new ilMimeMail();
+			$mail = new ilMimeMail();
 			
 			$mail->From('noreply');
 			$mail->To($data['email']);

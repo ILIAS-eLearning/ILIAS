@@ -103,7 +103,7 @@ class ilWikiHandlerGUI
 		{
 			case 'ilobjwikigui':
 				require_once "./Modules/Wiki/classes/class.ilObjWikiGUI.php";
-				$mc_gui =& new ilObjWikiGUI("", (int) $_GET["ref_id"], true, false);
+				$mc_gui = new ilObjWikiGUI("", (int) $_GET["ref_id"], true, false);
 				$this->ctrl->forwardCommand($mc_gui);
 				break;
 		}

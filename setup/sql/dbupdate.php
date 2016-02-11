@@ -2115,8 +2115,8 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 }
 
 $rbacsystem = ilRbacSystem::getInstance();
-$rbacadmin =& new ilRbacAdmin();
-$rbacreview =& new ilRbacReview();
+$rbacadmin = new ilRbacAdmin();
+$rbacreview = new ilRbacReview();
 
 foreach($role_ids as $id)
 {
@@ -3950,7 +3950,7 @@ $admin["exc"] = array(1,2,3,4,6);
 $admin["fold"] = array(1,2,3,4,6,18,20,21,22,25,26,29);
 $admin["crs"] = array(1,2,3,4,6,7,8,17,18,20,21,22,23,24,25,26,27,29,31,32);
 
-$rbacadmin =& new ilRbacAdmin();
+$rbacadmin = new ilRbacAdmin();
 
 foreach($admin as $type => $ops)
 {
@@ -3984,7 +3984,7 @@ $admin["exc"] = array(2,3,4);
 $admin["fold"] = array(2,3,4);
 $admin["crs"] = array(2,3,4,7,8);
 
-$rbacadmin =& new ilRbacAdmin();
+$rbacadmin = new ilRbacAdmin();
 
 foreach($admin as $type => $ops)
 {
@@ -4018,7 +4018,7 @@ $admin["exc"] = array(2,3);
 $admin["fold"] = array(2,3);
 $admin["crs"] = array(2,3,7,8);
 
-$rbacadmin =& new ilRbacAdmin();
+$rbacadmin = new ilRbacAdmin();
 
 foreach($admin as $type => $ops)
 {
@@ -8037,7 +8037,7 @@ $admin = array();
 $admin["icrs"] = array(1,2,3,4,6,7,8,$icla_ops_id);
 $admin["rolf"] = array(1,2,3,4,6,14);
 
-$rbacadmin =& new ilRbacAdmin();
+$rbacadmin = new ilRbacAdmin();
 
 foreach($admin as $type => $ops)
 {
@@ -8073,9 +8073,9 @@ $rbacadmin->assignRoleToFolder($obj_id,ROLE_FOLDER_ID,"n");
 // normally most of the code won't be triggered because iLinc-support was not available to public
 
 // init tree and rbacadmin
-$tree =& new ilTree(ROOT_FOLDER_ID);
-$rbacadmin =& new ilRbacAdmin();
-$rbacreview =& new ilRbacReview();
+$tree = new ilTree(ROOT_FOLDER_ID);
+$rbacadmin = new ilRbacAdmin();
+$rbacreview = new ilRbacReview();
 
 $ilca_nodes = $tree->getNodeDataByType('icla');
 
@@ -8418,10 +8418,10 @@ DELETE FROM object_description;
 $wd = getcwd();
 chdir('..');
 
-$tree =& new ilTree(ROOT_FOLDER_ID);
+$tree = new ilTree(ROOT_FOLDER_ID);
 $GLOBALS['tree'] = $tree;
-$rbacadmin =& new ilRbacAdmin();
-$rbacreview =& new ilRbacReview();
+$rbacadmin = new ilRbacAdmin();
+$rbacreview = new ilRbacReview();
 
 $query = "SELECT obd.obj_id as objid,obr.ref_id as refid FROM object_data as obd,object_reference as obr ".
 	"WHERE obd.obj_id = obr.obj_id ".
@@ -8548,7 +8548,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 $obj_id = $row->obj_id;
 
-$rbacadmin =& new ilRbacAdmin();
+$rbacadmin = new ilRbacAdmin();
 
 $admin = array();
 $admin["crs"] = array(2,7,8);
@@ -8658,7 +8658,7 @@ $ilDB->query($query);
 $chat_ref_id = $ilDB->getLastInsertId();
 
 // put in tree
-$tree =& new ilTree(ROOT_FOLDER_ID);
+$tree = new ilTree(ROOT_FOLDER_ID);
 $tree->insertNode($chat_ref_id,$chac_ref_id);
 
 // Create role folder
@@ -9089,7 +9089,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 	}
 
 	// create technical section
-	$md_obj =& new ilMD($row["obj_id"], $row["obj_id"], 'file');;
+	$md_obj = new ilMD($row["obj_id"], $row["obj_id"], 'file');;
 	$technical = $md_obj->addTechnical();
 	$technical->setSize($size);
 	$technical->save();

@@ -835,7 +835,7 @@ abstract class ilPageObject
 				$mob_id = 0;
 			}
 
-			//$mob =& new ilObjMediaObject($mob_id);
+			//$mob = new ilObjMediaObject($mob_id);
 			$mob = new ilPCMediaObject($this);
 			$mob->readMediaObject($mob_id);
 			
@@ -1359,7 +1359,7 @@ abstract class ilPageObject
 			if (count($res->nodeset) > 0)
 			{
 				$cont_node =& $res->nodeset[0]->parent_node();
-				$par =& new ilPCParagraph($this);
+				$par = new ilPCParagraph($this);
 				$par->setNode($cont_node);
 				return $par->getText();
 			}
@@ -1615,7 +1615,7 @@ abstract class ilPageObject
 		{
 			if (ilObject::_lookupType($mob_id) == "mob")
 			{
-				$mob_obj =& new ilObjMediaObject($mob_id);
+				$mob_obj = new ilObjMediaObject($mob_id);
 				$mobs_xml .= $mob_obj->getXML(IL_MODE_OUTPUT);
 			}
 		}
@@ -2732,7 +2732,7 @@ abstract class ilPageObject
 			{
 				$copg_logger->debug("ilPageObject: ... delete mob ".$mob_id.".");
 
-				$mob_obj =& new ilObjMediaObject($mob_id);
+				$mob_obj = new ilObjMediaObject($mob_id);
 				$mob_obj->delete();
 			}
 			else

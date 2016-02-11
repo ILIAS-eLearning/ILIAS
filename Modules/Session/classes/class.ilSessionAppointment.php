@@ -405,7 +405,7 @@ class ilSessionAppointment implements ilDatePeriod
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$appointments[] =& new ilSessionAppointment($row->appointment_id);
+			$appointments[] = new ilSessionAppointment($row->appointment_id);
 		}
 		return is_array($appointments) ? $appointments : array();
 	}

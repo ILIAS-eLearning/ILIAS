@@ -2517,7 +2517,7 @@ return;
 		{
 			exit;
 		}
-		$fileObj =& new ilObjFile($file_id, false);
+		$fileObj = new ilObjFile($file_id, false);
 		$fileObj->sendFile();
 		exit;
 	}
@@ -3074,7 +3074,7 @@ return;
 		$this->tpl->setCurrentBlock("ilMedia");
 
 		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
+		$media_obj = new ilObjMediaObject($_GET["mob_id"]);
 		if (!empty ($_GET["pg_id"]))
 		{
 			include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");

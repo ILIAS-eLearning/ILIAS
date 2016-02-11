@@ -827,13 +827,13 @@ class ilObject
 		include_once("Services/MetaData/classes/class.ilMDGeneral.php");
 		include_once("Services/MetaData/classes/class.ilMDDescription.php");
 
-		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md = new ilMD($this->getId(), 0, $this->getType());
 		$md_gen =& $md->getGeneral();
 		// BEGIN WebDAV: meta data can be missing sometimes.
 		if ($md_gen == null)
 		{
 			$this->createMetaData();
-			$md =& new ilMD($this->getId(), 0, $this->getType());
+			$md = new ilMD($this->getId(), 0, $this->getType());
 			$md_gen =& $md->getGeneral();
 		}
 		// END WebDAV: meta data can be missing sometimes.
@@ -1497,7 +1497,7 @@ class ilObject
 		// remove conditions
 		if ($this->referenced)
 		{
-			$ch =& new ilConditionHandler();
+			$ch = new ilConditionHandler();
 			$ch->delete($this->getRefId());
 			unset($ch);
 		}

@@ -311,7 +311,7 @@ class ilUserImportParser extends ilSaxParser
 			foreach($templates as $template)
 			{
 				// get styles information of template
-				$styleDef =& new ilStyleDefinition($template["id"]);
+				$styleDef = new ilStyleDefinition($template["id"]);
 				$styleDef->startParsing();
 				$styles = $styleDef->getStyles();
 				

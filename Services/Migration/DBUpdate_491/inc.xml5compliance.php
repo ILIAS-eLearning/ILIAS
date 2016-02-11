@@ -250,7 +250,7 @@ class php4DOMElement extends php4DOMNode
 		$text = str_replace("&gt;", ">", $text);
 		$text = str_replace("&amp;", "&", $text);
 		
-		$text_node =& new DOMText();
+		$text_node = new DOMText();
 		$text_node->appendData($text);
 		if (is_object($this->myDOMNode->firstChild))
 		{
@@ -422,7 +422,7 @@ class php4DOMNode
 			$mydomnode =& $this->myDOMNode->parentNode;
 			$domel =& $mydomnode->insertBefore($mynewnode,$myrefnode);
 		}
-		$el =& new php4DOMElement($domel);
+		$el = new php4DOMElement($domel);
 		return $el;
 	}
 

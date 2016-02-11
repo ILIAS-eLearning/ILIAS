@@ -48,14 +48,14 @@ class ilLMObjectFactory
 		switch($obj_rec["type"])
 		{
 			case "st":
-				$obj =& new ilStructureObject($a_content_obj);
+				$obj = new ilStructureObject($a_content_obj);
 				$obj->setId($obj_rec["obj_id"]);
 				$obj->setDataRecord($obj_rec);
 				$obj->read();
 				break;
 
 			case "pg":
-				$obj =& new ilLMPageObject($a_content_obj, 0, $a_halt);
+				$obj = new ilLMPageObject($a_content_obj, 0, $a_halt);
 				$obj->setId($obj_rec["obj_id"]);
 				$obj->setDataRecord($obj_rec);
 				$obj->read();

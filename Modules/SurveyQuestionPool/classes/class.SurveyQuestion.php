@@ -1179,7 +1179,7 @@ class SurveyQuestion
 		foreach($mobs as $mob)
 		{
 			ilObjMediaObject::_removeUsage($mob, "spl:html", $question_id);
-			$mob_obj =& new ilObjMediaObject($mob);
+			$mob_obj = new ilObjMediaObject($mob);
 			$mob_obj->delete();
 		}
 		
@@ -1394,7 +1394,7 @@ class SurveyQuestion
 					{
 						case "lm":
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $target_id, true);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $target_id, true);
 							$cont_obj = $cont_obj_gui->object;
 							$material_title .= $cont_obj->getTitle();
 							break;
@@ -1403,9 +1403,9 @@ class SurveyQuestion
 							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
-							$pg_obj =& new ilLMPageObject($cont_obj, $target_id);
+							$pg_obj = new ilLMPageObject($cont_obj, $target_id);
 							$material_title .= $pg_obj->getTitle();
 							break;
 						case "st":
@@ -1413,9 +1413,9 @@ class SurveyQuestion
 							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
-							$st_obj =& new ilStructureObject($cont_obj, $target_id);
+							$st_obj = new ilStructureObject($cont_obj, $target_id);
 							$material_title .= $st_obj->getTitle();
 							break;
 						case "git":
@@ -1509,7 +1509,7 @@ class SurveyQuestion
 					{
 						case "lm":
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $target_id, true);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $target_id, true);
 							$cont_obj = $cont_obj_gui->object;
 							$material_title .= $cont_obj->getTitle();
 							break;
@@ -1518,9 +1518,9 @@ class SurveyQuestion
 							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
-							$pg_obj =& new ilLMPageObject($cont_obj, $target_id);
+							$pg_obj = new ilLMPageObject($cont_obj, $target_id);
 							$material_title .= $pg_obj->getTitle();
 							break;
 						case "st":
@@ -1528,9 +1528,9 @@ class SurveyQuestion
 							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
-							$st_obj =& new ilStructureObject($cont_obj, $target_id);
+							$st_obj = new ilStructureObject($cont_obj, $target_id);
 							$material_title .= $st_obj->getTitle();
 							break;
 						case "git":
@@ -1928,7 +1928,7 @@ class SurveyQuestion
 			$mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $this->getId());
 			foreach ($mobs as $mob)
 			{
-				$mob_obj =& new ilObjMediaObject($mob);
+				$mob_obj = new ilObjMediaObject($mob);
 				$imgattrs = array(
 					"label" => "il_" . IL_INST_ID . "_mob_" . $mob,
 					"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle(),

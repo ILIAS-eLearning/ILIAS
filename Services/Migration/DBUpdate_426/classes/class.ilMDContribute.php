@@ -56,7 +56,7 @@ class ilMDContribute extends ilMDBase
 		{
 			return false;
 		}
-		$ent =& new ilMDEntity();
+		$ent = new ilMDEntity();
 		$ent->setMetaId($a_entity_id);
 
 		return $ent;
@@ -65,7 +65,7 @@ class ilMDContribute extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDEntity.php';
 
-		$ent =& new ilMDEntity($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$ent = new ilMDEntity($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$ent->setParentId($this->getMetaId());
 		$ent->setParentType('meta_contribute');
 

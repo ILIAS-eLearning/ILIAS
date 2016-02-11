@@ -99,7 +99,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->getTemplate();
 //				$this->quickList();
 				$this->ctrl->setReturn($this, "listTerms");
-				$term_gui =& new ilGlossaryTermGUI($this->term_id);
+				$term_gui = new ilGlossaryTermGUI($this->term_id);
 				$term_gui->setGlossary($this->object);
 				//$ret =& $term_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($term_gui);
@@ -151,7 +151,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 					$this->addHeaderAction();
 				}
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
@@ -265,7 +265,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 
-		$this->object =& new ilObjGlossary($this->id, true);
+		$this->object = new ilObjGlossary($this->id, true);
 	}
 
 	/*protected function initCreationForms($a_new_type)
@@ -862,7 +862,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		
 		// add term
 		include_once ("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-		$term =& new ilGlossaryTerm();
+		$term = new ilGlossaryTerm();
 		$term->setGlossary($this->object);
 		$term->setTerm(ilUtil::stripSlashes($_POST["new_term"]));
 		$term->setLanguage($_POST["term_language"]);
@@ -870,7 +870,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$term->create();
 
 		// add first definition
-		$def =& new ilGlossaryDefinition();
+		$def = new ilGlossaryDefinition();
 		$def->setTermId($term->getId());
 		$def->setTitle(ilUtil::stripSlashes($_POST["new_term"]));
 		$def->create();
@@ -888,7 +888,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 
-		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$definition = new ilGlossaryDefinition($_GET["def"]);
 		$definition->moveUp();
 
 		$this->ctrl->redirect($this, "listTerms");
@@ -901,7 +901,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 
-		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$definition = new ilGlossaryDefinition($_GET["def"]);
 		$definition->moveDown();
 
 		$this->ctrl->redirect($this, "listTerms");
@@ -971,7 +971,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function deleteDefinition()
 	{
-		$definition =& new ilGlossaryDefinition($_REQUEST["def"]);
+		$definition = new ilGlossaryDefinition($_REQUEST["def"]);
 		$definition->delete();
 		$this->ctrl->redirect($this, "listTerms");
 	}
@@ -1161,7 +1161,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			if(is_object($this->object))
 			{
 				require_once("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
-				$gloss_loc =& new ilGlossaryLocatorGUI();
+				$gloss_loc = new ilGlossaryLocatorGUI();
 				if (is_object($this->term))
 				{
 					$gloss_loc->setTerm($this->term);
@@ -1191,7 +1191,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		switch($_POST["new_type"])
 		{
 			case "term":
-				$term_gui =& new ilGlossaryTermGUI();
+				$term_gui = new ilGlossaryTermGUI();
 				$term_gui->create();
 				break;
 		}
@@ -1199,7 +1199,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function saveTerm()
 	{
-		$term_gui =& new ilGlossaryTermGUI();
+		$term_gui = new ilGlossaryTermGUI();
 		$term_gui->setGlossary($this->object);
 		$term_gui->save();
 

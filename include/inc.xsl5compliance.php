@@ -33,7 +33,7 @@ class php4XSLTProcessor
 
 	function php4XSLTProcessor()
 	{
-		$this->myProc =& new XSLTProcessor;
+		$this->myProc = new XSLTProcessor;
 	}
 }
 

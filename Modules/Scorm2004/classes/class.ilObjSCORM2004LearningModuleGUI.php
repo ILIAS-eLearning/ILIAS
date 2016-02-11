@@ -38,7 +38,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$lng->loadLanguageModule("exp");
 		$this->type = "sahs";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
-		#$this->tabs_gui =& new ilTabsGUI();
+		#$this->tabs_gui = new ilTabsGUI();
 	}
 
 	/**
@@ -1032,11 +1032,11 @@ $this->ctrl->redirect($this, "properties");
 		{
 			if ($this->call_by_reference)
 			{
-				$this->object =& new ilObjSCORM2004LearningModule($this->id, true);
+				$this->object = new ilObjSCORM2004LearningModule($this->id, true);
 			}
 			else
 			{
-				$this->object =& new ilObjSCORM2004LearningModule($this->id, false);
+				$this->object = new ilObjSCORM2004LearningModule($this->id, false);
 			}
 		}
 	}
@@ -1933,7 +1933,7 @@ $this->ctrl->redirect($this, "properties");
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
-		$slm_tree =& new ilTree($this->object->getId());
+		$slm_tree = new ilTree($this->object->getId());
 		$slm_tree->setTreeTablePK("slm_id");
 		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 
@@ -1983,7 +1983,7 @@ $this->ctrl->redirect($this, "properties");
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
-		$slm_tree =& new ilTree($this->object->getId());
+		$slm_tree = new ilTree($this->object->getId());
 		$slm_tree->setTreeTablePK("slm_id");
 		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 
@@ -2034,7 +2034,7 @@ $this->ctrl->redirect($this, "properties");
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
-		$slm_tree =& new ilTree($this->object->getId());
+		$slm_tree = new ilTree($this->object->getId());
 		$slm_tree->setTreeTablePK("slm_id");
 		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 
@@ -2085,7 +2085,7 @@ $this->ctrl->redirect($this, "properties");
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
-		$slm_tree =& new ilTree($this->object->getId());
+		$slm_tree = new ilTree($this->object->getId());
 		$slm_tree->setTreeTablePK("slm_id");
 		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 
@@ -2208,7 +2208,7 @@ $this->ctrl->redirect($this, "properties");
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
-		$slm_tree =& new ilTree($this->object->getId());
+		$slm_tree = new ilTree($this->object->getId());
 		$slm_tree->setTreeTablePK("slm_id");
 		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 
@@ -2339,7 +2339,7 @@ $this->ctrl->redirect($this, "properties");
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
-		$slm_tree =& new ilTree($this->object->getId());
+		$slm_tree = new ilTree($this->object->getId());
 		$slm_tree->setTreeTablePK("slm_id");
 		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 

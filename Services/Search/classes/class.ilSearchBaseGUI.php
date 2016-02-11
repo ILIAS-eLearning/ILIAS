@@ -52,7 +52,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 		$this->lng->loadLanguageModule('search');
 
 		$ilMainMenu->setActive('search');
-		$this->settings =& new ilSearchSettings();
+		$this->settings = new ilSearchSettings();
 	}
 
 	function prepareOutput()

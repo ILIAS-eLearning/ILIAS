@@ -179,7 +179,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function save()
 	{
-		$this->obj =& new ilLMPageObject($this->content_object);
+		$this->obj = new ilLMPageObject($this->content_object);
 		$this->obj->setType("pg");
 		$this->obj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$this->obj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));

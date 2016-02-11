@@ -233,7 +233,7 @@ class ilBibItem
 	{
 		include_once("./Services/Xml/classes/class.ilNestedSetXML.php");
 
-		$this->nested_obj =& new ilNestedSetXML();
+		$this->nested_obj = new ilNestedSetXML();
 		$this->nested_obj->init($this->getID(), "bib");
 
 		return $this->nested_obj->initDom();

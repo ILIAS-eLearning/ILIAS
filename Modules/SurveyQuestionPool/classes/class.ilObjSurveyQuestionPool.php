@@ -141,7 +141,7 @@ class ilObjSurveyQuestionPool extends ilObject
 
 			include_once "./Modules/SurveyQuestionPool/classes/class.".$question_type."GUI.php";
 			$question_type_gui = $question_type . "GUI";
-			$question =& new $question_type_gui();
+			$question = new $question_type_gui();
 
 			if ($question_id > 0)
 			{

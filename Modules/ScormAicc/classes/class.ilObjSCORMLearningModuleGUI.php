@@ -58,11 +58,11 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		{
 			if ($this->call_by_reference)
 			{
-				$this->object =& new ilObjSCORMLearningModule($this->id, true);
+				$this->object = new ilObjSCORMLearningModule($this->id, true);
 			}
 			else
 			{
-				$this->object =& new ilObjSCORMLearningModule($this->id, false);
+				$this->object = new ilObjSCORMLearningModule($this->id, false);
 			}
 		}
 	}

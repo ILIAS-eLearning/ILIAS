@@ -354,7 +354,7 @@ exit;
 				$this->tabs_gui->clearTargets();
 				$this->tabs_gui->setBackTarget($this->page_gui->page_back_title,
 					$ilCtrl->getLinkTarget($this->page_gui, "edit"));
-				$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$pcmob_gui = new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$pcmob_gui->setStyleId($this->page_gui->getStyleId());
 				$pcmob_gui->setEnabledMapAreas($this->page_gui->getPageConfig()->getEnableInternalLinks());
 				$ret =& $this->ctrl->forwardCommand($pcmob_gui);
@@ -366,7 +366,7 @@ exit;
 				$this->tabs_gui->clearTargets();
 				$this->tabs_gui->setBackTarget($this->lng->txt("back"),
 					$ilCtrl->getParentReturn($this));
-				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
+				$mob_gui = new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
 				$mob_gui->getTabs($this->tabs_gui);
 				$mob_gui->setEnabledMapAreas($this->page_gui->getPageConfig()->getEnableInternalLinks());
 				$this->tpl->setTitle($this->lng->txt("mob").": ".
@@ -377,7 +377,7 @@ exit;
 			// Question
 			case "ilpcquestiongui":
 				include_once("./Services/COPage/classes/class.ilPCQuestionGUI.php");
-				$pc_question_gui =& new ilPCQuestionGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$pc_question_gui = new ilPCQuestionGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$pc_question_gui->setSelfAssessmentMode($this->page_gui->getPageConfig()->getEnableSelfAssessment());
 				$pc_question_gui->setPageConfig($this->page_gui->getPageConfig());
 

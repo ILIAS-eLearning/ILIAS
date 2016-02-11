@@ -38,7 +38,7 @@ class ilObjDlBook extends ilObjContentObject
 	{
 		include_once("./Modules/LearningModule/classes/class.ilBibItem.php");
 
-		$this->bib_obj =& new ilBibItem($this);
+		$this->bib_obj = new ilBibItem($this);
 		$this->bib_obj->read();
 
 		return true;

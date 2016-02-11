@@ -161,7 +161,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 		/*
 		$init->initIliasIniFile();
 		$init->initSettings();
-		$ilias =& new ILIAS();
+		$ilias = new ILIAS();
 		$GLOBALS['ilias'] =& $ilias;*/
 
 		$this->auth->start();

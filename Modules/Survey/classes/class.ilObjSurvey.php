@@ -360,7 +360,7 @@ class ilObjSurvey extends ilObject
 		foreach($mobs as $mob)
 		{
 			ilObjMediaObject::_removeUsage($mob, "svy:html", $this->getId());
-			$mob_obj =& new ilObjMediaObject($mob);
+			$mob_obj = new ilObjMediaObject($mob);
 			$mob_obj->delete();
 		}
 	}
@@ -1262,7 +1262,7 @@ class ilObjSurvey extends ilObject
 */
 	function saveAuthorToMetadata($a_author = "")
 	{
-		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md = new ilMD($this->getId(), 0, $this->getType());
 		$md_life =& $md->getLifecycle();
 		if (!$md_life)
 		{
@@ -1294,7 +1294,7 @@ class ilObjSurvey extends ilObject
 	{
 		$author = array();
 		include_once "./Services/MetaData/classes/class.ilMD.php";
-		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md = new ilMD($this->getId(), 0, $this->getType());
 		$md_life =& $md->getLifecycle();
 		if ($md_life)
 		{
@@ -5371,7 +5371,7 @@ class ilObjSurvey extends ilObject
 				$mob_id = "il_" . IL_INST_ID . "_mob_" . $mob;
 				if (strpos($mattext, $mob_id) !== FALSE)
 				{
-					$mob_obj =& new ilObjMediaObject($mob);
+					$mob_obj = new ilObjMediaObject($mob);
 					$imgattrs = array(
 						"label" => $mob_id,
 						"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle(),

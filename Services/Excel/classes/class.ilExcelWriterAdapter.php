@@ -26,12 +26,12 @@ class ilExcelWriterAdapter
 		
 		if($a_send)
 		{
-			$this->workbook =& new ilExcelWriterWrapper();
+			$this->workbook = new ilExcelWriterWrapper();
 			$this->workbook->send($a_filename);
 		}
 		else
 		{
-			$this->workbook =& new ilExcelWriterWrapper($a_filename);
+			$this->workbook = new ilExcelWriterWrapper($a_filename);
 		}
 		
 		if(strlen($tmp = ini_get('upload_tmp_dir')))

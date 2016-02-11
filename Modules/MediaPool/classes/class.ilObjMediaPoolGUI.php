@@ -131,14 +131,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				if ($cmd == "create" || $cmd == "save" || $cmd == "cancel")
 				{
 					$ret_obj = $_GET["mepitem_id"];
-					$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", 0, false, false);
+					$ilObjMediaObjectGUI = new ilObjMediaObjectGUI("", 0, false, false);
 					$ilObjMediaObjectGUI->setWidthPreset($this->object->getDefaultWidth());
 					$ilObjMediaObjectGUI->setHeightPreset($this->object->getDefaultHeight());
 				}
 				else
 				{
 					$ret_obj = $tree->getParentId($_GET["mepitem_id"]);
-					$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", ilMediaPoolItem::lookupForeignId($_GET["mepitem_id"]), false, false);
+					$ilObjMediaObjectGUI = new ilObjMediaObjectGUI("", ilMediaPoolItem::lookupForeignId($_GET["mepitem_id"]), false, false);
 					$this->ctrl->setParameter($this, "mepitem_id", $this->getParentFolderId());
 					$ilTabs->setBackTarget($lng->txt("back"),
 						$this->ctrl->getLinkTarget($this,
@@ -193,7 +193,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				{
 					case "createObject":
 						$this->prepareOutput();
-						$folder_gui =& new ilObjFolderGUI("", 0, false, false);
+						$folder_gui = new ilObjFolderGUI("", 0, false, false);
 						$folder_gui->setFormAction("save",
 							$this->ctrl->getFormActionByClass("ilobjfoldergui"));
 						$folder_gui->createObject();
@@ -212,7 +212,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 					case "editObject":
 						$this->prepareOutput();
-						$folder_gui =& new ilObjFolderGUI("", ilMediaPoolItem::lookupForeignId($_GET["mepitem_id"]), false, false);
+						$folder_gui = new ilObjFolderGUI("", ilMediaPoolItem::lookupForeignId($_GET["mepitem_id"]), false, false);
 						$this->ctrl->setParameter($this, "foldereditmode", "1");
 						$folder_gui->setFormAction("update", $this->ctrl->getFormActionByClass("ilobjfoldergui"));
 						$folder_gui->editObject();
@@ -220,7 +220,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 						break;
 
 					case "updateObject":
-						$folder_gui =& new ilObjFolderGUI("", ilMediaPoolItem::lookupForeignId($_GET["mepitem_id"]), false, false);
+						$folder_gui = new ilObjFolderGUI("", ilMediaPoolItem::lookupForeignId($_GET["mepitem_id"]), false, false);
 						$this->ctrl->setParameter($this, "mepitem_id", $this->getParentFolderId());
 						$this->ctrl->setReturn($this, "listMedia");
 						$folder_gui->updateObject(true);		// this returns to parent
@@ -261,7 +261,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				$this->tpl->show();
 				break;
@@ -997,7 +997,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$this->initFolderForm("create");
 		$tpl->setContent($this->form->getHTML());
 
-/*		$folder_gui =& new ilObjFolderGUI("", 0, false, false);
+/*		$folder_gui = new ilObjFolderGUI("", 0, false, false);
 		$this->ctrl->setParameterByClass("ilobjfoldergui", "obj_id", $_GET["obj_id"]);
 		$folder_gui->setFormAction("save",
 			$this->ctrl->getFormActionByClass("ilobjfoldergui"));

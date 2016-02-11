@@ -90,13 +90,13 @@ class ilObjGroupGUI extends ilContainerGUI
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search = new ilRepositorySearchGUI();
 				$rep_search->setCallback($this,
 					'addUserObject',
 					$this->getLocalRoles()
@@ -117,7 +117,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			case "illearningprogressgui":
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 
-				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
 													  $this->object->getRefId(),
 													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
 				$this->ctrl->forwardCommand($new_gui);
@@ -129,7 +129,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				
 				include_once './Modules/Course/classes/class.ilObjCourseGroupingGUI.php';
 				$this->ctrl->setReturn($this,'edit');
-				$crs_grp_gui =& new ilObjCourseGroupingGUI($this->object,(int) $_GET['obj_id']);
+				$crs_grp_gui = new ilObjCourseGroupingGUI($this->object,(int) $_GET['obj_id']);
 				$this->ctrl->forwardCommand($crs_grp_gui);
 				
 				$this->tabs_gui->setTabActive('settings');

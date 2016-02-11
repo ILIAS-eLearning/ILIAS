@@ -146,7 +146,7 @@ class ilCtrl
 		
 		// forward processing to base class
 		$this->getCallStructure(strtolower($baseClass));
-		$base_class_gui =& new $class();
+		$base_class_gui = new $class();
 		$this->forwardCommand($base_class_gui);
 	}
 
@@ -541,7 +541,7 @@ class ilCtrl
 	 *	include_once "classes/class.ilRepositoryGUI.php";
 	 *	$ilCtrl->setTargetScript("ilias.php");
 	 *	$ilCtrl->getCallStructure("ilrepositorygui");
-	 *	$repository_gui =& new ilRepositoryGUI();
+	 *	$repository_gui = new ilRepositoryGUI();
 	 *	$ilCtrl->forwardCommand($repository_gui);
 	 *
 	 * @param	string		$a_class	gui class name

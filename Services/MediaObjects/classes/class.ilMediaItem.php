@@ -280,7 +280,7 @@ class ilMediaItem
 			$max = ilMapArea::_getMaxNr($this->getId());
 			for ($i = 1; $i <= $max; $i++)
 			{
-				$area =& new ilMapArea($this->getId(), $i);
+				$area = new ilMapArea($this->getId(), $i);
 				$this->addMapArea($area);
 			}
 		}
@@ -384,7 +384,7 @@ class ilMediaItem
 		$item_set = $ilDB->query($query);
 		while ($item_rec = $ilDB->fetchAssoc($item_set))
 		{
-			$media_item =& new ilMediaItem();
+			$media_item = new ilMediaItem();
 			$media_item->setNr($item_rec["nr"]);
 			$media_item->setId($item_rec["id"]);
 			$media_item->setLocation($item_rec["location"]);
@@ -412,7 +412,7 @@ class ilMediaItem
 			$max = ilMapArea::_getMaxNr($media_item->getId());
 			for ($i = 1; $i <= $max; $i++)
 			{
-				$area =& new ilMapArea($media_item->getId(), $i);
+				$area = new ilMapArea($media_item->getId(), $i);
 				$media_item->addMapArea($area);
 			}
 

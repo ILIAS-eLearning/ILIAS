@@ -38,9 +38,9 @@ class ilTermDefinitionEditorGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->ctrl =& $ilCtrl;
-		$this->glossary =& new ilObjGlossary($_GET["ref_id"], true);
-		$this->definition =& new ilGlossaryDefinition($_GET["def"]);
-		$this->term =& new ilGlossaryTerm($this->definition->getTermId());
+		$this->glossary = new ilObjGlossary($_GET["ref_id"], true);
+		$this->definition = new ilGlossaryDefinition($_GET["def"]);
+		$this->term = new ilGlossaryTerm($this->definition->getTermId());
 
 		$this->ctrl->saveParameter($this, array("def"));
 	}
@@ -66,7 +66,7 @@ class ilTermDefinitionEditorGUI
 		$this->tpl->parseCurrentBlock();
 
 		require_once ("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
-		$gloss_loc =& new ilGlossaryLocatorGUI();
+		$gloss_loc = new ilGlossaryLocatorGUI();
 		$gloss_loc->setTerm($this->term);
 		$gloss_loc->setGlossary($this->glossary);
 		$gloss_loc->setDefinition($this->definition);

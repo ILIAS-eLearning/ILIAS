@@ -239,7 +239,7 @@ class ilObjMediaObject extends ilObject
 		include_once("Services/MetaData/classes/class.ilMDGeneral.php");
 		include_once("Services/MetaData/classes/class.ilMDDescription.php");
 
-		$md =& new ilMD(0, $this->getId(), $this->getType());
+		$md = new ilMD(0, $this->getId(), $this->getType());
 		$md_gen =& $md->getGeneral();
 		$md_gen->setTitle($this->getTitle());
 
@@ -1620,7 +1620,7 @@ class ilObjMediaObject extends ilObject
 		$media_object->createDirectory();
 		$mob_dir = ilObjMediaObject::_getDirectory($media_object->getId());
 
-		$media_item =& new ilMediaItem();
+		$media_item = new ilMediaItem();
 		$media_object->addMediaItem($media_item);
 		$media_item->setPurpose("Standard");
 

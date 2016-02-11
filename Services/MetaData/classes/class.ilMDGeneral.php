@@ -65,7 +65,7 @@ class ilMDGeneral extends ilMDBase
 		{
 			return false;
 		}
-		$ide =& new ilMDIdentifier();
+		$ide = new ilMDIdentifier();
 		$ide->setMetaId($a_identifier_id);
 		
 		return $ide;
@@ -74,7 +74,7 @@ class ilMDGeneral extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDIdentifier.php';
 
-		$ide =& new ilMDIdentifier($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$ide = new ilMDIdentifier($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$ide->setParentId($this->getMetaId());
 		$ide->setParentType('meta_general');
 
@@ -94,7 +94,7 @@ class ilMDGeneral extends ilMDBase
 		{
 			return false;
 		}
-		$lan =& new ilMDLanguage();
+		$lan = new ilMDLanguage();
 		$lan->setMetaId($a_language_id);
 
 		return $lan;
@@ -104,7 +104,7 @@ class ilMDGeneral extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
 		
-		$lan =& new ilMDLanguage($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$lan = new ilMDLanguage($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$lan->setParentId($this->getMetaId());
 		$lan->setParentType('meta_general');
 
@@ -125,7 +125,7 @@ class ilMDGeneral extends ilMDBase
 		{
 			return false;
 		}
-		$des =& new ilMDDescription();
+		$des = new ilMDDescription();
 		$des->setMetaId($a_description_id);
 
 		return $des;
@@ -134,7 +134,7 @@ class ilMDGeneral extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
-		$des =& new ilMDDescription($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$des = new ilMDDescription($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$des->setParentId($this->getMetaId());
 		$des->setParentType('meta_general');
 
@@ -154,7 +154,7 @@ class ilMDGeneral extends ilMDBase
 		{
 			return false;
 		}
-		$key =& new ilMDKeyword();
+		$key = new ilMDKeyword();
 		$key->setMetaId($a_keyword_id);
 
 		return $key;
@@ -163,7 +163,7 @@ class ilMDGeneral extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
 
-		$key =& new ilMDKeyword($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$key = new ilMDKeyword($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$key->setParentId($this->getMetaId());
 		$key->setParentType('meta_general');
 

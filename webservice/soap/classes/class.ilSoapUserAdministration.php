@@ -307,7 +307,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError('Role with id: '.$global_role_id.' is not a valid global role','Client');
 		}
 
-		$new_user =& new ilObjUser();
+		$new_user = new ilObjUser();
 
 		if(strlen($user_data['passwd']) != 32)
 		{
@@ -506,7 +506,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 						{
 							foreach($templates as $template)
 							{
-								$styleDef =& new ilStyleDefinition($template["id"]);
+								$styleDef = new ilStyleDefinition($template["id"]);
 								$styleDef->startParsing();
 								$styles = $styleDef->getStyles();
 								foreach ($styles as $style)

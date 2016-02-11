@@ -55,7 +55,7 @@ class ilMDRelation extends ilMDBase
 		{
 			return false;
 		}
-		$ide =& new ilMDIdentifier_();
+		$ide = new ilMDIdentifier_();
 		$ide->setMetaId($a_identifier__id);
 
 		return $ide;
@@ -64,7 +64,7 @@ class ilMDRelation extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
 
-		$ide =& new ilMDIdentifier_($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$ide = new ilMDIdentifier_($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$ide->setParentId($this->getMetaId());
 		$ide->setParentType('meta_relation');
 
@@ -85,7 +85,7 @@ class ilMDRelation extends ilMDBase
 		{
 			return false;
 		}
-		$des =& new ilMDDescription();
+		$des = new ilMDDescription();
 		$des->setMetaId($a_description_id);
 
 		return $des;
@@ -94,7 +94,7 @@ class ilMDRelation extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 		
-		$des =& new ilMDDescription($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$des = new ilMDDescription($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$des->setParentId($this->getMetaId());
 		$des->setParentType('meta_relation');
 

@@ -86,7 +86,7 @@ class ilMDOrComposite extends ilMDRequirement
 		{
 			return false;
 		}
-		$req =& new ilMDRequirement();
+		$req = new ilMDRequirement();
 		$req->setMetaId($a_requirement_id);
 
 		return $req;
@@ -96,7 +96,7 @@ class ilMDOrComposite extends ilMDRequirement
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDRequirement.php';
 
-		$req =& new ilMDRequirement($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$req = new ilMDRequirement($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$req->setParentId($this->getParentId());
 		$req->setParentType('meta_technical');
 		$req->setOrCompositeId($this->getOrCompositeId());

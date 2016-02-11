@@ -299,7 +299,7 @@ class ilCourseArchives
 		if(!is_object($this->course_xml_writer))
 		{
 			include_once "./Modules/Course/classes/class.ilCourseXMLWriter.php";
-			$this->course_xml_writer =& new ilCourseXMLWriter($this->course_obj);
+			$this->course_xml_writer = new ilCourseXMLWriter($this->course_obj);
 		}
 		return true;
 	}
@@ -403,7 +403,7 @@ class ilCourseArchives
 		// Get Language
 		if($this->getLanguage())
 		{
-			$lng =& new ilLanguage($this->getLanguage());
+			$lng = new ilLanguage($this->getLanguage());
 			$lng->loadLanguageModule('crs');
 		}
 		else
@@ -411,7 +411,7 @@ class ilCourseArchives
 			$lng =& $this->lng;
 		}
 
-		$tmp_tpl =& new ilTemplate("tpl.crs_export.html",true,true,'Modules/Course');
+		$tmp_tpl = new ilTemplate("tpl.crs_export.html",true,true,'Modules/Course');
 
 		$this->course_files_obj->copyFile($tpl->tplPath.'/'.$ilias->account->prefs["style"].'.css',
 									  $this->course_files_obj->getArchiveDirectory().'/'.$this->getName().'/default.css');

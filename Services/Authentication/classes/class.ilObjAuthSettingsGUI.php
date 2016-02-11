@@ -853,7 +853,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 				// Enable tabs
 				$this->tabs_gui->setTabActive('registration_settings');
-				$registration_gui =& new ilRegistrationSettingsGUI();
+				$registration_gui = new ilRegistrationSettingsGUI();
 				$this->ctrl->forwardCommand($registration_gui);
 				break;
 
@@ -863,7 +863,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				$this->tabs_gui->setTabActive('perm_settings');
 			
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				

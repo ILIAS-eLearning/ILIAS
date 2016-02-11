@@ -164,7 +164,7 @@ class ilObjCourseGrouping
 			$res = $ilDB->manipulate($query);
 
 			// Delete conditions
-			$condh =& new ilConditionHandler();
+			$condh = new ilConditionHandler();
 			$condh->deleteByObjId($this->getId());
 
 			return true;
@@ -365,7 +365,7 @@ class ilObjCourseGrouping
 		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
 
-		$condh =& new ilConditionHandler();
+		$condh = new ilConditionHandler();
 
 		// DELETE also original course if its the last
 		if($this->getCountAssignedCourses() == 2)
@@ -393,7 +393,7 @@ class ilObjCourseGrouping
 	{
 		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
-		$tmp_condh =& new ilConditionHandler();
+		$tmp_condh = new ilConditionHandler();
 		$tmp_condh->enableAutomaticValidation(false);
 
 		$tmp_condh->setTargetRefId($a_target_ref_id);
@@ -424,7 +424,7 @@ class ilObjCourseGrouping
 		{
 			include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
-			$condh =& new ilConditionHandler();
+			$condh = new ilConditionHandler();
 			$condh->deleteByObjId($grouping_id);
 		}
 

@@ -1584,7 +1584,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
 		if(!is_object($this->archives_obj))
 		{
-			$this->archives_obj =& new ilCourseArchives($this);
+			$this->archives_obj = new ilCourseArchives($this);
 		}
 		return true;
 	}
