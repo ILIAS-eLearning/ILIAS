@@ -8,7 +8,6 @@
  */
 interface ilDBInterface {
 
-
 	/**
 	 * Get reserved words. This must be overwritten in DBMS specific class.
 	 * This is mainly used to check whether a new identifier can be problematic
@@ -304,4 +303,28 @@ interface ilDBInterface {
 	 * @return string
 	 */
 	public function equals($columns, $value, $type, $emptyOrNull = false);
+
+
+	/**
+	 * @param $user
+	 */
+	public function setDBUser($user);
+
+
+	/**
+	 * @param $port
+	 */
+	public function setDBPort($port);
+
+
+	/**
+	 * @param $password
+	 */
+	public function setDBPassword($password);
+
+
+	/**
+	 * @param $host
+	 */
+	public function setDBHost($host);
 }

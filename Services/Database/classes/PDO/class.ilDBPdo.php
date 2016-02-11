@@ -66,7 +66,7 @@ class ilDBPdo implements ilDBInterface {
 		PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
 		PDO::ATTR_EMULATE_PREPARES => true,
 		PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-		PDO::MYSQL_ATTR_MAX_BUFFER_SIZE => 1048576
+		//		PDO::MYSQL_ATTR_MAX_BUFFER_SIZE => 1048576
 	);
 
 
@@ -762,6 +762,26 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	public function setPort($port) {
 		$this->port = $port;
+	}
+
+
+	public function setDBUser($user) {
+		$this->setUsername($user);
+	}
+
+
+	public function setDBPort($port) {
+		$this->setPort($port);
+	}
+
+
+	public function setDBPassword($password) {
+		$this->setPassword($password);
+	}
+
+
+	public function setDBHost($host) {
+		$this->setDBHost($host);
 	}
 }
 
