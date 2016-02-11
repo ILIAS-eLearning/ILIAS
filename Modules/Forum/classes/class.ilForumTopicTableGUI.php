@@ -131,7 +131,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
 		$this->addColumn($this->lng->txt('forums_thread'), 'thr_subject');
 		$this->addColumn($this->lng->txt('forums_created_by'), '');
-		$this->addColumn($this->lng->txt('forums_articles'), 'article_stats');
+		$this->addColumn($this->lng->txt('forums_articles'), 'num_posts');
 		$this->addColumn($this->lng->txt('visits'), 'num_visit');
 		$this->addColumn($this->lng->txt('forums_last_post'), 'post_date');
 		if('showThreads' == $this->parent_cmd && $this->parent_obj->objProperties->isIsThreadRatingEnabled())
