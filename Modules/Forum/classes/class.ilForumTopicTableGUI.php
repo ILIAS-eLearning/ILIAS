@@ -82,7 +82,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$this->setTopicData($topicData);
 
 		// Call this immediately in constructor
-		$this->setId('frm_tt_' . substr(md5($this->parent_cmd), 0, 3) . '_'. $this->getRefId());
+		$id = 'frm_tt_' . substr(md5($this->parent_cmd), 0, 3) . '_'. $this->getRefId();
+		$this->setId($id);
 
 		// Let the database do the work
 		$this->setDefaultOrderDirection('DESC');
@@ -96,7 +97,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$tpl->addCss('./Modules/Forum/css/forum_table.css');
 	}
 	
-	public function populate()
+	public function init()
 	{
 		if($this->parent_cmd == 'mergeThreads')
 		{
@@ -130,7 +131,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
 		$this->addColumn($this->lng->txt('forums_thread'), 'thr_subject');
 		$this->addColumn($this->lng->txt('forums_created_by'), '');
-		$this->addColumn($this->lng->txt('forums_articles'), 'article_stats');
+		$this->addColumn($this->lng->txt('forums_articles'), 'num_posts');
 		$this->addColumn($this->lng->txt('visits'), 'num_visit');
 		$this->addColumn($this->lng->txt('forums_last_post'), 'post_date');
 		if('showThreads' == $this->parent_cmd && $this->parent_obj->objProperties->isIsThreadRatingEnabled())
@@ -386,19 +387,22 @@ class ilForumTopicTableGUI extends ilTable2GUI
 	public function fetchData()
 	{
 		$this->determineOffsetAndOrder();
-		
+
 		$excluded_ids = array();
 		if($this->parent_cmd == 'mergeThreads' &&
 		   $this->getSelectedThread() instanceof ilForumTopic)
 		{
 			$excluded_ids[] = $this->getSelectedThread()->getId();
 		}
+		
+		$direction = $this->getOrderDirection();
+		$field     = $this->getOrderField();
 
 		$params = array(
 			'is_moderator'    => $this->getIsModerator(),
 			'excluded_ids'    => $excluded_ids,
-			'order_column'    => $this->getOrderField(),
-			'order_direction' => $this->getOrderDirection()
+			'order_column'    => $field,
+			'order_direction' => $direction
 		);
 
 		$data = $this->getMapper()->getAllThreads($this->topicData['top_pk'], $params, (int)$this->getLimit(), (int)$this->getOffset());

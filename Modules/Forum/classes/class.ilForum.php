@@ -1059,7 +1059,7 @@ class ilForum
 			$excluded_ids_condition = ' AND ' . $ilDB->in('thr_pk', $params['excluded_ids'], true, 'integer') . ' ';
 		}
 		
-		if(!in_array(strtolower($params['order_column']), array('lp_date', 'rating', 'thr_subject', 'num_visit', 'article_stats')))
+		if(!in_array(strtolower($params['order_column']), array('lp_date', 'rating', 'thr_subject', 'num_posts', 'num_visit')))
 		{
 			$params['order_column'] = 'post_date';
 		}
@@ -1103,24 +1103,24 @@ class ilForum
 		$additional_sort = '';
 		if($frm_props->getThreadSorting())
 		{
-			$additional_sort .= ' ,thread_sorting ASC ';
+			$additional_sort .= ' , thread_sorting ASC ';
 		}
-		
+
 		if($params['order_column'] == 'thr_subject')
 		{
-			$dynamic_columns = array(',thr_subject ' . $params['order_direction']);
+			$dynamic_columns = array(', thr_subject ' . $params['order_direction']);
 		}
-		else if($params['order_column'] == 'article_stats')
+		else if($params['order_column'] == 'num_posts')
 		{
-			$dynamic_columns = array(',thr_num_posts ' . $params['order_direction']);
+			$dynamic_columns = array(', thr_num_posts ' . $params['order_direction']);
 		}
 		else if($params['order_column'] == 'num_visit')
 		{
-			$dynamic_columns = array(',visits ' . $params['order_direction']);
+			$dynamic_columns = array(', visits ' . $params['order_direction']);
 		}
 		else
 		{
-			$dynamic_columns = array(' ,post_date ' . $params['order_direction']);
+			$dynamic_columns = array(', post_date ' . $params['order_direction']);
 		}
 		
 		if($frm_props->isIsThreadRatingEnabled())
