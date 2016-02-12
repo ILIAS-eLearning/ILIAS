@@ -12,13 +12,11 @@ require_once "./Services/Object/classes/class.ilObject.php";
  * @package ServicesBadge
  */
 class ilObjBadgeAdministration extends ilObject
-{	
+{		
 	public function __construct($a_id = 0, $a_call_by_reference = true)
 	{
 		$this->type = "bdga";
 		$this->ilObject($a_id,$a_call_by_reference);
-
-		$this->lng->loadLanguageModule("badge");
 	}
 
 	public function update()

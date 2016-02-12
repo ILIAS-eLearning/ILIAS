@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 include_once("./Services/Object/classes/class.ilObjectGUI.php");
+include_once("./Services/Badge/classes/class.ilBadgeHandler.php");
 
 /**
  * Badge Administration Settings.
@@ -8,7 +10,7 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id:$
  *
- * @ilCtrl_Calls ilObjBadgeAdministrationGUI: ilPermissionGUI
+ * @ilCtrl_Calls ilObjBadgeAdministrationGUI: ilPermissionGUI, ilBadgeManagementGUI
  * @ilCtrl_IsCalledBy ilObjBadgeAdministrationGUI: ilAdministrationGUI
  *
  * @ingroup ServicesBadge
@@ -38,6 +40,14 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
+			
+			case 'ilbadgemanagementgui':
+				$this->assertActive();
+				$this->tabs_gui->setTabActive('activity');
+				include_once "Services/Badge/classes/class.ilBadgeManagementGUI.php";
+				$gui = new ilBadgeManagementGUI($this->ref_id, $this->obj_id, $this->type);
+				$this->ctrl->forwardCommand($gui);
+				break;
 
 			default:
 				if(!$cmd || $cmd == 'view')
@@ -61,7 +71,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 				$this->lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "editSettings"));
 			
-			if($this->isActive())
+			if(ilBadgeHandler::getInstance()->isActive())
 			{			
 				$this->tabs_gui->addTab("types",
 					$this->lng->txt("badge_types"),
@@ -73,7 +83,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 
 				$this->tabs_gui->addTab("activity",
 					$this->lng->txt("badge_activity_badges"),
-					$this->ctrl->getLinkTarget($this, "listActivityBadges"));
+					$this->ctrl->getLinkTargetByClass("ilbadgemanagementgui", ""));
 			}
 		}
 
@@ -85,15 +95,9 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		}
 	}
 	
-	protected function isActive()
-	{
-		$bdga_set = new ilSetting("bdga");
-		return (bool)$bdga_set->get("active", false);		
-	}
-	
 	protected function assertActive()
 	{
-		if(!$this->isActive())
+		if(!ilBadgeHandler::getInstance()->isActive())
 		{
 			$this->ctrl->redirect($this, "editSettings");
 		}		
@@ -125,12 +129,16 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		$form = $this->initFormSettings();
 		if($form->checkInput())
 		{			
-			$bdga_set = new ilSetting("bdga");
-			$bdga_set->set("active", (bool)$form->getInput("act"));			
-			$bdga_set->set("obi_active", (bool)$form->getInput("obi"));			
-			$bdga_set->set("obi_organisation", trim($form->getInput("obi_org")));			
-			$bdga_set->set("obi_contact", trim($form->getInput("obi_cont")));			
-			$bdga_set->set("obi_salt", trim($form->getInput("obi_salt")));			
+			$obi = (bool)$form->getInput("act")
+				? (bool)$form->getInput("obi")
+				: null;
+		
+			$handler = ilBadgeHandler::getInstance();
+			$handler->setActive((bool)$form->getInput("act"));
+			$handler->setObiActive($obi);
+			$handler->setObiOrganisation(trim($form->getInput("obi_org")));
+			$handler->setObiContact(trim($form->getInput("obi_cont")));
+			$handler->setObiSalt(trim($form->getInput("obi_salt")));
 			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 			$ilCtrl->redirect($this, "editSettings");
@@ -177,13 +185,13 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 			$obi_salt->setRequired(true);
 			$obi_salt->setInfo($this->lng->txt("badge_obi_salt_info"));
 			$obi->addSubItem($obi_salt);
-		
-		$bdga_set = new ilSetting("bdga");
-		$act->setChecked($bdga_set->get("active", false));				
-		$obi->setChecked($bdga_set->get("obi_active", false));				
-		$obi_org->setValue($bdga_set->get("obi_organisation", null));				
-		$obi_contact->setValue($bdga_set->get("obi_contact", null));				
-		$obi_salt->setValue($bdga_set->get("obi_salt", null));				
+				
+		$handler = ilBadgeHandler::getInstance();
+		$act->setChecked($handler->isActive());				
+		$obi->setChecked($handler->isObiActive());				
+		$obi_org->setValue($handler->getObiOrganistation());				
+		$obi_contact->setValue($handler->getObiContact());				
+		$obi_salt->setValue($handler->getObiSalt());				
 		
 		return $form;
 	}
@@ -195,10 +203,30 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function listTypes()
 	{
+		global $ilAccess;
+		
 		$this->assertActive();
 		$this->tabs_gui->setTabActive("types");	
 		
-		// $this->tpl->setContent($tbl->getHTML());
+		include_once "Services/Badge/classes/class.ilBadgeTypesTableGUI.php";
+		$tbl = new ilBadgeTypesTableGUI($this, "listTypes",
+			$ilAccess->checkAccess("write", "", $this->object->getRefId()));
+		$this->tpl->setContent($tbl->getHTML());
+	}
+	
+	protected function saveTypes()
+	{
+		global $ilAccess;
+		
+		$this->assertActive();
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$badges = (array)$_POST["badge"];
+			$status = (array)$_POST["badge_active"];		
+			$inactive = array_diff($badges, $status);		
+			ilBadgeHandler::getInstance()->setInactiveTypes($inactive);					
+		}		
+		$this->ctrl->redirect($this, "listTypes");
 	}
 	
 	
@@ -212,18 +240,5 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive("imgtmpl");	
 		
 		// $this->tpl->setContent($tbl->getHTML());
-	}
-	
-	
-	//
-	// activity badges
-	//
-	
-	protected function listActivityBadges()
-	{
-		$this->assertActive();
-		$this->tabs_gui->setTabActive("activity");	
-		
-		// $this->tpl->setContent($tbl->getHTML());
-	}
+	}		
 }

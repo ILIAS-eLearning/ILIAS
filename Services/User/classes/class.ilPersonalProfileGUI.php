@@ -1242,7 +1242,8 @@ class ilPersonalProfileGUI
 				$cb = new ilCheckboxInputGUI($this->lng->txt("im_".$im), "chk_im_".$im);
 				//$cb->setInfo($ilUser->getInstantMessengerId($im));
 				$cb->setOptionTitle($ilUser->getInstantMessengerId($im));
-				if ($prefs["public_im_".$im] != "n")
+				if ($prefs["public_im_".$im] != "n" && 
+					!$anonymized)
 				{
 					$cb->setChecked(true);
 				}
