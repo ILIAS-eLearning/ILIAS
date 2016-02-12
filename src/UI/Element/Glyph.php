@@ -7,7 +7,7 @@ namespace ILIAS\UI\Element;
 /**
  * This describes how a glyph could be modified during construction of UI.
  */
-interface Glyph {
+interface Glyph extends \ILIAS\UI\Element {
     /**
      * Add a counter to the glyph.
      *

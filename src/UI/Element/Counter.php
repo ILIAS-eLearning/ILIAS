@@ -7,5 +7,5 @@ namespace ILIAS\UI\Element;
 /**
  * This tags a counter object.
  */
-interface Counter {
+interface Counter extends \ILIAS\UI\Element {
 }
