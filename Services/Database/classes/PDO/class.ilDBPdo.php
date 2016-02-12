@@ -15,6 +15,13 @@ require_once("Services/Database/classes/Exceptions/ilDatabaseException.php");
  */
 class ilDBPdo implements ilDBInterface {
 
+	const T_TEXT = 'text';
+	const T_INTEGER = 'integer';
+	const T_FLOAT = 'float';
+	const T_DATE = 'date';
+	const T_TIME = 'time';
+	const T_DATETIME = 'datetime';
+	const T_CLOB = 'clob';
 	/**
 	 * @var string
 	 */
