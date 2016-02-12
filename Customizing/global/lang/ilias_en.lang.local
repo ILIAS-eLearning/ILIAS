@@ -1,0 +1,22 @@
+﻿// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
+common#:#obj_bdga#:#Badges
+common#:#obj_bdga_desc#:#Administrate types, image templates and activity badges
+rbac#:#bdga_visible#:#Badge administration is visible
+rbac#:#bdga_read#:#User can read badge administration content
+rbac#:#bdga_write#:#User can edit badge administration settings
+rbac#:#bdga_edit_permission#:#User can change permission settings
+badge#:#badge_settings#:#Badge Settings
+badge#:#badge_service_activate#:#Activate Service
+badge#:#badge_service_activate_info#:#Activate the service to make badges available
+badge#:#badge_obi_activate#:#Activate Mozilla Open Badges Infrastructure
+badge#:#badge_obi_activate_info#:#
+badge#:#badge_obi_organisation#:#Organisation
+badge#:#badge_obi_organisation_info#:#
+badge#:#badge_obi_contact#:#Contact Email
+badge#:#badge_obi_contact_info#:#
+badge#:#badge_obi_salt#:#Salt
+badge#:#badge_obi_salt_info#:#
+badge#:#badge_types#:#Types
+badge#:#badge_image_templates#:#Image Templates
+badge#:#badge_activity_badges#:#Activity Badges
