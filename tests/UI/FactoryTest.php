@@ -1,5 +1,7 @@
 <?php
 
+require_once("libs/composer/vendor/autoload.php");
+
 /**
  * Defines tests every UI-factory should pass.
  */

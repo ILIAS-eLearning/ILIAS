@@ -7,6 +7,6 @@ require_once(__DIR__."/FactoryTest.php");
  */
 class FactoryImplementationTest extends FactoryTest {
     public function getFactoryInstance() {
-        throw new Exception("Fabian, please implement me!");
+        return new \ILIAS\UI\Internal\FactoryImpl();
     }
 }
