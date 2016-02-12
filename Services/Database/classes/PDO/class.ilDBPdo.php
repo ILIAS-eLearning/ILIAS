@@ -47,13 +47,13 @@ class ilDBPdo implements ilDBInterface {
 	 * @var array
 	 */
 	protected $type_to_mysql_type = array(
-		'text' => 'VARCHAR',
-		'integer' => 'INT',
-		'float' => 'DOUBLE',
-		'date' => 'DATE',
-		'time' => 'TIME',
-		'datetime' => 'TIMESTAMP',
-		'clob' => 'LONGTEXT',
+		self::T_TEXT => 'VARCHAR',
+		self::T_INTEGER => 'INT',
+		self::T_FLOAT => 'DOUBLE',
+		self::T_DATE => 'DATE',
+		self::T_TIME => 'TIME',
+		self::T_DATETIME => 'TIMESTAMP',
+		self::T_CLOB => 'LONGTEXT',
 	);
 	/**
 	 * @var string
@@ -568,12 +568,13 @@ class ilDBPdo implements ilDBInterface {
 		// TODO: Implement like() method.
 
 		if (!in_array($type, array(
-			"text",
-			"clob",
+			self::T_TEXT,
+			self::T_CLOB,
 			"blob"
 		))
 		) {
-			$this->raisePearError("Like: Invalid column type '" . $type . "'.", $this->error_class->FATAL);
+			throw new ilDatabaseException("Like: Invalid column type '" . $type . "'.");
+			//			$this->raisePearError("Like: Invalid column type '" . $type . "'.", $this->error_class->FATAL);
 		}
 		if ($value == "?") {
 			if ($caseInsensitive) {
