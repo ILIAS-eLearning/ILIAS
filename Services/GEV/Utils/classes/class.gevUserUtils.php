@@ -248,14 +248,13 @@ class gevUserUtils {
 		check, if course exists and is online;
 		*/
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
-		
+		require_once("Modules/Course/classes/class.ilObjCourseAccess.php");		
 		$ret = array();
 		foreach ($ar as $crsid) {
 			if(gevObjectUtils::checkObjExistence($crsid)){
-				$crs_utils = gevCourseUtils::getInstance($crsid);
-				if ($crs_utils->getCourse()->isActivated()){
+				if(ilObjCourseAccess::_isActivated($crsid)) {
 					$ret[] = $crsid;
-				} 
+				}
 			}
 		}
 		return $ret;
