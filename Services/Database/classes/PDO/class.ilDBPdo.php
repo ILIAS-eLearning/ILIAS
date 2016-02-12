@@ -116,18 +116,22 @@ class ilDBPdo implements ilDBInterface {
 	 * @return int
 	 */
 	public function nextId($table_name) {
-		if ($this->tableExists($table_name . '_seq')) {
-			$table_seq = $table_name . '_seq';
-			$stmt = $this->pdo->prepare("SELECT sequence FROM $table_seq");
+		$sequence_table_name = $table_name . '_seq';
+		if ($this->tableExists($sequence_table_name)) {
+			$stmt = $this->pdo->prepare("SELECT sequence FROM $sequence_table_name");
 			$stmt->execute();
 			$rows = $stmt->fetch(PDO::FETCH_ASSOC);
 			$stmt->closeCursor();
+			$has_set = isset($rows['sequence']);
+			$next_id = ($has_set ? ($rows['sequence'] + 1) : 1);
+			if ($has_set) {
+				$stmt = $this->pdo->prepare("UPDATE $sequence_table_name SET sequence = :next_id");
+			} else {
+				$stmt = $this->pdo->prepare("INSERT INTO $sequence_table_name (sequence) VALUES(:next_id)");
+			}
+			$stmt->execute(array( "next_id" => $next_id ));
 
-			$nextId = (count($rows) ? ($rows['sequence'] + 1) : 0);
-			$stmt = $this->pdo->prepare("UPDATE $table_seq SET sequence = :next_id");
-			$stmt->execute(array( "next_id" => $nextId ));
-
-			return $nextId;
+			return $next_id;
 		} else {
 			return $this->pdo->lastInsertId($table_name) + 1;
 		}
@@ -830,6 +834,19 @@ class ilDBPdo implements ilDBInterface {
 
 	public function enableResultBuffering($a_status) {
 		$this->pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, $a_status);
+	}
+
+
+	/**
+	 * @param $stmt
+	 * @param array $data
+	 * @return bool
+	 */
+	public function execute($stmt, $data = array()) {
+		/**
+		 * @var $stmt PDOStatement
+		 */
+		return $stmt->execute($data);
 	}
 }
 

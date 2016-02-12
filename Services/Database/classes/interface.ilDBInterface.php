@@ -362,4 +362,12 @@ interface ilDBInterface {
 	 * @param $a_status
 	 */
 	public function enableResultBuffering($a_status);
+
+
+	/**
+	 * @param $stmt
+	 * @param array $data
+	 * @return bool
+	 */
+	public function execute($stmt, $data = array());
 }
