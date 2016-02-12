@@ -3361,7 +3361,7 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		$this->ctrl->setCmd("showSummary");
 		$this->ctrl->setCmdClass("ilinfoscreengui");
-		$this->infoScreen($_SESSION["lock"]);
+		$this->infoScreen($_GET['lock']);
 	}
 	
 	/**
