@@ -35,6 +35,7 @@ class ilBadgeTableGUI extends ilTable2GUI
 		}
 		
 		$this->addColumn($lng->txt("title"), "title");
+		$this->addColumn($lng->txt("type"), "type");
 		$this->addColumn($lng->txt("active"), "active");
 				
 		if($this->has_write)
@@ -61,7 +62,8 @@ class ilBadgeTableGUI extends ilTable2GUI
 			$data[] = array(
 				"id" => $badge->getId(),
 				"title" => $badge->getTitle(),	
-				"active" => $badge->isActive()
+				"active" => $badge->isActive(),
+				"type" => $badge->getTypeInstance()->getCaption()
 			);												
 		}
 		
@@ -78,6 +80,7 @@ class ilBadgeTableGUI extends ilTable2GUI
 		}
 		
 		$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);	
+		$this->tpl->setVariable("TXT_TYPE", $a_set["type"]);	
 		$this->tpl->setVariable("TXT_ACTIVE", $a_set["active"]
 			? $lng->txt("yes")
 			: "&nbsp;");		
