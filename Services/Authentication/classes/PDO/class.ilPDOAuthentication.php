@@ -73,7 +73,7 @@ class ilPDOAuthentication implements ilAuthInterface {
 	 * @return bool
 	 */
 	protected function checkAuth() {
-		return isset($this->session['username']);
+		return isset($_SESSION['_authsession']['username']);
 	}
 
 
@@ -111,7 +111,7 @@ class ilPDOAuthentication implements ilAuthInterface {
 	 * @return string
 	 */
 	function getUsername() {
-		return $this->session['username'];
+		return $_SESSION['_authsession']['username'];
 	}
 
 
@@ -127,7 +127,7 @@ class ilPDOAuthentication implements ilAuthInterface {
 
 
 	public function logout() {
-		$this->session = null;
+		$_SESSION['_authsession'] = null;
 	}
 
 	protected function assignData() {
@@ -150,10 +150,11 @@ class ilPDOAuthentication implements ilAuthInterface {
 	private function setAuth($username) {
 		//        session_regenerate_id(true); doesn't seem to work on PHP7
 
-		if (!isset($this->session)) {
-			$this->session = array();
+		if (!isset($_SESSION['_authsession'])) {
+			$_SESSION['_authsession'] = array();
 		}
-		$this->session['username'] = $username;
+
+		$_SESSION['_authsession']['username'] = $username;
 	}
 
 
