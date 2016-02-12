@@ -921,7 +921,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->checkPermission('write');
 
 		//gev-patch start
-		$bevore_update = new ilCourseInfo($this->object->getId());
+		$bevore_update = new ilCourseInfo((int)$this->object->getId());
 		//gev-patch end
 
 		include_once 'Modules/Course/classes/class.ilCourseFile.php';
@@ -979,7 +979,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->record_gui->writeEditForm();
 		$this->object->update(false);
 
-		$after_update = new ilCourseInfo($this->object->getId());
+		$after_update = new ilCourseInfo((int)$this->object->getId());
 
 		$ilAppEventHandler->raise('Modules/Course',
 				'update',
@@ -1009,7 +1009,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$form->checkInput();
 		
 		//gev-patch start
-		$bevore_update = new ilCourseInfo($this->object->getId());
+		$bevore_update = new ilCourseInfo((int)$this->object->getId());
 		//gev-patch end
 
 		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
@@ -1122,7 +1122,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$this->object->update(false);
 			//gev-patch start
-			$after_update = new ilCourseInfo($this->object->getId());
+			$after_update = new ilCourseInfo((int)$this->object->getId());
 
 			$ilAppEventHandler->raise('Modules/Course',
 				'update',
