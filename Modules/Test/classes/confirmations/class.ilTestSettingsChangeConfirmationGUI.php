@@ -157,29 +157,22 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
 
 				case 'datetime':
 
-					list($date, $time) = explode(' ', $item->getDate()->get(IL_CAL_DATETIME));
-
-					if( $item->getMode() == ilDateTimeInputGUI::MODE_SELECT )
+					$datetime = $item->getDate();
+					if($datetime instanceof ilDateTime)
 					{
-						list($y, $m, $d) = explode('-', $date);
-
-						$this->addHiddenItem("{$item->getPostVar()}[date][y]", $y);
-						$this->addHiddenItem("{$item->getPostVar()}[date][m]", $m);
-						$this->addHiddenItem("{$item->getPostVar()}[date][d]", $d);
-
-						if( $item->getShowTime() )
+						list($date, $time) = explode(' ', $datetime->get(IL_CAL_DATETIME));
+						if(!($date instanceof ilDate))
 						{
-							list($h, $m, $s) = explode('-', $time);
-
-							$this->addHiddenItem("{$item->getPostVar()}[time][h]", $h);
-							$this->addHiddenItem("{$item->getPostVar()}[time][m]", $m);
-							$this->addHiddenItem("{$item->getPostVar()}[time][s]", $s);
+							$this->addHiddenItem($item->getPostVar(), $date . ' ' . $time);
+						}
+						else
+						{
+							$this->addHiddenItem($item->getPostVar(), $date);
 						}
 					}
 					else
 					{
-						$this->addHiddenItem("{$item->getPostVar()}[date]", $date);
-						$this->addHiddenItem("{$item->getPostVar()}[time]", $time);
+						$this->addHiddenItem($item->getPostVar(), '');
 					}
 
 					break;
