@@ -469,10 +469,12 @@ class gevBuildingBlockUtils {
 		return self::$possible_topics;
 	}
 
-	static function getAllInBuildingBlocksSelectedTopics() {
+	static function getAllInBuildingBlocksSelectedTopics($user_id) {
 		global $ilDB;
 
-		$sql = "SELECT DISTINCT topic FROM ".self::TABLE_NAME." WHERE is_deleted = 0 AND is_active = 1";
+		$bb_pool = gevUserUtils::getBuildingBlockPoolsUserHasPermissionsTo($user_id, array(gevSettings::USE_BUILDING_BLOCK, "visible"));
+
+		$sql = "SELECT DISTINCT topic FROM ".self::TABLE_NAME." WHERE is_deleted = 0 AND is_active = 1 AND ".$ilDB->in("pool_id", $bb_pool, false, "integer")."\n";
 		$res = $ilDB->query($sql);
 
 		$ret = array();
@@ -565,7 +567,7 @@ class gevBuildingBlockUtils {
 		$cpy_bb_utils->setContent($this->getContent());
 		$cpy_bb_utils->setTarget($this->getTarget());
 		$cpy_bb_utils->setIsWPRelevant($this->isWPRelevant());
-		$cpy_bb_utils->setIsActive($this->isActive());
+		$cpy_bb_utils->setIsActive(($this->isActive() != "1") ? "" : $this->isActive());
 		$cpy_bb_utils->setGDVTopic($this->getGDVTopic());
 
 		$cpy_bb_utils->setTrainingCategories($this->getTrainingCategories());

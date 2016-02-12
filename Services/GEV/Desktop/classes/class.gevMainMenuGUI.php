@@ -69,6 +69,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	}
 
 	public function renderMainMenuListEntries($a_tpl, $a_call_get = true) {
+		$this->getTrainingPoolDropDown();
 		// No Menu during registration or on makler page
 		$basename = basename($_SERVER["PHP_SELF"]);
 		if (   $basename == "gev_registration.php"
@@ -133,6 +134,13 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				}
 			}
 		}
+
+		$main_menue_permissions = array("manage_courses"=>$manage_courses
+									,"search_courses"=>$search_courses
+									,"manage_users"=>$manage_users
+									,"manage_org_units"=>$manage_org_units
+									,"manage_mails"=>$manage_mails
+									,"manage_course_block_units"=>$manage_course_block_units);
 		
 		$menu = array( 
 			//single entry?
@@ -172,15 +180,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				), $this->gLng->txt("gev_others_menu"))
 			, self::GEV_REPORTING_MENU => array(false, $this->hasReportingMenu(), null)
 
-			, "gev_admin_menu" => array(false, $has_managment_menu, array(
-				  "gev_course_mgmt" => array($manage_courses, "goto.php?target=root_1",$this->gLng->txt("gev_course_mgmt"))
-				, "gev_course_mgmt_search" => array($search_courses, "ilias.php?baseClass=gevDesktopGUI&cmd=toAdmCourseSearch",$this->gLng->txt("gev_course_search_adm"))
-				, "gev_user_mgmt" => array($manage_users, "ilias.php?baseClass=ilAdministrationGUI&ref_id=7&cmd=jump",$this->gLng->txt("gev_user_mgmt"))
-				, "gev_org_mgmt" => array($manage_org_units, "ilias.php?baseClass=ilAdministrationGUI&ref_id=56&cmd=jump",$this->gLng->txt("gev_org_mgmt"))
-				, "gev_mail_mgmt" => array($manage_mails, "ilias.php?baseClass=ilAdministrationGUI&ref_id=12&cmd=jump",$this->gLng->txt("gev_mail_mgmt"))
-				//, "gev_competence_mgmt" => array($manage_competences, "ilias.php?baseClass=ilAdministrationGUI&ref_id=41&cmd=jump",$this->gLng->txt("gev_competence_mgmt"))
-				, "gev_course_bock_unit_mgmt" => array($manage_course_block_units, "ilias.php?baseClass=gevDesktopGUI&cmd=toDctBuildingBlockAdm",$this->gLng->txt("gev_dec_building_block_mgmt"))
-				), $this->gLng->txt("gev_admin_menu"))
+			, "gev_admin_menu" => array(false, $has_managment_menu, $this->_getAdminMainMenuEntries($main_menue_permissions), $this->gLng->txt("gev_admin_menu"))
 			, self::IL_STANDARD_ADMIN => array(false, $has_super_admin_menu, null)
 			);
 
@@ -319,6 +319,37 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		}
 		
 		return $gl;
+	}
+
+	protected function _getAdminMainMenuEntries($main_menue_permissions) {
+		$ret = array(
+				  "gev_course_mgmt" => array($main_menue_permissions["manage_courses"], "goto.php?target=root_1",$this->gLng->txt("gev_course_mgmt"))
+				, "gev_course_mgmt_search" => array($main_menue_permissions["search_courses"], "ilias.php?baseClass=gevDesktopGUI&cmd=toAdmCourseSearch",$this->gLng->txt("gev_course_search_adm"))
+				, "gev_user_mgmt" => array($main_menue_permissions["manage_users"], "ilias.php?baseClass=ilAdministrationGUI&ref_id=7&cmd=jump",$this->gLng->txt("gev_user_mgmt"))
+				, "gev_org_mgmt" => array($main_menue_permissions["manage_org_units"], "ilias.php?baseClass=ilAdministrationGUI&ref_id=56&cmd=jump",$this->gLng->txt("gev_org_mgmt"))
+				, "gev_mail_mgmt" => array($main_menue_permissions["manage_mails"], "ilias.php?baseClass=ilAdministrationGUI&ref_id=12&cmd=jump",$this->gLng->txt("gev_mail_mgmt")));
+				//, "gev_competence_mgmt" => array($manage_competences, "ilias.php?baseClass=ilAdministrationGUI&ref_id=41&cmd=jump",$this->gLng->txt("gev_competence_mgmt"));
+
+		$bb_pool = gevUserUtils::getBuildingBlockPoolsTitleUserHasPermissionsTo($this->gUser->getId(), array(gevSettings::USE_BUILDING_BLOCK, "visible"));
+		foreach ($bb_pool as $key => $value) {
+			$this->gCtrl->setParameterByClass("ilobjbuildingblockpoolgui", "ref_id", gevObjectUtils::getRefId($key));
+			$link = $this->gCtrl->getLinkTargetByClass(array("ilObjPluginDispatchGUI","ilobjbuildingblockpoolgui"),"showContent");
+			$ret[$value] = array($main_menue_permissions["manage_course_block_units"], $link, $value);
+			$this->gCtrl->clearParametersByClass("ilobjbuildingblockpoolgui");
+		}
+
+		return $ret;
+	}
+
+	protected function getTrainingPoolDropDown() {
+		
+
+		$entries = array();
+
+		
+
+		return $this->getDropDown($entries)->getHTML();
+
 	}
 
 	protected function getReportingMenuDropDown() {

@@ -27,9 +27,22 @@ class ilObjBuildingBlockPoolListGUI extends ilObjectPluginListGUI {
 	* Get commands
 	*/
 	function initCommands() {
+		$this->info_screen_enabled = false;
+		$this->copy_enabled = true;
+		$this->cut_enabled = false;
+		$this->subscribe_enabled = false;
+		$this->link_enabled = false;
+		$this->payment_enabled = false;
+		$this->timings_enabled = false;
+
 		return array(array("permission" => "read",
 							"cmd" => "showContent",
 							"default" => true
+						),
+						array("permission" => "write",
+							"cmd" => "editProperties",
+							"txt" => $this->txt("edit"),
+							"default" => false
 						)
 				);
 	}

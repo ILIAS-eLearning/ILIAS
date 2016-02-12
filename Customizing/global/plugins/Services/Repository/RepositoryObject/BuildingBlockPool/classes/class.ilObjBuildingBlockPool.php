@@ -12,6 +12,7 @@ class ilObjBuildingBlockPool extends ilObjectPlugin {
 
 	protected $gDb;
 	protected $gUser;
+	protected $online;
 
 	public function __construct($a_ref_id = 0) {
 		parent::__construct($a_ref_id);
@@ -39,11 +40,21 @@ class ilObjBuildingBlockPool extends ilObjectPlugin {
 	}
 
 	public function doUpdate() {
-
+		$this->gDb->manipulate($up = "UPDATE ".self::TABLE_NAME." SET ".
+			" is_online = ".$this->gDb->quote($this->getOnline(), "integer").
+			" WHERE obj_id = ".$this->gDb->quote($this->getId(), "integer")
+			);
 	}
 
 	public function doRead() {
+		$res = $this->gDb->query("SELECT * FROM ".self::TABLE_NAME." ".
+			" WHERE obj_id = ".$this->gDb->quote($this->getId(), "integer")
+			);
 
+		while ($row = $this->gDb->fetchAssoc($res))
+		{
+			$this->setOnline($row["is_online"]);
+		}
 	}
 
 	public function doDelete() {
@@ -80,5 +91,15 @@ class ilObjBuildingBlockPool extends ilObjectPlugin {
 			array_push($row,$new_obj->getId());
 			$this->gDb->execute($statement,array_values($row));
 		}
+	}
+
+	public function setOnline($online) {
+		assert(is_bool($online));
+
+		$this->online = $online;
+	}
+
+	public function getOnline() {
+		return $this->online;
 	}
 }

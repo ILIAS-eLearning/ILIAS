@@ -40,7 +40,18 @@ class gevDecentralTrainingCreateBuildingBlockDataGUI {
 
 	protected function changeBuildingBlockSelect($selected) {
 		$bb = gevBuildingBlockUtils::getPossibleBuildingBlocksByTopicName($selected, $this->gUser->getId());
-		$this->createJson($bb);
+
+		$res = array();
+		foreach ($bb as $key => $array) {
+			$res[$key] = array();
+			foreach ($array as $id => $title) {
+				array_push($res[$key], array($id, $title));
+			}
+		}
+
+		
+		
+		$this->createJson($res);
 	}
 
 	protected function changeBuildingBlockInfos($selected) {
