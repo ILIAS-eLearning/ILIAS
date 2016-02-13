@@ -406,8 +406,19 @@ class ilDBPdo implements ilDBInterface {
 	 * @return string
 	 */
 	public function quote($value, $type) {
-		//TODO TYPE SENSITIVE.
-		return $this->pdo->quote($value);
+		switch ($type) {
+			case self::T_INTEGER:
+				$pdo_type = PDO::PARAM_INT;
+				break;
+			case self::T_FLOAT:
+				$pdo_type = PDO::PARAM_INT;
+				break;
+			case self::T_TEXT:
+			default:
+				$pdo_type = PDO::PARAM_STR;
+				break;
+		}
+		return $this->pdo->quote($value, $pdo_type);
 	}
 
 
