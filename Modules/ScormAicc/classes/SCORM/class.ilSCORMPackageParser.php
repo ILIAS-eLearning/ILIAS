@@ -100,7 +100,7 @@ class ilSCORMPackageParser extends ilSaxParser
 	{
 		if(!isset($this->status["$a_name"]))
 		{
-			$this->cnt[$a_name] == 1;
+			$this->cnt[$a_name] = 1;
 		}
 		else
 		{
