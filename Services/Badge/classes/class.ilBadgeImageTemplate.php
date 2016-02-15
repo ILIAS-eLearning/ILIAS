@@ -34,7 +34,8 @@ class ilBadgeImageTemplate
 		
 		$res = array();
 		
-		$set = $ilDB->query("SELECT * FROM badge_image_template");
+		$set = $ilDB->query("SELECT * FROM badge_image_template".
+			" ORDER BY title");
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$obj = new self();

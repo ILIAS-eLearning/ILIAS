@@ -17,6 +17,7 @@ class ilBadge
 	protected $active; // [bool]
 	protected $title; // [string]
 	protected $desc; // [string]
+	protected $tmpl_id; // [int]
 	protected $config; // [array]
 	
 	/**
@@ -40,7 +41,8 @@ class ilBadge
 		$res = array();
 		
 		$set = $ilDB->query("SELECT * FROM badge_badge".
-			" WHERE parent_id = ".$ilDB->quote($a_parent_id));
+			" WHERE parent_id = ".$ilDB->quote($a_parent_id).
+			" ORDER BY title");
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$obj = new self();
@@ -126,6 +128,16 @@ class ilBadge
 		return $this->desc;
 	}
 	
+	public function setTemplateId($a_value)
+	{
+		$this->tmpl_id = (int)$a_value;
+	}
+	
+	public function getTemplateId()
+	{
+		return $this->tmpl_id;
+	}
+	
 	public function setConfiguration(array $a_value = null)
 	{
 		if(is_array($a_value) &&
@@ -167,6 +179,7 @@ class ilBadge
 		$this->setActive($a_row["active"]);
 		$this->setTitle($a_row["title"]);
 		$this->setDescription($a_row["descr"]);
+		$this->setTemplateId($a_row["image"]);
 		$this->setConfiguration($a_row["conf"]
 				? unserialize($a_row["conf"])
 				: null);				
@@ -228,6 +241,7 @@ class ilBadge
 			"active" => array("integer", $this->isActive()),
 			"title" => array("text", $this->getTitle()),
 			"descr" => array("text", $this->getDescription()),
+			"image" => array("integer", $this->getTemplateId()), 
 			"conf" => array("text", $this->getConfiguration()
 				? serialize($this->getConfiguration())
 				: null)

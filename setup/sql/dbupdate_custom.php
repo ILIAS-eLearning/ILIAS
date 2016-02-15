@@ -89,3 +89,20 @@ if(!$ilDB->tableExists('badge_image_template'))
 }
 
 ?>
+<#5>
+<?php
+
+if(!$ilDB->tableColumnExists('badge_badge','image')) 
+{
+    $ilDB->addTableColumn(
+        'badge_badge',
+        'image',
+        array(
+            'type' => 'integer',
+			'length' => 4,
+            'notnull' => false,
+            'default' => 0
+        ));
+}
+
+?>

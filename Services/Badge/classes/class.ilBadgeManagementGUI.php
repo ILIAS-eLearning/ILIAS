@@ -172,7 +172,21 @@ class ilBadgeManagementGUI
 		$desc->setRequired(true);
 		$form->addItem($desc);
 		
-		// :TODO: image
+		$options = array();
+		if($a_mode == "create")
+		{
+			$options[""] = $lng->txt("please_select");
+		}
+		include_once "Services/Badge/classes/class.ilBadgeImageTemplate.php";
+		foreach(ilBadgeImageTemplate::getInstances() as $tmpl)
+		{
+			$options[$tmpl->getId()] = $tmpl->getTitle();
+		}
+		
+		$tmpl = new ilSelectInputGUI($lng->txt("badge_image_template_form"), "tmpl");
+		$tmpl->setRequired(true);
+		$tmpl->setOptions($options);
+		$form->addItem($tmpl);
 		
 		$custom = $a_type->getConfigGUIInstance();
 		if($custom &&
@@ -226,6 +240,7 @@ class ilBadgeManagementGUI
 			$badge->setActive($form->getInput("act"));
 			$badge->setTitle($form->getInput("title"));
 			$badge->setDescription($form->getInput("desc"));
+			$badge->setTemplateId($form->getInput("tmpl"));
 						
 			$custom = $type->getConfigGUIInstance();
 			if($custom &&
@@ -275,6 +290,12 @@ class ilBadgeManagementGUI
 		$a_form->getItemByPostVar("act")->setChecked($a_badge->isActive());
 		$a_form->getItemByPostVar("title")->setValue($a_badge->getTitle());
 		$a_form->getItemByPostVar("desc")->setValue($a_badge->getDescription());
+		$a_form->getItemByPostVar("tmpl")->setValue($a_badge->getTemplateId());
+		
+		// :TODO: proper "preview"?
+		include_once "Services/Badge/classes/class.ilBadgeImageTemplate.php";
+		$tmpl = new ilBadgeImageTemplate($a_badge->getTemplateId());
+		$a_form->getItemByPostVar("tmpl")->setInfo('<img src="'.$tmpl->getImagePath().'" style="max-width:250px; max-height:150px">');
 		
 		$custom = $a_type->getConfigGUIInstance();
 		if($custom &&
@@ -306,6 +327,7 @@ class ilBadgeManagementGUI
 			$badge->setActive($form->getInput("act"));
 			$badge->setTitle($form->getInput("title"));
 			$badge->setDescription($form->getInput("desc"));
+			$badge->setTemplateId($form->getInput("tmpl"));
 						
 			$custom = $type->getConfigGUIInstance();
 			if($custom &&
