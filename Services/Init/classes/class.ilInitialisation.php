@@ -1226,6 +1226,8 @@ class ilInitialisation
 			self::initStyle();
 		}
 
+		$GLOBALS["UIFactory"] = new ILIAS\UI\Internal\FactoryImpl();
+
 		// $tpl
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		self::initGlobal("tpl", $tpl);

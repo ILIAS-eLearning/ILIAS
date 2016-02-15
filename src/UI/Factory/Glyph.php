@@ -163,4 +163,8 @@ interface Glyph {
      * @return \ILIAS\UI\Element\Glyph
      */
     public function info();
+    /**
+     * @return \ILIAS\UI\Element\Glyph
+     */
+    public function envelope();
 }
