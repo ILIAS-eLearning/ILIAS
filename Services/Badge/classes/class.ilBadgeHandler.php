@@ -285,5 +285,38 @@ class ilBadgeHandler
 		$handler->setComponents($components);
 	}
 	
+	
+	// 
+	// helper
+	// 
+	
+	public function isObjectActive($a_obj_id, $a_obj_type = null)
+	{
+		if(!$this->isActive())
+		{	
+			return false;
+		}
+		
+		if(!$a_obj_type)
+		{
+			$a_obj_type = ilObject::_lookupType($a_obj_id);
+		}
+
+		if($a_obj_type != "bdga")
+		{
+			include_once 'Services/Container/classes/class.ilContainer.php';
+			include_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+			if(!ilContainer::_lookupContainerSetting(
+				$a_obj_id,
+				ilObjectServiceSettingsGUI::BADGES,
+				false))
+			{
+				return false;
+			}
+		}
+				
+		return (bool)$this->getAvailableTypesForObjType($a_obj_type);			
+	}
+	
 }
 

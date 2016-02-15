@@ -24,3 +24,5 @@ badge#:#badge_crs_merit#:#Merit
 badge#:#badge_manual#:#Manual Awarding
 badge#:#badge_user_profile#:#User Profil
 badge#:#badge_badge#:#Badge
+obj#:#obj_tool_setting_badges#:#Badges
+obj#:#obj_tool_setting_badges_info#:#If activated badges can be managed.

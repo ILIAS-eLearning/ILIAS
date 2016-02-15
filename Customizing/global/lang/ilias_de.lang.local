@@ -24,3 +24,5 @@ badge#:#badge_crs_merit#:#Verdienst
 badge#:#badge_manual#:#Manuelle Vergabe
 badge#:#badge_user_profile#:#Benutzerprofil
 badge#:#badge_badge#:#Badge
+obj#:#obj_tool_setting_badges#:#Badges
+obj#:#obj_tool_setting_badges_info#:#Wenn aktiviert können Badges konfiguriert werden.

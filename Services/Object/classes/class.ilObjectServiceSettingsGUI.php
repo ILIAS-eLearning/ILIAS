@@ -20,6 +20,7 @@ class ilObjectServiceSettingsGUI
 	const TAXONOMIES = 'cont_taxonomies';
 	const TAG_CLOUD = 'cont_tag_cloud';
 	const CUSTOM_METADATA = 'cont_custom_md';
+	const BADGES = 'cont_badges';
 	
 	private $gui = null;
 	private $modes = array();
@@ -188,6 +189,24 @@ class ilObjectServiceSettingsGUI
 			$form->addItem($rate);			
 		}
 		
+		// badges
+		if(in_array(self::BADGES, $services))
+		{		
+			include_once 'Services/Badge/classes/class.ilBadgeHandler.php';
+			if(ilBadgeHandler::getInstance()->isActive())
+			{
+				$bdg = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_badges'), self::BADGES);
+				$bdg->setInfo($GLOBALS['lng']->txt('obj_tool_setting_badges_info'));
+				$bdg->setValue(1);		
+				$bdg->setChecked(ilContainer::_lookupContainerSetting(
+							$a_obj_id,
+							self::BADGES,
+							false
+					));
+				$form->addItem($bdg);		
+			}
+		}		
+		
 		return $form;
 	}
 	
@@ -258,6 +277,17 @@ class ilObjectServiceSettingsGUI
 		{
 			include_once './Services/Container/classes/class.ilContainer.php';
 			ilContainer::_writeContainerSetting($a_obj_id,self::CUSTOM_METADATA,(int) $form->getInput(self::CUSTOM_METADATA));
+		}
+		
+		// badges
+		if(in_array(self::BADGES, $services))
+		{
+			include_once 'Services/Badge/classes/class.ilBadgeHandler.php';
+			if(ilBadgeHandler::getInstance()->isActive())
+			{
+				include_once './Services/Container/classes/class.ilContainer.php';
+				ilContainer::_writeContainerSetting($a_obj_id,self::BADGES,(int) $form->getInput(self::BADGES));
+			}
 		}
 		
 		return true;

@@ -26,6 +26,8 @@ class ilBadgeManagementGUI
 	 */
 	public function __construct($a_parent_ref_id, $a_parent_obj_id = null, $a_parent_obj_type = null)
 	{
+		global $lng;
+		
 		$this->parent_ref_id = $a_parent_ref_id;
 		$this->parent_obj_id = $a_parent_obj_id
 			? $a_parent_obj_id
@@ -33,6 +35,13 @@ class ilBadgeManagementGUI
 		$this->parent_obj_type = $a_parent_obj_type 
 			? $a_parent_obj_type
 			: ilObject::_lookupType($this->parent_obj_id);
+
+		if(!ilBadgeHandler::getInstance()->isObjectActive($this->parent_obj_id))
+		{
+			throw new ilException("inactive object");
+		}
+		
+		$lng->loadLanguageModule("badge");
 	}
 	
 	public function executeCommand()
@@ -40,16 +49,31 @@ class ilBadgeManagementGUI
 		global $ilCtrl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
-		$cmd = $ilCtrl->getCmd("listBadges");
+		$cmd = $ilCtrl->getCmd("listUsers");
 
 		switch($next_class)
 		{		
-			default:
+			default:	
 				$this->$cmd();
 				break;
 		}
 		
 		return true;
+	}
+	
+	protected function setTabs($a_active)
+	{
+		global $ilTabs, $lng, $ilCtrl;
+		
+		$ilTabs->addSubTab("users", 
+			$lng->txt("users"),
+			$ilCtrl->getLinkTarget($this, "listUsers"));
+		
+		$ilTabs->addSubTab("badges", 
+			$lng->txt("obj_bdga"),
+			$ilCtrl->getLinkTarget($this, "listBadges"));
+		
+		$ilTabs->activateSubTab($a_active);
 	}
 	
 	protected function hasWrite()
@@ -61,6 +85,8 @@ class ilBadgeManagementGUI
 	protected function listBadges()
 	{
 		global $ilToolbar, $lng, $ilCtrl, $tpl;
+		
+		$this->setTabs("badges");
 		
 		if($this->hasWrite())
 		{
@@ -293,6 +319,19 @@ class ilBadgeManagementGUI
 		
 		$form->setValuesByPost();
 		$this->editBadge($form);
+	}
+	
+	
+	//
+	// users
+	// 
+	
+	protected function listUsers()
+	{
+		$this->setTabs("users");
+		
+		
+		
 	}
 	
 }
