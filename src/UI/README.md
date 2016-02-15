@@ -11,4 +11,4 @@
 
 ## ToDos:
 
-[ ] Create some more meaningful tests on counter and glyph.
+* Create some more meaningful tests on counter and glyph.
