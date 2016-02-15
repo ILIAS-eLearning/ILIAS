@@ -47,7 +47,7 @@ abstract class GlyphTest extends PHPUnit_Framework_TestCase {
      */
     public function test_add_novelty_counter($factory_method, $_) {
         $f = $this->getFactoryInstance();
-        $cf = $this->getCounterFactoryInstance();
+        $fc = $this->getCounterFactoryInstance();
         $g = $f->$factory_method();
         $this->assertNotNull($g);
 
@@ -66,7 +66,7 @@ abstract class GlyphTest extends PHPUnit_Framework_TestCase {
      */
     public function test_add_status_counter($factory_method, $_) {
         $f = $this->getFactoryInstance();
-        $cf = $this->getCounterFactoryInstance();
+        $fc = $this->getCounterFactoryInstance();
         $g = $f->$factory_method();
         $this->assertNotNull($g);
 
@@ -85,7 +85,7 @@ abstract class GlyphTest extends PHPUnit_Framework_TestCase {
      */
     public function test_add_status_and_novelty_counter($factory_method, $_) {
         $f = $this->getFactoryInstance();
-        $cf = $this->getCounterFactoryInstance();
+        $fc = $this->getCounterFactoryInstance();
         $g = $f->$factory_method();
         $this->assertNotNull($g);
 
@@ -107,7 +107,7 @@ abstract class GlyphTest extends PHPUnit_Framework_TestCase {
      */
     public function test_two_counters_only($factory_method, $_) {
         $f = $this->getFactoryInstance();
-        $cf = $this->getCounterFactoryInstance();
+        $fc = $this->getCounterFactoryInstance();
         $g = $f->$factory_method();
         $this->assertNotNull($g);
 
@@ -118,15 +118,15 @@ abstract class GlyphTest extends PHPUnit_Framework_TestCase {
 
         $c1_n = $fc->status(0);
         $g3 = $g2->addCounter($c1_n);
-        $counters = $g2->counters();
+        $counters = $g3->counters();
         $this->assertCount(2, $counters);
         $this->assertContains($c1_n, $counters); 
         $this->assertContains($c2, $counters); 
         $this->assertNotContains($c1, $counters); 
 
         $c2_n = $fc->novelty(0);
-        $g3 = $g2->addCounter($c1_n);
-        $counters = $g2->counters();
+        $g3 = $g2->addCounter($c2_n);
+        $counters = $g3->counters();
         $this->assertCount(2, $counters);
         $this->assertContains($c1, $counters); 
         $this->assertContains($c2_n, $counters); 
@@ -139,7 +139,7 @@ abstract class GlyphTest extends PHPUnit_Framework_TestCase {
             ( array("up", "$ns\\UpGlyphType")
             , array("down", "$ns\\DownGlyphType")
             , array("add", "$ns\\AddGlyphType")
-            , array("remove", "$ns\\DownGlyphType")
+            , array("remove", "$ns\\RemoveGlyphType")
             , array("previous", "$ns\\PreviousGlyphType")
             , array("next", "$ns\\NextGlyphType")
             , array("calendar", "$ns\\CalendarGlyphType")
