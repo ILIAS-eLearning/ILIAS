@@ -595,6 +595,7 @@ class ilCalendarUtil
 		{			
 			$tpl->addJavaScript("./Services/Calendar/lib/bootstrap3_datepicker/moment-with-locales.min.js");		
 			$tpl->addJavaScript("./Services/Calendar/lib/bootstrap3_datepicker/bootstrap-datetimepicker.min.js");		
+			$tpl->addJavaScript("Services/Form/js/Form.js"); // see ilPropertyFormGUI	
 		
 			self::$init_datetimepicker = true;	
 		}
