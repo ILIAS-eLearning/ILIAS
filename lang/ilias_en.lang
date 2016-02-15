@@ -11690,12 +11690,12 @@ notes#:#note_update_note#:#Update Note
 common#:#added_to_desktop#:#The item has been added to the desktop.
 common#:#removed_from_desktop#:#The item has been removed from the desktop.
 notes#:#notes_comments#:#Comments
-rbac#:#chtr_visible#:#Chatroom is visible
-rbac#:#chtr_read#:#User can join and participate at Chat Room
-rbac#:#chtr_write#:#User can edit settings of Chat Room and ban users
+rbac#:#chtr_visible#:#Chat Room is visible
+rbac#:#chtr_read#:#User can join and participate at chat room
+rbac#:#chtr_write#:#User can edit settings of chat room and ban users
 rbac#:#chtr_edit_permission#:#User can change Permission Settings for Chat Room
-common#:#objs_chtr#:#Chatrooms
-common#:#obj_chta#:#Chat
+common#:#objs_chtr#:#Chat Room
+common#:#obj_chta#:#Chat Room
 chatroom#:#history_by_day#:#Daily History
 chatroom#:#no_username_given#:#Please choose a username
 chatroom#:#history_by_session#:#Session History
@@ -11729,7 +11729,7 @@ chatroom#:#small#:#Small
 chatroom#:#large#:#Large
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
-chatroom#:#obj_chtr#:#Chatroom
+chatroom#:#obj_chtr#:#Chat Room
 chatroom#:#chat_message#:#Message
 chatroom#:#chat_message_to_all#:#To All
 chatroom#:#chat_message_options#:#Display
@@ -11754,7 +11754,7 @@ chatroom#:#chat_create_private_room_button#:#Create Private Room
 chatroom#:#moderate#:#Moderate
 chatroom#:#chatroom_smiley_keyword#:#Keyword
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"
-chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nYou have been invited to a chat room:\nChat room Title: [ROOM_NAME]\nInvited by: [INVITER_NAME]\nURL: [LINK]\n\nTo join the chat room, please follow the given URL.
+chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nYou have been invited to a chat room:\nChat Room Title: [ROOM_NAME]\nInvited by: [INVITER_NAME]\nURL: [LINK]\n\nTo join the chat room, please follow the given URL.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chat room.
 chatroom#:#settings_title#:#Settings
 chatroom#:#history_byday_title#:#Show Conversation per Day
@@ -11800,7 +11800,7 @@ chatroom_adm#:#keystore#:#Keystore
 chatroom_adm#:#keypass#:#Keypass
 chatroom_adm#:#storepass#:#Storepass
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
-common#:#obj_chtr#:#Chatroom
+common#:#obj_chtr#:#Chat Room
 chatroom#:#unable_to_connect#:#The connection to the chat server could not be established.
 user#:#user_account_codes#:#Account Reactivation Codes
 user#:#user_account_codes_add#:#Add Codes
@@ -12302,7 +12302,7 @@ blog#:#blog_notification_toggle_off#:#Deactivate Notification
 blog#:#blog_notification_activated#:#Notification Activated
 blog#:#blog_notification_deactivated#:#Notification Deactivated
 wiki#:#wiki_change_notification_page_body_comment#:#the following wiki page has been commented
-common#:#chta_visible#:#Chatroom Administration is visible
+common#:#chta_visible#:#Chat Room Administration is visible
 common#:#chta_read#:#Read access to Chat Room Administration
 common#:#chta_write#:#Edit Chat Room Administration
 common#:#chta_edit_permission#:#Change Permission Settings
@@ -13323,7 +13323,7 @@ tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any o
 tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service for any of the installed languages. Please add at least one document for any of the installed languages.
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 survey#:#svy_invite_action#:#Put on Personal Desktop
-rbac#:#chtr_delete#:#User can move or delete course
+rbac#:#chtr_delete#:#User can move or delete chat room
 ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
 ecs#:#ecs_role_mapping_value#:#Attribute Value
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads 
