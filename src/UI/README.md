@@ -9,6 +9,8 @@
   as possible? Could we generate tests from comments directly? How would one
   do that?
 * Should the UI elements be immutable? (currently the tests say yes)
+* It does not seem to make sense to implement to_html_string on Counter, as we
+  never render a counter on its own. What to do about that?
 
 ## ToDos:
 
