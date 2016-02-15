@@ -8,6 +8,7 @@
 * How could we make sure, that documentation and tests match up as much
   as possible? Could we generate tests from comments directly? How would one
   do that?
+* Should the UI elements be immutable? (currently the tests say yes)
 
 ## ToDos:
 
