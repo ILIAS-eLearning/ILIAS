@@ -10,7 +10,7 @@ include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
 * 
 * @ingroup ServicesBadge
 */
-class ilFSStorageBadgeImageTemplate extends ilFileSystemStorage
+class ilFSStorageBadge extends ilFileSystemStorage
 {
 	public function __construct($a_container_id = 0)
 	{
@@ -19,7 +19,7 @@ class ilFSStorageBadgeImageTemplate extends ilFileSystemStorage
 	
 	protected function getPathPostfix()
 	{
-	 	return 'badgetmpl';
+	 	return 'badge';
 	}
 	
 	protected function getPathPrefix()

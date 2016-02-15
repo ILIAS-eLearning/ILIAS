@@ -223,7 +223,7 @@ class ilBadgeHandler
 			: null);
 	}
 	
-	public function getAvailableTypesForObjType($a_object_type)
+	public function getAvailableTypes()
 	{
 		$res = array();
 		
@@ -236,13 +236,27 @@ class ilBadgeHandler
 				foreach($provider->getBadgeTypes() as $type)
 				{
 					$id = $this->getUniqueTypeId($component_id, $type);
-					if(!in_array($id, $inactive) &&
-						in_array($a_object_type, $type->getValidObjectTypes()))
+					if(!in_array($id, $inactive))
 					{
 						$res[$id] = $type;
 					}
 				}
 			}
+		}	
+
+		return $res;
+	}
+	
+	public function getAvailableTypesForObjType($a_object_type)
+	{
+		$res = array();
+		
+		foreach($this->getAvailableTypes() as $id => $type)
+		{
+			if(in_array($a_object_type, $type->getValidObjectTypes()))
+			{
+				$res[$id] = $type;
+			}			
 		}				
 		
 		return $res;

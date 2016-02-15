@@ -146,13 +146,13 @@ class ilBadgeManagementGUI
 		
 		if(!$a_form)
 		{
-			$a_form = $this->initBadgeForm("create", $type);
+			$a_form = $this->initBadgeForm("create", $type, $type_id);
 		}
 		
 		$tpl->setContent($a_form->getHTML());
 	}
 	
-	protected function initBadgeForm($a_mode, ilBadgeType $a_type)
+	protected function initBadgeForm($a_mode, ilBadgeType $a_type, $a_type_unique_id)
 	{
 		global $lng, $ilCtrl;
 		
@@ -172,21 +172,55 @@ class ilBadgeManagementGUI
 		$desc->setRequired(true);
 		$form->addItem($desc);
 		
-		$options = array();
 		if($a_mode == "create")
 		{
-			$options[""] = $lng->txt("please_select");
+			// upload
+	
+			$img_mode = new ilRadioGroupInputGUI($lng->txt("image"), "img_mode");			
+			$img_mode->setRequired(true);
+			$form->addItem($img_mode);			
+	
+			$img_mode_tmpl = new ilRadioOption($lng->txt("badge_image_from_template"), "tmpl");
+			$img_mode->addOption($img_mode_tmpl);
+
+			$img_mode_up = new ilRadioOption($lng->txt("badge_image_from_upload"), "up");
+			$img_mode->addOption($img_mode_up);
+			
+			$img_upload = new ilImageFileInputGUI($lng->txt("file"), "img");
+			$img_upload->setRequired(true);
+			$img_mode_up->addSubItem($img_upload);
+
+			// templates
+			
+			include_once "Services/Badge/classes/class.ilBadgeImageTemplate.php";
+			$valid_templates = ilBadgeImageTemplate::getInstancesByType($a_type_unique_id);			
+			if(sizeof($valid_templates))
+			{
+				$options = array();		
+				$options[""] = $lng->txt("please_select");						
+				foreach($valid_templates as $tmpl)
+				{
+					$options[$tmpl->getId()] = $tmpl->getTitle();
+				}
+
+				$tmpl = new ilSelectInputGUI($lng->txt("badge_image_template_form"), "tmpl");
+				$tmpl->setRequired(true);
+				$tmpl->setOptions($options);
+				$img_mode_tmpl->addSubItem($tmpl);
+			}
+			else
+			{
+				// no templates, activate upload
+				$img_mode_tmpl->setDisabled(true);
+				$img_mode->setValue("up");
+			}
 		}
-		include_once "Services/Badge/classes/class.ilBadgeImageTemplate.php";
-		foreach(ilBadgeImageTemplate::getInstances() as $tmpl)
+		else
 		{
-			$options[$tmpl->getId()] = $tmpl->getTitle();
+			$img_upload = new ilImageFileInputGUI($lng->txt("image"), "img");
+			$img_upload->setALlowDeletion(false);
+			$form->addItem($img_upload);
 		}
-		
-		$tmpl = new ilSelectInputGUI($lng->txt("badge_image_template_form"), "tmpl");
-		$tmpl->setRequired(true);
-		$tmpl->setOptions($options);
-		$form->addItem($tmpl);
 		
 		$custom = $a_type->getConfigGUIInstance();
 		if($custom &&
@@ -230,7 +264,7 @@ class ilBadgeManagementGUI
 			$ilCtrl->redirect($this, "listBadges");
 		}
 		
-		$form = $this->initBadgeForm("create", $type);		
+		$form = $this->initBadgeForm("create", $type, $type_id);		
 		if($form->checkInput())
 		{
 			include_once "Services/Badge/classes/class.ilBadge.php";
@@ -240,8 +274,7 @@ class ilBadgeManagementGUI
 			$badge->setActive($form->getInput("act"));
 			$badge->setTitle($form->getInput("title"));
 			$badge->setDescription($form->getInput("desc"));
-			$badge->setTemplateId($form->getInput("tmpl"));
-						
+				
 			$custom = $type->getConfigGUIInstance();
 			if($custom &&
 				$custom instanceof ilBadgeTypeGUI)
@@ -251,6 +284,16 @@ class ilBadgeManagementGUI
 						
 			$badge->create();
 			
+			if($form->getInput("img_mode") == "up")
+			{
+				$badge->uploadImage($_FILES["img"]);
+			}
+			else
+			{
+				$tmpl = new ilBadgeImageTemplate($form->getInput("tmpl"));
+				$badge->importImage($tmpl->getImage(), $tmpl->getImagePath());
+			}
+					
 			ilUtil::sendInfo($lng->txt("settings_saved"), true);
 			$ilCtrl->redirect($this, "listBadges");
 		}
@@ -278,7 +321,7 @@ class ilBadgeManagementGUI
 		if(!$a_form)
 		{			
 			$type = $badge->getTypeInstance();
-			$a_form = $this->initBadgeForm("edit", $type);			
+			$a_form = $this->initBadgeForm("edit", $type, $badge->getTypeId());			
 			$this->setBadgeFormValues($a_form, $badge, $type);
 		}
 		
@@ -290,12 +333,8 @@ class ilBadgeManagementGUI
 		$a_form->getItemByPostVar("act")->setChecked($a_badge->isActive());
 		$a_form->getItemByPostVar("title")->setValue($a_badge->getTitle());
 		$a_form->getItemByPostVar("desc")->setValue($a_badge->getDescription());
-		$a_form->getItemByPostVar("tmpl")->setValue($a_badge->getTemplateId());
-		
-		// :TODO: proper "preview"?
-		include_once "Services/Badge/classes/class.ilBadgeImageTemplate.php";
-		$tmpl = new ilBadgeImageTemplate($a_badge->getTemplateId());
-		$a_form->getItemByPostVar("tmpl")->setInfo('<img src="'.$tmpl->getImagePath().'" style="max-width:250px; max-height:150px">');
+		$a_form->getItemByPostVar("img")->setValue($a_badge->getImage());
+		$a_form->getItemByPostVar("img")->setImage($a_badge->getImagePath());
 		
 		$custom = $a_type->getConfigGUIInstance();
 		if($custom &&
@@ -321,13 +360,12 @@ class ilBadgeManagementGUI
 		include_once "./Services/Badge/classes/class.ilBadge.php";
 		$badge = new ilBadge($badge_id);
 		$type = $badge->getTypeInstance();
-		$form = $this->initBadgeForm("update", $type);		
+		$form = $this->initBadgeForm("update", $type, $badge->getTypeId());		
 		if($form->checkInput())
 		{			
 			$badge->setActive($form->getInput("act"));
 			$badge->setTitle($form->getInput("title"));
 			$badge->setDescription($form->getInput("desc"));
-			$badge->setTemplateId($form->getInput("tmpl"));
 						
 			$custom = $type->getConfigGUIInstance();
 			if($custom &&
@@ -337,6 +375,8 @@ class ilBadgeManagementGUI
 			}
 						
 			$badge->update();
+			
+			$badge->uploadImage($_FILES["img"]);
 			
 			ilUtil::sendInfo($lng->txt("settings_saved"), true);
 			$ilCtrl->redirect($this, "listBadges");

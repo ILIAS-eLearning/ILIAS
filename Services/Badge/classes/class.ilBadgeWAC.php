@@ -15,26 +15,6 @@ class ilBadgeWAC implements ilWACCheckingClass
 {	
 	public function canBeDelivered(ilWACPath $ilWACPath) 
 	{
-		// :TODO:
-		return true;
-		
-		/*
-		global $ilUser, $ilAccess;
-		
-		if(preg_match("/\\/blog_([\\d]*)\\//uism", $ilWACPath->getPath(), $results))
-		{
-			$obj_id = $results[1];
-			$ref_ids = ilObject::_getAllReferences($obj_id);
-			foreach($ref_ids as $ref_id)
-			{						
-				if ($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "view", $ref_id, "blog", $obj_id))
-				{
-					return true;
-				}		
-			}
-		}
-		
-		return false;		 
-		*/
+		return true;		
 	}		
 }

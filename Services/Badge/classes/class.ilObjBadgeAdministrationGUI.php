@@ -289,6 +289,15 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		$img->setALlowDeletion(false);
 		$form->addItem($img);
 		
+		$types = new ilCheckboxGroupInputGUI($lng->txt("badge_types"), "type");		
+		$types->setRequired(true);		
+		$form->addItem($types);
+		
+		foreach(ilBadgeHandler::getInstance()->getAvailableTypes() as $id => $type)
+		{
+			$types->addOption(new ilCheckboxOption($type->getCaption(), $id));
+		}
+		
 		if($a_mode == "create")
 		{
 			$form->addCommandButton("saveImageTemplate", $lng->txt("save"));
@@ -313,7 +322,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		{
 			include_once "Services/Badge/classes/class.ilBadgeImageTemplate.php";
 			$tmpl = new ilBadgeImageTemplate();			
-			$tmpl->setTitle($form->getInput("title"));			
+			$tmpl->setTitle($form->getInput("title"));	
+			$tmpl->setTypes($form->getInput("type"));
 			$tmpl->create();
 			
 			$tmpl->uploadImage($_FILES["img"]);
@@ -360,6 +370,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		$a_form->getItemByPostVar("title")->setValue($a_tmpl->getTitle());		
 		$a_form->getItemByPostVar("img")->setImage($a_tmpl->getImagePath());
 		$a_form->getItemByPostVar("img")->setValue($a_tmpl->getImage());
+		$a_form->getItemByPostVar("type")->setValue($a_tmpl->getTypes());
 	}
 	
 	protected function updateImageTemplate()
@@ -381,7 +392,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		{						
 			include_once "Services/Badge/classes/class.ilBadgeImageTemplate.php";
 			$tmpl = new ilBadgeImageTemplate($tmpl_id);							
-			$tmpl->setTitle($form->getInput("title"));			
+			$tmpl->setTitle($form->getInput("title"));
+			$tmpl->setTypes($form->getInput("type"));			
 			$tmpl->update();
 			
 			$tmpl->uploadImage($_FILES["img"]);			

@@ -28,3 +28,5 @@ obj#:#obj_tool_setting_badges#:#Badges
 obj#:#obj_tool_setting_badges_info#:#If activated badges can be managed.
 badge#:#badge_add_template#:#Add Template
 badge#:#badge_image_template_form#:#Image Template
+badge#:#badge_image_from_upload#:#Upload Image
+badge#:#badge_image_from_template#:#Use Template

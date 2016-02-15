@@ -17,7 +17,7 @@ class ilBadge
 	protected $active; // [bool]
 	protected $title; // [string]
 	protected $desc; // [string]
-	protected $tmpl_id; // [int]
+	protected $image; // [string]
 	protected $config; // [array]
 	
 	/**
@@ -128,16 +128,6 @@ class ilBadge
 		return $this->desc;
 	}
 	
-	public function setTemplateId($a_value)
-	{
-		$this->tmpl_id = (int)$a_value;
-	}
-	
-	public function getTemplateId()
-	{
-		return $this->tmpl_id;
-	}
-	
 	public function setConfiguration(array $a_value = null)
 	{
 		if(is_array($a_value) &&
@@ -151,6 +141,80 @@ class ilBadge
 	public function getConfiguration()
 	{
 		return $this->config;
+	}
+	
+	protected function setImage($a_value)
+	{
+		$this->image = trim($a_value);
+	}
+	
+	public function getImage()
+	{
+		return $this->image;
+	}
+	
+	public function uploadImage(array $a_upload_meta)
+	{		
+		if($this->getId() &&
+			$a_upload_meta["tmp_name"])
+		{
+ 			$path = $this->getFilePath($this->getId());
+			$tgt = $path."img".$this->getId();
+			if(move_uploaded_file($a_upload_meta["tmp_name"], $tgt))
+			{
+				$this->setImage($a_upload_meta["name"]);
+				$this->update();			
+			}
+		}
+	}
+	
+	public function importImage($a_name, $a_file)
+	{
+		if(file_exists($a_file))
+		{
+			$path = $this->getFilePath($this->getId());
+			$tgt = $path."img".$this->getId();
+			copy($a_file, $tgt);
+			
+			$this->setImage($a_name);
+			$this->update();		
+		}
+	}
+	
+	public function getImagePath()
+	{
+		if($this->getId())
+		{
+			return $this->getFilePath($this->getId())."img".$this->getId();
+		}
+	}
+	
+	/**
+	 * Init file system storage
+	 * 
+	 * @param type $a_id
+	 * @param type $a_subdir
+	 * @return string 
+	 */
+	protected function getFilePath($a_id, $a_subdir = null)
+	{		
+		include_once "Services/Badge/classes/class.ilFSStorageBadge.php";
+		$storage = new ilFSStorageBadge($a_id);
+		$storage->create();
+		
+		$path = $storage->getAbsolutePath()."/";
+		
+		if($a_subdir)
+		{
+			$path .= $a_subdir."/";
+			
+			if(!is_dir($path))
+			{
+				mkdir($path);
+			}
+		}
+				
+		return $path;
 	}
 	
 	
@@ -179,7 +243,7 @@ class ilBadge
 		$this->setActive($a_row["active"]);
 		$this->setTitle($a_row["title"]);
 		$this->setDescription($a_row["descr"]);
-		$this->setTemplateId($a_row["image"]);
+		$this->setImage($a_row["image"]);
 		$this->setConfiguration($a_row["conf"]
 				? unserialize($a_row["conf"])
 				: null);				
@@ -241,7 +305,7 @@ class ilBadge
 			"active" => array("integer", $this->isActive()),
 			"title" => array("text", $this->getTitle()),
 			"descr" => array("text", $this->getDescription()),
-			"image" => array("integer", $this->getTemplateId()), 
+			"image" => array("text", $this->getImage()), 
 			"conf" => array("text", $this->getConfiguration()
 				? serialize($this->getConfiguration())
 				: null)
