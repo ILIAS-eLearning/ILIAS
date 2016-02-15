@@ -113,8 +113,8 @@ class ilBadgeImageTemplate
 	 */
 	protected function getFilePath($a_id, $a_subdir = null)
 	{		
-		include_once "Services/Badge/classes/class.ilFSStorageBadge.php";
-		$storage = new ilFSStorageBadge($a_id);
+		include_once "Services/Badge/classes/class.ilFSStorageBadgeImageTemplate.php";
+		$storage = new ilFSStorageBadgeImageTemplate($a_id);
 		$storage->create();
 		
 		$path = $storage->getAbsolutePath()."/";
