@@ -137,7 +137,10 @@ class ilAuthModeDetermination
 				$GLOBALS['ilLog']->write(__METHOD__.': Validating username filter for '.$server->getName());
 				if(strlen($server->getUsernameFilter()))
 				{
-					if(preg_match('/'.$server->getUsernameFilter().'/', $a_username))
+					//#17731
+					$pattern = str_replace('*','.*?', $server->getUsernameFilter());
+
+					if(preg_match('/^'.$pattern.'$/', $a_username))
 					{
 						$GLOBALS['ilLog']->write(__METHOD__.': Filter matches for '. $a_username);
 						array_unshift($sorted, $auth_key);
