@@ -179,7 +179,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 	}
 	
 	protected function shouldShowThisList() {
-		return $_GET["cmd"] == "jumpToSelectedItems";
+		return $_GET["cmd"] == "jumpToSelectedItems" && !$_GET["expand"];
 	}
 	
 	protected function readUsersAssignments() {
