@@ -223,6 +223,11 @@ class ilBadgeHandler
 			: null);
 	}
 	
+	/**
+	 * Get badges types
+	 * 
+	 * @return ilBadgeType[]
+	 */
 	public function getAvailableTypes()
 	{
 		$res = array();
@@ -247,6 +252,12 @@ class ilBadgeHandler
 		return $res;
 	}
 	
+	/**
+	 * Get valid badges types for object type
+	 * 
+	 * @param string $a_object_type
+	 * @return ilBadgeType[]
+	 */
 	public function getAvailableTypesForObjType($a_object_type)
 	{
 		$res = array();

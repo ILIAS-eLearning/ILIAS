@@ -393,8 +393,39 @@ class ilBadgeManagementGUI
 	
 	protected function listUsers()
 	{
+		global $lng, $ilCtrl, $ilToolbar;
+		
 		$this->setTabs("users");
 		
+		include_once "./Services/Badge/classes/class.ilBadge.php";
+		$badges = ilBadge::getInstancesByParentId($this->parent_obj_id);
+		
+		$manual = array();
+		foreach(ilBadgeHandler::getInstance()->getAvailableTypesForObjType($this->parent_obj_type) as $type_id => $type)
+		{
+			if($type->canBeManuallyAwarded())
+			{
+				foreach($badges as $badge)
+				{
+					if($badge->getTypeId() == $type_id)
+					{
+						$manual[$badge->getId()] = $badge->getTitle();
+					}
+				}
+			}
+		}
+		if(sizeof($manual))
+		{			
+			asort($manual);
+
+			include_once "Services/Form/classes/class.ilSelectInputGUI.php";
+			$drop = new ilSelectInputGUI($lng->txt("badge_badge"), "bid");
+			$drop->setOptions($manual);
+			$ilToolbar->addInputItem($drop, true);
+
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "awardBadge"));
+			$ilToolbar->addFormButton($lng->txt("badge_award_badge"), "awardBadge");
+		}
 		
 		
 	}
