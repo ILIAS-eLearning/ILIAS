@@ -9,7 +9,7 @@ class ilServicesContextSuite extends PHPUnit_Framework_TestSuite {
     {
         $suite = new ilServicesContextSuite();
 
-        require_once("/Services/Context/test/ilContextTest.php");
+        require_once("Services/Context/test/ilContextTest.php");
 
         $suite->addTestSuite("ilContextTest");
 
