@@ -8,6 +8,16 @@ require_once("libs/composer/vendor/autoload.php");
 abstract class CounterTest extends PHPUnit_Framework_TestCase {
     abstract public function getFactoryInstance();
 
+    public function setUp() {
+        assert_options(ASSERT_WARNING, 0);
+        assert_options(ASSERT_CALLBACK, null);
+    }
+
+    public function tearDown() {
+        assert_options(ASSERT_WARNING, 1);
+        assert_options(ASSERT_CALLBACK, null);
+    }
+
     public function test_implements_factory_interface() {
         $f = $this->getFactoryInstance();
 
@@ -43,12 +53,38 @@ abstract class CounterTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($amount, $c->amount());
     }
 
+    /**
+     * @dataProvider no_amount_provider
+     */
+    public function test_int_amounts_only($no_amount) {
+        $f = $this->getFactoryInstance();
+        $failed_assertions = 0;
+
+        assert_options(ASSERT_CALLBACK, function() use (&$failed_assertions) {
+            $failed_assertions++;
+        });
+
+        $f->status($no_amount);
+        $f->novelty($no_amount);
+
+        $this->assertEquals(2, $failed_assertions);
+    }
+
     public function amount_provider() {
         return array
             ( array(-13)
             , array(0)
             , array(23)
             , array(42)
+            );
+    }
+
+    public function no_amount_provider() {
+        return array
+            ( array("foo")
+            , array(9.1)
+            , array(array())
+            , array(new stdClass())
             );
     }
 }
