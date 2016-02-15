@@ -4,7 +4,6 @@
 
 namespace ILIAS\UI\Element;
 
-
 /**
  * This tags a counter object.
  */
