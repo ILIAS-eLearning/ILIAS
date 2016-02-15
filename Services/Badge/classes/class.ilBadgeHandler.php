@@ -317,6 +317,4 @@ class ilBadgeHandler
 				
 		return (bool)$this->getAvailableTypesForObjType($a_obj_type);			
 	}
-	
 }
-

@@ -61,3 +61,31 @@ if(!$ilDB->tableExists('badge_badge'))
 }
 
 ?>
+<#4>
+<?php
+
+if(!$ilDB->tableExists('badge_image_template'))
+{
+	$ilDB->createTable('badge_image_template', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),		
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'image' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		)
+	));	
+	$ilDB->addPrimaryKey('badge_image_template',array('id'));
+	$ilDB->createSequence('badge_image_template');
+}
+
+?>

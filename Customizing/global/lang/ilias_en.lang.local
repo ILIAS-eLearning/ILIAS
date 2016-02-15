@@ -26,3 +26,5 @@ badge#:#badge_user_profile#:#User Profil
 badge#:#badge_badge#:#Badge
 obj#:#obj_tool_setting_badges#:#Badges
 obj#:#obj_tool_setting_badges_info#:#If activated badges can be managed.
+badge#:#badge_add_template#:#Add Template
+badge#:#badge_image_template_form#:#Image Template

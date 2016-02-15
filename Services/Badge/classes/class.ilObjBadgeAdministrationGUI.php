@@ -215,11 +215,9 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	}
 	
 	protected function saveTypes()
-	{
-		global $ilAccess;
-		
+	{	
 		$this->assertActive();
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		if($this->checkPermissionBool("write"))
 		{
 			$badges = (array)$_POST["badge"];
 			$status = (array)$_POST["badge_active"];		
@@ -236,9 +234,163 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 	
 	protected function listImageTemplates()
 	{
+		global $ilAccess, $lng, $ilToolbar, $ilCtrl;
+			
 		$this->assertActive();
 		$this->tabs_gui->setTabActive("imgtmpl");	
 		
-		// $this->tpl->setContent($tbl->getHTML());
+		if($this->checkPermissionBool("write"))
+		{			
+			$ilToolbar->addButton($lng->txt("badge_add_template"), 
+				$ilCtrl->getLinkTarget($this, "addImageTemplate"));			
+		}
+		
+		include_once "Services/Badge/classes/class.ilBadgeImageTemplateTableGUI.php";
+		$tbl = new ilBadgeImageTemplateTableGUI($this, "listImageTemplates",
+			$ilAccess->checkAccess("write", "", $this->object->getRefId()));
+		$this->tpl->setContent($tbl->getHTML());
 	}		
+	
+	protected function addImageTemplate(ilPropertyFormGUI $a_form = null)
+	{				
+		global $tpl;
+		
+		$this->checkPermission("write");
+		
+		$this->assertActive();
+		$this->tabs_gui->setTabActive("imgtmpl");	
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initImageTemplateForm("create");
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	protected function initImageTemplateForm($a_mode)
+	{
+		global $lng, $ilCtrl;
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this, "saveBadge"));
+		$form->setTitle($lng->txt("badge_image_template_form"));
+		
+		$title = new ilTextInputGUI($lng->txt("title"), "title");
+		$title->setRequired(true);
+		$form->addItem($title);		
+		
+		$img = new ilImageFileInputGUI($lng->txt("image"), "img");
+		if($a_mode == "create")
+		{
+			$img->setRequired(true);
+		}
+		$img->setALlowDeletion(false);
+		$form->addItem($img);
+		
+		if($a_mode == "create")
+		{
+			$form->addCommandButton("saveImageTemplate", $lng->txt("save"));
+		}
+		else
+		{
+			$form->addCommandButton("updateImageTemplate", $lng->txt("save"));
+		}
+		$form->addCommandButton("listImageTemplates", $lng->txt("cancel"));
+		
+		return $form;
+	}
+	
+	protected function saveImageTemplate()
+	{
+		global $ilCtrl, $lng;
+		
+		$this->checkPermission("write");
+		
+		$form = $this->initImageTemplateForm("create");		
+		if($form->checkInput())
+		{
+			include_once "Services/Badge/classes/class.ilBadgeImageTemplate.php";
+			$tmpl = new ilBadgeImageTemplate();			
+			$tmpl->setTitle($form->getInput("title"));			
+			$tmpl->create();
+			
+			$tmpl->uploadImage($_FILES["img"]);
+			
+			ilUtil::sendInfo($lng->txt("settings_saved"), true);
+			$ilCtrl->redirect($this, "listImageTemplates");
+		}
+		
+		$form->setValuesByPost();
+		$this->addImageTemplate($form);
+	}
+	
+	protected function editImageTemplate(ilPropertyFormGUI $a_form = null)
+	{				
+		global $ilCtrl, $tpl;
+		
+		$this->checkPermission("write");
+		
+		$this->assertActive();
+		$this->tabs_gui->setTabActive("imgtmpl");	
+				
+		$tmpl_id = $_REQUEST["tid"];
+		if(!$tmpl_id)
+		{
+			$ilCtrl->redirect($this, "listImageTemplates");
+		}
+		
+		$ilCtrl->setParameter($this, "tid", $tmpl_id);
+		
+		include_once "Services/Badge/classes/class.ilBadgeImageTemplate.php";
+		$tmpl = new ilBadgeImageTemplate($tmpl_id);			
+		
+		if(!$a_form)
+		{						
+			$a_form = $this->initImageTemplateForm("edit");			
+			$this->setImageTemplateFormValues($a_form, $tmpl);
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	protected function setImageTemplateFormValues(ilPropertyFormGUI $a_form, ilBadgeImageTemplate $a_tmpl)
+	{		
+		$a_form->getItemByPostVar("title")->setValue($a_tmpl->getTitle());		
+		$a_form->getItemByPostVar("img")->setImage($a_tmpl->getImagePath());
+		$a_form->getItemByPostVar("img")->setValue($a_tmpl->getImage());
+	}
+	
+	protected function updateImageTemplate()
+	{
+		global $ilCtrl, $lng;
+		
+		$this->checkPermission("write");
+		
+		$tmpl_id = $_REQUEST["tid"];
+		if(!$tmpl_id)
+		{
+			$ilCtrl->redirect($this, "listImageTemplates");
+		}
+		
+		$ilCtrl->setParameter($this, "tid", $tmpl_id);
+		
+		$form = $this->initImageTemplateForm("update");		
+		if($form->checkInput())
+		{						
+			include_once "Services/Badge/classes/class.ilBadgeImageTemplate.php";
+			$tmpl = new ilBadgeImageTemplate($tmpl_id);							
+			$tmpl->setTitle($form->getInput("title"));			
+			$tmpl->update();
+			
+			$tmpl->uploadImage($_FILES["img"]);			
+		
+			ilUtil::sendInfo($lng->txt("settings_saved"), true);
+			$ilCtrl->redirect($this, "listImageTemplates");
+		}
+		
+		$form->setValuesByPost();
+		$this->editImageTemplate($form);
+	}
 }

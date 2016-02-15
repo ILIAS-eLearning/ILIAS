@@ -26,3 +26,5 @@ badge#:#badge_user_profile#:#Benutzerprofil
 badge#:#badge_badge#:#Badge
 obj#:#obj_tool_setting_badges#:#Badges
 obj#:#obj_tool_setting_badges_info#:#Wenn aktiviert können Badges konfiguriert werden.
+badge#:#badge_add_template#:#Template hinzufügen
+badge#:#badge_image_template_form#:#Bildvorlage

@@ -9,4 +9,7 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>	
+	<web_access_checker>
+		<secure_path path="ilBadge" checking-class="ilBadgeWAC" in-sec-folder="1" />
+	</web_access_checker>
 </service>

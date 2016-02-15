@@ -73,6 +73,9 @@ class ilBadgeManagementGUI
 			$lng->txt("obj_bdga"),
 			$ilCtrl->getLinkTarget($this, "listBadges"));
 		
+		
+		// :TODO: award badge(s)?
+		
 		$ilTabs->activateSubTab($a_active);
 	}
 	
