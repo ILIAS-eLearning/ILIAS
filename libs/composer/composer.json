@@ -18,6 +18,7 @@
         "pimple/pimple" : {
             "source" : "https://github.com/silexphp/Pimple.git",
             "added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
+            "used_by" : "ILIAS\\DIC\\Container",
             "wrapped_by" : "ILIAS\\DIC\\Container",
             "last_update" : "2016-01-28",
             "last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
