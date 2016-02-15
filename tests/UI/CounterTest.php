@@ -3,7 +3,7 @@
 require_once("libs/composer/vendor/autoload.php");
 
 /**
- * Defines tests every UI-factory should pass.
+ * Defines tests that a counter implementation should pass.
  */
 abstract class CounterTest extends PHPUnit_Framework_TestCase {
     abstract public function getFactoryInstance();
