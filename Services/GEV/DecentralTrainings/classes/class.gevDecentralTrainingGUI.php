@@ -1634,7 +1634,13 @@ class gevDecentralTrainingGUI {
 				foreach ($sup_ids as $sup_id) {
 					$pers_org_unit = $uvg_org_units->getOrgUnitIdOf($sup_id);
 					if($pers_org_unit) {
-						$above_ref_id = gevOrgUnitUtils::getBDOf(gevObjectUtils::getRefId($pers_org_unit));
+
+						try{
+							$above_ref_id = gevOrgUnitUtils::getBDOf(gevObjectUtils::getRefId($pers_org_unit));
+						} catch (Exception $e) {
+							$above_ref_id = null;
+						}
+
 						$trainer_orgus[] = $above_ref_id;
 					}
 				}
