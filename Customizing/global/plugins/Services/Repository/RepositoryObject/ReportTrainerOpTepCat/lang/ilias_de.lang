@@ -1,0 +1,28 @@
+<!-- language file start -->
+xttc_content#:#Report
+xttc_properties#:#Eigenschaften
+obj_xttc#:#Report Trainereinsätze nach TEP-Kategorie
+objs_xttc#:#Reports Trainereinsätze nach TEP-Kategorie
+obj_xttc_duplicate#:#Report Trainereinsätze nach TEP-Kategorie kopieren
+objs_xttc_duplicate#:#Reports Trainereinsätze nach TEP-Kategorie kopieren
+obj_xttc_select#:#Report Trainereinsätze nach TEP-Kategorie auswählen
+xttc_add#:#Report Trainereinsätze nach TEP-Kategorie hinzufügen
+xttc_new#:#Neuen Report Trainereinsätze nach TEP-Kategorie hinzufügen
+xttc_read#:#Lesezugriff zum Report Trainereinsätze nach TEP-Kategorie
+xttc_write#:#Report Trainereinsätze nach TEP-Kategorie bearbeiten
+xttc_delete#:#Report Trainereinsätze nach TEP-Kategorie löschen
+xttc_visible#:#sichtbar
+xttc_edit_permission#:#schreibberechtigt
+crs_create_xttc#:#Report Trainereinsätze nach TEP-Kategorie erzeugen
+grp_create_xttc#:#Report Trainereinsätze nach TEP-Kategorie erzeugen
+fold_create_xttc#:#Report Trainereinsätze nach TEP-Kategorie erzeugen
+root_create_xttc#:#Report Trainereinsätze nach TEP-Kategorie erzeugen
+cat_create_xttc#:#Report Trainereinsätze nach TEP-Kategorie erzeugen
+edu_program#:#Bildungsprogramm
+crs_title#:#Trainingstitel
+course_type#:#Trainingstyp
+preriod#:#Zeitraum:
+until#:#bis
+report_filter_crs_region#:#Trainingsregion
+venue#:#Veranstaltungsort
+name#:#Name
