@@ -38,7 +38,15 @@ class gevDBVReportGUI extends catBasicReportGUI{
 					     ? $_GET["target_user_id"]
 					     : $this->user_utils->getId()
 					     );
-		
+		$year = $_POST["year"]
+					   ? $_POST["year"]
+					   : ( $_GET["year"]
+					     ? $_GET["year"]
+					     : 2015
+					     );
+		$end_of_year_ts = strtotime(($year+1)."-01-01");
+
+
 		$this->checkPermissionOnTarget($target_user);
 		
 		foreach (self::$to_sum as $key => $value) {
@@ -124,11 +132,11 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->static_condition(
 							$this->db->in(
 								"hucs.participation_status", array("fehlt entschuldigt", "fehlt ohne Absage"), true, "text"))
-						->static_condition("hc.begin_date < ".$this->db->quote("2016-01-01","date"))
+						->static_condition("hc.begin_date < ".$this->db->quote(($this->year+1)."-01-01","date"))
 						->static_condition("hc.end_date >= ".$this->db->quote("2015-01-01","date"))
 						->static_condition("(huo_out.created_ts IS NULL "
-											." OR huo_out.created_ts > UNIX_TIMESTAMP(".$this->db->quote("2016-01-01","date").")"
-											.") AND huo_in.created_ts < UNIX_TIMESTAMP(".$this->db->quote("2016-01-01","date").")")
+											." OR huo_out.created_ts > ".$this->gIldb->quote($end_of_year_ts,"integer")
+											.") AND huo_in.created_ts < ".$this->gIldb->quote($end_of_year_ts,"integer"))
 						->static_condition("hu.hist_historic = 0")
 						->static_condition("hucs.hist_historic = 0")
 						->static_condition("hucs.booking_status != ".$this->db->quote('-empty-', 'text'))
