@@ -8,19 +8,19 @@ namespace ILIAS\UI\Element;
  * This tags a counter object.
  */
 interface Counter extends \ILIAS\UI\Element {
-    /**
-     * Get the type of the counter.
-     *
-     * @return  CounterType
-     */
-    public function type();
+	/**
+	 * Get the type of the counter.
+	 *
+	 * @return  CounterType
+	 */
+	public function type();
 
-    /**
-     * Get the number on the counter.
-     *
-     * @return  int
-*/
-public function amount();
+	/**
+	 * Get the number on the counter.
+	 *
+	 * @return  int
+	 */
+	public function amount();
 }
 
 // Tags for the different types of counters.
