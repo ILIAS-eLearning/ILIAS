@@ -788,23 +788,35 @@ class ilDBPdo implements ilDBInterface {
 	}
 
 
+	/**
+	 * @param $user
+	 */
 	public function setDBUser($user) {
 		$this->setUsername($user);
 	}
 
 
+	/**
+	 * @param $port
+	 */
 	public function setDBPort($port) {
 		$this->setPort($port);
 	}
 
 
+	/**
+	 * @param $password
+	 */
 	public function setDBPassword($password) {
 		$this->setPassword($password);
 	}
 
 
+	/**
+	 * @param $host
+	 */
 	public function setDBHost($host) {
-		$this->setDBHost($host);
+		$this->setHost($host);
 	}
 
 
