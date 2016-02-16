@@ -157,19 +157,10 @@ class ilObjReportCoupon extends ilObjReportBase {
 	}
 
 	public function doClone($a_target_id,$a_copy_id,$new_obj) {
-		$new_obj->setOnline($this->getOnline());
 		$new_obj->setAdminMode($this->getShowFilter());
-		$new_obj->update();
+		parent::doClone($a_target_id,$a_copy_id,$new_obj);
 	}
 
-
-	public function setOnline($a_val) {
-		$this->online = (int)$a_val;
-	}
-
-	public function getOnline() {
-		return $this->online;
-	}
 
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
