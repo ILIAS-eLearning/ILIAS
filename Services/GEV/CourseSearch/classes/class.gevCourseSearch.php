@@ -496,6 +496,9 @@ class gevCourseSearch {
 
 		$ret = array();
 		while($val = $this->gDB->fetchAssoc($res)) {
+			if(!ilObjCourseAccess::_isActivated($val["obj_id"])) {
+				continue;
+			}
 			$crs = new ilObjCourse($val["obj_id"], false);
 			$crs_utils = gevCourseUtils::getInstanceByObj($crs);
 			$crs_booking = ilCourseBookings::getInstance($crs);
