@@ -189,6 +189,8 @@ class ilDidacticTemplateSetting
 			$action->delete();
 		}
 
+		include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		ilDidacticTemplateObjSettings::deleteByTemplateId($this->getId());
 
 		return true;
 	}
