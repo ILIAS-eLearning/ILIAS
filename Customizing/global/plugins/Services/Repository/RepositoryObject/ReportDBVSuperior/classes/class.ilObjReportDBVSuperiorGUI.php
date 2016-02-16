@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
+require_once 'Services/Form/classes/class.ilNumberImputGUI.php';
 /**
 * User Interface class for example repository object.
 * ...
@@ -9,6 +10,15 @@ require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
 * @ilCtrl_Calls ilObjReportDBVSuperiorGUI: ilCommonActionDispatcherGUI
 */
 class ilObjReportDBVSuperiorGUI extends ilObjReportBaseGUI {
+
+	protected static $year = 2015;
+
+	protected function afterConstructor() {
+		parent::afterConstructor();
+		if( null !== $this->object) {
+			self::$year = $this->object->getYear();
+		}
+	}
 
 	public function getType() {
 		return 'xrds';
@@ -20,13 +30,27 @@ class ilObjReportDBVSuperiorGUI extends ilObjReportBaseGUI {
 		return $a_title;
 	}
 
+	protected function settingsForm($data = null) {
+		$settings_form = parent::settingsForm($data);
+
+		$year = new ilNumberInputGUI($this->object->plugin->txt('report_year'),'year');
+		$year->allowDecimals(false);
+		if(isset($data["year"])) {
+			$year->setValue($data["year"]);
+		}
+		$settings_form->addItem($year);
+
+		return $settings_form;
+	}
+
 	public static function transformResultRow($rec) {
 		global $ilCtrl;
 		$rec['odbd'] = $rec['org_unit_above1'];
 		$ilCtrl->setParameterByClass("gevDBVReportGUI", "target_user_id", $rec["user_id"]);
+		$ilCtrl->setParameterByClass("gevDBVReportGUI", "year", self::$year);
 		$rec["dbv_report_link"] = $ilCtrl->getLinkTargetByClass(array("gevDesktopGUI","gevDBVReportGUI"));
 		$ilCtrl->setParameterByClass("gevDBVReportGUI", "target_user_id", null);
-
+		$ilCtrl->setParameterByClass("gevDBVReportGUI", "year",  null);
 		return parent::transformResultRow($rec);
 	}
 
