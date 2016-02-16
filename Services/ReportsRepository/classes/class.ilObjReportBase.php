@@ -183,6 +183,19 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 	abstract protected function getRowTemplateTitle();
 
+	public function doClone($a_target_id,$a_copy_id,$new_obj) {
+		$new_obj->setOnline($this->getOnline());
+		$new_obj->update();
+	}
+
+	public function setOnline($a_val) {
+		$this->online = (int)$a_val;
+	}
+
+	public function getOnline() {
+		return $this->online;
+	}
+
 	// Report discovery
 
 	/**
