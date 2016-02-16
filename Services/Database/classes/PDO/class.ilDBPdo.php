@@ -78,6 +78,10 @@ class ilDBPdo implements ilDBInterface {
 
 
 	public function connect() {
+		if (!$this->getDSN()) {
+			$this->generateDSN();
+		}
+		
 		$this->pdo = new PDO($this->getDSN(), $this->getUsername(), $this->getPassword(), $this->additional_attributes);
 	}
 
