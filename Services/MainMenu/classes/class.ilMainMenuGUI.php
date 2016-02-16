@@ -397,8 +397,12 @@ class ilMainMenuGUI
 		if ($this->mail && ($new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId())) > 0) {
 			$a_tpl->setCurrentBlock('status_box');
 			$a_tpl->setVariable('STATUS_HREF', 'ilias.php?baseClass=ilMailGUI');
+
 			$counter = $UIFactory->counter()->status($new_mails);
-			$a_tpl->setVariable('UIELEMENTTEST', $UIFactory->glyph()->envelope()->addCounter($counter)->to_html_string());
+			$glyph = $UIFactory->glyph()->envelope()
+					-> addCounter($counter);
+
+			$a_tpl->setVariable('UIELEMENTTEST', $glyph->to_html_string());
 			$a_tpl->parseCurrentBlock();
 		}
 	}
