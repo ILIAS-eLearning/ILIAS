@@ -50,3 +50,4 @@ final class DragGlyphType extends GlyphType {};
 final class SearchGlyphType extends GlyphType {};
 final class FilterGlyphType extends GlyphType {};
 final class InfoGlyphType extends GlyphType {};
+final class EnvelopeGlyphType extends GlyphType {};

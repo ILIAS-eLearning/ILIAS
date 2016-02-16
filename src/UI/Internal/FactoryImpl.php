@@ -6,14 +6,15 @@ namespace ILIAS\UI\Internal;
 
 class FactoryImpl implements \ILIAS\UI\Factory {
     /**
-     * @inheritdoc
+     * @return \ILIAS\UI\Factory\Counter
      */
     public function counter() {
         return new \ILIAS\UI\Internal\Counter\FactoryImpl();
     }
 
+
     /**
-     * @inheritdoc
+     * @return \ILIAS\UI\Factory\Glyph
      */
     public function glyph() {
         return new \ILIAS\UI\Internal\Glyph\FactoryImpl();

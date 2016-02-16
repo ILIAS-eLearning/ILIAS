@@ -103,6 +103,13 @@ class FactoryImpl implements \ILIAS\UI\Factory\Glyph {
     public function info() {
         return new GlyphImpl(new E\InfoGlyphType());
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function envelope() {
+        return new GlyphImpl(new E\EnvelopeGlyphType());
+    }
 }
 
 //Force autoloading of Counter.php for counter types.

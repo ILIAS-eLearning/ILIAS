@@ -19,8 +19,8 @@ interface Counter extends \ILIAS\UI\Element {
      * Get the number on the counter.
      *
      * @return  int
-     */
-    public function amount();
+*/
+public function amount();
 }
 
 // Tags for the different types of counters.
