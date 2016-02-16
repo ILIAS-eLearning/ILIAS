@@ -11,7 +11,7 @@ set_time_limit(0);
 class ilObjReportDBVSuperior extends ilObjReportBase {
 	
 	protected $gUser;
-
+	protected $year;
 	protected $relevant_parameters = array();
 
 	public function __construct($a_ref_id = 0) {
@@ -63,7 +63,7 @@ class ilObjReportDBVSuperior extends ilObjReportBase {
 		$user_utils = gevUserUtils::getInstanceByObj($this->gUser);
 		$roles = gevRoleUtils::getInstance();
 		$dbv_fin_uvg = $roles->usersHavingRole("DBV-Fin-UVG");
-
+		$end_of_year_ts = strtotime(($this->year+1)."-01-01");
 		if ($user_utils->isAdmin()) {
 			$dbv_fin_uvg_employees = $dbv_fin_uvg;
 		}
@@ -82,11 +82,11 @@ class ilObjReportDBVSuperior extends ilObjReportBase {
 						   , "dbv.lastname"
 						   )
 				->static_condition($this->gIldb->in("oup.usr_id", $dbv_fin_uvg_employees, false, "integer"))
-				->static_condition("hc.begin_date < ".$this->gIldb->quote("2016-01-01","date"))
+				->static_condition("hc.begin_date < ".$this->gIldb->quote(($this->year+1)."-01-01","date"))
 				->static_condition("hc.end_date >= ".$this->gIldb->quote("2015-01-01","date"))
 				->static_condition("(huo_out.created_ts IS NULL "
-									." OR huo_out.created_ts > UNIX_TIMESTAMP(".$this->gIldb->quote("2016-01-01","date").")"
-									.") AND huo_in.created_ts < UNIX_TIMESTAMP(".$this->gIldb->quote("2016-01-01","date").")")
+									." OR huo_out.created_ts > ".$this->gIldb->quote($end_of_year_ts,"integer")
+									.") AND huo_in.created_ts < ".$this->gIldb->quote($end_of_year_ts,"integer"))
 				->static_condition(
 					$this->gIldb->in(
 						"hucs.participation_status", array("fehlt entschuldigt", "fehlt ohne Absage"), true, "text"))
@@ -122,9 +122,10 @@ class ilObjReportDBVSuperior extends ilObjReportBase {
 
 	public function doCreate() {
 		$this->gIldb->manipulate("INSERT INTO rep_robj_rds ".
-			"(id, is_online) VALUES (".
+			"(id, is_online, year) VALUES (".
 			$this->gIldb->quote($this->getId(), "integer").",".
-			$this->gIldb->quote(0, "integer").
+			$this->gIldb->quote(0, "integer").",".
+			$this->gIldb->quote(2015, "integer").
 			")");
 	}
 
@@ -135,12 +136,15 @@ class ilObjReportDBVSuperior extends ilObjReportBase {
 			);
 		while ($rec = $this->gIldb->fetchAssoc($set)) {
 			$this->setOnline($rec["is_online"]);
+			$this->setYear($rec["year"]);
+			break;
 		}
 	}
 
 	public function doUpdate() {
 		$this->gIldb->manipulate($up = "UPDATE rep_robj_rds SET ".
 			" is_online = ".$this->gIldb->quote($this->getOnline(), "integer").
+			" ,year = ".$this->gIldb->quote($this->getYear(), "integer").
 			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
 			);
 	}
@@ -153,9 +157,17 @@ class ilObjReportDBVSuperior extends ilObjReportBase {
 
 	public function doClone($a_target_id,$a_copy_id,$new_obj) {
 		$new_obj->setOnline($this->getOnline());
+		$new_obj->setYear($this->getYear());
 		$new_obj->update();
 	}
 
+	public function setYear($a_val) {
+		$this->year = (int)$a_val;
+	}
+
+	public function getYear() {
+		return $this->year;
+	}
 
 	public function setOnline($a_val) {
 		$this->online = (int)$a_val;
