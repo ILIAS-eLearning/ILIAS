@@ -19,3 +19,11 @@ cat_create_xrds#:#DBV Report für Vorgesetzte erzeugen
 xrds_content#:#Report
 xrds_properties#:#Eigenschaften
 online#:#Online
+report_year#:#Jahr der Auswertung
+lasname#:#Nachname
+lastname_filter#:#Nachname
+firstname#:#Vorname
+filter_show_critical_dbvs#:#Zeige mir nur kritische DBVen.
+bd#:#BD
+credit_points#:#Bildungspunkte
+credit_points_forecast#:#Gebuchte Bildungspunkte
