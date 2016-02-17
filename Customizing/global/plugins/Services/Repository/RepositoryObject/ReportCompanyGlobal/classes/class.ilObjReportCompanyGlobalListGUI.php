@@ -21,24 +21,6 @@ class ilObjReportCompanyGlobalListGUI extends ilObjReportBaseListGUI {
 		return "ilObjReportCompanyGlobalGUI";
 	}
 
-	/**
-	* Get commands
-	*/
-	public function initCommands() {
-		return array(
-			array(
-				"permission" => "read",
-				"cmd" => "showContent",
-				"txt" => "show",
-				"default" => true),
-			array(
-				"permission" => "write",
-				"cmd" => "settings",
-				"txt" => $this->lng->txt("edit"),
-				"default" => false)
-		);
-	}
-
 	public function getProperties() {
 		$props = array();
 

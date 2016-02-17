@@ -2,6 +2,7 @@
 
 require_once 'Services/ReportsRepository/classes/class.ilObjReportBase.php';
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
@@ -78,7 +79,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 					->on("usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0 ")
 				->left_join("hist_course crs")
 					->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0")
-				->group_by("orgu.orgu_title")
+				->group_by("orgu.orgu_id")
 				->compile();
 		return $query;
 	}
@@ -246,10 +247,32 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 				->static_condition('usr.hist_historic = 0')
 				->static_condition("orgu.hist_historic = 0")
 				->static_condition("orgu.action >= 0")
-				->static_condition("usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text'))
-				->action($this->filter_action)
+				->static_condition("usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text'));
+		if($this->getIsLocal()) {
+			$filter->static_condition("(".$this->gIldb->in('crs.template_obj_id',$this->getSubtreeCourseTemplates(),false,'integer')
+											." OR crs.hist_historic IS NULL)");
+		}
+		$filter	->action($this->filter_action)
 				->compile();
 		return $filter;
+	}
+
+
+	protected function getSubtreeCourseTemplates() {
+		$query = 	'SELECT obj_id FROM adv_md_values_text amd_val '
+					.'	WHERE '.$this->gIldb->in('obj_id',
+							$this->getSubtreeTypeIdsBelowParentType('crs','cat'),false,'integer')
+					.'		AND field_id = '.$this->gIldb->quote(
+												gevSettings::getInstance()
+													->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE)
+												,'integer')
+					.'		AND value = '.$this->gIldb->quote('Ja','text');
+		$return = array();
+		$res = $this->gIldb->query($query);
+		while($rec = $this->gIldb->fetchAssoc($res)) {
+			$return[] = $rec['obj_id'];
+		}
+		return $return;
 	}
 
 	public function getRelevantParameters() {
@@ -258,8 +281,9 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 
 	public function doCreate() {
 		$this->gIldb->manipulate("INSERT INTO rep_robj_roa ".
-			"(id, is_online) VALUES (".
+			"(id, is_online, is_local) VALUES (".
 			$this->gIldb->quote($this->getId(), "integer")
+			.",".$this->gIldb->quote(0, "integer")
 			.",".$this->gIldb->quote(0, "integer")
 			.")");
 	}
@@ -271,12 +295,14 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 			);
 		while ($rec = $this->gIldb->fetchAssoc($set)) {
 			$this->setOnline($rec["is_online"]);
+			$this->setIslocal($rec["is_local"]);
 		}
 	}
 
 	public function doUpdate() {
 		$this->gIldb->manipulate("UPDATE rep_robj_roa SET "
 			." is_online = ".$this->gIldb->quote($this->getOnline(), "integer")
+			." ,is_local = ".$this->gIldb->quote($this->getIsLocal(), "integer")
 			." WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
 			);
 	}
@@ -289,6 +315,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 
 	public function doClone($a_target_id,$a_copy_id,$new_obj) {
 		$new_obj->setOnline($this->getOnline());
+		$new_obj->setIsLocal($this->getIslocal());
 		$new_obj->update();
 	}
 
@@ -298,5 +325,13 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 
 	public function getOnline() {
 		return $this->online;
+	}
+
+	public function getIslocal() {
+		return $this->is_local;
+	}
+
+	public function setIslocal($value) {
+		$this->is_local = $value ? 1 : 0;
 	}
 }

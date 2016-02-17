@@ -35,7 +35,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->column("job_number", "gev_job_number")
 						->column("od_bd", "gev_od_bd")
 						->column("org_unit", "gev_org_unit_short")
-						->column("position_key", "gev_agent_key")
+						->column("roles", "gev_rep_roles")
 						->column("cert_period", "gev_cert_period")
 						->column("points_year1", "1", true)
 						->column("points_year2", "2", true)
@@ -67,7 +67,11 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 
 		$this->allowed_user_ids = $this->user_utils->getEmployeesWhereUserCanViewEduBios();
 		$orgu_filter = new recursiveOrguFilter("org_unit","orgu_id",true,true);
-		$orgu_filter->setFilterOptionsByUser($this->user_utils);
+		$orgu_refs = $this->user_utils->getOrgUnitsWhereUserCanViewEduBios();
+		require_once "Services/GEV/Utils/classes/class.gevObjectUtils.php";
+		$orgus = array_map(function ($ref_id) {return gevObjectUtils::getObjId($ref_id);},$orgu_refs);
+		$orgu_filter->setFilterOptionsByArray($orgus);
+
 		$this->filter = catFilter::create()
 						->checkbox( "critical"
 								  , $this->lng->txt("gev_rep_filter_show_critical_persons")
@@ -108,7 +112,6 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 							."		AND ".$orgu_filter->deliverQuery()
 							."		GROUP BY huo.usr_id ";						
 		$this->query = catReportQuery::create()
-						->distinct()
 						->select("usr.user_id")
 						->select("usr.lastname")
 						->select("usr.firstname")
@@ -118,7 +121,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 						->select_raw("orgu.org_unit")
 						->select("orgu.org_unit_above1")
 						->select("orgu.org_unit_above2")
-						->select("usr.position_key")
+						->select("roles.roles")
 						->select("usr.begin_of_certification")
 						->select_raw("IF ( usr.begin_of_certification >= '$earliest_possible_cert_period_begin'"
 									."   , usr.begin_of_certification"
@@ -165,6 +168,12 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 							->on(" usr.user_id = usrd.usr_id")
 						->raw_join("JOIN (".$this->orgu_filter
 									.") as orgu ON orgu.usr_id = usr.user_id")
+						->raw_join("JOIN ( SELECT usr_id, GROUP_CONCAT(DISTINCT rol_title ORDER BY rol_title ASC SEPARATOR ', ') AS roles "
+									."		FROM hist_userrole "
+									."		WHERE action = 1 AND hist_historic = 0 "
+									."			AND ".$this->db->in("usr_id", $this->allowed_user_ids, false, "integer")
+									."		GROUP BY usr_id "
+									."		) AS roles ON roles.usr_id = usr.user_id")
 						->left_join("hist_usercoursestatus usrcrs")
 							->on("     usr.user_id = usrcrs.usr_id"
 								." AND usrcrs.hist_historic = 0 "

@@ -39,6 +39,8 @@ class gevSettings {
 	const CRS_AMD_TYPE 				= "crs_amd_type";
 	// Vorlage
 	const CRS_AMD_IS_TEMPLATE		= "crs_amd_is_template";
+	// Abgesagt
+	const CRS_AMD_IS_CANCELLED		= "crs_amd_is_cancelled";
 	
 	// Trainingsbetreuer -> ILIAS Standard
 	//const CRS_AMD_MAINTAINER		= "crs_amd_maintainer";
@@ -279,7 +281,7 @@ class gevSettings {
 	const DCT_TPL_MAIL_WEBEX = "dct_tpl_mail_webex";
 	const DCT_TPL_MAIL_DECENTRAL_TRAINING = "dct_tpl_mail_decentral_training";
 
-	//new course rights
+	//new course permissions
 	const LOAD_SIGNATURE_LIST = "load_signature_list";
 	const LOAD_MEMBER_LIST = "load_member_list";
 	const VIEW_SCHEDULE_PDF = "view_schedule_pdf";
@@ -724,5 +726,15 @@ class gevSettings {
 
 	public function getTypeIDOrgUnitTypeDB() {
 		return $this->settings->get(self::TYPE_ID_ORG_UNIT_TYPE_BD);
+	}
+
+	//id of duplicate user orgunit
+	const DUPLICATE_USER_ORGUNIT_ID = "duplicate_user_orgunit_id";
+	public function getDuplicatedUserOrgUnitId() {
+		return $this->settings->get(self::DUPLICATE_USER_ORGUNIT_ID);
+	}
+
+	public function setDuplicatedUserOrgUnitId($obj_id) {
+		$this->settings->set(self::DUPLICATE_USER_ORGUNIT_ID, $obj_id);
 	}
 }

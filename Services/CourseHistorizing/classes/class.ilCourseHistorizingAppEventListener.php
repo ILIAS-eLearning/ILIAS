@@ -147,8 +147,15 @@ class ilCourseHistorizingAppEventListener
 			'dbv_hot_topic'						=> self::$ilCourseHistorizingHelper->getDBVHotTopicOf($parameter),
 			'virtual_classroom_type'			=> self::$ilCourseHistorizingHelper->getVirtualClassroomType($parameter),
 			'dct_type'							=> self::$ilCourseHistorizingHelper->getDCTType($parameter),
-			'template_obj_id'					=> self::$ilCourseHistorizingHelper->getTemplateObjId($parameter)
+			'template_obj_id'					=> self::$ilCourseHistorizingHelper->getTemplateObjId($parameter),
+			'is_cancelled'						=> self::$ilCourseHistorizingHelper->getIsCancelled($parameter),
+			'size_waitinglist'					=> self::$ilCourseHistorizingHelper->getSizeWaitinglist($parameter),
+			'waitinglist_active'					=> self::$ilCourseHistorizingHelper->getWaitinglistActive($parameter),
+			'max_participants'					=> self::$ilCourseHistorizingHelper->getMaxParticipants($parameter),
+			'min_participants'					=> self::$ilCourseHistorizingHelper->getMinParticipants($parameter),
+			'accomodation'						=> self::$ilCourseHistorizingHelper->getAccomodationOf($parameter)
 		);
+
 
 		$deadline_data = self::$ilCourseHistorizingHelper->getDeadlineDataOf($parameter);
 		$data_payload = array_merge($data_payload, $deadline_data);

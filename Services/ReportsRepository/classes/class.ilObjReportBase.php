@@ -14,6 +14,7 @@ require_once 'Services/GEV/Utils/classes/class.gevUserUtils.php';
 abstract class ilObjReportBase extends ilObjectPlugin {
 	protected $online;
 	protected $gIldb;
+	protected $gTree;
 
 	protected $filter = null;
 	protected $filter_action = null;
@@ -24,9 +25,10 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 	public function __construct($a_ref_id = 0) {
 		parent::__construct($a_ref_id);
-		global $ilDB, $ilUser;
+		global $ilDB, $ilUser, $tree;
 		$this->user_utils = gevUserUtils::getInstanceByObj($ilUser);
 		$this->gIldb = $ilDB;
+		$this->gTree = $tree;
 		$this->table = null;
 		$this->query = null;
 		$this->data = false;
@@ -260,4 +262,37 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		ksort($visible_reports, SORT_NATURAL | SORT_FLAG_CASE);
 		return $visible_reports;
 	}
+
+	/**
+	* We may need to locate the report inside the tree, so it is possible to perform local evaluations.
+	* look for the first parent object of specific @param (string)type,
+	* or the first parent object, if no type given. @return array(obj_id => id, ref_id => id).
+	*/
+	protected function getParentObjectOfTypeIds($type = null) {
+		$data = $this->gTree->getParentNodeData($this->getRefId());
+		while( null !== $type && $type !== $data['type'] && (string)ROOT_FOLDER_ID !== (string)$data['ref_id'] ) {
+			$data = $this->gTree->getParentNodeData($data['ref_id']);
+		}
+		return (null === $type || $type === $data['type'] )
+			? array('obj_id' => $data['obj_id'], 'ref_id' => $data['ref_id']) : array();
+	}
+
+	/**
+	* It seems to be a common problem to ev2aluate certain types in a subtree.
+	*/
+	protected function getSubtreeTypeIdsBelowParentType($subtree_type,$parent_type) {
+		$parent_cat_ref_id = $this->getParentObjectOfTypeIds($parent_type)['ref_id'];
+		if($parent_cat_ref_id === null) {
+			return array();
+		}
+		$subtree_nodes_data = $this->gTree->getSubTree(
+			$this->gTree->getNodeData($parent_cat_ref_id),true, $subtree_type);
+		$return = array();
+		foreach ($subtree_nodes_data as $node) {
+			$return[] = $node["obj_id"];
+		}
+		return $return;
+	}
+
+
 }

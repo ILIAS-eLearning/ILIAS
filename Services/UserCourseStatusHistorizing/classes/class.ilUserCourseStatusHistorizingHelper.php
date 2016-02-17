@@ -111,35 +111,23 @@ class ilUserCourseStatusHistorizingHelper
 	 *
 	 * @return string
 	 */
-	public static function getFunctionOf($user, $course)
+	public static function getFunctionOf($usr_id, $crs_id)
 	{
+		global $lng;
+		$functions = gevCourseUtils::getInstance($crs_id)->getAllFunctionsOfUser($usr_id);
 
-		$function = gevUserUtils::getInstanceByObjOrId($user)
-						   ->getFunctionAtCourse(self::getId($course));
+		$av_functions = array(	$lng->txt("crs_member")
+								,$lng->txt("crs_tutor")
+								,$lng->txt("crs_admin")
+								,$lng->txt("gev_dev_training_creator"));
 
-
-		/*
-		2014-11-20 
-		0000751: UserCourseStatusHistorizing: "canceled"-Wert im Feld "function" entfernen
-		also see: class.gevEduBiographyGUI.php
-
-		//function asks for roles, actually;
-		//this should be historized otherwise, though.
-		if($function === null){
-			$status = gevCourseUtils::getInstanceByObjOrId($course)
-							 ->getBookingStatusOf(self::getId($user));
-
-			if(	   $status == ilCourseBooking::STATUS_BOOKED
-				|| $status == ilCourseBooking::STATUS_CANCELLED_WITH_COSTS
-				|| $status == ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS
-			){
-				$function = "canceled";
+		while($function = current($av_functions)) {
+			if(in_array($function, $functions)) {
+				return $function;
 			}
-
+			next($av_functions);
 		}
-		
-		*/
-		return $function;
+		return $functions[0];
 	}
 
 	/**

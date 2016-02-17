@@ -174,6 +174,20 @@ class ilCourseHistorizingHelper
 	}
 
 	/**
+	 * Returns the accomodation of the given course.
+	 *
+	 * @param integer|ilObjCourse $course
+	 *
+	 * @return string
+	 */
+	public static function getAccomodationOf($course)
+	{
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getAccomodationTitle();
+	}
+
+
+	/**
 	 * Returns the venue free text marker of the given course.
 	 *
 	 * @param integer|ilObjCourse $course
@@ -332,4 +346,28 @@ class ilCourseHistorizingHelper
 		return;
 	}
 
+	public static function getIsCancelled($course) {
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
+		return $utils->getIsCancelled() ? 'Ja' : 'Nein';
+	}
+
+	public static function getSizeWaitingList($course) {
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
+		return $utils->getWaitingListLength();
+	}
+
+	public static function getMaxParticipants($course) {
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
+		return $utils->getMaxParticipants();
+	}
+
+	public static function getWaitinglistActive($course) {
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
+		return $utils->getWaitingListActive() ? 'Ja' : 'Nein';
+	}
+	
+	public static function getMinParticipants($course) {
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
+		return $utils->getMinParticipants();
+	}
 }
