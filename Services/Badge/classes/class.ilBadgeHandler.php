@@ -380,4 +380,34 @@ class ilBadgeHandler
 				
 		return (bool)$this->getAvailableTypesForObjType($a_obj_type);			
 	}
+	
+	public function triggerEvaluation($a_type_id, $a_user_id)
+	{
+		if(!$this->isActive() ||
+			in_array($a_type_id, $this->getInactiveTypes()))
+		{
+			return;
+		}		
+		
+		$type = $this->getTypeInstanceByUniqueId($a_type_id);
+		if(!$type || 
+			!$type instanceof ilBadgeAuto)
+		{
+			return;
+		}
+		
+		include_once "Services/Badge/classes/class.ilBadge.php";
+		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+		foreach(ilBadge::getInstancesByType($a_type_id) as $badge)
+		{
+			if($badge->isActive())
+			{
+				if((bool)$type->evaluate($a_user_id, $badge->getConfiguration()))
+				{
+					$ass = new ilBadgeAssignment($badge->getId(), $a_user_id);
+					$ass->store();
+				}
+			}			
+		}		
+	}
 }

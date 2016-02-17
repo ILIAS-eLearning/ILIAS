@@ -53,6 +53,25 @@ class ilBadge
 		return $res;
 	}
 	
+	public static function getInstancesByType($a_type_id)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$set = $ilDB->query("SELECT * FROM badge_badge".
+			" WHERE type_id = ".$ilDB->quote($a_type_id).
+			" ORDER BY title");
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$obj = new self();
+			$obj->importDBRow($row);
+			$res[] = $obj;
+		}
+				
+		return $res;
+	}
+	
 	public function getTypeInstance()
 	{
 		if($this->getTypeId())

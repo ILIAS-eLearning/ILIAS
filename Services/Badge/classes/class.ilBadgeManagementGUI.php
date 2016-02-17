@@ -492,7 +492,6 @@ class ilBadgeManagementGUI
 		}
 		
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
-		$ilCtrl->redirect($this, "listUsers");
-		
+		$ilCtrl->redirect($this, "listUsers");		
 	}	
 }
