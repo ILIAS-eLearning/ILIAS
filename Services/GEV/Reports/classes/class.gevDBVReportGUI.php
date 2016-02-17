@@ -42,7 +42,7 @@ class gevDBVReportGUI extends catBasicReportGUI{
 					   ? $_POST["year"]
 					   : ( $_GET["year"]
 					     ? $_GET["year"]
-					     : 2015
+					     : 2016
 					     );
 		$end_of_year_ts = strtotime(($year+1)."-01-01");
 
@@ -132,11 +132,11 @@ class gevDBVReportGUI extends catBasicReportGUI{
 						->static_condition(
 							$this->db->in(
 								"hucs.participation_status", array("fehlt entschuldigt", "fehlt ohne Absage"), true, "text"))
-						->static_condition("hc.begin_date < ".$this->db->quote(($this->year+1)."-01-01","date"))
-						->static_condition("hc.end_date >= ".$this->db->quote("2015-01-01","date"))
+						->static_condition("hc.begin_date < ".$this->db->quote(($year+1)."-01-01","date"))
+						->static_condition("hc.end_date >= ".$this->db->quote($year."-01-01","date"))
 						->static_condition("(huo_out.created_ts IS NULL "
-											." OR huo_out.created_ts > ".$this->gIldb->quote($end_of_year_ts,"integer")
-											.") AND huo_in.created_ts < ".$this->gIldb->quote($end_of_year_ts,"integer"))
+											." OR huo_out.created_ts > ".$this->db->quote($end_of_year_ts,"integer")
+											.") AND huo_in.created_ts < ".$this->db->quote($end_of_year_ts,"integer"))
 						->static_condition("hu.hist_historic = 0")
 						->static_condition("hucs.hist_historic = 0")
 						->static_condition("hucs.booking_status != ".$this->db->quote('-empty-', 'text'))
