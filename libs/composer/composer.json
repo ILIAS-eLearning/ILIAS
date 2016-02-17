@@ -4,7 +4,8 @@
 	"license": "GPL v3",
 	"authors": [],
 	"require": {
-		"filp/whoops": "^2.0"
+		"filp/whoops": "^2.0",
+        	"monolog/monolog": "^1.15"
 	},
 	"extra": {
 		"filp/whoops" : {
