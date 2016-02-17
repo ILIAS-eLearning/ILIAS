@@ -1,7 +1,7 @@
 <?php
 
 require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
-require_once 'Services/Form/classes/class.ilNumberImputGUI.php';
+require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
 /**
 * User Interface class for example repository object.
 * ...
@@ -41,6 +41,17 @@ class ilObjReportDBVSuperiorGUI extends ilObjReportBaseGUI {
 		$settings_form->addItem($year);
 
 		return $settings_form;
+	}
+
+	protected function saveSettingsData($data) {
+		$this->object->setYear($data["year"]);
+		parent::saveSettingsData($data);
+	}
+
+	protected function getSettingsData() {
+		$data = parent::getSettingsData();
+		$data["year"] = $this->object->getYear();
+		return $data;
 	}
 
 	public static function transformResultRow($rec) {
