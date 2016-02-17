@@ -72,13 +72,13 @@ class ilObjReportDBVSuperior extends ilObjReportBase {
 			$dbv_fin_uvg_employees = array_intersect($dbv_fin_uvg, $employees);
 		}
 		$filter ->checkbox( "critical"
-						  , $this->lng->txt("gev_rep_filter_show_critical_dbvs")
+						  , $this->plugin->txt("filter_show_critical_dbvs")
 						  , " credit_points < ".$this->gIldb->quote(200,"integer")
 						  , " TRUE "								  
 						  , true
 						  )
 				->textinput( "lastname"
-						   , $this->lng->txt("gev_lastname_filter")
+						   , $this->plugin->txt("lastname_filter")
 						   , "dbv.lastname"
 						   )
 				->static_condition($this->gIldb->in("oup.usr_id", $dbv_fin_uvg_employees, false, "integer"))
@@ -106,11 +106,11 @@ class ilObjReportDBVSuperior extends ilObjReportBase {
 	}
 
 	protected function buildTable($table) {
-		$table	->column("lastname", "lastname")
-				->column("firstname", "firstname")
-				->column("odbd", "gev_bd")
-				->column("credit_points", "gev_credit_points")
-				->column("max_credit_points", "gev_credit_points_forecast");
+		$table	->column("lastname", $this->plugin->txt("lastname"),true)
+				->column("firstname", $this->plugin->txt("firstname"),true)
+				->column("odbd", $this->plugin->txt("bd"),true)
+				->column("credit_points", $this->plugin->txt("credit_points"),true)
+				->column("max_credit_points", $this->plugin->txt("credit_points_forecast"),true);
 		return parent::buildTable($table);
 	}
 
@@ -125,7 +125,7 @@ class ilObjReportDBVSuperior extends ilObjReportBase {
 			"(id, is_online, year) VALUES (".
 			$this->gIldb->quote($this->getId(), "integer").",".
 			$this->gIldb->quote(0, "integer").",".
-			$this->gIldb->quote(2015, "integer").
+			$this->gIldb->quote(2016, "integer").
 			")");
 	}
 
