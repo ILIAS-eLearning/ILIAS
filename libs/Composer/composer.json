@@ -3,6 +3,16 @@
 	"description": "Dependencies of ILIAS",
 	"license": "GPL v3",
 	"authors": [],
-	"require": {},
-	"extra": {}
+	"require": {
+		"filp/whoops": "^2.0"
+	},
+	"extra": {
+		"filp/whoops" : {
+			"added_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>",
+			"wrapped_by" : null,
+			"last_update" : "2016-02-17",
+			"last_update_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>",
+			"used_version" : "v2.0.0"
+		}
+	}
 }
