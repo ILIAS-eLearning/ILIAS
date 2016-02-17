@@ -83,7 +83,7 @@ class ilObjReportDBVSuperior extends ilObjReportBase {
 						   )
 				->static_condition($this->gIldb->in("oup.usr_id", $dbv_fin_uvg_employees, false, "integer"))
 				->static_condition("hc.begin_date < ".$this->gIldb->quote(($this->year+1)."-01-01","date"))
-				->static_condition("hc.end_date >= ".$this->gIldb->quote("2015-01-01","date"))
+				->static_condition("hc.end_date >= ".$this->gIldb->quote($this->year."-01-01","date"))
 				->static_condition("(huo_out.created_ts IS NULL "
 									." OR huo_out.created_ts > ".$this->gIldb->quote($end_of_year_ts,"integer")
 									.") AND huo_in.created_ts < ".$this->gIldb->quote($end_of_year_ts,"integer"))
