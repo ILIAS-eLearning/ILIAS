@@ -19,4 +19,9 @@ class ilObjReportTrainerOpTepCatGUI extends ilObjReportBaseGUI {
 		$a_title->image("GEV_img/ico-head-edubio.png");
 		return $a_title;
 	}
+
+	protected function render() {
+		$this->tpl->addCSS('Services/ReportsRepository/templates/css/report.css');
+		return parent::render();
+	}
 }
