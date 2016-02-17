@@ -8,7 +8,7 @@ set_time_limit(0);
 
 class ilObjReportTrDemandAdv extends ilObjReportBase {
 	protected $is_local;
-
+	protected $relevant_parameters = array();
 
 	public function initType() {
 		 $this->setType("xtda");
@@ -221,17 +221,8 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 	}
 
 	public function doClone($a_target_id,$a_copy_id,$new_obj) {
-		$new_obj->setOnline($this->getOnline());
 		$new_obj->setIsLocal($this->getIsLocal());
-		$new_obj->update();
-	}
-
-	public function setOnline($a_val) {
-		$this->online = (int)$a_val;
-	}
-
-	public function getOnline() {
-		return $this->online;
+		parent::doClone($a_target_id,$a_copy_id,$new_obj);
 	}
 
 	public function getIsLocal() {

@@ -20,10 +20,6 @@
 * 
 */
 
-require_once("./Services/Exceptions/lib/Whoops/Run.php");
-require_once("./Services/Exceptions/lib/Whoops/Handler/HandlerInterface.php");
-require_once("./Services/Exceptions/lib/Whoops/Handler/Handler.php");
-
 use Whoops\Handler\Handler;
 
 final class ilDelegatingHandler extends Handler {
