@@ -13,7 +13,8 @@ var ilSingleChoiceWizardInputTemplate = {
 	},
 
 	cleanRow: function(row) {
-		$(row).find('input:text').attr('value', '');
+		$(row).find('input:text').val('');
+		$(row).find('textarea').val('');
 		$(row).find('div.imagepresentation').remove();
 	},
 
@@ -31,6 +32,11 @@ var ilSingleChoiceWizardInputTemplate = {
 
 			// answer
 			$(this).find('input:text[id*="[answer]"]').each(function() {
+				that.handleId(this, 'name', rowindex);
+				that.handleId(this, 'id', rowindex);
+			});
+
+			$(this).find('textarea[id*="[answer]"]').each(function() {
 				that.handleId(this, 'name', rowindex);
 				that.handleId(this, 'id', rowindex);
 			});
