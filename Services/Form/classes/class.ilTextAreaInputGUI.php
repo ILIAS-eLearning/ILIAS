@@ -89,7 +89,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $root_block_element = null;
 	
 	protected $rte_tag_set = array(
-		"mini" => array("strong", "em", "u", "ol", "li", "ul", "blockquote", "a", "p", "span"), // #13286
+		"mini" => array("strong", "em", "u", "ol", "li", "ul", "blockquote", "a", "p", "span", "br"), // #13286/#17981
 		"standard" => array ("strong", "em", "u", "ol", "li", "ul", "p", "div",
 			"i", "b", "code", "sup", "sub", "pre", "strike", "gap"),
 		"extended" => array (
