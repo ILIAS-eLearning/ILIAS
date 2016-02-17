@@ -18,7 +18,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 	protected $norms;
 
 
-	public function __construct($ref_id) {
+	public function __construct($ref_id = 0) {
 		parent::__construct($ref_id);
 
 		require_once $this->plugin->getDirectory().'/config/cfg.trainer_workload.php';
@@ -169,6 +169,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 			}
 			$trainer_data = call_user_func($callback,$trainer_data);
 		}
+		$count_rows = ($count_rows == 0) ? 1 : $count_rows;
 		foreach($this->norms as $meta_category => $norm) {
 			$this->sum_row[$meta_category.'_workload'] = $this->sum_row[$meta_category.'_workload']/$count_rows;
 		}
@@ -297,11 +298,10 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 	}
 
 	public function doClone($a_target_id,$a_copy_id,$new_obj) {
-		$new_obj->setOnline($this->getOnline());
 		$new_obj->setAnnualNormTraining($this->getAnnualNormTraining());
 		$new_obj->setAnnualNormOperation($this->getAnnualNormOperation());
 		$new_obj->setAnnualNormOffice($this->getAnnualNormOffice());
-		$new_obj->update();
+		parent::doClone($a_target_id,$a_copy_id,$new_obj);
 	}
 
 	public function getAnnualNormTraining() {
@@ -326,14 +326,6 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 
 	public function setAnnualNormOffice($a_val) {
 		$this->norms['office'] = $a_val;
-	}
-
-	public function setOnline($a_val) {
-		$this->online = (int)$a_val;
-	}
-
-	public function getOnline() {
-		return $this->online;
 	}
 
 	public function getRelevantParameters() {

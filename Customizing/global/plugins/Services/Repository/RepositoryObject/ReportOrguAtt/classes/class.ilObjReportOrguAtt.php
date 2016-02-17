@@ -14,7 +14,7 @@ set_time_limit(0);
 class ilObjReportOrguAtt extends ilObjReportBase {
 	protected $relevant_parameters = array();
 	protected $sum_parts = array();
-	public function __construct($ref_id) {
+	public function __construct($ref_id = 0) {
 		parent::__construct($ref_id);
 
 		require_once $this->plugin->getDirectory().'/config/cfg.att_org_units.php';
@@ -314,17 +314,8 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 	}
 
 	public function doClone($a_target_id,$a_copy_id,$new_obj) {
-		$new_obj->setOnline($this->getOnline());
 		$new_obj->setIsLocal($this->getIslocal());
-		$new_obj->update();
-	}
-
-	public function setOnline($a_val) {
-		$this->online = (int)$a_val;
-	}
-
-	public function getOnline() {
-		return $this->online;
+		parent::doClone($a_target_id,$a_copy_id,$new_obj);
 	}
 
 	public function getIslocal() {
