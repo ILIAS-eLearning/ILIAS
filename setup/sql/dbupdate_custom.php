@@ -129,3 +129,42 @@ if(!$ilDB->tableExists('badge_image_templ_type'))
 }
 
 ?>
+<#7>
+<?php
+
+if(!$ilDB->tableExists('badge_user_badge'))
+{
+	$ilDB->createTable('badge_user_badge', array(
+		'badge_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'tstamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'awarded_by' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'pos' => array(
+			'type' => 'integer',
+			'length' => 2,
+			'notnull' => false
+		),
+	));	
+	$ilDB->addPrimaryKey('badge_user_badge',array('badge_id', 'user_id'));
+}
+
+?>

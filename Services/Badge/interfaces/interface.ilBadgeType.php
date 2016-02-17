@@ -31,14 +31,7 @@ interface ilBadgeType
 	 * @return bool
 	 */
 	public function isSingleton();
-	
-	/**
-	 * Can be manully awarded?
-	 * 
-	 * @return bool
-	 */
-	public function canBeManuallyAwarded();
-	
+
 	/**
 	 * Get valid (repository) "parent" object types
 	 * 

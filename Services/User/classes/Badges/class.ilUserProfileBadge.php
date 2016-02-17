@@ -29,11 +29,6 @@ class ilUserProfileBadge implements ilBadgeType
 		return false;
 	}
 	
-	public function canBeManuallyAwarded()
-	{
-		return false;
-	}
-	
 	public function getValidObjectTypes()
 	{
 		return array("bdga");

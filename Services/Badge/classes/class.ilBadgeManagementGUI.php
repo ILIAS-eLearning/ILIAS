@@ -393,41 +393,106 @@ class ilBadgeManagementGUI
 	
 	protected function listUsers()
 	{
-		global $lng, $ilCtrl, $ilToolbar;
+		global $lng, $ilCtrl, $ilToolbar, $tpl;
 		
 		$this->setTabs("users");
 		
-		include_once "./Services/Badge/classes/class.ilBadge.php";
-		$badges = ilBadge::getInstancesByParentId($this->parent_obj_id);
-		
-		$manual = array();
-		foreach(ilBadgeHandler::getInstance()->getAvailableTypesForObjType($this->parent_obj_type) as $type_id => $type)
+		if($this->hasWrite())
 		{
-			if($type->canBeManuallyAwarded())
-			{
-				foreach($badges as $badge)
-				{
-					if($badge->getTypeId() == $type_id)
-					{
-						$manual[$badge->getId()] = $badge->getTitle();
-					}
-				}
+			$manual = ilBadgeHandler::getInstance()->getAvailableManualBadges($this->parent_obj_id, $this->parent_obj_type);
+			if(sizeof($manual))
+			{							
+				include_once "Services/Form/classes/class.ilSelectInputGUI.php";
+				$drop = new ilSelectInputGUI($lng->txt("badge_badge"), "bid");
+				$drop->setOptions($manual);
+				$ilToolbar->addInputItem($drop, true);
+
+				$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "awardBadgeUserSelection"));
+				$ilToolbar->addFormButton($lng->txt("badge_award_badge"), "awardBadgeUserSelection");
 			}
 		}
-		if(sizeof($manual))
-		{			
-			asort($manual);
-
-			include_once "Services/Form/classes/class.ilSelectInputGUI.php";
-			$drop = new ilSelectInputGUI($lng->txt("badge_badge"), "bid");
-			$drop->setOptions($manual);
-			$ilToolbar->addInputItem($drop, true);
-
-			$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "awardBadge"));
-			$ilToolbar->addFormButton($lng->txt("badge_award_badge"), "awardBadge");
-		}
 		
-		
+		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
+		$tbl = new ilBadgeUserTableGUI($this, "listUsers", $this->parent_obj_id);
+		$tpl->setContent($tbl->getHTML());
 	}
 	
+	protected function awardBadgeUserSelection()
+	{
+		global $ilCtrl, $tpl, $ilTabs, $lng;
+		
+		$bid = (int)$_POST["bid"];
+		if(!$bid || 
+			!$this->hasWrite())
+		{
+			$ilCtrl->redirect($this, "listUsers");
+		}
+		
+		$manual = array_keys(ilBadgeHandler::getInstance()->getAvailableManualBadges($this->parent_obj_id, $this->parent_obj_type));
+		if(!in_array($bid, $manual))
+		{
+			$ilCtrl->redirect($this, "listUsers");
+		}
+		
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "listUsers"));
+		
+		$ilCtrl->saveParameter($this, "bid", $bid);
+		
+		include_once "./Services/Badge/classes/class.ilBadge.php";
+		$badge = new ilBadge($bid);
+		
+		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
+		$tbl = new ilBadgeUserTableGUI($this, "awardBadgeUserSelection", $this->parent_obj_id, $badge);
+		$tpl->setContent($tbl->getHTML());
+	}
+	
+	protected function awardBadge()
+	{
+		global $ilCtrl, $ilUser, $lng;
+		
+		$user_ids = $_POST["id"];
+		$badge_id = $_REQUEST["bid"];
+		if(!$user_ids ||
+			!$badge_id ||
+			!$this->hasWrite())
+		{
+			$ilCtrl->redirect($this, "listUsers");
+		}
+		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+		foreach($user_ids as $user_id)
+		{
+			$ass = new ilBadgeAssignment($badge_id, $user_id);
+			$ass->setAwardedBy($ilUser->getId());
+			$ass->store();						
+		}
+		
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$ilCtrl->redirect($this, "listUsers");
+	}	
+	
+	protected function removeBadge()
+	{
+		global $ilCtrl, $ilUser, $lng;
+		
+		$user_ids = $_POST["id"];
+		$badge_id = $_REQUEST["bid"];
+		if(!$user_ids ||
+			!$badge_id ||
+			!$this->hasWrite())
+		{
+			$ilCtrl->redirect($this, "listUsers");
+		}
+		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+		foreach($user_ids as $user_id)
+		{
+			$ass = new ilBadgeAssignment($badge_id, $user_id);
+			$ass->delete();
+		}
+		
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$ilCtrl->redirect($this, "listUsers");
+		
+	}	
 }

@@ -272,6 +272,44 @@ class ilBadgeHandler
 		
 		return $res;
 	}
+		
+	/**
+	 * Get available manual badges for object id
+	 * 
+	 * @param int $a_parent_obj_id
+	 * @param string $a_parent_obj_type
+	 * @return array id,title
+	 */
+	public function getAvailableManualBadges($a_parent_obj_id, $a_parent_obj_type = null)
+	{
+		$res = array();
+		
+		if(!$a_parent_obj_type)
+		{
+			$a_parent_obj_type = ilObject::_lookupType($a_parent_obj_id);
+		}
+		
+		include_once "./Services/Badge/classes/class.ilBadge.php";
+		$badges = ilBadge::getInstancesByParentId($a_parent_obj_id);
+		foreach(ilBadgeHandler::getInstance()->getAvailableTypesForObjType($a_parent_obj_type) as $type_id => $type)
+		{
+			if($type instanceof ilBadgeManual)
+			{
+				foreach($badges as $badge)
+				{
+					if($badge->getTypeId() == $type_id &&
+						$badge->isActive())
+					{
+						$res[$badge->getId()] = $badge->getTitle();
+					}
+				}
+			}
+		}
+		
+		asort($res);		
+		return $res;
+	}
+	
 	
 	
 	//

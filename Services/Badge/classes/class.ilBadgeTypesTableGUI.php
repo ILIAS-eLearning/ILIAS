@@ -63,7 +63,7 @@ class ilBadgeTypesTableGUI extends ilTable2GUI
 						"id" => $id,
 						"comp" => $handler->getComponentCaption($component),
 						"caption" => $badge_obj->getCaption(),
-						"manual" => $badge_obj->canBeManuallyAwarded(),
+						"manual" => ($badge_obj instanceof ilBadgeManual),
 						"inactive" => in_array($id, $inactive)
 					);					
 				}
