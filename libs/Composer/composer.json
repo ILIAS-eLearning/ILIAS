@@ -1,0 +1,8 @@
+{
+	"name": "ilias/deps",
+	"description": "Dependencies of ILIAS",
+	"license": "GPL v3",
+	"authors": [],
+	"require": {},
+	"extra": {}
+}
