@@ -18,21 +18,6 @@ require_once 'Services/Environment/classes/class.ilRuntime.php';
 */
 include_once 'PEAR.php';
 
-// TODO: This would clearly benefit from Autoloading...
-require_once("./Services/Exceptions/lib/Whoops/Run.php");
-require_once("./Services/Exceptions/lib/Whoops/Handler/HandlerInterface.php");
-require_once("./Services/Exceptions/lib/Whoops/Handler/Handler.php");
-require_once("./Services/Exceptions/lib/Whoops/Handler/CallbackHandler.php");
-require_once("./Services/Exceptions/lib/Whoops/Handler/PrettyPageHandler.php");
-require_once("./Services/Exceptions/lib/Whoops/Exception/Inspector.php");
-require_once("./Services/Exceptions/lib/Whoops/Exception/ErrorException.php");
-require_once("./Services/Exceptions/lib/Whoops/Exception/FrameCollection.php");
-require_once("./Services/Exceptions/lib/Whoops/Exception/Frame.php");
-require_once("./Services/Exceptions/lib/Whoops/Exception/Inspector.php");
-require_once("./Services/Exceptions/lib/Whoops/Exception/Formatter.php");
-require_once("./Services/Exceptions/lib/Whoops/Util/TemplateHelper.php");
-require_once("./Services/Exceptions/lib/Whoops/Util/Misc.php");
-
 require_once("Services/Exceptions/classes/class.ilDelegatingHandler.php");
 require_once("Services/Exceptions/classes/class.ilPlainTextHandler.php");
 require_once("Services/Exceptions/classes/class.ilTestingHandler.php");
