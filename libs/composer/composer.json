@@ -15,6 +15,14 @@
 			"added_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>",
 			"last_update" : "2016-02-17",
 			"last_update_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>"
+		},
+		"monolog/monolog" : {
+			"source" : "https://github.com/Seldaek/monolog",
+			"used_version" : "v1.15",
+			"wrapped_by" : "Services/Logging",
+			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de",
+			"last_update" : "2016-02-17",
+			"last_update_by" : "Stefan Meyer <smeyer.ilias@gmx.de"
 		}
 	}
 }
