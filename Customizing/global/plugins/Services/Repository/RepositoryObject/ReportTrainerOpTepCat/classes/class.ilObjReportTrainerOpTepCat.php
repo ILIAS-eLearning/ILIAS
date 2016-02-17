@@ -25,7 +25,6 @@ class ilObjReportTrainerOpTepCat extends ilObjReportBase {
 
 	
 	protected function buildTable($table) {
-		$this->createTemplateFile();
 		$table->column("fullname", $this->plugin->txt("name"), true);
 		foreach($this->categories as $key => $category) {
 			$table	->column('cat_'.$key, $category, true)
