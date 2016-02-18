@@ -72,19 +72,23 @@ abstract class Filter {
 	 * Either expects an array with Closure and another array with strings for
 	 * the result type or expects closure and the array in the second param.
 	 *
-	 * @param	\Closure|array	$mapper
+	 * @param	\Closure		$mapper
 	 * @param	string[]		$result_type
 	 * @return	Filter
 	 */
-	public function map($mapper, $result_type = null) {
-		if (is_array($mapper)) {
-			assert('count($mapper) == 2');
-			$result_type = $mapper[1];
-			$mapper = $mapper[0];
-		}
-
+	public function map(\Closure $mapper, $result_types) {
 		assert('$mapper instanceof \\Closure');
-		assert('is_array($result_type)');
+		assert('is_array($result_types)');
+	}
+
+	/**
+	 * Map the content of the filter to a predicate.
+	 *
+	 * @param	\Closure	$to_pred
+	 * @return	Filter
+	 */
+	public function to_predicate(\Closure $mapper) {
+		return $this->map($mapper, array("\\CaT\\Filter\\Predicates\\Predicate"));
 	}
 
 	/**

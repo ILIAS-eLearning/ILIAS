@@ -54,7 +54,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 
 	public function test_dateperiod_overlaps_predicate() {
 		$filter = $this->factory->dateperiod("label", "description")
-			->map($this->factory->dateperiod_overlaps_predicate("start_field", "end_field"))
+			->to_predicate($this->factory->dateperiod_overlaps_predicate("start_field", "end_field"))
 			;
 
 		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
