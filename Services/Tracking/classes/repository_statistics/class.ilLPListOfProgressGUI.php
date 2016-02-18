@@ -152,11 +152,11 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         
         // START PATCH RUBRIC CPKN 2015
         if($olp->getCurrentMode()==ilLPObjSettings::LP_MODE_RUBRIC){
-            include_once('./Services/Tracking/classes/rubric/class.ilLPRubricCard.php');
-            include_once('./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php');
+            include_once('./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php');
+            include_once('./Services/Tracking/classes/rubric/class.ilLPRubricGradeGUI.php');
             
-            $rubricObj=new ilLPRubricCard($this->getObjId());
-            $rubricGui=new ilLPRubricCardGUI();
+            $rubricObj=new ilLPRubricGrade($this->getObjId());
+            $rubricGui=new ilLPRubricGradeGUI();
             
             $a_user = ilObjectFactory::getInstanceByObjId($_SESSION['AccountId']);
             
