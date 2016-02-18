@@ -58,11 +58,11 @@ class PredicateFactory {
 	/**
 	 * An date value.
 	 *
-	 * @param	str		$s
+	 * @param	str|\DateTime		$dt
 	 * @throws	\InvalidArgumentException
 	 * @return	ilValue
 	 */
-	public function date($d) {
+	public function date($dt) {
 		return new Predicates\ValueDate($this, $d);
 	}
 

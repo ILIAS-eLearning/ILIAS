@@ -16,5 +16,8 @@ class ValueDate extends Value {
 	 *								if value is ok.
 	 */
 	protected function value_errors($value) {
+		if (!($value instanceof \DateTime)) {
+			return "expected DateTime";
+		}
 	}
 }
