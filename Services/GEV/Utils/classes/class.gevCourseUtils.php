@@ -1975,7 +1975,7 @@ class gevCourseUtils {
 		$start_date_obj = $this->getStartDate();
 		$end_date_obj = $this->getEndDate();
 		if($start_date_obj === null || $end_date_obj === null) {
-			throw new Exception("gevUserUtisl::buildIcal:"
+			throw new Exception("gevUserUtils::buildIcal:"
 								." start- or end-date of course are not set."
 								." You have to provide both in order to create an ical event.");
 		}
