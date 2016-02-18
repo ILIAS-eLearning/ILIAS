@@ -81,7 +81,7 @@ class ilDBPdo implements ilDBInterface {
 		if (!$this->getDSN()) {
 			$this->generateDSN();
 		}
-		
+
 		$this->pdo = new PDO($this->getDSN(), $this->getUsername(), $this->getPassword(), $this->additional_attributes);
 	}
 
@@ -355,14 +355,15 @@ class ilDBPdo implements ilDBInterface {
 		$query = "UPDATE $table_name SET ";
 		foreach ($values as $key => $val) {
 			$qval = $this->quote($val[1], $val[0]);
-			$query .= "$key=$qval,";
+			$query .= "$key = $qval, ";
 		}
-		$query = substr($query, 0, - 1) . " WHERE ";
+		$query = substr($query, 0, - 2) . " WHERE ";
 		foreach ($where as $key => $val) {
 			$qval = $this->quote($val[1], $val[0]);
-			$query .= "$key=$qval,";
+			$query .= "$key = $qval, ";
 		}
-		$query = substr($query, 0, - 1);
+		$query = substr($query, 0, - 2);
+
 		$this->pdo->exec($query);
 	}
 
