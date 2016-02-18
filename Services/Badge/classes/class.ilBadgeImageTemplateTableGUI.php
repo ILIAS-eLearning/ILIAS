@@ -38,7 +38,7 @@ class ilBadgeImageTemplateTableGUI extends ilTable2GUI
 		if($this->has_write)
 		{			
 			$this->addColumn($lng->txt("action"), "");		
-			$this->addMultiCommand("deleteTemplates", $lng->txt("delete"));		
+			$this->addMultiCommand("confirmDeleteImageTemplates", $lng->txt("delete"));		
 		}
 		
 		$this->setSelectAllCheckbox("id");

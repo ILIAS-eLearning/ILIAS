@@ -314,6 +314,9 @@ class ilBadge
 			return;
 		}
 		
+		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+		ilBadgeAssignment::deleteByBadgeId($this->getId());
+		
 		$ilDB->manipulate("DELETE FROM badge_badge".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 	}

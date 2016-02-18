@@ -405,4 +405,60 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		$form->setValuesByPost();
 		$this->editImageTemplate($form);
 	}
+	
+	protected function confirmDeleteImageTemplates()
+	{
+		global $ilCtrl, $lng, $tpl, $ilTabs;
+		
+		$this->checkPermission("write");
+		
+		$tmpl_ids = $_REQUEST["id"];
+		if(!$tmpl_ids)
+		{
+			$ilCtrl->redirect($this, "listImageTemplates");
+		}
+		
+		
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "listImageTemplates"));		
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$confirmation_gui = new ilConfirmationGUI();
+		$confirmation_gui->setFormAction($ilCtrl->getFormAction($this));
+		$confirmation_gui->setHeaderText($lng->txt("badge_template_deletion_confirmation"));
+		$confirmation_gui->setCancel($lng->txt("cancel"), "listImageTemplates");
+		$confirmation_gui->setConfirm($lng->txt("delete"), "deleteImageTemplates");
+		
+		include_once("./Services/Badge/classes/class.ilBadgeImageTemplate.php");
+		foreach($tmpl_ids as $tmpl_id)
+		{
+			$tmpl = new ilBadgeImageTemplate($tmpl_id);
+			$confirmation_gui->addItem("id[]", $tmpl_id, $tmpl->getTitle());
+		}
+
+		$tpl->setContent($confirmation_gui->getHTML());
+	}
+	
+	protected function deleteImageTemplates()
+	{
+		global $ilCtrl, $lng;
+		
+		$this->checkPermission("write");
+		
+		$tmpl_ids = $_REQUEST["id"];	
+		if($tmpl_ids)
+		{			
+			include_once("./Services/Badge/classes/class.ilBadgeImageTemplate.php");
+			foreach($tmpl_ids as $tmpl_id)
+			{
+				$tmpl = new ilBadgeImageTemplate($tmpl_id);
+				$tmpl->delete();
+			}
+		
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		}
+		
+		$ilCtrl->redirect($this, "listImageTemplates");
+	}		
 }

@@ -41,7 +41,7 @@ class ilBadgeTableGUI extends ilTable2GUI
 		if($this->has_write)
 		{			
 			$this->addColumn($lng->txt("action"), "");		
-			$this->addMultiCommand("deleteBadges", $lng->txt("delete"));		
+			$this->addMultiCommand("confirmDeleteBadges", $lng->txt("delete"));		
 		}
 		
 		$this->setSelectAllCheckbox("id");

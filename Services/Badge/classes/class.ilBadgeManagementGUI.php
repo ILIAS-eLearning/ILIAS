@@ -386,6 +386,60 @@ class ilBadgeManagementGUI
 		$this->editBadge($form);
 	}
 	
+	protected function confirmDeleteBadges()
+	{
+		global $ilCtrl, $lng, $tpl, $ilTabs;	
+								
+		$badge_ids = $_REQUEST["id"];
+		if(!$badge_ids ||
+			!$this->hasWrite())
+		{
+			$ilCtrl->redirect($this, "listBadges");
+		}
+				
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "listBadges"));		
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$confirmation_gui = new ilConfirmationGUI();
+		$confirmation_gui->setFormAction($ilCtrl->getFormAction($this));
+		$confirmation_gui->setHeaderText($lng->txt("badge_deletion_confirmation"));
+		$confirmation_gui->setCancel($lng->txt("cancel"), "listBadges");
+		$confirmation_gui->setConfirm($lng->txt("delete"), "deleteBadges");
+			
+		include_once "Services/Badge/classes/class.ilBadge.php";		
+		foreach($badge_ids as $badge_id)
+		{					
+			$badge = new ilBadge($badge_id);
+			$confirmation_gui->addItem("id[]", $badge_id, $badge->getTitle());			
+		}
+
+		$tpl->setContent($confirmation_gui->getHTML());
+	}
+	
+	protected function deleteBadges()
+	{
+		global $ilCtrl, $lng;
+		
+		$badge_ids = $_REQUEST["id"];
+		if(!$badge_ids ||
+			!$this->hasWrite())
+		{
+			$ilCtrl->redirect($this, "listBadges");
+		}
+		
+		include_once "Services/Badge/classes/class.ilBadge.php";
+		foreach($badge_ids as $badge_id)
+		{					
+			$badge = new ilBadge($badge_id);
+			$badge->delete();
+		}
+		
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$ilCtrl->redirect($this, "listBadges");		
+	}	
+	
 	
 	//
 	// users
@@ -448,7 +502,7 @@ class ilBadgeManagementGUI
 		$tpl->setContent($tbl->getHTML());
 	}
 	
-	protected function awardBadge()
+	protected function assignBadge()
 	{
 		global $ilCtrl, $ilUser, $lng;
 		
@@ -472,9 +526,57 @@ class ilBadgeManagementGUI
 		$ilCtrl->redirect($this, "listUsers");
 	}	
 	
-	protected function removeBadge()
+	protected function confirmDeassignBadge()
 	{
-		global $ilCtrl, $ilUser, $lng;
+		global $ilCtrl, $lng, $tpl, $ilTabs;	
+						
+		$user_ids = $_POST["id"];
+		$badge_id = $_REQUEST["bid"];
+		if(!$user_ids ||
+			!$badge_id ||
+			!$this->hasWrite())
+		{
+			$ilCtrl->redirect($this, "listUsers");
+		}
+				
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "listUsers"));		
+		
+		include_once "Services/Badge/classes/class.ilBadge.php";	
+		$badge = new ilBadge($badge_id);
+		
+		$ilCtrl->setParameter($this, "bid", $badge->getId());
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$confirmation_gui = new ilConfirmationGUI();
+		$confirmation_gui->setFormAction($ilCtrl->getFormAction($this));
+		$confirmation_gui->setHeaderText(sprintf($lng->txt("badge_assignment_deletion_confirmation"), $badge->getTitle()));
+		$confirmation_gui->setCancel($lng->txt("cancel"), "listUsers");
+		$confirmation_gui->setConfirm($lng->txt("delete"), "deassignBadge");
+			
+		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+		$assigned_users = ilBadgeAssignment::getAssignedUsers($badge->getId());	
+		
+		include_once "Services/User/classes/class.ilUserUtil.php";
+		foreach($user_ids as $user_id)
+		{
+			if(in_array($user_id, $assigned_users))
+			{				
+				$confirmation_gui->addItem(
+					"id[]", 
+					$user_id, 
+					ilUserUtil::getNamePresentation($user_id, false, false, "", true)
+				);
+			}
+		}
+
+		$tpl->setContent($confirmation_gui->getHTML());
+	}
+	
+	protected function deassignBadge()
+	{
+		global $ilCtrl, $lng;
 		
 		$user_ids = $_POST["id"];
 		$badge_id = $_REQUEST["bid"];

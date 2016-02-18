@@ -92,6 +92,18 @@ class ilBadgeAssignment
 		return $res;
 	}
 	
+	public static function getAssignedUsers($a_badge_id)
+	{
+		$res = array();
+		
+		foreach(self::getInstancesByBadgeId($a_badge_id) as $ass)
+		{
+			$res[] = $ass->getUserId();
+		}
+		
+		return $res;
+	}
+	
 	
 	//
 	// setter/getter

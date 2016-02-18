@@ -33,8 +33,8 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 			$this->addColumn("", "", 1);
 			
 			$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));			
-			$this->addMultiCommand("awardBadge", $lng->txt("badge_award_badge"));					
-			$this->addMultiCommand("removeBadge", $lng->txt("badge_remove_badge"));
+			$this->addMultiCommand("assignBadge", $lng->txt("badge_award_badge"));					
+			$this->addMultiCommand("confirmDeassignBadge", $lng->txt("badge_remove_badge"));
 		}
 		else
 		{			
