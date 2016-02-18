@@ -2541,12 +2541,31 @@ class gevCourseUtils {
 		$users = array_merge($this->getTrainers(), $this->getParticipants());
 		foreach ($users as $uid) {
 			$user = new ilObjUser($uid);
-			echo $this->encodeForWindows('"'.$user->getFullname().'";"'.$user->getPhoneOffice().'"'."\n");
+			echo $this->encodeForWindows('"'.$user->getFullname().'";"'
+				.$this->formatPhoneNumberForExcel($user->getPhoneOffice()).'"'."\n");
 		}
 		
 		exit();
 	}
 	
+	/**
+	*	Excel tends to meddle with numbers and to cast them into absurd formats, even if not asked to.
+	*	To prevent this, we re move dots and comas and put at least one whitespace into the phone-number
+	*	so it hopefully will be processed as text and not changed silently.
+	*/
+	protected function formatPhoneNumberForExcel($phone_number) {
+		$return = preg_replace('#[\,\.]+#', ' ', $phone_number);
+		if(0 === preg_match('#\s+#' , $return)) {
+			$number_chunks = str_split($return,3);
+			$return = "";
+			$delim = " ";
+			foreach ($number_chunks as $key => $value) {
+				$return .= $value.$delim;
+				$delim = "";
+			}
+		} 
+		return $return;
+	}
 	
 	// Desk Display creation
 	
