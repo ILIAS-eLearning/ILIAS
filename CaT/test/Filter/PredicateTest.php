@@ -1,6 +1,8 @@
 <?php
 
-class ilPredicateTest extends PHPUnit_Framework_TestCase {
+/* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
+
+class PredicateTest extends PHPUnit_Framework_TestCase {
 	protected $backupGlobals = FALSE;
 
 	protected function setUp() {
