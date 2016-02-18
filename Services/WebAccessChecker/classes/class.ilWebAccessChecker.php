@@ -21,11 +21,11 @@ class ilWebAccessChecker {
 	/**
 	 * @var ilWACPath
 	 */
-	protected $path_object = NULL;
+	protected $path_object = null;
 	/**
 	 * @var bool
 	 */
-	protected $checked = FALSE;
+	protected $checked = false;
 	/**
 	 * @var string
 	 */
@@ -37,19 +37,19 @@ class ilWebAccessChecker {
 	/**
 	 * @var bool
 	 */
-	protected $send_status_code = FALSE;
+	protected $send_status_code = false;
 	/**
 	 * @var bool
 	 */
-	protected $initialized = FALSE;
+	protected $initialized = false;
 	/**
 	 * @var bool
 	 */
-	protected $revalidate_folder_tokens = TRUE;
+	protected $revalidate_folder_tokens = true;
 	/**
 	 * @var bool
 	 */
-	protected static $DEBUG = TRUE;
+	protected static $DEBUG = false;
 
 
 	/**
@@ -114,10 +114,10 @@ class ilWebAccessChecker {
 		$ilWACSignedPath = new ilWACSignedPath($this->getPathObject());
 		if ($ilWACSignedPath->isSignedPath()) {
 			if ($ilWACSignedPath->isSignedPathValid()) {
-				$this->setChecked(TRUE);
+				$this->setChecked(true);
 				ilWACLog::getInstance()->write('checked using token');
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -127,10 +127,10 @@ class ilWebAccessChecker {
 				if ($this->isRevalidateFolderTokens()) {
 					$ilWACSignedPath->revalidatingFolderToken();
 				}
-				$this->setChecked(TRUE);
+				$this->setChecked(true);
 				ilWACLog::getInstance()->write('checked using secure folder');
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -148,31 +148,31 @@ class ilWebAccessChecker {
 					$ilWACSignedPath->revalidatingFolderToken();
 				}
 
-				$this->setChecked(TRUE);
+				$this->setChecked(true);
 
-				return TRUE;
+				return true;
 			} else {
 				ilWACLog::getInstance()->write('checking-instance denied access');
-				$this->setChecked(TRUE);
+				$this->setChecked(true);
 
-				return FALSE;
+				return false;
 			}
 		}
 
 		// none of the checking mechanisms could have been applied. no access
-		$this->setChecked(TRUE);
+		$this->setChecked(true);
 		ilWACLog::getInstance()->write('none of the checking mechanisms could have been applied. access depending on sec folder');
 		if ($this->getPathObject()->isInSecFolder()) {
-			return FALSE;
+			return false;
 		} else {
-			return TRUE;
+			return true;
 		}
 	}
 
 
 	protected function initILIAS() {
 		if ($this->isInitialized()) {
-			return TRUE;
+			return true;
 		}
 		$GLOBALS['COOKIE_PATH'] = '/';
 		setcookie('ilClientId', $this->getPathObject()->getClient(), 0, '/');
@@ -199,7 +199,7 @@ class ilWebAccessChecker {
 			}
 			throw new ilWACException(ilWACException::INITIALISATION_FAILED);
 		}
-		$this->setInitialized(TRUE);
+		$this->setInitialized(true);
 	}
 
 
@@ -209,7 +209,7 @@ class ilWebAccessChecker {
 		}
 
 		$ilFileDelivery = new ilFileDelivery($this->getPathObject()->getPath());
-		$ilFileDelivery->setCache(FALSE);
+		$ilFileDelivery->setCache(false);
 		$ilFileDelivery->setDisposition($this->getDisposition());
 		ilWACLog::getInstance()->write('Deliver file using ' . $ilFileDelivery->getDeliveryType());
 		if ($this->getPathObject()->isStreamable()) { // fixed 0016468
@@ -261,7 +261,7 @@ class ilWebAccessChecker {
 
 		global $tpl, $ilLog;
 		$ilLog->write($e->getMessage());
-		$tpl->setVariable('BASE', strstr($_SERVER['REQUEST_URI'], '/data', TRUE) . '/');
+		$tpl->setVariable('BASE', strstr($_SERVER['REQUEST_URI'], '/data', true) . '/');
 		ilUtil::sendFailure($e->getMessage());
 		$tpl->getStandardTemplate();
 		$tpl->show();
