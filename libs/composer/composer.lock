@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "482ccd32e43512b2dc25178367bc9a9c",
-    "content-hash": "2fabf4b1f8fa9ed5a3e909baca9e7cc3",
+    "hash": "449895bb51b15f20357d05da91038846",
+    "content-hash": "017afd2e1a805ca2f3ed282befae0390",
     "packages": [
         {
             "name": "eluceo/ical",

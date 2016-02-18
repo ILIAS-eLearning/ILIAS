@@ -15,6 +15,14 @@
 			"added_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>",
 			"last_update" : "2016-02-17",
 			"last_update_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>"
+		},
+		"eluceo/ical" : {
+			"source" : "github.com/markuspoerschke/iCal",
+			"used_version" : "v0.9.0",
+			"wrapped_by" : null,
+			"added_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>",
+			"last_update" : "2016-02-18",
+			"last_update_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>"
 		}
 	}
 }
