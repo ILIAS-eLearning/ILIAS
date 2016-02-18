@@ -520,7 +520,7 @@ class ilLPRubricCard
                     rubric_label_id=".$this->ilDB->quote($label['rubric_label_id'], "integer")
             );
             
-            $broken_weight=explode(',',$weights[$k]);
+            $broken_weight=explode('-',$weights[$k]);
             
             if($this->ilDB->numRows($set)>0){
                 $row=$this->ilDB->fetchAssoc($set);
