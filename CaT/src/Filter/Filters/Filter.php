@@ -20,7 +20,7 @@ abstract class Filter {
 	 */
 	private $description = null;
 
-	protected function setFactory(\CaT\Filter\PredicateFactory $factory) {
+	protected function setFactory(\CaT\Filter\FilterFactory $factory) {
 		$this->factory = $factory;
 	}
 
@@ -83,5 +83,5 @@ abstract class Filter {
 	 * @param	mixed[]		...
 	 * @return	mixed
 	 */
-	abstract public function content(/*...$input*/);
+	abstract public function content(/*...$inputs*/);
 }

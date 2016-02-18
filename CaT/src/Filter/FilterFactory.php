@@ -15,10 +15,10 @@ class FilterFactory {
 	 *
 	 * @param	string	$label
 	 * @param	string	$description
-	 * @return	Filters\Filter
+	 * @return	Filters\DatePeriodFilter
 	 */
 	public function dateperiod($label, $description) {
-		
+		return new Filters\DatePeriodFilter($this, $label, $description);
 	}
 
 	/**
@@ -33,7 +33,8 @@ class FilterFactory {
 	}
 
 	/**
-	 * Get a filter that represents an option.
+	 * Get a filter that represents a choice of some options from a list
+	 * of possible options.
 	 *
 	 * @param	string	$label
 	 * @param	string	$description
@@ -41,6 +42,17 @@ class FilterFactory {
 	 * @return	Filters\Filter
 	 */
 	public function multiselect($label, $description, $options) {
+		
+	}
+
+	/**
+	 * Get a filter that uses some text for filtering.
+	 *
+	 * @param	string	$label
+	 * @param	string	$description
+	 * @return	Filters\Filter
+	 */
+	public function text($label, $description) {
 		
 	}
 

@@ -27,6 +27,9 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_dateperiod_defaults() {
+		// to prevent warnings for unset system timezone
+		date_default_timezone_set("Europe/Berlin");
+
 		$filter = $this->factory->dateperiod("label", "description");
 
 		$this->assertEquals(new \DateTime(date("Y")."-01-01"), $filter->default_begin());
