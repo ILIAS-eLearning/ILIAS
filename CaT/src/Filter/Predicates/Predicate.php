@@ -10,6 +10,8 @@ namespace CaT\Filter\Predicates;
  */
 abstract class Predicate {
 	/**
+	 * ToDo: This should be private and the other factory-members as well.
+	 *
 	 * @var	\CaT\Filter\PredicateFactory
 	 */
 	protected $factory;
