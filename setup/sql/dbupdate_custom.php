@@ -98,11 +98,10 @@ if(!$ilDB->tableColumnExists('badge_badge','image'))
         'badge_badge',
         'image',
         array(
-            'image' => array(
-				'type' => 'text',
-				'length' => 255,
-				'notnull' => false)	
-        ));
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false)	
+        );
 }
 
 ?>
@@ -165,6 +164,22 @@ if(!$ilDB->tableExists('badge_user_badge'))
 		),
 	));	
 	$ilDB->addPrimaryKey('badge_user_badge',array('badge_id', 'user_id'));
+}
+
+?>
+<#8>
+<?php
+
+if(!$ilDB->tableColumnExists('badge_badge','valid')) 
+{
+    $ilDB->addTableColumn(
+        'badge_badge',
+        'valid',
+        array(            
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false)	
+        );
 }
 
 ?>

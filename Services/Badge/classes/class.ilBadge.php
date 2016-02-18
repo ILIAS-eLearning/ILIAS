@@ -18,6 +18,7 @@ class ilBadge
 	protected $title; // [string]
 	protected $desc; // [string]
 	protected $image; // [string]
+	protected $valid; // [string]
 	protected $config; // [array]
 	
 	/**
@@ -147,6 +148,16 @@ class ilBadge
 		return $this->desc;
 	}
 	
+	public function setValid($a_value)
+	{
+		$this->valid = trim($a_value);
+	}
+	
+	public function getValid()
+	{
+		return $this->valid;
+	}
+	
 	public function setConfiguration(array $a_value = null)
 	{
 		if(is_array($a_value) &&
@@ -263,6 +274,7 @@ class ilBadge
 		$this->setTitle($a_row["title"]);
 		$this->setDescription($a_row["descr"]);
 		$this->setImage($a_row["image"]);
+		$this->setValid($a_row["valid"]);
 		$this->setConfiguration($a_row["conf"]
 				? unserialize($a_row["conf"])
 				: null);				
@@ -328,6 +340,7 @@ class ilBadge
 			"title" => array("text", $this->getTitle()),
 			"descr" => array("text", $this->getDescription()),
 			"image" => array("text", $this->getImage()), 
+			"valid" => array("text", $this->getValid()), 
 			"conf" => array("text", $this->getConfiguration()
 				? serialize($this->getConfiguration())
 				: null)

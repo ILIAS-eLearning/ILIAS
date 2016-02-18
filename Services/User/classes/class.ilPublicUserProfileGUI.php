@@ -641,6 +641,25 @@ class ilPublicUserProfileGUI
 			$button = ilBuddySystemLinkButton::getInstanceByUserId($user->getId());
 			$tpl->setVariable('BUDDY_HTML', $button->getHtml());
 		}
+		
+		// badges
+		// :TODO: configure
+		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";		
+		$user_badges = ilBadgeAssignment::getInstancesByUserId($user->getId());
+		if($user_badges)
+		{			
+			include_once "Services/Badge/classes/class.ilBadgeRenderer.php";					
+			foreach($user_badges as $ass)
+			{
+				$renderer = new ilBadgeRenderer($ass);
+				
+				$tpl->setCurrentBlock("badge_bl");
+				$tpl->setVariable("BADGE", $renderer->getHTML());
+				$tpl->parseCurrentBlock();				
+			}	
+			
+			$tpl->setVariable("TXT_BADGES", $lng->txt("obj_bdga"));
+		}
 
 		$goto = "";
 		if($a_add_goto)

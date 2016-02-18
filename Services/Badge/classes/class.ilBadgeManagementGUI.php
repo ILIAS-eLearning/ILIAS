@@ -183,8 +183,9 @@ class ilBadgeManagementGUI
 			$img_mode_up = new ilRadioOption($lng->txt("badge_image_from_upload"), "up");
 			$img_mode->addOption($img_mode_up);
 			
-			$img_upload = new ilImageFileInputGUI($lng->txt("file"), "img");
+			$img_upload = new ilImageFileInputGUI($lng->txt("file"), "img");			
 			$img_upload->setRequired(true);
+			$img_upload->setSuffixes(array("png", "svg"));
 			$img_mode_up->addSubItem($img_upload);
 
 			// templates
@@ -215,9 +216,13 @@ class ilBadgeManagementGUI
 		else
 		{
 			$img_upload = new ilImageFileInputGUI($lng->txt("image"), "img");
+			$img_upload->setSuffixes(array("png", "svg"));
 			$img_upload->setALlowDeletion(false);
 			$form->addItem($img_upload);
 		}
+		
+		$valid = new ilTextInputGUI($lng->txt("badge_valid"), "valid");		
+		$form->addItem($valid);
 		
 		$custom = $a_type->getConfigGUIInstance();
 		if($custom &&
@@ -271,6 +276,7 @@ class ilBadgeManagementGUI
 			$badge->setActive($form->getInput("act"));
 			$badge->setTitle($form->getInput("title"));
 			$badge->setDescription($form->getInput("desc"));
+			$badge->setValid($form->getInput("valid"));
 				
 			$custom = $type->getConfigGUIInstance();
 			if($custom &&
@@ -332,6 +338,7 @@ class ilBadgeManagementGUI
 		$a_form->getItemByPostVar("desc")->setValue($a_badge->getDescription());
 		$a_form->getItemByPostVar("img")->setValue($a_badge->getImage());
 		$a_form->getItemByPostVar("img")->setImage($a_badge->getImagePath());
+		$a_form->getItemByPostVar("valid")->setValue($a_badge->getValid());
 		
 		$custom = $a_type->getConfigGUIInstance();
 		if($custom &&
@@ -363,6 +370,7 @@ class ilBadgeManagementGUI
 			$badge->setActive($form->getInput("act"));
 			$badge->setTitle($form->getInput("title"));
 			$badge->setDescription($form->getInput("desc"));
+			$badge->setValid($form->getInput("valid"));
 						
 			$custom = $type->getConfigGUIInstance();
 			if($custom &&

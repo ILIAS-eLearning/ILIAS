@@ -402,10 +402,14 @@ class ilBadgeHandler
 		{
 			if($badge->isActive())
 			{
-				if((bool)$type->evaluate($a_user_id, $badge->getConfiguration()))
+				// already assigned?
+				if(!ilBadgeAssignment::exists($badge->getId(), $a_user_id))
 				{
-					$ass = new ilBadgeAssignment($badge->getId(), $a_user_id);
-					$ass->store();
+					if((bool)$type->evaluate($a_user_id, $badge->getConfiguration()))
+					{
+						$ass = new ilBadgeAssignment($badge->getId(), $a_user_id);
+						$ass->store();
+					}
 				}
 			}			
 		}		

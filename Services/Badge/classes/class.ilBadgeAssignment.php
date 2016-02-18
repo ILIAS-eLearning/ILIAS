@@ -104,6 +104,12 @@ class ilBadgeAssignment
 		return $res;
 	}
 	
+	public static function exists($a_badge_id, $a_user_id)
+	{
+		$obj = new self($a_badge_id, $a_user_id);
+		return $obj->stored;
+	}			
+	
 	
 	//
 	// setter/getter

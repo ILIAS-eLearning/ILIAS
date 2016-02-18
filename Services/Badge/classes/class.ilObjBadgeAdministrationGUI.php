@@ -314,6 +314,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		$form->addItem($title);		
 		
 		$img = new ilImageFileInputGUI($lng->txt("image"), "img");
+		$img->setSuffixes(array("png", "svg"));
 		if($a_mode == "create")
 		{
 			$img->setRequired(true);
