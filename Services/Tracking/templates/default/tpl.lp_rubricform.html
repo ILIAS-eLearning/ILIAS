@@ -60,24 +60,30 @@
                 </th>
                 
                 <th scope="col">                   
-                    <div class="form-group">
-                        <label class="control-label" for="Points1_0">{POINT} <span id="Points1_0_value">60,69</span></label>
-                    </div>    
-                    <span>0&nbsp;</span><input id="Points1_0" name="Points1_0" type="text" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[50,70]"/><span>&nbsp;100</span>
+                    <div class="form-group has-warning has-feedback">
+                        <label class="control-label" for="Points1_0">{POINT}</label>
+                        <input id="Points1_0" class="form-control" name="Points1_0" type="text" placeholder="80-100" onkeyup="validate(this)" oninput="validate(this)" value=""/>
+                        <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                        <span id="Points1_0WarningStatus" class="sr-only">(warning)</span>
+                    </div>
                 </th>
                 
                 <th scope="col">                    
-                    <div class="form-group">
-                        <label class="control-label" for="Points1_1">{POINT} <span id="Points1_1_value">50,59</span></label>
-                    </div>    
-                    <span>0&nbsp;</span><input id="Points1_1" name="Points1_1" type="text" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[40,60]"/><span>&nbsp;100</span>
+                    <div class="form-group has-warning has-feedback">
+                        <label class="control-label" for="Points1_1">{POINT}</label>
+                        <input id="Points1_1" class="form-control" name="Points1_1" type="text" placeholder="50-80" onkeyup="validate(this)" oninput="validate(this)" value="" />
+                        <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                        <span id="Points1_1WarningStatus" class="sr-only">(warning)</span>
+                    </div>
                 </th>
                 
                 <th scope="col">                    
-                    <div class="form-group">
-                        <label class="control-label" for="Points1_2">{POINT} <span id="Points1_2_value">40,49</span></label>
-                    </div>    
-                    <span>0&nbsp;</span><input id="Points1_2" name="Points1_2" type="text" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[30,50]"/><span>&nbsp;100</span>
+                    <div class="form-group has-warning has-feedback">
+                        <label class="control-label" for="Points1_2">{POINT}</label>
+                        <input id="Points1_2" class="form-control" name="Points1_2" type="text" placeholder="0-50" onkeyup="validate(this)" oninput="validate(this)" value="" />
+                        <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                        <span id="Points1_2WarningStatus" class="sr-only">(warning)</span>
+                    </div>
                 </th>
                 
             </tr>  

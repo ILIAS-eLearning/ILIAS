@@ -104,10 +104,10 @@ var RUBRIC = {
                 group_min=group_max=0;                
                 
                 for(var b=0;b<total_behaviors;b++){
-                    
-                    tmp_range=document.getElementById('Points'+groups+'_'+b+'_value').innerHTML;    
-                    document.getElementById('Points'+groups+'_'+b).value=tmp_range;//update the input field                                    
-                    var broken_range=tmp_range.split(',');
+
+                    tmp_range=document.getElementById('Points'+groups+'_'+b).value;
+                    document.getElementById('Points'+groups+'_'+b).value=tmp_range;//update the input field
+                    var broken_range=tmp_range.split('-');
                     
                     if(max==0&&min==0){
                         max=broken_range[1];
@@ -186,10 +186,10 @@ var RUBRIC = {
         
         //remove tfoot
         tfoot.children[0].lastElementChild.colSpan=tfoot.children[0].lastElementChild.colSpan-1;
-        
-    },  
-    
-    addBehavior:function(thead,tbody,tfoot,position){
+
+},
+
+addBehavior:function(thead,tbody,tfoot,position){
         position--;
         var label_value=points_value='';
         
@@ -337,74 +337,62 @@ var RUBRIC = {
         var th=document.createElement('th');
         th.setAttribute('scope','col');
         var div=document.createElement('div');
-        div.setAttribute('class','form-group');
+        div.setAttribute('class','form-group has-warning has-feedback');
         var label=document.createElement('label');
         label.setAttribute('class','control-label');
         label.setAttribute('for','Points'+group_number+'_'+behavior_number);
         label.appendChild(document.createTextNode('Points'));
-        var span=document.createElement('span');
-        span.setAttribute('id','Points'+group_number+'_'+behavior_number+'_value');
-        span.appendChild(document.createTextNode('\u0020'+point_ranges[behavior_number][0]+','+point_ranges[behavior_number][1]));
-        label.appendChild(span);
         div.appendChild(label);
-        th.appendChild(div);
-        var span=document.createElement('span');
-        span.appendChild(document.createTextNode('0\u0020'));
-        th.appendChild(span);
         var input=document.createElement('input');
         input.setAttribute('id','Points'+group_number+'_'+behavior_number);
         input.setAttribute('class','Points'+group_number+'_'+behavior_number);
         input.setAttribute('type','text');
         input.setAttribute('class','form-control');
-        input.setAttribute('value','');
-        input.setAttribute('data-slider-min','0');
-        input.setAttribute('data-slider-max','100');
-        input.setAttribute('data-slider-step','1');
-        input.setAttribute('data-slider-value','['+point_ranges[behavior_number][0]+','+point_ranges[behavior_number][1]+']');
-        th.appendChild(input);
+        input.setAttribute('value',''+point_ranges[behavior_number][0]+'-'+point_ranges[behavior_number][1]+'');
+        div.appendChild(input);
+
         var span=document.createElement('span');
-        span.appendChild(document.createTextNode('\u0020100'));
-        th.appendChild(span);
+        span.setAttribute('class','glyphicon glyphicon-warning-sign form-control-feedback');
+        span.setAttribute('aria-hidden','true');
+        div.appendChild(span);
+
+        span=document.createElement('span');
+        span.setAttribute('id','Points'+group_number+'_'+behavior_number+'WarningStatus');
+        span.setAttribute('class','sr-only');
+        span.appendChild(document.createTextNode('(warning)'));
+        div.appendChild(span);
+
+        th.appendChild(div);
         return(th);
     },    
     
     addGroup:function(){
         
-        var tbody=this.tbl.getElementsByTagName('tbody');        
+        var tbody=this.tbl.getElementsByTagName('tbody');
         var trs=tbody[0].getElementsByTagName('tr');
-        
-        // add points to new group        
+
+        // add points to new group
         tbody[0].appendChild(this.addPoints());
-        
+
         // apply the slider new points
         var total_groups=this.howManyGroups();
         total_groups++;
         var behaviors_required=this.howManyBehaviors();
-        
-        for(var a=0;a<behaviors_required;a++){
-            $("#Points"+total_groups+"_"+a).slider({tooltip: 'hide'});
-  
-            $("#Points"+total_groups+"_"+a).on("slide", function(slideEvt) {
-                $('#'+this.id+'_value').text(' '+slideEvt.value);
-                recalculate();
-            });
-            
-        }
-        
+
         var tr=document.createElement('tr');
         tr.setAttribute('class','tblrow1 small');
-        
+
         tr.appendChild(this.createCardFormBodyInputs('Group Name',trs.length-1,0,true));
         tr.appendChild(this.createCardFormBodyInputs('Criteria Label',trs.length-1,0,true));
-        
+
         var behaviors_required=this.howManyBehaviors();
-        
+
         for(var a=0;a<behaviors_required;a++){
             tr.appendChild(this.createCardFormBodyInputs('Behavior Description',trs.length-1,a,false));
         }
-        
+
         tbody[0].appendChild(tr);
-        
+
         //add points
         var tr=document.createElement('tr');
         tr.setAttribute('class','tblrow1 small');
@@ -414,16 +402,13 @@ var RUBRIC = {
         th.setAttribute('colspan','2');
         th.appendChild(document.createTextNode('Point Range for Group'));
         tr.appendChild(th);
-        
+
         var td=document.createElement('td');
         td.setAttribute('colspan',this.howManyBehaviors());
         td.appendChild(document.createTextNode('0.5 - 1 Points'))
         tr.appendChild(td);
-        
+
         tbody[0].appendChild(tr);
-        
-        
-        
         
     },
     
@@ -574,12 +559,13 @@ var RUBRIC = {
         input.setAttribute('oninput','validate(this)');
         input.setAttribute('onblur','recalculate()');
         div.appendChild(input);
-        
+
+
         span=document.createElement('span');
         span.setAttribute('class','glyphicon glyphicon-warning-sign form-control-feedback');
         span.setAttribute('aria-hidden','true');
         div.appendChild(span);
-        
+
         span=document.createElement('span');
         span.setAttribute('id',txt_label+position+'WarningStatus');
         span.setAttribute('class','sr-only');
@@ -765,107 +751,105 @@ var RUBRIC = {
     fixids:function(td,type,g,c,b){
         var tmpname='';
         if(type=='group'||type=='criteria'){
-            
+
             if(type=='group'){
                 tmpname='Group_'+g;
             }else{
                 tmpname='Criteria_'+g+'_'+c;
             }
-                        
+
             td.children[0].children[0].setAttribute('for',tmpname);// label
             td.children[0].children[1].children[0].children[0].setAttribute('id',tmpname+'_checkbox');// input checkbox
             td.children[0].children[1].children[1].setAttribute('id',tmpname); // input text
             td.children[0].children[1].children[1].setAttribute('name',tmpname); // input text
             td.children[0].children[1].children[1].setAttribute('aria-describedby',tmpname+'_WarningStatus'); // input text
-            td.children[0].children[3].setAttribute('id',tmpname+'_WarningStatus');// span        
-            
+            td.children[0].children[3].setAttribute('id',tmpname+'_WarningStatus');// span
+
         }else if(type=='behavior'){
-            
+
             tmpname='Behavior_'+g+'_'+c+'_'+b;
-            
-            td.children[0].children[0].setAttribute('for',tmpname);// label            
+
+            td.children[0].children[0].setAttribute('for',tmpname);// label
             td.children[0].children[1].setAttribute('id',tmpname); // input text
             td.children[0].children[1].setAttribute('name',tmpname); // input text
             td.children[0].children[1].setAttribute('aria-describedby',tmpname+'_WarningStatus'); // input text
             td.children[0].children[3].setAttribute('id',tmpname+'_WarningStatus');// span
-            
+
         }else if(type=='point'){
-            
+
             tmpname='Points'+g+'_'+b;
-            
+
             td.children[0].children[0].setAttribute('for',tmpname);// label
-                        
-            td.children[0].children[0].children[0].setAttribute('id',tmpname+'_value'); // span point value
-            
-            td.children[2].children[2].setAttribute('name',tmpname); // input text
-            td.children[2].children[2].setAttribute('id',tmpname); // input text
-                                 
+
+            td.children[0].children[1].setAttribute('name',tmpname); // input text
+            td.children[0].children[1].setAttribute('id',tmpname); // input text
+
         }
         
     },
     
     reorganize:function(){
         //fix for working in Ilias
-        var tbody=this.tbl.getElementsByTagName('tbody');        
+        var tbody=this.tbl.getElementsByTagName('tbody');
         var trs=tbody[0].getElementsByTagName('tr');
-        
+
         var group=0;// group increment
         var criteria=0;// criteria increment
         var behavior=0;// behavior increment
-        
+
         for(var a=0;a<trs.length;a++){
-            
+
             if(this.nodeHasSlider(trs[a])){
                 // if slider row
                 var ths=trs[a].getElementsByTagName('th');
-                
+
                 for(var b=2;b<ths.length;b++){
                     this.fixids(ths[b],'point',(group+1),criteria,(b-2));
                 }
             }else if(!this.nodeHasPointRange(trs[a])){
-                // if group row                
+                // if group row
                 var tds=trs[a].getElementsByTagName('td');
-                
+
                 if(this.nodeHasGroupName(trs[a])){
                     // if row has group name
-                    
+
                     // make changes to group, criteria and behaviors
                     for(var b=0;b<tds.length;b++){
-                        
+
                         if(b==0){
                             group++;
-                            this.fixids(tds[b],'group',group,criteria,behavior);                            
+                            this.fixids(tds[b],'group',group,criteria,behavior);
                         }else if(b==1){
                             criteria++;
-                            this.fixids(tds[b],'criteria',group,criteria,behavior);                            
+                            this.fixids(tds[b],'criteria',group,criteria,behavior);
                         }else{
                             behavior++;
-                            this.fixids(tds[b],'behavior',group,criteria,behavior);                            
+                            this.fixids(tds[b],'behavior',group,criteria,behavior);
                         }
-                        
+
                     }
-                    
+
                 }else{
                     // no group name, make changes to criteria and behaviors
                     for(var b=0;b<tds.length;b++){
-                        
+
                         if(b==0){
                             criteria++;
-                            this.fixids(tds[b],'criteria',group,criteria,behavior);                            
+                            this.fixids(tds[b],'criteria',group,criteria,behavior);
                         }else{
                             behavior++;
-                            this.fixids(tds[b],'behavior',group,criteria,behavior);                            
+                            this.fixids(tds[b],'behavior',group,criteria,behavior);
                         }
-                        
+
                     }
-                    
+
                 }
-                
-                behavior=0;                
+
+                behavior=0;
             }else{
-                criteria=0;                
+                criteria=0;
             }
-            
+
         }
         
     }
@@ -882,8 +866,6 @@ function rubric_cmd(o){
     var cmd=document.getElementById('selected_cmdrubric').value;
     
     RUBRIC.tbl=document.getElementById('jkn_table_rubric');
-    
-    try{
         
         switch(cmd){
             case 'add_group':
@@ -908,14 +890,10 @@ function rubric_cmd(o){
             break;
             default:break;
         }
-        
+
         RUBRIC.reorganize();
-        RUBRIC.updatePoints();        
-        
-    }catch(err){
-        document.getElementById('rubric_error_message').setAttribute('style','background-color:rgb(241,221,221);border-radius: 1px;padding:5px;');
-        document.getElementById('rubric_error_message').innerHTML=err;
-    }       
+        RUBRIC.updatePoints();
+
     
     
 }
@@ -1009,7 +987,7 @@ function validate(obj){
         break;
         case 'point':
             modified_object=obj.parentNode;
-            if(obj.value>=0){
+            if(obj.value.match(/^(0*\d{1,2})+\-+((100)|(0*\d{1,2}))$/)){
                 validated=true;
             }else if(obj.value==''){
                 validated='warning';
@@ -1030,8 +1008,8 @@ function validate(obj){
         modified_object.classList.remove('has-warning');
         modified_object.classList.add('has-success');
         modified_object.children[2].setAttribute('class','glyphicon glyphicon-ok form-control-feedback');
-        modified_object.children[3].innerHTML='(ok)';    
-    }else if(validated===false){        
+        modified_object.children[3].innerHTML='(ok)';
+    }else if(validated===false){
         modified_object.classList.remove('has-warning');
         modified_object.classList.remove('has-success');
         modified_object.classList.add('has-error');
@@ -1046,26 +1024,3 @@ function validate(obj){
     }
 }
 
-// default template sliders
-$( document ).ready(function() {
-    if($("#Points1_0").length!=0){
-        $("#Points1_0").slider({tooltip: 'hide'});
-        $("#Points1_1").slider({tooltip: 'hide'});
-        $("#Points1_2").slider({tooltip: 'hide'});
-          
-        $("#Points1_0").on("slide", function(slideEvt) {    
-        	$('#'+this.id+'_value').text(slideEvt.value);
-            recalculate();
-        });
-          
-        $("#Points1_1").on("slide", function(slideEvt) {    
-        	$('#'+this.id+'_value').text(slideEvt.value);
-            recalculate();
-        });
-          
-        $("#Points1_2").on("slide", function(slideEvt) {    
-        	$('#'+this.id+'_value').text(slideEvt.value);
-            recalculate();
-        });    
-    }
-});

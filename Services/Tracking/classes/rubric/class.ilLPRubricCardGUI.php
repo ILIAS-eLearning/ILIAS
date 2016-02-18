@@ -250,10 +250,6 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             $rubric_grade_tpl->get()            
         );
         
-        // add in the slider for label point ranges
-        $this->tpl->addJavaScript('./Services/Tracking/js/slider.js');
-        $this->tpl->addCss('./Services/Tracking/css/slider.css'); 
-        
         // add in our javascript file
         $this->tpl->addJavaScript('./Services/Tracking/js/ilRubricCard.js');
         $this->tpl->addCss('./Services/Tracking/css/ilRubricCard.css');
@@ -278,11 +274,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             $rubric_commandrow_tpl->get().
             $rubric_form_tpl->get()            
         );
-        
-        // add in the slider for label point ranges
-        $this->tpl->addJavaScript('./Services/Tracking/js/slider.js');
-        $this->tpl->addCss('./Services/Tracking/css/slider.css'); 
-        
+
         // add in our javascript file
         $this->tpl->addJavaScript('./Services/Tracking/js/ilRubricCard.js');
         $this->tpl->addCss('./Services/Tracking/css/ilRubricCard.css');
@@ -466,21 +458,11 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             $tmp_name="Points${group_id}_${k}";
             $tmp_write.="<th scope=\"col\">
                             <div class=\"form-group\">
-                                <label class=\"control-label\" for=\"$tmp_name\">{POINT} <span id=\"${tmp_name}_value\">${weight['weight_min']},${weight['weight_max']}</span></label>
+                                <label class=\"control-label\" for=\"$tmp_name\">{POINT}</label>
                             </div>    
-                            <span>0&nbsp;</span><input id=\"$tmp_name\" name=\"$tmp_name\" type=\"text\" value=\"\" data-slider-min=\"0\" data-slider-max=\"100\" data-slider-step=\"1\" data-slider-value=\"[${weight['weight_min']},${weight['weight_max']}]\"/><span>&nbsp;100</span>
+                           <input id=\"$tmp_name\" name=\"$tmp_name\" type=\"text\" value=\"[${weight['weight_min']},${weight['weight_max']}]\"/>
                         </th>";
-            $tmp_script.="
-                $(\"#$tmp_name\").slider({tooltip: 'hide'});
-                $(\"#$tmp_name\").on(\"slide\", function(slideEvt) {    
-                	$('#${tmp_name}_value').text(slideEvt.value);
-                    recalculate();
-                  });
-            ";
         }
-        
-        $tmp_script.="});
-                    </script>";
         
         
         
@@ -555,7 +537,6 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         $colspan=count($this->rubric_data['labels']);
         
         $tmp_write="";
-        $tmp_script="";
         foreach($this->rubric_data['groups'] as $group_increment => $group){
             
             $point_range=$this->getMinMaxLabel($group['weights']);
@@ -565,7 +546,6 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             
             $tmp=$this->buildTemplateGroupPoints($group['weights'],$group_increment);
             $tmp_write.=$tmp['tmp_write'];
-            $tmp_script.=$tmp['tmp_script'];
             
             $tmp_write.=$this->buildTemplateGroup($group,$group_increment);
             $tmp_write.="            
@@ -575,7 +555,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                         
                         </tr>";
         }
-        return($tmp_write.$tmp_script);        
+        return($tmp_write);
     }
     
     
