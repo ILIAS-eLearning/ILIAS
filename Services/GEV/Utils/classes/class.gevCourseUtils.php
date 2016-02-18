@@ -1972,12 +1972,10 @@ class gevCourseUtils {
 		$organizer = $this->getMainAdmin() ? $this->getMainAdminName().
 			($this->getMainAdminEmail() ? '('.$this->getMainAdminEmail().')' : '') : '';
 
-		$start_date = $this->getStartDate() !== null ? 
-			$this->getStartDate()->get(IL_CAL_DATE)." ".$this->getFormattedStartTime().":00" :
-			date("Y-m-d")." 09:00:00";
-		$end_date = $this->getEndDate() !== null ? 
-			$this->getEndDate()->get(IL_CAL_DATE)." ".$this->getFormattedEndTime().":00" :
-			date("Y-m-d")." 17:00:00";
+		$start_date =
+			$this->getStartDate()->get(IL_CAL_DATE)." ".$this->getFormattedStartTime().":00";
+		$end_date =
+			$this->getEndDate()->get(IL_CAL_DATE)." ".$this->getFormattedEndTime().":00";
 
 		$calendar = new \Eluceo\iCal\Component\Calendar('generali-onlineakademie.de');
 
