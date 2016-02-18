@@ -460,7 +460,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                             <div class=\"form-group\">
                                 <label class=\"control-label\" for=\"$tmp_name\">{POINT}</label>
                             </div>    
-                           <input id=\"$tmp_name\" name=\"$tmp_name\" type=\"text\" value=\"[${weight['weight_min']},${weight['weight_max']}]\"/>
+                           <input id=\"$tmp_name\" name=\"$tmp_name\" type=\"text\" value=\"${weight['weight_min']}-${weight['weight_max']}\"/>
                         </th>";
         }
         

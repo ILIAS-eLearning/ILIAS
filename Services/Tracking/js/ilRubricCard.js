@@ -348,6 +348,8 @@ addBehavior:function(thead,tbody,tfoot,position){
         input.setAttribute('class','Points'+group_number+'_'+behavior_number);
         input.setAttribute('type','text');
         input.setAttribute('class','form-control');
+        input.setAttribute('onkeyup','validate(this)');
+        input.setAttribute('oninput','validate(this)');
         input.setAttribute('value',''+point_ranges[behavior_number][0]+'-'+point_ranges[behavior_number][1]+'');
         div.appendChild(input);
 
@@ -666,7 +668,7 @@ addBehavior:function(thead,tbody,tfoot,position){
                     case 'point':
                         requires_verification=false;
                         // assign value of Points to input field
-                        inputs[a].value=document.getElementById(inputs[a].id+'_value').innerHTML;
+                        inputs[a].value=document.getElementById(inputs[a].id).value;
                     break;
                     default:
                         verified_object=false;
@@ -916,17 +918,17 @@ function verifyGrade(){
     RUBRIC.tbl=document.getElementById('jkn_table_rubric');
         
     RUBRIC.updateGrade();
-        
-    try{        
+
+    try{
         
         RUBRIC.verifyGrade();
              
         return(true);
-        
+
     }catch(err){
-        
+
         return(false);
-        
+
     }
     
 }
@@ -938,14 +940,14 @@ function verifyForm(){
     
     RUBRIC.tbl=document.getElementById('jkn_table_rubric');
     RUBRIC.reorganize();
-    
-    try{        
-        
+
+    try{
+
         RUBRIC.verifyForm();        
         return(true);
         
     }catch(err){
-        
+
         document.getElementById('rubric_error_message').innerHTML=err;
         document.getElementById('rubric_error_message').setAttribute('style','background-color:rgb(241,221,221);border-radius: 1px;padding:5px;');
         return(false);
