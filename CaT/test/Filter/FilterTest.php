@@ -11,7 +11,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		//include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		//ilUnitUtil::performInitialisation();
 
-		$this->factory = new \CaT\Filter\FilterFactory();
+		$this->factory = new \CaT\Filter\FilterFactory(new \CaT\Filter\PredicateFactory());
 	}
 
 	// DATEPERIOD

@@ -11,6 +11,19 @@ namespace CaT\Filter;
  */
 class FilterFactory {
 	/**
+	 * @var PredicateFactory
+	 */
+	protected $predicate_factory;
+
+	public function __construct(PredicateFactory $predicate_factory) {
+		$this->predicate_factory = $predicate_factory;
+	}
+
+	public function predicate_factory() {
+		return $this->predicate_factory;
+	}
+
+	/**
 	 * Get a filter over a period.
 	 *
 	 * @param	string	$label
@@ -65,6 +78,13 @@ class FilterFactory {
 	 * @return	\Closure
 	 */
 	public function dateperiod_overlaps_predicate($field_start, $field_end) {
+		$f = $this->predicate_factory();
 		
+		return function(\DateTime $start, \DateTime $end) 
+				use ($field_start, $field_end, $f) {
+			return	$f->field($field_start)->LT()->date($end)
+				->_AND()->
+					$f->field($field_end)->GT()->date($start);
+		};
 	}
 }
