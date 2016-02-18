@@ -2532,12 +2532,26 @@ class gevCourseUtils {
 		$users = array_merge($this->getTrainers(), $this->getParticipants());
 		foreach ($users as $uid) {
 			$user = new ilObjUser($uid);
-			echo $this->encodeForWindows('"'.$user->getFullname().'";"'.$user->getPhoneOffice().'"'."\n");
+			echo $this->encodeForWindows('"'.$user->getFullname().'";"'
+				.$this->formatPhoneNumberForCSN($user->getPhoneOffice()).'"'."\n");
 		}
 		
 		exit();
 	}
 	
+	protected function formatPhoneNumberForCSN($phone_number) {
+		$return = preg_replace('#[\,\.]+#', ' ', $phone_number);
+		if(0 === preg_match('#\s+#' , $return)) {
+			$number_chunks = str_split($return,3);
+			$return = "";
+			$delim = " ";
+			foreach ($number_chunks as $key => $value) {
+				$return .= $value.$delim;
+				$delim = "";
+			}
+		} 
+		return $return;
+	}
 	
 	// Desk Display creation
 	
