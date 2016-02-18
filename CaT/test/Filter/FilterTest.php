@@ -54,7 +54,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 
 	public function test_dateperiod_overlaps_predicate() {
 		$filter = $this->factory->dateperiod("label", "description")
-			->to_predicate($this->factory->dateperiod_overlaps_predicate("start_field", "end_field"))
+			->map_to_predicate($this->factory->dateperiod_overlaps_predicate("start_field", "end_field"))
 			;
 
 		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
@@ -122,7 +122,36 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
 		$this->assertEquals("label", $filter->label());
 		$this->assertEquals("description", $filter->description());
+		$this->assertEquals(array("bool"), $filter->content_type());
+		$this->assertEquals(array("bool"), $filter->input_type());
 	}
+
+	public function test_option_predicate() {
+		$filter = $this->factory->option("label", "description")
+			->map_to_predicate(function($bool) {
+				$f = $this->factory->predicate_factory();
+				if ($bool) {
+					return $f->field("foo")->LT()->int(3);
+				}
+				else {
+					return $f->field("foo")->GE()->int(3);
+				}
+			});
+
+		$interpreter = new \CaT\Filter\DictionaryPredicateInterpreter;
+
+		$pred_true = $filter->content(true);
+
+		$this->assertTrue($interpreter->interpret($pred_true, array("foo" => 2)));
+		$this->assertFalse($interpreter->interpret($pred_true, array("foo" => 4)));
+
+		$pred_false = $filter->content(false);
+
+		$this->assertFalse($interpreter->interpret($pred_false, array("foo" => 2)));
+		$this->assertTrue($interpreter->interpret($pred_false, array("foo" => 4)));
+	}
+
+	// MULTISELECT
 
 	public function test_multiselection_creation() {
 		$options = array

@@ -87,7 +87,7 @@ abstract class Filter {
 	 * @param	\Closure	$to_pred
 	 * @return	Filter
 	 */
-	public function to_predicate(\Closure $mapper) {
+	public function map_to_predicate(\Closure $mapper) {
 		return $this->map($mapper, array("\\CaT\\Filter\\Predicates\\Predicate"));
 	}
 

@@ -42,7 +42,7 @@ class FilterFactory {
 	 * @return	Filters\Filter
 	 */
 	public function option($label, $description) {
-		
+		return new Filters\OptionFilter($this, $label, $description);
 	}
 
 	/**
