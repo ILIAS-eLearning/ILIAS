@@ -58,29 +58,21 @@ class DatePeriodFilter extends Filter {
 	}
 
 	/**
-	 * Type of the content of the filter.
-	 *
-	 * @return	string[]
+	 * @inheritdocs
 	 */
 	public function content_type() {
 		return array("\\DateTime", "\\DateTime");
 	}
 
 	/**
-	 * The type of inputs the filter requires.
-	 *
-	 * @return	string[]
+	 * @inheritdocs
 	 */
 	public function input_type() {
-		return array("\\DateTime", "\\DateTime");
+		return $this->content_type();
 	}
 
 	/**
-	 * Get the content of the filter by supplying it with the required
-	 * arguments.
-	 *
-	 * @param	mixed[]		...
-	 * @return	mixed
+	 * @inheritdocs
 	 */
 	public function content(/*...$inputs*/) {
 		$inputs = func_get_args();
