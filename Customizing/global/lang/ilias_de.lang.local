@@ -30,8 +30,11 @@ badge#:#badge_add_template#:#Template hinzufügen
 badge#:#badge_image_template_form#:#Bildvorlage
 badge#:#badge_image_from_upload#:#Bild hochlanden
 badge#:#badge_image_from_template#:#Vorlage nutzen
-badge#:#badge_award_badge#:#Badge vergeben
-badge#:#badge_remove_badge#:#Badge zurücknehmen
+badge#:#badge_award_badge#:#Badge verleihen
+badge#:#badge_remove_badge#:#Badge entziehen
 badge#:#badge_template_deletion_confirmation#:#Wollen Sie wirklich die folgenden Bildvorlagen löschen?
-badge#:#badge_assignment_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badge-Zuordnungen für "%s" löschen?
+badge#:#badge_assignment_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badge-Zuordnungen für "%s" entziehen?
 badge#:#badge_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badges löschen?
+badge#:#badge_template_types#:#Gültige Typen
+badge#:#badge_template_types_all#:#Alle
+badge#:#badge_template_types_specific#:#Bestimmte

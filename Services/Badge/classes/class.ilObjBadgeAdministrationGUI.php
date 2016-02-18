@@ -214,15 +214,47 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		$this->tpl->setContent($tbl->getHTML());
 	}
 	
-	protected function saveTypes()
+	protected function activateTypes()
 	{	
+		global $lng;
+		
 		$this->assertActive();
-		if($this->checkPermissionBool("write"))
+		
+		$ids = $_POST["id"];		
+		if($this->checkPermissionBool("write") && 
+			sizeof($ids))
 		{
-			$badges = (array)$_POST["badge"];
-			$status = (array)$_POST["badge_active"];		
-			$inactive = array_diff($badges, $status);		
-			ilBadgeHandler::getInstance()->setInactiveTypes($inactive);					
+			$handler = ilBadgeHandler::getInstance();
+			$inactive = array();
+			foreach($handler->getInactiveTypes() as $type)
+			{
+				if(!in_array($type, $ids))
+				{
+					$inactive[] = $type;
+				}
+			}				
+			$handler->setInactiveTypes($inactive);	
+			
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		}		
+		$this->ctrl->redirect($this, "listTypes");
+	}
+	
+	protected function deactivateTypes()
+	{	
+		global $lng;
+		
+		$this->assertActive();
+		
+		$ids = $_POST["id"];		
+		if($this->checkPermissionBool("write") && 
+			sizeof($ids))
+		{
+			$handler = ilBadgeHandler::getInstance();
+			$inactive = array_merge($handler->getInactiveTypes(), $ids);				
+			$handler->setInactiveTypes($inactive);	
+			
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		}		
 		$this->ctrl->redirect($this, "listTypes");
 	}
@@ -289,9 +321,19 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		$img->setALlowDeletion(false);
 		$form->addItem($img);
 		
+		$types_mode = new ilRadioGroupInputGUI($lng->txt("badge_template_types"), "tmode");
+		$types_mode->setRequired(true);
+		$form->addItem($types_mode);
+		
+		$type_all = new ilRadioOption($lng->txt("badge_template_types_all"), "all");
+		$types_mode->addOption($type_all);
+		
+		$type_spec = new ilRadioOption($lng->txt("badge_template_types_specific"), "spec");
+		$types_mode->addOption($type_spec);
+		
 		$types = new ilCheckboxGroupInputGUI($lng->txt("badge_types"), "type");		
 		$types->setRequired(true);		
-		$form->addItem($types);
+		$type_spec->addSubItem($types);
 		
 		foreach(ilBadgeHandler::getInstance()->getAvailableTypes() as $id => $type)
 		{
@@ -370,7 +412,16 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		$a_form->getItemByPostVar("title")->setValue($a_tmpl->getTitle());		
 		$a_form->getItemByPostVar("img")->setImage($a_tmpl->getImagePath());
 		$a_form->getItemByPostVar("img")->setValue($a_tmpl->getImage());
-		$a_form->getItemByPostVar("type")->setValue($a_tmpl->getTypes());
+		
+		if($a_tmpl->getTypes())
+		{
+			$a_form->getItemByPostVar("tmode")->setValue("spec");
+			$a_form->getItemByPostVar("type")->setValue($a_tmpl->getTypes());
+		}
+		else
+		{
+			$a_form->getItemByPostVar("tmode")->setValue("all");
+		}
 	}
 	
 	protected function updateImageTemplate()
@@ -387,13 +438,23 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		
 		$ilCtrl->setParameter($this, "tid", $tmpl_id);
 		
+		include_once "Services/Badge/classes/class.ilBadgeImageTemplate.php";
+		$tmpl = new ilBadgeImageTemplate($tmpl_id);	
+		
 		$form = $this->initImageTemplateForm("update");		
 		if($form->checkInput())
-		{						
-			include_once "Services/Badge/classes/class.ilBadgeImageTemplate.php";
-			$tmpl = new ilBadgeImageTemplate($tmpl_id);							
+		{															
 			$tmpl->setTitle($form->getInput("title"));
-			$tmpl->setTypes($form->getInput("type"));			
+			
+			if($form->getInput("tmode") != "all")
+			{
+				$tmpl->setTypes($form->getInput("type"));			
+			}
+			else
+			{
+				$tmpl->setTypes(null);		
+			}
+			
 			$tmpl->update();
 			
 			$tmpl->uploadImage($_FILES["img"]);			
@@ -402,6 +463,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 			$ilCtrl->redirect($this, "listImageTemplates");
 		}
 		
+		$this->setImageTemplateFormValues($form, $tmpl);
 		$form->setValuesByPost();
 		$this->editImageTemplate($form);
 	}

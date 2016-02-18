@@ -254,6 +254,7 @@ class ilBadgeAssignment
 			" WHERE badge_id = ".$ilDB->quote($a_badge_id, "integer"));
 	}
 	
+	// :TODO: to be discussed
 	public static function deleteByParentId($a_parent_obj_id)
 	{
 		global $ilDB;

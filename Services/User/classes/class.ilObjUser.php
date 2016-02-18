@@ -1410,6 +1410,10 @@ class ilObjUser extends ilObject
 		require_once 'Services/User/classes/class.ilCronDeleteInactiveUserReminderMail.php';
 		ilCronDeleteInactiveUserReminderMail::removeSingleUserFromTable($this->getId());
 		
+		// badges
+		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+		ilBadgeAssignment::deleteByUserId($this->getId());
+		
 		// Delete user defined field entries
 		$this->deleteUserDefinedFieldEntries();
 		

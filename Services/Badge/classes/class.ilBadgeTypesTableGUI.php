@@ -28,18 +28,22 @@ class ilBadgeTypesTableGUI extends ilTable2GUI
 		
 		$lng->loadLanguageModule("cmps");
 
-		$this->addColumn($lng->txt("active"), "inactive", 1);
-		$this->addColumn($lng->txt("cmps_component"), "comp");
-		$this->addColumn($lng->txt("name"), "caption");			
-		$this->addColumn($lng->txt("badge_manual"), "manual");			
+		$this->addColumn("", "", 1);		
+		$this->addColumn($lng->txt("name"), "name");		
+		$this->addColumn($lng->txt("cmps_component"), "comp");		
+		$this->addColumn($lng->txt("badge_manual"), "manual");		
+		$this->addColumn($lng->txt("active"), "inactive");
 	
 		if((bool)$a_has_write)
 		{			
-			$this->addCommandButton("saveTypes", $lng->txt("save"));		
 			$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+			$this->addMultiCommand("activateTypes", $lng->txt("activate"));		
+			$this->addMultiCommand("deactivateTypes", $lng->txt("deactivate"));					
 		}
 					
 		$this->setRowTemplate("tpl.type_row.html", "Services/Badge");	
+		$this->setDefaultOrderField("name");
+		$this->setSelectAllCheckbox("id");
 				
 		$this->getItems();				
 	}
@@ -62,9 +66,9 @@ class ilBadgeTypesTableGUI extends ilTable2GUI
 					$data[] = array(
 						"id" => $id,
 						"comp" => $handler->getComponentCaption($component),
-						"caption" => $badge_obj->getCaption(),
-						"manual" => ($badge_obj instanceof ilBadgeManual),
-						"inactive" => in_array($id, $inactive)
+						"name" => $badge_obj->getCaption(),
+						"manual" => (!$badge_obj instanceof ilBadgeAuto),
+						"active" => !in_array($id, $inactive)
 					);					
 				}
 			}
@@ -79,14 +83,12 @@ class ilBadgeTypesTableGUI extends ilTable2GUI
 		
 		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
 		$this->tpl->setVariable("TXT_COMP", $a_set["comp"]);
-		$this->tpl->setVariable("TXT_NAME", $a_set["caption"]);
+		$this->tpl->setVariable("TXT_NAME", $a_set["name"]);
 		$this->tpl->setVariable("TXT_MANUAL", $a_set["manual"]
 			? $lng->txt("yes")
 			: "&nbsp;");
-		
-		if(!$a_set["inactive"])
-		{
-			$this->tpl->setVariable("VAL_ACTIVE", ' checked="checked"');
-		}
+		$this->tpl->setVariable("TXT_ACTIVE", $a_set["active"]
+			? $lng->txt("yes")
+			: "&nbsp;");		
 	}
 }

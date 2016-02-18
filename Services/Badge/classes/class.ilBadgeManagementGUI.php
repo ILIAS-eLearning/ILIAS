@@ -49,7 +49,7 @@ class ilBadgeManagementGUI
 		global $ilCtrl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
-		$cmd = $ilCtrl->getCmd("listUsers");
+		$cmd = $ilCtrl->getCmd("listBadges");
 
 		switch($next_class)
 		{		
@@ -65,16 +65,13 @@ class ilBadgeManagementGUI
 	{
 		global $ilTabs, $lng, $ilCtrl;
 		
-		$ilTabs->addSubTab("users", 
-			$lng->txt("users"),
-			$ilCtrl->getLinkTarget($this, "listUsers"));
-		
 		$ilTabs->addSubTab("badges", 
 			$lng->txt("obj_bdga"),
 			$ilCtrl->getLinkTarget($this, "listBadges"));
-		
-		
-		// :TODO: award badge(s)?
+				
+		$ilTabs->addSubTab("users", 
+			$lng->txt("users"),
+			$ilCtrl->getLinkTarget($this, "listUsers"));
 		
 		$ilTabs->activateSubTab($a_active);
 	}
@@ -436,6 +433,39 @@ class ilBadgeManagementGUI
 		{					
 			$badge = new ilBadge($badge_id);
 			$badge->delete();
+		}
+		
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$ilCtrl->redirect($this, "listBadges");		
+	}	
+	
+	protected function activateBadges()
+	{
+		$this->toggleBadges(true);
+	}
+	
+	protected function deactivateBadges()
+	{
+		$this->toggleBadges(false);
+	}
+	
+	protected function toggleBadges($a_status)
+	{
+		global $ilCtrl, $lng;
+		
+		$badge_ids = $_REQUEST["id"];
+		if(!$badge_ids ||
+			!$this->hasWrite())
+		{
+			$ilCtrl->redirect($this, "listBadges");
+		}
+		
+		include_once "Services/Badge/classes/class.ilBadge.php";
+		foreach($badge_ids as $badge_id)
+		{					
+			$badge = new ilBadge($badge_id);
+			$badge->setActive($a_status);
+			$badge->update();
 		}
 		
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);

@@ -106,9 +106,11 @@ class ilBadgeImageTemplate
 		return (array)$this->types;
 	}
 	
-	public function setTypes(array $types)
-	{
-		$this->types = array_unique($types);
+	public function setTypes(array $types = null)
+	{		
+		$this->types = is_array($types) 
+			? array_unique($types)
+			: null;
 	}
 	
 	public function getImage()
@@ -190,13 +192,18 @@ class ilBadgeImageTemplate
 	{
 		global $ilDB;
 		
-		$types = array();
+		$res = array();
 		
 		$set = $ilDB->query("SELECT * FROM badge_image_templ_type".
 			" WHERE tmpl_id = ".$ilDB->quote($a_id, "integer"));
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$res[] = $row["type_id"];
+		}
+		
+		if(!sizeof($res))
+		{
+			$res = null;
 		}
 		
 		return $res;
@@ -207,7 +214,7 @@ class ilBadgeImageTemplate
 		$this->setId($a_row["id"]);		
 		$this->setTitle($a_row["title"]);
 		$this->setImage($a_row["image"]);								
-		$this->setTypes((array)$a_row["types"]);								
+		$this->setTypes($a_row["types"]);								
 	}
 	
 	public function create()
@@ -281,14 +288,17 @@ class ilBadgeImageTemplate
 			$ilDB->manipulate("DELETE FROM badge_image_templ_type".
 				" WHERE tmpl_id = ".$ilDB->quote($this->getId(), "integer"));
 			
-			foreach($this->getTypes() as $type)
+			if($this->getTypes())
 			{
-				$fields = array(
-					"tmpl_id" => array("integer", $this->getId()),
-					"type_id" => array("text", $type)
-				);				
-				$ilDB->insert("badge_image_templ_type", $fields);
-			}			
+				foreach($this->getTypes() as $type)
+				{
+					$fields = array(
+						"tmpl_id" => array("integer", $this->getId()),
+						"type_id" => array("text", $type)
+					);				
+					$ilDB->insert("badge_image_templ_type", $fields);
+				}	
+			}
 		}
 	}
 }

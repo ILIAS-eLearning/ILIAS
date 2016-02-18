@@ -34,6 +34,7 @@ class ilBadgeImageTemplateTableGUI extends ilTable2GUI
 		}
 		
 		$this->addColumn($lng->txt("title"), "title");
+		$this->addColumn($lng->txt("image"), "image");
 				
 		if($this->has_write)
 		{			
@@ -59,7 +60,9 @@ class ilBadgeImageTemplateTableGUI extends ilTable2GUI
 		{				
 			$data[] = array(
 				"id" => $template->getId(),
-				"title" => $template->getTitle()
+				"title" => $template->getTitle(),
+				"path" => $template->getImagePath(),
+				"file" => $template->getImage()
 			);												
 		}
 		
@@ -76,6 +79,8 @@ class ilBadgeImageTemplateTableGUI extends ilTable2GUI
 		}
 		
 		$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);	
+		$this->tpl->setVariable("VAL_IMG", $a_set["path"]);	
+		$this->tpl->setVariable("TXT_IMG", $a_set["file"]);	
 		
 		if($this->has_write)
 		{	

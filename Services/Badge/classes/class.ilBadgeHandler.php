@@ -293,7 +293,7 @@ class ilBadgeHandler
 		$badges = ilBadge::getInstancesByParentId($a_parent_obj_id);
 		foreach(ilBadgeHandler::getInstance()->getAvailableTypesForObjType($a_parent_obj_type) as $type_id => $type)
 		{
-			if($type instanceof ilBadgeManual)
+			if(!$type instanceof ilBadgeAuto)
 			{
 				foreach($badges as $badge)
 				{
