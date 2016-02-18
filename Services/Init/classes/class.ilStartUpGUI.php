@@ -338,8 +338,7 @@ class ilStartUpGUI
 		
 
 		// not controlled by login page editor
-
-		$tpl->setVariable("PAGETITLE", $lng->txt("startpage"));
+		$tpl->setVariable("PAGETITLE",  "- ".$lng->txt("startpage"));
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
 		
 		$this->ctrl->setTargetScript("ilias.php");
@@ -355,7 +354,8 @@ class ilStartUpGUI
 		{
 			$tpl->setVariable('LPE',$page_editor_html);
 		}
-		
+
+		$tpl->fillWindowTitle();
 		$tpl->fillCssFiles();
 		$tpl->fillJavaScriptFiles();
 
