@@ -410,4 +410,46 @@ class ilBadgeHandler
 			}			
 		}		
 	}
+	
+	public function getUserIds($a_parent_ref_id, $a_parent_obj_id = null, $a_parent_type = null)
+	{
+		global $tree;
+				
+		if(!$a_parent_obj_id)
+		{
+			$a_parent_obj_id = ilObject::_lookupObjectId($a_parent_ref_id);		
+		}
+		if(!$a_parent_type)
+		{
+			$a_parent_type = ilObject::_lookupType($a_parent_obj_id);		
+		}
+		
+		// try to get participants from (parent) course/group
+		switch($a_parent_type)
+		{
+			case "crs":
+				include_once "Modules/Course/classes/class.ilCourseParticipants.php";
+				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_parent_obj_id);
+				return $member_obj->getMembers();
+
+			case "grp":
+				include_once "Modules/Group/classes/class.ilGroupParticipants.php";
+				$member_obj = ilGroupParticipants::_getInstanceByObjId($a_parent_obj_id);
+				return $member_obj->getMembers();
+			
+			default:				
+				// walk path to find course or group object and use members of that object
+				$path = $tree->getPathId($a_parent_ref_id);
+				array_pop($path);
+				foreach(array_reverse($path) as $path_ref_id)
+				{
+					$type = ilObject::_lookupType($path_ref_id, true);
+					if($type == "crs" || $type == "grp")
+					{
+						return $this->getParticipantsForObject($path_ref_id, null, $type);
+					}
+				}
+				break;
+		}			
+	}
 }

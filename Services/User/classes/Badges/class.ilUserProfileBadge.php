@@ -65,13 +65,13 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
 		foreach($a_config["profile"] as $field)
 		{
 			$field = substr($field, 4);
-			$m = ucfirst($field);
+			$m = ucfirst($field);			
 			if(isset($map[$field]))
 			{
 				$m = $map[$field];
-			}
-			if(!$user->{"get".$field}())
-			{
+			}	
+			if(!$user->{"get".$m}())
+			{				
 				return false;
 			}
 		}

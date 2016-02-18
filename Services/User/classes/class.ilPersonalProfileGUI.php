@@ -987,10 +987,6 @@ class ilPersonalProfileGUI
 	
 				$ilUser->update();
 				
-				// :TODO: does this make sense?
-				include_once "Services/Badge/classes/class.ilBadgeHandler.php";
-				ilBadgeHandler::getInstance()->triggerEvaluation("user/profile", $ilUser->getId());
-				
 				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 
 				if(ilSession::get('orig_request_target'))

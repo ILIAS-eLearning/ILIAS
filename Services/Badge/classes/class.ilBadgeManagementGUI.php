@@ -499,7 +499,7 @@ class ilBadgeManagementGUI
 		}
 		
 		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
-		$tbl = new ilBadgeUserTableGUI($this, "listUsers", $this->parent_obj_id);
+		$tbl = new ilBadgeUserTableGUI($this, "listUsers", $this->parent_ref_id);
 		$tpl->setContent($tbl->getHTML());
 	}
 	
@@ -530,7 +530,7 @@ class ilBadgeManagementGUI
 		$badge = new ilBadge($bid);
 		
 		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
-		$tbl = new ilBadgeUserTableGUI($this, "awardBadgeUserSelection", $this->parent_obj_id, $badge);
+		$tbl = new ilBadgeUserTableGUI($this, "awardBadgeUserSelection", $this->parent_ref_id, $badge);
 		$tpl->setContent($tbl->getHTML());
 	}
 	

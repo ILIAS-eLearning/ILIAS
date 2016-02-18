@@ -15,7 +15,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 {		
 	protected $award_badge; // [ilBadge]
 	
-	function __construct($a_parent_obj, $a_parent_cmd = "", $a_parent_obj_id, ilBadge $a_award_bagde = null)
+	function __construct($a_parent_obj, $a_parent_cmd = "", $a_parent_ref_id, ilBadge $a_award_bagde = null)
 	{
 		global $ilCtrl, $lng;
 		
@@ -48,30 +48,29 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 		
 		$this->setRowTemplate("tpl.user_row.html", "Services/Badge");			
 				
-		$this->getItems($a_parent_obj_id, $this->award_badge);				
+		$this->getItems($a_parent_ref_id, $this->award_badge);				
 	}
 	
-	function getItems($a_parent_obj_id, ilBadge $a_award_bagde = null)
+	function getItems($a_parent_ref_id, ilBadge $a_award_bagde = null)
 	{		
 		$data = array();
-		
-		$assignments = array();
-		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
-		foreach(ilBadgeAssignment::getInstancesByParentId($a_parent_obj_id) as $ass)
-		{
-			$assignments[$ass->getUserId()][] = $ass->getBadgeId();			
-		}
 						
-		$user_ids = $a_award_bagde
-			?  $a_award_bagde->getTypeInstance()->getAvailableUserIds($a_parent_obj_id)
-		    : array_keys($assignments);
+		$parent_obj_id = ilObject::_lookupObjId($a_parent_ref_id);
 		
+		$user_ids = ilBadgeHandler::getInstance()->getUserIds($a_parent_ref_id, $parent_obj_id);		
 		if($user_ids)
 		{
 			$badges = array();
-			foreach(ilBadge::getInstancesByParentId($a_parent_obj_id) as $badge)
+			foreach(ilBadge::getInstancesByParentId($parent_obj_id) as $badge)
 			{
 				$badges[$badge->getId()] = $badge; 
+			}
+			
+			$assignments = array();
+			include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+			foreach(ilBadgeAssignment::getInstancesByParentId($parent_obj_id) as $ass)
+			{
+				$assignments[$ass->getUserId()][] = $ass->getBadgeId();			
 			}
 			
 			include_once "Services/User/classes/class.ilUserQuery.php";
