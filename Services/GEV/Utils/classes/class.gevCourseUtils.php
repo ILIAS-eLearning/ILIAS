@@ -1972,10 +1972,18 @@ class gevCourseUtils {
 		$organizer = $this->getMainAdmin() ? $this->getMainAdminName().
 			($this->getMainAdminEmail() ? '('.$this->getMainAdminEmail().')' : '') : '';
 
+		$start_date_obj = $this->getStartDate();
+		$end_date_obj = $this->getEndDate();
+		if($start_date_obj === null || $end_date_obj === null) {
+			throw new Exception("gevUserUtisl::buildIcal:"
+								." start- or end-date of course are not set."
+								." You have to provide both in order to create an ical event.");
+		}
+
 		$start_date =
-			$this->getStartDate()->get(IL_CAL_DATE)." ".$this->getFormattedStartTime().":00";
+			$start_date_obj->get(IL_CAL_DATE)." ".$this->getFormattedStartTime().":00";
 		$end_date =
-			$this->getEndDate()->get(IL_CAL_DATE)." ".$this->getFormattedEndTime().":00";
+			$end_date_obj->get(IL_CAL_DATE)." ".$this->getFormattedEndTime().":00";
 
 		$calendar = new \Eluceo\iCal\Component\Calendar('generali-onlineakademie.de');
 
