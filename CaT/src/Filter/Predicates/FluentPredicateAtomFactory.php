@@ -2,13 +2,15 @@
 
 /* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
 
+namespace CaT\Filter\Predicates;
+
 /**
  * Factory to build predicates for the fluent interface.
  *
  * A predicate is some abstract function from some record (like a dictionary,
  * a row in a table) to true or false.
  */
-class ilFluentPredicateAtomFactory {
+class FluentPredicateAtomFactory {
 	/**
 	 * @var	\Closure
 	 */
@@ -19,7 +21,7 @@ class ilFluentPredicateAtomFactory {
 	 */
 	protected $factory;
 
-	public function __construct(\Closure $continue, ilPredicateFactory $factory) {
+	public function __construct(\Closure $continue, \CaT\Filter\PredicateFactory $factory) {
 		$this->continue = $continue;
 		$this->factory = $factory;
 	}

@@ -2,18 +2,18 @@
 
 /* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
 
-require_once("Services/Filter/classes/Predicates/class.ilPredicate.php");
+namespace CaT\Filter\Predicates;
 
 /**
  * A predicate that is true when the other predicate is false.
  */
-class ilPredicateNot extends ilPredicate {
+class PredicateNot extends Predicate {
 	/**
 	 * @var	ilPredicate
 	 */
 	protected $sub;
 
-	public function __construct(ilPredicateFactory $factory, ilPredicate $sub) {
+	public function __construct(\CaT\Filter\PredicateFactory $factory, Predicate $sub) {
 		$this->setFactory($factory);
 		$this->sub = $sub;
 	}

@@ -6,6 +6,11 @@
 	"require": {
 		"filp/whoops": "^2.0"
 	},
+	"autoload" : {
+		"psr-4" : {
+			"CaT\\" : "../../CaT/src"
+		}
+	},
 	"extra": {
 		"filp/whoops" : {
 			"source" : "github.com/filp/whoops",

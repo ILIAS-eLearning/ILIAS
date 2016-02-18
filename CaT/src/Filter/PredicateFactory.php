@@ -2,13 +2,15 @@
 
 /* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
 
+namespace CaT\Filter;
+
 /**
  * Factory to build predicates.
  *
  * A predicate is some abstract function from some record (like a dictionary,
  * a row in a table) to true or false.
  */
-class ilPredicateFactory {
+class PredicateFactory {
 	// BASIC PREDICATES
 
 	/**
@@ -17,8 +19,7 @@ class ilPredicateFactory {
 	 * @return	ilPredicate
 	 */
 	public function _TRUE() {
-		require_once("Services/Filter/classes/Predicates/class.ilPredicateTrue.php");
-		return new ilPredicateTrue($this);
+		return new Predicates\PredicateTrue($this);
 	}
 
 	/**
@@ -40,8 +41,7 @@ class ilPredicateFactory {
 	 * @return	ilValue
 	 */
 	public function int($i) {
-		require_once("Services/Filter/classes/Predicates/class.ilValueInt.php");
-		return new ilValueInt($this, $i);
+		return new Predicates\ValueInt($this, $i);
 	}
 
 	/**
@@ -52,8 +52,7 @@ class ilPredicateFactory {
 	 * @return	ilValue
 	 */
 	public function str($s) {
-		require_once("Services/Filter/classes/Predicates/class.ilValueStr.php");
-		return new ilValueStr($this, $s);
+		return new Predicates\ValueStr($this, $s);
 	}
 
 	/**
@@ -64,8 +63,7 @@ class ilPredicateFactory {
 	 * @return	ilValue
 	 */
 	public function date($d) {
-		require_once("Services/Filter/classes/Predicates/class.ilValueDate.php");
-		return new ilValueDate($this, $d);
+		return new Predicates\ValueDate($this, $d);
 	}
 
 	/**
@@ -75,8 +73,7 @@ class ilPredicateFactory {
 	 * @return	ilField
 	 */
 	public function field($name) {
-		require_once("Services/Filter/classes/Predicates/class.ilField.php");
-		return new ilField($this, $name);
+		return new Predicates\Field($this, $name);
 	}
 
 	/**
@@ -86,9 +83,8 @@ class ilPredicateFactory {
 	 * @param	ilValueLike		$r
 	 * @return	ilPredicate
 	 */
-	public function EQ(ilValueLike $l, ilValueLike $r) {
-		require_once("Services/Filter/classes/Predicates/class.ilPredicateEq.php");
-		return new ilPredicateEq($this, $l, $r);
+	public function EQ(Predicates\ValueLike $l, Predicates\ValueLike $r) {
+		return new Predicates\PredicateEq($this, $l, $r);
 	}
 
 	/**
@@ -98,9 +94,8 @@ class ilPredicateFactory {
 	 * @param	ilValueLike		$r
 	 * @return	ilPredicate
 	 */
-	public function LE(ilValueLike $l, ilValueLike $r) {
-		require_once("Services/Filter/classes/Predicates/class.ilPredicateLe.php");
-		return new ilPredicateLe($this, $l, $r);
+	public function LE(Predicates\ValueLike $l, Predicates\ValueLike $r) {
+		return new Predicates\PredicateLe($this, $l, $r);
 	}
 
 	// TODO:
@@ -118,9 +113,8 @@ class ilPredicateFactory {
 	 * @return	ilPredicate
 	 */
 	public function _ALL(/* ...$subs*/) {
-		require_once("Services/Filter/classes/Predicates/class.ilPredicateAll.php");
 		$subs = func_get_args();
-		return new ilPredicateAll($this, $subs);
+		return new Predicates\PredicateAll($this, $subs);
 	}
 
 	/**
@@ -130,7 +124,7 @@ class ilPredicateFactory {
 	 * @param	ilPredicate	$r
 	 * @return	ilPredicate
 	 */
-	public function _AND(ilPredicate $l, ilPredicate $r) {
+	public function _AND(Predicates\Predicate $l, Predicates\Predicate $r) {
 		return $this->_ALL($l, $r);
 	}
 
@@ -141,9 +135,8 @@ class ilPredicateFactory {
 	 * @return	ilPredicate
 	 */
 	public function _ANY(/* ...$subs */) {
-		require_once("Services/Filter/classes/Predicates/class.ilPredicateAny.php");
 		$subs = func_get_args();
-		return new ilPredicateAny($this, $subs);
+		return new Predicates\PredicateAny($this, $subs);
 	}
 
 	/**
@@ -153,7 +146,7 @@ class ilPredicateFactory {
 	 * @param	ilPredicate	$r
 	 * @return	ilPredicate
 	 */
-	public function _OR(ilPredicate $l, ilPredicate $r) {
+	public function _OR(Predicates\Predicate $l, Predicates\Predicate $r) {
 		return $this->_ANY($l, $r);
 	}
 
@@ -163,18 +156,15 @@ class ilPredicateFactory {
 	 * @param	ilPredicate|null	$o
 	 * @return	ilPredicate
 	 */
-	public function _NOT(ilPredicate $o = null) {
+	public function _NOT(Predicates\Predicate $o = null) {
 		if ($o !== null) {
 			# TODO: We could use NOT NOT a = a
-			require_once("Services/Filter/classes/Predicates/class.ilPredicateNot.php");
-			return new ilPredicateNot($this, $o);
+			return new Predicates\PredicateNot($this, $o);
 		}
 
-		require_once("Services/Filter/classes/Predicates/class.ilFluentPredicateFactory.php");
 		$self = $this;
-		return new ilFluentPredicateFactory(function (ilPredicate $o) use ($self) {
+		return new Predicates\FluentPredicateFactory(function (Predicates\Predicate $o) use ($self) {
 			return $self->_NOT($o);
 		}, $this);
 	}
-
 }

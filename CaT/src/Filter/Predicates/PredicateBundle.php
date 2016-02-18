@@ -2,19 +2,19 @@
 
 /* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
 
-require_once("Services/Filter/classes/Predicates/class.ilPredicate.php");
+namespace CaT\Filter\Predicates;
 
 /**
  * A bundle of some predicates.
  */
-abstract class ilPredicateBundle extends ilPredicate {
+abstract class PredicateBundle extends Predicate {
 	/**
 	 * @var	ilPredicate[]
 	 */
 	protected $subs;
 
-	public function __construct(ilPredicateFactory $factory, array $subs) {
-		$this->subs = array_map(function(ilPredicate $p) {
+	public function __construct(\CaT\Filter\PredicateFactory $factory, array $subs) {
+		$this->subs = array_map(function(Predicate $p) {
 			return $p;
 		}, $subs);
 

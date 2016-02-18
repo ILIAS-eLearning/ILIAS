@@ -2,19 +2,19 @@
 
 /* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
 
-require_once("Services/Filter/classes/Predicates/class.ilValueLike.php");
+namespace CaT\Filter\Predicates;
 
 /**
  * An atom in a predicate that is a value.
  */
-abstract class ilValue extends ilValueLike {
+abstract class Value extends ValueLike {
 	/**
 	 * @var mixed
 	 */
 	protected $value;
 
 
-	public function __construct(ilPredicateFactory $factory, $value) {
+	public function __construct(\CaT\Filter\PredicateFactory $factory, $value) {
 		$err = $this->value_errors($value);
 		if ($err) {
 			throw new \InvalidArgumentException($err);

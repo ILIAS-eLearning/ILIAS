@@ -1,8 +1,5 @@
 <?php
 
-require_once("Services/Filter/classes/class.ilPredicateFactory.php");
-require_once("Services/Filter/classes/class.ilDictionaryPredicateInterpreter.php");
-
 class ilPredicateTest extends PHPUnit_Framework_TestCase {
 	protected $backupGlobals = FALSE;
 
@@ -12,8 +9,8 @@ class ilPredicateTest extends PHPUnit_Framework_TestCase {
 		//include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		//ilUnitUtil::performInitialisation();
 
-		$this->factory = new ilPredicateFactory();
-		$this->interpreter = new ilDictionaryPredicateInterpreter();
+		$this->factory = new \CaT\Filter\PredicateFactory();
+		$this->interpreter = new \CaT\Filter\DictionaryPredicateInterpreter();
 	}
 
 	protected function tearDown() {

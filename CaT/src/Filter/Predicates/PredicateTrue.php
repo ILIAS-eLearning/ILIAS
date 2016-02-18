@@ -2,13 +2,13 @@
 
 /* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
 
-require_once("Services/Filter/classes/Predicates/class.ilPredicate.php");
+namespace CaT\Filter\Predicates;
 
 /**
  * A predicate that is always true.
  */
-class ilPredicateTrue extends ilPredicate {
-	public function __construct(ilPredicateFactory $factory) {
+class PredicateTrue extends Predicate {
+	public function __construct(\CaT\Filter\PredicateFactory $factory) {
 		$this->setFactory($factory);
 	}
 

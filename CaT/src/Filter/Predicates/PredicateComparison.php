@@ -2,12 +2,12 @@
 
 /* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
 
-require_once("Services/Filter/classes/Predicates/class.ilPredicate.php");
+namespace CaT\Filter\Predicates;
 
 /**
  * A predicate to compare two values.
  */
-abstract class ilPredicateComparison extends ilPredicate {
+abstract class PredicateComparison extends Predicate {
 	/**
 	 * @var ilValueLike
 	 */
@@ -18,7 +18,7 @@ abstract class ilPredicateComparison extends ilPredicate {
 	 */
 	protected $r;
 
-	public function __construct(ilPredicateFactory $factory, ilValueLike $l, ilValueLike $r) {
+	public function __construct(\CaT\Filter\PredicateFactory $factory, ValueLike $l, ValueLike $r) {
 		$this->l = $l;
 		$this->r = $r;
 		$this->setFactory($factory);

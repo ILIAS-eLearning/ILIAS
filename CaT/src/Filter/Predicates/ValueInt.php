@@ -2,12 +2,12 @@
 
 /* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
 
-require_once("Services/Filter/classes/Predicates/lass.ilValue.php");
+namespace CaT\Filter\Predicates;
 
 /**
  * An atom in a predicate that is a value.
  */
-class ilValueStr extends ilValue {
+class ValueInt extends Value {
 	/**
 	 * Check the inserted value.
 	 *
@@ -16,8 +16,8 @@ class ilValueStr extends ilValue {
 	 *								if value is ok.
 	 */
 	protected function value_errors($value) {
-		if (!is_string($value)) {
-			return "expected str";
+		if (!is_int($value)) {
+			return "expected int";
 		}
 	}
 }

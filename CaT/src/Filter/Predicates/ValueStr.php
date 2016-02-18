@@ -2,12 +2,12 @@
 
 /* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
 
-require_once("Services/Filter/classes/Predicates/class.ilValue.php");
+namespace CaT\Filter\Predicates;
 
 /**
  * An atom in a predicate that is a value.
  */
-class ilValueDate extends ilValue {
+class ValueStr extends Value {
 	/**
 	 * Check the inserted value.
 	 *
@@ -16,5 +16,8 @@ class ilValueDate extends ilValue {
 	 *								if value is ok.
 	 */
 	protected function value_errors($value) {
+		if (!is_string($value)) {
+			return "expected str";
+		}
 	}
 }
