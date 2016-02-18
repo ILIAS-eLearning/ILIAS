@@ -437,8 +437,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     private function saveRubricGrade()
     {   
         // bring in the rubric card object       
-        include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCard.php");
-        $rubricObj=new ilLPRubricCard($this->getObjId());
+        include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php");
+        $rubricObj=new ilLPRubricGrade($this->getObjId());
         
         if($rubricObj->objHasRubric()){
             $rubricObj->grade($rubricObj->load());
@@ -460,11 +460,11 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     public function showRubricGradeForm()
     {
         
-        include_once('./Services/Tracking/classes/rubric/class.ilLPRubricCard.php');
-        include_once('./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php');
+        include_once('./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php');
+        include_once('./Services/Tracking/classes/rubric/class.ilLPRubricGradeGUI.php');
         
-        $rubricObj=new ilLPRubricCard($this->getObjId());
-        $rubricGui=new ilLPRubricCardGUI();
+        $rubricObj=new ilLPRubricGrade($this->getObjId());
+        $rubricGui=new ilLPRubricGradeGUI();
         
         $a_user = ilObjectFactory::getInstanceByObjId((int)$_GET['user_id']);
         

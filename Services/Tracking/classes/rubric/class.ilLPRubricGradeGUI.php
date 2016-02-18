@@ -11,125 +11,76 @@ include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
  *
  * @ingroup Services
  */
-class ilLPRubricCardGUI extends ilLPTableBaseGUI
+class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 {
     protected $lng;
     protected $tpl;
     protected $rubric_data;
     protected $user_data;
     protected $passing_grade;
-    private $student_view=false;
+    private $student_view = false;
 
-	/**
-	 * Constructor
-	 */	
+    /**
+     * Constructor
+     */
     public function __construct()
-	{	   
-	   global $tpl,$lng;
-       $this->lng=$lng;
-       $this->tpl=$tpl;       
-	}
-    
+    {
+        global $tpl,$lng;
+        $this->lng=$lng;
+        $this->tpl=$tpl;
+    }
+
     public function setPassingGrade($passing_grade)
     {
-        $this->passing_grade=$passing_grade;        
+        $this->passing_grade=$passing_grade;
     }
-    
+
     public function setRubricData($rubric_data)
     {
-        $this->rubric_data=$rubric_data;        
+        $this->rubric_data=$rubric_data;
     }
-    
+
     public function setUserData($user_data)
     {
         $this->user_data=$user_data;
-    }    
-
-    private function getRubricCardFormHeader()
-    {   
-        // configure the header for content windows
-        $rubric_heading_tpl=new ilTemplate('tpl.lp_rubricform_heading.html',true,true,'Services/Tracking');
-        
-        $rubric_heading_tpl->setVariable('RUBRIC_HEADER',$this->lng->txt('trac_rubric'));
-        
-        return($rubric_heading_tpl);  
     }
 
-    
-    private function getRubricCardFormCommandRow($form_action)
+    private function getRubricGradeFormHeader($user_full_name)
     {
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-        
+        // configure the header for content windows
+        $rubric_heading_tpl=new ilTemplate('tpl.lp_rubricgrade_heading.html',true,true,'Services/Tracking');
+
+        $rubric_heading_tpl->setVariable('RUBRIC_HEADER',$this->lng->txt('trac_rubric'));
+        $rubric_heading_tpl->setVariable('USER_FULL_NAME',$user_full_name);
+
+        return($rubric_heading_tpl);
+    }
+
+    private function getRubricGradeFormCommandRow($form_action,$user_id)
+    {
         //configure the command row
-        $rubric_commandrow_tpl=new ilTemplate('tpl.lp_rubricform_commandrow.html',true,true,'Services/Tracking');        
-        $select_prop=new ilSelectInputGUI('Title','selected_cmdrubric');
-        $options=array(                     
-            'behavior_1'=>$this->lng->txt('rubric_option_behavior_1'), 
-            'behavior_2'=>$this->lng->txt('rubric_option_behavior_2'),
-            'behavior_3'=>$this->lng->txt('rubric_option_behavior_3'),
-            'behavior_4'=>$this->lng->txt('rubric_option_behavior_4'),
-            'behavior_5'=>$this->lng->txt('rubric_option_behavior_5'),
-            //'behavior_6'=>$this->lng->txt('rubric_option_behavior_6'),
-            'add_group'=>$this->lng->txt('rubric_option_add_group'),
-            'del_group'=>$this->lng->txt('rubric_option_del_group'),
-            'add_criteria'=>$this->lng->txt('rubric_option_add_criteria'),
-            'del_criteria'=>$this->lng->txt('rubric_option_del_criteria'),            
-        );
-        $select_prop->setOptions($options);        
-        $rubric_commandrow_tpl->setVariable('RURBRIC_COMMANDROW_SELECT',$select_prop->render());
+        $rubric_commandrow_tpl=new ilTemplate('tpl.lp_rubricgrade_commandrow.html',true,true,'Services/Tracking');
         $rubric_commandrow_tpl->setVariable('RUBRIC_SAVE',$this->lng->txt('save'));
-        $rubric_commandrow_tpl->setVariable('RUBRIC_EXECUTE',$this->lng->txt('execute'));
         $rubric_commandrow_tpl->setVariable('FORM_ACTION',$form_action);
-        $rubric_commandrow_tpl->setVariable('PASSING_GRADE_VALUE',"$this->passing_grade");
-        
+        $rubric_commandrow_tpl->setVariable('USER_ID',$user_id);
+
         return($rubric_commandrow_tpl);
     }
 
-    
-    private function getRubricCardForm()
+
+
+
+    private function getRubricGradeForm()
     {
+        $filename=$this->buildGradeTemplate();
+
         //configure the rubric form
         $language_variables=array(
             'TOTAL'=>'rubric_total',
             'LABEL'=>'rubric_label',
             'POINT'=>'rubric_point',
             'GROUP'=>'rubric_group',
-            'GROUP_NAME'=>'rubric_group_name',
-            'CRITERIA'=>'rubric_criteria',
-            'CRITERIA_NAME'=>'rubric_criteria_name',
-            'BEHAVIOR'=>'rubric_behavior',
-            'BEHAVIOR_NAME'=>'rubric_behavior_name',
-            'EXCELLENT'=>'rubric_label_excellent',
-            'GOOD'=>'rubric_label_good',
-            'ACCEPTABLE'=>'rubric_label_acceptable',
-            'FAIR'=>'rubric_label_fair',
-            'POOR'=>'rubric_label_poor',
-            'BAD'=>'rubric_label_bad',
-            'OVERALL_POINT'=>'rubric_overall_point',
-            'NO_POINT'=>'rubric_no_point',
-            'GROUP_POINT'=>'rubric_point_range_group',
-        );
-        
-        $rubric_form_tpl=new ilTemplate('tpl.lp_rubricform.html',true,true,'Services/Tracking');
-        
-        //load language files        
-        foreach($language_variables as $lang_key => $lang_label){
-            $rubric_form_tpl->setVariable($lang_key,$this->lng->txt($lang_label));
-        }
-        
-        return($rubric_form_tpl);
-    }
-    
-    private function loadRubricCardForm()
-    {
-        $filename=$this->buildCompleteTemplate();
-        
-        //configure the rubric form
-        $language_variables=array(
-            'TOTAL'=>'rubric_total',
-            'LABEL'=>'rubric_label',
-            'POINT'=>'rubric_point',
-            'GROUP'=>'rubric_group',
+            'COMMENT'=>'rubric_comment',
             'GROUP_NAME'=>'rubric_group_name',
             'CRITERIA'=>'rubric_criteria',
             'CRITERIA_NAME'=>'rubric_criteria_name',
@@ -145,51 +96,68 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             'NO_POINT'=>'rubric_no_point',
             'GROUP_POINT'=>'rubric_point_range_group',
             'RUBRIC_SAVE'=>'rubric_card_save',
-        );        
-         
+            'OUT_OF'=>'rubric_out_of',
+            'GRAND_TOTAL'=>'rubric_grand_total',
+            'GRADE_RANGE'=>'rubric_grade_range',
+        );
+
         $rubric_form_tpl=new ilTemplate($filename,true,true,'Services/Tracking');
-        
-        //load language files        
+
+        //load language files
         foreach($language_variables as $lang_key => $lang_label){
             $rubric_form_tpl->setVariable($lang_key,$this->lng->txt($lang_label));
         }
-        
+
         // remove temporary template file
         unlink($filename);
-               
+
         //return template
         return($rubric_form_tpl);
     }
 
-    public function getRubricCard($form_action)
-    {        
-        // get the required templates
-        $rubric_heading_tpl=$this->getRubricCardFormHeader();        
-        $rubric_commandrow_tpl=$this->getRubricCardFormCommandRow($form_action);
-        
-        if(!empty($this->rubric_data)){
-            $rubric_form_tpl=$this->loadRubricCardForm();            
-        }else{
-            $rubric_form_tpl=$this->getRubricCardForm();
-        }
-        
+
+    public function getStudentViewHTML($user_full_name)
+    {
+        $this->student_view=true;
+
+        $rubric_heading_tpl=$this->getRubricGradeFormHeader($user_full_name);
+        $rubric_grade_tpl=$this->getRubricGradeForm();
+        return($rubric_heading_tpl->get().$rubric_grade_tpl->get());
+    }
+
+    public function getRubricGrade($form_action,$user_full_name,$user_id)
+    {
+        $rubric_heading_tpl=$this->getRubricGradeFormHeader($user_full_name);
+        $rubric_commandrow_tpl=$this->getRubricGradeFormCommandRow($form_action,$user_id);
+
+        $rubric_grade_tpl=$this->getRubricGradeForm();
+
+
         // append all templates into ilTemplate
         $this->tpl->setContent(
-            $rubric_heading_tpl->get().            
+            $rubric_heading_tpl->get().
             $rubric_commandrow_tpl->get().
-            $rubric_form_tpl->get()            
+            $rubric_grade_tpl->get()
         );
 
         // add in our javascript file
         $this->tpl->addJavaScript('./Services/Tracking/js/ilRubricCard.js');
         $this->tpl->addCss('./Services/Tracking/css/ilRubricCard.css');
-        
     }
-    
+
+    private function buildGradeBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment)
+    {
+        $tmp_write.="<td scope=\"rowgroup\">
+                        ${behavior['description']}
+                    </td>";
+
+        return($tmp_write);
+    }
+
     private function buildTemplateBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment)
     {
         $tmp_behavior_name='Behavior_'.$group_increment.'_'.$criteria_increment.'_'.$behavior_increment;
-        
+
         $tmp_write="<td scope=\"rowgroup\">
                     <div class=\"form-group has-success has-feedback\">
                         <label class=\"control-label\" for=\"behaviorname0_0\">{BEHAVIOR_NAME}</label>
@@ -198,20 +166,63 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                         <span id=\"${tmp_behavior_name}WarningStatus\" class=\"sr-only\">(ok)</span>
                     </div>
                 </td>";
-        
-        return($tmp_write);
-        
-    }
-    
 
-    
+        return($tmp_write);
+
+    }
+
+    private function buildGradeCriteria($criteria,$group_increment,$criteria_increment)
+    {
+        $tmp_criteria_name='Criteria_'.$group_increment.'_'.$criteria_increment;
+        $tmp_comment_name='Comment_'.$group_increment.'_'.$criteria_increment;
+
+        $tmp_write="<td scope=\"rowgroup\">
+                        ${criteria['criteria']}
+                    </td>";
+        $tmp_comment='';
+        $tmp_point='';
+
+        //get comment and point value
+        foreach($this->user_data as $u => $user_data){
+            if($user_data['rubric_criteria_id']==$criteria['criteria_id']){
+                $tmp_comment=$user_data['criteria_comment'];
+                $tmp_point=$user_data['criteria_point'];
+            }
+        }
+
+        //get behaviors
+        foreach($criteria['behaviors'] as $behavior_increment => $behavior){
+            $tmp_write.=$this->buildGradeBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment);
+        }
+
+        if($this->student_view){
+            $tmp_write.="<td scope=\"rowgroup\">
+                            $tmp_point
+                        </td>
+                        <td scope=\"rowgroup\">
+                            $tmp_comment
+                        </td>";
+        }else{
+            $tmp_id="Grade${group_increment}_${criteria_increment}";
+            $tmp_write.="<td scope=\"rowgroup\">
+                            <input id=\"${tmp_id}\" name=\"${tmp_id}\" type=\"text\" class=\"form-control\" placeholder=\"Grade\" value=\"$tmp_point\" onkeyup=\"verifyGrade(this)\" oninput=\"verifyGrade(this)\">
+                        </td>
+                        <td scope=\"rowgroup\">
+                            <input type=\"text\" name=\"$tmp_comment_name\" value=\"$tmp_comment\" class=\"form-control\" placeholder=\"{COMMENT}\">
+                        </td>";
+        }
+
+        return($tmp_write);
+
+    }
+
     private function buildTemplateCriteria($criteria,$group_increment,$criteria_increment)
     {
         $tmp_criteria_name='Criteria_'.$group_increment.'_'.$criteria_increment;
-        
+
         $tmp_write="<td scope=\"rowgroup\">
                         <div class=\"form-group has-success has-feedback\">
-                            <label class=\"control-label\" for=\"${tmp_criteria_name}\">{CRITERIA_NAME}</label>                        
+                            <label class=\"control-label\" for=\"${tmp_criteria_name}\">{CRITERIA_NAME}</label>
                             <div class=\"input-group\">
                                 <span class=\"input-group-addon\">
                                     <input type=\"checkbox\" id=\"${tmp_criteria_name}_checkbox\">
@@ -223,13 +234,47 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                         </div>
                     </td>";
         foreach($criteria['behaviors'] as $behavior_increment => $behavior){
-            $tmp_write.=$this->buildTemplateBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment);            
+            $tmp_write.=$this->buildTemplateBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment);
         }
-        
+
         return($tmp_write);
-        
+
     }
-    
+
+    private function buildGradeGroupPoints($weights)
+    {
+        $tmp_write="<tr class=\"tblrow1 small\">
+                        <th>&nbsp;</th>
+                        <th style=\"text-align:right\">Range</th>";
+
+        foreach($weights as $k => $weight){
+            $tmp_write.="<th>${weight['weight_min']} - ${weight['weight_max']}";
+        }
+        $tmp_write.="<th colspan=\"2\">&nbsp;</th>
+                    </tr>";
+        return($tmp_write);
+    }
+
+    private function buildGradeGroup($group,$group_increment)
+    {
+        $tmp_group_name='Group_'.$group_increment;
+        $tmp_row_span=count($group['criteria']);
+        $tmp_write="<tr class=\"tblrow1 small\">
+                        <td scope=\"rowgroup\" rowspan=\"$tmp_row_span\">
+                            ${group['group_name']}
+                        </td>";
+        foreach($group['criteria'] as $criteria_increment => $criteria){
+            if($criteria_increment>0){
+                $tmp_write.="<tr class=\"tblrow1 small\">";
+            }
+            $tmp_write.=$this->buildGradeCriteria($criteria,$group_increment,$criteria_increment);
+            $tmp_write.="</tr>";
+        }
+
+
+        return($tmp_write);
+    }
+
     private function buildTemplateGroup($group,$group_increment)
     {
         $tmp_group_name='Group_'.$group_increment;
@@ -237,7 +282,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         $tmp_write="<tr class=\"tblrow1 small\">
                         <td scope=\"rowgroup\" rowspan=\"$tmp_row_span\">
                             <div class=\"form-group has-success has-feedback\">
-                                <label class=\"control-label\" for=\"${tmp_group_name}\">{GROUP_NAME}</label>                        
+                                <label class=\"control-label\" for=\"${tmp_group_name}\">{GROUP_NAME}</label>
                                 <div class=\"input-group\">
                                     <span class=\"input-group-addon\">
                                         <input type=\"checkbox\" id=\"${tmp_group_name}_checkbox\">
@@ -253,42 +298,42 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                 $tmp_write.="<tr class=\"tblrow1 small\">";
             }
             $tmp_write.=$this->buildTemplateCriteria($criteria,$group_increment,$criteria_increment);
-            $tmp_write.="</tr>";            
+            $tmp_write.="</tr>";
         }
-        
-        
+
+
         return($tmp_write);
     }
-    
+
     private function buildTemplateGroupPoints($weights,$group_id)
     {
-        $group_id++;//increment, base 1 
+        $group_id++;//increment, base 1
         $tmp_script="<script type=\"text/javascript\">
                     $( document ).ready(function() {";
-        $tmp_write="<tr class=\"tblrow1 small\">            
+        $tmp_write="<tr class=\"tblrow1 small\">
                         <th scope=\"col\" class=\"col-sm-2\">
                             &nbsp;
-                        </th>                
+                        </th>
                         <th scope=\"col\" class=\"col-sm-2\">
                             &nbsp;
                         </th>";
-                        
+
         foreach($weights as $k => $weight){
             $tmp_name="Points${group_id}_${k}";
             $tmp_write.="<th scope=\"col\">
                             <div class=\"form-group\">
                                 <label class=\"control-label\" for=\"$tmp_name\">{POINT}</label>
-                            </div>    
+                            </div>
                            <input id=\"$tmp_name\" name=\"$tmp_name\" type=\"text\" value=\"[${weight['weight_min']},${weight['weight_max']}]\"/>
                         </th>";
         }
-        
-        
-        
+
+
+
         return(array('tmp_write'=>$tmp_write,'tmp_script'=>$tmp_script));
-        
+
     }
-    
+
     private function getMinMaxLabel($weights)
     {
         //figure out min / max points for group
@@ -309,34 +354,49 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         return(array('min'=>$min_points,'max'=>$max_points));
     }
 
-    
-    private function buildTemplateCard()
+    private function buildGradeCard()
     {
-        $colspan=count($this->rubric_data['labels']);
-        
+        $colspan=count($this->rubric_data['labels'])+2;
+
         $tmp_write="";
         foreach($this->rubric_data['groups'] as $group_increment => $group){
-            
+
             $point_range=$this->getMinMaxLabel($group['weights']);
-            
-            $min_points=count($group['criteria'])*$point_range['min'];
+
+            $min_points=0;
             $max_points=count($group['criteria'])*$point_range['max'];
-            
-            $tmp=$this->buildTemplateGroupPoints($group['weights'],$group_increment);
-            $tmp_write.=$tmp['tmp_write'];
-            
-            $tmp_write.=$this->buildTemplateGroup($group,$group_increment);
-            $tmp_write.="            
+
+            //calculate min_points
+            if(isset($this->user_data)){
+
+                foreach($group['criteria'] as $c => $criteria){
+
+                    foreach($this->user_data as $u => $user_data){
+
+                        if($user_data['rubric_criteria_id']==$criteria['criteria_id']){
+                            $min_points+=$user_data['criteria_point'];
+                        }
+
+                    }
+
+                }
+
+            }
+
+            $min_points=$min_points;
+            $tmp_write.=$this->buildGradeGroupPoints($group['weights']);
+            $tmp_write.=$this->buildGradeGroup($group,$group_increment);
+            $tmp_write.="
                         <tr>
-                            <th colspan=\"2\" scope=\"rowgroup\" class=\"text-right\">{GROUP_POINT}</th>
-                            <td colspan=\"$colspan\">$min_points - $max_points</td>
-                        
+                            <th colspan=\"2\" scope=\"rowgroup\" class=\"text-right\">{TOTAL}</th>
+                            <td colspan=\"$colspan\">$min_points {OUT_OF} $max_points</td>
                         </tr>";
         }
         return($tmp_write);
+
     }
-    
-    
+
+
     private function buildTemplateLabels()
     {
         $tmp_write="";
@@ -349,16 +409,28 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                                 <span id=\"Label${k}WarningStatus\" class=\"sr-only\">(ok)</span>
                             </div>
                         </th>";
-            
-            
+
+
         }
         return($tmp_write);
+
     }
-    
+
+    private function buildGradeLabels()
+    {
+        $tmp_write="";
+        foreach($this->rubric_data['labels'] as $k => $label){
+            $tmp_write.="<th scope=\"col\">
+                            ".$label['label']."
+                        </th>";
+        }
+        return($tmp_write);
+
+    }
 
     private function buildCompleteTemplate()
     {
-        // build min / max point range for overall        
+        // build min / max point range for overall
         $min_points=$max_points=0;
         foreach($this->rubric_data['groups'] as $k => $group){
             $point_range=$this->getMinMaxLabel($group['weights']);
@@ -367,44 +439,102 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         }
         $min_points=$min_points;
         $max_points=$max_points;
-        
+
         // define colspan for tfoot
         $colspan=count($this->rubric_data['labels']);
-        
+
         // here we temporarily build the template, then destroy it after
         $filename="./Services/Tracking/templates/default/tpl.lp_rubricform_generated_".time().".html";
-        
+
         $write="<div id=\"jkn_div_rubric\" class=\"table-responsive\" style=\"margin-top: 20px;\">
-    
+
                     <table id=\"jkn_table_rubric\" class=\"table table-striped\">
-                    
-                        <thead>            
-                            <tr>                            
-                                <th colspan=\"2\">&nbsp;</th>".                                
-                                $this->buildTemplateLabels().                                
-                            "</tr>            
+
+                        <thead>
+                            <tr>
+                                <th colspan=\"2\">&nbsp;</th>".
+            $this->buildTemplateLabels().
+            "</tr>
                         </thead>
-                        
+
                         <tfoot>
                             <tr>
                                 <th colspan=\"2\">{OVERALL_POINT}</th>
                                 <td colspan=\"$colspan\">$min_points - $max_points</td>
                             </tr>
                         </tfoot>
-                        
+
                         <tbody>".
-                            $this->buildTemplateCard().
-                        "</tbody>
+            $this->buildTemplateCard().
+            "</tbody>
                     </table>
                 </div>
             </form>";
-        
-        file_put_contents($filename,$write);  
+
+        file_put_contents($filename,$write);
         return($filename);
-        
+
     }
 
-    
-}
+    private function buildGradeTemplate()
+    {
 
-?>
+        $overall_max_points=0;
+        $overall_min_points=0;
+        foreach($this->rubric_data['groups'] as $k => $group){
+            $point_range=$this->getMinMaxLabel($group['weights']);
+            $overall_max_points+=count($group['criteria'])*$point_range['max'];
+            if(isset($this->user_data)){
+                foreach($group['criteria'] as $c => $criteria){
+                    foreach($this->user_data as $u => $user_data){
+                        if($criteria['criteria_id']==$user_data['rubric_criteria_id']){
+                            $overall_min_points+=$user_data['criteria_point'];
+                        }
+                    }
+                }
+            }
+        }
+
+        $colspan=count($this->rubric_data['labels'])+2;
+        // here we temporarily build the template, then destroy it after
+        $filename="./Services/Tracking/templates/default/tpl.lp_rubricgrade_generated_".time().".html";
+
+        $write="<div id=\"jkn_div_rubric\" class=\"table-responsive\">
+
+                    <table id=\"jkn_table_rubric\" class=\"table table-striped\">
+
+                        <thead>
+                            <tr>
+                                <th colspan=\"2\">&nbsp;</th>".
+
+            $this->buildGradeLabels().
+
+            "
+                                <th scope=\"col\">
+                                    Grade
+                                </th>
+                                <th scope=\"col\">
+                                    {COMMENT}
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tfoot>
+                            <tr>
+                                <th colspan=\"2\" class=\"text-right\">{GRAND_TOTAL}</th>
+                                <td colspan=\"$colspan\">$overall_min_points {OUT_OF} $overall_max_points</td>
+                            </tr>
+                        </tfoot>
+
+                        <tbody>".
+            $this->buildGradeCard().
+            "</tbody>
+                    </table>
+                </div>
+            </form>";
+
+        file_put_contents($filename,$write);
+        return($filename);
+
+    }
+}
