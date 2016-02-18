@@ -10,7 +10,7 @@ namespace CaT\Filter\Predicates;
  */
 abstract class Predicate {
 	/**
-	 * @var	ilPredicateFactory
+	 * @var	\CaT\Filter\PredicateFactory
 	 */
 	protected $factory;
 

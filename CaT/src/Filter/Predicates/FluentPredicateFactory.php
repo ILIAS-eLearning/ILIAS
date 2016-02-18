@@ -17,7 +17,7 @@ class FluentPredicateFactory {
 	protected $continue;
 
 	/**
-	 * @var	ilPredicateFactory
+	 * @var	\CaT\Filter\PredicateFactory
 	 */
 	protected $factory;
 

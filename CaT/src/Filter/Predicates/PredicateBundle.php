@@ -9,7 +9,7 @@ namespace CaT\Filter\Predicates;
  */
 abstract class PredicateBundle extends Predicate {
 	/**
-	 * @var	ilPredicate[]
+	 * @var	Predicate[]
 	 */
 	protected $subs;
 

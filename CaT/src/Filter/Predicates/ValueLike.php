@@ -9,7 +9,7 @@ namespace CaT\Filter\Predicates;
  */
 class ValueLike {
 	/**
-	 * @var	ilPredicateFactory
+	 * @var	\CaT\Filter\PredicateFactory
 	 */
 	protected $factory;
 
