@@ -25,7 +25,7 @@ class ilWebAccessChecker {
 	/**
 	 * @var bool
 	 */
-	protected $checked = false;
+	protected $checked = FALSE;
 	/**
 	 * @var string
 	 */
@@ -37,19 +37,19 @@ class ilWebAccessChecker {
 	/**
 	 * @var bool
 	 */
-	protected $send_status_code = false;
+	protected $send_status_code = FALSE;
 	/**
 	 * @var bool
 	 */
-	protected $initialized = false;
+	protected $initialized = FALSE;
 	/**
 	 * @var bool
 	 */
-	protected $revalidate_folder_tokens = true;
+	protected $revalidate_folder_tokens = TRUE;
 	/**
 	 * @var bool
 	 */
-	protected static $DEBUG = false;
+	protected static $DEBUG = TRUE;
 
 
 	/**
@@ -106,7 +106,7 @@ class ilWebAccessChecker {
 	 */
 	protected function check() {
 		ilWACLog::getInstance()->write('Checking File: ' . $this->getPathObject()->getPathWithoutQuery());
-		if (! $this->getPathObject()) {
+		if (!$this->getPathObject()) {
 			throw new ilWACException(ilWACException::CODE_NO_PATH);
 		}
 
@@ -114,10 +114,10 @@ class ilWebAccessChecker {
 		$ilWACSignedPath = new ilWACSignedPath($this->getPathObject());
 		if ($ilWACSignedPath->isSignedPath()) {
 			if ($ilWACSignedPath->isSignedPathValid()) {
-				$this->setChecked(true);
+				$this->setChecked(TRUE);
 				ilWACLog::getInstance()->write('checked using token');
 
-				return true;
+				return TRUE;
 			}
 		}
 
@@ -127,10 +127,10 @@ class ilWebAccessChecker {
 				if ($this->isRevalidateFolderTokens()) {
 					$ilWACSignedPath->revalidatingFolderToken();
 				}
-				$this->setChecked(true);
+				$this->setChecked(TRUE);
 				ilWACLog::getInstance()->write('checked using secure folder');
 
-				return true;
+				return TRUE;
 			}
 		}
 
@@ -148,31 +148,31 @@ class ilWebAccessChecker {
 					$ilWACSignedPath->revalidatingFolderToken();
 				}
 
-				$this->setChecked(true);
+				$this->setChecked(TRUE);
 
-				return true;
+				return TRUE;
 			} else {
 				ilWACLog::getInstance()->write('checking-instance denied access');
-				$this->setChecked(true);
+				$this->setChecked(TRUE);
 
-				return false;
+				return FALSE;
 			}
 		}
 
 		// none of the checking mechanisms could have been applied. no access
-		$this->setChecked(true);
+		$this->setChecked(TRUE);
 		ilWACLog::getInstance()->write('none of the checking mechanisms could have been applied. access depending on sec folder');
 		if ($this->getPathObject()->isInSecFolder()) {
-			return false;
+			return FALSE;
 		} else {
-			return true;
+			return TRUE;
 		}
 	}
 
 
 	protected function initILIAS() {
 		if ($this->isInitialized()) {
-			return true;
+			return TRUE;
 		}
 		$GLOBALS['COOKIE_PATH'] = '/';
 		setcookie('ilClientId', $this->getPathObject()->getClient(), 0, '/');
@@ -181,31 +181,35 @@ class ilWebAccessChecker {
 			ilWACLog::getInstance()->write('init ILIAS');
 			ilInitialisation::initILIAS();
 			global $ilUser, $ilSetting;
-			// No User seems to be logged in, we have to re-init ILIAS for anonymous
-			if ($ilUser->getId() == 0) {
-				if (! $ilSetting->get('pub_section')) {
-					// ILIAS does not support public access, abort. Access isn't possible
-					throw new ilWACException(ilWACException::ACCESS_DENIED);
-				}
-				$_POST['username'] = 'anonymous';
-				$_POST['password'] = 'anonymous';
-				ilWACLog::getInstance()->write('have to re-init ILIAS since theres no User to get checked');
-				ilInitialisation::reinitILIAS();
+			switch ($ilUser->getId()) {
+				case 0:
+					// throw new ilWACException(ilWACException::ACCESS_DENIED);
+					//  ilInitialisation::reinitILIAS();
+					break;
+				case 13:
+					if (!$ilSetting->get('pub_section')) {
+						ilWACLog::getInstance()->write('public section not activated');
+						throw new ilWACException(ilWACException::ACCESS_DENIED);
+					}
+					break;
 			}
 		} catch (Exception $e) {
+			if ($e instanceof ilWACException) {
+				throw  $e;
+			}
 			throw new ilWACException(ilWACException::INITIALISATION_FAILED);
 		}
-		$this->setInitialized(true);
+		$this->setInitialized(TRUE);
 	}
 
 
 	protected function deliver() {
-		if (! $this->isChecked()) {
+		if (!$this->isChecked()) {
 			throw new ilWACException(ilWACException::ACCESS_WITHOUT_CHECK);
 		}
 
 		$ilFileDelivery = new ilFileDelivery($this->getPathObject()->getPath());
-		$ilFileDelivery->setCache(false);
+		$ilFileDelivery->setCache(FALSE);
 		$ilFileDelivery->setDisposition($this->getDisposition());
 		ilWACLog::getInstance()->write('Deliver file using ' . $ilFileDelivery->getDeliveryType());
 		if ($this->getPathObject()->isStreamable()) { // fixed 0016468
@@ -218,7 +222,7 @@ class ilWebAccessChecker {
 
 
 	protected function deny() {
-		if (! $this->isChecked()) {
+		if (!$this->isChecked()) {
 			throw new ilWACException(ilWACException::ACCESS_WITHOUT_CHECK);
 		}
 		throw new ilWACException(ilWACException::ACCESS_DENIED);
@@ -257,7 +261,7 @@ class ilWebAccessChecker {
 
 		global $tpl, $ilLog;
 		$ilLog->write($e->getMessage());
-		$tpl->setVariable('BASE', strstr($_SERVER['REQUEST_URI'], '/data', true) . '/');
+		$tpl->setVariable('BASE', strstr($_SERVER['REQUEST_URI'], '/data', TRUE) . '/');
 		ilUtil::sendFailure($e->getMessage());
 		$tpl->getStandardTemplate();
 		$tpl->show();
