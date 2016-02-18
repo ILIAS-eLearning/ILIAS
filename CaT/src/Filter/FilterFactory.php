@@ -80,11 +80,12 @@ class FilterFactory {
 	public function dateperiod_overlaps_predicate($field_start, $field_end) {
 		$f = $this->predicate_factory();
 		
-		return function(\DateTime $start, \DateTime $end) 
-				use ($field_start, $field_end, $f) {
+		$build_pred = function(\DateTime $start, \DateTime $end)  use ($field_start, $field_end, $f) {
 			return	$f->field($field_start)->LT()->date($end)
 				->_AND()->
 					$f->field($field_end)->GT()->date($start);
 		};
+
+		return array($build_pred, array("\\CaT\\Filter\\Predicates\\Predicate"));
 	}
 }
