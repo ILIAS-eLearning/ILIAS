@@ -1972,6 +1972,12 @@ class gevCourseUtils {
 		$organizer = $this->getMainAdmin() ? $this->getMainAdminName().
 			($this->getMainAdminEmail() ? '('.$this->getMainAdminEmail().')' : '') : '';
 
+		$start_date = $this->getStartDate() !== null ? 
+			$this->getStartDate()->get(IL_CAL_DATE)." ".$this->getFormattedStartTime().":00" :
+			date("Y-m-d")." 09:00:00";
+		$end_date = $this->getEndDate() !== null ? 
+			$this->getEndDate()->get(IL_CAL_DATE)." ".$this->getFormattedEndTime().":00" :
+			date("Y-m-d")." 17:00:00";
 
 		$calendar = new \Eluceo\iCal\Component\Calendar('generali-onlineakademie.de');
 
@@ -2012,10 +2018,8 @@ class gevCourseUtils {
 
 		$event = new \Eluceo\iCal\Component\Event();
 		$event
-			->setDtStart(new \DateTime($this->getStartDate()->get(IL_CAL_DATE)." "
-							.$this->getFormattedStartTime().":00"))
-			->setDtEnd(new \DateTime($this->getEndDate()->get(IL_CAL_DATE)." "
-							.$this->getFormattedEndTime().":00"))
+			->setDtStart(new \DateTime($start_date))
+			->setDtEnd(new \DateTime($end_date))
 			->setNoTime(false)
 			->setLocation($loc,$loc)
 			->setUseTimezone(true)
