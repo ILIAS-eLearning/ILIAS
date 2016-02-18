@@ -409,10 +409,12 @@ class ilBadgeManagementGUI
 		$confirmation_gui->setConfirm($lng->txt("delete"), "deleteBadges");
 			
 		include_once "Services/Badge/classes/class.ilBadge.php";		
+		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";		
 		foreach($badge_ids as $badge_id)
-		{					
+		{								
 			$badge = new ilBadge($badge_id);
-			$confirmation_gui->addItem("id[]", $badge_id, $badge->getTitle());			
+			$confirmation_gui->addItem("id[]", $badge_id, $badge->getTitle().
+				" (".sizeof(ilBadgeAssignment::getInstancesByBadgeId($badge_id)).")");			
 		}
 
 		$tpl->setContent($confirmation_gui->getHTML());
