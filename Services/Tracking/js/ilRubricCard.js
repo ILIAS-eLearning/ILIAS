@@ -215,12 +215,6 @@ addBehavior:function(thead,tbody,tfoot,position){
             if(this.nodeHasSlider(trs[a])){
                 slider_increment++;
                 trs[a].appendChild(this.addPointSlider(slider_increment,position))
-                
-                $("#Points"+slider_increment+"_"+position).slider({tooltip: 'hide'});  
-                $("#Points"+slider_increment+"_"+position).on("slide", function(slideEvt) {
-                    $('#'+this.id+'_value').text(' '+slideEvt.value);
-                    recalculate();
-                });
             }else if(!this.nodeHasPointRange(trs[a])){
                 trs[a].appendChild(this.createCardFormBodyInputs('Behavior Description',a-1,position,false));
             }else{
