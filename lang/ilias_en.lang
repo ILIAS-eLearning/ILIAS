@@ -10778,8 +10778,8 @@ style#:#sty_to#:#To
 style#:#sty_add_content_style#:#Add Content Style
 style#:#sty_remove_global_default_state#:#Remove Global Default State
 style#:#sty_remove_global_fixed_state#:#Remove Global Fixed State
-style#:#sty_make_global_default#:#Set as Global Default Style for New Objects
-style#:#sty_make_global_fixed#:#Force this Style on New Objects
+style#:#sty_make_global_default#:#Set as default style
+style#:#sty_make_global_fixed#:#Force this style on all objects
 content#:#cont_save_types#:#Save Types
 content#:#cont_layout_template#:#Layout Template
 content#:#cont_special_page#:#Special Content Page
@@ -15317,3 +15317,11 @@ mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?
 administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings
 administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.
+style#:#sty_type_ha_iheada#:#Hor. Accordion Header (active)
+style#:#sty_type_ha_ihcap#:#Hor. Accordion Caption
+style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)
+style#:#sty_type_va_ihcap#:#Vert. Accordion Caption
+style#:#sty_ha_iheada_class#:#Hor. Accordion Header (active)
+style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption
+style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)
+style#:#sty_va_ihcap_class#:#Vert. Accordion Caption

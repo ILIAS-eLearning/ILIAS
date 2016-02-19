@@ -3442,27 +3442,39 @@
 				<xsl:if test="$mode = 'print'">ForceAllOpen</xsl:if>
 			</xsl:variable>
 			<xsl:if test="@Type = 'VerticalAccordion' and $mode != 'print'">
-			<script type="text/javascript">
-				$(function () {
-					il.Accordion.add({
-						id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
-						toggle_class: 'il_VAccordionToggleDef',
-						toggle_act_class: 'il_VAccordionToggleActiveDef',
-						content_class: 'il_VAccordionContentDef',
-						width: null,
-						height: null,
-						orientation: 'vertical',
-						behaviour: '<xsl:value-of select = "$beh"/>',
-						save_url: '',
-						active_head_class: 'ilc_va_iheada_VAccordIHeadActive',
-						int_id: '',
-						multi: false
+				<xsl:variable name="aheadclass">
+					<xsl:choose>
+						<xsl:when test="@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_iheada']/@Value">ilc_va_iheada_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_iheada']/@Value"/></xsl:when>
+						<xsl:otherwise>ilc_va_iheada_VAccordIHeadActive</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<script type="text/javascript">
+					$(function () {
+						il.Accordion.add({
+							id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
+							toggle_class: 'il_VAccordionToggleDef',
+							toggle_act_class: 'il_VAccordionToggleActiveDef',
+							content_class: 'il_VAccordionContentDef',
+							width: null,
+							height: null,
+							orientation: 'vertical',
+							behaviour: '<xsl:value-of select = "$beh"/>',
+							save_url: '',
+							active_head_class: '<xsl:value-of select="$aheadclass"/>',
+							int_id: '',
+							multi: false
+							});
 						});
-					});
-			</script>
+				</script>
 			</xsl:if>
 			<xsl:if test="@Type = 'HorizontalAccordion' and $mode != 'print'">
-			<script type="text/javascript">
+				<xsl:variable name="aheadclass">
+					<xsl:choose>
+						<xsl:when test="@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_iheada']/@Value">ilc_ha_iheada_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_iheada']/@Value"/></xsl:when>
+						<xsl:otherwise>ilc_ha_iheada_HAccordIHeadActive</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<script type="text/javascript">
 				$(function () {
 					il.Accordion.add({
 						id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
@@ -3474,7 +3486,7 @@
 						orientation: 'horizontal',
 						behaviour: '<xsl:value-of select="@Behavior"/>',
 						save_url: '',
-						active_head_class: 'ilc_ha_iheada_HAccordIHeadActive',
+						active_head_class: '<xsl:value-of select="$aheadclass"/>',
 						int_id: '',
 						multi: false
 						});
