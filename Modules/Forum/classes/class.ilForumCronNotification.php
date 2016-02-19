@@ -28,6 +28,16 @@ class ilForumCronNotification extends ilCronJob
 	public static $deleted_ids_cache = array();
 
 	/**
+	 * @var array
+	 */
+	protected static $ref_ids_by_obj_id = array();
+
+	/**
+	 * @var array
+	 */
+	protected static $accessible_ref_ids_by_user = array();
+
+	/**
 	 *
 	 */
 	public function __construct()
@@ -122,6 +132,7 @@ class ilForumCronNotification extends ilCronJob
 					frm_data.top_name top_name, 
 					frm_data.top_frm_fk obj_id, 
 					frm_notification.user_id user_id, 
+					frm_threads.thr_pk thread_id,
 					frm_posts.* 
 			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
 			WHERE	'.$date_condition.' frm_posts.pos_thr_fk = frm_threads.thr_pk
@@ -149,7 +160,8 @@ class ilForumCronNotification extends ilCronJob
 			SELECT 	frm_threads.thr_subject thr_subject, 
 					frm_data.top_name top_name, 
 					frm_data.top_frm_fk obj_id, 
-					frm_notification.user_id user_id, 
+					frm_notification.user_id user_id,
+					frm_threads.thr_pk thread_id,
 					frm_posts.* 
 			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
 			WHERE	'.$updated_condition.' frm_posts.pos_thr_fk = frm_threads.thr_pk
@@ -177,7 +189,8 @@ class ilForumCronNotification extends ilCronJob
 			SELECT 	frm_threads.thr_subject thr_subject, 
 					frm_data.top_name top_name, 
 					frm_data.top_frm_fk obj_id, 
-					frm_notification.user_id user_id, 
+					frm_notification.user_id user_id,
+					frm_threads.thr_pk thread_id,
 					frm_posts.* 
 			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
 			WHERE	'.$censored_condition.' frm_posts.pos_thr_fk = frm_threads.thr_pk
@@ -205,7 +218,8 @@ class ilForumCronNotification extends ilCronJob
 			SELECT 	frm_threads.thr_subject thr_subject, 
 					frm_data.top_name top_name, 
 					frm_data.top_frm_fk obj_id, 
-					frm_notification.user_id user_id, 
+					frm_notification.user_id user_id,
+					frm_threads.thr_pk thread_id,
 					frm_posts.* 
 			FROM 	frm_notification, frm_posts, frm_threads, frm_data 
 			WHERE	'.$uncensored_condition.' frm_posts.pos_thr_fk = frm_threads.thr_pk
@@ -292,6 +306,7 @@ class ilForumCronNotification extends ilCronJob
 
 		$ilSetting->set('cron_forum_notification_last_date', $cj_start_date);
 
+		// @todo: nadia: Please check incrementing $numRows
 		$mess = 'Send '.$numRows.' messages.';
 		$ilLog->write(__METHOD__.': '.$mess);
 
@@ -306,11 +321,63 @@ class ilForumCronNotification extends ilCronJob
 	}
 
 	/**
+	 * @param int $a_obj_id
+	 * @return array
+	 */
+	protected function getRefIdsByObjId($a_obj_id)
+	{
+		if(!array_key_exists($a_obj_id, self::$ref_ids_by_obj_id))
+		{
+			self::$ref_ids_by_obj_id[$a_obj_id] = ilObject::_getAllReferences($a_obj_id);
+		}
+
+		return (array)self::$ref_ids_by_obj_id[$a_obj_id];
+	}
+
+	/**
+	 * @param int $a_user_id
+	 * @param int $a_obj_id
+	 * @return int
+	 */
+	protected function getFirstAccessibleRefIdBUserAndObjId($a_user_id, $a_obj_id)
+	{
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 */
+		global $ilAccess;
+
+		if(!array_key_exists($a_user_id, self::$accessible_ref_ids_by_user))
+		{
+			self::$accessible_ref_ids_by_user[$a_user_id] = array();
+		}
+
+		if(!array_key_exists($a_obj_id, self::$accessible_ref_ids_by_user[$a_user_id]))
+		{
+			$accessible_ref_id = 0;
+			foreach($this->getRefIdsByObjId($a_obj_id) as $ref_id)
+			{
+				if($ilAccess->checkAccessOfUser($a_user_id, 'read', '', $ref_id))
+				{
+					$accessible_ref_id = $ref_id;
+					break;
+				}
+			}
+			self::$accessible_ref_ids_by_user[$a_user_id][$a_obj_id] = $accessible_ref_id;
+		}
+
+		return (int)self::$accessible_ref_ids_by_user[$a_user_id][$a_obj_id];
+	}
+
+	/**
 	 * @param $res
 	 * @param $notification_type
 	 */
 	public function sendCronForumNotification($res, $notification_type)
 	{
+		/**
+		 * @var $ilDB  ilDB
+		 * @var $ilLog ilLog
+		 */
 		global $ilDB, $ilLog;
 		
 		include_once './Modules/Forum/classes/class.ilForumCronNotificationDataProvider.php';
@@ -318,6 +385,15 @@ class ilForumCronNotification extends ilCronJob
 
 		while($row = $ilDB->fetchAssoc($res))
 		{
+			$ref_id = $this->getFirstAccessibleRefIdBUserAndObjId($row['user_id'], $row['obj_id']);
+			if($ref_id < 1)
+			{
+				// @todo nadia: Log
+				continue;
+			}
+
+			$row['ref_id'] = $ref_id;
+
 			if($this->existsProviderObject($row['pos_pk']))
 			{
 				self::$providerObject[$row['pos_pk']]->addRecipient($row['user_id']);
