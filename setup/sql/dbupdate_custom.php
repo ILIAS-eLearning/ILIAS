@@ -161,7 +161,7 @@ if(!$ilDB->tableExists('badge_user_badge'))
 			'type' => 'integer',
 			'length' => 2,
 			'notnull' => false
-		),
+		)
 	));	
 	$ilDB->addPrimaryKey('badge_user_badge',array('badge_id', 'user_id'));
 }
@@ -178,6 +178,51 @@ if(!$ilDB->tableColumnExists('badge_badge','valid'))
         array(            
 			'type' => 'text',
 			'length' => 255,
+			'notnull' => false)	
+        );
+}
+
+?>
+<#9>
+<?php
+
+if(!$ilDB->tableExists('object_data_del'))
+{
+	$ilDB->createTable('object_data_del', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'tstamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),		
+	));	
+	$ilDB->addPrimaryKey('object_data_del',array('obj_id'));
+}
+
+?>
+<#10>
+<?php
+
+if(!$ilDB->tableColumnExists('object_data_del','type')) 
+{
+    $ilDB->addTableColumn(
+        'object_data_del',
+        'type',
+        array(            
+			'type' => 'text',
+			'length' => 4,
+			'fixed' => true,
 			'notnull' => false)	
         );
 }

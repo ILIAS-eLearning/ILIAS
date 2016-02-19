@@ -37,15 +37,25 @@ class ilBadgeRenderer
 		
 		$lng->loadLanguageModule("badge");
 		
-		$tpl = new ilTemplate("tpl.badge_modal.html", true, true, "Services/Badge");		
+		$tpl = new ilTemplate("tpl.badge_modal.html", true, true, "Services/Badge");
+		
 		$tpl->setVariable("IMG_SRC", $badge->getImagePath());
 		$tpl->setVariable("IMG_TXT", $badge->getImage());
-		$tpl->setVariable("DESC", nl2br($badge->getDescription()));		
+		
+		$tpl->setVariable("DESC", nl2br($badge->getDescription()));
+		
 		$tpl->setVariable("TXT_VALID", $lng->txt("badge_valid"));		
 		$tpl->setVariable("VALID", $badge->getValid());		
+		
 		$tpl->setVariable("TXT_TSTAMP", $lng->txt("created"));	
 		$tpl->setVariable("TSTAMP", 
-			ilDatePresentation::formatDate(new ilDateTime($this->assignment->getTimestamp(), IL_CAL_UNIX)));				
+			ilDatePresentation::formatDate(new ilDateTime($this->assignment->getTimestamp(), IL_CAL_UNIX)));						
+		$tpl->setVariable("TXT_PARENT", $lng->txt("container"));	
+		
+		$parent = $badge->getParentMeta();
+		$tpl->setVariable("PARENT", 
+			"(".$parent["type"]."/".$parent["id"].") ".$parent["title"]);
+		
 		$modal->setBody($tpl->get());
 
 		$tpl = new ilTemplate("tpl.badge_renderer.html", true, true, "Services/Badge");		

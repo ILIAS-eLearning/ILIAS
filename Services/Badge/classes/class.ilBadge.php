@@ -371,5 +371,37 @@ class ilBadge
 				: null)
 		);		
 	}
+	
+	
+	//
+	// helper
+	// 
+	
+	public function getParentMeta()
+	{						
+		$parent_type = ilObject::_lookupType($this->getParentId());
+		if($parent_type)
+		{			
+			$parent_title = ilObject::_lookupTitle($this->getParentId());
+		}
+		else
+		{
+			// already deleted?
+			include_once "Services/Object/classes/class.ilObjectDataDeletionLog.php";
+			$parent = ilObjectDataDeletionLog::get($this->getParentId());
+			if($parent["type"])
+			{
+				$parent_type = $parent["type"];
+				$parent_title = $parent["title"];
+			}
+		}
+		
+		return array(
+			"id" => $this->getParentId(),
+			"type" => $parent_type,
+			"title" => $parent_title
+		);
+	}
+
 }
 
