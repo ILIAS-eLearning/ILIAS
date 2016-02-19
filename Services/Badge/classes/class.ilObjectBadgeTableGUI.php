@@ -42,9 +42,9 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 			
 		if($this->has_write)
 		{												
-			$this->addMultiCommand("activateBadges", $lng->txt("activate"));		
-			$this->addMultiCommand("deactivateBadges", $lng->txt("deactivate"));	
-			$this->addMultiCommand("confirmDeleteBadges", $lng->txt("delete"));	
+			$this->addMultiCommand("activateObjectBadges", $lng->txt("activate"));		
+			$this->addMultiCommand("deactivateObjectBadges", $lng->txt("deactivate"));	
+			$this->addMultiCommand("confirmDeleteObjectBadges", $lng->txt("delete"));	
 			$this->setSelectAllCheckbox("id");
 		}
 			
@@ -65,7 +65,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 		
 		foreach(ilBadge::getObjectInstances() as $badge_item)
 		{
-			// :TODO: container meta
+			// :TODO: container presentation
 			$container = "(".$badge_item["parent_type"]."/".
 					$badge_item["parent_id"].") ".
 					$badge_item["parent_title"];						

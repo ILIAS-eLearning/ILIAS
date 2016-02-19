@@ -418,6 +418,7 @@ class ilBadge
 		if($parent_type)
 		{			
 			$parent_title = ilObject::_lookupTitle($this->getParentId());
+			$deleted = false;
 		}
 		else
 		{
@@ -429,12 +430,14 @@ class ilBadge
 				$parent_type = $parent["type"];
 				$parent_title = $parent["title"];
 			}
+			$deleted = true;
 		}
 		
 		return array(
 			"id" => $this->getParentId(),
 			"type" => $parent_type,
-			"title" => $parent_title
+			"title" => $parent_title,
+			"deleted" => $deleted
 		);
 	}
 

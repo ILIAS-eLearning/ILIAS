@@ -34,7 +34,7 @@ badge#:#badge_award_badge#:#Award Badge
 badge#:#badge_remove_badge#:#Revoke Badge
 badge#:#badge_template_deletion_confirmation#:#Are you sure you want to delete the following image templates?
 badge#:#badge_assignment_deletion_confirmation#:#Are you sure you want to revoke the following badge assignments for "%s"?
-badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges?
+badge#:#badge_deletion_confirmation#:#Are you sure you want to delete the following badges and all their respective assignments? 
 badge#:#badge_template_types#:#Valid Types
 badge#:#badge_template_types_all#:#All
 badge#:#badge_template_types_specific#:#Specific

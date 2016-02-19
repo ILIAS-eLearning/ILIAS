@@ -566,4 +566,113 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		$tbl = new ilBadgeUserTableGUI($this, "listUsers", null, null, $parent_obj_id);
 		$tpl->setContent($tbl->getHTML());
 	}
+	
+	
+	//
+	// see ilBadgeManagementGUI
+	//
+	
+	protected function getObjectBadgesFromMultiAction()
+	{
+		global $ilAccess, $ilCtrl;
+		
+		$badge_ids = $_REQUEST["id"];
+		if(!$badge_ids ||
+			!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$ilCtrl->redirect($this, "listObjectBadges");
+		}
+		
+		return $badge_ids;	
+	}
+	
+	protected function toggleObjectBadges($a_status)
+	{
+		global $ilCtrl, $lng;
+		
+		$badge_ids = $this->getObjectBadgesFromMultiAction();
+		
+		include_once "Services/Badge/classes/class.ilBadge.php";
+		foreach($badge_ids as $badge_id)
+		{					
+			$badge = new ilBadge($badge_id);
+			$badge->setActive($a_status);
+			$badge->update();
+		}
+		
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$ilCtrl->redirect($this, "listObjectBadges");		
+	}	
+	
+	protected function activateObjectBadges()
+	{
+		$this->toggleObjectBadges(true);		
+	}
+	
+	protected function deactivateObjectBadges()
+	{
+		$this->toggleObjectBadges(false);		
+	}
+	
+	protected function confirmDeleteObjectBadges()
+	{
+		global $ilCtrl, $lng, $tpl, $ilTabs;	
+								
+		$badge_ids = $this->getObjectBadgesFromMultiAction();
+				
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "listObjectBadges"));		
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$confirmation_gui = new ilConfirmationGUI();
+		$confirmation_gui->setFormAction($ilCtrl->getFormAction($this));
+		$confirmation_gui->setHeaderText($lng->txt("badge_deletion_confirmation"));
+		$confirmation_gui->setCancel($lng->txt("cancel"), "listObjectBadges");
+		$confirmation_gui->setConfirm($lng->txt("delete"), "deleteObjectBadges");
+			
+		include_once "Services/Badge/classes/class.ilBadge.php";		
+		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";		
+		foreach($badge_ids as $badge_id)
+		{								
+			$badge = new ilBadge($badge_id);
+			$parent = $badge->getParentMeta();
+			
+			// :TODO: container presentation
+			$container = "(".$parent["type"]."/".
+					$parent["id"].") ".
+					$parent["title"];						
+			if((bool)$parent["deleted"])
+			{
+				$container = '<s>'.$container.'</s>';
+			}
+			
+			$confirmation_gui->addItem(
+				"id[]", 
+				$badge_id, 
+				$container." - ".
+				$badge->getTitle().
+				" (".sizeof(ilBadgeAssignment::getInstancesByBadgeId($badge_id)).")"
+			);			
+		}
+
+		$tpl->setContent($confirmation_gui->getHTML());
+	}
+	
+	protected function deleteObjectBadges()
+	{
+		global $ilCtrl, $lng;
+		
+		$badge_ids = $this->getObjectBadgesFromMultiAction();
+		
+		include_once "Services/Badge/classes/class.ilBadge.php";
+		foreach($badge_ids as $badge_id)
+		{					
+			$badge = new ilBadge($badge_id);
+			$badge->delete();
+		}
+		
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$ilCtrl->redirect($this, "listObjectBadges");		
+	}	
 }
