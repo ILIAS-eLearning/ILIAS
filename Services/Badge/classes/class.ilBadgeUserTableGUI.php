@@ -15,7 +15,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 {		
 	protected $award_badge; // [ilBadge]
 	
-	function __construct($a_parent_obj, $a_parent_cmd = "", $a_parent_ref_id, ilBadge $a_award_bagde = null)
+	function __construct($a_parent_obj, $a_parent_cmd = "", $a_parent_ref_id, ilBadge $a_award_bagde = null, $a_parent_obj_id = null)
 	{
 		global $ilCtrl, $lng;
 		
@@ -48,55 +48,67 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 		
 		$this->setRowTemplate("tpl.user_row.html", "Services/Badge");			
 				
-		$this->getItems($a_parent_ref_id, $this->award_badge);				
+		$this->getItems($a_parent_ref_id, $this->award_badge, $a_parent_obj_id);				
 	}
 	
-	function getItems($a_parent_ref_id, ilBadge $a_award_bagde = null)
+	function getItems($a_parent_ref_id, ilBadge $a_award_bagde = null, $a_parent_obj_id = null)
 	{		
 		$data = array();
-						
-		$parent_obj_id = ilObject::_lookupObjId($a_parent_ref_id);
-		
-		$user_ids = ilBadgeHandler::getInstance()->getUserIds($a_parent_ref_id, $parent_obj_id);		
-		if($user_ids)
+					
+		if(!$a_parent_obj_id)
 		{
-			$badges = array();
-			foreach(ilBadge::getInstancesByParentId($parent_obj_id) as $badge)
+			$a_parent_obj_id = ilObject::_lookupObjId($a_parent_ref_id);
+		}
+		
+		// repository context: walk tree for available users
+		if($a_parent_ref_id)
+		{
+			$user_ids = ilBadgeHandler::getInstance()->getUserIds($a_parent_ref_id, $a_parent_obj_id);		
+		}			
+		
+		$badges = array();
+		include_once "Services/Badge/classes/class.ilBadge.php";
+		foreach(ilBadge::getInstancesByParentId($a_parent_obj_id) as $badge)
+		{
+			$badges[$badge->getId()] = $badge; 
+		}
+
+		$assignments = array();
+		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+		foreach(ilBadgeAssignment::getInstancesByParentId($a_parent_obj_id) as $ass)
+		{
+			$assignments[$ass->getUserId()][] = $ass->getBadgeId();			
+		}
+		
+		// administration context: show only existing assignments
+		if(!$user_ids)
+		{
+			$user_ids = array_keys($assignments);
+		}
+
+		include_once "Services/User/classes/class.ilUserQuery.php";
+		$uquery = new ilUserQuery();
+		$uquery->setUserFilter($user_ids);
+		$tmp = $uquery->query();
+		foreach($tmp["set"] as $user)
+		{
+			$id = $user["usr_id"];
+			$data[$id] = array(
+				"id" => $id,
+				"name" => $user["lastname"].", ".$user["firstname"],
+				"login" => $user["login"],
+				"badges" => array()
+			);
+
+			// badges?
+			if(array_key_exists($id, $assignments))
 			{
-				$badges[$badge->getId()] = $badge; 
-			}
-			
-			$assignments = array();
-			include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
-			foreach(ilBadgeAssignment::getInstancesByParentId($parent_obj_id) as $ass)
-			{
-				$assignments[$ass->getUserId()][] = $ass->getBadgeId();			
-			}
-			
-			include_once "Services/User/classes/class.ilUserQuery.php";
-			$uquery = new ilUserQuery();
-			$uquery->setUserFilter($user_ids);
-			$tmp = $uquery->query();
-			foreach($tmp["set"] as $user)
-			{
-				$id = $user["usr_id"];
-				$data[$id] = array(
-					"id" => $id,
-					"name" => $user["lastname"].", ".$user["firstname"],
-					"login" => $user["login"],
-					"badges" => array()
-				);
-				
-				// badges?
-				if(array_key_exists($id, $assignments))
-				{
-					foreach($assignments[$id] as $badge_id)
-					{						
-						$data[$id]["badges"][] = $badges[$badge_id];
-					}
+				foreach($assignments[$id] as $badge_id)
+				{						
+					$data[$id]["badges"][] = $badges[$badge_id];
 				}
 			}
-		}
+		}		
 		
 		$this->setData($data);		
 	}

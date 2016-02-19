@@ -108,6 +108,41 @@ class ilBadge
 		}		
 	}
 	
+	public static function getObjectInstances()
+	{
+		global $ilDB;
+		
+		$res = $raw = array();
+		
+		$set = $ilDB->query("SELECT bb.*, od.title parent_title, od.type parent_type".
+			" FROM badge_badge bb".
+			" JOIN object_data od ON (bb.parent_id = od.obj_id)".
+			" WHERE od.type <> ".$ilDB->quote("bdga", "text"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$raw[] = $row;
+		}
+		
+		$set = $ilDB->query("SELECT bb.*, od.title parent_title, od.type parent_type".
+			" FROM badge_badge bb".
+			" JOIN object_data_del od ON (bb.parent_id = od.obj_id)".
+			" WHERE od.type <> ".$ilDB->quote("bdga", "text"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$row["deleted"] = true;
+			$raw[] = $row;
+		}
+		
+		foreach($raw as $row)
+		{
+			// :TODO:
+			
+			$res[] = $row;
+		}
+		
+		return $res;
+	}
+	
 	
 	//
 	// setter/getter

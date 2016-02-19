@@ -46,10 +46,9 @@ class ilBadgeTableGUI extends ilTable2GUI
 			$this->addMultiCommand("copyBadges", $lng->txt("cont_copy_to_clipboard"));		
 			$this->addMultiCommand("activateBadges", $lng->txt("activate"));		
 			$this->addMultiCommand("deactivateBadges", $lng->txt("deactivate"));		
-			$this->addMultiCommand("confirmDeleteBadges", $lng->txt("delete"));		
+			$this->addMultiCommand("confirmDeleteBadges", $lng->txt("delete"));					
+			$this->setSelectAllCheckbox("id");		
 		}
-		
-		$this->setSelectAllCheckbox("id");
 			
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.badge_row.html", "Services/Badge");	

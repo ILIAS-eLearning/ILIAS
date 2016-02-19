@@ -84,6 +84,10 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 				$this->tabs_gui->addTab("activity",
 					$this->lng->txt("badge_activity_badges"),
 					$this->ctrl->getLinkTargetByClass("ilbadgemanagementgui", ""));
+				
+				$this->tabs_gui->addTab("obj_badges",
+					$this->lng->txt("badge_object_badges"),
+					$this->ctrl->getLinkTarget($this, "listObjectBadges"));
 			}
 		}
 
@@ -480,8 +484,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		{
 			$ilCtrl->redirect($this, "listImageTemplates");
 		}
-		
-		
+				
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "listImageTemplates"));		
@@ -524,4 +527,43 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		
 		$ilCtrl->redirect($this, "listImageTemplates");
 	}		
+	
+	
+	//
+	// object badges
+	// 
+	
+	protected function listObjectBadges()
+	{
+		global $ilAccess, $tpl;
+		
+		$this->assertActive();
+		$this->tabs_gui->setTabActive("obj_badges");
+		
+		include_once("./Services/Badge/classes/class.ilObjectBadgeTableGUI.php");
+		$tbl = new ilObjectBadgeTableGUI($this, "listObjectBadges",
+			$ilAccess->checkAccess("write", "", $this->object->getRefId()));
+		$tpl->setContent($tbl->getHTML());
+	}
+	
+	protected function listObjectBadgeUsers()
+	{
+		global $ilCtrl, $lng, $tpl;
+		
+		$parent_obj_id = $_REQUEST["pid"];
+		if(!$parent_obj_id)
+		{
+			$ilCtrl->redirect($this, "listObjectBadges");
+		}
+		
+		$this->assertActive();
+		
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "listObjectBadges"));
+		
+		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
+		$tbl = new ilBadgeUserTableGUI($this, "listUsers", null, null, $parent_obj_id);
+		$tpl->setContent($tbl->getHTML());
+	}
 }

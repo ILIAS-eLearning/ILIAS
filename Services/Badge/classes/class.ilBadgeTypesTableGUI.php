@@ -32,7 +32,8 @@ class ilBadgeTypesTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("name"), "name");		
 		$this->addColumn($lng->txt("cmps_component"), "comp");		
 		$this->addColumn($lng->txt("badge_manual"), "manual");		
-		$this->addColumn($lng->txt("active"), "inactive");
+		$this->addColumn($lng->txt("badge_activity_badges"), "activity");
+		$this->addColumn($lng->txt("active"), "inactive");		
 	
 		if((bool)$a_has_write)
 		{			
@@ -68,7 +69,8 @@ class ilBadgeTypesTableGUI extends ilTable2GUI
 						"comp" => $handler->getComponentCaption($component),
 						"name" => $badge_obj->getCaption(),
 						"manual" => (!$badge_obj instanceof ilBadgeAuto),
-						"active" => !in_array($id, $inactive)
+						"active" => !in_array($id, $inactive),
+						"activity" => in_array("bdga", $badge_obj->getValidObjectTypes())
 					);					
 				}
 			}
@@ -88,6 +90,9 @@ class ilBadgeTypesTableGUI extends ilTable2GUI
 			? $lng->txt("yes")
 			: "&nbsp;");
 		$this->tpl->setVariable("TXT_ACTIVE", $a_set["active"]
+			? $lng->txt("yes")
+			: "&nbsp;");		
+		$this->tpl->setVariable("TXT_ACTIVITY", $a_set["activity"]
 			? $lng->txt("yes")
 			: "&nbsp;");		
 	}
