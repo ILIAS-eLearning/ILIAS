@@ -123,7 +123,7 @@ class ilRbacReview
 		{
 			require_once './Services/PEAR/lib/Mail/RFC822.php';
 			$parser = new Mail_RFC822();
-			$parsedList = $parser->parseAddressList($a_address_list, "ilias", false, true);
+			$parsedList = $parser->parseAddressList($a_address_list, ilMail::ILIAS_HOST, false, true);
 			foreach ($parsedList as $address)
 			{
 				$local_part = $address->mailbox;
@@ -171,11 +171,11 @@ class ilRbacReview
 				if (strlen($local_part) == 0)
 				{
 					$local_part = $domain;
-					$address->host = 'ilias';
-					$domain = 'ilias';
+					$address->host = ilMail::ILIAS_HOST;
+					$domain = ilMail::ILIAS_HOST;
 				}
 
-				if (strtolower($address->host) == 'ilias')
+				if (strtolower($address->host) == ilMail::ILIAS_HOST)
 				{
 					// Search for roles = local-part in the whole repository
 					$query = "SELECT dat.obj_id ".
@@ -213,7 +213,7 @@ class ilRbacReview
 
 				// Nothing found?
 				// In this case, we search for roles = host.
-				if ($count == 0 && strtolower($address->host) == 'ilias')
+				if ($count == 0 && strtolower($address->host) == ilMail::ILIAS_HOST)
 				{
 					$q = "SELECT dat.obj_id ".
 						"FROM object_data dat ".
@@ -509,7 +509,7 @@ class ilRbacReview
 			}
 
 			require_once './Services/PEAR/lib/Mail/RFC822.php';
-			$obj = new Mail_RFC822($mailbox, 'ilias');
+			$obj = new Mail_RFC822($mailbox, ilMail::ILIAS_HOST);
 			if(@$obj->parseAddressList() instanceof PEAR_Error)
 			{
 				$q = "SELECT title ".
