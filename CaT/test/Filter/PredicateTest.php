@@ -778,7 +778,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	* @dataProvider date_eq_field
+	* @dataProvider date_ge_field
 	*/
 	public function test_date_lt_field($data) {
 		$f = $this->factory;
@@ -790,7 +790,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	/**
-	* @dataProvider date_eq_field
+	* @dataProvider date_ge_field
 	*/
 	public function test_field_gt_date($data) {
 		$f = $this->factory;
