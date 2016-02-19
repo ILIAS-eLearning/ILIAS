@@ -114,15 +114,33 @@ class ilBadgeManagementGUI
 			
 			 if(is_array($_SESSION[self::CLIPBOARD_ID]))
 			 {
-				 if($valid_types)
-				 {
-					 $ilToolbar->addSeparator();
-				 }
+				if($valid_types)
+				{
+					$ilToolbar->addSeparator();
+				}
+				 			
+				$tt = array();
+				foreach($this->getValidBadgesFromClipboard() as $badge)
+				{
+					$tt[] = $badge->getTitle();
+				}				 
+				$ttid = "bdgpst";
+				include_once "Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php";
+				ilTooltipGUI::addTooltip(
+					$ttid, 
+					implode("<br />", $tt),
+					"",
+					"bottom center", 
+					"top center",
+					false
+				);
 				 
-				 $lng->loadLanguageModule("content");
-				 $ilToolbar->addButton($lng->txt("cont_paste_from_clipboard"), 
-					$ilCtrl->getLinkTarget($this, "pasteBadges"));
-				 $ilToolbar->addButton($lng->txt("clear_clipboard"), 
+				$lng->loadLanguageModule("content");
+				$ilToolbar->addButton($lng->txt("cont_paste_from_clipboard").
+						" (".sizeof($tt).")", 
+					$ilCtrl->getLinkTarget($this, "pasteBadges"), 
+					"", "",	"", $ttid);
+				$ilToolbar->addButton($lng->txt("clear_clipboard"), 
 					$ilCtrl->getLinkTarget($this, "clearClipboard"));
 			 }
 		}
@@ -411,12 +429,7 @@ class ilBadgeManagementGUI
 	{
 		global $ilCtrl, $lng, $tpl, $ilTabs;	
 								
-		$badge_ids = $_REQUEST["id"];
-		if(!$badge_ids ||
-			!$this->hasWrite())
-		{
-			$ilCtrl->redirect($this, "listBadges");
-		}
+		$badge_ids = $this->getBadgesFromMultiAction();
 				
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
@@ -445,12 +458,7 @@ class ilBadgeManagementGUI
 	{
 		global $ilCtrl, $lng;
 		
-		$badge_ids = $_REQUEST["id"];
-		if(!$badge_ids ||
-			!$this->hasWrite())
-		{
-			$ilCtrl->redirect($this, "listBadges");
-		}
+		$badge_ids = $this->getBadgesFromMultiAction();
 		
 		include_once "Services/Badge/classes/class.ilBadge.php";
 		foreach($badge_ids as $badge_id)
@@ -503,6 +511,25 @@ class ilBadgeManagementGUI
 		$ilCtrl->redirect($this, "listBadges");
 	}
 	
+	protected function getValidBadgesFromClipboard()
+	{
+		$res = array();
+		
+		$valid_types = array_keys(ilBadgeHandler::getInstance()->getAvailableTypesForObjType($this->parent_obj_type));
+			
+		include_once "Services/Badge/classes/class.ilBadge.php";
+		foreach($_SESSION[self::CLIPBOARD_ID] as $badge_id)
+		{
+			$badge = new ilBadge($badge_id);
+			if(in_array($badge->getTypeId(), $valid_types))
+			{
+				$res[] = $badge;
+			}
+		}
+		
+		return $res;
+	}
+	
 	protected function pasteBadges()
 	{
 		global $ilCtrl;
@@ -513,16 +540,9 @@ class ilBadgeManagementGUI
 			$ilCtrl->redirect($this, "listBadges");
 		}
 		
-		$valid_types = array_keys(ilBadgeHandler::getInstance()->getAvailableTypesForObjType($this->parent_obj_type));
-			
-		include_once "Services/Badge/classes/class.ilBadge.php";
-		foreach($_SESSION[self::CLIPBOARD_ID] as $badge_id)
+		foreach($this->getValidBadgesFromClipboard() as $badge)
 		{
-			$badge = new ilBadge($badge_id);
-			if(in_array($badge->getTypeId(), $valid_types))
-			{
-				$copy = clone $badge;
-			}
+			$badge->copy($this->parent_obj_id);			
 		}
 		
 		$ilCtrl->redirect($this, "listBadges");

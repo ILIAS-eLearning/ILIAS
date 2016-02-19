@@ -83,11 +83,13 @@ class ilBadge
 		}
 	}
 	
-	public function __clone()
+	public function copy($a_new_parent_id)
 	{
 		global $lng;
 		
 		$this->setTitle($this->getTitle()." ".$lng->txt("copy_of_suffix"));
+		$this->setParentId($a_new_parent_id);
+		$this->setActive(false); 
 	
 		if($this->getId())
 		{
