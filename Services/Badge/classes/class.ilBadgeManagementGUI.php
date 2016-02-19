@@ -15,6 +15,8 @@ class ilBadgeManagementGUI
 	protected $parent_ref_id; // [int]
 	protected $parent_obj_id; // [int]
 	protected $parent_obj_type; // [string]
+	
+	const CLIPBOARD_ID = "bdgclpbrd";
 		
 	/**
 	 * Construct
@@ -109,6 +111,20 @@ class ilBadgeManagementGUI
 				$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "addBadge"));
 				$ilToolbar->addFormButton($lng->txt("create"), "addBadge");
 			}
+			
+			 if(is_array($_SESSION[self::CLIPBOARD_ID]))
+			 {
+				 if($valid_types)
+				 {
+					 $ilToolbar->addSeparator();
+				 }
+				 
+				 $lng->loadLanguageModule("content");
+				 $ilToolbar->addButton($lng->txt("cont_paste_from_clipboard"), 
+					$ilCtrl->getLinkTarget($this, "pasteBadges"));
+				 $ilToolbar->addButton($lng->txt("clear_clipboard"), 
+					$ilCtrl->getLinkTarget($this, "clearClipboard"));
+			 }
 		}
 		
 		include_once "Services/Badge/classes/class.ilBadgeTableGUI.php";
@@ -446,20 +462,15 @@ class ilBadgeManagementGUI
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		$ilCtrl->redirect($this, "listBadges");		
 	}	
+
 	
-	protected function activateBadges()
+	// 
+	// badges multi action
+	// 
+			
+	protected function getBadgesFromMultiAction()
 	{
-		$this->toggleBadges(true);
-	}
-	
-	protected function deactivateBadges()
-	{
-		$this->toggleBadges(false);
-	}
-	
-	protected function toggleBadges($a_status)
-	{
-		global $ilCtrl, $lng;
+		global $ilCtrl;
 		
 		$badge_ids = $_REQUEST["id"];
 		if(!$badge_ids ||
@@ -467,6 +478,61 @@ class ilBadgeManagementGUI
 		{
 			$ilCtrl->redirect($this, "listBadges");
 		}
+		
+		return $badge_ids;
+	}
+	
+	protected function copyBadges()
+	{
+		global $ilCtrl;
+		
+		$badge_ids = $this->getBadgesFromMultiAction();		
+
+		$_SESSION[self::CLIPBOARD_ID] = array_unique(
+			array_merge((array)$_SESSION[self::CLIPBOARD_ID], $badge_ids)
+		);		
+		
+		$ilCtrl->redirect($this, "listBadges");
+	}	
+	
+	protected function clearClipboard()
+	{
+		global $ilCtrl;
+		
+		unset($_SESSION[self::CLIPBOARD_ID]);
+		$ilCtrl->redirect($this, "listBadges");
+	}
+	
+	protected function pasteBadges()
+	{
+		global $ilCtrl;
+		
+		if(!$this->hasWrite() ||
+			!is_array($_SESSION[self::CLIPBOARD_ID]))
+		{
+			$ilCtrl->redirect($this, "listBadges");
+		}
+		
+		$valid_types = array_keys(ilBadgeHandler::getInstance()->getAvailableTypesForObjType($this->parent_obj_type));
+			
+		include_once "Services/Badge/classes/class.ilBadge.php";
+		foreach($_SESSION[self::CLIPBOARD_ID] as $badge_id)
+		{
+			$badge = new ilBadge($badge_id);
+			if(in_array($badge->getTypeId(), $valid_types))
+			{
+				$copy = clone $badge;
+			}
+		}
+		
+		$ilCtrl->redirect($this, "listBadges");
+	}
+		
+	protected function toggleBadges($a_status)
+	{
+		global $ilCtrl, $lng;
+		
+		$badge_ids = $this->getBadgesFromMultiAction();
 		
 		include_once "Services/Badge/classes/class.ilBadge.php";
 		foreach($badge_ids as $badge_id)
@@ -480,6 +546,16 @@ class ilBadgeManagementGUI
 		$ilCtrl->redirect($this, "listBadges");		
 	}	
 	
+	protected function activateBadges()
+	{
+		$this->toggleBadges(true);
+	}
+	
+	protected function deactivateBadges()
+	{
+		$this->toggleBadges(false);
+	}
+
 	
 	//
 	// users

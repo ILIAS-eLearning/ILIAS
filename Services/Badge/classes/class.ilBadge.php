@@ -83,6 +83,29 @@ class ilBadge
 		}
 	}
 	
+	public function __clone()
+	{
+		global $lng;
+		
+		$this->setTitle($this->getTitle()." ".$lng->txt("copy_of_suffix"));
+	
+		if($this->getId())
+		{
+			$img = $this->getImagePath();	
+
+			$this->setId(null);		
+			$this->create();
+
+			if($img)
+			{
+				// see uploadImage()
+				$path = $this->getFilePath($this->getId());
+				$tgt = $path."img".$this->getId();
+				copy($img, $tgt);
+			}			
+		}		
+	}
+	
 	
 	//
 	// setter/getter

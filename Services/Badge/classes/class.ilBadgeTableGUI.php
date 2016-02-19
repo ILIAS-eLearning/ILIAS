@@ -41,6 +41,9 @@ class ilBadgeTableGUI extends ilTable2GUI
 		if($this->has_write)
 		{			
 			$this->addColumn($lng->txt("action"), "");		
+			
+			$lng->loadLanguageModule("content");
+			$this->addMultiCommand("copyBadges", $lng->txt("cont_copy_to_clipboard"));		
 			$this->addMultiCommand("activateBadges", $lng->txt("activate"));		
 			$this->addMultiCommand("deactivateBadges", $lng->txt("deactivate"));		
 			$this->addMultiCommand("confirmDeleteBadges", $lng->txt("delete"));		
