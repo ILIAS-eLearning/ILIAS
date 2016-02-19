@@ -83,4 +83,8 @@ $ilDB->addTableColumn("rubric_data", "criteria_point", array("type" => "integer"
 <?php
 $ilDB->modifyTableColumn('rubric_behavior', 'description',array("type" => "text", "length" => 1000));
 ?>
+<#5>
+<?php
+$ilDB->addTableColumn("rubric", "locked", array("type" => "timestamp"));
+?>
 

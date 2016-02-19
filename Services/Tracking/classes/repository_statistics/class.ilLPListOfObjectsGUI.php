@@ -519,7 +519,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			return;
 		}
-        
         // bring in GUI and DB objects
         include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCard.php");
         include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php");
@@ -527,16 +526,30 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         // instantiate rubric objects
         $rubricGui=new ilLPRubricCardGUI();
         $rubricObj=new ilLPRubricCard($this->getObjId());
-        
+
+
+
         // check to see if rubric data exists for this object, assign data if it does
         if($rubricObj->objHasRubric()){            
             $rubricGui->setRubricData($rubricObj->load());
         }
         $rubricGui->setPassingGrade($rubricObj->getPassingGrade());
-                
+        if($rubricObj->isLocked()) {
+			$rubricGui->setRubricLocked($rubricObj->getRubricLocked());
+			$rubricGui->setRubricOwner($rubricObj->getRubricOwner());
+		}
         $rubricGui->getRubricCard($this->ctrl->getFormAction($this));
         
     }
+	public function lockRubricCardForm()
+	{
+		include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php");
+		include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCard.php");
+		$rubricObj=new ilLPRubricCard($this->getObjId());
+		$rubricGui=new ilLPRubricCardGUI();
+		$rubricObj->lockUnlock();
+		$this->showRubricCardForm();
+	}
     // END PATCH RUBRIC CPKN 2015
 }
 ?>

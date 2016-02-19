@@ -8,12 +8,12 @@
         
         {RURBRIC_COMMANDROW_SELECT}
         
-        <input type="button" value="{RUBRIC_EXECUTE}" onclick="rubric_cmd(this)" class="btn btn-default">
-                
+        <input type="button" {RUBRIC_DISABLED} value="{RUBRIC_EXECUTE}" onclick="rubric_cmd(this)" class="btn btn-default">
+        <input type="submit" value="{RUBRIC_LOCK}" name="cmd[lockRubricCardForm]" class="btn btn-default btn-sm">
     </div>
 
     <div class="ilFloatRight ilFormCmds">
-    
+
         <div class="form-group">        
             <label class="control-label" for="passing_grade">Passing Grade</label>
             <div class="input-group has-success has-feedback">
@@ -25,7 +25,7 @@
             
         </div>
         
-        <input type="submit" value="{RUBRIC_SAVE}" name="cmd[saveRubricCard]" class="btn btn-default btn-sm">
+        <input type="submit" {RUBRIC_DISABLED} value="{RUBRIC_SAVE}" name="cmd[saveRubricCard]" class="btn btn-default btn-sm">
 
     </div>
     
