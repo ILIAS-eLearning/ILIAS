@@ -15569,7 +15569,7 @@ membership#:#mem_force_notification_mode_all#:#Notification activated for all me
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications
 membership#:#mem_force_notification_mode_custom#:#Custom
 common#:#settings_for_all_members#:#Members will be notified automatically 
-common#:#settings_per_users#:#For each member individual settings can be made 
+common#:#settings_per_users#:#Members are notified automatically. Deactivating notifications can be allowed for each member individually.
 forum#:#user_decides_notification#:#Members have to manually activate notifications
 crs#:#crs_intro_course_group_notification_for#:#this is the news digest for your courses and groups, which have an active notification.
 crs#:#crs_intro_course_group_notification_index#:#There are news for the period of %1$s to %2$s for the following courses and groups:

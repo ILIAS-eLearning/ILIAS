@@ -15557,7 +15557,7 @@ membership#:#mem_force_notification_mode_all#:#Aktiviert für alle Mitglieder (f
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Mitglieder können Benachrichtigungen deaktivieren
 membership#:#mem_force_notification_mode_custom#:#Einstellungen für jedes Mitglied
 common#:#settings_for_all_members#:#Mitglieder werden automatisch benachrichtigt
-common#:#settings_per_users#:#Für jedes Mitglied können individuelle Voreinstellungen getroffen werden
+common#:#settings_per_users#:#Mitglieder werden automatisch benachrichtigt. Für jedes Mitglied kann individuell festgelegt werden, ob es die Benachrichtigung deaktivieren darf.
 forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren 
 crs#:#crs_intro_course_group_notification_for#:#dies ist die Zusammenfassung der Nachrichten aus Ihren Kursen und Gruppen, für die die automatische Benachrichtigung aktiviert wurde.
 crs#:#crs_intro_course_group_notification_index#:#Es gibt Nachrichten aus folgenden Kursen und Gruppen für den Zeitraum von %1$s bis %2$s:
