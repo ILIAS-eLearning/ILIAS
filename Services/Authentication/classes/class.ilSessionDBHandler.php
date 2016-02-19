@@ -83,7 +83,8 @@ class ilSessionDBHandler
 		$cwd = getcwd();
 		chdir(IL_INITIAL_WD);
 		$r = ilSession::_writeData($session_id, $data);
-		chdir($cwd);
+		// see bug http://www.ilias.de/mantis/view.php?id=18000
+		//chdir($cwd);
 		return $r;
 	}
 
