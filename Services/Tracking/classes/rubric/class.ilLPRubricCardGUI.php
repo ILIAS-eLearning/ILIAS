@@ -19,6 +19,8 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     protected $user_data;
     protected $passing_grade;
     private $student_view=false;
+    protected $rubric_locked;
+    protected $rubric_owner;
 
 	/**
 	 * Constructor
@@ -27,7 +29,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
 	{	   
 	   global $tpl,$lng;
        $this->lng=$lng;
-       $this->tpl=$tpl;       
+       $this->tpl=$tpl;
 	}
     
     public function setPassingGrade($passing_grade)
@@ -43,7 +45,17 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     public function setUserData($user_data)
     {
         $this->user_data=$user_data;
-    }    
+    }
+
+    public function setRubricLocked($rubric_locked)
+    {
+        $this->rubric_locked=$rubric_locked;
+    }
+
+    public function setRubricOwner($rubric_owner)
+    {
+        $this->rubric_owner = $rubric_owner;
+    }
 
     private function getRubricCardFormHeader()
     {   
@@ -55,11 +67,10 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         return($rubric_heading_tpl);  
     }
 
-    
+
     private function getRubricCardFormCommandRow($form_action)
     {
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-        
         //configure the command row
         $rubric_commandrow_tpl=new ilTemplate('tpl.lp_rubricform_commandrow.html',true,true,'Services/Tracking');        
         $select_prop=new ilSelectInputGUI('Title','selected_cmdrubric');
@@ -81,11 +92,16 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         $rubric_commandrow_tpl->setVariable('RUBRIC_EXECUTE',$this->lng->txt('execute'));
         $rubric_commandrow_tpl->setVariable('FORM_ACTION',$form_action);
         $rubric_commandrow_tpl->setVariable('PASSING_GRADE_VALUE',"$this->passing_grade");
-        
+        if(!is_null($this->rubric_locked)) {
+            $rubric_commandrow_tpl->setVariable('RUBRIC_DISABLED','disabled');
+            $rubric_commandrow_tpl->setVariable('RUBRIC_LOCK',$this->lng->txt('rubric_card_unlock'));
+            $tmp_user = ilObjectFactory::getInstanceByObjId($this->rubric_owner, false);
+            ilUtil::sendInfo($this->lng->txt('rubric_locked_info').' '.$tmp_user->getFullName().' '.$this->rubric_locked);
+        }else{
+            $rubric_commandrow_tpl->setVariable('RUBRIC_LOCK',$this->lng->txt('rubric_card_lock'));
+        }
         return($rubric_commandrow_tpl);
     }
-
-    
     private function getRubricCardForm()
     {
         //configure the rubric form
@@ -119,6 +135,10 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         
         return($rubric_form_tpl);
     }
+
+
+
+
     
     private function loadRubricCardForm()
     {
@@ -185,7 +205,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         $this->tpl->addCss('./Services/Tracking/css/ilRubricCard.css');
         
     }
-    
+
     private function buildTemplateBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment)
     {
         $tmp_behavior_name='Behavior_'.$group_increment.'_'.$criteria_increment.'_'.$behavior_increment;

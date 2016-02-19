@@ -14,6 +14,8 @@ class ilLPRubricCard
     
     private $rubric_id;
     private $passing_grade=80;
+    private $rubric_locked;
+    private $rubric_owner;
     
     public function __construct($obj_id)
     {
@@ -28,7 +30,16 @@ class ilLPRubricCard
     {
         return($this->passing_grade);    
     }
-    
+
+    public function getRubricLocked()
+    {
+        return $this->rubric_locked;
+    }
+    public function getRubricOwner()
+    {
+        return $this->rubric_owner;
+    }
+
     private function incrementSequence($table)
     {
         $sequence="";
@@ -157,17 +168,38 @@ class ilLPRubricCard
     public function objHasRubric()
     {
         $res=$this->ilDB->query(
-            "select rubric_id,passing_grade from rubric where obj_id=".$this->ilDB->quote($this->obj_id, "integer")." and deleted is null"
+            "select rubric_id,passing_grade,locked,owner from rubric where obj_id=".$this->ilDB->quote($this->obj_id, "integer")." and deleted is null"
         );
         $row=$res->fetchRow(DB_FETCHMODE_OBJECT);
         if(!empty($row->rubric_id)){
             $this->rubric_id=$row->rubric_id;
             $this->passing_grade=$row->passing_grade;
+            $this->rubric_locked = $row->locked;
+            $this->rubric_owner = $row->owner;
             return(true);
         }else{
             return(false);
         }
-        
+    }
+
+    public function lockUnlock()
+    {
+        $lock_var = ($this->isLocked())?NULL:date("Y-m-d H:i:s");
+        $this->ilDB->manipulate(
+            "update rubric set
+              locked = ".$this->ilDB->quote($lock_var,"timestamp").
+              ",owner = ".$this->ilDB->quote($_SESSION['AccountId'], "integer").
+              " where obj_id=".$this->ilDB->quote($this->obj_id, "integer")
+        );
+    }
+
+    public function isLocked()
+    {
+        $res=$this->ilDB->query(
+            "select locked from rubric where obj_id=".$this->ilDB->quote($this->obj_id, "integer")." and deleted is null"
+        );
+        $row=$res->fetchRow(DB_FETCHMODE_OBJECT);
+        return (is_null($row->locked))?false:true;
     }
     
     private function getRubricGroups()
@@ -556,9 +588,7 @@ class ilLPRubricCard
         }
         
     }
-    
-    
-    
+
     private function saveRubricLabelTbl($labels)
     {
         /**
@@ -652,6 +682,7 @@ class ilLPRubricCard
                 owner=".$this->ilDB->quote($_SESSION['AccountId'], "integer")
         );
     }
+
 }
 
 ?>
