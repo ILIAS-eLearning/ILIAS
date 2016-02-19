@@ -119,8 +119,9 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 	public function __construct($row)
 	{
 		$this->obj_id = $row['obj_id'];
+		$this->ref_id = $row['ref_id'];
 
-		$this->thread_id    = $row['thr_fk'];
+		$this->thread_id    = $row['thread_id'];
 		$this->thread_title = $row['thr_subject'];
 
 		$this->forum_id    = $row['pos_top_fk'];
