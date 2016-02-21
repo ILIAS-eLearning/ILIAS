@@ -10985,8 +10985,8 @@ style#:#sty_list_char#:#Liste
 style#:#sty_list_style_image#:#Bild
 style#:#sty_list_style_position#:#Position
 style#:#sty_list_style_type#:#Listenstyle
-style#:#sty_make_global_default#:#Voreingestellter Style für neue Objekte
-style#:#sty_make_global_fixed#:#Erzwungener Style für neue Objekte
+style#:#sty_make_global_default#:#Standard-Style
+style#:#sty_make_global_fixed#:#Erzwungener Style für alle Objekte
 style#:#sty_margin#:#Außenrand
 style#:#sty_margin_and_padding#:#Außenrand und Innenabstand
 style#:#sty_media_char#:#Medien
@@ -11142,12 +11142,12 @@ style#:#sty_type_text_inline#:#Zeichen
 style#:#sty_type_va_cntr#:#Vert. Akkordeon Container
 style#:#sty_type_va_icntr#:#Vert. Akkordeonelement Container
 style#:#sty_type_va_icont#:#Vert. Akkordeonelement Inhalt
-style#:#sty_type_va_ihead#:#Vert. Akkordeonelement Überschrift
+style#:#sty_type_va_ihead#:#Vert. Akkordeonelement Kopf
 style#:#sty_ul#:#Bullet-Liste
 style#:#sty_va_cntr_class#:#Vert. Akkordeon Container
 style#:#sty_va_icntr_class#:#Vert. Akkordeonelement Container
 style#:#sty_va_icont_class#:#Vert. Akkordeonelement Inhalt
-style#:#sty_va_ihead_class#:#Vert. Akkordeonelement Überschrift
+style#:#sty_va_ihead_class#:#Vert. Akkordeonelement Kopf
 style#:#sty_vaccordion_templates#:#Vert. Akkordeon Templates
 style#:#sty_vertical#:#Vertikal
 style#:#sty_vertical_align#:#Vertikale Ausrichtung
@@ -16169,3 +16169,11 @@ content#:#cont_error#:#Es ist leider ein Fehler aufgetreten
 crs#:#crs_mail_context_member_info#:#Für die Kontakt-Emails auf der Infoseite eines Kurses 
 crs#:#crs_mail_context_tutor_info#:#Für die Teilnehmer-Emails auf den Mitglieds- und Lernfortschrittsansichten eines Kurses
 sahs#:#sahs_mail_context_lp_info#:#Für die Teilnehmer-Emails auf den Lernfortschrittsansichten eines SCORM-Moduls
+style#:#sty_type_ha_iheada#:#Hor. Akkordeonelement Kopf (aktiv)
+style#:#sty_type_ha_ihcap#:#Hor. Akkordeonelement Überschrift
+style#:#sty_type_va_iheada#:#Vert. Akkordeonelement Kopf (aktiv)
+style#:#sty_type_va_ihcap#:#Vert. Akkordeonelement Überschrift
+style#:#sty_ha_iheada_class#:#Hor. Akkordeonelement Kopf (aktiv)
+style#:#sty_ha_ihcap_class#:#Hor. Akkordeonelement Überschrift
+style#:#sty_va_iheada_class#:#Vert. Akkordeonelement Kopf (aktiv)
+style#:#sty_va_ihcap_class#:#Vert. Akkordeonelement Überschrift

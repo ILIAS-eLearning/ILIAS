@@ -10959,8 +10959,8 @@ style#:#sty_to#:#To
 style#:#sty_add_content_style#:#Add Content Style
 style#:#sty_remove_global_default_state#:#Remove Global Default State
 style#:#sty_remove_global_fixed_state#:#Remove Global Fixed State
-style#:#sty_make_global_default#:#Set as Global Default Style for New Objects
-style#:#sty_make_global_fixed#:#Force this Style on New Objects
+style#:#sty_make_global_default#:#Set as default style
+style#:#sty_make_global_fixed#:#Force this style on all objects
 content#:#cont_save_types#:#Save Types
 content#:#cont_layout_template#:#Layout Template
 content#:#cont_special_page#:#Special Content Page
@@ -16169,3 +16169,11 @@ content#:#cont_error#:#An Error Occured
 crs#:#crs_mail_context_member_info#:#For the contact emails on the info screen of a course 
 crs#:#crs_mail_context_tutor_info#:#For the participant emails on the member and learning progress screens of a course
 sahs#:#sahs_mail_context_lp_info#:#For the participant emails on the learning progress screens of a scorm module
+style#:#sty_type_ha_iheada#:#Hor. Accordion Header (active)
+style#:#sty_type_ha_ihcap#:#Hor. Accordion Caption
+style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)
+style#:#sty_type_va_ihcap#:#Vert. Accordion Caption
+style#:#sty_ha_iheada_class#:#Hor. Accordion Header (active)
+style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption
+style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)
+style#:#sty_va_ihcap_class#:#Vert. Accordion Caption
