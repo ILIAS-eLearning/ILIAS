@@ -1634,14 +1634,12 @@ class gevDecentralTrainingGUI {
 				foreach ($sup_ids as $sup_id) {
 					$pers_org_unit = $uvg_org_units->getOrgUnitIdOf($sup_id);
 					if($pers_org_unit) {
-
 						try{
 							$above_ref_id = gevOrgUnitUtils::getBDOf(gevObjectUtils::getRefId($pers_org_unit));
+							$trainer_orgus[] = $above_ref_id;
 						} catch (Exception $e) {
-							$above_ref_id = null;
+							$this->log->write("no BD found for user: ".$usr_utils->getId());
 						}
-
-						$trainer_orgus[] = $above_ref_id;
 					}
 				}
 			} else {
