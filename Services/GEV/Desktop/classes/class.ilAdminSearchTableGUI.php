@@ -102,7 +102,7 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 	protected function addActionMenu($a_set) {
 		include_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$current_selection_list = new ilAdvancedSelectionListGUI();
-		$current_selection_list->setAsynch(true && false);
+		$current_selection_list->setAsynch(true);
 		$current_selection_list->setAsynchUrl(true);
 		$current_selection_list->setListTitle($this->lng->txt("actions"));
 		$current_selection_list->setId($a_set["obj_id"]);
