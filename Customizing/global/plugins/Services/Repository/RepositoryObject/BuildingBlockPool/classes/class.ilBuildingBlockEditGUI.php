@@ -276,7 +276,6 @@ class ilBuildingBlockEditGUI {
 	}
 
 	protected function checkContentAndTargetInputLength($form) {
-
 		$content_to_long = $this->isTextToLong($form->getInput("frm_content"));
 		if($content_to_long) {
 			$content = $form->getItemByPostVar("frm_content");
