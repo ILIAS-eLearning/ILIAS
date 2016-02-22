@@ -10,7 +10,7 @@
 */
 
 class gevDecentralTrainingCreationRequest {
-	const CREATOR_ROLE_TITLE = "Trainingsersteller";
+	const CREATOR_ROLE_TITLE = "Pool Trainingsersteller";
 	const CREATOR_ROLE_DESC = "Ersteller des dezentralen Trainings mit Ref-Id %d";
 	const WEB_DATA_FOLDER = 'request_data';
 	

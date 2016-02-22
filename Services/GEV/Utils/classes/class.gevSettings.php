@@ -39,6 +39,8 @@ class gevSettings {
 	const CRS_AMD_TYPE 				= "crs_amd_type";
 	// Vorlage
 	const CRS_AMD_IS_TEMPLATE		= "crs_amd_is_template";
+	// Abgesagt
+	const CRS_AMD_IS_CANCELLED		= "crs_amd_is_cancelled";
 	
 	// Trainingsbetreuer -> ILIAS Standard
 	//const CRS_AMD_MAINTAINER		= "crs_amd_maintainer";
@@ -129,6 +131,9 @@ class gevSettings {
 
 	// Organisationseinheit TEP
 	const CRS_AMD_TEP_ORGU			= "crs_amd_tep_orgu";
+
+	//Traingsersteller
+	const CRS_AMD_TRAINING_CREATOR 		= "crs_amd_training_creator";
 
 	// Crs User PState
 	const CRS_USR_STATE_SUCCESS			= "erfolgreich";
@@ -287,6 +292,10 @@ class gevSettings {
 	const CHANGE_TRAINER = "change_trainer";
 	const VIEW_MAILLOG = "view_maillog";
 	const CANCEL_TRAINING = "cancel_training";
+
+	//building block permissions
+	const USE_BUILDING_BLOCK = "use_building_block";
+	const EDIT_BUILDING_BLOCKS = "edit_building_blocks";
 
 	static $UDF_FIELD_ORDER = array(
 		'Emailadresse (privat)'
@@ -461,6 +470,11 @@ class gevSettings {
 		, "Admin-eingeschraenkt"
 		, "Admin-Voll"
 		);
+
+	// Names of roles that count as system admins
+	static $SYSTEM_ADMIN_ROLES = array(
+		  "Administrator"
+		);
 	
 	// Names of roles that count as superiors
 	static $SUPERIOR_ROLES = array(
@@ -481,7 +495,7 @@ class gevSettings {
 	// Names of roles that count as crs manager
 	static $CRS_MANAGER_ROLES = array(
 		  "il_crs_admin_%"
-		  ,"Trainingsersteller"
+		  ,"Pool Trainingsersteller"
 		);
 
 	// Will store the ref id of the orgu where the exited users should be put.

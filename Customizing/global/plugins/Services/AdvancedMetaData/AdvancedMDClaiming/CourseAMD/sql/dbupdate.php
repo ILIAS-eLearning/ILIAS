@@ -860,3 +860,35 @@ $options = array
 
 $amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_TOPIC, $options);
 ?>
+
+<#25>
+<?php
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+gevAMDUtils::addAMDField( "Verwaltung"
+						, "Abgesagt"
+						, gevSettings::CRS_AMD_IS_CANCELLED
+						, "Dieser Kurs wurde abgesagt."
+						, false
+						, array("Nein","Ja")
+						, ilAdvancedMDFieldDefinition::TYPE_SELECT
+						);
+?>
+
+<#26>
+<?php
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+gevAMDUtils::addAMDField( "Verwaltung"
+						, "Trainingsersteller"
+						, gevSettings::CRS_AMD_TRAINING_CREATOR
+						, "User ID des Trainingserstellers."
+						, false
+						, null
+						, ilAdvancedMDFieldDefinition::TYPE_TEXT
+						);
+?>
