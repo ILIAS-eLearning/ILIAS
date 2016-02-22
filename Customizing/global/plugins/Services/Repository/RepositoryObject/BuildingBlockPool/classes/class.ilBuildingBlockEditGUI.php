@@ -201,50 +201,24 @@ class ilBuildingBlockEditGUI {
 	}
 
 	public function update() {
-		$form = $this->initForm();
-		$form->setValuesByPost();
-
-		if (!$form->checkInput()) {
-			return $this->getHtml($form);
-		}
-
-		if(!$this->checkContentAndTargetInputLength($form)) {
-			return $this->getHtml($form);
-		}
-
-		require_once ("Services/GEV/Utils/classes/class.gevBuildingBlockUtils.php");
-		$bu_utils = gevBuildingBlockUtils::getInstance($this->obj_id);
-
-		$bu_utils->setTitle($form->getInput("frm_title"));
-		$bu_utils->setContent($form->getInput("frm_content"));
-		$bu_utils->setTarget($form->getInput("frm_target"));
-		$bu_utils->setIsActive($form->getInput("frm_active"));
-
-		$bu_utils->setGDVTopic($form->getInput("frm_gdv_topic"));
-		$bu_utils->setIsWPRelevant(($bu_utils->getGDVTopic() != ""));
-
-		$training_category = $form->getInput("frm_training_category");
-		$training_category = ($training_category !== null) ? $training_category : array();
-		$bu_utils->setTrainingCategories($training_category);
-		
-		$bu_utils->setTopic($form->getInput("frm_topic"));
-		$bu_utils->setDBVTopic($form->getInput("frm_dbv_topic"));
-		$bu_utils->setMoveToCourse(($form->getInput("frm_move_to_course") == "Ja") ? 1 : 0);
-
+		$bu_utils = $this->getBuldingBlockUtilsFromForm();
 		$bu_utils->update();
 
 		$this->gCtrl->redirect($this->parent_obj);
 	}
 
 	public function save() {
+		$bu_utils = $this->getBuldingBlockUtilsFromForm();
+		$bu_utils->save();
+
+		$this->gCtrl->redirect($this->parent_obj);
+	}
+
+	protected function getBuldingBlockUtilsFromForm() {
 		$form = $this->initForm();
 		$form->setValuesByPost();
 
-		if (!$form->checkInput()) {
-			return $this->getHtml($form);
-		}
-
-		if(!$this->checkContentAndTargetInputLength($form)) {
+		if (!$form->checkInput() || !$this->checkContentAndTargetInputLength($form)) {
 			return $this->getHtml($form);
 		}
 
@@ -268,9 +242,7 @@ class ilBuildingBlockEditGUI {
 		$bu_utils->setMoveToCourse(($form->getInput("frm_move_to_course") == "Ja") ? 1 : 0);
 		$bu_utils->setPoolId($this->parent_obj->object->getId());
 
-		$bu_utils->save();
-
-		$this->gCtrl->redirect($this->parent_obj);
+		return $bu_utils;
 	}
 
 	public function deleteConfirm() {
