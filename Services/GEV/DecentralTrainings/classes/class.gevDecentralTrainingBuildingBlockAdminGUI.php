@@ -430,14 +430,14 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$bu_utils->setTitle($form->getInput("frm_title"));
 		$bu_utils->setContent($form->getInput("frm_content"));
 		$bu_utils->setTarget($form->getInput("frm_target"));
-		$bu_utils->setIsActice($form->getInput("frm_active"));
+		$bu_utils->setIsActive($form->getInput("frm_active"));
 
 		$bu_utils->setGDVTopic($form->getInput("frm_gdv_topic"));
 		$bu_utils->setIsWPRelevant(($bu_utils->getGDVTopic() != ""));
 
 		$training_category = $form->getInput("frm_training_category");
 		$training_category = ($training_category !== null) ? $training_category : array();
-		$bu_utils->setTraingCategories($training_category);
+		$bu_utils->setTrainingCategories($training_category);
 		
 		$bu_utils->setTopic($form->getInput("frm_topic"));
 		$bu_utils->setDBVTopic($form->getInput("frm_dbv_topic"));
@@ -468,14 +468,14 @@ class gevDecentralTrainingBuildingBlockAdminGUI {
 		$bu_utils->setTitle($form->getInput("frm_title"));
 		$bu_utils->setContent($form->getInput("frm_content"));
 		$bu_utils->setTarget($form->getInput("frm_target"));
-		$bu_utils->setIsActice($form->getInput("frm_active"));
+		$bu_utils->setIsActive($form->getInput("frm_active"));
 
 		$bu_utils->setGDVTopic($form->getInput("frm_gdv_topic"));
 		$bu_utils->setIsWPRelevant(($bu_utils->getGDVTopic() != ""));
 
 		$training_category = $form->getInput("frm_training_category");
 		$training_category = ($training_category !== null) ? $training_category : array();
-		$bu_utils->setTraingCategories($training_category);
+		$bu_utils->setTrainingCategories($training_category);
 
 		$bu_utils->setTopic($form->getInput("frm_topic"));
 		$bu_utils->setDBVTopic($form->getInput("frm_dbv_topic"));

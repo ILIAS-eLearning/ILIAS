@@ -133,6 +133,13 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				}
 			}
 		}
+
+		$main_menue_permissions = array("manage_courses"=>$manage_courses
+									,"search_courses"=>$search_courses
+									,"manage_users"=>$manage_users
+									,"manage_org_units"=>$manage_org_units
+									,"manage_mails"=>$manage_mails
+									,"manage_course_block_units"=>$manage_course_block_units);
 		
 		$menu = array( 
 			//single entry?
@@ -172,15 +179,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				), $this->gLng->txt("gev_others_menu"))
 			, self::GEV_REPORTING_MENU => array(false, $this->hasReportingMenu(), null)
 
-			, "gev_admin_menu" => array(false, $has_managment_menu, array(
-				  "gev_course_mgmt" => array($manage_courses, "goto.php?target=root_1",$this->gLng->txt("gev_course_mgmt"))
-				, "gev_course_mgmt_search" => array($search_courses, "ilias.php?baseClass=gevDesktopGUI&cmd=toAdmCourseSearch",$this->gLng->txt("gev_course_search_adm"))
-				, "gev_user_mgmt" => array($manage_users, "ilias.php?baseClass=ilAdministrationGUI&ref_id=7&cmd=jump",$this->gLng->txt("gev_user_mgmt"))
-				, "gev_org_mgmt" => array($manage_org_units, "ilias.php?baseClass=ilAdministrationGUI&ref_id=56&cmd=jump",$this->gLng->txt("gev_org_mgmt"))
-				, "gev_mail_mgmt" => array($manage_mails, "ilias.php?baseClass=ilAdministrationGUI&ref_id=12&cmd=jump",$this->gLng->txt("gev_mail_mgmt"))
-				//, "gev_competence_mgmt" => array($manage_competences, "ilias.php?baseClass=ilAdministrationGUI&ref_id=41&cmd=jump",$this->gLng->txt("gev_competence_mgmt"))
-				, "gev_course_bock_unit_mgmt" => array($manage_course_block_units, "ilias.php?baseClass=gevDesktopGUI&cmd=toDctBuildingBlockAdm",$this->gLng->txt("gev_dec_building_block_mgmt"))
-				), $this->gLng->txt("gev_admin_menu"))
+			, "gev_admin_menu" => array(false, $has_managment_menu, $this->_getAdminMainMenuEntries($main_menue_permissions), $this->gLng->txt("gev_admin_menu"))
 			, self::IL_STANDARD_ADMIN => array(false, $has_super_admin_menu, null)
 			);
 
@@ -321,6 +320,26 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		return $gl;
 	}
 
+	protected function _getAdminMainMenuEntries($main_menue_permissions) {
+		$ret = array(
+				  "gev_course_mgmt" => array($main_menue_permissions["manage_courses"], "goto.php?target=root_1",$this->gLng->txt("gev_course_mgmt"))
+				, "gev_course_mgmt_search" => array($main_menue_permissions["search_courses"], "ilias.php?baseClass=gevDesktopGUI&cmd=toAdmCourseSearch",$this->gLng->txt("gev_course_search_adm"))
+				, "gev_user_mgmt" => array($main_menue_permissions["manage_users"], "ilias.php?baseClass=ilAdministrationGUI&ref_id=7&cmd=jump",$this->gLng->txt("gev_user_mgmt"))
+				, "gev_org_mgmt" => array($main_menue_permissions["manage_org_units"], "ilias.php?baseClass=ilAdministrationGUI&ref_id=56&cmd=jump",$this->gLng->txt("gev_org_mgmt"))
+				, "gev_mail_mgmt" => array($main_menue_permissions["manage_mails"], "ilias.php?baseClass=ilAdministrationGUI&ref_id=12&cmd=jump",$this->gLng->txt("gev_mail_mgmt")));
+				//, "gev_competence_mgmt" => array($manage_competences, "ilias.php?baseClass=ilAdministrationGUI&ref_id=41&cmd=jump",$this->gLng->txt("gev_competence_mgmt"));
+
+		$bb_pool = gevUserUtils::getBuildingBlockPoolsTitleUserHasPermissionsTo($this->gUser->getId(), array(gevSettings::USE_BUILDING_BLOCK, "visible"));
+		foreach ($bb_pool as $key => $value) {
+			$this->gCtrl->setParameterByClass("ilobjbuildingblockpoolgui", "ref_id", gevObjectUtils::getRefId($key));
+			$link = $this->gCtrl->getLinkTargetByClass(array("ilObjPluginDispatchGUI","ilobjbuildingblockpoolgui"),"showContent");
+			$ret[$value] = array($main_menue_permissions["manage_course_block_units"], $link, $value);
+			$this->gCtrl->clearParametersByClass("ilobjbuildingblockpoolgui");
+		}
+
+		return $ret;
+	}
+
 	protected function getReportingMenuDropDown() {
 		require_once("Services/Link/classes/class.ilLink.php");
 		require_once("Services/ReportsRepository/classes/class.ilObjReportBase.php");
@@ -335,8 +354,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			, "gev_report_dbv_report" => array($this->canViewReport("gev_report_dbv_report"), "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReport",$this->gLng->txt("gev_report_dbv_report"))
 			, "gev_report_trainer_operation_by_orgu_trainer" => array($this->canViewReport("gev_report_trainer_operation_by_orgu_trainer"), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerOperationByOrgUnitAndTrainer",$this->gLng->txt("gev_report_trainer_operation_by_orgu_trainer"))
 			);
-
-
 
 		$visible_repo_reports = ilObjReportBase::getVisibleReportsObjectData($this->gUser);
 		foreach ($visible_repo_reports as $info) {
@@ -354,7 +371,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	// Stores the info whether a user has a reporting menu in the session of the user to
 	// only calculate it once. Will reuse that value on later calls. 
 	protected function hasReportingMenu() {
-		
 		$has_reporting_menu = ilSession::get("gev_has_reporting_menu");
 		$last_permission_calculation = ilSession::get("gev_has_reporting_menu_calculation_ts");
 		if ( $has_reporting_menu === null
