@@ -195,7 +195,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 	public function invalid_key_types_for_multiselect_provider() {
 		return array
 			( array(1.2)
-			, array(array("foo"))
+			, array(true)
 			);
 	}
 

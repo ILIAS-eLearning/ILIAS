@@ -70,6 +70,6 @@ class Multiselect extends Filter {
 		}
 
 		return new Multiselect($this->factory, $this->label(), $this->description(),
-						$this->options, $this->default_options);
+						$this->options, $this->default_choice);
 	}
 }
