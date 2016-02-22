@@ -1185,6 +1185,10 @@ class gevUserUtils {
 		
 		return $this->hasRoleIn(gevSettings::$ADMIN_ROLES);
 	}
+
+	public function isSystemAdmin() {
+		return $this->hasRoleIn(gevSettings::$SYSTEM_ADMIN_ROLES);
+	}
 	
 	public function getGlobalRoles() {
 		return gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
@@ -2046,5 +2050,74 @@ class gevUserUtils {
 	public function courseToday($date) {
 		$crs_ids = $this->getCourseIdsWhereUserIs(array("il_crs_member_%"), array("period"=>array("start"=>$date, "end"=>$date)));
 		return count($crs_ids) > 0;
+	}
+
+	static function getBuildingBlockPoolsUserHasPermissionsTo($user_id, array $permissions) {
+		global $ilDB;
+
+		$opsids = ilRbacReview::_getOperationIdsByName($permissions);
+
+		$query = "SELECT rep_obj_bbpool.obj_id, rbac_pa.ops_id\n"
+		." FROM rep_obj_bbpool\n"
+		." JOIN rbac_operations ON ".$ilDB->in("rbac_operations.operation", $permissions, false, "text")."\n"
+		." JOIN rbac_ua ON rbac_ua.usr_id = ".$ilDB->quote($user_id, "integer")."\n"
+		." JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id\n"
+		."      AND rbac_pa.ops_id LIKE CONCAT('%', rbac_operations.ops_id, '%')\n"
+		." JOIN object_reference ON object_reference.ref_id = rbac_pa.ref_id\n"
+		." WHERE rep_obj_bbpool.obj_id = object_reference.obj_id";
+
+		$res = $ilDB->query($query);
+		$bb_pools = array();
+		while($row = $ilDB->fetchAssoc($res)){
+			$perm_check = unserialize($row['ops_id']);
+
+			if(in_array($opsids[0], $perm_check) && in_array($opsids[1], $perm_check)) {
+				$bb_pools[] = $row["obj_id"];
+			}
+		}
+		$bb_pools = array_unique($bb_pools);
+
+		return $bb_pools;
+	}
+
+	static function getBuildingBlockPoolsTitleUserHasPermissionsTo($user_id, array $permissions) {
+		global $ilDB;
+
+		$opsids = ilRbacReview::_getOperationIdsByName($permissions);
+
+		$is_system_admin = gevUserUtils::getInstance($user_id)->isSystemAdmin();
+		
+		if($is_system_admin) {
+			$query = "SELECT rep_obj_bbpool.obj_id, object_data.title\n"
+					." FROM rep_obj_bbpool\n"
+					." JOIN object_data ON object_data.obj_id = rep_obj_bbpool.obj_id\n"
+					." ORDER BY object_data.title\n";
+		} else {
+			$query = "SELECT rep_obj_bbpool.obj_id, object_data.title, rbac_pa.ops_id\n"
+					." FROM rep_obj_bbpool\n"
+					." JOIN rbac_operations ON ".$ilDB->in("rbac_operations.operation", $permissions, false, "text")."\n"
+					." JOIN rbac_ua ON rbac_ua.usr_id = ".$ilDB->quote($user_id, "integer")."\n"
+					." JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id\n"
+					."      AND rbac_pa.ops_id LIKE CONCAT('%', rbac_operations.ops_id, '%')\n"
+					." JOIN object_reference ON object_reference.ref_id = rbac_pa.ref_id\n"
+					." JOIN object_data ON object_data.obj_id = rep_obj_bbpool.obj_id\n"
+					." WHERE rep_obj_bbpool.obj_id = object_reference.obj_id\n"
+					." ORDER BY object_data.title\n";
+		}
+
+		$res = $ilDB->query($query);
+		$bb_pools = array();
+		while($row = $ilDB->fetchAssoc($res)){
+			$perm_check = unserialize($row['ops_id']);
+
+			if(!$is_system_admin && !in_array($opsids[0], $perm_check) && !in_array($opsids[1], $perm_check)) {
+				continue;
+			}
+
+			$bb_pools[$row["obj_id"]] = $row["title"];
+		}
+		$bb_pools = array_unique($bb_pools);
+
+		return $bb_pools;
 	}
 }
