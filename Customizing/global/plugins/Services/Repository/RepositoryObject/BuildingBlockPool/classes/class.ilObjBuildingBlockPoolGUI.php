@@ -229,12 +229,10 @@ class ilObjBuildingBlockPoolGUI extends ilObjectPluginGUI {
 	*/
 	function editProperties()
 	{
-		global $tpl, $ilTabs;
-		
-		$ilTabs->activateTab("properties");
+		$this->gTabs->activateTab("properties");
 		$this->initPropertiesForm();
 		$this->getPropertiesValues();
-		$tpl->setContent($this->form->getHTML());
+		$this->gTpl->setContent($this->form->getHTML());
 	}
 	
 	/**
@@ -244,8 +242,6 @@ class ilObjBuildingBlockPoolGUI extends ilObjectPluginGUI {
 	*/
 	public function initPropertiesForm()
 	{
-		global $ilCtrl;
-
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
@@ -255,13 +251,13 @@ class ilObjBuildingBlockPoolGUI extends ilObjectPluginGUI {
 		$this->form->addItem($ti);
 
 		// online
-		$cb = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
+		$cb = new ilCheckboxInputGUI($this->gLng->txt("online"), "online");
 		$this->form->addItem($cb);
 
 		$this->form->addCommandButton("updateProperties", $this->txt("save"));
 
 		$this->form->setTitle($this->txt("edit_properties"));
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
+		$this->form->setFormAction($this->gCtrl->getFormAction($this));
 	}
 	
 	/**
