@@ -72,10 +72,8 @@ class ilObjBuildingBlockPoolGUI extends ilObjectPluginGUI {
 			case "showContent":
 				require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 				if($this->gAccess->checkAccess(gevSettings::EDIT_BUILDING_BLOCKS, "", $this->object->getRefId())) {
-					$this->gTabs->activateTab("content");
 					return $this->showContent();
 				} else if($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
-					$this->gTabs->activateTab("content");
 					return $this->showContentNoEdit();
 				}
 				break;
@@ -162,6 +160,7 @@ class ilObjBuildingBlockPoolGUI extends ilObjectPluginGUI {
 	}
 
 	protected function showContent() {
+		$this->gTabs->activateTab("content");
 		$add_building_bock_link = $this->gCtrl->getLinkTarget($this, "addBuildingBlock");
 		$this->gToolbar->addButton( $this->lng->txt("rep_robj_xbbp_add_building_block"), $add_building_bock_link);
 
@@ -174,6 +173,7 @@ class ilObjBuildingBlockPoolGUI extends ilObjectPluginGUI {
 	}
 
 	protected function showContentNoEdit() {
+		$this->gTabs->activateTab("content");
 		require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/BuildingBlockPool/classes/class.ilBuildingBlockTableGUI.php");
 		$bb_table = new ilBuildingBlockTableGUI(array("pool_id"=>$this->object->getId()), $this, false);
 		$this->gTpl->setContent($bb_table->getHTML());

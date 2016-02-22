@@ -130,7 +130,6 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 
 		// add rbac operations
 		// 1: edit_permissions, 2: visible, 3: read, 4:write, 6:delete
-		
 		$ops = array(1, 2, 3, 4, 6);
 		foreach ($ops as $op)
 		{
