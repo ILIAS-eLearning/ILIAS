@@ -2035,7 +2035,7 @@ class gevUserUtils {
 				." JOIN object_data od ON rua.rol_id = od.obj_id\n"
 				." WHERE rua.usr_id = ".$this->db->quote($this->user_id,"integer")."\n"
 				."       AND (od.title LIKE ".$this->db->quote("il_crs_admin_%", "text")."\n"
-				."            OR title = ".$this->db->quote("Trainingsersteller","text").")";
+				."            OR title = ".$this->db->quote("Pool Trainingsersteller","text").")";
 
 		$res = $this->db->query($query);
 		$row = $this->db->fetchAssoc($res);
