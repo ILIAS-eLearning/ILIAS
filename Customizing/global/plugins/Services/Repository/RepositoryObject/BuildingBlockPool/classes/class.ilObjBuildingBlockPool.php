@@ -9,6 +9,7 @@ require_once 'Services/GEV/Utils/classes/class.gevUserUtils.php';
 class ilObjBuildingBlockPool extends ilObjectPlugin {
 	const TABLE_NAME = "rep_obj_bbpool";
 	const BUILDING_BLOCK_TABLE = "dct_building_block";
+	const PLUGIN_TYPE = "xbbp";
 
 	protected $gDb;
 	protected $gUser;
@@ -24,7 +25,7 @@ class ilObjBuildingBlockPool extends ilObjectPlugin {
 	}
 
 	public function initType() {
-		$this->setType("xbbp");
+		$this->setType(self::PLUGIN_TYPE);
 	}
 
 	/***************************
