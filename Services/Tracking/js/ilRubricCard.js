@@ -374,7 +374,7 @@ addBehavior:function(thead,tbody,tfoot,position){
         // apply the slider new points
         var total_groups=this.howManyGroups();
         total_groups++;
-        var behaviors_reiqured=this.howManyBehaviors();
+        var behaviors_required=this.howManyBehaviors();
 
         var tr=document.createElement('tr');
         tr.setAttribute('class','tblrow1 small');
@@ -605,6 +605,7 @@ addBehavior:function(thead,tbody,tfoot,position){
             inputspan.appendChild(input);
             inputdiv.appendChild(inputspan);
         }
+
         if(fixed_label.indexOf('behaviordescription')> -1)
         {
             input=document.createElement('textarea');
@@ -990,10 +991,6 @@ function validate(obj){
         case 'point':
             modified_object=obj.parentNode;
             if(obj.value.match(/^\d{1,8}(?:\.\d{0,2})?\-\d{1,8}(?:\.\d{0,2})?$/)){
-                var point_table_row = modified_object.parentNode.parentNode;
-
-
-
                 validated=true;
             }else if(obj.value==''){
                 validated='warning';
