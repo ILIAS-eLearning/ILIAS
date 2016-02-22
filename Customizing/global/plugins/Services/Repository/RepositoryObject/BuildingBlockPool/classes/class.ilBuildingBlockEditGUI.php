@@ -180,9 +180,9 @@ class ilBuildingBlockEditGUI {
 		/*************************
 		* ÜBERNAHME IN KURS?
 		*************************/
-		$move_to_course_optins = gevBuildingBlockUtils::getMoveToCourseOptions();
+		$move_to_course_options = gevBuildingBlockUtils::getMoveToCourseOptions();
 		$move_to_course = new ilSelectInputGUI($this->gLng ->txt("gev_dec_training_move_to_course"),"frm_move_to_course");
-		$move_to_course->setOptions($move_to_course_optins);
+		$move_to_course->setOptions($move_to_course_options);
 		if($vals["move_to_course"]){
 			$move_to_course->setValue($vals["move_to_course"]);
 		}
