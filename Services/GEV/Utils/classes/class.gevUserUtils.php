@@ -685,14 +685,6 @@ class gevUserUtils {
 		return $this->employees_for_booking_cancellations;
 	}
 
-	/*public function forceWBDUserProfileFields() {
-		return $this->hasWBDRelevantRole()
-			&& $this->hasDoneWBDRegistration()
-			&& (   $this->getWBDTPType() == self::WBD_TP_SERVICE
-				|| $this->getWBDTPType() == self::WBD_TP_BASIS
-				);
-	}*/
-
 	public function isProfileComplete() {
 		$wbd = gevWBD::getInstance($this->getId());
 		if (!$wbd->forceWBDUserProfileFields()) {
