@@ -32,8 +32,8 @@ var RUBRIC = {
                 // grab the range
                 var points=this.gatherPointValues(trs[a]);
                 for(var b=0;b<points.length;b++){
-                    if(parseInt(points[b]['max'])>points_max){                        
-                        points_max=parseInt(points[b]['max']);
+                    if(parseFloat(points[b]['max'])>points_max){
+                        points_max=parseFloat(points[b]['max']);
                     }
                 }
             }else if(this.nodeHasPointRange(trs[a])){
@@ -43,13 +43,13 @@ var RUBRIC = {
                 group_max=group_total=points_max=0;                
             }else if(this.nodeHasGrade(trs[a])){
                 // get the group grades                
-                group_max+=parseInt(points_max);
-                overall_max+=parseInt(points_max);
+                group_max+=parseFloat(points_max);
+                overall_max+=parseFloat(points_max);
                 
                 var inputs=trs[a].getElementsByTagName('input');                
-                if(isNaN(parseInt(inputs[0].value))===false){
-                    group_total+=parseInt(inputs[0].value);
-                    overall_total+=parseInt(inputs[0].value);                    
+                if(isNaN(parseFloat(inputs[0].value))===false){
+                    group_total+=parseFloat(inputs[0].value);
+                    overall_total+=parseFloat(inputs[0].value);
                 }                
                 
             }
@@ -113,10 +113,10 @@ var RUBRIC = {
                         max=broken_range[1];
                         min=broken_range[0];
                     }else{
-                        if(parseInt(broken_range[1])>max){
+                        if(parseFloat(broken_range[1])>max){
                             max=broken_range[1];
                         }
-                        if(parseInt(broken_range[0])<min){
+                        if(parseFloat(broken_range[0])<min){
                             min=broken_range[0];
                         }
                     }
@@ -126,11 +126,11 @@ var RUBRIC = {
                 
             }else if(!this.nodeHasPointRange(trs[a])){
                 // group and/or criteria
-                group_max+=parseInt(max);
-                group_min+=parseInt(min);
+                group_max+=parseFloat(max);
+                group_min+=parseFloat(min);
                 
-                overall_max+=parseInt(max);
-                overall_min+=parseInt(min);
+                overall_max+=parseFloat(max);
+                overall_min+=parseFloat(min);
                 
             }else{
                 // point range
@@ -711,10 +711,10 @@ addBehavior:function(thead,tbody,tfoot,position){
                                 min=broken_range[0];
                                 max=broken_range[1];
                             }else{
-                                if(parseInt(broken_range[0])<parseInt(min)){
+                                if(parseFloat(broken_range[0])<parseFloat(min)){
                                     min=broken_range[0];
                                 }
-                                if(parseInt(broken_range[1])>parseInt(max)){
+                                if(parseFloat(broken_range[1])>parseFloat(max)){
                                     max=broken_range[1];
                                 }
                             }                            
@@ -727,7 +727,7 @@ addBehavior:function(thead,tbody,tfoot,position){
                 }// while looking for range
                
                 //is the value within the range and a number ?                
-                var test_value=parseInt(inputs[a].value);       
+                var test_value=parseFloat(inputs[a].value);
                 if(isNaN(inputs[a].value)||test_value>max||test_value<min){
                     // value is out of range or not a number                  
                     inputs[a].setAttribute('style','border-color:default');
@@ -984,7 +984,7 @@ function validate(obj){
         break;
         case 'point':
             modified_object=obj.parentNode;
-            if(obj.value.match(/^(0*\d{1,2})+\-+((100)|(0*\d{1,2}))$/)){
+            if(obj.value.match(/^\d{1,8}(?:\.\d{0,2})?\-\d{1,8}(?:\.\d{0,2})?$/)){
                 validated=true;
             }else if(obj.value==''){
                 validated='warning';

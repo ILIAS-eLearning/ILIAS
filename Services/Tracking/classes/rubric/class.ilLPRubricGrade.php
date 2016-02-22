@@ -219,7 +219,7 @@ class ilLPRubricGrade
                     $this->ilDB->manipulate(
                         "update rubric_data set
                             rubric_criteria_id=".$this->ilDB->quote($criteria_id, "integer").",
-                            criteria_point=".$this->ilDB->quote($grade['point'], "integer").",
+                            criteria_point=".$this->ilDB->quote($grade['point'], "float").",
                             criteria_comment=".$this->ilDB->quote($grade['comment'], "text").",
                             deleted=NULL,
                             last_update=NOW(),
@@ -250,7 +250,7 @@ class ilLPRubricGrade
                             ".$this->ilDB->quote($this->rubric_id, "integer").",
                             ".$this->ilDB->quote($user_id, "integer").",
                             ".$this->ilDB->quote($criteria_id, "integer").",
-                            ".$this->ilDB->quote($grade['point'], "integer").",
+                            ".$this->ilDB->quote($grade['point'], "float").",
                             ".$this->ilDB->quote($grade['comment'], "text").",
                             ".$this->ilDB->quote($_SESSION['AccountId'], "integer").",
                             NOW(),

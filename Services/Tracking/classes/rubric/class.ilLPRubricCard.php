@@ -562,8 +562,8 @@ class ilLPRubricCard
                         deleted=null,
                         last_update=NOW(),
                         owner=".$this->ilDB->quote($_SESSION['AccountId'], "integer").",
-                        weight_min=".$this->ilDB->quote($broken_weight[0], "integer").",
-                        weight_max=".$this->ilDB->quote($broken_weight[1], "integer")."
+                        weight_min=".$this->ilDB->quote($broken_weight[0], "float").",
+                        weight_max=".$this->ilDB->quote($broken_weight[1], "float")."
                     where rubric_weight_id=".$this->ilDB->quote($row['rubric_weight_id'], "integer")
                 );                            
             }else{
@@ -575,8 +575,8 @@ class ilLPRubricCard
                         ".$this->ilDB->quote($new_rubric_weight_id, "integer").",
                         ".$this->ilDB->quote($rubric_group_id, "integer").",
                         ".$this->ilDB->quote($label['rubric_label_id'], "text").",
-                        ".$this->ilDB->quote($broken_weight[0], "integer").",
-                        ".$this->ilDB->quote($broken_weight[1], "integer").",
+                        ".$this->ilDB->quote($broken_weight[0], "float").",
+                        ".$this->ilDB->quote($broken_weight[1], "float").",
                         ".$this->ilDB->quote($_SESSION['AccountId'], "integer").",
                         NOW(),
                         NOW()

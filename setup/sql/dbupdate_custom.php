@@ -87,4 +87,12 @@ $ilDB->modifyTableColumn('rubric_behavior', 'description',array("type" => "text"
 <?php
 $ilDB->addTableColumn("rubric", "locked", array("type" => "timestamp"));
 ?>
-
+<#6>
+<?php
+$ilDB->modifyTableColumn('rubric_weight', 'weight_min',array("type" => "float"));
+$ilDB->modifyTableColumn('rubric_weight', 'weight_max',array("type" => "float"));
+?>
+<#7>
+<?php
+$ilDB->modifyTableColumn('rubric_data', 'criteria_point',array("type" => "float"));
+?>
