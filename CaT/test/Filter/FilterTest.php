@@ -247,5 +247,23 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
 		$this->assertEquals("label", $filter->label());
 		$this->assertEquals("description", $filter->description());
+		$this->assertEquals(array("string"), $filter->content_type());
+	}
+
+	public function test_text_predicate() {
+		$filter = $this->factory->option("label", "description")
+			->map_to_predicate(function($str) {
+				$f = $this->factory->predicate_factory();
+				return $f->field("foo")->EQ()->int($str);
+			});
+
+		$this->assertNotNull($filter);
+
+		$interpreter = new \CaT\Filter\DictionaryPredicateInterpreter;
+
+		$pred_true = $filter->content("bar");
+
+		$this->assertTrue($interpreter->interpret($pred_true, array("foo" => "bar")));
+		$this->assertFalse($interpreter->interpret($pred_true, array("foo" => "foo")));
 	}
 }
