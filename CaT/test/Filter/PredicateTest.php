@@ -172,6 +172,10 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse("Implement me!");
 	}
 
+	public function test_LIKE() {
+		$this->assertFalse("Implement me!");
+	}
+
 	public function test_ValueList() {
 		$ls = $this->factory->vlist(1,2,3,4);
 		$this->assertInstanceOf("\\CaT\\Filter\\Predicates\\ValueList", $ls);
