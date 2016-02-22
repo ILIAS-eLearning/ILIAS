@@ -109,6 +109,7 @@ class ilForumCronNotification extends ilCronJob
 		}
 
 		$numRows = 0;
+		$num_sent_messages = 0;
 
 		if($last_run_datetime != null &&
 			checkDate(date('m', strtotime($last_run_datetime)), date('d', strtotime($last_run_datetime)), date('Y', strtotime($last_run_datetime))))
@@ -144,9 +145,10 @@ class ilForumCronNotification extends ilCronJob
 			$types,
 			$values
 		);
-
-		if($ilDB->numRows($res))
+		
+		if($numRows = $ilDB->numRows($res) > 0)
 		{
+			$num_sent_messages += $numRows;
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_NEW);
 			$this->resetProviderCache();
 		}
@@ -174,8 +176,9 @@ class ilForumCronNotification extends ilCronJob
 			$values
 		);
 
-		if($ilDB->numRows($res))
+		if($numRows = $ilDB->numRows($res) > 0)
 		{
+			$num_sent_messages += $numRows;
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_UPDATED);
 			$this->resetProviderCache();
 		}
@@ -202,9 +205,10 @@ class ilForumCronNotification extends ilCronJob
 			$types,
 			$values
 		);
-
-		if($ilDB->numRows($res))
+		
+		if($numRows = $ilDB->numRows($res) > 0)
 		{
+			$num_sent_messages += $numRows;
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_CENSORED);
 			$this->resetProviderCache();
 		}
@@ -232,8 +236,9 @@ class ilForumCronNotification extends ilCronJob
 			$values
 		);
 		
-		if($ilDB->numRows($res))
+		if($numRows = $ilDB->numRows($res) > 0)
 		{
+			$num_sent_messages += $numRows;
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_UNCENSORED);
 			$this->resetProviderCache();
 		}
@@ -259,9 +264,10 @@ class ilForumCronNotification extends ilCronJob
 			AND 	frm_posts_deleted.is_thread_deleted = %s
 			ORDER BY frm_posts_deleted.post_date ASC',
 			array('integer'), array(1));
-
-		if($ilDB->numRows($res))
+		
+		if($numRows = $ilDB->numRows($res) > 0)
 		{
+			$num_sent_messages += $numRows;
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_THREAD_DELETED);
 			if(count(self::$deleted_ids_cache) > 0)
 			{
@@ -292,9 +298,10 @@ class ilForumCronNotification extends ilCronJob
 			AND 	frm_posts_deleted.is_thread_deleted = %s
 			ORDER BY frm_posts_deleted.post_date ASC',
 			array('integer'), array(0));
-	
-		if($ilDB->numRows($res))
+		
+		if($numRows = $ilDB->numRows($res) > 0)
 		{
+			$num_sent_messages += $numRows;
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_DELETED);
 			if(count(self::$deleted_ids_cache) > 0)
 			{
@@ -306,12 +313,11 @@ class ilForumCronNotification extends ilCronJob
 
 		$ilSetting->set('cron_forum_notification_last_date', $cj_start_date);
 
-		// @todo: nadia: Please check incrementing $numRows
-		$mess = 'Send '.$numRows.' messages.';
+		$mess = 'Sent '.$num_sent_messages.' messages.';
 		$ilLog->write(__METHOD__.': '.$mess);
 
 		$result = new ilCronJobResult();
-		if($numRows)
+		if($num_sent_messages)
 		{
 			$status = ilCronJobResult::STATUS_OK;
 			$result->setMessage($mess);
@@ -388,7 +394,7 @@ class ilForumCronNotification extends ilCronJob
 			$ref_id = $this->getFirstAccessibleRefIdBUserAndObjId($row['user_id'], $row['obj_id']);
 			if($ref_id < 1)
 			{
-				// @todo nadia: Log
+				$ilLog->write(__METHOD__.': User-Id: '.$row['user_id'].' has no read permission for object id: '.$row['obj_id']);
 				continue;
 			}
 
