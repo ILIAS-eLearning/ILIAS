@@ -335,7 +335,7 @@ class gevBuildingBlockUtils {
 		return $row["cnt"];
 	}
 
-		static public function countAllBuildingBlocksForCopy($pool_id) {
+	static public function countAllBuildingBlocksForCopy($pool_id) {
 		global $ilDB;
 
 		$add_where = self::createAdditionalWhere($a_search_opts);
@@ -577,6 +577,40 @@ class gevBuildingBlockUtils {
 		$cpy_bb_utils->setPoolId($target_pool_id);
 
 		$cpy_bb_utils->save();
+	}
+
+	public static function deleteBuildingBlocksByPoolId($pool_id) {
+		global $ilDB;
+
+		$query = "UPDATE ".self::TABLE_NAME." SET is_deleted = 1 WHERE pool_id = ".$ilDB->quote($pool_id, "integer");
+		$ilDB->manipulate($query);
+	}
+
+	public static function cloneBuildingBlocksFromToByPoolIds($from_pool_id, $to_pool_id) {
+		global $ilDB;
+
+		$insert = "INSERT INTO ".self::TABLE_NAME."\n"
+				." (obj_id, title, content, target, is_wp_relevant, is_active, is_deleted, last_change_user
+					, last_change_date, gdv_topic, training_categories, topic, dbv_topic, move_to_course, pool_id)"
+				." VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+		$insert_types = array("integer","text","text","text","integer","integer","integer","integer","timestamp","text","text","text","text","integer","integer");
+
+		$statement = $ilDB->prepare($insert, $insert_types);
+
+		$query = "SELECT title, content, target, is_wp_relevant, is_active, is_deleted, last_change_user
+					, last_change_date, gdv_topic, training_categories, topic, dbv_topic, move_to_course\n"
+					." FROM ".self::TABLE_NAME."\n"
+					." WHERE pool_id = ".$ilDB->quote($from_pool_id,"integer");
+
+		$res = $ilDB->query($query);
+
+		while($row = $ilDB->fetchAssoc($res)) {
+			$next_id = $ilDB->nextId(self::TABLE_NAME);
+			array_unshift($row, $next_id);
+			array_push($row,$to_pool_id);
+			$ilDB->execute($statement,array_values($row));
+		}
 	}
 }
 ?>
