@@ -319,8 +319,8 @@ class gevCrsMailingGUI extends ilMailingGUI {
 		$functions[] = "standard";
 
 		$success = true;
-
 		foreach ($functions as $name) {
+			$name  = str_replace(" ", "_", $name);
 			if (!array_key_exists($name, $_POST)) {
 				die("Settings for ".$name." not found in POST-data.");
 			}

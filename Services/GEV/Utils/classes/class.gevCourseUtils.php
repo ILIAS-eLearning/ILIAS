@@ -965,6 +965,15 @@ class gevCourseUtils {
 		return $ven->getHomepage();
 	}
 
+	//Training Creatot
+	public function setTrainingCreatorLogin($user_login) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_TRAINING_CREATOR, $user_login);
+	}
+
+	public function getTrainingCreatorLogin() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TRAINING_CREATOR);
+	}
+
 	
 	// Accomodation
 	
@@ -1664,9 +1673,9 @@ class gevCourseUtils {
 
 	public function getMainTrainingCreator() {
 		if($this->main_training_creator === null) {
-			$training_creator = $this->getTrainingCreator();
-			if (count($training_creator) != 0) {
-				$this->main_training_creator = new ilObjUser($training_creator[0]);
+			$training_creator = $this->getTrainingCreatorLogin();
+			if ($training_creator !== null) {
+				$this->main_training_creator = new ilObjUser(ilObjUser::_lookupId($training_creator));
 			}
 		}
 
