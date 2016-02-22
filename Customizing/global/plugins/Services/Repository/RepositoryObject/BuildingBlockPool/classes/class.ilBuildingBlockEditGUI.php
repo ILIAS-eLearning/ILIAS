@@ -201,7 +201,7 @@ class ilBuildingBlockEditGUI {
 	}
 
 	public function update() {
-		$bu_utils = $this->getBuldingBlockUtilsFromForm();
+		$bu_utils = $this->getBuldingBlockUtilsFromForm($this->obj_id);
 		$bu_utils->update();
 
 		$this->gCtrl->redirect($this->parent_obj);
@@ -214,16 +214,17 @@ class ilBuildingBlockEditGUI {
 		$this->gCtrl->redirect($this->parent_obj);
 	}
 
-	protected function getBuldingBlockUtilsFromForm() {
+	protected function getBuldingBlockUtilsFromForm($bb_id = null) {
 		$form = $this->initForm();
 		$form->setValuesByPost();
 
 		if (!$form->checkInput() || !$this->checkContentAndTargetInputLength($form)) {
+			
 			return $this->getHtml($form);
 		}
 
 		require_once ("Services/GEV/Utils/classes/class.gevBuildingBlockUtils.php");
-		$bu_utils = gevBuildingBlockUtils::getInstance(null);
+		$bu_utils = gevBuildingBlockUtils::getInstance($bb_id);
 
 		$bu_utils->setTitle($form->getInput("frm_title"));
 		$bu_utils->setContent($form->getInput("frm_content"));
@@ -253,7 +254,7 @@ class ilBuildingBlockEditGUI {
 		$confirm->setFormAction($this->gCtrl->getFormAction($this->parent_obj));
 		$this->gCtrl->setParameter($this->parent_obj, "bb_id", null);
 
-		$confirm->setHeaderText($this->gLng->txt("crsbook_admin_assign_confirm"));
+		$confirm->setHeaderText($this->gLng->txt("gev_bbpool_plugin_confirm_delete_bb"));
 		$confirm->setConfirm($this->gLng->txt("confirm"), "deleteConfirmedBuildingBlock");
 		$confirm->setCancel($this->gLng->txt("cancel"), "showContent");
 				

@@ -7,6 +7,7 @@ require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';
 require_once 'Services/CaTUIComponents/classes/class.catTitleGUI.php';
 require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
+require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/BuildingBlockPool/classes/class.ilBuildingBlockEditGUI.php");
 /**
 * @ilCtrl_isCalledBy ilObjBuildingBlockPoolGUI: ilRepositoryGUI, ilAdministrationGUI, ilObjPluginDispatchGUI
 * @ilCtrl_Calls ilObjBuildingBlockPoolGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
@@ -79,75 +80,29 @@ class ilObjBuildingBlockPoolGUI extends ilObjectPluginGUI {
 				}
 				break;
 			case "editBuildingBlock":
-				if($this->gAccess->checkAccess(gevSettings::EDIT_BUILDING_BLOCKS, "", $this->object->getRefId())) {
-					$this->gTabs->activateTab("content");
-					require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/BuildingBlockPool/classes/class.ilBuildingBlockEditGUI.php");
-					$bb_edit = new ilBuildingBlockEditGUI($_GET["bb_id"], ilBuildingBlockEditGUI::EDIT_UNIT, $this);
-					$this->gTpl->setContent($bb_edit->getHTML());
-				} else {
-					ilUtil::sendInfo("No permisions");
-					$this->gCtrl->redirect($this);
-				}
+				$bb_edit = $this->getBuildingBlockEditGUI(gevSettings::EDIT_BUILDING_BLOCKS, $_GET["bb_id"], ilBuildingBlockEditGUI::EDIT_UNIT);
+				$this->gTpl->setContent($bb_edit->getHTML());
 				break;
 			case "deleteBuildingBlock":
-				if($this->gAccess->checkAccess(gevSettings::EDIT_BUILDING_BLOCKS, "", $this->object->getRefId())) {
-					$this->gTabs->activateTab("content");
-					require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/BuildingBlockPool/classes/class.ilBuildingBlockEditGUI.php");
-					$bb_edit = new ilBuildingBlockEditGUI($_GET["bb_id"], ilBuildingBlockEditGUI::DELETE_UNIT, $this);
-					$this->gTpl->setContent($bb_edit->deleteConfirm());
-					break;
-				} else {
-					ilUtil::sendInfo("No permisions");
-					$this->gCtrl->redirect($this);
-				}
+				$bb_edit = $this->getBuildingBlockEditGUI(gevSettings::EDIT_BUILDING_BLOCKS, $_GET["bb_id"], ilBuildingBlockEditGUI::DELETE_UNIT);
+				$this->gTpl->setContent($bb_edit->deleteConfirm());
 				break;
 			case "deleteConfirmedBuildingBlock":
-				if($this->gAccess->checkAccess(gevSettings::EDIT_BUILDING_BLOCKS, "", $this->object->getRefId())) {
-					$this->gTabs->activateTab("content");
-					require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/BuildingBlockPool/classes/class.ilBuildingBlockEditGUI.php");
-					$bb_edit = new ilBuildingBlockEditGUI($_GET["bb_id"], ilBuildingBlockEditGUI::DELETE_UNIT, $this);
-					$bb_edit->delete();
-					break;
-				} else {
-					ilUtil::sendInfo("No permisions");
-					$this->gCtrl->redirect($this);
-				}
+				$bb_edit = $this->getBuildingBlockEditGUI(gevSettings::EDIT_BUILDING_BLOCKS, $_GET["bb_id"], ilBuildingBlockEditGUI::DELETE_UNIT);
+				$bb_edit->delete();
 				break;
 			case "saveBuildingBlock":
-				if($this->gAccess->checkAccess(gevSettings::EDIT_BUILDING_BLOCKS, "", $this->object->getRefId())) {
-					$this->gTabs->activateTab("content");
-					require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/BuildingBlockPool/classes/class.ilBuildingBlockEditGUI.php");
-					$bb_edit = new ilBuildingBlockEditGUI($_GET["bb_id"], ilBuildingBlockEditGUI::SAVE_UNIT, $this);
-					$this->gTpl->setContent($bb_edit->save());
-					break;
-				} else {
-					ilUtil::sendInfo("No permisions");
-					$this->gCtrl->redirect($this);
-				}
+				$bb_edit = $this->getBuildingBlockEditGUI(gevSettings::EDIT_BUILDING_BLOCKS, $_GET["bb_id"], ilBuildingBlockEditGUI::SAVE_UNIT);
+				$this->gTpl->setContent($bb_edit->save());
 				break;
 			case "updateBuildingBlock":
-				if($this->gAccess->checkAccess(gevSettings::EDIT_BUILDING_BLOCKS, "", $this->object->getRefId())) {
-					$this->gTabs->activateTab("content");
-					require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/BuildingBlockPool/classes/class.ilBuildingBlockEditGUI.php");
-					$bb_edit = new ilBuildingBlockEditGUI($_GET["bb_id"], ilBuildingBlockEditGUI::UPDATE_UNIT, $this);
-					$this->gTpl->setContent($bb_edit->update());
-					break;
-				} else {
-					ilUtil::sendInfo("No permisions");
-					$this->gCtrl->redirect($this);
-				}
+				$bb_edit = $this->getBuildingBlockEditGUI(gevSettings::EDIT_BUILDING_BLOCKS, $_GET["bb_id"], ilBuildingBlockEditGUI::UPDATE_UNIT);
+				$this->gTpl->setContent($bb_edit->update());
 				break;
 			case "addBuildingBlock":
-				if($this->gAccess->checkAccess(gevSettings::EDIT_BUILDING_BLOCKS, "", $this->object->getRefId())) {
-					$this->gTabs->activateTab("content");
-					require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/BuildingBlockPool/classes/class.ilBuildingBlockEditGUI.php");
-					$bb_edit = new ilBuildingBlockEditGUI($_GET["bb_id"], ilBuildingBlockEditGUI::NEW_UNIT, $this);
-					$this->gTpl->setContent($bb_edit->getHtml());
-					break;
-				} else {
-					ilUtil::sendInfo("No permisions");
-					$this->gCtrl->redirect($this);
-				}
+				$bb_edit = $this->getBuildingBlockEditGUI(gevSettings::EDIT_BUILDING_BLOCKS, $_GET["bb_id"], ilBuildingBlockEditGUI::NEW_UNIT);
+				$this->gTpl->setContent($bb_edit->getHtml());
+				break;
 			case "importBuildingBlock":
 				if($this->gAccess->checkAccess(gevSettings::EDIT_BUILDING_BLOCKS, "", $this->object->getRefId())) {
 					$this->gTabs->activateTab("content");
@@ -222,6 +177,17 @@ class ilObjBuildingBlockPoolGUI extends ilObjectPluginGUI {
 		require_once("Customizing/global/plugins/Services/Repository/RepositoryObject/BuildingBlockPool/classes/class.ilBuildingBlockTableGUI.php");
 		$bb_table = new ilBuildingBlockTableGUI(array("pool_id"=>$this->object->getId()), $this, false);
 		$this->gTpl->setContent($bb_table->getHTML());
+	}
+
+	protected function getBuildingBlockEditGUI($permission, $bb_id, $bb_block_mode) {
+		if($this->gAccess->checkAccess($permission, "", $this->object->getRefId())) {
+			$this->gTabs->activateTab("content");
+			$bb_edit = new ilBuildingBlockEditGUI($bb_id, $bb_block_mode, $this);
+			return $bb_edit;
+		} else {
+			ilUtil::sendInfo("No permisions");
+			$this->gCtrl->redirect($this);
+		}
 	}
 
 	/**
