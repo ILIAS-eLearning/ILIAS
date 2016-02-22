@@ -253,7 +253,8 @@ addBehavior:function(thead,tbody,tfoot,position){
     
     nodeHasGrade:function(tr){
         var inputs=tr.getElementsByTagName('input');
-        if(inputs.length==2){
+        var textareas = tr.getElementsByTagName('textarea');
+        if(inputs.length==1 && textareas.length ==1){
             return(true);
         }else{
             return(false);

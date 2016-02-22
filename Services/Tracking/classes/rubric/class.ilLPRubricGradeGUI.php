@@ -208,7 +208,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
                             <input id=\"${tmp_id}\" name=\"${tmp_id}\" type=\"text\" class=\"form-control\" placeholder=\"Grade\" value=\"$tmp_point\" onkeyup=\"verifyGrade(this)\" oninput=\"verifyGrade(this)\">
                         </td>
                         <td scope=\"rowgroup\">
-                            <input type=\"text\" name=\"$tmp_comment_name\" value=\"$tmp_comment\" class=\"form-control\" placeholder=\"{COMMENT}\">
+                            <textarea name=\"$tmp_comment_name\" value=\"$tmp_comment\" class=\"form-control\" placeholder=\"{COMMENT}\">$tmp_comment</textarea>
                         </td>";
         }
 

@@ -213,7 +213,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         $tmp_write="<td scope=\"rowgroup\">
                     <div class=\"form-group has-success has-feedback\">
                         <label class=\"control-label\" for=\"behaviorname0_0\">{BEHAVIOR_NAME}</label>
-                        <input id=\"${tmp_behavior_name}\" name=\"${tmp_behavior_name}\" type=\"text\" class=\"form-control\" placeholder=\"${behavior['description']}\" value=\"${behavior['description']}\" aria-describedby=\"${tmp_behavior_name}WarningStatus\" onkeyup=\"validate(this)\" oninput=\"validate(this)\">
+                        <textarea id=\"${tmp_behavior_name}\" name=\"${tmp_behavior_name}\" class=\"form-control\" placeholder=\"${behavior['description']}\" value=\"${behavior['description']}\" aria-describedby=\"${tmp_behavior_name}WarningStatus\" onkeyup=\"validate(this)\" oninput=\"validate(this)\">${behavior['description']}</textarea>
                         <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
                         <span id=\"${tmp_behavior_name}WarningStatus\" class=\"sr-only\">(ok)</span>
                     </div>
