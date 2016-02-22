@@ -47,8 +47,8 @@ class DictionaryPredicateInterpreter {
 		}
 
 		if ($p instanceof \CaT\Filter\Predicates\PredicateComparison) {
-			$left = $p->left;
-			$right = $p->right;
+			$left = $p->left();
+			$right = $p->right();
 			if($left instanceof Predicates\Field) {
 				$left_name = $left->name();
 				if(!isset($d[$left_name])){
