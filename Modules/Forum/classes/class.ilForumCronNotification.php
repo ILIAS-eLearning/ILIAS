@@ -8,7 +8,7 @@ include_once "./Modules/Forum/classes/class.ilForumMailNotification.php";
  * Forum notifications
  *
  * @author Michael Jansen <mjansen@databay.de>
- * @author Nadia Ahmnad <nahmad@databay.de>
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  */
 class ilForumCronNotification extends ilCronJob
 {
@@ -36,7 +36,12 @@ class ilForumCronNotification extends ilCronJob
 	 * @var array
 	 */
 	protected static $accessible_ref_ids_by_user = array();
-
+	
+	/**
+	 * @var int
+	 */
+	protected $num_sent_messages = 0;
+	
 	/**
 	 *
 	 */
@@ -109,7 +114,7 @@ class ilForumCronNotification extends ilCronJob
 		}
 
 		$numRows = 0;
-		$num_sent_messages = 0;
+		$this->num_sent_messages = 0;
 
 		if($last_run_datetime != null &&
 			checkDate(date('m', strtotime($last_run_datetime)), date('d', strtotime($last_run_datetime)), date('Y', strtotime($last_run_datetime))))
@@ -148,9 +153,7 @@ class ilForumCronNotification extends ilCronJob
 		
 		if($numRows = $ilDB->numRows($res) > 0)
 		{
-			$num_sent_messages += $numRows;
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_NEW);
-			$this->resetProviderCache();
 		}
 
 		/*** updated posts ***/
@@ -178,9 +181,7 @@ class ilForumCronNotification extends ilCronJob
 
 		if($numRows = $ilDB->numRows($res) > 0)
 		{
-			$num_sent_messages += $numRows;
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_UPDATED);
-			$this->resetProviderCache();
 		}
 
 		/*** censored posts ***/
@@ -208,9 +209,7 @@ class ilForumCronNotification extends ilCronJob
 		
 		if($numRows = $ilDB->numRows($res) > 0)
 		{
-			$num_sent_messages += $numRows;
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_CENSORED);
-			$this->resetProviderCache();
 		}
 
 		/*** uncensored posts ***/
@@ -238,9 +237,7 @@ class ilForumCronNotification extends ilCronJob
 		
 		if($numRows = $ilDB->numRows($res) > 0)
 		{
-			$num_sent_messages += $numRows;
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_UNCENSORED);
-			$this->resetProviderCache();
 		}
 
 		/*** deleted threads ***/
@@ -267,14 +264,12 @@ class ilForumCronNotification extends ilCronJob
 		
 		if($numRows = $ilDB->numRows($res) > 0)
 		{
-			$num_sent_messages += $numRows;
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_THREAD_DELETED);
 			if(count(self::$deleted_ids_cache) > 0)
 			{
 				$ilDB->manipulate('DELETE FROM frm_posts_deleted WHERE '. $ilDB->in('deleted_id', self::$deleted_ids_cache, false, 'integer'));
 				$ilLog->write(__METHOD__ . ':DELETED ENTRIES: frm_posts_deleted');
 			}
-			$this->resetProviderCache();
 		}
 
 		/*** deleted posts ***/
@@ -301,23 +296,21 @@ class ilForumCronNotification extends ilCronJob
 		
 		if($numRows = $ilDB->numRows($res) > 0)
 		{
-			$num_sent_messages += $numRows;
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_DELETED);
 			if(count(self::$deleted_ids_cache) > 0)
 			{
 				$ilDB->manipulate('DELETE FROM frm_posts_deleted WHERE '. $ilDB->in('deleted_id', self::$deleted_ids_cache, false, 'integer')); 
 				$ilLog->write(__METHOD__ . ':DELETED ENTRIES: frm_posts_deleted');
 			}
-			$this->resetProviderCache();
 		}
 
 		$ilSetting->set('cron_forum_notification_last_date', $cj_start_date);
 
-		$mess = 'Sent '.$num_sent_messages.' messages.';
+		$mess = 'Sent '.$this->num_sent_messages.' messages.';
 		$ilLog->write(__METHOD__.': '.$mess);
 
 		$result = new ilCronJobResult();
-		if($num_sent_messages)
+		if($this->num_sent_messages)
 		{
 			$status = ilCronJobResult::STATUS_OK;
 			$result->setMessage($mess);
@@ -414,17 +407,20 @@ class ilForumCronNotification extends ilCronJob
 			}
 		}
 
-		foreach(self::$providerObject as $provider)
+		foreach(self::$providerObject as  $provider)
 		{
 			$mailNotification = new ilForumMailNotification($provider);
 			$mailNotification->setIsCronjob(true);
 			$mailNotification->setType($notification_type);
-			$mailNotification->setRecipients($provider->getCronRecipients());
+			$mailNotification->setRecipients(array_unique($provider->getCronRecipients()));
 
 			$mailNotification->send();
 	
+			$this->num_sent_messages += count($provider->getCronRecipients());
 			$ilLog->write(__METHOD__.':SUCCESSFULLY SEND: NotificationType: '.$notification_type.' -> Recipients: '. implode(', ',$provider->getCronRecipients()));
 		}
+		
+		$this->resetProviderCache();
 	}
 
 	/**
