@@ -69,7 +69,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	}
 
 	public function renderMainMenuListEntries($a_tpl, $a_call_get = true) {
-		$this->getTrainingPoolDropDown();
 		// No Menu during registration or on makler page
 		$basename = basename($_SERVER["PHP_SELF"]);
 		if (   $basename == "gev_registration.php"
@@ -341,17 +340,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		return $ret;
 	}
 
-	protected function getTrainingPoolDropDown() {
-		
-
-		$entries = array();
-
-		
-
-		return $this->getDropDown($entries)->getHTML();
-
-	}
-
 	protected function getReportingMenuDropDown() {
 		require_once("Services/Link/classes/class.ilLink.php");
 		require_once("Services/ReportsRepository/classes/class.ilObjReportBase.php");
@@ -366,8 +354,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			, "gev_report_dbv_report" => array($this->canViewReport("gev_report_dbv_report"), "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReport",$this->gLng->txt("gev_report_dbv_report"))
 			, "gev_report_trainer_operation_by_orgu_trainer" => array($this->canViewReport("gev_report_trainer_operation_by_orgu_trainer"), "ilias.php?baseClass=gevDesktopGUI&cmd=toTrainerOperationByOrgUnitAndTrainer",$this->gLng->txt("gev_report_trainer_operation_by_orgu_trainer"))
 			);
-
-
 
 		$visible_repo_reports = ilObjReportBase::getVisibleReportsObjectData($this->gUser);
 		foreach ($visible_repo_reports as $info) {
@@ -385,7 +371,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	// Stores the info whether a user has a reporting menu in the session of the user to
 	// only calculate it once. Will reuse that value on later calls. 
 	protected function hasReportingMenu() {
-		
 		$has_reporting_menu = ilSession::get("gev_has_reporting_menu");
 		$last_permission_calculation = ilSession::get("gev_has_reporting_menu_calculation_ts");
 		if ( $has_reporting_menu === null
