@@ -51,15 +51,15 @@ class gevDecentralTrainingCreateBuildingBlockDataGUI {
 
 		
 		
-		$this->createJson($res);
+		$this->echoJSONAndExit($res);
 	}
 
 	protected function changeBuildingBlockInfos($selected) {
 		$infos = gevBuildingBlockUtils::getBuildingBlockInfosById($selected);
-		$this->createJson($infos);
+		$this->echoJSONAndExit($infos);
 	}
 
-	protected function createJson($data) {
+	protected function echoJSONAndExit($data) {
 		echo json_encode($data,JSON_FORCE_OBJECT);
 		exit;
 	}

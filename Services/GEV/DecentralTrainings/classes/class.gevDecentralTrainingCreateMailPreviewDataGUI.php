@@ -43,16 +43,16 @@ class gevDecentralTrainingCreateMailPreviewDataGUI {
 			}
 
 			$data = $this->getMailDataByCrsRefId($id);
-			$this->createJson($data);
+			$this->echoJSONAndExit($data);
 		}
 
 		if(isset($_GET["crs_request_id"])) {
 			$data = $this->getMailDataByCrsRequestId($_GET["crs_request_id"]);
-			$this->createJson($data);
+			$this->echoJSONAndExit($data);
 		}
 	}
 
-	function createJson($data) {
+	function echoJSONAndExit($data) {
 		echo json_encode($data);
 		exit;
 	}
