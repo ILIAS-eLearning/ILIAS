@@ -27,6 +27,6 @@ class Field extends ValueLike {
 	 * @return	string
 	 */
 	public function name() {
-		return $this->value;
+		return $this->name;
 	}
 }
