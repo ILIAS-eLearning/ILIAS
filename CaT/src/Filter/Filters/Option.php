@@ -4,7 +4,7 @@
 
 namespace CaT\Filter\Filters;
 
-class OptionFilter extends Filter {
+class Option extends Filter {
 	public function __construct(\CaT\Filter\FilterFactory $factory, $label, $description) {
 		assert('is_string($label)');
 		assert('is_string($description)');

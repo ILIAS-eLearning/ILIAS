@@ -4,7 +4,7 @@
 
 namespace CaT\Filter\Filters;
 
-class DatePeriodFilter extends Filter {
+class DatePeriod extends Filter {
 	/**
 	 * @var	\DateTime
 	 */
@@ -87,14 +87,14 @@ class DatePeriodFilter extends Filter {
 	 * Set the default for the beginning of this filter.
 	 *
 	 * @param	\DateTime
-	 * @return	DatePeriodFilter
+	 * @return	DatePeriod
 	 */
 	public function default_begin(\DateTime $dt = null) {
 		if ($dt === null) {
 			return $this->default_begin;
 		}
 
-		return new DatePeriodFilter($this->factory, $this->label(), $this->description(),
+		return new DatePeriod($this->factory, $this->label(), $this->description(),
 						$dt, $this->default_end, $this->period_min, $this->period_max);
 	}
 
@@ -102,14 +102,14 @@ class DatePeriodFilter extends Filter {
 	 * Set the default for the end of this filter.
 	 *
 	 * @param	\DateTime
-	 * @return	DatePeriodFilter
+	 * @return	DatePeriod
 	 */
 	public function default_end(\DateTime $dt = null) {
 		if ($dt === null) {
 			return $this->default_end;
 		}
 
-		return new DatePeriodFilter($this->factory, $this->label(), $this->description(),
+		return new DatePeriod($this->factory, $this->label(), $this->description(),
 						$this->default_begin, $dt, $this->period_min, $this->period_max);
 	}
 
@@ -117,14 +117,14 @@ class DatePeriodFilter extends Filter {
 	 * Set the minimum value for the begin of the filtered period.
 	 *
 	 * @param	\DateTime
-	 * @return	DatePeriodFilter
+	 * @return	DatePeriod
 	 */
 	public function period_min(\DateTime $dt = null) {
 		if ($dt === null) {
 			return $this->period_min;
 		}
 
-		return new DatePeriodFilter($this->factory, $this->label(), $this->description(),
+		return new DatePeriod($this->factory, $this->label(), $this->description(),
 						$this->default_begin, $this->default_end, $dt, $this->period_max);
 	}
 
@@ -132,14 +132,14 @@ class DatePeriodFilter extends Filter {
 	 * Set the maximum value for the end of the filtered period.
 	 *
 	 * @param	\DateTime
-	 * @return	DatePeriodFilter
+	 * @return	DatePeriod
 	 */
 	public function period_max(\DateTime $dt = null) {
 		if ($dt === null) {
 			return $this->period_max;
 		}
 
-		return new DatePeriodFilter($this->factory, $this->label(), $this->description(),
+		return new DatePeriod($this->factory, $this->label(), $this->description(),
 						$this->default_begin, $this->default_end, $this->period_min, $dt);
 	}
 }

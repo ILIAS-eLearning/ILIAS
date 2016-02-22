@@ -31,7 +31,7 @@ class FilterFactory {
 	 * @return	Filters\DatePeriodFilter
 	 */
 	public function dateperiod($label, $description) {
-		return new Filters\DatePeriodFilter($this, $label, $description);
+		return new Filters\DatePeriod($this, $label, $description);
 	}
 
 	/**
@@ -42,7 +42,7 @@ class FilterFactory {
 	 * @return	Filters\Filter
 	 */
 	public function option($label, $description) {
-		return new Filters\OptionFilter($this, $label, $description);
+		return new Filters\Option($this, $label, $description);
 	}
 
 	/**
@@ -55,7 +55,7 @@ class FilterFactory {
 	 * @return	Filters\Filter
 	 */
 	public function multiselect($label, $description, $options) {
-		
+		return new Filters\Multiselect($this, $label, $description, $options);
 	}
 
 	/**

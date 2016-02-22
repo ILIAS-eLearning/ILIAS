@@ -138,6 +138,8 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 				}
 			});
 
+		$this->assertNotNull($filter);
+
 		$interpreter = new \CaT\Filter\DictionaryPredicateInterpreter;
 
 		$pred_true = $filter->content(true);
@@ -165,8 +167,79 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
 		$this->assertEquals("label", $filter->label());
 		$this->assertEquals("description", $filter->description());
+		$this->assertEquals(array("int"), $filter->content_type());
 		$this->assertEquals($options, $filter->options());
 	}
+
+	public function test_multiselect_content_type_string() {
+		$options = array
+			( "foo" => "bar"
+			);
+
+		$filter = $this->factory->multiselect("label", "description", $options);
+		$this->assertEquals(array("string"), $filter->content_type());
+	}
+
+	/**
+	 * @dataProvider	invalid_key_types_for_multiselect_provider
+	 */
+	public function test_multiselect_invalid_key_types($key) {
+		try {
+			$this->factory->multiselect("l", "d", array($key => "foobar"));
+			$this->assertFalse("Should have raised.");
+		}
+		catch (\InvalidArgumentException $e) {
+		}
+	}
+
+	public function invalid_key_types_for_multiselect_provider() {
+		return array
+			( array(1.2)
+			, array(array("foo"))
+			);
+	}
+
+	public function test_multiselect_options() {
+		$options = array
+			( 1 => "one"
+			, 2 => "two"
+			, 3 => "three"
+			);
+
+		$filter = $this->factory->multiselect("label", "description", $options)
+			->default_choice(array(1,3))
+			;
+
+		$this->assertEquals(array(1,3), $filter->default_choice());
+	}
+
+	public function test_multiselect_predicate() {
+		$options = array
+			( 1 => "one"
+			, 2 => "two"
+			, 3 => "three"
+			);
+
+		$filter = $this->factory->multiselect("label", "description", $options)
+			->map_to_predicate(function(array $options) {
+				$f = $this->factory->predicate_factory();
+				return $f->field("foo")->IN($options);
+			});
+
+		$this->assertNotNull($filter);
+
+		$interpreter = new \CaT\Filter\DictionaryPredicateInterpreter;
+
+		$pred = $filter->content(array(1,2));
+		$this->assertTrue($interpreter->interpret($pred_true, array("foo" => 2)));
+		$this->assertFalse($interpreter->interpret($pred_true, array("foo" => 3)));
+
+		$pred = $filter->content(array(3));
+		$this->assertFalse($interpreter->interpret($pred_true, array("foo" => 2)));
+		$this->assertTrue($interpreter->interpret($pred_true, array("foo" => 3)));
+	}
+
+	// TEXT
 
 	public function test_text_creation() {
 		$filter = $this->factory->text("label", "description");
