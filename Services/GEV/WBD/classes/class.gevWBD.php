@@ -48,6 +48,7 @@ class gevWBD {
 	const WBD_ERROR_USER_EXISTS_TP 		= 'USER_EXISTS_TP';
 	const WBD_ERROR_USER_EXISTS 		= 'USER_EXISTS';
 	const WBD_ERROR_USER_NOT_IN_POOL	= 'USER_NOT_IN_POOL';
+	const WBD_ERROR_UNKNOWN 			= '-unknown-';
 
 	//aus Settings
 	const USR_TP_TYPE				= "usr_udf_tp_type";
@@ -483,7 +484,8 @@ class gevWBD {
 		$wbd_errors = array(self::WBD_ERROR_WRONG_USERDATA
 							, self::WBD_ERROR_USER_SERVICETYPE
 							, self::WBD_ERROR_USER_EXISTS_TP
-							, self::WBD_ERROR_USER_EXISTS);
+							, self::WBD_ERROR_USER_EXISTS
+							, self::WBD_ERROR_UNKNOWN);
 
 		return $this->hasDoneWBDRegistration() && $this->hasWBDRelevantRole() && $this->userExists() && $this->isActive() && !$this->hasSpecialUserId()
 				&& ($this->nextWBDActionIs(self::USR_WBD_NEXT_ACTION_NEW_TP_BASIS)
@@ -514,6 +516,7 @@ class gevWBD {
 							, self::WBD_ERROR_USER_UNKNOWN
 							, self::WBD_ERROR_USER_DEACTIVATED
 							, self::WBD_ERROR_USER_NOT_IN_POOL
+							, self::WBD_ERROR_UNKNOWN
 							);
 
 		return $this->hasDoneWBDRegistration() && $this->hasWBDRelevantRole() && $this->userExists() && $this->isActive() && !$this->hasSpecialUserId()
@@ -540,7 +543,8 @@ class gevWBD {
 							, self::WBD_ERROR_USER_DIFFERENT_TP
 							, self::WBD_ERROR_USER_UNKNOWN
 							, self::WBD_ERROR_USER_DEACTIVATED
-							, self::WBD_ERROR_NO_RELEASE);
+							, self::WBD_ERROR_NO_RELEASE
+							, self::WBD_ERROR_UNKNOWN);
 
 		return $this->userExists() && !$this->hasSpecialUserId()
 				&& $this->user_utils->isExitDatePassed() && !$this->hasExitDateWBD() && $this->hasWBDType(self::WBD_TP_SERVICE) && !$this->isWBDBWVIdEmpty()
