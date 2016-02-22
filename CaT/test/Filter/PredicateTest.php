@@ -168,6 +168,32 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse("Implement me!");
 	}
 
+	public function test_IN() {
+		$this->assertFalse("Implement me!");
+	}
+
+	public function test_ValueList() {
+		$ls = $this->factory->vlist(1,2,3,4);
+		$this->assertInstanceOf("\\CaT\\Filter\\Predicates\\ValueList", $ls);
+		$vals = array_map(function (\CaT\Filter\Predicates\ValueInt $v) {
+					return $v->value();
+				}, $ls->values());
+
+		$ls = $this->factory->vlist("one","two","three");
+		$this->assertInstanceOf("\\CaT\\Filter\\Predicates\\ValueList", $ls);
+		$vals = array_map(function (\CaT\Filter\Predicates\ValueStr $v) {
+					return $v->value();
+				}, $ls->values());
+		$this->assertEquals(array("one","two","three"), $vals);
+
+		try {
+			$ls = $this->factory->vlist(1,"one");
+			$this->assertFalse("Should have been raised.");
+		}
+		catch (\InvalidArgumentException $e) {
+		}
+	}
+
 	public function test_one_field() {
 		$f = $this->factory;
 		$i = $this->interpreter;
