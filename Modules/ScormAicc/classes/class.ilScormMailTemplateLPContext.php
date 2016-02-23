@@ -81,6 +81,13 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 			'label'			=> $lng->txt('trac_mark')
 		);
 		
+		// #17969
+		$lng->loadLanguageModule('content');
+		$placeholders['sahs_score'] = array(
+			'placeholder'	=> 'SCORM_SCORE',
+			'label'			=> $lng->txt('cont_score')
+		);
+		
 		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
 		{
 			$placeholders['sahs_time_spent'] = array(
@@ -153,6 +160,21 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 				include_once './Services/Tracking/classes/class.ilLPMarks.php';
 				$mark = ilLPMarks::_lookupMark($recipient->getId(), $obj_id);
 				return strlen(trim($mark)) ? $mark : '-';
+				
+			case 'sahs_score':		
+				$scores = array();														
+				$obj_id = ilObject::_lookupObjId($context_parameters['ref_id']);							
+				include_once 'Modules/ScormAicc/classes/class.ilScormLP.php';
+				$coll = ilScormLP::getInstance($obj_id)->getCollectionInstance();																
+				if($coll->getItems())
+				{				
+					include_once 'Services/Tracking/classes/class.ilTrQuery.php';		
+					foreach(ilTrQuery::getSCOsStatusForUser($recipient->getId(), $obj_id, $coll->getItems()) as $item)
+					{
+						$scores[] = $item['title'].': '.$item['score'];
+					}	
+				}
+				return implode("\n", $scores);	
 				
 			case 'sahs_time_spent':		
 				if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
