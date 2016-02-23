@@ -21,6 +21,8 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 	public function __construct($ref_id) {
 		parent::__construct($ref_id);
 
+		$this->ou_ids = null;
+
 		require_once $this->plugin->getDirectory().'/config/cfg.trainer_workload.php';
 	}
 
@@ -193,7 +195,25 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 		return $this->sum_row;
 	}
 
+	protected function getOrgusWhereUserIsSuperior() {
+		if ($this->ou_ids !== null) {
+			return $this->ou_ids;
+		}
+
+		$ds_ous = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
+		$s_ous = $this->user_utils->getOrgUnitsWhereUserIsSuperior();
+
+		$ou_ids = array();
+		foreach (array_merge($ds_ous, $s_ous) as $ou) {
+			$ou_ids[] = $ou["obj_id"];
+		}
+
+		$this->ou_ids = $ou_ids;
+		return $ou_ids;
+	}
+
 	protected function getRelevantOrgus() {
+
 		$sql = 	"SELECT DISTINCT oda.title, oda.obj_id, rpa.ops_id, rop.ops_id AS chk "
 				."	FROM rbac_pa rpa"
 				."	JOIN rbac_operations rop "
@@ -202,7 +222,8 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 				."	JOIN object_reference ore "
 				."		ON ore.ref_id = rpa.ref_id "
 				."	JOIN object_data oda"
-				."		ON oda.obj_id = ore.obj_id";
+				."		ON oda.obj_id = ore.obj_id"
+				."		AND ".$this->gIldb->in("oda.obj_id", $ou_ids, false, "integer");
 
 		$res = $this->gIldb->query($sql);
 		$relevant_orgus = array();
@@ -230,7 +251,6 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 				."		ON ore.ref_id = rpa.ref_id "
 				."	JOIN rbac_ua rua "
 				."		ON rua.rol_id = rpa.rol_id "
-				."		AND rua.usr_id = ".$this->user_utils->getId()
 				."	LEFT JOIN hist_userrole hur "
 				."		ON hur.usr_id = rua.usr_id "
 				."			AND ".$this->gIldb->in('hur.rol_id',$ignore_roles_ids,false,'integer')
@@ -244,7 +264,8 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 		if(count($org_units_filter)>0) {
 			$sql .= " 	AND ".$this->orgu_filter->deliverQuery();
 		}
-		$sql .= "	WHERE hur.hist_historic IS NULL";
+		$sql .= "	WHERE hur.hist_historic IS NULL"
+				."	AND ".$this->gIldb->in("huo.usr_id", $this->user_utils->getEmployees(), false, "integer");
 
 		$res = $this->gIldb->query($sql);
 		$relevant_users = array();
