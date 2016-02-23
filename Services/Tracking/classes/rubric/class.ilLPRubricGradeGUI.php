@@ -502,7 +502,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 
         $write="<div id=\"jkn_div_rubric\" class=\"table-responsive\">
 
-                    <table id=\"jkn_table_rubric\" class=\"table table-striped\">
+                    <table id=\"jkn_table_rubric\" style=\"table-layout: fixed;\" class=\"table table-striped\">
 
                         <thead>
                             <tr>
