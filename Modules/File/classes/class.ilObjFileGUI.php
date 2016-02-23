@@ -1130,16 +1130,16 @@ class ilObjFileGUI extends ilObject2GUI
 		global $ilUser;
 
 		// file upload params
-		$filename = $file_upload["name"];
-		$type = $file_upload["type"];
-		$size = $file_upload["size"];
+		$filename = ilUtil::stripSlashes($file_upload["name"]);
+		$type = ilUtil::stripSlashes($file_upload["type"]);
+		$size = ilUtil::stripSlashes($file_upload["size"]);
 		$temp_name = $file_upload["tmp_name"];
 		
 		// additional params
-		$title = $file_upload["title"];
-		$description = $file_upload["description"];
-		$extract = $file_upload["extract"];
-		$keep_structure = $file_upload["keep_structure"];
+		$title = ilUtil::stripSlashes($file_upload["title"]);
+		$description = ilUtil::stripSlashes($file_upload["description"]);
+		$extract = ilUtil::stripSlashes($file_upload["extract"]);
+		$keep_structure = ilUtil::stripSlashes($file_upload["keep_structure"]);
 		
 		// create answer object		
 		$response = new stdClass();

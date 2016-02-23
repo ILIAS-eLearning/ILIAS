@@ -10959,8 +10959,8 @@ style#:#sty_to#:#To
 style#:#sty_add_content_style#:#Add Content Style
 style#:#sty_remove_global_default_state#:#Remove Global Default State
 style#:#sty_remove_global_fixed_state#:#Remove Global Fixed State
-style#:#sty_make_global_default#:#Set as Global Default Style for New Objects
-style#:#sty_make_global_fixed#:#Force this Style on New Objects
+style#:#sty_make_global_default#:#Set as default style
+style#:#sty_make_global_fixed#:#Force this style on all objects
 content#:#cont_save_types#:#Save Types
 content#:#cont_layout_template#:#Layout Template
 content#:#cont_special_page#:#Special Content Page
@@ -15569,7 +15569,7 @@ membership#:#mem_force_notification_mode_all#:#Notification activated for all me
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications
 membership#:#mem_force_notification_mode_custom#:#Custom
 common#:#settings_for_all_members#:#Members will be notified automatically 
-common#:#settings_per_users#:#For each member individual settings can be made 
+common#:#settings_per_users#:#Members are notified automatically. Deactivating notifications can be allowed for each member individually.
 forum#:#user_decides_notification#:#Members have to manually activate notifications
 crs#:#crs_intro_course_group_notification_for#:#this is the news digest for your courses and groups, which have an active notification.
 crs#:#crs_intro_course_group_notification_index#:#There are news for the period of %1$s to %2$s for the following courses and groups:
@@ -16169,3 +16169,11 @@ content#:#cont_error#:#An Error Occured
 crs#:#crs_mail_context_member_info#:#For the contact emails on the info screen of a course 
 crs#:#crs_mail_context_tutor_info#:#For the participant emails on the member and learning progress screens of a course
 sahs#:#sahs_mail_context_lp_info#:#For the participant emails on the learning progress screens of a scorm module
+style#:#sty_type_ha_iheada#:#Hor. Accordion Header (active)
+style#:#sty_type_ha_ihcap#:#Hor. Accordion Caption
+style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)
+style#:#sty_type_va_ihcap#:#Vert. Accordion Caption
+style#:#sty_ha_iheada_class#:#Hor. Accordion Header (active)
+style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption
+style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)
+style#:#sty_va_ihcap_class#:#Vert. Accordion Caption

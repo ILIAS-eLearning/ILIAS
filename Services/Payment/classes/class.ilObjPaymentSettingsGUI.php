@@ -1406,7 +1406,11 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		
 		foreach($vendors as $vendor)
 		{
-			$tmp_obj = ilObjectFactory::getInstanceByObjId($vendor,false);
+			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($vendor, false))
+			{
+				continue;
+			}
+				
 			$options[$vendor] = $tmp_obj->getFullname().' ['.$tmp_obj->getLogin().']';
 		}
 		return $options;
