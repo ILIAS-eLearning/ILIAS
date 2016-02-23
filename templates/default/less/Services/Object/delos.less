@@ -32,11 +32,22 @@ div.ilCreationFormSection .form-horizontal {
 	padding-top: 1px;
 }
 
-.ilObjListRow {
-	border-bottom: 1px solid @body-bg;
-	background-color: @il-primary-container-bg;
-}
-
-.ilObjListRow:hover {
-	background-color: lighten(@il-highlight-bg, 5%);
+//mantis #0017866
+.table-striped {
+    border-collapse: separate;
+    > tbody > tr.ilObjListRow {
+        > td {
+            background-color: @il-primary-container-bg;
+        }
+        &:hover {
+            > td {
+                background-color: lighten(@il-highlight-bg, 5%);
+            }
+            &:nth-child(2n+1) {
+                > td {
+                    background-color: lighten(@il-highlight-bg, 5%);
+                }
+            }
+        }
+    }
 }
