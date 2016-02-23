@@ -251,7 +251,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_text_predicate() {
-		$filter = $this->factory->option("label", "description")
+		$filter = $this->factory->text("label", "description")
 			->map_to_predicate(function($str) {
 				$f = $this->factory->predicate_factory();
 				return $f->field("foo")->EQ()->int($str);
