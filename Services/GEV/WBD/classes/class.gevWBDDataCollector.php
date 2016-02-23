@@ -408,7 +408,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 											." WHERE resolved=0\n"
 												." AND reason IN ('WRONG_USERDATA','USER_EXISTS_TP',\n"
 													." 'USER_SERVICETYPE', 'USER_DIFFERENT_TP',\n"
-													." 'USER_DEACTIVATED', 'USER_UNKNOWN', 'CREATE_DUPLICATE', 'USER_NO_PERMISSION')\n"
+													." 'USER_DEACTIVATED', 'USER_UNKNOWN', 'CREATE_DUPLICATE', 'USER_NO_PERMISSION', '-unknown-')\n"
 											.")\n"
 				." ORDER BY row_id\n";
 		if($limit) {

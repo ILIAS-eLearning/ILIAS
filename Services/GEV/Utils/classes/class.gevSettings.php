@@ -132,6 +132,9 @@ class gevSettings {
 	// Organisationseinheit TEP
 	const CRS_AMD_TEP_ORGU			= "crs_amd_tep_orgu";
 
+	//Traingsersteller
+	const CRS_AMD_TRAINING_CREATOR 		= "crs_amd_training_creator";
+
 	// Crs User PState
 	const CRS_USR_STATE_SUCCESS			= "erfolgreich";
 	const CRS_USR_STATE_SUCCESS_VAL		= "2";
@@ -492,7 +495,7 @@ class gevSettings {
 	// Names of roles that count as crs manager
 	static $CRS_MANAGER_ROLES = array(
 		  "il_crs_admin_%"
-		  ,"Trainingsersteller"
+		  ,"Pool Trainingsersteller"
 		);
 
 	// Will store the ref id of the orgu where the exited users should be put.
