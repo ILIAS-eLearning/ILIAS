@@ -10959,8 +10959,8 @@ style#:#sty_to#:#To
 style#:#sty_add_content_style#:#Add Content Style
 style#:#sty_remove_global_default_state#:#Remove Global Default State
 style#:#sty_remove_global_fixed_state#:#Remove Global Fixed State
-style#:#sty_make_global_default#:#Set as Global Default Style for New Objects
-style#:#sty_make_global_fixed#:#Force this Style on New Objects
+style#:#sty_make_global_default#:#Set as default style
+style#:#sty_make_global_fixed#:#Force this style on all objects
 content#:#cont_save_types#:#Save Types
 content#:#cont_layout_template#:#Layout Template
 content#:#cont_special_page#:#Special Content Page
@@ -11690,12 +11690,12 @@ notes#:#note_update_note#:#Update Note
 common#:#added_to_desktop#:#The item has been added to the desktop.
 common#:#removed_from_desktop#:#The item has been removed from the desktop.
 notes#:#notes_comments#:#Comments
-rbac#:#chtr_visible#:#Chatroom is visible
-rbac#:#chtr_read#:#User can join and participate at Chat Room
-rbac#:#chtr_write#:#User can edit settings of Chat Room and ban users
+rbac#:#chtr_visible#:#Chat Room is visible
+rbac#:#chtr_read#:#User can join and participate at chat room
+rbac#:#chtr_write#:#User can edit settings of chat room and ban users
 rbac#:#chtr_edit_permission#:#User can change Permission Settings for Chat Room
-common#:#objs_chtr#:#Chatrooms
-common#:#obj_chta#:#Chat
+common#:#objs_chtr#:#Chat Room
+common#:#obj_chta#:#Chat Room
 chatroom#:#history_by_day#:#Daily History
 chatroom#:#no_username_given#:#Please choose a username
 chatroom#:#history_by_session#:#Session History
@@ -11729,7 +11729,7 @@ chatroom#:#small#:#Small
 chatroom#:#large#:#Large
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
-chatroom#:#obj_chtr#:#Chatroom
+chatroom#:#obj_chtr#:#Chat Room
 chatroom#:#chat_message#:#Message
 chatroom#:#chat_message_to_all#:#To All
 chatroom#:#chat_message_options#:#Display
@@ -11754,7 +11754,7 @@ chatroom#:#chat_create_private_room_button#:#Create Private Room
 chatroom#:#moderate#:#Moderate
 chatroom#:#chatroom_smiley_keyword#:#Keyword
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"
-chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nYou have been invited to a chat room:\nChat room Title: [ROOM_NAME]\nInvited by: [INVITER_NAME]\nURL: [LINK]\n\nTo join the chat room, please follow the given URL.
+chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nYou have been invited to a chat room:\nChat Room Title: [ROOM_NAME]\nInvited by: [INVITER_NAME]\nURL: [LINK]\n\nTo join the chat room, please follow the given URL.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chat room.
 chatroom#:#settings_title#:#Settings
 chatroom#:#history_byday_title#:#Show Conversation per Day
@@ -11800,7 +11800,7 @@ chatroom_adm#:#keystore#:#Keystore
 chatroom_adm#:#keypass#:#Keypass
 chatroom_adm#:#storepass#:#Storepass
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
-common#:#obj_chtr#:#Chatroom
+common#:#obj_chtr#:#Chat Room
 chatroom#:#unable_to_connect#:#The connection to the chat server could not be established.
 user#:#user_account_codes#:#Account Reactivation Codes
 user#:#user_account_codes_add#:#Add Codes
@@ -12302,7 +12302,7 @@ blog#:#blog_notification_toggle_off#:#Deactivate Notification
 blog#:#blog_notification_activated#:#Notification Activated
 blog#:#blog_notification_deactivated#:#Notification Deactivated
 wiki#:#wiki_change_notification_page_body_comment#:#the following wiki page has been commented
-common#:#chta_visible#:#Chatroom Administration is visible
+common#:#chta_visible#:#Chat Room Administration is visible
 common#:#chta_read#:#Read access to Chat Room Administration
 common#:#chta_write#:#Edit Chat Room Administration
 common#:#chta_edit_permission#:#Change Permission Settings
@@ -13323,7 +13323,7 @@ tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any o
 tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service for any of the installed languages. Please add at least one document for any of the installed languages.
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 survey#:#svy_invite_action#:#Put on Personal Desktop
-rbac#:#chtr_delete#:#User can move or delete course
+rbac#:#chtr_delete#:#User can move or delete chat room
 ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
 ecs#:#ecs_role_mapping_value#:#Attribute Value
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads 
@@ -15569,7 +15569,7 @@ membership#:#mem_force_notification_mode_all#:#Notification activated for all me
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications
 membership#:#mem_force_notification_mode_custom#:#Custom
 common#:#settings_for_all_members#:#Members will be notified automatically 
-common#:#settings_per_users#:#For each member individual settings can be made 
+common#:#settings_per_users#:#Members are notified automatically. Deactivating notifications can be allowed for each member individually.
 forum#:#user_decides_notification#:#Members have to manually activate notifications
 crs#:#crs_intro_course_group_notification_for#:#this is the news digest for your courses and groups, which have an active notification.
 crs#:#crs_intro_course_group_notification_index#:#There are news for the period of %1$s to %2$s for the following courses and groups:
@@ -16170,3 +16170,11 @@ prtf#:#prtf_shared_offline_info#:#A portfolio has to be online to be accessible 
 crs#:#crs_mail_context_member_info#:#For the contact emails on the info screen of a course 
 crs#:#crs_mail_context_tutor_info#:#For the participant emails on the member and learning progress screens of a course
 sahs#:#sahs_mail_context_lp_info#:#For the participant emails on the learning progress screens of a scorm module
+style#:#sty_type_ha_iheada#:#Hor. Accordion Header (active)
+style#:#sty_type_ha_ihcap#:#Hor. Accordion Caption
+style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)
+style#:#sty_type_va_ihcap#:#Vert. Accordion Caption
+style#:#sty_ha_iheada_class#:#Hor. Accordion Header (active)
+style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption
+style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)
+style#:#sty_va_ihcap_class#:#Vert. Accordion Caption

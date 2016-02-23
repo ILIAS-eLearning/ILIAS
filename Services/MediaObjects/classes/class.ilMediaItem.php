@@ -1098,7 +1098,8 @@ class ilMediaItem
 				
 				$xml .= "<IntLink Target=\"".$area->getTarget($a_insert_inst, $a_inst)."\" Type=\"".
 					$area->getType()."\" $tf_str>";
-				$xml .= $area->getTitle();
+				// see bug 17893 and http://stackoverflow.com/questions/4026502/xml-error-at-ampersand
+				$xml .= htmlspecialchars($area->getTitle(), ENT_QUOTES);
 				$xml .="</IntLink>";
 			}
 			else

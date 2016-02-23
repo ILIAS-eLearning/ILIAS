@@ -1511,6 +1511,10 @@ class ilObjStyleSheet extends ilObject
 		$ctype = "";
 		$cmq_id = 0;
 		$this->style = array();
+		// workaround for bug #17586, see also http://stackoverflow.com/questions/3066356/multiple-css-classes-properties-overlapping-based-on-the-order-defined
+		// e.g. ha_iheada must be written after ha_ihead, since they are acting on the same dom node
+		// styles that must be added at the end
+		$this->end_styles = array();
 		while($style_rec = $ilDB->fetchAssoc($style_set))
 		{
 			if ($style_rec["tag"] != $ctag || $style_rec["class"] != $cclass
@@ -1519,7 +1523,14 @@ class ilObjStyleSheet extends ilObject
 				// add current tag array to style array
 				if(is_array($tag))
 				{
-					$this->style[] = $tag;
+					if (in_array($ctype, array("ha_iheada", "va_iheada")))
+					{
+						$this->end_styles[] = $tag;
+					}
+					else
+					{
+						$this->style[] = $tag;
+					}
 				}
 				$tag = array();
 			}
@@ -1534,6 +1545,10 @@ class ilObjStyleSheet extends ilObject
 		if(is_array($tag))
 		{
 			$this->style[] = $tag;
+		}
+		foreach ($this->end_styles as $s)
+		{
+			$this->style[] = $s;
 		}
 //var_dump($this->style_class);
 		$q = "SELECT * FROM style_data WHERE id = ".
@@ -1559,6 +1574,7 @@ class ilObjStyleSheet extends ilObject
 				$this->hidden_chars[$par_rec["type"].":".$par_rec["characteristic"]] = true;
 			}
 		}
+//		var_dump($this->style); exit;
 	}
 
 	/**

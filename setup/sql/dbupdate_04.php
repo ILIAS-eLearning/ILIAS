@@ -14540,3 +14540,10 @@ $ilDB->manipulate(
 );
 
 ?>
+<#4882>
+<?php
+if(!$ilDB->indexExistsByFields('il_qpl_qst_fq_unit',array('question_fi')))
+{
+	$ilDB->addIndex('il_qpl_qst_fq_unit',array('question_fi'), 'i2');
+}
+?>
