@@ -69,9 +69,6 @@ abstract class Filter {
 	/**
 	 * Map a function over the content of the filter.
 	 *
-	 * Either expects an array with Closure and another array with strings for
-	 * the result type or expects closure and the array in the second param.
-	 *
 	 * @param	\Closure		$mapper
 	 * @param	string[]		$result_type
 	 * @return	Filter
@@ -79,7 +76,19 @@ abstract class Filter {
 	public function map(\Closure $mapper, $result_types) {
 		assert('$mapper instanceof \\Closure');
 		assert('is_array($result_types)');
+		return $this->map_raw($mapper, $result_type);
 	}
+
+	/**
+	 * Map a function over the content of the filter, but without any checks.
+	 *
+	 * @param	\Closure		$mapper
+	 * @param	string[]		$result_type
+	 * @return	Filter
+	 */
+	public function map_raw(\Closure $mapper, $result_types) {
+	}
+
 
 	/**
 	 * Map the content of the filter to a predicate.

@@ -168,6 +168,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("label", $filter->label());
 		$this->assertEquals("description", $filter->description());
 		$this->assertEquals(array("int"), $filter->content_type());
+		$this->assertEquals(array("int"), $filter->input_type());
 		$this->assertEquals($options, $filter->options());
 	}
 
@@ -178,6 +179,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 
 		$filter = $this->factory->multiselect("label", "description", $options);
 		$this->assertEquals(array("string"), $filter->content_type());
+		$this->assertEquals(array("string"), $filter->input_type());
 	}
 
 	/**
@@ -248,6 +250,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("label", $filter->label());
 		$this->assertEquals("description", $filter->description());
 		$this->assertEquals(array("string"), $filter->content_type());
+		$this->assertEquals(array("string"), $filter->input_type());
 	}
 
 	public function test_text_predicate() {
@@ -268,4 +271,135 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 	}
 
 	// COMBINATORS
+
+	// SEQUENCE
+
+	public function test_sequence_filters_creation() {
+		$dt_f = $this->factory->dateperiod("label", "description");
+		$text1_f = $this->factory->text("label", "description");
+		$text2_f = $this->factory->text("label", "description");
+		$filter = $this->factory->sequence($dt_f, $text1_f, $text2_f);
+
+		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
+		$this->assertEquals(null, $filter->label());
+		$this->assertEquals(null, $filter->description());
+		$this->assertEquals(array("\\DateTime", "\\DateTime", "string", "string"), $filter->content_type());
+		$this->assertEquals(array("\\DateTime", "\\DateTime", "string", "string"), $filter->input_type());
+	}
+
+	public function test_sequence_filters_predicate() {
+		$dt_f = $this->factory->dateperiod("label", "description");
+		$text1_f = $this->factory->text("label", "description");
+		$text2_f = $this->factory->text("label", "description");
+		$filter = $this->factory->sequence($dt_f, $text1_f, $text2_f)
+			->map_to_predicate(function ($dt_l, $dt_r, $text1, $text2) {
+				$f = $this->factory->predicate_factory();
+				return    $f->field("dt_l")->EQ()->date($dt_l)
+					->_AND()->field("dt_r")->EQ()->date($dt_r)
+					->_AND()->field("text1")->EQ()->text($text1)
+					->_AND()->field("text2")->EQ()->text($text2);
+			});
+
+		$this->assertNotNull($filter);
+
+		$interpreter = new \CaT\Filter\DictionaryPredicateInterpreter;
+
+		$pred = $filter->content(new \DateTime("1985-05-04"), new \DateTime("2015-05-04"), "foo", "bar");
+
+		$this->assertTrue($interpreter->interpret($pred, array
+							( "dt_l"	=> new \DateTime("1985-05-04")
+							, "dt_r"	=> new \DateTime("2015-05-04")
+							, "text1"	=> "foo"
+							, "text2"	=> "bar"
+							)));
+		$this->assertFalse($interpreter->interpret($pred, array
+							( "dt_l"	=> new \DateTime("1985-05-04")
+							, "dt_r"	=> new \DateTime("2015-05-04")
+							, "text1"	=> "foobar"
+							, "text2"	=> "bar"
+							)));
+	}
+
+	public function test_sequence_and_filters_predicate() {
+		$f = $this->factory;
+
+		$dt_f = $f->dateperiod("label", "description")->map_to_predicate(
+						$f->dateperiod_overlaps_predicate("dt_l", "dt_r"));
+		$text1_f = $f->text("label", "description")->map_to_predicate(
+						$f->text_equals("text1"));
+		$text2_f = $f->text("label", "description")->map_to_predicate(
+						$f->text_equals("text2"));
+
+		$filter = $f->sequence_and($dt_f, $text1_f, $text2_f);
+
+		$this->assertNotNull($filter);
+
+		$interpreter = new \CaT\Filter\DictionaryPredicateInterpreter;
+
+		$pred = $filter->content(new \DateTime("1985-05-04"), new \DateTime("2015-05-04"), "foo", "bar");
+
+		$this->assertTrue($interpreter->interpret($pred, array
+							( "dt_l"	=> new \DateTime("1985-05-04")
+							, "dt_r"	=> new \DateTime("2015-05-04")
+							, "text1"	=> "foo"
+							, "text2"	=> "bar"
+							)));
+		$this->assertFalse($interpreter->interpret($pred, array
+							( "dt_l"	=> new \DateTime("1985-05-04")
+							, "dt_r"	=> new \DateTime("2015-05-04")
+							, "text1"	=> "foobar"
+							, "text2"	=> "bar"
+							)));
+	}
+
+	// OPTIONS
+
+	public function test_one_of_filter_creation() {
+		$dt_f = $his->factory->dateperiod("label", "description");
+		$text_f = $this->factory->text("label", "description");
+		$filter = $this->factory->one_of("oolabel", "oodescription", $dt_f, $text_f);
+
+		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
+		$this->assertEquals("oolabel", $filter->label());
+		$this->assertEquals("oodescription", $filter->description());
+		$this->assertEquals(array("int", array(array("\\DateTime", "\\DateTime"), array("string"))), $filter->content_type());
+		$this->assertEquals(array("int", array(array("\\DateTime", "\\DateTime"), array("string"))), $filter->input_type());
+	}
+
+	public function test_one_of_filter_predicate() {
+		$dt_f = $his->factory->dateperiod("label", "description");
+		$text_f = $this->factory->text("label", "description");
+		$filter = $this->factory->one_of("oolabel", "oodescription", $dt_f, $text_f)
+					->map_to_predicate(function($choice, $vals) {
+						$f = $this->factory->predicate_factory();
+
+						$this->assertInternalType("int", $choice);
+						$this->assertContains($choice, array(0,1));
+
+						if ($choice === 0) {
+							list($dt_l, $dt_r) = $vals;
+							$this->assertInstanceOf("\\DateTime", $dt_l);
+							$this->assertInstanceOf("\\DateTime", $dt_r);
+						}
+						else {
+							list($text) = $vals;
+							$this->assertInternalType("string", $text);
+						}
+						return $f->field("choice")->EQ()->int($choice);
+					});
+
+		$this->assertNotNull($filter);
+
+		$interpreter = new \CaT\Filter\DictionaryPredicateInterpreter;
+
+		$pred_0 = $filter->content(0, array(new \DateTime("1985-05-04"), new \DateTime("2015-05-04")));
+
+		$this->assertTrue($interpreter->interpret($pred_0, array("choice" => 0)));
+		$this->assertFalse($interpreter->interpret($pred_0, array("choice" => 0)));
+
+		$pred_1 = $filter->content(0, array(new \DateTime("1985-05-04"), new \DateTime("2015-05-04")));
+
+		$this->assertTrue($interpreter->interpret($pred_1, array("choice" => 0)));
+		$this->assertFalse($interpreter->interpret($pred_1, array("choice" => 0)));
+	}
 }
