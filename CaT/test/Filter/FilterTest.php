@@ -266,4 +266,6 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($interpreter->interpret($pred_true, array("foo" => "bar")));
 		$this->assertFalse($interpreter->interpret($pred_true, array("foo" => "foo")));
 	}
+
+	// COMBINATORS
 }
