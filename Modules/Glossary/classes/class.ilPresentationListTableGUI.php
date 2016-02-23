@@ -193,9 +193,10 @@ class ilPresentationListTableGUI extends ilTable2GUI
 					$this->tpl->setCurrentBlock("definition");
 					if ($def["short_text_dirty"])
 					{
-						$def = new ilGlossaryDefinition($def["id"]);
-						$def->updateShortText();
-						$short_str = $def->getShortText();
+						// #18022
+						$def_obj = new ilGlossaryDefinition($def["id"]);
+						$def_obj->updateShortText();
+						$short_str = $def_obj->getShortText();
 					}
 					else
 					{
