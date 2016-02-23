@@ -20,7 +20,7 @@ class ilSessionDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.1.0", "5.0.0");
+		return array("4.1.0", "5.0.0", "5.1.0");
 	}
 	
 	/**
@@ -81,9 +81,29 @@ class ilSessionDataSet extends ilDataSet
 							"Fulltime" => "integer",
 							"LimitedRegistration" => "integer",
 							"WaitingList" => "integer",
-							"AutoWait" => "integer",
-							"LimitUsers" => "integer",
-							"MinUsers" => "integer"
+							"LimitUsers" => "integer"
+					);
+				case "5.1.0":
+					return array(
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"Location" => "text",
+						"TutorName" => "text",
+						"TutorEmail" => "text",
+						"TutorPhone" => "text",
+						"Details" => "text",
+						"Registration" => "integer",
+						"EventStart" => "text",
+						"EventEnd" => "text",
+						"StartingTime" => "integer",
+						"EndingTime" => "integer",
+						"Fulltime" => "integer",
+						"LimitedRegistration" => "integer",
+						"WaitingList" => "integer",
+						"AutoWait" => "integer",
+						"LimitUsers" => "integer",
+						"MinUsers" => "integer"
 					);
 			}
 		}
@@ -94,6 +114,7 @@ class ilSessionDataSet extends ilDataSet
 			{
 				case "4.1.0":
 				case "5.0.0":
+				case "5.1.0":
 					return array(
 						"SessionId" => "integer",
 						"ItemId" => "text",
@@ -134,14 +155,26 @@ class ilSessionDataSet extends ilDataSet
 				case "5.0.0":
 					$this->getDirectDataFromQuery($q = "SELECT ev.obj_id id, od.title title, odes.description description, ".
 							" location, tutor_name, tutor_email, tutor_phone, details, reg_type registration, ".
-							" reg_limited limited_registration, reg_waiting_list waiting_list, reg_auto_wait auto_wait, ".
-							" reg_limit_users limit_users, reg_min_users min_users, ".
+							" reg_limited limited_registration, reg_waiting_list waiting_list, ".
+							" reg_limit_users limit_users, ".
 							" e_start event_start, e_end event_end, starting_time, ending_time, fulltime ".
 							" FROM event ev JOIN object_data od ON (ev.obj_id = od.obj_id) ".
 							" JOIN event_appointment ea ON (ev.obj_id = ea.event_id)  ".
 							" JOIN object_description odes ON (ev.obj_id = odes.obj_id) ".
 							"WHERE ".
 							$ilDB->in("ev.obj_id", $a_ids, false, "integer"));
+					break;
+				case "5.1.0":
+					$this->getDirectDataFromQuery($q = "SELECT ev.obj_id id, od.title title, odes.description description, ".
+						" location, tutor_name, tutor_email, tutor_phone, details, reg_type registration, ".
+						" reg_limited limited_registration, reg_waiting_list waiting_list, reg_auto_wait auto_wait, ".
+						" reg_limit_users limit_users, reg_min_users min_users, ".
+						" e_start event_start, e_end event_end, starting_time, ending_time, fulltime ".
+						" FROM event ev JOIN object_data od ON (ev.obj_id = od.obj_id) ".
+						" JOIN event_appointment ea ON (ev.obj_id = ea.event_id)  ".
+						" JOIN object_description odes ON (ev.obj_id = odes.obj_id) ".
+						"WHERE ".
+						$ilDB->in("ev.obj_id", $a_ids, false, "integer"));
 					break;
 			}
 		}
@@ -152,6 +185,7 @@ class ilSessionDataSet extends ilDataSet
 			{
 				case "4.1.0":
 				case "5.0.0":
+				case "5.1.0":
 					$this->getDirectDataFromQuery($q = "SELECT event_id session_id, item_id ".
 						" FROM event_items ".
 						"WHERE ".
@@ -241,16 +275,24 @@ class ilSessionDataSet extends ilDataSet
 				$newObj->setEmail($a_rec["TutorEmail"]);
 				$newObj->setDetails($a_rec["Details"]);
 
-				if($a_schema_version == "5.0.0")
+				switch ($a_schema_version)
 				{
-					$newObj->setRegistrationType($a_rec["Registration"]);
+					case "5.0.0":
+					case "5.1.0":
+						$newObj->setRegistrationType($a_rec["Registration"]);
 
-					$newObj->enableRegistrationUserLimit($a_rec["LimitedRegistration"]);
-					$newObj->setRegistrationMaxUsers($a_rec["LimitUsers"]);
-					$newObj->setRegistrationMinUsers($a_rec["MinUsers"]);
+						$newObj->enableRegistrationUserLimit($a_rec["LimitedRegistration"]);
+						$newObj->setRegistrationMaxUsers($a_rec["LimitUsers"]);
+						$newObj->enableRegistrationWaitingList($a_rec["WaitingList"]);
 
-					$newObj->enableRegistrationWaitingList($a_rec["WaitingList"]);
-					$newObj->setWaitingListAutoFill($a_rec["AutoWait"]);
+						if(isset($a_rec["MinUsers"])) {
+							$newObj->setRegistrationMinUsers($a_rec["MinUsers"]);
+						}
+
+						if(isset($a_rec["AutoWait"])) {
+							$newObj->setWaitingListAutoFill($a_rec["AutoWait"]);
+						}
+						break;
 				}
 
 				$newObj->update();
