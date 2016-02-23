@@ -22,6 +22,8 @@ class ilGEVCourseTemplateCreationPlugin extends ilEventHookPlugin
 		require_once("Modules/Course/classes/class.ilObjCourse.php");
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+		global $ilUser;
 		
 		try {
 			$utils = gevCourseUtils::getInstance($a_crs_id);
@@ -56,6 +58,8 @@ class ilGEVCourseTemplateCreationPlugin extends ilEventHookPlugin
 			$utils->setWaitingListLength(10);
 			// Ist per default nicht storniert
 			$utils->setIsCancelled(false);
+			// Trainingsersteller
+			$utils->setTrainingCreatorLogin($ilUser->getLogin());
 			// Anbieter Generali
 			if ($generali) {
 				$utils->setProviderId($generali);
