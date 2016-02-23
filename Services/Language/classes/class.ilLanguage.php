@@ -126,6 +126,23 @@ class ilLanguage
 	 */
 	protected $cached_modules = array();
 
+	// BEGIN patch clean up language file
+	/**
+	 * @var string[]
+	 */
+	protected $map_modules_txt = array();
+
+	/**
+	 * @var bool
+	 */
+	protected $log_enabled = false;
+
+	/**
+	 * @var string[]
+	 */
+	protected static $lng_log = array();
+	// END patch clean up language file
+
 	/**
 	 * Constructor
 	 * read the single-language file and put this in an array text.
@@ -159,6 +176,11 @@ class ilLanguage
 		
 		$this->text = array();
 		$this->loaded_modules = array();
+
+		// BEGIN patch clean up language file
+		$this->log_enabled = $this->checkLogEnabled();
+		// END patch clean up language file
+
 		//$this->lang_path = ILIAS_ABSOLUTE_PATH.substr($this->ilias->ini->readVariable("language","path"),1);
 
 		// if no directory was found fall back to default lang dir
@@ -275,6 +297,12 @@ class ilLanguage
 		}
 		else
 		{
+			// BEGIN patch clean up language file
+			if($this->log_enabled)
+			{
+				self::logTxt($this->map_modules_txt[$a_topic], $a_topic);
+			}
+			// END patch clean up language file
 			return $translation;
 		}
 	}
@@ -338,6 +366,15 @@ class ilLanguage
 		if (is_array($new_text))
 		{
 			$this->text = array_merge($this->text, $new_text);
+			// BEGIN patch clean up language file
+			if($this->log_enabled)
+			{
+				foreach (array_keys($new_text) as $key)
+				{
+					$this->map_modules_txt[$key] = $a_module;
+				}
+			}
+			// END patch clean up language file
 		}
 	}
 	
@@ -374,7 +411,11 @@ class ilLanguage
 			// remember the used topics
 			self::$used_topics[$a_id]   = $a_id;
 			self::$used_modules[$a_mod] = $a_mod;
-			
+
+			// BEGIN patch clean up language file
+			self::logTxt($a_mod, $a_id);
+			// END patch clean up language file
+
 			return $rec["value"];
 		}
 		
@@ -542,6 +583,74 @@ class ilLanguage
 		}
 	}
 
+	// BEGIN patch clean up language file
+	/**
+	 * @param string $a_module
+	 * @param string $a_identifier
+	 */
+	protected static function  logTxt($a_module, $a_identifier)
+	{
+		/*global $ilDB;
+
+		$query = 'REPLACE INTO lng_log (module_id, identifier) VALUES (' . $ilDB->quote($a_module, 'text'). ', ' . $ilDB->quote($a_identifier, 'text') . ')';
+
+		$ilDB->manipulate($query);*/
+
+		if($a_module != "" && $a_identifier != "")
+		{
+			self::$lng_log[$a_identifier] = $a_module;
+		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function checkLogEnabled()
+	{
+		global $ilClientIniFile, $ilDB;
+
+		if(!$ilClientIniFile->variableExists('system', 'language_log')) {
+			return false;
+		}
+
+		if(!$ilDB instanceof ilDBMySQL)
+		{
+			return false;
+		}
+
+		if(!$ilDB->tableExists('lng_log'))
+		{
+			return false;
+		}
+
+		return $ilClientIniFile->readVariable('system', 'language_log') == 1;
+
+	}
+
+	function __destruct()
+	{
+		global $ilDB;
+
+		if(!$this->log_enabled)
+		{
+			return;
+		}
+
+		foreach((array)self::$lng_log as $identifier => $module)
+		{
+			$wave[] = '(' . $ilDB->quote($module, 'text'). ', ' . $ilDB->quote($identifier, 'text') . ')';
+			unset(self::$lng_log[$identifier]);
+
+			if(count($wave) == 100 || (count(self::$lng_log) == 0 && count($wave) > 0))
+			{
+				$query = 'REPLACE INTO lng_log (module_id, identifier) VALUES ' . implode(', ', $wave);
+				$ilDB->manipulate($query);
+
+				$wave = array();
+			}
+		}
+	}
+	// END patch clean up language file
 	
 } // END class.Language
 ?>
