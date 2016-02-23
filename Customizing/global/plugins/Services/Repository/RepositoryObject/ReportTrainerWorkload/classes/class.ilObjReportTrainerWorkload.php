@@ -230,6 +230,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 				."		ON ore.ref_id = rpa.ref_id "
 				."	JOIN rbac_ua rua "
 				."		ON rua.rol_id = rpa.rol_id "
+				."		AND rua.obj_id = ".$this->user_utils->getId()
 				."	LEFT JOIN hist_userrole hur "
 				."		ON hur.usr_id = rua.usr_id "
 				."			AND ".$this->gIldb->in('hur.rol_id',$ignore_roles_ids,false,'integer')
