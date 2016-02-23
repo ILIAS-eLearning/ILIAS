@@ -182,6 +182,16 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         return($rubric_form_tpl);
     }
 
+    public function getRubricPdf(){
+        if(!empty($this->rubric_data)){
+            $rubric_form_tpl=$this->loadRubricCardForm();
+        }else{
+            $rubric_form_tpl=$this->getRubricCardForm();
+        }
+        return $rubric_form_tpl->get();
+    }
+
+
     public function getRubricCard($form_action)
     {        
         // get the required templates

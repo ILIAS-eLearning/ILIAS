@@ -559,16 +559,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $rubricObj=new ilLPRubricCard($this->getObjId());
         $rubricGui=new ilLPRubricCardGUI();
 
-
-        $html = $rubricGui->loadRubricCardForm();
-
-        var_dump($html->get());
-
-        exit();
-
-        //self::generatePDF('', 'D', 'rubric');
+		if($rubricObj->objHasRubric()){
+			$rubricGui->setRubricData($rubricObj->load());
+			$html = $rubricGui->getRubricPdf();
+			self::generatePDF($html, 'D', 'rubric');
+		}
     }
-
 
     public static function generatePDF($pdf_output, $output_mode, $filename=null)
     {
@@ -581,7 +577,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         }
         $job = new ilPDFGenerationJob();
         $job->setAutoPageBreak(true)
-            ->setCreator('Ecomm')
+            ->setCreator('rubric')
             ->setFilename($filename)
             ->setMarginLeft('20')
             ->setMarginRight('20')
