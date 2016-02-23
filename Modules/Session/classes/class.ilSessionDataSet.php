@@ -81,9 +81,7 @@ class ilSessionDataSet extends ilDataSet
 							"Fulltime" => "integer",
 							"LimitedRegistration" => "integer",
 							"WaitingList" => "integer",
-							"AutoWait" => "integer",
-							"LimitUsers" => "integer",
-							"MinUsers" => "integer"
+							"LimitUsers" => "integer"
 					);
 			}
 		}
@@ -134,8 +132,8 @@ class ilSessionDataSet extends ilDataSet
 				case "5.0.0":
 					$this->getDirectDataFromQuery($q = "SELECT ev.obj_id id, od.title title, odes.description description, ".
 							" location, tutor_name, tutor_email, tutor_phone, details, reg_type registration, ".
-							" reg_limited limited_registration, reg_waiting_list waiting_list, reg_auto_wait auto_wait, ".
-							" reg_limit_users limit_users, reg_min_users min_users, ".
+							" reg_limited limited_registration, reg_waiting_list waiting_list, ".
+							" reg_limit_users limit_users, ".
 							" e_start event_start, e_end event_end, starting_time, ending_time, fulltime ".
 							" FROM event ev JOIN object_data od ON (ev.obj_id = od.obj_id) ".
 							" JOIN event_appointment ea ON (ev.obj_id = ea.event_id)  ".
@@ -247,10 +245,7 @@ class ilSessionDataSet extends ilDataSet
 
 					$newObj->enableRegistrationUserLimit($a_rec["LimitedRegistration"]);
 					$newObj->setRegistrationMaxUsers($a_rec["LimitUsers"]);
-					$newObj->setRegistrationMinUsers($a_rec["MinUsers"]);
-
 					$newObj->enableRegistrationWaitingList($a_rec["WaitingList"]);
-					$newObj->setWaitingListAutoFill($a_rec["AutoWait"]);
 				}
 
 				$newObj->update();

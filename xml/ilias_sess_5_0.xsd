@@ -23,9 +23,7 @@
 			<element ref='t:Registration' minOccurs='1' maxOccurs='1'/>
 			<element ref='t:LimitedRegistration' minOccurs='1' maxOccurs='1'/>
 			<element ref='t:WaitingList' minOccurs='1' maxOccurs='1'/>
-			<element ref='t:AutoWait' minOccurs='1' maxOccurs='1'/>
 			<element ref='t:LimitUsers' minOccurs='1' maxOccurs='1'/>
-			<element ref='t:MinUsers' minOccurs='1' maxOccurs='1'/>
 			<element ref='t:EventStart' minOccurs='1' maxOccurs='1'/>
 			<element ref='t:EventEnd' minOccurs='1' maxOccurs='1'/>
 			<element ref='t:StartingTime' minOccurs='1' maxOccurs='1'/>
