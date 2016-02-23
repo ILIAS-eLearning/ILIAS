@@ -39,6 +39,8 @@ else
 	error_reporting(ini_get('error_reporting') & ~E_NOTICE);
 }
 
+require_once __DIR__."/../../libs/composer/vendor/autoload.php";
+
 define("DEBUG",false);
 set_include_path("./Services/PEAR/lib".PATH_SEPARATOR.ini_get('include_path'));
 require_once "./include/inc.check_pear.php";
