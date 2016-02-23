@@ -9,11 +9,11 @@ namespace CaT\Filter;
 */
 class DislpayFilter {
 	protected $sequence;
-	protected $position;
+	protected $post_values;
 
-	public function __construct(Filters\Sequence $sequence, $position = 0) {
+	public function __construct(Filters\Sequence $sequence, $post_values = array()) {
 		$this->sequence = $sequence;
-		$this->position = $position;
+		$this->post_values = $post_values;
 	}
 
 	/**
@@ -37,16 +37,16 @@ class DislpayFilter {
 					$this->workSequence($value);
 					break;
 				case Filters\DatePeriod:
-					$this->workDatePeriod($value);
+					return $this->workDatePeriod($value);
 					break;
 				case Filters\Multiselect:
-					$this->workMultiselect($value);
+					return $this->workMultiselect($value);
 					break;
 				case Filters\Option:
-					$this->workOption($value);
+					return $this->workOption($value);
 					break;
 				case Filters\Text:
-					$this->workText($value);
+					return $this->workText($value);
 					break;
 				default:
 					throw new Exception("No Known Filter");
