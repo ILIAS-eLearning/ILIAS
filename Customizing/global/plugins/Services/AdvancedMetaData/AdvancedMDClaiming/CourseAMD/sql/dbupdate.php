@@ -886,7 +886,7 @@ require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 gevAMDUtils::addAMDField( "Verwaltung"
 						, "Trainingsersteller"
 						, gevSettings::CRS_AMD_TRAINING_CREATOR
-						, "User ID des Trainingserstellers."
+						, "Login des Trainingserstellers."
 						, false
 						, null
 						, ilAdvancedMDFieldDefinition::TYPE_TEXT
