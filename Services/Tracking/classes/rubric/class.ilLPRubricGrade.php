@@ -191,6 +191,25 @@ class ilLPRubricGrade
     }
 
 
+    private function getRubricGrader()
+    {
+        $data = array();
+        $res=$this->ilDB->query(
+            'select owner from rubric_data where rubric_id='
+            .$this->ilDB->quote($this->rubric_id, "integer").
+            ' and usr_id ='.$this->ilDB->quote($_SESSION['AccountId'], "integer").
+            ' and deleted is null'
+        );
+        while($row=$res->fetchRow(DB_FETCHMODE_OBJECT)){
+            array_push($data,array(
+                'grader'=>$row->owner
+            ));
+        }
+        return($data);
+    }
+
+
+
     public function grade($rubric_data)
     {
         $grades=$this->getGradePostData($rubric_data);
@@ -284,9 +303,11 @@ class ilLPRubricGrade
         $data=array();
         $data['groups']=$this->getRubricGroups();
         $data['labels']=$this->getRubricLabels();
+        $data['grader'] = $this->getRubricGrader();
 
         return($data);
     }
+
 
 
     public function objHasRubric()
