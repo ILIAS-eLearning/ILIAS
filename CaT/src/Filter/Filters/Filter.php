@@ -87,7 +87,7 @@ abstract class Filter {
 	 * @return	Filter
 	 */
 	public function map_raw(\Closure $mapper, $result_types) {
-		return new Mapped($this->factory, $mapper, $result_types);
+		return new Mapped($this->factory, $this, $mapper, $result_types);
 	}
 
 
