@@ -541,6 +541,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $rubricGui->getRubricCard($this->ctrl->getFormAction($this));
         
     }
+
 	public function lockRubricCardForm()
 	{
 		include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php");
@@ -550,6 +551,47 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$rubricObj->lockUnlock();
 		$this->showRubricCardForm();
 	}
+
+    public function exportPDF()
+    {
+        include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php");
+        include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCard.php");
+        $rubricObj=new ilLPRubricCard($this->getObjId());
+        $rubricGui=new ilLPRubricCardGUI();
+
+
+        $html = $rubricGui->loadRubricCardForm();
+
+        var_dump($html->get());
+
+        exit();
+
+        //self::generatePDF('', 'D', 'rubric');
+    }
+
+
+    public static function generatePDF($pdf_output, $output_mode, $filename=null)
+    {
+        require_once './Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+
+
+        if (substr($filename, strlen($filename) - 4, 4) != '.pdf')
+        {
+            $filename .= '.pdf';
+        }
+        $job = new ilPDFGenerationJob();
+        $job->setAutoPageBreak(true)
+            ->setCreator('Ecomm')
+            ->setFilename($filename)
+            ->setMarginLeft('20')
+            ->setMarginRight('20')
+            ->setMarginTop('20')
+            ->setMarginBottom('20')
+            ->setOutputMode($output_mode)
+            ->addPage($pdf_output);
+        ilPDFGeneration::doJob($job);
+    }
+
     // END PATCH RUBRIC CPKN 2015
 }
 ?>

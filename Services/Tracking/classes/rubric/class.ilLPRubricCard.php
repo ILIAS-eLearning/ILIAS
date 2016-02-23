@@ -59,7 +59,7 @@ class ilLPRubricCard
         
         return($sequence);
     }
-    
+
     private function getCardPostData()
     {
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");

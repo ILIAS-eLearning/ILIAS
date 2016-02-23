@@ -64,7 +64,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         
         $rubric_heading_tpl->setVariable('RUBRIC_HEADER',$this->lng->txt('trac_rubric'));
         
-        return($rubric_heading_tpl);  
+        return($rubric_heading_tpl);
     }
 
 
@@ -84,7 +84,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             'add_group'=>$this->lng->txt('rubric_option_add_group'),
             'del_group'=>$this->lng->txt('rubric_option_del_group'),
             'add_criteria'=>$this->lng->txt('rubric_option_add_criteria'),
-            'del_criteria'=>$this->lng->txt('rubric_option_del_criteria'),            
+            'del_criteria'=>$this->lng->txt('rubric_option_del_criteria'),
         );
         $select_prop->setOptions($options);        
         $rubric_commandrow_tpl->setVariable('RURBRIC_COMMANDROW_SELECT',$select_prop->render());
@@ -100,6 +100,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         }else{
             $rubric_commandrow_tpl->setVariable('RUBRIC_LOCK',$this->lng->txt('rubric_card_lock'));
         }
+        $rubric_commandrow_tpl->setVariable('EXPORT',$this->lng->txt('rubric_option_export_pdf'));
         return($rubric_commandrow_tpl);
     }
     private function getRubricCardForm()
@@ -140,7 +141,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
 
 
     
-    private function loadRubricCardForm()
+    public function loadRubricCardForm()
     {
         $filename=$this->buildCompleteTemplate();
         
@@ -195,9 +196,9 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         
         // append all templates into ilTemplate
         $this->tpl->setContent(
-            $rubric_heading_tpl->get().            
+            $rubric_heading_tpl->get().
             $rubric_commandrow_tpl->get().
-            $rubric_form_tpl->get()            
+            $rubric_form_tpl->get()
         );
 
         // add in our javascript file
@@ -378,7 +379,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     }
     
 
-    private function buildCompleteTemplate()
+    public function buildCompleteTemplate()
     {
         // build min / max point range for overall        
         $min_points=$max_points=0;
