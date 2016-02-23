@@ -76,7 +76,7 @@ abstract class Filter {
 	public function map(\Closure $mapper, $result_types) {
 		assert('$mapper instanceof \\Closure');
 		assert('is_array($result_types)');
-		return $this->map_raw($mapper, $result_type);
+		return $this->map_raw($mapper, $result_types);
 	}
 
 	/**
@@ -87,6 +87,7 @@ abstract class Filter {
 	 * @return	Filter
 	 */
 	public function map_raw(\Closure $mapper, $result_types) {
+		return new Mapped($this->factory, $mapper, $result_types);
 	}
 
 
