@@ -463,5 +463,18 @@ class gevDecentralTrainingUtils {
 		$mimetype = ilFileUtils::_lookupMimeType($file_storage->getAbsolutePath()."/".$filename);
 		ilUtil::deliverFile($file_storage->getAbsolutePath()."/".$filename, $filename, $mimetype, false, false, true);
 	}
+
+	public function shouldSeeTemplate($template_id, $user_id) {
+		$parent = $this->tree->getParentId($template_id);
+		
+		if (   $this->access->checkAccessOfUser($user_id, "visible",  "", $template_id, "crs")
+			&& $this->access->checkAccessOfUser($user_id, "copy", "", $template_id, "crs")
+			&& $this->access->checkAccessOfUser($user_id, "create_crs", "", $parent, "cat")) 
+		{
+			return true;
+		}
+
+		return false;
+	}
 }
 ?>
