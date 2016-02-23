@@ -4994,3 +4994,13 @@ if ($ilDB->tableColumnExists('tep_type', 'tep_active'))	{
 	ilCustomInstaller::initPluginEnv();
 	ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "AdvancedMetaData", "amdc", "CourseAMD");
 ?>
+
+<#209>
+<?php
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+ilCustomInstaller::initPluginEnv();
+ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "Repository", "robj", "BuildingBlockPool");
+
+?>
