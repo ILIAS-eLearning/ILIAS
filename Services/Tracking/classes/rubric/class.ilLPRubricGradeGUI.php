@@ -19,6 +19,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
     protected $user_data;
     protected $passing_grade;
     private $student_view = false;
+    private $pdf_view = false;
 
     /**
      * Constructor
@@ -55,7 +56,9 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
         if($this->student_view)
         {
            $tmp_user = ilObjectFactory::getInstanceByObjId($this->rubric_data['grader'][0]['grader'],false);
-           $rubric_heading_tpl->setVariable('RUBRIC_GRADER',' ('.$this->lng->txt('rubric_graded_by').': '.$tmp_user->getFullName().')');
+            if(!empty($tmp_user)) {
+                $rubric_heading_tpl->setVariable('RUBRIC_GRADER',' ('.$this->lng->txt('rubric_graded_by').': '.$tmp_user->getFullName().')');
+            }
         }
         return($rubric_heading_tpl);
     }
@@ -65,11 +68,24 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
         //configure the command row
         $rubric_commandrow_tpl=new ilTemplate('tpl.lp_rubricgrade_commandrow.html',true,true,'Services/Tracking');
         $rubric_commandrow_tpl->setVariable('RUBRIC_SAVE',$this->lng->txt('save'));
+        $rubric_commandrow_tpl->setVariable('RUBRIC_EXPORT',$this->lng->txt('rubric_option_export_pdf'));
         $rubric_commandrow_tpl->setVariable('FORM_ACTION',$form_action);
         $rubric_commandrow_tpl->setVariable('USER_ID',$user_id);
 
         return($rubric_commandrow_tpl);
     }
+
+    private function getRubricStudentGradeFormCommandRow($form_action,$user_id)
+    {
+        //configure the command row
+        $rubric_commandrow_tpl=new ilTemplate('tpl.lp_rubricgrade_student_commandrow.html',true,true,'Services/Tracking');
+        $rubric_commandrow_tpl->setVariable('RUBRIC_EXPORT',$this->lng->txt('rubric_option_export_pdf'));
+        $rubric_commandrow_tpl->setVariable('FORM_ACTION',$form_action);
+        $rubric_commandrow_tpl->setVariable('USER_ID',$user_id);
+
+        return($rubric_commandrow_tpl);
+    }
+
 
     private function getRubricGradeForm()
     {
@@ -117,12 +133,25 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
     }
 
 
-    public function getStudentViewHTML($user_full_name)
+    public function getStudentViewHTML($form_action, $user_full_name, $user_id)
     {
         $this->student_view=true;
 
         $rubric_heading_tpl=$this->getRubricGradeFormHeader($user_full_name);
         $rubric_grade_tpl=$this->getRubricGradeForm();
+        $rubric_commandrow_tpl=$this->getRubricStudentGradeFormCommandRow($form_action,$user_id);
+        return($rubric_commandrow_tpl->get().$rubric_heading_tpl->get().$rubric_grade_tpl->get());
+    }
+
+    public function getPDFViewHTML()
+    {
+
+        $rubric_heading_tpl=$this->getRubricGradeFormHeader('PRINTOUT');
+
+        $this->pdf_view=true;
+
+        $rubric_grade_tpl=$this->getRubricGradeForm();
+
         return($rubric_heading_tpl->get().$rubric_grade_tpl->get());
     }
 
@@ -196,7 +225,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
             $tmp_write.=$this->buildGradeBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment);
         }
 
-        if($this->student_view){
+        if($this->student_view || $this->pdf_view){
             $tmp_write.="<td scope=\"rowgroup\">
                             $tmp_point
                         </td>

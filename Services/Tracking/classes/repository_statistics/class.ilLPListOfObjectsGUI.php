@@ -552,6 +552,92 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->showRubricCardForm();
 	}
 
+    public function exportPDF()
+    {
+        include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGradeGUI.php");
+        include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php");
+        $rubricObj=new ilLPRubricGrade($this->getObjId());
+        $rubricGui=new ilLPRubricGradeGUI();
+
+		if($rubricObj->objHasRubric()){
+			$rubricGui->setRubricData($rubricObj->load());
+			$html = $rubricGui->getPDFViewHTML();
+            $html = self::removeScriptElements($html);
+
+            $css = '<style>
+
+                    table
+                    {
+                        table-layout: fixed;
+                    }
+
+                    td
+                    {
+                        padding: 10px;
+                        border: 1px solid grey;
+                    }
+                    </style>';
+			self::generatePDF($css.$html, 'D', 'rubric');
+		}
+    }
+
+    public static function generatePDF($pdf_output, $output_mode, $filename=null)
+    {
+        require_once './Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+
+        define ('PDF_PAGE_ORIENTATION', 'L');
+
+        if (substr($filename, strlen($filename) - 4, 4) != '.pdf')
+        {
+            $filename .= '.pdf';
+        }
+        $job = new ilPDFGenerationJob();
+        $job->setAutoPageBreak(true)
+            ->setCreator('rubric')
+            ->setFilename($filename)
+            ->setMarginLeft('20')
+            ->setMarginRight('20')
+            ->setMarginTop('20')
+            ->setMarginBottom('20')
+            ->setOutputMode($output_mode)
+            ->addPage($pdf_output);
+        ilPDFGeneration::doJob($job);
+    }
+
+    /**
+     * @param $html
+     * @return string
+     */
+    private static function removeScriptElements($html)
+    {
+        if(!is_string($html) || !strlen(trim($html)))
+        {
+            return $html;
+        }
+        $dom = new DOMDocument("1.0", "utf-8");
+        if(!@$dom->loadHTML('<?xml encoding="UTF-8">' . $html))
+        {
+            return $html;
+        }
+        $invalid_elements = array();
+        $script_elements     = $dom->getElementsByTagName('script');
+        foreach($script_elements as $elm)
+        {
+            $invalid_elements[] = $elm;
+        }
+        foreach($invalid_elements as $elm)
+        {
+            $elm->parentNode->removeChild($elm);
+        }
+        $dom->encoding = 'UTF-8';
+        $cleaned_html = $dom->saveHTML();
+        if(!$cleaned_html)
+        {
+            return $html;
+        }
+        return $cleaned_html;
+    }
+
     // END PATCH RUBRIC CPKN 2015
 }
 ?>
