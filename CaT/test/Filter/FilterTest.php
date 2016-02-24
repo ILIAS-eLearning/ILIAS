@@ -33,7 +33,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$filter = $this->factory->dateperiod("label", "description");
 
 		$this->assertEquals(new \DateTime(date("Y")."-01-01"), $filter->default_begin());
-		$this->assertEquals(new \DateTime(date("Y")."-12-01"), $filter->default_end());
+		$this->assertEquals(new \DateTime(date("Y")."-12-31"), $filter->default_end());
 		$this->assertEquals(new \DateTime("1900-01-01"), $filter->period_min());
 		$this->assertEquals(new \DateTime("2100-12-31"), $filter->period_max());
 	}
