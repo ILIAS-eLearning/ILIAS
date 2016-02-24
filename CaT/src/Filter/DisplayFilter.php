@@ -75,7 +75,7 @@ class DisplayFilter {
 				$this->filterGUI($this->navi->current());
 				break;
 			case Filters\OneOf:
-				$this->renderOnOf($filter);
+				$this->renderOneOf($filter);
 				break;
 			default:
 				throw new Exception("Filter class not known");
@@ -172,7 +172,7 @@ class DisplayFilter {
 	*
 	* @param $filter
 	*/
-	protected function renderOnOf($filter) {
+	protected function renderOneOf($filter) {
 
 	}
 }
