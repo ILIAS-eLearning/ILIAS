@@ -52,7 +52,7 @@ class NavigatorTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($navi->path(), "0");
 		$this->assertEquals($navi->current(), $f1);
 
-		$navi->goTo("2");
+		$navi->go_to("2");
 		$this->assertEquals($navi->tree(), $fs);
 		$this->assertEquals($navi->path(), "2");
 		$this->assertEquals($navi->current(), $f3);
