@@ -26,7 +26,7 @@ class catFilterTextGUI {
 
 		$input = new ilTextInputGUI($this->filter->label(), $this->path);
 		$input->setInfo($this->filter->description());
-		$form->addItem($venue_free_text);
+		$form->addItem($input);
 
 		$post_values = new ilHiddenInputGUI("post_values");
 		$post_values->setValue(serialize($post_values));
