@@ -1,10 +1,10 @@
 <?php
 
-/* Copyright (c) 2016 Richard Klees, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2016 Stefan Hecken, Extended GPL, see docs/LICENSE */
 
 namespace CaT\Filter\Filters;
 
-class OneOf extends FilterList {
+class FilterList extends Filter {
 	/**
 	 * @var	Filter[]
 	 */
@@ -33,11 +33,23 @@ class OneOf extends FilterList {
 	 * @inheritdocs
 	 */
 	public function content(/*...$inputs*/) {
-		$inputs = func_get_args();
-		assert('count($inputs) == 2');
-		$choice = $inputs[0];
-		$data = $inputs[1];
-		assert('$choice < count($this->subs)');
-		return call_user_func_array(array($this->subs[0], "content"), $data);
+	}
+
+	/**
+	* set the subs
+	*
+	* @param $subs 		array of Filter
+	*/
+	protected function setSubs($subs) {
+		$this->subs = array_map(function(Filter $f) { return $f; }, $subs);
+	}
+
+	/**
+	* get the subs
+	*
+	* @return $subs 	array of Filter
+	*/
+	public function subs() {
+		return $this->subs;
 	}
 }
