@@ -37,7 +37,7 @@ class Navigator {
 
 	public function right() {
 		$path = $this->path;
-		
+
 		$right_path = (int)$path[count($path) - 1] + 1;
 		$path[count($path) - 1] = $right_path;
 
@@ -53,11 +53,11 @@ class Navigator {
 	public function enter() {
 		$current = $this->current();
 
-		if(!$current instanceOf \Filters\Sequence || !$current instanceOf \Filters\OneOf) {
+		if(!($current instanceof Filters\FilterList)) {
 			throw new \OutOfBoundsException("Not possible to enter node");
 		}
 
-		$this->path = $this->path.":0";
+		$this->path[] = "0";
 	}
 
 	public function up() {
