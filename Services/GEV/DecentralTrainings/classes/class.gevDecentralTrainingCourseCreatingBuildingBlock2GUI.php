@@ -271,6 +271,10 @@ class gevDecentralTrainingCourseCreatingBuildingBlock2GUI {
 		
 		$blocks = gevBuildingBlockUtils::getPossibleBuildingBlocksGroupByTopic($this->current_user->getId());
 		
+		if(count($blocks) == 0) {
+			ilUtil::sendInfo($this->lng->txt("gev_dec_training_no_block_warning"));
+		}
+
 		$options = "";
 		
 		foreach ($blocks as $key => $value) {
