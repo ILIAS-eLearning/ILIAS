@@ -4,7 +4,7 @@
 
 namespace CaT\Filter\Filters;
 
-class OneOf extends Filter {
+class OneOf extends FilterList {
 	/**
 	 * @var	Filter[]
 	 */
@@ -14,7 +14,7 @@ class OneOf extends Filter {
 		$this->setFactory($factory);
 		$this->setLabel($label);
 		$this->setDescription($description);
-		$this->subs = array_map(function(Filter $f) { return $f; }, $subs);
+		$this->setSubs($subs);
 	}
 
 	/**
