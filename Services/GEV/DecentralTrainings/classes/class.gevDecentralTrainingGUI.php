@@ -941,7 +941,9 @@ class gevDecentralTrainingGUI {
 		$webinar_flexible_tpl_id = $settings_utils->getDctTplFlexWebinarObjId();
 
 		//Präsenztraining Flexsibel
-		if($presence_flexible_tpl_id) {
+		if($presence_flexible_tpl_id 
+			&& $this->dctl_utils->canUseTemplate(gevObjectUtils::getRefId($presence_flexible_tpl_id), $this->current_user->getId())) 
+		{
 			if($selected == "") {
 				$selected = "presence_flexible";
 			}
@@ -955,7 +957,9 @@ class gevDecentralTrainingGUI {
 		}
 
 		//Webinar Flexsibel
-		if($webinar_flexible_tpl_id) {
+		if($webinar_flexible_tpl_id 
+			&& $this->dctl_utils->canUseTemplate(gevObjectUtils::getRefId($webinar_flexible_tpl_id), $this->current_user->getId())) 
+		{
 			if($selected == "") {
 				$selected = "webinar_flexible";
 			}
@@ -1234,15 +1238,21 @@ class gevDecentralTrainingGUI {
 		* HIDDEN
 		*************************/
 		$tmplt_id = new ilHiddenInputGUI("template_id");
-		$tmplt_id->setValue($a_form_values["template_id"]);
+		if($a_form_values["template_id"] && $a_fill) {
+			$tmplt_id->setValue($a_form_values["template_id"]);
+		}
 		$form->addItem($tmplt_id);
 
 		$obj_id = new ilHiddenInputGUI("obj_id");
-		$obj_id->setValue($a_form_values["obj_id"]);
+		if($a_form_values["obj_id"] && $a_fill) {
+			$obj_id->setValue($a_form_values["obj_id"]);
+		}
 		$form->addItem($obj_id);
 		
 		$trnrs = new ilHiddenInputGUI("trainer_ids");
-		$trnrs->setValue(implode("|",$a_form_values["trainer_ids"]));
+		if($a_form_values["trainer_ids"] && $a_fill) {
+			$trnrs->setValue(implode("|",$a_form_values["trainer_ids"]));
+		}
 		$form->addItem($trnrs);
 
 		$crs_request_id = new ilHiddenInputGUI("crs_request_id");
