@@ -37,24 +37,32 @@ class DatePeriod extends Filter {
 		$this->setDescription($description);
 
 		if ($default_begin === null) {
-			
+			$this->default_begin = new \DateTime(date("Y")."-01-01");
 		}
-		$this->default_begin = $default_begin;
+		else {
+			$this->default_begin = $default_begin;
+		}
 
 		if ($default_end === null) {
-			
+			$this->default_end = new \DateTime(date("Y")."-12-31");
 		}
-		$this->default_end = $default_end;
+		else {
+			$this->default_end = $default_end;
+		}
 
 		if ($period_min === null) {
-			
+			$this->period_min = new \DateTime("1900-01-01");
 		}
-		$this->period_min = $period_min;
+		else {
+			$this->period_min = $period_min;
+		}
 
 		if ($period_max === null) {
-			
+			$this->period_max = new \DateTime("2100-12-31");
 		}
-		$this->period_max = $period_max;
+		else {
+			$this->period_max = $period_max;
+		}
 	}
 
 	/**
