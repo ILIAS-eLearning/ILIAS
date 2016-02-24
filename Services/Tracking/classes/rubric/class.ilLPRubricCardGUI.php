@@ -141,7 +141,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
 
 
     
-    public function loadRubricCardForm()
+    private function loadRubricCardForm()
     {
         $filename=$this->buildCompleteTemplate();
         
@@ -181,16 +181,6 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         //return template
         return($rubric_form_tpl);
     }
-
-    public function getRubricPdf(){
-        if(!empty($this->rubric_data)){
-            $rubric_form_tpl=$this->loadRubricCardForm();
-        }else{
-            $rubric_form_tpl=$this->getRubricCardForm();
-        }
-        return $rubric_form_tpl->get();
-    }
-
 
     public function getRubricCard($form_action)
     {        
@@ -389,7 +379,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     }
     
 
-    public function buildCompleteTemplate()
+    private buildCompleteTemplate()
     {
         // build min / max point range for overall        
         $min_points=$max_points=0;

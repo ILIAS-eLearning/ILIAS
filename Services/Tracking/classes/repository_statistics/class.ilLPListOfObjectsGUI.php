@@ -552,42 +552,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->showRubricCardForm();
 	}
 
-    public function exportPDF()
-    {
-        include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php");
-        include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCard.php");
-        $rubricObj=new ilLPRubricCard($this->getObjId());
-        $rubricGui=new ilLPRubricCardGUI();
-
-		if($rubricObj->objHasRubric()){
-			$rubricGui->setRubricData($rubricObj->load());
-			$html = $rubricGui->getRubricPdf();
-			self::generatePDF($html, 'D', 'rubric');
-		}
-    }
-
-    public static function generatePDF($pdf_output, $output_mode, $filename=null)
-    {
-        require_once './Services/PDFGeneration/classes/class.ilPDFGeneration.php';
-
-
-        if (substr($filename, strlen($filename) - 4, 4) != '.pdf')
-        {
-            $filename .= '.pdf';
-        }
-        $job = new ilPDFGenerationJob();
-        $job->setAutoPageBreak(true)
-            ->setCreator('rubric')
-            ->setFilename($filename)
-            ->setMarginLeft('20')
-            ->setMarginRight('20')
-            ->setMarginTop('20')
-            ->setMarginBottom('20')
-            ->setOutputMode($output_mode)
-            ->addPage($pdf_output);
-        ilPDFGeneration::doJob($job);
-    }
-
     // END PATCH RUBRIC CPKN 2015
 }
 ?>
