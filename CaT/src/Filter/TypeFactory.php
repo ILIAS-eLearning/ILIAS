@@ -40,4 +40,8 @@ class TypeFactory {
 		return new Types\ListType($of_type);
 	}
 
+	public function option(/* ... $sub_types */) {
+		$sub_types = func_get_args();
+		return new Types\OptionType($sub_types);
+	}
 }

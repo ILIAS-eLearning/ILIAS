@@ -73,6 +73,14 @@ class TypeTest extends PHPUnit_Framework_TestCase {
 		$this->assertSame($list_type->contains($maybe_list), $res);
 	}
 
+	/**
+	 * @dataProvider	option_provider
+	 */
+	public function test_option($type_factory, $maybe_option, $res) {
+		$option_type = $type_factory($this->factory);
+		$this->assertSame($option_type->contains($maybe_option), $res);
+	}
+
 	public function int_provider() {
 		return array
 			( array(42, true)
@@ -169,4 +177,19 @@ class TypeTest extends PHPUnit_Framework_TestCase {
 			, array(function($f) { return $f->lst($f->string()); }, array("", 1), false)
 			);
 	}
+
+	public function option_provider() {
+		return array
+			( array(function($f) { return $f->option($f->cls("\\stdClass")); }, array(0, new \stdClass()), true)
+			, array(function($f) { return $f->option($f->cls("\\stdClass")); }, array(1, new \stdClass()), false)
+			, array(function($f) { return $f->option($f->cls("\\stdClass")); }, new \stdClass(), false)
+			, array(function($f) { return $f->option($f->int(), $f->string()); }, array(0, 23), true)
+			, array(function($f) { return $f->option($f->int(), $f->string()); }, array(1, "23"), true)
+			, array(function($f) { return $f->option($f->int(), $f->string()); }, array(1, 23), false)
+			, array(function($f) { return $f->option($f->int(), $f->string()); }, array(0, "23"), false)
+			, array(function($f) { return $f->option($f->int(), $f->string()); }, array(2, 23), false)
+			);
+	}
+
+
 }
