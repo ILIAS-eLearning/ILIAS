@@ -20,7 +20,7 @@ class DisplayFilter {
 		$this->post_values = (!empty($post_values)) ? unserialize($post_values) : $post_values;
 		$this->position = $position;
 
-		$this->navi = new Navigator($this->sequence, $this->position);
+		$this->navi = (new Navigator($this->sequence))->go_to($position);
 	}
 
 	/**

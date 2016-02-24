@@ -13,7 +13,7 @@ class NavigatorTest extends PHPUnit_Framework_TestCase {
 		$f3 = $this->factory->text();
 		$fs = $this->factory->sequence($f1, $f2, $f3);
 
-		$navi = new \CaT\Filter\Navigator($fs, "0");
+		$navi = (new \CaT\Filter\Navigator($fs))->go_to("0");
 		$this->assertEquals($navi->tree(), $fs);
 		$this->assertEquals($navi->path(), "0");
 		$this->assertEquals($navi->current(), $f1);
@@ -52,7 +52,7 @@ class NavigatorTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($navi->path(), "0");
 		$this->assertEquals($navi->current(), $f1);
 
-		$navi->select("2");
+		$navi->goTo("2");
 		$this->assertEquals($navi->tree(), $fs);
 		$this->assertEquals($navi->path(), "2");
 		$this->assertEquals($navi->current(), $f3);
@@ -70,7 +70,7 @@ class NavigatorTest extends PHPUnit_Framework_TestCase {
 
 		$fs = $this->factory->sequence($f1, $fs2, $f2, $f3);
 
-		$navi = new \CaT\Filter\Navigator($fs, "0");
+		$navi = (new \CaT\Filter\Navigator($fs))->go_to("0");
 		$this->assertEquals($navi->tree(), $fs);
 		$this->assertEquals($navi->path(), "0");
 		$this->assertEquals($navi->current(), $f1);

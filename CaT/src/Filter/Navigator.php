@@ -8,9 +8,8 @@ class Navigator {
 
 	protected $tree;
 
-	public function __construct($tree, $position) {
+	public function __construct($tree) {
 		$this->tree = $tree;
-		$this->path = explode(":", $position);
 	}
 
 	public function tree() {
@@ -30,6 +29,8 @@ class Navigator {
 		}
 
 		$this->path = $path;
+
+		return $this;
 	}
 
 	public function right() {
@@ -45,6 +46,8 @@ class Navigator {
 		}
 
 		$this->path = $path;
+
+		return $this;
 	}
 
 	public function enter() {
@@ -55,6 +58,8 @@ class Navigator {
 		}
 
 		$this->path[] = "0";
+
+		return $this;
 	}
 
 	public function up() {
@@ -66,9 +71,11 @@ class Navigator {
 		unset($path[count($path)-1]);
 
 		$this->path = $path;
+
+		return $this;
 	}
 
-	public function select($path) {
+	public function go_to($path) {
 		$path = explode(":",$path);
 		$tmp = $this->getItemByPath($path, $this->tree);
 
@@ -77,7 +84,8 @@ class Navigator {
 		}
 
 		$this->path = $path;
-		return $tmp;
+
+		return $this;
 	}
 
 	public function current() {
