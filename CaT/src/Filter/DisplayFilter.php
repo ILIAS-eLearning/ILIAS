@@ -11,12 +11,14 @@ class DisplayFilter {
 	const START_PATH = "0";
 
 	protected $sequence;
+	protected $parent;
 	protected $post_values;
 
-	public function __construct(Filters\Sequence $sequence, array $post_values = array(), $position = "0") {
+	public function __construct(Filters\Sequence $sequence, $parent, array $post_values = array(), $position = "0") {
 		assert(is_string($position));
 
 		$this->sequence = $sequence;
+		$this->parent = $parent;
 		$this->post_values = (!empty($post_values)) ? unserialize($post_values) : $post_values;
 		$this->position = $position;
 
@@ -27,8 +29,8 @@ class DisplayFilter {
 	* saves data from current FilterGUI into $post_array
 	*/
 	public function saveFilter() {
-		$this->post_values[$this->navi->path()] = $_POST;
-		$this->renderNextFilterGUI(false);
+		$this->post_values[$this->navi->path()] = "Hallo";
+		return $this->getNextFilterGUI(false);
 	}
 
 	/**
@@ -36,18 +38,18 @@ class DisplayFilter {
 	*
 	* @param $first_filter 		user filter at position 0 or not
 	*/
-	public function renderNextFilterGUI($first_filter = true) {
+	public function getNextFilterGUI($first_filter = true) {
 		if($first_filter) {
-			$this->navi->select("0");
+			$this->navi->go_to("0");
 			$this->position = "0";
-			$this->filterGUI($this->navi->current());
+			return $this->filterGUI($this->navi->current());
 		}
 
 		if($next = $this->getNextRight()) {
-			$this->filterGUI($next);
+			return $this->filterGUI($next);
 		} else {
 			if($next = $this->getNextUpRight()) {
-				$this->filterGUI($next);
+				return $this->filterGUI($next);
 			}
 		}
 
@@ -58,27 +60,27 @@ class DisplayFilter {
 		$filter_class = get_class($filter);
 
 		switch($filter_class) {
-			case Filters\DatePeriod:
-				$this->renderDatePeriod($filter);
+			case "CaT\Filter\Filters\DatePeriod":
+				return $this->renderDatePeriod($filter);
 				break;
-			case Filters\Multiselect:
-				$this->renderMultiselect($filter);
+			case "CaT\Filter\Filters\Multiselect":
+				return $this->renderMultiselect($filter);
 				break;
-			case Filters\Option:
-				$this->renderOption($filter);
+			case "CaT\Filter\Filters\Option":
+				return $this->renderOption($filter);
 				break;
-			case Filters\Text:
-				$this->renderText($filter);
+			case "CaT\Filter\Filters\Text":
+				return $this->renderText($filter);
 				break;
-			case Filters\Sequence:
+			case "CaT\Filter\Filters\Sequence":
 				$this->navi->enter();
-				$this->filterGUI($this->navi->current());
+				return $this->filterGUI($this->navi->current());
 				break;
-			case Filters\OneOf:
-				$this->renderOneOf($filter);
+			case "CaT\Filter\Filters\OneOf":
+				return $this->renderOneOf($filter);
 				break;
 			default:
-				throw new Exception("Filter class not known");
+				throw new \Exception("Filter class not known");
 		}
 	}
 
@@ -137,7 +139,9 @@ class DisplayFilter {
 	* @param $filter 
 	*/
 	protected function renderDatePeriod($filter) {
-
+		require_once ("Services/ReportsRepository/classes/class.catFilterDatePeriodGUI.php");
+		$gui = new \catFilterDatePeriodGUI($this->parent, $filter, $this->navi->path());
+		return $gui;
 	}
 
 	/**
@@ -146,7 +150,9 @@ class DisplayFilter {
 	* @param $filter 
 	*/
 	protected function renderMultiselect($filter) {
-
+		require_once ("Services/ReportsRepository/classes/class.catFilterMulitselectGUI.php");
+		$gui = new \catFilterMulitselectGUI($this->parent, $filter, $this->navi->path());
+		return $gui;
 	}
 
 	/**
@@ -155,7 +161,9 @@ class DisplayFilter {
 	* @param $filter 
 	*/
 	protected function renderOption($filter) {
-
+		require_once ("Services/ReportsRepository/classes/class.catFilterOptionGUI.php");
+		$gui = new \catFilterOptionGUI($this->parent, $filter, $this->navi->path());
+		return $gui;
 	}
 
 	/**
@@ -164,7 +172,9 @@ class DisplayFilter {
 	* @param $filter 
 	*/
 	protected function renderText($filter) {
-
+		require_once ("Services/ReportsRepository/classes/class.catFilterTextGUI.php");
+		$gui = new \catFilterTextGUI($this->parent, $filter, $this->navi->path());
+		return $gui;
 	}
 
 	/**
@@ -173,6 +183,8 @@ class DisplayFilter {
 	* @param $filter
 	*/
 	protected function renderOneOf($filter) {
-
+		require_once ("Services/ReportsRepository/classes/class.catFilterOneOfGUI.php");
+		$gui = new \catFilterOneOfGUI($this->parent, $filter, $this->navi->path());
+		return $gui;
 	}
 }
