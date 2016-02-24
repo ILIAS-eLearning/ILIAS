@@ -46,7 +46,8 @@ class Multiselect extends Filter {
 	 * @inheritdocs
 	 */
 	public function content(/*...$inputs*/) {
-
+		$inputs = func_get_args();
+		return $inputs;
 	}
 
 	/**

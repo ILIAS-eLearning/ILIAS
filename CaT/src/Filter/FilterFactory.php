@@ -95,17 +95,31 @@ class FilterFactory {
 				$preds = func_get_args();
 				$f = $this->predicate_factory();
 				return call_user_func_array(array($f, "_ALL"), $preds);
-			});
-
+			}, "\\CaT\\Filter\\Predicates\\Predicate");
 	}
 
 	private function sequence_and_check_input_content_type($subs) {
 		foreach ($subs as $sub) {
-			if ($sub->content_type() !== "\\CaT\\Filter\\Predicates\\Predicate") {
+			if ($sub->content_type() !== array("\\CaT\\Filter\\Predicates\\Predicate")) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Get a filter where one of the sub filters is used.
+	 *
+	 * @param	string		$label
+	 * @param	string		$description
+	 * @param	Filter[]	...
+	 * @return	Filter
+	 */
+	public function one_of($label, $description/*, ... $filters */) {
+		$subs = func_get_args();
+		$label = array_shift($subs);
+		$description = array_shift($subs);
+		return new Filters\OneOf($this, $label, $description, $subs);
 	}
 
 	/**
@@ -120,9 +134,8 @@ class FilterFactory {
 		$f = $this->predicate_factory();
 		
 		return function(\DateTime $start, \DateTime $end)  use ($field_start, $field_end, $f) {
-			return	$f->field($field_start)->LT()->date($end)
-				->_AND()->
-					$f->field($field_end)->GT()->date($start);
+			return		$f->field($field_start)->LE()->date($end)
+				->_AND(	$f->date($start)->LE()->field($field_end));
 		};
 	}
 
@@ -137,7 +150,7 @@ class FilterFactory {
 		$f = $this->predicate_factory();
 
 		return function($text) use ($field, $f) {
-			return $f->field($field)->EQ()->text($text);
+			return $f->field($field)->EQ()->str($text);
 		};
 	}
 
@@ -152,7 +165,7 @@ class FilterFactory {
 		$f = $this->predicate_factory();
 
 		return function($text) use ($field, $f) {
-			return $f->field($field)->LIKE()->text($text);
+			return $f->field($field)->LIKE()->str($text);
 		};
 	}
 }

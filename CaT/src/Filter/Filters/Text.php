@@ -36,6 +36,6 @@ class Text extends Filter {
 		assert('count($inputs) == 1');
 		assert('is_string($inputs[0])');
 
-		return $inputs;
+		return $inputs[0];
 	}
 }
