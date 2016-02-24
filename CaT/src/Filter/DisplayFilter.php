@@ -7,13 +7,15 @@ namespace CaT\Filter;
 /**
 * Decides which kind of Filter should be displayed and initialize GUI
 */
-class DislpayFilter {
+class DisplayFilter {
 	protected $sequence;
 	protected $post_values;
 
-	public function __construct(Filters\Sequence $sequence, $post_values = array()) {
+	public function __construct(Filters\Sequence $sequence, array $post_values = array(), $position = "") {
+		assert(is_string($position));
 		$this->sequence = $sequence;
-		$this->post_values = $post_values;
+		$this->post_values = (!empty($post_values)) ? unserialize($post_values) : $post_values;
+		$this->position = ($position != "") ? unserialize($position) : array();
 	}
 
 	/**
