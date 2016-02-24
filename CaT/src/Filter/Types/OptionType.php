@@ -19,16 +19,35 @@ class OptionType extends Type {
 	/**
 	 * @inheritdocs
 	 */
+	public function repr() {
+		return "(".implode("|", array_map(function($t) {return $t->repr();}, $this->sub_types)).")";
+	}
+
+	/**
+	 * @inheritdocs
+	 */
 	public function contains($value) {
 		if (!is_array($value)
 		or count($value) != 2
 		or !is_int($value[0])
 		or $value[0] >= count($this->sub_types)
 		or $value[0] < 0) {
-			
 			return false;
 		}
 
 		return $this->sub_types[$value[0]]->contains($value[1]);
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function unflatten(array &$value) {
+		$opt = array_shift($value);
+		$val = array_shift($value);
+		$name = $this->repr();
+		if (!$this->contains(array($opt,$val))) {
+			throw new \InvalidArgumentException("Expected $name, found $opt:'$val'");
+		}
+		return array($opt, $val);
 	}
 }

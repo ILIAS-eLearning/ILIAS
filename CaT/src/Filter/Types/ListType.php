@@ -19,6 +19,13 @@ class ListType extends Type {
 	/**
 	 * @inheritdocs
 	 */
+	public function repr() {
+		return "[".$this->item_type->repr()."]";
+	}
+
+	/**
+	 * @inheritdocs
+	 */
 	public function contains($value) {
 		if (!is_array($value)) {
 			return false;
@@ -31,5 +38,21 @@ class ListType extends Type {
 		}
 
 		return true;
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function unflatten(array &$value) {
+		$name = $this->repr();
+		if (count($value) == 0) {
+			throw new \InvalidArgumentException("Expected $name, found nothing.");
+		}
+
+		$val = array_shift($value);
+		if (!$this->contains($val)) {
+			throw new \InvalidArgumentException("Expected $name, found '$val'");
+		}
+		return $val;
 	}
 }

@@ -19,6 +19,13 @@ class EitherType extends Type {
 	/**
 	 * @inheritdocs
 	 */
+	public function repr() {
+		return "(".implode("|", array_map(function($t) {return $t->repr();}), $this->sub_types).")";
+	}
+
+	/**
+	 * @inheritdocs
+	 */
 	public function contains($value) {
 		foreach ($this->sub_types as $sub_type) {
 			if ($sub_type->contains($value)) {
@@ -27,5 +34,12 @@ class EitherType extends Type {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function unflatten(array &$value) {
+		throw new \Exception("NYI!");
 	}
 }

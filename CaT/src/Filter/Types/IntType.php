@@ -6,7 +6,14 @@ namespace CaT\Filter\Types;
 
 /**
  */
-class IntType extends Type {
+class IntType extends UnstructuredType {
+	/**
+	 * @inheritdocs
+	 */
+	public function repr() {
+		return "int";
+	}
+
 	/**
 	 * @inheritdocs
 	 */

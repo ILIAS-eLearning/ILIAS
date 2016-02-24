@@ -6,7 +6,14 @@ namespace CaT\Filter\Types;
 
 /**
  */
-class BoolType extends Type {
+class BoolType extends UnstructuredType {
+	/**
+	 * @inheritdocs
+	 */
+	public function repr() {
+		return "bool";
+	}
+
 	/**
 	 * @inheritdocs
 	 */

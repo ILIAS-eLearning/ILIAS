@@ -6,7 +6,14 @@ namespace CaT\Filter\Types;
 
 /**
  */
-class StringType extends Type {
+class StringType extends UnstructuredType {
+	/**
+	 * @inheritdocs
+	 */
+	public function repr() {
+		return "string";
+	}
+
 	/**
 	 * @inheritdocs
 	 */

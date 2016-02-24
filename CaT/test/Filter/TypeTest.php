@@ -81,6 +81,14 @@ class TypeTest extends PHPUnit_Framework_TestCase {
 		$this->assertSame($option_type->contains($maybe_option), $res);
 	}
 
+	/**
+	 * @dataProvider	unflatten_provider
+	 */
+	public function test_unflatten($type_factory, $flattened, $unflattened) {
+		$type = $type_factory($this->factory);
+		$this->assertEquals($type->unflatten($flattened), $unflattened);
+	}
+
 	public function int_provider() {
 		return array
 			( array(42, true)
@@ -191,5 +199,15 @@ class TypeTest extends PHPUnit_Framework_TestCase {
 			);
 	}
 
-
+	public function unflatten_provider() {
+		return array
+			( array(function($f) { return $f->int(); }, array(1), 1)
+			, array(function($f) { return $f->string(); }, array("a"), "a")
+			, array(function($f) { return $f->tuple($f->string(), $f->int()); }, array("a", 1), array("a", 1))
+			, array(function($f) { return $f->tuple($f->string(), $f->int()); }, array("a", 1), array("a", 1))
+			, array(function($f) { return $f->tuple($f->string(), $f->tuple($f->int(), $f->int())); }, array("a", 1, 2), array("a", array(1,2)))
+			, array(function($f) { return $f->option($f->string(), $f->int()); }, array(0, "1"), array(0, "1"))
+			, array(function($f) { return $f->option($f->string(), $f->int()); }, array(1, 2), array(1, 2))
+			);
+	}
 }

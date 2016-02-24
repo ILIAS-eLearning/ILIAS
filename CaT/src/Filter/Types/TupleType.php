@@ -16,6 +16,17 @@ class TupleType extends Type {
 		$this->sub_types = array_map(function(Type $t) { return $t; }, $sub_types);
 	}
 
+	public function item_types() {
+		return $this->sub_types;
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function repr() {
+		return "(".implode(",", array_map(function($t) {return $t->repr();}), $this->sub_types).")";
+	}
+
 	/**
 	 * @inheritdocs
 	 */
@@ -31,5 +42,16 @@ class TupleType extends Type {
 		}
 
 		return true;
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function unflatten(array &$value) {
+		$vals = array();
+		foreach ($this->sub_types as $sub_type) {
+			$vals[] = $sub_type->unflatten($value);
+		}
+		return $vals;
 	}
 }

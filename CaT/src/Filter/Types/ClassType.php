@@ -6,7 +6,7 @@ namespace CaT\Filter\Types;
 
 /**
  */
-class ClassType extends Type {
+class ClassType extends UnstructuredType {
 	/**
 	 * @var	string
 	 */
@@ -15,6 +15,13 @@ class ClassType extends Type {
 	public function __construct($cls_name) {
 		assert('is_string($cls_name)');
 		$this->cls_name = $cls_name;
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function repr() {
+		return $this->cls_name;
 	}
 
 	/**
