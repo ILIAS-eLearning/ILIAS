@@ -379,7 +379,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     }
     
 
-    private buildCompleteTemplate()
+    private function buildCompleteTemplate()
     {
         // build min / max point range for overall        
         $min_points=$max_points=0;
