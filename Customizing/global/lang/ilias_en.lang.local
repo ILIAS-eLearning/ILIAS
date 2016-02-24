@@ -29,6 +29,7 @@ trac#:#rubric_option_add_group#:#Add New Group
 trac#:#rubric_option_del_group#:#Delete Selected Group
 trac#:#rubric_option_add_criteria#:#Add Criteria to Selected Group
 trac#:#rubric_option_del_criteria#:#Delete Selected Criteria
+trac#:#rubric_option_export_pdf#:#Export to PDF
 trac#:#rubric_overall_point#:#Overall Point Range For All Groups
 trac#:#rubric_point_range_group#:#Point Range For Group
 trac#:#rubric_grade_range#:#Range
@@ -41,4 +42,3 @@ trac#:#rubric_grade#:#Grade
 trac#:#rubric_card_lock#:#Lock
 trac#:#rubric_card_unlock#:#Unlock
 trac#:#rubric_locked_info#:#This Rubric has been locked by:
-trac#:#rubric_graded_by#:#Graded By
