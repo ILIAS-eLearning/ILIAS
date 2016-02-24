@@ -10,13 +10,6 @@ class FilterList extends Filter {
 	 */
 	protected $subs;
 
-	public function __construct(\CaT\Filter\FilterFactory $factory, $label, $description, $subs) {
-		$this->setFactory($factory);
-		$this->setLabel($label);
-		$this->setDescription($description);
-		$this->setSubs($subs);
-	}
-
 	/**
 	 * @inheritdocs
 	 */
