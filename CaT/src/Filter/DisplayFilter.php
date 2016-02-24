@@ -140,7 +140,7 @@ class DisplayFilter {
 	*/
 	protected function renderDatePeriod($filter) {
 		require_once ("Services/ReportsRepository/classes/class.catFilterDatePeriodGUI.php");
-		$gui = new \catFilterDatePeriodGUI($this->parent, $filter, $this->navi->path());
+		$gui = new \catFilterDatePeriodGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
 		return $gui;
 	}
 
@@ -151,7 +151,7 @@ class DisplayFilter {
 	*/
 	protected function renderMultiselect($filter) {
 		require_once ("Services/ReportsRepository/classes/class.catFilterMulitselectGUI.php");
-		$gui = new \catFilterMulitselectGUI($this->parent, $filter, $this->navi->path());
+		$gui = new \catFilterMulitselectGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
 		return $gui;
 	}
 
@@ -162,7 +162,7 @@ class DisplayFilter {
 	*/
 	protected function renderOption($filter) {
 		require_once ("Services/ReportsRepository/classes/class.catFilterOptionGUI.php");
-		$gui = new \catFilterOptionGUI($this->parent, $filter, $this->navi->path());
+		$gui = new \catFilterOptionGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
 		return $gui;
 	}
 
@@ -173,7 +173,7 @@ class DisplayFilter {
 	*/
 	protected function renderText($filter) {
 		require_once ("Services/ReportsRepository/classes/class.catFilterTextGUI.php");
-		$gui = new \catFilterTextGUI($this->parent, $filter, $this->navi->path());
+		$gui = new \catFilterTextGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
 		return $gui;
 	}
 
@@ -184,7 +184,7 @@ class DisplayFilter {
 	*/
 	protected function renderOneOf($filter) {
 		require_once ("Services/ReportsRepository/classes/class.catFilterOneOfGUI.php");
-		$gui = new \catFilterOneOfGUI($this->parent, $filter, $this->navi->path());
+		$gui = new \catFilterOneOfGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
 		return $gui;
 	}
 }
