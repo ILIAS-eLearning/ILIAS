@@ -465,10 +465,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         
         $rubricObj=new ilLPRubricGrade($this->getObjId());
         $rubricGui=new ilLPRubricGradeGUI();
-        
         $a_user = ilObjectFactory::getInstanceByObjId((int)$_GET['user_id']);
         
-        if($rubricObj->objHasRubric()){            
+        if($rubricObj->objHasRubric() && $rubricObj->isRubricComplete()){
             $rubricGui->setRubricData($rubricObj->load());
             $rubricGui->setUserData($rubricObj->getRubricUserGradeData((int)$_GET['user_id']));            
             $rubricGui->getRubricGrade(
@@ -477,7 +476,15 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
                 (int)$_GET['user_id']
             );
         }else{
-            ilUtil::sendFailure($this->lng->txt('rubric_card_not_defined'));                
+			if(!$rubricObj->objHasRubric()) {
+           	 	ilUtil::sendFailure($this->lng->txt('rubric_card_not_defined'));
+			}
+			elseif(!$rubricObj->isRubricComplete())
+			{
+				error_log($_GET['ref_id']);
+				ilUtil::sendFailure($this->lng->txt('rubric_card_not_completed').'<a href="'.$this->ctrl->getLinkTargetByClass('illplistofobjectsgui', 'showRubricCardForm')
+				.'">'.$this->lng->txt('rubric_card_please_complete').'</a>');
+			}
         }
         
     }

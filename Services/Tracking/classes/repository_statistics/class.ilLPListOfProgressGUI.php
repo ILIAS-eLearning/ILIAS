@@ -161,7 +161,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
             
             $a_user = ilObjectFactory::getInstanceByObjId($_SESSION['AccountId']);
             
-            if($rubricObj->objHasRubric()){            
+            if($rubricObj->objHasRubric()&&$rubricObj->isRubricComplete()){
                 $rubricGui->setRubricData($rubricObj->load());
                 $rubricGui->setUserData($rubricObj->getRubricUserGradeData($_SESSION['AccountId']));
                 $this->tpl->setVariable("LP_OBJECTS", $rubricGui->getStudentViewHTML($this->ctrl->getFormAction($this), $a_user->getFullname(), (int)$_GET['user_id']));

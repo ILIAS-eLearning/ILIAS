@@ -16,7 +16,8 @@ class ilLPRubricCard
     private $passing_grade=80;
     private $rubric_locked;
     private $rubric_owner;
-    
+    private $rubric_complete;
+
     public function __construct($obj_id)
     {
         global $ilDB;
@@ -25,6 +26,8 @@ class ilLPRubricCard
         $this->obj_id=$obj_id;
         
     }
+
+
     
     public function getPassingGrade()
     {
@@ -64,7 +67,6 @@ class ilLPRubricCard
     {
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form=new ilPropertyFormGUI();
-                
         // gather label values
         $labels=array();        
         for($a=0;$a<7;$a++){
@@ -76,7 +78,8 @@ class ilLPRubricCard
                 break;
             }                                    
         }
-        
+        //is the rubric complete?
+        $this->rubric_complete=$form->getInput('complete',false);
         // gather passing grade
         $this->passing_grade=$form->getInput('passing_grade',false);
         
@@ -143,6 +146,7 @@ class ilLPRubricCard
     public function save()
     {
         $data=$this->getCardPostData();
+
         
         $this->saveRubricCardTbl();
         
@@ -181,6 +185,7 @@ class ilLPRubricCard
             return(false);
         }
     }
+
 
     public function lockUnlock()
     {
@@ -657,29 +662,28 @@ class ilLPRubricCard
         /**
          *      Add/Update Rubric Card
          */
-        
         //is there a rubric already for this?
         $set=$this->ilDB->query("select rubric_id from rubric where obj_id=".$this->ilDB->quote($this->obj_id, "integer")." and deleted is null");
         $row = $this->ilDB->fetchAssoc($set);
         $this->rubric_id=$row['rubric_id'];
-        
+        $complete = $this->rubric_complete === 'true' ? 1 : 0;
         if(empty($this->rubric_id)){            
             $this->rubric_id=$this->incrementSequence('rubric_seq');
         }
-        
         // insert or update the rubric        
         $this->ilDB->manipulate(
-            "insert into rubric (rubric_id,obj_id,passing_grade,owner,create_date,last_update) values (
+            "insert into rubric (rubric_id,obj_id,passing_grade,owner,create_date,last_update,complete) values (
                 ".$this->ilDB->quote($this->rubric_id, "integer").",                
                 ".$this->ilDB->quote($this->obj_id, "integer").",
                 ".$this->ilDB->quote($this->passing_grade, "integer").",
                 ".$this->ilDB->quote($_SESSION['AccountId'], "integer").",                
                 NOW(),
-                NOW()
+                NOW(),".$complete."
             ) on duplicate key update 
                 last_update=NOW(),
                 passing_grade=".$this->ilDB->quote($this->passing_grade, "integer").",
-                owner=".$this->ilDB->quote($_SESSION['AccountId'], "integer")
+                owner=".$this->ilDB->quote($_SESSION['AccountId'], "integer").",
+                complete=".$complete
         );
     }
 
