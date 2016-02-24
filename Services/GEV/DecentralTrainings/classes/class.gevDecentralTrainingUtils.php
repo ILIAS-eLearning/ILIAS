@@ -464,7 +464,7 @@ class gevDecentralTrainingUtils {
 		ilUtil::deliverFile($file_storage->getAbsolutePath()."/".$filename, $filename, $mimetype, false, false, true);
 	}
 
-	public function shouldSeeTemplate($template_id, $user_id) {
+	public function canUseTemplate($template_id, $user_id) {
 		$parent = $this->tree->getParentId($template_id);
 		
 		if (   $this->access->checkAccessOfUser($user_id, "visible",  "", $template_id, "crs")

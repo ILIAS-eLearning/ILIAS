@@ -942,7 +942,7 @@ class gevDecentralTrainingGUI {
 
 		//Präsenztraining Flexsibel
 		if($presence_flexible_tpl_id 
-			&& $this->dctl_utils->shouldSeeTemplate(gevObjectUtils::getRefId($presence_flexible_tpl_id), $this->current_user->getId())) 
+			&& $this->dctl_utils->canUseTemplate(gevObjectUtils::getRefId($presence_flexible_tpl_id), $this->current_user->getId())) 
 		{
 			if($selected == "") {
 				$selected = "presence_flexible";
@@ -958,7 +958,7 @@ class gevDecentralTrainingGUI {
 
 		//Webinar Flexsibel
 		if($webinar_flexible_tpl_id 
-			&& $this->dctl_utils->shouldSeeTemplate(gevObjectUtils::getRefId($webinar_flexible_tpl_id), $this->current_user->getId())) 
+			&& $this->dctl_utils->canUseTemplate(gevObjectUtils::getRefId($webinar_flexible_tpl_id), $this->current_user->getId())) 
 		{
 			if($selected == "") {
 				$selected = "webinar_flexible";
