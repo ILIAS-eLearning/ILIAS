@@ -30,4 +30,9 @@ class TypeFactory {
 	public function cls($cls_name) {
 		return new Types\ClassType($cls_name);
 	}
+
+	public function either(/* ... $sub_types */) {
+		$sub_types = func_get_args();
+		return new Types\EitherType($sub_types);
+	}
 }
