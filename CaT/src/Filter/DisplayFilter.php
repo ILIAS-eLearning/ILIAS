@@ -40,7 +40,7 @@ class DisplayFilter {
 		if($first_filter) {
 			$this->navi->select("0");
 			$this->position = "0";
-			return $this->filterGUI($this->navi->current());
+			$this->filterGUI($this->navi->current());
 		}
 
 		if($next = $this->getNextRight()) {
@@ -95,6 +95,8 @@ class DisplayFilter {
 			//end of limb
 			return false;
 		}
+
+		return false;
 	}
 
 	/**
@@ -125,6 +127,8 @@ class DisplayFilter {
 			//top of tree reached
 			return false;
 		}
+
+		return false;
 	}
 
 	/**
