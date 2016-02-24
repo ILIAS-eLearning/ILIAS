@@ -83,7 +83,7 @@ abstract class Filter {
 	 * Map a function over the content of the filter, but without any checks.
 	 *
 	 * @param	\Closure		$mapper
-	 * @param	string[]		$result_type
+	 * @param	string[]		$result_types
 	 * @return	Filter
 	 */
 	public function map_raw(\Closure $mapper, $result_types) {

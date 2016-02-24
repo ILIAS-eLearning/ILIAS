@@ -63,7 +63,7 @@ class PredicateFactory {
 	 * @return	Value
 	 */
 	public function date($dt) {
-		return new Predicates\ValueDate($this, $d);
+		return new Predicates\ValueDate($this, $dt);
 	}
 
 	/**

@@ -12,6 +12,9 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		//ilUnitUtil::performInitialisation();
 
 		$this->factory = new \CaT\Filter\FilterFactory(new \CaT\Filter\PredicateFactory());
+		
+		// to prevent warnings for unset system timezone
+		date_default_timezone_set("Europe/Berlin");
 	}
 
 	// DATEPERIOD
@@ -27,13 +30,10 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_dateperiod_defaults() {
-		// to prevent warnings for unset system timezone
-		date_default_timezone_set("Europe/Berlin");
-
 		$filter = $this->factory->dateperiod("label", "description");
 
 		$this->assertEquals(new \DateTime(date("Y")."-01-01"), $filter->default_begin());
-		$this->assertEquals(new \DateTime(date("Y")."-12-01"), $filter->default_end());
+		$this->assertEquals(new \DateTime(date("Y")."-12-31"), $filter->default_end());
 		$this->assertEquals(new \DateTime("1900-01-01"), $filter->period_min());
 		$this->assertEquals(new \DateTime("2100-12-31"), $filter->period_max());
 	}
@@ -131,10 +131,10 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 			->map_to_predicate(function($bool) {
 				$f = $this->factory->predicate_factory();
 				if ($bool) {
-					return $f->field("foo")->LT()->int(3);
+					return $f->field("foo")->LE()->int(3);
 				}
 				else {
-					return $f->field("foo")->GE()->int(3);
+					return $f->field("foo")->EQ()->int(4);
 				}
 			});
 
@@ -222,6 +222,9 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 			, 3 => "three"
 			);
 
+		// To not cause fatal in predicate construction
+		$this->assertObjectHasAttribute("IN", $this->factory->predicate_factory()->field("foo"));
+
 		$filter = $this->factory->multiselect("label", "description", $options)
 			->map_to_predicate(function(array $options) {
 				$f = $this->factory->predicate_factory();
@@ -257,7 +260,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$filter = $this->factory->text("label", "description")
 			->map_to_predicate(function($str) {
 				$f = $this->factory->predicate_factory();
-				return $f->field("foo")->EQ()->int($str);
+				return $f->field("foo")->EQ()->str($str);
 			});
 
 		$this->assertNotNull($filter);
@@ -295,9 +298,10 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 			->map_to_predicate(function ($dt_l, $dt_r, $text1, $text2) {
 				$f = $this->factory->predicate_factory();
 				return    $f->field("dt_l")->EQ()->date($dt_l)
-					->_AND()->field("dt_r")->EQ()->date($dt_r)
-					->_AND()->field("text1")->EQ()->text($text1)
-					->_AND()->field("text2")->EQ()->text($text2);
+					// TODO: make this fluent again.
+					->_AND($f->field("dt_r")->EQ()->date($dt_r))
+					->_AND($f->field("text1")->EQ()->str($text1))
+					->_AND($f->field("text2")->EQ()->str($text2));
 			});
 
 		$this->assertNotNull($filter);
@@ -355,7 +359,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 	// OPTIONS
 
 	public function test_one_of_filter_creation() {
-		$dt_f = $his->factory->dateperiod("label", "description");
+		$dt_f = $this->factory->dateperiod("label", "description");
 		$text_f = $this->factory->text("label", "description");
 		$filter = $this->factory->one_of("oolabel", "oodescription", $dt_f, $text_f);
 
@@ -367,7 +371,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_one_of_filter_predicate() {
-		$dt_f = $his->factory->dateperiod("label", "description");
+		$dt_f = $this->factory->dateperiod("label", "description");
 		$text_f = $this->factory->text("label", "description");
 		$filter = $this->factory->one_of("oolabel", "oodescription", $dt_f, $text_f)
 					->map_to_predicate(function($choice, $vals) {
