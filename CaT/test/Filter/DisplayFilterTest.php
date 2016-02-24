@@ -9,7 +9,7 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 
 	public function test_display_filter() {
 		$f1 = $this->factory->text();
-		$f2 = $this->factory->text();
+		$f2 = $this->factory->multiselect();
 		$f3 = $this->factory->text();
 		$fs = $this->factory->sequence($f1, $f2, $f3);
 
@@ -19,7 +19,7 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf("catFilterTextGUI", $gui);
 		$gui = $df->saveFilter();
 
-		$this->assertInstanceOf("catFilterTextGUI", $gui);
+		$this->assertInstanceOf("catFilterMultiselectGUI", $gui);
 		$gui = $df->saveFilter();
 
 		$this->assertInstanceOf("catFilterTextGUI", $gui);

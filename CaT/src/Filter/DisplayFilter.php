@@ -150,8 +150,8 @@ class DisplayFilter {
 	* @param $filter 
 	*/
 	protected function renderMultiselect($filter) {
-		require_once ("Services/ReportsRepository/classes/class.catFilterMulitselectGUI.php");
-		$gui = new \catFilterMulitselectGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
+		require_once ("Services/ReportsRepository/classes/class.catFilterMultiselectGUI.php");
+		$gui = new \catFilterMultiselectGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
 		return $gui;
 	}
 
