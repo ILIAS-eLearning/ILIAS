@@ -326,6 +326,21 @@ class ilLPRubricGrade
 
     }
 
+    public function isRubricComplete()
+    {
+        $res=$this->ilDB->query(
+            "select rubric_id,passing_grade,locked,owner from rubric where obj_id=".$this->ilDB->quote($this->obj_id, "integer")." and deleted is null and complete = 1"
+        );
+        $row=$res->fetchRow(DB_FETCHMODE_OBJECT);
+        if(!empty($row)) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+
     private function getGradePostData($rubric_data)
     {
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");

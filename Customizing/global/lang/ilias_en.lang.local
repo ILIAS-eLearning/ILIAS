@@ -42,3 +42,5 @@ trac#:#rubric_card_lock#:#Lock
 trac#:#rubric_card_unlock#:#Unlock
 trac#:#rubric_locked_info#:#This Rubric has been locked by:
 trac#:#rubric_graded_by#:#Graded By
+trac#:#rubric_card_not_completed#:#Rubric Card is Incomplete.
+trac#:#rubric_card_please_complete#:#Please Click Here to Continue Editing Rubric Card

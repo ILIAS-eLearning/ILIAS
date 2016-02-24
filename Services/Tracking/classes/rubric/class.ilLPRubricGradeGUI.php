@@ -55,7 +55,9 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
         if($this->student_view)
         {
            $tmp_user = ilObjectFactory::getInstanceByObjId($this->rubric_data['grader'][0]['grader'],false);
-           $rubric_heading_tpl->setVariable('RUBRIC_GRADER',' ('.$this->lng->txt('rubric_graded_by').': '.$tmp_user->getFullName().')');
+           if(!empty($tmp_user)) {
+               $rubric_heading_tpl->setVariable('RUBRIC_GRADER',' ('.$this->lng->txt('rubric_graded_by').': '.$tmp_user->getFullName().')');
+           }
         }
         return($rubric_heading_tpl);
     }

@@ -648,10 +648,13 @@ addBehavior:function(thead,tbody,tfoot,position){
     
     verifyForm:function(){
         var inputs=this.tbl.getElementsByTagName('input');
-        
         var verified_object=false;
         var requires_verification=true;
-        
+
+        var errors = document.getElementsByClassName('glyphicon-remove');
+        var complete = document.getElementById('complete');
+        complete.value = errors.length > 0 ? false : true;
+
         for(var a=0;a<inputs.length;a++){
             
             requires_verification=true;
@@ -961,7 +964,7 @@ function validate(obj){
     var validated_error_message='';
     
     var modified_object=false;
-    
+
     switch(obj.id.substr(0,5).toLowerCase()){
         case 'label':
             modified_object=obj.parentNode;
@@ -1027,3 +1030,15 @@ function validate(obj){
     }
 }
 
+document.addEventListener("DOMContentLoaded", function(event) {
+    var rubric = document.getElementById("jkn_div_rubric").parentNode;
+    var rubric_inputs =  rubric.querySelectorAll('input.form-control,textarea.form-control');
+    for(var i=0;i<rubric_inputs.length;i++)
+    {
+        if(rubric_inputs[i].getAttribute("placeholder") !== 'Grade'
+            && rubric_inputs[i].getAttribute("placeholder") !== 'Comment')
+        {
+            validate(rubric_inputs[i]);
+        }
+    }
+});

@@ -96,3 +96,7 @@ $ilDB->modifyTableColumn('rubric_weight', 'weight_max',array("type" => "float"))
 <?php
 $ilDB->modifyTableColumn('rubric_data', 'criteria_point',array("type" => "float"));
 ?>
+<#8>
+<?php
+$ilDB->addTableColumn("rubric", "complete", array("type" => "boolean"));
+?>
