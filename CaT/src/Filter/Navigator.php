@@ -4,16 +4,13 @@
 
 namespace CaT\Filter;
 
-/**
-* Decides which kind of Filter should be displayed and initialize GUI
-*/
 class Navigator {
 
 	protected $tree;
 
-	public function __construct($tree) {
+	public function __construct($tree, $position) {
 		$this->tree = $tree;
-		$this->path = array("0");
+		$this->path = explode(":", $position);
 	}
 
 	public function tree() {
