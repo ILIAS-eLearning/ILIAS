@@ -35,4 +35,9 @@ class TypeFactory {
 		$sub_types = func_get_args();
 		return new Types\EitherType($sub_types);
 	}
+
+	public function lst(Types\Type $of_type) {
+		return new Types\ListType($of_type);
+	}
+
 }

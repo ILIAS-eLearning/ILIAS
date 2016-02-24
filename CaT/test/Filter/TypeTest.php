@@ -65,6 +65,14 @@ class TypeTest extends PHPUnit_Framework_TestCase {
 		$this->assertSame($either_type->contains($maybe_either), $res);
 	}
 
+	/**
+	 * @dataProvider	list_provider
+	 */
+	public function test_list($type_factory, $maybe_list, $res) {
+		$list_type = $type_factory($this->factory);
+		$this->assertSame($list_type->contains($maybe_list), $res);
+	}
+
 	public function int_provider() {
 		return array
 			( array(42, true)
@@ -147,6 +155,18 @@ class TypeTest extends PHPUnit_Framework_TestCase {
 			, array(function($f) { return $f->either($f->int(), $f->string()); }, 1, true)
 			, array(function($f) { return $f->either($f->int(), $f->string()); }, "2", true)
 			, array(function($f) { return $f->either($f->int(), $f->string()); }, array("2"), false)
+			);
+	}
+
+	public function list_provider() {
+		return array
+			( array(function($f) { return $f->lst($f->cls("\\stdClass")); }, new \stdClass(), false)
+			, array(function($f) { return $f->lst($f->cls("\\stdClass")); }, array(), true)
+			, array(function($f) { return $f->lst($f->cls("\\stdClass")); }, array(new \stdClass()), true)
+			, array(function($f) { return $f->lst($f->string()); }, "", false)
+			, array(function($f) { return $f->lst($f->string()); }, array(""), true)
+			, array(function($f) { return $f->lst($f->string()); }, array("", "1"), true)
+			, array(function($f) { return $f->lst($f->string()); }, array("", 1), false)
 			);
 	}
 }
