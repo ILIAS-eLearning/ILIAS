@@ -4,7 +4,7 @@
 
 namespace CaT\Filter\Filters;
 
-class Sequence extends Filter {
+class Sequence extends FilterList {
 	/**
 	 * @var	Filter[]
 	 */
@@ -12,7 +12,7 @@ class Sequence extends Filter {
 
 	public function __construct(\CaT\Filter\FilterFactory $factory, $subs) {
 		$this->setFactory($factory);
-		$this->subs = array_map(function(Filter $f) { return $f; }, $subs);
+		$this->setSubs($subs);
 	}
 
 	/**
