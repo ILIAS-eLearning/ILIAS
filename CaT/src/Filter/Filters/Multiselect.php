@@ -6,7 +6,7 @@ namespace CaT\Filter\Filters;
 
 class Multiselect extends Filter {
 	/**
-	 * @var	int[]|string[]
+	 * @var	array
 	 */
 	private $options;
 
@@ -24,6 +24,18 @@ class Multiselect extends Filter {
 		$this->setLabel($label);
 		$this->setDescription($description);
 
+		$keys = array_keys($options);
+		$tf = $factory->type_factory();
+		if ($tf->lst($tf->int())->contains($keys)) {
+			$this->content_type = $tf->lst($tf->int());
+		}
+		else if ($tf->lst($tf->string())->contains($keys)) {
+			$this->content_type = $tf->lst($tf->string());
+		}
+		else {
+			throw new \InvalidArgumentException("Use only strings or only ints as keys for options.");
+		}
+
 		$this->options = $options;
 		$this->default_choice = $default_choice;
 	}
@@ -32,7 +44,7 @@ class Multiselect extends Filter {
 	 * @inheritdocs
 	 */
 	public function content_type() {
-		
+		return $this->content_type;
 	}
 
 	/**
@@ -45,9 +57,8 @@ class Multiselect extends Filter {
 	/**
 	 * @inheritdocs
 	 */
-	public function content(/*...$inputs*/) {
-		$inputs = func_get_args();
-		return $inputs;
+	protected function _content($input) {
+		return $input;
 	}
 
 	/**

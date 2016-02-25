@@ -15,12 +15,22 @@ class FilterFactory {
 	 */
 	protected $predicate_factory;
 
-	public function __construct(PredicateFactory $predicate_factory) {
+	/**
+	 * @var TypeFactory
+	 */
+	protected $type_factory;
+
+	public function __construct(PredicateFactory $predicate_factory, TypeFactory $type_factory) {
 		$this->predicate_factory = $predicate_factory;
+		$this->type_factory = $type_factory;
 	}
 
 	public function predicate_factory() {
 		return $this->predicate_factory;
+	}
+
+	public function type_factory() {
+		return $this->type_factory;
 	}
 
 	/**
@@ -89,18 +99,19 @@ class FilterFactory {
 	 */
 	public function sequence_and() {
 		$subs = func_get_args();
-		assert('$this->sequence_and_check_input_content_type($subs)');
+		$t = $this->type_factory()->cls("\\CaT\\Filter\\Predicates\\Predicate");
+		assert('$this->sequence_and_check_input_content_type($subs,$t)');
 		return call_user_func_array(array($this, "sequence"), $subs)
 			->map_raw(function() {
 				$preds = func_get_args();
 				$f = $this->predicate_factory();
 				return call_user_func_array(array($f, "_ALL"), $preds);
-			}, "\\CaT\\Filter\\Predicates\\Predicate");
+			}, $t);
 	}
 
-	private function sequence_and_check_input_content_type($subs) {
+	private function sequence_and_check_input_content_type($subs,$t) {
 		foreach ($subs as $sub) {
-			if ($sub->content_type() !== array("\\CaT\\Filter\\Predicates\\Predicate")) {
+			if ($sub->content_type() != $t) {
 				return false;
 			}
 		}

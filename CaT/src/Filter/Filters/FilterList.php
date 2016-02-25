@@ -4,45 +4,45 @@
 
 namespace CaT\Filter\Filters;
 
-class FilterList extends Filter {
+abstract class FilterList extends Filter {
 	/**
 	 * @var	Filter[]
 	 */
 	protected $subs;
 
 	/**
-	 * @inheritdocs
+	 * Set the sub filters.
+	 *
+	 * @param	Filter[]	$subs
 	 */
-	public function content_type() {
-	}
-
-	/**
-	 * @inheritdocs
-	 */
-	public function input_type() {
-	}
-
-	/**
-	 * @inheritdocs
-	 */
-	public function content(/*...$inputs*/) {
-	}
-
-	/**
-	* set the subs
-	*
-	* @param $subs 		array of Filter
-	*/
 	protected function setSubs($subs) {
 		$this->subs = array_map(function(Filter $f) { return $f; }, $subs);
 	}
 
 	/**
-	* get the subs
+	* Get the sub filters
 	*
-	* @return $subs 	array of Filter
+	* @return Filter[]
 	*/
 	public function subs() {
 		return $this->subs;
+	}
+
+	/**
+	 * Get the types of the sub filters inputs.
+	 *
+	 * @return	Type[]
+	 */
+	protected function subs_input_types() {
+		return array_map(function ($s) { return $s->input_type(); }, $this->subs);
+	}
+
+	/**
+	 * Get the types of the sub filters contents.
+	 *
+	 * @return	Type[]
+	 */
+	protected function subs_content_types() {
+		return array_map(function ($s) { return $s->content_type(); }, $this->subs);
 	}
 }

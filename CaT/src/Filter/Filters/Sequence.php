@@ -19,33 +19,31 @@ class Sequence extends FilterList {
 	 * @inheritdocs
 	 */
 	public function content_type() {
+		$tup_types = $this->subs_content_types();
+		$tf = $this->factory->type_factory();
+		return call_user_func_array(array($tf, "tuple"), $tup_types);
 	}
 
 	/**
 	 * @inheritdocs
 	 */
 	public function input_type() {
+		$tup_types = $this->subs_input_types();
+		$tf = $this->factory->type_factory();
+		return call_user_func_array(array($tf, "tuple"), $tup_types);
 	}
 
 	/**
 	 * @inheritdocs
 	 */
-	public function content(/*...$inputs*/) {
-		$inputs = func_get_args();
+	protected function _content($input) {
 		$res = array();
-		$i = 0;
+		$len = count($this->subs);
 
-		foreach ($this->subs as $sub) {
-			$amount_args = count($sub->input_type());
-			$args = array_slice($inputs, $i, $amount_args);
-			$i += $amount_args;
-			$r = call_user_func_array(array($sub, "content"), $args);
-			if (count($sub->content_type()) > 1) {
-				$res = array_merge($res, $r);
-			}
-			else {
-				$res[] = $r;
-			}
+		for ($i = 0; $i < $len; $i++) {
+			$sub = $this->subs[$i];
+			$inp = $input[$i];
+			$res[] = $sub->_content($inp);
 		}
 
 		return $res;

@@ -25,7 +25,6 @@ class DatePeriod extends Filter {
 	 */
 	private $period_max;
 
-
 	public function __construct(\CaT\Filter\FilterFactory $factory, $label, $description,
 			\DateTime $default_begin = null, \DateTime $default_end = null,
 			\DateTime $period_min = null, \DateTime $period_max = null) {
@@ -69,7 +68,8 @@ class DatePeriod extends Filter {
 	 * @inheritdocs
 	 */
 	public function content_type() {
-		return array("\\DateTime", "\\DateTime");
+		$tf = $this->factory->type_factory();
+		return $tf->tuple($tf->cls("\\DateTime"), $tf->cls("\\DateTime"));
 	}
 
 	/**
@@ -82,13 +82,8 @@ class DatePeriod extends Filter {
 	/**
 	 * @inheritdocs
 	 */
-	public function content(/*...$inputs*/) {
-		$inputs = func_get_args();
-		assert('count($inputs) == 2');
-		assert('$inputs[0] instanceof \\DateTime');
-		assert('$inputs[1] instanceof \\DateTime');
-
-		return $inputs;
+	protected function _content($input) {
+		return $input;
 	}
 
 	/**
