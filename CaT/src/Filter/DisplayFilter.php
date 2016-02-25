@@ -31,6 +31,10 @@ class DisplayFilter {
 	public function saveFilter() {
 		$current_class = get_class($this->navi->current());
 
+		if(!array_key_exists($this->path, $_POST)) {
+			throw new \Exception("No PostValue for key ".$this->path);
+		}
+
 		if($current_class == "CaT\Filter\Filters\DatePeriod") {
 			$this->post_values[$this->navi->path()] = array($_POST["o".$this->path], $_POST[$this->path]);
 		} else {
