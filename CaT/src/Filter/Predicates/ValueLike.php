@@ -36,6 +36,17 @@ class ValueLike {
 		});
 	}
 
+	public function NEQ(ValueLike $other = null) {
+		if ($other !== null) {
+			return $this->factory->NEQ($this, $other);
+		}
+
+		$self = $this;
+		return $this->fluent_factory(function(ValueLike $value) use ($self) {
+			return $self->NEQ($value);
+		});
+	}
+
 	/**
 	 * @param	Predicate|null	$other
 	 * @return	Predicate
@@ -57,18 +68,18 @@ class ValueLike {
 	 */
 	public function LE(ValueLike $other = null) {
 		if ($other !== null) {
-			return $this->factory->_ANY($this->LT($other), $this->EQ($other));
+			return $this->factory->LE($this, $other);
 		}
 
 		$self = $this;
 		return $this->fluent_factory(function(ValueLike $value) use ($self) {
-			return $self->LT($value);
+			return $self->LE($value);
 		});
 	}
 
 	public function GE(ValueLike $other = null) {
 		if ($other !== null) {
-			return $other->LE($this);
+			return $this->factory->GE($this, $other);
 		}
 		$self = $this;
 		return $this->fluent_factory(function(ValueLike $value) use ($self) {
@@ -78,11 +89,20 @@ class ValueLike {
 
 	public function GT(ValueLike $other = null) {
 		if ($other !== null) {
-			return $this->factory->LT($other, $this);
+			return $this->factory->GT($this, $other);
 		}
 		$self = $this;
 		return $this->fluent_factory(function(ValueLike $value) use ($self) {
-			return $self->GE($value);
+			return $self->GT($value);
+		});
+	}
+
+	public function IN(ValueList $list =  null) {
+		if ($list !== null) {
+			return $this->factory->IN($this, $list);
+		}
+		return $this->fluent_factory(function(ValueList $list) use ($self) {
+			return $self->IN($list);
 		});
 	}
 }
