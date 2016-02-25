@@ -278,10 +278,37 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 			,array("left" => 1, "right" => 2, "res" => true));
 	}
 
-	/**
-	* @dataProvider le_str_provider
-	*/
-	public function test_LE_str($left,$right,$res) {
+	public function test_IN() {
+		$this->assertFalse("Implement me!");
+	}
+
+	public function test_LIKE() {
+		$this->assertFalse("Implement me!");
+	}
+
+	public function test_ValueList() {
+		$ls = $this->factory->vlist(1,2,3,4);
+		$this->assertInstanceOf("\\CaT\\Filter\\Predicates\\ValueList", $ls);
+		$vals = array_map(function (\CaT\Filter\Predicates\ValueInt $v) {
+					return $v->value();
+				}, $ls->values());
+
+		$ls = $this->factory->vlist("one","two","three");
+		$this->assertInstanceOf("\\CaT\\Filter\\Predicates\\ValueList", $ls);
+		$vals = array_map(function (\CaT\Filter\Predicates\ValueStr $v) {
+					return $v->value();
+				}, $ls->values());
+		$this->assertEquals(array("one","two","three"), $vals);
+
+		try {
+			$ls = $this->factory->vlist(1,"one");
+			$this->assertFalse("Should have been raised.");
+		}
+		catch (\InvalidArgumentException $e) {
+		}
+	}
+
+	public function test_one_field() {
 		$f = $this->factory;
 		$i = $this->interpreter;
 
@@ -951,4 +978,35 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array($f1, $f2), $f1->EQ($f2)->fields());
 		$this->assertEquals(array($f1, $f2, $f3), $f1->EQ($f2)->OR($f2->LE($f3))->fields());
 	}
+	
+	public function test_IN() {
+		$this->assertFalse("Implement me!");
+	}
+
+	public function test_LIKE() {
+		$this->assertFalse("Implement me!");
+	}
+
+	public function test_ValueList() {
+		$ls = $this->factory->vlist(1,2,3,4);
+		$this->assertInstanceOf("\\CaT\\Filter\\Predicates\\ValueList", $ls);
+		$vals = array_map(function (\CaT\Filter\Predicates\ValueInt $v) {
+					return $v->value();
+				}, $ls->values());
+
+		$ls = $this->factory->vlist("one","two","three");
+		$this->assertInstanceOf("\\CaT\\Filter\\Predicates\\ValueList", $ls);
+		$vals = array_map(function (\CaT\Filter\Predicates\ValueStr $v) {
+					return $v->value();
+				}, $ls->values());
+		$this->assertEquals(array("one","two","three"), $vals);
+
+		try {
+			$ls = $this->factory->vlist(1,"one");
+			$this->assertFalse("Should have been raised.");
+		}
+		catch (\InvalidArgumentException $e) {
+		}
+	}
+
 }

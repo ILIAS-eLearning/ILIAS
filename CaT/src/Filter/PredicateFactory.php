@@ -16,7 +16,7 @@ class PredicateFactory {
 	/**
 	 * A predicate that always matches.
 	 *
-	 * @return	ilPredicate
+	 * @return	Predicate
 	 */
 	public function _TRUE() {
 		return new Predicates\PredicateTrue($this);
@@ -25,7 +25,7 @@ class PredicateFactory {
 	/**
 	 * A predicate that never matches.
 	 *
-	 * @return	ilPredicate
+	 * @return	Predicate
 	 */
 	public function _FALSE() {
 		return $this->_NOT()->_TRUE();
@@ -38,7 +38,7 @@ class PredicateFactory {
 	 *
 	 * @param	int		$i
 	 * @throws	\InvalidArgumentException
-	 * @return	ilValue
+	 * @return	Value
 	 */
 	public function int($i) {
 		return new Predicates\ValueInt($this, $i);
@@ -49,7 +49,7 @@ class PredicateFactory {
 	 *
 	 * @param	str		$s
 	 * @throws	\InvalidArgumentException
-	 * @return	ilValue
+	 * @return	Value
 	 */
 	public function str($s) {
 		return new Predicates\ValueStr($this, $s);
@@ -58,30 +58,41 @@ class PredicateFactory {
 	/**
 	 * An date value.
 	 *
-	 * @param	str		$s
+	 * @param	str|\DateTime		$dt
 	 * @throws	\InvalidArgumentException
-	 * @return	ilValue
+	 * @return	Value
 	 */
-	public function date($d) {
-		return new Predicates\ValueDate($this, $d);
+	public function date($dt) {
+		return new Predicates\ValueDate($this, $dt);
 	}
 
 	/**
 	 * Get a reference to a field.
 	 *
 	 * @param	str		$name
-	 * @return	ilField
+	 * @return	Field
 	 */
 	public function field($name) {
 		return new Predicates\Field($this, $name);
 	}
 
 	/**
+	 * Construct a list from some values.
+	 *
+	 * @param	string[]|int[]	$elements
+	 * @return	ValueList
+	 */
+	public function vlist(/*...$elements*/) {
+		$elements = func_get_args();
+		return new Predicates\ValueList($this, $elements);
+	}
+
+	/**
 	 * A predicate that is true if l equals r.
 	 *
-	 * @param	ilValueLike		$l
-	 * @param	ilValueLike		$r
-	 * @return	ilPredicate
+	 * @param	ValueLike		$l
+	 * @param	ValueLike		$r
+	 * @return	Predicate
 	 */
 	public function EQ(Predicates\ValueLike $l, Predicates\ValueLike $r) {
 		return new Predicates\PredicateEq($this, $l, $r);
@@ -90,9 +101,9 @@ class PredicateFactory {
 	/**
 	 * A predicate that is true if l is lower or equals r.
 	 *
-	 * @param	ilValueLike		$l
-	 * @param	ilValueLike		$r
-	 * @return	ilPredicate
+	 * @param	ValueLike		$l
+	 * @param	ValueLike		$r
+	 * @return	Predicate
 	 */
 	public function LT(Predicates\ValueLike $l, Predicates\ValueLike $r) {
 		return new Predicates\PredicateLt($this, $l, $r);
@@ -110,13 +121,24 @@ class PredicateFactory {
 	//		- GE
 	//		- GT
 
+	/**
+	 * A predicate that is true when the value is part of a list.
+	 *
+	 * @param	ValueLike		$l
+	 * @param	ValueList		$r
+	 * @return	Predicate
+	 */
+	public function IN(Predicates\ValueLike $l, Predicates\ValueList $r) {
+		return new Predicates\PredicatesIn($this, $l, $r);
+	}
+
 	// COMBINATORS
 
 	/**
 	 * A predicate that matches iff all of the subpredicates matches.
 	 *
-	 * @param	ilPredicate[]	...
-	 * @return	ilPredicate
+	 * @param	Predicate[]	...
+	 * @return	Predicate
 	 */
 	public function _ALL(/* ...$subs*/) {
 		$subs = func_get_args();
@@ -126,9 +148,9 @@ class PredicateFactory {
 	/**
 	 * A predicate that matches iff both subpredicates match.
 	 *
-	 * @param	ilPredicate	$l
-	 * @param	ilPredicate	$r
-	 * @return	ilPredicate
+	 * @param	Predicate	$l
+	 * @param	Predicate	$r
+	 * @return	Predicate
 	 */
 	public function _AND(Predicates\Predicate $l, Predicates\Predicate $r) {
 		return $this->_ALL($l, $r);
@@ -137,8 +159,8 @@ class PredicateFactory {
 	/**
 	 * A predicate that matches iff any of the subpredicates matches.
 	 *
-	 * @param	ilPredicate[]	...
-	 * @return	ilPredicate
+	 * @param	Predicate[]	...
+	 * @return	Predicate
 	 */
 	public function _ANY(/* ...$subs */) {
 		$subs = func_get_args();
@@ -148,9 +170,9 @@ class PredicateFactory {
 	/**
 	 * A predicate that matches iff the one or the other subpredicate matches.
 	 *
-	 * @param	ilPredicate	$l
-	 * @param	ilPredicate	$r
-	 * @return	ilPredicate
+	 * @param	Predicate	$l
+	 * @param	Predicate	$r
+	 * @return	Predicate
 	 */
 	public function _OR(Predicates\Predicate $l, Predicates\Predicate $r) {
 		return $this->_ANY($l, $r);
@@ -159,8 +181,8 @@ class PredicateFactory {
 	/**
 	 * A predicate that matches iff the  subpredicate does not match.
 	 *
-	 * @param	ilPredicate|null	$o
-	 * @return	ilPredicate
+	 * @param	Predicate|null	$o
+	 * @return	Predicate
 	 */
 	public function _NOT(Predicates\Predicate $o = null) {
 		if ($o !== null) {
