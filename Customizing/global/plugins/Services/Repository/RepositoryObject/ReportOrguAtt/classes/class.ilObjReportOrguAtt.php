@@ -46,7 +46,9 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 	}
 
 	protected function buildOrder($order) {
-		return $order->defaultOrder("orgu_title", "ASC");
+		return $order
+			->mapping("odbd",array("orgu.org_unit_above1","orgu.org_unit_above2"))
+			->defaultOrder("orgu_title", "ASC");
 	}
 
 	protected function buildTable($table) {
