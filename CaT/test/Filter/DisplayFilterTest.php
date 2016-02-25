@@ -11,9 +11,10 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 		$f1 = $this->factory->text();
 		$f2 = $this->factory->multiselect();
 		$f3 = $this->factory->option();
-		$fs = $this->factory->sequence($f1, $f2, $f3);
+		$f4 = $this->factory->dateperiod();
+		$fs = $this->factory->sequence($f1, $f2, $f3, $f4);
 
-		$classes = array("catFilterTextGUI", "catFilterMultiselectGUI","catFilterOptionGUI");
+		$classes = array("catFilterTextGUI", "catFilterMultiselectGUI","catFilterOptionGUI", "catFilterDatePeriodGUI");
 		$counter = 1;
 
 		$df = new \CaT\Filter\DisplayFilter($fs);
@@ -22,7 +23,7 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf("catFilterTextGUI", $gui);
 		
 		while($gui = $df->saveFilter()) {
-			$this->assertInstanceOf((string)$classes[$counter], $gui);
+			$this->assertInstanceOf($classes[$counter], $gui);
 			$counter++;
 		}
 		
