@@ -6,6 +6,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 	protected $backupGlobals = FALSE;
 
 	protected function setUp() {
+		error_reporting(E_ALL);
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
 		//include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");

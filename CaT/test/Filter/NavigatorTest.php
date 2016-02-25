@@ -4,6 +4,7 @@
 
 class NavigatorTest extends PHPUnit_Framework_TestCase {
 	public function setUp() {
+		error_reporting(E_ALL);
 		$this->factory = new \CaT\Filter\FilterFactory(new \CaT\Filter\PredicateFactory(), new \CaT\Filter\TypeFactory());
 	}
 
