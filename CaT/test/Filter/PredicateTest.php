@@ -229,7 +229,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$f = $this->factory;
 		$i = $this->interpreter;
 
-		$res_t = $f->int($left)->EQ()->int($right)->_NOT();
+		$res_t = $f->int($left)->NEQ()->int($right);
 		$this->assertTrue($i->interpret($res_t, array()) === !$res);
 	}
 
@@ -240,7 +240,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$f = $this->factory;
 		$i = $this->interpreter;
 
-		$res_t = $f->str($left)->EQ()->str($right)->_NOT();
+		$res_t = $f->str($left)->NEQ()->str($right);
 		$this->assertTrue($i->interpret($res_t, array()) === !$res);
 	}
 
@@ -251,7 +251,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$f = $this->factory;
 		$i = $this->interpreter;
 
-		$res_t = $f->date(new \DateTime($left))->EQ()->date(new \DateTime($right))->_NOT();
+		$res_t = $f->date(new \DateTime($left))->NEQ()->date(new \DateTime($right));
 		$this->assertTrue($i->interpret($res_t, array()) === !$res);
 	}
 
@@ -975,9 +975,13 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($i->interpret($date_1->IN( $f->vlist()),array()));
 	}
 
+	/**
+	* not needed atm
+	*/
 	public function test_LIKE() {
-		//$this->assertTrue(true);
+		$this->assertTrue(true);
 	}
+
 
 	public function test_ValueList() {
 		$ls = $this->factory->vlist(1,2,3,4);
