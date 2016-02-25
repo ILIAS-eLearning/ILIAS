@@ -94,7 +94,13 @@ class Navigator {
 
 	protected function getItemByPath($path, $tmp) {
 		foreach ($path as $value) {
-			$tmp = $tmp->subs()[$value];
+			$tmp = $tmp->subs();
+
+			if(!array_key_exists($value, $tmp)) {
+				return null;
+			}
+
+			$tmp = $tmp[$value];
 		}
 
 		return $tmp;
