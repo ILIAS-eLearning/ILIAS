@@ -141,7 +141,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
         $rubric_heading_tpl=$this->getRubricGradeFormHeader($user_full_name);
         $rubric_grade_tpl=$this->getRubricGradeForm();
         $rubric_commandrow_tpl=$this->getRubricStudentGradeFormCommandRow($form_action,$user_id);
-        return($rubric_commandrow_tpl->get().$rubric_heading_tpl->get().$rubric_grade_tpl->get());
+        return($rubric_heading_tpl->get().$rubric_commandrow_tpl->get().$rubric_grade_tpl->get());
     }
 
     public function getPDFViewHTML()
@@ -367,21 +367,41 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 
     private function getMinMaxLabel($weights)
     {
-        //figure out min / max points for group
         $min_points=$max_points=0;
         foreach($weights as $k => $weight){
             if($k==0){
-                $min_points=$weight['weight_min'];
-                $max_points=$weight['weight_max'];
-            }else{
-                if($weight['weight_max']>$max_points){
-                    $max_points=$weight['weight_max'];
-                }
-                if($weight['weight_min']<$min_points){
+
+                if((float)$weight['weight_min']<(float)$weight['weight_max'])
+                {
                     $min_points=$weight['weight_min'];
+                    $max_points=$weight['weight_max'];
+                }else{
+                    $min_points=$weight['weight_max'];
+                    $max_points=$weight['weight_min'];
+                }
+            }else{
+                if ((float)$weight['weight_min'] < (float)$weight['weight_max']){
+                    //weightmin = brokenrange[0] weightmax = brokenrange[1]
+                    if((float)$weight['weight_max']>$max_points)
+                    {
+                        $max_points = $weight['weight_max'];
+                    }
+                    if((float)$weight['weight_min'] < $min_points)
+                    {
+                        $min_points = $weight['weight_min'];
+                    }
+                }else{
+                    if((float)$weight['weight_min']>$max_points)
+                    {
+                        $max_points = $weight['weight_min'];
+                    }
+                    if((float)$weight['weight_max'] < $min_points) {
+                        $min_points = $weight['weight_max'];
+                    }
                 }
             }
         }
+
         return(array('min'=>$min_points,'max'=>$max_points));
     }
 

@@ -30,10 +30,14 @@ var RUBRIC = {
             
             if(this.nodeHasGroupRange(trs[a])){                
                 // grab the range
-                var points=this.gatherPointValues(trs[a]);
+                points=this.gatherPointValues(trs[a]);
                 for(var b=0;b<points.length;b++){
-                    if(parseFloat(points[b]['max'])>points_max){
-                        points_max=parseFloat(points[b]['max']);
+                    if (parseFloat(points[b]['max']) > points_max) {
+                        points_max = points[b]['max'];
+                    }
+                    if (parseFloat(points[b]['min']) > points_max) {
+
+                        points_max = points[b]['min'];
                     }
                 }
             }else if(this.nodeHasPointRange(trs[a])){
@@ -356,6 +360,7 @@ addBehavior:function(thead,tbody,tfoot,position){
         input.setAttribute('type','text');
         input.setAttribute('class','form-control');
         input.setAttribute('onkeyup','validate(this)');
+        input.setAttribute('onblur','recalculate()');
         input.setAttribute('oninput','validate(this)');
         input.setAttribute('value',''+point_ranges[behavior_number][0]+'-'+point_ranges[behavior_number][1]+'');
         div.appendChild(input);
@@ -662,8 +667,7 @@ addBehavior:function(thead,tbody,tfoot,position){
         var inputs=this.tbl.getElementsByTagName('input');
         var verified_object=false;
         var requires_verification=true;
-
-        var errors = document.getElementsByClassName('glyphicon-remove');
+        var errors = document.querySelectorAll('.glyphicon-remove,.glyphicon-warning-sign');
         var complete = document.getElementById('complete');
         complete.value = errors.length > 0 ? false : true;
 
@@ -729,18 +733,34 @@ addBehavior:function(thead,tbody,tfoot,position){
                         for(var b=2;b<ths.length-1;b++){
                             var broken_range=ths[b].innerHTML.split('-');
                             if(b==2){
-                                min=broken_range[0];
-                                max=broken_range[1];
-                            }else{
-                                if(parseFloat(broken_range[0])<parseFloat(min)){
-                                    min=broken_range[0];
-                                }
-                                if(parseFloat(broken_range[1])>parseFloat(max)){
+                                if(parseFloat(broken_range[0])<parseFloat(broken_range[1]))
+                                {
                                     max=broken_range[1];
+                                    min=broken_range[0];
+                                }else{
+                                    max=broken_range[0];
+                                    min=broken_range[1];
                                 }
-                            }                            
+                            }else{
+                                if(parseFloat(broken_range[0])<parseFloat(broken_range[1]))
+                                {
+                                    if(parseFloat(broken_range[1])>max){
+                                        max=broken_range[1];
+                                    }
+                                    if(parseFloat(broken_range[0])<min){
+                                        min=broken_range[0];
+                                    }
+                                }else{
+                                    if(parseFloat(broken_range[0])>max){
+                                        max=broken_range[0];
+                                    }
+                                    if(parseFloat(broken_range[1])<min){
+                                        min=broken_range[1];
+                                    }
+                                }
+                            }
                         }
-                        
+
                         found_range_row=true;
                     }
                     tmp=range_row;
