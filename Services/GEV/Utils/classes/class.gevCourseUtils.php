@@ -2564,7 +2564,7 @@ class gevCourseUtils {
 	*/
 	protected function formatPhoneNumberForExcel($phone_number) {
 		$return = preg_replace('#[\,\.]+#', ' ', $phone_number);
-		if(0 === preg_match('#\s+#' , $return)) {
+		if(0 === preg_match('#(\s|-)#' , $return)) {
 			$number_chunks = str_split($return,3);
 			$return = "";
 			$delim = " ";
