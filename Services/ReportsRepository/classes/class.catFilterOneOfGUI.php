@@ -30,29 +30,29 @@ class catFilterOneOfGUI {
 
 		//create options
 		foreach ($filter->subs() as $key => $sub_filter) {
-			$option = new ilRadioOption($sub_filter->description(), "o".$this->path);
-
+			$option = new ilRadioOption($sub_filter->label(), "o".$this->path);
+			$option->setInfo($sub_filter->description());
 			$filter_class = get_class($sub_filter);
 
 			switch($filter_class) {
 				case "CaT\Filter\Filters\DatePeriod":
-					$duration = new ilDateDurationInputGUI($this->sub_filter->label(), $this->path);
+					$duration = new ilDateDurationInputGUI("", $this->path);
 					$duration->setShowDate(true);
 					$duration->setShowTime(false);
 					$option->addSubItem($duration);
 					break;
 				case "CaT\Filter\Filters\Multiselect":
-					$multi_select = new ilMultiSelectInputGUI($this->sub_filter->label(), $this->path);
-					$multi_select->setOptions($this->sub_filter->options());
+					$multi_select = new ilMultiSelectInputGUI("", $this->path);
+					$multi_select->setOptions($sub_filter->options());
 					$option->addSubItem($multi_select);
 					break;
 				case "CaT\Filter\Filters\Option":
-					$select = new ilSelectInputGUI($this->sub_filter->label(), $this->path);
+					$select = new ilSelectInputGUI("", $this->path);
 					$select->setOptions(array("0"=>"Ja","1"=>"Nein"));
 					$option->addSubItem($select);
 					break;
 				case "CaT\Filter\Filters\Text":
-					$input = new ilTextInputGUI($this->sub_filter->label(), $this->path);
+					$input = new ilTextInputGUI("", $this->path);
 					$option->addSubItem($input);
 					break;
 			}

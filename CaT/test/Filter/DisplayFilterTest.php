@@ -26,9 +26,7 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 			$start_first_filter = false;
 			try {
 				$df->saveFilter();
-			} catch( Exception $e) {
-
-			}
+			} catch( Exception $e) {}
 			$this->assertInstanceOf($classes[$counter], $gui);
 			$counter++;
 		}
@@ -61,9 +59,7 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 			$start_first_filter = false;
 			try {
 				$df->saveFilter();
-			} catch( Exception $e) {
-
-			}
+			} catch( Exception $e) {}
 			$this->assertInstanceOf($classes[$counter], $gui);
 			$counter++;
 		}
