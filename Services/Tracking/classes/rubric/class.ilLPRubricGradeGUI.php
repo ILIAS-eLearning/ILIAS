@@ -203,7 +203,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 
     }
 
-    private function buildGradeCriteria($criteria,$group_increment,$criteria_increment)
+    private function buildGradeCriteria($group,$criteria,$group_increment,$criteria_increment)
     {
         $tmp_criteria_name='Criteria_'.$group_increment.'_'.$criteria_increment;
         $tmp_comment_name='Comment_'.$group_increment.'_'.$criteria_increment;
@@ -228,6 +228,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
         }
 
         if($this->student_view || $this->pdf_view){
+
             $tmp_write.="<td class=\"grade-point\" scope=\"rowgroup\">
                             $tmp_point
                         </td>
@@ -299,7 +300,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
             if($criteria_increment>0){
                 $tmp_write.="<tr class=\"tblrow1 small\">";
             }
-            $tmp_write.=$this->buildGradeCriteria($criteria,$group_increment,$criteria_increment);
+            $tmp_write.=$this->buildGradeCriteria($group,$criteria,$group_increment,$criteria_increment);
             $tmp_write.="</tr>";
         }
 
@@ -500,7 +501,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 
         $write="<div id=\"jkn_div_rubric\" class=\"table-responsive\" style=\"margin-top: 20px;\">
 
-                    <table id=\"jkn_table_grade_rubric\" class=\"table table-striped\">
+                    <table id=\"jkn_table_rubric\" class=\"table table-rubric-style table-striped\">
 
                         <thead>
                             <tr>
@@ -553,7 +554,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 
         $write="<div id=\"jkn_div_rubric\" class=\"table-responsive\">
 
-                    <table id=\"jkn_table_grade_rubric\" style=\"table-layout: fixed;\" class=\"table table-striped\">
+                    <table id=\"jkn_table_rubric\" style=\"table-layout: fixed;\" class=\"table table-rubric-style table-striped\">
 
                         <thead>
                             <tr>

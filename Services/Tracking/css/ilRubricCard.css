@@ -14,133 +14,133 @@
     color:#FFF;
 }
 
-#jkn_table_grade_rubric>thead>tr>th
+.table-rubric-style>thead>tr>th
 {
     text-align: center;
 }
 
-#jkn_table_grade_rubric>thead>tr>th:nth-child(odd):not(:first-child)
+.table-rubric-style>thead>tr>th:nth-child(odd):not(:first-child)
 {
     background-color: #849bb9!important;
     color: white;
 }
 
-#jkn_table_grade_rubric>thead>tr>th:first-child
+.table-rubric-style>thead>tr>th:first-child
 {
     background-color: #94a8c2!important;
     color: white;
 }
 
-#jkn_table_grade_rubric>thead>tr>th:nth-child(even)
+.table-rubric-style>thead>tr>th:nth-child(even)
 {
     background-color: #8ba1bd!important;
     color: white;
 }
 
-#jkn_table_grade_rubric .range-row th
+.table-rubric-style .range-row th
 {
     text-align: center;
     border: 1px solid #f2f2f2;
 }
 
-#jkn_table_grade_rubric>tbody:nth-child(odd) .big-block
+.table-rubric-style>tbody:nth-child(odd) .big-block
 {
     background-color: #f0f3f7!important;
 }
 
-#jkn_table_grade_rubric>tbody:nth-child(odd) .first-group>td:nth-child(even)
+.table-rubric-style>tbody:nth-child(odd) .first-group>td:nth-child(even)
 {
     background-color: #dbe2eb!important;
     color: black;
 }
 
-#jkn_table_grade_rubric>tbody:nth-child(odd) .first-group>td:nth-child(odd):not(:first-child)
+.table-rubric-style>tbody:nth-child(odd) .first-group>td:nth-child(odd):not(:first-child)
 {
     background-color: #c0ccdb!important;
     color: black;
 }
 
-#jkn_table_grade_rubric>tbody:nth-child(odd)>tr:nth-child(even)>td:nth-child(odd)
+.table-rubric-style>tbody:nth-child(odd)>tr:nth-child(even)>td:nth-child(odd)
 {
     background-color: #dbe2eb;
     color: black;
 }
 
-#jkn_table_grade_rubric>tbody:nth-child(odd)>tr:nth-child(even)>td:nth-child(even)
+.table-rubric-style>tbody:nth-child(odd)>tr:nth-child(even)>td:nth-child(even)
 {
     background-color: #c0ccdb;
     color: black;
 }
 
 
-#jkn_table_grade_rubric>tbody:nth-child(odd)>tr:nth-child(odd)>td:nth-child(odd)
+.table-rubric-style>tbody:nth-child(odd)>tr:nth-child(odd)>td:nth-child(odd)
 {
     background-color: #edf1f5;
     color: black;
 }
 
-#jkn_table_grade_rubric>tbody:nth-child(odd)>tr:nth-child(odd)>td:nth-child(even)
+.table-rubric-style>tbody:nth-child(odd)>tr:nth-child(odd)>td:nth-child(even)
 {
     background-color: #dfe6ed;
     color: black;
 }
 
-#jkn_table_grade_rubric .total-row th
+.table-rubric-style .total-row th
 {
     background-color: #aaaaaa!important;
     color: white!important;
 }
 
-#jkn_table_grade_rubric .total-row td
+.table-rubric-style .total-row td
 {
     background-color: #aaaaaa!important;
     color: white!important;
 }
 
 
-#jkn_table_grade_rubric>tbody:nth-child(even) .big-block
+.table-rubric-style>tbody:nth-child(even) .big-block
 {
     background-color: #eff5ea!important;
 }
 
-#jkn_table_grade_rubric>tbody:nth-child(even) .first-group>td:nth-child(even)
+.table-rubric-style>tbody:nth-child(even) .first-group>td:nth-child(even)
 {
     background-color: #eaf1e2!important;
     color: black;
 }
 
-#jkn_table_grade_rubric>tbody:nth-child(even) .first-group>td:nth-child(odd):not(:first-child)
+.table-rubric-style>tbody:nth-child(even) .first-group>td:nth-child(odd):not(:first-child)
 {
     background-color: #cbddb9!important;
     color: black;
 }
 
-#jkn_table_grade_rubric>tbody:nth-child(even)>tr:nth-child(even)>td:nth-child(odd)
+.table-rubric-style>tbody:nth-child(even)>tr:nth-child(even)>td:nth-child(odd)
 {
     background-color: #eaf1e2;
     color: black;
 }
 
-#jkn_table_grade_rubric>tbody:nth-child(even)>tr:nth-child(even)>td:nth-child(even)
+.table-rubric-style>tbody:nth-child(even)>tr:nth-child(even)>td:nth-child(even)
 {
     background-color: #cbddb9;
     color: black;
 }
 
 
-#jkn_table_grade_rubric>tbody:nth-child(even)>tr:nth-child(odd)>td:nth-child(odd)
+.table-rubric-style>tbody:nth-child(even)>tr:nth-child(odd)>td:nth-child(odd)
 {
     background-color: #cbddb9;
     color: black;
 }
 
-#jkn_table_grade_rubric>tbody:nth-child(even)>tr:nth-child(odd)>td:nth-child(even)
+.table-rubric-style>tbody:nth-child(even)>tr:nth-child(odd)>td:nth-child(even)
 {
     background-color: #b4ce9a;
     color: black;
 }
 
-#jkn_table_grade_rubric .grade-point
+.table-rubric-style .grade-point
 {
     text-align: center;
 }
@@ -148,28 +148,28 @@
 /*
 
 
-#jkn_table_rubric>tbody>tr:nth-child(odd)>td:nth-child(odd)
+.table-rubric-style>tbody>tr:nth-child(odd)>td:nth-child(odd)
 {
     background-color: #94a8c2;
     color: black;
 }
 
 
-#jkn_table_rubric>tbody>tr:nth-child(odd)>td:nth-child(even)
+.table-rubric-style>tbody>tr:nth-child(odd)>td:nth-child(even)
 {
     background-color: #dfe6ed;
     color: black;
 }
 
 
-#jkn_table_rubric>tbody>tr:nth-child(even)>td:nth-child(odd)
+.table-rubric-style>tbody>tr:nth-child(even)>td:nth-child(odd)
 {
     background-color: #dbe2eb;
     color: black;
 }
 
 
-#jkn_table_rubric>tbody>tr:nth-child(even)>td:nth-child(even)
+.table-rubric-style>tbody>tr:nth-child(even)>td:nth-child(even)
 {
     background-color: #c0ccdb;
     color: black;
