@@ -18,7 +18,7 @@ class Text extends Filter {
 	 * @inheritdocs
 	 */
 	public function content_type() {
-		return array("text");
+		return $this->factory->type_factory()->string();
 	}
 
 	/**
@@ -31,11 +31,7 @@ class Text extends Filter {
 	/**
 	 * @inheritdocs
 	 */
-	public function content(/*...$inputs*/) {
-		$inputs = func_get_args();
-		assert('count($inputs) == 1');
-		assert('is_string($inputs[0])');
-
-		return $inputs[0];
+	protected function _content($input) {
+		return $input;
 	}
 }

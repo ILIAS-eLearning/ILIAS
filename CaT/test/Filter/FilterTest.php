@@ -6,12 +6,13 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 	protected $backupGlobals = FALSE;
 
 	protected function setUp() {
+		error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
 		//include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		//ilUnitUtil::performInitialisation();
 
-		$this->factory = new \CaT\Filter\FilterFactory(new \CaT\Filter\PredicateFactory());
+		$this->factory = new \CaT\Filter\FilterFactory(new \CaT\Filter\PredicateFactory(), new \CaT\Filter\TypeFactory());
 		
 		// to prevent warnings for unset system timezone
 		date_default_timezone_set("Europe/Berlin");
@@ -21,12 +22,13 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 
 	public function test_dateperiod_creation() {
 		$filter = $this->factory->dateperiod("label", "description");
+		$tf = $this->factory->type_factory();
 
 		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
 		$this->assertEquals("label", $filter->label());
 		$this->assertEquals("description", $filter->description());
-		$this->assertEquals(array("\\DateTime", "\\DateTime"), $filter->content_type());
-		$this->assertEquals(array("\\DateTime", "\\DateTime"), $filter->input_type());
+		$this->assertEquals($tf->tuple($tf->cls("\\DateTime"), $tf->cls("\\DateTime")), $filter->content_type());
+		$this->assertEquals($tf->tuple($tf->cls("\\DateTime"), $tf->cls("\\DateTime")), $filter->input_type());
 	}
 
 	public function test_dateperiod_defaults() {
@@ -56,10 +58,11 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$filter = $this->factory->dateperiod("label", "description")
 			->map_to_predicate($this->factory->dateperiod_overlaps_predicate("start_field", "end_field"))
 			;
+		$tf = $this->factory->type_factory();
 
 		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
-		$this->assertEquals(array("\\CaT\\Filter\\Predicates\\Predicate"), $filter->content_type());
-		$this->assertEquals(array("\\DateTime", "\\DateTime"), $filter->input_type());
+		$this->assertEquals($tf->cls("\\CaT\\Filter\\Predicates\\Predicate"), $filter->content_type());
+		$this->assertEquals($tf->tuple($tf->cls("\\DateTime"), $tf->cls("\\DateTime")), $filter->input_type());
 
 		$predicate = $filter->content(new \DateTime("2000-01-01"), new \DateTime("2000-12-31"));
 
@@ -118,12 +121,13 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 
 	public function test_option_creation() {
 		$filter = $this->factory->option("label", "description");
+		$tf = $this->factory->type_factory();
 
 		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
 		$this->assertEquals("label", $filter->label());
 		$this->assertEquals("description", $filter->description());
-		$this->assertEquals(array("bool"), $filter->content_type());
-		$this->assertEquals(array("bool"), $filter->input_type());
+		$this->assertEquals($tf->bool(), $filter->content_type());
+		$this->assertEquals($tf->bool(), $filter->input_type());
 	}
 
 	public function test_option_predicate() {
@@ -163,12 +167,13 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 			);
 
 		$filter = $this->factory->multiselect("label", "description", $options);
+		$tf = $this->factory->type_factory();
 
 		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
 		$this->assertEquals("label", $filter->label());
 		$this->assertEquals("description", $filter->description());
-		$this->assertEquals(array("int"), $filter->content_type());
-		$this->assertEquals(array("int"), $filter->input_type());
+		$this->assertEquals($tf->lst($tf->int()), $filter->content_type());
+		$this->assertEquals($tf->lst($tf->int()), $filter->input_type());
 		$this->assertEquals($options, $filter->options());
 	}
 
@@ -176,10 +181,11 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$options = array
 			( "foo" => "bar"
 			);
+		$tf = $this->factory->type_factory();
 
 		$filter = $this->factory->multiselect("label", "description", $options);
-		$this->assertEquals(array("string"), $filter->content_type());
-		$this->assertEquals(array("string"), $filter->input_type());
+		$this->assertEquals($tf->lst($tf->string()), $filter->content_type());
+		$this->assertEquals($tf->lst($tf->string()), $filter->input_type());
 	}
 
 	/**
@@ -248,12 +254,13 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 
 	public function test_text_creation() {
 		$filter = $this->factory->text("label", "description");
+		$tf = $this->factory->type_factory();
 
 		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
 		$this->assertEquals("label", $filter->label());
 		$this->assertEquals("description", $filter->description());
-		$this->assertEquals(array("string"), $filter->content_type());
-		$this->assertEquals(array("string"), $filter->input_type());
+		$this->assertEquals($tf->string(), $filter->content_type());
+		$this->assertEquals($tf->string(), $filter->input_type());
 	}
 
 	public function test_text_predicate() {
@@ -282,12 +289,13 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$text1_f = $this->factory->text("label", "description");
 		$text2_f = $this->factory->text("label", "description");
 		$filter = $this->factory->sequence($dt_f, $text1_f, $text2_f);
+		$tf = $this->factory->type_factory();
 
 		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
 		$this->assertEquals(null, $filter->label());
 		$this->assertEquals(null, $filter->description());
-		$this->assertEquals(array("\\DateTime", "\\DateTime", "string", "string"), $filter->content_type());
-		$this->assertEquals(array("\\DateTime", "\\DateTime", "string", "string"), $filter->input_type());
+		$this->assertEquals($tf->tuple($tf->cls("\\DateTime"), $tf->cls("\\DateTime"), $tf->string(), $tf->string()), $filter->content_type());
+		$this->assertEquals($tf->tuple($tf->cls("\\DateTime"), $tf->cls("\\DateTime"), $tf->string(), $tf->string()), $filter->input_type());
 	}
 
 	public function test_sequence_filters_predicate() {
@@ -362,12 +370,13 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$dt_f = $this->factory->dateperiod("label", "description");
 		$text_f = $this->factory->text("label", "description");
 		$filter = $this->factory->one_of("oolabel", "oodescription", $dt_f, $text_f);
+		$tf = $this->factory->type_factory();
 
 		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
 		$this->assertEquals("oolabel", $filter->label());
 		$this->assertEquals("oodescription", $filter->description());
-		$this->assertEquals(array("int", array(array("\\DateTime", "\\DateTime"), array("string"))), $filter->content_type());
-		$this->assertEquals(array("int", array(array("\\DateTime", "\\DateTime"), array("string"))), $filter->input_type());
+		$this->assertEquals($tf->option($tf->tuple($tf->cls("\\DateTime"), $tf->cls("\\DateTime")), $tf->string()), $filter->content_type());
+		$this->assertEquals($tf->option($tf->tuple($tf->cls("\\DateTime"), $tf->cls("\\DateTime")), $tf->string()), $filter->input_type());
 	}
 
 	public function test_one_of_filter_predicate() {
