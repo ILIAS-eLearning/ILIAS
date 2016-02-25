@@ -18,7 +18,7 @@ class ilServicesUICoreSuite extends PHPUnit_Framework_TestSuite
 
 		$suite = new ilServicesUICoreSuite();
 	
-		include_once("./Modules/UICore/test/ilTemplateTest.php");
+		include_once("./Services/UICore/test/ilTemplateTest.php");
 		$suite->addTestSuite("ilTemplateTest");
 
 		return $suite;

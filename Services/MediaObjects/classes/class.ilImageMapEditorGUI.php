@@ -609,7 +609,7 @@ class ilImageMapEditorGUI
 		$xml.= $this->getAdditionalPageXML();
 		$xml.="</dummy>";
 		$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-//echo htmlentities($xml);
+//echo htmlentities($xml); exit;
 		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
 		$xh = xslt_create();
 		$wb_path = ilUtil::getWebspaceDir("output")."/";

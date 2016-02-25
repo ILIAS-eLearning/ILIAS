@@ -904,7 +904,11 @@ class Mail_RFC822 {
             // If this word contains an unquoted space, it is invalid. (6.2.4)
             if (strpos($word, ' ') && $word[0] !== '"')
             {
-                return false;
+                // mjansen patch 24 Feb 2016 start
+                // Mantis issue #18018
+                // # http://haacked.com/archive/2007/08/21/i-knew-how-to-validate-an-email-address-until-i.aspx/
+                //return false;
+                // mjansen patch 24 Feb 2016 end
             }
 
             if ($this->_validatePhrase(trim($word)) === false) return false;
