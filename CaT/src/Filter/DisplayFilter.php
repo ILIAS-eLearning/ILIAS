@@ -141,59 +141,6 @@ class DisplayFilter {
 		return false;
 	}
 
-	/**
-	* render the DatePeriod Filter
-	*
-	* @param $filter 
-	*/
-	protected function getDatePeriod($filter) {
-		
-	}
-
-	/**
-	* render the Multiselect Filter
-	*
-	* @param $filter 
-	*/
-	protected function getMultiselect($filter) {
-		require_once ("Services/ReportsRepository/classes/class.catFilterMultiselectGUI.php");
-		$gui = new \catFilterMultiselectGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
-		return $gui;
-	}
-
-	/**
-	* render the Option Filter
-	*
-	* @param $filter 
-	*/
-	protected function getOption($filter) {
-		require_once ("Services/ReportsRepository/classes/class.catFilterOptionGUI.php");
-		$gui = new \catFilterOptionGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
-		return $gui;
-	}
-
-	/**
-	* render the Text Filter
-	*
-	* @param $filter 
-	*/
-	protected function getText($filter) {
-		require_once ("Services/ReportsRepository/classes/class.catFilterTextGUI.php");
-		$gui = new \catFilterTextGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
-		return $gui;
-	}
-
-	/**
-	* render the OneOf Filter
-	*
-	* @param $filter
-	*/
-	protected function getOneOf($filter) {
-		require_once ("Services/ReportsRepository/classes/class.catFilterOneOfGUI.php");
-		$gui = new \catFilterOneOfGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
-		return $gui;
-	}
-
 	protected function endKey($post_values){
 		end($post_values);
 		return key($post_values);
