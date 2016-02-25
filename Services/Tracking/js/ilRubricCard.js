@@ -99,25 +99,37 @@ var RUBRIC = {
             
             if(this.nodeHasSlider(trs[a])){
                 // new range
-                
                 max=min=0;
-                group_min=group_max=0;                
-                
+                group_min=group_max=0;
                 for(var b=0;b<total_behaviors;b++){
-
                     tmp_range=document.getElementById('Points'+groups+'_'+b).value;
                     document.getElementById('Points'+groups+'_'+b).value=tmp_range;//update the input field
                     var broken_range=tmp_range.split('-');
-                    
                     if(max==0&&min==0){
-                        max=broken_range[1];
-                        min=broken_range[0];
-                    }else{
-                        if(parseFloat(broken_range[1])>max){
+                        if(parseFloat(broken_range[0])<parseFloat(broken_range[1]))
+                        {
                             max=broken_range[1];
-                        }
-                        if(parseFloat(broken_range[0])<min){
                             min=broken_range[0];
+                        }else{
+                            max=broken_range[0];
+                            min=broken_range[1];
+                        }
+                    }else{
+                        if(parseFloat(broken_range[0])<parseFloat(broken_range[1]))
+                        {
+                            if(parseFloat(broken_range[1])>max){
+                                max=broken_range[1];
+                            }
+                            if(parseFloat(broken_range[0])<min){
+                                min=broken_range[0];
+                            }
+                        }else{
+                            if(parseFloat(broken_range[0])>max){
+                                max=broken_range[0];
+                            }
+                            if(parseFloat(broken_range[1])<min){
+                                min=broken_range[1];
+                            }
                         }
                     }
                     
@@ -747,7 +759,6 @@ addBehavior:function(thead,tbody,tfoot,position){
                 }
             }            
         }
-        
         if(verified===false){
             throw "Grades are not within valid ranges";            
         }
@@ -995,9 +1006,11 @@ function validate(obj){
             modified_object=obj.parentNode;
             if(obj.value.match(/^\d{1,8}(?:\.\d{0,2})?\-\d{1,8}(?:\.\d{0,2})?$/)){
                 validated=true;
-            }else if(obj.value==''){
-                validated='warning';
             }
+            else if(obj.value=='') {
+                validated = 'warning';
+            }
+
         break;
         case 'passi':
             modified_object=obj.parentNode;
@@ -1039,6 +1052,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             && rubric_inputs[i].getAttribute("placeholder") !== 'Comment')
         {
             validate(rubric_inputs[i]);
+
         }
     }
 });
