@@ -4,7 +4,7 @@
 
 class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 	public function setUp() {
-		error_reporting(E_ALL);
+		//error_reporting(E_ALL);
 		$this->factory = new \CaT\Filter\FilterFactory(new \CaT\Filter\PredicateFactory(), new \CaT\Filter\TypeFactory());
 	}
 
@@ -35,7 +35,8 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 		$f2 = $this->factory->multiselect("l2", "d2", array("a","b","c"));
 		$f3 = $this->factory->option("l3", "d3");
 		$f4 = $this->factory->dateperiod("l4", "d4");
-		$fs = $this->factory->sequence($f1, $f2, $f3, $f4);
+		$f5 = $this->factory->one_of("l5", "d5", $f1, $f2, $f3, $f4);
+		$fs = $this->factory->sequence($f1, $f2, $f3, $f4, $f5);
 
 		$f21 = $this->factory->text("l1", "d1");
 		$f22 = $this->factory->multiselect("l2", "d2", array("a","b","c"));
@@ -46,7 +47,7 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 		$fs = $this->factory->sequence($f1, $fs2, $f2, $f3, $f4);
 
 		$classes = array("catFilterTextGUI", "catFilterTextGUI", "catFilterMultiselectGUI", "catFilterOptionGUI"
-						, "catFilterDatePeriodGUI", "catFilterMultiselectGUI", "catFilterOptionGUI", "catFilterDatePeriodGUI");
+						, "catFilterDatePeriodGUI", "catFilterOneOfGUI", "catFilterMultiselectGUI", "catFilterOptionGUI", "catFilterDatePeriodGUI");
 		$counter = 1;
 
 		$df = new \CaT\Filter\DisplayFilter($fs, $this);
