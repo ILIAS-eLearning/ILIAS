@@ -10,20 +10,25 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 	public function test_display_filter() {
 		$f1 = $this->factory->text();
 		$f2 = $this->factory->multiselect();
-		$f3 = $this->factory->text();
+		$f3 = $this->factory->option();
 		$fs = $this->factory->sequence($f1, $f2, $f3);
+
+		$classes = array("catFilterTextGUI", "catFilterMultiselectGUI","catFilterOptionGUI");
+		$counter = 1;
 
 		$df = new \CaT\Filter\DisplayFilter($fs);
 
 		$gui = $df->getNextFilterGUI(true);
 		$this->assertInstanceOf("catFilterTextGUI", $gui);
-		$gui = $df->saveFilter();
-
-		$this->assertInstanceOf("catFilterMultiselectGUI", $gui);
-		$gui = $df->saveFilter();
-
-		$this->assertInstanceOf("catFilterTextGUI", $gui);
-		$gui = $df->saveFilter();
+		
+		while($gui = $df->saveFilter()) {
+			$this->assertInstanceOf((string)$classes[$counter], $gui);
+			$counter++;
+		}
+		
+		/*$gui = $df->saveFilter();
+		$this->assertInstanceOf("catFilterOptionGUI", $gui);
+		$gui = $df->saveFilter();*/
 	}
 
 	public function test_display_filter_more_level() {
