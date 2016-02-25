@@ -21,8 +21,13 @@ abstract class PredicateBundle extends Predicate {
 		$this->setFactory($factory);
 	}
 
+
 	public function fields() {
-		return array();
+		$fields = array();
+		foreach ($this->subs as $sub) {
+			$fields = $this->addPossibleFieldsToFields($sub->fields(), $fields);
+		}
+		return $fields;
 	}
 
 	/**
