@@ -55,39 +55,38 @@ abstract class Filter {
 	/**
 	 * Type of the content of the filter.
 	 *
-	 * @return	string[]
+	 * @return	\CaT\Filter\Types\Type
 	 */
 	abstract public function content_type();
 
 	/**
 	 * The type of inputs the filter requires.
 	 *
-	 * @return	string[]
+	 * @return	\CaT\Filter\Types\Type
 	 */
 	abstract public function input_type();
 
 	/**
 	 * Map a function over the content of the filter.
 	 *
-	 * @param	\Closure		$mapper
-	 * @param	string[]		$result_type
+	 * @param	\Closure					$mapper
+	 * @param	\CaT\Filter\Types\Type		$result_type
 	 * @return	Filter
 	 */
-	public function map(\Closure $mapper, $result_types) {
+	public function map(\Closure $mapper, \CaT\Filter\Types\Type $result_type) {
 		assert('$mapper instanceof \\Closure');
-		assert('is_array($result_types)');
-		return $this->map_raw($mapper, $result_types);
+		return $this->map_raw($mapper, $result_type);
 	}
 
 	/**
 	 * Map a function over the content of the filter, but without any checks.
 	 *
-	 * @param	\Closure		$mapper
-	 * @param	string[]		$result_types
+	 * @param	\Closure					$mapper
+	 * @param	\CaT\Filter\Types\Type		$result_type
 	 * @return	Filter
 	 */
-	public function map_raw(\Closure $mapper, $result_types) {
-		return new Mapped($this->factory, $this, $mapper, $result_types);
+	public function map_raw(\Closure $mapper, \CaT\Filter\Types\Type $result_type) {
+		return new Mapped($this->factory, $this, $mapper, $result_type);
 	}
 
 
@@ -98,7 +97,7 @@ abstract class Filter {
 	 * @return	Filter
 	 */
 	public function map_to_predicate(\Closure $mapper) {
-		return $this->map($mapper, array("\\CaT\\Filter\\Predicates\\Predicate"));
+		return $this->map($mapper, $this->factory->type_factory()->cls("\\CaT\\Filter\\Predicates\\Predicate"));
 	}
 
 	/**
@@ -108,5 +107,17 @@ abstract class Filter {
 	 * @param	mixed[]		...
 	 * @return	mixed
 	 */
-	abstract public function content(/*...$inputs*/);
+	public function content(/*...$inputs*/) {
+		$inputs = func_get_args();
+		$structured = $this->input_type()->unflatten($inputs);
+		return $this->_content($structured);
+	}
+
+	/**
+	 * Like content but does expect an argument according to input_type;
+	 *
+	 * @param	mixed		$input
+	 * @return	mixed
+	 */
+	abstract protected function _content($input);
 }

@@ -25,7 +25,6 @@ class DatePeriod extends Filter {
 	 */
 	private $period_max;
 
-
 	public function __construct(\CaT\Filter\FilterFactory $factory, $label, $description,
 			\DateTime $default_begin = null, \DateTime $default_end = null,
 			\DateTime $period_min = null, \DateTime $period_max = null) {
@@ -37,31 +36,40 @@ class DatePeriod extends Filter {
 		$this->setDescription($description);
 
 		if ($default_begin === null) {
-			
+			$this->default_begin = new \DateTime(date("Y")."-01-01");
 		}
-		$this->default_begin = $default_begin;
+		else {
+			$this->default_begin = $default_begin;
+		}
 
 		if ($default_end === null) {
-			
+			$this->default_end = new \DateTime(date("Y")."-12-31");
 		}
-		$this->default_end = $default_end;
+		else {
+			$this->default_end = $default_end;
+		}
 
 		if ($period_min === null) {
-			
+			$this->period_min = new \DateTime("1900-01-01");
 		}
-		$this->period_min = $period_min;
+		else {
+			$this->period_min = $period_min;
+		}
 
 		if ($period_max === null) {
-			
+			$this->period_max = new \DateTime("2100-12-31");
 		}
-		$this->period_max = $period_max;
+		else {
+			$this->period_max = $period_max;
+		}
 	}
 
 	/**
 	 * @inheritdocs
 	 */
 	public function content_type() {
-		return array("\\DateTime", "\\DateTime");
+		$tf = $this->factory->type_factory();
+		return $tf->tuple($tf->cls("\\DateTime"), $tf->cls("\\DateTime"));
 	}
 
 	/**
@@ -74,13 +82,8 @@ class DatePeriod extends Filter {
 	/**
 	 * @inheritdocs
 	 */
-	public function content(/*...$inputs*/) {
-		$inputs = func_get_args();
-		assert('count($inputs) == 2');
-		assert('$inputs[0] instanceof \\DateTime');
-		assert('$inputs[1] instanceof \\DateTime');
-
-		return $inputs;
+	protected function _content($input) {
+		return $input;
 	}
 
 	/**

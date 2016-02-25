@@ -18,7 +18,7 @@ class Option extends Filter {
 	 * @inheritdocs
 	 */
 	public function content_type() {
-		return array("bool");
+		return $this->factory->type_factory()->bool();
 	}
 
 	/**
@@ -31,11 +31,7 @@ class Option extends Filter {
 	/**
 	 * @inheritdocs
 	 */
-	public function content(/*...$inputs*/) {
-		$inputs = func_get_args();
-		assert('count($inputs) == 1');
-		assert('is_bool($inputs[0])');
-
-		return $inputs;
+	protected function _content($input) {
+		return $input;
 	}
 }

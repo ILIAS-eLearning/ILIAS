@@ -21,23 +21,25 @@ class OneOf extends FilterList {
 	 * @inheritdocs
 	 */
 	public function content_type() {
+		$opt_types = $this->subs_content_types();
+		$tf = $this->factory->type_factory();
+		return call_user_func_array(array($tf, "option"), $opt_types);
 	}
 
 	/**
 	 * @inheritdocs
 	 */
 	public function input_type() {
+		$opt_types = $this->subs_input_types();
+		$tf = $this->factory->type_factory();
+		return call_user_func_array(array($tf, "option"), $opt_types);
 	}
 
 	/**
 	 * @inheritdocs
 	 */
-	public function content(/*...$inputs*/) {
-		$inputs = func_get_args();
-		assert('count($inputs) == 2');
-		$choice = $inputs[0];
-		$data = $inputs[1];
-		assert('$choice < count($this->subs)');
-		return call_user_func_array(array($this->subs[0], "content"), $data);
+	protected function _content($input) {
+		$choice = $input[0];
+		return array($choice, $this->subs[$choice]->_content($input[1]));
 	}
 }

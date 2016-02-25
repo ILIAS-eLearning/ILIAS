@@ -16,22 +16,22 @@ class Mapped extends Filter {
 	protected $mapper;
 
 	/**
-	 * @var	array
+	 * @var	\CaT\Filter\Types\Type
 	 */
-	protected $result_types;
+	protected $result_type;
 
-	public function __construct(\CaT\Filter\FilterFactory $factory, Filter $mapped, \Closure $mapper, $result_types) {
+	public function __construct(\CaT\Filter\FilterFactory $factory, Filter $mapped, \Closure $mapper, \CaT\Filter\Types\Type $result_type) {
 		$this->setFactory($factory);
 		$this->mapped = $mapped;
 		$this->mapper = $mapper;
-		$this->result_types = $result_types;
+		$this->result_type = $result_type;
 	}
 
 	/**
 	 * @inheritdocs
 	 */
 	public function content_type() {
-		return $this->result_types;
+		return $this->result_type;
 	}
 
 	/**
@@ -44,15 +44,12 @@ class Mapped extends Filter {
 	/**
 	 * @inheritdocs
 	 */
-	public function content(/*...$inputs*/) {
-		$inputs = func_get_args();
-		$_res = call_user_func_array(array($this->mapped, "content"), $inputs);
-		if (count($this->mapped->content_type()) == 1) {
-			$_res = array($_res);
-		}
-		$res = call_user_func_array($this->mapper, $_res);
-		assert('$this->check_result($res)');
-		return $res;
+	protected function _content($input) {
+		$res1 = $this->mapped->_content($input);
+		$args = $this->mapped->content_type()->flatten($res1);
+		$res2 = call_user_func_array($this->mapper, $args);
+		assert('$this->check_result($res2)');
+		return $res2;
 	}
 
 	private function check_result($res) {
