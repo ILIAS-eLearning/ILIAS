@@ -47,7 +47,7 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 		$fs = $this->factory->sequence($f1, $fs2, $f2, $f3, $f4);
 
 		$classes = array("catFilterTextGUI", "catFilterTextGUI", "catFilterMultiselectGUI", "catFilterOptionGUI"
-						, "catFilterDatePeriodGUI", "catFilterOneOfGUI", "catFilterMultiselectGUI", "catFilterOptionGUI", "catFilterDatePeriodGUI");
+						, "catFilterDatePeriodGUI", "catFilterMultiselectGUI", "catFilterOptionGUI", "catFilterDatePeriodGUI", "catFilterOneOfGUI");
 		$counter = 1;
 
 		$df = new \CaT\Filter\DisplayFilter($fs, $this);
