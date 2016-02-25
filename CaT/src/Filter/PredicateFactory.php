@@ -77,14 +77,33 @@ class PredicateFactory {
 	}
 
 	/**
-	 * Construct a list from some values.
+	 * Construct a list from int values.
 	 *
 	 * @param	string[]|int[]	$elements
 	 * @return	ValueList
 	 */
-	public function vlist(/*...$elements*/) {
+	public function list_int(/*...$elements*/) {
 		$elements = func_get_args();
-		return new Predicates\ValueList($elements);
+		$val_objs = array();
+		foreach ($elements as $el) {
+			$val_objs[] = $this->int($el);
+		}
+		return new Predicates\ValueList($val_objs);
+	}
+
+	/**
+	 * Construct a list from str values.
+	 *
+	 * @param	string[]|int[]	$elements
+	 * @return	ValueList
+	 */
+	public function list_str(/*...$elements*/) {
+		$elements = func_get_args();
+		$val_objs = array();
+		foreach ($elements as $el) {
+			$val_objs[] = $this->str($el);
+		}
+		return new Predicates\ValueList($val_objs);
 	}
 
 	/**
