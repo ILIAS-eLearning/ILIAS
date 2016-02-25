@@ -47,13 +47,12 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 
 	protected function buildOrder($order) {
 		return $order
-			->mapping("odbd",array("orgu.org_unit_above1","orgu.org_unit_above2"))
 			->defaultOrder("orgu_title", "ASC");
 	}
 
 	protected function buildTable($table) {
 		$table	->column("orgu_title", $this->plugin->txt('orgu_title'),true)
-				->column("odbd", $this->plugin->txt('od_bd'),true);
+				->column("odbd", $this->plugin->txt('od_bd'),true, "",false,false);
 		foreach ($this->sum_parts as $title => $query) {
 			$table
 				->column($title, $this->plugin->txt($title),true);
