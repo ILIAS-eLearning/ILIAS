@@ -12,9 +12,10 @@ class ValueList {
 	 * @var	\CaT\Filter\PredicateFactory
 	 */
 	protected $factory;
+	protected $values;
 
-	public function __construct(\CaT\Filter\PredicateFactory $factory, $values) {
-		$this->factory = $factory;
+	public function __construct( array $values) {
+		$this->values = $values; 
 	}
 
 	/**
@@ -23,6 +24,6 @@ class ValueList {
 	 * @return	mixed
 	 */
 	public function values() {
-		return array();
+		return $this->values;
 	}
 }
