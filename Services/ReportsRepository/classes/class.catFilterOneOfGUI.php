@@ -8,7 +8,7 @@ class catFilterOneOfGUI {
 	protected $parent;
 	protected $filter;
 	protected $path;
-	protected $options;
+	protected $post_values;
 
 	public function __construct($parent, $filter, $path, array $post_values) {
 		$this->parent = $parent;
