@@ -22,7 +22,7 @@ class catFilterOptionGUI {
 
 	public function getHTML() {
 		$form = new ilPropertyFormGUI();
-		$form->setTitle("Title");
+		$form->setTitle($parent->getTitle());
 		$form->addCommandButton("saveFilter", $this->lng->txt("continue"));
 		$form->setFormAction($this->ctrl->getFormAction($this->parent));
 
