@@ -400,12 +400,12 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         $write="<div id=\"jkn_div_rubric\" class=\"table-responsive\" style=\"margin-top: 20px;\">
     
                     <table id=\"jkn_table_rubric\" class=\"table table-striped\">
-                    
-                        <thead>            
-                            <tr>                            
-                                <th colspan=\"2\">&nbsp;</th>".                                
-                                $this->buildTemplateLabels().                                
-                            "</tr>            
+
+                        <thead>
+                            <tr>
+                                <th colspan=\"2\">&nbsp;</th>".
+                                $this->buildTemplateLabels().
+                            "</tr>
                         </thead>
                         
                         <tfoot>

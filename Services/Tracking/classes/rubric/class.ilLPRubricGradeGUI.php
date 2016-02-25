@@ -141,7 +141,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
         $rubric_heading_tpl=$this->getRubricGradeFormHeader($user_full_name);
         $rubric_grade_tpl=$this->getRubricGradeForm();
         $rubric_commandrow_tpl=$this->getRubricStudentGradeFormCommandRow($form_action,$user_id);
-        return($rubric_commandrow_tpl->get().$rubric_heading_tpl->get().$rubric_grade_tpl->get());
+        return($rubric_heading_tpl->get().$rubric_commandrow_tpl->get().$rubric_grade_tpl->get());
     }
 
     public function getPDFViewHTML()
@@ -274,9 +274,9 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 
     private function buildGradeGroupPoints($weights)
     {
-        $tmp_write="<tr class=\"tblrow1 small\">
+        $tmp_write="<tr class=\"tblrow1 range-row small\">
                         <th>&nbsp;</th>
-                        <th style=\"text-align:right\">Range</th>";
+                        <th style=\"text-align: left;\">Range</th>";
 
         foreach($weights as $k => $weight){
             $tmp_write.="<th>${weight['weight_min']} - ${weight['weight_max']}";
@@ -290,8 +290,8 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
     {
         $tmp_group_name='Group_'.$group_increment;
         $tmp_row_span=count($group['criteria']);
-        $tmp_write="<tr class=\"tblrow1 small\">
-                        <td scope=\"rowgroup\" rowspan=\"$tmp_row_span\">
+        $tmp_write="<tr class=\"tblrow1 first-group small\">
+                        <td class=\"big-block\" scope=\"rowgroup\" rowspan=\"$tmp_row_span\">
                             ${group['group_name']}
                         </td>";
         foreach($group['criteria'] as $criteria_increment => $criteria){
@@ -389,7 +389,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
     {
         $colspan=count($this->rubric_data['labels'])+2;
 
-        $tmp_write="";
+        $tmp_write="<tbody>";
         foreach($this->rubric_data['groups'] as $group_increment => $group){
 
             $point_range=$this->getMinMaxLabel($group['weights']);
@@ -418,10 +418,10 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
             $tmp_write.=$this->buildGradeGroupPoints($group['weights']);
             $tmp_write.=$this->buildGradeGroup($group,$group_increment);
             $tmp_write.="
-                        <tr>
+                        <tr class=\"total-row\">
                             <th colspan=\"2\" scope=\"rowgroup\" class=\"text-right\">{TOTAL}</th>
                             <td colspan=\"$colspan\">$min_points {OUT_OF} $max_points</td>
-                        </tr>";
+                        </tr></tbody>";
         }
         return($tmp_write);
 
@@ -555,12 +555,9 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
                                 <th colspan=\"2\" class=\"text-right\">{GRAND_TOTAL}</th>
                                 <td colspan=\"$colspan\">$overall_min_points {OUT_OF} $overall_max_points</td>
                             </tr>
-                        </tfoot>
-
-                        <tbody>".
+                        </tfoot>".
             $this->buildGradeCard().
-            "</tbody>
-                    </table>
+            "</table>
                 </div>
             </form>";
 

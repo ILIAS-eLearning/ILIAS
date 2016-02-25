@@ -1,16 +1,130 @@
-<!--  For 5 Criteria -->
+
 .col-custom-7{
     width: 14.25%;    
 }
 
-<!-- For 6 Criteria -->
+
 .col-custom-8{
     width: 12.5%;
 }
 
-<!-- For Error Messages -->
 .rubric_error{
     background-color:red;
     border-radius: 5px;
     color:#FFF;
 }
+
+#jkn_table_rubric>thead>tr>th
+{
+    text-align: center;
+}
+
+#jkn_table_rubric>thead>tr>th:nth-child(odd):not(:first-child)
+{
+    background-color: #849bb9!important;
+    color: white;
+}
+
+#jkn_table_rubric>thead>tr>th:first-child
+{
+    background-color: #94a8c2!important;
+    color: white;
+}
+
+#jkn_table_rubric>thead>tr>th:nth-child(even)
+{
+    background-color: #8ba1bd!important;
+    color: white;
+}
+
+#jkn_table_rubric .range-row th
+{
+    text-align: center;
+    border: 1px solid #f2f2f2;
+}
+
+#jkn_table_rubric .big-block
+{
+    background-color: #f0f3f7!important;
+}
+
+#jkn_table_rubric .first-group>td:nth-child(even)
+{
+    background-color: #dbe2eb!important;
+    color: black;
+}
+
+#jkn_table_rubric .first-group>td:nth-child(odd):not(:first-child)
+{
+    background-color: #c0ccdb!important;
+    color: black;
+}
+
+#jkn_table_rubric>tbody>tr:nth-child(even)>td:nth-child(odd)
+{
+    background-color: #dbe2eb;
+    color: black;
+}
+
+#jkn_table_rubric>tbody>tr:nth-child(even)>td:nth-child(even)
+{
+    background-color: #c0ccdb;
+    color: black;
+}
+
+
+#jkn_table_rubric>tbody>tr:nth-child(odd)>td:nth-child(odd)
+{
+    background-color: #edf1f5;
+    color: black;
+}
+
+#jkn_table_rubric>tbody>tr:nth-child(odd)>td:nth-child(even)
+{
+    background-color: #dfe6ed;
+    color: black;
+}
+
+#jkn_table_rubric .total-row th
+{
+    background-color: #aaaaaa!important;
+    color: white!important;
+}
+
+#jkn_table_rubric .total-row td
+{
+    background-color: #aaaaaa!important;
+    color: white!important;
+}
+/*
+
+
+#jkn_table_rubric>tbody>tr:nth-child(odd)>td:nth-child(odd)
+{
+    background-color: #94a8c2;
+    color: black;
+}
+
+
+#jkn_table_rubric>tbody>tr:nth-child(odd)>td:nth-child(even)
+{
+    background-color: #dfe6ed;
+    color: black;
+}
+
+
+#jkn_table_rubric>tbody>tr:nth-child(even)>td:nth-child(odd)
+{
+    background-color: #dbe2eb;
+    color: black;
+}
+
+
+#jkn_table_rubric>tbody>tr:nth-child(even)>td:nth-child(even)
+{
+    background-color: #c0ccdb;
+    color: black;
+}
+
+
+*/
