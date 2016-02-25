@@ -1,30 +1,21 @@
 <?php
-require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 require_once("Services/Form/classes/class.ilRadioGroupInputGUI.php");
 require_once("Services/Form/classes/class.ilRadioOption.php");
-require_once("Services/Form/classes/class.ilHiddenInputGUI.php");
 
 class catFilterOneOfGUI {
-	protected $parent;
 	protected $filter;
 	protected $path;
-	protected $post_values;
 
-	public function __construct($parent, $filter, $path, array $post_values) {
-		$this->parent = $parent;
+	public function __construct($filter, $path) {
 		$this->filter = $filter;
 		$this->path = $path;
-		$this->post_values = $post_values;
 	}
 
-	public function executeCommand() {}
+	public function path() {
+		return $this->path;
+	}
 
-	public function getHTML() {
-		$form = new ilPropertyFormGUI();
-		$form->setTitle($parent->getTitle());
-		$form->addCommandButton("saveFilter", $this->lng->txt("continue"));
-		$form->setFormAction($this->ctrl->getFormAction($this->parent));
-
+	public function fillForm(ilPropertyFormGUI $form) {
 		//create radiogroup
 		$group = new ilRadioGroupInputGUI($this->lng->txt("gev_course_type"), "g".$this->path);
 
@@ -55,6 +46,8 @@ class catFilterOneOfGUI {
 					$input = new ilTextInputGUI("", $this->path);
 					$option->addSubItem($input);
 					break;
+				default:
+					throw new \Exception("Filter class not known");
 			}
 		}
 
@@ -64,10 +57,6 @@ class catFilterOneOfGUI {
 		//add group to form
 		$form->addItem($group);
 
-		$post_values = new ilHiddenInputGUI("post_values");
-		$post_values->setValue(serialize($this->post_values));
-		$form->addItem($post_values);
-
-		return $form->getHTML();
+		return $form;
 	}
 }
