@@ -4,7 +4,7 @@
 /**
  * Interface ilContextTemplate
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @author Gabriel Comte <gc@studer-raimann.ch> [just moved Jörg Lützenkirchens code from ilContextBase to this interface]
+ * @author Gabriel Comte <gc@studer-raimann.ch>
  */
 interface ilContextTemplate
 {
