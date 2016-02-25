@@ -92,6 +92,17 @@ class DictionaryPredicateInterpreter {
 					return $left === $right;
 				}
 			}
+			if($p instanceof  \CaT\Filter\Predicates\PredicateNeq) {
+				if( $right_type === self::IS_DATE ) {
+					return $right != $left ;
+				}
+				if( $right_type === self::IS_STR ) {
+					return strcmp($left, $right) !== 0 ? true : false;
+				}
+				if( $right_type === self::IS_INT ) {
+					return $left !== $right;
+				}
+			}
 			if($p instanceof  \CaT\Filter\Predicates\PredicateLt) {
 				if( $right_type === self::IS_DATE ) {
 					return $left < $right;
