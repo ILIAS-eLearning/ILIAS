@@ -42,12 +42,22 @@ class OptionType extends Type {
 	 * @inheritdocs
 	 */
 	public function unflatten(array &$value) {
-		$opt = array_shift($value);
-		$val = array_shift($value);
+		$choice = array_shift($value);
+		$val = $this->sub_types[$choice]->unflatten($value);
 		$name = $this->repr();
-		if (!$this->contains(array($opt,$val))) {
-			throw new \InvalidArgumentException("Expected $name, found $opt:'$val'");
+		if (!$this->contains(array($choice,$val))) {
+			throw new \InvalidArgumentException("Expected $name, found $choice:'$val'");
 		}
-		return array($opt, $val);
+		return array($choice, $val);
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function flatten($value) {
+		print_r($value);
+		$choice = $value[0];
+		$val = $this->sub_types[$choice]->flatten($value[1]);
+		return array_merge(array($choice), $val);
 	}
 }

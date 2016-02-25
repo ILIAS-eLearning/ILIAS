@@ -31,4 +31,16 @@ abstract class Type {
 	 * @return	bool
 	 */
 	abstract public function unflatten(array &$value);
+
+	/**
+	 * Make the value flat, that is, turn nested tuples or options into
+	 * a flat array (like (a,(b,c)) -> (a,b,c)) and wrap other values in
+	 * array.
+	 *
+	 * ATTENTION: The array will be consumed during that process.
+	 *
+	 * @param	mixed	$value
+	 * @return	array
+	 */
+	abstract public function flatten($value);
 }

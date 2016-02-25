@@ -24,7 +24,7 @@ class TupleType extends Type {
 	 * @inheritdocs
 	 */
 	public function repr() {
-		return "(".implode(",", array_map(function($t) {return $t->repr();}), $this->sub_types).")";
+		return "(".implode(",", array_map(function($t) {return $t->repr();}, $this->sub_types)).")";
 	}
 
 	/**
@@ -53,5 +53,17 @@ class TupleType extends Type {
 			$vals[] = $sub_type->unflatten($value);
 		}
 		return $vals;
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function flatten($value) {
+		$res = array();
+		$len = count($this->sub_types);
+		for ($i = 0; $i < $len; $i++) {
+			$res = array_merge($res, $this->sub_types[$i]->flatten($value[$i]));
+		}
+		return $res;
 	}
 }

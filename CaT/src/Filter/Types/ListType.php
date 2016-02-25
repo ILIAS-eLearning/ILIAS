@@ -55,4 +55,11 @@ class ListType extends Type {
 		}
 		return $val;
 	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function flatten($value) {
+		return array($value);
+	}
 }

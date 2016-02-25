@@ -42,4 +42,12 @@ class EitherType extends Type {
 	public function unflatten(array &$value) {
 		throw new \Exception("NYI!");
 	}
+
+	/**
+	 * @inheritdocs
+	 */
+	public function flatten($value) {
+		throw new \Exception("NYI!");
+	}
+
 }
