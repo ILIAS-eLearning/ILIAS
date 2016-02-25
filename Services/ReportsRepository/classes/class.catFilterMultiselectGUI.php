@@ -24,10 +24,10 @@ class catFilterMultiselectGUI {
 		$form->addCommandButton("saveFilter", $this->lng->txt("continue"));
 		$form->setFormAction($this->ctrl->getFormAction($this->parent));
 
-		$input = new ilMultiSelectInputGUI($this->filter->label(), $this->path);
-		$input->setInfo($this->filter->description());
-		$input->setOptions($this->filter->options());
-		$form->addItem($input);
+		$multi_select = new ilMultiSelectInputGUI($this->filter->label(), $this->path);
+		$multi_select->setInfo($this->filter->description());
+		$multi_select->setOptions($this->filter->options());
+		$form->addItem($multi_select);
 
 		$post_values = new ilHiddenInputGUI("post_values");
 		$post_values->setValue(serialize($post_values));
