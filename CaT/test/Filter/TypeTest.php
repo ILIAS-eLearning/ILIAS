@@ -208,7 +208,6 @@ class TypeTest extends PHPUnit_Framework_TestCase {
 			, array(function($f) { return $f->tuple($f->string(), $f->tuple($f->int(), $f->int())); }, array("a", 1, 2), array("a", array(1,2)))
 			, array(function($f) { return $f->option($f->string(), $f->int()); }, array(0, "1"), array(0, "1"))
 			, array(function($f) { return $f->option($f->string(), $f->int()); }, array(1, 2), array(1, 2))
-			, array(function($f) { return $f->option($f->tuple($f->int(), $f->int())); }, array(0, 1, 2), array(0, array(1, 2)))
 			);
 	}
 }
