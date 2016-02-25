@@ -46,15 +46,25 @@ class DictionaryPredicateInterpreter {
 			return true;
 		}
 
+		if($p instanceof \CaT\Filter\Predicates\PredicateIn) {
+			$value = $p->getValue();
+			$list = $p->getList()->values();
+			$in = false;
+			foreach($list as $list_el) {
+				if($this->interpret($value->EQ($list_el),$d)) {
+					$in = true;
+					break;
+				}
+			}
+			return $in;
+		}
+
 		if ($p instanceof \CaT\Filter\Predicates\PredicateComparison) {
 			$left = $p->left();
 			$right = $p->right();
 			if($left instanceof Predicates\Field) {
 				$left_name = $left->name();
-				if(!isset($d[$left_name])){
-					return false;
-				}
-				$left = $d[$left_name];
+				$left = isset($d[$left_name]) ? $d[$left_name] : null;
 				$left_type = $this->fieldType($left);
 			} else {
 				$left_type = $this->varType($left);
@@ -62,10 +72,7 @@ class DictionaryPredicateInterpreter {
 			}
 			if($right instanceof \CaT\Filter\Predicates\Field) {
 				$right_name = $right->name();
-				if(!isset($d[$right_name])){
-					return false;
-				}
-				$right = $d[$right_name];
+				$right = isset($d[$right_name]) ? $d[$right_name] : null;
 				$right_type = $this->fieldType($right);
 			} else {
 				$right_type = $this->varType($right);
@@ -85,15 +92,15 @@ class DictionaryPredicateInterpreter {
 					return $left === $right;
 				}
 			}
-			if($p instanceof  \CaT\Filter\Predicates\PredicateLe) {
+			if($p instanceof  \CaT\Filter\Predicates\PredicateLt) {
 				if( $right_type === self::IS_DATE ) {
-					return $right <= $left;
+					return $left < $right;
 				}
 				if( $right_type === self::IS_STR ) {
-					return strcmp($left, $right) <= 0 ? true : false;
+					return strcmp($left, $right) < 0 ? true : false;
 				}
 				if( $right_type === self::IS_INT ) {
-					return $left <= $right;
+					return $left < $right;
 				}
 			}
 		}
