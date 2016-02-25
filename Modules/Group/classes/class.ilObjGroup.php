@@ -642,8 +642,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->getRegistrationType() ,'integer').", ".
 			$ilDB->quote(($this->isRegistrationEnabled() ? 1 : 0) ,'integer').", ".
 			$ilDB->quote(($this->isRegistrationUnlimited() ? 1 : 0) ,'integer').", ".
-			$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'') ,'timestamp').", ".
-			$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'') ,'timestamp').", ".
+			$ilDB->quote(($this->getRegistrationStart() && !$this->getRegistrationStart()->isNull()) ? $this->getRegistrationStart()->get(IL_CAL_DATETIME,'') : null,'timestamp').", ".
+			$ilDB->quote(($this->getRegistrationEnd() && !$this->getRegistrationEnd()->isNull()) ? $this->getRegistrationEnd()->get(IL_CAL_DATETIME,'') : null,'timestamp').", ".
 			$ilDB->quote($this->getPassword() ,'text').", ".
 			$ilDB->quote((int) $this->isMembershipLimited() ,'integer').", ".
 			$ilDB->quote($this->getMaxMembers() ,'integer').", ".
