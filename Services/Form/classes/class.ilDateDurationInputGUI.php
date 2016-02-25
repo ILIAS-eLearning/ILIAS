@@ -502,7 +502,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	}
 	
 	// gev-patch start
-	public function setMulti($a_multi) {
+	public function setMulti($a_multi, $a_sortable = false, $a_addremove = true) {
 		$this->multi = (bool)$a_multi;
 		$this->multi_sortable = false;
 	}
