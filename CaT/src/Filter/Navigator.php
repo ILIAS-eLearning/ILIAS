@@ -20,13 +20,13 @@ class Navigator {
 		$path = $this->path;
 
 		$left_path = (int)$path[count($path) - 1] - 1;
-		$path[count($path) - 1] = $left_path;
 
-		$left = $this->getItemByPath($path, $this->tree);
-
-		if($left === null) {
+		if($left_path < 0) {
 			throw new \OutOfBoundsException("No left neighbor");
 		}
+
+		$path[count($path) - 1] = $left_path;
+		$left = $this->getItemByPath($path, $this->tree);
 
 		$this->path = $path;
 
