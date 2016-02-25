@@ -4,7 +4,7 @@
 
 class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 	public function setUp() {
-		//error_reporting(E_ALL);
+		error_reporting(E_ALL);
 		$this->factory = new \CaT\Filter\FilterFactory(new \CaT\Filter\PredicateFactory(), new \CaT\Filter\TypeFactory());
 	}
 
@@ -17,14 +17,14 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 		$fs = $this->factory->sequence($f1, $f2, $f3, $f4, $f5);
 
 		$classes = array("catFilterTextGUI", "catFilterMultiselectGUI","catFilterOptionGUI", "catFilterDatePeriodGUI", "catFilterOneOfGUI");
-		$counter = 1;
+		$counter = 0;
+		$start_first_filter = true;
 
 		$df = new \CaT\Filter\DisplayFilter($fs, $this);
 
-		$gui = $df->getNextFilterGUI(true);
-		$this->assertInstanceOf("catFilterTextGUI", $gui);
-		
-		while($gui = $df->saveFilter()) {
+		while($gui = $df->getNextFilterGUI($start_first_filter)) {
+			$start_first_filter = false;
+			$df->saveFilter();
 			$this->assertInstanceOf($classes[$counter], $gui);
 			$counter++;
 		}
@@ -48,14 +48,14 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 
 		$classes = array("catFilterTextGUI", "catFilterTextGUI", "catFilterMultiselectGUI", "catFilterOptionGUI"
 						, "catFilterDatePeriodGUI", "catFilterMultiselectGUI", "catFilterOptionGUI", "catFilterDatePeriodGUI", "catFilterOneOfGUI");
-		$counter = 1;
+		$counter = 0;
+		$start_first_filter = true;
 
 		$df = new \CaT\Filter\DisplayFilter($fs, $this);
 
-		$gui = $df->getNextFilterGUI(true);
-		$this->assertInstanceOf("catFilterTextGUI", $gui);
-		
-		while($gui = $df->saveFilter()) {
+		while($gui = $df->getNextFilterGUI($start_first_filter)) {
+			$start_first_filter = false;
+			$df->saveFilter();
 			$this->assertInstanceOf($classes[$counter], $gui);
 			$counter++;
 		}

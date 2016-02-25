@@ -41,7 +41,7 @@ class Navigator {
 
 		$right = $this->getItemByPath($path, $this->tree);
 
-		if($right === null) {
+		if(!$right) {
 			throw new \OutOfBoundsException("No right neighbor");
 		}
 
@@ -79,7 +79,7 @@ class Navigator {
 		$path = explode(":",$path);
 		$tmp = $this->getItemByPath($path, $this->tree);
 
-		if($tmp === null) {
+		if(!$tmp) {
 			throw new \OutOfBoundsException("Not possible to select node ".$path);
 		}
 
@@ -97,7 +97,7 @@ class Navigator {
 			$tmp = $tmp->subs();
 
 			if(!array_key_exists($value, $tmp)) {
-				return null;
+				return false;
 			}
 
 			$tmp = $tmp[$value];
