@@ -948,32 +948,37 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 		$f = $this->factory;
 		$i = $this->interpreter;
-		$str_1 = $f->str("foo");
-		$str_2 = $f->str("bar");
+
+		$int_list = $f->list_int(1,2,3);		
+		$int_list_v = $f->list_int();
+
+		$str_list = $f->list_str("a","b","c");		
+		$str_list_v = $f->list_str();
+		
 		$int_1 = $f->int(1);
-		$int_2 = $f->int(2);
-		$date_1 = $f->date(new \DateTime('2016-01-01'));
-		$date_2 = $f->date(new \DateTime('2016-01-02'));
-		$field_1 =$f->field("foo");
+		$int_2 = $f->int(5);
 
-		$list = $f->vlist($str_1, $str_2, $int_1, $int_2, $date_1);
+		$str_1 = $f->str("a");
+		$str_2 = $f->str("z");
 
-		$this->assertTrue($i->interpret($str_1->IN($list),array()));
-		$this->assertTrue($i->interpret($int_1->IN($list),array()));
-		$this->assertTrue($i->interpret($date_1->IN($list),array()));
+		$field_1 = $f->field("foo");
 
-		$this->assertTrue($i->interpret($field_1->IN($list),array("foo" => 1)));
-		$this->assertFalse($i->interpret($field_1->IN($list),array("bar" => "foo")));
-		$this->assertTrue($i->interpret($field_1->IN($list),array("foo" => "foo")));
-		$this->assertTrue($i->interpret($field_1->IN($list),array("foo" => new \DateTime('2016-01-01'))));
+		$this->assertTrue($i->interpret($int_1->IN($int_list),array()));
+		$this->assertFalse($i->interpret($int_1->IN($int_list_v),array()));
+		$this->assertFalse($i->interpret($int_2->IN($int_list),array()));
 
-		$list = $f->vlist(	$str_2,$int_1 ,$date_1);
-		$this->assertFalse($i->interpret($str_1->IN($list),array()));
-		$this->assertFalse($i->interpret($int_2->IN($list),array()));
-		$this->assertFalse($i->interpret($date_2->IN($list),array()));
-		$this->assertFalse($i->interpret($str_1->IN( $f->vlist()),array()));
-		$this->assertFalse($i->interpret($int_1->IN( $f->vlist()),array()));
-		$this->assertFalse($i->interpret($date_1->IN( $f->vlist()),array()));
+		$this->assertTrue($i->interpret($str_1->IN($str_list),array()));
+		$this->assertFalse($i->interpret($str_1->IN($str_list_v),array()));
+		$this->assertFalse($i->interpret($str_2->IN($str_list),array()));
+
+		$this->assertFalse($i->interpret($int_1->IN($str_list),array()));
+		$this->assertFalse($i->interpret($str_1->IN($int_list),array()));
+		$this->assertFalse($i->interpret($str_1->IN($int_list_v),array()));
+		$this->assertFalse($i->interpret($int_2->IN($str_list_v),array()));
+
+		$this->assertTrue($i->interpret($field_1->IN($int_list),array("foo" => 1)));
+		$this->assertFalse($i->interpret($field_1->IN($int_list),array("bar" => "foo")));
+		$this->assertTrue($i->interpret($field_1->IN($str_list),array("foo" => "a")));
 	}
 
 	/**
@@ -985,13 +990,13 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 
 	public function test_ValueList() {
-		$ls = $this->factory->vlist(1,2,3,4);
+		$ls = $this->factory->list_int(1,2,3,4);
 		$this->assertInstanceOf("\\CaT\\Filter\\Predicates\\ValueList", $ls);
 		$vals = array_map(function (\CaT\Filter\Predicates\ValueInt $v) {
 					return $v->value();
 				}, $ls->values());
 
-		$ls = $this->factory->vlist("one","two","three");
+		$ls = $this->factory->list_str("one","two","three");
 		$this->assertInstanceOf("\\CaT\\Filter\\Predicates\\ValueList", $ls);
 		$vals = array_map(function (\CaT\Filter\Predicates\ValueStr $v) {
 					return $v->value();
@@ -999,11 +1004,23 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array("one","two","three"), $vals);
 
 		try {
-			$ls = $this->factory->vlist(1,"one");
-			$this->assertFalse("Should have been raised.");
+			$e = 0;
+			$ls = $this->factory->list_int(1,"one");
 		}
-		catch (\InvalidArgumentException $e) {
+		catch (\InvalidArgumentException $ex) {
+			$e = 1;
 		}
+
+		$this->assertTrue($e === 1);
+
+		try {
+			$e = 0;
+			$ls = $this->factory->list_str(1,"one");
+		}
+		catch (\InvalidArgumentException $ex) {
+			$e = 1;
+		}
+		$this->assertTrue($e === 1);
 	}
 
 }
