@@ -7,11 +7,13 @@ class catFilterTextGUI {
 	protected $parent;
 	protected $filter;
 	protected $path;
+	protected $post_values;
 
 	public function __construct($parent, $filter, $path, array $post_values) {
 		$this->parent = $parent;
 		$this->filter = $filter;
 		$this->path = $path;
+		$this->post_values = $post_values;
 	}
 
 	public function executeCommand() {
@@ -29,7 +31,7 @@ class catFilterTextGUI {
 		$form->addItem($input);
 
 		$post_values = new ilHiddenInputGUI("post_values");
-		$post_values->setValue(serialize($post_values));
+		$post_values->setValue(serialize($this->post_values));
 		$form->addItem($post_values);
 
 		return $form->getHTML();

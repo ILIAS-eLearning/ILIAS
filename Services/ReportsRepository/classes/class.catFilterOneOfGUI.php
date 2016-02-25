@@ -14,6 +14,7 @@ class catFilterOneOfGUI {
 		$this->parent = $parent;
 		$this->filter = $filter;
 		$this->path = $path;
+		$this->post_values = $post_values;
 	}
 
 	public function executeCommand() {}
@@ -64,7 +65,7 @@ class catFilterOneOfGUI {
 		$form->addItem($group);
 
 		$post_values = new ilHiddenInputGUI("post_values");
-		$post_values->setValue(serialize($post_values));
+		$post_values->setValue(serialize($this->post_values));
 		$form->addItem($post_values);
 
 		return $form->getHTML();

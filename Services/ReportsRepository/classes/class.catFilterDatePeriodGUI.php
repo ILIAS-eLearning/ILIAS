@@ -13,6 +13,7 @@ class catFilterDatePeriodGUI {
 		$this->parent = $parent;
 		$this->filter = $filter;
 		$this->path = $path;
+		$this->post_values = $post_values;
 		$this->options = array("0"=>"Ja","1"=>"Nein");
 	}
 
@@ -33,7 +34,7 @@ class catFilterDatePeriodGUI {
 		$form->addItem($duration);
 
 		$post_values = new ilHiddenInputGUI("post_values");
-		$post_values->setValue(serialize($post_values));
+		$post_values->setValue(serialize($this->post_values));
 		$form->addItem($post_values);
 
 		return $form->getHTML();

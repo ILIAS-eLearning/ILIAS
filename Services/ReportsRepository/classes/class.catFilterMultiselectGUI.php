@@ -12,6 +12,7 @@ class catFilterMultiselectGUI {
 		$this->parent = $parent;
 		$this->filter = $filter;
 		$this->path = $path;
+		$this->post_values = $post_values;
 	}
 
 	public function executeCommand() {
@@ -30,7 +31,7 @@ class catFilterMultiselectGUI {
 		$form->addItem($multi_select);
 
 		$post_values = new ilHiddenInputGUI("post_values");
-		$post_values->setValue(serialize($post_values));
+		$post_values->setValue(serialize($this->post_values));
 		$form->addItem($post_values);
 
 		return $form->getHTML();
