@@ -58,4 +58,8 @@ abstract class Predicate {
 			return $self->_AND($pred);
 		});
 	}
+
+	public function _NOT() {
+		return $this->factory->_NOT($this);
+	}
 }

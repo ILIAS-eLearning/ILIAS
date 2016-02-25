@@ -11,9 +11,9 @@ abstract class PredicateBundle extends Predicate {
 	/**
 	 * @var	Predicate[]
 	 */
-	protected $subs;
+	protected $subs = array();
 
-	public function __construct(\CaT\Filter\PredicateFactory $factory, array $subs) {
+	public function __construct( \CaT\Filter\PredicateFactory $factory, array $subs) {
 		$this->subs = array_map(function(Predicate $p) {
 			return $p;
 		}, $subs);

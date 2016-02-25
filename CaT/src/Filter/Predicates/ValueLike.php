@@ -40,21 +40,49 @@ class ValueLike {
 	 * @param	Predicate|null	$other
 	 * @return	Predicate
 	 */
-	public function LE(ValueLike $other = null) {
+	public function LT(ValueLike $other = null) {
 		if ($other !== null) {
-			return $this->factory->LE($this, $other);
+			return $this->factory->LT($this, $other);
 		}
 
 		$self = $this;
 		return $this->fluent_factory(function(ValueLike $value) use ($self) {
-			return $self->LE($value);
+			return $self->LT($value);
 		});
 	}
 
-	// TODO:
-	//		- NEQ
-	//		- LT
-	//		- GE
-	//		- GT
+	/**
+	 * @param	Predicate|null	$other
+	 * @return	Predicate
+	 */
+	public function LE(ValueLike $other = null) {
+		if ($other !== null) {
+			return $this->factory->_ANY($this->LT($other), $this->EQ($other));
+		}
 
+		$self = $this;
+		return $this->fluent_factory(function(ValueLike $value) use ($self) {
+			return $self->LT($value);
+		});
+	}
+
+	public function GE(ValueLike $other = null) {
+		if ($other !== null) {
+			return $other->LE($this);
+		}
+		$self = $this;
+		return $this->fluent_factory(function(ValueLike $value) use ($self) {
+			return $self->GE($value);
+		});
+	}
+
+	public function GT(ValueLike $other = null) {
+		if ($other !== null) {
+			return $this->factory->LT($other, $this);
+		}
+		$self = $this;
+		return $this->fluent_factory(function(ValueLike $value) use ($self) {
+			return $self->GE($value);
+		});
+	}
 }

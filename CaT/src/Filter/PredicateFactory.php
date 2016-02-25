@@ -94,13 +94,19 @@ class PredicateFactory {
 	 * @param	ilValueLike		$r
 	 * @return	ilPredicate
 	 */
-	public function LE(Predicates\ValueLike $l, Predicates\ValueLike $r) {
-		return new Predicates\PredicateLe($this, $l, $r);
+	public function LT(Predicates\ValueLike $l, Predicates\ValueLike $r) {
+		return new Predicates\PredicateLt($this, $l, $r);
 	}
+
+/*	public function LE(Predicates\ValueLike $l, Predicates\ValueLike $r) {
+		$lt = new Predicates\PredicateLt($this, $l, $r);
+		$eq = new Predicates\PredicateEq($this, $l, $r);
+		return $this->_OR($lt,$eq);
+	}*/
 
 	// TODO:
 	//		- NEQ
-	//		- LT
+	//		- LE
 	//		- GE
 	//		- GT
 
