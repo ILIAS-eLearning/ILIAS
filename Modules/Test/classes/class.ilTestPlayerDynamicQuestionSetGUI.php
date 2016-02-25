@@ -556,7 +556,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			
 			$this->ctrl->setParameter($this, 'sequence', $this->testSession->getCurrentQuestionId());
 			$this->ctrl->setParameter($this, 'pmode', $presentationMode);
-			$formAction = $this->ctrl->getFormAction($this);
+			$formAction = $this->ctrl->getFormAction($this, ilTestPlayerCommands::SUBMIT_INTERMEDIATE_SOLUTION);
 			
 			switch($presentationMode)
 			{
