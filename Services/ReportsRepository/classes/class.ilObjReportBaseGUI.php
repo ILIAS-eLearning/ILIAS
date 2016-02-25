@@ -186,7 +186,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->table->addColumn("", "blank", "0px", false);
 		foreach ($this->object->deliverTable()->columns as $col) {
 			$this->table->addColumn( $col[2] ? $col[1] : $this->lng->txt($col[1])
-							 , $col[0]
+							 , $col[5] ? $col[0] : ""
 							 , $col[3]
 							 );
 		}
