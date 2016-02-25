@@ -29,7 +29,14 @@ class DisplayFilter {
 	* saves data from current FilterGUI into $post_array
 	*/
 	public function saveFilter() {
-		$this->post_values[$this->navi->path()] = $_POST[$this->path];
+		$current_class = get_class($this->navi->current());
+
+		if($current_class == Filters\OneOf) {
+			$this->post_values[$this->navi->path()] = array($_POST["o".$this->path], $_POST[$this->path]);
+		} else {
+			$this->post_values[$this->navi->path()] = $_POST[$this->path];
+		}
+		
 		return $this->getNextFilterGUI(false);
 	}
 
