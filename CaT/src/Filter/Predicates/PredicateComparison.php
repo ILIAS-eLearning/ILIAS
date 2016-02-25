@@ -25,7 +25,7 @@ abstract class PredicateComparison extends Predicate {
 	}
 
 	public function fields() {
-		return array();
+		return $this->addPossibleFieldsToFields(array($this->l, $this->r),array());
 	}
 
 	/**
