@@ -196,4 +196,13 @@ class DisplayFilter {
 		$gui = new \catFilterOneOfGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
 		return $gui;
 	}
+
+	/**
+	* returns the post array within all input values
+	*
+	* @return array  	returns the post_values
+	*/
+	public function postValues() {
+		return $this->postValues;
+	}
 }
