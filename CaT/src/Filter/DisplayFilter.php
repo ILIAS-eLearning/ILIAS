@@ -53,7 +53,7 @@ class DisplayFilter {
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	protected function filterGUI($filter) {
