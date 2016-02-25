@@ -141,6 +141,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
         $rubric_heading_tpl=$this->getRubricGradeFormHeader($user_full_name);
         $rubric_grade_tpl=$this->getRubricGradeForm();
         $rubric_commandrow_tpl=$this->getRubricStudentGradeFormCommandRow($form_action,$user_id);
+        $this->tpl->addCss('./Services/Tracking/css/ilRubricCard.css');
         return($rubric_heading_tpl->get().$rubric_commandrow_tpl->get().$rubric_grade_tpl->get());
     }
 
@@ -227,7 +228,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
         }
 
         if($this->student_view || $this->pdf_view){
-            $tmp_write.="<td scope=\"rowgroup\">
+            $tmp_write.="<td class=\"grade-point\" scope=\"rowgroup\">
                             $tmp_point
                         </td>
                         <td scope=\"rowgroup\">
@@ -479,7 +480,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 
         $write="<div id=\"jkn_div_rubric\" class=\"table-responsive\" style=\"margin-top: 20px;\">
 
-                    <table id=\"jkn_table_rubric\" class=\"table table-striped\">
+                    <table id=\"jkn_table_grade_rubric\" class=\"table table-striped\">
 
                         <thead>
                             <tr>
@@ -532,7 +533,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 
         $write="<div id=\"jkn_div_rubric\" class=\"table-responsive\">
 
-                    <table id=\"jkn_table_rubric\" style=\"table-layout: fixed;\" class=\"table table-striped\">
+                    <table id=\"jkn_table_grade_rubric\" style=\"table-layout: fixed;\" class=\"table table-striped\">
 
                         <thead>
                             <tr>
