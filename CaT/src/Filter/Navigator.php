@@ -53,7 +53,7 @@ class Navigator {
 	public function enter() {
 		$current = $this->current();
 
-		if(!($current instanceof Filters\FilterList)) {
+		if(!($current instanceof Filters\Sequence)) {
 			throw new \OutOfBoundsException("Not possible to enter node");
 		}
 
