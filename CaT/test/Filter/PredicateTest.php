@@ -109,7 +109,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 	/**
 	* @dataProvider seed_provider
 	*/
-	public function test_int($val,$res) {
+	public function test_int($val,$int,$str,$date) {
 		// Check if one could create integer values via $f->int
 		// Check if $f->int throws if not passed an integer.
 		$f = $this->factory;
@@ -119,13 +119,13 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		} catch (Exception $e) {
 			$res_t = 0;
 		}
-		$this->assertEquals($res_t,$res["int"]);
+		$this->assertTrue($res_t === $int);
 	}
 	
 	/**
 	* @dataProvider seed_provider
 	*/
-	public function test_string($val,$res) {
+	public function test_string($val,$int,$str,$date) {
 		// Similar to test_int
 		$f = $this->factory;
 		try {
@@ -134,13 +134,13 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		} catch (Exception $e) {
 			$res_t = 0;
 		}
-		$this->assertEquals($res_t,$res["str"]);
+		$this->assertTrue($res_t === $str);
 	}
 
 	/**
 	* @dataProvider seed_provider
 	*/	
-	public function test_date($val,$res) {
+	public function test_date($val,$int,$str,$date) {
 				// Similar to test_int
 		$f = $this->factory;
 		try {
@@ -149,23 +149,18 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		} catch (Exception $e) {
 			$res_t = 0;
 		}
-		$this->assertEquals($res_t,$res["date"]);
+		$this->assertTrue($res_t === $date);
 	}
 
 	public function seed_provider() {
+		date_default_timezone_set('Europe/Berlin');
 		return array(
-			array(1,
-				array("int" => 1,"str" => 0,"date" => 0))
-			,array("1",
-				array("int" => 1,"str" => 1,"date" => 0))
-			,array("a",
-				array("int" => 0,"str" => 1,"date" => 0))
-			,array("100a",
-				array("int" => 0,"str" => 1,"date" => 0))
-			,array(new \DateTime("2016-01-01"),
-				array("int" => 0,"str" => 0,"date" => 1))
-			,array(null,
-				array("int" => 0,"str" => 0,"date" => 0)));
+			array(1,1,0,0)
+			,array("1",0,1,0)
+			,array("a",0,1,0)
+			,array("100a",0, 1,0)
+			,array(new \DateTime("2016-01-01"),0,0,1)
+			,array(null,0,0,0));
 	}
 
 
@@ -182,9 +177,9 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	public function eq_int_provider() {
 		return array(
-			array("left" => 1, "right" => 1, "res" => true)
-			,array("left" => 2, "right" => 1, "res" => false)
-			,array("left" => 1, "right" => 2, "res" => false));
+			array(1, 1, true)
+			,array(2, 1, false)
+			,array(1, 2, false));
 	}
 	
 	/**
@@ -200,13 +195,13 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	public function eq_str_provider() {
 		return array(
-			array("left" => "aa", "right" => "aa", "res" => true)
-			,array("left" => "a", "right" => "aa", "res" => false)
-			,array("left" => "ab", "right" => "a", "res" => false)
-			,array("left" => "1", "right" => "1", "res" => true)
-			,array("left" => "a", "right" => "1", "res" => false)
-			,array("left" => "a", "right" => "", "res" => false)
-			,array("left" => "2", "right" => "1", "res" => false));
+			array("aa", "aa", true)
+			,array("a", "aa", false)
+			,array("ab", "a", false)
+			,array("1", "1", true)
+			,array("a", "1", false)
+			,array("a", "", false)
+			,array("2", "1", false));
 	}
 
 	/**
@@ -222,9 +217,9 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	public function eq_date_provider() {
 		return array(
-			array("left" => "2016-01-01", "right" => "2016-01-01", "res" => true)
-			,array("left" => "2016-01-02", "right" => "2016-01-01", "res" => false)
-			,array("left" => "2016-01-01", "right" => "2016-01-02", "res" => false));
+			array("2016-01-01", "2016-01-01", true)
+			,array("2016-01-02", "2016-01-01", false)
+			,array("2016-01-01", "2016-01-02", false));
 	}
 
 	/**
@@ -273,42 +268,15 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	public function le_int_provider() {
 		return array(
-			array("left" => 1, "right" => 1, "res" => true)
-			,array("left" => 2, "right" => 1, "res" => false)
-			,array("left" => 1, "right" => 2, "res" => true));
+			array(1, 1, true)
+			,array(2, 1, false)
+			,array(1, 2, true));
 	}
 
-	public function test_IN() {
-		$this->assertFalse("Implement me!");
-	}
-
-	public function test_LIKE() {
-		$this->assertFalse("Implement me!");
-	}
-
-	public function test_ValueList() {
-		$ls = $this->factory->vlist(1,2,3,4);
-		$this->assertInstanceOf("\\CaT\\Filter\\Predicates\\ValueList", $ls);
-		$vals = array_map(function (\CaT\Filter\Predicates\ValueInt $v) {
-					return $v->value();
-				}, $ls->values());
-
-		$ls = $this->factory->vlist("one","two","three");
-		$this->assertInstanceOf("\\CaT\\Filter\\Predicates\\ValueList", $ls);
-		$vals = array_map(function (\CaT\Filter\Predicates\ValueStr $v) {
-					return $v->value();
-				}, $ls->values());
-		$this->assertEquals(array("one","two","three"), $vals);
-
-		try {
-			$ls = $this->factory->vlist(1,"one");
-			$this->assertFalse("Should have been raised.");
-		}
-		catch (\InvalidArgumentException $e) {
-		}
-	}
-
-	public function test_one_field() {
+	/**
+	* @dataProvider le_str_provider
+	*/
+	public function test_LE_str($left,$right,$res) {
 		$f = $this->factory;
 		$i = $this->interpreter;
 
@@ -318,15 +286,15 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	public function le_str_provider() {
 		return array(
-			array("left" => "a", "right" => "a", "res" => true)
-			,array("left" => "b", "right" => "a", "res" => false)
-			,array("left" => "1", "right" => "a", "res" => false)
-			,array("left" => "a", "right" => "1", "res" => true)
-			,array("left" => "aa", "right" => "a", "res" => false)
-			,array("left" => "a", "right" => "aa", "res" => true)
-			,array("left" => "", "right" => "a", "res" => true)
-			,array("left" => " ", "right" => "a", "res" => true)
-			,array("left" => "a", "right" => "", "res" => false));
+			array("a", "a", true)
+			,array("b",  "a", false)
+			,array("1",  "a", true)
+			,array("a",  "1", false)
+			,array("aa", "a", false)
+			,array("a",  "aa", true)
+			,array("", "a", true)
+			,array(" ",  "a", true)
+			,array("a",  "", false));
 	}
 
 	/**
@@ -342,9 +310,9 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	public function le_date_provider() {
 		return array(
-			array("left" => "2016-01-01", "right" => "2016-01-01", "res" => true)
-			,array("left" =>  "2016-01-02", "right" =>  "2016-01-01", "res" => false)
-			,array("left" =>  "2016-01-01", "right" =>  "2016-01-02", "res" => true));
+			array("2016-01-01", "2016-01-01", true)
+			,array("2016-01-02",  "2016-01-01", false)
+			,array("2016-01-01",  "2016-01-02", true));
 	}
 
 
@@ -397,9 +365,9 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 	// For instance: '1'<'a', 1>'a' AND 1 = '1' are all TRUE(!?) on my local mysql (5.6.25)}:-[.
 	public function ge_int_provider() {
 		return array(
-			array("left" => 1, "right" => 1, "res" => true)
-			,array("left" => 2, "right" => 1, "res" => true)
-			,array("left" => 1, "right" => 2, "res" => false));
+			array(1, 1, true)
+			,array(2, 1, true)
+			,array(1, 2, false));
 	}
 
 	/**
@@ -415,15 +383,15 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	public function ge_str_provider() {
 		return array(
-			array("left" => "a", "right" => "a", "res" => true)
-			,array("left" => "b", "right" => "a", "res" => true)
-			,array("left" => "1", "right" => "a", "res" => false)
-			,array("left" => "a", "right" => "1", "res" => true)
-			,array("left" => "aa", "right" => "a", "res" => true)
-			,array("left" => "a", "right" => "aa", "res" => false)
-			,array("left" => "", "right" => "a", "res" => false)
-			,array("left" => " ", "right" => "a", "res" => false)
-			,array("left" => "a", "right" => "", "res" => true));
+			array("a", "a", true)
+			,array("b", "a",true)
+			,array("1", "a",false)
+			,array("a", "1",true)
+			,array("aa", "a", true)
+			,array("a", "aa", false)
+			,array("", "a", false)
+			,array(" ","a", false)
+			,array("a","", true));
 	}
 
 	/**
@@ -439,9 +407,9 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	public function ge_date_provider() {
 		return array(
-			array("left" => "2016-01-01", "right" => "2016-01-01", "res" => true)
-			,array("left" =>  "2016-01-02", "right" =>  "2016-01-01", "res" => true)
-			,array("left" =>  "2016-01-01", "right" =>  "2016-01-02", "res" => false));
+			array("2016-01-01", "2016-01-01", true)
+			,array("2016-01-02", "2016-01-01", true)
+			,array("2016-01-01", "2016-01-02", false));
 	}
 
 
@@ -531,11 +499,11 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	public function int_eq_field() {
 		return array(
-			array("field" => array() ,"res" => false)
-			,array("field" => array("one" => 1) ,"res" => true)
-			,array("field" => array("two" => "a", "one" => 1) ,"res" => true)
-			,array("field" => array("two" => "a", "one" => "1") ,"res" => false)
-			,array("field" => array("two" => 1) ,"res" => false));
+			array(array() , false)
+			,array( array("one" => 1) , true)
+			,array( array("two" => "a", "one" => 1) , true)
+			,array( array("two" => "a", "one" => "1") , false)
+			,array( array("two" => 1) ,false));
 	}
 
 	/**
@@ -588,11 +556,11 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	public function str_eq_field() {
 		return array(
-			array("field" => array() ,"res" => false)
-			,array("field" => array("one" => "a") ,"res" => true)
-			,array("field" => array("two" => "a", "one" => "1") ,"res" => false)
-			,array("field" => array("two" => "", "one" => "a") ,"res" => true)
-			,array("field" => array("two" => "a") ,"res" => false));
+			array(array() , false)
+			,array(array("one" => "a") , true)
+			,array(array("two" => "a", "1") ,"res" => false)
+			,array(array("two" => "", "one" => "a") ,"res" => true)
+			,array(array("two" => "a") , false));
 	}
 
 
@@ -645,12 +613,13 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function date_eq_field() {
+		date_default_timezone_set('Europe/Berlin');
 		return array(
 			array("field" => array() ,"res" => false)
-			,array("field" => array("one" => new \DateTime("2016-01-01")) ,"res" => true)
-			,array("field" => array("two" => new \DateTime("2016-01-02"), "one" => new \DateTime("2016-01-01")) ,"res" => true)
-			,array("field" => array("two" => new \DateTime("2016-01-03"), "one" => new \DateTime("2016-01-02")) ,"res" => false)
-			,array("field" => array("two" => new \DateTime("2016-01-01")) ,"res" => false));
+			,array( array("one" => new \DateTime("2016-01-01")) ,true)
+			,array( array("two" => new \DateTime("2016-01-02"), "one" => new \DateTime("2016-01-01")) , true)
+			,array( array("two" => new \DateTime("2016-01-03"), "one" => new \DateTime("2016-01-02")) , false)
+			,array( array("two" => new \DateTime("2016-01-01")) ,false));
 	}
 
 
@@ -662,7 +631,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 
 		$res_r = $f->int(1)->GE()->field("one");
-
+		$res = isset($field["one"]) ? $res : false;
 		$this->assertTrue($i->interpret($res_r, $field) === $res);
 	}
 
@@ -674,7 +643,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 
 		$res_t = $f->field("one")->LE()->int(1);
-
+		$res = isset($field["one"]) ? $res : false;
 		$this->assertTrue($i->interpret($res_t, $field) === $res);
 	}
 
@@ -686,9 +655,11 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$f = $this->factory;
 		$i = $this->interpreter;
 
-		$res_t = $f->int(1)->LT()->field("one")->_NOT();
+		$res_t = $f->int(1)->LT()->field("one");
 
-		$this->assertTrue($i->interpret($res_t, $field) === !$res);
+		$res = isset($field["one"]) ? !$res : false;
+
+		$this->assertTrue($i->interpret($res_t, $field) === $res);
 	}
 	
 	/**
@@ -698,20 +669,20 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$f = $this->factory;
 		$i = $this->interpreter;
 
-		$res_t = $f->field("one")->GT()->int(1)->_NOT();
-
-		$this->assertTrue($i->interpret($res_t, $field) === !$res);
+		$res_t = $f->field("one")->GT()->int(1);
+		$res = isset($field["one"]) ? !$res : false;
+		$this->assertTrue($i->interpret($res_t, $field) === $res);
 	}
 
 	public function int_ge_field() {
 		return array(
-			array("field" => array() ,"res" => false)
-			,array("field" => array("one" => 1) ,"res" => true)
-			,array("field" => array("two" => "a", "one" => 0) ,"res" => true)
-			,array("field" => array("two" => "a", "one" => 2) ,"res" => false)
-			,array("field" => array("two" => "a", "one" => 1) ,"res" => true)
-			,array("field" => array("two" => 1) ,"res" => false)
-			,array("field" => array("two" => 0) ,"res" => false));
+			array( array() ,false)
+			,array( array("one" => 1) , true)
+			,array( array("two" => "a", "one" => 0) , true)
+			,array( array("two" => "a", "one" => 2) ,false)
+			,array( array("two" => "a", "one" => 1) , true)
+			,array( array("two" => 1) ,false)
+			,array( array("two" => 0) ,false));
 	}
 
 	/**
@@ -722,7 +693,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 
 		$res_t = $f->str("b")->GE()->field("one");
-
+		$res = isset($field["one"]) ? $res : false;
 		$this->assertTrue($i->interpret($res_t, $field) === $res);
 	}
 
@@ -734,7 +705,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 
 		$res_t = $f->field("one")->LE()->str("b");
-
+		$res = isset($field["one"]) ? $res : false;
 		$this->assertTrue($i->interpret($res_t, $field) === $res);
 	}
 
@@ -745,9 +716,9 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$f = $this->factory;
 		$i = $this->interpreter;
 
-		$res_t = $f->str("b")->LT()->field("one")->_NOT();
-
-		$this->assertTrue($i->interpret($res_t, $field) === !$res);
+		$res_t = $f->str("b")->LT()->field("one");
+		$res = isset($field["one"]) ? !$res : false;
+		$this->assertTrue($i->interpret($res_t, $field) === $res);
 	}
 	
 	/**
@@ -757,20 +728,20 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$f = $this->factory;
 		$i = $this->interpreter;
 
-		$res_t = $f->field("one")->GT()->str("b")->_NOT();
-
-		$this->assertTrue($i->interpret($res_t, $field) === !$res);
+		$res_t = $f->field("one")->GT()->str("b");
+		$res = isset($field["one"]) ? !$res : false;
+		$this->assertTrue($i->interpret($res_t, $field) === $res);
 	}
 
 	public function str_ge_field() {
 		return array(
-			array("field" => array() ,"res" => false)
-			,array("field" => array("one" => "b") ,"res" => true)
-			,array("field" => array("two" => "c", "one" => "a") ,"res" => true)
-			,array("field" => array("two" => "a", "one" => "1") ,"res" => true)
-			,array("field" => array("two" => "", "one" => "") ,"res" => true)
-			,array("field" => array("two" => "", "one" => "b") ,"res" => true)
-			,array("field" => array("two" => "a") ,"res" => false));
+			array(array() ,false)
+			,array( array("one" => "b") , true)
+			,array( array("two" => "c", "one" => "a") , true)
+			,array( array("two" => "a", "one" => "1") , true)
+			,array( array("two" => "", "one" => "") , true)
+			,array( array("two" => "", "one" => "b") , true)
+			,array( array("two" => "a") ,false));
 	}
 
 
@@ -782,7 +753,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 
 		$res_t = $f->date(new \DateTime("2016-01-01"))->GE()->field("one");
-
+		$res = isset($field["one"]) ? $res : false;
 		$this->assertTrue($i->interpret($res_t, $field) === $res);
 	}
 
@@ -794,7 +765,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 
 		$res_t = $f->field("one")->LE()->date(new \DateTime("2016-01-01"));
-
+		$res = isset($field["one"]) ? $res : false;
 		$this->assertTrue($i->interpret($res_t, $field) === $res);
 	}
 
@@ -805,9 +776,9 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$f = $this->factory;
 		$i = $this->interpreter;
 
-		$res_t = $f->date(new \DateTime("2016-01-01"))->LT()->field("one")->_NOT();
-
-		$this->assertTrue($i->interpret($res_t, $field) === !$res);
+		$res_t = $f->date(new \DateTime("2016-01-01"))->LT()->field("one");
+		$res = isset($field["one"]) ? !$res : false;
+		$this->assertTrue($i->interpret($res_t, $field) === $res);
 	}
 	
 	/**
@@ -817,19 +788,21 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$f = $this->factory;
 		$i = $this->interpreter;
 
-		$res_t = $f->field("one")->GT()->date(new \DateTime("2016-01-02"))->_NOT();
-
-		$this->assertTrue($i->interpret($res_t, $field) === !$res);
+		$res_t = $f->field("one")->GT()->date(new \DateTime("2016-01-01"));
+		$res = isset($field["one"]) ? !$res : false;
+		$this->assertTrue($i->interpret($res_t, $field) === $res);
 	}
 
 	public function date_ge_field() {
+		date_default_timezone_set('Europe/Berlin');
 		return array(
-			array("field" => array() ,"res" => false)
-			,array("field" => array("one" => new \DateTime("2016-01-02")) ,"res" => true)
-			,array("field" => array("two" => new \DateTime("2016-01-02"), "one" => new \DateTime("2016-01-01")) ,"res" => true)
-			,array("field" => array("two" => new \DateTime("2016-01-03"), "one" => new \DateTime("2016-01-03")) ,"res" => false)
-			,array("field" => array("two" => new \DateTime("2016-01-03"), "one" => new \DateTime("2016-01-02")) ,"res" => false)
-			,array("field" => array("two" => new \DateTime("2016-01-01")) ,"res" => false));
+			array( array() , false)
+			,array(array("one" => new \DateTime("2016-01-02")) , false)
+			,array(array("two" => new \DateTime("2016-01-02"), "one" => new \DateTime("2016-01-01")) , true)
+			,array(array("two" => new \DateTime("2016-01-02"), "one" => new \DateTime("2015-12-31")) , true)
+			,array(array("two" => new \DateTime("2016-01-03"), "one" => new \DateTime("2016-01-03")) ,false)
+			,array(array("two" => new \DateTime("2016-01-03"), "one" => new \DateTime("2016-01-02")) ,false)
+			,array(array("two" => new \DateTime("2016-01-01")) , false));
 	}
 
 	/**
@@ -840,7 +813,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 
 		$p = $f->field("one")->EQ()->field("two");
-
+		$res = isset($fields["one"]) &&  isset($fields["two"]) ? $res : false;
 		$this->assertTrue($i->interpret($p, $fields) === $res);
 	}
 
@@ -853,34 +826,35 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 
 		$p = $f->field("one")->EQ()->field("two")->_NOT();
-
-		$this->assertTrue($i->interpret($p, $fields) !== $res);
+		$res = isset($fields["one"]) &&  isset($fields["two"]) ? !$res : true;
+		$this->assertTrue($i->interpret($p, $fields) === $res);
 	}
 
 	public function eq_two_fields() {
+		date_default_timezone_set('Europe/Berlin');		
 		return array(
-			array("fields" => array("one" => 1, "two" => 2)
-				, "res" => false)
-			,array("fields" => array("two" => 2)
-				, "res" => false)
-			,array("fields" => array("one" => 1, "two" => 1)
-				, "res" => true)
-			,array("fields" => array("one" => "1", "two" => 1)
-				, "res" => true)
-			,array("fields" => array("one" => "a", "two" => 1)
-				, "res" => false)
-			,array("fields" => array("one" => "a", "two" => "a")
-				, "res" => true)
-			,array("fields" => array("one" => "a")
-				, "res" => false)
-			,array("fields" => array("one" => "a", "two" => "a")
-				, "res" => true)	
-			,array("fields" => array("one" => new \DateTime('2016-01-01'), "two" => new \DateTime('2016-01-01'))
-				, "res" => false)
-			,array("fields" => array("one" => new \DateTime('2016-01-01'))
-				, "res" => false)
-			,array("fields" => array("one" => new \DateTime('2016-01-01'), "two" => new \DateTime('2016-01-02'))
-				, "res" => false)
+			array(array("one" => 1, "two" => 2)
+				,  false)
+			,array(array("two" => 2)
+				,  false)
+			,array( array("one" => 1, "two" => 1)
+				,  true)
+			,array( array("one" => "1", "two" => 1)
+				, false)
+			,array( array("one" => "a", "two" => 1)
+				,  false)
+			,array( array("one" => "a", "two" => "a")
+				, true)
+			,array( array("one" => "a")
+				,  false)
+			,array( array("one" => "a", "two" => "a")
+				,  true)	
+			,array( array("one" => new \DateTime('2016-01-01'), "two" => new \DateTime('2016-01-01'))
+				,  true)
+			,array( array("one" => new \DateTime('2016-01-01'))
+				,  false)
+			,array( array("one" => new \DateTime('2016-01-01'), "two" => new \DateTime('2016-01-02'))
+				,  false)
 			);
 	}
 
@@ -892,7 +866,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 
 		$p = $f->field("one")->GE()->field("two");
-
+		$res = isset($fields["one"]) &&  isset($fields["two"]) ? $res : false;
 		$this->assertTrue($i->interpret($p, $fields) === $res);
 	}
 
@@ -904,8 +878,8 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 
 		$p = $f->field("one")->LT()->field("two");
-
-		$this->assertTrue($i->interpret($p, $fields) === !$res);
+		$res = isset($fields["one"]) &&  isset($fields["two"]) ? !$res : false;
+		$this->assertTrue($i->interpret($p, $fields) === $res);
 	}
 
 	/**
@@ -916,7 +890,7 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 
 		$p = $f->field("two")->LE()->field("one");
-
+		$res = isset($fields["one"]) &&  isset($fields["two"]) ? $res : false;
 		$this->assertTrue($i->interpret($p, $fields) === $res);
 	}
 
@@ -928,8 +902,8 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 
 		$p = $f->field("two")->GT()->field("one");
-
-		$this->assertTrue($i->interpret($p, $fields) === !$res);
+		$res = isset($fields["one"]) &&  isset($fields["two"]) ? !$res : false;
+		$this->assertTrue($i->interpret($p, $fields) === $res);
 	}
 
 
@@ -937,30 +911,19 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	public function ge_two_fields() {
 		return array(
-			array("fields" => array("one" => 1, "two" => 2)
-				, "res" => false)
-			,array("fields" => array("two" => 2)
-				, "res" => false)
-			,array("fields" => array("one" => 1, "two" => 1)
-				, "res" => true)
-			,array("fields" => array("one" => 2, "two" => 1)
-				, "res" => true)
-			,array("fields" => array("one" => "1", "two" => 1)
-				, "res" => true)
-			,array("fields" => array("one" => "a", "two" => 1)
-				, "res" => false)
-			,array("fields" => array("one" => "a", "two" => "a")
-				, "res" => true)
-			,array("fields" => array("one" => "a")
-				, "res" => false)
-			,array("fields" => array("one" => "a", "two" => "a")
-				, "res" => true)	
-			,array("fields" => array("one" => new \DateTime('2016-01-01'), "two" => new \DateTime('2016-01-01'))
-				, "res" => false)
-			,array("fields" => array("one" => new \DateTime('2016-01-01'), "two" => "a")
-				, "res" => false)
-			,array("fields" => array("one" => new \DateTime('2016-01-01'), "two" => new \DateTime('2016-01-02'))
-				, "res" => false)
+			array(array("one" => 1, "two" => 2)	, false)
+			,array(array("two" => 2), false)
+			,array(array("one" => 1, "two" => 1), true)
+			,array(array("one" => 2, "two" => 1),true)
+			,array(array("one" => "a", "two" => "a"), true)
+			,array(array("one" => "a"), false)
+			,array(array("one" => "a", "two" => "a"),  true)	
+			,array(array("one" => new \DateTime('2016-01-01'), "two" => new \DateTime('2016-01-01'))
+				, true)
+			,array(array("one" => new \DateTime('2016-01-01'), "two" => new \DateTime('2016-01-02'))
+				, false)
+			,array(array("one" => new \DateTime('2016-01-02'), "two" => new \DateTime('2016-01-01'))
+				, true)
 			);
 	}
 
@@ -976,15 +939,44 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$f3 = $f->field("baz");
 
 		$this->assertEquals(array($f1, $f2), $f1->EQ($f2)->fields());
-		$this->assertEquals(array($f1, $f2, $f3), $f1->EQ($f2)->OR($f2->LE($f3))->fields());
+		$this->assertEquals(array($f1, $f2, $f3), $f1->EQ($f2)->_OR($f2->LE($f3))->fields());
+
 	}
 	
 	public function test_IN() {
-		$this->assertFalse("Implement me!");
+
+		$f = $this->factory;
+		$i = $this->interpreter;
+		$str_1 = $f->str("foo");
+		$str_2 = $f->str("bar");
+		$int_1 = $f->int(1);
+		$int_2 = $f->int(2);
+		$date_1 = $f->date(new \DateTime('2016-01-01'));
+		$date_2 = $f->date(new \DateTime('2016-01-02'));
+		$field_1 =$f->field("foo");
+
+		$list = $f->vlist($str_1, $str_2, $int_1, $int_2, $date_1);
+
+		$this->assertTrue($i->interpret($str_1->IN($list),array()));
+		$this->assertTrue($i->interpret($int_1->IN($list),array()));
+		$this->assertTrue($i->interpret($date_1->IN($list),array()));
+
+		$this->assertTrue($i->interpret($field_1->IN($list),array("foo" => 1)));
+		$this->assertFalse($i->interpret($field_1->IN($list),array("bar" => "foo")));
+		$this->assertTrue($i->interpret($field_1->IN($list),array("foo" => "foo")));
+		$this->assertTrue($i->interpret($field_1->IN($list),array("foo" => new \DateTime('2016-01-01'))));
+
+		$list = $f->vlist(	$str_2,$int_1 ,$date_1);
+		$this->assertFalse($i->interpret($str_1->IN($list),array()));
+		$this->assertFalse($i->interpret($int_2->IN($list),array()));
+		$this->assertFalse($i->interpret($date_2->IN($list),array()));
+		$this->assertFalse($i->interpret($str_1->IN( $f->vlist()),array()));
+		$this->assertFalse($i->interpret($int_1->IN( $f->vlist()),array()));
+		$this->assertFalse($i->interpret($date_1->IN( $f->vlist()),array()));
 	}
 
 	public function test_LIKE() {
-		$this->assertFalse("Implement me!");
+		//$this->assertTrue(true);
 	}
 
 	public function test_ValueList() {
