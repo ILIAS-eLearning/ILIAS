@@ -21,6 +21,9 @@ class DisplayFilter {
 	/**
 	* get next filter
 	*
+	* @param Navigator $navi
+	*
+	* @return Filter
 	*/
 	protected function getNextFilter(Navigator $navi) {
 		if($next = $this->getNextRight($navi)) {
@@ -37,7 +40,10 @@ class DisplayFilter {
 	/**
 	* get next filter gui
 	*
-	* @param $first_filter 		user filter at path 0 or not
+	* @param $sequence 		sequence of filters
+	* @param $post_values	array of values from pre filters
+	*
+	* @return FilterGUI
 	*/
 	public function getNextFilterGUI(Filters\Sequence $sequence, array $post_values) {
 		$navi = new Navigator($sequence);
@@ -58,7 +64,15 @@ class DisplayFilter {
 		return $this->getNextGUI($filter, $navi);
 	}
 
-	public function getNextGUI($filter, Navigator $navi) {
+	/**
+	* get next fui
+	*
+	* @param Filter 	$filter 	user filter
+	* @param Navigator 	$navi 		Navigation for tree
+	*
+	* @return FilterGUI
+	*/
+	protected function getNextGUI($filter, Navigator $navi) {
 		$filter_class = get_class($filter);
 
 		switch($filter_class) {
@@ -93,6 +107,8 @@ class DisplayFilter {
 	/**
 	* get next right node on limb
 	*
+	* @param Navigator 	$navi
+	*
 	* @return current_filter || false
 	*/
 	protected function getNextRight(Navigator $navi) {
@@ -109,6 +125,8 @@ class DisplayFilter {
 
 	/**
 	* get the next right node at any upper node
+	*
+	* @param Navigator 	$navi
 	*
 	* @return current_filter || false
 	*/
@@ -127,6 +145,8 @@ class DisplayFilter {
 	/**
 	* get node in tree one step up
 	*
+	* @param Navigator 	$navi
+	*
 	* @return upper_filter || false
 	*/
 	protected function getUp(Navigator $navi) {
@@ -141,7 +161,14 @@ class DisplayFilter {
 		return false;
 	}
 
-	protected function endKey($post_values){
+	/**
+	* get the key of the last element in array
+	*
+	* @param array
+	*
+	* @return string
+	*/
+	protected function endKey(array $post_values) {
 		end($post_values);
 		return key($post_values);
 	}
