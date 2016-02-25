@@ -14,34 +14,34 @@ class DisplayFilter {
 	protected $parent;
 	protected $post_values;
 
-	public function __construct(Filters\Sequence $sequence, $parent, array $post_values = array(), $position = "0") {
-		assert(is_string($position));
+	public function __construct(Filters\Sequence $sequence, $parent, array $post_values = array(), $path = "0") {
+		assert(is_string($path));
 
 		$this->sequence = $sequence;
 		$this->parent = $parent;
 		$this->post_values = (!empty($post_values)) ? unserialize($post_values) : $post_values;
-		$this->position = $position;
+		$this->path = $path;
 
-		$this->navi = (new Navigator($this->sequence))->go_to($position);
+		$this->navi = (new Navigator($this->sequence))->go_to($path);
 	}
 
 	/**
 	* saves data from current FilterGUI into $post_array
 	*/
 	public function saveFilter() {
-		$this->post_values[$this->navi->path()] = "Hallo";
+		$this->post_values[$this->navi->path()] = $_POST[$this->path];
 		return $this->getNextFilterGUI(false);
 	}
 
 	/**
 	* render next filter gui
 	*
-	* @param $first_filter 		user filter at position 0 or not
+	* @param $first_filter 		user filter at path 0 or not
 	*/
 	public function getNextFilterGUI($first_filter = true) {
 		if($first_filter) {
 			$this->navi->go_to("0");
-			$this->position = "0";
+			$this->path = "0";
 			return $this->filterGUI($this->navi->current());
 		}
 
