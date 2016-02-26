@@ -60,7 +60,7 @@ class catDisplayFilterBaseGUI {
 			/*->map(function($t21, $a22, $b23, $dt241, $dt242) {
 				return " Stefan";
 			}, $this->factory->type_factory()->string());*/
-
+		
 		return $this->factory->sequence($f1, $fs2, $f2, $f3, $f4, $f5, $f6);
 			/*->map(function($t1, $s2, $a2, $b3, $dt41, $dt42, $s5, $t6) {
 				return "Hello ".$s2;
@@ -95,7 +95,8 @@ class catDisplayFilterBaseGUI {
 		} else {
 			$post_values = $this->cleanPostValues($post_values);
 			$filter_values = $this->buildFilterValues($fs, $post_values);
-			$fs->content($filter_values);
+
+			call_user_func_array($fs->content, $filter_values);
 
 			$this->buildReport($fs);
 		}
@@ -158,6 +159,6 @@ class catDisplayFilterBaseGUI {
 	}
 
 	protected function buildReport(\CaT\Filter\Filters\Sequence $sequence) {
-		
+		echo "So nun darf gearbeitet werden!";
 	}
 }

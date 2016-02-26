@@ -28,31 +28,31 @@ class catFilterOneOfGUI {
 			switch($filter_class) {
 				case "CaT\Filter\Filters\DatePeriod":
 					require_once("Services/Form/classes/class.ilDateDurationInputGUI.php");
-					$duration = new ilDateDurationInputGUI("", "filter[$this->path][date]");
+					$duration = new ilDateDurationInputGUI("", "filter[$this->path][".$key."]");
 					$duration->setShowDate(true);
 					$duration->setShowTime(false);
 					$option->addSubItem($duration);
-					$option->setValue("date");
+					$option->setValue($key);
 					break;
 				case "CaT\Filter\Filters\Multiselect":
 					require_once("Services/Form/classes/class.ilMultiSelectInputGUI.php");
-					$multi_select = new ilMultiSelectInputGUI("", "filter[$this->path][multi]");
+					$multi_select = new ilMultiSelectInputGUI("", "filter[$this->path][".$key."]");
 					$multi_select->setOptions($sub_filter->options());
 					$option->addSubItem($multi_select);
-					$option->setValue("mulit");
+					$option->setValue($key);
 					break;
 				case "CaT\Filter\Filters\Option":
 					require_once("Services/Form/classes/class.ilSelectInputGUI.php");
-					$select = new ilSelectInputGUI("", "filter[$this->path][select]");
+					$select = new ilSelectInputGUI("", "filter[$this->path][".$key."]");
 					$select->setOptions(array("1"=>"Ja","0"=>"Nein"));
 					$option->addSubItem($select);
-					$option->setValue("select");
+					$option->setValue($key);
 					break;
 				case "CaT\Filter\Filters\Text":
 					require_once("Services/Form/classes/class.ilTextInputGUI.php");
-					$input = new ilTextInputGUI("", "filter[$this->path][text]");
+					$input = new ilTextInputGUI("", "filter[$this->path][".$key."]");
 					$option->addSubItem($input);
-					$option->setValue("text");
+					$option->setValue($key);
 					break;
 				default:
 					throw new \Exception("Filter class not known");
