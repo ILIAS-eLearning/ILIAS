@@ -1122,7 +1122,7 @@ class recursiveOrguFilter {
 	* @return a sql string which reflects the filter selection
 	*/
 	public function deliverQuery() {
-		if(count($this->filter_options)) {
+		if(count($this->filter_options) > 0) {
 			$orgus = $this->possibly_recursive ? $this->getSelectionAndRecursive() : $this->getSelection();
 			if(count($orgus) > 0) {
 				return $this->gIldb->in($this->field, $orgus, false, 'integer');
