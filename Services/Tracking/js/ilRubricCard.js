@@ -122,6 +122,15 @@ var RUBRIC = {
             var inputs=tr.getElementsByTagName('input');
             for(var a=0;a<inputs.length;a++){
                 if(inputs[a]!=input&&inputs[a].value!=''){
+                    //reset the css of all inputs
+                    var div=inputs[a].parentNode;
+                    div.classList.remove('has-warning');
+                    div.classList.remove('has-error');
+                    div.classList.add('has-success');
+                    var span=inputs[a].parentNode.children[2];
+                    span.setAttribute('class','glyphicon glyphicon-ok form-control-feedback');                   
+                    
+                    //perform the comparison
                     var tmp_range=this.getSingleRange(inputs[a].value);
                     if(current_range['low']>=tmp_range['low']&&current_range['low']<=tmp_range['high']){
                         var div=input.parentNode;
