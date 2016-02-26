@@ -3766,17 +3766,19 @@ var apiIndents = // for mapping internal to api representaiton
 function updateNav(ignore) {
 
 	function signActNode() {
-		if(elm && activities[tree[i].mActivityID].href && guiItemId == elm.id) {
-			removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);
-			removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);
-			removeClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);
-			removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);
-			removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);
-			toggleClass(elm, "ilc_rte_tlink_RTETreeCurrent",1);
-			toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);
-		} else {
-			removeClass(elm, "ilc_rte_tlink_RTETreeCurrent");
-			removeClass(elm.parentNode, "ilc_rte_status_RTERunning");
+		if (elm) {
+			if(activities[tree[i].mActivityID].href && guiItemId == elm.id) {
+				removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);
+				removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);
+				removeClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);
+				removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);
+				removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);
+				toggleClass(elm, "ilc_rte_tlink_RTETreeCurrent",1);
+				toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);
+			} else {
+				removeClass(elm, "ilc_rte_tlink_RTETreeCurrent");
+				removeClass(elm.parentNode, "ilc_rte_status_RTERunning");
+			}
 		}
 	}
 
