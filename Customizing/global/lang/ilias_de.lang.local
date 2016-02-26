@@ -731,7 +731,7 @@ gev#:#gev_venue#:#Veranstaltungsort
 gev#:#gev_waiting#:#gebucht auf Warteliste
 gev#:#gev_was_booked_employee#:#Ihr Mitarbeiter / Vertriebspartner %s wurde erfolgreich auf das Training "%s" gebucht.
 gev#:#gev_was_booked_self#:#Das Training "%s" wurde erfolgreich für Sie gebucht. Sie erhalten eine Bestätigungsmail.
-gev#:#gev_was_booked_self_no_confirmation#:#Das Training "%s" wurde erfolgreich für Sie gebucht. Sie erhalten eine Bestätigungsmail.
+gev#:#gev_was_booked_self_no_confirmation#:#Das Training "%s" wurde erfolgreich für Sie gebucht.
 gev#:#gev_was_booked_waiting_employee#:#Ihr Mitarbeiter / Vertriebspartner %s wurde erfolgreich beim Training "%s" auf die Warteliste hinzugefügt.
 gev#:#gev_was_booked_waiting_self#:#Sie wurden beim Training "%s" erfolgreich auf die Warteliste hinzugefügt.
 gev#:#gev_wbd_notifications#:#Benachrichtigungen der WBD
