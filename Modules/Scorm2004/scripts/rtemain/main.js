@@ -1004,34 +1004,36 @@ UIEvent.prototype.stop = function () {
 /* User Interface Methods (DOM, Events, CSS, crossbrowser) */
 
 
-function attachUIEvent (obj, name, func) 
-{
-	if (window.Event) 
-	{
-		obj.addEventListener(name, func, false);
-	} 
-	else if (obj.attachEvent) 
-	{
-		obj.attachEvent('on'+name, func);
-	} 
-	else 
-	{
+function attachUIEvent (obj, name, func) {
+	if (window.Event) {
+		if (obj.addEventListener) {
+			obj.addEventListener(name, func, false);
+		}
+		else if (obj.attachEvent) {
+			obj.attachEvent('on'+name, func);
+		}
+		else {
+			obj.addEventListener(name, func, false);
+		}
+	}
+	else {
 		obj[name] = func;
 	}
 }
 	
-function detachUIEvent(obj, name, func) 
-{
-	if (window.Event) 
-	{
-		obj.removeEventListener(name, func, false);
-	} 
-	else if (obj.attachEvent) 
-	{
-		obj.detachEvent('on'+name, func);
-	} 
-	else 
-	{
+function detachUIEvent(obj, name, func) {
+	if (window.Event) {
+		if (obj.removeEventListener) {
+			obj.removeEventListener(name, func, false);
+		}
+		else if (obj.attachEvent) {
+			obj.detachEvent('on'+name, func);
+		}
+		else {
+			obj.removeEventListener(name, func, false);
+		}
+	}
+	else {
 		obj[name] = '';
 	}
 }
