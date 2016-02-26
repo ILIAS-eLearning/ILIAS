@@ -1004,23 +1004,19 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array("one","two","three"), $vals);
 
 		try {
-			$e = 0;
 			$ls = $this->factory->list_int(1,"one");
+			$this->assertFalse("should have thrown Exception");
 		}
 		catch (\InvalidArgumentException $ex) {
-			$e = 1;
 		}
-
-		$this->assertTrue($e === 1);
 
 		try {
-			$e = 0;
 			$ls = $this->factory->list_str(1,"one");
+			$this->assertFalse("should have thrown Exception");
 		}
 		catch (\InvalidArgumentException $ex) {
-			$e = 1;
 		}
-		$this->assertTrue($e === 1);
+
 	}
 
 }
