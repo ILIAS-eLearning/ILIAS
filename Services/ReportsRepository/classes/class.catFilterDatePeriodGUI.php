@@ -1,7 +1,8 @@
 <?php
 require_once("Services/Form/classes/class.ilDateDurationInputGUI.php");
+require_once("Services/ReportsRepository/classes/class.catFilterGUI.php");
 
-class catFilterDatePeriodGUI {
+class catFilterDatePeriodGUI extends catFilterGUI {
 	protected $filter;
 	protected $path;
 

@@ -1,8 +1,9 @@
 <?php
 require_once("Services/Form/classes/class.ilRadioGroupInputGUI.php");
 require_once("Services/Form/classes/class.ilRadioOption.php");
+require_once("Services/ReportsRepository/classes/class.catFilterGUI.php");
 
-class catFilterOneOfGUI {
+class catFilterOneOfGUI extends catFilterGUI {
 	protected $filter;
 	protected $path;
 

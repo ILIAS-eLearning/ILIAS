@@ -2,8 +2,9 @@
 require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 require_once("Services/Form/classes/class.ilSelectInputGUI.php");
 require_once("Services/Form/classes/class.ilHiddenInputGUI.php");
+require_once("Services/ReportsRepository/classes/class.catFilterGUI.php");
 
-class catFilterOptionGUI {
+class catFilterOptionGUI extends catFilterGUI {
 	protected $filter;
 	protected $path;
 

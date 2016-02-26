@@ -1,7 +1,8 @@
 <?php
 require_once("Services/Form/classes/class.ilMultiSelectInputGUI.php");
+require_once("Services/ReportsRepository/classes/class.catFilterGUI.php");
 
-class catFilterMultiselectGUI {
+class catFilterMultiselectGUI extends catFilterGUI {
 	protected $filter;
 	protected $path;
 

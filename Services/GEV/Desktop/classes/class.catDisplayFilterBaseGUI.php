@@ -35,7 +35,6 @@ class catDisplayFilterBaseGUI {
 	}
 
 	protected function buildFilter() {
-
 		$f1 = $this->factory->text("l1", "d1");
 		$f2 = $this->factory->multiselect("l2", "d2", array("a"=>"A","b"=>"B","c"=>"C"));
 		$f3 = $this->factory->option("l3", "d3");
@@ -60,7 +59,7 @@ class catDisplayFilterBaseGUI {
 			/*->map(function($t21, $a22, $b23, $dt241, $dt242) {
 				return " Stefan";
 			}, $this->factory->type_factory()->string());*/
-		
+
 		return $this->factory->sequence($f1, $fs2, $f2, $f3, $f4, $f5, $f6);
 			/*->map(function($t1, $s2, $a2, $b3, $dt41, $dt42, $s5, $t6) {
 				return "Hello ".$s2;
@@ -79,23 +78,15 @@ class catDisplayFilterBaseGUI {
 			$form->setFormAction($this->gCtrl->getFormAction($this));
 			$form->addCommandButton("saveFilter","Weiter");
 
-			foreach ($post_values as $key => $value) {
-				$hidden = new ilHiddenInputGUI("filter[$key]");
-				if(is_array($value)) {
-					$hidden->setValue(serialize($value));
-				} else {
-					$hidden->setValue($value);
-				}
-				
-				$form->addItem($hidden);
-			}
-
 			$gui->fillForm($form);
+			$gui->addHiddenInputs($form, $post_values);
+
 			echo $form->getHTML();
 		} else {
 			$post_values = $this->cleanPostValues($post_values);
 			$filter_values = $this->buildFilterValues($fs, $post_values);
 
+			//Muss so aufgerufen werden. Sonst funktioniert das Mapping nicht!!!
 			call_user_func_array($fs->content, $filter_values);
 
 			$this->buildReport($fs);

@@ -1,7 +1,8 @@
 <?php
 require_once("Services/Form/classes/class.ilTextInputGUI.php");
+require_once("Services/ReportsRepository/classes/class.catFilterGUI.php");
 
-class catFilterTextGUI {
+class catFilterTextGUI extends catFilterGUI {
 	protected $filter;
 	protected $path;
 
