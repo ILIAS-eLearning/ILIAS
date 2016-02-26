@@ -15,7 +15,7 @@ class catFilterMultiselectGUI {
 	}
 
 	public function fillForm(ilPropertyFormGUI $form) {
-		$multi_select = new ilMultiSelectInputGUI($this->filter->label(), $this->path);
+		$multi_select = new ilMultiSelectInputGUI($this->filter->label(), "filter[$this->path]");
 		$multi_select->setInfo($this->filter->description());
 		$multi_select->setOptions($this->filter->options());
 		$form->addItem($multi_select);

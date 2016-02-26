@@ -22,6 +22,8 @@
 */
 
 include_once("./Services/Form/classes/class.ilRadioOption.php");
+include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
 
 /**
 * This class represents a property in a property form.

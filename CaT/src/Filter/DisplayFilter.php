@@ -52,7 +52,7 @@ class DisplayFilter {
 			$navi->go_to("0");
 			$filter = $navi->current();
 		} else {
-			$last_path = $this->endKey($post_values);
+			$last_path = $this->firstKey($post_values);
 			$navi->go_to($last_path);
 			$filter = $this->getNextFilter($navi);
 		}
@@ -162,14 +162,13 @@ class DisplayFilter {
 	}
 
 	/**
-	* get the key of the last element in array
+	* get the key of the first element in array
 	*
 	* @param array
 	*
 	* @return string
 	*/
-	protected function endKey(array $post_values) {
-		end($post_values);
+	protected function firstKey(array $post_values) {
 		return key($post_values);
 	}
 }

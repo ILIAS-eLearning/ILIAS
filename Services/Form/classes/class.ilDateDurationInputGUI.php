@@ -2,7 +2,8 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Table/interfaces/interface.ilTableFilterItem.php';
-
+require_once("Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+require_once("Services/Form/interfaces/interface.ilMultiValuesItem.php");
 /**
 * input GUI for a time span (start and end date)
 *

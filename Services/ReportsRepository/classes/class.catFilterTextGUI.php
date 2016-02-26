@@ -15,7 +15,7 @@ class catFilterTextGUI {
 	}
 
 	public function fillForm(ilPropertyFormGUI $form) {
-		$input = new ilTextInputGUI($this->filter->label(), $this->path);
+		$input = new ilTextInputGUI($this->filter->label(), "filter[$this->path]");
 		$input->setInfo($this->filter->description());
 		$form->addItem($input);
 

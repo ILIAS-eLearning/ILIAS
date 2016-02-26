@@ -15,7 +15,7 @@ class catFilterDatePeriodGUI {
 	}
 
 	public function fillForm(ilPropertyFormGUI $form) {
-		$duration = new ilDateDurationInputGUI($this->filter->label(), $this->path);
+		$duration = new ilDateDurationInputGUI($this->filter->label(), "filter[$this->path]");
 		$duration->setInfo($this->filter->description());
 		$duration->setShowDate(true);
 		$duration->setShowTime(false);
