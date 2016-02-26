@@ -4924,6 +4924,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}			
 			
 			$this->ass->getTeamId($ilUser->getId(), true);		
+			
+			// #18046
+			if (!$this->object->members_obj->isAssigned($ilUser->getId()))
+			{
+				$this->object->members_obj->assignMember($ilUser->getId());
+			}
+			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);	
 		}
 		
