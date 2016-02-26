@@ -87,6 +87,9 @@ class DisplayFilter {
 			case "CaT\Filter\Filters\Multiselect":
 				return $this->gui_factory->multiselect_gui($filter, $navi->path());
 				break;
+			case "CaT\Filter\Filters\Singleselect":
+				return $this->gui_factory->singleselect_gui($filter, $navi->path());
+				break;
 			case "CaT\Filter\Filters\Option":
 				return $this->gui_factory->option_gui($filter, $navi->path());
 				break;

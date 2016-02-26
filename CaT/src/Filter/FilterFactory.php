@@ -69,6 +69,19 @@ class FilterFactory {
 	}
 
 	/**
+	 * Get a filter that represents a choice of some options from a list
+	 * of possible options.
+	 *
+	 * @param	string	$label
+	 * @param	string	$description
+	 * @param	array	$options		int|string => string
+	 * @return	Filters\Filter
+	 */
+	public function singleselect($label, $description, $options) {
+		return new Filters\Singleselect($this, $label, $description, $options);
+	}
+
+	/**
 	 * Get a filter that uses some text for filtering.
 	 *
 	 * @param	string	$label

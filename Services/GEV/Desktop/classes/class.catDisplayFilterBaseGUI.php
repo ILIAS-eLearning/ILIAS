@@ -62,9 +62,10 @@ class catDisplayFilterBaseGUI {
 					return "choice: $choice";
 				}, $this->factory->type_factory()->string())
 			, $f->text("l6", "d6")
+			, $f->singleselect("l22", "d22", array("Bernd"=>"A","Karsten"=>"B","Peter"=>"C"))
 			)
-			->map(function($t1, $s2, $a2, $b3, $dt41, $dt42, $s5, $t6) {
-				return "Hello ".$s2." ($s5)";
+			->map(function($t1, $s2, $a2, $b3, $dt41, $dt42, $s5, $t6, $s7) {
+				return "Hello ".$s2." ($s7)";
 			}, $this->factory->type_factory()->string());
 
 	}
@@ -139,6 +140,7 @@ class catDisplayFilterBaseGUI {
 					break;
 				case "CaT\Filter\Filters\Text":
 				case "CaT\Filter\Filters\Multiselect":
+				case "CaT\Filter\Filters\Singleselect":
 					array_push($ret, $value);
 					break;
 				case "CaT\Filter\Filters\Option":
