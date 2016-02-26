@@ -5004,3 +5004,8 @@ ilCustomInstaller::initPluginEnv();
 ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "Repository", "robj", "BuildingBlockPool");
 
 ?>
+
+<#210>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
