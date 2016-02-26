@@ -181,14 +181,12 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
     {
         if($locatorArray[$locator] == true)
         {
-            error_log('in the true baby');
             $tmp_write.="<td class=\"range-flag\" scope=\"rowgroup\">
                         ${behavior['description']}
                     </td>";
         }
         else
         {
-            error_log('in the false baby');
             $tmp_write.="<td scope=\"rowgroup\">
                         ${behavior['description']}
                     </td>";
