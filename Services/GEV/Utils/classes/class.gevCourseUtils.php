@@ -1950,19 +1950,20 @@ class gevCourseUtils {
 			$loc = $loc->getTitle();
 		}
 		$street = $this->getVenueStreet();
+		$no = $this->getVenueHouseNumber();
 		$zip = $this->getVenueZipcode();
 		$city = $this->getVenueCity();
 		if($loc) {
 			if($street) {
-				$loc.= "\n".$street;
+				$loc.= ", \n".$street." ".$no;
 			}
 			if($zip) {
-				$loc .= "\n".$zip;
+				$loc .= ", \n".$zip;
 				if($city) {
 					$loc .= " ".$city;
 				}
 			} else if($city) {
-					$loc .= "\n".$city;
+					$loc .= ", \n".$city;
 			}
 
 		} else {
