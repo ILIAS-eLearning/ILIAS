@@ -4,16 +4,12 @@
 
 namespace CaT\Filter;
 
-/**
-* Decides which kind of Filter should be displayed and initialize GUI
-*/
 class Navigator {
 
 	protected $tree;
 
 	public function __construct($tree) {
 		$this->tree = $tree;
-		$this->path = array("0");
 	}
 
 	public function tree() {
@@ -24,15 +20,17 @@ class Navigator {
 		$path = $this->path;
 
 		$left_path = (int)$path[count($path) - 1] - 1;
-		$path[count($path) - 1] = $left_path;
 
-		$left = $this->getItemByPath($path, $this->tree);
-
-		if($left === null) {
+		if($left_path < 0) {
 			throw new \OutOfBoundsException("No left neighbor");
 		}
 
+		$path[count($path) - 1] = $left_path;
+		$left = $this->getItemByPath($path, $this->tree);
+
 		$this->path = $path;
+
+		return $this;
 	}
 
 	public function right() {
@@ -43,21 +41,25 @@ class Navigator {
 
 		$right = $this->getItemByPath($path, $this->tree);
 
-		if($right === null) {
+		if(!$right) {
 			throw new \OutOfBoundsException("No right neighbor");
 		}
 
 		$this->path = $path;
+
+		return $this;
 	}
 
 	public function enter() {
 		$current = $this->current();
 
-		if(!($current instanceof Filters\FilterList)) {
+		if(!($current instanceof Filters\Sequence)) {
 			throw new \OutOfBoundsException("Not possible to enter node");
 		}
 
 		$this->path[] = "0";
+
+		return $this;
 	}
 
 	public function up() {
@@ -69,18 +71,21 @@ class Navigator {
 		unset($path[count($path)-1]);
 
 		$this->path = $path;
+
+		return $this;
 	}
 
-	public function select($path) {
+	public function go_to($path) {
 		$path = explode(":",$path);
 		$tmp = $this->getItemByPath($path, $this->tree);
 
-		if($tmp === null) {
+		if(!$tmp) {
 			throw new \OutOfBoundsException("Not possible to select node ".$path);
 		}
 
 		$this->path = $path;
-		return $tmp;
+
+		return $this;
 	}
 
 	public function current() {
@@ -89,7 +94,13 @@ class Navigator {
 
 	protected function getItemByPath($path, $tmp) {
 		foreach ($path as $value) {
-			$tmp = $tmp->subs()[$value];
+			$tmp = $tmp->subs();
+
+			if(!array_key_exists($value, $tmp)) {
+				return false;
+			}
+
+			$tmp = $tmp[$value];
 		}
 
 		return $tmp;
