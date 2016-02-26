@@ -14,10 +14,9 @@ class catDisplayFilterBaseGUI {
 	protected $gTpl;
 
 	public function __construct() {
-		global $ilCtrl, $tpl;
+		global $ilCtrl;
 
 		$this->gCtrl = $ilCtrl;
-		$this->gTpl = $tpl;
 		$this->factory = new \CaT\Filter\FilterFactory(new \CaT\Filter\PredicateFactory(), new \CaT\Filter\TypeFactory());
 	}
 
@@ -64,7 +63,7 @@ class catDisplayFilterBaseGUI {
 			require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 			require_once("Services/Form/classes/class.ilHiddenInputGUI.php");
 			$form = new ilPropertyFormGUI();
-			$form->setTitle("Mööp");
+			$form->setTitle("Filter GUI Test");
 			$form->setFormAction($this->gCtrl->getFormAction($this));
 			$form->addCommandButton("saveFilter","Weiter");
 
@@ -80,8 +79,7 @@ class catDisplayFilterBaseGUI {
 			}
 
 			$gui->fillForm($form);
-			$this->gTpl->setContent($form->getHTML());
-			$this->gTpl->show();
+			echo $form->getHTML();
 		} else {
 			$post_values = $this->cleanPostValues($post_values);
 			$this->buildReport($post_values);
