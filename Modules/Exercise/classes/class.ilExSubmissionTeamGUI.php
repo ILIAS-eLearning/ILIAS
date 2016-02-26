@@ -481,7 +481,14 @@ class ilExSubmissionTeamGUI
 				return;
 			}			
 			
-			ilExAssignmentTeam::getTeamId($this->assignment->getId(), $ilUser->getId(), true);				
+			ilExAssignmentTeam::getTeamId($this->assignment->getId(), $ilUser->getId(), true);		
+			
+			// #18046
+			if(!$this->exercise->members_obj->isAssigned($ilUser->getId()))
+			{
+				$this->exercise->members_obj->assignMember($ilUser->getId());
+			}
+			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);	
 		}
 		
