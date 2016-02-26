@@ -12,81 +12,102 @@ class DisplayFilter {
 
 	protected $sequence;
 	protected $parent;
-	protected $post_values;
+	protected $gui_factory;
 
-	public function __construct(Filters\Sequence $sequence, $parent, array $post_values = array(), $path = "0") {
-		assert(is_string($path));
-
-		$this->sequence = $sequence;
-		$this->parent = $parent;
-		$this->post_values = (!empty($post_values)) ? unserialize($post_values) : $post_values;
-		$this->path = $path;
-
-		$this->navi = (new Navigator($this->sequence))->go_to($path);
+	public function __construct(FilterGUIFactory $gui_factory) {
+		$this->gui_factory = $gui_factory;
 	}
 
 	/**
-	* saves data from current FilterGUI into $post_array
-	*/
-	public function saveFilter() {
-		$current_class = get_class($this->navi->current());
-
-		if(!array_key_exists($this->path, $_POST)) {
-			throw new \Exception("No PostValue for key ".$this->path);
-		}
-
-		if($current_class == "CaT\Filter\Filters\DatePeriod") {
-			$this->post_values[$this->navi->path()] = array($_POST["o".$this->path], $_POST[$this->path]);
-		} else {
-			$this->post_values[$this->navi->path()] = $_POST[$this->path];
-		}
-	}
-
-	/**
-	* render next filter gui
+	* get next filter
 	*
-	* @param $first_filter 		user filter at path 0 or not
+	* @param Navigator $navi
+	*
+	* @return Filter
 	*/
-	public function getNextFilterGUI($first_filter = true) {
-		if($first_filter) {
-			$this->navi->go_to("0");
-			$this->path = "0";
-			return $this->filterGUI($this->navi->current());
+	public function getNextFilter(Navigator $navi) {
+		if($navi->path() === null) {
+			$navi->go_to("0");
+			return $navi->current();
 		}
 
-		if($next = $this->getNextRight()) {
-			return $this->filterGUI($next);
+		if($next = $this->getNextRight($navi)) {
+			return $next;
 		} else {
-			if($next = $this->getNextUpRight()) {
-				return $this->filterGUI($next);
+			if($next = $this->getNextUpRight($navi)) {
+				return $next;
 			}
 		}
 
 		return false;
 	}
 
-	protected function filterGUI($filter) {
+	/**
+	* get next filter gui
+	*
+	* @param $sequence 		sequence of filters
+	* @param $post_values	array of values from pre filters
+	*
+	* @return FilterGUI
+	*/
+	public function getNextFilterGUI(Filters\Sequence $sequence, array $post_values) {
+		$navi = new Navigator($sequence);
+
+		if(empty($post_values)) {
+			$navi->go_to("0");
+			$filter = $navi->current();
+		} else {
+			$last_path = $this->firstKey($post_values);
+			$navi->go_to($last_path);
+			$filter = $this->getNextFilter($navi);
+		}
+		
+		if(!$filter) {
+			return false;
+		}
+
+		return $this->getNextGUI($filter, $navi);
+	}
+
+	/**
+	* get next fui
+	*
+	* @param Filter 	$filter 	user filter
+	* @param Navigator 	$navi 		Navigation for tree
+	*
+	* @return FilterGUI
+	*/
+	protected function getNextGUI($filter, Navigator $navi) {
 		$filter_class = get_class($filter);
 
 		switch($filter_class) {
 			case "CaT\Filter\Filters\DatePeriod":
-				return $this->getDatePeriod($filter);
+				return $this->gui_factory->dateperiod_gui($filter, $navi->path());
 				break;
 			case "CaT\Filter\Filters\Multiselect":
-				return $this->getMultiselect($filter);
+				return $this->gui_factory->multiselect_gui($filter, $navi->path());
+				break;
+			case "CaT\Filter\Filters\Singleselect":
+				return $this->gui_factory->singleselect_gui($filter, $navi->path());
 				break;
 			case "CaT\Filter\Filters\Option":
-				return $this->getOption($filter);
+				return $this->gui_factory->option_gui($filter, $navi->path());
 				break;
 			case "CaT\Filter\Filters\Text":
-				return $this->getText($filter);
+				return $this->gui_factory->text_gui($filter, $navi->path());
 				break;
 			case "CaT\Filter\Filters\Sequence":
-				$this->navi->enter();
-				return $this->filterGUI($this->navi->current());
+				try {
+					$navi->enter();
+					return $this->getNextGUI($navi->current(), $navi);
+				} catch (\OutOfBoundsException $e) {
+					echo "sdsd";
+					die();
+					return false;
+				}
 				break;
 			case "CaT\Filter\Filters\OneOf":
-				return $this->getOneOf($filter);
+				return $this->gui_factory->one_of_gui($filter, $navi->path());
 				break;
 			default:
 				throw new \Exception("Filter class not known");
@@ -96,12 +117,14 @@ class DisplayFilter {
 	/**
 	* get next right node on limb
 	*
+	* @param Navigator 	$navi
+	*
 	* @return current_filter || false
 	*/
-	protected function getNextRight() {
+	protected function getNextRight(Navigator $navi) {
 		try{
-			$this->navi->right();
-			return $this->navi->current();
+			$navi->right();
+			return $navi->current();
 		} catch (\OutOfBoundsException $e) {
 			//end of limb
 			return false;
@@ -113,27 +136,33 @@ class DisplayFilter {
 	/**
 	* get the next right node at any upper node
 	*
+	* @param Navigator 	$navi
+	*
 	* @return current_filter || false
 	*/
-	protected function getNextUpRight() {
-		while($this->getUp()) {
-			$tmp = $this->getNextRight(); 
+	protected function getNextUpRight(Navigator $navi) {
+		while($this->getUp($navi)) {
+			$tmp = $this->getNextRight($navi); 
 
 			if($tmp) {
 				return $tmp;
 			}
 		}
+
+		return false;
 	}
 
 	/**
 	* get node in tree one step up
 	*
+	* @param Navigator 	$navi
+	*
 	* @return upper_filter || false
 	*/
-	protected function getUp() {
+	protected function getUp(Navigator $navi) {
 		try {
-			$this->navi->up();
-			return $this->navi->current();
+			$navi->up();
+			return $navi->current();
 		} catch (\OutOfBoundsException $e) {
 			//top of tree reached
 			return false;
@@ -143,66 +172,13 @@ class DisplayFilter {
 	}
 
 	/**
-	* render the DatePeriod Filter
+	* get the key of the first element in array
 	*
-	* @param $filter 
-	*/
-	protected function getDatePeriod($filter) {
-		require_once ("Services/ReportsRepository/classes/class.catFilterDatePeriodGUI.php");
-		$gui = new \catFilterDatePeriodGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
-		return $gui;
-	}
-
-	/**
-	* render the Multiselect Filter
+	* @param array
 	*
-	* @param $filter 
+	* @return string
 	*/
-	protected function getMultiselect($filter) {
-		require_once ("Services/ReportsRepository/classes/class.catFilterMultiselectGUI.php");
-		$gui = new \catFilterMultiselectGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
-		return $gui;
-	}
-
-	/**
-	* render the Option Filter
-	*
-	* @param $filter 
-	*/
-	protected function getOption($filter) {
-		require_once ("Services/ReportsRepository/classes/class.catFilterOptionGUI.php");
-		$gui = new \catFilterOptionGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
-		return $gui;
-	}
-
-	/**
-	* render the Text Filter
-	*
-	* @param $filter 
-	*/
-	protected function getText($filter) {
-		require_once ("Services/ReportsRepository/classes/class.catFilterTextGUI.php");
-		$gui = new \catFilterTextGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
-		return $gui;
-	}
-
-	/**
-	* render the OneOf Filter
-	*
-	* @param $filter
-	*/
-	protected function getOneOf($filter) {
-		require_once ("Services/ReportsRepository/classes/class.catFilterOneOfGUI.php");
-		$gui = new \catFilterOneOfGUI($this->parent, $filter, $this->navi->path(), $this->post_values);
-		return $gui;
-	}
-
-	/**
-	* returns the post array within all input values
-	*
-	* @return array  	returns the post_values
-	*/
-	public function postValues() {
-		return $this->postValues;
+	protected function firstKey(array $post_values) {
+		return key($post_values);
 	}
 }

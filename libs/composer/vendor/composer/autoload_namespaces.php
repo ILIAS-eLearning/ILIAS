@@ -6,4 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Eluceo\\iCal' => array($vendorDir . '/eluceo/ical/src'),
 );

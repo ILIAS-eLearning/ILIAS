@@ -80,7 +80,7 @@ class Navigator {
 		$tmp = $this->getItemByPath($path, $this->tree);
 
 		if(!$tmp) {
-			throw new \OutOfBoundsException("Not possible to select node ".$path);
+			throw new \OutOfBoundsException("Not possible to select node ".$this->path());
 		}
 
 		$this->path = $path;

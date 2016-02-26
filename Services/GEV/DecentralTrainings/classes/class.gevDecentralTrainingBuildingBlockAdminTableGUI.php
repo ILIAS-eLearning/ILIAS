@@ -20,7 +20,7 @@ class gevDecentralTrainingBuildingBlockAdminTableGUI extends catTableGUI {
 	public function __construct($a_search_opts,$a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser;
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -43,10 +43,10 @@ class gevDecentralTrainingBuildingBlockAdminTableGUI extends catTableGUI {
 		$this->addColumn($this->lng->txt("gev_dec_building_block_content"),"content");
 		$this->addColumn($this->lng->txt("gev_dec_building_block_target"), 'target');
 		
-		$this->addColumn($this->lng->txt("gev_dec_training_training_category"), 'target');
-		$this->addColumn($this->lng->txt("gev_dec_training_gdv_topic"), 'target');
-		$this->addColumn($this->lng->txt("gev_dec_training_dbv_topic"), 'target');
-		$this->addColumn($this->lng->txt("gev_dec_training_topic"), 'target');
+		$this->addColumn($this->lng->txt("gev_dec_training_training_category"), 'training_categories');
+		$this->addColumn($this->lng->txt("gev_dec_training_gdv_topic"), 'gdv_topic');
+		$this->addColumn($this->lng->txt("gev_dec_training_dbv_topic"), 'dbv_topic');
+		$this->addColumn($this->lng->txt("gev_dec_training_topic"), 'topic');
 
 		$this->addColumn($this->lng->txt("gev_dec_building_block_is_wp_relevant"), "is_wp_relevant");
 		$this->addColumn($this->lng->txt("gev_dec_building_block_active"), "is_active");
@@ -62,9 +62,9 @@ class gevDecentralTrainingBuildingBlockAdminTableGUI extends catTableGUI {
 		$offset = $this->getOffset();
 		$limit = $this->getLimit();
 
-		$data = gevBuildingBlockUtils::getAllBuildingBlocks($a_search_opts,$order,$order_direction,$offset,$limit);
+		$data = gevBuildingBlockUtils::getAllBuildingBlocks($a_search_opts,$order,$order_direction,$offset,$limit,$ilUser->getId());
 
-		$this->setMaxCount(gevBuildingBlockUtils::countAllBuildingBlocks($a_search_opts));
+		$this->setMaxCount(gevBuildingBlockUtils::countAllBuildingBlocks($a_search_opts,$ilUser->getId()));
 		$this->setData($data);
 	}
 

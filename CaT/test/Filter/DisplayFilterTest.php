@@ -6,6 +6,7 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 	public function setUp() {
 		error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
 		$this->factory = new \CaT\Filter\FilterFactory(new \CaT\Filter\PredicateFactory(), new \CaT\Filter\TypeFactory());
+		$this->gui_factory = new \CaT\Filter\FilterGUIFactory();
 	}
 
 	public function test_display_filter() {
@@ -17,17 +18,17 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 		$fs = $this->factory->sequence($f1, $f2, $f3, $f4, $f5);
 
 		$classes = array("catFilterTextGUI", "catFilterMultiselectGUI","catFilterOptionGUI", "catFilterDatePeriodGUI", "catFilterOneOfGUI");
+		$path = array("0", "1","2", "3", "4");
+		$post_values = array();
 		$counter = 0;
-		$start_first_filter = true;
 
-		$df = new \CaT\Filter\DisplayFilter($fs, $this);
+		$df = new \CaT\Filter\DisplayFilter($this->gui_factory);
 
-		while($gui = $df->getNextFilterGUI($start_first_filter)) {
-			$start_first_filter = false;
-			try {
-				$df->saveFilter();
-			} catch( Exception $e) {}
+		while($gui = $df->getNextFilterGUI($fs, $post_values)) {
 			$this->assertInstanceOf($classes[$counter], $gui);
+			$this->assertEquals($path[$counter], $gui->path());
+
+			$post_values[$gui->path()] = "val";
 			$counter++;
 		}
 	}
@@ -50,17 +51,17 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 
 		$classes = array("catFilterTextGUI", "catFilterTextGUI", "catFilterMultiselectGUI", "catFilterOptionGUI"
 						, "catFilterDatePeriodGUI", "catFilterMultiselectGUI", "catFilterOptionGUI", "catFilterDatePeriodGUI", "catFilterOneOfGUI");
+		$path = array("0","1:0","1:1","1:2","1:3","2","3","4");
 		$counter = 0;
-		$start_first_filter = true;
+		$post_values = array();
 
-		$df = new \CaT\Filter\DisplayFilter($fs, $this);
+		$df = new \CaT\Filter\DisplayFilter($this->gui_factory);
 
-		while($gui = $df->getNextFilterGUI($start_first_filter)) {
-			$start_first_filter = false;
-			try {
-				$df->saveFilter();
-			} catch( Exception $e) {}
+		while($gui = $df->getNextFilterGUI($fs, $post_values)) {
 			$this->assertInstanceOf($classes[$counter], $gui);
+			$this->assertEquals($path[$counter], $gui->path());
+
+			$post_values[$gui->path()] = "val";
 			$counter++;
 		}
 	}

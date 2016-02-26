@@ -7,6 +7,7 @@ require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 require_once("Modules/Course/classes/class.ilObjCourse.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBookings.php");
+require_once("Modules/Course/classes/class.ilObjCourseAccess.php");
 
 class gevCourseSearch {
 	const TAB_ALL = "all";
@@ -293,6 +294,7 @@ class gevCourseSearch {
 							   , array(ilCourseBooking::STATUS_BOOKED, ilCourseBooking::STATUS_WAITING)
 							   )
 					|| $crs_utils->isMember($this->usr_id)
+					|| !ilObjCourseAccess::_isActivated($val["obj_id"])
 					)) {
 				continue;
 			}
@@ -494,6 +496,9 @@ class gevCourseSearch {
 
 		$ret = array();
 		while($val = $this->gDB->fetchAssoc($res)) {
+			if(!ilObjCourseAccess::_isActivated($val["obj_id"])) {
+				continue;
+			}
 			$crs = new ilObjCourse($val["obj_id"], false);
 			$crs_utils = gevCourseUtils::getInstanceByObj($crs);
 			$crs_booking = ilCourseBookings::getInstance($crs);

@@ -27,7 +27,7 @@ class gevCrsInvitationMailSettings {
 		$this->attachments_path = null;
 		$this->template_api = null;
 
-		$this->no_mail_standard_function_names = array("Trainer", "Trainingsersteller");
+		$this->no_mail_standard_function_names = array("Trainer", "Pool Trainingsersteller");
 		$this->no_mail_standard_template_id = -2;
 
 		$this->read();
