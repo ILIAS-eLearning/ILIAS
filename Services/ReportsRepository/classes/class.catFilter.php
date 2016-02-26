@@ -997,29 +997,31 @@ class recursiveOrguFilter {
 	*/
 	public function addToFilter($filter) {
 		global $lng;
-		if($this->possibly_recursive) {
-			$filter	->checkbox(	   $this->id.'_recursive'
-								 , $lng->txt("gev_org_unit_recursive")
-								 , " TRUE "
-								 , " TRUE "
-								 , false
-								 , true
-								 );
+		if (count($this->filter_options) > 0) {
+			if($this->possibly_recursive ) {
+				$filter	->checkbox(	   $this->id.'_recursive'
+									 , $lng->txt("gev_org_unit_recursive")
+									 , " TRUE "
+									 , " TRUE "
+									 , false
+									 , true
+									 );
+			}
+			$filter		->multiselect( $this->id
+									 , $lng->txt("gev_org_unit_short")
+									 , $this->field
+									 , $this->filter_options
+									 , array()
+									 , ""
+									 , 300
+									 , 160
+									 , "text"
+									 , "asc"
+									 , true
+									 , $this->possibly_recursive || $this->ignore_in_filter_where
+									 );
+			$this->filter = $filter;
 		}
-		$filter		->multiselect( $this->id
-								 , $lng->txt("gev_org_unit_short")
-								 , $this->field
-								 , $this->filter_options
-								 , array()
-								 , ""
-								 , 300
-								 , 160
-								 , "text"
-								 , "asc"
-								 , true
-								 , $this->possibly_recursive || $this->ignore_in_filter_where
-								 );
-		$this->filter = $filter;
 		return $filter;
 	}
 
@@ -1120,9 +1122,11 @@ class recursiveOrguFilter {
 	* @return a sql string which reflects the filter selection
 	*/
 	public function deliverQuery() {
-		$orgus = $this->possibly_recursive ? $this->getSelectionAndRecursive() : $this->getSelection();
-		if(count($orgus) > 0) {
-			return $this->gIldb->in($this->field, $orgus, false, 'integer');
+		if(count($this->filter_options) > 0) {
+			$orgus = $this->possibly_recursive ? $this->getSelectionAndRecursive() : $this->getSelection();
+			if(count($orgus) > 0) {
+				return $this->gIldb->in($this->field, $orgus, false, 'integer');
+			}
 		}
 		return ' TRUE ';
 	}

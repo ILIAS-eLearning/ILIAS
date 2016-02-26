@@ -223,8 +223,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 				."	JOIN object_reference ore "
 				."		ON ore.ref_id = rpa.ref_id "
 				."	JOIN object_data oda"
-				."		ON oda.obj_id = ore.obj_id"
-				."		AND ".$this->gIldb->in("oda.obj_id", $ou_ids, false, "integer");
+				."		ON oda.obj_id = ore.obj_id";
 
 		$res = $this->gIldb->query($sql);
 		$relevant_orgus = array();
