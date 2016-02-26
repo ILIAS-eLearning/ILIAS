@@ -83,6 +83,69 @@ var RUBRIC = {
 
         return(points);
     },
+
+    getSingleRange:function(range){
+        // what are the min/max ranges in this input
+        var broken_range=range.split('-');
+        broken_range[0]=parseFloat(broken_range[0]);
+        broken_range[1]=parseFloat(broken_range[1]);
+
+        var min=10000000;
+        var max=0;
+        if(broken_range[0]<min)
+            min=broken_range[0];
+
+        if(broken_range[0]>max)
+            max=broken_range[0];
+
+        if(broken_range[1]<min)
+            min=broken_range[1];
+
+        if(broken_range[1]>max)
+            max=broken_range[1];
+
+        var range=new Array();
+        range['low']=min;
+        range['high']=max;
+
+        return(range);
+    },
+
+    checkOverlappingRange:function(input){
+
+        var current_range=this.getSingleRange(input.value);
+
+        // grab the parent tr
+        var tr=input.parentNode.parentNode.parentNode;
+
+        if(tr.nodeName=='TR'){
+            var inputs=tr.getElementsByTagName('input');
+            for(var a=0;a<inputs.length;a++){
+                if(inputs[a]!=input&&inputs[a].value!=''){
+                    var tmp_range=this.getSingleRange(inputs[a].value);
+                    if(current_range['low']>=tmp_range['low']&&current_range['low']<=tmp_range['high']){
+                        var div=input.parentNode;
+                        div.classList.remove('has-warning');
+                        div.classList.remove('has-success');
+                        div.classList.add('has-error');
+                        var span=input.parentNode.children[2];
+                        span.setAttribute('class','glyphicon glyphicon-remove form-control-feedback');
+                    }
+                    if(current_range['high']>=tmp_range['low']&&current_range['high']<=tmp_range['high']){
+                        var div=input.parentNode;
+                        div.classList.remove('has-warning');
+                        div.classList.remove('has-success');
+                        div.classList.add('has-error');
+                        var span=input.parentNode.children[2];
+                        span.setAttribute('class','glyphicon glyphicon-remove form-control-feedback');                        
+                    }
+                }
+            }
+            
+        }
+
+        console.log('selected '+tr.nodeName);
+    },
     
     updatePoints:function(){
         
@@ -361,7 +424,7 @@ addBehavior:function(thead,tbody,tfoot,position){
         input.setAttribute('type','text');
         input.setAttribute('class','form-control');
         input.setAttribute('onkeyup','validate(this)');
-        input.setAttribute('onblur','recalculate()');
+        input.setAttribute('onblur','recalculate(this)');
         input.setAttribute('oninput','validate(this)');
         input.setAttribute('value',''+point_ranges[behavior_number][0]+'-'+point_ranges[behavior_number][1]+'');
         div.appendChild(input);
@@ -572,7 +635,7 @@ addBehavior:function(thead,tbody,tfoot,position){
         input.setAttribute('aria-describedby',txt_label+position+'WarningStatus');
         input.setAttribute('onkeyup','validate(this)');
         input.setAttribute('oninput','validate(this)');
-        input.setAttribute('onblur','recalculate()');
+        input.setAttribute('onblur','recalculate(this)');
         div.appendChild(input);
 
 
@@ -936,10 +999,11 @@ function rubric_cmd(o){
     
 }
 
-function recalculate(){
+function recalculate(obj){
     
     RUBRIC.tbl=document.getElementById('jkn_table_rubric');
     RUBRIC.updatePoints();
+    RUBRIC.checkOverlappingRange(obj);
     
 }
 

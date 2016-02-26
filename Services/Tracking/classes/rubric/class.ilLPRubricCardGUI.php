@@ -299,7 +299,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             $tmp_write.="<th scope=\"col\">
                             <div class=\"form-group has-success has-feedback\">
                                 <label class=\"control-label\" for=\"$tmp_name\">{POINT}</label>
-                                <input id=\"$tmp_name\" name=\"$tmp_name\" type=\"text\" class=\"form-control\" value=\"${weight['weight_min']}-${weight['weight_max']}\" onkeyup=\"validate(this)\" onblur=\"recalculate()\" oninput=\"validate(this)\"/>
+                                <input id=\"$tmp_name\" name=\"$tmp_name\" type=\"text\" class=\"form-control\" value=\"${weight['weight_min']}-${weight['weight_max']}\" onkeyup=\"validate(this)\" onblur=\"recalculate(this)\" oninput=\"validate(this)\"/>
                                <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
                                <span id=\"'.$tmp_name.'WarningStatus\" class=\"sr-only\">(ok)</span>
                             </div>
@@ -388,7 +388,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             $tmp_write.="<th scope=\"col\" class=\"col-sm-2\">
                             <div class=\"form-group has-success has-feedback\">
                                 <label class=\"control-label\" for=\"Label${k}\">{LABEL}</label>
-                                <input id=\"Label${k}\" name=\"Label${k}\" type=\"text\" class=\"form-control\" placeholder=\"".$label['label']."\" value=\"".$label['label']."\" aria-describedby=\"Label${k}WarningStatus\" onkeyup=\"validate(this)\" onblur=\"recalculate()\" oninput=\"validate(this)\">
+                                <input id=\"Label${k}\" name=\"Label${k}\" type=\"text\" class=\"form-control\" placeholder=\"".$label['label']."\" value=\"".$label['label']."\" aria-describedby=\"Label${k}WarningStatus\" onkeyup=\"validate(this)\" onblur=\"recalculate(this)\" oninput=\"validate(this)\">
                                 <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
                                 <span id=\"Label${k}WarningStatus\" class=\"sr-only\">(ok)</span>
                             </div>
