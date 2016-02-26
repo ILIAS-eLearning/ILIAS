@@ -35,35 +35,38 @@ class catDisplayFilterBaseGUI {
 	}
 
 	protected function buildFilter() {
-		$f1 = $this->factory->text("l1", "d1");
-		$f2 = $this->factory->multiselect("l2", "d2", array("a"=>"A","b"=>"B","c"=>"C"));
-		$f3 = $this->factory->option("l3", "d3");
-		$f4 = $this->factory->dateperiod("l4", "d4");
+		$f = $this->factory;
 
-		$f51 = $this->factory->text("l51", "d51");
-		$f52 = $this->factory->multiselect("l52", "d52", array("a"=>"A","b"=>"B","c"=>"C"));
-		$f53 = $this->factory->option("l53", "d53");
-		$f54 = $this->factory->dateperiod("l54", "d54");
-		$f5 = $this->factory->one_of("l5", "d5", $f51, $f52, $f53, $f54);
-			/*->map(function($choice, $value) {
-				return "choice: $choice";
-			}, $this->factory->type_factory()->string());*/
+		return
+		$f->sequence
+			( $f->text("l1", "d2")
+			, $f->sequence
+				( $f->text("l21", "d21")
+				, $f->multiselect("l22", "d22", array("a"=>"A","b"=>"B","c"=>"C"))
+				, $f->option("l23", "d23")
+				, $f->dateperiod("l24", "d24")
+				)
+				->map(function($t21, $a22, $b23, $dt241, $dt242) {
+					return " Stefan";
+				}, $this->factory->type_factory()->string())
+			, $f->multiselect("l2", "d2", array("a"=>"A","b"=>"B","c"=>"C"))
+			, $f->option("l3", "d3")
+			, $f->dateperiod("l4", "d4")
+			, $f->one_of("l5", "d5"
+				, $f->text("l51", "d51")
+				, $f->multiselect("l52", "d52", array("a"=>"A","b"=>"B","c"=>"C"))
+				, $f->option("l53", "d53")
+				, $f->dateperiod("l54", "d54")
+				)
+				->map(function($choice, $value) {
+					return "choice: $choice";
+				}, $this->factory->type_factory()->string())
+			, $f->text("l6", "d6")
+			)
+			->map(function($t1, $s2, $a2, $b3, $dt41, $dt42, $s5, $t6) {
+				return "Hello ".$s2." ($s5)";
+			}, $this->factory->type_factory()->string());
 
-		$f6 = $this->factory->text("l6", "d6");
-
-		$f21 = $this->factory->text("l21", "d21");
-		$f22 = $this->factory->multiselect("l22", "d22", array("a"=>"A","b"=>"B","c"=>"C"));
-		$f23 = $this->factory->option("l23", "d23");
-		$f24 = $this->factory->dateperiod("l24", "d24");
-		$fs2 = $this->factory->sequence($f21, $f22, $f23, $f24);
-			/*->map(function($t21, $a22, $b23, $dt241, $dt242) {
-				return " Stefan";
-			}, $this->factory->type_factory()->string());*/
-
-		return $this->factory->sequence($f1, $fs2, $f2, $f3, $f4, $f5, $f6);
-			/*->map(function($t1, $s2, $a2, $b3, $dt41, $dt42, $s5, $t6) {
-				return "Hello ".$s2;
-			}, $this->factory->type_factory()->string());*/
 	}
 
 	protected function showFilter(array $post_values = array()) {
@@ -87,7 +90,7 @@ class catDisplayFilterBaseGUI {
 			$filter_values = $this->buildFilterValues($fs, $post_values);
 
 			//Muss so aufgerufen werden. Sonst funktioniert das Mapping nicht!!!
-			call_user_func_array($fs->content, $filter_values);
+			echo call_user_func_array(array($fs, "content"), $filter_values);
 
 			$this->buildReport($fs);
 		}
@@ -131,7 +134,7 @@ class catDisplayFilterBaseGUI {
 				case "CaT\Filter\Filters\OneOf":
 					$choice = $value["option"];
 					$value = $value[$choice];
-					array_push($ret, $choice);
+					array_push($ret, (int)$choice);
 					array_push($ret, $value);
 					break;
 				case "CaT\Filter\Filters\Text":
