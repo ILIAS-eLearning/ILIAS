@@ -48,15 +48,15 @@
     background-color: #f0f3f7!important;
 }
 
-.table-rubric-style>tbody:nth-child(even) .first-group>td:nth-child(even)
+#jkn_div_rubric>table.table-rubric-style>tbody:nth-child(even)>tr.first-group>td:nth-child(even)
 {
-    background-color: #dbe2eb!important;
+    background-color: #dbe2eb;
     color: black;
 }
 
-.table-rubric-style>tbody:nth-child(even) .first-group>td:nth-child(odd):not(:first-child)
+.table-rubric-style>tbody:nth-child(even)>tr.first-group>td:nth-child(odd):not(:first-child)
 {
-    background-color: #c0ccdb!important;
+    background-color: #c0ccdb;
     color: black;
 }
 
@@ -111,7 +111,7 @@
 
 .table-rubric-style>tbody:nth-child(odd)>tr.first-group>td:nth-child(odd):not(:first-child)
 {
-    background-color: #cbddb9!important;
+    background-color: #cbddb9;
     color: black;
 }
 
