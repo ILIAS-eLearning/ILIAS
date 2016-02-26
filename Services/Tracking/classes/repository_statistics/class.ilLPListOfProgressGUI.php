@@ -284,7 +284,19 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
                         padding: 10px;
                         border: 1px solid grey;
                     }
+                    tr
+                    {
+                        padding: 10px;
+                        border: 1px solid grey;
+                    }
+                    th
+                    {
+                        padding: 10px;
+                        border: 1px solid grey;
+                    }
                     </style>';
+
+
             self::generatePDF($css.$html, 'D', 'rubric');
         }
     }
