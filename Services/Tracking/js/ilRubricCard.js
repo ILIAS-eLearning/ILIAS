@@ -24,41 +24,42 @@ var RUBRIC = {
         
         var tbody=this.tbl.getElementsByTagName('tbody');
         var tfoot=this.tbl.getElementsByTagName('tfoot');
-        
-        var trs=tbody[0].getElementsByTagName('tr');
-        for(var a=0;a<trs.length;a++){
-            
-            if(this.nodeHasGroupRange(trs[a])){                
-                // grab the range
-                points=this.gatherPointValues(trs[a]);
-                for(var b=0;b<points.length;b++){
-                    if (parseFloat(points[b]['max']) > points_max) {
-                        points_max = points[b]['max'];
-                    }
-                    if (parseFloat(points[b]['min']) > points_max) {
+        for(var i=0;i<tbody.length;i++)
+        {
+            var trs=tbody[i].getElementsByTagName('tr');
+            for(var a=0;a<trs.length;a++){
 
-                        points_max = points[b]['min'];
+                if(this.nodeHasGroupRange(trs[a])){
+                    // grab the range
+                    points=this.gatherPointValues(trs[a]);
+                    for(var b=0;b<points.length;b++){
+                        if (parseFloat(points[b]['max']) > points_max) {
+                            points_max = points[b]['max'];
+                        }
+                        if (parseFloat(points[b]['min']) > points_max) {
+
+                            points_max = points[b]['min'];
+                        }
                     }
+                }else if(this.nodeHasPointRange(trs[a])){
+                    // update the group total
+                    trs[a].children[1].innerHTML=group_total+' out of '+group_max;
+                    //reset group values
+                    group_max=group_total=points_max=0;
+                }else if(this.nodeHasGrade(trs[a])){
+                    // get the group grades
+                    group_max+=parseFloat(points_max);
+                    overall_max+=parseFloat(points_max);
+
+                    var inputs=trs[a].getElementsByTagName('input');
+                    if(isNaN(parseFloat(inputs[0].value))===false){
+                        group_total+=parseFloat(inputs[0].value);
+                        overall_total+=parseFloat(inputs[0].value);
+                    }
+
                 }
-            }else if(this.nodeHasPointRange(trs[a])){
-                // update the group total
-                trs[a].children[1].innerHTML=group_total+' out of '+group_max;
-                //reset group values
-                group_max=group_total=points_max=0;                
-            }else if(this.nodeHasGrade(trs[a])){
-                // get the group grades                
-                group_max+=parseFloat(points_max);
-                overall_max+=parseFloat(points_max);
-                
-                var inputs=trs[a].getElementsByTagName('input');                
-                if(isNaN(parseFloat(inputs[0].value))===false){
-                    group_total+=parseFloat(inputs[0].value);
-                    overall_total+=parseFloat(inputs[0].value);
-                }                
-                
             }
         }
-        
         // update footer points
         tfoot[0].children[0].children[1].innerHTML=overall_total+' out of '+overall_max;
         
