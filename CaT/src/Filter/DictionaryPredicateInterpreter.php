@@ -49,14 +49,12 @@ class DictionaryPredicateInterpreter {
 		if($p instanceof \CaT\Filter\Predicates\PredicateIn) {
 			$value = $p->getValue();
 			$list = $p->getList()->values();
-			$in = false;
 			foreach($list as $list_el) {
 				if($this->interpret($value->EQ($list_el),$d)) {
-					$in = true;
-					break;
+					return true;
 				}
 			}
-			return $in;
+			return false;
 		}
 
 		if ($p instanceof \CaT\Filter\Predicates\PredicateComparison) {
