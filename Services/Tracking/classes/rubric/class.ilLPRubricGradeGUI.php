@@ -179,7 +179,6 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 
     private function buildGradeBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment, $locatorArray, $locator)
     {
-        error_log($locatorArray[$locator]);
         if($locatorArray[$locator] == true)
         {
             $tmp_write.="<td class=\"range-flag\" scope=\"rowgroup\">
@@ -539,17 +538,15 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
             $this->buildTemplateLabels().
             "</tr>
                         </thead>
-
+                        <tbody>".
+            $this->buildTemplateCard().
+            "</tbody>
                         <tfoot>
                             <tr>
                                 <th colspan=\"2\">{OVERALL_POINT}</th>
                                 <td colspan=\"$colspan\">$min_points - $max_points</td>
                             </tr>
                         </tfoot>
-
-                        <tbody>".
-            $this->buildTemplateCard().
-            "</tbody>
                     </table>
                 </div>
             </form>";
@@ -600,16 +597,15 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
                                     {COMMENT}
                                 </th>
                             </tr>
-                        </thead>
-
-                        <tfoot>
+                        </thead> ".
+            $this->buildGradeCard().
+            "<tfoot>
                             <tr>
-                                <th colspan=\"2\" class=\"text-right\">{GRAND_TOTAL}</th>
+                                <th colspan=\"2\" class=\"text - right\">{GRAND_TOTAL}</th>
                                 <td colspan=\"$colspan\">$overall_min_points {OUT_OF} $overall_max_points</td>
                             </tr>
-                        </tfoot>".
-            $this->buildGradeCard().
-            "</table>
+                        </tfoot>
+                        </table>
                 </div>
             </form>";
 
