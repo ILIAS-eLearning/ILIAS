@@ -16,13 +16,15 @@ class Multiselect extends Filter {
 	private $default_choice;
 	
 	public function __construct(\CaT\Filter\FilterFactory $factory, $label, $description, $options,
-								$default_choice = array()) {
+								$default_choice = array(), array $mappings = array(),
+								array $mapping_result_types = array()) {
 		assert('is_string($label)');
 		assert('is_string($description)');
 
 		$this->setFactory($factory);
 		$this->setLabel($label);
 		$this->setDescription($description);
+		$this->setMappings($mappings, $mapping_result_types);
 
 		$keys = array_keys($options);
 		$tf = $factory->type_factory();
@@ -43,7 +45,7 @@ class Multiselect extends Filter {
 	/**
 	 * @inheritdocs
 	 */
-	public function content_type() {
+	public function original_content_type() {
 		return $this->content_type;
 	}
 
@@ -51,13 +53,13 @@ class Multiselect extends Filter {
 	 * @inheritdocs
 	 */
 	public function input_type() {
-		return $this->content_type();
+		return $this->original_content_type();
 	}
 
 	/**
 	 * @inheritdocs
 	 */
-	protected function _content($input) {
+	protected function raw_content($input) {
 		return $input;
 	}
 
@@ -81,7 +83,16 @@ class Multiselect extends Filter {
 			return $this->default_choice;
 		}
 
+		list($ms, $mrts) = $this->getMappings();
 		return new Multiselect($this->factory, $this->label(), $this->description(),
-						$this->options, $this->default_choice);
+						$options, $this->default_choice, $ms, $mrts);
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	protected function clone_with_new_mappings($mappings, $mapping_result_types) {
+		return new Multiselect($this->factory, $this->label(), $this->description(),
+						$this->options, $this->default_choice, $mappings, $mapping_result_types);
 	}
 }
