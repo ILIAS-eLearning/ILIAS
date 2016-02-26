@@ -500,11 +500,9 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	public function int_eq_field() {
 		return array(
-			array(array() , false)
-			,array( array("one" => 1) , true)
+			array( array("one" => 1) , true)
 			,array( array("two" => "a", "one" => 1) , true)
-			,array( array("two" => "a", "one" => "1") , false)
-			,array( array("two" => 1) ,false));
+			,array( array("two" => "a", "one" => 2) , false));
 	}
 
 	/**
@@ -557,11 +555,9 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	public function str_eq_field() {
 		return array(
-			array(array() , false)
-			,array(array("one" => "a") , true)
-			,array(array("two" => "a", "1") ,"res" => false)
-			,array(array("two" => "", "one" => "a") ,"res" => true)
-			,array(array("two" => "a") , false));
+			array(array("one" => "a") , true)
+			,array(array("two" => "a", "one" => "1") , false)
+			,array(array("two" => "", "one" => "a") , true));
 	}
 
 
@@ -616,11 +612,9 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 	public function date_eq_field() {
 		date_default_timezone_set('Europe/Berlin');
 		return array(
-			array("field" => array() ,"res" => false)
-			,array( array("one" => new \DateTime("2016-01-01")) ,true)
+			array( array("one" => new \DateTime("2016-01-01")) ,true)
 			,array( array("two" => new \DateTime("2016-01-02"), "one" => new \DateTime("2016-01-01")) , true)
-			,array( array("two" => new \DateTime("2016-01-03"), "one" => new \DateTime("2016-01-02")) , false)
-			,array( array("two" => new \DateTime("2016-01-01")) ,false));
+			,array( array("two" => new \DateTime("2016-01-03"), "one" => new \DateTime("2016-01-02")) , false));
 	}
 
 
@@ -677,13 +671,10 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	public function int_ge_field() {
 		return array(
-			array( array() ,false)
-			,array( array("one" => 1) , true)
+			array( array("one" => 1) , true)
 			,array( array("two" => "a", "one" => 0) , true)
 			,array( array("two" => "a", "one" => 2) ,false)
-			,array( array("two" => "a", "one" => 1) , true)
-			,array( array("two" => 1) ,false)
-			,array( array("two" => 0) ,false));
+			,array( array("two" => "a", "one" => 1) , true));
 	}
 
 	/**
@@ -722,6 +713,22 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($i->interpret($res_t, $field) === $res);
 	}
 	
+	public function test_ex_two_vars() {
+		$f = $this->factory;
+		$i = $this->interpreter;
+
+		$p = $f->str("1")->GT()->int(1);
+
+		try {
+			$i->interpret($p, array("one" => 1,"two" => "1"));
+			$this->assertFalse("should have thrown Exception");
+		}
+		catch (\InvalidArgumentException $ex) {
+		}
+
+	}
+
+
 	/**
 	* @dataProvider str_ge_field
 	*/
@@ -736,13 +743,11 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	public function str_ge_field() {
 		return array(
-			array(array() ,false)
-			,array( array("one" => "b") , true)
+			array( array("one" => "b") , true)
 			,array( array("two" => "c", "one" => "a") , true)
 			,array( array("two" => "a", "one" => "1") , true)
 			,array( array("two" => "", "one" => "") , true)
-			,array( array("two" => "", "one" => "b") , true)
-			,array( array("two" => "a") ,false));
+			,array( array("two" => "", "one" => "b") , true));
 	}
 
 
@@ -797,13 +802,11 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 	public function date_ge_field() {
 		date_default_timezone_set('Europe/Berlin');
 		return array(
-			array( array() , false)
-			,array(array("one" => new \DateTime("2016-01-02")) , false)
+			array(array("one" => new \DateTime("2016-01-02")) , false)
 			,array(array("two" => new \DateTime("2016-01-02"), "one" => new \DateTime("2016-01-01")) , true)
 			,array(array("two" => new \DateTime("2016-01-02"), "one" => new \DateTime("2015-12-31")) , true)
 			,array(array("two" => new \DateTime("2016-01-03"), "one" => new \DateTime("2016-01-03")) ,false)
-			,array(array("two" => new \DateTime("2016-01-03"), "one" => new \DateTime("2016-01-02")) ,false)
-			,array(array("two" => new \DateTime("2016-01-01")) , false));
+			,array(array("two" => new \DateTime("2016-01-03"), "one" => new \DateTime("2016-01-02")) ,false));
 	}
 
 	/**
@@ -836,24 +839,18 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		return array(
 			array(array("one" => 1, "two" => 2)
 				,  false)
-			,array(array("two" => 2)
-				,  false)
 			,array( array("one" => 1, "two" => 1)
 				,  true)
-			,array( array("one" => "1", "two" => 1)
-				, false)
-			,array( array("one" => "a", "two" => 1)
+			,array( array("one" => "1", "two" => "1")
+				, true)
+			,array( array("one" => "a", "two" => "1")
 				,  false)
 			,array( array("one" => "a", "two" => "a")
 				, true)
-			,array( array("one" => "a")
-				,  false)
 			,array( array("one" => "a", "two" => "a")
 				,  true)	
 			,array( array("one" => new \DateTime('2016-01-01'), "two" => new \DateTime('2016-01-01'))
 				,  true)
-			,array( array("one" => new \DateTime('2016-01-01'))
-				,  false)
 			,array( array("one" => new \DateTime('2016-01-01'), "two" => new \DateTime('2016-01-02'))
 				,  false)
 			);
@@ -907,17 +904,34 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($i->interpret($p, $fields) === $res);
 	}
 
+	public function test_ex_two_field() {
+		$f = $this->factory;
+		$i = $this->interpreter;
 
+		$p = $f->field("two")->GT()->field("one");
 
+		try {
+			$i->interpret($p, array("one" => 1,"two" => "1"));
+			$this->assertFalse("should have thrown Exception");
+		}
+		catch (\InvalidArgumentException $ex) {
+		}
+
+		try {
+			$i->interpret($p, array("one" => 1));
+			$this->assertFalse("should have thrown Exception");
+		}
+		catch (\InvalidArgumentException $ex) {
+		}
+
+	}
 
 	public function ge_two_fields() {
 		return array(
 			array(array("one" => 1, "two" => 2)	, false)
-			,array(array("two" => 2), false)
 			,array(array("one" => 1, "two" => 1), true)
 			,array(array("one" => 2, "two" => 1),true)
 			,array(array("one" => "a", "two" => "a"), true)
-			,array(array("one" => "a"), false)
 			,array(array("one" => "a", "two" => "a"),  true)	
 			,array(array("one" => new \DateTime('2016-01-01'), "two" => new \DateTime('2016-01-01'))
 				, true)
@@ -971,14 +985,23 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($i->interpret($str_1->IN($str_list_v),array()));
 		$this->assertFalse($i->interpret($str_2->IN($str_list),array()));
 
-		$this->assertFalse($i->interpret($int_1->IN($str_list),array()));
-		$this->assertFalse($i->interpret($str_1->IN($int_list),array()));
-		$this->assertFalse($i->interpret($str_1->IN($int_list_v),array()));
-		$this->assertFalse($i->interpret($int_2->IN($str_list_v),array()));
-
 		$this->assertTrue($i->interpret($field_1->IN($int_list),array("foo" => 1)));
-		$this->assertFalse($i->interpret($field_1->IN($int_list),array("bar" => "foo")));
 		$this->assertTrue($i->interpret($field_1->IN($str_list),array("foo" => "a")));
+		try{
+			$i->interpret($field_1->IN($int_list),array("bar" => "foo"));
+			$this->assertFalse("should have thrown");
+		} catch (\InvalidArgumentException $ex) {
+		}
+		try{
+			$this->assertFalse($i->interpret($str_1->IN($int_list),array()));
+			$this->assertFalse("should have thrown");
+		} catch (\InvalidArgumentException $ex) {
+		}
+		try{
+			$this->assertFalse($i->interpret($int_1->IN($str_list),array()));
+			$this->assertFalse("should have thrown");
+		} catch (\InvalidArgumentException $ex) {
+		}
 	}
 
 	/**
