@@ -14,9 +14,10 @@ require_once("Services/GEV/Utils/classes/class.gevCourseBuildingBlockUtils.php")
 class gevDecentralTrainingCreateBuildingBlockDataGUI {
 
 	public function __construct() {
-		global $ilCtrl;
+		global $ilCtrl, $ilUser;
 
 		$this->gCtrl = $ilCtrl;
+		$this->gUser = $ilUser;
 	}
 
 	public function executeCommand() {
@@ -38,17 +39,28 @@ class gevDecentralTrainingCreateBuildingBlockDataGUI {
 	}
 
 	protected function changeBuildingBlockSelect($selected) {
-		$bb = gevBuildingBlockUtils::getPossibleBuildingBlocksByTopicName($selected);
-		$this->createJson($bb);
+		$bb = gevBuildingBlockUtils::getPossibleBuildingBlocksByTopicName($selected, $this->gUser->getId());
+
+		$res = array();
+		foreach ($bb as $key => $array) {
+			$res[$key] = array();
+			foreach ($array as $id => $title) {
+				array_push($res[$key], array($id, $title));
+			}
+		}
+
+		
+		
+		$this->echoJSONAndExit($res);
 	}
 
 	protected function changeBuildingBlockInfos($selected) {
 		$infos = gevBuildingBlockUtils::getBuildingBlockInfosById($selected);
-		$this->createJson($infos);
+		$this->echoJSONAndExit($infos);
 	}
 
-	protected function createJson($data) {
-		echo json_encode($data);
+	protected function echoJSONAndExit($data) {
+		echo json_encode($data,JSON_FORCE_OBJECT);
 		exit;
 	}
 }

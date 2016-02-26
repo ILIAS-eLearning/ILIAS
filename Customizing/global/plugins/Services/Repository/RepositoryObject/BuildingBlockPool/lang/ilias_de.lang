@@ -1,0 +1,19 @@
+<!-- language file start -->
+obj_xbbp#:#Pool für Trainingsbausteine
+xbbp_new#:#Neuer Trainingsbausteinpool
+xbbp_add#:#Trainingsbausteinpool anlegen
+objs_xbbp_duplicate#:#Trainigsbausteinpool kopieren
+xbbp_content#:#Trainingsbausteine
+objs_xbbp#:#Trainingsbausteinpools
+xbbp_obj_xbbp_duplicate#:#Traininsbausteinpool kopieren
+add_building_block#:#Trainingsbaustein hinzufügen
+copy_building_block#:#Baustein aus anderem Pool kopieren
+edit#:#Inhalt bearbeiten
+copy_header#:#Baustein kopieren
+properties#:#Einstellungen
+status#:#Status
+offline#:#Offline
+save#:#Speichern
+edit_properties#:#Einstellungen des Trainingpools
+title#:#Titel
+edit#:#Einstellungen bearbeiten

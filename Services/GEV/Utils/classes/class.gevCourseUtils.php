@@ -22,7 +22,7 @@ require_once("Services/GEV/Mailing/classes/class.gevCrsMailAttachments.php");
 
 class gevCourseUtils {
 	static $instances = array();
-	const CREATOR_ROLE_TITLE = "Trainingsersteller";
+	const CREATOR_ROLE_TITLE = "Pool Trainingsersteller";
 	const RECIPIENT_MEMBER = "Mitglied";
 	const RECIPIENT_STANDARD = "standard";
 	
@@ -965,6 +965,15 @@ class gevCourseUtils {
 		return $ven->getHomepage();
 	}
 
+	//Training Creatot
+	public function setTrainingCreatorLogin($user_login) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_TRAINING_CREATOR, $user_login);
+	}
+
+	public function getTrainingCreatorLogin() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TRAINING_CREATOR);
+	}
+
 	
 	// Accomodation
 	
@@ -1664,9 +1673,9 @@ class gevCourseUtils {
 
 	public function getMainTrainingCreator() {
 		if($this->main_training_creator === null) {
-			$training_creator = $this->getTrainingCreator();
-			if (count($training_creator) != 0) {
-				$this->main_training_creator = new ilObjUser($training_creator[0]);
+			$training_creator = $this->getTrainingCreatorLogin();
+			if ($training_creator !== null) {
+				$this->main_training_creator = new ilObjUser(ilObjUser::_lookupId($training_creator));
 			}
 		}
 
@@ -1936,11 +1945,6 @@ class gevCourseUtils {
 	}
 
 	public function buildICAL($a_send,$a_filename) {
-
-		$start=explode(".",$this->getFormattedStartDate());
-		$end=explode(".",$this->getFormattedEndDate());
-		$starttime=implode("",explode(':',$this->getFormattedStartTime()));
-		$endtime=implode("",explode(':',$this->getFormattedEndTime()));
 		$loc = $this->getVenue();
 		if ($loc) {
 			$loc = $loc->getTitle();
@@ -1950,36 +1954,21 @@ class gevCourseUtils {
 		$city = $this->getVenueCity();
 		if($loc) {
 			if($street) {
-				$loc.= '\n'.$street;
+				$loc.= "\n".$street;
 			}
 			if($zip) {
-				$loc .= '\n'.$zip;
+				$loc .= "\n".$zip;
 				if($city) {
 					$loc .= " ".$city;
 				}
 			} else if($city) {
-					$loc .= '\n'.$city;
+					$loc .= "\n".$city;
 			}
 
 		} else {
 			$loc = "";
 		}
 		
-		$title = $this->getTitle();
-		$subtitle = $this->getSubtitle();
-		$admin = $this->getMainAdminName(); 
-		$adminemail = $this->getMainAdminEMail();
-		$content = $this->getContents();
-		$topic = $this->getTopics();
-		$reference = $this->crs_id;
-		$today = date("Ymd");
-		$now = date("his");
-		$tnow = time();
-
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-		
-
 		if ($a_filename === null) {
 			if(!$a_send) {
 				$a_filename = ilUtil::ilTempnam();
@@ -1989,51 +1978,80 @@ class gevCourseUtils {
 			}
 		}
 
-		$wstream=fopen($a_filename,"w");
+		$organizer = $this->getMainAdmin() ? $this->getMainAdminName().
+			($this->getMainAdminEmail() ? '('.$this->getMainAdminEmail().')' : '') : '';
 
-
-
-		fwrite($wstream,"BEGIN:VCALENDAR\n");
-		fwrite($wstream,"VERSION:2.0\n");
-		fwrite($wstream,"BEGIN:VTIMEZONE\n");
-		fwrite($wstream,"TZID:Europe/Berlin\n");
-		fwrite($wstream,"X-LIC-LOCATION:Europe/Berlin\n");
-		fwrite($wstream,"BEGIN:DAYLIGHT\n");
-		fwrite($wstream,"TZOFFSETFROM:+0100\n");
-		fwrite($wstream,"TZOFFSETTO:+0200\n");
-		fwrite($wstream,"TZNAME:CEST\n");
-		fwrite($wstream,"DTSTART:19700329T020000\n");
-		fwrite($wstream,"RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\n");
-		fwrite($wstream,"END:DAYLIGHT\n");
-		fwrite($wstream,"BEGIN:STANDARD\n");
-		fwrite($wstream,"TZOFFSETFROM:+0200\n");
-		fwrite($wstream,"TZOFFSETTO:+0100\n");
-		fwrite($wstream,"TZNAME:CET\n");
-		fwrite($wstream,"DTSTART:19701025T030000\n");
-		fwrite($wstream,"RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\n");
-		fwrite($wstream,"END:STANDARD\n");
-		fwrite($wstream,"END:VTIMEZONE\n");
-		fwrite($wstream,"PRODID:http://www.generali-onlineakademie.de/buildICAL::gevCourseUtils".$tnow."\n");
-		fwrite($wstream,"METHOD:REQUEST\n");
-		fwrite($wstream,"BEGIN:VEVENT\n");
-		fwrite($wstream,"UID:".$reference."@generali-onlineakademie.de\n");
-		fwrite($wstream,"ORGANIZER;CN=\"".$admin."(".$adminemail.")\"\n");
-		fwrite($wstream,"LOCATION:".$loc."\n");
-		fwrite($wstream,"SUMMARY:".$title."\n");
-		if($subtitle) {
-			fwrite($wstream,"DESCRIPTION:".$subtitle."\n");
+		$start_date_obj = $this->getStartDate();
+		$end_date_obj = $this->getEndDate();
+		if($start_date_obj === null || $end_date_obj === null) {
+			throw new Exception("gevUserUtils::buildICAL:"
+								." start- or end-date of course are not set."
+								." You have to provide both in order to create an ical event.");
 		}
-		fwrite($wstream,"CLASS:PUBLIC\n");
-		fwrite($wstream,"DTSTART;TZID=\"Europe/Berlin\":".$start[2].$start[1].$start[0]."T".$starttime."00\n");
-		fwrite($wstream,"DTEND;TZID=\"Europe/Berlin\":".$end[2].$end[1].$end[0]."T".$endtime."00\n");
-		fwrite($wstream,"DTSTAMP;TZID=\"Europe/Berlin\":".$today."T".$now."\n");
-		fwrite($wstream,"END:VEVENT\n");
-		fwrite($wstream,"END:VCALENDAR\n");
-	   	
 
-	   	fclose($wstream);
+		$start_date =
+			$start_date_obj->get(IL_CAL_DATE)." ".$this->getFormattedStartTime().":00";
+		$end_date =
+			$end_date_obj->get(IL_CAL_DATE)." ".$this->getFormattedEndTime().":00";
 
-	   	if($a_send)	{
+		$calendar = new \Eluceo\iCal\Component\Calendar('generali-onlineakademie.de');
+
+		$tz_rule_daytime = new \Eluceo\iCal\Component\TimezoneRule(\Eluceo\iCal\Component\TimezoneRule::TYPE_DAYLIGHT);
+		$tz_rule_daytime
+			->setTzName('CEST')
+			->setDtStart(new \DateTime('1981-03-29 02:00:00', $dtz))
+			->setTzOffsetFrom('+0100')
+			->setTzOffsetTo('+0200');
+
+		$tz_rule_daytime_rec = new \Eluceo\iCal\Property\Event\RecurrenceRule();
+		$tz_rule_daytime_rec
+			->setFreq(\Eluceo\iCal\Property\Event\RecurrenceRule::FREQ_YEARLY)
+			->setByMonth(3)
+			->setByDay('-1SU');
+
+		$tz_rule_daytime->setRecurrenceRule($tz_rule_daytime_rec);
+
+		$tz_rule_standart = new \Eluceo\iCal\Component\TimezoneRule(\Eluceo\iCal\Component\TimezoneRule::TYPE_STANDARD);
+		$tz_rule_standart
+			->setTzName('CET')
+			->setDtStart(new \DateTime('1996-10-27 03:00:00', $dtz))
+			->setTzOffsetFrom('+0200')
+			->setTzOffsetTo('+0100');
+
+		$tz_rule_standart_rec = new \Eluceo\iCal\Property\Event\RecurrenceRule();
+		$tz_rule_standart_rec
+			->setFreq(\Eluceo\iCal\Property\Event\RecurrenceRule::FREQ_YEARLY)
+			->setByMonth(10)
+			->setByDay('-1SU');
+
+		$tz_rule_standart->setRecurrenceRule($tz_rule_standart_rec);
+
+		$tz = new \Eluceo\iCal\Component\Timezone('Europe/Berlin');
+		$tz->addComponent($tz_rule_daytime);
+		$tz->addComponent($tz_rule_standart);
+		$calendar->setTimezone($tz);
+
+		$event = new \Eluceo\iCal\Component\Event();
+		$event
+			->setDtStart(new \DateTime($start_date))
+			->setDtEnd(new \DateTime($end_date))
+			->setNoTime(false)
+			->setLocation($loc,$loc)
+			->setUseTimezone(true)
+			->setSummary($this->getTitle())
+			->setDescription($this->getSubtitle())
+			->setOrganizer(new \Eluceo\iCal\Property\Event\Organizer($organizer));
+
+		$calendar
+			->setTimezone($tz)
+			->addComponent($event);
+
+		$wstream = fopen($a_filename,"w");
+		fwrite($wstream, $calendar->render());
+
+		fclose($wstream);
+
+		if($a_send)	{
 			exit();
 		}
 
@@ -2532,12 +2550,31 @@ class gevCourseUtils {
 		$users = array_merge($this->getTrainers(), $this->getParticipants());
 		foreach ($users as $uid) {
 			$user = new ilObjUser($uid);
-			echo $this->encodeForWindows('"'.$user->getFullname().'";"'.$user->getPhoneOffice().'"'."\n");
+			echo $this->encodeForWindows('"'.$user->getFullname().'";"'
+				.$this->formatPhoneNumberForExcel($user->getPhoneOffice()).'"'."\n");
 		}
 		
 		exit();
 	}
 	
+	/**
+	*	Excel tends to meddle with numbers and to cast them into absurd formats, even if not asked to.
+	*	To prevent this, we re move dots and comas and put at least one whitespace into the phone-number
+	*	so it hopefully will be processed as text and not changed silently.
+	*/
+	protected function formatPhoneNumberForExcel($phone_number) {
+		$return = preg_replace('#[\,\.]+#', ' ', $phone_number);
+		if(0 === preg_match('#(\s|-)#' , $return)) {
+			$number_chunks = str_split($return,3);
+			$return = "";
+			$delim = " ";
+			foreach ($number_chunks as $key => $value) {
+				$return .= $value.$delim;
+				$delim = "";
+			}
+		} 
+		return $return;
+	}
 	
 	// Desk Display creation
 	
