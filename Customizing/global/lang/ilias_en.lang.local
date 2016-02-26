@@ -33,7 +33,7 @@ trac#:#rubric_option_export_pdf#:#Export to PDF
 trac#:#rubric_overall_point#:#Overall Point Range For All Groups
 trac#:#rubric_point_range_group#:#Point Range For Group
 trac#:#rubric_grade_range#:#Range
-trac#:#rubric_no_point#:#30 - 70 Points
+trac#:#rubric_no_point#:#0 - 0 Points
 trac#:#rubric_card_save#:#Rubric Card Saved
 trac#:#rubric_card_not_defined#:#Rubric Card is not created for object.  First create the Rubric Card.
 trac#:#rubric_out_of#:#out of
