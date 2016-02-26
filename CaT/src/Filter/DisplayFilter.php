@@ -25,7 +25,12 @@ class DisplayFilter {
 	*
 	* @return Filter
 	*/
-	protected function getNextFilter(Navigator $navi) {
+	public function getNextFilter(Navigator $navi) {
+		if($navi->path() === null) {
+			$navi->go_to("0");
+			return $navi->current();
+		}
+
 		if($next = $this->getNextRight($navi)) {
 			return $next;
 		} else {
@@ -91,8 +96,10 @@ class DisplayFilter {
 			case "CaT\Filter\Filters\Sequence":
 				try {
 					$navi->enter();
-					return $this->getNextGUI($navi->current(),$navi);
+					return $this->getNextGUI($navi->current(), $navi);
 				} catch (\OutOfBoundsException $e) {
+					echo "sdsd";
+					die();
 					return false;
 				}
 				break;

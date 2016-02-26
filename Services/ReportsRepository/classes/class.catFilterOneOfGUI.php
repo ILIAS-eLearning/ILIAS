@@ -44,7 +44,7 @@ class catFilterOneOfGUI {
 				case "CaT\Filter\Filters\Option":
 					require_once("Services/Form/classes/class.ilSelectInputGUI.php");
 					$select = new ilSelectInputGUI("", "filter[$this->path][select]");
-					$select->setOptions(array("0"=>"Ja","1"=>"Nein"));
+					$select->setOptions(array("1"=>"Ja","0"=>"Nein"));
 					$option->addSubItem($select);
 					$option->setValue("select");
 					break;

@@ -69,6 +69,8 @@ abstract class Filter {
 	/**
 	 * Map a function over the content of the filter.
 	 *
+	 * TODO: switch params
+	 *
 	 * @param	\Closure					$mapper
 	 * @param	\CaT\Filter\Types\Type		$result_type
 	 * @return	Filter

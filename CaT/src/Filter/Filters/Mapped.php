@@ -27,6 +27,10 @@ class Mapped extends Filter {
 		$this->result_type = $result_type;
 	}
 
+	public function mapped() {
+		return $this->mapped;
+	}
+
 	/**
 	 * @inheritdocs
 	 */

@@ -19,7 +19,7 @@ class catFilterOptionGUI {
 	public function fillForm(ilPropertyFormGUI $form) {
 		$select = new ilSelectInputGUI($this->filter->label(), "filter[$this->path]");
 		$select->setInfo($this->filter->description());
-		$select->setOptions(array("0"=>"Ja","1"=>"Nein"));
+		$select->setOptions(array("1"=>"Ja","0"=>"Nein"));
 		$form->addItem($select);
 
 		return $form;

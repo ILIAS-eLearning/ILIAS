@@ -18,6 +18,7 @@ class catDisplayFilterBaseGUI {
 
 		$this->gCtrl = $ilCtrl;
 		$this->factory = new \CaT\Filter\FilterFactory(new \CaT\Filter\PredicateFactory(), new \CaT\Filter\TypeFactory());
+		$this->display_filter = new \CaT\Filter\DisplayFilter(new \CaT\Filter\FilterGUIFactory());
 	}
 
 	public function executeCommand() {
@@ -33,9 +34,8 @@ class catDisplayFilterBaseGUI {
 		}
 	}
 
-	protected function showFilter(array $post_values = array()) {
-		$display_filter = new \CaT\Filter\DisplayFilter(new \CaT\Filter\FilterGUIFactory());
-		
+	protected function buildFilter() {
+
 		$f1 = $this->factory->text("l1", "d1");
 		$f2 = $this->factory->multiselect("l2", "d2", array("a"=>"A","b"=>"B","c"=>"C"));
 		$f3 = $this->factory->option("l3", "d3");
@@ -46,19 +46,31 @@ class catDisplayFilterBaseGUI {
 		$f53 = $this->factory->option("l53", "d53");
 		$f54 = $this->factory->dateperiod("l54", "d54");
 		$f5 = $this->factory->one_of("l5", "d5", $f51, $f52, $f53, $f54);
+			/*->map(function($choice, $value) {
+				return "choice: $choice";
+			}, $this->factory->type_factory()->string());*/
 
 		$f6 = $this->factory->text("l6", "d6");
-		//$fs = $this->factory->sequence($f1, $f2 ,$f3, $f4/*, $f5*/,$f6);
 
 		$f21 = $this->factory->text("l21", "d21");
 		$f22 = $this->factory->multiselect("l22", "d22", array("a"=>"A","b"=>"B","c"=>"C"));
 		$f23 = $this->factory->option("l23", "d23");
 		$f24 = $this->factory->dateperiod("l24", "d24");
 		$fs2 = $this->factory->sequence($f21, $f22, $f23, $f24);
+			/*->map(function($t21, $a22, $b23, $dt241, $dt242) {
+				return " Stefan";
+			}, $this->factory->type_factory()->string());*/
 
-		$fs = $this->factory->sequence($f1, $fs2, $f2, $f3, $f4, $f5, $f6);
+		return $this->factory->sequence($f1, $fs2, $f2, $f3, $f4, $f5, $f6);
+			/*->map(function($t1, $s2, $a2, $b3, $dt41, $dt42, $s5, $t6) {
+				return "Hello ".$s2;
+			}, $this->factory->type_factory()->string());*/
+	}
 
-		if($gui = $display_filter->getNextFilterGUI($fs, $post_values)){
+	protected function showFilter(array $post_values = array()) {
+		$fs = $this->buildFilter();
+
+		if($gui = $this->display_filter->getNextFilterGUI($fs, $post_values)){
 
 			require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 			require_once("Services/Form/classes/class.ilHiddenInputGUI.php");
@@ -82,7 +94,10 @@ class catDisplayFilterBaseGUI {
 			echo $form->getHTML();
 		} else {
 			$post_values = $this->cleanPostValues($post_values);
-			$this->buildReport($post_values);
+			$filter_values = $this->buildFilterValues($fs, $post_values);
+			$fs->content($filter_values);
+
+			$this->buildReport($fs);
 		}
 	}
 
@@ -102,12 +117,47 @@ class catDisplayFilterBaseGUI {
 		return $post_values;
 	}
 
-	protected function buildReport(array $post_values) {
-		echo "<pre>";
-		var_dump($post_values);
-		echo "</pre>";
+	protected function buildFilterValues(\CaT\Filter\Filters\Sequence $sequence, array $post_values) {
+		$navi = new \CaT\Filter\Navigator($sequence);
+		$ret = array();
 
-		echo $post_values[5][$post_values[5]["option"]];
+		while ($filter = $this->display_filter->getNextFilter($navi)) {
+			if($filter instanceof \CaT\Filter\Filters\Sequence) {
+				$navi->enter();
+				$filter = $navi->current();
+			}
+
+			$current_class = get_class($filter);
+			$value = $post_values[$navi->path()];
+			switch($current_class) {
+				case "CaT\Filter\Filters\DatePeriod":
+					$start = new DateTime($value["start"]["date"]["y"]."-".$value["start"]["date"]["m"]."-".$value["start"]["date"]["d"]);
+					$end = new DateTime($value["end"]["date"]["y"]."-".$value["end"]["date"]["m"]."-".$value["end"]["date"]["d"]);
+					array_push($ret, $start);
+					array_push($ret, $end);
+					break;
+				case "CaT\Filter\Filters\OneOf":
+					$choice = $value["option"];
+					$value = $value[$choice];
+					array_push($ret, $choice);
+					array_push($ret, $value);
+					break;
+				case "CaT\Filter\Filters\Text":
+				case "CaT\Filter\Filters\Multiselect":
+					array_push($ret, $value);
+					break;
+				case "CaT\Filter\Filters\Option":
+					array_push($ret, (bool)$value);
+					break;
+				default:
+					throw new \Exception("Filter class not known");
+			}
+		}
+
+		return $ret;
 	}
 
+	protected function buildReport(\CaT\Filter\Filters\Sequence $sequence) {
+		
+	}
 }
