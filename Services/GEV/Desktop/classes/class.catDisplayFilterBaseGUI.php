@@ -2,14 +2,14 @@
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */#
 
 /**
-* Test Bclass for cat Filter GUIS
+* Test Baseclass for cat Filter GUIS
 *
 * @author	Stefan Hecken <stefan.hecken@concepts-and-training.de>
 * @version	$Id$
 *
 */
 
-class catDisplayFilterBase {
+class catDisplayFilterBaseGUI {
 	protected $gCtrl;
 	protected $gTpl;
 
