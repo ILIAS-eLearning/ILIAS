@@ -145,6 +145,11 @@
     text-align: center;
 }
 
+.table-rubric-style .range-flag
+{
+    border: 1px solid green;
+}
+
 /*
 
 

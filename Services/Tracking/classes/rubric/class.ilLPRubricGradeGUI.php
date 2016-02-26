@@ -177,11 +177,21 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
         $this->tpl->addCss('./Services/Tracking/css/ilRubricCard.css');
     }
 
-    private function buildGradeBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment)
+    private function buildGradeBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment, $locatorArray, $locator)
     {
-        $tmp_write.="<td scope=\"rowgroup\">
+        error_log($locatorArray[$locator]);
+        if($locatorArray[$locator] == true)
+        {
+            $tmp_write.="<td class=\"range-flag\" scope=\"rowgroup\">
                         ${behavior['description']}
                     </td>";
+        }
+        else
+        {
+            $tmp_write.="<td scope=\"rowgroup\">
+                        ${behavior['description']}
+                    </td>";
+        }
 
         return($tmp_write);
     }
@@ -222,9 +232,29 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
             }
         }
 
+
+        $locatorArray = array();
+
+        $locator = 0;
+
+        foreach($group['weights'] as $weight)
+        {
+            $locator++;
+
+            if( $tmp_point >= $weight['weight_min'] && $tmp_point <= $weight['weight_max'])
+            {
+                //echo "Point:".$tmp_point." ID:".$weight['rubric_weight_id']."</br>";
+                $locatorArray[$locator] = 'true';
+            }
+        }
+
+        //var_dump($locatorArray);
+
         //get behaviors
+        $locator = 0;
         foreach($criteria['behaviors'] as $behavior_increment => $behavior){
-            $tmp_write.=$this->buildGradeBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment);
+            $locator++;
+            $tmp_write.=$this->buildGradeBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment, $locatorArray, $locator);
         }
 
         if($this->student_view || $this->pdf_view){
