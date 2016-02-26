@@ -27,13 +27,15 @@ class DatePeriod extends Filter {
 
 	public function __construct(\CaT\Filter\FilterFactory $factory, $label, $description,
 			\DateTime $default_begin = null, \DateTime $default_end = null,
-			\DateTime $period_min = null, \DateTime $period_max = null) {
+			\DateTime $period_min = null, \DateTime $period_max = null,
+			array $mappings = array(), array $mapping_result_types = array()) {
 		assert('is_string($label)');
 		assert('is_string($description)');
 
 		$this->setFactory($factory);
 		$this->setLabel($label);
 		$this->setDescription($description);
+		$this->setMappings($mappings, $mapping_result_types);
 
 		if ($default_begin === null) {
 			$this->default_begin = new \DateTime(date("Y")."-01-01");
@@ -67,7 +69,7 @@ class DatePeriod extends Filter {
 	/**
 	 * @inheritdocs
 	 */
-	public function content_type() {
+	public function original_content_type() {
 		$tf = $this->factory->type_factory();
 		return $tf->tuple($tf->cls("\\DateTime"), $tf->cls("\\DateTime"));
 	}
@@ -76,13 +78,13 @@ class DatePeriod extends Filter {
 	 * @inheritdocs
 	 */
 	public function input_type() {
-		return $this->content_type();
+		return $this->original_content_type();
 	}
 
 	/**
 	 * @inheritdocs
 	 */
-	protected function _content($input) {
+	protected function raw_content($input) {
 		return $input;
 	}
 
@@ -97,8 +99,10 @@ class DatePeriod extends Filter {
 			return $this->default_begin;
 		}
 
+		list($ms, $mrts) = $this->getMappings();
 		return new DatePeriod($this->factory, $this->label(), $this->description(),
-						$dt, $this->default_end, $this->period_min, $this->period_max);
+						$dt, $this->default_end, $this->period_min, $this->period_max,
+						$ms, $mrts);
 	}
 
 	/**
@@ -112,8 +116,10 @@ class DatePeriod extends Filter {
 			return $this->default_end;
 		}
 
+		list($ms, $mrts) = $this->getMappings();
 		return new DatePeriod($this->factory, $this->label(), $this->description(),
-						$this->default_begin, $dt, $this->period_min, $this->period_max);
+						$this->default_begin, $dt, $this->period_min, $this->period_max,
+						$ms, $mrts);
 	}
 
 	/**
@@ -127,8 +133,10 @@ class DatePeriod extends Filter {
 			return $this->period_min;
 		}
 
+		list($ms, $mrts) = $this->getMappings();
 		return new DatePeriod($this->factory, $this->label(), $this->description(),
-						$this->default_begin, $this->default_end, $dt, $this->period_max);
+						$this->default_begin, $this->default_end, $dt, $this->period_max,
+						$ms, $mrts);
 	}
 
 	/**
@@ -142,7 +150,19 @@ class DatePeriod extends Filter {
 			return $this->period_max;
 		}
 
+		list($ms, $mrts) = $this->getMappings();
 		return new DatePeriod($this->factory, $this->label(), $this->description(),
-						$this->default_begin, $this->default_end, $this->period_min, $dt);
+						$this->default_begin, $this->default_end, $this->period_min,
+						$dt, $ms, $mrts);
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	protected function clone_with_new_mappings($mappings, $mapping_result_types) {
+		return new DatePeriod($this->factory, $this->label(), $this->description(),
+						$this->default_begin, $this->default_end, $this->period_min,
+						$this->period_max, $mappings, $mapping_result_types);
+
 	}
 }
