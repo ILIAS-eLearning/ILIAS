@@ -78,8 +78,9 @@ class DictionaryPredicateInterpreter {
 				$right_type = $this->varType($right);
 				$right = $right->value();
 			}
-			if(!$right_type || !$left_type || $right_type !== $left_type) {
-				return false;
+			if($right_type !== $left_type) {
+				throw new \InvalidArgumentException("DictionaryPredicateInterpreter::interpret :"
+					." comparing different field types");
 			}
 			if($p instanceof  \CaT\Filter\Predicates\PredicateEq) {
 				if( $right_type === self::IS_DATE ) {
@@ -128,7 +129,7 @@ class DictionaryPredicateInterpreter {
 		if(get_class($var) === 'DateTime') {
 			return self::IS_DATE;
 		}
-		return false;
+		throw new \InvalidArgumentException("DictionaryPredicateInterpreter::fieldType : invalid field type");
 	}
 
 	protected function varType($var) {
@@ -141,6 +142,6 @@ class DictionaryPredicateInterpreter {
 		if( $var instanceof \CaT\Filter\Predicates\ValueDate) {
 			return self::IS_DATE;
 		}
-		return false;
+		throw new \InvalidArgumentException("DictionaryPredicateInterpreter::varType : invalid var type");
 	}
 }
