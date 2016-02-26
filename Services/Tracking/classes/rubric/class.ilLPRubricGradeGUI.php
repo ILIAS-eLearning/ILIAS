@@ -179,15 +179,16 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 
     private function buildGradeBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment, $locatorArray, $locator)
     {
-        error_log($locatorArray[$locator]);
         if($locatorArray[$locator] == true)
         {
+            error_log('in the true baby');
             $tmp_write.="<td class=\"range-flag\" scope=\"rowgroup\">
                         ${behavior['description']}
                     </td>";
         }
         else
         {
+            error_log('in the false baby');
             $tmp_write.="<td scope=\"rowgroup\">
                         ${behavior['description']}
                     </td>";
@@ -240,14 +241,20 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
         foreach($group['weights'] as $weight)
         {
             $locator++;
-
-            if( $tmp_point >= $weight['weight_min'] && $tmp_point <= $weight['weight_max'])
+            if((float)$weight['weight_min']<(float)$weight['weight_max'])
+            {
+                $min_points=$weight['weight_min'];
+                $max_points=$weight['weight_max'];
+            }else{
+                $min_points=$weight['weight_max'];
+                $max_points=$weight['weight_min'];
+            }
+            if( $tmp_point >= $min_points && $tmp_point <= $max_points)
             {
                 //echo "Point:".$tmp_point." ID:".$weight['rubric_weight_id']."</br>";
                 $locatorArray[$locator] = 'true';
             }
         }
-
         //var_dump($locatorArray);
 
         //get behaviors
