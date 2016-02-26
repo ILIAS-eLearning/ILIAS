@@ -77,14 +77,33 @@ class PredicateFactory {
 	}
 
 	/**
-	 * Construct a list from some values.
+	 * Construct a list from int values.
 	 *
 	 * @param	string[]|int[]	$elements
 	 * @return	ValueList
 	 */
-	public function vlist(/*...$elements*/) {
+	public function list_int(/*...$elements*/) {
 		$elements = func_get_args();
-		return new Predicates\ValueList($this, $elements);
+		$val_objs = array();
+		foreach ($elements as $el) {
+			$val_objs[] = $this->int($el);
+		}
+		return new Predicates\ValueList($val_objs);
+	}
+
+	/**
+	 * Construct a list from str values.
+	 *
+	 * @param	string[]|int[]	$elements
+	 * @return	ValueList
+	 */
+	public function list_str(/*...$elements*/) {
+		$elements = func_get_args();
+		$val_objs = array();
+		foreach ($elements as $el) {
+			$val_objs[] = $this->str($el);
+		}
+		return new Predicates\ValueList($val_objs);
 	}
 
 	/**
@@ -98,6 +117,10 @@ class PredicateFactory {
 		return new Predicates\PredicateEq($this, $l, $r);
 	}
 
+	public function NEQ(Predicates\ValueLike $l, Predicates\ValueLike $r) {
+		return $this->EQ($l,$r)->_NOT();
+	}
+
 	/**
 	 * A predicate that is true if l is lower or equals r.
 	 *
@@ -105,15 +128,23 @@ class PredicateFactory {
 	 * @param	ValueLike		$r
 	 * @return	Predicate
 	 */
-	public function LE(Predicates\ValueLike $l, Predicates\ValueLike $r) {
-		return new Predicates\PredicateLe($this, $l, $r);
+	public function LT(Predicates\ValueLike $l, Predicates\ValueLike $r) {
+		return new Predicates\PredicateLt($this, $l, $r);
 	}
 
-	// TODO:
-	//		- NEQ
-	//		- LT
-	//		- GE
-	//		- GT
+	public function LE(Predicates\ValueLike $l, Predicates\ValueLike $r) {
+		$lt = new Predicates\PredicateLt($this, $l, $r);
+		$eq = new Predicates\PredicateEq($this, $l, $r);
+		return $this->_ANY($lt,$eq);
+	}
+
+	public function GE(Predicates\ValueLike $l, Predicates\ValueLike $r) {
+		return $this->LE($r, $l);
+	}
+
+	public function GT(Predicates\ValueLike $l, Predicates\ValueLike $r) {
+		return $this->LT($r, $l);
+	}
 
 	/**
 	 * A predicate that is true when the value is part of a list.
@@ -123,7 +154,7 @@ class PredicateFactory {
 	 * @return	Predicate
 	 */
 	public function IN(Predicates\ValueLike $l, Predicates\ValueList $r) {
-		return new Predicates\PredicatesIn($this, $l, $r);
+		return new Predicates\PredicateIn($this, $l, $r);
 	}
 
 	// COMBINATORS

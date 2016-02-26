@@ -7,5 +7,7 @@ namespace CaT\Filter\Predicates;
 /**
  * A predicate to compare two values.
  */
-class PredicateLe extends PredicateComparison {
+class PredicateNeq extends PredicateComparison {
+	protected $left;
+	protected $right;
 }

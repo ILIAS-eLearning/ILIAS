@@ -19,7 +19,7 @@ class PredicateNot extends Predicate {
 	}
 
 	public function fields() {
-		return array();
+		return $this->sub->fields();
 	}
 
 	/**
