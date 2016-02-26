@@ -10,6 +10,7 @@
 		<baseclass name="gevExpressRegistrationGUI" dir="Registration/classes" />
 		<baseclass name="gevLocalUserGUI" dir="Desktop/classes" />
 		<baseclass name="gevMainMenuGUI" dir="Desktop/classes" />
+		<baseclass name="catDisplayFilterBase" dir="Desktop/classes" />
 	</baseclasses>
 	<objects>
 	</objects>
