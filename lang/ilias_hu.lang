@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.1.x 2016-01-27 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.1.x 2016-02-27 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -1365,7 +1365,7 @@ assessment#:#tst_your_answer_was#:#Az Ön által adott válasz a következő vol
 assessment#:#tst_your_answers#:#Ezek az Ön által adott válaszok az alábbi kérdésekre.
 assessment#:#test_enable_archiving#:#Archiválás engedélyezése
 assessment#:#test_enable_archiving_desc#:#A teszt összes résztvevőjének összes válasza exportálható és letölthető az 'Export' fül alatt.
-assessment#:#ass_create_archive_export#:#Archív-export létrehozása.
+assessment#:#ass_create_archive_export#:#Archív-export létrehozása
 assessment#:#cannot_export_archive#:#Archív-export nem hozható létre.
 assessment#:#tt_assessment#:#Ellenőrző teszt
 assessment#:#tt_online_exam#:#Online vizsga
@@ -10959,8 +10959,8 @@ style#:#sty_to#:#erre
 style#:#sty_add_content_style#:#Tartalomstílus létrehozása
 style#:#sty_remove_global_default_state#:#Globálisan alapértelmezett állapot eltávolítása
 style#:#sty_remove_global_fixed_state#:#Globálisan rögzített állapot eltávolítása
-style#:#sty_make_global_default#:#Új objektumokhoz globálisan alapértelmezett stílusként beállítás
-style#:#sty_make_global_fixed#:#Új objektumokhoz ezen stílus kikényszerítése
+style#:#sty_make_global_default#:#Beállítás alapértelmezett stílusként
+style#:#sty_make_global_fixed#:#Ennek a stílusnak készerítése az összes objektumokra
 content#:#cont_save_types#:#Típusok mentése
 content#:#cont_layout_template#:#Elrendezéssablon
 content#:#cont_special_page#:#Speciális tartalomlap
@@ -13323,7 +13323,7 @@ tos#:#tos_no_documents_exist#:#Jelenleg egy telepített nyelvhez sincs szolgált
 tos#:#tos_no_documents_exist_cant_save#:#Jelenleg egy telepített nyelvhez sincs szolgáltatási feltétel. Kérem legalább egy nyelvhez hozzon létre.
 ecs#:#ecs_sync_trees#:#Könyvtár faszerkezet szinkronizálása
 survey#:#svy_invite_action#:#Munkaasztalra helyezés
-rbac#:#chtr_delete#:#Felhasználó mozgathat és törölhet csoportot
+rbac#:#chtr_delete#:#Felhasználó mozgathat és törölhet csevegőszobát
 ecs#:#ecs_role_mappings#:#Kurzus/Csoport szerep összerendelések
 ecs#:#ecs_role_mapping_value#:#Attribútum értéke
 forum#:#sorting_manual_sticky#:#Kiemelt témák kézi rendezése
@@ -15569,7 +15569,7 @@ membership#:#mem_force_notification_mode_all#:#Értesítés aktiválása az öss
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Tagok kikapcsolhatják az értesítéseket
 membership#:#mem_force_notification_mode_custom#:#Egyéni
 common#:#settings_for_all_members#:#A tagokat automatikusan értesítjük
-common#:#settings_per_users#:#Az összes tag egyéni beállítást alkalmazhat
+common#:#settings_per_users#:#Tagokat automatikusan értesítjük. Az összes tag saját magának kikapcsolhatja az értesítést.
 forum#:#user_decides_notification#:#Az értesítéseket a tagok manuálisan kell, hogy aktiválják
 crs#:#crs_intro_course_group_notification_for#:#Ez kurzusai és csoportjai azon híreinek kivonata, melyekre aktív az értesítés.
 crs#:#crs_intro_course_group_notification_index#:#Az alábbi csoportokhoz és kurzusokhoz vannak hírek %1$s és %2$s közötti időszakból:
@@ -16169,3 +16169,11 @@ content#:#cont_error#:#Sajnáljuk, hiba lépett fel
 crs#:#crs_mail_context_member_info#:#Egy kurzus információs lapján lévő e-mail címekre 
 crs#:#crs_mail_context_tutor_info#:#Egy kurzus tagok és tanulási haladás lapján lévő résztvevők e-mail címeire
 sahs#:#sahs_mail_context_lp_info#:#Egy SCORM-tananyag tanulási haladás lapján lévő résztvevők e-mail címeire
+style#:#sty_type_ha_iheada#:#Vízszintes harmonika fejléc  (aktív)
+style#:#sty_type_ha_ihcap#:#Vízszintes harmonika felirat
+style#:#sty_type_va_iheada#:#Függőleseg harmonika fejléc (aktív)
+style#:#sty_type_va_ihcap#:#Függőleseg harmonika felirat
+style#:#sty_ha_iheada_class#:#Vízszintes harmonika fejléc (aktív)
+style#:#sty_ha_ihcap_class#:#Vízszintes harmonika felirat
+style#:#sty_va_iheada_class#:#Függőleseg harmonika fejléc (aktív)
+style#:#sty_va_ihcap_class#:#Függőleseg harmonika felirat
