@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.2.x 2016-01-27 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.2.x 2016-02-27 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -2347,7 +2347,7 @@ common#:#continue_work#:#Folytatás
 common#:#contra#:#Negatívum
 common#:#cookies_howto#:#Hogyan engedélyezhetők a sütik?
 common#:#copied_object#:#Másolt objektum
-common#:#copy_all#:#Mindent másol
+common#:#copy_all#:#Összeset másol
 common#:#copy_n_of_suffix#:#- másolata (%1$s)
 common#:#copy_of_suffix#:#- másolata
 common#:#copy_of#:#Másolandó:
@@ -2942,7 +2942,7 @@ common#:#grp_members_gallery#:#Csoporttagok képtára
 common#:#grp_msg_applicants_assigned#:#A jelentkező(k) csoporttagként felvétele.
 common#:#grp_msg_applicants_removed#:#A jelentkező(k) eltávolítása a listáról.
 common#:#grp_msg_member_assigned#:#A felhasználó(k) csoporttagként felvétele.
-common#:#grp_msg_membership_annulled#:#Törölt tagság.
+common#:#grp_msg_membership_annulled#:#Tagságát töröltük.
 common#:#grp_name_exists#:#Már létezik ilyen nevű csoport. Válasszon másik nevet!
 common#:#grp_new_search#:#Új keresés
 common#:#grp_new#:#Új csoport
@@ -3227,7 +3227,7 @@ common#:#legend#:#Jelmagyarázat
 common#:#level#:#Szint
 common#:#license#:#Licenc
 common#:#licenses#:#Licencek
-common#:#link_all#:#Mindegyiket linkel
+common#:#link_all#:#Összeset linkel
 common#:#link_check_body_top#:#Azért kapta ezt a levelet az ILIAS-ból, mert értesülni szeretne az alábbi tananyagok érvénytelen linkjeiről:
 common#:#link_check_message_b#:#Ha be van kapcsolva, levélben kap értesítést az érvénytelen linkekről.
 common#:#link_check_message_disabled#:#Üzenetek tiltva
@@ -3883,7 +3883,7 @@ common#:#offline_version#:#Offline változat
 common#:#offline#:#offline
 common#:#ok#:#Rendben
 common#:#old#:#Régi
-common#:#omit_all#:#Mindent kihagy
+common#:#omit_all#:#Összeset kihagy
 common#:#omit#:#Kihagy
 common#:#on_waiting_list#:#Ön várólistán van
 common#:#online_chapter#:#Online fejezet
@@ -10959,8 +10959,8 @@ style#:#sty_to#:#erre
 style#:#sty_add_content_style#:#Tartalomstílus létrehozása
 style#:#sty_remove_global_default_state#:#Globálisan alapértelmezett állapot eltávolítása
 style#:#sty_remove_global_fixed_state#:#Globálisan rögzített állapot eltávolítása
-style#:#sty_make_global_default#:#Új objektumokhoz globálisan alapértelmezett stílusként beállítás
-style#:#sty_make_global_fixed#:#Új objektumokhoz ezen stílus kikényszerítése
+style#:#sty_make_global_default#:#Beállítás alapértelmezett stílusként
+style#:#sty_make_global_fixed#:#Ennek a stílusnak készerítése az összes objektumokra
 content#:#cont_save_types#:#Típusok mentése
 content#:#cont_layout_template#:#Elrendezéssablon
 content#:#cont_special_page#:#Speciális tartalomlap
@@ -11694,8 +11694,8 @@ rbac#:#chtr_visible#:#A csevegőszoba látható
 rbac#:#chtr_read#:#A felhasználó csatlakozhat és részt vehet a csevegőszobában
 rbac#:#chtr_write#:#A felhasználó szerkesztheti a csevegőszoba beállításait, és kitilthat felhasználókat
 rbac#:#chtr_edit_permission#:#A felhasználó szerkesztheti a csevegőszoba jogosultsági beállításait
-common#:#objs_chtr#:#Csevegőszobák
-common#:#obj_chta#:#Csevegés
+common#:#objs_chtr#:#Csevegőszoba
+common#:#obj_chta#:#Csevegőszoba
 chatroom#:#history_by_day#:#Napi történet
 chatroom#:#no_username_given#:#Válasszon felhasználónevet
 chatroom#:#history_by_session#:#Munkamenet-történet
@@ -13323,7 +13323,7 @@ tos#:#tos_no_documents_exist#:#Jelenleg egy telepített nyelvhez sincs szolgált
 tos#:#tos_no_documents_exist_cant_save#:#Jelenleg egy telepített nyelvhez sincs szolgáltatási feltétel. Kérem legalább egy nyelvhez hozzon létre.
 ecs#:#ecs_sync_trees#:#Könyvtár faszerkezet szinkronizálása
 survey#:#svy_invite_action#:#Munkaasztalra helyezés
-rbac#:#chtr_delete#:#Felhasználó mozgathat és törölhet csoportot
+rbac#:#chtr_delete#:#Felhasználó mozgathat és törölhet csevegőszobát
 ecs#:#ecs_role_mappings#:#Kurzus/Csoport szerep összerendelések
 ecs#:#ecs_role_mapping_value#:#Attribútum értéke
 forum#:#sorting_manual_sticky#:#Kiemelt témák kézi rendezése
@@ -15569,7 +15569,7 @@ membership#:#mem_force_notification_mode_all#:#Értesítés aktiválása az öss
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Tagok kikapcsolhatják az értesítéseket
 membership#:#mem_force_notification_mode_custom#:#Egyéni
 common#:#settings_for_all_members#:#A tagokat automatikusan értesítjük
-common#:#settings_per_users#:#Az összes tag egyéni beállítást alkalmazhat
+common#:#settings_per_users#:#Tagokat automatikusan értesítjük. Az összes tag saját magának kikapcsolhatja az értesítést.
 forum#:#user_decides_notification#:#Az értesítéseket a tagok manuálisan kell, hogy aktiválják
 crs#:#crs_intro_course_group_notification_for#:#Ez kurzusai és csoportjai azon híreinek kivonata, melyekre aktív az értesítés.
 crs#:#crs_intro_course_group_notification_index#:#Az alábbi csoportokhoz és kurzusokhoz vannak hírek %1$s és %2$s közötti időszakból:
@@ -16170,3 +16170,11 @@ prtf#:#prtf_shared_offline_info#:#A portfóliónak online-nak kell lennie, hogy 
 crs#:#crs_mail_context_member_info#:#Egy kurzus információs lapján lévő e-mail címekre 
 crs#:#crs_mail_context_tutor_info#:#Egy kurzus tagok és tanulási haladás lapján lévő résztvevők e-mail címeire
 sahs#:#sahs_mail_context_lp_info#:#Egy SCORM-tananyag tanulási haladás lapján lévő résztvevők e-mail címeire
+style#:#sty_type_ha_iheada#:#Vízszintes harmonika fejléc  (aktív)
+style#:#sty_type_ha_ihcap#:#Vízszintes harmonika felirat
+style#:#sty_type_va_iheada#:#Függőleseg harmonika fejléc (aktív)
+style#:#sty_type_va_ihcap#:#Függőleseg harmonika felirat
+style#:#sty_ha_iheada_class#:#Vízszintes harmonika fejléc (aktív)
+style#:#sty_ha_ihcap_class#:#Vízszintes harmonika felirat
+style#:#sty_va_iheada_class#:#Függőleseg harmonika fejléc (aktív)
+style#:#sty_va_ihcap_class#:#Függőleseg harmonika felirat
