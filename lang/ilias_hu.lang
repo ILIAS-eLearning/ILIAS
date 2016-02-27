@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.0.x 2016-01-27 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.0.x 2016-02-27 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -10773,8 +10773,8 @@ style#:#sty_to#:#erre
 style#:#sty_add_content_style#:#Tartalomstílus létrehozása
 style#:#sty_remove_global_default_state#:#Globálisan alapértelmezett állapot eltávolítása
 style#:#sty_remove_global_fixed_state#:#Globálisan rögzített állapot eltávolítása
-style#:#sty_make_global_default#:#Új objektumokhoz globálisan alapértelmezett stílusként beállítás
-style#:#sty_make_global_fixed#:#Új objektumokhoz ezen stílus kikényszerítése
+style#:#sty_make_global_default#:#Beállítás alapértelmezett stílusként
+style#:#sty_make_global_fixed#:#Ennek a stílusnak készerítése az összes objektumokra
 content#:#cont_save_types#:#Típusok mentése
 content#:#cont_layout_template#:#Elrendezéssablon
 content#:#cont_special_page#:#Speciális tartalomlap
@@ -15317,3 +15317,11 @@ common#:#mgs_objects_linked_to_the_following_folders_p#:#Az objektumokat a köve
 common#:#mgs_objects_linked_to_the_following_folders_s#:#Az objektumot a következő könyvtár(ak)ba sikeresen linkelte: %s
 common#:#msg_link_clipboard_p#:#Válassza ki a helyet, ahová a kiválasztott objektumokat linkelni szeretné, majd kattintson a 'Beillesztés' gombra.
 common#:#msg_link_clipboard_s#:#Válassza ki a helyet, ahová a kiválasztott objektumot linkelni szeretné, majd kattintson a 'Beillesztés' gombra.
+style#:#sty_type_ha_iheada#:#Vízszintes harmonika fejléc  (aktív)
+style#:#sty_type_ha_ihcap#:#Vízszintes harmonika felirat
+style#:#sty_type_va_iheada#:#Függőleseg harmonika fejléc (aktív)
+style#:#sty_type_va_ihcap#:#Függőleseg harmonika felirat
+style#:#sty_ha_iheada_class#:#Vízszintes harmonika fejléc (aktív)
+style#:#sty_ha_ihcap_class#:#Vízszintes harmonika felirat
+style#:#sty_va_iheada_class#:#Függőleseg harmonika fejléc (aktív)
+style#:#sty_va_ihcap_class#:#Függőleseg harmonika felirat
