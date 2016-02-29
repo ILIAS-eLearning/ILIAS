@@ -10,21 +10,35 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_display_filter() {
-		$f1 = $this->factory->text("l1", "d1");
-		$f2 = $this->factory->multiselect("l2", "d2", array("a","b","c"));
-		$f3 = $this->factory->option("l3", "d3");
-		$f4 = $this->factory->dateperiod("l4", "d4");
-		$f5 = $this->factory->one_of("l5", "d5", $f1, $f2, $f3, $f4);
-		$fs = $this->factory->sequence($f1, $f2, $f3, $f4, $f5);
+		$f = $this->factory;
 
-		$classes = array("catFilterTextGUI", "catFilterMultiselectGUI","catFilterOptionGUI", "catFilterDatePeriodGUI", "catFilterOneOfGUI");
-		$path = array("0", "1","2", "3", "4");
+		$fs = $f->sequence
+			( $f->text("l1", "d2")
+			, $f->multiselect("l2", "d2", array("a"=>"A","b"=>"B","c"=>"C"))
+			, $f->option("l3", "d3")
+			, $f->dateperiod("l4", "d4")
+			, $f->one_of("l5", "d5"
+				, $f->text("l51", "d51")
+				, $f->multiselect("l52", "d52", array("a"=>"A","b"=>"B","c"=>"C"))
+				, $f->option("l53", "d53")
+				, $f->dateperiod("l54", "d54")
+				)
+			, $f->text("l6", "d6")
+			, $f->singleselect("l22", "d22", array("Bernd"=>"A","Karsten"=>"B","Peter"=>"C"))
+			);
+
+
+		$classes = array("catFilterTextGUI", "catFilterMultiselectGUI","catFilterOptionGUI", "catFilterDatePeriodGUI", "catFilterOneOfGUI", "catFilterSingleSelectGUI");
+		$path = array("0", "1", "2", "3", "4", "5", "6");
 		$post_values = array();
 		$counter = 0;
 
 		$df = new \CaT\Filter\DisplayFilter($this->gui_factory);
 
 		while($gui = $df->getNextFilterGUI($fs, $post_values)) {
+			//echo $counter;
+			//echo $classes[$counter];
+			//var_dump(get_class($gui));
 			$this->assertInstanceOf($classes[$counter], $gui);
 			$this->assertEquals($path[$counter], $gui->path());
 
@@ -34,24 +48,32 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_display_filter_more_level() {
-		$f1 = $this->factory->text("l1", "d1");
-		$f2 = $this->factory->multiselect("l2", "d2", array("a","b","c"));
-		$f3 = $this->factory->option("l3", "d3");
-		$f4 = $this->factory->dateperiod("l4", "d4");
-		$f5 = $this->factory->one_of("l5", "d5", $f1, $f2, $f3, $f4);
-		$fs = $this->factory->sequence($f1, $f2, $f3, $f4, $f5);
+		$f = $this->factory;
 
-		$f21 = $this->factory->text("l1", "d1");
-		$f22 = $this->factory->multiselect("l2", "d2", array("a","b","c"));
-		$f23 = $this->factory->option("l3", "d3");
-		$f24 = $this->factory->dateperiod("l4", "d4");
-		$fs2 = $this->factory->sequence($f21, $f22, $f23, $f24);
-
-		$fs = $this->factory->sequence($f1, $fs2, $f2, $f3, $f4);
+		$fs = $f->sequence
+			( $f->text("l1", "d2")
+			, $f->sequence
+				( $f->text("l21", "d21")
+				, $f->multiselect("l22", "d22", array("a"=>"A","b"=>"B","c"=>"C"))
+				, $f->option("l23", "d23")
+				, $f->dateperiod("l24", "d24")
+				)
+			, $f->multiselect("l2", "d2", array("a"=>"A","b"=>"B","c"=>"C"))
+			, $f->option("l3", "d3")
+			, $f->dateperiod("l4", "d4")
+			, $f->one_of("l5", "d5"
+				, $f->text("l51", "d51")
+				, $f->multiselect("l52", "d52", array("a"=>"A","b"=>"B","c"=>"C"))
+				, $f->option("l53", "d53")
+				, $f->dateperiod("l54", "d54")
+				)
+			, $f->text("l6", "d6")
+			, $f->singleselect("l22", "d22", array("Bernd"=>"A","Karsten"=>"B","Peter"=>"C"))
+			);
 
 		$classes = array("catFilterTextGUI", "catFilterTextGUI", "catFilterMultiselectGUI", "catFilterOptionGUI"
-						, "catFilterDatePeriodGUI", "catFilterMultiselectGUI", "catFilterOptionGUI", "catFilterDatePeriodGUI", "catFilterOneOfGUI");
-		$path = array("0","1:0","1:1","1:2","1:3","2","3","4");
+						, "catFilterDatePeriodGUI", "catFilterMultiselectGUI", "catFilterOptionGUI", "catFilterDatePeriodGUI", "catFilterOneOfGUI", "catFilterSingleselectGUI");
+		$path = array("0","1:0","1:1","1:2","1:3","2","3","4","5");
 		$counter = 0;
 		$post_values = array();
 

@@ -4,61 +4,29 @@
 
 namespace CaT\Filter\Filters;
 
-class Singleselect extends Multiselect {
-	/**
-	 * @var	array
-	 */
-	private $options;
+class Singleselect extends SelectBase {
 
 	/**
-	 * @var	int[]|string[]
+	 * Set or get the default choice of options for the multiselect.
+	 *
+	 * @param	int[]|string[]|null		$default_choice
+	 * @return	Multiselect|string[]|int[]
 	 */
-	private $default_choice;
+	public function default_choice(array $default_choice = null) {
+		if ($default_choice === null) {
+			return $this->default_choice;
+		}
 
-	public function __construct(\CaT\Filter\FilterFactory $factory, $label, $description, $options,
-								$default_choice = array(), array $mappings = array(),
-								array $mapping_result_types = array()) {
-		assert('is_string($label)');
-		assert('is_string($description)');
-
-		$this->setFactory($factory);
-		$this->setLabel($label);
-		$this->setDescription($description);
-		$this->setMappings($mappings, $mapping_result_types);
-
-		$this->options = $options;
-		$this->default_choice = $default_choice;
+		list($ms, $mrts) = $this->getMappings();
+		return new Singleselect($this->factory, $this->label(), $this->description(),
+						$this->options, $default_choice, $ms, $mrts);
 	}
 
 	/**
 	 * @inheritdocs
 	 */
-	public function original_content_type() {
-		return $this->factory->type_factory()->string();
-	}
-
-	/**
-	 * Get the options that could be selected.
-	 *
-	 * @return	int[]|string[]
-	 */
-	public function options() {
-		return $this->options;
-	}
-
-	/**
-	 * Set or get the default choice of options for the multiselect.
-	 *
-	 * @param	int[]|string[]|null		$options
-	 * @return	Multiselect|string[]|int[]
-	 */
-	public function default_choice(array $options = null) {
-		if ($options === null) {
-			return $this->default_choice;
-		}
-
-		list($ms, $mrts) = $this->getMappings();
-		return new Multiselect($this->factory, $this->label(), $this->description(),
-						$options, $this->default_choice, $ms, $mrts);
+	protected function clone_with_new_mappings($mappings, $mapping_result_types) {
+		return new Singleselect($this->factory, $this->label(), $this->description(),
+						$this->options, $this->default_choice, $mappings, $mapping_result_types);
 	}
 }

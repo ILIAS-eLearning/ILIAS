@@ -191,19 +191,21 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider	invalid_key_types_for_multiselect_provider
 	 */
-	public function test_multiselect_invalid_key_types($key) {
+	/*public function test_multiselect_invalid_key_types($key) {
 		try {
 			$this->factory->multiselect("l", "d", array($key => "foobar"));
 			$this->assertFalse("Should have raised.");
 		}
 		catch (\InvalidArgumentException $e) {
 		}
-	}
+	}*/
 
 	public function invalid_key_types_for_multiselect_provider() {
+		//php casts float to ints and false or true to 0 or 1
+		//test running without throwing error
 		return array
-			( array(1.2)
-			, array(true)
+			( //array(1.2)
+			//, array(true)
 			);
 	}
 
@@ -248,6 +250,69 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$pred = $filter->content(array(3));
 		$this->assertFalse($interpreter->interpret($pred_true, array("foo" => 2)));
 		$this->assertTrue($interpreter->interpret($pred_true, array("foo" => 3)));
+	}
+
+	//SINGLESELECT
+	public function test_singleselection_creation() {
+		$options = array
+			( 1 => "one"
+			, 2 => "two"
+			, 3 => "three"
+			);
+
+		$filter = $this->factory->singleselect("label", "description", $options);
+		$tf = $this->factory->type_factory();
+
+		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
+		$this->assertEquals("label", $filter->label());
+		$this->assertEquals("description", $filter->description());
+		$this->assertEquals($tf->lst($tf->int()), $filter->content_type());
+		$this->assertEquals($tf->lst($tf->int()), $filter->input_type());
+		$this->assertEquals($options, $filter->options());
+	}
+
+	public function test_singleselect_content_type_string() {
+		$options = array
+			( "foo" => "bar"
+			);
+		$tf = $this->factory->type_factory();
+
+		$filter = $this->factory->multiselect("label", "description", $options);
+		$this->assertEquals($tf->lst($tf->string()), $filter->content_type());
+		$this->assertEquals($tf->lst($tf->string()), $filter->input_type());
+	}
+
+	/**
+	 * @dataProvider	invalid_key_types_for_singleselectselect_provider
+	 */
+	public function test_singleselect_invalid_key_types($key) {
+		try {
+			$this->factory->multiselect("l", "d", array($key => "foobar"));
+			$this->assertFalse("Should have raised.");
+		}
+		catch (\InvalidArgumentException $e) {
+		}
+	}
+
+	public function invalid_key_types_for_singleselectselect_provider() {
+		return array
+			( array(1.2)
+			, array(true)
+			);
+	}
+
+	public function test_singleselectselect_options() {
+		$options = array
+			( 1 => "one"
+			, 2 => "two"
+			, 3 => "three"
+			);
+
+		$filter = $this->factory->multiselect("label", "description", $options)
+			->default_choice(array(1))
+			;
+
+		$this->assertEquals(array(1), $filter->default_choice());
 	}
 
 	// TEXT
