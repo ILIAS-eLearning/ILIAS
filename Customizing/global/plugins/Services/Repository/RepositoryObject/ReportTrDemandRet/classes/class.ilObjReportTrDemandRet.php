@@ -135,6 +135,7 @@ class ilObjReportTrDemandRet extends ilObjReportBase {
 			->static_condition("(crs.end_date < ".$this->gIldb->quote(date('Y-m-d'),'text')
 								." OR crs.is_cancelled = 'Ja' )")
 			->static_condition('crs.hist_historic = 0')
+			->static_condition("crs.is_template = 'Nein'")
 			->static_condition($this->gIldb->in('crs.type',array('Webinar','Präsenztraining','Virtuelles Training'),false,'text'))
 			->action($this->filter_action)
 			->compile();
