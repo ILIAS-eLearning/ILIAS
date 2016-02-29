@@ -189,7 +189,12 @@ class ilLPRubricCard
 
     public function lockUnlock()
     {
+
         $lock_var = ($this->isLocked())?NULL:date("Y-m-d H:i:s");
+        if(!is_null($lock_var))
+        {
+            $this->save();
+        }
         $this->ilDB->manipulate(
             "update rubric set
               locked = ".$this->ilDB->quote($lock_var,"timestamp").
@@ -558,7 +563,6 @@ class ilLPRubricCard
             );
             
             $broken_weight=explode('-',$weights[$k]);
-            sort($broken_weight);
             
             if($this->ilDB->numRows($set)>0){
                 $row=$this->ilDB->fetchAssoc($set);
