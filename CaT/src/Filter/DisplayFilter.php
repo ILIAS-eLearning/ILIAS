@@ -52,9 +52,9 @@ class DisplayFilter {
 	*/
 	public function getNextFilterGUI(Filters\Sequence $sequence, array $post_values) {
 		$navi = new Navigator($sequence);
-//echo "gUI";var_dump($post_values);
+		var_dump($post_values);
+		echo "\n";
 		if(empty($post_values)) {
-			echo 2;
 			$navi->go_to("0");
 			$filter = $navi->current();
 		} else {

@@ -282,25 +282,6 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($tf->lst($tf->string()), $filter->input_type());
 	}
 
-	/**
-	 * @dataProvider	invalid_key_types_for_singleselectselect_provider
-	 */
-	public function test_singleselect_invalid_key_types($key) {
-		try {
-			$this->factory->multiselect("l", "d", array($key => "foobar"));
-			$this->assertFalse("Should have raised.");
-		}
-		catch (\InvalidArgumentException $e) {
-		}
-	}
-
-	public function invalid_key_types_for_singleselectselect_provider() {
-		return array
-			( array(1.2)
-			, array(true)
-			);
-	}
-
 	public function test_singleselectselect_options() {
 		$options = array
 			( 1 => "one"
