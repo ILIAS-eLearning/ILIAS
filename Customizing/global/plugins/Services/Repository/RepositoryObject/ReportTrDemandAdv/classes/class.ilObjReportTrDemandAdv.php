@@ -146,6 +146,7 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 			->static_condition('crs.begin_date >= '.$this->gIldb->quote(date('Y-m-d'),'text'))
 			->static_condition("(crs.is_cancelled != 'Ja' OR crs.is_cancelled IS NULL)")
 			->static_condition('crs.hist_historic = 0')
+			->static_condition("crs.is_template = 'Nein'")
 			->static_condition($this->gIldb->in('crs.type',array('Webinar','Präsenztraining','Virtuelles Training'),false,'text'))
 			->action($this->filter_action)
 			->compile();
@@ -160,7 +161,7 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 			? $this->gIldb->in('tpl.crs_id',array_unique($this->getSubtreeCourseTemplates()),false,'integer')
 			: " tpl.is_template = 'Ja' ";
 		
-		$query ='SELECT tpl.title as tpl_title, base.* FROM hist_course tpl LEFT JOIN '
+		$query ='SELECT tpl.title as tpl_title, base.* FROM hist_course tpl JOIN '
 				.'('.$this->query->sql()."\n "
 			   	. $this->queryWhere()."\n "
 			   	. $this->query->sqlGroupBy()."\n"

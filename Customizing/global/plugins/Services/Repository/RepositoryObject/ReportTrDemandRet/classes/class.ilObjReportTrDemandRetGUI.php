@@ -48,6 +48,18 @@ class ilObjReportTrDemandRetGUI extends ilObjReportBaseGUI {
 		return parent::transformResultRow($rec);
 	}
 
+	public static function transformResultRowXLS($rec) {
+		if($rec['title'] !== null) {
+			$rec['cancellation'] = $rec['cancellation'] === 'Ja'
+											? $rec['cancellation'] : 'Nein';
+			$rec['date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
+					.' - '.date_format(date_create($rec['end_date']),'d.m.Y');
+		} else {
+			$rec = array(	'tpl_title' => $rec['tpl_title']);
+		}
+		return parent::transformResultRow($rec);
+	}
+
 	protected function settingsForm($data = null) {
 		$settings_form = parent::settingsForm($data);
 		$is_local = new ilCheckboxInputGUI($this->object->plugin->txt('report_is_local'),'is_local');

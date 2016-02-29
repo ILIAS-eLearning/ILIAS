@@ -60,6 +60,30 @@ class ilObjReportTrDemandAdvGUI extends ilObjReportBaseGUI {
 		return parent::transformResultRow($rec);
 	}
 
+	public static function transformResultRowXLS($rec) {
+		if($rec['title'] !== null) {
+			$rec['min_part_achived'] = 
+				((string)$rec['min_participants'] === "0" 
+					|| $rec['min_participants'] === null 
+					|| $rec['bookings'] >=  $rec['min_participants'])
+					? 'Ja' : 'Nein';
+			$rec['bookings_left'] 
+				= ((string)$rec['max_participants'] === "0" || $rec['max_participants'] === null)
+					? 'keine Beschränkung'
+					: (string)((int)$rec['max_participants'] - (int)$rec['bookings']);
+			$rec['waitinglist'] = $rec['waitinglist_active'] === 'Ja' 
+											? $rec['booked_wl'] : 'inaktiv';
+
+			$rec['date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
+					.' - '.date_format(date_create($rec['end_date']),'d.m.Y');
+			$rec['booking_dl'] = date_format(date_create($rec['booking_dl']),'d.m.Y');
+		} else {
+			$rec = array(	'tpl_title' => $rec['tpl_title']);
+		}
+		return parent::transformResultRow($rec);
+	}
+
+
 	protected function settingsForm($data = null) {
 		$settings_form = parent::settingsForm($data);
 		$is_local = new ilCheckboxInputGUI($this->object->plugin->txt('report_is_local'),'is_local');
