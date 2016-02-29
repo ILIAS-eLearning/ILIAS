@@ -319,6 +319,13 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                     }
                 }
             }
+
+            if(preg_match('/^\d{1,8}(?:\.\d{0,2})?$/',$weight['weight_min'])===0||preg_match('/^\d{1,8}(?:\.\d{0,2})?$/',$weight['weight_max'])===0)
+            {
+                $div_class="has-error";
+                $span_class="glyphicon-remove";
+                $span_innerhtml="(error)";
+            }
             
             $tmp_name="Points${group_id}_${k}";
             $tmp_write.="<th scope=\"col\">

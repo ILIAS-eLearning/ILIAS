@@ -1102,13 +1102,11 @@ function validate(obj){
         break;
         case 'point':
             modified_object=obj.parentNode;
-            if(obj.value.match(/^\d{1,8}(?:\.\d{0,2})?\-\d{1,8}(?:\.\d{0,2})?$/)&&RUBRIC.checkOverlappingRange(obj)){
+            if(obj.value.match(/^\d{1,8}(?:\.\d{0,2})?\-\d{1,8}(?:\.\d{0,2})?$/)){
                 validated=true;
             }
             else if(obj.value=='') {
                 validated = 'warning';
-            } else {
-                validated=false;
             }
 
         break;
@@ -1150,7 +1148,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     for(var i=0;i<rubric_inputs.length;i++)
     {
         if(rubric_inputs[i].getAttribute("placeholder") !== 'Grade'
-            && rubric_inputs[i].getAttribute("placeholder") !== 'Comment')
+            && rubric_inputs[i].getAttribute("placeholder") !== 'Comment'
+            && rubric_inputs[i].id.substr(0,5)!=='Point')
         {
             validate(rubric_inputs[i]);
         }
