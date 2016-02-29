@@ -2102,6 +2102,7 @@ class gevUserUtils {
 					." JOIN object_reference ON object_reference.ref_id = rbac_pa.ref_id\n"
 					." JOIN object_data ON object_data.obj_id = rep_obj_bbpool.obj_id\n"
 					." WHERE rep_obj_bbpool.obj_id = object_reference.obj_id\n"
+					."    AND rep_obj_bbpool.is_online = 1\n"
 					." ORDER BY object_data.title\n";
 		}
 
