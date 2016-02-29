@@ -5008,8 +5008,19 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "Repository", "robj", "Buildi
 <#210>
 <?php
 
+require_once "Customizing/class.ilCustomInstaller.php";
+ilCustomInstaller::maybeInitClientIni();
+ilCustomInstaller::maybeInitPluginAdmin();
+ilCustomInstaller::maybeInitObjDefinition();
+ilCustomInstaller::maybeInitAppEventHandler();
+ilCustomInstaller::maybeInitTree();
+ilCustomInstaller::maybeInitRBAC();
+ilCustomInstaller::maybeInitObjDataCache();
+ilCustomInstaller::maybeInitUserToRoot();
+ilCustomInstaller::maybeInitSettings();
+
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-$relevant_ref_ids = array(1696,1783,1621,1644,1686,47318,43277,1699,34937);
+$relevant_ref_ids = array(1683);//,1783,1621,1644,1686,47318,43277,1699,34937);
 foreach ($relevant_ref_ids as $ref_id) {
 	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "Admin-Ansicht", array("load_member_list"));
 }
