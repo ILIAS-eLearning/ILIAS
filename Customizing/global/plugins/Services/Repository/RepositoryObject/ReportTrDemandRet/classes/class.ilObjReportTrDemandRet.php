@@ -33,7 +33,7 @@ class ilObjReportTrDemandRet extends ilObjReportBase {
 		$table	->column('tpl_title', $this->plugin->txt('tpl_title'), true)
 				->column('title', $this->plugin->txt('crs_title'), true)
 				->column('type', $this->plugin->txt('crs_type'), true)
-				->column('date', $this->plugin->txt('crs_date'), true)
+				->column('begin_date', $this->plugin->txt('crs_date'), true)
 				->column('succ_participations', $this->plugin->txt('succ_participations'), true)
 				->column('bookings', $this->plugin->txt('bookings'), true)
 				->column('cancellations', $this->plugin->txt('cancellations'), true)
@@ -136,6 +136,7 @@ class ilObjReportTrDemandRet extends ilObjReportBase {
 								." OR crs.is_cancelled = 'Ja' )")
 			->static_condition('crs.hist_historic = 0')
 			->static_condition("crs.is_template = 'Nein'")
+			->static_condition("crs.begin_date != '0000-00-00'")
 			->static_condition($this->gIldb->in('crs.type',array('Webinar','Präsenztraining','Virtuelles Training'),false,'text'))
 			->action($this->filter_action)
 			->compile();

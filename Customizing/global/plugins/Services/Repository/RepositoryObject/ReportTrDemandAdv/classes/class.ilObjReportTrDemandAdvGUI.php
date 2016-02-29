@@ -40,18 +40,18 @@ class ilObjReportTrDemandAdvGUI extends ilObjReportBaseGUI {
 				}
 			}
 			$rec['min_part_achived'] = 
-				((string)$rec['min_participants'] === "0" 
+				((string)$rec['min_part_achived'] === "1" 
 					|| $rec['min_participants'] === null 
-					|| $rec['bookings'] >=  $rec['min_participants'])
+					|| $rec['min_participants'] === '-empty-')
 					? 'Ja' : 'Nein';
 			$rec['bookings_left'] 
 				= ((string)$rec['max_participants'] === "0" || $rec['max_participants'] === null)
 					? 'keine Beschränkung'
-					: (string)((int)$rec['max_participants'] - (int)$rec['bookings']);
-			$rec['waitinglist'] = $rec['waitinglist_active'] === 'Ja' 
+					: $rec['bookings_left'];
+			$rec['booked_wl'] = $rec['waitinglist_active'] === 'Ja' 
 											? $rec['booked_wl'] : 'inaktiv';
 
-			$rec['date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
+			$rec['begin_date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
 					.' - '.date_format(date_create($rec['end_date']),'d.m.Y');
 			$rec['booking_dl'] = date_format(date_create($rec['booking_dl']),'d.m.Y');
 		} else {
@@ -63,18 +63,20 @@ class ilObjReportTrDemandAdvGUI extends ilObjReportBaseGUI {
 	public static function transformResultRowXLS($rec) {
 		if($rec['title'] !== null) {
 			$rec['min_part_achived'] = 
-				((string)$rec['min_participants'] === "0" 
+				((string)$rec['min_part_achived'] === "1" 
 					|| $rec['min_participants'] === null 
-					|| $rec['bookings'] >=  $rec['min_participants'])
+					|| $rec['min_participants'] === '-1')
 					? 'Ja' : 'Nein';
 			$rec['bookings_left'] 
-				= ((string)$rec['max_participants'] === "0" || $rec['max_participants'] === null)
+				= ((string)$rec['max_participants'] === "-1" ||
+					(string)$rec['max_participants'] === "0" || 
+					$rec['max_participants'] === null)
 					? 'keine Beschränkung'
-					: (string)((int)$rec['max_participants'] - (int)$rec['bookings']);
-			$rec['waitinglist'] = $rec['waitinglist_active'] === 'Ja' 
+					: $rec['bookings_left'];
+			$rec['booked_wl'] = $rec['waitinglist_active'] === 'Ja' 
 											? $rec['booked_wl'] : 'inaktiv';
 
-			$rec['date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
+			$rec['begin_date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
 					.' - '.date_format(date_create($rec['end_date']),'d.m.Y');
 			$rec['booking_dl'] = date_format(date_create($rec['booking_dl']),'d.m.Y');
 		} else {
