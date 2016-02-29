@@ -28,12 +28,12 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 		$table	->column('tpl_title', $this->plugin->txt('tpl_title'), true)
 				->column('title', $this->plugin->txt('crs_title'), true)
 				->column('type', $this->plugin->txt('crs_type'), true)
-				->column('date', $this->plugin->txt('crs_date'), true)
+				->column('begin_date', $this->plugin->txt('crs_date'), true)
 				->column('bookings', $this->plugin->txt('bookings'), true)
 				->column('min_participants', $this->plugin->txt('min_participants'), true)
 				->column('min_part_achived', $this->plugin->txt('min_part_achived'), true)
 				->column('bookings_left', $this->plugin->txt('bookings_left'), true)
-				->column('waitinglist', $this->plugin->txt('waitinglist'), true)
+				->column('booked_wl', $this->plugin->txt('waitinglist'), true)
 				->column('booking_dl', $this->plugin->txt('booking_dl'), true)
 				->column('trainers', $this->plugin->txt('trainers'), true);
 		return parent::buildTable($table);
@@ -161,7 +161,9 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 			? $this->gIldb->in('tpl.crs_id',array_unique($this->getSubtreeCourseTemplates()),false,'integer')
 			: " tpl.is_template = 'Ja' ";
 		
-		$query ='SELECT tpl.title as tpl_title, base.* FROM hist_course tpl JOIN '
+		$query ='SELECT tpl.title as tpl_title, base.*, base.max_participants - base.bookings as bookings_left '
+				.'	, base.bookings >= base.min_participants as min_part_achived'
+				.' FROM hist_course tpl JOIN '
 				.'('.$this->query->sql()."\n "
 			   	. $this->queryWhere()."\n "
 			   	. $this->query->sqlGroupBy()."\n"
