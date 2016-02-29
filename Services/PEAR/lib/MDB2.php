@@ -3355,26 +3355,26 @@ class MDB2_Result_Common extends MDB2_Result
     var $column_names;
 
     // }}}
-    // {{{ constructor: function __construct(&$db, $result, $limit = 0, $offset = 0)
+    // {{{ constructor: function __construct($db, $result, $limit = 0, $offset = 0)
 
     /**
      * Constructor
      */
-    function __construct(&$db, &$result, $limit = 0, $offset = 0)
+    function __construct($db, $result, $limit = 0, $offset = 0)
     {
-        $this->db =& $db;
+        $this->db = $db;
         $this->result = $result;
         $this->offset = $offset;
         $this->limit = max(0, $limit - 1);
     }
 
     // }}}
-    // {{{ function MDB2_Result_Common(&$db, &$result, $limit = 0, $offset = 0)
+    // {{{ function MDB2_Result_Common($db, $result, $limit = 0, $offset = 0)
 
     /**
      * PHP 4 Constructor
      */
-    function MDB2_Result_Common(&$db, &$result, $limit = 0, $offset = 0)
+    function MDB2_Result_Common($db, $result, $limit = 0, $offset = 0)
     {
         $this->__construct($db, $result, $limit, $offset);
     }
