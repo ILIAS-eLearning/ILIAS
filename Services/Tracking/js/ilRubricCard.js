@@ -113,6 +113,8 @@ var RUBRIC = {
 
     checkOverlappingRange:function(input){
 
+        var check=true;
+
         var current_range=this.getSingleRange(input.value);
 
         // grab the parent tr
@@ -139,6 +141,7 @@ var RUBRIC = {
                         div.classList.add('has-error');
                         var span=input.parentNode.children[2];
                         span.setAttribute('class','glyphicon glyphicon-remove form-control-feedback');
+                        check=false;
                     }
                     if(current_range['high']>=tmp_range['low']&&current_range['high']<=tmp_range['high']){
                         var div=input.parentNode;
@@ -147,13 +150,14 @@ var RUBRIC = {
                         div.classList.add('has-error');
                         var span=input.parentNode.children[2];
                         span.setAttribute('class','glyphicon glyphicon-remove form-control-feedback');                        
+                        check=false;
                     }
                 }
             }
             
         }
 
-        console.log('selected '+tr.nodeName);
+        return(check);
     },
     
     updatePoints:function(){
@@ -1098,11 +1102,13 @@ function validate(obj){
         break;
         case 'point':
             modified_object=obj.parentNode;
-            if(obj.value.match(/^\d{1,8}(?:\.\d{0,2})?\-\d{1,8}(?:\.\d{0,2})?$/)){
+            if(obj.value.match(/^\d{1,8}(?:\.\d{0,2})?\-\d{1,8}(?:\.\d{0,2})?$/)&&RUBRIC.checkOverlappingRange(obj)){
                 validated=true;
             }
             else if(obj.value=='') {
                 validated = 'warning';
+            } else {
+                validated=false;
             }
 
         break;
@@ -1135,6 +1141,7 @@ function validate(obj){
         modified_object.children[2].setAttribute('class','glyphicon glyphicon-warning-sign form-control-feedback');
         modified_object.children[3].innerHTML='(warning)';
     }
+
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -1146,7 +1153,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             && rubric_inputs[i].getAttribute("placeholder") !== 'Comment')
         {
             validate(rubric_inputs[i]);
-
         }
     }
 });

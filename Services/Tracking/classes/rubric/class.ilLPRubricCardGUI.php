@@ -284,8 +284,8 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
     private function buildTemplateGroupPoints($weights,$group_id)
     {
         $group_id++;//increment, base 1 
-        $tmp_script="<script type=\"text/javascript\">
-                    $( document ).ready(function() {";
+        //$tmp_script="<script type=\"text/javascript\">
+        //            $( document ).ready(function() {";
         $tmp_write="<tr class=\"tblrow1 small\">            
                         <th scope=\"col\" class=\"col-sm-2\">
                             &nbsp;
@@ -293,22 +293,47 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                         <th scope=\"col\" class=\"col-sm-2\">
                             &nbsp;
                         </th>";
-                        
         foreach($weights as $k => $weight){
+
+            $div_class="has-success";
+            $span_class="glyphicon-ok";
+            $span_innerhtml="(ok)";
+
+            //is this an overlapping range
+            foreach($weights as $_k => $_weight)
+            {
+                // don't compare it to itself
+                if($k!=$_k)
+                {
+                    if($weight['weight_min']>=$_weight['weight_min']&&$weight['weight_min']<=$_weight['weight_max'])        
+                    {
+                        $div_class="has-error";
+                        $span_class="glyphicon-remove";
+                        $span_innerhtml="(error)";
+                    }
+                    if($weight['weight_max']>=$_weight['weight_min']&&$weight['weight_max']<=$_weight['weight_max'])
+                    {
+                        $div_class="has-error";
+                        $span_class="glyphicon-remove";
+                        $span_innerhtml="(error)";
+                    }
+                }
+            }
+            
             $tmp_name="Points${group_id}_${k}";
             $tmp_write.="<th scope=\"col\">
-                            <div class=\"form-group has-success has-feedback\">
+                            <div class=\"form-group $div_class has-feedback\">
                                 <label class=\"control-label\" for=\"$tmp_name\">{POINT}</label>
                                 <input id=\"$tmp_name\" name=\"$tmp_name\" type=\"text\" class=\"form-control\" value=\"${weight['weight_min']}-${weight['weight_max']}\" onkeyup=\"validate(this)\" onblur=\"recalculate(this)\" oninput=\"validate(this)\"/>
-                               <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
-                               <span id=\"'.$tmp_name.'WarningStatus\" class=\"sr-only\">(ok)</span>
+                               <span class=\"glyphicon $span_class form-control-feedback\" aria-hidden=\"true\"></span>
+                               <span id=\"${tmp_name}WarningStatus\" class=\"sr-only\">$span_innerhtml</span>
                             </div>
                         </th>";
         }
         
         
         
-        return(array('tmp_write'=>$tmp_write,'tmp_script'=>$tmp_script));
+        return(array('tmp_write'=>$tmp_write));
         
     }
     
