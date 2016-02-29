@@ -8,6 +8,7 @@ require_once("Services/Database/classes/Exceptions/ilDatabaseException.php");
 
 /**
  * Class pdoDB
+ *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  *
@@ -54,13 +55,13 @@ class ilDBPdo implements ilDBInterface {
 	 * @var array
 	 */
 	protected $type_to_mysql_type = array(
-		self::T_TEXT => 'VARCHAR',
-		self::T_INTEGER => 'INT',
-		self::T_FLOAT => 'DOUBLE',
-		self::T_DATE => 'DATE',
-		self::T_TIME => 'TIME',
+		self::T_TEXT     => 'VARCHAR',
+		self::T_INTEGER  => 'INT',
+		self::T_FLOAT    => 'DOUBLE',
+		self::T_DATE     => 'DATE',
+		self::T_TIME     => 'TIME',
 		self::T_DATETIME => 'TIMESTAMP',
-		self::T_CLOB => 'LONGTEXT',
+		self::T_CLOB     => 'LONGTEXT',
 	);
 	/**
 	 * @var string
@@ -71,8 +72,8 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	protected $additional_attributes = array(
 		PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
-		PDO::ATTR_EMULATE_PREPARES => true,
-		PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+		PDO::ATTR_EMULATE_PREPARES         => true,
+		PDO::ATTR_ERRMODE                  => PDO::ERRMODE_EXCEPTION,
 		//		PDO::MYSQL_ATTR_MAX_BUFFER_SIZE => 1048576
 	);
 
@@ -223,9 +224,9 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	public function tableColumnExists($table_name, $column_name) {
 		$statement = $this->pdo->query("SHOW COLUMNS FROM $table_name WHERE Field = '$column_name'");
-		$statement != NULL ? $statement->closeCursor() : "";
+		$statement != null ? $statement->closeCursor() : "";
 
-		return $statement != NULL && $statement->rowCount() != 0;
+		return $statement != null && $statement->rowCount() != 0;
 	}
 
 
@@ -265,6 +266,7 @@ class ilDBPdo implements ilDBInterface {
 			exit;
 			throw new ilDatabaseException($infoMessage);
 		}
+
 		return new ilPDOStatement($res);
 	}
 
@@ -335,10 +337,10 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	public function fetchObject($query_result) {
 		$res = $query_result->fetchObject();
-		if ($res == NULL) {
+		if ($res == null) {
 			$query_result->closeCursor();
 
-			return NULL;
+			return null;
 		}
 
 		return $res;
@@ -362,9 +364,14 @@ class ilDBPdo implements ilDBInterface {
 			$qval = $this->quote($val[1], $val[0]);
 			$query .= "$key = $qval, ";
 		}
-		$query = substr($query, 0, - 2);
 
-		$this->pdo->exec($query);
+		$query = substr($query, 0, - 2);
+		try {
+
+			$this->pdo->exec($query);
+		} catch (PDOException $e) {
+			echo '<pre>' . print_r($query, 1) . '</pre>';
+		}
 	}
 
 
@@ -384,10 +391,10 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	public function fetchAssoc($query_result) {
 		$res = $query_result->fetch(PDO::FETCH_ASSOC);
-		if ($res == NULL) {
+		if ($res == null) {
 			$query_result->closeCursor();
 
-			return NULL;
+			return null;
 		}
 
 		return $res;
@@ -423,6 +430,7 @@ class ilDBPdo implements ilDBInterface {
 				$pdo_type = PDO::PARAM_STR;
 				break;
 		}
+
 		return $this->pdo->quote($value, $pdo_type);
 	}
 
@@ -434,7 +442,7 @@ class ilDBPdo implements ilDBInterface {
 	 * @return null
 	 */
 	public function addIndex($table_name, $index_name) {
-		return NULL;
+		return null;
 	}
 
 
@@ -491,6 +499,7 @@ class ilDBPdo implements ilDBInterface {
 
 	/**
 	 * Abstraction of lock table
+	 *
 	 * @param $a_tables
 	 * @internal param table $array definitions
 	 */
@@ -508,7 +517,7 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
-	 * @param $field string
+	 * @param $field  string
 	 * @param $values array
 	 * @param bool $negate
 	 * @param string $type
@@ -520,8 +529,8 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
-	 * @param $query string
-	 * @param $types string[]
+	 * @param $query  string
+	 * @param $types  string[]
 	 * @param $values mixed[]
 	 * @return \ilDBStatement
 	 */
@@ -542,8 +551,8 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
-	 * @param $query string
-	 * @param $types string[]
+	 * @param $query  string
+	 * @param $types  string[]
 	 * @param $values mixed[]
 	 * @return string
 	 * @throws ilDatabaseException
@@ -569,6 +578,7 @@ class ilDBPdo implements ilDBInterface {
 
 	/**
 	 * Set the Limit for the next Query.
+	 *
 	 * @param $limit
 	 * @param $offset
 	 * @deprecated Use a limit in the query.
@@ -593,7 +603,7 @@ class ilDBPdo implements ilDBInterface {
 		if (!in_array($type, array(
 			self::T_TEXT,
 			self::T_CLOB,
-			"blob"
+			"blob",
 		))
 		) {
 			throw new ilDatabaseException("Like: Invalid column type '" . $type . "'.");
@@ -629,8 +639,8 @@ class ilDBPdo implements ilDBInterface {
 	 * Replace into method.
 	 *
 	 * @param    string        table name
-	 * @param    array        primary key values: array("field1" => array("text", $name), "field2" => ...)
-	 * @param    array        other values: array("field1" => array("text", $name), "field2" => ...)
+	 * @param    array         primary key values: array("field1" => array("text", $name), "field2" => ...)
+	 * @param    array         other values: array("field1" => array("text", $name), "field2" => ...)
 	 * @return string
 	 */
 	public function replace($table, $primaryKeys, $otherColumns) {
@@ -666,7 +676,7 @@ class ilDBPdo implements ilDBInterface {
 		if ($lobs)    // lobs -> use prepare execute (autoexecute broken in PEAR 2.4.1)
 		{
 			$st = $this->db->prepare("REPLACE INTO " . $table . " (" . implode($fields, ",") . ") VALUES (" . implode($placeholders2, ",")
-				. ")", $types, MDB2_PREPARE_MANIP, $lob);
+			                         . ")", $types, MDB2_PREPARE_MANIP, $lob);
 			$this->handleError($st, "insert / prepare/execute(" . $table . ")");
 			$r = $st->execute($field_values);
 			//$r = $this->db->extended->autoExecute($a_table, $field_values, MDB2_AUTOQUERY_INSERT, null, $types);
@@ -677,6 +687,7 @@ class ilDBPdo implements ilDBInterface {
 			$q = "REPLACE INTO " . $table . " (" . implode($fields, ",") . ") VALUES (" . implode($placeholders, ",") . ")";
 			$r = $this->manipulateF($q, $types, $values);
 		}
+
 		return $r;
 	}
 
@@ -854,6 +865,7 @@ class ilDBPdo implements ilDBInterface {
 		if ($a_len > - 1) {
 			$lenstr = ", " . $a_len;
 		}
+
 		return " SUBSTR(" . $a_exp . ", " . $a_pos . $lenstr . ") ";
 	}
 
@@ -883,6 +895,15 @@ class ilDBPdo implements ilDBInterface {
 		 * @var $stmt PDOStatement
 		 */
 		return $stmt->execute($data);
+	}
+
+
+	/**
+	 * @param $a_table
+	 * @throws \ilDatabaseException
+	 */
+	public function optimizeTable($a_table) {
+		$this->query('OPTIMIZE TABLE ' . $a_table);
 	}
 }
 

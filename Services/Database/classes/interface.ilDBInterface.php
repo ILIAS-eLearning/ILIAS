@@ -211,6 +211,7 @@ interface ilDBInterface {
 
 	/**
 	 * Abstraction of lock table
+	 *
 	 * @param array table definitions
 	 * @return
 	 */
@@ -219,13 +220,14 @@ interface ilDBInterface {
 
 	/**
 	 * Unlock tables locked by previous lock table calls
+	 *
 	 * @return
 	 */
 	public function unlockTables();
 
 
 	/**
-	 * @param $field string
+	 * @param $field  string
 	 * @param $values array
 	 * @param bool $negate
 	 * @param string $type
@@ -235,8 +237,8 @@ interface ilDBInterface {
 
 
 	/**
-	 * @param $query string
-	 * @param $types string[]
+	 * @param $query  string
+	 * @param $types  string[]
 	 * @param $values mixed[]
 	 * @return \ilDBStatement
 	 */
@@ -244,8 +246,8 @@ interface ilDBInterface {
 
 
 	/**
-	 * @param $query string
-	 * @param $types string[]
+	 * @param $query  string
+	 * @param $types  string[]
 	 * @param $values mixed[]
 	 * @return string
 	 */
@@ -254,6 +256,7 @@ interface ilDBInterface {
 
 	/**
 	 * Return false iff slave is not supported.
+	 *
 	 * @param $bool
 	 * @return bool
 	 */
@@ -289,8 +292,8 @@ interface ilDBInterface {
 	 * Replace into method.
 	 *
 	 * @param    string        table name
-	 * @param    array        primary key values: array("field1" => array("text", $name), "field2" => ...)
-	 * @param    array        other values: array("field1" => array("text", $name), "field2" => ...)
+	 * @param    array         primary key values: array("field1" => array("text", $name), "field2" => ...)
+	 * @param    array         other values: array("field1" => array("text", $name), "field2" => ...)
 	 */
 	public function replace($table, $primaryKeys, $otherColumns);
 
@@ -370,4 +373,11 @@ interface ilDBInterface {
 	 * @return bool
 	 */
 	public function execute($stmt, $data = array());
+
+
+	/**
+	 * @param $a_table
+	 * @return bool
+	 */
+	public function optimizeTable($a_table);
 }
