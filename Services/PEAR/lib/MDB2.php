@@ -3355,7 +3355,7 @@ class MDB2_Result_Common extends MDB2_Result
     var $column_names;
 
     // }}}
-    // {{{ constructor: function __construct(&$db, &$result, $limit = 0, $offset = 0)
+    // {{{ constructor: function __construct(&$db, $result, $limit = 0, $offset = 0)
 
     /**
      * Constructor
@@ -3363,7 +3363,7 @@ class MDB2_Result_Common extends MDB2_Result
     function __construct(&$db, &$result, $limit = 0, $offset = 0)
     {
         $this->db =& $db;
-        $this->result =& $result;
+        $this->result = $result;
         $this->offset = $offset;
         $this->limit = max(0, $limit - 1);
     }
