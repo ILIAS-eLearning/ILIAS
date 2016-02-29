@@ -30,7 +30,7 @@ crs_type#:#Trainingstyp
 crs_date#:#Datum
 bookings#:#Anzahl Teilnehmer
 trainers#:#Trainer
-filter_cancelled#:#Agesagt
+filter_cancelled#:#Abgesagt
 crs_is_cancelled#:#Ja
 crs_is_not_cancelled#:#Nein
 venue#:#Veranstaltungsort
