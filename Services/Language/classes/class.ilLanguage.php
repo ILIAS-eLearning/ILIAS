@@ -631,7 +631,8 @@ class ilLanguage
 	{
 		global $ilDB;
 
-		if(!$this->log_enabled)
+		//case $ilDB not existing should not happen but if something went wrong it shouldn't leads to any failures
+		if(!$this->log_enabled || !($ilDB instanceof ilDBMySQL))
 		{
 			return;
 		}
