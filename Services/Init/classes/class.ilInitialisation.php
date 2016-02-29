@@ -906,6 +906,9 @@ class ilInitialisation
 			// With PHP 5.4.0 and above E_ALL >DOES< include E_STRICT.
 			
 			error_reporting(((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED) & ~E_STRICT);
+			
+			// PHP7 patch
+			error_reporting(E_ALL & ~E_NOTICE);
 		}
 		else
 		{
@@ -937,7 +940,7 @@ class ilInitialisation
 		$ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, 'errorHandler'));		
 		
 		// :TODO: obsolete?
-		PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
+		// PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 					
 		// workaround: load old post variables if error handler 'message' was called
 		include_once "Services/Authentication/classes/class.ilSession.php";

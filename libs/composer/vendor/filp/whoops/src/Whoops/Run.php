@@ -317,6 +317,16 @@ final class Run
                     return true;
                 }
             }
+			
+			// PHP7 patch
+			// log "lower" error levels only
+			if(in_array($level, array(E_NOTICE, E_DEPRECATED, E_STRICT))) {			
+				global $ilLog;
+				if($ilLog) {				
+					$ilLog->write($level."\n".$message."\n".$file." - ".$line);
+				}
+				return true;
+			}
 
             // XXX we pass $level for the "code" param only for BC reasons.
             // see https://github.com/filp/whoops/issues/267
