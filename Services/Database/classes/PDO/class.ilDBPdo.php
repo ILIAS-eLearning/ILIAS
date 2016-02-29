@@ -417,7 +417,7 @@ class ilDBPdo implements ilDBInterface {
 	 *
 	 * @return string
 	 */
-	public function quote($value, $type) {
+	public function quote($value, $type = null) {
 		switch ($type) {
 			case self::T_INTEGER:
 				$pdo_type = PDO::PARAM_INT;
