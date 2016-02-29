@@ -143,7 +143,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 				->static_condition("hucs.hist_historic = 0")
 				->static_condition("hc.hist_historic = 0")
 				->static_condition($this->gIldb->in('hc.type', $this->types, false, 'text'))
-				->static_condition("hucs.booking_status != ".$this->gIldb->quote('-empty-','text'))
+				->static_condition("hucs.booking_status == ".$this->gIldb->quote('gebucht','text'))
 				->action($this->filter_action)
 				->compile()
 				;
