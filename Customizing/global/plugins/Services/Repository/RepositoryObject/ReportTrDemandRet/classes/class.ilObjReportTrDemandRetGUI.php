@@ -40,7 +40,7 @@ class ilObjReportTrDemandRetGUI extends ilObjReportBaseGUI {
 			}
 			$rec['cancellation'] = $rec['cancellation'] === 'Ja'
 											? $rec['cancellation'] : 'Nein';
-			$rec['date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
+			$rec['begin_date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
 					.' - '.date_format(date_create($rec['end_date']),'d.m.Y');
 		} else {
 			$rec = array(	'tpl_title' => $rec['tpl_title']);
@@ -52,7 +52,7 @@ class ilObjReportTrDemandRetGUI extends ilObjReportBaseGUI {
 		if($rec['title'] !== null) {
 			$rec['cancellation'] = $rec['cancellation'] === 'Ja'
 											? $rec['cancellation'] : 'Nein';
-			$rec['date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
+			$rec['begin_date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
 					.' - '.date_format(date_create($rec['end_date']),'d.m.Y');
 		} else {
 			$rec = array(	'tpl_title' => $rec['tpl_title']);
