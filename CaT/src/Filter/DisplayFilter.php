@@ -54,6 +54,7 @@ class DisplayFilter {
 		$navi = new Navigator($sequence);
 //echo "gUI";var_dump($post_values);
 		if(empty($post_values)) {
+			echo 2;
 			$navi->go_to("0");
 			$filter = $navi->current();
 		} else {
@@ -79,7 +80,7 @@ class DisplayFilter {
 	*/
 	protected function getNextGUI($filter, Navigator $navi) {
 		$filter_class = get_class($filter);
-echo $filter_class;
+echo $filter_class."\n";
 		switch($filter_class) {
 			case "CaT\Filter\Filters\DatePeriod":
 				return $this->gui_factory->dateperiod_gui($filter, $navi->path());
