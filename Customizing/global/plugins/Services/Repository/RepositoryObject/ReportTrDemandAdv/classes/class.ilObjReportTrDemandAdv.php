@@ -147,6 +147,7 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 			->static_condition("(crs.is_cancelled != 'Ja' OR crs.is_cancelled IS NULL)")
 			->static_condition('crs.hist_historic = 0')
 			->static_condition("crs.is_template = 'Nein'")
+			->static_condition("crs.begin_date != '0000-00-00'")
 			->static_condition($this->gIldb->in('crs.type',array('Webinar','Präsenztraining','Virtuelles Training'),false,'text'))
 			->action($this->filter_action)
 			->compile();
