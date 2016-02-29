@@ -25,6 +25,12 @@ class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 		$this->assertSame($GLOBALS[$global_name], $DIC[$global_name]);
 	}
 
+	public function test_DIC_getters() {
+		global $DIC;
+
+		$this->assertInstanceOf( "ilDB", $DIC->ilDB());
+	}
+
 	public function globalsProvider() {
 		// Add combinations of globals and their classes here...
 		return array
