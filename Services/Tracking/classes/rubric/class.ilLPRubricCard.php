@@ -563,6 +563,7 @@ class ilLPRubricCard
             );
             
             $broken_weight=explode('-',$weights[$k]);
+            sort($broken_weight);
             
             if($this->ilDB->numRows($set)>0){
                 $row=$this->ilDB->fetchAssoc($set);
