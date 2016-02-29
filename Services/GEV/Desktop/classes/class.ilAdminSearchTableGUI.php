@@ -13,6 +13,7 @@ require_once("Services/CaTUIComponents/classes/class.catAccordionTableGUI.php");
 require_once("Services/Utilities/classes/class.ilUtil.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBookingHelper.php");
@@ -126,7 +127,7 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 
 	protected function getActionMenuItems($a_set) {
 		//Prepare links
-		$this->gCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $a_set["crs_ref_id"]);
+		$this->gCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", gevObjectUtils::getRefId($a_set["obj_id"]));
 		$memberlist_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer");
 		$this->gCtrl->clearParametersByClass("gevMemberListDeliveryGUI");
 
