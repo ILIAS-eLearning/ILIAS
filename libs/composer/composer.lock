@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "45b34af27a8288f65ad08171cda720a2",
-    "content-hash": "aa91153ded2d171094a35ce00f054d12",
+    "hash": "6a7cb4291ddfd704562cc5b25cb3c652",
+    "content-hash": "27abae3c30850c09797260e2261e0069",
     "packages": [
         {
             "name": "filp/whoops",
