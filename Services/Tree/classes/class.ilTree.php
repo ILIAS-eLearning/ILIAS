@@ -1000,7 +1000,7 @@ class ilTree
 	*/
 	function getPathFull($a_endnode_id, $a_startnode_id = 0)
 	{
-		$pathIds =& $this->getPathId($a_endnode_id, $a_startnode_id);
+		$pathIds = $this->getPathId($a_endnode_id, $a_startnode_id);
 
 		// We retrieve the full path in a single query to improve performance
         global $ilDB;
