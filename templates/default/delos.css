@@ -10305,6 +10305,13 @@ div.ilCreationFormSection .form-horizontal {
   margin-top: -1px;
   padding-top: 1px;
 }
+.ilObjListRow {
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #FFFFFF;
+}
+.ilObjListRow:hover {
+  background-color: #ffffea;
+}
 .table-striped {
   border-collapse: separate;
 }
