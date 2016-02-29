@@ -12,5 +12,10 @@ namespace ILIAS\DIC;
  *    instead of using strings as names.
  */
 class Container extends \Pimple\Container {
-    
+	/**
+	 * @return	ilDB
+	 */
+	public function ilDB() {
+		return $this["ilDB"];
+	}
 }
