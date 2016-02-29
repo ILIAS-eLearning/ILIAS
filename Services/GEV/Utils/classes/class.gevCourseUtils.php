@@ -3270,15 +3270,6 @@ class gevCourseUtils {
 			$info[$key]["date"] = $info[$key]["start_date"] .'-' .$info[$key]["end_date"];
 			
 			$info[$key]["status"] = ilObjCourseAccess::_isActivated($value["obj_id"]) ? 'online' : 'offline';
-			$memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
-			$memberlist_lnk = "ilias.php?cmd=trainer&cmdClass=gevmemberlistdeliverygui&cmdNode=ei&baseClass=gevmemberlistdeliverygui&ref_id=" .$crs_ref;
-			$action = '<a href="'
-					.$memberlist_lnk
-					.'">'
-					.$memberlist_img
-					.'</a>';
-			$info[$key]["action"] = $action;
-
 		}
 
 		return array("count" => $count, "info" => $info);
