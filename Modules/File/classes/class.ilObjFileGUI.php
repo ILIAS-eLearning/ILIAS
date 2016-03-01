@@ -198,7 +198,10 @@ class ilObjFileGUI extends ilObject2GUI
 		$this->addHeaderAction();
 	}
 	
-	protected function initCreationForms()
+	/**
+	 * @param string $a_new_type
+	 */
+	protected function initCreationForms($a_new_type)
 	{				
 		$forms = array();		
 			
