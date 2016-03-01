@@ -2073,8 +2073,6 @@ assessment#:#worked_through#:#答案済
 assessment#:#working_time#:#答案時間
 assessment#:#working_time_avg#:#平均答案時間
 assessment#:#you_received_a_of_b_points#:#配点は%s/%s  です。
-assessment#:#FALSE#:#FALSE
-assessment#:#TRUE#:#TRUE
 auth#:#auth_account_code#:#コード
 auth#:#auth_account_code_info#:#アカウントを再設定するとILIASアカウントコードを利用できます。
 auth#:#auth_account_code_title#:#アカウントコード
@@ -16169,3 +16167,13 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
+assessment#:#false#:#False###01 03 2016 new variable
+assessment#:#true#:#True###01 03 2016 new variable
+style#:#sty_type_ha_iheada#:#Hor. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_type_ha_ihcap#:#Hor. Accordion Caption###01 03 2016 new variable
+style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_type_va_ihcap#:#Vert. Accordion Caption###01 03 2016 new variable
+style#:#sty_ha_iheada_class#:#Hor. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption###01 03 2016 new variable
+style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_va_ihcap_class#:#Vert. Accordion Caption###01 03 2016 new variable

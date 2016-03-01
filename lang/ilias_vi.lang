@@ -16171,3 +16171,11 @@ wsp#:#wsp_permission_all_pw_info#:#After providing the password this object is v
 crs#:#crs_mail_context_member_info#:#For the contact emails on the info screen of a course ###26 01 2016 new variable
 crs#:#crs_mail_context_tutor_info#:#For the participant emails on the member and learning progress screens of a course###26 01 2016 new variable
 sahs#:#sahs_mail_context_lp_info#:#For the participant emails on the learning progress screens of a scorm module###26 01 2016 new variable
+style#:#sty_type_ha_iheada#:#Hor. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_type_ha_ihcap#:#Hor. Accordion Caption###01 03 2016 new variable
+style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_type_va_ihcap#:#Vert. Accordion Caption###01 03 2016 new variable
+style#:#sty_ha_iheada_class#:#Hor. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption###01 03 2016 new variable
+style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_va_ihcap_class#:#Vert. Accordion Caption###01 03 2016 new variable
