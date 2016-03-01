@@ -1667,27 +1667,6 @@ class ilObjectGUI
 	}
 
 	/**
-	* get Titles of objects
-	* this method is used for error messages in methods cut/copy/paste
-	*
-	* @param	array	Array of ref_ids (integer)
-	* @return   array	Array of titles (string)
-	* @access	private
- 	*/
-	protected function getTitlesByRefId($a_ref_ids)
-	{
-		foreach ($a_ref_ids as $id)
-		{
-			// GET OBJECT TITLE
-			$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($id);
-			$title[] = $tmp_obj->getTitle();
-			unset($tmp_obj);
-		}
-
-		return $title ? $title : array();
-	}
-
-	/**
 	* get tabs
 	* abstract method.
 	* @abstract	overwrite in derived GUI class of your object type

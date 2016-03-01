@@ -1439,8 +1439,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
 		if (count($no_cut))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_cut")." ".implode(',',$this->getTitlesByRefId($no_cut)),
-									 $this->ilias->error_obj->MESSAGE);
+			$titles = array();
+			foreach((array) $no_cut as $cut_id)
+			{
+				$titles[] = ilObject::_lookupTitle(ilObject::_lookupObjId($cut_id));
+			}
+			$this->ilias->raiseError(
+				$this->lng->txt("msg_no_perm_cut")." ".implode(',',(array) $titles),
+				$this->ilias->error_obj->MESSAGE
+			);
 		}
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
 		$_SESSION["clipboard"]["cmd"] = $ilCtrl->getCmd();
@@ -1513,8 +1520,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
 		if (count($no_copy))
 		{
+			$titles = array();
+			foreach((array) $no_copy as $copy_id)
+			{
+				$titles[] = ilObject::_lookupTitle(ilObject::_lookupObjId($copy_id));
+			}
 			$this->ilias->raiseError(
-				$this->lng->txt("msg_no_perm_copy") . " " . implode(',',$this->getTitlesByRefId($no_copy)),
+				$this->lng->txt("msg_no_perm_copy") . " " . implode(',',$titles),
 				$this->ilias->error_obj->MESSAGE);
 		}
 
@@ -2587,87 +2599,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 	} // END PASTE
 	
-
-	// BEGIN WebDAV: Support a copy command in repository
-	
-	/**
-	* Copy object(s) out from a container and write the information to clipboard
-	* It is not possible to copy multiple objects at once.
-	*
-	*
-	* @access	public
-	*/
-	// stefan.born@phzh.ch (01.07.2013): 
-	// UNCOMMENTED DUE NEW copyObject FUNCTION AND BECAUSE IT SEEMS THIS FUNCTION IS NOT USED ANYWHERE
-	/*function copyObject()
-	{
-		global $ilAccess,$ilObjDefinition;
-		
-		if(!$ilAccess->checkAccess('copy','',$_GET['item_ref_id']))
-		{
-			$title = ilObject::_lookupTitle(ilObject::_lookupObjId($_GET['item_ref_id']));
-			
-			ilUtil::sendFailure($this->lng->txt('msg_no_perm_copy').' '.$title,true);
-			$this->ctrl->returnToParent($this);
-		}
-		
-		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
-		$_SESSION["clipboard"]["cmd"] = 'copy';
-
-		ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"),true);
-		
-		// THIS FUNCTION DOES NOT EXIST!
-		return $this->initAndDisplayCopyIntoObjectObject();
-		
-		
-		
-
-		
-
-		// FOR ALL OBJECTS THAT SHOULD BE COPIED
-		foreach ($_POST["id"] as $ref_id)
-		{
-			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			$node_data = $this->tree->getNodeData($ref_id);
-			$subtree_nodes = $this->tree->getSubTree($node_data);
-
-			$all_node_data[] = $node_data;
-			$all_subtree_nodes[] = $subtree_nodes;
-
-			// CHECK VIEW, READ AND COPY PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
-			foreach ($subtree_nodes as $node)
-			{
-				if($node['type'] == 'rolf')
-				{
-					continue;
-				}
-				
-				if (!$rbacsystem->checkAccess('visible,read,copy',$node["ref_id"]))
-				{
-					$no_copy[] = $node["ref_id"];
-				}
-			}
-		}
-		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'view,read'
-		if (count($no_copy))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_copy")." ".implode(',',$this->getTitlesByRefId($no_copy)),
-									 $this->ilias->error_obj->MESSAGE);
-		}
-		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
-		$_SESSION["clipboard"]["cmd"] = ($_GET["cmd"] != "" && $_GET["cmd"] != "post")
-			? $_GET["cmd"]
-			: key($_POST["cmd"]);
-		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
-
-		ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"),true);
-
-		$this->ctrl->returnToParent($this);
-
-	} // END COPY
-	*/
-	// BEGIN WebDAV: Support copy command in repository
-
 
 	/**
 	* show clipboard
