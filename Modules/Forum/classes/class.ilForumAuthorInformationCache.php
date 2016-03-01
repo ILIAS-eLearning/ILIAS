@@ -34,7 +34,7 @@ class ilForumAuthorInformationCache
 	public static function preloadUserObjects(array $usr_ids)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 

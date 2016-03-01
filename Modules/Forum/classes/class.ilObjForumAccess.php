@@ -87,7 +87,7 @@ class ilObjForumAccess extends ilObjectAccess
 	public static function _getThreadForPosting($a_pos_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -111,7 +111,7 @@ class ilObjForumAccess extends ilObjectAccess
 	public static function _lookupDiskUsage($a_obj_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
