@@ -32,7 +32,7 @@ class ilPCParagraph extends ilPageContent
 	*
 	* @param	object	$a_node		Page Content DOM Node
 	*/
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
 

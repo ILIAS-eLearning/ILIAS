@@ -425,9 +425,13 @@ class ilObjFolderGUI extends ilContainerGUI
 	}
 	
 	/**
-	* Modify Item ListGUI for presentation in container
-	*/
-	function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
+	 * Modify Item ListGUI for presentation in container
+	 * @global type $tree
+	 * @param type $a_item_list_gui
+	 * @param type $a_item_data
+	 * @param type $a_show_path
+	 */
+	public function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
 	{
 		global $tree;
 
@@ -437,9 +441,16 @@ class ilObjFolderGUI extends ilContainerGUI
 			include_once("./Modules/Course/classes/class.ilObjCourse.php");
 			include_once("./Modules/Course/classes/class.ilObjCourseGUI.php");
 			$course_obj_id = ilObject::_lookupObjId($course_ref_id);
-			ilObjCourseGUI::_modifyItemGUI($a_item_list_gui, 'ilcoursecontentgui', $a_item_data, $a_show_path,
-				ilObjCourse::_lookupAboStatus($course_obj_id), $course_ref_id, $course_obj_id,
-				$this->object->getRefId());
+			ilObjCourseGUI::_modifyItemGUI(
+					$a_item_list_gui, 
+					'ilcoursecontentgui', 
+					$a_item_data, 
+					$a_show_path,
+					ilObjCourse::_lookupAboStatus($course_obj_id), 
+					$course_ref_id, 
+					$course_obj_id,
+					$this->object->getRefId()
+			);
 		}
 	}
 	

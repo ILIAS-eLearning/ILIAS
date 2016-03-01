@@ -345,11 +345,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 	
 	/**
-	* prepare output
-	*/
-	function prepareOutput($a_show_subobjects = true)
+	 * prepare output
+	 */
+	protected function prepareOutput($a_show_subobjects = true)
 	{
-		if (parent::prepareOutput())	// return false in admin mode
+		if (parent::prepareOutput($a_show_subobjects))	// return false in admin mode
 		{
 			if ($this->getCreationMode() != true && $a_show_subobjects)
 			{
@@ -3133,9 +3133,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	// END PATCH WebDAV: Support a copy command in the repository
 
 	/**
-	* Modify Item ListGUI for presentation in container
-	*/
-	function modifyItemGUI(&$a_item_list_gui, $a_item_data, $a_show_path)
+	 * Modify list gui for presentation in container
+	 * @global type $lng
+	 * @param type $a_item_list_gui
+	 * @param type $a_item_data
+	 * @param type $a_show_path
+	 */
+	public function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
 	{
 		global $lng;
 		

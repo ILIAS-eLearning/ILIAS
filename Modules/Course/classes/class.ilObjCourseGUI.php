@@ -4945,9 +4945,13 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 
 	/**
-	* Modify Item ListGUI for presentation in container
-	*/
-	function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
+	 * Modify Item ListGUI for presentation in container
+	 * @param type $a_item_list_gui
+	 * @param type $a_item_data
+	 * @param type $a_show_path
+	 * @return type
+	 */
+	public function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
 	{
 		return ilObjCourseGUI::_modifyItemGUI($a_item_list_gui, 'ilcoursecontentgui', $a_item_data, $a_show_path,
 			$this->object->getAboStatus(), $this->object->getRefId(), $this->object->getId());
@@ -4956,7 +4960,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	/**
 	* We need a static version of this, e.g. in folders of the course
 	*/
-	static function _modifyItemGUI($a_item_list_gui, $a_cmd_class, $a_item_data, $a_show_path,
+	public static function _modifyItemGUI($a_item_list_gui, $a_cmd_class, $a_item_data, $a_show_path,
 		$a_abo_status, $a_course_ref_id, $a_course_obj_id, $a_parent_ref_id = 0)
 	{
 		global $lng, $ilAccess;
@@ -5152,7 +5156,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 * Handle member view
 	 * @return 
 	 */
-	public function prepareOutput()
+	protected function prepareOutput($a_show_subobjects = true)
 	{
 		global $rbacsystem;
 		if(!$this->getCreationMode())
@@ -5165,7 +5169,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$rbacsystem->initMemberView();				
 			}
 		}
-		parent::prepareOutput();
+		parent::prepareOutput($a_show_subobjects);
 	}
 	
 	/**

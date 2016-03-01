@@ -238,7 +238,7 @@ class ilObjectGUI
 	/**
 	* prepare output
 	*/
-	protected function prepareOutput()
+	protected function prepareOutput($a_show_subobjects = true)
 	{
 		global $ilLocator, $tpl, $ilUser;
 
