@@ -7,7 +7,7 @@ namespace CaT\Filter;
 /**
  * Interpreter to check the predicate on a dictionary.
  */
-class DictionaryPredicateInterpreter {
+class SqlPredicateInterpreter {
 
 	const IS_STR = 1;
 	const IS_INT = 2;
@@ -16,7 +16,7 @@ class DictionaryPredicateInterpreter {
 
 	protected $db;
 
-	public function __constructor($db) {
+	public function __construct($db) {
 		$this->db = $db;
 	}
 
@@ -31,7 +31,7 @@ class DictionaryPredicateInterpreter {
 		}
 
 		if ($p instanceof \CaT\Filter\Predicates\PredicateNot) {
-			return 'NOT ('.$this->interpret($p->sub()).')';
+			return 'NOT ('.$this->interpret($p->sub()).') ';
 		}
 
 		if ($p instanceof \CaT\Filter\Predicates\PredicateAny) {
@@ -62,7 +62,7 @@ class DictionaryPredicateInterpreter {
 			foreach($list as $list_el) {
 				$in[] = $this->quoteFieldOrValue($list_el);
 			}
-			return $return.implode(',',$in).')';
+			return $return.implode(',',$in).') ';
 		}
 
 		if ($p instanceof \CaT\Filter\Predicates\PredicateComparison) {
@@ -78,27 +78,28 @@ class DictionaryPredicateInterpreter {
 					." comparing different field types");
 			}
 			if($p instanceof  \CaT\Filter\Predicates\PredicateEq) {
-				return $left.' = '.$right.' ';
+				return $left_quote.' = '.$right_quote.' ';
 			}
 			if($p instanceof  \CaT\Filter\Predicates\PredicateNeq) {
-				return $left.' != '.$right.' ';
+				return $left_quote.' != '.$right_quote.' ';
 			}
 			if($p instanceof  \CaT\Filter\Predicates\PredicateLt) {
-				return $left.' < '.$right.' ';
+				return $left_quote.' < '.$right_quote.' ';
 			}
 		}
 		throw new \InvalidArgumentException("SqlPredicateInterpreter::interpret : possibly unknown prediacte type");
 	}
 
 	protected function quoteFieldOrValue($var) {
+
 		if( $var instanceof \CaT\Filter\Predicates\ValueStr) {
-			return $this->db->quote($var->value,'text');
+			return $this->db->quote($var->value(),'text');
 		}
 		if( $var instanceof \CaT\Filter\Predicates\ValueInt) {
-			return $this->db->quote($var->value,'integer');
+			return $this->db->quote($var->value(),'integer');
 		}
 		if( $var instanceof \CaT\Filter\Predicates\ValueDate) {
-			return $this->db->quote($var->value->format('Y-m-d H:i'),'date');
+			return $this->db->quote($var->value()->format('Y-m-d H:i'),'date');
 		}
 		if( $var instanceof \CaT\Filter\Predicates\Field) {
 			return $this->quoteField($var);
@@ -111,8 +112,9 @@ class DictionaryPredicateInterpreter {
 		if(0 === preg_match('#^([a-zA-Z0-9_]+.)?[a-zA-Z0-9_]+$#', $field_name)) {
 			throw new \InvalidArgumentException("SqlPredicateInterpreter::quoteField : field title invalid");
 		}
-		implode('.',array_walk(explode('.',$field_name), function (&$name_part) { $name_part = '`'.$name_part.'`';} ));
-		return $field_name;
+		$field_name_parts = explode('.',$field_name);
+		array_walk($field_name_parts, function (&$name_part) { $name_part = '`'.$name_part.'`';} );
+		return implode('.',$field_name_parts);
 	}
 
 	protected function varType($var) {
