@@ -21,7 +21,8 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 	protected function buildOrder($order) {
 		return $order
 					->defaultOrder("tpl_title", "ASC")
-					->mapping("tpl_title",array("tpl_title","title","begin_date"));
+					->mapping("tpl_title",array("tpl_title","title","begin_date"))
+					->mapping("booked_wl",array("waitinglist_active","booked_wl"));
 	}
 
 	protected function buildTable($table) {
@@ -48,7 +49,7 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 			->select('crs.begin_date')
 			->select_raw('DATE_SUB(crs.begin_date,INTERVAL crs.dl_booking DAY) as booking_dl')
 			->select('crs.end_date')
-			->select('crs.waitinglist_active')
+			->select_raw("IF(crs.waitinglist_active = 'Ja',1,0) as waitinglist_active")
 			->select_raw("SUM(IF(usrcrs.booking_status = 'gebucht' AND usrcrs.function = 'Mitglied',1,0)) as bookings")
 			->select_raw('crs.min_participants')
 			->select_raw('crs.max_participants')
