@@ -205,7 +205,6 @@ class DisplayFilter {
 	public function buildFilterValues(\CaT\Filter\Filters\Sequence $sequence, array $post_values) {
 		$navi = new \CaT\Filter\Navigator($sequence);
 		$ret = array();
-		// var_dump($post_values);
 
 		while ($filter = $this->getNextFilter($navi)) {
 			if($filter instanceof \CaT\Filter\Filters\Sequence) {
