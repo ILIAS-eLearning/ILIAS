@@ -320,8 +320,10 @@ final class Run
 			
 			// php7-workaround
 			// log "lower" error levels only
-			if(in_array($level, array(E_NOTICE, E_DEPRECATED, E_STRICT))) {			
-				if(!stristr($message, "non-static")) {
+			if(in_array($level, array(E_NOTICE, E_DEPRECATED, E_STRICT))) {		
+				// PHP5: E_STRICT, PHP7: E_NOTICE
+				if(!stristr($message, "non-static") &&
+					!stristr($message, "Only variables should be passed by reference")) {
 					global $ilLog;
 					if($ilLog) {				
 						$ilLog->write($level."\n\n".$message."\n".$file." - ".$line."\n");

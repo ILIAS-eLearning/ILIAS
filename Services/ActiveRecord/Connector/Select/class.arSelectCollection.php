@@ -18,8 +18,7 @@ class arSelectCollection extends arStatementCollection {
 		if ($this->hasStatements()) {
 			foreach ($this->getSelects() as $select) {
 				$return .= $select->asSQLStatement($this->getAr());
-				$strict_ref_dummy = $this->getSelects();
-				if ($select != end($strict_ref_dummy)) {
+				if ($select != end($this->getSelects())) {
 					$return .= ', ';
 				}
 			}
