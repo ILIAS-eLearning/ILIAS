@@ -413,7 +413,7 @@ class ilDBOracle extends ilDB
 	/**
 	 * Lock table
 	 * 
-	 * E.g $ilDB->lockTable('tree',ilDB::LOCK_WRITE,'t1')
+	 * E.g $ilDB->lockTable('tree',ilDBConstants::LOCK_WRITE,'t1')
 	 * @param string $a_name
 	 * @param int $a_mode
 	 * @param string $a_alias
@@ -434,11 +434,11 @@ class ilDBOracle extends ilDB
 
 			switch($table['type'])
 			{
-				case ilDB::LOCK_READ:
+				case ilDBConstants::LOCK_READ:
 					$lock .= ' IN SHARE MODE ';
 					break;
 				
-				case ilDB::LOCK_WRITE:
+				case ilDBConstants::LOCK_WRITE:
 					$lock .= ' IN EXCLUSIVE MODE ';
 					break;
 			}

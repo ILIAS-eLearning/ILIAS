@@ -173,7 +173,7 @@ class ilNestedSetTree implements ilTreeImplementation
 		{
 			$ilDB->lockTables(
 				array(
-					0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+					0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE)));
 		}
 		switch ($a_pos)
 		{
@@ -409,7 +409,7 @@ class ilNestedSetTree implements ilTreeImplementation
 		{
 			$ilDB->lockTables(
 				array(
-					0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+					0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE)));
 		}
 
 		// Fetch lft, rgt directly (without fetchNodeData) to avoid unnecessary table locks
@@ -667,7 +667,7 @@ class ilNestedSetTree implements ilTreeImplementation
 		{
 			$ilDB->lockTables(
 					array(
-						0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+						0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE)));
 		}
 		// Receive node infos for source and target
 		$query = 'SELECT * FROM ' . $this->getTree()->getTreeTable() . ' ' .

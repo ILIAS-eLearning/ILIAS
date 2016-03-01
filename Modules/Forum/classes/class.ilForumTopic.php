@@ -567,8 +567,8 @@ class ilForumTopic
 
 			$this->db->lockTables(
 				array(
-					0 => array('name' => 'frm_user_read',     'type' => ilDB::LOCK_WRITE),
-					1 => array('name' => 'frm_thread_access', 'type' => ilDB::LOCK_WRITE)
+					0 => array('name' => 'frm_user_read',     'type' => ilDBConstants::LOCK_WRITE),
+					1 => array('name' => 'frm_thread_access', 'type' => ilDBConstants::LOCK_WRITE)
 				)
 			);
 

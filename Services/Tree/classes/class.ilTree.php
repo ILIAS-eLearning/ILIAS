@@ -1887,8 +1887,8 @@ class ilTree
 		{
 			$ilDB->lockTables(
 				array(
-					0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE),
-					1 => array('name' => 'object_reference', 'type' => ilDB::LOCK_WRITE)));
+					0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE),
+					1 => array('name' => 'object_reference', 'type' => ilDBConstants::LOCK_WRITE)));
 		}
 
 		$query = $this->getTreeImplementation()->getSubTreeQuery($this->getNodeTreeData($a_node_id),'',false);
@@ -2376,12 +2376,12 @@ class ilTree
 			*/	
 			$ilDB->lockTables(
 				array(			
-					0 => array('name' => $this->table_tree, 'type' => ilDB::LOCK_WRITE),
-					1 => array('name' => $this->table_obj_data, 'type' => ilDB::LOCK_WRITE),
-					2 => array('name' => $this->table_obj_reference, 'type' => ilDB::LOCK_WRITE),
-					3 => array('name' => 'object_translation', 'type' => ilDB::LOCK_WRITE),
-					4 => array('name' => 'object_data', 'type' => ilDB::LOCK_WRITE, 'alias' => 'od'),
-					5 => array('name' => 'container_reference', 'type' => ilDB::LOCK_WRITE, 'alias' => 'cr')
+					0 => array('name' => $this->table_tree, 'type' => ilDBConstants::LOCK_WRITE),
+					1 => array('name' => $this->table_obj_data, 'type' => ilDBConstants::LOCK_WRITE),
+					2 => array('name' => $this->table_obj_reference, 'type' => ilDBConstants::LOCK_WRITE),
+					3 => array('name' => 'object_translation', 'type' => ilDBConstants::LOCK_WRITE),
+					4 => array('name' => 'object_data', 'type' => ilDBConstants::LOCK_WRITE, 'alias' => 'od'),
+					5 => array('name' => 'container_reference', 'type' => ilDBConstants::LOCK_WRITE, 'alias' => 'cr')
 				));
 		}
 		$return = $this->__renumber($node_id,$i);

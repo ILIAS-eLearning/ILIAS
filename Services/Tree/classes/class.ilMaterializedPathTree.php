@@ -208,7 +208,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		{
 			$ilDB->lockTables(
 					array(
-						0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+						0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE)));
 		}
 
 		// get path and depth of parent
@@ -297,7 +297,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		{
 			$ilDB->lockTables(
 					array(
-						0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+						0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE)));
 		}
 		try 
 		{
@@ -345,7 +345,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		{
 			$ilDB->lockTables(
 					array(
-						0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+						0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE)));
 		}
 
 		// Receive node infos for source and target

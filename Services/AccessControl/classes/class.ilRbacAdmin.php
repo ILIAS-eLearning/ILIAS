@@ -205,7 +205,7 @@ class ilRbacAdmin
 		
 		$GLOBALS['ilDB']->lockTables(
 				array(
-					0 => array('name' => 'rbac_ua', 'type' => ilDB::LOCK_WRITE)
+					0 => array('name' => 'rbac_ua', 'type' => ilDBConstants::LOCK_WRITE)
 				)
 		);
 		
