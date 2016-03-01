@@ -118,7 +118,7 @@ class PredicateFactory {
 	}
 
 	public function NEQ(Predicates\ValueLike $l, Predicates\ValueLike $r) {
-		return $this->EQ($l,$r)->_NOT();
+		return new Predicates\PredicateNeq($this, $l, $r);
 	}
 
 	/**
