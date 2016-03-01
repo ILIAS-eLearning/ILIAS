@@ -24969,6 +24969,9 @@ $ilDB->createTable("il_qpl_qst_fq_unit", $fields);
 $pk_fields = array("unit_id");
 $ilDB->addPrimaryKey("il_qpl_qst_fq_unit", $pk_fields);
 
+$in_fields = array("question_fi");
+$ilDB->addIndex("il_qpl_qst_fq_unit", $in_fields, "i2", false);
+
 $ilDB->createSequence("il_qpl_qst_fq_unit", 1);
 
 
@@ -29720,7 +29723,7 @@ $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '33'), 'type' => array('text', 'typ'), 'title' => array('text', 'root'), 'description' => array('text', 'Root Folder Object'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2002-12-21 00:04:00'), 'last_update' => array('timestamp', '2003-08-15 12:04:20'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
-'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2016-03-01 16:00:48'), 'import_id' => array('text', '')));
+'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2016-03-01 17:14:44'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '14'), 'type' => array('text', 'role'), 'title' => array('text', 'Anonymous'), 'description' => array('text', 'Default role for anonymous users (with no account)'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2003-08-15 12:06:19'), 'last_update' => array('timestamp', '2005-07-20 15:15:06'), 'import_id' => array('text', '')));
@@ -44403,7 +44406,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'ps_export_scorm'), 'value' => array('clob', '1')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_0'), 'value' => array('clob', '14')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_0'), 'value' => array('clob', '15')));
 
 
 //
