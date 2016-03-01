@@ -981,9 +981,9 @@ class ilObjectListGUI
 	*/
 	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "", $a_context = self::CONTEXT_REPOSITORY)
 	{
-		$this->offline_mode = false;
-		include_once('Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php');
+		$this->offline_mode = false;		
 		if ($this->type == "sahs") {
+			include_once('Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php');
 			$this->offline_mode = ilObjSAHSLearningModuleAccess::_lookupUserIsOfflineMode($a_obj_id);  	
 		}
 		$this->access_cache = array();
