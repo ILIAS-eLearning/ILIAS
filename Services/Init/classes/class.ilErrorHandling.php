@@ -343,7 +343,8 @@ class ilErrorHandling extends PEAR
 	 * @return Whoops\Handler
 	 */
 	protected function defaultHandler() {
-		return new CallbackHandler(function(Exception $exception, Inspector $inspector, Run $run) {
+		// php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
+		return new CallbackHandler(function(Throwable $exception, Inspector $inspector, Run $run) {
 			require_once("Services/Utilities/classes/class.ilUtil.php");
 			ilUtil::sendFailure($exception->getMessage(), true);
 			ilUtil::redirect("error.php");
