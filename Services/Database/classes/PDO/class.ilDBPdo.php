@@ -3,7 +3,7 @@
 
 require_once("./Services/Database/classes/PDO/class.ilPDOStatement.php");
 require_once("./Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php");
-
+require_once('./Services/Database/classes/PDO/Manager/class.ilDBPdoManager.php');
 /**
  * Class pdoDB
  *
@@ -48,6 +48,10 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	protected $pdo;
 	/**
+	 * @var ilDBPdoManager
+	 */
+	protected $manager;
+	/**
 	 * @var array
 	 */
 	protected $type_to_mysql_type = array(
@@ -81,6 +85,9 @@ class ilDBPdo implements ilDBInterface {
 		}
 
 		$this->pdo = new PDO($this->getDSN(), $this->getUsername(), $this->getPassword(), $this->additional_attributes);
+		$this->manager = new ilDBPdoManager($this->pdo);
+
+		return ($this->pdo->errorCode() == PDO::ERR_NONE);
 	}
 
 
@@ -255,7 +262,7 @@ class ilDBPdo implements ilDBInterface {
 	public function query($query) {
 		$res = $this->pdo->query($query);
 		$err = $this->pdo->errorCode();
-		if ($err != '00000') {
+		if ($err != PDO::ERR_NONE) {
 			$info = $this->pdo->errorInfo();
 			$infoMessage = $info[2];
 			throw new ilDatabaseException($infoMessage);
@@ -919,6 +926,14 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	public function supportsFulltext() {
 		return false;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function listTables() {
+		return $this->manager->listTables();
 	}
 }
 

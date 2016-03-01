@@ -395,4 +395,12 @@ interface ilDBInterface {
 	 * @return bool
 	 */
 	public function supportsSlave();
+
+	//
+	//
+	//
+	/**
+	 * @return array
+	 */
+	public function listTables();
 }

@@ -7,4 +7,9 @@
  */
 interface ilDBManager {
 
+	/**
+	 * @param null $database
+	 * @return array
+	 */
+	public function listTables($database = null);
 }
