@@ -207,7 +207,7 @@ class ilDBUpdate
 		$regs = array();
 		foreach ($this->lastfilecontent as $row)
 		{
-			if (ereg("^<#([0-9]+)>", $row, $regs))
+			if (preg_match('/^<#([0-9]+)>/', $row, $regs))
 			{
 				$version = $regs[1];
 			}
