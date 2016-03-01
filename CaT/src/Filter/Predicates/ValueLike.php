@@ -100,7 +100,8 @@ class ValueLike {
 	public function IN(ValueList $list =  null) {
 		if ($list !== null) {
 			return $this->factory->IN($this, $list);
-		}
+		}	
+		$self = $this;
 		return $this->fluent_factory(function(ValueList $list) use ($self) {
 			return $self->IN($list);
 		});
