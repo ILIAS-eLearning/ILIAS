@@ -907,7 +907,7 @@ class ilInitialisation
 			
 			error_reporting(((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED) & ~E_STRICT);
 			
-			// PHP7 patch
+			// php7-workaround
 			error_reporting(E_ALL & ~E_NOTICE);
 		}
 		else

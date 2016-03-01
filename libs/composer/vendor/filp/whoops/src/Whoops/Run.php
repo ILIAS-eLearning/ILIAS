@@ -318,12 +318,14 @@ final class Run
                 }
             }
 			
-			// PHP7 patch
+			// php7-workaround
 			// log "lower" error levels only
 			if(in_array($level, array(E_NOTICE, E_DEPRECATED, E_STRICT))) {			
-				global $ilLog;
-				if($ilLog) {				
-					$ilLog->write($level."\n".$message."\n".$file." - ".$line);
+				if(!stristr($message, "non-static")) {
+					global $ilLog;
+					if($ilLog) {				
+						$ilLog->write($level."\n\n".$message."\n".$file." - ".$line."\n");
+					}
 				}
 				return true;
 			}

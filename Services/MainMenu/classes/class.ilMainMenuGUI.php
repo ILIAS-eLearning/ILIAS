@@ -299,7 +299,8 @@ class ilMainMenuGUI
 					include_once 'Services/MediaObjects/classes/class.ilPlayerUtil.php';
 					ilPlayerUtil::initMediaElementJs();
 
-					$tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
+					// php7-workaround
+					// $tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
 					$tpl->addCSS('Services/Notifications/templates/default/osd.css');
 
 					require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
