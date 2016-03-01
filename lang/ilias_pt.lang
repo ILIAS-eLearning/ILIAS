@@ -15317,3 +15317,11 @@ common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked
 common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s###26 01 2016 new variable
 common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.###26 01 2016 new variable
 common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###26 01 2016 new variable
+style#:#sty_type_ha_iheada#:#Hor. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_type_ha_ihcap#:#Hor. Accordion Caption###01 03 2016 new variable
+style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_type_va_ihcap#:#Vert. Accordion Caption###01 03 2016 new variable
+style#:#sty_ha_iheada_class#:#Hor. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption###01 03 2016 new variable
+style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_va_ihcap_class#:#Vert. Accordion Caption###01 03 2016 new variable
