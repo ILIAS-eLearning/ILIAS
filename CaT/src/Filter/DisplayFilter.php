@@ -233,6 +233,12 @@ class DisplayFilter {
 					if ($value === null) {
 						$value = array();
 					}
+					// TODO: this seams to be fishy too... the content needs to be casted
+					// to the correct type somewhere, but is this the correct location?
+					$subs = $filter->subs();
+					if ($subs[(int)$choice]->input_type() == $this->type_factory->lst($this->type_factory->int())) {
+						$value = array_map(function($v) { return (int)$v; }, $value);
+					}
 
 					array_push($ret, (int)$choice);
 					array_push($ret, $value);
