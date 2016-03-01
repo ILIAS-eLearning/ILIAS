@@ -20,6 +20,9 @@ class catFilterDatePeriodGUI extends catFilterGUI {
 		$duration->setInfo($this->filter->description());
 		$duration->setShowDate(true);
 		$duration->setShowTime(false);
+		$duration->setStart(new ilDateTime($this->filter->default_begin()->format("Y-m-d 00:00:00"),IL_CAL_DATETIME));
+		$duration->setEnd(new ilDateTime($this->filter->default_end()->format("Y-m-d 00:00:00"),IL_CAL_DATETIME));
+		$duration->setStartYear($this->filter->period_min()->format("Y"));
 		$form->addItem($duration);
 
 		return $form;

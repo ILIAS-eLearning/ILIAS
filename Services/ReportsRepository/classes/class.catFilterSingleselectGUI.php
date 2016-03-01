@@ -4,7 +4,7 @@ require_once("Services/Form/classes/class.ilSelectInputGUI.php");
 require_once("Services/Form/classes/class.ilHiddenInputGUI.php");
 require_once("Services/ReportsRepository/classes/class.catFilterGUI.php");
 
-class catFilterSingleSelectGUI extends catFilterGUI {
+class catFilterSingleselectGUI extends catFilterGUI {
 	protected $filter;
 	protected $path;
 
@@ -21,6 +21,7 @@ class catFilterSingleSelectGUI extends catFilterGUI {
 		$select = new ilSelectInputGUI($this->filter->label(), "filter[$this->path]");
 		$select->setInfo($this->filter->description());
 		$select->setOptions($this->filter->options());
+		$select->setValue($this->filter->default_choice());
 		$form->addItem($select);
 
 		return $form;
