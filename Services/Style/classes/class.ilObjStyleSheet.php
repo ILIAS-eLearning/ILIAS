@@ -564,7 +564,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Set ref id (show error message, since styles do not use ref ids)
 	*/
-	function setRefId()
+	function setRefId($a_ref_id)
 	{
 		$this->ilias->raiseError("Operation ilObjStyleSheet::setRefId() not allowed.",$this->ilias->error_obj->FATAL);
 	}
@@ -581,7 +581,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Put in tree (show error message, since styles do not use ref ids)
 	*/
-	function putInTree()
+	function putInTree($a_parent_ref)
 	{
 		$this->ilias->raiseError("Operation ilObjStyleSheet::putInTree() not allowed.",$this->ilias->error_obj->FATAL);
 	}
