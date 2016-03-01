@@ -127,7 +127,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 

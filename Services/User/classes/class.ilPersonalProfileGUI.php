@@ -45,7 +45,7 @@ class ilPersonalProfileGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilUser, $ilCtrl, $tpl, $ilTabs, $lng;
 		

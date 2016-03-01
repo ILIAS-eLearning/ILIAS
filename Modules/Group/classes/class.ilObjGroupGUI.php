@@ -37,7 +37,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->lng->loadLanguageModule('grp');
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilUser,$rbacsystem,$ilAccess, $ilNavigationHistory,$ilErr, $ilCtrl, $ilToolbar;
 

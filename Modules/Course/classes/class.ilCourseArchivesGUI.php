@@ -63,7 +63,7 @@ class ilCourseArchivesGUI
 
 		
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		switch($this->ctrl->getNextClass($this))
 		{

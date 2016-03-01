@@ -48,7 +48,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	* execute command
 	* note: this method is overwritten in all container objects
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl;
 		

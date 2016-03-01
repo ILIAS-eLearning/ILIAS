@@ -39,7 +39,7 @@ class ilObjCourseGroupingGUI
 
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilTabs;
 

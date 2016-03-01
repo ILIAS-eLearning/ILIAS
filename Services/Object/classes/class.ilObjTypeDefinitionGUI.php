@@ -395,7 +395,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		} //if is_array
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();

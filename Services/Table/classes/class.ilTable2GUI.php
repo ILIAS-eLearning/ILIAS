@@ -315,7 +315,7 @@ class ilTable2GUI extends ilTableGUI
 	/**
 	 * Execute command.
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 		

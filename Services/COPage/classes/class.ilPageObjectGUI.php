@@ -915,7 +915,7 @@ return;
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $ilTabs, $lng, $ilAccess, $tpl;
 

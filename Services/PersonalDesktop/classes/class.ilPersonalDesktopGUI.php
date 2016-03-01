@@ -69,7 +69,7 @@ class ilPersonalDesktopGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilSetting, $rbacsystem, $ilErr;
 

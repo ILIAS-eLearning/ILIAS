@@ -185,7 +185,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl,$ilTabs,$ilUser;
 

@@ -300,7 +300,7 @@ class ilRepositorySearchGUI
 	* Control
 	* @access public
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem;
 

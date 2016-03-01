@@ -71,7 +71,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	}
 
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem;
 

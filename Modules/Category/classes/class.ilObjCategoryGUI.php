@@ -51,7 +51,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem, $ilNavigationHistory, $ilAccess, $ilCtrl,$ilTabs;
 

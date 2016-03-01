@@ -36,7 +36,7 @@ class ilLicenseGUI
 	* Execute a command (main entry point)
 	* @access public
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem, $ilErr;
 

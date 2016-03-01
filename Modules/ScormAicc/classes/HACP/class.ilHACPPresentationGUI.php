@@ -61,7 +61,7 @@ class ilHACPPresentationGUI extends ilAICCPresentationGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess, $ilLog;
 

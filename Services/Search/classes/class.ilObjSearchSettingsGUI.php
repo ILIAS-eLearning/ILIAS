@@ -28,7 +28,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule('search');
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();

@@ -94,7 +94,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess;
 		

@@ -583,7 +583,7 @@ class ilDBPdo implements ilDBInterface {
 	 * @param $offset
 	 * @deprecated Use a limit in the query.
 	 */
-	public function setLimit($limit, $offset) {
+	public function setLimit($limit, $offset = 0) {
 		//TODO
 	}
 

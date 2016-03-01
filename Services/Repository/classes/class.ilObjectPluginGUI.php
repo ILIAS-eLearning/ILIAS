@@ -31,7 +31,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $tpl, $ilAccess, $lng, $ilNavigationHistory, $ilTabs;
 

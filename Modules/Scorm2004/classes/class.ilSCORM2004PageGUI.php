@@ -71,7 +71,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 		

@@ -79,7 +79,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$this->getCharacteristicsOfCurrentStyle("section");	// scorm-2004
 		

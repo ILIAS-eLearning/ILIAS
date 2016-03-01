@@ -55,7 +55,7 @@ class ilEditClipboardGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilUser, $ilCtrl, $ilTabs, $lng;
 		

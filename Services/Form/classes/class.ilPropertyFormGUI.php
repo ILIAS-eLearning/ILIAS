@@ -81,7 +81,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	/**
 	* Execute command.
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 		

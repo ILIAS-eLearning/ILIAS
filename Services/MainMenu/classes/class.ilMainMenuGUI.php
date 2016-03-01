@@ -291,6 +291,7 @@ class ilMainMenuGUI
 					 */
 					global $tpl;
 
+					/* php7-workaround
 					$this->tpl->touchBlock('osd_container');
 
 					include_once "Services/jQuery/classes/class.iljQueryUtil.php";
@@ -298,9 +299,8 @@ class ilMainMenuGUI
 
 					include_once 'Services/MediaObjects/classes/class.ilPlayerUtil.php';
 					ilPlayerUtil::initMediaElementJs();
-
-					// php7-workaround
-					// $tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
+					
+					$tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
 					$tpl->addCSS('Services/Notifications/templates/default/osd.css');
 
 					require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
@@ -311,6 +311,7 @@ class ilMainMenuGUI
 					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
 					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '60');
 					$this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
+					*/
 				}
 
 				$this->tpl->setCurrentBlock("userisloggedin");

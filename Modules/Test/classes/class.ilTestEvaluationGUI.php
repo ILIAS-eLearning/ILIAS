@@ -41,7 +41,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	/**
 	 * execute command
 	 */
-	public function &executeCommand()
+	public function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);

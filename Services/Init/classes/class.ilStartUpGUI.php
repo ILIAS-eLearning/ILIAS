@@ -30,7 +30,7 @@ class ilStartUpGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilLog;
 		

@@ -38,7 +38,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule('assessment');
 	}
 	
-	public function &executeCommand()
+	public function executeCommand()
 	{
 		/**
 		 * @var $rbacsystem ilRbacSystem

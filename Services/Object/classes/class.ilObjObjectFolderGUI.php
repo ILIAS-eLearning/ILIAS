@@ -233,7 +233,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 		}
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();

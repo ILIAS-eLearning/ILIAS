@@ -32,7 +32,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng;
 		

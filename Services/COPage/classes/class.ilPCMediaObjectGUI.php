@@ -69,7 +69,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{ 
 		global $tpl, $lng, $ilTabs;
 

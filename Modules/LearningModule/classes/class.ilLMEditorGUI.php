@@ -82,7 +82,7 @@ class ilLMEditorGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 
 		global $ilHelp;

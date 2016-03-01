@@ -55,7 +55,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilPluginAdmin, $ilTabs, $lng, $ilCtrl;
 		

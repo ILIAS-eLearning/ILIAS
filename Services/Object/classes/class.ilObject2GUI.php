@@ -172,7 +172,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem;
 

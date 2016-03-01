@@ -49,7 +49,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		return $this->user_owner_id ? $this->user_owner_id : USER_FOLDER_ID;
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilTabs;
 		

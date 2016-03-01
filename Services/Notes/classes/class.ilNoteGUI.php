@@ -119,7 +119,7 @@ class ilNoteGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd("getNotesHTML");
 		$next_class = $this->ctrl->getNextClass($this);

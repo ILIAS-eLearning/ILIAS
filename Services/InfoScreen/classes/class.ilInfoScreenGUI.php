@@ -61,7 +61,7 @@ class ilInfoScreenGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem, $tpl, $ilAccess;
 

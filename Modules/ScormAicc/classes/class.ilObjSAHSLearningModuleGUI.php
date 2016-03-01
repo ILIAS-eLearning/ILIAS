@@ -34,7 +34,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess, $ilTabs, $ilErr;
 		
