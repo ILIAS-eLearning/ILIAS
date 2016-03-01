@@ -16,7 +16,7 @@ class ilChatroomSmilies
 	/**
 	 * Creates table and sequence
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 */
 	private static function _setupDatabase()
 	{
@@ -48,7 +48,7 @@ class ilChatroomSmilies
 	/**
 	 * Inserts default smiley set
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 */
 	private static function _insertDefaultValues()
 	{
@@ -212,7 +212,7 @@ class ilChatroomSmilies
 	 * Looks up and returns smiley with id,
 	 * throws exception if id is not found
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $a_id
 	 * @return string
 	 */
@@ -244,7 +244,7 @@ class ilChatroomSmilies
 	/**
 	 * Fetches smilies from database by id.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param array $ids
 	 * @return array
 	 */
@@ -284,7 +284,7 @@ class ilChatroomSmilies
 	/**
 	 * Deletes multiple smilies by given id array.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param array $ids
 	 */
 	public static function _deleteMultipleSmilies($ids = array())
@@ -311,7 +311,7 @@ class ilChatroomSmilies
 	 * Updates smiley in DB by keyword and id from given array
 	 * ($data["smiley_keywords"], $data["smiley_id"])
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param array $data
 	 */
 	public static function _updateSmiley($data)
@@ -355,7 +355,7 @@ class ilChatroomSmilies
 	/**
 	 * Deletes smiliey by given id from database.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $a_id
 	 */
 	public static function _deleteSmiley($a_id)
@@ -387,7 +387,7 @@ class ilChatroomSmilies
 	/**
 	 * Stores smiley with given keywords and path in database.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param array $keywords
 	 * @param string $path
 	 */

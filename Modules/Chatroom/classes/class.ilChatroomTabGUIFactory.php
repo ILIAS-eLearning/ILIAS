@@ -79,7 +79,7 @@ class ilChatroomTabGUIFactory
 		/**
 		 * @var $ilTabs ilTabsGUI
 		 * @var $ilCtrl ilCtrl
-		 * @var $ilDB   ilDB
+		 * @var $ilDB   ilDBInterface
 		 */
 		global $ilTabs, $ilCtrl, $ilDB;
 

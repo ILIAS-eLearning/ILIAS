@@ -45,7 +45,7 @@ class ilChatroomAdmin
 	public static function getDefaultConfiguration()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -77,7 +77,7 @@ class ilChatroomAdmin
 	public function saveGeneralSettings(stdClass $settings)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -169,7 +169,7 @@ class ilChatroomAdmin
 	public function loadGeneralSettings()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -190,7 +190,7 @@ class ilChatroomAdmin
 	public function loadClientSettings()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
