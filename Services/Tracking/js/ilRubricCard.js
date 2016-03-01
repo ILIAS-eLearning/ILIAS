@@ -1154,4 +1154,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             validate(rubric_inputs[i]);
         }
     }
+
+    $('.point-input').tooltip({'trigger':'focus', 'title': 'Please use the following format "80-100" or "100-100" for a single value'});
 });
