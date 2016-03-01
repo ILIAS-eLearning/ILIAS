@@ -161,7 +161,7 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 				 " FROM usr_data usr ".
 				 " JOIN hist_userorgu usrorg ON usrorg.usr_id = usr.usr_id AND usrorg.hist_historic = 0 AND usrorg.action >= 0".
 				 " LEFT JOIN hist_usercoursestatus usrcrs ON usr.usr_id = usrcrs.usr_id AND usrcrs.hist_historic = 0 AND ".$dt_query.
-				 " WHERE ".$db->in("usr.usr_id", $usr_ids).
+				 " WHERE ".$db->in("usr.usr_id", array_values($usr_ids), false, "integer").
 				 " GROUP BY usr.usr_id ".
 				 " ORDER BY usr.lastname, usr.firstname"
 				 ;

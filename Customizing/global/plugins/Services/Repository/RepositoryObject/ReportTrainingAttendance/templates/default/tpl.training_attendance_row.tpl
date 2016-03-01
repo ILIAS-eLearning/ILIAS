@@ -5,7 +5,6 @@
 	<td>{VAL_EMAIL}</td>
 	<td>{VAL_LOGIN}</td>
 	<td>{VAL_ORGU}</td>
-	<td>{VAL_TRAINING_TYPE}</td>
 	<td>{VAL_PARTICIPATED}</td>
 	<td>{VAL_PARTICIPATED_DATE}</td>
 	<td>{VAL_BOOKED}</td>
