@@ -227,6 +227,13 @@ class DisplayFilter {
 					$value = $this->unserializeValue($value);
 					$choice = $value["option"];
 					$value = $value[$choice];
+
+					// TODO: this seams to be fishy... what about other filters besides
+					// multiselects?
+					if ($value === null) {
+						$value = array();
+					}
+
 					array_push($ret, (int)$choice);
 					array_push($ret, $value);
 					break;
