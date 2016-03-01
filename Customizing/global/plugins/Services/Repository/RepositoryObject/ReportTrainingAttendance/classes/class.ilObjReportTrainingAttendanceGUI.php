@@ -13,6 +13,9 @@ require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
 class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 	protected function prepareTitle($a_title) {
 		$a_title = parent::prepareTitle($a_title);
+		if ($this->loadFilterSettings()) {
+			$a_title->setCommand("Neuen Report erstellen", $this->gCtrl->getLinkTarget($this, "newReport"));
+		}
 		$a_title->image("GEV_img/ico-head-edubio.png");
 		return $a_title;
 	}
