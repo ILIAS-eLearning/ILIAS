@@ -1688,19 +1688,24 @@ class gevUserUtils {
 		return $ous;
 	}
 
-	public function getOrgUnitNamesWhereUserCanViewEduBios() {
+	public function getOrgUnitNamesWhereUserCanViewEduBios($with_ids = false) {
 		if ($this->edu_bio_ou_names !== null) {
 			return $this->edu_bio_ou_names;
 		}
 		
 		$ids = $this->getOrgUnitsWhereUserCanViewEduBios();
-		$res = $this->db->query( "SELECT title FROM object_data od "
+		$res = $this->db->query( "SELECT od.obj_id, title FROM object_data od "
 								."  JOIN object_reference oref ON od.obj_id = oref.obj_id"
 								." WHERE ".$this->db->in("oref.ref_id", $ids, false, "integer")
 								);
 		$this->edu_bio_ou_names = array();
 		while ($rec = $this->db->fetchAssoc($res)) {
-			$this->edu_bio_ou_names[] = $rec["title"];
+			if ($with_ids) {
+				$this->edu_bio_ou_names[(int)$rec["obj_id"]] = $rec["title"];
+			}
+			else {
+				$this->edu_bio_ou_names[] = $rec["title"];
+			}
 		}
 		
 		return $this->edu_bio_ou_names;
