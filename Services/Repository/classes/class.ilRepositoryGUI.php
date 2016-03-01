@@ -175,7 +175,7 @@ class ilRepositoryGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem, $ilias, $lng, $ilCtrl, $ilHelp;
 

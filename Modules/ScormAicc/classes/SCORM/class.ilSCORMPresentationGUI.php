@@ -38,7 +38,7 @@ class ilSCORMPresentationGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess, $ilLog, $ilias, $lng;
 

@@ -167,7 +167,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 

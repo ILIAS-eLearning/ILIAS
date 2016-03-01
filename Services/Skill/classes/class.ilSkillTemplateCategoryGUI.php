@@ -41,7 +41,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	/**
 	 * Execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $tpl, $ilTabs;
 		

@@ -46,7 +46,7 @@ class ilTermDefinitionEditorGUI
 	}
 
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl, $ilCtrl, $lng;
 		

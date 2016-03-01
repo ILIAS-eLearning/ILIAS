@@ -133,7 +133,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	/**
 	* Execute current command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl, $ilAccess, $ilErr;
 		

@@ -40,7 +40,7 @@ class ilPCTableGUI extends ilPageContentGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$this->getCharacteristicsOfCurrentStyle("table");	// scorm-2004
 		

@@ -79,7 +79,7 @@ class ilHTLMEditorGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl, $ilCtrl,$ilAccess, $ilNavigationHistory;
 

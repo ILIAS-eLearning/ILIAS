@@ -101,7 +101,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem;
 

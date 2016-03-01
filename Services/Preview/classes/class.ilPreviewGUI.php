@@ -91,7 +91,7 @@ class ilPreviewGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd("getPreviewHTML");
 		$next_class = $this->ctrl->getNextClass($this);

@@ -290,7 +290,7 @@ class ilObjMailGUI extends ilObjectGUI
 		return true;
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
 		/**
 		 * @var $rbacsystem ilRbacSystem

@@ -105,7 +105,7 @@ class ilAdministrationGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tree, $rbacsystem, $ilias, $lng, $objDefinition, $ilHelp;
 		

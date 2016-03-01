@@ -72,7 +72,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $lng, $ilAccess, $ilTabs, $ilErr;
 		

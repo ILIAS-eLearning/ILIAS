@@ -57,7 +57,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{		
 //echo "<br>:cmd:".$this->ctrl->getCmd().":cmdClass:".$this->ctrl->getCmdClass().":";
 		$next_class = $this->ctrl->getNextClass($this);

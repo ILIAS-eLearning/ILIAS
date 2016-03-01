@@ -87,7 +87,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	* Control
 	* @access public
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem;
 

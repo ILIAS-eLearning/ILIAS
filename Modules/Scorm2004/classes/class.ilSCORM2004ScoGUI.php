@@ -49,7 +49,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl, $ilCtrl, $ilTabs;
 

@@ -46,7 +46,7 @@ class ilExternalFeedHandlerGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $lng, $ilAccess, $tpl;
 		

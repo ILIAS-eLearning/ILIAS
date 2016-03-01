@@ -49,7 +49,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl, $ilCtrl, $ilTabs, $ilSetting;
 		

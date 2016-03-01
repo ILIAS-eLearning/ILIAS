@@ -39,7 +39,7 @@ class ilSAHSPresentationGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $lng,$ilAccess, $ilNavigationHistory, $ilCtrl, $ilLocator, $ilObjDataCache;
 		

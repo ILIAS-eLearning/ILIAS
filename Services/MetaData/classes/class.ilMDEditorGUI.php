@@ -49,7 +49,7 @@ class ilMDEditorGUI
 
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem;
 

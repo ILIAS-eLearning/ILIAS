@@ -60,7 +60,7 @@ class ilObjectPermissionStatusGUI
 	/**
 	* execute command
 	*/
-	public function &executeCommand()
+	public function executeCommand()
 	{
 		global $ilCtrl;
 

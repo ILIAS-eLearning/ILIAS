@@ -47,7 +47,7 @@ class ilMediaPoolPresentationGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl, $ilCtrl, $ilAccess, $ilNavigationHistory;
 

@@ -36,7 +36,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule("adm");
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilTabs;
 

@@ -81,7 +81,7 @@ class ilHTLMPresentationGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl, $ilCtrl,$ilAccess, $ilNavigationHistory;
 

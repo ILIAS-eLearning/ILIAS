@@ -24,7 +24,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilBench, $ilHelp, $ilAccess;
 		

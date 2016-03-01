@@ -61,7 +61,7 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess, $ilLog;
 

@@ -59,7 +59,7 @@ class ilUserFilterGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		switch($this->ctrl->getNextClass())
 		{

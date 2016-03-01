@@ -71,7 +71,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 		parent::__construct($a_id, $a_old_nr);
 	}
 
-    function &executeCommand()
+    function executeCommand()
 	{
         global $ilCtrl, $ilTabs, $ilUser, $lng;
 

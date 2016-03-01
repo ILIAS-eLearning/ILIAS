@@ -554,7 +554,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 											"", "", "", $socialbookmarks);
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess;
 		

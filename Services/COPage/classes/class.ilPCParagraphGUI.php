@@ -90,7 +90,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);

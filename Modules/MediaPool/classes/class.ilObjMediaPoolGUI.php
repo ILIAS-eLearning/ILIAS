@@ -59,7 +59,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilTabs, $lng, $ilAccess, $tpl, $ilCtrl;
 		

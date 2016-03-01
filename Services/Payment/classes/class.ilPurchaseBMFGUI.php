@@ -1012,7 +1012,7 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tree;
 

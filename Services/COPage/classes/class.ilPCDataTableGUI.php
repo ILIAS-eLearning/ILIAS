@@ -31,7 +31,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$this->getCharacteristicsOfCurrentStyle("table");	// scorm-2004
 		

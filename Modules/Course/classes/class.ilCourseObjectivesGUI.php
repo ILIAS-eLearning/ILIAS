@@ -82,7 +82,7 @@ class ilCourseObjectivesGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilTabs;
 

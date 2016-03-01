@@ -44,7 +44,7 @@ class ilCourseContentGUI
 		$this->__initCourseObject();
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess, $ilErr, $ilTabs, $ilCtrl;
 

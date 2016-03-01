@@ -73,7 +73,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		return $ret;
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilUser,$ilCtrl;
 

@@ -78,7 +78,7 @@ class ilBookmarkAdministrationGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass();
 
