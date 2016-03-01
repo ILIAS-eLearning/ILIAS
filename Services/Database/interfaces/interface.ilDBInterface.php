@@ -382,6 +382,20 @@ interface ilDBInterface {
 	public function optimizeTable($a_table);
 
 
+	/**
+	 * @param $sequence
+	 * @return mixed
+	 */
+	public function sequenceExists($sequence);
+
+
+	/**
+	 * @return array
+	 */
+	public function listSequences();
+
+
+
 	//
 	// type-specific methods
 	//
@@ -403,4 +417,17 @@ interface ilDBInterface {
 	 * @return array
 	 */
 	public function listTables();
+
+
+	/**
+	 * @param $module
+	 * @return ilDBReverse|ilDBManager
+	 */
+	public function loadModule($module);
+
+
+	/**
+	 * @return array
+	 */
+	public function getAllowedAttributes();
 }

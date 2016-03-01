@@ -12,4 +12,11 @@ interface ilDBManager {
 	 * @return array
 	 */
 	public function listTables($database = null);
+
+
+	/**
+	 * @param null $database
+	 * @return array
+	 */
+	public function listSequences($database = null);
 }

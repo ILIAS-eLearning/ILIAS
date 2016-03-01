@@ -4,6 +4,8 @@
 require_once("./Services/Database/classes/PDO/class.ilPDOStatement.php");
 require_once("./Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php");
 require_once('./Services/Database/classes/PDO/Manager/class.ilDBPdoManager.php');
+require_once('./Services/Database/classes/PDO/Reverse/class.ilDBPdoReverse.php');
+
 /**
  * Class pdoDB
  *
@@ -12,13 +14,6 @@ require_once('./Services/Database/classes/PDO/Manager/class.ilDBPdoManager.php')
  */
 class ilDBPdo implements ilDBInterface {
 
-	const T_TEXT = 'text';
-	const T_INTEGER = 'integer';
-	const T_FLOAT = 'float';
-	const T_DATE = 'date';
-	const T_TIME = 'time';
-	const T_DATETIME = 'datetime';
-	const T_CLOB = 'clob';
 	/**
 	 * @var string
 	 */
@@ -52,16 +47,20 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	protected $manager;
 	/**
+	 * @var ilDBPdoReverse
+	 */
+	protected $reverse;
+	/**
 	 * @var array
 	 */
 	protected $type_to_mysql_type = array(
-		self::T_TEXT     => 'VARCHAR',
-		self::T_INTEGER  => 'INT',
-		self::T_FLOAT    => 'DOUBLE',
-		self::T_DATE     => 'DATE',
-		self::T_TIME     => 'TIME',
-		self::T_DATETIME => 'TIMESTAMP',
-		self::T_CLOB     => 'LONGTEXT',
+		ilDBConstants::T_TEXT     => 'VARCHAR',
+		ilDBConstants::T_INTEGER  => 'INT',
+		ilDBConstants::T_FLOAT    => 'DOUBLE',
+		ilDBConstants::T_DATE     => 'DATE',
+		ilDBConstants::T_TIME     => 'TIME',
+		ilDBConstants::T_DATETIME => 'TIMESTAMP',
+		ilDBConstants::T_CLOB     => 'LONGTEXT',
 	);
 	/**
 	 * @var string
@@ -86,6 +85,7 @@ class ilDBPdo implements ilDBInterface {
 
 		$this->pdo = new PDO($this->getDSN(), $this->getUsername(), $this->getPassword(), $this->additional_attributes);
 		$this->manager = new ilDBPdoManager($this->pdo);
+		$this->reverse = new ilDBPdoReverse($this->pdo);
 
 		return ($this->pdo->errorCode() == PDO::ERR_NONE);
 	}
@@ -424,13 +424,13 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	public function quote($value, $type = null) {
 		switch ($type) {
-			case self::T_INTEGER:
+			case ilDBConstants::T_INTEGER:
 				$pdo_type = PDO::PARAM_INT;
 				break;
-			case self::T_FLOAT:
+			case ilDBConstants::T_FLOAT:
 				$pdo_type = PDO::PARAM_INT;
 				break;
-			case self::T_TEXT:
+			case ilDBConstants::T_TEXT:
 			default:
 				$pdo_type = PDO::PARAM_STR;
 				break;
@@ -606,8 +606,8 @@ class ilDBPdo implements ilDBInterface {
 		// TODO: Implement like() method.
 
 		if (!in_array($type, array(
-			self::T_TEXT,
-			self::T_CLOB,
+			ilDBConstants::T_TEXT,
+			ilDBConstants::T_CLOB,
 			"blob",
 		))
 		) {
@@ -935,6 +935,43 @@ class ilDBPdo implements ilDBInterface {
 	public function listTables() {
 		return $this->manager->listTables();
 	}
-}
 
-?>
+
+	/**
+	 * @param $module
+	 * @return \ilDBPdoManager|\ilDBPdoReverse
+	 */
+	public function loadModule($module) {
+		switch ($module) {
+			case ilDBConstants::MODULE_MANAGER:
+				return $this->manager;
+			case ilDBConstants::MODULE_REVERSE:
+				return $this->reverse;
+		}
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getAllowedAttributes() {
+		return ilDBConstants::$allowed_attributes;
+	}
+
+
+	/**
+	 * @param $sequence
+	 * @return bool
+	 */
+	public function sequenceExists($sequence) {
+		return in_array($sequence, $this->listSequences());
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function listSequences() {
+		return $this->manager->listSequences();
+	}
+}

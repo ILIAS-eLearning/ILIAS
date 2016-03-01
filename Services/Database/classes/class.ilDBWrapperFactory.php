@@ -4,6 +4,8 @@ require_once("./Services/Database/exceptions/exception.ilDatabaseException.php")
 require_once('./Services/Database/classes/class.ilDBConstants.php');
 require_once("./Services/Database/interfaces/interface.ilDBInterface.php");
 require_once('./Services/Database/interfaces/interface.ilDBManager.php');
+require_once('./Services/Database/interfaces/interface.ilDBReverse.php');
+
 
 /**
  * Class ilDBWrapperFactory

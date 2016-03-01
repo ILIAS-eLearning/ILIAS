@@ -26,7 +26,22 @@ class ilDBPdoManager implements ilDBManager {
 	 * @return array
 	 */
 	public function listTables($database = null) {
-		$r = $this->pdo->query('SHOW TABLES ' . ($database ? ' IN ' . $database : ''));
+		$r = $this->pdo->query('SHOW TABLES ' . ($database ? ' IN ' . $database : '') . ' NOT LIKE \'%_seq\'');
+		$tables = array();
+		while ($data = $r->fetchColumn()) {
+			$tables[] = $data;
+		}
+
+		return $tables;
+	}
+
+
+	/**
+	 * @param null $database
+	 * @return array
+	 */
+	public function listSequences($database = null) {
+		$r = $this->pdo->query('SHOW TABLES ' . ($database ? ' IN ' . $database : '') . ' LIKE \'%_seq\'');
 		$tables = array();
 		while ($data = $r->fetchColumn()) {
 			$tables[] = $data;

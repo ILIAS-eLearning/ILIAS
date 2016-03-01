@@ -25,8 +25,8 @@ class ilDBGenerator
 	{
 		global $ilDB;
 		
-		$this->manager = $ilDB->db->loadModule('Manager');
-		$this->reverse = $ilDB->db->loadModule('Reverse');
+		$this->manager = $ilDB->loadModule(ilDBConstants::MODULE_MANAGER);
+		$this->reverse = $ilDB->loadModule(ilDBConstants::MODULE_REVERSE);
 		$this->il_db = $ilDB;
 		include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
 		$this->analyzer = new ilDBAnalyzer();
