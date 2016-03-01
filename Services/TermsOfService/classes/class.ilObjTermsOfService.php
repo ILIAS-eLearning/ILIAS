@@ -34,7 +34,7 @@ class ilObjTermsOfService extends ilObject2
 	public function resetAll()
 	{
 		/**
-		 * @var $ilDB      ilDB
+		 * @var $ilDB      ilDBInterface
 		 * @var $ilSetting ilSetting
 		 */
 		global $ilDB, $ilSetting;

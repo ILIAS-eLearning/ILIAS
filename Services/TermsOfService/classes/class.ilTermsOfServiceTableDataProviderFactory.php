@@ -13,7 +13,7 @@ class ilTermsOfServiceTableDataProviderFactory
 	protected $lng;
 
 	/**
-	 * @var ilDB|null
+	 * @var ilDBInterface|null
 	 */
 	protected $db;
 
@@ -108,7 +108,7 @@ class ilTermsOfServiceTableDataProviderFactory
 	}
 
 	/**
-	 * @param ilDB|null $db
+	 * @param ilDBInterface|null $db
 	 */
 	public function setDatabaseAdapter($db)
 	{
@@ -116,7 +116,7 @@ class ilTermsOfServiceTableDataProviderFactory
 	}
 
 	/**
-	 * @return ilDB|null
+	 * @return ilDBInterface|null
 	 */
 	public function getDatabaseAdapter()
 	{

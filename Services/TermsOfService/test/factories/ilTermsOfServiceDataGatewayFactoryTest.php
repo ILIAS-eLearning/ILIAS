@@ -51,7 +51,7 @@ class ilTermsOfServiceDataGatewayFactoryTest extends PHPUnit_Framework_TestCase
 	public function testExceptionIsRaisedWhenUnknowDataGatewayIsRequested()
 	{
 		$factory = new ilTermsOfServiceDataGatewayFactory();
-		$factory->setDatabaseAdapter($this->getMockBuilder('ilDB')->disableOriginalConstructor()->getMock());
+		$factory->setDatabaseAdapter($this->getMockBuilder('ilDBInterface')->getMock());
 		$factory->getByName('PHP Unit');
 	}
 
@@ -61,7 +61,7 @@ class ilTermsOfServiceDataGatewayFactoryTest extends PHPUnit_Framework_TestCase
 	public function testAcceptanceDatabaseGatewayIsReturnedWhenRequestedByName()
 	{
 		$factory = new ilTermsOfServiceDataGatewayFactory();
-		$factory->setDatabaseAdapter($this->getMockBuilder('ilDB')->disableOriginalConstructor()->getMock());
+		$factory->setDatabaseAdapter($this->getMockBuilder('ilDBInterface')->getMock());
 		$this->assertInstanceOf('ilTermsOfServiceAcceptanceDatabaseGateway', $factory->getByName('ilTermsOfServiceAcceptanceDatabaseGateway'));
 	}
 
@@ -70,7 +70,7 @@ class ilTermsOfServiceDataGatewayFactoryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet()
 	{
-		$expected = $this->getMockBuilder('ilDB')->disableOriginalConstructor()->getMock();
+		$expected = $this->getMockBuilder('ilDBInterface')->getMock();
 
 		$factory = new ilTermsOfServiceDataGatewayFactory();
 		$factory->setDatabaseAdapter($expected);

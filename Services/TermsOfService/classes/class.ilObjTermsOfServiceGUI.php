@@ -55,7 +55,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	{
 		/**
 		 * @var $lng  ilLanguage
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $lng, $ilDB;
 
