@@ -874,6 +874,6 @@ class ilContainer extends ilObject
 		}
 		return $objects;
 	}
-	
+
 } // END class ilContainer
 ?>

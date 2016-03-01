@@ -42,10 +42,10 @@ class ilObjRootFolder extends ilContainer
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjRootFolder($a_id,$a_call_by_reference = true)
+	public function __construct($a_id,$a_call_by_reference = true)
 	{
 		$this->type = "root";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id, $a_call_by_reference);
 	}
 
 

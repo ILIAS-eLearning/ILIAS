@@ -36,13 +36,10 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 
 class ilObjRootFolderListGUI extends ilObjectListGUI
 {
-	/**
-	* constructor
-	*
-	*/
-	function ilObjRootFolderListGUI()
+	
+	public function __construct()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**

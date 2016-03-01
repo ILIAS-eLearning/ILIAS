@@ -25,12 +25,12 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjRootFolderGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $lng;
 		
 		$this->type = "root";
-		$this->ilContainerGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		
 		$lng->loadLanguageModule("cntr");
 		$lng->loadLanguageModule("obj");
