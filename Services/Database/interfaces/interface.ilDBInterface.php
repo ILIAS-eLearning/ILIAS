@@ -380,4 +380,19 @@ interface ilDBInterface {
 	 * @return bool
 	 */
 	public function optimizeTable($a_table);
+
+
+	//
+	// type-specific methods
+	//
+	/**
+	 * @return bool
+	 */
+	public function supportsFulltext();
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsSlave();
 }

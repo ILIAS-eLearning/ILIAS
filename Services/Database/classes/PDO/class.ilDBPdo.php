@@ -1,11 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/Database/interfaces/interface.ilDBInterface.php");
-require_once("Services/Database/classes/PDO/class.ilPDOStatement.php");
-require_once("Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php");
-require_once("Services/Database/exceptions/exception.ilDatabaseException.php");
-require_once('./Services/Database/classes/class.ilDBConstants.php');
+require_once("./Services/Database/classes/PDO/class.ilPDOStatement.php");
+require_once("./Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php");
 
 /**
  * Class pdoDB
@@ -901,10 +898,27 @@ class ilDBPdo implements ilDBInterface {
 
 	/**
 	 * @param $a_table
+	 * @return \PDOStatement
 	 * @throws \ilDatabaseException
 	 */
 	public function optimizeTable($a_table) {
-		$this->query('OPTIMIZE TABLE ' . $a_table);
+		return $this->query('OPTIMIZE TABLE ' . $a_table);
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsSlave() {
+		return false;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsFulltext() {
+		return false;
 	}
 }
 
