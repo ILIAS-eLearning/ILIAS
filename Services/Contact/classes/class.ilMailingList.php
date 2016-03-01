@@ -329,7 +329,7 @@ class ilMailingList
 	public static function removeAssignmentsByUserId($usr_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 

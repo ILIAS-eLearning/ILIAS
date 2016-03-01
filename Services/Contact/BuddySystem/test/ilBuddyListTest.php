@@ -115,7 +115,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 			$expected_relation->getBuddyUserId() => $expected_relation
 		);
 
-		$db = $this->getMockBuilder('ilDBMySQL')->disableOriginalConstructor()->setMethods(array('queryF', 'fetchAssoc'))->getMock();
+		$db = $this->getMockBuilder('ilDBInterface')->setMethods(array('queryF', 'fetchAssoc'))->getMock();
 		$db->expects($this->exactly(2))->method('queryF');
 		$db->expects($this->exactly(2))->method('fetchAssoc')->will($this->returnValue(array(
 			'login' => 'phpunit'
@@ -151,7 +151,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 			$expected_relation->getBuddyUserId() => $expected_relation
 		);
 
-		$db = $this->getMockBuilder('ilDBMySQL')->disableOriginalConstructor()->setMethods(array('queryF', 'fetchAssoc'))->getMock();
+		$db = $this->getMockBuilder('ilDBInterface')->setMethods(array('queryF', 'fetchAssoc'))->getMock();
 		$db->expects($this->once())->method('queryF');
 		$db->expects($this->once())->method('fetchAssoc')->will($this->returnValue(array(
 			'login' => 'phpunit'
@@ -184,7 +184,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 			$expected_relation->getBuddyUserId() => $expected_relation
 		);
 
-		$db = $this->getMockBuilder('ilDBMySQL')->disableOriginalConstructor()->setMethods(array('queryF', 'fetchAssoc'))->getMock();
+		$db = $this->getMockBuilder('ilDBInterface')->setMethods(array('queryF', 'fetchAssoc'))->getMock();
 		$db->expects($this->any())->method('queryF');
 		$db->expects($this->any())->method('fetchAssoc')->will($this->returnValue(array(
 			'login' => 'phpunit'
@@ -234,7 +234,7 @@ class ilBuddyListTest extends PHPUnit_Framework_TestCase
 		$expected_relation->setUserId(self::BUDDY_LIST_OWNER_ID);
 		$expected_relation->setBuddyUserId(-3);
 
-		$db = $this->getMockBuilder('ilDBMySQL')->disableOriginalConstructor()->setMethods(array('queryF', 'fetchAssoc'))->getMock();
+		$db = $this->getMockBuilder('ilDBInterface')->setMethods(array('queryF', 'fetchAssoc'))->getMock();
 		$db->expects($this->once())->method('queryF');
 		$db->expects($this->once())->method('fetchAssoc')->will($this->returnValue(null));
 		$GLOBALS['ilDB'] = $db;
