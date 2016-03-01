@@ -632,7 +632,7 @@ class ilFileDataMail extends ilFileData
 	public function onUserDelete()
 	{
 		/**
- 		 * @var $ilDB ilDB
+ 		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 		
