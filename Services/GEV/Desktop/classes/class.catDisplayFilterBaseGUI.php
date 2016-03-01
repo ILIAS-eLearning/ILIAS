@@ -87,8 +87,7 @@ class catDisplayFilterBaseGUI {
 
 			echo $form->getHTML();
 		} else {
-			$post_values = $this->cleanPostValues($post_values);
-			$filter_values = $this->buildFilterValues($fs, $post_values);
+			$filter_values = $this->display_filter->buildFilterValues($fs, $post_values);
 
 			//Muss so aufgerufen werden. Sonst funktioniert das Mapping nicht!!!
 			echo call_user_func_array(array($fs, "content"), $filter_values);
@@ -99,59 +98,6 @@ class catDisplayFilterBaseGUI {
 
 	protected function saveFilter() {
 		$this->showFilter($_POST["filter"]);
-	}
-
-	protected function cleanPostValues(array $post_values) {
-		foreach ($post_values as $key => $value) {
-			if(!$uns = unserialize($value)) {
-				$uns = $value;
-			}
-
-			$post_values[$key] = $uns;
-		}
-
-		return $post_values;
-	}
-
-	protected function buildFilterValues(\CaT\Filter\Filters\Sequence $sequence, array $post_values) {
-		$navi = new \CaT\Filter\Navigator($sequence);
-		$ret = array();
-
-		while ($filter = $this->display_filter->getNextFilter($navi)) {
-			if($filter instanceof \CaT\Filter\Filters\Sequence) {
-				$navi->enter();
-				$filter = $navi->current();
-			}
-
-			$current_class = get_class($filter);
-			$value = $post_values[$navi->path()];
-			switch($current_class) {
-				case "CaT\Filter\Filters\DatePeriod":
-					$start = new DateTime($value["start"]["date"]["y"]."-".$value["start"]["date"]["m"]."-".$value["start"]["date"]["d"]);
-					$end = new DateTime($value["end"]["date"]["y"]."-".$value["end"]["date"]["m"]."-".$value["end"]["date"]["d"]);
-					array_push($ret, $start);
-					array_push($ret, $end);
-					break;
-				case "CaT\Filter\Filters\OneOf":
-					$choice = $value["option"];
-					$value = $value[$choice];
-					array_push($ret, (int)$choice);
-					array_push($ret, $value);
-					break;
-				case "CaT\Filter\Filters\Text":
-				case "CaT\Filter\Filters\Multiselect":
-				case "CaT\Filter\Filters\Singleselect":
-					array_push($ret, $value);
-					break;
-				case "CaT\Filter\Filters\Option":
-					array_push($ret, (bool)$value);
-					break;
-				default:
-					throw new \Exception("Filter class not known");
-			}
-		}
-
-		return $ret;
 	}
 
 	protected function buildReport(\CaT\Filter\Filters\Sequence $sequence) {
