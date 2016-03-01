@@ -68,7 +68,7 @@ class ilAuthUtils
 	/**
 	* initialises $ilAuth 
 	*/
-	function _initAuth()
+	public static function _initAuth()
 	{
 		global $ilAuth, $ilSetting, $ilDB, $ilClientIniFile,$ilBench;
 
