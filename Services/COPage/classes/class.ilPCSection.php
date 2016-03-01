@@ -30,7 +30,7 @@ class ilPCSection extends ilPageContent
 	/**
 	* Set node
 	*/
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
 		$this->sec_node =& $a_node->first_child();		// this is the Section node

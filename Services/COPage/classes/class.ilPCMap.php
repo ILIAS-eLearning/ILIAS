@@ -29,7 +29,7 @@ class ilPCMap extends ilPageContent
 	/**
 	* Set node
 	*/
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
 		$this->map_node =& $a_node->first_child();		// this is the Map node

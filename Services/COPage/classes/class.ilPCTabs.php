@@ -51,7 +51,7 @@ class ilPCTabs extends ilPageContent
 	/**
 	* Set content node
 	*/
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
 		$this->tabs_node =& $a_node->first_child();		// this is the Tabs node

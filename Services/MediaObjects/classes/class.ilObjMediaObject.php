@@ -44,7 +44,7 @@ class ilObjMediaObject extends ilObject
 		parent::ilObject($a_id, false);
 	}
 
-	function setRefId()
+	function setRefId($a_id)
 	{
 		$this->ilias->raiseError("Operation ilObjMedia::setRefId() not allowed.",$this->ilias->error_obj->FATAL);
 	}
@@ -54,7 +54,7 @@ class ilObjMediaObject extends ilObject
 		return false;
 	}
 
-	function putInTree()
+	function putInTree($a_parent_ref)
 	{
 		$this->ilias->raiseError("Operation ilObjMedia::putInTree() not allowed.",$this->ilias->error_obj->FATAL);
 	}
@@ -81,7 +81,7 @@ class ilObjMediaObject extends ilObject
 	*
 	* @return	boolean		true, if lm content object exists
 	*/
-	public static function _exists($a_id)
+	public static function _exists($a_id, $a_reference = false, $a_type = NULL)
 	{
 		global $ilDB;
 		
