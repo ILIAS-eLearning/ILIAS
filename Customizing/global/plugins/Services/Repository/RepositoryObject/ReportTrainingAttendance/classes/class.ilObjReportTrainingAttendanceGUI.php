@@ -88,10 +88,14 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 					.' - '.date_format(date_create($rec['end_date']),'d.m.Y');
 			$rec['booked_for_date'] = "-";
 		}
-		else {
+		else if ($rec["participated"] == "Ja") {
 			$rec['participated_date'] = "-";
 			$rec['booked_for_date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
 					.' - '.date_format(date_create($rec['end_date']),'d.m.Y');
+		}
+		else {
+			$rec['participated_date'] = "-";
+			$rec['booked_for_date'] = "-";
 		}
 
 		return parent::transformResultRow($rec);
