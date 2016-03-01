@@ -179,4 +179,72 @@ class DisplayFilter {
 	protected function firstKey(array $post_values) {
 		return key($post_values);
 	}
+
+	/**
+	*
+	* @param $value
+	*
+	* @return array|int|string
+	*/
+	protected function unserializeValue($value) {
+		if($uns = unserialize($value)) {
+			return $uns;
+		}
+		
+		return $value;
+	}
+
+	/**
+	* flatten the post values
+	*
+	* @param Sequence 	$squence
+	* @param array 		$post_values
+	*
+	* @return array
+	*/
+	public function buildFilterValues(\CaT\Filter\Filters\Sequence $sequence, array $post_values) {
+		$navi = new \CaT\Filter\Navigator($sequence);
+		$ret = array();
+
+		while ($filter = $this->getNextFilter($navi)) {
+			if($filter instanceof \CaT\Filter\Filters\Sequence) {
+				$navi->enter();
+				$filter = $navi->current();
+			}
+
+			$current_class = get_class($filter);
+			$value = $post_values[$navi->path()];
+			switch($current_class) {
+				case "CaT\Filter\Filters\DatePeriod":
+					$value = $this->unserializeValue($value);
+					$start = new \DateTime($value["start"]["date"]["y"]."-".$value["start"]["date"]["m"]."-".$value["start"]["date"]["d"]);
+					$end = new \DateTime($value["end"]["date"]["y"]."-".$value["end"]["date"]["m"]."-".$value["end"]["date"]["d"]);
+					array_push($ret, $start);
+					array_push($ret, $end);
+					break;
+				case "CaT\Filter\Filters\OneOf":
+					$value = $this->unserializeValue($value);
+					$choice = $value["option"];
+					$value = $value[$choice];
+					array_push($ret, (int)$choice);
+					array_push($ret, $value);
+					break;
+				case "CaT\Filter\Filters\Multiselect":
+					$value = $this->unserializeValue($value);
+					array_push($ret, $value);
+					break;
+				case "CaT\Filter\Filters\Text":
+				case "CaT\Filter\Filters\Singleselect":
+					array_push($ret, $value);
+					break;
+				case "CaT\Filter\Filters\Option":
+					array_push($ret, (bool)$value);
+					break;
+				default:
+					throw new \Exception("Filter class not known");
+			}
+		}
+
+		return $ret;
+	}
 }
