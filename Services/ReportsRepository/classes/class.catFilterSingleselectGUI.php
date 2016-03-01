@@ -21,6 +21,7 @@ class catFilterSingleselectGUI extends catFilterGUI {
 		$select = new ilSelectInputGUI($this->filter->label(), "filter[$this->path]");
 		$select->setInfo($this->filter->description());
 		$select->setOptions($this->filter->options());
+		$select->setValue($this->filter->default_choice());
 		$form->addItem($select);
 
 		return $form;

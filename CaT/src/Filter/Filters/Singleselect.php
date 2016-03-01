@@ -6,13 +6,40 @@ namespace CaT\Filter\Filters;
 
 class Singleselect extends SelectBase {
 
+	public function __construct(\CaT\Filter\FilterFactory $factory, $label, $description, $options,
+								$default_choice = "", array $mappings = array(),
+								array $mapping_result_types = array()) {
+		assert('is_string($label)');
+		assert('is_string($description)');
+
+		$this->setFactory($factory);
+		$this->setLabel($label);
+		$this->setDescription($description);
+		$this->setMappings($mappings, $mapping_result_types);
+
+		$keys = array_keys($options);
+		$tf = $factory->type_factory();
+		if ($tf->lst($tf->int())->contains($keys)) {
+			$this->content_type = $tf->int();
+		}
+		else if ($tf->lst($tf->string())->contains($keys)) {
+			$this->content_type = $tf->string();
+		}
+		else {
+			throw new \InvalidArgumentException("Use only strings or only ints as keys for options.");
+		}
+
+		$this->options = $options;
+		$this->default_choice = $default_choice;
+	}
+
 	/**
 	 * Set or get the default choice of options for the multiselect.
 	 *
-	 * @param	int[]|string[]|null		$default_choice
+	 * @param	int|string|null		$default_choice
 	 * @return	Multiselect|string[]|int[]
 	 */
-	public function default_choice(array $default_choice = null) {
+	public function default_choice($default_choice = null) {
 		if ($default_choice === null) {
 			return $this->default_choice;
 		}

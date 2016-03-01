@@ -20,6 +20,7 @@ class catFilterDatePeriodGUI extends catFilterGUI {
 		$duration->setInfo($this->filter->description());
 		$duration->setShowDate(true);
 		$duration->setShowTime(false);
+		$duration->setStart(new ilDateTime('2008-06-12 08:00:00',IL_CAL_DATETIME));
 		$form->addItem($duration);
 
 		return $form;
