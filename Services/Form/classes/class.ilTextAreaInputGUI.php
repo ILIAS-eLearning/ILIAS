@@ -416,7 +416,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	*
 	* @return	int	Size
 	*/
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		$ttpl = new ilTemplate("tpl.prop_textarea.html", true, true, "Services/Form");
 		

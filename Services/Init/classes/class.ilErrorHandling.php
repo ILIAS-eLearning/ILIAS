@@ -67,7 +67,7 @@ class ilErrorHandling extends PEAR
 	* Constructor
 	* @access	public
 	*/
-	function ilErrorHandling()
+	function __construct()
 	{
 		$this->PEAR();
 
@@ -378,7 +378,8 @@ class ilErrorHandling extends PEAR
 	 * @return Whoops\Handler
 	 */
 	protected function loggingHandler() {
-		return new CallbackHandler(function(Exception $exception, Inspector $inspector, Run $run) {
+		// php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
+		return new CallbackHandler(function(Throwable $exception, Inspector $inspector, Run $run) {
 			/**
 			 * Don't move this out of this callable
 			 * @var ilLog $ilLog;
