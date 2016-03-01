@@ -1645,11 +1645,18 @@ class ilObject
 	
 	/**
 	 * Prepare copy wizard object selection 
-	 *
-	 * @access public
+	 * 
+	 * This method should renamed. Currently used in ilObjsurvey and ilObjTest
+	 * @deprecated since version 5.2
 	 * @static
-	 *
-	 * @param array int array of ref ids
+	 * 
+	 * @global type $ilDB
+	 * @global type $lng
+	 * @global type $objDefinition
+	 * @param array $a_ref_ids
+	 * @param string $new_type
+	 * @param bool $show_path
+	 * @return array
 	 */
 	public static function _prepareCloneSelection($a_ref_ids,$new_type,$show_path = true)
 	{

@@ -245,7 +245,7 @@ abstract class ilObject2 extends ilObject
 	//final function getHTMLDirectory() { return parent::getHTMLDirectory(); }
 	final static function _getObjectsByType($a_obj_type = "", $a_owner = "") { return parent::_getObjectsByType($a_obj_type, $a_owner); }
 	
-	final static function _prepareCloneSelection($a_ref_ids,$new_type) { return parent::_prepareCloneSelection($a_ref_ids,$new_type); }
+	final static function _prepareCloneSelection($a_ref_ids,$new_type, $a_show_path = true) { return parent::_prepareCloneSelection($a_ref_ids,$new_type, $a_show_path); }
 	final function appendCopyInfo($a_target_id,$a_copy_id) { return parent::appendCopyInfo($a_target_id,$a_copy_id); }
 	final function cloneMetaData($target_obj)  { return parent::cloneMetaData($target_obj); }
 	
