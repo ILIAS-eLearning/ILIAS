@@ -458,7 +458,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * @param bool $a_include_side_block[optional]
 	 * @return array 
 	 */
-	public function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false)
+	public function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false, $a_get_single = 0)
 	{
 		global $ilUser;
 
@@ -469,7 +469,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		}
 		
 		// Results are stored in $this->items
-		parent::getSubItems($a_admin_panel_enabled,$a_include_side_block);
+		parent::getSubItems($a_admin_panel_enabled,$a_include_side_block, $a_get_single);
 		
 		$limit_sess = false;		
 		if(!$a_admin_panel_enabled &&

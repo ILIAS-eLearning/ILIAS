@@ -592,8 +592,7 @@ class ilContainer extends ilObject
 	*
 	* @return	array
 	*/
-	function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false,
-		$a_get_single = 0)
+	public function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false, $a_get_single = 0)
 	{
 		global $objDefinition, $ilBench, $tree, $ilObjDataCache, $ilUser, $rbacsystem,
 			$ilSetting;
