@@ -210,7 +210,7 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 		$this->gIldb->manipulate("INSERT INTO rep_robj_rta ".
 			"(id, is_online) VALUES (".
 			$this->gIldb->quote($this->getId(), "integer").",".
-			$this->gIldb->quote(0, "integer").",".
+			$this->gIldb->quote(0, "integer").
 			")");
 	}
 
