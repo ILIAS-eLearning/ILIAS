@@ -10,7 +10,7 @@ class ilObjReportTrainingAttendanceAccess extends ilObjReportBaseAccess {
 	static public function checkOnline($a_id) {
 		global $ilDB;
 
-		$set = $ilDB->query("SELECT is_online FROM rep_robj_rts ".
+		$set = $ilDB->query("SELECT is_online FROM rep_robj_rta ".
 			" WHERE id = ".$ilDB->quote($a_id, "integer")
 			);
 		$rec  = $ilDB->fetchAssoc($set);
