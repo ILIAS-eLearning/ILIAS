@@ -27,3 +27,13 @@ $ilDB->addPrimaryKey("rep_robj_roa", array("id"));
 			"default" => 0
 		));
 ?>
+
+<#3>
+<?php
+		$ilDB->addTableColumn('rep_robj_roa', 'all_orgus_filter', array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0
+		));
+?>
