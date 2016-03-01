@@ -748,9 +748,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return $this->ABO == $this->ABO_ENABLED;
 	}
 
-	function read($a_force_db = false)
+	/**
+	 * 
+	 */
+	public function read()
 	{
-		parent::read($a_force_db);
+		parent::read();
 
 		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
 		$this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));

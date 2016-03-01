@@ -284,11 +284,10 @@ class ilObjFileAccessSettings extends ilObject
 	}
 	/**
 	* read object data from db into object
-	* @param	boolean
 	*/
-	public function read($a_force_db = false)
+	public function read()
 	{
-		parent::read($a_force_db);
+		parent::read();
 
 		global $ilClientIniFile;
 		$this->webdavEnabled = $ilClientIniFile->readVariable('file_access','webdav_enabled') == '1';

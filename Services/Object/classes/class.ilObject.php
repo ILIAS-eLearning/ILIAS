@@ -86,10 +86,6 @@ class ilObject
 	*/
 	var $add_dots;
 
-	/**
-	* object_data record
-	*/
-	var $obj_data_record;
 
 	/**
 	* Constructor
@@ -156,16 +152,12 @@ class ilObject
 	* @param	boolean
 	* @access	public
 	*/
-	function read($a_force_db = false)
+	public function read()
 	{
 		global $objDefinition, $ilBench, $ilDB, $log;
 
 		$ilBench->start("Core", "ilObject_read");
-		if (isset($this->obj_data_record) && !$a_force_db)
-		{
-			$obj = $this->obj_data_record;
-		}
-		else if ($this->referenced)
+		if ($this->referenced)
 		{
 			// check reference id
 			if (!isset($this->ref_id))
@@ -583,19 +575,6 @@ class ilObject
 	function getDiskUsage()
 	{
 		return null;
-	}
-
-	/**
-	* set object_data record (note: this method should
-	* only be called from the ilObjectFactory class)
-	*
-	* @param	array	$a_record	assoc. array from table object_data
-	* @access	public
-	* @return	integer	object id
-	*/
-	function setObjDataRecord($a_record)
-	{
-		$this->obj_data_record = $a_record;
 	}
 
 	/**

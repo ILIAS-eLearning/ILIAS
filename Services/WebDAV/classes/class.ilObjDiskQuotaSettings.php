@@ -171,12 +171,11 @@ class ilObjDiskQuotaSettings extends ilObject
 		$settings->set('wsp_enabled', $this->personalWorkspaceDiskQuotaEnabled);
 	}
 	/**
-	* read object data from db into object
-	* @param	boolean
-	*/
-	public function read($a_force_db = false)
+	 * read object data from db into object
+	 */
+	public function read()
 	{
-		parent::read($a_force_db);
+		parent::read();
 
 		$settings = new ilSetting('disk_quota');
 		$this->diskQuotaEnabled = $settings->get('enabled') == true;

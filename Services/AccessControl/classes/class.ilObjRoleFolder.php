@@ -46,7 +46,7 @@ class ilObjRoleFolder extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 	
-	function read($a_force_db = false)
+	public function read()
 	{
 		parent::read();
 		

@@ -252,14 +252,13 @@ class ilObjSurvey extends ilObject
 		return $result;
 	}
 
-/**
-	* read object data from db into object
-	* @param	boolean
-	* @access	public
-	*/
-	function read($a_force_db = false)
+	/**
+	 * read object data from db into object
+	 * @access	public
+	 */
+	public function read()
 	{
-		parent::read($a_force_db);
+		parent::read();
 		$this->loadFromDb();
 	}
 	

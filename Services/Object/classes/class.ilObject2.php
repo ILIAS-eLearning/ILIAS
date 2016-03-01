@@ -32,9 +32,9 @@ abstract class ilObject2 extends ilObject
 	/**
 	* Read data from db
 	*/
-	final function read($a_force_db = false)
+	final public function read()
 	{
-		parent::read($a_force_db);
+		parent::read();
 		$this->doRead();
 	}
 	protected function doRead()
@@ -64,7 +64,6 @@ abstract class ilObject2 extends ilObject
 	final function setOwner($a_owner) { return parent::setOwner($a_owner); }
 	final function getCreateDate() { return parent::getCreateDate(); }
 	final function getLastUpdateDate() { return parent::getLastUpdateDate(); }
-	final function setObjDataRecord($a_record) { return parent::setObjDataRecord($a_record); }
 
 	final function create($a_clone_mode = false)
 	{

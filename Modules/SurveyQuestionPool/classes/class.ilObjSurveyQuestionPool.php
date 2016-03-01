@@ -87,12 +87,11 @@ class ilObjSurveyQuestionPool extends ilObject
 
 /**
 	* read object data from db into object
-	* @param	boolean
 	* @access	public
 	*/
-	function read($a_force_db = false)
+	public function read()
 	{
-		parent::read($a_force_db);
+		parent::read();
 		$this->loadFromDb();
 	}
 

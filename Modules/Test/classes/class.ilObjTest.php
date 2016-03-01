@@ -752,6 +752,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	* @param	boolean
 	* @access	public
 	*/
+	// php7-todo remove force_db_parameter
 	function read($a_force_db = false)
 	{
 		parent::read($a_force_db);
