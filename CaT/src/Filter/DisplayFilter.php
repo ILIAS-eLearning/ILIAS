@@ -23,7 +23,7 @@ class DisplayFilter {
 	*
 	* @param Navigator $navi
 	*
-	* @return Filter
+	* @return Filter|null
 	*/
 	public function getNextFilter(Navigator $navi) {
 		if($navi->path() === null) {
@@ -39,7 +39,7 @@ class DisplayFilter {
 			}
 		}
 
-		return false;
+		return null;
 	}
 
 	/**
@@ -48,7 +48,7 @@ class DisplayFilter {
 	* @param $sequence 		sequence of filters
 	* @param $post_values	array of values from pre filters
 	*
-	* @return FilterGUI
+	* @return FilterGUI|null
 	*/
 	public function getNextFilterGUI(Filters\Sequence $sequence, array $post_values) {
 		$navi = new Navigator($sequence);
@@ -63,7 +63,7 @@ class DisplayFilter {
 		}
 		
 		if(!$filter) {
-			return false;
+			return null;
 		}
 
 		return $this->getNextGUI($filter, $navi);
