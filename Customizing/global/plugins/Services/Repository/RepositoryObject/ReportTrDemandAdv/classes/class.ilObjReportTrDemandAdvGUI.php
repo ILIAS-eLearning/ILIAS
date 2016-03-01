@@ -49,7 +49,8 @@ class ilObjReportTrDemandAdvGUI extends ilObjReportBaseGUI {
 					||(string)$rec['max_participants'] === "-1"
 					|| $rec['max_participants'] === null)
 						? 'keine Beschränkung' : $rec['bookings_left'];
-			$rec['booked_wl'] = $rec['waitinglist_active'] === 'Ja'
+			$rec['booked_wl'] =
+					(string)$rec['waitinglist_active'] === "0"
 						? $rec['booked_wl'] : 'inaktiv';
 
 			$rec['begin_date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
@@ -73,7 +74,8 @@ class ilObjReportTrDemandAdvGUI extends ilObjReportBaseGUI {
 					||(string)$rec['max_participants'] === "-1"
 					|| $rec['max_participants'] === null)
 						? 'keine Beschränkung' : $rec['bookings_left'];
-			$rec['booked_wl'] = $rec['waitinglist_active'] === 'Ja' 
+			$rec['booked_wl'] =
+					(string)$rec['waitinglist_active'] === "0"
 						? $rec['booked_wl'] : 'inaktiv';
 
 			$rec['begin_date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
