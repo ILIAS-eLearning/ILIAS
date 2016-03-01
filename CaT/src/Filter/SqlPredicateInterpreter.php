@@ -16,7 +16,7 @@ class SqlPredicateInterpreter {
 
 	protected $db;
 
-	public function __construct($db) {
+	public function __construct(\ilDB $db) {
 		$this->db = $db;
 	}
 
