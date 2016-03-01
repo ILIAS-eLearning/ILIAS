@@ -140,7 +140,7 @@ class ilTextWizardInputGUI extends ilTextInputGUI
 	*
 	* @return	int	Size
 	*/
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		$tpl = new ilTemplate("tpl.prop_textwizardinput.html", true, true, "Services/Form");
 		$i = 0;
