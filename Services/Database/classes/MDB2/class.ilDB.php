@@ -203,7 +203,9 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	* because it is a reserved word. So createTable / alterTable usually check
 	* these.
 	*/
-	abstract static function getReservedWords();
+	static function getReservedWords(){
+		return array();
+	}
 
 
 	/**
