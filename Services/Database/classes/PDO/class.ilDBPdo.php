@@ -354,23 +354,29 @@ class ilDBPdo implements ilDBInterface {
 	 * @return int|void
 	 */
 	public function update($table_name, $values, $where) {
-		$query = "UPDATE $table_name SET ";
+		
+		$query_fields = array();				
 		foreach ($values as $key => $val) {
 			$qval = $this->quote($val[1], $val[0]);
-			$query .= "$key = $qval, ";
+			$query_fields[] = "$key = $qval";
 		}
-		$query = substr($query, 0, - 2) . " WHERE ";
+	
+		$query_where = array();
 		foreach ($where as $key => $val) {
 			$qval = $this->quote($val[1], $val[0]);
-			$query .= "$key = $qval, ";
+			$query_where[] = "$key = $qval";
 		}
-
-		$query = substr($query, 0, - 2);
+		
+		$query = "UPDATE $table_name".
+			" SET ".implode(", ", $query_fields).
+			" WHERE ".implode(" AND ", $query_where);
+		
 		try {
 
 			$this->pdo->exec($query);
 		} catch (PDOException $e) {
 			echo '<pre>' . print_r($query, 1) . '</pre>';
+			exit();
 		}
 	}
 
