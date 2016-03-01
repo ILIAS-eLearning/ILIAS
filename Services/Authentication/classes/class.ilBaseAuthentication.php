@@ -312,7 +312,7 @@ class ilBaseAuthentication
 		require_once "./Services/Authentication/classes/class.ilSessionDBHandler.php";
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once './Services/Init/classes/class.ilErrorHandling.php';
-		include_once './Services/Database/classes/class.ilDB.php';
+		include_once './Services/Database/classes/MDB2/class.ilDB.php';
 
 		$this->db->connect();
 		$GLOBALS['ilDB'] = $this->db;

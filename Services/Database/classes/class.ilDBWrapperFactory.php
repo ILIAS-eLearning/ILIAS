@@ -1,14 +1,16 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Database/classes/class.ilDB.php");
-
 /**
+ * Class ilDBWrapperFactory
+ *
  * DB Wrapper Factory. Delivers a DB wrapper object depending on given
  * DB type and DSN.
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id: class.ilDB.php 18989 2009-02-15 12:57:19Z akill $
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ *
+ *
  * @ingroup ServicesDatabase
  */
 class ilDBWrapperFactory {
@@ -21,6 +23,9 @@ class ilDBWrapperFactory {
 	 */
 	static public function getWrapper($a_type, $a_inactive_mysqli = null) {
 		global $ilClientIniFile;
+		/**
+		 * @var $ilClientIniFile ilIniFile
+		 */
 
 		if ($a_type == "" && is_object($ilClientIniFile)) {
 			$a_type = $ilClientIniFile->readVariable("db", "type");
@@ -31,11 +36,11 @@ class ilDBWrapperFactory {
 
 		switch ($a_type) {
 			case "mysql":
-				include_once("./Services/Database/classes/class.ilDBMySQL.php");
+				include_once("./Services/Database/classes/MDB2/class.ilDBMySQL.php");
 				$ilDB = new ilDBMySQL();
 
 				if ($a_inactive_mysqli === null
-					&& is_object($ilClientIniFile)
+				    && is_object($ilClientIniFile)
 				) {
 					$a_inactive_mysqli = $ilClientIniFile->readVariable("db", "inactive_mysqli");
 				}
@@ -48,11 +53,11 @@ class ilDBWrapperFactory {
 				break;
 
 			case "innodb":
-				include_once("./Services/Database/classes/class.ilDBInnoDB.php");
+				include_once("./Services/Database/classes/MDB2/class.ilDBInnoDB.php");
 				$ilDB = new ilDBInnoDB();
 
 				if ($a_inactive_mysqli === null
-					&& is_object($ilClientIniFile)
+				    && is_object($ilClientIniFile)
 				) {
 					$a_inactive_mysqli = $ilClientIniFile->readVariable("db", "inactive_mysqli");
 				}
@@ -65,12 +70,12 @@ class ilDBWrapperFactory {
 				break;
 
 			case "postgres":
-				include_once("./Services/Database/classes/class.ilDBPostgreSQL.php");
+				include_once("./Services/Database/classes/MDB2/class.ilDBPostgreSQL.php");
 				$ilDB = new ilDBPostgreSQL();
 				break;
 
 			case "oracle":
-				include_once("./Services/Database/classes/class.ilDBOracle.php");
+				include_once("./Services/Database/classes/MDB2/class.ilDBOracle.php");
 				$ilDB = new ilDBOracle();
 				break;
 			case "pdo-mysql-innodb":

@@ -263,7 +263,7 @@ class ilassMarkSchemaTest extends PHPUnit_Framework_TestCase
 	{
 		/*
 		// Arrange
-		require_once 'Services/Database/classes/class.ilDB.php';
+		require_once 'Services/Database/classes/MDB2/class.ilDB.php';
 		$ildb_stub = $this->getMock('ilDB');
 
 		$ildb_stub->expects($this->any())

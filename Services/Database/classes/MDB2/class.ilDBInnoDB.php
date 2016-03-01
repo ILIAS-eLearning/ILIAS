@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once ("./Services/Database/classes/class.ilDBMySQL.php");
+include_once("./Services/Database/classes/MDB2/class.ilDBMySQL.php");
 
 /**
 * MySQL InnoDB Database Wrapper
