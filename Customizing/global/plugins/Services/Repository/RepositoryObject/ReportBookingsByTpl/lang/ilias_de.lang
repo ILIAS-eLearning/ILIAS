@@ -1,0 +1,44 @@
+<!-- language file start -->
+xrbt_content#:#Report
+xrbt_properties#:#Eigenschaften
+obj_xrbt#:#Report Teilnahmen nach Trainingsvorlage
+objs_xrbt#:#Reports Teilnahmen nach Trainingsvorlage
+obj_xrbt_duplicate#:#Report Teilnahmen nach Trainingsvorlage kopieren
+objs_xrbt_duplicate#:#Reports Teilnahmen nach Trainingsvorlage kopieren
+obj_xrbt_select#:#Report Teilnahmen nach Trainingsvorlage auswählen
+xrbt_add#:#Report Teilnahmen nach Trainingsvorlage hinzufügen
+xrbt_new#:#Neuen Report Teilnahmen nach Trainingsvorlage hinzufügen
+xrbt_read#:#Lesezugriff zum Report Teilnahmen nach Trainingsvorlage
+xrbt_write#:#Report Teilnahmen nach Trainingsvorlage bearbeiten
+xrbt_delete#:#Report Teilnahmen nach Trainingsvorlage löschen
+xrbt_visible#:#sichtbar
+xrbt_edit_permission#:#schreibberechtigt
+crs_create_xrbt#:#Report Teilnahmen nach Trainingsvorlage erzeugen
+grp_create_xrbt#:#Report Teilnahmen nach Trainingsvorlage erzeugen
+fold_create_xrbt#:#Report Teilnahmen nach Trainingsvorlage erzeugen
+root_create_xrbt#:#Report Teilnahmen nach Trainingsvorlage erzeugen
+cat_create_xrbt#:#Report Teilnahmen nach Trainingsvorlage erzeugen
+online#:#Online
+od_bd#:#OD/BD
+sum_waiting#:#Warteliste
+sum_excused#:#entschuldigt
+sum_unexcused#:#nicht entschuldigt
+sum_exit#:#ausgeschieden
+sum_employees#:#Mitarbeiter
+sum_booked#:#gebucht
+sum_booked_wbt#:#Selbsternkurs, gebucht
+sum_attended#:#teilgenommen
+sum_attended_wbt#:#Selbstlernkurs, teilgenommen
+period#:#Zeitraum
+until#:#bis
+org_unit_short#:#Org.-Einheit
+edu_program#:#Bildungsprogram
+course_type#:#Trainingstyp
+crs_title#:#Trainingstitel
+participation_status#:#Teilnahmestatus
+booking_status#:#Buchungsstatus
+gender#:#Geschlecht
+venue#:#Veranstaltungsort
+provider#:#Bildungsdienstleister
+orgu_title#:#Titel
+report_is_local#:#Lokale Auswertung
