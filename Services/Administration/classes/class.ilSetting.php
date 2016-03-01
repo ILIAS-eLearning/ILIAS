@@ -268,6 +268,10 @@ class ilSetting
 	*/
 	public static function _getValueType()
 	{
+		// php7-todo
+		return 'text';
+		
+		/*
 		include_once ('./Services/Database/classes/class.ilDBAnalyzer.php');
 		$analyzer = new ilDBAnalyzer;
 		$info = $analyzer->getFieldInformation('settings');
@@ -279,7 +283,8 @@ class ilSetting
 		else
 		{
 	        return 'text';
-	    }
+	    }		 
+		*/
 	}
 
 
