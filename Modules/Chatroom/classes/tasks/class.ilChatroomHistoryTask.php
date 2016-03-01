@@ -258,7 +258,7 @@ class ilChatroomHistoryTask extends ilChatroomTaskHandler
 	    else
 	    {
 		    $from = new ilDateTime( time() - 60 * 60, IL_CAL_UNIX );
-		    $to = new ilDateTime( time(), IL_CAL_UNIX );
+			$to = new ilDateTime( ceil(time() / 300) * 300, IL_CAL_UNIX );
 
 		    $period = $durationForm->getItemByPostVar( 'timeperiod' );
 		    $period->setStart( $from );

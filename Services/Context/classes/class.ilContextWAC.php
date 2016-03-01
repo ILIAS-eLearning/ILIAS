@@ -2,14 +2,14 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Services/Context/classes/class.ilContextBase.php');
+require_once('./Services/Context/interfaces/interface.ilContextTemplate.php');
 
 /**
  * Class ilContextWAC
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilContextWAC extends ilContextBase {
+class ilContextWAC implements ilContextTemplate {
 
 	/**
 	 * @return bool
