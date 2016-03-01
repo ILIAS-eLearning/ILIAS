@@ -549,11 +549,16 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 			include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');						
 			$copy_id = ilCopyWizardOptions::_allocateCopyId();
 			$wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
+			
+			if(!$_SESSION['clipboard']['wsp2repo'])
+			{
+				$wizard_options->disableTreeCopy();
+			}
 			$wizard_options->saveOwner($ilUser->getId());
 			$wizard_options->saveRoot($source_node_id);						
 			$wizard_options->read();
 			
-			$new_obj = $source_object->cloneObject($target_node_id, $copy_id, !$_SESSION['clipboard']['wsp2repo']);	
+			$new_obj = $source_object->cloneObject($target_node_id, $copy_id);	
 			
 			// insert into workspace tree
 			if($new_obj && !$_SESSION['clipboard']['wsp2repo'])

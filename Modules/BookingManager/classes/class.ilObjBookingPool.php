@@ -152,9 +152,9 @@ class ilObjBookingPool extends ilObject
 		return true;
 	}
 	
-	public function cloneObject($a_target_id,$a_copy_id = 0,$a_omit_tree = false)
+	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		$new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+		$new_obj = parent::cloneObject($a_target_id, $a_copy_id);
 
 		//copy online status if object is not the root copy object
 		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);

@@ -1712,14 +1712,17 @@ class ilObject
 	 * @return object new object
 	 *  
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0,$a_omit_tree = false)
+	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
 		global $objDefinition,$ilUser,$rbacadmin, $ilDB;
 		
 		$location = $objDefinition->getLocation($this->getType());
 		$class_name = ('ilObj'.$objDefinition->getClassName($this->getType()));
 		
-		if(!$a_omit_tree)
+		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
+		$options = ilCopyWizardOptions::_getInstance($a_copy_id);
+		
+		if(!$options->isTreeCopyDisabled())
 		{
 			$title = $this->appendCopyInfo($a_target_id,$a_copy_id);
 		}
@@ -1738,7 +1741,7 @@ class ilObject
 		// Choose upload mode to avoid creation of additional settings, db entries ...
 		$new_obj->create(true);
 		
-		if(!$a_omit_tree)
+		if(!$options->isTreeCopyDisabled())
 		{
 			$new_obj->createReference();
 			$new_obj->putInTree($a_target_id);

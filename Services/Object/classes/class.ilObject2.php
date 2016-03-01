@@ -249,11 +249,11 @@ abstract class ilObject2 extends ilObject
 	final function appendCopyInfo($a_target_id,$a_copy_id) { return parent::appendCopyInfo($a_target_id,$a_copy_id); }
 	final function cloneMetaData($target_obj)  { return parent::cloneMetaData($target_obj); }
 	
-	final function cloneObject($a_target_id, $a_copy_id = null, $a_omit_tree = false)
+	final function cloneObject($a_target_id, $a_copy_id = null)
 	{
 		if($this->beforeCloneObject())
 		{
-			$new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+			$new_obj = parent::cloneObject($a_target_id, $a_copy_id);
 			if($new_obj)
 			{
 				$this->doCloneObject($new_obj, $a_target_id, $a_copy_id);
