@@ -14,8 +14,9 @@ class DisplayFilter {
 	protected $parent;
 	protected $gui_factory;
 
-	public function __construct(FilterGUIFactory $gui_factory) {
+	public function __construct(FilterGUIFactory $gui_factory, TypeFactory $type_factory) {
 		$this->gui_factory = $gui_factory;
+		$this->type_factory = $type_factory;
 	}
 
 	/**
@@ -233,8 +234,11 @@ class DisplayFilter {
 					$value = $this->unserializeValue($value);
 					array_push($ret, $value);
 					break;
-				case "CaT\Filter\Filters\Text":
 				case "CaT\Filter\Filters\Singleselect":
+					if ($filter->input_type() == $this->type_factory->int()) {
+						$value = (int)$value;
+					}
+				case "CaT\Filter\Filters\Text":
 					array_push($ret, $value);
 					break;
 				case "CaT\Filter\Filters\Option":
