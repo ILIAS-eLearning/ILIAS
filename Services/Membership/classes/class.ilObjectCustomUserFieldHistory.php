@@ -42,7 +42,7 @@ class ilObjectCustomUserFieldHistory
 		$res = $ilDB->query($query);
 		
 		$users = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$users[$row->usr_id]['update_user'] = $row->update_user;
 			$users[$row->usr_id]['editing_time'] = new ilDateTime($row->editing_time,IL_CAL_DATETIME,  ilTimeZone::UTC);
@@ -130,7 +130,7 @@ class ilObjectCustomUserFieldHistory
 				'WHERE obj_id = '.$ilDB->quote($this->obj_id,'integer').' '.
 				'AND usr_id = '.$ilDB->quote($this->user_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setEditingTime(new ilDateTime($row->editing_time,IL_CAL_DATETIME,  ilTimeZone::UTC));
 			$this->setUpdateUser($row->update_user);

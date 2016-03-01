@@ -308,7 +308,7 @@ class ilECSTaskScheduler
 	 		"AND time_limit_unlimited = 0 ".
 	 		"AND (time_limit_until - time_limit_from) < 7200";
 	 	$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if($user_obj = ilObjectFactory::getInstanceByObjId($row->usr_id,false))
 			{

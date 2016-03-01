@@ -114,7 +114,7 @@ class ilDataCollectionILIASRefField extends ilDataCollectionRecordField{
                     WHERE usr_id = ".$usr_id." AND obj_id = ".$obj_id."
 ";
 		$result = $ilDB->query($query);
-		return ($result->numRows() == 0)? false:$result->fetchRow(DB_FETCHMODE_OBJECT);
+		return ($result->numRows() == 0)? false:$result->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 	}
 
 

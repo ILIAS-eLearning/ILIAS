@@ -126,7 +126,7 @@ class ilLPStatusObjectives extends ilLPStatus
 			// Read title/description
 			$query = "SELECT * FROM crs_objectives WHERE ".$in;
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$status_info['objective_title'][$row->objective_id] = $row->title;
 				$status_info['objective_description'][$row->objective_id] = $row->description;

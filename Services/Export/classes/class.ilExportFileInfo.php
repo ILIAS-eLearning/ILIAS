@@ -51,7 +51,7 @@ class ilExportFileInfo
 			"AND export_type = ".$ilDB->quote($a_type,'text').' '.
 			"ORDER BY create_date DESC";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if(!$a_version or $row->version == $a_version)
 			{
@@ -224,7 +224,7 @@ class ilExportFileInfo
 			"AND filename = ".$ilDB->quote($this->getFilename(),'text');
 			
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setVersion($row->version);
 			$this->setCreationDate(new ilDateTime($row->create_date,IL_CAL_DATETIME,ilTimeZone::UTC));

@@ -212,7 +212,7 @@ class ilRbacAdmin
 		$limit_query = 'SELECT COUNT(*) num FROM rbac_ua '.
 				'WHERE '.$GLOBALS['ilDB']->in('rol_id',(array) $a_limited_roles,FALSE,'integer');
 		$res = $GLOBALS['ilDB']->query($limit_query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		if($row->num >= $a_limit)
 		{
 			$GLOBALS['ilDB']->unlockTables();
@@ -757,7 +757,7 @@ class ilRbacAdmin
 		$res = $ilDB->query($query);
 		$operations = array();
 		$rowNum = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$operations[$rowNum]['type'] = $row->type;
 			$operations[$rowNum]['ops_id'] = $row->ops_id;

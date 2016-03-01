@@ -40,7 +40,7 @@ class ilMediaPoolSearch extends ilAbstractSearch
 			$and;
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->mep_id,'mep',$this->__prepareFound($row),$row->obj_id);
 		}
@@ -64,7 +64,7 @@ class ilMediaPoolSearch extends ilAbstractSearch
 			"AND obj_type = 'mob'";
 		
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->mep_id,'mep',$this->__prepareFound($row),$row->child);
 		}

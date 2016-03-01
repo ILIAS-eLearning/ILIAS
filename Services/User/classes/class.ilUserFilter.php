@@ -63,7 +63,7 @@ class ilUserFilter
 		$res = $ilDB->query($query);
 		
 		$filtered = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$filtered[] = $row['usr_id'];
 		}

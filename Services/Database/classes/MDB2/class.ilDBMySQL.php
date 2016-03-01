@@ -483,7 +483,7 @@ class ilDBMySQL extends ilDB
 		$query = "SHOW VARIABLES LIKE 'max_allowed_packet'";
 		$res = $this->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->max_allowed_packet_size = $row->value;
 		}

@@ -56,7 +56,7 @@ class ilNestedSetTree implements ilTreeImplementation
 			array('integer','integer'),
 			array($a_node_id,$this->getTree()->getTreeId())
 		);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$childs[] = $row->child;
 		}
@@ -418,7 +418,7 @@ class ilNestedSetTree implements ilTreeImplementation
 				'WHERE child = '.$ilDB->quote($a_node_id,'integer').' '.
 				'AND '.$this->getTree()->getTreePk().' = '.$ilDB->quote($this->getTree()->getTreeId(),'integer');
 		$res = $ilDB->query($query);
-		$a_node = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$a_node = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		
 		// delete subtree
 		$query = sprintf('DELETE FROM '.$this->getTree()->getTreeTable().' '.
@@ -811,7 +811,7 @@ class ilNestedSetTree implements ilTreeImplementation
 			
 		$res = $ilDB->query($query);
 		$nodes = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$nodes[$row->child]['lft']	= $row->lft;
 			$nodes[$row->child]['rgt']	= $row->rgt;

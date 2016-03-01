@@ -341,7 +341,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		$res = $ilDB->query($query);
 
 		$attempts = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$attempts[$row['user_id']] = (int) $row['package_attempts'];
 		}
@@ -378,7 +378,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		$res = $ilDB->query($query);
 
 		$versions = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$versions[$row['user_id']] = (int) $row['module_version'];
 		}

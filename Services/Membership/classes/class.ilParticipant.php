@@ -132,7 +132,7 @@ abstract class ilParticipant
 		$res = $ilDB->query($query);
 		
 		$found = FALSE;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if($row->num)
 			{
@@ -200,7 +200,7 @@ abstract class ilParticipant
 				'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer').' '.
 				'AND usr_id = '.$ilDB->quote($a_usr_id).' ';
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			switch($a_membership_role_type)
 			{
@@ -380,7 +380,7 @@ abstract class ilParticipant
 
 	 	$res = $ilDB->query($query);
 	 	$this->participants_status = array();
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		$this->participants_status[$this->getUserId()]['blocked'] = $row->blocked;
 	 		$this->participants_status[$this->getUserId()]['notification']  = $row->notification;

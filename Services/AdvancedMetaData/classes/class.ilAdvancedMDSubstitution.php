@@ -407,7 +407,7 @@ class ilAdvancedMDSubstitution
 	 		"AND obj_type = ".$this->db->quote($this->type ,'text')." ";
 	 	$res = $this->db->query($query);
 	 	$this->active = $res->numRows() ? true : false;
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		$this->active_fields[$row->field_id] = $row->title;
 	 	}
@@ -418,7 +418,7 @@ class ilAdvancedMDSubstitution
 	 	$this->substitutions = array();
 	 	$this->bold = array();
 	 	$this->newline = array();
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		$tmp_substitutions = unserialize($row->substitution);
 	 		if(is_array($tmp_substitutions))

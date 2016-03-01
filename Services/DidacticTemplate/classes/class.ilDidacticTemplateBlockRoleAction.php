@@ -288,7 +288,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 		$query = 'SELECT * FROM didactic_tpl_abr '.
 			'WHERE action_id = '.$ilDB->quote($this->getActionId());
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setFilterType($row->filter_type);
 		}

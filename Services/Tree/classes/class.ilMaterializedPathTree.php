@@ -509,7 +509,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		
 		$res = $ilDB->query($query);
 		$nodes = array();
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			#$nodes[$row->child]['lft'] = $row->lft;
 			#$nodes[$row->child]['rgt'] = $row->rgt;

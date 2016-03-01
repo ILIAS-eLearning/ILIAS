@@ -122,7 +122,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$query = "SELECT grp_type FROM grp_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->grp_type;
 		}
@@ -766,7 +766,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer');
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setInformation($row->information);
 			$this->setGroupType($row->grp_type);
@@ -1098,7 +1098,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
   		$r = $ilDB->query($q);
   		
-		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$mem_arr[] = array("id" => $row->usr_id,
 								"login" => $row->login,
@@ -1234,7 +1234,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_closed'";
 		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 		return $row["obj_id"];
 	}
@@ -1248,7 +1248,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_open'";
 		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 		return $row["obj_id"];
 	}
@@ -1677,7 +1677,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$query = "SELECT * FROM object_data WHERE title = ".
 			$ilDB->quote($a_title ,'text')." AND type = 'grp'";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->obj_id;
 		}
@@ -1799,7 +1799,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$res = $ilDB->query($query);
 
 		$view_mode = NULL;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$view_mode = $row->view_mode;
 		}
@@ -1980,7 +1980,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$res = $ilDB->query($query);
 		
 		$obj_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$obj_ids[] = $row->obj_id;
 		}

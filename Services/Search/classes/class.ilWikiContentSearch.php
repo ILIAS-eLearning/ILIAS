@@ -62,7 +62,7 @@ class ilWikiContentSearch extends ilAbstractSearch
 			$in;
 			
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->parent_id,$row->parent_type,$this->__prepareFound($row),$row->page_id);
 		}

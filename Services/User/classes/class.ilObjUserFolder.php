@@ -380,7 +380,7 @@ class ilObjUserFolder extends ilObject
 		$query = "SELECT * FROM settings WHERE ".
 			$ilDB->like("keyword", "text", '%usr_settings_export_%');
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			if ($row["value"] == "1")
 			{
@@ -455,7 +455,7 @@ class ilObjUserFolder extends ilObject
 		$query = "SELECT * FROM usr_pref WHERE keyword = ".$ilDB->quote('language','text');
 		$res = $ilDB->query($query);
 		$languages = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$languages[$row['usr_id']] = $row['value'];
 		}
@@ -642,7 +642,7 @@ class ilObjUserFolder extends ilObject
 		$set = $ilDB->query("SELECT * FROM mail_template ".
 			" WHERE type='nacc' AND lang = ".$ilDB->quote($a_lang,'text'));
 
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			return $rec;
 		}

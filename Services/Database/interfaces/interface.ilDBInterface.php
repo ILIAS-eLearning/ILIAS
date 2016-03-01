@@ -190,12 +190,13 @@ interface ilDBInterface {
 	 */
 	public function addIndex($table_name, $index_name);
 
+
 	/**
-	 * @param $fetchMode int
+	 * @param int $fetchMode
 	 * @return mixed
-	 * @throws ilDatabaseException
 	 */
-	//function fetchRow($fetchMode = DB_FETCHMODE_ASSOC);
+	public function fetchRow($fetchMode = ilDBConstants::FETCHMODE_ASSOC);
+
 
 	/**
 	 * Get DSN. This must be overwritten in DBMS specific class.

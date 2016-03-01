@@ -89,7 +89,7 @@ class ilObjFileAccess extends ilObjectAccess
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 		return $row;
 	}
@@ -103,7 +103,7 @@ class ilObjFileAccess extends ilObjectAccess
 
 		$q = "SELECT version FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 		return ilUtil::stripSlashes($row->version);
 	}
@@ -118,7 +118,7 @@ class ilObjFileAccess extends ilObjectAccess
 
 		$q = "SELECT file_size FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		
 		$size = $row->file_size;
 		
@@ -137,7 +137,7 @@ class ilObjFileAccess extends ilObjectAccess
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         
 		require_once('Modules/File/classes/class.ilFSStorageFile.php');
 		$fss = new ilFSStorageFile($a_id);
@@ -174,7 +174,7 @@ class ilObjFileAccess extends ilObjectAccess
 		// BEGIN WebDAV: Filename suffix is determined by file title
 		$q = "SELECT * FROM object_data WHERE obj_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		require_once 'Modules/File/classes/class.ilObjFile.php';
 		return self::_getFileExtension($row->title);
 		// END WebDAV: Filename suffix is determined by file title

@@ -586,7 +586,7 @@ class ilChangeEvent
 			"AND usr_id=".$ilDB->quote($usr_id ,'integer');
 		$r = $ilDB->query($q);
 		$catchup = null;
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
 		
@@ -639,7 +639,7 @@ class ilChangeEvent
 			"AND usr_id=".$ilDB->quote($usr_id ,'integer');
 		$r = $ilDB->query($q);
 		$catchup = null;
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
 
@@ -704,7 +704,7 @@ class ilChangeEvent
 			"AND usr_id=".$ilDB->quote($usr_id);
 		$r = $ilDB->query($q);
 		$catchup = null;
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
 
@@ -763,7 +763,7 @@ class ilChangeEvent
 			"AND usr_id=".$ilDB->quote($usr_id);
 		$r = $ilDB->query($q);
 		$catchup = null;
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
 		
@@ -775,7 +775,7 @@ class ilChangeEvent
 			"ORDER BY last_access DESC";
 		$r = $ilDB->query($q);
 		$events = array();
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$events[] = $row;
 		}

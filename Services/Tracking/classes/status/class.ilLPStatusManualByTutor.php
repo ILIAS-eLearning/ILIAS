@@ -107,7 +107,7 @@ class ilLPStatusManualByTutor extends ilLPStatus
 			"AND completed = '1' ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$usr_ids[] = $row->user_id;
 		}

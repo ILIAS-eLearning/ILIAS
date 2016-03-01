@@ -574,7 +574,7 @@ class ilCourseArchives
 			"ORDER BY archive_date DESC";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->archives[$row->archive_id]["archive_id"]		= $row->archive_id;
 			$this->archives[$row->archive_id]["archive_type"]	= $row->archive_type;

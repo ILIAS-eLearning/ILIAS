@@ -12,8 +12,6 @@ require_once('./Services/Database/classes/class.ilDBConstants.php');
  *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
- *
- * TODO: Quote, Oursource QueryBuilder stuff.
  */
 class ilDBPdo implements ilDBInterface {
 
@@ -75,6 +73,7 @@ class ilDBPdo implements ilDBInterface {
 		PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
 		PDO::ATTR_EMULATE_PREPARES         => true,
 		PDO::ATTR_ERRMODE                  => PDO::ERRMODE_EXCEPTION,
+		//		PDO::ATTR_DEFAULT_FETCH_MODE       => PDO::FETCH_OBJ
 		//		PDO::MYSQL_ATTR_MAX_BUFFER_SIZE => 1048576
 	);
 
@@ -355,23 +354,21 @@ class ilDBPdo implements ilDBInterface {
 	 * @return int|void
 	 */
 	public function update($table_name, $values, $where) {
-		
-		$query_fields = array();				
+
+		$query_fields = array();
 		foreach ($values as $key => $val) {
 			$qval = $this->quote($val[1], $val[0]);
 			$query_fields[] = "$key = $qval";
 		}
-	
+
 		$query_where = array();
 		foreach ($where as $key => $val) {
 			$qval = $this->quote($val[1], $val[0]);
 			$query_where[] = "$key = $qval";
 		}
-		
-		$query = "UPDATE $table_name".
-			" SET ".implode(", ", $query_fields).
-			" WHERE ".implode(" AND ", $query_where);
-		
+
+		$query = "UPDATE $table_name" . " SET " . implode(", ", $query_fields) . " WHERE " . implode(" AND ", $query_where);
+
 		try {
 
 			$this->pdo->exec($query);
@@ -458,13 +455,13 @@ class ilDBPdo implements ilDBInterface {
 	 * @return mixed
 	 * @throws ilDatabaseException
 	 */
-	function fetchRow($fetchMode = DB_FETCHMODE_ASSOC) {
-		if ($fetchMode == DB_FETCHMODE_ASSOC) {
+	public function fetchRow($fetchMode = ilDBConstants::FETCHMODE_ASSOC) {
+		if ($fetchMode == ilDBConstants::FETCHMODE_ASSOC) {
 			return $this->fetchRowAssoc();
-		} elseif ($fetchMode == DB_FETCHMODE_OBJECT) {
+		} elseif ($fetchMode == ilDBConstants::FETCHMODE_OBJECT) {
 			return $this->fetchRowObject();
 		} else {
-			throw new ilDatabaseException("No valid fetch mode given, choose DB_FETCHMODE_ASSOC or DB_FETCHMODE_OBJECT");
+			throw new ilDatabaseException("No valid fetch mode given, choose ilDBConstants::FETCHMODE_ASSOC or ilDBConstants::FETCHMODE_OBJECT");
 		}
 	}
 

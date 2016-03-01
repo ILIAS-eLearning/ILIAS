@@ -487,7 +487,7 @@ class ilObjOrgUnit extends ilContainer {
 
 		$num = 0;
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 			$data["Fobject"][$num] = array(
 				"title" => $row->title,
 				"desc" => $row->description,

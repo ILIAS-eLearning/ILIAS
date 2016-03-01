@@ -63,7 +63,7 @@ class ilLocalUser
 		$query = "SELECT DISTINCT(time_limit_owner) as parent_id FROM usr_data ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			// Workaround for users with time limit owner "0". 
 			if(!$row->parent_id)

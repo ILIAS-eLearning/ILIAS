@@ -503,7 +503,7 @@ class ilTree
 		$res = $ilDB->query($query);
 		
 		$childs = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$childs[] = $row->child;
 		}
@@ -1028,7 +1028,7 @@ class ilTree
 		$r = $ilDB->query($q);
 
 		$pathFull = array();
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$pathFull[] = $this->fetchNodeData($row);
 
@@ -1193,7 +1193,7 @@ class ilTree
 		$r = $ilDB->query($q);
 		
 		$rows = array();
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$row['title'] = UtfNormal::toNFC($row['title']);
 			$row['ref_id'] = $row['child'];
@@ -1458,7 +1458,7 @@ class ilTree
 		$query = 'SELECT * FROM '.$this->table_tree.' '.
 				'WHERE child = '.$ilDB->quote($a_node_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			return $row;
 		}
@@ -1895,7 +1895,7 @@ class ilTree
 		$res = $ilDB->query($query);
 
 		$subnodes = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$subnodes[] = $row['child'];
 		}
@@ -2809,7 +2809,7 @@ class ilTree
 		$res = $ilDB->query($query);
 		
 		$types_deleted = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$types_deleted[] = $row->type;
 		}

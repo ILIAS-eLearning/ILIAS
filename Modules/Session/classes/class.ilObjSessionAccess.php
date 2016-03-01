@@ -135,7 +135,7 @@ class ilObjSessionAccess extends ilObjectAccess
 		
 		$query = "SELECT registration,obj_id FROM event ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			self::$registrations[$row->obj_id] = (bool) $row->registration;
 		}
@@ -163,7 +163,7 @@ class ilObjSessionAccess extends ilObjectAccess
 		$query = "SELECT event_id, registered FROM event_participants WHERE usr_id = ".$ilDB->quote($ilUser->getId(),'integer');
 		$res = $ilDB->query($query);
 		self::$registered[$a_usr_id] = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			self::$registered[$a_usr_id][$row->event_id] = (bool) $row->registered;
 		}

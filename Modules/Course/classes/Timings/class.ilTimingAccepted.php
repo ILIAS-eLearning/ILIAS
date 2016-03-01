@@ -147,7 +147,7 @@ class ilTimingAccepted
 			"WHERE crs_id = ".$ilDB->quote($this->getCourseId() ,'integer')." ".
 			"AND usr_id = ".$ilDB->quote($this->getUserId() ,'integer')."";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setVisible($row->visible);
 			$this->setRemark($row->remark);

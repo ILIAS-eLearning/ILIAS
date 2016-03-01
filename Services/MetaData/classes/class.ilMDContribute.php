@@ -190,7 +190,7 @@ class ilMDContribute extends ilMDBase
 				"WHERE meta_contribute_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
@@ -246,7 +246,7 @@ class ilMDContribute extends ilMDBase
 			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->meta_contribute_id;
 		}
@@ -274,7 +274,7 @@ class ilMDContribute extends ilMDBase
 			"WHERE  ent.rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
 			"AND ent.obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if($row->role == 'Author' and $row->parent_type == 'meta_contribute')
 			{

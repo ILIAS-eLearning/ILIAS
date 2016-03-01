@@ -162,7 +162,7 @@ class ilAccessHandler
 			$query = "SELECT * FROM acc_cache WHERE user_id = ".
 				$ilDB->quote($ilUser->getId() ,'integer');
 			$set = $ilDB->query($query);
-			$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+			$rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 			if ((time() - $rec["time"]) < $a_secs)
 			{
 				$this->results = unserialize($rec["result"]);

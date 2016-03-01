@@ -181,7 +181,7 @@ class ilSystemCheckTrash
 		
 		$deleted = array();
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$deleted[] = array(
 				'tree' => $row->tree,
@@ -220,7 +220,7 @@ class ilSystemCheckTrash
 		$res = $ilDB->query($query);
 		
 		$deleted = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$deleted[] = array(
 				'tree' => $row->tree,

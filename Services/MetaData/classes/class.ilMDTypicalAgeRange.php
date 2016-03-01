@@ -154,7 +154,7 @@ class ilMDTypicalAgeRange extends ilMDBase
 				"WHERE meta_tar_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
@@ -196,7 +196,7 @@ class ilMDTypicalAgeRange extends ilMDBase
 			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text');
 			
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->meta_tar_id;
 		}

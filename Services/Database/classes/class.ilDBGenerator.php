@@ -41,7 +41,7 @@ class ilDBGenerator
 		$query = "SELECT DISTINCT(table_name) FROM abstraction_progress ";
 		$res = $ilDB->query($query);
 		$names = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$names[] = $row->table_name;
 		}

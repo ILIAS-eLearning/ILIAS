@@ -65,7 +65,7 @@ class ilObjRole extends ilObject
 		$res = $ilDB->query("SELECT obj_id FROM object_data ".
 			" WHERE type=".$ilDB->quote("rolt", "text").
 			" AND title=".$ilDB->quote($a_tpl_name, "text"));
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$tpl_id = $row->obj_id;
 		}
@@ -982,7 +982,7 @@ class ilObjRole extends ilObject
 							{
 								$query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_closed'";
 								$res = $ilDB->query($query);
-								while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+								while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 								{
 									$group_closed_id = $row->obj_id;
 								}
@@ -997,7 +997,7 @@ class ilObjRole extends ilObject
 							{
 								$query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_open'";
 								$res = $ilDB->query($query);
-								while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+								while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 								{
 									$group_open_id = $row->obj_id;
 								}
@@ -1013,7 +1013,7 @@ class ilObjRole extends ilObject
 					{
 						$query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_crs_non_member'";
 						$res = $ilDB->query($query);
-						while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+						while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 						{
 							$course_non_member_id = $row->obj_id;
 						}

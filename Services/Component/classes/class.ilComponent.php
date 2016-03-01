@@ -360,7 +360,7 @@ abstract class ilComponent
 				'WHERE id = '.$ilDB->quote($a_component_id,'text');
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->name;
 		}

@@ -348,7 +348,7 @@ class ilAuthUtils
 							 
 			 
 		$r = $db->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 //echo "+".$row->auth_mode."+";
 
 		

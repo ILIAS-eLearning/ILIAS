@@ -111,7 +111,7 @@ class ilConsultationHourUtils
 		$res = $ilDB->query($query);
 		
 		$users = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$users[] = $row->user_id;
 		}

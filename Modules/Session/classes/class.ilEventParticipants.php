@@ -180,7 +180,7 @@ class ilEventParticipants
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
 			"AND registered = ".$ilDB->quote(1 ,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_ids[] = $row->usr_id;
 		}
@@ -195,7 +195,7 @@ class ilEventParticipants
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
 			"AND participated = 1";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_ids[] = $row->usr_id;
 		}
@@ -225,7 +225,7 @@ class ilEventParticipants
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
 			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return (bool) $row->registered;
 		}
@@ -325,7 +325,7 @@ class ilEventParticipants
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
 			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->mark;
 		}
@@ -346,7 +346,7 @@ class ilEventParticipants
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')." ".
 			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->e_comment;
 		}
@@ -400,7 +400,7 @@ class ilEventParticipants
 		$query = "SELECT * FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($this->getEventId())." ";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->participants[$row->usr_id]['usr_id'] = $row->usr_id;
 			$this->participants[$row->usr_id]['registered'] = $row->registered;

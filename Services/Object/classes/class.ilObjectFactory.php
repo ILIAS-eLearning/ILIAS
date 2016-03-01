@@ -55,7 +55,7 @@ class ilObjectFactory
 		$res = $ilDB->query($query);
 
 		$obj_ids = array();
-		while($object_rec = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while($object_rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			$obj_ids [] = $object_rec["obj_id"];
 		}
 		
@@ -104,7 +104,7 @@ class ilObjectFactory
 			return false;
 		}
 
-		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$object_rec = $object_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		$class_name = "ilObj".$objDefinition->getClassName($object_rec["type"]);
 		
 		// check class
@@ -176,7 +176,7 @@ class ilObjectFactory
 			return false;
 		}
 
-		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$object_rec = $object_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		$class_name = "ilObj".$objDefinition->getClassName($object_rec["type"]);
 
 		// check class
@@ -246,7 +246,7 @@ class ilObjectFactory
 			return false;
 		}
 
-		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$object_rec = $object_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return $object_rec["type"];
 	}
 	

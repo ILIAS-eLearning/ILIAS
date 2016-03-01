@@ -63,7 +63,7 @@ class ilDBOracle extends ilDB
 		{
 			return parent::getDBVersion();
 		}
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return isset($row['banner']) ? $row['banner'] : parent::getDBVersion();
 	}
 	

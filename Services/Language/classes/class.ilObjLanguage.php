@@ -337,7 +337,7 @@ class ilObjLanguage extends ilObject
 		$result = $ilDB->query($q);
 		
 		$changes = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$changes[$row["module"]][$row["identifier"]] = $row["value"];
 		}
@@ -359,7 +359,7 @@ class ilObjLanguage extends ilObject
 			$ilDB->quote($a_key, "text"));
 		$result = $ilDB->query($q);
 
-		if ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			return $row['last_change'];
 		}

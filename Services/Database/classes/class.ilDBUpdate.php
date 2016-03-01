@@ -550,7 +550,7 @@ class ilDBUpdate
 	
 		$query = "ANALYZE TABLE ".$table;	
 		$res = $this->db->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return $row;
 	}
 	

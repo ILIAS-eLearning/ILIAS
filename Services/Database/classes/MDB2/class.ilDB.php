@@ -14,8 +14,8 @@ require_once 'Services/Database/interfaces/interface.ilDBInterface.php';
 define("DB_FETCHMODE_ASSOC", MDB2_FETCHMODE_ASSOC);
 define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
 
-//echo "-".DB_FETCHMODE_ASSOC."-";
-//echo "+".DB_FETCHMODE_OBJECT."+";
+//echo "-".ilDBConstants::FETCHMODE_ASSOC."-";
+//echo "+".ilDBConstants::FETCHMODE_OBJECT."+";
 
 
 /**
@@ -1878,7 +1878,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	*/
 	function fetchAssoc($a_set)
 	{
-		return $a_set->fetchRow(DB_FETCHMODE_ASSOC);
+		return $a_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 	}
 	
 	/**
@@ -1896,7 +1896,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	*/
 	function fetchObject($a_set)
 	{
-		return $a_set->fetchRow(DB_FETCHMODE_OBJECT);
+		return $a_set->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 	}
 
 	/**
@@ -2491,7 +2491,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 		
 		if (!MDB2::isError($set))
 		{
-			$r = $set->fetchRow(DB_FETCHMODE_ASSOC);
+			$r = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 	
 			return $r[0];
 		}
@@ -2506,7 +2506,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	* @param string
 	* @return object DB
 	*/
-	function getRow($sql,$mode = DB_FETCHMODE_OBJECT)
+	function getRow($sql,$mode = ilDBConstants::FETCHMODE_OBJECT)
 	{
 		$set = $this->query($sql);
 		$r = $set->fetchRow($mode);

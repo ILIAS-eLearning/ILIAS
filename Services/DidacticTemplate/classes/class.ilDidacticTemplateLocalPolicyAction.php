@@ -342,7 +342,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		$query = 'SELECT * FROM didactic_tpl_alp '.
 			'WHERE action_id = '.$ilDB->quote($this->getActionId());
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setFilterType($row->filter_type);
 			$this->setRoleTemplateType($row->template_type);
@@ -456,7 +456,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 			'WHERE title = '.$ilDB->quote($rolt_title,'text').' '.
 			'AND type = '.$ilDB->quote('rolt','text');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$rolt_id = $row->obj_id;
 		}

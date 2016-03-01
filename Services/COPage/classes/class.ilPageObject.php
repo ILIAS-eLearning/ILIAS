@@ -4095,7 +4095,7 @@ abstract class ilPageObject
 			" inactive_elements = ".$ilDB->quote(1, "integer");
 		$obj_set = $ilDB->query($query);
 		
-		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($obj_rec = $obj_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			return true;
 		}

@@ -395,7 +395,7 @@ class ilObjFile extends ilObject2
 		
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($this->getId() ,'integer');
 		$r = $this->ilias->db->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 		$this->setFileName($row->file_name);
 		$this->setFileType($row->file_type);
@@ -590,7 +590,7 @@ class ilObjFile extends ilObject2
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 		return ilUtil::stripSlashes($row->file_name);
 	}
