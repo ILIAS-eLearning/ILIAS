@@ -41,13 +41,12 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 	public function getTrainingTemplateOptions() {
 		// TODO: implement this properly
 		return array
-			( "0" => "Trainingsvorlage 1"
-			, "1" => "Trainingsvorlage 2"
+			( "5836" => "Generali BeratungPlus"
 			);
 	}
 
 	public function getOrguOptions() {
-		return $this->user_utils->getOrgUnitNamesWhereUserCanViewEduBios();
+		return $this->user_utils->getOrgUnitNamesWhereUserCanViewEduBios(true);
 	}
 
 	public function getRoleOptions() {
@@ -95,15 +94,15 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 					)
 				)
 			)
-			->map_raw(function($tpl_obj_id, $period_pred, $choice) {
+			->map_raw(function($tpl_obj_id, $period_pred, $choice, $ids) {
 				$ret = array( "template_obj_id" => $tpl_obj_id
 							, "period_pred" => $period_pred
 							);
-				if ($choice[0] === 0) {
-					$ret["orgu_ids"] = $choice[1];
+				if ($choice == 0) {
+					$ret["orgu_ids"] = $ids;
 				}
 				else {
-					$ret["role_ids"] = $choice[1];
+					$ret["role_ids"] = $ids;
 				}
 				return $ret;
 			}, $tf->int())
@@ -125,7 +124,7 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 						);
 		$crs_ids = array();
 		while($rec = $db->fetchAssoc($res)) {
-			$crs_ids = (int)$rec["crs_id"];
+			$crs_ids[] = (int)$rec["crs_id"];
 		}
 
 		if (array_key_exists("orgu_ids", $settings)) {
@@ -137,7 +136,8 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 			$all_orgu_ref_ids = array_map(function($rec) {
 				return $rec["ref_id"];
 			}, gevOrgUnitUtils::getAllChildren($org_ref_ids));
-			$users = getAllPeopleIn($all_orgu_ref_ids);
+			$all_orgu_ref_ids = array_merge($org_ref_ids, $all_orgu_ref_ids);
+			$users = gevOrgUnitUtils::getAllPeopleIn($all_orgu_ref_ids);
 		}
 		else {
 			require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
@@ -147,7 +147,7 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 				$users = array_merge($ru->usersHavingRoleId($role_id), $users);
 			}
 		}
-		$user = array_unique($users);
+		$users = array_unique($users);
 
 		$usr_ids = array_intersect( $this->user_utils->getEmployeesWhereUserCanViewEduBios()
 								  , $users
