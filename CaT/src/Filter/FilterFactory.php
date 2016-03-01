@@ -163,6 +163,34 @@ class FilterFactory {
 		};
 	}
 
+
+	/**
+	 * Map this over a dateperiod to get the standard behaviour of
+	 * overlapping periods where possible empty historizing fields are
+	 * taken into account.
+	 *
+	 * @param	string	$field_start
+	 * @param	string	$field_end
+	 * @return	\Closure
+	 */
+	public function dateperiod_overlaps_or_empty_predicate($field_start, $field_end) {
+		$f = $this->predicate_factory();
+
+		return function(\DateTime $start, \DateTime $end)  use ($field_start, $field_end, $f) {
+			$field_start = $f->field($field_start);
+			$field_end = $f->field($field_end);
+
+			return
+				$field_start->LE()->date($end)
+				->_AND(
+					$f->_ANY
+						( $field_end->GE()->date($start)
+						, $field_end->EQ()->str("0000-00-00")
+						, $field_end->EQ()->str("-empty-")
+						));
+		};
+	}
+
 	/**
 	 * Map this over a text filter to get the standard behaviour where
 	 * a field is compared with the filter.
