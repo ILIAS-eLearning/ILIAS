@@ -21,19 +21,20 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 	protected function buildOrder($order) {
 		return $order
 					->defaultOrder("tpl_title", "ASC")
-					->mapping("tpl_title",array("tpl_title","title","begin_date"));
+					->mapping("tpl_title",array("tpl_title","title","begin_date"))
+					->mapping("booked_wl",array("waitinglist_active","booked_wl"));
 	}
 
 	protected function buildTable($table) {
 		$table	->column('tpl_title', $this->plugin->txt('tpl_title'), true)
 				->column('title', $this->plugin->txt('crs_title'), true)
 				->column('type', $this->plugin->txt('crs_type'), true)
-				->column('date', $this->plugin->txt('crs_date'), true)
+				->column('begin_date', $this->plugin->txt('crs_date'), true)
 				->column('bookings', $this->plugin->txt('bookings'), true)
 				->column('min_participants', $this->plugin->txt('min_participants'), true)
 				->column('min_part_achived', $this->plugin->txt('min_part_achived'), true)
 				->column('bookings_left', $this->plugin->txt('bookings_left'), true)
-				->column('waitinglist', $this->plugin->txt('waitinglist'), true)
+				->column('booked_wl', $this->plugin->txt('waitinglist'), true)
 				->column('booking_dl', $this->plugin->txt('booking_dl'), true)
 				->column('trainers', $this->plugin->txt('trainers'), true);
 		return parent::buildTable($table);
@@ -48,7 +49,7 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 			->select('crs.begin_date')
 			->select_raw('DATE_SUB(crs.begin_date,INTERVAL crs.dl_booking DAY) as booking_dl')
 			->select('crs.end_date')
-			->select('crs.waitinglist_active')
+			->select_raw("IF(crs.waitinglist_active = 'Ja',1,0) as waitinglist_active")
 			->select_raw("SUM(IF(usrcrs.booking_status = 'gebucht' AND usrcrs.function = 'Mitglied',1,0)) as bookings")
 			->select_raw('crs.min_participants')
 			->select_raw('crs.max_participants')
@@ -146,6 +147,8 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 			->static_condition('crs.begin_date >= '.$this->gIldb->quote(date('Y-m-d'),'text'))
 			->static_condition("(crs.is_cancelled != 'Ja' OR crs.is_cancelled IS NULL)")
 			->static_condition('crs.hist_historic = 0')
+			->static_condition("crs.is_template = 'Nein'")
+			->static_condition("crs.begin_date != '0000-00-00'")
 			->static_condition($this->gIldb->in('crs.type',array('Webinar','Präsenztraining','Virtuelles Training'),false,'text'))
 			->action($this->filter_action)
 			->compile();
@@ -160,7 +163,9 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 			? $this->gIldb->in('tpl.crs_id',array_unique($this->getSubtreeCourseTemplates()),false,'integer')
 			: " tpl.is_template = 'Ja' ";
 		
-		$query ='SELECT tpl.title as tpl_title, base.* FROM hist_course tpl LEFT JOIN '
+		$query ='SELECT tpl.title as tpl_title, base.*, base.max_participants - base.bookings as bookings_left '
+				.'	, base.bookings >= base.min_participants as min_part_achived'
+				.' FROM hist_course tpl JOIN '
 				.'('.$this->query->sql()."\n "
 			   	. $this->queryWhere()."\n "
 			   	. $this->query->sqlGroupBy()."\n"

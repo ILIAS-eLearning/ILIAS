@@ -33,8 +33,13 @@ class ilObjBuildingBlockPoolAccess extends ilObjectPluginAccess {
 		}
 		switch ($a_permission) {
 			case "read":
+			case "visible":
 				if (!static::checkOnline($a_obj_id) &&
-				!$ilAccess->checkAccessOfUser($a_user_id, "write", "", $a_ref_id)) {
+						(!$ilAccess->checkAccessOfUser($a_user_id, "write", "", $a_ref_id) &&
+							!$ilAccess->checkAccessOfUser($a_user_id, "edit_building_blocks", "", $a_ref_id)
+						)
+					)
+				{
 					return false;
 				}
 				break;

@@ -21,8 +21,9 @@ cat_create_xttc#:#Report Trainereinsätze nach TEP-Kategorie erzeugen
 edu_program#:#Bildungsprogramm
 crs_title#:#Trainingstitel
 course_type#:#Trainingstyp
-preriod#:#Zeitraum:
+period#:#Zeitraum:
 until#:#bis
 report_filter_crs_region#:#Trainingsregion
 venue#:#Veranstaltungsort
 name#:#Name
+online#:#Online

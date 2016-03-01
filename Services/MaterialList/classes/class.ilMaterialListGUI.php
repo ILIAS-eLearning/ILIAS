@@ -431,9 +431,7 @@ class ilMaterialListGUI
 		$list = new ilMaterialList($this->getCourse()->getId());
 		
 		// :TODO: filename?
-		$filename = $lng->txt("obj_crs")." - ".
-			$this->getCourse()->getTitle()." - ".
-			$lng->txt("matlist_xls_list_header");
+		$filename = "material_".$this->getCourse()->getId().".xls";
 		
 		$list->buildXLS($filename);		
 	}

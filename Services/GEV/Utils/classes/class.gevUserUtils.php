@@ -2069,7 +2069,8 @@ class gevUserUtils {
 		." JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id\n"
 		."      AND rbac_pa.ops_id LIKE CONCAT('%', rbac_operations.ops_id, '%')\n"
 		." JOIN object_reference ON object_reference.ref_id = rbac_pa.ref_id\n"
-		." WHERE rep_obj_bbpool.obj_id = object_reference.obj_id";
+		." WHERE rep_obj_bbpool.obj_id = object_reference.obj_id\n"
+		."    AND rep_obj_bbpool.is_online = 1\n";
 
 		$res = $ilDB->query($query);
 		$bb_pools = array();
@@ -2107,6 +2108,7 @@ class gevUserUtils {
 					." JOIN object_reference ON object_reference.ref_id = rbac_pa.ref_id\n"
 					." JOIN object_data ON object_data.obj_id = rep_obj_bbpool.obj_id\n"
 					." WHERE rep_obj_bbpool.obj_id = object_reference.obj_id\n"
+					."    AND rep_obj_bbpool.is_online = 1\n"
 					." ORDER BY object_data.title\n";
 		}
 

@@ -44,8 +44,8 @@ class ilObjReportDBVSuperior extends ilObjReportBase {
 						." AND huo_in.rol_id = huo_out.rol_id AND huo_in.hist_version < huo_out.hist_version")
 				->left_join("hist_userorgu huo_out_aux")
 					->on(" huo_out_aux.`action` = -1"
-						." AND huo_in.usr_id = huo_out.usr_id AND huo_in.orgu_id = huo_out.orgu_id"
-						." AND huo_in.rol_id = huo_out.rol_id AND huo_in.hist_version < huo_out_aux.hist_version"
+						." AND huo_in.usr_id = huo_out_aux.usr_id AND huo_in.orgu_id = huo_out_aux.orgu_id"
+						." AND huo_in.rol_id = huo_out_aux.rol_id AND huo_in.hist_version < huo_out_aux.hist_version"
 						." AND huo_out.hist_version > huo_out_aux.hist_version")
 				->join("hist_usercoursestatus hucs")
 					->on("huo_in.usr_id = hucs.usr_id")

@@ -814,13 +814,20 @@ class gevBookingGUI {
 					$automails->send("self_booking_to_waiting", array($this->user_id));
 				}
 			}
-			
-			ilUtil::sendSuccess( sprintf( $booked ? $this->lng->txt("gev_was_booked_self")
-												  : $this->lng->txt("gev_was_booked_waiting_self")
-										, $this->crs_utils->getTitle()
-										)
-								, true
-								);
+
+			if ($booked) {
+				if ($this->isSelfLearningCourse()) {
+					$msg = $this->lng->txt("gev_was_booked_self_no_confirmation");
+				}
+				else {
+					$msg = $this->lng->txt("gev_was_booked_self");
+				}
+			}
+			else {
+				$msg = $this->lng->txt("gev_was_booked_waiting_self");
+			}
+
+			ilUtil::sendSuccess( sprintf( $msg, $this->crs_utils->getTitle()), true);
 			
 			ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 		}
