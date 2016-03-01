@@ -195,8 +195,7 @@ interface ilDBInterface {
 	 * @param int $fetchMode
 	 * @return mixed
 	 */
-	public function fetchRow($fetchMode = ilDBConstants::FETCHMODE_ASSOC);
-
+	//	public function fetchRow($fetchMode = ilDBConstants::FETCHMODE_ASSOC);
 
 	/**
 	 * Get DSN. This must be overwritten in DBMS specific class.

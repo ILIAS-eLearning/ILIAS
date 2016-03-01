@@ -1,5 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+require_once("./Services/Database/exceptions/exception.ilDatabaseException.php");
+require_once('./Services/Database/classes/class.ilDBConstants.php');
+require_once("./Services/Database/interfaces/interface.ilDBInterface.php");
 
 /**
  * Class ilDBWrapperFactory
@@ -31,11 +34,11 @@ class ilDBWrapperFactory {
 			$a_type = $ilClientIniFile->readVariable("db", "type");
 		}
 		if ($a_type == "") {
-			$a_type = "mysql";
+			$a_type = ilDBConstants::TYPE_PDO_MYSQL_MYISAM;
 		}
 
 		switch ($a_type) {
-			case "mysql":
+			case ilDBConstants::TYPE_MYSQL:
 				include_once("./Services/Database/classes/MDB2/class.ilDBMySQL.php");
 				$ilDB = new ilDBMySQL();
 
@@ -47,12 +50,12 @@ class ilDBWrapperFactory {
 
 				// default: use mysqli driver if not prevented by ini setting
 				if (!(bool)$a_inactive_mysqli) {
-					$ilDB->setSubType("mysqli");
+					$ilDB->setSubType(ilDBConstants::TYPE_MYSQLI);
 				}
 
 				break;
 
-			case "innodb":
+			case ilDBConstants::TYPE_INNODB:
 				include_once("./Services/Database/classes/MDB2/class.ilDBInnoDB.php");
 				$ilDB = new ilDBInnoDB();
 
@@ -64,25 +67,24 @@ class ilDBWrapperFactory {
 
 				// default: use mysqli driver if not prevented by ini setting
 				if (!(bool)$a_inactive_mysqli) {
-					$ilDB->setSubType("mysqli");
+					$ilDB->setSubType(ilDBConstants::TYPE_MYSQLI);
 				}
 
 				break;
 
-			case "postgres":
+			case ilDBConstants::TYPE_POSTGRES:
 				include_once("./Services/Database/classes/MDB2/class.ilDBPostgreSQL.php");
 				$ilDB = new ilDBPostgreSQL();
 				break;
-
-			case "oracle":
+			case ilDBConstants::TYPE_ORACLE:
 				include_once("./Services/Database/classes/MDB2/class.ilDBOracle.php");
 				$ilDB = new ilDBOracle();
 				break;
-			case "pdo-mysql-innodb":
+			case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
 				require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLInnoDB.php');
 				$ilDB = new ilDBPdoMySQLInnoDB();
 				break;
-			case "pdo-mysql-myisam":
+			case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
 				require_once('./Services/Database/classes/PDO/class.ilDBPdoMySQLMyISAM.php');
 				$ilDB = new ilDBPdoMySQLMyISAM();
 				break;
