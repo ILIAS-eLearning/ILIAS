@@ -265,7 +265,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	/**
 	* Get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $lng, $ilHelp, $ilAccess;
 
@@ -282,7 +282,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "render")
 				? true
 				: false;
-			$tabs_gui->addTab("view_content", $lng->txt("content"),
+			$this->tabs_gui->addTab("view_content", $lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 
 			//BEGIN ChangeEvent add info tab to category object
@@ -292,7 +292,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 					|| strtolower($_GET["cmdClass"]) == "ilnotegui")
 					? true
 					: false;
-				$tabs_gui->addTarget("info_short",
+				$this->tabs_gui->addTarget("info_short",
 					 $this->ctrl->getLinkTargetByClass(
 					 array("ilobjcategorygui", "ilinfoscreengui"), "showSummary"),
 					 array("showSummary","", "infoScreen"),
@@ -306,7 +306,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$force_active = ($_GET["cmd"] == "edit")
 				? true
 				: false;
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
 				, "", $force_active);
 			
@@ -328,7 +328,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 						false
 				))
 			{
-				$tabs_gui->addTarget("obj_tool_setting_taxonomies",
+				$this->tabs_gui->addTarget("obj_tool_setting_taxonomies",
 					$this->ctrl->getLinkTarget($this, "editTaxonomySettings"), "editTaxonomySettings", get_class($this));
 			}
 		}				
@@ -338,13 +338,13 @@ class ilObjCategoryGUI extends ilContainerGUI
 			ilUserAccountSettings::getInstance()->isLocalUserAdministrationEnabled() and 
 			$rbacsystem->checkAccess('cat_administrate_users',$this->ref_id))
 		{
-			$tabs_gui->addTarget("administrate_users",
+			$this->tabs_gui->addTarget("administrate_users",
 				$this->ctrl->getLinkTarget($this, "listUsers"), "listUsers", get_class($this));
 		}
 
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				'export',
 				$this->ctrl->getLinkTargetByClass('ilexportgui',''),
 				'export',
@@ -353,7 +353,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 		
 		// parent tabs (all container: edit_permission, clipboard, trash
-		parent::getTabs($tabs_gui);
+		parent::getTabs();
 
 	}
 

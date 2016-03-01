@@ -92,7 +92,7 @@ class ilObjectGUI
 	{
 		global $ilias, $objDefinition, $tpl, $tree, $ilCtrl, $ilErr, $lng, $ilTabs;
 
-		$this->tabs_gui =& $ilTabs;
+		$this->tabs_gui = $ilTabs;
 
 		if (!isset($ilErr))
 		{
@@ -101,14 +101,14 @@ class ilObjectGUI
 		}
 		else
 		{
-			$this->ilErr =& $ilErr;
+			$this->ilErr = $ilErr;
 		}
 
-		$this->ilias =& $ilias;
-		$this->objDefinition =& $objDefinition;
-		$this->tpl =& $tpl;
+		$this->ilias = $ilias;
+		$this->objDefinition = $objDefinition;
+		$this->tpl = $tpl;
 		$this->html = "";
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 
 		$params = array("ref_id");
 
@@ -120,7 +120,7 @@ class ilObjectGUI
 		$this->ctrl->saveParameter($this, $params);
 
 		$this->lng = $lng;
-		$this->tree =& $tree;
+		$this->tree = $tree;
 		$this->formaction = array();
 		$this->return_location = array();
 		$this->target_frame = array();
@@ -464,7 +464,7 @@ class ilObjectGUI
 	*/
 	protected function setTabs()
 	{
-		$this->getTabs($this->tabs_gui);
+		$this->getTabs();
 	}
 
 	/**
@@ -473,20 +473,20 @@ class ilObjectGUI
 	*/
 	protected final function setAdminTabs()
 	{
-		$this->getAdminTabs($this->tabs_gui);
+		$this->getAdminTabs();
 	}
 
 	/**
 	* administration tabs show only permissions and trash folder
 	*/
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
 		global $tree;
 
 /*		if ($_GET["admin_mode"] == "repository")
 		{
 			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
-			$tabs_gui->setBackTarget($this->lng->txt("administration"),
+			$this->tabs_gui->setBackTarget($this->lng->txt("administration"),
 				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
 				ilFrameTargetInfo::_getFrame("MainContent"));
 			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "repository");
@@ -494,20 +494,20 @@ class ilObjectGUI
 		
 		if ($this->checkPermissionBool("visible,read"))
 		{
-			$tabs_gui->addTarget("view",
+			$this->tabs_gui->addTarget("view",
 				$this->ctrl->getLinkTarget($this, "view"), array("", "view"), get_class($this));
 
 		}
 		
 		if ($this->checkPermissionBool("edit_permission"))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), "", "ilpermissiongui");
 		}
 			
 		if ($tree->getSavedNodeData($this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("trash",
+			$this->tabs_gui->addTarget("trash",
 				$this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
 		}
 	}
@@ -1673,7 +1673,7 @@ class ilObjectGUI
 	* @access	public
 	* @param	object	instance of ilTabsGUI
 	*/
-	protected function getTabs(&$tabs_gui)
+	protected function getTabs()
 	{
 		// please define your tabs here
 

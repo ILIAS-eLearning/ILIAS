@@ -2762,9 +2762,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "newAccountMail");
 	}
 
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 
 	/**
@@ -2772,7 +2772,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	* @access	public
 	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 
@@ -2780,10 +2780,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("usrf",
+			$this->tabs_gui->addTarget("usrf",
 				$this->ctrl->getLinkTarget($this, "view"), array("view","delete","resetFilter", "userAction", ""), "", "");
 
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				"search_user_extended",
 				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI',''),
 				array(),
@@ -2794,10 +2794,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "generalSettings"),array('settings','generalSettings','listUserDefinedField','newAccountMail'));
 				
-			$tabs_gui->addTarget("export",
+			$this->tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTarget($this, "export"), "export", "", "");
 
 			/* deprecated, JF 27 May 2013
@@ -2812,7 +2812,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 								 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
 								 array("perm","info","owner"), 'ilpermissiongui');
 		}

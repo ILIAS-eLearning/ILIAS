@@ -1687,7 +1687,7 @@ $this->ctrl->redirect($this, "properties");
 	 *
 	 * @param	object		$tabs_gui		ilTabsGUI object
 	 */
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $ilAccess, $ilHelp;
 
@@ -1698,13 +1698,13 @@ $this->ctrl->redirect($this, "properties");
 
 		if (!$this->object->getEditable())
 		{
-			return parent::getTabs($tabs_gui);
+			return parent::getTabs();
 		}
 		
 		$ilHelp->setScreenIdComponent("sahsed");
 
 		// organization
-		$tabs_gui->addTarget("sahs_organization",
+		$this->tabs_gui->addTarget("sahs_organization",
 		$this->ctrl->getLinkTarget($this, "showOrganization"), "showOrganization",
 		get_class($this));
 
@@ -1712,12 +1712,12 @@ $this->ctrl->redirect($this, "properties");
 		$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui")
 		? true
 		: false;
-		$tabs_gui->addTarget("info_short",
+		$this->tabs_gui->addTarget("info_short",
 		$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"), "",
 			"ilinfoscreengui", "", $force_active);
 			
 		// settings
-		$tabs_gui->addTarget("settings",
+		$this->tabs_gui->addTarget("settings",
 		$this->ctrl->getLinkTarget($this, "properties"), "properties",
 		get_class($this));
 
@@ -1729,12 +1729,12 @@ $this->ctrl->redirect($this, "properties");
 			*/
 		
 		// objective alignment
-		$tabs_gui->addTarget("sahs_objectives_alignment",
+		$this->tabs_gui->addTarget("sahs_objectives_alignment",
 		$this->ctrl->getLinkTarget($this, "showLearningObjectivesAlignment"), "showLearningObjectivesAlignment",
 		get_class($this));
 
 		// sequencing
-		$tabs_gui->addTarget("sahs_sequencing",
+		$this->tabs_gui->addTarget("sahs_sequencing",
 		$this->ctrl->getLinkTarget($this, "showSequencing"), "showSequencing",
 			get_class($this));
 
@@ -1756,27 +1756,27 @@ $this->ctrl->redirect($this, "properties");
 		$mdtab = $mdgui->getTab();
 		if($mdtab)
 		{
-			$tabs_gui->addTarget("meta_data",
+			$this->tabs_gui->addTarget("meta_data",
 				$mdtab,
 				"", "ilmdeditorgui");
 		}
 
 		// export
-		$tabs_gui->addTarget("export",
+		$this->tabs_gui->addTarget("export",
 		$this->ctrl->getLinkTarget($this, "showExportList"), array("showExportList", 'confirmDeleteExportFile'),
 		get_class($this));
 
 		// perm
 		if ($ilAccess->checkAccess('edit_permission', '', $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 		
 		if ($this->object->editable==1)
 		{
 			// preview
-			$tabs_gui->addNonTabbedLink("preview",
+			$this->tabs_gui->addNonTabbedLink("preview",
 				$this->lng->txt("cont_sc_preview"),
 				$this->ctrl->getLinkTarget($this, "preview"),
 				"_blank");

@@ -367,7 +367,7 @@ exit;
 				$this->tabs_gui->setBackTarget($this->lng->txt("back"),
 					$ilCtrl->getParentReturn($this));
 				$mob_gui = new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
-				$mob_gui->getTabs($this->tabs_gui);
+				$mob_gui->getTabs();
 				$mob_gui->setEnabledMapAreas($this->page_gui->getPageConfig()->getEnableInternalLinks());
 				$this->tpl->setTitle($this->lng->txt("mob").": ".
 					ilObject::_lookupTitle($_GET["mob_id"]));

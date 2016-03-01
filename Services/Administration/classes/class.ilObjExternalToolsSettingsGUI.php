@@ -33,9 +33,9 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$lng->loadLanguageModule("mathjax");
 	}
 
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}	
 	
 	/**
@@ -43,7 +43,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	* @access	public
 	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem;
 
@@ -51,7 +51,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "view"),
 				array("editMaps", "editMathJax", "editSocialBookmarks", ""), "", "");
 			$this->lng->loadLanguageModule('ecs');
@@ -59,7 +59,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}

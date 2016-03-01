@@ -826,7 +826,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
-	public function getTabs(&$tabs_gui)
+	public function getTabs()
 	{
 		global $ilAccess, $ilHelp;
 		
@@ -861,7 +861,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		
 		if ($ilAccess->checkAccess("read", "", $this->ref_id))
 		{
-			$tabs_gui->addTarget("survey_questions",
+			$this->tabs_gui->addTarget("survey_questions",
 				 $this->ctrl->getLinkTarget($this,'questions'),
 				 array("questions", "filterQuestionBrowser", "filter", "reset", "createQuestion", 
 				 "importQuestions", "deleteQuestions", "copy", "paste", 
@@ -877,7 +877,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				 ),
 				 array("ilobjsurveyquestionpoolgui", "ilsurveyphrasesgui"), "", $force_active);
 						
-			$tabs_gui->addTarget("info_short",
+			$this->tabs_gui->addTarget("info_short",
 				 $this->ctrl->getLinkTarget($this, "infoScreen"),
 				array("infoScreen", "showSummary"));		
 		}
@@ -885,13 +885,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			// properties
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 			 $this->ctrl->getLinkTarget($this,'properties'),
 			 array("properties", "saveProperties"),
 			 "", "");
 			 
 			// manage phrases
-			$tabs_gui->addTarget("manage_phrases",
+			$this->tabs_gui->addTarget("manage_phrases",
 				 $this->ctrl->getLinkTargetByClass("ilsurveyphrasesgui", "phrases"),
 				 array("phrases", "deletePhrase", "confirmDeletePhrase", "cancelDeletePhrase", "editPhrase", "newPhrase", "saveEditPhrase", "phraseEditor"),
 				 "ilsurveyphrasesgui", "");
@@ -902,13 +902,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
 			{			
-				$tabs_gui->addTarget("meta_data",
+				$this->tabs_gui->addTarget("meta_data",
 					$mdtab,
 					"", "ilmdeditorgui");
 			}
 				 
 			// export
-			$tabs_gui->addTarget("export",
+			$this->tabs_gui->addTarget("export",
 				 $this->ctrl->getLinkTarget($this,'export'),
 				 array("export", "createExportFile", "confirmDeleteExportFile",
 				 "downloadExportFile", "cancelDeleteExportFile", "deleteExportFile"),
@@ -917,7 +917,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}

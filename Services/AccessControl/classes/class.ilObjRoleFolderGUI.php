@@ -696,20 +696,18 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 * @global ilLanguage $lng
 	 * @param ilTabsGUI $tabs_gui 
 	 */
-	function getAdminTabs(&$tabs_gui)
-	{
-		global $tree,$lng;
-
+	function getAdminTabs()
+	{		
 		if ($this->checkPermissionBool("visible,read"))
 		{
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				"view",
 				$this->ctrl->getLinkTarget($this, "view"),
 				array("", "view"),
 				get_class($this)
 			);
 			
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				"settings",
 				$this->ctrl->getLinkTarget($this, "editSettings"),
 				array("editSettings"),
@@ -719,7 +717,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 		if($this->checkPermissionBool("edit_permission"))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'),
 				"perm"),
 				"",

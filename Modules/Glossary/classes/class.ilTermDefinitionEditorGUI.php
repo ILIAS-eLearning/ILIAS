@@ -173,23 +173,21 @@ class ilTermDefinitionEditorGUI
 	*/
 	function setTabs()
 	{
-		global $ilTabs;
-
 		// catch feedback message
-		$this->getTabs($ilTabs);
+		$this->getTabs();
 	}
 
 	/**
 	* get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		// back to glossary
-		$tabs_gui->setBack2Target($this->lng->txt("glossary"),
+		$this->tabs_gui->setBack2Target($this->lng->txt("glossary"),
 			$this->ctrl->getParentReturn($this));
 
 		// back to upper context
-		$tabs_gui->setBackTarget($this->lng->txt("term"),
+		$this->tabs_gui->setBackTarget($this->lng->txt("term"),
 			$this->ctrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
 
 	}

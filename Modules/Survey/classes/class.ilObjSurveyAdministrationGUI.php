@@ -339,9 +339,9 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		$ilCtrl->redirect($this, "settings");
 	}
 	
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 
 	/**
@@ -349,13 +349,13 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	* @access	public
 	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $ilAccess, $lng;
 
 		if ($ilAccess->checkAccess("read",'',$this->object->getRefId()))
 		{
-			$tabs_gui->addTab("settings",
+			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "settings"));
 
@@ -368,14 +368,14 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 
 			if ($ilAccess->checkAccess("write",'',$this->object->getRefId()))
 			{
-				$tabs_gui->addTab("templates",
+				$this->tabs_gui->addTab("templates",
 					$lng->txt("adm_settings_templates"),
 					$this->ctrl->getLinkTargetByClass("ilsettingstemplategui", ""));
 			}
 		}
 		if ($ilAccess->checkAccess("edit_permission",'',$this->object->getRefId()))
 		{
-			$tabs_gui->addTab("perm_settings",
+			$this->tabs_gui->addTab("perm_settings",
 				$lng->txt("perm_settings"),
 				$this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"));
 		}

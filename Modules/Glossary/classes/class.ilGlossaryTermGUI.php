@@ -663,8 +663,7 @@ class ilGlossaryTermGUI
 	*/
 	function setTabs()
 	{
-		global $ilTabs;
-		$this->getTabs($ilTabs);
+		$this->getTabs();
 	}
 
 	/**
@@ -684,7 +683,7 @@ class ilGlossaryTermGUI
 	/**
 	* get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $lng, $ilHelp;
 		
@@ -694,15 +693,15 @@ class ilGlossaryTermGUI
 //echo ":".$_GET["term_id"].":";
 		if ($_GET["term_id"] != "")
 		{
-			$tabs_gui->addTab("properties",
+			$this->tabs_gui->addTab("properties",
 				$lng->txt("term"),
 				$this->ctrl->getLinkTarget($this, "editTerm"));
 			
-			$tabs_gui->addTab("definitions",
+			$this->tabs_gui->addTab("definitions",
 				$lng->txt("cont_definitions"),
 				$this->ctrl->getLinkTarget($this, "listDefinitions"));
 
-			$tabs_gui->addTab("usage",
+			$this->tabs_gui->addTab("usage",
 				$lng->txt("cont_usage")." (".ilGlossaryTerm::getNumberOfUsages($_GET["term_id"]).")",
 				$this->ctrl->getLinkTarget($this, "listUsages"));
 			
@@ -712,12 +711,12 @@ class ilGlossaryTermGUI
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
 			{
-				$tabs_gui->addTab("meta_data",
+				$this->tabs_gui->addTab("meta_data",
 					$lng->txt("meta_data"),
 					$mdtab);
 			}
 
-			$tabs_gui->addNonTabbedLink("presentation_view",
+			$this->tabs_gui->addNonTabbedLink("presentation_view",
 				$this->lng->txt("glo_presentation_view"),
 				ILIAS_HTTP_PATH.
 				"/goto.php?target=".
@@ -729,7 +728,7 @@ class ilGlossaryTermGUI
 		}
 
 		// back to glossary
-		$tabs_gui->setBackTarget($this->lng->txt("glossary"),
+		$this->tabs_gui->setBackTarget($this->lng->txt("glossary"),
 			$this->ctrl->getLinkTargetByClass("ilobjglossarygui", "listTerms"));
 						
 	}

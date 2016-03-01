@@ -107,7 +107,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	/**
 	 * @param ilTabsGUI $tabs_gui
 	 */
-	public function getAdminTabs(ilTabsGUI $tabs_gui)
+	public function getAdminTabs()
 	{
 		/**
 		 * @var $rbacsystem ilRbacSystem
@@ -116,24 +116,24 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 
 		if($rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'settings'), array('saveSettings', 'settings', '', 'view'), '', '');
+			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'settings'), array('saveSettings', 'settings', '', 'view'), '', '');
 		}
 
 		if($rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('tos_agreement_by_lng', $this->ctrl->getLinkTarget($this, 'showAgreementByLanguage'), array('reset', 'confirmReset', 'showAgreementByLanguage', 'resetAgreementByLanguageFilter', 'applyAgreementByLanguageFilter'), '', '');
+			$this->tabs_gui->addTarget('tos_agreement_by_lng', $this->ctrl->getLinkTarget($this, 'showAgreementByLanguage'), array('reset', 'confirmReset', 'showAgreementByLanguage', 'resetAgreementByLanguageFilter', 'applyAgreementByLanguageFilter'), '', '');
 		}
 
 		if($rbacsystem->checkAccess('read', $this->object->getRefId()) &&
 			$rbacsystem->checkAccess('read', USER_FOLDER_ID)
 		)
 		{
-			$tabs_gui->addTarget('tos_acceptance_history', $this->ctrl->getLinkTarget($this, 'showAcceptanceHistory'), array('showAcceptanceHistory', 'resetAcceptanceHistoryFilter', 'applyAcceptanceHistoryFilter'), '', '');
+			$this->tabs_gui->addTarget('tos_acceptance_history', $this->ctrl->getLinkTarget($this, 'showAcceptanceHistory'), array('showAcceptanceHistory', 'resetAcceptanceHistoryFilter', 'applyAcceptanceHistoryFilter'), '', '');
 		}
 
 		if($rbacsystem->checkAccess('edit_permission', $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
+			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
 		}
 	}
 

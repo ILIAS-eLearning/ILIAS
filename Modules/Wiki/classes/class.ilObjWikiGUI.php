@@ -521,9 +521,9 @@ class ilObjWikiGUI extends ilObjectGUI
 	* @access	public
 	* @param	object	tabs gui object
 	*/
-	function getTabs($tabs_gui)
+	function getTabs()
 	{
-		global $ilCtrl, $ilAccess, $ilTabs, $lng, $ilHelp;
+		global $ilCtrl, $ilAccess, $lng, $ilHelp;
 		
 		$ilHelp->setScreenIdComponent("wiki");
 		
@@ -535,7 +535,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		{	
 			if ($_GET["page"] != "")
 			{
-				$tabs_gui->setBackTarget($lng->txt("wiki_last_visited_page"),
+				$this->tabs_gui->setBackTarget($lng->txt("wiki_last_visited_page"),
 					$this->getGotoLink($_GET["ref_id"],
 						ilWikiUtil::makeDbTitle($_GET["page"])));
 			}
@@ -543,7 +543,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			// pages
 			if ($ilAccess->checkAccess('read', "", $this->object->getRefId()))
 			{
-				$ilTabs->addTab("wiki_pages",
+				$this->tabs_gui->addTab("wiki_pages",
 					$lng->txt("wiki_pages"),
 					$this->ctrl->getLinkTarget($this, "allPages"));
 			}
@@ -551,7 +551,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			// info screen
 			if ($ilAccess->checkAccess('visible', "", $this->object->getRefId()))
 			{
-				$ilTabs->addTab("info_short",
+				$this->tabs_gui->addTab("info_short",
 					$lng->txt("info_short"),
 					$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
 			}
@@ -559,7 +559,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			// settings
 			if ($ilAccess->checkAccess('write', "", $this->object->getRefId()))
 			{
-				$ilTabs->addTab("settings",
+				$this->tabs_gui->addTab("settings",
 					$lng->txt("settings"),
 					$this->ctrl->getLinkTarget($this, "editSettings"));
 							
@@ -569,7 +569,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$mdtab = $mdgui->getTab();
 				if($mdtab)
 				{
-					$ilTabs->addTab("advmd",
+					$this->tabs_gui->addTab("advmd",
 						$this->lng->txt("meta_data"),
 						$mdtab);
 				}						
@@ -578,7 +578,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			// contributors
 			if ($ilAccess->checkAccess('write', "", $this->object->getRefId()))
 			{
-				$ilTabs->addTab("wiki_contributors",
+				$this->tabs_gui->addTab("wiki_contributors",
 					$lng->txt("wiki_contributors"),
 					$this->ctrl->getLinkTarget($this, "listContributors"));
 			}
@@ -586,14 +586,14 @@ class ilObjWikiGUI extends ilObjectGUI
 			// statistics
 			if ($ilAccess->checkAccess('statistics_read', "", $this->object->getRefId()))
 			{
-				$ilTabs->addTab("statistics",
+				$this->tabs_gui->addTab("statistics",
 					$lng->txt("statistics"),
 					$this->ctrl->getLinkTargetByClass("ilWikiStatGUI", "initial"));
 			}
 
 			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 			{
-				$ilTabs->addTab("export",
+				$this->tabs_gui->addTab("export",
 					$lng->txt("export"),
 					$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
 			}
@@ -601,7 +601,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			// edit permissions
 			if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId()))
 			{
-				$ilTabs->addTab("perm_settings",
+				$this->tabs_gui->addTab("perm_settings",
 					$lng->txt("perm_settings"),
 					$this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
 			}

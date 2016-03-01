@@ -141,37 +141,37 @@ class ilObjUserGUI extends ilObjectGUI
 	/**
 	* admin and normal tabs are equal for roles
 	*/
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 
 	/**
 	* get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $ilHelp;
 
-		$tabs_gui->clearTargets();
+		$this->tabs_gui->clearTargets();
 		
 		$ilHelp->setScreenIdComponent("usr");
 
 		if ($_GET["search"])
 		{
-			$tabs_gui->setBackTarget(
+			$this->tabs_gui->setBackTarget(
 				$this->lng->txt("search_results"),$_SESSION["usr_search_link"]);
 
-			$tabs_gui->addTarget("properties",
+			$this->tabs_gui->addTarget("properties",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit","","view"), get_class($this),"",true);
 		}
 		else
 		{
-			$tabs_gui->addTarget("properties",
+			$this->tabs_gui->addTarget("properties",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit","","view"), get_class($this));
 		}
 
-		$tabs_gui->addTarget("role_assignment",
+		$this->tabs_gui->addTarget("role_assignment",
 			$this->ctrl->getLinkTarget($this, "roleassignment"), array("roleassignment"), get_class($this));
 
 		// learning progress
@@ -181,13 +181,13 @@ class ilObjUserGUI extends ilObjectGUI
 			ilObjUserTracking::_enabledUserRelatedData())
 		{
 
-			$tabs_gui->addTarget('learning_progress',
+			$this->tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass('illearningprogressgui',''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 
-		$tabs_gui->addTarget('user_ownership',
+		$this->tabs_gui->addTarget('user_ownership',
 			$this->ctrl->getLinkTargetByClass('ilobjectownershipmanagementgui',''),
 			'',
 			'ilobjectownershipmanagementgui');

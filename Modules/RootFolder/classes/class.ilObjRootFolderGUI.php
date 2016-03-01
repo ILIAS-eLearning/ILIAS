@@ -72,7 +72,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	}
 
 
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $lng, $ilHelp;
 		
@@ -82,7 +82,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$tabs_gui->addTab('view_content', $lng->txt("content"),
+			$this->tabs_gui->addTab('view_content', $lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 		}
 		
@@ -91,13 +91,13 @@ class ilObjRootFolderGUI extends ilContainerGUI
 			$force_active = ($_GET["cmd"] == "edit")
 				? true
 				: false;
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
 				, "", $force_active);
 		}
 
 		// parent tabs (all container: edit_permission, clipboard, trash
-		parent::getTabs($tabs_gui);
+		parent::getTabs();
 
 	}
 

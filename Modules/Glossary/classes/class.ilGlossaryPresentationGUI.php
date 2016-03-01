@@ -897,8 +897,7 @@ class ilGlossaryPresentationGUI
 	*/
 	function setTabs()
 	{
-		global $ilTabs;
-		$this->getTabs($ilTabs);
+		$this->getTabs();
 	}
 
 	/**
@@ -1297,7 +1296,7 @@ class ilGlossaryPresentationGUI
 	/**
 	* get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $ilAccess, $lng, $ilCtrl, $ilHelp;
 		
@@ -1316,11 +1315,11 @@ class ilGlossaryPresentationGUI
 						$ilCtrl->getLinkTarget($this, "listTerms"));
 				}
 	
-				$tabs_gui->addTab("info",
+				$this->tabs_gui->addTab("info",
 					$lng->txt("info_short"),
 					$ilCtrl->getLinkTarget($this, "infoScreen"));
 
-				$tabs_gui->addTab("print_view",
+				$this->tabs_gui->addTab("print_view",
 					$lng->txt("cont_print_view"),
 					$ilCtrl->getLinkTarget($this, "printViewSelection"));
 
@@ -1343,7 +1342,7 @@ class ilGlossaryPresentationGUI
 					$ilAccess->checkAccess("edit_content", "", (int) $_GET["ref_id"]))
 				{
 					include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-					$tabs_gui->addNonTabbedLink("editing_view",
+					$this->tabs_gui->addNonTabbedLink("editing_view",
 						$lng->txt("glo_editing_view"),
 						"ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".(int) $_GET["ref_id"],
 						"_top");
@@ -1353,7 +1352,7 @@ class ilGlossaryPresentationGUI
 		}
 		else
 		{
-			$tabs_gui->addTarget("cont_back",
+			$this->tabs_gui->addTarget("cont_back",
 				"index.html#term_".$this->term_id, "",
 				"");
 		}

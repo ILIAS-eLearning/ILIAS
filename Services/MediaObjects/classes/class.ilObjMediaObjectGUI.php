@@ -1721,7 +1721,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 //echo "setAdminTabs should not be called.";
 
 		// catch feedback message
-		$this->getTabs($this->tabs_gui);
+		$this->getTabs();
 
 		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
 		$this->tpl->clearHeader();
@@ -1742,18 +1742,18 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	/**
 	* Get Tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
-		global $ilTabs, $ilHelp;
+		global $ilHelp;
 
 		$ilHelp->setScreenIdComponent("mob");
 		
-		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
+		//$this->tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
 		if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject"
 			&& $this->object->getId() > 0)
 		{	
 			// object properties
-			$ilTabs->addTarget("cont_mob_def_prop",
+			$this->tabs_gui->addTarget("cont_mob_def_prop",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit",
 				get_class($this));
 			
@@ -1762,7 +1762,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			// video tools
 			if (substr($st_item->getFormat(), 0, 6) == "video/" && DEVMODE)
 			{
-				$ilTabs->addTarget("mob_video_tools",
+				$this->tabs_gui->addTarget("mob_video_tools",
 					$this->ctrl->getLinkTargetByClass("ilobjmediaobjectgui", "showVideoTool"),
 					"showVideoTool", "ilobjmediaobjectgui");
 			}
@@ -1774,7 +1774,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$format = $st_item->getFormat();
 				if (substr($format, 0, 5) == "image")
 				{
-					$ilTabs->addTarget("cont_def_map_areas",
+					$this->tabs_gui->addTarget("cont_def_map_areas",
 						$this->ctrl->getLinkTargetByClass(
 							array("ilobjmediaobjectgui", "ilimagemapeditorgui"), "editMapAreas"), "editMapAreas",
 						"ilimagemapeditorgui");
@@ -1782,7 +1782,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			}
 
 			// object usages
-			$ilTabs->addTarget("cont_mob_usages",
+			$this->tabs_gui->addTarget("cont_mob_usages",
 				$this->ctrl->getLinkTarget($this, "showUsages"), "showUsages",
 				get_class($this));
 
@@ -1799,7 +1799,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 //					$this->ctrl->getLinkTarget($this, "editFiles"), "editFiles",
 //					get_class($this));
 					
-				$ilTabs->addTarget("cont_files",
+				$this->tabs_gui->addTarget("cont_files",
 					$this->ctrl->getLinkTargetByClass(
 					array("ilobjmediaobjectgui", "ilfilesystemgui"), "listFiles"), "",
 					"ilfilesystemgui");
@@ -1810,7 +1810,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$mdtab = $mdgui->getTab("ilobjmediaobjectgui");
 			if($mdtab)
 			{
-				$ilTabs->addTarget("meta_data",
+				$this->tabs_gui->addTarget("meta_data",
 					$mdtab,
 					"", "ilmdeditorgui");
 			}
@@ -1820,7 +1820,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		// back to upper context
 		if ($this->back_title != "")
 		{
-			$tabs_gui->setBackTarget($this->back_title,
+			$this->tabs_gui->setBackTarget($this->back_title,
 				$this->ctrl->getParentReturn($this));
 		}
 	}

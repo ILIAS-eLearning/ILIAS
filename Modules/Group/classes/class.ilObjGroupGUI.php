@@ -1826,7 +1826,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 
 	// get tabs
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $ilUser, $ilAccess, $lng, $ilHelp;
 		
@@ -1834,12 +1834,12 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$tabs_gui->addTab("view_content", $lng->txt("content"),
+			$this->tabs_gui->addTab("view_content", $lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 		}
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
-			$tabs_gui->addTarget("info_short",
+			$this->tabs_gui->addTarget("info_short",
 								 $this->ctrl->getLinkTargetByClass(
 								 array("ilobjgroupgui", "ilinfoscreengui"), "showSummary"),
 								 "infoScreen",
@@ -1849,7 +1849,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if ($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit", "editMapSettings"), get_class($this),
 				"");
 		}
@@ -1860,7 +1860,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		// Members
 		if($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$tabs_gui->addTarget('members', $this->ctrl->getLinkTarget($this, 'members'), array(), get_class($this));
+			$this->tabs_gui->addTarget('members', $this->ctrl->getLinkTarget($this, 'members'), array(), get_class($this));
 		}
 		else if($is_participant)
 		{
@@ -1875,7 +1875,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), $is_participant))
 		{
-			$tabs_gui->addTarget('learning_progress',
+			$this->tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjgroupgui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
@@ -1884,7 +1884,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				'export',
 				$this->ctrl->getLinkTargetByClass('ilexportgui',''),
 				'export',
@@ -1904,7 +1904,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		*/
 		// parent tabs (all container: edit_permission, clipboard, trash
-		parent::getTabs($tabs_gui);
+		parent::getTabs();
 
 		if($ilAccess->checkAccess('join','',$this->object->getRefId()) and
 			!$this->object->members_obj->isAssigned($ilUser->getId()))
@@ -1912,7 +1912,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			include_once './Modules/Group/classes/class.ilGroupWaitingList.php';
 			if(ilGroupWaitingList::_isOnList($ilUser->getId(), $this->object->getId()))
 			{
-				$tabs_gui->addTab(
+				$this->tabs_gui->addTab(
 					'leave',
 					$this->lng->txt('membership_leave'),
 					$this->ctrl->getLinkTargetByClass('ilgroupregistrationgui','show','')
@@ -1922,7 +1922,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			else
 			{			
 				
-				$tabs_gui->addTarget("join",
+				$this->tabs_gui->addTarget("join",
 									 $this->ctrl->getLinkTargetByClass('ilgroupregistrationgui', "show"), 
 									 'show',
 									 "");
@@ -1931,7 +1931,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and
 			$this->object->members_obj->isMember($ilUser->getId()))
 		{
-			$tabs_gui->addTarget("grp_btn_unsubscribe",
+			$this->tabs_gui->addTarget("grp_btn_unsubscribe",
 								 $this->ctrl->getLinkTarget($this, "leave"), 
 								 '',
 								 "");

@@ -828,7 +828,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	}
 
 	// get tabs
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
 		global $rbacsystem, $ilHelp;
 		
@@ -839,7 +839,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		// general settings
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("general_settings",
+			$this->tabs_gui->addTarget("general_settings",
 				$this->ctrl->getLinkTarget($this, "showBasicSettings"),
 				array("showBasicSettings", "saveBasicSettings"), get_class($this));
 		}
@@ -847,26 +847,26 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		// server info
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("server",
+			$this->tabs_gui->addTarget("server",
 				$this->ctrl->getLinkTarget($this, "showServerInfo"),
 				array("showServerInfo", "view"), get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("cron_jobs",
+			$this->tabs_gui->addTarget("cron_jobs",
 				$this->ctrl->getLinkTargetByClass("ilCronManagerGUI", ""), "", get_class($this));
 
 //			$tabs_gui->addTarget("system_check",
 //				$this->ctrl->getLinkTarget($this, "check"), array("check","viewScanLog","saveCheckParams","saveCheckCron"), get_class($this));
 
-			$tabs_gui->addTarget("benchmarks",
+			$this->tabs_gui->addTarget("benchmarks",
 				$this->ctrl->getLinkTarget($this, "benchmark"), "benchmark", get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}

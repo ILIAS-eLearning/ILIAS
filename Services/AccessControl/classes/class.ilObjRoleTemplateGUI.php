@@ -608,22 +608,22 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	/**
 	* admin and normal tabs are equal for roles
 	*/
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 	
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
-		global $rbacsystem,$rbacreview;
+		global $rbacsystem;
 
 		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"),
 				array("edit","update"), get_class($this));
 				
-			$tabs_gui->addTarget("default_perm_settings",
+			$this->tabs_gui->addTarget("default_perm_settings",
 				$this->ctrl->getLinkTarget($this, "perm"),
 				array("perm"), get_class($this));
 		}

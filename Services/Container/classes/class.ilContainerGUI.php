@@ -1226,26 +1226,26 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	* common tabs for all container objects (should be called
 	* at the end of child getTabs() method
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $ilCtrl;
 
 		// edit permissions
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
 				array("perm","info","owner"), 'ilpermissiongui');
 			if ($ilCtrl->getNextClass() == "ilpermissiongui")
 			{
-				$tabs_gui->activateTab("perm_settings");
+				$this->tabs_gui->activateTab("perm_settings");
 			}
 		}
 
 		// show clipboard
 		if (strtolower($_GET["baseClass"]) == "ilrepositorygui" && !empty($_SESSION["clipboard"]))
 		{
-			$tabs_gui->addTarget("clipboard",
+			$this->tabs_gui->addTarget("clipboard",
 				 $this->ctrl->getLinkTarget($this, "clipboard"), "clipboard", get_class($this));
 		}
 

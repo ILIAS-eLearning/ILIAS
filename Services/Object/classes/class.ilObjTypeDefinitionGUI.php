@@ -420,16 +420,16 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	* @access	public
 	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem;
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "view"), array("view",""), "", "");
 
-			$tabs_gui->addTarget("edit_operations",
+			$this->tabs_gui->addTarget("edit_operations",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", "", "");
 		}
 	}

@@ -85,15 +85,15 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		//exit();
 	}
 
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}		
 	
 	/**
 	* Add rte subtabs
 	*/
-	function addSubtabs(&$tabs_gui)
+	function addSubtabs()
 	{
 		global $ilCtrl;
 
@@ -101,23 +101,23 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 			!in_array($ilCtrl->getCmd(), array("showPageEditorSettings",
 				"showGeneralPageEditorSettings", "showCharSelectorSettings", "", "view")))
 		{
-			$tabs_gui->addSubTabTarget("adve_general_settings",
+			$this->tabs_gui->addSubTabTarget("adve_general_settings",
 											 $this->ctrl->getLinkTarget($this, "settings"),
 											 array("settings", "saveSettings"),
 											 "", "");
-			$tabs_gui->addSubTabTarget("adve_assessment_settings",
+			$this->tabs_gui->addSubTabTarget("adve_assessment_settings",
 											 $this->ctrl->getLinkTarget($this, "assessment"),
 											 array("assessment", "saveAssessmentSettings"),
 											 "", "");
-			$tabs_gui->addSubTabTarget("adve_survey_settings",
+			$this->tabs_gui->addSubTabTarget("adve_survey_settings",
 											 $this->ctrl->getLinkTarget($this, "survey"),
 											 array("survey", "saveSurveySettings"),
 											 "", "");
-			$tabs_gui->addSubTabTarget("adve_frm_post_settings",
+			$this->tabs_gui->addSubTabTarget("adve_frm_post_settings",
 											 $this->ctrl->getLinkTarget($this, "frmPost"),
 											 array("frmPost", "saveFrmPostSettings"),
 											 "", "");
-			$tabs_gui->addSubTabTarget("adve_excass_settings",
+			$this->tabs_gui->addSubTabTarget("adve_excass_settings",
 											 $this->ctrl->getLinkTarget($this, "excass"),
 											 array("excass", "saveExcAssSettings"),
 											 "", "");
@@ -153,31 +153,31 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	* @access	public
 	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("adve_page_editor_settings",
+			$this->tabs_gui->addTarget("adve_page_editor_settings",
 				$this->ctrl->getLinkTarget($this, "showGeneralPageEditorSettings"),
 					array("showPageEditorSettings", "","view"));
 
-			$tabs_gui->addTarget("adve_rte_settings",
+			$this->tabs_gui->addTarget("adve_rte_settings",
 				$this->ctrl->getLinkTarget($this, "settings"),
 					array("settings","assessment", "survey", "frmPost"), "", "");
 			
-			$tabs_gui->addTarget("adve_char_selector_settings",
+			$this->tabs_gui->addTarget("adve_char_selector_settings",
 			$this->ctrl->getLinkTarget($this, "showCharSelectorSettings"),
 					array("showCharSelectorSettings", "","view"));
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
-		$this->addSubtabs($tabs_gui);
+		$this->addSubtabs($this->tabs_gui);
 	}
 	
 	

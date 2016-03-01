@@ -3410,7 +3410,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	/**
 	* Get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem,$ilAccess,$ilUser, $lng, $ilHelp;
 
@@ -3420,7 +3420,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if($ilAccess->checkAccess('read','',$this->ref_id))
 		{
-			$tabs_gui->addTab('view_content', $lng->txt("content"),
+			$this->tabs_gui->addTab('view_content', $lng->txt("content"),
 								 $this->ctrl->getLinkTarget($this,''));
 		}
 		
@@ -3430,7 +3430,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			include_once('./Modules/Course/classes/class.ilCourseObjective.php');
 			if($this->object->getViewMode() == IL_CRS_VIEW_OBJECTIVE or ilCourseObjective::_getCountObjectives($this->object->getId()))
 			{
-				$tabs_gui->addTarget(
+				$this->tabs_gui->addTarget(
 						'crs_objectives',
 						$this->ctrl->getLinkTargetByClass('illoeditorgui',''),
 						'illoeditorgui'
@@ -3450,7 +3450,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
 				? true
 				: false;
-			$tabs_gui->addTarget("info_short",
+			$this->tabs_gui->addTarget("info_short",
 								 $this->ctrl->getLinkTargetByClass(
 								 array("ilobjcoursegui", "ilinfoscreengui"), "showSummary"),
 								 "infoScreen",
@@ -3462,7 +3462,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				&& $_GET["item_id"] == "")
 				? true
 				: false;
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"),
 				array("edit", "editMapSettings", "editCourseIcons", "listStructure"), "", "", $force_active);
 		}
@@ -3475,7 +3475,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		// member list
 		if($ilAccess->checkAccess('write','',$this->ref_id))
 		{
-			$tabs_gui->addTarget("members",
+			$this->tabs_gui->addTarget("members",
 								 $this->ctrl->getLinkTarget($this, "members"), 
 								 "members",
 								 get_class($this));
@@ -3498,7 +3498,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$is_participant
 		)
 		{
-			$tabs_gui->addTarget("members",
+			$this->tabs_gui->addTarget("members",
 				$this->ctrl->getLinkTarget($this, "mailMembersBtn"),
 				"members",
 				get_class($this));
@@ -3510,7 +3510,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), $is_participant))
 		{
-			$tabs_gui->addTarget('learning_progress',
+			$this->tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
@@ -3523,7 +3523,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if ($ilAccess->checkAccess('edit_permission', '', $this->ref_id)
 		and ilLicenseAccess::_isEnabled())
 		{
-			$tabs_gui->addTarget("licenses",
+			$this->tabs_gui->addTarget("licenses",
 				$this->ctrl->getLinkTargetByClass('illicenseoverviewgui', ''),
 			"", "illicenseoverviewgui");
 		}
@@ -3536,7 +3536,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
 			{
-				$tabs_gui->addTarget("meta_data",
+				$this->tabs_gui->addTarget("meta_data",
 									 $mdtab,
 									 "",
 									 "ilobjectmetadatagui");
@@ -3545,7 +3545,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				'export',
 				$this->ctrl->getLinkTargetByClass('ilexportgui',''),
 				'export',
@@ -3555,19 +3555,19 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if ($ilAccess->checkAccess('edit_permission','',$this->ref_id))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 								 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
 								 array("perm","info","owner"), 'ilpermissiongui');
 		}
 
 		if ($this->ctrl->getTargetScript() == "adm_object.php")
 		{
-			$tabs_gui->addTarget("show_owner",
+			$this->tabs_gui->addTarget("show_owner",
 								 $this->ctrl->getLinkTarget($this, "owner"), "owner", get_class($this));
 			
 			if ($this->tree->getSavedNodeData($this->ref_id))
 			{
-				$tabs_gui->addTarget("trash",
+				$this->tabs_gui->addTarget("trash",
 									 $this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
 			}
 		}
@@ -3578,7 +3578,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
 			if(ilCourseWaitingList::_isOnList($ilUser->getId(), $this->object->getId()))
 			{
-				$tabs_gui->addTab(
+				$this->tabs_gui->addTab(
 					'leave',
 					$this->lng->txt('membership_leave'),
 					$this->ctrl->getLinkTargetByClass('ilcourseregistrationgui','show','')
@@ -3588,7 +3588,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			else
 			{			
 				
-				$tabs_gui->addTarget("join",
+				$this->tabs_gui->addTarget("join",
 									 $this->ctrl->getLinkTargetByClass('ilcourseregistrationgui', "show"), 
 									 'show',
 									 "");
@@ -3597,7 +3597,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if($ilAccess->checkAccess('leave','',$this->object->getRefId())
 			and $this->object->getMemberObject()->isMember())
 		{
-			$tabs_gui->addTarget("crs_unsubscribe",
+			$this->tabs_gui->addTarget("crs_unsubscribe",
 								 $this->ctrl->getLinkTarget($this, "unsubscribe"), 
 								 'leave',
 								 "");

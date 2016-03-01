@@ -1090,9 +1090,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	/**
 	* admin and normal tabs are equal for roles
 	*/
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 
 	/**
@@ -1119,7 +1119,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $lng, $ilCtrl, $ilTabs, $ilHelp;
 		
@@ -1128,7 +1128,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		if ($ilCtrl->getCmd() == "editTagStyle")
 		{
 			// back to upper context
-			$tabs_gui->setBackTarget($lng->txt("back"),
+			$this->tabs_gui->setBackTarget($lng->txt("back"),
 				$ilCtrl->getLinkTarget($this, "edit"));
 				
 			$t = explode(".", $_GET["tag"]);
@@ -1138,7 +1138,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			{
 				// style classes
 				$ilCtrl->setParameter($this, "tag", $t[0].".".$t2[0]);
-				$tabs_gui->addTarget("sty_tag_normal",
+				$this->tabs_gui->addTarget("sty_tag_normal",
 					$this->ctrl->getLinkTarget($this, "editTagStyle"), array("editTagStyle", ""),
 					get_class($this));
 				if ($t2[1] == "")
@@ -1150,7 +1150,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				{
 					// style classes
 					$ilCtrl->setParameter($this, "tag", $t[0].".".$t2[0].":".$p);
-					$tabs_gui->addTarget("sty_tag_".$p,
+					$this->tabs_gui->addTarget("sty_tag_".$p,
 						$this->ctrl->getLinkTarget($this, "editTagStyle"), array("editTagStyle", ""),
 						get_class($this));
 					if ($t2[1] == $p)
@@ -1164,42 +1164,42 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		else
 		{
 			// back to upper context
-			$tabs_gui->setBackTarget($lng->txt("back"),
+			$this->tabs_gui->setBackTarget($lng->txt("back"),
 				$this->ctrl->getLinkTarget($this, "returnToUpperContext"));
 	
 			// style classes
-			$tabs_gui->addTarget("sty_style_chars",
+			$this->tabs_gui->addTarget("sty_style_chars",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit", ""),
 				get_class($this));
 
 			// colors
-			$tabs_gui->addTarget("sty_colors",
+			$this->tabs_gui->addTarget("sty_colors",
 				$this->ctrl->getLinkTarget($this, "listColors"), "listColors",
 				get_class($this));
 
 			// media queries
-			$tabs_gui->addTarget("sty_media_queries",
+			$this->tabs_gui->addTarget("sty_media_queries",
 				$this->ctrl->getLinkTarget($this, "listMediaQueries"), "listMediaQueries",
 				get_class($this));
 
 			// images
-			$tabs_gui->addTarget("sty_images",
+			$this->tabs_gui->addTarget("sty_images",
 				$this->ctrl->getLinkTarget($this, "listImages"), "listImages",
 				get_class($this));
 
 			// table templates
-			$tabs_gui->addTarget("sty_templates",
+			$this->tabs_gui->addTarget("sty_templates",
 				$this->ctrl->getLinkTarget($this, "listTemplates"), "listTemplates",
 				get_class($this));
 				
 			// settings
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "properties"), "properties",
 				get_class($this));
 
 			// accordiontest
 /*
-			$tabs_gui->addTarget("accordiontest",
+			$this->tabs_gui->addTarget("accordiontest",
 				$this->ctrl->getLinkTarget($this, "accordiontest"), "accordiontest",
 				get_class($this));*/
 		}

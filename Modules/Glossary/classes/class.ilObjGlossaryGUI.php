@@ -1269,13 +1269,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function setTabs()
 	{
-		$this->getTabs($this->tabs_gui);
+		$this->getTabs();
 	}
 
 	/**
 	* get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $ilHelp;
 		
@@ -1285,7 +1285,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "listTerms")
 				? true
 				: false;
-		$tabs_gui->addTarget("cont_terms",
+		$this->tabs_gui->addTarget("cont_terms",
 			$this->ctrl->getLinkTarget($this, "listTerms"), array("listTerms", ""),
 			get_class($this), "", $force_active);
 			
@@ -1295,14 +1295,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			$force_active = true;
 		}
-		$tabs_gui->addTarget("info_short",
+		$this->tabs_gui->addTarget("info_short",
 			$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"), "",
 			"ilInfoScreenGUI", "", $force_active);
 
 		// properties
 		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "properties"), "properties",
 				get_class($this));
 			
@@ -1312,7 +1312,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
 			{
-				$tabs_gui->addTarget("meta_data", $mdtab,
+				$this->tabs_gui->addTarget("meta_data", $mdtab,
 					"", "ilobjectmetadatagui");
 			}
 			
@@ -1322,7 +1322,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				 array("exportList", "viewExportLog"), get_class($this));*/
 
 			// export
-			$tabs_gui->addTarget("export",
+			$this->tabs_gui->addTarget("export",
 				 $this->ctrl->getLinkTargetByClass("ilexportgui", ""),
 				 "", "ilexportgui");
 		}
@@ -1335,12 +1335,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				array("perm", "info"),
 				get_class($this));
 				*/
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 
 		}
 		
-		$tabs_gui->addNonTabbedLink("presentation_view",
+		$this->tabs_gui->addNonTabbedLink("presentation_view",
 			$this->lng->txt("glo_presentation_view"),
 			"ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$this->object->getRefID(),
 			"_top"

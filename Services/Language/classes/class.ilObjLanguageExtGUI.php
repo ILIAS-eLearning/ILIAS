@@ -782,31 +782,31 @@ class ilObjLanguageExtGUI extends ilObjectGUI
      *
 	 * @param	object	tabs gui object
 	 */
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
         if (!ilObjLanguageAccess::_isPageTranslation())
         {
-            $tabs_gui->addTarget("edit",
+            $this->tabs_gui->addTarget("edit",
                 $this->ctrl->getLinkTarget($this, "view"),
                 array("","view","cancel","save"));
 
-            $tabs_gui->addTarget("export",
+            $this->tabs_gui->addTarget("export",
                 $this->ctrl->getLinkTarget($this, "export"),
                 array("export","download"));
 
-            $tabs_gui->addTarget("import",
+            $this->tabs_gui->addTarget("import",
                 $this->ctrl->getLinkTarget($this, "import"),
                 array("import","upload"));
 
-            $tabs_gui->addTarget("language_maintain",
+            $this->tabs_gui->addTarget("language_maintain",
                 $this->ctrl->getLinkTarget($this, "maintain"),
                 array("maintain"));
 
-            $tabs_gui->addTarget("settings",
+            $this->tabs_gui->addTarget("settings",
                 $this->ctrl->getLinkTarget($this, "settings"),
                 array("settings"));
 
-            $tabs_gui->addTarget("language_statistics",
+            $this->tabs_gui->addTarget("language_statistics",
                 $this->ctrl->getLinkTarget($this, "statistics"),
                 array("statistics"));
         }

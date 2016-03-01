@@ -87,18 +87,18 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		return true;
 	}
 	
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 		
-		$tabs_gui->addTarget("settings",
+		$this->tabs_gui->addTarget("settings",
 			$this->ctrl->getLinkTarget($this, "settings"),
 			"settings",
 			get_class($this));					
@@ -107,7 +107,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		{						
 			if (ilObjUserTracking::_enabledObjectStatistics())
 			{
-				$tabs_gui->addTarget("statistics",
+				$this->tabs_gui->addTarget("statistics",
 					$this->ctrl->getLinkTargetByClass("illpobjectstatisticsgui",
 													"access"),
 					"",
@@ -116,7 +116,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
 			if (ilObjUserTracking::_enabledLearningProgress())
 			{
-				$tabs_gui->addTarget("learning_progress",
+				$this->tabs_gui->addTarget("learning_progress",
 					$this->ctrl->getLinkTargetByClass("illearningprogressgui",
 													"show"),
 					"",
@@ -126,7 +126,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			// session statistics
 			if (ilObjUserTracking::_enabledSessionStatistics())
 			{
-				$tabs_gui->addTarget("session_statistics",
+				$this->tabs_gui->addTarget("session_statistics",
 					$this->ctrl->getLinkTargetByClass("ilsessionstatisticsgui",
 													""),
 					"",
@@ -136,7 +136,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("edit_permission",$this->object->getRefId()))
 		{		
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
 				array("perm","info","owner"),
 				'ilpermissiongui');

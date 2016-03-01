@@ -1919,7 +1919,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 * @access public
 	 * 
 	 */
-	public function getTabs($tabs_gui)
+	public function getTabs()
 	{
 	 	global $ilAccess, $ilTabs, $tree, $ilCtrl, $ilHelp;
 
@@ -1931,20 +1931,20 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$parent_type = ilObject::_lookupType($parent_id, true);		
 
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $parent_id);
-		$tabs_gui->setBackTarget($this->lng->txt('back_to_'.$parent_type.'_content'),
+		$this->tabs_gui->setBackTarget($this->lng->txt('back_to_'.$parent_type.'_content'),
 			$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 		
-		$tabs_gui->addTarget('info_short',
+		$this->tabs_gui->addTarget('info_short',
 							 $this->ctrl->getLinkTarget($this,'infoScreen'));
 
 	 	if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 	 	{
-			$tabs_gui->addTarget('settings',
+			$this->tabs_gui->addTarget('settings',
 								 $this->ctrl->getLinkTarget($this,'edit'));
-			$tabs_gui->addTarget('crs_materials',
+			$this->tabs_gui->addTarget('crs_materials',
 								 $this->ctrl->getLinkTarget($this,'materials'));
-			$tabs_gui->addTarget('event_edit_members',
+			$this->tabs_gui->addTarget('event_edit_members',
 								 $this->ctrl->getLinkTarget($this,'members'));
 	 	}
 		
@@ -1952,7 +1952,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('learning_progress',
+			$this->tabs_gui->addTarget('learning_progress',
 				$this->ctrl->getLinkTargetByClass(array('ilobjsessiongui','illearningprogressgui'),''),
 				'',
 				array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
@@ -1961,7 +1961,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// export
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			$ilTabs->addTarget("export",
+			$this->tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTargetByClass("ilexportgui", ""), "", "ilexportgui");
 		}
 
@@ -1969,7 +1969,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// edit permissions
 		if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	 	

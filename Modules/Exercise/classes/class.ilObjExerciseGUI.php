@@ -334,15 +334,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
-	function getTabs($tabs_gui)
+	function getTabs()
 	{
-		global $ilAccess, $ilUser, $lng, $ilHelp;
+		global $ilAccess, $lng, $ilHelp;
   
 		$ilHelp->setScreenIdComponent("exc");
 		
 		if ($ilAccess->checkAccess("read", "", $this->object->getRefId()))
 		{
-			$tabs_gui->addTab("content",
+			$this->tabs_gui->addTab("content",
 				$lng->txt("exc_assignments"),
 				$this->ctrl->getLinkTarget($this, "showOverview"));
 		}
@@ -350,7 +350,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$next_class = strtolower($this->ctrl->getNextClass());
 		if ($ilAccess->checkAccess("visible", "", $this->object->getRefId()))
 		{
-			$tabs_gui->addTab("info",
+			$this->tabs_gui->addTab("info",
 				$lng->txt("info_short"),
 				$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
 		}
@@ -362,11 +362,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$lng->txt("exc_edit_assignments"),
 				$this->ctrl->getLinkTarget($this, 'listAssignments'));*/
 			
-			$tabs_gui->addTab("settings",
+			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, 'edit'));
 			
-			$tabs_gui->addTab("grades",
+			$this->tabs_gui->addTab("grades",
 				$lng->txt("exc_submissions_and_grades"),
 				$this->ctrl->getLinkTargetByClass("ilexercisemanagementgui", "members"));
 		}
@@ -380,7 +380,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
 		{
-			$tabs_gui->addTab('learning_progress',
+			$this->tabs_gui->addTab('learning_progress',
 				$lng->txt('learning_progress'),
 				$this->ctrl->getLinkTargetByClass(array('ilobjexercisegui','illearningprogressgui'),''));
 		}
@@ -392,7 +392,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// export
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			$tabs_gui->addTab("export",
+			$this->tabs_gui->addTab("export",
 				$lng->txt("export"),
 				$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
 		}
@@ -401,7 +401,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// permissions
 		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
 		{
-			$tabs_gui->addTab('permissions',
+			$this->tabs_gui->addTab('permissions',
 				$lng->txt("perm_settings"),
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
 		}

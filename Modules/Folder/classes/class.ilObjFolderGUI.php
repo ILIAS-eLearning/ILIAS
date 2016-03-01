@@ -329,15 +329,15 @@ class ilObjFolderGUI extends ilContainerGUI
 	/**
 	* Get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
-		global $rbacsystem, $ilUser, $lng, $ilCtrl,$ilAccess, $ilHelp;
+		global $rbacsystem, $lng, $ilCtrl,$ilAccess, $ilHelp;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 		
 		$ilHelp->setScreenIdComponent("fold");
 
-		$tabs_gui->setTabActive("");
+		$this->tabs_gui->setTabActive("");
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
 			$tabs_gui->addTab("view_content", $lng->txt("content"),
@@ -348,7 +348,7 @@ class ilObjFolderGUI extends ilContainerGUI
 				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
 				? true
 				: false;
-			$tabs_gui->addTarget("info_short",
+			$this->tabs_gui->addTarget("info_short",
 				 $this->ctrl->getLinkTargetByClass(
 				 array("ilobjfoldergui", "ilinfoscreengui"), "showSummary"),
 				 array("showSummary","", "infoScreen"),
@@ -358,7 +358,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", "", "", ($ilCtrl->getCmd() == "edit"));
 		}
 
@@ -366,7 +366,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('learning_progress',
+			$this->tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjfoldergui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
@@ -374,7 +374,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				'export',
 				$this->ctrl->getLinkTargetByClass('ilexportgui',''),
 				'export',
@@ -385,14 +385,14 @@ class ilObjFolderGUI extends ilContainerGUI
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 
 		// show clipboard in repository
 		if ($_GET["baseClass"] == "ilRepositoryGUI" and !empty($_SESSION['il_rep_clipboard']))
 		{
-			$tabs_gui->addTarget("clipboard",
+			$this->tabs_gui->addTarget("clipboard",
 				 $this->ctrl->getLinkTarget($this, "clipboard"), "clipboard", get_class($this));
 		}
 

@@ -1375,7 +1375,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $ilAccess, $ilHelp;
 
@@ -1398,7 +1398,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				
 				if( $currentUserHasWriteAccess )
 				{
-					$this->addSettingsSubTabs($tabs_gui);
+					$this->addSettingsSubTabs($this->tabs_gui);
 				}
 				
 				break;
@@ -1437,7 +1437,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				? true
 				: false;
 		}
-		$tabs_gui->addTarget("assQuestions",
+		$this->tabs_gui->addTarget("assQuestions",
 			 $this->ctrl->getLinkTarget($this, "questions"),
 			 array("questions", "filter", "resetFilter", "createQuestion", 
 			 	"importQuestions", "deleteQuestions", "filterQuestionBrowser",
@@ -1453,7 +1453,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		if ($ilAccess->checkAccess("read", "", $this->ref_id) || $ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
-			$tabs_gui->addTarget("info_short",
+			$this->tabs_gui->addTarget("info_short",
 				 $this->ctrl->getLinkTarget($this, "infoScreen"),
 				array("infoScreen", "showSummary"));		
 		}
@@ -1461,7 +1461,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']))
 		{
 			// properties
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 					'settings', $this->ctrl->getLinkTargetByClass('ilObjQuestionPoolSettingsGeneralGUI'),
 					array(), array('ilObjQuestionPoolSettingsGeneralGUI', 'ilObjTaxonomyGUI')
 			);
@@ -1476,12 +1476,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
 				);
 
-				$tabs_gui->addTarget('qpl_tab_competences', $link, array(), array());
+				$this->tabs_gui->addTarget('qpl_tab_competences', $link, array(), array());
 			}
 		}
 
 		// print view
-		$tabs_gui->addTarget("print_view",
+		$this->tabs_gui->addTarget("print_view",
 			 $this->ctrl->getLinkTarget($this,'print'),
 			 array("print"),
 			 "", "");
@@ -1494,12 +1494,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
 			{			
-				$tabs_gui->addTarget("meta_data",
+				$this->tabs_gui->addTarget("meta_data",
 					$mdtab,
 					"", "ilmdeditorgui");
 			}
 
-//			$tabs_gui->addTarget("export",
+//			$this->tabs_gui->addTarget("export",
 //				 $this->ctrl->getLinkTarget($this,'export'),
 //				 array("export", "createExportFile", "confirmDeleteExportFile", "downloadExportFile"),
 //				 "", "");
@@ -1507,14 +1507,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		if( $currentUserHasWriteAccess )
 		{
-			$tabs_gui->addTarget("export",
+			$this->tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTargetByClass("ilquestionpoolexportgui", ""),
 				"", "ilquestionpoolexportgui");
 		}
 
 		if ($ilAccess->checkAccess("edit_permission", "", $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}

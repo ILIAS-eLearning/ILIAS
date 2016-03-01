@@ -291,7 +291,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $ilAccess, $ilUser, $ilHelp;
 		
@@ -313,14 +313,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{		
-			$tabs_gui->addTab("survey_questions",
+			$this->tabs_gui->addTab("survey_questions",
 				$this->lng->txt("survey_questions"),
 				$this->ctrl->getLinkTargetByClass(array("ilsurveyeditorgui", "ilsurveypagegui"), "renderPage"));
 		}
 		
 		if ($ilAccess->checkAccess("read", "", $this->ref_id))
 		{
-			$tabs_gui->addTab("info_short",
+			$this->tabs_gui->addTab("info_short",
 				$this->lng->txt("info_short"),
 				$this->ctrl->getLinkTarget($this,'infoScreen'));
 		}
@@ -328,7 +328,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		// properties
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{			
-			$tabs_gui->addTab("settings",
+			$this->tabs_gui->addTab("settings",
 				$this->lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this,'properties'));
 		}
@@ -339,7 +339,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->object->isAppraisee($ilUser->getId()) &&
 				!$this->object->isAppraiseeClosed($ilUser->getId()))
 			{
-				$tabs_gui->addTab("survey_360_edit_raters",
+				$this->tabs_gui->addTab("survey_360_edit_raters",
 					$this->lng->txt("survey_360_edit_raters"),
 					$this->ctrl->getLinkTargetByClass('ilsurveyparticipantsgui','editRaters'));	
 				
@@ -353,7 +353,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			!$this->object->get360Mode())
 		{
 			// constraints
-			$tabs_gui->addTab("constraints",
+			$this->tabs_gui->addTab("constraints",
 				$this->lng->txt("constraints"),
 				 $this->ctrl->getLinkTargetByClass("ilsurveyconstraintsgui", "constraints"));
 		}
@@ -368,19 +368,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$skmg_set = new ilSkillManagementSettings();
 				if ($this->object->get360SkillService() && $skmg_set->isActivated())
 				{
-					$tabs_gui->addTab("survey_competences",
+					$this->tabs_gui->addTab("survey_competences",
 						$this->lng->txt("survey_competences"),
 						$this->ctrl->getLinkTargetByClass("ilsurveyskillgui", "listQuestionAssignment"));
 				}
 				
-				$tabs_gui->addTab("survey_360_appraisees",
+				$this->tabs_gui->addTab("survey_360_appraisees",
 					$this->lng->txt("survey_360_appraisees"),
 					$this->ctrl->getLinkTargetByClass('ilsurveyparticipantsgui', 'listAppraisees'));						
 			}
 			else
 			{
 				// maintenance
-				$tabs_gui->addTab("maintenance",
+				$this->tabs_gui->addTab("maintenance",
 					$this->lng->txt("maintenance"),
 					$this->ctrl->getLinkTargetByClass('ilsurveyparticipantsgui', 'maintenance'));
 			}
@@ -391,7 +391,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId()))
 		{
 			// evaluation
-			$tabs_gui->addTab("svy_results",
+			$this->tabs_gui->addTab("svy_results",
 				$this->lng->txt("svy_results"),
 				$this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluation"));
 		}
@@ -400,7 +400,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		include_once "./Services/Tracking/classes/class.ilLearningProgressAccess.php";
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("learning_progress",
+			$this->tabs_gui->addTarget("learning_progress",
 				$this->ctrl->getLinkTargetByClass(array("ilobjsurveygui", "illearningprogressgui"), ""),
 				"",
 				array("illplistofobjectsgui", "illplistofsettingsgui", "illearningprogressgui", "illplistofprogressgui"));
@@ -416,7 +416,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$mdtab = $mdgui->getTab();
 				if($mdtab)
 				{								
-					$tabs_gui->addTab("meta_data",
+					$this->tabs_gui->addTab("meta_data",
 						$this->lng->txt("meta_data"),
 						$mdtab);
 				}
@@ -425,7 +425,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			if(!in_array("export", $hidden_tabs))
 			{
 				// export
-				$tabs_gui->addTab("export",
+				$this->tabs_gui->addTab("export",
 					$this->lng->txt("export"),
 					$this->ctrl->getLinkTargetByClass("ilexportgui", ""));				
 			}
@@ -434,7 +434,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
 		{
 			// permissions
-			$tabs_gui->addTab("perm_settings",
+			$this->tabs_gui->addTab("perm_settings",
 				$this->lng->txt("perm_settings"),
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
 		}

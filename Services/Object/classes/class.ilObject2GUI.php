@@ -542,7 +542,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	final protected  function getReturnLocation($a_cmd, $a_location ="") { die("ilObject2GUI::getReturnLocation() is deprecated."); }
 	final protected  function setReturnLocation($a_cmd, $a_location) { die("ilObject2GUI::setReturnLocation() is deprecated."); }
 	final protected function showActions() { die("ilObject2GUI::showActions() is deprecated."); }
-	final protected function getTabs(&$tabs_gui) {nj(); die("ilObject2GUI::getTabs() is deprecated."); }
+	final protected function getTabs() {nj(); die("ilObject2GUI::getTabs() is deprecated."); }
 	final protected function __showButton($a_cmd,$a_text,$a_target = '') { die("ilObject2GUI::__showButton() is deprecated."); }
 	final protected function hitsperpageObject() { die("ilObject2GUI::hitsperpageObject() is deprecated."); }
 	final protected function &__initTableGUI() { die("ilObject2GUI::__initTableGUI() is deprecated."); }

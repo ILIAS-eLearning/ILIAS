@@ -534,7 +534,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 								   );
 		}
 
-		parent::getTabs($this->tabs_gui);
+		parent::getTabs();
 	}
 
 	/**
