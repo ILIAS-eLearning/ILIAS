@@ -257,13 +257,10 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	public function query($query) {
 		$res = $this->pdo->query($query);
-		//        $err = $this->pdo->errorInfo();
 		$err = $this->pdo->errorCode();
 		if ($err != '00000') {
 			$info = $this->pdo->errorInfo();
 			$infoMessage = $info[2];
-			echo "$query";
-			exit;
 			throw new ilDatabaseException($infoMessage);
 		}
 
