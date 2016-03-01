@@ -699,7 +699,7 @@ class ilObjectGUI
 	* @access	public
 	*
 	*/
-	public function cancelObject($in_rep = false)
+	public function cancelObject()
 	{
 		ilSession::clear("saved_post");
 		$this->ctrl->returnToParent($this);

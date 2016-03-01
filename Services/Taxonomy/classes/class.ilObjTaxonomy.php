@@ -142,7 +142,7 @@ class ilObjTaxonomy extends ilObject2
  	 * @access	public
 	 * @return	integer		new obj id
 	 */
-	function doCloneObject($a_new_obj, $a_target_id, $a_copy_id)
+	function doCloneObject($a_new_obj, $a_target_id, $a_copy_id = null)
 	{
 		global $log, $lng;
 		
