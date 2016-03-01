@@ -44,7 +44,7 @@ class catDisplayFilterBaseGUI {
 				( $f->text("l21", "d21")
 				, $f->multiselect("l22", "d22", array("a"=>"A","b"=>"B","c"=>"C"))->default_choice(array("a","c"))
 				, $f->option("l23", "d23")
-				, $f->dateperiod("l24", "d24")
+				, $f->dateperiod("l24", "d24")->default_begin(new DateTime("2012-01-01"))->default_end(new DateTime("2017-12-31"))->period_min(new DateTime("2000-01-01"))
 				)
 				->map(function($t21, $a22, $b23, $dt241, $dt242) {
 					return " Stefan";
