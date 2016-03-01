@@ -27,9 +27,6 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 			, $f->singleselect("l22", "d22", array("Bernd"=>"A","Karsten"=>"B","Peter"=>"C"))
 			);
 
-// var_dump($fs->subs());
-// die();
-
 		$classes = array("catFilterTextGUI", "catFilterMultiselectGUI","catFilterOptionGUI", "catFilterDatePeriodGUI", "catFilterOneOfGUI", "catFilterTextGUI", "catFilterSingleselectGUI");
 		$path = array("0", "1", "2", "3", "4", "5", "6");
 		$post_values = array();
@@ -38,9 +35,6 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 		$df = new \CaT\Filter\DisplayFilter($this->gui_factory);
 
 		while($gui = $df->getNextFilterGUI($fs, $post_values)) {
-			//echo $counter;
-			echo $classes[$counter];
-			 var_dump(get_class($gui));
 			$this->assertInstanceOf($classes[$counter], $gui);
 			$this->assertEquals($path[$counter], $gui->path());
 
@@ -75,7 +69,8 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 			);
 
 		$classes = array("catFilterTextGUI", "catFilterTextGUI", "catFilterMultiselectGUI", "catFilterOptionGUI"
-						, "catFilterDatePeriodGUI", "catFilterMultiselectGUI", "catFilterOptionGUI", "catFilterDatePeriodGUI", "catFilterOneOfGUI", "catFilterTextGUI", "catFilterSingleselectGUI");
+						, "catFilterDatePeriodGUI", "catFilterMultiselectGUI", "catFilterOptionGUI", "catFilterDatePeriodGUI"
+						, "catFilterOneOfGUI", "catFilterTextGUI", "catFilterSingleselectGUI");
 		$path = array("0","1:0","1:1","1:2","1:3","2","3","4","5","6","7");
 		$counter = 0;
 		$post_values = array();
