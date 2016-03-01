@@ -8,7 +8,7 @@ class ilTemplateX extends HTML_Template_ITX
 {
 	function callConstructor()
 	{
-		$this->HTML_Template_ITX();
+		parent::__construct();
 	}
 }
 ?>

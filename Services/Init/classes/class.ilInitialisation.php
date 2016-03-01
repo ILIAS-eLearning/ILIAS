@@ -426,7 +426,11 @@ class ilInitialisation
 		// Do not accept external session ids
 		if (!ilSession::_exists(session_id()) && !defined('IL_PHPUNIT_TEST'))
 		{
-			session_regenerate_id();
+			// php7-todo : alex, 1.3.2016: added if, please check
+			if(session_status() == PHP_SESSION_ACTIVE)
+			{
+				session_regenerate_id();
+			}
 		}				
 	}
 	

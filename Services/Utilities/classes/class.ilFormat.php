@@ -21,11 +21,6 @@
 */
 class ilFormat
 {
-	function ilFormat ()
-	{
-		return;
-	}
-
 	// Holt das aktuelle Datum und gibt es im Format TT.MM.JJJJ zurck
 	function getDateDE ()
 	{
