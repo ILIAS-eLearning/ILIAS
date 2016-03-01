@@ -341,8 +341,8 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf("\\CaT\\Filter\\Filters\\Filter", $filter);
 		$this->assertEquals(null, $filter->label());
 		$this->assertEquals(null, $filter->description());
-		$this->assertEquals($tf->tuple($tf->cls("\\DateTime"), $tf->cls("\\DateTime"), $tf->string(), $tf->string()), $filter->content_type());
-		$this->assertEquals($tf->tuple($tf->cls("\\DateTime"), $tf->cls("\\DateTime"), $tf->string(), $tf->string()), $filter->input_type());
+		$this->assertEquals($tf->tuple($tf->tuple($tf->cls("\\DateTime"), $tf->cls("\\DateTime")), $tf->string(), $tf->string()), $filter->content_type());
+		$this->assertEquals($tf->tuple($tf->tuple($tf->cls("\\DateTime"), $tf->cls("\\DateTime")), $tf->string(), $tf->string()), $filter->input_type());
 	}
 
 	public function test_sequence_filters_predicate() {
