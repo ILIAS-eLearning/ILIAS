@@ -40,17 +40,17 @@ class ilObjReportTrDemandAdvGUI extends ilObjReportBaseGUI {
 				}
 			}
 			$rec['min_part_achived'] = 
-				(	(string)$rec['min_part_achived'] === "1" 
+				(	(string)$rec['min_part_achived'] === "1"
 					|| $rec['min_participants'] === null 
-					|| (string)$rec['min_participants'] === '-1' )
-					? 'Ja' : 'Nein';
+					|| (string)$rec['min_participants'] === '-1')
+						? 'Ja' : 'Nein';
 			$rec['bookings_left'] =
 				(	(string)$rec['max_participants'] === "0"
 					||(string)$rec['max_participants'] === "-1"
 					|| $rec['max_participants'] === null)
-					? 'keine Beschränkung' : $rec['bookings_left'];
-			$rec['booked_wl'] = $rec['waitinglist_active'] === 'Ja' 
-											? $rec['booked_wl'] : 'inaktiv';
+						? 'keine Beschränkung' : $rec['bookings_left'];
+			$rec['booked_wl'] = $rec['waitinglist_active'] === 'Ja'
+						? $rec['booked_wl'] : 'inaktiv';
 
 			$rec['begin_date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
 					.' - '.date_format(date_create($rec['end_date']),'d.m.Y');
@@ -67,14 +67,14 @@ class ilObjReportTrDemandAdvGUI extends ilObjReportBaseGUI {
 				(	(string)$rec['min_part_achived'] === "1" 
 					|| $rec['min_participants'] === null 
 					|| (string)$rec['min_participants'] === '-1' )
-					? 'Ja' : 'Nein';
+						? 'Ja' : 'Nein';
 			$rec['bookings_left'] =
 				(	(string)$rec['max_participants'] === "0"
 					||(string)$rec['max_participants'] === "-1"
 					|| $rec['max_participants'] === null)
-					? 'keine Beschränkung' : $rec['bookings_left'];
+						? 'keine Beschränkung' : $rec['bookings_left'];
 			$rec['booked_wl'] = $rec['waitinglist_active'] === 'Ja' 
-											? $rec['booked_wl'] : 'inaktiv';
+						? $rec['booked_wl'] : 'inaktiv';
 
 			$rec['begin_date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
 					.' - '.date_format(date_create($rec['end_date']),'d.m.Y');
