@@ -650,5 +650,14 @@ class ilDBMySQL extends ilDB
 		return $r;
 
 	}
+
+
+	/**
+	 * @param $module
+	 * @return mixed
+	 */
+	public function loadModule($module) {
+		return $this->db->loadModule($module);
+	}
 }
 ?>
