@@ -181,7 +181,6 @@ class DisplayFilter {
 	}
 
 	/**
-	* unserilazie value
 	*
 	* @param $value
 	*
