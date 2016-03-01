@@ -448,11 +448,11 @@ abstract class ilObject2GUI extends ilObjectGUI
 	final protected function omitLocator($a_omit = true) { return parent::omitLocator($a_omit); }
 	final protected  function getTargetFrame($a_cmd, $a_target_frame = "") { return parent::getTargetFrame($a_cmd, $a_target_frame); }
 	final protected  function setTargetFrame($a_cmd, $a_target_frame) { return parent::setTargetFrame($a_cmd, $a_target_frame); }
-	final public function isVisible() { return parent::isVisible(); }
+	final public function isVisible($a_ref_id,$a_type) { return parent::isVisible($a_ref_id,$a_type); }
 	final protected function getCenterColumnHTML() { return parent::getCenterColumnHTML(); }
 	final protected function getRightColumnHTML() { return parent::getRightColumnHTML(); }
 	final protected function setColumnSettings($column_gui) { return parent::setColumnSettings($column_gui); }
-	final protected function checkPermission($a_perm, $a_cmd = "") { return parent::checkPermission($a_perm, $a_cmd); }
+	final protected function checkPermission($a_perm, $a_cmd = "", $a_type = "", $a_ref_id = null) { return parent::checkPermission($a_perm, $a_cmd, $a_type, $a_ref_id); }
 	
 	// -> ilContainerGUI
 	final protected function showPossibleSubObjects() { return parent::showPossibleSubObjects(); }
@@ -462,7 +462,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	final public function undelete() { return parent::undeleteObject(); } // done
 	final public function cancelDelete() { return parent::cancelDeleteObject(); } // ok
 	final public function removeFromSystem() { return parent::removeFromSystemObject(); } // done 
-	final protected function redirectToRefId() { return parent::redirectToRefId(); } // ok
+	final protected function redirectToRefId($a_ref_id, $a_cmd = "") { return parent::redirectToRefId(); } // ok
 	
 	// -> stefan
 	final protected function fillCloneTemplate($a_tpl_varname,$a_type) { return parent::fillCloneTemplate($a_tpl_varname,$a_type); }
@@ -475,7 +475,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	final private function displayList() { return parent::displayList(); }
 //	final private function setAdminTabs() { return parent::setAdminTabs(); }
 //	final public function getAdminTabs($a) { return parent::getAdminTabs($a); }
-	final protected function addAdminLocatorItems() { return parent::addAdminLocatorItems(); }
+	final protected function addAdminLocatorItems($a_do_not_add_object = false) { return parent::addAdminLocatorItems($a_do_not_add_object); }
 
 	/**
 	 * view object content (repository/workspace switch)
@@ -539,14 +539,14 @@ abstract class ilObject2GUI extends ilObjectGUI
 //	final private function setSubObjects() { die("ilObject2GUI::setSubObjects() is deprecated."); }
 //	final public function getFormAction() { die("ilObject2GUI::getFormAction() is deprecated."); }
 //	final protected  function setFormAction() { die("ilObject2GUI::setFormAction() is deprecated."); }
-	final protected  function getReturnLocation() { die("ilObject2GUI::getReturnLocation() is deprecated."); }
-	final protected  function setReturnLocation() { die("ilObject2GUI::setReturnLocation() is deprecated."); }
+	final protected  function getReturnLocation($a_cmd, $a_location ="") { die("ilObject2GUI::getReturnLocation() is deprecated."); }
+	final protected  function setReturnLocation($a_cmd, $a_location) { die("ilObject2GUI::setReturnLocation() is deprecated."); }
 	final protected function showActions() { die("ilObject2GUI::showActions() is deprecated."); }
-	final protected function getTabs() {nj(); die("ilObject2GUI::getTabs() is deprecated."); }
-	final protected function __showButton() { die("ilObject2GUI::__showButton() is deprecated."); }
+	final protected function getTabs(&$tabs_gui) {nj(); die("ilObject2GUI::getTabs() is deprecated."); }
+	final protected function __showButton($a_cmd,$a_text,$a_target = '') { die("ilObject2GUI::__showButton() is deprecated."); }
 	final protected function hitsperpageObject() { die("ilObject2GUI::hitsperpageObject() is deprecated."); }
-	final protected function __initTableGUI() { die("ilObject2GUI::__initTableGUI() is deprecated."); }
-	final protected function __setTableGUIBasicData() { die("ilObject2GUI::__setTableGUIBasicData() is deprecated."); }
+	final protected function &__initTableGUI() { die("ilObject2GUI::__initTableGUI() is deprecated."); }
+	final protected function __setTableGUIBasicData(&$tbl,&$result_set,$a_from = "") { die("ilObject2GUI::__setTableGUIBasicData() is deprecated."); }
 
 	/**
 	 * Functions to be overwritten
