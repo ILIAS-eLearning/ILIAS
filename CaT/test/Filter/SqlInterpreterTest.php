@@ -13,7 +13,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 		global $ilDB;
 		$this->db = $ilDB;
 		$this->factory = new \CaT\Filter\PredicateFactory();
-		$this->interpreter = new \CaT\Filter\SQLPredicateInterpreter($ilDB);
+		$this->interpreter = new \CaT\Filter\SqlPredicateInterpreter($ilDB);
 		date_default_timezone_set('Europe/Berlin');
 	}
 
@@ -64,7 +64,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 
 		$p = $f->_TRUE()->_AND()->_FALSE();
 
-		$this->assertEquals($i->interpret($p3),  '(TRUE ) AND (NOT (TRUE ) ) ');
+		$this->assertEquals($i->interpret($p),  '(TRUE ) AND (NOT (TRUE ) ) ');
 	}
 
 	public function test_ANY() {
@@ -81,7 +81,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 
 		$p2 = $f->_ANY($true, $true, $true);
 
-		$this->assertEquals($i->interpret($p2),  'TRUE OR TRUE OR TRUE ');
+		$this->assertEquals($i->interpret($p2),  '(TRUE ) OR (TRUE ) OR (TRUE ) ');
 		//$this->assertEquals($p->subs(), array($true, $true, $true));
 
 		$p3 = $f->_ANY($false, $false, $false);
@@ -135,7 +135,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 
 	public function test_EQ_date() {
 		$left = '2016-01-01 16:20';
-		$left = '2016-01-01 16:21';
+		$right = '2016-01-01 16:21';
 		$f = $this->factory;
 		$i = $this->interpreter;
 		$db = $this->db;
@@ -165,7 +165,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 
 	public function test_NEQ_date() {
 		$left = '2016-01-01 16:20';
-		$left = '2016-01-01 16:21';
+		$right = '2016-01-01 16:21';
 		$f = $this->factory;
 		$i = $this->interpreter;
 		$db = $this->db;
@@ -195,8 +195,8 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_LT_date() {
-		$left = '2016-01-01';
-		$right = '2016-01-01';
+		$left = '2016-01-01 16:20';
+		$right = '2016-01-01 16:21';
 		$f = $this->factory;
 		$i = $this->interpreter;
 		$db = $this->db;
@@ -216,6 +216,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 	public function test_field_eq_int() {
 		$f = $this->factory;
 		$i = $this->interpreter;
+		$db = $this->db;
 
 		$res_t = $f->field("one.two")->EQ()->int(1);
 
@@ -226,7 +227,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 		$f = $this->factory;
 		$i = $this->interpreter;
 		$db = $this->db;
-		$res_t = $f->_NOT($f->int(1)->EQ()->field("one.two"));
+		$res_t = $f->int(1)->NEQ()->field("one.two");
 		$this->assertEquals($i->interpret($res_t) , $db->quote(1,'integer')." != `one`.`two` ");
 	}
 
@@ -234,7 +235,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 		$f = $this->factory;
 		$i = $this->interpreter;
 		$db = $this->db;
-		$res_t = $f->_NOT($f->field("one.two")->EQ()->int(1));
+		$res_t = $f->field("one.two")->NEQ()->int(1);
 		$this->assertEquals($i->interpret($res_t) , "`one`.`two` != ".$db->quote(1,'integer')." ");
 	}
 
@@ -258,7 +259,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 		$f = $this->factory;
 		$i = $this->interpreter;
 		$db = $this->db;
-		$res_t = $f->_NOT($f->str("a")->EQ()->field("one.two"));
+		$res_t = $f->str("a")->NEQ()->field("one.two");
 		$this->assertEquals($i->interpret($res_t) , $db->quote('a','text')." != `one`.`two` ");
 	}
 	
@@ -274,32 +275,32 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 		$f = $this->factory;
 		$i = $this->interpreter;
 		$db = $this->db;
-		$res_t = $f->date(new \DateTime("2016-01-01"))->EQ()->field("one.two");
-		$this->assertEquals($i->interpret($res_t) , $db->quote("2016-01-01",'date')." = `one`.`two` ");
+		$res_t = $f->date(new \DateTime("2016-01-01 10:00"))->EQ()->field("one.two");
+		$this->assertEquals($i->interpret($res_t) , $db->quote("2016-01-01 10:00",'date')." = `one`.`two` ");
 	}
 
 	public function test_field_eq_date() {
 		$f = $this->factory;
 		$i = $this->interpreter;
 		$db = $this->db;
-		$res_t = $f->field("one.two")->EQ()->date(new \DateTime("2016-01-01"));
-		$this->assertEquals($i->interpret($res_t) , "`one`.`two` = ".$this->db->quote("2016-01-01",'date')." ");
+		$res_t = $f->field("one.two")->EQ()->date(new \DateTime("2016-01-01 10:00"));
+		$this->assertEquals($i->interpret($res_t) , "`one`.`two` = ".$this->db->quote("2016-01-01 10:00",'date')." ");
 	}
 
 	public function test_date_neq_field() {
 		$f = $this->factory;
 		$i = $this->interpreter;
 		$db = $this->db;
-		$res_t = $f->date(new \DateTime("2016-01-01"))->EQ()->field("one.two")->_NOT();
-		$this->assertEquals($i->interpret($res_t) , $db->quote("2016-01-01",'date')." != `one`.`two` ");
+		$res_t = $f->date(new \DateTime("2016-01-01 10:00"))->NEQ()->field("one.two");
+		$this->assertEquals($i->interpret($res_t) , $db->quote("2016-01-01 10:00",'date')." != `one`.`two` ");
 	}
 	
 	public function test_field_neq_date() {
 		$f = $this->factory;
 		$i = $this->interpreter;
 		$db = $this->db;
-		$res_t = $f->field("one.two")->EQ()->date(new \DateTime("2016-01-01"))->_NOT();
-		$this->assertEquals($i->interpret($res_t) , "`one`.`two` != ".$this->db->quote("2016-01-01",'date')." ");
+		$res_t = $f->field("one.two")->NEQ()->date(new \DateTime("2016-01-01 10:00"));
+		$this->assertEquals($i->interpret($res_t) , "`one`.`two` != ".$this->db->quote("2016-01-01 10:00",'date')." ");
 	}
 
 
@@ -317,7 +318,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 		$db = $this->db;
 		$res_t = $f->str("b")->LT()->field("one.two");
-		$this->assertEquals($i->interpret($res_t) , $db->quote("b",'integer')." < `one`.`two` ");
+		$this->assertEquals($i->interpret($res_t) , $db->quote("b",'text')." < `one`.`two` ");
 	}
 	
 	public function test_ex_two_vars() {
@@ -339,8 +340,8 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 		$f = $this->factory;
 		$i = $this->interpreter;
 		$db = $this->db;
-		$res_t = $f->date(new \DateTime("2016-01-01"))->LT()->field("one.two");
-		$this->assertEquals($i->interpret($res_t) , $db->quote("2016-01-01",'date')." < `one`.`two` ");
+		$res_t = $f->date(new \DateTime("2016-01-01 10:00"))->LT()->field("one.two");
+		$this->assertEquals($i->interpret($res_t) , $db->quote("2016-01-01 10:00",'date')." < `one`.`two` ");
 	}
 
 	public function test_eq_two_field() {
@@ -348,14 +349,14 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 
 		$p = $f->field("one.two")->EQ()->field("ONE.TWO");
-		$this->assertEquals($i->interpret($res_t) , "`one`.`two` = `ONE`.`TWO` ");
+		$this->assertEquals($i->interpret($p) , "`one`.`two` = `ONE`.`TWO` ");
 	}
 
 	public function test_neq_two_field() {
 		$f = $this->factory;
 		$i = $this->interpreter;
 		$p = $f->field("one.two")->NEQ()->field("ONE.TWO");
-		$this->assertEquals($i->interpret($res_t) , "`one`.`two` != `ONE`.`TWO` ");
+		$this->assertEquals($i->interpret($p) , "`one`.`two` != `ONE`.`TWO` ");
 	}
 
 	public function test_lt_two_field() {
@@ -363,7 +364,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 
 		$p = $f->field("one.two")->LT()->field("ONE.TWO");
-		$this->assertEquals($i->interpret($res_t) , "`one`.`two` < `ONE`.`TWO` ");
+		$this->assertEquals($i->interpret($p) , "`one`.`two` < `ONE`.`TWO` ");
 	}
 
 	public function test_IN() {
@@ -382,20 +383,20 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($i->interpret($res), $db->quote(1,'integer').' IN('
 					.$db->quote(1,'integer')
 					.','.$db->quote(2,'integer')
-					.','.$db->quote(3,'integer').')');
+					.','.$db->quote(3,'integer').') ');
 
 		$res = $str_1->IN($str_list);
 		$this->assertEquals($i->interpret($res), $db->quote('a','text').' IN('
 					.$db->quote('a','text')
 					.','.$db->quote('b','text')
-					.','.$db->quote('c','text').')');
+					.','.$db->quote('c','text').') ');
 
 		$field_1 = $f->field("foo.bar");
-		$field_1 = $int_1->IN($int_list);
-		$this->assertEquals($i->interpret($res), ' `foo`.`bar` IN('
+		$res = $field_1->IN($int_list);
+		$this->assertEquals($i->interpret($res), '`foo`.`bar` IN('
 					.$db->quote(1,'integer')
 					.','.$db->quote(2,'integer')
-					.','.$db->quote(3,'integer').')');
+					.','.$db->quote(3,'integer').') ');
 	}
 
 	/**
