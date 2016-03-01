@@ -80,7 +80,8 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 				->join('hist_user usr')
 					->on('usr.user_id = orgu.usr_id')
 				->left_join("hist_usercoursestatus usrcrs")
-					->on("usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0 ")
+					->on("usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0 "
+						."	AND usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text'))
 				->left_join("hist_course crs")
 					->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0")
 				->group_by("orgu.orgu_id")
@@ -104,6 +105,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		."				ON orgu.usr_id = usr.user_id"
 		."			LEFT JOIN `hist_usercoursestatus` usrcrs "
 		."				ON usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0 "
+		."					AND usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text')
 		."			LEFT JOIN `hist_course` crs "
 		."				ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 "
 		."			".$this->queryWhere()
@@ -221,12 +223,15 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 							 , ""
 							 , 300
 							 , 160	
-							 )
-				->static_condition($this->gIldb->in("orgu.usr_id", $this->user_utils->getEmployees(), false, "integer"))
+							 );
+			if("0" === (string)$this->getAllOrgusFilter()) {
+				$filter
+				->static_condition($this->gIldb->in("orgu.usr_id", $this->user_utils->getEmployees(), false, "integer"));
+			}
+			$filter
 				->static_condition('usr.hist_historic = 0')
 				->static_condition("orgu.hist_historic = 0")
-				->static_condition("orgu.action >= 0")
-				->static_condition("usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text'));
+				->static_condition("orgu.action >= 0");
 		if($this->getIsLocal()) {
 			$filter->static_condition("(".$this->gIldb->in('crs.template_obj_id',$this->getSubtreeCourseTemplates(),false,'integer')
 											." OR crs.hist_historic IS NULL)");
