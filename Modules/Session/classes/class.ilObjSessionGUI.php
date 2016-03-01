@@ -332,9 +332,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 
 	/**
-	* Modify Item ListGUI for presentation in container
-	*/
-	function modifyItemGUI($a_item_list_gui,$a_item_data, $a_show_path)
+	 * Modify Item ListGUI for presentation in container
+	 * @global type $tree
+	 * @param type $a_item_list_gui
+	 * @param type $a_item_data
+	 * @param type $a_show_path
+	 */
+	public function modifyItemGUI($a_item_list_gui,$a_item_data, $a_show_path)
 	{
 		global $tree;
 
