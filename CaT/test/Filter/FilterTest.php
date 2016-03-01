@@ -234,13 +234,10 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 			, 3 => "three"
 			);
 
-		// To not cause fatal in predicate construction
-		$this->assertObjectHasAttribute("IN", $this->factory->predicate_factory()->field("foo"));
-
 		$filter = $this->factory->multiselect("label", "description", $options)
 			->map_to_predicate(function(array $options) {
 				$f = $this->factory->predicate_factory();
-				return $f->field("foo")->IN($options);
+				return $f->field("foo")->IN(call_user_func_array(array($f, "list_int"), $options));
 			});
 
 		$this->assertNotNull($filter);
@@ -248,12 +245,12 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$interpreter = new \CaT\Filter\DictionaryPredicateInterpreter;
 
 		$pred = $filter->content(array(1,2));
-		$this->assertTrue($interpreter->interpret($pred_true, array("foo" => 2)));
-		$this->assertFalse($interpreter->interpret($pred_true, array("foo" => 3)));
+		$this->assertTrue($interpreter->interpret($pred, array("foo" => 2)));
+		$this->assertFalse($interpreter->interpret($pred, array("foo" => 3)));
 
 		$pred = $filter->content(array(3));
-		$this->assertFalse($interpreter->interpret($pred_true, array("foo" => 2)));
-		$this->assertTrue($interpreter->interpret($pred_true, array("foo" => 3)));
+		$this->assertFalse($interpreter->interpret($pred, array("foo" => 2)));
+		$this->assertTrue($interpreter->interpret($pred, array("foo" => 3)));
 	}
 
 	//SINGLESELECT
