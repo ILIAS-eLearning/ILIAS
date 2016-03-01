@@ -455,11 +455,11 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$pred_0 = $filter->content(0, array(new \DateTime("1985-05-04"), new \DateTime("2015-05-04")));
 
 		$this->assertTrue($interpreter->interpret($pred_0, array("choice" => 0)));
-		$this->assertFalse($interpreter->interpret($pred_0, array("choice" => 0)));
+		$this->assertFalse($interpreter->interpret($pred_0, array("choice" => 1)));
 
 		$pred_1 = $filter->content(0, array(new \DateTime("1985-05-04"), new \DateTime("2015-05-04")));
 
 		$this->assertTrue($interpreter->interpret($pred_1, array("choice" => 0)));
-		$this->assertFalse($interpreter->interpret($pred_1, array("choice" => 0)));
+		$this->assertFalse($interpreter->interpret($pred_1, array("choice" => 1)));
 	}
 }
