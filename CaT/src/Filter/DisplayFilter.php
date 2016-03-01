@@ -101,8 +101,6 @@ class DisplayFilter {
 					$navi->enter();
 					return $this->getNextGUI($navi->current(), $navi);
 				} catch (\OutOfBoundsException $e) {
-					echo "sdsd";
-					die();
 					return false;
 				}
 				break;

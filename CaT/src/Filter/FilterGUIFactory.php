@@ -52,7 +52,7 @@ class FilterGUIFactory {
 	 * @param	string		$path 
 	 * @return	FilterGUI
 	 */
-	public function singleselect_gui(Filters\Multiselect $filter, $path) {
+	public function singleselect_gui(Filters\Singleselect $filter, $path) {
 		require_once ("Services/ReportsRepository/classes/class.catFilterSingleselectGUI.php");
 		return new \catFilterSingleselectGUI($filter, $path);
 	}

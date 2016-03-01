@@ -146,6 +146,7 @@ class DatePeriod extends Filter {
 	 * @return	DatePeriod
 	 */
 	public function period_max(\DateTime $dt = null) {
+		throw new \Exception("Not implemented");
 		if ($dt === null) {
 			return $this->period_max;
 		}

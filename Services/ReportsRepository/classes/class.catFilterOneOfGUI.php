@@ -39,6 +39,15 @@ class catFilterOneOfGUI extends catFilterGUI {
 					require_once("Services/Form/classes/class.ilMultiSelectInputGUI.php");
 					$multi_select = new ilMultiSelectInputGUI("", "filter[$this->path][".$key."]");
 					$multi_select->setOptions($sub_filter->options());
+					$multi_select->setValue($sub_filter->default_choice());
+					$option->addSubItem($multi_select);
+					$option->setValue($key);
+					break;
+				case "CaT\Filter\Filters\Singleselect":
+					require_once("Services/Form/classes/class.ilSelectInputGUI.php");
+					$select = new ilSelectInputGUI("", "filter[$this->path][".$key."]");
+					$select->setOptions($sub_filter->options());
+					$select->setValue($sub_filter->default_choice());
 					$option->addSubItem($multi_select);
 					$option->setValue($key);
 					break;
