@@ -345,11 +345,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 	
 	/**
-	* prepare output
-	*/
-	function prepareOutput($a_show_subobjects = true)
+	 * prepare output
+	 */
+	protected function prepareOutput($a_show_subobjects = true)
 	{
-		if (parent::prepareOutput())	// return false in admin mode
+		if (parent::prepareOutput($a_show_subobjects))	// return false in admin mode
 		{
 			if ($this->getCreationMode() != true && $a_show_subobjects)
 			{

@@ -5152,7 +5152,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 * Handle member view
 	 * @return 
 	 */
-	public function prepareOutput()
+	protected function prepareOutput($a_show_subobjects = true)
 	{
 		global $rbacsystem;
 		if(!$this->getCreationMode())
@@ -5165,7 +5165,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$rbacsystem->initMemberView();				
 			}
 		}
-		parent::prepareOutput();
+		parent::prepareOutput($a_show_subobjects);
 	}
 	
 	/**

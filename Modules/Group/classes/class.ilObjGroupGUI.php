@@ -2932,7 +2932,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 * Handle member view
 	 * @return 
 	 */
-	public function prepareOutput()
+	public function prepareOutput($a_show_subobjects = true)
 	{
 		global $rbacsystem;
 		if(!$this->getCreationMode())
@@ -2947,7 +2947,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			*/
 		}
-		parent::prepareOutput();
+		parent::prepareOutput($a_show_subobjects);
 	}
 	
 	/**
