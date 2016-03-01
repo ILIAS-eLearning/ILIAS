@@ -160,9 +160,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     /**
      * @see ilObjectGUI::prepareOutput()
      */
-    protected function prepareOutput()
+    protected function prepareOutput($a_show_subobjects = true)
     {
-        parent::prepareOutput();
+        parent::prepareOutput($a_show_subobjects);
 		
 		if(!$this->getCreationMode())
 		{
@@ -332,9 +332,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 
 	/**
-	* Modify Item ListGUI for presentation in container
-	*/
-	function modifyItemGUI($a_item_list_gui,$a_item_data, $a_show_path)
+	 * Modify Item ListGUI for presentation in container
+	 * @global type $tree
+	 * @param type $a_item_list_gui
+	 * @param type $a_item_data
+	 * @param type $a_show_path
+	 */
+	public function modifyItemGUI($a_item_list_gui,$a_item_data, $a_show_path)
 	{
 		global $tree;
 
