@@ -7,7 +7,7 @@
  */
 
 //pear MDB2 abstraction layer
-include_once ("Services/Database/classes/MDB2/lib/MDB2.php");
+include_once ("Services/PEAR/lib/MDB2.php");
 require_once 'Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php';
 require_once 'Services/Database/interfaces/interface.ilDBInterface.php';
 
