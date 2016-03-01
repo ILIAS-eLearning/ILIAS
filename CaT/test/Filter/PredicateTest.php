@@ -959,14 +959,13 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	public function test_IN() {
-
 		$f = $this->factory;
 		$i = $this->interpreter;
 
-		$int_list = $f->list_int(1,2,3);		
+		$int_list = $f->list_int(1,2,3);
 		$int_list_v = $f->list_int();
 
-		$str_list = $f->list_str("a","b","c");		
+		$str_list = $f->list_str("a","b","c");
 		$str_list_v = $f->list_str();
 		
 		$int_1 = $f->int(1);
@@ -987,21 +986,22 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue($i->interpret($field_1->IN($int_list),array("foo" => 1)));
 		$this->assertTrue($i->interpret($field_1->IN($str_list),array("foo" => "a")));
+
 		try{
 			$i->interpret($field_1->IN($int_list),array("bar" => "foo"));
 			$this->assertFalse("should have thrown");
 		} catch (\InvalidArgumentException $ex) {
 		}
+
 		try{
 			$this->assertFalse($i->interpret($str_1->IN($int_list),array()));
 			$this->assertFalse("should have thrown");
-		} catch (\InvalidArgumentException $ex) {
-		}
+		} catch (\InvalidArgumentException $ex) {}
+
 		try{
 			$this->assertFalse($i->interpret($int_1->IN($str_list),array()));
 			$this->assertFalse("should have thrown");
-		} catch (\InvalidArgumentException $ex) {
-		}
+		} catch (\InvalidArgumentException $ex) {}
 	}
 
 	/**
