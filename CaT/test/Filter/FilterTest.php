@@ -37,6 +37,7 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(new \DateTime(date("Y")."-01-01"), $filter->default_begin());
 		$this->assertEquals(new \DateTime(date("Y")."-12-31"), $filter->default_end());
 		$this->assertEquals(new \DateTime("1900-01-01"), $filter->period_min());
+		// not implemented please uncomment if implemented
 		// $this->assertEquals(new \DateTime("2100-12-31"), $filter->period_max());
 	}
 
@@ -280,9 +281,9 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 			);
 		$tf = $this->factory->type_factory();
 
-		$filter = $this->factory->multiselect("label", "description", $options);
-		$this->assertEquals($tf->lst($tf->string()), $filter->content_type());
-		$this->assertEquals($tf->lst($tf->string()), $filter->input_type());
+		$filter = $this->factory->singleselect("label", "description", $options);
+		$this->assertEquals($tf->string(), $filter->content_type());
+		$this->assertEquals($tf->string(), $filter->input_type());
 	}
 
 	public function test_singleselectselect_options() {
@@ -292,11 +293,11 @@ class FilterTest extends PHPUnit_Framework_TestCase {
 			, 3 => "three"
 			);
 
-		$filter = $this->factory->multiselect("label", "description", $options)
-			->default_choice(array(1))
+		$filter = $this->factory->singleselect("label", "description", $options)
+			->default_choice(1)
 			;
 
-		$this->assertEquals(array(1), $filter->default_choice());
+		$this->assertEquals(1, $filter->default_choice());
 	}
 
 	// TEXT
