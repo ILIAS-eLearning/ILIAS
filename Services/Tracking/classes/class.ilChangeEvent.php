@@ -913,13 +913,6 @@ class ilChangeEvent
 				$res = $ilDB->query($query);
 			}
 			
-			if ($ilDB->isError($res) || $ilDB->isError($res->result))
-			{
-				return 'couldn\'t insert initial data into table "write_event": '.
-				(($ilDB->isError($r->result)) ? $r->result->getMessage() : $r->getMessage());
-			}
-
-
 			global $ilias;
 			$ilias->setSetting('enable_change_event_tracking', '1');
 

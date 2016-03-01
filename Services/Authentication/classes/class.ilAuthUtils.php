@@ -211,6 +211,7 @@ class ilAuthUtils
 				// build option string for SHIB::Auth
 				$auth_params = array();
 				$auth_params['sessionName'] = "_authhttp".md5($realm);
+				include_once './Services/AuthShibboleth/classes/class.ilShibboleth.php';		
 				$ilAuth = new ShibAuth($auth_params,true);
 				break;
 				
