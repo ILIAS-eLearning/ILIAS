@@ -1127,8 +1127,13 @@ class recursiveOrguFilter {
 			if(count($orgus) > 0) {
 				return $this->gIldb->in($this->field, $orgus, false, 'integer');
 			}
+			$filter_options = array_keys($this->filter_options);
+			if($this->getRecursiveSelection()) {
+				$filter_options = array_unique(array_merge($filter_options,$this->getChildrenOf($filter_options)));
+			}
+			return $this->gIldb->in($this->field, $filter_options, false, 'integer');
 		}
-		return ' TRUE ';
+		return ' FALSE ';
 	}
 
 	/**

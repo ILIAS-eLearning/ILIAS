@@ -14,6 +14,9 @@ set_time_limit(0);
 class ilObjReportOrguAtt extends ilObjReportBase {
 	protected $relevant_parameters = array();
 	protected $sum_parts = array();
+	protected $is_local;
+	protected $all_orgus_filter;
+
 	public function __construct($ref_id = 0) {
 		parent::__construct($ref_id);
 
@@ -77,9 +80,13 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 				->join('hist_user usr')
 					->on('usr.user_id = orgu.usr_id')
 				->left_join("hist_usercoursestatus usrcrs")
-					->on("usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0 ")
+					->on("usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0 "
+						."	AND usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text')
+						."	AND usrcrs.begin_date >= ".$this->gIldb->quote($this->date_start,'date')
+						."	AND usrcrs.end_date <= ".$this->gIldb->quote($this->date_end,'date'))
 				->left_join("hist_course crs")
-					->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0")
+					->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0"
+						."	AND ".$this->tpl_filter)
 				->group_by("orgu.orgu_id")
 				->compile();
 		return $query;
@@ -101,11 +108,14 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		."				ON orgu.usr_id = usr.user_id"
 		."			LEFT JOIN `hist_usercoursestatus` usrcrs "
 		."				ON usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0 "
+		."					AND usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text')
+		."					AND usrcrs.begin_date >= ".$this->gIldb->quote($this->date_start,'date')
+		."					AND usrcrs.end_date <= ".$this->gIldb->quote($this->date_end,'date')
 		."			LEFT JOIN `hist_course` crs "
 		."				ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 "
+		."					AND ".$this->tpl_filter
 		."			".$this->queryWhere()
 		.") as temp";
-
 		return $sum_sql;
 	}
 
@@ -123,38 +133,13 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		return $table;
 	}
 
-	protected function getOrgusForFilter() {
-		$never_skip = $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior();
-
-		array_walk($never_skip, 
-			function (&$obj_ref_id) {
-				$aux = new ilObjOrgUnit($obj_ref_id["ref_id"]);
-				$obj_ref_id = $aux->getTitle();
-			}
-		);
-		$skip_org_units_in_filter_below = array('Nebenberufsagenturen');
-		array_walk($skip_org_units_in_filter_below, 
-			function(&$title) { 
-				$title = ilObjOrgUnit::_getIdsForTitle($title)[0];
-				$title = gevObjectUtils::getRefId($title);
-				$title = gevOrgUnitUtils::getAllChildrenTitles(array($title));
-			}
-		);
-		$skip_org_units_in_filter = array();
-		foreach ($skip_org_units_in_filter_below as $org_units) {
-			$skip_org_units_in_filter = array_merge($skip_org_units_in_filter, $org_units);
-		}
-		array_unique($skip_org_units_in_filter);
-
-		$skip_org_units_in_filter = array_diff($skip_org_units_in_filter, $never_skip);
-		$org_units_filter = array_diff($this->user_utils->getOrgUnitNamesWhereUserIsSuperior(), $skip_org_units_in_filter);
-		sort($org_units_filter);
-		return $org_units_filter;
-	}
-
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter('org_unit', 'orgu.orgu_id', true, true);
-		$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
+		if("1" === (string)$this->getAllOrgusFilter()) {
+			$this->orgu_filter->setFilterOptionsByArray($this->getAllOrgusIds());
+		} else {
+			$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
+		}
 		$this->orgu_filter->addToFilter($filter);
 		$filter	->dateperiod( "period"
 							, $this->plugin->txt("period")
@@ -164,7 +149,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 							, date("Y")."-01-01"
 							, date("Y")."-12-31"
 							, false
-							," OR usrcrs.hist_historic IS NULL "
+							," OR TRUE"
 							)
 				->multiselect("edu_program"
 							 , $this->plugin->txt("edu_program")
@@ -243,18 +228,24 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 							 , ""
 							 , 300
 							 , 160	
-							 )
-				->static_condition($this->gIldb->in("orgu.usr_id", $this->user_utils->getEmployees(), false, "integer"))
+							 );
+			if("0" === (string)$this->getAllOrgusFilter()) {
+				$filter
+				->static_condition($this->gIldb->in("orgu.usr_id", $this->user_utils->getEmployees(), false, "integer"));
+			}
+			$filter
 				->static_condition('usr.hist_historic = 0')
 				->static_condition("orgu.hist_historic = 0")
 				->static_condition("orgu.action >= 0")
-				->static_condition("usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text'));
-		if($this->getIsLocal()) {
-			$filter->static_condition("(".$this->gIldb->in('crs.template_obj_id',$this->getSubtreeCourseTemplates(),false,'integer')
-											." OR crs.hist_historic IS NULL)");
-		}
-		$filter	->action($this->filter_action)
+				->action($this->filter_action)
 				->compile();
+		$date_filter = $filter->get("period");
+		$this->date_start = $date_filter["start"]->get(IL_CAL_DATE);
+		$this->date_end = $date_filter["end"]->get(IL_CAL_DATE);
+		$this->tpl_filter 
+			= $this->getIsLocal()
+				? $this->gIldb->in('crs.template_obj_id',$this->getSubtreeCourseTemplates(),false,'integer')
+				: "TRUE" ;
 		return $filter;
 	}
 
@@ -282,8 +273,9 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 
 	public function doCreate() {
 		$this->gIldb->manipulate("INSERT INTO rep_robj_roa ".
-			"(id, is_online, is_local) VALUES (".
+			"(id, is_online, is_local, all_orgus_filter) VALUES (".
 			$this->gIldb->quote($this->getId(), "integer")
+			.",".$this->gIldb->quote(0, "integer")
 			.",".$this->gIldb->quote(0, "integer")
 			.",".$this->gIldb->quote(0, "integer")
 			.")");
@@ -294,9 +286,10 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		$set = $this->gIldb->query("SELECT * FROM rep_robj_roa ".
 			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
 			);
-		while ($rec = $this->gIldb->fetchAssoc($set)) {
+		if ($rec = $this->gIldb->fetchAssoc($set)) {
 			$this->setOnline($rec["is_online"]);
 			$this->setIslocal($rec["is_local"]);
+			$this->setAllOrgusFilter($rec["all_orgus_filter"]);
 		}
 	}
 
@@ -304,6 +297,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		$this->gIldb->manipulate("UPDATE rep_robj_roa SET "
 			." is_online = ".$this->gIldb->quote($this->getOnline(), "integer")
 			." ,is_local = ".$this->gIldb->quote($this->getIsLocal(), "integer")
+			." ,all_orgus_filter = ".$this->gIldb->quote($this->getAllOrgusFilter(), "integer")
 			." WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
 			);
 	}
@@ -316,6 +310,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 
 	public function doClone($a_target_id,$a_copy_id,$new_obj) {
 		$new_obj->setIsLocal($this->getIslocal());
+		$new_obj->setAllOrgusFilter($this->getAllOrgusFilter());
 		parent::doClone($a_target_id,$a_copy_id,$new_obj);
 	}
 
@@ -325,5 +320,24 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 
 	public function setIslocal($value) {
 		$this->is_local = $value ? 1 : 0;
+	}
+
+	public function getAllOrgusFilter() {
+		return $this->all_orgus_filter;
+	}
+
+	public function setAllOrgusFilter($value) {
+		$this->all_orgus_filter = $value ? 1 : 0;
+	}
+
+	protected function getAllOrgusIds() {
+		$query = "SELECT DISTINCT obj_id FROM object_data JOIN object_reference USING(obj_id)"
+				."	WHERE type = 'orgu' AND deleted IS NULL";
+		$res = $this->gIldb->query($query);
+		$return = array();
+		while($rec = $this->gIldb->fetchAssoc($res)) {
+			$return[] = $rec["obj_id"];
+		}
+		return $return;
 	}
 }
