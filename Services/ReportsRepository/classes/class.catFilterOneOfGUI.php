@@ -38,7 +38,9 @@ class catFilterOneOfGUI extends catFilterGUI {
 				case "CaT\Filter\Filters\Multiselect":
 					require_once("Services/Form/classes/class.ilMultiSelectInputGUI.php");
 					$multi_select = new ilMultiSelectInputGUI("", "filter[$this->path][".$key."]");
-					$multi_select->setOptions($sub_filter->options());
+					$opts = $sub_filter->options();
+					asort($opts,  SORT_NATURAL | SORT_FLAG_CASE);
+					$multi_select->setOptions($opts);
 					$multi_select->setValue($sub_filter->default_choice());
 					$option->addSubItem($multi_select);
 					$option->setValue($key);
@@ -46,7 +48,9 @@ class catFilterOneOfGUI extends catFilterGUI {
 				case "CaT\Filter\Filters\Singleselect":
 					require_once("Services/Form/classes/class.ilSelectInputGUI.php");
 					$select = new ilSelectInputGUI("", "filter[$this->path][".$key."]");
-					$select->setOptions($sub_filter->options());
+					$opts = $sub_filter->options();
+					asort($opts,  SORT_NATURAL | SORT_FLAG_CASE);
+					$select->setOptions($opts);
 					$select->setValue($sub_filter->default_choice());
 					$option->addSubItem($multi_select);
 					$option->setValue($key);

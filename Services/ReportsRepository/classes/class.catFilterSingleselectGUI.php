@@ -20,7 +20,9 @@ class catFilterSingleselectGUI extends catFilterGUI {
 	public function fillForm(ilPropertyFormGUI $form) {
 		$select = new ilSelectInputGUI($this->filter->label(), "filter[$this->path]");
 		$select->setInfo($this->filter->description());
-		$select->setOptions($this->filter->options());
+		$opts = $this->filter->options();
+		asort($opts,  SORT_NATURAL | SORT_FLAG_CASE);
+		$select->setOptions($opts);
 		$select->setValue($this->filter->default_choice());
 		$form->addItem($select);
 
