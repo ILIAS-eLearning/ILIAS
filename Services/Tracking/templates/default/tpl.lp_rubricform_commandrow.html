@@ -9,7 +9,7 @@
         {RURBRIC_COMMANDROW_SELECT}
         
         <input type="button" {RUBRIC_DISABLED} value="{RUBRIC_EXECUTE}" onclick="rubric_cmd(this)" class="btn btn-default">
-        <input type="submit" value="{RUBRIC_LOCK}" name="cmd[lockRubricCardForm]" class="btn btn-default btn-sm">
+        <input type="submit" {USER_LOCK} value="{RUBRIC_LOCK}" name="cmd[lockRubricCardForm]" class="btn btn-default btn-sm">
     </div>
 
     <div class="ilFloatRight ilFormCmds">
@@ -18,7 +18,7 @@
             <label class="control-label" for="passing_grade">Passing Grade</label>
             <div class="input-group has-success has-feedback">
                 <div class="input-group-addon">%</div>                
-                <input name="passing_grade" class="form-control" id="passing_grade" aria-describedby="passing_gradeWarningStatus" onkeyup="validate(this)" onblur="validate(this)" type="text" value="{PASSING_GRADE_VALUE}">
+                <input {RUBRIC_DISABLED} name="passing_grade" class="form-control" id="passing_grade" aria-describedby="passing_gradeWarningStatus" onkeyup="validate(this)" onblur="validate(this)" type="text" value="{PASSING_GRADE_VALUE}">
                 <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                 <span class="sr-only" id="passing_gradeWarningStatus">(ok)</span>    
             </div>

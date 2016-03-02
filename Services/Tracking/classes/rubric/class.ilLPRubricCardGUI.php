@@ -70,6 +70,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
 
     private function getRubricCardFormCommandRow($form_action)
     {
+        global $ilUser;
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         //configure the command row
         $rubric_commandrow_tpl=new ilTemplate('tpl.lp_rubricform_commandrow.html',true,true,'Services/Tracking');        
@@ -96,6 +97,10 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             $rubric_commandrow_tpl->setVariable('RUBRIC_DISABLED','disabled');
             $rubric_commandrow_tpl->setVariable('RUBRIC_LOCK',$this->lng->txt('rubric_card_unlock'));
             $tmp_user = ilObjectFactory::getInstanceByObjId($this->rubric_owner, false);
+            if($this->rubric_owner !== $ilUser->getId())
+            {
+                $rubric_commandrow_tpl->setVariable('USER_LOCK','disabled');
+            }
             ilUtil::sendInfo($this->lng->txt('rubric_locked_info').' '.$tmp_user->getFullName().' '.$this->rubric_locked);
         }else{
             $rubric_commandrow_tpl->setVariable('RUBRIC_LOCK',$this->lng->txt('rubric_card_lock'));
@@ -128,7 +133,9 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         );
         
         $rubric_form_tpl=new ilTemplate('tpl.lp_rubricform.html',true,true,'Services/Tracking');
-        
+        if(!is_null($this->rubric_locked)) {
+            $rubric_form_tpl->setVariable('RUBRIC_DISABLED','disabled');
+        }
         //load language files        
         foreach($language_variables as $lang_key => $lang_label){
             $rubric_form_tpl->setVariable($lang_key,$this->lng->txt($lang_label));
@@ -169,7 +176,10 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         );        
          
         $rubric_form_tpl=new ilTemplate($filename,true,true,'Services/Tracking');
-        
+
+        if(!is_null($this->rubric_locked)) {
+            $rubric_form_tpl->setVariable('RUBRIC_DISABLED','disabled=""');
+        }
         //load language files        
         foreach($language_variables as $lang_key => $lang_label){
             $rubric_form_tpl->setVariable($lang_key,$this->lng->txt($lang_label));
@@ -214,7 +224,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         $tmp_write="<td scope=\"rowgroup\">
                     <div class=\"form-group has-success has-feedback\">
                         <label class=\"control-label\" for=\"behaviorname0_0\">{BEHAVIOR_NAME}</label>
-                        <textarea id=\"${tmp_behavior_name}\" name=\"${tmp_behavior_name}\" class=\"form-control\" placeholder=\"${behavior['description']}\" value=\"${behavior['description']}\" aria-describedby=\"${tmp_behavior_name}WarningStatus\" onkeyup=\"validate(this)\" oninput=\"validate(this)\">${behavior['description']}</textarea>
+                        <textarea id=\"${tmp_behavior_name}\" {RUBRIC_DISABLED} name=\"${tmp_behavior_name}\" class=\"form-control\" placeholder=\"${behavior['description']}\" value=\"${behavior['description']}\" aria-describedby=\"${tmp_behavior_name}WarningStatus\" onkeyup=\"validate(this)\" oninput=\"validate(this)\">${behavior['description']}</textarea>
                         <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
                         <span id=\"${tmp_behavior_name}WarningStatus\" class=\"sr-only\">(ok)</span>
                     </div>
@@ -235,9 +245,9 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                             <label class=\"control-label\" for=\"${tmp_criteria_name}\">{CRITERIA_NAME}</label>                        
                             <div class=\"input-group\">
                                 <span class=\"input-group-addon\">
-                                    <input type=\"checkbox\" id=\"${tmp_criteria_name}_checkbox\">
+                                    <input type=\"checkbox\" {RUBRIC_DISABLED} id=\"${tmp_criteria_name}_checkbox\" >
                                 </span>
-                                <input id=\"${tmp_criteria_name}\" name=\"${tmp_criteria_name}\" type=\"text\" class=\"form-control\" placeholder=\"${criteria['criteria']}\" value=\"${criteria['criteria']}\" aria-describedby=\"${tmp_group_name}WarningStatus\" onkeyup=\"validate(this)\" oninput=\"validate(this)\">
+                                <input id=\"${tmp_criteria_name}\" {RUBRIC_DISABLED} name=\"${tmp_criteria_name}\" type=\"text\" class=\"form-control\" placeholder=\"${criteria['criteria']}\" value=\"${criteria['criteria']}\" aria-describedby=\"${tmp_group_name}WarningStatus\" onkeyup=\"validate(this)\" oninput=\"validate(this)\">
                             </div>
                             <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
                             <span id=\"${tmp_criteria_name}WarningStatus\" class=\"sr-only\">(ok)</span>
@@ -248,7 +258,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
         }
         
         return($tmp_write);
-        
+
     }
     
     private function buildTemplateGroup($group,$group_increment)
@@ -261,9 +271,9 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
                                 <label class=\"control-label\" for=\"${tmp_group_name}\">{GROUP_NAME}</label>                        
                                 <div class=\"input-group\">
                                     <span class=\"input-group-addon\">
-                                        <input type=\"checkbox\" id=\"${tmp_group_name}_checkbox\">
+                                        <input {RUBRIC_DISABLED} type=\"checkbox\" id=\"${tmp_group_name}_checkbox\">
                                     </span>
-                                    <input id=\"${tmp_group_name}\" name=\"${tmp_group_name}\" type=\"text\" class=\"form-control\" placeholder=\"${group['group_name']}\" value=\"${group['group_name']}\" aria-describedby=\"${tmp_group_name}WarningStatus\" onkeyup=\"validate(this)\" oninput=\"validate(this)\">
+                                    <input id=\"${tmp_group_name}\" {RUBRIC_DISABLED}  name=\"${tmp_group_name}\" type=\"text\" class=\"form-control\" placeholder=\"${group['group_name']}\" value=\"${group['group_name']}\" aria-describedby=\"${tmp_group_name}WarningStatus\" onkeyup=\"validate(this)\" oninput=\"validate(this)\">
                                 </div>
                                 <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
                                 <span id=\"${tmp_group_name}WarningStatus\" class=\"sr-only\">(ok)</span>
@@ -331,7 +341,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             $tmp_write.="<th scope=\"col\">
                             <div class=\"form-group point-input $div_class has-feedback\">
                                 <label class=\"control-label\" for=\"$tmp_name\">{POINT}</label>
-                                <input id=\"$tmp_name\" name=\"$tmp_name\" type=\"text\" class=\"form-control\" value=\"${weight['weight_min']}-${weight['weight_max']}\" onkeyup=\"validate(this)\" onblur=\"recalculate(this)\" oninput=\"validate(this)\"/>
+                                <input id=\"$tmp_name\" {RUBRIC_DISABLED} name=\"$tmp_name\" type=\"text\" class=\"form-control\" value=\"${weight['weight_min']}-${weight['weight_max']}\" onkeyup=\"validate(this)\" onblur=\"recalculate(this)\" oninput=\"validate(this)\"/>
                                <span class=\"glyphicon $span_class form-control-feedback\" aria-hidden=\"true\"></span>
                                <span id=\"${tmp_name}WarningStatus\" class=\"sr-only\">$span_innerhtml</span>
                             </div>
@@ -420,7 +430,7 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             $tmp_write.="<th scope=\"col\" class=\"col-sm-2\">
                             <div class=\"form-group has-success has-feedback\">
                                 <label class=\"control-label\" for=\"Label${k}\">{LABEL}</label>
-                                <input id=\"Label${k}\" name=\"Label${k}\" type=\"text\" class=\"form-control\" placeholder=\"".$label['label']."\" value=\"".$label['label']."\" aria-describedby=\"Label${k}WarningStatus\" onkeyup=\"validate(this)\" onblur=\"recalculate(this)\" oninput=\"validate(this)\">
+                                <input {RUBRIC_DISABLED} id=\"Label${k}\" name=\"Label${k}\" type=\"text\" class=\"form-control\" placeholder=\"".$label['label']."\" value=\"".$label['label']."\" aria-describedby=\"Label${k}WarningStatus\" onkeyup=\"validate(this)\" onblur=\"recalculate(this)\" oninput=\"validate(this)\">
                                 <span class=\"glyphicon glyphicon-ok form-control-feedback\" aria-hidden=\"true\"></span>
                                 <span id=\"Label${k}WarningStatus\" class=\"sr-only\">(ok)</span>
                             </div>
