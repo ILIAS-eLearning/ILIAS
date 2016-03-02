@@ -329,9 +329,9 @@ class ilLPRubricCardGUI extends ilLPTableBaseGUI
             
             $tmp_name="Points${group_id}_${k}";
             $tmp_write.="<th scope=\"col\">
-                            <div class=\"form-group $div_class has-feedback\">
+                            <div class=\"form-group point-input $div_class has-feedback\">
                                 <label class=\"control-label\" for=\"$tmp_name\">{POINT}</label>
-                                <input id=\"$tmp_name\" name=\"$tmp_name\" type=\"text\" class=\"form-control point-input\" value=\"${weight['weight_min']}-${weight['weight_max']}\" onkeyup=\"validate(this)\" onblur=\"recalculate(this)\" oninput=\"validate(this)\"/>
+                                <input id=\"$tmp_name\" name=\"$tmp_name\" type=\"text\" class=\"form-control\" value=\"${weight['weight_min']}-${weight['weight_max']}\" onkeyup=\"validate(this)\" onblur=\"recalculate(this)\" oninput=\"validate(this)\"/>
                                <span class=\"glyphicon $span_class form-control-feedback\" aria-hidden=\"true\"></span>
                                <span id=\"${tmp_name}WarningStatus\" class=\"sr-only\">$span_innerhtml</span>
                             </div>
