@@ -32,15 +32,15 @@ participated_date#:#teilgenommen am
 booked#:#gebucht
 booked_for_date#:#gebucht für
 template_choice_label#:#Trainingsvorlage
-template_choice_description#:#Bitte wählen sie die Vorlage, für die sie die Teilnahmen erheben wollen.
+template_choice_description#:#Bitte wählen Sie die Vorlage, für die Sie die Teilnahmen erheben wollen.
 dateperiod_choice_label#:#Zeitraum
-dateperiod_choice_description#:#Bitte wählen sie den Zeitraum, für die sie die Teilnahmen erheben wollen.
+dateperiod_choice_description#:#Bitte wählen Sie den Zeitraum, für den Sie die Teilnahmen erheben wollen.
 person_choice_label#:#Personen
-person_choice_description#:#Bitte wählen sie den Zeitraum, für die sie die Teilnahmen erheben wollen.
+person_choice_description#:#Bitte wählen Sie den Zeitraum, für die Sie die Teilnahmen erheben wollen.
 orgu_choice_label#:#Auswahl über Organisationseinheit
-orgu_choice_description#:#Bitte wählen sie die Organisationseinheit, für die sie die Teilnahmen erheben wollen.
+orgu_choice_description#:#Bitte wählen Sie die Organisationseinheit, für die Sie die Teilnahmen erheben wollen.
 role_choice_label#:#Auswahl über globale Rolle
-role_choice_description#:#Bitte wählen sie die globale Rolle, für die sie die Teilnahmen erheben wollen.
+role_choice_description#:#Bitte wählen Sie die globale Rolle, für die Sie die Teilnahmen erheben wollen.
 part_choice_label#:#NUR_TEILGENOMMEN_AUSWAHL_LABEL
 part_choice_description#:#NUR_TEILGENOMMEN_AUSWAHL_BESCHREIBUNG
 filter_form_title#:#Neuen Report erstellen
