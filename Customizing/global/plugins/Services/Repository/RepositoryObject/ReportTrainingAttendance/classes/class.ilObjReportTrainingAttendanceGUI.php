@@ -87,15 +87,19 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 	}
 
 	public static function transformResultRow($rec) {
+		require_once("Services/Calendar/classes/class.ilDateTime.php");
+		require_once("Services/Calendar/classes/class.ilDate.php");
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+
+		$begin = new ilDate($a_set["start_date"], IL_CAL_DATETIME);
+		$end = new ilDate($a_set["end_date"], IL_CAL_DATETIME);
 		if ($rec["participated"] == "Ja") {
-			$rec['participated_date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
-					.' - '.date_format(date_create($rec['end_date']),'d.m.Y');
+			$rec['participated_date'] = ilDatePresentation::formatPeriod($begin, $end);
 			$rec['booked_for_date'] = "-";
 		}
 		else if ($rec["participated"] == "Ja") {
 			$rec['participated_date'] = "-";
-			$rec['booked_for_date'] = date_format(date_create($rec['begin_date']),'d.m.Y')
-					.' - '.date_format(date_create($rec['end_date']),'d.m.Y');
+			$rec['booked_for_date'] = ilDatePresentation::formatPeriod($begin, $end);
 		}
 		else {
 			$rec['participated_date'] = "-";
