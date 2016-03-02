@@ -273,8 +273,6 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		$res = $this->db->query($query);
 		$return = array();
 		while($rec = $this->db->fetchAssoc($res)) {
-			echo "1";
-			echo $rec['obj_id']."<br>";
 			$return[] = $rec['obj_id'];
 		}
 		return $return;
