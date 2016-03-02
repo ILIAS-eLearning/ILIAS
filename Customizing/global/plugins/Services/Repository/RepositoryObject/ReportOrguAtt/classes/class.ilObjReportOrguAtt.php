@@ -81,9 +81,12 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 					->on('usr.user_id = orgu.usr_id')
 				->left_join("hist_usercoursestatus usrcrs")
 					->on("usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0 "
-						."	AND usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text'))
+						."	AND usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text')
+						."	AND usrcrs.begin_date >= ".$this->gIldb->quote($this->date_start,'date')
+						."	AND usrcrs.end_date <= ".$this->gIldb->quote($this->date_end,'date'))
 				->left_join("hist_course crs")
-					->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0")
+					->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0"
+						."	AND ".$this->tpl_filter)
 				->group_by("orgu.orgu_id")
 				->compile();
 		return $query;
@@ -106,11 +109,13 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		."			LEFT JOIN `hist_usercoursestatus` usrcrs "
 		."				ON usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0 "
 		."					AND usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text')
+		."					AND usrcrs.begin_date >= ".$this->gIldb->quote($this->date_start,'date')
+		."					AND usrcrs.end_date <= ".$this->gIldb->quote($this->date_end,'date')
 		."			LEFT JOIN `hist_course` crs "
 		."				ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 "
+		."					AND ".$this->tpl_filter
 		."			".$this->queryWhere()
 		.") as temp";
-
 		return $sum_sql;
 	}
 
@@ -144,7 +149,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 							, date("Y")."-01-01"
 							, date("Y")."-12-31"
 							, false
-							," OR usrcrs.hist_historic IS NULL "
+							," OR TRUE"
 							)
 				->multiselect("edu_program"
 							 , $this->plugin->txt("edu_program")
@@ -231,13 +236,16 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 			$filter
 				->static_condition('usr.hist_historic = 0')
 				->static_condition("orgu.hist_historic = 0")
-				->static_condition("orgu.action >= 0");
-		if($this->getIsLocal()) {
-			$filter->static_condition("(".$this->gIldb->in('crs.template_obj_id',$this->getSubtreeCourseTemplates(),false,'integer')
-											." OR crs.hist_historic IS NULL)");
-		}
-		$filter	->action($this->filter_action)
+				->static_condition("orgu.action >= 0")
+				->action($this->filter_action)
 				->compile();
+		$date_filter = $filter->get("period");
+		$this->date_start = $date_filter["start"]->get(IL_CAL_DATE);
+		$this->date_end = $date_filter["end"]->get(IL_CAL_DATE);
+		$this->tpl_filter 
+			= $this->getIsLocal()
+				? $this->gIldb->in('crs.template_obj_id',$this->getSubtreeCourseTemplates(),false,'integer')
+				: "TRUE" ;
 		return $filter;
 	}
 
