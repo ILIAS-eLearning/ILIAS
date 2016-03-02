@@ -1155,5 +1155,5 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     }
 
-    $('.point-input').tooltip({'trigger':'focus', 'title': 'Please use the following format "80-100" or "100-100" for a single value'});
+    $('.point-input').tooltip({'trigger':'focus', 'title': 'Please use the following format "##-##"'});
 });
