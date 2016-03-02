@@ -3691,4 +3691,29 @@ class gevCourseUtils {
 
 		return ilObject::_lookupTitle(ilObject::_lookupObjId($obj_ref_id));
 	}
+
+	/**
+	* gets all crs with amd field Template = "ja"
+	*
+	* @return array(obj_id => title)
+	*/
+	public static function getAllTemplates() {
+		global $ilDB;
+		$template_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
+		$query = "SELECT od.obj_id, od.title\n"
+				." FROM object_data od\n"
+				." JOIN adv_md_values_text admt ON admt.obj_id = od.obj_id\n"
+				."    AND admt.field_id = ".$ilDB->quote($template_field_id,"integer")."\n"
+				." WHERE od.type = ".$ilDB->quote("crs", "text")."\n"
+				."    AND admt.value = ".$ilDB->quote("Ja", "text")."\n";
+
+		$res = $ilDB->query($query);
+		$ret = array();
+
+		while($row = $ilDB->fetchAssoc($res)) {
+			$ret[$row["obj_id"]] = $row["title"];
+		}
+
+		return $ret;
+	}
 }
