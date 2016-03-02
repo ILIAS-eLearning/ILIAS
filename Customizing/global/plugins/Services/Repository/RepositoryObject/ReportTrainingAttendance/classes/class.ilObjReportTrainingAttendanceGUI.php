@@ -80,10 +80,60 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 			// enhancing report plugins
 			$this->object->filter_settings = $this->loadFilterSettings();
 			$res .= ($this->spacer !== null ? $this->spacer->render() : "")
+					. $this->renderFilterInfo()
+					. ($this->spacer !== null ? $this->spacer->render() : "")
 					. $this->renderTable();
 		}
 
 		return $res;
+	}
+
+	protected function renderFilterInfo() {
+		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		require_once("Services/Form/classes/class.ilNonEditableValueGUI.php");
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
+		$form = new ilPropertyFormGUI();
+		$form->setTitle(null);
+		$form->setFormAction(null);
+
+		$settings = call_user_func_array(array($this->object->filter(), "content"), $this->filter_settings);
+		$crs_utils = gevCourseUtils::getInstance($settings["template_obj_id"]);
+
+		$begin = new ilDate($settings["start"]->format("Y-m-d"), IL_CAL_DATE);
+		$end = new ilDate($settings["end"]->format("Y-m-d"), IL_CAL_DATE);
+
+		$vals = array(
+			  array($this->plugin->txt("template_choice_label")
+					, $crs_utils->getTitle()." (".$crs_utils->getType().")"
+					)
+			, array( $this->plugin->txt("dateperiod_choice_label")
+					, ilDatePresentation::formatPeriod($begin, $end)
+					)
+			, array( $this->plugin->txt("org_units")
+					, implode(", ", array_map(function($id) {
+								$orgus = $this->object->getOrguOptions();
+								return $orgus[$id];
+						}, $settings["orgu_ids"] ? $settings["orgu_ids"] : array()))
+					)
+			, array( $this->plugin->txt("roles")
+					, implode(", ", array_map(function($id) {
+								$roles = $this->object->getRoleOptions();
+								return $roles[$id];
+						}, $settings["role_ids"] ? $settings["role_ids"] : array()))
+					)
+			);
+
+		foreach ($vals as $val) {
+			if (!$val[1]) {
+				continue;
+			}
+			$field = new ilNonEditableValueGUI($val[0], "", true);
+			$field->setValue($val[1]);
+			$form->addItem($field);
+		}
+
+		return $form->getHTML();
 	}
 
 	public static function transformResultRow($rec) {

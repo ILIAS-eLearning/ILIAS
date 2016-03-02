@@ -73,15 +73,6 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 				( $txt("dateperiod_choice_label")
 				, $txt("dateperiod_choice_description")
 				)
-				->map_to_predicate
-					( function(\DateTime $start, \DateTime $end) use ($f, $pf) {
-						$pc = $f->dateperiod_overlaps_or_empty_predicate
-							( "usrcrs.begin_date"
-							, "usrcrs.end_date"
-							);
-
-						return $pc($start, $end);
-					})
 			, $f->one_of
 				( $txt("person_choice_label")
 				, $txt("person_choice_description")
@@ -97,9 +88,16 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 					)
 				)
 			)
-			->map_raw(function($tpl_obj_id, $period_pred, $choice, $ids) {
+			->map_raw(function($tpl_obj_id, $start, $end, $choice, $ids) use ($f) {
+				$pc = $f->dateperiod_overlaps_or_empty_predicate
+							( "usrcrs.begin_date"
+							, "usrcrs.end_date"
+							);
+
 				$ret = array( "template_obj_id" => $tpl_obj_id
-							, "period_pred" => $period_pred
+							, "period_pred" => $pc($start, $end)
+							, "start" => $start
+							, "end" => $end
 							);
 				if ($choice == 0) {
 					$ret["orgu_ids"] = $ids;
