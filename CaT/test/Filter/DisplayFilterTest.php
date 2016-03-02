@@ -5,7 +5,8 @@
 class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 	public function setUp() {
 		error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
-		$this->factory = new \CaT\Filter\FilterFactory(new \CaT\Filter\PredicateFactory(), new \CaT\Filter\TypeFactory());
+		$this->type_factory =  new \CaT\Filter\TypeFactory();
+		$this->factory = new \CaT\Filter\FilterFactory(new \CaT\Filter\PredicateFactory(), $this->type_factory);
 		$this->gui_factory = new \CaT\Filter\FilterGUIFactory();
 	}
 
@@ -32,7 +33,7 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 		$post_values = array();
 		$counter = 0;
 
-		$df = new \CaT\Filter\DisplayFilter($this->gui_factory);
+		$df = new \CaT\Filter\DisplayFilter($this->gui_factory, $this->type_factory);
 
 		while($gui = $df->getNextFilterGUI($fs, $post_values)) {
 			$this->assertInstanceOf($classes[$counter], $gui);
@@ -75,7 +76,7 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 		$counter = 0;
 		$post_values = array();
 
-		$df = new \CaT\Filter\DisplayFilter($this->gui_factory);
+		$df = new \CaT\Filter\DisplayFilter($this->gui_factory, $this->type_factory);
 
 		while($gui = $df->getNextFilterGUI($fs, $post_values)) {
 			$this->assertInstanceOf($classes[$counter], $gui);
