@@ -65,6 +65,13 @@ class SqlPredicateInterpreter {
 			return $return.implode(',',$in).') ';
 		}
 
+		if($p instanceof \CaT\Filter\Predicates\PredicateIsNull) {
+			if($field = current($p->fields())) {
+				return $this->quoteFieldOrValue($field)." IS NULL ";
+			}
+			return "FALSE ";
+		}
+
 		if ($p instanceof \CaT\Filter\Predicates\PredicateComparison) {
 			$left = $p->left();
 			$right = $p->right();
