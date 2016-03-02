@@ -19,9 +19,7 @@ class catFilterMultiselectGUI extends catFilterGUI {
 		$multi_select = new ilMultiSelectInputGUI($this->filter->label(), "filter[$this->path]");
 		$multi_select->setInfo($this->filter->description());
 		$opts = $this->filter->options();
-		print_r($opts);
 		asort($opts,  SORT_NATURAL | SORT_FLAG_CASE);
-		print_r($opts);
 		$multi_select->setOptions($opts);
 		$multi_select->setValue($this->filter->default_choice());
 		$form->addItem($multi_select);
