@@ -91,8 +91,8 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 		require_once("Services/Calendar/classes/class.ilDate.php");
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 
-		$begin = new ilDate($a_set["start_date"], IL_CAL_DATETIME);
-		$end = new ilDate($a_set["end_date"], IL_CAL_DATETIME);
+		$begin = new ilDate($rec["start_date"], IL_CAL_DATETIME);
+		$end = new ilDate($rec["end_date"], IL_CAL_DATETIME);
 		if ($rec["participated"] == "Ja") {
 			$rec['participated_date'] = ilDatePresentation::formatPeriod($begin, $end);
 			$rec['booked_for_date'] = "-";
