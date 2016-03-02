@@ -42,6 +42,9 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 		// TODO: implement this properly
 		return array
 			( "5836" => "Generali BeratungPlus"
+			, "5776" => "Generali Rente Profil Plus"
+			, "4237" => "Geldwäscheprävention"
+			, "33219" => "Code of Conduct"
 			);
 	}
 
