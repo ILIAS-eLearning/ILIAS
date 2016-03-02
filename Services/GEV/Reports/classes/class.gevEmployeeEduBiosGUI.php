@@ -166,13 +166,14 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 									." as points_year5"
 									)
 						->select_raw($points_in_current_period." as points_sum")
-						->select_raw("CASE 	WHEN ".$no_tp_service_condition." THEN ''"
+						->select_raw("CASE "
+									."		WHEN ".$no_tp_service_condition." THEN ''"
 									."		WHEN usr.begin_of_certification <= '$earliest_possible_cert_period_begin' THEN ''"
 									."		WHEN ".$cert_year_sql." = 1 AND ".$points_in_current_period." < 40 THEN 'X'"
 									."		WHEN ".$cert_year_sql." = 2 AND ".$points_in_current_period." < 80 THEN 'X'"
 									."		WHEN ".$cert_year_sql." = 3 AND ".$points_in_current_period." < 120 THEN 'X'"
 									."		WHEN ".$cert_year_sql." = 4 AND ".$points_in_current_period." < 160 THEN 'X'"
-									."     ELSE ''"
+									."		ELSE ''"
 									."END"
 									." as attention"
 									)
