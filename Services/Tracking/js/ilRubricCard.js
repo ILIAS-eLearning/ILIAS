@@ -164,7 +164,7 @@ var RUBRIC = {
 
         $(".point-input").tooltip({'trigger':'focus', 'title': 'Please use the following format "##-##"'});
 
-        
+
         var total_behaviors=this.howManyBehaviors();        
         
         var tbody=this.tbl.getElementsByTagName('tbody');
@@ -403,7 +403,7 @@ addBehavior:function(thead,tbody,tfoot,position){
         // add in 2 spaces, one for the group and one for criteria
         for(var a=0;a<2;a++){
             var th=document.createElement('th');
-            th.setAttribute('class','col-sm-2');
+            th.setAttribute('class','');
             th.setAttribute('scope','col');
             th.appendChild(document.createTextNode('\u0020'));
             tr.appendChild(th);            
