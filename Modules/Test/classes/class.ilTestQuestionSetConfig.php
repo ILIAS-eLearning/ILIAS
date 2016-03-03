@@ -41,11 +41,11 @@ abstract class ilTestQuestionSetConfig
 
 	/**
 	 * @param ilTree $tree
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 * @param ilPluginAdmin $pluginAdmin
 	 * @param ilObjTest $testOBJ
 	 */
-	public function __construct(ilTree $tree, ilDB $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
+	public function __construct(ilTree $tree, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
 	{
 		$this->tree = $tree;
 		$this->db = $db;

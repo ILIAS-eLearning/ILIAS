@@ -77,7 +77,7 @@ class ilTestSkillEvaluationGUI
 	 */
 	private $objectId;
 
-	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilTemplate $tpl, ilLanguage $lng, ilDB $db, $testId, $refId, $objectId)
+	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilTemplate $tpl, ilLanguage $lng, ilDBInterface $db, $testId, $refId, $objectId)
 	{
 		$this->ctrl = $ctrl;
 		$this->tabs = $tabs;

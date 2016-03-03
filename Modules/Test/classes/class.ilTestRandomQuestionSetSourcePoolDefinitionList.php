@@ -36,10 +36,10 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 	/**
 	 * Constructor
 	 * 
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 * @param ilObjTest $testOBJ
 	 */
-	public function __construct(ilDB $db, ilObjTest $testOBJ, ilTestRandomQuestionSetSourcePoolDefinitionFactory $sourcePoolDefinitionFactory)
+	public function __construct(ilDBInterface $db, ilObjTest $testOBJ, ilTestRandomQuestionSetSourcePoolDefinitionFactory $sourcePoolDefinitionFactory)
 	{
 		$this->db = $db;
 		$this->testOBJ = $testOBJ;

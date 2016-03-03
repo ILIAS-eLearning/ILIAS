@@ -105,7 +105,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 	 * 
 	 * @param ilTestDynamicQuestionSet $questionSet
 	 */
-	public function __construct(ilDB $db, ilTestDynamicQuestionSet $questionSet, $activeId)
+	public function __construct(ilDBInterface $db, ilTestDynamicQuestionSet $questionSet, $activeId)
 	{
 		$this->db = $db;
 		$this->questionSet = $questionSet;

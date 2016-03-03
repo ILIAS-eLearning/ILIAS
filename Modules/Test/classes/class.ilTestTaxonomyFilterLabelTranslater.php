@@ -22,9 +22,9 @@ class ilTestTaxonomyFilterLabelTranslater
 	private $taxonomyNodeLabels = null;
 
 	/**
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 */
-	public function __construct(ilDB $db)
+	public function __construct(ilDBInterface $db)
 	{
 		$this->db = $db;
 

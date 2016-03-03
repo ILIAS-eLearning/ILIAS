@@ -54,7 +54,7 @@ class ilTestDynamicQuestionSet
 	 * 
 	 * @param ilObjTest $testOBJ
 	 */
-	public function __construct(ilDB $db, ilLanguage $lng, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
+	public function __construct(ilDBInterface $db, ilLanguage $lng, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
 	{
 		$this->db = $db;
 		$this->lng = $lng;

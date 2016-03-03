@@ -51,7 +51,7 @@ class ilTestQuestionSetConfigFactory
 	 * 
 	 * @param ilObjTest $testOBJ
 	 */
-	public function __construct(ilTree $tree, ilDB $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
+	public function __construct(ilTree $tree, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
 	{
 		$this->tree = $tree;
 		$this->db = $db;

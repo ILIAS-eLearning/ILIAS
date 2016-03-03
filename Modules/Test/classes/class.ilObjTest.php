@@ -11940,7 +11940,7 @@ function getAnswerFeedbackPoints()
 		}
 	}
 	
-	public static function getPoolQuestionChangeListeners(ilDB $db, $poolObjId)
+	public static function getPoolQuestionChangeListeners(ilDBInterface $db, $poolObjId)
 	{
 		require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
 		

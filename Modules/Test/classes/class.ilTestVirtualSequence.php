@@ -36,7 +36,7 @@ class ilTestVirtualSequence implements ilTestQuestionSequence
 	 */
 	protected $questionsPassMap;
 	
-	public function __construct(ilDB $db, ilObjTest $testOBJ, ilTestSequenceFactory $testSequenceFactory)
+	public function __construct(ilDBInterface $db, ilObjTest $testOBJ, ilTestSequenceFactory $testSequenceFactory)
 	{
 		$this->db = $db;
 		$this->testOBJ = $testOBJ;

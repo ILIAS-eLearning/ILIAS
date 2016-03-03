@@ -81,7 +81,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		ilLanguage $lng,
 		ilTemplate $tpl,
 		ilTree $tree,
-		ilDB $db,
+		ilDBInterface $db,
 		ilPluginAdmin $pluginAdmin,
 		ilObjUser $activeUser,
 		ilObjTestGUI $testGUI

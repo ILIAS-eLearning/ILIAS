@@ -22,10 +22,10 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactory
 	private $testOBJ = null;
 	
 	/**
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 * @param ilObjTest $testOBJ
 	 */
-	public function __construct(ilDB $db, ilObjTest $testOBJ)
+	public function __construct(ilDBInterface $db, ilObjTest $testOBJ)
 	{
 		$this->db = $db;
 		$this->testOBJ = $testOBJ;

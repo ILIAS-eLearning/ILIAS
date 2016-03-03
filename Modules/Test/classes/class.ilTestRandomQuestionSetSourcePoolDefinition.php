@@ -45,7 +45,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 	
 	private $sequencePosition = null;
 	
-	public function __construct(ilDB $db, ilObjTest $testOBJ)
+	public function __construct(ilDBInterface $db, ilObjTest $testOBJ)
 	{
 		$this->db = $db;
 		$this->testOBJ = $testOBJ;
