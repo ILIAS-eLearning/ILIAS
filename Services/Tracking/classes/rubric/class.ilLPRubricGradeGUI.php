@@ -532,7 +532,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
     {
         $tmp_write="";
         foreach($this->rubric_data['labels'] as $k => $label){
-            $tmp_write.="<th scope=\"col\">
+            $tmp_write.="<th scope=\"col\" class=\"\">
                             <div class=\"form-group has-success has-feedback\">
                                 <label class=\"control-label\" for=\"Label${k}\">{LABEL}</label>
                                 <input id=\"Label${k}\" name=\"Label${k}\" type=\"text\" class=\"form-control\" placeholder=\"".$label['label']."\" value=\"".$label['label']."\" aria-describedby=\"Label${k}WarningStatus\" onkeyup=\"validate(this)\" onblur=\"recalculate(this)\" oninput=\"validate(this)\">
@@ -540,8 +540,6 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
                                 <span id=\"Label${k}WarningStatus\" class=\"sr-only\">(ok)</span>
                             </div>
                         </th>";
-
-
         }
         return($tmp_write);
 

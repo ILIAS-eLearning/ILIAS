@@ -352,6 +352,7 @@ class ilLPRubricGrade
             $this->rubric_id=$row->rubric_id;
             $this->passing_grade=$row->passing_grade;
             $this->rubric_grade_locked = $row->grading_locked;
+
             $this->grade_lock_owner = $row->grading_locked_by;
             return(true);
         }else{
