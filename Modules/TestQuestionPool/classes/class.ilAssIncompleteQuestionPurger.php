@@ -11,7 +11,7 @@
 class ilAssIncompleteQuestionPurger
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 	
@@ -19,7 +19,7 @@ class ilAssIncompleteQuestionPurger
 	
 	private $ignoredContainerObjectTypes;
 	
-	public function __construct(ilDB $db)
+	public function __construct(ilDBInterface $db)
 	{
 		$this->db = $db;
 		

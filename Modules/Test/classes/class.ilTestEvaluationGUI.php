@@ -1730,7 +1730,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			$this->ctrl->redirect($this, 'outUserResultsOverview');
 		}
-			/** @var ilDB $ilDB */
+			/** @var ilDBInterface $ilDB */
 			global $ilDB;
 
 		$active_fi = null;

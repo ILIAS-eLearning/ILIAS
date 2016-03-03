@@ -258,7 +258,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	}
 
 	/**
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 */
 	private function saveNewlyCheckedQuestion()
 	{
@@ -275,7 +275,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	}
 
 	/**
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 */
 	private function saveOptionalQuestions()
 	{

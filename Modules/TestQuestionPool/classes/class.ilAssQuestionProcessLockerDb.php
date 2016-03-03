@@ -12,16 +12,16 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.
 class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
 	private $assessmentLogEnabled = false;
 
 	/**
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 */
-	public function __construct(ilDB $db)
+	public function __construct(ilDBInterface $db)
 	{
 		$this->db = $db;
 	}

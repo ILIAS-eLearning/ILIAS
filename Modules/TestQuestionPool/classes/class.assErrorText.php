@@ -1320,7 +1320,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	*/
 	public function getUserQuestionResult($active_id, $pass)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 

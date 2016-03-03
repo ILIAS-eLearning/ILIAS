@@ -1181,7 +1181,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	public function saveECTSStatus()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -6879,7 +6879,7 @@ function getAnswerFeedbackPoints()
 	{
 		/**
 		 * @var $tree          ilTree
-		 * @var $ilDB          ilDB
+		 * @var $ilDB          ilDBInterface
 		 * @var $ilPluginAdmin ilPluginAdmin
 		 */
 		global $ilDB, $ilPluginAdmin, $tree;
@@ -8497,7 +8497,7 @@ function getAnswerFeedbackPoints()
 	public function getPotentialRandomTestQuestions()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -9614,7 +9614,7 @@ function getAnswerFeedbackPoints()
 	public function getAvailableDefaults()
 	{
 		/**
-		 * @var $ilDB   ilDB
+		 * @var $ilDB   ilDBInterface
 		 * @var $ilUser ilObjUser
 		 */
 		global $ilDB, $ilUser;
@@ -10112,7 +10112,7 @@ function getAnswerFeedbackPoints()
 		if (strlen($feedback))
 		{
 			$next_id = $ilDB->nextId('tst_manual_fb');
-			/** @var ilDB $ilDB */
+			/** @var ilDBInterface $ilDB */
 			$result = $ilDB->insert('tst_manual_fb', array(
 													   'manual_feedback_id'		=> array( 'integer', 	$next_id ),
 													   'active_fi'				=> array( 'integer', 	$active_id ),
@@ -10346,7 +10346,7 @@ function getAnswerFeedbackPoints()
 	 */
 	public function getParticipantsForTestAndQuestion($test_id, $question_id)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		
 		$query = "
@@ -11378,7 +11378,7 @@ function getAnswerFeedbackPoints()
 	 *
 	 * @static
 	 * @access public
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $test_id
 	 * @param integer $active_id
 	 * @param integer $pass
@@ -11406,7 +11406,7 @@ function getAnswerFeedbackPoints()
 	 * returns the fact wether the test with given test id
 	 * contains questions markes as obligatory or not
 	 *
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $test_id
 	 * @return boolean $hasObligations
 	 */
@@ -11654,7 +11654,7 @@ function getAnswerFeedbackPoints()
 	public function getMaxPassOfTest()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 		
@@ -11819,7 +11819,7 @@ function getAnswerFeedbackPoints()
 	/**
 	 * lookup-er for question set type
 	 * 
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $objId
 	 * @return string $questionSetType
 	 */
@@ -11940,7 +11940,7 @@ function getAnswerFeedbackPoints()
 		}
 	}
 	
-	public static function getPoolQuestionChangeListeners(ilDB $db, $poolObjId)
+	public static function getPoolQuestionChangeListeners(ilDBInterface $db, $poolObjId)
 	{
 		require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
 		
