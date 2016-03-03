@@ -100,3 +100,8 @@ $ilDB->modifyTableColumn('rubric_data', 'criteria_point',array("type" => "float"
 <?php
 $ilDB->addTableColumn("rubric", "complete", array("type" => "boolean"));
 ?>
+<#9>
+<?php
+$ilDB->addTableColumn("rubric", "grading_locked", array("type" => "timestamp"));
+$ilDB->addTableColumn("rubric", "grading_locked_by", array("type" => "integer", "length" => 4));
+?>

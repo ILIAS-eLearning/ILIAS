@@ -161,10 +161,7 @@ var RUBRIC = {
     },
     
     updatePoints:function(){
-
-        $(".point-input").tooltip({'trigger':'focus', 'title': 'Please use the following format "##-##"'});
-
-
+        
         var total_behaviors=this.howManyBehaviors();        
         
         var tbody=this.tbl.getElementsByTagName('tbody');
@@ -403,7 +400,7 @@ addBehavior:function(thead,tbody,tfoot,position){
         // add in 2 spaces, one for the group and one for criteria
         for(var a=0;a<2;a++){
             var th=document.createElement('th');
-            th.setAttribute('class','');
+            th.setAttribute('class','col-sm-2');
             th.setAttribute('scope','col');
             th.appendChild(document.createTextNode('\u0020'));
             tr.appendChild(th);            
@@ -428,7 +425,7 @@ addBehavior:function(thead,tbody,tfoot,position){
         var th=document.createElement('th');
         th.setAttribute('scope','col');
         var div=document.createElement('div');
-        div.setAttribute('class','form-group has-warning point-input has-feedback');
+        div.setAttribute('class','form-group has-warning has-feedback');
         var label=document.createElement('label');
         label.setAttribute('class','control-label');
         label.setAttribute('for','Points'+group_number+'_'+behavior_number);
@@ -440,7 +437,7 @@ addBehavior:function(thead,tbody,tfoot,position){
         input.setAttribute('type','text');
         input.setAttribute('class','form-control');
         input.setAttribute('onkeyup','validate(this)');
-        input.setAttribute('onblur','recalculate(this)');
+        input.setAttribute('onblur','recalculate(this)');last
         input.setAttribute('oninput','validate(this)');
         input.setAttribute('value',''+point_ranges[behavior_number][0]+'-'+point_ranges[behavior_number][1]+'');
         div.appendChild(input);
@@ -1158,6 +1155,5 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     }
 
-    $(".point-input").tooltip({'trigger':'focus', 'title': 'Please use the following format "##-##"'});
-
+    $('.point-input').tooltip({'trigger':'focus', 'title': 'Please use the following format "80-100" or "100-100" for a single value'});
 });

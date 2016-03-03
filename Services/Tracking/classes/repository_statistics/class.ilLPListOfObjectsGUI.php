@@ -113,9 +113,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$lp_mode = $olp->getCurrentMode();
         
         if($lp_mode==92){
-            
             $passing_grade=$this->saveRubricGrade();
-            
             //only update progress if grading is completed
             if($passing_grade!==false){
                 $this->__updateUserRubric($_REQUEST['user_id'], $this->details_obj_id,$passing_grade);                
@@ -459,21 +457,22 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
      */
     public function showRubricGradeForm()
     {
-        
         include_once('./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php');
         include_once('./Services/Tracking/classes/rubric/class.ilLPRubricGradeGUI.php');
-        
         $rubricObj=new ilLPRubricGrade($this->getObjId());
         $rubricGui=new ilLPRubricGradeGUI();
-        $a_user = ilObjectFactory::getInstanceByObjId((int)$_GET['user_id']);
-        
+        $a_user = ilObjectFactory::getInstanceByObjId((int)$_REQUEST['user_id']);
         if($rubricObj->objHasRubric() && $rubricObj->isRubricComplete()){
+			if($rubricObj->isGradingLocked()) {
+				$rubricGui->setRubricGradeLocked($rubricObj->getRubricGradeLocked());
+				$rubricGui->setGradeLockOwner($rubricObj->getGradeLockOwner());
+			}
             $rubricGui->setRubricData($rubricObj->load());
-            $rubricGui->setUserData($rubricObj->getRubricUserGradeData((int)$_GET['user_id']));            
+            $rubricGui->setUserData($rubricObj->getRubricUserGradeData((int)$_REQUEST['user_id']));
             $rubricGui->getRubricGrade(
                 $this->ctrl->getFormAction($this),
                 $a_user->getFullName(),
-                (int)$_GET['user_id']
+                (int)$_REQUEST['user_id']
             );
         }else{
 			if(!$rubricObj->objHasRubric()) {
@@ -481,13 +480,11 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			}
 			elseif(!$rubricObj->isRubricComplete())
 			{
-				error_log($_GET['ref_id']);
 				ilUtil::sendFailure($this->lng->txt('rubric_card_not_completed').'<a href="'.$this->ctrl->getLinkTargetByClass('illplistofobjectsgui', 'showRubricCardForm')
 				.'">'.$this->lng->txt('rubric_card_please_complete').'</a>');
 			}
         }
-        
-    }
+	}
      
     /**
      * Save Rubric Card
@@ -559,7 +556,19 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->showRubricCardForm();
 	}
 
-    public function exportPDF()
+	public function lockRubricGradeForm()
+	{
+		include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGradeGUI.php");
+		include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php");
+		$rubricObj=new ilLPRubricGrade($this->getObjId());
+		$rubricGui=new ilLPRubricGradeGUI();
+		$rubricObj->lockUnlockGrade();
+		$this->showRubricGradeForm();
+	}
+
+
+
+	public function exportPDF()
     {
         include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGradeGUI.php");
         include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php");

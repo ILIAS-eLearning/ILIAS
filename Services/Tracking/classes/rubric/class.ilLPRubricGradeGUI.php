@@ -18,8 +18,12 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
     protected $rubric_data;
     protected $user_data;
     protected $passing_grade;
+    protected $incomplete;
+    protected $rubric_grade_locked;
+    protected $grade_lock_owner;
     private $student_view = false;
     private $pdf_view = false;
+
 
     /**
      * Constructor
@@ -34,6 +38,15 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
     public function setPassingGrade($passing_grade)
     {
         $this->passing_grade=$passing_grade;
+    }
+    public function setRubricGradeLocked($rubric_grade_locked)
+    {
+        $this->rubric_grade_locked=$rubric_grade_locked;
+    }
+
+    public function setGradeLockOwner($grade_lock_owner)
+    {
+        $this->grade_lock_owner = $grade_lock_owner;
     }
 
     public function setRubricData($rubric_data)
@@ -66,11 +79,26 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 
     private function getRubricGradeFormCommandRow($form_action,$user_id)
     {
+        global $ilUser;
         //configure the command row
         $rubric_commandrow_tpl=new ilTemplate('tpl.lp_rubricgrade_commandrow.html',true,true,'Services/Tracking');
         $rubric_commandrow_tpl->setVariable('RUBRIC_SAVE',$this->lng->txt('save'));
         $rubric_commandrow_tpl->setVariable('RUBRIC_EXPORT',$this->lng->txt('rubric_option_export_pdf'));
+        if(!is_null($this->rubric_grade_locked)) {
+            $rubric_commandrow_tpl->setVariable('RUBRIC_DISABLED','disabled');
+            $rubric_commandrow_tpl->setVariable('RUBRIC_LOCK',$this->lng->txt('rubric_card_unlock'));
+            $tmp_user = ilObjectFactory::getInstanceByObjId($this->grade_lock_owner, false);
+            if($this->grade_lock_owner !== $ilUser->getId())
+            {
+                $rubric_commandrow_tpl->setVariable('USER_LOCK','disabled');
+            }
+            ilUtil::sendInfo($this->lng->txt('rubric_locked_grade_info').' '.$tmp_user->getFullName().' '.$this->rubric_grade_locked);
+        }else{
+            $rubric_commandrow_tpl->setVariable('RUBRIC_LOCK',$this->lng->txt('rubric_card_lock'));
+        }
+
         $rubric_commandrow_tpl->setVariable('FORM_ACTION',$form_action);
+
         $rubric_commandrow_tpl->setVariable('USER_ID',$user_id);
 
         return($rubric_commandrow_tpl);
@@ -179,19 +207,28 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 
     private function buildGradeBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment, $locatorArray, $locator)
     {
-        if($locatorArray[$locator] == true)
+        if($this->student_view)
         {
-            $tmp_write.="<td class=\"range-flag\" scope=\"rowgroup\">
+            if($locatorArray[$locator] == true && !$this->incomplete) {
+                $tmp_write.="<td class=\"range-flag\" scope=\"rowgroup\">
                         ${behavior['description']}
                     </td>";
-        }
-        else
-        {
-            $tmp_write.="<td scope=\"rowgroup\">
+            } else {
+                $tmp_write.="<td scope=\"rowgroup\">
                         ${behavior['description']}
                     </td>";
+            }
+        }else{
+            if($locatorArray[$locator] == true) {
+                $tmp_write.="<td class=\"range-flag\" scope=\"rowgroup\">
+                        ${behavior['description']}
+                    </td>";
+            } else {
+                $tmp_write.="<td scope=\"rowgroup\">
+                        ${behavior['description']}
+                    </td>";
+            }
         }
-
         return($tmp_write);
     }
 
@@ -217,23 +254,25 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
         $tmp_criteria_name='Criteria_'.$group_increment.'_'.$criteria_increment;
         $tmp_comment_name='Comment_'.$group_increment.'_'.$criteria_increment;
 
+        $disabled =(!is_null($this->rubric_grade_locked))?"disabled='disabled'":'';
+
+
         $tmp_write="<td scope=\"rowgroup\">
                         ${criteria['criteria']}
                     </td>";
         $tmp_comment='';
         $tmp_point='';
-
         //get comment and point value
         foreach($this->user_data as $u => $user_data){
+            if($user_data['criteria_point'] == NULL){
+                $this->incomplete = true;
+            }
             if($user_data['rubric_criteria_id']==$criteria['criteria_id']){
                 $tmp_comment=$user_data['criteria_comment'];
                 $tmp_point=$user_data['criteria_point'];
             }
         }
-
-
         $locatorArray = array();
-
         $locator = 0;
 
         foreach($group['weights'] as $weight)
@@ -253,17 +292,17 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
                 $locatorArray[$locator] = 'true';
             }
         }
-        //var_dump($locatorArray);
-
         //get behaviors
         $locator = 0;
         foreach($criteria['behaviors'] as $behavior_increment => $behavior){
             $locator++;
             $tmp_write.=$this->buildGradeBehavior($behavior,$group_increment,$criteria_increment,$behavior_increment, $locatorArray, $locator);
         }
-
-        if($this->student_view || $this->pdf_view){
-
+        if($this->student_view || $this->pdf_view ){
+            if($this->incomplete){
+                $tmp_point = '';
+                $tmp_comment = '';
+            }
             $tmp_write.="<td class=\"grade-point\" scope=\"rowgroup\">
                             $tmp_point
                         </td>
@@ -273,10 +312,10 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
         }else{
             $tmp_id="Grade${group_increment}_${criteria_increment}";
             $tmp_write.="<td scope=\"rowgroup\">
-                            <input id=\"${tmp_id}\" name=\"${tmp_id}\" type=\"text\" class=\"form-control\" placeholder=\"Grade\" value=\"$tmp_point\" onkeyup=\"verifyGrade(this)\" oninput=\"verifyGrade(this)\">
+                            <input id=\"${tmp_id}\" $disabled name=\"${tmp_id}\" type=\"text\" class=\"form-control\" placeholder=\"Grade\" value=\"$tmp_point\" onkeyup=\"verifyGrade(this)\" oninput=\"verifyGrade(this)\">
                         </td>
                         <td scope=\"rowgroup\">
-                            <textarea name=\"$tmp_comment_name\" value=\"$tmp_comment\" class=\"form-control\" placeholder=\"{COMMENT}\">$tmp_comment</textarea>
+                            <textarea name=\"$tmp_comment_name\"  $disabled value=\"$tmp_comment\" class=\"form-control\" placeholder=\"{COMMENT}\">$tmp_comment</textarea>
                         </td>";
         }
 
@@ -460,7 +499,9 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
                 foreach($group['criteria'] as $c => $criteria){
 
                     foreach($this->user_data as $u => $user_data){
-
+                        if($user_data['criteria_point'] == NULL){
+                            $this->incomplete = true;
+                        }
                         if($user_data['rubric_criteria_id']==$criteria['criteria_id']){
                             $min_points+=$user_data['criteria_point'];
                         }
@@ -468,9 +509,11 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
                     }
 
                 }
-
             }
-
+            if($this->incomplete && $this->student_view)
+            {
+                $min_points = 0;
+            }
             $min_points=$min_points;
             $tmp_write.=$this->buildGradeGroupPoints($group['weights']);
             $tmp_write.=$this->buildGradeGroup($group,$group_increment);
@@ -489,7 +532,7 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
     {
         $tmp_write="";
         foreach($this->rubric_data['labels'] as $k => $label){
-            $tmp_write.="<th scope=\"col\" class=\"\">
+            $tmp_write.="<th scope=\"col\" class=\"col-sm-2\">
                             <div class=\"form-group has-success has-feedback\">
                                 <label class=\"control-label\" for=\"Label${k}\">{LABEL}</label>
                                 <input id=\"Label${k}\" name=\"Label${k}\" type=\"text\" class=\"form-control\" placeholder=\"".$label['label']."\" value=\"".$label['label']."\" aria-describedby=\"Label${k}WarningStatus\" onkeyup=\"validate(this)\" onblur=\"recalculate(this)\" oninput=\"validate(this)\">
@@ -564,7 +607,6 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
 
     private function buildGradeTemplate()
     {
-
         $overall_max_points=0;
         $overall_min_points=0;
         foreach($this->rubric_data['groups'] as $k => $group){
@@ -573,6 +615,9 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
             if(isset($this->user_data)){
                 foreach($group['criteria'] as $c => $criteria){
                     foreach($this->user_data as $u => $user_data){
+                        if($user_data['criteria_point'] == NULL){
+                            $this->incomplete = true;
+                        }
                         if($criteria['criteria_id']==$user_data['rubric_criteria_id']){
                             $overall_min_points+=$user_data['criteria_point'];
                         }
@@ -580,7 +625,9 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
                 }
             }
         }
-
+        if($this->incomplete && $this->student_view){
+            $overall_min_points = 0;
+        }
         $colspan=count($this->rubric_data['labels'])+2;
         // here we temporarily build the template, then destroy it after
         $filename="./Services/Tracking/templates/default/tpl.lp_rubricgrade_generated_".time().".html";
