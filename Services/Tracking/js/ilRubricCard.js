@@ -400,7 +400,6 @@ addBehavior:function(thead,tbody,tfoot,position){
         // add in 2 spaces, one for the group and one for criteria
         for(var a=0;a<2;a++){
             var th=document.createElement('th');
-            th.setAttribute('class','col-sm-2');
             th.setAttribute('scope','col');
             th.appendChild(document.createTextNode('\u0020'));
             tr.appendChild(th);            
