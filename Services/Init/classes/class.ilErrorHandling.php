@@ -344,7 +344,7 @@ class ilErrorHandling extends PEAR
 	 */
 	protected function defaultHandler() {
 		// php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
-		return new CallbackHandler(function(Throwable $exception, Inspector $inspector, Run $run) {
+		return new CallbackHandler(function($exception, Inspector $inspector, Run $run) {
 			require_once("Services/Utilities/classes/class.ilUtil.php");
 			ilUtil::sendFailure($exception->getMessage(), true);
 			ilUtil::redirect("error.php");
@@ -380,7 +380,7 @@ class ilErrorHandling extends PEAR
 	 */
 	protected function loggingHandler() {
 		// php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
-		return new CallbackHandler(function(Throwable $exception, Inspector $inspector, Run $run) {
+		return new CallbackHandler(function($exception, Inspector $inspector, Run $run) {
 			/**
 			 * Don't move this out of this callable
 			 * @var ilLog $ilLog;
