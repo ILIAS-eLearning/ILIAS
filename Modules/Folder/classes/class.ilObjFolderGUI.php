@@ -195,16 +195,18 @@ class ilObjFolderGUI extends ilContainerGUI
 	{
 		$this->folder_tree =& $a_tree;
 	}
-	
-	/**
-	 * Import object
-	 * @return 
-	 */
-	public function importFileObject()
+
+    /**
+     * Import file object
+     * @global type $lng
+     * @param type $parent_id
+     * @param type $a_catch_errors
+     */
+	public function importFileObject($parent_id = null, $a_catch_errors = true)
 	{
 		global $lng;
 		
-		if(parent::importFileObject())
+		if(parent::importFileObject($parent_id, $a_catch_errors))
 		{
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$this->ctrl->returnToParent($this);
