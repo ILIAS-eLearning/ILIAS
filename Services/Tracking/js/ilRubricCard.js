@@ -161,6 +161,9 @@ var RUBRIC = {
     },
     
     updatePoints:function(){
+
+        $(".point-input").tooltip({'trigger':'focus', 'title': 'Please use the following format "##-##"'});
+
         
         var total_behaviors=this.howManyBehaviors();        
         
@@ -425,7 +428,7 @@ addBehavior:function(thead,tbody,tfoot,position){
         var th=document.createElement('th');
         th.setAttribute('scope','col');
         var div=document.createElement('div');
-        div.setAttribute('class','form-group has-warning has-feedback');
+        div.setAttribute('class','form-group has-warning point-input has-feedback');
         var label=document.createElement('label');
         label.setAttribute('class','control-label');
         label.setAttribute('for','Points'+group_number+'_'+behavior_number);
@@ -1155,5 +1158,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     }
 
-    $('.point-input').tooltip({'trigger':'focus', 'title': 'Please use the following format "##-##"'});
+    $(".point-input").tooltip({'trigger':'focus', 'title': 'Please use the following format "##-##"'});
+
 });
