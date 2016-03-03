@@ -58,7 +58,7 @@ abstract class ilAssQuestionFeedback
 	 * global $ilDB
 	 *
 	 * @access protected
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db = null;
 
@@ -85,10 +85,10 @@ abstract class ilAssQuestionFeedback
 	 * @access public
 	 * @param assQuestion $questionOBJ
 	 * @param ilCtrl $ctrl
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 * @param ilLanguage $lng
 	 */
-	final public function __construct(assQuestion $questionOBJ, ilCtrl $ctrl, ilDB $db, ilLanguage $lng)
+	final public function __construct(assQuestion $questionOBJ, ilCtrl $ctrl, ilDBInterface $db, ilLanguage $lng)
 	{
 		$this->questionOBJ = $questionOBJ;
 		

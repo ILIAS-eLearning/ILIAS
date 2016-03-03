@@ -1122,7 +1122,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * 
 	 * (overwrites method in class assQuestion)
 	 * 
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $active_id
 	 * @param integer $pass
 	 * @return boolean $answered

@@ -212,7 +212,7 @@ class ilAssQuestionHintList implements Iterator
 	 * 
 	 * @access	public
 	 * @static
-	 * @global	ilDB	$ilDB
+	 * @global	ilDBInterface	$ilDB
 	 * @param	integer	$questionId
 	 * @return	self	$questionHintList
 	 */
@@ -257,7 +257,7 @@ class ilAssQuestionHintList implements Iterator
 	 * 
 	 * @access	public
 	 * @static
-	 * @global	ilDB	$ilDB
+	 * @global	ilDBInterface	$ilDB
 	 * @param	array	$hintIds
 	 * @return	self	$questionHintList
 	 */
@@ -304,7 +304,7 @@ class ilAssQuestionHintList implements Iterator
 	 *
 	 * @access	public
 	 * @static
-	 * @global	ilDB		$ilDB
+	 * @global	ilDBInterface		$ilDB
 	 * @param	integer		$questionId
 	 * @return	integer		$nextIndex 
 	 */
@@ -332,7 +332,7 @@ class ilAssQuestionHintList implements Iterator
 	/**
 	 * Deletes all question hints relating to questions included in given question ids
 	 *
-	 * @global ilDB	$ilDB
+	 * @global ilDBInterface	$ilDB
 	 * @param array[integer] $questionIds 
 	 */
 	public static function deleteHintsByQuestionIds($questionIds)

@@ -114,7 +114,7 @@ abstract class assQuestion
 	protected $lng;
 
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
@@ -981,7 +981,7 @@ abstract class assQuestion
 	 * Calculates the question results from a previously saved question solution
 	 *
 	 * @final
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @global ilObjUser $ilUser
 	 * @param integer $active_id Active id of the user
 	 * @param integer $pass Test pass
@@ -1325,7 +1325,7 @@ abstract class assQuestion
 				$query, array('integer','integer'), array($active_id, $pass)
 			);
 			*/
-			/** @var $ilDB ilDB */
+			/** @var $ilDB ilDBInterface */
 			$ilDB->replace('tst_pass_result', 
 						    array(
 								'active_fi' 			=> array('integer', $active_id), 
@@ -2674,7 +2674,7 @@ abstract class assQuestion
 		foreach ($this->suggested_solutions as $index => $solution)
 		{
 			$next_id = $ilDB->nextId('qpl_sol_sug');
-			/** @var ilDB $ilDB */
+			/** @var ilDBInterface $ilDB */
 			$ilDB->insert('qpl_sol_sug', array(
 										   'suggested_solution_id'	=> array( 'integer', 	$next_id ),
 										   'question_fi'			=> array( 'integer', 	$id ),
@@ -2718,7 +2718,7 @@ abstract class assQuestion
 		
 		$next_id = $ilDB->nextId('qpl_sol_sug');
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		$affectedRows = $ilDB->insert('qpl_sol_sug', array(
 													   'suggested_solution_id'	=> array( 'integer', 	$next_id ),
 													   'question_fi'			=> array( 'integer', 	$this->getId() ),
@@ -3584,7 +3584,7 @@ abstract class assQuestion
 			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$next_id = $ilDB->nextId('qpl_hints');
-				/** @var ilDB $ilDB */
+				/** @var ilDBInterface $ilDB */
 				$ilDB->insert('qpl_hints', array(
 						'qht_hint_id'     => array('integer', $next_id),
 						'qht_question_fi' => array('integer', $this->original_id),
@@ -4163,7 +4163,7 @@ abstract class assQuestion
 	// scorm2004-end ???
 
 	/**
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $questionId
 	 * @return integer $parentObjectId
 	 */
@@ -4183,7 +4183,7 @@ abstract class assQuestion
 	 * returns the parent object id for given original question id
 	 * (should be a qpl id, but theoretically it can be a tst id, too)
 	 * 
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $originalQuestionId
 	 * @return integer $originalQuestionParentObjectId
 	 *
@@ -4302,7 +4302,7 @@ abstract class assQuestion
 	 *
 	 * @access protected
 	 * @static
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $activeId
 	 * @param integer $pass
 	 * @param integer $questionId
@@ -4488,7 +4488,7 @@ abstract class assQuestion
 	 * @param int $active_id
 	 * @param int $pass
 	 * @param bool|true $authorized
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 *
 	 * @return object
 	 */
@@ -4532,7 +4532,7 @@ abstract class assQuestion
 
 	/**
 	 * @param $solutionId
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 *
 	 * @return int
 	 */
@@ -4549,7 +4549,7 @@ abstract class assQuestion
 	 * @param int $active_id
 	 * @param int $pass
 	 * @param bool|true $authorized
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 *
 	 * @return int
 	 */
@@ -4562,7 +4562,7 @@ abstract class assQuestion
 	 * @param int $active_id
 	 * @param int $pass
 	 * @param bool|true $authorized
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 *
 	 * @return int
 	 */
@@ -4607,7 +4607,7 @@ abstract class assQuestion
 	 * @param mixed $value1
 	 * @param mixed $value2
 	 * @param bool|true $authorized
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 *
 	 * @return int
 	 */
@@ -4642,7 +4642,7 @@ abstract class assQuestion
 	 * @param mixed $value1
 	 * @param mixed $value2
 	 * @param bool|true $authorized
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 *
 	 * @return int
 	 */
@@ -4761,7 +4761,7 @@ abstract class assQuestion
 	 */
 	protected function lookupMaxStep($active_id, $pass)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 
 		$res = $ilDB->queryF(

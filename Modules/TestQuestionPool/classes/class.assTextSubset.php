@@ -641,7 +641,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	
 	public function saveAdditionalQuestionDataToDb()
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 
 		// save additional data
@@ -663,7 +663,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
 	public function saveAnswerSpecificDataToDb()
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$ilDB->manipulateF( "DELETE FROM qpl_a_textsubset WHERE question_fi = %s",
 							array( 'integer' ),
@@ -936,7 +936,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	*/
 	public function getUserQuestionResult($active_id, $pass)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 

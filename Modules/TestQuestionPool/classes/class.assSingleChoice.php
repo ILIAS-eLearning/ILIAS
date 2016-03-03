@@ -119,7 +119,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	 */
 	public function saveToDb($original_id = "")
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 
 		$this->saveQuestionDataToDb($original_id);
@@ -699,7 +699,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	
 	public function saveAdditionalQuestionDataToDb()
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		
 		// save additional data
@@ -722,7 +722,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 
 	public function saveAnswerSpecificDataToDb()
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		if (!$this->isSingleline)
 		{
@@ -1245,7 +1245,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	*/
 	public function getUserQuestionResult($active_id, $pass)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 

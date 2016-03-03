@@ -604,7 +604,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	 */
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 
 		if (is_null($pass))
@@ -654,7 +654,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	
 	public function saveAdditionalQuestionDataToDb()
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 		$oldthumbsize = 0;
 		if ($this->isSingleline && ($this->getThumbSize()))
@@ -697,7 +697,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
 	public function saveAnswerSpecificDataToDb()
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 		$ilDB->manipulateF( "DELETE FROM qpl_a_mc WHERE question_fi = %s",
 							array( 'integer' ),
@@ -1175,7 +1175,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	 */
 	public static function isObligationPossible($questionId)
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 		
 		$query = "
@@ -1201,7 +1201,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	 */
 	public function ensureNoInvalidObligation($questionId)
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 		
 		$query = "
@@ -1334,7 +1334,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	*/
 	public function getUserQuestionResult($active_id, $pass)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
