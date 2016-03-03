@@ -150,6 +150,13 @@
     background-color: #FBB117!important;
 }
 
+textarea
+{
+    height: 100px !important;
+    overflow: hidden !important;
+    resize: none;
+}
+
 /*
 
 
