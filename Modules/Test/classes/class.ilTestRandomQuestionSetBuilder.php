@@ -12,7 +12,7 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetQuestionCollecti
 abstract class ilTestRandomQuestionSetBuilder
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db = null;
 

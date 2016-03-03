@@ -12,7 +12,7 @@ require_once 'Modules/Test/classes/class.ilTestProcessLocker.php';
 class ilTestProcessLockerDb extends ilTestProcessLocker
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 

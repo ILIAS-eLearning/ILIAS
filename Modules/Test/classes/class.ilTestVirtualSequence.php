@@ -12,7 +12,7 @@ require_once 'Modules/Test/interfaces/interface.ilTestQuestionSequence.php';
 class ilTestVirtualSequence implements ilTestQuestionSequence
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 

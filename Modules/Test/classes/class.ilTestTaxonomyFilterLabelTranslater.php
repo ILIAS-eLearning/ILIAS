@@ -11,7 +11,7 @@
 class ilTestTaxonomyFilterLabelTranslater
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db = null;
 

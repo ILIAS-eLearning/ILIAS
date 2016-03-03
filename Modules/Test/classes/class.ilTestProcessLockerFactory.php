@@ -21,7 +21,7 @@ class ilTestProcessLockerFactory
 	protected $settings;
 
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 

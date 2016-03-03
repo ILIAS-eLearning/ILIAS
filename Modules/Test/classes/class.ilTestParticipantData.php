@@ -11,7 +11,7 @@
 class ilTestParticipantData
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 

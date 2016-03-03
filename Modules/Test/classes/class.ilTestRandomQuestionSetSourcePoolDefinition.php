@@ -12,7 +12,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 	/**
 	 * global $ilDB object instance
 	 *
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db = null;
 	

@@ -19,9 +19,9 @@ class ilTestSequenceFactory
 	private $testSequences = array();
 	
 	/**
-	 * global ilDB object instance
+	 * global ilDBInterface object instance
 	 *
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db = null;
 	

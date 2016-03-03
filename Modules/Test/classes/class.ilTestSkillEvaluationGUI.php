@@ -38,7 +38,7 @@ class ilTestSkillEvaluationGUI
 	private $lng;
 
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db;
 

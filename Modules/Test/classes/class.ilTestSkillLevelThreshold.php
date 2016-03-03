@@ -11,7 +11,7 @@
 class ilTestSkillLevelThreshold
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db;
 

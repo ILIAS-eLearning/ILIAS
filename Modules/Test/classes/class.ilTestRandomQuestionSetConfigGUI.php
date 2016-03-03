@@ -63,7 +63,7 @@ class ilTestRandomQuestionSetConfigGUI
 	public $tpl = null;
 	
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	public $db = null;
 	

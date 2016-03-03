@@ -12,7 +12,7 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefini
 class ilTestRandomQuestionSetSourcePoolDefinitionFactory
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db = null;
 	

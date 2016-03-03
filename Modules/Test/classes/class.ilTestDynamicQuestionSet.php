@@ -15,7 +15,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 class ilTestDynamicQuestionSet
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db = null;
 	

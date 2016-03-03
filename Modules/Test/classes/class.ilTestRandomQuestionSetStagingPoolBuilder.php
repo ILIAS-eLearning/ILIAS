@@ -14,7 +14,7 @@ require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
 class ilTestRandomQuestionSetStagingPoolBuilder
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	public $db = null;
 

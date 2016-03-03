@@ -28,7 +28,7 @@ class ilTestQuestionSetConfigFactory
 	/**
 	 * object instance of $ilDB
 	 *
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db = null;
 

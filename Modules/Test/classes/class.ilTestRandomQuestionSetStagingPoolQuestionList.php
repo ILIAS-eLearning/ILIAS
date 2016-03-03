@@ -13,7 +13,7 @@
 class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db = null;
 	

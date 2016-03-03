@@ -82,7 +82,7 @@ class ilTestArchiver
 	protected $test_obj_id;				/** @var $test_obj_id integer Object-ID of the test, the archiver is instantiated for */
 	protected $archive_data_index;		/** @var $archive_data_index array[string[]] Archive data index as associative array */
 
-	protected $ilDB;					/** @var $ilDB ilDB */
+	protected $ilDB;					/** @var $ilDB ilDBInterface */
 
 	#endregion
 

@@ -30,7 +30,7 @@ class ilTestSkillLevelThresholdsGUI
 	private $lng;
 
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db;
 

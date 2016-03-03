@@ -60,7 +60,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 	/**
 	 * global $ilDB object
 	 * 
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db = null;
 	

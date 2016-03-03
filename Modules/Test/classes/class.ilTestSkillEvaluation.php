@@ -18,7 +18,7 @@ require_once 'Services/Skill/classes/class.ilBasicSkill.php';
 class ilTestSkillEvaluation
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db;
 
