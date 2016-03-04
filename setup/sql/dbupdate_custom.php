@@ -5007,6 +5007,7 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "Repository", "robj", "Buildi
 
 <#210>
 <?php
+	$ilCtrlStructureReader->getStructure();
 
 require_once "Customizing/class.ilCustomInstaller.php";
 ilCustomInstaller::maybeInitClientIni();

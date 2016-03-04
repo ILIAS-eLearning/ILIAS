@@ -15,6 +15,7 @@ require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 
 class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 	public function __construct() {
@@ -30,22 +31,21 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		$this->table = catReportTable::create()
 						->column("lastname", "lastname")
 						->column("firstname", "firstname")
+						->column("points_sum", "gev_overall_points")
+						->column("cert_period", "gev_cert_period")
 						->column("login", "login")
 						->column("adp_number", "gev_adp_number")
 						->column("job_number", "gev_job_number")
 						->column("od_bd", "gev_od_bd")
 						->column("org_unit", "gev_org_unit_short")
 						->column("roles", "gev_rep_roles")
-						->column("cert_period", "gev_cert_period")
 						->column("points_year1", "1", true)
 						->column("points_year2", "2", true)
 						->column("points_year3", "3", true)
 						->column("points_year4", "4", true)
 						->column("points_year5", "5", true)
-						->column("points_sum", "gev_overall_points")
 						->column("attention", "gev_attention")
-						->template("tpl.gev_employee_edu_bios_row.html", "Services/GEV/Reports")
-						;
+						->template("tpl.gev_employee_edu_bios_row.html", "Services/GEV/Reports");
 		
 		$this->order = catReportOrder::create($this->table)
 						//->mapping("date", "crs.begin_date")
@@ -71,6 +71,14 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		require_once "Services/GEV/Utils/classes/class.gevObjectUtils.php";
 		$orgus = array_map(function ($ref_id) {return gevObjectUtils::getObjId($ref_id);},$orgu_refs);
 		$orgu_filter->setFilterOptionsByArray($orgus);
+		$services = array(gevWBD::WBD_TP_SERVICE);
+		$no_tp_service_condition =
+			"(roles.num_tp_service_roles = 0"
+			."	AND ".$this->db->in("usr.wbd_type",$services,true,"text")
+			.")";
+		$wbd_relevant_condition =
+			" (roles.num_wbd_roles > 0 "
+			."		OR usr.okz != ".$this->db->quote("-empty-",'text').")";
 
 		$this->filter = catFilter::create()
 						->checkbox( "critical"
@@ -85,6 +93,11 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 								    $cert_year_sql." = 4 AND attention = 'X'"
 								  , "TRUE"
 								  , true
+								  )
+						->checkbox( "possibly_wbd_relevant"
+								  , $this->lng->txt("gev_filter_wbd_relevant_only")
+								  , $wbd_relevant_condition
+								  , "TRUE"
 								  );
 		$orgu_filter->addToFilter($this->filter);
 		$this->filter	->textinput( "lastname"
@@ -102,7 +115,6 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 			);
 		
 		$this->filtered_orgus = $this->filter->get('org_unit');
-
 		$earliest_possible_cert_period_begin = "2013-09-01";
 		$this->orgu_filter = "SELECT usr_id, GROUP_CONCAT(DISTINCT orgu_title SEPARATOR ', ') AS org_unit, "
 							."		GROUP_CONCAT(DISTINCT org_unit_above1 SEPARATOR ', ') AS org_unit_above1, "
@@ -154,12 +166,14 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 									." as points_year5"
 									)
 						->select_raw($points_in_current_period." as points_sum")
-						->select_raw("CASE WHEN usr.begin_of_certification <= '$earliest_possible_cert_period_begin' THEN ''"
-									."     WHEN ".$cert_year_sql." = 1 AND ".$points_in_current_period." < 40 THEN 'X'"
-									."     WHEN ".$cert_year_sql." = 2 AND ".$points_in_current_period." < 80 THEN 'X'"
-									."     WHEN ".$cert_year_sql." = 3 AND ".$points_in_current_period." < 120 THEN 'X'"
-									."     WHEN ".$cert_year_sql." = 4 AND ".$points_in_current_period." < 160 THEN 'X'"
-									."     ELSE ''"
+						->select_raw("CASE "
+									."		WHEN ".$no_tp_service_condition." THEN ''"
+									."		WHEN usr.begin_of_certification <= '$earliest_possible_cert_period_begin' THEN ''"
+									."		WHEN ".$cert_year_sql." = 1 AND ".$points_in_current_period." < 40 THEN 'X'"
+									."		WHEN ".$cert_year_sql." = 2 AND ".$points_in_current_period." < 80 THEN 'X'"
+									."		WHEN ".$cert_year_sql." = 3 AND ".$points_in_current_period." < 120 THEN 'X'"
+									."		WHEN ".$cert_year_sql." = 4 AND ".$points_in_current_period." < 160 THEN 'X'"
+									."		ELSE ''"
 									."END"
 									." as attention"
 									)
@@ -168,9 +182,14 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 							->on(" usr.user_id = usrd.usr_id")
 						->raw_join("JOIN (".$this->orgu_filter
 									.") as orgu ON orgu.usr_id = usr.user_id")
-						->raw_join("JOIN ( SELECT usr_id, GROUP_CONCAT(DISTINCT rol_title ORDER BY rol_title ASC SEPARATOR ', ') AS roles "
+						->raw_join("JOIN ( SELECT usr_id"
+									."	,SUM(IF(".$this->db->in("rol_id",$this->getWbdRelevantRoleIds(),false,"integer")
+									."		,1,0)) AS num_wbd_roles"
+									."	,SUM(IF(".$this->db->in("rol_id",$this->getTpServiceRoleIds(),false,"integer")
+									."		,1,0)) AS num_tp_service_roles"
+									."	,GROUP_CONCAT(DISTINCT rol_title ORDER BY rol_title ASC SEPARATOR ', ') AS roles "
 									."		FROM hist_userrole "
-									."		WHERE action = 1 AND hist_historic = 0 "
+									."		WHERE action >= 0 AND hist_historic = 0 "
 									."			AND ".$this->db->in("usr_id", $this->allowed_user_ids, false, "integer")
 									."		GROUP BY usr_id "
 									."		) AS roles ON roles.usr_id = usr.user_id")
@@ -183,10 +202,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 								." AND usrcrs.okz <> '-empty-'"
 								)
 						->group_by("user_id")
-						->compile()
-						;
-
-	
+						->compile();
 	}
 	
 	protected function points_in_cert_year_sql($year) {
@@ -241,5 +257,25 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		$val = str_replace('<nobr>', '', $val);
 		$val = str_replace('</nobr>', '', $val);
 		return $val;
+	}
+
+	protected function getWbdRelevantRoleIds() {
+		return $this->getRoleIdsForRoleTitles(gevWBD::$wbd_relevant_roles);
+	}
+
+	protected function getTpServiceRoleIds() {
+		return $this->getRoleIdsForRoleTitles(gevWBD::$wbd_tp_service_roles);
+	}
+
+	protected function getRoleIdsForRoleTitles(array $titles) {
+		$query = 'SELECT obj_id FROM object_data '
+				.'	WHERE '.$this->db->in('title',$titles,false,'text')
+				.'		AND type = '.$this->db->quote('role','text');
+		$res = $this->db->query($query);
+		$return = array();
+		while($rec = $this->db->fetchAssoc($res)) {
+			$return[] = $rec['obj_id'];
+		}
+		return $return;
 	}
 }

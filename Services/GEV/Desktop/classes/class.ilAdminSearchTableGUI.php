@@ -13,6 +13,7 @@ require_once("Services/CaTUIComponents/classes/class.catAccordionTableGUI.php");
 require_once("Services/Utilities/classes/class.ilUtil.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBookingHelper.php");
@@ -102,7 +103,7 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 	protected function addActionMenu($a_set) {
 		include_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$current_selection_list = new ilAdvancedSelectionListGUI();
-		$current_selection_list->setAsynch(true);
+		$current_selection_list->setAsynch(false);
 		$current_selection_list->setAsynchUrl(true);
 		$current_selection_list->setListTitle($this->gLng->txt("actions"));
 		$current_selection_list->setId($a_set["obj_id"]);
@@ -118,7 +119,7 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 		return $current_selection_list->getHTML();
 	}
 
-	protected function addActionMenuItems(&$current_selection_list, $a_set) {
+	protected function addActionMenuItems($current_selection_list, $a_set) {
 		foreach ($this->getActionMenuItems($a_set) as $key => $value) {
 			$current_selection_list->addItem($value["title"],"",$value["link"],$value["image"],"",$value["frame"]);
 		}
@@ -126,7 +127,7 @@ class ilAdminSearchTableGUI extends catAccordionTableGUI {
 
 	protected function getActionMenuItems($a_set) {
 		//Prepare links
-		$this->gCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $a_set["crs_ref_id"]);
+		$this->gCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", gevObjectUtils::getRefId($a_set["obj_id"]));
 		$memberlist_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer");
 		$this->gCtrl->clearParametersByClass("gevMemberListDeliveryGUI");
 

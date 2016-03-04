@@ -91,8 +91,14 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 				}
 				break;
 			default:
-				throw new ilException("Unknown Command '$cmd'.");
+				if (!$this->performCustomCommand($cmd)) {
+					throw new ilException("Unknown Command '$cmd'.");
+				}
 		}
+	}
+
+	public function performCustomCommand($cmd) {
+		return false;
 	}
 
 	public function getAfterCreationCmd() {

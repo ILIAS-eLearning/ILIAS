@@ -1,0 +1,25 @@
+<?php
+require_once("Services/Form/classes/class.ilTextInputGUI.php");
+require_once("Services/ReportsRepository/classes/class.catFilterGUI.php");
+
+class catFilterTextGUI extends catFilterGUI {
+	protected $filter;
+	protected $path;
+
+	public function __construct($filter, $path) {
+		$this->filter = $filter;
+		$this->path = $path;
+	}
+
+	public function path() {
+		return $this->path;
+	}
+
+	public function fillForm(ilPropertyFormGUI $form) {
+		$input = new ilTextInputGUI($this->filter->label(), "filter[$this->path]");
+		$input->setInfo($this->filter->description());
+		$form->addItem($input);
+
+		return $form;
+	}
+}
