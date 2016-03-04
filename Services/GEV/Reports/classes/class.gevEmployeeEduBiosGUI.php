@@ -31,8 +31,8 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		$this->table = catReportTable::create()
 						->column("lastname", "lastname")
 						->column("firstname", "firstname")
-						->column("points_sum", "gev_overall_points")
 						->column("cert_period", "gev_cert_period")
+						->column("points_sum", "gev_overall_points_cert_period")
 						->column("login", "login")
 						->column("adp_number", "gev_adp_number")
 						->column("job_number", "gev_job_number")
@@ -75,6 +75,10 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		$no_tp_service_condition =
 			"(roles.num_tp_service_roles = 0"
 			."	AND ".$this->db->in("usr.wbd_type",$services,true,"text")
+			.")";
+		$tp_service_condition =
+			"(roles.num_tp_service_roles > 0"
+			."	OR ".$this->db->in("usr.wbd_type",$services,false,"text")
 			.")";
 		$wbd_relevant_condition =
 			" (roles.num_wbd_roles > 0 "
@@ -167,8 +171,10 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 									)
 						->select_raw($points_in_current_period." as points_sum")
 						->select_raw("CASE "
-									."		WHEN ".$no_tp_service_condition." THEN ''"
-									."		WHEN usr.begin_of_certification <= '$earliest_possible_cert_period_begin' THEN ''"
+									."		WHEN ".$no_tp_service_condition
+									."			 AND usr.begin_of_certification <= '$earliest_possible_cert_period_begin' THEN ''"
+									."		WHEN ".$tp_service_condition
+									."			 AND usr.begin_of_certification <= '$earliest_possible_cert_period_begin' THEN 'X'"
 									."		WHEN ".$cert_year_sql." = 1 AND ".$points_in_current_period." < 40 THEN 'X'"
 									."		WHEN ".$cert_year_sql." = 2 AND ".$points_in_current_period." < 80 THEN 'X'"
 									."		WHEN ".$cert_year_sql." = 3 AND ".$points_in_current_period." < 120 THEN 'X'"
