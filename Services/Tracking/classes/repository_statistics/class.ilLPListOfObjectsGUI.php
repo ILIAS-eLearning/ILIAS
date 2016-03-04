@@ -493,20 +493,20 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     {
         // bring in the rubric card object       
         include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCard.php");
-        $rubricObj=new ilLPRubricCard($this->getObjId());        
-        
+        $rubricObj=new ilLPRubricCard($this->getObjId());
+
         $rubricObj->save();
         
         ilUtil::sendSuccess($this->lng->txt('rubric_card_save'));
-        
+
         include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php");
         $rubricGui=new ilLPRubricCardGUI();
-        
-        if($rubricObj->objHasRubric()){            
+
+        if($rubricObj->objHasRubric()){
             $rubricGui->setRubricData($rubricObj->load());
         }
         $rubricGui->setPassingGrade($rubricObj->getPassingGrade());
-                
+
         $rubricGui->getRubricCard($this->ctrl->getFormAction($this));
         
     }
@@ -551,8 +551,11 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php");
 		include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCard.php");
 		$rubricObj=new ilLPRubricCard($this->getObjId());
-		$rubricGui=new ilLPRubricCardGUI();
 		$rubricObj->lockUnlock();
+		if($rubricObj->isLocked())
+		{
+			$this->saveRubricCard();
+		}
 		$this->showRubricCardForm();
 	}
 

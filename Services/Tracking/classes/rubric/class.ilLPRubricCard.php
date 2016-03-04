@@ -146,18 +146,14 @@ class ilLPRubricCard
     public function save()
     {
         $data=$this->getCardPostData();
-
-        
-        $this->saveRubricCardTbl();
-        
-        $labels=$this->saveRubricLabelTbl($data['labels']);
-        
-        $this->saveRubricGroupTbl($data['groups'],$labels);
-        
-        $this->saveRubricCriteriaTbl($data['groups']);
-        
-        $this->saveRubricBehaviorTbl($data['groups'],$labels);
-        
+        if(!empty($data['groups']))
+        {
+            $this->saveRubricCardTbl();
+            $labels=$this->saveRubricLabelTbl($data['labels']);
+            $this->saveRubricGroupTbl($data['groups'],$labels);
+            $this->saveRubricCriteriaTbl($data['groups']);
+            $this->saveRubricBehaviorTbl($data['groups'],$labels);
+        }
     }
 
     public function load()
@@ -191,10 +187,6 @@ class ilLPRubricCard
     {
 
         $lock_var = ($this->isLocked())?NULL:date("Y-m-d H:i:s");
-        if(!is_null($lock_var))
-        {
-            $this->save();
-        }
         $this->ilDB->manipulate(
             "update rubric set
               locked = ".$this->ilDB->quote($lock_var,"timestamp").
