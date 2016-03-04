@@ -441,6 +441,7 @@ gev#:#gev_credit_points_forecast#:#Gebuchte Bildungspunkte
 gev#:#gev_overall_credit_points_forecast#:#Gesamte Gebuchte Bildungspunkte
 gev#:#gev_cert_points#:#Weiterbildungspunkte bei erfolgreicher Teilnahme
 gev#:#gev_cert_period#:#Zertifizierungsperiode
+gev#:#gev_overall_points_cert_period#:#Gesamtpunktzahl Zertifizierungsperiode
 gev#:#gev_charged_agency#:#belastetes Agenturkonto
 gev#:#gev_username_free#:#frei wählbarer Benutzername
 gev#:#gev_company_title#:#Gesellschaftsschlüssel
@@ -682,9 +683,9 @@ gev#:#gev_report_trainer_workload#:#Trainerauslastung
 gev#:#gev_report_trainer_workload_desc#:#Hier finden Sie die Auslastung von Trainern in Organisationseinheiten.
 gev#:#gev_report_trainer_operation_by_tep_category_desc#:#Hier erhalten Sie eine Übersicht über die Einsatzplanung von Trainern.
 gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter / Vertriebspartner
-gev#:#gev_rep_filter_show_critical_persons#:#Zeige mir nur kritische Personen.
+gev#:#gev_rep_filter_show_critical_persons#:#Zeige mir nur kritische Personen. (GEV-Angestellte und EVG)
 gev#:#gev_rep_filter_show_critical_dbvs#:#Zeige mir nur kritische DBVen.
-gev#:#gev_rep_filter_show_critical_persons_4th_year#:#Zeige mir nur kritische Personen nach dem vierten Jahr.
+gev#:#gev_rep_filter_show_critical_persons_4th_year#:#Zeige mir nur kritische Personen nach dem vierten Jahr. (GEV-Angestellte und EVG)
 gev#:#gev_report_employee_edu_bios#:#Bildungsbiografien meiner Mitarbeiter / Vertriebspartner
 gev#:#gev_registration_install_note#:#Generali Vermittler melden sich bitte mit der Generali E-Mail-Adresse an.
 gev#:#gev_reporting_menu#:#Reports
