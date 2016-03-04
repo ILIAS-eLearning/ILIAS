@@ -125,63 +125,59 @@ var RUBRIC = {
         if(tr.nodeName=='TR'){
             var inputs=tr.getElementsByTagName('input');
             for(var a=0;a<inputs.length;a++){
-                if(inputs[a]!=input&&inputs[a].value!=''){
-                    //reset the css of all inputs
-                    var div=inputs[a].parentNode;
-                    div.classList.remove('has-warning');
-                    div.classList.remove('has-error');
-                    div.classList.add('has-success');
-                    var span=inputs[a].parentNode.children[2];
-                    span.setAttribute('class','glyphicon glyphicon-ok form-control-feedback');
-
-                    if(alert_flag === false)
-                    {
-                        $('.range').empty();
-                    }
-                    
-                    //perform the comparison
-                    var tmp_range=this.getSingleRange(inputs[a].value);
-                    if(current_range['low']>=tmp_range['low']&&current_range['low']<=tmp_range['high']){
-                        var div=input.parentNode;
-                        div.classList.remove('has-warning');
-                        div.classList.remove('has-success');
-                        div.classList.add('has-error');
-                        var span=input.parentNode.children[2];
-                        span.setAttribute('class','glyphicon glyphicon-remove form-control-feedback');
-                        check=false;
-                        alert_flag=true;
-
-                        $('.range').empty();
-
-                        //give user notice.
-                        var span2 = document.createElement('span');
-                        span2.setAttribute('style','text-align:center;color:red;display:block;font-size:75%;');
-                        span2.setAttribute('class','range');
-                        span2.innerHTML = '(out of range)';
-                        console.log("appended error");
-                        div.appendChild(span2);
-                    }
-                    if(current_range['high']>=tmp_range['low']&&current_range['high']<=tmp_range['high']){
-                        var div=input.parentNode;
-                        div.classList.remove('has-warning');
-                        div.classList.remove('has-success');
-                        div.classList.add('has-error');
-                        var span=input.parentNode.children[2];
-                        span.setAttribute('class','glyphicon glyphicon-remove form-control-feedback');                        
-                        check=false;
-                        alert_flag=true;
-
-                        $('.range').empty();
-
-                        //give user notice.
-                        var span2 = document.createElement('span');
-                        span2.setAttribute('style','text-align:center;color:red;display:block;font-size:75%;');
-                        span2.setAttribute('class','range');
-                        span2.innerHTML = '(out of range)';
-                        console.log("appended error");
-                        div.appendChild(span2);
+                //reset the css of all inputs
+                var div=inputs[a].parentNode;
+                div.classList.remove('has-warning');
+                div.classList.remove('has-error');
+                div.classList.add('has-success');
+                var span=inputs[a].parentNode.children[2];
+                span.setAttribute('class','glyphicon glyphicon-ok form-control-feedback');
+                if(alert_flag === false)
+                {
+                    $('.range').empty();
+                }
+                var current_range=this.getSingleRange(inputs[a].value);
+                for(var b=0;b<inputs.length;b++){
+                    if(inputs[b]!==inputs[a]){
+                        var tmp_range=this.getSingleRange(inputs[b].value);
+                        if(current_range['low']>=tmp_range['low']&&current_range['low']<=tmp_range['high']){
+                            var div=inputs[b].parentNode;
+                            div.classList.remove('has-warning');
+                            div.classList.remove('has-success');
+                            div.classList.add('has-error');
+                            var span=inputs[b].parentNode.children[2];
+                            span.setAttribute('class','glyphicon glyphicon-remove form-control-feedback');
+                            check=false;
+                            alert_flag=true;
+                            $('.range').empty();
+                            //give user notice.
+                            var span2 = document.createElement('span');
+                            span2.setAttribute('style','text-align:center;color:red;display:block;font-size:75%;');
+                            span2.setAttribute('class','range');
+                            span2.innerHTML = '(out of range)';
+                            div.appendChild(span2);
+                        }
+                        if(current_range['high']>=tmp_range['low']&&current_range['high']<=tmp_range['high']){
+                            var div=inputs[b].parentNode;
+                            div.classList.remove('has-warning');
+                            div.classList.remove('has-success');
+                            div.classList.add('has-error');
+                            var span=inputs[b].parentNode.children[2];
+                            span.setAttribute('class','glyphicon glyphicon-remove form-control-feedback');
+                            check=false;
+                            alert_flag=true;
+                            $('.range').empty();
+                            //give user notice.
+                            var span2 = document.createElement('span');
+                            span2.setAttribute('style','text-align:center;color:red;display:block;font-size:75%;');
+                            span2.setAttribute('class','range');
+                            span2.innerHTML = '(out of range)';
+                            div.appendChild(span2);
+                        }
                     }
                 }
+
+
             }
             
         }
