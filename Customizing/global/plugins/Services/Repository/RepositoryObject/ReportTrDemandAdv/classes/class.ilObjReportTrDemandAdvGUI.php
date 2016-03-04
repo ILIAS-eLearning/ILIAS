@@ -40,9 +40,7 @@ class ilObjReportTrDemandAdvGUI extends ilObjReportBaseGUI {
 				}
 			}
 			$rec['min_part_achived'] = 
-				(	(string)$rec['min_part_achived'] === "1"
-					|| $rec['min_participants'] === null 
-					|| (string)$rec['min_participants'] === '-1')
+				(	(string)$rec['min_part_achived'] === "1")
 						? 'Ja' : 'Nein';
 			$rec['bookings_left'] =
 				(	(string)$rec['max_participants'] === "0"
