@@ -269,11 +269,16 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
         if($rubricObj->objHasRubric()){
             $rubricGui->setRubricData($rubricObj->load());
-            $html = $rubricGui->getPDFViewHTML();
+            $html = $rubricGui->getPDFViewHTML($this->getObjId());
             $html = self::removeScriptElements($html);
-
             $css = '<style>
 
+					.ilHeaderDesc
+					{
+						display:block;
+						text-align:center;
+
+					}
                     table
                     {
                         table-layout: fixed;

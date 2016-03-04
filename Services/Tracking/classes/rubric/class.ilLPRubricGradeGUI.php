@@ -173,10 +173,11 @@ class ilLPRubricGradeGUI extends ilLPTableBaseGUI
         return($rubric_heading_tpl->get().$rubric_commandrow_tpl->get().$rubric_grade_tpl->get());
     }
 
-    public function getPDFViewHTML()
+    public function getPDFViewHTML($obj_id)
     {
+        $a_obj = ilObjectFactory::getInstanceByObjId($obj_id);
 
-        $rubric_heading_tpl=$this->getRubricGradeFormHeader('PRINTOUT');
+        $rubric_heading_tpl=$this->getRubricGradeFormHeader($a_obj->getTitle());
 
         $this->pdf_view=true;
 
