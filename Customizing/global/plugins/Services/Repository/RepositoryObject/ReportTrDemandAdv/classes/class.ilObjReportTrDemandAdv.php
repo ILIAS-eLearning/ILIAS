@@ -82,7 +82,7 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 							, $this->plugin->txt("period")
 							, $this->plugin->txt("until")
 							, "crs.begin_date"
-							, "crs.end_date"
+							, "crs.begin_date"
 							, date("Y")."-01-01"
 							, date("Y")."-12-31"
 							, false
