@@ -39,6 +39,7 @@ trac#:#rubric_out_of#:#out of
 trac#:#rubric_passing_grade#:#Passing Grade
 trac#:#rubric_grade#:#Grade
 trac#:#rubric_card_lock#:#Lock
+trac#:#rubric_option_export_pdf#:#Export PDF
 trac#:#rubric_card_unlock#:#Unlock
 trac#:#rubric_locked_info#:#This Rubric Card has been locked for editing by:
 trac#:#rubric_locked_grade_info#:#This Rubric has been locked for grading by:
