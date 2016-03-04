@@ -130,7 +130,9 @@ var RUBRIC = {
                     div.classList.remove('has-error');
                     div.classList.add('has-success');
                     var span=inputs[a].parentNode.children[2];
-                    span.setAttribute('class','glyphicon glyphicon-ok form-control-feedback');                   
+                    span.setAttribute('class','glyphicon glyphicon-ok form-control-feedback');
+
+                    $('.range').empty();
                     
                     //perform the comparison
                     var tmp_range=this.getSingleRange(inputs[a].value);
@@ -142,6 +144,15 @@ var RUBRIC = {
                         var span=input.parentNode.children[2];
                         span.setAttribute('class','glyphicon glyphicon-remove form-control-feedback');
                         check=false;
+
+                        $('.range').empty();
+
+                        //give user notice.
+                        var span2 = document.createElement('span');
+                        span2.setAttribute('style','text-align:center;color:red;display:block;font-size:75%;');
+                        span2.setAttribute('class','range');
+                        span2.innerHTML = '(out of range)';
+                        div.appendChild(span2);
                     }
                     if(current_range['high']>=tmp_range['low']&&current_range['high']<=tmp_range['high']){
                         var div=input.parentNode;
@@ -151,6 +162,15 @@ var RUBRIC = {
                         var span=input.parentNode.children[2];
                         span.setAttribute('class','glyphicon glyphicon-remove form-control-feedback');                        
                         check=false;
+
+                        $('.range').empty();
+
+                        //give user notice.
+                        var span2 = document.createElement('span');
+                        span2.setAttribute('style','text-align:center;color:red;display:block;font-size:75%;');
+                        span2.setAttribute('class','range');
+                        span2.innerHTML = '(out of range)';
+                        div.appendChild(span2);
                     }
                 }
             }
