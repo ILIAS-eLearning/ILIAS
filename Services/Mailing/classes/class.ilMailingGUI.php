@@ -883,7 +883,14 @@ abstract class ilMailingGUI {
 								, $command_buttons
 								);
 
+		//gev-patch start
+		$this->ctrl->setParameter($this, "auto_mail_id", $a_mail_id);
+		$this->ctrl->setParameter($this, "cmd", "sendAutoMail");
+
 		$this->tpl->setContent($table_gui->getHTML());
+
+		$this->ctrl->clearParameters($this);
+		//gev-patch end
 	}
 	
 	/**
