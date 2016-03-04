@@ -117,6 +117,8 @@ var RUBRIC = {
 
         var current_range=this.getSingleRange(input.value);
 
+        var alert_flag = false;
+
         // grab the parent tr
         var tr=input.parentNode.parentNode.parentNode;
 
@@ -132,7 +134,10 @@ var RUBRIC = {
                     var span=inputs[a].parentNode.children[2];
                     span.setAttribute('class','glyphicon glyphicon-ok form-control-feedback');
 
-                    $('.range').empty();
+                    if(alert_flag === false)
+                    {
+                        $('.range').empty();
+                    }
                     
                     //perform the comparison
                     var tmp_range=this.getSingleRange(inputs[a].value);
@@ -144,6 +149,7 @@ var RUBRIC = {
                         var span=input.parentNode.children[2];
                         span.setAttribute('class','glyphicon glyphicon-remove form-control-feedback');
                         check=false;
+                        alert_flag=true;
 
                         $('.range').empty();
 
@@ -152,6 +158,7 @@ var RUBRIC = {
                         span2.setAttribute('style','text-align:center;color:red;display:block;font-size:75%;');
                         span2.setAttribute('class','range');
                         span2.innerHTML = '(out of range)';
+                        console.log("appended error");
                         div.appendChild(span2);
                     }
                     if(current_range['high']>=tmp_range['low']&&current_range['high']<=tmp_range['high']){
@@ -162,6 +169,7 @@ var RUBRIC = {
                         var span=input.parentNode.children[2];
                         span.setAttribute('class','glyphicon glyphicon-remove form-control-feedback');                        
                         check=false;
+                        alert_flag=true;
 
                         $('.range').empty();
 
@@ -170,6 +178,7 @@ var RUBRIC = {
                         span2.setAttribute('style','text-align:center;color:red;display:block;font-size:75%;');
                         span2.setAttribute('class','range');
                         span2.innerHTML = '(out of range)';
+                        console.log("appended error");
                         div.appendChild(span2);
                     }
                 }
