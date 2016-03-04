@@ -71,7 +71,7 @@ class gevEmployeeEduBiosGUI extends catBasicReportGUI{
 		require_once "Services/GEV/Utils/classes/class.gevObjectUtils.php";
 		$orgus = array_map(function ($ref_id) {return gevObjectUtils::getObjId($ref_id);},$orgu_refs);
 		$orgu_filter->setFilterOptionsByArray($orgus);
-		$services = array(gevWBD::WBD_EDU_PROVIDER,gevWBD::WBD_TP_BASIS,gevWBD::WBD_TP_SERVICE);
+		$services = array(gevWBD::WBD_TP_SERVICE);
 		$no_tp_service_condition =
 			"(roles.num_tp_service_roles = 0"
 			."	AND ".$this->db->in("usr.wbd_type",$services,true,"text")
