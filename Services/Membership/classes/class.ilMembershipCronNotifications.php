@@ -98,9 +98,6 @@ class ilMembershipCronNotifications extends ilCronJob
 							$user_id);
 						if($user_news)
 						{
-							// #18067
-							$user_news = ilUtil::shortenText($user_news, 200, true);
-							
 							$user_news_aggr[$user_id][$ref_id] = $user_news;	
 
 							// #17928
@@ -219,7 +216,9 @@ class ilMembershipCronNotifications extends ilCronJob
 		);			
 		
 		$title = trim($title);
-		$content = trim($content);
+		
+		// #18067
+		$content = ilUtil::shortenText(trim($content), 200, true);
 		
 		$res = "";
 		switch($item_obj_type)
