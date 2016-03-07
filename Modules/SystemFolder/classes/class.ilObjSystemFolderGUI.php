@@ -754,6 +754,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	function benchmarkSubTabs($a_current)
 	{
 		global $ilTabs, $lng, $ilCtrl, $ilBench;
+		
+		$ilTabs->activateTab("benchmarks"); // #18083
 
 		$ilTabs->addSubtab("settings",
 			$lng->txt("settings"),
