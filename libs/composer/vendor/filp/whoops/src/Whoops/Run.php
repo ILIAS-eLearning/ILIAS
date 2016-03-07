@@ -318,8 +318,8 @@ final class Run
                 }
             }
 			
-			// php7-workaround
-			// log "lower" error levels only
+			// php7-workaround start
+			// jl: log "lower" error levels only
 			if(in_array($level, array(E_NOTICE, E_DEPRECATED, E_STRICT))) {		
 				// PHP5: E_STRICT, PHP7: E_NOTICE
 				if(!stristr($message, "Non-static method") &&
@@ -332,6 +332,7 @@ final class Run
 				}
 				return true;
 			}
+			// php7-workaround end
 
             // XXX we pass $level for the "code" param only for BC reasons.
             // see https://github.com/filp/whoops/issues/267

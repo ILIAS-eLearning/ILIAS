@@ -291,7 +291,9 @@ class ilMainMenuGUI
 					 */
 					global $tpl;
 
-					/* php7-workaround
+					// php7-workaround start
+					// jl: the frequent polling messes up the log files
+					/* 
 					$this->tpl->touchBlock('osd_container');
 
 					include_once "Services/jQuery/classes/class.iljQueryUtil.php";
@@ -312,6 +314,7 @@ class ilMainMenuGUI
 					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '60');
 					$this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
 					*/
+					// php7-workaround end
 				}
 
 				$this->tpl->setCurrentBlock("userisloggedin");
