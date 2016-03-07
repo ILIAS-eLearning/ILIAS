@@ -66,11 +66,12 @@ class ilMailOptions
 	*/
     function createMailOptionsEntry()
     {
-    	global $ilDB;
-    		
-		/* Get setting for incoming mails */
-		if (!($incomingMail = $this->ilias->getSetting("mail_incoming_mail")))
-		{
+	    global $ilDB, $ilSetting;
+	
+	    /* Get default setting for incoming mails */
+	    $incomingMail = $ilSetting->get("mail_incoming_mail", NULL);
+	    if ($incomingMail == NULL)		
+	    {
 			/* No setting found -> set it to "local and forwarding" [2] */
 			$incomingMail = IL_MAIL_BOTH;
 		}
