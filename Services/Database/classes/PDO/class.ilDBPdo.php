@@ -370,13 +370,7 @@ class ilDBPdo implements ilDBInterface {
 
 		$query = "UPDATE $table_name" . " SET " . implode(", ", $query_fields) . " WHERE " . implode(" AND ", $query_where);
 
-		try {
-
-			$this->pdo->exec($query);
-		} catch (PDOException $e) {
-			echo '<pre>' . print_r($query, 1) . '</pre>';
-			exit();
-		}
+		$this->pdo->exec($query);
 	}
 
 
