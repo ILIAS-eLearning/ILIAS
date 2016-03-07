@@ -243,12 +243,21 @@ class ilExAssignmentGUI
 						$team_members = ilExAssignment::getTeamMembersByAssignmentId($a_data["id"], $ilUser->getId());
 						if(sizeof($team_members))
 						{
-							$team = array();						
+							$team = array();												
 							foreach($team_members as $member_id)
-							{
+							{																							
 								$team[] = ilObjUser::_lookupFullname($member_id);
 							}						
 							$team = implode(", ", $team);
+							
+							// any team member upload?
+							if(!ilExAssignment::getLastSubmission($a_data["id"], $ilUser->getId()))
+							{
+								$button = ilLinkButton::getInstance();							
+								$button->setCaption("exc_delete_team");
+								$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "confirmDeleteTeam"));							
+								$team .= " ".$button->render();	
+							}
 							
 							$button = ilLinkButton::getInstance();							
 							$button->setCaption("exc_manage_team");
