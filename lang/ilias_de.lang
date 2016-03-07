@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -15613,8 +15613,8 @@ exc#:#exc_max_file#:#Maximale Dateianzahl
 exc#:#exc_max_file_info#:#Nach Erreichen des Limits können Teilnehmer keine weiteren Dateien hochladen.
 exc#:#exc_max_file_tgl#:#Uploads begrenzen
 exc#:#exc_max_file_reached#:#Sie können maximal %s Dateien hochladen.
-exc#:#exc_deadline_extended#:#Karenzzeit
-exc#:#exc_deadline_extended_info#:#Im Zeitraum zwischen dem Abgabetermin und dem Ende der Karenzzeit können verspätete Abgaben vorgenommen werden.
+exc#:#exc_deadline_extended#:#Nachfrist
+exc#:#exc_deadline_extended_info#:#Im Zeitraum zwischen dem Abgabetermin und dem Ende der Nachfrist können verspätete Abgaben vorgenommen werden.
 exc#:#exc_late_submission_warning#:#Abgaben nach %s werden als verspätet gekennzeichnet.
 exc#:#exc_late_submission#:#Verspätete Abgabe
 exc#:#exc_adopt_group_teams#:#Teams aus Gruppen bilden
@@ -15622,8 +15622,8 @@ exc#:#exc_adopt_group_teams_no_members#:#Keine Mitglieder
 exc#:#exc_adopt_group_teams_conflict#:#Benutzer "%1$s" ist bereits in Gruppe "%2$s" gewählt.
 exc#:#exc_adopt_group_teams_added#:#%s Benutzer wurden hinzugefügt.
 exc#:#exc_adopt_group_teams_blocked#:#%s Benutzer waren bereits vorhanden.
-exc#:#exc_deadline_ext_mismatch#:#Die Karenzzeit muss nach dem Abgabetermin enden.
-exc#:#exc_peer_review_ass_setting_info#:#Nachdem der Abgabetermin und ggfs. die Karenzzeit verstrichen sind, können Teilnehmer ihre Arbeitsergebnisse gegenseitig bewerten. Genaue Einstellungen zum Peer-Feedback werden im gleichnamigen Reiter vorgenommen. Der Reiter wird eingeblendet, wenn diese Option aktiviert und gepeichert wurde. 
+exc#:#exc_deadline_ext_mismatch#:#Die Nachfrist muss nach dem Abgabetermin enden.
+exc#:#exc_peer_review_ass_setting_info#:#Nachdem der Abgabetermin und ggfs. die Nachfrist verstrichen sind, können Teilnehmer ihre Arbeitsergebnisse gegenseitig bewerten. Genaue Einstellungen zum Peer-Feedback werden im gleichnamigen Reiter vorgenommen. Der Reiter wird eingeblendet, wenn diese Option aktiviert und gepeichert wurde. 
 exc#:#exc_peer_review_min_number#:#Geforderte Anzahl von Feedbacks
 exc#:#exc_peer_review_min_number_info#:#Anzahl von Feedback, die ein Teilnehmer den Peers geben muss. Sollte die Anzahl der geforderten Feedbacks die Anzahl der tatsächlichen Einreichungen übersteigen, wird die geforderte Anzahl automatisch auf die Anzahl der tatsächlichen Einreichungen reduziert.
 exc#:#exc_criteria_catalogues#:#Kriterienkataloge

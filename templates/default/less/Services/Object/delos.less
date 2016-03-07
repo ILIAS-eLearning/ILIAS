@@ -40,3 +40,23 @@ div.ilCreationFormSection .form-horizontal {
 .ilObjListRow:hover {
 	background-color: lighten(@il-highlight-bg, 5%);
 }
+
+//mantis #0017866
+.table-striped {
+    border-collapse: separate;
+    > tbody > tr.ilObjListRow {
+        > td {
+            background-color: @il-primary-container-bg;
+        }
+        &:hover {
+            > td {
+                background-color: lighten(@il-highlight-bg, 5%);
+            }
+            &:nth-child(2n+1) {
+                > td {
+                    background-color: lighten(@il-highlight-bg, 5%);
+                }
+            }
+        }
+    }
+}
