@@ -174,7 +174,7 @@ class ilExAssignmentEditorGUI
 		// type
 		$ty = $this->getTypeDropdown();
 		$ty->setValue($a_type);
-		$ty->setDisabled(true);
+		$ty->setDisabled(false);
 		$form->addItem($ty);
 		
 		// title
