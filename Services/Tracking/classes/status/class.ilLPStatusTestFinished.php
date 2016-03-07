@@ -44,7 +44,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 		$user_ids = array();
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_ids[$row->user_fi] = $row->user_fi;
 		}
@@ -74,7 +74,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 		$user_ids = array();
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_ids[$row->user_fi] = $row->user_fi;
 		}
@@ -102,7 +102,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 		$user_ids = array();
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_ids[$row->user_fi] = $row->user_fi;
 		}

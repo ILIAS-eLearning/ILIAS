@@ -93,7 +93,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 	 */
 	public function loadFromDb($question_id)
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 		
 		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
@@ -346,7 +346,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 			throw new ilTestException('return details not implemented for '.__METHOD__);
 		}
 
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 
 		$found_values = array();
@@ -423,7 +423,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 	 */
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 
 		if (is_null($pass))
@@ -521,7 +521,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
 	public function saveAdditionalQuestionDataToDb()
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 
 		// save additional data
@@ -542,7 +542,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
 	public function saveAnswerSpecificDataToDb()
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 
 		// Write range to the database
@@ -686,7 +686,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 	*/
 	public function getUserQuestionResult($active_id, $pass)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 

@@ -1270,7 +1270,7 @@ class ilObjUser extends ilObject
 			"AND keyword = ".$ilDB->quote($a_keyword, "text");
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->value;
 		}
@@ -1930,7 +1930,7 @@ class ilObjUser extends ilObject
 		$query = "SELECT matriculation FROM usr_data ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id);
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		return $row->matriculation ? $row->matriculation : '';
 	}
 
@@ -2230,7 +2230,7 @@ class ilObjUser extends ilObject
 			'WHERE active = '.$ilDB->quote(1,'integer').' '.
 			'AND usr_id = '.$ilDB->quote($a_usr_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return true;
 		}
@@ -4159,7 +4159,7 @@ class ilObjUser extends ilObject
 			"WHERE usr_id = ".$ilDB->quote($this->getId(),'integer');
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$this->user_defined_data = $row;
 		}*/
@@ -5052,7 +5052,7 @@ class ilObjUser extends ilObject
 				WHERE reg_hash = %s',
 		        array('text'),
 		        array($hashcode));		         
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				if($row->cnt > 0) $continue = true;
 				break;
@@ -5158,7 +5158,7 @@ class ilObjUser extends ilObject
 		$res = $ilDB->queryF($query, array('timestamp'), array($date));
 
 		$ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->usr_id;
 		}
@@ -5191,7 +5191,7 @@ class ilObjUser extends ilObject
 		$res = $ilDB->queryF($query, array('timestamp', 'integer'), array($date, 0));
 		
 		$ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->usr_id;
 		}
@@ -5267,7 +5267,7 @@ class ilObjUser extends ilObject
 				'JOIN usr_data ud ON obj_id = usr_id '.
 				'WHERE '.$ilDB->in('obj_id',$a_usr_ids,false,'integer').' ';
 		$res = $ilDB->query($query);
-		$num_rows =$res->fetchRow(DB_FETCHMODE_OBJECT)->num;
+		$num_rows =$res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)->num;
 		return $num_rows == count((array) $a_usr_ids);
 	}
 	// end-patch deleteProgress

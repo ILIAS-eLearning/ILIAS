@@ -51,7 +51,7 @@ class ilSessionAppointment implements ilDatePeriod
 		$query = "SELECT * FROM event_appointment ".
 			"WHERE event_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$info['fullday'] = $row->fulltime;
 			
@@ -103,7 +103,7 @@ class ilSessionAppointment implements ilDatePeriod
 		$event_ids = array();
 			
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$event_ids[] = $row->event_id;
 		}
@@ -120,7 +120,7 @@ class ilSessionAppointment implements ilDatePeriod
 			"ORDER BY e_start ";
 		$ilDB->setLimit(1);
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$event_id = $row->event_id;
 		}
@@ -155,7 +155,7 @@ class ilSessionAppointment implements ilDatePeriod
 			"ORDER BY e_start DESC ";
 		$ilDB->setLimit(1);
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$event_id = $row->event_id;
 		}
@@ -403,7 +403,7 @@ class ilSessionAppointment implements ilDatePeriod
 			"ORDER BY starting_time";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$appointments[] = new ilSessionAppointment($row->appointment_id);
 		}
@@ -433,7 +433,7 @@ class ilSessionAppointment implements ilDatePeriod
 		$query = "SELECT * FROM event_appointment ".
 			"WHERE appointment_id = ".$ilDB->quote($this->getAppointmentId() ,'integer')." ";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setSessionId($row->event_id);
 			$this->toggleFullTime($row->fulltime);

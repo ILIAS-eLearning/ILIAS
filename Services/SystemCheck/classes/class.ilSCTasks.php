@@ -80,7 +80,7 @@ class ilSCTasks
 		$query = 'SELECT grp_id FROM sysc_tasks '.
 				'WHERE id = '.$ilDB->quote($a_task_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->grp_id;
 		}
@@ -99,7 +99,7 @@ class ilSCTasks
 				'WHERE status = '.$ilDB->quote(ilSCTask::STATUS_COMPLETED,'integer').' '.
 				'AND grp_id = '.$ilDB->quote($a_grp_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->num;
 		}
@@ -118,7 +118,7 @@ class ilSCTasks
 				'WHERE status = '.$ilDB->quote(ilSCTask::STATUS_FAILED,'integer').' '.
 				'AND grp_id = '.$ilDB->quote($a_grp_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->num;
 		}
@@ -140,7 +140,7 @@ class ilSCTasks
 				'AND grp_id = '.$ilDB->quote($a_grp_id,'integer');
 		$res = $ilDB->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return new ilDateTime($row->last_update,IL_CAL_DATETIME,'UTC');
 		}
@@ -173,7 +173,7 @@ class ilSCTasks
 		$res = $ilDB->query($query);
 		
 		$this->tasks = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->tasks[] = new ilSCTask($row->id);
 		}

@@ -13,12 +13,12 @@ class ilChatroomInstaller
 	/**
 	 * Creates tables needed for chat and calls registerObject and
 	 * registerAdminObject methods.
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 */
 	public static function install()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -211,7 +211,7 @@ class ilChatroomInstaller
 	public static function removeOldChatEntries()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -261,7 +261,7 @@ class ilChatroomInstaller
 	public static function createDefaultPublicRoom($force = false)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -325,12 +325,12 @@ class ilChatroomInstaller
 
 	/**
 	 * Registers chat object by inserting it into object_data.
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 */
 	public static function registerObject()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -395,7 +395,7 @@ class ilChatroomInstaller
 	private static function getModeratorPermissionId()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -413,12 +413,12 @@ class ilChatroomInstaller
 
 	/**
 	 * Registgers admin chat object by inserting it into object_data.
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 */
 	public static function registerAdminObject()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -474,7 +474,7 @@ class ilChatroomInstaller
 	public static function convertChatObjects()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -507,7 +507,7 @@ class ilChatroomInstaller
 	public static function createMissinRoomSettingsForConvertedObjects()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -536,7 +536,7 @@ class ilChatroomInstaller
 	{
 		/**
 		 * @var $tree      ilTree
-		 * @var $ilDB      ilDB
+		 * @var $ilDB      ilDBInterface
 		 * @var $rbacadmin ilRbacAdmin
 		 */
 		global $tree, $ilDB, $rbacadmin;

@@ -121,7 +121,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 			"AND active = ".$ilDB->quote(1,'integer').' ';
 		$res = $ilDB->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$item['title']				= $row->title;
 			$item['description']		= $row->description;
@@ -155,7 +155,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 		{
 			self::$item[$id] = array();
 		}
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$item['title']				= $row->title;
 			$item['description']		= $row->description;

@@ -220,7 +220,7 @@ class ilContainer extends ilObject
 				" id = ".$ilDB->quote($a_id ,'integer')." AND ".
 				" keyword = ".$ilDB->quote($a_keyword ,'text');
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		
 		if(isset($rec['value']))
 		{

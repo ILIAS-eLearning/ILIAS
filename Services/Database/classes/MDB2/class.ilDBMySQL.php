@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once ("./Services/Database/classes/class.ilDB.php");
+include_once("./Services/Database/classes/MDB2/class.ilDB.php");
 
 /**
 * MySQL Database Wrapper
@@ -483,7 +483,7 @@ class ilDBMySQL extends ilDB
 		$query = "SHOW VARIABLES LIKE 'max_allowed_packet'";
 		$res = $this->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->max_allowed_packet_size = $row->value;
 		}
@@ -537,7 +537,7 @@ class ilDBMySQL extends ilDB
 	/**
 	 * Lock table
 	 * 
-	 * E.g $ilDB->lockTable('tree',ilDB::LOCK_WRITE,'t1')
+	 * E.g $ilDB->lockTable('tree',ilDBConstants::LOCK_WRITE,'t1')
 	 * @param array $a_tables
 	 * @param int $a_mode
 	 * @param string $a_alias
@@ -575,11 +575,11 @@ class ilDBMySQL extends ilDB
 
 			switch($table['type'])
 			{
-				case ilDB::LOCK_READ:
+				case ilDBConstants::LOCK_READ:
 					$lock .= ' READ ';
 					break;
 				
-				case ilDB::LOCK_WRITE:
+				case ilDBConstants::LOCK_WRITE:
 					$lock .= ' WRITE ';
 					break;
 			}
@@ -649,6 +649,15 @@ class ilDBMySQL extends ilDB
 
 		return $r;
 
+	}
+
+
+	/**
+	 * @param $module
+	 * @return mixed
+	 */
+	public function loadModule($module) {
+		return $this->db->loadModule($module);
 	}
 }
 ?>

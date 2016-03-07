@@ -204,7 +204,7 @@ class ilForumTopic
 				WHERE thr_pk = %s',
 				array('integer'), array($this->id));
 
-			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 			if (is_object($row))
 			{
@@ -259,7 +259,7 @@ class ilForumTopic
 			AND parent_pos = %s',
 			array('integer', 'integer'), array($this->id, '1'));
 		
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		
 		return $row->pos_fk ? $row->pos_fk : 0;
 	}
@@ -302,7 +302,7 @@ class ilForumTopic
 			WHERE pos_thr_fk = %s',
 			array('integer'), array($this->id));
 		
-		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 			
 		return $rec['cnt'];
 	}
@@ -326,7 +326,7 @@ class ilForumTopic
 			AND pos_thr_fk = %s',
 			array('integer', 'integer', 'integer', 'integer'), array('1', '0', $ilUser->getId(), $this->id));
 			
-		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 			
 		return $rec['cnt'];
 	}
@@ -348,7 +348,7 @@ class ilForumTopic
 			array('integer', 'integer'),
 			array('0', $this->id));
 			
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		
 		return new ilForumPost($row->pos_pk);
 	}
@@ -371,7 +371,7 @@ class ilForumTopic
 				ORDER BY pos_date DESC',
 				array('integer'), array($this->id));
 			
-			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 			return new ilForumPost($row->pos_pk);
 		}
@@ -402,7 +402,7 @@ class ilForumTopic
 				array('integer', 'integer', 'integer', 'integer'),
 				array($this->id, '1', '0', $ilUser->getId()));
 			
-			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 			
 			return new ilForumPost($row->pos_pk);
 		}
@@ -423,7 +423,7 @@ class ilForumTopic
 				array('integer'),
 				array($this->id));
 			
-			while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$posts[$row->pos_pk] = $row;
 			}
@@ -567,8 +567,8 @@ class ilForumTopic
 
 			$this->db->lockTables(
 				array(
-					0 => array('name' => 'frm_user_read',     'type' => ilDB::LOCK_WRITE),
-					1 => array('name' => 'frm_thread_access', 'type' => ilDB::LOCK_WRITE)
+					0 => array('name' => 'frm_user_read',     'type' => ilDBConstants::LOCK_WRITE),
+					1 => array('name' => 'frm_thread_access', 'type' => ilDBConstants::LOCK_WRITE)
 				)
 			);
 
@@ -616,7 +616,7 @@ class ilForumTopic
 
 			$new_obj_id = ilForum::_lookupObjIdForForumId($new_pk);
 
-			while($post = $posts->fetchRow(DB_FETCHMODE_ASSOC))
+			while($post = $posts->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 			{ 
 				include_once("./Services/News/classes/class.ilNewsItem.php");
 				$news_id = ilNewsItem::getFirstNewsIdForContext($old_obj_id,

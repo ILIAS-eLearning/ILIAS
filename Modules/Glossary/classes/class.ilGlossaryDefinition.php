@@ -192,7 +192,7 @@ class ilGlossaryDefinition
 		// lock glossary_definition table
 		$ilDB->lockTables(
 			array(
-				0 => array('name' => 'glossary_definition', 'type' => ilDB::LOCK_WRITE)));
+				0 => array('name' => 'glossary_definition', 'type' => ilDBConstants::LOCK_WRITE)));
 
 		// get maximum definition number
 		$q = "SELECT max(nr) AS max_nr FROM glossary_definition WHERE term_id = ".
@@ -245,7 +245,7 @@ class ilGlossaryDefinition
 		#ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 		$ilDB->lockTables(
 			array(
-				0 => array('name' => 'glossary_definition', 'type' => ilDB::LOCK_WRITE)));
+				0 => array('name' => 'glossary_definition', 'type' => ilDBConstants::LOCK_WRITE)));
 		
 
 		// be sure to get the right number
@@ -289,7 +289,7 @@ class ilGlossaryDefinition
 		#ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 		$ilDB->lockTables(
 			array(
-				0 => array('name' => 'glossary_definition', 'type' => ilDB::LOCK_WRITE)));
+				0 => array('name' => 'glossary_definition', 'type' => ilDBConstants::LOCK_WRITE)));
 
 
 		// be sure to get the right number
@@ -330,7 +330,7 @@ class ilGlossaryDefinition
 		#ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 		$ilDB->lockTables(
 			array(
-				0 => array('name' => 'glossary_definition', 'type' => ilDB::LOCK_WRITE)));
+				0 => array('name' => 'glossary_definition', 'type' => ilDBConstants::LOCK_WRITE)));
 
 		// be sure to get the right number
 		$q = "SELECT * FROM glossary_definition WHERE id = ".

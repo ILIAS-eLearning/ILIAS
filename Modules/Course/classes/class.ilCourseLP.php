@@ -74,7 +74,7 @@ class ilCourseLP extends ilObjectLP
 		return $member_obj->getMembers();		
 	}	
 	
-	protected static function isLPMember(array &$a_res, $a_usr_id, array $a_obj_ids)
+	protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)
 	{
 		global $ilDB;
 			

@@ -242,7 +242,7 @@ class ilObject
 			// Read long description
 			$query = "SELECT * FROM object_description WHERE obj_id = ".$ilDB->quote($this->id,'integer');
 			$res = $this->ilias->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				if(strlen($row->description))
 				{
@@ -267,7 +267,7 @@ class ilObject
 				 "AND lang_code = ".$ilDB->quote($this->ilias->account->getCurrentLanguage(),'text')." ".
 				 "AND NOT lang_default = 1";
 			$r = $this->ilias->db->query($q);
-			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 			if ($row)
 			{
 				$this->title = $row->title;

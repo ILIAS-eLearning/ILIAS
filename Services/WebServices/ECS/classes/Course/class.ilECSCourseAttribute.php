@@ -124,7 +124,7 @@ class ilECSCourseAttribute
 		$query = 'SELECT * FROM ecs_crs_mapping_atts '.
 				'WHERE id = '.$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setName($row->name);
 		}

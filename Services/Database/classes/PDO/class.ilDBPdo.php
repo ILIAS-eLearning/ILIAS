@@ -1,28 +1,19 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/Database/classes/interface.ilDBInterface.php");
-require_once("Services/Database/classes/PDO/class.ilPDOStatement.php");
-require_once("Services/Database/classes/MySQL/class.ilMySQLQueryUtils.php");
-require_once("Services/Database/classes/Exceptions/ilDatabaseException.php");
+require_once("./Services/Database/classes/PDO/class.ilPDOStatement.php");
+require_once("./Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php");
+require_once('./Services/Database/classes/PDO/Manager/class.ilDBPdoManager.php');
+require_once('./Services/Database/classes/PDO/Reverse/class.ilDBPdoReverse.php');
 
 /**
  * Class pdoDB
  *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
- *
- * TODO: Quote, Oursource QueryBuilder stuff.
  */
 class ilDBPdo implements ilDBInterface {
 
-	const T_TEXT = 'text';
-	const T_INTEGER = 'integer';
-	const T_FLOAT = 'float';
-	const T_DATE = 'date';
-	const T_TIME = 'time';
-	const T_DATETIME = 'datetime';
-	const T_CLOB = 'clob';
 	/**
 	 * @var string
 	 */
@@ -52,16 +43,24 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	protected $pdo;
 	/**
+	 * @var ilDBPdoManager
+	 */
+	protected $manager;
+	/**
+	 * @var ilDBPdoReverse
+	 */
+	protected $reverse;
+	/**
 	 * @var array
 	 */
 	protected $type_to_mysql_type = array(
-		self::T_TEXT     => 'VARCHAR',
-		self::T_INTEGER  => 'INT',
-		self::T_FLOAT    => 'DOUBLE',
-		self::T_DATE     => 'DATE',
-		self::T_TIME     => 'TIME',
-		self::T_DATETIME => 'TIMESTAMP',
-		self::T_CLOB     => 'LONGTEXT',
+		ilDBConstants::T_TEXT     => 'VARCHAR',
+		ilDBConstants::T_INTEGER  => 'INT',
+		ilDBConstants::T_FLOAT    => 'DOUBLE',
+		ilDBConstants::T_DATE     => 'DATE',
+		ilDBConstants::T_TIME     => 'TIME',
+		ilDBConstants::T_DATETIME => 'TIMESTAMP',
+		ilDBConstants::T_CLOB     => 'LONGTEXT',
 	);
 	/**
 	 * @var string
@@ -74,6 +73,7 @@ class ilDBPdo implements ilDBInterface {
 		PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
 		PDO::ATTR_EMULATE_PREPARES         => true,
 		PDO::ATTR_ERRMODE                  => PDO::ERRMODE_EXCEPTION,
+		//		PDO::ATTR_DEFAULT_FETCH_MODE       => PDO::FETCH_OBJ
 		//		PDO::MYSQL_ATTR_MAX_BUFFER_SIZE => 1048576
 	);
 
@@ -84,6 +84,10 @@ class ilDBPdo implements ilDBInterface {
 		}
 
 		$this->pdo = new PDO($this->getDSN(), $this->getUsername(), $this->getPassword(), $this->additional_attributes);
+		$this->manager = new ilDBPdoManager($this->pdo);
+		$this->reverse = new ilDBPdoReverse($this->pdo);
+
+		return ($this->pdo->errorCode() == PDO::ERR_NONE);
 	}
 
 
@@ -257,13 +261,10 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	public function query($query) {
 		$res = $this->pdo->query($query);
-		//        $err = $this->pdo->errorInfo();
 		$err = $this->pdo->errorCode();
-		if ($err != '00000') {
+		if ($err != PDO::ERR_NONE) {
 			$info = $this->pdo->errorInfo();
 			$infoMessage = $info[2];
-			echo "$query";
-			exit;
 			throw new ilDatabaseException($infoMessage);
 		}
 
@@ -354,23 +355,21 @@ class ilDBPdo implements ilDBInterface {
 	 * @return int|void
 	 */
 	public function update($table_name, $values, $where) {
-		
-		$query_fields = array();				
+
+		$query_fields = array();
 		foreach ($values as $key => $val) {
 			$qval = $this->quote($val[1], $val[0]);
 			$query_fields[] = "$key = $qval";
 		}
-	
+
 		$query_where = array();
 		foreach ($where as $key => $val) {
 			$qval = $this->quote($val[1], $val[0]);
 			$query_where[] = "$key = $qval";
 		}
-		
-		$query = "UPDATE $table_name".
-			" SET ".implode(", ", $query_fields).
-			" WHERE ".implode(" AND ", $query_where);
-		
+
+		$query = "UPDATE $table_name" . " SET " . implode(", ", $query_fields) . " WHERE " . implode(" AND ", $query_where);
+
 		try {
 
 			$this->pdo->exec($query);
@@ -425,13 +424,13 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	public function quote($value, $type = null) {
 		switch ($type) {
-			case self::T_INTEGER:
+			case ilDBConstants::T_INTEGER:
 				$pdo_type = PDO::PARAM_INT;
 				break;
-			case self::T_FLOAT:
+			case ilDBConstants::T_FLOAT:
 				$pdo_type = PDO::PARAM_INT;
 				break;
-			case self::T_TEXT:
+			case ilDBConstants::T_TEXT:
 			default:
 				$pdo_type = PDO::PARAM_STR;
 				break;
@@ -457,13 +456,13 @@ class ilDBPdo implements ilDBInterface {
 	 * @return mixed
 	 * @throws ilDatabaseException
 	 */
-	function fetchRow($fetchMode = DB_FETCHMODE_ASSOC) {
-		if ($fetchMode == DB_FETCHMODE_ASSOC) {
+	public function fetchRow($fetchMode = ilDBConstants::FETCHMODE_ASSOC) {
+		if ($fetchMode == ilDBConstants::FETCHMODE_ASSOC) {
 			return $this->fetchRowAssoc();
-		} elseif ($fetchMode == DB_FETCHMODE_OBJECT) {
+		} elseif ($fetchMode == ilDBConstants::FETCHMODE_OBJECT) {
 			return $this->fetchRowObject();
 		} else {
-			throw new ilDatabaseException("No valid fetch mode given, choose DB_FETCHMODE_ASSOC or DB_FETCHMODE_OBJECT");
+			throw new ilDatabaseException("No valid fetch mode given, choose ilDBConstants::FETCHMODE_ASSOC or ilDBConstants::FETCHMODE_OBJECT");
 		}
 	}
 
@@ -607,8 +606,8 @@ class ilDBPdo implements ilDBInterface {
 		// TODO: Implement like() method.
 
 		if (!in_array($type, array(
-			self::T_TEXT,
-			self::T_CLOB,
+			ilDBConstants::T_TEXT,
+			ilDBConstants::T_CLOB,
 			"blob",
 		))
 		) {
@@ -906,11 +905,73 @@ class ilDBPdo implements ilDBInterface {
 
 	/**
 	 * @param $a_table
+	 * @return \PDOStatement
 	 * @throws \ilDatabaseException
 	 */
 	public function optimizeTable($a_table) {
-		$this->query('OPTIMIZE TABLE ' . $a_table);
+		return $this->query('OPTIMIZE TABLE ' . $a_table);
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsSlave() {
+		return false;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsFulltext() {
+		return false;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function listTables() {
+		return $this->manager->listTables();
+	}
+
+
+	/**
+	 * @param $module
+	 * @return \ilDBPdoManager|\ilDBPdoReverse
+	 */
+	public function loadModule($module) {
+		switch ($module) {
+			case ilDBConstants::MODULE_MANAGER:
+				return $this->manager;
+			case ilDBConstants::MODULE_REVERSE:
+				return $this->reverse;
+		}
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getAllowedAttributes() {
+		return ilDBConstants::$allowed_attributes;
+	}
+
+
+	/**
+	 * @param $sequence
+	 * @return bool
+	 */
+	public function sequenceExists($sequence) {
+		return in_array($sequence, $this->listSequences());
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function listSequences() {
+		return $this->manager->listSequences();
 	}
 }
-
-?>

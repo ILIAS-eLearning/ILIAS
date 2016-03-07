@@ -241,7 +241,7 @@ abstract class ilDidacticTemplateFilterPattern
 		$query = 'SELECT * FROM didactic_tpl_fp '.
 			'WHERE pattern_id = '.$ilDB->quote($this->getPatternId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setPatternType($row->pattern_type);
 			$this->setPatternSubType($row->pattern_sub_type);

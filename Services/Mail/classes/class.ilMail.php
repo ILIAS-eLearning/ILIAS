@@ -540,7 +540,7 @@ class ilMail
 			array('integer', 'integer'),
 			array($this->user_id, $a_mail_id));
 
-		$this->mail_data = $this->fetchMailData($res->fetchRow(DB_FETCHMODE_OBJECT));
+		$this->mail_data = $this->fetchMailData($res->fetchRow(ilDBConstants::FETCHMODE_OBJECT));
 
 		return $this->mail_data;
 	}
@@ -559,7 +559,7 @@ class ilMail
 			array('integer', 'integer'),
 			array($this->user_id, $a_mail_id));
 
-		$this->mail_data = $this->fetchMailData($res->fetchRow(DB_FETCHMODE_OBJECT));
+		$this->mail_data = $this->fetchMailData($res->fetchRow(ilDBConstants::FETCHMODE_OBJECT));
 
 		return $this->mail_data;
 	}
@@ -703,7 +703,7 @@ class ilMail
 			array('integer', 'integer'),
 			array($this->user_id, $a_mail_id));
 
-		$this->mail_data =$this->fetchMailData($res->fetchRow(DB_FETCHMODE_OBJECT));
+		$this->mail_data =$this->fetchMailData($res->fetchRow(ilDBConstants::FETCHMODE_OBJECT));
 
 		return $this->mail_data;
 	}
@@ -1753,7 +1753,7 @@ class ilMail
 			array('integer'),
 			array($this->user_id));
 
-		$this->mail_data = $this->fetchMailData($res->fetchRow(DB_FETCHMODE_OBJECT));
+		$this->mail_data = $this->fetchMailData($res->fetchRow(ilDBConstants::FETCHMODE_OBJECT));
 
 		return $this->mail_data;
 	}
@@ -2734,7 +2734,8 @@ class ilMail
 		$clientdirs = glob(ILIAS_WEB_DIR."/*", GLOB_ONLYDIR);
 		if(is_array($clientdirs) && count($clientdirs) > 1)
 		{
-			$signature .= '/?client_id='.CLIENT_ID;
+			// #18051
+			$signature .= '/login.php?client_id='.CLIENT_ID;
 		}
 		
 		$signature .= "\n\n";

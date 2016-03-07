@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once ("./Services/Database/classes/class.ilDB.php");
+include_once ("./Services/Database/classes/MDB2/class.ilDB.php");
 
 /**
 * Oracle Database Wrapper
@@ -63,7 +63,7 @@ class ilDBOracle extends ilDB
 		{
 			return parent::getDBVersion();
 		}
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return isset($row['banner']) ? $row['banner'] : parent::getDBVersion();
 	}
 	
@@ -413,7 +413,7 @@ class ilDBOracle extends ilDB
 	/**
 	 * Lock table
 	 * 
-	 * E.g $ilDB->lockTable('tree',ilDB::LOCK_WRITE,'t1')
+	 * E.g $ilDB->lockTable('tree',ilDBConstants::LOCK_WRITE,'t1')
 	 * @param string $a_name
 	 * @param int $a_mode
 	 * @param string $a_alias
@@ -434,11 +434,11 @@ class ilDBOracle extends ilDB
 
 			switch($table['type'])
 			{
-				case ilDB::LOCK_READ:
+				case ilDBConstants::LOCK_READ:
 					$lock .= ' IN SHARE MODE ';
 					break;
 				
-				case ilDB::LOCK_WRITE:
+				case ilDBConstants::LOCK_WRITE:
 					$lock .= ' IN EXCLUSIVE MODE ';
 					break;
 			}

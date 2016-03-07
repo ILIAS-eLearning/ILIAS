@@ -45,7 +45,7 @@ class ilLORandomTestQuestionPools
 				'AND objective_id = '.$ilDB->quote($a_objective_id,'integer').' '.
 				'AND tst_type = '.$ilDB->quote($a_test_type,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->percentage;
 		}
@@ -61,7 +61,7 @@ class ilLORandomTestQuestionPools
 				'AND objective_id = '.$ilDB->quote($a_objective_id,'integer').' '.
 				'AND tst_id = '.$ilDB->quote($a_test_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->qp_seq;
 		}
@@ -81,7 +81,7 @@ class ilLORandomTestQuestionPools
 				'AND qp_seq = '.$ilDB->quote($a_seq_id,'integer');
 		$res = $ilDB->query($query);
 		$objectiveIds = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$objectiveIds[] = $row->objective_id;
 		}
@@ -212,7 +212,7 @@ class ilLORandomTestQuestionPools
 				'AND tst_type = '.$ilDB->quote($this->getTestType(),'integer');
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setLimit($row->percentage);
 			$this->setTestId($row->tst_id);

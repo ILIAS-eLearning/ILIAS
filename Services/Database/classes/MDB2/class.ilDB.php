@@ -8,14 +8,14 @@
 
 //pear MDB2 abstraction layer
 include_once ("Services/PEAR/lib/MDB2.php");
-require_once 'Services/Database/classes/MySQL/class.ilMySQLQueryUtils.php';
-require_once 'Services/Database/classes/interface.ilDBInterface.php';
+require_once 'Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php';
+require_once 'Services/Database/interfaces/interface.ilDBInterface.php';
 
 define("DB_FETCHMODE_ASSOC", MDB2_FETCHMODE_ASSOC);
 define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
 
-//echo "-".DB_FETCHMODE_ASSOC."-";
-//echo "+".DB_FETCHMODE_OBJECT."+";
+//echo "-".ilDBConstants::FETCHMODE_ASSOC."-";
+//echo "+".ilDBConstants::FETCHMODE_OBJECT."+";
 
 
 /**
@@ -203,7 +203,9 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	* because it is a reserved word. So createTable / alterTable usually check
 	* these.
 	*/
-	abstract static function getReservedWords();
+	static function getReservedWords(){
+		return array();
+	}
 
 
 	/**
@@ -1416,7 +1418,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	*/
 	static function isReservedWord($a_word)
 	{
-		include_once("./Services/Database/classes/class.ilDBMySQL.php");
+		include_once("./Services/Database/classes/MDB2/class.ilDBMySQL.php");
 		$mysql_reserved_words = ilDBMySQL::getReservedWords();
 		if (in_array(strtoupper($a_word), $mysql_reserved_words))
 		{
@@ -1878,7 +1880,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	*/
 	function fetchAssoc($a_set)
 	{
-		return $a_set->fetchRow(DB_FETCHMODE_ASSOC);
+		return $a_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 	}
 	
 	/**
@@ -1896,7 +1898,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	*/
 	function fetchObject($a_set)
 	{
-		return $a_set->fetchRow(DB_FETCHMODE_OBJECT);
+		return $a_set->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 	}
 
 	/**
@@ -2491,7 +2493,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 		
 		if (!MDB2::isError($set))
 		{
-			$r = $set->fetchRow(DB_FETCHMODE_ASSOC);
+			$r = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 	
 			return $r[0];
 		}
@@ -2506,7 +2508,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	* @param string
 	* @return object DB
 	*/
-	function getRow($sql,$mode = DB_FETCHMODE_OBJECT)
+	function getRow($sql,$mode = ilDBConstants::FETCHMODE_OBJECT)
 	{
 		$set = $this->query($sql);
 		$r = $set->fetchRow($mode);

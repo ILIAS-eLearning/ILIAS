@@ -41,7 +41,7 @@ class ilUserDefinedData
 		$res = $ilDB->query($query);
 		
 		$udfd = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$udfd[$row['usr_id']][$row['field_id']] = $row['value'];
 		}
@@ -216,14 +216,14 @@ class ilUserDefinedData
 		$query = "SELECT * FROM udf_text ".
 			"WHERE usr_id = ".$this->db->quote($this->usr_id,'integer')."";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$this->user_data["f_".$row["field_id"]] = $row["value"];
 		}
 		$query = "SELECT * FROM udf_clob ".
 			"WHERE usr_id = ".$this->db->quote($this->usr_id,'integer')."";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$this->user_data["f_".$row["field_id"]] = $row["value"];
 		}

@@ -20,11 +20,6 @@ class ilTermsOfServiceEntityFactoryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		if(!defined('MDB2_AUTOQUERY_INSERT'))
-		{
-			define('MDB2_AUTOQUERY_INSERT', 1);
-		}
-
 		parent::setUp();
 	}
 

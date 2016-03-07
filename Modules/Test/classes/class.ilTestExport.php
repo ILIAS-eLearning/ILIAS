@@ -19,7 +19,7 @@ class ilTestExport
 	/** @var  ilErrorHandling $err */
 	var $err;			// error object
 	
-	/** @var  ilDB $db */
+	/** @var  ilDBInterface $db */
 	var $db;			// database object
 	
 	/** @var  ILIAS $ilias */

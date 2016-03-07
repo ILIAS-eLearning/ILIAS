@@ -67,7 +67,7 @@ class ilInitialisation
 		
 
 		//include classes and function libraries
-		require_once "./Services/Database/classes/class.ilDB.php";
+		require_once "./Services/Database/classes/MDB2/class.ilDB.php";
 		// require_once "classes/class.ilias.php";
 		// require_once './Services/User/classes/class.ilObjUser.php';
 		require_once "./Services/Logging/classes/class.ilLog.php";

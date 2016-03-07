@@ -57,7 +57,7 @@ class ilMDOrComposite extends ilMDRequirement
 				"AND obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ";
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->or_composite_id = $row->orc;
 			}
@@ -162,7 +162,7 @@ class ilMDOrComposite extends ilMDRequirement
 			"AND or_composite_id > 0 ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->or_composite_id;
 		}

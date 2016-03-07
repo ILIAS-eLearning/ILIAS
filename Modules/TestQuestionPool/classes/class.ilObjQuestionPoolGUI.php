@@ -1620,7 +1620,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	/**
 	 * @param array $taxIds
 	 * @global ilRbacSystem  $rbacsystem
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @global ilLanguage $lng
 	 * @global ilPluginAdmin $ilPluginAdmin
 	 * @return ilQuestionBrowserTableGUI

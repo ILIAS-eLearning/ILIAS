@@ -62,7 +62,7 @@ class ilShopObjectSearch extends ilAbstractSearch
 			$values
 		);
 
-		while($row = $statement->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $statement->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->ref_id, $row->type, $this->__prepareFound($row));
 		}		

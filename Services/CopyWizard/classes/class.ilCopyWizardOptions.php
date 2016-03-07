@@ -127,7 +127,7 @@ class ilCopyWizardOptions
 		
 	 	$query = "SELECT MAX(copy_id) latest FROM copy_wizard_options ";
 	 	$res = $ilDB->query($query);
-	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	 	$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 	 	
 		$ilDB->insert("copy_wizard_options", array(
 			"copy_id" => array("integer", ((int) $row->latest) + 1),
@@ -493,7 +493,7 @@ class ilCopyWizardOptions
 			"AND source_id = -2 ";
 		$res = $this->db->query($query);
 		$mappings = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$mappings = unserialize($row->options);
 		}
@@ -560,7 +560,7 @@ class ilCopyWizardOptions
 	 	$res = $this->db->query($query);
 	 	
 	 	$this->options = array();
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		$this->options[$row->source_id] = unserialize($row->options);
 	 	}

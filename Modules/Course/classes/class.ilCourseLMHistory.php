@@ -92,7 +92,7 @@ class ilCourseLMHistory
 			"ORDER BY last_access ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->lm_ref_id;
 		}
@@ -108,7 +108,7 @@ class ilCourseLMHistory
 			"AND crs_ref_id = ".$ilDB->quote($this->getCourseRefId(),'integer')."";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$lm[$row->lm_ref_id]['lm_ref_id'] = $row->lm_ref_id;
 			$lm[$row->lm_ref_id]['lm_page_id'] = $row->lm_page_id;

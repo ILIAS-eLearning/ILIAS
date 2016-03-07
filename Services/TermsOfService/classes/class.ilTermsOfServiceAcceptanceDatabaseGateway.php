@@ -10,14 +10,15 @@ require_once 'Services/TermsOfService/interfaces/interface.ilTermsOfServiceAccep
 class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAcceptanceDataGateway
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
 	/**
-	 * @param ilDB $db
+	 * ilTermsOfServiceAcceptanceDatabaseGateway constructor.
+	 * @param ilDBInterface $db
 	 */
-	public function __construct(ilDB $db)
+	public function __construct(ilDBInterface $db)
 	{
 		$this->db = $db;
 	}

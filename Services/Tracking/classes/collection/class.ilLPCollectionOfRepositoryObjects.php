@@ -210,7 +210,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 			" WHERE utc.obj_id = ".$ilDB->quote($this->obj_id, "integer").
 			" AND active = ".$ilDB->quote(1, "integer").
 			" ORDER BY title");
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if(in_array($row->item_id, $possible) &&
 				$this->validateEntry($row->item_id, $row->type))
@@ -290,7 +290,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 			" AND ".$ilDB->in("item_id", $a_item_ids, false, "integer").
 			" AND grouping_id > ".$ilDB->quote(0, "integer");
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$grouping_ids[] = $row->grouping_id;
 		}
@@ -346,7 +346,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 			" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer").
 			" AND ".$ilDB->in("grouping_id", $grouping_ids, false, "integer");
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$all_item_ids[] = $row->item_id;
 		}
@@ -360,7 +360,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 			" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer").
 			" GROUP BY obj_id";
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		$grp_id = $row->grp;		
 		++$grp_id;
 
@@ -400,7 +400,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 				" AND grouping_id = ".$ilDB->quote($grouping_id,'integer').
 				" GROUP BY obj_id";
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				if($num <= 0 || $num >= $row->num)
 				{
@@ -489,7 +489,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 			" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer").
 			" AND item_id = ".$ilDB->quote($item_id, "integer");
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		$grouping_id = $row->grouping_id;
 		if($grouping_id > 0)
 		{			
@@ -497,7 +497,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 				" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer").
 				" AND grouping_id = ".$ilDB->quote($grouping_id, "integer");
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$items['items'][] = $row->item_id;
 				$items['num_obligatory'] = $row->num_obligatory;
@@ -520,7 +520,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 		$res = $ilDB->query($query);
 
 		$grouped = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if(in_array($row->item_id, $items))
 			{

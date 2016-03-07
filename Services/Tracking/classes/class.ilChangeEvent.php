@@ -391,8 +391,8 @@ class ilChangeEvent
 		if($row["counter"] >= $a_minimum)
 		{
 			// lock source and transfer table
-			$ilDB->lockTables(array(array("name"=>"obj_stat_log", "type"=>ilDB::LOCK_WRITE),
-				array("name"=>"obj_stat_tmp", "type"=>ilDB::LOCK_WRITE)));
+			$ilDB->lockTables(array(array("name"=>"obj_stat_log", "type"=>ilDBConstants::LOCK_WRITE),
+				array("name"=>"obj_stat_tmp", "type"=>ilDBConstants::LOCK_WRITE)));
 
 			// if other process was transferring, we had to wait for the lock and
 			// the source table should now have less than minimum/needed entries
@@ -413,8 +413,8 @@ class ilChangeEvent
 				$ilDB->unlockTables();
 
 				// lock transfer and target table (is this needed?)
-				$ilDB->lockTables(array(array("name"=>"obj_stat_tmp", "type"=>ilDB::LOCK_WRITE),
-				array("name"=>"obj_stat", "type"=>ilDB::LOCK_WRITE)));
+				$ilDB->lockTables(array(array("name"=>"obj_stat_tmp", "type"=>ilDBConstants::LOCK_WRITE),
+				array("name"=>"obj_stat", "type"=>ilDBConstants::LOCK_WRITE)));
 
 				// process log data (timestamp is not needed anymore)
 				$sql = "SELECT obj_id, obj_type, yyyy, mm, dd, hh, SUM(read_count) AS read_count,".
@@ -586,7 +586,7 @@ class ilChangeEvent
 			"AND usr_id=".$ilDB->quote($usr_id ,'integer');
 		$r = $ilDB->query($q);
 		$catchup = null;
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
 		
@@ -639,7 +639,7 @@ class ilChangeEvent
 			"AND usr_id=".$ilDB->quote($usr_id ,'integer');
 		$r = $ilDB->query($q);
 		$catchup = null;
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
 
@@ -704,7 +704,7 @@ class ilChangeEvent
 			"AND usr_id=".$ilDB->quote($usr_id);
 		$r = $ilDB->query($q);
 		$catchup = null;
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
 
@@ -763,7 +763,7 @@ class ilChangeEvent
 			"AND usr_id=".$ilDB->quote($usr_id);
 		$r = $ilDB->query($q);
 		$catchup = null;
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
 		
@@ -775,7 +775,7 @@ class ilChangeEvent
 			"ORDER BY last_access DESC";
 		$r = $ilDB->query($q);
 		$events = array();
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$events[] = $row;
 		}

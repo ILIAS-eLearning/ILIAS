@@ -213,7 +213,7 @@ class ilObjGroupAccess extends ilObjectAccess
 		$res = $ilDB->query($query);
 		
 		$enabled = $unlimited = false;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$enabled = $row->registration_enabled;
 			$unlimited = $row->registration_unlimited;
@@ -273,7 +273,7 @@ class ilObjGroupAccess extends ilObjectAccess
 		$res = $ilDB->query($query);
 		
 		$info = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$info['reg_info_start'] = new ilDateTime($row->registration_start, IL_CAL_DATETIME);
 			$info['reg_info_end'] = new ilDateTime($row->registration_end, IL_CAL_DATETIME);

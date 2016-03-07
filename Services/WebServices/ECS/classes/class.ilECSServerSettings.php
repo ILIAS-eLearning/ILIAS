@@ -100,7 +100,7 @@ class ilECSServerSettings
 			'ORDER BY title ';
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->servers[$row->server_id] = ilECSSetting::getInstanceByServerId($row->server_id);
 		}
@@ -120,7 +120,7 @@ class ilECSServerSettings
 		$res = $ilDB->query($query);
 
 		$this->servers = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->servers[$row->server_id] = ilECSSetting::getInstanceByServerId($row->server_id);
 		}

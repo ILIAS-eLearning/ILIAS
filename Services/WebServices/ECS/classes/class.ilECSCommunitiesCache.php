@@ -127,7 +127,7 @@ class ilECSCommunitiesCache
 
 		$query = 'SELECT sid,cid FROM ecs_community ';
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->communities[] = ilECSCommunityCache::getInstance($row->sid, $row->cid);
 		}

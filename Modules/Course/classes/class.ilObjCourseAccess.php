@@ -292,7 +292,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
 		$query = "SELECT view_mode FROM crs_settings WHERE obj_id = ".$ilDB->quote($a_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->view_mode;
 		}
@@ -312,7 +312,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		$query = "SELECT * FROM crs_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);				
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		return (bool)$row->activation_type;	
 	}
 
@@ -381,7 +381,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$type = $row->sub_limitation_type;
 			$reg_start = $row->sub_start;
@@ -425,7 +425,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		$res = $ilDB->query($query);
 		
 		$info = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$info['reg_info_start'] = new ilDateTime($row->sub_start, IL_CAL_UNIX);
 			$info['reg_info_end'] = new ilDateTime($row->sub_end, IL_CAL_UNIX);

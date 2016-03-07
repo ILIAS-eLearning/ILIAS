@@ -13,7 +13,7 @@ class ilBuddySystemRelationRepository
 	const TYPE_IGNORED   = 'ign';
 
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
@@ -37,7 +37,7 @@ class ilBuddySystemRelationRepository
 	}
 
 	/**
-	 * @return ilDB
+	 * @return ilDBInterface
 	 */
 	public function getDatabaseAdapter()
 	{
@@ -45,9 +45,9 @@ class ilBuddySystemRelationRepository
 	}
 
 	/**
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 */
-	public function setDatabaseAdapter(ilDB $db)
+	public function setDatabaseAdapter(ilDBInterface $db)
 	{
 		$this->db = $db;
 	}

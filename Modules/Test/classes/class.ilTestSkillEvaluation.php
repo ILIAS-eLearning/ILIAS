@@ -18,7 +18,7 @@ require_once 'Services/Skill/classes/class.ilBasicSkill.php';
 class ilTestSkillEvaluation
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db;
 
@@ -82,7 +82,7 @@ class ilTestSkillEvaluation
 	 */
 	private $numRequiredBookingsForSkillTriggering;
 
-	public function __construct(ilDB $db, $testId, $refId)
+	public function __construct(ilDBInterface $db, $testId, $refId)
 	{
 		$this->db = $db;
 		$this->refId = $refId;

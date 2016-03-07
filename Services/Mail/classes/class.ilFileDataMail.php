@@ -121,7 +121,7 @@ class ilFileDataMail extends ilFileData
 /*		$query = "SELECT path FROM mail_attachment ".
 			"WHERE mail_id = ".$ilDB->quote($a_mail_id)."";
 		
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->ilias->db->getRow($query,ilDBConstants::FETCHMODE_OBJECT);
 		$path = $this->getMailPath().'/'.$row->path;
 */
 		$query = $ilDB->query("SELECT path FROM mail_attachment 
@@ -164,7 +164,7 @@ class ilFileDataMail extends ilFileData
 /*		$query = "SELECT path FROM mail_attachment ".
 			"WHERE mail_id = ".$ilDB->quote($a_mail_id)."";
 		
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->ilias->db->getRow($query,ilDBConstants::FETCHMODE_OBJECT);
 		$path = $this->getMailPath().'/'.$row->path.'/'.$a_filename;
 */
 		$query = $ilDB->query("SELECT path FROM mail_attachment ".
@@ -519,7 +519,7 @@ class ilFileDataMail extends ilFileData
 		$res = $ilDB->query("SELECT path FROM mail_attachment
 				WHERE mail_id = ".$ilDB->quote($a_mail_id,'integer'));
 	
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$path = $row->path;
 		}
@@ -528,7 +528,7 @@ class ilFileDataMail extends ilFileData
 			$res = $ilDB->query("SELECT COUNT(mail_id) count_mail_id FROM mail_attachment 
 					WHERE path = ".$ilDB->quote($path,'text')) ;
 			
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$cnt_mail_id = $row->count_mail_id;
 			}
@@ -613,7 +613,7 @@ class ilFileDataMail extends ilFileData
 		$result_set = $ilDB->query($q);
 		$size = 0;
 		$count = 0;
-		while($row = $result_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $result_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$attachment_path = $mail_data_dir.DIRECTORY_SEPARATOR.$row['path'];
 			$attachment_size = ilUtil::dirsize($attachment_path);
@@ -632,7 +632,7 @@ class ilFileDataMail extends ilFileData
 	public function onUserDelete()
 	{
 		/**
- 		 * @var $ilDB ilDB
+ 		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 		

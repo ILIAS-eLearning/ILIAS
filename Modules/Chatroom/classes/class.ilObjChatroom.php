@@ -61,7 +61,7 @@ class ilObjChatroom extends ilObject
 	 *
 	 * @global type $rbacadmin
 	 * @global type $rbacreview
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @return type 
 	 */
 	function initDefaultRoles()
@@ -111,7 +111,7 @@ class ilObjChatroom extends ilObject
 	public function delete()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 

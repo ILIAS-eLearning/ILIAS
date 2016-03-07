@@ -301,7 +301,7 @@ class ilECSParticipantSetting
 
 		$this->exists = ($res->numRows() ? true : false);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->enableExport($row->export);
 			$this->enableImport($row->import);

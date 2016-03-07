@@ -220,7 +220,7 @@ class ilRepositoryExplorer extends ilExplorer
 
 				$query = sprintf("SELECT * FROM tst_tests WHERE obj_fi=%s",$a_obj_id);
 				$res = $ilDB->query($query);
-				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 				{
 					return (bool) $row->complete;
 				}
@@ -234,7 +234,7 @@ class ilRepositoryExplorer extends ilExplorer
 
 				$query = sprintf("SELECT * FROM svy_svy WHERE obj_fi=%s",$a_obj_id);
 				$res = $ilDB->query($query);
-				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 				{
 					return (bool) $row->complete;
 				}

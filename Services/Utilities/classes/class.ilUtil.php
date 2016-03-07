@@ -4390,7 +4390,7 @@ class ilUtil
 
 		$res = $ilDB->query($query);
 		$counter = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if($counter >= $limit)
 			{
@@ -4904,7 +4904,7 @@ class ilUtil
 			"ORDER BY ".$a_field;
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->$a_id_name;
 		}

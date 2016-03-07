@@ -100,7 +100,7 @@ class ilCalendarCategory
 	 		"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
 	 		"AND type = ".$ilDB->quote(self::TYPE_OBJ ,'integer');
 	 	$res = $ilDB->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		return new ilCalendarCategory($row->cat_id);
 	 	}
@@ -140,7 +140,7 @@ class ilCalendarCategory
 		$query = "SELECT * FROM cal_cat_assignments ".
 			'WHERE cat_id = '.$ilDB->quote($a_category_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$apps[] = $row->cal_id;
 		}
@@ -441,7 +441,7 @@ class ilCalendarCategory
 		$query = "SELECT * FROM cal_categories ".
 			"WHERE cat_id = ".$this->db->quote($this->getCategoryID() ,'integer')." ";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->cat_id = $row->cat_id;
 			$this->obj_id = $row->obj_id;

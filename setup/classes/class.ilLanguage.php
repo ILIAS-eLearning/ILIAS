@@ -558,7 +558,7 @@ class ilLanguage
 		$result = $ilDB->query($q);
 		
 		$changes = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$changes[$row["module"]][$row["identifier"]] = $row["value"];
 		}

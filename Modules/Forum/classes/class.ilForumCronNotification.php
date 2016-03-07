@@ -374,7 +374,7 @@ class ilForumCronNotification extends ilCronJob
 	public function sendCronForumNotification($res, $notification_type)
 	{
 		/**
-		 * @var $ilDB  ilDB
+		 * @var $ilDB  ilDBInterface
 		 * @var $ilLog ilLog
 		 */
 		global $ilDB, $ilLog;

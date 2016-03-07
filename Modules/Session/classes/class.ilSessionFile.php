@@ -244,7 +244,7 @@ class ilSessionFile
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')."";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$files[] = new ilSessionFile($row->file_id);
 		}
@@ -263,7 +263,7 @@ class ilSessionFile
 		// read file data
 		$query = "SELECT * FROM event_file WHERE file_id = ".$ilDB->quote($this->file_id ,'integer')."";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setFileName($row->file_name);
 			$this->setFileSize($row->file_size);

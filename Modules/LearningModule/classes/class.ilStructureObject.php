@@ -218,7 +218,7 @@ class ilStructureObject extends ilLMObject
 					$ilDB->quote($a_st_id, "integer")." AND lm_id = ".
 					$ilDB->quote($a_lm_id, "integer");
 				$tree_set = $ilDB->query($query);
-				$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
+				$tree_node = $tree_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 				$depth = $tree_node["depth"];
 
 				$nr = $tree->getChildSequenceNumber($tree_node, "st")." ";
@@ -229,7 +229,7 @@ class ilStructureObject extends ilLMObject
 						$ilDB->quote($tree_node["parent"], "integer")." AND lm_id = ".
 						$ilDB->quote($a_lm_id, "integer");
 					$tree_set = $ilDB->query($query);
-					$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
+					$tree_node = $tree_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 					$seq = $tree->getChildSequenceNumber($tree_node, "st");
 
 					$nr = $seq.".".$nr;

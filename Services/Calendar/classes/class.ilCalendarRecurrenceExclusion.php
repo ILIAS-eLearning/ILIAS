@@ -164,7 +164,7 @@ class ilCalendarRecurrenceExclusion
 		
 		$query = "SELECT * FROM cal_rec_exclusion WHERE excl_id = ".$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->cal_id = $row->cal_id;
 			$this->setDate(new ilDate($row->excl_date,IL_CAL_DATE,'UTC'));	

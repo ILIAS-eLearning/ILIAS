@@ -15,7 +15,7 @@ class ilPaymentVendors
 	private static $_instance;
 
 	/**
-	 * @var $db ilDB
+	 * @var $db ilDBInterface
 	 */
 	public $db = null;
 
@@ -123,7 +123,7 @@ class ilPaymentVendors
 	public static function _isVendor($a_usr_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -137,7 +137,7 @@ class ilPaymentVendors
 	public static function _getCostCenter($a_usr_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 

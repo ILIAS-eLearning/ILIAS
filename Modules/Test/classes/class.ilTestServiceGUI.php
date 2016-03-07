@@ -31,7 +31,7 @@ class ilTestServiceGUI
 	public $service = null;
 
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 

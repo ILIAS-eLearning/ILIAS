@@ -1044,7 +1044,7 @@ class ilForum
 	public function getAllThreads($a_topic_id, array $params = array(), $limit = 0, $offset = 0)
 	{
 		/**
-		 * @var $ilDB      ilDB
+		 * @var $ilDB      ilDBInterface
 		 * @var $ilUser    ilObjUser
 		 * @var $ilSetting ilSetting
 		 */

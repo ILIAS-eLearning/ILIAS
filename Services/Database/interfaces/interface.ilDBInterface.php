@@ -190,12 +190,12 @@ interface ilDBInterface {
 	 */
 	public function addIndex($table_name, $index_name);
 
+
 	/**
-	 * @param $fetchMode int
+	 * @param int $fetchMode
 	 * @return mixed
-	 * @throws ilDatabaseException
 	 */
-	//function fetchRow($fetchMode = DB_FETCHMODE_ASSOC);
+	//	public function fetchRow($fetchMode = ilDBConstants::FETCHMODE_ASSOC);
 
 	/**
 	 * Get DSN. This must be overwritten in DBMS specific class.
@@ -380,4 +380,54 @@ interface ilDBInterface {
 	 * @return bool
 	 */
 	public function optimizeTable($a_table);
+
+
+	/**
+	 * @param $sequence
+	 * @return mixed
+	 */
+	public function sequenceExists($sequence);
+
+
+	/**
+	 * @return array
+	 */
+	public function listSequences();
+
+
+
+	//
+	// type-specific methods
+	//
+	/**
+	 * @return bool
+	 */
+	public function supportsFulltext();
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsSlave();
+
+	//
+	//
+	//
+	/**
+	 * @return array
+	 */
+	public function listTables();
+
+
+	/**
+	 * @param $module
+	 * @return ilDBReverse|ilDBManager
+	 */
+	public function loadModule($module);
+
+
+	/**
+	 * @return array
+	 */
+	public function getAllowedAttributes();
 }

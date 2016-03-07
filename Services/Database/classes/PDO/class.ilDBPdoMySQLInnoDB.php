@@ -10,5 +10,11 @@ require_once('class.ilDBPdoMySQL.php');
  */
 class ilDBPdoMySQLInnoDB extends ilDBPdoMySQL implements ilDBInterface {
 
+	/**
+	 * @return bool
+	 */
+	public function supportsFulltext() {
+		return false;
+	}
 }
 

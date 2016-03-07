@@ -163,7 +163,7 @@ class ilChatroom
 	 *
 	 * @todo $recipient, $publicMessage speichern
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param string $message
 	 * @param string $recipient
 	 * @param boolean $publicMessage
@@ -203,14 +203,14 @@ class ilChatroom
 	 * userId and roomId, the userdata is inserted into the userTable to
 	 * connect the user.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param ilChatroomUser $user
 	 * @return boolean
 	 */
 	public function connectUser(ilChatroomUser $user)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -251,7 +251,7 @@ class ilChatroom
 	 * Returns an array of user objects containing all users having an entry
 	 * in userTable, matching the roomId.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @return array
 	 */
 	public function getConnectedUsers()
@@ -289,7 +289,7 @@ class ilChatroom
 	 * Deletes entrys from userTable, matching roomId and userId if existing and
 	 * inserts userdata and disconnection time into sessionTable.
 	 *
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param array $userIds
 	 */
 	public function disconnectUsers(array $userIds)
@@ -365,7 +365,7 @@ class ilChatroom
 	/**
 	 * Saves settings into settingsTable using given settings array.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param array $settings
 	 */
 	public function saveSettings(array $settings)
@@ -421,7 +421,7 @@ class ilChatroom
 	/**
 	 * Returns ilChatroom object by given $object_id.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $object_id
 	 * @return ilChatroom
 	 */
@@ -444,7 +444,7 @@ class ilChatroom
 	/**
 	 * Returns ilChatroom by given $room_id
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $room_id
 	 * @return ilChatroom
 	 */
@@ -506,7 +506,7 @@ class ilChatroom
 	 * Returns true if entry exists in userTable matching given $chat_userid
 	 * and $this->roomId.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $chat_userid
 	 * @return boolean
 	 */
@@ -557,7 +557,7 @@ class ilChatroom
 	/**
 	 * Deletes all entrys from userTable.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 */
 	public function disconnectAllUsersFromAllRooms()
 	{
@@ -575,7 +575,7 @@ class ilChatroom
 	 * Returns array containing history data selected from historyTable by given
 	 * ilDateTime, $restricted_session_userid and matching roomId.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param ilDateTime $from
 	 * @param ilDateTime $to
 	 * @param integer $restricted_session_userid
@@ -653,7 +653,7 @@ class ilChatroom
 	/**
 	 * Saves information about file uploads in DB.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $user_id
 	 * @param string $filename
 	 * @param string $type
@@ -680,7 +680,7 @@ class ilChatroom
 	/**
 	 * Inserts user into banTable, using given $user_id
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $user_id
 	 * @param string $comment
 	 */
@@ -705,7 +705,7 @@ class ilChatroom
 	 * Deletes entry from banTable matching roomId and given $user_id and
 	 * returns true if sucessful.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param mixed $user_id
 	 * @return boolean
 	 */
@@ -730,7 +730,7 @@ class ilChatroom
 	 * Returns true if there's an entry in banTable matching roomId and given
 	 * $user_id
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $user_id
 	 * @return boolean
 	 */
@@ -757,7 +757,7 @@ class ilChatroom
 	 * Returns an multidimensional array containing userdata from users
 	 * having an entry in banTable with matching roomId.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @return array
 	 */
 	public function getBannedUsers()
@@ -803,7 +803,7 @@ class ilChatroom
 	 * Returns row from sessionTable where user_id matches userId from given
 	 * $user object.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param ilChatroomUser $user
 	 * @return array
 	 */
@@ -830,7 +830,7 @@ class ilChatroom
 	 * Returns all from sessionTable where user_id matches userId from given
 	 * $user object.
 	 *
-	 * @global ilDBMySQL $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param ilChatroomUser $user
 	 * @return array
 	 */
@@ -908,7 +908,7 @@ class ilChatroom
 	public function inviteUserToPrivateRoom($user_id, $proom_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -1136,7 +1136,7 @@ class ilChatroom
 
 	/**
 	 *
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $room_id
 	 * @param integer $user_id
 	 */
@@ -1244,14 +1244,14 @@ class ilChatroom
     *  Fetches and returns the object ids of all rooms accessible
     *  by the user with $user_id
     * 
-    * @global ilDBMySQL $ilDB
+    * @global ilDBInterface $ilDB
     * @param integer $user_id
     * @return array
     */
    public function getAllRooms($user_id)
    {
 	   /**
-		* @var $ilDB ilDB
+		* @var $ilDB ilDBInterface
 		*/
 	   global $ilDB;
 
@@ -1317,7 +1317,7 @@ class ilChatroom
    /**
     * Returns ref_id of given room_id
     *
-    * @global ilDBMySQL $ilDB
+    * @global ilDBInterface $ilDB
     * @param integer $room_id
     * @return integer
     */
@@ -1379,7 +1379,7 @@ public function getLastMessages($number, $chatuser = null) {
 	public function getLastMessagesForChatViewer($number, $chatuser = null)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -1440,7 +1440,7 @@ public function getLastMessages($number, $chatuser = null) {
 	public static function getUntrashedChatReferences($filter = array())
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 		

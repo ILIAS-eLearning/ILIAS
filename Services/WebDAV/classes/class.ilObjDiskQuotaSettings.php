@@ -87,7 +87,7 @@ class ilObjDiskQuotaSettings extends ilObject
 			"AND object_reference.ref_id = tree.child ".
 			"AND object_reference.obj_id = object_data.obj_id";
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		$ref_id = $row["ref_id"];		
 		if($ref_id)
 		{
@@ -202,7 +202,7 @@ class ilObjDiskQuotaSettings extends ilObject
 		$set = $ilDB->query("SELECT * FROM mail_template ".
 			" WHERE type='dqta' AND lang = ".$ilDB->quote($a_lang,'text'));
 
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			return $rec;
 		}

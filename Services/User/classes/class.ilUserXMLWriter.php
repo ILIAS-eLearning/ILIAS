@@ -153,7 +153,7 @@ class ilUserXMLWriter extends ilXmlWriter
 			);
 			$rbacresult = $ilDB->query($query);
 
-			while ($rbacrow = $rbacresult->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($rbacrow = $rbacresult->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 			{
 					if ($rbacrow["assign"] != "y")
 						continue;
@@ -342,7 +342,7 @@ class ilUserXMLWriter extends ilXmlWriter
 		$r = $ilDB->query($q);
 		if ($ilDB->numRows($r) == 1)
 		{
-			$personal_picture_data = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			$personal_picture_data = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 			$personal_picture = $personal_picture_data["value"];
 			$webspace_dir = ilUtil::getWebspaceDir();
 			$image_file = $webspace_dir."/usr_images/".$personal_picture;

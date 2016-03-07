@@ -381,7 +381,7 @@ class ASS_MarkSchema
 	*/
 	public function _getMatchingMarkFromActiveId($active_id, $percentage)
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT tst_mark.* FROM tst_active, tst_mark, tst_tests WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s ORDER BY minimum_level DESC",
 			array('integer'),

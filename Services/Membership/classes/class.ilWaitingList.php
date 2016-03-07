@@ -337,7 +337,7 @@ abstract class ilWaitingList
 
 		$res = $this->db->query($query);
 		$counter = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			++$counter;
 			$this->users[$row->usr_id]['position']	= $counter;
