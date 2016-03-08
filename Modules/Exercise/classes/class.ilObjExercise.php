@@ -265,23 +265,6 @@ class ilObjExercise extends ilObject
 		return true;
 	}
 
-	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	*
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional paramters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_node_id,$a_params = 0)
-	{
-		// object specific event handling
-
-		parent::notify($a_event,$a_ref_id,$a_node_id,$a_params);
-	}
-
 	function read()
 	{
 		global $ilDB;
