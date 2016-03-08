@@ -20,11 +20,11 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	/**
 	* Constructor
 	*/
-	function ilPDNotesBlockGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		parent::ilBlockGUI();
+		parent::__construct();
 		
 		$this->setLimit(5);
 		$this->setTitle($lng->txt("notes"));

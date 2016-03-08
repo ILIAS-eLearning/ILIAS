@@ -29,7 +29,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		global $ilCtrl, $lng;
 		
 		parent::__construct();
-		parent::ilBlockGUI();
+		parent::__construct();
 		
 		$lng->loadLanguageModule("feed");
 		$this->setLimit(5);

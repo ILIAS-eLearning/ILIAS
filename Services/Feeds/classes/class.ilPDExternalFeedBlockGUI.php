@@ -43,12 +43,11 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	/**
 	* Constructor
 	*/
-	function ilPDExternalFeedBlockGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng;
 		
 		parent::__construct();
-		parent::ilBlockGUI();
 		
 		$lng->loadLanguageModule("feed");
 		
