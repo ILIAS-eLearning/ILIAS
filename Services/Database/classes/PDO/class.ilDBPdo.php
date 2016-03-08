@@ -51,6 +51,14 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	protected $reverse;
 	/**
+	 * @var int
+	 */
+	protected $limit = null;
+	/**
+	 * @var int
+	 */
+	protected $offset = null;
+	/**
 	 * @var array
 	 */
 	protected $type_to_mysql_type = array(
@@ -260,6 +268,7 @@ class ilDBPdo implements ilDBInterface {
 	 * @throws ilDatabaseException
 	 */
 	public function query($query) {
+		$query = $this->appendLimit($query);
 		$res = $this->pdo->query($query);
 		$err = $this->pdo->errorCode();
 		if ($err != PDO::ERR_NONE) {
@@ -327,6 +336,7 @@ class ilDBPdo implements ilDBInterface {
 		$values = implode(",", $real);
 		$fields = implode(",", $fields);
 		$query = "INSERT INTO " . $table_name . " (" . $fields . ") VALUES (" . $values . ")";
+
 		return $this->pdo->exec($query);
 	}
 
@@ -541,16 +551,16 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
-	 * @param $query  string
-	 * @param $types  string[]
-	 * @param $values mixed[]
-	 * @return \ilDBStatement
+	 * @param string $query
+	 * @param \string[] $types
+	 * @param \mixed[] $values
+	 * @return \PDOStatement
+	 * @throws \ilDatabaseException
 	 */
 	public function queryF($query, $types, $values) {
 		// TODO: EXTRACT FOR THIS AND ilDB.
-
 		if (!is_array($types) || !is_array($values) || count($types) != count($values)) {
-			$this->raisePearError("ilDB::queryF: Types and values must be arrays of same size. ($query)");
+			throw new ilDatabaseException("ilDB::queryF: Types and values must be arrays of same size. ($query)");
 		}
 		$quoted_values = array();
 		foreach ($types as $k => $t) {
@@ -583,6 +593,12 @@ class ilDBPdo implements ilDBInterface {
 	}
 
 
+	/**
+	 * @param $bool
+	 * @return bool
+	 *
+	 * TODO
+	 */
 	public function useSlave($bool) {
 		return false;
 	}
@@ -596,7 +612,8 @@ class ilDBPdo implements ilDBInterface {
 	 * @deprecated Use a limit in the query.
 	 */
 	public function setLimit($limit, $offset = 0) {
-		//TODO
+		$this->limit = $limit;
+		$this->offset = $offset;
 	}
 
 
@@ -619,7 +636,6 @@ class ilDBPdo implements ilDBInterface {
 		))
 		) {
 			throw new ilDatabaseException("Like: Invalid column type '" . $type . "'.");
-			//			$this->raisePearError("Like: Invalid column type '" . $type . "'.", $this->error_class->FATAL);
 		}
 		if ($value == "?") {
 			if ($caseInsensitive) {
@@ -643,7 +659,7 @@ class ilDBPdo implements ilDBInterface {
 	 * @return string the now statement
 	 */
 	public function now() {
-		return "now()";
+		return "NOW()";
 	}
 
 
@@ -980,5 +996,32 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	public function listSequences() {
 		return $this->manager->listSequences();
+	}
+
+
+	/**
+	 * @param array $values
+	 * @param bool $allow_null
+	 * @return string
+	 */
+	public function concat(array $values, $allow_null = true) {
+		return ilMySQLQueryUtils::getInstance()->concat($values, $allow_null);
+	}
+
+
+	/**
+	 * @param $query
+	 * @return string
+	 */
+	protected function appendLimit($query) {
+		if ($this->limit !== null && $this->offset !== null) {
+			$query .= ' LIMIT ' . (int)$this->limit . ', ' . (int)$this->offset;
+			$this->limit = null;
+			$this->offset = null;
+
+			return $query;
+		}
+
+		return $query;
 	}
 }

@@ -86,6 +86,15 @@ class ilExSubmissionTeamGUI
 				$team[] = ilObjUser::_lookupFullname($member_id);
 			}						
 			$team = implode(", ", $team);
+			
+			// any team member upload?
+			if(!$a_submission->getLastSubmission())
+			{
+				$button = ilLinkButton::getInstance();							
+				$button->setCaption("exc_delete_team");
+				$button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "confirmDeleteTeam"));							
+				$team .= " ".$button->render();	
+			}
 
 			$button = ilLinkButton::getInstance();							
 			
@@ -254,13 +263,20 @@ class ilExSubmissionTeamGUI
 		$this->ctrl->redirect($this, "submissionScreenTeam");
 	}
 	
-	public function confirmRemoveTeamMemberObject()
+	public function confirmDeleteTeamObject()
+	{
+		$this->confirmRemoveTeamMemberObject(true);
+	}
+	
+	public function confirmRemoveTeamMemberObject($a_full_delete = false)
 	{
 		global $ilUser, $tpl;
 		
 		if(!$this->submission->isTutor())
 		{
-			$ids = $_POST["id"];
+			$ids = (bool)$a_full_delete
+				? $this->team->getMembers()
+				: $_POST["id"];
 
 			if(!sizeof($ids) &&
 				!$this->canEditTeam())
@@ -284,7 +300,7 @@ class ilExSubmissionTeamGUI
 			if(sizeof($members) == 1 && $members[0] == $ilUser->getId())
 			{
 				// direct team deletion - no confirmation
-				return $this->removeTeamMemberObject();
+				return $this->removeTeamMemberObject($a_full_delete);
 			}						
 			else
 			{
@@ -327,7 +343,7 @@ class ilExSubmissionTeamGUI
 		$tpl->setContent($cgui->getHTML());		
 	}
 	
-	public function removeTeamMemberObject()
+	public function removeTeamMemberObject($a_full_delete = false)
 	{
 		global $ilUser;
 		
@@ -335,7 +351,9 @@ class ilExSubmissionTeamGUI
 			? "returnToParent"
 			: "submissionScreenTeam";
 		
-		$ids = $_POST["id"];
+		$ids = (bool)$a_full_delete
+			? $this->team->getMembers()
+			: $_POST["id"];
 
 		if(!sizeof($ids) ||
 			!$this->canEditTeam())
@@ -481,7 +499,14 @@ class ilExSubmissionTeamGUI
 				return;
 			}			
 			
-			ilExAssignmentTeam::getTeamId($this->assignment->getId(), $ilUser->getId(), true);				
+			ilExAssignmentTeam::getTeamId($this->assignment->getId(), $ilUser->getId(), true);		
+			
+			// #18046
+			if(!$this->exercise->members_obj->isAssigned($ilUser->getId()))
+			{
+				$this->exercise->members_obj->assignMember($ilUser->getId());
+			}
+			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);	
 		}
 		
