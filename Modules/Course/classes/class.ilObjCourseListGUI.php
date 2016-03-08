@@ -14,14 +14,6 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
  */
 class ilObjCourseListGUI extends ilObjectListGUI
 {
-	/**
-	* constructor
-	*
-	*/
-	function ilObjCourseListGUI()
-	{
-		$this->ilObjectListGUI();
-	}
 
 	/**
 	* initialisation
@@ -59,7 +51,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 	* @param	string		$a_title		title
 	* @param	string		$a_description	description
 	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
+	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "", $a_context = self::CONTEXT_REPOSITORY)
 	{
 		global $ilBench;
 
