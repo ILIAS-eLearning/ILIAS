@@ -551,16 +551,16 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
-	 * @param $query  string
-	 * @param $types  string[]
-	 * @param $values mixed[]
-	 * @return \ilDBStatement
+	 * @param string $query
+	 * @param \string[] $types
+	 * @param \mixed[] $values
+	 * @return \PDOStatement
+	 * @throws \ilDatabaseException
 	 */
 	public function queryF($query, $types, $values) {
 		// TODO: EXTRACT FOR THIS AND ilDB.
-
 		if (!is_array($types) || !is_array($values) || count($types) != count($values)) {
-			$this->raisePearError("ilDB::queryF: Types and values must be arrays of same size. ($query)");
+			throw new ilDatabaseException("ilDB::queryF: Types and values must be arrays of same size. ($query)");
 		}
 		$quoted_values = array();
 		foreach ($types as $k => $t) {
@@ -636,7 +636,6 @@ class ilDBPdo implements ilDBInterface {
 		))
 		) {
 			throw new ilDatabaseException("Like: Invalid column type '" . $type . "'.");
-			//			$this->raisePearError("Like: Invalid column type '" . $type . "'.", $this->error_class->FATAL);
 		}
 		if ($value == "?") {
 			if ($caseInsensitive) {
