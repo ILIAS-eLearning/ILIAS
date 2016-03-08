@@ -57,7 +57,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 	{
 		global $ilUser;
 			
-		$data = ilPortfolioPage::getAllPages($this->portfolio->getId());
+		$data = ilPortfolioPage::getAllPortfolioPages($this->portfolio->getId());
 		$this->setData($data);
 				
 		if(!$this->is_template)
