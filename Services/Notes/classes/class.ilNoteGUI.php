@@ -29,7 +29,7 @@ class ilNoteGUI
 	* @param	$a_obj_type		string	"pd" for personal desktop
 	* @param	$a_include_subobjects	string		include all subobjects of rep object (e.g. pages)
 	*/
-	function ilNoteGUI($a_rep_obj_id = "", $a_obj_id = "", $a_obj_type = "", $a_include_subobjects = false)
+	function __construct($a_rep_obj_id = "", $a_obj_id = "", $a_obj_type = "", $a_include_subobjects = false)
 	{
 		global $ilCtrl, $lng;
 

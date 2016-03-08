@@ -129,7 +129,7 @@ class ilObjectListGUI
 	* constructor
 	*
 	*/
-	function ilObjectListGUI($a_context = self::CONTEXT_REPOSITORY)
+	function __construct($a_context = self::CONTEXT_REPOSITORY)
 	{
 		global $rbacsystem, $ilCtrl, $lng, $ilias;
 
