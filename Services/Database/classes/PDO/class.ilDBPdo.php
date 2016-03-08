@@ -327,7 +327,7 @@ class ilDBPdo implements ilDBInterface {
 		$values = implode(",", $real);
 		$fields = implode(",", $fields);
 		$query = "INSERT INTO " . $table_name . " (" . $fields . ") VALUES (" . $values . ")";
-		$this->pdo->exec($query);
+		return $this->pdo->exec($query);
 	}
 
 
@@ -372,7 +372,7 @@ class ilDBPdo implements ilDBInterface {
 
 		try {
 
-			$this->pdo->exec($query);
+			return $this->pdo->exec($query);
 		} catch (PDOException $e) {
 			echo '<pre>' . print_r($query, 1) . '</pre>';
 			exit();
@@ -385,7 +385,7 @@ class ilDBPdo implements ilDBInterface {
 	 * @return int
 	 */
 	public function manipulate($query) {
-		$this->pdo->exec($query);
+		return $this->pdo->exec($query);
 	}
 
 
