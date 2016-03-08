@@ -13,8 +13,11 @@ class ilLPRubricCard
     protected $obj_id;
     
     private $rubric_id;
-    private $passing_grade=50;
-    
+    private $passing_grade=80;
+    private $rubric_locked;
+    private $rubric_owner;
+    private $rubric_complete;
+
     public function __construct($obj_id)
     {
         global $ilDB;
@@ -23,12 +26,23 @@ class ilLPRubricCard
         $this->obj_id=$obj_id;
         
     }
+
+
     
     public function getPassingGrade()
     {
         return($this->passing_grade);    
     }
-    
+
+    public function getRubricLocked()
+    {
+        return $this->rubric_locked;
+    }
+    public function getRubricOwner()
+    {
+        return $this->rubric_owner;
+    }
+
     private function incrementSequence($table)
     {
         $sequence="";
@@ -48,23 +62,24 @@ class ilLPRubricCard
         
         return($sequence);
     }
-    
+
     private function getCardPostData()
     {
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form=new ilPropertyFormGUI();
-                
         // gather label values
         $labels=array();        
         for($a=0;$a<7;$a++){
             $tmp_label=$form->getInput("Label$a",false);
-            if(!empty($tmp_label)){
+            //if(!empty($tmp_label)){
+            if(isset($_POST["Label$a"])){
                 array_push($labels,array('label'=>$tmp_label));                
             }else{
                 break;
             }                                    
         }
-        
+        //is the rubric complete?
+        $this->rubric_complete=$form->getInput('complete',false);
         // gather passing grade
         $this->passing_grade=$form->getInput('passing_grade',false);
         
@@ -73,7 +88,12 @@ class ilLPRubricCard
         $groups=array();
         $tmp_group=$form->getInput("Group_${g}",false);
         
-        while(!empty($tmp_group)){
+        if($tmp_group==''){
+            $tmp_group='|||incomplete|||';
+        }
+        
+        //while(!empty($tmp_group)){
+        while(isset($_POST["Group_${g}"])){
             $c=1;// set criteria increment
                        
             $groups[$g]=array('group_name'=>$tmp_group);
@@ -86,6 +106,9 @@ class ilLPRubricCard
             
             
             $tmp_criteria=$form->getInput("Criteria_${g}_${c}",false);
+            if($tmp_criteria==''){
+                $tmp_criteria='|||incomplete|||';
+            }
             
             do{
                 
@@ -93,152 +116,46 @@ class ilLPRubricCard
                 $groups[$g]['criteria'][$c]=array('criteria_name'=>$tmp_criteria);
                 
                 for($b=1;$b<=count($labels);$b++){
-                    $groups[$g]['criteria'][$c]['behavior'][$b]=array('behavior_name'=>$form->getInput("Behavior_${g}_${c}_${b}",false));
+                    $tmp_behavior=$form->getInput("Behavior_${g}_${c}_${b}",false);
+                    if($tmp_behavior==''){
+                        $tmp_behavior='|||incomplete|||';
+                    }
+                    $groups[$g]['criteria'][$c]['behavior'][$b]=array('behavior_name'=>$tmp_behavior);
                 }
                 
                 $c++;
                 
                 $tmp_criteria=$form->getInput("Criteria_${g}_${c}",false);
-                
-            }while(!empty($tmp_criteria));
+                if($tmp_criteria==''){
+                    $tmp_criteria='|||incomplete|||';
+                }
+            }while(isset($_POST["Criteria_${g}_${c}"]));    
+            //}while(!empty($tmp_criteria));
             
             $g++;
             
             $tmp_group=$form->getInput("Group_${g}",false);
+            
+            if($tmp_group==''){
+                $tmp_group='|||incomplete|||';
+            }
         }
-        
         return(array('groups'=>$groups,'labels'=>$labels));        
     }
-    
-        
-    private function getGradePostData($rubric_data)
-    {
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-        $form=new ilPropertyFormGUI();
-        
-        $grades=array();
-        
-        foreach($rubric_data['groups'] as $g => $group){
-            
-            foreach($group['criteria'] as $c => $criteria){
-                
-                $grades[$criteria['criteria_id']]['point']=$form->getInput("Grade${g}_${c}",false);
-                $grades[$criteria['criteria_id']]['comment']=$form->getInput("Comment_${g}_${c}",false);
-            }
-            
-        }
-        return($grades);
-    }
-    
-    private function getGradeUserId()
-    {
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-        $form=new ilPropertyFormGUI();
-        
-        return($form->getInput('user_id',false));
-    }    
-    
-    public function grade($rubric_data)
-    {
-        $grades=$this->getGradePostData($rubric_data);
-        $user_id=$this->getGradeUserId();
-        
-        // null out grades
-        $this->ilDB->manipulate("update rubric_data set deleted = NOW() where rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")." and usr_id=".$this->ilDB->quote($user_id, "integer"));
-        
-        $count=0;
-        foreach($grades as $criteria_id => $grade){
-            
-            // does this grade already exist?
-            $set=$this->ilDB->query(
-                    "select 
-                        rubric_data_id 
-                     from rubric_data 
-                     where 
-                        rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")." and 
-                        usr_id=".$this->ilDB->quote($user_id, "integer")." and 
-                        rubric_criteria_id=".$this->ilDB->quote($criteria_id, "integer")
-            );
-            $row=$this->ilDB->fetchAssoc($set);
-            if(!empty($row)){
-                //update
-                $this->ilDB->manipulate(
-                    "update rubric_data set 
-                        rubric_criteria_id=".$this->ilDB->quote($criteria_id, "integer").",
-                        criteria_point=".$this->ilDB->quote($grade['point'], "integer").",
-                        criteria_comment=".$this->ilDB->quote($grade['comment'], "text").",
-                        deleted=NULL,
-                        last_update=NOW(),
-                        owner=".$this->ilDB->quote($_SESSION['AccountId'], "integer")." 
-                    where rubric_data_id=".$this->ilDB->quote($row['rubric_data_id'], "integer")
-                );
-            }else{
-                //new record, insert
-                $new_rubric_data_id=$this->incrementSequence('rubric_data_seq');
-            
-                $this->ilDB->manipulate(
-                    "insert into rubric_data (rubric_data_id,rubric_id,usr_id,rubric_criteria_id,criteria_point,criteria_comment,owner,create_date,last_update) values (
-                        ".$this->ilDB->quote($new_rubric_data_id, "integer").",                    
-                        ".$this->ilDB->quote($this->rubric_id, "integer").",
-                        ".$this->ilDB->quote($user_id, "integer").",
-                        ".$this->ilDB->quote($criteria_id, "integer").",
-                        ".$this->ilDB->quote($grade['point'], "integer").",
-                        ".$this->ilDB->quote($grade['comment'], "text").",
-                        ".$this->ilDB->quote($_SESSION['AccountId'], "integer").",                    
-                        NOW(),
-                        NOW()
-                        
-                    )"
-                );
-                
-            }
-            
-            $count++;
-                        
-        }
-    }
-    
+
     public function save()
     {
         $data=$this->getCardPostData();
-        
-        $this->saveRubricCardTbl();
-        
-        $labels=$this->saveRubricLabelTbl($data['labels']);
-        
-        $this->saveRubricGroupTbl($data['groups'],$labels);
-        
-        $this->saveRubricCriteriaTbl($data['groups']);
-        
-        $this->saveRubricBehaviorTbl($data['groups'],$labels);
-        
-    }
-    
-    public function getRubricUserGradeData($user_id)
-    {
-        $data=array();
-        
-        $res=$this->ilDB->query(
-            "select 
-                rubric_criteria_id,criteria_point,criteria_comment 
-             from rubric_data 
-             where 
-                deleted is null and 
-                rubric_id=".$this->ilDB->quote($this->rubric_id, "integer")." and 
-                usr_id=".$this->ilDB->quote($user_id, "integer")
-        );
-        while($row=$res->fetchRow(DB_FETCHMODE_OBJECT)){
-            array_push($data,array(
-                'rubric_criteria_id'=>$row->rubric_criteria_id,
-                'criteria_point'=>$row->criteria_point,
-                'criteria_comment'=>$row->criteria_comment,
-            ));
+        if(!empty($data['groups']))
+        {
+            $this->saveRubricCardTbl();
+            $labels=$this->saveRubricLabelTbl($data['labels']);
+            $this->saveRubricGroupTbl($data['groups'],$labels);
+            $this->saveRubricCriteriaTbl($data['groups']);
+            $this->saveRubricBehaviorTbl($data['groups'],$labels);
         }
-        
-        return($data);
-        
     }
-    
+
     public function load()
     {    
         $data=array();
@@ -251,17 +168,40 @@ class ilLPRubricCard
     public function objHasRubric()
     {
         $res=$this->ilDB->query(
-            "select rubric_id,passing_grade from rubric where obj_id=".$this->ilDB->quote($this->obj_id, "integer")." and deleted is null"
+            "select rubric_id,passing_grade,locked,owner from rubric where obj_id=".$this->ilDB->quote($this->obj_id, "integer")." and deleted is null"
         );
         $row=$res->fetchRow(DB_FETCHMODE_OBJECT);
         if(!empty($row->rubric_id)){
             $this->rubric_id=$row->rubric_id;
             $this->passing_grade=$row->passing_grade;
+            $this->rubric_locked = $row->locked;
+            $this->rubric_owner = $row->owner;
             return(true);
         }else{
             return(false);
         }
-        
+    }
+
+
+    public function lockUnlock()
+    {
+
+        $lock_var = ($this->isLocked())?NULL:date("Y-m-d H:i:s");
+        $this->ilDB->manipulate(
+            "update rubric set
+              locked = ".$this->ilDB->quote($lock_var,"timestamp").
+              ",owner = ".$this->ilDB->quote($_SESSION['AccountId'], "integer").
+              " where obj_id=".$this->ilDB->quote($this->obj_id, "integer")
+        );
+    }
+
+    public function isLocked()
+    {
+        $res=$this->ilDB->query(
+            "select locked from rubric where obj_id=".$this->ilDB->quote($this->obj_id, "integer")." and deleted is null"
+        );
+        $row=$res->fetchRow(DB_FETCHMODE_OBJECT);
+        return (is_null($row->locked))?false:true;
     }
     
     private function getRubricGroups()
@@ -280,7 +220,7 @@ class ilLPRubricCard
             
             array_push($data,array(
                 'group_id'=>$row->rubric_group_id,
-                'group_name'=>$row->group_name,
+                'group_name'=>($row->group_name=='|||incomplete|||')?(''):($row->group_name),
                 'criteria'=>$this->getRubricCriteriaByGroupId($row->rubric_group_id),
                 'weights'=>$this->getRubricWeightsByGroupId($row->rubric_group_id),                
             ));
@@ -294,10 +234,13 @@ class ilLPRubricCard
         $data=array();
         
         $res=$this->ilDB->query(
-            'select rubric_weight_id,rubric_label_id,weight_max,weight_min from rubric_weight  
-            where
-                rubric_group_id='.$this->ilDB->quote($rubric_group_id, "integer").' and 
-                deleted is null'
+            'select w.rubric_weight_id,w.rubric_label_id,w.weight_max,w.weight_min 
+             from rubric_weight w
+                inner join rubric_label l on w.rubric_label_id=l.rubric_label_id
+             where
+                w.rubric_group_id='.$this->ilDB->quote($rubric_group_id, "integer").' and 
+                w.deleted is null
+             order by l.sort_order'
         );
         
         while($row=$res->fetchRow(DB_FETCHMODE_OBJECT)){
@@ -322,12 +265,13 @@ class ilLPRubricCard
                                         where
                                             rubric_group_id='.$this->ilDB->quote($rubric_group_id, "integer").' and 
                                             deleted is null
+                                        order by sort_order
         ');
         while($row=$res->fetchRow(DB_FETCHMODE_OBJECT)){
             
             array_push($data,array(
                 'criteria_id'=>$row->rubric_criteria_id,
-                'criteria'=>$row->criteria,
+                'criteria'=>($row->criteria=='|||incomplete|||')?(''):($row->criteria),
                 'behaviors'=>$this->getRubricBehaviorByCriteriaId($row->rubric_criteria_id),
             ));
             
@@ -352,7 +296,7 @@ class ilLPRubricCard
         while($row=$res->fetchRow(DB_FETCHMODE_OBJECT)){
             array_push($data,array(
                 'behavior_id'=>$row->rubric_behavior_id,
-                'description'=>$row->description,
+                'description'=>($row->description=='|||incomplete|||')?(''):($row->description),
             ));
         }
         
@@ -483,11 +427,11 @@ class ilLPRubricCard
                         inner join rubric_criteria c on g.rubric_group_id=c.rubric_group_id 
                      where 
                         g.deleted is null and
-                        criteria=".$this->ilDB->quote($new_criteria_name['criteria_name'], "text")." and
+                        c.criteria=".$this->ilDB->quote($new_criteria_name['criteria_name'], "text")." and
                         g.group_name=".$this->ilDB->quote($new_group_name['group_name'], "text")." and
                         c.sort_order=".$this->ilDB->quote($_new_sort_order, "integer")." and
                         g.sort_order=".$this->ilDB->quote($new_sort_order,"integer")." and
-			g.rubric_id=".$this->ilDB->quote($this->rubric_id,"integer")
+			            g.rubric_id=".$this->ilDB->quote($this->rubric_id,"integer")
                 );
                 $row=$this->ilDB->fetchAssoc($set);
                 
@@ -598,7 +542,6 @@ class ilLPRubricCard
     {
         // null out weight for group id
         $this->ilDB->manipulate("update rubric_weight set deleted=NOW() where deleted is null and rubric_group_id=".$this->ilDB->quote($rubric_group_id, "integer"));
-        
         //update the weight min/max for this rubric_group_id
         foreach($labels as $k => $label){
             
@@ -611,7 +554,8 @@ class ilLPRubricCard
                     rubric_label_id=".$this->ilDB->quote($label['rubric_label_id'], "integer")
             );
             
-            $broken_weight=explode(',',$weights[$k]);
+            $broken_weight=explode('-',$weights[$k]);
+            sort($broken_weight);
             
             if($this->ilDB->numRows($set)>0){
                 $row=$this->ilDB->fetchAssoc($set);
@@ -621,8 +565,8 @@ class ilLPRubricCard
                         deleted=null,
                         last_update=NOW(),
                         owner=".$this->ilDB->quote($_SESSION['AccountId'], "integer").",
-                        weight_min=".$this->ilDB->quote($broken_weight[0], "integer").",
-                        weight_max=".$this->ilDB->quote($broken_weight[1], "integer")."
+                        weight_min=".$this->ilDB->quote($broken_weight[0], "float").",
+                        weight_max=".$this->ilDB->quote($broken_weight[1], "float")."
                     where rubric_weight_id=".$this->ilDB->quote($row['rubric_weight_id'], "integer")
                 );                            
             }else{
@@ -634,8 +578,8 @@ class ilLPRubricCard
                         ".$this->ilDB->quote($new_rubric_weight_id, "integer").",
                         ".$this->ilDB->quote($rubric_group_id, "integer").",
                         ".$this->ilDB->quote($label['rubric_label_id'], "text").",
-                        ".$this->ilDB->quote($broken_weight[0], "integer").",
-                        ".$this->ilDB->quote($broken_weight[1], "integer").",
+                        ".$this->ilDB->quote($broken_weight[0], "float").",
+                        ".$this->ilDB->quote($broken_weight[1], "float").",
                         ".$this->ilDB->quote($_SESSION['AccountId'], "integer").",
                         NOW(),
                         NOW()
@@ -647,41 +591,38 @@ class ilLPRubricCard
         }
         
     }
-    
-    
-    
+
     private function saveRubricLabelTbl($labels)
     {
         /**
          *      Add/Update Rubric Labels
          */
-         
+        $new_labels=array(); 
         //get the current active labels
         $current_labels=array();
-        $set=$this->ilDB->query("select rubric_label_id,label from rubric_label where deleted is null and rubric_id=".$this->ilDB->quote($this->rubric_id, "integer"));
+        $set=$this->ilDB->query("select rubric_label_id,label,sort_order from rubric_label where deleted is null and rubric_id=".$this->ilDB->quote($this->rubric_id, "integer"));
         while($row=$this->ilDB->fetchAssoc($set)){
-            $current_labels[$row['rubric_label_id']]=$row['label'];
+            $current_labels[$row['rubric_label_id']]=array('label_name'=>$row['label'],'sort_order'=>$row['sort_order']);
         }
-        
         // null out labels
         $this->ilDB->manipulate("update rubric_label set deleted=NOW() where deleted is null and rubric_id=".$this->ilDB->quote($this->rubric_id, "integer"));
-        
         $sort_order=0;
         foreach($labels as $k => $new_label){
                         
             //does this label already exist?
             $is_new_label=true;
-                        
+                              
             foreach($current_labels as $rubric_label_id => $compare_label){
                 
-                if($compare_label==$new_label['label']){
+                if($compare_label['label_name']==$new_label['label']&&$compare_label['sort_order']==$sort_order){
                     
                     //nothing has changed, remove deleted status
                     $this->ilDB->manipulate("update rubric_label set deleted=null, sort_order=".$this->ilDB->quote($sort_order, "integer")." where rubric_label_id=".$this->ilDB->quote($rubric_label_id, "integer"));
                     
                     $is_new_label=false;
                     
-                    $labels[$k]['rubric_label_id']=$rubric_label_id;
+                    //$labels[$k]['rubric_label_id']=$rubric_label_id;
+                    $new_labels[$k]['rubric_label_id']=$rubric_label_id;
                     
                 }
                 
@@ -703,15 +644,15 @@ class ilLPRubricCard
                         NOW()
                     )"
                 );
-                
-                $labels[$k]['rubric_label_id']=$new_rubric_label_id;
+                //$labels[$k]['rubric_label_id']=$new_rubric_label_id;
+                $new_labels[$k]['rubric_label_id']=$new_rubric_label_id;
             }
             
             $sort_order++;
             
         }// foreach label
-        
-        return($labels);
+        //return($labels);
+        return($new_labels);
     }
     
     private function saveRubricCardTbl()
@@ -719,31 +660,31 @@ class ilLPRubricCard
         /**
          *      Add/Update Rubric Card
          */
-        
         //is there a rubric already for this?
         $set=$this->ilDB->query("select rubric_id from rubric where obj_id=".$this->ilDB->quote($this->obj_id, "integer")." and deleted is null");
         $row = $this->ilDB->fetchAssoc($set);
         $this->rubric_id=$row['rubric_id'];
-        
+        $complete = $this->rubric_complete === 'true' ? 1 : 0;
         if(empty($this->rubric_id)){            
             $this->rubric_id=$this->incrementSequence('rubric_seq');
         }
-        
         // insert or update the rubric        
         $this->ilDB->manipulate(
-            "insert into rubric (rubric_id,obj_id,passing_grade,owner,create_date,last_update) values (
+            "insert into rubric (rubric_id,obj_id,passing_grade,owner,create_date,last_update,complete) values (
                 ".$this->ilDB->quote($this->rubric_id, "integer").",                
                 ".$this->ilDB->quote($this->obj_id, "integer").",
                 ".$this->ilDB->quote($this->passing_grade, "integer").",
                 ".$this->ilDB->quote($_SESSION['AccountId'], "integer").",                
                 NOW(),
-                NOW()
+                NOW(),".$complete."
             ) on duplicate key update 
                 last_update=NOW(),
                 passing_grade=".$this->ilDB->quote($this->passing_grade, "integer").",
-                owner=".$this->ilDB->quote($_SESSION['AccountId'], "integer")
+                owner=".$this->ilDB->quote($_SESSION['AccountId'], "integer").",
+                complete=".$complete
         );
     }
+
 }
 
 ?>

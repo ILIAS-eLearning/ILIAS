@@ -83,10 +83,16 @@ class ilExGradesTableGUI extends ilTable2GUI
 		$this->setEnableTitle(true);
 //		$this->setSelectAllCheckbox("assid");
 
-		if (count($mems) > 0)
+                // START PATCH RUBRIC CPKN 2015
+                include_once 'Services/Object/classes/class.ilObjectLP.php';
+                $olp = ilObjectLP::getInstance($this->exc_id);
+                $lp_mode = $olp->getCurrentMode();
+                
+		if (count($mems) > 0 && $lp_mode!=92)
 		{
 			$this->addCommandButton("saveGrades", $lng->txt("exc_save_changes"));
 		}
+                // END PATCH RUBRIC CPKN 2015
 	}
 	
 	/**

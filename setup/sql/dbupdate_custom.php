@@ -79,3 +79,29 @@ $ilDB->dropTableColumn("rubric_data", "rubric_label_id");
 $ilDB->addTableColumn("rubric_data", "criteria_point", array("type" => "integer", "length" => 3));
 
 ?>
+<#4>
+<?php
+$ilDB->modifyTableColumn('rubric_behavior', 'description',array("type" => "text", "length" => 1000));
+?>
+<#5>
+<?php
+$ilDB->addTableColumn("rubric", "locked", array("type" => "timestamp"));
+?>
+<#6>
+<?php
+$ilDB->modifyTableColumn('rubric_weight', 'weight_min',array("type" => "float"));
+$ilDB->modifyTableColumn('rubric_weight', 'weight_max',array("type" => "float"));
+?>
+<#7>
+<?php
+$ilDB->modifyTableColumn('rubric_data', 'criteria_point',array("type" => "float"));
+?>
+<#8>
+<?php
+$ilDB->addTableColumn("rubric", "complete", array("type" => "boolean"));
+?>
+<#9>
+<?php
+$ilDB->addTableColumn("rubric", "grading_locked", array("type" => "timestamp"));
+$ilDB->addTableColumn("rubric", "grading_locked_by", array("type" => "integer", "length" => 4));
+?>
