@@ -1372,7 +1372,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$pools->setRequired(false);
 		$form->addItem($pools);
 
-		$form->addCommandButton("importFile", $this->lng->txt("import"));
+		$form->addCommandButton("importSurvey", $this->lng->txt("import"));
 		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
 		return $form;
@@ -1381,7 +1381,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	/**
 	* form for new survey object import
 	*/
-	function importFileObject()
+	function importSurveyObject()
 	{
 		global $tpl, $ilErr;
 
@@ -1875,7 +1875,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case "create":
 			case "save":
 			case "cancel":
-			case "importFile":
+			case "importSurvey":
 			case "cloneAll":
 				break;
 			case "infoScreen":

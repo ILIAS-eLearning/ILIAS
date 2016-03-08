@@ -2012,7 +2012,7 @@ class SurveyQuestion
 	* @return array An array containing the answers to the question. The keys are either the user id or the anonymous id
 	* @access public
 	*/
-	function &getUserAnswers($survey_id)
+	function &getUserAnswers($survey_id, $finished_ids)
 	{
 		// overwrite in inherited classes
 		return array();

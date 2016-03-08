@@ -297,7 +297,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 	*
 	* @return	int	Size
 	*/
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		global $lng;
 		
