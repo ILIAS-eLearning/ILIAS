@@ -423,6 +423,13 @@ class ilDBPdo implements ilDBInterface {
 	 * @return string
 	 */
 	public function quote($value, $type = null) {
+		
+		// see ilMDB2/Driver/Datatype/Common::quote()
+		if($value === null)
+		{
+			return 'NULL';
+		}
+		
 		switch ($type) {
 			case ilDBConstants::T_INTEGER:
 				$pdo_type = PDO::PARAM_INT;
