@@ -64,7 +64,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->addColumn($this->lng->txt("actions"), "", "5%");
 
 			$this->setTitle(sprintf($this->lng->txt("trac_learning_progress_of"), $user->getFullName()));
-			$this->initFilter();
+			$this->initBaseFilter();
 
 			$this->setSelectAllCheckbox("item_id");
 			$this->addMultiCommand("hideSelected", $lng->txt("trac_hide_selected"));

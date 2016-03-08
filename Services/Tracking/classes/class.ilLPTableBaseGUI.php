@@ -267,7 +267,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	 *
 	 * @param bool $a_split_learning_resources
 	 */
-	public function initFilter($a_split_learning_resources = false, $a_include_no_status_filter = true)
+	public function initBaseFilter($a_split_learning_resources = false, $a_include_no_status_filter = true)
 	{
 		global $lng, $ilObjDataCache;
 		

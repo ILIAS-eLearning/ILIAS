@@ -1426,7 +1426,7 @@ class ilUtil
 		// FIXME - If ILIAS is configured to use RFC 822
 		//         compliant mail addresses we should not
 		//         allow the @ character.
-		if (!ereg("^[A-Za-z0-9_\.\+\*\@!\$\%\~\-]+$", $a_login))
+		if (!preg_match("/^[A-Za-z0-9_\.\+\*\@!\$\%\~\-]+$/", $a_login))
 		{
 			return false;
 		}
