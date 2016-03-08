@@ -307,7 +307,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		return $chart->getHTML();
 	}
 	
-	protected function fillMetaExcel()
+	protected function fillMetaExcel($worksheet, &$a_row)
 	{
 		
 	}
@@ -347,7 +347,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		$a_worksheet->write($a_row, $col, $sum);
 	}
 	
-	protected function fillMetaCSV()
+	protected function fillMetaCSV($a_csv)
 	{
 		
 	}

@@ -547,7 +547,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	public function getCurrentFilter($as_query = false)
 	{
 		$result = array();
-		foreach($this->filter as $id => $value)
+		foreach((array)$this->filter as $id => $value)
 		{
 			$item = $this->getFilterItemByPostVar($id);
 			switch($id)
