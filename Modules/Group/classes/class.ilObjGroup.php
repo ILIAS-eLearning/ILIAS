@@ -653,7 +653,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote((int) $this->getEnableGroupMap() ,'integer').", ".
 			$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
-			$ilDB->quote($this->getViewMode(false),'integer').', '.
+			$ilDB->quote($this->getViewMode(),'integer').', '.
 			$ilDB->quote($this->getMailToMembersType(),'integer').', '.				
 			$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
 			$ilDB->quote($this->getMinMembers(),'integer').', '.
@@ -701,7 +701,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			"enablemap = ".$ilDB->quote((int) $this->getEnableGroupMap() ,'integer').", ".
 			'reg_ac_enabled = '.$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
-			'view_mode = '.$ilDB->quote($this->getViewMode(false),'integer').', '.
+			'view_mode = '.$ilDB->quote($this->getViewMode(),'integer').', '.
 			'mail_members_type = '.$ilDB->quote($this->getMailToMembersType(),'integer').', '.				
 			'leave_end = '.$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
 			"registration_min_members = ".$ilDB->quote($this->getMinMembers() ,'integer').", ".
@@ -1757,7 +1757,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	 * get view mode
 	 *
 	 * @access public
-	 * @param bool $a_translate_inherit
 	 * @return int view mode
 	 */
 	public function getViewMode($a_translate_inherit = true)
@@ -1768,12 +1767,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$view = ilContainer::VIEW_DEFAULT;
 		}
-		
-		if($a_translate_inherit)
-		{
-			$view = self::translateViewMode($this->id, $view, $this->ref_id);
-		}
-		
 		return $view;
 	}
 
@@ -1813,7 +1806,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	 * @param int $a_ref_id
 	 * @return int 
 	 */
-	protected static function translateViewMode($a_obj_id,$a_view_mode,$a_ref_id = null)
+	public static function translateViewMode($a_obj_id,$a_view_mode,$a_ref_id = null)
 	{
 		global $tree;
 		

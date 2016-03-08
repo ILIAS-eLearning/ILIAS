@@ -2614,13 +2614,19 @@ class ilObjGroupGUI extends ilContainerGUI
 			}	
 			
 			if($hasParentMembership &&
-				$this->object->getViewMode(false) == ilContainer::VIEW_INHERIT)
+				$this->object->getViewMode() == ilContainer::VIEW_INHERIT)
 			{
 				$view_type->setValue(ilContainer::VIEW_INHERIT);
 			}
 			else
 			{
-				$view_type->setValue($this->object->getViewMode(true));
+				$view_type->setValue(
+					ilObjGroup::translateViewMode(
+						$this->object->getId(),
+						$this->object->getViewMode(),
+						$this->object->getRefId()
+					)
+				);
 			}
 			
 			$opt = new ilRadioOption($this->lng->txt('cntr_view_simple'),ilContainer::VIEW_SIMPLE);
