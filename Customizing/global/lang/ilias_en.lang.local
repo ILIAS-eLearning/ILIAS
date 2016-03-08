@@ -36,3 +36,5 @@ trac#:#rubric_card_save#:#Rubric Card Saved
 trac#:#rubric_card_not_defined#:#Rubric Card is not created for object.  First create the Rubric Card.
 trac#:#rubric_out_of#:#out of
 trac#:#rubric_passing_grade#:#Passing Grade
+common#:#authenticate_ilias#:#General Access (Non-CREA Members)
+common#:#login_to_ilias#:#Login
