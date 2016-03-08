@@ -139,7 +139,7 @@ class assMatchingQuestionImport extends assQuestionImport
 					switch ($order["field"])
 					{
 						case "varsubset":
-							$subset = split(",", $conditionvar->varsubset[$order["index"]]->getContent());
+							$subset = explode(",", $conditionvar->varsubset[$order["index"]]->getContent());
 							break;
 					}
 				}

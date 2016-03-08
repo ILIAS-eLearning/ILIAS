@@ -1530,7 +1530,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function insertRandomSelectionObject()
 	{
-		$selected_array = split(",", $_POST["chosen_questions"]);
+		$selected_array = explode(",", $_POST["chosen_questions"]);
 		if (!count($selected_array))
 		{
 			ilUtil::sendInfo($this->lng->txt("tst_insert_missing_question"));

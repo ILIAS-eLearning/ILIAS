@@ -317,7 +317,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 		}
 		else
 		{
-			$result = split($separator, $in_string);
+			$result = explode($separator, $in_string);
 		}
 		
 		foreach ($result as $key => $value)
