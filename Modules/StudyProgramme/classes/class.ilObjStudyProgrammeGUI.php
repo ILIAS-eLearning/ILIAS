@@ -86,7 +86,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	public function __construct() {
 		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias;
 
-		parent::ilContainerGUI(array(), (int) $_GET['ref_id'], true, false);
+		parent::__construct(array(), (int) $_GET['ref_id'], true, false);
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
