@@ -50,11 +50,11 @@ class ilLPMarks
 
 
 
-	function ilLPMarks($a_obj_id,$a_usr_id)
+	function __construct($a_obj_id,$a_usr_id)
 	{
 		global $ilObjDataCache,$ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 
 		$this->obj_id = $a_obj_id;
 		$this->usr_id = $a_usr_id;

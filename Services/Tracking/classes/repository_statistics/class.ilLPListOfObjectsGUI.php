@@ -25,10 +25,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	var $details_type = '';
 	var $details_mode = 0;
 
-	function ilLPListOfObjectsGUI($a_mode,$a_ref_id)
-	{
-		global $ilUser,$ilObjDataCache;
-
+	function __construct($a_mode,$a_ref_id)
+	{		
 		parent::__construct($a_mode,$a_ref_id);
 		
 		// Set item id for details

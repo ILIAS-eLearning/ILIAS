@@ -16,12 +16,12 @@ include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 class ilLPStatusObjectives extends ilLPStatus
 {
 
-	function ilLPStatusObjectives($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
 		parent::__construct($a_obj_id);
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 	}
 	
 	function _getNotAttempted($a_obj_id)

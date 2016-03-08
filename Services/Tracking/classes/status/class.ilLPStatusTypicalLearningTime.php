@@ -16,12 +16,12 @@ include_once './Services/MetaData/classes/class.ilMDEducational.php'; // #15556
 class ilLPStatusTypicalLearningTime extends ilLPStatus
 {
 
-	function ilLPStatusTypicalLearningTime($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
 		parent::__construct($a_obj_id);
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 	}
 
 	function _getInProgress($a_obj_id)

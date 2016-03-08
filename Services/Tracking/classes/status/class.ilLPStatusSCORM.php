@@ -15,12 +15,12 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
 class ilLPStatusSCORM extends ilLPStatus
 {
 
-	function ilLPStatusSCORM($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
 		parent::__construct($a_obj_id);
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 	}
 
 
