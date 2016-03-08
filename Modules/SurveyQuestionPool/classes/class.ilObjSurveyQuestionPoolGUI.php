@@ -677,11 +677,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* form for new survey object import
 	*/
-	public function importFileObject()
+	public function importFileObject($parent_id = null, $a_catch_errors = true)
 	{
 		global $tpl, $ilErr;
 
-		$parent_id = $_GET["ref_id"];
+		if(!$parent_id)
+		{
+			$parent_id = $_GET["ref_id"];
+		}
 		$new_type = $_REQUEST["new_type"];
 
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
