@@ -25,11 +25,11 @@ class ilHelpGUI
 	/**
 	* constructor
 	*/
-	function ilHelpGUI()
+	function __construct()
 	{
 		global $ilCtrl;
 				
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 	}
 	
 	/**

@@ -66,7 +66,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->container_type = ilObject::_lookupType(ilObject::_lookupObjId($this->obj_ref_id));
 
 		$this->type = "role";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 		$this->ctrl->saveParameter($this, array('obj_id', 'rolf_ref_id'));
 	}
 

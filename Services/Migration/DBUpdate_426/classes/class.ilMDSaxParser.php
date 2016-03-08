@@ -63,7 +63,7 @@ class ilMDSaxParser extends ilSaxParser
 	{
 		global $lng, $tree;
 
-		parent::ilSaxParser($a_xml_file);
+		parent::__construct($a_xml_file);
 	}
 
 	function setMDObject(&$md)

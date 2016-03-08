@@ -35,7 +35,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$this->peditor_active = true;
 		}
 					
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		
 		$lng->loadLanguageModule("style");
 	}

@@ -30,7 +30,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	function ilObjSystemFolderGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "adm";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 
 		$this->lng->loadLanguageModule("administration");
 		$this->lng->loadLanguageModule("adm");

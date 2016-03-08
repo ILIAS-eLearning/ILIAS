@@ -40,7 +40,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->type = "htlm";
 		$lng->loadLanguageModule("content");
 
-		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, false);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 		//$this->actions = $this->objDefinition->getActions("mep");
 		$this->output_prepared = $a_prepare_output;
 

@@ -40,7 +40,7 @@ class ilDataSetImportParser extends ilSaxParser
 			? $this->ds->getDSPrefix().":"
 			: "";
 		
-		parent::ilSaxParser();
+		parent::__construct();
 		$this->setXMLContent($a_xml);
 		$this->startParsing();
 

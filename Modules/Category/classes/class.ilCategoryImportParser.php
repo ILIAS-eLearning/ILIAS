@@ -51,7 +51,7 @@ class ilCategoryImportParser extends ilSaxParser
 		$this->parent[$this->parent_cnt] = $a_parent;
 		$this->parent_cnt++;
 		$this->withrol = $withrol;
-		parent::ilSaxParser($a_xml_file);
+		parent::__construct($a_xml_file);
 	}
 
 

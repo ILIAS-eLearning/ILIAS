@@ -27,7 +27,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	function ilObjLanguageFolderGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "lngf";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 		$_GET["sort_by"] = "language";
 		$this->lng->loadLanguageModule('lng');
 	}

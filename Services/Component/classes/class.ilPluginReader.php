@@ -17,7 +17,7 @@ class ilPluginReader extends ilSaxParser
 
 	function ilPluginReader($a_path, $a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
-		parent::ilSaxParser($a_path);
+		parent::__construct($a_path);
 
 die("Deprecated. Plugin information is stored in plugin.php");
 		

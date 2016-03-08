@@ -16,7 +16,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 {
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{		
-		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->type = 'reps';
 		$this->lng->loadLanguageModule('rep');

@@ -18,11 +18,11 @@ class ilStartUpGUI
 	/**
 	* constructor
 	*/
-	function ilStartUpGUI()
+	function __construct()
 	{
 		global $ilCtrl;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 
 		$ilCtrl->saveParameter($this, array("rep_ref_id", "lang", "target", "client_id"));
 	}

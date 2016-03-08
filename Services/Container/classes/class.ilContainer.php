@@ -73,19 +73,6 @@ class ilContainer extends ilObject
 	static $data_preloaded = false;
 	
 	/**
-	* Constructor
-	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
-	*/
-	function ilContainer($a_id = 0, $a_call_by_reference = true)
-	{
-		parent::__construct($a_id, $a_call_by_reference);
-	}
-	
-	
-	
-	/**
 	* Create directory for the container.
 	* It is <webspace_dir>/container_data.
 	*/

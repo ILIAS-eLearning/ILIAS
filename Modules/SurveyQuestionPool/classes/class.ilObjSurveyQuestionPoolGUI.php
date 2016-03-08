@@ -56,7 +56,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id"));
 
-		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
+		parent::__construct("",$_GET["ref_id"], true, false);
 	}
 
 	/**

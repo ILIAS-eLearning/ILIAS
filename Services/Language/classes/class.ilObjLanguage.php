@@ -42,7 +42,7 @@ class ilObjLanguage extends ilObject
 		global $lng;
 
 		$this->type = "lng";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 
 		$this->type = "lng";
 		$this->key = $this->title;

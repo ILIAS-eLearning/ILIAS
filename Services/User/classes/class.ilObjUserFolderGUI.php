@@ -32,7 +32,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		define('USER_FOLDER_ID',7);
 		
 		$this->type = "usrf";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 		
 		$this->lng->loadLanguageModule('search');
 		$this->lng->loadLanguageModule("user");

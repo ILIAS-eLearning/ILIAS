@@ -81,7 +81,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->type = "tst";
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id"));
-		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
+		parent::__construct("",$_GET["ref_id"], true, false);
 
 		if( $this->object instanceof ilObjTest )
 		{

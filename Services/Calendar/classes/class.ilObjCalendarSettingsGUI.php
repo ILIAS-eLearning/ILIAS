@@ -45,7 +45,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		global $lng;
 		
 		$this->type = 'cals';
-		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('dateplaner');

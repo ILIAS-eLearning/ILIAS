@@ -56,7 +56,7 @@ class ilObjQuestionPool extends ilObject
 	function ilObjQuestionPool($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "qpl";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 		$this->setOnline(0);
 		
 		$this->skillServiceEnabled = false;

@@ -15,11 +15,11 @@ class ilUserDefinedData
 	var $user_data = array();
 	var $usr_id = null;
 
-	function ilUserDefinedData($a_usr_id)
+	function __construct($a_usr_id)
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 		$this->usr_id = $a_usr_id;
 
 		$this->__read();

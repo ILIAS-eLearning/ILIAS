@@ -25,11 +25,11 @@ class ilCtrl
 	/**
 	 * control class constructor
 	 */
-	function ilCtrl()
+	function __construct()
 	{
 		global $ilBench;
 
-		$this->bench =& $ilBench;
+		$this->bench = $ilBench;
 		
 		// initialisation
 		$this->init();

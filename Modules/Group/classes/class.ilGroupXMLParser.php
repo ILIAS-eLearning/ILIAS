@@ -66,7 +66,7 @@ class ilGroupXMLParser extends ilSaxParser
 	{
 		define('EXPORT_VERSION',2);
 
-		parent::ilSaxParser(null);
+		parent::__construct(null);
 
 		$this->mode =  ilGroupXMLParser::$CREATE;
 		$this->grp = null;

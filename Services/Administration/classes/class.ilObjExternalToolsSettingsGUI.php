@@ -26,7 +26,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		global $lng;
 		
 		$this->type = "extt";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 		
 		$lng->loadLanguageModule("delic");
 		$lng->loadLanguageModule("maps");

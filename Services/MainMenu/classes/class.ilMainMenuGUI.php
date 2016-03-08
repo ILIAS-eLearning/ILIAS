@@ -37,13 +37,13 @@ class ilMainMenuGUI
 	* @param	boolean		$a_use_start_template	true means: target scripts should
 	*												be called through start template
 	*/
-	function ilMainMenuGUI($a_target = "_top", $a_use_start_template = false)
+	function __construct($a_target = "_top", $a_use_start_template = false)
 	{
 		global $ilias, $rbacsystem, $ilUser;
 		
 		$this->tpl = new ilTemplate("tpl.main_menu.html", true, true,
 			"Services/MainMenu");
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		$this->target = $a_target;
 		$this->start_template = $a_use_start_template;
 		

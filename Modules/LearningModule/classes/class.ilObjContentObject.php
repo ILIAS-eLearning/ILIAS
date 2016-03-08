@@ -42,7 +42,7 @@ class ilObjContentObject extends ilObject
 	function ilObjContentObject($a_id = 0,$a_call_by_reference = true)
 	{
 		// this also calls read() method! (if $a_id is set)
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 
 		$this->mob_ids = array();
 		$this->file_ids = array();

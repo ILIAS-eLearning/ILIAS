@@ -38,7 +38,7 @@ class ilObjAssessmentFolder extends ilObject
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$this->setting = new ilSetting("assessment");
 		$this->type = "assf";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	/**

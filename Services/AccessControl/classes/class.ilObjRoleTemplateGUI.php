@@ -45,7 +45,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$lng->loadLanguageModule('rbac');
 		
 		$this->type = "rolt";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 		$this->rolf_ref_id =& $this->ref_id;
 		$this->ctrl->saveParameter($this, "obj_id");
 	}

@@ -49,7 +49,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		global $tree;
 
 		$this->type = "facs";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 		$this->folderSettings = new ilSetting('fold');
 
 		// Load the disk quota settings object

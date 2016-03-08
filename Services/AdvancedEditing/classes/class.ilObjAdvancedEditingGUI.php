@@ -26,7 +26,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		global $rbacsystem, $lng;
 
 		$this->type = "adve";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 		$this->lng->loadLanguageModule('adve');
 		$this->lng->loadLanguageModule('meta');
 

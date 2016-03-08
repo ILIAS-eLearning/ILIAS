@@ -51,7 +51,7 @@ class ilObjUserGUI extends ilObjectGUI
 		define('USER_FOLDER_ID',7);
 
 		$this->type = "usr";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 		$this->usrf_ref_id =& $this->ref_id;
 
 		$this->ctrl =& $ilCtrl;

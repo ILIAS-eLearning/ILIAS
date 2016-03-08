@@ -26,7 +26,7 @@ class ilObjTaxonomy extends ilObject2
 	function ilObjTaxonomy($a_id = 0)
 	{
 		$this->type = "tax";
-		parent::ilObject($a_id, false);
+		parent::__construct($a_id, false);
 	}
 
 	/**

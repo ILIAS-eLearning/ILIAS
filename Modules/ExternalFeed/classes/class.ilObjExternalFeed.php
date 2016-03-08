@@ -21,7 +21,7 @@ class ilObjExternalFeed extends ilObject
 	function ilObjExternalFeed($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "feed";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	/**

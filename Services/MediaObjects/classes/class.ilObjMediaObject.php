@@ -41,7 +41,7 @@ class ilObjMediaObject extends ilObject
 		$this->media_items = array();
 		$this->contains_int_link = false;
 		$this->type = "mob";
-		parent::ilObject($a_id, false);
+		parent::__construct($a_id, false);
 	}
 
 	function setRefId($a_id)

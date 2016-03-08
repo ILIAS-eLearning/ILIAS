@@ -30,7 +30,7 @@ class ilStyleImportParser extends ilSaxParser
 
 		$this->style_obj =& $a_style_obj;
 
-		parent::ilSaxParser($a_xml_file);
+		parent::__construct($a_xml_file);
 	}
 
 

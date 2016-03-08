@@ -53,7 +53,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		}
 		
 		// do all generic GUI initialisations
-		$this->ilObjectGUI($a_data, $this->id, false, true);
+		parent::__construct($a_data, $this->id, false, true);
 		
 		// initialize the array to store session variables for extended language maintenance
 		if (!is_array($_SESSION['lang_ext_maintenance']))

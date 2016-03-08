@@ -28,7 +28,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		global $tpl,$ilErr,$lng,$ilCtrl;
 
 		$this->type = "trac";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 
 		$this->tpl =& $tpl;
 		$this->ilErr =& $ilErr;

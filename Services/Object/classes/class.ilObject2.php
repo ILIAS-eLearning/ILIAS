@@ -22,7 +22,7 @@ abstract class ilObject2 extends ilObject
 	function __construct($a_id = 0, $a_reference = true)
 	{
 		$this->initType();
-		parent::ilObject($a_id, $a_reference);
+		parent::__construct($a_id, $a_reference);
 	}
 
 	abstract protected function initType();

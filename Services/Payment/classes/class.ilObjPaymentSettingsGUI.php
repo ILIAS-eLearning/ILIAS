@@ -87,7 +87,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->vendors_obj = ilPaymentVendors::getInstance();
 
 		$this->type = 'pays';
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
 		$this->lng->loadLanguageModule('payment');
 	}

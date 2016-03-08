@@ -42,19 +42,18 @@ class ilRepositoryGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilRepositoryGUI()
+	function __construct()
 	{
-		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition,
-			$_GET, $ilCtrl, $ilLog;;
-//var_dump($_SESSION['il_rep_clipboard']);
-		$this->lng =& $lng;
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->tree =& $tree;
-		$this->rbacsystem =& $rbacsystem;
-		$this->objDefinition =& $objDefinition;
+		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition, $ilCtrl, $ilLog;
 
-		$this->ctrl =& $ilCtrl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->tree = $tree;
+		$this->rbacsystem = $rbacsystem;
+		$this->objDefinition = $objDefinition;
+
+		$this->ctrl = $ilCtrl;
 		
 		$this->creation_mode = false;
 

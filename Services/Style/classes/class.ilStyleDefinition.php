@@ -36,10 +36,8 @@ class ilStyleDefinition extends ilSaxParser
 	*
 	* @access	public
 	*/
-	function ilStyleDefinition($a_template_id = "")
-	{
-		global $ilias;
-
+	function __construct($a_template_id = "")
+	{		
 		if ($a_template_id == "")
 		{
 			// use function to get the current skin
@@ -51,11 +49,11 @@ class ilStyleDefinition extends ilSaxParser
 
 		if ($a_template_id == "default")
 		{
-			parent::ilSaxParser("./templates/".$a_template_id."/template.xml");
+			parent::__construct("./templates/".$a_template_id."/template.xml");
 		}
 		else
 		{
-			parent::ilSaxParser("./Customizing/global/skin/".$a_template_id."/template.xml");
+			parent::__construct("./Customizing/global/skin/".$a_template_id."/template.xml");
 		}
 	}
 

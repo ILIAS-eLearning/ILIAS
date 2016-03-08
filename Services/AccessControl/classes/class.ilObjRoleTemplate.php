@@ -42,7 +42,7 @@ class ilObjRoleTemplate extends ilObject
 	function ilObjRoleTemplate($a_id = 0,$a_call_by_reference = false)
 	{
 		$this->type = "rolt";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 

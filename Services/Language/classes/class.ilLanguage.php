@@ -136,7 +136,7 @@ class ilLanguage
 	 * @param	string		languagecode (two characters), e.g. "de", "en", "in"
 	 * @return	boolean 	false if reading failed
 	 */
-	function ilLanguage($a_lang_key)
+	function __construct($a_lang_key)
 	{
 		global $ilias,$log,$ilIliasIniFile,$ilUser,$ilSetting;
 

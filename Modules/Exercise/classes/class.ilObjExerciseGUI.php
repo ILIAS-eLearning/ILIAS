@@ -31,7 +31,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		global $lng;
 		
 		$this->type = "exc";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 		
 		$lng->loadLanguageModule("exercise");
 		$lng->loadLanguageModule("exc");

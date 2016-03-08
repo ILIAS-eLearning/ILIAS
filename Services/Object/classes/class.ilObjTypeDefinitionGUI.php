@@ -25,7 +25,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	function ilObjTypeDefinitionGUI($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "typ";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		parent::__construct($a_data,$a_id,$a_call_by_reference);
 	}
 
 	/**

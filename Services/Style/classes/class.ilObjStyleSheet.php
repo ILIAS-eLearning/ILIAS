@@ -558,7 +558,7 @@ class ilObjStyleSheet extends ilObject
 			$this->ilias->raiseError("Can't instantiate style object via reference id.",$this->ilias->error_obj->FATAL);
 		}
 
-		parent::ilObject($a_id, false);
+		parent::__construct($a_id, false);
 	}
 
 	/**

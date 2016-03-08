@@ -37,7 +37,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$lng->loadLanguageModule("search");
 		$lng->loadLanguageModule("exp");
 		$this->type = "sahs";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 		#$this->tabs_gui = new ilTabsGUI();
 	}
 

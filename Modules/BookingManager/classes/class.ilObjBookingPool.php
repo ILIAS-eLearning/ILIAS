@@ -30,7 +30,7 @@ class ilObjBookingPool extends ilObject
 	{
 		$this->type = "book";
 		$this->setScheduleType(self::TYPE_FIX_SCHEDULE);
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 	
 	/**

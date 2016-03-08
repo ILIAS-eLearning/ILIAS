@@ -51,7 +51,7 @@ class ilObjExercise extends ilObject
 	{
 		$this->setPassMode("all");
 		$this->type = "exc";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	// SET, GET METHODS

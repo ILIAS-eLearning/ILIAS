@@ -28,7 +28,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjCategoryGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+	function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		//global $ilCtrl;
 

@@ -17,11 +17,11 @@ class ilObjectDataCache
 	var $object_data_cache = array();
 	var $description_trans = array();
 
-	function ilObjectDataCache()
+	function __construct()
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 	}
 
 	function deleteCachedEntry($a_obj_id)

@@ -59,7 +59,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'calling_consumer');
 		$this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'consumer_context');
 
-		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
+		parent::__construct("",$_GET["ref_id"], true, false);
 	}
 
 	/**

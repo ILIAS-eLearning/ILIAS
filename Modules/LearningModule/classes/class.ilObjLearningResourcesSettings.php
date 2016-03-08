@@ -43,7 +43,7 @@ class ilObjLearningResourcesSettings extends ilObject
 	function ilObjLearningResourcesSettings($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "lrss";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	/**

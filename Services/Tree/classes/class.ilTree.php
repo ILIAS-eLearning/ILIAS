@@ -144,7 +144,7 @@ class ilTree
 	* @param	integer	$a_tree_id		tree_id
 	* @param	integer	$a_root_id		root_id (optional)
 	*/
-	function ilTree($a_tree_id, $a_root_id = 0)
+	function __construct($a_tree_id, $a_root_id = 0)
 	{
 		global $ilDB,$ilErr,$ilias,$ilLog;
 

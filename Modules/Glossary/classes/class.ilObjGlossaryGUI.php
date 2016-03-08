@@ -44,7 +44,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$lng->loadLanguageModule("content");
 		
 		$this->type = "glo";
-		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, false);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 		
 		// determine term id and check whether it is valid (belongs to
 		// current glossary)

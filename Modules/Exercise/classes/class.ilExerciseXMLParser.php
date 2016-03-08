@@ -77,7 +77,7 @@ class ilExerciseXMLParser extends ilSaxParser
 	{
 // @todo: needs to be revised for multiple assignments per exercise
 
-		parent::ilSaxParser();
+		parent::__construct();
 		$this->exercise = $exercise;
 		// get all assignments and choose first one if exists, otherwise create
 		$assignments = ilExAssignment::getAssignmentDataOfExercise($exercise->getId());

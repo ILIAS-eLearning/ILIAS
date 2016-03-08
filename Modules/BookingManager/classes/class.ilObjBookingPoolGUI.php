@@ -23,7 +23,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
 		$this->type = "book";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$this->lng->loadLanguageModule("book");
 	}
 

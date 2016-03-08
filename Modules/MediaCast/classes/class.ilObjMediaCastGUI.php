@@ -31,7 +31,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		global $ilCtrl, $lng;
 		
 		$this->type = "mcst";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$lng->loadLanguageModule("mcst");
 		$lng->loadLanguageModule("news");
 		$lng->loadLanguageModule("rep");

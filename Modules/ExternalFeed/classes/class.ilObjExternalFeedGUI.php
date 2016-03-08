@@ -21,7 +21,7 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	function ilObjExternalFeedGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
 		$this->type = "feed";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
 	
 	

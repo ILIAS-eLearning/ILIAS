@@ -33,7 +33,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	function ilObjWiki($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "wiki";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	/**

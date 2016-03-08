@@ -85,7 +85,7 @@ class ilFileXMLParser extends ilSaxParser
 	*/
 	function ilFileXMLParser(& $file, $a_xml_data, $obj_id = -1, $mode = 0)
 	{
-		parent::ilSaxParser();
+		parent::__construct();
 		$this->file = $file;
 		$this->setXMLContent($a_xml_data);
 		$this->obj_id = $obj_id;

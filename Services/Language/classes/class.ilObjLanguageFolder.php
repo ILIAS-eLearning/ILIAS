@@ -69,7 +69,7 @@ class ilObjLanguageFolder extends ilObject
 	function ilObjLanguageFolder($a_id,$a_call_by_reference = true)
 	{
 		$this->type = "lngf";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 
 		// init language support
 		global $lng;

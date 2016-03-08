@@ -26,7 +26,7 @@ class ilObjUserFolder extends ilObject
 	function ilObjUserFolder($a_id,$a_call_by_reference = true)
 	{
 		$this->type = "usrf";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 

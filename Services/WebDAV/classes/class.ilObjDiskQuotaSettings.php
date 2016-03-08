@@ -69,7 +69,7 @@ class ilObjDiskQuotaSettings extends ilObject
 	{
 		// NOTE: We share the facs object with ilObjFileAccessSettings!
 		$this->type = "facs";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 	
 	/**

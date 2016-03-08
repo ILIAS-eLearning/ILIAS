@@ -26,7 +26,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		global $lng;
 		
 		$this->type = 'pdts';
-		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$lng->loadLanguageModule("pd");
 	}

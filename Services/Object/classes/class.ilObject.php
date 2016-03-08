@@ -93,7 +93,7 @@ class ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObject($a_id = 0, $a_reference = true)
+	function __construct($a_id = 0, $a_reference = true)
 	{
 		global $ilias, $lng, $ilBench, $objDefinition;
 

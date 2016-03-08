@@ -28,7 +28,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		$lng->loadLanguageModule("content");
 		$this->type = "sahs";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 	}
 
 	/**

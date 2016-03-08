@@ -26,7 +26,7 @@ class ilExportFileParser extends ilSaxParser
 		$this->callback_obj = $a_callback_obj;
 		$this->callback_func = $a_callback_func;
 
-		parent::ilSaxParser($a_file, true);
+		parent::__construct($a_file, true);
 		$this->startParsing();
 	}
 	

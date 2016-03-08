@@ -62,7 +62,7 @@ class ilSCORMPackageParser extends ilSaxParser
 	*/
 	function ilSCORMPackageParser(&$a_slm_object, $a_xml_file)
 	{
-		parent::ilSaxParser($a_xml_file);
+		parent::__construct($a_xml_file);
 		$this->cnt = array();
 		$this->current_element = array();
 		$this->slm_object =& $a_slm_object;

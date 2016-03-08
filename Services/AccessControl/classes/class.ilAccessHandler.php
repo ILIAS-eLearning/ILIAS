@@ -24,11 +24,11 @@ class ilAccessHandler
 	/**
 	* constructor
 	*/
-	function ilAccessHandler()
+	function __construct()
 	{
-		global $rbacsystem,$lng;
+		global $rbacsystem;
 
-		$this->rbacsystem =& $rbacsystem;
+		$this->rbacsystem = $rbacsystem;
 		$this->results = array();
 		$this->current_info = new ilAccessInfo();
 		

@@ -695,7 +695,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		
 		$this->tmpCopyWizardCopyId = null;
 		
-		$this->ilObject($a_id, $a_call_by_reference);
+		parent::__construct($a_id, $a_call_by_reference);
 	}
 
 	/**

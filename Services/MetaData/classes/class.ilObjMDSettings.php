@@ -43,7 +43,7 @@ class ilObjMDSettings extends ilObject
 	function ilObjMDSettings($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "mds";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	

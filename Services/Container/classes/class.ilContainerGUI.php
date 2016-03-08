@@ -26,22 +26,22 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	* Constructor
 	* @access public
 	*/
-	function ilContainerGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+	function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $rbacsystem, $lng, $tree;
+		global $rbacsystem, $lng;
 
-		$this->rbacsystem =& $rbacsystem;
+		$this->rbacsystem = $rbacsystem;
 		
 		$lng->loadLanguageModule("cntr");
 
-		//$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		//parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		
         // Activate tree cache when rendering the container to improve performance
         //$tree->useCache(false);
 
 		// prepare output things should generally be made in executeCommand
 		// method (maybe dependent on current class/command
-		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, false);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 	}
 
 	/**

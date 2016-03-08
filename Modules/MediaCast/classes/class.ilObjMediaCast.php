@@ -44,7 +44,7 @@ class ilObjMediaCast extends ilObject
 	function ilObjMediaCast($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "mcst";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 		$mcst_set = new ilSetting("mcst");	
 		$this->setDefaultAccess($mcst_set->get("defaultaccess") == "users" ? 0 : 1);
 		$this->setOrder(self::ORDER_CREATION_DATE_DESC);

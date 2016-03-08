@@ -23,7 +23,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	function ilObjSearchSettingsGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		$this->type = "seas";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
 		$this->lng->loadLanguageModule('search');
 	}

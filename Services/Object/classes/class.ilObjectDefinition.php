@@ -47,14 +47,14 @@ class ilObjectDefinition// extends ilSaxParser
 	* setup ILIAS global object
 	* @access	public
 	*/
-	function ilObjectDefinition()
+	function __construct()
 	{
 		global $ilias;
 		
 		$this->readDefinitionData();
 		$this->ilias = $ilias;
 		
-		//parent::ilSaxParser(ILIAS_ABSOLUTE_PATH."/objects.xml");
+		//parent::__construct(ILIAS_ABSOLUTE_PATH."/objects.xml");
 		
 		// removing this line leads to segmentation faults in
 		// learning module editor with

@@ -136,7 +136,7 @@ class ilQTIParser extends ilSaxParser
 
 		$this->setParserMode($a_mode);
 
-		parent::ilSaxParser($a_xml_file);
+		parent::__construct($a_xml_file);
 
 		$this->qpl_id = $a_qpl_id;
 		$this->import_idents = array();

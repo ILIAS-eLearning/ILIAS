@@ -46,7 +46,7 @@ class ilObjRole extends ilObject
 		$this->type = "role";
 		$this->disk_quota = 0;
 		$this->wsp_disk_quota = 0;
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 	
 	/**

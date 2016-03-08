@@ -32,7 +32,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		$this->type = "wiki";
 		
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$lng->loadLanguageModule("obj");
 		$lng->loadLanguageModule("wiki");
 		
