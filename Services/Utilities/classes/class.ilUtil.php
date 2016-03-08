@@ -479,8 +479,8 @@ class ilUtil
 		}
 
 		// dirty removal of other "[]" in string
-		$varname_id = ereg_replace("\[","_",$varname_id);
-		$varname_id = ereg_replace("\]","",$varname_id);
+		$varname_id = str_replace("[","_",$varname_id);
+		$varname_id = str_replace("]","",$varname_id);
 
 		$str .= " value=\"".$value."\" id=\"".$varname_id."\" />\n";
 
