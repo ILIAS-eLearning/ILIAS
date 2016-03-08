@@ -119,7 +119,7 @@ class ilLPObjSettings
 			'trac_mode_study_programme', '')
 	);
 
-	function ilLPObjSettings($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilObjDataCache, $ilDB;
 

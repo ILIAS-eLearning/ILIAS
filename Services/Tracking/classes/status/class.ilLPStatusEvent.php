@@ -40,7 +40,7 @@ class ilLPStatusEvent extends ilLPStatus
 	{
 		global $ilDB;
 
-		parent::ilLPStatus($a_obj_id);
+		parent::__construct($a_obj_id);
 		$this->db =& $ilDB;
 	}
 

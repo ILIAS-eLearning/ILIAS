@@ -18,7 +18,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 {
 	function ilLearningProgressGUI($a_mode,$a_ref_id = 0,$a_user_id = 0)
 	{
-		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id,$a_user_id);
+		parent::__construct(($a_mode,$a_ref_id,$a_user_id);
 	}
 
 	/**

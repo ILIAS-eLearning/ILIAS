@@ -20,7 +20,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 {
 	function ilLPObjectStatisticsGUI($a_mode,$a_ref_id = 0)
 	{
-		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
+		parent::__construct(($a_mode,$a_ref_id);
 	
 		if(!$this->ref_id)
 		{
