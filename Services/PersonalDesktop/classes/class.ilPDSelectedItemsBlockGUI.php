@@ -32,7 +32,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		parent::ilBlockGUI();
+		parent::__construct();
 
 		$lng->loadLanguageModule('pd');
 		$lng->loadLanguageModule('cntr'); // #14158

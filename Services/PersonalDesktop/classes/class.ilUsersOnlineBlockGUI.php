@@ -25,7 +25,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		parent::ilBlockGUI();
+		parent::__construct();
 		
 		$this->setLimit(10);
 		$this->setTitle($lng->txt("users_online"));

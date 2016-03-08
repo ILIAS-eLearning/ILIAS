@@ -52,7 +52,7 @@ class ilFileDataCourse extends ilFileData
 	function ilFileDataCourse($a_course_id)
 	{
 		define('COURSE_PATH','course');
-		parent::ilFileData();
+		parent::__construct();
 		$this->course_path = parent::getPath()."/".COURSE_PATH;
 		$this->course_id = $a_course_id;
 	

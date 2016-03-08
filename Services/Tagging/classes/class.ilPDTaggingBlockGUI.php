@@ -38,11 +38,11 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	/**
 	* Constructor
 	*/
-	function ilPDTaggingBlockGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		parent::ilBlockGUI();
+		parent::__construct();
 		
 		$lng->loadLanguageModule("tagging");
 

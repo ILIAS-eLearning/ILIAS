@@ -35,7 +35,7 @@ class ilFileDataGroup extends ilFileData
 	{
 		global $ilias;
 
-		parent::ilFileData();
+		parent::__construct();
 
 		$this->ilias =& $ilias;
 		$this->group_path = parent::getPath()."/".GROUP_PATH;

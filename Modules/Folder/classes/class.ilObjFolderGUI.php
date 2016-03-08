@@ -27,7 +27,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjFolderGUI($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = false)
+	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = false)
 	{
 		$this->type = "fold";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output, false);
@@ -342,7 +342,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive("");
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$tabs_gui->addTab("view_content", $lng->txt("content"),
+			$this->tabs_gui->addTab("view_content", $lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 
 			//BEGIN ChangeEvent add info tab to category object
