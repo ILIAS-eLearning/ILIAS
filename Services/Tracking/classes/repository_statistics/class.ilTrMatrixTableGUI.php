@@ -417,7 +417,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		return false;
 	}
 
-	function fillRow(array $a_set)
+	function fillRow($a_set)
 	{
 		global $lng;
 				
