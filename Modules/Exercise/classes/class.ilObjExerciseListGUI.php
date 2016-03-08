@@ -18,7 +18,7 @@ class ilObjExerciseListGUI extends ilObjectListGUI
 	*/
 	function ilObjExerciseListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**

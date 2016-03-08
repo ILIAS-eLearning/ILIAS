@@ -42,7 +42,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 	*/
 	function ilObjSurveyListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 		$this->info_screen_enabled = true;
 	}
 

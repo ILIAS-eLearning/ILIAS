@@ -88,7 +88,7 @@ abstract class ilPageObject
 
 		$this->parent_type = $this->getParentType();
 		$this->id = $a_id;
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		$this->setLanguage($a_lang);
 
 		$this->contains_int_link = false;

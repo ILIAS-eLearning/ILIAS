@@ -26,7 +26,7 @@ class ilObjTestListGUI extends ilObjectListGUI
 	*/
 	function ilObjTestListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 		$this->info_screen_enabled = true;
 	}
 

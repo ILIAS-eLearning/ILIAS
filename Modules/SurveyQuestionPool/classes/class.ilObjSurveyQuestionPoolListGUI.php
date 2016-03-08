@@ -44,7 +44,7 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 	*/
 	function ilObjSurveyQuestionPoolListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**

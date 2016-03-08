@@ -26,7 +26,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 	*/
 	function ilObjQuestionPoolListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**

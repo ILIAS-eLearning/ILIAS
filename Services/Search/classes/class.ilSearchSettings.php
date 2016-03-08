@@ -52,7 +52,7 @@ class ilSearchSettings
 	{
 		global $ilias;
 
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		$this->__read();
 	}
 	

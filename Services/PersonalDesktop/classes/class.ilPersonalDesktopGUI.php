@@ -37,15 +37,15 @@ class ilPersonalDesktopGUI
 	/**
 	* constructor
 	*/
-	function ilPersonalDesktopGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $rbacsystem, $ilCtrl, $ilMainMenu, $ilUser, $tree;
 		
 		
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ilias =& $ilias;
-		$this->ctrl =& $ilCtrl;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
+		$this->ctrl = $ilCtrl;
 		
 		$ilCtrl->setContext($ilUser->getId(),
 				"user");

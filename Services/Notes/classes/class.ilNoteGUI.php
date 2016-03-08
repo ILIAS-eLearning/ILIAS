@@ -51,8 +51,8 @@ class ilNoteGUI
 		
 		$this->ajax = $ilCtrl->isAsynch();
 		
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
 		
 		$this->anchor_jump = true;
 		$this->add_note_form = false;
