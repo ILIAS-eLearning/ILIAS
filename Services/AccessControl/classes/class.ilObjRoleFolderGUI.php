@@ -590,7 +590,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	* DEPRECATED !!!
 	* @access	public
 	*/
-	function deleteObject()	
+	function deleteObject($a_error = false)	
 	{
 		$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 	}
@@ -613,7 +613,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	*
 	* @access	public
  	*/
-	function showPossibleSubObjects($a_tpl)
+	function showPossibleSubObjects()
 	{
 		global $rbacsystem;
 
@@ -656,14 +656,12 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		{
 			//build form
 			$opts = ilUtil::formSelect(12,"new_type",$subobj);
-			$a_tpl->setCurrentBlock("add_object");
-			$a_tpl->setVariable("SELECT_OBJTYPE", $opts);
-			$a_tpl->setVariable("BTN_NAME", "create");
-			$a_tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
-			$a_tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("add_object");
+			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+			$this->tpl->setVariable("BTN_NAME", "create");
+			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+			$this->tpl->parseCurrentBlock();
 		}
-		
-		return $a_tpl;
 	}
 
 	/**

@@ -1471,7 +1471,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	* should be overwritten to add object specific items
 	* (repository items are preloaded)
 	*/
-	function addAdminLocatorItems()
+	function addAdminLocatorItems($a_do_not_add_object = false)
 	{
 		global $ilLocator;
 
