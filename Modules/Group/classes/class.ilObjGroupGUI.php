@@ -32,7 +32,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	public function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = false)
 	{
 		$this->type = "grp";
-		$this->ilContainerGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
 		$this->lng->loadLanguageModule('grp');
 	}

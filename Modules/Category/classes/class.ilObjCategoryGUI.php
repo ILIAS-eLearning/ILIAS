@@ -38,7 +38,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$GLOBALS['lng']->loadLanguageModule('cat');
 
 		$this->type = "cat";
-		$this->ilContainerGUI($a_data,(int) $a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,(int) $a_id,$a_call_by_reference,false);
 		
 		if (is_object($this->object))
 		{

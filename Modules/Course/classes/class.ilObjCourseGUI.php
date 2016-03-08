@@ -40,7 +40,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
 
 		$this->type = "crs";
-		$this->ilContainerGUI('',(int) $_GET['ref_id'],true,false);
+		parent::__construct('',(int) $_GET['ref_id'],true,false);
 
 		$this->lng->loadLanguageModule('crs');
 
