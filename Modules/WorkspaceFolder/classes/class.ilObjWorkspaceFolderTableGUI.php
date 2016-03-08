@@ -74,7 +74,7 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		$full_class = "ilObj".$class."ListGUI";
 
 		include_once($location."/class.".$full_class.".php");
-		$item_list_gui = new $full_class();
+		$item_list_gui = new $full_class(ilObjectListGUI::CONTEXT_WORKSPACE);
 		
 		$item_list_gui->setDetailsLevel(ilObjectListGUI::DETAILS_ALL);
 		$item_list_gui->enableDelete(true);
@@ -116,7 +116,7 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		}
 
 		if($html = $item_list_gui->getListItemHTML($node["wsp_id"], $node["obj_id"],
-				$node["title"], $node["description"], false, false, "", ilObjectListGUI::CONTEXT_WORKSPACE))
+				$node["title"], $node["description"]))
 		{
 			$this->tpl->setVariable("ITEM_LIST_NODE", $html);
 		} 

@@ -51,10 +51,8 @@ class ilObjCourseListGUI extends ilObjectListGUI
 	* @param	string		$a_title		title
 	* @param	string		$a_description	description
 	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "", $a_context = self::CONTEXT_REPOSITORY)
-	{
-		global $ilBench;
-
+	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
+	{		
 		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
 
 		$this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$this->obj_id);

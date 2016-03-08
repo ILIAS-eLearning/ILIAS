@@ -451,9 +451,9 @@ class ilShopResultPresentationGUI
 		if($cur_obj_type != $item['type'])
 		{
 			include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
-			$item_list_gui = ilObjectListGUIFactory::_getListGUIByType($item['type']);
+			$item_list_gui = ilObjectListGUIFactory::_getListGUIByType($item['type'], ilObjectListGUI::CONTEXT_SHOP);
 		}
-		$item_list_gui->initItem($item['ref_id'], $item['obj_id'], $item['title'], $item['description'], ilObjectListGUI::CONTEXT_SHOP);
+		$item_list_gui->initItem($item['ref_id'], $item['obj_id'], $item['title'], $item['description']);
 		$item_list_gui->enableDelete(false);
 		$item_list_gui->enableCut(false);
 		$item_list_gui->enableCopy(false);
@@ -527,7 +527,7 @@ class ilShopResultPresentationGUI
 
 		$item_list_gui->addSubItemHTML($tpl_pinfo->get());
 
-		$html = $item_list_gui->getListItemHTML($item['ref_id'], $item['obj_id'], $item['title'], $item['description'], false, false, "", ilObjectListGUI::CONTEXT_SHOP);
+		$html = $item_list_gui->getListItemHTML($item['ref_id'], $item['obj_id'], $item['title'], $item['description']);
 		return array($item, $html);
 	}
 	
