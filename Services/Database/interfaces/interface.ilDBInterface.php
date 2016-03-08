@@ -430,4 +430,12 @@ interface ilDBInterface {
 	 * @return array
 	 */
 	public function getAllowedAttributes();
+
+
+	/**
+	 * @param array $values
+	 * @param bool $allow_null
+	 * @return mixed
+	 */
+	public function concat(array $values, $allow_null = true);
 }

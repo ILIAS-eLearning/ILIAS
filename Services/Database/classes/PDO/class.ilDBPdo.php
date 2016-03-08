@@ -981,4 +981,16 @@ class ilDBPdo implements ilDBInterface {
 	public function listSequences() {
 		return $this->manager->listSequences();
 	}
+
+
+	/**
+	 * @param array $values
+	 * @param bool $allow_null
+	 * @return string
+	 */
+	public function concat(array $values, $allow_null = true) {
+		return ilMySQLQueryUtils::getInstance()->concat($values, $allow_null);
+	}
+
+
 }

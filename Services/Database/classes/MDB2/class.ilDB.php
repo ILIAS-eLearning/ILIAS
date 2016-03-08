@@ -1995,7 +1995,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	 * @param bool	$a_allow_null
 	 * @return 
 	 */
-	public function concat($a_values,$a_allow_null = true)
+	public function concat(array $a_values,$a_allow_null = true)
 	{
 		if(!count($a_values))
 		{

@@ -73,4 +73,41 @@ class ilMySQLQueryUtils implements ilQueryUtils {
 
 		return $query;
 	}
+
+
+	/**
+	 * @param array $values
+	 * @param bool $allow_null
+	 * @return string
+	 */
+	public function concat(array $values, $allow_null = true) {
+		if (!count($values)) {
+			return ' ';
+		}
+
+		$concat = ' CONCAT(';
+		$first = true;
+		foreach ($values as $field_info) {
+			$val = $field_info[0];
+
+			if (!$first) {
+				$concat .= ',';
+			}
+
+			if ($allow_null) {
+				$concat .= 'COALESCE(';
+			}
+			$concat .= $val;
+
+			if ($allow_null) {
+				$concat .= ",''";
+				$concat .= ')';
+			}
+
+			$first = false;
+		}
+		$concat .= ') ';
+
+		return $concat;
+	}
 }
