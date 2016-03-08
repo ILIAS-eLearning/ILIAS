@@ -1,15 +1,45 @@
 {FORM}
 <script type="text/javascript">
-	$('#form_{FORM_ID}').on('keyup keydown keypress', function(event) {
-		if (event.which == 13) {
-			if ($(event.target).prop("tagName").toLowerCase() != "textarea" &&
-				(
-					$(event.target).prop("tagName").toLowerCase() != "input"
-					||
-					$(event.target).prop("type") != "submit"
-			)) {
-				event.preventDefault();
+	(function($) {
+
+		var $form = $('#form_{FORM_ID}');
+
+		$form.on('keyup keydown keypress', function(event) {
+			if (event.which == 13) {
+				if ($(event.target).prop("tagName").toLowerCase() != "textarea" &&
+						(
+								$(event.target).prop("tagName").toLowerCase() != "input"
+								||
+								$(event.target).prop("type") != "submit"
+						)) {
+					event.preventDefault();
+				}
 			}
+		});
+
+		// detect if browser supports this
+		var sampleElement = $('[form]').get(0);
+		var isIE11 = !(window.ActiveXObject) && "ActiveXObject" in window;
+		if (sampleElement && window.HTMLFormElement && sampleElement.form instanceof HTMLFormElement && !isIE11) {
+			// browser supports it, no need to fix
+			return;
 		}
-	});
+
+		$("button[form=" + $form.attr("id") + "][type=submit]").on('click', function(e) {
+			var $elm = $(this);
+
+			e.preventDefault();
+			e.stopPropagation();
+
+			$('<input/>')
+				.attr("type", "hidden")
+				.attr("name", $elm.attr("name"))
+				.val(1)
+				.appendTo($form);
+			
+			$form.find('input[type="submit"]').prop("disabled", true);
+			$form.submit();
+		});
+
+	})(jQuery);	
 </script>
