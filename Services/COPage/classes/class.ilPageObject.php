@@ -53,7 +53,7 @@ abstract class ilPageObject
 	var $xml;
 	var $encoding;
 	var $node;
-	var $cur_dtd = "ilias_pg_5_1.dtd";
+	var $cur_dtd = "ilias_pg_5_2.dtd";
 	var $contains_int_link;
 	var $needs_parsing;
 	var $parent_type;
@@ -416,15 +416,22 @@ abstract class ilPageObject
 
 //echo "\n<br>buildDomWith:".$this->getId().":xml:".$this->getXMLContent(true).":<br>";
 
-		$this->dom = @domxml_open_mem($this->getXMLContent(true), DOMXML_LOAD_VALIDATING, $error);
-
+		$options = 0;
+		//$options = DOMXML_LOAD_VALIDATING;
+		//$options = LIBXML_DTDLOAD;
+		//$options = LIBXML_NOXMLDECL;
+//echo htmlentities($this->getXMLContent(true))."<br>";
+		$this->dom = @domxml_open_mem($this->getXMLContent(true), $options, $error);
+//var_dump($error);
 		$xpc = xpath_new_context($this->dom);
 		$path = "//PageObject";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
+//	echo "h";
 			$this->node =& $res->nodeset[0];
 		}
+//echo htmlentities($this->dom->dump_node($this->node)); exit;
 
 		if (empty($error))
 		{
@@ -1018,8 +1025,8 @@ abstract class ilPageObject
 			$this->handleCopiedContent($temp_dom, true, $a_clone_mobs);
 		}
 		$xml = $temp_dom->dump_mem(0, $this->encoding);
-		$xml = eregi_replace("<\?xml[^>]*>","",$xml);
-		$xml = eregi_replace("<!DOCTYPE[^>]*>","",$xml);
+		$xml = preg_replace('/<\?xml[^>]*>/i',"",$xml);
+		$xml = preg_replace('/<!DOCTYPE[^>]*>/i',"",$xml);
 
 		return $xml;
 	}
@@ -1258,6 +1265,7 @@ abstract class ilPageObject
 //					$bibs =& $this->getBibliographyXML();
 				}
 				$trans =& $this->getLanguageVariablesXML();
+		//echo htmlentities($this->dom->dump_node($this->node)); exit;
 				return "<dummy>".$this->dom->dump_node($this->node).$mobs.$bibs.$trans.$a_append_str."</dummy>";
 			}
 			else
@@ -1277,9 +1285,8 @@ abstract class ilPageObject
 					else
 					{
 						$xml = $this->dom->dump_mem(0, $this->encoding);
-						$xml = eregi_replace("<\?xml[^>]*>","",$xml);
-						$xml = eregi_replace("<!DOCTYPE[^>]*>","",$xml);
-
+						$xml = preg_replace('/<\?xml[^>]*>/i',"",$xml);
+						$xml = preg_replace('/<!DOCTYPE[^>]*>/i',"",$xml);
 						return $xml;
 
 						// don't use dump_node. This gives always entities.
@@ -1651,7 +1658,7 @@ abstract class ilPageObject
 		libxml_disable_entity_loader(false);
 
 		@$this->dom->validate($error);
-
+		//var_dump($this->dom); exit;
 		return $error;
 	}
 
@@ -3184,8 +3191,8 @@ abstract class ilPageObject
 				{
 					$content = $this->dom->dump_node($curr_node);
 					// remove pc and hier ids
-					$content = eregi_replace("PCID=\"[a-z0-9]*\"","",$content);
-					$content = eregi_replace("HierId=\"[a-z0-9_]*\"","",$content);
+					$content = preg_replace('/PCID=\"[a-z0-9]*\"/i',"",$content);
+					$content = preg_replace('/HierId=\"[a-z0-9_]*\"/i',"",$content);
 					
 					$ilUser->addToPCClipboard($content, $time, $nr);
 					$nr++;
@@ -3653,12 +3660,12 @@ abstract class ilPageObject
 	// @todo: move to paragraph
 	function bbCode2XML(&$a_content)
 	{
-		$a_content = eregi_replace("\[com\]","<Comment>",$a_content);
-		$a_content = eregi_replace("\[\/com\]","</Comment>",$a_content);
-		$a_content = eregi_replace("\[emp]","<Emph>",$a_content);
-		$a_content = eregi_replace("\[\/emp\]","</Emph>",$a_content);
-		$a_content = eregi_replace("\[str]","<Strong>",$a_content);
-		$a_content = eregi_replace("\[\/str\]","</Strong>",$a_content);
+		$a_content = preg_replace('/\[com\]/i',"<Comment>",$a_content);
+		$a_content = preg_replace('/\[\/com\]/i',"</Comment>",$a_content);
+		$a_content = preg_replace('/\[emp]/i',"<Emph>",$a_content);
+		$a_content = preg_replace('/\[\/emp\]/i',"</Emph>",$a_content);
+		$a_content = preg_replace('/\[str]/i',"<Strong>",$a_content);
+		$a_content = preg_replace('/\[\/str\]/i',"</Strong>",$a_content);
 	}
 
 	/**

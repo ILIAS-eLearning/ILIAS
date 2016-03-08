@@ -1093,7 +1093,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	/**
 	* Init import form.
 	*/
-	public function initImportForm()
+	public function initImportForm($a_new_type)
 	{
 		global $lng, $ilCtrl;
 	
@@ -1308,7 +1308,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*
 	* @access	public
 	*/
-	function importFileObject()
+	function importFileObject($parent_id = NULL, $a_catch_errors = true)
 	{
 		global $_FILES, $rbacsystem, $ilDB, $tpl;
 

@@ -302,7 +302,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
 		}
 		
 		// handle item groups
-		while (eregi("\[(item-group-([0-9]*))\]", $a_content, $found))
+		while (preg_match('/\[(item-group-([0-9]*))\]/i', $a_content, $found))
 		{
 			$itgr_ref_id = (int) $found[2];
 			
@@ -331,7 +331,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
 			{
 				$html = "<i>".$lng->txt("cont_element_refers_removed_itgr")."</i>";
 			}
-			$a_content = eregi_replace("\[".$found[1]."\]", $html, $a_content);
+			$a_content = preg_replace('/\['.$found[1].'\]/i', $html, $a_content);
 		}
 		
 
