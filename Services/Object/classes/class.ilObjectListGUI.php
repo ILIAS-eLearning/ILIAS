@@ -1171,7 +1171,7 @@ class ilObjectListGUI
 	*						"property" (string) => property name
 	*						"value" (string) => property value
 	*/
-	public function getProperties($a_item = '')
+	public function getProperties()
 	{
 		global $objDefinition;
 
@@ -1783,11 +1783,11 @@ class ilObjectListGUI
 	*
 	* @access	private
 	*/
-	function insertProperties($a_item = '')
+	function insertProperties()
 	{
 		global $ilAccess, $lng, $ilUser;
 		
-		$props = $this->getProperties($a_item);
+		$props = $this->getProperties();
 		$props = $this->getCustomProperties($props);
 		
 		if($this->context != self::CONTEXT_WORKSPACE && $this->context != self::CONTEXT_WORKSPACE_SHARING)
