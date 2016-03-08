@@ -76,7 +76,7 @@ abstract class ilPageObject
 	* Constructor
 	* @access	public
 	*/
-	final public function ilPageObject($a_id = 0, $a_old_nr = 0, $a_lang = "-")
+	final public function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "-")
 	{
 		global $ilias;
 

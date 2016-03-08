@@ -42,7 +42,7 @@ class ilEventItems
 	var $items = array();
 
 
-	function ilEventItems($a_event_id)
+	function __construct($a_event_id)
 	{
 		global $ilErr,$ilDB,$lng,$tree;
 

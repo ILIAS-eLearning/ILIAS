@@ -27,7 +27,7 @@ class ilNote
 	/**
 	* constructor
 	*/
-	function ilNote($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		if ($a_id > 0)
 		{

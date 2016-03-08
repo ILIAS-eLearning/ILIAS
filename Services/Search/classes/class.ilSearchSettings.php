@@ -48,7 +48,7 @@ class ilSearchSettings
 	var $max_hits = null;
 	var $index = null;
 
-	function ilSearchSettings()
+	function __construct()
 	{
 		global $ilias;
 
