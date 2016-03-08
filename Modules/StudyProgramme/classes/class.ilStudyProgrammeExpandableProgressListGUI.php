@@ -160,12 +160,14 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		}
 		$preloader->preload();
 
-		return implode("\n", array_map(function(ilObjCourse $course) {
+		//TODO: remove if PHP5.3 Support is canceld
+		$self = $this;
+		return implode("\n", array_map(function(ilObjCourse $course) use ($self) {
 			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeCourseListGUI.php");
 			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeContainerObjectMock.php");
 
 			$item_gui = new ilStudyProgrammeCourseListGUI();
-			$this->configureItemGUI($item_gui);
+			$self->configureItemGUI($item_gui);
 			$item_gui->setContainerObject(new ilStudyProgrammeContainerObjectMock($course));
 			return $item_gui->getListItemHTML
 				( $course->getRefId()
