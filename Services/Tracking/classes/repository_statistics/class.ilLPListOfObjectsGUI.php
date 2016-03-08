@@ -29,7 +29,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	{
 		global $ilUser,$ilObjDataCache;
 
-		parent::__construct(($a_mode,$a_ref_id);
+		parent::__construct($a_mode,$a_ref_id);
 		
 		// Set item id for details
 		$this->__initDetails((int) $_REQUEST['details_id']);

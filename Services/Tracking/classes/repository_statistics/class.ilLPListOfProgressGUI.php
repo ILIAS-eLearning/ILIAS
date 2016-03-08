@@ -27,7 +27,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function ilLPListOfProgressGUI($a_mode,$a_ref_id,$a_user_id = 0)
 	{
-		parent::__construct(($a_mode,$a_ref_id,$a_user_id);
+		parent::__construct($a_mode,$a_ref_id,$a_user_id);
 		$this->__initUser($a_user_id);
 		
 		// Set item id for details
