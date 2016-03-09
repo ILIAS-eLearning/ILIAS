@@ -255,7 +255,7 @@ class ilStr
 	 * @param string $a_str string
 	 * @return string
 	 */
-	function normalizeUtf8String($a_str)
+	static function normalizeUtf8String($a_str)
 	{
 		include_once("./include/Unicode/UtfNormal.php");
 		return UtfNormal::toNFC($a_str);

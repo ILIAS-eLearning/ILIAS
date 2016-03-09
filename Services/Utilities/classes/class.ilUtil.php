@@ -1411,7 +1411,7 @@ class ilUtil
 	* @param	string	login
 	* @return	boolean	true if valid
 	*/
-	function isLogin($a_login)
+	static function isLogin($a_login)
 	{
 		if (empty($a_login))
 		{
