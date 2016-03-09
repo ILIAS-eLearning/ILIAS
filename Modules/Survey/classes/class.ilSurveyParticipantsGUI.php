@@ -13,17 +13,32 @@
 */
 class ilSurveyParticipantsGUI
 {
-	public function __construct(ilObjSurveyGUI $a_parent_gui)
+	protected $parent_gui; // [ilObjSurveyGUI]
+	protected $object; // [ilObjSurvey]
+	protected $ref_id; // [int]
+	protected $has_write; // [bool]
+	
+	public function __construct(ilObjSurveyGUI $a_parent_gui, $a_has_write_access)
 	{		
 		global $ilCtrl, $lng, $tpl;
 		
 		$this->parent_gui = $a_parent_gui;
 		$this->object = $this->parent_gui->object;
 		$this->ref_id = $this->object->getRefId();
+		$this->has_write = (bool)$a_has_write_access;
 		
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		$this->tpl = $tpl;		
+	}
+	
+	protected function handleWriteAccess()
+	{
+		if(!$this->has_write)
+		{
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Permission denied");
+		}
 	}
 	
 	public function executeCommand()
@@ -111,7 +126,7 @@ class ilSurveyParticipantsGUI
 			return $this->listAppraiseesObject();
 		}
 		
-		$this->parent_gui->handleWriteAccess();		
+		$this->handleWriteAccess();		
 		$this->setCodesSubtabs();
 
 		$ilToolbar->addButton($this->lng->txt('svy_delete_all_user_data'),
@@ -287,7 +302,7 @@ class ilSurveyParticipantsGUI
 		global $ilToolbar;
 		global $lng;
 		
-		$this->parent_gui->handleWriteAccess();		
+		$this->handleWriteAccess();		
 		$this->setCodesSubtabs();
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -415,7 +430,7 @@ class ilSurveyParticipantsGUI
 	*/
 	public function deleteSingleUserResultsObject()
 	{
-		$this->parent_gui->handleWriteAccess();
+		$this->handleWriteAccess();
 		
 		if (count($_POST["chbUser"]) == 0)
 		{
@@ -466,7 +481,7 @@ class ilSurveyParticipantsGUI
 	{
 		global $ilUser, $ilToolbar;
 		
-		$this->parent_gui->handleWriteAccess();
+		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
 		
 		if ($this->object->isAccessibleWithoutCode())
@@ -554,7 +569,7 @@ class ilSurveyParticipantsGUI
 			$this->ctrl->redirect($this, 'codes');
 		}
 	
-		$this->parent_gui->handleWriteAccess();
+		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
 		
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyCodesEditTableGUI.php";
@@ -674,7 +689,7 @@ class ilSurveyParticipantsGUI
 	 */
 	protected function importAccessCodesObject()
 	{		
-		$this->parent_gui->handleWriteAccess();
+		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -774,7 +789,7 @@ class ilSurveyParticipantsGUI
 
 	public function insertSavedMessageObject()
 	{
-		$this->parent_gui->handleWriteAccess();
+		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
 
 		include_once("./Modules/Survey/classes/forms/FormMailCodesGUI.php");
@@ -804,7 +819,7 @@ class ilSurveyParticipantsGUI
 
 	public function deleteSavedMessageObject()
 	{
-		$this->parent_gui->handleWriteAccess();
+		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
 
 		include_once("./Modules/Survey/classes/forms/FormMailCodesGUI.php");
@@ -834,7 +849,7 @@ class ilSurveyParticipantsGUI
 	
 	public function mailCodesObject()
 	{
-		$this->parent_gui->handleWriteAccess();
+		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
 
 		$mailData['m_subject'] = (array_key_exists('m_subject', $_POST)) ? $_POST['m_subject'] : sprintf($this->lng->txt('default_codes_mail_subject'), $this->object->getTitle());
@@ -851,7 +866,7 @@ class ilSurveyParticipantsGUI
 	{
 		global $ilUser;
 		
-		$this->parent_gui->handleWriteAccess();
+		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
 
 		include_once("./Modules/Survey/classes/forms/FormMailCodesGUI.php");
@@ -1048,7 +1063,7 @@ class ilSurveyParticipantsGUI
 	{		
 		global $ilAccess;
 		
-		$this->parent_gui->handleWriteAccess();
+		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -1075,7 +1090,7 @@ class ilSurveyParticipantsGUI
 	{
 		global $ilAccess;
 		
-		$this->parent_gui->handleWriteAccess();
+		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");		
@@ -1131,7 +1146,7 @@ class ilSurveyParticipantsGUI
 	{
 		global $ilToolbar, $lng, $ilCtrl;
 		
-		$this->parent_gui->handleWriteAccess();
+		$this->handleWriteAccess();
 		
 		$this->ctrl->setParameter($this, "appr360", 1);
 		
@@ -1728,7 +1743,7 @@ class ilSurveyParticipantsGUI
    {
 		global $tpl;
 	   
-		$this->parent_gui->handleWriteAccess();
+		$this->handleWriteAccess();
 	   
 		$appr_ids = $_POST["appr_id"];
 
@@ -1757,7 +1772,7 @@ class ilSurveyParticipantsGUI
    
    function adminAppraiseesCloseObject()
    {
-		$this->parent_gui->handleWriteAccess();
+		$this->handleWriteAccess();
 		
 		$appr_ids = $_POST["appr_id"];
 		
