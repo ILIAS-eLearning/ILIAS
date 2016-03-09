@@ -798,7 +798,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		return $this->online;
 	}
 	
-	function _lookupOnline($a_obj_id)
+	static function _lookupOnline($a_obj_id)
 	{
 		global $ilDB;
 		
@@ -844,7 +844,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	* @return array An array containing the available questiontypes
 	* @access public
 	*/
-	function &_getQuestiontypes()
+	static function &_getQuestiontypes()
 	{
 		global $ilDB;
 		global $lng;
@@ -956,7 +956,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	* @return array The available question pools
 	* @access public
 	*/
-	function _getAvailableQuestionpools($use_object_id = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $permission = "read")
+	static function _getAvailableQuestionpools($use_object_id = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $permission = "read")
 	{
 		global $ilUser;
 		global $ilDB;

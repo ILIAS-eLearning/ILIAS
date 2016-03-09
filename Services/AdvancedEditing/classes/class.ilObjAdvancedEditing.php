@@ -95,7 +95,7 @@ class ilObjAdvancedEditing extends ilObject
 	* @param string $a_module Name of the module or object which uses the tags
 	* @return array HTML tags
 	*/
-	function &_getUsedHTMLTags($a_module = "")
+	static function &_getUsedHTMLTags($a_module = "")
 	{
 		$usedtags = array();
 		include_once "./Services/Administration/classes/class.ilSetting.php";
@@ -206,7 +206,7 @@ class ilObjAdvancedEditing extends ilObject
 	*
 	* @return string Identifier for the Rich Text Editor
 	*/
-	function _getRichTextEditor()
+	static function _getRichTextEditor()
 	{
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$setting = new ilSetting("advanced_editing");

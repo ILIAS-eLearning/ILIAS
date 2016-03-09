@@ -266,7 +266,7 @@ class ilExerciseMembers
 		return true;
 	}
 
-	function _getMembers($a_obj_id)
+	static function _getMembers($a_obj_id)
 	{
 		global $ilDB;
 
@@ -296,7 +296,7 @@ class ilExerciseMembers
 	 * @param	int		$a_user_id	member id
 	 * @return	mixed	false (if user is no member) or notgraded|passed|failed
 	 */
-	function _lookupStatus($a_obj_id, $a_user_id)
+	static function _lookupStatus($a_obj_id, $a_user_id)
 	{
 		global $ilDB;
 

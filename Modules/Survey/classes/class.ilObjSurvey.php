@@ -3724,7 +3724,7 @@ class ilObjSurvey extends ilObject
 * @return integer The number of participants
 * @access public
 */
-	function _getNrOfParticipants($survey_id)
+	static function _getNrOfParticipants($survey_id)
 	{
 		global $ilDB;
 		

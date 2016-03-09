@@ -190,7 +190,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	/**
 	* checks wether all necessary parts of the survey are given
 	*/
-	function _lookupCreationComplete($a_obj_id)
+	static function _lookupCreationComplete($a_obj_id)
 	{
 		global $ilDB;
 
@@ -240,7 +240,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 		return ($result->numRows() == 1) ? true : false;
 	}
 	
-	function _lookupAnonymize($a_obj_id)
+	static function _lookupAnonymize($a_obj_id)
 	{
 		global $ilDB;
 
@@ -330,7 +330,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	/**
 	* get status
 	*/
-	function _lookupOnline($a_obj_id)
+	static function _lookupOnline($a_obj_id)
 	{
 		global $ilDB;
 
@@ -350,7 +350,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	*
 	* @param	int		$a_obj_id		survey id
 	*/
-	function _lookupFinished($a_obj_id, $a_user_id = "")
+	static function _lookupFinished($a_obj_id, $a_user_id = "")
 	{
 		global $ilDB, $ilUser;
 
@@ -390,7 +390,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 		return $finished;
 	}
 	
-	function _lookup360Mode($a_obj_id)
+	static function _lookup360Mode($a_obj_id)
 	{
 		global $ilDB;
 

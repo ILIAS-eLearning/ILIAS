@@ -501,7 +501,7 @@ class ilMDEducational extends ilMDBase
 		$writer->xmlEndTag('Educational');
 	}
 	// STATIC
-	function _getId($a_rbac_id,$a_obj_id)
+	static function _getId($a_rbac_id,$a_obj_id)
 	{
 		global $ilDB;
 
@@ -517,7 +517,7 @@ class ilMDEducational extends ilMDBase
 		return false;
 	}
 
-	function _getTypicalLearningTimeSeconds($a_rbac_id,$a_obj_id = 0)
+	static function _getTypicalLearningTimeSeconds($a_rbac_id,$a_obj_id = 0)
 	{
 		global $ilDB;
 

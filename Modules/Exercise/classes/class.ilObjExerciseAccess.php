@@ -90,7 +90,7 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 		return $commands;
 	}
 	
-	function _lookupRemainingWorkingTimeString($a_obj_id)
+	static function _lookupRemainingWorkingTimeString($a_obj_id)
 	{
 		global $ilDB;
 		

@@ -501,7 +501,7 @@ class ilObjRole extends ilObject
 		return count($rbacreview->assignedUsers($this->getId()));
 	}
 
-	function _getTranslation($a_role_title)
+	static function _getTranslation($a_role_title)
 	{
 		global $lng;
 		

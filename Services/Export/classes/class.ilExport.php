@@ -163,7 +163,7 @@ class ilExport
 	/**
 	 * Get Export Files for a repository object
 	 */
-	function _getExportFiles($a_obj_id, $a_export_types = "", $a_obj_type = "")
+	static function _getExportFiles($a_obj_id, $a_export_types = "", $a_obj_type = "")
 	{
 		$GLOBALS['ilLog']->write(__METHOD__);
 
