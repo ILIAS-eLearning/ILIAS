@@ -318,31 +318,6 @@ final class Run
                 }
             }
 			
-			// correct-with-php5-removal JL start
-			switch($level)
-			{
-				// < PHP7 only
-				case E_STRICT:
-					// both E_NOTICE in PHP7
-					if(stristr($message, "Only variables should be passed by reference") ||
-						stristr($message, "Only variables should be assigned by reference")) {
-						return true;
-					}
-					break;									
-			}
-			// correct-with-php5-removal end
-			
-			// php7-workaround JL start
-			if($level === E_DEPRECATED && !DEVMODE)
-			{
-				global $ilLog;				
-				if($ilLog) {				
-					$ilLog->write($level."\n\n".$message."\n".$file." - ".$line."\n");
-				}
-				return true;
-			}
-			// php7-workaround end
-			
             // XXX we pass $level for the "code" param only for BC reasons.
             // see https://github.com/filp/whoops/issues/267
             $exception = new ErrorException($message, /*code*/ $level, /*severity*/ $level, $file, $line);
