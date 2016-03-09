@@ -41,7 +41,7 @@ class ilObjRole extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjRole($a_id = 0,$a_call_by_reference = false)
+	function __construct($a_id = 0,$a_call_by_reference = false)
 	{
 		$this->type = "role";
 		$this->disk_quota = 0;
