@@ -790,7 +790,7 @@ class ilMainMenuGUI
 		return $script;
 	}
 
-	function _checkAdministrationPermission()
+	static function _checkAdministrationPermission()
 	{
 		global $rbacsystem;
 
