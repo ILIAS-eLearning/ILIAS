@@ -725,7 +725,7 @@ class SurveyQuestion
 * @return boolean TRUE if the question is complete, FALSE otherwise
 * @access public
 */
-	function _isComplete($question_id)
+	static function _isComplete($question_id)
 	{
 		global $ilDB;
 
@@ -1213,7 +1213,7 @@ class SurveyQuestion
 * @result string The question title
 * @access private
 */
-	function _getTitle($question_id) 
+	static function _getTitle($question_id) 
 	{
 		global $ilDB;
 
