@@ -745,7 +745,7 @@ class ilObjUser extends ilObject
 	/**
 	* Lookup email
 	*/
-	function _lookupEmail($a_user_id)
+	static function _lookupEmail($a_user_id)
 	{
 		return ilObjUser::_lookup($a_user_id, "email");
 	}

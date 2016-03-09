@@ -316,7 +316,7 @@ class ilContainer extends ilObject
 	* @param	int		$a_id		container object id
 	* @param	string	$a_size		"big" | "small"
 	*/
-	function _lookupIconPath($a_id, $a_size = "big")
+	static function _lookupIconPath($a_id, $a_size = "big")
 	{
 		if ($a_size == "")
 		{

@@ -91,7 +91,7 @@ class ilCalendarSharedStatus
 	 * @param int usr_id
 	 * @return array int array of calendar ids
 	 */ 
-	public function getAcceptedCalendars($a_usr_id)
+	public static function getAcceptedCalendars($a_usr_id)
 	{
 		global $ilDB;
 		

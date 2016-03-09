@@ -449,7 +449,7 @@ class ilNote
 	/**
 	* get last notes of current user
 	*/
-	function _getLastNotesOfUser()
+	static function _getLastNotesOfUser()
 	{
 		global $ilDB, $ilUser;
 		
