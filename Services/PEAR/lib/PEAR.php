@@ -333,7 +333,8 @@ class PEAR
      * @since PHP 4.0.5
      */
 
-    function setErrorHandling($mode = null, $options = null)
+    // php7-workaround alex: added static 
+    static function setErrorHandling($mode = null, $options = null)
     {
         if (isset($this) && is_a($this, 'PEAR')) {
             $setmode     = &$this->_default_error_mode;
