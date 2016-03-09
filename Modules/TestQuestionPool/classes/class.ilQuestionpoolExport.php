@@ -30,7 +30,7 @@ class ilQuestionpoolExport
 	* Constructor
 	* @access	public
 	*/
-	function ilQuestionpoolExport(&$a_qpl_obj, $a_mode = "xml", $array_questions = null)
+	public function __construct($a_qpl_obj, $a_mode = "xml", $array_questions = null)
 	{
 		global $ilErr, $ilDB, $ilias, $lng;
 

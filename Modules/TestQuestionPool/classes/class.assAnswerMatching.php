@@ -61,7 +61,7 @@ class ASS_AnswerMatching
 * @param string $matchingtext A string defining the matching text for the answer text
 * @access public
 */
-	function ASS_AnswerMatching (
+	public function __construct(
 		$points = 0.0,
 		$term_id = 0,
 		$picture_or_definition = "",
