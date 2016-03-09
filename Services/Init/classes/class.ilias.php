@@ -106,7 +106,7 @@ class ILIAS
 	* setup ILIAS global object
 	* @access	public
 	*/
-	function ILIAS($a_client_id = 0)
+	function __construct($a_client_id = 0)
 	{
 		global $ilErr, $ilDB, $ilIliasIniFile, $ilClientIniFile, $ilAuth;
 

@@ -52,7 +52,7 @@ class ilSetting
 	/**
 	* Initialize settings
 	*/
-	function ilSetting($a_module = "common", $a_disabled_cache = false)
+	function __construct($a_module = "common", $a_disabled_cache = false)
 	{
 		global $ilDB;
 		
