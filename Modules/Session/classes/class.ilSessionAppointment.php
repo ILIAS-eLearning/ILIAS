@@ -25,13 +25,17 @@ class ilSessionAppointment implements ilDatePeriod
 	var $starting_time = null;
 	var $ending_time = null;
 
-	function ilSessionAppointment($a_appointment_id = null)
+	/**
+	 * Consructor
+	 * @param int $a_appointment_id
+	 */
+	public function __construct($a_appointment_id = null)
 	{
 		global $ilErr,$ilDB,$lng,$tree;
 
-		$this->ilErr =& $ilErr;
-		$this->db  =& $ilDB;
-		$this->lng =& $lng;
+		$this->ilErr = $ilErr;
+		$this->db  = $ilDB;
+		$this->lng = $lng;
 
 		$this->appointment_id = $a_appointment_id;
 		$this->__read();

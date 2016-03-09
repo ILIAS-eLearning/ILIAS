@@ -286,7 +286,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 * @return 
 	 * @param object $a_id
 	 */
-	function _lookupViewMode($a_id)
+	public static function _lookupViewMode($a_id)
 	{
 		global $ilDB;
 

@@ -541,7 +541,7 @@ class ilFormat
 	 * @param ilLanguage $a_lng
 	 * @return string
 	 */
-	function _secondsToString($seconds, $force_with_seconds = false, $a_lng = null)
+	public static function _secondsToString($seconds, $force_with_seconds = false, $a_lng = null)
 	{
 		global $lng;
 
@@ -620,7 +620,7 @@ class ilFormat
 	* @param	string	datetime
 	* @return	integer	unix timestamp  
 	*/
-	function _secondsToShortString($seconds)
+	public static function _secondsToShortString($seconds)
 	{
 		global $lng;
 

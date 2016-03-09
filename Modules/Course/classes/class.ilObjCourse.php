@@ -578,7 +578,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return $this->view_mode;
 	}
 
-	function _lookupViewMode($a_id)
+	/**
+	 * lookup view mode of container
+	 * @param int $a_id
+	 * @return mixed int | bool
+	 */
+	public static function _lookupViewMode($a_id)
 	{
 		global $ilDB;
 
