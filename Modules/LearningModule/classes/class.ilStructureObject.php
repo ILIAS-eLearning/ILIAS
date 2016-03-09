@@ -24,10 +24,10 @@ class ilStructureObject extends ilLMObject
 	* Constructor
 	* @access	public
 	*/
-	function ilStructureObject(&$a_content_obj, $a_id = 0)
+	function __construct(&$a_content_obj, $a_id = 0)
 	{
 		$this->setType("st");
-		parent::ilLMObject($a_content_obj, $a_id);
+		parent::__construct($a_content_obj, $a_id);
 	}
 
 	function create($a_upload = false)

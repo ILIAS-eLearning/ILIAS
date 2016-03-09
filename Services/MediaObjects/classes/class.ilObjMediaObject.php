@@ -35,7 +35,7 @@ class ilObjMediaObject extends ilObject
 	* Constructor
 	* @access	public
 	*/
-	function ilObjMediaObject($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		$this->is_alias = false;
 		$this->media_items = array();
@@ -568,7 +568,7 @@ class ilObjMediaObject extends ilObject
 	*
 	* @param	int		$a_mob_id		media object id
 	*/
-	function _getDirectory($a_mob_id)
+	static function _getDirectory($a_mob_id)
 	{
 		return ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
 	}
@@ -588,7 +588,7 @@ class ilObjMediaObject extends ilObject
 	*
 	* @param	int		$a_mob_id		media object id
 	*/
-	function _getThumbnailDirectory($a_mob_id, $a_mode = "filesystem")
+	static function _getThumbnailDirectory($a_mob_id, $a_mode = "filesystem")
 	{
 		return ilUtil::getWebspaceDir($a_mode)."/thumbs/mm_".$a_mob_id;
 	}
@@ -641,7 +641,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	 * Create thumbnail directory
 	 */
-	function _createThumbnailDirectory($a_obj_id)
+	static function _createThumbnailDirectory($a_obj_id)
 	{
 		ilUtil::createDirectory(ilUtil::getWebspaceDir()."/thumbs");
 		ilUtil::createDirectory(ilUtil::getWebspaceDir()."/thumbs/mm_".$a_obj_id);
@@ -1014,7 +1014,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	* static
 	*/
-	function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
+	static function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
 		global $ilDB;
 		
@@ -1051,7 +1051,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	* get mobs of object
 	*/
-	function _getMobsOfObject($a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
+	static function _getMobsOfObject($a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
 		global $ilDB;
 
@@ -1086,7 +1086,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	* Save usage of mob within another container (e.g. page)
 	*/
-	function _saveUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
+	static function _saveUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
 		global $ilDB;
 
@@ -1107,7 +1107,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	* Remove usage of mob in another container
 	*/
-	function _removeUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
+	static function _removeUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
 		global $ilDB;
 		
@@ -1458,7 +1458,7 @@ class ilObjMediaObject extends ilObject
 	* @param	int			$a_width	width
 	* @param	int			$a_height	height
 	*/
-	function _resizeImage($a_file, $a_width, $a_height, $a_constrain_prop = false)
+	static function _resizeImage($a_file, $a_width, $a_height, $a_constrain_prop = false)
 	{
 		$file_path = pathinfo($a_file);
 		$location = substr($file_path["basename"],0,strlen($file_path["basename"]) -

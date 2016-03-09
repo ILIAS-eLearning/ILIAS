@@ -840,7 +840,7 @@ class ilConditionHandler
 	* every trigger object type must implement a static method
 	* _checkCondition($a_operator, $a_value)
 	*/
-	function _checkCondition($a_id,$a_usr_id = 0)
+	static function _checkCondition($a_id,$a_usr_id = 0)
 	{
 		global $ilUser, $objDefinition;
 		

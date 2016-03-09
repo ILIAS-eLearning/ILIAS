@@ -40,7 +40,7 @@ class ilLMEditorGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilLMEditorGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
 			$rbacsystem, $ilNavigationHistory;

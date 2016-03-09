@@ -82,7 +82,7 @@ class ilContObjParser extends ilMDSaxParser
 	* @param	string		$a_subdir			subdirectory in import directory
 	* @access	public
 	*/
-	function ilContObjParser(&$a_content_object, $a_xml_file, $a_subdir, $a_import_dir = "")
+	function __construct(&$a_content_object, $a_xml_file, $a_subdir, $a_import_dir = "")
 	{
 		global $lng, $tree;
 

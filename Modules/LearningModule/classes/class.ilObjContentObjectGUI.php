@@ -27,7 +27,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*
 	* @access	public
 	*/
-	function ilObjContentObjectGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = false)
+	function __construct($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = false)
 	{
 		global $lng, $ilCtrl;
 //echo "<br>ilobjcontobjgui-constructor-id-$a_id";
@@ -363,7 +363,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		return $ret;
 	}
 
-	function _forwards()
+	static function _forwards()
 	{
 		return array("ilLMPageObjectGUI", "ilStructureObjectGUI","ilObjStyleSheetGUI");
 	}

@@ -118,7 +118,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	*
 	* @param	int		$a_id	learning object id
 	*/
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 
@@ -141,7 +141,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	* @param	int		$a_obj_id	content object id
 	* @param	int		$a_user_id	user object id
 	*/
-	function _getLastAccessedPage($a_ref_id, $a_user_id = "")
+	static function _getLastAccessedPage($a_ref_id, $a_user_id = "")
 	{
 		global $ilDB, $ilUser;
 		

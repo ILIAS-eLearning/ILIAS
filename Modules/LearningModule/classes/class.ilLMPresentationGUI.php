@@ -35,7 +35,7 @@ class ilLMPresentationGUI
 	
 	private $needs_to_be_purchased = false;
 
-	function ilLMPresentationGUI()
+	function __construct()
 	{
 		global $ilUser, $lng, $tpl, $rbacsystem, $ilCtrl, $ilAccess;
 

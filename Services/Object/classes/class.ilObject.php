@@ -1001,7 +1001,7 @@ class ilObject
 	*
 	* @param	array
 	*/
-	function _getLastUpdateOfObjects($a_objs)
+	static function _getLastUpdateOfObjects($a_objs)
 	{
 		global $ilDB;
 		

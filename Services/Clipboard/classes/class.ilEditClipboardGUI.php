@@ -21,7 +21,7 @@ class ilEditClipboardGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilEditClipboardGUI()
+	function __construct()
 	{
 		global $lng, $ilCtrl;
 		

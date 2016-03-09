@@ -83,7 +83,7 @@ class ilObjFileAccess extends ilObjectAccess
 	* looks up the file_data for the file object with the specified object id
     * as an associative array.
 	*/
-	function _lookupFileData($a_id)
+	static function _lookupFileData($a_id)
 	{
 		global $ilDB;
 
@@ -97,7 +97,7 @@ class ilObjFileAccess extends ilObjectAccess
 	/**
 	* lookup version
 	*/
-	function _lookupVersion($a_id)
+	static function _lookupVersion($a_id)
 	{
 		global $ilDB;
 
@@ -165,7 +165,7 @@ class ilObjFileAccess extends ilObjectAccess
 	/**
 	* lookup suffix
 	*/
-	function _lookupSuffix($a_id)
+	static function _lookupSuffix($a_id)
 	{
 		include_once('Modules/File/classes/class.ilFSStorageFile.php');
 		
@@ -185,7 +185,7 @@ class ilObjFileAccess extends ilObjectAccess
 	 * with the specified object id.
 	 * @param int object id of a file object.
 	 */
-	function _lookupDiskUsage($a_id)
+	static function _lookupDiskUsage($a_id)
 	{
 		include_once('Modules/File/classes/class.ilFSStorageFile.php');
 		$fileStorage = new ilFSStorageFile($a_id);

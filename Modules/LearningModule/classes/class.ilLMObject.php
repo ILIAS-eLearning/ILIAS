@@ -31,7 +31,7 @@ class ilLMObject
 	/**
 	* @param	object		$a_content_obj		content object (digi book or learning module)
 	*/
-	function ilLMObject($a_content_obj, $a_id = 0)
+	function __construct($a_content_obj, $a_id = 0)
 	{
 		global $ilias;
 
@@ -98,7 +98,7 @@ class ilLMObject
 	/**
 	* lookup named identifier (ILIAS_NID)
 	*/
-	function _lookupNID($a_lm_id, $a_lm_obj_id, $a_type)
+	static function _lookupNID($a_lm_id, $a_lm_obj_id, $a_type)
 	{
 		include_once 'Services/MetaData/classes/class.ilMD.php';
 //echo "-".$a_lm_id."-".$a_lm_obj_id."-".$a_type."-";
@@ -307,7 +307,7 @@ class ilLMObject
 	}
 
 
-	function _writeTitle($a_obj_id, $a_title)
+	static function _writeTitle($a_obj_id, $a_title)
 	{
 		global $ilDB;
 
@@ -406,7 +406,7 @@ class ilLMObject
 	* @param	string	$a_import_id		import id
 	* @access	public
 	*/
-	function _writeImportId($a_id, $a_import_id)
+	static function _writeImportId($a_id, $a_import_id)
 	{
 		global $ilDB;
 
@@ -475,7 +475,7 @@ class ilLMObject
 	* @param	integer	content object id
 	* @return	of the jedi
 	*/
-	function _writePublicAccessStatus($a_pages,$a_cont_obj_id)
+	static function _writePublicAccessStatus($a_pages,$a_cont_obj_id)
 	{
 		global $ilDB,$ilLog,$ilErr,$ilTree;
 		
@@ -595,7 +595,7 @@ class ilLMObject
 	*
 	* @return	int		id
 	*/
-	function _getIdForImportId($a_import_id)
+	static function _getIdForImportId($a_import_id)
 	{
 		global $ilDB;
 		
@@ -629,7 +629,7 @@ class ilLMObject
 	*
 	* @return	int		id
 	*/
-	function _getAllObjectsForImportId($a_import_id, $a_in_lm = 0)
+	static function _getAllObjectsForImportId($a_import_id, $a_in_lm = 0)
 	{
 		global $ilDB;
 		
@@ -663,7 +663,7 @@ class ilLMObject
 	*
 	* @return	boolean		true, if lm content object exists
 	*/
-	function _exists($a_id)
+	static function _exists($a_id)
 	{
 		global $ilDB;
 		
@@ -718,7 +718,7 @@ class ilLMObject
 	/**
 	* delete all objects of content object (digi book / learning module)
 	*/
-	function _deleteAllObjectData(&$a_cobj)
+	static function _deleteAllObjectData(&$a_cobj)
 	{
 		global $ilDB;
 		
@@ -745,7 +745,7 @@ class ilLMObject
 	/**
 	* get learning module / digibook id for lm object
 	*/
-	function _lookupContObjID($a_id)
+	static function _lookupContObjID($a_id)
 	{
 		global $ilDB;
 

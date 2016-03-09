@@ -572,8 +572,8 @@ class ilObjFile extends ilObject2
 	{
 		return $this->mode;
 	}
-	
-	function _writeFileType($a_id ,$a_format)
+
+	static function _writeFileType($a_id ,$a_format)
 	{
 		global $ilDB;
 		
@@ -584,7 +584,7 @@ class ilObjFile extends ilObject2
 		
 	}
 
-	function _lookupFileName($a_id)
+	static function _lookupFileName($a_id)
 	{
 		global $ilDB;
 
@@ -597,7 +597,7 @@ class ilObjFile extends ilObject2
 
 
 	/** Lookups the file size of the file in bytes. */
-	function _lookupFileSize($a_id)
+	static function _lookupFileSize($a_id)
 	{
 	    require_once("./Modules/File/classes/class.ilObjFileAccess.php");
 		return ilObjFileAccess::_lookupFileSize($a_id);
@@ -606,7 +606,7 @@ class ilObjFile extends ilObject2
 	/**
 	* lookup version
 	*/
-	function _lookupVersion($a_id)
+	static function _lookupVersion($a_id)
 	{
 		require_once("./Modules/File/classes/class.ilObjFileAccess.php");
 		return ilObjFileAccess::_lookupVersion($a_id);
@@ -898,7 +898,7 @@ class ilObjFile extends ilObject2
 	/**
 	* static delete all usages of
 	*/
-	function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
+	static function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
 	{
 		global $ilDB;
 		
@@ -932,27 +932,10 @@ class ilObjFile extends ilObject2
 	/**
 	* save usage
 	*/
-	function _saveUsage($a_file_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
+	static function _saveUsage($a_file_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
 	{
 		global $ilDB;
-		
-		/*
-		$ilDB->manipulate("DELETE FROM file_usage WHERE usage_type = ".
-			$ilDB->quote((string) $a_type, "text").
-			" AND usage_id = ".$ilDB->quote((int) $a_id, "integer").
-			" AND usage_lang = ".$ilDB->quote($a_usage_lang, "text").
-			" AND usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer").
-			" AND id = ".$ilDB->quote((int) $a_file_id, "integer"));
 
-		$ilDB->manipulate("INSERT INTO file_usage (id, usage_type, usage_id, usage_hist_nr, usage_lang) VALUES".
-			" (".$ilDB->quote((int) $a_file_id, "integer").",".
-			$ilDB->quote((string) $a_type, "text").",".
-			$ilDB->quote((int) $a_id, "integer").",".
-			$ilDB->quote((int) $a_usage_hist_nr, "integer").",".
-			$ilDB->quote($a_usage_lang, "text").
-			")");
-		*/
-		
 		// #15143
 		$ilDB->replace("file_usage",
 			array(
@@ -998,7 +981,7 @@ class ilObjFile extends ilObject2
 	*
 	* @return	array		array of file ids
 	*/
-	function _getFilesOfObject($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
+	static function _getFilesOfObject($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
 	{
 		global $ilDB;
 

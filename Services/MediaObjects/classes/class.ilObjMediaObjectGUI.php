@@ -23,7 +23,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	var $target_script;
 	var $enabledmapareas = true;
 
-	function ilObjMediaObjectGUI($a_data, $a_id = 0, $a_call_by_reference = false, $a_prepare_output = false)
+	function __construct($a_data, $a_id = 0, $a_call_by_reference = false, $a_prepare_output = false)
 	{
 		global $lng, $ilCtrl;
 
@@ -1618,7 +1618,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	/**
 	* get media info as html
 	*/
-	function _getMediaInfoHTML(&$a_mob)
+	static function _getMediaInfoHTML(&$a_mob)
 	{
 		global $lng;
 
@@ -1850,7 +1850,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	/**
 	 * Include media object presentation JS
 	 */
-	function includePresentationJS($a_tpl = null)
+	static function includePresentationJS($a_tpl = null)
 	{
 		global $tpl;
 

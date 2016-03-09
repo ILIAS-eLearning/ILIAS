@@ -742,7 +742,7 @@ class ilImageMapEditorGUI
 	/**
 	* Recover parameters from session variables (static)
 	*/
-	function _recoverParameters()
+	static function _recoverParameters()
 	{
 		$_GET["ref_id"] = $_SESSION["il_map_edit_ref_id"];
 		$_GET["obj_id"] = $_SESSION["il_map_edit_obj_id"];

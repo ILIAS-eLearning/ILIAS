@@ -21,9 +21,9 @@ class ilPCTableGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCTableGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
+	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		$this->setCharacteristics(array("StandardTable" => $this->lng->txt("cont_StandardTable")));
 
 	}

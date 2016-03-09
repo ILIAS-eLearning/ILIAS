@@ -80,7 +80,7 @@ class ilPageObjectGUI
 	 * @param bool $a_prevent_get_id prevent getting id automatically from $_GET (e.g. set when concentInclude are included)
 	 * @param string $a_lang language ("" reads also $_GET["transl"], "-" forces master lang)
 	 */
-	function ilPageObjectGUI($a_parent_type, $a_id, $a_old_nr = 0,
+	function __construct($a_parent_type, $a_id, $a_old_nr = 0,
 		$a_prevent_get_id = false, $a_lang = "")
 	{
 		global $tpl, $lng, $ilCtrl,$ilTabs;

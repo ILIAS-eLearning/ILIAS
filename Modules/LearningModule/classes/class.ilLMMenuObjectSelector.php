@@ -32,7 +32,7 @@ class ilLMMenuObjectSelector extends ilExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilLMMenuObjectSelector($a_target,&$a_gui_obj)
+	function __construct($a_target,&$a_gui_obj)
 	{
 		global $tree,$ilCtrl;
 

@@ -20,9 +20,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCParagraphGUI($a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
+	function __construct($a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		
 		// characteristics (should be flexible in the future)
 		$this->setCharacteristics(ilPCParagraphGUI::_getStandardCharacteristics());

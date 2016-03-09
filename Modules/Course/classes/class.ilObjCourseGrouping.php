@@ -449,7 +449,7 @@ class ilObjCourseGrouping
 		return $groupings ? $groupings : array();
 	}
 
-	function _checkCondition($trigger_obj_id,$operator,$value,$a_usr_id = 0)
+	static function _checkCondition($trigger_obj_id,$operator,$value,$a_usr_id = 0)
 	{
 		// in the moment i alway return true, there are some problems with presenting the condition if it fails,
 		// only course register class check manually if this condition is fullfilled

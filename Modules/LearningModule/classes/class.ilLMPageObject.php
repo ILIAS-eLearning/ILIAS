@@ -39,13 +39,13 @@ class ilLMPageObject extends ilLMObject
 	* Constructor
 	* @access	public
 	*/
-	function ilLMPageObject(&$a_content_obj, $a_id = 0, $a_halt = true)
+	function __construct(&$a_content_obj, $a_id = 0, $a_halt = true)
 	{
 		global $ilias, $ilBench;
 
 		$ilBench->start("ContentPresentation", "ilLMPageObject_Constructor");
 
-		parent::ilLMObject($a_content_obj, $a_id);
+		parent::__construct($a_content_obj, $a_id);
 		$this->setType("pg");
 		$this->id = $a_id;
 
@@ -200,7 +200,7 @@ class ilLMPageObject extends ilLMObject
 	* object is not available within ilPageContentGUI where this method
 	* is called
 	*/
-	function _splitPage($a_page_id, $a_pg_parent_type, $a_hier_id)
+	static function _splitPage($a_page_id, $a_pg_parent_type, $a_hier_id)
 	{
 		// get content object (learning module / digilib book)
 		$lm_id = ilLMObject::_lookupContObjID($a_page_id);
@@ -274,7 +274,7 @@ class ilLMPageObject extends ilLMObject
 	* object is not available within ilPageContentGUI where this method
 	* is called
 	*/
-	function _splitPageNext($a_page_id, $a_pg_parent_type, $a_hier_id)
+	static function _splitPageNext($a_page_id, $a_pg_parent_type, $a_hier_id)
 	{
 		// get content object (learning module / digilib book)
 		$lm_id = ilLMObject::_lookupContObjID($a_page_id);
@@ -558,7 +558,7 @@ class ilLMPageObject extends ilLMObject
 	/**
 	* export page alias to xml
 	*/
-	function _exportXMLAlias(&$a_xml_writer, $a_id, $a_inst = 0)
+	static function _exportXMLAlias(&$a_xml_writer, $a_id, $a_inst = 0)
 	{
 		$attrs = array();
 		$a_xml_writer->xmlStartTag("PageObject", $attrs);

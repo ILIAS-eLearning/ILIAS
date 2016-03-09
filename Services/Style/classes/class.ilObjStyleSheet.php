@@ -1848,7 +1848,7 @@ class ilObjStyleSheet extends ilObject
 	*
 	* static
 	*/
-	function getContentPrintStyle()
+	static function getContentPrintStyle()
 	{
 		return "./Services/COPage/css/print_content.css";
 	}
@@ -1858,7 +1858,7 @@ class ilObjStyleSheet extends ilObject
 	*
 	* static
 	*/
-	function getSyntaxStylePath()
+	static function getSyntaxStylePath()
 	{
 		return "./Services/COPage/css/syntaxhighlight.css";
 	}
@@ -1868,7 +1868,7 @@ class ilObjStyleSheet extends ilObject
 	*
 	* static
 	*/
-	function getPlaceHolderStylePath()
+	static function getPlaceHolderStylePath()
 	{
 		return "./Services/COPage/css/placeholder.css";
 	}

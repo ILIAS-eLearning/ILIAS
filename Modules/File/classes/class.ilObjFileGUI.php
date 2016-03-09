@@ -40,12 +40,6 @@ class ilObjFileGUI extends ilObject2GUI
 		return "file";
 	}
 
-	// ???
-	function _forwards()
-	{
-		return array();
-	}
-	
 	function executeCommand()
 	{
 		global $ilNavigationHistory, $ilCtrl, $ilUser, $ilTabs, $ilAccess, $ilErr;

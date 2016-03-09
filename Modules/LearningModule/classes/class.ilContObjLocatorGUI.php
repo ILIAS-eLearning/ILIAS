@@ -39,7 +39,7 @@ class ilContObjLocatorGUI
 	var $tpl;
 
 
-	function ilContObjLocatorGUI($a_tree)
+	function __construct($a_tree)
 	{
 		global $lng, $tpl, $ilCtrl;
 

@@ -23,14 +23,14 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	var $header;
 	var $ctrl;
 
-	function ilPCMediaObjectGUI($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
+	function __construct($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
 		global $ilCtrl;
 
 		$this->ctrl =& $ilCtrl;
 
 //echo "constructor target:".$_SESSION["il_map_il_target"].":<br>";
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		
 		$this->setCharacteristics(array("Media" => $this->lng->txt("cont_Media")));
 

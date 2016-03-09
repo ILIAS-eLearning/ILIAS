@@ -39,7 +39,7 @@ class ilObjContentObject extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjContentObject($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		// this also calls read() method! (if $a_id is set)
 		parent::__construct($a_id,$a_call_by_reference);
@@ -737,7 +737,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* move learning modules from one style to another
 	*/
-	function _moveLMStyles($a_from_style, $a_to_style)
+	static function _moveLMStyles($a_from_style, $a_to_style)
 	{
 		global $ilDB, $ilias;
 
@@ -804,7 +804,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* lookup style sheet ID
 	*/
-	function _lookupStyleSheetId($a_cont_obj_id)
+	static function _lookupStyleSheetId($a_cont_obj_id)
 	{
 		global $ilDB;
 
@@ -819,7 +819,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* lookup style sheet ID
 	*/
-	function _lookupContObjIdByStyleId($a_style_id)
+	static function _lookupContObjIdByStyleId($a_style_id)
 	{
 		global $ilDB;
 
@@ -870,7 +870,7 @@ class ilObjContentObject extends ilObject
 	*
 	* @param	int		$a_style_id		style id
 	*/
-	function _getNrOfAssignedLMs($a_style_id)
+	static function _getNrOfAssignedLMs($a_style_id)
 	{
 		global $ilDB;
 		
@@ -886,7 +886,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* get number of learning modules with individual styles
 	*/
-	function _getNrLMsIndividualStyles()
+	static function _getNrLMsIndividualStyles()
 	{
 		global $ilDB;
 		
@@ -903,7 +903,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* get number of learning modules assigned no style
 	*/
-	function _getNrLMsNoStyle()
+	static function _getNrLMsNoStyle()
 	{
 		global $ilDB;
 		
@@ -920,7 +920,7 @@ class ilObjContentObject extends ilObject
 	*
 	* @param	int		$a_style_id		style_id
 	*/
-	function _deleteStyleAssignments($a_style_id)
+	static function _deleteStyleAssignments($a_style_id)
 	{
 		global $ilDB;
 		
@@ -1248,7 +1248,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* check wether content object is online
 	*/
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 		
@@ -1310,7 +1310,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* checks wether the preconditions of a page are fulfilled or not
 	*/
-	function _checkPreconditionsOfPage($cont_ref_id,$cont_obj_id, $page_id)
+	static function _checkPreconditionsOfPage($cont_ref_id,$cont_obj_id, $page_id)
 	{
 		global $ilUser,$ilErr;
 
@@ -1339,7 +1339,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* gets all missing preconditions of page
 	*/
-	function _getMissingPreconditionsOfPage($cont_ref_id,$cont_obj_id, $page_id)
+	static function _getMissingPreconditionsOfPage($cont_ref_id,$cont_obj_id, $page_id)
 	{
 		$lm_tree = new ilTree($cont_obj_id);
 		$lm_tree->setTableNames('lm_tree','lm_data');
@@ -1374,7 +1374,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* get top chapter of page for that any precondition is missing
 	*/
-	function _getMissingPreconditionsTopChapter($cont_obj_ref_id,$cont_obj_id, $page_id)
+	static function _getMissingPreconditionsTopChapter($cont_obj_ref_id,$cont_obj_id, $page_id)
 	{
 		$lm_tree = new ilTree($cont_obj_id);
 		$lm_tree->setTableNames('lm_tree','lm_data');
@@ -1409,7 +1409,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* checks if page has a successor page
 	*/
-	function hasSuccessorPage($a_cont_obj_id, $a_page_id)
+	static function hasSuccessorPage($a_cont_obj_id, $a_page_id)
 	{
 		$tree = new ilTree($a_cont_obj_id);
 		$tree->setTableNames('lm_tree','lm_data');

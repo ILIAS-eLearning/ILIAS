@@ -50,7 +50,7 @@ class ilCOPagePCDef
 	 * @param
 	 * @return
 	 */
-	function getPCDefinitions()
+	static function getPCDefinitions()
 	{
 		self::init();
 		return self::$pc_def;
@@ -62,7 +62,7 @@ class ilCOPagePCDef
 	 * @param string type
 	 * @return array definition
 	 */
-	function getPCDefinitionByType($a_pc_type)
+	static function getPCDefinitionByType($a_pc_type)
 	{
 		self::init();
 		return self::$pc_def[$a_pc_type];
@@ -74,7 +74,7 @@ class ilCOPagePCDef
 	 * @param string name
 	 * @return array definition
 	 */
-	function getPCDefinitionByName($a_pc_name)
+	static function getPCDefinitionByName($a_pc_name)
 	{
 		self::init();
 		return self::$pc_def_by_name[$a_pc_name];
@@ -86,7 +86,7 @@ class ilCOPagePCDef
 	 * @param string name
 	 * @return array definition
 	 */
-	function getPCDefinitionByGUIClassName($a_gui_class_name)
+	static function getPCDefinitionByGUIClassName($a_gui_class_name)
 	{
 		self::init();
 		$a_gui_class_name = strtolower($a_gui_class_name);
@@ -127,7 +127,7 @@ class ilCOPagePCDef
 	 * @param
 	 * @return
 	 */
-	function isPCGUIClassName($a_class_name, $a_lower_case = false)
+	static function isPCGUIClassName($a_class_name, $a_lower_case = false)
 	{
 		if ($a_lower_case)
 		{

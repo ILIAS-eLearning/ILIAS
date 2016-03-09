@@ -62,7 +62,7 @@ class ilCourseLMHistory
 		return $this->course_id;
 	}
 
-	function _updateLastAccess($a_user_id,$a_lm_ref_id,$a_page_id)
+	static function _updateLastAccess($a_user_id,$a_lm_ref_id,$a_page_id)
 	{
 		global $tree,$ilDB;
 

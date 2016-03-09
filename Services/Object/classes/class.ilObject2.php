@@ -192,7 +192,7 @@ abstract class ilObject2 extends ilObject
 	final static function _getIdsForTitle($title, $type = '', $partialmatch = false) { return parent::_getIdsForTitle($title, $type, $partialmatch); }
 	final static function _lookupDescription($a_id) { return parent::_lookupDescription($a_id); }
 	final function _lookupLastUpdate($a_id, $a_as_string = false) { return parent::_lookupLastUpdate($a_id, $a_as_string); }
-	final function _getLastUpdateOfObjects($a_objs) { return parent::_getLastUpdateOfObjects($a_objs); }
+	final static function _getLastUpdateOfObjects($a_objs) { return parent::_getLastUpdateOfObjects($a_objs); }
 	final static function _lookupObjId($a_id) { return parent::_lookupObjId($a_id); }
 	final function _setDeletedDate($a_ref_id) { return parent::_setDeletedDate($a_ref_id); }
 	final function _resetDeletedDate($a_ref_id) { return parent::_resetDeletedDate($a_ref_id); }

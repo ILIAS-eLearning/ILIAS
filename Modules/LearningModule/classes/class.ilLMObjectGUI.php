@@ -29,7 +29,7 @@ class ilLMObjectGUI
 	*
 	* @param	object		$a_content_obj		content object
 	*/
-	function ilLMObjectGUI(&$a_content_obj)
+	function __construct(&$a_content_obj)
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 

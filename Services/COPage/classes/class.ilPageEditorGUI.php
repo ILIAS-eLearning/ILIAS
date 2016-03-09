@@ -55,7 +55,7 @@ class ilPageEditorGUI
 	* @param	object		$a_page_object		page object
 	* @access	public
 	*/
-	function ilPageEditorGUI(&$a_page_object, &$a_page_object_gui)
+	function __construct(&$a_page_object, &$a_page_object_gui)
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,$ilTabs;
 

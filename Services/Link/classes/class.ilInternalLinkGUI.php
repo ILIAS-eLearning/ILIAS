@@ -27,7 +27,7 @@ class ilInternalLinkGUI
 	var $tree;
 	var $ltypes = array();
 	
-	function ilInternalLinkGUI($a_default_type, $a_default_obj)
+	function __construct($a_default_type, $a_default_obj)
 	{
 		global $lng, $ilias, $ilCtrl, $tree;
 
