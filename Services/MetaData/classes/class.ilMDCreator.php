@@ -52,7 +52,7 @@ class ilMDCreator
 	 */
 	var $obj_type;
 
-	function ilMDCreator($a_rbac_id,$a_obj_id,$a_type)
+	function __construct($a_rbac_id,$a_obj_id,$a_type)
 	{
 		include_once 'Services/MetaData/classes/class.ilMD.php';
 

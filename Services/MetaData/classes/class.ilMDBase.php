@@ -54,8 +54,16 @@ class ilMDBase
 	 */
 	var $export_mode = false;
 
-
-	function ilMDBase($a_rbac_id = 0,
+	/*
+	 * constructor
+	 *
+	 * @param	$a_rbac_id	int		object id (NOT ref_id!) of rbac object (e.g for page objects
+	 *								the obj_id of the content object; for media objects this
+	 *								is set to 0, because their object id are not assigned to ref ids)
+	 * @param	$a_obj_id	int		object id (e.g for structure objects the obj_id of the structure object)
+	 * @param	$a_type		string	type of the object (e.g st,pg,crs ...)
+	 */
+	function __construct($a_rbac_id = 0,
 					  $a_obj_id = 0,
 					  $a_type = 0)
 	{
@@ -66,8 +74,8 @@ class ilMDBase
 			$a_obj_id = $a_rbac_id;
 		}
 
-		$this->db =& $ilDB;
-		$this->log =& $ilLog;
+		$this->db = $ilDB;
+		$this->log = $ilLog;
 
 		$this->rbac_id = $a_rbac_id;
 		$this->obj_id = $a_obj_id;

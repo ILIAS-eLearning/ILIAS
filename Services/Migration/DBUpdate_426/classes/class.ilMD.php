@@ -38,11 +38,6 @@ class ilMD extends ilMDBase
 	 *
 	 */
 
-	function ilMD($a_rbac_id,$a_obj_id,$a_type)
-	{
-		parent::ilMDBase($a_rbac_id,$a_obj_id,$a_type);
-	}
-
 	function &getGeneral()
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDGeneral.php';

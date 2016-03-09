@@ -32,14 +32,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDMetaMetadata extends ilMDBase
 {
-
-	function ilMDMetaMetadata($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
 	function getPossibleSubelements()
 	{
 		$subs['Identifier'] = 'meta_identifier';

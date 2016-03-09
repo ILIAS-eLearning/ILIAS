@@ -91,7 +91,7 @@ class ilContObjParser extends ilMDSaxParser
 			? $a_import_dir
 			: $a_content_object->getImportDirectory();
 
-		parent::ilMDSaxParser($a_xml_file);
+		parent::__construct($a_xml_file);
 		$this->cnt = array();
 		$this->current_element = array();
 		$this->structure_objects = array();

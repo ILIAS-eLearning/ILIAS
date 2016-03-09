@@ -60,7 +60,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 	{
 		global $lng,$ilLog;
 
-		parent::ilMDSaxParser($a_xml_file);
+		parent::__construct($a_xml_file);
 
 		$this->sax_controller = new ilSaxController();
 

@@ -59,7 +59,7 @@ class ilMDSaxParser extends ilSaxParser
 	*
 	* @access	public
 	*/
-	function ilMDSaxParser($a_xml_file = '')
+	function __construct($a_xml_file = '')
 	{
 		global $lng, $tree;
 

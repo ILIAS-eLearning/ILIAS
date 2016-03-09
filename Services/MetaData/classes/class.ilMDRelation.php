@@ -32,14 +32,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDRelation extends ilMDBase
 {
-	function ilMDRelation($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
-
 	// METHODS OF CHILD OBJECTS (Taxon)
 	function &getIdentifier_Ids()
 	{
