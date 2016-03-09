@@ -157,7 +157,7 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 		
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
-			include_once 'Services/Exceptions/class.ilException.php';
+			require_once './Services/Exceptions/classes/class.ilException.php';
 			throw new ilException("Missing parameter or wrong datatype! ".
 				"node_id: ".$a_node_id." options:".var_dump($a_option));
 		}
