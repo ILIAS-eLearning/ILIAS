@@ -903,23 +903,8 @@ class ilInitialisation
 	 */
 	public static function handleErrorReporting()
 	{		
-		// remove notices from error reporting
-		if (version_compare(PHP_VERSION, '5.4.0', '>='))
-		{
-			// Prior to PHP 5.4.0 E_ALL does not include E_STRICT.
-			// With PHP 5.4.0 and above E_ALL >DOES< include E_STRICT.
-			
-			error_reporting(((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED) & ~E_STRICT);
-			
-			// php7-workaround JL start
-			// push the error level as high as possible / sane
-			error_reporting(E_ALL & ~E_NOTICE);
-			// php7-workaround end
-		}
-		else
-		{
-			error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
-		}
+		// push the error level as high as possible / sane
+		error_reporting(E_ALL & ~E_NOTICE);
 		
 		// see handleDevMode() - error reporting might be overwritten again
 		// but we need the client ini first
