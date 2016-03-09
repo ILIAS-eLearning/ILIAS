@@ -29,7 +29,7 @@ class ilObjExternalFeedAccess extends ilObjectAccess
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array
 		(

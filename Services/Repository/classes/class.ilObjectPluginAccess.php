@@ -91,7 +91,7 @@ class ilObjectPluginAccess extends ilObjectAccess
 	}
 
 	// this is called by permission -> check permissions of user screen
-	function _getCommands()
+	static function _getCommands()
 	{
 		return array();
 	}

@@ -17,7 +17,7 @@ require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClas
  */
 class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass {
 
-	function _getCommands() {
+	static function _getCommands() {
 		die();
 	}
 

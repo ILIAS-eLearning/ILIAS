@@ -199,7 +199,7 @@ class ilContainer extends ilObject
 	*
 	* @return	string		setting value
 	*/
-	function _lookupContainerSetting($a_id, $a_keyword, $a_default_value = NULL)
+	static function _lookupContainerSetting($a_id, $a_keyword, $a_default_value = NULL)
 	{
 		global $ilDB;
 		

@@ -40,7 +40,7 @@ class ilObjFileAccess extends ilObjectAccess
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array();
 		$commands[] = array("permission" => "read", "cmd" => "sendfile", "lang_var" => "download","default" => true);

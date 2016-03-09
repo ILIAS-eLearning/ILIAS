@@ -121,7 +121,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
      *        array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *    );
      */
-    function _getCommands($a_obj_id)
+    static function _getCommands($a_obj_id)
     {
         $commands = array
         (

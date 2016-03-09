@@ -13,7 +13,7 @@ include_once './Services/Object/classes/class.ilObjectListGUI.php';
 */
 class ilObjectListGUIFactory
 {
-	function &_getListGUIByType($a_type, $a_context = ilObjectListGUI::CONTEXT_REPOSITORY)
+	static function _getListGUIByType($a_type, $a_context = ilObjectListGUI::CONTEXT_REPOSITORY)
 	{
 		global $objDefinition;
 		

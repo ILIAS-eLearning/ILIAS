@@ -204,7 +204,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array();
 		$commands[] = array("permission" => "crs_linked", "cmd" => "", "lang_var" => "view", "default" => true);

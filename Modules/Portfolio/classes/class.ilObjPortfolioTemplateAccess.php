@@ -12,7 +12,7 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 */
 class ilObjPortfolioTemplateAccess extends ilObjectAccess
 {		
-	public function _getCommands()
+	public static function _getCommands()
 	{
 		$commands = array
 		(
