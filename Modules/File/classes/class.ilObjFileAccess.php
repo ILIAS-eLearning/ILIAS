@@ -357,7 +357,7 @@ class ilObjFileAccess extends ilObjectAccess
 		return ilLink::_getStaticLink($ref_id, "file", true, "_download");
 	}
 	
-	public function _preloadData($a_obj_ids, $a_ref_ids)
+	public static function _preloadData($a_obj_ids, $a_ref_ids)
 	{
 		global $ilDB;
 		
