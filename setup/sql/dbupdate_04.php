@@ -10062,7 +10062,7 @@ if ($ilDB->tableExists('rbac_templates'))
 	{
 		$ilDB->manipulateF(
 			"DELETE FROM rbac_templates WHERE rol_id = %s AND type = %s AND ops_id = %s AND parent = %s",
-			array('integer', 'integer', 'integer', 'integer'),
+			array('integer', 'text', 'integer', 'integer'),
 			array($row['rol_id'], $row['type'], $row['ops_id'], $row['parent'])
 		);
 		;		
