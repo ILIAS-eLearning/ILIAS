@@ -38,17 +38,16 @@ class ilObjCourseGrouping
 	protected static $assignedObjects = array();
 
 	/**
-	* Constructor
-	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
-	*/
-	function ilObjCourseGrouping($a_id = 0)
+	 * Constructor
+	 * @access	public
+	 * @param	int	reference_id or object_id
+	 */
+	public function __construct($a_id = 0)
 	{
 		global $ilDB;
 
 		$this->setType('crsg');
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 
 		$this->setId($a_id);
 

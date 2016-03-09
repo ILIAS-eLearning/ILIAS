@@ -69,17 +69,15 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 	 *
 	 */
 	public function getAdminTabs()
-	{
-		global $rbacsystem;
-
-		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+	{		
+		if ($this->checkPermissionBool("visible,read"))
 		{
 			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "editSettings"),
 				array("editSettings", "view"));
 		}
 
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		if ($this->checkPermissionBool('edit_permission'))
 		{
 			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass('ilpermissiongui',"perm"),

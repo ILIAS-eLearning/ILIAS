@@ -99,7 +99,6 @@ class ilChangeEvent
 			$aff = $ilDB->manipulate($query);
 			
 		}
-		//error_log ('ilChangeEvent::_recordWriteEvent '.$q);
 	}
 	
 	/**
@@ -913,8 +912,8 @@ class ilChangeEvent
 				$res = $ilDB->query($query);
 			}
 			
-			global $ilias;
-			$ilias->setSetting('enable_change_event_tracking', '1');
+			global $ilSetting;
+			$ilSetting->set('enable_change_event_tracking', '1');
 
 			return $res;
 		}
@@ -926,9 +925,8 @@ class ilChangeEvent
 	 * @return mixed true on success, a string with an error message on failure.
 	 */
 	public static function _deactivate() {
-		global $ilias;
-		$ilias->setSetting('enable_change_event_tracking', '0');
-		
+		global $ilSetting;
+		$ilSetting->set('enable_change_event_tracking', '0');		
 	}
 
 	/**
@@ -937,9 +935,8 @@ class ilChangeEvent
 	 * @return mixed true on success, a string with an error message on failure.
 	 */
 	public static function _isActive() {
-		global $ilias;
-		return $ilias->getSetting('enable_change_event_tracking', '0') == '1';
-		
+		global $ilSetting;
+		$ilSetting->get('enable_change_event_tracking', '0') == '1';		
 	}
 	
 	/**

@@ -43,13 +43,13 @@ class ilFileDataCourse extends ilFileData
 	private $course_id;
 
 	/**
-	* Constructor
-	* call base constructors
-	* checks if directory is writable and sets the optional obj_id
-	* @param integereger obj_id
-	* @access	public
-	*/
-	function ilFileDataCourse($a_course_id)
+	 * Constructor
+	 * call base constructors
+	 * checks if directory is writable and sets the optional obj_id
+	 * @param int obj_id
+	 * @access	public
+	 */
+	public function __construct($a_course_id)
 	{
 		define('COURSE_PATH','course');
 		parent::__construct();

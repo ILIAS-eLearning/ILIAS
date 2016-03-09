@@ -54,21 +54,25 @@ class ilCourseArchives
 	private $fss_storage;
 
 
-	function ilCourseArchives(&$course_obj)
+	/**
+	 * Constructor
+	 * @param ilObject $course_obj
+	 */
+	public function __construct($course_obj)
 	{
 		global $ilErr,$ilDB,$lng,$tree,$ilias;
 
-		$this->ilias =& $ilias;
-		$this->ilErr =& $ilErr;
-		$this->ilDB  =& $ilDB;
-		$this->lng   =& $lng;
-		$this->tree  =& $tree;
+		$this->ilias = $ilias;
+		$this->ilErr = $ilErr;
+		$this->ilDB  = $ilDB;
+		$this->lng   = $lng;
+		$this->tree  = $tree;
 
 		$this->ARCHIVE_XML = 1;
 		$this->ARCHIVE_HTML = 2;
 		$this->ARCHIVE_PDF = 3;
 
-		$this->course_obj =& $course_obj;
+		$this->course_obj = $course_obj;
 
 		$this->__read();
 	}

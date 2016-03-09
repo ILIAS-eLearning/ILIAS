@@ -28,15 +28,15 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 class ilObjCourseGUI extends ilContainerGUI
 {
 	/**
-	* Constructor
-	* @access public
-	*/
-	function ilObjCourseGUI()
+	 * Constructor
+	 * @access public
+	 */
+	public function __construct()
 	{
 		global $ilCtrl, $ilHelp;
 
 		// CONTROL OPTIONS
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
 
 		$this->type = "crs";

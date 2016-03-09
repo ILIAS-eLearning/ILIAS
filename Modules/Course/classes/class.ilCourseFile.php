@@ -44,13 +44,17 @@ class ilCourseFile
 	
 	private $fss_storage = null;
 
-	function ilCourseFile($a_file_id = null)
+	/**
+	 * Constructor
+	 * @param int $a_file_id
+	 */
+	public function __construct($a_file_id = null)
 	{
 		global $ilErr,$ilDB,$lng;
 
-		$this->ilErr =& $ilErr;
-		$this->db  =& $ilDB;
-		$this->lng =& $lng;
+		$this->ilErr = $ilErr;
+		$this->db  = $ilDB;
+		$this->lng = $lng;
 
 		$this->file_id = $a_file_id;
 		$this->__read();

@@ -14,7 +14,7 @@
 	{	
 		public function check()
 		{
-			global $ilUser,$rbacsystem,$lng;
+			global $ilUser, $lng;
 			
 			$count_limit = (bool)$ilUser->getPref('systemcheck_count_limit');
 			$age_limit = (bool)$ilUser->getPref('systemcheck_age_limit');
@@ -34,11 +34,6 @@
 			}
 			
 			ob_start();
-	
-			/*if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
-			{
-				$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-			}*/
 	
 			$validator->setMode("all",false);
 	

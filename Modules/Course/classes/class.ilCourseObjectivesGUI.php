@@ -54,21 +54,25 @@ class ilCourseObjectivesGUI
 	protected $test_type = 0;
 	// end-patch lok
 	
-	function ilCourseObjectivesGUI($a_course_id)
+	/**
+	 * Constructor
+	 * @param int $a_course_id
+	 */
+	public function __construct($a_course_id)
 	{
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 
 		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree,$ilTabs;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this,array("ref_id"));
 
-		$this->ilErr =& $ilErr;
-		$this->lng =& $lng;
+		$this->ilErr = $ilErr;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('crs');
-		$this->tpl =& $tpl;
-		$this->tree =& $tree;
-		$this->tabs_gui =& $ilTabs;
+		$this->tpl = $tpl;
+		$this->tree = $tree;
+		$this->tabs_gui = $ilTabs;
 		
 		$this->course_id = $a_course_id;
 		$this->__initCourseObject();

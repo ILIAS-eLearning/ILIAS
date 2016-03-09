@@ -37,7 +37,12 @@ class ilTimingPlaned
 	var $ilDB;
 	var $lng;
 
-	function ilTimingPlaned($item_id,$a_usr_id)
+	/**
+	 * Constructor
+	 * @param int $item_id
+	 * @param int $a_usr_id
+	 */
+	public function __construct($item_id,$a_usr_id)
 	{
 		global $ilErr,$ilDB,$lng,$tree;
 

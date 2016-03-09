@@ -42,11 +42,16 @@ class ilCourseObjectiveQuestion
 	public $questions;
 	protected $tests = array();
 
-	function ilCourseObjectiveQuestion($a_objective_id)
+	/**
+	 * Constructor
+	 * @global type $ilDB
+	 * @param type $a_objective_id
+	 */
+	public function __construct($a_objective_id)
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 	
 		$this->objective_id = $a_objective_id;
 
