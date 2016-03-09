@@ -126,7 +126,7 @@ class ilObjGroupAccess extends ilObjectAccess
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array();
 		$commands[] = array("permission" => "grp_linked", "cmd" => "", "lang_var" => "show", "default" => true);
@@ -173,7 +173,7 @@ class ilObjGroupAccess extends ilObjectAccess
 	/**
 	* check whether goto script will succeed
 	*/
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $ilAccess,$ilUser;
 
@@ -247,7 +247,7 @@ class ilObjGroupAccess extends ilObjectAccess
 	 *
 	 * @param array $a_obj_ids array of object ids
 	 */
-	function _preloadData($a_obj_ids, $a_ref_ids)
+	static function _preloadData($a_obj_ids, $a_ref_ids)
 	{
 		global $ilDB, $ilUser;
 		

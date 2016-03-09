@@ -112,7 +112,7 @@ class ilObjStyleSettings extends ilObject
 	/**
 	* lookup if a style is activated
 	*/
-	function _lookupActivatedStyle($a_skin, $a_style)
+	static function _lookupActivatedStyle($a_skin, $a_style)
 	{
 		global $ilDB;
 		

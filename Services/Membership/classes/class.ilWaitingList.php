@@ -230,7 +230,7 @@ abstract class ilWaitingList
 	 * @param array $a_usr_ids array of user ids
 	 * @param array $a_obj_ids array of object ids
 	 */
-	function _preloadOnListInfo($a_usr_ids, $a_obj_ids)
+	static function _preloadOnListInfo($a_usr_ids, $a_obj_ids)
 	{
 		global $ilDB;
 		

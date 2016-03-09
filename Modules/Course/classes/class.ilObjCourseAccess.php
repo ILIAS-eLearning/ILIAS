@@ -204,7 +204,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array();
 		$commands[] = array("permission" => "crs_linked", "cmd" => "", "lang_var" => "view", "default" => true);
@@ -250,7 +250,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	/**
 	* check whether goto script will succeed
 	*/
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $ilAccess,$ilUser;
 		
@@ -513,7 +513,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	 *
 	 * @param array $a_obj_ids array of object ids
 	 */
-	function _preloadData($a_obj_ids, $a_ref_ids)
+	static function _preloadData($a_obj_ids, $a_ref_ids)
 	{
 		global $ilUser, $lng;
 		

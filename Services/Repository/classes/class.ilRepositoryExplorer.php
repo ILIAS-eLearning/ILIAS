@@ -28,7 +28,7 @@ class ilRepositoryExplorer extends ilExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilRepositoryExplorer($a_target, $a_top_node = 0)
+	function __construct($a_target, $a_top_node = 0)
 	{
 		global $tree, $ilCtrl, $lng, $ilSetting, $objDefinition;
 
@@ -38,7 +38,7 @@ class ilRepositoryExplorer extends ilExplorer
 		$this->force_open_path = array();
 
 
-		parent::ilExplorer($a_target);
+		parent::__construct($a_target);
 		$this->tree = $tree;
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = "title";

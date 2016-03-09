@@ -370,7 +370,7 @@ class ilHelpGUI
 	 * @param
 	 * @return
 	 */
-	function initHelp($a_tpl)
+	static function initHelp($a_tpl)
 	{
 		global $ilUser, $ilSetting;
 

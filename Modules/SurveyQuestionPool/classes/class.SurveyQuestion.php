@@ -1185,7 +1185,7 @@ class SurveyQuestion
 * @result string The question type string
 * @access private
 */
-	function _getQuestionType($question_id) 
+	static function _getQuestionType($question_id) 
 	{
 		global $ilDB;
 
@@ -1800,7 +1800,7 @@ class SurveyQuestion
 	* @return object The question instance
 	* @access public
 	*/
-	function &_instanciateQuestion($question_id) 
+	static function &_instanciateQuestion($question_id) 
 	{
 		$question_type = SurveyQuestion::_getQuestionType($question_id);
 		if($question_type)
@@ -1819,7 +1819,7 @@ class SurveyQuestion
 	* @return object The question GUI instance
 	* @access public
 	*/
-	function &_instanciateQuestionGUI($question_id) 
+	static function &_instanciateQuestionGUI($question_id) 
 	{
 		$question_type = SurveyQuestion::_getQuestionType($question_id);
 		if($question_type)

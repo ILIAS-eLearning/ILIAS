@@ -318,22 +318,20 @@ final class Run
                 }
             }
 			
-			// php7-workaround JL start 
-			// log "lower" error levels only
-			if(in_array($level, array(E_NOTICE, E_DEPRECATED, E_STRICT))) {		
-				// PHP5: E_STRICT, PHP7: E_NOTICE
-				if(!stristr($message, "Non-static method") &&
-					!stristr($message, "Only variables should be passed by reference") &&
-					!stristr($message, "Only variables should be assigned by reference")) {
-					global $ilLog;
-					if($ilLog) {				
-						$ilLog->write($level."\n\n".$message."\n".$file." - ".$line."\n");
+			// correct-with-php5-removal JL start
+			switch($level)
+			{
+				// < PHP7 only
+				case E_STRICT:
+					// both E_NOTICE in PHP7
+					if(stristr($message, "Only variables should be passed by reference") ||
+						stristr($message, "Only variables should be assigned by reference")) {
+						return true;
 					}
-				}
-				return true;
+					break;									
 			}
-			// php7-workaround end
-
+			// correct-with-php5-removal end
+			
             // XXX we pass $level for the "code" param only for BC reasons.
             // see https://github.com/filp/whoops/issues/267
             $exception = new ErrorException($message, /*code*/ $level, /*severity*/ $level, $file, $line);

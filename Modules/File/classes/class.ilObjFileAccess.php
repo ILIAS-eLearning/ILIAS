@@ -40,7 +40,7 @@ class ilObjFileAccess extends ilObjectAccess
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array();
 		$commands[] = array("permission" => "read", "cmd" => "sendfile", "lang_var" => "download","default" => true);
@@ -53,7 +53,7 @@ class ilObjFileAccess extends ilObjectAccess
 	/**
 	* check whether goto script will succeed
 	*/
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 		
@@ -357,7 +357,7 @@ class ilObjFileAccess extends ilObjectAccess
 		return ilLink::_getStaticLink($ref_id, "file", true, "_download");
 	}
 	
-	public function _preloadData($a_obj_ids, $a_ref_ids)
+	public static function _preloadData($a_obj_ids, $a_ref_ids)
 	{
 		global $ilDB;
 		

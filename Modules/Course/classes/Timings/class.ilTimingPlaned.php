@@ -148,7 +148,7 @@ class ilTimingPlaned
 	}
 
 
-	function _getPlanedTimingsByItem($a_item_id)
+	static function _getPlanedTimingsByItem($a_item_id)
 	{
 		global $ilDB;
 

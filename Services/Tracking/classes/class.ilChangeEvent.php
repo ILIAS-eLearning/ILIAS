@@ -109,7 +109,7 @@ class ilChangeEvent
 	 * @param $catchupWriteEvents boolean If true, this function catches up with
 	 * 	write events.
 	 */
-	function _recordReadEvent($a_type, $a_ref_id, $obj_id, $usr_id,
+	static function _recordReadEvent($a_type, $a_ref_id, $obj_id, $usr_id,
 		$isCatchupWriteEvents = true, $a_ext_rc = false, $a_ext_time = false)
 	{
 		global $ilDB, $tree;
@@ -321,7 +321,7 @@ class ilChangeEvent
 		// - add diffs to childs_spent_seconds and childs_read_count
 	}
 
-	function _recordObjStats($a_obj_id, $a_spent_seconds, $a_read_count, $a_childs_spent_seconds = null, $a_child_read_count = null)
+	static function _recordObjStats($a_obj_id, $a_spent_seconds, $a_read_count, $a_childs_spent_seconds = null, $a_child_read_count = null)
 	{
 		global $ilDB;
 		
@@ -486,7 +486,7 @@ class ilChangeEvent
 	 * @param $usr_id int The user.
 	 * @param $timestamp SQL timestamp.
 	 */
-	function _catchupWriteEvents($obj_id, $usr_id, $timestamp = null)
+	static function _catchupWriteEvents($obj_id, $usr_id, $timestamp = null)
 	{
 		global $ilDB;
 		

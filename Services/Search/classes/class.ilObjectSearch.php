@@ -48,9 +48,9 @@ class ilObjectSearch extends ilAbstractSearch
 	* Constructor
 	* @access public
 	*/
-	function ilObjectSearch(&$qp_obj)
+	function __construct(&$qp_obj)
 	{
-		parent::ilAbstractSearch($qp_obj);
+		parent::__construct($qp_obj);
 
 		$this->setFields(array('title','description'));
 	}

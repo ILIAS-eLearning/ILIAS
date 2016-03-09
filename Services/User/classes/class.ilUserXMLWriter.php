@@ -41,13 +41,13 @@ class ilUserXMLWriter extends ilXmlWriter
 	* @param	string	input encoding
 	* @access	public
 	*/
-	function ilUserXMLWriter()
+	function __construct()
 	{
 		global $ilias,$ilUser;
 
 		parent::ilXmlWriter();
 
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		$this->user_id = $ilUser->getId();
 		$this->attachRoles = false;
 		

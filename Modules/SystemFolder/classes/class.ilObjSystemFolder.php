@@ -133,7 +133,7 @@ class ilObjSystemFolder extends ilObject
 		return true;
 	}
 
-	function _getId()
+	static function _getId()
 	{
 		/**
 		 * @var $ilDB ilDB
@@ -147,7 +147,7 @@ class ilObjSystemFolder extends ilObject
 		return $row->obj_id;
 	}
 
-	function _getHeaderTitle()
+	static function _getHeaderTitle()
 	{
 		/**
 		 * @var $ilDB ilDB

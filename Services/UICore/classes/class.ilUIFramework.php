@@ -16,7 +16,7 @@ class ilUIFramework
 	 *
 	 * @return array array of files
 	 */
-	function getJSFiles()
+	static function getJSFiles()
 	{
 		return array("./Services/UICore/lib/bootstrap-3.2.0/dist/js/bootstrap.min.js");
 	}
@@ -26,7 +26,7 @@ class ilUIFramework
 	 *
 	 * @return array array of files
 	 */
-	function getCssFiles()
+	static function getCssFiles()
 	{
 		return array("./Services/UICore/lib/yamm3/yamm/yamm.css");
 	}
@@ -36,7 +36,7 @@ class ilUIFramework
 	 *
 	 * @param ilTemplate $a_tpl template object
 	 */
-	function init($a_tpl = null)
+	static function init($a_tpl = null)
 	{
 		global $tpl;
 

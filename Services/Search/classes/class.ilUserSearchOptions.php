@@ -45,10 +45,6 @@ class ilUserSearchOptions
 {
 	var $db = null;
 
-	public function ilUserSearchOptions()
-	{
-	}
-
 	/**
 	 * Get info of searchable fields for selectable columns in table gui
 	 * @param bool $a_admin

@@ -165,7 +165,7 @@ class ilSearchSettings
 	* @return int ref_id
 	* @access	public
 	*/
-	function _getSearchSettingRefId()
+	static function _getSearchSettingRefId()
 	{
 		global $ilDB;
 

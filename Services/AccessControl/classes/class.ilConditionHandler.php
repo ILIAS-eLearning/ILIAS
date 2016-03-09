@@ -779,7 +779,7 @@ class ilConditionHandler
 	 * @param
 	 * @return
 	 */
-	function preloadConditionsForTargetRecords($a_type, $a_obj_ids)
+	static function preloadConditionsForTargetRecords($a_type, $a_obj_ids)
 	{
 		global $ilDB;
 
@@ -962,7 +962,7 @@ class ilConditionHandler
 	/**
 	* checks wether all conditions of a target object are fulfilled
 	*/
-	function _checkAllConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type = "",$a_usr_id = 0)
+	static function _checkAllConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type = "",$a_usr_id = 0)
 	{
 		global $ilBench,$ilUser,$tree;
 		

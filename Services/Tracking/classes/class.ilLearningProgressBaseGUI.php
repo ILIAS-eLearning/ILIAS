@@ -305,7 +305,7 @@ class ilLearningProgressBaseGUI
 	/**
 	 * Get image path for status
 	 */
-	function _getImagePathForStatus($a_status)
+	static function _getImagePathForStatus($a_status)
 	{
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 
@@ -344,7 +344,7 @@ class ilLearningProgressBaseGUI
 	/**
 	 * Get status alt text
 	 */
-	function _getStatusText($a_status, $a_lng = null)
+	static function _getStatusText($a_status, $a_lng = null)
 	{
 		global $lng;
 		

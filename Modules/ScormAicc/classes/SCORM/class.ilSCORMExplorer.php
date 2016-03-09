@@ -51,7 +51,7 @@ class ilSCORMExplorer extends ilExplorer
 	*/
 	function ilSCORMExplorer($a_target, &$a_slm_obj)
 	{
-		parent::ilExplorer($a_target);
+		parent::__construct($a_target);
 		$this->slm_obj =& $a_slm_obj;
 		$this->tree = new ilSCORMTree($a_slm_obj->getId());
 		$this->root_id = $this->tree->readRootId();

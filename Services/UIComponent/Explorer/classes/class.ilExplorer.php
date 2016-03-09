@@ -165,7 +165,7 @@ class ilExplorer
 	* @access	public
 	* @param	string	scriptname
 	*/
-	function ilExplorer($a_target)
+	function __construct($a_target)
 	{
 		global $ilias, $objDefinition;
 

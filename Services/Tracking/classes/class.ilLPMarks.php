@@ -152,7 +152,7 @@ class ilLPMarks
 		return false;
 	}
 
-	function _lookupMark($a_usr_id,$a_obj_id)
+	static function _lookupMark($a_usr_id,$a_obj_id)
 	{
 		global $ilDB;
 
@@ -169,7 +169,7 @@ class ilLPMarks
 	}
 
 		
-	function _lookupComment($a_usr_id,$a_obj_id)
+	static function _lookupComment($a_usr_id,$a_obj_id)
 	{
 		global $ilDB;
 

@@ -43,7 +43,7 @@ class ilObjSessionAccess extends ilObjectAccess
 	 * @return array
 	 * @static
 	 */
-	public function _getCommands()
+	public static function _getCommands()
 	{
 		$commands = array
 		(
@@ -98,7 +98,7 @@ class ilObjSessionAccess extends ilObjectAccess
 	/**
 	* check whether goto script will succeed
 	*/
-	public function _checkGoto($a_target)
+	public static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 		

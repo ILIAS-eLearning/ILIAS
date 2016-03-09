@@ -208,7 +208,7 @@ class ilMDRights extends ilMDBase
 	 * @param int obj_id
 	 * 
 	 */
-	public function _lookupDescription($a_rbac_id,$a_obj_id)
+	public static function _lookupDescription($a_rbac_id,$a_obj_id)
 	{
 	 	global $ilDB;
 	 	
@@ -221,7 +221,7 @@ class ilMDRights extends ilMDBase
 	}
 
 	// STATIC
-	function _getId($a_rbac_id,$a_obj_id)
+	static function _getId($a_rbac_id,$a_obj_id)
 	{
 		global $ilDB;
 

@@ -39,7 +39,7 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjRecoveryFolderGUI($a_data,$a_id,$a_call_by_reference)
+	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "recf";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
