@@ -779,7 +779,7 @@ class ilConditionHandler
 	 * @param
 	 * @return
 	 */
-	function preloadConditionsForTargetRecords($a_type, $a_obj_ids)
+	static function preloadConditionsForTargetRecords($a_type, $a_obj_ids)
 	{
 		global $ilDB;
 

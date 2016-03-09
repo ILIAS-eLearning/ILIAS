@@ -237,7 +237,7 @@ class ilTaggingGUI
 	/**
 	 * Init javascript
 	 */
-	function initJavascript($a_ajax_url)
+	static function initJavascript($a_ajax_url)
 	{
 		global $tpl, $lng;
 

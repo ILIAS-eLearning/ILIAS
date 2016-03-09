@@ -1601,7 +1601,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	/**
 	 * Init javascript
 	 */
-	function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE)
+	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE)
 	{
 		global $tpl, $lng;
 
