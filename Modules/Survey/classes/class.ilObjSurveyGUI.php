@@ -192,7 +192,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$ilTabs->activateTab("survey_360_appraisees");
 				}
 				include_once("./Modules/Survey/classes/class.ilSurveyParticipantsGUI.php");
-				$gui = new ilSurveyParticipantsGUI($this);
+				$gui = new ilSurveyParticipantsGUI($this, $this->checkPermissionBool("write"));
 				$this->ctrl->forwardCommand($gui);
 				break;
 				
