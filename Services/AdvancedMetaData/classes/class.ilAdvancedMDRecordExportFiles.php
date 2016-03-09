@@ -119,7 +119,7 @@ class ilAdvancedMDRecordExportFiles
 		 {
 		 	$ilLog->write(__METHOD__.': Cannot open file '.$this->export_dir.'/'.time().'.xml');
 
-			include_once 'Services/Exceptions/class.ilException.php';
+			require_once './Services/Exceptions/classes/class.ilException.php';
 			throw new ilException('Cannot write export file.');
 		 }
 		 
