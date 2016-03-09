@@ -24,7 +24,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjStyleSheetGUI($a_data,$a_id,$a_call_by_reference, $a_prep = true)
+	function __construct($a_data,$a_id,$a_call_by_reference, $a_prep = true)
 	{
 		global $ilCtrl, $lng, $tpl;
 
@@ -2245,7 +2245,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	/**
 	* Get table template preview
 	*/
-	function _getTemplatePreview($a_style, $a_type, $a_t_id, $a_small_mode = false)
+	static function _getTemplatePreview($a_style, $a_type, $a_t_id, $a_small_mode = false)
 	{
 		global $lng, $tpl;
 

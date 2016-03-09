@@ -571,7 +571,7 @@ class ilObjUserFolder extends ilObject
 		return $profile_fields;
 	}
 
-	function _writeNewAccountMail($a_lang, $a_subject, $a_sal_g, $a_sal_f, $a_sal_m, $a_body)
+	static function _writeNewAccountMail($a_lang, $a_subject, $a_sal_g, $a_sal_f, $a_sal_m, $a_body)
 	{
 		global $ilDB;
 		
@@ -603,8 +603,8 @@ class ilObjUserFolder extends ilObject
 			$ilDB->insert('mail_template',$values);
 		}
 	}
-	
-	function _updateAccountMailAttachment($a_lang, $a_tmp_name, $a_name)
+
+	static function _updateAccountMailAttachment($a_lang, $a_tmp_name, $a_name)
 	{
 		global $ilDB;
 		
@@ -619,8 +619,8 @@ class ilObjUserFolder extends ilObject
 				array('att_file' => array('text', $a_name)),
 				array('lang' => array('text',$a_lang), 'type' => array('text','nacc')));
 	}
-	
-	function _deleteAccountMailAttachment($a_lang)
+
+	static function _deleteAccountMailAttachment($a_lang)
 	{
 		global $ilDB;
 		
@@ -635,7 +635,7 @@ class ilObjUserFolder extends ilObject
 				array('lang' => array('text',$a_lang), 'type' => array('text','nacc')));
 	}
 
-	function _lookupNewAccountMail($a_lang)
+	static function _lookupNewAccountMail($a_lang)
 	{
 		global $ilDB;
 

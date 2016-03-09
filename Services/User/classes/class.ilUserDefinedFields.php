@@ -623,9 +623,9 @@ class ilUserDefinedFields
 	    $xml_writer->xmlEndTag ("UDFDefinitions");
 
 	}
-	
 
-	function _newInstance()
+
+	static function _newInstance()
 	{
 		static $udf = null;
 

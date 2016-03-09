@@ -73,7 +73,7 @@ class ilRoleDesktopItemSelector extends ilExplorer
 		return '';
 	}
 
-	function isClickable($a_type, $a_ref_id)
+	function isClickable($a_type, $a_ref_id = 0)
 	{
 		global $rbacsystem;
 
@@ -99,9 +99,9 @@ class ilRoleDesktopItemSelector extends ilExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader($a_obj_id,$a_option)
+	function formatHeader($tpl, $a_obj_id, $a_option)
 	{
-		global $lng, $ilias;
+		global $lng;
 
 		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 

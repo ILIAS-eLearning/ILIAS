@@ -24,7 +24,7 @@ class ilStyleImportParser extends ilSaxParser
 	*
 	* @access	public
 	*/
-	function ilStyleImportParser($a_xml_file, &$a_style_obj)
+	function __construct($a_xml_file, &$a_style_obj)
 	{
 		global $lng, $tree;
 

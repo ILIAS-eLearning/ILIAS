@@ -136,7 +136,7 @@ class ilObjStyleSettings extends ilObject
 	/**
 	* deactivate style
 	*/
-	function _deactivateStyle($a_skin, $a_style)
+	static function _deactivateStyle($a_skin, $a_style)
 	{
 		global $ilDB;
 
@@ -152,7 +152,7 @@ class ilObjStyleSettings extends ilObject
 	/**
 	* activate style
 	*/
-	function _activateStyle($a_skin, $a_style)
+	static function _activateStyle($a_skin, $a_style)
 	{
 		global $ilDB;
 

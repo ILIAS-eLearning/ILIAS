@@ -39,8 +39,7 @@ class ilLocalUser
 		return $this->parent_id;
 	}
 
-	// STATIC
-	function _getUserData($a_filter)
+	static function _getUserData($a_filter)
 	{
 		include_once './Services/User/classes/class.ilObjUser.php';
 
@@ -85,7 +84,8 @@ class ilLocalUser
 		}
 		return $parent ? $parent : array();
 	}
-	function _getAllUserIds($a_filter = 0)
+
+	static function _getAllUserIds($a_filter = 0)
 	{
 		global $ilDB;
 		switch($a_filter)
@@ -124,7 +124,7 @@ class ilLocalUser
 		return $users ? $users : array();
 	}
 
-	function _getUserFolderId()
+	static function _getUserFolderId()
 	{
 		return 7;
 	}

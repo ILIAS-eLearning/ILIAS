@@ -25,7 +25,7 @@ class ilPageLayout
 	var $active = null;
 	var $modules = array();
 	
-	function ilPageLayout($a_id=null)
+	function __construct($a_id=null)
 	{
 		global $ilias, $ilDB;
 		//create new instance

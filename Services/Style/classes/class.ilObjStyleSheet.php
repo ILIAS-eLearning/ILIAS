@@ -629,7 +629,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Write up to date
 	*/
-	function _writeUpToDate($a_id, $a_up_to_date)
+	static function _writeUpToDate($a_id, $a_up_to_date)
 	{
 		global $ilDB;
 
@@ -642,7 +642,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Looup up to date
 	*/
-	function _lookupUpToDate($a_id)
+	static function _lookupUpToDate($a_id)
 	{
 		global $ilDB;
 		
@@ -657,7 +657,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Write standard flag
 	*/
-	function _writeStandard($a_id, $a_std)
+	static function _writeStandard($a_id, $a_std)
 	{
 		global $ilDB;
 
@@ -670,7 +670,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Write scope
 	*/
-	function _writeScope($a_id, $a_scope)
+	static function _writeScope($a_id, $a_scope)
 	{
 		global $ilDB;
 
@@ -683,7 +683,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Lookup standard flag
 	*/
-	function _lookupStandard($a_id)
+	static function _lookupStandard($a_id)
 	{
 		global $ilDB;
 		
@@ -698,7 +698,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Write active flag
 	*/
-	function _writeActive($a_id, $a_active)
+	static function _writeActive($a_id, $a_active)
 	{
 		global $ilDB;
 
@@ -711,7 +711,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Lookup active flag
 	*/
-	function _lookupActive($a_id)
+	static function _lookupActive($a_id)
 	{
 		global $ilDB;
 		
@@ -726,7 +726,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Get standard styles
 	*/
-	function _getStandardStyles($a_exclude_default_style = false,
+	static function _getStandardStyles($a_exclude_default_style = false,
 		$a_include_deactivated = false, $a_scope = 0)
 	{
 		global $ilDB, $ilias, $tree;
@@ -772,7 +772,7 @@ class ilObjStyleSheet extends ilObject
 	* Get all clonable styles (active standard styles and individual learning
 	* module styles with write permission).
 	*/
-	function _getClonableContentStyles()
+	static function _getClonableContentStyles()
 	{
 		global $ilAccess, $ilDB;
 		
@@ -1912,8 +1912,8 @@ class ilObjStyleSheet extends ilObject
 	{
 		ilObjStyleSheet::_replaceStylePar($this->getId(), $a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id, $a_custom);
 	}
-	
-	function _replaceStylePar($style_id, $a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id = 0, $a_custom = false)
+
+	static function _replaceStylePar($style_id, $a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id = 0, $a_custom = false)
 	{
 		global $ilDB;
 		
@@ -2503,9 +2503,9 @@ class ilObjStyleSheet extends ilObject
 		
 		return self::$templates[$a_template_type];
 	}
-	
-	
-	function _getPseudoClasses($tag)
+
+
+	static function _getPseudoClasses($tag)
 	{
 		return self::$pseudo_classes[$tag];
 	}
