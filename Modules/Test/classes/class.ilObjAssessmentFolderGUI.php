@@ -23,7 +23,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	/**
 	 * Constructor
 	 */
-	public function ilObjAssessmentFolderGUI($a_data,$a_id,$a_call_by_reference)
+	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $rbacsystem;
 

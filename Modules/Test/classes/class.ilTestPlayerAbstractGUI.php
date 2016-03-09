@@ -66,7 +66,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	*/
 	public function __construct($a_object)
 	{
-		parent::ilTestServiceGUI($a_object);
+		parent::__construct($a_object);
 		$this->ref_id = $_GET["ref_id"];
 		
 		global $rbacsystem, $ilUser, $lng;

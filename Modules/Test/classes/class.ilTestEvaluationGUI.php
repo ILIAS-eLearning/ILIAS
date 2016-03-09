@@ -35,7 +35,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	 */
 	public function __construct(ilObjTest $a_object)
 	{
-		parent::ilTestServiceGUI($a_object);
+		parent::__construct($a_object);
 	}
 
 	/**

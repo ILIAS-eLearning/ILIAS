@@ -74,12 +74,12 @@ class ilObjTestGUI extends ilObjectGUI
 	 * Constructor
 	 * @access public
 	 */
-	function ilObjTestGUI()
+	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $lng, $ilCtrl, $ilDB, $ilPluginAdmin, $tree;
 		$lng->loadLanguageModule("assessment");
 		$this->type = "tst";
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id"));
 		parent::__construct("",$_GET["ref_id"], true, false);
 

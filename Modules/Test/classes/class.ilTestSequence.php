@@ -89,7 +89,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	* @param object $a_object A reference to the test container object
 	* @access public
 	*/
-	function ilTestSequence($active_id, $pass, $randomtest)
+	public function __construct($active_id, $pass, $randomtest)
 	{
 		$this->active_id = $active_id;
 		$this->pass = $pass;

@@ -24,9 +24,9 @@ class ilObjTestListGUI extends ilObjectListGUI
 	* constructor
 	*
 	*/
-	function ilObjTestListGUI()
+	public function __construct($a_context = self::CONTEXT_REPOSITORY)
 	{
-		parent::__construct();
+		parent::__construct($a_context);
 		$this->info_screen_enabled = true;
 	}
 
