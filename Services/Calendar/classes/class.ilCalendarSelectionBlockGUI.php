@@ -19,7 +19,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 	/**
 	 * Constructor
 	 */
-	function ilCalendarSelectionBlockGUI($a_seed)
+	function __construct($a_seed)
 	{
 		global $ilCtrl, $lng;
 		
