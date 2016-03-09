@@ -250,7 +250,7 @@ class ilPageLayout
 		foreach ($res->nodeset as $item){
 				$height = $item->get_attribute("Height");
 				
-				$height = eregi_replace("px","",$height);
+				$height = str_ireplace("px","",$height);
 				$height=$height/10;
 				$item->set_attribute("Height",$height."px");
 		}

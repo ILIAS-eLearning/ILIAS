@@ -24,7 +24,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	 * 
 	 * @access public
 	 */
-	function ilObjLanguageFolderGUI($a_data,$a_id,$a_call_by_reference)
+	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "lngf";
 		parent::__construct($a_data,$a_id,$a_call_by_reference, false);

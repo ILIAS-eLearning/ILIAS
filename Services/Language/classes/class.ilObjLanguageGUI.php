@@ -39,7 +39,7 @@ class ilObjLanguageGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjLanguageGUI($a_data,$a_id,$a_call_by_reference)
+	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "lng";
 		parent::__construct($a_data,$a_id,$a_call_by_reference);

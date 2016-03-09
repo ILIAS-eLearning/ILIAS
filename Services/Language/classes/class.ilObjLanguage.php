@@ -37,7 +37,7 @@ class ilObjLanguage extends ilObject
 	 * @param	integer	reference_id or object_id
 	 * @param	boolean	treat the id as reference_id (true) or object_id (false)
 	 */
-	function ilObjLanguage($a_id = 0, $a_call_by_reference = false)
+	function __construct($a_id = 0, $a_call_by_reference = false)
 	{
 		global $lng;
 
@@ -697,7 +697,7 @@ class ilObjLanguage extends ilObject
 	 * @param	string	$content	expecting an ILIAS lang-file
 	 * @return	string	$content	content without header info OR false if no valid header was found
 	 */
-	function cut_header($content)
+	static function cut_header($content)
 	{
 		foreach ($content as $key => $val)
 		{

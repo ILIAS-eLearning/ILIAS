@@ -17,9 +17,9 @@ class ilObjLanguageExt extends ilObjLanguage
 	/**
 	* Constructor
 	*/
-	function ilObjLanguageExt($a_id = 0, $a_call_by_reference = false)
+	function __construct($a_id = 0, $a_call_by_reference = false)
 	{
-		$this->ilObjLanguage($a_id, $a_call_by_reference);
+		$this->__construct($a_id, $a_call_by_reference);
 	}
 	
 	/**

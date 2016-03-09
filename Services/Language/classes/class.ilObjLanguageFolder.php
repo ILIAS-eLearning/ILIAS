@@ -66,7 +66,7 @@ class ilObjLanguageFolder extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjLanguageFolder($a_id,$a_call_by_reference = true)
+	function __construct($a_id,$a_call_by_reference = true)
 	{
 		$this->type = "lngf";
 		parent::__construct($a_id,$a_call_by_reference);
@@ -108,7 +108,7 @@ class ilObjLanguageFolder extends ilObject
 		// get available lang-files
 		while ($entry = $d->read())
 		{
-			if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang$)", $entry)))
+			if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang$)~", $entry)))
 			{
 				$lang_key = substr($entry,6,2);
 				$languages[$lang_key] = ""; // long names will be set in class Out
@@ -282,7 +282,7 @@ class ilObjLanguageFolder extends ilObject
 		// get available lang-files
 		while ($entry = $d->read())
 		{
-			if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang$)", $entry)))
+			if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang$)~", $entry)))
 			{
 				// textmeldung, wenn langfile gefunden wurde
 				$output .= "<br/><br/>".$lng->txt("langfile_found").": ".$entry;

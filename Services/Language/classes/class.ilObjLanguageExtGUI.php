@@ -34,7 +34,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	* @param    int         id (ignored)
 	* @param    boolean     call-by-reference (ignored)
 	*/
-	function ilObjLanguageExtGUI($a_data, $a_id = 0, $a_call_by_reference = false)
+	function __construct($a_data, $a_id = 0, $a_call_by_reference = false)
 	{
 		global $lng, $ilCtrl, $ilClientIniFile;
 
