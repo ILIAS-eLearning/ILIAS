@@ -38,7 +38,12 @@ class ilCourseLMHistory
 	var $course_id;
 	var $user_id;
 
-	function ilCourseLMHistory($crs_id,$user_id)
+	/**
+	 * Constructor
+	 * @param int $crs_id
+	 * @param int $user_id
+	 */
+	public function __construct($crs_id,$user_id)
 	{
 		global $ilDB;
 

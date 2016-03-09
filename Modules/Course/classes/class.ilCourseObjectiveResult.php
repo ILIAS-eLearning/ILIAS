@@ -22,11 +22,15 @@ class ilCourseObjectiveResult
 	var $user_id = null;
 
 	
-	function ilCourseObjectiveResult($a_usr_id)
+	/**
+	 * Constructor
+	 * @param int $a_usr_id
+	 */
+	public function __construct($a_usr_id)
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 
 		$this->user_id = $a_usr_id;
 	}

@@ -25,18 +25,19 @@ class ilCourseContentGUI
 	var $tabs_gui;
 
 	/**
-	* Constructor
-	* @access public
-	*/
-	function ilCourseContentGUI(&$container_gui_obj)
+	 * Constructor
+	 * @access public
+	 * @param ilObjectGUI
+	 */
+	public function __construct($container_gui_obj)
 	{
 		global $tpl,$ilCtrl,$lng,$ilObjDataCache,$ilTabs;
 
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
+		$this->tpl = $tpl;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('crs');
-		$this->tabs_gui =& $ilTabs;
+		$this->tabs_gui = $ilTabs;
 
 		$this->container_gui =& $container_gui_obj;
 		$this->container_obj =& $this->container_gui->object;

@@ -22,12 +22,17 @@ class ilCourseObjective
 	protected $passes = 0;
 	// end-patch lok
 	
-	function ilCourseObjective(&$course_obj,$a_objective_id = 0)
+	/**
+	 * Constructor
+	 * @param ilObject $course_obj
+	 * @param int $a_objective_id
+	 */
+	public function __construct($course_obj,$a_objective_id = 0)
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
-		$this->course_obj =& $course_obj;
+		$this->db = $ilDB;
+		$this->course_obj = $course_obj;
 
 		$this->objective_id = $a_objective_id;
 		if($this->objective_id)

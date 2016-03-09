@@ -37,7 +37,12 @@ class ilTimingAccepted
 	var $ilDB;
 	var $lng;
 
-	function ilTimingAccepted($crs_id,$a_usr_id)
+	/**
+	 * Constructor
+	 * @param int $crs_id
+	 * @param int $a_usr_id
+	 */
+	public function __construct($crs_id,$a_usr_id)
 	{
 		global $ilErr,$ilDB,$lng,$tree;
 
