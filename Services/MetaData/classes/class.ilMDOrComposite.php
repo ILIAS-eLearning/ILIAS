@@ -34,13 +34,6 @@ include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
 class ilMDOrComposite extends ilMDRequirement
 {
-	function ilMDOrComposite($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDRequirement($a_rbac_id,
-								$a_obj_id,
-								$a_obj_type);
-	}
-
 	// SET/GET
 	function setOrCompositeId($a_or_composite_id)
 	{

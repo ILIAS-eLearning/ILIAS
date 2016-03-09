@@ -30,9 +30,7 @@
 */
 class ilSurveyQuestionpoolExport
 {
-	var $err;			// error object
 	var $db;			// database object
-	var $ilias;			// ilias object
 	var $spl_obj;		// survey questionpool object
 	var $inst_id;		// installation id
 	var $mode;
@@ -43,16 +41,13 @@ class ilSurveyQuestionpoolExport
 	*/
 	function __construct($a_spl_obj, $a_mode = "xml")
 	{
-		global $ilErr, $ilDB, $ilias;
+		global $ilDB;
 
 		$this->spl_obj = $a_spl_obj;
-
-		$this->err = $ilErr;
-		$this->ilias = $ilias;
+	
 		$this->db = $ilDB;
 		$this->mode = $a_mode;
-
-		$settings = $this->ilias->getAllSettings();
+	
 		$this->inst_id = IL_INST_ID;
 
 		$date = time();

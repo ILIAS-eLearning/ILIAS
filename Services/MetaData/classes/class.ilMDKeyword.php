@@ -32,13 +32,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDKeyword extends ilMDBase
 {
-	function ilMDKeyword($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
 	// SET/GET
 	function setKeyword($a_keyword)
 	{

@@ -432,7 +432,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	 */
 	function performPasteIntoMultipleObjects()
 	{
-		global $objDefinition, $ilAccess, $ilUser;
+		global $ilUser;
 		
 		$mode = $_SESSION['clipboard']['cmd'];
 		$source_node_id = $_SESSION['clipboard']['source_id'];
@@ -493,23 +493,14 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 			{
 				$fail[] = sprintf($this->lng->txt('msg_paste_object_not_in_itself'),
 					$source_object->getTitle());
-			}
-			
-			if(!$this->checkPermissionBool('create', '', $source_object->getType(), $target_node_id))
-			{
-				$fail[] = sprintf($this->lng->txt('msg_no_perm_paste_object_in_folder'),
-					$source_object->getTitle(), $target_object->getTitle());
-			}
-			
+			}			
 		}
-		else
-		{									
-			if(!$ilAccess->checkAccess('create', '', $target_node_id, $source_object->getType()))
-			{
-				$fail[] = sprintf($this->lng->txt('msg_no_perm_paste_object_in_folder'),
-					$source_object->getTitle(), $target_object->getTitle());
-			}
-		}
+									
+		if(!$this->checkPermissionBool('create', '', $source_object->getType(), $target_node_id))
+		{
+			$fail[] = sprintf($this->lng->txt('msg_no_perm_paste_object_in_folder'),
+				$source_object->getTitle(), $target_object->getTitle());
+		}		
 
 		if(sizeof($fail))
 		{

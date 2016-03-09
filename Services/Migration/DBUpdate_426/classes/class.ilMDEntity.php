@@ -33,13 +33,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDEntity extends ilMDBase
 {
-	function ilMDEntity($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
 	// SET/GET
 	function setEntity($a_entity)
 	{

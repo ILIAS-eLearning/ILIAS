@@ -32,13 +32,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDTechnical extends ilMDBase
 {
-	function ilMDTechnical($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
 	function getPossibleSubelements()
 	{
 		$subs['Format'] = 'meta_format';

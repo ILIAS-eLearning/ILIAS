@@ -30,9 +30,7 @@
 */
 class ilSurveyExport
 {
-	var $err;			// error object
 	var $db;			// database object
-	var $ilias;			// ilias object
 	var $survey_obj;		// survey object
 	var $inst_id;		// installation id
 	var $mode;
@@ -46,17 +44,12 @@ class ilSurveyExport
 	*/
 	function __construct($a_survey_obj, $a_mode = "xml")
 	{
-		global $ilErr, $ilDB, $ilias;
+		global $ilDB;
 
 		$this->survey_obj = $a_survey_obj;
-
-		$this->err = $ilErr;
-		$this->ilias = $ilias;
+	
 		$this->db = $ilDB;
 		$this->mode = $a_mode;
-
-		$settings = $this->ilias->getAllSettings();
-		//$this->inst_id = $settings["inst_id"];
 		$this->inst_id = IL_INST_ID;
 
 		$date = time();

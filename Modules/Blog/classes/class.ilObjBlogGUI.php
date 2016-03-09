@@ -718,14 +718,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	*/
 	function infoScreenForward()
 	{
-		global $ilTabs, $ilErr;
+		global $ilTabs;
 		
 		$ilTabs->activateTab("id_info");
 
-		if (!$this->checkPermissionBool("visible"))
-		{
-			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
-		}
+		$this->checkPermission("visible");
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);

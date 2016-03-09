@@ -19,23 +19,21 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjUserTrackingGUI extends ilObjectGUI
 {
 	var $tpl = null;
-	var $ilErr = null;
 	var $lng = null;
 	var $ctrl = null;
 
-	function ilObjUserTrackingGUI($a_data,$a_id,$a_call_by_reference)
+	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
-		global $tpl,$ilErr,$lng,$ilCtrl;
+		global $tpl,$lng,$ilCtrl;
 
 		$this->type = "trac";
 		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 
-		$this->tpl =& $tpl;
-		$this->ilErr =& $ilErr;
-		$this->lng =& $lng;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('trac');
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 	}
 
 	function executeCommand()
@@ -93,9 +91,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	}
 
 	function getTabs()
-	{
-		global $rbacsystem;
-
+	{		
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 		
 		$this->tabs_gui->addTarget("settings",
@@ -103,7 +99,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			"settings",
 			get_class($this));					
 
-		if ($rbacsystem->checkAccess("read",$this->object->getRefId()))
+		if ($this->checkPermissionBool("read"))
 		{						
 			if (ilObjUserTracking::_enabledObjectStatistics())
 			{
@@ -134,7 +130,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			}
 		}
 		
-		if ($rbacsystem->checkAccess("edit_permission",$this->object->getRefId()))
+		if ($this->checkPermissionBool("edit_permission"))
 		{		
 			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
@@ -148,13 +144,8 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	* display tracking settings form
 	*/
 	function settingsObject($a_form = null)
-	{
-		global $rbacsystem;
-
-		if (!$rbacsystem->checkAccess('read',$this->object->getRefId()))
-		{
-			$ilErr->raiseError($this->lng->txt("msg_no_perm_read_track"),$ilErr->WARNING);
-		}
+	{		
+		$this->checkPermission('read');
 
 		$this->tabs_gui->setTabActive('settings');
 
@@ -167,9 +158,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	}
 	
 	protected function initSettingsForm()
-	{
-		global $rbacsystem;
-		
+	{	
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -282,7 +271,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		);
 		
 		// #12259
-		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
+		if ($this->checkPermissionBool("write"))
 		{	
 			$form->addCommandButton('saveSettings', $this->lng->txt('save'));
 		}
@@ -304,13 +293,8 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	* save user tracking settings
 	*/
 	function saveSettingsObject()
-	{
-		global $rbacsystem;
-		
-		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{	
-			return;
-		}
+	{		
+		$this->checkPermission('write');
 		
 		$form = $this->initSettingsForm();
 		if($form->checkInput())

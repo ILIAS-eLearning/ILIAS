@@ -1015,7 +1015,7 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	protected function appendLimit($query) {
 		if ($this->limit !== null && $this->offset !== null) {
-			$query .= ' LIMIT ' . (int)$this->limit . ', ' . (int)$this->offset;
+			$query .= ' LIMIT ' . (int)$this->offset . ', ' . (int)$this->limit;
 			$this->limit = null;
 			$this->offset = null;
 
