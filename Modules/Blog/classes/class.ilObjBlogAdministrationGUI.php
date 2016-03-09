@@ -41,11 +41,6 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 
 		$this->prepareOutput();
 
-/*		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
-		{
-			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
-		}
-*/
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
@@ -164,14 +159,14 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-	    global $lng, $ilAccess;
+	    global $lng;
 		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('blog_settings'));
 		
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		if ($this->checkPermissionBool("write"))
 		{
 			$form->addCommandButton('saveSettings',$this->lng->txt('save'));
 			$form->addCommandButton('cancel',$this->lng->txt('cancel'));

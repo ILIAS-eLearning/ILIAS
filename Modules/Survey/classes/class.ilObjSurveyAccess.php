@@ -62,7 +62,6 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 		switch($a_operator)
 		{
 			case ilConditionHandler::OPERATOR_FINISHED:
-				//if (ilExerciseMembers::_lookupStatus($a_exc_id, $ilias->account->getId()) == "passed")
 				include_once("./Modules/Survey/classes/class.ilObjSurveyAccess.php");
 				if (ilObjSurveyAccess::_lookupFinished($a_svy_id, $a_usr_id))
 				{

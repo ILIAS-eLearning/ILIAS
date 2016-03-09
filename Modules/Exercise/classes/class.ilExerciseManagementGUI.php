@@ -406,9 +406,7 @@ class ilExerciseManagementGUI
 	 * Add new partipant
 	 */
 	function addMembersObject($a_user_ids = array())
-	{
-		global $ilAccess,$ilErr;
-
+	{		
 		if(!count($a_user_ids))
 		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"));

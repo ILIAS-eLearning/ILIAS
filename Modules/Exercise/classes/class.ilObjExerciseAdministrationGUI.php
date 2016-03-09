@@ -41,11 +41,6 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
 
 		$this->prepareOutput();
 
-/*		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
-		{
-			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
-		}
-*/
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
@@ -157,7 +152,7 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('exc_admin_settings'));
 		
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		if ($this->checkPermissionBool("write"))
 		{
 			$form->addCommandButton('saveSettings',$this->lng->txt('save'));
 			$form->addCommandButton('cancel',$this->lng->txt('cancel'));

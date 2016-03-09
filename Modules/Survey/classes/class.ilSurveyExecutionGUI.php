@@ -38,7 +38,6 @@ class ilSurveyExecutionGUI
 	var $lng;
 	var $tpl;
 	var $ctrl;
-	var $ilias;
 	var $tree;
 	var $preview;
 	
@@ -52,12 +51,11 @@ class ilSurveyExecutionGUI
 */
   function __construct($a_object)
   {
-		global $lng, $tpl, $ilCtrl, $ilias, $tree;
+		global $lng, $tpl, $ilCtrl, $tree;
 
 		$this->lng = $lng;
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
-		$this->ilias = $ilias;
 		$this->object = $a_object;
 		$this->tree = $tree;
 				
@@ -106,9 +104,10 @@ class ilSurveyExecutionGUI
 		if($this->preview)
 		{
 			if(!$rbacsystem->checkAccess("write", $this->object->ref_id))
-			{
+			{				
 				// only with write access it is possible to preview the survey
-				$this->ilias->raiseError($this->lng->txt("survey_cannot_preview_survey"),$this->ilias->error_obj->MESSAGE);	
+				include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+				throw new ilSurveyException($this->lng->txt("survey_cannot_preview_survey"));
 			}
 			
 			return true;
@@ -118,7 +117,8 @@ class ilSurveyExecutionGUI
 			!$rbacsystem->checkAccess("read", $this->object->ref_id)) 
 		{
 			// only with read access it is possible to run the test
-			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException($this->lng->txt("cannot_read_survey"));
 		}
 		
 		$user_id = $ilUser->getId();

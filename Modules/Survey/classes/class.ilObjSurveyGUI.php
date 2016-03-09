@@ -36,7 +36,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 	public function executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory, $ilErr, $ilTabs;
+		global $ilNavigationHistory, $ilTabs;
 
 		$this->external_rater_360 = false;
 		if(!$this->creation_mode &&
@@ -50,15 +50,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if(!$this->external_rater_360)
 		{
-			if (!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
-				!$ilAccess->checkAccess("read", "", $this->ref_id))
+			if (!$this->checkPermissionBool("visible") &&
+				!$this->checkPermissionBool("read"))
 			{
-				$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
+				$this->checkPermission("read");
 			}
 
 			// add entry to navigation history
 			if (!$this->getCreationMode() &&
-				$ilAccess->checkAccess("read", "", $this->ref_id))
+				$this->checkPermissionBool("read"))
 			{
 				$this->ctrl->setParameterByClass("ilobjsurveygui", "ref_id", $this->ref_id);
 				$link = $this->ctrl->getLinkTargetByClass("ilobjsurveygui", "");
@@ -107,7 +107,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 			
 			case 'ilobjectmetadatagui':
-				$this->handleWriteAccess();			
+				$this->checkPermission("write");
 				$ilTabs->activateTab("meta_data");
 				$this->addHeaderAction();				
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
@@ -167,7 +167,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 			
 			case 'ilsurveyeditorgui':
-				$this->handleWriteAccess();					
+				$this->checkPermission("write");				
 				$ilTabs->activateTab("survey_questions");
 				include_once("./Modules/Survey/classes/class.ilSurveyEditorGUI.php");
 				$gui = new ilSurveyEditorGUI($this);
@@ -175,7 +175,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 			
 			case 'ilsurveyconstraintsgui':
-				$this->handleWriteAccess();					
+				$this->checkPermission("write");			
 				$ilTabs->activateTab("constraints");
 				include_once("./Modules/Survey/classes/class.ilSurveyConstraintsGUI.php");
 				$gui = new ilSurveyConstraintsGUI($this);
@@ -293,7 +293,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $ilAccess, $ilUser, $ilHelp;
+		global $ilUser, $ilHelp;
 		
 		if($this->object instanceof ilObjSurveyQuestionPool)
 		{
@@ -311,14 +311,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$hidden_tabs = $template->getHiddenTabs();
 		}
 		
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		if ($this->checkPermissionBool("write"))
 		{		
 			$this->tabs_gui->addTab("survey_questions",
 				$this->lng->txt("survey_questions"),
 				$this->ctrl->getLinkTargetByClass(array("ilsurveyeditorgui", "ilsurveypagegui"), "renderPage"));
 		}
 		
-		if ($ilAccess->checkAccess("read", "", $this->ref_id))
+		if ($this->checkPermissionBool("read"))
 		{
 			$this->tabs_gui->addTab("info_short",
 				$this->lng->txt("info_short"),
@@ -326,13 +326,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 							
 		// properties
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		if ($this->checkPermissionBool("write"))
 		{			
 			$this->tabs_gui->addTab("settings",
 				$this->lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this,'properties'));
 		}
-		else if ($ilAccess->checkAccess("read", "", $this->ref_id))
+		else if ($this->checkPermissionBool("read"))
 		{
 			if($this->object->get360Mode() && 
 				$this->object->get360SelfRaters() &&
@@ -348,7 +348,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
 		// questions
-		if ($ilAccess->checkAccess("write", "", $this->ref_id) &&
+		if ($this->checkPermissionBool("write") &&
 			!in_array("constraints", $hidden_tabs) &&
 			!$this->object->get360Mode())
 		{
@@ -358,7 +358,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 $this->ctrl->getLinkTargetByClass("ilsurveyconstraintsgui", "constraints"));
 		}
 
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		if ($this->checkPermissionBool("write"))
 		{
 			// 360° 
 			if($this->object->get360Mode())
@@ -387,7 +387,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 			
 		include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
-		if ($ilAccess->checkAccess("write", "", $this->ref_id) || 
+		if ($this->checkPermissionBool("write") || 
 			ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId()))
 		{
 			// evaluation
@@ -406,7 +406,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				array("illplistofobjectsgui", "illplistofsettingsgui", "illearningprogressgui", "illplistofprogressgui"));
 		}		
 
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		if ($this->checkPermissionBool("write"))
 		{
 			if(!in_array("meta_data", $hidden_tabs))
 			{
@@ -431,30 +431,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 
-		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
+		if ($this->checkPermissionBool("edit_permission"))
 		{
 			// permissions
 			$this->tabs_gui->addTab("perm_settings",
 				$this->lng->txt("perm_settings"),
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
-		}
-	}
-		
-	/**
-	* Checks for write access and returns to the parent object
-	*
-	* Checks for write access and returns to the parent object
-	*
-	* @access public
-	*/
-	public function handleWriteAccess()
-	{
-		global $ilAccess;
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
-		{
-			// allow only write access
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_survey"), TRUE);
-			$this->ctrl->redirect($this, "infoScreen");
 		}
 	}
 	
@@ -1267,7 +1249,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $ilTabs, $ilHelp;
 		
-		$this->handleWriteAccess();
+		$this->checkPermission("write");
 		
 		$ilTabs->activateTab("settings");
 
@@ -1383,16 +1365,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function importSurveyObject()
 	{
-		global $tpl, $ilErr;
+		global $tpl;
 
 		$parent_id = $_GET["ref_id"];
 		$new_type = $_REQUEST["new_type"];
 
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
-		if (!$this->checkPermissionBool("create", "", $new_type))
-		{
-			$ilErr->raiseError($this->lng->txt("no_create_permission"));
-		}
+		$this->checkPermission("create", "", $new_type);
 
 		$this->lng->loadLanguageModule($new_type);
 		$this->ctrl->setParameter($this, "new_type", $new_type);
@@ -1412,8 +1391,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$error = $newObj->importObject($_FILES["importfile"], $form->getInput("spl"));
 			if (strlen($error))
 			{
-				$newObj->delete();
-				$this->ilias->raiseError($error, $this->ilias->error_obj->MESSAGE);
+				$newObj->delete();				
+				ilUtil::sendFailure($error);				
 				return;
 			}
 
@@ -1484,13 +1463,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess, $ilTabs, $ilUser, $ilToolbar;
+		global $ilTabs, $ilUser, $ilToolbar;
 		
-		if (!$this->external_rater_360 &&
-			!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
-			!$ilAccess->checkAccess("read", "", $this->ref_id))
+		if (!$this->external_rater_360)
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+			$this->checkPermission("visible");
 		}
 		
 		$ilTabs->activateTab("info_short");
@@ -1509,7 +1486,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if (!$showButtons)
 		{
 			if($canStart["edit_settings"] &&
-				$ilAccess->checkAccess("write", "", $this->ref_id))
+				$this->checkPermissionBool("write"))
 			{
 				$canStart["messages"][] = "<a href=\"".$this->ctrl->getLinkTarget($this, "properties")."\">&raquo; ".
 					$this->lng->txt("survey_edit_settings")."</a>";
@@ -1842,7 +1819,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					: $this->lng->txt("survey_results_anonymized_info"));
 					
 			include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
-			if ($ilAccess->checkAccess("write", "", $this->ref_id) || 
+			if ($this->checkPermissionBool("write") || 
 				ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId()))
 			{
 				$info->addProperty($this->lng->txt("evaluation_access"), $this->lng->txt("evaluation_access_info"));
@@ -1909,7 +1886,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	public static function _goto($a_target, $a_access_code = "")
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $ilAccess, $lng;
 		
 		// see ilObjSurveyAccess::_checkGoto()
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -1938,8 +1915,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
-
-		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
 	
 	public function getUserResultsTable($a_active_id)

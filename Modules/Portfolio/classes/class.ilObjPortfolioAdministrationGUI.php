@@ -41,11 +41,6 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 
 		$this->prepareOutput();
 
-/*		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
-		{
-			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
-		}
-*/
 		switch($next_class)
 		{
 			case 'ilpermissiongui':

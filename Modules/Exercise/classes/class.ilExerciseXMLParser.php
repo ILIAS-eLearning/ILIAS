@@ -123,9 +123,7 @@ class ilExerciseXMLParser extends ilSaxParser
 	* @throws   ilExerciseException   when obj id != - 1 and if it it does not match the id in the xml
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
-	{
-		global $ilErr;
-
+	{		
 		switch($a_name)
 		{
 			case 'Exercise':
