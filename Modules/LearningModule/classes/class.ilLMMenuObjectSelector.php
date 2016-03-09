@@ -40,7 +40,7 @@ class ilLMMenuObjectSelector extends ilExplorer
 		
 		$this->gui_obj = $a_gui_obj;
 
-		parent::ilExplorer($a_target);
+		parent::__construct($a_target);
 		$this->tree = $tree;
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = "title";

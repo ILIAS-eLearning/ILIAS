@@ -65,11 +65,11 @@ class ilSearchResult
 	* Constructor
 	* @access	public
 	*/
-	function ilSearchResult($a_user_id = 0)
+	function __construct($a_user_id = 0)
 	{
 		global $ilias,$ilAccess,$ilDB,$ilUser;
 
-		$this->ilAccess =& $ilAccess;
+		$this->ilAccess = $ilAccess;
 		if($a_user_id)
 		{
 			$this->user_id = $a_user_id;
@@ -81,7 +81,7 @@ class ilSearchResult
 		$this->__initSearchSettingsObject();
 		$this->initUserSearchCache();
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 	}
 
 	/**

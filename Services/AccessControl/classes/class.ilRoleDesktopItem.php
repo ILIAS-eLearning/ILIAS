@@ -23,11 +23,11 @@ class ilRoleDesktopItem
 	* Constructor
 	* @access public
 	*/
-	function ilRoleDesktopItem($a_role_id)
+	function __construct($a_role_id)
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 		$this->role_id = $a_role_id;
 	}
 

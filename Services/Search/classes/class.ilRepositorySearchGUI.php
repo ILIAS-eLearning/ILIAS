@@ -55,13 +55,13 @@ class ilRepositorySearchGUI
 	* Constructor
 	* @access public
 	*/
-	function ilRepositorySearchGUI()
+	function __construct()
 	{
 		global $ilCtrl,$tpl,$lng;
 
-		$this->ctrl =& $ilCtrl;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
+		$this->ctrl = $ilCtrl;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('search');
 		$this->lng->loadLanguageModule('crs');
 
