@@ -99,8 +99,9 @@ class EvalMath {
         'cos','cosh','arccos','acos','arccosh','acosh',
         'tan','tanh','arctan','atan','arctanh','atanh',
         'sqrt','abs','ln','log');
-    
-    function EvalMath() {
+    // mjansen-patch: begin
+    function __construct() {
+    // mjansen-patch: end
         // make the variables a little more accurate
         $this->v['pi'] = pi();
         $this->v['exp'] = exp(1);
