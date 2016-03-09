@@ -237,7 +237,6 @@ abstract class ilObject2 extends ilObject
 	function initDefaultRoles() { return array(); }
 	
 	final public static function _exists($a_id, $a_reference = false, $a_type = null) { return parent::_exists($a_id, $a_reference, $a_type); }
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0) { return parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params); }
 	final function setRegisterMode($a_bool) { return parent::setRegisterMode($a_bool); }
 	final function isUserRegistered($a_user_id = 0) { return parent::isUserRegistered($a_user_id); }
 	final function requireRegistration() { return parent::requireRegistration(); }
