@@ -44,7 +44,7 @@ class ilObjUserGUI extends ilObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjUserGUI($a_data,$a_id,$a_call_by_reference = false, $a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference = false, $a_prepare_output = true)
 	{
 		global $ilCtrl, $lng;
 
@@ -54,7 +54,7 @@ class ilObjUserGUI extends ilObjectGUI
 		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 		$this->usrf_ref_id =& $this->ref_id;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array('obj_id', 'letter'));
 		$this->ctrl->setParameterByClass("ilobjuserfoldergui", "letter", $_GET["letter"]);
 		
