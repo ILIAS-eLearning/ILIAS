@@ -28,11 +28,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	* @param	object		$a_content_obj		content object (lm | dbk)
 	* @access	public
 	*/
-	function ilLMPageObjectGUI(&$a_content_obj)
+	function __construct(&$a_content_obj)
 	{
-		global $ilias, $tpl, $lng;
-
-		parent::ilLMObjectGUI($a_content_obj);
+		parent::__construct($a_content_obj);
 
 	}
 

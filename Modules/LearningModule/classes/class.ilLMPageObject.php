@@ -503,8 +503,8 @@ class ilLMPageObject extends ilLMObject
 			require_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
 			//$struct_obj = new ilStructureObject($pred_node["obj_id"]);
 			//return $struct_obj->getTitle();
-			return ilStructureObject::_getPresentationTitle($pred_node["obj_id"],
-				$a_include_numbers, false, 0, $a_lang).$cnt_str;
+			return ilStructureObject::_getPresentationTitle($pred_node["obj_id"], IL_CHAPTER_TITLE,
+				$a_include_numbers, false, false, 0, $a_lang).$cnt_str;
 
 			//return $pred_node["title"].$cnt_str;
 		}

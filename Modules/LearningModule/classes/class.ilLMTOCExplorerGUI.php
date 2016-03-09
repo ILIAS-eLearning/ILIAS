@@ -133,8 +133,8 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 
 		if ($a_node["type"] == "st")
 		{
-			return ilStructureObject::_getPresentationTitle($a_node["child"],
-				$this->lm->isActiveNumbering(), false, $this->lm->getId(), $this->lang);
+			return ilStructureObject::_getPresentationTitle($a_node["child"], IL_CHAPTER_TITLE,
+				$this->lm->isActiveNumbering(), false, false, $this->lm->getId(), $this->lang);
 		}
 		else if ($a_node["type"] == "pg")
 		{
