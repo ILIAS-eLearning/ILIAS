@@ -43,7 +43,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjQuestionPoolGUI()
+	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $lng, $ilCtrl, $rbacsystem;
 		$lng->loadLanguageModule("assessment");

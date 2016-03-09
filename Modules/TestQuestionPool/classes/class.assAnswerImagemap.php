@@ -54,7 +54,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState {
 * @param integer $order A nonnegative value representing a possible display or sort order
 * @access public
 */
-	function ASS_AnswerImagemap (
+	public function __construct(
 		$answertext = "",
 		$points = 0.0,
 		$order = 0,

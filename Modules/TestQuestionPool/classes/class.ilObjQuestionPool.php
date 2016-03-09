@@ -53,7 +53,7 @@ class ilObjQuestionPool extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjQuestionPool($a_id = 0,$a_call_by_reference = true)
+	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "qpl";
 		parent::__construct($a_id,$a_call_by_reference);
