@@ -216,7 +216,9 @@ class ilMembershipCronNotifications extends ilCronJob
 		);			
 		
 		$title = trim($title);
-		$content = trim($content);
+		
+		// #18067
+		$content = ilUtil::shortenText(trim($content), 200, true);
 		
 		$res = "";
 		switch($item_obj_type)
