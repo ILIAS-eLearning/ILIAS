@@ -151,14 +151,15 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 		}	
 	}
 	
-	function formatObject(&$tpl, $a_node_id, $a_option, $a_obj_id = 0)
+	function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0)
 	{		
 		global $lng;
 		
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
-			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
-				"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
+			include_once 'Services/Exceptions/class.ilException.php';
+			throw new ilException("Missing parameter or wrong datatype! ".
+				"node_id: ".$a_node_id." options:".var_dump($a_option));
 		}
 
 		$pic = false;

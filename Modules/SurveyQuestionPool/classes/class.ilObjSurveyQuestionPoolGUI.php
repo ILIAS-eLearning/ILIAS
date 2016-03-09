@@ -288,21 +288,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	* Creates a confirmation form to delete questions from the question pool
 	*/
 	public function deleteQuestionsObject()
-	{
-		global $rbacsystem;
+	{		
+		$this->checkPermission('write');
 		
 		// create an array of all checked checkboxes
 		$checked_questions = $_POST['q_id'];
-		if (count($checked_questions) > 0) 
-		{
-			if (!$rbacsystem->checkAccess('write', $this->ref_id)) 
-			{				
-				ilUtil::sendFailure($this->lng->txt("qpl_delete_rbac_error"));
-				$this->questionsObject();
-				return;
-			}
-		} 
-		elseif (count($checked_questions) == 0) 
+		if (count($checked_questions) == 0) 
 		{
 			ilUtil::sendInfo($this->lng->txt("qpl_delete_select_none"));
 			$this->questionsObject();
@@ -454,15 +445,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function questionsObject($arrFilter = null)
 	{
-		global $rbacsystem;
-		global $ilUser;
-		global $ilToolbar;
+		global $ilUser, $ilToolbar;
 
 		$this->object->purgeQuestions();
 
 		$_SESSION['q_id_table_nav'] = $_GET['q_id_table_nav'];
 			
-		if ($rbacsystem->checkAccess('write', $_GET['ref_id']))
+		if ($this->checkPermissionBool('write'))
 		{
 			include_once "Services/Form/classes/class.ilSelectInputGUI.php";
 			$qtypes = new ilSelectInputGUI("", "sel_question_types");
@@ -493,8 +482,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 				
 		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionsTableGUI.php";
-		$table_gui = new ilSurveyQuestionsTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)));
-		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
+		$table_gui = new ilSurveyQuestionsTableGUI($this, 'questions', (($this->checkPermissionBool('write') ? true : false)));
+		$table_gui->setEditable($this->checkPermissionBool('write'));
 		$arrFilter = array();
 		foreach ($table_gui->getFilterItems() as $item)
 		{
@@ -550,20 +539,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	* create export file
 	*/
 	public function createExportFileObject($questions = null)
-	{
-		global $rbacsystem;
+	{		
+		$this->checkPermission("write");
 		
-		if ($rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			include_once("./Modules/SurveyQuestionPool/classes/class.ilSurveyQuestionpoolExport.php");
-			$survey_exp = new ilSurveyQuestionpoolExport($this->object);
-			$survey_exp->buildExportFile($questions);
-			$this->ctrl->redirect($this, "export");
-		}
-		else
-		{
-			ilUtil::sendInfo("cannot_export_questionpool");
-		}
+		include_once("./Modules/SurveyQuestionPool/classes/class.ilSurveyQuestionpoolExport.php");
+		$survey_exp = new ilSurveyQuestionpoolExport($this->object);
+		$survey_exp->buildExportFile($questions);
+		$this->ctrl->redirect($this, "export");		
 	}
 	
 	/**

@@ -503,18 +503,14 @@ class ilAdvancedMDRecord
 	
 	/**
 	 * Validate settings
-	 * Write error message to ilErr 
 	 *
 	 * @access public
 	 * 
 	 */
 	public function validate()
-	{
-	 	global $ilErr,$lng;
-	 	
+	{	 	
 	 	if(!strlen($this->getTitle()))
-	 	{
-	 		$ilErr->setMessage('fill_out_all_required_fields');
+	 	{	 		
 	 		return false;
 	 	}
 	 	return true;

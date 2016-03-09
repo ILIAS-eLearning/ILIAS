@@ -448,9 +448,7 @@ class ilExerciseManagementGUI
 	 * Select assignment
 	 */
 	function selectAssignmentObject()
-	{
-		global $ilTabs;
-
+	{		
 		$_GET["ass_id"] = ilUtil::stripSlashes($_POST["ass_id"]);
 		$this->membersObject();
 	}
@@ -460,7 +458,7 @@ class ilExerciseManagementGUI
 	 */
 	function showParticipantObject()
 	{
-		global $rbacsystem, $tree, $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
+		global $tpl, $ilToolbar, $ilCtrl, $lng;
 
 		$this->addSubTabs("participant");
 		
