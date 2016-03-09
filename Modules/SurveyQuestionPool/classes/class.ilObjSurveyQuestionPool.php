@@ -611,7 +611,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		{
 			if ($entry != "." &&
 				$entry != ".." &&
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(spl_)*[0-9]+\.[A-Za-z]{3}\$", $entry))
+				preg_match("/^[0-9]{10}__[0-9]+__(spl_)*[0-9]+\.[A-Za-z]{3}$/", $entry))
 			{
 				$file[] = $entry;
 			}

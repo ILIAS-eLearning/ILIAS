@@ -4213,8 +4213,8 @@ class ilObjSurvey extends ilObject
 			{
 				if(@is_file($importDirectory."/".$file) && 
 					($file != "." && $file!="..") && 
-					(ereg("^[0-9]{10}_{2}[0-9]+_{2}(svy_)*[0-9]+\.[a-z]{1,3}\$", $file) || 
-						ereg("^[0-9]{10}_{2}[0-9]+_{2}(survey__)*[0-9]+\.[a-z]{1,3}\$", $file)))
+					(preg_match("/^[0-9]{10}__[0-9]+__(svy_)*[0-9]+\.[A-Za-z]{1,3}$/", $file) || 
+						preg_match("/^[0-9]{10}__[0-9]+__(survey__)*[0-9]+\.[A-Za-z]{1,3}$/", $file)))
 				{
 					// found xml file
 					$xmlFile = $importDirectory."/".$file;
