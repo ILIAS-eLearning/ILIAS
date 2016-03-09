@@ -115,11 +115,11 @@ class gevSettings {
 	const CRS_AMD_ACCOMODATION		= "crs_amd_accomodation";
 	// Veranstaltungsort Internet
 	//const CRS_AMD_WEB_LOCATION		= "crs_amd_web_location";
-	const CRS_AMD_WEBEX_LINK		= "crs_amd_webex_link";			// these are general webinar links now
-	const CRS_AMD_WEBEX_PASSWORD	= "crs_amd_webex_password";		// these are general webinar passwords now
-	const CRS_AMD_WEBEX_PASSWORD_TUTOR	= "crs_amd_webex_password_tutor";		// these are general webinar tutor password
-	const CRS_AMD_WEBEX_VC_CLASS_TYPE = "crs_amd_webex_vc_class_type"; // type of the virtual class
-	const CRS_AMD_WEBEX_LOGIN_TUTOR = "crs_amd_webex_login_tutor"; // type of the virtual class
+	const CRS_AMD_WEBEX_LINK		= "crs_amd_webex_link";			// OLD ONLY FOR RENAME IN DATABASE USED
+	const CRS_AMD_WEBEX_PASSWORD	= "crs_amd_webex_password";		// OLD ONLY FOR RENAME IN DATABASE USED
+	const CRS_AMD_WEBEX_PASSWORD_TUTOR	= "crs_amd_webex_password_tutor";		// OLD ONLY FOR RENAME IN DATABASE USED
+	const CRS_AMD_WEBEX_VC_CLASS_TYPE = "crs_amd_webex_vc_class_type"; // OLD ONLY FOR RENAME IN DATABASE USED
+	const CRS_AMD_WEBEX_LOGIN_TUTOR = "crs_amd_webex_login_tutor"; // OLD ONLY FOR RENAME IN DATABASE USED
 
 	const CRS_AMD_VC_LINK		= "crs_amd_vc_link";			// these are new general webinar links now
 	const CRS_AMD_VC_PASSWORD	= "crs_amd_vc_password";		// these are new general webinar passwords now
