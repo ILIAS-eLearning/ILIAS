@@ -37,7 +37,7 @@ class ilLearningProgress
 {
 	var $db = null;
 
-	function ilLearningProgress()
+	function __construct()
 	{
 		global $ilDB;
 		

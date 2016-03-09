@@ -43,7 +43,7 @@ class ilObjSurveyAdministration extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjSurveyAdministration($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$this->setting = new ilSetting("survey");

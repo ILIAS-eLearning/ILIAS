@@ -46,8 +46,10 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
 	*/
 	function __construct($a_title = "", $a_postvar = "")
 	{
-		parent::__construct($a_title, $a_postvar);
 		global $lng;
+		
+		parent::__construct($a_title, $a_postvar);
+		
 		$this->show_wizard = false;
 		$this->show_save_phrase = false;
 		$this->categorytext = $lng->txt('row_text');

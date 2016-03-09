@@ -179,7 +179,7 @@ class ilObjSurvey extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjSurvey($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		global $ilUser, $lng;
 		
@@ -4211,7 +4211,10 @@ class ilObjSurvey extends ilObject
 			}
 			foreach($files as $file)
 			{
-				if(@is_file($importDirectory."/".$file) && ($file != "." && $file!="..") && (ereg("^[0-9]{10}_{2}[0-9]+_{2}(svy_)*[0-9]+\.[a-z]{1,3}\$", $file) || ereg("^[0-9]{10}_{2}[0-9]+_{2}(survey__)*[0-9]+\.[a-z]{1,3}\$", $file)))
+				if(@is_file($importDirectory."/".$file) && 
+					($file != "." && $file!="..") && 
+					(ereg("^[0-9]{10}_{2}[0-9]+_{2}(svy_)*[0-9]+\.[a-z]{1,3}\$", $file) || 
+						ereg("^[0-9]{10}_{2}[0-9]+_{2}(survey__)*[0-9]+\.[a-z]{1,3}\$", $file)))
 				{
 					// found xml file
 					$xmlFile = $importDirectory."/".$file;

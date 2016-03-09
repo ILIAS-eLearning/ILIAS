@@ -44,15 +44,15 @@ class ilSurveyExport
 	* Constructor
 	* @access	public
 	*/
-	function ilSurveyExport(&$a_survey_obj, $a_mode = "xml")
+	function __construct($a_survey_obj, $a_mode = "xml")
 	{
 		global $ilErr, $ilDB, $ilias;
 
-		$this->survey_obj =& $a_survey_obj;
+		$this->survey_obj = $a_survey_obj;
 
-		$this->err =& $ilErr;
-		$this->ilias =& $ilias;
-		$this->db =& $ilDB;
+		$this->err = $ilErr;
+		$this->ilias = $ilias;
+		$this->db = $ilDB;
 		$this->mode = $a_mode;
 
 		$settings = $this->ilias->getAllSettings();

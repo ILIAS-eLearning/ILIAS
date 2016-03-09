@@ -31,14 +31,14 @@ class ilSurveyEvaluationGUI
 * @param object $a_object Associated ilObjSurvey class
 * @access public
 */
-  function ilSurveyEvaluationGUI($a_object)
+  function __construct($a_object)
   {
 		global $lng, $tpl, $ilCtrl;
 
-		$this->lng =& $lng;
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->object =& $a_object;
+		$this->lng = $lng;
+		$this->tpl = $tpl;
+		$this->ctrl = $ilCtrl;
+		$this->object = $a_object;
 		if ($this->object->get360Mode())
 		{
 			$this->determineAppraiseeId();

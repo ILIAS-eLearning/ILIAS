@@ -13,12 +13,12 @@
 */
 class ilExerciseHandlerGUI
 {
-	function ilExerciseHandlerGUI()
+	function __construct()
 	{
-		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
+		global $ilCtrl;
 
 		// initialisation stuff
-		$this->ctrl =&  $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		
 		//$ilNavigationHistory->addItem($_GET["ref_id"],
 		//	"ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$_GET["ref_id"]);

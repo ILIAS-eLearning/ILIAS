@@ -43,9 +43,9 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 	*/
 	var $conditions;
 
-	function ilObjSurveyAdministrationGUI($a_data,$a_id,$a_call_by_reference)
+	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
-		global $rbacsystem, $lng;
+		global $lng;
 
 		$this->type = "svyf";
 		$lng->loadLanguageModule("survey");

@@ -14,14 +14,6 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 class ilObjExerciseListGUI extends ilObjectListGUI
 {
 	/**
-	* constructor
-	*/
-	function ilObjExerciseListGUI()
-	{
-		parent::__construct();
-	}
-
-	/**
 	* initialisation
 	*/
 	function init()

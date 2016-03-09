@@ -50,16 +50,16 @@ class ilSurveyExecutionGUI
 * @param object $a_object Associated ilObjSurvey class
 * @access public
 */
-  function ilSurveyExecutionGUI($a_object)
+  function __construct($a_object)
   {
 		global $lng, $tpl, $ilCtrl, $ilias, $tree;
 
-		$this->lng =& $lng;
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->ilias =& $ilias;
-		$this->object =& $a_object;
-		$this->tree =& $tree;
+		$this->lng = $lng;
+		$this->tpl = $tpl;
+		$this->ctrl = $ilCtrl;
+		$this->ilias = $ilias;
+		$this->object = $a_object;
+		$this->tree = $tree;
 				
 		$this->external_rater_360 = false;
 		if($this->object->get360Mode() &&

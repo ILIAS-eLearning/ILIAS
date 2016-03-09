@@ -47,7 +47,7 @@ class SurveyCategories
 	* Constructor
 	* @access	public
 	*/
-	function SurveyCategories()
+	function __construct()
 	{
 		$this->categories = array();
 	}

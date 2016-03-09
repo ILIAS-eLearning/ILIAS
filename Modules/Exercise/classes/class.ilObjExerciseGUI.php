@@ -26,7 +26,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjExerciseGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		global $lng;
 		

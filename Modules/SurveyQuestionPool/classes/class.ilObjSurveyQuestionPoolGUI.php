@@ -47,16 +47,16 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	public function ilObjSurveyQuestionPoolGUI()
+	public function __construct()
 	{
 		global $lng, $ilCtrl;
 
 		$this->type = "spl";
 		$lng->loadLanguageModule("survey");
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id"));
 
-		parent::__construct("",$_GET["ref_id"], true, false);
+		parent::__construct("", $_GET["ref_id"], true, false);
 	}
 
 	/**

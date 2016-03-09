@@ -20,7 +20,7 @@ class ilExerciseMembers
 //	var $status_returned;
 //	var $notice;
 
-	function ilExerciseMembers($a_exc)
+	function __construct($a_exc)
 	{
 		$this->exc = $a_exc;
 		$this->obj_id = $a_exc->getId();

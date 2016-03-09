@@ -154,23 +154,14 @@ class SurveyQuestion
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-	function SurveyQuestion
-	(
-		$title = "",
-		$description = "",
-		$author = "",
-		$questiontext = "",
-		$owner = -1
-	)
+	function __construct($title = "", $description = "", $author = "", $questiontext = "",	$owner = -1)
 	{
-		global $ilias;
-		global $lng;
-		global $tpl;
+		global $ilias, $lng, $tpl;
 
-		$this->ilias =& $ilias;
-		$this->lng =& $lng;
-		$this->tpl =& $tpl;
-		$this->complete = 
+		$this->ilias = $ilias;
+		$this->lng = $lng;
+		$this->tpl = $tpl;
+		$this->complete = 0; 
 		$this->title = $title;
 		$this->description = $description;
 		$this->questiontext = $questiontext;
@@ -192,11 +183,6 @@ class SurveyQuestion
 		$this->materials = array();
 		$this->material = array();
 		$this->arrData = array();
-		register_shutdown_function(array(&$this, '_SurveyQuestion'));
-	}
-
-	function _SurveyQuestion()
-	{
 	}
 
 	/**
