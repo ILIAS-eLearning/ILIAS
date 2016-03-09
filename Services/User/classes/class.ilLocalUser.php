@@ -21,11 +21,11 @@ class ilLocalUser
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilLocalUser($a_parent_id)
+	function __construct($a_parent_id)
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 		$this->parent_id = $a_parent_id;
 		
 	}
