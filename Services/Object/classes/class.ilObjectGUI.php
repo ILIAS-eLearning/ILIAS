@@ -1935,7 +1935,8 @@ class ilObjectGUI
 	 * @param string $a_perm
 	 * @param string $a_cmd
 	 * @param string $a_type
-	 * @param int $a_ref_id
+	 * @param int $a_ref_id	 
+	 * @throws ilObjectException
 	 * @return bool
 	 */
 	protected function checkPermission($a_perm, $a_cmd = "", $a_type = "", $a_ref_id = null)
@@ -1968,8 +1969,14 @@ class ilObjectGUI
 				}
 
 				ilSession::clear("il_rep_ref_id");
+				
+				include_once "Services/Object/exceptions/class.ilObjectException.php";
+				throw new ilObjectException($this->lng->txt("permission_denied"));
+				
+				/*
 				ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
-				ilUtil::redirect("goto.php?target=".$type."_".$a_ref_id);
+				ilUtil::redirect("goto.php?target=".$type."_".$a_ref_id);				
+				*/
 			}
 			// we should never be here
 			else	
