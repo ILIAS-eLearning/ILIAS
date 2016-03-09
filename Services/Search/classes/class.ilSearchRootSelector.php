@@ -58,7 +58,7 @@ class ilSearchRootSelector extends ilExplorer
 
 		$this->ctrl = $ilCtrl;
 
-		parent::ilExplorer($a_target);
+		parent::__construct($a_target);
 		$this->tree = $tree;
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = "title";

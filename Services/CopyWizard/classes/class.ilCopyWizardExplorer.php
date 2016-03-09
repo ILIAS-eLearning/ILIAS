@@ -40,7 +40,7 @@ class ilCopyWizardExplorer extends ilExplorer
 		
 		$this->lng = $lng;
 		$this->objDefinition = $objDefinition;
-		parent::ilExplorer($a_target);
+		parent::__construct($a_target);
 		$this->initItemCounter(1);
 		
 		$this->setTitleLength(ilObject::TITLE_LENGTH);
