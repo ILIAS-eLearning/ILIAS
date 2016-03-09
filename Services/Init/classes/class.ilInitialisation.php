@@ -911,8 +911,8 @@ class ilInitialisation
 			
 			error_reporting(((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED) & ~E_STRICT);
 			
-			// php7-workaround start
-			// jl: push the error level as high as possible / sane
+			// php7-workaround JL start
+			// push the error level as high as possible / sane
 			error_reporting(E_ALL & ~E_NOTICE);
 			// php7-workaround end
 		}

@@ -291,8 +291,8 @@ class ilMainMenuGUI
 					 */
 					global $tpl;
 
-					// php7-workaround start
-					// jl: the frequent polling messes up the log files
+					// php7-workaround JL start
+					// the frequent polling messes up the log files
 					/* 
 					$this->tpl->touchBlock('osd_container');
 

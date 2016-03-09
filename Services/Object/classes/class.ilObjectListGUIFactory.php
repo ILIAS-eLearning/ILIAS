@@ -25,7 +25,7 @@ class ilObjectListGUIFactory
 			return new $full_class($a_context);
 		}
 
-		// php7-todo: throw exception instead?		
+		// php7-todo JL: throw exception instead?		
 		return new ilObjectListGUI($a_context);
 	}
 	

@@ -268,7 +268,7 @@ class ilSetting
 	*/
 	public static function _getValueType()
 	{
-		// php7-todo
+		// php7-todo JL: PDO has no analyzer
 		return 'text';
 		
 		/*
