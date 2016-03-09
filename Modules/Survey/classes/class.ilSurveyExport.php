@@ -30,9 +30,7 @@
 */
 class ilSurveyExport
 {
-	var $err;			// error object
 	var $db;			// database object
-	var $ilias;			// ilias object
 	var $survey_obj;		// survey object
 	var $inst_id;		// installation id
 	var $mode;

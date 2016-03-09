@@ -64,18 +64,17 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory, $ilErr;
+		global $ilNavigationHistory;
 						
-		if (!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
-			!$ilAccess->checkAccess("read", "", $this->ref_id))
+		if (!$this->checkPermissionBool("visible") &&
+			!$this->checkPermissionBool("read"))
 		{
-			global $ilias;
-			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+			$this->checkPermission("read");
 		}
 		
 		// add entry to navigation history
 		if (!$this->getCreationMode() &&
-			$ilAccess->checkAccess("read", "", $this->ref_id))
+			$this->checkPermissionBool("read"))
 		{
 			$ilNavigationHistory->addItem($this->ref_id,
 				"ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&cmd=questions&ref_id=".$this->ref_id, "spl");
@@ -96,10 +95,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilobjectmetadatagui':
-				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
-				{
-					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
-				}				
+				$this->checkPermission('write');			
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
 				$md_gui = new ilObjectMetaDataGUI($this->object);	
 				$this->ctrl->forwardCommand($md_gui);
@@ -776,14 +772,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	* show information screen
 	*/
 	function infoScreenForward()
-	{
-		global $ilErr, $ilAccess;
-		
-		if(!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
-			!$ilAccess->checkAccess("read", "", $this->ref_id))
-		{
-			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
-		}
+	{		
+		$this->checkPermission("visible");
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
@@ -831,7 +821,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function getTabs()
 	{
-		global $ilAccess, $ilHelp;
+		global $ilHelp;
 		
 		$ilHelp->setScreenIdComponent("spl");
 
@@ -862,7 +852,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			}
 		}
 		
-		if ($ilAccess->checkAccess("read", "", $this->ref_id))
+		if ($this->checkPermissionBool("read"))
 		{
 			$this->tabs_gui->addTarget("survey_questions",
 				 $this->ctrl->getLinkTarget($this,'questions'),
@@ -885,7 +875,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				array("infoScreen", "showSummary"));		
 		}
 
-		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		if ($this->checkPermissionBool('write'))
 		{
 			// properties
 			$this->tabs_gui->addTarget("settings",
@@ -918,7 +908,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				 "", "");
 		}
 
-		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
+		if ($this->checkPermissionBool("edit_permission"))
 		{
 			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
@@ -952,7 +942,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public static function _goto($a_target)
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $ilAccess, $lng;
+		
 		if ($ilAccess->checkAccess("visible", "", $a_target) ||
 			$ilAccess->checkAccess("read", "", $a_target))
 		{
@@ -968,7 +959,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
-		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
 } // END class.ilObjSurveyQuestionPoolGUI
 ?>
