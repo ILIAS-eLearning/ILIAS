@@ -1713,9 +1713,10 @@ class ilObject
 		$new_obj->setType($this->getType());
 		// Choose upload mode to avoid creation of additional settings, db entries ...
 		$new_obj->create(true);
-		
+
 		if(!$options->isTreeCopyDisabled())
 		{
+			ilLoggerFactory::getLogger('obj')->debug('Tree copy is enabled');
 			$new_obj->createReference();
 			$new_obj->putInTree($a_target_id);
 			$new_obj->setPermissions($a_target_id);
@@ -1726,6 +1727,10 @@ class ilObject
 				// copy local roles
 				$rbacadmin->copyLocalRoles($this->getRefId(),$new_obj->getRefId());
 			}
+		}
+		else
+		{
+			ilLoggerFactory::getLogger('obj')->debug('Tree copy is disabled');
 		}
 		
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');

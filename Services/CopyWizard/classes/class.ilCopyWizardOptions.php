@@ -235,9 +235,9 @@ class ilCopyWizardOptions
 	{
 	 	if(isset($this->options[self::DISABLE_TREE_COPY]) and $this->options[self::DISABLE_TREE_COPY])
 	 	{
-	 		return false;
+	 		return true;
 	 	}
-	 	return true;
+	 	return false;
 		
 	}
 	

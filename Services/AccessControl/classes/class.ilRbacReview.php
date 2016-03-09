@@ -1210,6 +1210,7 @@ class ilRbacReview
 		if (!isset($a_ref_id))
 		{
 			$message = get_class($this)."::getRolesOfRoleFolder(): No ref_id given!";
+			ilLoggerFactory::getLogger('ac')->logStack();
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 			
 		}

@@ -49,9 +49,8 @@ class ilSoapClient
 
 	function __construct($a_server = '')
 	{
-		global $ilLog;
+		$this->log = ilLoggerFactory::getLogger('wsrv');
 
-		$this->log = $ilLog;
 		$this->__setServer($a_server);
 	}
 
@@ -121,7 +120,7 @@ class ilSoapClient
 		{
 			if(stristr($error, 'socket read of headers') === FALSE)
 			{
-				$this->log->write('Error calling soap server: '.$this->getServer().' Error: '.$error);
+				$this->log->debug('Error calling soap server: '. $this->getServer().' ERROR: '. $error);
 			}
 			return false;
 		}
@@ -139,7 +138,9 @@ class ilSoapClient
 		{
 			if(stristr($error, 'socket read of headers') === FALSE)
 			{
-				$this->log->write('Error calling soap server: '.$this->getServer().' Error: '.$error);
+				$this->log->debug($this->client->request);
+				$this->log->debug($this->client->response);
+				$this->log->info('Error calling soap server: '. $this->getServer().' ERROR: '. $error);
 			}
 		}
 
