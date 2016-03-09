@@ -11,12 +11,7 @@
  */
 
 	class ilCronValidator
-	{
-		public function __construct()
-		{
-			
-		}
-		
+	{	
 		public function check()
 		{
 			global $ilUser,$rbacsystem,$lng;

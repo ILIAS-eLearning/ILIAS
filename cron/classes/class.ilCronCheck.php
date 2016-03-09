@@ -36,7 +36,7 @@ class ilCronCheck
 	private $possible_tasks = array();
 	private $default_tasks = array();
 	
-	public function ilCronCheck()
+	public function __construct()
 	{
 		global $ilLog;
 
