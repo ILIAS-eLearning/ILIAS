@@ -100,7 +100,7 @@ abstract class SurveyQuestionGUI
 		return $question;
 	}
 	
-	function _getGUIClassNameForId($a_q_id)
+	static function _getGUIClassNameForId($a_q_id)
 	{
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
@@ -109,7 +109,7 @@ abstract class SurveyQuestionGUI
 		return $class_name;
 	}
 
-	function _getClassNameForQType($q_type)
+	static function _getClassNameForQType($q_type)
 	{
 		return $q_type;
 	}
