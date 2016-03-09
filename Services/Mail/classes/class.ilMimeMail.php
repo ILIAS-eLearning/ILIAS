@@ -89,6 +89,7 @@ class ilMimeMail
 	 * by default autoCheck feature is on
 	 * @param boolean	set to true to turn on the auto validation
 	 * @access public
+	 * @deprecated
 	 */
 	function autoCheck($bool )
 	{
@@ -475,14 +476,18 @@ class ilMimeMail
 	 * 	@access public
 	 * 	@param string address : email address to check
 	 * 	@return boolean true if email adress is ok
+	 * @deprecated                  
 	 */
 
 	function ValidEmail($address)
 	{
-		if( ereg( ".*<(.+)>", $address, $regs ) ) {
+		$regs = array();
+		if(preg_match("/.*<(.+)>/", $address, $regs))
+		{
 			$address = $regs[1];
 		}
-		if(ereg( "^[^@  ]+@([a-zA-Z0-9\-]+\.)+([a-zA-Z0-9\-]{2}|net|com|gov|mil|org|edu|int)\$",$address) )
+
+		if(preg_match('/^[^@  ]+@([a-zA-Z0-9\-]+\.)+([a-zA-Z0-9\-]{2}|net|com|gov|mil|org|edu|int)$/', $address))
 		{
 			return true;
 		}
@@ -496,6 +501,7 @@ class ilMimeMail
 	 * check validity of email addresses
 	 * return if unvalid, output an error message and exit, this may -should- be customized
 	 * @param	array aad -
+	 * @deprecated                 
 	 */
 	function CheckAdresses( $aad )
 	{
