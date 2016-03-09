@@ -308,7 +308,7 @@ class ilAuthUtils
 		$ilBench->stop('Auth','initAuth');
 	}
 	
-	function _getAuthModeOfUser($a_username,$a_password,$a_db_handler = '')
+	static function _getAuthModeOfUser($a_username,$a_password,$a_db_handler = '')
 	{
 		global $ilDB;
 		
@@ -357,7 +357,7 @@ class ilAuthUtils
 		return in_array($auth_mode,self::_getActiveAuthModes()) ? $auth_mode : AUTH_INACTIVE;
 	}
 	
-	function _getAuthMode($a_auth_mode,$a_db_handler = '')
+	static function _getAuthMode($a_auth_mode,$a_db_handler = '')
 	{
 		global $ilDB, $ilSetting;
 
@@ -471,7 +471,7 @@ class ilAuthUtils
 		}
 	}
 	
-	function _getActiveAuthModes()
+	static function _getActiveAuthModes()
 	{
 		global $ilias,$ilSetting;
 		

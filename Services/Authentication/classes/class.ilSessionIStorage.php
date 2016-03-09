@@ -105,7 +105,7 @@ class ilSessionIStorage
 	 * @param
 	 * @return
 	 */
-	function destroySession($a_session_id)
+	static function destroySession($a_session_id)
 	{
 		global $ilDB;
 		
