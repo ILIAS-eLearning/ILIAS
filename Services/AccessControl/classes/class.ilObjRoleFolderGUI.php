@@ -48,7 +48,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjRoleFolderGUI($a_data,$a_id,$a_call_by_reference)
+	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
 		global $lng;
 

@@ -47,11 +47,11 @@ class ilSoapClient
 	var $response_timeout = null;
 	var $use_wsdl = true;
 
-	function ilSoapClient($a_server = '')
+	function __construct($a_server = '')
 	{
 		global $ilLog;
 
-		$this->log =& $ilLog;
+		$this->log = $ilLog;
 		$this->__setServer($a_server);
 	}
 

@@ -31,7 +31,7 @@ class ilDBUpdate
 	/**
 	* constructor
 	*/
-	function ilDBUpdate($a_db_handler = 0,$tmp_flag = false)
+	function __construct($a_db_handler = 0,$tmp_flag = false)
 	{		
 		// workaround to allow setup migration
 		if ($a_db_handler)

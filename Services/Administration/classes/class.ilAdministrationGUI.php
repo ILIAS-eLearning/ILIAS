@@ -57,7 +57,7 @@ class ilAdministrationGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilAdministrationGUI()
+	function __construct()
 	{
 		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition,
 			$_GET, $ilCtrl, $ilLog, $ilMainMenu;

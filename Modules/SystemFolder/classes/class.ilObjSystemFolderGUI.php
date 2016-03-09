@@ -27,7 +27,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjSystemFolderGUI($a_data,$a_id,$a_call_by_reference)
+	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "adm";
 		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
