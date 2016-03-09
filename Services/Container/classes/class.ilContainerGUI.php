@@ -1368,23 +1368,27 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 
-		require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-		if (ilDAVServer::_isActive() && ilDAVServer::_isActionsVisible())
+		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+		if (ilDAVActivationChecker::_isActive())
 		{
-			require_once 'Services/WebDAV/classes/class.ilDAVLocks.php';
-			$locks = new ilDAVLocks();
+			require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
+			if (ilDAVServer::_isActionsVisible())
+			{
+				require_once 'Services/WebDAV/classes/class.ilDAVLocks.php';
+				$locks = new ilDAVLocks();
 
-			$result = $locks->lockRef($_GET['item_ref_id'],
-					$ilUser->getId(), $ilUser->getLogin(), 
-					'ref_'.$_GET['item_ref_id'].'_usr_'.$ilUser->getId(), 
-					time() + /*30*24*60**/60, 0, 'exclusive'
-					);
+				$result = $locks->lockRef($_GET['item_ref_id'],
+						$ilUser->getId(), $ilUser->getLogin(), 
+						'ref_'.$_GET['item_ref_id'].'_usr_'.$ilUser->getId(), 
+						time() + /*30*24*60**/60, 0, 'exclusive'
+						);
 
-			ilUtil::sendInfo(
-						$this->lng->txt(
-								($result === true) ? 'object_locked' : $result
-								),
-						true);
+				ilUtil::sendInfo(
+							$this->lng->txt(
+									($result === true) ? 'object_locked' : $result
+									),
+							true);
+			}
 		}
 		$this->renderObject();
 	}

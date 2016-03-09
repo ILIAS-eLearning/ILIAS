@@ -2544,34 +2544,7 @@ class ilObjectListGUI
 		$type = ilObject::_lookupType(ilObject::_lookupObjId($this->getCommandId()));
 
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
-		{
-			// BEGIN WebDAV: Lock/Unlock objects
-			/* This code section is temporarily commented out. 
-			   I will reactivate it at a later point, when I get the
-               the backend working properly. - Werner Randelshofer 2008-04-17
-			if (is_object($this->container_obj) && $this->rbacsystem->checkAccess("write", $this->ref_id))
-			{
-				require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-				if (ilDAVServer::_isActive() && ilDAVServer::_isActionsVisible())
-				{
-					$this->ctrl->setParameter($this->container_obj, "ref_id",
-						$this->container_obj->object->getRefId());
-					$this->ctrl->setParameter($this->container_obj, "type", $this->type);
-					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
-					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "lock");
-					$this->insertCommand($cmd_link, $this->lng->txt("lock"));
-
-					$this->ctrl->setParameter($this->container_obj, "ref_id",
-						$this->container_obj->object->getRefId());
-					$this->ctrl->setParameter($this->container_obj, "type", $this->type);
-					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
-					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "unlock");
-					$this->insertCommand($cmd_link, $this->lng->txt("unlock"));
-				}
-			}
-			*/
-			// END WebDAV: Lock/Unlock objects
-			
+		{	
 			// #17467 - add ref_id to link (in repository only!)
 			if(is_object($this->container_obj) &&
 				!($this->container_obj instanceof ilAdministrationCommandHandling) &&
