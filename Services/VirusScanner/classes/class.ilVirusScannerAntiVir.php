@@ -17,7 +17,7 @@ class ilVirusScannerAntiVir extends ilVirusScanner
 	 * @access    public
 	 * @param    string virus scanner command
 	 */
-	function __construct($a_scancommand, $a_cleancommand)
+	public function __construct($a_scancommand, $a_cleancommand)
 	{
 		parent::__construct($a_scancommand, $a_cleancommand);
 		$this->type         = "antivir";
