@@ -773,7 +773,7 @@ class ilLanguage
 			// get available .lang.local files
 			while ($entry = $d->read())
 			{
-				if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang.local$)", $entry)))
+				if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang.local$)~", $entry)))
 				{
 					$lang_key = substr($entry,6,2);
 					$local_langs[] = $lang_key;
@@ -797,7 +797,7 @@ class ilLanguage
 		// get available lang-files
 		while ($entry = $d->read())
 		{
-			if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang$)", $entry)))
+			if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang$)~", $entry)))
 			{
 				$lang_key = substr($entry,6,2);
 				$languages1[] = $lang_key;
