@@ -73,11 +73,12 @@ class ilExerciseXMLParser extends ilSaxParser
 	* @param   int $obj_id obj id of exercise which is to be updated
 	* @access	public
 	*/
-	function ilExerciseXMLParser(& $exercise, $a_xml_data, $obj_id = -1)
+	function __construct($exercise, $a_xml_data, $obj_id = -1)
 	{
 // @todo: needs to be revised for multiple assignments per exercise
 
 		parent::__construct();
+		
 		$this->exercise = $exercise;
 		// get all assignments and choose first one if exists, otherwise create
 		$assignments = ilExAssignment::getAssignmentDataOfExercise($exercise->getId());
