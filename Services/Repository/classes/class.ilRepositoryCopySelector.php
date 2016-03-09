@@ -51,7 +51,7 @@ class ilRepositoryCopySelector extends ilExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilRepositoryCopySelector($a_target)
+	function __construct($a_target)
 	{
 		global $tree,$ilCtrl;
 

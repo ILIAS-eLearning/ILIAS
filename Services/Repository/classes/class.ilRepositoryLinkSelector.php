@@ -51,7 +51,7 @@ class ilRepositoryLinkSelector extends ilExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilRepositoryLinkSelector($a_target)
+	function __construct($a_target)
 	{
 		global $tree,$ilCtrl;
 

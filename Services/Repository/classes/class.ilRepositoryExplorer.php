@@ -28,7 +28,7 @@ class ilRepositoryExplorer extends ilExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilRepositoryExplorer($a_target, $a_top_node = 0)
+	function __construct($a_target, $a_top_node = 0)
 	{
 		global $tree, $ilCtrl, $lng, $ilSetting, $objDefinition;
 

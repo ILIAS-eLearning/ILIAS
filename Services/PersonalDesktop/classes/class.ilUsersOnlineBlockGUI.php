@@ -21,7 +21,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	/**
 	* Constructor
 	*/
-	function ilUsersOnlineBlockGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng, $ilUser;
 		

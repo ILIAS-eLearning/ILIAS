@@ -113,7 +113,7 @@ class ilValidator extends PEAR
 	* @access	public
 	* @param	integer	mode
 	*/
-	function ilValidator($a_log = false)
+	function __construct($a_log = false)
 	{
 		global $objDefinition, $ilDB;
 		
