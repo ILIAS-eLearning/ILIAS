@@ -278,7 +278,7 @@ class ilItemGroupItems
 		return true;
 	}
 	
-	function _getItemsOfContainer($a_ref_id)
+	static function _getItemsOfContainer($a_ref_id)
 	{
 		global $ilDB,$tree;
 		

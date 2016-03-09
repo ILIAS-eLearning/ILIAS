@@ -1628,7 +1628,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	 * @param string $a_update_code
 	 * @return string 
 	 */
-	function getListNotesJSCall($a_hash, $a_update_code = null)
+	static function getListNotesJSCall($a_hash, $a_update_code = null)
 	{
 		if ($a_update_code === null)
 		{
@@ -1649,7 +1649,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	 * @param string $a_update_code
 	 * @return string 
 	 */
-	function getListCommentsJSCall($a_hash, $a_update_code = null)
+	static function getListCommentsJSCall($a_hash, $a_update_code = null)
 	{
 		if ($a_update_code === null)
 		{

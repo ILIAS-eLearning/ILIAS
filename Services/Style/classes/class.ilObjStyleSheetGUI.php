@@ -159,7 +159,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		// set style sheet
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			$this->object->getContentStylePath($this->object->getId()));
+				ilObjStyleSheet::getContentStylePath($this->object->getId()));
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -245,7 +245,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		// set style sheet
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			$this->object->getContentStylePath($this->object->getId()));
+				ilObjStyleSheet::getContentStylePath($this->object->getId()));
 		$this->tpl->parseCurrentBlock();
 
 		// export button
@@ -582,7 +582,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		// set style sheet
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			$this->object->getContentStylePath($this->object->getId()));
+				ilObjStyleSheet::getContentStylePath($this->object->getId()));
 
 		$ts_tpl = new ilTemplate("tpl.style_tag_edit.html", true, true, "Services/Style");
 		

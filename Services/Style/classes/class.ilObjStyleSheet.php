@@ -1805,7 +1805,7 @@ class ilObjStyleSheet extends ilObject
 	*
 	* static (to avoid full reading)
 	*/
-	function getContentStylePath($a_style_id)
+	static function getContentStylePath($a_style_id)
 	{
 		global $ilias;
 		
