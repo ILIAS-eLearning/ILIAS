@@ -139,7 +139,7 @@ class ilObjectFactory
 	* @param	int		$obj_id		object id
 	* @return	object	instance of Ilias object (i.e. derived from ilObject)
 	*/
-	function getInstanceByRefId($a_ref_id,$stop_on_error = true)
+	static function getInstanceByRefId($a_ref_id,$stop_on_error = true)
 	{
 		global $ilias, $objDefinition, $ilDB;
 
