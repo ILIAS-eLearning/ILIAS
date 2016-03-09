@@ -457,9 +457,9 @@ exit;
 	* checks if current user has activated js editing and
 	* if browser is js capable
 	*/
-	function _doJSEditing()
+	static function _doJSEditing()
 	{
-		global $ilUser, $ilias, $ilSetting;
+		global $ilUser;
 
 		if ($ilUser->getPref("ilPageEditor_JavaScript") != "disable"
 			&& ilPageEditorGUI::_isBrowserJSEditCapable())
@@ -472,19 +472,9 @@ exit;
 	/**
 	* checks wether browser is javascript editing capable
 	*/
-	function _isBrowserJSEditCapable()
+	static function _isBrowserJSEditCapable()
 	{
-		global $ilBrowser;
-return true;
-		$version = $ilBrowser->getVersion();
-
-		if ($ilBrowser->isFirefox() ||
-			($ilBrowser->isIE() && !$ilBrowser->isMac()) ||
-			($ilBrowser->isMozilla() && $version[0] >= 5))
-		{
-			return true;
-		}
-		return false;
+		return true;
 	}
 
 	function activatePage()

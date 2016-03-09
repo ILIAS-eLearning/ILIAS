@@ -36,9 +36,9 @@ require_once ("./Modules/LearningModule/classes/class.ilStructureObject.php");
 */
 class ilLMObjectFactory
 {
-	function getInstance(&$a_content_obj, $a_id = 0, $a_halt = true)
+	static function getInstance(&$a_content_obj, $a_id = 0, $a_halt = true)
 	{
-		global $ilias, $ilDB;
+		global $ilDB;
 
 		$query = "SELECT * FROM lm_data WHERE obj_id = ".
 			$ilDB->quote($a_id, "integer");

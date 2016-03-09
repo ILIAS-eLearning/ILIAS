@@ -1082,7 +1082,7 @@ class ilInternalLinkGUI
 	/**
 	 * Get initialisation HTML to use interna link editing
 	 */
-	function getInitHTML($a_url, $a_move_to_body = false)
+	static function getInitHTML($a_url)
 	{
 		global $tpl, $lng;
 

@@ -3418,7 +3418,7 @@ class ilObjContentObject extends ilObject
 	 * @param
 	 * @return
 	 */
-	function lookupAutoGlossaries($a_lm_id)
+	static function lookupAutoGlossaries($a_lm_id)
 	{
 		global $ilDB;
 		

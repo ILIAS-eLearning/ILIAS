@@ -1924,7 +1924,7 @@ if (!$a_wysiwyg)
 	 *
 	 * @param	string		xml page code
 	 */
-	function saveAnchors($a_page, $a_domdoc)
+	static function saveAnchors($a_page, $a_domdoc)
 	{
 		self::_deleteAnchors($a_page->getParentType(), $a_page->getId(), $a_page->getLanguage());
 
@@ -2004,7 +2004,7 @@ if (!$a_wysiwyg)
 	 * @param object $a_page page object
 	 * @param object $a_domdoc dom document
 	 */
-	function saveMetaKeywords($a_page, $a_domdoc)
+	static function saveMetaKeywords($a_page, $a_domdoc)
 	{
 		// not nice, should be set by context per method
 		if ($a_page->getParentType() == "gdf" ||
