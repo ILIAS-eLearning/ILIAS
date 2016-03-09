@@ -175,7 +175,7 @@ class ilLanguage
 		}
 		$this->lang_user = $ilUser->prefs["language"];
 		
-		$langs = $this->getInstalledLanguages();
+		$langs = self::getInstalledLanguages();
 		
 		if (!in_array($this->lang_key,$langs))
 		{
@@ -342,7 +342,7 @@ class ilLanguage
 	}
 	
 	
-	function getInstalledLanguages()
+	static function getInstalledLanguages()
 	{
 		include_once("./Services/Object/classes/class.ilObject.php");
 		$langlist = ilObject::_getObjectsByType("lng");

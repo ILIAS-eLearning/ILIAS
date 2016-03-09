@@ -179,7 +179,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     /**
     * check whether goto script will succeed
     */
-    function _checkGoto($a_target)
+    static function _checkGoto($a_target)
     {
         global $ilAccess;
         

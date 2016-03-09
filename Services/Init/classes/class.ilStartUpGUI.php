@@ -1472,7 +1472,7 @@ class ilStartUpGUI
 		}
 	}
 
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $objDefinition, $ilPluginAdmin, $ilUser;
 

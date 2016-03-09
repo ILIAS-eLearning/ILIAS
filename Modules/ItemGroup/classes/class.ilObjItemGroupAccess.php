@@ -58,7 +58,7 @@ class ilObjItemGroupAccess extends ilObjectAccess
 	/**
 	 * check whether goto script will succeed
 	 */
-	public function _checkGoto($a_target)
+	public static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 		

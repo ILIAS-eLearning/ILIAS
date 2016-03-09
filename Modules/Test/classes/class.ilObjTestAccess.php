@@ -887,7 +887,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	/**
 	* check whether goto script will succeed
 	*/
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 		

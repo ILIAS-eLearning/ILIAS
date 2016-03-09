@@ -32,7 +32,7 @@ class ilObjCourseVerificationAccess extends ilObjectAccess
 		return $commands;
 	}
 	
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 		
