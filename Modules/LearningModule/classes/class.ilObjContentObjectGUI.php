@@ -1072,9 +1072,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	}*/
 
 	protected function afterSave(ilObject $a_new_object)
-	{
-		$a_new_object->notify("new", $_GET["ref_id"], $_GET["parent_non_rbac_id"],
-			$_GET["ref_id"], $a_new_object->getRefId());
+	{		
 		$a_new_object->setCleanFrames(true);
 		$a_new_object->update();
 
@@ -1352,8 +1350,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
 			$newObj->setPermissions($_GET["ref_id"]);
-			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-	
+			
 			// create learning module tree
 			$newObj->createLMTree();
 

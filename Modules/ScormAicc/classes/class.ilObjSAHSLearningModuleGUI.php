@@ -460,8 +460,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
 		$newObj->setPermissions($_GET["ref_id"]);
-		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-
+		
 		// create data directory, copy file to directory
 		$newObj->createDataDirectory();
 
@@ -536,8 +535,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$newObj->create();
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
-		$newObj->setPermissions($_GET["ref_id"]);
-		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+		$newObj->setPermissions($_GET["ref_id"]);		
 		$newObj->createDataDirectory();
 		$newObj->createScorm2004Tree();
 		ilUtil::sendInfo( $this->lng->txt($newObj->getType()."_added"), true);

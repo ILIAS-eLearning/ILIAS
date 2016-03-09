@@ -2573,8 +2573,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 			$log->write("ilObjectGUI::pasteObject(), link finished");
 
-			// inform other objects in hierarchy about link operation
-			//$this->object->notify("link",$this->object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$this->object->getRefId(),$subnodes);
 		} // END LINK
 
 		// save cmd for correct message output after clearing the clipboard

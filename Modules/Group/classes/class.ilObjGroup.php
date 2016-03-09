@@ -1557,32 +1557,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		return array();
 	}
 
-	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	*
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional parameters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{
-		global $tree;
-
-		$parent_id = (int) $tree->getParentId($a_node_id);
-
-		if ($parent_id != 0)
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
-			$obj_data->notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$parent_id,$a_params);
-		}
-
-		return true;
-	}
-
-
 	function exportXML()
 	{
 		include_once 'Modules/Group/classes/class.ilGroupXMLWriter.php';

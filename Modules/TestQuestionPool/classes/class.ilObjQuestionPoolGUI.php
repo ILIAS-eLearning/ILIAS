@@ -652,9 +652,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			// put the questionpool object in the administration tree
 			$newObj->putInTree($_GET["ref_id"]);
 			// get default permissions and set the permissions for the questionpool object
-			$newObj->setPermissions($_GET["ref_id"]);
-			// notify the questionpool object and all its parent objects that a "new" object was created
-			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+			$newObj->setPermissions($_GET["ref_id"]);			
 		}
 
 		if (is_file($_SESSION["qpl_import_dir"].'/'.$_SESSION["qpl_import_subdir"]."/manifest.xml"))

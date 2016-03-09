@@ -955,7 +955,6 @@ $this->ctrl->redirect($this, "properties");
 			$newObj->createReference();
 			$newObj->putInTree($parent_ref_id);
 			$newObj->setPermissions($parent_ref_id);
-			$newObj->notify("new",$parent_ref_id,$_GET["parent_non_rbac_id"],$parent_ref_id,$newObj->getRefId());
 			
 			// perform save
 			$this->object->setAssignedGlossary($newObj->getId());
