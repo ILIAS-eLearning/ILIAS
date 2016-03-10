@@ -22,7 +22,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjAuthSettingsGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		$this->type = "auth";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);

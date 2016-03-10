@@ -330,7 +330,7 @@ class ilObjRole extends ilObject
 	* @access	public
 	* @return	array		array of int: role ids
 	*/
-	function _lookupRegisterAllowed()
+	static function _lookupRegisterAllowed()
 	{
 		global $ilDB;
 		

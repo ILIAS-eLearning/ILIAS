@@ -21,9 +21,9 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	/**
 	 * Constructor
 	 */
-	function ilObjAdvancedEditingGUI($a_data,$a_id,$a_call_by_reference)
+	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
-		global $rbacsystem, $lng;
+		global $rbacsystem;
 
 		$this->type = "adve";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,false);

@@ -514,7 +514,7 @@ class ilAuthUtils
 		return $modes;
 	}
 	
-	function _getAllAuthModes()
+	static function _getAllAuthModes()
 	{
 		return array(
 			AUTH_LOCAL => ilAuthUtils::_getAuthModeName(AUTH_LOCAL),
