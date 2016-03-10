@@ -135,7 +135,7 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 
 		$query 		->select("crs.template_title")
 					->select("crs.edu_program");
-		foreach( $this->sum_parts as $title => $query_parts)
+		foreach( $this->sum_parts as $title => $query_parts) {
 			$query	->select_raw($query_parts["regular"]);
 		}
 		$query		->from("hist_course crs")
