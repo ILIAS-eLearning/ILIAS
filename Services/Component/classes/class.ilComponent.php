@@ -61,8 +61,7 @@ abstract class ilComponent
 //		global $ilDB;
 		$this->global_cache = ilCachedComponentData::getInstance();
 
-		$rec = $this->global_cache->lookCompId($this->getName(), $this->getComponentType());
-		$this->setId($rec["id"]);
+		$this->setId($this->global_cache->lookCompId($this->getComponentType(), $this->getName()));	
 		$this->setPluginSlots(ilComponent::lookupPluginSlots(
 			$this->getComponentType(), $this->getName()));
 
