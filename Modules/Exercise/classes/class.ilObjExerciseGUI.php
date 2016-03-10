@@ -3837,17 +3837,20 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "submissionScreenTeam");
 		}		
 		
-		$team_deleted = false;
-		if(sizeof($members) <= sizeof($ids))
+		$team_deleted = (bool)$a_full_delete;		
+		if(!$team_deleted)
 		{
-			if(sizeof($members) == 1 && $members[0] == $ilUser->getId())
+			if(sizeof($members) <= sizeof($ids))
 			{
-				$team_deleted = true;
-			}						
-			else
-			{
-				ilUtil::sendFailure($this->lng->txt("exc_team_at_least_one"), true);
-				$this->ctrl->redirect($this, "submissionScreenTeam");
+				if(sizeof($members) == 1 && $members[0] == $ilUser->getId())
+				{
+					$team_deleted = true;
+				}						
+				else
+				{
+					ilUtil::sendFailure($this->lng->txt("exc_team_at_least_one"), true);
+					$this->ctrl->redirect($this, "submissionScreenTeam");
+				}
 			}
 		}
 		
