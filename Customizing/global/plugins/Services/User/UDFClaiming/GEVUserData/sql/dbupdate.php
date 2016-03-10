@@ -576,7 +576,7 @@ foreach ($delete_fields as $udf_const) {
 require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 
 gevUDFUtils::updateUDFFields(array(
-		  gevSettings::USR_WBD_OKZ => array( "Zuweisung WBD OKZ"
+		  gevWBD::USR_WBD_OKZ => array( "Zuweisung WBD OKZ"
 											, array( "visible"				=> true
 												   , "changeable"			=> false
 												   , "searchable"			=> true

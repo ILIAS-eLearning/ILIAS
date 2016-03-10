@@ -211,8 +211,8 @@ class gevCourseSearch {
 				" AND ( ( NOT start_date.value > ".$this->gDB->quote(date("Y-m-d", $a_search_options["period"]["end"]))." ) \n".
 				"       OR ".$this->gDB->in("ltype.value", array("Selbstlernkurs"), false, "text").") \n".
 				" AND ( ( NOT end_date.value < ".$this->gDB->quote(date("Y-m-d", $a_search_options["period"]["start"]))." ) \n".
-				"       OR ".$this->gDB->in("ltype.value", array("Selbstlernkurs"), false, "text").") \n".
-				"       OR (end_date.value IS NULL AND NOT start_date.value < ".$this->gDB->quote(date("Y-m-d", $a_search_options["period"]["start"])).")\n"
+				"       OR ".$this->gDB->in("ltype.value", array("Selbstlernkurs"), false, "text")." \n".
+				"       OR (end_date.value IS NULL AND NOT start_date.value < ".$this->gDB->quote(date("Y-m-d", $a_search_options["period"]["start"]))."))\n"
 				;
 		}
 		$hour = $this->gDB->quote(date("H"), "text");
