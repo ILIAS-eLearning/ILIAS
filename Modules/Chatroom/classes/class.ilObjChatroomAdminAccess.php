@@ -29,7 +29,7 @@ class ilObjChatroomAdminAccess extends ilObjectAccess
 	 *
 	 * @return string
 	 */
-	public function _getCommands()
+	public static function _getCommands()
 	{
 		$commands	= array();
 		$commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "enter", "default" => true);
@@ -48,7 +48,7 @@ class ilObjChatroomAdminAccess extends ilObjectAccess
 	 * @todo: $a_target muss eig. immer ein string sein, da sonst das explode
 	 * nicht funktioniert, also typehinten (string $a_target) oder?
 	 */
-	public function _checkGoto($a_target)
+	public static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 

@@ -44,7 +44,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjFileAccessSettingsGUI($a_data,$a_id,$a_call_by_reference)
+	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
 		global $tree;
 
