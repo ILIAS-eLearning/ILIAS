@@ -555,6 +555,11 @@ class ilLPRubricCard
             );
             
             $broken_weight=explode('-',$weights[$k]);
+            error_log(count($broken_weight));
+            if(count($broken_weight) == 1)
+            {
+                $broken_weight[1]=$broken_weight[0];
+            }
             sort($broken_weight);
             
             if($this->ilDB->numRows($set)>0){
