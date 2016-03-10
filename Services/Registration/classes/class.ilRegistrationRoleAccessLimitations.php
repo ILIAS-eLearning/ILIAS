@@ -37,11 +37,11 @@ class ilRegistrationRoleAccessLimitations
 {
 	var $access_limits = array();
 
-	function ilRegistrationRoleAccessLimitations()
+	function __construct()
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 		$this->__read();
 	}
 	

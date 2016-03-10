@@ -38,11 +38,11 @@ class ilRegistrationRoleAssignments
 	var $assignments = array();
 	var $default_role = 0;
 
-	function ilRegistrationRoleAssignments()
+	function __construct()
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 		$this->__read();
 	}
 
