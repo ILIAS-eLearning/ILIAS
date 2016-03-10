@@ -28,7 +28,6 @@
 * @ilCtrl_Calls gevDesktopGUI: ilFormPropertyDispatchGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDErrorsGUI
 * @ilCtrl_Calls gevDesktopGUI: gevAttendanceByCourseTemplateGUI
-* @ilCtrl_Calls gevDesktopGUI: gevTrainerOperationByTEPCategoryGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDBVReportGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingBuildingBlockAdminGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCourseCreatingBuildingBlockGUI
@@ -131,12 +130,6 @@ class gevDesktopGUI {
 				$ilMainMenu->setActive("gev_reporting_menu");
 				require_once("Services/GEV/Reports/classes/class.gevAttendanceByEmployeeGUI.php");
 				$gui = new gevAttendanceByEmployeeGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
-				break;
-			case "gevtraineroperationbytepcategorygui":
-				$ilMainMenu->setActive("gev_reporting_menu");
-				require_once("Services/GEV/Reports/classes/class.gevTrainerOperationByTEPCategoryGUI.php");
-				$gui = new gevTrainerOperationByTEPCategoryGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 			case "gevbookingsbyvenuegui":
@@ -290,7 +283,6 @@ class gevDesktopGUI {
 			case "toEmployeeBookings":
 			case "toReportEmployeeEduBios":
 			case "toReportAttendanceByCourseTemplate":
-			case "toReportTrainerOperationByTEPCategory":
 			case "toReportWBDEdupoints":
 			case "toDBVReport":
 			case "toWBDErrors":
@@ -313,10 +305,6 @@ class gevDesktopGUI {
 			default:
 				throw new Exception("gevDesktopGUI:Unknown command: ".$a_cmd);
 		}
-	}
-
-	protected function toReportTrainerOperationByTEPCategory() {
-		$this->ctrl->redirectByClass("gevTrainerOperationByTEPCategoryGUI");
 	}
 
 	protected function toDctBuildingBlockAdm() {
