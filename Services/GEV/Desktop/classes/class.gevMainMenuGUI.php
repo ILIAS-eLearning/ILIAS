@@ -347,7 +347,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			( "gev_report_attendance_by_employee" => array($this->canViewReport("gev_report_attendance_by_employee"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByEmployee",$this->gLng->txt("gev_report_attendance_by_employee"))
 			, "gev_report_employee_edu_bio" => array($this->canViewReport("gev_report_employee_edu_bio"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportEmployeeEduBios",$this->gLng->txt("gev_report_employee_edu_bios"))
 			, "gev_report_bookingbyvenue" => array($this->canViewReport("gev_report_bookingbyvenue"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportBookingsByVenue",$this->gLng->txt("gev_report_bookingbyvenue"))
-			, "gev_report_trainer_operation_by_tep_category" => array($this->canViewReport("gev_report_trainer_operation_by_tep_category"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportTrainerOperationByTEPCategory",$this->gLng->txt("gev_report_trainer_operation_by_tep_category"))
 			, "gev_report_attendance_by_coursetemplate" => array($this->canViewReport("gev_report_attendance_by_coursetemplate"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByCourseTemplate",$this->gLng->txt("gev_report_attendancebycoursetemplate"))
 			, "gev_report_wbd_edupoints" => array($this->canViewReport("gev_report_wbd_edupoints"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportWBDEdupoints",$this->gLng->txt("gev_report_wbd_edupoints"))
 			, "gev_report_wbd_errors" => array($this->canViewReport("gev_report_wbd_errors"), "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->gLng->txt("gev_report_wbd_errors"))
@@ -383,7 +382,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				=  $this->canViewReport("gev_report_attendance_by_employee")
 				|| $this->canViewReport("gev_report_bookingbyvenue")
 				|| $this->canViewReport("gev_report_employee_edu_bio")
-				|| $this->canViewReport("gev_report_trainer_operation_by_tep_category")
 				|| $this->canViewReport("gev_report_attendance_by_coursetemplate")
 				|| $this->canViewReport("gev_report_wbd_edupoints")
 				|| $this->canViewReport("gev_report_wbd_errors")
@@ -406,8 +404,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				return $this->user_utils && ($this->user_utils->isAdmin() || $this->user_utils->hasRoleIn(array("OD-Betreuer")) || $this->user_utils->isSuperior());
 			case "gev_report_bookingbyvenue":
 				return $this->user_utils && ($this->user_utils->isAdmin() || $this->user_utils->hasRoleIn(array("Veranstalter")));
-			case "gev_report_trainer_operation_by_tep_category":
-				return $this->user_utils && $this->user_utils->isAdmin();
 			case "gev_report_attendance_by_coursetemplate":
 				return $this->user_utils && $this->user_utils->isAdmin();
 			case "gev_report_wbd_edupoints":
