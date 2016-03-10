@@ -59,7 +59,7 @@ class gevRoleUtils {
 			
 			$this->global_roles = array();
 			while ($rec = $this->db->fetchAssoc($res)) {
-				$this->global_roles[$rec["obj_id"]] = $rec["title"];
+				$this->global_roles[(int)$rec["obj_id"]] = $rec["title"];
 			}
 		}
 

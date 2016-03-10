@@ -20,7 +20,7 @@ xrds_content#:#Report
 xrds_properties#:#Eigenschaften
 online#:#Online
 report_year#:#Jahr der Auswertung
-lasname#:#Nachname
+lastname#:#Nachname
 lastname_filter#:#Nachname
 firstname#:#Vorname
 filter_show_critical_dbvs#:#Zeige mir nur kritische DBVen.

@@ -33,7 +33,7 @@ class ilObjReportTrDemandRet extends ilObjReportBase {
 		$table	->column('tpl_title', $this->plugin->txt('tpl_title'), true)
 				->column('title', $this->plugin->txt('crs_title'), true)
 				->column('type', $this->plugin->txt('crs_type'), true)
-				->column('date', $this->plugin->txt('crs_date'), true)
+				->column('begin_date', $this->plugin->txt('crs_date'), true)
 				->column('succ_participations', $this->plugin->txt('succ_participations'), true)
 				->column('bookings', $this->plugin->txt('bookings'), true)
 				->column('cancellations', $this->plugin->txt('cancellations'), true)
@@ -95,7 +95,7 @@ class ilObjReportTrDemandRet extends ilObjReportBase {
 							, $this->plugin->txt("period")
 							, $this->plugin->txt("until")
 							, "crs.begin_date"
-							, "crs.end_date"
+							, "crs.begin_date"
 							, date("Y")."-01-01"
 							, date("Y")."-12-31"
 							, false
@@ -135,6 +135,8 @@ class ilObjReportTrDemandRet extends ilObjReportBase {
 			->static_condition("(crs.end_date < ".$this->gIldb->quote(date('Y-m-d'),'text')
 								." OR crs.is_cancelled = 'Ja' )")
 			->static_condition('crs.hist_historic = 0')
+			->static_condition("crs.is_template = 'Nein'")
+			->static_condition("crs.begin_date != '0000-00-00'")
 			->static_condition($this->gIldb->in('crs.type',array('Webinar','Präsenztraining','Virtuelles Training'),false,'text'))
 			->action($this->filter_action)
 			->compile();
@@ -149,7 +151,7 @@ class ilObjReportTrDemandRet extends ilObjReportBase {
 			? $this->gIldb->in('tpl.crs_id',array_unique($this->getSubtreeCourseTemplates()),false,'integer')
 			: " tpl.is_template = 'Ja' ";
 		
-		$query ='SELECT tpl.title as tpl_title, base.* FROM hist_course tpl LEFT JOIN '
+		$query ='SELECT tpl.title as tpl_title, base.* FROM hist_course tpl JOIN '
 				.'('.$this->query->sql()."\n "
 				. $this->queryWhere()."\n "
 				. $this->query->sqlGroupBy()."\n"

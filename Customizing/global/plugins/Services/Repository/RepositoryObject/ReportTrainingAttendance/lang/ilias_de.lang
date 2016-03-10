@@ -1,0 +1,49 @@
+<!-- language file start -->
+obj_xrta#:#Report über Teilnahmen an Trainings
+objs_xrta#:#Reports über Teilnahmen an Trainings
+obj_xrta_duplicate#:#Report über Teilnahmen an Trainings kopieren
+objs_xrta_duplicate#:#Report über Teilnahmen an Trainings kopieren
+obj_xrta_select#:#Report über Teilnahmen an Trainings auswählen
+xrta_add#:#Report über Teilnahmen an Trainings hinzufügen
+xrta_new#:#Neuen Report über Teilnahmen an Trainings hinzufügen
+xrta_read#:#Lesezugriff zum Report über Teilnahmen an Trainings
+xrta_write#:#Report über Teilnahmen an Trainings bearbeiten
+xrta_delete#:#Report über Teilnahmen an Trainings löschen
+xrta_visible#:#sichtbar
+xrta_edit_permission#:#schreibberechtigt
+crs_create_xrta#:#Report über Teilnahmen an Trainings erzeugen
+grp_create_xrta#:#Report über Teilnahmen an Trainings erzeugen
+fold_create_xrta#:#Report über Teilnahmen an Trainings erzeugen
+root_create_xrta#:#Report über Teilnahmen an Trainings erzeugen
+cat_create_xrta#:#Report über Teilnahmen an Trainings erzeugen
+rep_robj_xrta_status#:#Status
+online#:#Online
+rep_robj_xrta_offline#:#Offline
+xrta_content#:#Report
+xrta_properties#:#Eigenschaften
+firstname#:#Vorname
+lastname#:#Nachname
+email#:#E-Mail
+login#:#Benutzername
+orgu#:#Org-Einheit
+training_type#:#Trainingstyp
+participated#:#teilgenommen
+participated_date#:#teilgenommen am
+booked#:#gebucht
+booked_for_date#:#gebucht für
+template_choice_label#:#Trainingsvorlage
+template_choice_description#:#Bitte wählen Sie die Vorlage, für die Sie die Teilnahmen erheben wollen.
+dateperiod_choice_label#:#Zeitraum
+dateperiod_choice_description#:#Bitte wählen Sie den Zeitraum, für den Sie die Teilnahmen erheben wollen.
+person_choice_label#:#Personen
+person_choice_description#:#Bitte wählen Sie den Zeitraum, für die Sie die Teilnahmen erheben wollen.
+orgu_choice_label#:#Auswahl über Organisationseinheit
+orgu_choice_description#:#Bitte wählen Sie die Organisationseinheit, für die Sie die Teilnahmen erheben wollen.
+role_choice_label#:#Auswahl über globale Rolle
+role_choice_description#:#Bitte wählen Sie die globale Rolle, für die Sie die Teilnahmen erheben wollen.
+part_choice_label#:#NUR_TEILGENOMMEN_AUSWAHL_LABEL
+part_choice_description#:#NUR_TEILGENOMMEN_AUSWAHL_BESCHREIBUNG
+filter_form_title#:#Neuen Report erstellen
+create_new_report#:#Neuen Report erstellen
+org_units#:#Organisationseinheit(en)
+roles#:#Globale Rolle(en)

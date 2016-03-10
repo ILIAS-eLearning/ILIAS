@@ -1688,19 +1688,24 @@ class gevUserUtils {
 		return $ous;
 	}
 
-	public function getOrgUnitNamesWhereUserCanViewEduBios() {
+	public function getOrgUnitNamesWhereUserCanViewEduBios($with_ids = false) {
 		if ($this->edu_bio_ou_names !== null) {
 			return $this->edu_bio_ou_names;
 		}
 		
 		$ids = $this->getOrgUnitsWhereUserCanViewEduBios();
-		$res = $this->db->query( "SELECT title FROM object_data od "
+		$res = $this->db->query( "SELECT od.obj_id, title FROM object_data od "
 								."  JOIN object_reference oref ON od.obj_id = oref.obj_id"
 								." WHERE ".$this->db->in("oref.ref_id", $ids, false, "integer")
 								);
 		$this->edu_bio_ou_names = array();
 		while ($rec = $this->db->fetchAssoc($res)) {
-			$this->edu_bio_ou_names[] = $rec["title"];
+			if ($with_ids) {
+				$this->edu_bio_ou_names[(int)$rec["obj_id"]] = $rec["title"];
+			}
+			else {
+				$this->edu_bio_ou_names[] = $rec["title"];
+			}
 		}
 		
 		return $this->edu_bio_ou_names;
@@ -2064,7 +2069,8 @@ class gevUserUtils {
 		." JOIN rbac_pa ON rbac_pa.rol_id = rbac_ua.rol_id\n"
 		."      AND rbac_pa.ops_id LIKE CONCAT('%', rbac_operations.ops_id, '%')\n"
 		." JOIN object_reference ON object_reference.ref_id = rbac_pa.ref_id\n"
-		." WHERE rep_obj_bbpool.obj_id = object_reference.obj_id";
+		." WHERE rep_obj_bbpool.obj_id = object_reference.obj_id\n"
+		."    AND rep_obj_bbpool.is_online = 1\n";
 
 		$res = $ilDB->query($query);
 		$bb_pools = array();
