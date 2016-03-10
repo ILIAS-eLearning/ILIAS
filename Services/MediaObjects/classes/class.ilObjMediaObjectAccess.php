@@ -34,6 +34,9 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 
 			// for content snippets we must get their usages and check them
 			switch ($usage["type"]) {
+				case "auth:pg":
+					// Mobs on the Loginpage should always be delivered
+					return true;
 				case "mep:pg":
 					include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
 					$usages2 = ilMediaPoolPage::lookupUsages($usage["id"]);
