@@ -362,18 +362,21 @@ class ilExSubmissionTeamGUI
 			$this->ctrl->redirect($this, $cancel_cmd);
 		}
 				
-		$team_deleted = false;
-		$members = $this->team->getMembers();
-		if(sizeof($members) <= sizeof($ids))
+		$team_deleted = (bool)$a_full_delete;		
+		if(!$team_deleted)
 		{
-			if(sizeof($members) == 1 && $members[0] == $ilUser->getId())
-			{
-				$team_deleted = true;
-			}						
-			else
-			{
-				ilUtil::sendFailure($this->lng->txt("exc_team_at_least_one"), true);
-				$this->ctrl->redirect($this, $cancel_cmd);
+			$members = $this->team->getMembers();
+			if(sizeof($members) <= sizeof($ids))
+			{				
+				if(sizeof($members) == 1 && $members[0] == $ilUser->getId())
+				{
+					$team_deleted = true;
+				}						
+				else
+				{
+					ilUtil::sendFailure($this->lng->txt("exc_team_at_least_one"), true);
+					$this->ctrl->redirect($this, $cancel_cmd);
+				}
 			}
 		}
 		
