@@ -20,7 +20,7 @@ root_create_xtdr#:#Report Trainingsauslastung (Auswertung) erzeugen
 cat_create_xtdr#:#Report Trainingsauslastung (Auswertung) erzeugen
 report_is_local#:#Lokale Auswertung
 online#:#Online
-period#:#Zetraum:
+period#:#Zeitraum:
 until#:#bis
 status#:#Status
 training_type#:#Trainingstyp
