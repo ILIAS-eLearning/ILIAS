@@ -14547,3 +14547,22 @@ if(!$ilDB->indexExistsByFields('il_qpl_qst_fq_unit',array('question_fi')))
 	$ilDB->addIndex('il_qpl_qst_fq_unit',array('question_fi'), 'i2');
 }
 ?>
+<#4883>
+<?php
+
+$query = 'SELECT * FROM settings WHERE module = ' . $ilDB->quote('common', 'text') . ' AND keyword = ' . $ilDB->quote('mail_send_html', 'text');
+$res = $ilDB->query($query);
+
+$found = false;
+while($row = $ilDB->fetchAssoc($res))
+{
+	$found = true;
+	break;
+}
+
+if(!$found)
+{
+	$setting = new ilSetting();
+	$setting->set('mail_send_html', 1);
+}
+?>
