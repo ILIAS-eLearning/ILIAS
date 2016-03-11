@@ -7237,6 +7237,8 @@ mail#:#info_mail_external_sender_noreply#:#Please enter the e-mail that shall be
 mail#:#invite_to_chat#:#Invite to Chat
 mail#:#linebreak#:#Line break
 mail#:#mail_account_mail_check#:#Send Account Mail
+mail#:#mail_send_html#:#HTML Frame for External Emails
+mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .
 mail#:#mail_account_mail#:#Account Mail
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Sub-folder
