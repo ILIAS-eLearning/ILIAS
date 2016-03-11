@@ -48,16 +48,25 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	 * Constructor
 	 *
 	 * @access public
-	 * @param array array of pear parameters
+	 * @param int ldap server id 
 	 * 
 	 */
-	public function __construct()
+	public function __construct($a_server_id = null)
 	{
 		global $ilLog;
 		
 		include_once 'Services/LDAP/classes/class.ilLDAPServer.php';
-		$this->server = new ilLDAPServer(ilLDAPServer::_getFirstActiveServer());
-	 	$this->log = ilLoggerFactory::getLogger('auth');
+		
+		if($a_server_id)
+		{
+			$this->server = ilLDAPServer::getInstanceByServerId($a_server_id);
+		}
+		else
+		{
+			$this->server = new ilLDAPServer(ilLDAPServer::_getFirstActiveServer());
+		}
+
+		$this->log = ilLoggerFactory::getLogger('auth');
 		
 		parent::__construct($this->server->toPearAuthArray());
 	}
