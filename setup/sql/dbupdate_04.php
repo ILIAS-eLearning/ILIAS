@@ -10069,7 +10069,7 @@ if ($ilDB->tableExists('rbac_templates'))
 		$ilDB->manipulate("INSERT INTO rbac_templates (rol_id, type, ops_id, parent)".
 			" VALUES (".
 			$ilDB->quote($row['rol_id'], "integer").
-			",".$ilDB->quote($row['type'], "integer").
+			",".$ilDB->quote($row['type'], "text").
 			",".$ilDB->quote($row['ops_id'], "integer").
 			",".$ilDB->quote($row['parent'], "integer").
 			")"
