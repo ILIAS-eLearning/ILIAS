@@ -92,7 +92,7 @@ class ilDBPdo implements ilDBInterface {
 		}
 
 		$this->pdo = new PDO($this->getDSN(), $this->getUsername(), $this->getPassword(), $this->additional_attributes);
-		$this->manager = new ilDBPdoManager($this->pdo);
+		$this->manager = new ilDBPdoManager($this->pdo, $this);
 		$this->reverse = new ilDBPdoReverse($this->pdo);
 
 		return ($this->pdo->errorCode() == PDO::ERR_NONE);
@@ -206,10 +206,11 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
-	 * @param $table_name string
+	 * @param $table_name
+	 * @param int $start
 	 */
-	public function createSequence($table_name) {
-		//TODO
+	public function createSequence($table_name, $start = 1) {
+		$this->manager->createSequence($table_name, $start);
 	}
 
 
@@ -1034,4 +1035,6 @@ class ilDBPdo implements ilDBInterface {
 	public function locate($a_needle, $a_string, $a_start_pos = 1) {
 		return ilMySQLQueryUtils::getInstance()->locate($a_needle, $a_string, $a_start_pos);
 	}
+
+
 }

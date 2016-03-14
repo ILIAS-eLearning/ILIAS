@@ -29,6 +29,9 @@ class ilDBConstants {
 	const T_TIME = 'time';
 	const T_TIMESTAMP = 'timestamp';
 	const T_BLOB = 'blob';
+	const INDEX_FORMAT = '%s_idx';
+	const SEQUENCE_FORMAT = '%s_seq';
+	const SEQUENCE_COLUMNS_NAME = 'sequence';
 	/**
 	 * @var array
 	 */

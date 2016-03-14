@@ -54,9 +54,10 @@ interface ilDBInterface {
 
 
 	/**
-	 * @param $table_name string
+	 * @param $table_name
+	 * @param int $start
 	 */
-	public function createSequence($table_name);
+	public function createSequence($table_name, $start = 1);
 
 
 	/**
@@ -447,4 +448,11 @@ interface ilDBInterface {
 	 * @return mixed
 	 */
 	public function locate($a_needle, $a_string, $a_start_pos = 1);
+
+
+	/**
+	 * @param $identifier
+	 * @return mixed
+	 */
+	public function quoteIdentifier($identifier);
 }
