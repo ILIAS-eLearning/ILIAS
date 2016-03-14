@@ -8,7 +8,7 @@ require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
 * @ilCtrl_Calls ilObjReportBookingsByTplGUI : ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjReportBookingsByTplGUI : ilCommonActionDispatcherGUI
 */
-class ilObjReportBookingsByTplGUI extends ilObjReportBase {
+class ilObjReportBookingsByTplGUI extends ilObjReportBaseGUI {
 
 	public function getType() {
 		return 'xrbt';
@@ -59,7 +59,13 @@ class ilObjReportBookingsByTplGUI extends ilObjReportBase {
 		return $return;
 	}
 
-	protected function getRowTemplateTitle() {
-		return "tpl.gev_booking_by_tpl_row.html";
+	public static function transformResultRow($rec) {
+
+		foreach($rec as &$data) {
+			if((string)$data === "0") {
+				$data = '-';
+			}
+		}
+		return parent::transformResultRow($rec);
 	}
 }
