@@ -45,28 +45,41 @@ class ilTestToplistGUI
 			$ilCtrl->redirectByClass('ilObjTestGUI');
 		}
 
-		$ilTabs->activateTab('info_short');
-		$ilTabs->addSubTabTarget('toplist_by_score', $ilCtrl->getLinkTarget($this, 'showResultsToplistByScore'), array('outResultsToplist', 'showResultsToplistByScore'));
-		$ilTabs->addSubTabTarget('toplist_by_time', $ilCtrl->getLinkTarget($this, 'showResultsToplistByTime'), array('showResultsToplistByTime'));
-
 		$cmd = $ilCtrl->getCmd();
 
 		$ilCtrl->saveParameter($this, 'active_id');
 
 		switch($cmd)
 		{
-			case 'showResultsToplistByScore':
-				$ilTabs->setSubTabActive('toplist_by_score');
-				$this->showResultsToplistByScore();
-				break;
-
 			case 'showResultsToplistByTime':
-				$ilTabs->setSubTabActive('toplist_by_time');
+				$this->manageTabs($ilTabs, $ilCtrl, $lng, 'toplist_by_time');
 				$this->showResultsToplistByTime();
 				break;
+
+			case 'showResultsToplistByScore':
 			default:
+				$this->manageTabs($ilTabs, $ilCtrl, $lng, 'toplist_by_score');
 				$this->showResultsToplistByScore();
 		}
+	}
+	
+	protected function manageTabs(ilTabsGUI $tabsGUI, ilCtrl $ctrl, ilLanguage $lng, $activeTabId)
+	{
+		$tabsGUI->clearTargets();
+
+		$tabsGUI->setBackTarget(
+			$lng->txt('tst_results_back_introduction'), $ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen')
+		);
+
+		$tabsGUI->addTab(
+			'toplist_by_score', $lng->txt('toplist_by_score'), $ctrl->getLinkTarget($this, 'showResultsToplistByScore')
+		);
+		
+		$tabsGUI->addTab(
+			'toplist_by_time', $lng->txt('toplist_by_time'), $ctrl->getLinkTarget($this, 'showResultsToplistByTime')
+		);
+
+		$tabsGUI->setTabActive($activeTabId);
 	}
 
 	public function showResultsToplistByScore()

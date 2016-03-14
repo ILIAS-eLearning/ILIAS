@@ -10312,6 +10312,18 @@ div.ilCreationFormSection .form-horizontal {
 .ilObjListRow:hover {
   background-color: #ffffea;
 }
+.table-striped {
+  border-collapse: separate;
+}
+.table-striped > tbody > tr.ilObjListRow > td {
+  background-color: #FFFFFF;
+}
+.table-striped > tbody > tr.ilObjListRow:hover > td {
+  background-color: #ffffea;
+}
+.table-striped > tbody > tr.ilObjListRow:hover:nth-child(2n+1) > td {
+  background-color: #ffffea;
+}
 /* Services/Navigation */
 form.ilNavHistoryForm {
   padding: 0;
