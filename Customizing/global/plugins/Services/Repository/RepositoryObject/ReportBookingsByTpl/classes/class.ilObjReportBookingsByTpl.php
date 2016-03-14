@@ -14,6 +14,7 @@ set_time_limit(0);
 class ilObjReportBookingsByTpl extends ilObjReportBase {
 	protected $relevant_parameters = array();
 	protected $sum_parts = array();
+	protected $sum_table;
 
 	public function __construct($ref_id = 0) {
 		parent::__construct($ref_id);
@@ -33,12 +34,43 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 		return "tpl.gev_bookings_by_tpl_row.html";
 	}
 
+	protected function buildOrder($order) {
+		return $order
+			->defaultOrder("template_title", "ASC");
+	}
+
+	protected function buildTable($table) {
+		$table 		->column("template_title", $this->plugin->txt("title"),true)
+					->column("edu_program", $this->plugin->txt("edu_program"),true);
+		foreach ($this->sum_parts as $title => $query) {
+			$table
+				->column($title, $this->plugin->txt($title),true);
+		}
+		return parent::buildTable($table);
+	}
+
+	protected function buildSumTable(catReportTable $table) {
+		foreach ($this->sum_parts as $title => $query) {
+			$table
+				->column($title,$this->plugin->txt($title),true);
+		}
+		$table	->template("tpl.gev_bookings_by_tpl_sums_row.html", $this->plugin->getDirectory());
+		return $table;
+	}
+
+	public function deliverSumTable() {
+		if($this->sum_table !== null ) {
+			return $this->sum_table;
+		}
+		throw new Exception("ilObjReportBase::deliverSumTable: you need to define a sum table.");	
+	}
+
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter("org_unit","orgu_id",true,true);
 		$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
 		$filter 		->dateperiod( "period"
-									, $this->lng->txt("gev_period")
-									, $this->lng->txt("gev_until")
+									, $this->plugin->txt("period")
+									, $this->plugin->txt("until")
 									, "usrcrs.begin_date"
 									, "usrcrs.end_date"
 									, date("Y")."-01-01"
@@ -46,9 +78,9 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 									, false
 									, " OR usrcrs.hist_historic IS NULL"
 									);
-		$this->orgu_filter->addToFilter($this->filter);
-		$filter	->multiselect("edu_program"
-									 , $this->lng->txt("gev_edu_program")
+		$this->orgu_filter->addToFilter($filter);
+		$filter			->multiselect("edu_program"
+									 , $this->plugin->txt("edu_program")
 									 , "edu_program"
 									 , gevCourseUtils::getEduProgramsFromHisto()
 									 , array()
@@ -57,7 +89,7 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 									 , 160	
 									 )
 						->multiselect("type"
-									 , $this->lng->txt("gev_course_type")
+									 , $this->plugin->txt("course_type")
 									 , "type"
 									 , gevCourseUtils::getLearningTypesFromHisto()
 									 , array()
@@ -66,16 +98,16 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 									 , 160	
 									 )
 						->multiselect("template_title"
-									 , $this->lng->txt("crs_title")
-									 , "template_title"
-									 , gevCourseUtils::getTemplateTitleFromHisto()
+									 , $this->plugin->txt("title")
+									 , "crs.template_obj_id"
+									 , $this->getTemplates()
 									 , array()
 									 , ""
 									 , 300
 									 , 160	
 									 )
 						->multiselect("participation_status"
-									 , $this->lng->txt("gev_participation_status")
+									 , $this->plugin->txt("participation_status")
 									 , "participation_status"
 									 , array(	"teilgenommen"=>"teilgenommen"
 									 			,"fehlt ohne Absage"=>"fehlt ohne Absage"
@@ -90,7 +122,7 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 									 , true
 									 )
 						->multiselect("booking_status"
-									 , $this->lng->txt("gev_booking_status")
+									 , $this->plugin->txt("booking_status")
 									 , "booking_status"
 									 , catFilter::getDistinctValues('booking_status', 'hist_usercoursestatus')
 									 , array()
@@ -99,7 +131,7 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 									 , 160	
 									 )
 						->multiselect("venue"
-									 , $this->lng->txt("gev_venue")
+									 , $this->plugin->txt("venue")
 									 , "venue"
 									 , catFilter::getDistinctValues('venue', 'hist_course')
 									 , array()
@@ -108,7 +140,7 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 									 , 160	
 									 )
 						->multiselect("provider"
-									 , $this->lng->txt("gev_provider")
+									 , $this->plugin->txt("provider")
 									 , "provider"
 									 , catFilter::getDistinctValues('provider', 'hist_course')
 									 , array()
@@ -118,16 +150,16 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 									 )
 						->static_condition(" crs.hist_historic = 0")
 						->static_condition(" usrcrs.hist_historic = 0")
-						->static_condition(" crs.template_title != ".$this->db->quote('-empty-','text') )
-						->static_condition(" usrcrs.booking_status != ".$this->db->quote('-empty-','text'))
-						->action($this->ctrl->getLinkTarget($this, "view"))
+						->static_condition(" crs.template_obj_id != ".$this->gIldb->quote(-1,'integer') )
+						->static_condition(" usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text'))
+						->action($this->filter_action)
 						->compile()
 						;
 		return $filter;
 	}
 
 	protected function buildQuery($query) {
-		$this->orgu_filter_query = 	
+		$rgu_filter_query = 	
 				"JOIN (SELECT usr_id  \n"
 					."	FROM hist_userorgu \n"
 					." 	WHERE ".$this->orgu_filter->deliverQuery()." \n"
@@ -142,7 +174,7 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 					->join("hist_usercoursestatus usrcrs")
 						->on("crs.crs_id = usrcrs.crs_id");
 		if($this->orgu_filter->getSelection()) {
-			$query	->raw_join($this->orgu_filter_query );
+			$query	->raw_join($orgu_filter_query );
 		}
 		$query 		->group_by("crs.template_obj_id")
 					->compile();
@@ -151,30 +183,23 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 
 	protected function deliverSumQuery() {
 		$sum_sql = "SELECT ";
+		$prefix = "";
 		foreach ($this->sum_parts as $title => $query_parts) {
-			$sum_sql .= $query_parts["sum"];
+			$sum_sql .= $prefix.$query_parts["sum"];
+			$prefix = $prefix === "" ? "," : $prefix;
 		}
 		$sum_sql .=
-			"FROM( \n"
+			" FROM ( \n"
 			."	SELECT usrcrs.usr_id, crs.crs_id, usrcrs.booking_status, \n"
 			."		usrcrs.participation_status, crs.type \n"
 			."		FROM `hist_usercoursestatus` usrcrs \n" 
 			."			JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id \n"
 			."			LEFT JOIN hist_userorgu orgu ON orgu.usr_id = usrcrs.usr_id \n"
-			.$this->queryWhere()
-			." AND ".$this->orgu_filter->deliverQuery()
+			."		".$this->queryWhere()
+			." 		AND ".$this->orgu_filter->deliverQuery()
 			."		GROUP BY usrcrs.usr_id, crs.crs_id"
 			.") as temp";
 		return $sum_sql;
-	}
-
-	protected function buildSumTable(catReportTable $table) {
-		foreach ($this->sum_parts as $title => $query) {
-			$table
-				->column($title,$this->plugin->txt($title),true);
-		}
-		$table	->template( "tpl.gev_booking_by_tpl_sum_row.html", $this->plugin->getDirectory());
-		return $table;
 	}
 
 	public function insertSumData($table, callable $callback) {
@@ -223,5 +248,21 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
+	}
+
+	protected function getTemplates() {
+		$query = 	'SELECT od.obj_id, od.title FROM adv_md_values_text amd_val '
+					.'	JOIN object_data od ON od.obj_id = amd_val.obj_id'
+					.'	WHERE amd_val.field_id = '.$this->gIldb->quote(
+												gevSettings::getInstance()
+													->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE)
+												,'integer')
+					.'		AND amd_val.value = '.$this->gIldb->quote('Ja','text');
+		$return = array();
+		$res = $this->gIldb->query($query);
+		while($rec = $this->gIldb->fetchAssoc($res)) {
+			$return[$rec['obj_id']] = $rec['title'];
+		}
+		return $return;
 	}
 }
