@@ -9,6 +9,7 @@ require_once('Storage/int.arStorageInterface.php');
 require_once('Factory/class.arFactory.php');
 require_once('Cache/class.arCalledClassCache.php');
 require_once('Connector/class.arConnectorMap.php');
+
 /**
  * Class ActiveRecord
  *
@@ -60,10 +61,12 @@ abstract class ActiveRecord implements arStorageInterface {
 
 
 	/**
-	 * @return string
-	 * @description Return the Name of your Database Table
+	 * @throws \arException
+	 * @deprecated
 	 */
-	abstract static function returnDbTableName();
+	public static function returnDbTableName() {
+		throw new arException('Implement getConnectorContainerName in your child-class');
+	}
 
 
 	/**
@@ -111,11 +114,11 @@ abstract class ActiveRecord implements arStorageInterface {
 
 
 	/**
-	 * @param int         $primary_key
+	 * @param int $primary_key
 	 * @param arConnector $connector
 	 */
-	public function __construct($primary_key = 0, arConnector $connector = NULL) {
-		if($connector == NULL) {
+	public function __construct($primary_key = 0, arConnector $connector = null) {
+		if ($connector == null) {
 			$connector = new arConnectorDB();
 		}
 		//$this->arConnector = $connector;
@@ -125,7 +128,7 @@ abstract class ActiveRecord implements arStorageInterface {
 		//$this->arFieldList = $arFieldList ;
 		$key = $arFieldList->getPrimaryFieldName();
 		$this->{$key} = $primary_key;
-		if ($primary_key !== 0 AND $primary_key !== NULL AND $primary_key !== false) {
+		if ($primary_key !== 0 AND $primary_key !== null AND $primary_key !== false) {
 			$this->read();
 		}
 	}
@@ -141,7 +144,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 *
 	 * @return array
 	 */
-	public function __getConvertedDateFieldsAsArray($format = NULL) {
+	public function __getConvertedDateFieldsAsArray($format = null) {
 		$converted_dates = array();
 		foreach ($this->getArFieldList()->getFields() as $field) {
 			if ($field->isDateField()) {
@@ -149,7 +152,7 @@ abstract class ActiveRecord implements arStorageInterface {
 				$value = $this->{$name};
 				$converted_dates[$name] = array(
 					'unformatted' => $value,
-					'unix' => strtotime($value),
+					'unix'        => strtotime($value),
 				);
 				if ($format) {
 					$converted_dates[$name]['formatted'] = date($format, strtotime($value));
@@ -163,7 +166,7 @@ abstract class ActiveRecord implements arStorageInterface {
 
 	/**
 	 * @param string $separator
-	 * @param bool   $header
+	 * @param bool $header
 	 *
 	 * @return string
 	 */
@@ -176,7 +179,7 @@ abstract class ActiveRecord implements arStorageInterface {
 		$array = array();
 		foreach ($this->__asArray() as $field_name => $value) {
 			$serialized = $this->serializeToCSV($field_name);
-			if ($serialized === NULL) {
+			if ($serialized === null) {
 				$array[$field_name] = $this->{$field_name};
 			} else {
 				$array[$field_name] = $serialized;
@@ -197,7 +200,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @return mixed
 	 */
 	protected function serializeToCSV($field) {
-		return NULL;
+		return null;
 	}
 
 
@@ -250,7 +253,7 @@ abstract class ActiveRecord implements arStorageInterface {
 			return arObjectCache::get($class, $primary_value);
 		}
 		foreach ($array as $field_name => $value) {
-			if ($this->wakeUp($field_name, $value) === NULL) {
+			if ($this->wakeUp($field_name, $value) === null) {
 				$this->{$field_name} = $value;
 			} else {
 				$this->{$field_name} = $this->wakeUp($field_name, $value);
@@ -269,7 +272,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @return mixed
 	 */
 	public function sleep($field_name) {
-		return NULL;
+		return null;
 	}
 
 
@@ -280,7 +283,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @return mixed
 	 */
 	public function wakeUp($field_name, $field_value) {
-		return NULL;
+		return null;
 	}
 
 
@@ -300,7 +303,7 @@ abstract class ActiveRecord implements arStorageInterface {
 		$data = array();
 		foreach ($this->getArFieldList()->getFields() as $field) {
 			$field_name = $field->getName();
-			if ($this->sleep($field_name) === NULL) {
+			if ($this->sleep($field_name) === null) {
 				$data[$field_name] = array( $field->getFieldType(), $this->{$field_name} );
 			} else {
 				$data[$field_name] = array( $field->getFieldType(), $this->sleep($field_name) );
@@ -396,7 +399,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @return bool
 	 */
 	final protected function installDatabase() {
-		if (! $this->tableExists()) {
+		if (!$this->tableExists()) {
 			$fields = array();
 			foreach ($this->getArFieldList()->getFields() as $field) {
 				$fields[$field->getName()] = $field->getAttributesForConnector();
@@ -413,7 +416,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @return bool
 	 */
 	final public static function updateDB() {
-		if (! self::tableExists()) {
+		if (!self::tableExists()) {
 			self::getCalledClass()->installDatabase();
 
 			return true;
@@ -450,7 +453,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	// CRUD
 	//
 	public function store() {
-		if (! $this->getId()) {
+		if (!$this->getId()) {
 			$this->create();
 		} else {
 			$this->update();
@@ -503,7 +506,7 @@ abstract class ActiveRecord implements arStorageInterface {
 		}
 		foreach ($records as $rec) {
 			foreach ($this->getArrayForConnector() as $k => $v) {
-				if ($this->wakeUp($k, $rec->{$k}) === NULL) {
+				if ($this->wakeUp($k, $rec->{$k}) === null) {
 					$this->{$k} = $rec->{$k};
 				} else {
 					$this->{$k} = $this->wakeUp($k, $rec->{$k});
@@ -564,42 +567,42 @@ abstract class ActiveRecord implements arStorageInterface {
 		 */
 		try {
 			$class_name = get_called_class();
-			if (! arObjectCache::isCached($class_name, $primary_key)) {
+			if (!arObjectCache::isCached($class_name, $primary_key)) {
 				$obj = arFactory::getInstance($class_name, $primary_key, $add_constructor_args);
 				$obj->storeObjectToCache();
 
 				return $obj;
 			}
 		} catch (arException $e) {
-			return NULL;
+			return null;
 		}
 
 		try {
 			$obj = arObjectCache::get($class_name, $primary_key);
 		} catch (arException $e) {
-			return NULL;
+			return null;
 		}
 
 		return $obj;
 	}
 
 
-    /**
-     * Tries to find the object and throws an Exception if object is not found, instead of returning null
-     *
-     * @param $primary_key
-     * @param array $add_constructor_args
-     * @throws arException
-     * @return ActiveRecord
-     */
-    public static function findOrFail($primary_key, array $add_constructor_args = array()) {
-        $obj = self::find($primary_key, $add_constructor_args);
-        if (is_null($obj)) {
-            throw new arException(arException::RECORD_NOT_FOUND);
-        }
+	/**
+	 * Tries to find the object and throws an Exception if object is not found, instead of returning null
+	 *
+	 * @param $primary_key
+	 * @param array $add_constructor_args
+	 * @throws arException
+	 * @return ActiveRecord
+	 */
+	public static function findOrFail($primary_key, array $add_constructor_args = array()) {
+		$obj = self::find($primary_key, $add_constructor_args);
+		if (is_null($obj)) {
+			throw new arException(arException::RECORD_NOT_FOUND);
+		}
 
-        return $obj;
-    }
+		return $obj;
+	}
 
 
 	/**
@@ -612,7 +615,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 */
 	public static function findOrGetInstance($primary_key, array $add_constructor_args = array()) {
 		$obj = self::find($primary_key, $add_constructor_args);
-		if ($obj !== NULL) {
+		if ($obj !== null) {
 			return $obj;
 		} else {
 			$class_name = get_called_class();
@@ -632,7 +635,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 *
 	 * @return ActiveRecordList
 	 */
-	public static function where($where, $operator = NULL) {
+	public static function where($where, $operator = null) {
 		$srModelObjectList = new ActiveRecordList(self::getCalledClass());
 		$srModelObjectList->where($where, $operator);
 
@@ -644,8 +647,8 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @param ActiveRecord $ar
 	 * @param              $on_this
 	 * @param              $on_external
-	 * @param array        $fields
-	 * @param string       $operator
+	 * @param array $fields
+	 * @param string $operator
 	 *
 	 * @return $this
 	 */
@@ -658,7 +661,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @param        $tablename
 	 * @param        $on_this
 	 * @param        $on_external
-	 * @param array  $fields
+	 * @param array $fields
 	 * @param string $operator
 	 *
 	 * @return $this
@@ -674,7 +677,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @param        $tablename
 	 * @param        $on_this
 	 * @param        $on_external
-	 * @param array  $fields
+	 * @param array $fields
 	 * @param string $operator
 	 *
 	 * @return $this
@@ -836,7 +839,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 *
 	 * @return array
 	 */
-	public static function getArray($key = NULL, $values = NULL) {
+	public static function getArray($key = null, $values = null) {
 		$srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
 		return $srModelObjectList->getArray($key, $values);
@@ -868,7 +871,7 @@ abstract class ActiveRecord implements arStorageInterface {
 
 	/**
 	 * @param string $str
-	 * @param bool   $capitalise_first_char
+	 * @param bool $capitalise_first_char
 	 *
 	 * @return string
 	 */
