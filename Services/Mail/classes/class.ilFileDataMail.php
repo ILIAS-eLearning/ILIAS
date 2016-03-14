@@ -236,7 +236,7 @@ class ilFileDataMail extends ilFileData
 	*/
 	function getUserFilesData()
 	{
-		return $files = $this->getUnsentFiles();
+		return $this->getUnsentFiles();
 	}
 
 	/**
@@ -245,31 +245,30 @@ class ilFileDataMail extends ilFileData
 	* @access	private
 	* @return array
 	*/
-	function getUnsentFiles()
+	private function getUnsentFiles()
 	{
 		$files = array();
-		$dp = opendir($this->mail_path);
 
-		while($file = readdir($dp))
+		$iter = new DirectoryIterator($this->mail_path);
+		foreach($iter as $file)
 		{
-			if(is_dir($file))
+			/**
+			 * @var $file SplFileInfo
+			 */
+			if($file->isFile())
 			{
-				continue;
-			}
-			list($uid,$rest) = explode('_',$file,2);
-			if($uid == $this->user_id)
-			{
-				if(!is_dir($this->mail_path.'/'.$file))
+				list($uid, $rest) = explode('_', $file->getFilename(), 2);
+				if($uid == $this->user_id)
 				{
 					$files[] = array(
 						'name'     => $rest,
-						'size'     => filesize($this->mail_path.'/'.$file),
-						'ctime'    => filectime($this->mail_path.'/'.$file)
+						'size'     => $file->getSize(),
+						'ctime'    => $file->getCTime()
 					);
 				}
 			}
 		}
-		closedir($dp);
+
 		return $files;
 	}
 	

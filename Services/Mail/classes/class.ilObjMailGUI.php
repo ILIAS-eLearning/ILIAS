@@ -70,6 +70,11 @@ class ilObjMailGUI extends ilObjectGUI
 		$si->setInfo(sprintf($this->lng->txt('mail_settings_incoming_type_see_also'), $this->ctrl->getLinkTargetByClass('ilobjuserfoldergui', 'settings')));
 		$this->ctrl->clearParametersByClass('ilobjuserfoldergui');
 		$this->form->addItem($si);
+
+		$send_html = new ilCheckboxInputGUI($this->lng->txt('mail_send_html'), 'mail_send_html');
+		$send_html->setInfo($this->lng->txt('mail_send_html_info'));
+		$send_html->setValue(1);
+		$this->form->addItem($send_html);
 		
 		// noreply address
 		$ti = new ilTextInputGUI($this->lng->txt('mail_external_sender_noreply'), 'mail_external_sender_noreply');
@@ -136,6 +141,7 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->form->setValuesByArray(array(
 			'mail_subject_prefix' => $settings['mail_subject_prefix'] ? $settings['mail_subject_prefix'] : '[ILIAS]',
 			'mail_incoming_mail' => (int)$settings['mail_incoming_mail'],
+			'mail_send_html' => (int)$settings['mail_send_html'],
 			'pear_mail_enable' => $settings['pear_mail_enable'] ? true : false,
 			'mail_external_sender_noreply' => $settings['mail_external_sender_noreply'],
 			'prevent_smtp_globally' => ($settings['prevent_smtp_globally'] == '1') ? true : false,
@@ -157,6 +163,7 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->initForm();		
 		if($this->form->checkInput())
 		{
+			$this->ilias->setSetting('mail_send_html',$this->form->getInput('mail_send_html'));
 			$this->ilias->setSetting('mail_subject_prefix',$this->form->getInput('mail_subject_prefix'));
 			$this->ilias->setSetting('mail_incoming_mail', (int)$this->form->getInput('mail_incoming_mail'));
 			$this->ilias->setSetting('mail_maxsize_attach', $this->form->getInput('mail_maxsize_attach'));
