@@ -110,4 +110,33 @@ class ilMySQLQueryUtils implements ilQueryUtils {
 
 		return $concat;
 	}
+
+
+	/**
+	 * @param $a_needle
+	 * @param $a_string
+	 * @param int $a_start_pos
+	 * @return string
+	 */
+	public function locate($a_needle, $a_string, $a_start_pos = 1) {
+		$locate = ' LOCATE( ';
+		$locate .= $a_needle;
+		$locate .= ',';
+		$locate .= $a_string;
+		$locate .= ',';
+		$locate .= $a_start_pos;
+		$locate .= ') ';
+
+		return $locate;
+	}
+
+
+	/**
+	 * @param \ilPDOStatement $statement
+	 * @return bool
+	 */
+	public function free(ilPDOStatement $statement) {
+		$statement->closeCursor();
+		return true;
+	}
 }

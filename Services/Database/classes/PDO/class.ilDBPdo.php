@@ -433,13 +433,12 @@ class ilDBPdo implements ilDBInterface {
 	 * @return string
 	 */
 	public function quote($value, $type = null) {
-		
+
 		// see ilMDB2/Driver/Datatype/Common::quote()
-		if($value === null)
-		{
+		if ($value === null) {
 			return 'NULL';
 		}
-		
+
 		switch ($type) {
 			case ilDBConstants::T_INTEGER:
 				$pdo_type = PDO::PARAM_INT;
@@ -1023,5 +1022,16 @@ class ilDBPdo implements ilDBInterface {
 		}
 
 		return $query;
+	}
+
+
+	/**
+	 * @param $a_needle
+	 * @param $a_string
+	 * @param int $a_start_pos
+	 * @return string
+	 */
+	public function locate($a_needle, $a_string, $a_start_pos = 1) {
+		return ilMySQLQueryUtils::getInstance()->locate($a_needle, $a_string, $a_start_pos);
 	}
 }

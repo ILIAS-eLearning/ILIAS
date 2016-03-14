@@ -438,4 +438,13 @@ interface ilDBInterface {
 	 * @return mixed
 	 */
 	public function concat(array $values, $allow_null = true);
+
+
+	/**
+	 * @param $a_needle
+	 * @param $a_string
+	 * @param int $a_start_pos
+	 * @return mixed
+	 */
+	public function locate($a_needle, $a_string, $a_start_pos = 1);
 }
