@@ -93,7 +93,7 @@ class ilDBPdo implements ilDBInterface {
 
 		$this->pdo = new PDO($this->getDSN(), $this->getUsername(), $this->getPassword(), $this->additional_attributes);
 		$this->manager = new ilDBPdoManager($this->pdo, $this);
-		$this->reverse = new ilDBPdoReverse($this->pdo);
+		$this->reverse = new ilDBPdoReverse($this->pdo, $this);
 
 		return ($this->pdo->errorCode() == PDO::ERR_NONE);
 	}
