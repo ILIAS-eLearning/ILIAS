@@ -207,7 +207,7 @@ class ilDBUpdate
 		$regs = array();
 		foreach ($this->lastfilecontent as $row)
 		{
-			if (preg_match('/^<#([0-9]+)>/', $row, $regs))
+			if (preg_match('/^\<\#([0-9]+)>/', $row, $regs))
 			{
 				$version = $regs[1];
 			}
@@ -414,7 +414,7 @@ class ilDBUpdate
 		$i = 0;
 
 	    //go through filecontent
-		while (!ereg("^<#".$nr.">", $this->filecontent[$i]) && $i<count($this->filecontent))
+		while (!preg_match("/^\<\#".$nr.">/", $this->filecontent[$i]) && $i<count($this->filecontent))
 		{
 			$i++;
 		}
@@ -430,7 +430,7 @@ class ilDBUpdate
 
 		//update found, now extract this update to a new array
 		$update = array();
-		while ($i<count($this->filecontent) && !ereg("^<#".($nr+1).">", $this->filecontent[$i]))
+		while ($i<count($this->filecontent) && !preg_match("/^<#".($nr+1).">/", $this->filecontent[$i]))
 		{
 			$update[] = trim($this->filecontent[$i]);
 			$i++;
@@ -443,7 +443,7 @@ class ilDBUpdate
 
 		foreach ($update as $row)
 		{
-			if (ereg("<\?php", $row))
+			if (preg_match("/<\?php/", $row))
 			{
 				if (count($sql)>0)
 				{
@@ -456,7 +456,7 @@ class ilDBUpdate
 				}
 				$mode = "php";
 			}
-			elseif (ereg("\?>", $row))
+			elseif (preg_match("/\?>/", $row))
 			{
 				if (count($php)>0)
 				{
