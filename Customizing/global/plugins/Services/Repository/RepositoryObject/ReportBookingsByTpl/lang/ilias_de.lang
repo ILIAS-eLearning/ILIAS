@@ -19,7 +19,6 @@ fold_create_xrbt#:#Report Teilnahmen nach Trainingsvorlage erzeugen
 root_create_xrbt#:#Report Teilnahmen nach Trainingsvorlage erzeugen
 cat_create_xrbt#:#Report Teilnahmen nach Trainingsvorlage erzeugen
 online#:#Online
-od_bd#:#OD/BD
 sum_waiting#:#Warteliste
 sum_excused#:#entschuldigt
 sum_unexcused#:#nicht entschuldigt
@@ -41,4 +40,11 @@ gender#:#Geschlecht
 venue#:#Veranstaltungsort
 provider#:#Bildungsdienstleister
 orgu_title#:#Titel
-report_is_local#:#Lokale Auswertung
+report_is_local#:#Lokale Auswertungperiod
+period#:#Zeitraum
+until#:#bis
+title#:#Titel
+edu_program#:#Bildungsprogram
+course_type#:#Trainingstyp
+booking_status#:#Buchungsstatus
+venue#:#Veranstaltungsort
