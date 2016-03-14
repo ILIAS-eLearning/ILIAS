@@ -1037,4 +1037,91 @@ class ilDBPdo implements ilDBInterface {
 	}
 
 
+	/**
+	 * @param $table
+	 * @param $a_column
+	 * @param $a_attributes
+	 * @return bool
+	 */
+	public function modifyTableColumn($table, $a_column, $a_attributes)
+	{
+		$def = $this->reverse->getTableFieldDefinition($table, $a_column);
+
+		throw new ilDatabaseException('not yet implemented ' . __METHOD__);
+
+
+
+
+		$this->handleError($def, "modifyTableColumn(" . $table . ")");
+
+		if (is_file("./Services/Database/classes/class.ilDBAnalyzer.php"))
+		{
+			include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
+		}
+		else
+		{
+			include_once("../Services/Database/classes/class.ilDBAnalyzer.php");
+		}
+		$analyzer = new ilDBAnalyzer();
+		$best_alt = $analyzer->getBestDefinitionAlternative($def);
+		$def = $def[$best_alt];
+		unset($def["nativetype"]);
+		unset($def["mdb2type"]);
+
+		// check attributes
+		$type = ($a_attributes["type"] != "")
+			? $a_attributes["type"]
+			: $def["type"];
+		foreach ($def as $k => $v)
+		{
+			if ($k != "type" && !in_array($k, $this->allowed_attributes[$type]))
+			{
+				unset($def[$k]);
+			}
+		}
+		$check_array = $def;
+		foreach ($a_attributes as $k => $v)
+		{
+			$check_array[$k] = $v;
+		}
+		if (!$this->checkColumnDefinition($check_array, true))
+		{
+			$this->raisePearError("ilDB Error: modifyTableColumn(" . $table . ", " . $a_column . ")<br />" .
+			                      $this->error_str);
+		}
+
+		// oracle workaround: do not set null, if null already given
+		if ($this->getDbType() == "oracle")
+		{
+			if ($def["notnull"] == true && ($a_attributes["notnull"] == true
+			                                || !isset($a_attributes["notnull"])))
+			{
+				unset($def["notnull"]);
+				unset($a_attributes["notnull"]);
+			}
+			if ($def["notnull"] == false && ($a_attributes["notnull"] == false
+			                                 || !isset($a_attributes["notnull"])))
+			{
+				unset($def["notnull"]);
+				unset($a_attributes["notnull"]);
+			}
+		}
+		foreach ($a_attributes as $a => $v)
+		{
+			$def[$a] = $v;
+		}
+
+		$a_attributes["definition"] = $def;
+
+		$changes = array(
+			"change" => array(
+				$a_column => $a_attributes
+			)
+		);
+
+		$r = $manager->alterTable($table, $changes, false);
+
+		return $this->handleError($r, "modifyTableColumn(" . $table . ")");
+	}
+
 }

@@ -455,4 +455,13 @@ interface ilDBInterface {
 	 * @return mixed
 	 */
 	public function quoteIdentifier($identifier);
+
+
+	/**
+	 * @param $table
+	 * @param $column
+	 * @param $attributes
+	 * @return bool
+	 */
+	public function modifyTableColumn($table, $column, $attributes);
 }
