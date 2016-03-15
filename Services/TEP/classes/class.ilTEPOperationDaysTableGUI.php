@@ -56,7 +56,12 @@ class ilTEPOperationDaysTableGUI extends ilTable2GUI
 		if(!$this->read_only)
 		{
 			$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
+			//gev-patch start
+			$this->addCommandButton("clearOperationDaysList", $lng->txt("gev_opl_clear_and_save"));
+			//gev-patch stop
 			$this->addCommandButton("saveOperationDaysList", $lng->txt("save"));
+			
+
 		}
 	
 		$this->getItems($a_user_ids, $a_operation_days);
