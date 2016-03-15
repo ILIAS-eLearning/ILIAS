@@ -62,6 +62,9 @@ class ilExAssignmentTeam
 	{
 		global $ilDB;
 		
+		// #18094
+		$this->members = array();
+		
 		$sql = "SELECT * FROM il_exc_team".
 			" WHERE id = ".$ilDB->quote($a_id, "integer");
 		$set = $ilDB->query($sql);

@@ -67,7 +67,7 @@ class ilMailOptions
     {
     	global $ilDB, $ilSetting;
     		
-	    $incomingMail = $ilSetting->get('mail_incoming_mail') ? $ilSetting->get('mail_incoming_mail'): IL_MAIL_LOCAL;
+	    $incomingMail = $ilSetting->get('mail_incoming_mail', IL_MAIL_BOTH);
 	    $ilDB->insert('mail_options',
 				array(
 						'user_id'              => array('integer', $this->user_id),

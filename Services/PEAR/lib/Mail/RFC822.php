@@ -585,13 +585,6 @@ class Mail_RFC822 {
 
         // Check for any char from ASCII 0 - ASCII 127
         // mjansen patch 16 Sep 2015 start
-        #16291
-        #17618
-        if (!preg_match('/^[\\x00-\\x7E\\x{00df}\x{00f3}]+$/ui', $atom, $matches)) {
-        // mjansen patch 16 Sep 2015 end
-            return false;
-        }
-
         // Check for specials:
         if (preg_match('/[][()<>@,;\\:". ]/', $atom)) {
             return false;
@@ -601,6 +594,12 @@ class Mail_RFC822 {
         if (preg_match('/[\\x00-\\x1F]+/', $atom)) {
             return false;
         }
+        #16291
+        #17618
+        if (!(bool)preg_match('//u', $atom)) {
+            return false;
+        }
+        // mjansen patch 16 Sep 2015 end
 
         return true;
     }
@@ -904,7 +903,11 @@ class Mail_RFC822 {
             // If this word contains an unquoted space, it is invalid. (6.2.4)
             if (strpos($word, ' ') && $word[0] !== '"')
             {
-                return false;
+                // mjansen patch 24 Feb 2016 start
+                // Mantis issue #18018
+                // # http://haacked.com/archive/2007/08/21/i-knew-how-to-validate-an-email-address-until-i.aspx/
+                //return false;
+                // mjansen patch 24 Feb 2016 end
             }
 
             if ($this->_validatePhrase(trim($word)) === false) return false;

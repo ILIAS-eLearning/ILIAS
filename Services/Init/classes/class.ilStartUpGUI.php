@@ -35,7 +35,6 @@ class ilStartUpGUI
 		global $ilLog;
 		
 		$cmd = $this->ctrl->getCmd("processIndexPHP",array('processIndexPHP','showLogin'));
-		$ilLog->write(__METHOD__.' cmd = '.$cmd);
 		$next_class = $this->ctrl->getNextClass($this);
 
 		switch($next_class)
