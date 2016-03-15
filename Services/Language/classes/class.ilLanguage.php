@@ -126,7 +126,6 @@ class ilLanguage
 	 */
 	protected $cached_modules = array();
 
-	// BEGIN patch clean up language file
 	/**
 	 * @var string[]
 	 */
@@ -135,13 +134,12 @@ class ilLanguage
 	/**
 	 * @var bool
 	 */
-	protected $log_enabled = false;
+	protected $usage_log_enabled = false;
 
 	/**
 	 * @var string[]
 	 */
 	protected static $lng_log = array();
-	// END patch clean up language file
 
 	/**
 	 * Constructor
@@ -177,9 +175,7 @@ class ilLanguage
 		$this->text = array();
 		$this->loaded_modules = array();
 
-		// BEGIN patch clean up language file
-		$this->log_enabled = $this->checkLogEnabled();
-		// END patch clean up language file
+		$this->usage_log_enabled = self::isUsageLogEnabled();
 
 		//$this->lang_path = ILIAS_ABSOLUTE_PATH.substr($this->ilias->ini->readVariable("language","path"),1);
 
@@ -297,12 +293,10 @@ class ilLanguage
 		}
 		else
 		{
-			// BEGIN patch clean up language file
-			if($this->log_enabled)
+			if($this->usage_log_enabled)
 			{
-				self::logTxt($this->map_modules_txt[$a_topic], $a_topic);
+				self::logUsage($this->map_modules_txt[$a_topic], $a_topic);
 			}
-			// END patch clean up language file
 			return $translation;
 		}
 	}
@@ -366,15 +360,14 @@ class ilLanguage
 		if (is_array($new_text))
 		{
 			$this->text = array_merge($this->text, $new_text);
-			// BEGIN patch clean up language file
-			if($this->log_enabled)
+
+			if($this->usage_log_enabled)
 			{
 				foreach (array_keys($new_text) as $key)
 				{
 					$this->map_modules_txt[$key] = $a_module;
 				}
 			}
-			// END patch clean up language file
 		}
 	}
 	
@@ -412,9 +405,10 @@ class ilLanguage
 			self::$used_topics[$a_id]   = $a_id;
 			self::$used_modules[$a_mod] = $a_mod;
 
-			// BEGIN patch clean up language file
-			self::logTxt($a_mod, $a_id);
-			// END patch clean up language file
+			if(self::isUsageLogEnabled())
+			{
+				self::logUsage($a_mod, $a_id);
+			}
 
 			return $rec["value"];
 		}
@@ -583,19 +577,14 @@ class ilLanguage
 		}
 	}
 
-	// BEGIN patch clean up language file
 	/**
+	 * saves tupel of language module and identifier
+	 *
 	 * @param string $a_module
 	 * @param string $a_identifier
 	 */
-	protected static function  logTxt($a_module, $a_identifier)
+	protected static function  logUsage($a_module, $a_identifier)
 	{
-		/*global $ilDB;
-
-		$query = 'REPLACE INTO lng_log (module_id, identifier) VALUES (' . $ilDB->quote($a_module, 'text'). ', ' . $ilDB->quote($a_identifier, 'text') . ')';
-
-		$ilDB->manipulate($query);*/
-
 		if($a_module != "" && $a_identifier != "")
 		{
 			self::$lng_log[$a_identifier] = $a_module;
@@ -603,36 +592,45 @@ class ilLanguage
 	}
 
 	/**
+	 * checks if language usage log is enabled
+	 * you need MySQL to use this function
+	 * this function is automatically enabled if DEVMODE is on
+	 * this function is also enabled if language_log is 1
+	 *
 	 * @return bool
 	 */
-	protected function checkLogEnabled()
+	protected static function isUsageLogEnabled()
 	{
+		/** @var ilIniFile $ilClientIniFile */
 		global $ilClientIniFile, $ilDB;
 
-		if(!$ilClientIniFile->variableExists('system', 'language_log')) {
-			return false;
-		}
-
-		if(!$ilDB instanceof ilDBMySQL)
+		if(!$ilDB instanceof ilDBMySQL || !$ilClientIniFile instanceof ilIniFile)
 		{
+
 			return false;
 		}
 
-		if(!$ilDB->tableExists('lng_log'))
+		if(DEVMODE)
 		{
-			return false;
+			return true;
 		}
 
-		return $ilClientIniFile->readVariable('system', 'language_log') == 1;
-
+		if(!$ilClientIniFile->variableExists('system', 'LANGUAGE_LOG'))
+		{
+			return $ilClientIniFile->readVariable('system', 'LANGUAGE_LOG') == 1;
+		}
+		return false;
 	}
 
+	/**
+	 * destructor saves all language usages to db if log is enabled and ilDB exists
+	 */
 	function __destruct()
 	{
 		global $ilDB;
 
 		//case $ilDB not existing should not happen but if something went wrong it shouldn't leads to any failures
-		if(!$this->log_enabled || !($ilDB instanceof ilDBMySQL))
+		if(!$this->usage_log_enabled || !($ilDB instanceof ilDBMySQL))
 		{
 			return;
 		}
@@ -642,7 +640,7 @@ class ilLanguage
 			$wave[] = '(' . $ilDB->quote($module, 'text'). ', ' . $ilDB->quote($identifier, 'text') . ')';
 			unset(self::$lng_log[$identifier]);
 
-			if(count($wave) == 100 || (count(self::$lng_log) == 0 && count($wave) > 0))
+			if(count($wave) == 150 || (count(self::$lng_log) == 0 && count($wave) > 0))
 			{
 				$query = 'REPLACE INTO lng_log (module_id, identifier) VALUES ' . implode(', ', $wave);
 				$ilDB->manipulate($query);
@@ -651,7 +649,5 @@ class ilLanguage
 			}
 		}
 	}
-	// END patch clean up language file
-	
 } // END class.Language
 ?>
