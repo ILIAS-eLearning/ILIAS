@@ -7,7 +7,7 @@ require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';
 require_once 'Services/CaTUIComponents/classes/class.catTitleGUI.php';
 require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
-
+require_once("Services/ReportsRepository/interfaces/interface.ExcelWriter.php");
 
 abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 
@@ -308,7 +308,37 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			}
 			$rowcount++;
 		}
-		$workbook->close();		
+		$workbook->close();
+	}
+
+
+	/**
+	* provide xls version of report for download.
+	* this is for demonstrational puposes only
+	* here i also try to hint at possible new architecture of reports consisting of a field of tables
+	*/
+	protected function exportXLSRemod(ExcelWriter $xls_obj,closure $callback) {
+
+		$this->object->prepareReport();
+
+		$workbook = new ExcelWriter("Report.xls", true); 
+
+		//available formats within the sheet
+		$format_bold = $workbook->format(array("bold" => 1));
+		$format_wrap = $workbook->format("wrap");
+
+		while($table = $this->object->table_field->getTable()) { //table iterator of a table field
+			$sheet_name = $table->sheetName();
+			$workbook->addSheet($sheet_name)
+				->setRowFormat($format_bold)
+				->writeRow($table->header,$sheetname)
+				->setRowFormat($format_wrap);
+			while ($row = $table->getRow()) {					//row iterator of a table
+				$workbook->writeRow(call_user_func($callback, $row),$sheet_name);
+			}
+		}
+
+		$workbook->deliverFile();
 	}
 
 	/**
