@@ -441,6 +441,7 @@ gev#:#gev_credit_points_forecast#:#Gebuchte Bildungspunkte
 gev#:#gev_overall_credit_points_forecast#:#Gesamte Gebuchte Bildungspunkte
 gev#:#gev_cert_points#:#Weiterbildungspunkte bei erfolgreicher Teilnahme
 gev#:#gev_cert_period#:#Zertifizierungsperiode
+gev#:#gev_overall_points_cert_period#:#Gesamtpunktzahl Zertifizierungsperiode
 gev#:#gev_charged_agency#:#belastetes Agenturkonto
 gev#:#gev_username_free#:#frei wählbarer Benutzername
 gev#:#gev_company_title#:#Gesellschaftsschlüssel
@@ -661,8 +662,9 @@ gev#:#gev_rep_billing_desc#:#Hier sehen Sie alle vom System versandten Rechnunge
 gev#:#gev_rep_coupon_title#:#Gutscheine
 gev#:#gev_rep_coupon_desc_admin#:#Hier sehen Sie alle Gutscheine
 gev#:#gev_rep_coupon_desc#:#Hier sehen Sie Ihre Gutscheine
+gev#:#gev_filter_wbd_relevant_only#:#Zeige mir nur Personen die weiterbildungspflichtig sind nach gut beraten.
 gev#:#gev_rep_employee_edu_bios_title#:#Bildungsbiografien meiner Mitarbeiter / Vertriebspartner
-gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen Sie einen Überblick über die Bildungsbiografien Ihrer Mitarbeiter / Vertriebspartner. Bei der Auswahl „kritische Personen“ werden die Personen angezeigt, die nicht mind. 40 Weiterbildungspunkte pro abgelaufene Zertifizierungsperiode erreicht haben.<br>Bei Klick auf die Spaltenüberschrift der Ergebnistabelle (z.B. ADP-Nummer) erfolgt eine Sortierung der Tabelle nach diesem Kriterium.<br>Bei Klick auf den Namen gelangen Sie direkt in die Bildungsbiografie des Mitarbeiters / Vertriebspartners.<br>Die Zertifizierungsperiode und Punktzahl werden nur angezeigt bei Personen, die verpflichtet sind WP zu sammeln und die Generali Trusted Partner Service ist (EVG oder DBV).
+gev#:#gev_rep_employee_edu_bios_desc#:#Hier bekommen Sie einen Überblick über die Bildungsbiografien Ihrer Mitarbeiter / Vertriebspartner. Bei der Auswahl „kritische Personen“ werden die Personen angezeigt, die nach gut beraten weiterbildungspflichtig sind und nicht mind. 40 Weiterbildungspunkte pro abgelaufene Zertifizierungsjahr erreicht haben. Hier werden auch Personen angezeigt die noch kein Weiterbildungskonto eröffnet haben.<br>Bei Klick auf die Spaltenüberschrift der Ergebnistabelle (z.B. ADP-Nummer) erfolgt eine Sortierung der Tabelle nach diesem Kriterium.<br>Bei Klick auf den Namen gelangen Sie direkt in die Bildungsbiografie des Mitarbeiters / Vertriebspartners.
 gev#:#gev_org_unit_recursive#:#Auch alle Mitarbeiter der darunterliegenden Organisationseinheiten anzeigen
 gev#:#gev_report_billing#:#Rechnungen
 gev#:#gev_report_filter_crs_region#:#Trainingsregion
@@ -681,9 +683,9 @@ gev#:#gev_report_trainer_workload#:#Trainerauslastung
 gev#:#gev_report_trainer_workload_desc#:#Hier finden Sie die Auslastung von Trainern in Organisationseinheiten.
 gev#:#gev_report_trainer_operation_by_tep_category_desc#:#Hier erhalten Sie eine Übersicht über die Einsatzplanung von Trainern.
 gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter / Vertriebspartner
-gev#:#gev_rep_filter_show_critical_persons#:#Zeige mir nur kritische Personen.
+gev#:#gev_rep_filter_show_critical_persons#:#Zeige mir nur kritische Personen. (GEV-Angestellte und EVG)
 gev#:#gev_rep_filter_show_critical_dbvs#:#Zeige mir nur kritische DBVen.
-gev#:#gev_rep_filter_show_critical_persons_4th_year#:#Zeige mir nur kritische Personen nach dem vierten Jahr.
+gev#:#gev_rep_filter_show_critical_persons_4th_year#:#Zeige mir nur kritische Personen nach dem vierten Jahr. (GEV-Angestellte und EVG)
 gev#:#gev_report_employee_edu_bios#:#Bildungsbiografien meiner Mitarbeiter / Vertriebspartner
 gev#:#gev_registration_install_note#:#Generali Vermittler melden sich bitte mit der Generali E-Mail-Adresse an.
 gev#:#gev_reporting_menu#:#Reports
@@ -1471,3 +1473,4 @@ gev#:#copy_building_block_pool#:#Kopieren
 gev#:#edit_building_blocks#:#Bausteine bearbeiten
 gev#:#gev_bbpool_plugin_confirm_delete_bb#:#Möchten Sie den Trainigsbaustein wirklich löschen?
 gev#:#gev_dec_training_no_block_warning#:#Für Sie wurden keine Trainingsbausteine gefunden, die Sie verwenden dürfen. Eine Anlage des Trainings ist dadurch nicht möglich.
+gev#:#gev_clear_and_save#:#Leeren und Speichern

@@ -82,7 +82,7 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 							, $this->plugin->txt("period")
 							, $this->plugin->txt("until")
 							, "crs.begin_date"
-							, "crs.end_date"
+							, "crs.begin_date"
 							, date("Y")."-01-01"
 							, date("Y")."-12-31"
 							, false
@@ -164,7 +164,8 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 			: " tpl.is_template = 'Ja' ";
 		
 		$query ='SELECT tpl.title as tpl_title, base.*, base.max_participants - base.bookings as bookings_left '
-				.'	, base.bookings >= base.min_participants as min_part_achived'
+				.'	, IF(base.bookings >= base.min_participants OR ( base.bookings > 0 AND (base.min_participants IS NULL'
+				.'		OR base.min_participants <= 0)),1,0) as min_part_achived'
 				.' FROM hist_course tpl JOIN '
 				.'('.$this->query->sql()."\n "
 			   	. $this->queryWhere()."\n "

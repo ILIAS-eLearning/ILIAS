@@ -40,12 +40,8 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 
 	public function getTrainingTemplateOptions() {
 		// TODO: implement this properly
-		return array
-			( "5836" => "Generali BeratungPlus"
-			, "5776" => "Generali Rente Profil Plus"
-			, "4237" => "Geldwäscheprävention"
-			, "33219" => "Code of Conduct"
-			);
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		return gevCourseUtils::getAllTemplates();
 	}
 
 	public function getOrguOptions() {

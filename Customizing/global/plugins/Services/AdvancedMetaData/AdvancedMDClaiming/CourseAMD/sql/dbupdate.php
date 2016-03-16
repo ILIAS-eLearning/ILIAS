@@ -379,7 +379,7 @@ require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 gevAMDUtils::addAMDField( "Orte und Anbieter"
 						, "Link WebEx"
-						, gevSettings::CRS_AMD_WEBEX_LINK
+						, gevSettings::CRS_AMD_VC_LINK
 						, "Link zum virtuellen Klassenraum"
 						, false
 						, null
@@ -417,7 +417,7 @@ global $ilDB;
 
 gevAMDUtils::addAMDField( "Orte und Anbieter"
 						, "Passwort WebEX"
-						, gevSettings::CRS_AMD_WEBEX_PASSWORD
+						, gevSettings::CRS_AMD_VC_PASSWORD
 						, "Passwort zum virtuellen Klassenraum"
 						, false
 						, null
@@ -578,7 +578,7 @@ require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 gevAMDUtils::addAMDField( "Orte und Anbieter"
 						, "Webinar Passwort Trainer"
-						, gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR
+						, gevSettings::CRS_AMD_VC_PASSWORD_TUTOR
 						, "Passwort zum virtuellen Klassenraum für den Trainer"
 						, false
 						, null
@@ -594,9 +594,9 @@ require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 $gev_settings = array(gevSettings::CRS_AMD_PROVIDER
 					 ,gevSettings::CRS_AMD_VENUE
 					 ,gevSettings::CRS_AMD_ACCOMODATION
-					 ,gevSettings::CRS_AMD_WEBEX_LINK
-					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD
-					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR
+					 ,gevSettings::CRS_AMD_VC_LINK
+					 ,gevSettings::CRS_AMD_VC_PASSWORD
+					 ,gevSettings::CRS_AMD_VC_PASSWORD_TUTOR
 					 ,gevSettings::CRS_AMD_ORGA
 					 ,gevSettings::CRS_AMD_TEP_ORGU);
 
@@ -614,7 +614,7 @@ $amdutils = gevAMDUtils::getInstance();
 
 $amdutils->addAMDField( "Orte und Anbieter"
 						, "VC-Typ"
-						, gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE
+						, gevSettings::CRS_AMD_VC_CLASS_TYPE
 						, ""
 						, false
 						, null
@@ -622,15 +622,15 @@ $amdutils->addAMDField( "Orte und Anbieter"
 						);
 
 $options = array("AT&T Connect");
-$amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE, $options);
+$amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_VC_CLASS_TYPE, $options);
 
 $gev_settings = array(gevSettings::CRS_AMD_PROVIDER
 					 ,gevSettings::CRS_AMD_VENUE
 					 ,gevSettings::CRS_AMD_ACCOMODATION
-					 ,gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE
-					 ,gevSettings::CRS_AMD_WEBEX_LINK
-					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD
-					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR
+					 ,gevSettings::CRS_AMD_VC_CLASS_TYPE
+					 ,gevSettings::CRS_AMD_VC_LINK
+					 ,gevSettings::CRS_AMD_VC_PASSWORD
+					 ,gevSettings::CRS_AMD_VC_PASSWORD_TUTOR
 					 ,gevSettings::CRS_AMD_ORGA
 					 ,gevSettings::CRS_AMD_TEP_ORGU);
 
@@ -647,7 +647,7 @@ $amdutils = gevAMDUtils::getInstance();
 
 $amdutils->addAMDField( "Orte und Anbieter"
 						, "Webinar Login Trainer"
-						, gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR
+						, gevSettings::CRS_AMD_VC_LOGIN_TUTOR
 						, "Login zum virtuellen Klassenraum für den Trainer"
 						, false
 						, null
@@ -657,11 +657,11 @@ $amdutils->addAMDField( "Orte und Anbieter"
 $gev_settings = array(gevSettings::CRS_AMD_PROVIDER
 					 ,gevSettings::CRS_AMD_VENUE
 					 ,gevSettings::CRS_AMD_ACCOMODATION
-					 ,gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE
-					 ,gevSettings::CRS_AMD_WEBEX_LINK
-					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD
-					 ,gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR
-					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR
+					 ,gevSettings::CRS_AMD_VC_CLASS_TYPE
+					 ,gevSettings::CRS_AMD_VC_LINK
+					 ,gevSettings::CRS_AMD_VC_PASSWORD
+					 ,gevSettings::CRS_AMD_VC_LOGIN_TUTOR
+					 ,gevSettings::CRS_AMD_VC_PASSWORD_TUTOR
 					 ,gevSettings::CRS_AMD_ORGA
 					 ,gevSettings::CRS_AMD_TEP_ORGU);
 
@@ -688,11 +688,11 @@ $amdutils->addAMDField( "Inhalte"
 $gev_settings = array(gevSettings::CRS_AMD_PROVIDER
 					 ,gevSettings::CRS_AMD_VENUE
 					 ,gevSettings::CRS_AMD_ACCOMODATION
-					 ,gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE
-					 ,gevSettings::CRS_AMD_WEBEX_LINK
-					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD
-					 ,gevSettings::CRS_AMD_WEBEX_LOGIN_TUTOR
-					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR
+					 ,gevSettings::CRS_AMD_VC_CLASS_TYPE
+					 ,gevSettings::CRS_AMD_VC_LINK
+					 ,gevSettings::CRS_AMD_VC_PASSWORD
+					 ,gevSettings::CRS_AMD_VC_LOGIN_TUTOR
+					 ,gevSettings::CRS_AMD_VC_PASSWORD_TUTOR
 					 ,gevSettings::CRS_AMD_ORGA
 					 ,gevSettings::CRS_AMD_TEP_ORGU
 					 ,gevSettings::CRS_AMD_DBV_HOT_TOPIC);
@@ -727,9 +727,9 @@ $gev_settings = array(gevSettings::CRS_AMD_PROVIDER
 					 ,gevSettings::CRS_AMD_VENUE
 					 ,gevSettings::CRS_AMD_VENUE_FREE_TEXT
 					 ,gevSettings::CRS_AMD_ACCOMODATION
-					 ,gevSettings::CRS_AMD_WEBEX_LINK
-					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD
-					 ,gevSettings::CRS_AMD_WEBEX_PASSWORD_TUTOR
+					 ,gevSettings::CRS_AMD_VC_LINK
+					 ,gevSettings::CRS_AMD_VC_PASSWORD
+					 ,gevSettings::CRS_AMD_VC_PASSWORD_TUTOR
 					 ,gevSettings::CRS_AMD_ORGA
 					 ,gevSettings::CRS_AMD_TEP_ORGU);
 
@@ -744,7 +744,7 @@ $amdutils->updatePositionOrderAMDField($gev_settings);
 	require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 	$amdutils = gevAMDUtils::getInstance();
 	$options = array("AT&T Connect", "CSN", "Webex");
-	$amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_WEBEX_VC_CLASS_TYPE, $options);
+	$amdutils->updateOptionsOfAMDField(gevSettings::CRS_AMD_VC_CLASS_TYPE, $options);
 ?>
 
 <#21>

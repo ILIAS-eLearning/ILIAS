@@ -42,6 +42,7 @@ class catFilterOneOfGUI extends catFilterGUI {
 					asort($opts,  SORT_NATURAL | SORT_FLAG_CASE);
 					$multi_select->setOptions($opts);
 					$multi_select->setValue($sub_filter->default_choice());
+					$multi_select->setWidth(250);
 					$option->addSubItem($multi_select);
 					$option->setValue($key);
 					break;

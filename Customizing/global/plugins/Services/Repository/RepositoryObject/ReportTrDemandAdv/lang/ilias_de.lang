@@ -20,7 +20,7 @@ root_create_xtda#:#Report Trainingsauslastung (Ausblick) erzeugen
 cat_create_xtda#:#Report Trainingsauslastung (Ausblick) erzeugen
 report_is_local#:#Lokale Auswertung
 online#:#Online
-period#:#Zetraum:
+period#:#Zeitraum:
 until#:#bis
 cancel_danger#:#Absagegefährdet
 no_cancel_danger#:#Nicht absagegefährdet
