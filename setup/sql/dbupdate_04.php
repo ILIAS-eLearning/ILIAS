@@ -14566,3 +14566,23 @@ if(!$found)
 	$setting->set('mail_send_html', 1);
 }
 ?>
+<#4884>
+<?php
+if(!$ilDB->tableExists('lng_log'))
+{
+	$ilDB->createTable('lng_log',
+	   array(
+		   'module' => array(
+			   'type' => 'text',
+			   'length' => 30,
+			   'notnull' => true
+		   ),
+		   'identifier' => array (
+			   'type' => 'text',
+			   'length' => 60,
+			   'notnull' => true
+		   )
+	   ));
+	$ilDB->addPrimaryKey('lng_log', array('module', 'identifier'));
+}
+?>
