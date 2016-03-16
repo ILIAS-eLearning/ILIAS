@@ -973,7 +973,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	*/
 	function getPreconditionValueOutput($value)
 	{
-		$category = $this->categories->getCategory($value);
+		// #18136
+		$category = $this->categories->getCategoryForScale($value+1);
 		
 		// #17895 - see getPreconditionOptions()
 		return $category->scale . 
