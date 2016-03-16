@@ -1,0 +1,17 @@
+<?php
+require_once ("Services/GEV/WBD/classes/Interfaces/WBDPreliminary.php");
+
+class WBDPreliminaryBWVIdIsEmpty extends WBDPreliminary {
+	static $message = "User has BWV ID.";
+
+	public function message() {
+		return self::$message;
+	}
+
+	/** 
+	 * @inheritdoc 
+	 */
+	public function performCheck(gevWBD $wbd) {
+		return $wbd->isWBDBWVIdEmpty();
+	}
+}

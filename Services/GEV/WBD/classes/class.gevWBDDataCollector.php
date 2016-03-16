@@ -34,6 +34,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestWPAbfrage.php");
 		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestWPMeldung.php");
 		require_once("Services/GEV/WBD/classes/Requests/class.gevWBDRequestWPStorno.php");
+		require_once("Services/GEV/WBD/classes/Error/class.gevWBDError.php");
 		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
@@ -84,9 +85,21 @@ class gevWBDDataCollector implements WBDDataCollector {
 		while ($rec = $db->fetchAssoc($res)) {
 			$wbd = gevWBD::getInstance($rec['user_id']);
 
-			$do = $wbd->wbdShouldBeRegisteredAsNew();
-			//echo "\n\n";
-			if ($do) {
+			$checks_to_release = array();
+			switch($rec["next_wbd_action"]) {
+				case gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE:
+					$rec["wbd_type"] = self::WBD_TP_SERVICE;
+					$checks_to_release = $wbd->shouldBeRegisteredAsNewTPServiceChecks();
+					break;
+				case gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_BASIS:
+					$rec["wbd_type"] = self::WBD_TP_BASIS;
+					$checks_to_release = $wbd->shouldBeRegisteredAsNewTPBasis();
+					break;
+			}
+
+			$faild_checks = $this->performPreliminaryChecks($checks_to_release, $wbd);
+
+			if (count($faild_checks) == 0) {
 				$rec["address_type"] = "geschäftlich";
 				$rec["info_via_mail"] = false;
 				$rec["send_data"] = true;
@@ -94,15 +107,6 @@ class gevWBDDataCollector implements WBDDataCollector {
 				$rec["country"] = "D";
 				$rec["degree"] = "";
 				$rec["address_info"] = "";
-
-				switch($rec["next_wbd_action"]) {
-					case gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE:
-						$rec["wbd_type"] = self::WBD_TP_SERVICE;
-						break;
-					case gevWBD::USR_WBD_NEXT_ACTION_NEW_TP_BASIS:
-						$rec["wbd_type"] = self::WBD_TP_BASIS;
-						break;
-				}
 
 				$object = gevWBDRequestVvErstanlage::getInstance($rec);
 				if(is_array($object)) {
@@ -112,6 +116,11 @@ class gevWBDDataCollector implements WBDDataCollector {
 					continue;
 				}
 				$returns[] = $object;
+			} else {
+				foreach ($failed_checks as $key => $value) {
+					$error = new gevWBDError($value->message(), "usr", "new_user", $rec["user_id"], $rec["row_id"]);
+					$this->error($error);
+				}
 			}
 		}
 
@@ -179,15 +188,9 @@ class gevWBDDataCollector implements WBDDataCollector {
 
 		while ($rec = $db->fetchAssoc($res)) {
 			$wbd = gevWBD::getInstanceByObjOrId($rec['user_id']);
+			
 			$checks_to_release = $wbd->shouldBeReleasedChecks();
-
-			$faild_checks = array_filter($checks_to_release,
-					function($v) use ($wbd) {
-						if(!$v->perfomCheck($wbd)) {
-							return $v;
-						}
-					}
-					);
+			$faild_checks = $this->performPreliminaryChecks($checks_to_release, $wbd);
 
 			if(count($faild_checks) == 0) {
 				$object = gevWBDRequestVermitVerwaltungTransferfaehig::getInstance($rec);
@@ -199,7 +202,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 				}
 				$returns[] = $object; 
 			} else {
-				foreach ($faild_checks as $key => $value) {
+				foreach ($failed_checks as $key => $value) {
 					$error = new gevWBDError($value->message(), "usr", "release_user", $rec["user_id"], $rec["row_id"]);
 					$this->error($error);
 				}
@@ -231,8 +234,10 @@ class gevWBDDataCollector implements WBDDataCollector {
 
 		while ($rec = $db->fetchAssoc($res)) {
 			$wbd = gevWBD::getInstanceByObjOrId($rec['user_id']);
+			$checks_to_release = $wbd->shouldBeAffiliateAsTPServiceChecks();
+			$faild_checks = $this->performPreliminaryChecks($checks_to_release, $wbd);
 
-			if ($wbd->wbdShouldBeAffiliateAsTPService()) {
+			if (count($faild_checks) == 0) {
 				$object = gevWBDRequestVermitVerwaltungAufnahme::getInstance($rec);
 				if(is_array($object)) {
 					foreach ($object as $error) {
@@ -241,6 +246,11 @@ class gevWBDDataCollector implements WBDDataCollector {
 					continue;
 				}
 				$returns[] = $object;
+			} else {
+				foreach ($failed_checks as $key => $value) {
+					$error = new gevWBDError($value->message(), "usr", "affiliate_user", $rec["user_id"], $rec["row_id"]);
+					$this->error($error);
+				}
 			}
 		}
 
@@ -1050,5 +1060,15 @@ class gevWBDDataCollector implements WBDDataCollector {
 	*/
 	public function setAbfrageUsrIds($abfrage_usr_ids) {
 		$this->abfrage_usr_ids = $abfrage_usr_ids;
+	}
+
+	protected function performPreliminaryChecks(array $checks_to_release, gevWBD $wbd) {
+		return array_filter($checks_to_release,
+					function($v) use ($wbd) {
+						if(!$v->perfomCheck($wbd)) {
+							return $v;
+						}
+					}
+					);
 	}
 }	
