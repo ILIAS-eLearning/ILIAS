@@ -33,9 +33,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		// TODO: this is crapy. The root cause of this problem is, that the
 		// filter should no need to know about it's action. The _rendering_
 		// of the filter needs to know about the action.
-		if ($this->object !== null) {
-			$this->setFilterAction();
-		}
 
 		$this->title = null;
 	}
@@ -76,15 +73,38 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 				break;
 			case "settings":
 				if($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
+					$this->gTabs->addSubTabTarget("edit_settings",
+												 $this->ctrl->getLinkTarget($this,'settings'),
+												 "write", get_class($this));
+					$this->gTabs->addSubTabTarget("query_view",
+												 $this->ctrl->getLinkTarget($this,'query_view'),
+												 "write", get_class($this));
 					$this->gTabs->activateTab("properties");
+					$this->gTabs->activateSubTab("edit_settings");
 					return $this->renderSettings();
 				}
 				break;
+			case "query_view":
+				if($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
+					$this->gTabs->addSubTabTarget("edit_settings",
+												 $this->ctrl->getLinkTarget($this,'settings'),
+												 "write", get_class($this));
+					$this->gTabs->addSubTabTarget("query_view",
+												 $this->ctrl->getLinkTarget($this,'settings'),
+												 "write", get_class($this));
+					$this->gTabs->activateTab("properties");
+					$this->gTabs->activateSubTab("query_view");
+					$this->setFilterAction($cmd);
+					return $this->renderQueryView();
+				}
+				break;
 			case "exportxls":
+				$this->setFilterAction($cmd);
 				$this->exportXLS();
 				exit();
 			//no "break;" !
 			case "showContent":
+				$this->setFilterAction($cmd);
 				if($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
 					$this->gTabs->activateTab("content");
 					return $this->renderReport();
@@ -109,6 +129,15 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		return "showContent";
 	}
 
+	/**
+	 * render query for dubuggin purposes
+	 */
+	public function renderQueryView() {
+		$this->object->prepareReport();
+		$content = $this->object->deliverFilter() !== null ? $this->object->deliverFilter()->render() : "";
+		$content .= $this->object->buildQueryStatement();
+		$this->gTpl->setContent($content);
+	}
 
 	/**
 	* render report.
@@ -349,9 +378,9 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		}
 	}
 
-	protected function setFilterAction() {
+	protected function setFilterAction($cmd) {
 		$this->enableRelevantParametersCtrl();
-		$this->object->setFilterAction($this->gCtrl->getLinkTarget($this,'showContent'));
+		$this->object->setFilterAction($this->gCtrl->getLinkTarget($this,$cmd));
 		$this->disableRelevantParametersCtrl();
 	}
 
