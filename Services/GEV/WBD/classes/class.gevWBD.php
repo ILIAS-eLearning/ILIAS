@@ -525,7 +525,7 @@ class gevWBD {
 	}
 
 	/**
-	* Checks requirements user must have to get in pool for release
+	* returns the needes checks for an user to be released
 	*
 	* is an existing user
 	* is not root oder anomynos
@@ -537,7 +537,7 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	public function wbdShouldBeReleased() {
+	public function shouldBeReleasedChecks() {
 		$wbd_errors = array(self::WBD_ERROR_WRONG_USERDATA
 							, self::WBD_ERROR_USER_SERVICETYPE
 							, self::WBD_ERROR_USER_DIFFERENT_TP
@@ -546,9 +546,35 @@ class gevWBD {
 							, self::WBD_ERROR_NO_RELEASE
 							, self::WBD_ERROR_UNKNOWN);
 
-		return $this->userExists() && !$this->hasSpecialUserId()
-				&& $this->user_utils->isExitDatePassed() && !$this->hasExitDateWBD() && $this->hasWBDType(self::WBD_TP_SERVICE) && !$this->isWBDBWVIdEmpty()
-				&& !$this->hasOpenWBDErrors($wbd_errors);
+		$IsNotSpecifiedUser = new WBDPreliminaryIsNotSpecifiedUser();
+		$IsNotSpecifiedUser->setCheckParameter(array(6,13));
+
+		$HasWBDType = new WBDPreliminaryHasWBDType();
+		$HasWBDType->setCheckParameter(self::WBD_TP_SERVICE);
+
+		$HasNoOpenWBDError = new WBDPreliminaryHasNoOpenWBDError();
+		$HasNoOpenWBDError->setCheckParameter($wbd_errors);
+
+		return array(new WBDPreliminaryUserExists()
+					, $IsNotSpecifiedUser
+					, new WBDPreliminaryExitDatePassed()
+					, new WBDPreliminaryHasNoExitDateWBD()
+					, $HasWBDType
+					, new WBDPreliminaryBWVIdIsNotEmpty()
+					, $HasNoOpenWBDError
+					);
+
+		// return $this->userExists() && !$this->hasSpecialUserId()
+		// 		&& $this->user_utils->isExitDatePassed() && !$this->hasExitDateWBD() && $this->hasWBDType(self::WBD_TP_SERVICE) && !$this->isWBDBWVIdEmpty()
+		// 		&& !$this->hasOpenWBDErrors($wbd_errors);
+	}
+
+	/**
+	 *
+	 *
+	 */
+	public function exitDatePassed() {
+		return $this->user_utils->isExitDatePassed();
 	}
 
 	/**
@@ -619,10 +645,12 @@ class gevWBD {
 	* checks user is not root or anomynos or some one else
 	* look at array $specialUserIds
 	*
+	* @param array 	$specialUserIds
+	*
 	* @return boolean
 	*/
-	protected function hasSpecialUserId() {
-		return in_array($this->user_id, self::$specialUserIds);
+	protected function hasSpecialUserId(array $specialUserIds) {
+		return in_array($this->user_id, $specialUserIds);
 	}
 
 	/**

@@ -179,8 +179,17 @@ class gevWBDDataCollector implements WBDDataCollector {
 
 		while ($rec = $db->fetchAssoc($res)) {
 			$wbd = gevWBD::getInstanceByObjOrId($rec['user_id']);
+			$checks_to_release = $wbd->shouldBeReleasedChecks();
 
-			if ($wbd->wbdShouldBeReleased()) {
+			$faild_checks = array_filter($checks_to_release,
+					function($v) use ($wbd) {
+						if(!$v->perfomCheck($wbd)) {
+							return $v;
+						}
+					}
+					);
+
+			if(count($faild_checks) == 0) {
 				$object = gevWBDRequestVermitVerwaltungTransferfaehig::getInstance($rec);
 				if(is_array($object)) {
 					foreach ($object as $error) {
@@ -189,6 +198,11 @@ class gevWBDDataCollector implements WBDDataCollector {
 					continue;
 				}
 				$returns[] = $object; 
+			} else {
+				foreach ($faild_checks as $key => $value) {
+					$error = new gevWBDError($value->message(), "usr", "release_user", $rec["user_id"], $rec["row_id"]);
+					$this->error($error);
+				}
 			}
 		}
 
