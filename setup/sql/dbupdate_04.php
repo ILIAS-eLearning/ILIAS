@@ -10065,15 +10065,14 @@ if ($ilDB->tableExists('rbac_templates'))
 			array('integer', 'text', 'integer', 'integer'),
 			array($row['rol_id'], $row['type'], $row['ops_id'], $row['parent'])
 		);
-		;		
-		$sql = "INSERT INTO rbac_templates (rol_id, type, ops_id, parent)".
+
+		$ilDB->manipulate("INSERT INTO rbac_templates (rol_id, type, ops_id, parent)".
 			" VALUES (".
 			$ilDB->quote($row['rol_id'], "integer").
 			",".$ilDB->quote($row['type'], "text").
 			",".$ilDB->quote($row['ops_id'], "integer").
 			",".$ilDB->quote($row['parent'], "integer").
-			")";
-		$ilDB->manipulate($sql);
+			")");
 	}
 }
 ?>
