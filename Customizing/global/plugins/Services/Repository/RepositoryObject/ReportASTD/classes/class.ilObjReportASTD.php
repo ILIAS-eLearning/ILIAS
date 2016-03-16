@@ -70,6 +70,18 @@ class ilObjReportASTD extends ilObjReportBase {
 		return $filter->compile();
 	}
 
+	public function buildQueryStatement() {
+		$role_utils = $this->role_utils;
+		$in_role = $this->hierarchy["astd_employee"];
+		array_walk($in_role,function (&$rol_title) use ($role_utils) { $role_title = $role_utils->getRoleIdByName($role_title);});
+		$not_in_role = $this->hierarchy["astd_middle_managers"];
+		array_walk($not_in_role,function (&$rol_title) use ($role_utils) { $role_title = $role_utils->getRoleIdByName($role_title);});	
+			$query_base_set = $this->queryBaseSet("m", $in_role_ids, $not_in_role_ids );
+		return 'SELECT '.$this->query_sum_parts.' FROM ('
+							.$query_base_set
+						.') as base_set';
+	}
+
 	protected function getRowTemplateTitle() {
 		return "tpl.cat_astd_row.html";
 	}
