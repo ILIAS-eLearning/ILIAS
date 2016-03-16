@@ -1473,3 +1473,4 @@ gev#:#copy_building_block_pool#:#Kopieren
 gev#:#edit_building_blocks#:#Bausteine bearbeiten
 gev#:#gev_bbpool_plugin_confirm_delete_bb#:#Möchten Sie den Trainigsbaustein wirklich löschen?
 gev#:#gev_dec_training_no_block_warning#:#Für Sie wurden keine Trainingsbausteine gefunden, die Sie verwenden dürfen. Eine Anlage des Trainings ist dadurch nicht möglich.
+gev#:#gev_clear_and_save#:#Leeren und Speichern
