@@ -76,7 +76,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 					$this->gTabs->addSubTabTarget("edit_settings",
 												 $this->ctrl->getLinkTarget($this,'settings'),
 												 "write", get_class($this));
-					$this->gTabs->addSubTabTarget("query_view",
+					$this->gTabs->addSubTabTarget("report_query_view",
 												 $this->ctrl->getLinkTarget($this,'query_view'),
 												 "write", get_class($this));
 					$this->gTabs->activateTab("properties");
@@ -89,11 +89,11 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 					$this->gTabs->addSubTabTarget("edit_settings",
 												 $this->ctrl->getLinkTarget($this,'settings'),
 												 "write", get_class($this));
-					$this->gTabs->addSubTabTarget("query_view",
+					$this->gTabs->addSubTabTarget("report_query_view",
 												 $this->ctrl->getLinkTarget($this,'settings'),
 												 "write", get_class($this));
 					$this->gTabs->activateTab("properties");
-					$this->gTabs->activateSubTab("query_view");
+					$this->gTabs->activateSubTab("report_query_view");
 					$this->setFilterAction($cmd);
 					return $this->renderQueryView();
 				}
@@ -130,18 +130,24 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	}
 
 	/**
-	 * render query for dubuggin purposes
+	 * render query for debugging purposes
+	 * a filter is present and may be modified to observe the effects on query
 	 */
 	public function renderQueryView() {
+		include_once "Services/Form/classes/class.ilNonEditableValueGUI.php";
 		$this->object->prepareReport();
 		$content = $this->object->deliverFilter() !== null ? $this->object->deliverFilter()->render() : "";
-		$content .= $this->object->buildQueryStatement();
+		$form = new ilNonEditableValueGUI($this->gLng->txt("report_query_text"));
+		$form->setValue($this->object->buildQueryStatement());
+		$settings_form = new ilPropertyFormGUI();
+		$settings_form->addItem($form);
+		$content .= $settings_form->getHTML();
 		$this->gTpl->setContent($content);
 	}
 
 	/**
-	* render report.
-	*/
+	 * render report.
+	 */
 	final public function renderReport() {
 		$this->object->prepareReport();
 		$this->title = $this->prepareTitle(catTitleGUI::create());
