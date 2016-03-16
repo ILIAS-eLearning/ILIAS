@@ -642,7 +642,7 @@ class ilLanguage
 
 			if(count($wave) == 150 || (count(self::$lng_log) == 0 && count($wave) > 0))
 			{
-				$query = 'REPLACE INTO lng_log (module_id, identifier) VALUES ' . implode(', ', $wave);
+				$query = 'REPLACE INTO lng_log (module, identifier) VALUES ' . implode(', ', $wave);
 				$ilDB->manipulate($query);
 
 				$wave = array();
