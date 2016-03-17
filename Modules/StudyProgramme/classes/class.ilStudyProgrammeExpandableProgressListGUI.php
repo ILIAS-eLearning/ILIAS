@@ -178,7 +178,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		}, $crs));
 	}
 	
-	protected function configureItemGUI(ilStudyProgrammeCourseListGUI $a_item_gui) {
+	public function configureItemGUI(ilStudyProgrammeCourseListGUI $a_item_gui) {
 		$a_item_gui->enableComments(false);
 		$a_item_gui->enableTags(false);
 		$a_item_gui->enableIcon(true);
