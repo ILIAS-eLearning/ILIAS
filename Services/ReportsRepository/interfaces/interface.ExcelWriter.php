@@ -15,14 +15,14 @@ interface ExcelWriter {
 	/**
 	 * adds sheets with name and sets them current 
 	 * @var string $name
-	 * @throws \SheetException
+	 * @throws \InvalidArgumentException
 	 */
 	public function addSheet($name);
 
 	/**
 	 * turn to shee having name
 	 * @var string $name
-	 * @throws \SheetException
+	 * @throws \InvalidArgumentException
 	 */
 	public function setSheet($name);
 
