@@ -111,12 +111,12 @@ class ilObjRemoteLearningModule extends ilRemoteObjectBase
 	
 	public static function _lookupMID($a_obj_id)
 	{
-		return ilRemoteObjectBase::_lookupMID($a_obj_id, self::DB_TABLE_NAME);
+		return ilRemoteObjectBase::_lookupMID($a_obj_id);
 	}
 	
 	public static function _lookupOrganization($a_obj_id)
 	{
-		return ilRemoteObjectBase::_lookupOrganization($a_obj_id, self::DB_TABLE_NAME);
+		return ilRemoteObjectBase::_lookupOrganization($a_obj_id);
 	}
 }
 

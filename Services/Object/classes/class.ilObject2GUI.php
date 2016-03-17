@@ -474,7 +474,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	// -> ilAdministration
 	final private function displayList() { return parent::displayList(); }
 //	final private function setAdminTabs() { return parent::setAdminTabs(); }
-//	final public function getAdminTabs($a) { return parent::getAdminTabs($a); }
+//	final public function getAdminTabs() { return parent::getAdminTabs(); }
 	final protected function addAdminLocatorItems($a_do_not_add_object = false) { return parent::addAdminLocatorItems($a_do_not_add_object); }
 
 	/**
@@ -536,9 +536,9 @@ abstract class ilObject2GUI extends ilObjectGUI
 	/**
 	 * Deprecated functions
 	 */
-//	final private function setSubObjects() { die("ilObject2GUI::setSubObjects() is deprecated."); }
-//	final public function getFormAction() { die("ilObject2GUI::getFormAction() is deprecated."); }
-//	final protected  function setFormAction() { die("ilObject2GUI::setFormAction() is deprecated."); }
+//	final private function setSubObjects($a_sub_objects = "") { die("ilObject2GUI::setSubObjects() is deprecated."); }
+//	final public function getFormAction($a_cmd, $a_formaction = "") { die("ilObject2GUI::getFormAction() is deprecated."); }
+//	final protected  function setFormAction($a_cmd, $a_formaction) { die("ilObject2GUI::setFormAction() is deprecated."); }
 	final protected  function getReturnLocation($a_cmd, $a_location ="") { die("ilObject2GUI::getReturnLocation() is deprecated."); }
 	final protected  function setReturnLocation($a_cmd, $a_location) { die("ilObject2GUI::setReturnLocation() is deprecated."); }
 	final protected function showActions() { die("ilObject2GUI::showActions() is deprecated."); }
@@ -569,7 +569,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 //	final private function ownerObject() { parent::ownerObject(); }
 //	final private function changeOwnerObject() { parent::changeOwnerObject(); }
 //	final private function addRoleObject() { parent::addRoleObject(); }
-//	final private function setActions() { die("ilObject2GUI::setActions() is deprecated."); }
+//	final private function setActions($a_actions = "") { die("ilObject2GUI::setActions() is deprecated."); }
 //	final protected function getActions() { die("ilObject2GUI::getActions() is deprecated."); }
 
 	/**
