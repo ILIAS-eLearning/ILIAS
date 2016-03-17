@@ -80,10 +80,9 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 					return $this->renderSettings();
 				}
 				break;
-			case "exportxls":
-				$this->exportXLS();
+			case "exportxlsx":
+				$this->exportXLSX();
 				exit();
-			//no "break;" !
 			case "showContent":
 				if($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
 					$this->gTabs->activateTab("content");
@@ -153,9 +152,9 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->enableRelevantParametersCtrl();
 		$export_btn = '<a class="submit exportXlsBtn"'
 						. 'href="'
-						.$this->gCtrl->getLinkTarget($this, "exportxls")
+						.$this->gCtrl->getLinkTarget($this, "exportxlsx")
 						.'">'
-						.$this->gLng->txt("gev_report_exportxls")
+						.$this->gLng->txt("gev_report_excel_export")
 						.'</a>';
 		$this->disableRelevantParametersCtrl();
 		return $export_btn;
@@ -254,91 +253,44 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	}
 
 	/**
-	* provide xls version of report for download.
-	*/
-	protected function exportXLS() {
-		require_once "Services/Excel/classes/class.ilExcelUtils.php";
-		require_once "Services/Excel/classes/class.ilExcelWriterAdapter.php";
+	 * provide xlsx version of report for download.
+	 */
+	protected function exportXLSX() {
+		require_once 'Services/ReportsRepository/classes/class.catXLSXWriter.php';
+		$callback = get_class($this).'::transformResultRowXLSX';
 		$this->object->prepareReport();
 
-		$adapter = new ilExcelWriterAdapter("Report.xls", true); 
-		$workbook = $adapter->getWorkbook();
-		$worksheet = $workbook->addWorksheet();
-		$worksheet->setLandscape();
+		$workbook = new catXLSXWriter();
 
-		//available formats within the sheet
-		$format_bold = $workbook->addFormat(array("bold" => 1));
-		$format_wrap = $workbook->addFormat();
-		$format_wrap->setTextWrap();
-		
-		//init cols and write titles
-		$colcount = 0;
+		$sheet_name = "report";
+		$workbook
+			->addSheet($sheet_name)
+			->setRowFormatBold();
+
+		$header = array();
 		foreach ($this->object->deliverTable()->all_columns as $col) {
 			if ($col[4]) {
 				continue;
 			}
-			$worksheet->setColumn($colcount, $colcount, 30); //width
-			if (method_exists($this, "_process_xls_header") && $col[2]) {
-				$worksheet->writeString(0, $colcount, $this->_process_xls_header($col[1]), $format_bold);
-			}
-			else {
-				$worksheet->writeString(0, $colcount, $col[2] ? $col[1] : $this->lng->txt($col[1]), $format_bold);
-			}
-			$colcount++;
+			$header[] = $col[2] ? $col[1] : $this->lng->txt($col[1]);
 		}
 
-		//write data-rows
-		$rowcount = 1;
-		$callback = get_class($this).'::transformResultRowXLS';
+		$workbook
+			->writeRow($header)
+			->setRowFormatWrap();
+
 		foreach ($this->object->deliverData($callback) as $entry) {
-			$colcount = 0;
-			foreach ($this->object->deliverTable()->all_columns as $col) {
+			$row = array();
+			foreach ($this->object->deliverTable()->all_columns as $col)  {
 				if ($col[4]) {
 					continue;
 				}
-				$k = $col[0];
-				$v = $entry[$k];
-
-				$method_name = '_process_xls_' .$k;
-				if (method_exists($this, $method_name)) {
-					$v = $this->$method_name($v);
-				}
-				$worksheet->write($rowcount, $colcount, $v, $format_wrap);
-				$colcount++;
+				$row[] = $entry[$col[0]];
 			}
-			$rowcount++;
-		}
-		$workbook->close();
-	}
-
-
-	/**
-	* provide xls version of report for download.
-	* this is for demonstrational puposes only
-	* here i also try to hint at possible new architecture of reports consisting of a field of tables
-	*/
-	protected function exportXLSRemod(ExcelWriter $xls_obj,closure $callback) {
-
-		$this->object->prepareReport();
-
-		$workbook = new ExcelWriter("Report.xls", true); 
-
-		//available formats within the sheet
-		$format_bold = $workbook->format(array("bold" => 1));
-		$format_wrap = $workbook->format("wrap");
-
-		while($table = $this->object->table_field->getTable()) { //table iterator of a table field
-			$sheet_name = $table->sheetName();
-			$workbook->addSheet($sheet_name)
-				->setRowFormat($format_bold)
-				->writeRow($table->header,$sheetname)
-				->setRowFormat($format_wrap);
-			while ($row = $table->getRow()) {					//row iterator of a table
-				$workbook->writeRow(call_user_func($callback, $row),$sheet_name);
-			}
+			$workbook->writeRow($row);
 		}
 
-		$workbook->deliverFile();
+		$workbook->offerDownload("report.xlsx");
 	}
 
 	/**
@@ -349,7 +301,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		return $a_rec;
 	}
 
-	public static function transformResultRowXLS($a_rec) {
+	public static function transformResultRowXLSX($a_rec) {
 		$a_rec = self::replaceEmpty($a_rec);
 		return $a_rec;
 	}
