@@ -108,9 +108,9 @@ class ilLPStatusSCORMPackage extends ilLPStatus
 		return $status;		
 	}
 
-	function refreshStatus($a_obj_id)
+	function refreshStatus($a_obj_id, $a_users = null)
 	{
-		parent::refreshStatus($a_obj_id);
+		parent::refreshStatus($a_obj_id, $a_users);
 		
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
 		$in_progress = ilLPStatusWrapper::_getInProgress($a_obj_id);		

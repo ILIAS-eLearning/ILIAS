@@ -307,9 +307,9 @@ class ilLPStatusSCORM extends ilLPStatus
 		return $per;
 	}
 
-	function refreshStatus($a_obj_id)
+	function refreshStatus($a_obj_id, $a_users = null)
 	{
-		parent::refreshStatus($a_obj_id);
+		parent::refreshStatus($a_obj_id, $a_users);
 		
 		// this is restricted to SCOs in the current collection
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
