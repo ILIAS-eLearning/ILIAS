@@ -115,21 +115,53 @@ class ilBadgeProfileGUI
 	
 	protected function addToBackpack()
 	{
-		global $lng, $ilCtrl;
+		global $ilCtrl, $ilUser;
 		
-		if(!ilBadgeHandler::getInstance()->isObiActive())
+		if(!$ilCtrl->isAsynch() ||
+			!ilBadgeHandler::getInstance()->isObiActive())
 		{
-			$ilCtrl->redirect($this, "listBadges");
-		}		
-		
-		$ids = $_POST["id"];
-		if(!sizeof($ids))
-		{
-			ilUtil::sendFailure($lng->txt("select_one"), true);
-			$ilCtrl->redirect($this, "listBadges");
+			return false;
 		}
 		
+		$res = new stdClass();
 		
+		$badge_id = (int)$_GET["id"];
+		if($badge_id)
+		{
+			// check if current user has given badge
+			include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+			$ass = new ilBadgeAssignment($badge_id, $ilUser->getId());
+			if($ass->getTimestamp())
+			{			
+				$url = null;
+				try 
+				{					
+					$url = $ass->getStaticUrl();
+				} 
+				catch (Exception $ex) {
+					$res->error = true;
+					$res->message = $ex->getMessage();	
+				}				
+				if($url)
+				{				
+					$res->error = false;
+					$res->url = $url;
+				}				
+			}
+			else
+			{
+				$res->error = true;
+				$res->message = "missing badge assignment";
+			}
+		}
+		else
+		{
+			$res->error = true;
+			$res->message = "missing badge id";
+		}
 		
+		echo json_encode($res);
+		exit();				
 	}
+	
 }

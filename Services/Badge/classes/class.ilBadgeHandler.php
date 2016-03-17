@@ -456,4 +456,72 @@ class ilBadgeHandler
 				break;
 		}			
 	}
+	
+	
+	// 
+	// PATH HANDLING (PUBLISHING)
+	//
+	
+	protected function getBasePath()
+	{
+		return ilUtil::getWebspaceDir()."/pub_badges/";
+	}
+	
+	public function getInstancePath(ilBadgeAssignment $a_ass)
+	{
+		$hash = md5($a_ass->getBadgeId()."_".$a_ass->getUserId());
+		
+		$path = $this->getBasePath()."instances/".
+			$a_ass->getBadgeId()."/".
+			floor($a_ass->getUserId()/1000)."/";
+		
+		ilUtil::makeDirParents($path);
+		
+		$path .= $hash.".json";
+		
+		return $path;
+	}
+	
+	public function getBadgePath(ilBadge $a_badge)
+	{
+		$hash = md5($a_badge->getId());
+		
+		$path = $this->getBasePath()."badges/".
+			floor($a_badge->getId()/100)."/".
+			$hash."/";
+		
+		ilUtil::makeDirParents($path);
+		
+		return $path;
+	}
+	
+	protected function prepareIssuerJson($a_url)
+	{						
+		$json = new stdClass();
+		$json->{"@context"} = "https://w3id.org/openbadges/v1";
+		$json->type = "Issuer";
+		$json->id = $a_url;	
+		$json->name = $this->getObiOrganistation();
+		$json->url = ILIAS_ABSOLUTE_PATH;	
+		$json->email = $this->getObiContact();
+		
+		return $json;
+	}	
+	
+	public function getIssuerStaticUrl()
+	{
+		$path = $this->getBasePath()."issuer/";
+		ilUtil::makeDirParents($path);
+		$path .= "issuer.json";
+		
+		$url = ILIAS_HTTP_PATH.substr($path, 1);
+		
+		if(!file_exists($path))
+		{
+			$json = json_encode($this->prepareIssuerJson($url));
+			file_put_contents($path, $json);
+		}
+		
+		return $url;		
+	}
 }

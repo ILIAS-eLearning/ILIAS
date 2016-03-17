@@ -440,6 +440,49 @@ class ilBadge
 			"deleted" => $deleted
 		);
 	}
+	
+	
+	//
+	// PUBLISHING
+	// 
+	
+	protected function prepareJson($a_base_url, $a_img_suffix)
+	{						
+		$json = new stdClass();
+		$json->{"@context"} = "https://w3id.org/openbadges/v1";
+		$json->type = "BadgeClass";
+		$json->id = $a_base_url."class.json";	
+		$json->name = $this->getTitle();
+		$json->description = $this->getDescription();	
+		$json->image = $a_base_url."image.".$a_img_suffix;
+		$json->criteria = $a_base_url."criteria.txt";		
+		$json->issuer = ilBadgeHandler::getInstance()->getIssuerStaticUrl();	
+		
+		return $json;
+	}
+	
+	public function getStaticUrl()
+	{								
+		$path = ilBadgeHandler::getInstance()->getBadgePath($this);
+		
+		$base_url = ILIAS_HTTP_PATH.substr($path, 1);
+		
+		if(!file_exists($path."class.json"))
+		{		
+			$img_suffix = array_pop(explode(".", $this->getImage()));
+			
+			$json = json_encode($this->prepareJson($base_url, $img_suffix));
+			file_put_contents($path."class.json", $json);
+			
+			// :TODO: scale?
+			copy($this->getImagePath(), $path."image.".$img_suffix);
+			
+			// :TODO: criteria?
+			file_put_contents($path."criteria.txt", $this->getDescription());
+		}
+		
+		return $base_url."class.json";
+	}
 
 }
 

@@ -276,4 +276,67 @@ class ilBadgeAssignment
 			" WHERE ".$ilDB->in("badge_id", $badge_ids, "", "integer"));
 		}
 	}
+	
+	
+	//
+	// PUBLISHING
+	// 
+	
+	protected function prepareJson($a_url)
+	{				
+		$unique_id = ":TODO:";
+		
+		$verify = new stdClass();
+		$verify->type = "hosted";
+		$verify->url = $a_url;
+		
+		$recipient = new stdClass();
+		$recipient->type = "email";
+		$recipient->hashed = true;
+		$recipient->salt = ilBadgeHandler::getInstance()->getObiSalt();
+		
+		// https://github.com/mozilla/openbadges-backpack/wiki/How-to-hash-&-salt-in-various-languages.
+		$user = new ilObjUser($this->getUserId());
+		$recipient->identity = 'sha256$'.hash('sha256', $user->getEmail().$recipient->salt);
+		
+		$json = new stdClass();
+		$json->{"@context"} = "https://w3id.org/openbadges/v1";
+		$json->type = "Assertion";
+		$json->id = $a_url;
+		$json->uid = $unique_id;
+		$json->recipient = $recipient;
+			
+		include_once "Services/Badge/classes/class.ilBadge.php";
+		$badge = new ilBadge($this->getBadgeId());
+		$badge_url = $badge->getStaticUrl();
+		
+		// :TODO: created baked image
+		 
+		$json->image = str_replace(
+			"class.json",
+			"image.".array_pop(explode(".", $badge->getImage())),
+			$badge_url
+		);
+		
+		$json->issued_on = $this->getTimestamp();
+		$json->badge =  $badge_url;		
+		$json->verify = $verify;	
+		
+		return $json;
+	}
+	
+	public function getStaticUrl()
+	{							
+		$path = ilBadgeHandler::getInstance()->getInstancePath($this);
+		
+		$url = ILIAS_HTTP_PATH.substr($path, 1);
+		
+		if(!file_exists($path))
+		{			
+			$json = json_encode($this->prepareJson($url));
+			file_put_contents($path, $json);
+		}
+		
+		return $url;
+	}
 }

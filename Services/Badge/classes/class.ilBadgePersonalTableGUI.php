@@ -15,7 +15,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 {		
 	function __construct($a_parent_obj, $a_parent_cmd, $a_user_id = null)
 	{
-		global $lng, $ilUser, $ilCtrl;
+		global $lng, $ilUser, $ilCtrl, $tpl;
 		
 		if(!$a_user_id)
 		{
@@ -27,23 +27,29 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->setTitle($lng->txt("badge_personal_badges"));		
-		
-		$this->addColumn("", "", 1);				
+				
 		$this->addColumn($lng->txt("title"), "title");			
 		$this->addColumn($lng->txt("object"), "parent_title");			
-		$this->addColumn($lng->txt("badge_issued_on"), "issued_on");			
-		$this->addColumn($lng->txt("actions"), "");	
+		$this->addColumn($lng->txt("badge_issued_on"), "issued_on");	
+		
+		if(ilBadgeHandler::getInstance()->isObiActive())
+		{
+			$this->addColumn($lng->txt("actions"), "");	
+			
+			// :TODO: use local copy instead?
+			$tpl->addJavascript("https://backpack.openbadges.org/issuer.js", false);	
+			
+			$tpl->addJavascript("Services/Badge/js/ilBadge.js");			
+			$tpl->addOnLoadCode('il.Badge.setUrl("'.
+				$ilCtrl->getLinkTarget($this->getParentObject(), "addtoBackpack", "", true, false).
+			'")');
+		}
 		
 		$this->setDefaultOrderField("title");
 		
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
 		$this->setRowTemplate("tpl.personal_row.html", "Services/Badge");			
-				
-		if(ilBadgeHandler::getInstance()->isObiActive())
-		{
-			$this->addMultiCommand("addToBackpack", $lng->txt("badge_add_to_backpack"));
-		}
-				
+		
 		$this->getItems($a_user_id);				
 	}
 	
@@ -84,7 +90,8 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 	
 	function fillRow($a_set)
 	{
-		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
+		global $lng;
+		
 		$this->tpl->setVariable("PREVIEW", $a_set["renderer"]->getHTML());
 		$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 		$this->tpl->setVariable("TXT_ISSUED_ON", ilDatePresentation::formatDate(new ilDateTime($a_set["issued_on"], IL_CAL_UNIX)));
@@ -95,6 +102,12 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("SRC_PARENT", 
 				ilObject::_getIcon($a_set["parent"]["id"], "big", $a_set["parent"]["type"]));			
 		}		
+		
+		if(ilBadgeHandler::getInstance()->isObiActive())
+		{
+			$this->tpl->setVariable("VAL_ID", $a_set["id"]);
+			$this->tpl->setVariable("TXT_PUBLISH", $lng->txt("badge_add_to_backpack"));
+		}
 	}	
 }
 	
