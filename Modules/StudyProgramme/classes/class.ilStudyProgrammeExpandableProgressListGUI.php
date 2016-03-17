@@ -160,7 +160,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		}
 		$preloader->preload();
 
-		//TODO: remove if PHP5.3 Support is canceld
+		//TODO: remove when PHP5.3 support is canceld
 		$self = $this;
 		return implode("\n", array_map(function(ilObjCourse $course) use ($self) {
 			require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeCourseListGUI.php");
@@ -178,7 +178,8 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		}, $crs));
 	}
 	
-	protected function configureItemGUI(ilStudyProgrammeCourseListGUI $a_item_gui) {
+	//TODO: public -> protected when PHP5.3 support is cancelled
+	public function configureItemGUI(ilStudyProgrammeCourseListGUI $a_item_gui) {
 		$a_item_gui->enableComments(false);
 		$a_item_gui->enableTags(false);
 		$a_item_gui->enableIcon(true);
