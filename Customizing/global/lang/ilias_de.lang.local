@@ -1474,3 +1474,15 @@ gev#:#edit_building_blocks#:#Bausteine bearbeiten
 gev#:#gev_bbpool_plugin_confirm_delete_bb#:#Möchten Sie den Trainigsbaustein wirklich löschen?
 gev#:#gev_dec_training_no_block_warning#:#Für Sie wurden keine Trainingsbausteine gefunden, die Sie verwenden dürfen. Eine Anlage des Trainings ist dadurch nicht möglich.
 gev#:#gev_clear_and_save#:#Leeren und Speichern
+gev#:#gev_wbd_checks_bwvid_not_empty#:#Der Benutzer besitzt eine BWV ID.
+gev#:#gev_wbd_checks_bwvid_empty#:#Der Benutzer besitzt keine BWV ID.
+gev#:#gev_wbd_checks_entry_date_not_passed#:#Das Eintrittsdatum liegt nicht in der Vergangenheit.
+gev#:#gev_wbd_checks_exit_date_not_passed#:#Das Austrittsdatum liegt nicht in der Vergangenheit.
+gev#:#gev_wbd_check_wbd_register_not_finished#:#Der Benutzer hat die WBD Registrierung nicht beendet.
+gev#:#gev_wbd_check_user_is_released#:#Der Benutzer ist bereits Freigegeben.
+gev#:#gev_wbd_check_open_wbd_errors#:#Es bestehen noch offen WBD Fehler.
+gev#:#gev_wbd_check_user_has_wrong_service_type#:#Der Benutzer hat den falschen TP Typ.
+gev#:#gev_wbd_check_no_wbdrelevant_role#:#Der Benutzer soll aufgrund seiner Rollen nicht behandelt werden.
+gev#:#gev_wbd_check_user_is_inactive#:#Der Benutzer ist inaktiv.
+gev#:#gev_wbd_check_no_handle_user#:#Der Benutzer soll nicht für die WBD behandelt werden.
+gev#:#gev_wbd_check_user_not_exist#:#Der Benutzer existiert nicht.
