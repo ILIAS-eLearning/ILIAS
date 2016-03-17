@@ -14,36 +14,27 @@ interface ExcelWriter {
 
 	/**
 	 * adds sheets with name and sets them current 
-	 * @var (string) $name
+	 * @var string $name
+	 * @throws \SheetException
 	 */
 	public function addSheet($name);
 
 	/**
 	 * turn to shee having name
-	 * @var (string) $name
+	 * @var string $name
+	 * @throws \SheetException
 	 */
 	public function setSheet($name);
 
 	/**
 	 * write to current sheet 
-	 * @var (array) $row_data
+	 * @var array $row_data
 	 */
 	public function writeRow(array $row_data);
 
 	/**
-	 * define output browser
-	 * @var (string) $filename
+	 * deliver file
+	 * @var string $filename
 	 */
-	public function setOutputBrowser($filename);
-
-	/**
-	 * define output file
-	 * @var (string) $filename
-	 */
-	public function setOutputFile($filename);
-
-	/**
-	 * close and possibly deliver file
-	 */
-	public function close();
+	public function offerDownload($filename);
 }
