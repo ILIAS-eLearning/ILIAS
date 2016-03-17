@@ -206,7 +206,7 @@ class gevAttendanceByEmployeeGUI extends catBasicReportGUI{
 		return $this->replaceEmpty($rec);
 	}
 	
-	protected function _process_xls_date($val) {
+	protected function _process_xlsx_date($val) {
 		$val = str_replace('<nobr>', '', $val);
 		$val = str_replace('</nobr>', '', $val);
 		return $val;
