@@ -69,7 +69,7 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 		return $a_rec;
 	}
 
-	public static function transformResultRowXLS($a_rec) {
+	public static function transformResultRowXLSX($a_rec) {
 		$a_rec = static::transformResultRow($a_rec);
 		return $a_rec;
 	}
