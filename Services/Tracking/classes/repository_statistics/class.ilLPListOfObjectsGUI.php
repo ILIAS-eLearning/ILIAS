@@ -113,9 +113,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$lp_mode = $olp->getCurrentMode();
         
         if($lp_mode==92){
-            
             $passing_grade=$this->saveRubricGrade();
-            
             //only update progress if grading is completed
             if($passing_grade!==false){
                 $this->__updateUserRubric($_REQUEST['user_id'], $this->details_obj_id,$passing_grade);                
@@ -437,8 +435,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     private function saveRubricGrade()
     {   
         // bring in the rubric card object       
-        include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCard.php");
-        $rubricObj=new ilLPRubricCard($this->getObjId());
+        include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php");
+        $rubricObj=new ilLPRubricGrade($this->getObjId());
         
         if($rubricObj->objHasRubric()){
             $rubricObj->grade($rubricObj->load());
@@ -459,28 +457,34 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
      */
     public function showRubricGradeForm()
     {
-        
-        include_once('./Services/Tracking/classes/rubric/class.ilLPRubricCard.php');
-        include_once('./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php');
-        
-        $rubricObj=new ilLPRubricCard($this->getObjId());
-        $rubricGui=new ilLPRubricCardGUI();
-        
-        $a_user = ilObjectFactory::getInstanceByObjId((int)$_GET['user_id']);
-        
-        if($rubricObj->objHasRubric()){            
+        include_once('./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php');
+        include_once('./Services/Tracking/classes/rubric/class.ilLPRubricGradeGUI.php');
+        $rubricObj=new ilLPRubricGrade($this->getObjId());
+        $rubricGui=new ilLPRubricGradeGUI();
+        $a_user = ilObjectFactory::getInstanceByObjId((int)$_REQUEST['user_id']);
+        if($rubricObj->objHasRubric() && $rubricObj->isRubricComplete()){
+			if($rubricObj->isGradingLocked()) {
+				$rubricGui->setRubricGradeLocked($rubricObj->getRubricGradeLocked());
+				$rubricGui->setGradeLockOwner($rubricObj->getGradeLockOwner());
+			}
             $rubricGui->setRubricData($rubricObj->load());
-            $rubricGui->setUserData($rubricObj->getRubricUserGradeData((int)$_GET['user_id']));            
+            $rubricGui->setUserData($rubricObj->getRubricUserGradeData((int)$_REQUEST['user_id']));
             $rubricGui->getRubricGrade(
                 $this->ctrl->getFormAction($this),
                 $a_user->getFullName(),
-                (int)$_GET['user_id']
+                (int)$_REQUEST['user_id']
             );
         }else{
-            ilUtil::sendFailure($this->lng->txt('rubric_card_not_defined'));                
+			if(!$rubricObj->objHasRubric()) {
+           	 	ilUtil::sendFailure($this->lng->txt('rubric_card_not_defined'));
+			}
+			elseif(!$rubricObj->isRubricComplete())
+			{
+				ilUtil::sendFailure($this->lng->txt('rubric_card_not_completed').'<a href="'.$this->ctrl->getLinkTargetByClass('illplistofobjectsgui', 'showRubricCardForm')
+				.'">'.$this->lng->txt('rubric_card_please_complete').'</a>');
+			}
         }
-        
-    }
+	}
      
     /**
      * Save Rubric Card
@@ -489,20 +493,20 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     {
         // bring in the rubric card object       
         include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCard.php");
-        $rubricObj=new ilLPRubricCard($this->getObjId());        
-        
+        $rubricObj=new ilLPRubricCard($this->getObjId());
+
         $rubricObj->save();
         
         ilUtil::sendSuccess($this->lng->txt('rubric_card_save'));
-        
+
         include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php");
         $rubricGui=new ilLPRubricCardGUI();
-        
-        if($rubricObj->objHasRubric()){            
+
+        if($rubricObj->objHasRubric()){
             $rubricGui->setRubricData($rubricObj->load());
         }
         $rubricGui->setPassingGrade($rubricObj->getPassingGrade());
-                
+
         $rubricGui->getRubricCard($this->ctrl->getFormAction($this));
         
     }
@@ -519,7 +523,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			return;
 		}
-        
         // bring in GUI and DB objects
         include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCard.php");
         include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php");
@@ -527,16 +530,158 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         // instantiate rubric objects
         $rubricGui=new ilLPRubricCardGUI();
         $rubricObj=new ilLPRubricCard($this->getObjId());
-        
+
+
+
         // check to see if rubric data exists for this object, assign data if it does
         if($rubricObj->objHasRubric()){            
             $rubricGui->setRubricData($rubricObj->load());
         }
         $rubricGui->setPassingGrade($rubricObj->getPassingGrade());
-                
+        if($rubricObj->isLocked()) {
+			$rubricGui->setRubricLocked($rubricObj->getRubricLocked());
+			$rubricGui->setRubricOwner($rubricObj->getRubricOwner());
+		}
         $rubricGui->getRubricCard($this->ctrl->getFormAction($this));
         
     }
+
+	public function lockRubricCardForm()
+	{
+		include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCardGUI.php");
+		include_once("./Services/Tracking/classes/rubric/class.ilLPRubricCard.php");
+		$rubricObj=new ilLPRubricCard($this->getObjId());
+		$rubricObj->lockUnlock();
+		if($rubricObj->isLocked())
+		{
+			$this->saveRubricCard();
+		}
+		$this->showRubricCardForm();
+	}
+
+	public function lockRubricGradeForm()
+	{
+		include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGradeGUI.php");
+		include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php");
+		$rubricObj=new ilLPRubricGrade($this->getObjId());
+		$rubricObj=new ilLPRubricGrade($this->getObjId());
+		$rubricObj->lockUnlockGrade();
+		if($rubricObj->isGradingLocked())
+		{
+			$passing_grade=$this->saveRubricGrade();
+			//only update progress if grading is completed
+			if($passing_grade!==false){
+				$this->__updateUserRubric($_REQUEST['user_id'], $this->details_obj_id,$passing_grade);
+			}
+		}
+		$this->showRubricGradeForm();
+	}
+
+
+
+	public function exportPDF()
+    {
+        include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGradeGUI.php");
+        include_once("./Services/Tracking/classes/rubric/class.ilLPRubricGrade.php");
+        $rubricObj=new ilLPRubricGrade($this->getObjId());
+        $rubricGui=new ilLPRubricGradeGUI();
+
+		if($rubricObj->objHasRubric()){
+			$rubricGui->setRubricData($rubricObj->load());
+			$html = $rubricGui->getPDFViewHTML($this->getObjId());
+            $html = self::removeScriptElements($html);
+
+            $css = '<style>
+					.ilHeaderDesc
+					{
+						display:block;
+						text-align:center;
+
+					}
+
+                    table
+                    {
+                        table-layout: fixed;
+                    }
+
+                    td
+                    {
+                        padding: 10px;
+                        border: 1px solid grey;
+                    }
+                    tr
+                    {
+                        padding: 10px;
+                        border: 1px solid grey;
+                    }
+                    th
+                    {
+                        padding: 10px;
+                        border: 1px solid grey;
+                    }
+                    </style>';
+
+			self::generatePDF($css.$html, 'D', 'rubric');
+		}
+    }
+
+    public static function generatePDF($pdf_output, $output_mode, $filename=null)
+    {
+        require_once './Services/PDFGeneration/classes/class.ilPDFGeneration.php';
+
+        define ('PDF_PAGE_ORIENTATION', 'L');
+
+        if (substr($filename, strlen($filename) - 4, 4) != '.pdf')
+        {
+            $filename .= '.pdf';
+        }
+        $job = new ilPDFGenerationJob();
+        $job->setAutoPageBreak(true)
+            ->setCreator('rubric')
+            ->setFilename($filename)
+            ->setMarginLeft('20')
+            ->setMarginRight('20')
+            ->setMarginTop('20')
+            ->setMarginBottom('20')
+            ->setOutputMode($output_mode)
+            ->addPage($pdf_output);
+        ilPDFGeneration::doJob($job);
+    }
+
+    /**
+     * @param $html
+     * @return string
+     */
+    private static function removeScriptElements($html)
+    {
+        if(!is_string($html) || !strlen(trim($html)))
+        {
+            return $html;
+        }
+        $dom = new DOMDocument("1.0", "utf-8");
+        if(!@$dom->loadHTML('<?xml encoding="UTF-8">' . $html))
+        {
+            return $html;
+        }
+        $invalid_elements = array();
+        $script_elements     = $dom->getElementsByTagName('script');
+        foreach($script_elements as $elm)
+        {
+            $invalid_elements[] = $elm;
+        }
+        foreach($invalid_elements as $elm)
+        {
+            $elm->parentNode->removeChild($elm);
+        }
+        $dom->encoding = 'UTF-8';
+        $cleaned_html = $dom->saveHTML();
+        if(!$cleaned_html)
+        {
+            return $html;
+        }
+        return $cleaned_html;
+    }
+
     // END PATCH RUBRIC CPKN 2015
 }
 ?>
