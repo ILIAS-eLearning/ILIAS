@@ -2,7 +2,7 @@
 require_once ("Services/GEV/WBD/classes/Interfaces/WBDPreliminary.php");
 
 class WBDPreliminaryBWVIdIsNotEmpty extends WBDPreliminary {
-	static $message = "User has no BWV ID.";
+	static $message = "gev_wbd_checks_bwvid_empty";
 
 	public function message() {
 		return self::$message;

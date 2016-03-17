@@ -1,9 +1,9 @@
 <?php
 require_once ("Services/GEV/WBD/classes/Interfaces/WBDPreliminary.php");
 
-class WBDPreliminaryIsNotSpecifiedUser extends WBDPreliminary {
+class WBDPreliminaryIsUserNotToHandle extends WBDPreliminary {
 	protected $specified_user_ids;
-	static $message = "User should not be handle as WBD User.";
+	static $message = "gev_wbd_check_no_handle_user";
 
 	public function __construct(array $specified_user_ids) {
 

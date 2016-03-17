@@ -2,7 +2,7 @@
 require_once ("Services/GEV/WBD/classes/Interfaces/WBDPreliminary.php");
 
 class WBDPreliminaryHasNoExitDateWBD extends WBDPreliminary {
-	static $message = "User is released for WBD.";
+	static $message = "gev_wbd_check_user_is_released";
 
 	public function message() {
 		return self::$message;

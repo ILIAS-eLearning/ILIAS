@@ -2,7 +2,7 @@
 require_once ("Services/GEV/WBD/classes/Interfaces/WBDPreliminary.php");
 
 class WBDPreliminaryEntryDatePassed extends WBDPreliminary {
-	static $message = "User has not passed the entry date.";
+	static $message = "gev_wbd_checks_entry_date_not_passed";
 
 	public function message() {
 		return self::$message;

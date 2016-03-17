@@ -523,7 +523,7 @@ class gevWBD {
 					, new WBDPreliminaryHasWBDRelevantRole()
 					, new WBDPreliminaryUserExists()
 					, new WBDPreliminaryIsActiveUser()
-					, new WBDPreliminaryIsNotSpecifiedUser(array(6,13))
+					, new WBDPreliminaryIsUserNotToHandle(array(6,13))
 					, new WBDPreliminaryBWVIdIsEmpty()
 					, new WBDPreliminaryHasNotWBDType(self::WBD_NO_SERVICE)
 					, new WBDPreliminaryHasNoOpenWBDError($wbd_errors)
@@ -559,7 +559,7 @@ class gevWBD {
 					, new WBDPreliminaryHasWBDRelevantRole()
 					, new WBDPreliminaryUserExists()
 					, new WBDPreliminaryIsActiveUser()
-					, new WBDPreliminaryIsNotSpecifiedUser(array(6,13))
+					, new WBDPreliminaryIsUserNotToHandle(array(6,13))
 					, new WBDPreliminaryEntryDatePassed()
 					, new WBDPreliminaryBWVIdIsNotEmpty()
 					, new WBDPreliminaryHasNotWBDType(self::WBD_TP_SERVICE)
@@ -590,7 +590,7 @@ class gevWBD {
 							, self::WBD_ERROR_UNKNOWN);
 
 		return array(new WBDPreliminaryUserExists()
-					, new WBDPreliminaryIsNotSpecifiedUser(array(6,13))
+					, new WBDPreliminaryIsUserNotToHandle(array(6,13))
 					, new WBDPreliminaryExitDatePassed()
 					, new WBDPreliminaryHasNoExitDateWBD()
 					, new WBDPreliminaryHasWBDType(self::WBD_TP_SERVICE)

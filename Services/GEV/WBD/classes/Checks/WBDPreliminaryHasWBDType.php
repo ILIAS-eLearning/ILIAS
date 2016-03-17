@@ -3,7 +3,7 @@ require_once ("Services/GEV/WBD/classes/Interfaces/WBDPreliminary.php");
 
 class WBDPreliminaryHasWBDType extends WBDPreliminary {
 	protected $wbd_type;
-	static $message = "User has not the WBD Type %s";
+	static $message = "gev_wbd_check_user_has_wrong_service_type";
 
 	public function __construct($wbd_type) {
 		assert(is_string($wbd_type));
@@ -12,7 +12,7 @@ class WBDPreliminaryHasWBDType extends WBDPreliminary {
 	}
 
 	public function message() {
-		return sprintf(self::$message, $this->wbd_type);
+		return self::$message;
 	}
 
 	/** 
