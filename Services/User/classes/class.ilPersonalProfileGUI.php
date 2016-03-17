@@ -7,7 +7,7 @@
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI, ilBadgeProfileGUI
  */
 class ilPersonalProfileGUI
 {
@@ -59,6 +59,16 @@ class ilPersonalProfileGUI
 				$pub_profile_gui = new ilPublicUserProfileGUI($_GET["user_id"]);
 				$pub_profile_gui->setBackUrl($ilCtrl->getLinkTarget($this, "showPersonalData"));
 				$ilCtrl->forwardCommand($pub_profile_gui);
+				$tpl->show();
+				break;
+			
+			case "ilbadgeprofilegui":
+				$this->setHeader();
+				$this->setTabs();
+				$ilTabs->activateTab("badges");
+				include_once("./Services/Badge/classes/class.ilBadgeProfileGUI.php");
+				$bgui = new ilBadgeProfileGUI();
+				$ilCtrl->forwardCommand($bgui);
 				$tpl->show();
 				break;
 
@@ -600,6 +610,15 @@ class ilPersonalProfileGUI
 		$ilTabs->addTab("personal_data", 
 			$this->lng->txt("personal_data"),
 			$this->ctrl->getLinkTarget($this, "showPersonalData"));
+		
+		// badges
+		include_once 'Services/Badge/classes/class.ilBadgeHandler.php';
+		if(ilBadgeHandler::getInstance()->isActive())
+		{
+			$ilTabs->addTab("badges", 
+				$this->lng->txt("obj_bdga"),
+				$this->ctrl->getLinkTargetByClass("ilbadgeprofilegui", ""));
+		}
 
 		// public profile
 		$ilTabs->addTab("public_profile",

@@ -40,3 +40,9 @@ badge#:#badge_template_types_all#:#Alle
 badge#:#badge_template_types_specific#:#Bestimmte
 badge#:#badge_valid#:#Gültig bis
 badge#:#badge_object_badges#:#Objekt-Badges
+badge#:#badge_backpack_connect_failed#:#Das Mozilla Backpack konnte nicht für %s angefragt werden.
+badge#:#badge_backpack_no_groups#:#Das Mozilla Backpack ist leer bzw. nicht öffentlich.
+badge#:#badge_backpack_list#:#Dein Mozilla Backpack
+badge#:#badge_personal_badges#:#Deine Badges
+badge#:#badge_issued_on#:#Erhalten am
+badge#:#badge_add_to_backpack#:#Zum Backpack hinzufügen
