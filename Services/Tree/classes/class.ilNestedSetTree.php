@@ -821,6 +821,30 @@ class ilNestedSetTree implements ilTreeImplementation
 		}
 		return (array) $nodes;
 	}
+	
+	/**
+	 * 
+	 */
+	public function validateParentRelations()
+	{
+		global $ilDB;
+		
+		$query = 'select child from '.$this->getTree()->getTreeTable().' child where not exists '.
+				'( '.
+				'select child from '.$this->getTree()->getTreeTable().' parent where child.parent = parent.child and (parent.lft < child.lft) and (parent.rgt > child.rgt) '.
+				')'.
+				'and '.$this->getTree()->getTreePk().' = '.$this->getTree()->getTreeId().' and child <> 1';
+		$res = $ilDB->query($query);
+		
+		ilLoggerFactory::getLogger('tree')->debug($query);
+		
+		$failures = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$failures[] = $row[$this->getTree()->getTreePk()];
+		}
+		return $failures;
+	}
 
 }
 ?>
