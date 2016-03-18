@@ -10062,14 +10062,14 @@ if ($ilDB->tableExists('rbac_templates'))
 	{
 		$ilDB->manipulateF(
 			"DELETE FROM rbac_templates WHERE rol_id = %s AND type = %s AND ops_id = %s AND parent = %s",
-			array('integer', 'integer', 'integer', 'integer'),
+			array('integer', 'text', 'integer', 'integer'),
 			array($row['rol_id'], $row['type'], $row['ops_id'], $row['parent'])
 		);
 
 		$ilDB->manipulate("INSERT INTO rbac_templates (rol_id, type, ops_id, parent)".
 			" VALUES (".
 			$ilDB->quote($row['rol_id'], "integer").
-			",".$ilDB->quote($row['type'], "integer").
+			",".$ilDB->quote($row['type'], "text").
 			",".$ilDB->quote($row['ops_id'], "integer").
 			",".$ilDB->quote($row['parent'], "integer").
 			")"
@@ -14196,60 +14196,60 @@ if ($ilDB->tableExists('link_check_old'))
 ?>
 <#4872>
 <?php
-$num_query = "
-	SELECT COUNT(*) cnt
-	FROM (
-		SELECT tree, child
-		FROM bookmark_tree
-		GROUP BY tree, child
-		HAVING COUNT(*) > 1
-	) duplicateBookmarkTree
-";
-$res  = $ilDB->query($num_query);
-$data = $ilDB->fetchAssoc($res);
-
-if($data['cnt'] > 0)
-{
-	echo "<pre>
-
-		Dear Administrator,
-
-		DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
-
-		The update process has been stopped due to a data consistency issue in table 'bookmark_tree'.
-		The values in field 'tree' and 'child' should be unique together, but there are dublicated values in these fields.
-		You have to review the data and apply manual fixes on your own risk. The duplicates can be determined with the following SQL string:
-
-		SELECT *
-		FROM bookmark_tree first
-		WHERE EXISTS (
-			SELECT second.tree, second.child
-			FROM bookmark_tree second
-			WHERE first.tree = second.tree AND first.child = second.child
-			GROUP BY second.tree, second.child
-			HAVING COUNT(second.tree) > 1
-		);
-
-		If you have fixed the Problem and try to rerun the update process, this warning will be skipped.
-
-		Please ensure to backup your current database before fixing the database.
-		Furthermore disable your client while fixing the database.
-
-		For further questions use our <a href='http://mantis.ilias.de'>Bugtracker</a> or write a message to the responsible <a href='http://www.ilias.de/docu/goto_docu_pg_9985_42.html'>Maintainer</a>.
-
-		Best regards,
-		The Bookmark maintainer
-
-	</pre>";
-
-	exit();
-}
-
-
-if($ilDB->tableExists('bookmark_tree'))
-{
-	$ilDB->addPrimaryKey('bookmark_tree', array('tree', 'child'));
-}
+//$num_query = "
+//	SELECT COUNT(*) cnt
+//	FROM (
+//		SELECT tree, child
+//		FROM bookmark_tree
+//		GROUP BY tree, child
+//		HAVING COUNT(*) > 1
+//	) duplicateBookmarkTree
+//";
+//$res  = $ilDB->query($num_query);
+//$data = $ilDB->fetchAssoc($res);
+//
+//if($data['cnt'] > 0)
+//{
+//	echo "<pre>
+//
+//		Dear Administrator,
+//
+//		DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
+//
+//		The update process has been stopped due to a data consistency issue in table 'bookmark_tree'.
+//		The values in field 'tree' and 'child' should be unique together, but there are dublicated values in these fields.
+//		You have to review the data and apply manual fixes on your own risk. The duplicates can be determined with the following SQL string:
+//
+//		SELECT *
+//		FROM bookmark_tree first
+//		WHERE EXISTS (
+//			SELECT second.tree, second.child
+//			FROM bookmark_tree second
+//			WHERE first.tree = second.tree AND first.child = second.child
+//			GROUP BY second.tree, second.child
+//			HAVING COUNT(second.tree) > 1
+//		);
+//
+//		If you have fixed the Problem and try to rerun the update process, this warning will be skipped.
+//
+//		Please ensure to backup your current database before fixing the database.
+//		Furthermore disable your client while fixing the database.
+//
+//		For further questions use our <a href='http://mantis.ilias.de'>Bugtracker</a> or write a message to the responsible <a href='http://www.ilias.de/docu/goto_docu_pg_9985_42.html'>Maintainer</a>.
+//
+//		Best regards,
+//		The Bookmark maintainer
+//
+//	</pre>";
+//
+//	exit();
+//}
+//
+//
+//if($ilDB->tableExists('bookmark_tree'))
+//{
+//	$ilDB->addPrimaryKey('bookmark_tree', array('tree', 'child'));
+//}
 
 ?>
 <#4873>
@@ -14545,5 +14545,44 @@ $ilDB->manipulate(
 if(!$ilDB->indexExistsByFields('il_qpl_qst_fq_unit',array('question_fi')))
 {
 	$ilDB->addIndex('il_qpl_qst_fq_unit',array('question_fi'), 'i2');
+}
+?>
+<#4883>
+<?php
+
+$query = 'SELECT * FROM settings WHERE module = ' . $ilDB->quote('common', 'text') . ' AND keyword = ' . $ilDB->quote('mail_send_html', 'text');
+$res = $ilDB->query($query);
+
+$found = false;
+while($row = $ilDB->fetchAssoc($res))
+{
+	$found = true;
+	break;
+}
+
+if(!$found)
+{
+	$setting = new ilSetting();
+	$setting->set('mail_send_html', 1);
+}
+?>
+<#4884>
+<?php
+if(!$ilDB->tableExists('lng_log'))
+{
+	$ilDB->createTable('lng_log',
+	   array(
+		   'module' => array(
+			   'type' => 'text',
+			   'length' => 30,
+			   'notnull' => true
+		   ),
+		   'identifier' => array (
+			   'type' => 'text',
+			   'length' => 60,
+			   'notnull' => true
+		   )
+	   ));
+	$ilDB->addPrimaryKey('lng_log', array('module', 'identifier'));
 }
 ?>

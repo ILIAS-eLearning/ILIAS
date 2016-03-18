@@ -138,27 +138,28 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 	
 	public function isInCondition(ilADTMultiEnum $a_adt)
 	{
-		// #16827 / #17087
-		if($this->search_mode == self::SEARCH_MODE_ANY)
-		{					
-			$current = $this->getADT()->getSelections();
-			if(is_array($current) &&
-				sizeof($current))
-			{
+		$current = $this->getADT()->getSelections();			
+		if(is_array($current) &&
+			sizeof($current))
+		{			
+			// #16827 / #17087
+			if($this->search_mode == self::SEARCH_MODE_ANY)
+			{					
 				foreach((array)$a_adt->getSelections() as $value)
 				{
 					if(in_array($value, $current))
 					{
 						return true;
 					}
-				}
+				}						
 			}
-			return false;						
+			else
+			{
+				// #18028
+				return !(bool)sizeof(array_diff($current, (array)$a_adt->getSelections()));
+			}
 		}
-		else
-		{
-			return $this->getADT()->equals($a_adt);
-		}
+		return false;	
 	}	
 	
 	

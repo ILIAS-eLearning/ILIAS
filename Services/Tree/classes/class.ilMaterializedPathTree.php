@@ -547,6 +547,31 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
 		return (array) $nodes;
 	}
+
+	/**
+	 * Validaate parent relations 
+	 * @return int[] array of failure nodes
+	 */
+	public function validateParentRelations()
+	{
+		global $ilDB;
+		
+		$query = 'select child from '.$this->getTree()->getTreeTable().' child where not exists '.
+				'( '.
+					'select child from '.$this->getTree()->getTreeTable().' parent where child.parent = parent.child and '.
+					'(child.path BETWEEN parent.path AND CONCAT(parent.path,'.$ilDB->quote('Z','text').') )'. 				')'.
+				'and '.$this->getTree()->getTreePk().' = '.$this->getTree()->getTreeId().' and child <> 1';
+		$res = $ilDB->query($query);
+		
+		ilLoggerFactory::getLogger('tree')->debug($query);
+		
+		$failures = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$failures[] = $row[$this->getTree()->getTreePk()];
+		}
+		return $failures;
+	}
 }
 
 ?>

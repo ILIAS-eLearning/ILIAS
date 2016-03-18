@@ -561,6 +561,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		exit;
 	}
 	
+	protected function submitIntermediateSolutionCmd()
+	{
+		$this->saveQuestionSolution(false, true);
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+	}
+	
 	/**
 	 * Toggle side list
 	 */

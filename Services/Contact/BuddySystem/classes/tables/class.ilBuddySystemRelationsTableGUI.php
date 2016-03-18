@@ -155,8 +155,13 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 
 		$logins = array_map(function($value) {
 			$matches = null;
-			preg_match('/\[(.+?)\]/', $value, $matches);
-			return is_array($matches) && isset($matches[1]) ? $matches[1] : '';
+			preg_match_all('/\[([^\[]+?)\]/', $value, $matches);
+			return (
+				is_array($matches) &&
+				isset($matches[1]) &&
+				is_array($matches[1]) &&
+				isset($matches[1][count($matches[1]) - 1])
+			) ? $matches[1][count($matches[1]) - 1] : '';
 		}, $logins);
 
 		$public_name = $this->filter['public_name'];
