@@ -15944,7 +15944,7 @@ rbac#:#logs_visible#:#Logging settings are visible
 rbac#:#logs_write#:#User can edit Logging settings
 logging#:#logs_settings#:#Logging Settings
 log#:#log_general_settings#:#Logging Settings
-log#:#log_components#:#Komponenten
+log#:#log_components#:#Components
 log#:#log_log_level#:#Log-Level
 log#:#log_level_debug#:#DEBUG
 log#:#log_level_info#:#INFO
