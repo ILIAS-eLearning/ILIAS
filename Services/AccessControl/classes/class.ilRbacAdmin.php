@@ -149,7 +149,7 @@ class ilRbacAdmin
 			$ilAppEventHandler->raise(
 				'Services/AccessControl', 'deleteGlobalRole', $parameter
 			);
-		} elseif($obj_id) {
+		} elseif($obj) {
 			if($obj->getType() == 'orgu') {
 				$ilAppEventHandler->raise(
 					'Services/AccessControl', 'deleteOrguRole', $parameter
