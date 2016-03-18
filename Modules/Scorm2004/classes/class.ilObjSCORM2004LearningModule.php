@@ -565,7 +565,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			if ($data["Login"]) $user_id = $this->get_user_id($data["Login"]);
 			if ($data["login"]) $user_id = $this->get_user_id($data["login"]);
 			//add mail in future
-			if ($data["user"] && is_int($data["user"])) $user_id = $data["user"];
+			if ($data["user"] && is_numeric($data["user"])) $user_id = $data["user"];
 			if ($user_id>0) {
 				$last_access = ilUtil::now();
 				if ($data['Date']) {
@@ -579,7 +579,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				$status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
 
 				if ($data["Status"]) {
-					if (is_int($data["Status"])) $status = $data["Status"];
+					if (is_numeric($data["Status"])) $status = $data["Status"];
 					else if ($data["Status"] == ilLPStatus::LP_STATUS_NOT_ATTEMPTED) $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 					else if ($data["Status"] == ilLPStatus::LP_STATUS_IN_PROGRESS) $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
 					else if ($data["Status"] == ilLPStatus::LP_STATUS_FAILED) $status = ilLPStatus::LP_STATUS_FAILED_NUM;
@@ -589,7 +589,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				
 				$percentage_completed = 0;
 				if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM) $percentage_completed = 100;
-				if ($data['percentageCompletedSCOs']) $percentage_completed = $data['percentageCompletedSCOs'];
+				else if ($data['percentageCompletedSCOs']) $percentage_completed = $data['percentageCompletedSCOs'];
 
 				$sco_total_time_sec = null;
 				if ($data['SumTotal_timeSeconds']) $sco_total_time_sec = $data['SumTotal_timeSeconds'];
@@ -605,9 +605,10 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 					foreach ($scos as $sco_id) 
 					{
 						$res = $ilDB->queryF('
-						SELECT * FROM cmi_node WHERE cp_node_id = %s AND user_id  = %s AND (completion_status = %s OR success_status = %s)',
-						array('integer','integer','text','text'),
-						array($sco_id,$user_id,'completed','passed'));
+							SELECT completion_status, success_status, user_id FROM cmi_node WHERE cp_node_id = %s AND user_id  = %s',
+							array('integer','integer'),
+							array($sco_id,$user_id)
+						);
 					
 						if(!$ilDB->numRows($res))
 						{
@@ -618,17 +619,28 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 							array('integer','integer','text','timestamp','integer'),
 							array($sco_id,$user_id,'completed',$last_access,$nextId));
 						} else {
-							$ilDB->update('cmi_node',
-								array(
-									'completion_status'	=> array('text', 'completed'),
-									'success_status'	=> array('text', ''),
-									'c_timestamp'		=> array('timestamp', $last_access)
-								),
-								array(
-									'user_id'		=> array('integer', $user_id),
-									'cp_node_id'	=> array('integer', $sco_id)
-								)
-							);
+							$doUpdate = false;
+							while ($row = $ilDB->fetchAssoc($res)) {
+								if ( ($row["completion_status"] == "completed" && $row["success_status"] != "failed") || $row["success_status"] == "passed") {
+									if ($doUpdate != true) $doUpdate = false; //note for issue if there are 2 entries for same sco_id
+								} else {
+									$doUpdate = true;
+								}
+							}
+							if ($doUpdate == true) {
+								$ilDB->update('cmi_node',
+									array(
+										'completion_status'	=> array('text', 'completed'),
+										'success_status'	=> array('text', ''),
+										'suspend_data'		=> array('text', ''),
+										'c_timestamp'		=> array('timestamp', $last_access)
+									),
+									array(
+										'user_id'		=> array('integer', $user_id),
+										'cp_node_id'	=> array('integer', $sco_id)
+									)
+								);
+							}
 						}
 					}
 					
