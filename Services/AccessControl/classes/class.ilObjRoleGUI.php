@@ -606,12 +606,26 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	public function editObject()
 	{
-		global $rbacsystem, $rbacreview, $ilSetting,$ilErr;
+		global $rbacsystem, $rbacreview, $ilSetting,$ilErr,$ilToolbar;
 
 		if(!$this->checkAccess('write','edit_permission'))
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"),$ilErr->MESSAGE);
 		}
+		
+		// Show copy role button
+		if($this->object->getId() != SYSTEM_ROLE_ID)
+		{
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+			if($rbacreview->isDeleteable($this->object->getId(), $this->obj_ref_id))
+			{
+				$ilToolbar->addButton(
+					$this->lng->txt('rbac_delete_role'),
+					$this->ctrl->getLinkTarget($this,'confirmDeleteRole')
+				);
+			}
+		}
+		
 		$this->initFormRoleProperties(self::MODE_GLOBAL_UPDATE);
 		$this->readRoleProperties($this->object);
 		$this->tpl->setContent($this->form->getHTML());
