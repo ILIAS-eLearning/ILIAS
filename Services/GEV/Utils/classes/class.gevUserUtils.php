@@ -49,10 +49,10 @@ class gevUserUtils {
 	protected function __construct($a_user_id) {
 		global $ilDB;
 		global $ilAccess;
-		global $ilLng;
+		global $lng;
 		
 		$this->user_id = $a_user_id;
-		$this->gLng = $ilLng;
+		$this->gLng = $lng;
 		$this->courseBookings = ilUserCourseBookings::getInstance($a_user_id);
 		$this->gev_set = gevSettings::getInstance();
 		$this->udf_utils = gevUDFUtils::getInstance();
@@ -1244,11 +1244,9 @@ class gevUserUtils {
 		require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 		if (!array_key_exists($a_crs_id, $this->users_who_booked_at_course)) {
 			$bk_info = ilCourseBooking::getUserData($a_crs_id, $this->user_id);
-
 			$this->users_who_booked_at_course[$a_crs_id] 
 				= self::userIdExists($bk_info["status_changed_by"]) ? new ilObjUser($bk_info["status_changed_by"]) : null;
 		}
-		
 		return $this->users_who_booked_at_course[$a_crs_id];
 	}
 	
