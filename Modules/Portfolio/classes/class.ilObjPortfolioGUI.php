@@ -312,7 +312,12 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt("prtf_no_blogs_info"));				
+				// #18147
+				$this->lng->loadLanguageModule('pd');
+				$url = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumpToWorkspace");
+				$url = '<a href="'.$url.'">'.$this->lng->txt("pd_personal_workspace").'</a>';
+
+				ilUtil::sendInfo(sprintf($this->lng->txt("prtf_no_blogs_info"), $url), true);				
 				$type->setValue("page");
 			}
 		}
