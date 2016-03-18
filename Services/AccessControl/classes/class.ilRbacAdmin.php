@@ -108,11 +108,11 @@ class ilRbacAdmin
 		if(!$is_global) {
 			require_once "Services/Object/classes/class.ilObjectFactory.php";
 			$obj_fac = new ilObjectFactory;
-			$obj_id = $rbacreview->getObjectOfRole($a_rol_id, false);
+			$obj_id = $rbacreview->getObjectOfRole($a_rol_id);
 
 			if($obj_id) {
 
-				$obj = $obj_fac->getInstanceByObjId($obj_id);
+				$obj = $obj_fac->getInstanceByObjId($obj_id,false);
 				$parameter['rol_obj'] = $obj;
 				$parameter['rol_obj_id'] = $obj_id;
 			}
