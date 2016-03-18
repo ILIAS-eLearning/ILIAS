@@ -15,7 +15,6 @@ define ("AUTH_SOAP",7);
 define ("AUTH_HTTP",8);
 // END WebDAV: Add support for HTTP authentication
 define ("AUTH_ECS",9);
-define('AUTH_OPENID',10);
 
 define ("AUTH_APACHE",11);
 
@@ -26,7 +25,6 @@ define('AUTH_MULTIPLE',20);
 define('AUTH_SOAP_NO_ILIAS_USER', -100);
 define('AUTH_LDAP_NO_ILIAS_USER',-200);
 define('AUTH_RADIUS_NO_ILIAS_USER',-300);
-define('AUTH_OPENID_NO_ILIAS_USER',-400);
 
 // apache auhtentication failed...
 // maybe no (valid) certificate or
@@ -239,11 +237,6 @@ class ilAuthUtils
 				$ilAuth = ilAuthFactory::factory(new ilAuthContainerECS());
 				break;
 				
-			case AUTH_OPENID:
-				
-				include_once './Services/OpenId/classes/class.ilAuthContainerOpenId.php';
-				$ilAuth = ilAuthFactory::factory(new ilAuthContainerOpenId());
-				break;
 
 			case AUTH_INACTIVE:
 				require_once('./Services/Authentication/classes/class.ilAuthInactive.php');
@@ -318,12 +311,6 @@ class ilAuthUtils
 			// begin-patch ldap_multiple
 			return $_POST['auth_mode'];
 			// end-patch ldap_multiple
-		}
-		if(isset($_POST['oid_username']) or $_GET['oid_check_status'])
-		{
-			$GLOBALS['ilLog']->write(__METHOD__.' set context to open id');
-			ilAuthFactory::setContext(ilAuthFactory::CONTEXT_OPENID);
-			return AUTH_OPENID;
 		}
 
 		include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
@@ -414,9 +401,6 @@ class ilAuthUtils
 				
 			case 'ecs':
 				return AUTH_ECS;
-				
-			case 'openid':
-				return AUTH_OPENID;
 
 			case 'apache':
 				return AUTH_APACHE;
@@ -470,9 +454,6 @@ class ilAuthUtils
 			case AUTH_APACHE:
 				return 'apache';
 
-			case AUTH_OPENID:
-				return 'open_id';
-				
 			default:
 				return "default";
 				break;	
@@ -507,12 +488,6 @@ class ilAuthUtils
 			$modes['ecs'] = AUTH_ECS;
 		}
 
-		include_once './Services/OpenId/classes/class.ilOpenIdSettings.php';
-		if(ilOpenIdSettings::getInstance()->isActive())
-		{
-			$modes['openid'] = AUTH_OPENID;
-		}
-		
 		// begin-path auth_plugin
 		foreach(self::getAuthPlugins() as $pl)
 		{
@@ -538,7 +513,6 @@ class ilAuthUtils
 			AUTH_SOAP => ilAuthUtils::_getAuthModeName(AUTH_SOAP),
 			AUTH_RADIUS => ilAuthUtils::_getAuthModeName(AUTH_RADIUS),
 			AUTH_ECS => ilAuthUtils::_getAuthModeName(AUTH_ECS),
-			AUTH_OPENID => ilAuthUtils::_getAuthModeName(AUTH_OPENID),
 			AUTH_APACHE => ilAuthUtils::_getAuthModeName(AUTH_APACHE)
 		);
 	}
@@ -715,11 +689,6 @@ class ilAuthUtils
 		{
 			return true;
 		}
-		include_once './Services/OpenId/classes/class.ilOpenIdSettings.php';
-		if(ilOpenIdSettings::getInstance()->isActive())
-		{
-			return true;
-		}
 		
 		// begin-path auth_plugin
 		foreach(self::getAuthPlugins() as $pl)
@@ -754,7 +723,6 @@ class ilAuthUtils
 			case AUTH_LDAP:
 			case AUTH_RADIUS:
 			case AUTH_ECS:
-			case AUTH_OPENID:
 				return false;
 			default:
 				return true;
@@ -806,9 +774,8 @@ class ilAuthUtils
 			case AUTH_SCRIPT:
 				return false;
 			
-			// Always for openid and local
+			// Always for and local
 			case AUTH_LOCAL:
-			case AUTH_OPENID:
 			case AUTH_APACHE:
 				return true;
 
@@ -848,7 +815,6 @@ class ilAuthUtils
 				return ilAuthUtils::LOCAL_PWV_USER;
 				
 			case AUTH_ECS:
-			case AUTH_OPENID:
 			case AUTH_SCRIPT:
 			case AUTH_APACHE:
 			default:

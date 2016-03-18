@@ -364,7 +364,7 @@ var longMenuQuestion = (function () {
 				debugPrinter('Added answer ' + answer_id + ' in gap ' + gap_id);
 				var buttons = $('.layout_dummy_add_remove_buttons').html();
 				var input_string = 'type="text" class="col-sm-10 answerlist" size="5" value=""';
-				answerList_object.eq(answer_id).before('<input ' + input_string + '>' + buttons);
+				answerList_object.eq(answer_id).next().after('<input ' + input_string + '>' + buttons);
 			}
 			else
 			{
@@ -537,7 +537,7 @@ var longMenuQuestion = (function () {
 	pro.sliceInNewQuestionPart = function (gap_id)
 	{
 		pub.questionParts.list.splice(gap_id, 0,  [[], '0', '1']);
-		pub.answers.splice(gap_id,0,[]);
+		pub.answers.splice(gap_id,0,[[]]);
 		pro.redrawFormParts();
 		pro.syncWithHiddenTextField();
 	};

@@ -1,27 +1,40 @@
 {
-    "name": "ilias/deps",
-    "description": "Dependencies of ILIAS",
-    "license": "GPL v3",
-    "authors": [
-        {
-            "name": "Richard Klees",
-            "email": "richard.klees@concepts-and-training.de"
-        }
-    ],
-    "require": {
-        "pimple/pimple": "^3.0"
-    },
-    "autoload": {
-        "psr-4" : { "ILIAS\\" : "../../src" }
-    },
-    "extra": {
-        "pimple/pimple" : {
-            "source" : "https://github.com/silexphp/Pimple.git",
-            "added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
-            "wrapped_by" : "ILIAS\\DIC\\Container",
-            "last_update" : "2016-01-28",
-            "last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
-            "used_version" : "v3.0.2"
-        }
-    }
+	"name": "ilias/deps",
+	"description": "Dependencies of ILIAS",
+	"license": "GPL v3",
+	"authors": [],
+	"require": {
+		"filp/whoops": "^2.0",
+		"monolog/monolog": "^1.15",
+		"pimple/pimple": "^3.0"
+	},
+	"autoload": {
+		"psr-4" : { "ILIAS\\" : "../../src" }
+	},
+	"extra": {
+		"filp/whoops" : {
+			"source" : "github.com/filp/whoops",
+			"used_version" : "v2.0.0",
+			"wrapped_by" : null,
+			"added_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>",
+			"last_update" : "2016-02-17",
+			"last_update_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>"
+		},
+		"monolog/monolog" : {
+			"source" : "https://github.com/Seldaek/monolog",
+			"used_version" : "v1.15",
+			"wrapped_by" : "Services/Logging",
+			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de",
+			"last_update" : "2016-02-17",
+			"last_update_by" : "Stefan Meyer <smeyer.ilias@gmx.de"
+		},
+		"pimple/pimple" : {
+			"source" : "https://github.com/silexphp/Pimple.git",
+			"used_version" : "v3.0.2",
+			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
+			"wrapped_by" : "ILIAS\\DIC\\Container",
+			"last_update" : "2016-02-29",
+			"last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>"
+		}
+	}
 }

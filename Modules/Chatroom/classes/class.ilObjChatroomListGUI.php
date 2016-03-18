@@ -14,17 +14,22 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
  */
 class ilObjChatroomListGUI extends ilObjectListGUI
 {
-
+	/**
+	 * @var int
+	 */
 	private static $publicRoomObjId;
 
 	/**
-	 * Constructor
-	 *
-	 * Calls $this->ilObjectListGUI method.
+	 * @var null|boolean
+	 */
+	private static $chat_enabled = null;
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function __construct()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 
 		require_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
 
@@ -32,7 +37,7 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 	}
 
 	/**
-	 * Initialisation
+	 * {@inheritdoc}
 	 */
 	public function init()
 	{
@@ -51,17 +56,10 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 		$this->commands = ilObjChatroomAccess::_getCommands();
 	}
 
-	private static $chat_enabled = null;
-
 	/**
-	 * Get item properties
-	 *
-	 * @return	array		array of property arrays:
-	 * 						"alert" (boolean) => display as an alert property (usually in red)
-	 * 						"property" (string) => property name
-	 * 						"value" (string) => property value
+	 * {@inheritdoc}
 	 */
-	public function getProperties()
+	public function getProperties($a_item = '')
 	{
 		/**
 		 * @var $lng ilLanguage
@@ -98,38 +96,4 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 
 		return $props;
 	}
-
-	/**
-	 * Get command link url.
-	 *
-	 * @param	int			$a_ref_id		reference id
-	 * @param	string		$a_cmd			command
-	 *
-	 */
-	/*
-	 function getCommandLink($a_cmd)
-	 {
-	 // separate method for this line
-	 $cmd_link = "repo.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
-
-	 return $cmd_link;
-	 } */
-
-	/**
-	 * Returns command icon image.
-	 *
-	 * @param string $a_cmd
-	 * @return string
-	 */
-	public function getCommandImage($a_cmd)
-	{
-		switch ($a_cmd)
-		{
-			default:
-				return "";
-		}
-	}
-
 }
-
-?>

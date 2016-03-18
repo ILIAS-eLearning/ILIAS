@@ -6,6 +6,7 @@
  * Service context (factory) class
  * 
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  * @version $Id$
  * 
  * @ingroup ServicesContext
@@ -13,94 +14,36 @@
 class ilContext
 {		
 	protected static $class_name; // [string]
-	protected static $type; // [int]	
+	protected static $type; // [string]	
 	
-	const CONTEXT_WEB = 1;
-	const CONTEXT_CRON = 2;
-	const CONTEXT_RSS = 3;
-	const CONTEXT_ICAL = 4;
-	const CONTEXT_SOAP = 5;
-	const CONTEXT_WEBDAV = 6;
-	const CONTEXT_RSS_AUTH = 7;
-	const CONTEXT_WEB_ACCESS_CHECK = 8;
-	const CONTEXT_SESSION_REMINDER = 9;
-	const CONTEXT_SOAP_WITHOUT_CLIENT = 10;
-	const CONTEXT_UNITTEST = 11;
-	const CONTEXT_REST = 12;
-	const CONTEXT_SCORM = 13;
-	const CONTEXT_WAC = 14;
+	const CONTEXT_WEB = "ilContextWeb";
+	const CONTEXT_CRON = "ilContextCron";
+	const CONTEXT_RSS = "ilContextRss";
+	const CONTEXT_ICAL = "ilContextIcal";
+	const CONTEXT_SOAP = "ilContextSoap";
+	const CONTEXT_WEBDAV = "ilContextWebdav";
+	const CONTEXT_RSS_AUTH = "ilContextRssAuth";
+	const CONTEXT_WEB_ACCESS_CHECK = "ilContextWebAccessCheck";
+	const CONTEXT_SESSION_REMINDER = "ilContextSessionReminder";
+	const CONTEXT_SOAP_WITHOUT_CLIENT = "ilContextSoapWithoutClient";
+	const CONTEXT_UNITTEST = "ilContextUnitTest";
+	const CONTEXT_REST = "ilContextRest";
+	const CONTEXT_SCORM = "ilContextScorm";
+	const CONTEXT_WAC = "ilContextWAC";
 	
 	/**
 	 * Init context by type
 	 * 
-	 * @param int $a_type 
+	 * @param string $a_type 
 	 * @return bool
 	 */
 	public static function init($a_type)
 	{
-		$class_name = self::getClassForType($a_type);
-		if($class_name)
-		{
-			include_once "Services/Context/classes/class.".$class_name.".php";
-			self::$class_name = $class_name;
-			self::$type = $a_type;
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Get class name for type id
-	 * 	 
-	 * @param int $a_type
-	 * @return string 
-	 */
-	protected function getClassForType($a_type)
-	{
-		switch($a_type)
-		{
-			case self::CONTEXT_WEB:
-				return "ilContextWeb";
-				
-			case self::CONTEXT_CRON:
-				return "ilContextCron";
-				
-			case self::CONTEXT_RSS:
-				return "ilContextRss";
-				
-			case self::CONTEXT_ICAL:
-				return "ilContextIcal";
-				
-			case self::CONTEXT_SOAP:
-				return "ilContextSoap";
-			
-			case self::CONTEXT_WEBDAV:
-				return "ilContextWebdav";	
-				
-			case self::CONTEXT_RSS_AUTH:
-				return "ilContextRssAuth";	
-				
-			case self::CONTEXT_WEB_ACCESS_CHECK:
-				return "ilContextWebAccessCheck";	
-			
-			case self::CONTEXT_SESSION_REMINDER:
-				return "ilContextSessionReminder";	
-				
-			case self::CONTEXT_SOAP_WITHOUT_CLIENT:
-				return "ilContextSoapWithoutClient";
-				
-			case self::CONTEXT_UNITTEST:
-				return "ilContextUnitTest";
-				
-			case self::CONTEXT_REST:
-				return 'ilContextRest';
-
-			case self::CONTEXT_SCORM:
-				return 'ilContextScorm';
-
-			case self::CONTEXT_WAC:
-				return 'ilContextWAC';
-		}
+		include_once "Services/Context/classes/class.".$a_type.".php";
+		self::$class_name = $a_type;
+		self::$type = $a_type;
+		
+		return true;
 	}
 	
 	/**
@@ -199,7 +142,7 @@ class ilContext
 	/**
 	 * Get context type
 	 * 
-	 * @return int
+	 * @return string
 	 */
 	public static function getType()
 	{

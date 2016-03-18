@@ -8,7 +8,7 @@
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI, ilRadiusSettingsGUI
-* @ilCtrl_Calls ilObjAuthSettingsGUI: ilAuthShibbolethSettingsGUI, ilOpenIdSettingsGUI, ilCASSettingsGUI
+* @ilCtrl_Calls ilObjAuthSettingsGUI: ilAuthShibbolethSettingsGUI, ilCASSettingsGUI
 * 
 * @extends ilObjectGUI
 */
@@ -901,14 +901,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($radius_settings_gui);
 				break;
 				
-			case 'ilopenidsettingsgui':
-				
-				$this->tabs_gui->setTabActive('auth_openid');
-				
-				include_once './Services/OpenId/classes/class.ilOpenIdSettingsGUI.php';
-				$os = new ilOpenIdSettingsGUI($this->object->getRefId());
-				$this->ctrl->forwardCommand($os);
-				break;
 
 			case 'ilauthloginpageeditorgui':
 				
@@ -978,14 +970,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 			$tabs_gui->addTarget("auth_soap", $this->ctrl->getLinkTarget($this, "editSOAP"),
 								 "", "", "");
 								 
-			$tabs_gui->addTarget(
-				'auth_openid',
-				$this->ctrl->getLinkTargetByClass('ilopenidsettingsgui','settings'),
-				'',
-				'',
-				''
-			);
-
 			$tabs_gui->addTarget("apache_auth_settings", $this->ctrl->getLinkTarget($this,'apacheAuthSettings'),
 					"", "", "");
 		}

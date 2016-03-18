@@ -9,7 +9,7 @@
  */
 class iljQueryUtil
 {		
-	private static $ver = "2_1_4"; 
+	private static $ver = "2_2_0"; 
 	private static $ui_ver = "1_11_4";
 	private static $maphilight_ver = "14_03_20";
 	private static $min = "-min";
@@ -58,7 +58,7 @@ class iljQueryUtil
 	/**
 	 * Get local path of jQuery file
 	 */
-	function getLocaljQueryPath()
+	static function getLocaljQueryPath()
 	{
 		return "./Services/jQuery/js/".self::$ver."/jquery".self::$min.".js";
  	}
@@ -66,7 +66,7 @@ class iljQueryUtil
  	/**
 	 * Get local path of jQuery UI file 
 	 */
-	function getLocaljQueryUIPath()
+	static function getLocaljQueryUIPath()
 	{
 		return "./Services/jQuery/js/ui_".self::$ui_ver."/jquery-ui.min.js";
  	}

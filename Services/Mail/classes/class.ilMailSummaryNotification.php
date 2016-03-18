@@ -15,11 +15,11 @@ include_once 'Services/Mail/classes/class.ilMail.php';
 class ilMailSummaryNotification extends ilMailNotification
 {
 	/**
-	 *
+	 * {@inheritdoc}
 	 */
-	public function __construct()
+	public function __construct($a_is_personal_workspace = false)
 	{
-		parent::__construct();
+		parent::__construct($a_is_personal_workspace);
 	}
 
 	public function send()

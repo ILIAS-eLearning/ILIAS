@@ -2,9 +2,8 @@
 /**
  * TestCase for the ilContext
  *
- * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
- * @version 1.0.0
- */
+ * @author Richard Klees <richard.klees@concepts-and-training.de>
+*/
 class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 	protected $backupGlobals = FALSE;
 
@@ -24,6 +23,12 @@ class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf($class_name, $GLOBALS[$global_name]);
 		$this->assertInstanceOf($class_name, $DIC[$global_name]);
 		$this->assertSame($GLOBALS[$global_name], $DIC[$global_name]);
+	}
+
+	public function test_DIC_getters() {
+		global $DIC;
+
+		$this->assertInstanceOf("ilDB", $DIC->ilDB());
 	}
 
 	public function globalsProvider() {

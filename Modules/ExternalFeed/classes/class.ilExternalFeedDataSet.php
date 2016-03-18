@@ -62,7 +62,7 @@ class ilExternalFeedDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	function readData($a_entity, $a_version, $a_ids, $a_field = "")
+	function readData($a_entity, $a_version, $a_ids)
 	{
 		global $ilDB;
 

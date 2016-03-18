@@ -22,7 +22,7 @@ class ilObjFile extends ilObject2
 	var $filemaxsize = "20000000";	// not used yet
 	var $raise_upload_error;
 	var $mode = "object";
-	protected $rating;
+	protected $rating = false;
 	
 	private $file_storage = null;
 	protected $log = null;

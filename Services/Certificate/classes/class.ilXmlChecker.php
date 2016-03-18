@@ -52,9 +52,9 @@ class ilXMLChecker extends ilSaxParser
 	*
 	* @access	public
 	*/
-	function ilXMLChecker($a_xml_file = '')
+	public function __construct($a_xml_file = '', $throwException = false)
 	{
-		parent::ilSaxParser($a_xml_file);
+		parent::__construct($a_xml_file, $throwException);
 		$this->has_error = FALSE;
 	}
 

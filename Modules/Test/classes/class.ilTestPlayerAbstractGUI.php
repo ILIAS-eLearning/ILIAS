@@ -398,13 +398,14 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function startPlayerCmd()
 	{
+		$testStartLock = $this->getLockParameter();
 		$isFirstTestStartRequest = false;
-		
+
 		$this->processLocker->requestTestStartLockCheckLock();
 		
-		if( $this->testSession->lookupTestStartLock() != $this->getLockParameter() )
+		if( $this->testSession->lookupTestStartLock() != $testStartLock )
 		{
-			$this->testSession->persistTestStartLock($this->getLockParameter());
+			$this->testSession->persistTestStartLock($testStartLock);
 			$isFirstTestStartRequest = true;
 		}
 
@@ -416,6 +417,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->ctrl->redirect($this, ilTestPlayerCommands::INIT_TEST);
 		}
 		
+		$this->ctrl->setParameterByClass('ilObjTestGUI', 'lock', $testStartLock);
 		$this->ctrl->redirectByClass("ilobjtestgui", "redirectToInfoScreen");
 	}
 
@@ -557,6 +559,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 		echo $result;
 		exit;
+	}
+	
+	protected function submitIntermediateSolutionCmd()
+	{
+		$this->saveQuestionSolution(false, true);
+		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 	
 	/**

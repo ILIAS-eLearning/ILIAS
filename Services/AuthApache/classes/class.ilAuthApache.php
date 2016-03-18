@@ -52,11 +52,11 @@ class ilAuthApache extends Auth
 	 * @param object $a_container
 	 * @param object $a_addition_options[optional]
 	 */
-	public function __construct($a_container,$a_addition_options = array())
+	public function __construct($storageDriver, $options = '', $loginFunction = '', $showLogin = true)
 	{
 		global $lng;
 		
-		parent::__construct($a_container,$a_addition_options,'',false);
+		parent::__construct($storageDriver,$options, '', false);
 		$this->setSessionName("_authhttp".md5(CLIENT_ID));
 
 		$this->apache_settings = new ilSetting('apache_auth');

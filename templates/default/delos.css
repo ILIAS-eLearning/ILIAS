@@ -8113,6 +8113,10 @@ a.mailunread:visited {
 }
 .iosMailFilter .checkbox {
   display: inline-block !important;
+  margin: 0 10px !important;
+}
+.iosMailFilter .checkbox:first-child {
+  margin: 0 15px !important;
 }
 .iosMailFilter .checkbox input[type="checkbox"] {
   margin-left: -15px !important;
@@ -11315,10 +11319,14 @@ table.mceToolbar td {
 .alert > a.btn {
   text-decoration: none;
 }
+#ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
+#mm_adm_tr + span + ul.dropdown-menu > li > div.row,
 #mm_adm_tr + ul.dropdown-menu > li > div.row {
   width: 750px;
 }
 @media only screen and (max-width: 767px) {
+  #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
+  #mm_adm_tr + span + ul.dropdown-menu > li > div.row,
   #mm_adm_tr + ul.dropdown-menu > li > div.row {
     width: 100% !important;
     margin: 0;
