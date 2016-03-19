@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.0.x 2016-02-27 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.0.x 2016-03-19 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -953,8 +953,8 @@ assessment#:#tst_invited_selected_roles#:#A kiválasztott szerepeket állandó t
 assessment#:#tst_invited_selected_users#:#A kiválasztott felhasználókat állandó tesztrésztvevőkként sikeresen felvette.
 assessment#:#tst_list_of_answers_show#:#Válaszok listájának megjelenítése
 assessment#:#tst_list_of_answers#:#Válaszok listája
-assessment#:#tst_list_of_questions_end#:#Azelőtt jelenlen meg, mielőtt a résztvevő befejezi a tesztet
-assessment#:#tst_list_of_questions_start#:#Az első kérdést megelőzően jelenleg meg
+assessment#:#tst_list_of_questions_end#:#Azelőtt jelenjen meg, mielőtt a résztvevő befejezi a tesztet
+assessment#:#tst_list_of_questions_start#:#Azelőtt jelenjen meg, mielőtt az első kérdés megjelenik
 assessment#:#tst_list_of_questions_with_description#:#Kérdésleírásokat is tartalmazza
 assessment#:#tst_list_of_questions_yes#:#Igen, és további
 assessment#:#tst_mark_create_new_mark_step#:#Új értékelésséma létrehozása
@@ -12216,8 +12216,8 @@ trac#:#trac_sync_session_stats#:#Adatok aggregálása
 trac#:#trac_sync_session_stats_success#:#Az aggregálás sikeresen lezajlott.
 crs#:#crs_course_status_of_users#:#Kurzus teljesítése
 crs#:#crs_status_determination#:#'Sikeresen teljesítette' állapot meghatározása
-crs#:#crs_status_determination_manual#:#Tanulási haladás alapján
-crs#:#crs_status_determination_lp#:#Tanulási haladástól függetlenül
+crs#:#crs_status_determination_manual#:#Tanulási haladástól függetlenül
+crs#:#crs_status_determination_lp#:#Tanulási haladás alapján
 crs#:#crs_status_determination_sync#:#Most az összes felhasználó kurzusstátuszát szinkronizáljuk a tanulási haladási állapotával
 trac#:#trac_session_statistics_mode_day#:#Nap
 trac#:#trac_session_statistics_mode_week#:#Hét
