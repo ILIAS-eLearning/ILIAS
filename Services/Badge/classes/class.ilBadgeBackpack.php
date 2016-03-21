@@ -134,7 +134,6 @@ class ilBadgeBackpack
 		curl_setopt($curl, CURLOPT_URL, $a_url);
 		
 		$answer = curl_exec($curl);
-		curl_close($curl);
 		
 		if($answer === false)
 		{
@@ -143,7 +142,9 @@ class ilBadgeBackpack
 			var_dump(curl_getinfo($curl, CURLINFO_HTTP_CODE));
 			exit();
 		}
-	
+		
+		curl_close($curl);
+		
         return json_decode($answer);
 	}
 }
