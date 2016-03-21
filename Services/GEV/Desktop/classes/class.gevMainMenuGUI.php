@@ -77,13 +77,14 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			return;
 		}
 		//gev-april-patch start
-		if( date('Y-m-d') === '2016-04-01' && $this->user_utils ) {
-			if($_COOKIE["april"] !== "april") {
+		//var_dump($_COOKIE["april"]);
+		if( date('Y-m-d') === '2016-03-21' && $this->user_utils ) {
+			if($_COOKIE["april"][$this->gUser->getId()] !== "april") {
 				$this->tpl->setCurrentBlock("april_april");
 				$this->tpl->setVariable('USER_NAME',
 					$this->user_utils->getFirstname().' '.$this->user_utils->getLastname());
 				$this->tpl->parseCurrentBlock();
-				setcookie("april","april",time()+24*3600);
+				setcookie("april[".$this->gUser->getId()."]","april",time()+24*3600);
 			}
 		}
 		//gev-april-patch end
