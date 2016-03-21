@@ -135,6 +135,12 @@ class ilBadgeBackpack
 		
 		$answer = curl_exec($curl);
 		curl_close($curl);
+		
+		if($answer === false)
+		{
+			var_dump(curl_error($curl));
+			exit();
+		}
 	
         return json_decode($answer);
 	}
