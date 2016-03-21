@@ -531,7 +531,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
 			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui",
 			"ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui'
-			)))
+			)) || (in_array($ilCtrl->getNextClass(), array("ilpermissiongui"))))
 		{	
 			if ($_GET["page"] != "")
 			{

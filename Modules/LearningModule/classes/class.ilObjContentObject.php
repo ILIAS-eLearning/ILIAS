@@ -3313,7 +3313,8 @@ class ilObjContentObject extends ilObject
 		$new_obj->setProgressIcons($this->getProgressIcons());
 		$new_obj->setStoreTries($this->getStoreTries());
 		$new_obj->setRestrictForwardNavigation($this->getRestrictForwardNavigation());
-		
+		$new_obj->setAutoGlossaries($this->getAutoGlossaries());
+
 		$new_obj->update();
 		
 		$new_obj->createLMTree();

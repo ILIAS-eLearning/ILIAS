@@ -11013,6 +11013,9 @@ a.ilTag:active {
 .ilTag.ilHighlighted {
   background-color: #ea6705;
 }
+#il_tags_modal textarea {
+  resize: vertical;
+}
 /* Services/UIComponent/Checklist */
 div.ilChecklist ul {
   list-style-type: none;

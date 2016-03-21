@@ -224,6 +224,7 @@ class ilSCTreeTasks
 	
 	public function checkStructure()
 	{
+		return $GLOBALS['tree']->validateParentRelations();
 		global $ilDB;
 		
 		$query = 'select child from tree child where not exists '.
