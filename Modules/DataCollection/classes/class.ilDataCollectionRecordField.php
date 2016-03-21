@@ -147,6 +147,7 @@ class ilDataCollectionRecordField {
 	 */
 	public function setValue($value, $omit_parsing = false) {
 		$this->loadValue();
+
 		if (! $omit_parsing) {
 			$tmp = $this->field->getDatatype()->parseValue($value, $this);
 			$old = $this->value;

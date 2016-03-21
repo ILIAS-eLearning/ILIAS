@@ -206,7 +206,7 @@ class ilDataCollectionDatatype {
 	 */
 	static function checkValidity($type_id, $value) {
 		//required is checked by form. so null input is valid.
-		if ($value == NULL) {
+		if ($value == null) {
 			return true;
 		}
 
@@ -232,7 +232,7 @@ class ilDataCollectionDatatype {
 		global $lng;
 		$type_id = $field->getDatatypeId();
 		$title = $field->getTitle();
-		$input = NULL;
+		$input = null;
 		switch ($type_id) {
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
 				$input = new ilTextInputGUI($title, 'field_' . $field->getId());
@@ -245,13 +245,13 @@ class ilDataCollectionDatatype {
 						$input->setMaxLength($field->getLength());
 					}
 				}
-                $properties = $field->getProperties();
-                if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
-                    $input->setInfo($lng->txt('dcl_text_email_detail_desc'));
-					$title_field = new ilTextInputGUI($lng->txt('dcl_text_email_title'), 'field_'.$field->getId().'_title');
+				$properties = $field->getProperties();
+				if ($properties[ilDataCollectionField::PROPERTYID_URL]) {
+					$input->setInfo($lng->txt('dcl_text_email_detail_desc'));
+					$title_field = new ilTextInputGUI($lng->txt('dcl_text_email_title'), 'field_' . $field->getId() . '_title');
 					$title_field->setInfo($lng->txt('dcl_text_email_title_info'));
 					$input->addSubItem($title_field);
-                }
+				}
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
 				$input = new ilTextInputGUI($title, 'field_' . $field->getId());
@@ -288,12 +288,12 @@ class ilDataCollectionDatatype {
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_FORMULA:
 				$input = new ilTextInputGUI($title, 'field_' . $field->getId());
-                $input->setDisabled(true);
-                $input->setValue('-');
-                $input->setInfo($lng->txt('dcl_formula_detail_desc'));
-                break;
+				$input->setDisabled(true);
+				$input->setValue('-');
+				$input->setInfo($lng->txt('dcl_formula_detail_desc'));
+				break;
 		}
-		if ($field->getDescription() && $input !== NULL) {
+		if ($field->getDescription() && $input !== null) {
 			$input->setInfo($field->getDescription() . ($input->getInfo() ? "<br>" . $input->getInfo() : ""));
 		}
 
@@ -313,7 +313,7 @@ class ilDataCollectionDatatype {
 		global $lng;
 
 		$type_id = $field->getDatatypeId();
-		$input = NULL;
+		$input = null;
 
 		switch ($type_id) {
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
@@ -327,9 +327,9 @@ class ilDataCollectionDatatype {
 			case ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN:
 				$input = $table->addFilterItemByMetaType("filter_" . $field->getId(), ilTable2GUI::FILTER_SELECT, false, $field->getId());
 				$input->setOptions(array(
-					"" => $lng->txt("dcl_any"),
+					""            => $lng->txt("dcl_any"),
 					"not_checked" => $lng->txt("dcl_not_checked"),
-					"checked" => $lng->txt("dcl_checked")
+					"checked"     => $lng->txt("dcl_checked"),
 				));
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
@@ -385,7 +385,7 @@ class ilDataCollectionDatatype {
 				break;
 		}
 
-		if ($input != NULL) {
+		if ($input != null) {
 			$input->setTitle($field->getTitle());
 		}
 
@@ -395,7 +395,7 @@ class ilDataCollectionDatatype {
 
 	/**
 	 * @param ilDataCollectionRecord $record
-	 * @param ilDataCollectionField  $field
+	 * @param ilDataCollectionField $field
 	 * @param                        $filter
 	 *
 	 * @return bool
@@ -580,7 +580,7 @@ class ilDataCollectionDatatype {
 				$return = $record_field->getValue();
 			}
 		} elseif ($this->id == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
-			return $value["date"] . " " . $value["time"];
+			return $value; // FSX return value direct since new ilDateInput already parses the date
 		} elseif ($this->id == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN) {
 			$return = $value ? 1 : 0;
 		} elseif ($this->id == ilDataCollectionDatatype::INPUTFORMAT_TEXT) {
@@ -592,7 +592,7 @@ class ilDataCollectionDatatype {
 			}
 		} else {
 			if ($this->id == ilDataCollectionDatatype::INPUTFORMAT_NUMBER) {
-				$return = ($value == '') ? NULL : $value; //SW, Ilias Mantis #0011799: Return null otherwise '' is casted to 0 in DB
+				$return = ($value == '') ? null : $value; //SW, Ilias Mantis #0011799: Return null otherwise '' is casted to 0 in DB
 			} else {
 				$return = $value;
 			}
@@ -649,6 +649,7 @@ class ilDataCollectionDatatype {
 		return $return;
 	}
 
+
 	/**
 	 * @param $value
 	 * @param ilDataCollectionRecordField $record_field
@@ -664,9 +665,11 @@ class ilDataCollectionDatatype {
 					return '';
 				}
 				$file_obj = new ilObjFile($value, false);
+
 				return $file_obj->getTitle();
 			case self::INPUTFORMAT_MOB:
 				$mob = new ilObjMediaObject($value, false);
+
 				return $mob->getTitle();
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
 				$arr_properties = $record_field->getField()->getProperties();
@@ -713,7 +716,7 @@ class ilDataCollectionDatatype {
 				$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui", "field_id", $record_field->getField()->getId());
 
 				$html = '<a href="' . $ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistgui", "sendFile") . '">' . $file_obj->getFileName()
-					. '</a>';
+				        . '</a>';
 				if (ilPreview::hasPreview($file_obj->getId())) {
 					ilPreview::createPreview($file_obj); // Create preview if not already existing
 					$preview = new ilPreviewGUI((int)$_GET['ref_id'], ilPreviewGUI::CONTEXT_REPOSITORY, $file_obj->getId(), $ilAccess);
@@ -730,8 +733,8 @@ class ilDataCollectionDatatype {
 					$preview_icon = ilUtil::getImagePath("preview.png", "Services/Preview");
 					$html = '<div id="' . $wrapper_html_id . '">' . $html;
 					$html .= '<span class="il_ContainerItemPreview ' . $preview_status_class . '"><a href="javascript:void(0);" onclick="'
-						. $script_preview_click . '" title="' . $preview_title . '"><img src="' . $preview_icon
-						. '" height="16" width="16"></a></span></div>';
+					         . $script_preview_click . '" title="' . $preview_title . '"><img src="' . $preview_icon
+					         . '" height="16" width="16"></a></span></div>';
 				}
 				break;
 
@@ -771,7 +774,7 @@ class ilDataCollectionDatatype {
 						global $lng;
 						$ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $record_field->getRecord()->getId());
 						$html = $html . '<a href="' . $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord') . '">'
-							. $lng->txt('details') . '</a>';
+						        . $lng->txt('details') . '</a>';
 					}
 				}
 				break;
@@ -800,9 +803,9 @@ class ilDataCollectionDatatype {
 						$link_value = $this->shortenLink($value);
 					}
 
-                    if (substr($link, 0, 3) === 'www') {
-                        $link = 'http://' . $link;
-                    }
+					if (substr($link, 0, 3) === 'www') {
+						$link = 'http://' . $link;
+					}
 					if (preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i", $link)) {
 						$link = "mailto:" . $link;
 					} elseif (!(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $link))) {
@@ -810,9 +813,9 @@ class ilDataCollectionDatatype {
 					}
 
 					$html = "<a target='_blank' href='" . $link . "'>" . $link_value . "</a>";
-
-				} elseif ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_TEXT] AND
-					$link AND ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId())
+				} elseif ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_TEXT] AND $link
+				                                                                                       AND ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()
+				                                                                                                                                                                 ->getTableId())
 				) {
 					$ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $record_field->getRecord()->getId());
 					$html = '<a href="' . $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord') . '">' . $value . '</a>';
@@ -872,13 +875,9 @@ class ilDataCollectionDatatype {
 		switch ($this->id) {
 			case self::INPUTFORMAT_DATETIME:
 				if (!$value || $value == "-") {
-					return NULL;
+					return null;
 				}
-				//$datetime = new DateTime();
-				$input = array(
-					"date" => substr($value, 0, - 9),
-					"time" => "00:00:00"
-				);
+				return substr($value, 0, - 9);
 				break;
 			case self::INPUTFORMAT_FILE:
 
