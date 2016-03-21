@@ -216,7 +216,6 @@ class ilUserCourseStatusHistorizingHelper
 			&& $payload["event"] == "addParticipant")
 		{
 			$payload["begin_date"] = date("Y-m-d");
-			return;
 		}
 
 		if ($payload["participation_status"] !== "teilgenommen") {
@@ -224,7 +223,6 @@ class ilUserCourseStatusHistorizingHelper
 		}
 
 		$cur = ilUserCourseStatusHistorizing::getCurrentRecordByCase($case_id);
-		
 		if ($cur["participation_status"] !== "teilgenommen") {
 			$payload["end_date"] = date("Y-m-d");
 		}
