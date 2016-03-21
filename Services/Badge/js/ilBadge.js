@@ -20,9 +20,7 @@ il.Badge = {
 				{
 					var url = result.url;
 					console.log(url);
-					
-					// :TOOD:
-					return;					
+				
 					OpenBadges.issue([url], function(errors, successes) {												
 						console.log(errors);
 						console.log(successes);
