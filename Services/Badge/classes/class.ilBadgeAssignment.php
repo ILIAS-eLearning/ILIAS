@@ -297,8 +297,8 @@ class ilBadgeAssignment
 		$user = new ilObjUser($this->getUserId());
 		$recipient->identity = 'sha256$'.hash('sha256', $user->getEmail().$recipient->salt);
 		
-		// mozilla backpack should be able to detect duplicates
-		$unique_id = md5($this->getBadgeId()."-".$this->getUserId()."-".$recipient->salt);		
+		// spec: should be locally unique
+		$unique_id = md5($this->getBadgeId()."-".$this->getUserId());		
 		
 		$json = new stdClass();
 		$json->{"@context"} = "https://w3id.org/openbadges/v1";

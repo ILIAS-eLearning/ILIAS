@@ -103,56 +103,55 @@ class ilBadgeBackpack
 	
 	protected function sendRequest($a_url, array $a_param = array(), $a_is_post = false)
 	{	
-		$curl = curl_init();
-		
-		curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-			"Accept: application/json", 
-			"Expect:"
-		));
-		
-		curl_setopt($curl, CURLOPT_FRESH_CONNECT, true);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_FORBID_REUSE, true);
-		curl_setopt($curl, CURLOPT_HEADER, 0);
-		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
-		curl_setopt($curl, CURLOPT_POSTREDIR, 3);
-	
-		// :TODO: SSL problems on test server
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-						
-		if((bool)$a_is_post)
-		{			
-			curl_setopt($curl, CURLOPT_POST, 1);
-			if(sizeof($a_param))
-			{
-				curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($a_param));
-			}
-		}
-		else 
+		try
 		{
-			curl_setopt($curl, CURLOPT_HTTPGET, 1);
-			if(sizeof($a_param))
-			{
-				$a_url = $a_url.
-					(strpos($a_url, "?") === false ? "?" : ""). 
-					http_build_query($a_param);
-			}
-		}
+			include_once "Services/WebServices/Curl/classes/class.ilCurlConnection.php";	
+			$curl = new ilCurlConnection();
+			$curl->init();
 				
-		curl_setopt($curl, CURLOPT_URL, $a_url);
-		
-		$answer = curl_exec($curl);
-		
-		if($answer === false)
+			$curl->setOpt(CURLOPT_FRESH_CONNECT, true);
+			$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
+			$curl->setOpt(CURLOPT_FORBID_REUSE, true);
+			$curl->setOpt(CURLOPT_HEADER, 0);
+			$curl->setOpt(CURLOPT_CONNECTTIMEOUT, 3);
+			$curl->setOpt(CURLOPT_POSTREDIR, 3);
+			
+			// :TODO: SSL problems on test server
+			$curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+
+			$curl->setOpt(CURLOPT_HTTPHEADER, array(
+					"Accept: application/json", 
+					"Expect:"
+			));			
+
+			if((bool)$a_is_post)
+			{			
+				$curl->setOpt(CURLOPT_POST, 1);
+				if(sizeof($a_param))
+				{
+					$curl->setOpt(CURLOPT_POSTFIELDS, http_build_query($a_param));
+				}
+			}
+			else 
+			{
+				$curl->setOpt(CURLOPT_HTTPGET, 1);
+				if(sizeof($a_param))
+				{
+					$a_url = $a_url.
+						(strpos($a_url, "?") === false ? "?" : ""). 
+						http_build_query($a_param);
+				}
+			}
+			$curl->setOpt(CURLOPT_URL, $a_url);
+
+			$answer = $curl->exec();		
+		} 
+		catch (Exception $ex) 
 		{
-			var_dump(curl_errno($curl));
-			var_dump(curl_error($curl));
-			// var_dump(curl_getinfo($curl, CURLINFO_HTTP_CODE));
-			exit();
+			ilUtil::sendFailure($ex->getMessage());
+			return;
 		}
 		
-		curl_close($curl);
-		
-        return json_decode($answer);
+		return json_decode($answer);		      
 	}
 }
