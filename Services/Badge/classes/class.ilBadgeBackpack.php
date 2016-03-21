@@ -111,7 +111,9 @@ class ilBadgeBackpack
 		curl_setopt($curl, CURLOPT_HEADER, 0);
 		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
 		curl_setopt($curl, CURLOPT_POSTREDIR, 3);
-		
+	
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+						
 		if((bool)$a_is_post)
 		{			
 			curl_setopt($curl, CURLOPT_POST, 1);
