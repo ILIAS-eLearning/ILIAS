@@ -283,9 +283,7 @@ class ilBadgeAssignment
 	// 
 	
 	protected function prepareJson($a_url)
-	{				
-		$unique_id = uniqid($this->getBadgeId()."-", true);
-		
+	{						
 		$verify = new stdClass();
 		$verify->type = "hosted";
 		$verify->url = $a_url;
@@ -298,6 +296,9 @@ class ilBadgeAssignment
 		// https://github.com/mozilla/openbadges-backpack/wiki/How-to-hash-&-salt-in-various-languages.
 		$user = new ilObjUser($this->getUserId());
 		$recipient->identity = 'sha256$'.hash('sha256', $user->getEmail().$recipient->salt);
+		
+		// mozilla backpack should be able to detect duplicates
+		$unique_id = md5($this->getBadgeId()."-".$this->getUserId()."-".$recipient->salt);		
 		
 		$json = new stdClass();
 		$json->{"@context"} = "https://w3id.org/openbadges/v1";
