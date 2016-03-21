@@ -318,7 +318,7 @@ class ilBadgeAssignment
 			$badge_url
 		);
 		
-		$json->issued_on = $this->getTimestamp();
+		$json->issuedOn = $this->getTimestamp();
 		$json->badge =  $badge_url;		
 		$json->verify = $verify;	
 		

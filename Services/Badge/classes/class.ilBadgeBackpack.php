@@ -112,6 +112,7 @@ class ilBadgeBackpack
 		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
 		curl_setopt($curl, CURLOPT_POSTREDIR, 3);
 	
+		// :TODO: SSL problems on test server
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 						
 		if((bool)$a_is_post)
@@ -141,7 +142,7 @@ class ilBadgeBackpack
 		{
 			var_dump(curl_errno($curl));
 			var_dump(curl_error($curl));
-			var_dump(curl_getinfo($curl, CURLINFO_HTTP_CODE));
+			// var_dump(curl_getinfo($curl, CURLINFO_HTTP_CODE));
 			exit();
 		}
 		
