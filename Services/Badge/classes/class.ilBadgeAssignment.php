@@ -284,7 +284,7 @@ class ilBadgeAssignment
 	
 	protected function prepareJson($a_url)
 	{				
-		$unique_id = ":TODO:";
+		$unique_id = uniqid($this->getBadgeId()."-", true);
 		
 		$verify = new stdClass();
 		$verify->type = "hosted";

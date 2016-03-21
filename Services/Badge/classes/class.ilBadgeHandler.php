@@ -502,7 +502,7 @@ class ilBadgeHandler
 		$json->type = "Issuer";
 		$json->id = $a_url;	
 		$json->name = $this->getObiOrganistation();
-		$json->url = ILIAS_HTTP_PATH;	
+		$json->url = ILIAS_HTTP_PATH."/";	
 		$json->email = $this->getObiContact();
 		
 		return $json;
