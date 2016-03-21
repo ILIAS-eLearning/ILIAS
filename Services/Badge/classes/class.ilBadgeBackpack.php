@@ -80,6 +80,11 @@ class ilBadgeBackpack
 			foreach($json->badges as $raw)
 			{
 				$badge = $raw->assertion->badge;
+								
+				// :TODO: not sure if this works reliably
+				$issued_on = is_numeric($raw->assertion->issued_on)
+					? $raw->assertion->issued_on
+					: strtotime($raw->assertion->issued_on);
 				
 				$result[] = array(
 					"title" => $badge->name,
@@ -88,7 +93,7 @@ class ilBadgeBackpack
 					"criteria_url" => $badge->criteria,
 					"issuer_name" => $badge->issuer->name,
 					"issuer_url" => $badge->issuer->origin,
-					"issued_on" => new ilDate($raw->assertion->issued_on, IL_CAL_DATE)
+					"issued_on" => new ilDate($issued_on, IL_CAL_UNIX)
 				);
 			}
 			

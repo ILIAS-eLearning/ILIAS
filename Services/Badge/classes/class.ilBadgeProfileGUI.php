@@ -73,6 +73,8 @@ class ilBadgeProfileGUI
 		$tmpl = new ilTemplate("tpl.badge_backpack.html", true, true, "Services/Badge");
 
 		$tmpl->setVariable("BACKPACK_TITLE", $lng->txt("badge_backpack_list"));
+		
+		ilDatePresentation::setUseRelativeDates(false);
 
 		foreach($bp_groups as $group_id => $group)
 		{			
