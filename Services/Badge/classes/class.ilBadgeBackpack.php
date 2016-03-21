@@ -138,7 +138,9 @@ class ilBadgeBackpack
 		
 		if($answer === false)
 		{
+			var_dump(curl_errno($curl));
 			var_dump(curl_error($curl));
+			var_dump(curl_getinfo($curl, CURLINFO_HTTP_CODE));
 			exit();
 		}
 	
