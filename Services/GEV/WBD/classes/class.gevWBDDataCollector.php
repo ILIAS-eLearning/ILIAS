@@ -97,9 +97,9 @@ class gevWBDDataCollector implements WBDDataCollector {
 					break;
 			}
 
-			$faild_checks = $this->performPreliminaryChecks($checks_to_release, $wbd);
+			$failed_checks = $this->performPreliminaryChecks($checks_to_release, $wbd);
 
-			if (count($faild_checks) == 0) {
+			if (count($failed_checks) == 0) {
 				$rec["address_type"] = "geschäftlich";
 				$rec["info_via_mail"] = false;
 				$rec["send_data"] = true;
@@ -190,9 +190,9 @@ class gevWBDDataCollector implements WBDDataCollector {
 			$wbd = gevWBD::getInstanceByObjOrId($rec['user_id']);
 			
 			$checks_to_release = $wbd->shouldBeReleasedChecks();
-			$faild_checks = $this->performPreliminaryChecks($checks_to_release, $wbd);
+			$failed_checks = $this->performPreliminaryChecks($checks_to_release, $wbd);
 
-			if(count($faild_checks) == 0) {
+			if(count($failed_checks) == 0) {
 				$object = gevWBDRequestVermitVerwaltungTransferfaehig::getInstance($rec);
 				if(is_array($object)) {
 					foreach ($object as $error) {
@@ -235,9 +235,9 @@ class gevWBDDataCollector implements WBDDataCollector {
 		while ($rec = $db->fetchAssoc($res)) {
 			$wbd = gevWBD::getInstanceByObjOrId($rec['user_id']);
 			$checks_to_release = $wbd->shouldBeAffiliateAsTPServiceChecks();
-			$faild_checks = $this->performPreliminaryChecks($checks_to_release, $wbd);
+			$failed_checks = $this->performPreliminaryChecks($checks_to_release, $wbd);
 
-			if (count($faild_checks) == 0) {
+			if (count($failed_checks) == 0) {
 				$object = gevWBDRequestVermitVerwaltungAufnahme::getInstance($rec);
 				if(is_array($object)) {
 					foreach ($object as $error) {
