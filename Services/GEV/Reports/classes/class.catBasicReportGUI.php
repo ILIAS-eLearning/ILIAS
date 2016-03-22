@@ -50,8 +50,8 @@ class catBasicReportGUI {
 		}
 		
 		switch ($cmd) {
-			case "exportxlsx":
-				$this->exportXLSX();
+			case "exportexcel":
+				$this->exportExcel();
 				exit();
 				//no "break;" !
 			default:
@@ -129,7 +129,7 @@ class catBasicReportGUI {
 		$this->enableRelevantParametersCtrl();
 		$export_btn = '<a class="submit exportXlsBtn"'
 						. 'href="'
-						.$this->ctrl->getLinkTarget($this, "exportxlsx")
+						.$this->ctrl->getLinkTarget($this, "exportexcel")
 						.'">'
 						.$this->lng->txt("gev_report_excel_export")
 						.'</a>';
@@ -244,14 +244,17 @@ class catBasicReportGUI {
 		return $head.$tail;
 	}
 
+	protected function getExcelWriter() {
+		require_once 'Services/ReportsRepository/classes/class.spoutXLSXWriter.php';
+		$workbook = new spoutXLSXWriter();
+		return $workbook;
+	}
+
 	/**
-	* provide xlsx version of report for download.
-	*/
-	protected function exportXLSX() {
-		require_once 'Services/ReportsRepository/classes/class.catXLSXWriter.php';
-
-		$workbook = new catXLSXWriter();
-
+	 * provide xlsx version of report for download.
+	 */
+	protected function exportExcel() {
+		$workbook = $this->getExcelWriter();
 		$sheet_name = "report";
 		$workbook
 			->addSheet($sheet_name)
