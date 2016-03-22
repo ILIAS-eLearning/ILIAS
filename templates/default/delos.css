@@ -10064,7 +10064,7 @@ div.il_ContainerListItem {
 }
 .ilContainerBlockHeader {
   font-weight: 400;
-  padding: 2px;
+  padding: 5px 10px;
   text-align: left;
   vertical-align: middle;
 }
