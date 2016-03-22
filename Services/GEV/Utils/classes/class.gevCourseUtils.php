@@ -45,9 +45,9 @@ class gevCourseUtils {
 		$this->amd = gevAMDUtils::getInstance();
 		$this->local_roles = null;
 		
-		$this->rbacreview = &$rbacreview;
-		$this->rbacadmin = &$rbacadmin;
-		$this->rbacsystem = &$rbacsystem;
+		$this->gRbacreview = $rbacreview;
+		$this->rbacadmin = $rbacadmin;
+		$this->rbacsystem = $rbacsystem;
 		
 		$this->membership = null;
 		$this->main_trainer = null;
@@ -3325,7 +3325,7 @@ class gevCourseUtils {
 		}
 		
 		foreach ($role_ids as $role_id) {
-			$cur_ops = $this->rbacreview->getRoleOperationsOnObject($role_id, $ref_id);
+			$cur_ops = $this->gRbacreview->getRoleOperationsOnObject($role_id, $ref_id);
 			$grant_ops = ilRbacReview::_getOperationIdsByName($a_permissions);
 			$new_ops = array_unique(array_merge($grant_ops, $cur_ops));
 			$this->rbacadmin->revokePermission($ref_id, $role_id);
@@ -3366,7 +3366,7 @@ class gevCourseUtils {
 		}
 
 		foreach ($role_ids as $role_id) {
-			$cur_ops = $this->rbacreview->getRoleOperationsOnObject($role_id, $ref_id);
+			$cur_ops = $this->gRbacreview->getRoleOperationsOnObject($role_id, $ref_id);
 			$grant_ops = ilRbacReview::_getOperationIdsByName($a_permissions);
 			$new_ops = array_diff($cur_ops, $grant_ops);
 			$this->rbacadmin->revokePermission($ref_id, $role_id);
