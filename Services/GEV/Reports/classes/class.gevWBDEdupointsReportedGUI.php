@@ -34,8 +34,8 @@ class gevWBDEdupointsReportedGUI extends catBasicReportGUI{
 						->column("firstname", "firstname")
 						->column("lastname", "lastname")
 						->column("birthday", "birthday")
-						->column("gev_bwv_id", "gev_bwv_id")
-						->column("wbd_service_type", "wbd_service_type")
+						->column("bwv_id", "gev_bwv_id")
+						->column("wbd_type", "wbd_service_type")
 						->column("title", "crs_title")
 						->column("begin_date", "begin_date")
 						->column("end_date", "end_date")
@@ -89,7 +89,7 @@ class gevWBDEdupointsReportedGUI extends catBasicReportGUI{
 
 
 		$this->filter = catFilter::create()
-/*
+
 						->dateperiod( "period"
 									, $this->lng->txt("gev_period")
 									, $this->lng->txt("gev_until")
@@ -100,7 +100,7 @@ class gevWBDEdupointsReportedGUI extends catBasicReportGUI{
 									, false
 									, " OR usrcrs.hist_historic IS NULL"
 									)
-*/
+
 						->multiselect("wbd_type"
 									 , $this->lng->txt("filter_wbd_service_type")
 									 , "wbd_type"
@@ -128,6 +128,4 @@ class gevWBDEdupointsReportedGUI extends catBasicReportGUI{
 			$this->filter->getGETName() => $this->filter->encodeSearchParamsForGET()
 			); 
 	}
-	
-
 }
