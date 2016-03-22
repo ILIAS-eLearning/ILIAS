@@ -29,7 +29,7 @@ class gevCourseUtils {
 	protected function __construct($a_crs_id) {
 		global $ilDB, $ilLog, $lng, $ilCtrl, $rbacreview, $rbacadmin, $rbacsystem, $tree;
 		
-		$this->db = $ilDB;
+		$this->gIldb = $ilDB;
 		$this->log = $ilLog;
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -314,12 +314,12 @@ class gevCourseUtils {
 		}
 
 		$sql = "UPDATE crs_pstatus_usr"
-				." SET cpoints = ".$this->db->quote($cpoints,"integer")
-					." , status = ".$this->db->quote($state,"integer")
-				." WHERE user_id = ".$this->db->quote($user_id,"integer")
-					." AND crs_id = ".$this->db->quote($this->getId(),"integer");
+				." SET cpoints = ".$this->gIldb->quote($cpoints,"integer")
+					." , status = ".$this->gIldb->quote($state,"integer")
+				." WHERE user_id = ".$this->gIldb->quote($user_id,"integer")
+					." AND crs_id = ".$this->gIldb->quote($this->getId(),"integer");
 		
-		$this->db->manipulate($sql);
+		$this->gIldb->manipulate($sql);
 	}
 	
 	public function getLocalRoles() {
@@ -1073,9 +1073,9 @@ class gevCourseUtils {
 	// the new date. If some the overnights exceed the end date they are removed.
 	public function moveAccomodations() {
 		// Get the last histo entry.
-		$res = $this->db->query( "SELECT begin_date, end_date"
+		$res = $this->gIldb->query( "SELECT begin_date, end_date"
 								."  FROM hist_course"
-								." WHERE crs_id = ".$this->db->quote($this->crs_id, "integer")
+								." WHERE crs_id = ".$this->gIldb->quote($this->crs_id, "integer")
 								."   AND hist_historic = 1"
 								."   AND begin_date != '0000-00-00'"
 								."   AND end_date != '0000-00-00'"
@@ -1085,7 +1085,7 @@ class gevCourseUtils {
 		
 		$start_date = $this->getStartDate();
 		$end_date = $this->getEndDate();
-		if (($rec = $this->db->fetchAssoc($res)) && $start_date && $end_date) {
+		if (($rec = $this->gIldb->fetchAssoc($res)) && $start_date && $end_date) {
 			$start_hist = $rec["begin_date"];
 			$start_cur = $start_date->get(IL_CAL_DATE);
 			$end_hist = $rec["end_date"];
@@ -1108,16 +1108,16 @@ class gevCourseUtils {
 
 	protected function moveAccomodationsSameDuration($a_old_start_date, $a_new_start_date) {
 		$offset_days = floor((strtotime($a_old_start_date) - strtotime($a_new_start_date)) / (60 * 60 * 24));
-		$this->db->manipulate("UPDATE crs_acco"
+		$this->gIldb->manipulate("UPDATE crs_acco"
 							 ."   SET night = night + INTERVAL($offset_days) DAY,"
 							 // This prevents primary key problems
-							 ."       crs_id = ".$this->db->quote(-1 * $this->crs_id, "integer")
-							 ." WHERE crs_id = ".$this->db->quote($this->crs_id, "integer")
+							 ."       crs_id = ".$this->gIldb->quote(-1 * $this->crs_id, "integer")
+							 ." WHERE crs_id = ".$this->gIldb->quote($this->crs_id, "integer")
 							 );
 		// This reverts the preventing for primary key problems
-		$this->db->manipulate("UPDATE crs_acco"
-							 ."   SET crs_id = ".$this->db->quote($this->crs_id, "integer")
-							 ." WHERE crs_id = ".$this->db->quote(-1 * $this->crs_id, "integer")
+		$this->gIldb->manipulate("UPDATE crs_acco"
+							 ."   SET crs_id = ".$this->gIldb->quote($this->crs_id, "integer")
+							 ." WHERE crs_id = ".$this->gIldb->quote(-1 * $this->crs_id, "integer")
 							 );
 	}
 	
@@ -1132,13 +1132,13 @@ class gevCourseUtils {
 		
 		$accos = $this->getAccomodations();
 		
-		$res = $this->db->query( "SELECT user_id, GROUP_CONCAT(night SEPARATOR \";\") nights"
+		$res = $this->gIldb->query( "SELECT user_id, GROUP_CONCAT(night SEPARATOR \";\") nights"
 								."  FROM crs_acco"
-								." WHERE crs_id = ".$this->db->quote($this->crs_id, "integer")
+								." WHERE crs_id = ".$this->gIldb->quote($this->crs_id, "integer")
 								." GROUP BY user_id"
 								." ORDER BY night ASC"
 								);
-		while ($rec = $this->db->fetchAssoc($res)) {
+		while ($rec = $this->gIldb->fetchAssoc($res)) {
 			$nights = explode(";", $rec["nights"]);
 			$user_id = $rec["user_id"];
 			
@@ -1526,19 +1526,19 @@ class gevCourseUtils {
 		
 		$ref_ids = gevObjectUtils::getAllRefIds($this->crs_id);
 		
-		$res = $this->db->query("SELECT DISTINCT ai.obj_id FROM adv_md_values_int ai "
+		$res = $this->gIldb->query("SELECT DISTINCT ai.obj_id FROM adv_md_values_int ai "
 								.(!$future_only ? "" 
 										: (" JOIN adv_md_values_date ad"
-										  ." ON ad.field_id = ".$this->db->quote($start_date_field, "integer")
+										  ." ON ad.field_id = ".$this->gIldb->quote($start_date_field, "integer")
 										  ." AND ad.obj_id = ai.obj_id"))
 								." JOIN object_reference oref ON oref.obj_id = ai.obj_id"
-								." WHERE ai.field_id = ".$this->db->quote($ref_id_field, "integer")
-								."  AND ".$this->db->in("ai.value", $ref_ids, false, "integer")
+								." WHERE ai.field_id = ".$this->gIldb->quote($ref_id_field, "integer")
+								."  AND ".$this->gIldb->in("ai.value", $ref_ids, false, "integer")
 								.(!$future_only ? "" : " AND ad.value > CURDATE()")
 								."  AND oref.deleted IS NULL"
 								);
 		$obj_ids = array();
-		while ($rec = $this->db->fetchAssoc($res)) {
+		while ($rec = $this->gIldb->fetchAssoc($res)) {
 			$obj_ids[] = $rec["obj_id"];
 		}
 		
@@ -1554,10 +1554,10 @@ class gevCourseUtils {
 		$tmplt_title_field = $this->amd->getFieldId(gevSettings::CRS_AMD_TEMPLATE_TITLE);
 
 		$sql= "UPDATE adv_md_values_text "
-							  ."   SET value = ".$this->db->quote($this->getTitle(), "text")
-							  ." WHERE ".$this->db->in("obj_id", $obj_ids, false, "integer")
-							  ."   AND field_id = ".$this->db->quote($tmplt_title_field, "integer");
-		$this->db->manipulate( $sql  );
+							  ."   SET value = ".$this->gIldb->quote($this->getTitle(), "text")
+							  ." WHERE ".$this->gIldb->in("obj_id", $obj_ids, false, "integer")
+							  ."   AND field_id = ".$this->gIldb->quote($tmplt_title_field, "integer");
+		$this->gIldb->manipulate( $sql  );
 
 		foreach($obj_ids as $crs_id) {
 			$crs = new ilObjCourse($crs_id, false);
@@ -1899,9 +1899,9 @@ class gevCourseUtils {
 	}
 	
 	public function mailCronJobDidRun() {
-		$res = $this->db->query("SELECT COUNT(*) cnt FROM gev_crs_dl_mail_cron ".
-								"WHERE crs_id = ".$this->db->quote($this->crs_id, "integer"));
-		$rec = $this->db->fetchAssoc($res);
+		$res = $this->gIldb->query("SELECT COUNT(*) cnt FROM gev_crs_dl_mail_cron ".
+								"WHERE crs_id = ".$this->gIldb->quote($this->crs_id, "integer"));
+		$rec = $this->gIldb->fetchAssoc($res);
 		return $rec["cnt"] > 0;
 	}
 	
@@ -2604,7 +2604,7 @@ class gevCourseUtils {
 	
 	public function buildDeskDisplays($a_path = null) {
 		require_once("Services/DeskDisplays/classes/class.ilDeskDisplay.php");
-		$dd = new ilDeskDisplay($this->db, $this->log);
+		$dd = new ilDeskDisplay($this->gIldb, $this->log);
 		
 		// Generali-Konzept, Kapitel "Tischaufsteller"
 		$dd->setLine1Font("Arial", 48, false, false);
@@ -2822,10 +2822,10 @@ class gevCourseUtils {
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 		$utils = gevRoleUtils::getInstance();
 		$roles = $this->getLocalRoles();
-		$res = $this->db->query( "SELECT rol_id FROM rbac_ua "
-								." WHERE usr_id = ".$this->db->quote($a_user_id)
-								."   AND ".$this->db->in("rol_id", array_keys($roles), false, "integer"));
-		if ($rec = $this->db->fetchAssoc($res)) {
+		$res = $this->gIldb->query( "SELECT rol_id FROM rbac_ua "
+								." WHERE usr_id = ".$this->gIldb->quote($a_user_id)
+								."   AND ".$this->gIldb->in("rol_id", array_keys($roles), false, "integer"));
+		if ($rec = $this->gIldb->fetchAssoc($res)) {
 			return $roles[$rec["rol_id"]];
 		}
 		return null;
@@ -2837,11 +2837,11 @@ class gevCourseUtils {
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 		$utils = gevRoleUtils::getInstance();
 		$roles = $this->getLocalRoles();
-		$res = $this->db->query( "SELECT rol_id FROM rbac_ua "
-								." WHERE usr_id = ".$this->db->quote($a_user_id)
-								."   AND ".$this->db->in("rol_id", array_keys($roles), false, "integer"));
+		$res = $this->gIldb->query( "SELECT rol_id FROM rbac_ua "
+								." WHERE usr_id = ".$this->gIldb->quote($a_user_id)
+								."   AND ".$this->gIldb->in("rol_id", array_keys($roles), false, "integer"));
 		$return = array();
-		if ($rec = $this->db->fetchAssoc($res)) {
+		if ($rec = $this->gIldb->fetchAssoc($res)) {
 			$return[] = $roles[$rec["rol_id"]];
 		}
 		return $return;
@@ -3510,11 +3510,11 @@ class gevCourseUtils {
 
 		$sql = "SELECT file_name\n"
 				." FROM crs_custom_attachments\n"
-				." WHERE obj_id = ".$this->db->quote($this->crs_id, "integer");
+				." WHERE obj_id = ".$this->gIldb->quote($this->crs_id, "integer");
 
-		$res = $this->db->query($sql);
+		$res = $this->gIldb->query($sql);
 
-		while($row = $this->db->fetchAssoc($res)){
+		while($row = $this->gIldb->fetchAssoc($res)){
 			$ret[] = $row["file_name"];
 		}
 
@@ -3526,13 +3526,13 @@ class gevCourseUtils {
 
 		$datatype_array = array("integer", "text");
 		$sql = "DELETE FROM crs_custom_attachments WHERE obj_id = (?) AND file_name = (?)";
-		$statement = $this->db->prepare($sql,$datatype_array);
+		$statement = $this->gIldb->prepare($sql,$datatype_array);
 		
 		$values = array($this->crs_id);
 		
 		foreach ($files as $file) {
 			$values[1] = $file;
-			$this->db->execute($statement,$values);
+			$this->gIldb->execute($statement,$values);
 		}
 	}
 
@@ -3563,14 +3563,14 @@ class gevCourseUtils {
 		assert(is_array($files));
 		$datatype_array = array("integer", "text");
 		$sql = "INSERT INTO crs_custom_attachments (obj_id,file_name) VALUES (?,?)";
-		$statement = $this->db->prepare($sql,$datatype_array);
+		$statement = $this->gIldb->prepare($sql,$datatype_array);
 		
 		$values = array($this->crs_id);
 		
 		foreach ($files as $file) {
 			$values[1] = $file;
 			if(!$this->checkCustomAttachmentExists($file)) {
-				$this->db->execute($statement,$values);
+				$this->gIldb->execute($statement,$values);
 			} else {
 				throw new Exception("File exists");
 			}
@@ -3580,15 +3580,15 @@ class gevCourseUtils {
 	protected function checkCustomAttachmentExists($file) {
 		$query = "SELECT count(*) as cnt\n"
 				." FROM crs_custom_attachments\n"
-				." WHERE obj_id = ".$this->db->quote($this->crs_id,"integer")."\n"
-				." AND file_name = ".$this->db->quote($file, "text");
+				." WHERE obj_id = ".$this->gIldb->quote($this->crs_id,"integer")."\n"
+				." AND file_name = ".$this->gIldb->quote($file, "text");
 
 
 
-		$res = $this->db->query($query);
-		$row = $this->db->fetchAssoc($res);
+		$res = $this->gIldb->query($query);
+		$row = $this->gIldb->fetchAssoc($res);
 
-		if($this->db->numRows($res) > 0) {
+		if($this->gIldb->numRows($res) > 0) {
 			return $row["cnt"] > 0;
 		}
 		
