@@ -46,7 +46,7 @@ class gevCourseUtils {
 		$this->local_roles = null;
 		
 		$this->gRbacreview = $rbacreview;
-		$this->rbacadmin = $rbacadmin;
+		$this->gRbacadmin = $rbacadmin;
 		$this->rbacsystem = $rbacsystem;
 		
 		$this->membership = null;
@@ -2759,7 +2759,7 @@ class gevCourseUtils {
 		// Delete VC Assignments
 		$this->deleteVCAssignment();
 
-		$this->rbacadmin->revokePermission($this->getRefId());
+		$this->gRbacadmin->revokePermission($this->getRefId());
 	}
 
 	public function cancelTrainer(array $trainer_id) {
@@ -3328,8 +3328,8 @@ class gevCourseUtils {
 			$cur_ops = $this->gRbacreview->getRoleOperationsOnObject($role_id, $ref_id);
 			$grant_ops = ilRbacReview::_getOperationIdsByName($a_permissions);
 			$new_ops = array_unique(array_merge($grant_ops, $cur_ops));
-			$this->rbacadmin->revokePermission($ref_id, $role_id);
-			$this->rbacadmin->grantPermission($role_id, $new_ops, $ref_id);
+			$this->gRbacadmin->revokePermission($ref_id, $role_id);
+			$this->gRbacadmin->grantPermission($role_id, $new_ops, $ref_id);
 		}
 	}
 	
@@ -3369,8 +3369,8 @@ class gevCourseUtils {
 			$cur_ops = $this->gRbacreview->getRoleOperationsOnObject($role_id, $ref_id);
 			$grant_ops = ilRbacReview::_getOperationIdsByName($a_permissions);
 			$new_ops = array_diff($cur_ops, $grant_ops);
-			$this->rbacadmin->revokePermission($ref_id, $role_id);
-			$this->rbacadmin->grantPermission($role_id, $new_ops, $ref_id);
+			$this->gRbacadmin->revokePermission($ref_id, $role_id);
+			$this->gRbacadmin->grantPermission($role_id, $new_ops, $ref_id);
 		}
 	}
 
