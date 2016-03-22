@@ -9,10 +9,6 @@ class WBDPreliminaryHasNoOpenWBDError extends WBDPreliminary {
 		$this->wbd_errors = $wbd_errors;
 	}
 
-	public function message() {
-		return self::$message;
-	}
-
 	/** 
 	 * @inheritdoc 
 	 */

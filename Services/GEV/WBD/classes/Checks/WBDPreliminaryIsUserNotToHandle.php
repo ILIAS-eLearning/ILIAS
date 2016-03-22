@@ -10,10 +10,6 @@ class WBDPreliminaryIsUserNotToHandle extends WBDPreliminary {
 		$this->specified_user_ids = $specified_user_ids;
 	}
 
-	public function message() {
-		return self::$message;
-	}
-
 	/** 
 	 * @inheritdoc 
 	 */

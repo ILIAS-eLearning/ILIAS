@@ -11,10 +11,6 @@ class WBDPreliminaryHasNotWBDType extends WBDPreliminary {
 		$this->wbd_type = $wbd_type;
 	}
 
-	public function message() {
-		return self::$message;
-	}
-
 	/** 
 	 * @inheritdoc 
 	 */
