@@ -47,7 +47,7 @@ class gevCourseUtils {
 		
 		$this->gRbacreview = $rbacreview;
 		$this->gRbacadmin = $rbacadmin;
-		$this->rbacsystem = $rbacsystem;
+		$this->gRbacsystem = $rbacsystem;
 		
 		$this->membership = null;
 		$this->main_trainer = null;
@@ -3485,7 +3485,7 @@ class gevCourseUtils {
 	}
 
 	public function userHasPermissionTo($user_id, $right_name) {
-		return $this->rbacsystem->checkAccessOfUser($user_id, $right_name, $this->getRefId());
+		return $this->gRbacsystem->checkAccessOfUser($user_id, $right_name, $this->getRefId());
 	}
 
 	public function userCanCancelCourse($user_id) {
