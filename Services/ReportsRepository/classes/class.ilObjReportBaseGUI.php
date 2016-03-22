@@ -80,8 +80,8 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 					return $this->renderSettings();
 				}
 				break;
-			case "exportxlsx":
-				$this->exportXLSX();
+			case "exportexcel":
+				$this->exportExcel();
 				exit();
 			case "showContent":
 				if($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
@@ -152,7 +152,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->enableRelevantParametersCtrl();
 		$export_btn = '<a class="submit exportXlsBtn"'
 						. 'href="'
-						.$this->gCtrl->getLinkTarget($this, "exportxlsx")
+						.$this->gCtrl->getLinkTarget($this, "exportexcel")
 						.'">'
 						.$this->gLng->txt("gev_report_excel_export")
 						.'</a>';
@@ -252,15 +252,19 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		return $tpl->get();
 	}
 
+	protected function getExcelWriter() {
+		require_once 'Services/ReportsRepository/classes/class.spoutXLSXWriter.php';
+		$workbook = new spoutXLSXWriter();
+		return $workbook;
+	}
+
 	/**
 	 * provide xlsx version of report for download.
 	 */
-	protected function exportXLSX() {
-		require_once 'Services/ReportsRepository/classes/class.catXLSXWriter.php';
-		$callback = get_class($this).'::transformResultRowXLSX';
+	protected function exportExcel() {
 		$this->object->prepareReport();
 
-		$workbook = new catXLSXWriter();
+		$workbook = $this->getExcelWriter();
 
 		$sheet_name = "report";
 		$workbook
@@ -281,7 +285,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 
 		foreach ($this->object->deliverData($callback) as $entry) {
 			$row = array();
-			foreach ($this->object->deliverTable()->all_columns as $col)  {
+			foreach ($this->object->deliverTable()->all_columns as $col) {
 				if ($col[4]) {
 					continue;
 				}
