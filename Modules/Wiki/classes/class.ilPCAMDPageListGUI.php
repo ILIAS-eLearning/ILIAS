@@ -111,8 +111,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 			0 => $this->lng->txt("wiki_page_list_mode_unordered"),
 			1 => $this->lng->txt("wiki_page_list_mode_ordered")
 		));
-		$mode->setRequired(true);
-		$mode->setValue($this->content_obj->getMode());
+		$mode->setRequired(true);				
 		$form->addItem($mode);				
 				
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
@@ -121,6 +120,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 		
 		if (!$a_insert)
 		{
+			$mode->setValue($this->content_obj->getMode());
 			$this->record_gui->setSearchFormValues($this->content_obj->getFieldValues());
 		}
 		
