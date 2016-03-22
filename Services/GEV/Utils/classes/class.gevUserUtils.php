@@ -2134,4 +2134,20 @@ class gevUserUtils {
 
 		return $bb_pools;
 	}
+
+	public function getRoleHistory() {
+		$query = "SELECT hiur.rol_title, ud.firstname, ud.lastname, hiur.action, hiur.created_ts"
+				." FROM hist_userrole hiur"
+				." JOIN usr_data ud ON ud.usr_id = hiur.creator_user_id"
+				." WHERE hiur.usr_id = ".$this->db->quote($this->user_id, "integer")
+				." ORDER BY hiur.created_ts";
+
+		$ret = array();
+		$res = $this->db->query($query);
+		while($row = $this->db->fetchAssoc($res)) {
+			$ret[] = $row;
+		}
+
+		return $ret;
+	}
 }

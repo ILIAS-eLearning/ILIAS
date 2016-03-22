@@ -60,6 +60,10 @@ class ilObjUserGUI extends ilObjectGUI
 		
 		$lng->loadLanguageModule('user');
 		
+		//gev-patch start #2164
+		$this->lng = $lng;
+		//gev-patch end
+		
 		// for gender selection. don't change this
 		// maybe deprecated
 		$this->gender = array(
@@ -3206,6 +3210,11 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		global $rbacreview,$rbacsystem,$ilUser, $ilTabs, $lng;
 		
+		//gev-patch start #2164
+		$this->setSubTabs("roles");
+		$this->tabs_gui->setSubTabActive("roleassignment");
+		//gev-patch end
+
 		$lng->loadLanguageModule("rbac");
 		
 		$ilTabs->activateTab("role_assignment");
@@ -3822,5 +3831,44 @@ class ilObjUserGUI extends ilObjectGUI
 			$agree_date->setValue($this->lng->txt('tos_not_accepted_yet'));
 		}
 	}
+
+	//gev-patch start #2164
+	/**
+	* set sub tabs
+	*/
+	function setSubTabs($a_tab)
+	{
+		
+		if (isset($this->subtabs_are_already_set)) {
+			return;
+		}
+
+		$this->subtabs_are_already_set = true;
+
+		switch ($a_tab)
+		{
+			case "roles":
+				$this->tabs_gui->addSubTab("roleassignment", $this->lng->txt("role_assignment"), $this->ctrl->getLinkTarget($this,"roleassignment"));
+				$this->tabs_gui->addSubTab("rolehistory", $this->lng->txt("gev_user_role_history"), $this->ctrl->getLinkTarget($this,"rolehistory"));
+				break;
+		}
+	}
+
+	/**
+	* display roleassignment panel
+	*
+	* @access	public
+	*/
+	function rolehistoryObject ()
+	{
+		$this->setSubTabs("roles");
+		$this->tabs_gui->setSubTabActive("rolehistory");
+		$this->tabs_gui->activateTab("role_assignment");
+
+		require_once("Services/GEV/Administration/classes/class.gevUserRoleHistoryGUI.php");
+		$gui = new gevUserRoleHistoryGUI($_GET["obj_id"]);
+		$gui->render();
+    }
+    //gev-patch end
 } // END class.ilObjUserGUI
 ?>
