@@ -44,17 +44,28 @@ class ilBadgeRenderer
 		
 		$tpl->setVariable("DESC", nl2br($badge->getDescription()));
 		
-		$tpl->setVariable("TXT_VALID", $lng->txt("badge_valid"));		
-		$tpl->setVariable("VALID", $badge->getValid());		
-		
-		$tpl->setVariable("TXT_TSTAMP", $lng->txt("created"));	
+		$tpl->setVariable("TXT_TSTAMP", $lng->txt("badge_issued_on"));	
 		$tpl->setVariable("TSTAMP", 
-			ilDatePresentation::formatDate(new ilDateTime($this->assignment->getTimestamp(), IL_CAL_UNIX)));						
-		$tpl->setVariable("TXT_PARENT", $lng->txt("container"));	
+			ilDatePresentation::formatDate(new ilDateTime($this->assignment->getTimestamp(), IL_CAL_UNIX)));		
 		
-		$parent = $badge->getParentMeta();
-		$tpl->setVariable("PARENT", 
-			"(".$parent["type"]."/".$parent["id"].") ".$parent["title"]);
+		if($badge->getParentId())
+		{
+			$parent = $badge->getParentMeta();	
+			if($parent["type"] != "bdga")
+			{												
+				$tpl->setVariable("TXT_PARENT", $lng->txt("object"));			
+				$tpl->setVariable("PARENT", $parent["title"]);
+				$tpl->setVariable("PARENT_TYPE", $lng->txt("obj_".$parent["type"]));
+				$tpl->setVariable("PARENT_ICON", 
+					ilObject::_getIcon($parent["id"], "big", $parent["type"]));
+			}				
+		}
+		
+		if($badge->getValid())
+		{
+			$tpl->setVariable("TXT_VALID", $lng->txt("badge_valid"));		
+			$tpl->setVariable("VALID", $badge->getValid());		
+		}
 		
 		$modal->setBody($tpl->get());
 

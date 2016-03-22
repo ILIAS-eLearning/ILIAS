@@ -80,8 +80,8 @@ class ilBadgeProfileGUI
 		{			
 			$bp_badges = $bp->getBadges($group_id);
 			if(sizeof($bp_badges))
-			{
-				foreach($bp_badges as $badge)
+			{											
+				foreach($bp_badges as $idx => $badge)
 				{
 					$tmpl->setCurrentBlock("badge_bl");
 					$tmpl->setVariable("BADGE_TITLE", $badge["title"]);
@@ -91,7 +91,7 @@ class ilBadgeProfileGUI
 					$tmpl->setVariable("BADGE_ISSUER", $badge["issuer_name"]);
 					$tmpl->setVariable("BADGE_ISSUER_URL", $badge["issuer_url"]);
 					$tmpl->setVariable("BADGE_DATE", ilDatePresentation::formatDate($badge["issued_on"]));
-					$tmpl->parseCurrentBlock();							
+					$tmpl->parseCurrentBlock();												
 				}
 			}
 

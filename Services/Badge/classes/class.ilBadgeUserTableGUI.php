@@ -48,7 +48,9 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 		
 		$this->setRowTemplate("tpl.user_row.html", "Services/Badge");			
 				
-		$this->getItems($a_parent_ref_id, $this->award_badge, $a_parent_obj_id);				
+		$this->getItems($a_parent_ref_id, $this->award_badge, $a_parent_obj_id);	
+		
+		
 	}
 	
 	function getItems($a_parent_ref_id, ilBadge $a_award_bagde = null, $a_parent_obj_id = null)
@@ -77,7 +79,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
 		foreach(ilBadgeAssignment::getInstancesByParentId($a_parent_obj_id) as $ass)
 		{
-			$assignments[$ass->getUserId()][] = $ass->getBadgeId();			
+			$assignments[$ass->getUserId()][] = $ass;			
 		}
 		
 		// administration context: show only existing assignments
@@ -86,6 +88,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 			$user_ids = array_keys($assignments);
 		}
 
+		include_once "Services/Badge/classes/class.ilBadgeRenderer.php";
 		include_once "Services/User/classes/class.ilUserQuery.php";
 		$uquery = new ilUserQuery();
 		$uquery->setUserFilter($user_ids);
@@ -103,9 +106,9 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 			// badges?
 			if(array_key_exists($id, $assignments))
 			{
-				foreach($assignments[$id] as $badge_id)
+				foreach($assignments[$id] as $user_ass)
 				{						
-					$data[$id]["badges"][] = $badges[$badge_id];
+					$data[$id]["badges"][] = new ilBadgeRenderer($user_ass);
 				}
 			}
 		}		
@@ -126,10 +129,9 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 		if(sizeof($a_set["badges"]))
 		{
 			$this->tpl->setCurrentBlock("badges_bl");
-			foreach($a_set["badges"] as $badge)
+			foreach($a_set["badges"] as $badge_ass)
 			{
-				$this->tpl->setVariable("IMG_BADGE", $badge->getImagePath());
-				$this->tpl->setVariable("TXT_BADGE", $badge->getTitle());
+				$this->tpl->setVariable("BADGE", $badge_ass->getHTML());
 				$this->tpl->parseCurrentBlock();
 			}
 		}

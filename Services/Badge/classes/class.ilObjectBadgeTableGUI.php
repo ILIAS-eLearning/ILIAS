@@ -36,7 +36,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 				
 		$this->addColumn($lng->txt("title"), "title");
 		$this->addColumn($lng->txt("type"), "type");
-		$this->addColumn($lng->txt("container"), "container");		
+		$this->addColumn($lng->txt("object"), "container");		
 		$this->addColumn($lng->txt("active"), "active");
 		$this->addColumn($lng->txt("action"), "");		
 			
@@ -59,6 +59,8 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 	
 	function getItems()
 	{		
+		global $lng;
+		
 		$data = array();
 		
 		$types = ilBadgeHandler::getInstance()->getAvailableTypes();
@@ -66,9 +68,12 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 		foreach(ilBadge::getObjectInstances() as $badge_item)
 		{
 			// :TODO: container presentation
-			$container = "(".$badge_item["parent_type"]."/".
-					$badge_item["parent_id"].") ".
-					$badge_item["parent_title"];						
+			$container = '<img src="'.
+					ilObject::_getIcon($badge_item["parent_id"], "big", $badge_item["parent_type"]).
+					'" alt="'.$lng->txt("obj_".$badge_item["parent_type"]).
+					'" title="'.$lng->txt("obj_".$badge_item["parent_type"]).'" /> '.
+					$badge_item["parent_title"];
+			
 			if((bool)$badge_item["deleted"])
 			{
 				$container = '<s>'.$container.'</s>';
