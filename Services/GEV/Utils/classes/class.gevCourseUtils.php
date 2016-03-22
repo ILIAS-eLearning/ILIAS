@@ -30,7 +30,7 @@ class gevCourseUtils {
 		global $ilDB, $ilLog, $lng, $ilCtrl, $rbacreview, $rbacadmin, $rbacsystem, $tree;
 		
 		$this->gIldb = $ilDB;
-		$this->log = $ilLog;
+		$this->gLog = $ilLog;
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		$this->gTree = $tree;
@@ -2604,7 +2604,7 @@ class gevCourseUtils {
 	
 	public function buildDeskDisplays($a_path = null) {
 		require_once("Services/DeskDisplays/classes/class.ilDeskDisplay.php");
-		$dd = new ilDeskDisplay($this->gIldb, $this->log);
+		$dd = new ilDeskDisplay($this->gIldb, $this->gLog);
 		
 		// Generali-Konzept, Kapitel "Tischaufsteller"
 		$dd->setLine1Font("Arial", 48, false, false);
@@ -3009,7 +3009,6 @@ class gevCourseUtils {
 
 		global $ilDB;
 
-		//$res = $ilDB->query("SELECT DISTINCT edu_program FROM hist_course WHERE edu_program != '-empty-' AND hist_historic = 0");
 		$res = $ilDB->query("SELECT DISTINCT edu_program FROM hist_course WHERE edu_program NOT IN ('-empty-', '') AND hist_historic = 0 ORDER BY edu_program ASC");
 		self::$hist_edu_programs = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {
@@ -3026,8 +3025,7 @@ class gevCourseUtils {
 		}
 
 		global $ilDB;
-		
-		//$res = $ilDB->query("SELECT DISTINCT type FROM hist_course WHERE type != '-empty-' AND hist_historic = 0");
+
 		$res = $ilDB->query("SELECT DISTINCT type FROM hist_course WHERE type NOT IN ('-empty-', '') AND hist_historic = 0 ORDER BY type ASC");
 		self::$hist_course_types = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {
@@ -3046,7 +3044,6 @@ class gevCourseUtils {
 
 		global $ilDB;
 
-		//$res = $ilDB->query("SELECT DISTINCT template_title FROM hist_course WHERE template_title != '-empty-' AND hist_historic = 0");
 		$res = $ilDB->query("SELECT DISTINCT template_title FROM hist_course WHERE template_title NOT IN  ('-empty-', '') AND hist_historic = 0 ORDER BY template_title ASC");
 		self::$hist_course_template_title = array();
 		while ($rec = $ilDB->fetchAssoc($res)) {
@@ -3076,7 +3073,7 @@ class gevCourseUtils {
 
 
 
-	public function searchCourses($a_search_options, $a_offset, 
+	public static function searchCourses($a_search_options, $a_offset,
 								$a_limit, $a_order = "title", 
 								$a_direction = "desc") {
 		
@@ -3597,7 +3594,7 @@ class gevCourseUtils {
 
 	public function addAttachmentsToMailSingleFolder($files, $folder) {
 		foreach ($files as $filename) {
-			$this->log->write("File: ".$filename." Folder: ".$folder);
+			$this->gLog->write("File: ".$filename." Folder: ".$folder);
 			$this->addAttachmentsToMail($filename,$folder."/".$filename);
 		}
 	}
