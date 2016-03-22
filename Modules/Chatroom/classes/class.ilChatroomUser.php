@@ -161,7 +161,11 @@ class ilChatroomUser
 	 */
 	public function buildFullname()
 	{
-	    return $this->user->getPublicName();
+		$tmp = $this->user->getPref('public_profile');
+		$this->user->setPref('public_profile', 'y');
+		$pn = $this->user->getPublicName();
+		$this->user->setPref('public_profile', $tmp);
+		return $pn;
 	}
 
 	/**

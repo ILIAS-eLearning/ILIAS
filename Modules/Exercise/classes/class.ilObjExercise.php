@@ -596,7 +596,9 @@ class ilObjExercise extends ilObject
 			$mainworksheet->writeString(0, $cnt, $cnt);
 			$cnt++;
 		}
-		$mainworksheet->writeString(0, $cnt, ilExcelUtils::_convert_text($this->lng->txt("exc_total_exc")));
+		$mainworksheet->writeString(0, $cnt++, ilExcelUtils::_convert_text($this->lng->txt("exc_total_exc")));
+		$mainworksheet->writeString(0, $cnt++, ilExcelUtils::_convert_text($this->lng->txt("exc_mark")));
+		$mainworksheet->writeString(0, $cnt, ilExcelUtils::_convert_text($this->lng->txt("exc_comment_for_learner")));
 		
 		// data rows
 		$this->mem_obj = new ilExerciseMembers($this);
@@ -607,6 +609,8 @@ class ilObjExercise extends ilObject
 			$mems[$user_id] = ilObjUser::_lookupName($user_id);
 		}
 		$mems = ilUtil::sortArray($mems, "lastname", "asc", false, true);
+		
+		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
 		$data = array();
 		$row_cnt = 1;
@@ -629,7 +633,12 @@ class ilObjExercise extends ilObject
 			
 			// total status
 			$status = ilExerciseMembers::_lookupStatus($this->getId(), $user_id);
-			$mainworksheet->writeString($row_cnt, $col_cnt, ilExcelUtils::_convert_text($this->lng->txt("exc_".$status)));
+			$mainworksheet->writeString($row_cnt, $col_cnt++, ilExcelUtils::_convert_text($this->lng->txt("exc_".$status)));
+			
+			// #18096
+			$marks_obj = new ilLPMarks($this->getId(), $user_id);
+			$mainworksheet->writeString($row_cnt, $col_cnt++, ilExcelUtils::_convert_text($marks_obj->getMark()));
+			$mainworksheet->writeString($row_cnt, $col_cnt, ilExcelUtils::_convert_text($marks_obj->getComment()));			
 
 			$row_cnt++;
 		}

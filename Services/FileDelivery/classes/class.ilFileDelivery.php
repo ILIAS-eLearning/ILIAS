@@ -339,6 +339,10 @@ class ilFileDelivery {
 			$this->setDeliveryType(self::DELIVERY_METHOD_PHP);
 		}
 
+		if ($this->getDeliveryType() == self::DELIVERY_METHOD_XACCEL && strpos($this->getPathToFile(), './data') !== 0) {
+			$this->setDeliveryType(self::DELIVERY_METHOD_PHP);
+		}
+
 		self::$delivery_type_static = $this->getDeliveryType();
 
 		return true;

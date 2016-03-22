@@ -10062,14 +10062,14 @@ if ($ilDB->tableExists('rbac_templates'))
 	{
 		$ilDB->manipulateF(
 			"DELETE FROM rbac_templates WHERE rol_id = %s AND type = %s AND ops_id = %s AND parent = %s",
-			array('integer', 'integer', 'integer', 'integer'),
+			array('integer', 'text', 'integer', 'integer'),
 			array($row['rol_id'], $row['type'], $row['ops_id'], $row['parent'])
 		);
 
 		$ilDB->manipulate("INSERT INTO rbac_templates (rol_id, type, ops_id, parent)".
 			" VALUES (".
 			$ilDB->quote($row['rol_id'], "integer").
-			",".$ilDB->quote($row['type'], "integer").
+			",".$ilDB->quote($row['type'], "text").
 			",".$ilDB->quote($row['ops_id'], "integer").
 			",".$ilDB->quote($row['parent'], "integer").
 			")"
@@ -14545,5 +14545,44 @@ $ilDB->manipulate(
 if(!$ilDB->indexExistsByFields('il_qpl_qst_fq_unit',array('question_fi')))
 {
 	$ilDB->addIndex('il_qpl_qst_fq_unit',array('question_fi'), 'i2');
+}
+?>
+<#4883>
+<?php
+
+$query = 'SELECT * FROM settings WHERE module = ' . $ilDB->quote('common', 'text') . ' AND keyword = ' . $ilDB->quote('mail_send_html', 'text');
+$res = $ilDB->query($query);
+
+$found = false;
+while($row = $ilDB->fetchAssoc($res))
+{
+	$found = true;
+	break;
+}
+
+if(!$found)
+{
+	$setting = new ilSetting();
+	$setting->set('mail_send_html', 1);
+}
+?>
+<#4884>
+<?php
+if(!$ilDB->tableExists('lng_log'))
+{
+	$ilDB->createTable('lng_log',
+	   array(
+		   'module' => array(
+			   'type' => 'text',
+			   'length' => 30,
+			   'notnull' => true
+		   ),
+		   'identifier' => array (
+			   'type' => 'text',
+			   'length' => 60,
+			   'notnull' => true
+		   )
+	   ));
+	$ilDB->addPrimaryKey('lng_log', array('module', 'identifier'));
 }
 ?>

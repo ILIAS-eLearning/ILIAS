@@ -1622,7 +1622,7 @@ assessment#:#tst_question_set_type_dynamic_desc#:#Allen Teilnehmern werden nach 
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Wenn Sie die Auswahl der Testfragen von <b>%s</b> auf <b>%s</b> ändern, geht die aktuelle Fragenzuordnung verloren. Sie müssen dann für die neue Konfiguration erneut Fragen zuordnen bzw. den Fragenpool entsprechend konfigurieren.<br />Klicken Sie auf <b>Bestätigen</b>, um die neue Einstellung zu verwenden, oder wählen Sie <b>Abbrechen</b>, wenn die aktuell eingestellte Auswahl der Testfragen beibehalten werden soll.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenauswahl wurde geändert.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
-assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#Die Konfiguration für die zufällige Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
+assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#Die Konfiguration für die zufällige Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebnisse vorliegen.
 assessment#:#tst_delete_dyn_test_results_btn#:#Testergebnisse entfernen
 assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Bisherige Antworten entfernen
 assessment#:#tst_dyn_test_pass_deletion_button#:#Zurücksetzen sämtlicher Testantworten
@@ -7788,7 +7788,7 @@ exc#:#exc_msg_new_feedback_file_uploaded2#:#Eine neue Feedback-Datei wurde für 
 exc#:#exc_msg_participants_removed#:#Die Teilnehmer wurden aus der Übung entfernt.
 exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
 exc#:#exc_msg_saved_grades#:#Note(n)/Kommentar(e) für Lerner wurden gespeichert.
-exc#:#exc_msg_sure_to_deassign_participant#:#Wollen Sie wirklich die folgenden Teilnehmer aus der Übung entfernen? Alle Lösungsabgaben der Teilnehmer werden gelöscht.
+exc#:#exc_msg_sure_to_deassign_participant#:#Wollen Sie wirklich die folgenden Teilnehmer aus allen Übungseinheiten der Übung entfernen? Alle Lösungsabgaben aus allen Übungseinheiten der Teilnehmer werden gelöscht.
 exc#:#exc_new_assignment#:#Neue Übungseinheit
 exc#:#exc_no_assignments_available#:#Keine Übungseinheiten vorhanden. Bitte wählen Sie "Übungseinheiten" und "Bearbeiten", um eine Übungseinheit zu erstellen.
 exc#:#exc_no_participants#:#Zur Zeit gibt es keine Teilnehmer.
@@ -8374,6 +8374,8 @@ mail#:#goto_invitation_chat#:#Öffne Chatraum
 mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail-Adresse ein, die als Absender für automatisch generierte System- oder Benachrichtigungsmails verwendet werden soll. <b>Hinweis</b>: Diese Adresse muss tatsächlich existieren, damit entsprechende Mails nicht von Spam-Filtern und Mail-Servern abgelehnt werden.
 mail#:#invite_to_chat#:#in Chat einladen
 mail#:#linebreak#:#Zeilenumbruch
+mail#:#mail_send_html#:#HTML-Rahmen für externe E-Mails
+mail#:#mail_send_html_info#:#Falls aktiviert, wird der Nachrichtentext von externen E-Mails in einen HTML-Rahmen gesetzt. Dieser kann über ein Skin-Template unter './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' (als Kopie von './Services/Mail/templates/default/tpl.html_mail_template.html') angepasst werden. 
 mail#:#mail_account_mail#:#Benutzerkonten-Mail
 mail#:#mail_account_mail_check#:#Benutzerkonten-Mail versenden
 mail#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
@@ -14044,7 +14046,7 @@ fold#:#fold_settings#:#Ordnereigenschaften
 mcst#:#mcst_download_cnt#:#Heruntergeladen
 mcst#:#mcst_play_cnt#:#Abgespielt
 glo#:#glo_term#:#Glossarbegriff
-content#:#glo_add_term_properties#:#Zusätzliche Eigenschaften von Glossarbegriffen
+content#:#glo_add_term_properties#:#Erweiterte Metadaten von Glossarbegriffen
 exc#:#exc_multi_feedback#:#Multi-Feedback
 exc#:#exc_download_zip_structure#:#ZIP-Verzeichnisstruktur herunterladen
 exc#:#exc_multi_feedback_file#:#Multi-Feedback-Datei
@@ -14765,7 +14767,7 @@ survey#:#svy_results_view_own#:#Teilnehmer kann eigene Antworten einsehen
 survey#:#svy_results_mail_own#:#Teilnehmer kann sich E-Mail mit den eigenen Antworten senden
 exercise#:#exc_to_desktop_info#:#Nach Abgabe die Übung auf den Schreibtisch legen
 wiki#:#wiki_wpg#:#Wiki-Seite
-wiki#:#wiki_add_page_properties#:#Zusätzliche Eigenschaften von Wikiseiten
+wiki#:#wiki_add_page_properties#:#Erweiterte Metadaten von Wikiseiten
 wiki#:#wiki_advmd_block_title#:#Erweiterte Metadaten der Seite
 content#:#cont_ed_insert_amd_page_list#:#Seitenliste einfügen
 content#:#cont_insert_amd_page_list#:#Seitenliste einfügen
@@ -15667,7 +15669,7 @@ meta#:#meta_tab_lom#:#LOM
 meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten
 meta#:#meta_tab_advmd_def#:#Metadatensätze verwalten
 meta#:#meta_global#:#Global
-wiki#:#wiki_unhide_meta_adv_records#:#Zusätzliche Eigenschaften anzeigen
+wiki#:#wiki_unhide_meta_adv_records#:#Erweiterte Metadaten anzeigen
 prtf#:#prtf_back_to_portfolio_owner#:#Portfolio bearbeiten
 blog#:#blog_back_to_blog_owner#:#Blog bearbeiten
 content#:#cont_assign_to_parent#:#Dem übergordneten Knoten zuordnen
@@ -16179,3 +16181,9 @@ style#:#sty_ha_ihcap_class#:#Hor. Akkordeonelement Überschrift
 style#:#sty_va_iheada_class#:#Vert. Akkordeonelement Kopf (aktiv)
 style#:#sty_va_ihcap_class#:#Vert. Akkordeonelement Überschrift
 exc#:#exc_delete_team#:#Team löschen
+sysc#:#sysc_tree_structure_failures#:#Anzahl von Fehlern in der Baumstruktur (parent-Relation): 
+sysc#:#sysc_message_tree_structure_confirm#:#Sind sie sicher, dass sie die Baumstruktur reparieren möchten. Es wird unbedingt empfohlen vor Reparatur eine Sicherung der ILIAS-Datenbank zu erstellen.
+sysc#:#sysc_btn_tree_structure#:#Baumstruktur neu generieren
+wiki#:#wiki_page_list_mode#:#Listentyp
+wiki#:#wiki_page_list_mode_unordered#:#Nicht nummeriert
+wiki#:#wiki_page_list_mode_ordered#:#Nummeriert

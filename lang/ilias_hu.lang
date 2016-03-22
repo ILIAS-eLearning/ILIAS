@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.2.x 2016-02-27 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.2.x 2016-03-19 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -278,8 +278,8 @@ assessment#:#assMatchingQuestion#:#Párosító kérdés
 assessment#:#assMultipleChoice#:#Többválaszos kérdés (jelölőnégyzetes)
 assessment#:#assKprimChoice#:#Többválaszos kérdés (Kprim válaszok)
 assessment#:#assNumeric#:#Számszerű kérdés
-assessment#:#assOrderingHorizontal#:#Sorrendbe rakó kérdés (horizontális)
-assessment#:#assOrderingQuestion#:#Sorrendbe rakó kérdés (vertikális)
+assessment#:#assOrderingHorizontal#:#Sorrendbe rakó kérdés (vízszintes)
+assessment#:#assOrderingQuestion#:#Sorrendbe rakó kérdés (függőleges)
 assessment#:#assQuestions#:#Kérdések
 assessment#:#assSingleChoice#:#Egyválaszos kérdés (rádiógombos)
 assessment#:#assTextQuestion#:#Esszékérdés
@@ -780,7 +780,7 @@ assessment#:#or#:#vagy
 assessment#:#oq_btn_use_order_pictures#:#Rendezze a képeket
 assessment#:#oq_btn_use_order_terms#:#Rendezze a kifejezéseket
 assessment#:#ordering_question_javascript_hint#:#Húzzon egy definíciót/képet arra a definícióra/képre, amelyhez tenni szeretné, és ejtse le. Az alatta levő definíció/kép és minden további definíció/kép lefelé fog csúszni.
-assessment#:#ordertext_info#:#Adja meg a horizontálisan sorba rakandó szöveget. A rendezendő szövegegységek nem látható (fehér) karakterekkel lesznek elválasztva. Ha más elválasztójelre van szüksége, használhatja a %s elválasztójelet szövegegységeinek elkülönítésére.
+assessment#:#ordertext_info#:#Adja meg a vízszintesen sorba rakandó szöveget. A rendezendő szövegegységek nem látható (fehér) karakterekkel lesznek elválasztva. Ha más elválasztójelre van szüksége, használhatja a %s elválasztójelet szövegegységeinek elkülönítésére.
 assessment#:#ordertext#:#Sorrendbe rakó szöveg
 assessment#:#output_mode#:#Kimeneti mód
 assessment#:#output#:#Kimenet (output)
@@ -1113,8 +1113,8 @@ assessment#:#tst_invited_selected_roles#:#A kiválasztott szerepeket állandó t
 assessment#:#tst_invited_selected_users#:#A kiválasztott felhasználókat állandó tesztrésztvevőkként sikeresen felvette.
 assessment#:#tst_list_of_answers_show#:#Válaszok listájának megjelenítése
 assessment#:#tst_list_of_answers#:#Válaszok listája
-assessment#:#tst_list_of_questions_end#:#Azelőtt jelenlen meg, mielőtt a résztvevő befejezi a tesztet
-assessment#:#tst_list_of_questions_start#:#Az első kérdést megelőzően jelenleg meg
+assessment#:#tst_list_of_questions_end#:#Azelőtt jelenjen meg, mielőtt a résztvevő befejezi a tesztet
+assessment#:#tst_list_of_questions_start#:#Azelőtt jelenjen meg, mielőtt az első kérdés megjelenik
 assessment#:#tst_list_of_questions_with_description#:#Kérdésleírásokat is tartalmazza
 assessment#:#tst_list_of_questions_yes#:#Igen, és további
 assessment#:#tst_mark_create_new_mark_step#:#Új értékelésséma létrehozása
@@ -5318,7 +5318,7 @@ content#:#cont_pc_code#:#Kód
 content#:#cont_pc_deleted#:#Törölt tartalom
 content#:#cont_pc_dtab#:#Táblázat
 content#:#cont_pc_flist#:#Fájllista
-content#:#cont_pc_hacc#:#Harmonikalista (horizontális)
+content#:#cont_pc_hacc#:#Harmonika (vízszintes)
 content#:#cont_pc_incl#:#Tartalom-építőelem
 content#:#cont_pc_list#:#Bővített felsorolás
 content#:#cont_pc_map#:#Térkép
@@ -5330,7 +5330,7 @@ content#:#cont_pc_qst#:#Kérdés
 content#:#cont_pc_res#:#Forrás
 content#:#cont_pc_sec#:#Szekció
 content#:#cont_pc_tab#:#Bővített táblázat
-content#:#cont_pc_vacc#:#Harmonikalista (vertikális)
+content#:#cont_pc_vacc#:#Harmonika (függőleges)
 content#:#cont_personal_clipboard#:#Személyes vágólap
 content#:#cont_pg_content#:#Laptartalom
 content#:#cont_pg_title#:#Lapcím
@@ -5491,11 +5491,11 @@ content#:#cont_table_spreadsheet_import#:#Táblázatimport
 content#:#cont_table_width#:#Táblázatszélesség
 content#:#cont_table#:#Táblázat
 content#:#cont_TableContent#:#Tartalomtáblázat
-content#:#cont_tabs_acc_hor#:#Horizontális harmonikalista
-content#:#cont_tabs_acc_ver#:#Vertikális harmonikalista
-content#:#cont_tabs_accordion#:#Harmonikalista
+content#:#cont_tabs_acc_hor#:#Vízszintes harmonika
+content#:#cont_tabs_acc_ver#:#Függőleges harmonika
+content#:#cont_tabs_accordion#:#Harmonika
 content#:#cont_tabs_confirm_deletion#:#Biztos, hogy törli az összes fület és azok tartalmát?
-content#:#cont_tabs_hor_align_info#:#A horizontális harmonikalista mindig balra rendezett.
+content#:#cont_tabs_hor_align_info#:#A vízszintes harmonika mindig balra rendezett.
 content#:#cont_tabs_hor_tabs#:#Vízszintes fülek
 content#:#cont_tabs#:#Panelek
 content#:#cont_target_missing#:#A cél hiányzik
@@ -7237,6 +7237,8 @@ mail#:#info_mail_external_sender_noreply#:#Adja meg azt az e-mail címet, amelye
 mail#:#invite_to_chat#:#Meghívás csevegésbe
 mail#:#linebreak#:#Sortörés
 mail#:#mail_account_mail_check#:#Bejelentkezési e-mail küldése
+mail#:#mail_send_html#:#Külső e-mailekhez HTML-keret
+mail#:#mail_send_html_info#:#Ha be van kapcsolva, a külső e-mailek szövegrészét HTML-keretbe ágyazzuk. Ennek sablonja egyénre szabható a './Services/Mail/templates/default/tpl.html_mail_template.html' fájl './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' fájlba másolásával.
 mail#:#mail_account_mail#:#Bejelentkezési e-mail
 mail#:#mail_add_recipient#:#Adja meg az elküldendő levél címzettjét!
 mail#:#mail_add_subfolder#:#Alkönyvtár létrehozása 
@@ -9242,11 +9244,11 @@ style#:#sty_font_style#:#Betűstílus
 style#:#sty_font_variant#:#Betűváltozó
 style#:#sty_font_weight#:#Betűszélesség
 style#:#sty_generate_template#:#Sablon generálása
-style#:#sty_ha_cntr_class#:#Horizontális harmonikalista-tároló
-style#:#sty_ha_icntr_class#:#Horizontális harmonikalista-tétel tároló
-style#:#sty_ha_icont_class#:#Horizontális harmonikalista-tétel tartalom
-style#:#sty_ha_ihead_class#:#Horizontális harmonikalista-tétel fejléc
-style#:#sty_haccordion_templates#:#Horizontális harmonikalista-sablonok
+style#:#sty_ha_cntr_class#:#Vízszintes harmonikatároló
+style#:#sty_ha_icntr_class#:#Vízszintes harmonikaelem-tároló
+style#:#sty_ha_icont_class#:#Vízszintes harmonikaelem-tartalom
+style#:#sty_ha_ihead_class#:#Vízszintes harmonikaelem-fejléc (inaktív)
+style#:#sty_haccordion_templates#:#Vízszintes harmonikasablonok
 style#:#sty_height#:#Magasság
 style#:#sty_hide#:#Elrejtés
 style#:#sty_horizontal#:#Vízszintes
@@ -9318,7 +9320,7 @@ style#:#sty_table_template_colored_zebra#:#Színezett zebra
 style#:#sty_table_template_no_zebra#:#Nincs zebra
 style#:#sty_table_templates#:#Táblázatsablonok
 style#:#sty_table#:#Táblázat
-style#:#sty_tabs_char#:#Panelek és harmonikalisták
+style#:#sty_tabs_char#:#Harmonika és panelek
 style#:#sty_tag_hover#:#:hover
 style#:#sty_tag_normal#:#Normál
 style#:#sty_template_layout#:#Sablon elrendezése
@@ -9338,10 +9340,10 @@ style#:#sty_type_flist_cont#:#Fájllista-tároló
 style#:#sty_type_flist_head#:#Fájllista-címsor
 style#:#sty_type_flist_li#:#Fájllista-elem
 style#:#sty_type_flist#:#Fájllista
-style#:#sty_type_ha_cntr#:#Horizontális harmonikalista-tároló
-style#:#sty_type_ha_icntr#:#Horizontális harmonikalista-tétel tároló
-style#:#sty_type_ha_icont#:#Horizontális harmonikalista-tétel tartalom
-style#:#sty_type_ha_ihead#:#Horizontális harmonikalista-tétel fejléc
+style#:#sty_type_ha_cntr#:#Vízszintes harmonikatároló
+style#:#sty_type_ha_icntr#:#Vízszintes harmonikaelem-tároló
+style#:#sty_type_ha_icont#:#Vízszintes harmonikaelem-tartalom
+style#:#sty_type_ha_ihead#:#Vízszintes harmonikaelem-fejléc (inaktív)
 style#:#sty_type_heading1#:#1. címsor
 style#:#sty_type_heading2#:#2. címsor
 style#:#sty_type_heading3#:#3. címsor
@@ -9387,17 +9389,17 @@ style#:#sty_type_table_cell#:#Táblázatcella
 style#:#sty_type_table#:#Táblázat
 style#:#sty_type_text_block#:#Szövegblokk
 style#:#sty_type_text_inline#:#Karakter
-style#:#sty_type_va_cntr#:#Vertikális harmonikalista-konténer
-style#:#sty_type_va_icntr#:#Vertikális harmonikalista-tétel konténer
-style#:#sty_type_va_icont#:#Vertikális harmonikalista-tétel tartalom
-style#:#sty_type_va_ihead#:#Vertikális harmonikalista-tétel fejléc
+style#:#sty_type_va_cntr#:#Függőleges harmonikatároló
+style#:#sty_type_va_icntr#:#Függőleges harmonikaelem-tároló
+style#:#sty_type_va_icont#:#Függőleges harmonikaelem-tartalom
+style#:#sty_type_va_ihead#:#Függőleges harmonikaelem-fejléc (inaktív)
 style#:#sty_type#:#Típus
 style#:#sty_ul#:#Listajeles felsorolás
-style#:#sty_va_cntr_class#:#Vertikális harmonikalista-konténer
-style#:#sty_va_icntr_class#:#Vertikális harmonikalista-tétel konténer
-style#:#sty_va_icont_class#:#Vertikális harmonikalista-tétel tartalom
-style#:#sty_va_ihead_class#:#Vertikális harmonikalista-tétel fejléc
-style#:#sty_vaccordion_templates#:#Vertikális harmonikalista-sablonok
+style#:#sty_va_cntr_class#:#Függőleges harmonikatároló
+style#:#sty_va_icntr_class#:#Függőleges harmonikaelem-tároló
+style#:#sty_va_icont_class#:#Függőleges harmonikaelem-tartalom
+style#:#sty_va_ihead_class#:#Függőleges harmonikaelem-fejléc (inaktív)
+style#:#sty_vaccordion_templates#:#Függőleges harmonikasablonok
 style#:#sty_vertical_align#:#Függőleges igazítás
 style#:#sty_vertical#:#Függőleges
 style#:#sty_white_space#:#Fehér karakter
@@ -12401,8 +12403,8 @@ trac#:#trac_sync_session_stats#:#Adatok aggregálása
 trac#:#trac_sync_session_stats_success#:#Az aggregálás sikeresen lezajlott.
 crs#:#crs_course_status_of_users#:#Kurzus teljesítése
 crs#:#crs_status_determination#:#'Sikeresen teljesítette' állapot meghatározása
-crs#:#crs_status_determination_manual#:#Tanulási haladás alapján
-crs#:#crs_status_determination_lp#:#Tanulási haladástól függetlenül
+crs#:#crs_status_determination_manual#:#Tanulási haladástól függetlenül
+crs#:#crs_status_determination_lp#:#Tanulási haladás alapján
 crs#:#crs_status_determination_sync#:#A kurzusállapot értéke automatikusan 'Sikeresen teljesítette' lesz, amint a tanuló a tanulási haladását befolyásoló összes objektumot teljesítette. A beállítások módosítása előtti tanulási haladásokat figyelembe vesszük, a kézzel állított 'Sikeresen teljesítette' állapotok sem változnak. Biztos, hogy módosítja az összes tag kurzusállapotát a jelenlegi tanulási haladásai alapján? 
 trac#:#trac_session_statistics_mode_day#:#Nap
 trac#:#trac_session_statistics_mode_week#:#Hét
@@ -15912,7 +15914,7 @@ awrn#:#awrn_max_nr_entries#:#Elemek maximális száma
 awrn#:#awrn_max_nr_entries_info#:#Maximum ennyi elem legyen a 'Ki van online?' felsorolásban.
 awrn#:#awrn_hide_from_awareness#:#Rejtsen el engem a 'Ki van online?'-eszközben
 awrn#:#awrn_hide_from_awareness_info#:#A 'Ki van online?'-eszköz a felső sávban található és felhasználókat jelenít meg (például kurzusai tagjait).
-common#:#contact_sysadmin#:#Kapcsolat a rendszergazdával
+common#:#contact_sysadmin#:#Kapcsolat
 ldap#:#ldap_servers#:#LDAP Szerver
 ldap#:#add_ldap_server#:#Szerver hozzáadása
 ldap#:#ldap_username_filter#:#Felhasználónév szűrése
@@ -16170,11 +16172,15 @@ prtf#:#prtf_shared_offline_info#:#A portfóliónak online-nak kell lennie, hogy 
 crs#:#crs_mail_context_member_info#:#Egy kurzus információs lapján lévő e-mail címekre 
 crs#:#crs_mail_context_tutor_info#:#Egy kurzus tagok és tanulási haladás lapján lévő résztvevők e-mail címeire
 sahs#:#sahs_mail_context_lp_info#:#Egy SCORM-tananyag tanulási haladás lapján lévő résztvevők e-mail címeire
-style#:#sty_type_ha_iheada#:#Vízszintes harmonika fejléc  (aktív)
-style#:#sty_type_ha_ihcap#:#Vízszintes harmonika felirat
-style#:#sty_type_va_iheada#:#Függőleseg harmonika fejléc (aktív)
-style#:#sty_type_va_ihcap#:#Függőleseg harmonika felirat
-style#:#sty_ha_iheada_class#:#Vízszintes harmonika fejléc (aktív)
-style#:#sty_ha_ihcap_class#:#Vízszintes harmonika felirat
-style#:#sty_va_iheada_class#:#Függőleseg harmonika fejléc (aktív)
-style#:#sty_va_ihcap_class#:#Függőleseg harmonika felirat
+style#:#sty_type_ha_iheada#:#Vízszintes harmonikaelem-fejléc (aktív)
+style#:#sty_type_ha_ihcap#:#Vízszintes harmonikaelem-fejlécfelirat
+style#:#sty_type_va_iheada#:#Függőleges harmonikaelem-fejléc (aktív)
+style#:#sty_type_va_ihcap#:#Függőleges harmonikaelem-fejlécfelirat
+style#:#sty_ha_iheada_class#:#Vízszintes harmonikafejléc (aktív)
+style#:#sty_ha_ihcap_class#:#Vízszintes harmonikafelirat
+style#:#sty_va_iheada_class#:#Függőleges harmonikafejléc (aktív)
+style#:#sty_va_ihcap_class#:#Függőleges harmonikafelirat
+exc#:#exc_delete_team#:#Csapat törlése
+sysc#:#sysc_tree_structure_failures#:#Fastruktúra hibáinak száma (szülőkapcsolat):
+sysc#:#sysc_message_tree_structure_confirm#:#Biztos, hogy javítja a fastruktúrát? A javítás előtt készítsen biztonsági másolatot adatbázisáról.
+sysc#:#sysc_btn_tree_structure#:#Fastruktúra újralétrehozása

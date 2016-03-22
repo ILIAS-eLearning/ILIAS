@@ -499,29 +499,26 @@ class ilLDAPServer
 	 */
 	public function doConnectionCheck()
 	{
-	 	global $ilLog;
-	 	
 	 	include_once('Services/LDAP/classes/class.ilLDAPQuery.php');
 	 	
 	 	foreach(array_merge(array(0 => $this->url),$this->fallback_urls) as $url)
 	 	{
 			try
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': Using url '. $url);
+				ilLoggerFactory::getLogger('auth')->debug('Using url: ' . $url);
 				// Need to do a full bind, since openldap return valid connection links for invalid hosts 
 				$query = new ilLDAPQuery($this,$url);
 				$query->bind(IL_LDAP_BIND_TEST);
 				$this->url = $url;
-		 		$ilLog->write(__METHOD__.': Using url: '.$url.'.');
 				return TRUE;
 			}
 			catch(ilLDAPQueryException $exc)
 			{
 				$this->rotateFallbacks();
-		 		$ilLog->write(__METHOD__.': Cannot connect to LDAP server: '.$url.' '. $exc->getCode().': '.$exc->getMessage());
+				ilLoggerFactory::getLogger('auth')->error('Cannot connect to LDAP server: '. $url .' '. $exc->getCode().' '. $exc->getMessage());
 			}
 	 	}
- 		$ilLog->write(__METHOD__.': No valid LDAP server found.');
+		ilLoggerFactory::getLogger('auth')->warning('No valid LDAP server found');
 		return FALSE;
 	}
     
