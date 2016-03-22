@@ -49,8 +49,10 @@ class gevUserUtils {
 	protected function __construct($a_user_id) {
 		global $ilDB;
 		global $ilAccess;
+		global $lng;
 		
 		$this->user_id = $a_user_id;
+		$this->gLng = $lng;
 		$this->courseBookings = ilUserCourseBookings::getInstance($a_user_id);
 		$this->gev_set = gevSettings::getInstance();
 		$this->udf_utils = gevUDFUtils::getInstance();
@@ -1243,18 +1245,23 @@ class gevUserUtils {
 		if (!array_key_exists($a_crs_id, $this->users_who_booked_at_course)) {
 			$bk_info = ilCourseBooking::getUserData($a_crs_id, $this->user_id);
 			$this->users_who_booked_at_course[$a_crs_id] 
-				= new ilObjUser($bk_info["status_changed_by"]);
+				= self::userIdExists($bk_info["status_changed_by"]) ? new ilObjUser($bk_info["status_changed_by"]) : null;
 		}
-		
 		return $this->users_who_booked_at_course[$a_crs_id];
 	}
 	
 	public function getFirstnameOfUserWhoBookedAtCourse($a_crs_id) {
-		return $this->getUserWhoBookedAtCourse($a_crs_id)->getFirstname();
+		$return = $this->getUserWhoBookedAtCourse($a_crs_id) 
+			? $this->getUserWhoBookedAtCourse($a_crs_id)->getFirstname()
+			: '';
+		return $return;
 	}
 	
 	public function getLastnameOfUserWhoBookedAtCourse($a_crs_id) {
-		return $this->getUserWhoBookedAtCourse($a_crs_id)->getLastname();
+		$return = $this->getUserWhoBookedAtCourse($a_crs_id) 
+			? $this->getUserWhoBookedAtCourse($a_crs_id)->getLastname()
+			: $this->gLng->txt("gev_deleted_user");
+		return $return;
 	}
 	
 	public function getBookingStatusAtCourse($a_course_id) {
