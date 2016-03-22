@@ -2065,8 +2065,6 @@ class gevCourseUtils {
 		require_once("Services/GEV/Utils/classes/class.gevDBVUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		require_once("Services/User/classes/class.ilObjUser.php");
-		
-		global $lng;
 
 		if ($a_filename === null) {
 			if(!$a_send)
@@ -2079,8 +2077,8 @@ class gevCourseUtils {
 			}
 		}
 
-		$lng->loadLanguageModule("common");
-		$lng->loadLanguageModule("gev");
+		$this->gLng->loadLanguageModule("common");
+		$this->gLng->loadLanguageModule("gev");
 
 		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
 		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
@@ -2089,21 +2087,21 @@ class gevCourseUtils {
 		$worksheet = $workbook->addWorksheet();
 		$worksheet->setLandscape();
 
-		$columns = array( $lng->txt("gev_bd")
+		$columns = array( $this->gLng->txt("gev_bd")
 						, "DBV"
-						, $lng->txt("gev_company_name")
-						, $lng->txt("lastname")	
-						, $lng->txt("firstname")
-						, $lng->txt("street")
-						, $lng->txt("zipcode")
-						, $lng->txt("city")
-						, $lng->txt("phone_office")
-						, $lng->txt("phone_mobile")
-						, $lng->txt("email")
-						, $lng->txt("gev_job_number")
-						, $lng->txt("gev_participation_status")
-						, $lng->txt("gev_credit_points")
-						, $lng->txt("gev_express_login")
+						, $$this->gLng->txt("gev_company_name")
+						, $this->gLng->txt("lastname")
+						, $this->gLng->txt("firstname")
+						, $this->gLng->txt("street")
+						, $this->gLng->txt("zipcode")
+						, $this->gLng->txt("city")
+						, $this->gLng->txt("phone_office")
+						, $this->gLng->txt("phone_mobile")
+						, $this->gLng->txt("email")
+						, $this->gLng->txt("gev_job_number")
+						, $this->gLng->txt("gev_participation_status")
+						, $this->gLng->txt("gev_credit_points")
+						, $this->gLng->txt("gev_express_login")
 						, "Zu welchen Themen hätten Sie gerne nähere Informationen?"
 						, "Zu welchen Themen wünschen Sie sich weitere Webinare?"
 						);
@@ -2121,7 +2119,7 @@ class gevCourseUtils {
 		$row = $this->buildListMeta( $workbook
 							   , $worksheet
 							   , "Trainingsteilnahmen"
-							   , $lng->txt("gev_excel_member_row_title")
+							   , $this->gLng->txt("gev_excel_member_row_title")
 							   , $columns
 							   , $a_type
 							   );
@@ -2151,7 +2149,7 @@ class gevCourseUtils {
 						$points = $maxPoints;
 					} 
 				} elseif ($statusAndPoints["status"] == ilParticipationStatus::STATUS_NOT_SET) {
-					$points = $lng->txt("gev_in_progress");
+					$points = $this->gLng->txt("gev_in_progress");
 				}
 
 				$row++;
@@ -2176,7 +2174,7 @@ class gevCourseUtils {
 				$worksheet->write($row, 11,	$user_utils->getJobNumber(), $format_wrap);
 				$worksheet->write($row, 12,	$this->getParticipationStatusLabelOf($user_id), $format_wrap);
 				$worksheet->write($row, 13,	$points, $format_wrap);
-				$worksheet->write($row, 14, $user_utils->isExpressUser() ? $lng->txt("yes") : $lng->txt("no"));
+				$worksheet->write($row, 14, $user_utils->isExpressUser() ? $this->gLng->txt("yes") : $this->gLng->txt("no"));
 			}
 		}
 		$workbook->close();
@@ -2423,8 +2421,6 @@ class gevCourseUtils {
 	
 	public function buildListMeta($workbook, $worksheet, $title, $row_title, array $column_titles, $a_type)
 	{
-		global $lng;
-
 		$num_cols = sizeof($column_titles);
 
 		$format_bold = $workbook->addFormat(array("bold" => 1));
@@ -2437,7 +2433,7 @@ class gevCourseUtils {
 		$worksheet->mergeCells(0, 0, 0, $num_cols-1);
 		$worksheet->mergeCells(1, 0, 1, $num_cols-1);
 
-		$worksheet->writeString(2, 0, $lng->txt("gev_excel_course_title"), $format_subtitle);
+		$worksheet->writeString(2, 0, $this->gLng->txt("gev_excel_course_title"), $format_subtitle);
 		for($loop = 1; $loop < $num_cols; $loop++)
 		{
 			$worksheet->writeString(2, $loop, "", $format_subtitle);
