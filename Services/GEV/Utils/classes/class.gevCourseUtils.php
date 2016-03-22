@@ -2378,7 +2378,9 @@ class gevCourseUtils {
 					});
 
 					$worksheet->write($row, 4, $user_utils->paysPrearrival() ? "Ja" : "Nein", $format_wrap);
-					$worksheet->write($row, 5, $user_utils->getIDHGBAADStatus() , $format_wrap);
+					$status = $user_utils->getAllIDHGBAADStatus();
+					sort($status, SORT_STRING);
+					$worksheet->write($row, 5, implode(", ", $status), $format_wrap);
 					$worksheet->write($row, 6, count($on_det) , $format_wrap);
 					$day_iterator = new ilDate($this->getStartDate()->increment(ilDate::DAY,-1),IL_CAL_UNIX);
 					$count_days = 1;
@@ -2398,7 +2400,9 @@ class gevCourseUtils {
 				} else if ($a_type == self::MEMBERLIST_PARTICIPANT) {
 					$worksheet->write($row, 4, $user_utils->getFunctionAtCourse($this->crs_id), $format_wrap);
 				} else {
-					$worksheet->write($row, 4, $user_utils->getIDHGBAADStatus(), $format_wrap);
+					$status = $user_utils->getAllIDHGBAADStatus();
+					sort($status, SORT_STRING);
+					$worksheet->write($row, 4, implode(", ", $status), $format_wrap);
 					$worksheet->write($row, 5, $user_utils->getFormattedBirthday(), $format_wrap);
 					$worksheet->write($row, 6, " ".$user_utils->getMobilePhone(), $format_wrap);
 					$worksheet->write($row, 7, $user_utils->hasFullfilledPreconditionOf($this->crs_id) ? "Ja" : "Nein", $format_wrap);
