@@ -31,11 +31,11 @@ class gevCourseUtils {
 		
 		$this->gIldb = $ilDB;
 		$this->gLog = $ilLog;
-		$this->lng = $lng;
+		$this->gLng = $lng;
 		$this->ctrl = $ilCtrl;
 		$this->gTree = $tree;
 		
-		$this->lng->loadLanguageModule("crs");
+		$this->gLng->loadLanguageModule("crs");
 		
 		$this->crs_id = $a_crs_id;
 		$this->crs_obj = null;
@@ -331,13 +331,13 @@ class gevCourseUtils {
 			foreach ($this->local_roles as $id => $title) {
 				$pref = substr($title, 0, 8);
 				if ($pref == "il_crs_m") {
-					$this->local_roles[$id] = $this->lng->txt("crs_member");
+					$this->local_roles[$id] = $this->gLng->txt("crs_member");
 				}
 				else if ($pref == "il_crs_t") {
-					$this->local_roles[$id] = $this->lng->txt("crs_tutor");
+					$this->local_roles[$id] = $this->gLng->txt("crs_tutor");
 				}
 				else if ($pref == "il_crs_a") {
-					$this->local_roles[$id] = $this->lng->txt("crs_admin");
+					$this->local_roles[$id] = $this->gLng->txt("crs_admin");
 				}
 			}
 		}
@@ -1235,15 +1235,15 @@ class gevCourseUtils {
 	
 	public function checkVirtualTrainingForPossibleVCAssignment() {
 		if (!$this->isStartAndEndDateSet() && $this->getVirtualClassType() === null) {
-			ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_vc_class_type_and_no_times"));
+			ilUtil::sendFailure($this->gLng->txt("gev_vc_no_url_saved_because_no_vc_class_type_and_no_times"));
 			return false;
 		}
 		elseif (!$this->isStartAndEndDateSet() && $this->getVirtualClassType() !== null) {
-			ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_startenddate_set"));	
+			ilUtil::sendFailure($this->gLng->txt("gev_vc_no_url_saved_because_no_startenddate_set"));
 			return false;
 		}
 		elseif ($this->isStartAndEndDateSet() && $this->getVirtualClassType() === null) {
-			ilUtil::sendFailure($this->lng->txt("gev_vc_no_url_saved_because_no_vc_class_type"));
+			ilUtil::sendFailure($this->gLng->txt("gev_vc_no_url_saved_because_no_vc_class_type"));
 			return false;
 		}
 		return true;
@@ -1269,11 +1269,11 @@ class gevCourseUtils {
 				}
 				
 				if ($this->assignNewVC()) {
-					ilUtil::sendInfo($this->lng->txt("gev_vc_send_invitation_mail_reminder"));
+					ilUtil::sendInfo($this->gLng->txt("gev_vc_send_invitation_mail_reminder"));
 				}
 				else {
 					$this->cleanupAllVirtualClassAssignmentAMDFields();
-					ilUtil::sendFailure($this->lng->txt("gev_vc_no_free_url"));
+					ilUtil::sendFailure($this->gLng->txt("gev_vc_no_free_url"));
 				}
 			}
 			else {
@@ -1301,11 +1301,11 @@ class gevCourseUtils {
 		}
 		elseif (!$has_vc_assigned && $should_get_vc_assignment) {
 			if ($this->assignNewVC()) {
-				ilUtil::sendInfo($this->lng->txt("gev_vc_send_invitation_mail_reminder"));
+				ilUtil::sendInfo($this->gLng->txt("gev_vc_send_invitation_mail_reminder"));
 			}
 			else {
 				$this->cleanupAllVirtualClassAssignmentAMDFields();
-				ilUtil::sendFailure($this->lng->txt("gev_vc_no_free_url"));
+				ilUtil::sendFailure($this->gLng->txt("gev_vc_no_free_url"));
 			}
 		}
 		else { // $!has_vc_assigned && !$should_get_vc_assignment
@@ -2120,7 +2120,7 @@ class gevCourseUtils {
 
 		$row = $this->buildListMeta( $workbook
 							   , $worksheet
-							   , "Trainingsteilnahmen" 
+							   , "Trainingsteilnahmen"
 							   , $lng->txt("gev_excel_member_row_title")
 							   , $columns
 							   , $a_type
@@ -2225,8 +2225,8 @@ class gevCourseUtils {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		
-		$this->lng->loadLanguageModule("common");
-		$this->lng->loadLanguageModule("gev");
+		$this->gLng->loadLanguageModule("common");
+		$this->gLng->loadLanguageModule("gev");
 
 		if ($a_filename === null) {
 			if(!$a_send)
@@ -2246,10 +2246,10 @@ class gevCourseUtils {
 		$worksheet = $workbook->addWorksheet();
 		$worksheet->setLandscape();
 
-		$columns = array( $this->lng->txt("gender")
-						, $this->lng->txt("firstname")
-						, $this->lng->txt("lastname")
-						, $this->lng->txt("gev_org_unit_short")
+		$columns = array( $this->gLng->txt("gender")
+						, $this->gLng->txt("firstname")
+						, $this->gLng->txt("lastname")
+						, $this->gLng->txt("gev_org_unit_short")
 						);
 
 		$format_wrap = $workbook->addFormat(array("bottom" => 1));
@@ -2261,10 +2261,10 @@ class gevCourseUtils {
 		$worksheet->setColumn(3, 3, 25);	// org-unit
 
 		if($a_type == self::MEMBERLIST_HOTEL) {
-			$columns[] = $this->lng->txt("gev_hotel_self_payment_pre_arr");
-			$columns[] = $this->lng->txt('status');
-			$columns[] = $this->lng->txt('gev_cnt_overnights');
-			$columns[] = $this->lng->txt('gev_hotel_pre_arrival');
+			$columns[] = $this->gLng->txt("gev_hotel_self_payment_pre_arr");
+			$columns[] = $this->gLng->txt('status');
+			$columns[] = $this->gLng->txt('gev_cnt_overnights');
+			$columns[] = $this->gLng->txt('gev_hotel_pre_arrival');
 
 			$worksheet->setColumn(4, 4, 25);	// Selbstzahler
 			$worksheet->setColumn(5, 5, 20);	// status
@@ -2285,7 +2285,7 @@ class gevCourseUtils {
 				$start_aux = new ilDate($start_aux->increment(ilDate::DAY,1),IL_CAL_UNIX);
 				$count_days++;
 			}
-			$columns[] = $this->lng->txt('gev_hotel_post_departure');	//post_departure
+			$columns[] = $this->gLng->txt('gev_hotel_post_departure');	//post_departure
 			$worksheet->setColumn(7 + $count_days, 7 + $count_days, 20);
 
 		}
@@ -2295,11 +2295,11 @@ class gevCourseUtils {
 			$worksheet->setColumn(4, 4, 12);
 		}
 		else {
-			$columns[] = $this->lng->txt("status");
-			$columns[] = $this->lng->txt("birthday");
-			$columns[] = $this->lng->txt("gev_mobile");
+			$columns[] = $this->gLng->txt("status");
+			$columns[] = $this->gLng->txt("birthday");
+			$columns[] = $this->gLng->txt("gev_mobile");
 			$columns[] = "Vorbedingung erfüllt";
-			$columns[] = $this->lng->txt("gev_signature");
+			$columns[] = $this->gLng->txt("gev_signature");
 			
 			$worksheet->setColumn(4, 4, 8);
 			$worksheet->setColumn(5, 5, 10);
@@ -2310,12 +2310,12 @@ class gevCourseUtils {
 
 		$row = $this->buildListMeta( $workbook
 							   , $worksheet
-							   , $this->lng->txt("gev_excel_member_title")." ".
+							   , $this->gLng->txt("gev_excel_member_title")." ".
 										( (!($a_type == self::MEMBERLIST_HOTEL))
-										? $this->lng->txt("obj_crs") 
-										: $this->lng->txt("gev_hotel")
+										? $this->gLng->txt("obj_crs")
+										: $this->gLng->txt("gev_hotel")
 										)
-							   , $this->lng->txt("gev_excel_member_row_title")
+							   , $this->gLng->txt("gev_excel_member_row_title")
 							   , $columns
 							   , $a_type
 							   );
@@ -2745,8 +2745,8 @@ class gevCourseUtils {
 		$crs->setOfflineStatus(true);
 		// Mark this course as cancelled
 		$this->setIsCancelled(true);
-		if(!preg_match('/\w+'.$this->lng->txt("gev_course_is_cancelled_suffix").'$/',$crs->getTitle())) {
-			$crs->setTitle($this->getTitle().$this->lng->txt("gev_course_is_cancelled_suffix"));
+		if(!preg_match('/\w+'.$this->gLng->txt("gev_course_is_cancelled_suffix").'$/',$crs->getTitle())) {
+			$crs->setTitle($this->getTitle().$this->gLng->txt("gev_course_is_cancelled_suffix"));
 		}
 		$crs->update();
 
@@ -2894,10 +2894,10 @@ class gevCourseUtils {
 		   && $this->isCancelDeadlineExpired()
 		   && $bill_utils->getNonFinalizedBillForCourseAndUser($this->crs_id, $a_user_id) !== null
 		   ) {
-			$action = $this->lng->txt("gev_costly_cancellation_action");
+			$action = $this->gLng->txt("gev_costly_cancellation_action");
 		}
 		else {
-			$action = $this->lng->txt("gev_free_cancellation_action");
+			$action = $this->gLng->txt("gev_free_cancellation_action");
 		}
 		
 		$title = new catTitleGUI("gev_cancellation_title", "gev_cancellation_subtitle", "GEV_img/ico-head-trash.png");
@@ -2908,55 +2908,55 @@ class gevCourseUtils {
 		$this->ctrl->setParameter($a_gui, "crs_id", $this->crs_id);
 		$form->setFormAction($this->ctrl->getFormAction($a_gui));
 		$this->ctrl->clearParameters($a_gui, "crs_id", $this->crs_id);
-		$form->addCommandButton("view", $this->lng->txt("cancel"));
+		$form->addCommandButton("view", $this->gLng->txt("cancel"));
 		$form->addCommandButton("finalizeCancellation", $action);
 		
 		$officer_contact = $this->getTrainingOfficerContactInfo();
 
 		$vals = array(
-			  array( $this->lng->txt("gev_course_id")
+			  array( $this->gLng->txt("gev_course_id")
 				   , true
 				   , $this->getCustomId()
 				   )
-			, array( $this->lng->txt("gev_course_type")
+			, array( $this->gLng->txt("gev_course_type")
 				   , true
 				   , implode(", ", $this->getType())
 				   )
-			, array( $this->lng->txt("appointment")
+			, array( $this->gLng->txt("appointment")
 				   , true
 				   , $this->getFormattedAppointment()
 				   )
-			, array( $this->lng->txt("gev_provider")
+			, array( $this->gLng->txt("gev_provider")
 				   , $prv?true:false
 				   , $prv?$prv->getTitle():""
 				   )
-			, array( $this->lng->txt("gev_venue")
+			, array( $this->gLng->txt("gev_venue")
 				   , $ven?true:false
 				   , $ven?$ven->getTitle():""
 				   )
-			, array( $this->lng->txt("gev_instructor")
+			, array( $this->gLng->txt("gev_instructor")
 				   , true
 				   , implode(", ",$this->getTrainers(true))
 				   )
-			, array( $this->lng->txt("gev_free_cancellation_until")
+			, array( $this->gLng->txt("gev_free_cancellation_until")
 				   , $status == ilCourseBooking::STATUS_BOOKED
 				   , $this->getFormattedCancelDeadline()
 				   )
-			, array( $this->lng->txt("gev_free_places")
+			, array( $this->gLng->txt("gev_free_places")
 				   , true
 				   , $this->getFreePlaces()
 				   )
-			, array( $this->lng->txt("gev_training_contact")
+			, array( $this->gLng->txt("gev_training_contact")
 				   , $officer_contact
 				   , $officer_contact
 				   )
-			, array( $this->lng->txt("gev_overall_prize")
+			, array( $this->gLng->txt("gev_overall_prize")
 				   , ($bill !== null)
 				   , $bill_utils->formatPrize(
 				   			$bill !== null?$bill->getAmount():0
 				   		)." &euro;"
 				   	)
-			, array( $this->lng->txt("gev_credit_points")
+			, array( $this->gLng->txt("gev_credit_points")
 				   , true
 				   , $this->getCreditPoints()
 				   )
@@ -2981,7 +2981,7 @@ class gevCourseUtils {
 			
 			$form2 = new catPropertyFormGUI();
 			$form2->setTemplate("tpl.gev_booking_form.html", "Services/GEV/Desktop");
-			$field = new ilNonEditableValueGUI($this->lng->txt("gev_cancellation_for"), "", true);
+			$field = new ilNonEditableValueGUI($this->gLng->txt("gev_cancellation_for"), "", true);
 			$field->setValue($user_utils->getFullName());
 			$form2->addItem($field);
 			
@@ -3624,8 +3624,8 @@ class gevCourseUtils {
 
 	public function getFunctionsForInvitationMails() {
 		$roles = $this->getCustomRoles($this->crs_id);
-		$ret = array($this->lng->txt("crs_member"));
-		$ret[] = $this->lng->txt("crs_tutor");
+		$ret = array($this->gLng->txt("crs_member"));
+		$ret[] = $this->gLng->txt("crs_tutor");
 
 		foreach($roles as $role) {
 			$ret[] = $role["title"];
@@ -3688,7 +3688,7 @@ class gevCourseUtils {
 	*/
 	public function warningIfTemplateWithDates() {
 		if($this->isStartAndEndDateSet()) {
-			ilUtil::sendInfo($this->lng->txt("gev_crs_tpl_dates_set"));
+			ilUtil::sendInfo($this->gLng->txt("gev_crs_tpl_dates_set"));
 		}
 	}
 
