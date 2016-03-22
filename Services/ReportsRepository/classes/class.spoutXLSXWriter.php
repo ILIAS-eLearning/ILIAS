@@ -7,7 +7,7 @@ use Box\Spout\Writer\WriterFactory;
 use Box\Spout\Common\Type;
 use Box\Spout\Writer\Style\StyleBuilder;
 
-class catXLSXWriter implements ExcelWriter {
+class spoutXLSXWriter implements ExcelWriter {
 
 	protected $tmp_file_path;
 	protected $sheets = array();
