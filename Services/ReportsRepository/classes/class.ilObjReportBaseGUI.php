@@ -282,7 +282,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$workbook
 			->writeRow($header)
 			->setRowFormatWrap();
-
+		$callback = get_class($this).'::transformResultRowXLSX';
 		foreach ($this->object->deliverData($callback) as $entry) {
 			$row = array();
 			foreach ($this->object->deliverTable()->all_columns as $col) {
