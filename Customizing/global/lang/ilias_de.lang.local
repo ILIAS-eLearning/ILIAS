@@ -1479,3 +1479,11 @@ gev#:#edit_building_blocks#:#Bausteine bearbeiten
 gev#:#gev_bbpool_plugin_confirm_delete_bb#:#Möchten Sie den Trainigsbaustein wirklich löschen?
 gev#:#gev_dec_training_no_block_warning#:#Für Sie wurden keine Trainingsbausteine gefunden, die Sie verwenden dürfen. Eine Anlage des Trainings ist dadurch nicht möglich.
 gev#:#gev_clear_and_save#:#Leeren und Speichern
+gev#:#gev_user_role_history#:#Rollenhistorie
+gev#:#gev_user_role_history_title#:#Rolle
+gev#:#gev_user_role_history_date#:#Datum
+gev#:#gev_user_role_history_user#:#Bearbeitet von
+gev#:#gev_user_role_history_action#:#Aktion
+gev#:#gev_user_role_history_add#:#Hinzugefügt
+gev#:#gev_user_role_history_removed#:#Entfernt
+gev#:#gev_user_role_history_unknown#:#Unbekannt
