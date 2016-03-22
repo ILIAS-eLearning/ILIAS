@@ -43,7 +43,8 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
 		}
 	}
 	
-	protected function configureItemGUI(ilStudyProgrammeCourseListGUI $a_item_gui) {
+	//TODO: public -> protected when PHP5.3 support is cancelled
+	public function configureItemGUI(ilStudyProgrammeCourseListGUI $a_item_gui) {
 		$a_item_gui->enableComments(false);
 		$a_item_gui->enableTags(false);
 		$a_item_gui->enableIcon(true);

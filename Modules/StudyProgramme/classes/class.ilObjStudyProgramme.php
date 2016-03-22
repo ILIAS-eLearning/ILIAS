@@ -512,6 +512,11 @@ class ilObjStudyProgramme extends ilContainer {
 			// TODO: find a better way to get all elements except StudyProgramme-children
 			$ref_ids = $this->tree->getChilds($this->getRefId());
 
+			// apply container sorting to tree
+			$sorting = ilContainerSorting::_getInstance($this->getId());
+			$ref_ids = $sorting->sortItems(array('crs_ref'=>$ref_ids));
+			$ref_ids = $ref_ids['crs_ref'];
+
 			// TODO: $this could be removed as soon as support for PHP 5.3 is dropped:
 			$self = $this;
 			$lp_children = array_map(function($node_data) use ($self) {
