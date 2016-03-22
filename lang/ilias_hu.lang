@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.1.x 2016-02-27 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.1.x 2016-03-19 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -1113,8 +1113,8 @@ assessment#:#tst_invited_selected_roles#:#A kiválasztott szerepeket állandó t
 assessment#:#tst_invited_selected_users#:#A kiválasztott felhasználókat állandó tesztrésztvevőkként sikeresen felvette.
 assessment#:#tst_list_of_answers_show#:#Válaszok listájának megjelenítése
 assessment#:#tst_list_of_answers#:#Válaszok listája
-assessment#:#tst_list_of_questions_end#:#Azelőtt jelenlen meg, mielőtt a résztvevő befejezi a tesztet
-assessment#:#tst_list_of_questions_start#:#Az első kérdést megelőzően jelenleg meg
+assessment#:#tst_list_of_questions_end#:#Azelőtt jelenjen meg, mielőtt a résztvevő befejezi a tesztet
+assessment#:#tst_list_of_questions_start#:#Azelőtt jelenjen meg, mielőtt az első kérdés megjelenik
 assessment#:#tst_list_of_questions_with_description#:#Kérdésleírásokat is tartalmazza
 assessment#:#tst_list_of_questions_yes#:#Igen, és további
 assessment#:#tst_mark_create_new_mark_step#:#Új értékelésséma létrehozása
@@ -7237,6 +7237,8 @@ mail#:#info_mail_external_sender_noreply#:#Adja meg azt az e-mail címet, amelye
 mail#:#invite_to_chat#:#Meghívás csevegésbe
 mail#:#linebreak#:#Sortörés
 mail#:#mail_account_mail_check#:#Bejelentkezési e-mail küldése
+mail#:#mail_send_html#:#Külső e-mailekhez HTML-keret
+mail#:#mail_send_html_info#:#Ha be van kapcsolva, a külső e-mailek szövegrészét HTML-keretbe ágyazzuk. Ennek sablonja egyénre szabható a './Services/Mail/templates/default/tpl.html_mail_template.html' fájl './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' fájlba másolásával.
 mail#:#mail_account_mail#:#Bejelentkezési e-mail
 mail#:#mail_add_recipient#:#Adja meg az elküldendő levél címzettjét!
 mail#:#mail_add_subfolder#:#Alkönyvtár létrehozása 
@@ -12401,8 +12403,8 @@ trac#:#trac_sync_session_stats#:#Adatok aggregálása
 trac#:#trac_sync_session_stats_success#:#Az aggregálás sikeresen lezajlott.
 crs#:#crs_course_status_of_users#:#Kurzus teljesítése
 crs#:#crs_status_determination#:#'Sikeresen teljesítette' állapot meghatározása
-crs#:#crs_status_determination_manual#:#Tanulási haladás alapján
-crs#:#crs_status_determination_lp#:#Tanulási haladástól függetlenül
+crs#:#crs_status_determination_manual#:#Tanulási haladástól függetlenül
+crs#:#crs_status_determination_lp#:#Tanulási haladás alapján
 crs#:#crs_status_determination_sync#:#A kurzusállapot értéke automatikusan 'Sikeresen teljesítette' lesz, amint a tanuló a tanulási haladását befolyásoló összes objektumot teljesítette. A beállítások módosítása előtti tanulási haladásokat figyelembe vesszük, a kézzel állított 'Sikeresen teljesítette' állapotok sem változnak. Biztos, hogy módosítja az összes tag kurzusállapotát a jelenlegi tanulási haladásai alapján? 
 trac#:#trac_session_statistics_mode_day#:#Nap
 trac#:#trac_session_statistics_mode_week#:#Hét
@@ -16166,6 +16168,7 @@ note#:#note_comment_notification_user_has_written#:#%s írta:
 prg#:#prg_show_programmes#:#Láthatóság
 content#:#cont_not_saved_edit_lock_expired#:#Sajnáljuk, módosításait nem sikerült menteni, mert időközben egy másik felhasználó szerkesztésre zárolta ezt az oldalt. Az üzenet bezárása után a tartalmat vágólapra másolhatja.
 content#:#cont_error#:#Sajnáljuk, hiba lépett fel
+prtf#:#prtf_shared_offline_info#:#A portfóliónak online-nak kell lennie, hogy elérjék azok a felhasználók, akikkel meg van osztva.
 crs#:#crs_mail_context_member_info#:#Egy kurzus információs lapján lévő e-mail címekre 
 crs#:#crs_mail_context_tutor_info#:#Egy kurzus tagok és tanulási haladás lapján lévő résztvevők e-mail címeire
 sahs#:#sahs_mail_context_lp_info#:#Egy SCORM-tananyag tanulási haladás lapján lévő résztvevők e-mail címeire
@@ -16177,4 +16180,7 @@ style#:#sty_ha_iheada_class#:#Vízszintes harmonika fejléc (aktív)
 style#:#sty_ha_ihcap_class#:#Vízszintes harmonika felirat
 style#:#sty_va_iheada_class#:#Függőleseg harmonika fejléc (aktív)
 style#:#sty_va_ihcap_class#:#Függőleseg harmonika felirat
-exc#:#exc_delete_team#:#Delete Team###10 03 2016 new variable
+exc#:#exc_delete_team#:#Csapat törlése
+sysc#:#sysc_tree_structure_failures#:#Fastruktúra hibáinak száma (szülőkapcsolat):
+sysc#:#sysc_message_tree_structure_confirm#:#Biztos, hogy javítja a fastruktúrát? A javítás előtt készítsen biztonsági másolatot adatbázisáról.
+sysc#:#sysc_btn_tree_structure#:#Fastruktúra újralétrehozása

@@ -6904,6 +6904,7 @@ h4.il_ContainerItemTitle {
 }
 div.il_ContainerItemTitle {
   float: left;
+  max-width: calc(100% - 40px);
   padding-bottom: 5px;
 }
 [dir="rtl"] div.il_ContainerItemTitle {
@@ -9989,6 +9990,7 @@ input[name^="position[blocks]"] {
 }
 div.ilListItemSection {
   clear: both;
+  max-width: calc(100% - 40px);
 }
 div.ilContainerListItemOuterHighlight {
   padding: 15px;
@@ -10062,7 +10064,7 @@ div.il_ContainerListItem {
 }
 .ilContainerBlockHeader {
   font-weight: 400;
-  padding: 2px;
+  padding: 5px 10px;
   text-align: left;
   vertical-align: middle;
 }
@@ -10128,7 +10130,7 @@ div#right_area {
   bottom: 0;
   width: 50%;
   right: 0px;
-  top: 85px;
+  top: 117px;
   position: fixed;
   padding: 5px;
   background-color: #F5F5F5;
@@ -11012,6 +11014,9 @@ a.ilTag:active {
 }
 .ilTag.ilHighlighted {
   background-color: #ea6705;
+}
+#il_tags_modal textarea {
+  resize: vertical;
 }
 /* Services/UIComponent/Checklist */
 div.ilChecklist ul {

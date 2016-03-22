@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -14046,7 +14046,7 @@ fold#:#fold_settings#:#Ordnereigenschaften
 mcst#:#mcst_download_cnt#:#Heruntergeladen
 mcst#:#mcst_play_cnt#:#Abgespielt
 glo#:#glo_term#:#Glossarbegriff
-content#:#glo_add_term_properties#:#Zusätzliche Eigenschaften von Glossarbegriffen
+content#:#glo_add_term_properties#:#Erweiterte Metadaten von Glossarbegriffen
 exc#:#exc_multi_feedback#:#Multi-Feedback
 exc#:#exc_download_zip_structure#:#ZIP-Verzeichnisstruktur herunterladen
 exc#:#exc_multi_feedback_file#:#Multi-Feedback-Datei
@@ -14767,7 +14767,7 @@ survey#:#svy_results_view_own#:#Teilnehmer kann eigene Antworten einsehen
 survey#:#svy_results_mail_own#:#Teilnehmer kann sich E-Mail mit den eigenen Antworten senden
 exercise#:#exc_to_desktop_info#:#Nach Abgabe die Übung auf den Schreibtisch legen
 wiki#:#wiki_wpg#:#Wiki-Seite
-wiki#:#wiki_add_page_properties#:#Zusätzliche Eigenschaften von Wikiseiten
+wiki#:#wiki_add_page_properties#:#Erweiterte Metadaten von Wikiseiten
 wiki#:#wiki_advmd_block_title#:#Erweiterte Metadaten der Seite
 content#:#cont_ed_insert_amd_page_list#:#Seitenliste einfügen
 content#:#cont_insert_amd_page_list#:#Seitenliste einfügen
@@ -15669,7 +15669,7 @@ meta#:#meta_tab_lom#:#LOM
 meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten
 meta#:#meta_tab_advmd_def#:#Metadatensätze verwalten
 meta#:#meta_global#:#Global
-wiki#:#wiki_unhide_meta_adv_records#:#Zusätzliche Eigenschaften anzeigen
+wiki#:#wiki_unhide_meta_adv_records#:#Erweiterte Metadaten anzeigen
 prtf#:#prtf_back_to_portfolio_owner#:#Portfolio bearbeiten
 blog#:#blog_back_to_blog_owner#:#Blog bearbeiten
 content#:#cont_assign_to_parent#:#Dem übergordneten Knoten zuordnen
@@ -16180,3 +16180,6 @@ style#:#sty_ha_ihcap_class#:#Hor. Akkordeonelement Überschrift
 style#:#sty_va_iheada_class#:#Vert. Akkordeonelement Kopf (aktiv)
 style#:#sty_va_ihcap_class#:#Vert. Akkordeonelement Überschrift
 exc#:#exc_delete_team#:#Team löschen
+sysc#:#sysc_tree_structure_failures#:#Anzahl von Fehlern in der Baumstruktur (parent-Relation): 
+sysc#:#sysc_message_tree_structure_confirm#:#Sind sie sicher, dass sie die Baumstruktur reparieren möchten. Es wird unbedingt empfohlen vor Reparatur eine Sicherung der ILIAS-Datenbank zu erstellen.
+sysc#:#sysc_btn_tree_structure#:#Baumstruktur neu generieren

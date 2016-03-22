@@ -221,7 +221,14 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 		$tasks = new ilSCTreeTasks($this->getTask());
 		
 		
-		$GLOBALS['tree']->renumber(ROOT_FOLDER_ID);
+		if($GLOBALS['tree']->getTreeImplementation() instanceof ilMaterializedPathTree)
+		{
+			ilMaterializedPathTree::createFromParentReleation();
+		}
+		elseif($GLOBALS['tree']->getTreeImplementation() instanceof ilNestedSetTree)
+		{
+			$GLOBALS['tree']->renumber(ROOT_FOLDER_ID);
+		}
 		
 		$this->getTask()->setStatus(ilSCTask::STATUS_COMPLETED);
 		$this->getTask()->setLastUpdate(new ilDateTime(time(),IL_CAL_UNIX));

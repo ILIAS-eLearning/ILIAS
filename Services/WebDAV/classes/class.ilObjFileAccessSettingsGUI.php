@@ -659,104 +659,135 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		// Add table to page
 		$this->tpl->setVariable("USER_TABLE",$a_tpl->get());
 	}
+	
+	protected function initDiskQuotaMailTemplateForm()
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule("meta");
+		$lng->loadLanguageModule("mail");
+
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		
+		$form->setTitle($lng->txt("disk_quota_reminder_mail"));
+		$form->setDescription($lng->txt("disk_quota_reminder_mail_desc"));
+		
+		foreach($lng->getInstalledLanguages() as $lang_key)
+		{								
+			$lang_def = ($lang_key == $lng->getDefaultLanguage())
+				?  " (".$lng->txt("default").")"
+				: "";			
+			
+			$sec = new ilFormSectionHeaderGUI();
+			$sec->setTitle($lng->txt("meta_l_".$lang_key).$lang_def);
+			$form->addItem($sec);
+			
+			$subj = new ilTextInputGUI($lng->txt("subject"), "subject_".$lang_key);
+			$subj->setRequired(true);
+			$form->addItem($subj);
+			
+			$sal_g = new ilTextInputGUI($lng->txt("mail_salutation_general"), "sal_g_".$lang_key);
+			$sal_g->setRequired(true);
+			$form->addItem($sal_g);
+			
+			$sal_f = new ilTextInputGUI($lng->txt("mail_salutation_female"), "sal_f_".$lang_key);
+			$sal_f->setRequired(true);
+			$form->addItem($sal_f);
+			
+			$sal_m = new ilTextInputGUI($lng->txt("mail_salutation_male"), "sal_m_".$lang_key);
+			$sal_m->setRequired(true);
+			$form->addItem($sal_m);
+			
+			$body = new ilTextAreaInputGUI($lng->txt("message_content"), "body_".$lang_key);
+			$body->setRequired(true);
+			$body->setRows(10);
+			$form->addItem($body);				
+			
+			// current values
+			$amail = $this->disk_quota_obj->_lookupReminderMailTemplate($lang_key);
+			$subj->setValue($amail["subject"]);
+			$sal_g->setValue($amail["sal_g"]);
+			$sal_f->setValue($amail["sal_f"]);
+			$sal_m->setValue($amail["sal_m"]);
+			$body->setValue($amail["body"]);			
+		}
+		
+		$form->addCommandButton("saveDiskQuotaMailTemplate", $lng->txt("save"));
+		$form->addCommandButton("editDiskQuotaSettings", $lng->txt("cancel"));
+		
+		return $form;
+	}
 
 	/**
 	* Edit disk quota settings.
 	*/
-	public function editDiskQuotaMailTemplate()
+	public function editDiskQuotaMailTemplate(ilPropertyFormGUI $a_form = null)
 	{
-		global $rbacsystem, $ilErr, $ilSetting, $tpl, $lng, $ilCtrl;
+		global $rbacsystem, $ilErr, $lng;
 
 		if (! $rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$ilErr->raiseError($lng->txt("no_permission"),$ilErr->WARNING);
 		}
-
-		$this->tabs_gui->setTabActive('disk_quota');
-		$this->addDiskQuotaSubtabs('disk_quota_reminder_mail');
-
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.disk_quota_reminder_mail.html',
-			"Services/WebDAV");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_mail.svg"));
-
-		$lng->loadLanguageModule("meta");
-		$lng->loadLanguageModule("mail");
-		$this->tpl->setVariable("TXT_NEW_USER_ACCOUNT_MAIL", $lng->txt("disk_quota_reminder_mail"));
-		$this->tpl->setVariable("TXT_NEW_USER_ACCOUNT_MAIL_DESC", $lng->txt("disk_quota_reminder_mail_desc"));
-
-		// placeholder help text
-		$this->tpl->setVariable("TXT_USE_PLACEHOLDERS", $lng->txt("mail_nacc_use_placeholder"));
-		$this->tpl->setVariable("TXT_MAIL_SALUTATION", $lng->txt("mail_nacc_salutation"));
-		$this->tpl->setVariable("TXT_FIRST_NAME", $lng->txt("firstname"));
-		$this->tpl->setVariable("TXT_LAST_NAME", $lng->txt("lastname"));
-		$this->tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
-		$this->tpl->setVariable("TXT_LOGIN", $lng->txt("mail_nacc_login"));
-		$this->tpl->setVariable("TXT_DISK_QUOTA", $lng->txt("disk_quota"));
-		$this->tpl->setVariable("TXT_DISK_USAGE", $lng->txt("disk_usage"));
-		$this->tpl->setVariable("TXT_DISK_USAGE_DETAILS", $lng->txt("disk_usage_details"));
-		$this->tpl->setVariable("TXT_ADMIN_MAIL", $lng->txt("mail_nacc_admin_mail"));
-		$this->tpl->setVariable("TXT_ILIAS_URL", $lng->txt("mail_nacc_ilias_url"));
-		$this->tpl->setVariable("TXT_CLIENT_NAME", $lng->txt("mail_nacc_client_name"));
-
-		$langs = $lng->getInstalledLanguages();
-		foreach($langs as $lang_key)
+		
+		$this->tabs_gui->setTabActive("disk_quota");
+		$this->addDiskQuotaSubtabs("disk_quota_reminder_mail");
+			
+		if(!$a_form)
 		{
-			$amail = $this->disk_quota_obj->_lookupReminderMailTemplate($lang_key);
-			$this->tpl->setCurrentBlock("mail_block");
-			$add = "";
-			if ($lang_key == $lng->getDefaultLanguage())
-			{
-				$add = " (".$lng->txt("default").")";
-			}
-			$this->tpl->setVariable("TXT_LANGUAGE",
-				$lng->txt("meta_l_".$lang_key).$add);
-			$this->tpl->setVariable("TXT_BODY", $lng->txt("message_content"));
-			$this->tpl->setVariable("TA_BODY", "body_".$lang_key);
-			$this->tpl->setVariable("VAL_BODY",
-				ilUtil::prepareFormOutput($amail["body"]));
-			$this->tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
-			$this->tpl->setVariable("INPUT_SUBJECT", "subject_".$lang_key);
-			$this->tpl->setVariable("VAL_SUBJECT",
-				ilUtil::prepareFormOutput($amail["subject"]));
-			$this->tpl->setVariable("TXT_SAL_G", $lng->txt("mail_salutation_general"));
-			$this->tpl->setVariable("INPUT_SAL_G", "sal_g_".$lang_key);
-			$this->tpl->setVariable("VAL_SAL_G",
-				ilUtil::prepareFormOutput($amail["sal_g"]));
-			$this->tpl->setVariable("TXT_SAL_M", $lng->txt("mail_salutation_male"));
-			$this->tpl->setVariable("INPUT_SAL_M", "sal_m_".$lang_key);
-			$this->tpl->setVariable("VAL_SAL_M",
-				ilUtil::prepareFormOutput($amail["sal_m"]));
-			$this->tpl->setVariable("TXT_SAL_F", $lng->txt("mail_salutation_female"));
-			$this->tpl->setVariable("INPUT_SAL_F", "sal_f_".$lang_key);
-			$this->tpl->setVariable("VAL_SAL_F",
-				ilUtil::prepareFormOutput($amail["sal_f"]));
-			$this->tpl->parseCurrentBlock();
+			$a_form = $this->initDiskQuotaMailTemplateForm();
 		}
-		$this->tpl->setVariable("TXT_CANCEL", $lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SAVE", $lng->txt("save"));
+			
+		$tpl = new ilTemplate("tpl.disk_quota_reminder_mail.html", true, true, "Services/WebDAV");		
+		$tpl->setVariable("TXT_USE_PLACEHOLDERS", $lng->txt("mail_nacc_use_placeholder"));
+		$tpl->setVariable("TXT_MAIL_SALUTATION", $lng->txt("mail_nacc_salutation"));
+		$tpl->setVariable("TXT_FIRST_NAME", $lng->txt("firstname"));
+		$tpl->setVariable("TXT_LAST_NAME", $lng->txt("lastname"));
+		$tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
+		$tpl->setVariable("TXT_LOGIN", $lng->txt("mail_nacc_login"));
+		$tpl->setVariable("TXT_DISK_QUOTA", $lng->txt("disk_quota"));
+		$tpl->setVariable("TXT_DISK_USAGE", $lng->txt("disk_usage"));
+		$tpl->setVariable("TXT_DISK_USAGE_DETAILS", $lng->txt("disk_usage_details"));
+		$tpl->setVariable("TXT_ADMIN_MAIL", $lng->txt("mail_nacc_admin_mail"));
+		$tpl->setVariable("TXT_ILIAS_URL", $lng->txt("mail_nacc_ilias_url"));
+		$tpl->setVariable("TXT_CLIENT_NAME", $lng->txt("mail_nacc_client_name"));
+		
+		include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
+		$legend = ilPanelGUI::getInstance();
+		$legend->setHeadingStyle(ilPanelGUI::HEADING_STYLE_BLOCK);
+		$legend->setHeading($lng->txt("mail_nacc_use_placeholder"));
+		$legend->setBody($tpl->get());
+		
+		$this->tpl->setContent($a_form->getHTML().$legend->getHTML());
 	}
-	function cancelDiskQuotaMailTemplate()
-	{
-		$this->ctrl->redirect($this, "editDiskQuotaSettings");
-	}
-
+	
 	function saveDiskQuotaMailTemplate()
 	{
 		global $lng;
-
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-		$langs = $lng->getInstalledLanguages();
-		foreach($langs as $lang_key)
-		{
-			$this->disk_quota_obj->_writeReminderMailTemplate($lang_key,
-				ilUtil::stripSlashes($_POST["subject_".$lang_key]),
-				ilUtil::stripSlashes($_POST["sal_g_".$lang_key]),
-				ilUtil::stripSlashes($_POST["sal_f_".$lang_key]),
-				ilUtil::stripSlashes($_POST["sal_m_".$lang_key]),
-				ilUtil::stripSlashes($_POST["body_".$lang_key]));
+		
+		$form = $this->initDiskQuotaMailTemplateForm();
+		if($form->checkInput())
+		{		
+			foreach($lng->getInstalledLanguages() as $lang_key)
+			{
+				$this->disk_quota_obj->_writeReminderMailTemplate(
+					$lang_key,
+					$form->getInput("subject_".$lang_key),
+					$form->getInput("sal_g_".$lang_key),
+					$form->getInput("sal_f_".$lang_key),
+					$form->getInput("sal_m_".$lang_key),
+					$form->getInput("body_".$lang_key)
+				);
+			}
+			
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+			$this->ctrl->redirect($this, "editDiskQuotaMailTemplate");
 		}
-		$this->ctrl->redirect($this, "editDiskQuotaMailTemplate");
+		
+		$form->setValuesByPost();
+		$this->editDiskQuotaMailTemplate($form);
 	}
 	
 	/**

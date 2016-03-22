@@ -15944,7 +15944,7 @@ rbac#:#logs_visible#:#Logging settings are visible
 rbac#:#logs_write#:#User can edit Logging settings
 logging#:#logs_settings#:#Logging Settings
 log#:#log_general_settings#:#Logging Settings
-log#:#log_components#:#Komponenten
+log#:#log_components#:#Components
 log#:#log_log_level#:#Log-Level
 log#:#log_level_debug#:#DEBUG
 log#:#log_level_info#:#INFO
@@ -16180,3 +16180,6 @@ style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption
 style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)
 style#:#sty_va_ihcap_class#:#Vert. Accordion Caption
 exc#:#exc_delete_team#:#Delete Team
+sysc#:#sysc_tree_structure_failures#:#Number of failures in the tree structure (parent-Relation):
+sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tree structure? Please create a database backup before you proceed.
+sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure

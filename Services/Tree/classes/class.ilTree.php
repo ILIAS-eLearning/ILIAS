@@ -987,6 +987,15 @@ class ilTree
 		$this->resetInTreeCache();
 		
 	}
+	
+	/**
+	 * Validate parent relations of tree
+	 * @return int[] array of failure nodes
+	 */
+	public function validateParentRelations()
+	{
+		return $this->getTreeImplementation()->validateParentRelations();
+	}
 
 	/**
 	* get path from a given startnode to a given endnode
