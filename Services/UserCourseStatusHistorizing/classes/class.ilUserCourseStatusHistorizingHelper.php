@@ -204,16 +204,25 @@ class ilUserCourseStatusHistorizingHelper
 		$case_id = array( 'usr_id'	 =>	(int)$user_id
 						, 'crs_id'	 =>	(int)$course_id
 						);
-		
+
 		if (!ilUserCourseStatusHistorizing::caseExists($case_id)) {
 			$payload["begin_date"] = date("Y-m-d");
 			return;
 		}
-		
+
+		$states_checks = array("kostenpflichtig storniert", "kostenfrei storniert");
+		if (ilUserCourseStatusHistorizing::caseExists($case_id)
+			&& in_array($payload["booking_status"], $states_checks)
+			&& $payload["event"] == "addParticipant")
+		{
+			$payload["begin_date"] = date("Y-m-d");
+			return;
+		}
+
 		if ($payload["participation_status"] !== "teilgenommen") {
 			return;
 		}
-		
+
 		$cur = ilUserCourseStatusHistorizing::getCurrentRecordByCase($case_id);
 		
 		if ($cur["participation_status"] !== "teilgenommen") {
