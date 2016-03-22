@@ -32,7 +32,7 @@ class gevCourseUtils {
 		$this->gIldb = $ilDB;
 		$this->gLog = $ilLog;
 		$this->gLng = $lng;
-		$this->ctrl = $ilCtrl;
+		$this->gCtrl = $ilCtrl;
 		$this->gTree = $tree;
 		
 		$this->gLng->loadLanguageModule("crs");
@@ -2905,9 +2905,9 @@ class gevCourseUtils {
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_booking_form.html", "Services/GEV/Desktop");
 		$form->setTitle($this->getTitle());
-		$this->ctrl->setParameter($a_gui, "crs_id", $this->crs_id);
-		$form->setFormAction($this->ctrl->getFormAction($a_gui));
-		$this->ctrl->clearParameters($a_gui, "crs_id", $this->crs_id);
+		$this->gCtrl->setParameter($a_gui, "crs_id", $this->crs_id);
+		$form->setFormAction($this->gCtrl->getFormAction($a_gui));
+		$this->gCtrl->clearParameters($a_gui, "crs_id", $this->crs_id);
 		$form->addCommandButton("view", $this->gLng->txt("cancel"));
 		$form->addCommandButton("finalizeCancellation", $action);
 		
@@ -3640,10 +3640,10 @@ class gevCourseUtils {
 		$ret = array();
 		foreach ($invitation_mail_settings->getAttachmentsFor("Mitglied") as $key => $value) {
 			if(file_exists($value["path"])) {
-				$this->ctrl->setParameterByClass($class_name, "filename", $value["name"]);
-				$this->ctrl->setParameterByClass($class_name, "crs_id", $this->crs_id);
-				$ret[] = '<a href="'.$this->ctrl->getLinkTargetByClass($class_name, "deliverAttachment").'">'.$value["name"].'</a>';
-				$this->ctrl->clearParametersByClass($class_name);
+				$this->gCtrl->setParameterByClass($class_name, "filename", $value["name"]);
+				$this->gCtrl->setParameterByClass($class_name, "crs_id", $this->crs_id);
+				$ret[] = '<a href="'.$this->gCtrl->getLinkTargetByClass($class_name, "deliverAttachment").'">'.$value["name"].'</a>';
+				$this->gCtrl->clearParametersByClass($class_name);
 			} else {
 				$ret[] = $value["name"]." (Datei wurde nicht gefunden)";
 			}
