@@ -2380,16 +2380,15 @@ class gevCourseUtils {
 					$worksheet->write($row, 4, $user_utils->paysPrearrival() ? "Ja" : "Nein", $format_wrap);
 					$worksheet->write($row, 5, $user_utils->getIDHGBAADStatus() , $format_wrap);
 					$worksheet->write($row, 6, count($on_det) , $format_wrap);
-					reset($on_det);
 					$day_iterator = new ilDate($this->getStartDate()->increment(ilDate::DAY,-1),IL_CAL_UNIX);
 					$count_days = 1;
-
+					$on_day = array_shift($on_det);
 					while (ilDate::_before($day_iterator, $post_day)) {
 						$has_overnight = "";
-						if( $on_day = current($on_det) ) {
+						if( $on_day !== null ) {
 							if(ilDate::_equals($on_day, $day_iterator)) {
 								$has_overnight = "X";
-								next($on_det);
+								$on_day = array_shift($on_det);
 							}
 						}
 						$worksheet->write($row, 6 + $count_days, $has_overnight, $format_wrap);
