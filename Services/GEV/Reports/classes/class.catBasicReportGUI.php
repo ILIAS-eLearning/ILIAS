@@ -340,8 +340,6 @@ class catBasicReportGUI {
 			   . $this->query->sqlGroupBy()."\n"
 			   . $this->queryHaving()."\n"
 			   . $this->queryOrder();
-			   //die($query);
-
 		
 		$res = $this->db->query($query);
 		$data = array();
