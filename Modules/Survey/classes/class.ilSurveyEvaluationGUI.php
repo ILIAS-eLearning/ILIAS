@@ -822,18 +822,14 @@ class ilSurveyEvaluationGUI
 			$finished = $finished_data[$user_id];
 			if((bool)$finished["finished"])
 			{
+				$dt = new ilDateTime($finished["finished_tstamp"], IL_CAL_UNIX);
 				if($export_format == self::TYPE_XLS)
-				{				
-					// see ilObjUserFolder::createExcelExport()
-					$date = strftime("%Y-%m-%d %H:%M:%S", $finished["finished_tstamp"]);
-					if(preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $date, $matches))
-					{
-						array_push($csvrow, array("excelTime", ilUtil::excelTime($matches[1],$matches[2],$matches[3],$matches[4],$matches[5],$matches[6])));
-					}			
+				{									
+					array_push($csvrow, $dt);								
 				}			
 				else
 				{
-					array_push($csvrow, ilDatePresentation::formatDate(new ilDateTime($finished["finished_tstamp"], IL_CAL_UNIX)));
+					array_push($csvrow, ilDatePresentation::formatDate($dt));
 				}
 			}
 			else
@@ -857,103 +853,40 @@ class ilSurveyEvaluationGUI
 		switch ($export_format)
 		{
 			case self::TYPE_XLS:
-				include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
-				$excelfile = ilUtil::ilTempnam();
-				$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
-				$workbook = $adapter->getWorkbook();
-				$workbook->setVersion(8); // Use Excel97/2000 Format
-				// Creating a worksheet
-				$format_bold =& $workbook->addFormat();
-				$format_bold->setBold();
-				$format_percent =& $workbook->addFormat();
-				$format_percent->setNumFormat("0.00%");
-				$format_datetime =& $workbook->addFormat();
-				$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
-				$format_title =& $workbook->addFormat();
-				$format_title->setBold();
-				$format_title->setColor('black');
-				$format_title->setPattern(1);
-				$format_title->setFgColor('silver');
-				$format_title_plain =& $workbook->addFormat();
-				$format_title_plain->setColor('black');
-				$format_title_plain->setPattern(1);
-				$format_title_plain->setFgColor('silver');
-				// Creating a worksheet
-				$pages = floor((count($csvfile[0])) / 250) + 1;
-				$worksheets = array();
-				for ($i = 0; $i < $pages; $i++)
+				include_once "Services/Excel/classes/class.ilExcel.php";
+				$excel = new ilExcel();
+				$excel->addSheet($this->lng->txt("svy_eval_user"));
+							
+				// title row(s)
+				$row = 1;
+				$title_row = array_shift($csvfile);
+				foreach($title_row as $col_idx => $title_col)
 				{
-					$worksheets[$i] =& $workbook->addWorksheet();
-				}
-				$row = 0;
-				include_once "./Services/Excel/classes/class.ilExcelUtils.php";
-				$contentstartrow = 0;
-				foreach ($csvfile as $csvrow)
-				{
-					$col = 0;
-					if ($row == 0)
-					{
-						$worksheet = 0;
-						$mainworksheet =& $worksheets[$worksheet];
-						foreach ($csvrow as $text)
+					if(is_array($title_col))
+					{						
+						foreach ($title_col as $sub_title_idx => $title)
 						{
-							if (is_array($text))
-							{
-								$textcount = 0;
-								foreach ($text as $string)
-								{
-									$mainworksheet->writeString($row + $textcount, $col, ilExcelUtils::_convert_text($string, $_POST["export_format"]), $format_title);
-									$textcount++;
-									$contentstartrow = max($contentstartrow, $textcount);
-								}
-								$col++;
-							}
-							else
-							{
-								$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($text, $_POST["export_format"]), $format_title);
-							}
-							if ($col % 251 == 0) 
-							{
-								$worksheet++;
-								$col = 1;
-								$mainworksheet =& $worksheets[$worksheet];
-								$mainworksheet->writeString($row, 0, ilExcelUtils::_convert_text($csvrow[0], $_POST["export_format"]), $format_title);
-							}
-						}
-						$row = $contentstartrow;
+							$excel->setCell($row+$sub_title_idx, $col_idx, $title);
+							$row = max($row, $row+$sub_title_idx);
+						}						
 					}
 					else
 					{
-						$worksheet = 0;
-						$mainworksheet =& $worksheets[$worksheet];
-						foreach ($csvrow as $text)
-						{
-							if (is_array($text) && $text[0] == "excelTime")
-							{
-								$mainworksheet->write($row, $col++, $text[1], $format_datetime);
-							}							
-							else if (is_numeric($text))
-							{
-								$mainworksheet->writeNumber($row, $col++, $text);
-							}
-							else
-							{
-								$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($text, $_POST["export_format"]));
-							}
-							if ($col % 251 == 0) 
-							{
-								$worksheet++;
-								$col = 1;
-								$mainworksheet =& $worksheets[$worksheet];
-								$mainworksheet->writeString($row, 0, ilExcelUtils::_convert_text($csvrow[0], $_POST["export_format"]));
-							}
-						}
+						$excel->setCell($row, $col_idx, $title_col);
 					}
-					$row++;
 				}
-				$workbook->close();
-				ilUtil::deliverFile($excelfile, "$surveyname.xls", "application/vnd.ms-excel");
-				exit();
+				$excel->setBold("A1:".$excel->getColumnCoord(sizeof($title_row)-1)."1");
+		
+				foreach($csvfile as $csvrow)
+				{	
+					$row++;
+					foreach ($csvrow as $col_idx => $text)
+					{												
+						$excel->setCell($row, $col_idx, $text);							
+					}					
+				}
+				
+				$excel->sendToClient($surveyname);				
 				break;
 				
 			case self::TYPE_SPSS:

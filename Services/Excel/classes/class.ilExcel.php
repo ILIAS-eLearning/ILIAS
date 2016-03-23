@@ -11,14 +11,27 @@ include_once './libs/composer/vendor/autoload.php';
  */
 class ilExcel
 {
+	/**
+	 * @var PHPExcel
+	 */
 	protected $workbook; // [PHPExcel]
 	
-	const TYPE_EXCEL_XML = "Excel2007";
-	const TYPE_EXCEL_BIFF = "Excel5";
+	/**
+	 * @var string
+	 */
+	protected $type; // [string]
 	
+	const FORMAT_XML = "Excel2007";
+	const FORMAT_BIFF = "Excel5";
+	
+	/**
+	 * Constructor
+	 * 
+	 * @return self
+	 */
 	public function __construct()
 	{
-		$this->setType(self::TYPE_EXCEL_XML);		
+		$this->setFormat(self::FORMAT_XML);		
 		$this->workbook = new PHPExcel();	
 		$this->workbook->removeSheetByIndex(0);
 	}		
@@ -28,16 +41,26 @@ class ilExcel
 	// type/format
 	// 
 	
-	public function getValidTypes()
+	/**
+	 * Get valid file formats
+	 * 
+	 * @return array
+	 */
+	public function getValidFormats()
 	{
-		return array(self::TYPE_EXCEL_BIFF, self::TYPE_EXCEL_XML);
+		return array(self::FORMAT_XML, self::FORMAT_BIFF);
 	}
 	
-	public function setType($a_type)
+	/**
+	 * Set file format
+	 * 
+	 * @param string $a_format
+	 */
+	public function setFormat($a_format)
 	{
-		if(in_array($a_type, $this->getValidTypes()))
+		if(in_array($a_format, $this->getValidFormats()))
 		{
-			$this->type = $a_type;
+			$this->format = $a_format;
 		}
 	}
 	
@@ -46,6 +69,13 @@ class ilExcel
 	// sheets
 	//
 	
+	/**
+	 * Add sheet
+	 * 
+	 * @param string $a_name
+	 * @param bool $a_activate
+	 * @return int index
+	 */
 	public function addSheet($a_name, $a_activate = true)
 	{
 		$sheet = new PHPExcel_Worksheet($this->workbook, $a_name);
@@ -60,6 +90,11 @@ class ilExcel
 		return $new_index;		
 	}
 	
+	/**
+	 * Set active sheet
+	 * 
+	 * @param int $a_index
+	 */
 	public function setActiveSheet($a_index)
 	{
 		$this->workbook->setActiveSheetIndex($a_index);
@@ -70,6 +105,12 @@ class ilExcel
 	// cells
 	//
 	
+	/**
+	 * Prepare value for cell
+	 * 
+	 * @param mixed $a_value
+	 * @return mixed
+	 */
 	protected function prepareValue($a_value)
 	{
 		global $lng;
@@ -97,6 +138,12 @@ class ilExcel
 		return $a_value;
 	}
 	
+	/**
+	 * Set date format
+	 * 
+	 * @param PHPExcel_Cell $a_cell
+	 * @param mixed $a_value
+	 */
 	protected function setDateFormat(PHPExcel_Cell $a_cell, $a_value)
 	{
 		if($a_value instanceof ilDate)
@@ -111,6 +158,12 @@ class ilExcel
 		}
 	}
 	
+	/**
+	 * Set cell value by coordinates
+	 * 
+	 * @param string $a_coords
+	 * @param mixed $a_value
+	 */
 	public function setCellByCoordinates($a_coords, $a_value)
 	{
 		$cell = $this->workbook->getActiveSheet()->setCellValue(
@@ -121,6 +174,13 @@ class ilExcel
 		$this->setDateFormat($cell, $a_value);		
 	}
 	
+	/**
+	 * Set cell value 
+	 * 
+	 * @param int $a_row
+	 * @param int $a_col
+	 * @param mixed $a_value
+	 */
 	public function setCell($a_row, $a_col, $a_value)
 	{
 		$cell = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
@@ -132,6 +192,13 @@ class ilExcel
 		$this->setDateFormat($cell, $a_value);		
 	}
 	
+	/**
+	 * Set cell values from array 
+	 * 
+	 * @param array $a_values
+	 * @param string $a_top_left
+	 * @param mixed $a_null_value
+	 */
 	public function setCellArray(array $a_values, $a_top_left = "A1", $a_null_value = NULL)	
 	{
 		foreach($a_values as $row_idx => $cols)
@@ -152,11 +219,20 @@ class ilExcel
 		$this->workbook->getActiveSheet()->fromArray($a_values, $a_null_value, $a_top_left);
 	}
 
+	/**
+	 * Get column "name" from number
+	 * 
+	 * @param int $a_col
+	 * @return string
+	 */
 	public function getColumnCoord($a_col)
 	{
 		return PHPExcel_Cell::stringFromColumnIndex($a_col);
 	}
 	
+	/**
+	 * Set all existing columns on all sheets to autosize
+	 */
 	protected function setGlobalAutoSize()
 	{
 		// this may change the active sheet
@@ -177,19 +253,27 @@ class ilExcel
 	// deliver/save
 	// 
 	
+	/**
+	 * Prepare workbook for storage/delivery
+	 */
 	protected function prepareStorage()
 	{
 		$this->setGlobalAutoSize();
 		$this->workbook->setActiveSheetIndex(0);
 	}
 	
+	/**
+	 * Send workbook to client
+	 * 
+	 * @param string $a_file_name
+	 */
 	public function sendToClient($a_file_name)
 	{
 		$this->prepareStorage();
 		
-		switch($this->type)
+		switch($this->format)
 		{
-			case self::TYPE_EXCEL_BIFF:
+			case self::FORMAT_BIFF:
 				header("Content-Type: application/vnd.ms-excel; charset=utf-8");
 				if(!stristr($a_file_name, ".xls"))
 				{
@@ -197,7 +281,7 @@ class ilExcel
 				}
 				break;
 			
-			case self::TYPE_EXCEL_XML:
+			case self::FORMAT_XML:
 				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8');
 				if(!stristr($a_file_name, ".xls"))
 				{
@@ -211,29 +295,46 @@ class ilExcel
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Cache-Control: private", false);
 		
-		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->type);
+		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->format);
 		$writer->save('php://output');
 		exit();
 	}
 	
+	/**
+	 * Save workbook to file
+	 * 
+	 * @param string $a_file full path
+	 */
 	public function writeToFile($a_file)
 	{
 		$this->prepareStorage();
 		
-		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->type);
+		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->format);
 		$writer->write($a_file);
 	}		
 	
 	
 	// 
-	// style (:TODO: more wrapping?)
+	// style (:TODO: more options?)
 	// 
 	
+	/**
+	 * Set cell(s) to bold
+	 * 
+	 * @param string $a_coords
+	 */
 	public function setBold($a_coords)
 	{
 		$this->workbook->getActiveSheet()->getStyle($a_coords)->getFont()->setBold(true);
 	}
 	
+	/**
+	 * Set cell(s) colors
+	 * 
+	 * @param string $a_coords
+	 * @param string $a_background
+	 * @param string $a_font
+	 */
 	public function setColors($a_coords, $a_background, $a_font = null)
 	{
 		$opts = array(
@@ -253,6 +354,15 @@ class ilExcel
 		$this->workbook->getActiveSheet()->getStyle($a_coords)->applyFromArray($opts);
 	}
 	
+	/**
+	 * Toggle cell(s) borders
+	 * 
+	 * @param string $a_coords
+	 * @param bool $a_top
+	 * @param bool $a_right
+	 * @param bool $a_bottom
+	 * @param bool $a_left
+	 */
 	public function setBorders($a_coords, $a_top, $a_right = false, $a_bottom = false, $a_left = false)
 	{
 		$style = $this->workbook->getActiveSheet()->getStyle($a_coords);
