@@ -635,6 +635,10 @@ gev#:#gev_position_key#:#Stellungsschlüssel
 gev#:#gev_pot_applicants#:#POT Bewerber
 gev#:#gev_pot_participants#:#POT Teilnehmer
 gev#:#gev_prearrival_note#:#Achtung: Bei eintägigen Trainings bitte keine Übernachtungen buchen. Vorabendanreisen oder Abreisen am nächsten Morgen bedürfen der gesonderten Genehmigung der Führungskraft.
+gev#:#gev_hotel_pre_arrival#:#Vorabendanreise
+gev#:#gev_hotel_post_departure#:#Nachtagsabreise
+gev#:#gev_hotel_self_payment_pre_arr#:#Selbstzahler Vorabendanreise
+gev#:#gev_cnt_overnights#:#Anzahl Übernachtungen
 gev#:#gev_presave#:#Zwischenspeichern
 gev#:#gev_private_contact#:#Kontaktdaten privat
 gev#:#gev_private_contact_info#:#Die Angabe Ihrer E-Mail und Mobiltelefonnummer ist zwingend notwendig, damit Ihr Konto in der zentralen Weiterbildungsdatenbank eröffnet und gepflegt werden kann.
