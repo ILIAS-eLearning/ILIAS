@@ -1616,96 +1616,33 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 				$this->getRefId()
 		);
 		
-		// Break inheritance, create local roles and initialize permission
-		// settings depending on course status.
-		$this->__setCourseStatus();
-
 		return array();
 	}
-
+	
 	/**
-	* set course status
-	*
-	* Grants permissions on the course object for all parent roles.  
-	* Each permission is granted by computing the intersection of the role 
-	* template il_crs_non_member and the permission template of 
-	* the parent role.
-	*
-	* Creates linked roles in the local role folder object for all 
-	* parent roles and initializes their permission templates.
-	* Each permission template is initialized by computing the intersection 
-	* of the role template il_crs_non_member and the permission
-	* template of the parent role.
-	*
-	* @access	private
-	*/
-	function __setCourseStatus()
+	 * This method is called before "initDefaultRoles".
+	 * Therefore now local course roles are created.
+	 * 
+	 * Grants permissions on the course object for all parent roles.
+	 * Each permission is granted by computing the intersection of the 
+	 * template il_crs_non_member and the permission template of the parent role.
+	 * @param type $a_parent_ref
+	 */
+	public function setParentRolePermissions($a_parent_ref)
 	{
-		global $rbacadmin, $rbacreview, $rbacsystem;
-
-
-		//define all relevant roles for which rights are needed to be changed
-		$arr_parentRoles = $rbacreview->getParentRoleIds($this->getRefId());
-		$arr_relevantParentRoleIds = array_diff(array_keys($arr_parentRoles),$this->getDefaultCourseRoles());
-
-		$template_id = $this->__getCrsNonMemberTemplateId();
-
-		//get defined operations from template
-		if (is_null($template_id))
+		global $rbacadmin, $rbacreview;
+		
+		$parent_roles = $rbacreview->getParentRoleIds($a_parent_ref);
+		foreach((array) $parent_roles as $parent_role)
 		{
-			$template_ops = array();
-		} 
-		else 
-		{
-			$template_ops = $rbacreview->getOperationsOfRole($template_id, 'crs', ROLE_FOLDER_ID);
+			$rbacadmin->initIntersectionPermissions(
+				$this->getRefId(),
+				$parent_role['obj_id'],
+				$parent_role['parent'],
+				$this->__getCrsNonMemberTemplateId(),
+				ROLE_FOLDER_ID
+			);
 		}
-
-		foreach ($arr_relevantParentRoleIds as $parentRole)
-		{
-			if ($rbacreview->isProtected($arr_parentRoles[$parentRole]['parent'],$parentRole))
-			{
-				continue;
-			}
-				
-			$granted_permissions = array();
-
-			// Delete the linked role for the parent role
-			// (just in case if it already exists).
-			$rbacadmin->deleteLocalRole($parentRole,$this->getRefId());
-
-			// Grant permissions on the course object for 
-			// the parent role. In the foreach loop we
-			// compute the intersection of the role     
-			// template il_crs_non_member and the 
-			// permission template of the parent role.
-			$current_ops = $rbacreview->getRoleOperationsOnObject($parentRole, $this->getRefId());
-			$rbacadmin->revokePermission($this->getRefId(), $parentRole);
-			foreach ($template_ops as $template_op) 
-			{
-				if (in_array($template_op,$current_ops)) 
-				{
-					array_push($granted_permissions,$template_op);
-				}
-			}
-			if (!empty($granted_permissions))
-			{
-				$rbacadmin->grantPermission($parentRole, $granted_permissions, $this->getRefId());
-			}
-
-			// Create a linked role for the parent role and
-			// initialize it with the intersection of 
-			// il_crs_non_member and the permission
-			// template of the parent role
-			if (! is_null($template_id))
-			{
-				$rbacadmin->copyRolePermissionIntersection(
-					$template_id, ROLE_FOLDER_ID, 
-					$parentRole, $arr_parentRoles[$parentRole]['parent'], 
-					$this->getRefId(), $parentRole
-				);
-			}
-			$rbacadmin->assignRoleToFolder($parentRole,$this->getRefId(),"false");
-		}//END foreach
 	}
 
 	/**
@@ -1723,6 +1660,21 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $row["obj_id"];
+	}
+
+	/**
+	 * Lookup course non member id
+	 * @return int
+	 */
+	public static function lookupCourseNonMemberTemplatesId()
+	{
+		global $ilDB;
+		
+		$query = 'SELECT obj_id FROM object_data WHERE type = '.$ilDB->quote('rolt','text').' AND title = '.$ilDB->quote('il_crs_non_member','text');
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return isset($row['obj_id']) ? $row['obj_id'] : 0;
 	}
 	
 	/**
