@@ -38,10 +38,10 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		{
 			foreach($this->getMonthsYear($this->filter["yearmonth"]) as $num => $caption)
 			{
-				$this->addColumn($caption, "month_".$num, "", false, "ilRight");
+				$this->addColumn($caption, "month_".$num);
 			}
 		}
-		$this->addColumn($lng->txt("total"), "total", "", false, "ilRight");
+		$this->addColumn($lng->txt("total"), "total");
 
 		$this->setTitle($this->lng->txt("trac_object_stat_access"));
 
