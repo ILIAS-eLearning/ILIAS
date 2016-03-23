@@ -21,7 +21,6 @@ class gevDeferredMails {
 			$this->removeOutdatedDeferredMails($a_crs_id, $a_mail_id, $recipient);
 			
 			if(!$send) {
-				//die("sd");
 				continue;
 			}
 			
