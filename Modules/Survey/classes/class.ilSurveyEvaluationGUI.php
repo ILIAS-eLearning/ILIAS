@@ -17,6 +17,8 @@ class ilSurveyEvaluationGUI
 	const TYPE_XLS = "excel";
 	const TYPE_SPSS = "csv";
 	
+	const EXCEL_SUBTITLE = "DDDDDD";
+	
 	var $object;
 	var $lng;
 	var $tpl;
@@ -311,68 +313,43 @@ class ilSurveyEvaluationGUI
 	
 	function exportCumulatedResults($details = 0)
 	{		
-		$format_bold = "";
-		$format_percent = "";
-		$format_datetime = "";
-		$format_title = "";
-		
 		switch ($_POST["export_format"])
 		{
 			case self::TYPE_XLS:
-				include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
-				$excelfile = ilUtil::ilTempnam();
-				$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
-				$workbook = $adapter->getWorkbook();
-				$workbook->setVersion(8); // Use Excel97/2000 Format
-				// Creating a worksheet
-				$format_bold =& $workbook->addFormat();
-				$format_bold->setBold();
-				$format_percent =& $workbook->addFormat();
-				$format_percent->setNumFormat("0.00%");
-				$format_datetime =& $workbook->addFormat();
-				$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
-				$format_title =& $workbook->addFormat();
-				$format_title->setBold();
-				$format_title->setColor('black');
-				$format_title->setPattern(1);
-				$format_title->setFgColor('silver');
-				$format_title->setAlign('center');
-				// Creating a worksheet
-				include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
-				$mainworksheet =& $workbook->addWorksheet();
-				$column = 0;
+				include_once "Services/Excel/classes/class.ilExcel.php";
+				$excel = new ilExcel();
+				$excel->addSheet($this->lng->txt("svy_eval_cumulated"));
+				
+				$title_row = array();
+				
 				switch ($_POST['export_label'])
 				{
 					case 'label_only':
-						$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("label"), $_POST["export_format"]), $format_bold);
+						$title_row[] = $this->lng->txt("label");						
 						break;
+					
 					case 'title_only':
-						$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_bold);
+						$title_row[] = $this->lng->txt("title");
 						break;
+					
 					default:
-						$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_bold);
-						$column++;
-						$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("label"), $_POST["export_format"]), $format_bold);
+						$title_row[] = $this->lng->txt("title");
+						$title_row[] = $this->lng->txt("label");
 						break;
 				}
-				$column++;
-				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("question"), $_POST["export_format"]), $format_bold);
-				$column++;
-				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("question_type"), $_POST["export_format"]), $format_bold);
-				$column++;
-				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("users_answered"), $_POST["export_format"]), $format_bold);
-				$column++;
-				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("users_skipped"), $_POST["export_format"]), $format_bold);
-				$column++;
-				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("mode"), $_POST["export_format"]), $format_bold);
-				$column++;
-				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("mode_text"), $_POST["export_format"]), $format_bold);
-				$column++;
-				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections"), $_POST["export_format"]), $format_bold);
-				$column++;
-				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("median"), $_POST["export_format"]), $format_bold);
-				$column++;
-				$mainworksheet->writeString(0, $column, ilExcelUtils::_convert_text($this->lng->txt("arithmetic_mean"), $_POST["export_format"]), $format_bold);
+				
+				$title_row[] = $this->lng->txt("question");
+				$title_row[] = $this->lng->txt("question_type");
+				$title_row[] = $this->lng->txt("users_answered");
+				$title_row[] = $this->lng->txt("users_skipped");
+				$title_row[] = $this->lng->txt("mode");
+				$title_row[] = $this->lng->txt("mode_text");
+				$title_row[] = $this->lng->txt("mode_nr_of_selections");
+				$title_row[] = $this->lng->txt("median");
+				$title_row[] = $this->lng->txt("arithmetic_mean");
+				
+				$excel->setCellArray(array($title_row), "A1");
+				$excel->setBold("A1:".$excel->getColumnCoord(sizeof($title_row)-1)."1");
 				break;
 			
 			case self::TYPE_SPSS:
@@ -422,9 +399,8 @@ class ilSurveyEvaluationGUI
 			}
 		}
 				
-		$questions =& $this->object->getSurveyQuestions();
-		$counter++;
-		foreach ($questions as $data)
+		$ov_row = 2;
+		foreach ($this->object->getSurveyQuestions() as $data)
 		{
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$question = SurveyQuestion::_instanciateQuestion($data["question_id"]);		
@@ -432,11 +408,12 @@ class ilSurveyEvaluationGUI
 			switch ($_POST["export_format"])
 			{
 				case self::TYPE_XLS:
-					$counter = $question->setExportCumulatedXLS($mainworksheet, $format_title, $format_bold, $eval, $counter, $_POST['export_label']);
+					$excel->setActiveSheet(0);
+					$ov_row = $question->setExportCumulatedXLS($excel, $eval, $ov_row, $_POST['export_label']);
 					break;
 				
 				case self::TYPE_SPSS:
-					$csvrows =& $question->setExportCumulatedCVS($eval, $_POST['export_label']);
+					$csvrows = $question->setExportCumulatedCVS($eval, $_POST['export_label']);
 					foreach ($csvrows as $csvrow)
 					{
 						array_push($csvfile, $csvrow);
@@ -448,9 +425,11 @@ class ilSurveyEvaluationGUI
 				switch ($_POST["export_format"])
 				{
 					case self::TYPE_XLS:
-						$question->setExportDetailsXLS($workbook, $format_title, $format_bold, $eval, $_POST['export_label']);
+						$excel->addSheet($question->getTitle());
+						$row = $question->setExportDetailsXLS($excel, $eval, $_POST['export_label']);
+						$excel->setBold("A1:A".$row);						
 						break;
-				}
+				}				
 			}
 		}
 		
@@ -470,10 +449,7 @@ class ilSurveyEvaluationGUI
 		switch ($_POST["export_format"])
 		{
 			case self::TYPE_XLS:
-				// Let's send the file
-				$workbook->close();
-				ilUtil::deliverFile($excelfile, "$surveyname.xls", "application/vnd.ms-excel");
-				exit();
+				$excel->sendToClient($surveyname);
 				break;
 			
 			case self::TYPE_SPSS:
@@ -481,11 +457,10 @@ class ilSurveyEvaluationGUI
 				$separator = ";";
 				foreach ($csvfile as $csvrow)
 				{
-					$csvrow =& $this->object->processCSVRow($csvrow, TRUE, $separator);
+					$csvrow = $this->object->processCSVRow($csvrow, TRUE, $separator);
 					$csv .= join($csvrow, $separator) . "\n";
 				}
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				ilUtil::deliverData($csv, "$surveyname.csv");
+				ilUtil::deliverData($csv, $surveyname.".csv");
 				exit();
 				break;
 		}

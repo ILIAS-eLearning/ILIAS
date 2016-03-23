@@ -89,6 +89,10 @@ class ilExcel
 		{
 			$a_value = PHPExcel_Shared_Date::stringToExcel($a_value->get(IL_CAL_DATETIME));
 		}
+		else if(is_string($a_value))
+		{
+			$a_value = strip_tags($a_value); // #14542
+		}
 		
 		return $a_value;
 	}
@@ -148,13 +152,41 @@ class ilExcel
 		$this->workbook->getActiveSheet()->fromArray($a_values, $a_null_value, $a_top_left);
 	}
 
+	public function getColumnCoord($a_col)
+	{
+		return PHPExcel_Cell::stringFromColumnIndex($a_col);
+	}
+	
+	protected function setGlobalAutoSize()
+	{
+		// this may change the active sheet
+		foreach($this->workbook->getWorksheetIterator() as $worksheet) 
+		{
+			$this->workbook->setActiveSheetIndex($this->workbook->getIndex($worksheet));
+			$sheet = $this->workbook->getActiveSheet();
+			$cellIterator = $sheet->getRowIterator()->current()->getCellIterator();
+			$cellIterator->setIterateOnlyExistingCells(true);
+			foreach($cellIterator as $cell) 
+			{
+				$sheet->getColumnDimension($cell->getColumn())->setAutoSize(true);
+			}
+		}
+	}
 	
 	//
 	// deliver/save
 	// 
 	
+	protected function prepareStorage()
+	{
+		$this->setGlobalAutoSize();
+		$this->workbook->setActiveSheetIndex(0);
+	}
+	
 	public function sendToClient($a_file_name)
 	{
+		$this->prepareStorage();
+		
 		switch($this->type)
 		{
 			case self::TYPE_EXCEL_BIFF:
@@ -181,10 +213,13 @@ class ilExcel
 		
 		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->type);
 		$writer->save('php://output');
+		exit();
 	}
 	
 	public function writeToFile($a_file)
 	{
+		$this->prepareStorage();
+		
 		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->type);
 		$writer->write($a_file);
 	}		
@@ -240,35 +275,4 @@ class ilExcel
 			$style->getBorders()->getLeft()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);
 		}
 	}			
-	
-	
-	//
-	// testing
-	//
-	
-	public function test()
-	{				
-		$index = $this->addSheet("test");
-		$index = $this->addSheet("test2");
-		
-		$this->setCell(1, 0, 33);
-		$this->setCell(1, 1, 34);
-		$this->setCell(1, 2, 35);
-		$this->setCellByCoordinates("B2", 5.4);
-		$this->setCell(3, 3, true);
-		$this->setCell(4, 3, new ilDate(time(), IL_CAL_UNIX));
-		$this->setCell(5, 3, new ilDateTime(time(), IL_CAL_UNIX));
-		
-		$this->setCellArray(array(
-			array(1.1, 1.2, 1.3, null),
-			array(2.1, 2.2, null, 2.4),
-			array(true, false, "555", 55),
-		), "D8");
-		
-		$this->setBold("A1:F1");	
-		$this->setColors("A1:F1", "FF0000", "FFFF00");		
-		$this->setBorders("A1:F1", false, false, true);		
-			
-		$this->sendToClient("test");		
-	}
 }

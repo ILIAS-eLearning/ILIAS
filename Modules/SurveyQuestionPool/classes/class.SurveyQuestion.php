@@ -2080,65 +2080,54 @@ class SurveyQuestion
 	/**
 	* Creates the Excel output for the cumulated results of this question
 	*
-	* @param object $worksheet Reference to the excel worksheet
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
-	* @param integer $row Actual row in the worksheet
+	* @param ilExcel $a_excel Reference to the excel worksheet
+	* @param array $a_eval_data Cumulated evaluation data
+	* @param integer $a_row Actual row in the worksheet
+	* @param integer $a_export_label 
 	* @return integer The next row which should be used for the export
 	* @access public
 	*/
-	function setExportCumulatedXLS(&$worksheet, &$format_title, &$format_bold, &$eval_data, $row, $export_label)
+	function setExportCumulatedXLS(ilExcel $a_excel, array $a_eval_data, $a_row, $a_export_label)
 	{
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
 		$column = 0;
-		switch ($export_label)
+		
+		switch ($a_export_label)
 		{
 			case 'label_only':
-				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->label));
+				$a_excel->setCell($a_row, $column++, $this->label);
 				break;
+			
 			case 'title_only':
-				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->getTitle()));
+				$a_excel->setCell($a_row, $column++, $this->getTitle());
 				break;
+			
 			default:
-				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->getTitle()));
-				$column++;
-				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->label));
+				$a_excel->setCell($a_row, $column++, $this->getTitle());
+				$a_excel->setCell($a_row, $column++, $this->label);
 				break;
 		}
-		$column++;
-		$worksheet->writeString($row, $column, ilExcelUtils::_convert_text(strip_tags($this->getQuestiontext()))); // #12942
-		$column++;
-		$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->lng->txt($eval_data["QUESTION_TYPE"])));
-		$column++;
-		$worksheet->write($row, $column, $eval_data["USERS_ANSWERED"]);
-		$column++;
-		$worksheet->write($row, $column, $eval_data["USERS_SKIPPED"]);
-		$column++;
-		$worksheet->write($row, $column, ilExcelUtils::_convert_text($eval_data["MODE_VALUE"]));
-		$column++;
-		$worksheet->write($row, $column, ilExcelUtils::_convert_text($eval_data["MODE"]));
-		$column++;
-		$worksheet->write($row, $column, $eval_data["MODE_NR_OF_SELECTIONS"]);
-		$column++;
-		$worksheet->write($row, $column, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval_data["MEDIAN"])));
-		$column++;
-		$worksheet->write($row, $column, $eval_data["ARITHMETIC_MEAN"]);
-		return $row + 1;
+		
+		$a_excel->setCell($a_row, $column++, $this->getQuestiontext());
+		$a_excel->setCell($a_row, $column++, $this->lng->txt($a_eval_data["QUESTION_TYPE"]));
+		$a_excel->setCell($a_row, $column++, (int)$a_eval_data["USERS_ANSWERED"]);
+		$a_excel->setCell($a_row, $column++, (int)$a_eval_data["USERS_SKIPPED"]);
+		$a_excel->setCell($a_row, $column++, $a_eval_data["MODE_VALUE"]);
+		$a_excel->setCell($a_row, $column++, $a_eval_data["MODE"]);
+		$a_excel->setCell($a_row, $column++, (int)$a_eval_data["MODE_NR_OF_SELECTIONS"]);
+		$a_excel->setCell($a_row, $column++, str_replace("<br />", " ", $a_eval_data["MEDIAN"]));
+		$a_excel->setCell($a_row, $column++, $a_eval_data["ARITHMETIC_MEAN"]);
+		
+		return $a_row+1;
 	}
 	
 	/**
 	* Creates the CSV output for the cumulated results of this question
 	*
-	* @param object $worksheet Reference to the excel worksheet
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
 	* @param array $eval_data Cumulated evaluation data
-	* @param integer $row Actual row in the worksheet
-	* @return integer The next row which should be used for the export
+	* @param integer $export_label 
 	* @access public
 	*/
-	function &setExportCumulatedCVS(&$eval_data, $export_label)
+	function setExportCumulatedCVS($eval_data, $export_label)
 	{
 		$csvrow = array();
 		switch ($export_label)
@@ -2170,13 +2159,12 @@ class SurveyQuestion
 	/**
 	* Creates an Excel worksheet for the detailed cumulated results of this question
 	*
-	* @param object $workbook Reference to the parent excel workbook
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
+	* @param ilExcel $a_excel Reference to the parent excel workbook
+	* @param array $a_eval_data Cumulated evaluation data
+	* @param integer $a_export_label 
 	* @access public
 	*/
-	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data, $export_label)
+	function setExportDetailsXLS(ilExcel $a_excel, $a_eval_data, $a_export_label)
 	{
 		// overwrite in inherited classes
 	}
