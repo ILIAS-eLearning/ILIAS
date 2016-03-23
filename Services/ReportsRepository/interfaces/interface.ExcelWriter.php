@@ -39,6 +39,7 @@ interface ExcelWriter {
 
 	/**
 	 * deliver file
+	 * @throws InvalidArgumentException
 	 * @var string $filename
 	 */
 	public function offerDownload($filename);
