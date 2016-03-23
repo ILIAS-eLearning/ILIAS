@@ -362,23 +362,32 @@ class ilMemberExportGUI
 		foreach($this->fss_export->getMemberExportFiles() as $file)
 		{
 			if(md5($file['name']) == $hash)
-			{				
-				$suffix = $file['type'];
-				if($file['type'] == 'xls')
-				{
-					$suffix = 'xlsx';
-				}
-				
+			{							
 				$contents = $this->fss_export->getMemberExportFile($file['timest'].'_participant_export_'.
-					$file['type'].'_'.$this->obj_id.'.'.$suffix);
+					$file['type'].'_'.$this->obj_id.'.'.$file['type']);
+				
+				// newer export files could be .xlsx
+				if($file['type'] == 'xls' && !$contents)
+				{
+					$contents = $this->fss_export->getMemberExportFile($file['timest'].'_participant_export_'.
+						$file['type'].'_'.$this->obj_id.'.xlsx');
+					$file['type'] = 'xlsx';
+				}
 
 				switch($file['type'])
 				{
+					case 'xlsx':
+						ilUtil::deliverData(
+							$contents,
+							date('Y_m_d_H-i'.$file['timest']).'_member_export_'.$this->obj_id.'.xlsx',
+							'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+						);		
+					
 					case 'xls':
 						ilUtil::deliverData(
 							$contents,
-							date('Y_m_d_H-i'.$file['timest']).'_member_export_'.$this->obj_id.'.'.$suffix,
-							'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+							date('Y_m_d_H-i'.$file['timest']).'_member_export_'.$this->obj_id.'.xls',
+							'application/vnd.ms-excel'
 						);						
 
 					default:
