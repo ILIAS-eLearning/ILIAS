@@ -72,11 +72,15 @@ class ilObjReportASTD extends ilObjReportBase {
 
 	public function buildQueryStatement() {
 		$role_utils = $this->role_utils;
+		
 		$in_role = $this->hierarchy["astd_employee"];
-		array_walk($in_role,function (&$rol_title) use ($role_utils) { $role_title = $role_utils->getRoleIdByName($role_title);});
+		$in_role_ids = array_map(function ( $rol_title) use ( $role_utils) { return $role_utils->getRoleIdByName($rol_title);}, $in_role);
+
 		$not_in_role = $this->hierarchy["astd_middle_managers"];
-		array_walk($not_in_role,function (&$rol_title) use ($role_utils) { $role_title = $role_utils->getRoleIdByName($role_title);});	
-			$query_base_set = $this->queryBaseSet("m", $in_role_ids, $not_in_role_ids );
+		$not_in_role_ids = array_map(function ( $rol_title) use ( $role_utils) { return $role_utils->getRoleIdByName($rol_title);}, $not_in_role);	
+		
+		$query_base_set = $this->queryBaseSet("m", $in_role_ids, $not_in_role_ids );
+
 		return 'SELECT '.$this->query_sum_parts.' FROM ('
 							.$query_base_set
 						.') as base_set';
