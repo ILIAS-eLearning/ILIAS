@@ -78,6 +78,11 @@ class ilExcel
 	 */
 	public function addSheet($a_name, $a_activate = true)
 	{
+		// see PHPExcel_Worksheet::$_invalidCharacters;
+		$invalid = array('*', ':', '/', '\\', '?', '[', ']');
+		
+		$a_name = str_replace($invalid, "", $a_name);
+		
 		$sheet = new PHPExcel_Worksheet($this->workbook, $a_name);
 		$this->workbook->addSheet($sheet);
 		$new_index = $this->workbook->getSheetCount()-1;

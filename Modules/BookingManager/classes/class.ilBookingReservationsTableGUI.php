@@ -567,42 +567,44 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		*/
 	}
 	
-	protected function fillHeaderExcel($a_worksheet, &$a_row)
+	protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
 	{		
-		$a_worksheet->write($a_row, 0, $this->lng->txt("title"));					
+		$a_excel->setCell($a_row, 0, $this->lng->txt("title"));					
 		$col = 0;
 		if($this->has_schedule)
 		{
-			$a_worksheet->write($a_row, ++$col, $this->lng->txt("date"));
-			$a_worksheet->write($a_row, ++$col, $this->lng->txt("wk_short"));
-			$a_worksheet->write($a_row, ++$col, $this->lng->txt("cal_weekday"));
-			$a_worksheet->write($a_row, ++$col, $this->lng->txt("book_schedule_slot"));
-			$a_worksheet->write($a_row, ++$col, $this->lng->txt("book_no_of_objects"));
+			$a_excel->setCell($a_row, ++$col, $this->lng->txt("date"));
+			$a_excel->setCell($a_row, ++$col, $this->lng->txt("wk_short"));
+			$a_excel->setCell($a_row, ++$col, $this->lng->txt("cal_weekday"));
+			$a_excel->setCell($a_row, ++$col, $this->lng->txt("book_schedule_slot"));
+			$a_excel->setCell($a_row, ++$col, $this->lng->txt("book_no_of_objects"));
 		}
 		else 
 		{
-			$a_worksheet->write($a_row, ++$col, $this->lng->txt("status"));		
+			$a_excel->setCell($a_row, ++$col, $this->lng->txt("status"));		
 		}		
 		
 		foreach($this->getSelectableColumns(true) as $advmd_col)
 		{
-			$a_worksheet->write($a_row, ++$col, $advmd_col["txt"]);
+			$a_excel->setCell($a_row, ++$col, $advmd_col["txt"]);
 		}
 		
-		$a_worksheet->write($a_row, ++$col, $this->lng->txt("user"));			
+		$a_excel->setCell($a_row, ++$col, $this->lng->txt("user"));			
+		
+		$a_excel->setBold("A".$a_row.":".$a_excel->getColumnCoord($col-1).$a_row);
 	}
 
-	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
 	{
 		$a_worksheet->write($a_row, 0, $a_set["title"]);		
 		$col = 0;
 		if($this->has_schedule)
 		{			
-			$a_worksheet->write($a_row, ++$col, ilDatePresentation::formatDate(new ilDate($a_set["date"], IL_CAL_DATE)));
-			$a_worksheet->write($a_row, ++$col, $a_set["week"]);
-			$a_worksheet->write($a_row, ++$col, ilCalendarUtil::_numericDayToString($a_set["weekday"], false));
-			$a_worksheet->write($a_row, ++$col, $a_set["slot"]);
-			$a_worksheet->write($a_row, ++$col, $a_set["counter"]);
+			$a_excel->setCell($a_row, ++$col, new ilDate($a_set["date"], IL_CAL_DATE));
+			$a_excel->setCell($a_row, ++$col, $a_set["week"]);
+			$a_excel->setCell($a_row, ++$col, ilCalendarUtil::_numericDayToString($a_set["weekday"], false));
+			$a_excel->setCell($a_row, ++$col, $a_set["slot"]);
+			$a_excel->setCell($a_row, ++$col, $a_set["counter"]);
 		}						
 		else
 		{		
@@ -611,9 +613,9 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			{
 				$status = $this->lng->txt('book_reservation_status_'.$a_set['status']);			
 			}
-			$a_worksheet->write($a_row, ++$col, $status);
+			$a_excel->setCell($a_row, ++$col, $status);
 		}
-		$a_worksheet->write($a_row, ++$col, $a_set['user_name']);		
+		$a_excel->setCell($a_row, ++$col, $a_set['user_name']);		
 		
 		if($this->advmd)
 		{
@@ -629,7 +631,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 						$val = $pb;
 					}
 				}
-				$a_worksheet->write($a_row, ++$col, $val);
+				$a_excel->setCell($a_row, ++$col, $val);
 			}
 		}
 	}

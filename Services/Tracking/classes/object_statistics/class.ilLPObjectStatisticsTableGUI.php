@@ -312,10 +312,10 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		
 	}
 	
-	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
 	{
-		$a_worksheet->write($a_row, 0, ilObject::_lookupTitle($a_set["obj_id"]));
-		$a_worksheet->write($a_row, 1, $a_set["obj_id"]);
+		$a_excel->setCell($a_row, 0, ilObject::_lookupTitle($a_set["obj_id"]));
+		$a_excel->setCell($a_row, 1, $a_set["obj_id"]);
 			
 		$col = 1;
 		if(strpos($this->filter["yearmonth"], "-") === false)
@@ -328,8 +328,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 					$value = $this->anonymizeValue($value);
 				}	
 				
-				$col++;
-				$a_worksheet->write($a_row, $col, $value);
+				$a_excel->setCell($a_row, ++$col, $value);
 			}
 		}
 		
@@ -343,8 +342,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		{
 			$sum = $this->anonymizeValue((int)$a_set["total"]);
 		}	
-		$col++;
-		$a_worksheet->write($a_row, $col, $sum);
+		$a_excel->setCell($a_row, ++$col, $sum);
 	}
 	
 	protected function fillMetaCSV()
