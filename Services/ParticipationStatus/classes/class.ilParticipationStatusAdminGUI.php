@@ -459,7 +459,7 @@ class ilParticipationStatusAdminGUI
 	 * 
 	 * @param bool $a_return
 	 */
-	protected function saveStatusAndPoints($a_return = false)
+	protected function saveStatusAndPoints($a_return = false, $setLPState = false)
 	{
 		global $ilCtrl, $lng;
 
@@ -533,7 +533,7 @@ class ilParticipationStatusAdminGUI
 			}
 			// gev-patch end
 			
-			$this->getParticipationStatus()->setStatus($user_id, $status);
+			$this->getParticipationStatus()->setStatus($user_id, $status, $setLPState);
 			$this->getParticipationStatus()->setCreditPoints($user_id, $user_points);
 		}	
 		
@@ -624,12 +624,8 @@ class ilParticipationStatusAdminGUI
 			return $tpl->setContent($confirm->getHTML());	
 		}
 		// gev-patch end
-
-
-		
-		
 	}
-	
+
 	/**
 	 * Finalize status
 	 */
