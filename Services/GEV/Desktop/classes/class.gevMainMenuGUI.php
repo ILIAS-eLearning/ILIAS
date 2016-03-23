@@ -78,7 +78,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		}
 		//gev-april-patch start
 		//var_dump($_COOKIE["april"]);
-		if( date('Y-m-d') === '2016-03-21' && $this->user_utils ) {
+		if( date('Y-m-d') === '2016-04-01' && $this->user_utils ) {
 			if($_COOKIE["april"][$this->gUser->getId()] !== "april") {
 				$this->tpl->setCurrentBlock("april_april");
 				$this->tpl->setVariable('USER_NAME',
