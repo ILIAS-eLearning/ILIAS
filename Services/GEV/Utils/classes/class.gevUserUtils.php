@@ -1116,6 +1116,19 @@ class gevUserUtils {
 		return "";
 	}
 
+	public function getAllIDHGBAADStatus() {
+		$roles = $this->getGlobalRoles();
+		$return = array();
+		foreach ($roles as $role) {
+			$title = ilObject::_lookupTitle($role);
+			$status = gevSettings::$IDHGBAAD_STATUS_MAPPING[$title];
+			if ($status !== null) {
+				$return[] = $status;
+			}
+		}
+		return $return;
+	}
+
 	public function isNA() {
 		return $this->hasRoleIn(array("NA"));
 	}
