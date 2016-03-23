@@ -72,8 +72,7 @@ class ilRepUtil
 			$not_deletable_titles = array();
 			foreach ($not_deletable as $key => $ref_id) {
 				$obj_id = ilObject::_lookupObjId($ref_id);
-				$type = ilObject::_lookupType($obj_id);
-				$not_deletable_titles[] = call_user_func(array(ilObjectFactory::getClassByType($type),'_lookupTitle'), $obj_id);
+				$not_deletable_titles[] = ilObject::_lookupTitle($obj_id);
 			}
 			
 			ilSession::clear("saved_post");
