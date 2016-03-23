@@ -298,7 +298,7 @@ class ilMemberExportGUI
 	{
 	 	$this->handleIncoming();
 		
-		$filename = time().'_participant_export_xls_'.$this->obj_id.'.xls';
+		$filename = time().'_participant_export_xls_'.$this->obj_id;
 		$this->fss_export->initMemberExportDirectory();
 		$filepath = $this->fss_export->getMemberExportDirectory().DIRECTORY_SEPARATOR.$filename;
 		
@@ -363,17 +363,23 @@ class ilMemberExportGUI
 		{
 			if(md5($file['name']) == $hash)
 			{				
+				$suffix = $file['type'];
+				if($file['type'] == 'xls')
+				{
+					$suffix = 'xlsx';
+				}
+				
 				$contents = $this->fss_export->getMemberExportFile($file['timest'].'_participant_export_'.
-					$file['type'].'_'.$this->obj_id.'.'.$file['type']);
+					$file['type'].'_'.$this->obj_id.'.'.$suffix);
 
 				switch($file['type'])
 				{
 					case 'xls':
 						ilUtil::deliverData(
 							$contents,
-							date('Y_m_d_H-i'.$file['timest']).'_member_export_'.$this->obj_id.'.xls',
-							'application/vnd.ms-excel'
-						);
+							date('Y_m_d_H-i'.$file['timest']).'_member_export_'.$this->obj_id.'.'.$suffix,
+							'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+						);						
 
 					default:
 					case 'csv':

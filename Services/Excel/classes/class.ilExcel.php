@@ -261,10 +261,29 @@ class ilExcel
 	/**
 	 * Prepare workbook for storage/delivery
 	 */
-	protected function prepareStorage()
+	protected function prepareStorage($a_file_name)
 	{
 		$this->setGlobalAutoSize();
 		$this->workbook->setActiveSheetIndex(0);
+		
+		switch($this->format)
+		{
+			case self::FORMAT_BIFF:				
+				if(!stristr($a_file_name, ".xls"))
+				{
+					$a_file_name .= ".xls";
+				}
+				break;
+			
+			case self::FORMAT_XML:				
+				if(!stristr($a_file_name, ".xlsx"))
+				{
+					$a_file_name .= ".xlsx";
+				}
+				break;
+		}
+		
+		return $a_file_name;
 	}
 	
 	/**
@@ -274,24 +293,16 @@ class ilExcel
 	 */
 	public function sendToClient($a_file_name)
 	{
-		$this->prepareStorage();
+		$a_file_name = $this->prepareStorage($a_file_name);
 		
 		switch($this->format)
 		{
 			case self::FORMAT_BIFF:
-				header("Content-Type: application/vnd.ms-excel; charset=utf-8");
-				if(!stristr($a_file_name, ".xls"))
-				{
-					$a_file_name .= ".xls";
-				}
+				header("Content-Type: application/vnd.ms-excel; charset=utf-8");				
 				break;
 			
 			case self::FORMAT_XML:
-				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8');
-				if(!stristr($a_file_name, ".xls"))
-				{
-					$a_file_name .= ".xlsx";
-				}
+				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8');			
 				break;
 		}
 		
@@ -312,10 +323,10 @@ class ilExcel
 	 */
 	public function writeToFile($a_file)
 	{
-		$this->prepareStorage();
+		$a_file = $this->prepareStorage($a_file);
 		
 		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->format);
-		$writer->write($a_file);
+		$writer->save($a_file);
 	}		
 	
 	
