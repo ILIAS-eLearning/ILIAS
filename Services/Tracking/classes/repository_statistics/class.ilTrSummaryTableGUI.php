@@ -775,9 +775,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		return false;
 	}
 
-	protected function fillHeaderExcel($worksheet, &$a_row)
+	protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
 	{
-		$worksheet->write($a_row, 0, $this->lng->txt("title"));
+		$a_excel->setCell($a_row, 0, $this->lng->txt("title"));
 
 		$labels = $this->getSelectableColumns();
 		$cnt = 1;
@@ -789,25 +789,25 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			
 			if(!$this->isArrayColumn($c))
 			{
-				$worksheet->write($a_row, $cnt, $label);
+				$a_excel->setCell($a_row, $cnt, $label);
 				$cnt++;
 			}
 			else
 			{
 				if($c != "status")
 				{
-					$worksheet->write($a_row, $cnt, $label." #1");
-					$worksheet->write($a_row, ++$cnt, $label." #1");
-					$worksheet->write($a_row, ++$cnt, $label." #1 %");
-					$worksheet->write($a_row, ++$cnt, $label." #2");
-					$worksheet->write($a_row, ++$cnt, $label." #2");
-					$worksheet->write($a_row, ++$cnt, $label." #2 %");
-					$worksheet->write($a_row, ++$cnt, $label." #3");
-					$worksheet->write($a_row, ++$cnt, $label." #3");
-					$worksheet->write($a_row, ++$cnt, $label." #3 %");
-					$worksheet->write($a_row, ++$cnt, $label." ".$this->lng->txt("trac_others"));
-					$worksheet->write($a_row, ++$cnt, $label." ".$this->lng->txt("trac_others"));
-					$worksheet->write($a_row, ++$cnt, $label." ".$this->lng->txt("trac_others")." %");
+					$a_excel->setCell($a_row, $cnt, $label." #1");
+					$a_excel->setCell($a_row, ++$cnt, $label." #1");
+					$a_excel->setCell($a_row, ++$cnt, $label." #1 %");
+					$a_excel->setCell($a_row, ++$cnt, $label." #2");
+					$a_excel->setCell($a_row, ++$cnt, $label." #2");
+					$a_excel->setCell($a_row, ++$cnt, $label." #2 %");
+					$a_excel->setCell($a_row, ++$cnt, $label." #3");
+					$a_excel->setCell($a_row, ++$cnt, $label." #3");
+					$a_excel->setCell($a_row, ++$cnt, $label." #3 %");
+					$a_excel->setCell($a_row, ++$cnt, $label." ".$this->lng->txt("trac_others"));
+					$a_excel->setCell($a_row, ++$cnt, $label." ".$this->lng->txt("trac_others"));
+					$a_excel->setCell($a_row, ++$cnt, $label." ".$this->lng->txt("trac_others")." %");
 				}
 				else
 				{
@@ -822,18 +822,20 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 					foreach($valid_status as $status)
 					{
 						$text = ilLearningProgressBaseGUI::_getStatusText($status);
-						$worksheet->write($a_row, ++$cnt, $text);
-						$worksheet->write($a_row, ++$cnt, $text." %");
+						$a_excel->setCell($a_row, ++$cnt, $text);
+						$a_excel->setCell($a_row, ++$cnt, $text." %");
 					}
 				}
 				$cnt++;
 			}
 		}
+		
+		$a_excel->setBold("A".$a_row.":".$a_excel->getColumnCoord($cnt).$a_row);
 	}
 
-	protected function fillRowExcel($worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
 	{
-		$worksheet->write($a_row, 0, $a_set["title"]);
+		$a_excel->setCell($a_row, 0, $a_set["title"]);
 
 		$cnt = 1;
 		foreach ($this->getSelectedColumns() as $c)
@@ -841,7 +843,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			if(!$this->isArrayColumn($c))
 			{
 				$val = $this->parseValue($c, $a_set[$c], $a_set["type"]);
-				$worksheet->write($a_row, $cnt, $val);
+				$a_excel->setCell($a_row, $cnt, $val);
 				$cnt++;
 			}
 			else
@@ -850,14 +852,14 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				{
 					if($c == "status")
 					{
-						$worksheet->write($a_row, $cnt, (int)$value["absolute"]);
-						$worksheet->write($a_row, ++$cnt, $value["percentage"]);
+						$a_excel->setCell($a_row, $cnt, (int)$value["absolute"]);
+						$a_excel->setCell($a_row, ++$cnt, $value["percentage"]."%");
 					}
 					else
 					{
-						$worksheet->write($a_row, $cnt, $value["caption"]);
-						$worksheet->write($a_row, ++$cnt, (int)$value["absolute"]);
-						$worksheet->write($a_row, ++$cnt, $value["percentage"]);
+						$a_excel->setCell($a_row, $cnt, $value["caption"]);
+						$a_excel->setCell($a_row, ++$cnt, (int)$value["absolute"]);
+						$a_excel->setCell($a_row, ++$cnt, $value["percentage"]."%");
 					}
 					$cnt++;
 				}
@@ -865,9 +867,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				{
 					for($loop = 4; $loop > sizeof($a_set[$c]); $loop--)
 					{
-						$worksheet->write($a_row, $cnt, "");
-						$worksheet->write($a_row, ++$cnt, "");
-						$worksheet->write($a_row, ++$cnt, "");
+						$a_excel->setCell($a_row, $cnt, "");
+						$a_excel->setCell($a_row, ++$cnt, "");
+						$a_excel->setCell($a_row, ++$cnt, "");
 						$cnt++;
 					}
 				}

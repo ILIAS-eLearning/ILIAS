@@ -282,21 +282,19 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		
 	}
 	
-	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
 	{
-		$a_worksheet->write($a_row, 0, $a_set["title"]);	
+		$a_excel->setCell($a_row, 0, $a_set["title"]);	
 		
 		$cnt = 1;		
 		foreach(array_keys($this->getMonthsYear($this->filter["year"])) as $month)
 		{
 			$value = $this->anonymizeValue((int)$a_set["month_".$month]);
-			$a_worksheet->write($a_row, $cnt, $value);
-			
-			$cnt++;
+			$a_excel->setCell($a_row, $cnt++, $value);
 		}
 		
 		$value = $this->anonymizeValue((int)$a_set["month_live"]);
-		$a_worksheet->write($a_row, $cnt, $value);
+		$a_excel->setCell($a_row, $cnt, $value);
 	}
 	
 	protected function fillMetaCSV()
