@@ -17,7 +17,7 @@ class spoutXLSXWriter implements ExcelWriter {
 	public function __construct() {
 		$this->spout_xlsx = WriterFactory::create(Type::XLSX);
 		$this->tmp_file_path = tempnam(sys_get_temp_dir(), 'xlsx_write');
-		$this->spout_xlsx->openToBrowser($this->tmp_file_path);
+		$this->spout_xlsx->openToFile($this->tmp_file_path);
 	}
 
 	/**
@@ -81,6 +81,18 @@ class spoutXLSXWriter implements ExcelWriter {
 	 */
 	public function offerDownload($filename) {
 		$this->spout_xlsx->close();
-		ilUtil::deliverFile($this->tmp_file_path,$filename, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',false, true, true);
+		if(!$this->checkFileEnding($filename)) {
+			throw new InvalidArgumentException("spoutXLSXWriter: wrong file name provided. .xlsx expected.");
+		}
+		ilUtil::deliverFile($this->tmp_file_path, $filename, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',false, true, true);
+	}
+
+	/**
+	 * Files should end with .xlsx
+	 * @var string $filename
+	 * @return bool
+	 */
+	protected function checkFileEnding($filename) {
+		return preg_match("#.+\.xlsx$#",$filename) === 1 ? true : false;
 	}
 }
