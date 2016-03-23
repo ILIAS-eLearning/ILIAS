@@ -1356,14 +1356,32 @@ class ilMail
 						}
 					}
 					// is role: get role ids
-					elseif($role_id = $rbacreview->roleExists(addslashes(substr($tmp_names[$i],1))))
+					else
 					{
-						foreach($rbacreview->assignedUsers($role_id) as $usr_id)
+						$possible_role_id = addslashes(substr($tmp_names[$i], 1));
+						if($rbacreview->roleExists($possible_role_id))
 						{
-							$ids[] = $usr_id;
+							foreach($rbacreview->assignedUsers($possible_role_id) as $usr_id)
+							{
+								$ids[] = $usr_id;
+							}
+							continue;
+						}
+
+						if(substr($possible_role_id, 0, 8) == 'il_role_')
+						{
+							$role_id = substr($possible_role_id, 8);
+							$roles_object_id = $rbacreview->getObjectOfRole($role_id);
+							if($roles_object_id > 0)
+							{
+								foreach($rbacreview->assignedUsers($possible_role_id) as $usr_id)
+								{
+									$ids[] = $usr_id;
+								}
+							}
+							continue;
 						}
 					}
-
 				}
 				else if (!empty($tmp_names[$i]))
 				{
@@ -1611,18 +1629,17 @@ class ilMail
 				// NO GROUP
 				if (substr($rcp,0,1) != '#')
 				{
-					// ALL RECIPIENTS MUST EITHER HAVE A VALID LOGIN OR A VALID EMAIL
-					if (!ilObjUser::getUserIdByLogin(addslashes($rcp)) and
-						!ilUtil::is_email($rcp))
+					$usr_id = ilObjUser::getUserIdByLogin(addslashes($rcp));
+					if(!$usr_id && !ilUtil::is_email($rcp))
 					{
 						$wrong_rcps .= "<br />".htmlentities($rcp);
 						continue;
 					}
 
 					// CHECK IF USER CAN RECEIVE MAIL
-					if ($user_id = ilObjUser::getUserIdByLogin(addslashes($rcp)))
+					if($usr_id)
 					{
-						if(!$rbacsystem->checkAccessOfUser($user_id, "internal_mail", $this->getMailObjectReferenceId()))
+						if(!$rbacsystem->checkAccessOfUser($usr_id, "internal_mail", $this->getMailObjectReferenceId()))
 						{
 							$wrong_rcps .= "<br />".htmlentities($rcp).
 								" (".$this->lng->txt("user_cant_receive_mail").")";
@@ -1630,7 +1647,7 @@ class ilMail
 						}
 					}
 				}
-				else if (substr($rcp, 0, 7) == '#il_ml_')
+				else if(substr($rcp, 0, 7) == '#il_ml_')
 				{
 					if (!$this->mlists->mailingListExists($rcp))
 					{
@@ -1644,21 +1661,35 @@ class ilMail
 				{
 					continue;
 				}
-				else if (!$rbacreview->roleExists(addslashes(substr($rcp,1))))
+
+				$role_id = $rbacreview->roleExists(addslashes(substr($rcp, 1)));
+				if($role_id)
 				{
-					$wrong_rcps .= "<br />".htmlentities($rcp).
-						" (".$this->lng->txt("mail_no_valid_group_role").")";
-					continue;
-				}
-				else if (!$this->mail_to_global_roles)
-				{
-					$role_id = $rbacreview->roleExists(addslashes(substr($rcp,1)));
-					if((int)$role_id && $rbacreview->isGlobalRole($role_id))
+					if(!$this->mail_to_global_roles && $rbacreview->isGlobalRole($role_id))
 					{
 						include_once('Services/Mail/exceptions/class.ilMailException.php');
 						throw new ilMailException('mail_to_global_roles_not_allowed');
 					}
+					continue;
 				}
+
+				if(substr(addslashes($rcp), 1, 8) == 'il_role_')
+				{
+					$role_id = substr(addslashes($rcp), 9);
+					$roles_object_id = $rbacreview->getObjectOfRole($role_id);
+					if($roles_object_id > 0)
+					{
+						if(!$this->mail_to_global_roles && $rbacreview->isGlobalRole($role_id))
+						{
+							include_once('Services/Mail/exceptions/class.ilMailException.php');
+							throw new ilMailException('mail_to_global_roles_not_allowed');
+						}
+					}
+					continue;
+				}
+
+				$wrong_rcps .= "<br />".htmlentities($rcp) . " (".$this->lng->txt("mail_no_valid_group_role").")";
+				continue;
 			}
 		}
 		return $wrong_rcps;
