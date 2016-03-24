@@ -14686,3 +14686,11 @@ if(is_array($row) && isset($row['obj_id']))
 	);
 }
 ?>
+<#4889>
+<?php
+$ilDB->manipulateF(
+	'DELETE FROM cron_job WHERE job_id = %s',
+	array('text'),
+	array('pay_notification')
+);
+?>
