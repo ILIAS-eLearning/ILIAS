@@ -726,12 +726,12 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		return $data;
 	}
 
-	protected function fillMetaExcel($worksheet, &$a_row)
+	protected function fillMetaExcel(ilExcel $a_excel, &$a_row)
 	{
 		foreach($this->getExportMeta() as $caption => $value)
 		{
-			$worksheet->write($a_row, 0, $caption);
-			$worksheet->write($a_row, 1, $value);
+			$a_excel->setCell($a_row, 0, $caption);
+			$a_excel->setCell($a_row, 1, $value);
 			$a_row++;
 		}
 		$a_row++;

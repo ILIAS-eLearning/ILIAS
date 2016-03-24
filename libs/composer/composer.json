@@ -5,7 +5,8 @@
 	"authors": [],
 	"require": {
 		"filp/whoops": "^2.0",
-        	"monolog/monolog": "^1.15"
+        "monolog/monolog": "^1.15",
+        "phpoffice/phpexcel": "^1.8.1"
 	},
 	"extra": {
 		"filp/whoops" : {
@@ -20,9 +21,17 @@
 			"source" : "https://github.com/Seldaek/monolog",
 			"used_version" : "v1.15",
 			"wrapped_by" : "Services/Logging",
-			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de",
+			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"last_update" : "2016-02-17",
-			"last_update_by" : "Stefan Meyer <smeyer.ilias@gmx.de"
+			"last_update_by" : "Stefan Meyer <smeyer.ilias@gmx.de>"
+		},
+		"phpoffice/phpexcel" : {
+			"source" : "https://github.com/PHPOffice/PHPExcel",
+			"used_version" : "v1.8.1",
+			"wrapped_by" : "Services/Excel",
+			"added_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>",
+			"last_update" : "2016-03-12",
+			"last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>"
 		}
 	}
 }

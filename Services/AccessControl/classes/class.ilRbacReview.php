@@ -537,7 +537,15 @@ class ilRbacReview
 
 			if ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
-				return '#'.$row->title;
+				$ids_for_role_title = ilObject::_getIdsForTitle($row->title, 'role');
+				if(count($ids_for_role_title) > 1)
+				{
+					return '#il_role_' . $a_role_id;
+				}
+				else
+				{
+					return '#' . $row->title;
+				}
 			}
 			else
 			{

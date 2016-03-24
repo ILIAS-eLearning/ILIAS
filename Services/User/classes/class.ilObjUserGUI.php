@@ -1088,6 +1088,9 @@ class ilObjUserGUI extends ilObjectGUI
 		$data['bs_allow_to_contact_me'] = $this->object->prefs['bs_allow_to_contact_me'] == 'y';
 		$data["session_reminder_enabled"] = (int)$this->object->prefs["session_reminder_enabled"];
 
+		$data["send_mail"] = ($this->object->prefs['send_info_mails'] == 'y');
+
+
 		$this->form_gui->setValuesByArray($data);
 	}
 

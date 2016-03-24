@@ -106,12 +106,21 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 		}
 		$form->setDescription($this->lng->txt("wiki_page_list_form_info"));
 				
+		$mode = new ilSelectInputGUI($this->lng->txt("wiki_page_list_mode"), "mode");
+		$mode->setOptions(array(
+			0 => $this->lng->txt("wiki_page_list_mode_unordered"),
+			1 => $this->lng->txt("wiki_page_list_mode_ordered")
+		));
+		$mode->setRequired(true);				
+		$form->addItem($mode);				
+				
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_SEARCH,'wiki',$this->getPage()->getWikiId(),'wpg',$this->getPage()->getId());
 		$this->record_gui->setPropertyForm($form);
 		
 		if (!$a_insert)
 		{
+			$mode->setValue($this->content_obj->getMode());
 			$this->record_gui->setSearchFormValues($this->content_obj->getFieldValues());
 		}
 		
@@ -139,12 +148,12 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 		$form = $this->initForm(true);
 		if($form->checkInput())
 		{		
-			$elements = $this->record_gui->importSearchForm();
+			$elements = $this->record_gui->importSearchForm();			
 			if(is_array($elements))
-			{				
+			{								
 				$this->content_obj = new ilPCAMDPageList($this->getPage());
 				$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-				$this->content_obj->setData($elements);
+				$this->content_obj->setData($elements, $form->getInput("mode"));
 				$this->updated = $this->pg_obj->update();
 				if ($this->updated === true)
 				{
@@ -167,10 +176,10 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 		if($valid)
 		{
 			$elements = $this->record_gui->importSearchForm();
-		}													
+		}								
 		if(is_array($elements))
-		{	
-			$this->content_obj->setData($elements);
+		{				
+			$this->content_obj->setData($elements, $form->getInput("mode"));
 			$this->updated = $this->pg_obj->update();
 			if ($this->updated === true)
 			{

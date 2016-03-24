@@ -601,18 +601,7 @@ class ilPersonalDesktopGUI
 
 		$this->show();
 	}
-	
 
-	/**
-	 * Jump to a study programme.
-	 */
-	public function jumpToStudyProgramme()
-	{
-		require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php';
-		$_GET['view'] = ilPDSelectedItemsBlockGUI::VIEW_MY_STUDYPROGRAMME;
-		$this->show();
-	}
-	
 	/**
 	 * workaround for menu in calendar only
 	 */

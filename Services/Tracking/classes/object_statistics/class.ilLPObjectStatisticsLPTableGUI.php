@@ -61,7 +61,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 		{
 			foreach($this->getMonthsYear($this->filter["yearmonth"]) as $num => $caption)
 			{
-				$this->addColumn($caption, "month_".$num, "", false, "ilRight");
+				$this->addColumn($caption, "month_".$num);
 			}			
 		}
 		else
@@ -76,7 +76,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 				{
 					$caption = " &#216;";
 				}
-				$this->addColumn($lng->txt("trac_members_short").$caption, "mem_cnt_".$type, "", false, "ilRight");
+				$this->addColumn($lng->txt("trac_members_short").$caption, "mem_cnt_".$type);
 			}
 			
 			include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
@@ -96,7 +96,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 					{
 						$caption = $icon." &#216;";
 					}
-					$this->addColumn($caption, $status."_".$type, "", false, "ilRight");					
+					$this->addColumn($caption, $status."_".$type);					
 				}
 			}			
 		}
