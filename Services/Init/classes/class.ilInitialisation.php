@@ -1081,18 +1081,8 @@ class ilInitialisation
 			// could we use session_destroy() instead?
 			// [this is done after every $ilAuth->logout() call elsewhere] 
 			ilSession::_destroy(session_id(), ilSession::SESSION_CLOSE_LOGIN);
-
-			// :TODO: keep session because of cart content?
-			if(!isset($_GET['forceShoppingCartRedirect']))
-			{
-				$_SESSION = array();
-			}
-			else
-			{
-				ilSession::set("AccountId", "");	
-			}
-		}		
-		
+			$_SESSION = array();
+		}
 	}
 
 	/**
