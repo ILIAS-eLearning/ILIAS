@@ -805,7 +805,7 @@ class ilConditionHandler
 		}
 	}
 
-	function _getCondition($a_id)
+	static function _getCondition($a_id)
 	{
 		global $ilDB;
 

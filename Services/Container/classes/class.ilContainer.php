@@ -106,7 +106,7 @@ class ilContainer extends ilObject
 	*
 	* @return	string	container directory
 	*/
-	function _getContainerDirectory($a_id)
+	static function _getContainerDirectory($a_id)
 	{
 		return ilUtil::getWebspaceDir()."/container_data/obj_".$a_id;
 	}
