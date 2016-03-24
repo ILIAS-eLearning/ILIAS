@@ -11,11 +11,10 @@ class catFilterDatePeriodGUI extends catFilterGUI {
 		$this->path = $path;
 	}
 	
-	public function path() {
-		return $this->path;
-	}
-
-	public function fillForm(ilPropertyFormGUI $form) {
+	/**
+	 * @inheritdoc
+	 */
+	public function formElement() {
 		$duration = new ilDateDurationInputGUI($this->filter->label(), "filter[$this->path]");
 		$duration->setInfo($this->filter->description());
 		$duration->setShowDate(true);
@@ -23,8 +22,7 @@ class catFilterDatePeriodGUI extends catFilterGUI {
 		$duration->setStart(new ilDateTime($this->filter->default_begin()->format("Y-m-d 00:00:00"),IL_CAL_DATETIME));
 		$duration->setEnd(new ilDateTime($this->filter->default_end()->format("Y-m-d 00:00:00"),IL_CAL_DATETIME));
 		$duration->setStartYear($this->filter->period_min()->format("Y"));
-		$form->addItem($duration);
 
-		return $form;
+		return $duration;
 	}
 }

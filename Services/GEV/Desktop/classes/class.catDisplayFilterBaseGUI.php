@@ -18,7 +18,7 @@ class catDisplayFilterBaseGUI {
 
 		$this->gCtrl = $ilCtrl;
 		$this->factory = new \CaT\Filter\FilterFactory(new \CaT\Filter\PredicateFactory(), new \CaT\Filter\TypeFactory());
-		$this->display_filter = new \CaT\Filter\DisplayFilter(new \CaT\Filter\FilterGUIFactory());
+		$this->display_filter = new \CaT\Filter\DisplayFilter(new \CaT\Filter\FilterGUIFactory(), new \CaT\Filter\TypeFactory());
 	}
 
 	public function executeCommand() {

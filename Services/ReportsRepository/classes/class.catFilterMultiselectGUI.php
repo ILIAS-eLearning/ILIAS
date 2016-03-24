@@ -11,11 +11,10 @@ class catFilterMultiselectGUI extends catFilterGUI {
 		$this->path = $path;
 	}
 
-	public function path() {
-		return $this->path;
-	}
-
-	public function fillForm(ilPropertyFormGUI $form) {
+	/**
+	 * @inheritdoc
+	 */
+	public function formElement() {
 		$multi_select = new ilMultiSelectInputGUI($this->filter->label(), "filter[$this->path]");
 		$multi_select->setInfo($this->filter->description());
 		$opts = $this->filter->options();
@@ -23,8 +22,7 @@ class catFilterMultiselectGUI extends catFilterGUI {
 		$multi_select->setOptions($opts);
 		$multi_select->setValue($this->filter->default_choice());
 		$multi_select->setWidth(250);
-		$form->addItem($multi_select);
 
-		return $form;
+		return $multi_select;
 	}
 }

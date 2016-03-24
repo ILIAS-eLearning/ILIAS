@@ -2,7 +2,7 @@
 require_once("Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php");
 require_once("Services/Form/classes/class.ilHiddenInputGUI.php");
 
-class catFilterGUI {
+abstract class catFilterGUI {
 	public function addHiddenInputs(ilPropertyFormGUI $form, array $post_values) {
 		foreach ($post_values as $key => $value) {
 				$hidden = new ilHiddenInputGUI("filter[$key]");
@@ -17,4 +17,18 @@ class catFilterGUI {
 
 		return $form;
 	}
+
+	public function path() {
+		return $this->path;
+	}
+
+	public function fillForm(ilPropertyFormGUI $form) {
+		$form->addItem($this->formElement());
+		return $form;
+	}
+
+	/**
+	* get the needed gui element for the filter
+	*/
+	abstract function formElement();
 }

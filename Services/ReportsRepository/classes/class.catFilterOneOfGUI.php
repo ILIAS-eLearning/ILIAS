@@ -12,11 +12,10 @@ class catFilterOneOfGUI extends catFilterGUI {
 		$this->path = $path;
 	}
 
-	public function path() {
-		return $this->path;
-	}
-
-	public function fillForm(ilPropertyFormGUI $form) {
+	/**
+	 * @inheritdoc
+	 */
+	public function formElement() {
 		//create radiogroup
 		$group = new ilRadioGroupInputGUI($this->filter->label(), "filter[$this->path][option]");
 
@@ -77,9 +76,6 @@ class catFilterOneOfGUI extends catFilterGUI {
 			$group->addOption($option);
 		}
 
-		//add group to form
-		$form->addItem($group);
-
-		return $form;
+		return $group;
 	}
 }
