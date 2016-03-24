@@ -14694,3 +14694,23 @@ $ilDB->manipulateF(
 	array('pay_notification')
 );
 ?>
+<#4890>
+<?php
+$ilDB->manipulateF(
+	'DELETE FROM page_style_usage WHERE page_type = %s',
+	array('text'),
+	array('shop')
+);
+
+$ilDB->manipulateF(
+	'DELETE FROM page_history WHERE parent_type = %s',
+	array('text'),
+	array('shop')
+);
+
+$ilDB->manipulateF(
+	'DELETE FROM page_object WHERE parent_type = %s',
+	array('text'),
+	array('shop')
+);
+?>
