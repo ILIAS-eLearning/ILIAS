@@ -385,7 +385,13 @@ class ilMimeMail
 			}
 
 			$mail->AltBody = $this->body;
-			$mail->Body    = str_replace( '{PLACEHOLDER}', nl2br( ilUtil::makeClickable( $this->body ) ), $bracket );
+
+			if(strip_tags($this->body) == $this->body)
+			{
+				// Let's assume that there is no HTML, so convert "\n" to "<br>" 
+				$this->body = nl2br($this->body);
+			}
+			$mail->Body    = str_replace( '{PLACEHOLDER}', ilUtil::makeClickable( $this->body ), $bracket );
 
 			$directory = './Services/Mail/templates/default/img/';
 			if($style != 'delos')
