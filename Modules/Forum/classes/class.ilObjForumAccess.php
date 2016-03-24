@@ -30,7 +30,7 @@ class ilObjForumAccess extends ilObjectAccess
 	 * Comment mjansen: Cannot make this static because parent method is not static ...
 	 * @return array
 	 */
-	public function _getCommands()
+	public static function _getCommands()
 	{
 		$commands = array
 		(
@@ -56,7 +56,7 @@ class ilObjForumAccess extends ilObjectAccess
 	 * @param string $a_target
 	 * @return bool
 	 */
-	public function _checkGoto($a_target)
+	public static function _checkGoto($a_target)
 	{
 		/**
 		 * @var $ilAccess ilAccessHandler
