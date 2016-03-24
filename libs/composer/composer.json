@@ -11,26 +11,26 @@
 	"extra": {
 		"filp/whoops" : {
 			"source" : "github.com/filp/whoops",
-			"used_version" : "v2.0.0",
+			"used_version" : "v2.1.0",
 			"wrapped_by" : null,
 			"added_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>",
-			"last_update" : "2016-02-17",
-			"last_update_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>"
+			"last_update" : "2016-03-22",
+			"last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>"
 		},
 		"monolog/monolog" : {
 			"source" : "https://github.com/Seldaek/monolog",
-			"used_version" : "v1.15",
+			"used_version" : "v1.18.1",
 			"wrapped_by" : "Services/Logging",
 			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
-			"last_update" : "2016-02-17",
-			"last_update_by" : "Stefan Meyer <smeyer.ilias@gmx.de>"
+			"last_update" : "2016-03-22",
+			"last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>"
 		},
 		"phpoffice/phpexcel" : {
 			"source" : "https://github.com/PHPOffice/PHPExcel",
 			"used_version" : "v1.8.1",
 			"wrapped_by" : "Services/Excel",
 			"added_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>",
-			"last_update" : "2016-03-12",
+			"last_update" : "2016-03-22",
 			"last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>"
 		}
 	}
