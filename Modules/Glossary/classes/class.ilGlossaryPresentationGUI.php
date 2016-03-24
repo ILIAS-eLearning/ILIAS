@@ -136,39 +136,26 @@ class ilGlossaryPresentationGUI
 			$this->prepareOutput();
 		}
 
-		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-		if(IS_PAYMENT_ENABLED == true 
-		&& (ilPaymentObject::_requiresPurchaseToAccess($_GET["ref_id"], $type = (isset($_GET['purchasetype']) ? $_GET['purchasetype'] : NULL) )))
+		switch($next_class)
 		{
-			$this->tpl->getStandardTemplate();
+			case "ilnotegui":
+				$this->setTabs();
+				$ret =& $this->listDefinitions();
+				break;
 
-			include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
-			$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);
-			$ret = $this->ctrl->forwardCommand($pp);
-		}
-		else
-		{
-			switch($next_class)
-			{
-				case "ilnotegui":
-					$this->setTabs();
-					$ret =& $this->listDefinitions();
-					break;
+			case "ilinfoscreengui":
+				$ret =& $this->outputInfoScreen();
+				break;
 
-				case "ilinfoscreengui":
-					$ret =& $this->outputInfoScreen();
-					break;
-					
-				case "ilpresentationlisttablegui":
-					$prtab = $this->getPresentationTable();
-					$this->ctrl->forwardCommand($prtab);
-					return;
-					break;
+			case "ilpresentationlisttablegui":
+				$prtab = $this->getPresentationTable();
+				$this->ctrl->forwardCommand($prtab);
+				return;
+				break;
 
-				default:
-					$ret =& $this->$cmd();
-					break;
-			}
+			default:
+				$ret =& $this->$cmd();
+				break;
 		}
 		$this->tpl->show();
 	}

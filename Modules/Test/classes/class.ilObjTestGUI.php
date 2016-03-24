@@ -139,25 +139,6 @@ class ilObjTestGUI extends ilObjectGUI
 				"ilias.php?baseClass=ilObjTestGUI&cmd=infoScreen&ref_id=" . $_GET["ref_id"], "tst");
 		}
 
-		if(!$this->getCreationMode())
-		{
-			if(IS_PAYMENT_ENABLED)
-			{
-				require_once 'Services/Payment/classes/class.ilPaymentObject.php';
-				if(ilPaymentObject::_requiresPurchaseToAccess($this->object->getRefId(), $type = (isset($_GET['purchasetype']) ? $_GET['purchasetype'] : NULL)))
-				{
-					$this->setLocator();
-					$this->tpl->getStandardTemplate();
-
-					include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
-					$pp  = new ilShopPurchaseGUI((int)$_GET['ref_id']);
-					$ret = $this->ctrl->forwardCommand($pp);
-					$this->tpl->show();
-					exit();
-				}
-			}
-		}
-
 		// elba hack for storing question id for inserting new question after
 		if($_REQUEST['prev_qid'])
 		{

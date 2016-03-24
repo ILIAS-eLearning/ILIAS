@@ -518,10 +518,6 @@ class ilInitialisation
 		{
 			self::buildHTTPPath();
 		}
-
-		// payment setting
-		require_once('Services/Payment/classes/class.ilPaymentSettings.php');
-		define('IS_PAYMENT_ENABLED', ilPaymentSettings::_isPaymentEnabled());		
 	}
 
 	/**
@@ -657,17 +653,8 @@ class ilInitialisation
 		
 		// authenticate (anonymous)
 		$oldSid = session_id();		
-		$ilAuth->start();		
-		if (IS_PAYMENT_ENABLED)
-		{
-			$newSid = session_id();
-			if($oldSid != $newSid)
-			{
-				include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
-				ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
-			}
-		}
-		
+		$ilAuth->start();
+
 		if (!$ilAuth->getAuth())
 		{
 			self::abortAndDie("ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!");
@@ -1128,18 +1115,7 @@ class ilInitialisation
 		
 		$ilAuth->start();
 		$ilias->setAuthError($ilErr->getLastError());
-				
-		if(IS_PAYMENT_ENABLED)
-		{
-			// cart is "attached" to session, has to be updated
-			$newSid = session_id();
-			if($oldSid != $newSid)
-			{
-				include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
-				ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
-			}
-		}					
-		
+
 		if($ilAuth->getAuth() && $ilAuth->getStatus() == '')
 		{
 			self::initUserAccount();

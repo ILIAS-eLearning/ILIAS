@@ -55,30 +55,7 @@ class ilObjFileGUI extends ilObject2GUI
 
 		if(!$this->getCreationMode())
 		{
-			// do not move this payment block!!
-			if(IS_PAYMENT_ENABLED)
-			{
-				include_once './Services/Payment/classes/class.ilPaymentObject.php';
-				if(ANONYMOUS_USER_ID == $ilUser->getId() && isset($_GET['transaction']))
-				{
-					$transaction = $_GET['transaction'];
-					include_once './Services/Payment/classes/class.ilPaymentBookings.php';
-					$valid_transaction = ilPaymentBookings::_readBookingByTransaction($transaction);
-				}
-			
-				if(ilPaymentObject::_requiresPurchaseToAccess($this->node_id, $type = (isset($_GET['purchasetype'])
-						? $_GET['purchasetype'] : NULL) ))
-				{
-					$this->setLocator();
-					$this->tpl->getStandardTemplate();
-
-					include_once './Services/Payment/classes/class.ilShopPurchaseGUI.php';
-					$pp = new ilShopPurchaseGUI((int)$this->node_id);
-					$ret = $this->ctrl->forwardCommand($pp);
-					return true;
-				}
-			}
-			else if($this->id_type == self::REPOSITORY_NODE_ID 
+			if($this->id_type == self::REPOSITORY_NODE_ID 
 				&& $this->checkPermissionBool("read"))
 			{
 				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->node_id);

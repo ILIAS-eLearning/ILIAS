@@ -1972,77 +1972,6 @@ class ilObjectListGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-
-	/**
-	* insert payment information
-	*
-	* @access	private
-	*/
-	function insertPayment()
-	{
-		global $ilAccess,$ilObjDataCache,$ilUser;
-
-		if(IS_PAYMENT_ENABLED && $this->payment_enabled)
-		{
-			include_once './Services/Payment/classes/class.ilPaymentObject.php';
-			include_once './Services/Payment/classes/class.ilPaymentBookings.php';
-
-			if(ilPaymentobject::_requiresPurchaseToAccess($this->ref_id))
-			{
-				if(ilPaymentBookings::_hasAccess(ilPaymentObject::_lookupPobjectId($a_ref_id), $ilUser->getId()))
-				{
-					// get additional information about order_date and duration
-
-					$order_infos = array();
-					$order_infos = ilPaymentBookings::_lookupOrder(ilPaymentObject::_lookupPobjectId($this->ref_id));
-
-					if(count($order_infos) > 0)
-					{
-						global $lng;
-						$pay_lang = $lng;
-						$pay_lang->loadLanguageModule('payment');
-						$alert = true;
-						$a_newline = true;
-						$a_property = $pay_lang->txt('object_purchased_date');
-						$a_value = ilDatePresentation::formatDate(new ilDateTime($order_infos["order_date"],IL_CAL_UNIX));
-
-						$this->addCustomProperty($a_property, $a_value, $alert, $a_newline);
-
-						$alert = true;
-						$a_newline = true;
-						$a_property = $this->lng->txt('object_duration');
-						if($order_infos['duration'] == 0)
-							$a_value = $pay_lang->txt('unlimited_duration');
-						else
-							$a_value = $order_infos['duration'] .' '.$this->lng->txt('months');
-						$this->addCustomProperty($a_property, $a_value, $alert, $a_newline);
-					}
-
-					// check for extension prices
-					if(ilPaymentObject::_hasExtensions($this->ref_id))
-					{
-						$has_extension_prices = true;
-						$this->insertPaymentCommand($has_extension_prices);
-					}
-
-				}
-				else
-				{
-					// only relevant and needed for the shop content page
-
-					$this->ctpl = new ilTemplate("tpl.container_list_item_commands.html", true, true,
-						"Services/Container", "DEFAULT", false, true);
-					$this->ctpl->setCurrentBlock('payment');
-					$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays.svg'));
-					$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_buyable'));
-					$this->ctpl->parseCurrentBlock();
-
-					$this->insertPaymentCommand();
-				}
-			}
-		}
-	}
-	
 	protected function insertPaymentCommand($has_extension_prices = false)
 	{
 		$commands = $this->getCommands($this->ref_id, $this->obj_id);
@@ -2858,11 +2787,6 @@ class ilObjectListGUI
 					$this->insertPasteCommand();
 				}
 				// END PATCH Lucene Search
-
-				if(IS_PAYMENT_ENABLED)
-				{
-					$this->insertPayment();
-				}
 			}
 		}
 		
@@ -3637,8 +3561,7 @@ class ilObjectListGUI
 		$this->tpl = new ilTemplate(static::$tpl_file_name, true, true,
 			static::$tpl_component, "DEFAULT", false, true);
 
-		if ($this->getCommandsStatus() || 
-			($this->payment_enabled && IS_PAYMENT_ENABLED))
+		if($this->getCommandsStatus())
 		{
 			if (!$this->getSeparateCommands())
 			{
