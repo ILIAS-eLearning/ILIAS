@@ -464,20 +464,13 @@ class ilMainMenuGUI
 			{
 				$title = $lng->txt("repository");
 			}
-			if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID || IS_PAYMENT_ENABLED)
+			if($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 			{
 				$this->renderEntry($a_tpl, "repository",
 					$title, "#");
 			}
 		}
 
-
-		// webshop
-		if(IS_PAYMENT_ENABLED)
-		{
-			$title = $lng->txt("shop");
-			$this->renderEntry($a_tpl, "shop", $title, "#" );
-		}
 
 		// administration
 		if(ilMainMenuGUI::_checkAdministrationPermission())
@@ -713,34 +706,6 @@ class ilMainMenuGUI
 			$a_tpl->setVariable("DESK_CONT_OV", $gl->getHTML());
 		}
 
-		if(IS_PAYMENT_ENABLED)
-		{
-			// shop
-			if ($a_id == "shop")
-			{
-				$gl = new ilGroupedListGUI();
-				$gl->setAsDropDown(true);
-
-				// shop_content
-				$gl->addEntry($lng->txt("content"),
-					"ilias.php?baseClass=ilShopController&amp;cmd=firstpage",
-					"_top");
-
-				// shoppingcart
-				include_once 'Services/Payment/classes/class.ilPaymentShoppingCart.php';
-				global $ilUser;
-				$objShoppingCart = new ilPaymentShoppingCart($ilUser);
-				$items = $objShoppingCart->getEntries();
-
-				if(count($items) > 0 )
-				{
-					$gl->addEntry($lng->txt("shoppingcart").' ('.count($items).')',
-						"ilias.php?baseClass=ilShopController&amp;cmdClass=ilshopshoppingcartgui",
-						"_top");
-				}
-				$a_tpl->setVariable("SHOP_CONT_OV", $gl->getHTML());
-			}
-		}
 		$a_tpl->setVariable("TXT_".$id_up, $a_txt);
 		$a_tpl->setVariable("SCRIPT_".$id_up, $a_script);
 		$a_tpl->setVariable("TARGET_".$id_up, $a_target);
@@ -977,14 +942,6 @@ class ilMainMenuGUI
 				$selection->addItem($lng->txt("personal_settings"), "", "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSettings",
 					"", "", "_top");
 
-				break;
-
-			// shop
-			case 'shop':
-				$selection->setListTitle($lng->txt("shop"));
-				$selection->setId("dd_shp");
-				$selection->addItem($lng->txt("shop"), "", "ilias.php?baseClass=ilShopController&cmd=firstpage",
-					"", "", "_top");
 				break;
 
 			// administration

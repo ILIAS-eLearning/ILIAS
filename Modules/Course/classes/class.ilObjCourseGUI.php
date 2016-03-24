@@ -10,7 +10,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @author Stefan Meyer <smeyer.ilias@gmx.de> 
 * $Id$
 *
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilShopPurchaseGUI, ilCourseObjectivesGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilCourseObjectivesGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
@@ -3787,24 +3787,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			include_once("./Services/Link/classes/class.ilLink.php");
 			$ilNavigationHistory->addItem($_GET["ref_id"],
 				ilLink::_getLink($_GET["ref_id"], "crs"), "crs");
-		}
-	
-		if(!$this->getCreationMode())
-		{	
-			if(IS_PAYMENT_ENABLED)
-			{
-				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-				if(ilPaymentObject::_requiresPurchaseToAccess($this->object->getRefId(), $type = (isset($_GET['purchasetype']) ? $_GET['purchasetype'] : NULL) ))
-				{
-					$ilTabs->setTabActive('info_short');
-
-					include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
-					$this->ctrl->setReturn($this, '');
-					$pp_gui = new ilShopPurchaseGUI($this->object->getRefId());
-					$this->ctrl->forwardCommand($pp_gui);
-					return true;
-				}
-			}
 		}
 
 		switch($next_class)

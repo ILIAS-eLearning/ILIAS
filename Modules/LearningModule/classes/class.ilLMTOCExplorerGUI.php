@@ -303,10 +303,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 		{
 			// check public area mode
 			include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-			include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-			if (($ilUser->getId() == ANONYMOUS_USER_ID ||
-					ilPaymentObject::_requiresPurchaseToAccess((int)$this->lm->getRefId())) &&
-				!ilLMObject::_isPagePublic($a_node["child"], true))
+			if($ilUser->getId() == ANONYMOUS_USER_ID && !ilLMObject::_isPagePublic($a_node["child"], true))
 			{
 				return false;
 			}

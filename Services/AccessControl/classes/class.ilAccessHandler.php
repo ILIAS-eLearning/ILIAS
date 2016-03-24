@@ -279,8 +279,6 @@ class ilAccessHandler
 
 		$ilBench->stop("AccessControl", "0500_lookup_id_and_type");
 
-		// to do: payment handling
-
         // if supplied tree id is not = 1 (= repository main tree),
         // check if object is in tree and not deleted
 		if ($a_tree_id != 1 &&

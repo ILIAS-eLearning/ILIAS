@@ -56,7 +56,6 @@ class ilDBGenerator
 			'page_anchor',
 			'qpl_question_orderinghorizontal',
 			'qpl_question_fileupload',
-			'payment_vats',
 			'chat_smilies',
 			'style_color',
 			'style_template_class',

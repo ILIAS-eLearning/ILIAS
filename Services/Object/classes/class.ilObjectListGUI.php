@@ -28,7 +28,6 @@ class ilObjectListGUI
 
 	const CONTEXT_REPOSITORY = 1;
 	const CONTEXT_WORKSPACE = 2;
-	const CONTEXT_SHOP = 3;
 	const CONTEXT_WORKSPACE_SHARING = 4;
 	const CONTEXT_PERSONAL_DESKTOP = 5;
 	const CONTEXT_SEARCH = 6;
@@ -196,7 +195,6 @@ class ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->copy_enabled = false;
-		$this->payment_enabled = false;
 		$this->progress_enabled = false;
 		$this->notice_properties_enabled = true;
 		$this->info_screen_enabled = false;
@@ -536,27 +534,7 @@ class ilObjectListGUI
 	{
 		return $this->subscribe_enabled;
 	}
-	/**
-	* En/disable payment
-	*
-	* @param bool
-	* @return void
-	*/
-	function enablePayment($a_status)
-	{
-		$this->payment_enabled = $a_status;
 
-		return;
-	}
-	/**
-	*
-	* @param bool
-	* @return bool
-	*/
-	function getPaymentStatus()
-	{
-		return $this->payment_enabled;
-	}
 	/**
 	* En/disable link
 	*
@@ -955,7 +933,7 @@ class ilObjectListGUI
 			return $this->access_cache[$a_permission]["-".$a_cmd][$cache_prefix.$a_ref_id];
 		}
 
-		if($this->context == self::CONTEXT_REPOSITORY || $this->context == self::CONTEXT_SHOP)
+		if($this->context == self::CONTEXT_REPOSITORY)
 		{
 			$access = $ilAccess->checkAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id);
 			if ($ilAccess->getPreventCachingLastResult())
@@ -1083,7 +1061,7 @@ class ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		if($this->context == self::CONTEXT_REPOSITORY || $this->context == self::CONTEXT_SHOP)
+		if($this->context == self::CONTEXT_REPOSITORY)
 		{
 			// BEGIN WebDAV Get mount webfolder link.
 			require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
@@ -1972,127 +1950,6 @@ class ilObjectListGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-
-	/**
-	* insert payment information
-	*
-	* @access	private
-	*/
-	function insertPayment()
-	{
-		global $ilAccess,$ilObjDataCache,$ilUser;
-
-		if(IS_PAYMENT_ENABLED && $this->payment_enabled)
-		{
-			include_once './Services/Payment/classes/class.ilPaymentObject.php';
-			include_once './Services/Payment/classes/class.ilPaymentBookings.php';
-
-			if(ilPaymentobject::_requiresPurchaseToAccess($this->ref_id))
-			{
-				if(ilPaymentBookings::_hasAccess(ilPaymentObject::_lookupPobjectId($a_ref_id), $ilUser->getId()))
-				{
-					// get additional information about order_date and duration
-
-					$order_infos = array();
-					$order_infos = ilPaymentBookings::_lookupOrder(ilPaymentObject::_lookupPobjectId($this->ref_id));
-
-					if(count($order_infos) > 0)
-					{
-						global $lng;
-						$pay_lang = $lng;
-						$pay_lang->loadLanguageModule('payment');
-						$alert = true;
-						$a_newline = true;
-						$a_property = $pay_lang->txt('object_purchased_date');
-						$a_value = ilDatePresentation::formatDate(new ilDateTime($order_infos["order_date"],IL_CAL_UNIX));
-
-						$this->addCustomProperty($a_property, $a_value, $alert, $a_newline);
-
-						$alert = true;
-						$a_newline = true;
-						$a_property = $this->lng->txt('object_duration');
-						if($order_infos['duration'] == 0)
-							$a_value = $pay_lang->txt('unlimited_duration');
-						else
-							$a_value = $order_infos['duration'] .' '.$this->lng->txt('months');
-						$this->addCustomProperty($a_property, $a_value, $alert, $a_newline);
-					}
-
-					// check for extension prices
-					if(ilPaymentObject::_hasExtensions($this->ref_id))
-					{
-						$has_extension_prices = true;
-						$this->insertPaymentCommand($has_extension_prices);
-					}
-
-				}
-				else
-				{
-					// only relevant and needed for the shop content page
-
-					$this->ctpl = new ilTemplate("tpl.container_list_item_commands.html", true, true,
-						"Services/Container", "DEFAULT", false, true);
-					$this->ctpl->setCurrentBlock('payment');
-					$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays.svg'));
-					$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_buyable'));
-					$this->ctpl->parseCurrentBlock();
-
-					$this->insertPaymentCommand();
-				}
-			}
-		}
-	}
-	
-	protected function insertPaymentCommand($has_extension_prices = false)
-	{
-		$commands = $this->getCommands($this->ref_id, $this->obj_id);
-		foreach($commands as $command)
-		{ 
-			if($command['default'] === true)
-			{
-				$command = $this->createDefaultCommand($command);
-//				if(is_null($command['link']) )
-//				{
-					switch($this->type)
-					{
-						case 'sahs':
-							$command['link'] = 'ilias.php?baseClass=ilSAHSPresentationGUI&ref_id='.$this->ref_id;
-							break;
-						
-						case 'lm':
-							$command['link'] = 'ilias.php?baseClass=ilLMPresentationGUI&ref_id='.$this->ref_id;
-							break;
-						case 'exc':
-						default:
-							$command['link'] = 'ilias.php?baseClass=ilShopController&cmdClass=ilshoppurchasegui&ref_id='.$this->ref_id;
-							break;	
-					}					
-//				}
-
-				$type = $this->type;
-				if(strpos($command['link'], '_'.$type.'_') !== false)
-				{
-					$demo_link = str_replace('_'.$type.'_', '_'.$type.'purchasetypedemo_', $command['link']);
-					$buy_link = str_replace('_'.$type.'_', '_'.$type.'purchasetypebuy_', $command['link']);
-				}
-				else
-				{
-					$demo_link = $command['link'].(strpos($command['link'], '?') === false ? '?' : '&').'purchasetype=demo';
-					$buy_link = $command['link'].(strpos($command['link'], '?') === false ? '?' : '&').'purchasetype=buy';
-				}
-
-				$this->current_selection_list->addItem($this->lng->txt('payment_demo'), "", $demo_link, $a_img, $this->lng->txt('payment_demo'), $command['frame']);
-				if($has_extension_prices == true)
-				{
-					$this->current_selection_list->addItem($this->lng->txt('buy_extension'), "", $buy_link, $a_img, $this->lng->txt('buy_extension'), $command['frame']);
-				}
-				else
-					$this->current_selection_list->addItem($this->lng->txt('buy'), "", $buy_link, $a_img, $this->lng->txt('buy'), $command['frame']);
-
-			}
-		}
-	}
-
 	protected function parseConditions($toggle_id,$conditions,$obligatory = true)
 	{
 		global $ilAccess, $lng, $objDefinition,$tree;
@@ -2719,8 +2576,6 @@ class ilObjectListGUI
 		$this->current_selection_list->setUseImages(false);
 		$this->current_selection_list->setAdditionalToggleElement($this->getUniqueItemId(true), "ilContainerListItemOuterHighlight");
 
-		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-		
 		$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", $this->ref_id);
 
 		// only standard command?
@@ -2858,11 +2713,6 @@ class ilObjectListGUI
 					$this->insertPasteCommand();
 				}
 				// END PATCH Lucene Search
-
-				if(IS_PAYMENT_ENABLED)
-				{
-					$this->insertPayment();
-				}
 			}
 		}
 		
@@ -3637,8 +3487,7 @@ class ilObjectListGUI
 		$this->tpl = new ilTemplate(static::$tpl_file_name, true, true,
 			static::$tpl_component, "DEFAULT", false, true);
 
-		if ($this->getCommandsStatus() || 
-			($this->payment_enabled && IS_PAYMENT_ENABLED))
+		if($this->getCommandsStatus())
 		{
 			if (!$this->getSeparateCommands())
 			{

@@ -24,7 +24,6 @@ class ilRepUtil
 		global $ilAppEventHandler, $rbacsystem, $rbacadmin, $log, $ilUser, $tree, $lng,
 			$ilSetting;
 		
-		include_once './Services/Payment/classes/class.ilPaymentObject.php';
 		include_once("./Services/Repository/exceptions/class.ilRepositoryException.php");
 		
 		// Remove duplicate ids from array
@@ -58,11 +57,6 @@ class ilRepUtil
 					$not_deletable[] = $node["child"];
 					$perform_delete = false;
 				}
-				else if(ilPaymentObject::_isBuyable($node['child']))
-				{
-					$buyable[] = $node['child'];
-					$perform_delete = false;
-				}
 			}
 		}
 
@@ -73,20 +67,6 @@ class ilRepUtil
 			ilSession::clear("saved_post");
 			throw new ilRepositoryException(
 				$lng->txt("msg_no_perm_delete")." ".$not_deletable."<br/>".$lng->txt("msg_cancel"));
-		}
-
-		if(count($buyable))
-		{
-			foreach($buyable as $id)
-			{
-				$tmp_object = ilObjectFactory::getInstanceByRefId($id);
-
-				$titles[] = $tmp_object->getTitle();
-			}
-			$title_str = implode(',',$titles);
-
-			throw new ilRepositoryException(
-				$lng->txt('msg_obj_not_deletable_sold').' '.$title_str);
 		}
 
 		// DELETE THEM

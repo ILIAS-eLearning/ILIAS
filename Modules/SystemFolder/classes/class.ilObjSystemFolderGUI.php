@@ -1411,7 +1411,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	 * forum_notification => migrated
 	 * mail_notification => migrated
 	 * disk_quota/enabled => migrated
-	 * payment_notification => migrated
 	 * crsgrp_ntf => migrated 
 	 * cron_upd_adrbook => migrated		
 	 */		

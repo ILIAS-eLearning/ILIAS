@@ -12,7 +12,7 @@
 * @version $Id$
 *
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilSCORMPresentationGUI, ilAICCPresentationGUI, ilHACPPresentationGUI
-* @ilCtrl_Calls ilSAHSPresentationGUI: ilInfoScreenGUI, ilscorm13player, ilShopPurchaseGUI
+* @ilCtrl_Calls ilSAHSPresentationGUI: ilInfoScreenGUI, ilscorm13player
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilLearningProgressGUI, ilSCORMOfflineModeGUI
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilObjSCORMLearningModuleGUI, ilObjSCORM2004LearningModuleGUI
 * 
@@ -62,26 +62,6 @@ class ilSAHSPresentationGUI
 			}
 		}
 
-		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-		if(ilPaymentObject::_requiresPurchaseToAccess($_GET['ref_id'], $type = (isset($_GET['purchasetype']) ? $_GET['purchasetype'] : NULL) ))
-		{
-			$ilLocator->addRepositoryItems();
-			$ilLocator->addItem($ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($_GET['ref_id'])), 
-								'ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id='.$_GET['ref_id'],
-								'',
-								$_GET['ref_id'],
-								'sahs');
-			$this->tpl->setLocator();
-			$this->tpl->getStandardTemplate();
-					
-			include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';	
-			$this->ctrl->setReturn($this, '');
-			$pp_gui = new ilShopPurchaseGUI($_GET['ref_id']);
-			$this->ctrl->forwardCommand($pp_gui);			
-			$this->tpl->show();
-			exit();
-		}
-		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		

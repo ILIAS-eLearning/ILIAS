@@ -11,7 +11,7 @@
 * $Id$
 *
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilObjFileBasedLMGUI: ilShopPurchaseGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjFileBasedLMGUI: ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilLicenseGUI, ilExportGUI
 * @ingroup ModulesHTMLLearningModule
 */
@@ -68,24 +68,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$this->getTemplate();
 				$this->setLocator();
 				$this->setTabs();				
-			}
-		}
-
-			
-		if(!$this->getCreationMode())
-		{
-			if(IS_PAYMENT_ENABLED)
-			{
-				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-				if(ilPaymentObject::_requiresPurchaseToAccess($_GET['ref_id'], $type = (isset($_GET['purchasetype']) ? $_GET['purchasetype'] : NULL) ))
-				{
-					$this->tpl->getStandardTemplate();
-
-					include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
-					$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);
-					$ret = $this->ctrl->forwardCommand($pp);
-					return true;
-				}
 			}
 		}
 

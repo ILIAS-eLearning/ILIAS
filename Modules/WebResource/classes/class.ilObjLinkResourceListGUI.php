@@ -66,7 +66,6 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 		$this->copy_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
-		$this->payment_enabled = false;
 		$this->type = "webr";
 		$this->gui_class_name = "ilobjlinkresourcegui";
 		$this->info_screen_enabled = true;
