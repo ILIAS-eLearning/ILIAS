@@ -14590,3 +14590,7 @@ if(!$ilDB->tableExists('lng_log'))
 	$ilDB->addPrimaryKey('lng_log', array('module', 'identifier'));
 }
 ?>
+<#4885>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
