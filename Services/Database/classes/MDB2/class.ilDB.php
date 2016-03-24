@@ -1424,18 +1424,20 @@ abstract class ilDB extends PEAR implements ilDBInterface
 		{
 			return true;
 		}
-		include_once("./Services/Database/classes/class.ilDBOracle.php");
+		/* :TODO: not working with current error level
+		include_once("./Services/Database/classes/MDB2/class.ilDBOracle.php");
 		$oracle_reserved_words = ilDBOracle::getReservedWords();
 		if (in_array(strtoupper($a_word), $oracle_reserved_words))
 		{
 			return true;
 		}
-		include_once("./Services/Database/classes/class.ilDBPostgreSQL.php");
+		include_once("./Services/Database/classes/MDB2/class.ilDBPostgreSQL.php");
 		$postgres_reserved_words = ilDBPostgreSQL::getReservedWords();
 		if (in_array(strtoupper($a_word), $postgres_reserved_words))
 		{
 			return true;
-		}
+		}		 
+		*/
 	}
 	
 	//

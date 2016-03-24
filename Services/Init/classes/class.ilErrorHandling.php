@@ -431,7 +431,10 @@ class ilErrorHandling extends PEAR
 			}
 			
 			// trigger whoops error handling
-			return $this->whoops->handleError($level, $message, $file, $line);
+			if($this->whoops)
+			{
+				return $this->whoops->handleError($level, $message, $file, $line);
+			}
 		}
 		
 		return false;
