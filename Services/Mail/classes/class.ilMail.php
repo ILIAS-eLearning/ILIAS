@@ -1661,35 +1661,37 @@ class ilMail
 				{
 					continue;
 				}
-
-				$role_id = $rbacreview->roleExists(addslashes(substr($rcp, 1)));
-				if($role_id)
+				else
 				{
-					if(!$this->mail_to_global_roles && $rbacreview->isGlobalRole($role_id))
-					{
-						include_once('Services/Mail/exceptions/class.ilMailException.php');
-						throw new ilMailException('mail_to_global_roles_not_allowed');
-					}
-					continue;
-				}
-
-				if(substr(addslashes($rcp), 1, 8) == 'il_role_')
-				{
-					$role_id = substr(addslashes($rcp), 9);
-					$roles_object_id = $rbacreview->getObjectOfRole($role_id);
-					if($roles_object_id > 0)
+					$role_id = $rbacreview->roleExists(addslashes(substr($rcp, 1)));
+					if($role_id)
 					{
 						if(!$this->mail_to_global_roles && $rbacreview->isGlobalRole($role_id))
 						{
 							include_once('Services/Mail/exceptions/class.ilMailException.php');
 							throw new ilMailException('mail_to_global_roles_not_allowed');
 						}
+						continue;
 					}
+
+					if(substr(addslashes($rcp), 1, 8) == 'il_role_')
+					{
+						$role_id         = substr(addslashes($rcp), 9);
+						$roles_object_id = $rbacreview->getObjectOfRole($role_id);
+						if($roles_object_id > 0)
+						{
+							if(!$this->mail_to_global_roles && $rbacreview->isGlobalRole($role_id))
+							{
+								include_once('Services/Mail/exceptions/class.ilMailException.php');
+								throw new ilMailException('mail_to_global_roles_not_allowed');
+							}
+						}
+						continue;
+					}
+
+					$wrong_rcps .= "<br />" . htmlentities($rcp) . " (" . $this->lng->txt("mail_no_valid_group_role") . ")";
 					continue;
 				}
-
-				$wrong_rcps .= "<br />".htmlentities($rcp) . " (".$this->lng->txt("mail_no_valid_group_role").")";
-				continue;
 			}
 		}
 		return $wrong_rcps;
