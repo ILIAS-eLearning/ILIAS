@@ -514,7 +514,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					$item_list_gui->enableDelete(false);
 					$item_list_gui->enableCut(false);
 					$item_list_gui->enableCopy(false);
-					$item_list_gui->enablePayment(false);
 					$item_list_gui->enableLink(false);
 					$item_list_gui->enableInfoScreen(true);
 					if ($ilSetting->get('disable_my_offers') == 1)
@@ -705,7 +704,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$item_list_gui->enableDelete(false);
 						$item_list_gui->enableCut(false);
 						$item_list_gui->enableCopy(false);
-						$item_list_gui->enablePayment(false);
 						$item_list_gui->enableLink(false);
 						$item_list_gui->enableInfoScreen(true);
 						if ($ilSetting->get('disable_my_offers') == 1)
@@ -963,7 +961,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$item_list_gui->enableDelete(false);
 						$item_list_gui->enableCut(false);
 						$item_list_gui->enableCopy(false);
-						$item_list_gui->enablePayment(false);
 						$item_list_gui->enableLink(false);
 						$item_list_gui->enableInfoScreen(true);
 						$item_list_gui->setContainerObject($this);
@@ -1096,7 +1093,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					$item_list_gui->enableDelete(false);
 					$item_list_gui->enableCut(false);
 					$item_list_gui->enableCopy(false);
-					$item_list_gui->enablePayment(false);
 					$item_list_gui->enableLink(false);
 					$item_list_gui->enableInfoScreen(true);
 					if ($this->getCurrentDetailLevel() < 3 || $this->manage)
@@ -1322,7 +1318,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$item_list_gui->enableIcon(false);
 		$item_list_gui->enableDelete(false);
 		$item_list_gui->enableCut(false);
-		$item_list_gui->enablePayment(false);
 		$item_list_gui->enableLink(false);
 		$item_list_gui->enableDescription(false);
 		$item_list_gui->enableProperties(false);

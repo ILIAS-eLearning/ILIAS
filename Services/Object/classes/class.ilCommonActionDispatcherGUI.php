@@ -287,7 +287,6 @@ class ilCommonActionDispatcherGUI
 		$this->header_action->enableDelete(false);
 		$this->header_action->enableLink(false);
 		$this->header_action->enableInfoscreen(false);				
-		$this->header_action->enablePayment(false);
 		$this->header_action->enableTimings(false);
 		$this->header_action->enableSubscribe($this->node_type == self::TYPE_REPOSITORY);
 		

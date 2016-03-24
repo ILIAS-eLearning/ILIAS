@@ -195,7 +195,6 @@ class ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->copy_enabled = false;
-		$this->payment_enabled = false;
 		$this->progress_enabled = false;
 		$this->notice_properties_enabled = true;
 		$this->info_screen_enabled = false;
@@ -535,27 +534,7 @@ class ilObjectListGUI
 	{
 		return $this->subscribe_enabled;
 	}
-	/**
-	* En/disable payment
-	*
-	* @param bool
-	* @return void
-	*/
-	function enablePayment($a_status)
-	{
-		$this->payment_enabled = $a_status;
 
-		return;
-	}
-	/**
-	*
-	* @param bool
-	* @return bool
-	*/
-	function getPaymentStatus()
-	{
-		return $this->payment_enabled;
-	}
 	/**
 	* En/disable link
 	*
@@ -2597,8 +2576,6 @@ class ilObjectListGUI
 		$this->current_selection_list->setUseImages(false);
 		$this->current_selection_list->setAdditionalToggleElement($this->getUniqueItemId(true), "ilContainerListItemOuterHighlight");
 
-		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-		
 		$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", $this->ref_id);
 
 		// only standard command?

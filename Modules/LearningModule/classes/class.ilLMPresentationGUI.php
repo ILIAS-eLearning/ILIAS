@@ -105,7 +105,7 @@ class ilLMPresentationGUI
 	{
 		global $ilNavigationHistory, $ilAccess, $ilias, $lng, $ilCtrl, $ilUser;
 
-		// check read permission, payment and parent conditions
+		// check read permission and parent conditions
 		// todo: replace all this by ilAccess call
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]) &&
 			(!(($this->ctrl->getCmd() == "infoScreen" || $this->ctrl->getNextClass() == "ilinfoscreengui")

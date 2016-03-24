@@ -41,7 +41,6 @@ class ilObjTestListGUI extends ilObjectListGUI
 		$this->copy_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
-		$this->payment_enabled = true;
 		$this->type = "tst";
 		$this->gui_class_name = "ilobjtestgui";
 

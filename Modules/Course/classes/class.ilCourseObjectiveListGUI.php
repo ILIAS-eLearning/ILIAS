@@ -60,7 +60,6 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 		$this->cut_enabled = false;
 		$this->subscribe_enabled = false;
 		$this->link_enabled = false;
-		$this->payment_enabled = false;
 		$this->info_screen_enabled = false;
 		$this->progress_enabled = true;
 		$this->type = "lobj";

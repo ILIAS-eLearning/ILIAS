@@ -2182,9 +2182,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		{
 			$buttonTarget = "";
 		}
-		
-		include_once("./Services/Payment/classes/class.ilPaymentObject.php");
-		$requires_purchase_to_access = ilPaymentObject::_requiresPurchaseToAccess((int)$_GET['ref_id']);
 
 		// content
 		if (!$a_offline && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
@@ -2201,7 +2198,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		}
 
 		// table of contents
-		if (!$requires_purchase_to_access && $this->object->isActiveTOC() && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		if($this->object->isActiveTOC() && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			if (!$a_offline)
 			{
@@ -2218,7 +2215,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		}
 
 		// print view
-		if (!$requires_purchase_to_access && $this->object->isActivePrintView() && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		if($this->object->isActivePrintView() && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			if (!$a_offline)		// has to be implemented for offline mode
 			{
@@ -2230,16 +2227,16 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		}
 		
 		// download
-		if (!$requires_purchase_to_access && $ilUser->getId() == ANONYMOUS_USER_ID)
+		if($ilUser->getId() == ANONYMOUS_USER_ID)
 		{
 			$is_public = $this->object->isActiveDownloadsPublic();
 		}
-		else if(!$requires_purchase_to_access)
+		else
 		{
 			$is_public = true;
 		}
 
-		if (!$requires_purchase_to_access && $this->object->isActiveDownloads() && !$a_offline && $is_public &&
+		if($this->object->isActiveDownloads() && !$a_offline && $is_public &&
 			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
@@ -2262,7 +2259,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$link = "./info.html";
 			}
 			
-			$tabs_gui->$addcmd(($requires_purchase_to_access ? 'buy' : 'info_short'), $link,
+			$tabs_gui->$addcmd('info_short', $link,
 					"", "", $buttonTarget, $active["info"]);
 		}
 		
@@ -2299,37 +2296,34 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 					"", "", $buttonTarget, $active["edit_page"]);
 			}
 		}
-		
-		if(!$requires_purchase_to_access)
+
+		// get user defined menu entries
+		$this->__initLMMenuEditor();
+		$entries = $this->lmme_obj->getMenuEntries(true);
+
+		if (count($entries) > 0 && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
-			// get user defined menu entries
-			$this->__initLMMenuEditor();
-			$entries = $this->lmme_obj->getMenuEntries(true);
-	
-			if (count($entries) > 0 && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+			foreach ($entries as $entry)
 			{
-				foreach ($entries as $entry)
+				// build goto-link for internal resources
+				if ($entry["type"] == "intern")
 				{
-					// build goto-link for internal resources
-					if ($entry["type"] == "intern")
-					{
-						$entry["link"] = ILIAS_HTTP_PATH."/goto.php?target=".$entry["link"];
-					}
-	
-					// add http:// prefix if not exist
-					if (!strstr($entry["link"],'://') && !strstr($entry["link"],'mailto:'))
-					{
-						$entry["link"] = "http://".$entry["link"];
-					}
-					
-					if (!strstr($entry["link"],'mailto:'))
-					{
-						$entry["link"] = ilUtil::appendUrlParameterString($entry["link"], "ref_id=".$this->ref_id."&structure_id=".$this->obj_id);
-					}
-					$tabs_gui->$addcmd($entry["title"],
-						$entry["link"],
-						"", "", "_blank", "", true);
+					$entry["link"] = ILIAS_HTTP_PATH."/goto.php?target=".$entry["link"];
 				}
+
+				// add http:// prefix if not exist
+				if (!strstr($entry["link"],'://') && !strstr($entry["link"],'mailto:'))
+				{
+					$entry["link"] = "http://".$entry["link"];
+				}
+
+				if (!strstr($entry["link"],'mailto:'))
+				{
+					$entry["link"] = ilUtil::appendUrlParameterString($entry["link"], "ref_id=".$this->ref_id."&structure_id=".$this->obj_id);
+				}
+				$tabs_gui->$addcmd($entry["title"],
+					$entry["link"],
+					"", "", "_blank", "", true);
 			}
 		}
 
