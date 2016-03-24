@@ -134,8 +134,6 @@ class ilCronCheck
 	{
 		global $ilSetting;
 
-		require_once('Services/Payment/classes/class.ilUserDefinedInvoiceNumber.php');
-
 		$this->default_tasks = array(				
 				'ilCronValidator::check'
 		);
