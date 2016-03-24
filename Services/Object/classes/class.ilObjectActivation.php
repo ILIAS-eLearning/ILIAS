@@ -263,8 +263,8 @@ class ilObjectActivation
 			"timing_type = ".$ilDB->quote($this->getTimingType(),'integer').", ".
 			"timing_start = ".$ilDB->quote((int)$this->getTimingStart(),'integer').", ".
 			"timing_end = ".$ilDB->quote((int)$this->getTimingEnd(),'integer').", ".
-			"suggestion_start = ".$ilDB->quote($this->getSuggestionStart(),'integer').", ".
-			"suggestion_end = ".$ilDB->quote($this->getSuggestionEnd(),'integer').", ".
+			"suggestion_start = ".$ilDB->quote((int)$this->getSuggestionStart(),'integer').", ".
+			"suggestion_end = ".$ilDB->quote((int)$this->getSuggestionEnd(),'integer').", ".
 			"changeable = ".$ilDB->quote($this->enabledChangeable(),'integer').", ".
 			"earliest_start = ".$ilDB->quote($this->getEarliestStart(),'integer').", ".
 			"latest_end = ".$ilDB->quote($this->getLatestEnd(),'integer').", ";
