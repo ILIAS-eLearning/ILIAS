@@ -7,6 +7,7 @@ require_once("Services/ReportsRepository/classes/class.catFilterGUI.php");
 class catFilterOptionGUI extends catFilterGUI {
 	protected $filter;
 	protected $path;
+	protected $val;
 
 	public function __construct($filter, $path) {
 		$this->filter = $filter;
@@ -21,6 +22,14 @@ class catFilterOptionGUI extends catFilterGUI {
 		$select->setInfo($this->filter->description());
 		$select->setOptions(array("1"=>"Ja","0"=>"Nein"));
 
+		if($this->val !== null) {
+			$select->setValue($this->val);
+		}
+
 		return $select;
+	}
+
+	public function setValue($val) {
+		$this->val = $val;
 	}
 }

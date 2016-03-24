@@ -27,11 +27,31 @@ class catDisplayFilterBaseGUI {
 		switch($cmd) {
 			case "showFilter":
 			case "saveFilter":
+			case "flatFilter":
+			case "saveFlatFilter":
 				$this->$cmd();
 				break;
 			default:
 				throw new Exception("Command not found");
 		}
+	}
+
+	protected function flatFilter() {
+		require_once("Services/ReportsRepository/classes/class.catFilterFlatViewGUI.php");
+		$filter_form = new catFilterFlatViewGUI($this, $this->buildFilter(), $this->display_filter, "saveFlatFilter");
+		echo $filter_form->render();
+	}
+
+	protected function saveFlatFilter() {
+		$fs = $this->buildFilter();
+		$filter_values = $this->display_filter->buildFilterValues($fs, $_POST["filter"]);
+
+		//Muss so aufgerufen werden. Sonst funktioniert das Mapping nicht!!!
+		echo call_user_func_array(array($fs, "content"), $filter_values);
+
+		require_once("Services/ReportsRepository/classes/class.catFilterFlatViewGUI.php");
+		$filter_form = new catFilterFlatViewGUI($this, $fs, $this->display_filter, "saveFlatFilter");
+		echo $filter_form->render($_POST["filter"]);
 	}
 
 	protected function buildFilter() {

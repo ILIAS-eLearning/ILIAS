@@ -5,6 +5,7 @@ require_once("Services/ReportsRepository/classes/class.catFilterGUI.php");
 class catFilterDatePeriodGUI extends catFilterGUI {
 	protected $filter;
 	protected $path;
+	protected $val;
 
 	public function __construct($filter, $path) {
 		$this->filter = $filter;
@@ -19,10 +20,26 @@ class catFilterDatePeriodGUI extends catFilterGUI {
 		$duration->setInfo($this->filter->description());
 		$duration->setShowDate(true);
 		$duration->setShowTime(false);
-		$duration->setStart(new ilDateTime($this->filter->default_begin()->format("Y-m-d 00:00:00"),IL_CAL_DATETIME));
-		$duration->setEnd(new ilDateTime($this->filter->default_end()->format("Y-m-d 00:00:00"),IL_CAL_DATETIME));
+		
+		if($this->val) {
+			$start_date = $this->val["start"]["date"]["y"]."-".str_pad($this->val["start"]["date"]["m"], 2, "0", STR_PAD_LEFT)
+							."-".str_pad($this->val["start"]["date"]["d"], 2, "0", STR_PAD_LEFT)." 00:00:00";
+			$end_date = $this->val["end"]["date"]["y"]."-".str_pad($this->val["end"]["date"]["m"], 2, "0", STR_PAD_LEFT)
+							."-".str_pad($this->val["end"]["date"]["d"], 2, "0", STR_PAD_LEFT)." 00:00:00";
+
+			$duration->setStart(new ilDateTime($start_date, IL_CAL_DATETIME));
+			$duration->setEnd(new ilDateTime($end_date, IL_CAL_DATETIME));
+		} else {
+			$duration->setStart(new ilDateTime($this->filter->default_begin()->format("Y-m-d 00:00:00"),IL_CAL_DATETIME));
+			$duration->setEnd(new ilDateTime($this->filter->default_end()->format("Y-m-d 00:00:00"),IL_CAL_DATETIME));
+		}
+		
 		$duration->setStartYear($this->filter->period_min()->format("Y"));
 
 		return $duration;
+	}
+
+	public function setValue($val) {
+		$this->val = $val;
 	}
 }

@@ -28,7 +28,12 @@ abstract class catFilterGUI {
 	}
 
 	/**
-	* get the needed gui element for the filter
-	*/
+	 * get the needed gui element for the filter
+	 */
 	abstract function formElement();
+
+	/**
+	* set selected value to filter
+	*/
+	abstract function setValue($val);
 }
