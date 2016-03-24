@@ -14594,3 +14594,26 @@ if(!$ilDB->tableExists('lng_log'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4886>
+<?php
+$payment_tables = array(
+	'payment_coupons', 'payment_coupons_codes', 'payment_coupons_obj', 'payment_coupons_track',
+	'payment_currencies', 'payment_erp', 'payment_erps', 'payment_news',
+	'payment_objects', 'payment_paymethods', 'payment_prices', 'payment_settings', 
+	'payment_shopping_cart', 'payment_statistic', 'payment_statistic_coup', 'payment_topics',
+	'payment_topic_usr_sort', 'payment_trustees', 'payment_vats', 'payment_vendors'
+);
+
+foreach($payment_tables as $payment_table)
+{
+	if($ilDB->tableExists($payment_table))
+	{
+		$ilDB->dropTable($payment_table);
+	}
+
+	if($ilDB->sequenceExists($payment_table))
+	{
+		$ilDB->dropSequence($payment_table);
+	}
+}
+?>
