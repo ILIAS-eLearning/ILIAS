@@ -14617,3 +14617,72 @@ foreach($payment_tables as $payment_table)
 	}
 }
 ?>
+<#4887>
+<?php
+$res = $ilDB->queryF(
+	'SELECT obj_id FROM object_data WHERE type = %s',
+	array('text'),
+	array('pays')
+);
+$row = $ilDB->fetchAssoc($res);
+if(is_array($row) && isset($row['obj_id']))
+{
+	$obj_id = $row['obj_id'];
+
+	$ref_res = $ilDB->queryF(
+		'SELECT ref_id FROM object_reference WHERE obj_id = %s',
+		array('integer'),
+		array($obj_id)
+	);
+	while($ref_row = $ilDB->fetchAssoc($ref_res))
+	{
+		if(is_array($ref_row) && isset($ref_row['ref_id']))
+		{
+			$ref_id = $ref_row['ref_id'];
+
+			$ilDB->manipulateF(
+				'DELETE FROM tree WHERE child = %s',
+				array('integer'),
+				array($ref_id)
+			);
+		}
+	}
+
+	$ilDB->manipulateF(
+		'DELETE FROM object_reference WHERE obj_id = %s',
+		array('integer'),
+		array($obj_id)
+	);
+
+	$ilDB->manipulateF(
+		'DELETE FROM object_data WHERE obj_id = %s',
+		array('integer'),
+		array($obj_id)
+	);
+}
+?>
+<#4888>
+<?php
+$res = $ilDB->queryF(
+	'SELECT obj_id FROM object_data WHERE type = %s AND title = %s',
+	array('text', 'text'),
+	array('typ', 'pays')
+);
+$row = $ilDB->fetchAssoc($res);
+if(is_array($row) && isset($row['obj_id']))
+{
+	$obj_id = $row['obj_id'];
+
+	$ilDB->manipulateF(
+		'DELETE FROM rbac_ta WHERE typ_id = %s',
+		array('integer'),
+		array($obj_id)
+	);
+
+	$ilDB->manipulateF(
+		'DELETE FROM object_data WHERE obj_id = %s',
+		array('integer'),
+		array($obj_id)
+	);
+}
+?>
