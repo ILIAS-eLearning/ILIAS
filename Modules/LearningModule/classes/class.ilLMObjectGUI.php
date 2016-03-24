@@ -29,7 +29,7 @@ class ilLMObjectGUI
 	*
 	* @param	object		$a_content_obj		content object
 	*/
-	function ilLMObjectGUI(&$a_content_obj)
+	function __construct(&$a_content_obj)
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 
@@ -158,7 +158,7 @@ class ilLMObjectGUI
 	{
 		$this->setTabs();
 
-		$cont_obj_gui =& new ilObjContentObjectGUI("",$this->content_object->getRefId(),
+		$cont_obj_gui = new ilObjContentObjectGUI("",$this->content_object->getRefId(),
 			true, false);
 		$cont_obj_gui->delete($this->obj->getId());
 	}
@@ -179,7 +179,7 @@ class ilLMObjectGUI
 	*/
 	function confirmedDelete()
 	{
-		$cont_obj_gui =& new ilObjContentObjectGUI("",$this->content_object->getRefId(),
+		$cont_obj_gui = new ilObjContentObjectGUI("",$this->content_object->getRefId(),
 			true, false);
 		$cont_obj_gui->confirmedDelete($this->obj->getId());
 		$this->ctrl->redirect($this, $_GET["backcmd"]);

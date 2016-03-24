@@ -48,11 +48,11 @@ class ilSearchSettings
 	var $max_hits = null;
 	var $index = null;
 
-	function ilSearchSettings()
+	function __construct()
 	{
 		global $ilias;
 
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		$this->__read();
 	}
 	
@@ -165,7 +165,7 @@ class ilSearchSettings
 	* @return int ref_id
 	* @access	public
 	*/
-	function _getSearchSettingRefId()
+	static function _getSearchSettingRefId()
 	{
 		global $ilDB;
 
@@ -182,7 +182,7 @@ class ilSearchSettings
 			"AND object_reference.obj_id = object_data.obj_id";
 			
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		
 		return $seas_ref_id = $row->ref_id;
 	}

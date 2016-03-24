@@ -82,9 +82,9 @@ class SurveyImportParser extends ilSaxParser
 	*
 	* @access	public
 	*/
-	function SurveyImportParser($a_spl_id, $a_xml_file = '', $spl_exists = FALSE)
+	function __construct($a_spl_id, $a_xml_file = '', $spl_exists = FALSE)
 	{
-		parent::ilSaxParser($a_xml_file);
+		parent::__construct($a_xml_file);
 		$this->spl_id = $a_spl_id;
 		$this->has_error = FALSE;
 		$this->characterbuffer = "";
@@ -121,9 +121,9 @@ class SurveyImportParser extends ilSaxParser
 	* Sets a reference to a survey object
 	* @access	public
 	*/
-	function setSurveyObject(&$a_svy)
+	function setSurveyObject($a_svy)
 	{
-		$this->survey =& $a_svy;
+		$this->survey = $a_svy;
 	}
 
 	/**

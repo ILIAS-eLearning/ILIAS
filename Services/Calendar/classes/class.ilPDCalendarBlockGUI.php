@@ -43,11 +43,11 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 	/**
 	* Constructor
 	*/
-	function ilPDCalendarBlockGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng, $ilUser, $tpl;
 		
-		parent::ilCalendarBlockGUI(true);
+		parent::__construct(true);
 		$this->allow_moving = true;
 		$this->initCategories();
 		$this->setBlockId(0);

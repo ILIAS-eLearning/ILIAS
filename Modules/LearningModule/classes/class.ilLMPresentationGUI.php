@@ -35,7 +35,7 @@ class ilLMPresentationGUI
 	
 	private $needs_to_be_purchased = false;
 
-	function ilLMPresentationGUI()
+	function __construct()
 	{
 		global $ilUser, $lng, $tpl, $rbacsystem, $ilCtrl, $ilAccess;
 
@@ -1164,9 +1164,9 @@ class ilLMPresentationGUI
 					{
 						$ilLocator->addItem(
 							ilUtil::shortenText(
-								ilStructureObject::_getPresentationTitle($row["child"],
+								ilStructureObject::_getPresentationTitle($row["child"], IL_CHAPTER_TITLE,
 									$this->lm->isActiveNumbering(),
-									$this->lm_set->get("time_scheduled_page_activation"), 0, $this->lang),
+									$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang),
 								50,true),
 							$this->getLink($_GET["ref_id"], "layout", $row["child"], $frame_param, "StructureObject"),
 							$frame_target);
@@ -3047,9 +3047,9 @@ class ilLMPresentationGUI
 				// chapter
 				case "st":
 					$text =
-						ilStructureObject::_getPresentationTitle($node["obj_id"],
+						ilStructureObject::_getPresentationTitle($node["obj_id"], IL_CHAPTER_TITLE,
 							$this->lm->isActiveNumbering(),
-							$this->lm_set->get("time_scheduled_page_activation"), 0, $this->lang);
+							$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
 					if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) && 
 					   $this->lm_gui->object->getPublicAccessMode() == "selected")
 					{
@@ -3665,9 +3665,9 @@ class ilLMPresentationGUI
 					}
 					$this->tpl->setCurrentBlock("toc_entry");
 					$this->tpl->setVariable("TXT_TOC_TITLE",
-						ilStructureObject::_getPresentationTitle($node2["obj_id"],
+						ilStructureObject::_getPresentationTitle($node2["obj_id"], IL_CHAPTER_TITLE,
 							$this->lm->isActiveNumbering(),
-							$this->lm_set->get("time_scheduled_page_activation"), 0, $this->lang));
+							$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang));
 					$this->tpl->parseCurrentBlock();
 				}
 			}

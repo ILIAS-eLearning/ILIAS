@@ -44,13 +44,17 @@ class ilCourseFile
 	
 	private $fss_storage = null;
 
-	function ilCourseFile($a_file_id = null)
+	/**
+	 * Constructor
+	 * @param int $a_file_id
+	 */
+	public function __construct($a_file_id = null)
 	{
 		global $ilErr,$ilDB,$lng;
 
-		$this->ilErr =& $ilErr;
-		$this->db  =& $ilDB;
-		$this->lng =& $lng;
+		$this->ilErr = $ilErr;
+		$this->db  = $ilDB;
+		$this->lng = $lng;
 
 		$this->file_id = $a_file_id;
 		$this->__read();
@@ -258,7 +262,7 @@ class ilCourseFile
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchObject($res))
 		{
-			$files[] =& new ilCourseFile($row->file_id);
+			$files[] = new ilCourseFile($row->file_id);
 		}
 		return is_array($files) ? $files : array();
 	}

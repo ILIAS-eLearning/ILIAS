@@ -786,7 +786,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'createThread', '', false, false));
 	}
 
-	public function getTabs(ilTabsGUI $tabs_gui)
+	public function getTabs()
 	{
 		/**
 		 * @var $ilAccess ilAccessHandler
@@ -809,13 +809,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		);
 
 		(in_array($ilCtrl->getCmd(), $active)) ? $force_active = true : $force_active = false;
-		$tabs_gui->addTarget('forums_threads', $this->ctrl->getLinkTarget($this,'showThreads'), $ilCtrl->getCmd(), get_class($this), '', $force_active);
+		$this->tabs_gui->addTarget('forums_threads', $this->ctrl->getLinkTarget($this,'showThreads'), $ilCtrl->getCmd(), get_class($this), '', $force_active);
 
 		// info tab
 		if($ilAccess->checkAccess('visible', '', $this->ref_id))
 		{
 			$force_active = ($this->ctrl->getNextClass() == 'ilinfoscreengui' || strtolower($_GET['cmdClass']) == 'ilnotegui') ? true : false;
-			$tabs_gui->addTarget('info_short',
+			$this->tabs_gui->addTarget('info_short',
 				 $this->ctrl->getLinkTargetByClass(
 				 array('ilobjforumgui', 'ilinfoscreengui'), 'showSummary'),
 				 array('showSummary', 'infoScreen'),
@@ -825,29 +825,29 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			$force_active = ($ilCtrl->getCmd() == 'edit') ? true	: false;
-			$tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'edit'), 'edit', get_class($this), '', $force_active);
+			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'edit'), 'edit', get_class($this), '', $force_active);
 		}
 		
 		if($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$tabs_gui->addTarget('frm_moderators', $this->ctrl->getLinkTargetByClass('ilForumModeratorsGUI', 'showModerators'), 'showModerators', get_class($this));			
+			$this->tabs_gui->addTarget('frm_moderators', $this->ctrl->getLinkTargetByClass('ilForumModeratorsGUI', 'showModerators'), 'showModerators', get_class($this));			
 		}
 
 		if($this->ilias->getSetting('enable_fora_statistics', false) &&
 		   ($this->objProperties->isStatisticEnabled() || $ilAccess->checkAccess('write', '', $this->ref_id))) 
 		{
 			$force_active = ($ilCtrl->getCmd() == 'showStatistics') ? true	: false;
-			$tabs_gui->addTarget('frm_statistics', $this->ctrl->getLinkTarget($this, 'showStatistics'), 'showStatistics', get_class($this), '', $force_active); //false
+			$this->tabs_gui->addTarget('frm_statistics', $this->ctrl->getLinkTarget($this, 'showStatistics'), 'showStatistics', get_class($this), '', $force_active); //false
 		}
 
 		if($ilAccess->checkAccess('write', '', $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('export', $this->ctrl->getLinkTargetByClass('ilexportgui', ''), '', 'ilexportgui');
+			$this->tabs_gui->addTarget('export', $this->ctrl->getLinkTargetByClass('ilexportgui', ''), '', 'ilexportgui');
 		}
 
 		if($ilAccess->checkAccess('edit_permission', '', $this->ref_id))
 		{
-			$tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');							
+			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');							
 		}
 	}
 

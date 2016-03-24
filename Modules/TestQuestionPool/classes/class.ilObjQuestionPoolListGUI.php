@@ -24,9 +24,9 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 	* constructor
 	*
 	*/
-	function ilObjQuestionPoolListGUI()
+	public function __construct($a_context = self::CONTEXT_REPOSITORY)
 	{
-		$this->ilObjectListGUI();
+		parent::__construct($a_context);
 	}
 
 	/**

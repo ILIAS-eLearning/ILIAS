@@ -86,7 +86,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjCourse($a_id = 0,$a_call_by_reference = true)
+	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		
 		#define("ILIAS_MODULE","course");
@@ -122,7 +122,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$query = 'SELECT show_members FROM crs_settings '.
 				'WHERE obj_id = '.$GLOBALS['ilDB']->quote($a_obj_id,'integer');
 		$res = $GLOBALS['ilDB']->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return (bool) $row->show_members;
 		}
@@ -458,7 +458,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * @param bool $a_include_side_block[optional]
 	 * @return array 
 	 */
-	public function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false)
+	public function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false, $a_get_single = 0)
 	{
 		global $ilUser;
 
@@ -469,7 +469,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		}
 		
 		// Results are stored in $this->items
-		parent::getSubItems($a_admin_panel_enabled,$a_include_side_block);
+		parent::getSubItems($a_admin_panel_enabled,$a_include_side_block, $a_get_single);
 		
 		$limit_sess = false;		
 		if(!$a_admin_panel_enabled &&
@@ -578,13 +578,18 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return $this->view_mode;
 	}
 
-	function _lookupViewMode($a_id)
+	/**
+	 * lookup view mode of container
+	 * @param int $a_id
+	 * @return mixed int | bool
+	 */
+	public static function _lookupViewMode($a_id)
 	{
 		global $ilDB;
 
 		$query = "SELECT view_mode FROM crs_settings WHERE obj_id = ".$ilDB->quote($a_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->view_mode;
 		}
@@ -597,7 +602,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
 		$query = "SELECT abo FROM crs_settings WHERE obj_id = ".$ilDB->quote($a_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->abo;
 		}
@@ -748,9 +753,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return $this->ABO == $this->ABO_ENABLED;
 	}
 
-	function read($a_force_db = false)
+	/**
+	 * 
+	 */
+	public function read()
 	{
-		parent::read($a_force_db);
+		parent::read();
 
 		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
 		$this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
@@ -1440,7 +1448,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$query = "SELECT * FROM crs_settings WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')."";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setSyllabus($row->syllabus);
 			$this->setContactName($row->contact_name);
@@ -1584,7 +1592,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
 		if(!is_object($this->archives_obj))
 		{
-			$this->archives_obj =& new ilCourseArchives($this);
+			$this->archives_obj = new ilCourseArchives($this);
 		}
 		return true;
 	}
@@ -1657,7 +1665,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_crs_non_member'";
 		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 		return $row["obj_id"];
 	}
@@ -1983,7 +1991,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$res = $ilDB->query($query);
 		
 		$obj_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$obj_ids[] = $row->obj_id;
 		}

@@ -26,7 +26,7 @@ class ilContObjectExport
 	* Constructor
 	* @access	public
 	*/
-	function ilContObjectExport(&$a_cont_obj, $a_mode = "xml", $a_lang = "")
+	function __construct(&$a_cont_obj, $a_mode = "xml", $a_lang = "")
 	{
 		global $ilErr, $ilDB, $ilias;
 

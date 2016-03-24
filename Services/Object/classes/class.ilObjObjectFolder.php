@@ -44,7 +44,7 @@ class ilObjObjectFolder extends ilObject
 	function ilObjObjectFolder($a_id,$a_call_by_reference = true)
 	{
 		$this->type = "objf";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 

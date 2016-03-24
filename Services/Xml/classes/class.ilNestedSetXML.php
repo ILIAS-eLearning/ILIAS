@@ -82,7 +82,7 @@ class ilNestedSetXML
 	* initilize netsed-set variables 
 	* @access	public
 	*/
-    function ilNestedSetXML() 
+    function __construct()
 	{
         global $ilias,$ilDB;
 

@@ -317,7 +317,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 		}
 		else
 		{
-			$result = split($separator, $in_string);
+			$result = explode($separator, $in_string);
 		}
 		
 		foreach ($result as $key => $value)
@@ -755,7 +755,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 	*/
 	public function getUserQuestionResult($active_id, $pass)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 

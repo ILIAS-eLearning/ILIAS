@@ -37,7 +37,7 @@ class ilAICCCourseGUI extends ilAICCObjectGUI
 	function ilAICCCourseGUI($a_id)
 	{
 		parent::ilAICCObjectGUI();
-		$this->sc_object =& new ilAICCCourse($a_id);
+		$this->sc_object = new ilAICCCourse($a_id);
 		$files =& $this->sc_object->getFiles();
 	}
 

@@ -18,11 +18,11 @@ class ilStartUpGUI
 	/**
 	* constructor
 	*/
-	function ilStartUpGUI()
+	function __construct()
 	{
 		global $ilCtrl;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 
 		$ilCtrl->saveParameter($this, array("rep_ref_id", "lang", "target", "client_id"));
 	}
@@ -30,7 +30,7 @@ class ilStartUpGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilLog;
 		
@@ -1471,7 +1471,7 @@ class ilStartUpGUI
 		}
 	}
 
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $objDefinition, $ilPluginAdmin, $ilUser;
 

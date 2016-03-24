@@ -76,7 +76,7 @@ class ilConsultationHourCron extends ilCronJob
 				'AND starta > '.$ilDB->quote($now->get(IL_CAL_DATETIME,'',  ilTimeZone::UTC),'timestamp'). ' '.
 				'AND starta <= '.$ilDB->quote($limit->get(IL_CAL_DATETIME, '', ilTimeZone::UTC),'timestamp');	
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			include_once 'Services/Calendar/classes/class.ilCalendarMailNotification.php';
 			$mail = new ilCalendarMailNotification();

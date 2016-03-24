@@ -693,7 +693,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
 	public function saveAdditionalQuestionDataToDb()
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 							array( "integer" ),
@@ -717,7 +717,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
 	public function saveAnswerSpecificDataToDb()
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 
 		$ilDB->manipulateF( "DELETE FROM qpl_a_essay WHERE question_fi = %s",

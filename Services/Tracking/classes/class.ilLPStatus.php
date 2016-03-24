@@ -35,12 +35,12 @@ class ilLPStatus
 	const LP_STATUS_PARTICIPATED = 'trac_participated';
 	const LP_STATUS_NOT_PARTICIPATED = 'trac_not_participated';
 	
-	function ilLPStatus($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
 		$this->obj_id = $a_obj_id;
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 	}
 
 	function _getCountNotAttempted($a_obj_id)

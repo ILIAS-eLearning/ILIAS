@@ -198,7 +198,7 @@ class ilChatroomKickTask extends ilChatroomTaskHandler
 	/**
 	 * Recant invitation for given $user_id in given $subroom_id
 	 * 
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $subroom_id
 	 * @param integer $user_id 
 	 */

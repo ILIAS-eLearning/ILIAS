@@ -27,7 +27,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $lng, $ilUser, $ilHelp;
 
-		parent::ilBlockGUI();
+		parent::__construct();
 		
 		$lng->loadLanguageModule("news");
 		$ilHelp->addHelpSection("news_block");
@@ -175,7 +175,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 

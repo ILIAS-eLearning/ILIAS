@@ -89,7 +89,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 	public function __construct() {
 		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias;
-		parent::ilContainerGUI(array(), $_GET["ref_id"], true, false);
+		parent::__construct(array(), $_GET["ref_id"], true, false);
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
@@ -217,7 +217,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->ctrl->saveParameterByClass("illearningprogressgui", "obj_id");
 				$this->ctrl->saveParameterByClass("illearningprogressgui", "recursive");
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_ORG_UNIT, $_GET["ref_id"], $_GET['obj_id']);
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_ORG_UNIT, $_GET["ref_id"], $_GET['obj_id']);
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 			case 'ilorgunitexportgui':
@@ -423,7 +423,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	/**
 	 * @param ilTabsGUI $tabs_gui
 	 */
-	public function getTabs(ilTabsGUI $tabs_gui = NULL) {
+	public function getTabs() {
 		if ($this->ilAccess->checkAccess('read', '', $this->object->getRefId())) {
 			$this->tabs_gui->addTab("view_content", $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, ""));
 			$this->tabs_gui->addTab("info_short", "Info", $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
@@ -450,7 +450,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->tabs_gui->addTab('orgu_types', $this->lng->txt('orgu_types'), $this->ctrl->getLinkTargetByClass('ilOrgUnitTypeGUI'));
 			}
 		}
-		parent::getTabs($this->tabs_gui);
+		parent::getTabs();
 	}
 
 
@@ -622,8 +622,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	/**
 	 * @param ilTabsGUI $tabs_gui
 	 */
-	public function getAdminTabs(ilTabsGUI $tabs_gui) {
-		$this->getTabs($tabs_gui);
+	public function getAdminTabs() {
+		$this->getTabs();
 	}
 
 

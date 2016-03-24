@@ -52,13 +52,13 @@ class ilSurveyPhrasesGUI
 		global $lng, $tpl, $ilCtrl, $ilias, $tree;
 
 		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrases.php";
-		$this->lng =& $lng;
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->ilias =& $ilias;
-		$this->gui_object =& $a_object;
+		$this->lng = $lng;
+		$this->tpl = $tpl;
+		$this->ctrl = $ilCtrl;
+		$this->ilias = $ilias;
+		$this->gui_object = $a_object;
 		$this->object = new ilSurveyPhrases();
-		$this->tree =& $tree;
+		$this->tree = $tree;
 		$this->ref_id = $a_object->ref_id;
 		$this->ctrl->saveParameter($this, "p_id");
 	}
@@ -66,7 +66,7 @@ class ilSurveyPhrasesGUI
 	/**
 	* execute command
 	*/
-	public function &executeCommand()
+	public function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);

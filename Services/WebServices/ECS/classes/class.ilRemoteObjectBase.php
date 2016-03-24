@@ -108,17 +108,16 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 * lookup organization
 	 *
 	 * @param int $a_obj_id
-	 * @param string $a_table
 	 * @return string
 	 */
-	public static function _lookupOrganization($a_obj_id, $a_table)
+	public static function _lookupOrganization($a_obj_id)
 	{
 		global $ilDB;
 		
-		$query = "SELECT organization FROM ".$a_table.
+		$query = "SELECT organization FROM ".static::DB_TABLE_NAME.
 			" WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->organization;
 		}
@@ -198,17 +197,16 @@ abstract class ilRemoteObjectBase extends ilObject2
 	 * lookup owner mid
 	 *
 	 * @param int $a_obj_id obj_id
-	   @param string $a_table
 	 * @return int
 	 */
-	public static function _lookupMID($a_obj_id, $a_table)
+	public static function _lookupMID($a_obj_id)
 	{
 		global $ilDB;
 		
-		$query = "SELECT mid FROM ".$a_table.
+		$query = "SELECT mid FROM ".static::DB_TABLE_NAME.
 			" WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->mid;
 		}
@@ -402,7 +400,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 		$query = "SELECT * FROM ".$this->getTableName().
 			" WHERE obj_id = ".$this->db->quote($this->getId() ,'integer')." ";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setLocalInformation($row->local_information);
 			$this->setRemoteLink($row->remote_link);

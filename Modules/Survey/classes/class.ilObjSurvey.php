@@ -179,7 +179,7 @@ class ilObjSurvey extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjSurvey($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		global $ilUser, $lng;
 		
@@ -252,14 +252,13 @@ class ilObjSurvey extends ilObject
 		return $result;
 	}
 
-/**
-	* read object data from db into object
-	* @param	boolean
-	* @access	public
-	*/
-	function read($a_force_db = false)
+	/**
+	 * read object data from db into object
+	 * @access	public
+	 */
+	public function read()
 	{
-		parent::read($a_force_db);
+		parent::read();
 		$this->loadFromDb();
 	}
 	
@@ -360,7 +359,7 @@ class ilObjSurvey extends ilObject
 		foreach($mobs as $mob)
 		{
 			ilObjMediaObject::_removeUsage($mob, "svy:html", $this->getId());
-			$mob_obj =& new ilObjMediaObject($mob);
+			$mob_obj = new ilObjMediaObject($mob);
 			$mob_obj->delete();
 		}
 	}
@@ -478,72 +477,6 @@ class ilObjSurvey extends ilObject
 			}
 		}
 		return $participants;
-	}
-
-	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	* 
-	* If you are not required to handle any events related to your module, just delete this method.
-	* (For an example how this method is used, look at ilObjGroup)
-	* 
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional parameters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{
-		global $tree;
-		
-		switch ($a_event)
-		{
-			case "link":
-				
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Module name ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-			
-			case "cut":
-				
-				//echo "Module name ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-				
-			case "copy":
-			
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Module name ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "paste":
-				
-				//echo "Module name ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-			
-			case "new":
-				
-				//echo "Module name ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-		}
-		
-		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
-		if ($a_node_id==$_GET["ref_id"])
-		{	
-			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
-			$parent_type = $parent_obj->getType();
-			if($parent_type == $this->getType())
-			{
-				$a_node_id = (int) $tree->getParentId($a_node_id);
-			}
-		}
-		
-		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 
 /**
@@ -1262,7 +1195,7 @@ class ilObjSurvey extends ilObject
 */
 	function saveAuthorToMetadata($a_author = "")
 	{
-		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md = new ilMD($this->getId(), 0, $this->getType());
 		$md_life =& $md->getLifecycle();
 		if (!$md_life)
 		{
@@ -1294,7 +1227,7 @@ class ilObjSurvey extends ilObject
 	{
 		$author = array();
 		include_once "./Services/MetaData/classes/class.ilMD.php";
-		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md = new ilMD($this->getId(), 0, $this->getType());
 		$md_life =& $md->getLifecycle();
 		if ($md_life)
 		{
@@ -3791,7 +3724,7 @@ class ilObjSurvey extends ilObject
 * @return integer The number of participants
 * @access public
 */
-	function _getNrOfParticipants($survey_id)
+	static function _getNrOfParticipants($survey_id)
 	{
 		global $ilDB;
 		
@@ -4212,7 +4145,10 @@ class ilObjSurvey extends ilObject
 			}
 			foreach($files as $file)
 			{
-				if(@is_file($importDirectory."/".$file) && ($file != "." && $file!="..") && (ereg("^[0-9]{10}_{2}[0-9]+_{2}(svy_)*[0-9]+\.[a-z]{1,3}\$", $file) || ereg("^[0-9]{10}_{2}[0-9]+_{2}(survey__)*[0-9]+\.[a-z]{1,3}\$", $file)))
+				if(@is_file($importDirectory."/".$file) && 
+					($file != "." && $file!="..") && 
+					(preg_match("/^[0-9]{10}__[0-9]+__(svy_)*[0-9]+\.[A-Za-z]{1,3}$/", $file) || 
+						preg_match("/^[0-9]{10}__[0-9]+__(survey__)*[0-9]+\.[A-Za-z]{1,3}$/", $file)))
 				{
 					// found xml file
 					$xmlFile = $importDirectory."/".$file;
@@ -4603,6 +4539,8 @@ class ilObjSurvey extends ilObject
 	* creates data directory for export files
 	* (data_dir/svy_data/svy_<id>/export, depending on data
 	* directory that is set in ILIAS setup/ini)
+	* 
+	* @throws ilSurveyException
 	*/
 	function createExportDirectory()
 	{
@@ -4611,8 +4549,8 @@ class ilObjSurvey extends ilObject
 		ilUtil::makeDir($svy_data_dir);
 		if(!is_writable($svy_data_dir))
 		{
-			$this->ilias->raiseError("Survey Data Directory (".$svy_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Survey Data Directory (".$svy_data_dir.") not writeable.");
 		}
 		
 		// create learning module directory (data_dir/lm_data/lm_<id>)
@@ -4620,14 +4558,16 @@ class ilObjSurvey extends ilObject
 		ilUtil::makeDir($svy_dir);
 		if(!@is_dir($svy_dir))
 		{
-			$this->ilias->raiseError("Creation of Survey Directory failed.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Creation of Survey Directory failed.");
 		}
 		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
 		$export_dir = $svy_dir."/export";
 		ilUtil::makeDir($export_dir);
 		if(!@is_dir($export_dir))
 		{
-			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Creation of Export Directory failed.");
 		}
 	}
 
@@ -4646,6 +4586,8 @@ class ilObjSurvey extends ilObject
 	* creates data directory for import files
 	* (data_dir/svy_data/svy_<id>/import, depending on data
 	* directory that is set in ILIAS setup/ini)
+	* 
+	* @throws ilSurveyException
 	*/
 	function createImportDirectory()
 	{
@@ -4655,8 +4597,8 @@ class ilObjSurvey extends ilObject
 		
 		if(!is_writable($svy_data_dir))
 		{
-			$this->ilias->raiseError("Survey Data Directory (".$svy_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Survey Data Directory (".$svy_data_dir.") not writeable.");
 		}
 
 		// create test directory (data_dir/svy_data/svy_<id>)
@@ -4664,7 +4606,8 @@ class ilObjSurvey extends ilObject
 		ilUtil::makeDir($svy_dir);
 		if(!@is_dir($svy_dir))
 		{
-			$this->ilias->raiseError("Creation of Survey Directory failed.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Creation of Survey Directory failed.");
 		}
 
 		// create import subdirectory (data_dir/svy_data/svy_<id>/import)
@@ -4672,7 +4615,8 @@ class ilObjSurvey extends ilObject
 		ilUtil::makeDir($import_dir);
 		if(!@is_dir($import_dir))
 		{
-			$this->ilias->raiseError("Creation of Import Directory failed.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Creation of Import Directory failed.");
 		}
 	}
 
@@ -5371,7 +5315,7 @@ class ilObjSurvey extends ilObject
 				$mob_id = "il_" . IL_INST_ID . "_mob_" . $mob;
 				if (strpos($mattext, $mob_id) !== FALSE)
 				{
-					$mob_obj =& new ilObjMediaObject($mob);
+					$mob_obj = new ilObjMediaObject($mob);
 					$imgattrs = array(
 						"label" => $mob_id,
 						"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle(),

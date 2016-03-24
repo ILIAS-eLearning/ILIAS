@@ -36,7 +36,7 @@ class ilSAHSEditGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $lng, $ilAccess, $ilNavigationHistory, $ilias;
 

@@ -52,13 +52,13 @@ class ilCourseXMLWriter extends ilXmlWriter
 	
 
 	/**
-	* constructor
-	* @param	string	xml version
-	* @param	string	output encoding
-	* @param	string	input encoding
-	* @access	public
-	*/
-	function ilCourseXMLWriter(&$course_obj)
+	 * constructor
+	 * 
+	 * @param ilObject $course_obj
+	 * 
+	 * @access	public
+	 */
+	public function __construct($course_obj)
 	{
 		global $ilias;
 
@@ -66,8 +66,8 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 		$this->EXPORT_VERSION = "2";
 
-		$this->ilias =& $ilias;
-		$this->course_obj =& $course_obj;
+		$this->ilias = $ilias;
+		$this->course_obj = $course_obj;
 	}
 	
 	public function setMode($a_mode)

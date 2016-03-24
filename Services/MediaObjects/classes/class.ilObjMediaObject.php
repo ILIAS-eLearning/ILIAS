@@ -35,16 +35,16 @@ class ilObjMediaObject extends ilObject
 	* Constructor
 	* @access	public
 	*/
-	function ilObjMediaObject($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		$this->is_alias = false;
 		$this->media_items = array();
 		$this->contains_int_link = false;
 		$this->type = "mob";
-		parent::ilObject($a_id, false);
+		parent::__construct($a_id, false);
 	}
 
-	function setRefId()
+	function setRefId($a_id)
 	{
 		$this->ilias->raiseError("Operation ilObjMedia::setRefId() not allowed.",$this->ilias->error_obj->FATAL);
 	}
@@ -54,7 +54,7 @@ class ilObjMediaObject extends ilObject
 		return false;
 	}
 
-	function putInTree()
+	function putInTree($a_parent_ref)
 	{
 		$this->ilias->raiseError("Operation ilObjMedia::putInTree() not allowed.",$this->ilias->error_obj->FATAL);
 	}
@@ -81,7 +81,7 @@ class ilObjMediaObject extends ilObject
 	*
 	* @return	boolean		true, if lm content object exists
 	*/
-	public static function _exists($a_id)
+	public static function _exists($a_id, $a_reference = false, $a_type = NULL)
 	{
 		global $ilDB;
 		
@@ -239,7 +239,7 @@ class ilObjMediaObject extends ilObject
 		include_once("Services/MetaData/classes/class.ilMDGeneral.php");
 		include_once("Services/MetaData/classes/class.ilMDDescription.php");
 
-		$md =& new ilMD(0, $this->getId(), $this->getType());
+		$md = new ilMD(0, $this->getId(), $this->getType());
 		$md_gen =& $md->getGeneral();
 		$md_gen->setTitle($this->getTitle());
 
@@ -568,7 +568,7 @@ class ilObjMediaObject extends ilObject
 	*
 	* @param	int		$a_mob_id		media object id
 	*/
-	function _getDirectory($a_mob_id)
+	static function _getDirectory($a_mob_id)
 	{
 		return ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
 	}
@@ -588,7 +588,7 @@ class ilObjMediaObject extends ilObject
 	*
 	* @param	int		$a_mob_id		media object id
 	*/
-	function _getThumbnailDirectory($a_mob_id, $a_mode = "filesystem")
+	static function _getThumbnailDirectory($a_mob_id, $a_mode = "filesystem")
 	{
 		return ilUtil::getWebspaceDir($a_mode)."/thumbs/mm_".$a_mob_id;
 	}
@@ -641,7 +641,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	 * Create thumbnail directory
 	 */
-	function _createThumbnailDirectory($a_obj_id)
+	static function _createThumbnailDirectory($a_obj_id)
 	{
 		ilUtil::createDirectory(ilUtil::getWebspaceDir()."/thumbs");
 		ilUtil::createDirectory(ilUtil::getWebspaceDir()."/thumbs/mm_".$a_obj_id);
@@ -1014,7 +1014,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	* static
 	*/
-	function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
+	static function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
 		global $ilDB;
 		
@@ -1051,7 +1051,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	* get mobs of object
 	*/
-	function _getMobsOfObject($a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
+	static function _getMobsOfObject($a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
 		global $ilDB;
 
@@ -1086,7 +1086,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	* Save usage of mob within another container (e.g. page)
 	*/
-	function _saveUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
+	static function _saveUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
 		global $ilDB;
 
@@ -1107,7 +1107,7 @@ class ilObjMediaObject extends ilObject
 	/**
 	* Remove usage of mob in another container
 	*/
-	function _removeUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
+	static function _removeUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_lang = "-")
 	{
 		global $ilDB;
 		
@@ -1458,7 +1458,7 @@ class ilObjMediaObject extends ilObject
 	* @param	int			$a_width	width
 	* @param	int			$a_height	height
 	*/
-	function _resizeImage($a_file, $a_width, $a_height, $a_constrain_prop = false)
+	static function _resizeImage($a_file, $a_width, $a_height, $a_constrain_prop = false)
 	{
 		$file_path = pathinfo($a_file);
 		$location = substr($file_path["basename"],0,strlen($file_path["basename"]) -
@@ -1620,7 +1620,7 @@ class ilObjMediaObject extends ilObject
 		$media_object->createDirectory();
 		$mob_dir = ilObjMediaObject::_getDirectory($media_object->getId());
 
-		$media_item =& new ilMediaItem();
+		$media_item = new ilMediaItem();
 		$media_object->addMediaItem($media_item);
 		$media_item->setPurpose("Standard");
 

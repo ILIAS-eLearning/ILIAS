@@ -40,7 +40,7 @@ class ilLMEditorGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilLMEditorGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
 			$rbacsystem, $ilNavigationHistory;
@@ -82,7 +82,7 @@ class ilLMEditorGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 
 		global $ilHelp;
@@ -132,7 +132,7 @@ class ilLMEditorGUI
 				include_once ("./Modules/LearningModule/classes/class.ilObjDlBookGUI.php");
 
 				$this->main_header($this->lm_obj->getType());
-				$book_gui =& new ilObjDlBookGUI("", $_GET["ref_id"], true, false);
+				$book_gui = new ilObjDlBookGUI("", $_GET["ref_id"], true, false);
 				//$ret =& $book_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($book_gui);
 				if (strcmp($cmd, "explorer") != 0)
@@ -158,7 +158,7 @@ class ilLMEditorGUI
 				include_once ("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 				include_once ("./Modules/LearningModule/classes/class.ilObjLearningModuleGUI.php");
 				$this->main_header($this->lm_obj->getType());
-				$lm_gui =& new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
+				$lm_gui = new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
 				//$ret =& $lm_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($lm_gui);
 				if (strcmp($cmd, "explorer") != 0)

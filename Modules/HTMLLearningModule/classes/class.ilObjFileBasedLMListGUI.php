@@ -20,7 +20,7 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 	*/
 	function ilObjFileBasedLMListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**

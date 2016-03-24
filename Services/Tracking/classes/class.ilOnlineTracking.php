@@ -5,7 +5,6 @@
  * Class ilOnlineTracking
  * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id$
- * @extends ilObjectGUI
  * @package ilias-core
  *          Stores total online time of users
  */

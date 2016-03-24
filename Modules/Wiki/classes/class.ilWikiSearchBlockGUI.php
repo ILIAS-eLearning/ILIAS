@@ -43,7 +43,7 @@ class ilWikiSearchBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $lng;
 		
-		parent::ilBlockGUI();
+		parent::__construct();
 		
 		$lng->loadLanguageModule("wiki");
 		$this->setEnableNumInfo(false);
@@ -83,7 +83,7 @@ class ilWikiSearchBlockGUI extends ilBlockGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 

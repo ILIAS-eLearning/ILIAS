@@ -87,7 +87,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->vendors_obj = ilPaymentVendors::getInstance();
 
 		$this->type = 'pays';
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
 		$this->lng->loadLanguageModule('payment');
 	}
@@ -2247,58 +2247,58 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	* @access	public
 	* @param	object	ilTabsGUI gui object
 	*/
-	public function getTabs($tabs_gui)
+	public function getTabs()
 	{
 		global $rbacsystem, $ilHelp;
 
-		$tabs_gui->clearTargets();
+		$this->tabs_gui->clearTargets();
 		$ilHelp->setScreenIdComponent("pays");
 		if ($rbacsystem->checkAccess('visible,read',$this->object->getRefId()))
 		{
 			// Settings
-			$tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'generalSettings'),
+			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'generalSettings'),
 			array('saveGeneralSettings','generalSettings ','saveBmfSettings','savePaypalSettings','paypalSettings',
 //					'saveEPaySettings','epaySettings','saveERPsettings','delERPpreview','','testERPsettings','erpSettings',
 				'','view'), '', '');
 			
 			// Bookings
-			$tabs_gui->addTarget('bookings', $this->ctrl->getLinkTarget($this, 'statistic'),
+			$this->tabs_gui->addTarget('bookings', $this->ctrl->getLinkTarget($this, 'statistic'),
 			array(	'statistic','editStatistic','updateStatistic','deleteStatistic','performDelete',
 					'resetFilter','exportVendors','addCustomer', 'saveCustomer','showObjectSelector',
 					'searchUserSP','performSearchSP'), '', '');
 			// Objects
-			$tabs_gui->addTarget('objects', $this->ctrl->getLinkTarget($this, 'objects'),
+			$this->tabs_gui->addTarget('objects', $this->ctrl->getLinkTarget($this, 'objects'),
 			array('updateObjectDetails','deleteObject','performObjectDelete','objects',
 					'editPrices','addPrice','editDetails','resetObjectFilter'), '', '');
 			// Vendors
-			$tabs_gui->addTarget('vendors', $this->ctrl->getLinkTarget($this, 'vendors'),
+			$this->tabs_gui->addTarget('vendors', $this->ctrl->getLinkTarget($this, 'vendors'),
 			array('vendors','searchUser','search','performSearch','addVendor','addUser','exportVendors','deleteVendors','performDeleteVendors',
 					'cancelDeleteVendors','editVendor','performEditVendor'), '', '');
 			
 #TODO: CURRENCY not finished yet
 /*	
 			// Currencies
-			$tabs_gui->addTarget('currencies',
+			$this->tabs_gui->addTarget('currencies',
 				$this->ctrl->getLinkTarget($this, 'currencies'),
 					array('currencies','editCurrency','deleteCurrency','performDeleteCurrency','updateCurrency','updateDefaultCurrency'), '','');
 /**/
 			// Paymethods
-			$tabs_gui->addTarget('pay_methods', $this->ctrl->getLinkTarget($this, 'payMethods'),
+			$this->tabs_gui->addTarget('pay_methods', $this->ctrl->getLinkTarget($this, 'payMethods'),
 				#array('payMethods','savePayMethods'), '', '');
 			array('payMethods','savePayMethods ','saveBmfSettings','savePaypalSettings','paypalSettings',
 //					'saveEPaySettings','epaySettings','saveERPsettings','delERPpreview','','testERPsettings','erpSettings',
 				'','view'), '', '');
 
 			// Topics
-			$tabs_gui->addTarget('topics',
+			$this->tabs_gui->addTarget('topics',
 					$this->ctrl->getLinkTargetByClass('ilshoptopicsgui', ''), 'payment_topics', '', '');
 
 			// Vats
-			$tabs_gui->addTarget('vats',
+			$this->tabs_gui->addTarget('vats',
 					$this->ctrl->getLinkTarget($this, 'vats'), 'vats', '', '');				
 
 			// Documents
-			$tabs_gui->addTarget('documents', $this->ctrl->getLinkTarget($this, 'documents'),
+			$this->tabs_gui->addTarget('documents', $this->ctrl->getLinkTarget($this, 'documents'),
 				array('documents','TermsConditions','saveTermsConditions','BillingMail',
 					'saveBillingMail','InvoiceNumber','saveInvoiceNumber','StatutoryRegulations', 'saveStatutoryRegulations'), '', '');
  		}
@@ -2306,7 +2306,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			// Permissions
-			$tabs_gui->addTarget('perm_settings',
+			$this->tabs_gui->addTarget('perm_settings',
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), 'perm'), array('perm','info','owner'), 'ilpermissiongui');
 		}
 	}

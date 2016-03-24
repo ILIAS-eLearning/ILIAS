@@ -31,7 +31,7 @@ class ilRatingGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 		

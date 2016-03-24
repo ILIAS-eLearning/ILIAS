@@ -46,7 +46,7 @@ class ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
+	function __construct($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 

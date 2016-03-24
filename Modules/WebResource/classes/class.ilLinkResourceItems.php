@@ -38,7 +38,7 @@ class ilLinkResourceItems
 			"AND link_id = ".$ilDB->quote($a_link_id ,'integer');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$item['title']				= $row->title;
 			$item['description']		= $row->description;
@@ -402,7 +402,7 @@ class ilLinkResourceItems
 			"WHERE link_id = ".$ilDB->quote($a_link_id ,'integer');
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setTitle($row->title);
 			$this->setDescription($row->description);
@@ -428,7 +428,7 @@ class ilLinkResourceItems
 			"AND link_id = ".$ilDB->quote($a_link_id ,'integer');
 			
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$item['title']				= $row->title;
 			$item['description']		= $row->description;
@@ -456,7 +456,7 @@ class ilLinkResourceItems
 		$query = "SELECT link_id FROM webr_items ".
 			"WHERE webr_id = ".$ilDB->quote($a_webr_id ,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$link_ids[] = $row['link_id'];
 		}
@@ -471,7 +471,7 @@ class ilLinkResourceItems
 			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId() ,'integer');
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$items[$row->link_id]['title']				= $row->title;
 			$items[$row->link_id]['description']		= $row->description;
@@ -604,7 +604,7 @@ class ilLinkResourceItems
 		$query = "SELECT COUNT(*) num FROM webr_items ".
 			"WHERE webr_id = ".$ilDB->quote($a_webr_id,'integer');
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		return $row->num;
 	}
 

@@ -117,7 +117,7 @@ class ilCalendarCategories
 			"AND type = ".$ilDB->quote(ilCalendarCategory::TYPE_OBJ,'integer')." ";
 			
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->cat_id;
 		}
@@ -616,7 +616,7 @@ class ilCalendarCategories
 		
 		$res = $ilDB->query($subtree_query);
 		$obj_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if($tree->isDeleted($row->ref_id))
 			{
@@ -656,7 +656,7 @@ class ilCalendarCategories
 			"ORDER BY title ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->categories[] = $row->cat_id;
 			$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
@@ -688,7 +688,7 @@ class ilCalendarCategories
 			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_USR ,'integer')." ".
 			"AND obj_id = ".$this->db->quote($ilUser->getId(),'integer')." ";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$cat_ids[] = $row->cat_id;
 		}
@@ -709,7 +709,7 @@ class ilCalendarCategories
 			"ORDER BY title ";
 			
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->categories[] = $row->cat_id;
 			$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
@@ -770,7 +770,7 @@ class ilCalendarCategories
 
 			$res = $ilDB->query($query);
 			$categories = array();
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$categories[] = $row->cat_id;
 			}
@@ -780,7 +780,7 @@ class ilCalendarCategories
 				$query = 'SELECT * FROM cal_categories '.
 						'WHERE '.$ilDB->in('cat_id',$categories,false,'integer');
 				$res = $ilDB->query($query);
-				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 				{
 					$this->categories[] = $row->cat_id;
 					$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
@@ -800,7 +800,7 @@ class ilCalendarCategories
 			"WHERE type = ".$ilDB->quote(ilCalendarCategory::TYPE_CH,'integer').' '.
 			"AND obj_id = ".$ilDB->quote($this->getCHUserId(),'integer');
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->categories[] = $row->cat_id;
 				$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
@@ -834,7 +834,7 @@ class ilCalendarCategories
 			"WHERE type = ".$ilDB->quote(ilCalendarCategory::TYPE_BOOK,'integer').' '.
 			"AND obj_id = ".$ilDB->quote($user_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->categories[] = $row->cat_id;
 			$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
@@ -870,7 +870,7 @@ class ilCalendarCategories
 			"ORDER BY title ";
 		
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			// check activation/deactivation
 			$obj_type = ilObject::_lookupType($row->obj_id);
@@ -949,7 +949,7 @@ class ilCalendarCategories
 		$res = $ilDB->query($query);
 		$cat_ids = array();
 		$course_sessions = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$cat_ids[] = $row->cat_id;
 			$course_sessions[$row->crs_id][$row->sess_id] = $row->cat_id;

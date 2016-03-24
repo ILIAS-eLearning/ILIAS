@@ -20,7 +20,7 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
 	*/
 	function ilObjMediaCastListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**

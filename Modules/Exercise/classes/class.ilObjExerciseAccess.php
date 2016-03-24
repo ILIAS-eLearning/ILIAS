@@ -77,7 +77,7 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array
 		(
@@ -90,7 +90,7 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 		return $commands;
 	}
 	
-	function _lookupRemainingWorkingTimeString($a_obj_id)
+	static function _lookupRemainingWorkingTimeString($a_obj_id)
 	{
 		global $ilDB;
 		
@@ -142,7 +142,7 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 	/**
 	* check whether goto script will succeed
 	*/
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 		

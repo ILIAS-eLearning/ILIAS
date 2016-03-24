@@ -151,7 +151,7 @@ class ilLanguage
 	 * @param	string		languagecode (two characters), e.g. "de", "en", "in"
 	 * @return	boolean 	false if reading failed
 	 */
-	function ilLanguage($a_lang_key)
+	function __construct($a_lang_key)
 	{
 		global $ilias,$log,$ilIliasIniFile,$ilUser,$ilSetting;
 
@@ -193,7 +193,7 @@ class ilLanguage
 		}
 		$this->lang_user = $ilUser->prefs["language"];
 		
-		$langs = $this->getInstalledLanguages();
+		$langs = self::getInstalledLanguages();
 		
 		if (!in_array($this->lang_key,$langs))
 		{
@@ -344,7 +344,7 @@ class ilLanguage
 				"AND module = '$a_module'";
 		$r = $this->ilias->db->query($query);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->text[$row->identifier] = $row->value;
 		}
@@ -354,7 +354,7 @@ class ilLanguage
 				"WHERE lang_key = ".$ilDB->quote($lang_key, "text")." AND module = ".
 				$ilDB->quote($a_module, "text");
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		
 		$new_text = unserialize($row["lang_array"]);
 		if (is_array($new_text))
@@ -372,7 +372,7 @@ class ilLanguage
 	}
 	
 	
-	function getInstalledLanguages()
+	static function getInstalledLanguages()
 	{
 		include_once("./Services/Object/classes/class.ilObject.php");
 		$langlist = ilObject::_getObjectsByType("lng");
@@ -431,7 +431,7 @@ class ilLanguage
 			'AND type = '.$ilDB->quote('lng','text');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->obj_id;
 		}

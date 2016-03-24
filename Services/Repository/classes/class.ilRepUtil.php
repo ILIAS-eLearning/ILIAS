@@ -177,8 +177,6 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 						   "old_parent_ref_id" => $affected_parents[$aid]
 						 ));
 			}
-			// inform other objects in hierarchy about paste operation
-			//$this->object->notify("confirmedDelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["saved_post"]);
 		}
 		
 		if (!$ilSetting->get('enable_trash'))

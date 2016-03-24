@@ -32,12 +32,12 @@ class ilObjGroupGUI extends ilContainerGUI
 	public function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = false)
 	{
 		$this->type = "grp";
-		$this->ilContainerGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
 		$this->lng->loadLanguageModule('grp');
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilUser,$rbacsystem,$ilAccess, $ilNavigationHistory,$ilErr, $ilCtrl, $ilToolbar;
 
@@ -90,13 +90,13 @@ class ilObjGroupGUI extends ilContainerGUI
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search = new ilRepositorySearchGUI();
 				$rep_search->setCallback($this,
 					'addUserObject',
 					$this->getLocalRoles()
@@ -117,7 +117,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			case "illearningprogressgui":
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 
-				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
 													  $this->object->getRefId(),
 													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
 				$this->ctrl->forwardCommand($new_gui);
@@ -129,7 +129,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				
 				include_once './Modules/Course/classes/class.ilObjCourseGroupingGUI.php';
 				$this->ctrl->setReturn($this,'edit');
-				$crs_grp_gui =& new ilObjCourseGroupingGUI($this->object,(int) $_GET['obj_id']);
+				$crs_grp_gui = new ilObjCourseGroupingGUI($this->object,(int) $_GET['obj_id']);
 				$this->ctrl->forwardCommand($crs_grp_gui);
 				
 				$this->tabs_gui->setTabActive('settings');
@@ -369,9 +369,13 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 
 	/**
-	* Modify Item ListGUI for presentation in container
-	*/
-	function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
+	 * Modify Item ListGUI for presentation in container
+	 * @global type $tree
+	 * @param type $a_item_list_gui
+	 * @param type $a_item_data
+	 * @param type $a_show_path
+	 */
+	public function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
 	{
 		global $tree;
 
@@ -381,9 +385,16 @@ class ilObjGroupGUI extends ilContainerGUI
 			include_once("./Modules/Course/classes/class.ilObjCourse.php");
 			include_once("./Modules/Course/classes/class.ilObjCourseGUI.php");
 			$course_obj_id = ilObject::_lookupObjId($course_ref_id);
-			ilObjCourseGUI::_modifyItemGUI($a_item_list_gui,'ilcoursecontentgui',$a_item_data, $a_show_path,
-				ilObjCourse::_lookupAboStatus($course_obj_id), $course_ref_id, $course_obj_id,
-				$this->object->getRefId());
+			ilObjCourseGUI::_modifyItemGUI(
+					$a_item_list_gui,
+					'ilcoursecontentgui',
+					$a_item_data, 
+					$a_show_path,
+					ilObjCourse::_lookupAboStatus($course_obj_id), 
+					$course_ref_id, 
+					$course_obj_id,
+					$this->object->getRefId()
+			);
 		}
 	}
 	
@@ -1826,7 +1837,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 
 	// get tabs
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $ilUser, $ilAccess, $lng, $ilHelp;
 		
@@ -1834,12 +1845,12 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$tabs_gui->addTab("view_content", $lng->txt("content"),
+			$this->tabs_gui->addTab("view_content", $lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 		}
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
-			$tabs_gui->addTarget("info_short",
+			$this->tabs_gui->addTarget("info_short",
 								 $this->ctrl->getLinkTargetByClass(
 								 array("ilobjgroupgui", "ilinfoscreengui"), "showSummary"),
 								 "infoScreen",
@@ -1849,7 +1860,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if ($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit", "editMapSettings"), get_class($this),
 				"");
 		}
@@ -1860,7 +1871,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		// Members
 		if($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$tabs_gui->addTarget('members', $this->ctrl->getLinkTarget($this, 'members'), array(), get_class($this));
+			$this->tabs_gui->addTarget('members', $this->ctrl->getLinkTarget($this, 'members'), array(), get_class($this));
 		}
 		else if($is_participant)
 		{
@@ -1875,7 +1886,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), $is_participant))
 		{
-			$tabs_gui->addTarget('learning_progress',
+			$this->tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjgroupgui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
@@ -1884,7 +1895,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				'export',
 				$this->ctrl->getLinkTargetByClass('ilexportgui',''),
 				'export',
@@ -1904,7 +1915,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		*/
 		// parent tabs (all container: edit_permission, clipboard, trash
-		parent::getTabs($tabs_gui);
+		parent::getTabs();
 
 		if($ilAccess->checkAccess('join','',$this->object->getRefId()) and
 			!$this->object->members_obj->isAssigned($ilUser->getId()))
@@ -1912,7 +1923,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			include_once './Modules/Group/classes/class.ilGroupWaitingList.php';
 			if(ilGroupWaitingList::_isOnList($ilUser->getId(), $this->object->getId()))
 			{
-				$tabs_gui->addTab(
+				$this->tabs_gui->addTab(
 					'leave',
 					$this->lng->txt('membership_leave'),
 					$this->ctrl->getLinkTargetByClass('ilgroupregistrationgui','show','')
@@ -1922,7 +1933,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			else
 			{			
 				
-				$tabs_gui->addTarget("join",
+				$this->tabs_gui->addTarget("join",
 									 $this->ctrl->getLinkTargetByClass('ilgroupregistrationgui', "show"), 
 									 'show',
 									 "");
@@ -1931,7 +1942,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and
 			$this->object->members_obj->isMember($ilUser->getId()))
 		{
-			$tabs_gui->addTarget("grp_btn_unsubscribe",
+			$this->tabs_gui->addTarget("grp_btn_unsubscribe",
 								 $this->ctrl->getLinkTarget($this, "leave"), 
 								 '',
 								 "");
@@ -2603,13 +2614,19 @@ class ilObjGroupGUI extends ilContainerGUI
 			}	
 			
 			if($hasParentMembership &&
-				$this->object->getViewMode(false) == ilContainer::VIEW_INHERIT)
+				$this->object->getViewMode() == ilContainer::VIEW_INHERIT)
 			{
 				$view_type->setValue(ilContainer::VIEW_INHERIT);
 			}
 			else
 			{
-				$view_type->setValue($this->object->getViewMode(true));
+				$view_type->setValue(
+					ilObjGroup::translateViewMode(
+						$this->object->getId(),
+						$this->object->getViewMode(),
+						$this->object->getRefId()
+					)
+				);
 			}
 			
 			$opt = new ilRadioOption($this->lng->txt('cntr_view_simple'),ilContainer::VIEW_SIMPLE);
@@ -2932,7 +2949,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 * Handle member view
 	 * @return 
 	 */
-	public function prepareOutput()
+	public function prepareOutput($a_show_subobjects = true)
 	{
 		global $rbacsystem;
 		if(!$this->getCreationMode())
@@ -2947,7 +2964,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			*/
 		}
-		parent::prepareOutput();
+		parent::prepareOutput($a_show_subobjects);
 	}
 	
 	/**

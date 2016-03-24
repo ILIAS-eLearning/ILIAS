@@ -108,6 +108,7 @@ class ilObjectListGUI
 	protected $force_visible_only = false;	
 	protected $prevent_duplicate_commands = array();
 	protected $parent_ref_id;
+	protected $context;
 
 	static protected $cnt_notes = array();
 	static protected $cnt_tags = array();
@@ -128,7 +129,7 @@ class ilObjectListGUI
 	* constructor
 	*
 	*/
-	function ilObjectListGUI()
+	function __construct($a_context = self::CONTEXT_REPOSITORY)
 	{
 		global $rbacsystem, $ilCtrl, $lng, $ilias;
 
@@ -138,6 +139,7 @@ class ilObjectListGUI
 		$this->lng = $lng;
 		$this->mode = IL_LIST_FULL;
 		$this->path_enabled = false;
+		$this->context = $a_context;
 		
 		$this->enableComments(false);
 		$this->enableNotes(false);
@@ -979,17 +981,16 @@ class ilObjectListGUI
 	* @param	string		$a_description	description
 	* @param	int			$a_context		tree/workspace
 	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "", $a_context = self::CONTEXT_REPOSITORY)
+	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
 	{
-		$this->offline_mode = false;
-		include_once('Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php');
+		$this->offline_mode = false;		
 		if ($this->type == "sahs") {
+			include_once('Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php');
 			$this->offline_mode = ilObjSAHSLearningModuleAccess::_lookupUserIsOfflineMode($a_obj_id);  	
 		}
 		$this->access_cache = array();
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = $a_obj_id;
-		$this->context = $a_context;
 		$this->setTitle($a_title);
 		$this->setDescription($a_description);
 		#$this->description = $a_description;
@@ -1171,7 +1172,7 @@ class ilObjectListGUI
 	*						"property" (string) => property name
 	*						"value" (string) => property value
 	*/
-	public function getProperties($a_item = '')
+	public function getProperties()
 	{
 		global $objDefinition;
 
@@ -1783,11 +1784,11 @@ class ilObjectListGUI
 	*
 	* @access	private
 	*/
-	function insertProperties($a_item = '')
+	function insertProperties()
 	{
 		global $ilAccess, $lng, $ilUser;
 		
-		$props = $this->getProperties($a_item);
+		$props = $this->getProperties();
 		$props = $this->getCustomProperties($props);
 		
 		if($this->context != self::CONTEXT_WORKSPACE && $this->context != self::CONTEXT_WORKSPACE_SHARING)
@@ -2543,34 +2544,7 @@ class ilObjectListGUI
 		$type = ilObject::_lookupType(ilObject::_lookupObjId($this->getCommandId()));
 
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
-		{
-			// BEGIN WebDAV: Lock/Unlock objects
-			/* This code section is temporarily commented out. 
-			   I will reactivate it at a later point, when I get the
-               the backend working properly. - Werner Randelshofer 2008-04-17
-			if (is_object($this->container_obj) && $this->rbacsystem->checkAccess("write", $this->ref_id))
-			{
-				require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-				if (ilDAVServer::_isActive() && ilDAVServer::_isActionsVisible())
-				{
-					$this->ctrl->setParameter($this->container_obj, "ref_id",
-						$this->container_obj->object->getRefId());
-					$this->ctrl->setParameter($this->container_obj, "type", $this->type);
-					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
-					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "lock");
-					$this->insertCommand($cmd_link, $this->lng->txt("lock"));
-
-					$this->ctrl->setParameter($this->container_obj, "ref_id",
-						$this->container_obj->object->getRefId());
-					$this->ctrl->setParameter($this->container_obj, "type", $this->type);
-					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
-					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "unlock");
-					$this->insertCommand($cmd_link, $this->lng->txt("unlock"));
-				}
-			}
-			*/
-			// END WebDAV: Lock/Unlock objects
-			
+		{	
 			// #17467 - add ref_id to link (in repository only!)
 			if(is_object($this->container_obj) &&
 				!($this->container_obj instanceof ilAdministrationCommandHandling) &&
@@ -3573,9 +3547,9 @@ class ilObjectListGUI
 	* @return	string		html code
 	*/
 	function getListItemHTML($a_ref_id, $a_obj_id, $a_title, $a_description,
-		$a_use_asynch = false, $a_get_asynch_commands = false, $a_asynch_url = "", $a_context = self::CONTEXT_REPOSITORY)
+		$a_use_asynch = false, $a_get_asynch_commands = false, $a_asynch_url = "")
 	{
-		global $ilAccess, $ilBench, $ilUser, $ilCtrl;
+		global $ilBench, $ilUser;
 
 		// this variable stores wheter any admin commands
 		// are included in the output
@@ -3586,12 +3560,12 @@ class ilObjectListGUI
 
 		// initialization
 		$ilBench->start("ilObjectListGUI", "1000_getListHTML_init$type");
-		$this->initItem($a_ref_id, $a_obj_id, $a_title, $a_description, $a_context);
+		$this->initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
 		$ilBench->stop("ilObjectListGUI", "1000_getListHTML_init$type");
 		
 		// prepare ajax calls
 		include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
-		if($a_context == self::CONTEXT_REPOSITORY)
+		if($this->context == self::CONTEXT_REPOSITORY)
 		{
 			$node_type = ilCommonActionDispatcherGUI::TYPE_REPOSITORY;
 		}

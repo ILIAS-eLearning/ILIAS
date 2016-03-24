@@ -40,9 +40,9 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 	* constructor
 	*
 	*/
-	function ilObjSurveyListGUI()
+	function __construct()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 		$this->info_screen_enabled = true;
 	}
 

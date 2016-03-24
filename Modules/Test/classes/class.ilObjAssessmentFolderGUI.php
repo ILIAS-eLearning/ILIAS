@@ -23,12 +23,12 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	/**
 	 * Constructor
 	 */
-	public function ilObjAssessmentFolderGUI($a_data,$a_id,$a_call_by_reference)
+	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $rbacsystem;
 
 		$this->type = "assf";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 
 		if (!$rbacsystem->checkAccess('read',$this->object->getRefId()))
 		{
@@ -38,7 +38,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule('assessment');
 	}
 	
-	public function &executeCommand()
+	public function executeCommand()
 	{
 		/**
 		 * @var $rbacsystem ilRbacSystem
@@ -512,9 +512,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
 
-	public function getAdminTabs(&$tabs_gui)
+	public function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 
 	public function getLogdataSubtabs()
@@ -546,7 +546,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*
 	* @param	object	tabs gui object
 	*/
-	public function getTabs(&$tabs_gui)
+	public function getTabs()
 	{
 		global $rbacsystem, $lng;
 
@@ -565,27 +565,27 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "settings"), array("settings","","view"), "", "");
 
-			$tabs_gui->addTarget("logs",
+			$this->tabs_gui->addTarget("logs",
 				$this->ctrl->getLinkTarget($this, "showLogSettings"), 
 					array('saveLogSettings', 'showLogSettings', "logs","showLog", "exportLog", "logAdmin", "deleteLog"), 
 					"", "");
 
-			$tabs_gui->addTab("templates",
+			$this->tabs_gui->addTab("templates",
 				$lng->txt("adm_settings_templates"),
 				$this->ctrl->getLinkTargetByClass("ilsettingstemplategui", ""));
 		}
 
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('units', $this->ctrl->getLinkTargetByClass('ilGlobalUnitConfigurationGUI', ''), '', 'ilglobalunitconfigurationgui');
+			$this->tabs_gui->addTarget('units', $this->ctrl->getLinkTargetByClass('ilGlobalUnitConfigurationGUI', ''), '', 'ilglobalunitconfigurationgui');
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}

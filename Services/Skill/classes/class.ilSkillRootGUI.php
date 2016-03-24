@@ -25,7 +25,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
 		
 		$ilCtrl->saveParameter($this, "obj_id");
 		
-		parent::ilSkillTreeNodeGUI($a_node_id);
+		parent::__construct($a_node_id);
 	}
 
 	/**
@@ -39,7 +39,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
 	/**
 	 * Execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $tpl, $ilTabs;
 		

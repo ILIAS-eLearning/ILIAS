@@ -46,7 +46,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$lng->loadLanguageModule("search");
 		
 		$this->type = "sahs";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 	}
 
 	/**
@@ -58,11 +58,11 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		{
 			if ($this->call_by_reference)
 			{
-				$this->object =& new ilObjSCORMLearningModule($this->id, true);
+				$this->object = new ilObjSCORMLearningModule($this->id, true);
 			}
 			else
 			{
-				$this->object =& new ilObjSCORMLearningModule($this->id, false);
+				$this->object = new ilObjSCORMLearningModule($this->id, false);
 			}
 		}
 	}

@@ -33,7 +33,7 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
 		$this->inMetaDataTag = false;
 		$this->inMdGeneralTag = false;
 		
-		return parent::ilSaxParser($xmlFile);
+		return parent::__construct($xmlFile);
 	}
 	
 	public function setHandlers($xmlParser)

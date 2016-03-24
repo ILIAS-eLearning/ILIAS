@@ -34,17 +34,17 @@ class ilPDNotesGUI
 	*
 	* @access	public
 	*/
-	function ilPDNotesGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl, $ilUser, $ilTabs, $ilHelp;
 
 		$ilHelp->setScreenIdComponent("note");
 		
 		// initiate variables
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ctrl =& $ilCtrl;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
 		
 		// link from ilPDNotesBlockGUI
 		if($_GET["rel_obj"])
@@ -67,7 +67,7 @@ class ilPDNotesGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass();
 

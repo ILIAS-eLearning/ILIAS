@@ -15,12 +15,12 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
 class ilLPStatusTestFinished extends ilLPStatus
 {
 
-	function ilLPStatusTestFinished($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
-		parent::ilLPStatus($a_obj_id);
-		$this->db =& $ilDB;
+		parent::__construct($a_obj_id);
+		$this->db = $ilDB;
 	}
 
 	function _getInProgress($a_obj_id)
@@ -44,7 +44,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 		$user_ids = array();
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_ids[$row->user_fi] = $row->user_fi;
 		}
@@ -74,7 +74,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 		$user_ids = array();
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_ids[$row->user_fi] = $row->user_fi;
 		}
@@ -102,7 +102,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 		$user_ids = array();
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_ids[$row->user_fi] = $row->user_fi;
 		}

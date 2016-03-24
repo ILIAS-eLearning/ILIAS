@@ -20,7 +20,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI {
 
 	function __construct() {
 		global $tpl;
-		$this->ilObjectListGUI();
+		parent::__construct();
 		$this->tpl = $tpl;
 		//$this->enableComments(false, false);
 	}

@@ -52,7 +52,7 @@ require_once "./Services/Logging/classes/class.ilLog.php";
 require_once "./Services/Authentication/classes/class.ilSession.php";
 require_once "./Services/Utilities/classes/class.ilUtil.php";
 require_once "./Services/Init/classes/class.ilIniFile.php";
-require_once "./Services/Database/classes/class.ilDB.php";
+require_once "./Services/Database/classes/MDB2/class.ilDB.php";
 require_once "./setup/classes/class.ilSetupGUI.php";
 require_once "./setup/classes/class.Session.php";
 require_once "./setup/classes/class.ilClientList.php";

@@ -32,13 +32,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDKeyword extends ilMDBase
 {
-	function ilMDKeyword($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
 	// SET/GET
 	function setKeyword($a_keyword)
 	{
@@ -134,7 +127,7 @@ class ilMDKeyword extends ilMDBase
 				"WHERE meta_keyword_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
@@ -163,7 +156,7 @@ class ilMDKeyword extends ilMDBase
 
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
+	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
 		global $ilDB;
 
@@ -175,7 +168,7 @@ class ilMDKeyword extends ilMDBase
 			"ORDER BY meta_keyword_id ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->meta_keyword_id;
 		}
@@ -202,7 +195,7 @@ class ilMDKeyword extends ilMDBase
 			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
 			"AND obj_type = ".$ilDB->quote($a_type ,'text')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if($row->keyword)
 			{
@@ -267,7 +260,7 @@ class ilMDKeyword extends ilMDBase
 		}
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{			
 			$obj_ids[] = $row->obj_id;			
 		}
@@ -297,7 +290,7 @@ class ilMDKeyword extends ilMDBase
 		}
 						
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{			
 			$kws[] = $row->keyword;			
 		}
@@ -319,7 +312,7 @@ class ilMDKeyword extends ilMDBase
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id,'integer').' '.
 			"AND obj_id = ".$ilDB->quote($a_obj_id,'integer').' ';
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if(!$a_return_ids)
 			{

@@ -26,7 +26,7 @@ class ilExternalFeed
 	/**
 	* Constructor
 	*/
-	function ilExternalFeed()
+	function __construct()
 	{		
 		// IF YOU ADD THINGS HERE, THEY MAY ALSO BE ADDED TO
 		// SOME OF THE STATIC METHODS

@@ -726,7 +726,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$skill_ids = array();
 		
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
-		foreach(ilPortfolioTemplatePage::getAllPages($a_prtt_id) as $page)
+		foreach(ilPortfolioTemplatePage::getAllPortfolioPages($a_prtt_id) as $page)
 		{
 			switch($page["type"])
 			{
@@ -861,7 +861,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			if($form->checkInput())
 			{
 				include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
-				foreach(ilPortfolioTemplatePage::getAllPages($prtt_id) as $page)
+				foreach(ilPortfolioTemplatePage::getAllPortfolioPages($prtt_id) as $page)
 				{
 					switch($page["type"])
 					{												

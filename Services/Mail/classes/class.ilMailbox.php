@@ -122,7 +122,7 @@ class ilMailbox
 	public function getInboxFolder()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -146,7 +146,7 @@ class ilMailbox
 	public function getDraftsFolder()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -170,7 +170,7 @@ class ilMailbox
 	public function getTrashFolder()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -194,7 +194,7 @@ class ilMailbox
 	public function getSentFolder()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -530,7 +530,7 @@ class ilMailbox
 	public function delete()
 	{
 		/**
- 		 * @var $ilDB ilDB
+ 		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 		
@@ -577,7 +577,7 @@ class ilMailbox
 	public function updateMailsOfDeletedUser($nameToShow)
 	{
 		/**
- 		 * @var $ilDB ilDB
+ 		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 

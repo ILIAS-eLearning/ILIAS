@@ -18,7 +18,7 @@ class ilAssQuestionSkillAssignment
 
 
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db;
 
@@ -67,7 +67,7 @@ class ilAssQuestionSkillAssignment
 	 */
 	private $solutionComparisonExpressionList;
 	
-	public function __construct(ilDB $db)
+	public function __construct(ilDBInterface $db)
 	{
 		$this->db = $db;
 		

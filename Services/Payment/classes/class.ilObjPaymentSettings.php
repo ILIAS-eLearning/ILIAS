@@ -29,7 +29,7 @@ class ilObjPaymentSettings extends ilObject
 		#define("KEEP_IMAGE_PATH",1);
 
 		$this->type = "pays";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('payment');

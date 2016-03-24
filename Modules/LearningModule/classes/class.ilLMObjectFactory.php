@@ -36,9 +36,9 @@ require_once ("./Modules/LearningModule/classes/class.ilStructureObject.php");
 */
 class ilLMObjectFactory
 {
-	function getInstance(&$a_content_obj, $a_id = 0, $a_halt = true)
+	static function getInstance(&$a_content_obj, $a_id = 0, $a_halt = true)
 	{
-		global $ilias, $ilDB;
+		global $ilDB;
 
 		$query = "SELECT * FROM lm_data WHERE obj_id = ".
 			$ilDB->quote($a_id, "integer");
@@ -48,14 +48,14 @@ class ilLMObjectFactory
 		switch($obj_rec["type"])
 		{
 			case "st":
-				$obj =& new ilStructureObject($a_content_obj);
+				$obj = new ilStructureObject($a_content_obj);
 				$obj->setId($obj_rec["obj_id"]);
 				$obj->setDataRecord($obj_rec);
 				$obj->read();
 				break;
 
 			case "pg":
-				$obj =& new ilLMPageObject($a_content_obj, 0, $a_halt);
+				$obj = new ilLMPageObject($a_content_obj, 0, $a_halt);
 				$obj->setId($obj_rec["obj_id"]);
 				$obj->setDataRecord($obj_rec);
 				$obj->read();

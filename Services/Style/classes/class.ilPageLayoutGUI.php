@@ -58,7 +58,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 		

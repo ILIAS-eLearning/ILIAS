@@ -40,7 +40,7 @@ class ilHACPExplorer extends ilAICCExplorer
 	*/
 	function ilHACPExplorer($a_target, &$a_slm_obj)
 	{
-		parent::ilExplorer($a_target);
+		parent::__construct($a_target);
 		$this->slm_obj =& $a_slm_obj;
 		$this->tree = new ilAICCTree($a_slm_obj->getId());
 		$this->root_id = $this->tree->readRootId();
@@ -141,7 +141,7 @@ class ilHACPExplorer extends ilAICCExplorer
 						
 					} else {
 						include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");
-						$unit =& new ilAICCUnit($a_node_id);
+						$unit = new ilAICCUnit($a_node_id);
 						
 						//guess the url to be able to launch most contents
 						$url=$unit->getCommand_line();

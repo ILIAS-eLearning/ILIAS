@@ -297,7 +297,7 @@ class ilObjMailGUI extends ilObjectGUI
 		return true;
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
 		/**
 		 * @var $rbacsystem ilRbacSystem
@@ -339,15 +339,15 @@ class ilObjMailGUI extends ilObjectGUI
 		return true;
 	}
 	
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 	
 	/**
 	 * @param ilTabsGUI  $tabs_gui
 	*/
-	public function getTabs(ilTabsGUI $tabs_gui)
+	public function getTabs()
 	{
 		/**
 		 * @var $rbacsystem ilRbacSystem
@@ -356,18 +356,18 @@ class ilObjMailGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "view"), array("view", 'save', ""), "", "");
 		}
 
 		if($rbacsystem->checkAccess('write', $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('mail_templates', $this->ctrl->getLinkTargetByClass('ilmailtemplategui', 'showTemplates'), '', 'ilmailtemplategui');
+			$this->tabs_gui->addTarget('mail_templates', $this->ctrl->getLinkTargetByClass('ilmailtemplategui', 'showTemplates'), '', 'ilmailtemplategui');
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}

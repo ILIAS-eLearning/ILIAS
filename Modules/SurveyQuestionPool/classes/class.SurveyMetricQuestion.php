@@ -74,16 +74,10 @@ class SurveyMetricQuestion extends SurveyQuestion
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-	function SurveyMetricQuestion(
-		$title = "",
-		$description = "",
-		$author = "",
-		$questiontext = "",
-		$owner = -1,
-		$subtype = self::SUBTYPE_NON_RATIO
-	)
+	function __construct($title = "", $description = "", $author = "", $questiontext = "",	$owner = -1, $subtype = self::SUBTYPE_NON_RATIO)
 	{
-		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
+		parent::__construct($title, $description, $author, $questiontext, $owner);
+		
 		$this->subtype = $subtype;
 		$this->minimum = "";
 		$this->maximum = "";

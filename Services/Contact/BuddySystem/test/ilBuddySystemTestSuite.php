@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Database/classes/class.ilDB.php';
+require_once 'Services/Database/classes/MDB2/class.ilDB.php';
 require_once 'Services/User/classes/class.ilObjUser.php';
 require_once 'Services/EventHandling/classes/class.ilAppEventHandler.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';

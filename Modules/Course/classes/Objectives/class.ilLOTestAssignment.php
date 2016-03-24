@@ -163,7 +163,7 @@ class ilLOTestAssignment
 		$query = 'SELECT * FROM loc_tst_assignments '.
 				'WHERE assignment_id = '.$ilDB->quote($this->getAssignmentId(),'integer').' ';
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setContainerId($row->container_id);
 			$this->setObjectiveId($row->objective_id);

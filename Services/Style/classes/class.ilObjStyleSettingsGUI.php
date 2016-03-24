@@ -23,7 +23,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	/**
 	 * Constructor
 	 */
-	function ilObjStyleSettingsGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		global $lng,$ilCtrl;
 		
@@ -35,7 +35,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$this->peditor_active = true;
 		}
 					
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		
 		$lng->loadLanguageModule("style");
 	}
@@ -43,7 +43,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	/**
 	 * Execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -58,7 +58,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		{
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
@@ -67,9 +67,9 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 				$this->tpl->getStandardTemplate();
 				$this->ctrl->setReturn($this, "edit");
 				if ($this->pg_id!=null) {
-					$layout_gui =& new ilPageLayoutGUI($this->type,$this->pg_id);
+					$layout_gui = new ilPageLayoutGUI($this->type,$this->pg_id);
 				} else {
-					$layout_gui =& new ilPageLayoutGUI($this->type,$_GET["obj_id"]);	
+					$layout_gui = new ilPageLayoutGUI($this->type,$_GET["obj_id"]);
 				}				
 				$layout_gui->setTabs();
 				$layout_gui->setEditPreview(true);
@@ -873,9 +873,9 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		echo "settings_setTabs";
 	}
 	
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 		
 	/**
@@ -883,24 +883,24 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	* @access	public
 	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $lng, $ilTabs;
 		
 		if ($this->peditor_active) {
-			$tabs_gui->setBackTarget($this->lng->txt("page_layouts"),
+			$this->tabs_gui->setBackTarget($this->lng->txt("page_layouts"),
 			$this->ctrl->getLinkTarget($this, "viewPageLayouts"));
 		}
 			
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()) && !$this->peditor_active)
 		{			
-			$tabs_gui->addTarget("system_styles",
+			$this->tabs_gui->addTarget("system_styles",
 				$this->ctrl->getLinkTarget($this, "editSystemStyles"), array("editSystemStyles", "", "view"), "", "");
 				
-			$tabs_gui->addTarget("content_styles",
+			$this->tabs_gui->addTarget("content_styles",
 				$this->ctrl->getLinkTarget($this, "editContentStyles"), "editContentStyles", "", "");
 				
-			$tabs_gui->addTarget("page_layouts",
+			$this->tabs_gui->addTarget("page_layouts",
 				$this->ctrl->getLinkTarget($this, "viewPageLayouts"), "viewPageLayouts", "", "");
 				
 		}
@@ -908,7 +908,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()) && !$this->peditor_active)
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}

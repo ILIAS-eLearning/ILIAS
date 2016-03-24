@@ -39,7 +39,7 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 	*/
 	function ilObjCategoryListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**

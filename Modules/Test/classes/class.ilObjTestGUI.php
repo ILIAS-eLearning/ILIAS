@@ -74,14 +74,14 @@ class ilObjTestGUI extends ilObjectGUI
 	 * Constructor
 	 * @access public
 	 */
-	function ilObjTestGUI()
+	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $lng, $ilCtrl, $ilDB, $ilPluginAdmin, $tree;
 		$lng->loadLanguageModule("assessment");
 		$this->type = "tst";
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id"));
-		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
+		parent::__construct("",$_GET["ref_id"], true, false);
 
 		if( $this->object instanceof ilObjTest )
 		{
@@ -942,10 +942,13 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->setTitleAndDescription();
 
 		// BEGIN WebDAV: Display Mount Webfolder icon.
-		require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-		if (ilDAVServer::_isActive() && $ilUser->getId() != ANONYMOUS_USER_ID)
+		if ($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
-			$this->showMountWebfolderIcon();
+			require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+			if (ilDAVActivationChecker::_isActive())
+			{
+				$this->showMountWebfolderIcon();
+			}
 		}
 		// END WebDAV: Display Mount Webfolder icon.
 	}
@@ -1255,9 +1258,7 @@ class ilObjTestGUI extends ilObjectGUI
 		// put the questionpool object in the administration tree
 		$newObj->putInTree($_GET["ref_id"]);
 		// get default permissions and set the permissions for the questionpool object
-		$newObj->setPermissions($_GET["ref_id"]);
-		// notify the questionpool object and all its parent objects that a "new" object was created
-		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+		$newObj->setPermissions($_GET["ref_id"]);		
 		// empty mark schema
 		$newObj->mark_schema->flush();
 
@@ -1530,7 +1531,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function insertRandomSelectionObject()
 	{
-		$selected_array = split(",", $_POST["chosen_questions"]);
+		$selected_array = explode(",", $_POST["chosen_questions"]);
 		if (!count($selected_array))
 		{
 			ilUtil::sendInfo($this->lng->txt("tst_insert_missing_question"));
@@ -4172,9 +4173,9 @@ class ilObjTestGUI extends ilObjectGUI
 	*
 	* @param ilTabsGUI $tabs_gui
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
-		global $ilAccess, $ilUser, $ilHelp;
+		global $ilAccess, $ilHelp;
 
 		if (preg_match('/^ass(.*?)gui$/i', $this->ctrl->getNextClass($this))) {
 			return;
@@ -4233,7 +4234,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			require_once 'Services/Link/classes/class.ilLink.php';
 			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
-			$tabs_gui->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
+			$this->tabs_gui->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
 		}
 
 		switch($this->ctrl->getCmd())
@@ -4276,7 +4277,7 @@ class ilObjTestGUI extends ilObjectGUI
 				// #8497: resetfilter is also used in lp
 				if($this->ctrl->getNextClass($this) != "illearningprogressgui")
 				{
-					return $this->getBrowseForQuestionsTab($tabs_gui);
+					return $this->getBrowseForQuestionsTab($this->tabs_gui);
 				}				
 				break;
 			case "scoring":
@@ -4342,7 +4343,7 @@ class ilObjTestGUI extends ilObjectGUI
 						break;
 				}
 
-				$tabs_gui->addTarget("assQuestions",
+				$this->tabs_gui->addTarget("assQuestions",
 					 //$this->ctrl->getLinkTarget($this,'questions'),
 					 $target,
 					 array("questions", "browseForQuestions", "questionBrowser", "createQuestion", 
@@ -4359,7 +4360,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// info tab
 			if ($ilAccess->checkAccess("read", "", $this->ref_id) && !in_array('info_short', $hidden_tabs))
 			{
-				$tabs_gui->addTarget("info_short",
+				$this->tabs_gui->addTarget("info_short",
 					 $this->ctrl->getLinkTarget($this,'infoScreen'),
 					 array("infoScreen", "outIntroductionPage", "showSummary", 
 					 "setAnonymousId", "outUserListOfAnswerPasses", "redirectToInfoScreen"));
@@ -4390,7 +4391,7 @@ class ilObjTestGUI extends ilObjectGUI
 					
 					$settingsCommands[] = ""; // DO NOT KNOW WHAT THIS IS DOING, BUT IT'S REQUIRED
 					
-					$tabs_gui->addTarget("settings",
+					$this->tabs_gui->addTarget("settings",
 						$this->ctrl->getLinkTargetByClass('ilObjTestSettingsGeneralGUI'),
 						$settingsCommands,
 						array("ilmarkschemagui", "ilobjtestsettingsgeneralgui", "ilobjtestsettingsscoringresultsgui", "ilobjtestgui", "ilcertificategui")
@@ -4407,13 +4408,13 @@ class ilObjTestGUI extends ilObjectGUI
 						ilAssQuestionSkillAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
 					);
 
-					$tabs_gui->addTarget('tst_tab_competences', $link, array(), array());
+					$this->tabs_gui->addTarget('tst_tab_competences', $link, array(), array());
 				}
 
 				if (!in_array('participants', $hidden_tabs))
 				{
 					// participants
-					$tabs_gui->addTarget("participants",
+					$this->tabs_gui->addTarget("participants",
 						$this->ctrl->getLinkTarget($this,'participants'),
 						array(
 							"participants", "saveClientIP",
@@ -4434,7 +4435,7 @@ class ilObjTestGUI extends ilObjectGUI
 			include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 			if(ilLearningProgressAccess::checkAccess($this->object->getRefId()) && !in_array('learning_progress', $hidden_tabs))
 			{
-				$tabs_gui->addTarget('learning_progress',
+				$this->tabs_gui->addTarget('learning_progress',
 									 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
 									 '',
 									 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
@@ -4447,7 +4448,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if (count($scoring))
 				{
 					// scoring tab
-					$tabs_gui->addTarget(
+					$this->tabs_gui->addTarget(
 							"manscoring", $this->ctrl->getLinkTargetByClass('ilTestScoringGUI', 'showManScoringParticipantsTable'),
 							array(
 								'showManScoringParticipantsTable', 'applyManScoringParticipantsFilter', 'resetManScoringParticipantsFilter', 'showManScoringParticipantScreen',
@@ -4464,7 +4465,7 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($ilAccess->checkAccess("write", "", $this->ref_id) && $scoring_adjust_active && !in_array('scoringadjust', $hidden_tabs))
 			{
 				// scoring tab
-				$tabs_gui->addTarget(
+				$this->tabs_gui->addTarget(
 					"scoringadjust", $this->ctrl->getLinkTargetByClass('ilScoringAdjustmentGUI', 'showquestionlist'),
 					array(
 						'showquestionlist',
@@ -4477,7 +4478,7 @@ class ilObjTestGUI extends ilObjectGUI
 			if ((($ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) || ($ilAccess->checkAccess("write", "", $this->ref_id)))  && !in_array('statistics', $hidden_tabs))
 			{
 				// statistics tab
-				$tabs_gui->addTarget(
+				$this->tabs_gui->addTarget(
 					"statistics",
 					$this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outEvaluation"),
 					array(
@@ -4493,7 +4494,7 @@ class ilObjTestGUI extends ilObjectGUI
                              if (!in_array('history', $hidden_tabs)) {
 
 				// history
-				$tabs_gui->addTarget("history",
+				$this->tabs_gui->addTarget("history",
 					 $this->ctrl->getLinkTarget($this,'history'),
 					 "history", "");
                              }
@@ -4505,7 +4506,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$mdtab = $mdgui->getTab();
 					if($mdtab)
 					{
-						$tabs_gui->addTarget("meta_data",
+						$this->tabs_gui->addTarget("meta_data",
 							 $mdtab,
 							 "", "ilmdeditorgui");
 					}
@@ -4514,7 +4515,7 @@ class ilObjTestGUI extends ilObjectGUI
 				if(!in_array('export', $hidden_tabs))
 				{
 					// export tab
-					$tabs_gui->addTarget(
+					$this->tabs_gui->addTarget(
 						"export",
 						 $this->ctrl->getLinkTargetByClass('iltestexportgui' ,''),
 						 '',
@@ -4525,7 +4526,7 @@ class ilObjTestGUI extends ilObjectGUI
 			
 			if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id)&& !in_array('permissions', $hidden_tabs))
 			{
-				$tabs_gui->addTarget("perm_settings",
+				$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 			}
 		}
@@ -4536,7 +4537,7 @@ class ilObjTestGUI extends ilObjectGUI
 			
 			foreach($hideTabs as $tabId)
 			{
-				$tabs_gui->removeTab($tabId);
+				$this->tabs_gui->removeTab($tabId);
 			}
 		}
 	}

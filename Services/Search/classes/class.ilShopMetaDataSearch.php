@@ -134,7 +134,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 			$values
 		);
 
-		while($row = $statement->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $statement->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->ref_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
@@ -171,7 +171,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 			$values
 		);
 
-		while($row = $statement->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $statement->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->ref_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
@@ -208,7 +208,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 			$values
 		);
 		
-		while($row = $statement->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $statement->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->ref_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
@@ -245,7 +245,7 @@ class ilShopMetaDataSearch extends ilAbstractSearch
 			$values
 		);
 		
-		while($row = $statement->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $statement->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->ref_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}

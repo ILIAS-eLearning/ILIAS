@@ -19,16 +19,6 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	var $link_data = array();
 
 	/**
-	* constructor
-	*
-	*/
-	function ilObjLinkResourceListGUI()
-	{
-		$this->ilObjectListGUI();
-
-	}
-
-	/**
 	* overwritten from base class
 	*/
 	function getTitle()

@@ -138,7 +138,7 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 	/**
 	* Insert property html
 	*/
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		global $lng;
 		

@@ -20,7 +20,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	*/
 	function ilObjSAHSLearningModuleListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**

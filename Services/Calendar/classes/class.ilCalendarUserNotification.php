@@ -189,7 +189,7 @@ class ilCalendarUserNotification
 		$res = $ilDB->query($query);
 
 		$this->rcps = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->addRecipient(
 				$row->user_type,

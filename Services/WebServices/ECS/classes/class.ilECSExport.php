@@ -88,7 +88,7 @@ class ilECSExport
 		$query = 'SELECT * FROM ecs_export '.
 			'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return true;
 		}
@@ -111,7 +111,7 @@ class ilECSExport
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$econtent_ids[$row->econtent_id] = $row->obj_id;
 		}
@@ -128,7 +128,7 @@ class ilECSExport
 		global $ilDB;
 		$query = "SELECT obj_id FROM ecs_export ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$obj_ids[] = $row->obj_id;
 		}
@@ -147,7 +147,7 @@ class ilECSExport
 			" JOIN object_data o ON (e.obj_id = o.obj_id)".
 			" WHERE o.type = ".$ilDB->quote($a_type, "text");
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$obj_ids[] = $row->obj_id;
 		}
@@ -169,7 +169,7 @@ class ilECSExport
 		$res = $ilDB->query($query);
 
 		$sids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$sids[] = $row->server_id;
 		}
@@ -189,7 +189,7 @@ class ilECSExport
 		$query = "SELECT obj_id FROM ecs_export ".
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$obj_ids[] = $row->obj_id;
 		}
@@ -210,7 +210,7 @@ class ilECSExport
 			'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer').' ';
 		$res = $ilDB->query($query);
 		$sids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{			
 			$sids[] = $row->server_id;			
 		}
@@ -270,7 +270,7 @@ class ilECSExport
 			"WHERE econtent_id = ".$ilDB->quote($a_econtent_id,'integer')." ".
 			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return false;
 		}
@@ -364,7 +364,7 @@ class ilECSExport
 	 		"obj_id = ".$this->db->quote($this->obj_id,'integer')." AND ".
 			'server_id = '.$ilDB->quote($this->getServerId(),'integer');
 	 	$res = $this->db->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		$this->econtent_id = $row->econtent_id;
 	 		$this->exported = true;

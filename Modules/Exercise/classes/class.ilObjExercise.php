@@ -47,11 +47,11 @@ class ilObjExercise extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjExercise($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->setPassMode("all");
 		$this->type = "exc";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	// SET, GET METHODS
@@ -163,13 +163,6 @@ class ilObjExercise extends ilObject
 	{
 		global $ilDB;
 		
-		// SAVE ONLY EXERCISE SPECIFIC DATA
-		/*$query = "INSERT INTO exc_data SET ".
-			"obj_id = ".$ilDB->quote($this->getId()).", ".
-			"instruction = ".$ilDB->quote($this->getInstruction()).", ".
-			"time_stamp = ".$ilDB->quote($this->getTimestamp());
-		$this->ilias->db->query($query);*/
-
 		$ilDB->insert("exc_data", array(
 			"obj_id" => array("integer", $this->getId()),
 			"instruction" => array("clob", $this->getInstruction()),
@@ -246,11 +239,6 @@ class ilObjExercise extends ilObject
 		$ilDB->manipulate("DELETE FROM exc_data ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId(), "integer"));
 
-		//$this->ilias->db->query($query);
-
-		//$this->file_obj->delete();
-		//$this->members_obj->delete();
-		
 		include_once "Modules/Exercise/classes/class.ilExcCriteriaCatalogue.php";
 		ilExcCriteriaCatalogue::deleteByParent($this->getId());
 
@@ -263,23 +251,6 @@ class ilObjExercise extends ilObject
 			array('obj_id'=>$this->getId()));		
 
 		return true;
-	}
-
-	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	*
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional paramters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_node_id,$a_params = 0)
-	{
-		// object specific event handling
-
-		parent::notify($a_event,$a_ref_id,$a_node_id,$a_params);
 	}
 
 	function read()
@@ -320,12 +291,6 @@ class ilObjExercise extends ilObject
 
 		parent::update();
 
-		/*$query = "UPDATE exc_data SET ".
-			"instruction = ".$ilDB->quote($this->getInstruction()).", ".
-			"time_stamp = ".$ilDB->quote($this->getTimestamp())." ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId());
-		*/
-		
 		if ($this->getPassMode() == "all")
 		{
 			$pass_nr = null;
@@ -348,9 +313,6 @@ class ilObjExercise extends ilObject
 
 		$this->updateAllUsersStatus();
 		
-		//$res = $this->ilias->db->query($query);
-
-		#$this->members_obj->update();
 		return true;
 	}
 

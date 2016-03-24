@@ -453,7 +453,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 	*
 	* @return	int	Size
 	*/
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		$html = $this->render();
 

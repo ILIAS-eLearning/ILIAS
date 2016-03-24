@@ -74,7 +74,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
 	{
 		// delete pages
 		include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";
-		$pages = ilPortfolioPage::getAllPages($this->id);
+		$pages = ilPortfolioPage::getAllPortfolioPages($this->id);
 		foreach($pages as $page)
 		{
 			$page_obj = new ilPortfolioPage($page["id"]);

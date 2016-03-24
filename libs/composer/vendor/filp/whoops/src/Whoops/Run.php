@@ -327,7 +327,7 @@ final class Run
                     return true;
                 }
             }
-
+			
             // XXX we pass $level for the "code" param only for BC reasons.
             // see https://github.com/filp/whoops/issues/267
             $exception = new ErrorException($message, /*code*/ $level, /*severity*/ $level, $file, $line);

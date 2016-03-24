@@ -19,7 +19,7 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
 	*/
 	function __construct()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**

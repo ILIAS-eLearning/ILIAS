@@ -144,7 +144,7 @@ class ilPortfolioHTMLExport
 		global $tpl, $ilBench, $ilLocator;
 
 		require_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";
-		$pages = ilPortfolioPage::getAllPages($this->object->getId());
+		$pages = ilPortfolioPage::getAllPortfolioPages($this->object->getId());
 			
 		$this->tabs = array();
 		foreach($pages as $page)

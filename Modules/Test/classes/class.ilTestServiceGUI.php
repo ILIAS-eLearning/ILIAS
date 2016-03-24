@@ -31,7 +31,7 @@ class ilTestServiceGUI
 	public $service = null;
 
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
@@ -105,7 +105,7 @@ class ilTestServiceGUI
 	 * @param object $a_object Associated ilObjTest class
 	 * @access public
 	 */
-	function ilTestServiceGUI(ilObjTest $a_object)
+	public function __construct(ilObjTest $a_object)
 	{
 		global $lng, $tpl, $ilCtrl, $ilias, $tree, $ilDB, $ilPluginAdmin, $ilTabs, $ilObjDataCache;
 
@@ -259,7 +259,7 @@ class ilTestServiceGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);

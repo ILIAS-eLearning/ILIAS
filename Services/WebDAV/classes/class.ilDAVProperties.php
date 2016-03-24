@@ -113,7 +113,7 @@ class ilDAVProperties
 				.' AND name = '.$ilDB->quote($name,'text')
 				;       
 		$r = $ilDB->query($q);
-		if ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$value = $row['value'];
 		} else {
@@ -142,7 +142,7 @@ class ilDAVProperties
 				;       
 		$r = $ilDB->query($q);
 		$result = array();
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$result[] = array(
 				'namespace' => $row['ns'],
@@ -191,7 +191,7 @@ class ilDAVProperties
 /*				.' FOR UPDATE' */
 		$r = $ilDB->query($q);
 		$result = array();
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$q2 = 'INSERT INTO '.$this->table
 				.' (obj_id, node_id, ns, name, value)'

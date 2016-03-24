@@ -29,7 +29,7 @@ class ilNoteGUI
 	* @param	$a_obj_type		string	"pd" for personal desktop
 	* @param	$a_include_subobjects	string		include all subobjects of rep object (e.g. pages)
 	*/
-	function ilNoteGUI($a_rep_obj_id = "", $a_obj_id = "", $a_obj_type = "", $a_include_subobjects = false)
+	function __construct($a_rep_obj_id = "", $a_obj_id = "", $a_obj_type = "", $a_include_subobjects = false)
 	{
 		global $ilCtrl, $lng;
 
@@ -51,8 +51,8 @@ class ilNoteGUI
 		
 		$this->ajax = $ilCtrl->isAsynch();
 		
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
 		
 		$this->anchor_jump = true;
 		$this->add_note_form = false;
@@ -119,7 +119,7 @@ class ilNoteGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd("getNotesHTML");
 		$next_class = $this->ctrl->getNextClass($this);
@@ -1601,7 +1601,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	/**
 	 * Init javascript
 	 */
-	function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE)
+	static function initJavascript($a_ajax_url, $a_type = IL_NOTE_PRIVATE)
 	{
 		global $tpl, $lng;
 
@@ -1628,7 +1628,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	 * @param string $a_update_code
 	 * @return string 
 	 */
-	function getListNotesJSCall($a_hash, $a_update_code = null)
+	static function getListNotesJSCall($a_hash, $a_update_code = null)
 	{
 		if ($a_update_code === null)
 		{
@@ -1649,7 +1649,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 	 * @param string $a_update_code
 	 * @return string 
 	 */
-	function getListCommentsJSCall($a_hash, $a_update_code = null)
+	static function getListCommentsJSCall($a_hash, $a_update_code = null)
 	{
 		if ($a_update_code === null)
 		{

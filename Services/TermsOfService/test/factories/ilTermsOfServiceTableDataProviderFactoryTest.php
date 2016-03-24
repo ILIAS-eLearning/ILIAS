@@ -19,10 +19,6 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends PHPUnit_Framework_Tes
 	 */
 	public function setUp()
 	{
-		if(!defined('MDB2_AUTOQUERY_INSERT'))
-		{
-			define('MDB2_AUTOQUERY_INSERT', 1);
-		}
 		if(!defined('CLIENT_ID'))
 		{
 			define('CLIENT_ID', 'phpunit');
@@ -111,7 +107,7 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends PHPUnit_Framework_Tes
 	 */
 	public function testFactoryShouldReturnAcceptanceHistoryProviderWhenRequested(ilTermsOfServiceTableDataProviderFactory $factory)
 	{
-		$factory->setDatabaseAdapter($this->getMockBuilder('ilDB')->disableOriginalConstructor()->getMock());
+		$factory->setDatabaseAdapter($this->getMockBuilder('ilDBInterface')->getMock());
 		$this->assertInstanceOf('ilTermsOfServiceAcceptanceHistoryProvider', $factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY));
 	}
 }

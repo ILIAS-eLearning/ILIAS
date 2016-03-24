@@ -27,20 +27,20 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*
 	* @access	public
 	*/
-	function ilObjContentObjectGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = false)
+	function __construct($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = false)
 	{
 		global $lng, $ilCtrl;
 //echo "<br>ilobjcontobjgui-constructor-id-$a_id";
 		$this->ctrl =& $ilCtrl;
 		$lng->loadLanguageModule("content");
 		$lng->loadLanguageModule("obj");
-		parent::ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 	}
 
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess, $lng, $ilTabs, $ilCtrl, $ilErr;
 		
@@ -79,7 +79,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$this->setTabs("learning_progress");
 
-				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,$this->object->getRefId());			
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,$this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
 
 				break;
@@ -105,7 +105,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$this->addLocations();
 				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "editStyleProperties");
-				$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
+				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
 				if ($cmd == "create" || $_GET["new_type"]=="sty")
 				{
@@ -133,7 +133,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 //echo "!";
 				//$this->lm_obj =& $this->ilias->obj_factory->getInstanceByRefId($this->ref_id);
 
-				$pg_gui =& new ilLMPageObjectGUI($this->object);
+				$pg_gui = new ilLMPageObjectGUI($this->object);
 				if ($_GET["obj_id"] != "")
 				{
 					$obj =& ilLMObjectFactory::getInstance($this->object, $_GET["obj_id"]);
@@ -154,7 +154,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$this->ctrl->saveParameter($this, array("obj_id"));
 				$this->addLocations();
 				$this->ctrl->setReturn($this, "chapters");
-				$st_gui =& new ilStructureObjectGUI($this->object, $this->object->lm_tree);
+				$st_gui = new ilStructureObjectGUI($this->object, $this->object->lm_tree);
 				if ($_GET["obj_id"] != "")
 				{
 					$obj =& ilLMObjectFactory::getInstance($this->object, $_GET["obj_id"]);
@@ -188,7 +188,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 					$this->setTabs("perm");
 				}
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
@@ -363,7 +363,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		return $ret;
 	}
 
-	function _forwards()
+	static function _forwards()
 	{
 		return array("ilLMPageObjectGUI", "ilStructureObjectGUI","ilObjStyleSheetGUI");
 	}
@@ -959,7 +959,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
 		// get learning module object
-		//$this->lm_obj =& new ilObjLearningModule($this->ref_id, true);
+		//$this->lm_obj = new ilObjLearningModule($this->ref_id, true);
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
@@ -1072,9 +1072,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	}*/
 
 	protected function afterSave(ilObject $a_new_object)
-	{
-		$a_new_object->notify("new", $_GET["ref_id"], $_GET["parent_non_rbac_id"],
-			$_GET["ref_id"], $a_new_object->getRefId());
+	{		
 		$a_new_object->setCleanFrames(true);
 		$a_new_object->update();
 
@@ -1093,7 +1091,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	/**
 	* Init import form.
 	*/
-	public function initImportForm()
+	public function initImportForm($a_new_type)
 	{
 		global $lng, $ilCtrl;
 	
@@ -1134,7 +1132,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	function addBibItemObject($a_target = "")
 	{
 		include_once "./Modules/LearningModule/classes/class.ilBibItemGUI.php";
-		$bib_gui =& new ilBibItemGUI();
+		$bib_gui = new ilBibItemGUI();
 		$bib_gui->setObject($this->object);
 		$bibItemName = $_POST["bibItemName"] ? $_POST["bibItemName"] : $_GET["bibItemName"];
 		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
@@ -1178,7 +1176,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	function deleteBibItemObject($a_target = "")
 	{
 		include_once "./Modules/LearningModule/classes/class.ilBibItemGUI.php";
-		$bib_gui =& new ilBibItemGUI();
+		$bib_gui = new ilBibItemGUI();
 		$bib_gui->setObject($this->object);
 		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
 		$bib_gui->bib_obj->delete($_GET["bibItemName"], $_GET["bibItemPath"], $bibItemIndex);
@@ -1214,7 +1212,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	function editBibItemObject($a_target = "")
 	{
 		include_once "./Modules/LearningModule/classes/class.ilBibItemGUI.php";
-		$bib_gui =& new ilBibItemGUI();
+		$bib_gui = new ilBibItemGUI();
 		$bib_gui->setObject($this->object);
 		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
 		$bibItemIndex *= 1;
@@ -1249,7 +1247,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	function saveBibItemObject($a_target = "")
 	{
 		include_once "./Modules/LearningModule/classes/class.ilBibItemGUI.php";
-		$bib_gui =& new ilBibItemGUI();
+		$bib_gui = new ilBibItemGUI();
 		$bib_gui->setObject($this->object);
 		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
 		$bibItemIndex *= 1;
@@ -1308,7 +1306,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*
 	* @access	public
 	*/
-	function importFileObject()
+	function importFileObject($parent_id = NULL, $a_catch_errors = true)
 	{
 		global $_FILES, $rbacsystem, $ilDB, $tpl;
 
@@ -1352,8 +1350,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
 			$newObj->setPermissions($_GET["ref_id"]);
-			$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-	
+			
 			// create learning module tree
 			$newObj->createLMTree();
 
@@ -2962,7 +2959,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->setContentSubTabs("history");
 
 		require_once("./Services/History/classes/class.ilHistoryTableGUI.php");
-		$hist_gui =& new ilHistoryTableGUI($this,"history",
+		$hist_gui = new ilHistoryTableGUI($this,"history",
 			$this->object->getId() ,$this->object->getType());
 		$hist_gui->initTable();
 		$hist_gui->setCommentVisibility($this->object->isActiveHistoryUserComments());
@@ -3044,7 +3041,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
 
-		$link_check_notify =& new ilLinkCheckNotify($ilDB);
+		$link_check_notify = new ilLinkCheckNotify($ilDB);
 		$link_check_notify->setUserId($ilUser->getId());
 		$link_check_notify->setObjId($this->object->getId());
 
@@ -3091,7 +3088,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		include_once './Services/LinkChecker/classes/class.ilLinkChecker.php';
 
-		$this->link_checker_obj =& new ilLinkChecker($ilDB,false);
+		$this->link_checker_obj = new ilLinkChecker($ilDB,false);
 		$this->link_checker_obj->setObjId($this->object->getId());
 
 		return true;
@@ -3101,7 +3098,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	{
 		include_once './Modules/LearningModule/classes/class.ilLMMenuEditor.php';
 
-		$this->lmme_obj =& new ilLMMenuEditor();
+		$this->lmme_obj = new ilLMMenuEditor();
 		$this->lmme_obj->setObjId($this->object->getId());
 
 		return true;

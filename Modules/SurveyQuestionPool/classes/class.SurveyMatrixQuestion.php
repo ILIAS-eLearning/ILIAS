@@ -155,15 +155,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-	function SurveyMatrixQuestion(
-		$title = "",
-		$description = "",
-		$author = "",
-		$questiontext = "",
-		$owner = -1
-	)
+	function __construct($title = "", $description = "", $author = "", $questiontext = "", $owner = -1)
 	{
-		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
+		parent::__construct($title, $description, $author, $questiontext, $owner);
+		
 		$this->subtype = 0;
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
 		$this->columns = new SurveyCategories();

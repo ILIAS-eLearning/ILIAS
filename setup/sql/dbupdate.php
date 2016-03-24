@@ -202,7 +202,7 @@ $res = $this->db->query($q);
 
 $grp_data = array();
 
-while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$grp_data[] = $row;
 }
@@ -232,7 +232,7 @@ $grp_data = array();
 $q = "SELECT * FROM grp_tree";
 $res = $this->db->query($q);
 
-while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$grp_data[] = $row;
 }
@@ -246,7 +246,7 @@ if (count($grp_data) > 0)
 	{
 		$q = "SELECT ref_id FROM object_reference WHERE obj_id='".$entry["parent"]."'";
 		$res = $this->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC); 
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		$entry["parent"] = $row["ref_id"];
 
 		$q = "INSERT INTO grp_tree (tree,child,parent,lft,rgt,depth,perm,ref_id) VALUES ".
@@ -600,12 +600,12 @@ foreach($ops_ids as $id)
 //GET ID OF THE IL_GRP_MEMBER TEMPLATE
 $query1 = "SELECT obj_id FROM object_data WHERE title = 'il_grp_member' ";
 $res = $this->db->query($query1);
-$tpl = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$tpl = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 //GET PROPER PARENT_ID
 $query2 = "SELECT parent FROM rbac_templates WHERE rol_id = ".$tpl["obj_id"];
 $res = $this->db->query($query2);
-$rol_fold = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$rol_fold = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 
 //DELETE RIGHTS FOR COURSE OBJECT FROM THE TEMPLATE
@@ -651,12 +651,12 @@ $this->db->query($query14);
 //GET ID OF THE IL_GRP_ADMIN TEMPLATE
 $query1 = "SELECT obj_id FROM object_data WHERE title = 'il_grp_admin' ";
 $res = $this->db->query($query1);
-$tpl = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$tpl = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 //GET PROPER PARENT_ID
 $query2 = "SELECT parent FROM rbac_templates WHERE rol_id = ".$tpl["obj_id"];
 $res = $this->db->query($query2);
-$rol_fold = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$rol_fold = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 //CHANGE RIGHTS OF THE GROUP OBJECT IN THE TEMPLATE
 $query3 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','grp','5','".$rol_fold["parent"]."')";
@@ -1009,7 +1009,7 @@ UPDATE usr_pref SET value='blueshadow' WHERE keyword='style';
 $q = "SELECT * FROM page_object WHERE content LIKE '%flit%'";
 $page_set = $this->db->query($q);
 
-while ($page_rec = $page_set->fetchRow(DB_FETCHMODE_ASSOC))
+while ($page_rec = $page_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$content = $page_rec["content"];
 
@@ -2115,8 +2115,8 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 }
 
 $rbacsystem = ilRbacSystem::getInstance();
-$rbacadmin =& new ilRbacAdmin();
-$rbacreview =& new ilRbacReview();
+$rbacadmin = new ilRbacAdmin();
+$rbacreview = new ilRbacReview();
 
 foreach($role_ids as $id)
 {
@@ -2184,7 +2184,7 @@ $this->db->query($query);
 // add create media pool operation to categories
 $query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='cat'";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 $typ_id = $row["obj_id"];
 
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','31')";
@@ -2252,7 +2252,7 @@ $this->db->query($query);
 // add create html lm operation to categories
 $query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='cat'";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 $typ_id = $row["obj_id"];
 
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','32')";
@@ -2282,7 +2282,7 @@ CREATE TABLE file_based_lm
 // build file_based_lm entries for each html learning module
 $query = "SELECT * FROM object_data WHERE type='htlm'";
 $res = $this->db->query($query);
-while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$obj_id = $row["obj_id"];
 	$query = "INSERT INTO file_based_lm (id, online) VALUES ('".
@@ -2687,7 +2687,7 @@ ALTER TABLE content_object ADD COLUMN toc_mode ENUM('chapters','pages') DEFAULT 
 // add create media pool operation to categories
 $query = "SELECT obj_id FROM object_data WHERE type='adm'";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 $adm_id = $row["obj_id"];
 
 $query = "INSERT INTO object_translation (obj_id, title, description, ".
@@ -2822,7 +2822,7 @@ CREATE TABLE glossary
 $query = "SELECT obj_id FROM object_data WHERE type='glo'";
 $gl_set = $this->db->query($query);
 
-while ($gl_rec = $gl_set->fetchRow(DB_FETCHMODE_ASSOC))
+while ($gl_rec = $gl_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$query = "INSERT INTO glossary (id, online) VALUES ('".$gl_rec["obj_id"]."','y')";
 	$this->db->query($query);
@@ -2845,7 +2845,7 @@ CREATE TABLE scorm_tracking2
 // add create media pool, exercise, htlm and digilib operation to groups
 $query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='grp'";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 $typ_id = $row["obj_id"];
 
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','32')";
@@ -2858,7 +2858,7 @@ $this->db->query($query);
 // add create media pool, exercise, htlm and digilib operation to groups
 $query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='grp'";
 $res = $this->db->query($query);
-$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 $typ_id = $row["obj_id"];
 
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','23')";
@@ -2875,12 +2875,12 @@ $this->db->query($query);
 //GET ID OF THE IL_GRP_ADMIN TEMPLATE
 $query1 = "SELECT obj_id FROM object_data WHERE title = 'il_grp_admin' ";
 $res = $this->db->query($query1);
-$tpl = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$tpl = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 //GET PROPER PARENT_ID
 $query2 = "SELECT parent FROM rbac_templates WHERE rol_id = ".$tpl["obj_id"];
 $res = $this->db->query($query2);
-$rol_fold = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$rol_fold = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 $perms = array(		array("type" => "dbk", "ops_id" => 1),
 					array("type" => "dbk", "ops_id" => 2),
@@ -2902,12 +2902,12 @@ foreach($perms as $perm)
 //GET ID OF THE IL_GRP_ADMIN TEMPLATE
 $query1 = "SELECT obj_id FROM object_data WHERE title = 'il_grp_admin' ";
 $res = $this->db->query($query1);
-$tpl = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$tpl = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 //GET PROPER PARENT_ID
 $query2 = "SELECT parent FROM rbac_templates WHERE rol_id = ".$tpl["obj_id"];
 $res = $this->db->query($query2);
-$rol_fold = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$rol_fold = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 $perms = array(		array("type" => "exc", "ops_id" => 1),
 					array("type" => "exc", "ops_id" => 2),
@@ -3544,7 +3544,7 @@ ALTER TABLE content_object ADD COLUMN clean_frames ENUM('y','n') NOT NULL DEFAUL
 $q = "SELECT usr_id FROM usr_data";
 $user_set = $this->db->query($q);
 
-while ($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
+while ($user_rec = $user_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$q = "REPLACE INTO usr_pref (usr_id, keyword, value) VALUES ".
 		" ('".$user_rec["usr_id"]."','show_users_online','y')";
@@ -3717,7 +3717,7 @@ $result = $this->db->query($query);
 $visible_id = "";
 if ($result->numRows() == 1)
 {
-	$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+	$row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 	$visible_id = $row["ops_id"];
 }
 
@@ -3727,7 +3727,7 @@ $result = $this->db->query($query);
 $participate_id = "";
 if ($result->numRows() == 1)
 {
-	$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+	$row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 	$participate_id = $row["ops_id"];
 }
 
@@ -3737,7 +3737,7 @@ $result = $this->db->query($query);
 $user_id = "";
 if ($result->numRows() == 1)
 {
-	$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+	$row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 	$user_id = $row["obj_id"];
 }
 
@@ -3747,7 +3747,7 @@ $result = $this->db->query($query);
 $guest_id = "";
 if ($result->numRows() == 1)
 {
-	$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+	$row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 	$guest_id = $row["obj_id"];
 }
 
@@ -3950,7 +3950,7 @@ $admin["exc"] = array(1,2,3,4,6);
 $admin["fold"] = array(1,2,3,4,6,18,20,21,22,25,26,29);
 $admin["crs"] = array(1,2,3,4,6,7,8,17,18,20,21,22,23,24,25,26,27,29,31,32);
 
-$rbacadmin =& new ilRbacAdmin();
+$rbacadmin = new ilRbacAdmin();
 
 foreach($admin as $type => $ops)
 {
@@ -3984,7 +3984,7 @@ $admin["exc"] = array(2,3,4);
 $admin["fold"] = array(2,3,4);
 $admin["crs"] = array(2,3,4,7,8);
 
-$rbacadmin =& new ilRbacAdmin();
+$rbacadmin = new ilRbacAdmin();
 
 foreach($admin as $type => $ops)
 {
@@ -4018,7 +4018,7 @@ $admin["exc"] = array(2,3);
 $admin["fold"] = array(2,3);
 $admin["crs"] = array(2,3,7,8);
 
-$rbacadmin =& new ilRbacAdmin();
+$rbacadmin = new ilRbacAdmin();
 
 foreach($admin as $type => $ops)
 {
@@ -4106,7 +4106,7 @@ ALTER  TABLE  `qpl_questions`  CHANGE  `ref_fi`  `obj_fi` INT( 10  ) UNSIGNED DE
 // convert tst_tests reference id's to object id's
 $query = "SELECT object_reference.obj_id, tst_tests.obj_fi, tst_tests.test_id FROM object_reference, tst_tests WHERE tst_tests.obj_fi = object_reference.ref_id";
 $result = $this->db->query($query);
-while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$query = sprintf("UPDATE `tst_tests` SET `obj_fi` = %s WHERE `test_id` = %s",
 		$this->db->quote($row["obj_id"]),
@@ -4118,7 +4118,7 @@ while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 // convert qpl_questions reference id's to object id's
 $query = "SELECT object_reference.obj_id, qpl_questions.obj_fi, qpl_questions.question_id FROM object_reference, qpl_questions WHERE qpl_questions.obj_fi = object_reference.ref_id";
 $result = $this->db->query($query);
-while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$query = sprintf("UPDATE `qpl_questions` SET `obj_fi` = %s WHERE `question_id` = %s",
 		$this->db->quote($row["obj_id"]),
@@ -4143,7 +4143,7 @@ while (false !== ($f = readdir($d))) {
 		$result = $this->db->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
     	rename(CLIENT_WEB_DIR . "/assessment/$f", CLIENT_WEB_DIR . "/assessment/" . $row["obj_id"]);
 		}
 	}
@@ -4444,7 +4444,7 @@ ALTER  TABLE  `survey_question`  CHANGE  `ref_fi`  `obj_fi` INT( 11  ) UNSIGNED 
 // convert tst_tests reference id's to object id's
 $query = "SELECT object_reference.obj_id, survey_survey.obj_fi, survey_survey.survey_id FROM object_reference, survey_survey WHERE survey_survey.obj_fi = object_reference.ref_id";
 $result = $this->db->query($query);
-while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$query = sprintf("UPDATE `survey_survey` SET `obj_fi` = %s WHERE `survey_id` = %s",
 		$this->db->quote($row["obj_id"]),
@@ -4456,7 +4456,7 @@ while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 // convert qpl_questions reference id's to object id's
 $query = "SELECT object_reference.obj_id, survey_question.obj_fi, survey_question.question_id FROM object_reference, survey_question WHERE survey_question.obj_fi = object_reference.ref_id";
 $result = $this->db->query($query);
-while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$query = sprintf("UPDATE `survey_question` SET `obj_fi` = %s WHERE `question_id` = %s",
 		$this->db->quote($row["obj_id"]),
@@ -4521,7 +4521,7 @@ ALTER TABLE sahs_lm ADD COLUMN type ENUM('scorm','aicc','hacp') DEFAULT 'scorm';
 
 $query = "SELECT * FROM object_data where type = 'slm' or type = 'alm' or type = 'hlm'";
 $result = $this->db->query($query);
-while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	switch($row["type"])
 	{
@@ -4920,7 +4920,7 @@ $query = "SELECT * FROM qpl_questions WHERE solution_hint > 0";
 $res = $this->db->query($query);
 if ($res->numRows())
 {
-	while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		$qinsert = sprintf("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, internal_link, import_id, subquestion_index, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
 			$this->db->quote($row["question_id"] . ""),
@@ -4957,7 +4957,7 @@ $query = "SELECT * FROM survey_questionblock, survey_questionblock_question WHER
 $res = $this->db->query($query);
 if ($res->numRows())
 {
-	while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		$qinsert = sprintf("INSERT INTO survey_question_obligatory (question_obligatory_id, survey_fi, question_fi, obligatory, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
 			$this->db->quote($row["survey_fi"] . ""),
@@ -5385,7 +5385,7 @@ ALTER TABLE `survey_question` CHANGE `maxchars` `maxchars` INT( 11 );
 // fix misassigned pages (cut in lm x - pasted in lm y)
 $q = "SELECT * FROM lm_tree WHERE child > 1";
 $tree_set = $this->db->query($q);
-while($tree_rec = $tree_set->fetchRow(DB_FETCHMODE_ASSOC))
+while($tree_rec = $tree_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$q2 = "UPDATE page_object SET parent_id='".$tree_rec["lm_id"]."' WHERE page_id='".$tree_rec["child"]."' AND parent_type='lm'";
 	$this->db->query($q2);
@@ -6416,7 +6416,7 @@ foreach($webr_ids as $id => $data)
 	$query = "SELECT * FROM qpl_questions";
 	$result = $ilDB->query($query);
 	$maxidx = $result->numRows() + 1;
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		$maxidx--;
 		$log->write("processing question $maxidx");
@@ -6425,7 +6425,7 @@ foreach($webr_ids as $id => $data)
 		);
 		$result_answer = $ilDB->query($query_answer);
 		$answers = array();
-		while ($row_answer = $result_answer->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row_answer = $result_answer->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			array_push($answers, $row_answer);
 		}
@@ -6531,14 +6531,14 @@ foreach($webr_ids as $id => $data)
 	$idx = 1;
 	$query = "SELECT question_id, question_type_fi FROM qpl_questions";
 	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		$queryanswers = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
 			$ilDB->quote($row["question_id"] . "")
 		);
 		$resultanswers = $ilDB->query($queryanswers);
 		$answers = array();
-		while ($rowanswer = $resultanswers->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rowanswer = $resultanswers->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			array_push($answers, $rowanswer);
 		}
@@ -6547,7 +6547,7 @@ foreach($webr_ids as $id => $data)
 		);
 		$resulttests = $ilDB->query($querytests);
 		$tests = array();
-		while ($rowtest = $resulttests->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rowtest = $resulttests->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			array_push($tests, $rowtest["test_fi"]);
 		}
@@ -6559,7 +6559,7 @@ foreach($webr_ids as $id => $data)
 			);
 			$resultusers = $ilDB->query($queryusers);
 			$users = array();
-			while ($rowuser = $resultusers->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($rowuser = $resultusers->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 			{
 				array_push($users, $rowuser["user_fi"]);
 			}
@@ -6578,7 +6578,7 @@ foreach($webr_ids as $id => $data)
 					case 2:
 						// multiple choice questions
 						$found_values = array();
-						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 						{
 							if (strcmp($data["value1"], "") != 0)
 							{
@@ -6613,7 +6613,7 @@ foreach($webr_ids as $id => $data)
 						$found_value1 = array();
 						$found_value2 = array();
 						$user_result = array();
-						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 						{
 							if (strcmp($data["value2"], "") != 0)
 							{
@@ -6668,7 +6668,7 @@ foreach($webr_ids as $id => $data)
 						// matching questions
 						$found_value1 = array();
 						$found_value2 = array();
-						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 						{
 							if (strcmp($data["value1"], "") != 0)
 							{
@@ -6694,7 +6694,7 @@ foreach($webr_ids as $id => $data)
 						$found_value1 = array();
 						$found_value2 = array();
 						$user_order = array();
-						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 						{
 							if ((strcmp($data["value1"], "") != 0) && (strcmp($data["value2"], "") != 0))
 							{
@@ -6726,7 +6726,7 @@ foreach($webr_ids as $id => $data)
 					case 6:
 						// imagemap questions
 						$found_values = array();
-						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 						{
 							if (strcmp($data["value1"], "") != 0)
 							{
@@ -6753,7 +6753,7 @@ foreach($webr_ids as $id => $data)
 						// java applet questions
 						$found_values = array();
 						$points = 0;
-						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 						{
 							$points += $data["points"];
 						}
@@ -6764,7 +6764,7 @@ foreach($webr_ids as $id => $data)
 						$points = 0;
 						if ($resultsolutions->numRows() == 1)
 						{
-							$data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC);
+							$data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 							if ($data["points"])
 							{
 								$points = $data["points"];
@@ -7334,14 +7334,14 @@ ALTER TABLE `usr_search` ADD `search_type` TINYINT( 2 ) DEFAULT '0' NOT NULL ;
 	$idx = 1;
 	$query = "SELECT question_id, question_type_fi FROM qpl_questions";
 	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		$queryanswers = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
 			$ilDB->quote($row["question_id"] . "")
 		);
 		$resultanswers = $ilDB->query($queryanswers);
 		$answers = array();
-		while ($rowanswer = $resultanswers->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rowanswer = $resultanswers->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			array_push($answers, $rowanswer);
 		}
@@ -7350,7 +7350,7 @@ ALTER TABLE `usr_search` ADD `search_type` TINYINT( 2 ) DEFAULT '0' NOT NULL ;
 		);
 		$resulttests = $ilDB->query($querytests);
 		$tests = array();
-		while ($rowtest = $resulttests->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rowtest = $resulttests->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			array_push($tests, $rowtest["test_fi"]);
 		}
@@ -7362,7 +7362,7 @@ ALTER TABLE `usr_search` ADD `search_type` TINYINT( 2 ) DEFAULT '0' NOT NULL ;
 			);
 			$resultusers = $ilDB->query($queryusers);
 			$users = array();
-			while ($rowuser = $resultusers->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($rowuser = $resultusers->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 			{
 				array_push($users, $rowuser["user_fi"]);
 			}
@@ -7381,7 +7381,7 @@ ALTER TABLE `usr_search` ADD `search_type` TINYINT( 2 ) DEFAULT '0' NOT NULL ;
 					case 2:
 						// multiple choice questions
 						$found_values = array();
-						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 						{
 							if (strcmp($data["value1"], "") != 0)
 							{
@@ -7416,7 +7416,7 @@ ALTER TABLE `usr_search` ADD `search_type` TINYINT( 2 ) DEFAULT '0' NOT NULL ;
 						$found_value1 = array();
 						$found_value2 = array();
 						$user_result = array();
-						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 						{
 							if (strcmp($data["value2"], "") != 0)
 							{
@@ -7471,7 +7471,7 @@ ALTER TABLE `usr_search` ADD `search_type` TINYINT( 2 ) DEFAULT '0' NOT NULL ;
 						// matching questions
 						$found_value1 = array();
 						$found_value2 = array();
-						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 						{
 							if (strcmp($data["value1"], "") != 0)
 							{
@@ -7497,7 +7497,7 @@ ALTER TABLE `usr_search` ADD `search_type` TINYINT( 2 ) DEFAULT '0' NOT NULL ;
 						$found_value1 = array();
 						$found_value2 = array();
 						$user_order = array();
-						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 						{
 							if ((strcmp($data["value1"], "") != 0) && (strcmp($data["value2"], "") != 0))
 							{
@@ -7529,7 +7529,7 @@ ALTER TABLE `usr_search` ADD `search_type` TINYINT( 2 ) DEFAULT '0' NOT NULL ;
 					case 6:
 						// imagemap questions
 						$found_values = array();
-						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 						{
 							if (strcmp($data["value1"], "") != 0)
 							{
@@ -7556,7 +7556,7 @@ ALTER TABLE `usr_search` ADD `search_type` TINYINT( 2 ) DEFAULT '0' NOT NULL ;
 						// java applet questions
 						$found_values = array();
 						$points = 0;
-						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 						{
 							$points += $data["points"];
 						}
@@ -7567,7 +7567,7 @@ ALTER TABLE `usr_search` ADD `search_type` TINYINT( 2 ) DEFAULT '0' NOT NULL ;
 						$points = 0;
 						if ($resultsolutions->numRows() == 1)
 						{
-							$data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC);
+							$data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 							if ($data["points"])
 							{
 								$points = $data["points"];
@@ -7583,7 +7583,7 @@ ALTER TABLE `usr_search` ADD `search_type` TINYINT( 2 ) DEFAULT '0' NOT NULL ;
 				$resulttest = $ilDB->query($query);
 				if ($resulttest->numRows() == 1)
 				{
-					$rowtest = $resulttest->fetchRow(DB_FETCHMODE_ASSOC);
+					$rowtest = $resulttest->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 					if ($rowtest["count_system"] == 1)
 					{
 						$maxpoints = 0;
@@ -7593,7 +7593,7 @@ ALTER TABLE `usr_search` ADD `search_type` TINYINT( 2 ) DEFAULT '0' NOT NULL ;
 						$resultmaxpoints = $ilDB->query($query);
 						if ($resultmaxpoints->numRows() == 1)
 						{
-							$rowmaxpoints = $resultmaxpoints->fetchRow(DB_FETCHMODE_ASSOC);
+							$rowmaxpoints = $resultmaxpoints->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 							$maxpoints = $rowmaxpoints["points"];
 						}
 						if ($points != $maxpoints)
@@ -8037,7 +8037,7 @@ $admin = array();
 $admin["icrs"] = array(1,2,3,4,6,7,8,$icla_ops_id);
 $admin["rolf"] = array(1,2,3,4,6,14);
 
-$rbacadmin =& new ilRbacAdmin();
+$rbacadmin = new ilRbacAdmin();
 
 foreach($admin as $type => $ops)
 {
@@ -8073,9 +8073,9 @@ $rbacadmin->assignRoleToFolder($obj_id,ROLE_FOLDER_ID,"n");
 // normally most of the code won't be triggered because iLinc-support was not available to public
 
 // init tree and rbacadmin
-$tree =& new ilTree(ROOT_FOLDER_ID);
-$rbacadmin =& new ilRbacAdmin();
-$rbacreview =& new ilRbacReview();
+$tree = new ilTree(ROOT_FOLDER_ID);
+$rbacadmin = new ilRbacAdmin();
+$rbacreview = new ilRbacReview();
 
 $ilca_nodes = $tree->getNodeDataByType('icla');
 
@@ -8246,7 +8246,7 @@ CREATE TABLE `chat_blocked` (
 $res = $ilDB->query("SELECT content, page_id, parent_type FROM page_object ".
 	"WHERE content LIKE '%MediaAlias OriginId%' AND parent_type='gdf'");
 
-while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$content = $row["content"];
 
@@ -8277,7 +8277,7 @@ ALTER TABLE `webr_items` ADD FULLTEXT (
 $res = $ilDB->query("SELECT content, page_id, parent_type FROM page_object ".
 	"WHERE content LIKE '%MediaAlias OriginId%' AND parent_type='qpl'");
 
-while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$content = $row["content"];
 
@@ -8301,7 +8301,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 	// change html entities &lt; &gt; &amp; to normal characters because
 	// the form was changed
 	$res = $ilDB->query("SELECT usr_id, referral_comment, hobby FROM usr_data");
-	while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		$newhobby = str_replace("&amp;", "&", str_replace("&gt;", ">", str_replace("&lt;", "<", $row["hobby"])));
 		$newcomment = str_replace("&amp;", "&", str_replace("&gt;", ">", str_replace("&lt;", "<", $row["referral_comment"])));
@@ -8328,7 +8328,7 @@ ALTER TABLE `object_translation` CHANGE `description` `description` TEXT  NULL D
 <?php
 	// reconstruct original id's which were set wrong due to test duplication
 	$res = $ilDB->query("SELECT question_id, original_id FROM qpl_questions WHERE original_id > 0");
-	while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		$original_id = $row["original_id"];
 		$question_id = $row["question_id"];
@@ -8359,7 +8359,7 @@ ALTER TABLE `object_translation` CHANGE `description` `description` TEXT  NULL D
 				}
 				else
 				{
-					$search_row = $result_search->fetchRow(DB_FETCHMODE_ASSOC);
+					$search_row = $result_search->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 					$last_original_id = $search_row["original_id"];
 					$last_question_id = $search_row["question_id"];
 				}
@@ -8418,10 +8418,10 @@ DELETE FROM object_description;
 $wd = getcwd();
 chdir('..');
 
-$tree =& new ilTree(ROOT_FOLDER_ID);
+$tree = new ilTree(ROOT_FOLDER_ID);
 $GLOBALS['tree'] = $tree;
-$rbacadmin =& new ilRbacAdmin();
-$rbacreview =& new ilRbacReview();
+$rbacadmin = new ilRbacAdmin();
+$rbacreview = new ilRbacReview();
 
 $query = "SELECT obd.obj_id as objid,obr.ref_id as refid FROM object_data as obd,object_reference as obr ".
 	"WHERE obd.obj_id = obr.obj_id ".
@@ -8548,7 +8548,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 $obj_id = $row->obj_id;
 
-$rbacadmin =& new ilRbacAdmin();
+$rbacadmin = new ilRbacAdmin();
 
 $admin = array();
 $admin["crs"] = array(2,7,8);
@@ -8658,7 +8658,7 @@ $ilDB->query($query);
 $chat_ref_id = $ilDB->getLastInsertId();
 
 // put in tree
-$tree =& new ilTree(ROOT_FOLDER_ID);
+$tree = new ilTree(ROOT_FOLDER_ID);
 $tree->insertNode($chat_ref_id,$chac_ref_id);
 
 // Create role folder
@@ -8721,7 +8721,7 @@ INDEX ( `obj_fi` )
 	$result = $ilDB->query($query);
 	if ($result->numRows() > 0)
 	{
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$checkquery = sprintf("SELECT id_questionpool FROM qpl_questionpool WHERE obj_fi = %s",
 				$ilDB->quote($row["obj_id"] . "")
@@ -8753,7 +8753,7 @@ INDEX ( `obj_fi` )
 	$result = $ilDB->query($query);
 	if ($result->numRows() > 0)
 	{
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$checkquery = sprintf("SELECT id_questionpool FROM survey_questionpool WHERE obj_fi = %s",
 				$ilDB->quote($row["obj_id"] . "")
@@ -8812,7 +8812,7 @@ CREATE INDEX obj_del ON object_reference(deleted);
 <?php
 $query = "SELECT * FROM tree WHERE tree < 0";
 $result = $ilDB->query($query);
-while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$q = "UPDATE object_reference SET deleted=now() WHERE ref_id='".
 		$row["child"]."'";
@@ -8900,7 +8900,7 @@ ALTER TABLE  `tst_test_result` DROP INDEX  `user_fi` , ADD UNIQUE  `user_fi` (  
 		"FROM usr_pref AS u1, usr_pref AS u2 ".
 		"WHERE u1.usr_id = u2.usr_id AND u1.keyword = 'skin' AND u2.keyword = 'style' ";
 	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		if (($row["skin"] == "default" && $row["style"] == "blueshadow") ||
 			$row["skin"] == "blueshadow2" && $row["style"] == "blueshadow2")
@@ -8948,7 +8948,7 @@ CREATE TABLE style_data
 	$query = "SELECT * FROM object_data ".
 		"WHERE type='sty' ";
 	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		$q = "INSERT INTO style_data (id, uptodate) VALUES ".
 			"('".$row["obj_id"]."','0')";
@@ -8964,7 +8964,7 @@ UPDATE rbac_fa SET protected = 'y' WHERE rol_id = '2';
 // set admin templates to protected status
 $query = "SELECT * FROM object_data WHERE type='rolt' AND title IN ('il_crs_admin','il_icrs_admin','il_grp_admin','Local Administrator')";
 $result = $ilDB->query($query);
-while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$q = "UPDATE rbac_fa SET protected='y' WHERE rol_id='".$row["obj_id"]."'";
 	$ilDB->query($q);
@@ -9035,11 +9035,11 @@ ALTER TABLE file_data ADD mode char(8) DEFAULT 'object';
 // set admin templates to protected status
 $query = "SELECT * FROM file_data";
 $result = $ilDB->query($query);
-while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$q2 = "SELECT * FROM file_usage WHERE id = ".$ilDB->quote($row["file_id"]);
 	$r2 = $ilDB->query($q2);
-	if ($dummy = $r2->fetchRow(DB_FETCHMODE_ASSOC))
+	if ($dummy = $r2->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		$q3 = "UPDATE file_data SET mode=".$ilDB->quote("filelist").
 			" WHERE file_id = ".$row["file_id"];
@@ -9059,7 +9059,7 @@ $query = "SELECT file_type, title, description, obj_id, file_id, file_name, vers
 	" FROM file_data, object_data WHERE mode = 'object'".
 	" AND file_data.file_id = object_data.obj_id";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$md_creator = new ilMDCreator($row["obj_id"], $row["obj_id"], 'file');
 	$md_creator->setTitle($row['title']);
@@ -9089,7 +9089,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 	}
 
 	// create technical section
-	$md_obj =& new ilMD($row["obj_id"], $row["obj_id"], 'file');;
+	$md_obj = new ilMD($row["obj_id"], $row["obj_id"], 'file');;
 	$technical = $md_obj->addTechnical();
 	$technical->setSize($size);
 	$technical->save();
@@ -9116,7 +9116,7 @@ ALTER TABLE `rbac_operations` ADD `class` ENUM('create','general','object','rbac
 $query = "SELECT * FROM rbac_operations";
 $result = $ilDB->query($query);
 
-while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	switch($row['operation'])
 	{
@@ -9391,12 +9391,12 @@ $ilCtrlStructureReader->getStructure();
 $query = "SELECT DISTINCT ref_id FROM scorm_tracking";
 
 $res = $ilDB->query($query);
-while($rec = $res->fetchRow(DB_FETCHMODE_ASSOC))
+while($rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	$q2 = "SELECT * FROM object_reference WHERE ref_id = ".
 		$ilDB->quote($rec["ref_id"]);
 	$res2 = $ilDB->query($q2);
-	$rec2 = $res2->fetchRow(DB_FETCHMODE_ASSOC);
+	$rec2 = $res2->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 	
 	$q3 = "UPDATE scorm_tracking SET ref_id= ".
 		$ilDB->quote($rec2["obj_id"]). " WHERE ".
@@ -9777,7 +9777,7 @@ $query = "SELECT DISTINCT concat( tst_test_result.user_fi, '_', tst_test_result.
 $result = $ilDB->query($query);
 if ($result->numRows())
 {
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		array_push($foundactive, array($row["test_fi"], $row["user_fi"], $row["random_test"]));
 	}
@@ -9829,7 +9829,7 @@ foreach ($foundactive as $missingarray)
 	$result = $ilDB->query($query);
 	if ($result->numRows())
 	{
-		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		$pass = $row["maxpass"];
 		
 		$sequencearray = array();
@@ -9865,7 +9865,7 @@ foreach ($foundactive as $missingarray)
 	global $log;
 	$query = "SELECT * FROM tst_active WHERE tries > 1";
 	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		$tries = $row["tries"];
 		while ((getNrOfResultsForPass($row["test_fi"], $row["user_fi"], $tries-1) == 0) && ($tries > 0))
@@ -9933,14 +9933,14 @@ $ilCtrlStructureReader->getStructure();
 	$idx = 1;
 	$query = "SELECT question_id, question_type_fi, textgap_rating FROM qpl_questions WHERE question_type_fi = 3 AND textgap_rating <> 'ci'";
 	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		$queryanswers = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
 			$ilDB->quote($row["question_id"] . "")
 		);
 		$resultanswers = $ilDB->query($queryanswers);
 		$answers = array();
-		while ($rowanswer = $resultanswers->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rowanswer = $resultanswers->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			array_push($answers, $rowanswer);
 		}
@@ -9949,7 +9949,7 @@ $ilCtrlStructureReader->getStructure();
 		);
 		$resulttests = $ilDB->query($querytests);
 		$tests = array();
-		while ($rowtest = $resulttests->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rowtest = $resulttests->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			array_push($tests, $rowtest["test_fi"]);
 		}
@@ -9961,7 +9961,7 @@ $ilCtrlStructureReader->getStructure();
 			);
 			$resultusers = $ilDB->query($queryusers);
 			$users = array();
-			while ($rowuser = $resultusers->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($rowuser = $resultusers->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 			{
 				array_push($users, $rowuser["user_fi"]);
 			}
@@ -9981,7 +9981,7 @@ $ilCtrlStructureReader->getStructure();
 						$found_value1 = array();
 						$found_value2 = array();
 						$user_result = array();
-						while ($data = $resultsolutions->fetchRow(DB_FETCHMODE_ASSOC))
+						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 						{
 							if (strcmp($data["value2"], "") != 0)
 							{
@@ -10038,7 +10038,7 @@ $ilCtrlStructureReader->getStructure();
 				$resulttest = $ilDB->query($query);
 				if ($resulttest->numRows() == 1)
 				{
-					$rowtest = $resulttest->fetchRow(DB_FETCHMODE_ASSOC);
+					$rowtest = $resulttest->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 					if ($rowtest["count_system"] == 1)
 					{
 						$maxpoints = 0;
@@ -10048,7 +10048,7 @@ $ilCtrlStructureReader->getStructure();
 						$resultmaxpoints = $ilDB->query($query);
 						if ($resultmaxpoints->numRows() == 1)
 						{
-							$rowmaxpoints = $resultmaxpoints->fetchRow(DB_FETCHMODE_ASSOC);
+							$rowmaxpoints = $resultmaxpoints->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 							$maxpoints = $rowmaxpoints["points"];
 						}
 						if ($points != $maxpoints)
@@ -10185,7 +10185,7 @@ CREATE TABLE `qpl_question_textsubset` (
 <?php
 	$query = "SELECT * FROM qpl_questions";
 	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		switch ($row["question_type_fi"])
 		{
@@ -10306,7 +10306,7 @@ CREATE TABLE `survey_question_text` (
 <?php
 	$query = "SELECT * FROM survey_question";
 	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		switch ($row["questiontype_fi"])
 		{
@@ -10435,7 +10435,7 @@ CREATE TABLE `qpl_answer_textsubset` (
 <?php
 	$query = "SELECT qpl_answers.*, qpl_questions.question_type_fi FROM qpl_answers, qpl_questions WHERE qpl_answers.question_fi = qpl_questions.question_id";
 	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		switch ($row["question_type_fi"])
 		{
@@ -10607,7 +10607,7 @@ ALTER TABLE `qpl_answer_multiplechoice` ADD `points_unchecked` DOUBLE NOT NULL D
 	$result = $ilDB->query($query);
 	if ($result->numRows())
 	{
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			// only multiple response questions
 			if ($row["choice_response"] == 1)
@@ -10664,7 +10664,7 @@ CREATE TABLE `qpl_answer_singlechoice` (
 	// move multiple choice sr -> singlechoice
 	$query = "SELECT qpl_question_multiplechoice.*, qpl_questions.question_type_fi FROM qpl_question_multiplechoice, qpl_questions WHERE qpl_question_multiplechoice.question_fi = qpl_questions.question_id";
 	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		switch ($row["question_type_fi"])
 		{
@@ -10685,7 +10685,7 @@ CREATE TABLE `qpl_answer_singlechoice` (
 	// move multiple choice sr answers -> singlechoice answers
 	$query = "SELECT qpl_answer_multiplechoice.*, qpl_questions.question_type_fi FROM qpl_answer_multiplechoice, qpl_questions WHERE qpl_answer_multiplechoice.question_fi = qpl_questions.question_id";
 	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		switch ($row["question_type_fi"])
 		{
@@ -10795,7 +10795,7 @@ $query = "SELECT tst_active_qst_sol_settings.*, tst_active.active_id FROM tst_ac
 $result = $ilDB->query($query);
 if ($result->numRows())
 {
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		$update = sprintf("UPDATE tst_active_qst_sol_settings SET active_fi = %s WHERE test_fi = %s AND user_fi = %s",
 			$ilDB->quote($row["active_id"] . ""),
@@ -10828,7 +10828,7 @@ if ($result->numRows())
   }
 	$ilLog->write("-- MetaData (Migration type '".$row_pg->type."'): Processing obj number: ".$row_pg->obj_id.$memory_usage);
 	$counter = 0;
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		if(function_exists('memory_get_usage'))
 		{
@@ -10859,7 +10859,7 @@ $query = "SELECT tst_test_random_question.*, tst_active.active_id FROM tst_test_
 $result = $ilDB->query($query);
 if ($result->numRows())
 {
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		$update = sprintf("UPDATE tst_test_random_question SET active_fi = %s WHERE test_fi = %s AND user_fi = %s",
 			$ilDB->quote($row["active_id"] . ""),
@@ -10882,7 +10882,7 @@ $query = "SELECT tst_test_result.*, tst_active.active_id FROM tst_test_result, t
 $result = $ilDB->query($query);
 if ($result->numRows())
 {
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		$update = sprintf("UPDATE tst_test_result SET active_fi = %s, TIMESTAMP = %s WHERE test_result_id = %s",
 			$ilDB->quote($row["active_id"] . ""),
@@ -11558,7 +11558,7 @@ $ilCtrlStructureReader->getStructure();
 // get all languages
 $q = "SELECT * FROM object_data WHERE type = ".$ilDB->quote("lng");
 $lang_set = $ilDB->query($q);
-while($lang_rec = $lang_set->fetchRow(DB_FETCHMODE_ASSOC))
+while($lang_rec = $lang_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 {
 	// get all installed languages
 	if (substr($lang_rec["description"], 0, 9) == "installed")
@@ -11568,7 +11568,7 @@ while($lang_rec = $lang_set->fetchRow(DB_FETCHMODE_ASSOC))
 		$lang_array = array();
 		
 		// get data from lng_data table
-		while($var_rec = $var_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($var_rec = $var_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$lang_array[$var_rec["module"]][$var_rec["identifier"]] = $var_rec["value"];
 		}
@@ -11612,7 +11612,7 @@ $query = "SHOW COLUMNS FROM tst_tests";
 $res = $ilDB->query($query);
 if ($res->numRows())
 {
-	while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($data = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		if (strcmp($data["Field"], "certificate_visibility") == 0)
 		{
@@ -11720,7 +11720,7 @@ $ilDB->query($query);
 <?php
 	$query = "SELECT rbac_pa.* FROM rbac_pa, object_data, object_reference WHERE object_data.type = 'tst' AND object_reference.obj_id = object_data.obj_id AND rbac_pa.ref_id = object_reference.ref_id";
 	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		$ops = unserialize(stripslashes($row["ops_id"]));
 		if (in_array(4, $ops))
@@ -11788,7 +11788,7 @@ $query = "SHOW COLUMNS FROM survey_answer";
 $res = $ilDB->query($query);
 if ($res->numRows())
 {
-	while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($data = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		if (strcmp($data["Field"], "row") == 0)
 		{
@@ -11829,7 +11829,7 @@ $query = "SHOW COLUMNS FROM survey_category";
 $res = $ilDB->query($query);
 if ($res->numRows())
 {
-	while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($data = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		if (strcmp($data["Field"], "neutral") == 0)
 		{
@@ -11874,7 +11874,7 @@ $query = "SHOW COLUMNS FROM survey_question_matrix";
 $res = $ilDB->query($query);
 if ($res->numRows())
 {
-	while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	while ($data = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 	{
 		if (strcmp($data["Field"], "bipolar_adjective1") == 0)
 		{

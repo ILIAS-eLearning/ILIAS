@@ -1065,7 +1065,7 @@ class ilSetup extends PEAR
 		$res = $db->query($query);
 
 		$rows = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			if( $row['value'] != '' )
 					$rows[] = $row;
@@ -2031,7 +2031,7 @@ class ilSetup extends PEAR
 						array('text', 'text'), array('common', $field));
 
 				$row = array();
-				while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) break;
+				while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) break;
 
 				if( count($row) > 0 )
 				{
@@ -2087,7 +2087,7 @@ class ilSetup extends PEAR
 		$res = $db->queryF($query, array('text'), array('common'));
 
 		$session_settings = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$session_settings[$row['keyword']] = $row['value'];
 		}

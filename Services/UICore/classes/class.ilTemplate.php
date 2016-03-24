@@ -8,7 +8,7 @@
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-class ilTemplate extends ilTemplateX
+class ilTemplate extends HTML_Template_ITX
 {
 	/**
 	* Content-type for template output
@@ -67,7 +67,7 @@ class ilTemplate extends ilTemplateX
 	* @param	array	$vars 		variables to replace
 	* @access	public
 	*/
-	function ilTemplate($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
+	function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
 		$plugin = false, $a_use_cache = false)
 	{
 		global $ilias;
@@ -96,7 +96,7 @@ class ilTemplate extends ilTemplateX
 		}
 
 		//$this->IntegratedTemplateExtension(dirname($fname));
-		$this->callConstructor();
+		parent::__construct();
 		//$this->loadTemplatefile(basename($fname), $flag1, $flag2);
 		$this->loadTemplatefile($fname, $flag1, $flag2);
 		//add tplPath to replacevars
@@ -940,19 +940,20 @@ class ilTemplate extends ilTemplateX
 			{
 				$ftpl->setVariable("MEMORY_USAGE", "<br>".implode(" | ", $mem_usage));
 			}
-			
-			if (is_object($ilAuth) && isset($_SESSION[$ilAuth->_sessionName]) &&
-				isset($_SESSION[$ilAuth->_sessionName]["timestamp"]))
-			{
-				$ftpl->setVariable("SESS_INFO", "<br />maxlifetime: ".
-					ini_get("session.gc_maxlifetime")." (".
-					(ini_get("session.gc_maxlifetime")/60)."), id: ".session_id()."<br />".
-					"timestamp: ".date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["timestamp"]).
-					", idle: ".date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["idle"]).
-					"<br />expire: ".($exp = $ilClientIniFile->readVariable("session","expire")).
-					" (".($exp/60)."), session ends at: ".
-					date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["idle"] + $exp));
-			}
+
+            // uses protected variable _sessionName.
+//			if (is_object($ilAuth) && isset($_SESSION[$ilAuth->_sessionName]) &&
+//				isset($_SESSION[$ilAuth->_sessionName]["timestamp"]))
+//			{
+//				$ftpl->setVariable("SESS_INFO", "<br />maxlifetime: ".
+//					ini_get("session.gc_maxlifetime")." (".
+//					(ini_get("session.gc_maxlifetime")/60)."), id: ".session_id()."<br />".
+//					"timestamp: ".date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["timestamp"]).
+//					", idle: ".date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["idle"]).
+//					"<br />expire: ".($exp = $ilClientIniFile->readVariable("session","expire")).
+//					" (".($exp/60)."), session ends at: ".
+//					date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["idle"] + $exp));
+//			}
 			
 			if (!empty($_GET["do_dev_validate"]) && $ftpl->blockExists("xhtml_validation"))
 			{

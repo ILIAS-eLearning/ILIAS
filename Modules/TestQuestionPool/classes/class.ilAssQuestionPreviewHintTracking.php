@@ -11,7 +11,7 @@
 class ilAssQuestionPreviewHintTracking
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db;
 
@@ -20,7 +20,7 @@ class ilAssQuestionPreviewHintTracking
 	 */
 	private $previewSession;
 	
-	public function __construct(ilDB $db, ilAssQuestionPreviewSession $previewSession)
+	public function __construct(ilDBInterface $db, ilAssQuestionPreviewSession $previewSession)
 	{
 		$this->db = $db;
 		$this->previewSession = $previewSession;

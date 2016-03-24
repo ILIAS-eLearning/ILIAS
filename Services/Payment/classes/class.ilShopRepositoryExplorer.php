@@ -30,7 +30,7 @@ class ilShopRepositoryExplorer extends ilRepositoryExplorer
 	 */
 	public function __construct($a_target, $a_top_node = 0)
 	{
-		parent::ilRepositoryExplorer($a_target, $a_top_node);
+		parent::__construct($a_target, $a_top_node);
 	}
 
 	/**

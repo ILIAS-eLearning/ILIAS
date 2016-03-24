@@ -14,14 +14,14 @@ require_once 'Modules/TestQuestionPool/interfaces/interface.ilQuestionChangeList
 class ilDynamicTestQuestionChangeListener implements ilQuestionChangeListener
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db = null;
 	
 	/**
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 */
-	public function __construct(ilDB $db)
+	public function __construct(ilDBInterface $db)
 	{
 		$this->db = $db;
 	}

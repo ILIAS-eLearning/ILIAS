@@ -122,7 +122,7 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function splitParams($params = "")
 	{
-		$params_array = split("<separator>", $params);
+		$params_array = explode("<separator>", $params);
 		foreach ($params_array as $pair)
 		{
 			if (preg_match("/(.*?)\=(.*)/", $pair, $matches))

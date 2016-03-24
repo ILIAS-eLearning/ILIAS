@@ -165,7 +165,7 @@ class ilExplorer
 	* @access	public
 	* @param	string	scriptname
 	*/
-	function ilExplorer($a_target)
+	function __construct($a_target)
 	{
 		global $ilias, $objDefinition;
 
@@ -968,7 +968,7 @@ class ilExplorer
 	* @param	integer obj_id
 	* @param	integer array options
 	*/
-	function formatHeader(&$tpl,$a_obj_id,$a_option)
+	function formatHeader($tpl,$a_obj_id,$a_option)
 	{
 	}
 
@@ -980,7 +980,7 @@ class ilExplorer
 	* @param	array
 	* @return	string
 	*/
-	function formatObject(&$tpl, $a_node_id,$a_option,$a_obj_id = 0)
+	function formatObject($tpl, $a_node_id,$a_option,$a_obj_id = 0)
 	{
 		global $lng;
 		if (!isset($a_node_id) or !is_array($a_option))

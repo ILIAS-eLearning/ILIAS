@@ -37,7 +37,7 @@ class ilSCORMmanifestGUI extends ilSCORMObjectGUI
 	function ilSCORMManifestGUI($a_id)
 	{
 		parent::ilSCORMObjectGUI();
-		$this->sc_object =& new ilSCORMManifest($a_id);
+		$this->sc_object = new ilSCORMManifest($a_id);
 	}
 
 	function view()

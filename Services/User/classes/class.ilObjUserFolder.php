@@ -23,10 +23,10 @@ class ilObjUserFolder extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjUserFolder($a_id,$a_call_by_reference = true)
+	function __construct($a_id,$a_call_by_reference = true)
 	{
 		$this->type = "usrf";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 
@@ -368,7 +368,7 @@ class ilObjUserFolder extends ilObject
 		$query = "SELECT * FROM settings WHERE ".
 			$ilDB->like("keyword", "text", '%usr_settings_export_%');
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			if ($row["value"] == "1")
 			{
@@ -443,7 +443,7 @@ class ilObjUserFolder extends ilObject
 		$query = "SELECT * FROM usr_pref WHERE keyword = ".$ilDB->quote('language','text');
 		$res = $ilDB->query($query);
 		$languages = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$languages[$row['usr_id']] = $row['value'];
 		}
@@ -559,7 +559,7 @@ class ilObjUserFolder extends ilObject
 		return $profile_fields;
 	}
 
-	function _writeNewAccountMail($a_lang, $a_subject, $a_sal_g, $a_sal_f, $a_sal_m, $a_body)
+	static function _writeNewAccountMail($a_lang, $a_subject, $a_sal_g, $a_sal_f, $a_sal_m, $a_body)
 	{
 		global $ilDB;
 		
@@ -591,8 +591,8 @@ class ilObjUserFolder extends ilObject
 			$ilDB->insert('mail_template',$values);
 		}
 	}
-	
-	function _updateAccountMailAttachment($a_lang, $a_tmp_name, $a_name)
+
+	static function _updateAccountMailAttachment($a_lang, $a_tmp_name, $a_name)
 	{
 		global $ilDB;
 		
@@ -607,8 +607,8 @@ class ilObjUserFolder extends ilObject
 				array('att_file' => array('text', $a_name)),
 				array('lang' => array('text',$a_lang), 'type' => array('text','nacc')));
 	}
-	
-	function _deleteAccountMailAttachment($a_lang)
+
+	static function _deleteAccountMailAttachment($a_lang)
 	{
 		global $ilDB;
 		
@@ -623,14 +623,14 @@ class ilObjUserFolder extends ilObject
 				array('lang' => array('text',$a_lang), 'type' => array('text','nacc')));
 	}
 
-	function _lookupNewAccountMail($a_lang)
+	static function _lookupNewAccountMail($a_lang)
 	{
 		global $ilDB;
 
 		$set = $ilDB->query("SELECT * FROM mail_template ".
 			" WHERE type='nacc' AND lang = ".$ilDB->quote($a_lang,'text'));
 
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			return $rec;
 		}

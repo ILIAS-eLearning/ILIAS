@@ -90,7 +90,7 @@ class ilHiddenInputGUI extends ilFormPropertyGUI  implements ilToolbarItem {
 	*
 	* @return	int	Size
 	*/
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		$a_tpl->setCurrentBlock("hidden");		
 		$a_tpl->setVariable('PROP_INPUT_TYPE','hidden');

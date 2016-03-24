@@ -849,10 +849,11 @@ class ilExSubmission
 	 * Download all submitted files of an assignment (all user)
 	 *
 	 * @param	$members		array of user names, key is user id
+	 * @throws ilExerciseException
 	 */
 	public static function downloadAllAssignmentFiles(ilExAssignment $a_ass, array $members)
 	{
-		global $lng, $ilias;
+		global $lng;
 		
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
@@ -991,9 +992,8 @@ class ilExSubmission
 
 				if (!copy ($sourcefile, $targetfile))
 				{
-					//echo 'Could not copy '.$sourcefile.' to '.$targetfile;
-					$ilias->raiseError('Could not copy '.basename($sourcefile)." to '".$targetfile."'.",
-						$ilias->error_obj->MESSAGE);
+					include_once "Modules/Exercise/exceptions/class.ilExerciseException.php";
+					throw new ilExerciseException("Could not copy ".basename($sourcefile)." to '".$targetfile."'.");					
 				}
 				else
 				{

@@ -44,7 +44,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$lng->loadLanguageModule("content");
 		
 		$this->type = "glo";
-		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, false);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 		
 		// determine term id and check whether it is valid (belongs to
 		// current glossary)
@@ -72,7 +72,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $lng, $ilAccess, $ilTabs, $ilErr;
 		
@@ -99,7 +99,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->getTemplate();
 //				$this->quickList();
 				$this->ctrl->setReturn($this, "listTerms");
-				$term_gui =& new ilGlossaryTermGUI($this->term_id);
+				$term_gui = new ilGlossaryTermGUI($this->term_id);
 				$term_gui->setGlossary($this->object);
 				//$ret =& $term_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($term_gui);
@@ -151,7 +151,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 					$this->addHeaderAction();
 				}
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
@@ -265,7 +265,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 
-		$this->object =& new ilObjGlossary($this->id, true);
+		$this->object = new ilObjGlossary($this->id, true);
 	}
 
 	/*protected function initCreationForms($a_new_type)
@@ -862,7 +862,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		
 		// add term
 		include_once ("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-		$term =& new ilGlossaryTerm();
+		$term = new ilGlossaryTerm();
 		$term->setGlossary($this->object);
 		$term->setTerm(ilUtil::stripSlashes($_POST["new_term"]));
 		$term->setLanguage($_POST["term_language"]);
@@ -870,7 +870,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$term->create();
 
 		// add first definition
-		$def =& new ilGlossaryDefinition();
+		$def = new ilGlossaryDefinition();
 		$def->setTermId($term->getId());
 		$def->setTitle(ilUtil::stripSlashes($_POST["new_term"]));
 		$def->create();
@@ -888,7 +888,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 
-		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$definition = new ilGlossaryDefinition($_GET["def"]);
 		$definition->moveUp();
 
 		$this->ctrl->redirect($this, "listTerms");
@@ -901,7 +901,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 
-		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$definition = new ilGlossaryDefinition($_GET["def"]);
 		$definition->moveDown();
 
 		$this->ctrl->redirect($this, "listTerms");
@@ -971,7 +971,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function deleteDefinition()
 	{
-		$definition =& new ilGlossaryDefinition($_REQUEST["def"]);
+		$definition = new ilGlossaryDefinition($_REQUEST["def"]);
 		$definition->delete();
 		$this->ctrl->redirect($this, "listTerms");
 	}
@@ -1161,7 +1161,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			if(is_object($this->object))
 			{
 				require_once("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
-				$gloss_loc =& new ilGlossaryLocatorGUI();
+				$gloss_loc = new ilGlossaryLocatorGUI();
 				if (is_object($this->term))
 				{
 					$gloss_loc->setTerm($this->term);
@@ -1191,7 +1191,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		switch($_POST["new_type"])
 		{
 			case "term":
-				$term_gui =& new ilGlossaryTermGUI();
+				$term_gui = new ilGlossaryTermGUI();
 				$term_gui->create();
 				break;
 		}
@@ -1199,7 +1199,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function saveTerm()
 	{
-		$term_gui =& new ilGlossaryTermGUI();
+		$term_gui = new ilGlossaryTermGUI();
 		$term_gui->setGlossary($this->object);
 		$term_gui->save();
 
@@ -1269,13 +1269,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function setTabs()
 	{
-		$this->getTabs($this->tabs_gui);
+		$this->getTabs();
 	}
 
 	/**
 	* get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $ilHelp;
 		
@@ -1285,7 +1285,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "listTerms")
 				? true
 				: false;
-		$tabs_gui->addTarget("cont_terms",
+		$this->tabs_gui->addTarget("cont_terms",
 			$this->ctrl->getLinkTarget($this, "listTerms"), array("listTerms", ""),
 			get_class($this), "", $force_active);
 			
@@ -1295,14 +1295,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			$force_active = true;
 		}
-		$tabs_gui->addTarget("info_short",
+		$this->tabs_gui->addTarget("info_short",
 			$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"), "",
 			"ilInfoScreenGUI", "", $force_active);
 
 		// properties
 		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "properties"), "properties",
 				get_class($this));
 			
@@ -1312,7 +1312,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
 			{
-				$tabs_gui->addTarget("meta_data", $mdtab,
+				$this->tabs_gui->addTarget("meta_data", $mdtab,
 					"", "ilobjectmetadatagui");
 			}
 			
@@ -1322,7 +1322,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				 array("exportList", "viewExportLog"), get_class($this));*/
 
 			// export
-			$tabs_gui->addTarget("export",
+			$this->tabs_gui->addTarget("export",
 				 $this->ctrl->getLinkTargetByClass("ilexportgui", ""),
 				 "", "ilexportgui");
 		}
@@ -1335,12 +1335,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				array("perm", "info"),
 				get_class($this));
 				*/
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 
 		}
 		
-		$tabs_gui->addNonTabbedLink("presentation_view",
+		$this->tabs_gui->addNonTabbedLink("presentation_view",
 			$this->lng->txt("glo_presentation_view"),
 			"ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$this->object->getRefID(),
 			"_top"

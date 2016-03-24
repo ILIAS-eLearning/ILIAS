@@ -21,7 +21,7 @@ class ilObjFileListGUI extends ilObjectListGUI
 	*/
 	function ilObjFileListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**

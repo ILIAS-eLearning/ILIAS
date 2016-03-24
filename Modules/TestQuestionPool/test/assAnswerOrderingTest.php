@@ -91,8 +91,7 @@ class assAnswerOrderingTest extends PHPUnit_Framework_TestCase
 		$random_id = 13579;
 
 		//require_once './Services/PEAR/lib/MDB2.php';
-		require_once './Services/Database/classes/class.ilDB.php';
-		$ildb_mock = $this->getMock('ilDBMySQL', array('queryF', 'fetchAssoc'), array(), '', false, false);
+		$ildb_mock = $this->getMock('ilDBInterface', array('queryF', 'fetchAssoc'), array(), '', false, false);
 		$ildb_mock->expects( $this->once() )
 				  ->method( 'queryF' )
 				  ->with( $this->equalTo('SELECT * FROM qpl_a_ordering WHERE random_id = %s'),

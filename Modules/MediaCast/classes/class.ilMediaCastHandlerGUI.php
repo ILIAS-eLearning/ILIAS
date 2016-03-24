@@ -25,7 +25,7 @@ class ilMediaCastHandlerGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $lng, $ilAccess, $tpl, $ilNavigationHistory;
 		
@@ -48,7 +48,7 @@ class ilMediaCastHandlerGUI
 		{
 			case 'ilobjmediacastgui':
 				require_once "./Modules/MediaCast/classes/class.ilObjMediaCastGUI.php";
-				$mc_gui =& new ilObjMediaCastGUI("", (int) $_GET["ref_id"], true, false);
+				$mc_gui = new ilObjMediaCastGUI("", (int) $_GET["ref_id"], true, false);
 				$this->ctrl->forwardCommand($mc_gui);
 				break;
 		}

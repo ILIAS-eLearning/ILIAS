@@ -17,9 +17,9 @@ class ilObjLanguageExt extends ilObjLanguage
 	/**
 	* Constructor
 	*/
-	function ilObjLanguageExt($a_id = 0, $a_call_by_reference = false)
+	function __construct($a_id = 0, $a_call_by_reference = false)
 	{
-		$this->ilObjLanguage($a_id, $a_call_by_reference);
+		$this->__construct($a_id, $a_call_by_reference);
 	}
 	
 	/**
@@ -291,7 +291,7 @@ class ilObjLanguageExt extends ilObjLanguage
 			" lang_key = ".$ilDB->quote($a_lang_key, "text")." order by module";
 		$set = $ilDB->query($q);
 
-		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$modules[] = $rec["module"];
 		}
@@ -380,7 +380,7 @@ class ilObjLanguageExt extends ilObjLanguage
 		$set = $ilDB->query($q);
 
 		$values = array();
-		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$values[$rec["module"].$lng->separator.$rec["identifier"]] = $rec["value"];
 		}

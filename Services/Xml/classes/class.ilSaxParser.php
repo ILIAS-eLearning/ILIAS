@@ -65,7 +65,7 @@ class ilSaxParser
 	* setup ILIAS global object
 	* @access	public
 	*/
-	function ilSaxParser($a_xml_file = '', $throwException = false)
+	function __construct($a_xml_file = '', $throwException = false)
 	{
 		global $ilias, $lng;
 

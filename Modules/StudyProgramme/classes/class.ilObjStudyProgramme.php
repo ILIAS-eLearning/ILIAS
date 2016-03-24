@@ -40,7 +40,7 @@ class ilObjStudyProgramme extends ilContainer {
 	public function __construct($a_id = 0, $a_call_by_reference = true) {
 		$this->type = "prg";
 		$this->settings = null;
-		$this->ilContainer($a_id, $a_call_by_reference);
+		parent::__construct($a_id, $a_call_by_reference);
 		
 		$this->clearParentCache();
 		$this->clearChildrenCache();

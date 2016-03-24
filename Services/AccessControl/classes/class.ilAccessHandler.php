@@ -24,11 +24,11 @@ class ilAccessHandler
 	/**
 	* constructor
 	*/
-	function ilAccessHandler()
+	function __construct()
 	{
-		global $rbacsystem,$lng;
+		global $rbacsystem;
 
-		$this->rbacsystem =& $rbacsystem;
+		$this->rbacsystem = $rbacsystem;
 		$this->results = array();
 		$this->current_info = new ilAccessInfo();
 		
@@ -162,7 +162,7 @@ class ilAccessHandler
 			$query = "SELECT * FROM acc_cache WHERE user_id = ".
 				$ilDB->quote($ilUser->getId() ,'integer');
 			$set = $ilDB->query($query);
-			$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+			$rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 			if ((time() - $rec["time"]) < $a_secs)
 			{
 				$this->results = unserialize($rec["result"]);
@@ -723,14 +723,14 @@ class ilAccessHandler
 
 		$class = $objDefinition->getClassName($a_type);
 		$location = $objDefinition->getLocation($a_type);
-		$full_class = "ilObj".$class."Access";
+		$full_class = "ilObj".$class."Access";		
 		include_once($location."/class.".$full_class.".php");
 		// static call to ilObj..::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id)
 
-		$ilBench->start("AccessControl", "5001_checkAccess_".$full_class."_check");
+		$full_class = new $full_class();
+		
 		$obj_access = call_user_func(array($full_class, "_checkAccess"),
 			$a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id);
-		$ilBench->stop("AccessControl", "5001_checkAccess_".$full_class."_check");
 		if (!($obj_access === true))
 		{
 			//Note: We must not add an info item here, because one is going

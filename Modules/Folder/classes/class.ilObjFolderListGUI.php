@@ -42,7 +42,7 @@ class ilObjFolderListGUI extends ilObjectListGUI
 	*/
 	function ilObjFolderListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**

@@ -38,7 +38,7 @@ class ilObjExternalFeedListGUI extends ilObjectListGUI
 	*/
 	function ilObjExternalFeedListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**

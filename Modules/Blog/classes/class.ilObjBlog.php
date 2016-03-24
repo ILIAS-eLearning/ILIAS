@@ -173,7 +173,7 @@ class ilObjBlog extends ilObject2
 		}
 	}
 
-	protected function doCloneObject(ilObjBlog $new_obj, $a_target_id, $a_copy_id = null)
+	protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null)
 	{
 		// banner?
 		$img = $this->getImage();

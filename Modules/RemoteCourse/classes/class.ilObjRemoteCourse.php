@@ -112,7 +112,7 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
 		$query = "SELECT * FROM ".self::DB_TABLE_NAME.
 			" WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		switch($row->availability_type)
 		{
 			case self::ACTIVATION_UNLIMITED:
@@ -181,12 +181,12 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
 	
 	public static function _lookupMID($a_obj_id)
 	{
-		return ilRemoteObjectBase::_lookupMID($a_obj_id, self::DB_TABLE_NAME);
+		return ilRemoteObjectBase::_lookupMID($a_obj_id);
 	}
 	
 	public static function _lookupOrganization($a_obj_id)
 	{
-		return ilRemoteObjectBase::_lookupOrganization($a_obj_id, self::DB_TABLE_NAME);
+		return ilRemoteObjectBase::_lookupOrganization($a_obj_id);
 	}
 }
 

@@ -28,7 +28,7 @@ class ilChatroomSmiliesGUI
 	/**
 	 * Default execute command, calls ilChatroomSmilies::initial();
 	 */
-	public function &executeCommand()
+	public function executeCommand()
 	{
 		include_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
 		ilChatroomSmilies::initial();

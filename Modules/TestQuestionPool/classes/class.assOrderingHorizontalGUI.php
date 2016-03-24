@@ -140,7 +140,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			if (strlen($solutions[0]["value1"]))
 			{
-				$elements = split("{::}", $solutions[0]["value1"]);
+				$elements = explode("{::}", $solutions[0]["value1"]);
 			}
 
 			if( !count($elements) )
@@ -304,7 +304,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
 			if (count($solutions) == 1)
 			{
-				$elements = split("{::}", $solutions[0]["value1"]);
+				$elements = explode("{::}", $solutions[0]["value1"]);
 			}
 		}
 		if (count($solutions) == 0)

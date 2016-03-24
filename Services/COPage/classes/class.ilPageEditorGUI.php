@@ -55,7 +55,7 @@ class ilPageEditorGUI
 	* @param	object		$a_page_object		page object
 	* @access	public
 	*/
-	function ilPageEditorGUI(&$a_page_object, &$a_page_object_gui)
+	function __construct(&$a_page_object, &$a_page_object_gui)
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,$ilTabs;
 
@@ -127,7 +127,7 @@ class ilPageEditorGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $ilHelp;;
 
@@ -354,7 +354,7 @@ exit;
 				$this->tabs_gui->clearTargets();
 				$this->tabs_gui->setBackTarget($this->page_gui->page_back_title,
 					$ilCtrl->getLinkTarget($this->page_gui, "edit"));
-				$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$pcmob_gui = new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$pcmob_gui->setStyleId($this->page_gui->getStyleId());
 				$pcmob_gui->setEnabledMapAreas($this->page_gui->getPageConfig()->getEnableInternalLinks());
 				$ret =& $this->ctrl->forwardCommand($pcmob_gui);
@@ -366,8 +366,8 @@ exit;
 				$this->tabs_gui->clearTargets();
 				$this->tabs_gui->setBackTarget($this->lng->txt("back"),
 					$ilCtrl->getParentReturn($this));
-				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
-				$mob_gui->getTabs($this->tabs_gui);
+				$mob_gui = new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
+				$mob_gui->getTabs();
 				$mob_gui->setEnabledMapAreas($this->page_gui->getPageConfig()->getEnableInternalLinks());
 				$this->tpl->setTitle($this->lng->txt("mob").": ".
 					ilObject::_lookupTitle($_GET["mob_id"]));
@@ -377,7 +377,7 @@ exit;
 			// Question
 			case "ilpcquestiongui":
 				include_once("./Services/COPage/classes/class.ilPCQuestionGUI.php");
-				$pc_question_gui =& new ilPCQuestionGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$pc_question_gui = new ilPCQuestionGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$pc_question_gui->setSelfAssessmentMode($this->page_gui->getPageConfig()->getEnableSelfAssessment());
 				$pc_question_gui->setPageConfig($this->page_gui->getPageConfig());
 
@@ -457,9 +457,9 @@ exit;
 	* checks if current user has activated js editing and
 	* if browser is js capable
 	*/
-	function _doJSEditing()
+	static function _doJSEditing()
 	{
-		global $ilUser, $ilias, $ilSetting;
+		global $ilUser;
 
 		if ($ilUser->getPref("ilPageEditor_JavaScript") != "disable"
 			&& ilPageEditorGUI::_isBrowserJSEditCapable())
@@ -472,19 +472,9 @@ exit;
 	/**
 	* checks wether browser is javascript editing capable
 	*/
-	function _isBrowserJSEditCapable()
+	static function _isBrowserJSEditCapable()
 	{
-		global $ilBrowser;
-return true;
-		$version = $ilBrowser->getVersion();
-
-		if ($ilBrowser->isFirefox() ||
-			($ilBrowser->isIE() && !$ilBrowser->isMac()) ||
-			($ilBrowser->isMozilla() && $version[0] >= 5))
-		{
-			return true;
-		}
-		return false;
+		return true;
 	}
 
 	function activatePage()

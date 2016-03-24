@@ -173,7 +173,7 @@ class ilECSCommunityCache
 			'WHERE sid = '.$ilDB->quote($this->getServerId(),'integer').' '.
 			'AND cid = '.$ilDB->quote($this->getCommunityId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->entryExists = true;
 			$this->setOwnId($row->own_id);

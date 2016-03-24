@@ -52,16 +52,10 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-	function SurveyMultipleChoiceQuestion(
-		$title = "",
-		$description = "",
-		$author = "",
-		$questiontext = "",
-		$owner = -1,
-		$orientation = 0 
-	)
+	function __construct($title = "", $description = "", $author = "", $questiontext = "", $owner = -1, $orientation = 0)
 	{
-		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
+		parent::__construct($title, $description, $author, $questiontext, $owner);
+		
 		$this->orientation = $orientation;
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
 		$this->categories = new SurveyCategories();

@@ -37,13 +37,13 @@ class ilMainMenuGUI
 	* @param	boolean		$a_use_start_template	true means: target scripts should
 	*												be called through start template
 	*/
-	function ilMainMenuGUI($a_target = "_top", $a_use_start_template = false)
+	function __construct($a_target = "_top", $a_use_start_template = false)
 	{
 		global $ilias, $rbacsystem, $ilUser;
 		
 		$this->tpl = new ilTemplate("tpl.main_menu.html", true, true,
 			"Services/MainMenu");
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		$this->target = $a_target;
 		$this->start_template = $a_use_start_template;
 		
@@ -302,6 +302,9 @@ class ilMainMenuGUI
 					 */
 					global $tpl;
 
+					// php7-workaround JL start
+					// the frequent polling messes up the log files
+					/* 
 					$this->tpl->touchBlock('osd_container');
 
 					include_once "Services/jQuery/classes/class.iljQueryUtil.php";
@@ -309,7 +312,7 @@ class ilMainMenuGUI
 
 					include_once 'Services/MediaObjects/classes/class.ilPlayerUtil.php';
 					ilPlayerUtil::initMediaElementJs();
-
+					
 					$tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
 					$tpl->addCSS('Services/Notifications/templates/default/osd.css');
 
@@ -321,6 +324,8 @@ class ilMainMenuGUI
 					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
 					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '60');
 					$this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
+					*/
+					// php7-workaround end
 				}
 
 				$this->tpl->setCurrentBlock("userisloggedin");
@@ -355,7 +360,8 @@ class ilMainMenuGUI
 			if (trim($header_top_title) != "" && $this->tpl->blockExists("header_top_title"))
 			{
 				$this->tpl->setCurrentBlock("header_top_title");
-				$this->tpl->setVariable("TXT_HEADER_TITLE", $header_top_title);
+				// php7-workaround alex: added phpversion() to help during development of php7 compatibility
+				$this->tpl->setVariable("TXT_HEADER_TITLE", $header_top_title." PHP ".phpversion());
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -795,7 +801,7 @@ class ilMainMenuGUI
 		return $script;
 	}
 
-	function _checkAdministrationPermission()
+	static function _checkAdministrationPermission()
 	{
 		global $rbacsystem;
 

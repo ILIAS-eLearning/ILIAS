@@ -35,13 +35,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	 */
 	public function __construct(ilObjTest $a_object)
 	{
-		parent::ilTestServiceGUI($a_object);
+		parent::__construct($a_object);
 	}
 
 	/**
 	 * execute command
 	 */
-	public function &executeCommand()
+	public function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
@@ -1730,7 +1730,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			$this->ctrl->redirect($this, 'outUserResultsOverview');
 		}
-			/** @var ilDB $ilDB */
+			/** @var ilDBInterface $ilDB */
 			global $ilDB;
 
 		$active_fi = null;

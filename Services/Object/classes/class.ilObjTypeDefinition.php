@@ -43,7 +43,7 @@ class ilObjTypeDefinition extends ilObject
 	*/
 	function ilObjTypeDefinition($a_id = 0,$a_call_by_reference = false)
 	{
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 		$this->type = "typ";
 	}
 }

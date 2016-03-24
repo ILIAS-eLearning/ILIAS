@@ -22,7 +22,7 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI {
 
 	function __construct() {
 		global $tpl, $lng;
-		$this->ilObjectListGUI();
+		parent::__construct();
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule("prg");

@@ -17,11 +17,11 @@ class ilObjectDataCache
 	var $object_data_cache = array();
 	var $description_trans = array();
 
-	function ilObjectDataCache()
+	function __construct()
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 	}
 
 	function deleteCachedEntry($a_obj_id)
@@ -148,7 +148,7 @@ class ilObjectDataCache
 		
 		$query = "SELECT obj_id FROM object_reference WHERE ref_id = ".$ilDB->quote($a_ref_id,'integer');
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$this->reference_cache[$a_ref_id] = $row['obj_id'];
 		}
@@ -174,7 +174,7 @@ class ilObjectDataCache
 		$query = "SELECT * FROM object_data WHERE obj_id = ".
 			$ilDB->quote($a_obj_id ,'integer');
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->object_data_cache[$a_obj_id]['title'] = $row->title;
 			$this->object_data_cache[$a_obj_id]['description'] = $row->description;
@@ -197,7 +197,7 @@ class ilObjectDataCache
 						 "AND NOT lang_default = 1";
 					$r = $ilDB->query($q);
 
-					$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+					$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 					if ($row)
 					{
 						$this->object_data_cache[$a_obj_id]['title'] = $row->title;
@@ -242,7 +242,7 @@ class ilObjectDataCache
 			"WHERE ".$ilDB->in('obj_id',$a_obj_ids,false,'integer');
 		$res = $ilDB->query($query);
 		$db_trans = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 //echo "<br>store_obj-".$row->obj_id."-".$row->type."-".$row->title."-";
 
@@ -298,7 +298,7 @@ class ilObjectDataCache
 				 "AND lang_code = ".$ilDB->quote($a_lang, 'text')." ".
 				 "AND NOT lang_default = 1";
 			$r = $ilDB->query($q);
-			while ($row2 = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			while ($row2 = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->object_data_cache[$row2->obj_id]['title'] = $row2->title;
 				$this->object_data_cache[$row2->obj_id]['description'] = $row2->description;
@@ -319,7 +319,7 @@ class ilObjectDataCache
 		$res = $ilDB->query($query);
 		
 		$obj_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$this->reference_cache[$row['ref_id']] = $row['obj_id'];
 //echo "<br>store_ref-".$row['ref_id']."-".$row['obj_id']."-";

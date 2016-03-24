@@ -540,7 +540,7 @@ class ilMail
 			array('integer', 'integer'),
 			array($this->user_id, $a_mail_id));
 
-		$this->mail_data = $this->fetchMailData($res->fetchRow(DB_FETCHMODE_OBJECT));
+		$this->mail_data = $this->fetchMailData($res->fetchRow(ilDBConstants::FETCHMODE_OBJECT));
 
 		return $this->mail_data;
 	}
@@ -559,7 +559,7 @@ class ilMail
 			array('integer', 'integer'),
 			array($this->user_id, $a_mail_id));
 
-		$this->mail_data = $this->fetchMailData($res->fetchRow(DB_FETCHMODE_OBJECT));
+		$this->mail_data = $this->fetchMailData($res->fetchRow(ilDBConstants::FETCHMODE_OBJECT));
 
 		return $this->mail_data;
 	}
@@ -703,7 +703,7 @@ class ilMail
 			array('integer', 'integer'),
 			array($this->user_id, $a_mail_id));
 
-		$this->mail_data =$this->fetchMailData($res->fetchRow(DB_FETCHMODE_OBJECT));
+		$this->mail_data =$this->fetchMailData($res->fetchRow(ilDBConstants::FETCHMODE_OBJECT));
 
 		return $this->mail_data;
 	}
@@ -1784,7 +1784,7 @@ class ilMail
 			array('integer'),
 			array($this->user_id));
 
-		$this->mail_data = $this->fetchMailData($res->fetchRow(DB_FETCHMODE_OBJECT));
+		$this->mail_data = $this->fetchMailData($res->fetchRow(ilDBConstants::FETCHMODE_OBJECT));
 
 		return $this->mail_data;
 	}

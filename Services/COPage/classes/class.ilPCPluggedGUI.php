@@ -24,12 +24,12 @@ class ilPCPluggedGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCPluggedGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id,
+	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id,
 		$a_plugin_name = "", $a_pc_id = "")
 	{
 		global $ilCtrl;
 		$this->setPluginName($a_plugin_name);
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);		
+		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 	/**
@@ -55,7 +55,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilPluginAdmin, $ilTabs, $lng, $ilCtrl;
 		

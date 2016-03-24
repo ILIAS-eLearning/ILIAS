@@ -40,12 +40,6 @@ class ilObjFileGUI extends ilObject2GUI
 		return "file";
 	}
 
-	// ???
-	function _forwards()
-	{
-		return array();
-	}
-	
 	function executeCommand()
 	{
 		global $ilNavigationHistory, $ilCtrl, $ilUser, $ilTabs, $ilAccess, $ilErr;
@@ -126,7 +120,7 @@ class ilObjFileGUI extends ilObject2GUI
 			case 'ilpermissiongui':
 				$ilTabs->activateTab("id_permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 		
@@ -162,7 +156,7 @@ class ilObjFileGUI extends ilObject2GUI
 			case "illearningprogressgui":
 				$ilTabs->activateTab('learning_progress');
 				require_once 'Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$new_gui =& new ilLearningProgressGUI(
+				$new_gui = new ilLearningProgressGUI(
 					ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
 					$this->object->getRefId(),
 					$_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId()
@@ -198,7 +192,10 @@ class ilObjFileGUI extends ilObject2GUI
 		$this->addHeaderAction();
 	}
 	
-	protected function initCreationForms()
+	/**
+	 * @param string $a_new_type
+	 */
+	protected function initCreationForms($a_new_type)
 	{				
 		$forms = array();		
 			

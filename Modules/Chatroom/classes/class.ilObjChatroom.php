@@ -24,7 +24,7 @@ class ilObjChatroom extends ilObject
 	public function __construct($a_id = 0, $a_call_by_reference = true)
 	{
 		$this->type = 'chtr';
-		$this->ilObject($a_id, $a_call_by_reference);
+		parent::__construct($a_id, $a_call_by_reference);
 	}
 
 	/**
@@ -61,7 +61,7 @@ class ilObjChatroom extends ilObject
 	 *
 	 * @global type $rbacadmin
 	 * @global type $rbacreview
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @return type 
 	 */
 	function initDefaultRoles()
@@ -111,7 +111,7 @@ class ilObjChatroom extends ilObject
 	public function delete()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 

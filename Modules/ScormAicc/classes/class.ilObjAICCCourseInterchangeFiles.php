@@ -312,7 +312,7 @@ class ilObjAICCCourseInterchangeFiles
 		}
 		
 		//write tree
-		$tree =& new ilAICCTree($alm_id);
+		$tree = new ilAICCTree($alm_id);
 		$tree->addTree($alm_id, $identifier["root"]);
 		
 		//writing members

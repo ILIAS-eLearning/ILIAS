@@ -195,7 +195,7 @@ class ilLanguage
 		// get available setup-files
 		while ($entry = $d->read())
 		{
-			if (is_file($entry) && (ereg ("(^setup_.{2}\.lang$)", $entry)))
+			if (is_file($entry) && (preg_match ('/(^setup_.{2}\.lang$)/', $entry)))
 			{
 				$lang_key = substr($entry,6,2);
 				$languages[] = $lang_key;
@@ -558,7 +558,7 @@ class ilLanguage
 		$result = $ilDB->query($q);
 		
 		$changes = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$changes[$row["module"]][$row["identifier"]] = $row["value"];
 		}
@@ -773,7 +773,7 @@ class ilLanguage
 			// get available .lang.local files
 			while ($entry = $d->read())
 			{
-				if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang.local$)", $entry)))
+				if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang.local$)~", $entry)))
 				{
 					$lang_key = substr($entry,6,2);
 					$local_langs[] = $lang_key;
@@ -797,7 +797,7 @@ class ilLanguage
 		// get available lang-files
 		while ($entry = $d->read())
 		{
-			if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang$)", $entry)))
+			if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang$)~", $entry)))
 			{
 				$lang_key = substr($entry,6,2);
 				$languages1[] = $lang_key;

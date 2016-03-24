@@ -16,12 +16,12 @@ include_once 'Services/Tracking/classes/class.ilLPStatus.php';
 class ilLPStatusObjectives extends ilLPStatus
 {
 
-	function ilLPStatusObjectives($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
-		parent::ilLPStatus($a_obj_id);
-		$this->db =& $ilDB;
+		parent::__construct($a_obj_id);
+		$this->db = $ilDB;
 	}
 	
 	function _getNotAttempted($a_obj_id)
@@ -126,7 +126,7 @@ class ilLPStatusObjectives extends ilLPStatus
 			// Read title/description
 			$query = "SELECT * FROM crs_objectives WHERE ".$in;
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$status_info['objective_title'][$row->objective_id] = $row->title;
 				$status_info['objective_description'][$row->objective_id] = $row->description;

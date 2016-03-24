@@ -39,15 +39,6 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 {
 	/**
-	* constructor
-	*
-	*/
-	function ilObjSurveyQuestionPoolListGUI()
-	{
-		$this->ilObjectListGUI();
-	}
-
-	/**
 	* initialisation
 	*/
 	function init()

@@ -154,7 +154,7 @@ class ilObjLinkResource extends ilObject
 	{
 		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
 
-		$this->items_obj =& new ilLinkResourceItems($this->getId());
+		$this->items_obj = new ilLinkResourceItems($this->getId());
 
 		return true;
 	}

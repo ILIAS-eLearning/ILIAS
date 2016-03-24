@@ -99,7 +99,7 @@ class ilTestEvaluationPassData
 	*
 	* @access	public
 	*/
-	function ilTestEvaluationPassData()
+	public function __construct()
 	{
 		$this->answeredQuestions = array();
 	}

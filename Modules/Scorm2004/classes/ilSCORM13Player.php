@@ -139,7 +139,7 @@ class ilSCORM13Player
 		
 		$this->page = $_REQUEST['page'];
 		
-		$this->slm =& new ilObjSCORM2004LearningModule($_GET["ref_id"], true);
+		$this->slm = new ilObjSCORM2004LearningModule($_GET["ref_id"], true);
 		
 			
 		$this->ilias =& $ilias;

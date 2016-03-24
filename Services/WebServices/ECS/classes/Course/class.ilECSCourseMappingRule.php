@@ -51,7 +51,7 @@ class ilECSCourseMappingRule
 		$res = $ilDB->query($query);
 		
 		$attributes = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$attributes = $row->attribute;
 		}
@@ -75,7 +75,7 @@ class ilECSCourseMappingRule
 		
 		$res = $ilDB->query($query);
 		$ref_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ref_ids[] = $row->ref_id;
 		}
@@ -99,7 +99,7 @@ class ilECSCourseMappingRule
 				'AND ref_id = '.$ilDB->quote($a_ref_id,'integer');
 		$res = $ilDB->query($query);
 		$rids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$rids = $row->rid;
 		}
@@ -134,7 +134,7 @@ class ilECSCourseMappingRule
 				'ORDER BY rid';
 		$res = $ilDB->query($query);
 		$matches = false;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$rule = new ilECSCourseMappingRule($row->rid);
 			if(!$rule->matches($course))
@@ -168,7 +168,7 @@ class ilECSCourseMappingRule
 		$res = $ilDB->query($query);
 		
 		$first = true;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$rule = new ilECSCourseMappingRule($row->rid);
 			if($first)
@@ -269,7 +269,7 @@ class ilECSCourseMappingRule
 				'AND attribute = '.$ilDB->quote($a_att,'text');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return new ilECSCourseMappingRule($row->rid);
 		}
@@ -449,7 +449,7 @@ class ilECSCourseMappingRule
 		$query = 'SELECT * from ecs_cmap_rule '.' '.
 				'WHERE rid = '.$ilDB->quote($this->getRuleId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setServerId($row->sid);
 			$this->setMid($row->mid);

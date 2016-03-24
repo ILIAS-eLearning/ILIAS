@@ -20,7 +20,7 @@ class ilObjWikiListGUI extends ilObjectListGUI
 	*/
 	function ilObjWikiListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**

@@ -38,7 +38,12 @@ class ilCourseLMHistory
 	var $course_id;
 	var $user_id;
 
-	function ilCourseLMHistory($crs_id,$user_id)
+	/**
+	 * Constructor
+	 * @param int $crs_id
+	 * @param int $user_id
+	 */
+	public function __construct($crs_id,$user_id)
 	{
 		global $ilDB;
 
@@ -57,7 +62,7 @@ class ilCourseLMHistory
 		return $this->course_id;
 	}
 
-	function _updateLastAccess($a_user_id,$a_lm_ref_id,$a_page_id)
+	static function _updateLastAccess($a_user_id,$a_lm_ref_id,$a_page_id)
 	{
 		global $tree,$ilDB;
 
@@ -92,7 +97,7 @@ class ilCourseLMHistory
 			"ORDER BY last_access ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->lm_ref_id;
 		}
@@ -108,7 +113,7 @@ class ilCourseLMHistory
 			"AND crs_ref_id = ".$ilDB->quote($this->getCourseRefId(),'integer')."";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$lm[$row->lm_ref_id]['lm_ref_id'] = $row->lm_ref_id;
 			$lm[$row->lm_ref_id]['lm_page_id'] = $row->lm_page_id;

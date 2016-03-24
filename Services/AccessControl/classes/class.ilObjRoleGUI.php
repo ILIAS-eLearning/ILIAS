@@ -66,12 +66,12 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->container_type = ilObject::_lookupType(ilObject::_lookupObjId($this->obj_ref_id));
 
 		$this->type = "role";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 		$this->ctrl->saveParameter($this, array('obj_id', 'rolf_ref_id'));
 	}
 
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem;
 
@@ -84,7 +84,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search = new ilRepositorySearchGUI();
 				$rep_search->setTitle($this->lng->txt('role_add_user'));
 				$rep_search->setCallback($this,'addUserObject');
 
@@ -173,9 +173,9 @@ class ilObjRoleGUI extends ilObjectGUI
 	/**
 	* admin and normal tabs are equal for roles
 	*/
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 	
 	/**
@@ -299,7 +299,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
 
-		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
+		$role_desk_item_obj = new ilRoleDesktopItem($this->object->getId());
 
 		foreach ($_POST['del_desk_item'] as $role_item_id)
 		{
@@ -368,7 +368,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
 
-		$role_desk_item_obj =& new ilRoleDesktopItem($this->object->getId());
+		$role_desk_item_obj = new ilRoleDesktopItem($this->object->getId());
 		$role_desk_item_obj->add((int) $_GET['item_id'],ilObject::_lookupType((int) $_GET['item_id'],true));
 
 		ilUtil::sendSuccess($this->lng->txt('role_assigned_desktop_item'));
@@ -1485,7 +1485,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	* should be overwritten to add object specific items
 	* (repository items are preloaded)
 	*/
-	function addAdminLocatorItems()
+	function addAdminLocatorItems($a_do_not_add_object = false)
 	{
 		global $ilLocator;
 
@@ -1513,9 +1513,9 @@ class ilObjRoleGUI extends ilObjectGUI
 
 
 
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
-		global $rbacsystem,$rbacreview, $ilHelp;
+		global $rbacreview, $ilHelp;
 
 		$base_role_container = $rbacreview->getFoldersAssignedToRole($this->object->getId(),true);
 		
@@ -1532,19 +1532,19 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
 		// not so nice (workaround for using tabs in repository)
-		$tabs_gui->clearTargets();
+		$this->tabs_gui->clearTargets();
 
 		$ilHelp->setScreenIdComponent("role");
 
 		if ($this->back_target != "")
 		{
-			$tabs_gui->setBackTarget(
+			$this->tabs_gui->setBackTarget(
 				$this->back_target["text"],$this->back_target["link"]);
 		}
 
 		if($this->checkAccess('write','edit_permission') && $activate_role_edit)
 		{
-			$tabs_gui->addTarget("edit_properties",
+			$this->tabs_gui->addTarget("edit_properties",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit","update"), get_class($this));
 		}
 /*
@@ -1553,7 +1553,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$force_active = ($_GET["cmd"] == "perm" || $_GET["cmd"] == "")
 				? true
 				: false;
-			$tabs_gui->addTarget("default_perm_settings",
+			$this->tabs_gui->addTarget("default_perm_settings",
 				$this->ctrl->getLinkTarget($this, "perm"), array("perm", "adoptPermSave", "permSave"),
 				get_class($this),
 				"", $force_active);
@@ -1561,7 +1561,7 @@ class ilObjRoleGUI extends ilObjectGUI
 */
 		if($this->checkAccess('write','edit_permission') and $this->showDefaultPermissionSettings())
 		{
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				"default_perm_settings",
 				$this->ctrl->getLinkTarget($this, "perm"), array(),get_class($this)
 			);
@@ -1569,7 +1569,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		if($this->checkAccess('write','edit_permission') && $activate_role_edit && $this->object->getId() != ANONYMOUS_ROLE_ID)
 		{
-			$tabs_gui->addTarget("user_assignment",
+			$this->tabs_gui->addTarget("user_assignment",
 				$this->ctrl->getLinkTarget($this, "userassignment"),
 				array("deassignUser", "userassignment", "assignUser", "searchUserForm", "search"),
 				get_class($this));
@@ -1577,14 +1577,14 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		if($this->checkAccess('write','edit_permission') && $activate_role_edit  && $this->object->getId() != ANONYMOUS_ROLE_ID)
 		{
-			$tabs_gui->addTarget("desktop_items",
+			$this->tabs_gui->addTarget("desktop_items",
 				$this->ctrl->getLinkTarget($this, "listDesktopItems"),
 				array("listDesktopItems", "deleteDesktopItems", "selectDesktopItem", "askDeleteDesktopItem"),
 				get_class($this));
 		}
 		if($this->checkAccess('write','edit_permission'))
 		{
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 					'export',
 					$this->ctrl->getLinkTargetByClass('ilExportGUI'),
 					array()

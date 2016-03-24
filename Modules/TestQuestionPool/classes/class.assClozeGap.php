@@ -52,7 +52,7 @@ class assClozeGap
 	 * @param int $a_type
 	 *
 	 */
-	public function assClozeGap($a_type)
+	public function __construct($a_type)
 	{
 		$this->type = $a_type;
 		$this->items = array();

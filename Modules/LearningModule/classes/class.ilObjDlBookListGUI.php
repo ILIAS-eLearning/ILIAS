@@ -39,7 +39,7 @@ class ilObjDlBookListGUI extends ilObjectListGUI
 	*/
 	function ilObjDlBookListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**

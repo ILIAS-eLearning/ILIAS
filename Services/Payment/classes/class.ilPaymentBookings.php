@@ -1008,7 +1008,7 @@ class ilPaymentBookings
 		else $res = $this->db->queryf($query, $data_types, $data);
 
 		$rows = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$rows[]	= $row->ref_id;
 		}

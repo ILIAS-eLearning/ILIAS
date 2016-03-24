@@ -134,7 +134,7 @@ class ilMailTemplateService
 	 * @param string $a_class
 	 * @param string $a_path
 	 */
-	protected function getContextInstance($a_component, $a_id, $a_class, $a_path)
+	protected static function getContextInstance($a_component, $a_id, $a_class, $a_path)
 	{
 		$mess = '';
 

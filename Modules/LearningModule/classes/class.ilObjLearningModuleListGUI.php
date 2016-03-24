@@ -18,9 +18,9 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 	* constructor
 	*
 	*/
-	function ilObjLearningModuleListGUI()
+	function __construct()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**

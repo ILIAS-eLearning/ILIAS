@@ -398,7 +398,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 		$entered_values = false;
 		if (strlen($_POST["qst_" . $this->getId()]))
 		{
-			$selected = split(",", $_POST["qst_" . $this->getId()]);
+			$selected = explode(",", $_POST["qst_" . $this->getId()]);
 			foreach ($selected as $position)
 			{
 				$affectedRows = $this->saveCurrentSolution($active_id, $pass, $position, null, $authorized);
@@ -1320,7 +1320,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	*/
 	public function getUserQuestionResult($active_id, $pass)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 

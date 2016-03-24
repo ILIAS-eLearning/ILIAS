@@ -76,7 +76,7 @@ class ilNewsItemGUI
 	 * Execute command.
 	 *
 	 */
-	public function &executeCommand()
+	public function executeCommand()
 	{
 		global $ilCtrl;
 

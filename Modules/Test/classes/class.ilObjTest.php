@@ -695,7 +695,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		
 		$this->tmpCopyWizardCopyId = null;
 		
-		$this->ilObject($a_id, $a_call_by_reference);
+		parent::__construct($a_id, $a_call_by_reference);
 	}
 
 	/**
@@ -752,6 +752,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	* @param	boolean
 	* @access	public
 	*/
+	// php7-todo remove force_db_parameter
 	function read($a_force_db = false)
 	{
 		parent::read($a_force_db);
@@ -834,73 +835,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				$mob_obj->delete();
 			}
 		}
-	}
-
-
-	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	*
-	* If you are not required to handle any events related to your module, just delete this method.
-	* (For an example how this method is used, look at ilObjGroup)
-	*
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional parameters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{
-		global $tree;
-
-		switch ($a_event)
-		{
-			case "link":
-
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Module name ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "cut":
-
-				//echo "Module name ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "copy":
-
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Module name ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "paste":
-
-				//echo "Module name ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "new":
-
-				//echo "Module name ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-		}
-
-		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
-		if ($a_node_id==$_GET["ref_id"])
-		{
-			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
-			$parent_type = $parent_obj->getType();
-			if ($parent_type == $this->getType())
-			{
-				$a_node_id = (int) $tree->getParentId($a_node_id);
-			}
-		}
-
-		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 
 	/**
@@ -1180,7 +1114,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	public function saveECTSStatus()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -6878,7 +6812,7 @@ function getAnswerFeedbackPoints()
 	{
 		/**
 		 * @var $tree          ilTree
-		 * @var $ilDB          ilDB
+		 * @var $ilDB          ilDBInterface
 		 * @var $ilPluginAdmin ilPluginAdmin
 		 */
 		global $ilDB, $ilPluginAdmin, $tree;
@@ -8496,7 +8430,7 @@ function getAnswerFeedbackPoints()
 	public function getPotentialRandomTestQuestions()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -9613,7 +9547,7 @@ function getAnswerFeedbackPoints()
 	public function getAvailableDefaults()
 	{
 		/**
-		 * @var $ilDB   ilDB
+		 * @var $ilDB   ilDBInterface
 		 * @var $ilUser ilObjUser
 		 */
 		global $ilDB, $ilUser;
@@ -10111,7 +10045,7 @@ function getAnswerFeedbackPoints()
 		if (strlen($feedback))
 		{
 			$next_id = $ilDB->nextId('tst_manual_fb');
-			/** @var ilDB $ilDB */
+			/** @var ilDBInterface $ilDB */
 			$result = $ilDB->insert('tst_manual_fb', array(
 													   'manual_feedback_id'		=> array( 'integer', 	$next_id ),
 													   'active_fi'				=> array( 'integer', 	$active_id ),
@@ -10345,7 +10279,7 @@ function getAnswerFeedbackPoints()
 	 */
 	public function getParticipantsForTestAndQuestion($test_id, $question_id)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		
 		$query = "
@@ -11377,7 +11311,7 @@ function getAnswerFeedbackPoints()
 	 *
 	 * @static
 	 * @access public
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $test_id
 	 * @param integer $active_id
 	 * @param integer $pass
@@ -11405,7 +11339,7 @@ function getAnswerFeedbackPoints()
 	 * returns the fact wether the test with given test id
 	 * contains questions markes as obligatory or not
 	 *
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $test_id
 	 * @return boolean $hasObligations
 	 */
@@ -11653,7 +11587,7 @@ function getAnswerFeedbackPoints()
 	public function getMaxPassOfTest()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 		
@@ -11818,7 +11752,7 @@ function getAnswerFeedbackPoints()
 	/**
 	 * lookup-er for question set type
 	 * 
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $objId
 	 * @return string $questionSetType
 	 */
@@ -11939,7 +11873,7 @@ function getAnswerFeedbackPoints()
 		}
 	}
 	
-	public static function getPoolQuestionChangeListeners(ilDB $db, $poolObjId)
+	public static function getPoolQuestionChangeListeners(ilDBInterface $db, $poolObjId)
 	{
 		require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
 		

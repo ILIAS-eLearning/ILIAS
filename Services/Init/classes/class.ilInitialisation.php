@@ -426,7 +426,11 @@ class ilInitialisation
 		// Do not accept external session ids
 		if (!ilSession::_exists(session_id()) && !defined('IL_PHPUNIT_TEST'))
 		{
-			session_regenerate_id();
+			// php7-todo, correct-with-php5-removal : alex, 1.3.2016: added if, please check
+			if(function_exists("session_status") && session_status() == PHP_SESSION_ACTIVE)
+			{
+				session_regenerate_id();
+			}
 		}				
 	}
 	
@@ -917,18 +921,8 @@ class ilInitialisation
 	 */
 	public static function handleErrorReporting()
 	{		
-		// remove notices from error reporting
-		if (version_compare(PHP_VERSION, '5.4.0', '>='))
-		{
-			// Prior to PHP 5.4.0 E_ALL does not include E_STRICT.
-			// With PHP 5.4.0 and above E_ALL >DOES< include E_STRICT.
-			
-			error_reporting(((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED) & ~E_STRICT);
-		}
-		else
-		{
-			error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
-		}
+		// push the error level as high as possible / sane
+		error_reporting(E_ALL & ~E_NOTICE);
 		
 		// see handleDevMode() - error reporting might be overwritten again
 		// but we need the client ini first
@@ -955,7 +949,7 @@ class ilInitialisation
 		$ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, 'errorHandler'));		
 		
 		// :TODO: obsolete?
-		PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
+		// PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 					
 		// workaround: load old post variables if error handler 'message' was called
 		include_once "Services/Authentication/classes/class.ilSession.php";
@@ -1079,9 +1073,7 @@ class ilInitialisation
 		}		
 
 		// $ilAuth 
-		require_once "Auth/Auth.php";
-		require_once "./Services/AuthShibboleth/classes/class.ilShibboleth.php";		
-		include_once("./Services/Authentication/classes/class.ilAuthUtils.php");
+		include_once "./Services/Authentication/classes/class.ilAuthUtils.php";
 		ilAuthUtils::_initAuth();
 		$ilias->auth = $ilAuth;
 

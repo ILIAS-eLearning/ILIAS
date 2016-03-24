@@ -226,7 +226,7 @@ class ilPaymentObject
 		$result = $ilDB->queryf('SELECT pt_topic_fk FROM payment_objects WHERE ref_id = %s',
 		        	 	array('integer'),array($a_ref_id));
 		        	 	
-		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$cache[$a_ref_id] = $row->pt_topic_fk;
 			return (int)$cache[$a_ref_id];
@@ -243,7 +243,7 @@ class ilPaymentObject
 		$result = $ilDB->queryf('SELECT COUNT(pay_method) pm FROM payment_objects WHERE pay_method = %s',
 				 	array('integer'), array($a_id));
 
-		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return (int)$row->pm;
 		}

@@ -121,7 +121,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
      *        array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *    );
      */
-    function _getCommands($a_obj_id = null)
+    static function _getCommands($a_obj_id = null)
     {
         $commands = array
         (
@@ -180,7 +180,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     /**
     * check whether goto script will succeed
     */
-    function _checkGoto($a_target)
+    static function _checkGoto($a_target)
     {
         global $ilAccess;
         
