@@ -1428,7 +1428,6 @@ class ilStartUpGUI
 			}
 			else
 			{
-				// will handle shop redirects, too
 				ilUtil::redirect("goto.php?target=".$_GET["target"]);
 			}
 		}

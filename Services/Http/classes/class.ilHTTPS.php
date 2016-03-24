@@ -162,10 +162,6 @@ class ilHTTPS
 	{
 		$this->protected_classes[] = 'ilstartupgui';
 		$this->protected_classes[] = 'ilaccountregistrationgui';
-		$this->protected_classes[] = 'ilpurchasebmfgui';
-		$this->protected_classes[] = 'ilpurchasepaypal';
-		$this->protected_classes[] = 'ilshopshoppingcartgui';
-		$this->protected_classes[] = 'ilpurchasebillgui';
 		$this->protected_classes[] = 'ilpersonalsettingsgui';
 	}
 

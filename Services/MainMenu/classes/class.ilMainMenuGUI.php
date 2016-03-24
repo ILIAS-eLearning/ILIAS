@@ -944,14 +944,6 @@ class ilMainMenuGUI
 
 				break;
 
-			// shop
-			case 'shop':
-				$selection->setListTitle($lng->txt("shop"));
-				$selection->setId("dd_shp");
-				$selection->addItem($lng->txt("shop"), "", "ilias.php?baseClass=ilShopController&cmd=firstpage",
-					"", "", "_top");
-				break;
-
 			// administration
 			case "administration":
 				$selection->setListTitle($lng->txt("administration"));

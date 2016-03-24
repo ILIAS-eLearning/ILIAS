@@ -13,7 +13,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 * $Id$
 * 
 * @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilObjExerciseGUI: ilObjectCopyGUI, ilExportGUI, ilShopPurchaseGUI
+* @ilCtrl_Calls ilObjExerciseGUI: ilObjectCopyGUI, ilExportGUI
 * @ilCtrl_Calls ilObjExerciseGUI: ilCommonActionDispatcherGUI, ilCertificateGUI 
 * @ilCtrl_Calls ilObjExerciseGUI: ilExAssignmentEditorGUI, ilExSubmissionGUI
 * @ilCtrl_Calls ilObjExerciseGUI: ilExerciseManagementGUI, ilExcCriteriaCatalogueGUI
@@ -95,13 +95,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$exp_gui->addFormat("xml");
 				$ret = $this->ctrl->forwardCommand($exp_gui);
 //				$this->tpl->show();
-				break;
-			
-			case 'ilshoppurchasegui':
-				include_once './Services/Payment/classes/class.ilShopPurchaseGUI.php';
-				$sp = new ilShopPurchaseGUI($_GET['ref_id']);
-
-				$this->ctrl->forwardCommand($sp);
 				break;
 			
 			case "ilcommonactiondispatchergui":

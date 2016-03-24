@@ -11,7 +11,7 @@
 * $Id$
 *
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilObjFileBasedLMGUI: ilShopPurchaseGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjFileBasedLMGUI: ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilLicenseGUI, ilExportGUI
 * @ingroup ModulesHTMLLearningModule
 */

@@ -17,7 +17,7 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilGlossaryPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilShopPurchaseGUI, ilPresentationListTableGUI
+* @ilCtrl_Calls ilGlossaryPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilPresentationListTableGUI
 *
 * @ingroup ModulesGlossary
 */

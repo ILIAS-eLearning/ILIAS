@@ -13,7 +13,7 @@ require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilShopPurchaseGUI
+* @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilLMPresentationGUI: ilLMPageGUI, ilGlossaryDefPageGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilLMPresentationGUI: ilLearningProgressGUI, ilAssGenFeedbackPageGUI
 * @ilCtrl_Calls ilLMPresentationGUI: ilRatingGUI

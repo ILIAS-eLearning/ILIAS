@@ -28,7 +28,6 @@ class ilObjectListGUI
 
 	const CONTEXT_REPOSITORY = 1;
 	const CONTEXT_WORKSPACE = 2;
-	const CONTEXT_SHOP = 3;
 	const CONTEXT_WORKSPACE_SHARING = 4;
 	const CONTEXT_PERSONAL_DESKTOP = 5;
 	const CONTEXT_SEARCH = 6;
@@ -955,7 +954,7 @@ class ilObjectListGUI
 			return $this->access_cache[$a_permission]["-".$a_cmd][$cache_prefix.$a_ref_id];
 		}
 
-		if($this->context == self::CONTEXT_REPOSITORY || $this->context == self::CONTEXT_SHOP)
+		if($this->context == self::CONTEXT_REPOSITORY)
 		{
 			$access = $ilAccess->checkAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id);
 			if ($ilAccess->getPreventCachingLastResult())
@@ -1083,7 +1082,7 @@ class ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
-		if($this->context == self::CONTEXT_REPOSITORY || $this->context == self::CONTEXT_SHOP)
+		if($this->context == self::CONTEXT_REPOSITORY)
 		{
 			// BEGIN WebDAV Get mount webfolder link.
 			require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
@@ -1970,56 +1969,6 @@ class ilObjectListGUI
 		}
 		$this->tpl->setCurrentBlock('notice_property');
 		$this->tpl->parseCurrentBlock();
-	}
-
-	protected function insertPaymentCommand($has_extension_prices = false)
-	{
-		$commands = $this->getCommands($this->ref_id, $this->obj_id);
-		foreach($commands as $command)
-		{ 
-			if($command['default'] === true)
-			{
-				$command = $this->createDefaultCommand($command);
-//				if(is_null($command['link']) )
-//				{
-					switch($this->type)
-					{
-						case 'sahs':
-							$command['link'] = 'ilias.php?baseClass=ilSAHSPresentationGUI&ref_id='.$this->ref_id;
-							break;
-						
-						case 'lm':
-							$command['link'] = 'ilias.php?baseClass=ilLMPresentationGUI&ref_id='.$this->ref_id;
-							break;
-						case 'exc':
-						default:
-							$command['link'] = 'ilias.php?baseClass=ilShopController&cmdClass=ilshoppurchasegui&ref_id='.$this->ref_id;
-							break;	
-					}					
-//				}
-
-				$type = $this->type;
-				if(strpos($command['link'], '_'.$type.'_') !== false)
-				{
-					$demo_link = str_replace('_'.$type.'_', '_'.$type.'purchasetypedemo_', $command['link']);
-					$buy_link = str_replace('_'.$type.'_', '_'.$type.'purchasetypebuy_', $command['link']);
-				}
-				else
-				{
-					$demo_link = $command['link'].(strpos($command['link'], '?') === false ? '?' : '&').'purchasetype=demo';
-					$buy_link = $command['link'].(strpos($command['link'], '?') === false ? '?' : '&').'purchasetype=buy';
-				}
-
-				$this->current_selection_list->addItem($this->lng->txt('payment_demo'), "", $demo_link, $a_img, $this->lng->txt('payment_demo'), $command['frame']);
-				if($has_extension_prices == true)
-				{
-					$this->current_selection_list->addItem($this->lng->txt('buy_extension'), "", $buy_link, $a_img, $this->lng->txt('buy_extension'), $command['frame']);
-				}
-				else
-					$this->current_selection_list->addItem($this->lng->txt('buy'), "", $buy_link, $a_img, $this->lng->txt('buy'), $command['frame']);
-
-			}
-		}
 	}
 
 	protected function parseConditions($toggle_id,$conditions,$obligatory = true)
