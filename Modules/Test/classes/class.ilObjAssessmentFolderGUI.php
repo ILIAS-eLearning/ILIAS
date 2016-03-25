@@ -354,7 +354,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$available_tests =& ilObjTest::_getAvailableTests(1);
 		array_push($csv, ilUtil::processCSVRow($row, TRUE, $separator));
-		$log_output =& $this->object->getLog($from, $until, $test);
+		$log_output = ilObjAssessmentFolder::getLog($from, $until, $test);
 		$users = array();
 		foreach ($log_output as $key => $log)
 		{
@@ -463,7 +463,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		{
 			include_once "./Modules/Test/classes/tables/class.ilAssessmentFolderLogTableGUI.php";
 			$table_gui = new ilAssessmentFolderLogTableGUI($this, 'logs');
-			$log_output =& $this->object->getLog($fromdate, $untildate, $p_test);
+			$log_output = ilObjAssessmentFolder::getLog($fromdate, $untildate, $p_test);
 			$table_gui->setData($log_output);
 			$template->setVariable('LOG', $table_gui->getHTML());	
 		}

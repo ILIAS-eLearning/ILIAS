@@ -312,7 +312,7 @@ class ilObjAssessmentFolder extends ilObject
 	* @param integer $test_id Database id of the ILIAS test object
 	* @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
 	*/
-	function &getLog($ts_from, $ts_to, $test_id, $test_only = FALSE)
+	public static function getLog($ts_from, $ts_to, $test_id, $test_only = FALSE)
 	{
 		global $ilDB;
 		
@@ -369,7 +369,7 @@ class ilObjAssessmentFolder extends ilObject
 	* @param integer $test_id Database id of the ILIAS test object
 	* @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
 	*/
-	function &_getLog($ts_from, $ts_to, $test_id, $test_only = FALSE)
+	public static function _getLog($ts_from, $ts_to, $test_id, $test_only = FALSE)
 	{
 		global $ilDB;
 		
