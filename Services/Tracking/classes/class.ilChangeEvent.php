@@ -52,7 +52,7 @@ class ilChangeEvent
 	 *      of the object. If this is not null, then the event is only 
 	 *      recorded for the specified parent.
 	 */
-	function _recordWriteEvent($obj_id, $usr_id, $action, $parent_obj_id = null)
+	public static function _recordWriteEvent($obj_id, $usr_id, $action, $parent_obj_id = null)
 	{
 		global $ilDB;
 		
