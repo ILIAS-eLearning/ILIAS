@@ -672,7 +672,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 * @return mixed true if the user is allowed to run the online exam or if the test isn't an online exam, an alert message if the test is an online exam and the user is not allowed to run it
 * @access public
 */
-	function _lookupOnlineTestAccess($a_test_id, $a_user_id)
+	public static function _lookupOnlineTestAccess($a_test_id, $a_user_id)
 	{
 		global $ilDB, $lng;
 		
