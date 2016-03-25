@@ -188,7 +188,7 @@ class ilObjAssessmentFolder extends ilObject
 	/**
 	* Retrieve the manual scoring settings
 	*/
-	function _getManualScoring()
+	public static function _getManualScoring()
 	{
 		$setting = new ilSetting("assessment");
 

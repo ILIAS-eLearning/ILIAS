@@ -225,7 +225,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 		// manual scoring
 		$manual = new ilCheckboxGroupInputGUI($this->lng->txt('assessment_log_manual_scoring_activate'), "chb_manual_scoring");
-		$manscoring = $this->object->_getManualScoring();
+		$manscoring = ilObjAssessmentFolder::_getManualScoring();
 		$manual->setValue($manscoring);
 		foreach ($questiontypes as $type_name => $qtype)
 		{
