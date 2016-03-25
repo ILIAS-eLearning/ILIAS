@@ -1997,7 +1997,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->redirectToPassDeletionContext($_POST['context']);
 	}
 
-	protected function getFilteredTestResult($active_id, $pass, $considerHiddenQuestions)
+	protected function getFilteredTestResult($active_id, $pass, $considerHiddenQuestions, $considerOptionalQuestions)
 	{
 		global $ilDB, $ilPluginAdmin;
 
