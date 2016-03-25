@@ -1276,7 +1276,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	/**
 	* form for new questionpool object import
 	*/
-	function importFileObject()
+	protected function importFileObject($parent_id = null, $a_catch_errors = true)
 	{
 		$form = $this->initImportForm($_REQUEST["new_type"]);
 		if($form->checkInput())
