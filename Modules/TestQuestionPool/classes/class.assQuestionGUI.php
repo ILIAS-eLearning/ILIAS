@@ -292,7 +292,7 @@ abstract class assQuestionGUI
 	 * 
 	 * @return assQuestionGUI The alias to the question object
 	 */
-	public function &_getQuestionGUI($question_type, $question_id = -1)
+	public static function _getQuestionGUI($question_type, $question_id = -1)
 	{
 		global $ilCtrl, $ilDB, $lng;
 		
