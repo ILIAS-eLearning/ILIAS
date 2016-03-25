@@ -209,7 +209,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		// available question types
 		$allowed = new ilCheckboxGroupInputGUI($this->lng->txt('assf_allowed_questiontypes'), "chb_allowed_questiontypes");
 		$questiontypes =& ilObjQuestionPool::_getQuestionTypes(TRUE);
-		$forbidden_types = $this->object->_getForbiddenQuestionTypes();
+		$forbidden_types = ilObjAssessmentFolder::_getForbiddenQuestionTypes();
 		$allowedtypes = array();
 		foreach ($questiontypes as $qt)
 		{

@@ -957,7 +957,7 @@ class ilObjQuestionPool extends ilObject
 		return $this->getShowTaxonomies() && (int)$this->getNavTaxonomyId();
 	}
 	
-	function _lookupOnline($a_obj_id, $is_reference = FALSE)
+	public static function _lookupOnline($a_obj_id, $is_reference = FALSE)
 	{
 		global $ilDB;
 		
@@ -1438,12 +1438,12 @@ class ilObjQuestionPool extends ilObject
 		return $newObj;
 	}
 
-	function &getQuestionTypes($all_tags = FALSE, $fixOrder = false)
+	function getQuestionTypes($all_tags = FALSE, $fixOrder = false)
 	{
-		return $this->_getQuestionTypes($all_tags, $fixOrder);
+		return self::_getQuestionTypes($all_tags, $fixOrder);
 	}
 
-	function &_getQuestionTypes($all_tags = FALSE, $fixOrder = false)
+	public static function _getQuestionTypes($all_tags = FALSE, $fixOrder = false)
 	{
 		global $ilDB;
 		global $lng;

@@ -119,7 +119,7 @@ class ilObjAssessmentFolder extends ilObject
 	/**
 	* Returns the forbidden questiontypes for ILIAS
 	*/
-	function _getForbiddenQuestionTypes()
+	public static function _getForbiddenQuestionTypes()
 	{
 		$setting = new ilSetting("assessment");
 		$types = $setting->get("forbidden_questiontypes");
