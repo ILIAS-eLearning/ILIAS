@@ -1292,7 +1292,7 @@ class ilObjQuestionPool extends ilObject
 * @return array The available question pools
 * @access public
 */
-	function &_getAvailableQuestionpools($use_object_id = FALSE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE, $permission = "read", $usr_id = "")
+	public static function _getAvailableQuestionpools($use_object_id = FALSE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE, $permission = "read", $usr_id = "")
 	{
 		global $ilUser, $ilDB, $lng;
 
