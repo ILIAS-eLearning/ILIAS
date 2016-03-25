@@ -2806,7 +2806,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	/**
 	* May be overwritten in subclasses.
 	*/
-	function setColumnSettings($column_gui)
+	function setColumnSettings(ilColumnGUI $column_gui)
 	{
 		global $ilAccess;
 		parent::setColumnSettings($column_gui);

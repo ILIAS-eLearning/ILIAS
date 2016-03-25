@@ -1919,7 +1919,7 @@ class ilObjectGUI
 	/**
 	* May be overwritten in subclasses.
 	*/
-	protected function setColumnSettings($column_gui)
+	protected function setColumnSettings(ilColumnGUI $column_gui)
 	{
 		$column_gui->setRepositoryMode(true);
 		$column_gui->setEnableEdit(false);

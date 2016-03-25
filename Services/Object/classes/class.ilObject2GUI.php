@@ -451,7 +451,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	final public function isVisible($a_ref_id,$a_type) { return parent::isVisible($a_ref_id,$a_type); }
 	final protected function getCenterColumnHTML() { return parent::getCenterColumnHTML(); }
 	final protected function getRightColumnHTML() { return parent::getRightColumnHTML(); }
-	final protected function setColumnSettings($column_gui) { return parent::setColumnSettings($column_gui); }
+	final protected function setColumnSettings(ilColumnGUI $column_gui) { return parent::setColumnSettings($column_gui); }
 	final protected function checkPermission($a_perm, $a_cmd = "", $a_type = "", $a_ref_id = null) { return parent::checkPermission($a_perm, $a_cmd, $a_type, $a_ref_id); }
 	
 	// -> ilContainerGUI

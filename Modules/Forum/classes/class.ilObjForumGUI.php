@@ -777,9 +777,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 
 	/**
-	 * @param ilObjForum $forumObj
+	 * @param ilObject|ilObjForum $forumObj
 	 */
-	protected function afterSave(ilObjForum $forumObj)
+	protected function afterSave(ilObject $forumObj)
 	{
 		ilUtil::sendSuccess($this->lng->txt('frm_added'), true);
 		$this->ctrl->setParameter($this, 'ref_id', $forumObj->getRefId());
@@ -3824,7 +3824,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		return false;
 	}
-	
+
 	public function setColumnSettings(ilColumnGUI $column_gui)
 	{
 		/** 
