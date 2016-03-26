@@ -2169,14 +2169,12 @@ abstract class assQuestion
 		return $page->getXMLContent();
 	}
 
-/**
-* Returns the question type of a question with a given id
-*
-* @param integer $question_id The database id of the question
-* @result string The question type string
-* @access private
-*/
-	function _getQuestionType($question_id) 
+	/**
+	 * Returns the question type of a question with a given id
+	 * @param integer $question_id The database id of the question
+	 * @return string The question type string
+	 */
+	public static function _getQuestionType($question_id)
 	{
 		global $ilDB;
 

@@ -107,9 +107,9 @@ class ilObjAssessmentFolder extends ilObject
 	}
 
 	/**
-	* check wether assessment logging is enabled or not
-	*/
-	function _enabledAssessmentLogging()
+	 * check wether assessment logging is enabled or not
+	 */
+	public static function _enabledAssessmentLogging()
 	{
 		$setting = new ilSetting("assessment");
 

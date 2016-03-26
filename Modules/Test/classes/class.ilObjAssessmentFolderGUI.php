@@ -601,7 +601,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		{
 			$form = $this->getLogSettingsForm();
 			$form->setValuesByArray(array(
-				'chb_assessment_logging' => $this->object->_enabledAssessmentLogging(),
+				'chb_assessment_logging' => ilObjAssessmentFolder::_enabledAssessmentLogging(),
 				'reporting_language'     => $this->object->_getLogLanguage()
 			));
 		}
