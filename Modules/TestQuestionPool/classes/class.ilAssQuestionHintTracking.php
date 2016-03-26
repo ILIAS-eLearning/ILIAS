@@ -349,22 +349,22 @@ class ilAssQuestionHintTracking
 	
 	/**
 	 * Deletes all hint requests relating to a question included in given question ids
-	 *
-	 * @access public
-	 * @global ilDBInterface $ilDB
-	 * @param array[integer] $questionIds 
+	 * @param array[integer] $questionIds
 	 */
-	public function deleteRequestsByQuestionIds($questionIds)
+	public static function deleteRequestsByQuestionIds($questionIds)
 	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
 		global $ilDB;
-		
+
 		$__question_fi__IN__questionIds = $ilDB->in('qhtr_question_fi', $questionIds, false, 'integer');
-				
+
 		$query = "
 			DELETE FROM	qpl_hint_tracking
 			WHERE		$__question_fi__IN__questionIds
 		";
-		
+
 		$ilDB->manipulate($query);
 	}
 	
