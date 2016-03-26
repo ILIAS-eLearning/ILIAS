@@ -1373,9 +1373,7 @@ class ilForum
    	*/
 	public function getModerators()
 	{
-		global $rbacreview;
-
-		return $this->_getModerators($this->getForumRefId());
+		return self::_getModerators($this->getForumRefId());
 	}
 
 	/**
@@ -1385,20 +1383,16 @@ class ilForum
 	* @return	array	user_ids
 	* @access	public
 	*/
-	function _getModerators($a_ref_id)
+	public static function _getModerators($a_ref_id)
 	{
 		global $rbacreview;
 
-		$role_arr  = $rbacreview->getRolesOfRoleFolder($a_ref_id);
-
-		foreach ($role_arr as $role_id)
+		$role_arr = $rbacreview->getRolesOfRoleFolder($a_ref_id);
+		foreach($role_arr as $role_id)
 		{
-			//$roleObj = $this->ilias->obj_factory->getInstanceByObjId($role_id);
-			$title = ilObject::_lookupTitle($role_id);
-			if ($title == "il_frm_moderator_".$a_ref_id)			
+			if(ilObject::_lookupTitle($role_id) == 'il_frm_moderator_' . $a_ref_id)
 			{
-				#return $rbacreview->assignedUsers($roleObj->getId());
-				return $title = $rbacreview->assignedUsers($role_id);
+				return $rbacreview->assignedUsers($role_id);
 			}
 		}
 
@@ -1417,7 +1411,7 @@ class ilForum
 	{
 		if(!self::$moderators_by_ref_id_map[$a_ref_id])
 		{
-			self::$moderators_by_ref_id_map[$a_ref_id] = ilForum::_getModerators($a_ref_id);
+			self::$moderators_by_ref_id_map[$a_ref_id] = self::_getModerators($a_ref_id);
 		}
 		return in_array($a_usr_id, self::$moderators_by_ref_id_map[$a_ref_id]);
 	}
