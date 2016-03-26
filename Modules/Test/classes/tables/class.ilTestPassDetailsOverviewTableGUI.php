@@ -160,7 +160,10 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 		$this->is_pdf_generation_request = $is_print_request;
 	}
 
-	public function fillRow(array $row)
+	/**
+	 * @param array $row
+	 */
+	public function fillRow($row)
 	{
 		$this->ctrl->setParameter($this->parent_obj, 'evaluation', $row['qid']);
 		
