@@ -360,30 +360,6 @@ class ilForumNotification
 			$result = array_unique(array_merge($moderator_ids,$admin_ids,$tutor_ids));
 		}
 		return $result;
-   }
-	
-	/**
-	* get all users assigned to local role il_frm_moderator_<frm_ref_id> (static)
-	*
-	* @param	int		$a_ref_id	reference id
-	* @return	array	user_ids
-	* @access	public
-	 * @deprecated 
-	*/
-	public function _getModerators($a_ref_id)
-	{
-		global $rbacreview;
-
-		$role_arr  = $rbacreview->getRolesOfRoleFolder($a_ref_id);
-		foreach($role_arr as $role_id)
-		{
-			if(ilObject::_lookupTitle($role_id) == 'il_frm_moderator_' . $a_ref_id)
-			{
-				return $rbacreview->assignedUsers($role_id);
-			}
-		}
-
-		return array();
 	}
 
 	public function update()
