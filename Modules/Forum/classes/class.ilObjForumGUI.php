@@ -799,7 +799,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->ctrl->setParameter($this, 'ref_id', $this->ref_id);
 
-		include_once 'Services/Repository/classes/class.ilRepositoryExplorer.php';
 		$active = array(
 			'', 'showThreads', 'view', 'markAllRead', 
 			'enableForumNotification', 'disableForumNotification', 'moveThreads', 'performMoveThreads',
