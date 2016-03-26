@@ -209,7 +209,7 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 	 *
 	 * @return    int    Size
 	 */
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		global $lng;
 

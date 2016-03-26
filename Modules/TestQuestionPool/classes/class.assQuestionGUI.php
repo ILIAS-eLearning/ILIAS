@@ -1221,7 +1221,7 @@ abstract class assQuestionGUI
 	{
 		$count = $this->object->isInUse();
 		
-		if (assQuestion::_questionExistsInPool($this->object->getId()) && $count)
+		if ($this->object->_questionExistsInPool($this->object->getId()) && $count)
 		{
 			global $rbacsystem;
 			if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))

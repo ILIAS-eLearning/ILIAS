@@ -1703,7 +1703,7 @@ abstract class assQuestion
 	*
 	* note: please don't use $this in this class to allow static calls
 	*/
-	function getQuestionTypeFromDb($question_id)
+	public static function getQuestionTypeFromDb($question_id)
 	{
 		global $ilDB;
 
