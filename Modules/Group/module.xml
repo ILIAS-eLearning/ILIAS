@@ -32,4 +32,5 @@
 		<event type="raise" id="addSubscriber" />
 	</events>
 	<logging id="grp" />
+	<badges />
 </module>

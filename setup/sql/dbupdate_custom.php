@@ -234,3 +234,9 @@ if(!$ilDB->tableColumnExists('object_data_del','type'))
 $ilCtrlStructureReader->getStructure();
 
 ?>
+<#12>
+<?php
+
+$ilCtrlStructureReader->getStructure();
+
+?>

@@ -1,5 +1,8 @@
 <tr class="{CSS_ROW}">
 	<td class="std" valign="top">
+        <input type="checkbox" name="badge_id[]" value="{VAL_ID}" />
+    </td>	
+	<td class="std" valign="top">
         {PREVIEW} {TXT_TITLE}
     </td>	
 	<td class="std" valign="top">
@@ -9,6 +12,9 @@
 	</td>   
 	<td class="std" valign="top">
         {TXT_ISSUED_ON}
+    </td>	
+	<td class="std" valign="top">
+        {TXT_ACTIVE}
     </td>	
 	<td class="std" valign="top">
 		<a href="#" onclick="il.Badge.publish({VAL_ID})">{TXT_PUBLISH}</a>

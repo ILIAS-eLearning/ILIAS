@@ -157,7 +157,11 @@ class ilBadgeAssignment
 	
 	public function setPosition($a_value)
 	{
-		$this->pos = (int)$a_value;
+		if($a_value !== null)
+		{
+			$a_value = (int)$a_value;
+		}
+		$this->pos = $a_value;
 	}
 	
 	public function getPosition()
@@ -197,7 +201,7 @@ class ilBadgeAssignment
 	protected function getPropertiesForStorage()
 	{
 		return array(
-			"tstamp" => array("integer", time()),
+			"tstamp" => array("integer", (bool)$this->stored ? $this->getTimestamp() : time()),
 			"awarded_by" => array("integer", $this->getAwardedBy()),
 			"pos" => array("integer", $this->getPosition())
 		);		
@@ -220,7 +224,7 @@ class ilBadgeAssignment
 		$fields = $this->getPropertiesForStorage();
 		
 		if(!(bool)$this->stored)
-		{						
+		{												
 			$ilDB->insert("badge_user_badge", $fields + $keys);
 		}
 		else

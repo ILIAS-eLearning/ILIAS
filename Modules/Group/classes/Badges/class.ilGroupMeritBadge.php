@@ -4,14 +4,14 @@
 require_once "./Services/Badge/interfaces/interface.ilBadgeType.php";
 
 /**
- * Class ilCourseMeritBadge
+ * Class ilGroupMeritBadge
  * 
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id:$
  *
  * @package ModulesCourse
  */
-class ilCourseMeritBadge implements ilBadgeType
+class ilGroupMeritBadge implements ilBadgeType
 {
 	public function getId()
 	{
@@ -31,7 +31,7 @@ class ilCourseMeritBadge implements ilBadgeType
 	
 	public function getValidObjectTypes()
 	{
-		return array("crs");
+		return array("grp");
 	}
 	
 	public function getConfigGUIInstance()

@@ -28,9 +28,11 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 		
 		$this->setTitle($lng->txt("badge_personal_badges"));		
 				
+		$this->addColumn("", "", 1);			
 		$this->addColumn($lng->txt("title"), "title");			
 		$this->addColumn($lng->txt("object"), "parent_title");			
 		$this->addColumn($lng->txt("badge_issued_on"), "issued_on");	
+		$this->addColumn($lng->txt("active"), "active");	
 		
 		if(ilBadgeHandler::getInstance()->isObiActive())
 		{
@@ -49,13 +51,40 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 		
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
 		$this->setRowTemplate("tpl.personal_row.html", "Services/Badge");			
+				
+		$this->addMultiCommand("activate", $lng->txt("activate"));
+		$this->addMultiCommand("deactivate", $lng->txt("deactivate"));
+		$this->addMultiCommand("addToBackpackMulti", $lng->txt("badge_add_to_backpack"));
+		$this->setSelectAllCheckbox("badge_id");
 		
-		$this->getItems($a_user_id);				
+		$this->getItems($a_user_id);		
+	}
+	
+	public function initFilter(array $a_parents)
+	{
+		global $lng;
+		
+		$title = $this->addFilterItemByMetaType("title", self::FILTER_TEXT, false, $lng->txt("title"));		
+		$this->filter["title"] = $title->getValue();
+		
+		$lng->loadLanguageModule("search");
+						
+		$options = array(
+			"" => $lng->txt("search_any"),
+			"-1" => $lng->txt("none")
+		);
+		asort($a_parents);
+		
+		$obj = $this->addFilterItemByMetaType("obj", self::FILTER_SELECT, false, $lng->txt("object"));
+		$obj->setOptions($options + $a_parents);
+		$this->filter["obj"] = $obj->getValue();						
 	}
 	
 	function getItems($a_user_id)
 	{	
-		$data = array();
+		global $lng;
+		
+		$data = $filter_parent = array();
 		
 		include_once "Services/Badge/classes/class.ilBadge.php";
 		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
@@ -71,7 +100,12 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 				if($parent["type"] == "bdga")
 				{
 					$parent = null;
-				}				
+				}		
+				else
+				{
+					$filter_parent[$parent["id"]] = 
+						"(".$lng->txt($parent["type"]).") ".$parent["title"];
+				}					
 			}
 			
 			$data[] = array(
@@ -81,11 +115,46 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 				"issued_on" => $ass->getTimestamp(),
 				"parent_title" => $parent ? $parent["title"] : null,
 				"parent" => $parent,
+				"active" => (bool)$ass->getPosition(),
 				"renderer" => new ilBadgeRenderer($ass)
 			);			
 		}		
+			
+		$this->initFilter($filter_parent);	
 		
-		$this->setData($data);
+		if($this->filter["title"])
+		{
+			foreach($data as $idx => $row)
+			{
+				if(!stristr($row["title"], $this->filter["title"]))
+				{
+					unset($data[$idx]);
+				}
+			}
+		}
+		
+		if($this->filter["obj"])
+		{
+			foreach($data as $idx => $row)
+			{
+				if($this->filter["obj"] > 0)
+				{
+					if(!$row["parent"] || $row["parent"]["id"] != $this->filter["obj"])
+					{
+						unset($data[$idx]);
+					}						
+				}
+				else
+				{
+					if($row["parent"])
+					{
+						unset($data[$idx]);
+					}	
+				}
+			}
+		}
+				
+		$this->setData($data);			
 	}
 	
 	function fillRow($a_set)
@@ -95,6 +164,9 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("PREVIEW", $a_set["renderer"]->getHTML());
 		$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 		$this->tpl->setVariable("TXT_ISSUED_ON", ilDatePresentation::formatDate(new ilDateTime($a_set["issued_on"], IL_CAL_UNIX)));
+		$this->tpl->setVariable("TXT_ACTIVE", $a_set["active"]
+			? $lng->txt("yes")
+			: $lng->txt("no"));
 		
 		if($a_set["parent"])
 		{

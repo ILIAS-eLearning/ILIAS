@@ -19,26 +19,30 @@ il.Badge = {
 				if(result.error === false)
 				{
 					var url = result.url;
-					console.log(url);
-				
-					OpenBadges.issue([url], function(errors, successes) {												
-						console.log(errors);
-						console.log(successes);
-						
-						/* see https://github.com/mozilla/openbadges-backpack/wiki/using-the-issuer-api
-						DENIED - The user denied permission to add the badge.
-						EXISTS - The badge is already in the earner's backpack.
-						INACCESSIBLE - The assertion provided could not be retrieved.
-							e.g. The assertion URL itself may be malformed, or attempting to access the 
-							assertion may have resulted in 404 Not Found or 403 Forbidden.
-						MALFORMED - The assertion URL provided exists but was malformed.
-						INVALID - The assertion URL provided exists and is well-formed, but is not valid.
-							e.g. The recipient of the assertion may not be the currently logged-in user.
-						*/
-						
-					});
+					il.Badge.publishMulti([url]);									
 				}														
 			}
 		}
+	},
+	
+	publishMulti: function(urls) {		
+		console.log(urls);
+		
+		OpenBadges.issue(urls, function(errors, successes) {												
+			console.log(errors);
+			console.log(successes);
+
+			/* see https://github.com/mozilla/openbadges-backpack/wiki/using-the-issuer-api
+			DENIED - The user denied permission to add the badge.
+			EXISTS - The badge is already in the earner's backpack.
+			INACCESSIBLE - The assertion provided could not be retrieved.
+				e.g. The assertion URL itself may be malformed, or attempting to access the 
+				assertion may have resulted in 404 Not Found or 403 Forbidden.
+			MALFORMED - The assertion URL provided exists but was malformed.
+			INVALID - The assertion URL provided exists and is well-formed, but is not valid.
+				e.g. The recipient of the assertion may not be the currently logged-in user.
+			*/
+
+		});
 	}
 }
