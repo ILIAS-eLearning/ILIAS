@@ -1284,6 +1284,43 @@ class ilPersonalProfileGUI
 				$parent->addSubItem($cb);
 			}
 		}
+		
+		// :TODO: badges
+		include_once "Services/Badge/classes/class.ilBadgeHandler.php";
+		$handler = ilBadgeHandler::getInstance();
+		if($handler->isActive())
+		{		
+			$badge_options = array();
+			
+			include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+			include_once "Services/Badge/classes/class.ilBadge.php";
+			foreach(ilBadgeAssignment::getInstancesByUserId($ilUser->getId()) as $ass)
+			{
+				// only active
+				if($ass->getPosition())
+				{
+					$badge = new ilBadge($ass->getBadgeId());
+					$badge_options[] = $badge->getTitle();
+				}								
+			}
+			
+			if(sizeof($badge_options) > 1)
+			{
+				$badge_order = new ilNonEditableValueGUI($this->lng->txt("obj_bdga"), "bpos");		
+				$badge_order->setMultiValues($badge_options);
+				$badge_order->setValue(array_shift($badge_options));
+				$badge_order->setMulti(true, true, false);
+
+				if(!$parent)
+				{
+					$form->addItem($badge_order);
+				}
+				else
+				{
+					$parent->addSubItem($badge_order);
+				}
+			}
+		}
 	}
 	
 	/**
@@ -1366,6 +1403,18 @@ class ilPersonalProfileGUI
 
 			$ilUser->update();
 			
+			// :TODO: badges
+			include_once "Services/Badge/classes/class.ilBadgeHandler.php";
+			$handler = ilBadgeHandler::getInstance();
+			if($handler->isActive())
+			{		
+				if(sizeof($_POST["bpos"]))
+				{
+					include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+					ilBadgeAssignment::updatePositions($ilUser->getId(), $_POST["bpos"]);
+				}				
+			}
+			
 			// update lucene index
 			include_once './Services/Search/classes/Lucene/class.ilLuceneIndexer.php';
 			ilLuceneIndexer::updateLuceneIndex(array((int) $GLOBALS['ilUser']->getId()));
@@ -1375,6 +1424,9 @@ class ilPersonalProfileGUI
 		}
 		$this->form->setValuesByPost();
 		$tpl->showPublicProfile(true);
+		
+		
+		
 	}
 	
 	/**

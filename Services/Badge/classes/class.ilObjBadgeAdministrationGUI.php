@@ -538,12 +538,36 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		global $ilAccess, $tpl;
 		
 		$this->assertActive();
-		$this->tabs_gui->setTabActive("obj_badges");
+		$this->tabs_gui->setTabActive("obj_badges");				
 		
 		include_once("./Services/Badge/classes/class.ilObjectBadgeTableGUI.php");
 		$tbl = new ilObjectBadgeTableGUI($this, "listObjectBadges",
 			$ilAccess->checkAccess("write", "", $this->object->getRefId()));
 		$tpl->setContent($tbl->getHTML());
+	}
+	
+	protected function applyObjectFilter()
+	{
+		global $ilAccess;
+		
+		include_once "Services/Badge/classes/class.ilObjectBadgeTableGUI.php";
+		$tbl = new ilObjectBadgeTableGUI($this, "listObjectBadges",
+			$ilAccess->checkAccess("write", "", $this->object->getRefId()));
+		$tbl->resetOffset();
+		$tbl->writeFilterToSession();
+		$this->listObjectBadges();
+	}
+	
+	protected function resetObjectFilter()
+	{
+		global $ilAccess;
+		
+		include_once "Services/Badge/classes/class.ilObjectBadgeTableGUI.php";
+		$tbl = new ilObjectBadgeTableGUI($this, "listObjectBadges",
+			$ilAccess->checkAccess("write", "", $this->object->getRefId()));
+		$tbl->resetOffset();
+		$tbl->resetFilter();
+		$this->listObjectBadges();
 	}
 	
 	protected function listObjectBadgeUsers()
@@ -562,9 +586,29 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 		$this->tabs_gui->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "listObjectBadges"));
 		
+		$ilCtrl->saveParameter($this, "pid");
+		
 		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
 		$tbl = new ilBadgeUserTableGUI($this, "listUsers", null, null, $parent_obj_id);
 		$tpl->setContent($tbl->getHTML());
+	}
+	
+	protected function applyUserFilter()
+	{
+		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
+		$tbl = new ilBadgeUserTableGUI($this, "listUsers", null, null, $parent_obj_id);
+		$tbl->resetOffset();
+		$tbl->writeFilterToSession();
+		$this->listObjectBadgeUsers();
+	}
+	
+	protected function resetUserFilter()
+	{
+		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
+		$tbl = new ilBadgeUserTableGUI($this, "listUsers", null, null, $parent_obj_id);
+		$tbl->resetOffset();
+		$tbl->resetFilter();
+		$this->listObjectBadgeUsers();
 	}
 	
 	

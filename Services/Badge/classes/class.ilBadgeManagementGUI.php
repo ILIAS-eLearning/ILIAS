@@ -150,6 +150,24 @@ class ilBadgeManagementGUI
 		$tpl->setContent($tbl->getHTML());
 	}
 	
+	protected function applyBadgeFilter()
+	{
+		include_once "Services/Badge/classes/class.ilBadgeTableGUI.php";
+		$tbl = new ilBadgeTableGUI($this, "listBadges", $this->parent_obj_id, $this->hasWrite());
+		$tbl->resetOffset();
+		$tbl->writeFilterToSession();
+		$this->listBadges();
+	}
+	
+	protected function resetBadgeFilter()
+	{
+		include_once "Services/Badge/classes/class.ilBadgeTableGUI.php";
+		$tbl = new ilBadgeTableGUI($this, "listBadges", $this->parent_obj_id, $this->hasWrite());
+		$tbl->resetOffset();
+		$tbl->resetFilter();
+		$this->listBadges();
+	}
+	
 	
 	//
 	// badge (CRUD)
@@ -605,6 +623,24 @@ class ilBadgeManagementGUI
 		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
 		$tbl = new ilBadgeUserTableGUI($this, "listUsers", $this->parent_ref_id);
 		$tpl->setContent($tbl->getHTML());
+	}
+	
+	protected function applyUserFilter()
+	{
+		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
+		$tbl = new ilBadgeUserTableGUI($this, "listUsers", $this->parent_ref_id);
+		$tbl->resetOffset();
+		$tbl->writeFilterToSession();
+		$this->listUsers();
+	}
+	
+	protected function resetUserFilter()
+	{
+		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
+		$tbl = new ilBadgeUserTableGUI($this, "listUsers", $this->parent_ref_id);
+		$tbl->resetOffset();
+		$tbl->resetFilter();
+		$this->listUsers();
 	}
 	
 	protected function awardBadgeUserSelection()

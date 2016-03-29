@@ -53,15 +53,47 @@ class ilBadgeTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.badge_row.html", "Services/Badge");	
 		$this->setDefaultOrderField("title");
+		
+		$this->setFilterCommand("applyBadgeFilter");
+		$this->setResetCommand("resetBadgeFilter");
+		
+		$this->initFilter(ilObject::_lookupType($a_parent_obj_id));
 								
 		$this->getItems($a_parent_obj_id);				
+	}
+	
+	public function initFilter($a_parent_type)
+	{
+		global $lng;
+		
+		$title = $this->addFilterItemByMetaType("title", self::FILTER_TEXT, false, $lng->txt("title"));		
+		$this->filter["title"] = $title->getValue();
+		
+		$handler = ilBadgeHandler::getInstance();			
+		$valid_types = $handler->getAvailableTypesForObjType($a_parent_type);
+		if($valid_types && 
+			sizeof($valid_types) > 1)
+		{			
+			$lng->loadLanguageModule("search");
+					
+			$options = array("" => $lng->txt("search_any"));
+			foreach($valid_types as $id => $type)
+			{
+				$options[$id] = $type->getCaption();
+			}
+			asort($options);		
+
+			$type = $this->addFilterItemByMetaType("type", self::FILTER_SELECT, false, $lng->txt("type"));
+			$type->setOptions($options);
+			$this->filter["type"] = $type->getValue();					
+		}
 	}
 	
 	function getItems($a_parent_obj_id)
 	{		
 		$data = array();
 		
-		foreach(ilBadge::getInstancesByParentId($a_parent_obj_id) as $badge)
+		foreach(ilBadge::getInstancesByParentId($a_parent_obj_id, $this->filter) as $badge)
 		{				
 			$data[] = array(
 				"id" => $badge->getId(),

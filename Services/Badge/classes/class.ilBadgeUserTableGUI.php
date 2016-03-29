@@ -37,20 +37,47 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 			$this->addMultiCommand("confirmDeassignBadge", $lng->txt("badge_remove_badge"));
 		}
 		else
-		{			
-			$this->setTitle($lng->txt("users"));		
+		{		
+			$parent = "";
+			if($a_parent_obj_id)
+			{
+				$title = ilObject::_lookupTitle($a_parent_obj_id);
+				if(!$title)
+				{
+					include_once "Services/Object/classes/class.ilObjectDataDeletionLog.php";
+					$title = ilObjectDataDeletionLog::get($a_parent_obj_id);
+					if($title)
+					{
+						$title = $title["title"];
+					}
+				}
+				$parent = $title.": ";				
+			}
+			$this->setTitle($parent.$lng->txt("users"));		
 		}
 		
 		$this->addColumn($lng->txt("name"), "name");			
 		$this->addColumn($lng->txt("login"), "login");			
 		$this->addColumn($lng->txt("obj_bdga"), "");			
 		$this->setDefaultOrderField("name");
-		
-		$this->setRowTemplate("tpl.user_row.html", "Services/Badge");			
 				
-		$this->getItems($a_parent_ref_id, $this->award_badge, $a_parent_obj_id);	
+		$this->setRowTemplate("tpl.user_row.html", "Services/Badge");	
 		
+		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+		$this->setFilterCommand("applyUserFilter");
+		$this->setResetCommand("resetUserFilter");
+
+		$this->initFilter();		
+				
+		$this->getItems($a_parent_ref_id, $this->award_badge, $a_parent_obj_id);					
+	}
+	
+	public function initFilter()
+	{
+		global $lng;
 		
+		$name = $this->addFilterItemByMetaType("name", self::FILTER_TEXT, false, $lng->txt("name"));		
+		$this->filter["name"] = $name->getValue();		
 	}
 	
 	function getItems($a_parent_ref_id, ilBadge $a_award_bagde = null, $a_parent_obj_id = null)
@@ -92,6 +119,12 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 		include_once "Services/User/classes/class.ilUserQuery.php";
 		$uquery = new ilUserQuery();
 		$uquery->setUserFilter($user_ids);
+		
+		if($this->filter["name"])
+		{
+			$uquery->setTextFilter($this->filter["name"]);
+		}
+		
 		$tmp = $uquery->query();
 		foreach($tmp["set"] as $user)
 		{

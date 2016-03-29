@@ -35,14 +35,28 @@ class ilBadge
 		}
 	}
 	
-	public static function getInstancesByParentId($a_parent_id)
+	public static function getInstancesByParentId($a_parent_id, array $a_filter = null)
 	{
 		global $ilDB;
 		
 		$res = array();
 		
-		$set = $ilDB->query("SELECT * FROM badge_badge".
-			" WHERE parent_id = ".$ilDB->quote($a_parent_id).
+		$sql = "SELECT * FROM badge_badge".
+			" WHERE parent_id = ".$ilDB->quote($a_parent_id);
+		
+		if($a_filter)
+		{
+			if($a_filter["title"])
+			{
+				$sql .= " AND ".$ilDB->like("title", "text", "%".trim($a_filter["title"])."%");
+			}
+			if($a_filter["type"])
+			{
+				$sql .= " AND type_id = ".$ilDB->quote($a_filter["type"], "integer");
+			}
+		}
+		
+		$set = $ilDB->query($sql.
 			" ORDER BY title");
 		while($row = $ilDB->fetchAssoc($set))
 		{
@@ -108,16 +122,32 @@ class ilBadge
 		}		
 	}
 	
-	public static function getObjectInstances()
+	public static function getObjectInstances(array $a_filter = null)
 	{
 		global $ilDB;
 		
 		$res = $raw = array();
 		
+		$where = "";
+		
+		if($a_filter["type"])
+		{
+			$where .= " AND bb.type_id = ".$ilDB->quote($a_filter["type"], "text");
+		}
+		if($a_filter["title"])
+		{
+			$where .= " AND ".$ilDB->like("bb.title", "text", "%".$a_filter["title"]."%");
+		}
+		if($a_filter["object"])
+		{
+			$where .= " AND ".$ilDB->like("od.title", "text", "%".$a_filter["object"]."%");
+		}
+		
 		$set = $ilDB->query("SELECT bb.*, od.title parent_title, od.type parent_type".
 			" FROM badge_badge bb".
 			" JOIN object_data od ON (bb.parent_id = od.obj_id)".
-			" WHERE od.type <> ".$ilDB->quote("bdga", "text"));
+			" WHERE od.type <> ".$ilDB->quote("bdga", "text").
+			$where);
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$raw[] = $row;
@@ -126,7 +156,8 @@ class ilBadge
 		$set = $ilDB->query("SELECT bb.*, od.title parent_title, od.type parent_type".
 			" FROM badge_badge bb".
 			" JOIN object_data_del od ON (bb.parent_id = od.obj_id)".
-			" WHERE od.type <> ".$ilDB->quote("bdga", "text"));
+			" WHERE od.type <> ".$ilDB->quote("bdga", "text").
+			$where);
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$row["deleted"] = true;

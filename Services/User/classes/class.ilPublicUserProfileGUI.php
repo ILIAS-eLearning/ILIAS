@@ -657,15 +657,21 @@ class ilPublicUserProfileGUI
 		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";		
 		$user_badges = ilBadgeAssignment::getInstancesByUserId($user->getId());
 		if($user_badges)
-		{			
+		{						
 			include_once "Services/Badge/classes/class.ilBadgeRenderer.php";					
 			foreach($user_badges as $ass)
 			{
-				$renderer = new ilBadgeRenderer($ass);
+				// :TODO: limit to 5, [MORE] link
 				
-				$tpl->setCurrentBlock("badge_bl");
-				$tpl->setVariable("BADGE", $renderer->getHTML());
-				$tpl->parseCurrentBlock();				
+				// only active
+				if($ass->getPosition())
+				{					
+					$renderer = new ilBadgeRenderer($ass);
+
+					$tpl->setCurrentBlock("badge_bl");
+					$tpl->setVariable("BADGE", $renderer->getHTML());
+					$tpl->parseCurrentBlock();		
+				}
 			}	
 			
 			$tpl->setVariable("TXT_BADGES", $lng->txt("obj_bdga"));

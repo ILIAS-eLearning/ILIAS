@@ -52,20 +52,53 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.object_badge_row.html", "Services/Badge");	
 		$this->setDefaultOrderField("title");
 		
-		// :TODO: filter
-								
+		$this->setFilterCommand("applyObjectFilter");
+		$this->setResetCommand("resetObjectFilter");
+						
+		$this->initFilter();
+			
 		$this->getItems();				
 	}
+	
+	public function initFilter()
+	{
+		global $lng;
+		
+		$title = $this->addFilterItemByMetaType("title", self::FILTER_TEXT, false, $lng->txt("title"));		
+		$this->filter["title"] = $title->getValue();
+		
+		$object = $this->addFilterItemByMetaType("object", self::FILTER_TEXT, false, $lng->txt("object"));		
+		$this->filter["object"] = $object->getValue();
+		
+		$lng->loadLanguageModule("search");
+						
+		$options = array(
+			"" => $lng->txt("search_any"),
+		);
+		foreach(ilBadgeHandler::getInstance()->getAvailableTypes() as $id => $type)
+		{
+			// no activity badges
+			if(!in_array("bdga", $type->getValidObjectTypes()))
+			{
+				$options[$id] = $type->getCaption();
+			}
+		}
+		asort($options);
+		
+		$type = $this->addFilterItemByMetaType("type", self::FILTER_SELECT, false, $lng->txt("type"));
+		$type->setOptions($options);
+		$this->filter["type"] = $type->getValue();						
+	}	
 	
 	function getItems()
 	{		
 		global $lng;
 		
-		$data = array();
+		$data = $filter_types = array();
 		
 		$types = ilBadgeHandler::getInstance()->getAvailableTypes();
 		
-		foreach(ilBadge::getObjectInstances() as $badge_item)
+		foreach(ilBadge::getObjectInstances($this->filter) as $badge_item)
 		{
 			// :TODO: container presentation
 			$container = '<img src="'.
@@ -78,17 +111,21 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 			{
 				$container = '<s>'.$container.'</s>';
 			}
+			
+			$type_caption = $types[$badge_item["type_id"]]->getCaption();
 									
 			$data[] = array(
 				"id" => $badge_item["id"],
 				"active"=> $badge_item["active"],
-				"type" => $types[$badge_item["type_id"]],
+				"type" => $type_caption,
 				"title" => $badge_item["title"],
 				"container_meta" => $container,
 				"container_id" => $badge_item["parent_id"]
 			);			
+			
+			$filter_types[$badge_item["type_id"]] = $type_caption;
 		}
-	
+		
 		$this->setData($data);
 	}
 	
@@ -102,7 +139,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 		}
 		
 		$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);	
-		$this->tpl->setVariable("TXT_TYPE", $a_set["type"]->getCaption());	
+		$this->tpl->setVariable("TXT_TYPE", $a_set["type"]);	
 		$this->tpl->setVariable("TXT_ACTIVE", $a_set["active"]
 			? $lng->txt("yes")
 			: "&nbsp;");		

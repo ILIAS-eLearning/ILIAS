@@ -31,7 +31,7 @@ class ilCourseMeritBadge implements ilBadgeType
 	
 	public function getValidObjectTypes()
 	{
-		return array("crs");
+		return array("crs", "grp");
 	}
 	
 	public function getConfigGUIInstance()

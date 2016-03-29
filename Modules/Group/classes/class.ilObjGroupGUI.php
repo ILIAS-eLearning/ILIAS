@@ -279,7 +279,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			case 'ilbadgemanagementgui':
 				$this->tabs_gui->setTabActive('obj_tool_setting_badges');
 				include_once 'Services/Badge/classes/class.ilBadgeManagementGUI.php';
-				$bgui = new ilBadgeManagementGUI($this->object->getRefId(), $this->object->getId(), 'crs');
+				$bgui = new ilBadgeManagementGUI($this->object->getRefId(), $this->object->getId(), 'grp');
 				$this->ctrl->forwardCommand($bgui);
 				break;	
 				

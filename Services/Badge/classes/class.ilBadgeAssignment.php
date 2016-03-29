@@ -37,7 +37,8 @@ class ilBadgeAssignment
 		$res = array();
 		
 		$set = $ilDB->query("SELECT * FROM badge_user_badge".
-			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer"));
+			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
+			" ORDER BY pos");
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$obj = new self();
@@ -278,6 +279,31 @@ class ilBadgeAssignment
 		{
 			$ilDB->manipulate("DELETE FROM badge_user_badge".
 			" WHERE ".$ilDB->in("badge_id", $badge_ids, "", "integer"));
+		}
+	}
+	
+	public static function updatePositions($a_user_id, array $a_positions)
+	{
+		$existing = array();
+		include_once "Services/Badge/classes/class.ilBadge.php";
+		foreach(self::getInstancesByUserId($a_user_id) as $ass)
+		{
+			$badge = new ilBadge($ass->getBadgeId());
+			$existing[$badge->getId()] = array($badge->getTitle(), $ass);
+		}		
+		
+		$new_pos = 0;
+		foreach($a_positions as $title)
+		{
+			foreach($existing as $id => $item)
+			{
+				if($title == $item[0])
+				{
+					$item[1]->setPosition(++$new_pos);
+					$item[1]->store();
+					unset($existing[$id]);
+				}
+			}
 		}
 	}
 	

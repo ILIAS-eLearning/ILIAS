@@ -321,10 +321,10 @@ class ilObjDefReader extends ilSaxParser
 				require_once 'Services/Mail/classes/class.ilMailTemplateService.php';
 				ilMailTemplateService::clearFromXml($this->current_component, (array)$this->mail_templates_by_component[$this->current_component]);
 				
-				if(!in_array($this->current_component, (array)$this->has_badges))
+				if(!in_array($this->getComponentId(), (array)$this->has_badges))
 				{
 					include_once "Services/Badge/classes/class.ilBadgeHandler.php";
-					ilBadgeHandler::clearFromXml($this->current_component);
+					ilBadgeHandler::clearFromXml($this->getComponentId());
 				}
 			}
 		}
