@@ -37,7 +37,7 @@ class catFilterOneOfGUI extends catFilterGUI {
 					$duration->setShowDate(true);
 					$duration->setShowTime(false);
 
-					/*if($this->val && $key == $this->val["option"]) {
+					if($this->val && $key == $this->val["option"]) {
 						$val = $this->val[$this->val["option"]];
 						$start_date = $val["start"]["date"]["y"]."-".str_pad($val["start"]["date"]["m"], 2, "0", STR_PAD_LEFT)
 								."-".str_pad($val["start"]["date"]["d"], 2, "0", STR_PAD_LEFT)." 00:00:00";
@@ -49,7 +49,7 @@ class catFilterOneOfGUI extends catFilterGUI {
 					} else {
 						$duration->setStart(new ilDateTime($sub_filter->default_begin()->format("Y-m-d 00:00:00"),IL_CAL_DATETIME));
 						$duration->setEnd(new ilDateTime($sub_filter->default_end()->format("Y-m-d 00:00:00"),IL_CAL_DATETIME));
-					}*/
+					}
 
 					$option->addSubItem($duration);
 					$option->setValue($key);
@@ -114,21 +114,6 @@ class catFilterOneOfGUI extends catFilterGUI {
 					throw new \Exception("Filter class not known");
 			}
 			
-			if($this->val && $key == $this->val["option"]) {
-				if($filter_class == "CaT\Filter\Filters\DatePeriod") {
-					$val = $this->val[$this->val["option"]];
-					$start_date = $val["start"]["date"]["y"]."-".str_pad($val["start"]["date"]["m"], 2, "0", STR_PAD_LEFT)
-							."-".str_pad($val["start"]["date"]["d"], 2, "0", STR_PAD_LEFT)." 00:00:00";
-					$end_date = $val["end"]["date"]["y"]."-".str_pad($val["end"]["date"]["m"], 2, "0", STR_PAD_LEFT)
-							."-".str_pad($val["end"]["date"]["d"], 2, "0", STR_PAD_LEFT)." 00:00:00";
-
-					$duration->setStart(new ilDateTime($start_date, IL_CAL_DATETIME));
-					$duration->setEnd(new ilDateTime($end_date, IL_CAL_DATETIME));
-				} else {
-					$option->setValue($this->val[$this->val["option"]]);
-				}
-			}
-
 			//add option to group
 			$group->addOption($option);
 		}

@@ -44,10 +44,11 @@ class catDisplayFilterBaseGUI {
 
 	protected function saveFlatFilter() {
 		$fs = $this->buildFilter();
+
 		$filter_values = $this->display_filter->buildFilterValues($fs, $_POST["filter"]);
 
 		//Muss so aufgerufen werden. Sonst funktioniert das Mapping nicht!!!
-		echo call_user_func_array(array($fs, "content"), $filter_values);
+		call_user_func_array(array($fs, "content"), $filter_values);
 
 		require_once("Services/ReportsRepository/classes/class.catFilterFlatViewGUI.php");
 		$filter_form = new catFilterFlatViewGUI($this, $fs, $this->display_filter, "saveFlatFilter");
