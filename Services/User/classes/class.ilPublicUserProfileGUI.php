@@ -657,7 +657,9 @@ class ilPublicUserProfileGUI
 		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";		
 		$user_badges = ilBadgeAssignment::getInstancesByUserId($user->getId());
 		if($user_badges)
-		{						
+		{					
+			$has_public_badge = false;
+			
 			include_once "Services/Badge/classes/class.ilBadgeRenderer.php";					
 			foreach($user_badges as $ass)
 			{
@@ -671,10 +673,15 @@ class ilPublicUserProfileGUI
 					$tpl->setCurrentBlock("badge_bl");
 					$tpl->setVariable("BADGE", $renderer->getHTML());
 					$tpl->parseCurrentBlock();		
+					
+					$has_public_badge = true;
 				}
 			}	
 			
-			$tpl->setVariable("TXT_BADGES", $lng->txt("obj_bdga"));
+			if($has_public_badge)
+			{
+				$tpl->setVariable("TXT_BADGES", $lng->txt("obj_bdga"));
+			}
 		}
 
 		$goto = "";
