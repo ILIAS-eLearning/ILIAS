@@ -25,7 +25,7 @@ class ilForumCronNotification extends ilCronJob
 	/**
 	 * @var array frm_posts_deleted.deleted_id
 	 */
-	public static $deleted_ids_cache = array();
+	protected static $deleted_ids_cache = array();
 
 	/**
 	 * @var array
@@ -261,8 +261,8 @@ class ilForumCronNotification extends ilCronJob
 			AND 	frm_posts_deleted.is_thread_deleted = %s
 			ORDER BY frm_posts_deleted.post_date ASC',
 			array('integer'), array(1));
-		
-		if($numRows = $ilDB->numRows($res) > 0)
+		$numRows = $ilDB->numRows($res);
+		if($numRows > 0)
 		{
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_THREAD_DELETED);
 			if(count(self::$deleted_ids_cache) > 0)
@@ -294,7 +294,8 @@ class ilForumCronNotification extends ilCronJob
 			ORDER BY frm_posts_deleted.post_date ASC',
 			array('integer'), array(0));
 		
-		if($numRows = $ilDB->numRows($res) > 0)
+		$numRows = $ilDB->numRows($res);
+		if($numRows > 0)
 		{
 			$this->sendCronForumNotification($res, ilForumMailNotification::TYPE_POST_DELETED);
 			if(count(self::$deleted_ids_cache) > 0)
@@ -400,10 +401,12 @@ class ilForumCronNotification extends ilCronJob
 			else
 			{
 				$this->addProviderObject($row);
-				if($notification_type == ilForumMailNotification::TYPE_POST_DELETED)
-				{
-					self::$deleted_ids_cache[$row['deleted_id']] = $row['deleted_id'];
-				}
+			}
+			
+			if($notification_type == ilForumMailNotification::TYPE_POST_DELETED
+			|| $notification_type == ilForumMailNotification::TYPE_THREAD_DELETED)
+			{
+				self::$deleted_ids_cache[$row['deleted_id']] = $row['deleted_id'];
 			}
 		}
 
