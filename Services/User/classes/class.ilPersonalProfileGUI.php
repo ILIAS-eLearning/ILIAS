@@ -7,7 +7,7 @@
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
- * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI, ilBadgeProfileGUI
+ * @ilCtrl_Calls ilPersonalProfileGUI: ilPublicUserProfileGUI
  */
 class ilPersonalProfileGUI
 {
@@ -62,16 +62,6 @@ class ilPersonalProfileGUI
 				$tpl->show();
 				break;
 			
-			case "ilbadgeprofilegui":
-				$this->setHeader();
-				$this->setTabs();
-				$ilTabs->activateTab("badges");
-				include_once("./Services/Badge/classes/class.ilBadgeProfileGUI.php");
-				$bgui = new ilBadgeProfileGUI();
-				$ilCtrl->forwardCommand($bgui);
-				$tpl->show();
-				break;
-
 			default:
 				$this->setTabs();
 				$cmd = $this->ctrl->getCmd("showPersonalData");							
@@ -611,15 +601,6 @@ class ilPersonalProfileGUI
 			$this->lng->txt("personal_data"),
 			$this->ctrl->getLinkTarget($this, "showPersonalData"));
 		
-		// badges
-		include_once 'Services/Badge/classes/class.ilBadgeHandler.php';
-		if(ilBadgeHandler::getInstance()->isActive())
-		{
-			$ilTabs->addTab("badges", 
-				$this->lng->txt("obj_bdga"),
-				$this->ctrl->getLinkTargetByClass("ilbadgeprofilegui", ""));
-		}
-
 		// public profile
 		$ilTabs->addTab("public_profile",
 			$this->lng->txt("public_profile"),

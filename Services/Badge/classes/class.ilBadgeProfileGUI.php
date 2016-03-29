@@ -12,12 +12,17 @@ include_once "Services/Badge/classes/class.ilBadgeHandler.php";
  */
 class ilBadgeProfileGUI
 {	
+	const BACKPACK_EMAIL = "badge_mozilla_bp";
+	
 	function executeCommand()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $tpl;
 		
 		$lng->loadLanguageModule("badge");
 		
+		$tpl->setTitle($lng->txt("obj_bdga"));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_bdga.svg"));
+								
 		switch($ilCtrl->getNextClass())
 		{			
 			default:			
@@ -32,15 +37,19 @@ class ilBadgeProfileGUI
 	{
 		global $ilTabs, $lng, $ilCtrl;
 		
-		$ilTabs->addSubTab("ilias_badges",
+		$ilTabs->addTab("ilias_badges",
 			$lng->txt("badge_personal_badges"),
 			$ilCtrl->getLinkTarget($this, "listBadges"));
 		
 		if(ilBadgeHandler::getInstance()->isObiActive())
 		{
-			$ilTabs->addSubTab("backpack_badges",
+			$ilTabs->addTab("backpack_badges",
 				$lng->txt("badge_backpack_list"),
 				$ilCtrl->getLinkTarget($this, "listBackpackGroups"));
+			
+			$ilTabs->addTab("backpack_settings",
+				$lng->txt("settings"),
+				$ilCtrl->getLinkTarget($this, "editSettings"));
 		}
 	}
 	
@@ -53,7 +62,7 @@ class ilBadgeProfileGUI
 	{
 		global $ilTabs, $tpl;
 		
-		$ilTabs->activateSubTab("ilias_badges");
+		$ilTabs->activateTab("ilias_badges");
 		
 		include_once "Services/Badge/classes/class.ilBadgePersonalTableGUI.php";
 		$tbl = new ilBadgePersonalTableGUI($this, "listBadges");
@@ -186,15 +195,15 @@ class ilBadgeProfileGUI
 			$ilCtrl->redirect($this, "listBadges");
 		}		
 		
-		$ilTabs->activateSubTab("backpack_badges");
+		$ilTabs->activateTab("backpack_badges");
 				
 		include_once "Services/Badge/classes/class.ilBadgeBackpack.php";
-		$bp = new ilBadgeBackpack($ilUser->getEmail());
+		$bp = new ilBadgeBackpack($this->getBackpackMail());
 		$bp_groups = $bp->getGroups();
 
 		if(!is_array($bp_groups))
 		{
-			ilUtil::sendInfo(sprintf($lng->txt("badge_backpack_connect_failed"), $ilUser->getEmail()));
+			ilUtil::sendInfo(sprintf($lng->txt("badge_backpack_connect_failed"), $this->getBackpackMail()));
 			return;		
 		}		
 		else if(!sizeof($bp_groups))
@@ -202,7 +211,7 @@ class ilBadgeProfileGUI
 			ilUtil::sendInfo($lng->txt("badge_backpack_no_groups"));
 			return;
 		}
-
+		
 		$tmpl = new ilTemplate("tpl.badge_backpack.html", true, true, "Services/Badge");
 
 		$tmpl->setVariable("BACKPACK_TITLE", $lng->txt("badge_backpack_list"));
@@ -296,4 +305,76 @@ class ilBadgeProfileGUI
 		exit();				
 	}
 	
+	
+	//
+	// settings
+	// 
+	
+	protected function getBackpackMail()
+	{
+		global $ilUser;
+		
+		$mail = $ilUser->getPref(self::BACKPACK_EMAIL);
+		if(!$mail)
+		{
+			$mail = $ilUser->getEmail();
+		}
+		return $mail;
+	}
+	
+	protected function initSettingsForm()
+	{
+		global $lng, $ilCtrl;
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this, "saveSettings"));
+		$form->setTitle($lng->txt("settings"));
+		
+		$email = new ilEMailInputGUI($lng->txt("badge_backpack_email"), "email");
+		// $email->setRequired(true);
+		$email->setInfo($lng->txt("badge_backpack_email_info"));
+		$email->setValue($this->getBackpackMail());
+		$form->addItem($email);
+		
+		$form->addCommandButton("saveSettings", $lng->txt("save"));
+		
+		return $form;
+	}
+	
+	protected function editSettings(ilPropertyFormGUI $a_form = null)
+	{
+		global $tpl, $ilCtrl, $ilTabs;
+		
+		if(!ilBadgeHandler::getInstance()->isObiActive())
+		{
+			$ilCtrl->redirect($this, "listBadges");
+		}		
+		
+		$ilTabs->activateTab("backpack_settings");
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initSettingsForm();
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	protected function saveSettings()
+	{
+		global $ilUser, $lng, $ilCtrl;
+		
+		$form = $this->initSettingsForm();
+		if($form->checkInput())
+		{
+			ilObjUser::_writePref($ilUser->getId(), self::BACKPACK_EMAIL, $form->getInput("email"));
+					
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+			$ilCtrl->redirect($this, "editSettings");
+		}
+		
+		$form->setValuesByPost();
+		$this->editSettings($form);
+	}
 }
