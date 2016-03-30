@@ -391,7 +391,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	}
 
 
-	protected function addAdminLocatorItems() {
+	/**
+	 * @param bool $a_do_not_add_object
+	 */
+	protected function addAdminLocatorItems($a_do_not_add_object = false) {
 		$path = $this->tree->getPathFull($_GET["ref_id"], ilObjOrgUnit::getRootOrgRefId());
 		// add item for each node on path
 		foreach ((array)$path as $key => $row) {
@@ -582,7 +585,10 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	}
 
 
-	public function showAdministrationPanel($tpl) {
+	/**
+	 * @param $tpl
+	 */
+	public function showAdministrationPanel(&$tpl) {
 		parent::showAdministrationPanel($tpl);
 		//an ugly encapsulation violation in order to remove the "verknüpfen"/"link" and copy button.
 		/** @var $toolbar ilToolbarGUI */
@@ -659,7 +665,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	 * @return ilTableGUI
 	 * @description Make protected function avaiable for ilLocalUserGUI...
 	 */
-	public function __initTableGUI() {
+	public function &__initTableGUI() {
 		return parent::__initTableGUI();
 	}
 
@@ -668,8 +674,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	 * @return ilTableGUI
 	 * @description Make protected function avaiable for ilLocalUserGUI...
 	 */
-	public function __setTableGUIBasicData(&$tbl, &$a_result_set, $a_from, $a_form) {
-		return parent::__setTableGUIBasicData($tbl, $a_result_set, $a_from, $a_form);
+	public function __setTableGUIBasicData(&$tbl, &$result_set, $a_from = "") {
+		return parent::__setTableGUIBasicData($tbl, $result_set, $a_from);
 	}
 }
 
