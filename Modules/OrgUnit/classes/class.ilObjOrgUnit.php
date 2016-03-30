@@ -389,7 +389,13 @@ class ilObjOrgUnit extends ilContainer {
 	}
 
 
-	public static function _exists($a_id, $a_reference = false) {
+	/**
+	 * @param $a_id
+	 * @param bool $a_reference
+	 * @param string $type
+	 * @return bool
+	 */
+	public static function _exists($a_id, $a_reference = false, $type = "orgu") {
 		return parent::_exists($a_id, $a_reference, "orgu");
 	}
 
