@@ -293,27 +293,28 @@ class ilExcel
 	 */
 	public function sendToClient($a_file_name)
 	{
+		require_once('./Services/FileDelivery/classes/class.ilPHPOutputDelivery.php');
+
 		$a_file_name = $this->prepareStorage($a_file_name);
-		
-		switch($this->format)
-		{
+		switch ($this->format) {
 			case self::FORMAT_BIFF:
-				header("Content-Type: application/vnd.ms-excel; charset=utf-8");				
+				$a_mime_type = ilMimeTypeUtil::APPLICATION__VND_MS_EXCEL;
 				break;
-			
+
 			case self::FORMAT_XML:
-				header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8');			
+				$a_mime_type = ilMimeTypeUtil::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET;
+				break;
+			default:
+				$a_mime_type = ilMimeTypeUtil::APPLICATION__OCTET_STREAM;
 				break;
 		}
-		
-		header('Content-Disposition: attachment;filename="'.$a_file_name.'"');
-		header("Expires: 0");
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		header("Cache-Control: private", false);
-		
+		$ilPHPOutputDelivery = new ilPHPOutputDelivery();
+		$ilPHPOutputDelivery->start($a_file_name, $a_mime_type);
+
 		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->format);
-		$writer->save('php://output');
-		exit();
+		$writer->save(ilFileDelivery::DIRECT_PHP_OUTPUT);
+
+		$ilPHPOutputDelivery->stop();
 	}
 	
 	/**
@@ -341,8 +342,7 @@ class ilExcel
 		
 		return $filename;
 	}
-	
-	
+
 	// 
 	// style (:TODO: more options?)
 	// 

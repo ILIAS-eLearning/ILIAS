@@ -84,9 +84,7 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 			$worksheet->setCell($row, 7, $orgu->getDescription());
 			$worksheet->setCell($row, 8, "create");
 		}
-		$temp = $worksheet->writeToTmpFile();
-		require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
-		ilFileDelivery::deliverFileAttached($temp, $file_name);
+		$worksheet->sendToClient($file_name);
 	}
 
 	public function sendAndCreateSimpleExportFile(){
