@@ -15,7 +15,7 @@ class ilShm extends ilGlobalCacheService {
 	/**
 	 * @var int
 	 */
-	protected static $shm_id = NULL;
+	protected static $shm_id = null;
 	/**
 	 * @var int
 	 */
@@ -67,7 +67,7 @@ class ilShm extends ilGlobalCacheService {
 	 *
 	 * @return bool
 	 */
-	public function set($key, $serialized_value, $ttl = NULL) {
+	public function set($key, $serialized_value, $ttl = null) {
 		return shmop_write(self::$shm_id, $key, $serialized_value);
 	}
 

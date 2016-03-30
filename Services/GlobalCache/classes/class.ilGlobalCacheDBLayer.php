@@ -36,7 +36,7 @@ class ilGlobalCacheDBLayer {
 	/**
 	 * @var int
 	 */
-	protected $ttl = NULL;
+	protected $ttl = null;
 	/**
 	 * @var ilGlobalCache
 	 */
@@ -52,13 +52,13 @@ class ilGlobalCacheDBLayer {
 	 * @param     $table_name
 	 * @param int $ttl
 	 */
-	protected function __construct($component, $table_name, $ttl = NULL) {
+	protected function __construct($component, $table_name, $ttl = null) {
 		$this->setTtl($ttl);
 		$this->setComponent($component);
 		$this->setTableName($table_name);
 		$this->global_cache = ilGlobalCache::getInstance($component);
 		$this->readFromCache();
-		if (! $this->getLoaded()) {
+		if (!$this->getLoaded()) {
 			$this->readFromDB();
 			$this->writeToCache();
 			$this->setLoaded(true);
@@ -119,9 +119,9 @@ class ilGlobalCacheDBLayer {
 	 * @param       $field
 	 * @param       $value
 	 *
-	 * @param bool  $case_sensitive
+	 * @param bool $case_sensitive
 	 *
-	 * @param bool  $strip
+	 * @param bool $strip
 	 *
 	 * @return array
 	 */
@@ -216,7 +216,7 @@ class ilGlobalCacheDBLayer {
 	 * @return ilGlobalCacheDBLayer
 	 */
 	public static function getInstance($component, $table_name) {
-		if (! isset(self::$instances[$component . $table_name])) {
+		if (!isset(self::$instances[$component . $table_name])) {
 			self::$instances[$component . $table_name] = new self($component, $table_name);
 		}
 
@@ -383,6 +383,5 @@ class ilGcDbWhere {
 		return $this->value;
 	}
 }
-
 
 ?>

@@ -19,9 +19,9 @@ class ilMemcacheServerTableGUI extends ilTable2GUI {
 	protected $filter = array();
 
 
-	public function  __construct() {
+	public function __construct() {
 		global $lng;
-		parent::__construct(NULL, '');
+		parent::__construct(null, '');
 		$this->setTitle($lng->txt('memcache_servers'));
 		$this->setLimit(9999);
 		$this->initColumns();
@@ -67,9 +67,9 @@ class ilMemcacheServerTableGUI extends ilTable2GUI {
 		$current_selection_list->setUseImages(false);
 
 		$current_selection_list->addItem($this->lng->txt('memcache_edit'), 'memcache_edit', 'setup.php?cmd=editMemcacheServer&mcsid='
-			. $server->getId());
+		                                                                                    . $server->getId());
 		$current_selection_list->addItem($this->lng->txt('memcache_delete'), 'memcache_delete', 'setup.php?cmd=deleteMemcacheServer&mcsid='
-			. $server->getId());
+		                                                                                        . $server->getId());
 		$this->tpl->setVariable('ACTIONS', $current_selection_list->getHTML());
 	}
 
