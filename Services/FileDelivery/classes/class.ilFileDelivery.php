@@ -29,12 +29,12 @@ class ilFileDelivery {
 	 */
 	protected static $self_streaming_methods = array(
 		self::DELIVERY_METHOD_XSENDFILE,
-		self::DELIVERY_METHOD_XACCEL
+		self::DELIVERY_METHOD_XACCEL,
 	);
 	/**
 	 * @var integer
 	 */
-	protected static $delivery_type_static = NULL;
+	protected static $delivery_type_static = null;
 	/**
 	 * @var string
 	 */
@@ -90,14 +90,20 @@ class ilFileDelivery {
 	/**
 	 * @var bool
 	 */
+	protected $delete_file = false;
+	/**
+	 * @var bool
+	 */
 	protected static $DEBUG = false;
 
 
 	/**
-	 * @param      $path_to_file
+	 * @param $path_to_file
 	 * @param null $download_file_name
+	 * @param null $mime_type
+	 * @param bool $delete_file
 	 */
-	public static function deliverFileAttached($path_to_file, $download_file_name = NULL, $mime_type = NULL) {
+	public static function deliverFileAttached($path_to_file, $download_file_name = null, $mime_type = null, $delete_file = false) {
 		$obj = new self($path_to_file);
 		if ($download_file_name) {
 			$obj->setDownloadFileName($download_file_name);
@@ -106,6 +112,7 @@ class ilFileDelivery {
 			$obj->setMimeType($mime_type);
 		}
 		$obj->setDisposition(self::DISP_ATTACHMENT);
+		$obj->setDeleteFile($delete_file);
 		$obj->deliver();
 	}
 
@@ -114,7 +121,7 @@ class ilFileDelivery {
 	 * @param      $path_to_file
 	 * @param null $download_file_name
 	 */
-	public static function streamVideoInline($path_to_file, $download_file_name = NULL) {
+	public static function streamVideoInline($path_to_file, $download_file_name = null) {
 		$obj = new self($path_to_file);
 		if ($download_file_name) {
 			$obj->setDownloadFileName($download_file_name);
@@ -128,7 +135,7 @@ class ilFileDelivery {
 	 * @param      $path_to_file
 	 * @param null $download_file_name
 	 */
-	public static function deliverFileInline($path_to_file, $download_file_name = NULL) {
+	public static function deliverFileInline($path_to_file, $download_file_name = null) {
 		$obj = new self($path_to_file);
 
 		if ($download_file_name) {
@@ -148,7 +155,7 @@ class ilFileDelivery {
 		$this->detemineDeliveryType();
 		$this->determineMimeType();
 		$this->determineDownloadFileName();
-		$this->setHasContext(ilContext::getType() !== NULL);
+		$this->setHasContext(ilContext::getType() !== null);
 	}
 
 
@@ -183,6 +190,9 @@ class ilFileDelivery {
 				break;
 			case self::DELIVERY_METHOD_NONE;
 				break;
+		}
+		if ($this->isDeleteFile()) {
+			unlink($this->getPathToFile());
 		}
 		if ($this->isExitAfter()) {
 			$this->close();
@@ -750,6 +760,22 @@ class ilFileDelivery {
 	public static function returnASCIIFileName($original_name) {
 		return ilUtil::getASCIIFilename($original_name);
 		//		return iconv("UTF-8", "ASCII//TRANSLIT", $original_name); // proposal
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isDeleteFile() {
+		return $this->delete_file;
+	}
+
+
+	/**
+	 * @param boolean $delete_file
+	 */
+	public function setDeleteFile($delete_file) {
+		$this->delete_file = $delete_file;
 	}
 }
 
