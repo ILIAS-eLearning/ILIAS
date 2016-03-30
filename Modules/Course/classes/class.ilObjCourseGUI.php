@@ -950,8 +950,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// save subitems anyways
 		$this->object->setSubscriptionPassword(ilUtil::stripSlashes($_POST['subscription_password']));
-		$this->object->setSubscriptionStart($sub_period->getStart()->get(IL_CAL_UNIX));
-		$this->object->setSubscriptionEnd($sub_period->getEnd()->get(IL_CAL_UNIX));
+		$this->object->setSubscriptionStart($sub_period->getStart() ? $sub_period->getStart()->get(IL_CAL_UNIX) : null);
+		$this->object->setSubscriptionEnd($sub_period->getEnd() ? $sub_period->getEnd()->get(IL_CAL_UNIX) : null);
 		
 		$this->object->enableRegistrationAccessCode((int) $_POST['reg_code_enabled']);
 		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
@@ -1287,9 +1287,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		// time limit		
 		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 		$sdur = new ilDateDurationInputGUI($this->lng->txt('crs_registration_limited'), "subscription_period");
-		$sdur->setShowTime(true);																	
-		$sdur->setStart(new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX));			
-		$sdur->setEnd(new ilDateTime($this->object->getSubscriptionEnd(),IL_CAL_UNIX));			
+		$sdur->setShowTime(true);		
+		if($this->object->getSubscriptionStart())
+		{
+			$sdur->setStart(new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX));			
+		}
+		if($this->object->getSubscriptionEnd())
+		{
+			$sdur->setEnd(new ilDateTime($this->object->getSubscriptionEnd(),IL_CAL_UNIX));			
+		}
 		$form->addItem($sdur);
 		
 		// cancellation limit		

@@ -289,7 +289,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	} 
 	function getSubscriptionStart()
 	{
-		return $this->subscription_start ? $this->subscription_start : time();
+		return $this->subscription_start;
 	}
 	function setSubscriptionStart($a_value)
 	{
@@ -297,7 +297,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	function getSubscriptionEnd()
 	{
-		return $this->subscription_end ? $this->subscription_end : mktime(0,0,0,12,12,date("Y",time())+2);
+		return $this->subscription_end;
 	}
 	function setSubscriptionEnd($a_value)
 	{
