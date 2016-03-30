@@ -927,15 +927,22 @@ class ilObjCourseGUI extends ilContainerGUI
 		}		
 		
 		$this->object->setOfflineStatus(!(bool)$_POST['activation_online']);		
+				
+		$this->object->setSubscriptionPassword(ilUtil::stripSlashes($_POST['subscription_password']));		
+		$this->object->setSubscriptionStart(null);
+		$this->object->setSubscriptionEnd(null);		
 		
 		$sub_type = (int)$_POST['subscription_type'];
 		if($sub_type != IL_CRS_SUBSCRIPTION_DEACTIVATED)
 		{		
 			$this->object->setSubscriptionType($sub_type);
 						
-			if((int)$_POST['subscription_limitation_type'])
+			if($sub_period->getStart() &&
+				$sub_period->getEnd())
 			{
 				$this->object->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_LIMITED);
+				$this->object->setSubscriptionStart($sub_period->getStart()->get(IL_CAL_UNIX));
+				$this->object->setSubscriptionEnd($sub_period->getEnd()->get(IL_CAL_UNIX));		
 			}
 			else
 			{
@@ -947,11 +954,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->object->setSubscriptionType(IL_CRS_SUBSCRIPTION_DIRECT);  // see ilObjCourse::__createDefaultSettings()
 			$this->object->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
 		}		
-		
-		// save subitems anyways
-		$this->object->setSubscriptionPassword(ilUtil::stripSlashes($_POST['subscription_password']));
-		$this->object->setSubscriptionStart($sub_period->getStart() ? $sub_period->getStart()->get(IL_CAL_UNIX) : null);
-		$this->object->setSubscriptionEnd($sub_period->getEnd() ? $sub_period->getEnd()->get(IL_CAL_UNIX) : null);
 		
 		$this->object->enableRegistrationAccessCode((int) $_POST['reg_code_enabled']);
 		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
