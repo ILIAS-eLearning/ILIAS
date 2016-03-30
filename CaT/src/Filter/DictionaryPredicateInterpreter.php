@@ -57,12 +57,25 @@ class DictionaryPredicateInterpreter {
 			return false;
 		}
 
+		if($p instanceof \CaT\Filter\Predicates\PredicateIsNull) {
+			if($field = current($p->fields())) {
+				$field_name = $field->name();
+				if(array_key_exists($field_name, $d)) {
+					return $d[$field_name] === null;
+				}
+				throw new \InvalidArgumentException("DictionaryPredicateInterpreter::interpret :"
+					." no field with name $field_name");
+			}
+			return false;
+		}
+
+
 		if ($p instanceof \CaT\Filter\Predicates\PredicateComparison) {
 			$left = $p->left();
 			$right = $p->right();
 			if($left instanceof Predicates\Field) {
 				$left_name = $left->name();
-				$left = isset($d[$left_name]) ? $d[$left_name] : null;
+				$left = array_key_exists($left_name, $d) ? $d[$left_name] : null;
 				$left_type = $this->fieldType($left);
 			} else {
 				$left_type = $this->varType($left);
@@ -70,7 +83,7 @@ class DictionaryPredicateInterpreter {
 			}
 			if($right instanceof \CaT\Filter\Predicates\Field) {
 				$right_name = $right->name();
-				$right = isset($d[$right_name]) ? $d[$right_name] : null;
+				$right = array_key_exists($right_name, $d) ? $d[$right_name] : null;
 				$right_type = $this->fieldType($right);
 			} else {
 				$right_type = $this->varType($right);

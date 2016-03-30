@@ -1042,4 +1042,27 @@ class PredicateTest extends PHPUnit_Framework_TestCase {
 
 	}
 
+	public function test_IsNull() {
+		$f = $this->factory;
+		$i = $this->interpreter;
+
+		$res = $f->int(1)->IS_NULL();
+		$this->assertFalse($i->interpret($res,array()));
+		$res = $f->str("a")->IS_NULL();
+		$this->assertFalse($i->interpret($res,array()));
+		$res = $f->date(new \DateTime("2016-01-01"))->IS_NULL();
+		$this->assertFalse($i->interpret($res,array()));
+
+		$res = $f->field("foo")->IS_NULL();
+		$this->assertFalse($i->interpret($res,array("foo" => "2")));
+		$this->assertTrue($i->interpret($res,array("foo" => null)));
+
+		try {
+			$i->interpret($res,array("bar" => null));
+			$this->assertFalse("should have thrown Exception");
+		}
+		catch (\InvalidArgumentException $ex) {
+		}
+	}
+
 }

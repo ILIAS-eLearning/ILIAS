@@ -64,46 +64,55 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 				( $txt("template_choice_label")
 				, $txt("template_choice_description")
 				, $this->getTrainingTemplateOptions()
-				)
+				)->map(function($tpl_obj_id) {return $tpl_obj_id;},$tf->int())
 			, $f->dateperiod
 				( $txt("dateperiod_choice_label")
 				, $txt("dateperiod_choice_description")
-				)
-			, $f->one_of
+				)->map(function($start,$end) use ($f) {
+						$pc = $f->dateperiod_overlaps_or_empty_predicate
+							( "usrcrs.begin_date"
+							, "usrcrs.end_date"
+							);
+						return array("date_period_predicate" => $pc($start,$end)
+							,"start" => $start
+							,"end" => $end);
+						},$tf->dict(array(
+							"date_period_predicate" => $tf->cls("CaT\Filter\Predicates\Predicate")
+							,"start" => $tf->cls("DateTime")
+							,"end" => $tf->cls("DateTime")
+						)))
+				, $f->one_of
 				( $txt("person_choice_label")
 				, $txt("person_choice_description")
 				, $f->multiselect
 					( $txt("orgu_choice_label")
 					, $txt("orgu_choice_description")
 					, $this->getOrguOptions()
-					)
+					)->map(function($id_s) {return $id_s;}
+						,$tf->lst($tf->int()))
 				, $f->multiselect
 					( $txt("role_choice_label")
 					, $txt("role_choice_description")
 					, $this->getRoleOptions()
-					)
-				)
-			)
-			->map_raw(function($tpl_obj_id, $start, $end, $choice, $ids) use ($f) {
-				$pc = $f->dateperiod_overlaps_or_empty_predicate
-							( "usrcrs.begin_date"
-							, "usrcrs.end_date"
-							);
-
-				$ret = array( "template_obj_id" => $tpl_obj_id
-							, "period_pred" => $pc($start, $end)
+					)->map(function($id_s) {return $id_s;}
+						,$tf->lst($tf->int()))
+				)->map( function($choice,$id_s) {return array($choice,$id_s);}
+				,$tf->tuple($tf->int(),$tf->lst($tf->int())))
+			)->map(function($tpl_obj_id,$date_period_predicate,$start, $end, $choice, $id_s) {
+						return array( "template_obj_id" => $tpl_obj_id
+							, "period_pred" => $date_period_predicate
 							, "start" => $start
 							, "end" => $end
-							);
-				if ($choice == 0) {
-					$ret["orgu_ids"] = $ids;
-				}
-				else {
-					$ret["role_ids"] = $ids;
-				}
-				return $ret;
-			}, $tf->int())
-			;
+							, "choice" => $choice
+							, "ids" => $id_s
+							);}
+						, $tf->dict(array("template_obj_id" => $tf->int()
+							,"period_pred" => $tf->cls("CaT\Filter\Predicates\Predicate")
+							,"start" => $tf->cls("DateTime")
+							,"end" => $tf->cls("DateTime")
+							,"choice" => $tf->int()
+							,"ids"=> $tf->lst($tf->int()))));
+
 	}
 
 	protected function fetchData(callable $callback) {
@@ -122,6 +131,11 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 		$crs_ids = array();
 		while($rec = $db->fetchAssoc($res)) {
 			$crs_ids[] = (int)$rec["crs_id"];
+		}
+		if($settings["choice"] === 0 ){
+			$settings["orgu_ids"] = $settings["ids"];
+		} elseif($settings["choice"] === 1) {
+			$settings["role_ids"] = $settings["ids"];
 		}
 
 		if (array_key_exists("orgu_ids", $settings)) {
@@ -159,6 +173,7 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 				 " JOIN hist_userorgu usrorg ON usrorg.usr_id = usr.usr_id AND usrorg.hist_historic = 0 AND usrorg.action >= 0".
 				 " LEFT JOIN hist_usercoursestatus usrcrs ON usr.usr_id = usrcrs.usr_id AND usrcrs.hist_historic = 0 AND ".$dt_query.
 				 " WHERE ".$db->in("usr.usr_id", array_values($usr_ids), false, "integer").
+				 "		AND ".$db->in("usrcrs.crs_id", $crs_ids, false, "integer").
 				 " GROUP BY usr.usr_id ".
 				 " ORDER BY usr.lastname, usr.firstname"
 				 ;
