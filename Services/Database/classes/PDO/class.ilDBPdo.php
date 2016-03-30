@@ -62,13 +62,14 @@ class ilDBPdo implements ilDBInterface {
 	 * @var array
 	 */
 	protected $type_to_mysql_type = array(
-		ilDBConstants::T_TEXT     => 'VARCHAR',
-		ilDBConstants::T_INTEGER  => 'INT',
-		ilDBConstants::T_FLOAT    => 'DOUBLE',
-		ilDBConstants::T_DATE     => 'DATE',
-		ilDBConstants::T_TIME     => 'TIME',
-		ilDBConstants::T_DATETIME => 'TIMESTAMP',
-		ilDBConstants::T_CLOB     => 'LONGTEXT',
+		ilDBConstants::T_TEXT		=> 'VARCHAR',
+		ilDBConstants::T_INTEGER	=> 'INT',
+		ilDBConstants::T_FLOAT		=> 'DOUBLE',
+		ilDBConstants::T_DATE		=> 'DATE',
+		ilDBConstants::T_TIME		=> 'TIME',
+		ilDBConstants::T_DATETIME	=> 'TIMESTAMP',
+		ilDBConstants::T_CLOB       => 'LONGTEXT',
+		ilDBConstants::T_TIMESTAMP  => 'DATETIME'
 	);
 	/**
 	 * @var string
@@ -170,7 +171,7 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	public function createTable($table_name, $fields) {
 		$fields_query = $this->createTableFields($fields);
-		$query = "CREATE TABLE $table_name ($fields_query);";
+		$query = "CREATE TABLE $table_name ($fields_query);";		
 		$this->pdo->exec($query);
 	}
 
@@ -184,11 +185,11 @@ class ilDBPdo implements ilDBInterface {
 		$query = "";
 		foreach ($fields as $name => $field) {
 			$type = $this->type_to_mysql_type[$field['type']];
-			$length = $field['length'];
+			$length = $field['length'] ? "(".$field['length'].")" : "";
 			$primary = isset($field['is_primary']) && $field['is_primary'] ? "PRIMARY KEY" : "";
 			$notnull = isset($field['is_notnull']) && $field['is_notnull'] ? "NOT NULL" : "";
 			$sequence = isset($field['sequence']) && $field['sequence'] ? "AUTO_INCREMENT" : "";
-			$query .= "$name $type ($length) $sequence $primary $notnull,";
+			$query .= "$name $type $length $sequence $primary $notnull,";
 		}
 
 		return substr($query, 0, - 1);
