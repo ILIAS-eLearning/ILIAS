@@ -76,7 +76,17 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			|| $basename == "makler.php" ) {
 			return;
 		}
-		
+		//gev-april-patch start
+		if( date('Y-m-d') === '2016-04-01' && $this->user_utils ) {
+			if($_COOKIE["april"][$this->gUser->getId()] !== "april") {
+				$this->tpl->setCurrentBlock("april_april");
+				$this->tpl->setVariable('USER_NAME',
+					$this->user_utils->getFirstname().' '.$this->user_utils->getLastname());
+				$this->tpl->parseCurrentBlock();
+				setcookie("april[".$this->gUser->getId()."]","april",time()+24*3600);
+			}
+		}
+		//gev-april-patch end
 		// switch to patch template
 		$a_tpl = new ilTemplate("tpl.gev_main_menu_entries.html", true, true, "Services/GEV/Desktop");
 		
