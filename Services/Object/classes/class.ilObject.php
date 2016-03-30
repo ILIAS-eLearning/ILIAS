@@ -1186,7 +1186,7 @@ class ilObject
 	/**
 	* checks wether object is in trash
 	*/
-	static function _isInTrash($a_ref_id)
+	public static function _isInTrash($a_ref_id)
 	{
 		global $tree;
 
