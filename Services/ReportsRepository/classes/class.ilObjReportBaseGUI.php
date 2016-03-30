@@ -99,6 +99,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 				}
 				break;
 			case "exportexcel":
+				$this->setFilterAction($cmd);
 				$this->exportExcel();
 				exit();
 			case "showContent":
