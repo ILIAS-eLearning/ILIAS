@@ -715,19 +715,19 @@ class ilTemplate extends HTML_Template_ITX
 				reset($this->js_files);
 				foreach($this->js_files as $file)
 				{
-					if (is_file($file) || substr($file, 0, 4) == "http" || substr($file, 0, 2) == "//" || $a_force)
+					if ($this->js_files_batch[$file] == $i)
 					{
-						if ($this->js_files_batch[$file] == $i)
+						if (is_file($file) || substr($file, 0, 4) == "http" || substr($file, 0, 2) == "//" || $a_force)
 						{
-							$this->fillJavascriptFile($file, $vers);
+							$this->fillJavascriptFile($file, $vers);							
 						}
-					}
-					else if(substr($file, 0, 2) == './') // #13962
-					{
-						$url_parts = parse_url($file);
-						if(is_file($url_parts['path']))
+						else if(substr($file, 0, 2) == './') // #13962
 						{
-							$this->fillJavascriptFile($file, $vers);
+							$url_parts = parse_url($file);
+							if(is_file($url_parts['path']))
+							{
+								$this->fillJavascriptFile($file, $vers);
+							}
 						}
 					}
 				}
