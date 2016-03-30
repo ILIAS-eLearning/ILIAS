@@ -201,7 +201,7 @@ abstract class ilObject2 extends ilObject
 	final function _writeDescription($a_obj_id, $a_desc) { return parent::_writeDescription($a_obj_id, $a_desc); }
 	final function _writeImportId($a_obj_id, $a_import_id) { return parent::_writeImportId($a_obj_id, $a_import_id); }
 	final static function _lookupType($a_id,$a_reference = false) { return parent::_lookupType($a_id,$a_reference); }
-	final function _isInTrash($a_ref_id) { return parent::_isInTrash($a_ref_id); }
+	final static function _isInTrash($a_ref_id) { return parent::_isInTrash($a_ref_id); }
 	final static function _hasUntrashedReference($a_obj_id) { return parent::_hasUntrashedReference($a_obj_id); }
 	final static function _lookupObjectId($a_ref_id) { return parent::_lookupObjectId($a_ref_id); }
 	final function _getObjectsDataForType($a_type, $a_omit_trash = false) { return parent::_getObjectsDataForType($a_type, $a_omit_trash); }
