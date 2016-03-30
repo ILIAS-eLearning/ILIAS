@@ -225,10 +225,14 @@ class ilExport
 		return $file;
 	}
 
+
 	/**
-	* Create export directory
-	*/
-	function _createExportDirectory($a_obj_id, $a_export_type = "xml", $a_obj_type = "")
+	 * @param $a_obj_id
+	 * @param string $a_export_type
+	 * @param string $a_obj_type
+	 * @return bool
+	 */
+	public static function _createExportDirectory($a_obj_id, $a_export_type = "xml", $a_obj_type = "")
 	{
 		global $ilErr;
 		
