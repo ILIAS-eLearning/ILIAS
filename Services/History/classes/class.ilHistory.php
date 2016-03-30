@@ -201,7 +201,7 @@ class ilHistory
 	*
 	* @return	boolean
 	*/
-	function _removeEntriesForObject($a_obj_id)
+	public static function _removeEntriesForObject($a_obj_id)
 	{
 		global $ilDB;
 
