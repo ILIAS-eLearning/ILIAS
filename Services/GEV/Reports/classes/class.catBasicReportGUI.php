@@ -50,8 +50,8 @@ class catBasicReportGUI {
 		}
 		
 		switch ($cmd) {
-			case "exportxls":
-				$this->exportXLS();
+			case "exportexcel":
+				$this->exportExcel();
 				exit();
 				//no "break;" !
 			default:
@@ -129,9 +129,9 @@ class catBasicReportGUI {
 		$this->enableRelevantParametersCtrl();
 		$export_btn = '<a class="submit exportXlsBtn"'
 						. 'href="'
-						.$this->ctrl->getLinkTarget($this, "exportxls")
+						.$this->ctrl->getLinkTarget($this, "exportexcel")
 						.'">'
-						.$this->lng->txt("gev_report_exportxls")
+						.$this->lng->txt("gev_report_excel_export")
 						.'</a>';
 		$this->disableRelevantParametersCtrl();
 		return $export_btn;
@@ -244,63 +244,57 @@ class catBasicReportGUI {
 		return $head.$tail;
 	}
 
-	protected function exportXLS() {
-		require_once "Services/Excel/classes/class.ilExcelUtils.php";
-		require_once "Services/Excel/classes/class.ilExcelWriterAdapter.php";
-		
-		$data = $this->getData();
+	protected function getExcelWriter() {
+		require_once 'Services/ReportsRepository/classes/class.spoutXLSXWriter.php';
+		$workbook = new spoutXLSXWriter();
+		return $workbook;
+	}
 
-		$adapter = new ilExcelWriterAdapter("Report.xls", true); 
-		$workbook = $adapter->getWorkbook();
-		$worksheet = $workbook->addWorksheet();
-		$worksheet->setLandscape();
+	/**
+	 * provide xlsx version of report for download.
+	 */
+	protected function exportExcel() {
+		$workbook = $this->getExcelWriter();
+		$sheet_name = "report";
+		$workbook
+			->addSheet($sheet_name)
+			->setRowFormatBold();
 
-		//available formats within the sheet
-		$format_bold = $workbook->addFormat(array("bold" => 1));
-		$format_wrap = $workbook->addFormat();
-		$format_wrap->setTextWrap();
-		
-		//init cols and write titles
-		$colcount = 0;
+		$header = array();
 		foreach ($this->table->all_columns as $col) {
 			if ($col[4]) {
 				continue;
 			}
-			$worksheet->setColumn($colcount, $colcount, 30); //width
-			if (method_exists($this, "_process_xls_header") && $col[2]) {
-				$worksheet->writeString(0, $colcount, $this->_process_xls_header($col[1]), $format_bold);
+			if (method_exists($this, "_process_xlsx_header") && $col[2]) {
+				$header[] = $this->_process_xlsx_header($col[1]);
 			}
 			else {
-				$worksheet->writeString(0, $colcount, $col[2] ? $col[1] : $this->lng->txt($col[1]), $format_bold);
+				$header[] = $col[2] ? $col[1] : $this->lng->txt($col[1]);
 			}
-			$colcount++;
 		}
-
-		//write data-rows
-		$rowcount = 1;
-		foreach ($data as $entry) {
-			$colcount = 0;
-			foreach ($this->table->all_columns as $col) {
+		$workbook
+			->writeRow($header)
+			->setRowFormatWrap();
+		foreach ($this->getData() as $entry) {
+			$row = array();
+			foreach ($this->table->all_columns as $col)  {
 				if ($col[4]) {
 					continue;
 				}
 				$k = $col[0];
 				$v = $entry[$k];
-
-				$method_name = '_process_xls_' .$k;
+				$method_name = '_process_xlsx_' .$k;
 				if (method_exists($this, $method_name)) {
 					$v = $this->$method_name($v);
 				}
-
-				$worksheet->write($rowcount, $colcount, $v, $format_wrap);
-				$colcount++;
+				$row[] = $v;
 			}
-
-			$rowcount++;
+			$workbook->writeRow($row);
 		}
 
-		$workbook->close();		
+		$workbook->offerDownload("report.xlsx");
 	}
+
 
 	protected function queryWhere() {
 		$query_part = $this->query ? $this->query->getSqlWhere() : ' TRUE ';
@@ -349,8 +343,6 @@ class catBasicReportGUI {
 			   . $this->query->sqlGroupBy()."\n"
 			   . $this->queryHaving()."\n"
 			   . $this->queryOrder();
-			   //die($query);
-
 		
 		$res = $this->db->query($query);
 		$data = array();

@@ -7,7 +7,7 @@ require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';
 require_once 'Services/CaTUIComponents/classes/class.catTitleGUI.php';
 require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
-
+require_once("Services/ReportsRepository/interfaces/interface.ExcelWriter.php");
 
 abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 
@@ -98,11 +98,9 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 					return $this->renderQueryView();
 				}
 				break;
-			case "exportxls":
-				$this->setFilterAction($cmd);
-				$this->exportXLS();
+			case "exportexcel":
+				$this->exportExcel();
 				exit();
-			//no "break;" !
 			case "showContent":
 				$this->setFilterAction($cmd);
 				if($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
@@ -188,9 +186,9 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->enableRelevantParametersCtrl();
 		$export_btn = '<a class="submit exportXlsBtn"'
 						. 'href="'
-						.$this->gCtrl->getLinkTarget($this, "exportxls")
+						.$this->gCtrl->getLinkTarget($this, "exportexcel")
 						.'">'
-						.$this->gLng->txt("gev_report_exportxls")
+						.$this->gLng->txt("gev_report_excel_export")
 						.'</a>';
 		$this->disableRelevantParametersCtrl();
 		return $export_btn;
@@ -288,62 +286,49 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		return $tpl->get();
 	}
 
+	protected function getExcelWriter() {
+		require_once 'Services/ReportsRepository/classes/class.spoutXLSXWriter.php';
+		$workbook = new spoutXLSXWriter();
+		return $workbook;
+	}
+
 	/**
-	* provide xls version of report for download.
-	*/
-	protected function exportXLS() {
-		require_once "Services/Excel/classes/class.ilExcelUtils.php";
-		require_once "Services/Excel/classes/class.ilExcelWriterAdapter.php";
+	 * provide xlsx version of report for download.
+	 */
+	protected function exportExcel() {
 		$this->object->prepareReport();
 
-		$adapter = new ilExcelWriterAdapter("Report.xls", true); 
-		$workbook = $adapter->getWorkbook();
-		$worksheet = $workbook->addWorksheet();
-		$worksheet->setLandscape();
+		$workbook = $this->getExcelWriter();
 
-		//available formats within the sheet
-		$format_bold = $workbook->addFormat(array("bold" => 1));
-		$format_wrap = $workbook->addFormat();
-		$format_wrap->setTextWrap();
-		
-		//init cols and write titles
-		$colcount = 0;
+		$sheet_name = "report";
+		$workbook
+			->addSheet($sheet_name)
+			->setRowFormatBold();
+
+		$header = array();
 		foreach ($this->object->deliverTable()->all_columns as $col) {
 			if ($col[4]) {
 				continue;
 			}
-			$worksheet->setColumn($colcount, $colcount, 30); //width
-			if (method_exists($this, "_process_xls_header") && $col[2]) {
-				$worksheet->writeString(0, $colcount, $this->_process_xls_header($col[1]), $format_bold);
-			}
-			else {
-				$worksheet->writeString(0, $colcount, $col[2] ? $col[1] : $this->lng->txt($col[1]), $format_bold);
-			}
-			$colcount++;
+			$header[] = $col[2] ? $col[1] : $this->lng->txt($col[1]);
 		}
 
-		//write data-rows
-		$rowcount = 1;
-		$callback = get_class($this).'::transformResultRowXLS';
+		$workbook
+			->writeRow($header)
+			->setRowFormatWrap();
+		$callback = get_class($this).'::transformResultRowXLSX';
 		foreach ($this->object->deliverData($callback) as $entry) {
-			$colcount = 0;
+			$row = array();
 			foreach ($this->object->deliverTable()->all_columns as $col) {
 				if ($col[4]) {
 					continue;
 				}
-				$k = $col[0];
-				$v = $entry[$k];
-
-				$method_name = '_process_xls_' .$k;
-				if (method_exists($this, $method_name)) {
-					$v = $this->$method_name($v);
-				}
-				$worksheet->write($rowcount, $colcount, $v, $format_wrap);
-				$colcount++;
+				$row[] = $entry[$col[0]];
 			}
-			$rowcount++;
+			$workbook->writeRow($row);
 		}
-		$workbook->close();		
+
+		$workbook->offerDownload("report.xlsx");
 	}
 
 	/**
@@ -354,7 +339,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		return $a_rec;
 	}
 
-	public static function transformResultRowXLS($a_rec) {
+	public static function transformResultRowXLSX($a_rec) {
 		$a_rec = self::replaceEmpty($a_rec);
 		return $a_rec;
 	}

@@ -450,12 +450,12 @@ abstract class ilHistorizingStorage
 						break;
 				}
 
-				if ($a_current_data[$key] !== $value) {
+				if ((string)$a_current_data[$key] !== (string)$value) {
 					return true;
 				}
 			}
 			else {
-				if ($a_current_data[$key] !== $a_new_data[$key]) {
+				if ((string)$a_current_data[$key] !== (string)$a_new_data[$key]) {
 					return true;
 				}
 			}

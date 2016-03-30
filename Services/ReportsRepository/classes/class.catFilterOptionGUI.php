@@ -7,22 +7,29 @@ require_once("Services/ReportsRepository/classes/class.catFilterGUI.php");
 class catFilterOptionGUI extends catFilterGUI {
 	protected $filter;
 	protected $path;
+	protected $val;
 
 	public function __construct($filter, $path) {
 		$this->filter = $filter;
 		$this->path = $path;
 	}
 
-	public function path() {
-		return $this->path;
-	}
-
-	public function fillForm(ilPropertyFormGUI $form) {
+	/**
+	 * @inheritdoc
+	 */
+	public function formElement() {
 		$select = new ilSelectInputGUI($this->filter->label(), "filter[$this->path]");
 		$select->setInfo($this->filter->description());
 		$select->setOptions(array("1"=>"Ja","0"=>"Nein"));
-		$form->addItem($select);
 
-		return $form;
+		if($this->val !== null) {
+			$select->setValue($this->val);
+		}
+
+		return $select;
+	}
+
+	public function setValue($val) {
+		$this->val = $val;
 	}
 }

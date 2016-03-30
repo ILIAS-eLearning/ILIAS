@@ -121,7 +121,7 @@ class ilObjReportTrainerWorkloadGUI extends ilObjReportBaseGUI {
 		return parent::transformResultRow($rec);
 	}
 
-	public static function transformResultRowXLS($rec) {
+	public static function transformResultRowXLSX($rec) {
 		return self::transformResultRow($rec);
 	}
 }

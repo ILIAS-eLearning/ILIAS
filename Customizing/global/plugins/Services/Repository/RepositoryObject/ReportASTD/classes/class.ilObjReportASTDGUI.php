@@ -55,7 +55,7 @@ class ilObjReportASTDGUI extends ilObjReportBaseGUI {
 		return $rec;
 	}
 
-	public static function transformResultRowXLS($rec) {
+	public static function transformResultRowXLSX($rec) {
 		return self::transformResultRow($rec);
 	}
 }
