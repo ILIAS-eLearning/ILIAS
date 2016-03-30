@@ -412,7 +412,7 @@ class ilOrgUnitType {
 				$ref_ids = ilObject::_getAllReferences($id);
 				$ref_ids = array_values($ref_ids);
 				$ref_id = $ref_ids[0];
-				if ($orgu->_isInTrash($ref_id)) {
+				if (ilObject::_isInTrash($ref_id)) {
 					continue;
 				}
 			}
