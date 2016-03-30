@@ -386,7 +386,7 @@ class ilMimeMail
 
 			$mail->AltBody = $this->body;
 
-			if(strip_tags($this->body) == $this->body)
+			if(strip_tags($this->body, '<b><u><i><a>') == $this->body)
 			{
 				// Let's assume that there is no HTML, so convert "\n" to "<br>" 
 				$this->body = nl2br($this->body);
