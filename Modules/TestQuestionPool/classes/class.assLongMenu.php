@@ -745,28 +745,24 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 	{
 		return parent::getRTETextWithMediaObjects() . $this->getLongMenuTextValue();
 	}
+
 	/**
-	 * Creates an Excel worksheet for the detailed cumulated results of this question
-	 *
-	 * @param object $worksheet    Reference to the parent excel worksheet
-	 * @param object $startrow     Startrow of the output in the excel worksheet
-	 * @param object $active_id    Active id of the participant
-	 * @param object $pass         Test pass
-	 * @param object $format_title Excel title format
-	 * @param object $format_bold  Excel bold format
-	 *
-	 * @return object
+	 * {@inheritdoc}
 	 */
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass)
 	{
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
+		require_once './Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
+
+		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(0) . $startrow, $this->lng->txt($this->getQuestionType()));
+		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(1) . $startrow, $this->getTitle());
+
 		$solution = $this->getSolutionValues($active_id, $pass);
-		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
-		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+
 		$i = 1;
 		foreach ($this->getCorrectAnswers() as $gap_index => $gap)
 		{
-			$worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($this->lng->txt('assLongMenu') . " $i"), $format_bold);
+			$worksheet->setCell($startrow + $i, 0, $this->lng->txt('assLongMenu') . " $i");
+			$worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
 			foreach ($solution as $solutionvalue)
 			{
 				if ($gap_index == $solutionvalue["value1"])
@@ -779,10 +775,10 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 							{
 								$value = '';
 							}
-							$worksheet->writeString($startrow + $i, 1, $value);
+							$worksheet->setCell($startrow + $i, 1, $value);
 							break;
 						case self::ANSWER_TYPE_TEXT_VAL:
-							$worksheet->writeString($startrow + $i, 1, $solutionvalue["value2"]);
+							$worksheet->setCell($startrow + $i, 1, $solutionvalue["value2"]);
 							break;
 					}
 				}

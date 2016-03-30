@@ -573,22 +573,15 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
 	}
 
 	/**
-	* Creates an Excel worksheet for the detailed cumulated results of this question
-	*
-	* @param object $worksheet Reference to the parent excel worksheet
-	* @param object $startrow Startrow of the output in the excel worksheet
-	* @param object $active_id Active id of the participant
-	* @param object $pass Test pass
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
-	* @access public
-	*/
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	 * {@inheritdoc}
+	 */
+	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass)
 	{
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
-		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
-		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+		require_once './Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
+
+		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(0) . $startrow, $this->lng->txt($this->getQuestionType()));
+		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(1) . $startrow, $this->getTitle());
+
 		return $startrow + 1;
 	}
 	
