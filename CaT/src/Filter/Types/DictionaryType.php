@@ -36,16 +36,14 @@ class DictionaryType extends Type {
 
 	/**
 	 * @inheritdocs
-	 * returns a json of key:subtype-representation
+	 * returns a json-like format of key:subtype-representation
 	 */
 	public function repr() {
-		$return = "";
-		$break = "";
+		$return = array();
 		foreach($this->sub_types as $key => $sub_type) {
-			$return .= $break."\t\"".$key.'":"'.$sub_type->repr().'"';
-			$break = ",\r\n";
+			$return[] = $key.":".$sub_type->repr();
 		}
-		return "{\r\n".$return."\r\n}";
+		return "{".implode(",",$return)."}";
 	}
 
 
