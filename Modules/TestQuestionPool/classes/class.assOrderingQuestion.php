@@ -1019,20 +1019,15 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 
 	/**
-	 * Creates an Excel worksheet for the detailed cumulated results of this question
-	 *
-	 * @param object $worksheet    Reference to the parent excel worksheet
-	 * @param object $startrow     Startrow of the output in the excel worksheet
-	 * @param object $active_id    Active id of the participant
-	 * @param object $pass         Test pass
-	 * @param object $format_title Excel title format
-	 * @param object $format_bold  Excel bold format
-	 *
-	 * @return object
+	 * {@inheritdoc}
 	 */
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass)
 	{
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
+		require_once './Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
+
+		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(0) . $startrow, $this->lng->txt($this->getQuestionType()));
+		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(1) . $startrow, $this->getTitle());
+
 		$solutions = $this->getSolutionValues($active_id, $pass);
 		$sol = array();
 		foreach ($solutions as $solution)
@@ -1041,17 +1036,16 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 		asort($sol);
 		$sol = array_keys($sol);
-		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
-		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+
 		$i = 1;
 		$answers = $this->getAnswers();
 		foreach ($sol as $idx)
 		{
 			foreach ($solutions as $solution)
 			{
-				if ($solution["value1"] == $idx) $worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($solution["value2"]));
+				if ($solution["value1"] == $idx) $worksheet->setCell($startrow + $i, 0, $solution["value2"]);
 			}
-			$worksheet->writeString($startrow + $i, 1, ilExcelUtils::_convert_text($answers[$idx]->getAnswertext()));
+			$worksheet->setCell($startrow + $i, 1, $answers[$idx]->getAnswertext());
 			$i++;
 		}
 		return $startrow + $i + 1;

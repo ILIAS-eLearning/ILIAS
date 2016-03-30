@@ -1043,18 +1043,20 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass)
 	{
-		require_once 'Services/Excel/classes/class.ilExcelUtils.php';
+		require_once './Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
+
+		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(0) . $startrow, $this->lng->txt($this->getQuestionType()));
+		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(1) . $startrow, $this->getTitle());
 
 		$solution = $this->getSolutionValues($active_id, $pass);
-
-		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
-		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+		
 		$i = 1;
 		foreach($this->getAnswers() as $id => $answer)
 		{
-			$worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($answer->getAnswertext()), $format_bold);
+			$worksheet->setCell($startrow + $i, 0, $answer->getAnswertext());
+			$worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
 			$correctness = FALSE;
 			foreach($solution as $solutionvalue)
 			{
@@ -1064,7 +1066,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 					break;
 				}
 			}
-			$worksheet->write($startrow + $i, 1, $correctness);
+			$worksheet->setCell($startrow + $i, 1, $correctness);
 			$i++;
 		}
 		return $startrow + $i + 1;

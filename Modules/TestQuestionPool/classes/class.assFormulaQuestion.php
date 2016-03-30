@@ -1160,44 +1160,40 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	}
 
 	/**
-	 * Creates an Excel worksheet for the detailed cumulated results of this question
-	 * @param object $worksheet    Reference to the parent excel worksheet
-	 * @param object $startrow     Startrow of the output in the excel worksheet
-	 * @param object $active_id    Active id of the participant
-	 * @param object $pass         Test pass
-	 * @param object $format_title Excel title format
-	 * @param object $format_bold  Excel bold format
-	 * @param array  $eval_data    Cumulated evaluation data
-	 * @access public
+	 * {@inheritdoc}
 	 */
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass)
 	{
-		require_once 'Services/Excel/classes/class.ilExcelUtils.php';
+		require_once './Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
+
+		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(0) . $startrow, $this->lng->txt($this->getQuestionType()));
+		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(1) . $startrow, $this->getTitle());
+
 		$solution = $this->getSolutionValues($active_id, $pass);
-		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
-		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+
 		$i = 1;
 		foreach($solution as $solutionvalue)
 		{
-			$worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($solutionvalue["value1"]), $format_bold);
+			$worksheet->setCell($startrow + $i, 0,$solutionvalue["value1"]);
+			$worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
 			if(strpos($solutionvalue["value1"], "_unit"))
 			{
 				$unit = $this->getUnitrepository()->getUnit($solutionvalue["value2"]);
 				if(is_object($unit))
 				{
-					$worksheet->write($startrow + $i, 1, $unit->getUnit());
+					$worksheet->setCell($startrow + $i, 1, $unit->getUnit());
 				}
 			}
 			else
 			{
-				$worksheet->write($startrow + $i, 1, $solutionvalue["value2"]);
+				$worksheet->setCell($startrow + $i, 1, $solutionvalue["value2"]);
 			}
 			if(preg_match("/(\\\$v\\d+)/", $solutionvalue["value1"], $matches))
 			{
 				$var = $this->getVariable($solutionvalue["value1"]);
 				if(is_object($var) && (is_object($var->getUnit())))
 				{
-					$worksheet->write($startrow + $i, 2, $var->getUnit()->getUnit());
+					$worksheet->setCell($startrow + $i, 2, $var->getUnit()->getUnit());
 				}
 			}
 			$i++;
