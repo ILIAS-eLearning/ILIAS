@@ -1196,7 +1196,7 @@ class ilObject
 	/**
 	* checks wether an object has at least one reference that is not in trash
 	*/
-	function _hasUntrashedReference($a_obj_id)
+	static function _hasUntrashedReference($a_obj_id)
 	{
 		$ref_ids  = ilObject::_getAllReferences($a_obj_id);
 		foreach($ref_ids as $ref_id)

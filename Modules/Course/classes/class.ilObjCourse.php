@@ -596,7 +596,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return false;
 	}
 
-	function _lookupAboStatus($a_id)
+	static function _lookupAboStatus($a_id)
 	{
 		global $ilDB;
 
