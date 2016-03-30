@@ -327,7 +327,20 @@ class ilExcel
 		
 		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->format);
 		$writer->save($a_file);
-	}		
+	}
+
+
+	/**
+	 * @return string
+	 * @throws \PHPExcel_Reader_Exception
+	 */
+	public function writeToTmpFile() {
+		$writer = PHPExcel_IOFactory::createWriter($this->workbook, $this->format);
+		$filename = ilUtil::ilTempnam();
+		$writer->save($filename);
+		
+		return $filename;
+	}
 	
 	
 	// 
