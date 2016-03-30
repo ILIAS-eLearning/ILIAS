@@ -7853,6 +7853,7 @@ a.ilTreeView:focus {
 .jstree li,
 .jstree ins {
   background: url("images/jstree.svg") no-repeat;
+  vertical-align: top;
 }
 .jstree li {
   background-position: -90px 0;
@@ -8102,6 +8103,16 @@ div.ilFrmPostHeader span.small {
 }
 .ilFrmBottomToolbar {
   margin-top: 20px;
+}
+.ilForumTreeTitleUnread {
+  font-weight: bold;
+}
+.ilForumTreeUnlinkedContent {
+  text-decoration: none;
+  cursor: text;
+  font-size: smaller;
+  color: #333333;
+  padding-left: 23px;
 }
 /* Services/Mail */
 a.mailread,

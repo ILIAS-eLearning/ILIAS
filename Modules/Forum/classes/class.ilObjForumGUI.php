@@ -102,7 +102,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	private $confirmation_gui_html = '';
 	
-	public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
+	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		/**
 		 * @var $ilCtrl ilCtrl
@@ -198,8 +198,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			'performPostActivation', 
 			'askForPostActivation', 'askForPostDeactivation',
 			'toggleThreadNotification', 'toggleThreadNotificationTab',
-			'toggleStickiness', 'cancelPost', 'savePost', 'saveTopLevelPost', 'createToLevelPost', 'quoteTopLevelPost', 'quotePost', 'getQuotationHTMLAsynch',
-			'setTreeStateAsynch', 'fetchTreeChildrenAsync'
+			'toggleStickiness', 'cancelPost', 'savePost', 'saveTopLevelPost', 'createToLevelPost', 'quoteTopLevelPost', 'quotePost', 'getQuotationHTMLAsynch'
 		);
 
 		if(!in_array($cmd, $exclude_cmds))
@@ -1712,9 +1711,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$message .= $lng->txt('forums_post_new_entry');
 				}
 
-				$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = (int)$this->objCurrentPost->getId();
-
 				ilUtil::sendSuccess($message, true);
+				$this->ctrl->setParameter($this, 'post_created_below', $this->objCurrentPost->getId());
 				$this->ctrl->setParameter($this, 'pos_pk', $newPost);
 				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
 				$this->ctrl->redirect($this, 'viewThread');
@@ -1917,113 +1915,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		return $this->forumObjects;
 	}
-	
-	public function getForumExplorer()
-	{		
-		include_once 'Modules/Forum/classes/class.ilForumExplorer.php';
-		
-		$explorer = new ilForumExplorer(
-			$this,
-			$this->objCurrentTopic,
-			$this->objProperties
-		);
-		
-		return $explorer->render()->getHtml();
-	}
-	
-	public function fetchTreeChildrenAsyncObject()
-	{
-		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
-		include_once 'Modules/Forum/classes/class.ilForumExplorer.php';
-
-		$response = new stdClass();
-		$response->success = false;
-
-		if( $_GET['nodeId'] )
-		{
-			$response->success = true;
-			$response->children = array();
-
-			$key = array_search((int)$_GET['nodeId'], (array)$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']);
-			if( false === $key )
-			{
-				$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = (int)$_GET['nodeId'];
-			}
-
-			$children = $this->objCurrentTopic->getNestedSetPostChildren(
-				(int)$_GET['nodeId'],
-				(array)$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']
-			);
-
-			$frm = new ilForum();
-			$pageHits = $frm->getPageHits();
-			
-			$fetchedNodes = array();
-			
-			foreach( $children as $child )
-			{
-				if($child['parent_pos'] != (int)$_GET['nodeId'] &&
-				   !in_array($child['parent_pos'], $fetchedNodes))
-				{
-					continue;
-				}
-
-				$fetchedNodes[] = $child['pos_pk'];
-				
-				$this->ctrl->setParameter($this, 'thr_pk', (int)$_GET['thr_pk']);
-				
-				$html = ilForumExplorer::getTreeNodeHtml(
-					$child,
-					$this,
-					$pageHits
-				);
-				
-				$responseChild = new stdClass();
-				$responseChild->nodeId = $child['pos_pk'];
-				$responseChild->parentId = $child['parent_pos'];
-				$responseChild->hasChildren = ($child['children'] >= 1);
-				$responseChild->fetchedWithChildren = in_array((int)$child['pos_pk'], (array)$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']);
-				$responseChild->html = $html;
-				
-				$response->children[] = $responseChild;
-			}
-		}
-		
-		echo ilJsonUtil::encode($response);
-		exit();
-	}
-
-	public function setTreeStateAsynchObject()
-	{
-		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
-
-		$response = new stdClass();
-		$response->success = true;
-
-		if( $_GET['nodeId'] )
-		{
-			if( $_GET['nodeId'] > 0 )
-			{
-				$key = array_search((int)$_GET['nodeId'], (array)$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']);
-				if( false === $key )
-				{
-					$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = (int)$_GET['nodeId'];
-				}
-			}
-			else
-			{
-				$key = array_search((int)abs($_GET['nodeId']), (array)$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']);
-				if( false !== $key )
-				{
-					unset($_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][$key]);
-				}
-			}
-		}
-		
-		// Guarantee continuous keys
-		shuffle($_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']);
-		exit();
-	}
 
 	public function viewThreadObject()
 	{
@@ -2112,7 +2003,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			$ilCtrl->redirect($this, 'showThreads');
 		}
-		
+
 		// Set context for login
 		$append = '_'.$this->objCurrentTopic->getId().
 			($this->objCurrentPost->getId() ? '_'.$this->objCurrentPost->getId() : '');
@@ -2139,7 +2030,18 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			{
 			}
 		}
-		
+
+		if($this->isHierarchicalView())
+		{
+			require_once 'Modules/Forum/classes/class.ilForumExplorerGUI.php';
+			$exp = new ilForumExplorerGUI('frm_exp_' . $this->objCurrentTopic->getId(), $this, 'viewThread');
+			$exp->setThread($this->objCurrentTopic);
+			if(!$exp->handleCommand())
+			{
+				$this->tpl->setLeftNavContent($exp->getHTML());
+			}
+		}
+
 		require_once './Modules/Forum/classes/class.ilObjForum.php';
 		require_once './Modules/Forum/classes/class.ilFileDataForum.php';		
 		
@@ -3053,11 +2955,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
 		$permalink = new ilPermanentLinkGUI('frm', $this->object->getRefId(), '_'.$this->objCurrentTopic->getId());		
 		$this->tpl->setVariable('PRMLINK', $permalink->getHTML());
-
-		if($this->isHierarchicalView())
-		{
-			$tpl->setLeftNavContent($this->getForumExplorer());
-		}
 
 		return true;
 	}

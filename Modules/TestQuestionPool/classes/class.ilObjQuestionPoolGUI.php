@@ -1600,9 +1600,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		if ($ilAccess->checkAccess("write", "", $a_target) || $ilAccess->checkAccess('read', '', $a_target))
 		{
-			$_GET["baseClass"] = "ilObjQuestionPoolGUI";
-			$_GET["cmd"] = "questions";
-			$_GET["ref_id"] = $a_target;
+			$_GET['cmdClass']  = 'ilObjQuestionPoolGUI';
+			$_GET['cmd']       = 'questions';
+			$_GET['baseClass'] = 'ilRepositoryGUI';
+			$_GET["ref_id"]    = $a_target;
 			include_once("ilias.php");
 			exit;
 		}

@@ -633,7 +633,7 @@ class ilForumTopic
 		return 0;
 	}
 	
-	public function getNestedSetPostChildren($pos_id = null, $expandedNodes = array())
+	public function getNestedSetPostChildren($pos_id = null, $levels = null)
 	{
 		global $ilUser;
 
@@ -644,7 +644,7 @@ class ilForumTopic
 		if( $pos_id !== null )
 		{
 			$res = $this->db->queryF("
-				SELECT		lft, rgt
+				SELECT		lft, rgt, depth
 				FROM		frm_posts_tree
 				WHERE		pos_fk = %s
 				AND			thr_fk = %s",
@@ -677,7 +677,7 @@ class ilForumTopic
 							THEN 0
 							ELSE 1
 							END) post_read,
-							COUNT(fpt2.pos_fk) children	
+							COUNT(fpt2.pos_fk) children
 
 			FROM			frm_posts_tree fpt
 
@@ -710,12 +710,12 @@ class ilForumTopic
 		{
 			$query .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = ' . $this->db->quote($ilUser->getId(), 'integer') . ') ';
 		}
-		
-		if( $expandedNodes )			
+
+		if( $data && is_numeric($levels) )
 		{
-			$query .= ' AND '.$this->db->in('fpt.parent_pos', $expandedNodes, false, 'integer').' ';	
+			$query .= ' AND fpt.depth <= '.$this->db->quote($data['depth'] + $levels, 'integer').' ';
 		}
-			
+
 		$query .= ' GROUP BY fpt.depth,
 							fpt.rgt,
 							fpt.parent_pos,
