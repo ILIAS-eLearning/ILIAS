@@ -81,7 +81,7 @@ class ilObjReportCompanyGlobalGUI extends ilObjReportBaseGUI {
 	/**
 	* the functionlaity of xls export must be extended someday. its not nice to replace the whole method just to add some metadata at the head of the export.
 	*/
-	protected function exportXLS() {
+	protected function exportXLSX() {
 		require_once "Services/Excel/classes/class.ilExcelUtils.php";
 		require_once "Services/Excel/classes/class.ilExcelWriterAdapter.php";
 		$this->object->prepareReport();

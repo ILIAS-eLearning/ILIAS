@@ -112,7 +112,7 @@ class ilRbacAdmin
 
 			if($obj_id) {
 
-				$obj = $obj_fac->getInstanceByObjId($obj_id);
+				$obj = $obj_fac->getInstanceByObjId($obj_id,false);
 				$parameter['rol_obj'] = $obj;
 				$parameter['rol_obj_id'] = $obj_id;
 			}
@@ -149,7 +149,7 @@ class ilRbacAdmin
 			$ilAppEventHandler->raise(
 				'Services/AccessControl', 'deleteGlobalRole', $parameter
 			);
-		} elseif($obj_id) {
+		} elseif($obj) {
 			if($obj->getType() == 'orgu') {
 				$ilAppEventHandler->raise(
 					'Services/AccessControl', 'deleteOrguRole', $parameter

@@ -81,6 +81,16 @@ class gevDeferredMails {
 										  , array($a_recipient)
 										  );
 				break;
+			case "admin_booking_to_waiting":
+			case "admin_booking_to_booked":
+				$this->removeDeferredMails( array( $a_crs_id)
+										  , array("admin_cancel_waiting_to_cancelled_without_costs"
+												, "admin_cancel_booked_to_cancelled_with_costs"
+												, "admin_cancel_booked_to_cancelled_without_costs"
+												)
+										  , array($a_recipient)
+										  );
+				break;
 		}
 	}
 	
@@ -158,5 +168,3 @@ class gevDeferredMails {
 		}
 	}
 }
-
-?>

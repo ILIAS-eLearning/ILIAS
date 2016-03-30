@@ -435,7 +435,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 					;
 	}
 
-	protected function _process_xls_status($val) {
+	protected function _process_xlsx_status($val) {
 
 		$this->lng->loadLanguageModule("assessment");
 		$val = str_replace($this->success_img, $this->lng->txt("passed_official") ,$val);
@@ -444,7 +444,7 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 		return $val;
 	}
 
-	protected function _process_xls_date($val) {
+	protected function _process_xlsx_date($val) {
 		$val = str_replace('<br>', '',$val);
 		$val = str_replace('<br/>', '',$val);
 

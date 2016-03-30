@@ -5,7 +5,8 @@
 	"authors": [],
 	"require": {
 		"filp/whoops": "^2.0",
-		"eluceo/ical": "^0.9.0"
+		"eluceo/ical": "^0.9.0",
+		"box/spout": "^2.4"
 	},
 	"autoload" : {
 		"psr-4" : {
@@ -27,6 +28,14 @@
 			"wrapped_by" : null,
 			"added_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>",
 			"last_update" : "2016-02-18",
+			"last_update_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>"
+		},
+		"box/spout" : {
+			"source" : "https://github.com/box/spout",
+			"used_version" : "v2.4.0",
+			"wrapped_by" : null,
+			"added_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>",
+			"last_update" : "2016-03-17",
 			"last_update_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>"
 		}
 	}

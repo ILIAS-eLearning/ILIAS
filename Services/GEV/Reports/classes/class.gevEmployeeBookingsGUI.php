@@ -242,13 +242,13 @@ class gevEmployeeBookingsGUI extends catBasicReportGUI{
 		}
 	}
 	
-	protected function _process_xls_date($val) {
+	protected function _process_xlsx_date($val) {
 		$val = str_replace('<nobr>', '', $val);
 		$val = str_replace('</nobr>', '', $val);
 		return $val;
 	}
 	
-	protected function _process_xls_header($val) {
+	protected function _process_xlsx_header($val) {
 		if ($val == "&euro;") {
 			return "€";
 		}

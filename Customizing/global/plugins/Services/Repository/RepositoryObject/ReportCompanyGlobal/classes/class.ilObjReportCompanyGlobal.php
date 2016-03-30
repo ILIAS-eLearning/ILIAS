@@ -193,6 +193,16 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		return $order;
 	}
 
+	public function buildQueryStatement() {
+		$a_query_part = $this->getPartialQuery(true);
+		$a_query_book = $this->getPartialQuery(false);
+		return $a_query_part->sql()."\n "
+				. $this->queryWhere()."\n "
+				. $a_query_part->sqlGroupBy()."\n "
+				. $this->queryHaving()."\n "
+				. $this->queryOrder();
+	}
+
 	protected function getPartialQuery($has_participated) {
 		$prefix = $has_participated ? 'part' : 'book';
 

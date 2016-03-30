@@ -234,13 +234,13 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 		return;
 	}
 
-	protected function _process_xls_date($val) {
+	protected function _process_xlsx_date($val) {
 		$val = str_replace('<nobr>', '', $val);
 		$val = str_replace('</nobr>', '', $val);
 		return $val;
 	}
 	
-	protected function _process_xls_no_accomodations($val) {
+	protected function _process_xlsx_no_accomodations($val) {
 		$val = str_replace('<nobr>', '', $val);
 		$val = str_replace('</nobr>', '', $val);
 		$val = str_replace('<b>', '', $val);
@@ -249,7 +249,7 @@ class gevBookingsByVenueGUI extends catBasicReportGUI{
 		$val = str_replace(' &nbsp; ', " - ", $val);
 		return $val;
 	}
-	protected function _process_xls_action($val) {
+	protected function _process_xlsx_action($val) {
 		return '';
 	}
 
