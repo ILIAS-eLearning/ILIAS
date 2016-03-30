@@ -102,7 +102,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	private $confirmation_gui_html = '';
 	
-	public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
+	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		/**
 		 * @var $ilCtrl ilCtrl

@@ -43,7 +43,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	public function __construct()
+	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $lng, $ilCtrl, $rbacsystem;
 		$lng->loadLanguageModule("assessment");
@@ -1600,9 +1600,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		if ($ilAccess->checkAccess("write", "", $a_target) || $ilAccess->checkAccess('read', '', $a_target))
 		{
-			$_GET["baseClass"] = "ilObjQuestionPoolGUI";
-			$_GET["cmd"] = "questions";
-			$_GET["ref_id"] = $a_target;
+			$_GET['cmdClass']  = 'ilObjQuestionPoolGUI';
+			$_GET['cmd']       = 'questions';
+			$_GET['baseClass'] = 'ilRepositoryGUI';
+			$_GET["ref_id"]    = $a_target;
 			include_once("ilias.php");
 			exit;
 		}
