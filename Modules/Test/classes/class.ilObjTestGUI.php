@@ -74,7 +74,7 @@ class ilObjTestGUI extends ilObjectGUI
 	 * Constructor
 	 * @access public
 	 */
-	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
+	public function __construct()
 	{
 		global $lng, $ilCtrl, $ilDB, $ilPluginAdmin, $tree;
 		$lng->loadLanguageModule("assessment");
