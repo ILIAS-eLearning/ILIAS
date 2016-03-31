@@ -51,7 +51,7 @@ class catFilterFlatViewGUI {
 	protected function createFilterTemplate($next_filter_gui) {
 		//if sequence lvl > 2 is reached cry
 		if(substr_count($next_filter_gui->path(), "_") > 1) {
-			throw new Exception("lass das");
+			throw new Exception("catFilterFlatViewGUI::createFilterTemplate: to many sequence level: ".substr_count($next_filter_gui->path(), "_")." > 1.");
 		}
 		
 		$tpl = new ilTemplate("tpl.cat_filter_flat_view_element.html", true, true, "Services/ReportsRepository");
