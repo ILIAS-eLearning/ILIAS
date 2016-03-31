@@ -136,7 +136,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 	/**
 	 * Display form for single file upload 
 	 */
-	public function uploadFormObject()
+	public function uploadFormObject(ilPropertyFormGUI $a_form = null)
 	{		
 		if (!$this->submission->canSubmit())
 		{
@@ -151,14 +151,17 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		$ilHelp->setScreenIdComponent("exc");
 		$ilHelp->setScreenId("upload_submission");
 
-		$this->initUploadForm();
-		$this->tpl->setContent($this->form->getHTML());		
+		if(!$a_form)
+		{
+			$a_form = $this->initUploadForm();
+		}
+		$this->tpl->setContent($a_form->getHTML());	
 	}
 	
 	/**
 	 * Display form for zip file upload 
 	 */
-	public function uploadZipFormObject()
+	public function uploadZipFormObject(ilPropertyFormGUI $a_form = null)
 	{		
 		if (!$this->submission->canSubmit())
 		{
@@ -169,8 +172,11 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
 			$this->ctrl->getLinkTarget($this, "submissionScreen"));		
 
-		$this->initZipUploadForm();
-		$this->tpl->setContent($this->form->getHTML());	
+		if(!$a_form)
+		{
+			$a_form = $this->initZipUploadForm();
+		}
+		$this->tpl->setContent($a_form->getHTML());	
 	}
  
 	/**
@@ -181,20 +187,21 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		global $lng, $ilCtrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
+		$form = new ilPropertyFormGUI();
 	
 		// file input
 		include_once("./Services/Form/classes/class.ilFileWizardInputGUI.php");
 		$fi = new ilFileWizardInputGUI($lng->txt("file"), "deliver");
 		$fi->setFilenames(array(0 => ''));
-		//$fi->setInfo($lng->txt(""));
-		$this->form->addItem($fi);
+		$fi->setRequired(true);
+		$form->addItem($fi);
 	
-		$this->form->addCommandButton("uploadFile", $lng->txt("upload"));
-		$this->form->addCommandButton("submissionScreen", $lng->txt("cancel"));
+		$form->addCommandButton("uploadFile", $lng->txt("upload"));
+		$form->addCommandButton("submissionScreen", $lng->txt("cancel"));
 	                
-		$this->form->setTitle($lng->txt("file_add"));
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($lng->txt("file_add"));
+		$form->setFormAction($ilCtrl->getFormAction($this, "uploadFile"));
+		return $form;
 	}
 
 	/**
@@ -205,19 +212,21 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		global $lng, $ilCtrl;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
+		$form = new ilPropertyFormGUI();
 	
-		// desc
 		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
 		$fi = new ilFileInputGUI($lng->txt("file"), "deliver");
+		$fi->setRequired(true);
 		$fi->setSuffixes(array("zip"));
-		$this->form->addItem($fi);
+		$form->addItem($fi);
 	
-		$this->form->addCommandButton("uploadZip", $lng->txt("upload"));
-		$this->form->addCommandButton("submissionScreen", $lng->txt("cancel"));
+		$form->addCommandButton("uploadZip", $lng->txt("upload"));
+		$form->addCommandButton("submissionScreen", $lng->txt("cancel"));
 	                
-		$this->form->setTitle($lng->txt("header_zip"));
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($lng->txt("header_zip"));
+		$form->setFormAction($ilCtrl->getFormAction($this, "uploadZip"));
+		
+		return $form;
 	}
  
  	/**
@@ -234,6 +243,12 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		}
 		else
 		{
+			$form = $this->initUploadForm();
+			if(!$form->checkInput())
+			{
+				return $this->uploadFormObject($form);
+			}
+			
 			$success = false;
 			foreach ($_FILES["deliver"]["name"] as $k => $v)
 			{
@@ -276,12 +291,21 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		{
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);			
 		}
-		else if (preg_match("/zip/",$_FILES["deliver"]["type"]) == 1)
+		else 
 		{
-			if($this->submission->processUploadedFile($_FILES["deliver"]["tmp_name"]))
+			$form = $this->initZipUploadForm();
+			if(!$form->checkInput())
 			{
-				ilUtil::sendSuccess($this->lng->txt("file_added"), true);				
-				$this->handleNewUpload();				
+				return $this->uploadZipFormObject($form);
+			}
+			
+			if (preg_match("/zip/",$_FILES["deliver"]["type"]) == 1)
+			{
+				if($this->submission->processUploadedFile($_FILES["deliver"]["tmp_name"]))
+				{
+					ilUtil::sendSuccess($this->lng->txt("file_added"), true);				
+					$this->handleNewUpload();				
+				}
 			}
 		}
 		
