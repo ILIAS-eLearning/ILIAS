@@ -34,12 +34,12 @@ class catFilterFlatViewGUI {
 			$result = $new_path + $result;
 
 			//if sequence lvl > 2 is reached cry
-			if(substr_count($next_filter_gui->path(), ":") > 1) {
+			if(substr_count($next_filter_gui->path(), "_") > 1) {
 				throw new Exception("lass das");
 			}
 
 			//sequences in main sequence render filter sidy by side
-			if(substr_count($next_filter_gui->path(), ":") == 1) {
+			if(substr_count($next_filter_gui->path(), "_") == 1) {
 				$tpl = new ilTemplate("tpl.cat_filter_flat_view_sbs_element.html", true, true, "Services/ReportsRepository");
 			} else {
 				$tpl = new ilTemplate("tpl.cat_filter_flat_view_element.html", true, true, "Services/ReportsRepository");
@@ -50,9 +50,14 @@ class catFilterFlatViewGUI {
 				$next_filter_gui->setValue($val);
 			}
 
+			if($next_filter_gui instanceof catFilterMultiselectGUI) {
+				$tpl->touchBlock("checkbox");
+			}
+
 			$tpl->setVariable("FILTER_TITLE", $next_filter_gui->formElement()->getTitle());
 			$tpl->setVariable("FILTER_GUI", $next_filter_gui->formElement()->render());
 			$tpl->setVariable("FILTER_INFO", $next_filter_gui->formElement()->getInfo());
+			$tpl->setVariable("FILTER_PATH", $next_filter_gui->path());
 
 			$form_tpl->setCurrentBlock("filter_element");
 			$form_tpl->setVariable("FILTER_GUI", $tpl->get());
