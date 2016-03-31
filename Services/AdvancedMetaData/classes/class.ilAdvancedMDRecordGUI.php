@@ -218,17 +218,35 @@ class ilAdvancedMDRecordGUI
 	/**
 	 * Write edit form values to db
 	 * 
+	 * @param int $a_obj_id
+	 * @param int $a_sub_id
 	 * @return bool
 	 */
-	public function writeEditForm()
+	public function writeEditForm($a_obj_id = null, $a_sub_id = null)
 	{
 		if(!sizeof($this->editor_form))
 		{
 			return false;
 		}
 		
+		// switch ids?
+		if($a_obj_id)
+		{
+			$this->obj_id = $a_obj_id;
+		}
+		if($a_sub_id)
+		{
+			$this->sub_id = $a_sub_id;
+		}
+		
 		foreach($this->editor_form as $item)
-		{					
+		{		
+			if($a_obj_id || $a_sub_id)
+			{
+				// switch active record to updated primary keys, e.g. after creation
+				$item["values"]->setActiveRecordPrimary($this->obj_id, $this->sub_type, $this->sub_id);				
+			}
+					
 			$item["values"]->write();
 		}
 		
