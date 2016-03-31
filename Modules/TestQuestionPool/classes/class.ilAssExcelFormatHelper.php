@@ -9,16 +9,14 @@ require_once 'Services/Excel/classes/class.ilExcel.php';
  */
 class ilAssExcelFormatHelper extends ilExcel
 {
-
 	/**
-	 * @param ilExcel $worksheet
 	 * @param string $coordinates
 	 * @param string $value
 	 */
-	public static function setFormatedExcelTitle($worksheet, $coordinates, $value)
+	public function setFormattedExcelTitle($coordinates, $value)
 	{
-		$worksheet->setCellByCoordinates($coordinates, $value);
-		$worksheet->setColors($coordinates, EXCEL_BACKGROUND_COLOR);
-		$worksheet->setBold($coordinates);
+		$this->setCellByCoordinates($coordinates, $value);
+		$this->setColors($coordinates, EXCEL_BACKGROUND_COLOR);
+		$this->setBold($coordinates);
 	}
 }

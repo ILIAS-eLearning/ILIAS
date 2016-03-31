@@ -157,8 +157,8 @@ class ilTestExport
 	{
 		$data = $this->test_obj->getAggregatedResultsData();
 
-		require_once 'Services/Excel/classes/class.ilExcel.php';
-		$worksheet = new ilExcel();
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
+		$worksheet = new ilAssExcelFormatHelper();
 		$worksheet->addSheet($this->lng->txt('tst_results_aggregated'));
 
 		$row = 1;
@@ -285,10 +285,9 @@ class ilTestExport
 	{
 		if (strcmp($this->mode, "aggregated") == 0) return $this->aggregatedResultsToExcel($deliver);
 
-		require_once 'Services/Excel/classes/class.ilExcel.php';
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
-		
-		$worksheet = new ilExcel();
+
+		$worksheet = new ilAssExcelFormatHelper();
 		$worksheet->addSheet($this->lng->txt('tst_results'));
 
 		$additionalFields = $this->test_obj->getEvaluationAdditionalFields();
@@ -298,46 +297,46 @@ class ilTestExport
 
 		if($this->test_obj->getAnonymity())
 		{
-			ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('counter'));
+			$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('counter'));
 		}
 		else
 		{
-			ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('name'));
-			ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('login'));
+			$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('name'));
+			$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('login'));
 		}
 
 		if(count($additionalFields))
 		{
 			foreach($additionalFields as $fieldname)
 			{
-				ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt($fieldname));
+				$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt($fieldname));
 			}
 		}
 
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_resultspoints'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('maximum_points'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_resultsmarks'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_resultspoints'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('maximum_points'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_resultsmarks'));
 
 		if($this->test_obj->getECTSOutput())
 		{
-			ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('ects_grade'));
+			$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('ects_grade'));
 		}
 
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_qworkedthrough'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_qmax'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_pworkedthrough'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_timeofwork'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_atimeofwork'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_firstvisit'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_lastvisit'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_mark_median'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_rank_participant'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_rank_median'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_total_participants'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('ects_grade'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_median'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('scored_pass'));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('pass'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_qworkedthrough'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_qmax'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_pworkedthrough'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_timeofwork'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_atimeofwork'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_firstvisit'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_lastvisit'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_mark_median'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_rank_participant'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_rank_median'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_total_participants'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('ects_grade'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('tst_stat_result_median'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('scored_pass'));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('pass'));
 
 		$worksheet->setBold('A' . $row . ':' . $worksheet->getColumnCoord($col - 1) . $row);
 
@@ -473,13 +472,13 @@ class ilTestExport
 								$worksheet->setCell($row, $col, $question_data["reached"]);
 								if($this->test_obj->isRandomTest() || $this->test_obj->getShuffleQuestions())
 								{
-									ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col) . $row-1,  preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"])));
+									$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col) . $row-1,  preg_replace("/<.*?>/", "", $data->getQuestionTitle($question["id"])));
 								}
 								else
 								{
 									if($pass == 0 && !$firstrowwritten)
 									{
-										ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col) . 1, $data->getQuestionTitle($question["id"]));
+										$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col) . 1, $data->getQuestionTitle($question["id"]));
 									}
 								}
 								$col++;
@@ -513,22 +512,22 @@ class ilTestExport
 			$worksheet->addSheet($this->lng->txt('eval_all_users'));
 
 			$col = 0;
-			ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt('name'));
-			ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row,  $this->lng->txt('login'));
+			$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('name'));
+			$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row,  $this->lng->txt('login'));
 			if(count($additionalFields))
 			{
 				foreach($additionalFields as $fieldname)
 				{
 					if(strcmp($fieldname, "matriculation") == 0)
 					{
-						ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row,  $this->lng->txt('matriculation'));
+						$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row,  $this->lng->txt('matriculation'));
 					}
 				}
 			}
-			ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row,  $this->lng->txt('test'));
+			$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row,  $this->lng->txt('test'));
 			foreach($titles as $title)
 			{
-				ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $title);
+				$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $title);
 			}
 			$worksheet->setBold('A' . $row . ':' . $worksheet->getColumnCoord($col - 1) . $row);
 
@@ -604,22 +603,22 @@ class ilTestExport
 				$worksheet->addSheet($this->lng->txt('eval_all_users'). ' (2)');
 
 				$col = 0;
-				ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row,  $this->lng->txt('name'));
-				ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row,  $this->lng->txt('login'));
+				$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row,  $this->lng->txt('name'));
+				$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row,  $this->lng->txt('login'));
 				if (count($additionalFields))
 				{
 					foreach ($additionalFields as $fieldname)
 					{
 						if (strcmp($fieldname, "matriculation") == 0)
 						{
-							ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row,  $this->lng->txt('matriculation'));
+							$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row,  $this->lng->txt('matriculation'));
 						}
 					}
 				}
-				ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row,  $this->lng->txt('test'));
+				$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row,  $this->lng->txt('test'));
 				foreach($titles as $title)
 				{
-					ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row,  $title);
+					$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row,  $title);
 				}
 				$worksheet->setBold('A' . $row . ':' . $worksheet->getColumnCoord($col - 1) . $row);
 

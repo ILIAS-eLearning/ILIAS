@@ -1021,12 +1021,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass)
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
-		require_once './Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
-
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(0) . $startrow, $this->lng->txt($this->getQuestionType()));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(1) . $startrow, $this->getTitle());
+		parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
 		$solutions = $this->getSolutionValues($active_id, $pass);
 		$sol = array();
@@ -1048,6 +1045,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$worksheet->setCell($startrow + $i, 1, $answers[$idx]->getAnswertext());
 			$i++;
 		}
+
 		return $startrow + $i + 1;
 	}
 
