@@ -963,12 +963,9 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass)
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
-		require_once './Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
-
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(0) . $startrow, $this->lng->txt($this->getQuestionType()));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(1) . $startrow, $this->getTitle());
+		parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
 		$solutions = $this->getSolutionValues($active_id, $pass);
 
@@ -980,6 +977,7 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 			if (strlen($solution["value2"])) $worksheet->setCell($startrow + $i, 2, $solution["value2"]);
 			$i++;
 		}
+
 		return $startrow + $i + 1;
 	}
 

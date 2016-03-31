@@ -3900,8 +3900,11 @@ abstract class assQuestion
 	 *
 	 * @return object
 	 */
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass)
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord(0) . $startrow, $this->lng->txt($this->getQuestionType()));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord(1) . $startrow, $this->getTitle());
+
 		return $startrow;
 	}
 

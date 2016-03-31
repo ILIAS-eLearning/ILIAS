@@ -213,24 +213,22 @@ class ilQuestionpoolExport
 	/**
 	* build xml export file
 	*/
-	function buildExportFileXLS()
+	protected function buildExportFileXLS()
 	{
-		require_once 'Services/Excel/classes/class.ilExcel.php';
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
 		require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
-		
-		$worksheet = new ilExcel();
+
+		$worksheet = new ilAssExcelFormatHelper();
 		$worksheet->addSheet('Sheet 1');
 		$row = 1;
 		$col = 0;
-		// title row
 
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt("title"));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt("description"));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt("question_type"));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt("author"));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col++) . $row, $this->lng->txt("create_date"));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord($col) . $row, $this->lng->txt("last_update"));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt("title"));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt("description"));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt("question_type"));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt("author"));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt("create_date"));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col) . $row, $this->lng->txt("last_update"));
 
 		$col = 0;
 		$row++;
@@ -248,11 +246,10 @@ class ilQuestionpoolExport
 			$col = 0;
 			$row++;
 		}
+
 		$excelfile = $this->export_dir .'/'. $this->filename;
 		$worksheet->writeToFile($excelfile);
 		ilUtil::zip($excelfile , $this->export_dir . "/" . $this->zipfilename);
 		if (@file_exists($this->export_dir . "/" . $this->filename)) @unlink($this->export_dir . "/" . $this->filename);
 	}
 }
-
-?>

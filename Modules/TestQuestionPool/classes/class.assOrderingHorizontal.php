@@ -474,12 +474,9 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass)
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
-		require_once './Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
-
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(0) . $startrow, $this->lng->txt($this->getQuestionType()));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(1) . $startrow, $this->getTitle());
+		parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
 		$solutionvalue = "";
 		$solutions =& $this->getSolutionValues($active_id, $pass);
@@ -487,6 +484,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 		$i = 1;
 		$worksheet->setCell($startrow+$i, 0, $solutionvalue);
 		$i++;
+
 		return $startrow + $i + 1;
 	}
 	

@@ -498,12 +498,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass)
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
-		require_once './Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
-
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(0) . $startrow, $this->lng->txt($this->getQuestionType()));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(1) . $startrow, $this->getTitle());
+		parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
 		$i= 0;
 		$selections = array();
@@ -520,6 +517,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 		$i++;
 		$worksheet->setCell($startrow+$i, 0, $errortext);
 		$i++;
+
 		return $startrow + $i + 1;
 	}
 

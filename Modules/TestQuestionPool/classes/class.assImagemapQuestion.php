@@ -868,12 +868,9 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass)
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
-		require_once './Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
-
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(0) . $startrow, $this->lng->txt($this->getQuestionType()));
-		ilAssExcelFormatHelper::setFormatedExcelTitle($worksheet, $worksheet->getColumnCoord(1) . $startrow, $this->getTitle());
+		parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
 		$solution = $this->getSolutionValues($active_id, $pass);
 
@@ -892,6 +889,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			}
 			$i++;
 		}
+
 		return $startrow + $i + 1;
 	}
 
