@@ -30,10 +30,7 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 
 	public function parseContent() {
 		$this->convertBibSpecialChars();
-		// remove emty newlines
-		$this->file_content = preg_replace("/^\\n/um", "", $this->file_content);
-		// remove comments
-		$this->file_content = preg_replace("/^%.*\\n/um", "", $this->file_content);
+		$this->removeEmtpyLinesAndComments();
 
 		// get entries
 		$objects = preg_split("/\\@([\\w]*)/uix", $this->file_content, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
@@ -200,6 +197,14 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 	 */
 	public static function isEntryType($entry_ype) {
 		return in_array($entry_ype, self::$entry_types);
+	}
+
+
+	protected function removeEmtpyLinesAndComments() {
+		// remove emty newlines
+		$this->file_content = preg_replace("/^\\n/um", "", $this->file_content);
+		// remove comments
+		$this->file_content = preg_replace("/^%.*\\n/um", "", $this->file_content);
 	}
 }
 
