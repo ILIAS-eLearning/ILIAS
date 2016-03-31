@@ -1,4 +1,6 @@
 <?php
+require_once('./Modules/Bibliographic/classes/Types/class.ilBibliograficFileReaderBase.php');
+require_once('class.ilRisWrapper.php');
 
 /**
  * Class ilRis
@@ -6,7 +8,18 @@
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilRis {
+class ilRis extends ilBibliograficFileReaderBase implements ilBibliograficFileReader {
+
+	/**
+	 * @return array
+	 */
+	public function parseContent() {
+		$ilRisWrapper = new ilRisWrapper();
+
+		
+		return array();
+	}
+
 
 	/**
 	 * @var array
@@ -123,7 +136,7 @@ class ilRis {
 		'Y2',
 		// Access Date
 		'JA',
-		'L3'
+		'L3',
 	);
 	/**
 	 * @var array

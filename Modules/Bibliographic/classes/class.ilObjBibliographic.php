@@ -234,6 +234,9 @@ class ilObjBibliographic extends ilObject2 {
 	}
 
 
+	/**
+	 * @return string
+	 */
 	public function getFiletype() {
 		//return bib for filetype .bibtex:
 		if (strtolower(substr($this->getFilename(), - 6)) == "bibtex") {
@@ -297,16 +300,14 @@ class ilObjBibliographic extends ilObject2 {
 	/**
 	 * @param $full_filename
 	 *
-	 * @return null
-	 * @throws \LibRIS\ParseException
+	 * @return array
 	 */
-	public static function __readRisFile($full_filename) {
-		self::setCharsetToUtf8($full_filename);
-		require_once "./Modules/Bibliographic/lib/LibRIS/src/LibRIS/RISReader.php";
-		$ris_reader = new RISReader();
-		$ris_reader->parseFile($full_filename);
+	public static function readRisFile($full_filename) {
+		require_once('./Modules/Bibliographic/classes/Types/Ris/class.ilRis.php');
+		$ilRis = new ilRis();
+		$ilRis->readContent($full_filename);
 
-		return $ris_reader->getRecords();
+		return $ilRis->parseContent();
 	}
 
 
@@ -336,21 +337,6 @@ class ilObjBibliographic extends ilObject2 {
 			$filedata = mb_convert_encoding($filedata, 'UTF-8', 'ISO-8859-1');
 			file_put_contents($full_filename, $filedata);
 		}
-	}
-
-
-	/**
-	 * Replace BibTeX Special Characters with real characters
-	 * Most systems do not use this encoding. In those cases, nothing will be replaced
-	 *
-	 * @deprecated move to ilBibTex
-	 *
-	 * @param String $file_content The string with containing encodings
-	 *
-	 * @return String (UTF-8) without encodings
-	 */
-	public static function convertBibSpecialChars($file_content) {
-		// removed
 	}
 
 
@@ -421,15 +407,15 @@ class ilObjBibliographic extends ilObject2 {
 		$entries_from_file = array();
 		switch ($this->getFiletype()) {
 			case("ris"):
-				$entries_from_file = self::__readRisFile($this->getFileAbsolutePath());
+				$entries_from_file = self::readRisFile($this->getFileAbsolutePath());
 				break;
 			case("bib"):
 				$entries_from_file = self::readBibFile($this->getFileAbsolutePath());
 				break;
 		}
 
-//		echo '<pre>' . print_r($entries_from_file, 1) . '</pre>';
-//		exit;
+		echo '<pre>' . print_r($entries_from_file, 1) . '</pre>';
+		exit;
 
 		//fill each entry into a ilBibliographicEntry object and then write it to DB by executing doCreate()
 		foreach ($entries_from_file as $file_entry) {
