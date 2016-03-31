@@ -234,8 +234,10 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
 		}
 	}
 	
-	public function isInCondition(ilADTDateTime $a_adt)
+	public function isInCondition(ilADT $a_adt)
 	{
+		assert($a_adt instanceof ilADTDateTime);
+		
 		if(!$this->getLowerADT()->isNull() && !$this->getUpperADT()->isNull())
 		{
 			return $a_adt->isInbetweenOrEqual($this->getLowerADT(), $this->getUpperADT());
