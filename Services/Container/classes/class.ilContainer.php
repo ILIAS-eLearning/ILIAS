@@ -220,7 +220,12 @@ class ilContainer extends ilObject
 		return $a_default_value;
 	}
 
-	static function _writeContainerSetting($a_id, $a_keyword, $a_value)
+	/**
+	 * @param $a_id
+	 * @param $a_keyword
+	 * @param $a_value
+	 */
+	public static function _writeContainerSetting($a_id, $a_keyword, $a_value)
 	{
 		global $ilDB;
 		
