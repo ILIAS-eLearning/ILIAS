@@ -8,8 +8,11 @@ class catFilterDatePeriodGUI extends catFilterGUI {
 	protected $val;
 
 	public function __construct($filter, $path) {
+		global $lng;
+
 		$this->filter = $filter;
 		$this->path = $path;
+		$this->gLng = $lng;
 	}
 	
 	/**
@@ -20,6 +23,8 @@ class catFilterDatePeriodGUI extends catFilterGUI {
 		$duration->setInfo($this->filter->description());
 		$duration->setShowDate(true);
 		$duration->setShowTime(false);
+		$duration->setStartText($this->gLng->txt("gev_flilter_period_from"));
+		$duration->setEndText($this->gLng->txt("gev_flilter_period_to"));
 		
 		if($this->val) {
 			$start_date = $this->val["start"]["date"]["y"]."-".str_pad($this->val["start"]["date"]["m"], 2, "0", STR_PAD_LEFT)
