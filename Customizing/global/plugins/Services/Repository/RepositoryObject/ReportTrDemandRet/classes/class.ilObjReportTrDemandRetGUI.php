@@ -49,7 +49,7 @@ class ilObjReportTrDemandRetGUI extends ilObjReportBaseGUI {
 		return parent::transformResultRow($rec);
 	}
 
-	public static function transformResultRowXLS($rec) {
+	public static function transformResultRowXLSX($rec) {
 		if($rec['title'] !== null) {
 			$rec['cancellation'] =
 				$rec['cancellation'] === 'Ja'

@@ -59,6 +59,15 @@ class TypeTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @dataProvider	dict_provider
+	 */
+	public function test_dict($type_factory, $maybe_dict, $res) {
+		$dict_type = $type_factory($this->factory);
+		$this->assertSame($dict_type->contains($maybe_dict), $res);
+	}
+
+
+	/**
 	 * @dataProvider	either_provider
 	 */
 	public function test_either($type_factory, $maybe_either, $res) {
@@ -164,6 +173,21 @@ class TypeTest extends PHPUnit_Framework_TestCase {
 			);
 	}
 
+	public function dict_provider() {
+		return array
+			( array(function($f) { return $f->dict( array("cls" => $f->cls("\\stdClass")) ); }, array("cls2" => new \stdClass()), false)
+			, array(function($f) { return $f->dict( array("cls" => $f->cls("\\stdClass")) ); }, array("cls" => new \stdClass()), true)
+			, array(function($f) { return $f->dict(array("str" => $f->string())); }, null, false)
+			, array(function($f) { return $f->dict(array("int" => $f->int())); }, array(42), false)
+			, array(function($f) { return $f->dict(array("int" => $f->int())); }, array("int" => 42), true)
+			, array(function($f) { return $f->dict(array($f->int())); }, array(1), true)
+			, array(function($f) { return $f->dict(array("int" => $f->int())); }, array("int" => "1"), false)
+			, array(function($f) { return $f->dict(array("int1" => $f->int(), "int2" => $f->int())); }, array("int2" => 1, "int1" => 2), true)
+			, array(function($f) { return $f->dict(array($f->int(), $f->int())); }, array(1,"2"), false)
+			);
+	}
+
+
 	public function either_provider() {
 		return array
 			( array(function($f) { return $f->either($f->cls("\\stdClass")); }, new \stdClass(), true)
@@ -209,6 +233,7 @@ class TypeTest extends PHPUnit_Framework_TestCase {
 			, array(function($f) { return $f->tuple($f->string(), $f->tuple($f->int(), $f->int())); }, array("a", 1, 2), array("a", array(1,2)))
 			, array(function($f) { return $f->option($f->string(), $f->int()); }, array(0, "1"), array(0, "1"))
 			, array(function($f) { return $f->option($f->string(), $f->int()); }, array(1, 2), array(1, 2))
+			, array(function($f) { return $f->dict( array("str" => $f->string(), "tup" => $f->tuple($f->string(), $f->int())) , true); }, array("a", "b", 1), array("str" => "a", "tup" => array("b", 1)))
 			);
 	}
 }

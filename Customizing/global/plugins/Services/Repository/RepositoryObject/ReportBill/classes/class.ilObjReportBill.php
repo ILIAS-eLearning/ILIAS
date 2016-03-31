@@ -106,6 +106,22 @@ class ilObjReportBill extends ilObjReportBase {
 					break;
 			}
 		}
+		$query = $this->buildQueryStatement()
+					. $sql_order_str;
+
+
+		$bill_link_icon = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-get_bill.png").'" />';
+
+		$res = $this->gIldb->query($query);
+
+		while($rec = $this->gIldb->fetchAssoc($res)) {
+			$data[] = call_user_func($callback,$rec);
+		}
+
+		return $data;
+	}
+
+	public function buildQueryStatement() {
 		$is_vfs_range = ($this->is_vfs xor $this->is_gev) ? array($this->is_vfs) : 
 			(($this->is_vfs && $this->is_gev) ? array(0 ,1) : array());
 		$filter_vfs = 
@@ -153,19 +169,8 @@ class ilObjReportBill extends ilObjReportBase {
 		$query .=	" RIGHT JOIN billitem item ON bill.bill_pk = item.bill_fk"
 					. $this->queryWhere()
 					." GROUP BY bill.bill_number "
-					. $sql_order_str
-					;
-
-
-		$bill_link_icon = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-get_bill.png").'" />';
-
-		$res = $this->gIldb->query($query);
-
-		while($rec = $this->gIldb->fetchAssoc($res)) {
-			$data[] = call_user_func($callback,$rec);
-		}
-
-		return $data;
+					. $sql_order_str;
+		return $query;
 	}
 
 	protected function getRowTemplateTitle() {

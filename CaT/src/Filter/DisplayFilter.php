@@ -218,8 +218,8 @@ class DisplayFilter {
 			switch($current_class) {
 				case "CaT\Filter\Filters\DatePeriod":
 					$value = $this->unserializeValue($value);
-					$start = new \DateTime($value["start"]["date"]["y"]."-".$value["start"]["date"]["m"]."-".$value["start"]["date"]["d"]);
-					$end = new \DateTime($value["end"]["date"]["y"]."-".$value["end"]["date"]["m"]."-".$value["end"]["date"]["d"]);
+					$start = $this->createDateTime($value["start"]["date"]);
+					$end = $this->createDateTime($value["end"]["date"]);
 					array_push($ret, $start);
 					array_push($ret, $end);
 					break;
@@ -227,6 +227,7 @@ class DisplayFilter {
 					$value = $this->unserializeValue($value);
 					$choice = $value["option"];
 					$value = $value[$choice];
+					$tf = $this->type_factory;
 
 					// TODO: this seams to be fishy... what about other filters besides
 					// multiselects?
@@ -236,9 +237,20 @@ class DisplayFilter {
 					// TODO: this seams to be fishy too... the content needs to be casted
 					// to the correct type somewhere, but is this the correct location?
 					$subs = $filter->subs();
-					if ($subs[(int)$choice]->input_type() == $this->type_factory->lst($this->type_factory->int())) {
+					if ($subs[(int)$choice]->input_type() == $tf->lst($tf->int())) {
 						$value = array_map(function($v) { return (int)$v; }, $value);
 					}
+
+					if ($subs[(int)$choice]->input_type() == $tf->bool()) {
+						$value = (bool)$value;
+					}
+
+					if ($subs[(int)$choice]->input_type() == $tf->tuple($tf->cls("\\DateTime"), $tf->cls("\\DateTime"))) {
+						$start = $this->createDateTime($value["start"]["date"]);
+						$end = $this->createDateTime($value["end"]["date"]);
+						$value = array($start, $end);
+					}
+					// End of fishy castings :(
 
 					array_push($ret, (int)$choice);
 					array_push($ret, $value);
@@ -263,5 +275,13 @@ class DisplayFilter {
 		}
 
 		return $ret;
+	}
+
+	protected function createDateTime(array $date) {
+		return new \DateTime($date["y"]."-"
+						.str_pad($date["m"], 2, "0", STR_PAD_LEFT)
+						."-"
+						.str_pad($date["d"], 2, "0", STR_PAD_LEFT)
+					);
 	}
 }

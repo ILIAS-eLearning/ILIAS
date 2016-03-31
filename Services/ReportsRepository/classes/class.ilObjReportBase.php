@@ -147,6 +147,14 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		return $this->groupData($this->deliverData($callback));
 	}
 
+	public function buildQueryStatement() {
+		return $this->query->sql()."\n "
+			   . $this->queryWhere()."\n "
+			   . $this->query->sqlGroupBy()."\n"
+			   . $this->queryHaving()."\n"
+			   . $this->queryOrder();
+	}
+
 	/**
 	* this stores query results to an array
 	*/
@@ -155,11 +163,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 			throw new Exception("catBasicReportGUI::fetchData: query not defined.");
 		}
 		
-		$query = $this->query->sql()."\n "
-			   . $this->queryWhere()."\n "
-			   . $this->query->sqlGroupBy()."\n"
-			   . $this->queryHaving()."\n"
-			   . $this->queryOrder();
+		$query = $this->buildQueryStatement();
 			   //die($query);
 
 		
