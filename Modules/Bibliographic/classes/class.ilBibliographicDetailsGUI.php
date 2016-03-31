@@ -4,7 +4,7 @@ require_once "./Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
 require_once "./Modules/Bibliographic/classes/Admin/class.ilBibliographicSetting.php";
 require_once('./Modules/Bibliographic/classes/Types/BibTex/class.ilBibTex.php');
 require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-require_once('./Modules/Bibliographic/classes/Types/class.ilRis.php');
+require_once('./Modules/Bibliographic/classes/Types/Ris/class.ilRis.php');
 
 /**
  * Class ilBibliographicDetailsGUI
