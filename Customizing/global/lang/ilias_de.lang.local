@@ -1483,3 +1483,11 @@ gev#:#gev_user_role_history_action#:#Aktion
 gev#:#gev_user_role_history_add#:#Hinzugefügt
 gev#:#gev_user_role_history_removed#:#Entfernt
 gev#:#gev_user_role_history_unknown#:#Unbekannt
+gev#:#gev_training_status#:#Trainingsstatus
+gev#:#gev_training_admin_search_presence#:#Präsenztraining
+gev#:#gev_training_admin_search_webinar#:#Webinar
+gev#:#gev_training_admin_search_closed#:#abgeschlossen
+gev#:#gev_training_admin_search_wip#:#in Bearbeitung
+gev#:#gev_training_admin_search_not_closed#:#noch nicht finalisiert
+gev#:#gev_filter_period_from#:#Von
+gev#:#gev_filter_period_to#:#Bis
