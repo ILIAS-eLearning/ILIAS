@@ -301,7 +301,7 @@ class ilObjBibliographic extends ilObject2 {
 	 * @throws \LibRIS\ParseException
 	 */
 	public static function __readRisFile($full_filename) {
-		self::__setCharsetToUtf8($full_filename);
+		self::setCharsetToUtf8($full_filename);
 		require_once "./Modules/Bibliographic/lib/LibRIS/src/LibRIS/RISReader.php";
 		$ris_reader = new RISReader();
 		$ris_reader->parseFile($full_filename);
@@ -315,59 +315,20 @@ class ilObjBibliographic extends ilObject2 {
 	 *
 	 * @return array
 	 */
-	public static function __readBibFile($full_filename) {
-		self::__setCharsetToUtf8($full_filename);
-		require_once 'Modules/Bibliographic/lib/PEAR_BibTex_1.0.0RC5/Structures/BibTex.php';
-		$bibtex_reader = new Structures_BibTex();
-		//Loading and parsing the file example.bib
-		$bibtex_reader->loadFile($full_filename);
-		//replace bibtex special chars with the real characters
-		$bibtex_reader->content = self::__convertBibSpecialChars($bibtex_reader->content);
-		$bibtex_reader->setOption('extractAuthor', false);
-		$bibtex_reader->parse();
-		// Remove library-bug: if there is no cite, the library mixes up the key for the type and the first attribute.
-		// It also shows an empty and therefore unwanted cite in the array.
-		//
-		// The cite is the text coming right after the type. Example:
-		// ﻿@book {cite,
-		// author = { "...."},
-		foreach ($bibtex_reader->data as $key => $entry) {
-			if (empty($entry['cite'])) {
-				unset($bibtex_reader->data[$key]['cite']);
-				foreach ($entry as $attr_key => $attribute) {
-					if (strpos($attr_key, '{') !== false) {
-						unset($bibtex_reader->data[$key][$attr_key]);
-						$attr_key_exploaded = explode('{', $attr_key);
-						$bibtex_reader->data[$key]['entryType'] = trim($attr_key_exploaded[0]);
-						$bibtex_reader->data[$key][trim($attr_key_exploaded[1])] = $attribute;
-					}
-				}
-			}
-			// formating the author to the following type of string
-			// Smith, John / Comte, Gabriel / von Gunten Jr, Thomas
-			foreach ($entry as $attr_key => $attribute) {
-				if ($attr_key == 'author' && is_array($attribute)) {
-					$attribute_string = array();
-					foreach ($attribute as $author_key => $author) {
-						$lastname = array( $author['von'], $author['last'], $author['jr'] );
-						$attribute_string[$author_key] = implode(' ', array_filter($lastname));
-						if (!empty($author['first'])) {
-							$attribute_string[$author_key] .= ', ' . $author['first'];
-						}
-					}
-					$bibtex_reader->data[$key][$attr_key] = implode(' / ', $attribute_string);
-				}
-			}
-		}
+	public static function readBibFile($full_filename) {
+		$bib = new ilBibTex();
+		$bib->readContent($full_filename);
 
-		return $bibtex_reader->data;
+		return $bib->parseContent();
 	}
 
 
 	/**
 	 * @param $full_filename
+	 *
+	 * @deprecated moved to ilBibliograficFileReaderBase
 	 */
-	public static function __setCharsetToUtf8($full_filename) {
+	public static function setCharsetToUtf8($full_filename) {
 		//If file charset does not seem to be Unicode, we assume that it is ISO-8859-1, and convert it to UTF-8.
 		$filedata = file_get_contents($full_filename);
 		if (strlen($filedata) == strlen(utf8_decode($filedata))) {
@@ -382,67 +343,14 @@ class ilObjBibliographic extends ilObject2 {
 	 * Replace BibTeX Special Characters with real characters
 	 * Most systems do not use this encoding. In those cases, nothing will be replaced
 	 *
+	 * @deprecated move to ilBibTex
+	 *
 	 * @param String $file_content The string with containing encodings
 	 *
 	 * @return String (UTF-8) without encodings
 	 */
-	public static function __convertBibSpecialChars($file_content) {
-		$bibtex_special_chars['ä'] = '{\"a}';
-		$bibtex_special_chars['ë'] = '{\"e}';
-		$bibtex_special_chars['ï'] = '{\"i}';
-		$bibtex_special_chars['ö'] = '{\"o}';
-		$bibtex_special_chars['ü'] = '{\"u}';
-		$bibtex_special_chars['Ä'] = '{\"A}';
-		$bibtex_special_chars['Ë'] = '{\"E}';
-		$bibtex_special_chars['Ï'] = '{\"I}';
-		$bibtex_special_chars['Ö'] = '{\"O}';
-		$bibtex_special_chars['Ü'] = '{\"U}';
-		$bibtex_special_chars['â'] = '{\^a}';
-		$bibtex_special_chars['ê'] = '{\^e}';
-		$bibtex_special_chars['î'] = '{\^i}';
-		$bibtex_special_chars['ô'] = '{\^o}';
-		$bibtex_special_chars['û'] = '{\^u}';
-		$bibtex_special_chars['Â'] = '{\^A}';
-		$bibtex_special_chars['Ê'] = '{\^E}';
-		$bibtex_special_chars['Î'] = '{\^I}';
-		$bibtex_special_chars['Ô'] = '{\^O}';
-		$bibtex_special_chars['Û'] = '{\^U}';
-		$bibtex_special_chars['à'] = '{\`a}';
-		$bibtex_special_chars['è'] = '{\`e}';
-		$bibtex_special_chars['ì'] = '{\`i}';
-		$bibtex_special_chars['ò'] = '{\`o}';
-		$bibtex_special_chars['ù'] = '{\`u}';
-		$bibtex_special_chars['À'] = '{\`A}';
-		$bibtex_special_chars['È'] = '{\`E}';
-		$bibtex_special_chars['Ì'] = '{\`I}';
-		$bibtex_special_chars['Ò'] = '{\`O}';
-		$bibtex_special_chars['Ù'] = '{\`U}';
-		$bibtex_special_chars['á'] = '{\\\'a}';
-		$bibtex_special_chars['é'] = '{\\\'e}';
-		$bibtex_special_chars['í'] = '{\\\'i}';
-		$bibtex_special_chars['ó'] = '{\\\'o}';
-		$bibtex_special_chars['ú'] = '{\\\'u}';
-		$bibtex_special_chars['Á'] = '{\\\'A}';
-		$bibtex_special_chars['É'] = '{\\\'E}';
-		$bibtex_special_chars['Í'] = '{\\\'I}';
-		$bibtex_special_chars['Ó'] = '{\\\'O}';
-		$bibtex_special_chars['Ú'] = '{\\\'U}';
-		$bibtex_special_chars['à'] = '{\`a}';
-		$bibtex_special_chars['è'] = '{\`e}';
-		$bibtex_special_chars['ì'] = '{\`i}';
-		$bibtex_special_chars['ò'] = '{\`o}';
-		$bibtex_special_chars['ù'] = '{\`u}';
-		$bibtex_special_chars['À'] = '{\`A}';
-		$bibtex_special_chars['È'] = '{\`E}';
-		$bibtex_special_chars['Ì'] = '{\`I}';
-		$bibtex_special_chars['Ò'] = '{\`O}';
-		$bibtex_special_chars['Ù'] = '{\`U}';
-		$bibtex_special_chars['ç'] = '{\c c}';
-		$bibtex_special_chars['ß'] = '{\ss}';
-		$bibtex_special_chars['ñ'] = '{\~n}';
-		$bibtex_special_chars['Ñ'] = '{\~N}';
-
-		return str_replace($bibtex_special_chars, array_keys($bibtex_special_chars), $file_content);
+	public static function convertBibSpecialChars($file_content) {
+		// removed
 	}
 
 
@@ -516,9 +424,13 @@ class ilObjBibliographic extends ilObject2 {
 				$entries_from_file = self::__readRisFile($this->getFileAbsolutePath());
 				break;
 			case("bib"):
-				$entries_from_file = self::__readBibFile($this->getFileAbsolutePath());
+				$entries_from_file = self::readBibFile($this->getFileAbsolutePath());
 				break;
 		}
+
+//		echo '<pre>' . print_r($entries_from_file, 1) . '</pre>';
+//		exit;
+
 		//fill each entry into a ilBibliographicEntry object and then write it to DB by executing doCreate()
 		foreach ($entries_from_file as $file_entry) {
 			$type = null;
