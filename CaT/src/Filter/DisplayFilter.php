@@ -257,6 +257,11 @@ class DisplayFilter {
 					break;
 				case "CaT\Filter\Filters\Multiselect":
 					$value = $this->unserializeValue($value);
+					// TODO: this seams to be fishy... what about other filters besides
+					// multiselects?
+					if ($value === null) {
+						$value = array();
+					}
 					array_push($ret, $value);
 					break;
 				case "CaT\Filter\Filters\Singleselect":
