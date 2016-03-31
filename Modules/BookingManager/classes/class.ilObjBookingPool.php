@@ -17,6 +17,7 @@ class ilObjBookingPool extends ilObject
 	protected $public_log;		// [bool]
 	protected $schedule_type;	// [int]
 	protected $overall_limit;   // [int]
+	protected $reservation_period; // [int]
 	
 	const TYPE_FIX_SCHEDULE = 1;
 	const TYPE_NO_SCHEDULE = 2;
@@ -42,7 +43,8 @@ class ilObjBookingPool extends ilObject
 			"schedule_type" => array("integer", $this->getScheduleType()),
 			"pool_offline" => array("integer", $this->isOffline()),
 			"public_log" => array("integer", $this->hasPublicLog()),		
-			"ovlimit" => array("integer", $this->getOverallLimit())		
+			"ovlimit" => array("integer", $this->getOverallLimit()),
+			"rsv_filter_period" => array("integer", $this->getReservationFilterPeriod())		
 		);
 		
 		return $fields;
@@ -105,6 +107,7 @@ class ilObjBookingPool extends ilObject
 			$this->setPublicLog($row['public_log']);
 			$this->setScheduleType($row['schedule_type']);
 			$this->setOverallLimit($row['ovlimit']);
+			$this->setReservationFilterPeriod($row['rsv_filter_period']);
 		}
 	}
 
@@ -286,6 +289,30 @@ class ilObjBookingPool extends ilObject
 	public function getOverallLimit()
 	{
 		return $this->overall_limit;
+	}
+	
+	/**
+	 * Set reservation filter period default
+	 * 
+	 * @param int $a_value
+	 */
+	public function setReservationFilterPeriod($a_value = null)
+	{		
+		if($a_value !== null)
+		{
+			$a_value = (int)$a_value;
+		}			
+		$this->reservation_period = $a_value;
+	}
+	
+	/**
+	 * Get reservation filter period default
+	 * 
+	 * @return int
+	 */
+	public function getReservationFilterPeriod()
+	{
+		return $this->reservation_period;
 	}
 	
 	

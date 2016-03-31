@@ -15641,3 +15641,10 @@ blog#:#blog_news_title#:#%1$s by %2$s
 blog#:#blog_news_posting_updated#:#A blog posting has been updated by %s. 
 blog#:#blog_news_posting_published#:#A blog posting has been published by %s.
 blog#:#blog_news_posting_authors#:#Contributing authors: %s
+book#:#book_reservation_filter_period#:#Period for the reservation list
+book#:#book_reservation_filter_period_info#:#The default value for the period-filter in days from the current date.
+book#:#book_filter_past_reservations#:#Show past reservations
+book#:#book_deadline_options#:#Booking deadline
+book#:#book_deadline_hours#:#X hours prior to booking priod
+book#:#book_deadline_slot_end#:#Until end of booking period
+book#:#book_deadline_slot_start#:#Until begin of booking period
