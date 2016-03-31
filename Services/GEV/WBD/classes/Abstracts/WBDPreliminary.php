@@ -1,10 +1,10 @@
 <?php
 
 abstract class WBDPreliminary {
-	static $message = "A General Error occourse";
+	static $message = "A General Error occurred";
 
 	public function message() {
-		return self::$message;
+		return static::$message;
 	}
 
 	/**
