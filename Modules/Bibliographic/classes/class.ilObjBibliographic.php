@@ -414,9 +414,6 @@ class ilObjBibliographic extends ilObject2 {
 				break;
 		}
 
-		echo '<pre>' . print_r($entries_from_file, 1) . '</pre>';
-		exit;
-
 		//fill each entry into a ilBibliographicEntry object and then write it to DB by executing doCreate()
 		foreach ($entries_from_file as $file_entry) {
 			$type = null;

@@ -16,8 +16,7 @@ class ilRis extends ilBibliograficFileReaderBase implements ilBibliograficFileRe
 	public function parseContent() {
 		$ilRisWrapper = new ilRisWrapper();
 
-		
-		return array();
+		return $ilRisWrapper->parseContent($this->file_content);
 	}
 
 
