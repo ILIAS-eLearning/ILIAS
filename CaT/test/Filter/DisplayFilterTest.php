@@ -72,7 +72,7 @@ class DisplayFilterTest extends PHPUnit_Framework_TestCase {
 		$classes = array("catFilterTextGUI", "catFilterTextGUI", "catFilterMultiselectGUI", "catFilterOptionGUI"
 						, "catFilterDatePeriodGUI", "catFilterMultiselectGUI", "catFilterOptionGUI", "catFilterDatePeriodGUI"
 						, "catFilterOneOfGUI", "catFilterTextGUI", "catFilterSingleselectGUI");
-		$path = array("0","1:0","1:1","1:2","1:3","2","3","4","5","6","7");
+		$path = array("0","1_0","1_1","1_2","1_3","2","3","4","5","6","7");
 		$counter = 0;
 		$post_values = array();
 
