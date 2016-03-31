@@ -6,9 +6,18 @@
 	"require": {
 		"filp/whoops": "^2.0",
         "monolog/monolog": "^1.15",
-        "phpoffice/phpexcel": "^1.8.1"
+        "phpoffice/phpexcel": "^1.8.1",
+		"technosophos/LibRIS": "^2.0.2"
 	},
 	"extra": {
+		"technosophos/LibRIS" : {
+			"source" : "github.com/filp/whoops",
+			"used_version" : "v2.0.2",
+			"wrapped_by" : "Modules/Bibliographic/classes/Types/Ris/class.ilRisWrapper.php",
+			"added_by" : "Fabian Schmid <fs@studer-raimann.ch>",
+			"last_update" : "2016-03-31",
+			"last_update_by" : "Fabian Schmid <fs@studer-raimann.ch>"
+		},
 		"filp/whoops" : {
 			"source" : "github.com/filp/whoops",
 			"used_version" : "v2.1.0",

@@ -1,0 +1,103 @@
+This document describes the format of parsed data returned by LibRIS->parseFile().
+
+Consider a record like this:
+
+    TY  - JOUR
+    JF  - Ethics and Information Technology
+    T1  - At the foundations of information justice
+    VL  - 11
+    IS  - 1
+    SP  - 57
+    EP  - 69
+    PY  - 2009/03/01/
+    UR  - http://dx.doi.org/10.1007/s10676-009-9181-2
+    M3  - 10.1007/s10676-009-9181-2
+    AU  - Butcher, Matthew
+    N2  - Abstract goes here....
+    ER  -
+
+We will run this code:
+
+    <?php
+    require_once '../src/LibRIS.php';
+
+    $ris = new LibRIS();
+    $ris->parseFile('./short.ris');
+    print_r($ris->getRecords());
+    ?>
+
+The output of the above will be this:
+
+    Array
+    (
+      [0] => Array
+          (
+              [TY] => Array
+                  (
+                      [0] =>  JOUR
+                  )
+
+              [JF] => Array
+                  (
+                      [0] =>  Ethics and Information Technology
+                  )
+
+              [T1] => Array
+                  (
+                      [0] =>  At the foundations of information justice
+                  )
+
+              [VL] => Array
+                  (
+                      [0] =>  11
+                  )
+
+              [IS] => Array
+                  (
+                      [0] =>  1
+                  )
+
+              [SP] => Array
+                  (
+                      [0] =>  57
+                  )
+
+              [EP] => Array
+                  (
+                      [0] =>  69
+                  )
+
+              [PY] => Array
+                  (
+                      [0] =>  2009/03/01/
+                  )
+
+              [UR] => Array
+                  (
+                      [0] =>  http://dx.doi.org/10.1007/s10676-009-9181-2
+                  )
+
+              [M3] => Array
+                  (
+                      [0] =>  10.1007/s10676-009-9181-2
+                  )
+
+              [AU] => Array
+                  (
+                      [0] =>  Butcher, Matthew
+                  )
+
+              [N2] => Array
+                  (
+                      [0] =>  Abstract goes here....
+                  )
+
+          )
+
+    );
+
+Thus, to get the title of the first record, you would use syntax like this:
+
+    $results[0]['T1'][0];
+
+.end

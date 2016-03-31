@@ -1,0 +1,14 @@
+Basic usage of LibRIS:
+
+require 'LibRIS.php';
+
+// Parse and print
+$ris = new LibRIS();
+$ris->parseFile('./data.ris');
+$ris->printRecords();
+
+// Clone the above and write records.
+$records = $ris->getRecords();
+$rw = new RISWriter();
+print $rw->writeRecords($records);
+
