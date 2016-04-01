@@ -105,20 +105,28 @@ class gevMyTrainingsAdmin {
 
 		return $f->sequence(
 					$f->sequence(
-						$f->dateperiod($txt("gev_period"),"")
-						, $f->multiselect($txt("gev_training_status"), "", $this->getCourseStatus())
+						$f->dateperiod($txt("dateperiod_choice_label"), "")
+							->map(function($start,$end) use ($f) {
+								$pc = $f->dateperiod_overlaps_or_empty_predicate
+									( "begin_date.value"
+									, "end_date.value"
+									);
+								return array("date_period_predicate" => $pc($start,$end)
+									,"start" => $start
+									,"end" => $end);
+								},$tf->dict(array(
+									"date_period_predicate" => $tf->cls("CaT\Filter\Predicates\Predicate")
+									,"start" => $tf->cls("DateTime")
+									,"end" => $tf->cls("DateTime")
+						)))
+				, $f->multiselect($txt("gev_training_status"), "", $this->getCourseStatus())
 							->use_all_if_nothing(array_keys($this->getCourseStatus()) , $tf->lst($tf->string()))
 						, $f->multiselect($txt("gev_course_type"), "", $this->getCourseTypes())
 							->use_all_if_nothing(array_keys($this->getCourseTypes()) , $tf->lst($tf->string()))
 					)
 				)
-				->map(function($start, $end, $status, $types) use ($f) {
-					$pc = $f->dateperiod_overlaps_predicate
-								( "begin_date.value"
-								, "end_date.value"
-								);
-
-					$ret = array( "period_pred" => $pc($start, $end)
+				->map(function($date_period_predicate, $start, $end, $status, $types) use ($f) {
+					$ret = array( "period_pred" => $date_period_predicate
 								, "start" => $start
 								, "end" => $end
 								, "status" => $status
