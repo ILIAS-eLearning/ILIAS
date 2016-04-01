@@ -17,9 +17,9 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 	* @param	string	input encoding
 	* @access	public
 	*/
-	function ilSoapInstallationInfoXMLWriter()
+	function __construct()
 	{
-		parent::ilXmlWriter();
+		parent::__construct();
 	}
 	
 	/**

@@ -252,7 +252,12 @@ class ilCourseFile
 		return true;
 	}
 
-	function &_readFilesByCourse($a_course_id)
+
+	/**
+	 * @param int $a_course_id obj_id of course
+	 * @return ilCourseFile[]
+	 */
+	public static function _readFilesByCourse($a_course_id)
 	{
 		global $ilDB;
 
