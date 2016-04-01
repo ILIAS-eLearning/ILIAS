@@ -112,7 +112,7 @@ class gevMyTrainingsAdmin {
 							->use_all_if_nothing(array_keys($this->getCourseTypes()) , $tf->lst($tf->string()))
 					)
 				)
-				->map_raw(function($start, $end, $status, $types) use ($f) {
+				->map(function($start, $end, $status, $types) use ($f) {
 					$pc = $f->dateperiod_overlaps_predicate
 								( "begin_date.value"
 								, "end_date.value"
@@ -125,7 +125,13 @@ class gevMyTrainingsAdmin {
 								, "types" => $types
 								);
 					return $ret;
-				}, $tf->int());
+				}, $tf->dict(array("period_pred" => $tf->cls("CaT\Filter\Predicates\Predicate")
+							,"start" => $tf->cls("DateTime")
+							,"end" => $tf->cls("DateTime")
+							,"status" => $tf->lst($tf->string())
+							,"types"=> $tf->lst($tf->string()))
+					)
+				);
 	}
 
 	public function displayFilter() {
