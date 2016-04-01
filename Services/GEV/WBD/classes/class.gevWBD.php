@@ -467,7 +467,7 @@ class gevWBD {
 	}
 
 	/**
-	* Checks requirements user must have to get in pool for new wbd account
+	* Checks requirements user must have to get in pool for new wbd account for TPS
 	*
 	* WBD Resistration done
 	* has specified Role
@@ -480,18 +480,73 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	public function wbdShouldBeRegisteredAsNew() {
+	public function shouldBeRegisteredAsNewTPServiceChecks() {
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasDoneWBDRegistration.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDRelevantRole.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryIsActiveUser.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryIsUserNotToHandle.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryEntryDatePassed.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsEmpty.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNotWBDType.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNoOpenWBDError.php");
+
 		$wbd_errors = array(self::WBD_ERROR_WRONG_USERDATA
 							, self::WBD_ERROR_USER_SERVICETYPE
 							, self::WBD_ERROR_USER_EXISTS_TP
 							, self::WBD_ERROR_USER_EXISTS
 							, self::WBD_ERROR_UNKNOWN);
 
-		return $this->hasDoneWBDRegistration() && $this->hasWBDRelevantRole() && $this->userExists() && $this->isActive() && !$this->hasSpecialUserId()
-				&& ($this->nextWBDActionIs(self::USR_WBD_NEXT_ACTION_NEW_TP_BASIS)
-					|| $this->nextWBDActionIs(self::USR_WBD_NEXT_ACTION_NEW_TP_SERVICE) && $this->entryDatePassed())
-				&& $this->isWBDBWVIdEmpty() && $this->hasWBDType(self::WBD_NO_SERVICE)
-				&& !$this->hasOpenWBDErrors($wbd_errors);
+		return array(new WBDPreliminaryHasDoneWBDRegistration()
+					, new WBDPreliminaryHasWBDRelevantRole()
+					, new WBDPreliminaryUserExists()
+					, new WBDPreliminaryIsActiveUser()
+					, new WBDPreliminaryIsUserNotToHandle(array(6,13))
+					, new WBDPreliminaryEntryDatePassed()
+					, new WBDPreliminaryBWVIdIsEmpty()
+					, new WBDPreliminaryHasNotWBDType(self::WBD_NO_SERVICE)
+					, new WBDPreliminaryHasNoOpenWBDError($wbd_errors)
+					);
+	}
+
+	/**
+	* Checks requirements user must have to get in pool for new wbd account for TPB
+	*
+	* WBD Resistration done
+	* has specified Role
+	* is an existing user
+	* is aktive
+	* is not root oder anomynos
+	* has no BWV Id
+	* has specifed TP-Types
+	*
+	* @return boolean
+	*/
+	public function shouldBeRegisteredAsNewTPBasis() {
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasDoneWBDRegistration.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDRelevantRole.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryIsActiveUser.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryIsUserNotToHandle.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsEmpty.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNotWBDType.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNoOpenWBDError.php");
+
+		$wbd_errors = array(self::WBD_ERROR_WRONG_USERDATA
+							, self::WBD_ERROR_USER_SERVICETYPE
+							, self::WBD_ERROR_USER_EXISTS_TP
+							, self::WBD_ERROR_USER_EXISTS
+							, self::WBD_ERROR_UNKNOWN);
+
+		return array(new WBDPreliminaryHasDoneWBDRegistration()
+					, new WBDPreliminaryHasWBDRelevantRole()
+					, new WBDPreliminaryUserExists()
+					, new WBDPreliminaryIsActiveUser()
+					, new WBDPreliminaryIsUserNotToHandle(array(6,13))
+					, new WBDPreliminaryBWVIdIsEmpty()
+					, new WBDPreliminaryHasNotWBDType(self::WBD_NO_SERVICE)
+					, new WBDPreliminaryHasNoOpenWBDError($wbd_errors)
+					);
 	}
 	
 	/**
@@ -509,7 +564,17 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	public function wbdShouldBeAffiliateAsTPService() {
+	public function shouldBeAffiliateAsTPServiceChecks() {
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasDoneWBDRegistration.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDRelevantRole.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryIsActiveUser.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryIsUserNotToHandle.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryEntryDatePassed.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsNotEmpty.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNotWBDType.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNoOpenWBDError.php");
+
 		$wbd_errors = array(self::WBD_ERROR_WRONG_USERDATA
 							, self::WBD_ERROR_USER_SERVICETYPE
 							, self::WBD_ERROR_USER_DIFFERENT_TP
@@ -519,13 +584,20 @@ class gevWBD {
 							, self::WBD_ERROR_UNKNOWN
 							);
 
-		return $this->hasDoneWBDRegistration() && $this->hasWBDRelevantRole() && $this->userExists() && $this->isActive() && !$this->hasSpecialUserId()
-				&& $this->entryDatePassed() && !$this->isWBDBWVIdEmpty() && !$this->hasWBDType(self::WBD_TP_SERVICE) 
-				&& !$this->hasOpenWBDErrors($wbd_errors);
+		return array(new WBDPreliminaryHasDoneWBDRegistration()
+					, new WBDPreliminaryHasWBDRelevantRole()
+					, new WBDPreliminaryUserExists()
+					, new WBDPreliminaryIsActiveUser()
+					, new WBDPreliminaryIsUserNotToHandle(array(6,13))
+					, new WBDPreliminaryEntryDatePassed()
+					, new WBDPreliminaryBWVIdIsNotEmpty()
+					, new WBDPreliminaryHasNotWBDType(self::WBD_TP_SERVICE)
+					, new WBDPreliminaryHasNoOpenWBDError($wbd_errors)
+					);
 	}
 
 	/**
-	* Checks requirements user must have to get in pool for release
+	* returns the needes checks for an user to be released
 	*
 	* is an existing user
 	* is not root oder anomynos
@@ -537,7 +609,16 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	public function wbdShouldBeReleased() {
+	public function shouldBeReleasedChecks() {
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryIsUserNotToHandle.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryExitDatePassed.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNoExitDateWBD.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDType.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryEntryDatePassed.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsNotEmpty.php");
+		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNoOpenWBDError.php");
+
 		$wbd_errors = array(self::WBD_ERROR_WRONG_USERDATA
 							, self::WBD_ERROR_USER_SERVICETYPE
 							, self::WBD_ERROR_USER_DIFFERENT_TP
@@ -546,9 +627,22 @@ class gevWBD {
 							, self::WBD_ERROR_NO_RELEASE
 							, self::WBD_ERROR_UNKNOWN);
 
-		return $this->userExists() && !$this->hasSpecialUserId()
-				&& $this->user_utils->isExitDatePassed() && !$this->hasExitDateWBD() && $this->hasWBDType(self::WBD_TP_SERVICE) && !$this->isWBDBWVIdEmpty()
-				&& !$this->hasOpenWBDErrors($wbd_errors);
+		return array(new WBDPreliminaryUserExists()
+					, new WBDPreliminaryIsUserNotToHandle(array(6,13))
+					, new WBDPreliminaryExitDatePassed()
+					, new WBDPreliminaryHasNoExitDateWBD()
+					, new WBDPreliminaryHasWBDType(self::WBD_TP_SERVICE)
+					, new WBDPreliminaryBWVIdIsNotEmpty()
+					, new WBDPreliminaryHasNoOpenWBDError($wbd_errors)
+					);
+	}
+
+	/**
+	 *
+	 *
+	 */
+	public function exitDatePassed() {
+		return $this->user_utils->isExitDatePassed();
 	}
 
 	/**
@@ -619,10 +713,12 @@ class gevWBD {
 	* checks user is not root or anomynos or some one else
 	* look at array $specialUserIds
 	*
+	* @param array 	$specialUserIds
+	*
 	* @return boolean
 	*/
-	protected function hasSpecialUserId() {
-		return in_array($this->user_id, self::$specialUserIds);
+	protected function hasSpecialUserId(array $specialUserIds) {
+		return in_array($this->user_id, $specialUserIds);
 	}
 
 	/**
