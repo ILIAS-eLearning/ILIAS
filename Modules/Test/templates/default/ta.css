@@ -1,16 +1,10 @@
-/**
- * ILIAS Open Source Test & Assessment styles
- *
- * @revision        $Id$
- */
-
 .kiosk {
 	padding: 2em;
 	background-color: #fafafa;
 }
 
 .fullwidth_invisible {
-	background-color: transparent!important;
+	background-color: transparent !important;
 }
 
 .feedback {
@@ -419,7 +413,7 @@ ul.shortlist li.active {
 	font-weight: bold;
 }
 
-ul.shortlist li.listEntry a,
+ul.shortlist li.listEntry a
 {
 	text-decoration:none;
 	color:#0033AA;
