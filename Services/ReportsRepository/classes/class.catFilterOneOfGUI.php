@@ -9,8 +9,11 @@ class catFilterOneOfGUI extends catFilterGUI {
 	protected $val;
 
 	public function __construct($filter, $path) {
+		global $lng;
+
 		$this->filter = $filter;
 		$this->path = $path;
+		$this->gLng = $lng;
 	}
 
 	/**
@@ -36,6 +39,8 @@ class catFilterOneOfGUI extends catFilterGUI {
 					$duration = new ilDateDurationInputGUI("", "filter[$this->path][".$key."]");
 					$duration->setShowDate(true);
 					$duration->setShowTime(false);
+					$duration->setStartText($this->gLng->txt("gev_filter_period_from"));
+					$duration->setEndText($this->gLng->txt("gev_filter_period_to"));
 
 					if($this->val && $key == $this->val["option"]) {
 						$val = $this->val[$this->val["option"]];
