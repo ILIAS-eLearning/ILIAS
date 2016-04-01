@@ -2,11 +2,11 @@
 
 require_once 'Services/ReportsRepository/classes/class.ilObjReportBase.php';
 require_once 'Services/GEV/Utils/classes/class.gevCourseUtils.php';
-/*
+
 ini_set("memory_limit","2048M"); 
 ini_set('max_execution_time', 0);
 set_time_limit(0);
-*/
+
 class ilObjReportEmplAtt extends ilObjReportBase {
 	protected $relevant_parameters = array();
 
@@ -26,9 +26,9 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 			->select("usr.email")
 			->select_raw("CONVERT(usr.adp_number, DECIMAL) as adp_number")
 			->select_raw("CONVERT(usr.job_number, DECIMAL) as job_number")
-			->select("orgu.org_unit_above1")
-			->select("orgu.org_unit_above2")
-			->select_raw("GROUP_CONCAT(DISTINCT orgu.orgu_title SEPARATOR ', ') AS org_unit")
+			->select("orgu_all.org_unit_above1")
+			->select("orgu_all.org_unit_above2")
+			->select_raw("GROUP_CONCAT(DISTINCT orgu_all.orgu_title SEPARATOR ', ') AS org_unit")
 			->select_raw("GROUP_CONCAT(DISTINCT role.rol_title ORDER BY role.rol_title SEPARATOR ', ') AS roles")
 			->select("usr.position_key")
 			->select("crs.custom_id")
@@ -48,10 +48,19 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 				->on("usr.user_id = usrcrs.usr_id AND usrcrs.hist_historic = 0")
 			->left_join("hist_course crs")
 				->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
-			->left_join("hist_userorgu orgu")
-				->on("orgu.usr_id = usr.user_id")
+			->left_join("hist_userorgu orgu_all")
+				->on("orgu_all.usr_id = usr.user_id")
 			->left_join("hist_userrole role")
-				->on("role.usr_id = usr.user_id")
+				->on("role.usr_id = usr.user_id");
+		if($this->orgu_filter->getSelection()) {
+			$query->join("hist_userorgu orgu_filter")
+				->on("orgu_filter.usr_id = usr.user_id "
+					." 	AND ".$this->orgu_filter->deliverQuery()
+					."	AND orgu_filter.action >=0 "
+					."	AND orgu_filter.hist_historic = 0 "
+					."	AND orgu_filter.rol_title = ".$this->gIldb->quote("Mitarbeiter","text"));
+		}
+		$query
 			->group_by("usr.user_id")
 			->group_by("usrcrs.crs_id")
 			->compile()
@@ -90,8 +99,8 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 	}
 
 	protected function buildFilter($filter) {
-		$orgu_filter = new recursiveOrguFilter("org_unit","orgu.orgu_id",true,true);
-		$orgu_filter->setFilterOptionsByUser($this->user_utils);
+		$this->orgu_filter = new recursiveOrguFilter("org_unit","orgu_filter.orgu_id",true,true);
+		$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
 
 		$filter	->dateperiod( "period"
 									, $this->plugin->txt("period")
@@ -103,7 +112,7 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 									, false
 									, " OR usrcrs.hist_historic IS NULL"
 									);
-		$orgu_filter->addToFilter($filter);
+		$this->orgu_filter->addToFilter($filter);
 		$filter	->multiselect("template_title"
 									 , $this->plugin->txt("title")
 									 , "template_title"
@@ -138,9 +147,9 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 								  ." OR usrcrs.hist_historic IS NULL )")
 				->static_condition("(   usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text')
 								  ." OR usrcrs.hist_historic IS NULL )" )
-				->static_condition("orgu.action >= 0")
-				->static_condition("orgu.hist_historic = 0")
-				->static_condition("orgu.rol_title = 'Mitarbeiter'")
+				->static_condition("orgu_all.action >= 0")
+				->static_condition("orgu_all.hist_historic = 0")
+				->static_condition("orgu_all.rol_title = 'Mitarbeiter'")
 				->static_condition("role.action = 1")
 				->static_condition("role.hist_historic = 0")
 				->action($this->filter_action)

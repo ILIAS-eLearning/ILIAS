@@ -111,6 +111,7 @@ abstract class Filter {
 	 */
 	public function map(\Closure $mapper, \CaT\Filter\Types\Type $result_type) {
 		assert('$mapper instanceof \\Closure');
+		//TODO : check number of $mapper params.
 		return $this->map_raw($mapper, $result_type);
 	}
 
@@ -166,10 +167,13 @@ abstract class Filter {
 			$mapping = $this->mappings[$i];
 			$flattened_content = $content_type->flatten($content);
 			$content = call_user_func_array($mapping, $flattened_content);
-			// TODO: We might want to check results here too.
 			$content_type = $this->mapping_result_types[$i];
+			if(!$content_type->contains($content) ) {
+				throw new \InvalidArgumentException
+							("Expected ".$content_type->repr().", retreived ".
+							print_r($content, true));
+			}
 		}
-
 		return $content;
 	}
 

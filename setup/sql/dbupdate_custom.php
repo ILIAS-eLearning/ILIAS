@@ -5026,3 +5026,8 @@ foreach ($relevant_ref_ids as $ref_id) {
 	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "Admin-Ansicht", array("load_member_list"));
 }
 ?>
+
+<#211>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
