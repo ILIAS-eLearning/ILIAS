@@ -45,7 +45,7 @@ class ilUserXMLWriter extends ilXmlWriter
 	{
 		global $ilias,$ilUser;
 
-		parent::ilXmlWriter();
+		parent::__construct();
 
 		$this->ilias = $ilias;
 		$this->user_id = $ilUser->getId();

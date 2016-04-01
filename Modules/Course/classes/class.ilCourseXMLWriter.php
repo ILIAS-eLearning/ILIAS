@@ -62,7 +62,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 	{
 		global $ilias;
 
-		parent::ilXmlWriter();
+		parent::__construct();
 
 		$this->EXPORT_VERSION = "2";
 
