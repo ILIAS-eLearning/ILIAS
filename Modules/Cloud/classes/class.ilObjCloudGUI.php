@@ -321,9 +321,13 @@ class ilObjCloudGUI extends ilObject2GUI {
 
 
 	/**
-	 * @param ilObjCloud $a_new_object
+	 * @param \ilObject $a_new_object
 	 */
-	protected function afterSave(ilObjCloud $a_new_object) {
+	protected function afterSave(ilObject $a_new_object) {
+		assert($a_new_object instanceof ilObjCloud);
+		/**
+		 * @var $a_new_object ilObjCloud
+		 */
 		try {
 			$form = $this->initCreateForm("cld");
 
