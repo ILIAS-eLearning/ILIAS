@@ -415,12 +415,8 @@ class ilTestExport
 				$time_minutes  = floor($time_seconds/60);
 				$time_seconds -= $time_minutes * 60;
 				$worksheet->setCell($row, $col++, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
-				$fv = getdate($data->getParticipant($active_id)->getFirstVisit());
-				$firstvisit = new ilDateTime($fv[0], IL_CAL_UNIX);
-				$worksheet->setCell($row, $col++, $firstvisit);
-				$lv = getdate($data->getParticipant($active_id)->getLastVisit());
-				$lastvisit = new ilDateTime($lv[0], IL_CAL_UNIX);
-				$worksheet->setCell($row, $col++, $lastvisit);
+				$worksheet->setCell($row, $col++, new ilDateTime($data->getParticipant($active_id)->getFirstVisit(), IL_CAL_UNIX));
+				$worksheet->setCell($row, $col++, new ilDateTime($data->getParticipant($active_id)->getLastVisit(), IL_CAL_UNIX));
 
 				$median = $data->getStatistics()->getStatistics()->median();
 				$pct = $data->getParticipant($active_id)->getMaxpoints() ? $median / $data->getParticipant($active_id)->getMaxpoints() * 100.0 : 0;
