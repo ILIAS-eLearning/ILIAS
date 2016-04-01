@@ -105,7 +105,7 @@ class gevMyTrainingsAdmin {
 
 		return $f->sequence(
 					$f->sequence(
-						$f->dateperiod($txt("dateperiod_choice_label"), "")
+						$f->dateperiod($txt("gev_training_admin_search_period"), "")
 							->map(function($start,$end) use ($f) {
 								$pc = $f->dateperiod_overlaps_or_empty_predicate
 									( "begin_date.value"
