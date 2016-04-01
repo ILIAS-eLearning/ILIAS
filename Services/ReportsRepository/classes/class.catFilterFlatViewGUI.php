@@ -26,7 +26,7 @@ class catFilterFlatViewGUI {
 			$new_path = array($next_filter_gui->path() => "val");
 			$result = $new_path + $result;
 
-			$tpl = $this->createFilterTemplate($next_filter_gui);
+			$tpl = $this->createFilterTemplate($next_filter_gui, $post[$next_filter_gui->path()]);
 
 			$form_tpl->setCurrentBlock("filter_element");
 			$form_tpl->setVariable("FILTER_GUI", $tpl->get());
@@ -48,7 +48,7 @@ class catFilterFlatViewGUI {
 		return $form;
 	}
 
-	protected function createFilterTemplate($next_filter_gui) {
+	protected function createFilterTemplate($next_filter_gui, $filter_post) {
 		//if sequence lvl > 2 is reached cry
 		if(substr_count($next_filter_gui->path(), "_") > 1) {
 			throw new Exception("catFilterFlatViewGUI::createFilterTemplate: to many sequence level: ".substr_count($next_filter_gui->path(), "_")." > 1.");
@@ -63,8 +63,8 @@ class catFilterFlatViewGUI {
 			$tpl->touchBlock("single");
 		}
 
-		if($post !== null) {
-			$val = $post[$next_filter_gui->path()];
+		if($filter_post !== null) {
+			$val = $filter_post;
 			$next_filter_gui->setValue($val);
 		}
 
