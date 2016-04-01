@@ -7,7 +7,8 @@
 		"filp/whoops": "^2.0",
         "monolog/monolog": "^1.15",
         "phpoffice/phpexcel": "^1.8.1",
-		"technosophos/LibRIS": "^2.0.2"
+		"technosophos/LibRIS": "^2.0.2",
+		"ezyang/htmlpurifier": "^4.7.0"
 	},
 	"extra": {
 		"technosophos/LibRIS" : {
@@ -41,6 +42,14 @@
 			"added_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>",
 			"last_update" : "2016-03-22",
 			"last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>"
+		},
+		"ezyang/htmlpurifier" : {
+			"source" : "http://repo.or.cz/htmlpurifier.git",
+			"used_version" : "v4.7.0",
+			"wrapped_by" : "Services/Html",
+			"added_by" : "Michael Jansen <mjansen@databay.de>",
+			"last_update" : "2016-04-01",
+			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
 		}
 	}
 }
