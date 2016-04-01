@@ -319,7 +319,7 @@ class ilMimeMail
 	 * Build the email message
 	 * @access public
 	 */
-	function BuildMail()
+	protected function BuildMail()
 	{
 		/**
 		 * @var $ilUser          ilObjUser
@@ -328,7 +328,7 @@ class ilMimeMail
 		 */
 		global $ilUser, $ilSetting, $ilClientIniFile;
 
-		require_once './Services/Mail/phpmailer/class.phpmailer.php';
+		require_once 'libs/composer/vendor/autoload.php';
 		$mail = new PHPMailer();
 
 		$mail->SetFrom($this->xheaders['From'], $this->xheaders['FromName']);

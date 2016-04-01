@@ -52,6 +52,7 @@ More libraries used in ILIAS, that use GPL license:
 - Syntax Highlighter (Services/COPage/syntax_highlight)
 - MagpieRSS (Services/Feeds/magpierss)
 - HtmlPurifier (libs/composer/vendor/ezyang)
+- PHPMailer (libs/composer/vendor/phpmailer)
 
 
 1)
