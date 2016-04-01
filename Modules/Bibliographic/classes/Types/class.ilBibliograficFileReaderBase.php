@@ -12,6 +12,10 @@ abstract class ilBibliograficFileReaderBase implements ilBibliograficFileReader 
 	 * @var string
 	 */
 	protected $file_content = '';
+	/**
+	 * @var string
+	 */
+	protected $path_to_file = '';
 
 
 	/**
@@ -19,6 +23,7 @@ abstract class ilBibliograficFileReaderBase implements ilBibliograficFileReader 
 	 * @return bool
 	 */
 	public function readContent($path_to_file) {
+		$this->path_to_file = $path_to_file;
 		$this->convertFiletoUTF8($path_to_file);
 		$raw_content = file_get_contents($path_to_file);
 		$this->file_content = $raw_content;

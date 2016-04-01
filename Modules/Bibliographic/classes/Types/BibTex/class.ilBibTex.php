@@ -30,7 +30,7 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 
 	public function parseContent() {
 		$this->convertBibSpecialChars();
-		$this->removeEmtpyLinesAndComments();
+		$this->normalizeContent();
 
 		// get entries
 		$objects = preg_split("/\\@([\\w]*)/uix", $this->file_content, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
@@ -52,19 +52,52 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 					$entry['cite'] = $matches['cite'];
 				}
 
-				// attributes
-				// Original: (?<attr>[\w]*)[ ]{0,}=[{ '\"]+(?<content>.*?)[} '\"]{0,}[,]{0,1}\n
-				preg_match_all("/(?<attr>[\\w]*)[ ]{0,}=[{ '\\\"]+(?<content>.*?)[} '\\\"]{0,}[,]{0,1}\\n/um", $object, $attr_matches, PREG_SET_ORDER);
+				// (?<attr>[\w]*)[ ]{0,}=[{ '\"]+(?<content>[^}\"]*?)[} \"]{0,}[,]{0,1}\n
+//				$re = "/(?<attr>[\\w]*)[ ]{0,}=[{ '\\\"]+(?<content>.*?)[} \\\"]{0,}[,]{0,1}\\n/";
 
+				preg_match_all("/(?<attr>[\\w]*)[ ]{0,}=[{ '\\\"]+(?<content>(.*?))[} \\\"]{0,}[,]{0,1}\\n/uU", $object, $attr_matches, PREG_SET_ORDER);
+
+//				preg_match_all($re, $object, $attr_matches);
+
+//				echo '<pre>' . print_r($attr_matches, 1) . '</pre>';
 				foreach ($attr_matches as $match) {
-					$entry[strtolower($match['attr'])] = $match['content'];
+					$entry[strtolower($match['attr'])] = preg_replace("/\\t/", " ", $match['content']);
 				}
 
 				$entries[] = $entry;
 			}
 		}
 
+//		exit;
+
 		return $entries;
+	}
+
+
+	protected function normalizeContent() {
+		$result = $this->file_content;
+		// remove emty newlines
+		$result = preg_replace("/^\\n/um", "", $result);
+		// Remove lines with only whitespaces
+		$result = preg_replace("/^[\\s]*$/um", "\n", $result);
+		$result = preg_replace("/\\n\\n\\n/um", "\n\n", $result);
+
+		// remove comments
+		$result = preg_replace("/^%.*\\n/um", "", $result);
+
+		// Intend attributes with a tab
+		$result = preg_replace("/^[ ]+/um", "\t", $result);
+		$result = preg_replace("/^([\\w])/um", "\t$1", $result);
+
+		// move last bracket on newline
+		$result = preg_replace("/}[\\s]*$/um", "\n}", $result);
+
+		// Support long lines (not working at the moment)
+		$re = "/(\"[^\"\\n]*)\\r?\\n(?!(([^\"]*\"){2})*[^\"]*$)/";
+		$subst = "$1";
+		$result = preg_replace($re, $subst, $result);
+
+		$this->file_content = $result;
 	}
 
 
@@ -197,14 +230,6 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 	 */
 	public static function isEntryType($entry_ype) {
 		return in_array($entry_ype, self::$entry_types);
-	}
-
-
-	protected function removeEmtpyLinesAndComments() {
-		// remove emty newlines
-		$this->file_content = preg_replace("/^\\n/um", "", $this->file_content);
-		// remove comments
-		$this->file_content = preg_replace("/^%.*\\n/um", "", $this->file_content);
 	}
 }
 

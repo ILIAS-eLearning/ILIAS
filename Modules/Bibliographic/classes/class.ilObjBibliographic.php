@@ -3,13 +3,13 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once "Services/Object/classes/class.ilObject2.php";
 require_once "Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
-/* Declaring namespace for library RISReader */
-use \LibRIS\RISReader;
+require_once('./Modules/Bibliographic/classes/Types/Ris/class.ilRis.php');
 
 /**
  * Class ilObjBibliographic
  *
  * @author  Oskar Truffer <ot@studer-raimann.ch>, Gabriel Comte <gc@studer-raimann.ch>
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version $Id: class.ilObjBibliographic.php 2012-01-11 10:37:11Z otruffer $
  *
  * @extends ilObject2
@@ -303,7 +303,6 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return array
 	 */
 	public static function readRisFile($full_filename) {
-		require_once('./Modules/Bibliographic/classes/Types/Ris/class.ilRis.php');
 		$ilRis = new ilRis();
 		$ilRis->readContent($full_filename);
 
