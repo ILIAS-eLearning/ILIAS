@@ -298,48 +298,6 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	/**
-	 * @param $full_filename
-	 *
-	 * @return array
-	 */
-	public static function readRisFile($full_filename) {
-		$ilRis = new ilRis();
-		$ilRis->readContent($full_filename);
-
-		return $ilRis->parseContent();
-	}
-
-
-	/**
-	 * @param $full_filename
-	 *
-	 * @return array
-	 */
-	public static function readBibFile($full_filename) {
-		$bib = new ilBibTex();
-		$bib->readContent($full_filename);
-
-		return $bib->parseContent();
-	}
-
-
-	/**
-	 * @param $full_filename
-	 *
-	 * @deprecated moved to ilBibliograficFileReaderBase
-	 */
-	public static function setCharsetToUtf8($full_filename) {
-		//If file charset does not seem to be Unicode, we assume that it is ISO-8859-1, and convert it to UTF-8.
-		$filedata = file_get_contents($full_filename);
-		if (strlen($filedata) == strlen(utf8_decode($filedata))) {
-			// file charset is not UTF-8
-			$filedata = mb_convert_encoding($filedata, 'UTF-8', 'ISO-8859-1');
-			file_put_contents($full_filename, $filedata);
-		}
-	}
-
-
-	/**
 	 * Clone BIBL
 	 *
 	 * @param ilObjBibliographic $new_obj
@@ -394,7 +352,7 @@ class ilObjBibliographic extends ilObject2 {
 			}
 		}
 	}
-
+	
 
 	/**
 	 * Reads out the source file and writes all entries to the database
@@ -406,13 +364,18 @@ class ilObjBibliographic extends ilObject2 {
 		$entries_from_file = array();
 		switch ($this->getFiletype()) {
 			case("ris"):
-				$entries_from_file = self::readRisFile($this->getFileAbsolutePath());
+				$ilRis = new ilRis();
+				$ilRis->readContent($this->getFileAbsolutePath());
+
+				$entries_from_file = $ilRis->parseContent();
 				break;
 			case("bib"):
-				$entries_from_file = self::readBibFile($this->getFileAbsolutePath());
+				$bib = new ilBibTex();
+				$bib->readContent($this->getFileAbsolutePath());
+
+				$entries_from_file = $bib->parseContent();
 				break;
 		}
-
 		//fill each entry into a ilBibliographicEntry object and then write it to DB by executing doCreate()
 		foreach ($entries_from_file as $file_entry) {
 			$type = null;

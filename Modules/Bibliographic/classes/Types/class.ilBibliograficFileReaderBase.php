@@ -24,22 +24,37 @@ abstract class ilBibliograficFileReaderBase implements ilBibliograficFileReader 
 	 */
 	public function readContent($path_to_file) {
 		$this->path_to_file = $path_to_file;
-		$this->convertFiletoUTF8($path_to_file);
-		$raw_content = file_get_contents($path_to_file);
-		$this->file_content = $raw_content;
+//		$this->convertFiletoUTF8();
+		$this->file_content = $this->convertStringToUTF8(file_get_contents($path_to_file));
 
 		return true;
 	}
 
 
+	protected function convertFiletoUTF8() {
+		file_put_contents($this->path_to_file, $this->convertStringToUTF8(file_get_contents($this->path_to_file)));
+	}
+
+
 	/**
-	 * @param $path_to_file
+	 * @param $string
+	 * @return string
 	 */
-	protected function convertFiletoUTF8($path_to_file) {
-		$filedata = file_get_contents($path_to_file);
-		if (strlen($filedata) == strlen(utf8_decode($filedata))) {
-			$filedata = mb_convert_encoding($filedata, 'UTF-8', 'ISO-8859-1');
-			file_put_contents($path_to_file, $filedata);
+	protected function convertStringToUTF8($string) {
+		ob_end_clean();
+		$mb_detect_encoding = mb_detect_encoding($string);
+		mb_detect_order(array( 'UTF-8', 'ISO-8859-1' ));
+		switch ($mb_detect_encoding) {
+			case 'UTF-8':
+				break;
+			case 'ASCII':
+				$string = utf8_encode(iconv('ASCII', 'UTF-8//IGNORE', $string));
+				break;
+			default:
+				$string = mb_convert_encoding($string, 'UTF-8', $mb_detect_encoding);
+				break;
 		}
+
+		return $string;
 	}
 }

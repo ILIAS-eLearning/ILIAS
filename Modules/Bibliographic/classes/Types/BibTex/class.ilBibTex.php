@@ -47,28 +47,26 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 				$entry['entryType'] = strtolower($object);
 			} else {
 				// Citation
-				preg_match("/^{(?<cite>.*),\\n/um", $object, $matches);
-				if ($matches['cite']) {
-					$entry['cite'] = $matches['cite'];
+				preg_match("/^{(?<cite>.*),\\n/um", $object, $cite_matches);
+				if ($cite_matches['cite']) {
+					$entry['cite'] = $cite_matches['cite'];
 				}
 
-				// (?<attr>[\w]*)[ ]{0,}=[{ '\"]+(?<content>[^}\"]*?)[} \"]{0,}[,]{0,1}\n
-//				$re = "/(?<attr>[\\w]*)[ ]{0,}=[{ '\\\"]+(?<content>.*?)[} \\\"]{0,}[,]{0,1}\\n/";
+				// Edit at regex101.com: (?<attr>[\w]*)\s*=\s*[{"]*(?<content>(.*?))\s*[}"]*?\s*[,]*?\s*\n
+				$re = "/(?<attr>[\\w]*)\\s*=\\s*[{\"]*(?<content>(.*?))\\s*[}\"]*?\\s*[,]*?\\s*\\n/";
 
-				preg_match_all("/(?<attr>[\\w]*)[ ]{0,}=[{ '\\\"]+(?<content>(.*?))[} \\\"]{0,}[,]{0,1}\\n/uU", $object, $attr_matches, PREG_SET_ORDER);
+				preg_match_all($re, $object, $matches, PREG_SET_ORDER);
 
-//				preg_match_all($re, $object, $attr_matches);
+				foreach ($matches as $match) {
+					$clean = $match['content'];
+					$clean = preg_replace("/[\", \\t\\s]*\\n/u", "\n", $clean);
 
-//				echo '<pre>' . print_r($attr_matches, 1) . '</pre>';
-				foreach ($attr_matches as $match) {
-					$entry[strtolower($match['attr'])] = preg_replace("/\\t/", " ", $match['content']);
+					$entry[strtolower($match['attr'])] = $clean;
 				}
 
 				$entries[] = $entry;
 			}
 		}
-
-//		exit;
 
 		return $entries;
 	}
@@ -156,8 +154,10 @@ class ilBibTex extends ilBibliograficFileReaderBase implements ilBibliograficFil
 		$bibtex_special_chars['ß'] = '{\ss}';
 		$bibtex_special_chars['ñ'] = '{\~n}';
 		$bibtex_special_chars['Ñ'] = '{\~N}';
+		$bibtex_special_chars['ń'] = "{\\'n}";
+		$bibtex_special_chars['l'] = "{\\'n}";
 
-		$this->file_content = str_replace($bibtex_special_chars, array_keys($bibtex_special_chars), $this->file_content);
+		$this->file_content = str_replace(array_values($bibtex_special_chars), array_keys($bibtex_special_chars), $this->file_content);
 	}
 
 
