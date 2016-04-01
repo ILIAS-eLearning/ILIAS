@@ -6,13 +6,13 @@ of the Kitchen Sink.
 
 ## Talk about Kitchen Sink Concepts
 
-The ILIAS UI-Framework deals with the concepts also found in the Kitchen Sink.
-In fact, this framework and the Kitchen Sink are heavily related. You won't need
-to think about HTML if you're using this framework. You also won't need to think
-about the implementation you are using, the device your GUI is displayed on or
-the CSS-classes you need to use. You will be able to talk to other people (like
-users or designers) using the same concepts and problem space as they do. This is
-also not a templating framework.
+The ILIAS UI-Framework deals with the concepts found in the Kitchen Sink. In fact,
+this framework and the Kitchen Sink are heavily related. You won't need to think
+about HTML if you're using this framework. You also won't need to think about
+the implementation you are using, the device your GUI is displayed on or the
+CSS-classes you need to use. You will be able to talk to other people (like users
+or designers) using the same concepts and problem space as they do. This is also
+not a templating framework.
 
 [Learn more](doku/talk_about_ks_concepts.md)
 
@@ -66,7 +66,7 @@ to check out the components.
 
 [Example](doku/examples.md#discovery)
 
-### How to use the Components of the Framework?
+### How to Use the Components of the Framework?
 
 ## Implementing Elements in the Framework
 
