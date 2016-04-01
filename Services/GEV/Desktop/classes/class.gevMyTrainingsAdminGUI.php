@@ -18,6 +18,8 @@ require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
 require_once("Services/GEV/Desktop/classes/class.gevMyTrainingsAdminTableGUI.php");
 require_once("Services/Utilities/classes/class.ilUtil.php");
+require_once("Services/ReportsRepository/classes/class.catFilterFlatViewGUI.php");
+require_once("Services/GEV/Utils/classes/class.gevMyTrainingsAdmin.php");
 
 class gevMyTrainingsAdminGUI {
 
@@ -31,7 +33,8 @@ class gevMyTrainingsAdminGUI {
 		$this->gTpl = $tpl;
 		$this->gUser = $ilUser;
 		$this->gLog = $ilLog;
-	
+
+		$this->helper = new gevMyTrainingsAdmin($ilUser->getId());
 		$this->crs_ref_id = false;
 	}
 	
@@ -46,7 +49,7 @@ class gevMyTrainingsAdminGUI {
 			$in_search = true;
 			$cmd = "view";
 		}
-		
+
 		switch ($cmd) {
 			case "view":
 				$cont = $this->view($in_search);
@@ -57,6 +60,7 @@ class gevMyTrainingsAdminGUI {
 			case "viewBookings":
 			case "backFromBookings":
 			case "saveSendMailDate":
+			case "saveFilterInputs":
 				$cont = $this->$cmd();
 				break;
 
@@ -77,7 +81,7 @@ class gevMyTrainingsAdminGUI {
 				$crs_ref_id = $this->getCrsRefId();
 				$gui = ilParticipationStatusAdminGUI::getInstanceByRefId($crs_ref_id);
 				
-				$gui->from_foreign_class = 'gevMyTrainingsApGUI';
+				$gui->from_foreign_class = 'gevMyTrainingsAdminGUI';
 				$gui->crs_ref_id = $crs_ref_id;
 				$this->gCtrl->setParameter($gui, "crsrefid", $crs_ref_id);
 
@@ -98,7 +102,7 @@ class gevMyTrainingsAdminGUI {
 				$ret = $this->gCtrl->forwardCommand($gui);
 				break;
 			default:
-				$errstr = "gevMyTrainingsApGUI: Unknown command '".$cmd."'";
+				$errstr = "gevMyTrainingsAdminGUI: Unknown command '".$cmd."'";
 				$this->gLog->write($errstr);
 				throw new ilException($errstr);
 		}
@@ -107,8 +111,6 @@ class gevMyTrainingsAdminGUI {
 			$this->gTpl->setContent($cont);
 		}
 	}
-	
-
 
 	public function getCrsRefId() {
 		$crs_ref_id = $_GET['crsrefid'];
@@ -118,20 +120,25 @@ class gevMyTrainingsAdminGUI {
 		}
 
 		if(!$crs_ref_id){
-			throw new ilException("gevMyTrainingsApGUI - needs course-refid");
+			throw new ilException("gevMyTrainingsAdminGUI - needs course-refid");
 		}
 		return $crs_ref_id;
 	}
 
-	// std-view, my trainings-ap-table;
-	public function view($a_in_search = false) {
+	public function view() {
+		$filter_form = new catFilterFlatViewGUI($this, $this->helper->filter(), $this->helper->displayFilter(), "saveFilterInputs");
+		$trainings_table = new gevMyTrainingsAdminTableGUI($this->gUser->getId(), $this, $filter_form);
 
-		$search_opts = $this->getSearchOptions($a_in_search);
+		return $trainings_table->getHTML();
+	}
 
-		$trainings_table = new gevMyTrainingsAdminTableGUI($this->gUser->getId(), $this, $search_opts);
-		$trainings_table->setCommand("gev_crs_srch_limit", "-");
-		
-		return $this->renderSearch().$trainings_table->getHTML();
+	public function saveFilterInputs() {
+		$this->helper->saveFilterInputs();
+		return $this->view();
+	}
+
+	public function helper() {
+		return $this->helper;
 	}
 
 	public function memberList() {
@@ -333,129 +340,5 @@ class gevMyTrainingsAdminGUI {
 			}
 		}
 		return $this->listParticipationStatus();
-	}
-
-	protected function renderSearch() {
-		$form = $this->getSearchForm();
-		
-		return $form->getHTML();
-	}
-	
-	protected function getSearchForm() {
-		if ($this->search_form !== null) {
-			return $this->search_form;
-		}
-		
-		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
-		require_once("Services/Form/classes/class.ilFormSectionHeaderGUI.php");
-		require_once("Services/Form/classes/class.ilTextInputGUI.php");
-		require_once("Services/Form/classes/class.ilTextInputGUI.php");
-		require_once("Services/Form/classes/class.ilSelectInputGUI.php");
-		require_once("Services/Form/classes/class.ilDateDurationInputGUI.php");
-		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		require_once("Services/Calendar/classes/class.ilDate.php");
-		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
-
-		$form = new catPropertyFormGUI();
-		$form->setTemplate("tpl.gev_search_form.html", "Services/GEV/Desktop");
-		$this->gCtrl->setParameter($this, "active_tab", $this->active_tab);
-		$form->setFormAction($this->gCtrl->getFormAction($this));
-		$form->addCommandButton("search", $this->gLng->txt("search"));
-		
-		$form->setId('gevCourseSearchForm');
-		
-		global $tpl;
-		// http://www.jacklmoore.com/colorbox/
-		$tpl->addJavaScript("Services/CaTUIComponents/js/colorbox-master/jquery.colorbox-min.js");
-
-
-		$search_title = new catTitleGUI("gev_course_search", "gev_course_search_desc", "GEV_img/ico-head-search.png");
-		$form->setTitle($search_title->render());
-		
-		$period = new ilDateDurationInputGUI($this->gLng->txt("time_segment"), "period");
-		$now = new ilDate(date("Y-01-01"), IL_CAL_DATE);
-		$period->setStart($now);
-		$one_year = new ilDate(date("Y-01-01"), IL_CAL_DATE);
-		$period->setEnd($one_year);
-		$form->addItem($period);
-		
-		$this->search_form = $form;
-		return $form;
-	}
-
-	protected function getSearchOptions($a_in_search) {
-		$form = $this->getSearchForm();
-		if ($a_in_search) {
-			// search params are passed via form post
-			if (isset($_POST["cmd"]) && !$_GET["cmdSearch"]) {
-				$form->setValuesByPost();
-				if ($form->checkInput()) {
-					$search_opts = $form->getInputs();
-					// clean empty or "all"-options
-					foreach($search_opts as $key => $value) {
-						if (!$value || $value == $this->gLng->txt("gev_crs_srch_all")) {
-							unset($search_opts[$key]);
-						}
-					}
-				}
-				else {
-					$search_opts = array();
-				}
-			}
-			// search params are passed via get in table nav links 
-			else {
-				$search_opts = array();
-				foreach ($form->getItems() as $item) {
-					$postvar = $item->getPostVar();
-					// special detreatment for period, see below
-					if ($postvar == "period") {
-						$start = $_GET["start"];
-						$end = $_GET["end"];
-						if ($start && $end) {
-							$search_opts["period"] = array(
-								"start" => $start,
-								"end" => $end
-								);
-						}
-					}
-					else {
-						$val = $_GET[$postvar];
-						if ($val) {
-							$search_opts[$postvar] = $val;
-						}
-					}
-				}
-			}
-			
-			// click on table nav should lead to search again.
-			$this->gCtrl->setParameter($this, "cmd", "search");
-		}
-		else {
-			$search_opts = array();
-		}
-
-		foreach ($search_opts as $key => $value) {
-			if (is_string($value)) {
-				$search_opts[$key] = trim($value);
-			}
-		}
-
-
-		// this is needed to pass the search parameter via the sorting
-		// links of the table.
-		foreach( $search_opts as $key => $value) {
-			// special treatment for period is needed since it is an array.
-			// when i try to serialize that array, ilias seems to remove '"'
-			// which makes deserialisation fail
-			if ($key == "period") {
-				$this->gCtrl->setParameter($this, "start", urlencode($value["start"]));
-				$this->gCtrl->setParameter($this, "end", urlencode($value["end"]));
-			}
-			else {
-				$this->gCtrl->setParameter($this, $key, urlencode($value));
-			}
-		}
-
-		return $search_opts;
 	}
 }
