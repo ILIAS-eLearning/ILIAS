@@ -181,7 +181,7 @@ class ilParticipationStatus
 	 * @param int $a_status
 	 * @return boolean
 	 */
-	public function setStatus($a_user_id, $a_status)
+	public function setStatus($a_user_id, $a_status, $setLPStatus = true)
 	{
 		if($this->getProcessState() == self::STATE_FINALIZED)
 		{
@@ -191,27 +191,30 @@ class ilParticipationStatus
 		$a_user_id = (int)$a_user_id;
 		if($a_status !== null)
 		{
-			$a_status = (int)$a_status;		
+			$a_status = (int)$a_status;
 		}
 		if($a_user_id &&
 			($a_status === null || $this->isValidStatus($a_status)))
 		{
 			$old = $this->getStatus($a_user_id, false);
-			if($old !== $a_status)
-			{								
-				$this->updateDBUserData($a_user_id, $a_status, -1);				
+			if($old !== $a_status) {
+				$this->updateDBUserData($a_user_id, $a_status, -1);
 				
-				$this->setLPForStatus($a_user_id, $a_status);								
-			
+				if($setLPStatus) {
+					$this->setLPForStatus($a_user_id, $a_status);
+				}
+
 				// coming from LP => announce event
 				if($this->getMode() == self::MODE_CONTINUOUS)
 				{
-					$this->raiseEvent("setStatusAndPoints", $a_user_id);			
+					$this->raiseEvent("setStatusAndPoints", $a_user_id);
 				}
 				// #35 - coming from GUI => update LP
 				else
-				{					
-					$this->setLPForStatus($a_user_id, $a_status);			
+				{
+					if($setLPStatus) {
+						$this->setLPForStatus($a_user_id, $a_status);
+					}
 				}
 			}
 			return true;
@@ -694,6 +697,12 @@ class ilParticipationStatus
 			{
 				foreach($this->getCourseUtils()->getParticipants() as $user_id)
 				{
+					//gev-patch start #2136
+					//only save status LP when finalizing
+					$usr_state = $this->getStatus($user_id, false);
+					$this->setLPForStatus($user_id, $usr_state);
+					//gev-patch end
+
 					$this->raiseEvent("setStatusAndPoints", $user_id);
 
 					//gev-patch start
