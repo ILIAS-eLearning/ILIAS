@@ -405,4 +405,22 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 	public function test_LIKE() {
 		$this->assertTrue(true);
 	}
+
+	public function test_IsNull() {
+		$f = $this->factory;
+		$i = $this->interpreter;
+		$db = $this->db;
+
+		$res = $f->int(1)->IS_NULL();
+		$this->assertEquals($i->interpret($res), "FALSE ");
+		$res = $f->str("a")->IS_NULL();
+		$this->assertEquals($i->interpret($res), "FALSE ");
+		$res = $f->date(new \DateTime("2016-01-01"))->IS_NULL();
+		$this->assertEquals($i->interpret($res), "FALSE ");
+
+		$res = $f->field("foo.bar")->IS_NULL();
+		$this->assertEquals($i->interpret($res), "`foo`.`bar` IS NULL ");
+	}
+
+
 }

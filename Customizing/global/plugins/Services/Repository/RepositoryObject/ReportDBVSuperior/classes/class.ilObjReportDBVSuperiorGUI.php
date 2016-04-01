@@ -65,7 +65,7 @@ class ilObjReportDBVSuperiorGUI extends ilObjReportBaseGUI {
 		return parent::transformResultRow($rec);
 	}
 
-	public static function transformResultRowXLS($rec) {
+	public static function transformResultRowXLSX($rec) {
 		$rec['odbd'] = $rec['org_unit_above1'];
 		return parent::transformResultRow($rec);
 	}
