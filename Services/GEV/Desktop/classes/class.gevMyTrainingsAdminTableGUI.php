@@ -108,7 +108,7 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 	}
 
 	protected function fillRow($a_set) {
-		$this->createLinks($a_set);
+		$this->createLinks($a_set["obj_id"], $a_set["crs_ref_id"]);
 
 		$crs_utils = gevCourseUtils::getInstance($a_set["obj_id"]);
 		
@@ -153,7 +153,7 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("TUTOR", implode(", ", $a_set["tutor"]));
 		$this->tpl->setVariable("CREDIT_POINTS", $a_set["credit_points"]);
 		$this->tpl->setVariable("MBRS", $mbrs);
-		$this->tpl->setVariable("STATUS", $this->statusPicture($a_set));
+		$this->tpl->setVariable("STATUS", $this->statusPicture($a_set["status"]));
 		$this->tpl->setVariable("ACTIONS", $this->addActionMenu($a_set));
 
 		//inner content
@@ -262,30 +262,30 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 		return $items;
 	}
 
-	protected function createLinks($a_set) {
-		$this->gCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $a_set["crs_ref_id"]);
+	protected function createLinks($crs_obj_id, $crs_ref_id) {
+		$this->gCtrl->setParameterByClass("gevMemberListDeliveryGUI", "ref_id", $crs_ref_id);
 		$this->memberlist_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "trainer");
 		$this->signature_list_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_signature_list");
 		$this->schedule_list_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "download_crs_schedule");
 		$this->csn_list_link = $this->gCtrl->getLinkTargetByClass("gevMemberListDeliveryGUI", "csn");
 		$this->gCtrl->clearParametersByClass("gevMemberListDeliveryGUI");
 		
-		$this->gCtrl->setParameter($this->parent_obj, "crsrefid", $a_set['crs_ref_id']);
-		$this->gCtrl->setParameter($this->parent_obj, "crs_id", $a_set['obj_id']);
+		$this->gCtrl->setParameter($this->parent_obj, "crsrefid", $crs_ref_id);
+		$this->gCtrl->setParameter($this->parent_obj, "crs_id", $crs_obj_id);
 		$this->setstatus_link = $this->gCtrl->getLinkTarget($this->parent_obj, "listStatus");
 		$this->overnights_link = $this->gCtrl->getLinkTarget($this->parent_obj, "showOvernights");
 		$this->bookings_link = $this->gCtrl->getLinkTarget($this->parent_obj, "viewBookings");
 		$this->gCtrl->clearParameters($this->parent_obj);
 
-		$this->gCtrl->setParameterByClass("ilObjCourseGUI", "ref_id", $a_set["crs_ref_id"]);
+		$this->gCtrl->setParameterByClass("ilObjCourseGUI", "ref_id", $crs_ref_id);
 		$this->cancel_training_link = $this->gCtrl->getLinkTargetByClass("ilObjCourseGUI","confirmTrainingCancellation");
 		$this->gCtrl->clearParametersByClass("ilObjCourseGUI");
 
-		$this->gCtrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
+		$this->gCtrl->setParameterByClass("gevMaillogGUI", "obj_id", $crs_obj_id);
 		$this->maillog = $this->gCtrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog");
 		$this->gCtrl->clearParametersByClass("gevMaillogGUI");
 
-		$this->gCtrl->setParameterByClass("ilObjCourseGUI", "ref_id", $a_set["crs_ref_id"]);
+		$this->gCtrl->setParameterByClass("ilObjCourseGUI", "ref_id", $crs_ref_id);
 		$this->edit_settings_link = $this->gCtrl->getLinkTargetByClass("ilObjCourseGUI", "edit");
 		$this->gCtrl->clearParametersByClass("ilObjCourseGUI");
 	}
@@ -311,8 +311,8 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 		}
 	}
 
-	protected function statusPicture($a_set) {
-		switch($a_set["status"]) {
+	protected function statusPicture($status) {
+		switch($status) {
 			case gevMyTrainingsAdmin::CLOSED:
 				return $this->closed_img;
 				break;
