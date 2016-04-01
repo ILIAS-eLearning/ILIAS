@@ -464,4 +464,11 @@ interface ilDBInterface {
 	 * @return bool
 	 */
 	public function modifyTableColumn($table, $column, $attributes);
+
+
+	/**
+	 * @param $a_st
+	 * @return mixed
+	 */
+	public function free($a_st);
 }

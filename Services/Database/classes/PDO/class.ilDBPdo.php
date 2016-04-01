@@ -1125,4 +1125,15 @@ class ilDBPdo implements ilDBInterface {
 		return $this->handleError($r, "modifyTableColumn(" . $table . ")");
 	}
 
+
+	/**
+	 * @param ilPDOStatement $a_st
+	 * @return bool
+	 */
+	public function free($a_st) {
+		/**
+		 * @var $a_st PDOStatement
+		 */
+		return $a_st->closeCursor();
+	}
 }
