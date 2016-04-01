@@ -1,6 +1,7 @@
 <?php
 require_once('./Services/Logging/classes/class.ilLog.php');
 require_once('./Services/Init/classes/class.ilIniFile.php');
+require_once('class.ilWACLogDummy.php');
 
 /**
  * Class ilWACLog
@@ -38,7 +39,7 @@ class ilWACLog extends ilLog {
 	public static function getInstance() {
 		$key = getmypid();
 		if (ilWebAccessChecker::isDEBUG()) {
-			if (! isset(self::$instances[$key])) {
+			if (!isset(self::$instances[$key])) {
 				$ilIliasIniFile = new ilIniFile('./ilias.ini.php');
 				$ilIliasIniFile->read();
 				//				$instance = new self($ilIliasIniFile->readVariable('log', 'path'), self::WAC_LOG);
@@ -69,7 +70,7 @@ class ilWACLog extends ilLog {
 	 * @param      $a_msg
 	 * @param null $a_log_level
 	 */
-	public function write($a_msg, $a_log_level = NULL) {
+	public function write($a_msg, $a_log_level = null) {
 		$this->stack[] = $a_msg;
 	}
 
@@ -106,19 +107,3 @@ class ilWACLog extends ilLog {
 	}
 }
 
-/**
- * Class ilWACLogDummy
- *
- * @author Fabian Schmid <fs@studer-raimann.ch>
- */
-class ilWACLogDummy {
-
-	/**
-	 * @param $dummy
-	 */
-	public function write($dummy) {
-		unset($dummy);
-	}
-}
-
-?>
