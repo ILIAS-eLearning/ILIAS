@@ -296,12 +296,15 @@ class ilObjCourseGrouping
 		return $found_invisible ? false : true;
 	}
 
+
 	/**
-	* 
-	* Returns a list of all groupings for which the current user hast write permission on all assigned objects. Or groupings
-	* the given object id is assigned to.
-	*/
-	function _getVisibleGroupings($a_obj_id)
+	 * @param int $a_obj_id
+	 * @return array
+	 *
+	 * Returns a list of all groupings for which the current user hast write permission on all assigned objects. Or groupings
+	 * the given object id is assigned to.
+	 */
+	public static function _getVisibleGroupings($a_obj_id)
 	{
 		global $ilObjDataCache,$ilAccess,$ilDB;
 
