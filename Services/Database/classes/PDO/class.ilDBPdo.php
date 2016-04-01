@@ -252,7 +252,7 @@ class ilDBPdo implements ilDBInterface {
 	public function addTableColumn($table_name, $column_name, $attributes) {
 		$col = array( $column_name => $attributes );
 		$col_str = $this->createTableFields($col);
-		$this->pdo->exec("ALTER TABLE $$table_name ADD $$col_str");
+		$this->pdo->exec("ALTER TABLE $table_name ADD $col_str");
 	}
 
 
