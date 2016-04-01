@@ -62,14 +62,14 @@ class ilDBPdo implements ilDBInterface {
 	 * @var array
 	 */
 	protected $type_to_mysql_type = array(
-		ilDBConstants::T_TEXT		=> 'VARCHAR',
-		ilDBConstants::T_INTEGER	=> 'INT',
-		ilDBConstants::T_FLOAT		=> 'DOUBLE',
-		ilDBConstants::T_DATE		=> 'DATE',
-		ilDBConstants::T_TIME		=> 'TIME',
-		ilDBConstants::T_DATETIME	=> 'TIMESTAMP',
-		ilDBConstants::T_CLOB       => 'LONGTEXT',
-		ilDBConstants::T_TIMESTAMP  => 'DATETIME'
+		ilDBConstants::T_TEXT      => 'VARCHAR',
+		ilDBConstants::T_INTEGER   => 'INT',
+		ilDBConstants::T_FLOAT     => 'DOUBLE',
+		ilDBConstants::T_DATE      => 'DATE',
+		ilDBConstants::T_TIME      => 'TIME',
+		ilDBConstants::T_DATETIME  => 'TIMESTAMP',
+		ilDBConstants::T_CLOB      => 'LONGTEXT',
+		ilDBConstants::T_TIMESTAMP => 'DATETIME',
 	);
 	/**
 	 * @var string
@@ -171,7 +171,7 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	public function createTable($table_name, $fields) {
 		$fields_query = $this->createTableFields($fields);
-		$query = "CREATE TABLE $table_name ($fields_query);";		
+		$query = "CREATE TABLE $table_name ($fields_query);";
 		$this->pdo->exec($query);
 	}
 
@@ -185,7 +185,7 @@ class ilDBPdo implements ilDBInterface {
 		$query = "";
 		foreach ($fields as $name => $field) {
 			$type = $this->type_to_mysql_type[$field['type']];
-			$length = $field['length'] ? "(".$field['length'].")" : "";
+			$length = $field['length'] ? "(" . $field['length'] . ")" : "";
 			$primary = isset($field['is_primary']) && $field['is_primary'] ? "PRIMARY KEY" : "";
 			$notnull = isset($field['is_notnull']) && $field['is_notnull'] ? "NOT NULL" : "";
 			$sequence = isset($field['sequence']) && $field['sequence'] ? "AUTO_INCREMENT" : "";
@@ -673,17 +673,13 @@ class ilDBPdo implements ilDBInterface {
 	 * @return string
 	 */
 	public function replace($table, $primaryKeys, $otherColumns) {
-		// TODO: Implement replace() method.
-
-		// this is the mysql implementation
 		$a_columns = array_merge($primaryKeys, $otherColumns);
 		$fields = array();
 		$field_values = array();
 		$placeholders = array();
 		$types = array();
 		$values = array();
-		$lobs = false;
-		$lob = array();
+
 		foreach ($a_columns as $k => $col) {
 			$fields[] = $k;
 			$placeholders[] = "%s";
@@ -697,25 +693,11 @@ class ilDBPdo implements ilDBInterface {
 
 			$values[] = $col[1];
 			$field_values[$k] = $col[1];
-			if ($col[0] == "blob" || $col[0] == "clob") {
-				$lobs = true;
-				$lob[$k] = $k;
-			}
 		}
-		if ($lobs)    // lobs -> use prepare execute (autoexecute broken in PEAR 2.4.1)
-		{
-			$st = $this->db->prepare("REPLACE INTO " . $table . " (" . implode($fields, ",") . ") VALUES (" . implode($placeholders2, ",")
-			                         . ")", $types, MDB2_PREPARE_MANIP, $lob);
-			$this->handleError($st, "insert / prepare/execute(" . $table . ")");
-			$r = $st->execute($field_values);
-			//$r = $this->db->extended->autoExecute($a_table, $field_values, MDB2_AUTOQUERY_INSERT, null, $types);
-			$this->handleError($r, "insert / prepare/execute(" . $table . ")");
-			$this->free($st);
-		} else    // if no lobs are used, take simple manipulateF
-		{
-			$q = "REPLACE INTO " . $table . " (" . implode($fields, ",") . ") VALUES (" . implode($placeholders, ",") . ")";
-			$r = $this->manipulateF($q, $types, $values);
-		}
+
+		$q = "REPLACE INTO " . $table . " (" . implode($fields, ",") . ") VALUES (" . implode($placeholders, ",") . ")";
+
+		$r = $this->manipulateF($q, $types, $values);
 
 		return $r;
 	}
@@ -1044,23 +1026,16 @@ class ilDBPdo implements ilDBInterface {
 	 * @param $a_attributes
 	 * @return bool
 	 */
-	public function modifyTableColumn($table, $a_column, $a_attributes)
-	{
+	public function modifyTableColumn($table, $a_column, $a_attributes) {
 		$def = $this->reverse->getTableFieldDefinition($table, $a_column);
 
 		throw new ilDatabaseException('not yet implemented ' . __METHOD__);
 
-
-
-
 		$this->handleError($def, "modifyTableColumn(" . $table . ")");
 
-		if (is_file("./Services/Database/classes/class.ilDBAnalyzer.php"))
-		{
+		if (is_file("./Services/Database/classes/class.ilDBAnalyzer.php")) {
 			include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
-		}
-		else
-		{
+		} else {
 			include_once("../Services/Database/classes/class.ilDBAnalyzer.php");
 		}
 		$analyzer = new ilDBAnalyzer();
@@ -1070,45 +1045,38 @@ class ilDBPdo implements ilDBInterface {
 		unset($def["mdb2type"]);
 
 		// check attributes
-		$type = ($a_attributes["type"] != "")
-			? $a_attributes["type"]
-			: $def["type"];
-		foreach ($def as $k => $v)
-		{
-			if ($k != "type" && !in_array($k, $this->allowed_attributes[$type]))
-			{
+		$type = ($a_attributes["type"] != "") ? $a_attributes["type"] : $def["type"];
+		foreach ($def as $k => $v) {
+			if ($k != "type" && !in_array($k, $this->allowed_attributes[$type])) {
 				unset($def[$k]);
 			}
 		}
 		$check_array = $def;
-		foreach ($a_attributes as $k => $v)
-		{
+		foreach ($a_attributes as $k => $v) {
 			$check_array[$k] = $v;
 		}
-		if (!$this->checkColumnDefinition($check_array, true))
-		{
-			$this->raisePearError("ilDB Error: modifyTableColumn(" . $table . ", " . $a_column . ")<br />" .
-			                      $this->error_str);
+		if (!$this->checkColumnDefinition($check_array, true)) {
+			$this->raisePearError("ilDB Error: modifyTableColumn(" . $table . ", " . $a_column . ")<br />" . $this->error_str);
 		}
 
 		// oracle workaround: do not set null, if null already given
-		if ($this->getDbType() == "oracle")
-		{
-			if ($def["notnull"] == true && ($a_attributes["notnull"] == true
-			                                || !isset($a_attributes["notnull"])))
-			{
+		if ($this->getDbType() == "oracle") {
+			if ($def["notnull"] == true
+			    && ($a_attributes["notnull"] == true
+			        || !isset($a_attributes["notnull"]))
+			) {
 				unset($def["notnull"]);
 				unset($a_attributes["notnull"]);
 			}
-			if ($def["notnull"] == false && ($a_attributes["notnull"] == false
-			                                 || !isset($a_attributes["notnull"])))
-			{
+			if ($def["notnull"] == false
+			    && ($a_attributes["notnull"] == false
+			        || !isset($a_attributes["notnull"]))
+			) {
 				unset($def["notnull"]);
 				unset($a_attributes["notnull"]);
 			}
 		}
-		foreach ($a_attributes as $a => $v)
-		{
+		foreach ($a_attributes as $a => $v) {
 			$def[$a] = $v;
 		}
 
@@ -1116,8 +1084,8 @@ class ilDBPdo implements ilDBInterface {
 
 		$changes = array(
 			"change" => array(
-				$a_column => $a_attributes
-			)
+				$a_column => $a_attributes,
+			),
 		);
 
 		$r = $manager->alterTable($table, $changes, false);
