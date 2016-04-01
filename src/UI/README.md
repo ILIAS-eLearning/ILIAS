@@ -3,6 +3,7 @@
 The ILIAS UI-Framework helps you to implement GUIs consistent with the guidelines
 of the Kitchen Sink.
 
+
 ## Talk about Kitchen Sink Concepts
 
 The ILIAS UI-Framework deals with the concepts also found in the Kitchen Sink.
@@ -21,7 +22,7 @@ In the ILIAS UI-Frameworks, GUIs are constructed by composing large chunks from
 smaller components. The available components and their possible compositions are
 described in the Kitchen Sink. The single components only have little  configuration,
 complex GUIs emerge from simple parts. You also won't need to modify existing
-components, just use them as is.
+components, just use them as provided.
 
 [Learn more](doku/composition.md)
 
@@ -31,19 +32,41 @@ The design of the ILIAS UI-Framework makes it possible to identify lots of
 guideline violations during the construction of a GUI and turn them into errors
 or exceptions in PHP. This gives you the freedom to care about your GUI instead
 of the guidelines it should conform to. You also can check your final GUI for
-Kitchen Sink Compliance using the procedures the frameworl provides for Unit
+Kitchen Sink Compliance using the procedures the framework provides for Unit
 Testing.
 
 [Learn more](doku/correctness.md)
 
-## Using Elements of the Framework
+
+## Using the Framework
+
+As a user of the ILIAS UI-Framework your entry point to the framework is provided
+via the dependency injection container `$DIC->UIFactory()`, which gives you
+access to the main factory implementing ILIAS\UI\Factory.
 
 ### How to Discover the Components in the Framework?
 
-* layout of public interface
+The factories provided by the framework are structured in the same way as the
+taxonomy given in the [KS-Layout](http://www.ilias.de/docu/goto_docu_wiki_wpage_3852_1357.html#ilPageTocA11).
+The main factory provides methods for every node or leaf in the `Class`-Layer
+of the Kitchen Sink Taxonomy. Using that method you get a sub factory if methods
+corresponds to a node in the factory. If the method corresponds to a leaf in the
+KS-Layout you get a PHP representation of the component you chose. Since the Jour
+Fixe decides upon entries in the Kitchen Sink, the factories in the framework
+only contain entries `Accepted` by the JF. Creating a component with the
+framework thus just means following the path from the `Class` to the leaf you
+want to use in your GUI.
+
+The entries of the Kitchen Sink are documented in this framework in a machine
+readable form. That means you can rely on the documentation given in the
+interfaces to the factories, other representations of the Kitchen Sink are
+derived from there. This also means you can chose to use the [documentation
+of the Kitchen Sink in ILIAS](http://www.ilias.de/docu/goto_docu_wiki_wpage_4009_1357.html)
+to check out the components.
+
+[Example](doku/examples.md#discovery)
 
 ### How to use the Components of the Framework?
-
 
 ## Implementing Elements in the Framework
 
@@ -103,7 +126,9 @@ Testing.
 * How to layout the tests/UI-folder?
 * Is there any need for an "(Non)Interactive"-Interface? Does this node in
   the KS-Taxonomy mean anything for the implementation?
+* Do we need a glossary?
 
 ## ToDos:
 
 * Create some more meaningful tests on counter and glyph.
+* Make the KS-Layout accessible via link. Maybe just pull it into this repo?
