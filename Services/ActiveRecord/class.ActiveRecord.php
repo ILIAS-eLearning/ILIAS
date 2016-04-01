@@ -25,14 +25,6 @@ abstract class ActiveRecord implements arStorageInterface {
 
 	const ACTIVE_RECORD_VERSION = '2.0.7';
 	/**
-	 * @var arConnectorDB
-	 */
-	//protected $arConnector;
-	/**
-	 * @var arFieldList
-	 */
-	//protected $arFieldList;
-	/**
 	 * @var bool
 	 */
 	protected $ar_safe_read = true;
@@ -47,7 +39,6 @@ abstract class ActiveRecord implements arStorageInterface {
 	 */
 	public function getArConnector() {
 		return arConnectorMap::get($this);
-		//return $this->arConnector;
 	}
 
 
@@ -56,7 +47,6 @@ abstract class ActiveRecord implements arStorageInterface {
 	 */
 	public function getArFieldList() {
 		return arFieldCache::get($this);
-		// return $this->arFieldList;
 	}
 
 
@@ -121,11 +111,10 @@ abstract class ActiveRecord implements arStorageInterface {
 		if ($connector == null) {
 			$connector = new arConnectorDB();
 		}
-		//$this->arConnector = $connector;
 		arConnectorMap::register($this, $connector);
 
 		$arFieldList = arFieldCache::get($this);
-		//$this->arFieldList = $arFieldList ;
+
 		$key = $arFieldList->getPrimaryFieldName();
 		$this->{$key} = $primary_key;
 		if ($primary_key !== 0 AND $primary_key !== null AND $primary_key !== false) {
