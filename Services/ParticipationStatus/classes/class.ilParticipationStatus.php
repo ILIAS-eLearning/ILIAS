@@ -308,7 +308,7 @@ class ilParticipationStatus
 	 * @param int $a_user_id
 	 * @param int $a_status
 	 */
-	public function setLPForStatus($a_user_id, $a_status)
+	protected function setLPForStatus($a_user_id, $a_status)
 	{
 		require_once 'Services/Tracking/classes/class.ilLPStatus.php';
 		
