@@ -280,7 +280,7 @@ class gevMyTrainingsAdmin {
 		}
 
 		$exe_query = implode(" UNION ", $new_query);
-die($exe_query);
+
 		$res = $this->gDb->query($exe_query);
 		$crs_ids = array();
 		while($rec = $this->gDb->fetchAssoc($res)) {
