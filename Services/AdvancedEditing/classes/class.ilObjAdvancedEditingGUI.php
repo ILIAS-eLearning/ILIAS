@@ -310,7 +310,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$tags->enableSelectAll(true);
 		$tags->enableSelectedFirst(true);
 		$tags->setOptions($alltags);
-		$tags->setValue($this->object->_getUsedHTMLTags($a_id));		
+		$tags->setValue(ilObjAdvancedEditing::_getUsedHTMLTags($a_id));		
 		$form->addItem($tags);
 		
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))

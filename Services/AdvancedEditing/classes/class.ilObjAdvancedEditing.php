@@ -95,7 +95,7 @@ class ilObjAdvancedEditing extends ilObject
 	* @param string $a_module Name of the module or object which uses the tags
 	* @return array HTML tags
 	*/
-	static function &_getUsedHTMLTags($a_module = "")
+	public static function _getUsedHTMLTags($a_module = "")
 	{
 		$usedtags = array();
 		include_once "./Services/Administration/classes/class.ilSetting.php";
@@ -188,10 +188,10 @@ class ilObjAdvancedEditing extends ilObject
 	* @param string $a_module Name of the module or object which uses the tags
 	* @return string Used HTML tags
 	*/
-	function &_getUsedHTMLTagsAsString($a_module = "")
+	public static function _getUsedHTMLTagsAsString($a_module = "")
 	{
 		$result = "";
-		$tags =& ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
+		$tags = ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
 		foreach ($tags as $tag)
 		{
 			$result .= "<$tag>";

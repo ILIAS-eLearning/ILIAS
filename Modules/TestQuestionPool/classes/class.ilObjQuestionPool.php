@@ -884,7 +884,7 @@ class ilObjQuestionPool extends ilObject
 	* @return integer The number of questions in the questionpool object
 	* @access public
 	*/
-	function _getQuestionCount($questionpool_id, $complete_questions_only = FALSE)
+	public static function _getQuestionCount($questionpool_id, $complete_questions_only = FALSE)
 	{
 		global $ilDB;
 		if ($complete_questions_only)

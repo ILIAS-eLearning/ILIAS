@@ -324,7 +324,7 @@ abstract class assQuestionGUI
 	/**
 	 * @deprecated
 	 */
-	function _getGUIClassNameForId($a_q_id)
+	public static function _getGUIClassNameForId($a_q_id)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
@@ -336,7 +336,7 @@ abstract class assQuestionGUI
 	/**
 	 * @deprecated
 	 */
-	function _getClassNameForQType($q_type)
+	public static function _getClassNameForQType($q_type)
 	{
 		return $q_type . "GUI";
 	}

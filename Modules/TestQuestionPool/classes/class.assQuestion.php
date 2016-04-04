@@ -3170,7 +3170,7 @@ abstract class assQuestion
 	* @return boolean The number how often the question is used in a random test
 	* @access public
 	*/
-	function _isUsedInRandomTest($question_id = "")
+	public static function _isUsedInRandomTest($question_id = "")
 	{
 		global $ilDB;
 		
