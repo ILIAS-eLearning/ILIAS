@@ -2276,12 +2276,14 @@ class gevCourseUtils {
 
 			$post_day = new ilDate($this->getEndDate()->increment(ilDate::DAY,1),IL_CAL_UNIX);
 			$count_days = 1;
+			$on_column = "I";
 
 			while(ilDate::_before($start_aux,$end_day) && !ilDate::_equals($start_aux,$end_day)) {
 				$columns[] = date($date_format,$start_aux->get(IL_CAL_UNIX));
 				$worksheet->setColumn(7 + $count_days, 7 + $count_days, 15);
 				$start_aux = new ilDate($start_aux->increment(ilDate::DAY,1),IL_CAL_UNIX);
 				$count_days++;
+				$on_column++;
 			}
 			$columns[] = $this->gLng->txt('gev_hotel_post_departure');	//post_departure
 			$worksheet->setColumn(7 + $count_days, 7 + $count_days, 20);
@@ -2379,7 +2381,8 @@ class gevCourseUtils {
 					$status = $user_utils->getAllIDHGBAADStatus();
 					sort($status, SORT_STRING);
 					$worksheet->write($row, 5, implode(", ", $status), $format_wrap);
-					$worksheet->write($row, 6, count($on_det) , $format_wrap);
+					$on_fmla =  '=COUNTIF(H'.($row+1).':'.$on_column.($row+1).';"X")';
+					$worksheet->write($row, 6, $on_fmla , $format_wrap);
 					$day_iterator = new ilDate($this->getStartDate()->increment(ilDate::DAY,-1),IL_CAL_UNIX);
 					$count_days = 1;
 					$on_day = array_shift($on_det);
