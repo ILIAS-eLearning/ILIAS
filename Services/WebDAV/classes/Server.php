@@ -1160,6 +1160,10 @@ class HTTP_WebDAV_Server
                     echo "The service does not support content MD5 checksum verification"; 
                     return;
 
+                case 'HTTP_CONTENT_LENGTH':
+                    // defined on IIS and has the same value as CONTENT_LENGTH
+                    break;
+
                 default: 
                     // any other unknown Content-* headers
                     $this->http_status("501 not implemented"); 
