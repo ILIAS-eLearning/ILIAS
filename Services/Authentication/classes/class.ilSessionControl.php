@@ -235,7 +235,7 @@ class ilSessionControl
 	{
 		global $ilSetting;
 		
-		$max_sessions = (int)$ilSetting->get('session_max_count', DEFAULT_MAX_COUNT);
+		$max_sessions = (int)$ilSetting->get('session_max_count', self::DEFAULT_MAX_COUNT);
 
 		if($max_sessions > 0)
 		{
