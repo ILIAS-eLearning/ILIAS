@@ -560,7 +560,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 			ilRpcClientFactory::factory('RPCAdministration')->refreshSettings(CLIENT_ID.'_'.$ilSetting->get('inst_id',0));
 		} 
 		catch (Exception $exception) {
-			ilLoggerFactory::getLogger('src')->error('Refresh of lucene server settings failed with message: ' . $e->getMessage());
+			ilLoggerFactory::getLogger('src')->error('Refresh of lucene server settings failed with message: ' . $exception->getMessage());
 			throw $exception;
 		}
 	}
