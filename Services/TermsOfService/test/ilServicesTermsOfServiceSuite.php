@@ -3,6 +3,7 @@
 
 require_once 'Services/Database/interfaces/interface.ilDBInterface.php';
 require_once 'Services/Database/interfaces/interface.ilDBStatement.php';
+require_once 'Services/Database/classes/class.ilDBConstants.php';
 require_once 'Services/Language/classes/class.ilLanguage.php';
 
 /**

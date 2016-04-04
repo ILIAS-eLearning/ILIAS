@@ -64,7 +64,7 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends PHPUnit_Framework_Tes
 	 */
 	public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet(ilTermsOfServiceTableDataProviderFactory $factory)
 	{
-		$db = $this->getMockBuilder('ilDB')->disableOriginalConstructor()->getMock();
+		$db = $this->getMockBuilder('ilDBInterface')->getMock();
 		$factory->setDatabaseAdapter($db);
 		$this->assertEquals($db, $factory->getDatabaseAdapter());
 	}
