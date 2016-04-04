@@ -1174,11 +1174,21 @@ class ilRbacAdmin
 	{
 		global $rbacreview;
 		
-		$GLOBALS['ilLog']->write($a_ref_id.' '. $a_role_id.' '.$a_role_parent.' '. $a_template_id.' '.$a_template_parent);
-
-			
 		if($rbacreview->isProtected($a_role_parent, $a_role_id))
 		{
+			// Assign object permissions
+			$new_ops = $rbacreview->getOperationsOfRole(
+				$a_role_id,
+				ilObject::_lookupType($a_ref_id, true),
+				$a_role_parent
+			);
+
+			// set new permissions for object
+			$this->grantPermission(
+				$a_role_id,
+				(array) $new_ops,
+				$a_ref_id
+			);
 			return;
 		}
 		if(!$a_template_id)
