@@ -194,13 +194,15 @@ class ilBookingScheduleGUI
 		$av->setTitle($lng->txt("obj_activation_list_gui"));
 		$form_gui->addItem($av);
 		
+		// #18221
+		$lng->loadLanguageModule('rep');
 		
-		$from = new ilDateTimeInputGUI($lng->txt("from"), "from");
+		$from = new ilDateTimeInputGUI($lng->txt("rep_activation_limited_start"), "from");
 		$from->enableDateActivation("", "from_tgl", $schedule ? is_object($schedule->getAvailabilityFrom()) : false);
 		$from->setShowTime(true);
 		$form_gui->addItem($from);
 		
-		$to = new ilDateTimeInputGUI($lng->txt("to"), "to");
+		$to = new ilDateTimeInputGUI($lng->txt("rep_activation_limited_end"), "to");
 		$to->enableDateActivation("", "to_tgl", $schedule ? is_object($schedule->getAvailabilityTo()) : false);
 		$to->setShowTime(true);
 		$form_gui->addItem($to);
