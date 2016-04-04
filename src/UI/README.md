@@ -4,7 +4,7 @@ The ILIAS UI-Framework helps you to implement GUIs consistent with the guideline
 of the Kitchen Sink.
 
 
-## Talk about Kitchen Sink Concepts
+## Use Kitchen Sink Concepts
 
 The ILIAS UI-Framework deals with the concepts found in the Kitchen Sink. In fact,
 this framework and the Kitchen Sink are heavily related. You won't need to think
@@ -18,7 +18,7 @@ not a templating framework.
 
 ## Compose GUIs from Simple Parts
 
-In the ILIAS UI-Frameworks, GUIs are constructed by composing large chunks from
+In the ILIAS UI-Frameworks, GUIs are described by composing large chunks from
 smaller components. The available components and their possible compositions are
 described in the Kitchen Sink. The single components only have little  configuration,
 complex GUIs emerge from simple parts. You also won't need to modify existing
@@ -60,13 +60,36 @@ want to use in your GUI.
 The entries of the Kitchen Sink are documented in this framework in a machine
 readable form. That means you can rely on the documentation given in the
 interfaces to the factories, other representations of the Kitchen Sink are
-derived from there. This also means you can chose to use the [documentation
-of the Kitchen Sink in ILIAS](http://www.ilias.de/docu/goto_docu_wiki_wpage_4009_1357.html)
+derived from there. This also means you can chose to use the [documentation of the
+Kitchen Sink in ILIAS](http://www.ilias.de/docu/goto_docu_wiki_wpage_4009_1357.html)
 to check out the components.
 
 [Example](doku/examples.md#discovery)
 
 ### How to Use the Components of the Framework?
+
+With the ILIAS UI-Framework you describe how your GUI is structured instead of
+instructing the system to construct it for you. The main principle for the description
+of GUIs is composition. There are two types of components, corresponding to the
+`Aggregation`-Layer in the [KS-Layout](http://www.ilias.de/docu/goto_docu_wiki_wpage_3852_1357.html#ilPageTocA11):
+
+* **Elements**: These are atomic components of the GUI, i.e. components that
+  are not made from smaller parts.
+* **Collections**: These bundle elements or other collections into larger chunks
+  of your GUI.
+
+You declare you components by providing a minimum set of properties and,
+if using collections, the bundled components. All compents in the Framework
+strive to only use a small amount of required properties and provide sensible
+defaults for other properties.
+
+Since the representation of the components are implemented as immutable objects,
+you can savely reuse components created elsewhere in your code, or pass your
+component to other code without being concerned if the other code modifies it.
+
+[Example 1](doku/examples.md#example_1)
+[Example 2](doku/examples.md#example_2)
+[Example 3](doku/examples.md#example_3)
 
 ## Implementing Elements in the Framework
 
