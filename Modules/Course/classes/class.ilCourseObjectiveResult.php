@@ -338,21 +338,21 @@ class ilCourseObjectiveResult
 		return true;
 	}
 
-	function _updateObjectiveResult($a_user_id,$a_active_id,$a_question_id)
+	public static function _updateObjectiveResult($a_user_id,$a_active_id,$a_question_id)
 	{
 		// find all objectives this question is assigned to
-		if(!$objectives = ilCourseObjectiveResult::_readAssignedObjectivesOfQuestion($a_question_id))
+		if(!$objectives = self::_readAssignedObjectivesOfQuestion($a_question_id))
 		{
 			// no objectives found. TODO user has passed a test. After that questions of that test are assigned to an objective.
 			// => User has not passed
 			return true;
 		}
-		ilCourseObjectiveResult::_updateObjectiveStatus($a_user_id,$objectives);
+		self::_updateObjectiveStatus($a_user_id,$objectives);
 		
 		return true;
 	}
 
-	function _readAssignedObjectivesOfQuestion($a_question_id)
+	public static function _readAssignedObjectivesOfQuestion($a_question_id)
 	{
 		global $ilDB;
 
@@ -372,7 +372,7 @@ class ilCourseObjectiveResult
 		{
 			return false;
 		}
-		$objectives['objectives'] = ilCourseObjectiveResult::_readAssignedObjectives($objectives['all_objectives']);
+		$objectives['objectives'] = self::_readAssignedObjectives($objectives['all_objectives']);
 		return $objectives ? $objectives : array();
 	}
 

@@ -2524,7 +2524,7 @@ function getAnswerFeedbackPoints()
 * @access public
 * @see $count_system
 */
-	function _getCountSystem($active_id)
+	public static function _getCountSystem($active_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT tst_tests.count_system FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
@@ -2626,7 +2626,7 @@ function getAnswerFeedbackPoints()
 * @access public
 * @see $score_cutting
 */
-	function _getScoreCutting($active_id)
+	public static function _getScoreCutting($active_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT tst_tests.score_cutting FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
@@ -7231,7 +7231,7 @@ function getAnswerFeedbackPoints()
 * @return mixed The ILIAS test object id or FALSE if the query was not successful
 * @access public
 */
-	function _getObjectIDFromActiveID($active_id)
+	public static function _getObjectIDFromActiveID($active_id)
 	{
 		global $ilDB;
 		$object_id = FALSE;
