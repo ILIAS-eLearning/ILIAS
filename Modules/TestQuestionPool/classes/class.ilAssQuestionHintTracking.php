@@ -375,7 +375,7 @@ class ilAssQuestionHintTracking
 	 * @global ilDBInterface $ilDB
 	 * @param array[integer] $activeIds 
 	 */
-	public function deleteRequestsByActiveIds($activeIds)
+	public static function deleteRequestsByActiveIds($activeIds)
 	{
 		global $ilDB;
 		
