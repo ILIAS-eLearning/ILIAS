@@ -1084,7 +1084,7 @@ abstract class assQuestion
 		}
 
 		// update test pass results
-		$this->_updateTestPassResults($active_id, $pass, $obligationsEnabled, $this->getProcessLocker());
+		self::_updateTestPassResults($active_id, $pass, $obligationsEnabled, $this->getProcessLocker());
 
 		// Update objective status
 		include_once 'Modules/Course/classes/class.ilCourseObjectiveResult.php';
@@ -1159,7 +1159,7 @@ abstract class assQuestion
 	}
 	
 	/** @TODO Move this to a proper place. */
-	function _updateTestResultCache($active_id, ilAssQuestionProcessLocker $processLocker = null)
+	public static function _updateTestResultCache($active_id, ilAssQuestionProcessLocker $processLocker = null)
 	{
 		global $ilDB;
 
@@ -1231,7 +1231,7 @@ abstract class assQuestion
 	}
 
 	/** @TODO Move this to a proper place. */
-	function _updateTestPassResults($active_id, $pass, $obligationsEnabled = false, ilAssQuestionProcessLocker $processLocker = null, $test_obj_id = null)
+	public static function _updateTestPassResults($active_id, $pass, $obligationsEnabled = false, ilAssQuestionProcessLocker $processLocker = null, $test_obj_id = null)
 	{
 		global $ilDB;
 
@@ -1363,7 +1363,7 @@ abstract class assQuestion
 
 			if( is_object($processLocker) )
 			{
-				$this->getProcessLocker()->releaseUserPassResultUpdateLock();
+				$processLocker->releaseUserPassResultUpdateLock();
 			}
 		}
 		
@@ -4796,7 +4796,7 @@ abstract class assQuestion
 		$this->removeExistingSolutions($activeId, $pass);
 		$this->removeResultRecord($activeId, $pass);
 
-		$this->_updateTestPassResults(
+		self::_updateTestPassResults(
 			$activeId, $pass, $this->areObligationsToBeConsidered(), $this->getProcessLocker(), $this->getTestId()
 		);
 	}

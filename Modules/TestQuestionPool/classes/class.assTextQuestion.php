@@ -403,7 +403,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 				array('float','integer','integer','integer'),
 				array($points, $active_id, $this->getId(), $pass)
 			);
-			$this->_updateTestPassResults($active_id, $pass);
+			self::_updateTestPassResults($active_id, $pass);
 			return TRUE;
 		}
 			else

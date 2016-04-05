@@ -379,7 +379,7 @@ class ASS_MarkSchema
 	 *
 	 * @return ASS_Mark|bool The mark object, if a matching mark was found, false otherwise
 	*/
-	public function _getMatchingMarkFromActiveId($active_id, $percentage)
+	public static function _getMatchingMarkFromActiveId($active_id, $percentage)
 	{
 		/** @var $ilDB ilDBInterface */
 		global $ilDB;

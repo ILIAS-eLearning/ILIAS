@@ -2582,7 +2582,7 @@ function getAnswerFeedbackPoints()
 * @access public
 * @see $pass_scoring
 */
-	function _getPassScoring($active_id)
+	public static function _getPassScoring($active_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT tst_tests.pass_scoring FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
@@ -2868,7 +2868,7 @@ function getAnswerFeedbackPoints()
 * @access public
 * @see $use_previous_answers
 */
-	function _getUsePreviousAnswers($active_id, $user_active_user_setting = false)
+	public static function _getUsePreviousAnswers($active_id, $user_active_user_setting = false)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -4308,7 +4308,7 @@ function getAnswerFeedbackPoints()
 	* @return integer The working time in seconds for the test participant
 	* @access public
 	*/
-	function _getWorkingTimeOfParticipantForPass($active_id, $pass)
+	public static function _getWorkingTimeOfParticipantForPass($active_id, $pass)
 	{
 		global $ilDB;
 
@@ -7969,7 +7969,7 @@ function getAnswerFeedbackPoints()
 	* @return integer The pass of the user for the given test
 	* @access public
 	*/
-		function _getMaxPass($active_id)
+		public static function _getMaxPass($active_id)
 		{
 			global $ilDB;
 			$result = $ilDB->queryF("SELECT MAX(pass) maxpass FROM tst_test_result WHERE active_fi = %s",
@@ -8050,7 +8050,7 @@ function getAnswerFeedbackPoints()
 * @return integer The result pass of the user for the given test
 * @access public
 */
-	function _getResultPass($active_id)
+	public static function _getResultPass($active_id)
 	{
 		$counted_pass = NULL;
 		if (ilObjTest::_getPassScoring($active_id) == SCORE_BEST_PASS)
