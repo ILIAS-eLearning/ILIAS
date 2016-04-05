@@ -9407,7 +9407,7 @@ function getAnswerFeedbackPoints()
 	* @return integer The value for the anonymity status (0 = personalized, 1 = anonymized)
 	* @access public
 	*/
-	function _lookupAnonymity($a_obj_id)
+	public static function _lookupAnonymity($a_obj_id)
 	{
 		global $ilDB;
 
