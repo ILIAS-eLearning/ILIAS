@@ -16,6 +16,7 @@ class ilDBConstants {
 	const TYPE_ORACLE = 'oracle';
 	const TYPE_PDO_MYSQL_INNODB = 'pdo-mysql-innodb';
 	const TYPE_PDO_MYSQL_MYISAM = 'pdo-mysql-myisam';
+	const TYPE_PDO_POSTGRE = 'pdo-postgre';
 	const TYPE_POSTGRES = 'postgres';
 	const TYPE_MYSQLI = 'mysqli';
 	const LOCK_WRITE = 1;
