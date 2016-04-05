@@ -501,7 +501,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		include_once "./Modules/Test/classes/tables/class.ilAssessmentFolderLogAdministrationTableGUI.php";
 		$table_gui = new ilAssessmentFolderLogAdministrationTableGUI($this, 'logAdmin', $a_write_access);
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		$available_tests =& ilObjTest::_getAvailableTests(true);
+		$available_tests = ilObjTest::_getAvailableTests(true);
 		$data = array();
 		foreach ($available_tests as $obj_id => $title)
 		{
@@ -602,7 +602,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			$form = $this->getLogSettingsForm();
 			$form->setValuesByArray(array(
 				'chb_assessment_logging' => ilObjAssessmentFolder::_enabledAssessmentLogging(),
-				'reporting_language'     => $this->object->_getLogLanguage()
+				'reporting_language'     => ilObjAssessmentFolder::_getLogLanguage()
 			));
 		}
 

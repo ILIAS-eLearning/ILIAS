@@ -154,7 +154,7 @@ class ilObjAssessmentFolder extends ilObject
 	/**
 	* retrieve the log language for assessment logging
 	*/
-	function _getLogLanguage()
+	public static function _getLogLanguage()
 	{
 		$setting = new ilSetting("assessment");
 

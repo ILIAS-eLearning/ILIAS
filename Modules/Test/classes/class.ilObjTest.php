@@ -6982,7 +6982,7 @@ function getAnswerFeedbackPoints()
 * @return array The available tests
 * @access public
 */
-	function &_getAvailableTests($use_object_id = FALSE)
+	public static function _getAvailableTests($use_object_id = FALSE)
 	{
 		global $ilUser;
 		global $ilDB;

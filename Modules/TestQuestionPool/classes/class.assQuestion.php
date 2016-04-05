@@ -2201,7 +2201,7 @@ abstract class assQuestion
 * @result string The question title
 * @access private
 */
-	function _getQuestionTitle($question_id) 
+	public static function _getQuestionTitle($question_id) 
 	{
 		global $ilDB;
 		
