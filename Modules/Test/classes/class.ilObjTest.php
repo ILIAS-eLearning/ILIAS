@@ -5361,7 +5361,7 @@ function getAnswerFeedbackPoints()
  * 
  * @deprecated use assQuestion::_instanciateQuestion($question_id) instead
 */
-  function &_instanciateQuestion($question_id)
+	public static function _instanciateQuestion($question_id)
 	{
 		if (strcmp($question_id, "") != 0)
 		{
@@ -10171,7 +10171,7 @@ function getAnswerFeedbackPoints()
 	/**
 	* Get test Object ID for question ID
 	*/
-	function _lookupTestObjIdForQuestionId($a_q_id)
+	public static function _lookupTestObjIdForQuestionId($a_q_id)
 	{
 		global $ilDB;
 		

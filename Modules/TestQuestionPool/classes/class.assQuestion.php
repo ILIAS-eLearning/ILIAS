@@ -774,7 +774,7 @@ abstract class assQuestion
 	* @param integer $question_id The database Id of the question
 	* @return array The database row containing the question data
 	*/
-	function &_getQuestionInfo($question_id)
+	public static function _getQuestionInfo($question_id)
 	{
 		global $ilDB;
 
