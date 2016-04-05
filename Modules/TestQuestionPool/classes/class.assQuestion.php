@@ -3439,7 +3439,7 @@ abstract class assQuestion
 	* @return boolean true on success, otherwise false
 	* @access public
 	*/
-	function _setReachedPoints($active_id, $question_id, $points, $maxpoints, $pass, $manualscoring, $obligationsEnabled)
+	public static function _setReachedPoints($active_id, $question_id, $points, $maxpoints, $pass, $manualscoring, $obligationsEnabled)
 	{
 		global $ilDB;
 		

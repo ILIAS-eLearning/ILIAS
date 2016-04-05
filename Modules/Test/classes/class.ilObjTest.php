@@ -917,7 +917,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	/**
 	* set import directory
 	*/
-	function _setImportDirectory($a_import_dir = null)
+	public static function _setImportDirectory($a_import_dir = null)
 	{
 		if (strlen($a_import_dir))
 		{
@@ -3926,7 +3926,7 @@ function getAnswerFeedbackPoints()
 * @return object The database row of the tst_active table
 * @access	public
 */
-	function _getActiveIdOfUser($user_id = "", $test_id = "") 
+	public static function _getActiveIdOfUser($user_id = "", $test_id = "") 
 	{
 		global $ilDB;
 		global $ilUser;
@@ -7208,7 +7208,7 @@ function getAnswerFeedbackPoints()
 * @return mixed The ILIAS test object id or FALSE if the query was not successful
 * @access public
 */
-	function _getObjectIDFromTestID($test_id)
+	public static function _getObjectIDFromTestID($test_id)
 	{
 		global $ilDB;
 		$object_id = FALSE;
@@ -7254,7 +7254,7 @@ function getAnswerFeedbackPoints()
 * @return mixed The ILIAS test id or FALSE if the query was not successful
 * @access public
 */
-	function _getTestIDFromObjectID($object_id)
+	public static function _getTestIDFromObjectID($object_id)
 	{
 		global $ilDB;
 		$test_id = FALSE;
@@ -7713,7 +7713,7 @@ function getAnswerFeedbackPoints()
 	 *
 	 * @return array of int containing all question ids which have been set solved for the given user and test
 	 */
-	function _getSolvedQuestions($active_id, $question_fi = null)
+	public static function _getSolvedQuestions($active_id, $question_fi = null)
 	{
 		global $ilDB;
 		if (is_numeric($question_fi))
