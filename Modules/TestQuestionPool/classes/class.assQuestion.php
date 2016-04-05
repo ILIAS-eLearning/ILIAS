@@ -751,7 +751,7 @@ abstract class assQuestion
 * @param integer $question_id The database Id of the question
 * @see $points
 */
-  function _getMaximumPoints($question_id) 
+	public static function _getMaximumPoints($question_id)
 	{
 		global $ilDB;
 
@@ -895,7 +895,7 @@ abstract class assQuestion
 	* @param integer $test_id The database Id of the test containing the question
 	* @param integer $question_id The database Id of the question
 	*/
-	function _getReachedPoints($active_id, $question_id, $pass = NULL)
+	public static function _getReachedPoints($active_id, $question_id, $pass = NULL)
 	{
 		global $ilDB;
 
@@ -927,7 +927,7 @@ abstract class assQuestion
 	*/
 	function getReachedPoints($active_id, $pass = NULL)
 	{
-		return round($this->_getReachedPoints($active_id, $this->getId(), $pass), 2);
+		return round(self::_getReachedPoints($active_id, $this->getId(), $pass), 2);
 	}
 	
 	/**
