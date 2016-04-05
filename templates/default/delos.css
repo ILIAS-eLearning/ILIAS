@@ -7885,7 +7885,7 @@ a.ilTreeView:focus {
   background-position: -56px -19px;
 }
 .jstree a.jstree-loading .jstree-icon {
-  background: url(throbber.gif) no-repeat center !important;
+  background: url("images/throbber.gif") no-repeat center !important;
 }
 .jstree a.jstree-loading .loader {
   display: block;
