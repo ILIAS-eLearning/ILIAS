@@ -498,7 +498,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 * @return mixed The ILIAS test id or FALSE if the query was not successful
 * @access public
 */
-	function _getTestIDFromObjectID($object_id)
+	public static function _getTestIDFromObjectID($object_id)
 	{
 		global $ilDB;
 		$test_id = FALSE;
@@ -793,7 +793,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	 * @param	int		active ID of the participant
 	 * @return	int		user id
 	 */
-	function _getParticipantId($active_id)
+	public static function _getParticipantId($active_id)
 	{
 		global $lng, $ilDB;
 

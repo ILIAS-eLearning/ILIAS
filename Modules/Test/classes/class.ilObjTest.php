@@ -4921,7 +4921,7 @@ function getAnswerFeedbackPoints()
 		return $data;
 	}
 	
-	function _getQuestionCountAndPointsForPassOfParticipant($active_id, $pass)
+	public static function _getQuestionCountAndPointsForPassOfParticipant($active_id, $pass)
 	{
 		global $ilDB;
 		
