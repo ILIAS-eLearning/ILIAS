@@ -199,7 +199,7 @@ class ilObjAssessmentFolder extends ilObject
 	/**
 	* Retrieve the manual scoring settings as type strings
 	*/
-	function _getManualScoringTypes()
+	public static function _getManualScoringTypes()
 	{
 		global $ilDB;
 		
