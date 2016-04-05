@@ -3676,7 +3676,7 @@ abstract class assQuestion
 		return $instances;
 	}
 
-	function _needsManualScoring($question_id)
+	public static function _needsManualScoring($question_id)
 	{
 		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		$scoring = ilObjAssessmentFolder::_getManualScoringTypes();
