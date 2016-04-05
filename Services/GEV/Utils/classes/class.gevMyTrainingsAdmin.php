@@ -225,7 +225,7 @@ class gevMyTrainingsAdmin {
 				$order_sql = "";
 			}
 			
-			$crss_amd = gevAMDUtils::getInstance()->getTable($crss_ids, $crs_amd);
+			$crss_amd = gevAMDUtils::getInstance()->getTable($crss_ids, $crs_amd, array(), array(), $order_sql);
 
 			$ret = array();
 
