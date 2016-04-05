@@ -432,7 +432,7 @@ class ilFormat
 	* @see		Format::fmtDateTime
 	* @deprecated since 3.10 - 05.03.2009
 	*/
-	function formatDate($a_date,$a_mode = "datetime", $a_omit_seconds = false, $a_relative = TRUE)
+	public static function formatDate($a_date,$a_mode = "datetime", $a_omit_seconds = false, $a_relative = TRUE)
 	{
 		global $lng;
 		
