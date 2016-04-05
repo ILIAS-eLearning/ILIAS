@@ -622,7 +622,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	 * @param		int		test id
 	 * @return		int		object id
 	 */
-	function _lookupObjIdForTestId($a_test_id)
+	public static function _lookupObjIdForTestId($a_test_id)
 	{
 		global $ilDB;
 
