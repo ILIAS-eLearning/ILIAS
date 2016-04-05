@@ -41,16 +41,16 @@ following properties:
       other property are the same.
   
 
-This imposes the following rules:
+This imposes the following:
 
-* for the proposal of new KS-Entries:
+* on the proposal of new KS-Entries:
     - will be coupled to the UI-Framework
     - will need some knowledge on git/GitHub and PHP (not too much)
 
-* for implementors of GUI-elements:
+* on implementors of GUI-elements:
     -
 
-* for the structure and taxonomy of the KS:
+* on the structure and taxonomy of the KS:
   - every element that could have a visible representation on the screen must
     be represented as a leaf in the taxonomy given by the KS-layout
   - every node in the taxonomy given by the KS-layout can not have a visible
