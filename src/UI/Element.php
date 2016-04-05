@@ -1,17 +1,14 @@
 <?php
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI;
 
 /**
- * Interface to a general element in the UI.
+ * An Element is an atomic UI-component, i.e. a component that can't be
+ * destructured into other components.
+ *
+ * @author	Richard Klees <richard.klees@concepts-and-training.de>
  */
-interface Element {
-    /**
-     * Render element to an HTML string.
-     *
-     * @return  string
-     */
-    public function to_html_string();
+interface Element extends Component {
 }

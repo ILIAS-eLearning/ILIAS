@@ -14,7 +14,7 @@ CSS-classes you need to use. You will be able to talk to other people (like user
 or designers) using the same concepts and problem space as they do. This is also
 not a templating framework.
 
-[Learn more](doku/talk_about_ks_concepts.md)
+[Learn more](doku/use_ks_concepts.md)
 
 ## Compose GUIs from Simple Parts
 
@@ -93,43 +93,38 @@ component to other code without being concerned if the other code modifies it.
 
 ## Implementing Elements in the Framework
 
+As an implementor of components in the ILIAS UI-Framework you need to stick to
+some rules, to make sure the framework behaves in a uniform and predictable way
+accross all components. Since a lot of code will rely on the framework and the
+Kitchen Sink is coupled to the framework, there also are processes to introduce
+new components in the framework and modify existing components.
+
 ### How to Introduce a New Component?
 
-* process
-* requirements
+New components are introduced in the UI-Framework and the Kitchen Sink in
+parallel to maintain the correspondence between the KS and the UI-Framework.
+
+An entry in the Kitchen Sink passes through three states:
+
+* **To be revised**: The entry is still being worked on.
+* **Proposed**: The entry has been revisited and is proposed to the JF, but has
+  not yet been decided upon.
+* **Accepted**: The entry has been accepted y trhe JF.
+
+These states are represented by using functionality of git and GitHub. After
+acceptance, the new entry is part of the Kitchen Sink as well as part of the
+source code in the trunk.
+
+[Learn how to propose a Kitchen Sink Entry](doku/processes.md#introduce_ks_entry)
+
+### How to Model a Kitchen Sink Component?
 
 ### How to Change an Existing Component?
 
-### How to Model a Kitchen Sink Component?
 
 * example for implementation
 * layout of Internal and test
 
-
-
-# UI-Framework for ILIAS
-
-## What's this?
-
-* goal
-* main principles
-
-## For Developers using this Framework
-
-* How to discover KS-components in this framework?
-* Examples for usage.
-* layout of public interface
-
-## For Developers implementing Components for the Framework
-
-* How to introduce a component?
-	* Process
-	* Requirements
-* How to change an existing component?
-* How to model KS-components in this framework.
-* Example for implementation.
-* layout of Internal and test
-* explain division public interfaces/private implementation
 
 ## To be discussed
 
