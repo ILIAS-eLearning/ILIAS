@@ -158,7 +158,7 @@ class ilDBPdo implements ilDBInterface {
 
 			return $next_id;
 		} else {
-			return $this->pdo->lastInsertId($table_name) + 1;
+			return $this->pdo->lastInsertId("`".$table_name."`") + 1;
 		}
 	}
 
