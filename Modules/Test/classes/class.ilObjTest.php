@@ -1977,7 +1977,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		if (is_null($pass))
 		{
-			$pass = $this->_getPass($active_id);
+			$pass = self::_getPass($active_id);
 		}
 		$result = $ilDB->queryF("SELECT tst_test_rnd_qst.* FROM tst_test_rnd_qst, qpl_questions WHERE tst_test_rnd_qst.active_fi = %s AND qpl_questions.question_id = tst_test_rnd_qst.question_fi AND tst_test_rnd_qst.pass = %s ORDER BY sequence",
 			array('integer', 'integer'),
@@ -3849,7 +3849,7 @@ function getAnswerFeedbackPoints()
 			if (count($this->questions) == 0) return $result_array;
 			if (is_null($pass))
 			{
-				$pass = $this->_getPass($active_id);
+				$pass = self::_getPass($active_id);
 			}
 			$result = $ilDB->queryF("SELECT qpl_questions.* FROM qpl_questions, tst_test_rnd_qst WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id AND tst_test_rnd_qst.active_fi = %s AND tst_test_rnd_qst.pass = %s AND " . $ilDB->in('qpl_questions.question_id', $this->questions, false, 'integer'),
 				array('integer','integer'),
@@ -7942,7 +7942,7 @@ function getAnswerFeedbackPoints()
 * @return integer The pass of the user for the given test
 * @access public
 */
-	function _getPass($active_id)
+	public static function _getPass($active_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT tries FROM tst_active WHERE active_id = %s",
@@ -8203,7 +8203,7 @@ function getAnswerFeedbackPoints()
 				{
 					if ($this->isMaxProcessingTimeReached($starting_time, $active_id))
 					{
-						if ($allowPassIncrease && $this->getResetProcessingTime() && (($this->getNrOfTries() == 0) || ($this->getNrOfTries() > ($this->_getPass($active_id)+1))))
+						if ($allowPassIncrease && $this->getResetProcessingTime() && (($this->getNrOfTries() == 0) || ($this->getNrOfTries() > (self::_getPass($active_id)+1))))
 						{
 							// a test pass was quitted because the maximum processing time was reached, but the time
 							// will be resetted for future passes, so if there are more passes allowed, the participant may
@@ -8326,7 +8326,7 @@ function getAnswerFeedbackPoints()
 		if ($active_id < 1) return FALSE;
 		if($pass === null)
 		{
-		$pass = ($this->getResetProcessingTime()) ? $this->_getPass($active_id) : 0;
+		$pass = ($this->getResetProcessingTime()) ? self::_getPass($active_id) : 0;
 		}
 		$result = $ilDB->queryF("SELECT tst_times.started FROM tst_times WHERE tst_times.active_fi = %s AND tst_times.pass = %s ORDER BY tst_times.started",
 			array('integer', 'integer'),
@@ -9520,7 +9520,7 @@ function getAnswerFeedbackPoints()
 		{
 			return $this->lng->txt("tst_start_test");
 		}
-		$active_pass = $this->_getPass($active_id);
+		$active_pass = self::_getPass($active_id);
 		$res = $this->getNrOfResultsForPass($active_id, $active_pass);
 		if ($res == 0)
 		{
