@@ -2604,7 +2604,7 @@ function getAnswerFeedbackPoints()
 * @access public
 * @see $mc_scoring
 */
-	function _getMCScoring($active_id)
+	public static function _getMCScoring($active_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT tst_tests.mc_scoring FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
