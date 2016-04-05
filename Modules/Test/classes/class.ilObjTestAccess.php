@@ -734,7 +734,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 	* @return string The output name of the user
 	* @access public
 	*/
-	function _getParticipantData($active_id)
+	public static function _getParticipantData($active_id)
 	{
 		global $lng, $ilDB;
 
