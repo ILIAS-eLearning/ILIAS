@@ -567,7 +567,7 @@ class ilTestExport
 				{
 					foreach($userdata->getQuestions($pass) as $question)
 					{
-						$objQuestion =& $this->test_obj->_instanciateQuestion($question["aid"]);
+						$objQuestion = ilObjTest::_instanciateQuestion($question["aid"]);
 						if(is_object($objQuestion) && strcmp($objQuestion->getQuestionType(), 'assSingleChoice') == 0)
 						{
 							$solution = $objQuestion->getSolutionValues($active_id, $pass);
@@ -658,7 +658,7 @@ class ilTestExport
 					{
 						foreach($userdata->getQuestions($pass) as $question)
 						{
-							$objQuestion = $this->test_obj->_instanciateQuestion($question["aid"]);
+							$objQuestion = ilObjTest::_instanciateQuestion($question["aid"]);
 							if(is_object($objQuestion) && strcmp($objQuestion->getQuestionType(), 'assSingleChoice') == 0)
 							{
 								$solution = $objQuestion->getSolutionValues($active_id, $pass);

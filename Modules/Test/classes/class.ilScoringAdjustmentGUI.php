@@ -276,7 +276,7 @@ class ilScoringAdjustmentGUI
 		
 		foreach ($active_ids as $active_id)
 		{
-			$passes[] = $this->object->_getPass($active_id);
+			$passes[] = ilObjTest::_getPass($active_id);
 			foreach ($passes as $key => $pass)
 			{
 				for ($i = 0; $i <= $pass; $i++)

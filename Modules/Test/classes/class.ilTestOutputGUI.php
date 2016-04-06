@@ -572,7 +572,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$active_id = $this->testSession->getActiveId();
 				if ($this->object->isRandomTest())
 				{
-					$pass = $this->object->_getPass($active_id);
+					$pass = ilObjTest::_getPass($active_id);
 				}
 				$this->saveResult = $questionOBJ->persistWorkingState(
 						$active_id, $pass, $this->object->areObligationsEnabled(), $authorized

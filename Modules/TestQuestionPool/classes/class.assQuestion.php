@@ -751,7 +751,7 @@ abstract class assQuestion
 * @param integer $question_id The database Id of the question
 * @see $points
 */
-  function _getMaximumPoints($question_id) 
+	public static function _getMaximumPoints($question_id)
 	{
 		global $ilDB;
 
@@ -774,7 +774,7 @@ abstract class assQuestion
 	* @param integer $question_id The database Id of the question
 	* @return array The database row containing the question data
 	*/
-	function &_getQuestionInfo($question_id)
+	public static function _getQuestionInfo($question_id)
 	{
 		global $ilDB;
 
@@ -895,7 +895,7 @@ abstract class assQuestion
 	* @param integer $test_id The database Id of the test containing the question
 	* @param integer $question_id The database Id of the question
 	*/
-	function _getReachedPoints($active_id, $question_id, $pass = NULL)
+	public static function _getReachedPoints($active_id, $question_id, $pass = NULL)
 	{
 		global $ilDB;
 
@@ -927,7 +927,7 @@ abstract class assQuestion
 	*/
 	function getReachedPoints($active_id, $pass = NULL)
 	{
-		return round($this->_getReachedPoints($active_id, $this->getId(), $pass), 2);
+		return round(self::_getReachedPoints($active_id, $this->getId(), $pass), 2);
 	}
 	
 	/**
@@ -1084,7 +1084,7 @@ abstract class assQuestion
 		}
 
 		// update test pass results
-		$this->_updateTestPassResults($active_id, $pass, $obligationsEnabled, $this->getProcessLocker());
+		self::_updateTestPassResults($active_id, $pass, $obligationsEnabled, $this->getProcessLocker());
 
 		// Update objective status
 		include_once 'Modules/Course/classes/class.ilCourseObjectiveResult.php';
@@ -1159,7 +1159,7 @@ abstract class assQuestion
 	}
 	
 	/** @TODO Move this to a proper place. */
-	function _updateTestResultCache($active_id, ilAssQuestionProcessLocker $processLocker = null)
+	public static function _updateTestResultCache($active_id, ilAssQuestionProcessLocker $processLocker = null)
 	{
 		global $ilDB;
 
@@ -1231,7 +1231,7 @@ abstract class assQuestion
 	}
 
 	/** @TODO Move this to a proper place. */
-	function _updateTestPassResults($active_id, $pass, $obligationsEnabled = false, ilAssQuestionProcessLocker $processLocker = null, $test_obj_id = null)
+	public static function _updateTestPassResults($active_id, $pass, $obligationsEnabled = false, ilAssQuestionProcessLocker $processLocker = null, $test_obj_id = null)
 	{
 		global $ilDB;
 
@@ -1363,7 +1363,7 @@ abstract class assQuestion
 
 			if( is_object($processLocker) )
 			{
-				$this->getProcessLocker()->releaseUserPassResultUpdateLock();
+				$processLocker->releaseUserPassResultUpdateLock();
 			}
 		}
 		
@@ -2201,7 +2201,7 @@ abstract class assQuestion
 * @result string The question title
 * @access private
 */
-	function _getQuestionTitle($question_id) 
+	public static function _getQuestionTitle($question_id) 
 	{
 		global $ilDB;
 		
@@ -3439,7 +3439,7 @@ abstract class assQuestion
 	* @return boolean true on success, otherwise false
 	* @access public
 	*/
-	function _setReachedPoints($active_id, $question_id, $points, $maxpoints, $pass, $manualscoring, $obligationsEnabled)
+	public static function _setReachedPoints($active_id, $question_id, $points, $maxpoints, $pass, $manualscoring, $obligationsEnabled)
 	{
 		global $ilDB;
 		
@@ -3676,7 +3676,7 @@ abstract class assQuestion
 		return $instances;
 	}
 
-	function _needsManualScoring($question_id)
+	public static function _needsManualScoring($question_id)
 	{
 		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		$scoring = ilObjAssessmentFolder::_getManualScoringTypes();
@@ -4796,7 +4796,7 @@ abstract class assQuestion
 		$this->removeExistingSolutions($activeId, $pass);
 		$this->removeResultRecord($activeId, $pass);
 
-		$this->_updateTestPassResults(
+		self::_updateTestPassResults(
 			$activeId, $pass, $this->areObligationsToBeConsidered(), $this->getProcessLocker(), $this->getTestId()
 		);
 	}

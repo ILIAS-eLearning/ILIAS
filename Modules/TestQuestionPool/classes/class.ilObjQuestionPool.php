@@ -1487,16 +1487,20 @@ class ilObjQuestionPool extends ilObject
 		return $types;
 	}
 
-        public static function getQuestionTypeByTypeId($type_id) {
-            global $ilDB;
-            $query = "SELECT type_tag FROM qpl_qst_type WHERE question_type_id = %s";
-            $types = array('integer');
-            $values = array($type_id);
-            $result = $ilDB->queryF($query, $types, $values);
-            if ($row = $ilDB->fetchAssoc($result)) {
-                return $row['type_tag'];
-            }
-        }
+	public static function getQuestionTypeByTypeId($type_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT type_tag FROM qpl_qst_type WHERE question_type_id = %s";
+		$types = array('integer');
+		$values = array($type_id);
+		$result = $ilDB->queryF($query, $types, $values);
+
+		if($row = $ilDB->fetchAssoc($result))
+		{
+			return $row['type_tag'];
+		}
+	}
 
 	public static function getQuestionTypeTranslations()
 	{

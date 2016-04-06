@@ -154,7 +154,7 @@ class ilObjAssessmentFolder extends ilObject
 	/**
 	* retrieve the log language for assessment logging
 	*/
-	function _getLogLanguage()
+	public static function _getLogLanguage()
 	{
 		$setting = new ilSetting("assessment");
 
@@ -199,7 +199,7 @@ class ilObjAssessmentFolder extends ilObject
 	/**
 	* Retrieve the manual scoring settings as type strings
 	*/
-	function _getManualScoringTypes()
+	public static function _getManualScoringTypes()
 	{
 		global $ilDB;
 		
@@ -280,7 +280,7 @@ class ilObjAssessmentFolder extends ilObject
 	* @param integer $original_id The database id of the original of a modified question (optional)
 	* @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
 	*/
-	function _addLog($user_id, $object_id, $logtext, $question_id = "", $original_id = "", $test_only = FALSE, $test_ref_id = NULL)
+	public static function _addLog($user_id, $object_id, $logtext, $question_id = "", $original_id = "", $test_only = FALSE, $test_ref_id = NULL)
 	{
 		global $ilUser, $ilDB;
 		if (strlen($question_id) == 0) $question_id = NULL;
@@ -493,7 +493,7 @@ class ilObjAssessmentFolder extends ilObject
 				array('integer'),
 				array($object_id)
 			);
-			$this->_addLog($ilUser->getId(), $object_id, $this->lng->txt("assessment_log_deleted"));
+			self::_addLog($ilUser->getId(), $object_id, $this->lng->txt("assessment_log_deleted"));
 		}
 	}
 	

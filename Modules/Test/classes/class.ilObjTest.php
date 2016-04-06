@@ -917,7 +917,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	/**
 	* set import directory
 	*/
-	function _setImportDirectory($a_import_dir = null)
+	public static function _setImportDirectory($a_import_dir = null)
 	{
 		if (strlen($a_import_dir))
 		{
@@ -1977,7 +1977,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		if (is_null($pass))
 		{
-			$pass = $this->_getPass($active_id);
+			$pass = self::_getPass($active_id);
 		}
 		$result = $ilDB->queryF("SELECT tst_test_rnd_qst.* FROM tst_test_rnd_qst, qpl_questions WHERE tst_test_rnd_qst.active_fi = %s AND qpl_questions.question_id = tst_test_rnd_qst.question_fi AND tst_test_rnd_qst.pass = %s ORDER BY sequence",
 			array('integer', 'integer'),
@@ -2524,7 +2524,7 @@ function getAnswerFeedbackPoints()
 * @access public
 * @see $count_system
 */
-	function _getCountSystem($active_id)
+	public static function _getCountSystem($active_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT tst_tests.count_system FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
@@ -2582,7 +2582,7 @@ function getAnswerFeedbackPoints()
 * @access public
 * @see $pass_scoring
 */
-	function _getPassScoring($active_id)
+	public static function _getPassScoring($active_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT tst_tests.pass_scoring FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
@@ -2604,7 +2604,7 @@ function getAnswerFeedbackPoints()
 * @access public
 * @see $mc_scoring
 */
-	function _getMCScoring($active_id)
+	public static function _getMCScoring($active_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT tst_tests.mc_scoring FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
@@ -2626,7 +2626,7 @@ function getAnswerFeedbackPoints()
 * @access public
 * @see $score_cutting
 */
-	function _getScoreCutting($active_id)
+	public static function _getScoreCutting($active_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT tst_tests.score_cutting FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_tests.test_id = tst_active.test_fi",
@@ -2868,7 +2868,7 @@ function getAnswerFeedbackPoints()
 * @access public
 * @see $use_previous_answers
 */
-	function _getUsePreviousAnswers($active_id, $user_active_user_setting = false)
+	public static function _getUsePreviousAnswers($active_id, $user_active_user_setting = false)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -3849,7 +3849,7 @@ function getAnswerFeedbackPoints()
 			if (count($this->questions) == 0) return $result_array;
 			if (is_null($pass))
 			{
-				$pass = $this->_getPass($active_id);
+				$pass = self::_getPass($active_id);
 			}
 			$result = $ilDB->queryF("SELECT qpl_questions.* FROM qpl_questions, tst_test_rnd_qst WHERE tst_test_rnd_qst.question_fi = qpl_questions.question_id AND tst_test_rnd_qst.active_fi = %s AND tst_test_rnd_qst.pass = %s AND " . $ilDB->in('qpl_questions.question_id', $this->questions, false, 'integer'),
 				array('integer','integer'),
@@ -3926,7 +3926,7 @@ function getAnswerFeedbackPoints()
 * @return object The database row of the tst_active table
 * @access	public
 */
-	function _getActiveIdOfUser($user_id = "", $test_id = "") 
+	public static function _getActiveIdOfUser($user_id = "", $test_id = "") 
 	{
 		global $ilDB;
 		global $ilUser;
@@ -4308,7 +4308,7 @@ function getAnswerFeedbackPoints()
 	* @return integer The working time in seconds for the test participant
 	* @access public
 	*/
-	function _getWorkingTimeOfParticipantForPass($active_id, $pass)
+	public static function _getWorkingTimeOfParticipantForPass($active_id, $pass)
 	{
 		global $ilDB;
 
@@ -4921,7 +4921,7 @@ function getAnswerFeedbackPoints()
 		return $data;
 	}
 	
-	function _getQuestionCountAndPointsForPassOfParticipant($active_id, $pass)
+	public static function _getQuestionCountAndPointsForPassOfParticipant($active_id, $pass)
 	{
 		global $ilDB;
 		
@@ -5361,7 +5361,7 @@ function getAnswerFeedbackPoints()
  * 
  * @deprecated use assQuestion::_instanciateQuestion($question_id) instead
 */
-  function &_instanciateQuestion($question_id)
+	public static function _instanciateQuestion($question_id)
 	{
 		if (strcmp($question_id, "") != 0)
 		{
@@ -6982,7 +6982,7 @@ function getAnswerFeedbackPoints()
 * @return array The available tests
 * @access public
 */
-	function &_getAvailableTests($use_object_id = FALSE)
+	public static function _getAvailableTests($use_object_id = FALSE)
 	{
 		global $ilUser;
 		global $ilDB;
@@ -7208,7 +7208,7 @@ function getAnswerFeedbackPoints()
 * @return mixed The ILIAS test object id or FALSE if the query was not successful
 * @access public
 */
-	function _getObjectIDFromTestID($test_id)
+	public static function _getObjectIDFromTestID($test_id)
 	{
 		global $ilDB;
 		$object_id = FALSE;
@@ -7231,7 +7231,7 @@ function getAnswerFeedbackPoints()
 * @return mixed The ILIAS test object id or FALSE if the query was not successful
 * @access public
 */
-	function _getObjectIDFromActiveID($active_id)
+	public static function _getObjectIDFromActiveID($active_id)
 	{
 		global $ilDB;
 		$object_id = FALSE;
@@ -7254,7 +7254,7 @@ function getAnswerFeedbackPoints()
 * @return mixed The ILIAS test id or FALSE if the query was not successful
 * @access public
 */
-	function _getTestIDFromObjectID($object_id)
+	public static function _getTestIDFromObjectID($object_id)
 	{
 		global $ilDB;
 		$test_id = FALSE;
@@ -7713,7 +7713,7 @@ function getAnswerFeedbackPoints()
 	 *
 	 * @return array of int containing all question ids which have been set solved for the given user and test
 	 */
-	function _getSolvedQuestions($active_id, $question_fi = null)
+	public static function _getSolvedQuestions($active_id, $question_fi = null)
 	{
 		global $ilDB;
 		if (is_numeric($question_fi))
@@ -7942,7 +7942,7 @@ function getAnswerFeedbackPoints()
 * @return integer The pass of the user for the given test
 * @access public
 */
-	function _getPass($active_id)
+	public static function _getPass($active_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT tries FROM tst_active WHERE active_id = %s",
@@ -7969,7 +7969,7 @@ function getAnswerFeedbackPoints()
 	* @return integer The pass of the user for the given test
 	* @access public
 	*/
-		function _getMaxPass($active_id)
+		public static function _getMaxPass($active_id)
 		{
 			global $ilDB;
 			$result = $ilDB->queryF("SELECT MAX(pass) maxpass FROM tst_test_result WHERE active_fi = %s",
@@ -8050,7 +8050,7 @@ function getAnswerFeedbackPoints()
 * @return integer The result pass of the user for the given test
 * @access public
 */
-	function _getResultPass($active_id)
+	public static function _getResultPass($active_id)
 	{
 		$counted_pass = NULL;
 		if (ilObjTest::_getPassScoring($active_id) == SCORE_BEST_PASS)
@@ -8203,7 +8203,7 @@ function getAnswerFeedbackPoints()
 				{
 					if ($this->isMaxProcessingTimeReached($starting_time, $active_id))
 					{
-						if ($allowPassIncrease && $this->getResetProcessingTime() && (($this->getNrOfTries() == 0) || ($this->getNrOfTries() > ($this->_getPass($active_id)+1))))
+						if ($allowPassIncrease && $this->getResetProcessingTime() && (($this->getNrOfTries() == 0) || ($this->getNrOfTries() > (self::_getPass($active_id)+1))))
 						{
 							// a test pass was quitted because the maximum processing time was reached, but the time
 							// will be resetted for future passes, so if there are more passes allowed, the participant may
@@ -8326,7 +8326,7 @@ function getAnswerFeedbackPoints()
 		if ($active_id < 1) return FALSE;
 		if($pass === null)
 		{
-		$pass = ($this->getResetProcessingTime()) ? $this->_getPass($active_id) : 0;
+		$pass = ($this->getResetProcessingTime()) ? self::_getPass($active_id) : 0;
 		}
 		$result = $ilDB->queryF("SELECT tst_times.started FROM tst_times WHERE tst_times.active_fi = %s AND tst_times.pass = %s ORDER BY tst_times.started",
 			array('integer', 'integer'),
@@ -9407,7 +9407,7 @@ function getAnswerFeedbackPoints()
 	* @return integer The value for the anonymity status (0 = personalized, 1 = anonymized)
 	* @access public
 	*/
-	function _lookupAnonymity($a_obj_id)
+	public static function _lookupAnonymity($a_obj_id)
 	{
 		global $ilDB;
 
@@ -9520,7 +9520,7 @@ function getAnswerFeedbackPoints()
 		{
 			return $this->lng->txt("tst_start_test");
 		}
-		$active_pass = $this->_getPass($active_id);
+		$active_pass = self::_getPass($active_id);
 		$res = $this->getNrOfResultsForPass($active_id, $active_pass);
 		if ($res == 0)
 		{
@@ -10171,7 +10171,7 @@ function getAnswerFeedbackPoints()
 	/**
 	* Get test Object ID for question ID
 	*/
-	function _lookupTestObjIdForQuestionId($a_q_id)
+	public static function _lookupTestObjIdForQuestionId($a_q_id)
 	{
 		global $ilDB;
 		

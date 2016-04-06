@@ -166,7 +166,7 @@ class ilMDIdentifier extends ilMDBase
 
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
+	public static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
 		global $ilDB;
 

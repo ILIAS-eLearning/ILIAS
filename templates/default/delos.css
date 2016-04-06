@@ -7885,7 +7885,7 @@ a.ilTreeView:focus {
   background-position: -56px -19px;
 }
 .jstree a.jstree-loading .jstree-icon {
-  background: url(throbber.gif) no-repeat center !important;
+  background: url("images/throbber.gif") no-repeat center !important;
 }
 .jstree a.jstree-loading .loader {
   display: block;
@@ -11360,12 +11360,14 @@ table.mceToolbar td {
   text-decoration: none;
 }
 #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
+#ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
 #mm_adm_tr + span + ul.dropdown-menu > li > div.row,
 #mm_adm_tr + ul.dropdown-menu > li > div.row {
   width: 750px;
 }
 @media only screen and (max-width: 767px) {
   #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
+  #ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
   #mm_adm_tr + span + ul.dropdown-menu > li > div.row,
   #mm_adm_tr + ul.dropdown-menu > li > div.row {
     width: 100% !important;
