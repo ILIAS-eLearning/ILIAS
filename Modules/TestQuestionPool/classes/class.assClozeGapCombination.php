@@ -116,7 +116,7 @@ class assClozeGapCombination
 			}
 		}
 	}
-	public function importGapCombinationToDb($question_id, $gap_combinations)
+	public static function importGapCombinationToDb($question_id, $gap_combinations)
 	{
 		global $ilDB;
 
@@ -152,7 +152,8 @@ class assClozeGapCombination
 			}
 		}
 	}
-	public function clearGapCombinationsFromDb($question_id)
+
+	public static function clearGapCombinationsFromDb($question_id)
 	{
 		global $ilDB;
 

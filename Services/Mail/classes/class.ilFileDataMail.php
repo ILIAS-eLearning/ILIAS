@@ -596,7 +596,7 @@ class ilFileDataMail extends ilFileData
 	 *                            // an associative array with the disk
 	 *                            // usage in bytes and the count of attachments.
 	 */
-	function _lookupDiskUsageOfUser($user_id)
+	public static function _lookupDiskUsageOfUser($user_id)
 	{
 		// XXX - This method is extremely slow. We should
 		// use a cache to speed it up, for example, we should

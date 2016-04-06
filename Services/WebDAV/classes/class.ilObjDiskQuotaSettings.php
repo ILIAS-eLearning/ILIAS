@@ -195,7 +195,7 @@ class ilObjDiskQuotaSettings extends ilObject
 	 * @param string $a_lang language code
 	 * @return array{} Associative array with mail templates.
 	 */
-	function _lookupReminderMailTemplate($a_lang)
+	public static function _lookupReminderMailTemplate($a_lang)
 	{
 		global $ilDB;
 

@@ -1147,7 +1147,7 @@ class ilObjQuestionPool extends ilObject
 * @param integer $user_id The database id of the user
 * @access public
 */
-	function _isWriteable($object_id, $user_id)
+	public static function _isWriteable($object_id, $user_id)
 	{
 		global $rbacsystem;
 

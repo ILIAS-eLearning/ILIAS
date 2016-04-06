@@ -706,7 +706,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 			$form->addItem($body);				
 			
 			// current values
-			$amail = $this->disk_quota_obj->_lookupReminderMailTemplate($lang_key);
+			$amail = ilObjDiskQuotaSettings::_lookupReminderMailTemplate($lang_key);
 			$subj->setValue($amail["subject"]);
 			$sal_g->setValue($amail["sal_g"]);
 			$sal_f->setValue($amail["sal_f"]);

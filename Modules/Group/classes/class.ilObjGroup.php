@@ -1669,7 +1669,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		return ilObjGroup::_importFromXMLString(file_get_contents($file_obj->getImportFile()),$parent_id);
 	}
 
-	function _lookupIdByTitle($a_title)
+	public static function _lookupIdByTitle($a_title)
 	{
 		global $ilDB;
 

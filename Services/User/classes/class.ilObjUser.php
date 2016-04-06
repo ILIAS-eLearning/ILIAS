@@ -2261,7 +2261,7 @@ class ilObjUser extends ilObject
         if ((!empty($storedActive) && empty($currentActive)) ||
                 (empty($storedActive) && !empty($currentActive)))
         {
-            $this->setActive($currentActive, $this->getUserIdByLogin(ilObjUser::getLoginFromAuth()));
+            $this->setActive($currentActive, self::getUserIdByLogin(ilObjUser::getLoginFromAuth()));
         }
     }
 
@@ -2631,7 +2631,7 @@ class ilObjUser extends ilObject
 	 * @static
 	 * @access	public
 	 */
-	function getUserIdByLogin($a_login)
+	public static function getUserIdByLogin($a_login)
 	{
 		return (int) ilObjUser::_lookupId($a_login);
 	}
