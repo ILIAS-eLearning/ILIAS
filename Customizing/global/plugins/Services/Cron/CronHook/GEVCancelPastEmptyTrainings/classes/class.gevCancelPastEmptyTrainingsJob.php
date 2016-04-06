@@ -19,11 +19,15 @@ class gevCancelPastEmptyTrainingsJob extends ilCronJob {
 
 	private $gIldb;
 	private $gLog;
+	private $gLng;
+	private $gRbacadmin;
 
 	public function __construct() {
-		global $ilDB, $ilLog;
+		global $ilDB, $ilLog, $lng, $rbacadmin;
 		$this->gIldb = $ilDB;
 		$this->gLog = $ilLog;
+		$this->gLng = $lng;
+		$this->gRbacadmin = $rbacadmin;
 	}
 
 	/**
@@ -143,12 +147,39 @@ class gevCancelPastEmptyTrainingsJob extends ilCronJob {
 		return $return;
 	}
 
+	/**
+	 * Set cancelled status of courses given in @param [int] $crs_ids on 'Ja'
+	 * without sending mails and cancelling participants.
+	 * Also trainers are removed, training is set offline,
+	 * vc assignments are removed and course is renamed in cancelled fashion.
+	 * @param	[int] $crs_ids
+	 */
 	private function cancelTrainings( array $crs_ids) {
 		require_once 'Services/GEV/Utils/classes/class.gevCourseUtils.php';
 		foreach($crs_ids as $crs_id) {
-			gevCourseUtils::getInstance($crs_id)->cancel();
+			$crs_utils = gevCourseUtils::getInstance($crs_id);
 			$this->gLog->write("### gevCancelPastEmptyTrainingsJob: training $crs_id cancelled ###");
+			// Set training offline
+			$crs = $crs_utils->getCourse();
+			$crs->setOfflineStatus(true);
+			// Mark this course as cancelled
+			$crs_utils->setIsCancelled(true);
+			if(!preg_match('/\w+'.$this->gLng->txt("gev_course_is_cancelled_suffix").'$/', $crs_utils->getTitle())) {
+				$crs->setTitle($crs_utils->getTitle().$this->gLng->txt("gev_course_is_cancelled_suffix"));
+			}
+			$crs->update();
 
+			// Remove Trainers
+			$membership = $crs->getMembersObject();
+			$trainers = $crs_utils->getTrainers();
+			foreach($trainers as $trainer) {
+				$membership->delete($trainer);
+			}
+
+			// Delete VC Assignments
+			$crs_utils->deleteVCAssignment();
+
+			$this->gRbacadmin->revokePermission($crs_utils->getRefId());
 			ilCronManager::ping($this->getId());
 		}
 	}
