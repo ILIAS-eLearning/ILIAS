@@ -98,6 +98,14 @@ class ilMathTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @dataProvider gcdData
+	 */
+	public function testGcd($a, $b, $result)
+	{
+		$this->assertEquals($result, ilMath::getGreatestCommonDivisor($a, $b));
+	}
+
+	/**
 	 *  @dataProvider calcData
 	 */
 	public function testCalculation($formula, $result, $scale)
@@ -197,6 +205,17 @@ class ilMathTest extends PHPUnit_Framework_TestCase
 	{
 		return [
 			['2.4742', '2.47', '2']
+		];
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function gcdData()
+	{
+		return [
+			['1254', '5298', '6'],
+			['41414124', '41414124', '41414124'],
 		];
 	}
 
