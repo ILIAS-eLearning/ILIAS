@@ -38,6 +38,9 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
 		$this->db->unlockTables();
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function requestRandomPassBuildLock($withTaxonomyTables = false)
 	{
 		$tables = array();

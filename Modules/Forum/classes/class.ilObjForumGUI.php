@@ -769,7 +769,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->create_form_gui->addCommandButton('cancel', $this->lng->txt('cancel'));
 	}
 	
-	public function cancelObject($in_rep = false)
+	public function cancelObject()
 	{
 		ilUtil::sendInfo($this->lng->txt('msg_cancel'), true);
 		ilUtil::redirect('ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&ref_id='.$_GET['ref_id']);
@@ -785,7 +785,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'createThread', '', false, false));
 	}
 
-	public function getTabs()
+	protected function getTabs()
 	{
 		/**
 		 * @var $ilAccess ilAccessHandler
