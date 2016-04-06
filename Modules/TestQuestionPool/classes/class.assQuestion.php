@@ -1144,14 +1144,12 @@ abstract class assQuestion
 
 	/**
 	 * Reworks the allready saved working data if neccessary
-	 *
-	 * @abstract
-	 * @access protected
 	 * @param integer $active_id
 	 * @param integer $pass
 	 * @param boolean $obligationsAnswered
+	 * @param boolean $authorized
 	 */
-	//abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $intermediate);
+	abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized);
 
 	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
 	{
