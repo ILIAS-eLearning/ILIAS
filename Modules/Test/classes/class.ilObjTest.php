@@ -935,7 +935,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 * @return string The location of the import directory or false if the directory doesn't exist
 * @access	public
 */
-	function _getImportDirectory()
+	public static function _getImportDirectory()
 	{
 		if (strlen($_SESSION["tst_import_dir"]))
 		{
@@ -954,7 +954,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	* (data_dir/tst_data/tst_<id>/import, depending on data
 	* directory that is set in ILIAS setup/ini)
 	*/
-	function _createImportDirectory()
+	public static function _createImportDirectory()
 	{
 		global $ilias;
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -963,8 +963,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
 		if (!is_writable($tst_data_dir))
 		{
-			$this->ilias->raiseError("Test Data Directory (".$tst_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
+			$ilias->raiseError("Test Data Directory (".$tst_data_dir
+				.") not writeable.", $ilias->error_obj->FATAL);
 		}
 
 		// create test directory (data_dir/tst_data/tst_import)
@@ -6950,7 +6950,7 @@ function getAnswerFeedbackPoints()
 * @access public
 * @see $author
 */
-  function _lookupAuthor($obj_id)
+	public static function _lookupAuthor($obj_id)
 	{
 		$author = array();
 		include_once "./Services/MetaData/classes/class.ilMD.php";

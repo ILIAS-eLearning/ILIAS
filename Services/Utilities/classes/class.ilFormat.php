@@ -99,7 +99,7 @@ class ilFormat
 	* db-datetime to timestamp
 	* @param string
 	*/
-	function dateDB2timestamp ($ADatumSQL)
+	public static function dateDB2timestamp ($ADatumSQL)
 	{
 		$timestamp = substr($ADatumSQL, 0, 4).
 					 substr($ADatumSQL, 5, 2).
@@ -173,7 +173,7 @@ class ilFormat
 	* @param string $aTimestamp String in timestamp format
 	* @return string Database datetime in format yyyy-mm-dd hh:mm:ss
 	*/
-	function ftimestamp2datetimeDB($aTimestamp)
+	public static function ftimestamp2datetimeDB($aTimestamp)
 	{
 		$date = "";
 		if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $aTimestamp, $matches))

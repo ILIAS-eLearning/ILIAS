@@ -574,7 +574,7 @@ class ilMimeMail
 		$this->fullBody .= implode($sep, $ata);
 	}
 
-	function _mimeEncode($a_string)
+	public static function _mimeEncode($a_string)
 	{
 		$encoded = '=?utf-8?b?';
 		$encoded .= base64_encode($a_string);

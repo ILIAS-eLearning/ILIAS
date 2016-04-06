@@ -559,7 +559,7 @@ class ilChatroom
 	 *
 	 * @global ilDBInterface $ilDB
 	 */
-	public function disconnectAllUsersFromAllRooms()
+	public static function disconnectAllUsersFromAllRooms()
 	{
 		global $ilDB;
 

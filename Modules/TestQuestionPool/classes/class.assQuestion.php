@@ -2828,7 +2828,7 @@ abstract class assQuestion
 		}
 	}
 	
-	function _getInternalLinkHref($target = "")
+	public static function _getInternalLinkHref($target = "")
 	{
 		global $ilDB;
 		$linktypes = array(
@@ -3095,7 +3095,7 @@ abstract class assQuestion
 */
 	function getSolutionMaxPass($active_id)
 	{
-		return $this->_getSolutionMaxPass($this->getId(), $active_id);
+		return self::_getSolutionMaxPass($this->getId(), $active_id);
 	}
 
 /**
@@ -3104,7 +3104,7 @@ abstract class assQuestion
 * @param return integer The maximum pass of the users solution
 * @access public
 */
-	function _getSolutionMaxPass($question_id, $active_id)
+	public static function _getSolutionMaxPass($question_id, $active_id)
 	{
 /*		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		$pass = ilObjTest::_getPass($active_id);
@@ -3138,7 +3138,7 @@ abstract class assQuestion
 * @result boolean True, if the question exists, otherwise False
 * @access public
 */
-	function _isWriteable($question_id, $user_id)
+	public static function _isWriteable($question_id, $user_id)
 	{
 		global $ilDB;
 
@@ -4052,7 +4052,7 @@ abstract class assQuestion
 		$this->export_image_path = (string)$a_path;
 	}
 
-	function _questionExistsInTest($question_id, $test_id)
+	public static function _questionExistsInTest($question_id, $test_id)
 	{
 		global $ilDB;
 

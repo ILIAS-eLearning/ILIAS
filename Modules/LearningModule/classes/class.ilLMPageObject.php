@@ -382,7 +382,7 @@ class ilLMPageObject extends ilLMObject
 	/**
 	* static
 	*/
-	function getPageList($lm_id)
+	public static function getPageList($lm_id)
 	{
 		return ilLMObject::getObjectList($lm_id, "pg");
 	}

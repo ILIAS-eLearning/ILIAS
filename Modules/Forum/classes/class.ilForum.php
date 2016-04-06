@@ -416,7 +416,7 @@ class ilForum
 		return $row;
 	}
 
-	public function _lookupPostMessage($a_id)
+	public static function _lookupPostMessage($a_id)
 	{
 		global $ilDB;
 

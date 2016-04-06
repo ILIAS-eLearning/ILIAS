@@ -456,7 +456,7 @@ class ilObjForum extends ilObject
 	}
 
 
-	function _deleteReadEntries($a_post_id)
+	public static function _deleteReadEntries($a_post_id)
 	{
 		/**
 		 * @var $ilDB ilDBInterface
@@ -470,7 +470,7 @@ class ilObjForum extends ilObject
 		return true;
 	}
 
-	function _deleteAccessEntries($a_thread_id)
+	public static function _deleteAccessEntries($a_thread_id)
 	{
 		/**
 		 * @var $ilDB ilDBInterface

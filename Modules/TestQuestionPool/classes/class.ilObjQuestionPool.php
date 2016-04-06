@@ -754,7 +754,7 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* set import directory
 	*/
-	function _setImportDirectory($a_import_dir = null)
+	public static function _setImportDirectory($a_import_dir = null)
 	{
 		if (strlen($a_import_dir))
 		{
@@ -769,7 +769,7 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* get import directory of lm
 	*/
-	function _getImportDirectory()
+	public static function _getImportDirectory()
 	{
 		if (strlen($_SESSION["qpl_import_dir"]))
 		{
