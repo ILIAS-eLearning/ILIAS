@@ -256,8 +256,9 @@ class gevMyTrainingsAdmin {
 	}
 
 	protected function getCourseIds(array $roles) {
-		$tmplt_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
 		$settings = $this->settings();
+		$tmplt_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
+		$is_cancelled_field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_IS_CANCELLED);
 		$crs_type_query = $this->createCrsTypeQuery($settings["types"]);
 		$period_query = $this->createPeriodQuery($settings["period_pred"]);
 		$like_role = $this->createLikeRoleQuery($roles);
@@ -269,9 +270,12 @@ class gevMyTrainingsAdmin {
 			."  JOIN tree tr ON tr.child = fa.parent\n"
 			."  JOIN rbac_ua ua ON ua.rol_id = od.obj_id\n"
 			."  JOIN object_data od2 ON od2.obj_id = oref.obj_id\n"
-			." LEFT JOIN adv_md_values_text is_template\n"
+			."	JOIN adv_md_values_text is_template\n"
 			."    ON oref.obj_id = is_template.obj_id\n"
 			."   AND is_template.field_id = ".$this->gDb->quote($tmplt_field_id, "integer")."\n"
+			."	LEFT JOIN adv_md_values_text is_cancelled\n"
+			."    ON oref.obj_id = is_cancelled.obj_id\n"
+			."   AND  is_cancelled.field_id = ".$this->gDb->quote($is_cancelled_field_id, "integer")."\n"
 			.$period_query["join"]
 			.$crs_type_query["join"]
 			." {JOIN}"
@@ -280,6 +284,7 @@ class gevMyTrainingsAdmin {
 			."   AND od2.type = 'crs'\n"
 			."   AND oref.deleted IS NULL\n"
 			."   AND is_template.value = 'Nein'\n"
+			."	 AND (is_cancelled.value = 'Nein' OR is_cancelled.value IS NULL)"
 			.$period_query["where"]
 			.$crs_type_query["where"]
 			." {WHERE})";
