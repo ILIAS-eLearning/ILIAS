@@ -407,7 +407,12 @@ class EvalMathStack {
     }
     
     function last($n=1) {
-        return $this->stack[$this->count-$n];
+        // mjansen-patch: begin
+        if(isset($this->stack[$this->count-$n])) {
+            return $this->stack[$this->count - $n];
+        }
+        return null;
+        // mjansen-patch: end
     }
 }
 
