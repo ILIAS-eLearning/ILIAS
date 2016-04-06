@@ -853,7 +853,7 @@ class ilTestServiceGUI
 			if ($this->object->isShowExamIdInTestResultsEnabled())
 			{
 				$template->setCurrentBlock('exam_id_footer');
-				$template->setVariable('EXAM_ID_VAL', $this->object->lookupExamId(
+				$template->setVariable('EXAM_ID_VAL', ilObjTest::lookupExamId(
 					$testSession->getActiveId(), $pass
 				));
 				$template->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));

@@ -11607,10 +11607,9 @@ function getAnswerFeedbackPoints()
 	 * @param $pass
 	 * @return array
 	 */
-	public function lookupExamId($active_id, $pass)
+	public static function lookupExamId($active_id, $pass)
 	{
-		/** @TODO Move this to a proper place. */
-		global $ilDB, $ilSetting;
+		global $ilDB;
 
 		$exam_id_query  = 'SELECT exam_id FROM tst_pass_result WHERE active_fi = %s AND pass = %s';
 		$exam_id_result = $ilDB->queryF( $exam_id_query, array( 'integer', 'integer' ), array( $active_id, $pass ) );

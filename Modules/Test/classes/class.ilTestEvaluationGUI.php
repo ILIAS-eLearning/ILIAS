@@ -1214,7 +1214,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			if ($this->object->isShowExamIdInTestResultsEnabled())
 			{
 				$tpl->setCurrentBlock('exam_id');
-				$tpl->setVariable('EXAM_ID', $this->object->lookupExamId(
+				$tpl->setVariable('EXAM_ID', ilObjTest::lookupExamId(
 					$testSession->getActiveId(), $pass
 				));
 				$tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
@@ -1537,7 +1537,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		if (!is_null($pass) && $this->object->isShowExamIdInTestResultsEnabled())
 		{
 			$template->setCurrentBlock('exam_id_footer');
-			$template->setVariable('EXAM_ID_VAL', $this->object->lookupExamId(
+			$template->setVariable('EXAM_ID_VAL', ilObjTest::lookupExamId(
 				$testSession->getActiveId(), $pass
 			));
 			$template->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
