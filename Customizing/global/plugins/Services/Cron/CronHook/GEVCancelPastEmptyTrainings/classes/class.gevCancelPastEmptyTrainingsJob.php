@@ -1,12 +1,19 @@
 <?php
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+
+/**
+* Class		gevCancelPastEmptyTrainingsJob
+*
+* CronJob:	Cancelles past trainings without bookings
+*
+* @author Denis Klöpfer
+* @version $Id$
+*/
 
 require_once "Services/Cron/classes/class.ilCronManager.php";
 require_once "Services/Cron/classes/class.ilCronJob.php";
 require_once "Services/Cron/classes/class.ilCronJobResult.php";
-
-require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
-require_once("Services/GEV/Utils/classes/class.gevSettings.php");
-
 
 class gevCancelPastEmptyTrainingsJob extends ilCronJob {
 
@@ -19,30 +26,58 @@ class gevCancelPastEmptyTrainingsJob extends ilCronJob {
 		$this->gLog = $ilLog;
 	}
 
+	/**
+	 * Implementation of abstract function from ilCronJob
+	 * @return	string
+	 */
 	public function getId() {
 		return "gev_cancel_past_empty_trainings";
 	}
 	
+	/**
+	 * Implementation of abstract function from ilCronJob
+	 * @return	string
+	 */
 	public function getTitle() {
 		return "Sagt vergangene Trainings ohne Teilnhemer ab.";
 	}
 
+	/**
+	 * Implementation of abstract function from ilCronJob
+	 * @return	bool
+	 */
 	public function hasAutoActivation() {
 		return true;
 	}
 	
+	/**
+	 * Implementation of abstract function from ilCronJob
+	 * @return	bool
+	 */
 	public function hasFlexibleSchedule() {
 		return false;
 	}
 	
+	/**
+	 * Implementation of abstract function from ilCronJob
+	 * @return	int
+	 */
 	public function getDefaultScheduleType() {
 		return ilCronJob::SCHEDULE_TYPE_DAILY;
 	}
 	
+	/**
+	 * Implementation of abstract function from ilCronJob
+	 * @return	int
+	 */
 	public function getDefaultScheduleValue() {
 		return 1;
 	}
 
+	/**
+	 * Implementation of abstract function from ilCronJob
+	 * @return	ilCronJobResult
+	 */
 	public function run() {
 		$cron_result = new ilCronJobResult();
 		$this->gLog->write("### gevCancelPastEmptyTrainingsJob: STARTING ###");
@@ -58,6 +93,10 @@ class gevCancelPastEmptyTrainingsJob extends ilCronJob {
 		return $cron_result;
 	}
 
+	/**
+	 * Get relevant training ids of trainings to be cancelled
+	 * @return	[int]
+	 */
 	private function getPastEmptyTrainingsIds() {
 		require_once "Services/Calendar/classes/class.ilDateTime.php";
 		require_once "Services/GEV/Utils/classes/class.gevSettings.php";
