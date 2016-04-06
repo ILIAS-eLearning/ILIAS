@@ -52,7 +52,7 @@ class gevCancelPastEmptyTrainingsJob extends ilCronJob {
 		ilCronManager::ping($this->getId());
 		$this->cancelTrainings($crs_ids);
 
-		$this->gLog->write("### gevCancelPastEmptyTrainingsJob: $cnt trianings found - cancelling ###");
+		$this->gLog->write("### gevCancelPastEmptyTrainingsJob: $cnt trainings found - cancelling ###");
 
 		$cron_result->setStatus(ilCronJobResult::STATUS_OK);
 		return $cron_result;
