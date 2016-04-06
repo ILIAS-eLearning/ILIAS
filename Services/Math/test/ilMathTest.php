@@ -173,7 +173,7 @@ class ilMathTest extends PHPUnit_Framework_TestCase
 		return [
 			['9', '3', self::DEFAULT_SCALE],
 			['4294967296', '65536', self::DEFAULT_SCALE],
-			['12345678901234567890', '3513641828', '0'],
+			['12345678901234567890', '3513641828', '0']
 		];
 	}
 	
@@ -215,7 +215,7 @@ class ilMathTest extends PHPUnit_Framework_TestCase
 	{
 		return [
 			['1254', '5298', '6'],
-			['41414124', '41414124', '41414124'],
+			['41414124', '41414124', '41414124']
 		];
 	}
 
