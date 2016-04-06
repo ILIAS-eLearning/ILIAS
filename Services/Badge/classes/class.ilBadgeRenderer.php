@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once "Services/Badge/classes/class.ilBadge.php";
+
 /**
  * Class ilBadgeRenderer
  * 
@@ -12,45 +14,98 @@
 class ilBadgeRenderer
 {
 	protected $assignment; // [ilBadgeAssignment]
+	protected $badge; // [ilBadge]
+	
+	protected static $init; // [bool]
 	
 	public function __construct(ilBadgeAssignment $a_assignment)
 	{
-		$this->assignment = $a_assignment;
+		$this->assignment = $a_assignment;					
+		$this->badge = new ilBadge($this->assignment->getBadgeId());
+	}
+	
+	public static function initFromId($a_id)
+	{
+		$id = explode("_", $_GET["id"]);
+		if(sizeof($id) == 3)
+		{
+			$user_id = $id[0];
+			$badge_id = $id[1];
+			$hash = $id[2];
+		
+			include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+			$assignment = new ilBadgeAssignment($badge_id, $user_id);
+			if($assignment->getTimestamp())
+			{
+				$obj = new self($assignment);
+				if($hash == $obj->getBadgeHash())
+				{
+					return $obj;
+				}				
+			}
+		}
 	}
 	
 	public function getHTML()
+	{				
+		global $tpl, $ilCtrl;
+		
+		if(!self::$init)
+		{
+			self::$init = true;
+			
+			$url = $ilCtrl->getLinkTargetByClass("ilBadgeHandlerGUI", 
+				"render", "", true, false);
+			
+			$tpl->addJavaScript("Services/Badge/js/ilBadgeRenderer.js");
+			$tpl->addOnLoadCode('il.BadgeRenderer.init("'.$url.'");');
+		}
+				
+		$hash = $this->getBadgeHash();
+
+		$btpl = new ilTemplate("tpl.badge_renderer.html", true, true, "Services/Badge");		
+		$btpl->setVariable("BADGE_IMG", $this->badge->getImagePath());
+		$btpl->setVariable("BADGE_TXT", $this->badge->getTitle());
+		$btpl->setVariable("BADGE_ID", "badge_".
+			$this->assignment->getUserId()."_".
+			$this->badge->getId()."_".
+			$hash);	
+		return $btpl->get();
+	}
+	
+	protected function getBadgeHash()
+	{
+		return md5("bdg-".$this->assignment->getUserId()."-".$this->badge->getId());
+	}
+	
+	public function renderModal()
 	{
 		global $lng;
 		
-		include_once "Services/Badge/classes/class.ilBadge.php";
 		include_once "Services/UIComponent/Modal/classes/class.ilModalGUI.php";
-		// ilModalGUI::initJS();
+		ilModalGUI::initJS();
 		
-		$badge = new ilBadge($this->assignment->getBadgeId());
-
-		$modal_hash = md5("bdg-".$this->assignment->getUserId()."-".$badge->getId());
-
 		$modal = ilModalGUI::getInstance();
-		$modal->setId($modal_hash);
+		$modal->setId("badge_modal_".$this->getBadgeHash());
 		$modal->setType(ilModalGUI::TYPE_SMALL);
-		$modal->setHeading($badge->getTitle());
+		$modal->setHeading($this->badge->getTitle());
 		
 		$lng->loadLanguageModule("badge");
 		
 		$tpl = new ilTemplate("tpl.badge_modal.html", true, true, "Services/Badge");
 		
-		$tpl->setVariable("IMG_SRC", $badge->getImagePath());
-		$tpl->setVariable("IMG_TXT", $badge->getImage());
+		$tpl->setVariable("IMG_SRC", $this->badge->getImagePath());
+		$tpl->setVariable("IMG_TXT", $this->badge->getImage());
 		
-		$tpl->setVariable("DESC", nl2br($badge->getDescription()));
+		$tpl->setVariable("DESC", nl2br($this->badge->getDescription()));
 		
 		$tpl->setVariable("TXT_TSTAMP", $lng->txt("badge_issued_on"));	
 		$tpl->setVariable("TSTAMP", 
 			ilDatePresentation::formatDate(new ilDateTime($this->assignment->getTimestamp(), IL_CAL_UNIX)));		
 		
-		if($badge->getParentId())
+		if($this->badge->getParentId())
 		{
-			$parent = $badge->getParentMeta();	
+			$parent = $this->badge->getParentMeta();	
 			if($parent["type"] != "bdga")
 			{												
 				$tpl->setVariable("TXT_PARENT", $lng->txt("object"));			
@@ -61,20 +116,14 @@ class ilBadgeRenderer
 			}				
 		}
 		
-		if($badge->getValid())
+		if($this->badge->getValid())
 		{
 			$tpl->setVariable("TXT_VALID", $lng->txt("badge_valid"));		
-			$tpl->setVariable("VALID", $badge->getValid());		
+			$tpl->setVariable("VALID", $this->badge->getValid());		
 		}
 		
 		$modal->setBody($tpl->get());
-
-		$tpl = new ilTemplate("tpl.badge_renderer.html", true, true, "Services/Badge");		
-		$tpl->setVariable("BADGE_IMG", $badge->getImagePath());
-		$tpl->setVariable("BADGE_TXT", $badge->getTitle());
-		$tpl->setVariable("BADGE_HASH", $modal_hash);
-		$tpl->setVariable("BADGE_META", $modal->getHTML());		
-		return $tpl->get();
+		
+		return $modal->getHTML();
 	}
 }
-

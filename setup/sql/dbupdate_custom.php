@@ -240,3 +240,9 @@ $ilCtrlStructureReader->getStructure();
 $ilCtrlStructureReader->getStructure();
 
 ?>
+<#13>
+<?php
+
+$ilCtrlStructureReader->getStructure();
+
+?>

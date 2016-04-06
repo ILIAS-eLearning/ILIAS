@@ -2,6 +2,7 @@
 <service xmlns="http://www.w3.org" version="$Id$"
 	id="badge">
 	<baseclasses>
+		<baseclass name="ilBadgeHandlerGUI" dir="classes" />
 	</baseclasses>
 	<objects>
 		<object id="bdga" class_name="BadgeAdministration" dir="classes"
