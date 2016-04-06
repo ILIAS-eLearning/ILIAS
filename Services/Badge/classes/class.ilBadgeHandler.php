@@ -398,6 +398,7 @@ class ilBadgeHandler
 		
 		include_once "Services/Badge/classes/class.ilBadge.php";
 		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+		$new_badges = array();
 		foreach(ilBadge::getInstancesByType($a_type_id) as $badge)
 		{
 			if($badge->isActive())
@@ -409,10 +410,14 @@ class ilBadgeHandler
 					{
 						$ass = new ilBadgeAssignment($badge->getId(), $a_user_id);
 						$ass->store();
+						
+						$new_badges[$a_user_id][] = $badge->getId();
 					}
 				}
 			}			
-		}		
+		}	
+		
+		$this->sendNotification($new_badges);
 	}
 	
 	public function getUserIds($a_parent_ref_id, $a_parent_obj_id = null, $a_parent_type = null)
@@ -523,5 +528,58 @@ class ilBadgeHandler
 		}
 		
 		return $url;		
+	}
+	
+	public function sendNotification(array $a_user_map, $a_parent_ref_id = null)
+	{
+		global $ilCtrl;
+		
+		$badges = array();
+		
+		include_once "Services/Badge/classes/class.ilBadge.php";
+		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+		include_once "Services/Notification/classes/class.ilSystemNotification.php";
+		
+		foreach($a_user_map as $user_id => $badge_ids)
+		{
+			$user_badges = array();
+			
+			foreach($badge_ids as $badge_id)
+			{
+				// making extra sure
+				if(!ilBadgeAssignment::exists($badge_id, $user_id))
+				{
+					continue;
+				}
+				
+				if(!array_key_exists($badge_id, $badges))
+				{
+					$badges[$badge_id] = new ilBadge($badge_id);
+				}
+				
+				$badge = $badges[$badge_id];
+				
+				$user_badges[] = $badge->getTitle();				
+			}
+			
+			if(sizeof($user_badges))
+			{
+				$ntf = new ilSystemNotification(false);		
+				$ntf->setLangModules(array("badge"));
+				
+				$ntf->setSubjectLangId("badge_notification_subject");
+				$ntf->setIntroductionLangId("badge_notification_body");
+								
+				$ntf->addAdditionalInfo("badge_notification_badges", implode("\n", $user_badges), true);			
+				
+				// $url = $ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumptobadges");
+				$url = ":TODO:";
+				$ntf->addAdditionalInfo("badge_notification_goto", $url);			
+							
+				$ntf->setReasonLangId("badge_notification_reason");		
+
+				$ntf->sendMail(array($user_id));		
+			}			
+		}
 	}
 }

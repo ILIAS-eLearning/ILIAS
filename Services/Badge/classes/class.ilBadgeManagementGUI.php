@@ -688,6 +688,7 @@ class ilBadgeManagementGUI
 		}
 		
 		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+		$new_badges = array();
 		foreach($user_ids as $user_id)
 		{
 			if(!ilBadgeAssignment::exists($badge_id, $user_id))
@@ -695,8 +696,12 @@ class ilBadgeManagementGUI
 				$ass = new ilBadgeAssignment($badge_id, $user_id);
 				$ass->setAwardedBy($ilUser->getId());
 				$ass->store();	
+				
+				$new_badges[$user_id][] = $badge_id;
 			}
 		}
+		
+		ilBadgeHandler::getInstance()->sendNotification($new_badges, $this->parent_ref_id);
 		
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		$ilCtrl->redirect($this, "listUsers");

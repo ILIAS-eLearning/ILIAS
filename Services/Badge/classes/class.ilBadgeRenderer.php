@@ -83,7 +83,9 @@ class ilBadgeRenderer
 		global $lng;
 		
 		include_once "Services/UIComponent/Modal/classes/class.ilModalGUI.php";
-		ilModalGUI::initJS();
+		
+		// only needed for modal-js-calls
+		// ilModalGUI::initJS();
 		
 		$modal = ilModalGUI::getInstance();
 		$modal->setId("badge_modal_".$this->getBadgeHash());
