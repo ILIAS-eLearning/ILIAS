@@ -331,6 +331,11 @@ class ilMimeMail
 		require_once 'libs/composer/vendor/autoload.php';
 		$mail = new PHPMailer();
 
+		if($ilSetting->get('mail_system_return_path', ''))
+		{
+			$mail->Sender = $ilSetting->get('mail_system_return_path', '');
+		}
+
 		$mail->SetFrom($this->xheaders['From'], $this->xheaders['FromName']);
 		foreach($this->sendto as $recipients)
 		{
