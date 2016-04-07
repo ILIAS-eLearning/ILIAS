@@ -1386,34 +1386,7 @@ class ilChatroom
 
 	public function getLastMessagesForChatViewer($number, $chatuser = null)
 	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-
 		return $this->getLastMessages($number, $chatuser);
-
-		$ilDB->setLimit($number);
-		$rset = $ilDB->query(
-			'SELECT *
-			FROM ' . self::$historyTable . '
-			WHERE room_id = ' . $ilDB->quote($this->roomId, 'integer') . '
-			AND sub_room = 0
-			AND	(' . $ilDB->like('message', 'text', '%"type":"message"%') . ' AND NOT ' . $ilDB->like('message', 'text', '%"public":0%') . ')
-			ORDER BY timestamp DESC'
-		);
-
-		$results = array();
-		while(($row = $ilDB->fetchAssoc($rset)))
-		{
-			$tmp = json_decode($row['message']);
-			if($tmp->type != 'message' && $row['timestamp'] && !is_numeric($tmp->timestamp))
-			{
-				$tmp->timestamp = $row['timestamp'] * 1000;
-			}
-			$results[] = $tmp;
-		}
-		return $results;
 	}
 
 	public function getLastMessages($number, $chatuser = null)

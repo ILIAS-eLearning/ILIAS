@@ -9,7 +9,6 @@
  */
 class ilChatroomSmilies
 {
-
 	/**
 	 *    Performs initial setup (db, dirs, default data)
 	 */
@@ -22,10 +21,12 @@ class ilChatroomSmilies
 
 	/**
 	 * Creates table and sequence
-	 * @global ilDBInterface $ilDB
 	 */
 	private static function _setupDatabase()
 	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
 		global $ilDB;
 
 		$fields = array(
@@ -53,10 +54,12 @@ class ilChatroomSmilies
 
 	/**
 	 * Inserts default smiley set
-	 * @global ilDBInterface $ilDB
 	 */
 	private static function _insertDefaultValues()
 	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
 		global $ilDB;
 
 		$values = array(
@@ -84,7 +87,7 @@ class ilChatroomSmilies
 		foreach($values as $val)
 		{
 			$row = array(
-				$ilDB->nextID("chatroom_smilies"),
+				$ilDB->nextId("chatroom_smilies"),
 				$val[1],
 				$val[0]
 			);
@@ -109,7 +112,6 @@ class ilChatroomSmilies
 	 * Checks if smiley folder is available; if not
 	 * it will try to create folder and performs
 	 * actions for an initial smiley set
-	 * @global ilLanguage $lng
 	 * @return boolean
 	 */
 	public static function _checkSetup()
@@ -179,24 +181,24 @@ class ilChatroomSmilies
 	 */
 	public static function _getSmilies()
 	{
+		/**
+		 * @var ilDBInterface
+		 */
 		global $ilDB;
 
-		$res    = $ilDB->query(
-			"SELECT smiley_id, smiley_keywords, smiley_path
-				FROM chatroom_smilies"
-		);
+		$res    = $ilDB->query("SELECT smiley_id, smiley_keywords, smiley_path FROM chatroom_smilies");
 		$result = array();
 
-		for($i = 0; $i < $res->numRows(); $i++)
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			$tmp      = $res->fetchRow();
 			$result[] = array(
-				"smiley_id"       => $tmp[0],
-				"smiley_keywords" => $tmp[1],
-				"smiley_path"     => $tmp[2],
-				"smiley_fullpath" => ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $tmp[2]
+				"smiley_id"       => $row['smiley_id'],
+				"smiley_keywords" => $row['smiley_keywords'],
+				"smiley_path"     => $row['smiley_path'],
+				"smiley_fullpath" => ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $row['smiley_path']
 			);
 		}
+
 		return $result;
 	}
 
@@ -222,17 +224,19 @@ class ilChatroomSmilies
 			$sql_parts[] = "smiley_id = " . $ilDB->quote($s["smiley_id"], 'integer');
 		}
 
-		$ilDB->manipulate("DELETE FROM chatroom_smilies WHERE " . join(" OR ", $sql_parts));
+		$ilDB->manipulate("DELETE FROM chatroom_smilies WHERE " . implode(" OR ", $sql_parts));
 	}
 
 	/**
 	 * Fetches smilies from database by id.
-	 * @global ilDBInterface $ilDB
 	 * @param array          $ids
 	 * @return array
 	 */
 	public static function _getSmiliesById($ids = array())
 	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
 		global $ilDB;
 
 		if(!count($ids))
@@ -251,27 +255,29 @@ class ilChatroomSmilies
 		$res    = $ilDB->query($sql);
 		$result = array();
 
-		for($i = 0; $i < $res->numRows(); $i++)
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			$tmp      = $res->fetchRow();
 			$result[] = array(
-				"smiley_id"       => $tmp[0],
-				"smiley_keywords" => $tmp[1],
-				"smiley_path"     => $tmp[2],
-				"smiley_fullpath" => ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $tmp[2]
+				"smiley_id"       => $row['smiley_id'],
+				"smiley_keywords" => $row['smiley_keywords'],
+				"smiley_path"     => $row['smiley_path'],
+				"smiley_fullpath" => ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $row['smiley_path']
 			);
 		}
+
 		return $result;
 	}
 
 	/**
 	 * Updates smiley in DB by keyword and id from given array
 	 * ($data["smiley_keywords"], $data["smiley_id"])
-	 * @global ilDBInterface $ilDB
 	 * @param array          $data
 	 */
 	public static function _updateSmiley($data)
 	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
 		global $ilDB;
 
 		$ilDB->manipulateF(
@@ -307,6 +313,9 @@ class ilChatroomSmilies
 	 */
 	public static function _getSmiley($a_id)
 	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
 		global $ilDB;
 
 		$res = $ilDB->queryF("
@@ -316,17 +325,19 @@ class ilChatroomSmilies
 			array('integer'), array($a_id)
 		);
 
-		if($res->numRows())
+		if($ilDB->numRows($res))
 		{
-			$tmp    = $res->fetchRow();
-			$result = array(
-				"smiley_id"       => $tmp[0],
-				"smiley_keywords" => $tmp[1],
-				"smiley_path"     => $tmp[2],
-				"smiley_fullpath" => ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $tmp[2]
-			);
-			return $result;
+			while($row = $ilDB->fetchAssoc($res))
+			{
+				return array(
+					"smiley_id"       => $row['smiley_id'],
+					"smiley_keywords" => $row['smiley_keywords'],
+					"smiley_path"     => $row['smiley_path'],
+					"smiley_fullpath" => ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $row['smiley_path']
+				);
+			}
 		}
+
 		throw new Exception('smiley with id $a_id not found');
 	}
 
@@ -341,11 +352,13 @@ class ilChatroomSmilies
 
 	/**
 	 * Deletes smiliey by given id from database.
-	 * @global ilDBInterface $ilDB
 	 * @param integer        $a_id
 	 */
 	public static function _deleteSmiley($a_id)
 	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
 		global $ilDB;
 
 		try
@@ -372,12 +385,14 @@ class ilChatroomSmilies
 
 	/**
 	 * Stores smiley with given keywords and path in database.
-	 * @global ilDBInterface $ilDB
 	 * @param array          $keywords
 	 * @param string         $path
 	 */
 	public static function _storeSmiley($keywords, $path)
 	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
 		global $ilDB;
 
 		$stmt = $ilDB->prepare("
@@ -388,7 +403,7 @@ class ilChatroomSmilies
 			)
 		);
 		$row  = array(
-			$ilDB->nextID("chatroom_smilies"),
+			$ilDB->nextId("chatroom_smilies"),
 			$keywords,
 			$path
 		);
@@ -428,49 +443,4 @@ class ilChatroomSmilies
 		else
 			return array();
 	}
-
-	/*public static function _parseString($str)
-	 {
-		global $ilDB;
-
-		$q = $ilDB->query(
-		"SELECT smiley_keywords, smiley_path
-		FROM chatroom_smilies"
-		);
-
-		$ar_search = array();
-		$ar_replace = array();
-
-		$ostr = "";
-
-		for( $i = 0; $i < $q->numRows(); $i++ )
-		{
-		$row = $q->fetchRow();
-		$keywords = explode( "\n", $row[0] );
-
-		for( $x = 0; $x < count( $keywords ); $x++ )
-		{
-		$ar_search[] = $keywords[$x];
-
-		$tpl = new ilTemplate(
-		"tpl.chatroom_smiley_line.html", true, true, "Modules/Chatroom"
-		);
-		$tpl->setVariable(
-		"SMILEY_PATH",
-		ilUtil::getHtmlPath( self::_getSmiliesBasePath() . $row[1] )
-		);
-		$tpl->setVariable( "SMILEY_ALT", urlencode( $keywords[$x] ) );
-		$tpl->parseCurrentBlock();
-
-		$ar_replace[] = $tpl->get();
-		}
-		}
-
-		$str = str_replace( $ar_search, $ar_replace, $str );
-
-		return $str;
-		}*/
-
 }
-
-?>
