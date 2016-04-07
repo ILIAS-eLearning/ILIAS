@@ -564,6 +564,8 @@ class ilBadgeHandler
 			
 			if(sizeof($user_badges))
 			{				
+				// compose and send mail
+				
 				$ntf = new ilSystemNotification(false);		
 				$ntf->setLangModules(array("badge"));
 				
@@ -591,7 +593,24 @@ class ilBadgeHandler
 					$lng->txt("badge_notification_subject"), 
 					$ntf->composeAndGetMessage($user_id, null, "read", true), 
 					null, 
-					array("system"));		
+					array("system"));	
+				
+				
+				// osd
+				
+				$osd_params = array("badge_list" => "<br />".implode("<br />", $user_badges));
+				
+				require_once "Services/Notifications/classes/class.ilNotificationConfig.php";
+				$notification = new ilNotificationConfig("osd_main");
+				$notification->setTitleVar("badge_notification_subject", array(), "badge");
+				$notification->setShortDescriptionVar("badge_notification_osd", $osd_params, "badge");
+				$notification->setLongDescriptionVar("", $osd_params, "");
+				$notification->setAutoDisable(false);
+				$notification->setLink($url);
+				$notification->setIconPath("templates/default/images/icon_bdga.svg");
+				$notification->setValidForSeconds(ilNotificationConfig::TTL_SHORT);
+				$notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
+				$notification->notifyByUsers(array($user_id));
 			}			
 		}
 	}

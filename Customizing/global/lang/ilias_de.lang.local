@@ -50,6 +50,7 @@ badge#:#badge_add_to_backpack_multi#:#Versuche %s zum Backpack hinzuzufügen
 badge#:#badge_backpack_email#:#Mozilla Backpack Account (Email)
 badge#:#badge_notification_subject#:#Badge erhalten
 badge#:#badge_notification_body#:#Sie haben gerade neue Badges erhalten.
+badge#:#badge_notification_osd#:#Sie haben gerade neue Badges erhalten: [BADGE_LIST]
 badge#:#badge_notification_badges#:#Neue Badges
 badge#:#badge_notification_badges_goto#:#Zu den Badges
 badge#:#badge_notification_parent_goto#:#Zum Repository
