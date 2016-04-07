@@ -51,5 +51,6 @@ badge#:#badge_backpack_email#:#Mozilla Backpack Account (Email)
 badge#:#badge_notification_subject#:#Badge erhalten
 badge#:#badge_notification_body#:#Sie haben gerade neue Badges erhalten.
 badge#:#badge_notification_badges#:#Neue Badges
-badge#:#badge_notification_goto#:#Zu den Badges
+badge#:#badge_notification_badges_goto#:#Zu den Badges
+badge#:#badge_notification_parent_goto#:#Zum Repository
 badge#:#badge_notification_reason#:#Sie erhalten diese Nachricht, um die neuen Badges in Ihr Profil einbinden zu können.

@@ -532,7 +532,7 @@ class ilBadgeHandler
 	
 	public function sendNotification(array $a_user_map, $a_parent_ref_id = null)
 	{
-		global $ilCtrl;
+		global $lng;
 		
 		$badges = array();
 		
@@ -563,22 +563,35 @@ class ilBadgeHandler
 			}
 			
 			if(sizeof($user_badges))
-			{
+			{				
 				$ntf = new ilSystemNotification(false);		
 				$ntf->setLangModules(array("badge"));
 				
-				$ntf->setSubjectLangId("badge_notification_subject");
+				$ntf->setRefId($a_parent_ref_id);
+				$ntf->setGotoLangId("badge_notification_parent_goto");
+				
+				// user specific language
+				$lng = $ntf->getUserLanguage($user_id);				
+				
 				$ntf->setIntroductionLangId("badge_notification_body");
 								
 				$ntf->addAdditionalInfo("badge_notification_badges", implode("\n", $user_badges), true);			
 				
-				// $url = $ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumptobadges");
-				$url = ":TODO:";
-				$ntf->addAdditionalInfo("badge_notification_goto", $url);			
+				$url = ilLink::_getLink($user_id, "usr", array(), "_bdg");
+				$ntf->addAdditionalInfo("badge_notification_badges_goto", $url);			
 							
 				$ntf->setReasonLangId("badge_notification_reason");		
 
-				$ntf->sendMail(array($user_id));		
+				// force email
+				$mail = new ilMail(ANONYMOUS_USER_ID);
+				$mail->enableSOAP(false); 
+				$mail->sendMail(ilObjUser::_lookupEmail($user_id), 
+					null, 
+					null,
+					$lng->txt("badge_notification_subject"), 
+					$ntf->composeAndGetMessage($user_id, null, "read", true), 
+					null, 
+					array("system"));		
 			}			
 		}
 	}

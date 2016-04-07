@@ -51,5 +51,6 @@ badge#:#badge_backpack_email#:#Mozilla Backpack Account (Email)
 badge#:#badge_notification_subject#:#Badges received
 badge#:#badge_notification_body#:#you just received new badges.
 badge#:#badge_notification_badges#:#New Badges
-badge#:#badge_notification_goto#:#To your badges
+badge#:#badge_notification_badges_goto#:#To your badges
+badge#:#badge_notification_parent_goto#:#To repository
 badge#:#badge_notification_reason#:#You are receiving this message to be able to add the badges to your profile.
