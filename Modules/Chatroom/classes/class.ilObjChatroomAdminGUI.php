@@ -95,7 +95,10 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
 
 			default:
 				$res = explode('-', $ilCtrl->getCmd(), 2);
-				$this->dispatchCall($res[0], $res[1] ? $res[1] : '');
+				if(!array_key_exists(1, $res)) {
+					$res[1] = '';
+				}
+				$this->dispatchCall($res[0], $res[1]);
 		}
 	}
 

@@ -13,7 +13,7 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomObjectGUI.php';
  * @author            Jan Posselt <jposselt at databay.de>
  * @version           $Id$
  * @ilCtrl_Calls      ilObjChatroomGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI
  * @ingroup           ModulesChatroom
  */
 class ilObjChatroomGUI extends ilChatroomObjectGUI
@@ -126,6 +126,15 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 
 		switch($next_class)
 		{
+			case "ilpropertyformgui":
+				include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+
+				require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
+				$factory = new ilChatroomFormFactory();
+				$form    = $factory->getClientSettingsForm();
+
+				$ilCtrl->forwardCommand($form);
+				break;
 			case 'ilpermissiongui':
 				include_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
 				$this->prepareOutput();

@@ -601,6 +601,9 @@ class ilChatroom
 			'FROM ' . self::$historyTable . ' historyTable ' . $join . ' ' . 
 			'WHERE historyTable.room_id = ' . $this->getRoomId();
 
+		$query .=' AND historyTable.sub_room = ' . $ilDB->quote($proom_id, 'integer');
+
+
 		$filter = array();
 
 		if( $from != null )
@@ -624,7 +627,7 @@ class ilChatroom
 		{
 			$row['message'] = json_decode( $row['message'] );
 			$row['message']->timestamp = $row['timestamp'];
-			if ($row['message']->public !== null && !$row['message']->public && !in_array($ilUser->getId(), explode(',', $row['recipients']))) {
+			if ($row['message']->target !== null && !$row['message']->target->public && !in_array($ilUser->getId(), explode(',', $row['recipients']))) {
 			    continue;
 			}
 			
@@ -1348,32 +1351,66 @@ class ilChatroom
        return $row['ref_id'];
     }
 
-public function getLastMessages($number, $chatuser = null) {
-	global $ilDB;
-	
-	// There is currently no way to check if a message is private or not
-	// by sql. So we fetch twice as much as we need and hope that there
-	// are not more than $number private messages.
-	$ilDB->setLimit($number * 2);
-	$rset = $ilDB->queryF('SELECT * FROM ' . self::$historyTable . ' WHERE room_id = %s AND sub_room = 0 ORDER BY timestamp DESC', array('integer'), array($this->roomId));
+	public function getLastMessages($number, $chatuser = null) {
+		global $ilDB;
 
-	$result_count = 0;
-	$results = array();
-	while(($row = $ilDB->fetchAssoc($rset)) && $result_count < $number) {
-	    $tmp = json_decode($row['message']);
-		if ($chatuser !== null && $tmp->public == 0 && $tmp->recipients) {
-			if (in_array($chatuser->getUserId(), explode(',',$tmp->recipients))) {
+		// There is currently no way to check if a message is private or not
+		// by sql. So we fetch twice as much as we need and hope that there
+		// are not more than $number private messages.
+		$ilDB->setLimit($number);
+		$rset = $ilDB->query(
+			'SELECT *
+			FROM ' . self::$historyTable . '
+			WHERE room_id = '.$ilDB->quote($this->roomId, 'integer').'
+			AND sub_room = 0
+			AND (
+				(' . $ilDB->like('message', 'text', '%"type":"message"%'). ' AND NOT '.$ilDB->like('message', 'text', '%"public":0%').')
+		  		OR ' . $ilDB->like('message', 'text', '%"target":{%"id":"'.$chatuser->getUserId().'"%'). '
+				OR ' . $ilDB->like('message', 'text', '%"from":{"id":' . $chatuser->getUserId().'%'). '
+			)
+			ORDER BY timestamp DESC'
+		);
+		/*$rset = $ilDB->queryF('SELECT * FROM ' . self::$historyTable . ' WHERE room_id = %s AND sub_room = 0 ORDER BY timestamp DESC', array('integer'), array($this->roomId));*/
+
+		$result_count = 0;
+		$results = array();
+		while(($row = $ilDB->fetchAssoc($rset)) && $result_count < $number) {
+			$tmp = json_decode($row['message']);
+			if ($chatuser !== null && $tmp->target != null && $tmp->target->public == 0) {
+				if ($chatuser->getUserId() == $tmp->target->id || $chatuser->getUserId() == $tmp->from->id) {
+					$results[] = $tmp;
+					++$result_count;
+				}
+			}
+			else {
 				$results[] = $tmp;
 				++$result_count;
 			}
 		}
-		else if ($tmp->public == 1) {
+
+
+		$rset = $ilDB->query(
+			'SELECT *
+			FROM ' . self::$historyTable . '
+			WHERE room_id = '.$ilDB->quote($this->roomId, 'integer').'
+			AND sub_room = 0
+			AND ' . $ilDB->like('message', 'text', '%"type":"notice"%'). '
+			AND timestamp <= ' .  $ilDB->quote($results[0]->timestamp, 'integer') . ' AND timestamp >= ' . $ilDB->quote($results[$result_count-1]->timestamp, 'integer') .'
+
+			ORDER BY timestamp DESC'
+		);
+
+		while(($row = $ilDB->fetchAssoc($rset))) {
+			$tmp = json_decode($row['message']);
 			$results[] = $tmp;
-			++$result_count;
 		}
-		
-	}
-	return $results;
+
+		\usort($results, function($a, $b){
+			return $b->timestamp - $a->timestamp;
+		});
+
+
+		return $results;
     }
 
 	public function getLastMessagesForChatViewer($number, $chatuser = null)
@@ -1382,6 +1419,7 @@ public function getLastMessages($number, $chatuser = null) {
 		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
+		return $this->getLastMessages($number, $chatuser);
 
 		$ilDB->setLimit($number);
 		$rset = $ilDB->query(
@@ -1389,10 +1427,7 @@ public function getLastMessages($number, $chatuser = null) {
 			FROM ' . self::$historyTable . '
 			WHERE room_id = '.$ilDB->quote($this->roomId, 'integer').'
 			AND sub_room = 0
-			AND (
-					(' . $ilDB->like('message', 'text', '%"type":"message"%') . ' AND ' . $ilDB->like('message', 'text', '%"public":1%') . ' AND ' . $ilDB->like('message', 'text', '%"recipients":null%') . ') 
-					OR 
-					' . $ilDB->like('message', 'text', '%"type":"%connected"%') . ')
+			AND	(' . $ilDB->like('message', 'text', '%"type":"message"%') . ' AND NOT ' . $ilDB->like('message', 'text', '%"public":0%') . ')
 			ORDER BY timestamp DESC'
 		);
 

@@ -11,22 +11,6 @@
  */
 class ilChatroomAdminSmiliesTask extends ilChatroomTaskHandler
 {
-	/**
-	 * @var ilChatroomObjectGUI
-	 */
-	private $gui;
-
-	/**
-	 * Constructor
-	 *
-	 * Sets $this->gui using given $gui
-	 *
-	 * @param ilChatroomObjectGUI $gui
-	 */
-	public function __construct(ilChatroomObjectGUI $gui)
-	{
-		$this->gui = $gui;
-	}
 
 	/**
 	 * Switches to visible mode and prepares template.

@@ -9,23 +9,11 @@
  * @version $Id$
  *
  * @ingroup ModulesChatroom
+ *
+ * @TODO IN USE?
  */
 class ilChatroomCreateTask extends ilChatroomTaskHandler
 {
-
-	private $gui;
-
-	/**
-	 * Constructor
-	 *
-	 * Sets $this->gui using given $gui
-	 *
-	 * @param ilChatroomObjectGUI $gui
-	 */
-	public function __construct(ilChatroomObjectGUI $gui)
-	{
-		$this->gui = $gui;
-	}
 
 	/**
 	 * Switches gui to visible mode. Instantiates and prepares form.
@@ -56,7 +44,13 @@ class ilChatroomCreateTask extends ilChatroomTaskHandler
 
 		if( $form->checkInput() )
 		{
-			$this->gui->insertObject();
+			$roomObj = $this->gui->insertObject();
+			$room = ilChatroom::byObjectId($roomObj->getId());
+
+			$connector = $this->gui->getConnector();
+			$response  = $connector->sendCreatePrivateRoom($room->getRoomId(), 0, $roomObj->getOwner(), $roomObj->getTitle());
+
+
 			$ilCtrl->setParameter( $this->gui, 'ref_id', $this->gui->getRefId() );
 			$ilCtrl->redirect( $this->gui, 'settings-general' );
 		}

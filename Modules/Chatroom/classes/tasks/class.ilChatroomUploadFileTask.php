@@ -15,16 +15,9 @@
 class ilChatroomUploadFileTask extends ilChatroomTaskHandler
 {
 
-	private $gui;
-
-	/**
-	 * Constructor
-	 *
-	 * @param ilChatroomObjectGUI $gui
-	 */
-	public function __construct(ilChatroomObjectGUI $gui)
+	public function __construct()
 	{
-		$this->gui = $gui;
+		throw new Exception('METHOD_NOT_IN_USE', 1456435027);
 	}
 
 	/**

@@ -67,12 +67,9 @@ class ilObjChatroom extends ilObject
 	function initDefaultRoles()
 	{
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		$role = ilObjRole::createDefaultRole(
-				'il_chat_moderator_'.$this->getRefId(),
-				"Moderator of chat obj_no.".$this->getId(),
-				'il_chat_moderator',
-				$this->getRefId()
-		);
+
+		$role = $this->createDefaultRole();
+
 		return array();
 	}
 	
@@ -181,5 +178,15 @@ class ilObjChatroom extends ilObject
 		);
 		
 		return parent::delete();
+	}
+
+	protected function createDefaultRole()
+	{
+		return ilObjRole::createDefaultRole(
+			'il_chat_moderator_'.$this->getRefId(),
+			"Moderator of chat obj_no.".$this->getId(),
+			'il_chat_moderator',
+			$this->getRefId()
+		);
 	}
 }

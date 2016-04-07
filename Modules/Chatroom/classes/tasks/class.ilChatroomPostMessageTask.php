@@ -9,24 +9,11 @@
  * @version $Id$
  *
  * @ingroup ModulesChatroom
+ *
+ * @TODO DELETE THIS
  */
 class ilChatroomPostMessageTask extends ilChatroomTaskHandler
 {
-
-	private $gui;
-
-	/**
-	 * Constructor
-	 *
-	 * Sets $this->gui using given $gui
-	 *
-	 * @param ilChatroomObjectGUI $gui
-	 */
-	public function __construct(ilChatroomObjectGUI $gui)
-	{
-		$this->gui = $gui;
-	}
-
 	/**
 	 * Prepares and posts message fetched from $_REQUEST['message']
 	 * to recipients fetched from $_REQUEST['recipient']
@@ -37,6 +24,7 @@ class ilChatroomPostMessageTask extends ilChatroomTaskHandler
 	 */
 	public function executeDefault($method)
 	{
+		throw new Exception('METHOD_NOT_IN_USE', 1456435027);
 		global $ilUser, $ilCtrl;
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';

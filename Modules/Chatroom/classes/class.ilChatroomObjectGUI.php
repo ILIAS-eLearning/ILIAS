@@ -3,6 +3,7 @@
 
 require_once 'Modules/Chatroom/classes/class.ilChatroomObjectDefinition.php';
 require_once 'Modules/Chatroom/classes/class.ilChatroomTaskHandler.php';
+require_once 'Services/UICore/classes/class.ilFrameTargetInfo.php';
 
 /**
  * @author jposselt@databay.de

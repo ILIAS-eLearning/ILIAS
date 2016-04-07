@@ -12,18 +12,6 @@
 class ilChatroomAdminSmileyTask extends ilChatroomTaskHandler
 {
 
-	private $gui;
-
-	/**
-	 * Constructor
-	 * Sets $this->gui
-	 * @param ilChatroomObjectGUI $gui
-	 */
-	public function __construct(ilChatroomObjectGUI $gui)
-	{
-		$this->gui = $gui;
-	}
-
 	/**
 	 * Default execute command.
 	 * Calls view method.

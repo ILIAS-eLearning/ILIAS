@@ -10,11 +10,6 @@
 class ilChatroomSettingsTask extends ilChatroomTaskHandler
 {
 	/**
-	 * @var ilChatroomObjectGUI
-	 */
-	private $gui;
-
-	/**
 	 * Constructor
 	 * Requires ilChatroomFormFactory, ilChatroom and ilChatroomInstaller,
 	 * sets $this->gui using given $gui and calls ilChatroomInstaller::install()
@@ -23,7 +18,7 @@ class ilChatroomSettingsTask extends ilChatroomTaskHandler
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
 	{
-		$this->gui = $gui;
+		parent::__construct($gui);
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';

@@ -54,16 +54,19 @@ class ilObjChatroomAccess extends ilObjectAccess
 		 */
 		global $rbacsystem;
 
-		$t_arr = explode("_", $a_target);
-
-		if ($t_arr[0] != "chtr" || ((int) $t_arr[1]) <= 0)
+		if(is_string($a_target))
 		{
-			return false;
-		}
+			$t_arr = explode("_", $a_target);
 
-		if ($rbacsystem->checkAccess("read", $t_arr[1]))
-		{
-			return true;
+			if (count($t_arr) < 2 || $t_arr[0] != "chtr" || ((int) $t_arr[1]) <= 0)
+			{
+				return false;
+			}
+
+			if ($rbacsystem->checkAccess("read", $t_arr[1]))
+			{
+				return true;
+			}
 		}
 
 		return false;

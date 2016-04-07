@@ -12,7 +12,6 @@
  */
 class ilChatroomInitialTask extends ilChatroomTaskHandler
 {
-	private $gui;
 
 	/**
 	 * Constructor
@@ -24,13 +23,14 @@ class ilChatroomInitialTask extends ilChatroomTaskHandler
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
 	{
-		$this->gui = $gui;
+		parent::__construct($gui);
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 		require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 	}
 
 	public function executeDefault($method)
 	{
+		throw new Exception('METHOD_NOT_IN_USE', 1456435027);
 		global $tpl, $ilUser, $ilCtrl, $lng, $rbacsystem;
 
 		$room = ilChatroom::byObjectId( $this->gui->object->getId() );

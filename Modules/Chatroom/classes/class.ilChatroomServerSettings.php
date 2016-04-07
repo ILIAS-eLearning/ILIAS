@@ -17,6 +17,14 @@ class ilChatroomServerSettings
 	private $protocol	= 'http://';
 	private $domain		= '192.168.1.94';
 	private $instance	= '123456';
+	private $authKey;
+	private $authSecret;
+	private $clientUrlEnabled;
+	private $clientUrl;
+	private $iliasUrlEnabled;
+	private $iliasUrl;
+
+	const PREFIX = '/backend';
 
 	/**
 	 * Returns $this->port.
@@ -55,7 +63,10 @@ class ilChatroomServerSettings
 	 */
 	public function setProtocol($protocol)
 	{
-		$this->protocol = $protocol . '://';
+		if(strpos($protocol, '://') === false)
+		{
+			$this->protocol = $protocol . '://';
+		}
 	}
 
 	/**
@@ -82,14 +93,34 @@ class ilChatroomServerSettings
 	 * Creates URL by calling $this->getBaseURL and using given $action and
 	 * $scope and returns it.
 	 *
-	 * @param string $action
-	 * @param string $scope
+	 * @param string 		$action
+	 * @param string|null	$scope
 	 * @return string
 	 */
-	public function getURL($action, $scope)
+	public function getURL($action, $scope = null)
 	{
-		return $this->getBaseURL() .
-		'/backend/' . $action . '/' . $this->getInstance() . '/' . $scope;
+		$url = $this->generateIliasUrl() . self::PREFIX . '/' . $action . '/' . $this->getInstance() ;
+
+		if($scope !== null)
+		{
+			$url .= '/' . $scope;
+		}
+
+		return $url;
+	}
+
+	public function generateClientUrl() {
+		if($this->getClientUrlEnabled()) {
+			return $this->getProtocol() . $this->getClientUrl();
+		}
+		return $this->getBaseURL();
+	}
+
+	public function generateIliasUrl() {
+		if($this->getIliasUrlEnabled()) {
+			return $this->getProtocol() . $this->getIliasUrl();
+		}
+		return $this->getBaseURL();
 	}
 
 	/**
@@ -133,6 +164,102 @@ class ilChatroomServerSettings
 	    return (bool) $this->smilies_enabled;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getAuthKey()
+	{
+		return $this->authKey;
+	}
+
+	/**
+	 * @param string $authKey
+	 */
+	public function setAuthKey($authKey)
+	{
+		$this->authKey = $authKey;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAuthSecret()
+	{
+		return $this->authSecret;
+	}
+
+	/**
+	 * @param string $authSecret
+	 */
+	public function setAuthSecret($authSecret)
+	{
+		$this->authSecret = $authSecret;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getClientUrlEnabled()
+	{
+		return $this->clientUrlEnabled;
+	}
+
+	/**
+	 * @param mixed $clientUrlEnabled
+	 */
+	public function setClientUrlEnabled($clientUrlEnabled)
+	{
+		$this->clientUrlEnabled = $clientUrlEnabled;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getClientUrl()
+	{
+		return $this->clientUrl;
+	}
+
+	/**
+	 * @param mixed $clientUrl
+	 */
+	public function setClientUrl($clientUrl)
+	{
+		$this->clientUrl = $clientUrl;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getIliasUrlEnabled()
+	{
+		return $this->iliasUrlEnabled;
+	}
+
+	/**
+	 * @param mixed $iliasUrlEnabled
+	 */
+	public function setIliasUrlEnabled($iliasUrlEnabled)
+	{
+		$this->iliasUrlEnabled = $iliasUrlEnabled;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getIliasUrl()
+	{
+		return $this->iliasUrl;
+	}
+
+	/**
+	 * @param mixed $iliasUrl
+	 */
+	public function setIliasUrl($iliasUrl)
+	{
+		$this->iliasUrl = $iliasUrl;
+	}
+
 	public static function loadDefault() {
 		global $ilDB;
 
@@ -149,6 +276,13 @@ class ilChatroomServerSettings
 		$settings->setInstance($client_settings->name);
 		$settings->setDomain($server_settings->address);
 		$settings->setSmiliesEnabled($client_settings->enable_smilies);
+		$settings->setAuthKey($client_settings->auth->key);
+		$settings->setAuthSecret($client_settings->auth->secret);
+		$settings->setClientUrlEnabled($server_settings->client_proxy);
+		$settings->setIliasUrlEnabled($server_settings->ilias_proxy);
+		$settings->setClientUrl($server_settings->client_url);
+		$settings->setIliasUrl($server_settings->ilias_url);
+
 		return $settings;
 	}
 

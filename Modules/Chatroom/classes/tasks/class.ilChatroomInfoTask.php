@@ -14,7 +14,6 @@
  */
 class ilChatroomInfoTask extends ilChatroomTaskHandler
 {
-	private $gui;
 
 	/**
 	 * Constructor
@@ -25,7 +24,7 @@ class ilChatroomInfoTask extends ilChatroomTaskHandler
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
 	{
-		$this->gui = $gui;
+		parent::__construct($gui);
 		require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
 	}
 
@@ -47,11 +46,7 @@ class ilChatroomInfoTask extends ilChatroomTaskHandler
 
 		include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
-		if(!ilChatroom::checkUserPermissions('read', $this->gui->ref_id))
-		{
-			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
-			$ilCtrl->redirectByClass("ilrepositorygui", "");
-		}
+		$this->redirectIfNoPermission('read');
 
 		$this->gui->switchToVisibleMode();
 
@@ -62,7 +57,7 @@ class ilChatroomInfoTask extends ilChatroomTaskHandler
 			);
 		}
 
-		$info = new ilInfoScreenGUI($this->gui);
+		$info = $this->createInfoScreenGUI($this->gui);
 
 		$info->enablePrivateNotes();
 
@@ -83,5 +78,15 @@ class ilChatroomInfoTask extends ilChatroomTaskHandler
 			$ilCtrl->setCmd($method);
 		}
 		$ilCtrl->forwardCommand($info);
+	}
+
+	/**
+	 * @param ilChatroomObjectGui $gui
+	 *
+	 * @return ilInfoScreenGUI
+	 */
+	protected function createInfoScreenGUI($gui)
+	{
+		return new ilInfoScreenGUI($gui);
 	}
 }

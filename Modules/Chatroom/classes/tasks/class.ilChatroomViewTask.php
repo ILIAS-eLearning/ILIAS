@@ -13,19 +13,6 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 class ilChatroomViewTask extends ilChatroomTaskHandler
 {
 	/**
-	 * @var ilChatroomObjectGUI
-	 */
-	private $gui;
-
-	/**
-	 * @param ilChatroomObjectGUI $gui
-	 */
-	public function __construct(ilChatroomObjectGUI $gui)
-	{
-		$this->gui = $gui;
-	}
-
-	/**
 	 * Calls ilUtil::sendFailure method using given $message as parameter.
 	 * @param string $message
 	 */
@@ -77,25 +64,17 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 			$ilCtrl->redirectByClass('ilinfoscreengui', 'info');
 		}
 
-		if(!$room->isSubscribed($chat_user->getUserId()) && $room->connectUser($chat_user))
+		if(!$room->isSubscribed($chat_user->getUserId()))
 		{
-			$messageObject = array(
-				'type'      => 'connected',
-				'users'     => array(
-					array(
-						'login' => $chat_user->getUsername(),
-						'id'    => $user_id,
-					),
-				),
-				'timestamp' => time() * 1000
-			);
-			$message       = json_encode($messageObject);
-			$connector->sendMessage(
-				$scope,
-				$message
-			);
+			$room->connectUser($chat_user);
+		}
 
-			$room->addHistoryEntry($messageObject);
+		$subScope = 0;
+		$response = $connector->sendEnterPrivateRoom($scope, $subScope, $user_id);
+		if(!$response)
+		{
+			ilUtil::sendFailure($lng->txt('unable_to_connect'), true);
+			$ilCtrl->redirectByClass('ilinfoscreengui', 'info');
 		}
 
 		$connection_info    = json_decode($response);
@@ -110,7 +89,8 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 
 		$initial->userinfo = array(
 			'moderator' => $rbacsystem->checkAccess('moderate', (int)$_GET['ref_id']),
-			'userid'    => $chat_user->getUserId()
+			'id'    	=> $chat_user->getUserId(),
+			'login'		=> $chat_user->getUsername()
 		);
 
 		$smileys = array();
@@ -182,42 +162,15 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 						)
 					);
 
-					$query     = http_build_query($params);
 					$connector = $this->gui->getConnector();
-					$response  = $connector->enterPrivateRoom($scope, $query);
+					$response = $connector->sendEnterPrivateRoom($scope, $_REQUEST['sub'], $chat_user->getUserId());
 
-					$responseObject = json_decode($response);
-
-					if($responseObject->success == true)
+					if($this->isSuccessful($response))
 					{
 						$room->subscribeUserToPrivateRoom($params['sub'], $params['user']);
 					}
 
-					$message = json_encode(array(
-						'type' => 'private_room_entered',
-						'user' => $params['user'],
-						'sub'  => $params['sub']
-					));
-
-					$connector->sendMessage($room->getRoomId(), $message, array('public' => 1, 'sub' => $params['sub']));
-
 					$initial->enter_room = $_REQUEST['sub'];
-					$initial->messages[] = array(
-						'type'     => 'notice',
-						'user'     => $params['user'],
-						'sub'      => $params['sub'],
-						'entersub' => 1
-					);
-				}
-
-				if($_SESSION['show_invitation_message'])
-				{
-					$initial->messages[] = array(
-						'type'    => 'notice',
-						'message' => $lng->txt('user_invited'),
-						'sub'     => $_REQUEST['sub']
-					);
-					unset($_SESSION['show_invitation_message']);
 				}
 			}
 			else
@@ -236,7 +189,7 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 
 		$roomTpl = new ilTemplate('tpl.chatroom.html', true, true, 'Modules/Chatroom');
 		$roomTpl->setVariable('SESSION_ID', $connection_info->{'session-id'});
-		$roomTpl->setVariable('BASEURL', $settings->getBaseURL());
+		$roomTpl->setVariable('BASEURL', $settings->generateClientUrl());
 		$roomTpl->setVariable('INSTANCE', $settings->getInstance());
 		$roomTpl->setVariable('SCOPE', $scope);
 		$roomTpl->setVariable('MY_ID', $user_id);
@@ -288,6 +241,7 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 			'LBL_LEAVE_PRIVATE_ROOM' => 'leave_private_room',
 			'LBL_JOIN' => 'chat_join',
 			'LBL_DELETE_PRIVATE_ROOM' => 'delete_private_room',
+			'LBL_DELETE_PRIVATE_ROOM_QUESTION' => 'delete_private_room_question',
 			'LBL_INVITE_TO_PRIVATE_ROOM' => 'invite_to_private_room',
 			'LBL_KICK' => 'chat_kick',
 			'LBL_BAN' => 'chat_ban',
@@ -454,7 +408,12 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 
 		if(!$failure && trim($username) != '')
 		{
-			$chat_user->setUsername($username);
+			if(!$room->isSubscribed($chat_user->getUserId()))
+			{
+				$username = $this->buildUniqueUsername($username, $room);
+				$chat_user->setUsername($username);
+			}
+
 			$this->showRoom($room, $chat_user);
 		}
 		else
@@ -543,16 +502,20 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		$chat_user = new ilChatroomUser($ilUser, $room);
 		$user_id   = $_REQUEST['usr_id'];
 		$connector = $this->gui->getConnector();
-		$title     = $room->getUniquePrivateRoomTitle($chat_user->getUsername());
-		$response  = $connector->createPrivateRoom($room, $title, $chat_user);
-		$connector->inviteToPrivateRoom($room, $response->id, $ilUser, $user_id);
-		$room->sendInvitationNotification($this->gui, $chat_user, $user_id, $response->id);
+		$title     = $room->getUniquePrivateRoomTitle($chat_user->buildLogin());
+		$subRoomId = $room->addPrivateRoom($title, $chat_user, array('public' => false));
 
-		$_REQUEST['sub'] = $response->id;
+		$room->inviteUserToPrivateRoom($user_id, $subRoomId);
+		$connector->sendCreatePrivateRoom($room->getRoomId(), $subRoomId, $chat_user->getUserId(), $title);
+		$connector->sendInviteToPrivateRoom($room->getRoomId(), $subRoomId, $chat_user->getUserId(), $user_id);
+
+		$room->sendInvitationNotification($this->gui, $chat_user, $user_id, $subRoomId);
+
+		$_REQUEST['sub'] = $subRoomId;
 
 		$_SESSION['show_invitation_message'] = $user_id;
 
-		$ilCtrl->setParameter($this->gui, 'sub', $response->id);
+		$ilCtrl->setParameter($this->gui, 'sub', $subRoomId);
 		$ilCtrl->redirect($this->gui, 'view');
 	}
 
@@ -701,8 +664,67 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		 * @var $ilCtrl ilCtrl
 		 */
 		global $lng, $ilCtrl;
+		
+		if(isset($_GET['msg']))
+		{
+			switch($_GET['msg'])
+			{
+				case 'kicked':
+					ilUtil::sendFailure($lng->txt('kicked'), true);
+					break;
 
-		ilUtil::sendFailure($lng->txt('lost_connection'), true);
+				case 'banned':
+					ilUtil::sendFailure($lng->txt('banned'), true);
+					break;
+
+				default:
+					ilUtil::sendFailure($lng->txt('lost_connection'), true);
+					break;
+			}
+		}
+		else
+		{
+			ilUtil::sendFailure($lng->txt('lost_connection'), true);
+		}
+
 		$ilCtrl->redirectByClass('ilinfoscreengui', 'info');
+	}
+
+	/**
+	 * @param string     $username
+	 * @param ilChatroom $room
+	 *
+	 * @return string
+	 */
+	private function buildUniqueUsername($username, ilChatroom $room)
+	{
+		/**
+		 * @var ilDB $ilDB
+		 */
+		global $ilDB;
+		$username = htmlspecialchars(trim($username));
+		$usernames = array();
+		$uniqueName = $username;
+
+		$rset = $ilDB->query('SELECT * FROM chatroom_users WHERE '
+			. $ilDB->like('userdata', 'text', '%"login":"'.$username.'%')
+			. ' AND room_id = ' .$ilDB->quote($room->getRoomId(), 'integer')
+		);
+
+		while(($row = $ilDB->fetchAssoc($rset)))
+		{
+			$json = json_decode($row['userdata'], true);
+			$usernames[] = $json['login'];
+		}
+
+		for($index = 1; $index <= \count($usernames); $index++)
+		{
+			if(in_array($uniqueName, $usernames))
+			{
+				$uniqueName = sprintf('%s_%d', $username, $index);
+			}
+		}
+
+		return $uniqueName;
 	}
 }

@@ -11277,6 +11277,7 @@ chatroom#:#auto_scroll#:#Scroll to Bottom
 chatroom#:#public_chat_created#:#The public chat room has been added to the repository.
 chatroom#:#lost_connection#:#The connection to the chat server was interrupted.
 chatroom#:#banned#:#You have been banned from this chat room
+chatroom#:#kicked#:#You have been kicked from this chat room
 chatroom#:#unban#:#Unban
 chatroom_adm#:#keystore#:#Keystore
 chatroom_adm#:#keypass#:#Keypass
@@ -11586,7 +11587,7 @@ chatroom#:#user_invited_self#:#<b>#user#</b> invited you to the chat room <b>#ro
 chatroom#:#private_room_closed#:#The chat room <b>#title#</b> has been closed.
 chatroom#:#private_room_entered#:#Welcome to the private room <b>#title#</b>.
 chatroom#:#private_room_left#:#The user <b>#user#</b> has left the private room <b>#title#</b>.
-chatroom#:#private_room_entered_user#:#The user <b>#user#</b> has entered the private room <b>#title#</b>.
+chatroom#:#private_room_entered_user#:#The user <b>#username#</b> has entered the private room <b>#title#</b>.
 chatroom#:#kicked_from_private_room#:#You have been kicked from the private room <b>#title#</b>.
 assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.
 administration#:#obj_otpl#:#Didactic Templates
@@ -11601,7 +11602,7 @@ didactic#:#didactic_not_changed#:#The didactic template setting is unchanged.
 didactic#:#didactic_selected_tpl_option#:#Applied didactic template:
 didactic#:#didactic_template_applied#:#Applied didactic template.
 didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the chosen didactic template? All current permission settings will get lost!
-chatroom#:#chatserver_address#:#IP-Address of Chat Server
+chatroom#:#chatserver_address#:#IP-Address/FQN of Chat Server
 chatroom#:#chatserver_port#:#Port of Chat Server
 chatroom#:#instance_name#:#Unique Identifier
 chatroom#:#ilias_url#:#Base-URL of your ILIAS Installation
@@ -15648,3 +15649,17 @@ book#:#book_deadline_options#:#Booking deadline
 book#:#book_deadline_hours#:#X hours prior to booking priod
 book#:#book_deadline_slot_end#:#Until end of booking period
 book#:#book_deadline_slot_start#:#Until begin of booking period
+chatroom#:#chatroom_auth#:#Authentication
+chatroom#:#chatroom_auth_key#:#Authentication-Key
+chatroom#:#chatroom_auth_secret#:#Authentication-Secret
+chatroom#:#chatroom_auth_btn_txt#:#Generate Keys
+chatroom#:#key#:#Key
+chatroom#:#dhparam#:#Diffie-Hellman Parameter
+chatroom#:#ilias_chatserver_connection#:#ILIAS to Server Connection
+chatroom#:#ilias_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for ILIAS to Server connection.
+chatroom#:#client_chatserver_connection#:#Client to Server Connection
+chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.
+chatroom#:#connection_url_info#:#Please insert an URL without using the Protocol-Definition
+chatroom#:#log#:#Chatserver Log
+chatroom#:#error_log#:#Chatserver Error-Log
+chatroom#:#delete_private_room_question#:#Confirm delete private room?

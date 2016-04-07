@@ -9,23 +9,11 @@
  * @version $Id$
  *
  * @ingroup ModulesChatroom
+ *
+ * @TODO DELETE THIS
  */
 class ilChatroomPollTask extends ilChatroomTaskHandler
 {
-
-	private $gui;
-
-	/**
-	 * Constructor
-	 *
-	 * Sets $this->gui using given $gui
-	 *
-	 * @param ilChatroomObjectGUI $gui
-	 */
-	public function __construct(ilChatroomObjectGUI $gui)
-	{
-		$this->gui = $gui;
-	}
 
 	public function executeDefault($method)
 	{

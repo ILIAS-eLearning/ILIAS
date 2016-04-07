@@ -11,21 +11,12 @@
  * @version $Id$
  *
  * @ingroup ModulesChatroom
+ *
+ * @deprecated
+ * @TODO REMOVE
  */
 class ilChatroomGetPermissionsTask extends ilChatroomTaskHandler
 {
-
-	private $gui;
-
-	/**
-	 * Constructor
-	 *
-	 * @param ilChatroomObjectGUI $gui
-	 */
-	public function __construct(ilChatroomObjectGUI $gui)
-	{
-		$this->gui = $gui;
-	}
 
 	/**
 	 * Default execute method.
@@ -34,6 +25,8 @@ class ilChatroomGetPermissionsTask extends ilChatroomTaskHandler
 	 */
 	public function executeDefault($requestedMethod)
 	{
+		throw new Exception('METHOD_NOT_IN_USE', 1456435027);
+
 		global $ilUser;
 
 		switch($ilUser->getLogin())

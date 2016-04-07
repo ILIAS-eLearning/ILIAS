@@ -58,7 +58,7 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getProperties()
+	public function getProperties($a_item = '')
 	{
 		/**
 		 * @var $lng ilLanguage

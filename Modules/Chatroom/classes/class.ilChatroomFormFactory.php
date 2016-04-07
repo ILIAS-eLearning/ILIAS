@@ -288,26 +288,62 @@ class ilChatroomFormFactory
 		$port->setSize(6);
 		$form->addItem($port);
 
-		$priv_hosts = new ilTextInputGUI($lng->txt('priv_hosts'), 'priv_hosts');
-		$priv_hosts->setRequired(true);
-		$form->addItem($priv_hosts);
-
-		$keystore = new ilTextInputGUI($lng->txt('keystore'), 'keystore');
-		$keystore->setRequired(true);
-		$keypass = new ilTextInputGUI($lng->txt('keypass'), 'keypass');
-		$keypass->setRequired(true);
-		$storepass = new ilTextInputGUI($lng->txt('storepass'), 'storepass');
-		$storepass->setRequired(true);
-
 		$protocol = new ilRadioGroupInputGUI($lng->txt('protocol'), 'protocol');
-		$http     = new ilRadioOption($lng->txt('http'), 'http');
-		$https    = new ilRadioOption($lng->txt('https'), 'https');
-		$https->addSubItem($keystore);
-		$https->addSubItem($keypass);
-		$https->addSubItem($storepass);
-		$protocol->addOption($http);
-		$protocol->addOption($https);
 		$form->addItem($protocol);
+
+		$http     = new ilRadioOption($lng->txt('http'), 'http');
+		$protocol->addOption($http);
+
+		$https    = new ilRadioOption($lng->txt('https'), 'https');
+		$protocol->addOption($https);
+
+		$certificate = new ilTextInputGUI($lng->txt('certificate'), 'cert');
+		$certificate->setRequired(true);
+		$https->addSubItem($certificate);
+
+		$key = new ilTextInputGUI($lng->txt('key'), 'key');
+		$key->setRequired(true);
+		$https->addSubItem($key);
+
+		$dhparam = new ilTextInputGUI($lng->txt('dhparam'), 'dhparam');
+		$dhparam->setRequired(true);
+		$https->addSubItem($dhparam);
+
+		$chatLog = new ilTextInputGUI($lng->txt('log'), 'log');
+		$chatLog->setRequired(false);
+		$form->addItem($chatLog);
+
+		$chatErrorLog = new ilTextInputGUI($lng->txt('error_log'), 'error_log');
+		$chatErrorLog->setRequired(false);
+		$form->addItem($chatErrorLog);
+
+		$iliasSection = new ilFormSectionHeaderGUI();
+		$iliasSection->setTitle($lng->txt('ilias_chatserver_connection'));
+		$form->addItem($iliasSection);
+
+		$iliasProxy = new ilCheckboxInputGUI($lng->txt('proxy'), 'ilias_proxy');
+		$iliasProxy->setRequired(false);
+		$iliasProxy->setInfo($lng->txt('ilias_proxy_info'));
+		$form->addItem($iliasProxy);
+
+		$chatServerILIASUrl = new ilTextInputGUI($lng->txt('url'), 'ilias_url');
+		$chatServerILIASUrl->setRequired(true);
+		$chatServerILIASUrl->setInfo($lng->txt('connection_url_info'));
+		$iliasProxy->addSubItem($chatServerILIASUrl);
+
+		$clientSection = new ilFormSectionHeaderGUI();
+		$clientSection->setTitle($lng->txt('client_chatserver_connection'));
+		$form->addItem($clientSection);
+
+		$clientProxy = new ilCheckboxInputGUI($lng->txt('proxy'), 'client_proxy');
+		$clientProxy->setRequired(false);
+		$clientProxy->setInfo($lng->txt('client_proxy_info'));
+		$form->addItem($clientProxy);
+
+		$chatServerClientUrl = new ilTextInputGUI($lng->txt('url'), 'client_url');
+		$chatServerClientUrl->setRequired(true);
+		$chatServerClientUrl->setInfo($lng->txt('connection_url_info'));
+		$clientProxy->addSubItem($chatServerClientUrl);
 
 		return $form;
 	}
@@ -331,6 +367,7 @@ class ilChatroomFormFactory
 		$cb->setInfo($lng->txt('hint_osd'));
 		$form->addItem($cb);
 
+		//@TODO Remove
 		$txt = new ilNumberInputGUI($lng->txt('osd_intervall'), 'osd_intervall');
 		$txt->setMinValue(1);
 		$txt->setRequired(true);
@@ -345,16 +382,32 @@ class ilChatroomFormFactory
 		$cb->setInfo($lng->txt('hint_enable_smilies'));
 		$form->addItem($cb);
 
-		$name = new ilTextInputGUI($lng->txt('instance_name'), 'name');
+		require_once 'Modules/Chatroom/classes/class.ilChatroomAuthInputGUI.php';
+		$auth = new ilChatroomAuthInputGUI($lng->txt('chatroom_auth'), 'auth');
+		$auth->setCtrlPath(array('iladministrationgui', 'ilobjchatroomgui', 'ilpropertyformgui', 'ilformpropertydispatchgui', 'ilchatroomauthinputgui'));
+		$auth->setRequired(true);
+		$form->addItem($auth);
+
+		/*$id = new ilTextInputGUI($lng->txt('authentication_id'), 'authentication_id');
+		$id->setRequired(true);
+		$form->addItem($id);
+
+		$secret = new ilTextInputGUI($lng->txt('authentication_secret'), 'authentication_secret');
+		$secret->setRequired(true);
+		$form->addItem($secret);*/
+
+		/*$name = new ilTextInputGUI($lng->txt('instance_name'), 'name');
 		$name->setRequired(true);
 		$name->setValidationRegexp('/^[a-z0-9_-]+$/i');
 		$name->setInfo($lng->txt('hint_unique_name'));
-		$form->addItem($name);
+		$form->addItem($name);*/
 
-		$url = new ilTextInputGUI($lng->txt('ilias_url'), 'url');
+		/*$url = new ilTextInputGUI($lng->txt('ilias_url'), 'url');
 		$url->setRequired(true);
-		$form->addItem($url);
+		$form->addItem($url);*/
 
+		//@TODO remove
+		/*
 		$user = new ilTextInputGUI($lng->txt('soap_user'), 'user');
 		$user->setInfo($lng->txt('soap_user_hint'));
 		$user->setRequired(true);
@@ -363,7 +416,7 @@ class ilChatroomFormFactory
 		$password = new ilPasswordInputGUI($lng->txt('soap_user_password'), 'password');
 		$password->setSkipSyntaxCheck(true);
 		$password->setRequired(true);
-		$form->addItem($password);
+		$form->addItem($password);*/
 
 		return $form;
 	}

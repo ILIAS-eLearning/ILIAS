@@ -34,14 +34,21 @@ class ilChatroomServerConnector
 	 * @param array  $stream_context_params
 	 * @return string|false
 	 */
-	private function file_get_contents($url, array $stream_context_params = null)
+	protected function file_get_contents($url, array $stream_context_params = null)
 	{
+		$credentials = $this->settings->getAuthKey() . ':' . $this->settings->getAuthSecret();
+		$header = "Connection: close\r\n" .
+					"Content-Type: application/json; charset=utf-8\r\n".
+				  "Authorization: Basic ". base64_encode($credentials);
+
 		$ctx = array(
 			'http'  => array(
-				'header' => 'Connection: close'
+				'method' => 'GET',
+				'header' => $header
 			),
 			'https' => array(
-				'header' => 'Connection: close'
+				'method' => 'GET',
+				'header' => $header
 			)
 		);
 
@@ -79,7 +86,7 @@ class ilChatroomServerConnector
 	public function connect($scope, $userId)
 	{
 		return $this->file_get_contents(
-			$this->settings->getURL('Connect', $scope) . '?id=' . $userId
+			$this->settings->getURL('Connect', $scope) . '/' . $userId
 		);
 	}
 
@@ -98,52 +105,129 @@ class ilChatroomServerConnector
 	}
 
 	/**
-	 * @param string $scope
-	 * @param string $query
+	 * @param int	$scope
+	 * @param int	$subScope
+	 * @param int	$user
 	 * @return mixed
 	 */
-	private function sendCreatePrivateRoom($scope, $query)
+	public function sendCreatePrivateRoom($scope, $subScope, $user, $title)
 	{
 		return $this->file_get_contents(
-			$this->settings->getURL('CreatePrivateRoom', $scope) . '?' . $query
+			$this->settings->getURL('CreatePrivateRoom', $scope) . '/' . $subScope . '/' . $user . '/' . rawurlencode($title)
+		);
+	}
+
+	/**
+	 * @param int	$scope
+	 * @param int	$subScope
+	 * @param int	$user
+	 * @return mixed
+	 */
+	public function sendEnterPrivateRoom($scope, $subScope, $user)
+	{
+		return $this->file_get_contents(
+			$this->settings->getURL('EnterPrivateRoom', $scope) . '/' . $subScope . '/' . $user
+		);
+	}
+
+	/**
+	 * @param int $scope
+	 * @param int $subScope
+	 * @param int $user
+	 *
+	 * @return mixed
+	 */
+	public function sendLeavePrivateRoom($scope, $subScope, $user)
+	{
+		return $this->file_get_contents(
+			$this->settings->getURL('LeavePrivateRoom', $scope) . '/' . $subScope . '/' . $user
+		);
+	}
+
+	/**
+	 * @param int	$scope
+	 * @param int	$subScope
+	 * @param int	$user
+	 * @return mixed
+	 */
+	public function sendDeletePrivateRoom($scope, $subScope, $user)
+	{
+		return $this->file_get_contents(
+				$this->settings->getURL('DeletePrivateRoom', $scope) . '/' . $subScope . '/' . $user
+		);
+	}
+
+	/**
+	 * @param int	$scope
+	 * @param int	$subScope
+	 * @param int	$user
+	 * @return mixed
+	 *
+	 * @deprecated Please use sendEnterPrivateRoom instead
+	 */
+	public function enterPrivateRoom($scope, $subScope, $user)
+	{
+		return $this->sendEnterPrivateRoom($scope, $subScope, $user);
+	}
+
+	/**
+	 * @param int $scope
+	 * @param int $subScope
+	 * @param int $user
+	 *
+	 * @return string
+	 */
+	public function sendClearMessages($scope, $subScope, $user)
+	{
+		return $this->file_get_contents(
+			$this->settings->getURL('ClearMessages', $scope) . '/' . $subScope . '/' . $user
 		);
 	}
 
 	/**
 	 * @param string $scope
-	 * @param string $query
+	 * @param int    $subScope
+	 * @param int    $user
+	 *
 	 * @return mixed
+	 *
+	 * @deprecated; Use sendLeavePrivateRoom instead
 	 */
-	public function enterPrivateRoom($scope, $query)
+	public function leavePrivateRoom($scope, $subScope, $user)
 	{
-		return $this->file_get_contents(
-			$this->settings->getURL('EnterPrivateRoom', $scope) . '?' . $query
-		);
+		return $this->sendLeavePrivateRoom($scope, $subScope, $user);
 	}
 
 	/**
-	 * @param string $scope
-	 * @param string $query
-	 * @return mixed
+	 * @param int $scope
+	 * @param int $subScope
+	 * @param int $user
+	 *
+	 * @return string
 	 */
-	public function leavePrivateRoom($scope, $query)
+	public function sendKick($scope, $subScope, $user)
 	{
-		return $this->file_get_contents(
-			$this->settings->getURL('LeavePrivateRoom', $scope) . '?' . $query
-		);
+		return $this->kick($scope, $subScope, $user);
 	}
 
 	/**
 	 * Returns kick URL
 	 * Creates kick URL using given $scope and $query and returns it.
 	 * @param string $scope
-	 * @param string $query
+	 * @param int	 $user
 	 * @return mixed
 	 */
-	public function kick($scope, $query)
+	public function kick($scope, $subScope, $user)
 	{
 		return $this->file_get_contents(
-			$this->settings->getURL('Kick', $scope) . '?' . $query
+			$this->settings->getURL('Kick', $scope) . '/' . $subScope. '/' . $user
+		);
+	}
+
+	public function sendBan($scope, $subScope, $user)
+	{
+		return $this->file_get_contents(
+			$this->settings->getURL('Ban', $scope) . '/' . $subScope. '/' . $user
 		);
 	}
 
@@ -174,26 +258,30 @@ class ilChatroomServerConnector
 
 	/**
 	 * @param ilChatRoom $room
-	 * @param int        $scope
-	 * @param ilObjUser  $inviter
+	 * @param int        $subScope
+	 * @param ilChatroomUser  $inviter
 	 * @param int        $invited_id
+	 *
 	 * @return array
+	 *
+	 * @deprecated
 	 */
-	public function inviteToPrivateRoom(ilChatRoom $room, $scope, ilObjUser $inviter, $invited_id)
+	public function inviteToPrivateRoom(ilChatRoom $room, $subScope, ilChatroomUser $inviter, $invited_id)
 	{
-		$chat_user = new ilChatroomUser($inviter, $room);
-		$user_id   = $chat_user->getUserId();
+		die('DEPRECATED');
 
-		if($scope)
+		/*$user_id   = $chat_user->getUserId();
+
+		if($subScope)
 		{
-			$room->inviteUserToPrivateRoom($invited_id, $scope);
+			$room->inviteUserToPrivateRoom($invited_id, $subScope);
 			$message = json_encode(array(
 				'type'      => 'private_room_created',
 				'users'     => $invited_id, //$users,
 				'timestamp' => date('c'),
 				'public'    => 0,
-				'title'     => ilChatroom::lookupPrivateRoomTitle($scope),
-				'proom_id'  => $scope,
+				'title'     => ilChatroom::lookupPrivateRoomTitle($subScope),
+				'proom_id'  => $subScope,
 				'message'   => array(
 					'public' => '0',
 					'user'   => 'system',
@@ -201,23 +289,37 @@ class ilChatroomServerConnector
 				)
 			));
 
-			$this->sendMessage($room->getRoomId(), $message, array('public' => 0, 'recipients' => $invited_id));
+			//$this->sendMessage($room->getRoomId(), $message, array('public' => 0, 'recipients' => $invited_id));
 		}
 
 		if($room->isSubscribed($user_id))
 		{
 			$message = json_encode(array(
 				'type'     => 'user_invited',
-				'title'    => ilChatroom::lookupPrivateRoomTitle($scope),
-				'proom_id' => $scope,
+				'title'    => ilChatroom::lookupPrivateRoomTitle($subScope),
+				'proom_id' => $subScope,
 				'inviter'  => $inviter->getId(),
 				'invited'  => $invited_id
 			));
 
-			$this->sendMessage($room->getRoomId(), $message, array('public' => 0, 'recipients' => $invited_id));
+			//$this->sendMessage($room->getRoomId(), $message, array('public' => 0, 'recipients' => $invited_id));
 		}
 
-		return array('success' => true, 'message' => 'users invited');
+		return array('success' => true, 'message' => 'users invited');*/
+	}
+
+	/**
+	 * @param int $scope
+	 * @param int $subScope
+	 * @param int $user
+	 * @param int $invited_id
+	 *
+	 * @return mixed
+	 */
+	public function sendInviteToPrivateRoom($scope, $subScope, $user, $invited_id) {
+		return $this->file_get_contents(
+				$this->settings->getURL('InvitePrivateRoom', $scope) . '/' . $subScope . '/' . $user . '/' . $invited_id
+		);
 	}
 
 	/**
@@ -225,23 +327,25 @@ class ilChatroomServerConnector
 	 * @param string         $title
 	 * @param ilChatroomUser $owner
 	 * @return mixed
+	 *
+	 * @deprecated
 	 */
 	public function createPrivateRoom(ilChatroom $room, $title, ilChatroomUser $owner)
 	{
-		$settings = array(
+		die('DEPRECATED');
+		/*$settings = array(
 			'public' => false,
 		);
 
-		$params['user'] = $owner->getUserId();
-		$params['id']   = $room->addPrivateRoom($title, $owner, $settings);
+		$scope = $room->getRoomId();
+		$subScope = $room->addPrivateRoom($title, $owner, $settings);*/
 
-		$query          = http_build_query($params);
-		$response       = $this->sendCreatePrivateRoom($room->getRoomId(), $query);
+		$response       = $this->sendCreatePrivateRoom($scope, $subScope, $owner->getUserId());
 		$responseObject = json_decode($response);
-		$return         = $responseObject;
+
 		if($responseObject->success == true)
 		{
-			$message = json_encode(array(
+			/*$message = json_encode(array(
 				'type'      => 'private_room_created',
 				'timestamp' => date('c'),
 				'public'    => 0,
@@ -251,35 +355,33 @@ class ilChatroomServerConnector
 				'owner'     => $owner->getUserId(),
 			));
 
-			$result = $this->sendMessage($room->getRoomId(), $message, array('public' => 0, 'recipients' => $owner->getUserId()));
+			$result = $this->sendMessage($room->getRoomId(), $message, array('public' => 0, 'recipients' => $owner->getUserId()));*/
 
-			$params         = array();
-			$params['user'] = $owner->getUserId();
-			$params['sub']  = $responseObject->id;
+			//$query    = http_build_query($params);
+			$response = $this->enterPrivateRoom($scope, $subScope, $owner->getUserId());
 
-			$query    = http_build_query($params);
-			$response = $this->enterPrivateRoom($room->getRoomId(), $query);
+			$room->subscribeUserToPrivateRoom($subScope, $owner->getUserId());
 
-			$room->subscribeUserToPrivateRoom($params['sub'], $params['user']);
-
-			$message = json_encode(array(
+			/*$message = json_encode(array(
 				'type'      => 'private_room_entered',
 				'user'      => $owner->getUserId(),
 				'timestamp' => date('c'),
 				'sub'       => $responseObject->id
 			));
-			$this->sendMessage($room->getRoomId(), $message);
+			$this->sendMessage($room->getRoomId(), $message);*/
 		}
 		return $responseObject;
 	}
 
 	/**
 	 * @return bool
+	 *
+	 * @TODO Extract Status Code to Static
 	 */
 	public function isServerAlive()
 	{
 		$response = $this->file_get_contents(
-			$this->settings->getURL('Status', 0),
+			$this->settings->getURL('Heartbeat'),
 			array(
 				'http'  => array(
 					'timeout' => 2
@@ -292,7 +394,17 @@ class ilChatroomServerConnector
 
 		$responseObject = json_decode($response);
 
-		return $responseObject->success == true;
+		return $responseObject->status == 200;
+	}
+
+	public function createUniqueScopeId($roomId, $pRoomId = null)
+	{
+		if($pRoomId != null)
+		{
+			$roomId .= '-' . $pRoomId;
+		}
+
+		return $roomId;
 	}
 
 	/**

@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
 /**
  * Class ilChatroomKickTask
@@ -13,20 +14,6 @@
 class ilChatroomKickTask extends ilChatroomTaskHandler
 {
 
-	private $gui;
-
-	/**
-	 * Constructor
-	 *
-	 * Sets $this->gui using given $gui.
-	 *
-	 * @param ilChatroomObjectGUI $gui
-	 */
-	public function __construct(ilChatroomObjectGUI $gui)
-	{
-	    $this->gui = $gui;
-	}
-
 	/**
 	 * Displays window box to kick a user fetched from $_REQUEST['user'].
 	 *
@@ -35,75 +22,45 @@ class ilChatroomKickTask extends ilChatroomTaskHandler
 	 */
 	public function executeDefault($method)
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 * @var $ilCtrl ilCtrl 
-		 */
-		global $ilUser, $ilCtrl;
-
-		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-		require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
-
-		if(!ilChatroom::checkUserPermissions(array('read', 'moderate'), $this->gui->ref_id))
-		{
-			$ilCtrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
-			$ilCtrl->redirectByClass('ilrepositorygui', '');
-		}
+		$this->redirectIfNoPermission(array('read', 'moderate'));
 
 		$room = ilChatroom::byObjectId($this->gui->object->getId());
+		$userToKick = $_REQUEST['user'];
+		$subRoomId = $_REQUEST['sub'];
 
-		if($room)
+		$this->exitIfNoRoomExists($room);
+
+		$connector      = $this->gui->getConnector();
+		$response       = $connector->sendKick($room->getRoomId(), $subRoomId, $userToKick);
+
+		if($this->isSuccessful($response) && !$subRoomId)
 		{
-			// if user is in scope
-			$scope = $room->getRoomId();
-
-			$chat_user = new ilChatroomUser($ilUser, $room);
-
-			$messageObject = $this->buildMessage(
-				ilUtil::stripSlashes($_REQUEST['user']), $chat_user
-			);
-
-			$message = json_encode($messageObject);
-
-			$params = array(
-				'message'    => $message,
-				'userToKick' => $_REQUEST['user']
-			);
-
-			$query          = http_build_query($params);
-			$connector      = $this->gui->getConnector();
-			$response       = $connector->kick($scope, $query);
-			$responseObject = json_decode($response);
-
-			if($responseObject->success == true)
-			{
-				$room->addHistoryEntry($messageObject, '', 1);
-
-				$message = json_encode(array(
-					'type' => 'userjustkicked',
-					'user' => $params['userToKick'],
-					'sub'  => 0
-				));
-
-				$connector->sendMessage($room->getRoomId(), $message, array(
-					'public' => 1,
-					'sub'    => 0
-				));
-
-				// 2013-09-11: Should already been done by the chat server
-				$room->disconnectUser($params['userToKick']);
-			}
-		}
-		else
-		{
-			$response = json_encode(array(
-				'success' => false,
-				'reason'  => 'unkown room'
-			));
+			// 2013-09-11: Should already been done by the chat server
+			$room->disconnectUser($userToKick);
 		}
 
-		echo $response;
-		exit;
+		$this->sendResponse($response);
+	}
+
+	public function main()
+	{
+		$room = ilChatroom::byObjectId($this->gui->object->getId());
+		$userToKick = $_REQUEST['user'];
+		$subRoomId = $_REQUEST['sub'];
+
+
+		$this->exitIfNoRoomExists($room);
+
+		$connector      = $this->gui->getConnector();
+		$response       = $connector->sendKick($room->getRoomId(), $subRoomId, $userToKick);
+
+		if($this->isSuccessful($response))
+		{
+			// 2013-09-11: Should already been done by the chat server
+			$room->disconnectUser($userToKick);
+		}
+
+		$this->sendResponse($response);
 	}
 
 	/**
@@ -135,9 +92,6 @@ class ilChatroomKickTask extends ilChatroomTaskHandler
 	{
 	    global $ilUser, $ilCtrl;
 
-	    require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-	    require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
-
 		$room = ilChatroom::byObjectId($this->gui->object->getId());
 
 		if($room)
@@ -151,25 +105,31 @@ class ilChatroomKickTask extends ilChatroomTaskHandler
 				}
 			}
 
-			$scope          = $room->getRoomId();
-			$params         = array();
-			$params['user'] = $_REQUEST['user'];
-			$params['sub']  = $_REQUEST['sub'];
+			$roomId          = $room->getRoomId();
+			$subRoomId 		= $_REQUEST['sub'];
+			$userToKick = $_REQUEST['user'];
 
-			if($room->userIsInPrivateRoom($params['sub'], $params['user']))
+			if($room->userIsInPrivateRoom($subRoomId, $userToKick))
 			{
-				$query          = http_build_query($params);
-				$connector      = $this->gui->getConnector();
-				$response       = $connector->leavePrivateRoom($scope, $query);
-				$responseObject = json_decode($response);
+				$connector = $this->gui->getConnector();
+				$response  = $connector->sendKick($roomId, $subRoomId, $userToKick);
+
+				if($this->isSuccessful($response))
+				{
+					//$room->unsubscribeUserFromPrivateRoom($subRoomId, $userToKick);
+					//$this->recantInvitation($subRoomId, $userToKick);
+				}
+
+				$this->sendResponse($response);
+			}
+
 				/*
 				if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
 				{
 				//$room->addHistoryEntry( $message, $recipient, $publicMessage );
 				}
-	*/
-				$room->unsubscribeUserFromPrivateRoom($params['sub'], $params['user']);
-				$this->recantInvitation($params['sub'], $params['user']);
+
+
 
 				$message = json_encode(array(
 											'type'  => 'userjustkicked',
@@ -191,7 +151,7 @@ class ilChatroomKickTask extends ilChatroomTaskHandler
 			}
 
 			echo $response;
-			exit;
+			exit;*/
 		}
 	}
 

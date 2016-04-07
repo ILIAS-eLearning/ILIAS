@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/User/classes/class.ilObjUser.php';
+
 /**
  * Class ilChatroomUser
  *
@@ -38,8 +40,6 @@ class ilChatroomUser
 	 */
 	public function __construct(ilObjUser $user, ilChatroom $chatroom)
 	{
-	    require_once 'Services/User/classes/class.ilObjUser.php';
-
 	    $this->user = $user;
 	    $this->room = $chatroom;
 	}

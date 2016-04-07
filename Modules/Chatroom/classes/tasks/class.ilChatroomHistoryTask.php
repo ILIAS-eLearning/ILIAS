@@ -14,9 +14,6 @@
  */
 class ilChatroomHistoryTask extends ilChatroomTaskHandler
 {
-
-    private $gui;
-
     /**
      * Constructor
      *
@@ -26,11 +23,10 @@ class ilChatroomHistoryTask extends ilChatroomTaskHandler
      */
     public function __construct(ilChatroomObjectGUI $gui)
     {
-	require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
-	require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-	require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
-
-	$this->gui = $gui;
+		parent::__construct($gui);
+		require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
+		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+		require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
     }
 
     /**
@@ -83,20 +79,20 @@ class ilChatroomHistoryTask extends ilChatroomTaskHandler
 		$lastDateTime = null;
 		foreach($messages as $message)
 		{
-			$message['message']->message = json_decode($message['message']->message);
+			//$message['message']->content = json_decode($message['message']->content);
 
 			switch($message['message']->type)
 			{
 				case 'message':
-					if(($_REQUEST['scope'] && $message['message']->sub == $_REQUEST['scope']) || (!$_REQUEST['scope'] && !$message['message']->sub))
+					if(($_REQUEST['scope'] && $message['message']->subRoomId == $_REQUEST['scope']) || (!$_REQUEST['scope'] && !$message['message']->subRoomId))
 					{
 						$date        = new ilDate($message['timestamp'], IL_CAL_UNIX);
 						$dateTime    = new ilDateTime($message['timestamp'], IL_CAL_UNIX);
 						$currentDate = ilDatePresentation::formatDate($dateTime);
 
 						$roomTpl->setCurrentBlock('MESSAGELINE');
-						$roomTpl->setVariable('MESSAGECONTENT', $message['message']->message->content); // oops... it is a message? ^^
-						$roomTpl->setVariable('MESSAGESENDER', $message['message']->user->username);
+						$roomTpl->setVariable('MESSAGECONTENT', $message['message']->content); // oops... it is a message? ^^
+						$roomTpl->setVariable('MESSAGESENDER', $message['message']->from->username);
 						if(null == $lastDateTime ||
 						   date('d', $lastDateTime->get(IL_CAL_UNIX)) != date('d', $dateTime->get(IL_CAL_UNIX)) ||
 						   date('m', $lastDateTime->get(IL_CAL_UNIX)) != date('m', $dateTime->get(IL_CAL_UNIX)) ||
@@ -258,7 +254,7 @@ class ilChatroomHistoryTask extends ilChatroomTaskHandler
 	    else
 	    {
 		    $from = new ilDateTime( time() - 60 * 60, IL_CAL_UNIX );
-			$to = new ilDateTime( ceil(time() / 300) * 300, IL_CAL_UNIX );
+		    $to = new ilDateTime( ceil(time() / 300) * 300, IL_CAL_UNIX );
 
 		    $period = $durationForm->getItemByPostVar( 'timeperiod' );
 		    $period->setStart( $from );
