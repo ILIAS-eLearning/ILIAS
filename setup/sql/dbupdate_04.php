@@ -14728,3 +14728,7 @@ if(!$ilDB->tableColumnExists('booking_settings','rsv_filter_period'))
 }
 
 ?>
+<#4892>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
