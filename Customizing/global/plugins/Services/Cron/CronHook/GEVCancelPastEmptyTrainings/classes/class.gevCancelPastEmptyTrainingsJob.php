@@ -157,29 +157,34 @@ class gevCancelPastEmptyTrainingsJob extends ilCronJob {
 	private function cancelTrainings( array $crs_ids) {
 		require_once 'Services/GEV/Utils/classes/class.gevCourseUtils.php';
 		foreach($crs_ids as $crs_id) {
-			$crs_utils = gevCourseUtils::getInstance($crs_id);
-			$this->gLog->write("### gevCancelPastEmptyTrainingsJob: training $crs_id cancelled ###");
-			// Set training offline
-			$crs = $crs_utils->getCourse();
-			$crs->setOfflineStatus(true);
-			// Mark this course as cancelled
-			$crs_utils->setIsCancelled(true);
-			if(!preg_match('/\w+'.$this->gLng->txt("gev_course_is_cancelled_suffix").'$/', $crs_utils->getTitle())) {
-				$crs->setTitle($crs_utils->getTitle().$this->gLng->txt("gev_course_is_cancelled_suffix"));
+			try {
+				$crs_utils = gevCourseUtils::getInstance($crs_id);
+				$this->gLog->write("### gevCancelPastEmptyTrainingsJob: training $crs_id cancelled ###");
+				// Set training offline
+				$crs = $crs_utils->getCourse();
+				$crs->setOfflineStatus(true);
+				// Mark this course as cancelled
+				$crs_utils->setIsCancelled(true);
+				if(!preg_match('/\w+'.$this->gLng->txt("gev_course_is_cancelled_suffix").'$/', $crs_utils->getTitle())) {
+					$crs->setTitle($crs_utils->getTitle().$this->gLng->txt("gev_course_is_cancelled_suffix"));
+				}
+				$crs->update();
+
+				// Remove Trainers
+				$membership = $crs->getMembersObject();
+				$trainers = $crs_utils->getTrainers();
+				foreach($trainers as $trainer) {
+					$membership->delete($trainer);
+				}
+
+				// Delete VC Assignments
+				$crs_utils->deleteVCAssignment();
+
+				$this->gRbacadmin->revokePermission($crs_utils->getRefId());
+			} catch (Exception $e) {
+				$this->gLog->write("### gevCancelPastEmptyTrainingsJob: exception at $crs_id, "
+					."corresponding message: ".$e->getMessage()." ###");
 			}
-			$crs->update();
-
-			// Remove Trainers
-			$membership = $crs->getMembersObject();
-			$trainers = $crs_utils->getTrainers();
-			foreach($trainers as $trainer) {
-				$membership->delete($trainer);
-			}
-
-			// Delete VC Assignments
-			$crs_utils->deleteVCAssignment();
-
-			$this->gRbacadmin->revokePermission($crs_utils->getRefId());
 			ilCronManager::ping($this->getId());
 		}
 	}
