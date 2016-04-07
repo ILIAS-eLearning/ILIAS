@@ -501,11 +501,8 @@ class ilObjFileGUI extends ilObject2GUI
 		$data = $form->getInput('file');		
 
 		// delete trailing '/' in filename
-		while (substr($data["name"],-1) == '/')
-		{
-			$data["name"] = substr($data["name"],0,-1);
-		}
-		
+		$data["name"] = rtrim($data["name"], '/');
+
 		$filename = empty($data["name"]) ? $this->object->getFileName() : $data["name"];
 		$title = $form->getInput('title');
 		if(strlen(trim($title)) == 0)

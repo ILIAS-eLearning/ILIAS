@@ -130,10 +130,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 			foreach ($pictures['name'] as $index => $name)
 			{
 				// remove trailing '/'
-				while (substr($name, -1) == '/')
-				{
-					$name = substr($name, 0, -1);
-				}
+				$name = rtrim($name, '/');
 
 				$filename = $name;
 				$filename_arr = pathinfo($name);
