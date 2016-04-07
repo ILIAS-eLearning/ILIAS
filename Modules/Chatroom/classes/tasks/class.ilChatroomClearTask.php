@@ -6,19 +6,15 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
 /**
  * Class ilChatroomKickTask
- *
- * @author Jan Posselt <jposselt@databay.de>
- * @author Thomas Joußen <tjoussen@databay.de>
+ * @author  Jan Posselt <jposselt@databay.de>
+ * @author  Thomas Joußen <tjoussen@databay.de>
  * @version $Id$
- *
  * @ingroup ModulesChatroom
  */
 class ilChatroomClearTask extends ilChatroomTaskHandler
 {
-
 	/**
-	 * @param string $method
-	 * @return mixed
+	 * {@inheritdoc}
 	 */
 	public function executeDefault($method)
 	{
@@ -32,11 +28,9 @@ class ilChatroomClearTask extends ilChatroomTaskHandler
 
 		$room->clearMessages($subRoomId);
 
-		$connector	= $this->gui->getConnector();
-		$response = $connector->sendClearMessages($room->getRoomId(), $subRoomId, $chat_user->getUserId());
+		$connector = $this->gui->getConnector();
+		$response  = $connector->sendClearMessages($room->getRoomId(), $subRoomId, $chat_user->getUserId());
 
 		$this->sendResponse($response);
 	}
 }
-
-?>

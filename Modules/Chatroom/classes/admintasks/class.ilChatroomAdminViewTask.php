@@ -30,7 +30,6 @@ class ilChatroomAdminViewTask extends ilChatroomTaskHandler
 
 	/**
 	 * Constructor
-	 *
 	 * @param ilChatroomObjectGUI $gui
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
@@ -39,7 +38,7 @@ class ilChatroomAdminViewTask extends ilChatroomTaskHandler
 
 		parent::__construct($gui);
 		$this->commonSettings = new ilSetting('common');
-		$this->ilTpl = $tpl;
+		$this->ilTpl          = $tpl;
 	}
 
 	/**
@@ -91,49 +90,6 @@ class ilChatroomAdminViewTask extends ilChatroomTaskHandler
 	}
 
 	/**
-	 * Saves client settings fetched from $_POST
-	 */
-	public function saveClientSettings()
-	{
-		$factory = new ilChatroomFormFactory();
-		$form    = $factory->getClientSettingsForm();
-
-		if(!$form->checkInput())
-		{
-			$form->setValuesByPost();
-			$this->clientsettings($form);
-			return;
-		}
-
-		$settings = array(
-			'name'                  => CLIENT_ID,
-			'enable_osd'            => (boolean)$form->getInput('enable_osd'),
-			'osd_intervall'         => (int)$form->getInput('osd_intervall'),
-			'chat_enabled'          => ((boolean)$form->getInput('chat_enabled')),
-			'enable_smilies'        => (boolean)$form->getInput('enable_smilies'),
-			'play_invitation_sound' => (boolean)$form->getInput('play_invitation_sound'),
-			'auth'                  => $form->getInput('auth')
-		);
-
-		$notificationSettings = new ilSetting('notifications');
-		$notificationSettings->set('osd_polling_intervall', (int)$form->getInput('osd_intervall'));
-		$notificationSettings->set('enable_osd', (boolean)$form->getInput('enable_osd'));
-
-		$chatSettings = new ilSetting('chatroom');
-		$chatSettings->set('chat_enabled', $settings['chat_enabled']);
-		$chatSettings->set('play_invitation_sound', (boolean)$form->getInput('play_invitation_sound'));
-
-		$adminSettings = new ilChatroomAdmin($this->gui->object->getId());
-		$adminSettings->saveClientSettings((object)$settings);
-
-		$fileHandler = new ilChatroomConfigFileHandler();
-		$fileHandler->createClientConfigFile($settings);
-
-		ilUtil::sendSuccess($this->ilLng->txt('settings_has_been_saved'), true);
-		$this->ilCtrl->redirect($this->gui, 'view-clientsettings');
-	}
-
-	/**
 	 * Prepares view form and displays it.
 	 * @param ilPropertyFormGUI $form
 	 */
@@ -159,37 +115,6 @@ class ilChatroomAdminViewTask extends ilChatroomTaskHandler
 		$form->setTitle($this->ilLng->txt('chatserver_settings_title'));
 		$form->addCommandButton('view-saveSettings', $this->ilLng->txt('save'));
 		$form->setFormAction($this->ilCtrl->getFormAction($this->gui, 'view-saveSettings'));
-
-		$settingsTpl = $this->createSettingTemplate($form);
-		$this->ilTpl->setVariable('ADM_CONTENT', $settingsTpl->get());
-	}
-
-	/**
-	 * @param ilPropertyFormGUI $form
-	 */
-	public function clientsettings(ilPropertyFormGUI $form = null)
-	{
-		ilChatroom::checkUserPermissions('read', $this->gui->ref_id);
-
-		$this->defaultActions();
-		$this->gui->switchToVisibleMode();
-
-		$adminSettings = new ilChatroomAdmin($this->gui->object->getId());
-		$serverSettings = $adminSettings->loadGeneralSettings();
-
-		if($form === null)
-		{
-			$clientSettings = $adminSettings->loadClientSettings();
-			$factory = new ilChatroomFormFactory();
-			$form    = $factory->getClientSettingsForm();
-			$form->setValuesByArray($clientSettings);
-		}
-
-		$this->checkServerConnection($serverSettings);
-
-		$form->setTitle($this->ilLng->txt('general_settings_title'));
-		$form->addCommandButton('view-saveClientSettings', $this->ilLng->txt('save'));
-		$form->setFormAction($this->ilCtrl->getFormAction($this->gui, 'view-saveClientSettings'));
 
 		$settingsTpl = $this->createSettingTemplate($form);
 		$this->ilTpl->setVariable('ADM_CONTENT', $settingsTpl->get());
@@ -255,7 +180,6 @@ class ilChatroomAdminViewTask extends ilChatroomTaskHandler
 
 	/**
 	 * Checks for server connection. If no connection if possible, show info in gui
-	 *
 	 * @param array $serverSettings
 	 */
 	protected function checkServerConnection(array $serverSettings)
@@ -273,18 +197,7 @@ class ilChatroomAdminViewTask extends ilChatroomTaskHandler
 	}
 
 	/**
-	 * Get the path to the README.txt file
-	 *
-	 * @return string
-	 */
-	protected function getReadmePath()
-	{
-		return ilUtil::_getHttpPath() . self::CHATROOM_README_PATH;
-	}
-
-	/**
 	 * @param ilPropertyFormGUI $form
-	 *
 	 * @return ilTemplate
 	 */
 	protected function createSettingTemplate(ilPropertyFormGUI $form)
@@ -295,5 +208,88 @@ class ilChatroomAdminViewTask extends ilChatroomTaskHandler
 		$serverTpl->setVariable('LBL_SERVERSETTINGS_FURTHER_INFORMATION', $furtherInformation);
 
 		return $serverTpl;
+	}
+
+	/**
+	 * Get the path to the README.txt file
+	 * @return string
+	 */
+	protected function getReadmePath()
+	{
+		return ilUtil::_getHttpPath() . self::CHATROOM_README_PATH;
+	}
+
+	/**
+	 * Saves client settings fetched from $_POST
+	 */
+	public function saveClientSettings()
+	{
+		$factory = new ilChatroomFormFactory();
+		$form    = $factory->getClientSettingsForm();
+
+		if(!$form->checkInput())
+		{
+			$form->setValuesByPost();
+			$this->clientsettings($form);
+			return;
+		}
+
+		$settings = array(
+			'name'                  => CLIENT_ID,
+			'enable_osd'            => (boolean)$form->getInput('enable_osd'),
+			'osd_intervall'         => (int)$form->getInput('osd_intervall'),
+			'chat_enabled'          => ((boolean)$form->getInput('chat_enabled')),
+			'enable_smilies'        => (boolean)$form->getInput('enable_smilies'),
+			'play_invitation_sound' => (boolean)$form->getInput('play_invitation_sound'),
+			'auth'                  => $form->getInput('auth')
+		);
+
+		$notificationSettings = new ilSetting('notifications');
+		$notificationSettings->set('osd_polling_intervall', (int)$form->getInput('osd_intervall'));
+		$notificationSettings->set('enable_osd', (boolean)$form->getInput('enable_osd'));
+
+		$chatSettings = new ilSetting('chatroom');
+		$chatSettings->set('chat_enabled', $settings['chat_enabled']);
+		$chatSettings->set('play_invitation_sound', (boolean)$form->getInput('play_invitation_sound'));
+
+		$adminSettings = new ilChatroomAdmin($this->gui->object->getId());
+		$adminSettings->saveClientSettings((object)$settings);
+
+		$fileHandler = new ilChatroomConfigFileHandler();
+		$fileHandler->createClientConfigFile($settings);
+
+		ilUtil::sendSuccess($this->ilLng->txt('settings_has_been_saved'), true);
+		$this->ilCtrl->redirect($this->gui, 'view-clientsettings');
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	public function clientsettings(ilPropertyFormGUI $form = null)
+	{
+		ilChatroom::checkUserPermissions('read', $this->gui->ref_id);
+
+		$this->defaultActions();
+		$this->gui->switchToVisibleMode();
+
+		$adminSettings  = new ilChatroomAdmin($this->gui->object->getId());
+		$serverSettings = $adminSettings->loadGeneralSettings();
+
+		if($form === null)
+		{
+			$clientSettings = $adminSettings->loadClientSettings();
+			$factory        = new ilChatroomFormFactory();
+			$form           = $factory->getClientSettingsForm();
+			$form->setValuesByArray($clientSettings);
+		}
+
+		$this->checkServerConnection($serverSettings);
+
+		$form->setTitle($this->ilLng->txt('general_settings_title'));
+		$form->addCommandButton('view-saveClientSettings', $this->ilLng->txt('save'));
+		$form->setFormAction($this->ilCtrl->getFormAction($this->gui, 'view-saveClientSettings'));
+
+		$settingsTpl = $this->createSettingTemplate($form);
+		$this->ilTpl->setVariable('ADM_CONTENT', $settingsTpl->get());
 	}
 }

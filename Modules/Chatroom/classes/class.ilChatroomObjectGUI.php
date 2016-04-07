@@ -12,18 +12,6 @@ require_once 'Services/UICore/classes/class.ilFrameTargetInfo.php';
 abstract class ilChatroomObjectGUI extends ilObjectGUI
 {
 	/**
-	 * @return ilChatroomObjectDefinition
-	 * @abstract
-	 */
-	abstract protected function getObjectDefinition();
-
-	/**
-	 * @return ilChatroomServerConnector
-	 * @abstract
-	 */
-	abstract public function getConnector();
-
-	/**
 	 * Loads end executes given $task.
 	 * @param string $task
 	 * @param string $method
@@ -43,6 +31,18 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 	}
 
 	/**
+	 * @return ilChatroomObjectDefinition
+	 * @abstract
+	 */
+	abstract protected function getObjectDefinition();
+
+	/**
+	 * @return ilChatroomServerConnector
+	 * @abstract
+	 */
+	abstract public function getConnector();
+
+	/**
 	 * Calls $this->prepareOutput() method.
 	 */
 	public function switchToVisibleMode()
@@ -51,7 +51,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 	}
 
 	/**
-	 * @param ilTabsGUI $tabs_gui
+	 * {@inheritdoc}
 	 */
 	public function getAdminTabs()
 	{

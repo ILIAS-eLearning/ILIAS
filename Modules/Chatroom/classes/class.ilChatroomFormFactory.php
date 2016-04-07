@@ -19,30 +19,6 @@ class ilChatroomFormFactory
 	}
 
 	/**
-	 * Instantiates and returns ilPropertyFormGUI containing ilTextInputGUI
-	 * and ilTextAreaInputGUI
-	 * @deprecated replaced by default creation screens
-	 * @return ilPropertyFormGUI
-	 */
-	public function getCreationForm()
-	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
-		$form  = new ilPropertyFormGUI();
-		$title = new ilTextInputGUI($lng->txt('title'), 'title');
-		$title->setRequired(true);
-		$form->addItem($title);
-
-		$description = new ilTextAreaInputGUI($lng->txt('description'), 'desc');
-		$form->addItem($description);
-
-		return $this->addDefaultBehaviour($form);
-	}
-
-	/**
 	 * Applies given values to field in given form.
 	 * @param ilPropertyFormGUI $form
 	 * @param array             $values
@@ -70,6 +46,48 @@ class ilChatroomFormFactory
 					$field->setValue($value);
 			}
 		}
+	}
+
+	/**
+	 * Instantiates and returns ilPropertyFormGUI containing ilTextInputGUI
+	 * and ilTextAreaInputGUI
+	 * @deprecated replaced by default creation screens
+	 * @return ilPropertyFormGUI
+	 */
+	public function getCreationForm()
+	{
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
+
+		$form  = new ilPropertyFormGUI();
+		$title = new ilTextInputGUI($lng->txt('title'), 'title');
+		$title->setRequired(true);
+		$form->addItem($title);
+
+		$description = new ilTextAreaInputGUI($lng->txt('description'), 'desc');
+		$form->addItem($description);
+
+		return $this->addDefaultBehaviour($form);
+	}
+
+	/**
+	 * Adds 'create-save' and 'cancel' button to given $form and returns it.
+	 * @param ilPropertyFormGUI $form
+	 * @return ilPropertyFormGUI
+	 */
+	private function addDefaultBehaviour(ilPropertyFormGUI $form)
+	{
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
+
+		$form->addCommandButton('create-save', $lng->txt('create'));
+		$form->addCommandButton('cancel', $lng->txt('cancel'));
+
+		return $form;
 	}
 
 	/**
@@ -139,24 +157,6 @@ class ilChatroomFormFactory
 		$form->addCommandButton('UploadFile-uploadFile', $lng->txt('submit'));
 
 		$form->setTarget('_blank');
-
-		return $form;
-	}
-
-	/**
-	 * Adds 'create-save' and 'cancel' button to given $form and returns it.
-	 * @param ilPropertyFormGUI $form
-	 * @return ilPropertyFormGUI
-	 */
-	private function addDefaultBehaviour(ilPropertyFormGUI $form)
-	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
-		$form->addCommandButton('create-save', $lng->txt('create'));
-		$form->addCommandButton('cancel', $lng->txt('cancel'));
 
 		return $form;
 	}
@@ -291,10 +291,10 @@ class ilChatroomFormFactory
 		$protocol = new ilRadioGroupInputGUI($lng->txt('protocol'), 'protocol');
 		$form->addItem($protocol);
 
-		$http     = new ilRadioOption($lng->txt('http'), 'http');
+		$http = new ilRadioOption($lng->txt('http'), 'http');
 		$protocol->addOption($http);
 
-		$https    = new ilRadioOption($lng->txt('https'), 'https');
+		$https = new ilRadioOption($lng->txt('https'), 'https');
 		$protocol->addOption($https);
 
 		$certificate = new ilTextInputGUI($lng->txt('certificate'), 'cert');
@@ -367,7 +367,6 @@ class ilChatroomFormFactory
 		$cb->setInfo($lng->txt('hint_osd'));
 		$form->addItem($cb);
 
-		//@TODO Remove
 		$txt = new ilNumberInputGUI($lng->txt('osd_intervall'), 'osd_intervall');
 		$txt->setMinValue(1);
 		$txt->setRequired(true);
@@ -387,36 +386,6 @@ class ilChatroomFormFactory
 		$auth->setCtrlPath(array('iladministrationgui', 'ilobjchatroomgui', 'ilpropertyformgui', 'ilformpropertydispatchgui', 'ilchatroomauthinputgui'));
 		$auth->setRequired(true);
 		$form->addItem($auth);
-
-		/*$id = new ilTextInputGUI($lng->txt('authentication_id'), 'authentication_id');
-		$id->setRequired(true);
-		$form->addItem($id);
-
-		$secret = new ilTextInputGUI($lng->txt('authentication_secret'), 'authentication_secret');
-		$secret->setRequired(true);
-		$form->addItem($secret);*/
-
-		/*$name = new ilTextInputGUI($lng->txt('instance_name'), 'name');
-		$name->setRequired(true);
-		$name->setValidationRegexp('/^[a-z0-9_-]+$/i');
-		$name->setInfo($lng->txt('hint_unique_name'));
-		$form->addItem($name);*/
-
-		/*$url = new ilTextInputGUI($lng->txt('ilias_url'), 'url');
-		$url->setRequired(true);
-		$form->addItem($url);*/
-
-		//@TODO remove
-		/*
-		$user = new ilTextInputGUI($lng->txt('soap_user'), 'user');
-		$user->setInfo($lng->txt('soap_user_hint'));
-		$user->setRequired(true);
-		$form->addItem($user);
-
-		$password = new ilPasswordInputGUI($lng->txt('soap_user_password'), 'password');
-		$password->setSkipSyntaxCheck(true);
-		$password->setRequired(true);
-		$form->addItem($password);*/
 
 		return $form;
 	}

@@ -26,6 +26,46 @@ class ilChatroomSettingsTask extends ilChatroomTaskHandler
 	}
 
 	/**
+	 * Saves settings fetched from $_POST.
+	 */
+	public function saveGeneral()
+	{
+		/**
+		 * @var $ilCtrl ilCtrl
+		 * @var $lng    ilLanguage
+		 */
+		global $ilCtrl, $lng;
+
+		$formFactory  = new ilChatroomFormFactory();
+		$settingsForm = $formFactory->getSettingsForm();
+
+		if(!$settingsForm->checkInput())
+		{
+			$settingsForm->setValuesByPost();
+			$this->general($settingsForm);
+		}
+		else
+		{
+			$this->gui->object->setTitle($settingsForm->getInput('title'));
+			$this->gui->object->setDescription($settingsForm->getInput('desc'));
+			$this->gui->object->update();
+			// @todo: Do not rely on raw post data
+			$settings = $_POST;
+			$room     = ilChatRoom::byObjectId($this->gui->object->getId());
+
+			if(!$room)
+			{
+				$room                  = new ilChatRoom();
+				$settings['object_id'] = $this->gui->object->getId();
+			}
+			$room->saveSettings($settings);
+
+			ilUtil::sendSuccess($lng->txt('saved_successfully'), true);
+			$ilCtrl->redirect($this->gui, 'settings-general');
+		}
+	}
+
+	/**
 	 * Prepares and displays settings form.
 	 * @param ilPropertyFormGUI $settingsForm
 	 */
@@ -86,46 +126,6 @@ class ilChatroomSettingsTask extends ilChatroomTaskHandler
 		$settingsForm->setFormAction($ilCtrl->getFormAction($this->gui, 'settings-saveGeneral'));
 
 		$tpl->setVariable('ADM_CONTENT', $settingsForm->getHtml());
-	}
-
-	/**
-	 * Saves settings fetched from $_POST.
-	 */
-	public function saveGeneral()
-	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 * @var $lng    ilLanguage
-		 */
-		global $ilCtrl, $lng;
-
-		$formFactory  = new ilChatroomFormFactory();
-		$settingsForm = $formFactory->getSettingsForm();
-
-		if(!$settingsForm->checkInput())
-		{
-			$settingsForm->setValuesByPost();
-			$this->general($settingsForm);
-		}
-		else
-		{
-			$this->gui->object->setTitle($settingsForm->getInput('title'));
-			$this->gui->object->setDescription($settingsForm->getInput('desc'));
-			$this->gui->object->update();
-			// @todo: Do not rely on raw post data
-			$settings = $_POST;
-			$room     = ilChatRoom::byObjectId($this->gui->object->getId());
-
-			if(!$room)
-			{
-				$room                  = new ilChatRoom();
-				$settings['object_id'] = $this->gui->object->getId();
-			}
-			$room->saveSettings($settings);
-
-			ilUtil::sendSuccess($lng->txt('saved_successfully'), true);
-			$ilCtrl->redirect($this->gui, 'settings-general');
-		}
 	}
 
 	/**

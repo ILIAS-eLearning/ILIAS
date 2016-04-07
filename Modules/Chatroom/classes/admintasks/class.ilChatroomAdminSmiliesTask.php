@@ -3,26 +3,23 @@
 
 /**
  * Class ilChatroomSmiliesTask
- *
- * @author Jan Posselt <jposselt@databay.de>
+ * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- *
  * @ingroup ModulesChatroom
  */
 class ilChatroomAdminSmiliesTask extends ilChatroomTaskHandler
 {
-
 	/**
-	 * Switches to visible mode and prepares template.
-	 *
-	 * @global ilTemplate $tpl
-	 * @param string $method
+	 * {@inheritdoc}
 	 */
 	public function executeDefault($method)
 	{
+		/**
+		 * @var $tpl ilT
+		 */
 		global $tpl;
 
 		$this->gui->switchToVisibleMode();
-		$tpl->setVariable( 'ADM_CONTENT', 'hallo welt' );
+		$tpl->setVariable('ADM_CONTENT', '');
 	}
 }

@@ -1,15 +1,11 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilChatroomInfoTask
- *
  * Provides methods to prepare and display the info task.
- *
- * @author Jan Posselt <jposselt@databay.de>
+ * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- *
  * @ingroup ModulesChatroom
  */
 class ilChatroomInfoTask extends ilChatroomTaskHandler
@@ -17,9 +13,7 @@ class ilChatroomInfoTask extends ilChatroomTaskHandler
 
 	/**
 	 * Constructor
-	 *
 	 * Requires ilInfoScreenGUI and sets $this->gui using given $gui.
-	 *
 	 * @param ilChatroomObjectGUI $gui
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
@@ -30,10 +24,9 @@ class ilChatroomInfoTask extends ilChatroomTaskHandler
 
 	/**
 	 * Prepares and displays the info screen.
-	 *
-	 * @global ilCtrl2 $ilCtrl
+	 * @global ilCtrl2    $ilCtrl
 	 * @global ilLanguage $lng
-	 * @param string $method
+	 * @param string      $method
 	 */
 	public function executeDefault($method)
 	{
@@ -82,7 +75,6 @@ class ilChatroomInfoTask extends ilChatroomTaskHandler
 
 	/**
 	 * @param ilChatroomObjectGui $gui
-	 *
 	 * @return ilInfoScreenGUI
 	 */
 	protected function createInfoScreenGUI($gui)

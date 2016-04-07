@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilChatroomInstaller
  * @author  Jan Posselt <jposselt@databay.de>
@@ -127,12 +126,12 @@ class ilChatroomInstaller
 		if(!$ilDB->tableExists('chatroom_uploads'))
 		{
 			$fields = array(
-				'upload_id'    => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-				'room_id'      => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-				'user_id'      => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-				'filename'     => array('type' => 'text', 'length' => 200, 'notnull' => true),
-				'filetype'     => array('type' => 'text', 'length' => 200, 'notnull' => true),
-				'timestamp'    => array('type' => 'integer', 'length' => 4, 'notnull' => true)
+				'upload_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+				'room_id'   => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+				'user_id'   => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+				'filename'  => array('type' => 'text', 'length' => 200, 'notnull' => true),
+				'filetype'  => array('type' => 'text', 'length' => 200, 'notnull' => true),
+				'timestamp' => array('type' => 'integer', 'length' => 4, 'notnull' => true)
 			);
 			$ilDB->createTable('chatroom_uploads', $fields);
 			$ilDB->addPrimaryKey('chatroom_uploads', array('upload_id'));
@@ -203,9 +202,133 @@ class ilChatroomInstaller
 		self::removeOldChatEntries();
 		self::convertChatObjects();
 
-
 		$notificationSettings = new ilSetting('notifications');
 		$notificationSettings->set('enable_osd', true);
+	}
+
+	/**
+	 * Registers chat object by inserting it into object_data.
+	 * @global ilDBInterface $ilDB
+	 */
+	public static function registerObject()
+	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
+		global $ilDB;
+
+		$typ_id = null;
+
+		$query = 'SELECT obj_id FROM object_data ' .
+			'WHERE type = ' . $ilDB->quote('typ', 'text') . ' ' .
+			'AND title = ' . $ilDB->quote('chtr', 'text');
+		if(!($object_definition_row = $ilDB->fetchAssoc($ilDB->query($query))))
+		{
+			$typ_id = $ilDB->nextId('object_data');
+			$ilDB->insert(
+				'object_data',
+				array(
+					'obj_id'      => array('integer', $typ_id),
+					'type'        => array('text', 'typ'),
+					'title'       => array('text', 'chtr'),
+					'description' => array('text', 'Chatroom Object'),
+					'owner'       => array('integer', -1),
+					'create_date' => array('timestamp', date('Y-m-d H:i:s')),
+					'last_update' => array('timestamp', date('Y-m-d H:i:s'))
+				)
+			);
+
+			// REGISTER RBAC OPERATIONS FOR OBJECT TYPE
+			// 1: edit_permissions, 2: visible, 3: read, 4:write
+			foreach(array(1, 2, 3, 4) as $ops_id)
+			{
+				$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ( " .
+					$ilDB->quote($typ_id, 'integer') . "," . $ilDB->quote($ops_id, 'integer') .
+					")";
+				$ilDB->manipulate($query);
+			}
+		}
+
+		if($moderatePermissionId = self::getModeratorPermissionId())
+		{
+			if(!$typ_id)
+			{
+				$typ_id = $object_definition_row['obj_id'];
+			}
+
+			if($typ_id)
+			{
+				$ilDB->manipulateF(
+					'DELETE FROM rbac_ta WHERE typ_id = %s AND ops_id = %s',
+					array('integer', 'integer'),
+					array($typ_id, $moderatePermissionId)
+				);
+
+				$ilDB->insert(
+					'rbac_ta',
+					array(
+						'typ_id' => array('integer', $typ_id),
+						'ops_id' => array('integer', $moderatePermissionId),
+					)
+				);
+			}
+		}
+	}
+
+	private static function getModeratorPermissionId()
+	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
+		global $ilDB;
+
+		$rset = $ilDB->queryF(
+			'SELECT ops_id FROM rbac_operations WHERE operation = %s',
+			array('text'),
+			array('moderate')
+		);
+		if($row = $ilDB->fetchAssoc($rset))
+		{
+			return $row['ops_id'];
+		}
+		return 0;
+	}
+
+	/**
+	 * Registgers admin chat object by inserting it into object_data.
+	 * @global ilDBInterface $ilDB
+	 */
+	public static function registerAdminObject()
+	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
+		global $ilDB;
+
+		$query = 'SELECT * FROM object_data WHERE type = ' . $ilDB->quote('chta', 'text');
+		if(!$ilDB->fetchAssoc($ilDB->query($query)))
+		{
+			$obj_id = $ilDB->nextId('object_data');
+			$ilDB->insert(
+				'object_data',
+				array(
+					'obj_id'      => array('integer', $obj_id),
+					'type'        => array('text', 'chta'),
+					'title'       => array('text', 'Chatroom Admin'),
+					'description' => array('text', 'Chatroom General Settings'),
+					'owner'       => array('integer', -1),
+					'create_date' => array('timestamp', date('Y-m-d H:i:s')),
+					'last_update' => array('timestamp', date('Y-m-d H:i:s'))
+				)
+			);
+
+			$ref_id = $ilDB->nextId('object_reference');
+			$query  = "INSERT INTO object_reference (ref_id, obj_id) VALUES(" . $ilDB->quote($ref_id, 'integer') . ", " . $ilDB->quote($obj_id, 'integer') . ")";
+			$ilDB->manipulate($query);
+
+			$tree = new ilTree(ROOT_FOLDER_ID);
+			$tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
+		}
 	}
 
 	public static function removeOldChatEntries()
@@ -258,216 +381,6 @@ class ilChatroomInstaller
 		$ilDB->manipulateF('DELETE FROM object_data WHERE type = %s AND title = %s', array('text', 'text'), array('typ', 'chac'));
 	}
 
-	public static function createDefaultPublicRoom($force = false)
-	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-
-		if($force)
-		{
-			$query = 'DELETE FROM chatroom_settings WHERE room_type = ' . $ilDB->quote('default', 'text');
-			$ilDB->manipulate($query);
-			$create = true;
-		}
-		else
-		{
-			$query  = 'SELECT * FROM chatroom_settings WHERE room_type = ' . $ilDB->quote('default', 'text');
-			$rset   = $ilDB->query($query);
-			$create = !$ilDB->fetchAssoc($rset);
-		}
-		if($create)
-		{
-			$query             = "
-				SELECT object_data.obj_id, object_reference.ref_id
-				FROM object_data
-				INNER JOIN object_reference ON object_reference.obj_id = object_data.obj_id
-				WHERE type = " . $ilDB->quote('chta', 'text');
-			$rset              = $ilDB->query($query);
-			$row               = $ilDB->fetchAssoc($rset);
-			$chatfolder_ref_id = $row['ref_id'];
-			
-			require_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
-			$newObj = new ilObjChatroom();
-
-			$newObj->setType('chtr');
-			$newObj->setTitle('Public Chat');
-			$newObj->setDescription('');
-			$newObj->create(); // true for upload
-			$newObj->createReference();
-			$newObj->putInTree($chatfolder_ref_id);
-			$newObj->setPermissions($chatfolder_ref_id);
-
-			$obj_id = $newObj->getId();
-			$ref_id = $newObj->getRefId();
-
-			$id = $ilDB->nextId('chatroom_settings');
-			$ilDB->insert(
-				'chatroom_settings',
-				array(
-					'room_id'                => array('integer', $id),
-					'object_id'              => array('integer', $obj_id),
-					'room_type'              => array('text', 'default'),
-					'allow_anonymous'        => array('integer', 0),
-					'allow_custom_usernames' => array('integer', 0),
-					'enable_history'         => array('integer', 0),
-					'restrict_history'       => array('integer', 0),
-					'autogen_usernames'      => array('text', 'Anonymous #'),
-					'allow_private_rooms'    => array('integer', 1),
-				)
-			);
-
-			$settings = new ilSetting('chatroom');
-			$settings->set('public_room_ref', $ref_id);
-		}
-	}
-
-	/**
-	 * Registers chat object by inserting it into object_data.
-	 * @global ilDBInterface $ilDB
-	 */
-	public static function registerObject()
-	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-
-		$typ_id = null;
-
-		$query = 'SELECT obj_id FROM object_data ' .
-			'WHERE type = ' . $ilDB->quote('typ', 'text') . ' ' .
-			'AND title = ' . $ilDB->quote('chtr', 'text');
-		if(!($object_definition_row = $ilDB->fetchAssoc($ilDB->query($query))))
-		{
-			$typ_id = $ilDB->nextId('object_data');
-			$ilDB->insert(
-				'object_data',
-				array(
-					'obj_id'                => array('integer', $typ_id),
-					'type'                  => array('text', 'typ'),
-					'title'                 => array('text', 'chtr'),
-					'description'           => array('text', 'Chatroom Object'),
-					'owner'                 => array('integer', -1),
-					'create_date'           => array('timestamp', date('Y-m-d H:i:s')),
-					'last_update'           => array('timestamp', date('Y-m-d H:i:s'))
-				)
-			);
-
-			// REGISTER RBAC OPERATIONS FOR OBJECT TYPE
-			// 1: edit_permissions, 2: visible, 3: read, 4:write
-			foreach(array(1, 2, 3, 4) as $ops_id)
-			{
-				$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ( " .
-					$ilDB->quote($typ_id, 'integer') . "," . $ilDB->quote($ops_id, 'integer') .
-					")";
-				$ilDB->manipulate($query);
-			}
-		}
-
-		if($moderatePermissionId = self::getModeratorPermissionId())
-		{
-			if(!$typ_id)
-			{
-				$typ_id = $object_definition_row['obj_id'];
-			}
-
-			if($typ_id)
-			{
-				$ilDB->manipulateF(
-					'DELETE FROM rbac_ta WHERE typ_id = %s AND ops_id = %s',
-					array('integer', 'integer'),
-					array($typ_id, $moderatePermissionId)
-				);
-	
-				$ilDB->insert(
-					'rbac_ta',
-					array(
-						'typ_id' => array('integer', $typ_id),
-						'ops_id' => array('integer', $moderatePermissionId),
-					)
-				);
-			}
-		}
-	}
-
-	private static function getModeratorPermissionId()
-	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-
-		$rset = $ilDB->queryF(
-			'SELECT ops_id FROM rbac_operations WHERE operation = %s',
-			array('text'),
-			array('moderate')
-		);
-		if($row = $ilDB->fetchAssoc($rset))
-		{
-			return $row['ops_id'];
-		}
-		return 0;
-	}
-
-	/**
-	 * Registgers admin chat object by inserting it into object_data.
-	 * @global ilDBInterface $ilDB
-	 */
-	public static function registerAdminObject()
-	{
-		/**
-		 * @var $ilDB ilDBInterface
-		 */
-		global $ilDB;
-
-		$query = 'SELECT * FROM object_data WHERE type = ' . $ilDB->quote('chta', 'text');
-		if(!$ilDB->fetchAssoc($ilDB->query($query)))
-		{
-			$obj_id = $ilDB->nextId('object_data');
-			$ilDB->insert(
-				'object_data',
-				array(
-					'obj_id'                => array('integer', $obj_id),
-					'type'                  => array('text', 'chta'),
-					'title'                 => array('text', 'Chatroom Admin'),
-					'description'           => array('text', 'Chatroom General Settings'),
-					'owner'                 => array('integer', -1),
-					'create_date'           => array('timestamp', date('Y-m-d H:i:s')),
-					'last_update'           => array('timestamp', date('Y-m-d H:i:s'))
-				)
-			);
-
-			$ref_id = $ilDB->nextId('object_reference');
-			$query  = "INSERT INTO object_reference (ref_id, obj_id) VALUES(" . $ilDB->quote($ref_id, 'integer') . ", " . $ilDB->quote($obj_id, 'integer') . ")";
-			$ilDB->manipulate($query);
-
-			$tree = new ilTree(ROOT_FOLDER_ID);
-			$tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
-		}
-	}
-
-	/**
-	 * Sets autogen_usernames default option for chatrooms
-	 * @param array $obj_ids
-	 */
-	public static function setChatroomSettings($obj_ids)
-	{
-		if(is_array($obj_ids))
-		{
-			foreach($obj_ids as $obj_id)
-			{
-				$room = new ilChatroom();
-				$room->saveSettings(array(
-					'object_id'                => $obj_id,
-					'autogen_usernames'        => 'Autogen #',
-					'room_type'                => 'repository'
-				));
-			}
-		}
-	}
-
 	/**
 	 * Converts old 'chat' objects to 'chtr' objects.
 	 */
@@ -502,6 +415,91 @@ class ilChatroomInstaller
 		);
 
 		self::setChatroomSettings($obj_ids);
+	}
+
+	/**
+	 * Sets autogen_usernames default option for chatrooms
+	 * @param array $obj_ids
+	 */
+	public static function setChatroomSettings($obj_ids)
+	{
+		if(is_array($obj_ids))
+		{
+			foreach($obj_ids as $obj_id)
+			{
+				$room = new ilChatroom();
+				$room->saveSettings(array(
+					'object_id'         => $obj_id,
+					'autogen_usernames' => 'Autogen #',
+					'room_type'         => 'repository'
+				));
+			}
+		}
+	}
+
+	public static function createDefaultPublicRoom($force = false)
+	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
+		global $ilDB;
+
+		if($force)
+		{
+			$query = 'DELETE FROM chatroom_settings WHERE room_type = ' . $ilDB->quote('default', 'text');
+			$ilDB->manipulate($query);
+			$create = true;
+		}
+		else
+		{
+			$query  = 'SELECT * FROM chatroom_settings WHERE room_type = ' . $ilDB->quote('default', 'text');
+			$rset   = $ilDB->query($query);
+			$create = !$ilDB->fetchAssoc($rset);
+		}
+		if($create)
+		{
+			$query             = "
+				SELECT object_data.obj_id, object_reference.ref_id
+				FROM object_data
+				INNER JOIN object_reference ON object_reference.obj_id = object_data.obj_id
+				WHERE type = " . $ilDB->quote('chta', 'text');
+			$rset              = $ilDB->query($query);
+			$row               = $ilDB->fetchAssoc($rset);
+			$chatfolder_ref_id = $row['ref_id'];
+
+			require_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
+			$newObj = new ilObjChatroom();
+
+			$newObj->setType('chtr');
+			$newObj->setTitle('Public Chat');
+			$newObj->setDescription('');
+			$newObj->create(); // true for upload
+			$newObj->createReference();
+			$newObj->putInTree($chatfolder_ref_id);
+			$newObj->setPermissions($chatfolder_ref_id);
+
+			$obj_id = $newObj->getId();
+			$ref_id = $newObj->getRefId();
+
+			$id = $ilDB->nextId('chatroom_settings');
+			$ilDB->insert(
+				'chatroom_settings',
+				array(
+					'room_id'                => array('integer', $id),
+					'object_id'              => array('integer', $obj_id),
+					'room_type'              => array('text', 'default'),
+					'allow_anonymous'        => array('integer', 0),
+					'allow_custom_usernames' => array('integer', 0),
+					'enable_history'         => array('integer', 0),
+					'restrict_history'       => array('integer', 0),
+					'autogen_usernames'      => array('text', 'Anonymous #'),
+					'allow_private_rooms'    => array('integer', 1),
+				)
+			);
+
+			$settings = new ilSetting('chatroom');
+			$settings->set('public_room_ref', $ref_id);
+		}
 	}
 
 	public static function createMissinRoomSettingsForConvertedObjects()

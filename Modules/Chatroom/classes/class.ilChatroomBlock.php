@@ -5,11 +5,40 @@ require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
 /**
  * ilChatroomBlock
- * @author			Michael Jansen <mjansen@databay.de>
- * @version		   $Id$
+ * @author            Michael Jansen <mjansen@databay.de>
+ * @version           $Id$
  */
 class ilChatroomBlock
 {
+	/**
+	 * @return string
+	 */
+	public function getRoomSelect()
+	{
+		/**
+		 * @var $lng    ilLanguage
+		 * @var $ilUser ilObjUser
+		 */
+		global $lng, $ilUser;
+
+		$readable = $this->getReadableAreas();
+		$tpl      = new ilTemplate('tpl.chatroom_block_room_select.html', true, true, 'Modules/Chatroom');
+		$tpl->setVariable('TXT_SELECT_ROOM', $lng->txt('chat_select_room'));
+		foreach($readable as $room)
+		{
+			$tpl->setCurrentBlock('select_room_row');
+			$tpl->setVariable('ROW_VALUE', $room['ref_id']);
+			$tpl->setVariable('ROW_CAPTION', sprintf($lng->txt('room_in_container'), $room['title'], $room['parent_title']));
+
+			if($ilUser->getPref('chatviewer_last_selected_room') == $room['ref_id'])
+				$tpl->setVariable('ROW_SELECTED', 'selected="selected"');
+
+			$tpl->parseCurrentBlock();
+		}
+
+		return $tpl->get();
+	}
+
 	/**
 	 * @return array
 	 */
@@ -57,35 +86,6 @@ class ilChatroomBlock
 		array_multisort($title, SORT_STRING, $readable_rooms);
 
 		return $readable_rooms;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getRoomSelect()
-	{
-		/**
-		 * @var $lng    ilLanguage
-		 * @var $ilUser ilObjUser
-		 */
-		global $lng, $ilUser;
-
-		$readable = $this->getReadableAreas();
-		$tpl      = new ilTemplate('tpl.chatroom_block_room_select.html', true, true, 'Modules/Chatroom');
-		$tpl->setVariable('TXT_SELECT_ROOM', $lng->txt('chat_select_room'));
-		foreach($readable as $room)
-		{
-			$tpl->setCurrentBlock('select_room_row');
-			$tpl->setVariable('ROW_VALUE', $room['ref_id']);
-			$tpl->setVariable('ROW_CAPTION', sprintf($lng->txt('room_in_container'), $room['title'], $room['parent_title']));
-
-			if($ilUser->getPref('chatviewer_last_selected_room') == $room['ref_id'])
-				$tpl->setVariable('ROW_SELECTED', 'selected="selected"');
-
-			$tpl->parseCurrentBlock();
-		}
-
-		return $tpl->get();
 	}
 
 	/**

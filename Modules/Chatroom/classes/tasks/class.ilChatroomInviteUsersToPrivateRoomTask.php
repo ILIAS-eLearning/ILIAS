@@ -20,7 +20,6 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilChatroomTaskHandler
 
 	/**
 	 * ilChatroomInviteUsersToPrivateRoomTask constructor.
-	 *
 	 * @param ilChatroomObjectGUI $gui
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
@@ -50,21 +49,13 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilChatroomTaskHandler
 	}
 
 	/**
-	 *
-	 */
-	public function byId()
-	{
-		$this->inviteById($_REQUEST['user']);
-	}
-
-	/**
 	 * @param int $invited_id
 	 */
 	private function inviteById($invited_id)
 	{
 		$this->redirectIfNoPermission('read');
 
-		$room = ilChatroom::byObjectId($this->gui->object->getId());
+		$room      = ilChatroom::byObjectId($this->gui->object->getId());
 		$subRoomId = (int)$_REQUEST['sub'];
 		$chat_user = new ilChatroomUser($this->ilUser, $room);
 
@@ -77,11 +68,19 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilChatroomTaskHandler
 		}
 
 		$connector = $this->gui->getConnector();
-		$response = $connector->sendInviteToPrivateRoom($room->getRoomId(), $subRoomId, $chat_user->getUserId(), $invited_id);
+		$response  = $connector->sendInviteToPrivateRoom($room->getRoomId(), $subRoomId, $chat_user->getUserId(), $invited_id);
 
 		$room->sendInvitationNotification($this->gui, $chat_user, $invited_id, $subRoomId);
 
 		$this->sendResponse($response);
+	}
+
+	/**
+	 *
+	 */
+	public function byId()
+	{
+		$this->inviteById($_REQUEST['user']);
 	}
 
 	/**

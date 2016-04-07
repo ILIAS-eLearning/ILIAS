@@ -5,33 +5,49 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
 /**
  * Class ilChatroomKickTask
- *
- * @author Jan Posselt <jposselt@databay.de>
+ * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- *
  * @ingroup ModulesChatroom
  */
 class ilChatroomKickTask extends ilChatroomTaskHandler
 {
 
 	/**
+	 * Instantiates stdClass, sets $data->user and $data->userToKick using given
+	 * $messageString and $chat_user and returns $data
+	 * @param string         $messageString
+	 * @param ilChatroomUser $chat_user
+	 * @return stdClass
+	 */
+	private function buildMessage($messageString, ilChatroomUser $chat_user)
+	{
+		$data = new stdClass();
+
+		$data->user       = $this->gui->object->getPersonalInformation($chat_user);
+		$data->userToKick = $messageString;
+		$data->timestamp  = date('c');
+		$data->type       = 'kick';
+
+		return $data;
+	}
+
+	/**
 	 * Displays window box to kick a user fetched from $_REQUEST['user'].
-	 *
 	 * @global ilObjUser $ilUser
-	 * @param string $method
+	 * @param string     $method
 	 */
 	public function executeDefault($method)
 	{
 		$this->redirectIfNoPermission(array('read', 'moderate'));
 
-		$room = ilChatroom::byObjectId($this->gui->object->getId());
+		$room       = ilChatroom::byObjectId($this->gui->object->getId());
 		$userToKick = $_REQUEST['user'];
-		$subRoomId = $_REQUEST['sub'];
+		$subRoomId  = $_REQUEST['sub'];
 
 		$this->exitIfNoRoomExists($room);
 
-		$connector      = $this->gui->getConnector();
-		$response       = $connector->sendKick($room->getRoomId(), $subRoomId, $userToKick);
+		$connector = $this->gui->getConnector();
+		$response  = $connector->sendKick($room->getRoomId(), $subRoomId, $userToKick);
 
 		if($this->isSuccessful($response) && !$subRoomId)
 		{
@@ -44,15 +60,14 @@ class ilChatroomKickTask extends ilChatroomTaskHandler
 
 	public function main()
 	{
-		$room = ilChatroom::byObjectId($this->gui->object->getId());
+		$room       = ilChatroom::byObjectId($this->gui->object->getId());
 		$userToKick = $_REQUEST['user'];
-		$subRoomId = $_REQUEST['sub'];
-
+		$subRoomId  = $_REQUEST['sub'];
 
 		$this->exitIfNoRoomExists($room);
 
-		$connector      = $this->gui->getConnector();
-		$response       = $connector->sendKick($room->getRoomId(), $subRoomId, $userToKick);
+		$connector = $this->gui->getConnector();
+		$response  = $connector->sendKick($room->getRoomId(), $subRoomId, $userToKick);
 
 		if($this->isSuccessful($response))
 		{
@@ -64,33 +79,12 @@ class ilChatroomKickTask extends ilChatroomTaskHandler
 	}
 
 	/**
-	 * Instantiates stdClass, sets $data->user and $data->userToKick using given
-	 * $messageString and $chat_user and returns $data
-	 *
-	 * @param string $messageString
-	 * @param ilChatroomUser $chat_user
-	 * @return stdClass
-	 */
-	private function buildMessage($messageString, ilChatroomUser $chat_user)
-	{
-		$data = new stdClass();
-
-		$data->user	    = $this->gui->object->getPersonalInformation( $chat_user );
-		$data->userToKick   = $messageString;
-		$data->timestamp    = date( 'c' );
-		$data->type	    = 'kick';
-
-		return $data;
-	}
-
-	/**
 	 * Kicks user from subroom into mainroom
-	 * 
-	 * @global ilObjUser $ilUser 
+	 * @global ilObjUser $ilUser
 	 */
 	public function sub()
 	{
-	    global $ilUser, $ilCtrl;
+		global $ilUser, $ilCtrl;
 
 		$room = ilChatroom::byObjectId($this->gui->object->getId());
 
@@ -105,8 +99,8 @@ class ilChatroomKickTask extends ilChatroomTaskHandler
 				}
 			}
 
-			$roomId          = $room->getRoomId();
-			$subRoomId 		= $_REQUEST['sub'];
+			$roomId     = $room->getRoomId();
+			$subRoomId  = $_REQUEST['sub'];
 			$userToKick = $_REQUEST['user'];
 
 			if($room->userIsInPrivateRoom($subRoomId, $userToKick))
@@ -123,72 +117,71 @@ class ilChatroomKickTask extends ilChatroomTaskHandler
 				$this->sendResponse($response);
 			}
 
-				/*
-				if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
-				{
-				//$room->addHistoryEntry( $message, $recipient, $publicMessage );
-				}
-
-
-
-				$message = json_encode(array(
-											'type'  => 'userjustkicked',
-											'user'  => $params['user'],
-											'sub'   => $params['sub']
-									   ));
-
-				$connector->sendMessage($room->getRoomId(), $message, array(
-																		   'public'  => 1,
-																		   'sub'     => 0
-																	  ));
-			}
-			else
+			/*
+			if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
 			{
-				$response = json_encode(array(
-											 'success'  => true,
-											 'message'  => 'was not in room'
-										));
+			//$room->addHistoryEntry( $message, $recipient, $publicMessage );
 			}
 
-			echo $response;
-			exit;*/
+
+
+			$message = json_encode(array(
+										'type'  => 'userjustkicked',
+										'user'  => $params['user'],
+										'sub'   => $params['sub']
+								   ));
+
+			$connector->sendMessage($room->getRoomId(), $message, array(
+																	   'public'  => 1,
+																	   'sub'     => 0
+																  ));
+		}
+		else
+		{
+			$response = json_encode(array(
+										 'success'  => true,
+										 'message'  => 'was not in room'
+									));
+		}
+
+		echo $response;
+		exit;*/
 		}
 	}
 
 	/**
 	 * Recant invitation for given $user_id in given $subroom_id
-	 * 
 	 * @global ilDBInterface $ilDB
-	 * @param integer $subroom_id
-	 * @param integer $user_id 
+	 * @param integer        $subroom_id
+	 * @param integer        $user_id
 	 */
 	public function recantInvitation($subroom_id, $user_id)
 	{
-	    global $ilDB;
+		global $ilDB;
 
-	    $query = "
+		$query = "
 		SELECT		proom_id
 		FROM		chatroom_proomaccess
 		WHERE		proom_id = %s
 		AND		user_id = %s
 	    ";
 
-	    $types  = array( 'integer', 'integer' );
-	    $values = array( $subroom_id, $user_id );
+		$types  = array('integer', 'integer');
+		$values = array($subroom_id, $user_id);
 
-	    $res = $ilDB->queryF( $query, $types, $values );
+		$res = $ilDB->queryF($query, $types, $values);
 
-	    if( $row = $ilDB->fetchAssoc( $res ) )
-	    {
-		$delete = "
+		if($row = $ilDB->fetchAssoc($res))
+		{
+			$delete = "
 		    DELETE
 		    FROM	chatroom_proomaccess
 		    WHERE	proom_id = %s
 		    AND		user_id = %s
 		";
 
-		$ilDB->manipulateF( $delete, $types, $values );
-	    }
+			$ilDB->manipulateF($delete, $types, $values);
+		}
 	}
 
 }

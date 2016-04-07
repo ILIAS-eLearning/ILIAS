@@ -3,8 +3,8 @@
 
 /**
  * Class ilChatroomAuthInputGUI
- * @author Michael Jansen <mjansen@databay.de>
- * @author Thomas Joußen <tjoussen@databay.de>
+ * @author            Michael Jansen <mjansen@databay.de>
+ * @author            Thomas Joußen <tjoussen@databay.de>
  * @ilCtrl_IsCalledBy ilChatroomAuthInputGUI: ilFormPropertyDispatchGUI
  */
 class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
@@ -21,21 +21,49 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 	 * @var int
 	 */
 	protected $size = 10;
+	/**
+	 * @var array
+	 */
+	protected $values = array(
+		self::NAME_AUTH_PROP_1 => '',
+		self::NAME_AUTH_PROP_2 => ''
+	);
 
 	/**
-	 * @return int
+	 *
 	 */
-	public function getSize()
+	protected function getRandomValues()
 	{
-		return $this->size;
+		$response = new stdClass();
+
+		$response->{self::NAME_AUTH_PROP_1} = $this->uuidV4();
+		$response->{self::NAME_AUTH_PROP_2} = $this->uuidV4();
+
+		echo json_encode($response);
+		exit();
 	}
 
 	/**
-	 * @param int $size
+	 * Generates a pseudo random string following the RFC 4122
+	 * @return string
 	 */
-	public function setSize($size)
+	private function uuidV4()
 	{
-		$this->size = $size;
+		return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+			// 32 bits for "time_low"
+			mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+			// 16 bits for "time_mid"
+			mt_rand(0, 0xffff),
+			// 16 bits for "time_high_and_version",
+			// four most significant bits holds version number 4
+			mt_rand(0, 0x0fff) | 0x4000,
+			// 16 bits, 8 bits for "clk_seq_hi_res",
+			// 8 bits for "clk_seq_low",
+			// two most significant bits holds zero and one for variant DCE1.1
+			mt_rand(0, 0x3fff) | 0x8000,
+			// 48 bits for "node"
+			mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+		);
 	}
 
 	/**
@@ -53,14 +81,6 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 	{
 		$this->ctrl_path = $ctrl_path;
 	}
-
-	/**
-	 * @var array
-	 */
-	protected $values = array(
-		self::NAME_AUTH_PROP_1 => '',
-		self::NAME_AUTH_PROP_2 => ''
-	);
 
 	/**
 	 * @param array $a_values
@@ -103,20 +123,18 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
-	 *
+	 * {@inheritdoc}
 	 */
-	protected function getRandomValues()
+	public function insert(ilTemplate $a_tpl)
 	{
-		$response = new stdClass();
-
-		// @todo: Use some random strings instead
-		$response->{self::NAME_AUTH_PROP_1} = $this->uuidV4();
-		$response->{self::NAME_AUTH_PROP_2} = $this->uuidV4();
-
-		echo json_encode($response);
-		exit();
+		$a_tpl->setCurrentBlock('prop_generic');
+		$a_tpl->setVariable('PROP_GENERIC', $this->render());
+		$a_tpl->parseCurrentBlock();
 	}
 
+	/**
+	 * @return string
+	 */
 	public function render()
 	{
 		/**
@@ -130,11 +148,11 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 		for($i = 1; $i <= count($this->values); $i++)
 		{
 			$const     = 'NAME_AUTH_PROP_' . $i;
-			$const_val = constant('self::'. $const);
+			$const_val = constant('self::' . $const);
 
-			$tpl->setVariable('TXT_AUTH_PROP_'   . $i, $lng->txt('chatroom_auth_' . $const_val));
-			$tpl->setVariable('ID_AUTH_PROP_'    . $i, $const_val);
-			$tpl->setVariable('NAME_AUTH_PROP_'  . $i, $const_val);
+			$tpl->setVariable('TXT_AUTH_PROP_' . $i, $lng->txt('chatroom_auth_' . $const_val));
+			$tpl->setVariable('ID_AUTH_PROP_' . $i, $const_val);
+			$tpl->setVariable('NAME_AUTH_PROP_' . $i, $const_val);
 			$tpl->setVariable('VALUE_AUTH_PROP_' . $i, $this->values[$const_val]);
 		}
 
@@ -153,36 +171,18 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @return int
 	 */
-	public function insert(ilTemplate $a_tpl)
+	public function getSize()
 	{
-		$a_tpl->setCurrentBlock('prop_generic');
-		$a_tpl->setVariable('PROP_GENERIC', $this->render());
-		$a_tpl->parseCurrentBlock();
+		return $this->size;
 	}
 
 	/**
-	 * Generates a pseudo random string following the RFC 4122
-	 *
-	 * @return string
+	 * @param int $size
 	 */
-	private function uuidV4()
+	public function setSize($size)
 	{
-		return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-				// 32 bits for "time_low"
-				mt_rand(0, 0xffff), mt_rand(0, 0xffff),
-				// 16 bits for "time_mid"
-				mt_rand(0, 0xffff),
-				// 16 bits for "time_high_and_version",
-				// four most significant bits holds version number 4
-				mt_rand(0, 0x0fff) | 0x4000,
-				// 16 bits, 8 bits for "clk_seq_hi_res",
-				// 8 bits for "clk_seq_low",
-				// two most significant bits holds zero and one for variant DCE1.1
-				mt_rand(0, 0x3fff) | 0x8000,
-				// 48 bits for "node"
-				mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
-		);
+		$this->size = $size;
 	}
 }
