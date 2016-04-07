@@ -152,7 +152,7 @@ class ilCourseHistorizingHelper
 	public static function isExpertCourse($course)
 	{
 		return gevCourseUtils::getInstanceByObjOrId($course)
-							 ->getIsExpertTraining();
+							 ->getIsExpertTraining() ? 1 : 0;
 	}
 
 	/**
@@ -296,7 +296,7 @@ class ilCourseHistorizingHelper
 	}
 
 	public static function isOnline($course) {
-		return $course->isActivated();
+		return $course->isActivated() ? 1 : 0;
 	}
 
 	public static function getDeadlineDataOf($course) {
