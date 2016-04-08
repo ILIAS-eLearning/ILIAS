@@ -191,6 +191,15 @@ class ilObjStudyProgramme extends ilContainer {
 
 	public function update() {
 		parent::update();
+
+		// Update selection for advanced meta data of the type
+		if ($this->getSubtypeId()) {
+			ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'prg_type', $this->getSubType()->getAssignedAdvancedMDRecordIds());
+		} else {
+			// If no type is assigned, delete relations by passing an empty array
+			ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'prg_type', array());
+		}
+
 		$this->updateSettings();
 	}
 
