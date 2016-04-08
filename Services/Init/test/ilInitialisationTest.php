@@ -28,11 +28,11 @@ class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @dataProvider getterProvider
 	 */
-	public function test_DIC_getters($class, $getter) {
+	public function test_DIC_getters($class_name, $getter) {
 		global $DIC;
 
 		$service = $getter($DIC);
-		$this->assertInstanceOf($class, $service);
+		$this->assertInstanceOf($class_name, $service);
 	}
 
 	public function globalsProvider() {
@@ -42,15 +42,15 @@ class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 			, array("ilCtrl", "ilCtrl")
 			, array("tree", "ilTree")
 			, array("ilLog", "ilLogger")
-			, array("ilDB", "ilDB")
+			, array("ilDB", "ilDBInterface")
 			);
 	}
 
 	public function getterProvider() {
 		return array
-			( array("ilDB", function ($DIC) { return $DIC->db(); })
+			( array("ilDBInterface", function ($DIC) { return $DIC->db(); })
 			, array("ilCtrl", function ($DIC) { return $DIC->ctrl(); })
-			, array("user", function ($DIC) { return $DIC->user(); })
+			, array("ilObjUser", function ($DIC) { return $DIC->user(); })
 			, array("ilRbacSystem", function ($DIC) { return $DIC->rbac()->system(); })
 			, array("ilRbacAdmin", function ($DIC) { return $DIC->rbac()->admin(); })
 			, array("ilRbacReview", function ($DIC) { return $DIC->rbac()->review(); })
