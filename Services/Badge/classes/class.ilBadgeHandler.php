@@ -530,6 +530,11 @@ class ilBadgeHandler
 		return $url;		
 	}
 	
+	
+	//
+	// notification
+	//
+	
 	public function sendNotification(array $a_user_map, $a_parent_ref_id = null)
 	{
 		global $lng;

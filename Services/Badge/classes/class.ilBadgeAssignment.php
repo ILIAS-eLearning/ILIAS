@@ -370,4 +370,16 @@ class ilBadgeAssignment
 		
 		return $url;
 	}
+		
+	public static function clearBadgeCache($a_user_id)
+	{
+		foreach(self::getInstancesByUserId($a_user_id) as $ass)
+		{
+			$path = ilBadgeHandler::getInstance()->getInstancePath($ass);
+			if(file_exists($path))
+			{
+				unlink($path);
+			}
+		}
+	}
 }

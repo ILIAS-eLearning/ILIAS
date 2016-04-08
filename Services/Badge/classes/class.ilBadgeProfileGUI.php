@@ -368,7 +368,17 @@ class ilBadgeProfileGUI
 		$form = $this->initSettingsForm();
 		if($form->checkInput())
 		{
-			ilObjUser::_writePref($ilUser->getId(), self::BACKPACK_EMAIL, $form->getInput("email"));
+			$new_email = $form->getInput("email");
+			$old_email = $this->getBackpackMail();
+			
+			ilObjUser::_writePref($ilUser->getId(), self::BACKPACK_EMAIL, $new_email);
+			
+			// if email was changed: delete badge files
+			if($new_email != $old_email)
+			{
+				include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+				ilBadgeAssignment::clearBadgeCache($ilUser->getId());
+			}
 					
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 			$ilCtrl->redirect($this, "editSettings");

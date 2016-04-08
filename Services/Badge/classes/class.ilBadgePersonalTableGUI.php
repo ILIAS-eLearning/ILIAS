@@ -32,7 +32,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("title"), "title");			
 		$this->addColumn($lng->txt("object"), "parent_title");			
 		$this->addColumn($lng->txt("badge_issued_on"), "issued_on");	
-		$this->addColumn($lng->txt("active"), "active");	
+		$this->addColumn($lng->txt("badge_in_profile"), "active");	
 		
 		if(ilBadgeHandler::getInstance()->isObiActive())
 		{
@@ -52,8 +52,8 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
 		$this->setRowTemplate("tpl.personal_row.html", "Services/Badge");			
 				
-		$this->addMultiCommand("activate", $lng->txt("activate"));
-		$this->addMultiCommand("deactivate", $lng->txt("deactivate"));
+		$this->addMultiCommand("activate", $lng->txt("badge_add_to_profile"));
+		$this->addMultiCommand("deactivate", $lng->txt("badge_remove_from_profile"));
 		$this->addMultiCommand("addToBackpackMulti", $lng->txt("badge_add_to_backpack"));
 		$this->setSelectAllCheckbox("badge_id");
 		

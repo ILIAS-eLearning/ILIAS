@@ -55,3 +55,6 @@ badge#:#badge_notification_badges#:#New Badges
 badge#:#badge_notification_badges_goto#:#To your badges
 badge#:#badge_notification_parent_goto#:#To repository
 badge#:#badge_notification_reason#:#You are receiving this message to be able to add the badges to your profile.
+badge#:#badge_in_profile#:#In Profile
+badge#:#badge_add_to_profile#:#Add to Profile
+badge#:#badge_remove_from_profile#:#Remove from Profile
