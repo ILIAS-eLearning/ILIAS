@@ -25,10 +25,14 @@ class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 		$this->assertSame($GLOBALS[$global_name], $DIC[$global_name]);
 	}
 
-	public function test_DIC_getters() {
+	/**
+	 * @dataProvider getterProvider
+	 */
+	public function test_DIC_getters($class, $getter) {
 		global $DIC;
 
-		$this->assertInstanceOf( "ilDB", $DIC->ilDB());
+		$service = $getter($DIC);
+		$this->assertInstanceOf($class, $service);
 	}
 
 	public function globalsProvider() {
@@ -39,6 +43,24 @@ class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 			, array("tree", "ilTree")
 			, array("ilLog", "ilLogger")
 			, array("ilDB", "ilDB")
+			);
+	}
+
+	public function getterProvider() {
+		return array
+			( array("ilDB", function ($DIC) { return $DIC->db(); })
+			, array("ilCtrl", function ($DIC) { return $DIC->ctrl(); })
+			, array("user", function ($DIC) { return $DIC->user(); })
+			, array("ilRbacSystem", function ($DIC) { return $DIC->rbac()->system(); })
+			, array("ilRbacAdmin", function ($DIC) { return $DIC->rbac()->admin(); })
+			, array("ilRbacReview", function ($DIC) { return $DIC->rbac()->review(); })
+			, array("ilAccessHandler", function ($DIC) { return $DIC->access(); })
+			, array("ilTree", function ($DIC) { return $DIC->tree(); })
+			, array("ilLanguage", function ($DIC) { return $DIC->language(); })
+			, array("ilLogger", function ($DIC) { return $DIC->logger()->root(); })
+			, array("ilLogger", function ($DIC) { return $DIC->logger()->grp(); })
+			, array("ilLogger", function ($DIC) { return $DIC->logger()->crs(); })
+			, array("ilLogger", function ($DIC) { return $DIC->logger()->tree(); })
 			);
 	}
 }
