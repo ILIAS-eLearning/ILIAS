@@ -181,8 +181,11 @@ class ilTEPHistorizingAppEventListener
 			'description'			=> $parameter->getDescription(),
 			'location'				=> $parameter->getLocation(),
 			'fullday'				=> $parameter->isFullday(),
-			'begin_date'			=> $parameter->getStart(),
-			'end_date'				=> $parameter->getEnd(),
+			//gev-patch start: instead of relying on ilDate::toString functionality, which for some reason
+			// appends a <br> tag, we will convert to string ourselves on spot
+			'begin_date'			=> $parameter->getStart()->get(IL_CAL_DATE),
+			'end_date'				=> $parameter->getEnd()->get(IL_CAL_DATE),
+			//gev-patch end
 			'category'				=> $parameter->getTypeTitle(),
 //			'individual_days'		=> -1,
 			'deleted'				=> ($event == 'delete' ? 1 : 0),
