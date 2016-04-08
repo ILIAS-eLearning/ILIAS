@@ -57,6 +57,9 @@ class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 			, array("ilAccessHandler", function ($DIC) { return $DIC->access(); })
 			, array("ilTree", function ($DIC) { return $DIC->tree(); })
 			, array("ilLanguage", function ($DIC) { return $DIC->language(); })
+			// TODO: Can't test these until context for unit tests does not have HTML.
+			//, array("ilToolbarGUI", function ($DIC) { return $DIC->toolbar(); })
+			//, array("ilTabsGUI", function ($DIC) { return $DIC->tabs(); })
 			, array("ilLogger", function ($DIC) { return $DIC->logger()->root(); })
 			, array("ilLogger", function ($DIC) { return $DIC->logger()->grp(); })
 			, array("ilLogger", function ($DIC) { return $DIC->logger()->crs(); })
