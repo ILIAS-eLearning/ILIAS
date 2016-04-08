@@ -31,7 +31,7 @@ class ilUnitUtil
 		ilContext::init(ilContext::CONTEXT_UNITTEST);
 
 		include_once('Services/Init/classes/class.ilInitialisation.php');
-		ilInitialisation::initILIAS();
+		ilInitialisation::reinitILIAS();
 		ilInitialisation::initUserAccount();
 
 		$ilUnitUtil = new self();
