@@ -876,6 +876,9 @@ class ilInitialisation
 		}
 
 		$GLOBALS["DIC"] = new \ILIAS\DI\Container();
+		$GLOBALS["DIC"]["ilLoggerFactory"] = function($c) {
+			return ilLoggerFactory::getInstance();
+		};
 
 		self::$already_initialized = true;
 
