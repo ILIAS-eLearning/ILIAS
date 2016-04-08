@@ -81,4 +81,22 @@ class Container extends \Pimple\Container {
 	public function logger() {
 		return new LoggingServices($this);
 	}
+
+	/**
+	 * Get interface to the toolbar.
+	 *
+	 * @return	\ilLanguage
+	 */
+	public function toolbar() {
+		return $this["ilToolbar"];
+	}
+
+	/**
+	 * Get interface to the i18n service.
+	 *
+	 * @return	\ilLanguage
+	 */
+	public function tabs() {
+		return $this["ilTabs"];
+	}
 }
