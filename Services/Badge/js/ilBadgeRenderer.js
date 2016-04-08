@@ -3,7 +3,7 @@ il.BadgeRenderer = {
 	url: "",
 
 	init: function(url) {
-		self.url = url;
+		il.BadgeRenderer.url = url;
 		
 		// add click handler to all badges
 		$('[data-id^="badge_"]').click(function() {			
@@ -22,7 +22,7 @@ il.BadgeRenderer = {
 		var modal = $("#" + modal_id);	
 		if(!modal.length)
 		{		
-			il.Util.sendAjaxGetRequestToUrl(self.url, {id: id}, {element: el, modal_id: modal_id}, this.initModal);			
+			il.Util.sendAjaxGetRequestToUrl(il.BadgeRenderer.url.url, {id: id}, {element: el, modal_id: modal_id}, this.initModal);			
 		}		
 		else
 		{

@@ -99,7 +99,8 @@ class ilBadgeTableGUI extends ilTable2GUI
 				"id" => $badge->getId(),
 				"title" => $badge->getTitle(),	
 				"active" => $badge->isActive(),
-				"type" => $badge->getTypeInstance()->getCaption()
+				"type" => $badge->getTypeInstance()->getCaption(),
+				"manual" => (!$badge instanceof ilBadgeAuto)
 			);												
 		}
 		
@@ -123,12 +124,26 @@ class ilBadgeTableGUI extends ilTable2GUI
 		
 		if($this->has_write)
 		{	
+			include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
+			$actions = new ilAdvancedSelectionListGUI();
+			$actions->setListTitle($lng->txt("actions"));
+			
+			if($a_set["manual"])
+			{
+				$ilCtrl->setParameter($this->getParentObject(), "bid", $a_set["id"]);
+				$ilCtrl->setParameter($this->getParentObject(), "tgt", "bdgl");
+				$url = $ilCtrl->getLinkTarget($this->getParentObject(), "awardBadgeUserSelection");
+				$ilCtrl->setParameter($this->getParentObject(), "bid", "");			
+				$ilCtrl->setParameter($this->getParentObject(), "tgt", "");			
+				$actions->addItem($lng->txt("badge_award_badge"), "", $url);
+			}
+			
 			$ilCtrl->setParameter($this->getParentObject(), "bid", $a_set["id"]);
 			$url = $ilCtrl->getLinkTarget($this->getParentObject(), "editBadge");
-			$ilCtrl->setParameter($this->getParentObject(), "bid", "");
+			$ilCtrl->setParameter($this->getParentObject(), "bid", "");			
+			$actions->addItem($lng->txt("edit"), "", $url);
 			
-			$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));	
-			$this->tpl->setVariable("URL_EDIT", $url);	
+			$this->tpl->setVariable("ACTIONS", $actions->getHTML());	
 		}
 	}
 }

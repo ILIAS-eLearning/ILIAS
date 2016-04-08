@@ -159,7 +159,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 	
 	function fillRow($a_set)
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 		
 		$this->tpl->setVariable("PREVIEW", $a_set["renderer"]->getHTML());
 		$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
@@ -173,13 +173,29 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_PARENT", $a_set["parent_title"]);
 			$this->tpl->setVariable("SRC_PARENT", 
 				ilObject::_getIcon($a_set["parent"]["id"], "big", $a_set["parent"]["type"]));			
-		}		
+		}
+
+		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
+		$actions = new ilAdvancedSelectionListGUI();
+		$actions->setListTitle($lng->txt("actions"));
+
+		$ilCtrl->setParameter($this->getParentObject(), "badge_id", $a_set["id"]);		
+		$url = $ilCtrl->getLinkTarget($this->getParentObject(), $a_set["active"]
+			? "deactivate"
+			: "activate");
+		$ilCtrl->setParameter($this->getParentObject(), "badge_id", "");						
+		$actions->addItem($lng->txt(!$a_set["active"]
+			? "badge_add_to_profile"
+			: "badge_remove_from_profile")
+		, "", $url);	
 		
 		if(ilBadgeHandler::getInstance()->isObiActive())
-		{
-			$this->tpl->setVariable("VAL_ID", $a_set["id"]);
-			$this->tpl->setVariable("TXT_PUBLISH", $lng->txt("badge_add_to_backpack"));
+		{			
+			$actions->addItem($lng->txt("badge_add_to_backpack"), "", "", "", "", "", "", 
+				false, "il.Badge.publish(".$a_set["id"].");");
 		}
+		
+		$this->tpl->setVariable("ACTIONS", $actions->getHTML());			
 	}	
 }
 	

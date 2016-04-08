@@ -93,6 +93,10 @@ class ilBadgeProfileGUI
 		global $lng, $ilCtrl, $ilUser;
 		
 		$ids = $_POST["badge_id"];
+		if(!$ids && is_numeric($_GET["badge_id"]))
+		{
+			$ids = array($_GET["badge_id"]);
+		}		
 		if(is_array($ids))
 		{
 			$res = array();

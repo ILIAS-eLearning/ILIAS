@@ -3,11 +3,12 @@ il.Badge = {
 	url: "",
 
 	setUrl: function(url) {
-		self.url = url;
+		il.Badge.url = url;
 	},
 
 	publish: function(id) {				
-		il.Util.sendAjaxGetRequestToUrl(self.url, {id: id}, {}, this.prepared);
+		il.Util.sendAjaxGetRequestToUrl(il.Badge.url, {id: id}, {}, this.prepared);
+		return false;
 	},
 	
 	prepared: function(o) {		
@@ -26,11 +27,11 @@ il.Badge = {
 	},
 	
 	publishMulti: function(urls) {		
-		console.log(urls);
+		// console.log(urls);
 		
 		OpenBadges.issue(urls, function(errors, successes) {												
-			console.log(errors);
-			console.log(successes);
+			// console.log(errors);
+			// console.log(successes);
 
 			/* see https://github.com/mozilla/openbadges-backpack/wiki/using-the-issuer-api
 			DENIED - The user denied permission to add the badge.

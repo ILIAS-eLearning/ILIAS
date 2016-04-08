@@ -625,7 +625,7 @@ class ilBadgeManagementGUI
 		$tpl->setContent($tbl->getHTML());
 	}
 	
-	protected function applyUserFilter()
+	protected function applyListUsers()
 	{
 		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
 		$tbl = new ilBadgeUserTableGUI($this, "listUsers", $this->parent_ref_id);
@@ -634,7 +634,7 @@ class ilBadgeManagementGUI
 		$this->listUsers();
 	}
 	
-	protected function resetUserFilter()
+	protected function resetListUsers()
 	{
 		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
 		$tbl = new ilBadgeUserTableGUI($this, "listUsers", $this->parent_ref_id);
@@ -647,7 +647,7 @@ class ilBadgeManagementGUI
 	{
 		global $ilCtrl, $tpl, $ilTabs, $lng;
 		
-		$bid = (int)$_POST["bid"];
+		$bid = (int)$_REQUEST["bid"];
 		if(!$bid || 
 			!$this->hasWrite())
 		{
@@ -660,11 +660,18 @@ class ilBadgeManagementGUI
 			$ilCtrl->redirect($this, "listUsers");
 		}
 		
+		$back_target = "listUsers";
+		if($_REQUEST["tgt"] == "bdgl")
+		{
+			$ilCtrl->saveParameter($this, "tgt");
+			$back_target = "listBadges";
+		}
+		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "listUsers"));
+			$ilCtrl->getLinkTarget($this, $back_target));
 		
-		$ilCtrl->saveParameter($this, "bid", $bid);
+		$ilCtrl->setParameter($this, "bid", $bid);
 		
 		include_once "./Services/Badge/classes/class.ilBadge.php";
 		$badge = new ilBadge($bid);
@@ -672,6 +679,24 @@ class ilBadgeManagementGUI
 		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
 		$tbl = new ilBadgeUserTableGUI($this, "awardBadgeUserSelection", $this->parent_ref_id, $badge);
 		$tpl->setContent($tbl->getHTML());
+	}
+	
+	protected function applyAwardBadgeUserSelection()
+	{
+		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
+		$tbl = new ilBadgeUserTableGUI($this, "awardBadgeUserSelection", $this->parent_ref_id);
+		$tbl->resetOffset();
+		$tbl->writeFilterToSession();
+		$this->awardBadgeUserSelection();
+	}
+	
+	protected function resetAwardBadgeUserSelection()
+	{
+		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
+		$tbl = new ilBadgeUserTableGUI($this, "awardBadgeUserSelection", $this->parent_ref_id);
+		$tbl->resetOffset();
+		$tbl->resetFilter();
+		$this->awardBadgeUserSelection();
 	}
 	
 	protected function assignBadge()

@@ -64,8 +64,8 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.user_row.html", "Services/Badge");	
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setFilterCommand("applyUserFilter");
-		$this->setResetCommand("resetUserFilter");
+		$this->setFilterCommand("apply".ucfirst($this->getParentCmd()));
+		$this->setResetCommand("reset".ucfirst($this->getParentCmd()));
 
 		$this->initFilter();		
 				
