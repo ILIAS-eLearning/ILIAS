@@ -13,7 +13,7 @@ class Container extends \Pimple\Container {
 	/**
 	 * Get interface to the Database.
 	 *
-	 * @return	ilDB
+	 * @return	\ilDB
 	 */
 	public function db() {
 		return $this["ilDB"];
@@ -31,46 +31,46 @@ class Container extends \Pimple\Container {
 	/**
 	 * Get the interface to the control structure.
 	 *
-	 * @return	ilCtrl
+	 * @return	\ilCtrl
 	 */
 	public function ctrl() {
-		
+		return $this["ilCtrl"];
 	}
 
 	/**
 	 * Get the current user.
 	 *
-	 * @return	ilUser
+	 * @return	\ilUser
 	 */
 	public function user() {
-		
+		return $this["ilUser"];
 	}
 
 	/**
 	 * Get interface for access checks.
 	 *
-	 * @return	ilAccessHandler
+	 * @return	\ilAccessHandler
 	 */
 	public function access() {
-		
+		return $this["ilAccess"];
 	}
 
 	/**
 	 * Get interface to the repository tree.
 	 *
-	 * @return	ilTree
+	 * @return	\ilTree
 	 */
 	public function tree() {
-		
+		return $this["tree"];
 	}
 
 	/**
 	 * Get interface to the i18n service.
 	 *
-	 * @return	ilLanguage
+	 * @return	\ilLanguage
 	 */
 	public function language() {
-		
+		return $this["lng"];
 	}
 
 	/**
@@ -79,6 +79,6 @@ class Container extends \Pimple\Container {
 	 * @return	LoggingServices
 	 */
 	public function logger() {
-		return new LoggingServices();
+		return new LoggingServices($this);
 	}
 }
