@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e85a94a6301dbc3a0c1e92a8a087816f",
-    "content-hash": "9c1a9f77aa02f6e345ffabb8a874a5f8",
+    "hash": "aefab779d7a64a7fb640182307071bda",
+    "content-hash": "e118636de14f8eecdd4c641b039a524a",
     "packages": [
         {
             "name": "ezyang/htmlpurifier",
