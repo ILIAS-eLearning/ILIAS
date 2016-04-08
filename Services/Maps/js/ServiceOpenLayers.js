@@ -392,11 +392,12 @@ var _ilOpenLayers = function(OpenLayers, jQuery, addressInvalid, mapData, userMa
 		var map = mapData[id];
 
 		this.geolocationURL = window.location.protocol + "//"+ map[7];
+		
 		map_servers = map[6];
 		map_servers_count = map_servers.length;
 		
 		for(var j = 0; j < map_servers_count; j++) {
-			map_servers[j] = "http://"+map_servers[j]+"/${z}/${x}/${y}.png";
+			map_servers[j] = window.location.protocol+"//"+map_servers[j]+"/${z}/${x}/${y}.png";
 		}
 
 		this.initMap(id, map[0], map[1], map[2], map[3], map[4], map[5], map_servers);
