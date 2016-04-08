@@ -246,3 +246,20 @@ $ilCtrlStructureReader->getStructure();
 $ilCtrlStructureReader->getStructure();
 
 ?>
+<#14>
+<?php
+
+if(!$ilDB->tableColumnExists('badge_badge','crit')) 
+{
+    $ilDB->addTableColumn(
+        'badge_badge',
+        'crit',
+        array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		)
+	);
+}
+
+?>

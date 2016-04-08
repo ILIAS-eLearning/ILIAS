@@ -221,6 +221,10 @@ class ilBadgeManagementGUI
 		$desc->setRequired(true);
 		$form->addItem($desc);
 		
+		$crit = new ilTextAreaInputGUI($lng->txt("badge_criteria"), "crit");
+		$crit->setRequired(true);
+		$form->addItem($crit);
+		
 		if($a_mode == "create")
 		{
 			// upload
@@ -328,6 +332,7 @@ class ilBadgeManagementGUI
 			$badge->setActive($form->getInput("act"));
 			$badge->setTitle($form->getInput("title"));
 			$badge->setDescription($form->getInput("desc"));
+			$badge->setCriteria($form->getInput("crit"));
 			$badge->setValid($form->getInput("valid"));
 				
 			$custom = $type->getConfigGUIInstance();
@@ -388,6 +393,7 @@ class ilBadgeManagementGUI
 		$a_form->getItemByPostVar("act")->setChecked($a_badge->isActive());
 		$a_form->getItemByPostVar("title")->setValue($a_badge->getTitle());
 		$a_form->getItemByPostVar("desc")->setValue($a_badge->getDescription());
+		$a_form->getItemByPostVar("crit")->setValue($a_badge->getCriteria());
 		$a_form->getItemByPostVar("img")->setValue($a_badge->getImage());
 		$a_form->getItemByPostVar("img")->setImage($a_badge->getImagePath());
 		$a_form->getItemByPostVar("valid")->setValue($a_badge->getValid());
@@ -422,6 +428,7 @@ class ilBadgeManagementGUI
 			$badge->setActive($form->getInput("act"));
 			$badge->setTitle($form->getInput("title"));
 			$badge->setDescription($form->getInput("desc"));
+			$badge->setCriteria($form->getInput("crit"));
 			$badge->setValid($form->getInput("valid"));
 						
 			$custom = $type->getConfigGUIInstance();

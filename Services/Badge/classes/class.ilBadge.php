@@ -20,6 +20,7 @@ class ilBadge
 	protected $image; // [string]
 	protected $valid; // [string]
 	protected $config; // [array]
+	protected $criteria; // [string]
 	
 	/**
 	 * Constructor
@@ -239,6 +240,16 @@ class ilBadge
 		return $this->desc;
 	}
 	
+	public function setCriteria($a_value)
+	{
+		$this->criteria = trim($a_value);
+	}
+	
+	public function getCriteria()
+	{
+		return $this->criteria;
+	}
+	
 	public function setValid($a_value)
 	{
 		$this->valid = trim($a_value);
@@ -364,6 +375,7 @@ class ilBadge
 		$this->setActive($a_row["active"]);
 		$this->setTitle($a_row["title"]);
 		$this->setDescription($a_row["descr"]);
+		$this->setCriteria($a_row["crit"]);
 		$this->setImage($a_row["image"]);
 		$this->setValid($a_row["valid"]);
 		$this->setConfiguration($a_row["conf"]
@@ -430,6 +442,7 @@ class ilBadge
 			"active" => array("integer", $this->isActive()),
 			"title" => array("text", $this->getTitle()),
 			"descr" => array("text", $this->getDescription()),
+			"crit" => array("text", $this->getCriteria()),
 			"image" => array("text", $this->getImage()), 
 			"valid" => array("text", $this->getValid()), 
 			"conf" => array("text", $this->getConfiguration()
@@ -508,8 +521,7 @@ class ilBadge
 			// :TODO: scale?
 			copy($this->getImagePath(), $path."image.".$img_suffix);
 			
-			// :TODO: criteria?
-			file_put_contents($path."criteria.txt", $this->getDescription());
+			file_put_contents($path."criteria.txt", $this->getCriteria());
 		}
 		
 		return $base_url."class.json";

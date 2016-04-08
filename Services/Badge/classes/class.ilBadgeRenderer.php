@@ -99,7 +99,11 @@ class ilBadgeRenderer
 		$tpl->setVariable("IMG_SRC", $this->badge->getImagePath());
 		$tpl->setVariable("IMG_TXT", $this->badge->getImage());
 		
+		$tpl->setVariable("TXT_DESC", $lng->txt("description"));	
 		$tpl->setVariable("DESC", nl2br($this->badge->getDescription()));
+		
+		$tpl->setVariable("TXT_CRITERIA", $lng->txt("badge_criteria"));	
+		$tpl->setVariable("CRITERIA", nl2br($this->badge->getCriteria()));
 		
 		$tpl->setVariable("TXT_TSTAMP", $lng->txt("badge_issued_on"));	
 		$tpl->setVariable("TSTAMP", 

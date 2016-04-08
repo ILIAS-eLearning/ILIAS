@@ -22,7 +22,7 @@ il.BadgeRenderer = {
 		var modal = $("#" + modal_id);	
 		if(!modal.length)
 		{		
-			il.Util.sendAjaxGetRequestToUrl(il.BadgeRenderer.url.url, {id: id}, {element: el, modal_id: modal_id}, this.initModal);			
+			il.Util.sendAjaxGetRequestToUrl(il.BadgeRenderer.url, {id: id}, {element: el, modal_id: modal_id}, this.initModal);			
 		}		
 		else
 		{
