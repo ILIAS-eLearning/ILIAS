@@ -431,7 +431,7 @@ class ilDBUpdateNewObjectType
 		// oracle does not support ALTER TABLE varchar2 to CLOB
 	
 		$ilDB->lockTables(array(
-			array('name'=> $a_table_name, 'type'=>ilDB::LOCK_WRITE)
+			array('name'=> $a_table_name, 'type'=>ilDBConstants::LOCK_WRITE)
 		));
 
 		$def = array(

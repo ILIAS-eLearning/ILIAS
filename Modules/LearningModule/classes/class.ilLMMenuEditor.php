@@ -31,7 +31,7 @@
 */
 class ilLMMenuEditor
 {
-	function ilLMMenuEditor()
+	function __construct()
 	{
 		global $ilDB;
 

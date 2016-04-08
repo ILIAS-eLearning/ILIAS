@@ -412,7 +412,7 @@ class ilCalendarSchedule
 			"ORDER BY last_update";
 		$res = $this->db->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{						
 			$event = new ilCalendarEntry($row->cal_id);			
 			if($this->isValidEventByFilters($event))
@@ -467,7 +467,7 @@ class ilCalendarSchedule
 		$res = $this->db->query($query);
 				
 		$events = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$event = new ilCalendarEntry($row->cal_id);			
 			if($this->isValidEventByFilters($event))

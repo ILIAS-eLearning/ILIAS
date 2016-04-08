@@ -52,7 +52,7 @@ class ilSetting
 	/**
 	* Initialize settings
 	*/
-	function ilSetting($a_module = "common", $a_disabled_cache = false)
+	function __construct($a_module = "common", $a_disabled_cache = false)
 	{
 		global $ilDB;
 		
@@ -268,6 +268,10 @@ class ilSetting
 	*/
 	public static function _getValueType()
 	{
+		// php7-todo JL: PDO has no analyzer
+		return 'text';
+		
+		/*
 		include_once ('./Services/Database/classes/class.ilDBAnalyzer.php');
 		$analyzer = new ilDBAnalyzer;
 		$info = $analyzer->getFieldInformation('settings');
@@ -279,7 +283,8 @@ class ilSetting
 		else
 		{
 	        return 'text';
-	    }
+	    }		 
+		*/
 	}
 
 

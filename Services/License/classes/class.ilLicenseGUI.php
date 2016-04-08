@@ -29,14 +29,14 @@ class ilLicenseGUI
 		$this->lng =& $lng;
 		$this->lng->loadLanguageModule("license");
 		$this->parent_gui =& $a_parent_gui;
-		$this->license =& new ilLicense($this->parent_gui->object->getId());
+		$this->license = new ilLicense($this->parent_gui->object->getId());
 	}
 
 	/**
 	* Execute a command (main entry point)
 	* @access public
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem, $ilErr;
 

@@ -3,22 +3,22 @@ include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDSaxParser.php';
 
 class ilMDXMLParser extends ilMDSaxParser
 {
-	// So könnte bspw eine ContentObjectParser Klasse aussehen.
-	// Alle LM spezifischen Attribute werden wie gehabt hier behandelt. Werden Metadata spezifische Attribute übergeben, werden einfach die 
+	// So kï¿½nnte bspw eine ContentObjectParser Klasse aussehen.
+	// Alle LM spezifischen Attribute werden wie gehabt hier behandelt. Werden Metadata spezifische Attribute ï¿½bergeben, werden einfach die 
 	// entsprechenden Funktionen von ilMDSaxParser.php aufgerufen.
-	// Wichtig ist nur, daß ein MD-Objekt mit den Object-Ids und dem Objekttyp angelegt wird ($this->setMDObject(new ilMD(...)))
+	// Wichtig ist nur, daï¿½ ein MD-Objekt mit den Object-Ids und dem Objekttyp angelegt wird ($this->setMDObject(new ilMD(...)))
 
 
-	function ilMDXMLParser($content,$a_obj_id,$a_rbac_id,$a_type)
+	function __construct($content,$a_obj_id,$a_rbac_id,$a_type)
 	{
 
 		$this->setMDObject(new ilMD($a_obj_id,$a_rbac_id,$a_type));
 
 		// Wenn content eine XML-Datei ist:
-		#parent::ilMDSaxParser($content);
+		#parent::__construct($content);
 
 		// Ist content ein xml-String:
-		parent::ilMDSaxParser();
+		parent::__construct();
 		$this->setXMLContent($content);
 
 	}

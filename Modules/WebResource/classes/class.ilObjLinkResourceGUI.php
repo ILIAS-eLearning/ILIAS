@@ -76,7 +76,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				$this->prepareOutput();	
 				$ilTabs->activateTab('id_permissions');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
@@ -1238,7 +1238,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
 		include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
 
-		$link_check_notify =& new ilLinkCheckNotify($ilDB);
+		$link_check_notify = new ilLinkCheckNotify($ilDB);
 		$link_check_notify->setUserId($ilUser->getId());
 		$link_check_notify->setObjId($this->object->getId());
 
@@ -1299,7 +1299,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
 		include_once './Services/LinkChecker/classes/class.ilLinkChecker.php';
 
-		$this->link_checker_obj =& new ilLinkChecker($ilDB,false);
+		$this->link_checker_obj = new ilLinkChecker($ilDB,false);
 		$this->link_checker_obj->setObjId($this->object->getId());
 
 		return true;

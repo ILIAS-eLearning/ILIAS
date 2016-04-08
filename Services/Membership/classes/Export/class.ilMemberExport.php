@@ -185,13 +185,13 @@ class ilMemberExport
 	 */
 	public function createExcel()
 	{
-		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
-		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
-		$adapter = new ilExcelWriterAdapter($this->getFilename(), false);
-		$workbook = $adapter->getWorkbook();
-		$this->worksheet = $workbook->addWorksheet();
+		include_once "./Services/Excel/classes/class.ilExcel.php";
+		$this->worksheet = new ilExcel();
+		$this->worksheet->addSheet($this->lng->txt("members"));
+		
 		$this->write();
-		$workbook->close();
+		
+		$this->worksheet->writeToFile($this->getFilename());	
 	}
 	
 	/**
@@ -226,7 +226,7 @@ class ilMemberExport
 				break;
 				
 			case self::EXPORT_EXCEL:
-				$this->worksheet->write($a_row,$a_col,$a_value);
+				$this->worksheet->setCell($a_row+1,$a_col,$a_value);
 				break;
 		}
 	}

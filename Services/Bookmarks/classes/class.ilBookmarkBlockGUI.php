@@ -20,11 +20,11 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	/**
 	* Constructor
 	*/
-	function ilBookmarkBlockGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		parent::ilBlockGUI();
+		parent::__construct();
 		
 		$this->setImage(ilUtil::getImagePath("icon_bm.svg"));
 		$this->setTitle($lng->txt("my_bms"));
@@ -74,7 +74,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 

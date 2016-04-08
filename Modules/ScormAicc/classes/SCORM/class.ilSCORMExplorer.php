@@ -51,7 +51,7 @@ class ilSCORMExplorer extends ilExplorer
 	*/
 	function ilSCORMExplorer($a_target, &$a_slm_obj)
 	{
-		parent::ilExplorer($a_target);
+		parent::__construct($a_target);
 		$this->slm_obj =& $a_slm_obj;
 		$this->tree = new ilSCORMTree($a_slm_obj->getId());
 		$this->root_id = $this->tree->readRootId();
@@ -288,7 +288,7 @@ class ilSCORMExplorer extends ilExplorer
 			}
 			else
 			{
-				$sc_object =& new ilSCORMItem($a_id);
+				$sc_object = new ilSCORMItem($a_id);
 			}
 			if ($sc_object->getIdentifierRef() != "")
 			{
@@ -367,12 +367,12 @@ class ilSCORMExplorer extends ilExplorer
 		$ilBench->stop("SCORMExplorer", "renderIcons");
 		
 		$ilBench->start("SCORMExplorer", "initSCORMItem");
-		$sc_object =& new ilSCORMItem($a_node_id);
+		$sc_object = new ilSCORMItem($a_node_id);
 		$id_ref = $sc_object->getIdentifierRef();
 		$ilBench->stop("SCORMExplorer", "initSCORMItem");
 		
 		$ilBench->start("SCORMExplorer", "initResource");
-		//$sc_res =& new ilSCORMResource();
+		//$sc_res = new ilSCORMResource();
 		$sc_res_id = ilSCORMResource::_lookupIdByIdRef($id_ref, $sc_object->getSLMId());
 		$ilBench->stop("SCORMExplorer", "initResource");
 		

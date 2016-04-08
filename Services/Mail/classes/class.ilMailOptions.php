@@ -96,7 +96,7 @@ class ilMailOptions
 			WHERE user_id = %s',
 			array('integer'), array($this->user_id));
 		
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		
 		$this->cronjob_notification = stripslashes($row->cronjob_notification);
 		$this->signature = stripslashes($row->signature);
@@ -122,7 +122,7 @@ class ilMailOptions
 	public function updateOptions($a_signature, $a_linebreak, $a_incoming_type, $a_cronjob_notification)
 	{
 		/**
-		 * @var $ilDB      ilDB
+		 * @var $ilDB      ilDBInterface
 		 * @var $ilSetting ilSetting
 		 */
 		global $ilDB, $ilSetting;
@@ -197,7 +197,7 @@ class ilMailOptions
 	protected static function lookupNotificationSetting($usr_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 

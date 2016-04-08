@@ -12,14 +12,6 @@
 class ilBenchmark
 {
 	var $bench = array();
-	
-	/**
-	* constructor
-	*/
-	function ilBenchmark()
-	{
-	}
-
 
 	/**
 	*

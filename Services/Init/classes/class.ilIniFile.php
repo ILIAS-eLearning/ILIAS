@@ -70,7 +70,7 @@ class ilIniFile
 	* @param	string		name of file to be parsed
 	* @return	boolean
 	*/
-	function ilIniFile($a_ini_file_name)
+	function __construct($a_ini_file_name)
 	{
 		//check if a filename is given
 		if (empty($a_ini_file_name))

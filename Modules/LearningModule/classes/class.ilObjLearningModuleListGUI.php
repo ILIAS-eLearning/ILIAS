@@ -18,9 +18,9 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 	* constructor
 	*
 	*/
-	function ilObjLearningModuleListGUI()
+	function __construct()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**
@@ -36,7 +36,6 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 		$this->copy_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
-		$this->payment_enabled = true;
 		$this->info_screen_enabled = true;
 		$this->type = "lm";
 		$this->gui_class_name = "ilobjlearningmodulegui";
@@ -130,18 +129,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 			case "view":
 			case "continue":
 			case 'list':
-
-				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-				if (ilPaymentObject::_isBuyable($this->ref_id) && 
-					!ilPaymentObject::_hasAccess($this->ref_id))
-				{
-					$frame = '';
-				}
-				else
-				{
-					$frame = ilFrameTargetInfo::_getFrame("MainContent");
-					//$frame = "ilContObj".$this->obj_id;
-				}
+				$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				break;
 
 			case "edit":
@@ -190,29 +178,6 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 				"value" => $lng->txt("lm"));
 		}
 
-		if(IS_PAYMENT_ENABLED)
-		{
-			include_once("Services/Payment/classes/class.ilPaymentObject.php");
-
-			if (ilPaymentObject::_isBuyable($this->ref_id))
-			{
-				if (ilPaymentObject::_hasAccess($this->ref_id))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("payment_system"),
-						"value" => $lng->txt("payment_payed_access"));
-				}
-				else if (ilPaymentObject::_isInCart($this->ref_id))
-				{
-					$props[] = array("alert" => true, "property" => $lng->txt("payment_system"),
-						"value" => $lng->txt("payment_in_sc"));
-				}
-				else
-				{
-					$props[] = array("alert" => true, "property" => $lng->txt("payment_system"),
-						"value" => $lng->txt("payment_buyable"));
-				}
-			}
-		}
 		return $props;
 	}
 

@@ -48,12 +48,12 @@ class ilMDSearch
 	* Constructor
 	* @access public
 	*/
-	function ilMDSearch(&$qp_obj)
+	function __construct($qp_obj)
 	{
 		global $ilDB;
 		
-		$this->query_parser =& $qp_obj;
-		$this->db =& $ilDB;
+		$this->query_parser = $qp_obj;
+		$this->db = $ilDB;
 
 		include_once 'Services/Search/classes/class.ilSearchResult.php';
 
@@ -115,7 +115,7 @@ class ilMDSearch
 			"ORDER BY meta_keyword_id DESC";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->obj_id,$row->obj_type,$row->rbac_id);
 		}

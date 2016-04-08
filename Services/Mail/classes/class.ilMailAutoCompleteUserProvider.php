@@ -98,7 +98,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 	protected function getFromPart()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -131,7 +131,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 	protected function getWherePart($search_query)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -207,7 +207,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 	protected function getQueryConditionByFieldAndValue($field, $a_str)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 

@@ -406,9 +406,7 @@ class ilExerciseManagementGUI
 	 * Add new partipant
 	 */
 	function addMembersObject($a_user_ids = array())
-	{
-		global $ilAccess,$ilErr;
-
+	{		
 		if(!count($a_user_ids))
 		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
@@ -450,9 +448,7 @@ class ilExerciseManagementGUI
 	 * Select assignment
 	 */
 	function selectAssignmentObject()
-	{
-		global $ilTabs;
-
+	{		
 		$_GET["ass_id"] = ilUtil::stripSlashes($_POST["ass_id"]);
 		$this->membersObject();
 	}
@@ -462,7 +458,7 @@ class ilExerciseManagementGUI
 	 */
 	function showParticipantObject()
 	{
-		global $rbacsystem, $tree, $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
+		global $tpl, $ilToolbar, $ilCtrl, $lng;
 
 		$this->addSubTabs("participant");
 		

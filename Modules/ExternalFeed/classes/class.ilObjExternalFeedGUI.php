@@ -21,7 +21,7 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	function ilObjExternalFeedGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
 		$this->type = "feed";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
 	
 	
@@ -37,7 +37,7 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$ilTabs->activateTab("id_permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
@@ -45,7 +45,7 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$ilTabs->activateTab("id_settings");
 				include_once("./Services/Block/classes/class.ilExternalFeedBlockGUI.php");
-				$fb_gui =& new ilExternalFeedBlockGUI();
+				$fb_gui = new ilExternalFeedBlockGUI();
 				$fb_gui->setGuiObject($this);
 				if (is_object($this->object))
 				{

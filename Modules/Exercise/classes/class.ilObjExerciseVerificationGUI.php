@@ -147,16 +147,15 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 	}
 	
 	function downloadFromPortfolioPage(ilPortfolioPage $a_page)
-	{		
-		global $ilErr;
-		
+	{				
 		include_once "Services/COPage/classes/class.ilPCVerification.php";
 		if(ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId()))
 		{
 			$this->deliver();
 		}
 		
-		$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
+		include_once "Modules/Exercise/exceptions/class.ilExerciseException.php";
+		throw new ilExerciseException($this->lng->txt('permission_denied'));
 	}
 
 	public static function _goto($a_target)

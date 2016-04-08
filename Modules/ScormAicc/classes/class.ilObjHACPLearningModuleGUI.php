@@ -49,8 +49,8 @@ class ilObjHACPLearningModuleGUI extends ilObjAICCLearningModuleGUI
 
 		$lng->loadLanguageModule("content");
 		$this->type = "sahs";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
-		#$this->tabs_gui =& new ilTabsGUI();
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		#$this->tabs_gui = new ilTabsGUI();
 
 	}
 
@@ -64,11 +64,11 @@ class ilObjHACPLearningModuleGUI extends ilObjAICCLearningModuleGUI
 		{
 			if ($this->call_by_reference)
 			{
-				$this->object =& new ilObjHACPLearningModule($this->id, true);
+				$this->object = new ilObjHACPLearningModule($this->id, true);
 			}
 			else
 			{
-				$this->object =& new ilObjHACPLearningModule($this->id, false);
+				$this->object = new ilObjHACPLearningModule($this->id, false);
 			}
 		}
 	}

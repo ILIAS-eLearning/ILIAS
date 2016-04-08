@@ -34,13 +34,13 @@ class ilSolutionExplorer extends ilExplorer
 * @access	public
 * @param	string	target
 */
-	function ilSolutionExplorer($a_target, $a_target_class)
+	public function __construct($a_target, $a_target_class)
 	{
 		global $tree,$ilCtrl;
 
 		$this->ctrl = $ilCtrl;
 		$this->target_class = $a_target_class;
-		parent::ilExplorer($a_target);
+		parent::__construct($a_target);
 		$this->tree = $tree;
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = "title";

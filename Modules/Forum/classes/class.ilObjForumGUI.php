@@ -102,7 +102,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	private $confirmation_gui_html = '';
 	
-	public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
+	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		/**
 		 * @var $ilCtrl ilCtrl
@@ -198,8 +198,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			'performPostActivation', 
 			'askForPostActivation', 'askForPostDeactivation',
 			'toggleThreadNotification', 'toggleThreadNotificationTab',
-			'toggleStickiness', 'cancelPost', 'savePost', 'saveTopLevelPost', 'createToLevelPost', 'quoteTopLevelPost', 'quotePost', 'getQuotationHTMLAsynch',
-			'setTreeStateAsynch', 'fetchTreeChildrenAsync'
+			'toggleStickiness', 'cancelPost', 'savePost', 'saveTopLevelPost', 'createToLevelPost', 'quoteTopLevelPost', 'quotePost', 'getQuotationHTMLAsynch'
 		);
 
 		if(!in_array($cmd, $exclude_cmds))
@@ -770,23 +769,23 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->create_form_gui->addCommandButton('cancel', $this->lng->txt('cancel'));
 	}
 	
-	public function cancelObject($in_rep = false)
+	public function cancelObject()
 	{
 		ilUtil::sendInfo($this->lng->txt('msg_cancel'), true);
 		ilUtil::redirect('ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&ref_id='.$_GET['ref_id']);
 	}
 
 	/**
-	 * @param ilObjForum $forumObj
+	 * @param ilObject|ilObjForum $forumObj
 	 */
-	protected function afterSave(ilObjForum $forumObj)
+	protected function afterSave(ilObject $forumObj)
 	{
 		ilUtil::sendSuccess($this->lng->txt('frm_added'), true);
 		$this->ctrl->setParameter($this, 'ref_id', $forumObj->getRefId());
 		ilUtil::redirect($this->ctrl->getLinkTarget($this, 'createThread', '', false, false));
 	}
 
-	public function getTabs(ilTabsGUI $tabs_gui)
+	protected function getTabs()
 	{
 		/**
 		 * @var $ilAccess ilAccessHandler
@@ -799,7 +798,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->ctrl->setParameter($this, 'ref_id', $this->ref_id);
 
-		include_once 'Services/Repository/classes/class.ilRepositoryExplorer.php';
 		$active = array(
 			'', 'showThreads', 'view', 'markAllRead', 
 			'enableForumNotification', 'disableForumNotification', 'moveThreads', 'performMoveThreads',
@@ -809,13 +807,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		);
 
 		(in_array($ilCtrl->getCmd(), $active)) ? $force_active = true : $force_active = false;
-		$tabs_gui->addTarget('forums_threads', $this->ctrl->getLinkTarget($this,'showThreads'), $ilCtrl->getCmd(), get_class($this), '', $force_active);
+		$this->tabs_gui->addTarget('forums_threads', $this->ctrl->getLinkTarget($this,'showThreads'), $ilCtrl->getCmd(), get_class($this), '', $force_active);
 
 		// info tab
 		if($ilAccess->checkAccess('visible', '', $this->ref_id))
 		{
 			$force_active = ($this->ctrl->getNextClass() == 'ilinfoscreengui' || strtolower($_GET['cmdClass']) == 'ilnotegui') ? true : false;
-			$tabs_gui->addTarget('info_short',
+			$this->tabs_gui->addTarget('info_short',
 				 $this->ctrl->getLinkTargetByClass(
 				 array('ilobjforumgui', 'ilinfoscreengui'), 'showSummary'),
 				 array('showSummary', 'infoScreen'),
@@ -825,29 +823,29 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			$force_active = ($ilCtrl->getCmd() == 'edit') ? true	: false;
-			$tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'edit'), 'edit', get_class($this), '', $force_active);
+			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'edit'), 'edit', get_class($this), '', $force_active);
 		}
 		
 		if($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$tabs_gui->addTarget('frm_moderators', $this->ctrl->getLinkTargetByClass('ilForumModeratorsGUI', 'showModerators'), 'showModerators', get_class($this));			
+			$this->tabs_gui->addTarget('frm_moderators', $this->ctrl->getLinkTargetByClass('ilForumModeratorsGUI', 'showModerators'), 'showModerators', get_class($this));			
 		}
 
 		if($this->ilias->getSetting('enable_fora_statistics', false) &&
 		   ($this->objProperties->isStatisticEnabled() || $ilAccess->checkAccess('write', '', $this->ref_id))) 
 		{
 			$force_active = ($ilCtrl->getCmd() == 'showStatistics') ? true	: false;
-			$tabs_gui->addTarget('frm_statistics', $this->ctrl->getLinkTarget($this, 'showStatistics'), 'showStatistics', get_class($this), '', $force_active); //false
+			$this->tabs_gui->addTarget('frm_statistics', $this->ctrl->getLinkTarget($this, 'showStatistics'), 'showStatistics', get_class($this), '', $force_active); //false
 		}
 
 		if($ilAccess->checkAccess('write', '', $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('export', $this->ctrl->getLinkTargetByClass('ilexportgui', ''), '', 'ilexportgui');
+			$this->tabs_gui->addTarget('export', $this->ctrl->getLinkTargetByClass('ilexportgui', ''), '', 'ilexportgui');
 		}
 
 		if($ilAccess->checkAccess('edit_permission', '', $this->ref_id))
 		{
-			$tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');							
+			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');							
 		}
 	}
 
@@ -1713,9 +1711,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$message .= $lng->txt('forums_post_new_entry');
 				}
 
-				$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = (int)$this->objCurrentPost->getId();
-
 				ilUtil::sendSuccess($message, true);
+				$this->ctrl->setParameter($this, 'post_created_below', $this->objCurrentPost->getId());
 				$this->ctrl->setParameter($this, 'pos_pk', $newPost);
 				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
 				$this->ctrl->redirect($this, 'viewThread');
@@ -1918,113 +1915,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		return $this->forumObjects;
 	}
-	
-	public function getForumExplorer()
-	{		
-		include_once 'Modules/Forum/classes/class.ilForumExplorer.php';
-		
-		$explorer = new ilForumExplorer(
-			$this,
-			$this->objCurrentTopic,
-			$this->objProperties
-		);
-		
-		return $explorer->render()->getHtml();
-	}
-	
-	public function fetchTreeChildrenAsyncObject()
-	{
-		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
-		include_once 'Modules/Forum/classes/class.ilForumExplorer.php';
-
-		$response = new stdClass();
-		$response->success = false;
-
-		if( $_GET['nodeId'] )
-		{
-			$response->success = true;
-			$response->children = array();
-
-			$key = array_search((int)$_GET['nodeId'], (array)$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']);
-			if( false === $key )
-			{
-				$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = (int)$_GET['nodeId'];
-			}
-
-			$children = $this->objCurrentTopic->getNestedSetPostChildren(
-				(int)$_GET['nodeId'],
-				(array)$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']
-			);
-
-			$frm = new ilForum();
-			$pageHits = $frm->getPageHits();
-			
-			$fetchedNodes = array();
-			
-			foreach( $children as $child )
-			{
-				if($child['parent_pos'] != (int)$_GET['nodeId'] &&
-				   !in_array($child['parent_pos'], $fetchedNodes))
-				{
-					continue;
-				}
-
-				$fetchedNodes[] = $child['pos_pk'];
-				
-				$this->ctrl->setParameter($this, 'thr_pk', (int)$_GET['thr_pk']);
-				
-				$html = ilForumExplorer::getTreeNodeHtml(
-					$child,
-					$this,
-					$pageHits
-				);
-				
-				$responseChild = new stdClass();
-				$responseChild->nodeId = $child['pos_pk'];
-				$responseChild->parentId = $child['parent_pos'];
-				$responseChild->hasChildren = ($child['children'] >= 1);
-				$responseChild->fetchedWithChildren = in_array((int)$child['pos_pk'], (array)$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']);
-				$responseChild->html = $html;
-				
-				$response->children[] = $responseChild;
-			}
-		}
-		
-		echo ilJsonUtil::encode($response);
-		exit();
-	}
-
-	public function setTreeStateAsynchObject()
-	{
-		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
-
-		$response = new stdClass();
-		$response->success = true;
-
-		if( $_GET['nodeId'] )
-		{
-			if( $_GET['nodeId'] > 0 )
-			{
-				$key = array_search((int)$_GET['nodeId'], (array)$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']);
-				if( false === $key )
-				{
-					$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = (int)$_GET['nodeId'];
-				}
-			}
-			else
-			{
-				$key = array_search((int)abs($_GET['nodeId']), (array)$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']);
-				if( false !== $key )
-				{
-					unset($_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][$key]);
-				}
-			}
-		}
-		
-		// Guarantee continuous keys
-		shuffle($_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']);
-		exit();
-	}
 
 	public function viewThreadObject()
 	{
@@ -2113,7 +2003,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			$ilCtrl->redirect($this, 'showThreads');
 		}
-		
+
 		// Set context for login
 		$append = '_'.$this->objCurrentTopic->getId().
 			($this->objCurrentPost->getId() ? '_'.$this->objCurrentPost->getId() : '');
@@ -2140,7 +2030,18 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			{
 			}
 		}
-		
+
+		if($this->isHierarchicalView())
+		{
+			require_once 'Modules/Forum/classes/class.ilForumExplorerGUI.php';
+			$exp = new ilForumExplorerGUI('frm_exp_' . $this->objCurrentTopic->getId(), $this, 'viewThread');
+			$exp->setThread($this->objCurrentTopic);
+			if(!$exp->handleCommand())
+			{
+				$this->tpl->setLeftNavContent($exp->getHTML());
+			}
+		}
+
 		require_once './Modules/Forum/classes/class.ilObjForum.php';
 		require_once './Modules/Forum/classes/class.ilFileDataForum.php';		
 		
@@ -3055,11 +2956,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$permalink = new ilPermanentLinkGUI('frm', $this->object->getRefId(), '_'.$this->objCurrentTopic->getId());		
 		$this->tpl->setVariable('PRMLINK', $permalink->getHTML());
 
-		if($this->isHierarchicalView())
-		{
-			$tpl->setLeftNavContent($this->getForumExplorer());
-		}
-
 		return true;
 	}
 
@@ -3824,7 +3720,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		return false;
 	}
-	
+
 	public function setColumnSettings(ilColumnGUI $column_gui)
 	{
 		/** 
@@ -4031,7 +3927,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$oParticipants = $this->getParticipantsObject();
 
 		$frm_noti = new ilForumNotification($this->object->getRefId());
-		$moderator_ids = $frm_noti->_getModerators($this->object->getRefId());
+		$moderator_ids = ilForum::_getModerators($this->object->getRefId());
 
 		$admin_ids = $oParticipants->getAdmins();
 		$member_ids = $oParticipants->getMembers();
@@ -4144,7 +4040,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$frm_noti = new ilForumNotification($this->object->getRefId());
 		$oParticipants = $this->getParticipantsObject();
 
-		$moderator_ids = $frm_noti->_getModerators($this->object->getRefId());
+		$moderator_ids = ilForum::_getModerators($this->object->getRefId());
 
 		$admin_ids = $oParticipants->getAdmins();
 		$member_ids = $oParticipants->getMembers();

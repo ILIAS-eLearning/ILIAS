@@ -141,7 +141,7 @@ class ilCtrlStructureReader
 				// files
 				if (@is_file($a_cdir."/".$file))
 				{
-					if (eregi("^class.*php$", $file) || eregi("^ilSCORM13Player.php$", $file))
+					if (preg_match("~^class.*php$~i", $file) || preg_match("~^ilSCORM13Player.php$~i", $file))
 					{
 						$handle = fopen($a_cdir."/".$file, "r");
 //echo "<br>".$a_cdir."/".$file;
@@ -225,7 +225,7 @@ class ilCtrlStructureReader
 								}
 							}
 							
-							if (eregi("^class\.(.*GUI)\.php$", $file, $res))
+							if (preg_match("~^class\.(.*GUI)\.php$~i", $file, $res))
 							{
 								$cl = strtolower($res[1]);
 								$pos = strpos(strtolower($line), "class ".$cl);

@@ -47,7 +47,7 @@ class ilSearchCommandQueue
 	/**
 	 * get singleton instance
 	 */
-	public function factory()
+	static public function factory()
 	{
 		if(isset(self::$instance) and self::$instance)
 		{

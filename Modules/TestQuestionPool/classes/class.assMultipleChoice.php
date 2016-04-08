@@ -604,7 +604,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	 */
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 
 		if (is_null($pass))
@@ -654,7 +654,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	
 	public function saveAdditionalQuestionDataToDb()
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 		$oldthumbsize = 0;
 		if ($this->isSingleline && ($this->getThumbSize()))
@@ -697,7 +697,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
 	public function saveAnswerSpecificDataToDb()
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 		$ilDB->manipulateF( "DELETE FROM qpl_a_mc WHERE question_fi = %s",
 							array( 'integer' ),
@@ -726,13 +726,9 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	}
 
 	/**
-	 * Reworks the allready saved working data if neccessary
-	 *
-	 * @param integer $active_id
-	 * @param integer $pass
-	 * @param boolean $obligationsAnswered
+	 * {@inheritdoc}
 	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered)
+	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
 	{
 		// nothing to rework!
 	}
@@ -973,27 +969,19 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	}
 
 	/**
-	 * Creates an Excel worksheet for the detailed cumulated results of this question
-	 *
-	 * @param object $worksheet    Reference to the parent excel worksheet
-	 * @param object $startrow     Startrow of the output in the excel worksheet
-	 * @param object $active_id    Active id of the participant
-	 * @param object $pass         Test pass
-	 * @param object $format_title Excel title format
-	 * @param object $format_bold  Excel bold format
-	 *
-	 * @return object
+	 * {@inheritdoc}
 	 */
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
+		parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+
 		$solution = $this->getSolutionValues($active_id, $pass);
-		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
-		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+
 		$i = 1;
 		foreach ($this->getAnswers() as $id => $answer)
 		{
-			$worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($answer->getAnswertext()), $format_bold);
+			$worksheet->setCell($startrow + $i, 0, $answer->getAnswertext());
+			$worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
 			$checked = FALSE;
 			foreach ($solution as $solutionvalue)
 			{
@@ -1004,14 +992,15 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 			}
 			if ($checked)
 			{
-				$worksheet->write($startrow + $i, 1, 1);
+				$worksheet->setCell($startrow + $i, 1, 1);
 			}
 			else
 			{
-				$worksheet->write($startrow + $i, 1, 0);
+				$worksheet->setCell($startrow + $i, 1, 0);
 			}
 			$i++;
 		}
+
 		return $startrow + $i + 1;
 	}
 
@@ -1175,7 +1164,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	 */
 	public static function isObligationPossible($questionId)
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 		
 		$query = "
@@ -1201,7 +1190,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	 */
 	public function ensureNoInvalidObligation($questionId)
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 		
 		$query = "
@@ -1334,7 +1323,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	*/
 	public function getUserQuestionResult($active_id, $pass)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 

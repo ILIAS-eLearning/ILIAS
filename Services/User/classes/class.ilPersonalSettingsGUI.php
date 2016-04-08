@@ -42,7 +42,7 @@ class ilPersonalSettingsGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilUser, $ilCtrl, $tpl, $ilTabs, $lng;
 		
@@ -567,8 +567,8 @@ class ilPersonalSettingsGUI
 					
 				case AUTH_SHIBBOLETH :
 				case AUTH_CAS:
-					require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-					if (ilDAVServer::_isActive())
+					require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+					if (ilDAVActivationChecker::_isActive())
 					{
 						$this->form->setTitle($lng->txt("chg_ilias_and_webfolder_password"));
 					}

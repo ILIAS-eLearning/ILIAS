@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 class Output_css
 {
-	function Output_css()
+	function __construct()
 	{
 		$this->code		= '_WORD_';
 		$this->linecomment 	= '<span class="ilc_CodeLinecomment">_WORD_</span>';

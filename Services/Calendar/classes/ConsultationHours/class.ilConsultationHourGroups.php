@@ -23,7 +23,7 @@ class ilConsultationHourGroups
 				'WHERE usr_id = '.$ilDB->quote($a_user_id,'integer');
 		$res = $ilDB->query($query);
 		$groups = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroup.php';
 			$groups[] = new ilConsultationHourGroup($row->grp_id);
@@ -46,7 +46,7 @@ class ilConsultationHourGroups
 				'GROUP BY grp_id';
 		
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		return (int) $row->num;
 	}
 	
@@ -70,7 +70,7 @@ class ilConsultationHourGroups
 		$query = 'SELECT title from cal_ch_group '.
 				'WHERE grp_id = '.$ilDB->quote($a_group_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->title;
 		}
@@ -90,7 +90,7 @@ class ilConsultationHourGroups
 		$query = 'SELECT multiple_assignments from cal_ch_group '.
 				'WHERE grp_id = '.$ilDB->quote($a_group_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->multiple_assignments;
 		}

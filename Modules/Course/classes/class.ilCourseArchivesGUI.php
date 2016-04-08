@@ -43,27 +43,27 @@ class ilCourseArchivesGUI
 	var $tabs_gui;
 
 	/**
-	* Constructor
-	* @access public
-	*/
-	function ilCourseArchivesGUI(&$content_gui)
+	 * Constructor
+	 * @access public
+	 */
+	public function __construct($content_gui)
 	{
 		global $tpl,$ilCtrl,$lng,$ilObjDataCache,$ilTabs;
 
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
-		$this->tabs_gui =& $ilTabs;
+		$this->tpl = $tpl;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
+		$this->tabs_gui = $ilTabs;
 
-		$this->content_gui =& $content_gui;
-		$this->content_obj =& $this->content_gui->object;
+		$this->content_gui = $content_gui;
+		$this->content_obj = $this->content_gui->object;
 
 		$this->__initCourseObject();
 	}
 
 		
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		switch($this->ctrl->getNextClass($this))
 		{

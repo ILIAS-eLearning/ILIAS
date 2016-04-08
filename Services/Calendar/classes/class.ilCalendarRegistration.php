@@ -154,7 +154,7 @@ class ilCalendarRegistration
 		
 		$query = "SELECT * FROM cal_registrations WHERE cal_id = ".$ilDB->quote($this->getAppointmentId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->registered[] = array(
 				'usr_id'=> $row->usr_id,

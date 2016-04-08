@@ -38,7 +38,7 @@ class ilSCORMResourceGUI extends ilSCORMObjectGUI
 	function ilSCORMResourceGUI($a_id)
 	{
 		parent::ilSCORMObjectGUI();
-		$this->sc_object =& new ilSCORMResource($a_id);
+		$this->sc_object = new ilSCORMResource($a_id);
 		$files =& $this->sc_object->getFiles();
 	}
 

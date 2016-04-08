@@ -88,7 +88,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 	/**
 	 * @param array $row
 	 */
-	protected function fillRow(array $row)
+	protected function fillRow($row)
 	{
 		foreach($row as $column => $value)
 		{

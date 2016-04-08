@@ -106,7 +106,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$this->tree =& $tree;
 
 		$this->type = "grp";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 		$this->setRegisterMode(true); // ???
 	}
 	
@@ -122,7 +122,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$query = "SELECT grp_type FROM grp_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->grp_type;
 		}
@@ -653,7 +653,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote((int) $this->getEnableGroupMap() ,'integer').", ".
 			$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
-			$ilDB->quote($this->getViewMode(false),'integer').', '.
+			$ilDB->quote($this->getViewMode(),'integer').', '.
 			$ilDB->quote($this->getMailToMembersType(),'integer').', '.				
 			$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
 			$ilDB->quote($this->getMinMembers(),'integer').', '.
@@ -701,7 +701,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			"enablemap = ".$ilDB->quote((int) $this->getEnableGroupMap() ,'integer').", ".
 			'reg_ac_enabled = '.$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
-			'view_mode = '.$ilDB->quote($this->getViewMode(false),'integer').', '.
+			'view_mode = '.$ilDB->quote($this->getViewMode(),'integer').', '.
 			'mail_members_type = '.$ilDB->quote($this->getMailToMembersType(),'integer').', '.				
 			'leave_end = '.$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.			
 			"registration_min_members = ".$ilDB->quote($this->getMinMembers() ,'integer').", ".
@@ -766,7 +766,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer');
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setInformation($row->information);
 			$this->setGroupType($row->grp_type);
@@ -1098,7 +1098,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
   		$r = $ilDB->query($q);
   		
-		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$mem_arr[] = array("id" => $row->usr_id,
 								"login" => $row->login,
@@ -1234,7 +1234,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_closed'";
 		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 		return $row["obj_id"];
 	}
@@ -1248,9 +1248,34 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_open'";
 		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 		return $row["obj_id"];
+	}
+	
+	/**
+	 * 
+	 * @global $ilDB $ilDB
+	 * @param int $a_obj_id
+	 * @return int
+	 */
+	public static function lookupGroupStatusTemplateId($a_obj_id)
+	{
+		global $ilDB;
+		
+		$type = self::lookupGroupTye($a_obj_id);
+		if($type == GRP_TYPE_CLOSED)
+		{
+			$query = 'SELECT obj_id FROM object_data WHERE type = '.$ilDB->quote('rolt','text').' AND title = '.$ilDB->quote('il_grp_status_closed','text');
+		}
+		else
+		{
+			$query = 'SELECT obj_id FROM object_data WHERE type = '.$ilDB->quote('rolt','text').' AND title = '.$ilDB->quote('il_grp_status_open','text');
+		}
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return isset($row['obj_id']) ? $row['obj_id'] : 0;
 	}
 
 
@@ -1557,32 +1582,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		return array();
 	}
 
-	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	*
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional parameters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{
-		global $tree;
-
-		$parent_id = (int) $tree->getParentId($a_node_id);
-
-		if ($parent_id != 0)
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
-			$obj_data->notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$parent_id,$a_params);
-		}
-
-		return true;
-	}
-
-
 	function exportXML()
 	{
 		include_once 'Modules/Group/classes/class.ilGroupXMLWriter.php';
@@ -1670,14 +1669,14 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		return ilObjGroup::_importFromXMLString(file_get_contents($file_obj->getImportFile()),$parent_id);
 	}
 
-	function _lookupIdByTitle($a_title)
+	public static function _lookupIdByTitle($a_title)
 	{
 		global $ilDB;
 
 		$query = "SELECT * FROM object_data WHERE title = ".
 			$ilDB->quote($a_title ,'text')." AND type = 'grp'";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->obj_id;
 		}
@@ -1757,7 +1756,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	 * get view mode
 	 *
 	 * @access public
-	 * @param bool $a_translate_inherit
 	 * @return int view mode
 	 */
 	public function getViewMode($a_translate_inherit = true)
@@ -1768,12 +1766,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$view = ilContainer::VIEW_DEFAULT;
 		}
-		
-		if($a_translate_inherit)
-		{
-			$view = self::translateViewMode($this->id, $view, $this->ref_id);
-		}
-		
 		return $view;
 	}
 
@@ -1799,7 +1791,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$res = $ilDB->query($query);
 
 		$view_mode = NULL;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$view_mode = $row->view_mode;
 		}
@@ -1813,7 +1805,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	 * @param int $a_ref_id
 	 * @return int 
 	 */
-	protected static function translateViewMode($a_obj_id,$a_view_mode,$a_ref_id = null)
+	public static function translateViewMode($a_obj_id,$a_view_mode,$a_ref_id = null)
 	{
 		global $tree;
 		
@@ -1980,7 +1972,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$res = $ilDB->query($query);
 		
 		$obj_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$obj_ids[] = $row->obj_id;
 		}
@@ -2091,7 +2083,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 					{
 						continue;
 					}
-					$this->getMembersObject()->add($user_id,IL_CRS_MEMBER);
+					$this->getMembersObject()->add($user_id,IL_GRP_MEMBER); // #18213
 					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
 					$waiting_list->removeFromList($user_id);
 

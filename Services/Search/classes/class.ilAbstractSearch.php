@@ -42,12 +42,12 @@ class ilAbstractSearch
 	* Constructor
 	* @access public
 	*/
-	function ilAbstractSearch(&$qp_obj)
+	function __construct($qp_obj)
 	{
 		global $ilDB;
 
-		$this->query_parser =& $qp_obj;
-		$this->db =& $ilDB;
+		$this->query_parser = $qp_obj;
+		$this->db = $ilDB;
 
 		include_once 'Services/Search/classes/class.ilSearchResult.php';
 

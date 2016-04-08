@@ -31,7 +31,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		global $ilCtrl, $lng;
 		
 		$this->type = "mcst";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$lng->loadLanguageModule("mcst");
 		$lng->loadLanguageModule("news");
 		$lng->loadLanguageModule("rep");
@@ -84,7 +84,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			case 'ilpermissiongui':
 				$ilTabs->activateTab("id_permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
@@ -104,7 +104,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			case "illearningprogressgui":
 				$ilTabs->activateTab('learning_progress');
 				require_once 'Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$new_gui =& new ilLearningProgressGUI(
+				$new_gui = new ilLearningProgressGUI(
 					ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
 					$this->object->getRefId(),
 					$_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId()

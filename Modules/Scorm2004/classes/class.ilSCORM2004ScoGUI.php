@@ -49,7 +49,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl, $ilCtrl, $ilTabs;
 
@@ -844,7 +844,7 @@ die("deprecated");
 	{
 		$file = explode("_", $_GET["file_id"]);
 		require_once("./Modules/File/classes/class.ilObjFile.php");
-		$fileObj =& new ilObjFile($file[count($file) - 1], false);
+		$fileObj = new ilObjFile($file[count($file) - 1], false);
 		$fileObj->sendFile();
 		exit;
 	}

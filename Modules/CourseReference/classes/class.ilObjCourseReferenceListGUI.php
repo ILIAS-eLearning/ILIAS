@@ -76,7 +76,6 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 		$this->cut_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
-		$this->payment_enabled = true;
 		$this->info_screen_enabled = true;
 		$this->type = "crs";
 		$this->gui_class_name = "ilobjcoursegui";
@@ -160,13 +159,13 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 	 * @param
 	 * @return
 	 */
-	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type)
+	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type,$a_obj_id="")
 	{
 		// Check edit reference against reference edit permission
 		switch($a_cmd)
 		{
 			case 'editReference':
-				return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), $a_type);
+				return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), $a_type, $a_obj_id);
 		}
 
 		switch($a_permission)
@@ -174,11 +173,11 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 			case 'copy':
 			case 'delete':
 				// check against target ref_id
-				return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), $a_type);
+				return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), $a_type, $a_obj_id);
 
 			default:
 				// check against reference
-				return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type);
+				return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id);
 		}
 	}
 	

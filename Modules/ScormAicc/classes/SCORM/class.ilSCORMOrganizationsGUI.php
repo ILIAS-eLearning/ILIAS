@@ -37,7 +37,7 @@ class ilSCORMOrganizationsGUI extends ilSCORMObjectGUI
 	function ilSCORMOrganizationsGUI($a_id)
 	{
 		parent::ilSCORMObjectGUI();
-		$this->sc_object =& new ilSCORMOrganizations($a_id);
+		$this->sc_object = new ilSCORMOrganizations($a_id);
 	}
 
 	function view()

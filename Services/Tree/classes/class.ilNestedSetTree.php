@@ -56,7 +56,7 @@ class ilNestedSetTree implements ilTreeImplementation
 			array('integer','integer'),
 			array($a_node_id,$this->getTree()->getTreeId())
 		);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$childs[] = $row->child;
 		}
@@ -173,7 +173,7 @@ class ilNestedSetTree implements ilTreeImplementation
 		{
 			$ilDB->lockTables(
 				array(
-					0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+					0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE)));
 		}
 		switch ($a_pos)
 		{
@@ -409,7 +409,7 @@ class ilNestedSetTree implements ilTreeImplementation
 		{
 			$ilDB->lockTables(
 				array(
-					0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+					0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE)));
 		}
 
 		// Fetch lft, rgt directly (without fetchNodeData) to avoid unnecessary table locks
@@ -418,7 +418,7 @@ class ilNestedSetTree implements ilTreeImplementation
 				'WHERE child = '.$ilDB->quote($a_node_id,'integer').' '.
 				'AND '.$this->getTree()->getTreePk().' = '.$ilDB->quote($this->getTree()->getTreeId(),'integer');
 		$res = $ilDB->query($query);
-		$a_node = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$a_node = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		
 		// delete subtree
 		$query = sprintf('DELETE FROM '.$this->getTree()->getTreeTable().' '.
@@ -667,7 +667,7 @@ class ilNestedSetTree implements ilTreeImplementation
 		{
 			$ilDB->lockTables(
 					array(
-						0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+						0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE)));
 		}
 		// Receive node infos for source and target
 		$query = 'SELECT * FROM ' . $this->getTree()->getTreeTable() . ' ' .
@@ -811,7 +811,7 @@ class ilNestedSetTree implements ilTreeImplementation
 			
 		$res = $ilDB->query($query);
 		$nodes = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$nodes[$row->child]['lft']	= $row->lft;
 			$nodes[$row->child]['rgt']	= $row->rgt;
@@ -820,6 +820,30 @@ class ilNestedSetTree implements ilTreeImplementation
 			
 		}
 		return (array) $nodes;
+	}
+	
+	/**
+	 * 
+	 */
+	public function validateParentRelations()
+	{
+		global $ilDB;
+		
+		$query = 'select child from '.$this->getTree()->getTreeTable().' child where not exists '.
+				'( '.
+				'select child from '.$this->getTree()->getTreeTable().' parent where child.parent = parent.child and (parent.lft < child.lft) and (parent.rgt > child.rgt) '.
+				')'.
+				'and '.$this->getTree()->getTreePk().' = '.$this->getTree()->getTreeId().' and child <> 1';
+		$res = $ilDB->query($query);
+		
+		ilLoggerFactory::getLogger('tree')->debug($query);
+		
+		$failures = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$failures[] = $row[$this->getTree()->getTreePk()];
+		}
+		return $failures;
 	}
 
 }

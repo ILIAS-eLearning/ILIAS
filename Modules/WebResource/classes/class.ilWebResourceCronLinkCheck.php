@@ -72,7 +72,7 @@ class ilWebResourceCronLinkCheck extends ilCronJob
 			
 			// Set all link to valid. After check invalid links will be set to invalid
 
-			$link_checker =& new ilLinkChecker($ilDB);
+			$link_checker = new ilLinkChecker($ilDB);
 			$link_checker->setMailStatus(true);
 			$link_checker->setCheckPeriod($this->__getCheckPeriod());
 			$link_checker->setObjId($tmp_webr->getId());

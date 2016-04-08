@@ -279,7 +279,7 @@ class ilPortfolioPage extends ilPageObject
 	 * @param int $a_portfolio_id
 	 * @return array
 	 */
-	static function getAllPages($a_portfolio_id)
+	static function getAllPortfolioPages($a_portfolio_id)
 	{
 		global $ilDB, $lng;
 
@@ -309,7 +309,7 @@ class ilPortfolioPage extends ilPageObject
 	{
 		global $ilDB;
 
-		$pages = self::getAllPages($a_portfolio_id);
+		$pages = self::getAllPortfolioPages($a_portfolio_id);
 		$cnt = 10;
 		foreach ($pages as $p)
 		{

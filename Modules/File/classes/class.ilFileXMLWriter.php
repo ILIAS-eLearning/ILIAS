@@ -53,9 +53,9 @@ class ilFileXMLWriter extends ilXmlWriter
 	* @param	string	input encoding
 	* @access	public
 	*/
-	function ilFileXMLWriter()
+	function __construct()
 	{
-		parent::ilXmlWriter();
+		parent::__construct();
 		$this->attachFileContents = ilFileXMLWriter::$CONTENT_ATTACH_NO;
 	}
 

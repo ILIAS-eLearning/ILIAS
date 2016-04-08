@@ -273,12 +273,12 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 		{
 			$saveCmdLabel = $lng->txt('tst_question_hints_form_cmd_save');
 		}
-		
-		$form->setFormAction($ilCtrl->getFormAction($this));		
-		
-		$form->addCommandButton(self::CMD_CANCEL_FORM, $lng->txt('cancel'));
+
+		$form->setFormAction($ilCtrl->getFormAction($this));
+
 		$form->addCommandButton(self::CMD_SAVE_FORM, $saveCmdLabel);
-		
+		$form->addCommandButton(self::CMD_CANCEL_FORM, $lng->txt('cancel'));
+
 		return $form;
 	}
 

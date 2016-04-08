@@ -23,10 +23,10 @@ class ilObjUserFolder extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjUserFolder($a_id,$a_call_by_reference = true)
+	function __construct($a_id,$a_call_by_reference = true)
 	{
 		$this->type = "usrf";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 
@@ -65,7 +65,7 @@ class ilObjUserFolder extends ilObject
 		switch($a_mode)
 		{
 			case "userfolder_export_excel_x86":
-				$filename = $date."__".$inst_id."__xls_usrf.xls";
+				$filename = $date."__".$inst_id."__xls_usrf";
 				break;
 			case "userfolder_export_csv":
 				$filename = $date."__".$inst_id."__csv_usrf.csv";
@@ -102,7 +102,7 @@ class ilObjUserFolder extends ilObject
 */
 	function getExportFiles()
 	{
-		$dir = $this->getExportDirectory();
+		$dir = $this->getExportDirectory();		
 
 		// quit if export dir not available
 		if (!@is_dir($dir) or
@@ -122,7 +122,7 @@ class ilObjUserFolder extends ilObject
 		{
 			if ($entry != "." and
 				$entry != ".." and
-				preg_match("/^[0-9]{10}_{2}[0-9]+_{2}([a-z0-9]{3})_usrf\.[a-z]{1,3}\$/", $entry, $matches))
+				preg_match("/^[0-9]{10}_{2}[0-9]+_{2}([a-z0-9]{3})_usrf\.[a-z]{1,4}\$/", $entry, $matches))
 			{
 				$filearray["filename"] = $entry;
 				$filearray["filesize"] = filesize($this->getExportDirectory()."/".$entry);
@@ -248,26 +248,13 @@ class ilObjUserFolder extends ilObject
 		fclose($file);
 	}
 
-	function createExcelExport(&$settings, &$data, $filename, $a_mode)
+	function createExcelExport(&$settings, &$data, $filename)
 	{
-		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
-		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
-		$adapter = new ilExcelWriterAdapter($filename, FALSE);
-		$workbook = $adapter->getWorkbook();
-		// Creating a worksheet
-		$format_bold =& $workbook->addFormat();
-		$format_bold->setBold();
-		$format_percent =& $workbook->addFormat();
-		$format_percent->setNumFormat("0.00%");
-		$format_datetime =& $workbook->addFormat();
-		$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
-		$format_title =& $workbook->addFormat();
-		$format_title->setBold();
-		$format_title->setColor('black');
-		$format_title->setPattern(1);
-		$format_title->setFgColor('silver');
-		$worksheet =& $workbook->addWorksheet();
-		$row = 0;
+		include_once "./Services/Excel/classes/class.ilExcel.php";
+		$worksheet = new ilExcel();
+		$worksheet->addSheet($this->lng->txt("users"));
+		
+		$row = 1;
 		$col = 0;
 
 		$udf_ex_fields = $this->getUserDefinedExportFields();
@@ -279,14 +266,15 @@ class ilObjUserFolder extends ilObject
 			{
 				$value = 'user_ext_account';
 			}
-			$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt($value), $a_mode), $format_title);
+			$worksheet->setCell($row, $col, $this->lng->txt($value));
 			$col++;
 		}
 		foreach ($udf_ex_fields as $f)	// custom fields
 		{
-			$worksheet->write($row, $col, ilExcelUtils::_convert_text($f["name"], $a_mode), $format_title);
+			$worksheet->setCell($row, $col, $f["name"]);
 			$col++;
-		}
+		}		
+		$worksheet->setBold("A1:".$worksheet->getColumnCoord($col-1)."1");
 
 		$this->lng->loadLanguageModule("meta");
 		foreach ($data as $index => $rowdata)
@@ -301,25 +289,24 @@ class ilObjUserFolder extends ilObject
 				switch ($fieldname)
 				{
 					case "language":
-						$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("meta_l_".$value), $a_mode));
+						$worksheet->setCell($row, $col, $this->lng->txt("meta_l_".$value));
 						break;
 					case "time_limit_from":
 					case "time_limit_until":
-						$date = strftime("%Y-%m-%d %H:%M:%S", $value);
-						if (preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $date, $matches))
-						{
-							$worksheet->write($row, $col, ilUtil::excelTime($matches[1],$matches[2],$matches[3],$matches[4],$matches[5],$matches[6]), $format_datetime);
-						}
+						$value = $value
+							? new ilDateTime($value, IL_CAL_UNIX)
+							: null;					
+						$worksheet->setCell($row, $col, $value);						
 						break;
 					case "last_login":
 					case "last_update":
 					case "create_date":
 					case "approve_date":
 					case "agree_date":
-						if (preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $value, $matches))
-						{
-							$worksheet->write($row, $col, ilUtil::excelTime($matches[1],$matches[2],$matches[3],$matches[4],$matches[5],$matches[6]), $format_datetime);
-						}
+						$value = $value
+							? new ilDateTime($value, IL_CAL_DATETIME)
+							: null;		
+						$worksheet->setCell($row, $col, $value);								
 						break;
 						
 					case "interests_general":
@@ -336,7 +323,7 @@ class ilObjUserFolder extends ilObject
 						// fallthrough
 						
 					default:
-						$worksheet->write($row, $col, ilExcelUtils::_convert_text($value, $a_mode));
+						$worksheet->setCell($row, $col, $value);
 						break;
 				}
 				$col++;
@@ -350,12 +337,13 @@ class ilObjUserFolder extends ilObject
 				$udf = new ilUserDefinedData($rowdata["usr_id"]);
 				foreach ($udf_ex_fields as $f)	// custom fields
 				{
-					$worksheet->write($row, $col, ilExcelUtils::_convert_text($udf->get("f_".$f["id"]), $a_mode));
+					$worksheet->setCell($row, $col, $udf->get("f_".$f["id"]));
 					$col++;
 				}
 			}
 		}
-		$workbook->close();
+		
+		$worksheet->writeToFile($filename);
 	}
 
 	/**
@@ -380,7 +368,7 @@ class ilObjUserFolder extends ilObject
 		$query = "SELECT * FROM settings WHERE ".
 			$ilDB->like("keyword", "text", '%usr_settings_export_%');
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			if ($row["value"] == "1")
 			{
@@ -455,7 +443,7 @@ class ilObjUserFolder extends ilObject
 		$query = "SELECT * FROM usr_pref WHERE keyword = ".$ilDB->quote('language','text');
 		$res = $ilDB->query($query);
 		$languages = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$languages[$row['usr_id']] = $row['value'];
 		}
@@ -507,7 +495,7 @@ class ilObjUserFolder extends ilObject
 		switch ($a_mode)
 		{
 			case "userfolder_export_excel_x86":
-				$this->createExcelExport($settings, $data, $fullname, "latin1");
+				$this->createExcelExport($settings, $data, $fullname);
 				break;
 			case "userfolder_export_csv":
 				$this->createCSVExport($settings, $data, $fullname);
@@ -571,7 +559,7 @@ class ilObjUserFolder extends ilObject
 		return $profile_fields;
 	}
 
-	function _writeNewAccountMail($a_lang, $a_subject, $a_sal_g, $a_sal_f, $a_sal_m, $a_body)
+	static function _writeNewAccountMail($a_lang, $a_subject, $a_sal_g, $a_sal_f, $a_sal_m, $a_body)
 	{
 		global $ilDB;
 		
@@ -603,8 +591,8 @@ class ilObjUserFolder extends ilObject
 			$ilDB->insert('mail_template',$values);
 		}
 	}
-	
-	function _updateAccountMailAttachment($a_lang, $a_tmp_name, $a_name)
+
+	static function _updateAccountMailAttachment($a_lang, $a_tmp_name, $a_name)
 	{
 		global $ilDB;
 		
@@ -619,8 +607,8 @@ class ilObjUserFolder extends ilObject
 				array('att_file' => array('text', $a_name)),
 				array('lang' => array('text',$a_lang), 'type' => array('text','nacc')));
 	}
-	
-	function _deleteAccountMailAttachment($a_lang)
+
+	static function _deleteAccountMailAttachment($a_lang)
 	{
 		global $ilDB;
 		
@@ -635,14 +623,14 @@ class ilObjUserFolder extends ilObject
 				array('lang' => array('text',$a_lang), 'type' => array('text','nacc')));
 	}
 
-	function _lookupNewAccountMail($a_lang)
+	static function _lookupNewAccountMail($a_lang)
 	{
 		global $ilDB;
 
 		$set = $ilDB->query("SELECT * FROM mail_template ".
 			" WHERE type='nacc' AND lang = ".$ilDB->quote($a_lang,'text'));
 
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			return $rec;
 		}

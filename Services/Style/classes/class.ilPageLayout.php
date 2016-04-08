@@ -25,7 +25,7 @@ class ilPageLayout
 	var $active = null;
 	var $modules = array();
 	
-	function ilPageLayout($a_id=null)
+	function __construct($a_id=null)
 	{
 		global $ilias, $ilDB;
 		//create new instance
@@ -42,7 +42,7 @@ class ilPageLayout
 			//$result = $ilDB->query($query);
 			//$query = "SELECT LAST_INSERT_ID() as id";
 			//$res = $ilDB->query($query);
-			//$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			//$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 			//$this->layout_id = $row->id;
 			$this->active = false;
 		}
@@ -250,7 +250,7 @@ class ilPageLayout
 		foreach ($res->nodeset as $item){
 				$height = $item->get_attribute("Height");
 				
-				$height = eregi_replace("px","",$height);
+				$height = str_ireplace("px","",$height);
 				$height=$height/10;
 				$item->set_attribute("Height",$height."px");
 		}
@@ -281,7 +281,7 @@ class ilPageLayout
 		}
 		$query = "SELECT * FROM page_layout $add ORDER BY title ";
 		$result = $ilDB->query($query);
-		while($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) 
+		while($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			array_push($arr_layouts,$row);
 		}
@@ -313,7 +313,7 @@ class ilPageLayout
 		}
 		$query = "SELECT layout_id FROM page_layout $add ORDER BY title ";
 		$result = $ilDB->query($query);
-		while($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) 
+		while($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			array_push($arr_layouts,new ilPageLayout($row['layout_id']));
 		}

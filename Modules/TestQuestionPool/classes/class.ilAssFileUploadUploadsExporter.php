@@ -14,7 +14,7 @@ class ilAssFileUploadUploadsExporter
 	const ZIP_FILE_EXTENSION = '.zip';
 
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
@@ -59,9 +59,9 @@ class ilAssFileUploadUploadsExporter
 	private $mainFolderName;
 
 	/**
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 */
-	public function __construct(ilDB $db, ilLanguage $lng)
+	public function __construct(ilDBInterface $db, ilLanguage $lng)
 	{
 		$this->db = $db;
 		$this->lng = $lng;

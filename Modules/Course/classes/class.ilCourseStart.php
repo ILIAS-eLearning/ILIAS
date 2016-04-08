@@ -39,16 +39,16 @@ class ilCourseStart
 	var $start_objs = array();
 
 	/**
-	* Constructor
-	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
-	*/
-	function ilCourseStart($a_course_ref_id,$a_course_obj_id)
+	 * Constructor
+	 * @access	public
+	 * @param	int	reference_id or object_id
+	 * @param	boolean	treat the id as reference_id (true) or object_id (false)
+	 */
+	public function __construct($a_course_ref_id,$a_course_obj_id)
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 
 		$this->ref_id = $a_course_ref_id;
 		$this->id = $a_course_obj_id;
@@ -202,7 +202,7 @@ class ilCourseStart
 		global $ilObjDataCache;
 
 		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
-		$lm_continue =& new ilCourseLMHistory($this->getRefId(),$user_id);
+		$lm_continue = new ilCourseLMHistory($this->getRefId(),$user_id);
 		$continue_data = $lm_continue->getLMHistory();
 
 		$obj_id = $ilObjDataCache->lookupObjId($item_id);
@@ -255,7 +255,7 @@ class ilCourseStart
 			"WHERE crs_id = ".$ilDB->quote($this->getId() ,'integer')." ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if($tree->isInTree($row->item_ref_id))
 			{

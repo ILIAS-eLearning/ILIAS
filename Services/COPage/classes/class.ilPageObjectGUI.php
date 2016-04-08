@@ -80,7 +80,7 @@ class ilPageObjectGUI
 	 * @param bool $a_prevent_get_id prevent getting id automatically from $_GET (e.g. set when concentInclude are included)
 	 * @param string $a_lang language ("" reads also $_GET["transl"], "-" forces master lang)
 	 */
-	function ilPageObjectGUI($a_parent_type, $a_id, $a_old_nr = 0,
+	function __construct($a_parent_type, $a_id, $a_old_nr = 0,
 		$a_prevent_get_id = false, $a_lang = "")
 	{
 		global $tpl, $lng, $ilCtrl,$ilTabs;
@@ -915,7 +915,7 @@ return;
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $ilTabs, $lng, $ilAccess, $tpl;
 
@@ -2517,7 +2517,7 @@ return;
 		{
 			exit;
 		}
-		$fileObj =& new ilObjFile($file_id, false);
+		$fileObj = new ilObjFile($file_id, false);
 		$fileObj->sendFile();
 		exit;
 	}
@@ -3074,7 +3074,7 @@ return;
 		$this->tpl->setCurrentBlock("ilMedia");
 
 		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
+		$media_obj = new ilObjMediaObject($_GET["mob_id"]);
 		if (!empty ($_GET["pg_id"]))
 		{
 			include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");

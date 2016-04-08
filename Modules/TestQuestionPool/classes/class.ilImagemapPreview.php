@@ -31,7 +31,7 @@ class ilImagemapPreview
 	* @param integer $id The database id of a image map question object
 	* @access public
 	*/
-	function ilImagemapPreview($imagemap_filename = "")
+	public function __construct($imagemap_filename = "")
 	{
 		global $lng;
 		$this->lng =& $lng;

@@ -49,7 +49,7 @@ class ilLinkResourceHandlerGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $lng, $ilAccess, $tpl, $ilNavigationHistory;
 		
@@ -72,7 +72,7 @@ class ilLinkResourceHandlerGUI
 		{
 			case 'ilobjlinkresourcegui':
 				require_once "./Modules/WebResource/classes/class.ilObjLinkResourceGUI.php";
-				$link_gui =& new ilObjLinkResourceGUI((int)$_GET["ref_id"], ilObjLinkResourceGUI::REPOSITORY_NODE_ID);
+				$link_gui = new ilObjLinkResourceGUI((int)$_GET["ref_id"], ilObjLinkResourceGUI::REPOSITORY_NODE_ID);
 				$this->ctrl->forwardCommand($link_gui);
 				break;
 		}

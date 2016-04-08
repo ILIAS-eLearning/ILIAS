@@ -210,7 +210,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 	/**
 	 * @param ilForumTopic $thread
 	 */
-	public function fillRow(ilForumTopic $thread)
+	public function fillRow($thread)
 	{
 		/**
 		 * @var $ilUser ilObjUser

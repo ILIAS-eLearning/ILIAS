@@ -40,9 +40,13 @@ function domxml_open_file($filename)
 /*
 * ##added
 */
-function domxml_open_mem($str, $mode = DOMXML_LOAD_PARSING, &$error = NULL)
+function domxml_open_mem($str, $mode = 0, &$error = NULL)
 {
-	$doc = new php4DOMDocument($str, false);
+	if (!is_int($mode))
+	{
+		$mode = 0;
+	}
+	$doc = new php4DOMDocument($str, false, $mode);
 	if (!$doc->success)
 	{
 		$error = $doc->error;
@@ -65,7 +69,7 @@ class php4DOMAttr extends php4DOMNode
 {
 	var $myDOMAttr;
 
-	function php4DOMAttr($aDOMAttr)
+	function __construct($aDOMAttr)
 	{
 		$this->myDOMAttr=$aDOMAttr;
 	}
@@ -90,7 +94,7 @@ class php4DOMCDATASection extends php4DOMNode
 {
 	var $myDOMCDATASection;
 
-	function php4DOMCDATASection($aDOMCDATASection)
+	function __construct($aDOMCDATASection)
 	{
 		parent::php4DOMNode($aDOMCDATASection);						// #added
 		$this->myDOMCDATASection=$aDOMCDATASection;
@@ -102,10 +106,9 @@ class php4DOMDocument
 	var $myDOMDocument;
 
 	// ##altered
-	function php4DOMDocument($source, $file = true)
+	function __construct($source, $file = true, $a_mode = 0)
 	{
 		$this->myDOMDocument=new DOMDocument();
-		
 		// temporary set error handler
 		set_error_handler('staticxmlerror');
 		$old = ini_set('html_errors', false);
@@ -119,11 +122,12 @@ class php4DOMDocument
 		{
 			if ($file)
 			{
-				$this->success = @$this->myDOMDocument->load($source);
+				$this->success = @$this->myDOMDocument->load($source,$a_mode);
+				$this->success = @$this->myDOMDocument->load($source,$a_mode);
 			}
 			else
 			{
-				$this->success = $this->myDOMDocument->loadXML($source);
+				$this->success = $this->myDOMDocument->loadXML($source,$a_mode);
 			}
 		}
 				
@@ -227,7 +231,8 @@ class php4DOMDocument
 
 	function dump_mem($format=false,$encoding=false)
 	{
-		return $this->myDOMDocument->saveXML();
+		$r =  $this->myDOMDocument->saveXML();
+		return $r;
 	}
 
 	function get_elements_by_tagname($name)
@@ -352,7 +357,7 @@ class php4DOMNode
 {
 	var $myDOMNode;
 
-	function php4DOMNode($aDomNode)
+	function __construct($aDomNode)
 	{
 		$this->myDOMNode=$aDomNode;
 	}
@@ -591,7 +596,7 @@ class php4DOMNodelist
 	var $myDOMNodelist;
 	var $nodeset;
 
-	function php4DOMNodelist($aDOMNodelist)
+	function __construct($aDOMNodelist)
 	{
 		$this->myDOMNodelist=$aDOMNodelist;
 		$this->nodeset=array();
@@ -614,7 +619,7 @@ class php4DOMXPath
 		return xpath_eval($this, $eval_str);
 	}
 
-	function php4DOMXPath($dom_document)
+	function __construct($dom_document)
 	{
 		$this->myDOMXPath=new DOMXPath($dom_document->myDOMDocument);
 	}

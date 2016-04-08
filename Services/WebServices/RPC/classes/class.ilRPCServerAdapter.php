@@ -108,7 +108,7 @@ class ilRPCServerAdapter
 	{
 		include_once 'XML/RPC.php';
 
-		$this->rpc_client =& new XML_RPC_Client($this->settings_obj->getPath(),
+		$this->rpc_client = new XML_RPC_Client($this->settings_obj->getPath(),
 												$this->settings_obj->getHost(),
 												$this->settings_obj->getPort());
 		#$this->rpc_client->setDebug(1);
@@ -130,7 +130,7 @@ class ilRPCServerAdapter
 	{
 		include_once 'XML/RPC.php';
 		
-		$this->rpc_message =& new XML_RPC_Message($a_message_name,$params);
+		$this->rpc_message = new XML_RPC_Message($a_message_name,$params);
 		
 		// We create the payload here since it might be quite time consuming 
 		// and this could cause a socket read exception on the server side.

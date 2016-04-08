@@ -37,12 +37,12 @@ class ilObjLanguage extends ilObject
 	 * @param	integer	reference_id or object_id
 	 * @param	boolean	treat the id as reference_id (true) or object_id (false)
 	 */
-	function ilObjLanguage($a_id = 0, $a_call_by_reference = false)
+	function __construct($a_id = 0, $a_call_by_reference = false)
 	{
 		global $lng;
 
 		$this->type = "lng";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 
 		$this->type = "lng";
 		$this->key = $this->title;
@@ -337,7 +337,7 @@ class ilObjLanguage extends ilObject
 		$result = $ilDB->query($q);
 		
 		$changes = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$changes[$row["module"]][$row["identifier"]] = $row["value"];
 		}
@@ -359,7 +359,7 @@ class ilObjLanguage extends ilObject
 			$ilDB->quote($a_key, "text"));
 		$result = $ilDB->query($q);
 
-		if ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			return $row['last_change'];
 		}
@@ -697,7 +697,7 @@ class ilObjLanguage extends ilObject
 	 * @param	string	$content	expecting an ILIAS lang-file
 	 * @return	string	$content	content without header info OR false if no valid header was found
 	 */
-	function cut_header($content)
+	static function cut_header($content)
 	{
 		foreach ($content as $key => $val)
 		{

@@ -21,7 +21,7 @@ class ilSkillTreeNodeGUI
 	*
 	* @param	object		$a_content_obj		node object
 	*/
-	function ilSkillTreeNodeGUI($a_node_id = 0)
+	function __construct($a_node_id = 0)
 	{
 		$this->node_object = null;
 

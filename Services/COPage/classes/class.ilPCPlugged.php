@@ -29,7 +29,7 @@ class ilPCPlugged extends ilPageContent
 	/**
 	* Set node
 	*/
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
 		$this->plug_node =& $a_node->first_child();		// this is the Plugged node
@@ -247,7 +247,7 @@ class ilPCPlugged extends ilPageContent
 	/**
 	 * Get javascript files
 	 */
-	function getJavascriptFiles()
+	function getJavascriptFiles($a_mode)
 	{
 		global $ilPluginAdmin;
 		
@@ -281,7 +281,7 @@ class ilPCPlugged extends ilPageContent
 	/**
 	 * Get css files
 	 */
-	function getCssFiles()
+	function getCssFiles($a_mode)
 	{
 		global $ilPluginAdmin;
 		

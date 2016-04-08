@@ -71,7 +71,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 		
@@ -326,7 +326,7 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
 						// get overlay html from glossary term
 						include_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 						$id_arr = explode("_", $karr[0]); 
-						$term_gui =& new ilGlossaryTermGUI($id_arr[count($id_arr) - 1]);
+						$term_gui = new ilGlossaryTermGUI($id_arr[count($id_arr) - 1]);
 						$html = $term_gui->getOverlayHTML($cl_id, ($this->getGlossaryOverviewId() != "")
 														  ? $glov_id
 														  : "",

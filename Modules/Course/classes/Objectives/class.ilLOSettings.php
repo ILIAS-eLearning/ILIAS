@@ -197,7 +197,7 @@ class ilLOSettings
 				'WHERE itest = '.$ilDB->quote($a_trst_ref_id,'integer').' '.
 				'OR qtest = '.$ilDB->quote($a_trst_ref_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->obj_id;
 		}
@@ -577,7 +577,7 @@ class ilLOSettings
 		$query = 'SELECT * FROM loc_settings '.
 				'WHERE obj_id = '.$ilDB->quote($this->getObjId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->entry_exists = true;
 			

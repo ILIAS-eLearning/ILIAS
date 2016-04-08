@@ -53,17 +53,17 @@ class ilDataCollectionTextField extends ilDataCollectionRecordField
         $value = $this->getExportValue();
         if ($this->hasProperty(ilDataCollectionField::PROPERTYID_URL)) {
             if ($value instanceof stdClass) {
-                $worksheet->writeString($row, $col, $value->link);
+                $worksheet->setCell($row, $col, $value->link);
                 $col++;
-                $worksheet->writeString($row, $col, $value->title);
+                $worksheet->setCell($row, $col, $value->title);
                 $col++;
             } else {
-                $worksheet->writeString($row, $col, $value);
+                $worksheet->setCell($row, $col, $value);
                 $col++;
                 $col++;
             }
         } else {
-            $worksheet->writeString($row, $col, $value);
+            $worksheet->setCell($row, $col, $value);
             $col++;
         }
     }

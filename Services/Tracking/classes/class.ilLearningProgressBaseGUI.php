@@ -46,15 +46,15 @@ class ilLearningProgressBaseGUI
 	const LP_ACTIVE_OBJSTATADMIN = 10;
 	const LP_ACTIVE_MATRIX = 11;
 
-	function ilLearningProgressBaseGUI($a_mode,$a_ref_id = 0,$a_usr_id = 0)
+	function __construct($a_mode,$a_ref_id = 0,$a_usr_id = 0)
 	{
 		global $tpl,$ilCtrl,$lng,$ilObjDataCache,$ilTabs;
 
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
+		$this->tpl = $tpl;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('trac');
-		$this->tabs_gui =& $ilTabs;
+		$this->tabs_gui = $ilTabs;
 
 		$this->mode = $a_mode;
 		$this->ref_id = $a_ref_id;
@@ -305,7 +305,7 @@ class ilLearningProgressBaseGUI
 	/**
 	 * Get image path for status
 	 */
-	function _getImagePathForStatus($a_status)
+	static function _getImagePathForStatus($a_status)
 	{
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 
@@ -344,7 +344,7 @@ class ilLearningProgressBaseGUI
 	/**
 	 * Get status alt text
 	 */
-	function _getStatusText($a_status, $a_lng = null)
+	static function _getStatusText($a_status, $a_lng = null)
 	{
 		global $lng;
 		
@@ -590,7 +590,7 @@ class ilLearningProgressBaseGUI
 			"ORDER BY ".$a_field;
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->$a_id_name;
 		}

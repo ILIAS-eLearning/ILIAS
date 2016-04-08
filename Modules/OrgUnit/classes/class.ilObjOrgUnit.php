@@ -50,7 +50,7 @@ class ilObjOrgUnit extends ilContainer {
 	 */
 	public function __construct($a_id = 0, $a_call_by_reference = true) {
 		$this->type = "orgu";
-		$this->ilContainer($a_id, $a_call_by_reference);
+		parent::__construct($a_id, $a_call_by_reference);
 	}
 
 
@@ -389,7 +389,13 @@ class ilObjOrgUnit extends ilContainer {
 	}
 
 
-	public static function _exists($a_id, $a_reference = false) {
+	/**
+	 * @param $a_id
+	 * @param bool $a_reference
+	 * @param string $type
+	 * @return bool
+	 */
+	public static function _exists($a_id, $a_reference = false, $type = "orgu") {
 		return parent::_exists($a_id, $a_reference, "orgu");
 	}
 
@@ -487,7 +493,7 @@ class ilObjOrgUnit extends ilContainer {
 
 		$num = 0;
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 			$data["Fobject"][$num] = array(
 				"title" => $row->title,
 				"desc" => $row->description,

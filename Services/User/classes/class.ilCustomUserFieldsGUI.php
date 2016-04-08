@@ -45,7 +45,7 @@ class ilCustomUserFieldsGUI
 		return $this->permissions;
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 		

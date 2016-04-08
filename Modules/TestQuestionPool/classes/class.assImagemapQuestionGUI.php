@@ -68,13 +68,9 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	}
 
 	/**
-	 * Evaluates a posted edit form and writes the form data in the question object
-	 *
-	 * @param bool $always
-	 *
-	 * @return integer A positive value, if one of the required fields wasn't set, else 0
+	 * {@inheritdoc}
 	 */
-	public function writePostData($always = false)
+	protected function writePostData($always = false)
 	{
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)

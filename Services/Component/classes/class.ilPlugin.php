@@ -1078,7 +1078,7 @@ abstract class ilPlugin
 	/**
 	 * Lookup id for name
 	 */
-	function lookupIdForName($a_ctype, $a_cname, $a_slot_id, $a_plugin_name)
+	static function lookupIdForName($a_ctype, $a_cname, $a_slot_id, $a_plugin_name)
 	{
 		global $ilDB;
 

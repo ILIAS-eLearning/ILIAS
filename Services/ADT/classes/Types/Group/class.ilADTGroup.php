@@ -121,7 +121,7 @@ class ilADTGroup extends ilADT
 		return array_keys((array)$this->validation_errors);
 	}
 	
-	protected function addValidationError($a_element_id, $a_error_code)
+	protected function addElementValidationError($a_element_id, $a_error_code)
 	{
 		$this->validation_errors[(string)$a_error_code] = $a_element_id;
 	}
@@ -138,7 +138,7 @@ class ilADTGroup extends ilADT
 				{
 					foreach($element->getValidationErrors() as $error)
 					{
-						$this->addValidationError($element_id, $error);			
+						$this->addElementValidationError($element_id, $error);			
 					}
 					$valid = false;
 				}

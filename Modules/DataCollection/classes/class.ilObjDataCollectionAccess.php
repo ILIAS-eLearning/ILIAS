@@ -28,7 +28,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 *        array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *    );
 	 */
-	public function _getCommands() {
+	static  function _getCommands() {
 		$commands = array(
 			array( "permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true ),
 			array( "permission" => "write", "cmd" => "listRecords", "lang_var" => "edit_content" ),
@@ -42,7 +42,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	/**
 	 * check whether goto script will succeed
 	 */
-	public function _checkGoto($a_target) {
+	static function _checkGoto($a_target) {
 		global $ilAccess;
 
 		$t_arr = explode("_", $a_target);

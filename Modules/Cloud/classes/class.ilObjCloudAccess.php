@@ -9,139 +9,122 @@ include_once("class.ilObjCloud.php");
  * Class ilObjCloudAccess
  *
  * @author    Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version $Id:
+ * @version   $Id:
  *
- * @extends ilObjectAccess
+ * @extends   ilObjectAccess
  */
-class ilObjCloudAccess extends ilObjectAccess
-{
-    protected static $access_cache = array();
+class ilObjCloudAccess extends ilObjectAccess {
 
-    public function _getCommands()
-    {
-        $commands = array
-        (
-            array("permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true),
-            array("permission" => "write", "cmd" => "editSettings", "lang_var" => "settings")
-        );
-
-        return $commands;
-    }
+	protected static $access_cache = array();
 
 
-    /**
-     * @param string $a_cmd
-     * @param string $a_permission
-     * @param int $a_ref_id
-     * @param int $a_obj_id
-     * @param string $a_user_id
-     * @return bool
-     */
-    function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
-    {
-        global $ilUser, $rbacsystem, $rbacreview;
+	public static function _getCommands() {
+		$commands = array(
+			array( "permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true ),
+			array( "permission" => "write", "cmd" => "editSettings", "lang_var" => "settings" ),
+		);
 
-        $object = new ilObjCloud($a_ref_id);
-
-        /**
-         * Check if plugin of object is active
-         */
-        try
-        {
-            ilCloudConnector::checkServiceActive($object->getServiceName());
-        } catch (Exception $e)
-        {
-            return false;
-        }
+		return $commands;
+	}
 
 
-        if ($a_user_id == "")
-        {
-            $a_user_id = $ilUser->getId();
-        }
+	/**
+	 * @param string $a_cmd
+	 * @param string $a_permission
+	 * @param int $a_ref_id
+	 * @param int $a_obj_id
+	 * @param string $a_user_id
+	 * @return bool
+	 */
+	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") {
+		global $ilUser, $rbacsystem, $rbacreview;
 
-        /**
-         * Check if authentication is complete. If not, only the owner of the object has access. This prevents the
-         * authentication of an account which does not belong to the owner.
-         */
-        if (!ilObjCloudAccess::checkAuthStatus($a_obj_id) && $a_user_id != $object->getOwnerId() && !$rbacreview->isAssigned($a_user_id, 2))
-        {
-            return false;
-        }
+		$object = new ilObjCloud($a_ref_id);
 
-        switch ($a_permission)
-        {
-            case "visible":
-            case "read":
-                if (!ilObjCloudAccess::checkOnline($a_obj_id) && !$rbacsystem->checkAccessOfUser($a_user_id, "write", $a_ref_id))
-                {
-                    return false;
-                }
-                break;
-        }
-        return true;
+		/**
+		 * Check if plugin of object is active
+		 */
+		try {
+			ilCloudConnector::checkServiceActive($object->getServiceName());
+		} catch (Exception $e) {
+			return false;
+		}
 
-    }
+		if ($a_user_id == "") {
+			$a_user_id = $ilUser->getId();
+		}
 
-    /**
-     * @param $a_target
-     * @return bool
-     */
-    function _checkGoto($a_target)
-    {
+		/**
+		 * Check if authentication is complete. If not, only the owner of the object has access. This prevents the
+		 * authentication of an account which does not belong to the owner.
+		 */
+		if (!ilObjCloudAccess::checkAuthStatus($a_obj_id) && $a_user_id != $object->getOwnerId() && !$rbacreview->isAssigned($a_user_id, 2)) {
+			return false;
+		}
 
-        global $ilAccess;
+		switch ($a_permission) {
+			case "visible":
+			case "read":
+				if (!ilObjCloudAccess::checkOnline($a_obj_id) && !$rbacsystem->checkAccessOfUser($a_user_id, "write", $a_ref_id)) {
+					return false;
+				}
+				break;
+		}
 
-        $t_arr = explode("_", $a_target);
-
-        if ($ilAccess->checkAccess("read", "", $t_arr[1]))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @param $a_id
-     * @return mixed
-     */
-    static function checkOnline($a_id)
-    {
-        global $ilDB;
-
-        if(!isset(self::$access_cache[$a_id]["online"]))
-        {
-            $set = $ilDB->query("SELECT is_online FROM il_cld_data " .
-                " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
-            $rec = $ilDB->fetchAssoc($set);
-            self::$access_cache[$a_id]["online"] = (boolean)($rec["is_online"]);
-        }
-        return self::$access_cache[$a_id]["online"];
+		return true;
+	}
 
 
-    }
+	/**
+	 * @param $a_target
+	 * @return bool
+	 */
+	public static function _checkGoto($a_target) {
 
-    /**
-     * @param $a_id
-     * @return mixed
-     */
-    static function checkAuthStatus($a_id)
-    {
-        global $ilDB;
+		global $ilAccess;
 
-        if (!isset(self::$access_cache[$a_id]["auth_status"]))
-        {
-            $set = $ilDB->query("SELECT auth_complete FROM il_cld_data " .
-                    " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
-            $rec = $ilDB->fetchAssoc($set);
-            self::$access_cache[$a_id]["auth_status"] = (boolean)$rec["auth_complete"];
-        }
-        return self::$access_cache[$a_id]["auth_status"];
+		$t_arr = explode("_", $a_target);
 
-    }
+		if ($ilAccess->checkAccess("read", "", $t_arr[1])) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param $a_id
+	 * @return mixed
+	 */
+	static function checkOnline($a_id) {
+		global $ilDB;
+
+		if (!isset(self::$access_cache[$a_id]["online"])) {
+			$set = $ilDB->query("SELECT is_online FROM il_cld_data " . " WHERE id = " . $ilDB->quote($a_id, "integer"));
+			$rec = $ilDB->fetchAssoc($set);
+			self::$access_cache[$a_id]["online"] = (boolean)($rec["is_online"]);
+		}
+
+		return self::$access_cache[$a_id]["online"];
+	}
+
+
+	/**
+	 * @param $a_id
+	 * @return mixed
+	 */
+	static function checkAuthStatus($a_id) {
+		global $ilDB;
+
+		if (!isset(self::$access_cache[$a_id]["auth_status"])) {
+			$set = $ilDB->query("SELECT auth_complete FROM il_cld_data " . " WHERE id = " . $ilDB->quote($a_id, "integer"));
+			$rec = $ilDB->fetchAssoc($set);
+			self::$access_cache[$a_id]["auth_status"] = (boolean)$rec["auth_complete"];
+		}
+
+		return self::$access_cache[$a_id]["auth_status"];
+	}
 }
-
 
 ?>

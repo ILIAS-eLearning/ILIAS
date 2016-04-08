@@ -24,7 +24,6 @@ class ilObjBlogListGUI extends ilObjectListGUI
 		$this->cut_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true; // #10498
-		$this->payment_enabled = false;
 		$this->info_screen_enabled = true;
 		$this->type = "blog";
 		$this->gui_class_name = "ilobjbloggui";

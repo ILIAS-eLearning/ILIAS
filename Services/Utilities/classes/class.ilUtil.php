@@ -479,8 +479,8 @@ class ilUtil
 		}
 
 		// dirty removal of other "[]" in string
-		$varname_id = ereg_replace("\[","_",$varname_id);
-		$varname_id = ereg_replace("\]","",$varname_id);
+		$varname_id = str_replace("[","_",$varname_id);
+		$varname_id = str_replace("]","",$varname_id);
 
 		$str .= " value=\"".$value."\" id=\"".$varname_id."\" />\n";
 
@@ -1411,7 +1411,7 @@ class ilUtil
 	* @param	string	login
 	* @return	boolean	true if valid
 	*/
-	function isLogin($a_login)
+	static function isLogin($a_login)
 	{
 		if (empty($a_login))
 		{
@@ -1426,7 +1426,7 @@ class ilUtil
 		// FIXME - If ILIAS is configured to use RFC 822
 		//         compliant mail addresses we should not
 		//         allow the @ character.
-		if (!ereg("^[A-Za-z0-9_\.\+\*\@!\$\%\~\-]+$", $a_login))
+		if (!preg_match("/^[A-Za-z0-9_\.\+\*\@!\$\%\~\-]+$/", $a_login))
 		{
 			return false;
 		}
@@ -3620,7 +3620,13 @@ class ilUtil
 				}
 			}
 		}
-		  		
+
+        // Manually trigger to write and close the session. This has the advantage that if an exception is thrown
+        // during the writing of the session (ILIAS writes the session into the database by default) we get an exception
+        // if the session_write_close() is triggered by exit() then the exception will be dismissed but the session
+        // is never written, which is a nightmare to develop with.
+        session_write_close();
+
 		header("Location: ".$a_script);
 		exit();
 	}
@@ -4384,7 +4390,7 @@ class ilUtil
 
 		$res = $ilDB->query($query);
 		$counter = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if($counter >= $limit)
 			{
@@ -4898,7 +4904,7 @@ class ilUtil
 			"ORDER BY ".$a_field;
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->$a_id_name;
 		}

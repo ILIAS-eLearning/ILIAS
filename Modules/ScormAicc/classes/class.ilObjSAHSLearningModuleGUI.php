@@ -28,13 +28,13 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		$lng->loadLanguageModule("content");
 		$this->type = "sahs";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 	}
 
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess, $ilTabs, $ilErr;
 		
@@ -70,12 +70,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case "ilfilesystemgui":
-				$this->fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
+				$this->fs_gui = new ilFileSystemGUI($this->object->getDataDirectory());
 				$this->fs_gui->setUseUploadDirectory(true);
 				$this->fs_gui->setTableId("sahsfs".$this->object->getId());
 				$ret =& $this->ctrl->forwardCommand($this->fs_gui);
@@ -93,14 +93,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			case "illearningprogressgui":
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 
-				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,$this->object->getRefId());
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,$this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
 
 				break;
 
 			case 'illicensegui':
 				include_once("./Services/License/classes/class.ilLicenseGUI.php");
-				$license_gui =& new ilLicenseGUI($this);
+				$license_gui = new ilLicenseGUI($this);
 				$ret =& $this->ctrl->forwardCommand($license_gui);
 				break;
 
@@ -150,7 +150,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				//$this->addLocations();
 				$this->ctrl->setReturn($this, "properties");
 				$ilTabs->clearTargets();
-				$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
+				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
 				if ($cmd == "create" || $_GET["new_type"]=="sty")
 				{
@@ -460,8 +460,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
 		$newObj->setPermissions($_GET["ref_id"]);
-		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-
+		
 		// create data directory, copy file to directory
 		$newObj->createDataDirectory();
 
@@ -536,8 +535,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$newObj->create();
 		$newObj->createReference();
 		$newObj->putInTree($_GET["ref_id"]);
-		$newObj->setPermissions($_GET["ref_id"]);
-		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
+		$newObj->setPermissions($_GET["ref_id"]);		
 		$newObj->createDataDirectory();
 		$newObj->createScorm2004Tree();
 		ilUtil::sendInfo( $this->lng->txt($newObj->getType()."_added"), true);
@@ -593,7 +591,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	{
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 		$this->tpl->setTitle($this->object->getTitle());
-		if(strtolower($_GET["baseClass"]) == "ilsahseditgui") $this->getTabs($this->tabs_gui);
+		if(strtolower($_GET["baseClass"]) == "ilsahseditgui") $this->getTabs();
 	}
 
 	/**
@@ -612,9 +610,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
-		global $rbacsystem, $ilUser, $ilCtrl, $ilHelp;
+		global $rbacsystem, $ilCtrl, $ilHelp;
 		
 		if ($this->ctrl->getCmd() == "delete")
 		{
@@ -635,7 +633,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		// file system gui tabs
 		// properties
 		$ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", 1);
-		$tabs_gui->addTarget("cont_list_files",
+		$this->tabs_gui->addTarget("cont_list_files",
 			$this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"), "",
 			"ilfilesystemgui");
 		$ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", "");
@@ -644,12 +642,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui")
 			? true
 			: false;
-		$tabs_gui->addTarget("info_short",
+		$this->tabs_gui->addTarget("info_short",
 			$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"), "",
 			"ilinfoscreengui", "", $force_active);
 			
 		// properties
-		$tabs_gui->addTarget("settings",
+		$this->tabs_gui->addTarget("settings",
 			$this->ctrl->getLinkTarget($this, "properties"), array("", "properties"),
 			get_class($this));
 			
@@ -660,14 +658,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			//if scorm && offline_mode activated
 			if ($this->object->getSubType() == "scorm2004" || $this->object->getSubType() == "scorm") {
 				if ($this->object->getOfflineMode() == true) {
-					$tabs_gui->addTarget("offline_mode_manager",
+					$this->tabs_gui->addTarget("offline_mode_manager",
 										$this->ctrl->getLinkTarget($this, "offlineModeManager"), 
 										"offlineModeManager",
 										"ilobjscormlearningmodulegui");
 				}
 			}
 			
-			$tabs_gui->addTarget('learning_progress',
+			$this->tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
@@ -681,7 +679,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				$privacy = ilPrivacySettings::_getInstance();
 				if($privacy->enabledSahsProtocolData())
 				{
-					$tabs_gui->addTarget("cont_tracking_data",
+					$this->tabs_gui->addTarget("cont_tracking_data",
 										$this->ctrl->getLinkTarget($this, "showTrackingItems"), "showTrackingItems",
 										get_class($this));
 				}
@@ -691,7 +689,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId())
 		and ilLicenseAccess::_isEnabled())
 		{
-			$tabs_gui->addTarget("license",
+			$this->tabs_gui->addTarget("license",
 				$this->ctrl->getLinkTargetByClass('illicensegui', ''),
 			"", "illicensegui");
 		}
@@ -702,7 +700,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$mdtab = $mdgui->getTab();
 		if($mdtab)
 		{
-			$tabs_gui->addTarget("meta_data",
+			$this->tabs_gui->addTarget("meta_data",
 				$mdtab,
 				"", "ilmdeditorgui");
 		}
@@ -710,7 +708,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		// perm
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}

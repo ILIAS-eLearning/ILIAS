@@ -36,7 +36,7 @@ class ilCronCheck
 	private $possible_tasks = array();
 	private $default_tasks = array();
 	
-	public function ilCronCheck()
+	public function __construct()
 	{
 		global $ilLog;
 
@@ -132,9 +132,7 @@ class ilCronCheck
 	
 	private function initTasks()
 	{
-		global $ilias;
-
-		require_once('Services/Payment/classes/class.ilUserDefinedInvoiceNumber.php');
+		global $ilSetting;
 
 		$this->default_tasks = array(				
 				'ilCronValidator::check'
@@ -147,7 +145,7 @@ class ilCronCheck
 					'classname'		=> 'ilCronValidator',
 					'method'		=> 'check',
 					'location'		=> 'cron',
-					'condition'		=> ($ilias->getSetting('systemcheck_cron') == 1)
+					'condition'		=> ($ilSetting->get('systemcheck_cron') == 1)
 				)	
 		);
 	}	

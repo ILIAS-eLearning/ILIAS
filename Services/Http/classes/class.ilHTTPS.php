@@ -116,7 +116,6 @@ class ilHTTPS
 	{
 		$this->protected_scripts[] = 'login.php';
 		$this->protected_scripts[] = 'index.php';
-		$this->protected_scripts[] = 'payment.php';
 		$this->protected_scripts[] = 'register.php';
 		// BEGIN WebDAV Use SSL for WebDAV.
 		$this->protected_scripts[] = 'webdav.php';
@@ -162,10 +161,6 @@ class ilHTTPS
 	{
 		$this->protected_classes[] = 'ilstartupgui';
 		$this->protected_classes[] = 'ilaccountregistrationgui';
-		$this->protected_classes[] = 'ilpurchasebmfgui';
-		$this->protected_classes[] = 'ilpurchasepaypal';
-		$this->protected_classes[] = 'ilshopshoppingcartgui';
-		$this->protected_classes[] = 'ilpurchasebillgui';
 		$this->protected_classes[] = 'ilpersonalsettingsgui';
 	}
 

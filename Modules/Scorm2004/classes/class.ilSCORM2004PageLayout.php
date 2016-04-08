@@ -48,7 +48,7 @@ class ilSCORM2004PageLayout
 		global $ilias, $ilDB;
          $r = $ilias->db->query("SELECT content FROM page_layout WHERE layout_id=".
 								 $ilDB->quote($this->layout_id));
-	     $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+	     $row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return $row['content'];
 	}
 	

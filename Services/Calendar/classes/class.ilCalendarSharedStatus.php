@@ -91,7 +91,7 @@ class ilCalendarSharedStatus
 	 * @param int usr_id
 	 * @return array int array of calendar ids
 	 */ 
-	public function getAcceptedCalendars($a_usr_id)
+	public static function getAcceptedCalendars($a_usr_id)
 	{
 		global $ilDB;
 		
@@ -99,7 +99,7 @@ class ilCalendarSharedStatus
 			"WHERE status = ".$ilDB->quote(self::STATUS_ACCEPTED ,'integer')." ".
 			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$cal_ids[] = $row->cal_id;
 		}
@@ -271,7 +271,7 @@ class ilCalendarSharedStatus
 		$query = "SELECT * FROM cal_shared_status ".
 			"WHERE usr_id = ".$this->db->quote($this->usr_id ,'integer')." ";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->calendars[$row->cal_id] = $row->status; 
 		}

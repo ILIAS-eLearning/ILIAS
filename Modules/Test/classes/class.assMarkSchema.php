@@ -323,7 +323,7 @@ class ASS_MarkSchema
 	 *                           
 	 * @return mixed The mark object, if a matching mark was found, false otherwise.
 	 */
-	public function _getMatchingMark($test_id, $percentage)
+	public static function _getMatchingMark($test_id, $percentage)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level DESC",
@@ -352,7 +352,7 @@ class ASS_MarkSchema
 	 *                            
 	 * @return mixed The mark object, if a matching mark was found, false otherwise.
 	 */
-	public function _getMatchingMarkFromObjId($a_obj_id, $percentage)
+	public static function _getMatchingMarkFromObjId($a_obj_id, $percentage)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT tst_mark.* FROM tst_mark, tst_tests WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.obj_fi = %s ORDER BY minimum_level DESC",
@@ -379,9 +379,9 @@ class ASS_MarkSchema
 	 *
 	 * @return ASS_Mark|bool The mark object, if a matching mark was found, false otherwise
 	*/
-	public function _getMatchingMarkFromActiveId($active_id, $percentage)
+	public static function _getMatchingMarkFromActiveId($active_id, $percentage)
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT tst_mark.* FROM tst_active, tst_mark, tst_tests WHERE tst_mark.test_fi = tst_tests.test_id AND tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s ORDER BY minimum_level DESC",
 			array('integer'),

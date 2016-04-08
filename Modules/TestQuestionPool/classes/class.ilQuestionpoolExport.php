@@ -30,7 +30,7 @@ class ilQuestionpoolExport
 	* Constructor
 	* @access	public
 	*/
-	function ilQuestionpoolExport(&$a_qpl_obj, $a_mode = "xml", $array_questions = null)
+	public function __construct($a_qpl_obj, $a_mode = "xml", $array_questions = null)
 	{
 		global $ilErr, $ilDB, $ilias, $lng;
 
@@ -64,7 +64,7 @@ class ilQuestionpoolExport
 			case "xls":
 				$this->export_dir = $this->qpl_obj->getExportDirectory('xls');
 				$this->filename = $date."__".$this->inst_id."__".
-					"qpl"."_".$this->qpl_obj->getId() . ".xls";
+					"qpl"."_".$this->qpl_obj->getId() . ".xlsx";
 				$this->zipfilename = $date."__".$this->inst_id."__".
 					"qpl"."_".$this->qpl_obj->getId() . ".zip";
 				break;
@@ -213,68 +213,43 @@ class ilQuestionpoolExport
 	/**
 	* build xml export file
 	*/
-	function buildExportFileXLS()
+	protected function buildExportFileXLS()
 	{
-		global $ilBench;
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
+		require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
 
-		$ilBench->start("QuestionpoolExport", "buildExportFile");
-		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
-		$adapter = new ilExcelWriterAdapter($this->export_dir . "/" . $this->filename, FALSE);
-		$workbook = $adapter->getWorkbook();
-		$workbook->setVersion(8); // Use Excel97/2000 Format
-		$format_bold =& $workbook->addFormat();
-		$format_bold->setBold();
-		$format_percent =& $workbook->addFormat();
-		$format_percent->setNumFormat("0.00%");
-		$format_datetime =& $workbook->addFormat();
-		$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
-		$format_title =& $workbook->addFormat();
-		$format_title->setBold();
-		$format_title->setColor('black');
-		$format_title->setPattern(1);
-		$format_title->setFgColor('silver');
-		$worksheet =& $workbook->addWorksheet();
-		$row = 0;
+		$worksheet = new ilAssExcelFormatHelper();
+		$worksheet->addSheet('Sheet 1');
+		$row = 1;
 		$col = 0;
-		// title row
-		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
-		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("title"), "latin1"), $format_title);
-		$col++;
-		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("description"), "latin1"), $format_title);
-		$col++;
-		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("question_type"), "latin1"), $format_title);
-		$col++;
-		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("author"), "latin1"), $format_title);
-		$col++;
-		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("create_date"), "latin1"), $format_title);
-		$col++;
-		$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("last_update"), "latin1"), $format_title);
+
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt("title"));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt("description"));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt("question_type"));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt("author"));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt("create_date"));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col) . $row, $this->lng->txt("last_update"));
+
 		$col = 0;
 		$row++;
 		$questions = $this->qpl_obj->getQuestionList();
 		foreach ($questions as $question)
 		{
-			$worksheet->write($row, $col, ilExcelUtils::_convert_text($question["title"], "latin1"));
-			$col++;
-			$worksheet->write($row, $col, ilExcelUtils::_convert_text($question["description"], "latin1"));
-			$col++;
-			$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt($question["type_tag"]), "latin1"));
-			$col++;
-			$worksheet->write($row, $col, ilExcelUtils::_convert_text($question["author"], "latin1"));
-			$col++;
-			
-//			ilDatePresentation::formatDate(new ilDateTime($question["created"],IL_CAL_UNIX))
-			$worksheet->write($row, $col, ilExcelUtils::_convert_text(ilFormat::formatDate(date('Y-m-d', $question["created"]), "date", false, false), "latin1"));
-			$col++;
-			$worksheet->write($row, $col, ilExcelUtils::_convert_text(ilFormat::formatDate(date('Y-m-d', $question["tstamp"]), "date", false, false), "latin1"));
+			$worksheet->setCell($row, $col++, $question["title"]);
+			$worksheet->setCell($row, $col++, $question["description"]);
+			$worksheet->setCell($row, $col++, $this->lng->txt($question["type_tag"]));
+			$worksheet->setCell($row, $col++, $question["author"]);
+			$created = new ilDate($question["created"], IL_CAL_UNIX);
+			$worksheet->setCell($row, $col++, $created);
+			$updated = new ilDate($question["tstamp"], IL_CAL_UNIX);
+			$worksheet->setCell($row, $col++, $updated);
 			$col = 0;
 			$row++;
 		}
-		$workbook->close();
-		ilUtil::zip($this->export_dir . "/" . $this->filename, $this->export_dir . "/" . $this->zipfilename);
+
+		$excelfile = $this->export_dir .'/'. $this->filename;
+		$worksheet->writeToFile($excelfile);
+		ilUtil::zip($excelfile , $this->export_dir . "/" . $this->zipfilename);
 		if (@file_exists($this->export_dir . "/" . $this->filename)) @unlink($this->export_dir . "/" . $this->filename);
 	}
 }
-
-?>

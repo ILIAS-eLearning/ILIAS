@@ -29,9 +29,9 @@ class assQuestionImport
 	* @param object $a_object The question object
 	* @access public
 	*/
-	function assQuestionImport(&$a_object)
+	public function __construct($a_object)
 	{
-		$this->object =& $a_object;
+		$this->object = $a_object;
 	}
 	
 	function getFeedbackGeneric($item)

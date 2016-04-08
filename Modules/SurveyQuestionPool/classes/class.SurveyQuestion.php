@@ -154,23 +154,14 @@ class SurveyQuestion
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-	function SurveyQuestion
-	(
-		$title = "",
-		$description = "",
-		$author = "",
-		$questiontext = "",
-		$owner = -1
-	)
+	function __construct($title = "", $description = "", $author = "", $questiontext = "",	$owner = -1)
 	{
-		global $ilias;
-		global $lng;
-		global $tpl;
+		global $ilias, $lng, $tpl;
 
-		$this->ilias =& $ilias;
-		$this->lng =& $lng;
-		$this->tpl =& $tpl;
-		$this->complete = 
+		$this->ilias = $ilias;
+		$this->lng = $lng;
+		$this->tpl = $tpl;
+		$this->complete = 0; 
 		$this->title = $title;
 		$this->description = $description;
 		$this->questiontext = $questiontext;
@@ -192,11 +183,6 @@ class SurveyQuestion
 		$this->materials = array();
 		$this->material = array();
 		$this->arrData = array();
-		register_shutdown_function(array(&$this, '_SurveyQuestion'));
-	}
-
-	function _SurveyQuestion()
-	{
 	}
 
 	/**
@@ -739,7 +725,7 @@ class SurveyQuestion
 * @return boolean TRUE if the question is complete, FALSE otherwise
 * @access public
 */
-	function _isComplete($question_id)
+	static function _isComplete($question_id)
 	{
 		global $ilDB;
 
@@ -1179,7 +1165,7 @@ class SurveyQuestion
 		foreach($mobs as $mob)
 		{
 			ilObjMediaObject::_removeUsage($mob, "spl:html", $question_id);
-			$mob_obj =& new ilObjMediaObject($mob);
+			$mob_obj = new ilObjMediaObject($mob);
 			$mob_obj->delete();
 		}
 		
@@ -1199,7 +1185,7 @@ class SurveyQuestion
 * @result string The question type string
 * @access private
 */
-	function _getQuestionType($question_id) 
+	static function _getQuestionType($question_id) 
 	{
 		global $ilDB;
 
@@ -1227,7 +1213,7 @@ class SurveyQuestion
 * @result string The question title
 * @access private
 */
-	function _getTitle($question_id) 
+	static function _getTitle($question_id) 
 	{
 		global $ilDB;
 
@@ -1394,7 +1380,7 @@ class SurveyQuestion
 					{
 						case "lm":
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $target_id, true);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $target_id, true);
 							$cont_obj = $cont_obj_gui->object;
 							$material_title .= $cont_obj->getTitle();
 							break;
@@ -1403,9 +1389,9 @@ class SurveyQuestion
 							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
-							$pg_obj =& new ilLMPageObject($cont_obj, $target_id);
+							$pg_obj = new ilLMPageObject($cont_obj, $target_id);
 							$material_title .= $pg_obj->getTitle();
 							break;
 						case "st":
@@ -1413,9 +1399,9 @@ class SurveyQuestion
 							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
-							$st_obj =& new ilStructureObject($cont_obj, $target_id);
+							$st_obj = new ilStructureObject($cont_obj, $target_id);
 							$material_title .= $st_obj->getTitle();
 							break;
 						case "git":
@@ -1509,7 +1495,7 @@ class SurveyQuestion
 					{
 						case "lm":
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $target_id, true);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $target_id, true);
 							$cont_obj = $cont_obj_gui->object;
 							$material_title .= $cont_obj->getTitle();
 							break;
@@ -1518,9 +1504,9 @@ class SurveyQuestion
 							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
-							$pg_obj =& new ilLMPageObject($cont_obj, $target_id);
+							$pg_obj = new ilLMPageObject($cont_obj, $target_id);
 							$material_title .= $pg_obj->getTitle();
 							break;
 						case "st":
@@ -1528,9 +1514,9 @@ class SurveyQuestion
 							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
-							$st_obj =& new ilStructureObject($cont_obj, $target_id);
+							$st_obj = new ilStructureObject($cont_obj, $target_id);
 							$material_title .= $st_obj->getTitle();
 							break;
 						case "git":
@@ -1814,7 +1800,7 @@ class SurveyQuestion
 	* @return object The question instance
 	* @access public
 	*/
-	function &_instanciateQuestion($question_id) 
+	static function &_instanciateQuestion($question_id) 
 	{
 		$question_type = SurveyQuestion::_getQuestionType($question_id);
 		if($question_type)
@@ -1833,7 +1819,7 @@ class SurveyQuestion
 	* @return object The question GUI instance
 	* @access public
 	*/
-	function &_instanciateQuestionGUI($question_id) 
+	static function &_instanciateQuestionGUI($question_id) 
 	{
 		$question_type = SurveyQuestion::_getQuestionType($question_id);
 		if($question_type)
@@ -1928,7 +1914,7 @@ class SurveyQuestion
 			$mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $this->getId());
 			foreach ($mobs as $mob)
 			{
-				$mob_obj =& new ilObjMediaObject($mob);
+				$mob_obj = new ilObjMediaObject($mob);
 				$imgattrs = array(
 					"label" => "il_" . IL_INST_ID . "_mob_" . $mob,
 					"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle(),
@@ -2012,7 +1998,7 @@ class SurveyQuestion
 	* @return array An array containing the answers to the question. The keys are either the user id or the anonymous id
 	* @access public
 	*/
-	function &getUserAnswers($survey_id)
+	function &getUserAnswers($survey_id, $finished_ids)
 	{
 		// overwrite in inherited classes
 		return array();
@@ -2080,65 +2066,54 @@ class SurveyQuestion
 	/**
 	* Creates the Excel output for the cumulated results of this question
 	*
-	* @param object $worksheet Reference to the excel worksheet
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
-	* @param integer $row Actual row in the worksheet
+	* @param ilExcel $a_excel Reference to the excel worksheet
+	* @param array $a_eval_data Cumulated evaluation data
+	* @param integer $a_row Actual row in the worksheet
+	* @param integer $a_export_label 
 	* @return integer The next row which should be used for the export
 	* @access public
 	*/
-	function setExportCumulatedXLS(&$worksheet, &$format_title, &$format_bold, &$eval_data, $row, $export_label)
+	function setExportCumulatedXLS(ilExcel $a_excel, array $a_eval_data, $a_row, $a_export_label)
 	{
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
 		$column = 0;
-		switch ($export_label)
+		
+		switch ($a_export_label)
 		{
 			case 'label_only':
-				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->label));
+				$a_excel->setCell($a_row, $column++, $this->label);
 				break;
+			
 			case 'title_only':
-				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->getTitle()));
+				$a_excel->setCell($a_row, $column++, $this->getTitle());
 				break;
+			
 			default:
-				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->getTitle()));
-				$column++;
-				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->label));
+				$a_excel->setCell($a_row, $column++, $this->getTitle());
+				$a_excel->setCell($a_row, $column++, $this->label);
 				break;
 		}
-		$column++;
-		$worksheet->writeString($row, $column, ilExcelUtils::_convert_text(strip_tags($this->getQuestiontext()))); // #12942
-		$column++;
-		$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->lng->txt($eval_data["QUESTION_TYPE"])));
-		$column++;
-		$worksheet->write($row, $column, $eval_data["USERS_ANSWERED"]);
-		$column++;
-		$worksheet->write($row, $column, $eval_data["USERS_SKIPPED"]);
-		$column++;
-		$worksheet->write($row, $column, ilExcelUtils::_convert_text($eval_data["MODE_VALUE"]));
-		$column++;
-		$worksheet->write($row, $column, ilExcelUtils::_convert_text($eval_data["MODE"]));
-		$column++;
-		$worksheet->write($row, $column, $eval_data["MODE_NR_OF_SELECTIONS"]);
-		$column++;
-		$worksheet->write($row, $column, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval_data["MEDIAN"])));
-		$column++;
-		$worksheet->write($row, $column, $eval_data["ARITHMETIC_MEAN"]);
-		return $row + 1;
+		
+		$a_excel->setCell($a_row, $column++, $this->getQuestiontext());
+		$a_excel->setCell($a_row, $column++, $this->lng->txt($a_eval_data["QUESTION_TYPE"]));
+		$a_excel->setCell($a_row, $column++, (int)$a_eval_data["USERS_ANSWERED"]);
+		$a_excel->setCell($a_row, $column++, (int)$a_eval_data["USERS_SKIPPED"]);
+		$a_excel->setCell($a_row, $column++, $a_eval_data["MODE_VALUE"]);
+		$a_excel->setCell($a_row, $column++, $a_eval_data["MODE"]);
+		$a_excel->setCell($a_row, $column++, (int)$a_eval_data["MODE_NR_OF_SELECTIONS"]);
+		$a_excel->setCell($a_row, $column++, str_replace("<br />", " ", $a_eval_data["MEDIAN"]));
+		$a_excel->setCell($a_row, $column++, $a_eval_data["ARITHMETIC_MEAN"]);
+		
+		return $a_row+1;
 	}
 	
 	/**
 	* Creates the CSV output for the cumulated results of this question
 	*
-	* @param object $worksheet Reference to the excel worksheet
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
 	* @param array $eval_data Cumulated evaluation data
-	* @param integer $row Actual row in the worksheet
-	* @return integer The next row which should be used for the export
+	* @param integer $export_label 
 	* @access public
 	*/
-	function &setExportCumulatedCVS(&$eval_data, $export_label)
+	function setExportCumulatedCVS($eval_data, $export_label)
 	{
 		$csvrow = array();
 		switch ($export_label)
@@ -2170,13 +2145,12 @@ class SurveyQuestion
 	/**
 	* Creates an Excel worksheet for the detailed cumulated results of this question
 	*
-	* @param object $workbook Reference to the parent excel workbook
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
+	* @param ilExcel $a_excel Reference to the parent excel workbook
+	* @param array $a_eval_data Cumulated evaluation data
+	* @param integer $a_export_label 
 	* @access public
 	*/
-	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data, $export_label)
+	function setExportDetailsXLS(ilExcel $a_excel, $a_eval_data, $a_export_label)
 	{
 		// overwrite in inherited classes
 	}

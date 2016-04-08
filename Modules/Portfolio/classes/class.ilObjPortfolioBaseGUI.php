@@ -550,7 +550,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		
 		$this->tabs_gui->clearTargets();
 			
-		$pages = ilPortfolioPage::getAllPages($portfolio_id);		
+		$pages = ilPortfolioPage::getAllPortfolioPages($portfolio_id);		
 		$current_page = (int)$_GET["user_page"];
 		
 		// validate current page

@@ -28,7 +28,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array
 		(
@@ -106,7 +106,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
 	/**
 	* check whether goto script will succeed
 	*/
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 		
@@ -135,7 +135,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
 
 		$q = "SELECT * FROM il_media_cast_data WHERE id = ".$ilDB->quote($a_id);
 		$mc_set = $ilDB->query($q);
-		$mc_rec = $mc_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$mc_rec = $mc_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 		return $mc_rec["is_online"];
 	}
@@ -151,7 +151,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
 
 		$q = "SELECT * FROM il_media_cast_data WHERE id = ".$ilDB->quote($a_id);
 		$mc_set = $ilDB->query($q);
-		$mc_rec = $mc_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$mc_rec = $mc_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 		return $mc_rec["public_files"];
 	}

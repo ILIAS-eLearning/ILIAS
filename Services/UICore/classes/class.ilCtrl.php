@@ -25,11 +25,11 @@ class ilCtrl
 	/**
 	 * control class constructor
 	 */
-	function ilCtrl()
+	function __construct()
 	{
 		global $ilBench;
 
-		$this->bench =& $ilBench;
+		$this->bench = $ilBench;
 		
 		// initialisation
 		$this->init();
@@ -146,7 +146,7 @@ class ilCtrl
 		
 		// forward processing to base class
 		$this->getCallStructure(strtolower($baseClass));
-		$base_class_gui =& new $class();
+		$base_class_gui = new $class();
 		$this->forwardCommand($base_class_gui);
 	}
 
@@ -167,7 +167,7 @@ class ilCtrl
 	 *						the flow of control
 	 * @return	mixed		return data of invoked executeCommand() method
 	 */
-	function &forwardCommand(&$a_gui_object)
+	function forwardCommand($a_gui_object)
 	{
 		$class = strtolower(get_class($a_gui_object));
 //echo "<br>class:".$class.":";
@@ -205,7 +205,7 @@ class ilCtrl
 	 * @param	object		gui object that returns the HTML block
 	 * @return	string		HTML
 	 */
-	function &getHTML(&$a_gui_object)
+	function getHTML($a_gui_object)
 	{
 		$class = strtolower(get_class($a_gui_object));
 
@@ -541,7 +541,7 @@ class ilCtrl
 	 *	include_once "classes/class.ilRepositoryGUI.php";
 	 *	$ilCtrl->setTargetScript("ilias.php");
 	 *	$ilCtrl->getCallStructure("ilrepositorygui");
-	 *	$repository_gui =& new ilRepositoryGUI();
+	 *	$repository_gui = new ilRepositoryGUI();
 	 *	$ilCtrl->forwardCommand($repository_gui);
 	 *
 	 * @param	string		$a_class	gui class name
@@ -677,7 +677,7 @@ class ilCtrl
 	 *
 	 * @access	public
 	 */
-	public function saveParameter(&$a_obj, $a_parameter)
+	public function saveParameter($a_obj, $a_parameter)
 	{
 		if (is_object($a_obj))
 		{
@@ -729,7 +729,7 @@ class ilCtrl
 	 * @param	string		$a_parameter	parameter name
 	 * @param	string		$a_parameter	parameter value
 	 */
-	public function setParameter(&$a_obj, $a_parameter, $a_value)
+	public function setParameter($a_obj, $a_parameter, $a_value)
 	{
 		$this->parameter[strtolower(get_class($a_obj))][$a_parameter] = $a_value;
 	}
@@ -754,7 +754,7 @@ class ilCtrl
 	 *
 	 * @param	object		$a_obj			gui object
 	 */
-	public function clearParameters(&$a_obj)
+	public function clearParameters($a_obj)
 	{
 		$this->clearParametersByClass(strtolower(get_class($a_obj)));
 	}
@@ -1163,7 +1163,7 @@ class ilCtrl
 	 * @param	bool		xml style t/f
 	 * @return	string		script url
 	 */
-	function getFormAction(&$a_gui_obj, $a_fallback_cmd = "", $a_anchor = "", $a_asynch = false,
+	function getFormAction($a_gui_obj, $a_fallback_cmd = "", $a_anchor = "", $a_asynch = false,
 		$xml_style = true)
 	{
 		$script =  $this->getFormActionByClass(strtolower(get_class($a_gui_obj)),
@@ -1376,7 +1376,7 @@ class ilCtrl
 	 * @param	string		command
 	 * @param	string		anchor
 	 */
-	public function redirect(&$a_gui_obj, $a_cmd = "", $a_anchor = "", $a_asynch = false)
+	public function redirect($a_gui_obj, $a_cmd = "", $a_anchor = "", $a_asynch = false)
 	{
 		global $ilBench;
 		
@@ -1439,7 +1439,7 @@ class ilCtrl
 	 *
 	 * @return	string		target link
 	 */
-	function getLinkTarget(&$a_gui_obj, $a_cmd = "", $a_anchor = "", $a_asynch = false,
+	function getLinkTarget($a_gui_obj, $a_cmd = "", $a_anchor = "", $a_asynch = false,
 		$xml_style = true)
 	{
 		$script = $this->getLinkTargetByClass(strtolower(get_class($a_gui_obj)), $a_cmd, $a_anchor, $a_asynch,
@@ -1494,7 +1494,7 @@ class ilCtrl
 	/**
 	 * Set return command
 	 */
-	function setReturn(&$a_gui_obj, $a_cmd)
+	function setReturn($a_gui_obj, $a_cmd)
 	{
 		$script = $this->getTargetScript();
 		$script = $this->getUrlParameters(strtolower(get_class($a_gui_obj)), $script, $a_cmd);
@@ -1519,7 +1519,7 @@ class ilCtrl
 	/**
 	 * Redirects to next parent class that used setReturn
 	 */
-	function returnToParent(&$a_gui_obj, $a_anchor = "")
+	function returnToParent($a_gui_obj, $a_anchor = "")
 	{
 		$script = $this->getParentReturn($a_gui_obj);
 
@@ -1549,7 +1549,7 @@ class ilCtrl
 	/**
 	 * Get return script url
 	 */
-	function getParentReturn(&$a_gui_obj)
+	function getParentReturn($a_gui_obj)
 	{
 		return $this->getParentReturnByClass(strtolower(get_class($a_gui_obj)));
 	}
@@ -1635,7 +1635,7 @@ class ilCtrl
 	/**
 	 * Get all set/save parameters for a gui object
 	 */
-	public function getParameterArray(&$a_gui_obj, $a_cmd = "")
+	public function getParameterArray($a_gui_obj, $a_cmd = "")
 	{
 		$par_arr = $this->getParameterArrayByClass(strtolower(get_class($a_gui_obj)), $a_cmd);
 

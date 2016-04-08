@@ -39,7 +39,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple
 	 * @param boolean $correctness A boolean value indicating the correctness of the answer
 	 * @param integer $order A nonnegative value representing a possible display or sort order
 	 */
-	public function ASS_AnswerTrueFalse ( $answertext = "", $points = 0.0, $order = 0, $correctness = false )
+	public function __construct( $answertext = "", $points = 0.0, $order = 0, $correctness = false )
 	{
 		parent::__construct($answertext, $points, $order);
 

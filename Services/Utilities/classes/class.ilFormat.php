@@ -21,11 +21,6 @@
 */
 class ilFormat
 {
-	function ilFormat ()
-	{
-		return;
-	}
-
 	// Holt das aktuelle Datum und gibt es im Format TT.MM.JJJJ zurck
 	function getDateDE ()
 	{
@@ -104,7 +99,7 @@ class ilFormat
 	* db-datetime to timestamp
 	* @param string
 	*/
-	function dateDB2timestamp ($ADatumSQL)
+	public static function dateDB2timestamp ($ADatumSQL)
 	{
 		$timestamp = substr($ADatumSQL, 0, 4).
 					 substr($ADatumSQL, 5, 2).
@@ -178,7 +173,7 @@ class ilFormat
 	* @param string $aTimestamp String in timestamp format
 	* @return string Database datetime in format yyyy-mm-dd hh:mm:ss
 	*/
-	function ftimestamp2datetimeDB($aTimestamp)
+	public static function ftimestamp2datetimeDB($aTimestamp)
 	{
 		$date = "";
 		if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $aTimestamp, $matches))
@@ -370,7 +365,7 @@ class ilFormat
 	* @param	boolean		whether .0 should be suppressed
 	* @return	string		formatted number
 	*/
-	function fmtFloat($a_float, $a_decimals=0, $a_dec_point = null, $a_thousands_sep = null, $a_suppress_dot_zero=false)
+	static function fmtFloat($a_float, $a_decimals=0, $a_dec_point = null, $a_thousands_sep = null, $a_suppress_dot_zero=false)
 	{
 		global $lng;
 
@@ -437,7 +432,7 @@ class ilFormat
 	* @see		Format::fmtDateTime
 	* @deprecated since 3.10 - 05.03.2009
 	*/
-	function formatDate($a_date,$a_mode = "datetime", $a_omit_seconds = false, $a_relative = TRUE)
+	public static function formatDate($a_date,$a_mode = "datetime", $a_omit_seconds = false, $a_relative = TRUE)
 	{
 		global $lng;
 		
@@ -546,7 +541,7 @@ class ilFormat
 	 * @param ilLanguage $a_lng
 	 * @return string
 	 */
-	function _secondsToString($seconds, $force_with_seconds = false, $a_lng = null)
+	public static function _secondsToString($seconds, $force_with_seconds = false, $a_lng = null)
 	{
 		global $lng;
 
@@ -625,7 +620,7 @@ class ilFormat
 	* @param	string	datetime
 	* @return	integer	unix timestamp  
 	*/
-	function _secondsToShortString($seconds)
+	public static function _secondsToShortString($seconds)
 	{
 		global $lng;
 

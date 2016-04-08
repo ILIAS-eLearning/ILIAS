@@ -561,7 +561,7 @@ class ilSCORM2004Node
 	*/
 	static function putInTree($a_obj, $a_parent_id = "", $a_target_node_id = "")
 	{
-		$tree =& new ilTree($a_obj->getSLMId());
+		$tree = new ilTree($a_obj->getSLMId());
 		$tree->setTreeTablePK("slm_id");
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 

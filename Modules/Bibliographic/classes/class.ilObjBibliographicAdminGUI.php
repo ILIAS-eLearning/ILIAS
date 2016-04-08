@@ -27,7 +27,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI {
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true) {
 		$this->type = 'bibs';
-		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->lng->loadLanguageModule('bibl');
 		//Check Permissions globally for all SubGUIs. We only check write permissions
 		$this->checkPermission('write');

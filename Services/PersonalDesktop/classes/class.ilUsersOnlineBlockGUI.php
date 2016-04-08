@@ -21,11 +21,11 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	/**
 	* Constructor
 	*/
-	function ilUsersOnlineBlockGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		parent::ilBlockGUI();
+		parent::__construct();
 		
 		$this->setLimit(10);
 		$this->setTitle($lng->txt("users_online"));
@@ -82,7 +82,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $tpl;
 

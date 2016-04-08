@@ -84,7 +84,7 @@ class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
 	* Insert property html
 	*
 	*/
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		$a_tpl->setCurrentBlock("prop_custom");
 		$a_tpl->setVariable("CUSTOM_CONTENT", $this->getHtml());

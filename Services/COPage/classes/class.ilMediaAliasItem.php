@@ -20,7 +20,7 @@ class ilMediaAliasItem
 	var $purpose;
 	var $item_node;
 
-	function ilMediaAliasItem(&$a_dom, $a_hier_id, $a_purpose, $a_pc_id = "",
+	function __construct(&$a_dom, $a_hier_id, $a_purpose, $a_pc_id = "",
 		$a_parent_node_name = "MediaObject")
 	{
 		$this->dom =& $a_dom;

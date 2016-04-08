@@ -55,7 +55,7 @@ class ilObjectFactory
 		$res = $ilDB->query($query);
 
 		$obj_ids = array();
-		while($object_rec = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while($object_rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			$obj_ids [] = $object_rec["obj_id"];
 		}
 		
@@ -69,7 +69,7 @@ class ilObjectFactory
 	* @param	int		$obj_id		object id
 	* @return	object	instance of Ilias object (i.e. derived from ilObject)
 	*/
-	function getInstanceByObjId($a_obj_id,$stop_on_error = true)
+	static function getInstanceByObjId($a_obj_id,$stop_on_error = true)
 	{
 		global $ilias, $objDefinition, $ilDB;
 
@@ -104,7 +104,7 @@ class ilObjectFactory
 			return false;
 		}
 
-		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$object_rec = $object_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		$class_name = "ilObj".$objDefinition->getClassName($object_rec["type"]);
 		
 		// check class
@@ -127,7 +127,6 @@ class ilObjectFactory
 		include_once($location."/class.".$class_name.".php");
 		$obj = new $class_name(0, false);	// this avoids reading of data
 		$obj->setId($a_obj_id);
-		$obj->setObjDataRecord($object_rec);
 		$obj->read();
 
 		return $obj;
@@ -140,7 +139,7 @@ class ilObjectFactory
 	* @param	int		$obj_id		object id
 	* @return	object	instance of Ilias object (i.e. derived from ilObject)
 	*/
-	function getInstanceByRefId($a_ref_id,$stop_on_error = true)
+	static function getInstanceByRefId($a_ref_id,$stop_on_error = true)
 	{
 		global $ilias, $objDefinition, $ilDB;
 
@@ -177,7 +176,7 @@ class ilObjectFactory
 			return false;
 		}
 
-		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$object_rec = $object_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		$class_name = "ilObj".$objDefinition->getClassName($object_rec["type"]);
 
 		// check class
@@ -202,7 +201,6 @@ class ilObjectFactory
 		$obj = new $class_name(0, false);	// this avoids reading of data
 		$obj->setId($object_rec["obj_id"]);
 		$obj->setRefId($a_ref_id);
-		$obj->setObjDataRecord($object_rec);
 		$obj->read();
 		return $obj;
 	}
@@ -248,7 +246,7 @@ class ilObjectFactory
 			return false;
 		}
 
-		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$object_rec = $object_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return $object_rec["type"];
 	}
 	

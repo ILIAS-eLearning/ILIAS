@@ -51,11 +51,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	*
 	* @param	boolean		skip initialisation (is called by derived PDCalendarBlockGUI class)
 	*/
-	function ilCalendarBlockGUI($a_skip_init = false)
+	function __construct($a_skip_init = false)
 	{
 		global $ilCtrl, $lng, $ilUser, $tpl, $ilHelp;
 		
-		parent::ilBlockGUI();
+		parent::__construct();
 		
 		$this->ctrl = $ilCtrl;
 
@@ -185,7 +185,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl,$ilTabs,$ilUser;
 

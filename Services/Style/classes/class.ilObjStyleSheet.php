@@ -549,7 +549,7 @@ class ilObjStyleSheet extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjStyleSheet($a_id = 0, $a_call_by_reference = false)
+	function __construct($a_id = 0, $a_call_by_reference = false)
 	{
 		$this->type = "sty";
 		$this->style = array();
@@ -558,13 +558,13 @@ class ilObjStyleSheet extends ilObject
 			$this->ilias->raiseError("Can't instantiate style object via reference id.",$this->ilias->error_obj->FATAL);
 		}
 
-		parent::ilObject($a_id, false);
+		parent::__construct($a_id, false);
 	}
 
 	/**
 	* Set ref id (show error message, since styles do not use ref ids)
 	*/
-	function setRefId()
+	function setRefId($a_ref_id)
 	{
 		$this->ilias->raiseError("Operation ilObjStyleSheet::setRefId() not allowed.",$this->ilias->error_obj->FATAL);
 	}
@@ -581,7 +581,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Put in tree (show error message, since styles do not use ref ids)
 	*/
-	function putInTree()
+	function putInTree($a_parent_ref)
 	{
 		$this->ilias->raiseError("Operation ilObjStyleSheet::putInTree() not allowed.",$this->ilias->error_obj->FATAL);
 	}
@@ -629,7 +629,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Write up to date
 	*/
-	function _writeUpToDate($a_id, $a_up_to_date)
+	static function _writeUpToDate($a_id, $a_up_to_date)
 	{
 		global $ilDB;
 
@@ -642,7 +642,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Looup up to date
 	*/
-	function _lookupUpToDate($a_id)
+	static function _lookupUpToDate($a_id)
 	{
 		global $ilDB;
 		
@@ -657,7 +657,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Write standard flag
 	*/
-	function _writeStandard($a_id, $a_std)
+	static function _writeStandard($a_id, $a_std)
 	{
 		global $ilDB;
 
@@ -670,7 +670,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Write scope
 	*/
-	function _writeScope($a_id, $a_scope)
+	static function _writeScope($a_id, $a_scope)
 	{
 		global $ilDB;
 
@@ -683,7 +683,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Lookup standard flag
 	*/
-	function _lookupStandard($a_id)
+	static function _lookupStandard($a_id)
 	{
 		global $ilDB;
 		
@@ -698,7 +698,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Write active flag
 	*/
-	function _writeActive($a_id, $a_active)
+	static function _writeActive($a_id, $a_active)
 	{
 		global $ilDB;
 
@@ -711,7 +711,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Lookup active flag
 	*/
-	function _lookupActive($a_id)
+	static function _lookupActive($a_id)
 	{
 		global $ilDB;
 		
@@ -726,7 +726,7 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Get standard styles
 	*/
-	function _getStandardStyles($a_exclude_default_style = false,
+	static function _getStandardStyles($a_exclude_default_style = false,
 		$a_include_deactivated = false, $a_scope = 0)
 	{
 		global $ilDB, $ilias, $tree;
@@ -772,7 +772,7 @@ class ilObjStyleSheet extends ilObject
 	* Get all clonable styles (active standard styles and individual learning
 	* module styles with write permission).
 	*/
-	function _getClonableContentStyles()
+	static function _getClonableContentStyles()
 	{
 		global $ilAccess, $ilDB;
 		
@@ -1805,7 +1805,7 @@ class ilObjStyleSheet extends ilObject
 	*
 	* static (to avoid full reading)
 	*/
-	function getContentStylePath($a_style_id)
+	static function getContentStylePath($a_style_id)
 	{
 		global $ilias;
 		
@@ -1848,7 +1848,7 @@ class ilObjStyleSheet extends ilObject
 	*
 	* static
 	*/
-	function getContentPrintStyle()
+	static function getContentPrintStyle()
 	{
 		return "./Services/COPage/css/print_content.css";
 	}
@@ -1858,7 +1858,7 @@ class ilObjStyleSheet extends ilObject
 	*
 	* static
 	*/
-	function getSyntaxStylePath()
+	static function getSyntaxStylePath()
 	{
 		return "./Services/COPage/css/syntaxhighlight.css";
 	}
@@ -1868,7 +1868,7 @@ class ilObjStyleSheet extends ilObject
 	*
 	* static
 	*/
-	function getPlaceHolderStylePath()
+	static function getPlaceHolderStylePath()
 	{
 		return "./Services/COPage/css/placeholder.css";
 	}
@@ -1912,8 +1912,8 @@ class ilObjStyleSheet extends ilObject
 	{
 		ilObjStyleSheet::_replaceStylePar($this->getId(), $a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id, $a_custom);
 	}
-	
-	function _replaceStylePar($style_id, $a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id = 0, $a_custom = false)
+
+	static function _replaceStylePar($style_id, $a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id = 0, $a_custom = false)
 	{
 		global $ilDB;
 		
@@ -2503,9 +2503,9 @@ class ilObjStyleSheet extends ilObject
 		
 		return self::$templates[$a_template_type];
 	}
-	
-	
-	function _getPseudoClasses($tag)
+
+
+	static function _getPseudoClasses($tag)
 	{
 		return self::$pseudo_classes[$tag];
 	}

@@ -35,13 +35,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	 */
 	public function __construct(ilObjTest $a_object)
 	{
-		parent::ilTestServiceGUI($a_object);
+		parent::__construct($a_object);
 	}
 
 	/**
 	 * execute command
 	 */
-	public function &executeCommand()
+	public function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
@@ -1214,7 +1214,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			if ($this->object->isShowExamIdInTestResultsEnabled())
 			{
 				$tpl->setCurrentBlock('exam_id');
-				$tpl->setVariable('EXAM_ID', $this->object->lookupExamId(
+				$tpl->setVariable('EXAM_ID', ilObjTest::lookupExamId(
 					$testSession->getActiveId(), $pass
 				));
 				$tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
@@ -1537,7 +1537,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		if (!is_null($pass) && $this->object->isShowExamIdInTestResultsEnabled())
 		{
 			$template->setCurrentBlock('exam_id_footer');
-			$template->setVariable('EXAM_ID_VAL', $this->object->lookupExamId(
+			$template->setVariable('EXAM_ID_VAL', ilObjTest::lookupExamId(
 				$testSession->getActiveId(), $pass
 			));
 			$template->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
@@ -1730,7 +1730,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			$this->ctrl->redirect($this, 'outUserResultsOverview');
 		}
-			/** @var ilDB $ilDB */
+			/** @var ilDBInterface $ilDB */
 			global $ilDB;
 
 		$active_fi = null;
@@ -1997,7 +1997,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$this->redirectToPassDeletionContext($_POST['context']);
 	}
 
-	protected function getFilteredTestResult($active_id, $pass, $considerHiddenQuestions)
+	protected function getFilteredTestResult($active_id, $pass, $considerHiddenQuestions, $considerOptionalQuestions)
 	{
 		global $ilDB, $ilPluginAdmin;
 

@@ -641,7 +641,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	
 	public function saveAdditionalQuestionDataToDb()
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 
 		// save additional data
@@ -663,7 +663,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
 	public function saveAnswerSpecificDataToDb()
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$ilDB->manipulateF( "DELETE FROM qpl_a_textsubset WHERE question_fi = %s",
 							array( 'integer' ),
@@ -689,14 +689,9 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	}
 
 	/**
-	 * Reworks the allready saved working data if neccessary
-	 *
-	 * @access protected
-	 * @param integer $active_id
-	 * @param integer $pass
-	 * @param boolean $obligationsAnswered
+	 * {@inheritdoc}
 	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered)
+	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
 	{
 		// nothing to rework!
 	}
@@ -781,29 +776,21 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	}
 
 	/**
-	* Creates an Excel worksheet for the detailed cumulated results of this question
-	*
-	* @param object $worksheet Reference to the parent excel worksheet
-	* @param object $startrow Startrow of the output in the excel worksheet
-	* @param object $active_id Active id of the participant
-	* @param object $pass Test pass
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
-	* @access public
-	*/
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	 * {@inheritdoc}
+	 */
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
+		parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+
 		$solutions = $this->getSolutionValues($active_id, $pass);
-		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
-		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+
 		$i = 1;
 		foreach ($solutions as $solution)
 		{
-			$worksheet->write($startrow + $i, 0, ilExcelUtils::_convert_text($solution["value1"]));
+			$worksheet->setCell($startrow + $i, 0, $solution["value1"]);
 			$i++;
 		}
+
 		return $startrow + $i + 1;
 	}
 	
@@ -936,7 +923,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	*/
 	public function getUserQuestionResult($active_id, $pass)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 

@@ -1215,14 +1215,9 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 
 	/**
-	 * Reworks the allready saved working data if neccessary
-	 *
-	 * @access protected
-	 * @param integer $active_id
-	 * @param integer $pass
-	 * @param boolean $obligationsAnswered
+	 * {@inheritdoc}
 	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered)
+	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
 	{
 		// nothing to rework!
 	}
@@ -1317,23 +1312,14 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 
 	/**
-	* Creates an Excel worksheet for the detailed cumulated results of this question
-	*
-	* @param object $worksheet Reference to the parent excel worksheet
-	* @param object $startrow Startrow of the output in the excel worksheet
-	* @param object $active_id Active id of the participant
-	* @param object $pass Test pass
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
-	* @access public
-	*/
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	 * {@inheritdoc}
+	 */
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
+		parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+
 		$solutions = $this->getSolutionValues($active_id, $pass);
-		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
-		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+
 		$imagepath = $this->getImagePath();
 		$i = 1;
 		foreach ($solutions as $solution)
@@ -1341,33 +1327,34 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$matches_written = FALSE;
 			foreach ($this->getMatchingPairs() as $idx => $pair)
 			{
-				if (!$matches_written) $worksheet->writeString($startrow + $i, 1, ilExcelUtils::_convert_text($this->lng->txt("matches")));
+				if (!$matches_written) $worksheet->setCell($startrow + $i, 1, $this->lng->txt("matches"));
 				$matches_written = TRUE;
 				if ($pair->definition->identifier == $solution["value2"])
 				{
 					if (strlen($pair->definition->text))
 					{
-						$worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($pair->definition->text));
+						$worksheet->setCell($startrow + $i, 0, $pair->definition->text);
 					}
 					else
 					{
-						$worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($pair->definition->picture));
+						$worksheet->setCell($startrow + $i, 0, $pair->definition->picture);
 					}
 				}
 				if ($pair->term->identifier == $solution["value1"])
 				{
 					if (strlen($pair->term->text))
 					{
-						$worksheet->writeString($startrow + $i, 2, ilExcelUtils::_convert_text($pair->term->text));
+						$worksheet->setCell($startrow + $i, 2, $pair->term->text);
 					}
 					else
 					{
-						$worksheet->writeString($startrow + $i, 2, ilExcelUtils::_convert_text($pair->term->picture));
+						$worksheet->setCell($startrow + $i, 2, $pair->term->picture);
 					}
 				}
 			}
 			$i++;
 		}
+
 		return $startrow + $i + 1;
 	}
 	
@@ -1604,7 +1591,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	*/
 	public function getUserQuestionResult($active_id, $pass)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 

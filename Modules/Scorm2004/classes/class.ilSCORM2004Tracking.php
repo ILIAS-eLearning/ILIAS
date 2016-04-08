@@ -47,7 +47,7 @@ die("Not Implemented: ilSCORM2004Tracking_getInProgress");
 		
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$in_progress[$row->sco_id][] = $row->user_id;
 		}
@@ -77,7 +77,7 @@ die("Not Implemented: ilSCORM2004Tracking_getCompleted");
 			"AND ( rvalue = 'completed' ".
 			"OR rvalue = 'passed')";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_ids[] = $row->user_id;
 		}
@@ -106,7 +106,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 			"AND lvalue = 'cmi.core.lesson_status' ".
 			"AND rvalue = 'failed'";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_ids[] = $row->user_id;
 		}

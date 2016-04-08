@@ -5827,7 +5827,11 @@ if(!$ilDB->uniqueConstraintExists('usr_data', array('login')))
 				Field: login
 
 				You can determine these accounts by executing the following SQL statement:
-				SELECT * FROM usr_data WHERE login IN(SELECT login FROM usr_data GROUP BY login HAVING COUNT(*) > 1)
+
+				SELECT ud.*  FROM usr_data ud
+				INNER JOIN (
+					SELECT login FROM usr_data GROUP BY login HAVING COUNT(*) > 1
+				) tmp ON tmp.login = ud.login
 
 				Please manipulate the affected records by choosing different login names.
 				If you try to rerun the update process, this warning will apear again if the issue is still not solved.
@@ -10062,14 +10066,14 @@ if ($ilDB->tableExists('rbac_templates'))
 	{
 		$ilDB->manipulateF(
 			"DELETE FROM rbac_templates WHERE rol_id = %s AND type = %s AND ops_id = %s AND parent = %s",
-			array('integer', 'integer', 'integer', 'integer'),
+			array('integer', 'text', 'integer', 'integer'),
 			array($row['rol_id'], $row['type'], $row['ops_id'], $row['parent'])
 		);
 
 		$ilDB->manipulate("INSERT INTO rbac_templates (rol_id, type, ops_id, parent)".
 			" VALUES (".
 			$ilDB->quote($row['rol_id'], "integer").
-			",".$ilDB->quote($row['type'], "integer").
+			",".$ilDB->quote($row['type'], "text").
 			",".$ilDB->quote($row['ops_id'], "integer").
 			",".$ilDB->quote($row['parent'], "integer").
 			")"
@@ -14546,4 +14550,185 @@ if(!$ilDB->indexExistsByFields('il_qpl_qst_fq_unit',array('question_fi')))
 {
 	$ilDB->addIndex('il_qpl_qst_fq_unit',array('question_fi'), 'i2');
 }
+?>
+<#4883>
+<?php
+
+$query = 'SELECT * FROM settings WHERE module = ' . $ilDB->quote('common', 'text') . ' AND keyword = ' . $ilDB->quote('mail_send_html', 'text');
+$res = $ilDB->query($query);
+
+$found = false;
+while($row = $ilDB->fetchAssoc($res))
+{
+	$found = true;
+	break;
+}
+
+if(!$found)
+{
+	$setting = new ilSetting();
+	$setting->set('mail_send_html', 1);
+}
+?>
+<#4884>
+<?php
+if(!$ilDB->tableExists('lng_log'))
+{
+	$ilDB->createTable('lng_log',
+	   array(
+		   'module' => array(
+			   'type' => 'text',
+			   'length' => 30,
+			   'notnull' => true
+		   ),
+		   'identifier' => array (
+			   'type' => 'text',
+			   'length' => 60,
+			   'notnull' => true
+		   )
+	   ));
+	$ilDB->addPrimaryKey('lng_log', array('module', 'identifier'));
+}
+?>
+<#4885>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4886>
+<?php
+$payment_tables = array(
+	'payment_coupons', 'payment_coupons_codes', 'payment_coupons_obj', 'payment_coupons_track',
+	'payment_currencies', 'payment_erp', 'payment_erps', 'payment_news',
+	'payment_objects', 'payment_paymethods', 'payment_prices', 'payment_settings', 
+	'payment_shopping_cart', 'payment_statistic', 'payment_statistic_coup', 'payment_topics',
+	'payment_topic_usr_sort', 'payment_trustees', 'payment_vats', 'payment_vendors'
+);
+
+foreach($payment_tables as $payment_table)
+{
+	if($ilDB->tableExists($payment_table))
+	{
+		$ilDB->dropTable($payment_table);
+	}
+
+	if($ilDB->sequenceExists($payment_table))
+	{
+		$ilDB->dropSequence($payment_table);
+	}
+}
+?>
+<#4887>
+<?php
+$res = $ilDB->queryF(
+	'SELECT obj_id FROM object_data WHERE type = %s',
+	array('text'),
+	array('pays')
+);
+$row = $ilDB->fetchAssoc($res);
+if(is_array($row) && isset($row['obj_id']))
+{
+	$obj_id = $row['obj_id'];
+
+	$ref_res = $ilDB->queryF(
+		'SELECT ref_id FROM object_reference WHERE obj_id = %s',
+		array('integer'),
+		array($obj_id)
+	);
+	while($ref_row = $ilDB->fetchAssoc($ref_res))
+	{
+		if(is_array($ref_row) && isset($ref_row['ref_id']))
+		{
+			$ref_id = $ref_row['ref_id'];
+
+			$ilDB->manipulateF(
+				'DELETE FROM tree WHERE child = %s',
+				array('integer'),
+				array($ref_id)
+			);
+		}
+	}
+
+	$ilDB->manipulateF(
+		'DELETE FROM object_reference WHERE obj_id = %s',
+		array('integer'),
+		array($obj_id)
+	);
+
+	$ilDB->manipulateF(
+		'DELETE FROM object_data WHERE obj_id = %s',
+		array('integer'),
+		array($obj_id)
+	);
+}
+?>
+<#4888>
+<?php
+$res = $ilDB->queryF(
+	'SELECT obj_id FROM object_data WHERE type = %s AND title = %s',
+	array('text', 'text'),
+	array('typ', 'pays')
+);
+$row = $ilDB->fetchAssoc($res);
+if(is_array($row) && isset($row['obj_id']))
+{
+	$obj_id = $row['obj_id'];
+
+	$ilDB->manipulateF(
+		'DELETE FROM rbac_ta WHERE typ_id = %s',
+		array('integer'),
+		array($obj_id)
+	);
+
+	$ilDB->manipulateF(
+		'DELETE FROM object_data WHERE obj_id = %s',
+		array('integer'),
+		array($obj_id)
+	);
+}
+?>
+<#4889>
+<?php
+$ilDB->manipulateF(
+	'DELETE FROM cron_job WHERE job_id = %s',
+	array('text'),
+	array('pay_notification')
+);
+?>
+<#4890>
+<?php
+$ilDB->manipulateF(
+	'DELETE FROM page_style_usage WHERE page_type = %s',
+	array('text'),
+	array('shop')
+);
+
+$ilDB->manipulateF(
+	'DELETE FROM page_history WHERE parent_type = %s',
+	array('text'),
+	array('shop')
+);
+
+$ilDB->manipulateF(
+	'DELETE FROM page_object WHERE parent_type = %s',
+	array('text'),
+	array('shop')
+);
+?>
+<#4891>
+<?php
+
+if(!$ilDB->tableColumnExists('booking_settings','rsv_filter_period'))
+{
+	$ilDB->addTableColumn('booking_settings', 'rsv_filter_period', array(
+		'type' => 'integer',
+		'length' => 2,
+		'notnull' => false,
+		'default' => null
+	));
+}
+
+?>
+<#4892>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>

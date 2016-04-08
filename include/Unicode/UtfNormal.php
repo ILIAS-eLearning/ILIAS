@@ -125,7 +125,7 @@ class UtfNormal {
 	 * @param string $string a UTF-8 string
 	 * @return string a clean, shiny, normalized UTF-8 string
 	 */
-	function cleanUp( $string ) {
+	static function cleanUp( $string ) {
 		if( NORMALIZE_ICU ) {
 			# We exclude a few chars that ICU would not.
 			$string = preg_replace(
@@ -154,7 +154,7 @@ class UtfNormal {
 	 * @param string $string a valid UTF-8 string. Input is not validated.
 	 * @return string a UTF-8 string in normal form C
 	 */
-	function toNFC( $string ) {
+	static function toNFC( $string ) {
 		if( NORMALIZE_ICU )
 			return utf8_normalize( $string, UNORM_NFC );
 		elseif( UtfNormal::quickIsNFC( $string ) )
@@ -170,7 +170,7 @@ class UtfNormal {
 	 * @param string $string a valid UTF-8 string. Input is not validated.
 	 * @return string a UTF-8 string in normal form D
 	 */
-	function toNFD( $string ) {
+	static function toNFD( $string ) {
 		if( NORMALIZE_ICU )
 			return utf8_normalize( $string, UNORM_NFD );
 		elseif( preg_match( '/[\x80-\xff]/', $string ) )
@@ -187,7 +187,7 @@ class UtfNormal {
 	 * @param string $string a valid UTF-8 string. Input is not validated.
 	 * @return string a UTF-8 string in normal form KC
 	 */
-	function toNFKC( $string ) {
+	static function toNFKC( $string ) {
 		if( NORMALIZE_ICU )
 			return utf8_normalize( $string, UNORM_NFKC );
 		elseif( preg_match( '/[\x80-\xff]/', $string ) )
@@ -204,7 +204,7 @@ class UtfNormal {
 	 * @param string $string a valid UTF-8 string. Input is not validated.
 	 * @return string a UTF-8 string in normal form KD
 	 */
-	function toNFKD( $string ) {
+	static function toNFKD( $string ) {
 		if( NORMALIZE_ICU )
 			return utf8_normalize( $string, UNORM_NFKD );
 		elseif( preg_match( '/[\x80-\xff]/', $string ) )
@@ -217,7 +217,7 @@ class UtfNormal {
 	 * Load the basic composition data if necessary
 	 * @access private
 	 */
-	function loadData() {
+	static function loadData() {
 		global $utfCombiningClass, $utfCanonicalComp, $utfCanonicalDecomp;
 		if( !isset( $utfCombiningClass ) ) {
 			require_once( 'UtfNormalData.inc' );
@@ -230,7 +230,7 @@ class UtfNormal {
 	 * @param string $string a valid UTF-8 string. Input is not validated.
 	 * @return bool
 	 */
-	function quickIsNFC( $string ) {
+	static function quickIsNFC( $string ) {
 		# ASCII is always valid NFC!
 		# If it's pure ASCII, let it through.
 		if( !preg_match( '/[\x80-\xff]/', $string ) ) return true;
@@ -270,7 +270,7 @@ class UtfNormal {
 	 * Returns false if not or uncertain.
 	 * @param string $string a UTF-8 string, altered on output to be valid UTF-8 safe for XML.
 	 */
-	function quickIsNFCVerify( &$string ) {
+	static function quickIsNFCVerify( &$string ) {
 		# Screen out some characters that eg won't be allowed in XML
 		$string = preg_replace( '/[\x00-\x08\x0b\x0c\x0e-\x1f]/', UTF8_REPLACEMENT, $string );
 		
@@ -488,7 +488,7 @@ class UtfNormal {
 	 * @return string
 	 * @access private
 	 */
-	function NFC( $string ) {
+	static function NFC( $string ) {
 		return UtfNormal::fastCompose( UtfNormal::NFD( $string ) );
 	}
 	
@@ -497,7 +497,7 @@ class UtfNormal {
 	 * @return string
 	 * @access private
 	 */
-	function NFD( $string ) {
+	static function NFD( $string ) {
 		UtfNormal::loadData();
 		global $utfCanonicalDecomp;
 		return UtfNormal::fastCombiningSort(
@@ -509,7 +509,7 @@ class UtfNormal {
 	 * @return string
 	 * @access private
 	 */
-	function NFKC( $string ) {
+	static function NFKC( $string ) {
 		return UtfNormal::fastCompose( UtfNormal::NFKD( $string ) );
 	}
 	
@@ -518,7 +518,7 @@ class UtfNormal {
 	 * @return string
 	 * @access private
 	 */
-	function NFKD( $string ) {
+	static function NFKD( $string ) {
 		global $utfCompatibilityDecomp;
 		if( !isset( $utfCompatibilityDecomp ) ) {
 			require_once( 'UtfNormalDataK.inc' );
@@ -537,7 +537,7 @@ class UtfNormal {
 	 * @param array $map hash of expanded decomposition map
 	 * @return string a UTF-8 string decomposed, not yet normalized (needs sorting)
 	 */
-	function fastDecompose( $string, &$map ) {
+	static function fastDecompose( $string, &$map ) {
 		UtfNormal::loadData();
 		$len = strlen( $string );
 		$out = '';
@@ -597,7 +597,7 @@ class UtfNormal {
 	 * @param string $string a valid, decomposed UTF-8 string. Input is not validated.
 	 * @return string a UTF-8 string with combining characters sorted in canonical order
 	 */
-	function fastCombiningSort( $string ) {
+	static function fastCombiningSort( $string ) {
 		UtfNormal::loadData();
 		global $utfCombiningClass;
 		$len = strlen( $string );
@@ -646,7 +646,7 @@ class UtfNormal {
 	 * @param string $string a valid UTF-8 string in sorted normal form D or KD. Input is not validated.
 	 * @return string a UTF-8 string with canonical precomposed characters used where possible
 	 */
-	function fastCompose( $string ) {
+	static function fastCompose( $string ) {
 		UtfNormal::loadData();
 		global $utfCanonicalComp, $utfCombiningClass;
 		$len = strlen( $string );
@@ -778,7 +778,7 @@ class UtfNormal {
 	 * @param string $string
 	 * @return string
 	 */
-	function placebo( $string ) {
+	static function placebo( $string ) {
 		$len = strlen( $string );
 		$out = '';
 		for( $i = 0; $i < $len; $i++ ) {

@@ -309,7 +309,7 @@ class ilDidacticTemplateSetting
 		$query = 'SELECT * FROM didactic_tpl_settings dtpl '.
 			'WHERE id = '.$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setType($row->type);
 			$this->enable($row->enabled);
@@ -325,7 +325,7 @@ class ilDidacticTemplateSetting
 		$query = 'SELECT * FROM didactic_tpl_sa '.
 			'WHERE id = '.$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->addAssignment($row->obj_type);
 		}

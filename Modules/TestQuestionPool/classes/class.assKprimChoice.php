@@ -392,7 +392,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 	 */
 	public function saveWorkingData($active_id, $pass = NULL, $authorized = true)
 	{
-		/** @var $ilDB ilDB */
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
 
 		if (is_null($pass))
@@ -438,16 +438,11 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 	}
 
 	/**
-	 * Reworks the allready saved working data if neccessary
-	 *
-	 * @access protected
-	 * @param integer $active_id
-	 * @param integer $pass
-	 * @param boolean $obligationsAnswered
+	 * {@inheritdoc}
 	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered)
+	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
 	{
-		// nothing to do
+		// nothing to rework!
 	}
 
 	/**
@@ -1043,18 +1038,17 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
-		require_once 'Services/Excel/classes/class.ilExcelUtils.php';
+		parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
 		$solution = $this->getSolutionValues($active_id, $pass);
-
-		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
-		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+		
 		$i = 1;
 		foreach($this->getAnswers() as $id => $answer)
 		{
-			$worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($answer->getAnswertext()), $format_bold);
+			$worksheet->setCell($startrow + $i, 0, $answer->getAnswertext());
+			$worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
 			$correctness = FALSE;
 			foreach($solution as $solutionvalue)
 			{
@@ -1064,9 +1058,10 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 					break;
 				}
 			}
-			$worksheet->write($startrow + $i, 1, $correctness);
+			$worksheet->setCell($startrow + $i, 1, $correctness);
 			$i++;
 		}
+
 		return $startrow + $i + 1;
 	}
 	

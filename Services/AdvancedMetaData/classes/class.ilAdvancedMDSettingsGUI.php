@@ -840,9 +840,7 @@ class ilAdvancedMDSettingsGUI
 	 * 
 	 */
 	public function updateRecord()
-	{
-	 	global $ilErr;
-	 	
+	{	 	
 	 	if(!isset($_GET['record_id']) or !$_GET['record_id'])
 	 	{
 	 		ilUtil::sendFailure($this->lng->txt('select_one'));
@@ -854,7 +852,7 @@ class ilAdvancedMDSettingsGUI
 	 	
 	 	if(!$this->record->validate())
 	 	{
-	 		ilUtil::sendFailure($this->lng->txt($ilErr->getMessage()));
+	 		ilUtil::sendFailure($this->lng->txt('fill_out_all_required_fields'));
 	 		$this->editRecord();
 	 		return false;
 	 	}
@@ -981,9 +979,7 @@ class ilAdvancedMDSettingsGUI
 	 * 
 	 */
 	public function saveRecord()
-	{
-	 	global $ilErr;
-	 	
+	{	 	
 	 	$this->initRecordObject();
 	 	$this->loadRecordFormData();
 	 	
@@ -999,7 +995,7 @@ class ilAdvancedMDSettingsGUI
 		
 	 	if(!$this->record->validate())
 	 	{
-	 		ilUtil::sendFailure($this->lng->txt($ilErr->getMessage()));
+	 		ilUtil::sendFailure($this->lng->txt('fill_out_all_required_fields'));
 	 		$this->createRecord();
 	 		return false;
 	 	}
@@ -1040,9 +1036,7 @@ class ilAdvancedMDSettingsGUI
 	 * 
 	 */
 	public function updateField()
-	{
-		global $ilErr;
-		
+	{		
 		if(!$_REQUEST["record_id"] || !$_REQUEST["field_id"])
 		{
 			return $this->editFields();
@@ -1115,9 +1109,7 @@ class ilAdvancedMDSettingsGUI
 	 * @access public
 	 */
 	public function saveField()
-	{
-	 	global $ilErr;
-	 	
+	{	 	
 	 	if(!$_REQUEST["record_id"] || !$_REQUEST["ftype"])
 		{
 			return $this->editFields();

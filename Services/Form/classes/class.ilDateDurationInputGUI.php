@@ -617,7 +617,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	*
 	* @return	int	Size
 	*/
-	public function insert(&$a_tpl)
+	public function insert($a_tpl)
 	{
 		$html = $this->render();
 

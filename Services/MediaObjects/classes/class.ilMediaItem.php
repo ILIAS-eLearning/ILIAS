@@ -33,7 +33,7 @@ class ilMediaItem
 	var $color1;			// map area line color 1
 	var $color2;			// map area line color 2
 
-	function ilMediaItem($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		$this->parameters = array();
 		$this->mapareas = array();
@@ -280,7 +280,7 @@ class ilMediaItem
 			$max = ilMapArea::_getMaxNr($this->getId());
 			for ($i = 1; $i <= $max; $i++)
 			{
-				$area =& new ilMapArea($this->getId(), $i);
+				$area = new ilMapArea($this->getId(), $i);
 				$this->addMapArea($area);
 			}
 		}
@@ -351,7 +351,7 @@ class ilMediaItem
 	* @param	string		$a_purpose	 	media object purpose
 	* @return 	array		$mob			media object
 	*/
-	function _getMediaItemsOfMObId($a_mobId, $a_purpose)
+	static function _getMediaItemsOfMObId($a_mobId, $a_purpose)
 	{
 		global $ilDB;
 		
@@ -373,7 +373,7 @@ class ilMediaItem
 	*
 	* @param	object		$a_mob	 	media object
 	*/
-	function _getMediaItemsOfMOb(&$a_mob)
+	static function _getMediaItemsOfMOb(&$a_mob)
 	{
 		global $ilDB;
 		
@@ -384,7 +384,7 @@ class ilMediaItem
 		$item_set = $ilDB->query($query);
 		while ($item_rec = $ilDB->fetchAssoc($item_set))
 		{
-			$media_item =& new ilMediaItem();
+			$media_item = new ilMediaItem();
 			$media_item->setNr($item_rec["nr"]);
 			$media_item->setId($item_rec["id"]);
 			$media_item->setLocation($item_rec["location"]);
@@ -412,7 +412,7 @@ class ilMediaItem
 			$max = ilMapArea::_getMaxNr($media_item->getId());
 			for ($i = 1; $i <= $max; $i++)
 			{
-				$area =& new ilMapArea($media_item->getId(), $i);
+				$area = new ilMapArea($media_item->getId(), $i);
 				$media_item->addMapArea($area);
 			}
 
@@ -1121,7 +1121,7 @@ class ilMediaItem
 	*
 	* @param	int		$a_mob_id		media object id
 	*/
-	function _resolveMapAreaLinks($a_mob_id)
+	static function _resolveMapAreaLinks($a_mob_id)
 	{
 		global $ilDB;
 		
@@ -1142,7 +1142,7 @@ class ilMediaItem
 	*
 	* @param	int		$a_mob_id		media object id
 	*/
-	function _getMapAreasIntLinks($a_mob_id)
+	static function _getMapAreasIntLinks($a_mob_id)
 	{
 		global $ilDB;
 		

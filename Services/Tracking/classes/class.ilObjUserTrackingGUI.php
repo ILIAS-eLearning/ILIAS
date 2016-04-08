@@ -19,26 +19,24 @@ include_once "./Services/Object/classes/class.ilObjectGUI.php";
 class ilObjUserTrackingGUI extends ilObjectGUI
 {
 	var $tpl = null;
-	var $ilErr = null;
 	var $lng = null;
 	var $ctrl = null;
 
-	function ilObjUserTrackingGUI($a_data,$a_id,$a_call_by_reference)
+	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
-		global $tpl,$ilErr,$lng,$ilCtrl;
+		global $tpl,$lng,$ilCtrl;
 
 		$this->type = "trac";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 
-		$this->tpl =& $tpl;
-		$this->ilErr =& $ilErr;
-		$this->lng =& $lng;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('trac');
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass();
 		$this->ctrl->setReturn($this, "show");
@@ -48,28 +46,28 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		{
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case 'illearningprogressgui':
 				$this->tabs_gui->setTabActive('learning_progress');
 				include_once("./Services/Tracking/classes/class.ilLearningProgressGUI.php");
-				$lp_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_ADMINISTRATION);
+				$lp_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_ADMINISTRATION);
 				$ret =& $this->ctrl->forwardCommand($lp_gui);
 				break;
 			
 			case 'illpobjectstatisticsgui':
 				$this->tabs_gui->setTabActive('statistics');
 				include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsGUI.php");
-				$os_gui =& new ilLPObjectStatisticsGUI(ilLPObjectStatisticsGUI::LP_CONTEXT_ADMINISTRATION);
+				$os_gui = new ilLPObjectStatisticsGUI(ilLPObjectStatisticsGUI::LP_CONTEXT_ADMINISTRATION);
 				$ret =& $this->ctrl->forwardCommand($os_gui);
 				break;
 			
 			case 'ilsessionstatisticsgui':
 				$this->tabs_gui->setTabActive('session_statistics');
 				include_once("./Services/Authentication/classes/class.ilSessionStatisticsGUI.php");
-				$sess_gui =& new ilSessionStatisticsGUI();
+				$sess_gui = new ilSessionStatisticsGUI();
 				$ret =& $this->ctrl->forwardCommand($sess_gui);
 				break;
 				
@@ -87,27 +85,25 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		return true;
 	}
 	
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 
-	function getTabs(&$tabs_gui)
-	{
-		global $rbacsystem;
-
+	function getTabs()
+	{		
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 		
-		$tabs_gui->addTarget("settings",
+		$this->tabs_gui->addTarget("settings",
 			$this->ctrl->getLinkTarget($this, "settings"),
 			"settings",
 			get_class($this));					
 
-		if ($rbacsystem->checkAccess("read",$this->object->getRefId()))
+		if ($this->checkPermissionBool("read"))
 		{						
 			if (ilObjUserTracking::_enabledObjectStatistics())
 			{
-				$tabs_gui->addTarget("statistics",
+				$this->tabs_gui->addTarget("statistics",
 					$this->ctrl->getLinkTargetByClass("illpobjectstatisticsgui",
 													"access"),
 					"",
@@ -116,7 +112,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
 			if (ilObjUserTracking::_enabledLearningProgress())
 			{
-				$tabs_gui->addTarget("learning_progress",
+				$this->tabs_gui->addTarget("learning_progress",
 					$this->ctrl->getLinkTargetByClass("illearningprogressgui",
 													"show"),
 					"",
@@ -126,7 +122,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			// session statistics
 			if (ilObjUserTracking::_enabledSessionStatistics())
 			{
-				$tabs_gui->addTarget("session_statistics",
+				$this->tabs_gui->addTarget("session_statistics",
 					$this->ctrl->getLinkTargetByClass("ilsessionstatisticsgui",
 													""),
 					"",
@@ -134,9 +130,9 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			}
 		}
 		
-		if ($rbacsystem->checkAccess("edit_permission",$this->object->getRefId()))
+		if ($this->checkPermissionBool("edit_permission"))
 		{		
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
 				array("perm","info","owner"),
 				'ilpermissiongui');
@@ -148,13 +144,8 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	* display tracking settings form
 	*/
 	function settingsObject($a_form = null)
-	{
-		global $rbacsystem;
-
-		if (!$rbacsystem->checkAccess('read',$this->object->getRefId()))
-		{
-			$ilErr->raiseError($this->lng->txt("msg_no_perm_read_track"),$ilErr->WARNING);
-		}
+	{		
+		$this->checkPermission('read');
 
 		$this->tabs_gui->setTabActive('settings');
 
@@ -167,9 +158,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	}
 	
 	protected function initSettingsForm()
-	{
-		global $rbacsystem;
-		
+	{	
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -282,7 +271,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		);
 		
 		// #12259
-		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
+		if ($this->checkPermissionBool("write"))
 		{	
 			$form->addCommandButton('saveSettings', $this->lng->txt('save'));
 		}
@@ -304,13 +293,8 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	* save user tracking settings
 	*/
 	function saveSettingsObject()
-	{
-		global $rbacsystem;
-		
-		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{	
-			return;
-		}
+	{		
+		$this->checkPermission('write');
 		
 		$form = $this->initSettingsForm();
 		if($form->checkInput())

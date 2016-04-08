@@ -50,11 +50,11 @@ class ilLPMarks
 
 
 
-	function ilLPMarks($a_obj_id,$a_usr_id)
+	function __construct($a_obj_id,$a_usr_id)
 	{
 		global $ilObjDataCache,$ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 
 		$this->obj_id = $a_obj_id;
 		$this->usr_id = $a_usr_id;
@@ -145,14 +145,14 @@ class ilLPMarks
 			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return (bool) $row->completed;
 		}
 		return false;
 	}
 
-	function _lookupMark($a_usr_id,$a_obj_id)
+	static function _lookupMark($a_usr_id,$a_obj_id)
 	{
 		global $ilDB;
 
@@ -161,7 +161,7 @@ class ilLPMarks
 			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->mark;
 		}
@@ -169,7 +169,7 @@ class ilLPMarks
 	}
 
 		
-	function _lookupComment($a_usr_id,$a_obj_id)
+	static function _lookupComment($a_usr_id,$a_obj_id)
 	{
 		global $ilDB;
 
@@ -178,7 +178,7 @@ class ilLPMarks
 			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->u_comment;
 		}
@@ -193,7 +193,7 @@ class ilLPMarks
 		$res = $this->db->query("SELECT * FROM ut_lp_marks ".
 								"WHERE obj_id = ".$this->db->quote($this->obj_id ,'integer')." ".
 								"AND usr_id = ".$ilDB->quote($this->usr_id ,'integer'));
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->has_entry = true;
 			$this->completed = (int) $row->completed;

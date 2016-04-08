@@ -28,7 +28,7 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends PHPUnit_Framework_Te
 	public function testHistoryProviderCanBeCreatedByFactory()
 	{
 		$factory = new ilTermsOfServiceTableDataProviderFactory();
-		$factory->setDatabaseAdapter($this->getMockBuilder('ilDB')->disableOriginalConstructor()->getMock());
+		$factory->setDatabaseAdapter($this->getMockBuilder('ilDBInterface')->getMock());
 		$provider = $factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY);
 
 		$this->assertInstanceOf('ilTermsOfServiceAcceptanceHistoryProvider', $provider);
@@ -43,8 +43,8 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends PHPUnit_Framework_Te
 	 */
 	public function testListCanBeRetrieved()
 	{
-		$database = $this->getMockBuilder('ilDB')->disableOriginalConstructor()->getMock();
-		$result   = $this->getMockBuilder('MDB2_BufferedResult_mysqli')->disableOriginalConstructor()->getMock();
+		$database = $this->getMockBuilder('ilDBInterface')->getMock();
+		$result   = $this->getMockBuilder('ilDBStatement')->getMock();
 
 		$factory = new ilTermsOfServiceTableDataProviderFactory();
 		$factory->setDatabaseAdapter($database);
@@ -84,7 +84,7 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends PHPUnit_Framework_Te
 	 */
 	public function testRetrievingListThrowsExceptionsWhenInvalidArgumentsArePassed()
 	{
-		$database = $this->getMockBuilder('ilDB')->disableOriginalConstructor()->getMock();
+		$database = $this->getMockBuilder('ilDBInterface')->getMock();
 		$factory  = new ilTermsOfServiceTableDataProviderFactory();
 		$factory->setDatabaseAdapter($database);
 		$provider = $factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY);

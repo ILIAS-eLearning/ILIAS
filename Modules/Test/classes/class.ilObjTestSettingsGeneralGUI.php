@@ -48,7 +48,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	/** @var ilTree $tree */
 	protected $tree = null;
 
-	/** @var ilDB $db */
+	/** @var ilDBInterface $db */
 	protected $db = null;
 
 	/** @var ilPluginAdmin $pluginAdmin */
@@ -70,7 +70,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	 * @param ilAccessHandler $access
 	 * @param ilLanguage      $lng
 	 * @param ilTemplate      $tpl
-	 * @param ilDB            $db
+	 * @param ilDBInterface   $db
 	 * @param ilObjTestGUI    $testGUI
 	 *
 	 * @return \ilObjTestSettingsGeneralGUI
@@ -81,7 +81,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		ilLanguage $lng,
 		ilTemplate $tpl,
 		ilTree $tree,
-		ilDB $db,
+		ilDBInterface $db,
 		ilPluginAdmin $pluginAdmin,
 		ilObjUser $activeUser,
 		ilObjTestGUI $testGUI

@@ -51,9 +51,9 @@ class ilBibItemGUI
 		global $ilias, $tpl, $lng;
 		$lng->loadLanguageModule("bibitem");
 
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
 	}
 
 	function setObject($a_obj)

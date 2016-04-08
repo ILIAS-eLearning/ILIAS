@@ -210,11 +210,10 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 	}
 
 	/**
-	* Insert property html
-	*
-	* @return	int	Size
-	*/
-	function insert(&$a_tpl)
+	 * Insert property html
+	 * @param $a_tpl ilTemplate
+	 */
+	function insert($a_tpl)
 	{
 		global $lng;
 		

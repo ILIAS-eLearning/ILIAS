@@ -66,7 +66,7 @@ class ilGroupXMLParser extends ilSaxParser
 	{
 		define('EXPORT_VERSION',2);
 
-		parent::ilSaxParser(null);
+		parent::__construct(null);
 
 		$this->mode =  ilGroupXMLParser::$CREATE;
 		$this->grp = null;
@@ -601,7 +601,7 @@ class ilGroupXMLParser extends ilSaxParser
 
 		if ($this->mode == ilGroupXMLParser::$CREATE)
 		{
-			$this->group_obj =& new ilObjGroup();
+			$this->group_obj = new ilObjGroup();
 		} elseif ($this->mode == ilGroupXMLParser::$UPDATE) {
 			$this->group_obj = $this->grp;
 		}
@@ -613,7 +613,7 @@ class ilGroupXMLParser extends ilSaxParser
 	{
 		include_once "./Modules/Folder/classes/class.ilObjFolder.php";
 
-		$this->folder_obj =& new ilObjFolder();
+		$this->folder_obj = new ilObjFolder();
 
 		return true;
 	}
@@ -622,7 +622,7 @@ class ilGroupXMLParser extends ilSaxParser
 	{
 		include_once "./Modules/Group/classes/class.ilFileDataImportGroup.php";
 
-		$this->import_file_obj =& new ilFileDataImportGroup();
+		$this->import_file_obj = new ilFileDataImportGroup();
 
 		return true;
 	}
@@ -631,7 +631,7 @@ class ilGroupXMLParser extends ilSaxParser
 	{
 		include_once "./Modules/File/classes/class.ilObjFile.php";
 
-		$this->file_obj =& new ilObjFile();
+		$this->file_obj = new ilObjFile();
 
 		return true;
 	}

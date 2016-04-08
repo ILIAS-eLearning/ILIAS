@@ -53,11 +53,11 @@ class ilObjectXMLWriter extends ilXmlWriter
 	* @param	string	input encoding
 	* @access	public
 	*/
-	function ilObjectXMLWriter()
+	function __construct()
 	{
 		global $ilias,$ilUser;
 
-		parent::ilXmlWriter();
+		parent::__construct();
 
 		$this->ilias =& $ilias;
 		$this->user_id = $ilUser->getId();

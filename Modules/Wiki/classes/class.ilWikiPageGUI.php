@@ -67,7 +67,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $ilTabs, $ilUser, $ilAccess;
 		

@@ -21,7 +21,7 @@ class ilObjFileListGUI extends ilObjectListGUI
 	*/
 	function ilObjFileListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**
@@ -34,7 +34,6 @@ class ilObjFileListGUI extends ilObjectListGUI
 		$this->copy_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
-		$this->payment_enabled = true;
 		$this->info_screen_enabled = true;
 		$this->type = "file";
 		$this->gui_class_name = "ilobjfilegui";
@@ -53,15 +52,6 @@ class ilObjFileListGUI extends ilObjectListGUI
 	*/
 	function getCommandFrame($a_cmd)
 	{
-		if(IS_PAYMENT_ENABLED)
-		{
-			include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-			if(ilPaymentObject::_isBuyable($this->ref_id) &&
-			   !ilPaymentObject::_hasAccess($this->ref_id))
-			{
-				return '';
-			}
-		}
 		$frame = "";
 		switch($a_cmd)
 		{

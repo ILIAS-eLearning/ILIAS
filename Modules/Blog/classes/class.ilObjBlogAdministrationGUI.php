@@ -23,7 +23,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		$this->type = "blga";
-		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->lng->loadLanguageModule("blog");
 	}
@@ -41,11 +41,6 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 
 		$this->prepareOutput();
 
-/*		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
-		{
-			$ilErr->raiseError($this->lng->txt('no_permission'),$ilErr->WARNING);
-		}
-*/
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
@@ -74,17 +69,15 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 	 *
 	 */
 	public function getAdminTabs()
-	{
-		global $rbacsystem;
-
-		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+	{		
+		if ($this->checkPermissionBool("visible,read"))
 		{
 			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "editSettings"),
 				array("editSettings", "view"));
 		}
 
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+		if ($this->checkPermissionBool('edit_permission'))
 		{
 			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass('ilpermissiongui',"perm"),
@@ -164,14 +157,14 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-	    global $lng, $ilAccess;
+	    global $lng;
 		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('blog_settings'));
 		
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		if ($this->checkPermissionBool("write"))
 		{
 			$form->addCommandButton('saveSettings',$this->lng->txt('save'));
 			$form->addCommandButton('cancel',$this->lng->txt('cancel'));

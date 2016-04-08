@@ -181,7 +181,7 @@ class Session {
         if ($this->usesCookies || $this->transSID) return $pathInfo;
 
         // Anchor-Fragment extrahieren
-        $dummyArray = split("#",$pathInfo);
+        $dummyArray = explode("#", $pathInfo);
         $pathInfo = $dummyArray[0];
 
         // evtl. (kaputte) Session-ID(s) aus dem Querystring entfernen

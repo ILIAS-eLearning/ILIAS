@@ -21,11 +21,11 @@ class ilLocatorGUI
 	* Constructor
 	*
 	*/
-	function ilLocatorGUI()
+	function __construct()
 	{
 		global $lng;
 
-		$this->lng =& $lng;	
+		$this->lng = $lng;	
 		$this->entries = array();
 		$this->setTextOnly(false);
 		$this->offline = false;

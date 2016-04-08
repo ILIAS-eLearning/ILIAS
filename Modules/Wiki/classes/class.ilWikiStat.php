@@ -199,7 +199,7 @@ class ilWikiStat
 		$tstamp = self::getTimestamp();		
 		$a_primary["ts"] = array("timestamp", $tstamp);
 		
-		$ilDB->lockTables(array(0 => array('name' => $a_table, 'type' => ilDB::LOCK_WRITE)));
+		$ilDB->lockTables(array(0 => array('name' => $a_table, 'type' => ilDBConstants::LOCK_WRITE)));
 		
 		$primary = array();
 		foreach($a_primary as $column => $value)

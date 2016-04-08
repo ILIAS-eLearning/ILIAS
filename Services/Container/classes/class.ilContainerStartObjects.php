@@ -58,7 +58,7 @@ class ilContainerStartObjects
 			" WHERE crs_id = ".$ilDB->quote($this->getObjId(), 'integer').
 			" ORDER BY pos, crs_start_id";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{			
 			if($tree->isInTree($row->item_ref_id))
 			{

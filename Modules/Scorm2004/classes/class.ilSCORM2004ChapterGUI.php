@@ -43,7 +43,7 @@ class ilSCORM2004ChapterGUI extends ilSCORM2004NodeGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $tpl, $ilTabs;
 		

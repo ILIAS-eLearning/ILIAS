@@ -48,16 +48,25 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	 * Constructor
 	 *
 	 * @access public
-	 * @param array array of pear parameters
+	 * @param int ldap server id 
 	 * 
 	 */
-	public function __construct()
+	public function __construct($a_server_id = null)
 	{
 		global $ilLog;
 		
 		include_once 'Services/LDAP/classes/class.ilLDAPServer.php';
-		$this->server = new ilLDAPServer(ilLDAPServer::_getFirstActiveServer());
-	 	$this->log = $ilLog;
+		
+		if($a_server_id)
+		{
+			$this->server = ilLDAPServer::getInstanceByServerId($a_server_id);
+		}
+		else
+		{
+			$this->server = new ilLDAPServer(ilLDAPServer::_getFirstActiveServer());
+		}
+
+		$this->log = ilLoggerFactory::getLogger('auth');
 		
 		parent::__construct($this->server->toPearAuthArray());
 	}
@@ -109,12 +118,12 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 		
 		if (PEAR::isError($res))
 		{ 
-			$this->log('Container '.$key.': '.$res->getMessage(), AUTH_LOG_ERR);
+			$this->log->notice('Authentication failed with message:' . $res->getMessage());
 			return $res;
 		}
 		elseif ($res == true)
 		{
-			$this->log('Container '.$key.': Authentication successful.', AUTH_LOG_DEBUG);
+			$this->log->debug('Authentication successful');
 			return true;
 		} 
 		if(!$this->enabledOptionalGroupCheck() and $this->server->isMembershipOptional())
@@ -136,19 +145,19 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	 */
 	public function checkGroup($a_name)
 	{
-		$this->log->write(__METHOD__.': checking group restrictions...');
+		$this->log->debug('Checking group restrictions...');
 
 		// if there are multiple groups define check all of them for membership
 		$groups = $this->server->getGroupNames();
 		
 		if(!count($groups))
 		{
-			$this->log->write(__METHOD__.': No group restrictions found.');
+			$this->log->debug('no group restrictions found');
 			return true;
 		}
 		elseif($this->server->isMembershipOptional() and !$this->optional_check)
 		{
-			$this->log->write(__METHOD__.': Group membership is optional.');
+			$this->log->debug('Group membership is otional');
 			return true;
 		}
 	
@@ -198,20 +207,20 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 			$internal_account = $sync->sync();
 		}
 		catch(UnexpectedValueException $e) {
-			$GLOBALS['ilLog']->write(__METHOD__.': Login failed with message: '. $e->getMessage());
+			$this->log->info('Login failed with message: ' . $e->getMessage());
 			$a_auth->status = AUTH_WRONG_LOGIN;
 			$a_auth->logout();
 			return false;
 		}
 		catch(ilLDAPSynchronisationForbiddenException $e) {
 			// No syncronisation allowed => create Error
-			$GLOBALS['ilLog']->write(__METHOD__.': Login failed with message: '. $e->getMessage());
+			$this->log->info('Login failed with message: ' . $e->getMessage());
 			$a_auth->status = AUTH_LDAP_NO_ILIAS_USER;
 			$a_auth->logout();
 			return false;
 		}
 		catch(ilLDAPAccountMigrationRequiredException $e) {
-			$GLOBALS['ilLog']->write(__METHOD__.': Starting account migration.');
+			$this->log->info('Starting account migration');
 			$a_auth->logout();
 			ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&cmd=showAccountMigration');
 		}

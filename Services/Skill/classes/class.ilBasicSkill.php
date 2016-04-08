@@ -30,7 +30,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	 */
 	function __construct($a_id = 0)
 	{
-		parent::ilSkillTreeNode($a_id);
+		parent::__construct($a_id);
 		$this->setType("skll");
 	}
 

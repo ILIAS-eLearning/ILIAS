@@ -173,7 +173,7 @@ class ilObjBlog extends ilObject2
 		}
 	}
 
-	protected function doCloneObject(ilObjBlog $new_obj, $a_target_id, $a_copy_id = null)
+	protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null)
 	{
 		// banner?
 		$img = $this->getImage();
@@ -688,6 +688,13 @@ class ilObjBlog extends ilObject2
 						break;				
 				}
 			}
+		}
+		
+		// create/update news item (only in repository)
+		if(!$a_in_wsp &&
+			in_array($a_action, array("update", "new")))
+		{
+			$posting->handleNews(($a_action == "update"));
 		}
 		
 		// recipients

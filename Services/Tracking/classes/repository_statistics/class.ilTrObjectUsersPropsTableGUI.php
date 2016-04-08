@@ -409,18 +409,19 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$ilCtrl->setParameterByClass("illplistofobjectsgui", 'user_id', '');
 	}
 
-	protected function fillHeaderExcel($worksheet, &$a_row)
+	protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
 	{
 		$labels = $this->getSelectableColumns();
 		$cnt = 0;
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			$worksheet->write($a_row, $cnt, $labels[$c]["txt"]);
-			$cnt++;
+			$a_excel->setCell($a_row, $cnt++, $labels[$c]["txt"]);
 		}
+		
+		$a_excel->setBold("A".$a_row.":".$a_excel->getColumnCoord($cnt-1).$a_row);
 	}
 
-	protected function fillRowExcel($worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
 	{
 		$cnt = 0;
 		foreach ($this->getSelectedColumns() as $c)
@@ -433,8 +434,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			{
 				$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set[$c]);
 			}
-			$worksheet->write($a_row, $cnt, $val);
-			$cnt++;
+			$a_excel->setCell($a_row, $cnt++, $val);
 		}
 	}
 

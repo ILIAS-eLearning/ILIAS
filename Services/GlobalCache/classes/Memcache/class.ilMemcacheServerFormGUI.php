@@ -60,8 +60,8 @@ class ilMemcacheServerFormGUI extends ilPropertyFormGUI {
 	public function fillForm() {
 		$array = array(
 			self::F_STATUS => $this->object->getStatus() == ilMemcacheServer::STATUS_ACTIVE,
-			self::F_HOST => $this->object->getHost(),
-			self::F_PORT => $this->object->getPort(),
+			self::F_HOST   => $this->object->getHost(),
+			self::F_PORT   => $this->object->getPort(),
 			self::F_WEIGHT => $this->object->getWeight(),
 		);
 
@@ -73,7 +73,7 @@ class ilMemcacheServerFormGUI extends ilPropertyFormGUI {
 	 * @return bool
 	 */
 	public function fillObject() {
-		if (! $this->checkInput()) {
+		if (!$this->checkInput()) {
 			return false;
 		}
 		$this->object->setStatus(($this->getInput(self::F_STATUS) == 1 ? ilMemcacheServer::STATUS_ACTIVE : ilMemcacheServer::STATUS_INACTIVE));
@@ -99,7 +99,7 @@ class ilMemcacheServerFormGUI extends ilPropertyFormGUI {
 	 * @return bool|string
 	 */
 	public function saveObject() {
-		if (! $this->fillObject()) {
+		if (!$this->fillObject()) {
 			return false;
 		}
 
@@ -120,7 +120,7 @@ class ilMemcacheServerFormGUI extends ilPropertyFormGUI {
 				$this->addCommandButton('createMemcacheServer', $this->txt('add'));
 				$this->addCommandButton('cache', $this->txt('cancel'));
 				break;
-			case  ! $this->is_new:
+			case  !$this->is_new:
 				$this->setTitle($this->txt('update'));
 				$this->addCommandButton('updateMemcacheServer', $this->txt('update'));
 				$this->addCommandButton('cache', $this->txt('cancel'));
