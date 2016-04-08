@@ -2221,6 +2221,7 @@ chatroom#:#kicked_from_private_room#:#Sie wurden aus dem Separée <b>#title#</b>
 chatroom#:#large#:#Groß
 chatroom#:#layout#:#Layout
 chatroom#:#leave_private_room#:#Séparée verlassen
+chatroom#:#left_private_room#:#Séparée verlassen
 chatroom#:#lost_connection#:#Die Verbindung zum Chat-Server wurde unterbrochen.
 chatroom#:#main#:#Hauptraum
 chatroom#:#moderate#:#Moderieren
