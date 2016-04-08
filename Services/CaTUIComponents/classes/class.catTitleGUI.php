@@ -102,6 +102,13 @@ class catTitleGUI {
 		return $this;
 	}
 
+	public function setInfoLink($a_info_link_lng_var, $a_info_link) {
+		$this->info_link = $a_info_link;
+		$this->info_link_lng_var = $a_info_link_lng_var;
+		return $this;
+	}
+
+
 	public function setClearSearch($a_lng_var, $a_target) {
 		$this->clear_search = $a_target;
 		$this->clear_search_lng_var = $a_lng_var;
@@ -169,6 +176,16 @@ class catTitleGUI {
 			$tpl->setVariable("CMD_TXT", $this->use_lng
 									   ? $this->lng->txt($this->clear_search_lng_var)
 									   : $this->clear_search_lng_var
+									   );
+			$tpl->parseCurrentBlock();
+		}
+
+		if ($this->info_link !== null) {
+			$tpl->setCurrentBlock("info_link");
+			$tpl->setVariable("TARGET", $this->info_link);
+			$tpl->setVariable("DESCRIPTION", $this->use_lng
+									   ? $this->lng->txt($this->info_link_lng_var)
+									   : $this->info_link_lng_var
 									   );
 			$tpl->parseCurrentBlock();
 		}
