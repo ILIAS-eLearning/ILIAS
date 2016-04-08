@@ -73,19 +73,6 @@ class ilContainer extends ilObject
 	static $data_preloaded = false;
 	
 	/**
-	* Constructor
-	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
-	*/
-	function ilContainer($a_id = 0, $a_call_by_reference = true)
-	{
-		parent::__construct($a_id, $a_call_by_reference);
-	}
-	
-	
-	
-	/**
 	* Create directory for the container.
 	* It is <webspace_dir>/container_data.
 	*/
@@ -119,7 +106,7 @@ class ilContainer extends ilObject
 	*
 	* @return	string	container directory
 	*/
-	function _getContainerDirectory($a_id)
+	static function _getContainerDirectory($a_id)
 	{
 		return ilUtil::getWebspaceDir()."/container_data/obj_".$a_id;
 	}
@@ -212,7 +199,7 @@ class ilContainer extends ilObject
 	*
 	* @return	string		setting value
 	*/
-	function _lookupContainerSetting($a_id, $a_keyword, $a_default_value = NULL)
+	static function _lookupContainerSetting($a_id, $a_keyword, $a_default_value = NULL)
 	{
 		global $ilDB;
 		
@@ -220,7 +207,7 @@ class ilContainer extends ilObject
 				" id = ".$ilDB->quote($a_id ,'integer')." AND ".
 				" keyword = ".$ilDB->quote($a_keyword ,'text');
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		
 		if(isset($rec['value']))
 		{
@@ -233,7 +220,12 @@ class ilContainer extends ilObject
 		return $a_default_value;
 	}
 
-	function _writeContainerSetting($a_id, $a_keyword, $a_value)
+	/**
+	 * @param $a_id
+	 * @param $a_keyword
+	 * @param $a_value
+	 */
+	public static function _writeContainerSetting($a_id, $a_keyword, $a_value)
 	{
 		global $ilDB;
 		
@@ -329,7 +321,7 @@ class ilContainer extends ilObject
 	* @param	int		$a_id		container object id
 	* @param	string	$a_size		"big" | "small"
 	*/
-	function _lookupIconPath($a_id, $a_size = "big")
+	static function _lookupIconPath($a_id, $a_size = "big")
 	{
 		if ($a_size == "")
 		{
@@ -592,8 +584,7 @@ class ilContainer extends ilObject
 	*
 	* @return	array
 	*/
-	function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false,
-		$a_get_single = 0)
+	public function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false, $a_get_single = 0)
 	{
 		global $objDefinition, $ilBench, $tree, $ilObjDataCache, $ilUser, $rbacsystem,
 			$ilSetting;
@@ -875,6 +866,6 @@ class ilContainer extends ilObject
 		}
 		return $objects;
 	}
-	
+
 } // END class ilContainer
 ?>

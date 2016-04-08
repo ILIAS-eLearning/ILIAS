@@ -82,7 +82,7 @@ class ilContObjParser extends ilMDSaxParser
 	* @param	string		$a_subdir			subdirectory in import directory
 	* @access	public
 	*/
-	function ilContObjParser(&$a_content_object, $a_xml_file, $a_subdir, $a_import_dir = "")
+	function __construct(&$a_content_object, $a_xml_file, $a_subdir, $a_import_dir = "")
 	{
 		global $lng, $tree;
 
@@ -91,7 +91,7 @@ class ilContObjParser extends ilMDSaxParser
 			? $a_import_dir
 			: $a_content_object->getImportDirectory();
 
-		parent::ilMDSaxParser($a_xml_file);
+		parent::__construct($a_xml_file);
 		$this->cnt = array();
 		$this->current_element = array();
 		$this->structure_objects = array();
@@ -621,8 +621,7 @@ case "InteractiveImage":
 					$this->glossary_object->createReference();
 					$parent = $this->tree->getParentNodeData($this->content_object->getRefId());
 					$this->glossary_object->putInTree($parent["child"]);
-					$this->glossary_object->setPermissions($parent["child"]);
-					$this->glossary_object->notify("new", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$this->glossary_object->getRefId());
+					$this->glossary_object->setPermissions($parent["child"]);				
 				}
 				$this->current_object = $this->glossary_object;
 				break;

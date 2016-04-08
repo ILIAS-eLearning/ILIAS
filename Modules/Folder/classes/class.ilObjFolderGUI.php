@@ -27,7 +27,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjFolderGUI($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = false)
+	public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = false)
 	{
 		$this->type = "fold";
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output, false);
@@ -73,7 +73,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		return $ret;
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilUser,$ilCtrl;
 
@@ -89,7 +89,7 @@ class ilObjFolderGUI extends ilContainerGUI
 				$this->prepareOutput();
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
@@ -104,7 +104,7 @@ class ilObjFolderGUI extends ilContainerGUI
 				$this->prepareOutput();
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				
-				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
 													  $this->object->getRefId(),
 													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
 				$this->ctrl->forwardCommand($new_gui);
@@ -195,16 +195,18 @@ class ilObjFolderGUI extends ilContainerGUI
 	{
 		$this->folder_tree =& $a_tree;
 	}
-	
-	/**
-	 * Import object
-	 * @return 
-	 */
-	public function importFileObject()
+
+    /**
+     * Import file object
+     * @global type $lng
+     * @param type $parent_id
+     * @param type $a_catch_errors
+     */
+	public function importFileObject($parent_id = null, $a_catch_errors = true)
 	{
 		global $lng;
 		
-		if(parent::importFileObject())
+		if(parent::importFileObject($parent_id, $a_catch_errors))
 		{
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$this->ctrl->returnToParent($this);
@@ -329,18 +331,18 @@ class ilObjFolderGUI extends ilContainerGUI
 	/**
 	* Get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
-		global $rbacsystem, $ilUser, $lng, $ilCtrl,$ilAccess, $ilHelp;
+		global $rbacsystem, $lng, $ilCtrl,$ilAccess, $ilHelp;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 		
 		$ilHelp->setScreenIdComponent("fold");
 
-		$tabs_gui->setTabActive("");
+		$this->tabs_gui->setTabActive("");
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$tabs_gui->addTab("view_content", $lng->txt("content"),
+			$this->tabs_gui->addTab("view_content", $lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 
 			//BEGIN ChangeEvent add info tab to category object
@@ -348,7 +350,7 @@ class ilObjFolderGUI extends ilContainerGUI
 				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
 				? true
 				: false;
-			$tabs_gui->addTarget("info_short",
+			$this->tabs_gui->addTarget("info_short",
 				 $this->ctrl->getLinkTargetByClass(
 				 array("ilobjfoldergui", "ilinfoscreengui"), "showSummary"),
 				 array("showSummary","", "infoScreen"),
@@ -358,7 +360,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", "", "", ($ilCtrl->getCmd() == "edit"));
 		}
 
@@ -366,7 +368,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('learning_progress',
+			$this->tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjfoldergui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
@@ -374,7 +376,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				'export',
 				$this->ctrl->getLinkTargetByClass('ilexportgui',''),
 				'export',
@@ -385,14 +387,14 @@ class ilObjFolderGUI extends ilContainerGUI
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 
 		// show clipboard in repository
 		if ($_GET["baseClass"] == "ilRepositoryGUI" and !empty($_SESSION['il_rep_clipboard']))
 		{
-			$tabs_gui->addTarget("clipboard",
+			$this->tabs_gui->addTarget("clipboard",
 				 $this->ctrl->getLinkTarget($this, "clipboard"), "clipboard", get_class($this));
 		}
 
@@ -425,9 +427,13 @@ class ilObjFolderGUI extends ilContainerGUI
 	}
 	
 	/**
-	* Modify Item ListGUI for presentation in container
-	*/
-	function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
+	 * Modify Item ListGUI for presentation in container
+	 * @global type $tree
+	 * @param type $a_item_list_gui
+	 * @param type $a_item_data
+	 * @param type $a_show_path
+	 */
+	public function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
 	{
 		global $tree;
 
@@ -437,9 +443,16 @@ class ilObjFolderGUI extends ilContainerGUI
 			include_once("./Modules/Course/classes/class.ilObjCourse.php");
 			include_once("./Modules/Course/classes/class.ilObjCourseGUI.php");
 			$course_obj_id = ilObject::_lookupObjId($course_ref_id);
-			ilObjCourseGUI::_modifyItemGUI($a_item_list_gui, 'ilcoursecontentgui', $a_item_data, $a_show_path,
-				ilObjCourse::_lookupAboStatus($course_obj_id), $course_ref_id, $course_obj_id,
-				$this->object->getRefId());
+			ilObjCourseGUI::_modifyItemGUI(
+					$a_item_list_gui, 
+					'ilcoursecontentgui', 
+					$a_item_data, 
+					$a_show_path,
+					ilObjCourse::_lookupAboStatus($course_obj_id), 
+					$course_ref_id, 
+					$course_obj_id,
+					$this->object->getRefId()
+			);
 		}
 	}
 	

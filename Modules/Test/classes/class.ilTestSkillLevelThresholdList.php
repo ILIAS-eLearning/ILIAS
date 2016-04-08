@@ -12,7 +12,7 @@ require_once 'Modules/Test/classes/class.ilTestSkillLevelThreshold.php';
 class ilTestSkillLevelThresholdList
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db;
 
@@ -26,7 +26,7 @@ class ilTestSkillLevelThresholdList
 	 */
 	private $thresholds = array();
 
-	public function __construct(ilDB $db)
+	public function __construct(ilDBInterface $db)
 	{
 		$this->db = $db;
 	}

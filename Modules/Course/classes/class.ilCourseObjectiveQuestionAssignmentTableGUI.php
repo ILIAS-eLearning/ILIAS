@@ -223,7 +223,7 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 				$tmp_question = ilObjTest::_instanciateQuestion($question_data['question_id']);
 				#$sub['qst_txt'] = $tmp_question->_getQuestionText($question_data['question_id']);
 				$sub['qst_txt'] = '';
-				$sub['qst_points'] = $tmp_question->_getMaximumPoints($question_data['question_id']);
+				$sub['qst_points'] = assQuestion::_getMaximumPoints($question_data['question_id']);
 				
 				$sub['title'] = $tmp_question->getTitle();
 				$sub['description'] = $tmp_question->getComment();

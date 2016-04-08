@@ -45,7 +45,7 @@ abstract class ilBlockGUI
 	*
 	* @param
 	*/
-	function ilBlockGUI()
+	function __construct()
 	{
 		global $ilUser, $tpl, $ilCtrl;
 

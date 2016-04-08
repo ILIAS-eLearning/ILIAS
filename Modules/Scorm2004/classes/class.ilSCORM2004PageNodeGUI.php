@@ -43,7 +43,7 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $tpl;
 		
@@ -64,7 +64,7 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 
 				$ilCtrl->setReturn($this, "edit");
 				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php");
-				$page_gui =& new ilSCORM2004PageGUI($this->slm_object->getType(),
+				$page_gui = new ilSCORM2004PageGUI($this->slm_object->getType(),
 					$this->node_object->getId(), 0,
 					$this->getParentGUI()->object->getId(),
 					$this->slm_object->getAssignedGlossary());

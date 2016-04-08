@@ -32,13 +32,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDLocation extends ilMDBase
 {
-	function ilMDLocation($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
 	// SET/GET
 	function setLocation($a_location)
 	{
@@ -127,7 +120,7 @@ class ilMDLocation extends ilMDBase
 				"WHERE meta_location_id = ".$ilDB->quote($this->getMetaId());
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
@@ -164,7 +157,7 @@ class ilMDLocation extends ilMDBase
 			"AND parent_type = ".$ilDB->quote($a_parent_type);
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->meta_location_id;
 		}

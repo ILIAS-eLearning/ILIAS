@@ -148,7 +148,7 @@ class ilTestEvaluationUserData
 	*
 	* @access	public
 	*/
-	function ilTestEvaluationUserData($passScoring)
+	public function __construct($passScoring)
 	{
 		$this->passes = array();
 		$this->questions = array();

@@ -179,14 +179,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		if(is_array($a_filter_pre) && 
 			isset($a_filter_pre["object"]))
 		{			
-			$_SESSION["form_".$this->getId()]["object"] = serialize($a_filter_pre["object"]);			
-			if($this->has_schedule)
-			{
-				$_SESSION["form_".$this->getId()]["fromto"] = serialize(array(
-					"from" => serialize(new ilDateTime(date("Y-m-d"), IL_CAL_DATE)),
-					"to" => ""
-				));
-			}
+			$_SESSION["form_".$this->getId()]["object"] = serialize($a_filter_pre["object"]);						
 		}
 		
 		$this->objects = array();
@@ -209,14 +202,31 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		
 		if($this->has_schedule)
 		{
+			// default period: from:today [ to:(today + n days) ]
 			if(!$_SESSION["form_".$this->getId()]["fromto"])
-			{
-				// default: from today
+			{				
+				$from = new ilDateTime(date("Y-m-d"), IL_CAL_DATE); // today
+				$to = null;
+				
+				// add period end from pool settings?
+				include_once "Modules/BookingManager/classes/class.ilObjBookingPool.php";
+				$bpool = new ilObjBookingPool($this->pool_id, false);
+				$period = $bpool->getReservationFilterPeriod();
+				if($period !== null)
+				{
+					$to = clone $from;
+					if($period)
+					{
+						$to->increment(ilDateTime::DAY, $period);
+					}
+					$to = serialize($to);
+				}
+				
 				$_SESSION["form_".$this->getId()]["fromto"] = serialize(array(
-					"from" => serialize(new ilDateTime(date("Y-m-d"), IL_CAL_DATE)),
-					"to" => null
+					"from" => serialize($from),
+					"to" => $to
 				));			
-			}
+			}			
 			
 			$item = $this->addFilterItemByMetaType("fromto", ilTable2GUI::FILTER_DATE_RANGE, false, $this->lng->txt('book_fromto'));
 			$this->filter["fromto"] = $item->getDate();
@@ -253,6 +263,20 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 				$this->filter["slot"] = $item->getValue();		
 			}			
 		}
+		
+		$item = new ilCheckboxInputGUI($this->lng->txt("book_filter_past_reservations"), "past");
+		$this->addFilterItem($item);
+		$item->readFromSession();
+
+		// if period starts in the past we have to include past reservations
+		// :TODO: to be discussed
+		if(is_object($this->filter["fromto"]["from"]) &&
+			$this->filter["fromto"]["from"]->get(IL_CAL_DATE) < date("Y-m-d"))
+		{
+			$item->setChecked(true);
+		}			
+
+		$this->filter["past"] = $item->getChecked();	
 		
 		// status
 		$valid_status = array(-ilBookingReservation::STATUS_CANCELLED,
@@ -339,6 +363,8 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 					$filter["to"] = $day_end->get(IL_CAL_UNIX);
 				}
 			}
+			
+			$filter["past"] = (bool)$this->filter["past"];	
 		}
 		
 		return $filter;
@@ -567,42 +593,44 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		*/
 	}
 	
-	protected function fillHeaderExcel($a_worksheet, &$a_row)
+	protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
 	{		
-		$a_worksheet->write($a_row, 0, $this->lng->txt("title"));					
+		$a_excel->setCell($a_row, 0, $this->lng->txt("title"));					
 		$col = 0;
 		if($this->has_schedule)
 		{
-			$a_worksheet->write($a_row, ++$col, $this->lng->txt("date"));
-			$a_worksheet->write($a_row, ++$col, $this->lng->txt("wk_short"));
-			$a_worksheet->write($a_row, ++$col, $this->lng->txt("cal_weekday"));
-			$a_worksheet->write($a_row, ++$col, $this->lng->txt("book_schedule_slot"));
-			$a_worksheet->write($a_row, ++$col, $this->lng->txt("book_no_of_objects"));
+			$a_excel->setCell($a_row, ++$col, $this->lng->txt("date"));
+			$a_excel->setCell($a_row, ++$col, $this->lng->txt("wk_short"));
+			$a_excel->setCell($a_row, ++$col, $this->lng->txt("cal_weekday"));
+			$a_excel->setCell($a_row, ++$col, $this->lng->txt("book_schedule_slot"));
+			$a_excel->setCell($a_row, ++$col, $this->lng->txt("book_no_of_objects"));
 		}
 		else 
 		{
-			$a_worksheet->write($a_row, ++$col, $this->lng->txt("status"));		
+			$a_excel->setCell($a_row, ++$col, $this->lng->txt("status"));		
 		}		
 		
 		foreach($this->getSelectableColumns(true) as $advmd_col)
 		{
-			$a_worksheet->write($a_row, ++$col, $advmd_col["txt"]);
+			$a_excel->setCell($a_row, ++$col, $advmd_col["txt"]);
 		}
 		
-		$a_worksheet->write($a_row, ++$col, $this->lng->txt("user"));			
+		$a_excel->setCell($a_row, ++$col, $this->lng->txt("user"));			
+		
+		$a_excel->setBold("A".$a_row.":".$a_excel->getColumnCoord($col-1).$a_row);
 	}
 
-	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
 	{
 		$a_worksheet->write($a_row, 0, $a_set["title"]);		
 		$col = 0;
 		if($this->has_schedule)
 		{			
-			$a_worksheet->write($a_row, ++$col, ilDatePresentation::formatDate(new ilDate($a_set["date"], IL_CAL_DATE)));
-			$a_worksheet->write($a_row, ++$col, $a_set["week"]);
-			$a_worksheet->write($a_row, ++$col, ilCalendarUtil::_numericDayToString($a_set["weekday"], false));
-			$a_worksheet->write($a_row, ++$col, $a_set["slot"]);
-			$a_worksheet->write($a_row, ++$col, $a_set["counter"]);
+			$a_excel->setCell($a_row, ++$col, new ilDate($a_set["date"], IL_CAL_DATE));
+			$a_excel->setCell($a_row, ++$col, $a_set["week"]);
+			$a_excel->setCell($a_row, ++$col, ilCalendarUtil::_numericDayToString($a_set["weekday"], false));
+			$a_excel->setCell($a_row, ++$col, $a_set["slot"]);
+			$a_excel->setCell($a_row, ++$col, $a_set["counter"]);
 		}						
 		else
 		{		
@@ -611,9 +639,9 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			{
 				$status = $this->lng->txt('book_reservation_status_'.$a_set['status']);			
 			}
-			$a_worksheet->write($a_row, ++$col, $status);
+			$a_excel->setCell($a_row, ++$col, $status);
 		}
-		$a_worksheet->write($a_row, ++$col, $a_set['user_name']);		
+		$a_excel->setCell($a_row, ++$col, $a_set['user_name']);		
 		
 		if($this->advmd)
 		{
@@ -629,7 +657,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 						$val = $pb;
 					}
 				}
-				$a_worksheet->write($a_row, ++$col, $val);
+				$a_excel->setCell($a_row, ++$col, $val);
 			}
 		}
 	}

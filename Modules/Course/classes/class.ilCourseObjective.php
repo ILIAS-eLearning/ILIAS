@@ -22,12 +22,17 @@ class ilCourseObjective
 	protected $passes = 0;
 	// end-patch lok
 	
-	function ilCourseObjective(&$course_obj,$a_objective_id = 0)
+	/**
+	 * Constructor
+	 * @param ilObject $course_obj
+	 * @param int $a_objective_id
+	 */
+	public function __construct($course_obj,$a_objective_id = 0)
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
-		$this->course_obj =& $course_obj;
+		$this->db = $ilDB;
+		$this->course_obj = $course_obj;
 
 		$this->objective_id = $a_objective_id;
 		if($this->objective_id)
@@ -59,7 +64,7 @@ class ilCourseObjective
 		$query = "SELECT crs_id FROM crs_objectives ".
 			"WHERE objective_id = ".$ilDB->quote($a_objective_id ,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->crs_id;
 		}
@@ -87,7 +92,7 @@ class ilCourseObjective
 		$query = 'SELECT passes from crs_objectives '.
 				'WHERE objective_id = '.$ilDB->quote($a_objective_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return (int) $row->passes;
 		}
@@ -145,7 +150,7 @@ class ilCourseObjective
 			ilLoggerFactory::getLogger('crs')->warning('Cannot create course instance');
 	 		return true;
 	 	}
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 			$new_objective = new ilCourseObjective($new_course);
 			$new_objective->setTitle($row->title);
@@ -331,12 +336,12 @@ class ilCourseObjective
 		
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 
-		$tmp_obj_qst =& new ilCourseObjectiveQuestion($this->getObjectiveId());
+		$tmp_obj_qst = new ilCourseObjectiveQuestion($this->getObjectiveId());
 		$tmp_obj_qst->deleteAll();
 
 		include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
 
-		$tmp_obj_lm =& new ilCourseObjectiveMaterials($this->getObjectiveId());
+		$tmp_obj_lm = new ilCourseObjectiveMaterials($this->getObjectiveId());
 		$tmp_obj_lm->deleteAll();
 
 
@@ -445,7 +450,7 @@ class ilCourseObjective
 
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				// begin-patch lok
 				$this->setActive($row->active);
@@ -499,7 +504,7 @@ class ilCourseObjective
 			"WHERE crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')." ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->pos;
 		}
@@ -527,7 +532,7 @@ class ilCourseObjective
 		}
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->objective_id;
 		}

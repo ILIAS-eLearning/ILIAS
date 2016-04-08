@@ -231,7 +231,7 @@ class ilCourseDefinedFieldDefinition
 			"WHERE field_id = ".$ilDB->quote($a_field_id,'integer');
 		
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		
 		return $row->field_name ? $row->field_name : '';
 	}
@@ -459,7 +459,7 @@ class ilCourseDefinedFieldDefinition
 	 		"AND obj_id = ".$this->db->quote($this->getObjId(),'integer')." ";
 	 	
 	 	$res = $this->db->query($query);
-	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	 	$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 	 	
 		$this->setName($row->field_name);
 		$this->setType($row->field_type);

@@ -13,7 +13,7 @@
 class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db = null;
 	
@@ -51,7 +51,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 	 * @param ilDB $db
 	 * @param ilPluginAdmin $pluginAdmin
 	 */
-	public function __construct(ilDB $db, ilPluginAdmin $pluginAdmin)
+	public function __construct(ilDBInterface $db, ilPluginAdmin $pluginAdmin)
 	{
 		$this->db = $db;
 		$this->pluginAdmin = $pluginAdmin;

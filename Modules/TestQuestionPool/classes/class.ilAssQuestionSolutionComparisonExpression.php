@@ -11,7 +11,7 @@
 class ilAssQuestionSolutionComparisonExpression
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
@@ -75,7 +75,7 @@ class ilAssQuestionSolutionComparisonExpression
 	}
 
 	/**
-	 * @return ilDB
+	 * @return ilDBInterface
 	 */
 	public function getDb()
 	{
@@ -83,7 +83,7 @@ class ilAssQuestionSolutionComparisonExpression
 	}
 
 	/**
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 */
 	public function setDb($db)
 	{

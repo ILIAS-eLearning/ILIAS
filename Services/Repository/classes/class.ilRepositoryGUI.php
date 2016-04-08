@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTableGUI.php");
-include_once("Services/Payment/classes/class.ilPaymentObject.php");
 
 
 /**
@@ -42,19 +41,18 @@ class ilRepositoryGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilRepositoryGUI()
+	function __construct()
 	{
-		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition,
-			$_GET, $ilCtrl, $ilLog;;
-//var_dump($_SESSION['il_rep_clipboard']);
-		$this->lng =& $lng;
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->tree =& $tree;
-		$this->rbacsystem =& $rbacsystem;
-		$this->objDefinition =& $objDefinition;
+		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition, $ilCtrl, $ilLog;
 
-		$this->ctrl =& $ilCtrl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->tree = $tree;
+		$this->rbacsystem = $rbacsystem;
+		$this->objDefinition = $objDefinition;
+
+		$this->ctrl = $ilCtrl;
 		
 		$this->creation_mode = false;
 
@@ -175,7 +173,7 @@ class ilRepositoryGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem, $ilias, $lng, $ilCtrl, $ilHelp;
 

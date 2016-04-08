@@ -31,9 +31,9 @@ class php4XSLTProcessor
 {
 	var $myProc;
 
-	function php4XSLTProcessor()
+	function __construct()
 	{
-		$this->myProc =& new XSLTProcessor;
+		$this->myProc = new XSLTProcessor;
 	}
 }
 

@@ -241,7 +241,7 @@ class ilDataCollectionRecordField {
 	 * @param $col
 	 */
 	public function fillExcelExport($worksheet, &$row, &$col) {
-		$worksheet->writeString($row, $col, $this->getExportValue());
+		$worksheet->setCell($row, $col, $this->getExportValue());
 		$col ++;
 	}
 

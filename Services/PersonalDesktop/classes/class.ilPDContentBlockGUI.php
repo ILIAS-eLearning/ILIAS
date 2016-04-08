@@ -36,11 +36,11 @@ class ilPDContentBlockGUI extends ilBlockGUI
 	/**
 	* Constructor
 	*/
-	function ilPDContentBlockGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		parent::ilBlockGUI($a_parent_class, $a_parent_cmd);
+		parent::__construct();
 		
 		//$this->setTitle($lng->txt("selected_items"));
 		$this->setEnableNumInfo(false);

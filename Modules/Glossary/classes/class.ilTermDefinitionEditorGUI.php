@@ -38,15 +38,15 @@ class ilTermDefinitionEditorGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->ctrl =& $ilCtrl;
-		$this->glossary =& new ilObjGlossary($_GET["ref_id"], true);
-		$this->definition =& new ilGlossaryDefinition($_GET["def"]);
-		$this->term =& new ilGlossaryTerm($this->definition->getTermId());
+		$this->glossary = new ilObjGlossary($_GET["ref_id"], true);
+		$this->definition = new ilGlossaryDefinition($_GET["def"]);
+		$this->term = new ilGlossaryTerm($this->definition->getTermId());
 
 		$this->ctrl->saveParameter($this, array("def"));
 	}
 
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl, $ilCtrl, $lng;
 		
@@ -66,7 +66,7 @@ class ilTermDefinitionEditorGUI
 		$this->tpl->parseCurrentBlock();
 
 		require_once ("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
-		$gloss_loc =& new ilGlossaryLocatorGUI();
+		$gloss_loc = new ilGlossaryLocatorGUI();
 		$gloss_loc->setTerm($this->term);
 		$gloss_loc->setGlossary($this->glossary);
 		$gloss_loc->setDefinition($this->definition);
@@ -173,23 +173,21 @@ class ilTermDefinitionEditorGUI
 	*/
 	function setTabs()
 	{
-		global $ilTabs;
-
 		// catch feedback message
-		$this->getTabs($ilTabs);
+		$this->getTabs();
 	}
 
 	/**
 	* get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		// back to glossary
-		$tabs_gui->setBack2Target($this->lng->txt("glossary"),
+		$this->tabs_gui->setBack2Target($this->lng->txt("glossary"),
 			$this->ctrl->getParentReturn($this));
 
 		// back to upper context
-		$tabs_gui->setBackTarget($this->lng->txt("term"),
+		$this->tabs_gui->setBackTarget($this->lng->txt("term"),
 			$this->ctrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
 
 	}

@@ -36,7 +36,7 @@ class ilSCTreeTasks
 		$GLOBALS['ilLog']->write($query);
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->child;
 		}
@@ -57,7 +57,7 @@ class ilSCTreeTasks
 		$res = $ilDB->query($query);
 
 		$node = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$node['child'] = $row->child;
 			$node['tree'] = $row->tree;
@@ -66,7 +66,7 @@ class ilSCTreeTasks
 			// read obj_id
 			$query = 'SELECT obj_id FROM object_reference WHERE ref_id = '.$ilDB->quote($a_child,'integer');
 			$ref_res = $ilDB->query($query);
-			while($ref_row = $ref_res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($ref_row = $ref_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$node['obj_id'] = $ref_row->obj_id;
 				
@@ -74,7 +74,7 @@ class ilSCTreeTasks
 				$query = 'SELECT title, description, type FROM object_data '.
 						'WHERE obj_id = '.$ilDB->quote($ref_row->obj_id);
 				$obj_res = $ilDB->query($query);
-				while($obj_row = $obj_res->fetchRow(DB_FETCHMODE_OBJECT))
+				while($obj_row = $obj_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 				{
 					$node['title'] = $obj_row->title;
 					$node['description'] = $obj_row->description;
@@ -93,7 +93,7 @@ class ilSCTreeTasks
 		$res = $ilDB->query($query);
 		
 		$childs = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$childs[] = $row->child;
 		}
@@ -120,7 +120,7 @@ class ilSCTreeTasks
 		$GLOBALS['ilLog']->write($query);
 		
 		$nodes = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$node = array();
 			$node['tree'] = $row->tree;
@@ -165,7 +165,7 @@ class ilSCTreeTasks
 				'WHERE parent = '.$ilDB->quote($dup_id,'integer').' '.
 				'AND tree = '.$ilDB->quote($tree_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			// start recursion
 			self::deleteDuplicate($tree_id, $row->child);
@@ -224,6 +224,7 @@ class ilSCTreeTasks
 	
 	public function checkStructure()
 	{
+		return $GLOBALS['tree']->validateParentRelations();
 		global $ilDB;
 		
 		$query = 'select child from tree child where not exists '.
@@ -234,7 +235,7 @@ class ilSCTreeTasks
 		$res = $ilDB->query($query);
 		
 		$failures = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$failures[] = $row->child;
 		}
@@ -276,7 +277,7 @@ class ilSCTreeTasks
 		$GLOBALS['ilLog']->write($query);
 		
 		$failures = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$failures[] = $row->child;
 		}
@@ -355,14 +356,14 @@ class ilSCTreeTasks
 				'WHERE ref_id = '.$ilDB->quote($a_ref_id,'integer');
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$query = 'SELECT type, title FROM object_data '.
 					'WHERE obj_id = '.$ilDB->quote($row->obj_id,'integer');
 			$ores = $ilDB->query($query);
 			
 			$done = FALSE;
-			while($orow = $ores->fetchRow(DB_FETCHMODE_OBJECT))
+			while($orow = $ores->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$GLOBALS['ilLog']->write(__METHOD__.': Moving to recovery folder: '.$orow->type.': '.$orow->title);
 				$done = TRUE;
@@ -410,7 +411,7 @@ class ilSCTreeTasks
 		$res = $ilDB->query($query);
 		
 		$failures = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$failures[] = $row->ref_id;
 		}
@@ -434,7 +435,7 @@ class ilSCTreeTasks
 			$query = 'SELECT tree, child FROM tree '.
 					'WHERE child = '.$ilDB->quote($ref_id);
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$GLOBALS['ilLog']->write(__METHOD__.': '.$row->tree.': '.$ref_id);
 				
@@ -455,13 +456,13 @@ class ilSCTreeTasks
 				'AND tree = '.$ilDB->quote($a_tree_id,'integer');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			// check for duplicates
 			$query = 'SELECT tree, child FROM tree '.
 					'WHERE child = '.$ilDB->quote($row->child);
 			$resd = $ilDB->query($query);
-			while($rowd = $resd->fetchRow(DB_FETCHMODE_OBJECT))
+			while($rowd = $resd->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->deleteMissingTreeEntry($rowd->tree,$rowd->child);
 			}
@@ -501,7 +502,7 @@ class ilSCTreeTasks
 		$res = $ilDB->query($query);
 		
 		$failures = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$failures[] = $row->child;
 		}

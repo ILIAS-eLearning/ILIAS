@@ -66,7 +66,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	*/
 	public function __construct($a_object)
 	{
-		parent::ilTestServiceGUI($a_object);
+		parent::__construct($a_object);
 		$this->ref_id = $_GET["ref_id"];
 		
 		global $rbacsystem, $ilUser, $lng;
@@ -518,7 +518,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	function redirectAfterAutosaveCmd()
 	{
 		$active_id = $this->testSession->getActiveId();
-		$actualpass = $this->object->_getPass($active_id);
+		$actualpass = ilObjTest::_getPass($active_id);
 		
 		$this->performTestPassFinishedTasks($actualpass);
 
@@ -654,7 +654,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		unset($_SESSION["tst_next"]);
 
 		$active_id = $this->testSession->getActiveId();
-		$actualpass = $this->object->_getPass($active_id);
+		$actualpass = ilObjTest::_getPass($active_id);
 
 		$allObligationsAnswered = ilObjTest::allObligationsAnswered($this->testSession->getTestId(), $active_id, $actualpass);
 

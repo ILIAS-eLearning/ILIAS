@@ -42,7 +42,7 @@ class ilObjDefReader extends ilSaxParser
 		$this->name = $a_name;
 		$this->type = $a_type;
 //echo "<br>-".$a_path."-".$this->name."-".$this->type."-";
-		parent::ilSaxParser($a_path);
+		parent::__construct($a_path);
 	}
 	
 	function setHandlers($a_xml_parser)

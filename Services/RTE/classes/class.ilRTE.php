@@ -190,13 +190,13 @@ class ilRTE
 	* @param	string	$a_usage_type	type of context of usage, e.g. cat:html
 	* @param	int		$a_usage_id		if of context of usage, e.g. category id
 	*/
-	function _cleanupMediaObjectUsage($a_text, $a_usage_type, $a_usage_id)
+	static function _cleanupMediaObjectUsage($a_text, $a_usage_type, $a_usage_id)
 	{
 		// get current stored mobs
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mobs = ilObjMediaObject::_getMobsOfObject($a_usage_type,
 			$a_usage_id);
-		while (eregi("data\/".CLIENT_ID."\/mobs\/mm_([0-9]+)", $a_text, $found))
+		while (preg_match("/data\/".CLIENT_ID."\/mobs\/mm_([0-9]+)/i", $a_text, $found))
 		{
 			$a_text = str_replace($found[0], "", $a_text);
 			if (!in_array($found[1], $mobs))

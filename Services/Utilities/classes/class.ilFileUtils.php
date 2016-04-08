@@ -153,7 +153,7 @@ class ilFileUtils
 	 * @param string $dir Directory to start from
 	 * @param array &$arr Referenced array which is filled with Filename and path
 	 */	
-	function recursive_dirscan($dir, &$arr)
+	public static function recursive_dirscan($dir, &$arr)
 	{
 		global $lng;
 

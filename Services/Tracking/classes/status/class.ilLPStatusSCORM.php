@@ -15,12 +15,12 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
 class ilLPStatusSCORM extends ilLPStatus
 {
 
-	function ilLPStatusSCORM($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
-		parent::ilLPStatus($a_obj_id);
-		$this->db =& $ilDB;
+		parent::__construct($a_obj_id);
+		$this->db = $ilDB;
 	}
 
 
@@ -307,9 +307,9 @@ class ilLPStatusSCORM extends ilLPStatus
 		return $per;
 	}
 
-	function refreshStatus($a_obj_id)
+	function refreshStatus($a_obj_id, $a_users = null)
 	{
-		parent::refreshStatus($a_obj_id);
+		parent::refreshStatus($a_obj_id, $a_users);
 		
 		// this is restricted to SCOs in the current collection
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	

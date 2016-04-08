@@ -48,9 +48,9 @@ class ilObjectSearch extends ilAbstractSearch
 	* Constructor
 	* @access public
 	*/
-	function ilObjectSearch(&$qp_obj)
+	function __construct(&$qp_obj)
 	{
-		parent::ilAbstractSearch($qp_obj);
+		parent::__construct($qp_obj);
 
 		$this->setFields(array('title','description'));
 	}
@@ -106,7 +106,7 @@ class ilObjectSearch extends ilAbstractSearch
 		ilLoggerFactory::getLogger('src')->debug('Object search query: '. $query);
 		
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->obj_id,$row->type,$this->__prepareFound($row));
 		}

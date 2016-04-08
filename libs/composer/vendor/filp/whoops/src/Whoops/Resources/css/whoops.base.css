@@ -62,6 +62,9 @@ header {
       margin: 4px 0 0 0;
       color: white;
     }
+      .exc-message span {
+        display: block;
+      }
       .exc-message-empty-notice {
         color: #a29d9d;
         font-weight: 300;
@@ -89,6 +92,26 @@ header {
       padding-bottom: 10px;
       margin-bottom: 10px;
       border-bottom: 1px solid rgba(0, 0, 0, .1);
+    }
+
+    .details pre.sf-dump {
+      white-space: pre;
+      word-wrap: inherit;
+    }
+
+    .details pre.sf-dump,
+    .details pre.sf-dump .sf-dump-num,
+    .details pre.sf-dump .sf-dump-const,
+    .details pre.sf-dump .sf-dump-str,
+    .details pre.sf-dump .sf-dump-note,
+    .details pre.sf-dump .sf-dump-ref,
+    .details pre.sf-dump .sf-dump-public,
+    .details pre.sf-dump .sf-dump-protected,
+    .details pre.sf-dump .sf-dump-private,
+    .details pre.sf-dump .sf-dump-meta,
+    .details pre.sf-dump .sf-dump-key,
+    .details pre.sf-dump .sf-dump-index {
+      color: #463C54;
     }
 
 .left-panel {
@@ -287,7 +310,7 @@ header {
     font-weight: 300;
   }
   .data-table label.empty {
-	  display: inline;
+    display: inline;
   }
 
 .handler {
@@ -310,7 +333,7 @@ pre .xsl, code .xsl { color: #d0a0d0; }  /* xslt tag */
 pre .atn, code .atn { color: #ef7c61; font-weight: normal;} /* html/xml attribute name */
 pre .atv, code .atv { color: #bcd42a; }  /* html/xml attribute value  */
 pre .dec, code .dec { color: #606; }  /* decimal  */
-pre.prettyprint, code.prettyprint {
+pre.prettyprint, code.prettyprint, .frame-args.prettyprint, .frame-args.prettyprint samp {
   font-family: "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
   background: #333;
   color: #e9e4e5;
@@ -337,13 +360,12 @@ pre.prettyprint, code.prettyprint {
     }
 
 #plain-exception {
-	display: none;
+  display: none;
 }
 
 #copy-button {
-	float: right;
-	cursor: pointer;
-	border: 0;
+  cursor: pointer;
+  border: 0;
 }
 
 .clipboard {
@@ -461,6 +483,36 @@ kbd {
 }
 
 pre.sf-dump {
-    padding: 0px !important;
-    margin: 0px !important;
+  padding: 0px !important;
+  margin: 0px !important;
 }
+
+.search-for-help {
+  width: 85%;
+  padding: 0;
+  margin: 10px 0;
+  list-style-type: none;
+  display: inline-block;
+}
+  .search-for-help li {
+    display: inline-block;
+    margin-right: 5px;
+  }
+  .search-for-help li:last-child {
+    margin-right: 0;
+  }
+    .search-for-help li a {
+
+    }
+      .search-for-help li a i {
+        width: 16px;
+        height: 16px;
+        overflow: hidden;
+        display: block;
+      }
+      .search-for-help li a svg {
+        fill: #fff;
+      }
+      .search-for-help li a svg path {
+        background-size: contain;
+      }

@@ -21,7 +21,7 @@ class ilEditClipboardGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilEditClipboardGUI()
+	function __construct()
 	{
 		global $lng, $ilCtrl;
 		
@@ -55,7 +55,7 @@ class ilEditClipboardGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilUser, $ilCtrl, $ilTabs, $lng;
 		
@@ -69,7 +69,7 @@ class ilEditClipboardGUI
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, "view"));
-				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["clip_item_id"],false, false);
+				$mob_gui = new ilObjMediaObjectGUI("", $_GET["clip_item_id"],false, false);
 				$mob_gui->setTabs();
 				$ret =& $ilCtrl->forwardCommand($mob_gui);
 				switch($cmd)

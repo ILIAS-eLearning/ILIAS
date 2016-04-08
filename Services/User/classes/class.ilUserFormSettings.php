@@ -165,7 +165,7 @@ class ilUserFormSettings
 	 	$res = $this->db->query($query);
 		
 		$this->reset();
-	 	if($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	if($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		$this->settings = unserialize($row->settings);
 	 	}

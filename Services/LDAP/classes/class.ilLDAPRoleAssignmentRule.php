@@ -90,7 +90,7 @@ class ilLDAPRoleAssignmentRule
 			'WHERE add_on_update = 1 '.
 			'OR remove_on_update = 1 ';
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		return $row->num > 0;
 	}
 	
@@ -218,7 +218,7 @@ class ilLDAPRoleAssignmentRule
 	 	$query = "SELECT rule_id FROM ldap_role_assignments ".
 				"WHERE server_id = ".$ilDB->quote($a_server_id,'integer');
 	 	$res = $ilDB->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		$rules[] = self::_getInstanceByRuleId($row->rule_id);
 	 	}
@@ -624,7 +624,7 @@ class ilLDAPRoleAssignmentRule
 	 		"WHERE rule_id = ".$this->db->quote($this->getRuleId(),'integer')." ";
 		
 	 	$res = $this->db->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 			$this->setServerId($row->server_id);
 			$this->setType($row->type);

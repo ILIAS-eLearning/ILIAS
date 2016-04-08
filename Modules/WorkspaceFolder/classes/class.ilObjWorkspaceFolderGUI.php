@@ -72,7 +72,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		}
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -432,7 +432,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 	 */
 	function performPasteIntoMultipleObjects()
 	{
-		global $objDefinition, $ilAccess, $ilUser;
+		global $ilUser;
 		
 		$mode = $_SESSION['clipboard']['cmd'];
 		$source_node_id = $_SESSION['clipboard']['source_id'];
@@ -493,23 +493,14 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 			{
 				$fail[] = sprintf($this->lng->txt('msg_paste_object_not_in_itself'),
 					$source_object->getTitle());
-			}
-			
-			if(!$this->checkPermissionBool('create', '', $source_object->getType(), $target_node_id))
-			{
-				$fail[] = sprintf($this->lng->txt('msg_no_perm_paste_object_in_folder'),
-					$source_object->getTitle(), $target_object->getTitle());
-			}
-			
+			}			
 		}
-		else
-		{									
-			if(!$ilAccess->checkAccess('create', '', $target_node_id, $source_object->getType()))
-			{
-				$fail[] = sprintf($this->lng->txt('msg_no_perm_paste_object_in_folder'),
-					$source_object->getTitle(), $target_object->getTitle());
-			}
-		}
+									
+		if(!$this->checkPermissionBool('create', '', $source_object->getType(), $target_node_id))
+		{
+			$fail[] = sprintf($this->lng->txt('msg_no_perm_paste_object_in_folder'),
+				$source_object->getTitle(), $target_object->getTitle());
+		}		
 
 		if(sizeof($fail))
 		{
@@ -549,11 +540,16 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 			include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');						
 			$copy_id = ilCopyWizardOptions::_allocateCopyId();
 			$wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
+			
+			if(!$_SESSION['clipboard']['wsp2repo'])
+			{
+				$wizard_options->disableTreeCopy();
+			}
 			$wizard_options->saveOwner($ilUser->getId());
 			$wizard_options->saveRoot($source_node_id);						
 			$wizard_options->read();
 			
-			$new_obj = $source_object->cloneObject($target_node_id, $copy_id, !$_SESSION['clipboard']['wsp2repo']);	
+			$new_obj = $source_object->cloneObject($target_node_id, $copy_id);	
 			
 			// insert into workspace tree
 			if($new_obj && !$_SESSION['clipboard']['wsp2repo'])

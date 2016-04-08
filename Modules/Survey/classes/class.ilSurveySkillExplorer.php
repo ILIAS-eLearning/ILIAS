@@ -35,7 +35,7 @@ class ilSurveySkillExplorer extends ilExplorer
 	{
 		$this->templates = $a_templates;
 		
-		parent::ilExplorer($a_target);
+		parent::__construct($a_target);
 		
 		$this->setFilterMode(IL_FM_POSITIVE);
 		$this->addFilter("skrt");

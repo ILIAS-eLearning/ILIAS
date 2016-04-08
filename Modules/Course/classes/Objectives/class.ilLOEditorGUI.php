@@ -71,7 +71,7 @@ class ilLOEditorGUI
 						$this->ctrl->getLinkTarget($this,'listObjectives'));
 				
 				include_once './Modules/Course/classes/class.ilCourseObjectivesGUI.php';
-				$reg_gui =& new ilCourseObjectivesGUI($this->getParentObject()->getRefId());
+				$reg_gui = new ilCourseObjectivesGUI($this->getParentObject()->getRefId());
 				$this->ctrl->forwardCommand($reg_gui);
 				break;
 			

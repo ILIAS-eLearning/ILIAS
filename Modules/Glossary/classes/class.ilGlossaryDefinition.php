@@ -185,14 +185,14 @@ class ilGlossaryDefinition
 	{
 		global $ilDB;
 		
-		$term =& new ilGlossaryTerm($this->getTermId());
+		$term = new ilGlossaryTerm($this->getTermId());
 
 		$this->setId($ilDB->nextId("glossary_definition"));
 		
 		// lock glossary_definition table
 		$ilDB->lockTables(
 			array(
-				0 => array('name' => 'glossary_definition', 'type' => ilDB::LOCK_WRITE)));
+				0 => array('name' => 'glossary_definition', 'type' => ilDBConstants::LOCK_WRITE)));
 
 		// get maximum definition number
 		$q = "SELECT max(nr) AS max_nr FROM glossary_definition WHERE term_id = ".
@@ -245,7 +245,7 @@ class ilGlossaryDefinition
 		#ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 		$ilDB->lockTables(
 			array(
-				0 => array('name' => 'glossary_definition', 'type' => ilDB::LOCK_WRITE)));
+				0 => array('name' => 'glossary_definition', 'type' => ilDBConstants::LOCK_WRITE)));
 		
 
 		// be sure to get the right number
@@ -289,7 +289,7 @@ class ilGlossaryDefinition
 		#ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 		$ilDB->lockTables(
 			array(
-				0 => array('name' => 'glossary_definition', 'type' => ilDB::LOCK_WRITE)));
+				0 => array('name' => 'glossary_definition', 'type' => ilDBConstants::LOCK_WRITE)));
 
 
 		// be sure to get the right number
@@ -330,7 +330,7 @@ class ilGlossaryDefinition
 		#ilDB::_lockTables(array('glossary_definition' => 'WRITE'));
 		$ilDB->lockTables(
 			array(
-				0 => array('name' => 'glossary_definition', 'type' => ilDB::LOCK_WRITE)));
+				0 => array('name' => 'glossary_definition', 'type' => ilDBConstants::LOCK_WRITE)));
 
 		// be sure to get the right number
 		$q = "SELECT * FROM glossary_definition WHERE id = ".
@@ -565,7 +565,7 @@ class ilGlossaryDefinition
 		include_once("Services/MetaData/classes/class.ilMDDescription.php");
 
 		$glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
-		$md =& new ilMD($glo_id, $this->getId(), $this->getType());
+		$md = new ilMD($glo_id, $this->getId(), $this->getType());
 		$md_gen =& $md->getGeneral();
 		$md_gen->setTitle($this->getTitle());
 
@@ -616,7 +616,7 @@ class ilGlossaryDefinition
 
 				// Update Title and description
 				$glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
-				$md =& new ilMD($glo_id, $this->getId(), $this->getType());
+				$md = new ilMD($glo_id, $this->getId(), $this->getType());
 				$md_gen = $md->getGeneral();
 
 				//ilObject::_writeTitle($this->getId(),$md_gen->getTitle());

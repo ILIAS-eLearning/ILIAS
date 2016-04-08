@@ -54,21 +54,25 @@ class ilCourseArchives
 	private $fss_storage;
 
 
-	function ilCourseArchives(&$course_obj)
+	/**
+	 * Constructor
+	 * @param ilObject $course_obj
+	 */
+	public function __construct($course_obj)
 	{
 		global $ilErr,$ilDB,$lng,$tree,$ilias;
 
-		$this->ilias =& $ilias;
-		$this->ilErr =& $ilErr;
-		$this->ilDB  =& $ilDB;
-		$this->lng   =& $lng;
-		$this->tree  =& $tree;
+		$this->ilias = $ilias;
+		$this->ilErr = $ilErr;
+		$this->ilDB  = $ilDB;
+		$this->lng   = $lng;
+		$this->tree  = $tree;
 
 		$this->ARCHIVE_XML = 1;
 		$this->ARCHIVE_HTML = 2;
 		$this->ARCHIVE_PDF = 3;
 
-		$this->course_obj =& $course_obj;
+		$this->course_obj = $course_obj;
 
 		$this->__read();
 	}
@@ -299,7 +303,7 @@ class ilCourseArchives
 		if(!is_object($this->course_xml_writer))
 		{
 			include_once "./Modules/Course/classes/class.ilCourseXMLWriter.php";
-			$this->course_xml_writer =& new ilCourseXMLWriter($this->course_obj);
+			$this->course_xml_writer = new ilCourseXMLWriter($this->course_obj);
 		}
 		return true;
 	}
@@ -403,7 +407,7 @@ class ilCourseArchives
 		// Get Language
 		if($this->getLanguage())
 		{
-			$lng =& new ilLanguage($this->getLanguage());
+			$lng = new ilLanguage($this->getLanguage());
 			$lng->loadLanguageModule('crs');
 		}
 		else
@@ -411,7 +415,7 @@ class ilCourseArchives
 			$lng =& $this->lng;
 		}
 
-		$tmp_tpl =& new ilTemplate("tpl.crs_export.html",true,true,'Modules/Course');
+		$tmp_tpl = new ilTemplate("tpl.crs_export.html",true,true,'Modules/Course');
 
 		$this->course_files_obj->copyFile($tpl->tplPath.'/'.$ilias->account->prefs["style"].'.css',
 									  $this->course_files_obj->getArchiveDirectory().'/'.$this->getName().'/default.css');
@@ -574,7 +578,7 @@ class ilCourseArchives
 			"ORDER BY archive_date DESC";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->archives[$row->archive_id]["archive_id"]		= $row->archive_id;
 			$this->archives[$row->archive_id]["archive_type"]	= $row->archive_type;

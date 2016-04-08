@@ -183,7 +183,6 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 		$a_item_gui->enableDelete(false);
 		$a_item_gui->enableCut(false);
 		$a_item_gui->enableCopy(false);
-		$a_item_gui->enablePayment(false);
 		$a_item_gui->enableLink(false);
 		$a_item_gui->enableInfoScreen(true);
 		$a_item_gui->enableSubscribe(true);

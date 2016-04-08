@@ -13,7 +13,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 * $Id$
 * 
 * @ilCtrl_Calls ilObjExerciseGUI: ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilObjExerciseGUI: ilObjectCopyGUI, ilExportGUI, ilShopPurchaseGUI
+* @ilCtrl_Calls ilObjExerciseGUI: ilObjectCopyGUI, ilExportGUI
 * @ilCtrl_Calls ilObjExerciseGUI: ilCommonActionDispatcherGUI, ilCertificateGUI 
 * @ilCtrl_Calls ilObjExerciseGUI: ilExAssignmentEditorGUI, ilExSubmissionGUI
 * @ilCtrl_Calls ilObjExerciseGUI: ilExerciseManagementGUI, ilExcCriteriaCatalogueGUI
@@ -26,12 +26,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjExerciseGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		global $lng;
 		
 		$this->type = "exc";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 		
 		$lng->loadLanguageModule("exercise");
 		$lng->loadLanguageModule("exc");
@@ -63,7 +63,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			case 'ilpermissiongui':
 				$ilTabs->activateTab("permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 			break;
 	
@@ -71,7 +71,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$ilTabs->activateTab("learning_progress");
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 	
-				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
 					$this->object->getRefId(),
 					$_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
 				$this->ctrl->forwardCommand($new_gui);
@@ -95,13 +95,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$exp_gui->addFormat("xml");
 				$ret = $this->ctrl->forwardCommand($exp_gui);
 //				$this->tpl->show();
-				break;
-			
-			case 'ilshoppurchasegui':
-				include_once './Services/Payment/classes/class.ilShopPurchaseGUI.php';
-				$sp = new ilShopPurchaseGUI($_GET['ref_id']);
-
-				$this->ctrl->forwardCommand($sp);
 				break;
 			
 			case "ilcommonactiondispatchergui":
@@ -317,11 +310,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 	 */
 	function addContentSubTabs($a_activate)
 	{
-		global $ilTabs, $lng, $ilCtrl, $ilAccess;
+		global $ilTabs, $lng, $ilCtrl;
 		
 		$ilTabs->addSubTab("content", $lng->txt("view"),
 			$ilCtrl->getLinkTarget($this, "showOverview"));
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		if ($this->checkPermissionBool("write"))
 		{
 			$ilTabs->addSubTab("list_assignments", $lng->txt("edit"),
 				$ilCtrl->getLinkTargetByClass("ilExAssignmentEditorGUI", "listAssignments"));
@@ -334,39 +327,39 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
-	function getTabs($tabs_gui)
+	function getTabs()
 	{
-		global $ilAccess, $ilUser, $lng, $ilHelp;
+		global $lng, $ilHelp;
   
 		$ilHelp->setScreenIdComponent("exc");
 		
-		if ($ilAccess->checkAccess("read", "", $this->object->getRefId()))
+		if ($this->checkPermissionBool("read"))
 		{
-			$tabs_gui->addTab("content",
+			$this->tabs_gui->addTab("content",
 				$lng->txt("exc_assignments"),
 				$this->ctrl->getLinkTarget($this, "showOverview"));
 		}
 
 		$next_class = strtolower($this->ctrl->getNextClass());
-		if ($ilAccess->checkAccess("visible", "", $this->object->getRefId()))
+		if ($this->checkPermissionBool("visible"))
 		{
-			$tabs_gui->addTab("info",
+			$this->tabs_gui->addTab("info",
 				$lng->txt("info_short"),
 				$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
 		}
 
 		// edit properties
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		if ($this->checkPermissionBool("write"))
 		{
 			/*$tabs_gui->addTab("assignments",
 				$lng->txt("exc_edit_assignments"),
 				$this->ctrl->getLinkTarget($this, 'listAssignments'));*/
 			
-			$tabs_gui->addTab("settings",
+			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, 'edit'));
 			
-			$tabs_gui->addTab("grades",
+			$this->tabs_gui->addTab("grades",
 				$lng->txt("exc_submissions_and_grades"),
 				$this->ctrl->getLinkTargetByClass("ilexercisemanagementgui", "members"));
 		}
@@ -380,7 +373,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
 		{
-			$tabs_gui->addTab('learning_progress',
+			$this->tabs_gui->addTab('learning_progress',
 				$lng->txt('learning_progress'),
 				$this->ctrl->getLinkTargetByClass(array('ilobjexercisegui','illearningprogressgui'),''));
 		}
@@ -390,18 +383,18 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$_GET["offset"] = $save_offset;
 
 		// export
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		if ($this->checkPermissionBool("write"))
 		{
-			$tabs_gui->addTab("export",
+			$this->tabs_gui->addTab("export",
 				$lng->txt("export"),
 				$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
 		}
 
 
 		// permissions
-		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
+		if ($this->checkPermissionBool("edit_permission"))
 		{
-			$tabs_gui->addTab('permissions',
+			$this->tabs_gui->addTab('permissions',
 				$lng->txt("perm_settings"),
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"));
 		}
@@ -424,7 +417,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function infoScreen()
 	{
-		global $ilAccess, $ilUser, $ilTabs, $lng;
+		global $ilUser, $ilTabs, $lng;
 		
 		$ilTabs->activateTab("info");
 
@@ -436,7 +429,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$info->enablePrivateNotes();
 		
 		$info->enableNews();
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		if ($this->checkPermissionBool("write"))
 		{
 			$info->enableNewsEditing();
 			$info->setBlockProperty("news", "settings", true);
@@ -474,7 +467,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		// feedback from tutor
 		include_once("Services/Tracking/classes/class.ilLPMarks.php");
-		if ($ilAccess->checkAccess("read", "", $this->ref_id))
+		if ($this->checkPermissionBool("read"))
 		{
 			$lpcomment = ilLPMarks::_lookupComment($ilUser->getId(), $this->object->getId());
 			$mark = ilLPMarks::_lookupMark($ilUser->getId(), $this->object->getId());
@@ -559,7 +552,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	public static function _goto($a_target, $a_raw)
 	{
-		global $ilErr, $lng, $ilAccess;
+		global $lng, $ilAccess;
 
 		$ass_id = null;
 		$parts = explode("_", $a_raw);
@@ -593,9 +586,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			ilObjectGUI::_gotoRepositoryRoot();
-		}
-		
-		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+		}		
 	}		
 
 	/**

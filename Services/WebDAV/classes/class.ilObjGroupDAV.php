@@ -81,7 +81,7 @@ class ilObjGroupDAV extends ilObjectDAV
 	{
 		if (is_null($this->obj))
 		{
-			$this->obj = &new ilObjGroup($this->getRefId(),true);
+			$this->obj = new ilObjGroup($this->getRefId(),true);
 			$this->obj->read();
 		}
 	}

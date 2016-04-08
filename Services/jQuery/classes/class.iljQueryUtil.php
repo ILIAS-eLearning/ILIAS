@@ -9,7 +9,7 @@
  */
 class iljQueryUtil
 {		
-	private static $ver = "2_2_0"; 
+	private static $ver = "2_2_2"; 
 	private static $ui_ver = "1_11_4";
 	private static $maphilight_ver = "14_03_20";
 	private static $min = "-min";
@@ -88,7 +88,7 @@ class iljQueryUtil
  	 /**
 	 * Get local path of maphilight file 
 	 */
-	function getLocalMaphilightPath()
+	static function getLocalMaphilightPath()
 	{
 		return "./Services/jQuery/js/maphilight_".self::$maphilight_ver."/maphilight.js";
  	}

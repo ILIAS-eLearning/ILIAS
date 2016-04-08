@@ -46,7 +46,7 @@ class ilExternalFeedHandlerGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $lng, $ilAccess, $tpl;
 		
@@ -62,7 +62,7 @@ class ilExternalFeedHandlerGUI
 		{
 			case 'ilobjexternalfeedgui':
 				require_once "./Modules/ExternalFeed/classes/class.ilObjExternalFeedGUI.php";
-				$ef_gui =& new ilObjExternalFeedGUI("", (int) $_GET["ref_id"], true, false);
+				$ef_gui = new ilObjExternalFeedGUI("", (int) $_GET["ref_id"], true, false);
 				$this->ctrl->forwardCommand($mc_gui);
 				break;
 		}

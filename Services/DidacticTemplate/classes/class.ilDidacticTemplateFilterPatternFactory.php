@@ -25,7 +25,7 @@ class ilDidacticTemplateFilterPatternFactory
 		$res = $ilDB->query($query);
 
 		$patterns = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 
 			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateFilterPattern.php';

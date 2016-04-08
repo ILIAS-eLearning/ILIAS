@@ -41,7 +41,7 @@ class ilSoapUserAdministrationAdapter
     
     function ilSoapUserAdministrationAdapter($a_use_wsdl = true)
     {
-		$this->server =& new SoapServer(null,array('uri' => 'http://pluto-lx/~smeyer/ilias36/webservice/soap/server.php?wsdl'));
+		$this->server = new SoapServer(null,array('uri' => 'http://pluto-lx/~smeyer/ilias36/webservice/soap/server.php?wsdl'));
 
 		$this->__registerMethods();
 

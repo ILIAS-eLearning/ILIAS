@@ -66,7 +66,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $ilUser;
 		

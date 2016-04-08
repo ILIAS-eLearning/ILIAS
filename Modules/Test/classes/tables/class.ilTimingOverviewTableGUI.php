@@ -37,7 +37,7 @@ class ilTimingOverviewTableGUI extends ilTable2GUI
 	/**
 	 * @param array $data
 	 */
-	public function fillRow(array $data)
+	public function fillRow($data)
 	{
 		$this->tpl->setVariable("LOGIN", $data['login']);
 		$this->tpl->setVariable("NAME", $data['name']);

@@ -14,7 +14,7 @@ class ilPluginDBUpdate extends ilDBUpdate
 	/**
 	* constructor
 	*/
-	function ilPluginDBUpdate($a_ctype, $a_cname, $a_slot_id, $a_pname,
+	public function __construct($a_ctype, $a_cname, $a_slot_id, $a_pname,
 		$a_db_handler, $tmp_flag, $a_db_prefix)
 	{
 		$this->db_prefix = $a_db_prefix;

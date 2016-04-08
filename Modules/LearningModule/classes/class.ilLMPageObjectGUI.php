@@ -28,11 +28,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	* @param	object		$a_content_obj		content object (lm | dbk)
 	* @access	public
 	*/
-	function ilLMPageObjectGUI(&$a_content_obj)
+	function __construct(&$a_content_obj)
 	{
-		global $ilias, $tpl, $lng;
-
-		parent::ilLMObjectGUI($a_content_obj);
+		parent::__construct($a_content_obj);
 
 	}
 
@@ -49,7 +47,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl, $ilCtrl, $ilTabs, $ilSetting;
 		
@@ -179,7 +177,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function save()
 	{
-		$this->obj =& new ilLMPageObject($this->content_object);
+		$this->obj = new ilLMPageObject($this->content_object);
 		$this->obj->setType("pg");
 		$this->obj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$this->obj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));

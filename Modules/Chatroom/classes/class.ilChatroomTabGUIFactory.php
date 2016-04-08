@@ -24,7 +24,7 @@ class ilChatroomTabGUIFactory
 	 * Constructor
 	 * Sets $this->gui using given $gui.
 	 * Sets $this->lng and $this->access
-	 * @param ilObjectGUI      $gui
+	 * @param ilObjectGUI $gui
 	 */
 	public function __construct(ilObjectGUI $gui)
 	{
@@ -34,52 +34,45 @@ class ilChatroomTabGUIFactory
 		 */
 		global $lng;
 
-		$this->gui    = $gui;
-		$this->lng    = $lng;
+		$this->gui = $gui;
+		$this->lng = $lng;
 	}
 
 	/**
-	 * Activates tab or subtab if existing.
-	 * Calls $ilTabs->activateTab() or $ilTabs->activateSubTab() method
-	 * to set current tab active.
-	 * @param array $commandParts
+	 * Convert a value given in underscore case conversion to lower camel case conversion (e.g. my_class to MyClass)
+	 * @param string  $value            Value in underscore case conversion
+	 * @param boolean $upper_case_first If TRUE first character in upper case, lower case if FALSE
+	 * @return string The value in lower camel case conversion
 	 */
-	private function activateTab(array $commandParts, $config)
+	public static function convertUnderscoreCaseToLowerCamelCaseConversion($value, $upper_case_first = FALSE)
 	{
-		/**
-		 * @var $ilTabs ilTabsGUI
-		 */
-		global $ilTabs;
+		$tokens = (array)explode('_', $value);
+		$value  = '';
 
-		if(count($commandParts) > 1)
+		foreach($tokens as $token)
 		{
-			if(isset($config[$commandParts[0]]))
-			{
-				$ilTabs->activateTab($commandParts[0]);
+			$value .= ucfirst($token);
+		}
 
-				if(isset($config[$commandParts[0]]['subtabs'][$commandParts[1]]))
-				{
-					$ilTabs->activateSubTab($commandParts[1]);
-				}
-			}
-		}
-		else if(count($commandParts) == 1)
+		if($upper_case_first === FALSE)
 		{
-			$ilTabs->activateTab($commandParts[0]);
+			$value = strtolower($value, 0, 1) . substr($value, 1);
 		}
+
+		return $value;
 	}
 
 	/**
 	 * Builds $config and $commandparts arrays to assign them as parameters
 	 * when calling $this->buildTabs and $this->activateTab.
-	 * @param string     $command
+	 * @param string $command
 	 */
 	public function getAdminTabsForCommand($command)
 	{
 		/**
 		 * @var $ilTabs ilTabsGUI
 		 * @var $ilCtrl ilCtrl
-		 * @var $ilDB   ilDB
+		 * @var $ilDB   ilDBInterface
 		 */
 		global $ilTabs, $ilCtrl, $ilDB;
 
@@ -120,18 +113,18 @@ class ilChatroomTabGUIFactory
 				)
 			),
 			'smiley' => array(
-				'lng'             => 'smiley',
-				'link'            => $ilCtrl->getLinkTargetByClass('ilObjChatroomAdminGUI', 'smiley'),
-				'permission'      => 'read'
+				'lng'        => 'smiley',
+				'link'       => $ilCtrl->getLinkTargetByClass('ilObjChatroomAdminGUI', 'smiley'),
+				'permission' => 'read'
 			)
 		);
 		$ilCtrl->setParameterByClass('ilObjChatroomGUI', 'ref_id', $public_room_ref);
 
 		$config['settings'] = array(
-			'lng'             => 'public_chat_settings',
-			'link'            => $ilCtrl->getLinkTargetByClass('ilObjChatroomGUI', 'settings-general'),
-			'permission'      => 'write',
-			'subtabs'         => array(
+			'lng'        => 'public_chat_settings',
+			'link'       => $ilCtrl->getLinkTargetByClass('ilObjChatroomGUI', 'settings-general'),
+			'permission' => 'write',
+			'subtabs'    => array(
 				'settings' => array(
 					'lng'        => 'settings',
 					'link'       => $ilCtrl->getLinkTarget($this->gui, 'settings-general'),
@@ -195,6 +188,115 @@ class ilChatroomTabGUIFactory
 
 		$this->buildTabs($ilTabs, $config, $commandParts);
 		$this->activateTab($commandParts, $config);
+	}
+
+	/**
+	 * Convert a value given in lower camel case conversion to underscore case conversion (e.g. MyClass to my_class)
+	 * @param string $value Value in lower camel case conversion
+	 * @return string The value in underscore case conversion
+	 */
+	public static function convertLowerCamelCaseToUnderscoreCaseConversion($value)
+	{
+		return strtolower(preg_replace('/(.*?)-(.*?)/', '$1_$2', $value));
+	}
+
+	/**
+	 * Builds tabs and subtabs using given $tabs, $config and $command
+	 * parameters.
+	 * @param ilTabsGUI $tabs
+	 * @param array     $config
+	 * @param array     $command
+	 */
+	private function buildTabs(ilTabsGUI $tabs, $config, $command)
+	{
+		/**
+		 * @var $rbacsystem ilRbacSystem
+		 */
+		global $rbacsystem;
+
+		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+		foreach($config as $id => $tabDefinition)
+		{
+			if(!ilChatroom::checkUserPermissions($tabDefinition['permission'], $this->gui->getRefId(), false))
+			{
+				continue;
+			}
+			else if(isset($tabDefinition['enabled']) && !$tabDefinition['enabled'])
+			{
+				continue;
+			}
+
+			$tabs->addTab($id, $this->getLabel($tabDefinition, $id), $tabDefinition['link']);
+
+			if($command[0] == $id && isset($tabDefinition['subtabs']) &&
+				is_array($tabDefinition['subtabs'])
+			)
+			{
+				foreach($tabDefinition['subtabs'] as $subid => $subTabDefinition)
+				{
+					if(!$rbacsystem->checkAccess($subTabDefinition['permission'], $this->gui->getRefId()))
+					{
+						continue;
+					}
+					else if(isset($subTabDefinition['enabled']) && !$subTabDefinition['enabled'])
+					{
+						continue;
+					}
+					$tabs->addSubTab(
+						$subid, $this->getLabel($subTabDefinition, $subid),
+						$subTabDefinition['link']
+					);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Returns label for tab by $tabDefinition or $id
+	 * @param array  $tabDefinition
+	 * @param string $id
+	 * @return string
+	 * @todo: $tabDefinition sollte doch stets ein array und $id stets ein
+	 *      string sein, oder? Dann sollte man auch hier typehinten.
+	 *      (array $tabDefinition, string $id)
+	 */
+	private function getLabel($tabDefinition, $id)
+	{
+		if(isset($tabDefinition['lng']))
+			return $this->lng->txt($tabDefinition['lng']);
+		else
+			return $this->lng->txt($id);
+	}
+
+	/**
+	 * Activates tab or subtab if existing.
+	 * Calls $ilTabs->activateTab() or $ilTabs->activateSubTab() method
+	 * to set current tab active.
+	 * @param array $commandParts
+	 */
+	private function activateTab(array $commandParts, $config)
+	{
+		/**
+		 * @var $ilTabs ilTabsGUI
+		 */
+		global $ilTabs;
+
+		if(count($commandParts) > 1)
+		{
+			if(isset($config[$commandParts[0]]))
+			{
+				$ilTabs->activateTab($commandParts[0]);
+
+				if(isset($config[$commandParts[0]]['subtabs'][$commandParts[1]]))
+				{
+					$ilTabs->activateSubTab($commandParts[1]);
+				}
+			}
+		}
+		else if(count($commandParts) == 1)
+		{
+			$ilTabs->activateTab($commandParts[0]);
+		}
 	}
 
 	/**
@@ -290,107 +392,5 @@ class ilChatroomTabGUIFactory
 
 		$this->buildTabs($ilTabs, $config, $commandParts);
 		$this->activateTab($commandParts, $config);
-	}
-
-	/**
-	 * Builds tabs and subtabs using given $tabs, $config and $command
-	 * parameters.
-	 * @param ilTabsGUI $tabs
-	 * @param array     $config
-	 * @param array     $command
-	 */
-	private function buildTabs(ilTabsGUI $tabs, $config, $command)
-	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 */
-		global $rbacsystem;
-		
-		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-		foreach($config as $id => $tabDefinition)
-		{
-			if(!ilChatroom::checkUserPermissions($tabDefinition['permission'], $this->gui->getRefId(), false))
-			{
-				continue;
-			}
-			else if(isset($tabDefinition['enabled']) && !$tabDefinition['enabled'])
-			{
-				continue;
-			}
-
-			$tabs->addTab($id, $this->getLabel($tabDefinition, $id), $tabDefinition['link']);
-
-			if($command[0] == $id && isset($tabDefinition['subtabs']) &&
-				is_array($tabDefinition['subtabs'])
-			)
-			{
-				foreach($tabDefinition['subtabs'] as $subid => $subTabDefinition)
-				{
-					if(!$rbacsystem->checkAccess($subTabDefinition['permission'], $this->gui->getRefId()))
-					{
-						continue;
-					}
-					else if(isset($subTabDefinition['enabled']) && !$subTabDefinition['enabled'])
-					{
-						continue;
-					}
-					$tabs->addSubTab(
-						$subid, $this->getLabel($subTabDefinition, $subid),
-						$subTabDefinition['link']
-					);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Returns label for tab by $tabDefinition or $id
-	 * @param array  $tabDefinition
-	 * @param string $id
-	 * @return string
-	 * @todo: $tabDefinition sollte doch stets ein array und $id stets ein
-	 *      string sein, oder? Dann sollte man auch hier typehinten.
-	 * (array $tabDefinition, string $id)
-	 */
-	private function getLabel($tabDefinition, $id)
-	{
-		if(isset($tabDefinition['lng']))
-			return $this->lng->txt($tabDefinition['lng']);
-		else
-			return $this->lng->txt($id);
-	}
-
-	/**
-	 * Convert a value given in lower camel case conversion to underscore case conversion (e.g. MyClass to my_class)
-	 * @param string $value Value in lower camel case conversion
-	 * @return string The value in underscore case conversion
-	 */
-	public static function convertLowerCamelCaseToUnderscoreCaseConversion($value)
-	{
-		return strtolower(preg_replace('/(.*?)-(.*?)/', '$1_$2', $value));
-	}
-
-	/**
-	 * Convert a value given in underscore case conversion to lower camel case conversion (e.g. my_class to MyClass)
-	 * @param string  $value            Value in underscore case conversion
-	 * @param boolean $upper_case_first If TRUE first character in upper case, lower case if FALSE
-	 * @return string The value in lower camel case conversion
-	 */
-	public static function convertUnderscoreCaseToLowerCamelCaseConversion($value, $upper_case_first = FALSE)
-	{
-		$tokens = (array)explode('_', $value);
-		$value  = '';
-
-		foreach($tokens as $token)
-		{
-			$value .= ucfirst($token);
-		}
-
-		if($upper_case_first === FALSE)
-		{
-			$value = strtolower($value, 0, 1) . substr($value, 1);
-		}
-
-		return $value;
 	}
 }

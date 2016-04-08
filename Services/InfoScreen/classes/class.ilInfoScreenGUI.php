@@ -39,15 +39,15 @@ class ilInfoScreenGUI
 	* @param	object	$a_gui_object	GUI instance of related object
 	* 									(ilCouseGUI, ilTestGUI, ...)
 	*/
-	function ilInfoScreenGUI($a_gui_object)
+	function __construct($a_gui_object)
 	{
 		global $ilias, $ilCtrl, $lng,$ilTabs;
 
-		$this->ilias =& $ilias;
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
-		$this->tabs_gui =& $ilTabs;
-		$this->gui_object =& $a_gui_object;
+		$this->ilias = $ilias;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
+		$this->tabs_gui = $ilTabs;
+		$this->gui_object = $a_gui_object;
 		$this->sec_nr = 0;
 		$this->private_notes_enabled = false;
 		$this->news_enabled = false;
@@ -61,7 +61,7 @@ class ilInfoScreenGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem, $tpl, $ilAccess;
 
@@ -597,12 +597,13 @@ class ilInfoScreenGUI
 		// END ChangeEvent: Display change event info
 
 		// BEGIN WebDAV: Display locking information
-		require_once('Services/WebDAV/classes/class.ilDAVServer.php');
-		if (ilDAVServer::_isActive())
+		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+		if (ilDAVActivationChecker::_isActive())
 		{
 			global $ilias, $ilUser;
 			if ($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
+				require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
 				$davLocks = new ilDAVLocks();
 
 				// Show lock info

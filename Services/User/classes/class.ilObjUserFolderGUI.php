@@ -24,7 +24,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjUserFolderGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
 		global $ilCtrl;
 
@@ -32,7 +32,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		define('USER_FOLDER_ID',7);
 		
 		$this->type = "usrf";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 		
 		$this->lng->loadLanguageModule('search');
 		$this->lng->loadLanguageModule("user");
@@ -49,7 +49,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		return $this->user_owner_id ? $this->user_owner_id : USER_FOLDER_ID;
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilTabs;
 		
@@ -69,13 +69,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$user_search =& new ilRepositorySearchGUI();
+				$user_search = new ilRepositorySearchGUI();
 				$user_search->setTitle($this->lng->txt("search_user_extended")); // #17502
 				$user_search->enableSearchableCheck(false);
 				$user_search->setUserLimitations(false);
@@ -2762,9 +2762,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "newAccountMail");
 	}
 
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 
 	/**
@@ -2772,7 +2772,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	* @access	public
 	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 
@@ -2780,10 +2780,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("usrf",
+			$this->tabs_gui->addTarget("usrf",
 				$this->ctrl->getLinkTarget($this, "view"), array("view","delete","resetFilter", "userAction", ""), "", "");
 
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				"search_user_extended",
 				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI',''),
 				array(),
@@ -2794,10 +2794,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "generalSettings"),array('settings','generalSettings','listUserDefinedField','newAccountMail'));
 				
-			$tabs_gui->addTarget("export",
+			$this->tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTarget($this, "export"), "export", "", "");
 
 			/* deprecated, JF 27 May 2013
@@ -2812,7 +2812,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 								 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
 								 array("perm","info","owner"), 'ilpermissiongui');
 		}

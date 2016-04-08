@@ -539,7 +539,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					{
 						// blog preview
 						case "previewFullscreen":		
-							$this->addHeaderAction($cmd);	
+							$this->addHeaderActionForCommand($cmd);	
 							$this->filterInactivePostings();
 							$nav = $this->renderNavigation($this->items, "preview", $cmd);							
 							$this->renderFullScreen($ret, $nav);
@@ -581,7 +581,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 								ilUtil::sendInfo(implode("<br />", $info));	
 							}					
 							// revert to edit cmd to avoid confusion
-							$this->addHeaderAction("render");	
+							$this->addHeaderActionForCommand("render");	
 							$tpl->setContent($ret);
 							$nav = $this->renderNavigation($this->items, "render", $cmd, null, $is_owner);	
 							$tpl->setRightContent($nav);	
@@ -592,7 +592,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				
 			case "ilinfoscreengui":
 				$this->prepareOutput();
-				$this->addHeaderAction("render");
+				$this->addHeaderActionForCommand("render");
 				$this->infoScreenForward();	
 				break;
 			
@@ -693,7 +693,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 						}
 						$ilCtrl->setCmd($cmd);
 					}					
-					$this->addHeaderAction($cmd);
+					$this->addHeaderActionForCommand($cmd);
 				}
 				return parent::executeCommand();			
 		}
@@ -718,14 +718,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	*/
 	function infoScreenForward()
 	{
-		global $ilTabs, $ilErr;
+		global $ilTabs;
 		
 		$ilTabs->activateTab("id_info");
 
-		if (!$this->checkPermissionBool("visible"))
-		{
-			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
-		}
+		$this->checkPermission("visible");
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
@@ -2314,7 +2311,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$this->disable_notes = (bool)$a_value;
 	}
 		
-	protected function addHeaderAction($a_cmd)
+	protected function addHeaderActionForCommand($a_cmd)
 	{	
 		global $ilUser, $ilCtrl;
 		

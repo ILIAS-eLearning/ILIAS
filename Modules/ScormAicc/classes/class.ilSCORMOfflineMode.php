@@ -71,7 +71,7 @@ class ilSCORMOfflineMode
 			//$globalobj_data = $ob2004->readGObjectiveInit();	
 		} else {
 			include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php";
-			$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
+			$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 			$init_data = ilObjSCORMInitData::getIliasScormVars($slm_obj);
 			$resources = json_decode(ilObjSCORMInitData::getIliasScormResources($this->obj_id));
 			$tree = json_decode(ilObjSCORMInitData::getIliasScormTree($this->obj_id));

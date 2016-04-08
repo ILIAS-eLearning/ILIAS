@@ -42,13 +42,13 @@ class ilEventItems
 	var $items = array();
 
 
-	function ilEventItems($a_event_id)
+	function __construct($a_event_id)
 	{
 		global $ilErr,$ilDB,$lng,$tree;
 
-		$this->ilErr =& $ilErr;
-		$this->db  =& $ilDB;
-		$this->lng =& $lng;
+		$this->ilErr = $ilErr;
+		$this->db  = $ilDB;
+		$this->lng = $lng;
 
 		$this->event_id = $a_event_id;
 		$this->__read();
@@ -125,7 +125,7 @@ class ilEventItems
 		return true;
 	}
 	
-	function _getItemsOfContainer($a_ref_id)
+	static function _getItemsOfContainer($a_ref_id)
 	{
 		global $ilDB,$tree;
 		
@@ -139,7 +139,7 @@ class ilEventItems
 			
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$items[] = $row->item_id;
 		}
@@ -161,7 +161,7 @@ class ilEventItems
 		$query = "SELECT * FROM event_items ".
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$items[] = $row->item_id;
 		}
@@ -227,7 +227,7 @@ class ilEventItems
 
 		$res = $this->db->query($query);
 		$this->items = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if($tree->isDeleted($row->item_id))
 			{

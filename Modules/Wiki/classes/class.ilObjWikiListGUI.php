@@ -20,7 +20,7 @@ class ilObjWikiListGUI extends ilObjectListGUI
 	*/
 	function ilObjWikiListGUI()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**
@@ -33,7 +33,6 @@ class ilObjWikiListGUI extends ilObjectListGUI
 		$this->cut_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
-		$this->payment_enabled = false;
 		$this->info_screen_enabled = true;
 		$this->type = "wiki";
 		$this->gui_class_name = "ilobjwikigui";

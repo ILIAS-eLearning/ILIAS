@@ -5,25 +5,20 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
 
 /**
  * Class ilBannedUsersTableGUI
- *
- * @author Jan Posselt <jposselt@databay.de>
+ * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- *
  * @ingroup ModulesChatroom
  */
-
 class ilBannedUsersTableGUI extends ilTable2GUI
 {
 	/**
 	 * Constructor
-	 *
 	 * Calls parent constructor.
 	 * Prepares ilBannedUsersTableGUI.
-	 *
-	 * @global ilLanguage $lng
+	 * @global ilLanguage      $lng
 	 * @param ilObjChatroomGUI $a_parent_obj
-	 * @param string $a_parent_cmd
-	 * @param string $a_template_context
+	 * @param string           $a_parent_cmd
+	 * @param string           $a_template_context
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
 	{
@@ -32,7 +27,7 @@ class ilBannedUsersTableGUI extends ilTable2GUI
 		global $lng;
 
 		$this->setId('banned_users');
-		$this->setTitle( $lng->txt('ban_table_title') );
+		$this->setTitle($lng->txt('ban_table_title'));
 		$this->setExternalSegmentation(true);
 		$this->setExternalSorting(false);
 

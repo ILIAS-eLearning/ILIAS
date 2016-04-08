@@ -44,17 +44,17 @@ class ilObjUserGUI extends ilObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjUserGUI($a_data,$a_id,$a_call_by_reference = false, $a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference = false, $a_prepare_output = true)
 	{
 		global $ilCtrl, $lng;
 
 		define('USER_FOLDER_ID',7);
 
 		$this->type = "usr";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 		$this->usrf_ref_id =& $this->ref_id;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array('obj_id', 'letter'));
 		$this->ctrl->setParameterByClass("ilobjuserfoldergui", "letter", $_GET["letter"]);
 		
@@ -68,7 +68,7 @@ class ilObjUserGUI extends ilObjectGUI
 							  );
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem;
 
@@ -81,7 +81,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			case "illearningprogressgui":
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_USER_FOLDER,USER_FOLDER_ID,$this->object->getId());
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_USER_FOLDER,USER_FOLDER_ID,$this->object->getId());
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 
@@ -141,37 +141,37 @@ class ilObjUserGUI extends ilObjectGUI
 	/**
 	* admin and normal tabs are equal for roles
 	*/
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 
 	/**
 	* get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $ilHelp;
 
-		$tabs_gui->clearTargets();
+		$this->tabs_gui->clearTargets();
 		
 		$ilHelp->setScreenIdComponent("usr");
 
 		if ($_GET["search"])
 		{
-			$tabs_gui->setBackTarget(
+			$this->tabs_gui->setBackTarget(
 				$this->lng->txt("search_results"),$_SESSION["usr_search_link"]);
 
-			$tabs_gui->addTarget("properties",
+			$this->tabs_gui->addTarget("properties",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit","","view"), get_class($this),"",true);
 		}
 		else
 		{
-			$tabs_gui->addTarget("properties",
+			$this->tabs_gui->addTarget("properties",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit","","view"), get_class($this));
 		}
 
-		$tabs_gui->addTarget("role_assignment",
+		$this->tabs_gui->addTarget("role_assignment",
 			$this->ctrl->getLinkTarget($this, "roleassignment"), array("roleassignment"), get_class($this));
 
 		// learning progress
@@ -181,13 +181,13 @@ class ilObjUserGUI extends ilObjectGUI
 			ilObjUserTracking::_enabledUserRelatedData())
 		{
 
-			$tabs_gui->addTarget('learning_progress',
+			$this->tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass('illearningprogressgui',''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 
-		$tabs_gui->addTarget('user_ownership',
+		$this->tabs_gui->addTarget('user_ownership',
 			$this->ctrl->getLinkTargetByClass('ilobjectownershipmanagementgui',''),
 			'',
 			'ilobjectownershipmanagementgui');
@@ -1088,6 +1088,9 @@ class ilObjUserGUI extends ilObjectGUI
 		$data['bs_allow_to_contact_me'] = $this->object->prefs['bs_allow_to_contact_me'] == 'y';
 		$data["session_reminder_enabled"] = (int)$this->object->prefs["session_reminder_enabled"];
 
+		$data["send_mail"] = ($this->object->prefs['send_info_mails'] == 'y');
+
+
 		$this->form_gui->setValuesByArray($data);
 	}
 
@@ -1730,7 +1733,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				foreach ($templates as $template)
 				{
-					$styleDef =& new ilStyleDefinition($template["id"]);
+					$styleDef = new ilStyleDefinition($template["id"]);
 					$styleDef->startParsing();
 					$styles = $styleDef->getStyles();
 					foreach ($styles as $style)
@@ -2845,7 +2848,7 @@ class ilObjUserGUI extends ilObjectGUI
 	* should be overwritten to add object specific items
 	* (repository items are preloaded)
 	*/
-	function addAdminLocatorItems()
+	function addAdminLocatorItems($a_do_not_add_object = false)
 	{
 		global $ilLocator;
 

@@ -320,7 +320,12 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt("prtf_no_blogs_info"));				
+				// #18147
+				$this->lng->loadLanguageModule('pd');
+				$url = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumpToWorkspace");
+				$url = '<a href="'.$url.'">'.$this->lng->txt("pd_personal_workspace").'</a>';
+
+				ilUtil::sendInfo(sprintf($this->lng->txt("prtf_no_blogs_info"), $url), true);				
 				$type->setValue("page");
 			}
 		}
@@ -721,7 +726,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$skill_ids = array();
 		
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
-		foreach(ilPortfolioTemplatePage::getAllPages($a_prtt_id) as $page)
+		foreach(ilPortfolioTemplatePage::getAllPortfolioPages($a_prtt_id) as $page)
 		{
 			switch($page["type"])
 			{
@@ -856,7 +861,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			if($form->checkInput())
 			{
 				include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
-				foreach(ilPortfolioTemplatePage::getAllPages($prtt_id) as $page)
+				foreach(ilPortfolioTemplatePage::getAllPortfolioPages($prtt_id) as $page)
 				{
 					switch($page["type"])
 					{												

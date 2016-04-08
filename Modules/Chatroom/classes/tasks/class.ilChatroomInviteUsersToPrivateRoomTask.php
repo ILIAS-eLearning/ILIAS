@@ -12,24 +12,28 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
  */
 class ilChatroomInviteUsersToPrivateRoomTask extends ilChatroomTaskHandler
 {
-	/**
-	 * @var ilChatroomObjectGUI
-	 */
-	private $gui;
 
 	/**
+	 * @var ilObjUser
+	 */
+	protected $ilUser;
+
+	/**
+	 * ilChatroomInviteUsersToPrivateRoomTask constructor.
 	 * @param ilChatroomObjectGUI $gui
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
 	{
-		$this->gui = $gui;
+		global $ilUser;
+
+		$this->ilUser = $ilUser;
+
+		parent::__construct($gui);
 	}
 
 	/**
-	 * Prepares and posts message fetched from $_REQUEST['message']
-	 * to recipients fetched from $_REQUEST['recipient']
-	 * and adds an entry to history if successful.
 	 * @param string $method
+	 * @return mixed
 	 */
 	public function executeDefault($method)
 	{
@@ -41,15 +45,7 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilChatroomTaskHandler
 	 */
 	public function byLogin()
 	{
-		$this->inviteById(ilObjUser::_lookupId($_REQUEST['users']));
-	}
-
-	/**
-	 *
-	 */
-	public function byId()
-	{
-		$this->inviteById($_REQUEST['users']);
+		$this->inviteById(ilObjUser::_lookupId($_REQUEST['user']));
 	}
 
 	/**
@@ -57,64 +53,46 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilChatroomTaskHandler
 	 */
 	private function inviteById($invited_id)
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $ilUser, $ilCtrl;
+		$this->redirectIfNoPermission('read');
 
-		if(!ilChatroom::checkUserPermissions('read', $this->gui->ref_id))
+		$room      = ilChatroom::byObjectId($this->gui->object->getId());
+		$subRoomId = (int)$_REQUEST['sub'];
+		$chat_user = new ilChatroomUser($this->ilUser, $room);
+
+		$this->exitIfNoRoomExists($room);
+		$this->exitIfNoRoomPermission($room, $subRoomId, $chat_user);
+
+		if(!$this->isMainRoom($subRoomId))
 		{
-			$ilCtrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
-			$ilCtrl->redirectByClass('ilrepositorygui', '');
-		}
-
-		$room = ilChatroom::byObjectId($this->gui->object->getId());
-
-		$chat_user = new ilChatroomUser($ilUser, $room);
-		$user_id   = $chat_user->getUserId();
-
-		if(!$room)
-		{
-			$response = json_encode(array(
-				'success' => false,
-				'reason'  => 'unkown room'
-			));
-			echo json_encode($response);
-			exit;
-		}
-		else if($_REQUEST['sub'] && !$room->isOwnerOfPrivateRoom($user_id, $_REQUEST['sub']))
-		{
-			$response = json_encode(array(
-				'success' => false,
-				'reason'  => 'not owner of private room'
-			));
-			echo json_encode($response);
-			exit;
+			$room->inviteUserToPrivateRoom($invited_id, $subRoomId);
 		}
 
 		$connector = $this->gui->getConnector();
+		$response  = $connector->sendInviteToPrivateRoom($room->getRoomId(), $subRoomId, $chat_user->getUserId(), $invited_id);
 
-		$result = $connector->inviteToPrivateRoom($room, $_REQUEST['sub'], $ilUser, $invited_id);
+		$room->sendInvitationNotification($this->gui, $chat_user, $invited_id, $subRoomId);
 
-		$room->sendInvitationNotification($this->gui, $chat_user, $invited_id, (int)$_REQUEST['sub']);
-
-		echo json_encode($result);
-		exit;
+		$this->sendResponse($response);
 	}
 
+	/**
+	 *
+	 */
+	public function byId()
+	{
+		$this->inviteById($_REQUEST['user']);
+	}
+
+	/**
+	 *
+	 */
 	public function getUserList()
 	{
-		/**
-		 * @var $ilUser ilObjUser
-		 */
-		global $ilUser;
-
 		require_once 'Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
-		$auto->setUser($ilUser);
+		$auto->setUser($this->ilUser);
 		$auto->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
-		if($ilUser->isAnonymous())
+		if($this->ilUser->isAnonymous())
 		{
 			$auto->setSearchType(ilUserAutoComplete::SEARCH_TYPE_EQUALS);
 		}

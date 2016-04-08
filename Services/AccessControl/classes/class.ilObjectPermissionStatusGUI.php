@@ -60,7 +60,7 @@ class ilObjectPermissionStatusGUI
 	/**
 	* execute command
 	*/
-	public function &executeCommand()
+	public function executeCommand()
 	{
 		global $ilCtrl;
 
@@ -71,7 +71,7 @@ class ilObjectPermissionStatusGUI
 		{
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search = new ilRepositorySearchGUI();
 				$this->ilCtrl->setReturn($this,'perminfo');
 				$this->ilCtrl->forwardCommand($rep_search);
 				break;

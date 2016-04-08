@@ -656,7 +656,7 @@ class ilCertificate
 	* @param object $adapter The certificate adapter
 	* @return boolean Returns TRUE if the certificate is complete, FALSE otherwise
 	*/
-	function _isComplete($adapter)
+	public static function _isComplete($adapter)
 	{
 		if (is_object($adapter) && method_exists($adapter, "getCertificatePath"))
 		{

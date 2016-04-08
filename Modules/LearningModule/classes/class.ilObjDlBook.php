@@ -38,7 +38,7 @@ class ilObjDlBook extends ilObjContentObject
 	{
 		include_once("./Modules/LearningModule/classes/class.ilBibItem.php");
 
-		$this->bib_obj =& new ilBibItem($this);
+		$this->bib_obj = new ilBibItem($this);
 		$this->bib_obj->read();
 
 		return true;
@@ -90,7 +90,7 @@ class ilObjDlBook extends ilObjContentObject
                 $query = "SELECT * FROM page_object WHERE page_id= ".$ilDB->quote($row["obj_id"], "integer");
 				$result2 = $this->ilias->db->query($query);
 		
-				$row2 = $result2->fetchRow(DB_FETCHMODE_ASSOC);
+				$row2 = $result2->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 				
 				$PO = $row2["content"]."\n";
 

@@ -121,8 +121,10 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 		}
 	}
 	
-	public function isInCondition(ilADTDate $a_adt)
+	public function isInCondition(ilADT $a_adt)
 	{
+		assert($a_adt instanceof ilADTDate);
+		
 		return $this->getADT()->equals($a_adt);
 	}		
 		

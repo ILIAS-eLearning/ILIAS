@@ -79,7 +79,7 @@ abstract class ilPageComponentPlugin extends ilPlugin
 	/**
 	 * Get Javascript files
 	 */
-	function getJavascriptFiles()
+	function getJavascriptFiles($a_mode)
 	{
 		return array();
 	}
@@ -87,7 +87,7 @@ abstract class ilPageComponentPlugin extends ilPlugin
 	/**
 	 * Get css files
 	 */
-	function getCssFiles()
+	function getCssFiles($a_mode)
 	{
 		return array();
 	}

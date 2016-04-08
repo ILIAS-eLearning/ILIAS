@@ -49,9 +49,6 @@ class arFieldCache {
 	/**
 	 * @param ActiveRecord $ar
 	 *
-	 * @internal param $class
-	 * @internal param $id
-	 *
 	 * @return arFieldList
 	 */
 	public static function get(ActiveRecord $ar) {

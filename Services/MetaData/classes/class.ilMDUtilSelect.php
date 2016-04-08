@@ -252,7 +252,7 @@ class ilMDUtilSelect
 		{
 			return '';
 		}
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if(strlen($row->format))
 			{

@@ -55,13 +55,13 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 		$cmd = (!empty($_GET["cmd"])) ? $_GET["cmd"] : "frameset";
 
 		// Todo: check lm id
-		$this->slm =& new ilObjAICCLearningModule($_GET["ref_id"], true);
+		$this->slm = new ilObjAICCLearningModule($_GET["ref_id"], true);
 	}
 	
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess, $ilLog;
 
@@ -148,10 +148,10 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 			? $_POST["ref_id"]
 			: $_GET["ref_id"];
 
-		$this->slm =& new ilObjAICCLearningModule($ref_id, true);
+		$this->slm = new ilObjAICCLearningModule($ref_id, true);
 
 		include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");
-		$unit =& new ilAICCUnit($sahs_id);
+		$unit = new ilAICCUnit($sahs_id);
 		
 		//guess the url
 		$url=$unit->getCommand_line();

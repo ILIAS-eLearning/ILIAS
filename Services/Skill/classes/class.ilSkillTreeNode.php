@@ -24,7 +24,7 @@ class ilSkillTreeNode
 	/**
 	* @param	int		node id
 	*/
-	function ilSkillTreeNode($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		$this->id = $a_id;
 		

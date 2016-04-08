@@ -38,11 +38,11 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	/**
 	* Constructor
 	*/
-	function ilPDTaggingBlockGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
-		parent::ilBlockGUI();
+		parent::__construct();
 		
 		$lng->loadLanguageModule("tagging");
 
@@ -93,7 +93,7 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 
@@ -224,7 +224,6 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 					$this->item_list_gui[$type]->enableCut(false);
 					$this->item_list_gui[$type]->enableCopy(false);
 					$this->item_list_gui[$type]->enableSubscribe(false);
-					$this->item_list_gui[$type]->enablePayment(false);
 					$this->item_list_gui[$type]->enableLink(false);
 					$this->item_list_gui[$type]->enableIcon(true);
 				}

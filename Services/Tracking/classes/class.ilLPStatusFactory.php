@@ -89,7 +89,7 @@ class ilLPStatusFactory
 		}
 	}
 
-	function _getInstance($a_obj_id, $a_mode = NULL)
+	static function _getInstance($a_obj_id, $a_mode = NULL)
 	{		
 		if($a_mode === NULL)
 		{

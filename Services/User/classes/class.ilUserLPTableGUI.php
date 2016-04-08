@@ -126,15 +126,14 @@ class ilUserLPTableGUI extends ilTable2GUI
 			ilDatePresentation::formatDate(new ilDateTime($user["last_login"], IL_CAL_DATETIME)));		
 	}
 	
-	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
 	{
-		$a_worksheet->write($a_row, 0, $a_set["login"]);
-		$a_worksheet->write($a_row, 1, $a_set["firstname"]);
-		$a_worksheet->write($a_row, 2, $a_set["lastname"]);
-		$a_worksheet->write($a_row, 3, 
+		$a_excel->setCell($a_row, 0, $a_set["login"]);
+		$a_excel->setCell($a_row, 1, $a_set["firstname"]);
+		$a_excel->setCell($a_row, 2, $a_set["lastname"]);
+		$a_excel->setCell($a_row, 3, 
 			ilFormat::_secondsToShortString($a_set["online_time"]));
-		$a_worksheet->write($a_row, 4, 
-			ilDatePresentation::formatDate(new ilDateTime($a_set["last_login"], IL_CAL_DATETIME)));		
+		$a_excel->setCell($a_row, 4, new ilDateTime($a_set["last_login"], IL_CAL_DATETIME));		
 	}
 }
 

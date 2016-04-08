@@ -25,8 +25,8 @@ class ilDBGenerator
 	{
 		global $ilDB;
 		
-		$this->manager = $ilDB->db->loadModule('Manager');
-		$this->reverse = $ilDB->db->loadModule('Reverse');
+		$this->manager = $ilDB->loadModule(ilDBConstants::MODULE_MANAGER);
+		$this->reverse = $ilDB->loadModule(ilDBConstants::MODULE_REVERSE);
 		$this->il_db = $ilDB;
 		include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
 		$this->analyzer = new ilDBAnalyzer();
@@ -41,7 +41,7 @@ class ilDBGenerator
 		$query = "SELECT DISTINCT(table_name) FROM abstraction_progress ";
 		$res = $ilDB->query($query);
 		$names = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$names[] = $row->table_name;
 		}
@@ -56,7 +56,6 @@ class ilDBGenerator
 			'page_anchor',
 			'qpl_question_orderinghorizontal',
 			'qpl_question_fileupload',
-			'payment_vats',
 			'chat_smilies',
 			'style_color',
 			'style_template_class',

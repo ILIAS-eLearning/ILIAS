@@ -278,7 +278,7 @@ class ilItemGroupItems
 		return true;
 	}
 	
-	function _getItemsOfContainer($a_ref_id)
+	static function _getItemsOfContainer($a_ref_id)
 	{
 		global $ilDB,$tree;
 		
@@ -292,7 +292,7 @@ class ilItemGroupItems
 			
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$items[] = $row->item_ref_id;
 		}

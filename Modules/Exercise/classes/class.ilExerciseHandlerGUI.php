@@ -13,12 +13,12 @@
 */
 class ilExerciseHandlerGUI
 {
-	function ilExerciseHandlerGUI()
+	function __construct()
 	{
-		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
+		global $ilCtrl;
 
 		// initialisation stuff
-		$this->ctrl =&  $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		
 		//$ilNavigationHistory->addItem($_GET["ref_id"],
 		//	"ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$_GET["ref_id"]);
@@ -28,7 +28,7 @@ class ilExerciseHandlerGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $lng, $ilAccess, $tpl, $ilNavigationHistory;
 		
@@ -51,7 +51,7 @@ class ilExerciseHandlerGUI
 		{
 			case 'ilobjexercisegui':
 				require_once "./Modules/Exercise/classes/class.ilObjExerciseGUI.php";
-				$ex_gui =& new ilObjExerciseGUI("", (int) $_GET["ref_id"], true, false);
+				$ex_gui = new ilObjExerciseGUI("", (int) $_GET["ref_id"], true, false);
 				$this->ctrl->forwardCommand($ex_gui);
 				break;
 		}

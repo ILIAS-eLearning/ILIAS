@@ -29,9 +29,9 @@ class assQuestionExport
 	* @param object $a_object The question object
 	* @access public
 	*/
-	function assQuestionExport(&$a_object)
+	public function __construct($a_object)
 	{
-		$this->object =& $a_object;
+		$this->object = $a_object;
 	}
 	
 	function exportFeedbackOnly($a_xml_writer)

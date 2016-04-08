@@ -123,7 +123,7 @@ class ilObjForum extends ilObject
 	public function updateModeratorRole($role_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -144,7 +144,7 @@ class ilObjForum extends ilObject
 	public static function _lookupThreadSubject($a_thread_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 
 		global $ilDB;
@@ -172,7 +172,7 @@ class ilObjForum extends ilObject
 		$a_frm_id = $this->getId();
 
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilBench, $ilDB;
 
@@ -249,7 +249,7 @@ class ilObjForum extends ilObject
 	public function markThreadRead($a_usr_id, $a_thread_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -268,7 +268,7 @@ class ilObjForum extends ilObject
 	public function markAllThreadsRead($a_usr_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -290,7 +290,7 @@ class ilObjForum extends ilObject
 	public function markPostRead($a_usr_id, $a_thread_id, $a_post_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -326,7 +326,7 @@ class ilObjForum extends ilObject
 	public function markPostUnread($a_user_id, $a_post_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -341,7 +341,7 @@ class ilObjForum extends ilObject
 	public function isRead($a_usr_id, $a_post_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -358,7 +358,7 @@ class ilObjForum extends ilObject
 	public function updateLastAccess($a_usr_id, $a_thread_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -395,7 +395,7 @@ class ilObjForum extends ilObject
 	public static function _updateOldAccess($a_usr_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 
 		global $ilDB, $ilias;
@@ -431,7 +431,7 @@ class ilObjForum extends ilObject
 	function _deleteUser($a_usr_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -456,10 +456,10 @@ class ilObjForum extends ilObject
 	}
 
 
-	function _deleteReadEntries($a_post_id)
+	public static function _deleteReadEntries($a_post_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -470,10 +470,10 @@ class ilObjForum extends ilObject
 		return true;
 	}
 
-	function _deleteAccessEntries($a_thread_id)
+	public static function _deleteAccessEntries($a_thread_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -491,7 +491,7 @@ class ilObjForum extends ilObject
 	function update()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -529,7 +529,7 @@ class ilObjForum extends ilObject
 	public function cloneObject($a_target_id, $a_copy_id = 0)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -649,7 +649,7 @@ class ilObjForum extends ilObject
 	public function delete()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -746,7 +746,7 @@ class ilObjForum extends ilObject
 	public static function _lookupModeratorRole($a_ref_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -780,7 +780,7 @@ class ilObjForum extends ilObject
 	public function saveData($a_roles = array())
 	{
 		/**
-		 * @var $ilDB   ilDB
+		 * @var $ilDB   ilDBInterface
 		 * @var $ilUser ilObjUser
 		 */
 		global $ilUser, $ilDB;
@@ -880,7 +880,7 @@ class ilObjForum extends ilObject
 	public static function preloadForumIdsByObjIds(array $obj_ids)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -920,7 +920,7 @@ class ilObjForum extends ilObject
 	public static function preloadForumIdsByRefIds(array $ref_ids)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -963,7 +963,7 @@ class ilObjForum extends ilObject
 		/**
 		 * @var $ilAccess  ilAccessHandler
 		 * @var $ilUser    ilObjUser
-		 * @var $ilDB      ilDB
+		 * @var $ilDB      ilDBInterface
 		 * @var $ilSetting ilSetting
 		 */
 		global $ilAccess, $ilUser, $ilDB, $ilSetting;
@@ -1100,7 +1100,7 @@ class ilObjForum extends ilObject
 		/**
 		 * @var $ilAccess       ilAccessHandler
 		 * @var $ilUser         ilObjUser
-		 * @var $ilDB           ilDB
+		 * @var $ilDB           ilDBInterface
 		 */
 		global $ilAccess, $ilUser, $ilDB;
 
@@ -1153,7 +1153,7 @@ class ilObjForum extends ilObject
 		/**
 		 * @var $ilUser   ilObjUser
 		 * @var $ilAccess ilAccessHandler
-		 * @var $ilDB     ilDB
+		 * @var $ilDB     ilDBInterface
 		 */
 		global $ilUser, $ilAccess, $ilDB;
 

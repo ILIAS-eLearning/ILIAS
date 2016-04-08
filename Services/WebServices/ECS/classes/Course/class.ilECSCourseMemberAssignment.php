@@ -46,7 +46,7 @@ class ilECSCourseMemberAssignment
 		$res = $ilDB->query($query);
 		
 		$obj_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$obj_ids[] = $row->obj_id;
 		}
@@ -100,7 +100,7 @@ class ilECSCourseMemberAssignment
 		$res = $ilDB->query($query);
 		
 		$usr_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$usr_ids[] = $row->usr_id;
 		}
@@ -125,7 +125,7 @@ class ilECSCourseMemberAssignment
 				'AND obj_id = '.$ilDB->quote($a_obj_id,'integer').' '.
 				'AND usr_id = '.$ilDB->quote($a_usr_id,'text');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return new ilECSCourseMemberAssignment($row->id);
 		}
@@ -308,7 +308,7 @@ class ilECSCourseMemberAssignment
 		$query = 'SELECT * FROM ecs_course_assignments '.
 				'WHERE id = '.$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setServer($row->sid);
 			$this->setMid($row->mid);

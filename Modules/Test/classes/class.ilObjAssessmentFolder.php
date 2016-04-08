@@ -33,12 +33,12 @@ class ilObjAssessmentFolder extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjAssessmentFolder($a_id = 0,$a_call_by_reference = true)
+	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$this->setting = new ilSetting("assessment");
 		$this->type = "assf";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	/**
@@ -79,73 +79,6 @@ class ilObjAssessmentFolder extends ilObject
 		return true;
 	}
 
-
-	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	*
-	* If you are not required to handle any events related to your module, just delete this method.
-	* (For an example how this method is used, look at ilObjGroup)
-	*
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional parameters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{
-		global $tree;
-
-		switch ($a_event)
-		{
-			case "link":
-
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Module name ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "cut":
-
-				//echo "Module name ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "copy":
-
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Module name ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "paste":
-
-				//echo "Module name ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "new":
-
-				//echo "Module name ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-		}
-
-		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
-		if ($a_node_id==$_GET["ref_id"])
-		{
-			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
-			$parent_type = $parent_obj->getType();
-			if($parent_type == $this->getType())
-			{
-				$a_node_id = (int) $tree->getParentId($a_node_id);
-			}
-		}
-
-		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
-	}
-
 	/**
 	* enable assessment logging
 	*/
@@ -174,9 +107,9 @@ class ilObjAssessmentFolder extends ilObject
 	}
 
 	/**
-	* check wether assessment logging is enabled or not
-	*/
-	function _enabledAssessmentLogging()
+	 * check wether assessment logging is enabled or not
+	 */
+	public static function _enabledAssessmentLogging()
 	{
 		$setting = new ilSetting("assessment");
 
@@ -186,7 +119,7 @@ class ilObjAssessmentFolder extends ilObject
 	/**
 	* Returns the forbidden questiontypes for ILIAS
 	*/
-	function _getForbiddenQuestionTypes()
+	public static function _getForbiddenQuestionTypes()
 	{
 		$setting = new ilSetting("assessment");
 		$types = $setting->get("forbidden_questiontypes");
@@ -221,7 +154,7 @@ class ilObjAssessmentFolder extends ilObject
 	/**
 	* retrieve the log language for assessment logging
 	*/
-	function _getLogLanguage()
+	public static function _getLogLanguage()
 	{
 		$setting = new ilSetting("assessment");
 
@@ -255,7 +188,7 @@ class ilObjAssessmentFolder extends ilObject
 	/**
 	* Retrieve the manual scoring settings
 	*/
-	function _getManualScoring()
+	public static function _getManualScoring()
 	{
 		$setting = new ilSetting("assessment");
 
@@ -266,7 +199,7 @@ class ilObjAssessmentFolder extends ilObject
 	/**
 	* Retrieve the manual scoring settings as type strings
 	*/
-	function _getManualScoringTypes()
+	public static function _getManualScoringTypes()
 	{
 		global $ilDB;
 		
@@ -347,7 +280,7 @@ class ilObjAssessmentFolder extends ilObject
 	* @param integer $original_id The database id of the original of a modified question (optional)
 	* @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
 	*/
-	function _addLog($user_id, $object_id, $logtext, $question_id = "", $original_id = "", $test_only = FALSE, $test_ref_id = NULL)
+	public static function _addLog($user_id, $object_id, $logtext, $question_id = "", $original_id = "", $test_only = FALSE, $test_ref_id = NULL)
 	{
 		global $ilUser, $ilDB;
 		if (strlen($question_id) == 0) $question_id = NULL;
@@ -379,7 +312,7 @@ class ilObjAssessmentFolder extends ilObject
 	* @param integer $test_id Database id of the ILIAS test object
 	* @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
 	*/
-	function &getLog($ts_from, $ts_to, $test_id, $test_only = FALSE)
+	public static function getLog($ts_from, $ts_to, $test_id, $test_only = FALSE)
 	{
 		global $ilDB;
 		
@@ -436,7 +369,7 @@ class ilObjAssessmentFolder extends ilObject
 	* @param integer $test_id Database id of the ILIAS test object
 	* @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
 	*/
-	function &_getLog($ts_from, $ts_to, $test_id, $test_only = FALSE)
+	public static function _getLog($ts_from, $ts_to, $test_id, $test_only = FALSE)
 	{
 		global $ilDB;
 		
@@ -560,7 +493,7 @@ class ilObjAssessmentFolder extends ilObject
 				array('integer'),
 				array($object_id)
 			);
-			$this->_addLog($ilUser->getId(), $object_id, $this->lng->txt("assessment_log_deleted"));
+			self::_addLog($ilUser->getId(), $object_id, $this->lng->txt("assessment_log_deleted"));
 		}
 	}
 	

@@ -37,15 +37,15 @@ class ilPersonalDesktopGUI
 	/**
 	* constructor
 	*/
-	function ilPersonalDesktopGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $rbacsystem, $ilCtrl, $ilMainMenu, $ilUser, $tree;
 		
 		
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ilias =& $ilias;
-		$this->ctrl =& $ilCtrl;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
+		$this->ctrl = $ilCtrl;
 		
 		$ilCtrl->setContext($ilUser->getId(),
 				"user");
@@ -69,7 +69,7 @@ class ilPersonalDesktopGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilSetting, $rbacsystem, $ilErr;
 
@@ -601,18 +601,7 @@ class ilPersonalDesktopGUI
 
 		$this->show();
 	}
-	
 
-	/**
-	 * Jump to a study programme.
-	 */
-	public function jumpToStudyProgramme()
-	{
-		require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php';
-		$_GET['view'] = ilPDSelectedItemsBlockGUI::VIEW_MY_STUDYPROGRAMME;
-		$this->show();
-	}
-	
 	/**
 	 * workaround for menu in calendar only
 	 */

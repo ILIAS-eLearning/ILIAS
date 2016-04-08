@@ -134,15 +134,15 @@
 
 				var line = $('<div class="messageLine chat"></div>').addClass('public');
 
-				if (message.message && message.message.message) {
+				if (message.message && message.message.content) {
 					message = message.message;
 				}
 
 				var messageDate;
 				if(typeof message.timestamp == "undefined" && typeof message.message.timestamp != "undefined"){
-					messageDate =  new Date(message.message.timestamp);
+					messageDate =  new Date(message.message.timestamp*1000);
 				} else if(typeof message.timestamp != "undefined") {
-					messageDate =  new Date(message.timestamp);
+					messageDate =  new Date(message.timestamp * 1000);
 				}
 
 				if (typeof messageDate != "undefined" &&
@@ -159,14 +159,14 @@
 					case 'message':
 						var content;
 						try {
-							content = $.parseJSON(message.message);
+							content = message.content;
 						}
 						catch (e) {
 							return;
 						}
 
 						line.append($('<span class="chat content date"></span>').append('' + internals.formatISOTime.call($this, messageDate) + ', '))
-							.append($('<span class="chat content username"></span>').append(message.user.username));
+							.append($('<span class="chat content username"></span>').append(message.from.username));
 
 						if (message.recipients) {
 							var parts = message.recipients.split(',');
@@ -178,17 +178,17 @@
 						}
 
 						var messageSpan = $('<span class="chat content message"></span>');
-						messageSpan.text(messageSpan.text(content.content).text())
+						messageSpan.text(messageSpan.text(content).text())
 							.html(internals.replaceSmileys.call($this, messageSpan.text()));
 						line.append($('<span class="chat content messageseparator">:</span>'))
 							.append(messageSpan);
 
-						for (var i in content.format) {
+						for (var i in message.format) {
 							if (i != 'color')
-								messageSpan.addClass(i + '_' + content.format[i]);
+								messageSpan.addClass(i + '_' + message.format[i]);
 						}
 
-						messageSpan.css('color', content.format.color);
+						messageSpan.css('color', message.format.color);
 
 						break;
 

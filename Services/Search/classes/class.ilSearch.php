@@ -321,7 +321,7 @@ class ilSearch
 			$res = $ilDB->query($query);
 			if ($res->numRows())
 			{
-				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+				$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 				$this->setResult(unserialize(stripslashes($row->search_result)));
 			}
 			else

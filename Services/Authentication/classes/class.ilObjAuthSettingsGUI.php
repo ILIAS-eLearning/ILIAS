@@ -22,10 +22,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjAuthSettingsGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		$this->type = "auth";
-		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->lng->loadLanguageModule('registration');
 
@@ -853,7 +853,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 				// Enable tabs
 				$this->tabs_gui->setTabActive('registration_settings');
-				$registration_gui =& new ilRegistrationSettingsGUI();
+				$registration_gui = new ilRegistrationSettingsGUI();
 				$this->ctrl->forwardCommand($registration_gui);
 				break;
 
@@ -863,7 +863,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 				$this->tabs_gui->setTabActive('perm_settings');
 			
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
@@ -926,9 +926,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		return true;
 	}
 	
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 
 	/**
@@ -936,7 +936,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 	* @access	public
 	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem;
 
@@ -944,39 +944,39 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{		
-			$tabs_gui->addTarget("authentication_settings", $this->ctrl->getLinkTarget($this, "authSettings"),
+			$this->tabs_gui->addTarget("authentication_settings", $this->ctrl->getLinkTarget($this, "authSettings"),
 										 "", "", "");
 		
-			$tabs_gui->addTarget('registration_settings',
+			$this->tabs_gui->addTarget('registration_settings',
 									   $this->ctrl->getLinkTargetByClass('ilregistrationsettingsgui','view'));
 			
-			$tabs_gui->addTarget("auth_ldap", $this->ctrl->getLinkTargetByClass('illdapsettingsgui','serverList'),
+			$this->tabs_gui->addTarget("auth_ldap", $this->ctrl->getLinkTargetByClass('illdapsettingsgui','serverList'),
 								   "", "", "");
 
 										 
-			#$tabs_gui->addTarget("auth_ldap", $this->ctrl->getLinkTarget($this, "editLDAP"),
+			#$this->tabs_gui->addTarget("auth_ldap", $this->ctrl->getLinkTarget($this, "editLDAP"),
 			#					   "", "", "");
 			
-			$tabs_gui->addTarget('auth_shib',$this->ctrl->getLinkTargetByClass('ilauthshibbolethsettingsgui','settings'));
+			$this->tabs_gui->addTarget('auth_shib',$this->ctrl->getLinkTargetByClass('ilauthshibbolethsettingsgui','settings'));
 
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				'auth_cas',
 				$this->ctrl->getLinkTargetByClass('ilcassettingsgui','settings')
 			);
 								   
-			$tabs_gui->addTarget("auth_radius", $this->ctrl->getLinkTargetByClass('ilradiussettingsgui', "settings"),
+			$this->tabs_gui->addTarget("auth_radius", $this->ctrl->getLinkTargetByClass('ilradiussettingsgui', "settings"),
 									   "", "", "");
 
-			$tabs_gui->addTarget("auth_soap", $this->ctrl->getLinkTarget($this, "editSOAP"),
+			$this->tabs_gui->addTarget("auth_soap", $this->ctrl->getLinkTarget($this, "editSOAP"),
 								 "", "", "");
 								 
-			$tabs_gui->addTarget("apache_auth_settings", $this->ctrl->getLinkTarget($this,'apacheAuthSettings'),
+			$this->tabs_gui->addTarget("apache_auth_settings", $this->ctrl->getLinkTarget($this,'apacheAuthSettings'),
 					"", "", "");
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
 								 array("perm","info","owner"), 'ilpermissiongui');
 		}

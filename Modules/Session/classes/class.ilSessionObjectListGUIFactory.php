@@ -65,7 +65,6 @@ class ilSessionObjectListGUIFactory
 		$item_list_gui->enableCopy(false);
 		$item_list_gui->enableSubscribe(true);
 		$item_list_gui->enableIcon(true);
-		$item_list_gui->enablePayment(true);
 		$item_list_gui->enableLink(false);
 		$item_list_gui->enablePath(false);
 		$item_list_gui->enableLinkedPath(false);

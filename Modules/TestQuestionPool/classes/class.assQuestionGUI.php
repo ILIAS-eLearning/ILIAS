@@ -253,11 +253,9 @@ abstract class assQuestionGUI
 
 	/**
 	 * Evaluates a posted edit form and writes the form data in the question object
-	 *
 	 * @return integer A positive value, if one of the required fields wasn't set, else 0
-	 * @access protected
 	 */
-	protected function writePostData()
+	protected function writePostData($always = false)
 	{
 	}
 
@@ -292,7 +290,7 @@ abstract class assQuestionGUI
 	 * 
 	 * @return assQuestionGUI The alias to the question object
 	 */
-	public function &_getQuestionGUI($question_type, $question_id = -1)
+	public static function _getQuestionGUI($question_type, $question_id = -1)
 	{
 		global $ilCtrl, $ilDB, $lng;
 		
@@ -324,7 +322,7 @@ abstract class assQuestionGUI
 	/**
 	 * @deprecated
 	 */
-	function _getGUIClassNameForId($a_q_id)
+	public static function _getGUIClassNameForId($a_q_id)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
@@ -336,7 +334,7 @@ abstract class assQuestionGUI
 	/**
 	 * @deprecated
 	 */
-	function _getClassNameForQType($q_type)
+	public static function _getClassNameForQType($q_type)
 	{
 		return $q_type . "GUI";
 	}
@@ -1221,7 +1219,7 @@ abstract class assQuestionGUI
 	{
 		$count = $this->object->isInUse();
 		
-		if (assQuestion::_questionExistsInPool($this->object->getId()) && $count)
+		if ($this->object->_questionExistsInPool($this->object->getId()) && $count)
 		{
 			global $rbacsystem;
 			if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))

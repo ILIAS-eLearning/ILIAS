@@ -1422,7 +1422,7 @@ class ilNewsItem extends ilNewsItemGen
 		return $rec["context_obj_id"];
 	}
 
-	function _lookupDefaultPDPeriod()
+	static function _lookupDefaultPDPeriod()
 	{
 		$news_set = new ilSetting("news");
 		$per = $news_set->get("pd_period");
@@ -1459,7 +1459,7 @@ class ilNewsItem extends ilNewsItemGen
 		return $per;
 	}
 	
-	function _lookupRSSPeriod()
+	static function _lookupRSSPeriod()
 	{
 		$news_set = new ilSetting("news");
 		$rss_period = $news_set->get("rss_period");

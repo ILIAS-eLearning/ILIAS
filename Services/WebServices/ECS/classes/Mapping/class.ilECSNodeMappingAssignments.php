@@ -27,7 +27,7 @@ class ilECSNodeMappingAssignments
 			'AND cs_root = '.$ilDB->quote($a_tree_id,'integer').' '.
 			'AND ref_id > 0';
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return true;
 		}
@@ -59,7 +59,7 @@ class ilECSNodeMappingAssignments
 		}
 		
 		$settings = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$settings['title_update'] = $row->title_update;
 			$settings['position_update'] = $row->position_update;
@@ -87,7 +87,7 @@ class ilECSNodeMappingAssignments
 		$res = $ilDB->query($query);
 		
 		$assignments = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$assignments[] = $row->cs_id;
 		}
@@ -112,7 +112,7 @@ class ilECSNodeMappingAssignments
 		$res = $ilDB->query($query);
 
 		$assignments = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$assignments[] = $row->cs_id;
 		}
@@ -135,7 +135,7 @@ class ilECSNodeMappingAssignments
 			'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
 			'AND cs_root = '.$ilDB->quote($a_tree_id,'integer').' ';
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->depth == 1;
 		}
@@ -155,7 +155,7 @@ class ilECSNodeMappingAssignments
 			'AND cs_root = '.$ilDB->quote($a_tree_id,'integer').' '.
 			'AND cs_id = '.$ilDB->quote(0,'integer').' ';
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return (bool) $row->title_update;
 		}
@@ -183,7 +183,7 @@ class ilECSNodeMappingAssignments
 		$res = $ilDB->query($query);
 
 		$cs_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$cs_ids[] = $row->cs_id;
 		}

@@ -183,8 +183,6 @@ class ilWebAccessChecker {
 			global $ilUser, $ilSetting;
 			switch ($ilUser->getId()) {
 				case 0:
-					// throw new ilWACException(ilWACException::ACCESS_DENIED);
-					//  ilInitialisation::reinitILIAS();
 					break;
 				case 13:
 					if (!$ilSetting->get('pub_section')) {
@@ -197,7 +195,13 @@ class ilWebAccessChecker {
 			if ($e instanceof ilWACException) {
 				throw  $e;
 			}
-			throw new ilWACException(ilWACException::INITIALISATION_FAILED);
+			if ($e instanceof Exception && $e->getMessage() == 'Authentication failed.') {
+				$_REQUEST["baseClass"] = "ilStartUpGUI";
+				$_REQUEST["cmd"] = "showLogin";
+
+				ilWACLog::getInstance()->write('reinit ILIAS');
+				ilInitialisation::reinitILIAS();
+			}
 		}
 		$this->setInitialized(true);
 	}

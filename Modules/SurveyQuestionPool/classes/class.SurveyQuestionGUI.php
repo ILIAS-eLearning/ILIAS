@@ -100,7 +100,7 @@ abstract class SurveyQuestionGUI
 		return $question;
 	}
 	
-	function _getGUIClassNameForId($a_q_id)
+	static function _getGUIClassNameForId($a_q_id)
 	{
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
@@ -109,7 +109,7 @@ abstract class SurveyQuestionGUI
 		return $class_name;
 	}
 
-	function _getClassNameForQType($q_type)
+	static function _getClassNameForQType($q_type)
 	{
 		return $q_type;
 	}
@@ -891,7 +891,7 @@ abstract class SurveyQuestionGUI
 			case "pg":
 				include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-				$cont_obj_gui =& new ilObjContentObjectGUI("", $source_id, true);
+				$cont_obj_gui = new ilObjContentObjectGUI("", $source_id, true);
 				$cont_obj = $cont_obj_gui->object;
 				$pages = ilLMPageObject::getPageList($cont_obj->getId());										
 				foreach($pages as $page)
@@ -909,7 +909,7 @@ abstract class SurveyQuestionGUI
 				
 			case "st":				
 				include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-				$cont_obj_gui =& new ilObjContentObjectGUI("", $source_id, true);
+				$cont_obj_gui = new ilObjContentObjectGUI("", $source_id, true);
 				$cont_obj = $cont_obj_gui->object;
 				// get all chapters
 				$ctree =& $cont_obj->getLMTree();
@@ -929,7 +929,7 @@ abstract class SurveyQuestionGUI
 				
 			case "glo":				
 				include_once "./Modules/Glossary/classes/class.ilObjGlossary.php";
-				$glossary =& new ilObjGlossary($source_id, true);
+				$glossary = new ilObjGlossary($source_id, true);
 				// get all glossary items
 				$terms = $glossary->getTermList();				
 				foreach($terms as $term)

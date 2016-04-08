@@ -150,7 +150,7 @@ function LogoutNotification($SessionID){
 	$q = "SELECT session_id, data FROM usr_session WHERE expires > 'NOW()'";
 	$r = $ilDB->query($q);
 	
-	while($session_entry = $r->fetchRow(DB_FETCHMODE_ASSOC)){
+	while($session_entry = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)){
 		
 		$user_session = unserializesession($session_entry['data']);
 		

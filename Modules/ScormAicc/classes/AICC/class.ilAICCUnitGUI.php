@@ -37,7 +37,7 @@ class ilAICCUnitGUI extends ilAICCObjectGUI
 	function ilAICCUnitGUI($a_id)
 	{
 		parent::ilAICCObjectGUI();
-		$this->sc_object =& new ilAICCUnit($a_id);
+		$this->sc_object = new ilAICCUnit($a_id);
 		$files =& $this->sc_object->getFiles();
 	}
 

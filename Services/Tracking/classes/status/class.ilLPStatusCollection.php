@@ -36,12 +36,12 @@ include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 class ilLPStatusCollection extends ilLPStatus
 {
 
-	function ilLPStatusCollection($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
-		parent::ilLPStatus($a_obj_id);
-		$this->db =& $ilDB;
+		parent::__construct($a_obj_id);
+		$this->db = $ilDB;
 	}
 
 	function _getNotAttempted($a_obj_id)

@@ -82,8 +82,10 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
 		}
 	}
 	
-	public function isInCondition(ilADTInteger $a_adt)
+	public function isInCondition(ilADT $a_adt)
 	{
+		assert($a_adt instanceof ilADTInteger);
+		
 		return $this->getADT()->equals($a_adt);
 	}		
 	

@@ -38,7 +38,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 	/** @var ilTree $tree */
 	protected $tree = null;
 	
-	/** @var ilDB $db */
+	/** @var ilDBInterface $db */
 	protected $db = null;
 
 	/** @var ilPluginAdmin $pluginAdmin */
@@ -67,7 +67,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 	 * @param ilAccessHandler $access
 	 * @param ilLanguage      $lng
 	 * @param ilTemplate      $tpl
-	 * @param ilDB            $db
+	 * @param ilDBInterface   $db
 	 * @param ilObjTestGUI    $testGUI
 	 * 
 	 * @return \ilObjTestSettingsGeneralGUI
@@ -78,7 +78,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		ilLanguage $lng, 
 		ilTemplate $tpl, 
 		ilTree $tree,
-		ilDB $db,
+		ilDBInterface $db,
 		ilPluginAdmin $pluginAdmin,
 		ilObjTestGUI $testGUI
 	)

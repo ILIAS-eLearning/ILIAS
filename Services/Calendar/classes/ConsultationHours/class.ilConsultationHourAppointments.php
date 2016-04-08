@@ -59,7 +59,7 @@ class ilConsultationHourAppointments
 
 		$res = $ilDB->query($query);
 		$entries = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$entries[] = $row->cal_id;
 		}
@@ -99,7 +99,7 @@ class ilConsultationHourAppointments
 				'ORDER BY ce.starta ';
 		$res = $ilDB->query($query);
 		$app_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$app_ids[] = $row->cal_id;
 		}

@@ -228,7 +228,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		include_once './Services/Search/classes/class.ilQueryParser.php';
 
-		$query_parser =& new ilQueryParser($a_title);
+		$query_parser = new ilQueryParser($a_title);
 		$query_parser->setMinWordLength(0,true);
 		$query_parser->setCombination(QP_COMBINATION_AND);
 		$query_parser->parse();
@@ -357,7 +357,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 			include_once './Services/Search/classes/class.ilQueryParser.php';
 
-			$query_parser =& new ilQueryParser($key);
+			$query_parser = new ilQueryParser($key);
 			#$query_parser->setMinWordLength(3);
 			$query_parser->setCombination($combination == 'and' ? QP_COMBINATION_AND : QP_COMBINATION_OR);
 			$query_parser->parse();
@@ -609,7 +609,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		include_once './webservice/soap/classes/class.ilObjectXMLParser.php';
 		
-		$xml_parser =& new ilObjectXMLParser($a_xml, true);
+		$xml_parser = new ilObjectXMLParser($a_xml, true);
 		try {
 			$xml_parser->startParsing();
 		} 
@@ -978,7 +978,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		global $rbacreview, $rbacsystem, $lng,$ilAccess;
 
 		include_once './webservice/soap/classes/class.ilObjectXMLParser.php';
-		$xml_parser =& new ilObjectXMLParser($a_xml, true);
+		$xml_parser = new ilObjectXMLParser($a_xml, true);
 		try 
 		{
 			$xml_parser->startParsing();

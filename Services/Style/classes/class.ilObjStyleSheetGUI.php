@@ -24,7 +24,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjStyleSheetGUI($a_data,$a_id,$a_call_by_reference, $a_prep = true)
+	function __construct($a_data,$a_id,$a_call_by_reference, $a_prep = true)
 	{
 		global $ilCtrl, $lng, $tpl;
 
@@ -38,13 +38,13 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 		
 		$this->type = "sty";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 	}
 
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("edit");
@@ -159,7 +159,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		// set style sheet
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			$this->object->getContentStylePath($this->object->getId()));
+				ilObjStyleSheet::getContentStylePath($this->object->getId()));
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -245,7 +245,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		// set style sheet
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			$this->object->getContentStylePath($this->object->getId()));
+				ilObjStyleSheet::getContentStylePath($this->object->getId()));
 		$this->tpl->parseCurrentBlock();
 
 		// export button
@@ -582,7 +582,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		// set style sheet
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			$this->object->getContentStylePath($this->object->getId()));
+				ilObjStyleSheet::getContentStylePath($this->object->getId()));
 
 		$ts_tpl = new ilTemplate("tpl.style_tag_edit.html", true, true, "Services/Style");
 		
@@ -1090,9 +1090,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	/**
 	* admin and normal tabs are equal for roles
 	*/
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 
 	/**
@@ -1119,7 +1119,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $lng, $ilCtrl, $ilTabs, $ilHelp;
 		
@@ -1128,7 +1128,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		if ($ilCtrl->getCmd() == "editTagStyle")
 		{
 			// back to upper context
-			$tabs_gui->setBackTarget($lng->txt("back"),
+			$this->tabs_gui->setBackTarget($lng->txt("back"),
 				$ilCtrl->getLinkTarget($this, "edit"));
 				
 			$t = explode(".", $_GET["tag"]);
@@ -1138,7 +1138,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			{
 				// style classes
 				$ilCtrl->setParameter($this, "tag", $t[0].".".$t2[0]);
-				$tabs_gui->addTarget("sty_tag_normal",
+				$this->tabs_gui->addTarget("sty_tag_normal",
 					$this->ctrl->getLinkTarget($this, "editTagStyle"), array("editTagStyle", ""),
 					get_class($this));
 				if ($t2[1] == "")
@@ -1150,7 +1150,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				{
 					// style classes
 					$ilCtrl->setParameter($this, "tag", $t[0].".".$t2[0].":".$p);
-					$tabs_gui->addTarget("sty_tag_".$p,
+					$this->tabs_gui->addTarget("sty_tag_".$p,
 						$this->ctrl->getLinkTarget($this, "editTagStyle"), array("editTagStyle", ""),
 						get_class($this));
 					if ($t2[1] == $p)
@@ -1164,42 +1164,42 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		else
 		{
 			// back to upper context
-			$tabs_gui->setBackTarget($lng->txt("back"),
+			$this->tabs_gui->setBackTarget($lng->txt("back"),
 				$this->ctrl->getLinkTarget($this, "returnToUpperContext"));
 	
 			// style classes
-			$tabs_gui->addTarget("sty_style_chars",
+			$this->tabs_gui->addTarget("sty_style_chars",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit", ""),
 				get_class($this));
 
 			// colors
-			$tabs_gui->addTarget("sty_colors",
+			$this->tabs_gui->addTarget("sty_colors",
 				$this->ctrl->getLinkTarget($this, "listColors"), "listColors",
 				get_class($this));
 
 			// media queries
-			$tabs_gui->addTarget("sty_media_queries",
+			$this->tabs_gui->addTarget("sty_media_queries",
 				$this->ctrl->getLinkTarget($this, "listMediaQueries"), "listMediaQueries",
 				get_class($this));
 
 			// images
-			$tabs_gui->addTarget("sty_images",
+			$this->tabs_gui->addTarget("sty_images",
 				$this->ctrl->getLinkTarget($this, "listImages"), "listImages",
 				get_class($this));
 
 			// table templates
-			$tabs_gui->addTarget("sty_templates",
+			$this->tabs_gui->addTarget("sty_templates",
 				$this->ctrl->getLinkTarget($this, "listTemplates"), "listTemplates",
 				get_class($this));
 				
 			// settings
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "properties"), "properties",
 				get_class($this));
 
 			// accordiontest
 /*
-			$tabs_gui->addTarget("accordiontest",
+			$this->tabs_gui->addTarget("accordiontest",
 				$this->ctrl->getLinkTarget($this, "accordiontest"), "accordiontest",
 				get_class($this));*/
 		}
@@ -1255,7 +1255,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	* should be overwritten to add object specific items
 	* (repository items are preloaded)
 	*/
-	function addAdminLocatorItems()
+	function addAdminLocatorItems($a_do_not_add_object = false)
 	{
 		global $ilLocator;
 
@@ -2245,7 +2245,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	/**
 	* Get table template preview
 	*/
-	function _getTemplatePreview($a_style, $a_type, $a_t_id, $a_small_mode = false)
+	static function _getTemplatePreview($a_style, $a_type, $a_t_id, $a_small_mode = false)
 	{
 		global $lng, $tpl;
 

@@ -59,9 +59,9 @@ class ilListItemAccessCache extends ilCache
 	/**
 	 * Id is user_id:ref_id, we store ref_if additionally
 	 */
-	function storeEntry($a_id, $a_value, $a_ref_id = 0)
+	function storeEntry($a_id, $a_value, $a_ref_id = 0, $a_int_key2 = null,
+		$a_text_key1 = null, $a_text_key2 = null)
 	{
-		global $ilSetting;
 		if (!$this->isDisabled())
 		{
 			parent::storeEntry($a_id, $a_value, $a_ref_id);

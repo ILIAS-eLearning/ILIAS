@@ -156,7 +156,7 @@ class ilSCORMResource extends ilSCORMObject
 		);
 		while ($file_rec =$ilDB->fetchAssoc($file_set))
 		{
-			$res_file =& new ilSCORMResourceFile();
+			$res_file = new ilSCORMResourceFile();
 			$res_file->setHref($file_rec["href"]);
 			$this->addFile($res_file);
 		}
@@ -169,7 +169,7 @@ class ilSCORMResource extends ilSCORMObject
 		);	
 		while ($dep_rec =$ilDB->fetchAssoc($dep_set))
 		{
-			$res_dep =& new ilSCORMResourceDependency();
+			$res_dep = new ilSCORMResourceDependency();
 			$res_dep->setIdentifierRef($dep_rec["identifierref"]);
 			$this->addDependency($res_dep);
 		}

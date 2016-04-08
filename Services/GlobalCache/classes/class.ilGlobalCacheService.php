@@ -123,7 +123,7 @@ abstract class ilGlobalCacheService {
 	 *
 	 * @return bool
 	 */
-	abstract public function set($key, $serialized_value, $ttl = NULL);
+	abstract public function set($key, $serialized_value, $ttl = null);
 
 
 	/**
@@ -180,7 +180,7 @@ abstract class ilGlobalCacheService {
 	/**
 	 * @param null $key
 	 */
-	public function setInvalid($key = NULL) {
+	public function setInvalid($key = null) {
 		if ($key) {
 			unset($this->valid_keys[$key]);
 		} else {
@@ -239,10 +239,10 @@ abstract class ilGlobalCacheService {
 	 * @return string
 	 */
 	public function getInstallationFailureReason() {
-		if (! $this->getInstallable()) {
+		if (!$this->getInstallable()) {
 			return 'Not installed';
 		}
-		if (! $this->checkMemory()) {
+		if (!$this->checkMemory()) {
 			return 'Not enough Cache-Memory, set to at least ' . $this->getMinMemory() . 'M';
 		}
 

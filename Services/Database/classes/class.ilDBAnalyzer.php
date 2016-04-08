@@ -19,9 +19,9 @@ class ilDBAnalyzer
 	function __construct()
 	{
 		global $ilDB;
-		
-		$this->manager = $ilDB->db->loadModule('Manager');
-		$this->reverse = $ilDB->db->loadModule('Reverse');
+
+		$this->manager = $ilDB->loadModule(ilDBConstants::MODULE_REVERSE);
+		$this->reverse = $ilDB->loadModule(ilDBConstants::MODULE_REVERSE);
 		$this->il_db = $ilDB;
 		$this->allowed_attributes = $ilDB->getAllowedAttributes();		
 	}

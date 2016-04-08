@@ -469,7 +469,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 		// copy pages
 		$blog_count = 0;
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
-		foreach(ilPortfolioPage::getAllPages($source_id) as $page)
+		foreach(ilPortfolioPage::getAllPortfolioPages($source_id) as $page)
 		{
 			$page_id = $page["id"];	
 			

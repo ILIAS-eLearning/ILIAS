@@ -44,7 +44,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 	*/
 	function ilAICCExplorer($a_target, &$a_slm_obj)
 	{
-		parent::ilExplorer($a_target);
+		parent::__construct($a_target);
 		$this->slm_obj =& $a_slm_obj;
 		$this->tree = new ilAICCTree($a_slm_obj->getId());
 		$this->root_id = $this->tree->readRootId();
@@ -68,7 +68,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 	function isClickable($a_type, $a_id = 0)
 	{
 		if ($a_type=="sbl") {
-			$block_object =& new ilAICCBlock($a_id);
+			$block_object = new ilAICCBlock($a_id);
 			return (strlen($block_object->getDescription())>0);
 		}
 		
@@ -78,7 +78,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 		}
 		else
 		{
-			$sc_object =& new ilAICCUnit($a_id);
+			$sc_object = new ilAICCUnit($a_id);
 			//if ($sc_object->getIdentifierRef() != "")
 			//{
 				return true;
@@ -97,7 +97,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 		}
 		else
 		{
-			$sc_object =& new ilAICCUnit($a_id);
+			$sc_object = new ilAICCUnit($a_id);
 			//if ($sc_object->getIdentifierRef() != "")
 			//{
 				$trdata = $sc_object->getTrackingDataOfUser();

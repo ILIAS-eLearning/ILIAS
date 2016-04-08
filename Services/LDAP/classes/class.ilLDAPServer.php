@@ -261,7 +261,7 @@ class ilLDAPServer
 		$res = $ilDB->query($query);
 
 		$server_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$server_ids[] = $row->server_id;
 		}
@@ -282,7 +282,7 @@ class ilLDAPServer
 			"WHERE authentication_type = ".$ilDB->quote($a_auth_mode,'integer')." ".
 			"AND authentication = ".$ilDB->quote(0,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return true;
 		}
@@ -297,7 +297,7 @@ class ilLDAPServer
 			"WHERE authentication_type = ".$ilDB->quote($a_auth_mode,'integer')." ".
 			"AND authentication = ".$ilDB->quote(0,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->server_id;
 		}
@@ -499,29 +499,26 @@ class ilLDAPServer
 	 */
 	public function doConnectionCheck()
 	{
-	 	global $ilLog;
-	 	
 	 	include_once('Services/LDAP/classes/class.ilLDAPQuery.php');
 	 	
 	 	foreach(array_merge(array(0 => $this->url),$this->fallback_urls) as $url)
 	 	{
 			try
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': Using url '. $url);
+				ilLoggerFactory::getLogger('auth')->debug('Using url: ' . $url);
 				// Need to do a full bind, since openldap return valid connection links for invalid hosts 
 				$query = new ilLDAPQuery($this,$url);
 				$query->bind(IL_LDAP_BIND_TEST);
 				$this->url = $url;
-		 		$ilLog->write(__METHOD__.': Using url: '.$url.'.');
 				return TRUE;
 			}
 			catch(ilLDAPQueryException $exc)
 			{
 				$this->rotateFallbacks();
-		 		$ilLog->write(__METHOD__.': Cannot connect to LDAP server: '.$url.' '. $exc->getCode().': '.$exc->getMessage());
+				ilLoggerFactory::getLogger('auth')->error('Cannot connect to LDAP server: '. $url .' '. $exc->getCode().' '. $exc->getMessage());
 			}
 	 	}
- 		$ilLog->write(__METHOD__.': No valid LDAP server found.');
+		ilLoggerFactory::getLogger('auth')->warning('No valid LDAP server found');
 		return FALSE;
 	}
     
@@ -1105,7 +1102,7 @@ class ilLDAPServer
 		$query = "SELECT * FROM ldap_server_settings WHERE server_id = ".$this->db->quote($this->server_id)."";
 		
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->toggleActive($row->active);
 			$this->setName($row->name);

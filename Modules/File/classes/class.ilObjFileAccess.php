@@ -40,7 +40,7 @@ class ilObjFileAccess extends ilObjectAccess
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array();
 		$commands[] = array("permission" => "read", "cmd" => "sendfile", "lang_var" => "download","default" => true);
@@ -53,7 +53,7 @@ class ilObjFileAccess extends ilObjectAccess
 	/**
 	* check whether goto script will succeed
 	*/
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 		
@@ -83,13 +83,13 @@ class ilObjFileAccess extends ilObjectAccess
 	* looks up the file_data for the file object with the specified object id
     * as an associative array.
 	*/
-	function _lookupFileData($a_id)
+	static function _lookupFileData($a_id)
 	{
 		global $ilDB;
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 		return $row;
 	}
@@ -97,13 +97,13 @@ class ilObjFileAccess extends ilObjectAccess
 	/**
 	* lookup version
 	*/
-	function _lookupVersion($a_id)
+	static function _lookupVersion($a_id)
 	{
 		global $ilDB;
 
 		$q = "SELECT version FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 		return ilUtil::stripSlashes($row->version);
 	}
@@ -118,7 +118,7 @@ class ilObjFileAccess extends ilObjectAccess
 
 		$q = "SELECT file_size FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		
 		$size = $row->file_size;
 		
@@ -137,7 +137,7 @@ class ilObjFileAccess extends ilObjectAccess
 
 		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         
 		require_once('Modules/File/classes/class.ilFSStorageFile.php');
 		$fss = new ilFSStorageFile($a_id);
@@ -165,7 +165,7 @@ class ilObjFileAccess extends ilObjectAccess
 	/**
 	* lookup suffix
 	*/
-	function _lookupSuffix($a_id)
+	static function _lookupSuffix($a_id)
 	{
 		include_once('Modules/File/classes/class.ilFSStorageFile.php');
 		
@@ -174,7 +174,7 @@ class ilObjFileAccess extends ilObjectAccess
 		// BEGIN WebDAV: Filename suffix is determined by file title
 		$q = "SELECT * FROM object_data WHERE obj_id = ".$ilDB->quote($a_id ,'integer');
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		require_once 'Modules/File/classes/class.ilObjFile.php';
 		return self::_getFileExtension($row->title);
 		// END WebDAV: Filename suffix is determined by file title
@@ -185,7 +185,7 @@ class ilObjFileAccess extends ilObjectAccess
 	 * with the specified object id.
 	 * @param int object id of a file object.
 	 */
-	function _lookupDiskUsage($a_id)
+	static function _lookupDiskUsage($a_id)
 	{
 		include_once('Modules/File/classes/class.ilFSStorageFile.php');
 		$fileStorage = new ilFSStorageFile($a_id);
@@ -357,7 +357,7 @@ class ilObjFileAccess extends ilObjectAccess
 		return ilLink::_getStaticLink($ref_id, "file", true, "_download");
 	}
 	
-	public function _preloadData($a_obj_ids, $a_ref_ids)
+	public static function _preloadData($a_obj_ids, $a_ref_ids)
 	{
 		global $ilDB;
 		

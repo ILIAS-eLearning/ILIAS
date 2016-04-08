@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Html/HtmlPurifier/library/HTMLPurifier.safe-includes.php';
+require_once 'libs/composer/vendor/autoload.php';
 require_once 'Services/Html/interfaces/interface.ilHtmlPurifierInterface.php';
 
 /** 

@@ -70,7 +70,7 @@ class ilLDAPQuery
 		}
 		
 		$this->mapping = ilLDAPAttributeMapping::_getInstanceByServerId($this->settings->getServerId());
-		$this->log = $ilLog;
+		$this->log = ilLoggerFactory::getLogger('auth');
 		
 		$this->fetchUserProfileFields();
 		$this->connect();
@@ -121,7 +121,7 @@ class ilLDAPQuery
 		// No:  => fetch all users
 		if(strlen($this->settings->getGroupName()))
 		{
-			$this->log->write(__METHOD__.': Searching for group members.');
+			$this->log->debug('Searching for group members.');
 
 			$groups = $this->settings->getGroupNames();
 			if(count($groups) <= 1)
@@ -139,7 +139,7 @@ class ilLDAPQuery
 		}
 		if(!strlen($this->settings->getGroupName()) or $this->settings->isMembershipOptional())
 		{
-			$this->log->write(__METHOD__.': Start reading all users...');
+			$this->log->info('Start reading all users...');
 			$this->readAllUsers();
 			#throw new ilLDAPQueryException('LDAP: Called import of users without specifying group restrictions. NOT IMPLEMENTED YET!');
 		}
@@ -244,7 +244,7 @@ class ilLDAPQuery
 					break;
 			}
 
-			$this->log->write(__METHOD__.': Searching with ldap search and filter '.$new_filter.' in '.$dn);
+			$this->log->info('Searching with ldap search and filter '.$new_filter.' in '.$dn);
 		 	$res = $this->queryByScope($this->settings->getUserScope(),
 		 		$dn,
 	 			$new_filter,
@@ -253,10 +253,10 @@ class ilLDAPQuery
 			$tmp_result = new ilLDAPResult($this->lh,$res);
 			if(!$tmp_result->numRows())
 			{
-				$this->log->write(__METHOD__.': No users found. Aborting.');
+				$this->log->notice('No users found. Aborting.');
 				continue;
 			}
-			$this->log->write(__METHOD__.': Found '.$tmp_result->numRows().' users.');
+			$this->log->info('Found '.$tmp_result->numRows().' users.');
 			foreach($tmp_result->getRows() as $data)
 			{
 				if(isset($data[$this->settings->getUserAttribute()]))
@@ -265,7 +265,7 @@ class ilLDAPQuery
 				}
 				else
 				{
-					$this->log->write(__METHOD__.': Unknown error. No user attribute found.');
+					$this->log->warning('Unknown error. No user attribute found.');
 				}
 			}
 			unset($tmp_result);
@@ -298,8 +298,8 @@ class ilLDAPQuery
 		}
 		$gdn .=	$this->settings->getBaseDN();
 		
-		$this->log->write('LDAP: Using filter '.$filter);
-		$this->log->write('LDAP: Using DN '.$gdn);
+		$this->log->debug('Using filter '.$filter);
+		$this->log->debug('Using DN '.$gdn);
 		$res = $this->queryByScope($this->settings->getGroupScope(),
 			$gdn,
 			$filter,
@@ -311,7 +311,7 @@ class ilLDAPQuery
 		
 		if(!$tmp_result->numRows())
 		{
-			$this->log->write(__METHOD__.': No group found.');
+			$this->log->info('No group found.');
 			return false;
 		}
 				
@@ -320,7 +320,7 @@ class ilLDAPQuery
 		// All groups
 		foreach($group_data as $data)
 		{
-			$this->log->write(__METHOD__.': found '.count($data[$attribute_name]).' group members for group '.$data['dn']);
+			$this->log->debug('Found '.count($data[$attribute_name]).' group members for group '.$data['dn']);
 			if(is_array($data[$attribute_name]))
 			{
 				foreach($data[$attribute_name] as $name)
@@ -384,7 +384,7 @@ class ilLDAPQuery
 		$tmp_result = new ilLDAPResult($this->lh,$res);
 		if(!$tmp_result->numRows())
 		{
-			$this->log->write('LDAP: No user data found for: '.$a_name);
+			$this->log->info('LDAP: No user data found for: '.$a_name);
 			unset($tmp_result);
 			return false;
 		}
@@ -395,7 +395,7 @@ class ilLDAPQuery
 			{
 				if(($user_data['useraccountcontrol'] & 0x02))
 				{
-					$this->log->write(__METHOD__.': '.$a_name.' account disabled.');
+					$this->log->notice('LDAP: '.$a_name.' account disabled.');
 					return;
 				}
 			}
@@ -453,7 +453,7 @@ class ilLDAPQuery
 				break;
 
 			default:
-				$this->log->write("LDAP: LDAPQuery: Unknown search scope");
+				$this->log->warning("LDAP: LDAPQuery: Unknown search scope");
 	 	}
 		
 	 	return $res;
@@ -493,7 +493,7 @@ class ilLDAPQuery
 		else
 		{
 			ldap_set_option($this->lh,LDAP_OPT_REFERRALS,false);
-			$this->log->write(__METHOD__.': Switching referrals to false.');
+			$this->log->debug('Switching referrals to false.');
 		}
 		// Start TLS
 		if($this->settings->isActiveTLS())
@@ -532,12 +532,12 @@ class ilLDAPQuery
 
 					define('IL_LDAP_REBIND_USER',$user);
 					define('IL_LDAP_REBIND_PASS',$pass);
-					$this->log->write(__METHOD__.': Bind as '.$user);
+					$this->log->debug('Bind as '.$user);
 				}
 				else
 				{
 					$user = $pass = '';
-					$this->log->write(__METHOD__.': Bind anonymous');
+					$this->log->debug('Bind anonymous');
 				}
 				break;
 			
@@ -565,7 +565,7 @@ class ilLDAPQuery
 		}
 		else
 		{
-			$this->log->write(__METHOD__.': Bind successful.');
+			$this->log->debug('Bind successful.');
 		}
 	}
 	

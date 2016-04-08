@@ -30,26 +30,26 @@ class ilMDEditorGUI
 	var $obj_id = null;
 	var $obj_type = null;
 
-	function ilMDEditorGUI($a_rbac_id,$a_obj_id,$a_obj_type)
+	function __construct($a_rbac_id,$a_obj_id,$a_obj_type)
 	{
 		global $ilCtrl,$lng,$tpl,$ilTabs;
 
-		$this->md_obj =& new ilMD($a_rbac_id,$a_obj_id,$a_obj_type);
-		$this->ctrl =& $ilCtrl;
+		$this->md_obj = new ilMD($a_rbac_id,$a_obj_id,$a_obj_type);
+		$this->ctrl = $ilCtrl;
 
-		$this->lng =& $lng;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('meta');
 		
 		include_once('Services/MetaData/classes/class.ilMDSettings.php');
 		$this->md_settings = ilMDSettings::_getInstance();
 
-		$this->tpl =& $tpl;
+		$this->tpl = $tpl;
 
-		$this->tabs_gui =& $ilTabs;
+		$this->tabs_gui = $ilTabs;
 
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem;
 
@@ -84,7 +84,7 @@ class ilMDEditorGUI
 		include_once 'Services/MetaData/classes/class.ilMD2XML.php';
 
 
-		$xml_writer =& new ilMD2XML($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType());
+		$xml_writer = new ilMD2XML($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType());
 		$xml_writer->startExport();
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.md_editor.html','Services/MetaData');

@@ -350,8 +350,10 @@ class ilObjPoll extends ilObject2
 	 * @param int copy id
 	 * @return ilObjPoll
 	 */
-	public function doCloneObject(ilObjPoll $new_obj, $a_target_id, $a_copy_id = 0)
+	public function doCloneObject($new_obj, $a_target_id, $a_copy_id = 0)
 	{		
+		assert($new_obj instanceof ilObjPoll);
+		
 		// question/image
 		$new_obj->setQuestion($this->getQuestion());		
 		$image = $this->getImageFullPath();

@@ -59,7 +59,6 @@ class ilSearchObjectListFactory
 		$item_list_gui->enablePath(true);
 		$item_list_gui->enableCut(false);
 		$item_list_gui->enableSubscribe(false);
-		$item_list_gui->enablePayment(false);
 		$item_list_gui->enableLink(false);
 
 		return $item_list_gui;

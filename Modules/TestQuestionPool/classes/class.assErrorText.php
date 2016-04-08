@@ -398,7 +398,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 		$entered_values = false;
 		if (strlen($_POST["qst_" . $this->getId()]))
 		{
-			$selected = split(",", $_POST["qst_" . $this->getId()]);
+			$selected = explode(",", $_POST["qst_" . $this->getId()]);
 			foreach ($selected as $position)
 			{
 				$affectedRows = $this->saveCurrentSolution($active_id, $pass, $position, null, $authorized);
@@ -443,14 +443,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	}
 
 	/**
-	 * Reworks the allready saved working data if neccessary
-	 *
-	 * @access protected
-	 * @param integer $active_id
-	 * @param integer $pass
-	 * @param boolean $obligationsAnswered
+	 * {@inheritdoc}
 	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered)
+	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
 	{
 		// nothing to rework!
 	}
@@ -496,21 +491,11 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	}
 
 	/**
-	* Creates an Excel worksheet for the detailed cumulated results of this question
-	*
-	* @param object $worksheet Reference to the parent excel worksheet
-	* @param object $startrow Startrow of the output in the excel worksheet
-	* @param object $active_id Active id of the participant
-	* @param object $pass Test pass
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
-	*/
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	 * {@inheritdoc}
+	 */
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
-		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
-		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+		parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
 		$i= 0;
 		$selections = array();
@@ -525,8 +510,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 		}
 		$errortext = $this->createErrorTextExport($selections);
 		$i++;
-		$worksheet->writeString($startrow+$i, 0, ilExcelUtils::_convert_text($errortext));
+		$worksheet->setCell($startrow+$i, 0, $errortext);
 		$i++;
+
 		return $startrow + $i + 1;
 	}
 
@@ -1320,7 +1306,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	*/
 	public function getUserQuestionResult($active_id, $pass)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 

@@ -24,7 +24,7 @@ class ilTestTopList
 	 */
 	public function getUserToplistByWorkingtime($a_test_ref_id, $a_user_id)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 
 		// Get placement of user
@@ -183,7 +183,7 @@ class ilTestTopList
 	 */
 	public function getGeneralToplistByPercentage($a_test_ref_id, $a_user_id)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$result = $ilDB->query(
 			'
@@ -219,7 +219,7 @@ class ilTestTopList
 	 */
 	public function getGeneralToplistByWorkingtime($a_test_ref_id, $a_user_id)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$result = $ilDB->query(
 			'
@@ -254,7 +254,7 @@ class ilTestTopList
 	 */
 	public function getUserToplistByPercentage($a_test_ref_id, $a_user_id)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 
 		// Get placement of user

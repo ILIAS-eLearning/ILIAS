@@ -877,7 +877,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function saveAdditionalQuestionDataToDb()
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 
 		// save additional data
@@ -900,7 +900,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 	public function saveAnswerSpecificDataToDb()
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 
 		$ilDB->manipulateF( "DELETE FROM qpl_a_ordering WHERE question_fi = %s",
@@ -934,14 +934,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 
 	/**
-	 * Reworks the allready saved working data if neccessary
-	 *
-	 * @access protected
-	 * @param integer $active_id
-	 * @param integer $pass
-	 * @param boolean $obligationsAnswered
+	 * {@inheritdoc}
 	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered)
+	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
 	{
 		// nothing to rework!
 	}
@@ -1019,20 +1014,12 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 
 	/**
-	 * Creates an Excel worksheet for the detailed cumulated results of this question
-	 *
-	 * @param object $worksheet    Reference to the parent excel worksheet
-	 * @param object $startrow     Startrow of the output in the excel worksheet
-	 * @param object $active_id    Active id of the participant
-	 * @param object $pass         Test pass
-	 * @param object $format_title Excel title format
-	 * @param object $format_bold  Excel bold format
-	 *
-	 * @return object
+	 * {@inheritdoc}
 	 */
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
+		parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+
 		$solutions = $this->getSolutionValues($active_id, $pass);
 		$sol = array();
 		foreach ($solutions as $solution)
@@ -1041,19 +1028,19 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 		asort($sol);
 		$sol = array_keys($sol);
-		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
-		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+
 		$i = 1;
 		$answers = $this->getAnswers();
 		foreach ($sol as $idx)
 		{
 			foreach ($solutions as $solution)
 			{
-				if ($solution["value1"] == $idx) $worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($solution["value2"]));
+				if ($solution["value1"] == $idx) $worksheet->setCell($startrow + $i, 0, $solution["value2"]);
 			}
-			$worksheet->writeString($startrow + $i, 1, ilExcelUtils::_convert_text($answers[$idx]->getAnswertext()));
+			$worksheet->setCell($startrow + $i, 1, $answers[$idx]->getAnswertext());
 			$i++;
 		}
+
 		return $startrow + $i + 1;
 	}
 
@@ -1506,7 +1493,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	*/
 	public function getUserQuestionResult($active_id, $pass)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 

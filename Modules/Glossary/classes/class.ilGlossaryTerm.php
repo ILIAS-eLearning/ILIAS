@@ -273,7 +273,7 @@ class ilGlossaryTerm
 		$defs = ilGlossaryDefinition::getDefinitionList($this->getId());
 		foreach($defs as $def)
 		{
-			$def_obj =& new ilGlossaryDefinition($def["id"]);
+			$def_obj = new ilGlossaryDefinition($def["id"]);
 			$def_obj->delete();
 		}
 		$ilDB->manipulate("DELETE FROM glossary_term ".

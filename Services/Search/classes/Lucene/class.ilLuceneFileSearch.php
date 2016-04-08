@@ -49,9 +49,9 @@ class ilLuceneFileSearch
 		include_once './Services/Search/classes/Lucene/class.ilLuceneRPCAdapter.php';
 		include_once './Services/Search/classes/class.ilSearchResult.php';
 
-		$result =& new ilSearchResult();
+		$result = new ilSearchResult();
 
-		$rpc_adapter =& new ilLuceneRPCAdapter();
+		$rpc_adapter = new ilLuceneRPCAdapter();
 		$rpc_adapter->setMode('query');
 		$rpc_adapter->setSearchFilter(array('file'));
 		$rpc_adapter->setQueryString($this->query_parser->getLuceneQueryString());

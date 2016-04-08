@@ -26,7 +26,7 @@ include_once($BEAUT_PATH."/Beautifier/Context.php");
 class Core
 {
 
-function Core($file=undef, $outputmodule)
+function __construct($file=undef, $outputmodule)
 {
 	if (!isset($file)) $file = new HFile();
 	$this->zbuffer = false;

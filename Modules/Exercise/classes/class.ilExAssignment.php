@@ -1097,7 +1097,7 @@ class ilExAssignment
 	/**
 	 * Order assignments by deadline date
 	 */
-	function countMandatory($a_ex_id)
+	static function countMandatory($a_ex_id)
 	{
 		global $ilDB;
 		

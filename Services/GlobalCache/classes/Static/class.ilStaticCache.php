@@ -51,7 +51,7 @@ class ilStaticCache extends ilGlobalCacheService {
 	 *
 	 * @return bool
 	 */
-	public function set($key, $serialized_value, $ttl = NULL) {
+	public function set($key, $serialized_value, $ttl = null) {
 		return self::$cache[$this->getComponent()][$key] = $serialized_value;
 	}
 

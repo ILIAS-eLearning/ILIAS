@@ -67,7 +67,14 @@
 }
 
 .listentry {
-	position: relative;
+}
+
+.listentry {
+	display: block;
+} 
+
+.listentry div {
+	display: inline-block;
 }
 
 .listentry.self {
@@ -256,4 +263,12 @@ h2.current_room_title {
 #iosChatEmoticonsPanel img, .messageLine img {
 	max-width: 24px;
 	max-height: 24px;
+}
+
+#message_recipient_info {
+	word-wrap: normal;
+}
+
+#chat_users button .label {
+	vertical-align: middle !important;
 }

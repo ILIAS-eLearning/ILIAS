@@ -61,7 +61,7 @@ class ilAssQuestionHintTracking
 	 * question relating to the given testactive and testpass or not
 	 *
 	 * @access	public
-	 * @global	ilDB					$ilDB
+	 * @global	ilDBInterface					$ilDB
 	 * @return	boolean					$requestsExist
 	 */
 	public function requestsExist()
@@ -79,7 +79,7 @@ class ilAssQuestionHintTracking
 	 * question relating to the given testactive and testpass or not
 	 *
 	 * @access	public
-	 * @global	ilDB					$ilDB
+	 * @global	ilDBInterface					$ilDB
 	 * @return	integer					$numExisingRequests
 	 */
 	public function getNumExistingRequests()
@@ -111,7 +111,7 @@ class ilAssQuestionHintTracking
 	 * question relating to the given testactive and testpass or not
 	 *
 	 * @access	public
-	 * @global	ilDB		$ilDB
+	 * @global	ilDBInterface		$ilDB
 	 * @return	boolean		$requestsPossible
 	 */
 	public function requestsPossible()
@@ -152,7 +152,7 @@ class ilAssQuestionHintTracking
 	 * for the given testactive and testpass
 	 *
 	 * @access	public
-	 * @global	ilDB	$ilDB
+	 * @global	ilDBInterface	$ilDB
 	 * @param	integer	$hintId
 	 * @return	boolean	$isRequested
 	 */
@@ -189,7 +189,7 @@ class ilAssQuestionHintTracking
 	 * relating to given testactive and testpass
 	 *
 	 * @access	public
-	 * @global	ilDB				$ilDB
+	 * @global	ilDBInterface				$ilDB
 	 * @return	ilAssQuestionHint	$nextRequestableHint
 	 * @throws	ilTestException
 	 */
@@ -240,7 +240,7 @@ class ilAssQuestionHintTracking
 	 * relating to the given question, testactive and testpass
 	 * 
 	 * @access	public
-	 * @global	ilDB					$ilDB
+	 * @global	ilDBInterface					$ilDB
 	 * @return	ilAssQuestionHintList	$requestedHintsList
 	 */
 	public function getRequestedHintsList()
@@ -279,7 +279,7 @@ class ilAssQuestionHintTracking
 	 * question, testactive and testpass
 	 *
 	 * @access	public
-	 * @global	ilDB				$ilDB
+	 * @global	ilDBInterface				$ilDB
 	 * @param	ilAssQuestionHint	$questionHint
 	 */
 	public function storeRequest(ilAssQuestionHint $questionHint)
@@ -305,7 +305,7 @@ class ilAssQuestionHintTracking
 	 * - testpass
 	 *
 	 * @access public
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @return ilAssQuestionHintRequestStatisticData $requestsStatisticData
 	 */
 	public function getRequestStatisticDataByQuestionAndTestpass()
@@ -349,22 +349,22 @@ class ilAssQuestionHintTracking
 	
 	/**
 	 * Deletes all hint requests relating to a question included in given question ids
-	 *
-	 * @access public
-	 * @global ilDB $ilDB
-	 * @param array[integer] $questionIds 
+	 * @param array[integer] $questionIds
 	 */
-	public function deleteRequestsByQuestionIds($questionIds)
+	public static function deleteRequestsByQuestionIds($questionIds)
 	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
 		global $ilDB;
-		
+
 		$__question_fi__IN__questionIds = $ilDB->in('qhtr_question_fi', $questionIds, false, 'integer');
-				
+
 		$query = "
 			DELETE FROM	qpl_hint_tracking
 			WHERE		$__question_fi__IN__questionIds
 		";
-		
+
 		$ilDB->manipulate($query);
 	}
 	
@@ -372,10 +372,10 @@ class ilAssQuestionHintTracking
 	 * Deletes all hint requests relating to a testactive included in given active ids
 	 *
 	 * @access public
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param array[integer] $activeIds 
 	 */
-	public function deleteRequestsByActiveIds($activeIds)
+	public static function deleteRequestsByActiveIds($activeIds)
 	{
 		global $ilDB;
 		

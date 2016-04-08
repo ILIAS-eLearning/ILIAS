@@ -24,7 +24,6 @@ class ilObjWorkspaceRootFolderListGUI extends ilObjectListGUI
 		$this->cut_enabled = false;
 		$this->subscribe_enabled = false;
 		$this->link_enabled = false;
-		$this->payment_enabled = false;
 		$this->type = "root";
 		$this->gui_class_name = "ilobjworkspacerootfoldergui";
 
