@@ -319,10 +319,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	{
 		$this->lng->loadLanguageModule("form");
 		// remove trailing '/'
-		while (substr($_FILES["upload"]["name"],-1) == '/')
-		{
-			$_FILES["upload"]["name"] = substr($_FILES["upload"]["name"],0,-1);
-		}
+		$_FILES["upload"]["name"] = rtrim($_FILES["upload"]["name"], '/');
 
 		$filename = $_FILES["upload"]["name"];
 		$filename_arr = pathinfo($_FILES["upload"]["name"]);

@@ -217,10 +217,8 @@ class ilFileDataForum extends ilFileData
 			foreach($files['name'] as $index => $name)
 			{
 				// remove trailing '/'
-				while(substr($name, -1) == '/')
-				{
-					$name = substr($name, 0, -1);
-				}	
+				$name = rtrim($name, '/');
+
 				$filename = ilUtil::_sanitizeFilemame($name);				
 				$temp_name = $files['tmp_name'][$index];
 				$error = $files['error'][$index];
@@ -239,10 +237,8 @@ class ilFileDataForum extends ilFileData
 		else if(isset($files['name']) && is_string($files['name']))
 		{
 			// remove trailing '/'
-			while(substr($files['name'], -1) == '/')
-			{
-				$files['name'] = substr($files['name'], 0, -1);
-			}			
+			$files['name'] = rtrim($files['name'], '/');
+				
 			$filename = ilUtil::_sanitizeFilemame($files['name']);
 			$temp_name = $files['tmp_name'];
 			
