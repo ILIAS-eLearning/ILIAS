@@ -6495,7 +6495,7 @@ content#:#st#:#Kapitel
 content#:#start export#:#Export starten
 content#:#text_repr#:#Alternativtext
 content#:#text_repr_info#:#Wird verwendet, wenn die Grafik nicht angezeigt werden kann.
-crs#:#activation_times_not_valid#:#Die Zeidauer für 'Verfügbarkeit' ist nicht gültig.
+crs#:#activation_times_not_valid#:#Die Zeitdauer für 'Verfügbarkeit' ist nicht gültig.
 crs#:#add_event#:#Sitzung hinzufügen
 crs#:#assigned#:#Zugeordnet
 crs#:#contact_email_not_valid#:#Die E-Mail Adresse ist nicht gültig.
@@ -6925,7 +6925,7 @@ crs#:#crs_subscription_type#:#Beitrittsverfahren
 crs#:#crs_suggest_lm#:#Empfehle Lernmaterialien bei:
 crs#:#crs_suggested_sections#:#Empfohlene Abschnitte
 crs#:#crs_suggestion_end#:#Empfohlenes Ende
-crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, dass die ausgewählten Archive gelöscht werden sollen
+crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, dass die ausgewählten Archive gelöscht werden sollen?
 crs#:#crs_syllabus#:#Kursprogramm
 crs#:#crs_table_start_objects#:#Startobjekte
 crs#:#crs_test_status_complete#:#Fertiggestellt
@@ -6961,7 +6961,7 @@ crs#:#crs_timings_sug_end#:#Empfohlenes Ende
 crs#:#crs_timings_suggested_info#:#Empfohlene Bearbeitungszeit
 crs#:#crs_timings_time_frame#:#Zeitrahmen
 crs#:#crs_timings_update_error#:#Die empfohlene Lernzeit folgender Kursmaterialien widerspricht dem angegebenen spätestmöglichen Lernzeitpunkt.
-crs#:#crs_timings_visibility#:#Wenn aktiviert, ist das Lernmaterial auch außerhalb der vorgesehen Verfügbarkeit sichtbar.
+crs#:#crs_timings_visibility#:#Wenn aktiviert, ist das Lernmaterial auch außerhalb der vorgesehenen Verfügbarkeit sichtbar.
 crs#:#crs_timings_visibility_short#:#Sichtbarkeit
 crs#:#crs_to#:#Bis:
 crs#:#crs_tutor#:#Tutor
