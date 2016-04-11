@@ -329,7 +329,7 @@ class gevTrainerOperationByOrgUnitAndTrainerGUI extends catBasicReportGUI{
 
 
 
-	protected function _process_xls_title($val) {
+	protected function _process_xlsx_title($val) {
 		$val = str_replace('<b>', '', $val);
 		$val = str_replace('</b>', '', $val);
 		$val = str_replace('&nbsp;', '', $val);

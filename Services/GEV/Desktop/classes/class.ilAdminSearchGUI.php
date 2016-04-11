@@ -23,7 +23,8 @@ require_once("Services/GEV/Desktop/classes/class.ilAdminSearchTableGUI.php");
 class ilAdminSearchGUI {
 	public function __construct() {
 		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog;
-
+		ini_set('memory_limit', '1024M');
+		
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
 		$this->tpl = &$tpl;

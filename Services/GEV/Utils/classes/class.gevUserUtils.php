@@ -49,8 +49,10 @@ class gevUserUtils {
 	protected function __construct($a_user_id) {
 		global $ilDB;
 		global $ilAccess;
+		global $lng;
 		
 		$this->user_id = $a_user_id;
+		$this->gLng = $lng;
 		$this->courseBookings = ilUserCourseBookings::getInstance($a_user_id);
 		$this->gev_set = gevSettings::getInstance();
 		$this->udf_utils = gevUDFUtils::getInstance();
@@ -519,96 +521,6 @@ class gevUserUtils {
 			return $ret;
 	}
 
-	public function getMyTrainingsAdminCourseInformation($a_order_field, $a_order_direction, $search_opts = null) {
-			// used by gevMyTrainingsApTable, i.e.
-		
-			if ((!$a_order_field && $a_order_direction) || ($a_order_field && !$a_order_direction)) {
-				throw new Exception("gevUserUtils::getMyTrainingsAdminCourseInformation: ".
-									"You need to set both: order_field and order_direction.");
-			}
-			
-			if ($a_order_direction) {
-				$a_order_direction = strtoupper($a_order_direction);
-				if (!in_array($a_order_direction, array("ASC", "DESC"))) {
-					throw new Exception("gevUserUtils::getMyTrainingsAdminCourseInformation: ".
-										"order_direction must be ASC or DESC.");
-				}
-			}
-			
-			//require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
-			require_once("Services/TEP/classes/class.ilTEPCourseEntries.php");
-			require_once "Modules/Course/classes/class.ilObjCourse.php";
-			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-			require_once("Services/ParticipationStatus/classes/class.ilParticipationStatus.php");
-			require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusHelper.php");
-			require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusPermissions.php");
-			
-			$crss = $this->getCourseIdsWhereUserIs(gevSettings::$CRS_MANAGER_ROLES, $search_opts);
-			$crss_ids = array_keys($crss);
-			
-			//do the amd-dance
-			$crs_amd = 
-			array( gevSettings::CRS_AMD_START_DATE			=> "start_date"
-				 , gevSettings::CRS_AMD_END_DATE 			=> "end_date"
-				 
-				 , gevSettings::CRS_AMD_CUSTOM_ID			=> "custom_id"
-				 , gevSettings::CRS_AMD_TYPE 				=> "type"
-				 
-				 , gevSettings::CRS_AMD_VENUE 				=> "location"
-				 , gevSettings::CRS_AMD_VENUE_FREE_TEXT 	=> "location_free_text"
-
-				 , gevSettings::CRS_AMD_MAX_PARTICIPANTS	=> "mbr_max"
-				 , gevSettings::CRS_AMD_MIN_PARTICIPANTS	=> "mbr_min"
-				 
-				 , gevSettings::CRS_AMD_TARGET_GROUP		=> "target_group"
-				 , gevSettings::CRS_AMD_TARGET_GROUP_DESC	=> "target_group_desc"
-				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
-				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
-				 , gevSettings::CRS_AMD_CREDIT_POINTS 		=> "credit_points"
-			);
-			
-			if ($a_order_field) {
-				$order_sql = " ORDER BY ".$this->db->quoteIdentifier($a_order_field)." ".$a_order_direction;
-			}
-			else {
-				$order_sql = "";
-			}
-			
-			$crss_amd = gevAMDUtils::getInstance()->getTable($crss_ids, $crs_amd, array("pstatus.state pstate"),
-				// Join over participation status table to remove courses, where state is already
-				// finalized
-				array(" LEFT JOIN crs_pstatus_crs pstatus ON pstatus.crs_id = od.obj_id "),
-				" AND ( pstatus.state != ".$this->db->quote(ilParticipationStatus::STATE_FINALIZED, "integer").
-			    "       OR pstatus.state IS NULL) ".$order_sql
-				);
-
-			$ret = array();
-
-			foreach ($crss_amd as $id => $entry) {
-				$entry['crs_ref_id'] = $crss[$id];
-
-				$crs_utils = gevCourseUtils::getInstance($id);
-				$orgu_utils = gevOrgUnitUtils::getInstance($entry["location"]);
-				$ps_helper = ilParticipationStatusHelper::getInstance($crs_utils->getCourse());
-				$ps_permission = ilParticipationStatusPermissions::getInstance($crs_utils->getCourse(), $this->user_id);
-
-				$entry["location"] = $orgu_utils->getLongTitle();
-
-				$entry['mbr_booked_userids'] = $crs_utils->getParticipants();
-				$entry['mbr_booked'] = count($entry['mbr_booked_userids']);
-				$entry['mbr_waiting_userids'] = $crs_utils->getWaitingMembers($id);
-				$entry['mbr_waiting'] = count($entry['mbr_waiting_userids']);
-				$entry['tutor'] = $crs_utils->getTrainers(true);
-				
-				$entry['may_finalize'] = $crs_utils->canModifyParticipationStatus($this->user_id);
-
-				$ret[$id] = $entry;
-			}
-
-			//sort?
-			return $ret;
-	}
-	
 	public function getEmployeeIdsForBookingView() {
 		if ($this->employee_ids_for_booking_view) {
 			return $this->employee_ids_for_booking_view;
@@ -1114,6 +1026,19 @@ class gevUserUtils {
 		return "";
 	}
 
+	public function getAllIDHGBAADStatus() {
+		$roles = $this->getGlobalRoles();
+		$return = array();
+		foreach ($roles as $role) {
+			$title = ilObject::_lookupTitle($role);
+			$status = gevSettings::$IDHGBAAD_STATUS_MAPPING[$title];
+			if ($status !== null) {
+				$return[] = $status;
+			}
+		}
+		return $return;
+	}
+
 	public function isNA() {
 		return $this->hasRoleIn(array("NA"));
 	}
@@ -1243,18 +1168,23 @@ class gevUserUtils {
 		if (!array_key_exists($a_crs_id, $this->users_who_booked_at_course)) {
 			$bk_info = ilCourseBooking::getUserData($a_crs_id, $this->user_id);
 			$this->users_who_booked_at_course[$a_crs_id] 
-				= new ilObjUser($bk_info["status_changed_by"]);
+				= self::userIdExists($bk_info["status_changed_by"]) ? new ilObjUser($bk_info["status_changed_by"]) : null;
 		}
-		
 		return $this->users_who_booked_at_course[$a_crs_id];
 	}
 	
 	public function getFirstnameOfUserWhoBookedAtCourse($a_crs_id) {
-		return $this->getUserWhoBookedAtCourse($a_crs_id)->getFirstname();
+		$return = $this->getUserWhoBookedAtCourse($a_crs_id) 
+			? $this->getUserWhoBookedAtCourse($a_crs_id)->getFirstname()
+			: '';
+		return $return;
 	}
 	
 	public function getLastnameOfUserWhoBookedAtCourse($a_crs_id) {
-		return $this->getUserWhoBookedAtCourse($a_crs_id)->getLastname();
+		$return = $this->getUserWhoBookedAtCourse($a_crs_id) 
+			? $this->getUserWhoBookedAtCourse($a_crs_id)->getLastname()
+			: $this->gLng->txt("gev_deleted_user");
+		return $return;
 	}
 	
 	public function getBookingStatusAtCourse($a_course_id) {
@@ -2126,5 +2056,21 @@ class gevUserUtils {
 		$bb_pools = array_unique($bb_pools);
 
 		return $bb_pools;
+	}
+
+	public function getRoleHistory() {
+		$query = "SELECT hiur.rol_title, ud.firstname, ud.lastname, hiur.action, hiur.created_ts"
+				." FROM hist_userrole hiur"
+				." JOIN usr_data ud ON ud.usr_id = hiur.creator_user_id"
+				." WHERE hiur.usr_id = ".$this->db->quote($this->user_id, "integer")
+				." ORDER BY hiur.created_ts";
+
+		$ret = array();
+		$res = $this->db->query($query);
+		while($row = $this->db->fetchAssoc($res)) {
+			$ret[] = $row;
+		}
+
+		return $ret;
 	}
 }

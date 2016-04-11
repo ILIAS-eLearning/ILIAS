@@ -44,4 +44,8 @@ class TypeFactory {
 		$sub_types = func_get_args();
 		return new Types\OptionType($sub_types);
 	}
+
+	public function dict(array $types ) {
+		return new Types\DictionaryType($types);
+	}
 }

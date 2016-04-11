@@ -403,7 +403,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		$mail_data = new gevCrsMailData();
 		$mail_data->initCourseData($this->getCourseUtils());
 
-		if ($a_user_id !== null) {
+		if ($a_user_id !== null && gevUserUtils::userIdExists($a_user_id)) {
 			$mail_data->setRecipient($a_user_id, $a_email, $a_name);
 			$mail_data->initUserData(gevUserUtils::getInstance($a_user_id));
 		}

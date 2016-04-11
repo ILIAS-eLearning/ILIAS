@@ -76,7 +76,7 @@ class Navigator {
 	}
 
 	public function go_to($path) {
-		$path = explode(":",$path);
+		$path = explode("_",$path);
 		$tmp = $this->getItemByPath($path, $this->tree);
 
 		if(!$tmp) {
@@ -107,6 +107,6 @@ class Navigator {
 	}
 
 	public function path() {
-		return implode(":",$this->path);
+		return implode("_",$this->path);
 	}
 }

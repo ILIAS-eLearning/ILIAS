@@ -353,6 +353,9 @@ exc#:#exc_team_member_container_add#:#Team-Mitglied aus Training/Gruppe hinzufü
 exercise#:#exc_crs_add_members#:#Mitglieder dieses Trainings hinzufügen
 exercise#:#exc_feedback_from_tutor#:#Feedback des Trainers
 fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen und Ordner öffnen, indem Sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
+gev#:#report_query_view#:#Abfrage betrachten
+gev#:#report_query_text#:#Abfrage:
+gev#:#edit_settings#:#Einstellungen bearbeiten
 gev#:#gev_crs_template#:#Vorlage
 gev#:#dont_send_mail#:#keine Mail versenden
 gev#:#evg_email#:#E-Mail-Adresse
@@ -635,6 +638,10 @@ gev#:#gev_position_key#:#Stellungsschlüssel
 gev#:#gev_pot_applicants#:#POT Bewerber
 gev#:#gev_pot_participants#:#POT Teilnehmer
 gev#:#gev_prearrival_note#:#Achtung: Bei eintägigen Trainings bitte keine Übernachtungen buchen. Vorabendanreisen oder Abreisen am nächsten Morgen bedürfen der gesonderten Genehmigung der Führungskraft.
+gev#:#gev_hotel_pre_arrival#:#Vorabendanreise
+gev#:#gev_hotel_post_departure#:#Nachtagsabreise
+gev#:#gev_hotel_self_payment_pre_arr#:#Selbstzahler Vorabendanreise
+gev#:#gev_cnt_overnights#:#Anzahl Übernachtungen
 gev#:#gev_presave#:#Zwischenspeichern
 gev#:#gev_private_contact#:#Kontaktdaten privat
 gev#:#gev_private_contact_info#:#Die Angabe Ihrer E-Mail und Mobiltelefonnummer ist zwingend notwendig, damit Ihr Konto in der zentralen Weiterbildungsdatenbank eröffnet und gepflegt werden kann.
@@ -1093,6 +1100,8 @@ gev#:#gev_learning_cat#:#Kategorie
 gev#:#apdays#:#Trainertage
 gev#:#gev_my_local_user_admin#:#Benutzerverwaltung: %s
 gev#:#gev_report_exportxls#:#Excel-Export
+gev#:#gev_report_excel_export#:#Excel-Export
+gev#:#gev_deleted_user#:#gelöschter Benutzer
 content#:#cont_ie_compatibility#:#Internet Explorer 7 Kompatibilitätsmodus
 content#:#cont_ie_compatibility_info#:#Insbesondere für ältere Lernmodule kann das Aktivieren des Kompatibilitätsmodus hilfreich sein. Bitte beachten Sie, dass bei neueren Versionen des Internet Explorer der Kompatibilitätsmodus deaktiviert werden kann.
 content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
@@ -1473,3 +1482,33 @@ gev#:#copy_building_block_pool#:#Kopieren
 gev#:#edit_building_blocks#:#Bausteine bearbeiten
 gev#:#gev_bbpool_plugin_confirm_delete_bb#:#Möchten Sie den Trainigsbaustein wirklich löschen?
 gev#:#gev_dec_training_no_block_warning#:#Für Sie wurden keine Trainingsbausteine gefunden, die Sie verwenden dürfen. Eine Anlage des Trainings ist dadurch nicht möglich.
+gev#:#gev_clear_and_save#:#Leeren und Speichern
+gev#:#gev_wbd_checks_bwvid_not_empty#:#Der Benutzer besitzt eine BWV ID.
+gev#:#gev_wbd_checks_bwvid_empty#:#Der Benutzer besitzt keine BWV ID.
+gev#:#gev_wbd_checks_entry_date_not_passed#:#Das Eintrittsdatum liegt nicht in der Vergangenheit.
+gev#:#gev_wbd_checks_exit_date_not_passed#:#Das Austrittsdatum liegt nicht in der Vergangenheit.
+gev#:#gev_wbd_check_wbd_register_not_finished#:#Der Benutzer hat die WBD Registrierung nicht beendet.
+gev#:#gev_wbd_check_user_is_released#:#Der Benutzer ist bereits Freigegeben.
+gev#:#gev_wbd_check_open_wbd_errors#:#Es bestehen noch offen WBD Fehler.
+gev#:#gev_wbd_check_user_has_wrong_service_type#:#Der Benutzer hat den falschen TP Typ.
+gev#:#gev_wbd_check_no_wbdrelevant_role#:#Der Benutzer soll aufgrund seiner Rollen nicht behandelt werden.
+gev#:#gev_wbd_check_user_is_inactive#:#Der Benutzer ist inaktiv.
+gev#:#gev_wbd_check_no_handle_user#:#Der Benutzer soll nicht für die WBD behandelt werden.
+gev#:#gev_wbd_check_user_not_exist#:#Der Benutzer existiert nicht.
+gev#:#gev_user_role_history#:#Rollenhistorie
+gev#:#gev_user_role_history_title#:#Rolle
+gev#:#gev_user_role_history_date#:#Datum
+gev#:#gev_user_role_history_user#:#Bearbeitet von
+gev#:#gev_user_role_history_action#:#Aktion
+gev#:#gev_user_role_history_add#:#Hinzugefügt
+gev#:#gev_user_role_history_removed#:#Entfernt
+gev#:#gev_user_role_history_unknown#:#Unbekannt
+gev#:#gev_training_status#:#Trainingsstatus
+gev#:#gev_training_admin_search_presence#:#Präsenztraining
+gev#:#gev_training_admin_search_webinar#:#Webinar
+gev#:#gev_training_admin_search_closed#:#abgeschlossen
+gev#:#gev_training_admin_search_wip#:#in Bearbeitung
+gev#:#gev_training_admin_search_not_closed#:#noch nicht finalisiert
+gev#:#gev_filter_period_from#:#Von
+gev#:#gev_filter_period_to#:#Bis
+gev#:#gev_training_admin_search_period#:#Zeitraum

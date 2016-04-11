@@ -81,17 +81,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			return "";
 		}
 
-		//gev-april-patch start
-		if( date('Y-m-d') === '2016-04-01' && $this->user_utils ) {
-			if($_COOKIE["april"][$this->gUser->getId()] !== "april") {
-				$this->tpl->setCurrentBlock("april_april");
-				$this->tpl->setVariable('USER_NAME',
-					$this->user_utils->getFirstname().' '.$this->user_utils->getLastname());
-				$this->tpl->parseCurrentBlock();
-				setcookie("april[".$this->gUser->getId()."]","april",time()+24*3600);
-			}
-		}
-		//gev-april-patch end
 		// switch to patch template
 		$a_tpl = new ilTemplate("tpl.gev_main_menu_entries.html", true, true, "Services/GEV/Desktop");
 		
@@ -359,10 +348,8 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		require_once("Services/Link/classes/class.ilLink.php");
 		require_once("Services/ReportsRepository/classes/class.ilObjReportBase.php");
 		$entries = array
-			( "gev_report_attendance_by_employee" => array($this->canViewReport("gev_report_attendance_by_employee"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByEmployee",$this->gLng->txt("gev_report_attendance_by_employee"))
-			, "gev_report_employee_edu_bio" => array($this->canViewReport("gev_report_employee_edu_bio"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportEmployeeEduBios",$this->gLng->txt("gev_report_employee_edu_bios"))
+			( "gev_report_employee_edu_bio" => array($this->canViewReport("gev_report_employee_edu_bio"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportEmployeeEduBios",$this->gLng->txt("gev_report_employee_edu_bios"))
 			, "gev_report_bookingbyvenue" => array($this->canViewReport("gev_report_bookingbyvenue"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportBookingsByVenue",$this->gLng->txt("gev_report_bookingbyvenue"))
-			, "gev_report_attendance_by_coursetemplate" => array($this->canViewReport("gev_report_attendance_by_coursetemplate"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByCourseTemplate",$this->gLng->txt("gev_report_attendancebycoursetemplate"))
 			, "gev_report_wbd_edupoints" => array($this->canViewReport("gev_report_wbd_edupoints"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportWBDEdupoints",$this->gLng->txt("gev_report_wbd_edupoints"))
 			, "gev_report_wbd_errors" => array($this->canViewReport("gev_report_wbd_errors"), "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->gLng->txt("gev_report_wbd_errors"))
 			, "gev_report_dbv_report" => array($this->canViewReport("gev_report_dbv_report"), "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReport",$this->gLng->txt("gev_report_dbv_report"))
@@ -394,10 +381,8 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			$visible_repo_reports = ilObjReportBase::getVisibleReportsObjectData($this->gUser);
 
 			$has_reporting_menu
-				=  $this->canViewReport("gev_report_attendance_by_employee")
-				|| $this->canViewReport("gev_report_bookingbyvenue")
+				=  $this->canViewReport("gev_report_bookingbyvenue")
 				|| $this->canViewReport("gev_report_employee_edu_bio")
-				|| $this->canViewReport("gev_report_attendance_by_coursetemplate")
 				|| $this->canViewReport("gev_report_wbd_edupoints")
 				|| $this->canViewReport("gev_report_wbd_errors")
 				|| $this->canViewReport("gev_report_dbv_report")
@@ -413,14 +398,10 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 
 	protected function canViewReport($report_name) {
 		switch ($report_name) {
-			case "gev_report_attendance_by_employee":
-				return $this->user_utils && ($this->user_utils->isAdmin() || $this->user_utils->isSuperior());
 			case "gev_report_employee_edu_bio":
 				return $this->user_utils && ($this->user_utils->isAdmin() || $this->user_utils->hasRoleIn(array("OD-Betreuer")) || $this->user_utils->isSuperior());
 			case "gev_report_bookingbyvenue":
 				return $this->user_utils && ($this->user_utils->isAdmin() || $this->user_utils->hasRoleIn(array("Veranstalter")));
-			case "gev_report_attendance_by_coursetemplate":
-				return $this->user_utils && $this->user_utils->isAdmin();
 			case "gev_report_wbd_edupoints":
 			case "gev_report_wbd_errors":
 				return $this->user_utils && $this->user_utils->isAdmin();

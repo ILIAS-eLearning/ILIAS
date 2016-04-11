@@ -83,7 +83,7 @@ class NavigatorTest extends PHPUnit_Framework_TestCase {
 
 		$navi->enter();
 		$this->assertEquals($navi->tree(), $fs);
-		$this->assertEquals($navi->path(), "1:0");
+		$this->assertEquals($navi->path(), "1_0");
 		$this->assertEquals($navi->current(), $f21);
 		try {
 			$navi->left();
@@ -98,7 +98,7 @@ class NavigatorTest extends PHPUnit_Framework_TestCase {
 
 		$navi->right();
 		$this->assertEquals($navi->tree(), $fs);
-		$this->assertEquals($navi->path(), "1:1");
+		$this->assertEquals($navi->path(), "1_1");
 		$this->assertEquals($navi->current(), $f22);
 		try {
 			$navi->enter();
@@ -108,7 +108,7 @@ class NavigatorTest extends PHPUnit_Framework_TestCase {
 
 		$navi->left();
 		$this->assertEquals($navi->tree(), $fs);
-		$this->assertEquals($navi->path(), "1:0");
+		$this->assertEquals($navi->path(), "1_0");
 		$this->assertEquals($navi->current(), $f21);
 
 		$navi->up();

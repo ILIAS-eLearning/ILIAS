@@ -194,9 +194,15 @@ class gevWBDErrorsGUI extends catBasicReportGUI{
 			.$this->ctrl->getLinkTarget($this, "resolve")
 			.'&err_id='
 			.$rec['id']
+			.'&'.$this->filter->getGETName().'='. $this->filter->encodeSearchParamsForGET().''
 			.'">'
 			.$this->lng->txt("gev_wbd_errors_resolve")
 			.'</a>';
+
+
+		if($this->lng->exists($rec["reason_full"])) {
+			$rec["reason_full"] = $this->lng->txt($rec["reason_full"]);
+		}
 
 		return $rec;
 	}

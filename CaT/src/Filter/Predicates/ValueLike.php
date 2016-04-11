@@ -106,4 +106,8 @@ class ValueLike {
 			return $self->IN($list);
 		});
 	}
+
+	public function IS_NULL() {
+		return $this->factory->IS_NULL($this);
+	}
 }

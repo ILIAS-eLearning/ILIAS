@@ -70,7 +70,7 @@ class ilObjReportEmplAttGUI extends ilObjReportBaseGUI {
 		return parent::transformResultRow($rec);
 	}
 
-	public static function transformResultRowXLS($rec) {
+	public static function transformResultRowXLSX($rec) {
 		global $lng;
 		// credit_points
 		if ($rec["credit_points"] == -1) {

@@ -220,4 +220,9 @@ class PredicateFactory {
 			return $self->_NOT($o);
 		}, $this);
 	}
+
+	
+	public function IS_NULL(Predicates\ValueLike $val) {
+		return new Predicates\PredicateIsNull($this, $val);
+	}
 }

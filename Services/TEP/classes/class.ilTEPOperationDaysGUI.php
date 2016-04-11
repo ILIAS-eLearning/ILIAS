@@ -273,6 +273,20 @@ class ilTEPOperationDaysGUI
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		$ilCtrl->redirect($this, "listOperationDays");
 	}
+
+	//gev-patch start
+	protected function clearOperationDaysList() {
+		global $ilCtrl, $lng;
+		
+		foreach($this->getCourse()->getMembersObject()->getTutors() as $tutor_id)
+		{
+			$this->getOperationDays()->setNoDaysForUser($tutor_id);
+		}
+
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$ilCtrl->redirect($this, "listOperationDays");
+	}
+	//gev-patch end
 	
 	
 	//

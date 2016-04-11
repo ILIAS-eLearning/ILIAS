@@ -155,10 +155,7 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 		return $filter;
 	}
 
-	protected function fetchData(callable $callback) {
-		if ($this->query === null) {
-			throw new Exception("catBasicReportGUI::fetchData: query not defined.");
-		}
+	public function buildQueryStatement() {
 		$local_condition = $this->is_local
 			? $this->gIldb->in('tpl.crs_id',array_unique($this->getSubtreeCourseTemplates()),false,'integer')
 			: " tpl.is_template = 'Ja' ";
@@ -177,15 +174,7 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 				.' 	AND tpl.hist_historic = 0 '
 				.'	AND '.$this->gIldb->in('tpl.type',array('Webinar','Präsenztraining','Virtuelles Training'),false,'text')
 				.' '.$this->queryOrder();
-
-		
-		$res = $this->gIldb->query($query);
-		$data = array();
-		
-		while($rec = $this->gIldb->fetchAssoc($res)) {
-			$data[] = call_user_func($callback,$rec);
-		}
-		return $data;
+		return $query;
 	}
 
 	public function getRelevantParameters() {
