@@ -16185,3 +16185,6 @@ exc#:#exc_delete_team#:#Team löschen
 sysc#:#sysc_tree_structure_failures#:#Anzahl von Fehlern in der Baumstruktur (parent-Relation): 
 sysc#:#sysc_message_tree_structure_confirm#:#Sind sie sicher, dass sie die Baumstruktur reparieren möchten. Es wird unbedingt empfohlen vor Reparatur eine Sicherung der ILIAS-Datenbank zu erstellen.
 sysc#:#sysc_btn_tree_structure#:#Baumstruktur neu generieren
+crs#:#event_tbl_tutors#:#Tutoren
+crs#:#event_tbl_admins#:#Administratoren
+crs#:#event_tbl_members#:#Mitglieder
