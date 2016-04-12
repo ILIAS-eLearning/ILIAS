@@ -61,8 +61,9 @@ class ilBadgeImageTemplate
 		$res = array();
 		
 		foreach(self::getInstances() as $tmpl)
-		{
-			if(in_array($a_type_unique_id, $tmpl->getTypes()))
+		{			
+			if(!sizeof($tmpl->getTypes()) ||
+				in_array($a_type_unique_id, $tmpl->getTypes()))
 			{
 				$res[] = $tmpl;
 			}			
