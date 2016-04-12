@@ -161,7 +161,8 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 		
-		$this->tpl->setVariable("PREVIEW", $a_set["renderer"]->getHTML());
+		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
+		$this->tpl->setVariable("PREVIEW", $a_set["renderer"]->getHTML());	
 		$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 		$this->tpl->setVariable("TXT_ISSUED_ON", ilDatePresentation::formatDate(new ilDateTime($a_set["issued_on"], IL_CAL_UNIX)));
 		$this->tpl->setVariable("TXT_ACTIVE", $a_set["active"]

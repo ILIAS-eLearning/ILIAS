@@ -290,11 +290,11 @@ class ilBadge
 		if($this->getId() &&
 			$a_upload_meta["tmp_name"])
 		{
- 			$path = $this->getFilePath($this->getId());
-			$tgt = $path."img".$this->getId();
-			if(move_uploaded_file($a_upload_meta["tmp_name"], $tgt))
+			$this->setImage($a_upload_meta["name"]);			
+ 			$path = $this->getImagePath();			
+			if(move_uploaded_file($a_upload_meta["tmp_name"], $path))
 			{
-				$this->setImage($a_upload_meta["name"]);
+				
 				$this->update();			
 			}
 		}
@@ -317,7 +317,8 @@ class ilBadge
 	{
 		if($this->getId())
 		{
-			return $this->getFilePath($this->getId())."img".$this->getId();
+			$suffix = strtolower(array_pop(explode(".", $this->getImage())));
+			return $this->getFilePath($this->getId())."img".$this->getId().".".$suffix;
 		}
 	}
 	
@@ -429,6 +430,13 @@ class ilBadge
 			return;
 		}
 		
+		if(file_exists($this->getImagePath()))
+		{
+			unlink($this->getImagePath());
+		}
+		
+		$this->deleteStaticFiles();
+		
 		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
 		ilBadgeAssignment::deleteByBadgeId($this->getId());
 		
@@ -527,5 +535,14 @@ class ilBadge
 		return $base_url."class.json";
 	}
 
+	public function deleteStaticFiles()
+	{
+		// remove instance files
+		$path = ilBadgeHandler::getInstance()->getBadgePath($this);		
+		if(file_exists($path))
+		{
+			ilUtil::delDir($path);
+		}		
+	}
 }
 

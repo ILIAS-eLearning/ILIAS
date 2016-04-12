@@ -244,6 +244,8 @@ class ilBadgeAssignment
 			return;
 		}
 		
+		$this->deleteStaticFiles();
+		
 		$ilDB->manipulate("DELETE FROM badge_user_badge".
 			" WHERE badge_id = ".$ilDB->quote($this->getBadgeId(), "integer").
 			" AND user_id = ".$ilDB->quote($this->getUserId(), "integer"));
@@ -251,35 +253,26 @@ class ilBadgeAssignment
 	
 	public static function deleteByUserId($a_user_id)
 	{
-		global $ilDB;
-		
-		$ilDB->manipulate("DELETE FROM badge_user_badge".
-			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer"));
+		foreach(self::getInstancesByUserId($a_user_id) as $ass)
+		{
+			$ass->delete();
+		}			
 	}
 	
 	public static function deleteByBadgeId($a_badge_id)
-	{
-		global $ilDB;
-		
-		$ilDB->manipulate("DELETE FROM badge_user_badge".
-			" WHERE badge_id = ".$ilDB->quote($a_badge_id, "integer"));
+	{		
+		foreach(self::getInstancesByBadgeId($a_badge_id) as $ass)
+		{
+			$ass->delete();
+		}		
 	}
 	
-	// :TODO: to be discussed
 	public static function deleteByParentId($a_parent_obj_id)
 	{
-		global $ilDB;
-	
-		$badge_ids = array();
-		foreach(ilBadge::getInstancesByParentId($a_parent_obj_id) as $badge)
+		foreach(self::getInstancesByParentId($a_parent_obj_id) as $ass)
 		{
-			$badge_ids[] = $badge->getId();
-		}
-		if(sizeof($badge_ids))
-		{
-			$ilDB->manipulate("DELETE FROM badge_user_badge".
-			" WHERE ".$ilDB->in("badge_id", $badge_ids, "", "integer"));
-		}
+			$ass->delete();
+		}	
 	}
 	
 	public static function updatePositions($a_user_id, array $a_positions)
@@ -340,20 +333,82 @@ class ilBadgeAssignment
 		include_once "Services/Badge/classes/class.ilBadge.php";
 		$badge = new ilBadge($this->getBadgeId());
 		$badge_url = $badge->getStaticUrl();
-		
-		// :TODO: created baked image
-		 
-		$json->image = str_replace(
-			"class.json",
-			"image.".array_pop(explode(".", $badge->getImage())),
-			$badge_url
-		);
+									
+		// created baked image
+		$baked_image = $this->bakeImage($this->getImagePath($badge), $badge->getImagePath(), $a_url);				 
+		if($baked_image)
+		{
+			// path to url
+			$parts = explode("/", $badge_url);
+			array_pop($parts);
+			$parts[] = $baked_image;
+			$json->image = implode("/", $parts);		
+		}
 		
 		$json->issuedOn = $this->getTimestamp();
 		$json->badge =  $badge_url;		
 		$json->verify = $verify;	
 		
 		return $json;
+	}
+	
+	public function getImagePath(ilBadge $a_badge)
+	{
+		$json_path = ilBadgeHandler::getInstance()->getInstancePath($this);
+		$baked_path = dirname($json_path);
+		$baked_file = array_shift(explode(".", basename($json_path)));
+		
+		// get correct suffix from badge image
+		$suffix = strtolower(array_pop(explode(".", basename($a_badge->getImagePath()))));		
+		return $baked_path."/".$baked_file.".".$suffix;		
+	}
+	
+	protected function bakeImage($a_baked_image_path, $a_badge_image_path, $a_assertion_url)
+	{				
+		$suffix = strtolower(array_pop(explode(".", basename($a_badge_image_path))));		
+		if($suffix == "png")
+		{
+			// using chamilo baker lib
+			include_once "Services/Badge/lib/baker.lib.php";			
+			$png = new PNGImageBaker(file_get_contents($a_badge_image_path));
+			
+			// add payload
+			if($png->checkChunks("tEXt", "openbadges")) 
+			{
+				$baked = $png->addChunk("tEXt", "openbadges", $a_assertion_url);				
+			}		
+			
+			// create baked file			
+			if(!file_exists($a_baked_image_path))
+			{
+				file_put_contents($a_baked_image_path, $baked);
+			}							
+			
+			// verify file
+			$verify = $png->extractBadgeInfo(file_get_contents($a_baked_image_path));			
+			if(is_array($verify)) 
+			{
+				return true;
+			}
+		}
+		else if($suffix == "svg")
+		{
+			// :TODO: not really sure if this is correct
+			$svg = simplexml_load_file($a_badge_image_path);
+			$ass = $svg->addChild("openbadges:assertion", "", "http://openbadges.org");
+			$ass->addAttribute("verify", $a_assertion_url);
+			$baked = $svg->asXML();
+			
+			// create baked file			
+			if(!file_exists($a_baked_image_path))
+			{
+				file_put_contents($a_baked_image_path, $baked);				
+			}		
+			
+			return true;
+		}		
+		
+		return false;
 	}
 	
 	public function getStaticUrl()
@@ -370,16 +425,20 @@ class ilBadgeAssignment
 		
 		return $url;
 	}
+	
+	public function deleteStaticFiles()
+	{
+		// remove instance files
+		$path = ilBadgeHandler::getInstance()->getInstancePath($this);		
+		$path = str_replace(".json", ".*", $path);		
+		array_map("unlink", glob($path));
+	}
 		
 	public static function clearBadgeCache($a_user_id)
 	{
 		foreach(self::getInstancesByUserId($a_user_id) as $ass)
 		{
-			$path = ilBadgeHandler::getInstance()->getInstancePath($ass);
-			if(file_exists($path))
-			{
-				unlink($path);
-			}
+			$ass->deleteStaticFiles();
 		}
 	}
 }
