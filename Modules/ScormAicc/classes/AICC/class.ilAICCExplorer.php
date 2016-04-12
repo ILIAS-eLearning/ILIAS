@@ -214,65 +214,42 @@ class ilAICCExplorer extends ilSCORMExplorer
 			//$tab = ++$a_depth - 2;
 			$tab = ++$a_depth - $this->getNodesToSkip();
 
-			foreach ($objects as $key => $object)
-			{
+			foreach ($objects as $key => $object) {
 				//ask for FILTER
-				if ($this->filtered == false or $this->checkFilter($object["c_type"]) == false)
-				{
-					if ($this->isVisible($object["obj_id"], $object["c_type"]))
-					{
-						if ($object["child"] != $this->tree->getRootId())
-						{
-							$parent_index = $this->getIndex($object);
-						}
-						$this->format_options["$counter"]["parent"]		= $object["parent"];
-						$this->format_options["$counter"]["child"]		= $object["child"];
-						$this->format_options["$counter"]["title"]		= $object["title"];
-						$this->format_options["$counter"]["c_type"]		= $object["c_type"];
-						$this->format_options["$counter"]["obj_id"]		= $object["obj_id"];
-						$this->format_options["$counter"]["desc"] 		= "obj_".$object["c_type"];
-						$this->format_options["$counter"]["depth"]		= $tab;
-						$this->format_options["$counter"]["container"]	= false;
-						$this->format_options["$counter"]["visible"]	= true;
+				if ($this->filtered == false or $this->checkFilter($object["c_type"]) == false) {
+					if ($this->isVisible($object["obj_id"], $object["c_type"])) {
+						$this->addObjectToOutputArray($counter, $tab, $object);
 
-						// Create prefix array
-						for ($i = 0; $i < $tab; ++$i)
-						{
-							 $this->format_options["$counter"]["tab"][] = 'blank';
+						$this->createPrefixArray($counter, $tab);
+
+						$this->setObjectToExpand($object["c_type"], $object["obj_id"]);
+
+						$parent_index = $this->getParentIndex($object["child"]);
+
+						if ($parent_index == 0) {
+							$this->setParentExpanded($object["parent"]);
 						}
 
-						if ($object["c_type"]=="sos")
-							$this->setExpand($object["obj_id"]);
-						// fix explorer (sometimes explorer disappears)
-						if ($parent_index == 0)
-						{
-							if (!$this->expand_all and !in_array($object["parent"],$this->expanded))
-							{
-								$this->expanded[] = $object["parent"];
-							}
-						}
-						if ($object["child"] != $this->tree->getRootId() and (!$this->expand_all and !in_array($object["parent"],$this->expanded)
-						   or !$this->format_options["$parent_index"]["visible"]))
+						if ($object["child"] != $this->tree->getRootId() 
+							&& (!$this->expand_all and !in_array($object["parent"],$this->expanded)
+								or !$this->format_options["$parent_index"]["visible"]))
 						{
 							$this->format_options["$counter"]["visible"] = false;
 						}
+
 						// if object exists parent is container
-						if ($object["child"] != $this->tree->getRootId())
-						{
+						if ($object["child"] != $this->tree->getRootId()) {
 							$this->format_options["$parent_index"]["container"] = true;
-							if ($this->expand_all or in_array($object["parent"],$this->expanded))
-							{
+
+							if ($this->expand_all or in_array($object["parent"],$this->expanded)) {
 								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
-							}
-							else
-							{
+							} else {
 								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'plus';
 							}
 						}
 						++$counter;
 						// stop recursion if 2. level beyond expanded nodes is reached
-						if ($this->expand_all or in_array($object["parent"],$this->expanded) or ($object["parent"] == 0))
-						{
+						if ($this->expand_all or in_array($object["parent"],$this->expanded) or ($object["parent"] == 0)) {
 							// recursive
 							$this->setOutput($object["child"],$a_depth);
 						}
@@ -281,5 +258,41 @@ class ilAICCExplorer extends ilSCORMExplorer
 			} //foreach
 		} //if
 	} //function
+
+	protected function createPrefixArray($counter, $tab) {
+		for ($i = 0; $i < $tab; ++$i) {
+			 $this->format_options["$counter"]["tab"][] = 'blank';
+		}
+	}
+
+	protected function addObjectToOutputArray($counter, $tab, $object) {
+		$this->format_options["$counter"]["parent"]		= $object["parent"];
+		$this->format_options["$counter"]["child"]		= $object["child"];
+		$this->format_options["$counter"]["title"]		= $object["title"];
+		$this->format_options["$counter"]["c_type"]		= $object["c_type"];
+		$this->format_options["$counter"]["obj_id"]		= $object["obj_id"];
+		$this->format_options["$counter"]["desc"] 		= "obj_".$object["c_type"];
+		$this->format_options["$counter"]["depth"]		= $tab;
+		$this->format_options["$counter"]["container"]	= false;
+		$this->format_options["$counter"]["visible"]	= true;
+	}
+
+	protected function setObjectToExpand($c_type, $obj_id) {
+		if ($c_type =="sos") {
+			$this->setExpand($obj_id);
+		}
+	}
+
+	protected function getParentIndex($child) {
+		if ($child != $this->tree->getRootId()) {
+			return $this->getIndex($object);
+		}
+	}
+
+	protected function setParentExpanded($parent) {
+		if (!$this->expand_all && !in_array($parent, $this->expanded)) {
+			$this->expanded[] = $parent;
+		}
+	}
 }
 ?>
