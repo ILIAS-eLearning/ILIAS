@@ -334,14 +334,14 @@ class ilBadgeAssignment
 		$badge = new ilBadge($this->getBadgeId());
 		$badge_url = $badge->getStaticUrl();
 									
-		// created baked image
-		$baked_image = $this->bakeImage($this->getImagePath($badge), $badge->getImagePath(), $a_url);				 
-		if($baked_image)
-		{
+		// created baked image		 
+		$baked_image = $this->getImagePath($badge);
+		if($this->bakeImage($baked_image, $badge->getImagePath(), $a_url))
+		{			
 			// path to url
 			$parts = explode("/", $badge_url);
 			array_pop($parts);
-			$parts[] = $baked_image;
+			$parts[] = basename($baked_image);
 			$json->image = implode("/", $parts);		
 		}
 		
