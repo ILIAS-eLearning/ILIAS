@@ -381,7 +381,22 @@ class ilExAssignmentEditorGUI
 				}				 
 			}
 			else
-			{			
+			{	
+				// #18269
+				if($a_form->getInput("peer"))
+				{
+					$time_deadline_max = max($time_deadline, $time_deadline_ext);					
+					$peer_dl = $this->assignment->getPeerReviewDeadline();					
+					if($peer_dl && $peer_dl < $time_deadline_max)
+					{
+						$a_form->getItemByPostVar($peer_dl < $time_deadline_ext
+							? "deadline2" 
+							: "deadline")
+							->setAlert($lng->txt("exc_peer_deadline_mismatch"));
+						$valid = false;		
+					}					
+				}
+				
 				if($time_deadline_ext && $time_deadline_ext < $time_deadline)
 				{
 					$a_form->getItemByPostVar("deadline2")
