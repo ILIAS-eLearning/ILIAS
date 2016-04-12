@@ -87,8 +87,6 @@ class ilSCORMExplorer extends ilExplorer
 		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 
 		$tpl->setCurrentBlock("row");
-		//$tpl->setVariable("TYPE", $a_option["c_type"]);
-		//$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["c_type"].".png"));
 		$tpl->setVariable("TITLE", $lng->txt("cont_manifest"));
 		$tpl->setVariable("LINK_TARGET", $this->target."&".$this->target_get."=".$a_obj_id);
 		$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
