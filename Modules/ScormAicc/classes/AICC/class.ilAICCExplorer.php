@@ -79,10 +79,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 		else
 		{
 			$sc_object =& new ilAICCUnit($a_id);
-			//if ($sc_object->getIdentifierRef() != "")
-			//{
-				return true;
-			//}
+			return true;
 		}
 		return false;
 	}
@@ -90,51 +87,6 @@ class ilAICCExplorer extends ilSCORMExplorer
 	function formatItemTable(&$tpl, $a_id, $a_type)
 	{
 		global $lng;
-/*
-		if ($a_type != "sau")
-		{
-			return;
-		}
-		else
-		{
-			$sc_object =& new ilAICCUnit($a_id);
-			//if ($sc_object->getIdentifierRef() != "")
-			//{
-				$trdata = $sc_object->getTrackingDataOfUser();
-
-				// status
-				$status = ($trdata["lesson_status"] == "")
-					? "not attempted"
-					: $trdata["lesson_status"];
-				$tpl->setCurrentBlock("item_row");
-				$tpl->setVariable("TXT_KEY", $lng->txt("cont_status"));
-				$tpl->setVariable("TXT_VALUE",
-					$lng->txt("cont_sc_stat_".str_replace(" ", "_", $status)));
-				$tpl->parseCurrentBlock();
-
-				// credits
-				if ($trdata["mastery_score"] != "")
-				{
-					$tpl->setCurrentBlock("item_row");
-					$tpl->setVariable("TXT_KEY", $lng->txt("cont_credits"));
-					$tpl->setVariable("TXT_VALUE", $trdata["mastery_score"]);
-					$tpl->parseCurrentBlock();
-				}
-
-				// total time
-				if ($trdata["total_time"] != "")
-				{
-					$tpl->setCurrentBlock("item_row");
-					$tpl->setVariable("TXT_KEY", $lng->txt("cont_total_time"));
-					$tpl->setVariable("TXT_VALUE", $trdata["total_time"]);
-					$tpl->parseCurrentBlock();
-				}
-
-				$tpl->setCurrentBlock("item_table");
-				$tpl->parseCurrentBlock();
-			//}
-		}
-*/		
 	}
 
 
@@ -178,7 +130,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 					$tpl->parseCurrentBlock();
 					$pic = true;
 				}
-	
+
 				if ($picture == 'minus' && $this->show_minus)
 				{
 					$target = $this->createTarget('-',$a_node_id);
@@ -199,7 +151,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 			}
 		}
 
-		if ($this->output_icons)	{
+		if ($this->output_icons) {
 			if ($this->isClickable($a_option["c_type"], $a_node_id) && !$a_option["c_type"]=="sbl")
 				$this->getOutputIcons($tpl, $a_option, $a_node_id);
 		}
@@ -207,40 +159,23 @@ class ilAICCExplorer extends ilSCORMExplorer
 		if ($this->isClickable($a_option["c_type"], $a_node_id))	// output link
 		{
 			$tpl->setCurrentBlock("link");
-			//$target = (strpos($this->target, "?") === false) ?
-			//	$this->target."?" : $this->target."&";
-			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
-			//$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
+
 			$frame_target = $this->buildFrameTarget($a_option["c_type"], $a_node_id, $a_option["obj_id"]);
 			if ($frame_target != "")
 			{
-//				if ($this->api == 1)
-//				{
-//					$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
-//					$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
-//					//$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["c_type"]));
-//					$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["c_type"]));
-//				}
-//				else
-//				{
-					if ($a_option["c_type"]=="sbl") {
-						$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
-						$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
-						$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["c_type"]));
-						
-					} else {
-						
-						$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
-						$tpl->setVariable("LINK_TARGET", "javascript:void(0);");
-						$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API.IliasLaunchSahs('".$a_node_id."');return false;\"");
-						
-//					}
+				if ($a_option["c_type"]=="sbl") {
+					$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
+					$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
+					$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["c_type"]));
+				} else {
+					$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
+					$tpl->setVariable("LINK_TARGET", "javascript:void(0);");
+					$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API.IliasLaunchSahs('".$a_node_id."');return false;\"");
 				}
-
 			}
 			$tpl->parseCurrentBlock();
 		}
-		else			// output text only
+		else // output text only
 		{
 			$tpl->setCurrentBlock("text");
 			$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
@@ -258,7 +193,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 	{
 		global $rbacadmin, $rbacsystem;
 		static $counter = 0;
-		//echo "setOutput <br>";
+
 		if (!isset($a_parent_id))
 		{
 			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
@@ -279,13 +214,6 @@ class ilAICCExplorer extends ilSCORMExplorer
 			//$tab = ++$a_depth - 2;
 			$tab = ++$a_depth - $this->getNodesToSkip();
 
-
-			// Maybe call a lexical sort function for the child objects
-
-			//666if ($this->post_sort)
-			//{
-				//$objects = $this->sortNodes($objects);
-			//}
 			foreach ($objects as $key => $object)
 			{
 				//ask for FILTER
@@ -322,7 +250,6 @@ class ilAICCExplorer extends ilSCORMExplorer
 							{
 								$this->expanded[] = $object["parent"];
 							}
-							//$this->format_options["$parent_index"]["visible"] = true;
 						}
 						if ($object["child"] != $this->tree->getRootId() and (!$this->expand_all and !in_array($object["parent"],$this->expanded)
 						   or !$this->format_options["$parent_index"]["visible"]))
