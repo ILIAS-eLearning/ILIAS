@@ -16185,3 +16185,6 @@ exc#:#exc_delete_team#:#Delete Team
 sysc#:#sysc_tree_structure_failures#:#Number of failures in the tree structure (parent-Relation):
 sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tree structure? Please create a database backup before you proceed.
 sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure
+crs#:#event_tbl_admins#:#Administrators
+crs#:#event_tbl_members#:#Members
+crs#:#event_tbl_tutors#:#Tutors
