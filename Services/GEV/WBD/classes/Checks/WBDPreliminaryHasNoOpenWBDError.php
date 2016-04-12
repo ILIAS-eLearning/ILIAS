@@ -13,7 +13,7 @@ class WBDPreliminaryHasNoOpenWBDError extends WBDPreliminary {
 	 * @inheritdoc 
 	 */
 	public function performCheck(gevWBD $wbd) {
-		return !$wbd->hasOpenWBDErrors($wbd_errors);
+		return !$wbd->hasOpenWBDErrors($this->wbd_errors);
 	}
 }
 
