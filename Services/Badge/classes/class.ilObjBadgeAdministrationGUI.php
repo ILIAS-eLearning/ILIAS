@@ -144,6 +144,8 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 			$handler->setObiContact(trim($form->getInput("obi_cont")));
 			$handler->setObiSalt(trim($form->getInput("obi_salt")));
 			
+			$handler->rebuildIssuerStaticUrl();
+			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 			$ilCtrl->redirect($this, "editSettings");
 		}

@@ -530,6 +530,16 @@ class ilBadgeHandler
 		return $url;		
 	}
 	
+	public function rebuildIssuerStaticUrl()
+	{
+		$path = $this->getBasePath()."issuer/issuer.json";
+		if(file_exists($path))
+		{
+			unlink($path);
+		}
+		$this->getIssuerStaticUrl();
+	}
+	
 	
 	//
 	// notification
