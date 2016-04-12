@@ -339,7 +339,7 @@ class ilBadgeAssignment
 		if($this->bakeImage($baked_image, $badge->getImagePath(), $a_url))
 		{			
 			// path to url
-			$parts = explode("/", $badge_url);
+			$parts = explode("/", $a_url);
 			array_pop($parts);
 			$parts[] = basename($baked_image);
 			$json->image = implode("/", $parts);		
