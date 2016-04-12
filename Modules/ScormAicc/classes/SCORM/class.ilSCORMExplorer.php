@@ -322,7 +322,7 @@ class ilSCORMExplorer extends ilExplorer
 	}
 
 	/**
-	 * inserts the option state icon into tpl
+	 * tpl is filled with option state icons
 	 * 
 	 * @param ilTemplate 	$tpl
 	 * @param array 		$a_option
