@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-/*
+/**
 * Explorer View for AICC Learning Modules
 *
 * @version $Id$
@@ -253,5 +253,106 @@ class ilAICCExplorer extends ilSCORMExplorer
 
 		$this->output[] = $tpl->get();
 	}
+
+	function setOutput($a_parent_id, $a_depth = 0)
+	{
+		global $rbacadmin, $rbacsystem;
+		static $counter = 0;
+		//echo "setOutput <br>";
+		if (!isset($a_parent_id))
+		{
+			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
+		}
+		if ($this->showChilds($a_parent_id))
+		{
+			$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
+		}
+		else
+		{
+			$objects = array();
+		}
+		if (count($objects) > 0)
+		{
+
+			//moved the scorm-only constant parameter to a function
+			//to be able to reuse the code
+			//$tab = ++$a_depth - 2;
+			$tab = ++$a_depth - $this->getNodesToSkip();
+
+
+			// Maybe call a lexical sort function for the child objects
+
+			//666if ($this->post_sort)
+			//{
+				//$objects = $this->sortNodes($objects);
+			//}
+			foreach ($objects as $key => $object)
+			{
+				//ask for FILTER
+				if ($this->filtered == false or $this->checkFilter($object["c_type"]) == false)
+				{
+					if ($this->isVisible($object["obj_id"], $object["c_type"]))
+					{
+						if ($object["child"] != $this->tree->getRootId())
+						{
+							$parent_index = $this->getIndex($object);
+						}
+						$this->format_options["$counter"]["parent"]		= $object["parent"];
+						$this->format_options["$counter"]["child"]		= $object["child"];
+						$this->format_options["$counter"]["title"]		= $object["title"];
+						$this->format_options["$counter"]["c_type"]		= $object["c_type"];
+						$this->format_options["$counter"]["obj_id"]		= $object["obj_id"];
+						$this->format_options["$counter"]["desc"] 		= "obj_".$object["c_type"];
+						$this->format_options["$counter"]["depth"]		= $tab;
+						$this->format_options["$counter"]["container"]	= false;
+						$this->format_options["$counter"]["visible"]	= true;
+
+						// Create prefix array
+						for ($i = 0; $i < $tab; ++$i)
+						{
+							 $this->format_options["$counter"]["tab"][] = 'blank';
+						}
+
+						if ($object["c_type"]=="sos")
+							$this->setExpand($object["obj_id"]);
+						// fix explorer (sometimes explorer disappears)
+						if ($parent_index == 0)
+						{
+							if (!$this->expand_all and !in_array($object["parent"],$this->expanded))
+							{
+								$this->expanded[] = $object["parent"];
+							}
+							//$this->format_options["$parent_index"]["visible"] = true;
+						}
+						if ($object["child"] != $this->tree->getRootId() and (!$this->expand_all and !in_array($object["parent"],$this->expanded)
+						   or !$this->format_options["$parent_index"]["visible"]))
+						{
+							$this->format_options["$counter"]["visible"] = false;
+						}
+						// if object exists parent is container
+						if ($object["child"] != $this->tree->getRootId())
+						{
+							$this->format_options["$parent_index"]["container"] = true;
+							if ($this->expand_all or in_array($object["parent"],$this->expanded))
+							{
+								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
+							}
+							else
+							{
+								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'plus';
+							}
+						}
+						++$counter;
+						// stop recursion if 2. level beyond expanded nodes is reached
+						if ($this->expand_all or in_array($object["parent"],$this->expanded) or ($object["parent"] == 0))
+						{
+							// recursive
+							$this->setOutput($object["child"],$a_depth);
+						}
+					} //if
+				} //if FILTER
+			} //foreach
+		} //if
+	} //function
 }
 ?>
