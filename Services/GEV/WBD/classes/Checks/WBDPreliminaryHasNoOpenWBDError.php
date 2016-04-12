@@ -1,5 +1,5 @@
 <?php
-require_once ("Services/GEV/WBD/classes/Interfaces/WBDPreliminary.php");
+require_once ("Services/GEV/WBD/classes/Abstracts/WBDPreliminary.php");
 
 class WBDPreliminaryHasNoOpenWBDError extends WBDPreliminary {
 	static $message = "gev_wbd_check_open_wbd_errors";

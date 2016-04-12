@@ -1,5 +1,5 @@
 <?php
-require_once ("Services/GEV/WBD/classes/Interfaces/WBDPreliminary.php");
+require_once ("Services/GEV/WBD/classes/Abstracts/WBDPreliminary.php");
 
 class WBDPreliminaryIsUserNotToHandle extends WBDPreliminary {
 	protected $specified_user_ids;
