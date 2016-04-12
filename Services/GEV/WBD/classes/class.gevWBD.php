@@ -650,7 +650,7 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	protected function isWBDBWVIdEmpty() {
+	public function isWBDBWVIdEmpty() {
 		return $this->getWBDBWVId() === null;
 	}
 
@@ -659,7 +659,7 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	protected function isActive() {
+	public function isActive() {
 		return $this->user_utils->getUser()->getActive();
 	}
 
@@ -669,7 +669,7 @@ class gevWBD {
 	* @param array
 	* @return boolen
 	*/
-	protected function hasOneWBDTypeOf(array $wbd_types) {
+	public function hasOneWBDTypeOf(array $wbd_types) {
 		return in_array($this->getWBDTPType(), $wbd_types);
 	}
 
@@ -679,7 +679,7 @@ class gevWBD {
 	* @param string
 	* @return boolean
 	*/
-	protected function hasWBDType($wbd_type) {
+	public function hasWBDType($wbd_type) {
 		return $this->getWBDTPType() == $wbd_type;
 	}
 
@@ -688,7 +688,7 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	protected function entryDatePassed() {
+	public function entryDatePassed() {
 		
 		$now = date("Y-m-d");
 		$entry_date = $this->user_utils->getEntryDate();;
@@ -704,7 +704,7 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	protected function userExists() {
+	public function userExists() {
 		return ilObjUser::_lookupLogin($this->user_id) !== false;
 	}
 
@@ -717,7 +717,7 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	protected function hasSpecialUserId(array $specialUserIds) {
+	public function hasSpecialUserId(array $specialUserIds) {
 		return in_array($this->user_id, $specialUserIds);
 	}
 
@@ -727,7 +727,7 @@ class gevWBD {
 	* @param array
 	* @return boolean
 	*/
-	protected function hasOpenWBDErrors(array $wbd_errors) {
+	public function hasOpenWBDErrors(array $wbd_errors) {
 		
 		$sql = "SELECT DISTINCT count(usr_id) as cnt\n"
 				." FROM wbd_errors\n"
@@ -748,7 +748,7 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	protected function hasExitDateWBD() {
+	public function hasExitDateWBD() {
 		return $this->getExitDateWBD() !== null;
 	}
 
@@ -759,7 +759,7 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	protected function nextWBDActionIs($next_wbd_action) {
+	public function nextWBDActionIs($next_wbd_action) {
 		return $this->getNextWBDAction() == $next_wbd_action;
 	}
 
