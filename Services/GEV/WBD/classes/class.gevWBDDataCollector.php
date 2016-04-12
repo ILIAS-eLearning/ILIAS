@@ -1065,7 +1065,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 	protected function performPreliminaryChecks(array $checks_to_release, gevWBD $wbd) {
 		return array_filter($checks_to_release,
 					function($v) use ($wbd) {
-						if(!$v->perfomCheck($wbd)) {
+						if(!$v->performCheck($wbd)) {
 							return $v;
 						}
 					}
