@@ -354,7 +354,7 @@ class ilBadgeManagementGUI
 				$badge->importImage($tmpl->getImage(), $tmpl->getImagePath());
 			}
 					
-			ilUtil::sendInfo($lng->txt("settings_saved"), true);
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 			$ilCtrl->redirect($this, "listBadges");
 		}
 		
@@ -364,7 +364,7 @@ class ilBadgeManagementGUI
 	
 	protected function editBadge(ilPropertyFormGUI $a_form = null)
 	{				
-		global $ilCtrl, $tpl;
+		global $ilCtrl, $tpl, $lng;
 		
 		$badge_id = $_REQUEST["bid"];
 		if(!$badge_id || 
@@ -377,6 +377,12 @@ class ilBadgeManagementGUI
 		
 		include_once "./Services/Badge/classes/class.ilBadge.php";
 		$badge = new ilBadge($badge_id);
+		
+		$static_cnt = ilBadgeHandler::getInstance()->countStaticBadgeInstances($badge);
+		if($static_cnt)
+		{
+			ilUtil::sendInfo(sprintf($lng->txt("badge_edit_with_published"), $static_cnt));
+		}
 		
 		if(!$a_form)
 		{			
@@ -442,7 +448,7 @@ class ilBadgeManagementGUI
 			
 			$badge->uploadImage($_FILES["img"]);
 			
-			ilUtil::sendInfo($lng->txt("settings_saved"), true);
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 			$ilCtrl->redirect($this, "listBadges");
 		}
 		

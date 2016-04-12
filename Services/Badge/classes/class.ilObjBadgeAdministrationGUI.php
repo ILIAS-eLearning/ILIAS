@@ -377,7 +377,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 			
 			$tmpl->uploadImage($_FILES["img"]);
 			
-			ilUtil::sendInfo($lng->txt("settings_saved"), true);
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 			$ilCtrl->redirect($this, "listImageTemplates");
 		}
 		
@@ -466,7 +466,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 			
 			$tmpl->uploadImage($_FILES["img"]);			
 		
-			ilUtil::sendInfo($lng->txt("settings_saved"), true);
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 			$ilCtrl->redirect($this, "listImageTemplates");
 		}
 		

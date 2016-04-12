@@ -486,6 +486,29 @@ class ilBadgeHandler
 		
 		return $path;
 	}
+
+	public function countStaticBadgeInstances(ilBadge $a_badge)
+	{
+		$path = $this->getBasePath()."instances/".$a_badge->getId();
+		$cnt = 0;
+		$this->countStaticBadgeInstancesHelper($cnt, $path);
+		return $cnt;
+	}	
+	
+	protected function countStaticBadgeInstancesHelper(&$a_cnt, $a_path)
+	{
+		foreach(glob($a_path."/*") as $item)
+		{				
+			if(is_dir($item))
+			{
+				$this->countStaticBadgeInstancesHelper($a_cnt, $item);
+			}
+			else if(substr($item, -5) == ".json")
+			{
+				$a_cnt++;
+			}
+		}				
+	}	
 	
 	public function getBadgePath(ilBadge $a_badge)
 	{
