@@ -1359,9 +1359,10 @@ class ilMail
 					else
 					{
 						$possible_role_id = addslashes(substr($tmp_names[$i], 1));
-						if($rbacreview->roleExists($possible_role_id))
+						$role_id          = $rbacreview->roleExists($possible_role_id);
+						if($role_id)
 						{
-							foreach($rbacreview->assignedUsers($possible_role_id) as $usr_id)
+							foreach($rbacreview->assignedUsers($role_id) as $usr_id)
 							{
 								$ids[] = $usr_id;
 							}
