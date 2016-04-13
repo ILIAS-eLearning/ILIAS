@@ -7,17 +7,17 @@ require_once ("Services/GEV/WBD/classes/Abstracts/WBDPreliminary.php");
 * if user is in $specified_user_ids do not handle
 */
 class WBDPreliminaryHandleUser extends WBDPreliminary {
-	protected $user_not_to_handle;
+	protected $no_handle_user_ids;
 	static $message = "gev_wbd_check_no_handle_user";
 
-	public function __construct(array $user_not_to_handle) {
-		$this->user_not_to_handle = $user_not_to_handle;
+	public function __construct(array $no_handle_user_ids) {
+		$this->no_handle_user_ids = $no_handle_user_ids;
 	}
 
 	/** 
 	 * @inheritdoc 
 	 */
 	public function performCheck(gevWBD $wbd) {
-		return !$wbd->userIdIn($this->user_not_to_handle);
+		return !$wbd->userIdIn($this->no_handle_user_ids);
 	}
 }
