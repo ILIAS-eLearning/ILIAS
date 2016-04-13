@@ -14,6 +14,6 @@ class WBDPreliminaryIsUserNotToHandle extends WBDPreliminary {
 	 * @inheritdoc 
 	 */
 	public function performCheck(gevWBD $wbd) {
-		return $wbd->hasWBDType($this->specified_user_ids);
+		return $wbd->hasSpecialUserId($this->specified_user_ids);
 	}
 }
