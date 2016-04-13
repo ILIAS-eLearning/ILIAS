@@ -20,7 +20,10 @@ class ilTestPDFGenerator
 	{
 		return "
 			<html>
-				<head>$styleHtml</head>
+				<head>
+					<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+ 					$styleHtml
+ 				</head>
 				<body>$contentHtml</body>
 			</html>
 		";
