@@ -2618,48 +2618,6 @@ class ilMail
 
 	/**
 	 * STATIC METHOD.
-	 * Returns the internal mailbox address for the specified user.
-     *
-     * This functions (may) perform faster, if the login, firstname and lastname
-     * are supplied as parameters aloing with the $usr_id.
-     *
-     *
-     * @param usr_id the usr_id of the user
-     * @param login optional, but if you supply it, you have to supply
-	 *                 the firstname and the lastname as well
-     * @param firstname optional
-     * @param lastname
-	 * @access	public
-	 */
-	public static function _getUserInternalMailboxAddress($usr_id, $login=null, $firstname=null, $lastname=null) 
-	{
-		if (ilMail::_usePearMail())
-		{
-			if ($login == null)
-			{
-				require_once './Services/User/classes/class.ilObjUser.php';
-				$usr_obj = self::getCachedUserInstance($usr_id);
-				$login = $usr_obj->getLogin();
-				$firstname = $usr_obj->getFirstname();
-				$lastname = $usr_obj->getLastname();
-			}
-			// The following line of code creates a properly formatted mailbox
-			// address. Unfortunately, it does not work, because ILIAS removes
-			// everything between '<' '>' characters
-			// Therefore, we just return the login - sic.
-			// FIXME - Make this work in a future release
-			/*
-			return preg_replace('/[()<>@,;:\\".\[\]]/','',$firstname.' '.$lastname).' <'.$login.'>';
-			*/
-			return $login.'hhho';
-		}
-		else
-		{
-			return $login;
-		}
-	}
-	/**
-	 * STATIC METHOD.
 	 * Returns true, if Pear Mail shall be used for resolving mail addresses.
 	 *
 	 * @access	public
