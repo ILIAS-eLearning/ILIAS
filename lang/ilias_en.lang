@@ -3367,8 +3367,6 @@ common#:#mail_settings#:#Mail Settings
 rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP to external addresses
 rbac#:#mail_system_message#:#User can send internal system messages
 common#:#mail_system#:#System Message
-common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is limited. Pear Mail fully supports internet compliant e-mail addresses.
-common#:#mail_use_pear_mail#:#Use Pear Mail
 rbac#:#mail_visible#:#Mail administration is visible
 rbac#:#mail_write#:#User can edit settings in Mail administration
 common#:#mail_z_local#:#User Folders

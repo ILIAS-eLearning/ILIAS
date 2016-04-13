@@ -3965,8 +3965,6 @@ rbac#:#mail_smtp_mail#:#Benutzer darf E-Mails per SMTP an externe Adressen sende
 common#:#mail_system#:#Systemnachricht
 rbac#:#mail_system_message#:#Benutzer darf Mails als Systemnachrichten versenden
 common#:#mail_to_global_roles_not_allowed#:#Das Versenden an globale Rollen ist nicht erlaubt.
-common#:#mail_use_pear_mail#:#PEAR-Mail verwenden
-common#:#mail_use_pear_mail_info#:#Verwende PEAR-Mail zum Parsen von Mailbox-Adressen. Der in ILIAS integrierte Parser ist sehr limitiert. PEAR-Mail unterstützt Internet-konforme E-Mail-Adressen vollständig.
 rbac#:#mail_visible#:#Mail-Administration ist sichtbar
 rbac#:#mail_write#:#Einstellungen im Mail-Administration bearbeiten
 common#:#mail_z_local#:#Eigene Ordner
