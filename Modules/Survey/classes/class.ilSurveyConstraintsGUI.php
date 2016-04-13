@@ -59,7 +59,7 @@ class ilSurveyConstraintsGUI
 				break;
 		}
 		
-		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
+		$hasDatasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
 		
 		include_once "Modules/Survey/classes/tables/class.SurveyConstraintsTableGUI.php";
 		$tbl = new SurveyConstraintsTableGUI($this, "constraints", $this->object, $hasDatasets);
@@ -307,7 +307,7 @@ class ilSurveyConstraintsGUI
 	{
 		global $ilAccess;
 		
-		if($this->object->_hasDatasets($this->object->getSurveyId()))
+		if(ilObjSurvey::_hasDatasets($this->object->getSurveyId()))
 		{
 			return false;
 		}

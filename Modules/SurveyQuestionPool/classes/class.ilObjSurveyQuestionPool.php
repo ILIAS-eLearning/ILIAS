@@ -821,7 +821,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	* @param integer $user_id The database id of the user
 	* @access public
 	*/
-	function _isWriteable($object_id, $user_id)
+	static function _isWriteable($object_id, $user_id)
 	{
 		global $rbacsystem;
 		global $ilDB;
@@ -844,7 +844,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	* @return array An array containing the available questiontypes
 	* @access public
 	*/
-	static function &_getQuestiontypes()
+	static function _getQuestiontypes()
 	{
 		global $ilDB;
 		global $lng;
@@ -917,7 +917,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		return $types;
 	}
 	
-	public static function &_getQuestionTypeTranslations()
+	public static function _getQuestionTypeTranslations()
 	{
 		global $ilDB;
 		global $lng;

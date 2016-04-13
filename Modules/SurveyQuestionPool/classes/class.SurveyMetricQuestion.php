@@ -182,7 +182,7 @@ class SurveyMetricQuestion extends SurveyQuestion
 	* @return array Array containing the question fields and data from the database
 	* @access public
 	*/
-	function _getQuestionDataArray($id)
+	function getQuestionDataArray($id)
 	{
 		global $ilDB;
 		
@@ -550,23 +550,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 		return "";
 	}
 	
-	/**
-	* Saves random answers for a given active user in the database
-	*
-	* @param integer $active_id The database ID of the active user
-	*/
-	public function saveRandomData($active_id)
-	{
-		global $ilDB;
-		// single response
-		$number = rand($this->getMinimum(), (strlen($this->getMaximum())) ? $this->getMaximum() : 100);
-		$next_id = $ilDB->nextId('svy_answer');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-			array('integer','integer','integer','float','text','integer'),
-			array($next_id, $this->getId(), $active_id, $number, NULL, time())
-		);
-	}
-
 	function saveUserInput($post_data, $active_id, $a_return = false)
 	{
 		global $ilDB;

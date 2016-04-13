@@ -132,13 +132,6 @@ class ilSurveyParticipantsGUI
 		$ilToolbar->addButton($this->lng->txt('svy_delete_all_user_data'),
 			$this->ctrl->getLinkTarget($this, 'deleteAllUserData'));
 
-		/* don't want
-		if (DEVMODE && $_GET["fill"] > 0) 
-		{
-			for ($i = 0; $i < $_GET["fill"]; $i++) $this->object->fillSurveyForUser();
-		}
-		*/
-		
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyMaintenanceTableGUI.php";
 		$table_gui = new ilSurveyMaintenanceTableGUI($this, 'maintenance');
 		$total =& $this->object->getSurveyParticipants();
@@ -151,7 +144,7 @@ class ilSurveyParticipantsGUI
 				$finished = $user_data["finished_tstamp"];
 			}			
 			$wt = $this->object->getWorkingtimeForParticipant($user_data["active_id"]);
-			$last_access = $this->object->_getLastAccess($user_data["active_id"]);
+			$last_access = $this->object->getLastAccess($user_data["active_id"]);
 			array_push($data, array(
 				'id' => $user_data["active_id"],
 				'name' => $user_data["sortname"],
@@ -447,7 +440,7 @@ class ilSurveyParticipantsGUI
 		{
 			if (in_array($user_data['active_id'], $_POST['chbUser']))
 			{
-				$last_access = $this->object->_getLastAccess($user_data["active_id"]);
+				$last_access = $this->object->getLastAccess($user_data["active_id"]);
 				array_push($data, array(
 					'id' => $user_data["active_id"],
 					'name' => $user_data["sortname"],
