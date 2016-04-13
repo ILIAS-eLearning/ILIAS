@@ -399,7 +399,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 				."    AND wbde.crs_id = 0\n"
 				." WHERE hu.hist_historic = ".$this->gDB->quote(0, "integer")."\n"
 				."    AND hu.deleted = ".$this->gDB->quote(0, "integer")."\n"
-				."    AND hu.last_wbd_report IS NULL"
+				."    AND hu.last_wbd_report IS NULL\n"
 				."    AND ".$this->gDB->in("hu.next_wbd_action",$next_action,false, "text")."\n"
 				."    AND wbde.reason IS NULL";
 
