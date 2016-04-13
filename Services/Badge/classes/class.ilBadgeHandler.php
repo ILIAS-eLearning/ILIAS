@@ -378,7 +378,7 @@ class ilBadgeHandler
 			}
 		}
 				
-		return (bool)$this->getAvailableTypesForObjType($a_obj_type);			
+		return true;		
 	}
 	
 	public function triggerEvaluation($a_type_id, $a_user_id)

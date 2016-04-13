@@ -60,3 +60,4 @@ badge#:#badge_add_to_profile#:#Add to Profile
 badge#:#badge_remove_from_profile#:#Remove from Profile
 badge#:#badge_criteria#:#Criteria
 badge#:#badge_edit_with_published#:#%s users have already added this badge to their backpack. Because of this changing badge attributes will lead to inconsistencies. Creating a new badge might be a better solution.
+badge#:#badge_no_valid_types_for_obj#:#There are currently no active badge types. You cannot create new badges. Please contact your administrator.

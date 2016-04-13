@@ -111,9 +111,13 @@ class ilBadgeManagementGUI
 				$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "addBadge"));
 				$ilToolbar->addFormButton($lng->txt("create"), "addBadge");
 			}
+			else
+			{
+				ilUtil::sendInfo($lng->txt("badge_no_valid_types_for_obj"));
+			}
 			
-			 if(is_array($_SESSION[self::CLIPBOARD_ID]))
-			 {
+			if(is_array($_SESSION[self::CLIPBOARD_ID]))
+			{
 				if($valid_types)
 				{
 					$ilToolbar->addSeparator();
