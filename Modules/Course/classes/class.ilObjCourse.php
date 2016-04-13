@@ -1133,7 +1133,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		global $ilErr;
 		$error = false;
 		if($this->getContactEmail()) {
-  		$emails = split(",",$this->getContactEmail());
+  		$emails = explode(",",$this->getContactEmail());
 			
 			foreach ($emails as $email) {
 				$email = trim($email);

@@ -1903,17 +1903,6 @@ class ilObjGroupGUI extends ilContainerGUI
 			);
 		}
 
-		/*
-		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
-		{
-			
-			
-			$tabs_gui->addTarget('export',
-								 $this->ctrl->getLinkTarget($this,'listExportFiles'),
-								 array('listExportFiles','exportXML','confirmDeleteExportFile','downloadExportFile'),
-								 get_class($this));
-		}
-		*/
 		// parent tabs (all container: edit_permission, clipboard, trash
 		parent::getTabs();
 
@@ -1949,30 +1938,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 	}
 
-	// IMPORT FUNCTIONS
-
-	function importFileObject2()
-	{
-		if(!is_array($_FILES['xmldoc']))
-		{
-			ilUtil::sendFailure($this->lng->txt("import_file_not_valid"));
-			$this->createObject();
-			return false;
-		}
-		
-		include_once './Modules/Group/classes/class.ilObjGroup.php';
-
-		if($ref_id = ilObjGroup::_importFromFile($_FILES['xmldoc'],(int) $_GET['ref_id']))
-		{
-			$this->ctrl->setParameter($this, "ref_id", $ref_id);
-			ilUtil::sendSuccess($this->lng->txt("import_grp_finished"),true);
-			ilUtil::redirect($this->ctrl->getLinkTarget($this,'edit','',false,false));
-		}
-		
-		ilUtil::sendFailure($this->lng->txt("import_file_not_valid"));
-		$this->createObject();
-	}	
-	
 	/**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything

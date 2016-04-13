@@ -11619,6 +11619,7 @@ chatroom#:#speak_to#:#Speak to <b>#user#</b>
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 chatroom#:#leave_private_room#:#Leave Private Room
+chatroom#:#left_private_room#:#Left private room
 chatroom#:#delete_private_room#:#Delete Private Room
 chatroom#:#invite_to_private_room#:#Invite to Current Room
 wiki#:#wiki_page_actions#:#Page Actions
@@ -15665,3 +15666,6 @@ chatroom#:#connection_url_info#:#Please insert an URL without using the Protocol
 chatroom#:#log#:#Chatserver Log
 chatroom#:#error_log#:#Chatserver Error-Log
 chatroom#:#delete_private_room_question#:#Confirm delete private room?
+crs#:#event_tbl_admins#:#Administrators
+crs#:#event_tbl_members#:#Members
+crs#:#event_tbl_tutors#:#Tutors

@@ -29,7 +29,7 @@ class ilImportContainer extends ilImport
 	 * @param object $type
 	 * @return 
 	 */
-	protected function doImportObject($dir, $type)
+	protected function doImportObject($dir, $type, $a_component = "", $a_tmpdir = "")
 	{
 		$manifest_file = $dir."/manifest.xml";
 		if(!file_exists($manifest_file))

@@ -108,7 +108,7 @@ class SurveySearch
 
 		$this->ilDB = $ilDB;
 
-		$this->search_terms = split(" +", $search_text);
+		$this->search_terms = explode(" +", $search_text);
 		$this->concatenation = $concatenation;
 		$this->search_field = $search_field;
 		$this->search_type = $search_type;

@@ -185,36 +185,6 @@ class ilIniFile
 	}
 	
 	/**
-	* parse data
-	* @access	private
- 	* @param	array
-	*/
-	function parse_data($a_data)
-	{
-		if (ereg("\[([[:alnum:]]+)\]",$a_data,$out))
-		{
-			$this->CURRENT_GROUP= trim($out[1]);
-		}
-		elseif (!empty($a_data))
-		{
-			$split_data = split("=", $a_data);
-			$this->GROUPS[$this->CURRENT_GROUP][trim($split_data[0])]=trim($split_data[1]);
-		}
-	}
-
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	* @param	string
-	* @return	boolean	true
-	*/
-	function setContent($a_data)
-	{
-		$this->GROUPS = $a_data;
-		return true;
-	}
-
-	/**
 	* save ini-file-data to filesystem
 	* @access	private
 	* @return	boolean

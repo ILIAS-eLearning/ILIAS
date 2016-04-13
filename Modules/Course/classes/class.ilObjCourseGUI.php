@@ -402,7 +402,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			include_once './Modules/Course/classes/class.ilCourseMailTemplateMemberContext.php';
             require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 			
-			$emails = split(",",$this->object->getContactEmail());
+			$emails = explode(",",$this->object->getContactEmail());
 			foreach ($emails as $email) {
 				$email = trim($email);
 				$etpl = new ilTemplate("tpl.crs_contact_email.html", true, true , 'Modules/Course');

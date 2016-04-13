@@ -605,21 +605,12 @@ class ilPermissionGUI extends ilPermission2GUI
 				include_once './Services/Export/classes/class.ilImport.php';
 				
 				// For global roles set import id to parent of current ref_id (adm)
-				if($this->isAdminRoleFolder())
-				{
-					$parent_ref = $GLOBALS['tree']->getParentId($this->getCurrentObject()->getRefId());
-				}
-				else
-				{
-					$parent_ref = $this->getCurrentObject()->getRefId();
-				}
-				
-				$imp = new ilImport($parent_ref);
+				$imp = new ilImport($this->getCurrentObject()->getRefId());
 				$imp->getMapping()->addMapping(
 						'Services/AccessControl', 
 						'rolf', 
 						0, 
-						$parent_ref
+						$this->getCurrentObject()->getRefId()
 				);
 
 				$imp->importObject(

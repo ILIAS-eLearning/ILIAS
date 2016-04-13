@@ -17,7 +17,7 @@ module.exports = function(req, res)
 
 	room.subscriberLeft(subscriber.getId());
 
-	var notice = Notice.create('leave', roomId, 0); // Send this notification to the main room
+	var notice = Notice.create('left', roomId, 0); // Send this notification to the main room
 	var userlistLeftAction = UserlistAction.create(roomId, subRoomId, room.getJoinedSubscribers());
 	var userlistMainAction = UserlistAction.create(roomId, 0, mainRoom.getJoinedSubscribers());
 

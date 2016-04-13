@@ -736,12 +736,11 @@ var ChatActions = function ChatActions(selector, _translation, _connector, _priv
 					addClass: classes.join(' '),
 					callback: function() {
 						room.new_events = false;
-						if (!room.id) {
+						if (currentRoom == room.id) {
+							return;
+						} else if (room.id == 0 && currentRoom != 0) {
 							_connector.leavePrivateRoom(currentRoom);
 							currentRoom = 0;
-							return;
-						}
-						else if (currentRoom == room.id) {
 							return;
 						}
 						_connector.enterPrivateRoom(room.id);

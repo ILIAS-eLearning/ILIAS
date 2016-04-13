@@ -286,7 +286,7 @@ class ilMDClassification extends ilMDBase
 				
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id)
+	static function _getIds($a_rbac_id,$a_obj_id)
 	{
 		global $ilDB;
 

@@ -482,6 +482,7 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		$js_translations = array(
 			'LBL_MAINROOM'                     => 'chat_mainroom',
 			'LBL_LEAVE_PRIVATE_ROOM'           => 'leave_private_room',
+			'LBL_LEFT_PRIVATE_ROOM'            => 'left_private_room',
 			'LBL_JOIN'                         => 'chat_join',
 			'LBL_DELETE_PRIVATE_ROOM'          => 'delete_private_room',
 			'LBL_DELETE_PRIVATE_ROOM_QUESTION' => 'delete_private_room_question',

@@ -2018,7 +2018,9 @@ class ilObject
 		// restrict to repository
 		$types = array_keys($objDefinition->getSubObjectsRecursively("root"));	
 			
-		$sql = "SELECT od.obj_id,od.type,od.title FROM object_data od";
+		$sql = "SELECT od.obj_id,od.type,od.title FROM object_data od".
+			" JOIN object_reference oref ON(oref.obj_id = od.obj_id)".
+			" JOIN tree ON (tree.child = oref.ref_id)";
 		
 		if($a_user_id)
 		{
@@ -2032,7 +2034,8 @@ class ilObject
 				" AND od.owner <> ".$ilDB->quote(-1, "integer");
 		}
 		
-		$sql .= " AND ".$ilDB->in("od.type", $types, "", "text");
+		$sql .= " AND ".$ilDB->in("od.type", $types, "", "text").
+			" AND tree.tree > ".$ilDB->quote(0, "integer"); // #12485
 			
 		$res = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($res))

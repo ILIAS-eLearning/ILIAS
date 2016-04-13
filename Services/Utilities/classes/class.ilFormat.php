@@ -20,81 +20,7 @@
 * @package application
 */
 class ilFormat
-{
-	// Holt das aktuelle Datum und gibt es im Format TT.MM.JJJJ zurck
-	function getDateDE ()
-	{
-		$date = getdate();
-		$datum = sprintf("%02d.%02d.%04d", $date["mday"],$date["mon"],$date["year"]);
-		return $datum;
-	}
-
-	/**
-	* Prft eingegebes Datum und wandelt es in DB-konformen Syntax um
-	* Eingabe: TT.MM.JJJJ oder T.M.JJ oder TT.MM.JJJJ HH:MM:SS oder T.M.JJ HH:MM:SS
-	* Bei zweistelliger Jahresangabe wird bei YY > 70 19, bei YY < 70 20 vorgestellt
-	* Ausgabe: YYYY-MM-DD oder YYYY-MM-DD HH:MM:SS
-	* OPTIONAL wird die aktuelle Systemzeit hinzugefgt (Ausgabe: YYYY-MM-DD hh:mm:ss)
-	* @param string
-	*/
-	function input2date ($AInputDate)
-	{
-
-		$date=""; $y=""; $m=""; $d="";
-//		if (ereg("([0-9]{1,2}).([0-9]{1,2}).([0-9]{2,4})",$idate,$p))
-		if (ereg("([0-9]{1,2}).([0-9]{1,2}).([0-9]{2,4})",$AInputDate,$p))
-		{
-            	
-			$d = $p[1];
-			$m = $p[2];
-			$y = $p[3];
-			
-			if (($d>0 && $d<32) && ($m>0 && $m<13) && (strlen($y)!=3))
-			{
-				if (strlen($d) == 1) $d = "0".$d;
-				if (strlen($m) == 1) $m = "0".$m;
-
-				if (strlen($y) == 2)
-				{
-					if ($y>=70) $y = $y + 1900;
-					if ($y<70) $y = $y + 2000;
-				}
-				
-				// is valid?
-				checkdate($m, $d, $y);
-
-				// Ausgabe mit Uhrzeit
-
-            	// Uhrzeit holen
-            	$uhrzeit = substr($AInputDate, -8);
-
-            	// Uhrzeit auf Gltigkeit prfen
-            	if (ereg("([0-9]{2}):([0-9]{2}):([0-9]{2})",$AInputDate,$p))
-            	{
-					$h   = $p[1];
-					$min = $p[2];
-					$s   = $p[3];
-					
-					if (($h>-1 && $h<24) && ($min>-1 && $min<60) && ($s>-1 && $s<60))
-					{
-						// Uhrzeit stimmt/ist vorhanden
-						$date = sprintf("%04d-%02d-%02d %02d:%02d:%02d",$y,$m,$d,$h,$min,$s);
-					}
-				}
-				else
-				{
-					// Uhrzeit ist falsch/fehlt; hnge aktuelle Zeit an
-					$zeit = getdate();
-					$date = sprintf("%04d-%02d-%02d %02d:%02d:%02d",$y,$m,$d,$zeit["hours"],$zeit["minutes"],$zeit["seconds"]);
-				}
-				// Ausgabe ohne Uhrzeit
-				//$date = sprintf("%04d-%02d-%02d",$y,$m,$d);
-				return $date;
-			}
-		}
-	}
-	
-
+{	
 	/**
 	* db-datetime to timestamp
 	* @param string
@@ -112,62 +38,6 @@ class ilFormat
 	}
 
     /**
-	* German datetime to timestamp
-	* @param string
-	*/
-	function dateDE2timestamp ($ADatum)
-	{
-		$timestamp = substr($ADatum, 6, 4).
-					 substr($ADatum, 3, 2).
-					 substr($ADatum, 0, 2).
-					 substr($ADatum, 11, 2).
-					 substr($ADatum, 14, 2).
-					 substr($ADatum, 17, 2);
-					 
-		return $timestamp;
-	}
-
-
-	/**
-	* formats db-datetime to german date
-	* @param string
-	*/
-	function fdateDB2dateDE ($t)
-	{
-		return sprintf("%02d.%02d.%04d",substr($t, 8, 2),substr($t, 5, 2),substr($t, 0, 4));
-	}
-
-
-	/**
-	* formats timestamp to german date
-	* @param string
-	*/
-	function ftimestamp2dateDE ($t)
-	{
-		return sprintf("%02d.%02d.%04d",substr($t, 6, 2),substr($t, 4, 2),substr($t, 0, 4));
-	}
-
-
-	/**
-	* formats timestamp to german datetime
-	* @param string
-	*/
-	function ftimestamp2datetimeDE ($t)
-	{
-		return sprintf("%02d.%02d.%04d %02d:%02d:%02d",substr($t, 6, 2),substr($t, 4, 2),substr($t, 0, 4),substr($t, 8, 2),substr($t, 10, 2),substr($t, 12, 2));
-	}
-
-
-	/**
-	* formats timestamp to db-date
-	* @param string
-	*/
-	function ftimestamp2dateDB ($t)
-	{
-		return sprintf("%04d-%02d-%02d",substr($t, 0, 4),substr($t, 4, 2),substr($t, 6, 2));
-	}
-
-    /**
 	* Timestamp to database datetime
 	*
 	* @param string $aTimestamp String in timestamp format
@@ -182,87 +52,7 @@ class ilFormat
 		}
 		return $date;
 	}
-
-
-	/**
-	* Datum vergleichen
-	* Erwartet timestamps
-	* Liefert das aktuellere Datum als Timestamp zurck
-	* @param string
-	* @param string
-	*/
-	function compareDates ($ADate1,$ADate2)
-	{
-		if ($ADate1 > $ADate2)
-		{
-			return $ADate1;
-		}
-		
-		return $ADate2;
-	}
 	
-
-	/**
-	* Prft Zahlen mit Nachkommastellen und erlaubt ein Komma als Nachstellentrenner
-	* @param string
-	*/
-	function checkDecimal ($var)
-	{
-		return doubleval(ereg_replace (",",".",$var));
-	}
-
-
-	/**
-	* formatiert Geldwerte (Format: 00,00 + Eurosymbol). Weiteres siehe fProzent
-	*/
-	function fGeld ()
-	{
-		$num_args = func_num_args();
-		
-		$geld = func_get_arg(0);
-		
-		if ($num_args == 1)
-		{
-			$test = intval($geld);
-			
-			if (!$test)
-				return "&nbsp;";
-		}
-		
-		return number_format($geld,2,",",".")." &euro;";
-	}
-
-
-	/**
-	* formatiert Prozentzahlen (Format: 00,00%). Wenn nix oder eine Null bergeben wird, wird ein Leerzeichen zurckgegeben
-	* Wenn mehr als ein Parameter bergeben wird, wird die Ausgabe auch bei Wert Null erzwungen
-	*/
-	function fProzent ()
-	{
-		$num_args = func_num_args();
-		
-		$prozent = func_get_arg(0);
-
-		if ($num_args == 1)
-		{
-			$test = intval($prozent);
-			
-			if (!$test)
-				return "&nbsp;";
-		}
-		
-		return number_format($prozent,2,",",".")."%";
-	}
-	
-	/**
-	* Floats auf 2 Nachkommastellen runden 
-	* @param float
-	*/
-	function runden ($value)
-	{
-		return round($value * 100) / 100;
-	}
-
 	/** 
 	* formatting function for dates
 	*
@@ -409,18 +199,6 @@ class ilFormat
 		return $txt;
 	}
 
-	function unixtimestamp2datetime($a_unix_timestamp = "")
-	{
-		if (strlen($a_unix_timestamp) == 0)
-		{
-			return strftime("%Y-%m-%d %H:%M:%S");
-		}
-		else
-		{
-			return strftime("%Y-%m-%d %H:%M:%S", $a_unix_timestamp);
-		}
-	}
-	
 	/**
 	* format a date according to the user language 
 	* shortcut for Format::fmtDateTime
@@ -477,61 +255,7 @@ class ilFormat
 		}
 		return date($format,$ut);
 	}
-	/*
-	* calculates the difference between 2 unix timestamps and
-	* returns a proper formatted output
-	* 
-	* @param	integer	unix timestamp1
-	* @param	integer	unix timestamp2
-	* @return	string	time difference in hh:mm:ss
-	*/
-	function dateDiff($a_ts1,$a_ts2)
-	{
-		$r = $a_ts2 - $a_ts1;
-		
-		$dd = floor($r/86400);
-
-		if ($dd <= 9)
-			$dd = "0".$dd;
-
-		$r = $r % 86400;
-		
-		$hh = floor($r/3600);
-		
-		if ($hh <= 9)
-			$hh = "0".$hh;
-		
-		$r = $r % 3600;
-		
-		$mm = floor($r/60) ;
-		
-		if ($mm <= 9)
-			$mm = "0".$mm;
-		
-		$r = $r % 60;
-		$ss = $r;
-
-		if ($ss <= 9)
-			$ss = "0".$ss;
-
-		return $hh.":".$mm.":".$ss;
-	}
-
-	/**
-	* converts datetime to a unix timestamp
-	*
-	* @param	string	datetime
-	* @return	integer	unix timestamp  
-	*/
-	function datetime2unixTS($a_datetime)
-	{
-		$arrDT = explode(" ", $a_datetime);
-		$arrD = explode("-", $arrDT[0]);
-		$arrT = explode(":", $arrDT[1]);
-
-		return mktime($arrT[0], $arrT[1], $arrT[2], $arrD[1], $arrD[2], $arrD[0]);
-	}
-
+	
 	/**
 	 * converts seconds to string:
 	 * Long: 7 days 4 hour(s) ...
@@ -642,26 +366,6 @@ class ilFormat
 	}
 
 	/**
-	 * converts a float number to money format, 
-	 * depending on system language 
-	 * 
-	 **/	 
-	static function _getLocalMoneyFormat($float_number)
-	{
-		global $ilias;
-		
-		$language = $ilias->getSetting("language");
-		$money_locale = $language.'_'.strtoupper($language);
-		/* de_DE en_US en_EN fr_FR .UTF-8
-		*/ //$money_locale = 'de_DE.UTF-8';
-		//vd($_SERVER['HTTP_ACCEPT_LANGUAGE']);
-		
-		setlocale(LC_MONETARY, $money_locale);
-		return $float_number;
-		//return money_format('%!2n', $float_number);
-	}
-
-	/**
 	 * Returns the magnitude used for size units.
 	 *
 	 * This function always returns the value 1024. Thus the value returned
@@ -677,6 +381,7 @@ class ilFormat
 	{
 		return 1024;
 	}
+	
 	/**
 	 * Returns the specified float in human friendly form.
 	 * <p>
@@ -692,6 +397,7 @@ class ilFormat
 		}
 		return self::fmtFloat($size, $a_decimals, $a_lng->txt('lang_sep_decimal'), $a_lng->txt('lang_sep_thousand', $a_suppress_dot_zero), true).' '.$a_lng->txt($scaled_unit);
 	}
+	
 	/**
 	 * Returns the specified file size value in a human friendly form.
 	 * <p>

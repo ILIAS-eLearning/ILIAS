@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.2.x 2016-03-19 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.2.x 2016-04-10 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -1364,9 +1364,9 @@ assessment#:#tst_user_finished_test#:#'%s' tesztet egy felhasználó befejezte
 assessment#:#tst_your_answer_was#:#Az Ön által adott válasz a következő volt
 assessment#:#tst_your_answers#:#Ezek az Ön által adott válaszok az alábbi kérdésekre.
 assessment#:#test_enable_archiving#:#Archiválás engedélyezése
-assessment#:#test_enable_archiving_desc#:#A teszt összes résztvevőjének összes válasza exportálható és letölthető az 'Export' fül alatt.
-assessment#:#ass_create_archive_export#:#Archív-export létrehozása.
-assessment#:#cannot_export_archive#:#Archív-export nem hozható létre.
+assessment#:#test_enable_archiving_desc#:#A teszt összes résztvevőjének összes válasza exportálható és letölthető az 'Export' fül alatt. Az archív fájl a felhasználónak akkor jön létre, amikor befejezi a tesztet vagy eredménye manuális pontozás miatt változik. Ez növeli a szerver terhelését és csökkenti a szerver teljesítményét. 
+assessment#:#ass_create_archive_export#:#Archív export létrehozása.
+assessment#:#cannot_export_archive#:#Archív export fájl nem hozható létre.
 assessment#:#tt_assessment#:#Ellenőrző teszt
 assessment#:#tt_online_exam#:#Online vizsga
 assessment#:#tt_self_assessment#:#Önértékelő teszt
@@ -1902,7 +1902,7 @@ common#:#action#:#Művelet
 common#:#actions#:#Műveletek
 common#:#activate_assessment_logging#:#Teszt és értékelés naplózásának bekapcsolása
 common#:#activate_block#:#Aktiválás
-common#:#activate_https#:#HTTPS-t az ILIAS kezeli<br/>(fizetés, bejelentkezés)
+common#:#activate_https#:#HTTPS-t az ILIAS kezeli<br/>(bejelentkezés)
 common#:#activate_tracking#:#Aktiválás
 common#:#activate#:#Aktiválás
 common#:#activation#:#Időzítés beállítása
@@ -2478,7 +2478,7 @@ common#:#delete#:#Törlés
 common#:#deleted_user_account#:#Törölt ILIAS-fiók
 common#:#deleted_user#:#A felhasználót törölte.
 common#:#deleted_users#:#Törölt felhasználók
-common#:#deleted#:#Törölve
+common#:#deleted#:#Törölt
 common#:#delicious#:#Delicious felhasználói fiók
 common#:#deliver#:#Küldés
 common#:#department#:#Tagozat / Szak / Évfolyam
@@ -3570,7 +3570,6 @@ common#:#msg_obj_exists#:#Ez az objektum már létezik ebben a mappában
 common#:#msg_obj_may_not_contain_objects_of_type#:#A(z) %s objektum nem tartalmazhat ilyen típusú objektumokat: %s.
 common#:#msg_obj_modified#:#Módosításokat sikeresen mentette.
 common#:#msg_obj_no_link#:#Technika okok miatt tároló objektumok (kategória, kurzus, csoport, illetve mappa) linkelése nem lehetséges. Linkelni tudja az abban lévő objektumokat vagy használjon kategória-, illetve kurzuslink objektumot.
-common#:#msg_obj_not_deletable_sold#:#A fizetést már aktiválták az alábbi objektumokhoz. Az objektumok nem törölhetők.
 common#:#msg_paste_object_not_in_itself#:#Nem lehet beilleszteni a(z) %s objektumot saját magába.
 common#:#msg_perm_adopted_from_itself#:#Nem alkalmazhat jogosultsági beállításokat magából a jelenlegi szerepből/szerepmintából.
 common#:#msg_perm_adopted_from1#:#A jogosultsági beállítások elődje
@@ -3703,8 +3702,8 @@ common#:#obj_chac_desc#:#Csevegésszerver konfigurálása; csevegések engedély
 common#:#obj_chac#:#Csevegésszerver
 common#:#obj_chap#:#Fejezet
 common#:#obj_chat#:#Csevegés
-common#:#obj_cmps_desc#:#Általános beállítások a taneszköztárolóban levő bővítményekhez, modulokhoz és szolgáltatásokhoz
-common#:#obj_cmps#:#Bővítmények, modulok és szolgáltatások
+common#:#obj_cmps_desc#:#Általános beállítások a taneszköztárolóban levő bővítményekhez
+common#:#obj_cmps#:#Bővítmények
 common#:#obj_crs_duplicate#:#Kurzus másolása
 common#:#obj_crs_select#:#-- Válasszon egy kurzust --
 common#:#obj_crs#:#Kurzus
@@ -3760,8 +3759,6 @@ common#:#obj_objf_desc#:#ILIAS-objektumtípusok és jogosultságok. (Csak szaké
 common#:#obj_objf#:#Objektumdefiníciók
 common#:#obj_owner#:#Ennek az objektumnak a tulajdonosa
 common#:#obj_page#:#Lap
-common#:#obj_pays_desc#:#Áruház beállításai és eladók konfigurálása
-common#:#obj_pays#:#Áruház
 common#:#obj_pdts_desc#:#Munkaasztal konfigurálása
 common#:#obj_pdts#:#Munkaasztal
 common#:#obj_pg#:#Lap
@@ -3775,7 +3772,7 @@ common#:#obj_recf_desc#:#Rendszerellenőrzés során helyreállított objektumok
 common#:#obj_recf#:#Helyreállított objektumok
 common#:#obj_role#:#Szerep
 common#:#obj_rolf_desc#:#Szerepek kezelése
-common#:#obj_rolf_local_desc#:#Az objektum helyi szerepeit tartalmazza.
+common#:#obj_rolf_local_desc#:#Objektum helyi szerepeit tartalmazza.
 common#:#obj_rolf_local#:#Helyi szerepek
 common#:#obj_rolf#:#Szerepek
 common#:#obj_rolt#:#Szerepminta
@@ -3945,17 +3942,6 @@ common#:#path_to_unzip#:#Útvonal UnZIP-hez
 common#:#path_to_zip#:#Útvonal ZIP-hez
 common#:#path#:#Elérési útvonal
 common#:#pathes#:#Útvonalak
-common#:#pay_methods#:#Fizetési módok
-common#:#payment_buyable#:#Megvásárolható
-common#:#payment_demo#:#Demó
-common#:#payment_in_sc#:#Már a bevásárlókosárban van
-common#:#payment_payed_access#:#Fizetve/Hozzáférés
-common#:#payment_system#:#Fizetési rendszer
-rbac#:#pays_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Áruház jogosultsági beállításait
-common#:#pays_edit#:#Áruház beállításainak módosítása
-rbac#:#pays_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Áruház beállításaihoz
-rbac#:#pays_visible#:#A felhasználó láthatja a Rendszerbeállítások » Áruháza menüpontot
-rbac#:#pays_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Áruház beállításait
 common#:#pd_enable_chatviewer#:#Csevegésmegtekintő engedélyezése
 common#:#pd_enable_contacts_requires_mail#:#E-mail engedély szükséges
 common#:#pd_enable_contacts#:#Kapcsolatok engedélyezése
@@ -4111,8 +4097,8 @@ common#:#repeat_scan#:#Víruskeresés ismétlése...
 common#:#replace_file#:#Fájl lecserélése
 common#:#reply#:#Válasz
 common#:#repository_admin_desc#:#Taneszköztároló objektumaira jogosultságok beállítása, objektumok visszaállítása vagy eltávolítása a rendszer lomtárából
-common#:#repository_admin#:#Taneszköztároló, lomtár és jogosultságai
-common#:#repository_frame#:#Taneszköztároló tartalma
+common#:#repository_admin#:#Taneszköztároló-lomtár és jogosultságok
+common#:#repository_frame#:#Taneszköztároló-tartalom
 common#:#repository#:#Taneszköztároló
 common#:#request_membership#:#Tagság kérése
 common#:#require_city#:#Város kérése
@@ -4360,8 +4346,6 @@ common#:#shib_visible#:#A Shibboleth-beállítások láthatók
 common#:#shib_write#:#Shibboleth-beállítások módosítása
 common#:#shib_zipcode#:#Irányítószám attribútuma
 common#:#shib#:#Shibboleth
-common#:#shop_actions#:#Műveletek###Replacement of the wording of 'actions' when in shop.
-common#:#shop#:#Áruház
 common#:#short_inst_name_info#:#Ez a cím fog megjelenni a böngésző fejléccím csíkjában. Ha nincs megadott érték, az 'ILIAS' kerül felhasználásra.
 common#:#short_inst_name#:#Rövid cím
 common#:#show_details#:#Részletek megjelenítése
@@ -4648,13 +4632,13 @@ common#:#url_create_url#:#URL létrehozása
 common#:#url_delete#:#URL törlése
 common#:#url_description#:#URL-leírás
 common#:#url_edit_permission#:#Jogosultsági beállítások változtatása
-common#:#url_edit#:#URL szerkesztése
+common#:#url_edit#:#URL módosítása
 common#:#url_new#:#Új URL
 common#:#url_not_found#:#A fájl nem található.
 common#:#url_read#:#URL megnyitása
 common#:#url_to_latex#:#URL a LaTeX CGI szkripthez
 common#:#url_visible#:#URL látható
-common#:#url_write#:#URL szerkesztése
+common#:#url_write#:#URL módosítása
 common#:#url#:#URL
 common#:#use_customized_instructions#:#Egyéni utasítások használata:
 common#:#use_default_instructions#:#Alapértelmezett utasítások használata.
@@ -4711,7 +4695,7 @@ common#:#usr_add#:#Felhasználó létrehozása
 common#:#usr_added#:#Sikeresen létrehozott egy felhasználót.
 common#:#usr_agreement_empty#:#A megállapodás nem tartalmaz szöveget.
 common#:#usr_agreement#:#Szolgáltatási feltételek
-common#:#usr_edit#:#Felhasználó szerkesztése
+common#:#usr_edit#:#Felhasználó módosítása
 common#:#usr_filter_coursemember#:#Kurzus tagja
 common#:#usr_filter_empty_result#:#Nem találhatók felhasználók, amelyek illenek a kiválasztott szűrőkritériumra.
 common#:#usr_filter_groupmember#:#Csoport tagja
@@ -4800,9 +4784,9 @@ common#:#webr_delete_items#:#Webhivatkozás(ok) törlése
 rbac#:#webr_delete#:#A felhasználó áthelyezhet vagy törölhet weblinket
 common#:#webr_deleted_items#:#Törölt weblink(ek).
 common#:#webr_disable_check#:#Ellenőrzés letiltása
-common#:#webr_edit_item#:#Weblink szerkesztése
+common#:#webr_edit_item#:#Weblink módosítása
 rbac#:#webr_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági beállításokat
-common#:#webr_edit#:#Weblink szerkesztése
+common#:#webr_edit#:#Weblink módosítása
 common#:#webr_fillout_all#:#Minden kötelező mezőt töltsön ki!
 common#:#webr_item_updated#:#Módosítások mentése
 common#:#webr_join#:#Feliratkozás weblinkekre
@@ -4854,7 +4838,7 @@ common#:#zipcode#:#Irányítószám
 content#:#add_menu_entry#:#Menübejegyzés hozzáadása
 content#:#all_pages#:#a teljes tananyag
 content#:#all#:#Mind
-content#:#choose_public_mode#:#Nem regisztrált felhasználók elérhetik
+content#:#choose_public_mode#:#Be nem jelentkezett felhasználók elérhetik:
 content#:#choose_public_pages#:#Nyilvánosan elérhető lapok kiválasztása
 content#:#citate_from#:#Idéz honnan ...
 content#:#citate_page#:#Idézi ezt a lapot
@@ -5604,7 +5588,7 @@ content#:#scplayer_showtree#:#Tartalomjegyzék megjelenítése
 content#:#scplayer_start#:#Indítás
 content#:#scplayer_suspendall#:#Összes felfüggesztése
 content#:#select_a_file#:#Válasszon ki egy fájlt.
-content#:#selected_pages_only#:#Csak a megváltozott oldalak
+content#:#selected_pages_only#:#csak a kijelölt oldalak
 content#:#selectFooter#:#Kiválasztás láblécként
 content#:#selectHeader#:#Kiválasztás fejlécként
 content#:#seq_abandon#:#Megszakítási kérelmet kaptunk és dolgoztunk fel.
@@ -6430,7 +6414,7 @@ dateplaner#:#ERROR_TS#:#Hibás dátumformátum
 dateplaner#:#execute#:#művelet végrehajtása
 dateplaner#:#extra_dates#:#Egy napos események
 dateplaner#:#Fr_long#:#Péntek
-dateplaner#:#Fr_short#:#P.
+dateplaner#:#Fr_short#:#P
 dateplaner#:#free#:#szabad
 dateplaner#:#freetime#:#Szabad időpont a csoportban
 dateplaner#:#group#:#csoport
@@ -6510,7 +6494,7 @@ dateplaner#:#main_dates#:#Fő események
 dateplaner#:#menue#:#Menü
 dateplaner#:#mmonth#:#előző hónap
 dateplaner#:#Mo_long#:#Hétfő
-dateplaner#:#Mo_short#:#H.
+dateplaner#:#Mo_short#:#H
 dateplaner#:#Month_long#:#Havi nézet
 dateplaner#:#month#:#hónap
 dateplaner#:#more#:#további
@@ -6540,38 +6524,38 @@ dateplaner#:#readimportfile#:#beszúrás
 dateplaner#:#rotation_dates#:#Ismétlődő események
 dateplaner#:#rotation#:#Ismétlődés
 dateplaner#:#Sa_long#:#Szombat
-dateplaner#:#Sa_short#:#Szo.
+dateplaner#:#Sa_short#:#Szo
 dateplaner#:#semester_name#:#Szemeszter megnevezése
-dateplaner#:#short_01#:#Jan.
-dateplaner#:#short_02#:#Febr.
-dateplaner#:#short_03#:#Márc.
-dateplaner#:#short_04#:#Ápr.
-dateplaner#:#short_05#:#Máj.
-dateplaner#:#short_06#:#Jún.
-dateplaner#:#short_07#:#Júl.
-dateplaner#:#short_08#:#Aug.
-dateplaner#:#short_09#:#Szept.
-dateplaner#:#short_10#:#Okt.
-dateplaner#:#short_11#:#Nov.
-dateplaner#:#short_12#:#Dec.
+dateplaner#:#short_01#:#Jan
+dateplaner#:#short_02#:#Febr
+dateplaner#:#short_03#:#Márc
+dateplaner#:#short_04#:#Ápr
+dateplaner#:#short_05#:#Máj
+dateplaner#:#short_06#:#Jún
+dateplaner#:#short_07#:#Júl
+dateplaner#:#short_08#:#Aug
+dateplaner#:#short_09#:#Szept
+dateplaner#:#short_10#:#Okt
+dateplaner#:#short_11#:#Nov
+dateplaner#:#short_12#:#Dec
 dateplaner#:#shorttext#:#Rövid szöveg
 dateplaner#:#singleDate#:#Egyszeri esemény
 dateplaner#:#starttime_for_view#:#Kezdő időpont a nézethez:
 dateplaner#:#Su_long#:#Vasárnap
-dateplaner#:#Su_short#:#V.
+dateplaner#:#Su_short#:#V
 dateplaner#:#Text#:#Szöveg
 dateplaner#:#Th_long#:#Csütörtök
-dateplaner#:#Th_short#:#Cs.
+dateplaner#:#Th_short#:#Cs
 dateplaner#:#timedate#:#Idő / dátum
 dateplaner#:#timeslice#:#Idő:
 dateplaner#:#to#:#Meddig
 dateplaner#:#today#:#Ma
 dateplaner#:#Tu_long#:#Kedd
-dateplaner#:#Tu_short#:#K.
+dateplaner#:#Tu_short#:#K
 dateplaner#:#View#:#Nézet:
 dateplaner#:#viewlist#:#Nézet
 dateplaner#:#We_long#:#Szerda
-dateplaner#:#We_short#:#Sze.
+dateplaner#:#We_short#:#Sze
 dateplaner#:#Week_long#:#Heti nézet
 dateplaner#:#week#:#Hét
 dateplaner#:#wk_short#:#Hét
@@ -7057,25 +7041,25 @@ jscalendar#:#open_calendar#:#Dátum kiválasztása naptárból
 jscalendar#:#part_today#:# (ma)
 jscalendar#:#prev_month#:#Előző hónap (tipp: tartsa nyomva)
 jscalendar#:#prev_year#:#Előző év (tipp: tartsa nyomva)
-jscalendar#:#s_01#:#Jan.
-jscalendar#:#s_02#:#Febr.
-jscalendar#:#s_03#:#Márc.
-jscalendar#:#s_04#:#Ápr.
-jscalendar#:#s_05#:#Máj.
-jscalendar#:#s_06#:#Jún.
-jscalendar#:#s_07#:#Júl.
-jscalendar#:#s_08#:#Aug.
-jscalendar#:#s_09#:#Szept.
-jscalendar#:#s_10#:#Okt.
-jscalendar#:#s_11#:#Nov.
-jscalendar#:#s_12#:#Dec.
-jscalendar#:#s_fr#:#P.
-jscalendar#:#s_mo#:#H.
-jscalendar#:#s_sa#:#Szo.
-jscalendar#:#s_su#:#V.
-jscalendar#:#s_th#:#Cs.
-jscalendar#:#s_tu#:#K.
-jscalendar#:#s_we#:#Sze.
+jscalendar#:#s_01#:#Jan
+jscalendar#:#s_02#:#Febr
+jscalendar#:#s_03#:#Márc
+jscalendar#:#s_04#:#Ápr
+jscalendar#:#s_05#:#Máj
+jscalendar#:#s_06#:#Jún
+jscalendar#:#s_07#:#Júl
+jscalendar#:#s_08#:#Aug
+jscalendar#:#s_09#:#Szept
+jscalendar#:#s_10#:#Okt
+jscalendar#:#s_11#:#Nov
+jscalendar#:#s_12#:#Dec
+jscalendar#:#s_fr#:#P
+jscalendar#:#s_mo#:#H
+jscalendar#:#s_sa#:#Szo
+jscalendar#:#s_su#:#V
+jscalendar#:#s_th#:#Cs
+jscalendar#:#s_tu#:#K
+jscalendar#:#s_we#:#Sze
 jscalendar#:#select_date#:#Dátum kiválasztása
 jscalendar#:#time_part#:#(Shift-) Kattintás vagy vonszolás értékváltoztatáshoz
 jscalendar#:#time#:#Idő
@@ -8167,463 +8151,6 @@ notes#:#notes_note_deleted#:#A jegyzetet sikeresen törölte.
 notes#:#notes_notes_deleted#:#A jegyzeteket sikeresen törölte.
 notes#:#notes_public_comments#:#Nyilvános megjegyzések
 notes#:#notes_show_comments#:#Megjegyzések megjelenítése
-payment#:#advanced_search#:#Bővített keresés
-payment#:#coupon_type#:#Kupontípus
-payment#:#currency_cent#:#Cent
-payment#:#currency_euro#:#Euró
-payment#:#currency#:#Valuta
-payment#:#delete_addresses_bill#:#Számlázási címek törlése
-payment#:#delete_addresses_bmf#:#BMF címek törlése
-payment#:#delete_addresses_paypal#:#Paypal címek törlése
-payment#:#duration#:#Időtartam
-payment#:#edit_topic#:#Téma szerkesztése
-payment#:#enable_ean_info#:#Szükséges a németországbeli közigazgatási számlázáshoz. Kattintson ide <a href="http://www.oes.dk/sw1903.asp" target="_blank">további információkért az EAN-ról</a>.
-payment#:#enable_ean#:#EAN engedélyezése
-payment#:#excel_export#:#Exportálás Excel (.xls) fájlba
-payment#:#filter_by#:#által
-payment#:#import_use_only_textfile#:#Útmutatás: Egyszerű szöveges fájlt használjon soronként egy kóddal.
-payment#:#info#:#Információ a fizetési módról
-payment#:#new_topic#:#Új téma
-payment#:#no_topics_yet#:#Még nincsenek témák létrehozva.
-payment#:#no_vendor_selected#:#Nincs kiválasztva eladó.
-payment#:#object_deleted#:#Az objektumot sikeresen törölte
-payment#:#pay_abstract#:#Összefoglalás
-payment#:#pay_add_to_shopping_cart#:#Bevásárlókosárba tétel
-payment#:#pay_added_to_shopping_cart#:#Bevásárlókosárba tett elemek.
-payment#:#pay_all#:#Mind
-payment#:#pay_article#:#Cikk
-payment#:#pay_bank_data#:#Banki adatok
-payment#:#pay_bill_no#:#Számlaszám
-payment#:#pay_bmf_account_holder#:#Számlabirtokos
-payment#:#pay_bmf_account_number#:#Számlaszám
-payment#:#pay_bmf_back#:#vissza
-payment#:#pay_bmf_bank_code#:#Banki kód
-payment#:#pay_bmf_card_holder#:#Kártyabirtokos
-payment#:#pay_bmf_card_number#:#Kártyaszám
-payment#:#pay_bmf_check_number#:#Ellenőrzési szám
-payment#:#pay_bmf_check_terms_conditions#:#Erősítse meg, hogy elolvasta a határidőket és a szabályokat és feltételeket, és elfogadja azokat.
-payment#:#pay_bmf_credit_card_data#:#Hitelkártya
-payment#:#pay_bmf_credit_card_not_valid#:#Az Ön által megadott hitelkártyaadatok nem érvényesek. Ellenőrizze, hogy pontosan vannak-e kitöltve a kötelező mezők.
-payment#:#pay_bmf_credit_card#:#Hitelkártya
-payment#:#pay_bmf_debit_entry_data#:#Betéti bejegyzés
-payment#:#pay_bmf_debit_entry_not_valid#:#Az Ön által megadott betéti adatok nem érvényesek. Ellenőrizze, hogy minden mező helyesen lett-e kitöltve.
-payment#:#pay_bmf_debit_entry#:#Betéti bejegyzés (csak német banki számlák)
-payment#:#pay_bmf_description_credit_card#:#Ellenőrizze, hogy minden cikk, amit meg szeretett volna rendelni, a bevásárlókosarában van-e. Kitöltve hitelkártyája adataival és a 'Mentés' gombra kattintva, megerősíti rendelési szándékát, amely azonnal érvénybe is lép. Az adatellenőrzés igénybe vehet néhány másodpercet.
-payment#:#pay_bmf_description_debit_entry#:#Ellenőrizze, hogy minden cikk, amit meg szeretett volna rendelni, a bevásárlókosarában van-e. Betéti kártyája adatainak megadásával és a 'Mentés' gombra kattintva, megerősíti rendelési szándékát, amely azonnal érvénybe is lép. Az adatellenőrzés igénybe vehet néhány másodpercet.
-payment#:#pay_bmf_description_payment_type#:#Válassza ki a fizetési módot.
-payment#:#pay_bmf_description_personal_data#:#Kérem, töltse ki a következő űrlapot.
-payment#:#pay_bmf_house_number#:#Házszám
-payment#:#pay_bmf_optional#:#opcionális
-payment#:#pay_bmf_or#:#vagy
-payment#:#pay_bmf_password_not_valid#:#Jelszava nem volt érvényes.
-payment#:#pay_bmf_payment_type_not_valid#:#Az Ön által választott fizetési mód nem érvényes. Válasszon másik lehetőséget.
-payment#:#pay_bmf_payment_type#:#Fizetés módja
-payment#:#pay_bmf_personal_data_not_valid#:#Személyes adatai nem érvényesek. Ellenőrizze, hogy minden mező helyesen van-e kitöltve.
-payment#:#pay_bmf_personal_data#:#Személyes adatai
-payment#:#pay_bmf_please_select#:#Válasszon
-payment#:#pay_bmf_po_box#:#Postafiók
-payment#:#pay_bmf_server_error_code#:#A fizetési szerver hibakóddal tért vissza
-payment#:#pay_bmf_server_error_communication#:#Hiba történt a fizetési szerverrel való kommunikáció közben.
-payment#:#pay_bmf_server_error_sysadmin#:#További információkért vegye fel a kapcsolatot egy rendszergazdával!
-payment#:#pay_bmf_shopping_cart_empty#:#Kosara üres.
-payment#:#pay_bmf_street_or_pobox#:#Adjon meg utcát és házszámot vagy postafiókszámot.
-payment#:#pay_bmf_subtotal_amount#:#Részösszeg
-payment#:#pay_bmf_terms_conditions_read#:#Elolvastam az általános felhasználási feltételeket, és elfogadom őket.
-payment#:#pay_bmf_terms_conditions_show#:#megjelenítés
-payment#:#pay_bmf_terms_conditions#:#Általános határidők és feltételek
-payment#:#pay_bmf_thanks#:#Köszönjük. Megrendelése elküldve.
-payment#:#pay_bmf_total_amount#:#Végösszeg
-payment#:#pay_bmf_validity#:#érvényességi idő
-payment#:#pay_bmf_vat_included#:#Áfá-val
-payment#:#pay_bmf_your_order#:#Az Ön rendelése
-payment#:#pay_change_price#:#Ár/időtartam kombináció változtatása
-payment#:#pay_click_to_buy#:#Vásároljon most
-payment#:#pay_confirm_order#:#Erősítse meg vásárlási szándékát jelszava megadásával.
-payment#:#pay_crs_max_members_exceeded#:#Ön nem tud jelentkezni erre a kurzusra, mert betelt a maximális felhasználói létszám.
-payment#:#pay_customer_no#:#Ügyfélszám
-payment#:#pay_deleted_booking#:#A bejegyzést sikeresen törölte.
-payment#:#pay_deleted_items#:#A kiválasztott elemeket sikeresen törölte.
-payment#:#pay_edit_abstract#:#Összefoglalás szerkesztése
-payment#:#pay_enable_shop_info#:#Ha be van kapcsolva, az ILIAS-webáruház elérhető, és az objektumok megvásárolhatók.
-payment#:#pay_enable_shop#:#Áruház engedélyezése
-payment#:#pay_ending#:#befejeződik következővel:
-payment#:#pay_entitled_retrieve#:#Jogosult az adatok felhasználásához:
-payment#:#pay_epay_canceled#:#A fizetést törölték.
-payment#:#pay_epay_success#:#A fizetés lezajlott. Néhány percet igénybe vehet, míg a vásárlása teljesen regisztrálásra kerül.
-payment#:#pay_expires_info#:#Ez az objektum rendelkezésre áll. A fizetés lejárt, nem vásárolhatja meg.
-payment#:#pay_filter#:#Szűrő
-payment#:#pay_goto_buyed_objects#:#Ugrás a megvásárolt objektumokhoz
-payment#:#pay_goto_shopping_cart#:#Ugrás a kosárhoz
-payment#:#pay_header#:#Áruház
-payment#:#pay_hide_advanced_search_info#:#Néhány tételes egyszerű áruházhoz a bővített keresési fül elrejtése.
-payment#:#pay_hide_advanced_search#:#Bővített keresés elrejtése
-payment#:#pay_hide_coupons_info#:#Kuponok elrejtése a vásárló elől. Ha nem használ kuponokat az áruháza, a vevő számára egyszerűbb lesz a vásárlási folyamat.
-payment#:#pay_hide_coupons#:#Kuponok elrejtése
-payment#:#pay_hide_filtering_info#:#Szűrési beállítások elrejtése a vásárlók elől.
-payment#:#pay_hide_filtering#:#Szűrés elrejtése
-payment#:#pay_hide_news_info#:#Rejtse el az áruházi hírek fület, ha nem használja a híreket.
-payment#:#pay_hide_news#:#Hírek elrejtése
-payment#:#pay_hint_epay#:#Tipp az ePayhez
-payment#:#pay_hint_paypal#:#Elrejtés PayPal-hoz
-payment#:#pay_info_epay#:#Ha megnyomja a 'fizetés'-t, az ePay fizetési ablak megnyílik. Miután befejezte a fizetést, visszatér az ILIAS-hoz.
-payment#:#pay_info_paypal#:#A kosarában levő objektumok kifizetéséhez ideiglenesen el fogja hagyni az ILIAS-t, és a PayPal weboldalára kerül. Kövesse az ott megjelenő lépéseket. A fizetés után automatikusan visszakerül az ILIAS-ba. Ne zárja be böngészője ablakát az eladási eljárás alatt. Ha bezárja, a megvásárolt árukat nem tudjuk automatikusan aktiválni Önnek.
-payment#:#pay_info#:#Az alábbi anyagok nem érhetők el ingyenesen. Ha használni szeretne egy tananyagot, válasszon árat. Munkaasztalán vásárolhat egy vagy több tananyagot a 'bevásárlókosár' gomb segítségével. Azonnal hozzáférése lesz a kiválasztott objektumhoz és időszakhoz.
-payment#:#pay_item_already_in_sc_choose_another#:#Ezt az objektumot már betette a bevásárlókosarába. Ha szükséges, válasszon egy új ár/időtartam kombinációt.
-payment#:#pay_item_already_in_sc#:#Ebből az objektumból van már a kosarában.
-payment#:#pay_locator#:#Áruház
-payment#:#pay_manual_sorting_of_topics#:#Témák kézi rendezése
-payment#:#pay_max_hits_info#:#Keresési találatok maximális száma.
-payment#:#pay_max_hits#:#Maximális találatszám
-payment#:#pay_message_attachment#:#Megrendelése megerősítéséül mellékletként küldünk Önnek egy számlát (PDF formátumban).
-payment#:#pay_message_hello#:#Tisztelt
-payment#:#pay_message_regards#:#Üdvözlettel
-payment#:#pay_message_subject#:#Az Ön ILIAS megrendelése
-payment#:#pay_message_thanks#:#Köszönjük ILIAS-beli megrendelését!
-payment#:#pay_no_vendors_created#:#Nincs létrehozva eladó.
-payment#:#pay_not_buyed_any_object#:#Nem vásárolt objektumot.
-payment#:#pay_order_date_from#:#Megrendelt időszak kezdete
-payment#:#pay_order_date_til#:#Megrendelt időszak vége
-payment#:#pay_order_paid_body#:#A %termékről% szóló számláját ehhez a levélhez csatolva találja. Köszönjük megrendelését!
-payment#:#pay_order_paid_subject#:#A számlája
-payment#:#pay_payed_bill#:#Számla fizetve
-payment#:#pay_unpayed_bill#:#Kérem utalja a nyitott egyenlegét a megadott bankszámlára.
-payment#:#pay_payed_credit_card#:#A rendelést hitelkártyával egyenlítette ki.
-payment#:#pay_payed_debit_entry#:#A rendelést betéti bejegyzéssel fizette.
-payment#:#pay_payed_paypal#:#A megrendelést PayPal-lal fizette.
-payment#:#pay_paypal_error_fails#:#A PayPal jelentése szerint a tranzakció közben hiba lépett fel.
-payment#:#pay_paypal_error_info#:#Ha szükségesnek érzi, vegye fel a kapcsolatot ezen ILIAS rendszergazdájával.
-payment#:#pay_paypal_error_not_completed#:#A tranzakció még nem fejeződött be teljesen.
-payment#:#pay_paypal_error_prev_trans_id#:#A PayPal által adott tranzakcióazonosító már volt használva ezelőtt.
-payment#:#pay_paypal_error_wrong_customer#:#A tranzakció ellenőrzése nem talált megfelelő egyezőséget a vásárlónál.
-payment#:#pay_paypal_error_wrong_items#:#A tranzakció ellenőrzése nem talált megfelelő egyezőséget az eladott elemekben.
-payment#:#pay_paypal_error_wrong_vendor#:#A tranzakció ellenőrzése nem talált megfelelő egyezőséget az eladónál.
-payment#:#pay_paypal_failed#:#Az Ön ILIAS-objektum vásárlása PayPal használatával sikertelen.
-payment#:#pay_paypal_success#:#Köszönjük az ILIAS-objektum vásárlását a PayPal használatával. Írásos PDF formátumú visszaigazolást fog kapni erről e-mailben.
-payment#:#pay_paypal_unreachable#:#PayPal fizetési szerveréhez való kapcsolódás sikertelen.
-payment#:#pay_personal_settings#:#Személyes beállítások
-payment#:#pay_reset_filter#:#Szűrő alapállapotba állítása
-payment#:#pay_save_sorting#:#Rendezés mentése
-payment#:#pay_select_one_item#:#Válasszon ki egy elemet.
-payment#:#pay_select_price#:#Válasszon egy új árat/időtartamot.
-payment#:#pay_send_order#:#Megrendelés elküldése
-payment#:#pay_shopping_cart_empty#:#Kosara üres.
-payment#:#pay_sorting_value#:#Érték szerinti rendezés
-payment#:#pay_starting#:#ezzel kezdődik:
-payment#:#pay_step1#:#Az Ön megrendelése - 1/3. lépés: Adja meg személyes adatait
-payment#:#pay_step2#:#Az Ön megrendelése - 2/3. lépés: Válassza ki a fizetési módot
-payment#:#pay_step3_credit_card#:#Az Ön megrendelése - 3/3. lépés: Adja meg hitelkártyája adatait, és küldje el megrendelését
-payment#:#pay_step3_debit_entry#:#Az Ön megrendelése - 3/3. lépés: Adja meg banki adatait, és küldje el megrendelését
-payment#:#pay_thumbnail#:#Bélyegkép
-payment#:#pay_topics_allow_custom_sorting_info#:#Ha be van kapcsolva, a felhasználók egymástól függetlenül határozhatják meg a témák sorrendjét a webáruházban.
-payment#:#pay_topics_allow_custom_sorting#:#Témák testre szabott rendezése
-payment#:#pay_topics_default_sorting_direction#:#Témák alapértelmezett rendezési iránya
-payment#:#pay_topics_default_sorting_type#:#Témák alapértelmezett rendezési típusa
-payment#:#pay_topics_sort_by_date#:#Dátum szerint
-payment#:#pay_topics_sort_by_title#:#Cím szerint
-payment#:#pay_topics_sort_manually#:#Manuálisan
-payment#:#pay_update_view#:#Nézet frissítése
-payment#:#paya_access#:#Elérés
-payment#:#paya_add_customer#:#Eladási eljárás létrehozása 
-payment#:#paya_add_price_title#:#Új ár
-payment#:#paya_add_price#:#Új ár létrehozása 
-payment#:#paya_added_new_object#:#Sikeresen létrehozott egy új objektumot. Állítsa be a fizetési módot és az árakat.
-payment#:#paya_added_new_price#:#Létrehozott új ár.
-payment#:#paya_added_trustee#:#Létrehozott új meghatalmazott.
-payment#:#paya_bookings_available#:#Ez az objektumot már eladták. Először töröljön minden statisztikai adatot!
-payment#:#paya_buyable#:#Megvásárolható
-payment#:#paya_buyed_objects#:#Megvásárolt objektumok
-payment#:#paya_count_purchaser#:#Vásárlások száma
-payment#:#paya_coupon_codes_import_successful#:#Az import sikeres.
-payment#:#paya_coupons_add#:#Kupon létrehozása 
-payment#:#paya_coupons_already_in_use#:#Az Ön által begépelt kód ugyanahhoz a kuponhoz tartozik, amelynek kódja már használatban van.
-payment#:#paya_coupons_assigned_objects#:#Hozzárendelt objektumok
-payment#:#paya_coupons_availability#:#Egy kód használatának maximális száma
-payment#:#paya_coupons_code_chars#:#Karakterek
-payment#:#paya_coupons_code_deleted_successfully#:#Törlés sikerült
-payment#:#paya_coupons_code_generation#:#Kódgenerálás
-payment#:#paya_coupons_code_length#:#Kódhossz
-payment#:#paya_coupons_code#:#Kód
-payment#:#paya_coupons_codes_import#:#Kódok importálása
-payment#:#paya_coupons_codes_not_available#:#Nincsenek még létrehozott kódok.
-payment#:#paya_coupons_codes#:#Kódok
-payment#:#paya_coupons_coupon_added#:#Kupon hozzáadva.
-payment#:#paya_coupons_coupon_not_found#:#Nem található kupon ahhoz a kódhoz, amelyet Ön begépelt.
-payment#:#paya_coupons_coupon#:#Kupon
-payment#:#paya_coupons_coupons#:#Kuponok
-payment#:#paya_coupons_description#:#Leírás
-payment#:#paya_coupons_edit_codes#:#Kódok szerkesztése
-payment#:#paya_coupons_edit_objects#:#Objektumok szerkesztése
-payment#:#paya_coupons_edit#:#Kupon szerkesztése
-payment#:#paya_coupons_fix_all_objects#:#%s %s engedmény az összes objektumra
-payment#:#paya_coupons_fix_selected_objects#:#%s %s engedmény a kiválasztott objektumokra
-payment#:#paya_coupons_fix#:#fix
-payment#:#paya_coupons_from#:#Érvényes ettől:
-payment#:#paya_coupons_generate_codes#:#Generált kódok
-payment#:#paya_coupons_import_codes#:#Kódok importálása
-payment#:#paya_coupons_import_error_opening_file#:#Hiba az importfájl megnyitásakor.
-payment#:#paya_coupons_no_codes_generated#:#Nincsenek kódok generálva.
-payment#:#paya_coupons_no_codes_selected#:#Nem választott ki kódot.
-payment#:#paya_coupons_no_object_assigned#:#Nincs objektum rendelve a kuponhoz.
-payment#:#paya_coupons_not_available#:#Nincsenek még kuponok létrehozva.
-payment#:#paya_coupons_not_found#:#Nem találhatók kuponok.
-payment#:#paya_coupons_not_valid#:#A kupon nem érvényes.
-payment#:#paya_coupons_number_of_codes#:#Kódok száma
-payment#:#paya_coupons_objects#:#Objektumok
-payment#:#paya_coupons_percentaged_all_objects#:#%s %s engedmény az összes objektumra
-payment#:#paya_coupons_percentaged_selected_objects#:#%s %s engedmény a kiválasztott objektumokra
-payment#:#paya_coupons_percentaged#:#százalékos
-payment#:#paya_coupons_sure_delete_all_codes#:#Biztos, hogy törli az összes kódot?
-payment#:#paya_coupons_sure_delete_selected_codes#:#Biztos, hogy törli a kiválasztott kódokat?
-payment#:#paya_coupons_till#:#Érvényes eddig:
-payment#:#paya_coupons_title#:#Cím
-payment#:#paya_coupons_type_auto#:#Automatikusan
-payment#:#paya_coupons_type_self#:#Kézzel
-payment#:#paya_coupons_type#:#Kupontípus
-payment#:#paya_coupons_unassigned_objects#:#Nem hozzárendelt objektumok
-payment#:#paya_coupons_usage_of_codes#:#Kódok használata
-payment#:#paya_coupons_value#:#Érték
-payment#:#paya_customer_added_successfully#:#Az eladási eljárást sikeresen felvette a statisztikába.
-payment#:#paya_customer#:#Ügyfél
-payment#:#paya_delete_price#:#Ár törlése
-payment#:#paya_delete_trustee_msg#:#A kijelölt meghatalmazottakat sikeresen törölte.
-payment#:#paya_deleted_last_price#:#A legutóbbi árat sikeresen törölte.
-payment#:#paya_deleted_object#:#Leállított fizetés a kiválasztott objektumokhoz.
-payment#:#paya_deleted_selected_prices#:#Ár(ak)at sikeresen törölte
-payment#:#paya_details_updated#:#Részleteket sikeresen frissítette.
-payment#:#paya_disabled#:#Letiltva
-payment#:#paya_edit_details#:#Részletek szerkesztése
-payment#:#paya_edit_pay_method#:#Fizetési mód szerkesztése
-payment#:#paya_edit_prices_first#:#Először az árakat szerkessze.
-payment#:#paya_edit_prices#:#Árak szerkesztése
-payment#:#paya_enabled#:#Engedélyezve
-payment#:#paya_enter_login#:#Adjon meg egy felhasználónevet!
-payment#:#paya_err_adding_object#:#Hiba az objektum létrehozása kor.
-payment#:#paya_error_adding_customer#:#Hiba fordult elő az eladási eljárás statisztikába vétele közben.
-payment#:#paya_error_mandatory_fields#:#Töltsön ki minden kötelező mezőt (*).
-payment#:#paya_error_no_object_id_given#:#Kérem, válasszon még egy objektumot.
-payment#:#paya_error_update_booking#:#Hiba a statisztikai adatok mentésekor.
-payment#:#paya_expires#:#Fizetés lejárásának engedélyezése
-payment#:#paya_filter_reseted#:#Szűrő alapállapotba állítva.
-payment#:#paya_header#:#Áruház-felügyelet
-payment#:#paya_insert_only_numbers#:#Csak egészeket adjon meg!
-payment#:#paya_insert_vats#:#ÁFA-mérték beszúrása
-payment#:#paya_locator#:#Áruház-felügyelet
-payment#:#paya_months#:#Hónap
-payment#:#paya_no_booking_id_given#:#Hiba: nincs megadva 'foglalási azonosító'.
-payment#:#paya_no_bookings#:#Nincs elérhető statisztika.
-payment#:#paya_no_object_selected#:#Válasszon ki egy objektumot!
-payment#:#paya_no_objects_assigned#:#Nincsenek eladható objektumok.
-payment#:#paya_no_price_available#:#Nincsenek elérhető árak
-payment#:#paya_no_prices_selected#:#Legalább egy árat válasszon ki!
-payment#:#paya_no_settings_necessary#:#Nem szükségesek beállítások ehhez a fizetési módhoz
-payment#:#paya_no_trustees#:#Nincsenek létrehozva meghatalmazottak.
-payment#:#paya_no_valid_login#:#Nem érvényes ez a felhasználónév.
-payment#:#paya_no_vat_id_given#:#Nincs megadva ÁFA-azonosító.
-payment#:#paya_no_vats_assigned#:#Egy ÁFA-kulcs sincs hozzárendelve
-payment#:#paya_no_vendor_selected#:#Nem választott ki eladót.
-payment#:#paya_not_assign_yourself#:#Saját magát nem rendelheti hozzá.
-payment#:#paya_not_buyable#:#Nem vásárolható meg
-payment#:#paya_object_not_purchasable#:#Ez az objektum nem vásárolható meg.
-payment#:#paya_object#:#Objektumok
-payment#:#paya_order_date#:#Rendelési dátum
-payment#:#paya_pay_method_not_specified#:#Nem specifikált
-payment#:#paya_pay_method#:#Fizetési mód
-payment#:#paya_payed_access#:#Fizetve/Elérés
-payment#:#paya_payed#:#Fizetve
-payment#:#paya_perm_coupons#:#Kuponok szerkesztése
-payment#:#paya_perm_obj#:#Objektumok szerkesztése
-payment#:#paya_perm_stat#:#Statisztikák szerkesztése
-payment#:#paya_price_not_valid#:#Ez az ár nem érvényes. Csak számot adjon meg!
-payment#:#paya_select_object_to_sell#:#Válassza ki az eladni kívánt objektumot.
-payment#:#paya_select_pay_method_first#:#Először csak egy fizetési módot válasszon!
-payment#:#paya_sell_object#:#Objektum eladása
-payment#:#paya_shopping_cart#:#Kosár
-payment#:#paya_statistic#:#Statisztika
-payment#:#paya_sure_delete_object#:#Biztos, hogy leállítja ennek az objektumnak a fizetését? Minden hozzárendelt adat el fog veszni!
-payment#:#paya_sure_delete_selected_prices#:#Biztos, hogy törli a kiválasztott árakat?
-payment#:#paya_sure_delete_selected_trustees#:#Biztos, hogy törli a kiválasztott meghatalmazottakat?
-payment#:#paya_sure_delete_stat#:#Biztos, hogy törli ezt a statisztikát?
-payment#:#paya_sure_delete_vat#:#Biztos, hogy törli ezt az ÁFA-kulcsot?
-payment#:#paya_sure_delete_vats#:#Biztos, hogy törli az ÁFA-kulcsokat?
-payment#:#paya_transaction#:#Tranzakció
-payment#:#paya_trustee_table#:#Meghatalmazottak
-payment#:#paya_trustees#:#Meghatalmazottak
-payment#:#paya_update_price#:#Frissített árak
-payment#:#paya_updated_booking#:#Frissített statisztikák.
-payment#:#paya_updated_price#:#Az árat sikeresen mentette.
-payment#:#paya_updated_prices#:#Frissített árak
-payment#:#paya_updated_trustees#:#Frissített jogosultságok.
-payment#:#paya_user_already_assigned#:#A felhasználó már hozzá van rendelve.
-payment#:#paya_vat_already_exists#:#Ezt az ÁFA-kulcsot már rögzítették.
-payment#:#paya_vat_not_deleted#:#Ez az ÁFA-kulcsot nem törölték.
-payment#:#paya_vat_not_valid#:#Ez az ÁFA nem érvényes.
-payment#:#paya_vats_info#:#Ha Áfa nélkül kíván megvásárolni egy objektumot, akkor Áfa-kulcsnak 0 %-ot adjon meg.
-payment#:#paya_vendor#:#Eladó
-payment#:#payment_add_vat#:#ÁFA létrehozása
-payment#:#payment_already_bought_but_no_access#:#Ön már megvásárolta a(z) %s objektumot, de még nincs hozzáférése, vagy lejárt a licence.
-payment#:#payment_back_to_shop#:#Vissza az áruházba
-payment#:#payment_cannot_find_vat#:#Nem található ÁFA adathalmaz az azonosítóhoz.
-payment#:#payment_cannot_read_nonexisting_vat#:#A behozandó ÁFA adathalmazhoz nem adott meg ID-t.
-payment#:#payment_cannot_save_existing_vat#:#Már létező ÁFA nem menthető el még egyszer.
-payment#:#payment_cannot_update_nonexisting_vat#:#Nem létező ÁFA nem frissíthető.
-payment#:#payment_edit_vat#:#ÁFA szerkesztése
-payment#:#payment_login_to_buy_object#:#Az objektum megvásárlásához, kérjük, jelentkezzen be.
-payment#:#payment_news_add_news#:#Áruházi hír létrehozása 
-payment#:#payment_news_archive_period_info#:#Időszak a hírek archiválásának meghatározásához
-payment#:#payment_news_archive_period#:#Archiválási időszak
-payment#:#payment_news_created#:#Sikeresen létrehozott egy áruházi hírt
-payment#:#payment_news_delete_sure#:#Biztos, hogy törli ezt az áruházi hírt?
-payment#:#payment_news_deleted#:#Áruházi hírt sikeresen törölte.
-payment#:#payment_news_no_news_items#:#Nincsenek elérhető hírek
-payment#:#payment_news_settings_saved#:#A beállítások mentése sikerült.
-payment#:#payment_news_settings#:#Áruházi hírek beállításai
-payment#:#payment_news_updated#:#A híreket sikeresen mentette
-payment#:#payment_news#:#Áruházi hírek
-payment#:#payment_no_price_selected#:#Nincs kiválasztva ár.
-payment#:#payment_no_price_type_selected#:#Válasszon egy típust az árhoz.
-payment#:#payment_no_topic#:#Nincs téma
-payment#:#payment_object_not_buyable_if_not_vat_assigned#:#Amíg nincs ÁFA hozzárendelve az objektumhoz, nem adható el a webáruházban.
-payment#:#payment_price_invalid_price#:#Érvényes árat adjon meg!
-payment#:#payment_shop_not_objects_found#:#Nincs vásárolható objektum.
-payment#:#payment_tax_rates#:#Adóarányok
-payment#:#payment_vat_administration#:#Rendszerbeállítások
-payment#:#payment_vat_already_created#:#Ezzel a kulccsal már létezik ÁFA.
-payment#:#payment_vat_deleted_successfully#:#A kiválasztott ÁFA-t sikeresen törölte.
-payment#:#payment_vat_has_to_be_defined_by_administration_short#:#----
-payment#:#payment_vat_input_invalid#:#Érvényes értéket adjon meg az ÁFA-kulcshoz.
-payment#:#payment_vat_rate_info#:#Adja meg az ÁFA-kulcsot (%-jel nélkül), pl. 7.
-payment#:#payment_vat_title_info#:#Adjon meg egy címkét/címet az ÁFA-hoz.
-payment#:#pays_active_bookings#:#Vannak aktív foglalások a kiválasztott eladó(k)hoz. Először azokat törölje!
-payment#:#pays_add_info#:#További információk a számlához (opcionális)
-payment#:#pays_add_vendor#:#Eladó létrehozása 
-payment#:#pays_added_vendor#:#Új eladó létrehozása 
-payment#:#pays_address#:#Cím a számlához
-payment#:#pays_already_assigned_vendors#:#Az alábbi számú felhasználó már hozzá volt rendelve:
-payment#:#pays_assigned_vendors#:#Az alábbi számú felhasználó már hozzá volt rendelve az eladói listához:
-payment#:#pays_auth_token#:#PayPal által kiadott egyedi token
-payment#:#pays_bank_data#:#Banki adatok a számlához
-payment#:#pays_bill#:#Számla
-payment#:#pays_bmf_bewirtschafter_nr#:#Operátor sorszáma
-payment#:#pays_bmf_ca_certificate#:#Elérési út a CA-tanúsítványhoz
-payment#:#pays_bmf_client_certificate#:#Elérési út a klienstanúsítványhoz
-payment#:#pays_bmf_client_id#:#Kliensazonosító
-payment#:#pays_bmf_epayment_server#:#ePayment-szerver
-payment#:#pays_bmf_haushaltsstelle#:#BMF könyvelési tétel
-payment#:#pays_bmf_kennzeichen_mahnverfahren#:#Felszólítási eljárás azonosítója
-payment#:#pays_bmf_object_id#:#Objektumazonosító
-payment#:#pays_bmf_settings_not_valid#:#Az Ön BMF-beállításai nem érvényesek. Ellenőrizze, hogy helyesen töltötte-e ki az összes mezőt!
-payment#:#pays_bmf_settings#:#Beállítások BMF-hez
-payment#:#pays_bmf_timeout#:#Időtúllépés
-payment#:#pays_bmf_waehrungskennzeichen#:#Pénznem (pl. EUR)
-payment#:#pays_bmf#:#BMF
-payment#:#pays_cost_center_not_valid#:#Valódi költségközpontot adjon meg!
-payment#:#pays_cost_center#:#Árközpont
-payment#:#pays_currency_subunit#:#Valuta (1/100) (pl. cent)
-payment#:#pays_currency_unit#:#Valuta (pl. EUR)
-payment#:#pays_delete_vendor#:#Felhasználó hozzárendelésének megszüntetése
-payment#:#pays_deleted_number_vendors#:#Az alábbi számú eladót törölt:
-payment#:#pays_eco_agreement#:#Megállapodásszám
-payment#:#pays_eco_cur_handle_code#:#Valutakód
-payment#:#pays_eco_layout#:#Számlakinézet
-payment#:#pays_eco_payment_terms#:#Fizetési feltételek
-payment#:#pays_eco_product_number#:#Termékszám
-payment#:#pays_edit_vendor#:#Felhasználó szerkesztéseszerkesztése
-payment#:#pays_email_vendor#:#Az eladó e-mail címe
-payment#:#pays_epay_auth_email_info#:#E-mail küldése feldolgozott tranzakciókról/fizetésekről.
-payment#:#pays_epay_auth_email#:#E-mail értesítés
-payment#:#pays_epay_auth_token_info#:#Meg kell adnia ezt az ePay backenden is. A titkosítás megóvja a felhasználót a hamis kifizetésektől.
-payment#:#pays_epay_auth_token#:#Hitelesítő token
-payment#:#pays_epay_info#:#Az <a href="http://www.epay.dk" target="_blank">ePay</a> fizetési kapu lehetővé teszi az ILIAS számára, hogy VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX stb.-t fogadjon. Használatához szükséges az ePay-jel való megállapodás és egy Merchant azonosító.
-payment#:#pays_epay_instant_capture_info#:#Ha be van kapcsolva, minden összeg azonnal levonásra kerül a vásárló számlájáról. Engedélyezés előtt győződjön meg róla, hogy ez törvényes az Ön országában.
-payment#:#pays_epay_instant_capture#:#Azonnali elfogadás
-payment#:#pays_epay_merchant_number#:#Merchant-ID
-payment#:#pays_epay_server_host#:#Szerverkiszolgáló
-payment#:#pays_epay_server_path#:#Szerverútvonal
-payment#:#pays_epay_settings_not_valid#:#Az ePay beállítások nem menthetők, mert nem érvényesek.
-payment#:#pays_epay_settings#:#ePay konfiguráció
-payment#:#pays_epay#:#ePay
-payment#:#pays_erp_bad_settings#:#Cserélje a(z) %s beállításait, mert nem érvényesek.
-payment#:#pays_erp_connection_established#:#A kapcsolat sikeresen létrejött ezzel: %s.
-payment#:#pays_erp_error#:#Hiba ebben az interakcióban: %s.
-payment#:#pays_erp_info#:#Enterprice, Resource, Planning systems (vállalkozás, forrás, tervezés rendszerek) beállítása. ILIAS integrálása számlázási rendszerrel.
-payment#:#pays_erp_invoice_attached#:#Az Ön számlája ehhez az üzenethez van csatolva.
-payment#:#pays_erp_invoice_copies_info#:#Másolatok mentési helye:
-payment#:#pays_erp_invoice_copies#:#Generált számlák másolatainak mentése
-payment#:#pays_erp_invoice_deleted#:#A tesztszámlát sikeresen törölte
-payment#:#pays_erp_invoice_delpreview#:#Tesztszámla törlése
-payment#:#pays_erp_invoice_nowrite#:#Nem írható a könyvtár.
-payment#:#pays_erp_invoice_preview#:#Tesztszámla előnézete új ablakban
-payment#:#pays_erp_settings#:#ERP beállítások
-payment#:#pays_erp_system#:#ERP rendszer
-payment#:#pays_erp_tst_billed#:#ezeknek számlázva:
-payment#:#pays_erp_tst_existing#:#Létező adós
-payment#:#pays_erp_tst_new#:#Új adós
-payment#:#pays_erp_tst_product#:#Ez csak tesztszámla. Egy vásárlásnál a kurzus vagy fájl neve kerül ide.
-payment#:#pays_erp_updated_settings#:#ERP beállításokat sikeresen módosította, valamit %s aktívra állította.
-payment#:#pays_erp#:#ERP
-payment#:#pays_general_settings_not_valid#:#Az Ön általános beállításai nem érvényesek. Ellenőrizze, hogy helyesen van-e kitöltve minden mező!
-payment#:#pays_general_settings#:#Általános beállítások
-payment#:#pays_general#:#Általános
-payment#:#pays_header_select_vendor#:#Eladókiválasztás
-payment#:#pays_invoice#:#Számla
-payment#:#pays_no_username_given#:#Nincs megadva felhasználónév.
-payment#:#pays_no_valid_username_given#:#Nincs megadva érvényes felhasználónév.
-payment#:#pays_no_vendor_selected#:#Nincs kiválasztva eladó.
-payment#:#pays_number_bookings#:#Aktív tranzakciók
-payment#:#pays_objects_bill_exist#:#A 'számla' fizetési mód be van kapcsolva néhány objektumhoz, így nem kapcsolható ki.
-payment#:#pays_objects_bmf_exist#:#A 'BMF' fizetési mód be van kapcsolva néhány objektumhoz, így nem kapcsolható ki.
-payment#:#pays_objects_paypal_exist#:#A 'PayPal' fizetési mód be van kapcsolva néhány objektumra, ezért nem kapcsolható ki.
-payment#:#pays_offline#:#Offline
-payment#:#pays_online#:#Online
-payment#:#pays_page_style#:#Lapstílus
-payment#:#pays_pay_methods#:#Fizetési módok
-payment#:#pays_paypal_settings_not_valid#:#Beállításai a PayPal-hoz nem érvényesek. Ellenőrizze, hogy a mezők megfelelően vannak-e kitöltve.
-payment#:#pays_paypal_settings#:#Beállítások a PayPal-hoz
-payment#:#pays_paypal#:#PayPal
-payment#:#pays_pdf_path#:#Útvonal számla PDF fájlként generálásához
-payment#:#pays_server_host#:#Szerverkiszolgáló (pl. https://www.paypal.com)
-payment#:#pays_server_path#:#Elérési út a szkriptekhez (pl. /cgi-bin/webscr)
-payment#:#pays_sure_delete_selected_vendors#:#Biztos, hogy törli a kiválasztott eladó(ka)t?
-payment#:#pays_too_many_vendors_selected#:#Csak egy ügyfelet válasszon ki ennek a tevékenységnek a végrehajtására!
-payment#:#pays_updated_bmf_settings#:#Beállításait a BMF-beállításokhoz sikeresen frissítette.
-payment#:#pays_updated_epay_settings#:#Az ePay beállításait sikeresen mentette.
-payment#:#pays_updated_general_settings#:#Általános beállításait sikeresen frissítette.
-payment#:#pays_updated_pay_method#:#Fizetési mód megváltoztatva.
-payment#:#pays_updated_paypal_settings#:#PayPal beállításait sikeresen frissítette.
-payment#:#pays_user_already_assigned#:#Ez a felhasználó már hozzá van rendelve az eladói listához.
-payment#:#pays_vat_rate#:#Áfa érték % (választható)
-payment#:#pays_vendor#:#Eladó
-payment#:#price_a#:#Ár
-payment#:#price_from#:#legalacsonyabb ár
-payment#:#prices#:#Árak
-payment#:#reset_filter#:#Szűrő alapállapotba állítása
-payment#:#search_in_title#:#Keresés a címben
-payment#:#select_one_topic#:#Legalább egy témát válasszon!
-payment#:#set_filter#:#Szűrő beállítása
-payment#:#shop_info#:#Áruházi információ
-payment#:#sort_asc#:#rendezés növekvően
-payment#:#sort_by#:#Objektumok rendezése e szerint
-payment#:#sort_desc#:#rendezés csökkenően
-payment#:#sort_topics_by_date#:#Dátum
-payment#:#sort_topics_by_title#:#Cím
-payment#:#sort_topics_by#:#Témák rendezése e szerint
-payment#:#sort_topics_manually#:#Manuálisan
-payment#:#sort#:#Rendezés
-payment#:#statistics_filter_advice#:#Válassza ki a kedvelt szűrőbeállításait, majd kattintson a 'Nézet frissítése' gombra.
-payment#:#sure_delete_topics#:#Biztos, hogy törli a kiválasztott témákat?
-payment#:#topic_edited#:#A téma módosítása sikerült.
-payment#:#topic_saved#:#A téma mentése sikerült.
-payment#:#topic_title#:#Cím
-payment#:#topic#:#Téma
-payment#:#topics_deleted#:#A kiválasztott témát sikeresen törölte.
-payment#:#topics#:#Témák
-payment#:#unlimited_duration#:#Korlátlan időtartam
-payment#:#update#:#Frissítés
-payment#:#user_deleted#:#A felhasználót sikeresen törölte
-payment#:#vat_rate#:#ÁFA-kulcs
-payment#:#vat_title#:#ÁFA-jogcím
-payment#:#vat_unit#:#ÁFA-egység
-payment#:#vats#:#ÁFA-k
 pd#:#pd_enable_active_users#:#Aktív felhasználók blokkjának engedélyezése
 pd#:#pd_enable_block_moving_info#:#Tartalomblokkok újraszervezésének engedélyezése a munkaasztalon a felhasználók számára.
 pd#:#pd_enable_block_moving#:#Blokkmozgatás engedélyezése
@@ -8779,10 +8306,10 @@ rbac#:#catr_edit_permission#:#A felhasználó megváltoztathatja a jogosultsági
 rbac#:#catr_read#:#Olvasási elérés kategórialinkhez
 rbac#:#catr_visible#:#A kategórialink látható
 rbac#:#catr_write#:#A felhasználó szerkeszthet kategórialinket beállításokat
-rbac#:#cmps_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Bővítmények, modulok és szolgáltatások jogosultsági beállításait
-rbac#:#cmps_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Bővítmények, modulok és szolgáltatások beállításaihoz
-rbac#:#cmps_visible#:#A felhasználó láthatja a Rendszerbeállítások » Bővítmények, modulok és szolgáltatások menüpontot
-rbac#:#cmps_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Bővítmények, modulok és szolgáltatások beállításait
+rbac#:#cmps_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Bővítmények jogosultsági beállításait
+rbac#:#cmps_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Bővítmények beállításaihoz
+rbac#:#cmps_visible#:#A felhasználó láthatja a Rendszerbeállítások » Bővítmények menüpontot
+rbac#:#cmps_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Bővítmények beállításait
 rbac#:#rbac_create_sess#:#Esemény létrehozása
 rbac#:#crs_edit_event#:#Naptáresemények szerkesztése
 rbac#:#crsr_copy#:#A felhasználó másolhat kurzuslinket
@@ -10254,7 +9781,6 @@ forum#:#forums_post_activation_mail#:#csak jóváhagyásuk után látják a fór
 rbac#:#mail_mail_to_global_roles#:#A felhasználó küldhet levelet a globális szerepeknek
 common#:#mail_to_global_roles_not_allowed#:#Nem engedélyezett levél küldése a globális szerepeknek
 common#:#mail_no_valid_group_role#:#Nincs érvényes csoportszerep
-payment#:#paya_bill_history#:#Számlatörténet
 assessment#:#tst_search_users#:#Résztvevők keresése
 survey#:#svy_search_users#:#Válaszadók keresése
 survey#:#dont_use_questionpool#:#Ne szúrja be a kérdéseket kérdésgyűjteménybe (csak ebben a tesztben elérhetők).
@@ -10262,9 +9788,6 @@ trac#:#trac_first_access#:#Első hozzáférés
 trac#:#trac_read_count#:#Hozzáférésszám
 trac#:#trac_spent_seconds#:#Eltöltött idő
 trac#:#trac_percentage#:#Százalék
-payment#:#have_existing_account#:#Van már felhasználói fiókja? Adja meg felhasználónevét és jelszavát!
-payment#:#have_no_existing_account#:#Ha nincs felhasználói fiókja, ezzel tud bejelentkezni (felhasználónév: %s, jelszó: %s).
-payment#:#please_use_account#:#További vásárlásokhoz jelentkezzen be felhasználói fiókjába.
 content#:#cont_lk_file#:#Fájl/dokumentum
 content#:#cont_select_file#:#Fájl választása
 content#:#cont_create_link#:#Link létrehozása
@@ -10299,7 +9822,7 @@ common#:#delete_inactivated_user_accounts_include_roles#:#Figyelembe vett szerep
 common#:#delete_inactivated_user_accounts_include_roles_desc#:#A törlésben résztvevő szerepek meghatározása.
 common#:#delete_inactivated_user_accounts_interval#:#Gyakoriság
 common#:#delete_inactivated_user_accounts_interval_desc#:#A törlési feltételek ilyen gyakorisággal kerülnek átvizsgálásra.
-mail#:#mail_prevent_smtp_globally#:#Külső, SMTP-n keresztüli e-mail küldésének globális tiltása 
+mail#:#mail_prevent_smtp_globally#:#Külső, SMTP-n keresztüli e-mail küldés globális tiltása 
 content#:#glo_quick_navigation#:#Gyors navigáció
 forum#:#post_reply#:#Re:
 forum#:#preset_subject#:#Előre beállított téma a válaszban
@@ -11033,13 +10556,8 @@ trac#:#trac_group_materials_num#:#Kötelező segédanyagok száma
 trac#:#trac_grouped_material_obligatory_err#:#A teljesítendő segédanyagok száma, amelynek 0-nál nagyobbnak kell lenni, és kisebbnek, mint a csoportosítás anyagainak száma.
 rbac#:#precondition_obligatory_settings#:#Előfeltételek beállításai
 rbac#:#precondition_num_obligatory#:#Kötelező anyagok száma
-common#:#payment_notification#:#Áruházi értesítés küldése
-common#:#payment_notification_desc#:#Ha be van kapcsolva, a felhasználók értesítést kapnak, ha a megvásárolt objektumuk hozzáférési ideje hamarosan lejár.
-common#:#payment_reminder_notification_subject#:#A vásárolt objektumok hozzáférési ideje már lejárt
 common#:#bought_objects_expire_soon#:#ezúton értesítjük, hogy néhány Ön által vásárolt objektum hozzáférési időszaka a végéhez érkezik. Megnövelheti hozzáférési idejét, ha további előfizetést vásárol.
 common#:#access_enddate#:#Hozzáférés lejárati ideje
-payment#:#buy_extension#:#Hosszabbítás vásárlása
-payment#:#extension_price#:#Hosszabbítás ára
 wiki#:#wiki_ordering#:#Rendezés
 wiki#:#wiki_indentation#:#Behúzás
 wiki#:#wiki_save_ordering_and_indent#:#Rendezés és behúzás mentése
@@ -11215,24 +10733,10 @@ adve#:#adve_pe_general#:#Általános
 adve#:#adve_use_physical#:#b/i/u használata str/emp/imp helyett
 adve#:#adve_use_physical_info#:#Ez a beállítás lecseréli a félkövér, dőlt, aláhúzott (strong, emphatic, important) szemantikus stílusosztályokhoz tartozó gombokat a fizikai attribútumok gombjaival: buttons b (bold), i (italic), u (underline). Ne feledje, hogy ez inkonzisztenciát okozhat, ha a stílusszerkesztő van használatban, és más fizikai attribútumok vannak hozzárendelve a strong/emphatic/important stílusosztályokhoz.
 content#:#cont_tex#:#Latex kód
-payment#:#terms_conditions#:#GTC
-payment#:#accept_terms_conditions#:#A vásárlási folyamat folytatásához fogadja el ezt: %s.
-payment#:#documents#:#Dokumentumok
-payment#:#activate_placeholders#:#Dzsókerelemek aktiválása
-payment#:#billing_mail#:#Számlázási e-mail
-payment#:#select_subtype#:#Alopció
-payment#:#pay_hide_shop_info#:#Áruházinformációk elrejtése
-payment#:#pay_hide_shop_info_info#:#Áruházinformációk fülének elrejtése
-payment#:#use_shop_specials#:#Használja az áruház-specialitásokat
-payment#:#use_shop_specials_info#:#Ha be van kapcsolva, 'speciális' ajánlatként lehet megjelölni az áruházi objektumokat. Ezek az objektumok megjelennek az áruházi összes weboldalán.
-payment#:#special#:#Speciális ajánlat
-payment#:#special_info#:#Ha be van kapcsolva, ez az objektum az áruház összes weboldalán megjelenik.
 common#:#object_purchased_date#:#Vásárlás dátuma
 common#:#object_duration#:#Elérés időtartama
 common#:#new_customer#:#Új vásárlónk?
 common#:#new_customer_info#:#Kattintson ide, ha még nincs felhasználói fiókja.
-payment#:#shop_url#:#Link az áruházra
-payment#:#shop_bought_objects_url#:#Link a vásárolt objektumokra
 tstv#:#tstv_create#:#Tesztigazolás létrehozása
 tstv#:#tstv_create_info#:#Válasszon ki egy befejezett tesztet, hogy igazolást generáljon hozzá.
 wsp#:#wsp_type_excv#:#Igazolás: beadandó feladat
@@ -11353,24 +10857,9 @@ content#:#cont_ov_some_correct#:#Helyesen válaszolt meg [x] kérdést a(z) [y] 
 content#:#cont_ov_wrong_answered#:#Az alábbi kérdéseket még nem vagy hibásan válaszolta meg.
 common#:#invoice_number_reset_period#:#Növekvő számozás újraindítása
 common#:#invoice_number_reset_period_desc#:#Válassza ki az időszakot a növekvő számozás újrakezdéséhez
-common#:#payment_userdefined_invoice_number_not_activated#:#Felhasználó definiálta számlaszámok nem engedélyezettek
 common#:#invoice_number#:#Számlaszám
 common#:#invoice_number_setting#:#Számlaszám beállításai
-payment#:#ilias_invoice_number#:#ILIAS-számlasorszám
-payment#:#userdefined_invoice_number#:#Felhasználó által beállított számlasorszám
-payment#:#incremental_start_value#:#Növekvő szám
-payment#:#incremental_start_value_info#:#Ezt a kezdőértéket használjuk első számként a következő időszakban.
-payment#:#incremental_current_value#:#Jelenlegi növekvő szám
-payment#:#invoice_number_text#:#Számlaszám
 common#:#yearly#:#évente
-common#:#payment_notification_days_desc#:#Adja meg azon napok számát, amikor a felhasználókat értesíteni kell a megvásárolt objektumok elérési idejéről.
-common#:#payment_notification_days#:#Napok száma
-payment#:#show_general_filter#:#Általános beállítás megjelenítése
-payment#:#show_general_filter_info#:#Felhasználók ezzel az általános keresési beállítással találhatnak meg vásárolható terméket
-payment#:#show_topics_filter#:#Témák szűrőjének megjelenítése
-payment#:#show_topics_filter_info#:#Felhasználók megtalálhatnak vásárolható termékeket ezzel a témaszűrővel
-payment#:#show_shop_explorer#:#Áruházi böngésző megjelenítése
-payment#:#show_shop_explorer_info#:#Ez az áruházi böngésző leegyszerűsíti az áruházban navigálást
 survey#:#survey_available_question_pools#:#Elérhető gyűjtemények
 survey#:#survey_question_pool_title#:#Gyűjtemény címe
 common#:#allow_user_toggle_noti#:#Tag kikapcsolhat értesítést
@@ -11406,15 +10895,6 @@ assessment#:#imported#:#importálva
 ecs#:#ecs_tbl_import#:#Import
 ecs#:#ecs_tbl_export#:#Export
 ecs#:#ecs_tbl_import_type#:#Importtípus
-payment#:#position#:#Pos.
-payment#:#amount#:#Összeg
-payment#:#external_bill_no#:#Számlaszám: %s
-payment#:#day_of_service_provision#:#Szolgáltatásnyújtás napjai
-payment#:#total_netprice#:#Nettó összeg (ÁFA nélkül)
-payment#:#unit_price#:#Egységár
-payment#:#plus_vat#:#Plusz VAT
-payment#:#credit#:#Hitel
-payment#:#period_of_service_provision#:#Szolgáltatásnyújtás időszaka
 wsp#:#wsp_permissions#:#Megosztás
 wsp#:#wsp_shared_with#:#Megosztva vele
 wsp#:#wsp_set_permission_single_user#:#Kiválasztott felhasználó
@@ -11797,6 +11277,7 @@ chatroom#:#auto_scroll#:#Görgetés az aljára
 chatroom#:#public_chat_created#:#A nyilvános csevegést sikeresen létrehozta a taneszköztárolóban.
 chatroom#:#lost_connection#:#A csevegőszerverrel megszakadt a kapcsolat.
 chatroom#:#banned#:#Kitiltották ebből a csevegőszobából
+chatroom#:#kicked#:#Kitiltották ebből a csevegőszobából
 chatroom#:#unban#:#Kitiltás feloldása
 chatroom_adm#:#keystore#:#Keystore
 chatroom_adm#:#keypass#:#Keypass
@@ -12062,7 +11543,6 @@ skmg#:#skmg_remove_skill#:#Kompetencia eltávolítása
 style#:#style_page_layout_module_scorm#:#SCORM
 style#:#style_page_layout_module_portfolio#:#Portfólió
 prtf#:#prtf_use_page_layout#:#Lapelrendezés használata
-common#:#shoppingcart#:#Bevásárlókosár
 content#:#cont_ed_insert_skills#:#Kompetenciák beszúrása
 content#:#cont_pc_skills#:#Kompetencia
 content#:#cont_insert_skills#:#Kompetencia beszúrása
@@ -12084,18 +11564,6 @@ style#:#sty_type_rte_texp#:#Faikon
 style#:#sty_type_rte_tli#:#Falista-elem
 style#:#sty_type_rte_tul#:#Falista
 chatroom_adm#:#port_info#:#A ritkán használt portokat gyakran blokkolják tűzfalak vagy proxyszerverek. A felhasználó böngészője nem fog tudni kapcsolatot létesíteni a csevegőszerverrel, ha blokkolt az adott port.
-payment#:#check_shop_activation#:#Áruház beállításainak ellenőrzése aktiváláshoz
-payment#:#please_enter_currency#:#Adjon meg egy pénznemet
-payment#:#please_enter_address#:#Adjon meg egy címet
-payment#:#please_enter_bank_data#:#Adja meg a bank adatait
-payment#:#please_enter_pdf_path#:#Adjon meg útvonalat a számla PDF fájlként generálásához
-payment#:#please_activate_one_paymethod#:#Aktiváljon legalább egy fizetési módot 
-payment#:#please_enter_bmf_data#:#Adja meg BMF adatait
-payment#:#please_enter_paypal_data#:#Adja meg Paypal adatait
-payment#:#please_enter_epay_data#:#Adja meg EPay adatait
-payment#:#please_enter_vats#:#Hozzon létre legalább egy ÁFA-t
-payment#:#please_create_vendor#:#Hozzon létre legalább egy eladót
-payment#:#shop_activation_ok#:#Az áruházbeállítások elkészültek. Most aktiválhatja a webáruházat.
 blog#:#blog_rename_posting#:#Bejegyzés átnevezése
 prtf#:#prtf_tab_portfolios#:#Portfólióim
 prtf#:#prtf_tab_other_users#:#Portfóliók más felhasználóktól
@@ -12119,7 +11587,7 @@ chatroom#:#user_invited_self#:#<b>#user#</b> meghívta Önt a(z) <b>#room#</b> c
 chatroom#:#private_room_closed#:#<b>#title#</b> csevegőszoba bezárt.
 chatroom#:#private_room_entered#:#Üdvözöljük a(z) <b>#title#</b> privát csevegőszobában.
 chatroom#:#private_room_left#:#<b>#user#</b> felhasználó elhagyta a (z) <b>#title#</b> privát szobát.
-chatroom#:#private_room_entered_user#:#<b>#user#</b> felhasználó belépett a(z) <b>#title#</b> privát szobába.
+chatroom#:#private_room_entered_user#:#<b>#username#</b> felhasználó belépett a(z) <b>#title#</b> privát szobába.
 chatroom#:#kicked_from_private_room#:#Kirúgta a(z) <b>#title#</b> privát szobából.
 assessment#:#tst_link_only_unassigned#:#Legalább egy kérdésgyűjteménybe linkelt kérdést választott ki. Csak máshová nem rendelt kérdéseket vehet fel kérdésgyűjteménybe.
 administration#:#obj_otpl#:#Objektumsablonok
@@ -12134,15 +11602,15 @@ didactic#:#didactic_not_changed#:#Az oktatási sablon beállítása változatlan
 didactic#:#didactic_selected_tpl_option#:#Alkalmazott oktatási sablon:
 didactic#:#didactic_template_applied#:#Alkalmazott oktatási sablon.
 didactic#:#didactic_confirm_apply_new_template#:#Biztos, hogy alkalmazza a kiválasztott oktatási sablont? Így minden jelenlegi jogosultsági beállítás el fog veszni!
-chatroom#:#chatserver_address#:#Csevegőszerverek IP-címe
-chatroom#:#chatserver_port#:#Csevegőszerverek portja
+chatroom#:#chatserver_address#:#Csevegőszerver IP címe/teljes neve
+chatroom#:#chatserver_port#:#Csevegőszerver portja
 chatroom#:#instance_name#:#Egyedi azonosító
 chatroom#:#ilias_url#:#ILIAS-installáció Base-URL-je
 chatroom#:#soap_user#:#SOAP-felhasználó neve
 chatroom#:#soap_user_password#:#SOAP-felhasználó jelszava
 chatroom#:#hint_osd#:#Ha be van kapcsolva, a felhasználók felbukkanó ablakban kapnak értesítést új meghívásokról.
 chatroom#:#hint_osd_interval#:#Lekérdezési intervallum az új értesítések ellenőrzéséhez. Alacsonyabb szám esetén a felhasználó gyakrabban kap értesítést, de a webszervernek több kérést kell lekezelnie.
-chatroom#:#hint_unique_name#:#Az ILIAS és a csevegőszerver által használt név az ILIAS azonosításához. Ha több mint egy kliens van használatban csevegőszerverenként, ennek a névnek egyedinek kell lennie ILIAS-példányonként. <br/>A név tartalmazhat betűket (A-Z/a-z), számokat (0-9), a '-' és a '_' karaktereket.
+chatroom#:#hint_unique_name#:#Az ILIAS és a csevegőszerver által használt név az ILIAS azonosításához. Ha több mint egy kliens van használatban csevegőszerverenként, ennek a névnek egyedinek kell lennie ILIAS példányonként. <br/>A név tartalmazhat betűket (A-Z/a-z), számokat (0-9), a '-' és a '_' karaktereket.
 chatroom#:#enable_smilies#:#Hangulatjelek engedélyezése
 chatroom#:#hint_enable_smilies#:#Ha be van kapcsolva, a konfigurált szövegrészeket ikonra cseréljük. Beállításokhoz tekints meg a hangulatjelek fület.
 chatroom#:#display_past_msgs#:#Elküldött üzenetek száma
@@ -12151,6 +11619,7 @@ chatroom#:#speak_to#:#Beszélgetés hozzá: <b>#user#</b>
 chatroom#:#whisper_to#:#Suttogás hozzá: <b>#user#</b>
 chatroom_adm#:#chat_cannot_connect_to_server#:#Az ILIAS nem tud socket kapcsolatot felépíteni a csevegőszerverhez.
 chatroom#:#leave_private_room#:#Privát szoba elhagyása
+chatroom#:#left_private_room#:#Elhagyta a privát szobát
 chatroom#:#delete_private_room#:#Privát szoba törlése
 chatroom#:#invite_to_private_room#:#Jelenlegi szobába meghívás
 wiki#:#wiki_page_actions#:#Laptevékenységek
@@ -12322,16 +11791,9 @@ wfld#:#wfld_edit#:#Mappa szerkesztése
 pd#:#pd_enable_comments#:#Nyilvános megjegyzések engedélyezése
 crs#:#event_blank_columns#:#További oszlopok
 common#:#continue#:#folytatás
-payment#:#click_to_buy_info#:#Sikeresen bejelentkezett. A vásárlási folyamat folytatásához fogadja el az általános szerződési feltételeket, majd kattintson a vásárlás gombra.
-payment#:#click_to_continue_info#:#A vásárlási folyamat folytatásához kattintson a 'Folytatás' gombra a bejelentkezéshez vagy a regisztrációhoz.
 rbac#:#rbac_edit_condition#:#Előfeltételek szerkesztése
 rbac#:#rbac_condition_delete_sure#:#Biztos, hogy törli az alábbi előfeltételeket?
 crs#:#crs_starter_delete_sure#:#Biztos, hogy törli az alábbi kezdőobjektumokat?
-common#:#statutory_regulations#:#Törvényi előírások
-common#:#show_sr_shoppingcart#:#Kosárban megtekintés
-common#:#attach_sr_invoice#:#E-mailhez csatolás
-common#:#show_sr_shoppingcart_info#:#Ha be van kapcsolva, a törvényi előírások megjelennek a bevásárlókosárral
-common#:#attach_sr_invoice_info#:#Ha be van kapcsolva, a törvényi előírásokat csatoljuk a bevásárlókosárhoz
 rbac#:#tst_tst_statistics#:#A felhasználónak elérése van a tesztstatisztikához
 common#:#ignore_required_fields#:#Kötelező mezők figyelmen kívül hagyása
 common#:#ignore_required_fields_info#:#Ha be van kapcsolva, ezt a űrlapot az összes kötelező mező kitöltése nélkül elküldheti. A felhasználóknak a következő bejelentkezésükkor kell megadniuk a személyes adataikban hiányzó információkat.
@@ -12453,8 +11915,8 @@ assessment#:#tst_notify_manscoring_done_body_msg_reason#:#Ezt az értesítést a
 crs#:#crs_subject_course_group_notification#:#Napi levél ehhez: %s
 crs#:#crs_course_group_notification_link#:#Link:
 common#:#obj_lm_duplicate#:#Tanulási modul másolása
-blog#:#blog_edit_date#:#Dátum szerkesztése
-blog#:#blog_edit_date_info#:#A kiadvány állapota nem függ ettől a naptól.
+blog#:#blog_edit_date#:#Dátum módosítása
+blog#:#blog_edit_date_info#:#A hozzászólás állapota nem függ ettől a dátumtól.
 content#:#cont_captcha_verification#:#Felhasználó ellenőrzése
 content#:#cont_captcha_code#:#Kód
 cptch#:#cptch_wrong_input#:#Hibás bemenet
@@ -12496,8 +11958,10 @@ pdesk#:#bookmark_moved_ok#:#A könyvjelző áthelyeződött.
 wsp#:#wsp_tab_ownership#:#Taneszköztárolóban levő objektumaim
 user#:#user_ownership#:#Taneszköztárolóban levő objektumok
 registration#:#registration_code_role_info#:#Ha regisztrációs kódot használ, lehet hogy a kód végzi a szerepkiválasztást.
-mail#:#mail_system_sender_name#:#Feladó neve
-mail#:#mail_system_sender_name_info#:#Adjon meg egy nevet az automatikusan generált (belső és külső) üzenetekhez. Ha üresen hagyja a mezőt, az ILIAS ennek az installációnak a rövid címét használja. Ha nem jól definiált a cím, az 'ILIAS' lesz használva feladóként.
+mail#:#mail_system_from_name#:#Feladó neve
+mail#:#mail_system_from_name_info#:#Adjon meg egy nevet (pl. Gipsz Jakab) az automatikusan generált (belső és külső) üzenetekhez. Ha üresen hagyja a mezőt, az ILIAS ennek az telepítésnek a rövid címét használja. Ha ez sincs megadva, 'ILIAS' lesz a feladó.
+mail#:#mail_system_return_path#:#Globális válasz-címzett
+mail#:#mail_system_return_path_info#:#E-mailre válaszadáskor ez lesz a címzett (pl. info@ilias.hu). Amennyiben üresen hagyja, a válasz-címzett a feladó e-mail címe lesz.
 content#:#cont_current_term#:#Jelenlegi terminus
 assessment#:#tst_setting_offer_hints_label#:#Segítség
 assessment#:#tst_setting_offer_hints_info#:#A résztvevők a kérdés megválaszolásához segítségeket kérhetnek. A megszerezhető pontszám minden segítségkéréssel csökken.
@@ -12598,9 +12062,6 @@ dcl#:#dcl_err_formula_field_not_found#:#Nincs '%s' nevű mező.
 common#:#obj_dcl_duplicate#:#Adatgyűjtés másolása
 survey#:#freetext_answers#:#Szabadszöveges válaszok
 forum#:#frm_at_least_one_moderator#:#Legalább egy moderátor kell legyen.
-payment#:#duration_month#:#Hozzáférés időtartalma hónapban
-payment#:#duration_date#:#Hozzáférés időtartalma
-payment#:#please_choose_category#:#Válasszon egy kategóriát
 forum#:#select_max_one_thread#:#Csak egy szálat válasszon!
 common#:#shib_matriculation#:#Attribútum a beiratkozási számhoz
 common#:#soap_connect_timeout#:#Kapcsolat megszakadása időtúllépés miatt
@@ -13077,8 +12538,8 @@ poll#:#poll_voting_period_limited#:#Korlátozott
 poll#:#poll_voting_period_start#:#Kezdő időpont
 poll#:#poll_voting_period_end#:#Záró időpont
 blog#:#blog_keywords#:#Kulcsszavak
-blog#:#blog_no_keywords#:#Nincsenek megadva kulcsszavak.
-blog#:#blog_edit_keywords#:#Kulcsszavak szerkesztése
+blog#:#blog_no_keywords#:#Egy kulcsszó sincs megadva.
+blog#:#blog_edit_keywords#:#Kulcsszavak módosítása
 blog#:#blog_keyword#:#Kulcsszó
 administration#:#adm_adm_role_protect#:#Rendszergazdai szerep védelme
 administration#:#adm_adm_role_protect_info#:#Ha be van kapcsolva, csak a rendszergazda rendelhet felhasználókat a rendszergazda szerephez, illetve csak ő vonhatja vissza azt.
@@ -13310,7 +12771,7 @@ tos#:#tos_tos_settings#:#Beállítások
 tos#:#tos_status_enable#:#Engedélyezés
 tos#:#tos_status_desc#:#Ha be van kapcsolva, a felhasználóknak az ILAS-ba belépés előtt el kell fogadniuk a Szolgáltatási feltételeket.
 tos#:#tos_reset_tos_for_all_users#:#Szolgáltatási feltételek reset
-tos#:#tos_sure_reset_tos#:#Biztos, hogy törli az összes felhasználó Szolgáltatási feltételeit? Ez azokra a fiókokra is hatással van, melyeket SOAP webszolgáltatások, chat szerver, vagy az ütemezett feladatok használnak.
+tos#:#tos_sure_reset_tos#:#Biztos, hogy törli az összes felhasználó Szolgáltatási feltételeit? Ez azokra a fiókokra is hatással van, melyeket SOAP webszolgáltatások, csevegőszerver, vagy az ütemezett feladatok használnak.
 tos#:#tos_reset_successfull#:#Szolgáltatási feltételeket sikeresen resetelte.
 user#:#tos_show_signed_text#:#Részletek megjelenítése
 user#:#tos_not_accepted_yet#:#Még nincs elfogadva
@@ -13336,7 +12797,7 @@ mail#:#cron_update_addressbook#:#Címtár névjegyeinek automatikus szinkronizá
 mail#:#cron_update_addressbook_desc#:#Ha be van kapcsolva, a felhasználók beállíthatják, hogy a címtárban lévő névjegyek adatai szinkronizálódjanak-e az ütemezett feladaton keresztül. Csak a felhasználó által engedélyezett adatok frissülnek.
 mail#:#auto_update#:#Frissítés
 blog#:#blog_toggle_draft_admin#:#Blog hozzászólások tiltása
-blog#:#blog_keywords_info#:#Használd a +/- ikonokat a kulcsszavak hozzáadásra, illetve eltávolítására.
+blog#:#blog_keywords_info#:#Használja a +/- ikonokat kulcsszavak hozzáadásra, illetve eltávolítására.
 forum#:#merge#:#Összevon
 forum#:#please_choose_target#:#Válasszon témát, melyhez hozzáfűzzük.
 forum#:#frm_sure_merge_threads#:#Biztos, hogy összevonja a témákat? Figyelmeztetés: A folyamat vissza nem fordítható.
@@ -13950,10 +13411,6 @@ rep#:#rep_new_item_group_unassigned_subitems#:#Hozzá nem rendelt objektumok sz�
 rep#:#rep_new_item_group_edit#:#Csoportosítás szerkesztése
 rep#:#rep_new_item_group_delete_sure#:#Biztos, hogy törli az alábbi csoportosításokat?
 registration#:#reg_email_domains_code#:#Regisztrációs kóddal bármely e-mail cím érvényes.
-payment#:#placeholders#:#Helyőrzők
-payment#:#current_timestamp#:#Pillanatnyi Unix időbélyegző
-payment#:#user_id#:#Felhasználó-ID
-payment#:#incremental_number#:#Inkrementális szám
 rep#:#rep_new_item_group_add_separator#:#Oszlop elválasztó hozzáadása
 rep#:#rep_new_item_group_separator#:#Oszlop elválasztó
 rep#:#rep_new_item_group_other#:#Egyebek
@@ -15313,9 +14770,6 @@ crs#:#crs_loc_form_assign_initial_info#:#Ebben a kurzusban lévő egyik teszt ki
 crs#:#crs_loc_form_assign_qualified_info#:#--
 poll#:#poll_view_results_after_period_impossible#:#A szavazás időtartama nincs korlátozva.
 content#:#cont_download#:#Letöltés
-payment#:#topics_settings#:#Témakörök beállításai
-payment#:#enable_topics#:#Témakörök engedélyezése
-payment#:#enable_topics_info#:#Ha be van kapcsolva, a létrehozott témakörökhöz hozzárendelhet megvásárolható objektumokat.
 exc#:#exc_assignment_type#:#Beadás módja
 trac#:#trac_mode_event_info#:#Tutorok/Vezetők ellenőrzik, hogy ki vett részt az eseményen, és kézzel rögzítik azt a 'Résztvevők módosítás' fülön.
 sess#:#sess_lp_preset#:#Tanulási haladás bekapcsolása
@@ -16184,3 +15638,31 @@ exc#:#exc_delete_team#:#Csapat törlése
 sysc#:#sysc_tree_structure_failures#:#Fastruktúra hibáinak száma (szülőkapcsolat):
 sysc#:#sysc_message_tree_structure_confirm#:#Biztos, hogy javítja a fastruktúrát? A javítás előtt készítsen biztonsági másolatot adatbázisáról.
 sysc#:#sysc_btn_tree_structure#:#Fastruktúra újralétrehozása
+wiki#:#wiki_page_list_mode#:#Felsorolás típusa
+wiki#:#wiki_page_list_mode_unordered#:#Listajeles
+wiki#:#wiki_page_list_mode_ordered#:#Számozott
+blog#:#blog_news_title#:#%1$s | %2$s
+blog#:#blog_news_posting_updated#:#%s módosított egy bloghozzászólást. 
+blog#:#blog_news_posting_published#:#%s közzétett egy bloghozzászólást.
+blog#:#blog_news_posting_authors#:#Szerzők: %s
+book#:#book_reservation_filter_period#:#Foglalási lista időköze
+book#:#book_reservation_filter_period_info#:#Az alapértelemzett időszakszűrő értéke napokban a mai dátumtól számítva.
+book#:#book_filter_past_reservations#:#Múltbéli foglalások megjelenítése
+book#:#book_deadline_options#:#Foglalási határidő
+book#:#book_deadline_hours#:#X órával a foglalási időszak előttig
+book#:#book_deadline_slot_end#:#Foglalási időszak végéig
+book#:#book_deadline_slot_start#:#Foglalási időszak elejéig
+chatroom#:#chatroom_auth#:#Hitelesítés
+chatroom#:#chatroom_auth_key#:#Hitelesítés-kulcs
+chatroom#:#chatroom_auth_secret#:#Hitelesítés-titok
+chatroom#:#chatroom_auth_btn_txt#:#Kulcsok generálása
+chatroom#:#key#:#Kulcs
+chatroom#:#dhparam#:#Diffie-Hellman paraméter
+chatroom#:#ilias_chatserver_connection#:#ILIAS kapcsolata a szerverhez
+chatroom#:#ilias_proxy_info#:#Ha a szerver az alapértelmezett IP címen és porton nem érhető el, lehetősége van az ILIAS számára a  szerverhez kapcsolódásához egyéni URL-t beállítani.
+chatroom#:#client_chatserver_connection#:#Kliens kapcsolata a szerverhez
+chatroom#:#client_proxy_info#:#Ha a szerver az alapértelmezett IP címen és porton nem érhető el, lehetősége van a kliens számára a  szerverhez kapcsolódásához egyéni URL-t beállítani.
+chatroom#:#connection_url_info#:#Adjon meg egy protokoll nélküli URL-t.
+chatroom#:#log#:#Csevegőszerver napló
+chatroom#:#error_log#:#Csevegőszerver hibanapló
+chatroom#:#delete_private_room_question#:#Biztos, hogy törli a privát csevegőszobát?
