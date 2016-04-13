@@ -118,7 +118,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 				$returns[] = $object;
 			} else {
 				foreach ($failed_checks as $key => $value) {
-					$error = new gevWBDError($value->message(), "usr", "new_user", $rec["user_id"], $rec["row_id"]);
+					$error = new gevWBDError($value->message(), "pre", "new_user", $rec["user_id"], $rec["row_id"]);
 					$this->error($error);
 				}
 			}
@@ -203,7 +203,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 				$returns[] = $object; 
 			} else {
 				foreach ($failed_checks as $key => $value) {
-					$error = new gevWBDError($value->message(), "usr", "release_user", $rec["user_id"], $rec["row_id"]);
+					$error = new gevWBDError($value->message(), "pre", "release_user", $rec["user_id"], $rec["row_id"]);
 					$this->error($error);
 				}
 			}
@@ -248,7 +248,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 				$returns[] = $object;
 			} else {
 				foreach ($failed_checks as $key => $value) {
-					$error = new gevWBDError($value->message(), "usr", "affiliate_user", $rec["user_id"], $rec["row_id"]);
+					$error = new gevWBDError($value->message(), "pre", "affiliate_user", $rec["user_id"], $rec["row_id"]);
 					$this->error($error);
 				}
 			}
@@ -391,13 +391,17 @@ class gevWBDDataCollector implements WBDDataCollector {
 			throw new LogicException("One or more invalid next_actions");
 		}
 
-		$sql = "SELECT row_id, user_id, gender, email, wbd_email, mobile_phone_nr, birthday, lastname, firstname, city, next_wbd_action\n"
-				.", zipcode, phone_nr, wbd_agent_status, okz, wbd_type, street\n"
-				." FROM hist_user\n"
-				." WHERE hist_historic = ".$this->gDB->quote(0, "integer")."\n"
-				."    AND deleted = ".$this->gDB->quote(0, "integer")."\n"
-				."    AND last_wbd_report IS NULL"
-				."    AND ".$this->gDB->in("next_wbd_action",$next_action,false, "text")."\n";
+		$sql = "SELECT hu.row_id, hu.user_id, hu.gender, hu.email, hu.wbd_email, hu.mobile_phone_nr, hu.birthday, hu.lastname, hu.firstname\n"
+				.", hu.city, hu.next_wbd_action, hu.zipcode, hu.phone_nr, hu.wbd_agent_status, hu.okz, hu.wbd_type, hu.street, wbde.reason\n"
+				." FROM hist_user hu\n"
+				." LEFT JOIN wbd_errors wbde ON wbde.usr_id = hu.user_id\n"
+				."    AND wbde.resolved = 0\n"
+				."    AND wbde.crs_id = 0\n"
+				." WHERE hu.hist_historic = ".$this->gDB->quote(0, "integer")."\n"
+				."    AND hu.deleted = ".$this->gDB->quote(0, "integer")."\n"
+				."    AND hu.last_wbd_report IS NULL"
+				."    AND ".$this->gDB->in("hu.next_wbd_action",$next_action,false, "text")."\n"
+				." HAVING wbde.reason = NULL";
 
 		if($limit) {
 			$sql .= " LIMIT ".$this->gDB->quote($limit,'integer');
