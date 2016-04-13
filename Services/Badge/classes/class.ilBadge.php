@@ -304,11 +304,9 @@ class ilBadge
 	{
 		if(file_exists($a_file))
 		{
-			$path = $this->getFilePath($this->getId());
-			$tgt = $path."img".$this->getId();
-			copy($a_file, $tgt);
+			$this->setImage($a_name);			
+			copy($a_file, $this->getImagePath()); // #18280
 			
-			$this->setImage($a_name);
 			$this->update();		
 		}
 	}
