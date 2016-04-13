@@ -485,7 +485,7 @@ class gevWBD {
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDRelevantRole.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryIsActiveUser.php");
-		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryIsUserNotToHandle.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHandleUser.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryEntryDatePassed.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsEmpty.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNotWBDType.php");
@@ -501,7 +501,7 @@ class gevWBD {
 					, new WBDPreliminaryHasWBDRelevantRole()
 					, new WBDPreliminaryUserExists()
 					, new WBDPreliminaryIsActiveUser()
-					, new WBDPreliminaryIsUserNotToHandle(array(6,13))
+					, new WBDPreliminaryHandleUser(array(6,13))
 					, new WBDPreliminaryEntryDatePassed()
 					, new WBDPreliminaryBWVIdIsEmpty()
 					, new WBDPreliminaryHasNotWBDType(self::WBD_NO_SERVICE)
@@ -527,7 +527,7 @@ class gevWBD {
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDRelevantRole.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryIsActiveUser.php");
-		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryIsUserNotToHandle.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHandleUser.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsEmpty.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNotWBDType.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNoOpenWBDError.php");
@@ -542,7 +542,7 @@ class gevWBD {
 					, new WBDPreliminaryHasWBDRelevantRole()
 					, new WBDPreliminaryUserExists()
 					, new WBDPreliminaryIsActiveUser()
-					, new WBDPreliminaryIsUserNotToHandle(array(6,13))
+					, new WBDPreliminaryHandleUser(array(6,13))
 					, new WBDPreliminaryBWVIdIsEmpty()
 					, new WBDPreliminaryHasNotWBDType(self::WBD_NO_SERVICE)
 					, new WBDPreliminaryHasNoOpenWBDError($wbd_errors)
@@ -569,7 +569,7 @@ class gevWBD {
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDRelevantRole.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryIsActiveUser.php");
-		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryIsUserNotToHandle.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHandleUser.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryEntryDatePassed.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsNotEmpty.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNotWBDType.php");
@@ -588,7 +588,7 @@ class gevWBD {
 					, new WBDPreliminaryHasWBDRelevantRole()
 					, new WBDPreliminaryUserExists()
 					, new WBDPreliminaryIsActiveUser()
-					, new WBDPreliminaryIsUserNotToHandle(array(6,13))
+					, new WBDPreliminaryHandleUser(array(6,13))
 					, new WBDPreliminaryEntryDatePassed()
 					, new WBDPreliminaryBWVIdIsNotEmpty()
 					, new WBDPreliminaryHasNotWBDType(self::WBD_TP_SERVICE)
@@ -611,7 +611,7 @@ class gevWBD {
 	*/
 	public function shouldBeReleasedChecks() {
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
-		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryIsUserNotToHandle.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHandleUser.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryExitDatePassed.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNoExitDateWBD.php");
 		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDType.php");
@@ -628,7 +628,7 @@ class gevWBD {
 							, self::WBD_ERROR_UNKNOWN);
 
 		return array(new WBDPreliminaryUserExists()
-					, new WBDPreliminaryIsUserNotToHandle(array(6,13))
+					, new WBDPreliminaryHandleUser(array(6,13))
 					, new WBDPreliminaryExitDatePassed()
 					, new WBDPreliminaryHasNoExitDateWBD()
 					, new WBDPreliminaryHasWBDType(self::WBD_TP_SERVICE)
@@ -708,17 +708,15 @@ class gevWBD {
 		return ilObjUser::_lookupLogin($this->user_id) !== false;
 	}
 
-	static $specialUserIds = array(6,13);
 	/**
-	* checks user is not root or anomynos or some one else
-	* look at array $specialUserIds
+	* is user in specified array
 	*
-	* @param array 	$specialUserIds
+	* @param array 	$special_user_ids
 	*
 	* @return boolean
 	*/
-	public function hasSpecialUserId(array $specialUserIds) {
-		return in_array($this->user_id, $specialUserIds);
+	public function userIdIn(array $special_user_ids) {
+		return in_array($this->user_id, $special_user_ids);
 	}
 
 	/**
