@@ -491,7 +491,10 @@ class ilBadgeHandler
 	{
 		$path = $this->getBasePath()."instances/".$a_badge->getId();
 		$cnt = 0;
-		$this->countStaticBadgeInstancesHelper($cnt, $path);
+		if(is_dir($path))
+		{
+			$this->countStaticBadgeInstancesHelper($cnt, $path);
+		}
 		return $cnt;
 	}	
 	

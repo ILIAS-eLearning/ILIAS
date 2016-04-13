@@ -315,10 +315,16 @@ class ilBadgeAssignment
 		$recipient->type = "email";
 		$recipient->hashed = true;
 		$recipient->salt = ilBadgeHandler::getInstance()->getObiSalt();
-		
+						
 		// https://github.com/mozilla/openbadges-backpack/wiki/How-to-hash-&-salt-in-various-languages.
+		include_once "Services/Badge/classes/class.ilBadgeProfileGUI.php";
 		$user = new ilObjUser($this->getUserId());
-		$recipient->identity = 'sha256$'.hash('sha256', $user->getEmail().$recipient->salt);
+		$mail = $user->getPref(ilBadgeProfileGUI::BACKPACK_EMAIL);
+		if(!$mail)
+		{
+			$mail = $user->getEmail();
+		}
+		$recipient->identity = 'sha256$'.hash('sha256', $mail.$recipient->salt);
 		
 		// spec: should be locally unique
 		$unique_id = md5($this->getBadgeId()."-".$this->getUserId());		
@@ -429,7 +435,7 @@ class ilBadgeAssignment
 	public function deleteStaticFiles()
 	{
 		// remove instance files
-		$path = ilBadgeHandler::getInstance()->getInstancePath($this);		
+		$path = ilBadgeHandler::getInstance()->getInstancePath($this);				
 		$path = str_replace(".json", ".*", $path);		
 		array_map("unlink", glob($path));
 	}

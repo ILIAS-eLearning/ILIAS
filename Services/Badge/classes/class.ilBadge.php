@@ -539,7 +539,7 @@ class ilBadge
 	{
 		// remove instance files
 		$path = ilBadgeHandler::getInstance()->getBadgePath($this);		
-		if(file_exists($path))
+		if(is_dir($path))
 		{
 			ilUtil::delDir($path);
 		}		
