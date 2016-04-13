@@ -2089,7 +2089,7 @@ class gevCourseUtils {
 
 		$columns = array( $this->gLng->txt("gev_bd")
 						, "DBV"
-						, $$this->gLng->txt("gev_company_name")
+						, $this->gLng->txt("gev_company_name")
 						, $this->gLng->txt("lastname")
 						, $this->gLng->txt("firstname")
 						, $this->gLng->txt("street")
