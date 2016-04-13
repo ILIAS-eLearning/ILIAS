@@ -15,7 +15,7 @@ class Container extends \Pimple\Container {
 	 *
 	 * @return	\ilDB
 	 */
-	public function db() {
+	public function database() {
 		return $this["ilDB"];
 	}
 
@@ -60,7 +60,7 @@ class Container extends \Pimple\Container {
 	 *
 	 * @return	\ilTree
 	 */
-	public function tree() {
+	public function repositoryTree() {
 		return $this["tree"];
 	}
 
