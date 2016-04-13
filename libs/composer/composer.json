@@ -5,11 +5,15 @@
 	"authors": [],
 	"require": {
 		"filp/whoops": "^2.0",
-        "monolog/monolog": "^1.15",
-        "phpoffice/phpexcel": "^1.8.1",
+		"monolog/monolog": "^1.15",
+		"pimple/pimple": "^3.0",
+		"phpoffice/phpexcel": "^1.8.1",
 		"technosophos/LibRIS": "^2.0.2",
 		"ezyang/htmlpurifier": "^4.7.0",
 		"phpmailer/phpmailer": "^5.2"
+	},
+	"autoload": {
+		"psr-4" : { "ILIAS\\" : "../../src" }
 	},
 	"extra": {
 		"technosophos/LibRIS" : {
@@ -22,19 +26,27 @@
 		},
 		"filp/whoops" : {
 			"source" : "github.com/filp/whoops",
-			"used_version" : "v2.1.0",
+			"used_version" : "v2.1.2",
 			"wrapped_by" : null,
 			"added_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>",
-			"last_update" : "2016-03-22",
-			"last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>"
+			"last_update" : "2016-04-08",
+			"last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>"
 		},
 		"monolog/monolog" : {
 			"source" : "https://github.com/Seldaek/monolog",
-			"used_version" : "v1.18.1",
+			"used_version" : "v1.18.2",
 			"wrapped_by" : "Services/Logging",
 			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
-			"last_update" : "2016-03-22",
-			"last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>"
+			"last_update" : "2016-04-08",
+			"last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>"
+		},
+		"pimple/pimple" : {
+			"source" : "https://github.com/silexphp/Pimple.git",
+			"used_version" : "v3.0.2",
+			"wrapped_by" : "ILIAS\\DIC\\Container",
+			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
+			"last_update" : "2016-04-08",
+			"last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>"
 		},
 		"phpoffice/phpexcel" : {
 			"source" : "https://github.com/PHPOffice/PHPExcel",

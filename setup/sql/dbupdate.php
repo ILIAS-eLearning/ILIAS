@@ -6822,7 +6822,7 @@ foreach($tables as $table)
 {
 	$ilDB->query("ALTER TABLE ".$table." ADD INDEX ('obj_id','rbac_id','obj_type')");
 }
-
+?>
 <#443>
 <?php
 $wd = getcwd();
