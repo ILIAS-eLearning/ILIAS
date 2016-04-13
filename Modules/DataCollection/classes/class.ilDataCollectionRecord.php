@@ -680,7 +680,7 @@ class ilDataCollectionRecord {
 
 
 	/**
-	 * @return array
+	 * @return ilDataCollectionRecordField[]
 	 */
 	public function getRecordFields() {
 		$this->loadRecordFields();
