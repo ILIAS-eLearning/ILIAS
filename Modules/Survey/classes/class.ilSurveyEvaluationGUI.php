@@ -619,7 +619,7 @@ class ilSurveyEvaluationGUI
 					// questionblock title handling
 					if($qdata["questionblock_id"] && $qdata["questionblock_id"] != $last_questionblock_id)
 					{
-						$qblock = $this->object->getQuestionblock($qdata["questionblock_id"]);
+						$qblock = ilObjSurvey::_getQuestionblock($qdata["questionblock_id"]);
 						if($qblock["show_blocktitle"])
 						{
 							$this->tpl->setCurrentBlock("detail_qblock");

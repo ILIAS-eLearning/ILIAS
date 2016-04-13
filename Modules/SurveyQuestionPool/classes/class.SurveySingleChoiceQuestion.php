@@ -128,7 +128,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	* @return array Array containing the question fields and data from the database
 	* @access public
 	*/
-	function _getQuestionDataArray($id)
+	function getQuestionDataArray($id)
 	{
 		global $ilDB;
 		
@@ -534,24 +534,6 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		}
 
 		return "";
-	}
-
-	/**
-	* Saves random answers for a given active user in the database
-	*
-	* @param integer $active_id The database ID of the active user
-	*/
-	public function saveRandomData($active_id)
-	{
-		global $ilDB;
-		// single response
-		$category = rand(0, $this->categories->getCategoryCount()-1);
-		$cat = $this->categories->getCategory($category);
-		$next_id = $ilDB->nextId('svy_answer');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-			array('integer','integer','integer','float','text','integer'),
-			array($next_id, $this->getId(), $active_id, $category, ($cat->other) ? "Random Data" : null, time())
-		);
 	}
 
 	function saveUserInput($post_data, $active_id, $a_return = false)

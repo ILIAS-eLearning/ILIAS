@@ -49,7 +49,7 @@ class ilSurveyPhrases
 	* @param boolean $useronly Returns only the user defined phrases if set to true. The default is false.
 	* @return array All available phrases as key/value pairs
 	*/
-	public static function &_getAvailablePhrases($useronly = 0)
+	public static function _getAvailablePhrases($useronly = 0)
 	{
 		global $ilUser;
 		global $ilDB;
@@ -93,7 +93,7 @@ class ilSurveyPhrases
 	* @param integer $phrase_id The database id of the given phrase
 	* @return array All available categories
 	*/
-	public static function &_getCategoriesForPhrase($phrase_id)
+	public static function _getCategoriesForPhrase($phrase_id)
 	{
 		global $ilDB;
 		global $lng;
