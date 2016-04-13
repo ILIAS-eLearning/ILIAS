@@ -197,7 +197,7 @@ class ilIniFile
 		}
 		elseif (!empty($a_data))
 		{
-			$split_data = split("=", $a_data);
+			$split_data = explode("=", $a_data);
 			$this->GROUPS[$this->CURRENT_GROUP][trim($split_data[0])]=trim($split_data[1]);
 		}
 	}
