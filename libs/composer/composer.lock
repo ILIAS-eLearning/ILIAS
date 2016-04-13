@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e15f4f18cd2f451909fbd4ee95476565",
-    "content-hash": "8e0e05495e9cbeb5c1ba129810062117",
+    "hash": "3795bca4bb204f0890e2862c7e3ea82e",
+    "content-hash": "cf91a6ae71e7498e25a4ef97229e8f07",
     "packages": [
         {
             "name": "ezyang/htmlpurifier",
@@ -188,6 +188,50 @@
                 "psr-3"
             ],
             "time": "2016-03-13 16:08:35"
+        },
+        {
+            "name": "phansys/getid3",
+            "version": "v1.9.4-p2",
+            "target-dir": "GetId3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phansys/GetId3.git",
+                "reference": "cfd6e1c5bdbb6f042bc33b53559b1ff9775426dd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phansys/GetId3/zipball/cfd6e1c5bdbb6f042bc33b53559b1ff9775426dd",
+                "reference": "cfd6e1c5bdbb6f042bc33b53559b1ff9775426dd",
+                "shasum": ""
+            },
+            "suggest": {
+                "ext-exif": "EXIF extension is required for graphic modules."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "GetId3_": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL"
+            ],
+            "authors": [
+                {
+                    "name": "James Heinrich",
+                    "email": "info@getid3.org",
+                    "homepage": "http://www.getid3.org"
+                }
+            ],
+            "description": "This package integrates the GetId3 library with the Symfony2 project, emulating the PSR-0 CS",
+            "homepage": "http://www.getid3.org",
+            "keywords": [
+                "getid3",
+                "metadata",
+                "tags"
+            ],
+            "time": "2012-08-30 21:21:23"
         },
         {
             "name": "phpmailer/phpmailer",

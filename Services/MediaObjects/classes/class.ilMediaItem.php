@@ -422,9 +422,11 @@ class ilMediaItem
 	}
 
 	/**
-	* static
-	*/
-	function deleteAllItemsOfMob($a_mob_id)
+	 * Delete all items of a mob
+	 *
+	 * @param int $a_mob_id media object id
+	 */
+	static function deleteAllItemsOfMob($a_mob_id)
 	{
 		global $ilDB;
 		

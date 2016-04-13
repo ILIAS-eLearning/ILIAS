@@ -1330,9 +1330,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				if ($entry != "." and
 				$entry != ".." and
 				(
-					ereg("^[0-9]{10}_{2}[0-9]+_{2}(".$this->getType()."_)*[0-9]+\.zip\$", $entry) or
-					ereg("^[0-9]{10}_{2}[0-9]+_{2}(".$this->getType()."_)*[0-9]+\.pdf\$", $entry) or
-					ereg("^[0-9]{10}_{2}[0-9]+_{2}(".$this->getType()."_)*[0-9]+\.iso\$", $entry) 
+					preg_match("~^[0-9]{10}_{2}[0-9]+_{2}(".$this->getType()."_)*[0-9]+\.zip\$~", $entry) or
+					preg_match("~^[0-9]{10}_{2}[0-9]+_{2}(".$this->getType()."_)*[0-9]+\.pdf\$~", $entry) or
+					preg_match("~^[0-9]{10}_{2}[0-9]+_{2}(".$this->getType()."_)*[0-9]+\.iso\$~", $entry)
 				))
 				{
 					$file[$entry.$type] = array("type" => $type, "file" => $entry,

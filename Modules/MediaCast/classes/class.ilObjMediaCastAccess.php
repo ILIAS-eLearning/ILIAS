@@ -129,7 +129,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
 	*
 	* @param	int		$a_id	media cast id
 	*/
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 
@@ -145,7 +145,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
 	*
 	* @param	int		$a_id	media cast id
 	*/
-	function _lookupPublicFiles($a_id)
+	static function _lookupPublicFiles($a_id)
 	{
 		global $ilDB;
 
@@ -161,7 +161,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
 	 * with the specified object id.
 	 * @param int object id of a file object.
 	 */
-	function _lookupDiskUsage($a_id)
+	static function _lookupDiskUsage($a_id)
 	{
 		require_once('Modules/MediaCast/classes/class.ilObjMediaCast.php');
 		require_once("./Services/News/classes/class.ilNewsItem.php");

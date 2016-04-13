@@ -9,7 +9,8 @@
         "phpoffice/phpexcel": "^1.8.1",
 		"technosophos/LibRIS": "^2.0.2",
 		"ezyang/htmlpurifier": "^4.7.0",
-		"phpmailer/phpmailer": "^5.2"
+		"phpmailer/phpmailer": "^5.2",
+		"phansys/getid3": "^1.9.4"
 	},
 	"extra": {
 		"technosophos/LibRIS" : {
@@ -59,6 +60,15 @@
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
 			"last_update" : "2016-04-01",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
+		},
+		"phansys/getid3" : {
+			"source" : "https://github.com/phansys/GetId3",
+			"used_version" : "v1.9.4",
+			"wrapped_by" : "Services/MediaObjects",
+			"added_by" : "Alexander Killing <killing@leifos.de>",
+			"last_update" : "2016-04-13",
+			"last_update_by" : "Alexander Killing <killing@leifos.de>"
 		}
+
 	}
 }

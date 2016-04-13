@@ -393,5 +393,51 @@
             }
         ],
         "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+    },
+    {
+        "name": "phansys/getid3",
+        "version": "v1.9.4-p2",
+        "version_normalized": "1.9.4.0-patch2",
+        "target-dir": "GetId3",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/phansys/GetId3.git",
+            "reference": "cfd6e1c5bdbb6f042bc33b53559b1ff9775426dd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/phansys/GetId3/zipball/cfd6e1c5bdbb6f042bc33b53559b1ff9775426dd",
+            "reference": "cfd6e1c5bdbb6f042bc33b53559b1ff9775426dd",
+            "shasum": ""
+        },
+        "suggest": {
+            "ext-exif": "EXIF extension is required for graphic modules."
+        },
+        "time": "2012-08-30 21:21:23",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "GetId3_": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL"
+        ],
+        "authors": [
+            {
+                "name": "James Heinrich",
+                "email": "info@getid3.org",
+                "homepage": "http://www.getid3.org"
+            }
+        ],
+        "description": "This package integrates the GetId3 library with the Symfony2 project, emulating the PSR-0 CS",
+        "homepage": "http://www.getid3.org",
+        "keywords": [
+            "getid3",
+            "metadata",
+            "tags"
+        ]
     }
 ]
