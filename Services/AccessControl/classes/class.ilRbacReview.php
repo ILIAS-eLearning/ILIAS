@@ -120,7 +120,7 @@ class ilRbacReview
 		include_once "Services/Mail/classes/class.ilMail.php";
 		if(ilMail::_usePearMail())
 		{
-			require_once './Services/PEAR/lib/Mail/RFC822.php';
+			require_once './Services/Mail/classes/RFC822.php';
 			$parser = new Mail_RFC822();
 			$parsedList = $parser->parseAddressList($a_address_list, ilMail::ILIAS_HOST, false, true);
 			foreach ($parsedList as $address)
@@ -507,7 +507,7 @@ class ilRbacReview
 				}
 			}
 
-			require_once './Services/PEAR/lib/Mail/RFC822.php';
+			require_once './Services/Mail/classes/RFC822.php';
 			$obj = new Mail_RFC822($mailbox, ilMail::ILIAS_HOST);
 			if(@$obj->parseAddressList() instanceof PEAR_Error)
 			{

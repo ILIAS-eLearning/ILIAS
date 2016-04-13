@@ -69,17 +69,6 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	var $sub_type;
 
 	/**
-	* constructor
-	*
-	* set up database conncetion and the errorhandling
-	*
-	* @param string dsn database-connection-string for pear-db
-	*/
-	function ilDB()
-	{
-	}
-	
-	/**
 	* Set database user
 	*
 	* @param	string		database user
