@@ -28,7 +28,7 @@ class ilStyleImportParser extends ilSaxParser
 	{
 		global $lng, $tree;
 
-		$this->style_obj =& $a_style_obj;
+		$this->style_obj = $a_style_obj;
 
 		parent::__construct($a_xml_file);
 	}

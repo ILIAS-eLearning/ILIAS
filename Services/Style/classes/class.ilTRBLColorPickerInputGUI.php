@@ -285,7 +285,8 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 				case "left": $value = strtoupper(trim($this->getLeftValue())); break;
 				case "right": $value = strtoupper(trim($this->getRightValue())); break;
 			}*/
-			$value = trim($this->$funcs[$dir]());
+			$f = $funcs[$dir];
+			$value = trim($this->$f());
 			if (!$this->getAcceptNamedColors() || substr($value, 0, 1) != "!")
 			{
 				$value = strtoupper($value);
