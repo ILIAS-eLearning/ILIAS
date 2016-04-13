@@ -48,14 +48,14 @@ class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 
 	public function getterProvider() {
 		return array
-			( array("ilDBInterface", function ($DIC) { return $DIC->db(); })
+			( array("ilDBInterface", function ($DIC) { return $DIC->database(); })
 			, array("ilCtrl", function ($DIC) { return $DIC->ctrl(); })
 			, array("ilObjUser", function ($DIC) { return $DIC->user(); })
 			, array("ilRbacSystem", function ($DIC) { return $DIC->rbac()->system(); })
 			, array("ilRbacAdmin", function ($DIC) { return $DIC->rbac()->admin(); })
 			, array("ilRbacReview", function ($DIC) { return $DIC->rbac()->review(); })
 			, array("ilAccessHandler", function ($DIC) { return $DIC->access(); })
-			, array("ilTree", function ($DIC) { return $DIC->tree(); })
+			, array("ilTree", function ($DIC) { return $DIC->repositoryTree(); })
 			, array("ilLanguage", function ($DIC) { return $DIC->language(); })
 			// TODO: Can't test these until context for unit tests does not have HTML.
 			//, array("ilToolbarGUI", function ($DIC) { return $DIC->toolbar(); })
