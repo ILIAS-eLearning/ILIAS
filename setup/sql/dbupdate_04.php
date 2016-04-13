@@ -14732,3 +14732,11 @@ if(!$ilDB->tableColumnExists('booking_settings','rsv_filter_period'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4893>
+<?php
+$ilDB->manipulateF(
+	'DELETE FROM settings WHERE keyword = %s',
+	array('text'),
+	array('pear_mail_enable')
+);
+?>

@@ -2666,12 +2666,7 @@ class ilMail
 	 */
 	public static function _usePearMail()
 	{
-		/**
- 		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
-
-		return $ilSetting->get('pear_mail_enable', 0);
+		return true;
 	}
 
 	/**
