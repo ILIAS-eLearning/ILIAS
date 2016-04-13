@@ -419,7 +419,7 @@ class ilMDTechnical extends ilMDBase
 
 	}
 	// STATIC
-	function _getId($a_rbac_id,$a_obj_id)
+	static function _getId($a_rbac_id,$a_obj_id)
 	{
 		global $ilDB;
 

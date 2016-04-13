@@ -76,7 +76,6 @@ class ilFileUtils
 		// if there are no files unziped (->broken file!)
 		if (empty($filearray)) {
 			throw new ilFileUtilsException($lng->txt("archive_broken"), ilFileUtilsException::$BROKEN_FILE);
-			break;
 		}
 
 		// virus handling
@@ -125,7 +124,6 @@ class ilFileUtils
 			{
 				throw new ilFileUtilsException($lng->txt("exc_upload_error") . "<br />" . $lng->txt("zip_structure_error") . $doublettes , 
 								ilFileUtilsException::$DOUBLETTES_FOUND);
-				break;
 			}
 		}
 		else
