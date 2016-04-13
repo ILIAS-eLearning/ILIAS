@@ -230,12 +230,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 							$this->setParentExpanded($object["parent"]);
 						}
 
-						if ($object["child"] != $this->tree->getRootId() 
-							&& (!$this->expand_all and !in_array($object["parent"],$this->expanded)
-								or !$this->format_options["$parent_index"]["visible"]))
-						{
-							$this->format_options["$counter"]["visible"] = false;
-						}
+						$this->format_options["$counter"]["visible"] = !$this->shouldHideCurrentNode($object["child"], $parent_index, $object["parent"]);
 
 						// if object exists parent is container
 						if ($object["child"] != $this->tree->getRootId()) {
@@ -293,6 +288,17 @@ class ilAICCExplorer extends ilSCORMExplorer
 		if (!$this->expand_all && !in_array($parent, $this->expanded)) {
 			$this->expanded[] = $parent;
 		}
+	}
+
+	protected function shouldHideCurrentNode($child, $parent_index, $parent) {
+		if ($child != $this->tree->getRootId() 
+				&& (!$this->expand_all and !in_array($parent, $this->expanded)
+					or !$this->format_options["$parent_index"]["visible"])) 
+		{
+			return true;
+		}
+
+		return false;
 	}
 }
 ?>
