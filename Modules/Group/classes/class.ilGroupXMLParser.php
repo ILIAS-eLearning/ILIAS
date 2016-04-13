@@ -62,7 +62,7 @@ class ilGroupXMLParser extends ilSaxParser
 	 * @access	public
 	 */
 
-	function ilGroupXMLParser($a_xml, $a_parent_id)
+	function __construct($a_xml, $a_parent_id)
 	{
 		define('EXPORT_VERSION',2);
 
@@ -195,22 +195,6 @@ class ilGroupXMLParser extends ilSaxParser
 
 				break;
 
-			case "folder":
-				// NOW SAVE THE NEW OBJECT (if it hasn't been imported)
-				$this->__save();
-				break;
-
-			case "file":
-				// NOW SAVE THE NEW OBJECT (if it hasn't been imported)
-				$this->__save();
-
-				$this->file["fileName"] = $a_attribs["fileName"];
-				$this->file["id"] = $a_attribs["id"];
-
-				// SAVE IT
-				$this->__saveFile();
-				break;
-			
 			case 'ContainerSetting':
 				$this->current_container_setting = $a_attribs['id'];				
 				break;
@@ -270,15 +254,6 @@ class ilGroupXMLParser extends ilSaxParser
 				
 			case 'end':
 				$this->group_data['expiration_end'] = trim($this->cdata);
-				break;
-
-			case "folder":
-				$this->__popParentId();
-				break;
-
-			case "folderTitle":
-				$this->folder = trim($this->cdata);
-				$this->__saveFolder();
 				break;
 
 			case "group":
@@ -474,50 +449,6 @@ class ilGroupXMLParser extends ilSaxParser
 		return true;
 	}
 
-	function __saveFolder()
-	{
-		$this->__initFolderObject();
-
-		$this->folder_obj->setTitle($this->folder);
-		$this->folder_obj->create();
-		$this->folder_obj->createReference();
-		$this->folder_obj->putInTree($this->__getParentId());
-		
-		$this->__pushParentId($this->folder_obj->getRefId());
-
-		$this->__destroyFolderObject();
-
-		return true;
-	}
-
-	function __saveFile()
-	{
-		$this->__initFileObject();
-
-		$this->file_obj->setType("file");
-		$this->file_obj->setTitle($this->file["fileName"]);
-		$this->file_obj->setFileName($this->file["fileName"]);
-		$this->file_obj->create();
-		$this->file_obj->createReference();
-		$this->file_obj->putInTree($this->__getParentId());
-		$this->file_obj->setPermissions($this->__getParentId());
-
-		// COPY FILE
-		$this->file_obj->createDirectory();
-
-		$this->__initImportFileObject();
-
-		if($this->import_file_obj->findObjectFile($this->file["id"]))
-		{
-			$this->file_obj->copy($this->import_file_obj->getObjectFile(),$this->file["fileName"]);
-		}
-
-		unset($this->file_obj);
-		unset($this->import_file_obj);
-
-		return true;
-	}
-
 	function __assignMembers()
 	{
 		global $ilias,$ilUser, $ilSetting;
@@ -607,38 +538,6 @@ class ilGroupXMLParser extends ilSaxParser
 		}
 
 		return true;
-	}
-
-	function __initFolderObject()
-	{
-		include_once "./Modules/Folder/classes/class.ilObjFolder.php";
-
-		$this->folder_obj = new ilObjFolder();
-
-		return true;
-	}
-
-	function __initImportFileObject()
-	{
-		include_once "./Modules/Group/classes/class.ilFileDataImportGroup.php";
-
-		$this->import_file_obj = new ilFileDataImportGroup();
-
-		return true;
-	}
-
-	function __initFileObject()
-	{
-		include_once "./Modules/File/classes/class.ilObjFile.php";
-
-		$this->file_obj = new ilObjFile();
-
-		return true;
-	}
-
-	function __destroyFolderObject()
-	{
-		unset($this->folder_obj);
 	}
 
 	function __parseId($a_id)
