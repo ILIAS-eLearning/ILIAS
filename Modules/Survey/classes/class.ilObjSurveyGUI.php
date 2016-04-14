@@ -651,7 +651,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->object->setEvaluationAccess($_POST["evaluation_access"]);
 					}
 
-					$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
+					$hasDatasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
 					if (!$hasDatasets)
 					{						
 						$hide_codes = $template_settings["acc_codes"]["hide"];
@@ -931,7 +931,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$codes->setChecked(!$this->object->isAccessibleWithoutCode());
 			$form->addItem($codes);
 				
-			if ($this->object->_hasDatasets($this->object->getSurveyId()))
+			if (ilObjSurvey::_hasDatasets($this->object->getSurveyId()))
 			{
 				$codes->setDisabled(true);				
 			}			
@@ -1180,7 +1180,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				: "statpers");				
 			$form->addItem($anonymization_options);
 			
-			if ($this->object->_hasDatasets($this->object->getSurveyId()))
+			if (ilObjSurvey::_hasDatasets($this->object->getSurveyId()))
 			{
 				$anonymization_options->setDisabled(true);
 			}						

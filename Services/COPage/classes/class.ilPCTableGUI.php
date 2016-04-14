@@ -109,7 +109,7 @@ class ilPCTableGUI extends ilPageContentGUI
 	/**
 	* Get table templates
 	*/
-	function getTemplateOptions()
+	function getTemplateOptions($a_type)
 	{
 		return parent::getTemplateOptions("table");
 	}

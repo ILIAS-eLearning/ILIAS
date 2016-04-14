@@ -801,16 +801,16 @@ class ilUtil
 		$ret = $a_text;
 
 		// www-URL ohne ://-Angabe
-		$ret = eregi_replace("(^|[[:space:]]+)(www\.)([[:alnum:]#?/&=\.-]+)",
-			"\\1http://\\2\\3", $ret);
+		$ret = preg_replace("/(^|[\s]+)(www\.)([A-Za-z0-9#&=?.\/\-]+)/i",
+			"$1http://$2$3", $ret);
 
 		// ftp-URL ohne ://-Angabe
-		$ret = eregi_replace("(^|[[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.-]+)",
-			"\\1ftp://\\2\\3", $ret);
+		$ret = preg_replace("/(^|[\s]+)(ftp\.)([A-Za-z0-9#&=?.\/\-]+)/i",
+			"$1ftp://$2$3", $ret);
 
 		// E-Mail (this does not work as expected, users must add mailto: manually)
-		//$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",
-		//	"mailto:\\1", $ret);
+		//$ret = preg_replace("/(([a-z0-9_]|\-|\.)+@([^[\s]*)([A-Za-z0-9\-]))/i",
+		//	"mailto:$1", $ret);
 
 		// mask existing image tags
 		$ret = str_replace('src="http://', '"***masked_im_start***', $ret);
@@ -1134,7 +1134,7 @@ class ilUtil
 		// otherwise setup will fail with this if branch
 		if(is_object($ilErr)) // seems to work in Setup now
 		{
-			require_once './Services/PEAR/lib/Mail/RFC822.php';
+			require_once './Services/Mail/classes/RFC822.php';
 			$parser = new Mail_RFC822();
 			PEAR::setErrorHandling(PEAR_ERROR_RETURN);		
 			$addresses = $parser->parseAddressList($a_email, 'ilias', false, true);
@@ -2924,23 +2924,15 @@ class ilUtil
 	{
 		global $ilLog;
 
-		$ws = "[ \t\r\f\v\n]*";
+		$ws = "[\s]*";
 		$att = $ws."[^>]*".$ws;
 
-		while (eregi("\<($tag$att($tag_att$ws=$ws\"(([\$@!*()~;,_0-9A-z/:=%\\.&#?+\\-])*)\")$att)\>",
+		while (preg_match('/<('.$tag.$att.'('.$tag_att.$ws.'="'.$ws.'(([$@!*()~;,_0-9A-z\/:=%.&#?+\-])*)")'.$att.')>/i',
 			$a_str, $found))
-		{
-			$un = array(".", "-", "+", "?", '$', "*", "(", ")");
-			$esc = array();
-			foreach($un as $v)
-			{
-				$esc[] = "\\".$v;
-			}
-			$ff = str_replace($un, $esc, $found[1]);
-
+		{			
 			$old_str = $a_str;
-			$a_str = eregi_replace("\<".$ff."\>",
-				"&lt;$tag $tag_att$tag_att=\"".$found[3]."\"&gt;", $a_str);
+			$a_str = preg_replace("/<".preg_quote($found[1], "/").">/i",
+				'&lt;'.$tag.' '.$tag_att.$tag_att.'="'.$found[3].'"&gt;', $a_str);
 			if ($old_str == $a_str)
 			{
 				$ilLog->write("ilUtil::maskA-".htmlentities($old_str)." == ".
@@ -2957,20 +2949,12 @@ class ilUtil
 	{
 		global $ilLog;
 
-		while (eregi("&lt;($tag $tag_att$tag_att=\"(([\$@!*()~;,_0-9A-z/:=%\\.&#?+\\-])*)\")&gt;",
+		while (preg_match('/&lt;('.$tag.' '.$tag_att.$tag_att.'="(([$@!*()~;,_0-9A-z\/:=%.&#?+\-])*)")&gt;/i',
 			$a_str, $found))
-		{
-			$un = array(".", "-", "+", "?", '$', "*", "(", ")");
-			$esc = array();
-			foreach($un as $v)
-			{
-				$esc[] = "\\".$v;
-			}
-			$ff = str_replace($un, $esc, $found[1]);
-
+		{			
 			$old_str = $a_str;
-			$a_str = eregi_replace("&lt;".$ff."&gt;",
-				"<$tag $tag_att=\"".ilUtil::secureLink($found[2])."\">", $a_str);
+			$a_str = preg_replace("/&lt;".preg_quote($found[1], "/")."&gt;/i",
+				'<'.$tag.' '.$tag_att.'="'.ilUtil::secureLink($found[2]).'">', $a_str);
 			if ($old_str == $a_str)
 			{
 				$ilLog->write("ilUtil::unmaskA-".htmlentities($old_str)." == ".
@@ -2978,7 +2962,7 @@ class ilUtil
 				return $a_str;
 			}
 		}
-		$a_str = str_replace("&lt;/$tag&gt;", "</$tag>", $a_str);
+		$a_str = str_replace('&lt;/'.$tag.'&gt;', '</'.$tag.'>', $a_str);
 		return $a_str;
 	}
 
@@ -3182,7 +3166,7 @@ class ilUtil
 			while($cpar != $cpar_old)
 			{
 				$cpar_old = $cpar;
-				$cpar = eregi_replace("[^a-zA-Z0-9_]", "", $cpar);
+				$cpar = preg_replace("/[^a-zA-Z0-9_]/i", "", $cpar);
 			}
 
 			// extract value

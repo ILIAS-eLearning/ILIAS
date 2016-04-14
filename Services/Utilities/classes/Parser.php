@@ -124,7 +124,7 @@ class Parser
 	 *
 	 * @public
 	 */
-	function Parser() {
+	function __construct() {
 		$this->mTagHooks = array();
 		$this->mFunctionHooks = array();
 		$this->mFunctionSynonyms = array( 0 => array(), 1 => array() );

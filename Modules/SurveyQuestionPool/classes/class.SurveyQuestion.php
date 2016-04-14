@@ -652,7 +652,7 @@ class SurveyQuestion
 			return;
 		}
 		$clone = $this;
-		$original_id = SurveyQuestion::_getOriginalId($this->getId(), false);
+		$original_id = self::_getOriginalId($this->getId(), false);
 		$clone->setId(-1);
 		$source_questionpool = $this->getObjId();
 		$clone->setObjId($target_questionpool);
@@ -1241,7 +1241,7 @@ class SurveyQuestion
 * @return integer The database id of the original question
 * @access public
 */
-	function _getOriginalId($question_id, $a_return_question_id_if_no_original = true)
+	static function _getOriginalId($question_id, $a_return_question_id_if_no_original = true)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT * FROM svy_question WHERE question_id = %s",
@@ -1349,7 +1349,7 @@ class SurveyQuestion
 * @result boolean True, if the question exists, otherwise False
 * @access public
 */
-	function _questionExists($question_id)
+	static function _questionExists($question_id)
 	{
 		global $ilDB;
 
@@ -1482,7 +1482,7 @@ class SurveyQuestion
 			if ($is_import)
 			{
 				$import_id = $material_id;
-				$material_id = $this->_resolveInternalLink($import_id);
+				$material_id = self::_resolveInternalLink($import_id);
 			}
 			if (strcmp($material_title, "") == 0)
 			{
@@ -1537,7 +1537,7 @@ class SurveyQuestion
 		$this->saveMaterial();
 	}
 	
-	function _resolveInternalLink($internal_link)
+	static function _resolveInternalLink($internal_link)
 	{
 		if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches))
 		{
@@ -1574,7 +1574,7 @@ class SurveyQuestion
 		return $resolved_link;
 	}
 	
-	function _resolveIntLinks($question_id)
+	static function _resolveIntLinks($question_id)
 	{
 		global $ilDB;
 		$resolvedlinks = 0;
@@ -1588,7 +1588,7 @@ class SurveyQuestion
 			{
 				$internal_link = $row["internal_link"];
 				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-				$resolved_link = SurveyQuestion::_resolveInternalLink($internal_link);
+				$resolved_link = self::_resolveInternalLink($internal_link);
 				if (strcmp($internal_link, $resolved_link) != 0)
 				{
 					// internal link was resolved successfully
@@ -1625,7 +1625,7 @@ class SurveyQuestion
 		}
 	}
 	
-	function _getInternalLinkHref($target = "", $a_parent_ref_id = null)
+	static function _getInternalLinkHref($target = "", $a_parent_ref_id = null)
 	{
 		global $ilDB;
 		$linktypes = array(
@@ -1669,7 +1669,7 @@ class SurveyQuestion
 * @result boolean True, if the question exists, otherwise False
 * @access public
 */
-	function _isWriteable($question_id, $user_id)
+	static function _isWriteable($question_id, $user_id)
 	{
 		global $ilDB;
 
@@ -1800,12 +1800,12 @@ class SurveyQuestion
 	* @return object The question instance
 	* @access public
 	*/
-	static function &_instanciateQuestion($question_id) 
+	static function _instanciateQuestion($question_id) 
 	{
-		$question_type = SurveyQuestion::_getQuestionType($question_id);
+		$question_type = self::_getQuestionType($question_id);
 		if($question_type)
 		{
-			SurveyQuestion::_includeClass($question_type);
+			self::_includeClass($question_type);
 			$question = new $question_type();
 			$question->loadFromDb($question_id);
 			return $question;
@@ -1819,12 +1819,12 @@ class SurveyQuestion
 	* @return object The question GUI instance
 	* @access public
 	*/
-	static function &_instanciateQuestionGUI($question_id) 
+	static function _instanciateQuestionGUI($question_id) 
 	{
-		$question_type = SurveyQuestion::_getQuestionType($question_id);
+		$question_type = self::_getQuestionType($question_id);
 		if($question_type)
 		{
-			SurveyQuestion::_includeClass($question_type, 1);
+			self::_includeClass($question_type, 1);
 			$guitype = $question_type . "GUI";
 			$question = new $guitype($question_id);
 			return $question;
@@ -1946,7 +1946,7 @@ class SurveyQuestion
 	* @return array Array containing the question fields and data from the database
 	* @access public
 	*/
-	function _getQuestionDataArray($id)
+	function getQuestionDataArray($id)
 	{
 		return array();
 	}
@@ -2235,16 +2235,6 @@ class SurveyQuestion
 	function getOriginalId()
 	{
 		return $this->original_id;
-	}
-	
-	/**
-	* Saves random answers for a given active user in the database
-	*
-	* @param integer $active_id The database ID of the active user
-	*/
-	public function saveRandomData($active_id)
-	{
-		// do nothing, overwrite in parent classes
 	}
 	
 	public function getMaterial()

@@ -1924,7 +1924,7 @@ class ilObjContentObject extends ilObject
 				if ($entry != "." and
 					$entry != ".." and
 					substr($entry, -4) == ".zip" and
-					ereg("^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.zip\$", $entry))
+					preg_match("~^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.zip\$~", $entry))
 				{
 					$file[$entry.$type] = array("type" => $type, "file" => $entry,
 						"size" => filesize($dir."/".$entry));
@@ -1988,7 +1988,7 @@ class ilObjContentObject extends ilObject
 			if ($entry != "." and
 				$entry != ".." and
 				substr($entry, -4) == ".pdf" and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.pdf\$", $entry))
+				preg_match("~^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.pdf\$~", $entry))
 			{
 				$file[] = $entry;
 			}

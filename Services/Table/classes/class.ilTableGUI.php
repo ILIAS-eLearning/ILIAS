@@ -119,9 +119,9 @@ class ilTableGUI
 	* @access	public
 	* @param	object	template object
 	*/
-	function setTemplate(&$a_tpl)
+	function setTemplate($a_tpl)
 	{
-		$this->tpl =& $a_tpl;
+		$this->tpl = $a_tpl;
 	}
 
 	function &getTemplateObject()

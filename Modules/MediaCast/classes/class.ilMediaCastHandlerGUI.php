@@ -13,7 +13,7 @@
 */
 class ilMediaCastHandlerGUI
 {
-	function ilMediaCastHandlerGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
 

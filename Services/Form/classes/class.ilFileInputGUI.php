@@ -502,7 +502,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 		return $html;
 	}	
 	
-	function setPersonalWorkspaceQuotaCheck($a_value)
+	static function setPersonalWorkspaceQuotaCheck($a_value)
 	{
 		if((bool)$a_value)
 		{

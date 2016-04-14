@@ -26,10 +26,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjMediaCastGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
+	function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
 		global $ilCtrl, $lng;
-		
+
 		$this->type = "mcst";
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$lng->loadLanguageModule("mcst");
@@ -150,7 +150,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	 * save object
 	 * @access	public
 	 */
-	function afterSave($newObj)
+	function afterSave(ilObject $newObj)
 	{
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("object_added"),true);

@@ -2404,7 +2404,7 @@ class ilMail
 		{
 			if (strlen(trim($a_recipients)) > 0)
 			{
-				require_once './Services/PEAR/lib/Mail/RFC822.php';
+				require_once './Services/Mail/classes/RFC822.php';
 				$parser = new Mail_RFC822();
 				return $parser->parseAddressList($a_recipients, self::ILIAS_HOST, false, true);
 			} else {
@@ -2666,12 +2666,7 @@ class ilMail
 	 */
 	public static function _usePearMail()
 	{
-		/**
- 		 * @var $ilSetting ilSetting
-		 */
-		global $ilSetting;
-
-		return $ilSetting->get('pear_mail_enable', 0);
+		return true;
 	}
 
 	/**

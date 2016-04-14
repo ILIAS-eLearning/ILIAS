@@ -11,7 +11,7 @@ class ilVirusScannerFactory
 	/**
 	 * @return ilVirusScannerAntiVir|ilVirusScannerClamAV|ilVirusScannerSophos|null
 	 */
-	public function _getInstance()
+	static public function _getInstance()
 	{
 		// create global virus scanner class instance 
 		switch(IL_VIRUS_SCANNER)

@@ -28,8 +28,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $lng, $tpl;
 
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule("style");
 		$ilCtrl->saveParameter($this, array("tag", "style_type", "temp_type"));
 		if ($_GET["style_type"] != "")
@@ -60,7 +60,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		{
 			default:
 				$cmd.= "Object";
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 
@@ -967,7 +967,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		if ($_GET["ref_id"] > 0)
 		{
 
-			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
+			$fold = ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
 			if ($fold->getType() == "stys")
 			{
 				$fold->addStyle($newObj->getId());
@@ -988,7 +988,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		global $ilias;
 		
 		if ($_POST["source_style"] > 0)
-		$style_obj =& $ilias->obj_factory->getInstanceByObjId($_POST["source_style"]);
+		$style_obj = $ilias->obj_factory->getInstanceByObjId($_POST["source_style"]);
 		$new_id = $style_obj->ilClone();
 
 		// assign style to style sheet folder,
@@ -996,7 +996,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		if ($_GET["ref_id"] > 0)
 		{
 
-			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
+			$fold = ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
 			if ($fold->getType() == "stys")
 			{
 				$fold->addStyle($new_id);
@@ -1052,7 +1052,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		// if parent is style sheet folder
 		if ($_GET["ref_id"] > 0)
 		{
-			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
+			$fold = ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
 			if ($fold->getType() == "stys")
 			{
 				$fold->addStyle($newObj->getId());
@@ -1070,7 +1070,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 * @param
 	 * @return
 	 */
-	function afterImport($a_new_obj)
+	function afterImport(ilObject $a_new_obj)
 	{
 
 	}

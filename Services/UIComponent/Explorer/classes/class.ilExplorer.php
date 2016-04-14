@@ -188,7 +188,7 @@ class ilExplorer
 			}
 		}
 
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		$this->output = array();
 		$this->expanded = array();
 		$this->target = $a_target;

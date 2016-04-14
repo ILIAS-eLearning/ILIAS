@@ -87,7 +87,7 @@ abstract class SurveyQuestionGUI
 	* @return object The alias to the question object
 	* @access public
 	*/
-	static function &_getQuestionGUI($questiontype, $question_id = -1)
+	static function _getQuestionGUI($questiontype, $question_id = -1)
 	{
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		if ((!$questiontype) and ($question_id > 0))
@@ -358,7 +358,7 @@ abstract class SurveyQuestionGUI
 			$ilUser->setPref("svy_lastquestiontype", $this->object->getQuestionType());
 			$ilUser->writePref("svy_lastquestiontype", $this->object->getQuestionType());				
 
-			$originalexists = $this->object->_questionExists($this->object->original_id);
+			$originalexists = SurveyQuestion::_questionExists($this->object->original_id);
 			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 

@@ -23,7 +23,7 @@ class ilXHTMLPage
 	*
 	* @param	int		$a_id		page ID
 	*/
-	function ilXHTMLPage($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		if ($a_id > 0)
 		{
@@ -90,7 +90,7 @@ class ilXHTMLPage
 	/**
 	* Lookup Content
 	*/
-	function _lookupContent($a_id)
+	static function _lookupContent($a_id)
 	{
 		global $ilDB;
 		
@@ -105,7 +105,7 @@ class ilXHTMLPage
 	/**
 	* Lookup Saved Content
 	*/
-	function _lookupSavedContent($a_id)
+	static function _lookupSavedContent($a_id)
 	{
 		global $ilDB;
 		
