@@ -543,7 +543,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 */
 	function preview($a_return = false, $a_content = false, $a_show_notes = true)
 	{				
-		global $ilSetting;
+		global $ilSetting, $ilUser;
 		
 		$portfolio_id = $this->object->getId();
 		$user_id = $this->object->getOwner();
@@ -720,6 +720,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		{
 			$this->tpl->setPermanentLink($this->perma_link["type"], $this->perma_link["obj_id"]);
 		}
+		
+		// #18208 - see ilPortfolioTemplatePageGUI::getPageContentUserId()
+		if($this->getType() == "prtt" && !$this->checkPermissionBool("write"))
+		{
+			$user_id = $ilUser->getId();
+		}	
 		
 		self::renderFullscreenHeader($this->object, $this->tpl, $user_id);
 		
