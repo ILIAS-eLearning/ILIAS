@@ -222,7 +222,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 
 						$this->createPrefixArray($counter, $tab);
 
-						$this->setObjectToExpand($object["c_type"], $object["obj_id"]);
+						$this->makeObjectNodeExpandable($object["c_type"], $object["obj_id"]);
 
 						$parent_index = $this->getParentIndex($object["child"]);
 
@@ -234,7 +234,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 
 						// if object exists parent is container
 						if ($object["child"] != $this->tree->getRootId()) {
-							$this->format_options["$parent_index"]["container"] = true;
+							$this->setParentIsContainter($parent_index);
 
 							if ($this->expand_all or in_array($object["parent"],$this->expanded)) {
 								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
@@ -272,7 +272,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 		$this->format_options["$counter"]["visible"]	= true;
 	}
 
-	protected function setObjectToExpand($c_type, $obj_id) {
+	protected function makeObjectNodeExpandable($c_type, $obj_id) {
 		if ($c_type =="sos") {
 			$this->setExpand($obj_id);
 		}
@@ -299,6 +299,10 @@ class ilAICCExplorer extends ilSCORMExplorer
 		}
 
 		return false;
+	}
+
+	protected function setParentIsContainter($parent_index) {
+		$this->format_options["$parent_index"]["container"] = true;
 	}
 }
 ?>
