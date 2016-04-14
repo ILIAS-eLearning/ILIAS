@@ -59,7 +59,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
 			case 'ilpagelayoutgui':
@@ -74,7 +74,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 				$layout_gui->setTabs();
 				$layout_gui->setEditPreview(true);
 				$this->ctrl->saveParameter($this, "obj_id");
-				$ret =& $this->ctrl->forwardCommand($layout_gui);
+				$ret = $this->ctrl->forwardCommand($layout_gui);
 				$this->tpl->setContent($ret);
 				break;	
 
@@ -418,7 +418,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		foreach($_POST["id"] as $id)
 		{
 			$this->object->removeStyle($id);
-			$style_obj =& $ilias->obj_factory->getInstanceByObjId($id);
+			$style_obj = $ilias->obj_factory->getInstanceByObjId($id);
 			$style_obj->delete();
 		}
 		$this->object->update();

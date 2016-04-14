@@ -209,20 +209,6 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	}
 
 	/**
-	 * Lookup level trigger
-	 *
-	 * @param	int		level id
-	 * @return	array	trigger ref id and obj id
-	 */
-	static function lookupLevelTrigger($a_id)
-	{
-die("ilBasicSkill::lookupLevelTrigger is deprecated.");
-		$ref_id = ilBasicSkill::lookupLevelProperty($a_id, "trigger_ref_id");
-		$obj_id = ilBasicSkill::lookupLevelProperty($a_id, "trigger_obj_id");
-		return array("ref_id" => $ref_id, "obj_id" => $obj_id);
-	}
-
-	/**
 	 * Lookup level skill id
 	 *
 	 * @param	int		level id
@@ -270,24 +256,6 @@ die("ilBasicSkill::lookupLevelTrigger is deprecated.");
 	static function writeLevelDescription($a_id, $a_description)
 	{
 		ilBasicSkill::writeLevelProperty($a_id, "description", $a_description, "clob");
-	}
-
-	/**
-	 * Write trigger
-	 *
-	 * @param	int		level id
-	 * @param	text	level description
-	 */
-	static function writeLevelTrigger($a_id, $a_trigger_ref_id)
-	{
-die("ilBasicSkill::writeLevelTrigger is deprecated.");
-		$a_trigger_obj_id = 0;
-		if ($a_trigger_ref_id > 0)
-		{
-			$a_trigger_obj_id = ilObject::_lookupObjId($a_trigger_ref_id);
-		}
-		ilBasicSkill::writeLevelProperty($a_id, "trigger_ref_id", $a_trigger_ref_id, "integer");
-		ilBasicSkill::writeLevelProperty($a_id, "trigger_obj_id", $a_trigger_obj_id, "integer");
 	}
 
 	/**
@@ -355,27 +323,6 @@ die("ilBasicSkill::writeLevelTrigger is deprecated.");
 	}
 
 	/**
-	 * Lookup levels for trigger
-	 *
-	 * @param
-	 * @return
-	 */
-	function lookupLevelsForTriggerRefId($a_ref_id)
-	{
-		global $ilDB;
-die("ilBasicSkill::lookupLevelsForTriggerRefId is deprecated.");
-		$set = $ilDB->query("SELECT id FROM skl_level WHERE ".
-			" trigger_ref_id = ".$ilDB->quote($a_ref_id, "integer")
-			);
-		$levels = array();
-		while ($rec = $ilDB->fetchAssoc($set))
-		{
-			$levels[] = $rec["id"];
-		}
-		return $levels;
-	}
-
-	/**
 	 * Get skill for level id
 	 *
 	 * @param
@@ -405,67 +352,6 @@ die("ilBasicSkill::lookupLevelsForTriggerRefId is deprecated.");
 	//
 	//
 
-
-	/**
-	 * Look for all skill level that have a trigger and update
-	 * the user skill level information, if it has changed
-	 */
-	public static function updateAllUserSkillLevels()
-	{
-		global $ilDB;
-die("ilBasicSkill::updateAllUserSkillLevels is deprecated.");
-		$set = $ilDB->query("SELECT id, trigger_obj_id FROM skl_level WHERE ".
-			" trigger_obj_id > ".$ilDB->quote(0, "integer")
-		);
-		while ($rec = $ilDB->fetchAssoc($set))		// all trigger objects
-		{
-			$skill_level_id = $rec["id"];
-			$tr_obj_id = $rec["trigger_obj_id"];
-
-			if (ilObject::_hasUntrashedReference($tr_obj_id))
-			{
-				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-				$completed = ilLPStatusWrapper::_lookupCompletedForObject($tr_obj_id);
-				foreach ($completed as $user_id)
-				{
-					ilBasicSkill::writeUserSkillLevelStatus($skill_level_id,
-						$user_id, ilBasicSkill::ACHIEVED);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Look for all skill level that have a trigger and update
-	 * the user skill level information, if it has changed
-	 */
-	public static function updateSkillLevelsByTriggerRef($a_user_id, $a_ref_id)
-	{
-		global $ilDB;
-die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
-		$set = $ilDB->query("SELECT id, trigger_obj_id FROM skl_level WHERE ".
-			" trigger_ref_id = ".$ilDB->quote($a_ref_id, "integer")
-		);
-		while ($rec = $ilDB->fetchAssoc($set))		// all trigger objects
-		{
-			$skill_level_id = $rec["id"];
-			$tr_obj_id = $rec["trigger_obj_id"];
-
-			if (ilObject::_hasUntrashedReference($tr_obj_id))
-			{
-				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-				$completed = ilLPStatusWrapper::_lookupCompletedForObject($tr_obj_id);
-				foreach ($completed as $user_id)
-				{
-					if ($a_user_id == $user_id)
-					{
-						ilBasicSkill::writeUserSkillLevelStatus($skill_level_id,
-							$user_id, ilBasicSkill::ACHIEVED);
-					}
-				}
-			}
-		}
-	}
 
 	/**
 	 * Write skill level status
@@ -811,239 +697,6 @@ die("ilBasicSkill::updateSkillLevelsByTriggerRef is deprecated.");
 		return $rec["status_date"];
 	}
 
-	/**
-	 * Get trigger completion
-	 *
-	 * @param
-	 * @return
-	 */
-	static function getCompletionDateForTriggerRefId($a_user_id, $a_ref_id = null, $a_self_eval = 0)
-	{
-		global $ilDB;
-die("ilBasicSkill::getCompletionDateForTriggerRefId is deprecated.");
-		if ($a_ref_id == "")
-		{
-			$a_ref_id = null;
-		}
-		else if (!is_array($a_ref_id))
-		{
-			$a_ref_id = array($a_ref_id);
-		}
-		if (!is_array($a_user_id))
-		{
-			$a_user_id = array($a_user_id);
-		}
-
-		if ($a_ref_id != null)
-		{
-			if (!is_array($a_ref_id))
-			{
-				$a_ref_id = array($a_ref_id);
-			}
-
-			$set = $ilDB->query($q = "SELECT user_id, status_date, trigger_ref_id FROM skl_user_has_level WHERE ".
-				$ilDB->in("user_id", $a_user_id, false, "integer")." AND ".
-				$ilDB->in("trigger_ref_id", $a_ref_id, false, "integer")
-			);
-
-			$completion = array();
-			while ($rec = $ilDB->fetchAssoc($set))
-			{
-				if (!isset($completion[$rec["user_id"]][$rec["trigger_ref_id"]]))
-				{
-					$completion[$rec["user_id"]][$rec["trigger_ref_id"]] = $rec["status_date"];
-				}
-				else if ($rec["status_date"] < $completion[$rec["user_id"]][$rec["trigger_ref_id"]])
-				{
-					$completion[$rec["user_id"]][$rec["trigger_ref_id"]] = $rec["status_date"];
-				}
-			}
-
-			foreach ($a_ref_id as $ref_id)
-			{
-				foreach ($a_user_id as $user_id)
-				{
-					if (!isset($completion[$user_id][$ref_id]))
-					{
-						$completion[$user_id][$ref_id] = false;
-					}
-				}
-			}
-		}
-		else
-		{
-			$completion = array();
-			foreach ($a_user_id as $user_id)
-			{
-				include_once 'Services/Membership/classes/class.ilParticipants.php';
-				$a_ref_id = ilParticipants::_getMembershipByType($user_id, 'crs', true);
-
-				$set = $ilDB->query($q = "SELECT user_id, status_date, trigger_ref_id FROM skl_user_has_level WHERE ".
-					"user_id = ".$ilDB->quote($user_id, "integer")." AND ".
-					$ilDB->in("trigger_ref_id", $a_ref_id, false, "integer")
-				);
-
-				while ($rec = $ilDB->fetchAssoc($set))
-				{
-					if (!isset($completion[$user_id][$rec["trigger_ref_id"]]))
-					{
-						$completion[$user_id][$rec["trigger_ref_id"]] = $rec["status_date"];
-					}
-					else if ($rec["status_date"] < $completion[$user_id][$rec["trigger_ref_id"]])
-					{
-						$completion[$user_id][$rec["trigger_ref_id"]] = $rec["status_date"];
-					}
-				}
-				foreach ($a_ref_id as $ref_id)
-				{
-					if (!isset($completion[$user_id][$ref_id]))
-					{
-						$completion[$user_id][$ref_id] = false;
-					}
-				}
-			}
-			
-		}
-		return $completion;
-	}
-
-	/**
-	 * Get trigger completion
-	 *
-	 * @param
-	 * @return
-	 */
-	static function checkUserCertificateForTriggerRefId($a_user_id, $a_ref_id, $a_self_eval = 0)
-	{
-		global $ilDB;
-die("ilBasicSkill::checkUserCertificateForTriggerRefId is deprecated.");
-		if (!is_array($a_ref_id))
-		{
-			$a_ref_id = array($a_ref_id);
-		}
-		if (!is_array($a_user_id))
-		{
-			$a_user_id = array($a_user_id);
-		}
-		$set = $ilDB->query($q = "SELECT user_id, status_date, trigger_ref_id, level_id, skill_id FROM skl_user_has_level WHERE ".
-			$ilDB->in("user_id", $a_user_id, false, "integer")." AND ".
-			$ilDB->in("trigger_ref_id", $a_ref_id, false, "integer")
-		);
-
-		$completion = array();
-
-		$completion = array();
-		while ($rec = $ilDB->fetchAssoc($set))
-		{
-			if (!isset($completion[$rec["user_id"]][$rec["trigger_ref_id"]])
-				&& ilBasicSkill::_lookupCertificate($rec["skill_id"], $rec["level_id"]))
-			{
-				$completion[$rec["user_id"]][$rec["trigger_ref_id"]] = true;
-			}
-		}
-
-		foreach ($a_ref_id as $ref_id)
-		{
-			foreach ($a_user_id as $user_id)
-			{
-				if (!isset($completion[$user_id][$ref_id]))
-				{
-					$completion[$user_id][$ref_id] = false;
-				}
-			}
-		}
-		return $completion;
-
-	}
-
-	/**
-	 * Lookup level achievement date
-	 *
-	 * @param
-	 * @return
-	 */
-	function lookupLevelAchievementDate($a_user_id, $a_level_id, $a_self_eval = 0)
-	{
-		global $ilDB;
-die("ilBasicSkill::lookupLevelAchievementDate is deprecated.");
-		$set = $ilDB->query("SELECT user_id, status_date, trigger_ref_id, level_id, skill_id FROM skl_user_has_level WHERE ".
-			" user_id = ".$ilDB->quote($a_user_id, "integer").
-			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
-		);
-		if ($rec = $ilDB->fetchAssoc($set))
-		{
-			return $rec["status_date"];
-		}
-
-		return false;
-	}
-
-	/**
-	 * Get trigger completion
-	 *
-	 * @param
-	 * @return
-	 */
-	static function getTriggerOfAllCertificates($a_user_id, $a_self_eval = 0)
-	{
-		global $ilDB, $tree;
-die("ilBasicSkill::getTriggerOfAllCertificates is deprecated.");
-		if (!is_array($a_user_id))
-		{
-			$a_user_id = array($a_user_id);
-		}
-
-		$set = $ilDB->query($q = "SELECT user_id, status_date, trigger_ref_id, level_id, skill_id FROM skl_user_has_level WHERE ".
-			$ilDB->in("user_id", $a_user_id, false, "integer")
-		);
-
-		$completion = array();
-
-		while ($rec = $ilDB->fetchAssoc($set))
-		{
-			if ((!is_array($completion[$rec["user_id"]]) || !in_array($rec["trigger_ref_id"], $completion[$rec["user_id"]]))
-				&& ilBasicSkill::_lookupCertificate($rec["skill_id"], $rec["level_id"]))
-			{
-				if ($tree->isInTree($rec["trigger_ref_id"]))
-				{
-					$completion[$rec["user_id"]][] = $rec["trigger_ref_id"];
-				}
-			}
-		}
-
-		foreach ($a_user_id as $user_id)
-		{
-			if (!is_array($completion[$user_id]))
-			{
-				$completion[$user_id] = array();
-			}
-		}
-		return $completion;
-	}
-
-	/**
-	 * Get assigned skill levels for trigger
-	 *
-	 * @param
-	 * @return
-	 */
-	static function getSkillLevelsForTrigger($a_ref_id)
-	{
-		global $ilDB;
-die("ilBasicSkill::getSkillLevelsForTrigger is deprecated.");
-		$set = $ilDB->query($q = "SELECT id FROM skl_level".
-			" WHERE trigger_ref_id = ".$ilDB->quote($a_ref_id, "integer"));
-
-		$skill_levels = array();
-		while ($rec = $ilDB->fetchAssoc($set))
-		{
-			$skill_levels[] = $rec["id"];
-		}
-
-		return $skill_levels;
-
-	}
-
 	//
 	//
 	// Certificate related methods
@@ -1059,31 +712,6 @@ die("ilBasicSkill::getSkillLevelsForTrigger is deprecated.");
 	function getTitleForCertificate()
 	{
 		return $this->getTitle();
-	}
-
-	/**
-	 * Get title for certificate
-	 *
-	 * @param
-	 * @return
-	 */
-	function getLevelTitleForCertificate($a_level_id)
-	{
-die("ilBasicSkill::getLevelTitleForCertificate is deprecated.");
-		return ilBasicSkill::lookupLevelTitle($a_level_id);
-	}
-
-	/**
-	 * Get trigger title for certificate
-	 *
-	 * @param
-	 * @return
-	 */
-	function getTriggerTitleForCertificate($a_level_id)
-	{
-die("ilBasicSkill::getTriggerTitleForCertificate is deprecated.");
-		$tr = ilBasicSkill::lookupLevelTrigger($a_level_id);
-		return ilObject::_lookupTitle($tr["obj_id"]);
 	}
 
 	/**

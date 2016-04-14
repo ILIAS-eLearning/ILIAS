@@ -820,7 +820,7 @@ class ilObjStyleSheet extends ilObject
 	*/
 	function assignMetaData(&$a_meta_data)
 	{
-		$this->meta_data =& $a_meta_data;
+		$this->meta_data = $a_meta_data;
 	}
 
 	/**
@@ -1949,7 +1949,7 @@ class ilObjStyleSheet extends ilObject
 				" (".
 				$ilDB->quote($id, "integer").",".
 				$ilDB->quote($a_val, "text").",".
-				" ".$ilDB->quote($this->getId(), "integer").",".
+				" ".$ilDB->quote($style_id, "integer").",".
 				" ".$ilDB->quote($a_tag, "text").",".
 				" ".$ilDB->quote($a_class, "text").",".
 				" ".$ilDB->quote($a_type, "text").",".

@@ -1379,7 +1379,7 @@ class ilSurveyPageGUI
 		$pages = $this->object->getSurveyPages();
 		$this->has_next_page = ($this->current_page < sizeof($pages));
 		$this->has_previous_page = ($this->current_page > 1);
-		$this->has_datasets = $this->object->_hasDatasets($this->object->getSurveyId());
+		$this->has_datasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
 		
 		if($this->has_datasets)
 		{

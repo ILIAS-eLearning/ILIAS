@@ -913,9 +913,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 				if ($entry != "." and
 				$entry != ".." and
 				(
-					ereg("^[0-9]{10}_{2}[0-9]+_{2}(".$this->getType()."_)".$this->getId()."+\.zip\$", $entry) or
-					ereg("^[0-9]{10}_{2}[0-9]+_{2}(".$this->getType()."_)".$this->getId()."+\.pdf\$", $entry) or
-					ereg("^[0-9]{10}_{2}[0-9]+_{2}(".$this->getType()."_)".$this->getId()."+\.iso\$", $entry)
+					preg_match("~^[0-9]{10}_{2}[0-9]+_{2}(".$this->getType()."_)".$this->getId()."+\.zip\$~", $entry) or
+					preg_match("~^[0-9]{10}_{2}[0-9]+_{2}(".$this->getType()."_)".$this->getId()."+\.pdf\$~", $entry) or
+					preg_match("~^[0-9]{10}_{2}[0-9]+_{2}(".$this->getType()."_)".$this->getId()."+\.iso\$~", $entry)
 				))
 				{
 					$file[$entry.$type] = array("type" => $type, "file" => $entry,

@@ -23,11 +23,11 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 	var $layout_object = null;
 	
 	
-	function __construct($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_slm_id = 0)
+	function __construct($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_prevent_get_id = false, $a_lang = "")
 	{
-		global $tpl,$ilCtrl;
+		global $tpl;
 	
-		parent::__construct($a_parent_type, $a_id, $a_old_nr);
+		parent::__construct($a_parent_type, $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 
 		//associated object
 		include_once("./Services/Style/classes/class.ilPageLayout.php");
@@ -50,8 +50,6 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 		$tpl->parseCurrentBlock();
 		
 		$this->setStyleId($this->layout_object->getStyleId());
-		
-		$this->slm_id = $a_slm_id;
 		
 	}
 

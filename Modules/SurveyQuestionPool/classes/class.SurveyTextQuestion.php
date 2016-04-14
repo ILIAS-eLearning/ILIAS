@@ -65,7 +65,7 @@ class SurveyTextQuestion extends SurveyQuestion
 	* @return array Array containing the question fields and data from the database
 	* @access public
 	*/
-	function _getQuestionDataArray($id)
+	function getQuestionDataArray($id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
@@ -277,27 +277,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	}
 
 	/**
-	* Returns the maxium number of allowed characters for the text answer
-	*
-	* @return integer The maximum number of characters
-	* @access public
-	*/
-	function _getMaxChars($question_id)
-	{
-		global $ilDB;
-		$result = $ilDB->queryF("SELECT maxchars FROM svy_question WHERE question_id = %s",
-			array('integer'),
-			array($question_id)
-		);
-		if ($result->numRows())
-		{
-			$row = $ilDB->fetchAssoc($result);
-			return $row["maxchars"];
-		}
-		return 0;
-	}
-
-	/**
 	* Returns the question type of the question
 	*
 	* @return integer The question type of the question
@@ -356,37 +335,6 @@ class SurveyTextQuestion extends SurveyQuestion
 		return "";
 	}
 	
-	function randomText($length)
-	{
-		$random= "";
-		$char_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		$char_list .= "abcdefghijklmnopqrstuvwxyz";
-		$char_list .= "1234567890";
-		for($i = 0; $i < $length; $i++)
-		{ 
-			$random .= substr($char_list,(rand()%(strlen($char_list))), 1);
-			if (!rand(0,5)) $random .= ' ';
-		}
-		return $random;
-	}
-	
-	/**
-	* Saves random answers for a given active user in the database
-	*
-	* @param integer $active_id The database ID of the active user
-	*/
-	public function saveRandomData($active_id)
-	{
-		global $ilDB;
-		// single response
-		$randomtext = $this->randomText(rand(25,100));
-		$next_id = $ilDB->nextId('svy_answer');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-			array('integer', 'integer', 'integer', 'float', 'text', 'integer'),
-			array($next_id, $this->getId(), $active_id, NULL, $randomtext, time())
-		);
-	}
-
 	function saveUserInput($post_data, $active_id, $a_return = false)
 	{
 		global $ilDB;

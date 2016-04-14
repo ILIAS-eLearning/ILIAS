@@ -15,14 +15,14 @@ class ilFileSystemGUI
 
 	protected $use_upload_directory = false;
 
-	function ilFileSystemGUI($a_main_directory)
+	function __construct($a_main_directory)
 	{
 		global $lng, $ilCtrl, $tpl, $ilias;
 
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
 		$this->main_dir = $a_main_directory;
 		$this->post_dir_path = false;
 		$this->commands = array(

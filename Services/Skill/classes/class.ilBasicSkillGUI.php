@@ -616,7 +616,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	/**
 	 * Redirect to parent (identified by current obj_id)
 	 */
-	function redirectToParent()
+	function redirectToParent($a_tmp_mode = false)
 	{
 		global $ilCtrl;
 		

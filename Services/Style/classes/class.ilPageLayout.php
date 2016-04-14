@@ -245,7 +245,7 @@ class ilPageLayout
 		$dom = @domxml_open_mem($xml, DOMXML_LOAD_PARSING, $error);		
 		$xpc = xpath_new_context($dom);
 		$path = "////PlaceHolder";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		
 		foreach ($res->nodeset as $item){
 				$height = $item->get_attribute("Height");
