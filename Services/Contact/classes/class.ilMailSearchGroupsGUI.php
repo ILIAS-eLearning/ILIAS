@@ -156,7 +156,7 @@ class ilMailSearchGroupsGUI
 						   trim($old_mail_data['rcp_to']) != '')
 						{
 							$rcpt = $rbacreview->getRoleMailboxAddress($role['obj_id']);
-							if(!$this->umail->doesRecipientStillExists($rcpt, $old_mail_data['rcp_to']))
+							if(!$this->umail->existsRecipient($rcpt, $old_mail_data['rcp_to']))
 							{
 								array_push($members, $rcpt);
 							}

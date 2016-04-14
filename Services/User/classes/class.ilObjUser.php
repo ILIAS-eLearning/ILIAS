@@ -2830,23 +2830,26 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* STATIC METHOD
-	* get all user logins
-	* @param	ilias object
-	* @static
-	* @return	array of logins
-	* @access	public
+	* @return array of logins
 	*/
-	static function _getAllUserLogins(&$ilias)
+	public static function getAllUserLogins()
 	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
 		global $ilDB;
-		
-		$res = $ilDB->query("SELECT login FROM usr_data");
-		while($row = $ilDB->fetchObject($res))
+
+		$logins = array();
+
+		$res = $ilDB->query(
+			"SELECT login FROM usr_data WHERE " . $ilDB->in('usr_id', array(ANONYMOUS_USER_ID), true, 'integer')
+		);
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			$logins[] = $row->login;
+			$logins[] = $row['login'];
 		}
-		return $logins ? $logins : array();
+
+		return $logins;
 	}
 
 	/**

@@ -153,7 +153,7 @@ class ilMailingListsGUI
 		foreach($ml_ids as $id)
 		{			
 			if(ilMailingList::_isOwner($id, $ilUser->getId()) &&
-			   !$this->umail->doesRecipientStillExists('#il_ml_'.$id, $mail_data['rcp_to']))
+			   !$this->umail->existsRecipient('#il_ml_'.$id, $mail_data['rcp_to']))
 			{
 				$lists[] = '#il_ml_'.$id;			
 			}

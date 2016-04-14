@@ -1134,20 +1134,16 @@ class ilUtil
 		// otherwise setup will fail with this if branch
 		if(is_object($ilErr)) // seems to work in Setup now
 		{
-			require_once './Services/Mail/classes/RFC822.php';
-			$parser = new Mail_RFC822();
-			PEAR::setErrorHandling(PEAR_ERROR_RETURN);		
-			$addresses = $parser->parseAddressList($a_email, 'ilias', false, true);
-			if(!is_a($addresses, 'PEAR_Error') &&
-				count($addresses) == 1 && $addresses[0]->host != 'ilias'
-			)
+			try
 			{
-				PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
-				return true;
+				require_once 'Services/Mail/classes/RFC822.php';
+				$parser    = new Mail_RFC822();
+				$addresses = $parser->parseAddressList($a_email, 'ilias', false, true);
+
+				return count($addresses) == 1 && $addresses[0]->host != 'ilias';
 			}
-			else			
+			catch(ilException $e)
 			{
-				PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 				return false;
 			}
 		}

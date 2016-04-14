@@ -104,163 +104,120 @@ class ilRbacReview
 	 * objects that are possible recipients for the role mailbox address. 
 	 *
 	 * If Pear Mail is not installed, then the mailbox address 
-	 *
-	 *
-	 * @access	public
 	 * @param	string	IETF RFX 822 address list containing role mailboxes.
 	 * @return	int[] Array with role ids that were found
 	 * @todo refactor rolf
 	 */
-	function searchRolesByMailboxAddressList($a_address_list)
+	public function searchRolesByMailboxAddressList($a_address_list)
 	{
+		/** @var $ilDB ilDBInterface */
 		global $ilDB;
-		
+
 		$role_ids = array();
-		
-		include_once "Services/Mail/classes/class.ilMail.php";
-		if(ilMail::_usePearMail())
+
+		require_once 'Services/Mail/classes/RFC822.php';
+		$parser = new Mail_RFC822();
+		$parsedList = $parser->parseAddressList($a_address_list, ilMail::ILIAS_HOST, false, true);
+		foreach($parsedList as $address)
 		{
-			require_once './Services/Mail/classes/RFC822.php';
-			$parser = new Mail_RFC822();
-			$parsedList = $parser->parseAddressList($a_address_list, ilMail::ILIAS_HOST, false, true);
-			foreach ($parsedList as $address)
+			$local_part = $address->mailbox;
+			if(strpos($local_part,'#') !== 0 && !($local_part{0} == '"' && $local_part{1} == "#"))
 			{
-				$local_part = $address->mailbox;
-				if (strpos($local_part,'#') !== 0 &&
-				    !($local_part{0} == '"' && $local_part{1} == "#"))
-				{
-					// A local-part which doesn't start with a '#' doesn't denote a role.
-					// Therefore we can skip it.
-					continue;
-				}
-
-				$local_part = substr($local_part, 1);
-
-				/* If role contains spaces, eg. 'foo role', double quotes are added which have to be
-				   removed here.*/
-				if( $local_part{0} == '#' && $local_part{strlen($local_part) - 1} == '"' )
-				{
-					$local_part = substr($local_part, 1);
-					$local_part = substr($local_part, 0, strlen($local_part) - 1);
-				}
-
-				if (substr($local_part,0,8) == 'il_role_')
-				{
-					$role_id = substr($local_part,8);
-					$query = "SELECT t.tree ".
-						"FROM rbac_fa fa ".
-						"JOIN tree t ON t.child = fa.parent ".
-						"WHERE fa.rol_id = ".$this->ilDB->quote($role_id,'integer')." ".
-						"AND fa.assign = 'y' ".
-						"AND t.tree = 1";
-					$r = $ilDB->query($query);
-					if ($r->numRows() > 0)
-					{
-						$role_ids[] = $role_id;
-					}
-					continue;
-				}
-
-
-				$domain = $address->host;
-				if (strpos($domain,'[') == 0 && strrpos($domain,']'))
-				{
-					$domain = substr($domain,1,strlen($domain) - 2);
-				}
-				if (strlen($local_part) == 0)
-				{
-					$local_part = $domain;
-					$address->host = ilMail::ILIAS_HOST;
-					$domain = ilMail::ILIAS_HOST;
-				}
-
-				if (strtolower($address->host) == ilMail::ILIAS_HOST)
-				{
-					// Search for roles = local-part in the whole repository
-					$query = "SELECT dat.obj_id ".
-						"FROM object_data dat ".
-						"JOIN rbac_fa fa ON fa.rol_id = dat.obj_id ".
-						"JOIN tree t ON t.child = fa.parent ".
-						"WHERE dat.title =".$this->ilDB->quote($local_part,'text')." ".
-						"AND dat.type = 'role' ".
-						"AND fa.assign = 'y' ".
-						"AND t.tree = 1";
-				}
-				else
-				{
-					// Search for roles like local-part in objects = host
-					$query = "SELECT rdat.obj_id ".
-						"FROM object_data odat ".
-						"JOIN object_reference oref ON oref.obj_id = odat.obj_id ".
-						"JOIN tree otree ON otree.child = oref.ref_id ".
-						"JOIN rbac_fa rfa ON rfa.parent = otree.child ".
-						"JOIN object_data rdat ON rdat.obj_id = rfa.rol_id ".
-						"WHERE odat.title = ".$this->ilDB->quote($domain,'text')." ".
-						"AND otree.tree = 1 ".
-						"AND rfa.assign = 'y' ".
-						"AND rdat.title LIKE ".
-							$this->ilDB->quote('%'.preg_replace('/([_%])/','\\\\$1',$local_part).'%','text');
-				}
-				$r = $ilDB->query($query);
-
-				$count = 0;
-				while($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-				{
-					$role_ids[] = $row->obj_id;
-					$count++;
-				}
-
-				// Nothing found?
-				// In this case, we search for roles = host.
-				if ($count == 0 && strtolower($address->host) == ilMail::ILIAS_HOST)
-				{
-					$q = "SELECT dat.obj_id ".
-						"FROM object_data dat ".
-						"JOIN object_reference ref ON ref.obj_id = dat.obj_id ".
-						"JOIN tree t ON t.child = ref.ref_id ".
-						"WHERE dat.title = ".$this->ilDB->quote($domain ,'text')." ".
-						"AND dat.type = 'role' ".
-						"AND t.tree = 1 ";
-					$r = $this->ilDB->query($q);
-
-					while($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-					{
-						$role_ids[] = $row->obj_id;
-					}
-				}
-				//echo '<br>ids='.var_export($role_ids,true);
+				// A local-part which doesn't start with a '#' doesn't denote a role.
+				// Therefore we can skip it.
+				continue;
 			}
-		} 
-		else 
-		{
-			// the following code is executed, when Pear Mail is
-			// not installed
 
-			$titles = explode(',', $a_address_list);
-			
-			$titleList = '';
-			foreach ($titles as $title)
+			$local_part = substr($local_part, 1);
+
+			/* If role contains spaces, eg. 'foo role', double quotes are added which have to be removed here.*/
+			if($local_part{0} == '#' && $local_part{strlen($local_part) - 1} == '"')
 			{
-				if (strlen($inList) > 0)
-				{
-					$titleList .= ',';
-				}
-				$title = trim($title);
-				if (strpos($title,'#') == 0) 
-				{
-					$titleList .= $this->ilDB->quote(substr($title, 1));
-				}
-			}	
-			if (strlen($titleList) > 0)
+				$local_part = substr($local_part, 1);
+				$local_part = substr($local_part, 0, strlen($local_part) - 1);
+			}
+
+			if(substr($local_part, 0, 8) == 'il_role_')
 			{
-				$q = "SELECT obj_id ".
-					"FROM object_data ".
-					"WHERE title IN (".$titleList.") ".
-					"AND type='role'";
-				$r = $this->ilDB->query($q);
-				while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+				$role_id = substr($local_part, 8);
+				$query = "SELECT t.tree ".
+					"FROM rbac_fa fa ".
+					"JOIN tree t ON t.child = fa.parent ".
+					"WHERE fa.rol_id = ". $ilDB->quote($role_id,'integer')." ".
+					"AND fa.assign = 'y' ".
+					"AND t.tree = 1";
+				$res = $ilDB->query($query);
+				if($ilDB->numRows($res) > 0)
 				{
-					$role_ids[] = $row->obj_id;
+					$role_ids[] = $role_id;
+				}
+				continue;
+			}
+
+			$domain = $address->host;
+			if(strpos($domain,'[') == 0 && strrpos($domain,']'))
+			{
+				$domain = substr($domain,1,strlen($domain) - 2);
+			}
+			if(strlen($local_part) == 0)
+			{
+				$local_part = $domain;
+				$address->host = ilMail::ILIAS_HOST;
+				$domain = ilMail::ILIAS_HOST;
+			}
+
+			if(strtolower($address->host) == ilMail::ILIAS_HOST)
+			{
+				// Search for roles = local-part in the whole repository
+				$query = "SELECT dat.obj_id ".
+					"FROM object_data dat ".
+					"JOIN rbac_fa fa ON fa.rol_id = dat.obj_id ".
+					"JOIN tree t ON t.child = fa.parent ".
+					"WHERE dat.title =".$ilDB->quote($local_part,'text')." ".
+					"AND dat.type = 'role' ".
+					"AND fa.assign = 'y' ".
+					"AND t.tree = 1";
+			}
+			else
+			{
+				// Search for roles like local-part in objects = host
+				$query = "SELECT rdat.obj_id ".
+					"FROM object_data odat ".
+					"JOIN object_reference oref ON oref.obj_id = odat.obj_id ".
+					"JOIN tree otree ON otree.child = oref.ref_id ".
+					"JOIN rbac_fa rfa ON rfa.parent = otree.child ".
+					"JOIN object_data rdat ON rdat.obj_id = rfa.rol_id ".
+					"WHERE odat.title = ".$ilDB->quote($domain,'text')." ".
+					"AND otree.tree = 1 ".
+					"AND rfa.assign = 'y' ".
+					"AND rdat.title LIKE ".
+					$ilDB->quote('%'.preg_replace('/([_%])/','\\\\$1',$local_part).'%','text');
+			}
+			$res = $ilDB->query($query);
+
+			$count = 0;
+			while($row = $ilDB->fetchAssoc($res))
+			{
+				$role_ids[] = $row['obj_id'];
+				$count++;
+			}
+
+			// Nothing found?
+			// In this case, we search for roles = host.
+			if($count == 0 && strtolower($address->host) == ilMail::ILIAS_HOST)
+			{
+				$q = "SELECT dat.obj_id ".
+					"FROM object_data dat ".
+					"JOIN object_reference ref ON ref.obj_id = dat.obj_id ".
+					"JOIN tree t ON t.child = ref.ref_id ".
+					"WHERE dat.title = ".$this->ilDB->quote($domain ,'text')." ".
+					"AND dat.type = 'role' ".
+					"AND t.tree = 1 ";
+				$res = $this->ilDB->query($q);
+
+				while($row = $ilDB->fetchAssoc($res))
+				{
+					$role_ids[] = $row['obj_id'];
 				}
 			}
 		}
@@ -332,220 +289,195 @@ class ilRbacReview
 	 * @return	String mailbox address or null, if role does not exist.
 	 * @todo refactor rolf
 	 */
-	function getRoleMailboxAddress($a_role_id, $is_localize = true)
+	public function getRoleMailboxAddress($a_role_id, $is_localize = true)
 	{
-		global $log, $lng,$ilDB;
+		/**
+		 * @var $lng  ilLanguage
+		 * @var $ilDB ilDBInterface
+		 */
+		global $lng, $ilDB;
 
-		include_once "Services/Mail/classes/class.ilMail.php";
-		if (ilMail::_usePearMail())
+		// Retrieve the role title and the object title.
+		$query = "SELECT rdat.title role_title,odat.title object_title, ".
+			" oref.ref_id object_ref ".
+			"FROM object_data rdat ".
+			"JOIN rbac_fa fa ON fa.rol_id = rdat.obj_id ".
+			"JOIN tree rtree ON rtree.child = fa.parent ".
+			"JOIN object_reference oref ON oref.ref_id = rtree.child ".
+			"JOIN object_data odat ON odat.obj_id = oref.obj_id ".
+			"WHERE rdat.obj_id = ".$ilDB->quote($a_role_id,'integer')." ".
+			"AND fa.assign = 'y' ";
+		$res = $ilDB->query($query);
+		if(!$row = $ilDB->fetchObject($res))
 		{
-			// Retrieve the role title and the object title.
-			$query = "SELECT rdat.title role_title,odat.title object_title, ".
-				" oref.ref_id object_ref ".
-				"FROM object_data rdat ".
-				"JOIN rbac_fa fa ON fa.rol_id = rdat.obj_id ".
-				"JOIN tree rtree ON rtree.child = fa.parent ".
-				"JOIN object_reference oref ON oref.ref_id = rtree.child ".
-				"JOIN object_data odat ON odat.obj_id = oref.obj_id ".
-				"WHERE rdat.obj_id = ".$this->ilDB->quote($a_role_id,'integer')." ".
-				"AND fa.assign = 'y' ";
-			$r = $ilDB->query($query);
-			if (!$row = $ilDB->fetchObject($r))
-			{
-				//$log->write('class.ilRbacReview->getMailboxAddress('.$a_role_id.'): error role does not exist');
-				return null; // role does not exist
-			}
-			$object_title = $row->object_title;
-			$object_ref = $row->object_ref;
-			$role_title = $row->role_title;
+			return null;
+		}
+
+		$object_title = $row->object_title;
+		$object_ref   = $row->object_ref;
+		$role_title   = $row->role_title;
+
+		// In a perfect world, we could use the object_title in the 
+		// domain part of the mailbox address, and the role title
+		// with prefix '#' in the local part of the mailbox address.
+		$domain = $object_title;
+		$local_part = $role_title;
 
 
-			// In a perfect world, we could use the object_title in the 
-			// domain part of the mailbox address, and the role title
-			// with prefix '#' in the local part of the mailbox address.
-			$domain = $object_title;
-			$local_part = $role_title;
+		// Determine if the object title is unique
+		$q = "SELECT COUNT(DISTINCT dat.obj_id) count ".
+			"FROM object_data dat ".
+			"JOIN object_reference ref ON ref.obj_id = dat.obj_id ".
+			"JOIN tree ON tree.child = ref.ref_id ".
+			"WHERE title = ".$ilDB->quote($object_title,'text')." ".
+			"AND tree.tree = 1 ";
+		$res = $ilDB->query($q);
+		$row = $ilDB->fetchObject($res);
 
+		// If the object title is not unique, we get rid of the domain.
+		if ($row->count > 1)
+		{
+			$domain = null;
+		}
 
-			// Determine if the object title is unique
+		// If the domain contains illegal characters, we get rid of it.
+		//if (domain != null && preg_match('/[\[\]\\]|[\x00-\x1f]/',$domain))
+		// Fix for Mantis Bug: 7429 sending mail fails because of brakets
+		// Fix for Mantis Bug: 9978 sending mail fails because of semicolon
+		if ($domain != null && preg_match('/[\[\]\\]|[\x00-\x1f]|[\x28-\x29]|[;]/',$domain))
+		{
+			$domain = null;
+		}
+
+		// If the domain contains special characters, we put square
+		//   brackets around it.
+		if ($domain != null &&
+			(preg_match('/[()<>@,;:\\".\[\]]/',$domain) ||
+				preg_match('/[^\x21-\x8f]/',$domain))
+		)
+		{
+			$domain = '['.$domain.']';
+		}
+
+		// If the role title is one of the ILIAS reserved role titles,
+		//     we can use a shorthand version of it for the local part
+		//     of the mailbox address.
+		if (strpos($role_title, 'il_') === 0 && $domain != null)
+		{
+			$unambiguous_role_title = $role_title;
+
+			$pos = strpos($role_title, '_', 3) + 1;
+			$local_part = substr(
+				$role_title,
+				$pos,
+				strrpos($role_title, '_') - $pos
+			);
+		}
+		else
+		{
+			$unambiguous_role_title = 'il_role_'.$a_role_id;
+		}
+
+		// Determine if the local part is unique. If we don't have a
+		// domain, the local part must be unique within the whole repositry.
+		// If we do have a domain, the local part must be unique for that
+		// domain.
+		if ($domain == null)
+		{
 			$q = "SELECT COUNT(DISTINCT dat.obj_id) count ".
 				"FROM object_data dat ".
 				"JOIN object_reference ref ON ref.obj_id = dat.obj_id ".
 				"JOIN tree ON tree.child = ref.ref_id ".
-				"WHERE title = ".$this->ilDB->quote($object_title,'text')." ".
+				"WHERE title = ".$ilDB->quote($local_part,'text')." ".
 				"AND tree.tree = 1 ";
-			$r = $this->ilDB->query($q);
-			$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+		}
+		else
+		{
+			$q = "SELECT COUNT(rd.obj_id) count ".
+				"FROM object_data rd ".
+				"JOIN rbac_fa fa ON rd.obj_id = fa.rol_id ".
+				"JOIN tree t ON t.child = fa.parent ".
+				"WHERE fa.assign = 'y' ".
+				"AND t.child = ".$ilDB->quote($object_ref,'integer')." ".
+				"AND rd.title LIKE ".$ilDB->quote(
+					'%'.preg_replace('/([_%])/','\\\\$1', $local_part).'%','text')." ";
+		}
 
-			// If the object title is not unique, we get rid of the domain.
-			if ($row->count > 1)
-			{
-				$domain = null;
-			}
+		$res = $ilDB->query($q);
+		$row = $ilDB->fetchObject($res);
 
-			// If the domain contains illegal characters, we get rid of it.
-			//if (domain != null && preg_match('/[\[\]\\]|[\x00-\x1f]/',$domain))
-			// Fix for Mantis Bug: 7429 sending mail fails because of brakets
-			// Fix for Mantis Bug: 9978 sending mail fails because of semicolon
-			if ($domain != null && preg_match('/[\[\]\\]|[\x00-\x1f]|[\x28-\x29]|[;]/',$domain))
-			{
-				$domain = null;
-			}
+		// if the local_part is not unique, we use the unambiguous role title 
+		//   instead for the local part of the mailbox address
+		if ($row->count > 1)
+		{
+			$local_part = $unambiguous_role_title;
+		}
 
-			// If the domain contains special characters, we put square
-			//   brackets around it.
-			if ($domain != null && 
-					(preg_match('/[()<>@,;:\\".\[\]]/',$domain) ||
-					preg_match('/[^\x21-\x8f]/',$domain))
-				)
-			{
-				$domain = '['.$domain.']';
-			}
+		$use_phrase = true;
 
-			// If the role title is one of the ILIAS reserved role titles,
-			//     we can use a shorthand version of it for the local part
-			//     of the mailbox address.
-			if (strpos($role_title, 'il_') === 0 && $domain != null)
-			{
-				$unambiguous_role_title = $role_title;
+		// If the local part contains illegal characters, we use
+		//     the unambiguous role title instead.
+		if (preg_match('/[\\"\x00-\x1f]/',$local_part))
+		{
+			$local_part = $unambiguous_role_title;
+		}
+		else if(!preg_match('/^[\\x00-\\x7E]+$/i', $local_part))
+		{
+			// 2013-12-05: According to #12283, we do not accept umlauts in the local part
+			$local_part = $unambiguous_role_title;
+			$use_phrase = false;
+		}
 
-				$pos = strpos($role_title, '_', 3) + 1;
-				$local_part = substr(
-					$role_title, 
-					$pos,  
-					strrpos($role_title, '_') - $pos
-				);
-			}
-			else
-			{
-				$unambiguous_role_title = 'il_role_'.$a_role_id;
-			}
+		// Add a "#" prefix to the local part
+		$local_part = '#'.$local_part;
 
-			// Determine if the local part is unique. If we don't have a
-			// domain, the local part must be unique within the whole repositry.
-			// If we do have a domain, the local part must be unique for that
-			// domain.
-			if ($domain == null)
+		// Put quotes around the role title, if needed
+		if (preg_match('/[()<>@,;:.\[\]\x20]/',$local_part))
+		{
+			$local_part = '"'.$local_part.'"';
+		}
+
+		$mailbox = ($domain == null) ?
+			$local_part :
+			$local_part.'@'.$domain;
+
+		if ($is_localize)
+		{
+			if (substr($role_title,0,3) == 'il_')
 			{
-				$q = "SELECT COUNT(DISTINCT dat.obj_id) count ".
-					"FROM object_data dat ".
-					"JOIN object_reference ref ON ref.obj_id = dat.obj_id ".
-					"JOIN tree ON tree.child = ref.ref_id ".
-					"WHERE title = ".$this->ilDB->quote($local_part,'text')." ".
-					"AND tree.tree = 1 ";
+				$phrase = $lng->txt(substr($role_title, 0, strrpos($role_title,'_')));
 			}
 			else
 			{
-				$q = "SELECT COUNT(rd.obj_id) count ".
-					 "FROM object_data rd ".
-					 "JOIN rbac_fa fa ON rd.obj_id = fa.rol_id ".
-					 "JOIN tree t ON t.child = fa.parent ". 
-					 "WHERE fa.assign = 'y' ".
-					 "AND t.child = ".$this->ilDB->quote($object_ref,'integer')." ".
-					 "AND rd.title LIKE ".$this->ilDB->quote(
-						'%'.preg_replace('/([_%])/','\\\\$1', $local_part).'%','text')." ";
+				$phrase = $role_title;
 			}
 
-			$r = $this->ilDB->query($q);
-			$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-
-			// if the local_part is not unique, we use the unambiguous role title 
-			//   instead for the local part of the mailbox address
-			if ($row->count > 1)
+			if($use_phrase)
 			{
-				$local_part = $unambiguous_role_title;
+				// make phrase RFC 822 conformant:
+				// - strip excessive whitespace 
+				// - strip special characters
+				$phrase = preg_replace('/\s\s+/', ' ', $phrase);
+				$phrase = preg_replace('/[()<>@,;:\\".\[\]]/', '', $phrase);
+
+				$mailbox = $phrase.' <'.$mailbox.'>';
 			}
+		}
 
-			$use_phrase = true;
-
-			// If the local part contains illegal characters, we use
-			//     the unambiguous role title instead.
-			if (preg_match('/[\\"\x00-\x1f]/',$local_part)) 
-			{
-				$local_part = $unambiguous_role_title;
-			}
-			else if(!preg_match('/^[\\x00-\\x7E]+$/i', $local_part))
-			{
-				// 2013-12-05: According to #12283, we do not accept umlauts in the local part
-				$local_part = $unambiguous_role_title;
-				$use_phrase = false;
-			}
-
-			// Add a "#" prefix to the local part
-			$local_part = '#'.$local_part;
-
-			// Put quotes around the role title, if needed
-			if (preg_match('/[()<>@,;:.\[\]\x20]/',$local_part))
-			{
-				$local_part = '"'.$local_part.'"';
-			}
-
-			$mailbox = ($domain == null) ?
-					$local_part :
-					$local_part.'@'.$domain;
-
-			if ($is_localize)
-			{
-				if (substr($role_title,0,3) == 'il_')
-				{
-					$phrase = $lng->txt(substr($role_title, 0, strrpos($role_title,'_')));
-				}
-				else
-				{
-					$phrase = $role_title;
-				}
-				
-				if($use_phrase)
-				{
-					// make phrase RFC 822 conformant:
-					// - strip excessive whitespace 
-					// - strip special characters
-					$phrase = preg_replace('/\s\s+/', ' ', $phrase);
-					$phrase = preg_replace('/[()<>@,;:\\".\[\]]/', '', $phrase);
-	
-					$mailbox = $phrase.' <'.$mailbox.'>';
-				}
-			}
-
-			require_once './Services/Mail/classes/RFC822.php';
+		try
+		{
+			require_once 'Services/Mail/classes/RFC822.php';
 			$obj = new Mail_RFC822($mailbox, ilMail::ILIAS_HOST);
-			if(@$obj->parseAddressList() instanceof PEAR_Error)
-			{
-				$q = "SELECT title ".
-					"FROM object_data ".
-					"WHERE obj_id = ".$this->ilDB->quote($a_role_id ,'integer');
-				$r = $this->ilDB->query($q);
-
-				if ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-				{
-					return '#'.$row->title;
-				}
-				else
-				{
-					return null;
-				}
-			}
+			$obj->parseAddressList();
 
 			return $mailbox;
 		}
-		else 
+		catch(ilException $e)
 		{
-			$q = "SELECT title ".
-				"FROM object_data ".
-				"WHERE obj_id = ".$this->ilDB->quote($a_role_id ,'integer');
-			$r = $this->ilDB->query($q);
-
-			if ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+			$res = $ilDB->query("SELECT title FROM object_data WHERE obj_id = " . $ilDB->quote($a_role_id ,'integer'));
+			if($row = $ilDB->fetchObject($res))
 			{
-				$ids_for_role_title = ilObject::_getIdsForTitle($row->title, 'role');
-				if(count($ids_for_role_title) > 1)
-				{
-					return '#il_role_' . $a_role_id;
-				}
-				else
-				{
-					return '#' . $row->title;
-				}
+				return '#' . $row->title;
 			}
 			else
 			{
