@@ -11907,8 +11907,6 @@ pdesk#:#bookmark_moved_ok#:#书签已被移动
 wsp#:#wsp_tab_ownership#:#我的知识库对象
 user#:#user_ownership#:#知识库对象
 registration#:#registration_code_role_info#:#如果您使用一个注册码，角色选择可能被这个注册码取代。
-mail#:#mail_system_sender_name#:#发件人姓名
-mail#:#mail_system_sender_name_info#:#请输入一个名字。这个名字将用于自动生成消息(内部和外部)。如果您将这个字段留空，ILIAS使用这个安装的短标题。如果标题没有很好的定义，“ILIAS”被作为发送者。
 content#:#cont_current_term#:#当前学期(Current Term)
 assessment#:#tst_setting_offer_hints_label#:#题目指定提示
 assessment#:#tst_setting_offer_hints_info#:#如果启用，已有题目指定提示将被提供。
@@ -16177,3 +16175,15 @@ style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption###01 03 2016 new variable
 style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)###01 03 2016 new variable
 style#:#sty_va_ihcap_class#:#Vert. Accordion Caption###01 03 2016 new variable
 exc#:#exc_delete_team#:#Delete Team###10 03 2016 new variable
+mail#:#mail_send_html#:#HTML Frame for External Emails###14 04 2016 new variable
+mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .###14 04 2016 new variable
+mail#:#mail_system_from_name#:#Sender Name###14 04 2016 new variable
+mail#:#mail_system_from_name_info#:#Please enter a name. This name (e.g. 'John Doe') will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.###14 04 2016 new variable
+mail#:#mail_system_return_path#:#Global Return-Path###14 04 2016 new variable
+mail#:#mail_system_return_path_info#:#Please enter an email address which should be used for the return path (e.g. webmaster@ilias.de). If you leave the field blank, the 'Return-Path' will be the 'From' email address.###14 04 2016 new variable
+sysc#:#sysc_tree_structure_failures#:#Number of failures in the tree structure (parent-Relation):###14 04 2016 new variable
+sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tree structure? Please create a database backup before you proceed.###14 04 2016 new variable
+sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure###14 04 2016 new variable
+crs#:#event_tbl_admins#:#Administrators###14 04 2016 new variable
+crs#:#event_tbl_members#:#Members###14 04 2016 new variable
+crs#:#event_tbl_tutors#:#Tutors###14 04 2016 new variable

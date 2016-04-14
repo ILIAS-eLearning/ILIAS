@@ -355,7 +355,6 @@ adve#:#adve_text_content_features#:#Text Content Menu
 adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
-adve#:#char_selector#:#Selector for Unicode Characters
 adve#:#char_selector_admin#:#Selector for Unicode Characters (TODO)
 adve#:#char_selector_blocks#:#Available Unicode Blocks
 adve#:#char_selector_blocks_info#:#All characters of the selected blocks will be listed, but not all of them may be supported by the current browser font.
@@ -371,24 +370,20 @@ adve#:#char_selector_custom_items_info5a#:#U+00C0
 adve#:#char_selector_custom_items_info5b#:#A character can also be defined in Unicode notation (case insensitive)
 adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
 adve#:#char_selector_custom_items_info6b#:#Ranges are also possible in Unicode notation
-adve#:#char_selector_disabled#:#Disabled
 adve#:#char_selector_disabled_admin#:#Disabled (TODO)
 adve#:#char_selector_disabled_info_admin#:#Disables the selector. Users and tests can have individual settings.
 adve#:#char_selector_disabled_info_test#:#Disables the selector during a test run.
 adve#:#char_selector_disabled_info_user#:#Disables the selector. Tests can have an individual setting.
 adve#:#char_selector_disabled_test#:#Disabled (TODO)
 adve#:#char_selector_disabled_user#:#Disabled (TODO)
-adve#:#char_selector_enabled#:#Enabled
 adve#:#char_selector_enabled_admin#:#Enabled (TODO)
 adve#:#char_selector_enabled_info_admin#:#Enables the selector, invoked through a button in the main menu. Users and tests can have individual settings.
 adve#:#char_selector_enabled_info_test#:#Enables the selector during the a test run.
 adve#:#char_selector_enabled_info_user#:#Enables the selector, invoked through a button in the main menu.
 adve#:#char_selector_enabled_test#:#Enabled (TODO)
 adve#:#char_selector_enabled_user#:#Enabled (TODO)
-adve#:#char_selector_inactive#:#Inactive
 adve#:#char_selector_inactive_admin#:#Inactive (TODO)
 adve#:#char_selector_inactive_info_admin#:#Deactivates the selector. Users and tests can't overwrite this setting.
-adve#:#char_selector_inherit#:#Inherit
 adve#:#char_selector_inherit_info_test#:#Take the platform or user specific setting.
 adve#:#char_selector_inherit_info_user#:#Take the platform setting.
 adve#:#char_selector_inherit_test#:#Inherit (TODO)
@@ -730,7 +725,6 @@ assessment#:#eval_search_users#:#Użytkownicy
 assessment#:#eval_search_userselection#:#Wyszukaj użytkowników, dla których chcesz dokonać oszacowań statystycznych.
 assessment#:#eval_selected_users#:#Oszacowanie dla wybranych użytkowników
 assessment#:#exam_id#:#Exam Id:
-assessment#:#examid_in_kiosk#:#Display Exam Id in Kiosk mode
 assessment#:#examid_in_test_pass#:#Display Testpass ID
 assessment#:#examid_in_test_pass_desc#:#A testpass ID is diplayed in the test. A new ID is generated for every testpass.
 assessment#:#examid_in_test_res#:#ILIAS Testpass ID
@@ -1054,8 +1048,6 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Brak oceny wybranego py
 assessment#:#qpl_assessment_of_questions#:#Ocena pytań
 assessment#:#qpl_assessment_total_of_answers#:#Ogółem odpowiedzi
 assessment#:#qpl_assessment_total_of_right_answers#:#Ogółem procent prawidłowych  odpowiedzi (procent maksymalnej punktacji)
-assessment#:#qpl_browsercolumns#:#Spersonalizowane listy pytań
-assessment#:#qpl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.
 assessment#:#qpl_cancel_skill_assigns_update#:#Cancel
 assessment#:#qpl_confirm_delete_questions#:#Czy jesteś pewien, że chcesz usunąć następujące pytania? Jeśli usuniesz zaznaczone pytania to rezultaty wszystkich testów zawierających zaznaczone pytania będą również usunięte.
 assessment#:#qpl_copy_insert_clipboard#:#Wybrane pytania zostały skopiowane do schowka
@@ -1258,11 +1250,8 @@ assessment#:#set_manual_feedback#:#Ustaw ręczną reakcję
 assessment#:#shape#:#Kształt
 assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)
-assessment#:#show_exam_id#:#Display Exam Id
 assessment#:#show_examview_html#:#Show exam view on the test submission page.
-assessment#:#show_examview_html_desc#:#Shows the tests questions and answers in ILIAS in a step prior to submission.
 assessment#:#show_examview_pdf#:#Shows exam view in an automatically downloaded PDF.
-assessment#:#show_examview_pdf_desc#:#Shows the tests questions and answers in a PDF file in a step prior to submission. (Download button available as well.)
 assessment#:#show_pass_overview#:#Pokaż podgląd zaznaczonych wykonań
 assessment#:#show_user_answers#:#Pokaż zaznaczone przez użytkownika odpowiedzi
 assessment#:#showinfo#:#Pokaż pełną stronę informacyjną.
@@ -1294,7 +1283,6 @@ assessment#:#term#:#Temin
 assessment#:#term_image#:#Zobrazowanie Terminu
 assessment#:#term_text#:#Opisu Terminu
 assessment#:#terms#:#Terminy
-assessment#:#test_add_new_question#:#Add Question
 assessment#:#test_cancelled#:#Test został anulowany
 assessment#:#test_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
 assessment#:#test_delete_page#:#Delete Question
@@ -1311,7 +1299,6 @@ assessment#:#test_is_offline#:#Nie możesz uruchomić testu! test jest w trybie 
 assessment#:#test_jump_to#:#Przejdź do Pytania
 assessment#:#test_move_page#:#Move Question
 assessment#:#test_next_question#:#Następne Pytanie
-assessment#:#test_presentation#:#Presentation Options
 assessment#:#test_prev_question#:#Poprzednie Pytanie
 assessment#:#test_question_pool_usage#:#Wybierz Pulę Pytań
 assessment#:#test_question_pool_usage_optional#:#Questions can be added optionally to a question pool
@@ -1366,7 +1353,6 @@ assessment#:#tst_add_quest_cont_edit_mode_default#:#Default Editing Mode for Add
 assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Object Editor
 assessment#:#tst_all_test_competences#:#All Test Competence
 assessment#:#tst_all_user_data_deleted#:#Wszystkie dane uczestnika testu zostały skasowane!
-assessment#:#tst_allow_fixed_participants#:#Udostępnij test wybranym uczestnikom
 assessment#:#tst_allow_instant_verification#:#Zezwól na weryfikację bieżących odpowiedzi
 assessment#:#tst_allowed_users#:#Maksymalna liczba użytkowników mogąca rozwiązywać test jednocześnie
 assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.
@@ -1471,7 +1457,6 @@ assessment#:#tst_extratime_notavailable#:#Extra time can be added only for tests
 assessment#:#tst_feedback#:#Feedback
 assessment#:#tst_filter_tax_node#:#Taxonomy Node
 assessment#:#tst_filter_taxonomy#:#Filter Taxonomy
-assessment#:#tst_filtered_question_list#:#Test Question Selection
 assessment#:#tst_final_information#:#Finishing the Test: Information Before Submission
 assessment#:#tst_finish_confirm_button#:#Tak, chcę skończyć test
 assessment#:#tst_finish_confirm_cancel_button#:#Nie, powrót do poprzedniej odpowiedzi
@@ -2316,7 +2301,6 @@ bibl#:#bibl_settings_libraries#:#Libraries
 bibl#:#bibl_settings_new#:#Add Library
 bibl#:#bibliography file#:#Bibliography File
 bibl#:#detail_view#:#Detail View
-bibl#:#Download Original File#:#Download Original File
 bibl#:#download_original_file#:#Download Original File
 bibl#:#libraries#:#Libraries
 bibl#:#news_content_created#:#A new bibliography list has been added. You can view the entries by clicking the link to the item.
@@ -2324,7 +2308,6 @@ bibl#:#news_content_updated#:#The bibliography list has been modified. You can v
 bibl#:#news_title_created#:#New bibliography list added
 bibl#:#news_title_updated#:#Bibliography list updated
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography
-bibl#:#Override Entries#:#Override Entries
 bibl#:#override_entries#:#Override Entries
 bibl#:#ris_default_a1#:#Primary author
 bibl#:#ris_default_a2#:#Secondary author
@@ -3528,7 +3511,6 @@ common#:#cond_ref_unique#:#Unique Preconditions for Links
 common#:#condition#:#Warunek
 common#:#condition_already_assigned#:#Obiekt jest już przydzielony
 common#:#condition_circle_created#:#To powiązanie nie jest możliwe, dopóki wchodzą w interakcje.
-common#:#condition_delete_sure#:#Czy na pewno chcesz usunąć następujący warunek?
 common#:#condition_deleted#:#Warunek  usunięty.
 common#:#condition_finished#:#Zakończony
 common#:#condition_not_finished#:#Nie ukończony
@@ -3824,7 +3806,6 @@ common#:#enable_trash_info#:#Jeżeli włączone, to usunięte obiekty są przesu
 common#:#enable_webdav#:#Enable WebDAV access
 common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the "open as webfolder" action in the repository, or by entering the following address in a WebDAV client: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#enabled#:#Wybrany
-common#:#enter_filename_deliver#:#Podaj ćwiczenie do dostarczenia
 common#:#enter_in_mb_desc#:#Enter a value in MB.
 common#:#enter_new_name#:#Please enter a name
 common#:#enumerate#:#Wylicz
@@ -5711,7 +5692,6 @@ common#:#setSystemLanguage#:#Ustaw język systemowy
 common#:#settings#:#Ustawienia
 common#:#settings_for_all_members#:#Global Setting for all Course/Group Members
 common#:#settings_for_new_members#:#Settings for new Members
-common#:#settings_per_members#:#Ustawienia dla każdego użytkownika osobno
 common#:#settings_per_users#:#Settings per Course/Group Members
 common#:#settings_saved#:#Ustawienia zapisane
 common#:#setUserLanguage#:#Ustaw język użytkownika
@@ -6654,7 +6634,6 @@ content#:#cont_glo_detach#:#Detach Glossary
 content#:#cont_glo_menu#:#Menu
 content#:#cont_glo_properties#:#Właściwości Słownika
 content#:#cont_glossaries#:#Glossaries
-content#:#cont_got_lock#:#This page has been locked for your editing. Please release the page after you have done all your changes.
 content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2
 content#:#cont_header#:#Nagłówek
 content#:#cont_Headline1#:#Nagłówek 1
@@ -7385,7 +7364,6 @@ content#:#glo_used_in_scorm#:#The glossary is used by the SCORM module. If delet
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
 content#:#htlm_import#:#Import HTML Learning Module
 content#:#HTML export#:#Eksport HTML
-content#:#HTML_export#:#Eksport HTML
 content#:#import_sco_object#:#Import SCO
 content#:#info_stop_offline_mode_sure#:#Note: The learning progress achieved in offline mode are lost. Are you sure?
 content#:#lm_activate_rating#:#Activate Rating For Pages
@@ -7413,7 +7391,6 @@ content#:#Pages#:#Strony
 content#:#pages from#:#Strony od
 content#:#par#:#Paragraf
 content#:#PDF export#:#Eksport PDF
-content#:#PDF_export#:#Eksport PDF
 content#:#pg#:#Strona
 content#:#public_section#:#Sekcja publiczna
 content#:#read offline#:#Czytaj Offline
@@ -7956,7 +7933,6 @@ crs#:#crs_objective_status_start#:#Define Start Objects
 crs#:#crs_objective_step#:#Step
 crs#:#crs_objective_tbl_col_final_tsts#:#Abschlusstests
 crs#:#crs_objective_updated_test#:#Modyfikacje zapamiętane.
-crs#:#crs_objective_view#:#Widok zorientowany na cele
 crs#:#crs_objective_wiz_final#:#Final Test Questions
 crs#:#crs_objective_wiz_final_info#:#Assignment of final test questions.
 crs#:#crs_objective_wiz_final_limit#:#Limits for Final Test
@@ -9916,7 +9892,6 @@ grp#:#crs_grouping_select_one#:#Wybierz dokładnie jeden limit uczestnictwa.
 grp#:#crs_grp_added_grouping#:#Limit na ilość uczestników został dodany.
 grp#:#crs_grp_assign_crs#:#Przydział grup
 grp#:#crs_grp_enter_title#:#Wypełnij wymagane pola.
-grp#:#crs_grp_info_reg#:#Możesz się zarejestrować tylko do jednej z tych grup:
 grp#:#crs_grp_no_courses_assigned#:#Nie przydzielono żadnej grupy
 grp#:#crs_grp_table_assigned_courses#:#Przydzielone grupy
 grp#:#events#:#Sessions
@@ -10527,8 +10502,6 @@ mail#:#mail_sure_delete#:#Jesteś pewien, że chcesz usunąć zaznaczone wiadomo
 mail#:#mail_sure_delete_entry#:#Jesteś pewien, że chcesz usunąć nasępujące pozycje?
 mail#:#mail_sure_delete_file#:#Plik został ostatecznie usunięty.
 mail#:#mail_sure_delete_folder#:#Folder wraz z całą zawartością został ostatecznie usunięty.
-mail#:#mail_system_sender_name#:#Sender Name
-mail#:#mail_system_sender_name_info#:#Please enter a name. This name will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, 'ILIAS' is used as the sender.
 mail#:#mail_template_client#:#Text Template
 mail#:#mail_template_client_info#:#Choose one of the available text templates and make use of it's placeholders. If you choose a text template, body and subject of this form (if defined in the text template) will be replaced.
 mail#:#mail_template_context#:#Context
@@ -11385,8 +11358,6 @@ news#:#finish_publishing_date#:#Finish Publishing:
 news#:#news_1_file_created#:#1 plik został dodany.
 news#:#news_1_file_updated#:#1 plik został zaktualizowany.
 news#:#news_1_postings#:#1 Post został dodany.
-news#:#news_acc_cache#:#Sprawdzenie uprawnień (Minuty)
-news#:#news_acc_cache_info#:#Sprawdź uprawnienia do czytania wiadomości przez x minut (tylko pulpit osobisty). '0' oznacza zawsze. Większe wartości zwiększają wydajność, lecz linki mogą wskazywać niedostępne pozycje.
 news#:#news_add_news#:#Add News
 news#:#news_all_items#:#Wszystkie pozycje
 news#:#news_allow_longer_periods#:#Allow Longer Periods
@@ -12474,7 +12445,6 @@ ps#:#ps_account_security_mode#:#Account Security
 ps#:#ps_account_security_mode_customized#:#Customized Account Security
 ps#:#ps_account_security_mode_default#:#Standard Ilias Account Security
 ps#:#ps_agreement_accepted#:#Warunki użytkowania zostały zaakceptowane
-ps#:#ps_agreement_req_info#:#Zaakceptuj warunki użytkowania aby mieć dostęp do zawartości kursu.
 ps#:#ps_auto_https#:#Autodetekcja HTTPS
 ps#:#ps_auto_https_description#:#jeśli włączony, ILIAS próbuje wykryć status HTTPs przez analizę wartości nagłówka podanej poniżej.
 ps#:#ps_auto_https_header_name#:#Nazwa nagłówka
@@ -12487,7 +12457,6 @@ ps#:#ps_cdf_delete_sure#:#Czy chcesz usunąć to pole użytkownika?
 ps#:#ps_cdf_deleted#:#Usunięto pole użytkownika.
 ps#:#ps_cdf_deleted_field#:#Usunięto wartość.
 ps#:#ps_cdf_edit_field#:#Edit Data Field
-ps#:#ps_cdf_info#:#Dalsze specyficzne dla kursu dane:
 ps#:#ps_cdf_name#:#Nazwa
 ps#:#ps_cdf_no_fields#:#Nie zdefiniowano pól użytkownika
 ps#:#ps_cdf_no_name_given#:#Podaj nazwę
@@ -12550,7 +12519,6 @@ ps#:#ps_prevent_simultaneous_logins#:#Prevent Simultaneous Logins
 ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with the same account from different computers are not possible.
 ps#:#ps_privacy_protection#:#Ustawienia prywatności
 ps#:#ps_profile_export#:#Zabezpieczenie danych profilu użytkownika
-ps#:#ps_required_info#:#Dalsze pola specyficzne dla kursu są wymagane dla dostępu do zawartości kursu.
 ps#:#ps_security_protection#:#Ustawienia bezpieczeństwa
 ps#:#ps_select_one#:#Wybierz jeden plik eksportowy
 ps#:#ps_show_crs_access#:#Pokaż ostatni czas dostępu uczestników kursu
@@ -13480,155 +13448,6 @@ rep#:#rep_object_to_delete#:#To Delete
 rep#:#rep_time_period#:#Okres
 rep#:#rep_visibility_limitless#:#Nieograniczony
 rep#:#rep_visibility_until#:#Dostępny Tymczasowo
-rep_robj_xgdo#:#rep_robj_xgdo_already_member#:#You are already a member of this object.
-rep_robj_xgdo#:#rep_robj_xgdo_assigned_users_p#:#The users were successfully assigned.
-rep_robj_xgdo#:#rep_robj_xgdo_assigned_users_s#:#The user was successfully assigned.
-rep_robj_xgdo#:#rep_robj_xgdo_cancel#:#Cancel
-rep_robj_xgdo#:#rep_robj_xgdo_cat_create_xgdo#:#Create Google Docs Document
-rep_robj_xgdo#:#rep_robj_xgdo_check_connection#:#Check Connection
-rep_robj_xgdo#:#rep_robj_xgdo_connection_check_failed#:#Connection failed: Please checker whether you entered a valid google account and the corresponding password.
-rep_robj_xgdo#:#rep_robj_xgdo_connection_check_successful#:#Connection established successfully.
-rep_robj_xgdo#:#rep_robj_xgdo_content#:#Content
-rep_robj_xgdo#:#rep_robj_xgdo_creation_type#:#Action
-rep_robj_xgdo#:#rep_robj_xgdo_creation_type_new#:#Create New Document
-rep_robj_xgdo#:#rep_robj_xgdo_creation_type_upload#:#Upload Existing Document
-rep_robj_xgdo#:#rep_robj_xgdo_crs_create_xgdo#:#Create Google Docs Document
-rep_robj_xgdo#:#rep_robj_xgdo_description#:#Description
-rep_robj_xgdo#:#rep_robj_xgdo_doctype#:#Document Type
-rep_robj_xgdo#:#rep_robj_xgdo_doctype_doc#:#Document
-rep_robj_xgdo#:#rep_robj_xgdo_doctype_not_valid#:#The chosen document type is currently not supported.
-rep_robj_xgdo#:#rep_robj_xgdo_doctype_ppt#:#Presentation
-rep_robj_xgdo#:#rep_robj_xgdo_doctype_xls#:#Spreadsheet
-rep_robj_xgdo#:#rep_robj_xgdo_edit#:#Edit
-rep_robj_xgdo#:#rep_robj_xgdo_edit_properties#:#Edit Settings
-rep_robj_xgdo#:#rep_robj_xgdo_err_cr_incomplete#:#An error occured during the creation process.
-rep_robj_xgdo#:#rep_robj_xgdo_err_cr_type_mismatch#:#The chosen document type is currently not supported.
-rep_robj_xgdo#:#rep_robj_xgdo_err_cr_upload#:#ILIAS could not create a google document with the uploaded file.
-rep_robj_xgdo#:#rep_robj_xgdo_exp_csv#:#CSV
-rep_robj_xgdo#:#rep_robj_xgdo_exp_doc#:#DOC
-rep_robj_xgdo#:#rep_robj_xgdo_exp_docx#:#DOCX
-rep_robj_xgdo#:#rep_robj_xgdo_exp_html#:#HTML
-rep_robj_xgdo#:#rep_robj_xgdo_exp_jpeg#:#JPEG
-rep_robj_xgdo#:#rep_robj_xgdo_exp_ods#:#ODS
-rep_robj_xgdo#:#rep_robj_xgdo_exp_odt#:#ODT
-rep_robj_xgdo#:#rep_robj_xgdo_exp_pdf#:#PDF
-rep_robj_xgdo#:#rep_robj_xgdo_exp_png#:#PNG
-rep_robj_xgdo#:#rep_robj_xgdo_exp_pptx#:#PPTX
-rep_robj_xgdo#:#rep_robj_xgdo_exp_rtf#:#RTF
-rep_robj_xgdo#:#rep_robj_xgdo_exp_svg#:#SVG
-rep_robj_xgdo#:#rep_robj_xgdo_exp_tsv#:#TSV
-rep_robj_xgdo#:#rep_robj_xgdo_exp_txt#:#TXT
-rep_robj_xgdo#:#rep_robj_xgdo_exp_xls#:#XLS
-rep_robj_xgdo#:#rep_robj_xgdo_exp_xlsx#:#XLSX
-rep_robj_xgdo#:#rep_robj_xgdo_exp_zip#:#ZIP
-rep_robj_xgdo#:#rep_robj_xgdo_fold_create_xgdo#:#Create Google Docs Document
-rep_robj_xgdo#:#rep_robj_xgdo_form_retype_google_account#:#Retype Google Account
-rep_robj_xgdo#:#rep_robj_xgdo_gdocs_file#:#File
-rep_robj_xgdo#:#rep_robj_xgdo_google_account#:#Your Google Account
-rep_robj_xgdo#:#rep_robj_xgdo_google_account_not_match#:#Your entries for Google account don't match! Please re-enter your Google account.
-rep_robj_xgdo#:#rep_robj_xgdo_google_account_not_valid#:#The Google account you entered is not valid!
-rep_robj_xgdo#:#rep_robj_xgdo_google_account_owner_info#:#Please enter your valid Google account. <span style="font-weight:bold;color:red">Important: The entered account has to be valid. Otherwise you will not have any permissions for the created document.</span>
-rep_robj_xgdo#:#rep_robj_xgdo_google_account_participant_desc#:#This object does not know your Google account, yet. We need your Google account to automatically grant the required permissions for you to view/edit the document.
-rep_robj_xgdo#:#rep_robj_xgdo_google_account_participant_info#:#Please enter your valid Google account. <span style="font-weight:bold;color:red">Important: The entered account has to be valid. Otherwise you will not have any permissions for the created document.</span>
-rep_robj_xgdo#:#rep_robj_xgdo_google_master_login#:#Google Login
-rep_robj_xgdo#:#rep_robj_xgdo_google_master_login_info#:#<span style="font-weight:bold;color:red">If configured once, please do not change the Google account anymore. Otherwise, ILIAS can no longer manange the previously created documents.</span>
-rep_robj_xgdo#:#rep_robj_xgdo_grp_create_xgdo#:#Create Google Docs Document
-rep_robj_xgdo#:#rep_robj_xgdo_il_xgdo#:#Google Docs
-rep_robj_xgdo#:#rep_robj_xgdo_il_xgdo_reader#:#Reader
-rep_robj_xgdo#:#rep_robj_xgdo_il_xgdo_writer#:#Writer
-rep_robj_xgdo#:#rep_robj_xgdo_join#:#Join
-rep_robj_xgdo#:#rep_robj_xgdo_joined_successfully#:#You joined successfully.
-rep_robj_xgdo#:#rep_robj_xgdo_members#:#Members
-rep_robj_xgdo#:#rep_robj_xgdo_membership_required_for_content#:#To use the content of this object you have to be either member of the local reader or member of the local writer role.
-rep_robj_xgdo#:#rep_robj_xgdo_no_users_assigned_p#:#Nobody of the selected users could be assigned.
-rep_robj_xgdo#:#rep_robj_xgdo_no_users_assigned_s#:#Could not assign the selected user.
-rep_robj_xgdo#:#rep_robj_xgdo_obj_xgdo#:#Google Docs Document
-rep_robj_xgdo#:#rep_robj_xgdo_obj_xgdo_duplicate#:#Copy
-rep_robj_xgdo#:#rep_robj_xgdo_objs_xgdo#:#Google Docs Documents
-rep_robj_xgdo#:#rep_robj_xgdo_objs_xgdo_duplicate#:#Copy Google Docs Document
-rep_robj_xgdo#:#rep_robj_xgdo_participant_administration#:#Edit Participants
-rep_robj_xgdo#:#rep_robj_xgdo_participant_gallery#:#Google Docs Members Gallery
-rep_robj_xgdo#:#rep_robj_xgdo_participants#:#Participants
-rep_robj_xgdo#:#rep_robj_xgdo_participants_removed_p#:#The members were successfully deleted.
-rep_robj_xgdo#:#rep_robj_xgdo_participants_removed_s#:#The member was successfully deleted.
-rep_robj_xgdo#:#rep_robj_xgdo_personal_settings#:#Personal Settings
-rep_robj_xgdo#:#rep_robj_xgdo_properties#:#Settings
-rep_robj_xgdo#:#rep_robj_xgdo_reader#:#Reader (May read)
-rep_robj_xgdo#:#rep_robj_xgdo_reader_short_add#:#Reader
-rep_robj_xgdo#:#rep_robj_xgdo_readers#:#Readers (May read)
-rep_robj_xgdo#:#rep_robj_xgdo_remove_participants_info_p#:#Do you really want to delete the selected members?
-rep_robj_xgdo#:#rep_robj_xgdo_remove_participants_info_s#:#Do you really want to delete the selected member?
-rep_robj_xgdo#:#rep_robj_xgdo_root_create_xgdo#:#Create Google Docs Document
-rep_robj_xgdo#:#rep_robj_xgdo_save#:#Save
-rep_robj_xgdo#:#rep_robj_xgdo_search_users#:#Search Users
-rep_robj_xgdo#:#rep_robj_xgdo_send_mail#:#Send Email to Participants
-rep_robj_xgdo#:#rep_robj_xgdo_title#:#Title
-rep_robj_xgdo#:#rep_robj_xgdo_writer#:#Writer (May write)
-rep_robj_xgdo#:#rep_robj_xgdo_writer_short_add#:#Writer
-rep_robj_xgdo#:#rep_robj_xgdo_writers#:#Writers (May write)
-rep_robj_xgdo#:#rep_robj_xgdo_xgdo_add#:#Add Google Docs Document
-rep_robj_xgdo#:#rep_robj_xgdo_xgdo_delete#:#User can move or delete google docs document
-rep_robj_xgdo#:#rep_robj_xgdo_xgdo_edit_permission#:#User can change permission settings
-rep_robj_xgdo#:#rep_robj_xgdo_xgdo_new#:#Add new Google Docs Document
-rep_robj_xgdo#:#rep_robj_xgdo_xgdo_read#:#User can read google docs document
-rep_robj_xgdo#:#rep_robj_xgdo_xgdo_visible#:#Google docs document is visible
-rep_robj_xgdo#:#rep_robj_xgdo_xgdo_write#:#User can edit google docs document
-rep_robj_xtov#:#rep_robj_xtov_add_to_overview#:#Add to Overview
-rep_robj_xtov#:#rep_robj_xtov_add_to_overview_as_filter#:#Add to Overview as Filter
-rep_robj_xtov#:#rep_robj_xtov_add_tsts_to_overview#:#Add Tests to Overview
-rep_robj_xtov#:#rep_robj_xtov_cancel#:#Cancel
-rep_robj_xtov#:#rep_robj_xtov_cat_create_xtov#:#Create Test Overview
-rep_robj_xtov#:#rep_robj_xtov_config_test_overview#:#Configure Test Overview
-rep_robj_xtov#:#rep_robj_xtov_content#:#Content
-rep_robj_xtov#:#rep_robj_xtov_copy#:#Copy
-rep_robj_xtov#:#rep_robj_xtov_crs_create_xtov#:#Create Test Overview
-rep_robj_xtov#:#rep_robj_xtov_description#:#Description
-rep_robj_xtov#:#rep_robj_xtov_edit#:#Edit
-rep_robj_xtov#:#rep_robj_xtov_edit_properties#:#Edit Settings
-rep_robj_xtov#:#rep_robj_xtov_fold_create_xtov#:#Create Test Overview
-rep_robj_xtov#:#rep_robj_xtov_grp_create_xtov#:#Create Test Overview
-rep_robj_xtov#:#rep_robj_xtov_item_chosen#:#Chosen
-rep_robj_xtov#:#rep_robj_xtov_membership_count_members#:#Members
-rep_robj_xtov#:#rep_robj_xtov_membership_list_description#:#Please select certain groups or courses the test participants have to be member of. If no object is selected, all test participants of the tests selected above are listed.
-rep_robj_xtov#:#rep_robj_xtov_membership_list_flt_grp_name#:#Name
-rep_robj_xtov#:#rep_robj_xtov_membership_list_hdr_membership_info#:#Additional Information
-rep_robj_xtov#:#rep_robj_xtov_membership_list_hdr_membership_title#:#Title
-rep_robj_xtov#:#rep_robj_xtov_membership_list_table_title#:#Group/Courses Filter
-rep_robj_xtov#:#rep_robj_xtov_memberships_updated_success#:#Updated successfully.
-rep_robj_xtov#:#rep_robj_xtov_min_one_check_membership#:#Please select at least one group or course.
-rep_robj_xtov#:#rep_robj_xtov_min_one_check_test#:#Please select at least one test.
-rep_robj_xtov#:#rep_robj_xtov_obj_xtov#:#Test Overview
-rep_robj_xtov#:#rep_robj_xtov_obj_xtov_duplicate#:#Copy
-rep_robj_xtov#:#rep_robj_xtov_objs_xtov#:#Test Overview
-rep_robj_xtov#:#rep_robj_xtov_objs_xtov_duplicate#:#Copy Test Overviews
-rep_robj_xtov#:#rep_robj_xtov_overview_avg_not_available#:#Not available
-rep_robj_xtov#:#rep_robj_xtov_overview_flt_group_name#:#Membership
-rep_robj_xtov#:#rep_robj_xtov_overview_flt_participant_name#:#Participant
-rep_robj_xtov#:#rep_robj_xtov_overview_result_not_authorized#:#Not authorized
-rep_robj_xtov#:#rep_robj_xtov_overview_test_no_permission#:#(No Permission)
-rep_robj_xtov#:#rep_robj_xtov_overview_test_not_passed#:#Not passed
-rep_robj_xtov#:#rep_robj_xtov_properties#:#Settings
-rep_robj_xtov#:#rep_robj_xtov_remove_from_overview#:#Remove
-rep_robj_xtov#:#rep_robj_xtov_root_create_xtov#:#Create Test Overview
-rep_robj_xtov#:#rep_robj_xtov_save#:#Save
-rep_robj_xtov#:#rep_robj_xtov_test_list_description#:#Please select the tests you want to add to this overview.
-rep_robj_xtov#:#rep_robj_xtov_test_list_flt_tst_name#:#Name
-rep_robj_xtov#:#rep_robj_xtov_test_list_hdr_test_info#:#Path to Test
-rep_robj_xtov#:#rep_robj_xtov_test_list_hdr_test_title#:#Title
-rep_robj_xtov#:#rep_robj_xtov_test_list_table_title#:#Tests to accumulate in overview '%s'
-rep_robj_xtov#:#rep_robj_xtov_test_overview_description#:#This table shows test results of participants, filtered by certain group or course memberships.
-rep_robj_xtov#:#rep_robj_xtov_test_overview_hdr_avg#:#Average
-rep_robj_xtov#:#rep_robj_xtov_test_overview_hdr_user#:#Participant
-rep_robj_xtov#:#rep_robj_xtov_test_overview_table_title#:#Test Overview '%s'
-rep_robj_xtov#:#rep_robj_xtov_tests_updated_success#:#Updated successfully.
-rep_robj_xtov#:#rep_robj_xtov_title#:#Title
-rep_robj_xtov#:#rep_robj_xtov_xtov_add#:#Add Test Overview
-rep_robj_xtov#:#rep_robj_xtov_xtov_delete#:#Delete: Delete Test Overview
-rep_robj_xtov#:#rep_robj_xtov_xtov_edit_permission#:#Change Permissions: Change permission settings
-rep_robj_xtov#:#rep_robj_xtov_xtov_new#:#Add Test Overview
-rep_robj_xtov#:#rep_robj_xtov_xtov_read#:#Read: Read access to Test Overview
-rep_robj_xtov#:#rep_robj_xtov_xtov_visible#:#Visible: Test Overview is visible
-rep_robj_xtov#:#rep_robj_xtov_xtov_write#:#Edit Settings: Edit Test Overview
 rfil#:#rfil_call#:#Call ECS File
 rfil#:#rfil_version_tstamp#:#Upload Date
 rglo#:#rglo_call#:#Call ECS Glossary
@@ -13688,7 +13507,6 @@ sahs#:#sahs_std_sequencing#:#Standard Sequencing
 sahs#:#sahs_std_sequencing_info#:#Use ILIAS standard sequencing behaviour.
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)
-scormdebug#:#adl_nav_request_valid_choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.
 scormdebug#:#adl.nav.request#:#Navigation request to be processed immediately following Terminate()
 scormdebug#:#adl.nav.request_valid.choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.
 scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Continue navigation request will succeed.
@@ -15145,8 +14963,6 @@ survey#:#show_questiontext#:#Wyświetl tekst pytania
 survey#:#show_questiontext_description#:#Jeśli to pole wyboru jest wybrane, to dla każdego pytania bloku pytań będzie widoczna treść pytania. Jeśli nie jest wybrane, to treść pytania każdego pytania w bloku pytań będzie ukryta.
 survey#:#skipped#:#pominięty
 survey#:#specialusers#:#Special Users
-survey#:#spl_browsercolumns#:#Spersonalizowane listy pytań
-survey#:#spl_browsercolumns_description#:#Select the question data columns that are shown in the question list of a question pool. This setting will be applied for each available question pool.
 survey#:#spl_copy_insert_clipboard#:#The selected question(s) are copied to the clipboard
 survey#:#spl_copy_select_none#:#Please check at least one question to copy it to the clipboard
 survey#:#spl_general_properties#:#Właściwości ogólne
@@ -16359,3 +16175,16 @@ style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption###01 03 2016 new variable
 style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)###01 03 2016 new variable
 style#:#sty_va_ihcap_class#:#Vert. Accordion Caption###01 03 2016 new variable
 exc#:#exc_delete_team#:#Delete Team###10 03 2016 new variable
+content#:#cont_localfile#:#Local File###14 04 2016 new variable
+mail#:#mail_send_html#:#HTML Frame for External Emails###14 04 2016 new variable
+mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .###14 04 2016 new variable
+mail#:#mail_system_from_name#:#Sender Name###14 04 2016 new variable
+mail#:#mail_system_from_name_info#:#Please enter a name. This name (e.g. 'John Doe') will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.###14 04 2016 new variable
+mail#:#mail_system_return_path#:#Global Return-Path###14 04 2016 new variable
+mail#:#mail_system_return_path_info#:#Please enter an email address which should be used for the return path (e.g. webmaster@ilias.de). If you leave the field blank, the 'Return-Path' will be the 'From' email address.###14 04 2016 new variable
+sysc#:#sysc_tree_structure_failures#:#Number of failures in the tree structure (parent-Relation):###14 04 2016 new variable
+sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tree structure? Please create a database backup before you proceed.###14 04 2016 new variable
+sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure###14 04 2016 new variable
+crs#:#event_tbl_admins#:#Administrators###14 04 2016 new variable
+crs#:#event_tbl_members#:#Members###14 04 2016 new variable
+crs#:#event_tbl_tutors#:#Tutors###14 04 2016 new variable
