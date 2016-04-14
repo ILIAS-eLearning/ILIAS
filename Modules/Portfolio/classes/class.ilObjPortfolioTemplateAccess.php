@@ -75,7 +75,7 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
 		  return true;
 	 }
 	
-	public function _lookupOnline($a_id)
+	public static function _lookupOnline($a_id)
 	{
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
 		return ilObjPortfolioTemplate::lookupOnline($a_id);
