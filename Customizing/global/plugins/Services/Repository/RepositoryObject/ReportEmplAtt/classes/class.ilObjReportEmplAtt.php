@@ -21,7 +21,7 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 	// in ilObject2.
 	public function getDescription() {
 		$this->gLng->loadLanguageModule("gev");
-		return $this->gLng->txt("gev_rep_attendance_by_employee_desc");
+		return $this->gLng->txt("gev_rep_attendance_by_employee_desc_short");
 	}
 
 	public function initType() {
