@@ -14750,12 +14750,13 @@ if($tgt_ops_id)
 	$book_type_id = ilDBUpdateNewObjectType::getObjectTypeId('book');
 	if($book_type_id)
 	{			
-		// add "copy" to booking tool
-		ilDBUpdateNewObjectType::addRBACOperation($book_type_id, $tgt_ops_id);				
-									
-		// clone settings from "write" to "copy"
-		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');	
-		ilDBUpdateNewObjectType::cloneOperation('book', $src_ops_id, $tgt_ops_id);		
+		// add "copy" to booking tool - returns false if already exists
+		if(ilDBUpdateNewObjectType::addRBACOperation($book_type_id, $tgt_ops_id))
+		{									
+			// clone settings from "write" to "copy" 
+			$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');	
+			ilDBUpdateNewObjectType::cloneOperation('book', $src_ops_id, $tgt_ops_id);		
+		}
 	}	
 }
 
