@@ -1286,38 +1286,41 @@ class ilPersonalProfileGUI
 		}
 		
 		// :TODO: badges
-		include_once "Services/Badge/classes/class.ilBadgeHandler.php";
-		$handler = ilBadgeHandler::getInstance();
-		if($handler->isActive())
-		{		
-			$badge_options = array();
-			
-			include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
-			include_once "Services/Badge/classes/class.ilBadge.php";
-			foreach(ilBadgeAssignment::getInstancesByUserId($ilUser->getId()) as $ass)
-			{
-				// only active
-				if($ass->getPosition())
-				{
-					$badge = new ilBadge($ass->getBadgeId());
-					$badge_options[] = $badge->getTitle();
-				}								
-			}
-			
-			if(sizeof($badge_options) > 1)
-			{
-				$badge_order = new ilNonEditableValueGUI($this->lng->txt("obj_bdga"), "bpos");		
-				$badge_order->setMultiValues($badge_options);
-				$badge_order->setValue(array_shift($badge_options));
-				$badge_order->setMulti(true, true, false);
+		if(!$anonymized)
+		{
+			include_once "Services/Badge/classes/class.ilBadgeHandler.php";
+			$handler = ilBadgeHandler::getInstance();
+			if($handler->isActive())
+			{		
+				$badge_options = array();
 
-				if(!$parent)
+				include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+				include_once "Services/Badge/classes/class.ilBadge.php";
+				foreach(ilBadgeAssignment::getInstancesByUserId($ilUser->getId()) as $ass)
 				{
-					$form->addItem($badge_order);
+					// only active
+					if($ass->getPosition())
+					{
+						$badge = new ilBadge($ass->getBadgeId());
+						$badge_options[] = $badge->getTitle();
+					}								
 				}
-				else
+
+				if(sizeof($badge_options) > 1)
 				{
-					$parent->addSubItem($badge_order);
+					$badge_order = new ilNonEditableValueGUI($this->lng->txt("obj_bdga"), "bpos");		
+					$badge_order->setMultiValues($badge_options);
+					$badge_order->setValue(array_shift($badge_options));
+					$badge_order->setMulti(true, true, false);
+
+					if(!$parent)
+					{
+						$form->addItem($badge_order);
+					}
+					else
+					{
+						$parent->addSubItem($badge_order);
+					}
 				}
 			}
 		}
