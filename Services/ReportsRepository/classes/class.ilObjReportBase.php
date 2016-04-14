@@ -23,6 +23,8 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	protected $order = null;
 	protected $user_utils;
 
+	const VIDEO_LINK_REGEX = "/^(https:\/\/)|(http:\/\/)/";
+
 	public function __construct($a_ref_id = 0) {
 		parent::__construct($a_ref_id);
 		global $ilDB, $ilUser, $tree;
@@ -198,6 +200,18 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 	public function getOnline() {
 		return $this->online;
+	}
+
+	public function setVideoLink($video_link) {
+		if($video_link != "" && !preg_match(self::VIDEO_LINK_REGEX, strtolower($video_link))) {
+			$video_link = "http://".$video_link;
+		}
+
+		$this->video_link = $video_link;
+	}
+
+	public function getVideoLink() {
+		return $this->video_link;
 	}
 
 	// Report discovery
