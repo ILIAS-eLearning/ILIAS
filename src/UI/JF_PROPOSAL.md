@@ -1,5 +1,78 @@
 # Jour Fixe Proposal to introduce an UI-Framework
 
+Rules in this proposal are formulated according to [RFC2119](https://www.ietf.org/rfc/rfc2119.txt).
+
+## Rules for Consumers
+
+* Consumers of the UI framework MUST only use the UI-Factory provided via the
+  dependency injection container `$DIC->UIFactory()`. The factory implements the
+  interface \ILIAS\UI\Factory.
+
+## Rules for Implementors
+
+### Interfaces to Factories
+
+The definition of the interface to the main factory of the framework is located
+in src/UI/Factory.php.
+
+* All factory interfaces aside from the main factory MUST be located in the folder
+  src/UI/Factory and the Namespace \ILIAS\UI\Factory.
+* Every factory interfaces aside from the main factory MUST be instantiable via
+  the main factory interface or successive calls to factories returned by the
+  main factory interface.
+* All methods of every factory interface MUST have a name in camel case starting
+  with a lower case letter.
+* All methods of every factory interface MUST only return other factories or UI-
+  components. If returning another factory, the method is considered to represent
+  an abstract node in the taxonomy of the Kitchen Sink. If returning an UI-component,
+  the method is considered to represent a concrete UI-component in the Kitchen
+  Sink. The decamelcased name of the method is considered to be the name of the
+  abstract node or concrete UI component in the Kitchen Sink.
+* If a method of a factory returns another factory, it MUST NOT have parameters.
+* If a method of a factory returns an UI-component it MAY have parameters.
+* All methods of every factory MUST be documented in a PHP DocBlock.
+* The documentation of all methods of every factory:
+    * MUST include a first part in YAML notation containing information for the
+      Kitchen Sink.
+    * MUST include a documentation of the parameters and return values according
+      to PHPDoc-format.
+    * MUST separate the block containing Kitchen Sink information from the block
+      containing documentation of parameters by an empty line in the DocBlock.
+* The block in the documentation containing Kitchen Sink information:
+    * SHOULD contain a text field `example` containing a PHP example that show
+      cases the usage, if the documented method represents a UI-component
+    * MUST contain a field `description` that is a dictionary containing one or
+      more than one of the following text fields:
+        * `purpose` - describes the usage scenario of the component
+        * `composition` - describes how the component is composed with other
+          components
+        * `effect` - describes visual effects that relate to the item
+        * `rival` - describes other components fulfilling a similar function
+    * MAY contain a text field `background` that gives academic information
+    * MUST contain a text field `context` that describes occurences and
+      prevalence of the control if the method describes a concrete UI component.
+      If the method represents an abstract node in the in the Kitchen Sink
+      taxonomy it MUST NOT contain a `context` field.
+    * MAY contain a text field `featurewiki` that contains links to relevant
+      articles in the feature wiki.
+    * MAY contain a field `rules` that contains one or more than one of the 
+      following fields `usage`, `interaction`, `wording`, `style`, `ordering`, 
+      `responsiveness`, `accessibility`, where
+        * each of the contained fields MUST contain at least one rule for the
+          proposed Kitchen Sink entry
+        * every rule MUST have a successive number
+        * the number of a rule MUST NOT be changed
+        * a rule MAY keep its number upon minor changes in the rule
+        * rules MUST be formulated according to [RFC2119](https://www.ietf.org/rfc/rfc2119.txt)
+
+### Interfaces to UI-components.
+
+### Implementations of Factories
+
+## Processes
+
+* The introduction of 
+
 We herby propose the introduction of an UI-Framework for ILIAS with the
 following properties:
 
@@ -39,7 +112,6 @@ following properties:
     - declaring a property on an existing object yields a new object, where the
       declared property has changed regarding to the original object and all
       other property are the same.
-  
 
 This imposes the following:
 

@@ -15,8 +15,14 @@ UI-Framework.
 
 ## Introduction of new UI-Components
 
-This process describes the introduction of new KS-entries from the idea to the
-inclusion in the trunk.
+This process describes how new UI-Components are introduced to the trunk. As the
+UI-Components are coupled to entries in the Kitchen Sink, this also describes
+how a new entry is introduced to the Kitchen Sink.
+
+1. **Showcase UI-Component**
+	* in edge or another installation available in JF
+	* what are the requirements?
+
 
 ## Implementation of UI-Components
 
