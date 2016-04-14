@@ -997,7 +997,7 @@ class recursiveOrguFilter {
 	*/
 	public function addToFilter($filter) {
 		global $lng;
-		if (count($this->filter_options) > 0) {
+		//if (count($this->filter_options) > 0) {
 			if($this->possibly_recursive ) {
 				$filter	->checkbox(	   $this->id.'_recursive'
 									 , $lng->txt("gev_org_unit_recursive")
@@ -1021,7 +1021,7 @@ class recursiveOrguFilter {
 									 , $this->possibly_recursive || $this->ignore_in_filter_where
 									 );
 			$this->filter = $filter;
-		}
+		//}
 		return $filter;
 	}
 
