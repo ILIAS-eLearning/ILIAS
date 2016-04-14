@@ -109,7 +109,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 			
 			if((bool)$badge_item["deleted"])
 			{
-				$container = '<s>'.$container.'</s>';
+				$container .=  ' <span class="il_ItemAlertProperty">'.$lng->txt("deleted").'</span>';
 			}
 			
 			$type_caption = $types[$badge_item["type_id"]]->getCaption();

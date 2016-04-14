@@ -100,7 +100,7 @@ class ilBadgeTableGUI extends ilTable2GUI
 				"title" => $badge->getTitle(),	
 				"active" => $badge->isActive(),
 				"type" => $badge->getTypeInstance()->getCaption(),
-				"manual" => (!$badge instanceof ilBadgeAuto)
+				"manual" => (!$badge->getTypeInstance() instanceof ilBadgeAuto)
 			);												
 		}
 		

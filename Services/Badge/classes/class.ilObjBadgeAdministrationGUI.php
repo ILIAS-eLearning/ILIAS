@@ -690,7 +690,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 					$parent["title"];						
 			if((bool)$parent["deleted"])
 			{
-				$container = '<s>'.$container.'</s>';
+				$container .=  ' <span class="il_ItemAlertProperty">'.$lng->txt("deleted").'</span>';
 			}
 			
 			$confirmation_gui->addItem(
