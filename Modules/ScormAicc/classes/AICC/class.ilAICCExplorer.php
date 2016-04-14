@@ -222,7 +222,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 
 						$this->createPrefixArray($counter, $tab);
 
-						$this->setObjectToExpand($object["c_type"], $object["obj_id"]);
+						$this->makeObjectNodeExpandable($object["c_type"], $object["obj_id"]);
 
 						$parent_index = $this->getParentIndex($object["child"]);
 
@@ -272,7 +272,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 		$this->format_options["$counter"]["visible"]	= true;
 	}
 
-	protected function setObjectToExpand($c_type, $obj_id) {
+	protected function makeObjectNodeExpandable($c_type, $obj_id) {
 		if ($c_type =="sos") {
 			$this->setExpand($obj_id);
 		}
