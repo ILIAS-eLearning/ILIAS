@@ -21,6 +21,7 @@ class catTitleGUI {
 	protected $command;
 	protected $command_lng_var;
 	protected $use_lng;
+	protected $show_tooltip_icon;
 
 	public function __construct($a_title = null, $a_subtitle = null, $a_img = null, $a_use_lng = true) {
 		global $lng, $ilCtrl;
@@ -35,6 +36,7 @@ class catTitleGUI {
 		$this->command = null;
 		$this->command_lng_var = null;
 		$this->use_lng = $a_use_lng;
+		$this->show_tooltip_icon = false;
 
 		$this->clear_search = null;
 		$this->clear_search_lng_var = null;
@@ -108,6 +110,13 @@ class catTitleGUI {
 		return $this;
 	}
 
+	public function setTooltipText($tooltip_text) {
+		include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+		ilTooltipGUI::addTooltip("tooltip_icon", $tooltip_text, "",
+			"bottom center", "top center", false);
+		$this->show_tooltip_icon = true;
+	}
+
 	public function removeCommand() {
 		$this->command = null;
 		$this->command_lng_var = null;
@@ -129,6 +138,11 @@ class catTitleGUI {
 									 ? $this->lng->txt($this->title)
 									 : $this->title
 									 );
+			
+			if($this->show_tooltip_icon) {
+				$tpl->setVariable("INFO", ilUtil::getImagePath("GEV_img/ico-info.png"));
+			}
+
 			$tpl->parseCurrentBlock();
 		}
 
