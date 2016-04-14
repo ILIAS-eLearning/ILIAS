@@ -14740,3 +14740,23 @@ $ilDB->manipulateF(
 	array('pear_mail_enable')
 );
 ?>
+<#4894>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('copy');	
+if($tgt_ops_id)
+{				
+	$book_type_id = ilDBUpdateNewObjectType::getObjectTypeId('book');
+	if($book_type_id)
+	{			
+		// add "copy" to booking tool
+		ilDBUpdateNewObjectType::addRBACOperation($book_type_id, $tgt_ops_id);				
+									
+		// clone settings from "write" to "copy"
+		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');	
+		ilDBUpdateNewObjectType::cloneOperation('book', $src_ops_id, $tgt_ops_id);		
+	}	
+}
+
+?>
