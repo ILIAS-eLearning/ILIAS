@@ -998,7 +998,7 @@ class recursiveOrguFilter {
 	public function addToFilter($filter) {
 		global $lng;
 
-		if(empty($this->filter_option)) {
+		if(empty($this->filter_options)) {
 			ilUtil::sendInfo($lng->txt("gev_org_unit_no_superior"));
 		} else {
 			if($this->possibly_recursive ) {
