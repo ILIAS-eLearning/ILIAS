@@ -14761,3 +14761,17 @@ if($tgt_ops_id)
 }
 
 ?>
+<#4895>
+<?php
+
+if(!$ilDB->tableColumnExists('webr_items','internal'))
+{
+	$ilDB->addTableColumn('webr_items', 'internal', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => null
+	));
+}
+
+?>
