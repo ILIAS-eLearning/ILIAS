@@ -4339,16 +4339,7 @@ class ilObjUser extends ilObject
 			$end = new ilDateTime($this->getTimeLimitUntil(),IL_CAL_UNIX);
 			
 			$body .= $language->txt('time_limit').': '.$start->get(IL_CAL_DATETIME);
-			$body .= $language->txt('time_limit').': '.$end->get(IL_CAL_DATETIME);
-			
-			
-			#$body .= $language->txt('time_limit').': '.$period;
-			/*
-			$body .= ($language->txt('time_limit').": ".$language->txt('crs_from')." ".
-					  ilFormat::formatUnixTime($this->getTimeLimitFrom(), true)." ".
-					  $language->txt('crs_to')." ".
-					  ilFormat::formatUnixTime($this->getTimeLimitUntil(), true)."\n");
-			*/
+			$body .= $language->txt('time_limit').': '.$end->get(IL_CAL_DATETIME);			
 		}
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';

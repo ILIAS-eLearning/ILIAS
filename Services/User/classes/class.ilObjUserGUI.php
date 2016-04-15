@@ -978,16 +978,16 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// system information
 		require_once './Services/Utilities/classes/class.ilFormat.php';
-		$data["create_date"] = ilFormat::formatDate($this->object->getCreateDate(),'datetime',true);
+		$data["create_date"] = ilDatePresentation::formatDate(new ilDateTime($this->object->getCreateDate(), IL_CAL_DATETIME));
 		$data["owner"] = ilObjUser::_lookupLogin($this->object->getOwner());
 		$data["approve_date"] = ($this->object->getApproveDate() != "")
-			? ilFormat::formatDate($this->object->getApproveDate(),'datetime',true)
+			? ilDatePresentation::formatDate(new ilDateTime($this->object->getApproveDate(), IL_CAL_DATETIME))
 			: null;
 		$data["agree_date"] = ($this->object->getAgreeDate() != "")
-			? ilFormat::formatDate($this->object->getAgreeDate(),'datetime',true)
+			? ilDatePresentation::formatDate(new ilDateTime($this->object->getAgreeDate(), IL_CAL_DATETIME))
 			: null;
 		$data["last_login"] =  ($this->object->getLastLogin() != "")
-			 ? ilFormat::formatDate($this->object->getLastLogin(),'datetime',true)
+			 ? ilDatePresentation::formatDate(new ilDateTime($this->object->getLastLogin(), IL_CAL_DATETIME))
 			 : null;
 		$data["active"] = $this->object->getActive();
 		$data["time_limit_unlimited"] = $this->object->getTimeLimitUnlimited();

@@ -201,8 +201,10 @@ class ilDiskQuotaReminderMail
 
 		$disk_usage_details = '';
 		foreach ($this->data['disk_usage_details'] as $details)
-		{
-			$disk_usage_details .= ilFormat::formatFloat($details['count'],0,true,$tmp_lang).' '.$tmp_lang->txt($details['type']).' '.ilFormat::formatSize($details['size'],'short',$tmp_lang)."\n";
+		{			
+			$disk_usage_details .= number_format($details['count'], 0).' '.
+				$tmp_lang->txt($details['type']).' '.
+				ilFormat::formatSize($details['size'],'short',$tmp_lang)."\n";
 		}
 		$a_string = str_replace("[DISK_USAGE_DETAILS]", $disk_usage_details, $a_string);
 			

@@ -1321,17 +1321,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			}
 		}
 		$date = getdate($starting_time);
-		$formattedStartingTime = ilDatePresentation::formatDate(new ilDateTime($date,IL_CAL_FKT_GETDATE));
-		/*
-		$formattedStartingTime = ilFormat::formatDate(
-			$date["year"]."-".
-			sprintf("%02d", $date["mon"])."-".
-			sprintf("%02d", $date["mday"])." ".
-			sprintf("%02d", $date["hours"]).":".
-			sprintf("%02d", $date["minutes"]).":".
-			sprintf("%02d", $date["seconds"])
-		);
-		*/
+		$formattedStartingTime = ilDatePresentation::formatDate(new ilDateTime($date,IL_CAL_FKT_GETDATE));		
 		$datenow = getdate();
 		$this->tpl->setCurrentBlock("enableprocessingtime");
 		$this->tpl->setVariable("USER_WORKING_TIME", 

@@ -425,8 +425,9 @@ class ilMemberExport
 						{
 							if($this->agreement[$usr_id]['accepted'])
 							{
-								#$this->csv->addColumn(ilFormat::formatUnixTime($this->agreement[$usr_id]['acceptance_time'],true));
-								$this->addCol(ilFormat::formatUnixTime($this->agreement[$usr_id]['acceptance_time'],true),$row,$col++);
+								#$this->csv->addColumn(il-Format::format-Unix-Time($this->agreement[$usr_id]['acceptance_time'],true));
+								$dt = new ilDateTime($this->agreement[$usr_id]['acceptance_time'], IL_CAL_UNIX);
+								$this->addCol($dt->get(IL_CAL_DATETIME),$row,$col++);
 							}
 							else
 							{

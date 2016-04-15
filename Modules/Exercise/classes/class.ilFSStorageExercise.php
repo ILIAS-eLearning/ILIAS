@@ -203,7 +203,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
 				$files[] = array(
 					'name'     => $file,
 					'size'     => filesize($this->path.'/'.$file),
-					'ctime'    => ilFormat::formatDate(date('Y-m-d H:i:s',filectime($this->path.'/'.$file))),
+					'ctime'    => filectime($this->path.'/'.$file),
 					'fullpath' => $this->path.'/'.$file);
 			}
 		}

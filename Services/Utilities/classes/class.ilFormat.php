@@ -21,6 +21,10 @@
 */
 class ilFormat
 {	
+	//
+	// only used in test
+	//
+		
 	/**
 	* db-datetime to timestamp
 	* @param string
@@ -53,208 +57,10 @@ class ilFormat
 		return $date;
 	}
 	
-	/** 
-	* formatting function for dates
-	*
-	* In different languages, dates are formatted different. 
-	* fmtDate expects a sql timestamp and a date format.
-	* Optional you may specify a time format. If you skip this parameter no time is displayed
-	* The format options follows the rules of the PHP date-function. See in the PHP manual
-	* for a list of possible formatting options
-	* @access	public
-	* @param	string	date date, given in sql-format YYYY-MM-DD HH:MM:SS
-	* @param	string	date format (default is Y-m-d)
-	* @param	string	time format (default is H:i:s)
-	* @param	string	format mode (datetime, time or date)
-	* @param	boolean	relative date output
-	* @return	string	formatted date
-	* @deprecated since 3.10 - 05.03.2009
-	*/
-	public static function fmtDateTime($a_str,$a_dateformat,$a_timeformat,$a_mode = "datetime", $a_relative = TRUE)
-	{
-		//no format defined. set to default format
-		if ($a_dateformat == "")
-		{
-			$a_dateformat = "Y-m-d";
-		}
-		
-		// same for time format
-		if ($a_timeformat == "")
-		{
-			$a_timeformat = "H:i:s";
-		}
-
-		// The sql-date 0000-00-00 00:00:00 means "no-date given"
-		if ($a_str == '0000-00-00 00:00:00') 
-		{
-			global $lng;
-			return $lng->txt('no_date');
-		}
-                //
-		//get values from given sql-date
-		$d = substr($a_str,8,2);
-		$m = substr($a_str,5,2);
-		$y = substr($a_str,0,4);
-		$h = substr($a_str,11,2);
-		$i = substr($a_str,14,2);
-		$s = substr($a_str,17,4);
-
-		// Minimum date is 1.1.1970
-		if(($y < 1970) or
-		   ($y == 1970 and ($m < 1 or $d < 1)))
-		{
-			$y = 1970;
-			$m = 1;
-			$d = 2;
-			$h = $i = $s = 0;
-		}
-
-		if ($a_mode == "time")
-		{
-			return date($a_timeformat,mktime($h,$i,$s,1,1,1999));		
-		}
-		
-		// BEGIN WebDAV: Display relative date.
-		$timestamp = mktime($h,$i,$s,$m,$d,$y);
-		$now = time();
-		$minuteswest = gettimeofday(false);
-		$minuteswest = $minuteswest['minuteswest'];
-		$today = $now - $now % (24 * 60 * 60) + $minuteswest * 60;
-		$isToday = $today <= $timestamp && $timestamp < $today + 24 * 60 * 60;
-		$isYesterday = $today - 24 * 60 * 60 <= $timestamp && $timestamp < $today;
-		$isTomorrow = $today + 24 * 60 * 60 <= $timestamp && $timestamp < $today + 48 * 60 * 60;
-
-		global $lng;
-		if ($a_relative)
-		{
-			$date = ($isToday) ? $lng->txt('today') : 
-					(($isYesterday) ? $lng->txt('yesterday') : 
-					(($isTomorrow) ? $lng->txt('tomorrow') : 
-					date($a_dateformat,mktime($h,$i,$s,$m,$d,$y))))
-					;
-		}
-		else
-		{
-			$date = date($a_dateformat,mktime($h,$i,$s,$m,$d,$y));
-		}
-				
-		return ($a_mode == "date") ? $date : $date.' '.date($a_timeformat,mktime($h,$i,$s,$m,$d,$y));
-		// END WebDAV: Display relative date.
-	}
 	
-	/**
-	* format a float
-	* 
-	* this functions takes php's number_format function and 
-	* formats the given value with appropriate thousand and decimal
-	* separator.
-	* @access	public
-	* @param	float		the float to format
-	* @param	integer		count of decimals
-	* @param	integer		display thousands separator
-	* @param	boolean		whether .0 should be suppressed
-	* @return	string		formatted number
-	*/
-	static function fmtFloat($a_float, $a_decimals=0, $a_dec_point = null, $a_thousands_sep = null, $a_suppress_dot_zero=false)
-	{
-		global $lng;
-
-
-		if ($a_dec_point == null)
-		{
-			$a_dec_point = $lng->txt('lang_sep_decimal');
-			{
-				$a_dec_point = ".";
-			}
-		}
-		if ($a_dec_point == '-lang_sep_decimal-')
-		{
-			$a_dec_point = ".";
-		}
-
-		if ($a_thousands_sep == null)
-		{
-			$a_thousands_sep = $lng->txt('lang_sep_thousand');
-			{
-				$a_th = ",";
-			}
-		}
-		if ($a_thousands_sep == '-lang_sep_thousand-')
-		{
-			$a_thousands_sep = ",";
-		}
-		
-		$txt = number_format($a_float, $a_decimals, $a_dec_point, $a_thousands_sep);
-		
-		// remove trailing ".0" 
-		if (($a_suppress_dot_zero == 0 || $a_decimal == 0) &&
-			substr($txt,-2) == $a_dec_point.'0')
-		{
-			$txt = substr($txt, 0, strlen($txt) - 2);
-		}
-		if ($a_float == 0 and $txt == "")
-		{
-			$txt = "0";
-		}
-		return $txt;
-	}
-
-	/**
-	* format a date according to the user language 
-	* shortcut for Format::fmtDateTime
-	* @access	public
-	* @param	string	sql date
-	* @param	string	format mode
-	* @param boolean Relative date output
-	* @return	string	formatted date
-	* @see		Format::fmtDateTime
-	* @deprecated since 3.10 - 05.03.2009
-	*/
-	public static function formatDate($a_date,$a_mode = "datetime", $a_omit_seconds = false, $a_relative = TRUE)
-	{
-		global $lng;
-		
-		// return when no datetime is given
-		if ($a_date == "0000-00-00 00:00:00")
-		{
-			return $lng->txt("no_date");
-		}
-
-		$dateformat = $lng->txt("lang_dateformat");
-		if ($a_omit_seconds && ($lng->txt("lang_timeformat_no_sec") != "-lang_timeformat_no_sec-"))
-		{
-			$timeformat = $lng->txt("lang_timeformat_no_sec");
-		}
-		else
-		{
-			$timeformat = $lng->txt("lang_timeformat");
-		}
-		
-		if ($dateformat == "-lang_dateformat-")
-		{
-			$dateformat = "";
-		}
-		
-		if ($timeformat == "-lang_timeformat-")
-		{
-			$timeformat = "";
-		}
-
-		return ilFormat::fmtDateTime($a_date,$dateformat,$timeformat,$a_mode, $a_relative);
-	}
-
-	function formatUnixTime($ut,$with_time = false)
-	{
-		global $lng;
-
-		$format = $lng->txt('lang_dateformat');
-
-		if($with_time)
-		{
-			$format .= (' '.$lng->txt('lang_timeformat_no_sec'));
-		}
-		return date($format,$ut);
-	}
+	//
+	// widely used
+	// 
 	
 	/**
 	 * converts seconds to string:
@@ -380,22 +186,6 @@ class ilFormat
 	public static function _getSizeMagnitude()
 	{
 		return 1024;
-	}
-	
-	/**
-	 * Returns the specified float in human friendly form.
-	 * <p>
-	 *
-	 * @param	float	a float
-	 * @param	ilLanguage  The language object, or null if you want to use the system language.
-	 */
-	public static function formatFloat($size, $a_decimals, $a_suppress_dot_zero=false, $a_mode = 'short', $a_lng = null)
-	{
-		global $lng;
-		if ($a_lng == null) {
-			$a_lng = $lng;
-		}
-		return self::fmtFloat($size, $a_decimals, $a_lng->txt('lang_sep_decimal'), $a_lng->txt('lang_sep_thousand', $a_suppress_dot_zero), true).' '.$a_lng->txt($scaled_unit);
 	}
 	
 	/**

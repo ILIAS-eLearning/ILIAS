@@ -471,7 +471,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->tpl->setVariable('LAST_UPDATE_TEXT',$lng->txt('last_update').': '.ilFormat::formatDate($last_update,'datetime',true));
+			$this->tpl->setVariable('LAST_UPDATE_TEXT',$lng->txt('last_update').': '.
+				ilDatePresentation::formatDate(new ilDateTime($last_update, IL_CAL_DATETIME)));
 		}
 
 		// Filter
@@ -615,7 +616,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 						}
 						else
 						{
-							$tbl_content_cell = ilFormat::formatDate($row[$key]);
+							$tbl_content_cell = ilDatePresentation::formatDate(new ilDateTime($row[$key], IL_CAL_DATETIME));
 						}
 						break;
 					case 'last_login' :
@@ -626,7 +627,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 						}
 						else
 						{
-							$tbl_content_cell = ilFormat::formatDate($row[$key]);
+							$tbl_content_cell = ilDatePresentation::formatDate(new ilDateTime($row[$key], IL_CAL_DATETIME));
 						}
 						break;
 					default :
