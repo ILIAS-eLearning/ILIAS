@@ -123,7 +123,7 @@ class ilSCORMExplorer extends ilExplorer
 	}
 
 	/**
-	 * recursivi creating of outputs
+	 * recursive output creation
 	 * @param int 	$a_parent_id
 	 * @param array 	$options 		existing output options
 	 *
@@ -134,38 +134,38 @@ class ilSCORMExplorer extends ilExplorer
 		$types_do_not_load = array("srs");
 
 		if (!isset($a_parent_id))
-			{
-				$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
+		{
+			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
+		}
+
+		if (!$this->showChilds($a_parent_id))
+		{
+			return array();
+		}
+
+		foreach ($this->tree->getChilds($a_parent_id, $this->order_column) as $key => $child) {
+			if(in_array($child["c_type"], $types_do_not_load)) {
+				continue;
 			}
 
-			if (!$this->showChilds($a_parent_id))
-			{
-				return array();
+			$option = array();
+			$option["parent"]		= $child["parent"];
+			$option["id"]			= $child["child"];
+			$option["title"]		= $child["title"];
+			$option["c_type"]		= $child["c_type"];
+			$option["obj_id"]		= $child["obj_id"];
+			$option["desc"] 		= "obj_".$child["c_type"];
+			$option["container"]	= false;
+			$option["visible"]		= !in_array($child["c_type"], $types_do_not_display);
+
+			if($this->showChilds($option["id"])) {
+				$option = $this->createOutputArray($option["id"], $option);
 			}
 
-			foreach ($this->tree->getChilds($a_parent_id, $this->order_column) as $key => $child) {
-				if(in_array($child["c_type"], $types_do_not_load)) {
-					continue;
-				}
+			$options["childs"][] = $option;
+		}
 
-				$option = array();
-				$option["parent"]		= $child["parent"];
-				$option["id"]			= $child["child"];
-				$option["title"]		= $child["title"];
-				$option["c_type"]		= $child["c_type"];
-				$option["obj_id"]		= $child["obj_id"];
-				$option["desc"] 		= "obj_".$child["c_type"];
-				$option["container"]	= false;
-				$option["visible"]		= !in_array($child["c_type"], $types_do_not_display);
-
-				if($this->showChilds($option["id"])) {
-					$option = $this->createOutputArray($option["id"], $option, ++$depth);
-				}
-
-				$options["childs"][] = $option;
-			}
-
-			return $options;
+		return $options;
 	}
 
 	/**
