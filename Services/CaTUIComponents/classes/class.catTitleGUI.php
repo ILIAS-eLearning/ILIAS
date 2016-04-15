@@ -22,6 +22,7 @@ class catTitleGUI {
 	protected $command_lng_var;
 	protected $use_lng;
 	protected $show_tooltip_icon;
+	protected $video_link;
 
 	public function __construct($a_title = null, $a_subtitle = null, $a_img = null, $a_use_lng = true) {
 		global $lng, $ilCtrl;
@@ -37,6 +38,7 @@ class catTitleGUI {
 		$this->command_lng_var = null;
 		$this->use_lng = $a_use_lng;
 		$this->show_tooltip_icon = false;
+		$this->video_link = null;
 
 		$this->clear_search = null;
 		$this->clear_search_lng_var = null;
@@ -117,6 +119,10 @@ class catTitleGUI {
 		$this->show_tooltip_icon = true;
 	}
 
+	public function setVideoLink($video_link) {
+		$this->video_link = $video_link;
+	}
+
 	public function removeCommand() {
 		$this->command = null;
 		$this->command_lng_var = null;
@@ -133,14 +139,21 @@ class catTitleGUI {
 		$tpl = new ilTemplate("tpl.cat_title.html", true, true, "Services/CaTUIComponents");
 
 		if ($this->title !== null) {
+			if($this->show_tooltip_icon) {
+				$tpl->setCurrentBlock("info_icon");
+				$tpl->setVariable("INFO", ilUtil::getImagePath("GEV_img/ico-info.png"));
+				$tpl->parseCurrentBlock();
+			}
+
 			$tpl->setCurrentBlock("title");
 			$tpl->setVariable("TITLE", $this->use_lng
 									 ? $this->lng->txt($this->title)
 									 : $this->title
 									 );
-			
-			if($this->show_tooltip_icon) {
-				$tpl->setVariable("INFO", ilUtil::getImagePath("GEV_img/ico-info.png"));
+
+			if($this->video_link !== null) {
+				$tpl->setVariable("VIDEO_ICON", ilUtil::getImagePath("GEV_img/ico-videolink.png"));
+				$tpl->setVariable("URL", $this->video_link);
 			}
 
 			$tpl->parseCurrentBlock();
@@ -186,6 +199,8 @@ class catTitleGUI {
 									   );
 			$tpl->parseCurrentBlock();
 		}
+
+		
 
 		return $tpl->get();
 	}
