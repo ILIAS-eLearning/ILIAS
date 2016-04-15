@@ -1,0 +1,36 @@
+<!-- language file start -->
+obj_xeeb#:#Report Bildungsbiografien meiner Mitarbeiter / Vertriebspartner
+objs_xeeb#:#Reports Bildungsbiografien meiner Mitarbeiter / Vertriebspartner
+obj_xeeb_duplicate#:#Report Bildungsbiografien meiner Mitarbeiter / Vertriebspartnerkopieren
+objs_xeeb_duplicate#:#Reports Bildungsbiografien meiner Mitarbeiter / Vertriebspartner kopieren
+obj_xeeb_select#:#Report Bildungsbiografien meiner Mitarbeiter / Vertriebspartner auswählen
+xeeb_add#:#Report Bildungsbiografien meiner Mitarbeiter / Vertriebspartner hinzufügen
+xeeb_new#:#Neuen Report Bildungsbiografien meiner Mitarbeiter / Vertriebspartner hinzufügen
+xeeb_read#:#Lesezugriff zum Report Bildungsbiografien meiner Mitarbeiter / Vertriebspartner
+xeeb_write#:#Report Bildungsbiografien meiner Mitarbeiter / Vertriebspartner bearbeiten
+xeeb_delete#:#Report Bildungsbiografien meiner Mitarbeiter / Vertriebspartner löschen
+xeeb_visible#:#sichtbar
+xeeb_edit_permission#:#schreibberechtigt
+crs_create_xeeb#:#Report Bildungsbiografien meiner Mitarbeiter / Vertriebspartner erzeugen
+grp_create_xeeb#:#Report Bildungsbiografien meiner Mitarbeiter / Vertriebspartner erzeugen
+fold_create_xeeb#:#Report Bildungsbiografien meiner Mitarbeiter / Vertriebspartner erzeugen
+root_create_xeeb#:#Report Bildungsbiografien meiner Mitarbeiter / Vertriebspartner erzeugen
+cat_create_xeeb#:#Report Bildungsbiografien meiner Mitarbeiter / Vertriebspartner erzeugen
+xeeb_content#:#Report
+xeeb_properties#:#Eigenschaften
+online#:#Online
+lastname#:#Name
+firstname#:#Vorname
+cert_period#:#Zertifizierungsperiode
+overall_points_cert_period#:#Gesamtpunktzahl Zertifizierungsperiode
+login#:#Benutzername
+adp_number#:#ADP-Nummer
+job_number#:#Vermittlernummer
+od_bd#:#OD/BD
+orgu_short#:#Org.-Einheit
+roles#:#Rollen
+critical#:#Achtung
+lastname_filter#:#Nachname
+show_critical_persons#:#Zeige mir nur kritische Personen. (GEV-Angestellte und EVG)
+show_critical_persons_4th_year#:#Zeige mir nur kritische Personen nach dem vierten Jahr. (GEV-Angestellte und EVG)
+wbd_relevant_only#:#Zeige mir nur Personen die weiterbildungspflichtig sind nach gut beraten. 
