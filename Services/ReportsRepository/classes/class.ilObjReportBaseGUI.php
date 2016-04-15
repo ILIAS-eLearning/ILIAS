@@ -438,7 +438,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		}
 		$settings_form->addItem($description);
 
-		$video_link = new ilTextAreaInputGUI($this->object->plugin->txt('video_link'),'video_link');
+		$video_link = new ilTextAreaInputGUI($this->gLng->txt('video_link'),'video_link');
 		if(isset($data["video_link"])) {
 			$video_link->setValue($data["video_link"]);
 		}
