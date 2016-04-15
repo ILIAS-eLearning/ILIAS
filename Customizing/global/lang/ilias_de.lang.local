@@ -1512,4 +1512,5 @@ gev#:#gev_training_admin_search_not_closed#:#noch nicht finalisiert
 gev#:#gev_filter_period_from#:#Von
 gev#:#gev_filter_period_to#:#Bis
 gev#:#gev_training_admin_search_period#:#Zeitraum
+gev#:#gev_org_unit_no_superior#:#Dieser Bericht enthält keine Daten, da Sie in keiner Organisationseinheit Vorgesetzter sind.
 gev#:#gev_rep_attendance_by_employee_desc_short#:#Hier sehen Sie die Buchungen und Trainingsteilnahmen Ihrer Mitarbeiter / Vertriebspartner.
