@@ -997,31 +997,36 @@ class recursiveOrguFilter {
 	*/
 	public function addToFilter($filter) {
 		global $lng;
-		if (count($this->filter_options) > 0) {
+
+		if(empty($this->filter_options)) {
+			ilUtil::sendInfo($lng->txt("gev_org_unit_no_superior"));
+		} else {
 			if($this->possibly_recursive ) {
-				$filter	->checkbox(	   $this->id.'_recursive'
-									 , $lng->txt("gev_org_unit_recursive")
-									 , " TRUE "
-									 , " TRUE "
-									 , false
-									 , true
-									 );
+				$filter ->checkbox($this->id.'_recursive'
+								 , $lng->txt("gev_org_unit_recursive")
+								 , " TRUE "
+								 , " TRUE "
+								 , false
+								 , true
+								 );
 			}
-			$filter		->multiselect( $this->id
-									 , $lng->txt("gev_org_unit_short")
-									 , $this->field
-									 , $this->filter_options
-									 , array()
-									 , ""
-									 , 300
-									 , 160
-									 , "text"
-									 , "asc"
-									 , true
-									 , $this->possibly_recursive || $this->ignore_in_filter_where
-									 );
-			$this->filter = $filter;
 		}
+
+		$filter ->multiselect( $this->id
+								 , $lng->txt("gev_org_unit_short")
+								 , $this->field
+								 , $this->filter_options
+								 , array()
+								 , ""
+								 , 300
+								 , 160
+								 , "text"
+								 , "asc"
+								 , true
+								 , $this->possibly_recursive || $this->ignore_in_filter_where
+								 );
+		$this->filter = $filter;
+
 		return $filter;
 	}
 

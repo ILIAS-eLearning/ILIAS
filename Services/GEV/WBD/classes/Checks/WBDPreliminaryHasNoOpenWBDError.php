@@ -1,5 +1,5 @@
 <?php
-require_once ("Services/GEV/WBD/classes/Interfaces/WBDPreliminary.php");
+require_once ("Services/GEV/WBD/classes/Abstracts/WBDPreliminary.php");
 
 class WBDPreliminaryHasNoOpenWBDError extends WBDPreliminary {
 	static $message = "gev_wbd_check_open_wbd_errors";
@@ -13,7 +13,7 @@ class WBDPreliminaryHasNoOpenWBDError extends WBDPreliminary {
 	 * @inheritdoc 
 	 */
 	public function performCheck(gevWBD $wbd) {
-		return !$wbd->hasOpenWBDErrors($wbd_errors);
+		return !$wbd->hasOpenWBDErrors($this->wbd_errors);
 	}
 }
 

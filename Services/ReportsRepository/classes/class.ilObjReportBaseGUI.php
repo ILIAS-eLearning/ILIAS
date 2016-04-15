@@ -393,13 +393,14 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		if($settings_form->checkInput()) {
 			$this->saveSettingsData($_POST);
 		}
-		$this->gTpl->setContent($settings_form->getHtml());
+		$this->renderSettings();
 	}
 
 	protected function getSettingsData() {
 		$data["online"] = $this->object->getOnline();
 		$data["title"] = $this->object->getTitle();
 		$data["description"] = $this->object->getDescription();
+		$data["video_link"] = $this->object->getVideoLink();
 
 		return $data;
 	}
@@ -411,6 +412,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->object->setOnline($data["online"]);
 		$this->object->setTitle($data["title"]);
 		$this->object->setDescription($data["description"]);
+		$this->object->setVideoLink($data["video_link"]);
 		$this->object->doUpdate();
 		$this->object->update();
 	}
@@ -435,6 +437,12 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			$description->setValue($data["description"]);
 		}
 		$settings_form->addItem($description);
+
+		$video_link = new ilTextAreaInputGUI($this->object->plugin->txt('video_link'),'video_link');
+		if(isset($data["video_link"])) {
+			$video_link->setValue($data["video_link"]);
+		}
+		$settings_form->addItem($video_link);
 
 		$is_online = new ilCheckboxInputGUI($this->object->plugin->txt('online'),'online');
 		$is_online->setValue(1);

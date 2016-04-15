@@ -21,6 +21,8 @@ class catTitleGUI {
 	protected $command;
 	protected $command_lng_var;
 	protected $use_lng;
+	protected $show_tooltip_icon;
+	protected $video_link;
 
 	public function __construct($a_title = null, $a_subtitle = null, $a_img = null, $a_use_lng = true) {
 		global $lng, $ilCtrl;
@@ -35,6 +37,8 @@ class catTitleGUI {
 		$this->command = null;
 		$this->command_lng_var = null;
 		$this->use_lng = $a_use_lng;
+		$this->show_tooltip_icon = false;
+		$this->video_link = null;
 
 		$this->clear_search = null;
 		$this->clear_search_lng_var = null;
@@ -102,17 +106,21 @@ class catTitleGUI {
 		return $this;
 	}
 
-	public function setInfoLink($a_info_link_lng_var, $a_info_link) {
-		$this->info_link = $a_info_link;
-		$this->info_link_lng_var = $a_info_link_lng_var;
-		return $this;
-	}
-
-
 	public function setClearSearch($a_lng_var, $a_target) {
 		$this->clear_search = $a_target;
 		$this->clear_search_lng_var = $a_lng_var;
 		return $this;
+	}
+
+	public function setTooltipText($tooltip_text) {
+		include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+		ilTooltipGUI::addTooltip("tooltip_icon", $tooltip_text, "",
+			"bottom center", "top center", false);
+		$this->show_tooltip_icon = true;
+	}
+
+	public function setVideoLink($video_link) {
+		$this->video_link = $video_link;
 	}
 
 	public function removeCommand() {
@@ -131,6 +139,19 @@ class catTitleGUI {
 		$tpl = new ilTemplate("tpl.cat_title.html", true, true, "Services/CaTUIComponents");
 
 		if ($this->title !== null) {
+			if($this->show_tooltip_icon) {
+				$tpl->setCurrentBlock("info_icon");
+				$tpl->setVariable("INFO", ilUtil::getImagePath("GEV_img/ico-info.png"));
+				$tpl->parseCurrentBlock();
+			}
+
+			if($this->video_link !== null) {
+				$tpl->setCurrentBlock("video_link");
+				$tpl->setVariable("VIDEO_ICON", ilUtil::getImagePath("GEV_img/ico-videolink.png"));
+				$tpl->setVariable("URL", $this->video_link);
+				$tpl->parseCurrentBlock();
+			}
+
 			$tpl->setCurrentBlock("title");
 			$tpl->setVariable("TITLE", $this->use_lng
 									 ? $this->lng->txt($this->title)
@@ -180,15 +201,7 @@ class catTitleGUI {
 			$tpl->parseCurrentBlock();
 		}
 
-		if ($this->info_link !== null) {
-			$tpl->setCurrentBlock("info_link");
-			$tpl->setVariable("TARGET", $this->info_link);
-			$tpl->setVariable("DESCRIPTION", $this->use_lng
-									   ? $this->lng->txt($this->info_link_lng_var)
-									   : $this->info_link_lng_var
-									   );
-			$tpl->parseCurrentBlock();
-		}
+		
 
 		return $tpl->get();
 	}

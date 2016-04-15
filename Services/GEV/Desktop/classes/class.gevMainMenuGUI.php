@@ -123,7 +123,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$manage_course_block_units = ($this->user_utils && !$this->user_utils->notEditBuildingBlocks());
 		
 		//Für den Anfang sollen das nur Administratoren sehen
-		$is_training_manager = ($this->user_utils && $this->user_utils->isAdmin());/*($this->user_utils && $this->user_utils->isTrainingManagerOnAnyCourse());*/
+		$is_training_manager = ($this->user_utils && $this->user_utils->isTrainingManagerOnAnyCourse());
 
 		//get all OrgUnits of superior
 		$arr_org_units_of_superior = $this->user_utils ? $this->user_utils->getOrgUnitsWhereUserIsDirectSuperior() : array();

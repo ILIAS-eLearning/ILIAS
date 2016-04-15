@@ -10,10 +10,18 @@ set_time_limit(0);
 class ilObjReportEmplAtt extends ilObjReportBase {
 	protected $relevant_parameters = array();
 
-	protected $title_info_link;
-
 	public function __construct($ref_id = 0) {
 		parent::__construct($ref_id);
+		global $lng;
+		$this->gLng = $lng;
+	}
+
+	// This is a super evil hack to make #2262 happen for this report.
+	// If there is a correct solution, we also could re-finalize getDescription
+	// in ilObject2.
+	public function getDescription() {
+		$this->gLng->loadLanguageModule("gev");
+		return $this->gLng->txt("gev_rep_attendance_by_employee_desc_short");
 	}
 
 	public function initType() {
@@ -170,10 +178,10 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 
 	public function doCreate() {
 		$this->gIldb->manipulate("INSERT INTO rep_robj_rea ".
-			"(id, is_online, title_info_link) VALUES (".
+			"(id, is_online, video_link) VALUES (".
 			$this->gIldb->quote($this->getId(), "integer")
 			.",".$this->gIldb->quote(0, "integer")
-			.",NULL"
+			.",".$this->gIldb->quote($this->getVideoLink(), "text")
 			.")");
 	}
 
@@ -183,15 +191,14 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 			);
 		while ($rec = $this->gIldb->fetchAssoc($set)) {
 			$this->setOnline($rec["is_online"]);
-			$this->setTitleInfoLink($rec["title_info_link"]);
+			$this->setVideoLink($rec["video_link"]);
 		}
 	}
 
 	public function doUpdate() {
-
 		$this->gIldb->manipulate("UPDATE rep_robj_rea SET "
 			." is_online = ".$this->gIldb->quote($this->getOnline(), "integer")
-			.", title_info_link = ".$this->gIldb->quote($this->getTitleInfoLink(), "text")
+			.", video_link = ".$this->gIldb->quote($this->getVideoLink(), "text")
 			." WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
 			);
 	}
@@ -200,20 +207,5 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		$this->gIldb->manipulate("DELETE FROM rep_robj_rea WHERE ".
 			" id = ".$this->gIldb->quote($this->getId(), "integer")
 		); 
-	}
-
-	public function getTitleInfoLink() {
-		return $this->title_info_link;
-	}
-
-	public function setTitleInfoLink($value) {
-		if($value && !preg_match("#^http://\w+#", $value) && !preg_match("#^https://\w+#", $value)) {
-			$value = "http://".$value;
-		}
-		$this->title_info_link = $value;
-	}
-
-	public function getTitleInfoLinkDescription() {
-		return $this->plugin->txt('title_info_link_description');
 	}
 }

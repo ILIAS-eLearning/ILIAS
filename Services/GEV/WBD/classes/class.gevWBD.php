@@ -481,15 +481,15 @@ class gevWBD {
 	* @return boolean
 	*/
 	public function shouldBeRegisteredAsNewTPServiceChecks() {
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasDoneWBDRegistration.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDRelevantRole.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryIsActiveUser.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryIsUserNotToHandle.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryEntryDatePassed.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsEmpty.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNotWBDType.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNoOpenWBDError.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasDoneWBDRegistration.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDRelevantRole.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryIsActiveUser.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHandleUser.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryEntryDatePassed.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsEmpty.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNotWBDType.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNoOpenWBDError.php");
 
 		$wbd_errors = array(self::WBD_ERROR_WRONG_USERDATA
 							, self::WBD_ERROR_USER_SERVICETYPE
@@ -501,7 +501,7 @@ class gevWBD {
 					, new WBDPreliminaryHasWBDRelevantRole()
 					, new WBDPreliminaryUserExists()
 					, new WBDPreliminaryIsActiveUser()
-					, new WBDPreliminaryIsUserNotToHandle(array(6,13))
+					, new WBDPreliminaryHandleUser(array(6,13))
 					, new WBDPreliminaryEntryDatePassed()
 					, new WBDPreliminaryBWVIdIsEmpty()
 					, new WBDPreliminaryHasNotWBDType(self::WBD_NO_SERVICE)
@@ -523,14 +523,14 @@ class gevWBD {
 	* @return boolean
 	*/
 	public function shouldBeRegisteredAsNewTPBasis() {
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasDoneWBDRegistration.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDRelevantRole.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryIsActiveUser.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryIsUserNotToHandle.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsEmpty.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNotWBDType.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNoOpenWBDError.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasDoneWBDRegistration.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDRelevantRole.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryIsActiveUser.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHandleUser.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsEmpty.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNotWBDType.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNoOpenWBDError.php");
 
 		$wbd_errors = array(self::WBD_ERROR_WRONG_USERDATA
 							, self::WBD_ERROR_USER_SERVICETYPE
@@ -542,7 +542,7 @@ class gevWBD {
 					, new WBDPreliminaryHasWBDRelevantRole()
 					, new WBDPreliminaryUserExists()
 					, new WBDPreliminaryIsActiveUser()
-					, new WBDPreliminaryIsUserNotToHandle(array(6,13))
+					, new WBDPreliminaryHandleUser(array(6,13))
 					, new WBDPreliminaryBWVIdIsEmpty()
 					, new WBDPreliminaryHasNotWBDType(self::WBD_NO_SERVICE)
 					, new WBDPreliminaryHasNoOpenWBDError($wbd_errors)
@@ -565,15 +565,15 @@ class gevWBD {
 	* @return boolean
 	*/
 	public function shouldBeAffiliateAsTPServiceChecks() {
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasDoneWBDRegistration.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDRelevantRole.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryIsActiveUser.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryIsUserNotToHandle.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryEntryDatePassed.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsNotEmpty.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNotWBDType.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNoOpenWBDError.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasDoneWBDRegistration.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDRelevantRole.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryIsActiveUser.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHandleUser.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryEntryDatePassed.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsNotEmpty.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNotWBDType.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNoOpenWBDError.php");
 
 		$wbd_errors = array(self::WBD_ERROR_WRONG_USERDATA
 							, self::WBD_ERROR_USER_SERVICETYPE
@@ -588,7 +588,7 @@ class gevWBD {
 					, new WBDPreliminaryHasWBDRelevantRole()
 					, new WBDPreliminaryUserExists()
 					, new WBDPreliminaryIsActiveUser()
-					, new WBDPreliminaryIsUserNotToHandle(array(6,13))
+					, new WBDPreliminaryHandleUser(array(6,13))
 					, new WBDPreliminaryEntryDatePassed()
 					, new WBDPreliminaryBWVIdIsNotEmpty()
 					, new WBDPreliminaryHasNotWBDType(self::WBD_TP_SERVICE)
@@ -610,14 +610,14 @@ class gevWBD {
 	* @return boolean
 	*/
 	public function shouldBeReleasedChecks() {
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryIsUserNotToHandle.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryExitDatePassed.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNoExitDateWBD.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDType.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryEntryDatePassed.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsNotEmpty.php");
-		require_once("Service/GEV/WBD/classes/Checks/WBDPreliminaryHasNoOpenWBDError.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryUserExists.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHandleUser.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryExitDatePassed.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNoExitDateWBD.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasWBDType.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryEntryDatePassed.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryBWVIdIsNotEmpty.php");
+		require_once("Services/GEV/WBD/classes/Checks/WBDPreliminaryHasNoOpenWBDError.php");
 
 		$wbd_errors = array(self::WBD_ERROR_WRONG_USERDATA
 							, self::WBD_ERROR_USER_SERVICETYPE
@@ -628,7 +628,7 @@ class gevWBD {
 							, self::WBD_ERROR_UNKNOWN);
 
 		return array(new WBDPreliminaryUserExists()
-					, new WBDPreliminaryIsUserNotToHandle(array(6,13))
+					, new WBDPreliminaryHandleUser(array(6,13))
 					, new WBDPreliminaryExitDatePassed()
 					, new WBDPreliminaryHasNoExitDateWBD()
 					, new WBDPreliminaryHasWBDType(self::WBD_TP_SERVICE)
@@ -650,7 +650,7 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	protected function isWBDBWVIdEmpty() {
+	public function isWBDBWVIdEmpty() {
 		return $this->getWBDBWVId() === null;
 	}
 
@@ -659,7 +659,7 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	protected function isActive() {
+	public function isActive() {
 		return $this->user_utils->getUser()->getActive();
 	}
 
@@ -669,7 +669,7 @@ class gevWBD {
 	* @param array
 	* @return boolen
 	*/
-	protected function hasOneWBDTypeOf(array $wbd_types) {
+	public function hasOneWBDTypeOf(array $wbd_types) {
 		return in_array($this->getWBDTPType(), $wbd_types);
 	}
 
@@ -679,7 +679,7 @@ class gevWBD {
 	* @param string
 	* @return boolean
 	*/
-	protected function hasWBDType($wbd_type) {
+	public function hasWBDType($wbd_type) {
 		return $this->getWBDTPType() == $wbd_type;
 	}
 
@@ -688,7 +688,7 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	protected function entryDatePassed() {
+	public function entryDatePassed() {
 		
 		$now = date("Y-m-d");
 		$entry_date = $this->user_utils->getEntryDate();;
@@ -704,21 +704,19 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	protected function userExists() {
+	public function userExists() {
 		return ilObjUser::_lookupLogin($this->user_id) !== false;
 	}
 
-	static $specialUserIds = array(6,13);
 	/**
-	* checks user is not root or anomynos or some one else
-	* look at array $specialUserIds
+	* is user in specified array
 	*
-	* @param array 	$specialUserIds
+	* @param array 	$special_user_ids
 	*
 	* @return boolean
 	*/
-	protected function hasSpecialUserId(array $specialUserIds) {
-		return in_array($this->user_id, $specialUserIds);
+	public function userIdIn(array $special_user_ids) {
+		return in_array($this->user_id, $special_user_ids);
 	}
 
 	/**
@@ -727,7 +725,7 @@ class gevWBD {
 	* @param array
 	* @return boolean
 	*/
-	protected function hasOpenWBDErrors(array $wbd_errors) {
+	public function hasOpenWBDErrors(array $wbd_errors) {
 		
 		$sql = "SELECT DISTINCT count(usr_id) as cnt\n"
 				." FROM wbd_errors\n"
@@ -748,7 +746,7 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	protected function hasExitDateWBD() {
+	public function hasExitDateWBD() {
 		return $this->getExitDateWBD() !== null;
 	}
 
@@ -759,7 +757,7 @@ class gevWBD {
 	*
 	* @return boolean
 	*/
-	protected function nextWBDActionIs($next_wbd_action) {
+	public function nextWBDActionIs($next_wbd_action) {
 		return $this->getNextWBDAction() == $next_wbd_action;
 	}
 
