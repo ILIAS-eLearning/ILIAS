@@ -145,17 +145,18 @@ class catTitleGUI {
 				$tpl->parseCurrentBlock();
 			}
 
+			if($this->video_link !== null) {
+				$tpl->setCurrentBlock("video_link");
+				$tpl->setVariable("VIDEO_ICON", ilUtil::getImagePath("GEV_img/ico-videolink.png"));
+				$tpl->setVariable("URL", $this->video_link);
+				$tpl->parseCurrentBlock();
+			}
+
 			$tpl->setCurrentBlock("title");
 			$tpl->setVariable("TITLE", $this->use_lng
 									 ? $this->lng->txt($this->title)
 									 : $this->title
 									 );
-
-			if($this->video_link !== null) {
-				$tpl->setVariable("VIDEO_ICON", ilUtil::getImagePath("GEV_img/ico-videolink.png"));
-				$tpl->setVariable("URL", $this->video_link);
-			}
-
 			$tpl->parseCurrentBlock();
 		}
 
