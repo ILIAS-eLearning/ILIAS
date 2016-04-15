@@ -2,6 +2,8 @@
 
 Rules in this proposal are formulated according to [RFC2119](https://www.ietf.org/rfc/rfc2119.txt).
 
+## Basic
+
 ## Rules for Consumers
 
 * Consumers of the UI framework MUST only use the UI-Factory provided via the
@@ -10,13 +12,17 @@ Rules in this proposal are formulated according to [RFC2119](https://www.ietf.or
 
 ## Rules for Implementors
 
+* Classes and interfaces for the UI framework MUST be located in the namespace
+  \ILIAS\UI or a subnamespace thereof, where the root directory for that 
+  namespace is src/UI and the location of PHP-files is determined according to
+  [PSR-4](http://www.php-fig.org/psr/psr-4/).
+
 ### Interfaces to Factories
 
-The definition of the interface to the main factory of the framework is located
-in src/UI/Factory.php.
+The interface to the main factory is \ILIAS\UI\Factory.
 
-* All factory interfaces aside from the main factory MUST be located in the folder
-  src/UI/Factory and the Namespace \ILIAS\UI\Factory.
+* All factory interfaces aside from the main factory MUST be located in the 
+  namespace \ILIAS\UI\Factory.
 * Every factory interfaces aside from the main factory MUST be instantiable via
   the main factory interface or successive calls to factories returned by the
   main factory interface.
@@ -58,20 +64,51 @@ in src/UI/Factory.php.
     * MAY contain a field `rules` that contains one or more than one of the 
       following fields `usage`, `interaction`, `wording`, `style`, `ordering`, 
       `responsiveness`, `accessibility`, where
+        * each of the contained fields is a dictionary from a number to a text
         * each of the contained fields MUST contain at least one rule for the
           proposed Kitchen Sink entry
         * every rule MUST have a successive number
         * the number of a rule MUST NOT be changed
         * a rule MAY keep its number upon minor changes in the rule
         * rules MUST be formulated according to [RFC2119](https://www.ietf.org/rfc/rfc2119.txt)
+      This makes sure that each rule can be referenced by a unique name.
+* The parameters of every method SHOULD be type hinted.
+* There MAY be more than one method in a factory declaring to return an instance
+  of the same interface.
+* There MUST be at most one factory per interface declaring to return instances of
+  that interface.
 
-### Interfaces to UI-components.
+### Interfaces to UI components.
+
+The word *path* in this chapter means the chain of successive calls to methods
+of factories leading to the creation of a UI component.
+
+* Every interface describing an UI component MUST extend the interface
+  \ILIAS\UI\Component.
+* Every interface describing an UI element MUST implement the interface
+  \ILIAS\UI\Element.
+* Every interface describing an UI collection MUST implement the interface
+  \ILIAS\UI\Collection.
+* Every interface describing a UI component MUST be located in the namespace
+  \ILIAS\UI\Component or a subnamespace thereof.
 
 ### Implementations of Factories
 
+### Implementations of UI components
+
+### Tests for factories
+
+### Tests for UI
+
 ## Processes
 
-* The introduction of 
+### Introduction of new UI components
+
+### Modification of existing UI components
+
+### Changes to the base of the framework
+
+## Old stuff
 
 We herby propose the introduction of an UI-Framework for ILIAS with the
 following properties:
