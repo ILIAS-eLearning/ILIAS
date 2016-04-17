@@ -62,7 +62,8 @@ class ilColumnGUI
 		'ilPollBlockGUI' => 'Modules/Poll/',
 		'ilClassificationBlockGUI' => 'Services/Classification/',
 		'ilPDPortfolioBlockGUI' => 'Modules/Portfolio/',
-		"ilPDStudyProgrammeSimpleListGUI" => "Modules/StudyProgramme/"
+		"ilPDStudyProgrammeSimpleListGUI" => "Modules/StudyProgramme/",
+		"ilPDStudyProgrammeExpandableListGUI" => "Modules/StudyProgramme/"
 	);
 	
 	static protected $block_types = array(
@@ -83,7 +84,8 @@ class ilColumnGUI
 		'ilPollBlockGUI' => 'poll',
 		'ilClassificationBlockGUI' => 'clsfct',
 		'ilPDPortfolioBlockGUI' => 'pdportf',
-		"ilPDStudyProgrammeSimpleListGUI" => "prgsimplelist"
+		"ilPDStudyProgrammeSimpleListGUI" => "prgsimplelist",
+		"ilPDStudyProgrammeExpandableListGUI" => "prgexpandablelist"
 	);
 	
 		
@@ -112,6 +114,7 @@ class ilColumnGUI
 			"ilPDSysMessageBlockGUI" => IL_COL_LEFT,
 			"ilPDNewsBlockGUI" => IL_COL_LEFT,
 			"ilPDStudyProgrammeSimpleListGUI" => IL_COL_CENTER,
+			"ilPDStudyProgrammeExpandableListGUI" => IL_COL_CENTER,
 			"ilPDSelectedItemsBlockGUI" => IL_COL_CENTER,
 			"ilPDMailBlockGUI" => IL_COL_RIGHT,
 			"ilPDNotesBlockGUI" => IL_COL_RIGHT,

@@ -4559,7 +4559,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once './Services/Contact/classes/class.ilMailMemberSearchGUI.php';
 				include_once './Services/Contact/classes/class.ilMailMemberCourseRoles.php';
 				
-				$mail_search = new ilMailMemberSearchGUI($this->object->getRefId(), new ilMailMemberCourseRoles());
+				$mail_search = new ilMailMemberSearchGUI($this, $this->object->getRefId(), new ilMailMemberCourseRoles());
 				$mail_search->setObjParticipants(ilCourseParticipants::_getInstanceByObjId($this->object->getId()));
 				$this->ctrl->forwardCommand($mail_search);
 				break;
@@ -5170,9 +5170,9 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	/**
 	 * Create a course mail signature
-	 * @return 
+	 * @return string 
 	 */
-	protected function createMailSignature()
+	public function createMailSignature()
 	{
 		$link = chr(13).chr(10).chr(13).chr(10);
 		$link .= $this->lng->txt('crs_mail_permanent_link');

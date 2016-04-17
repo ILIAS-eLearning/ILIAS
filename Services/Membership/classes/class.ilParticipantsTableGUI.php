@@ -73,8 +73,11 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
             return true;
         }
         self::$export_allowed = ilPrivacySettings::_getInstance()->checkExportAccess($this->getParentObject()->object->getRefId());
-        self::$confirmation_required = ilPrivacySettings::_getInstance()->groupConfirmationRequired();
-		
+			
+		self::$confirmation_required = ($this->getParentObject()->object->getType() == 'crs')
+			? ilPrivacySettings::_getInstance()->courseConfirmationRequired()
+			: ilPrivacySettings::_getInstance()->groupConfirmationRequired();
+	
         include_once 'Services/Membership/classes/class.ilMemberAgreement.php';
         self::$accepted_ids = ilMemberAgreement::lookupAcceptedAgreements($this->getParentObject()->object->getId());
 

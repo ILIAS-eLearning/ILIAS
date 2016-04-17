@@ -37,7 +37,6 @@ adm#:#adm_support_contacts#:#Mbeshtetje teknike
 adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (if activated) in the ‘Who is online?’-Tool. Comma separated list of account logins.
 adm#:#adm_update_skill_status#:#Update Skill Status
 adm#:#adm_update_skill_tables#:#Update Skill Tables
-adm#:#alert#:#Alert
 administration#:#adm_activate_db_benchmark#:#Aktivizo benchmark-un
 administration#:#adm_activate_db_benchmark_desc#:#Aktivizimi i Benchmark-ut do të pamundësohet automatikisht pas një kërkese
 administration#:#adm_add_settings_template#:#Shto formularin
@@ -315,7 +314,6 @@ administration#:#searching_invalid_refs#:#Në kërkim të referencave të pavlef
 administration#:#searching_invalid_rolfs#:#Në kërkim të Rolefolderave të pavlefshme…
 administration#:#searching_missing_objs#:#Në kërkim të objekteve të humbura…
 administration#:#searching_unbound_objs#:#Në kërkim të objekteve të zgjidhura…
-administration#:#show_topics_overview#:#Pasqyra e Temës
 administration#:#skipped#:#U anashkalua
 administration#:#start_scan#:#Fillo!
 administration#:#stop_scan#:#Ndalo!
@@ -325,7 +323,6 @@ administration#:#svn_revision_last_change#:#Rishikimi i fundit i ndryshuar: %s
 administration#:#svn_root#:#Root: %s
 administration#:#system_check_no_owner#:#Objeket pa pronar
 administration#:#systemcheck#:#Kontrolli i sistemit
-administration#:#topics_overview_info#:#Nëse aktivizohet, vetëm temat me informatat e vendosura do të tregohen (shfaqen)
 administration#:#tree_corrupt#:#Trungu është korruptuar! Shiko rezultatet (log) e ekzaminimit për detaje.
 administration#:#user_criteria#:#Kriteret unike të përdoruesit
 administration#:#user_criteria_desc#:#Kriteret unike që përdoren për importimin/ eksportimin e rezultateve të testit. Kjo është e nevojshme për identifikimin e përdoruesve identik në sisteme të ndryshme në ILIAS.
@@ -9723,8 +9720,6 @@ forum#:#content_censored_post#:#Content of the censored posting:
 forum#:#content_deleted_post#:#Content of the deleted posting:
 forum#:#content_deleted_thread#:#Content of the deleted thread:
 forum#:#content_post_updated#:#Content of the edited posting:
-forum#:#deactivate_current_and_childs#:#Deaktivizo të gjitha postimet
-forum#:#deactivate_post_txt#:#A dëshironi vërtetë të çaktivizoni postin aktual dhe të gjitha nën-postimet?
 forum#:#descending_order#:#Postimet e fundit në anën e sipërme.
 forum#:#empty_subject#:#Në përgjigje përdoruesi duhet të vendos titullin e ri
 forum#:#enable_thread_ratings#:#Klasifikimi i temave
@@ -10507,8 +10502,6 @@ mail#:#mail_sure_delete#:#A jeni të sigurt për të fshirë e-mailin e shënjua
 mail#:#mail_sure_delete_entry#:#A jeni të sigurt për të fshirë të dhënat në vijim
 mail#:#mail_sure_delete_file#:#Skedari do të fshihet në mënyrë permanente
 mail#:#mail_sure_delete_folder#:#Direktoriumi dhe gjithë përmbajtja e tij do të fshihen në mënyrë permanente
-mail#:#mail_system_sender_name#:#Sender Name
-mail#:#mail_system_sender_name_info#:#Please enter a name. This name will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, 'ILIAS' is used as the sender.
 mail#:#mail_template_client#:#Text Template
 mail#:#mail_template_client_info#:#Choose one of the available text templates and make use of it's placeholders. If you choose a text template, body and subject of this form (if defined in the text template) will be replaced.
 mail#:#mail_template_context#:#Context
@@ -16181,3 +16174,17 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Verification: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
+content#:#cont_localfile#:#Local File###14 04 2016 new variable
+mail#:#mail_send_html#:#HTML Frame for External Emails###14 04 2016 new variable
+mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .###14 04 2016 new variable
+mail#:#mail_system_from_name#:#Sender Name###14 04 2016 new variable
+mail#:#mail_system_from_name_info#:#Please enter a name. This name (e.g. 'John Doe') will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.###14 04 2016 new variable
+mail#:#mail_system_return_path#:#Global Return-Path###14 04 2016 new variable
+mail#:#mail_system_return_path_info#:#Please enter an email address which should be used for the return path (e.g. webmaster@ilias.de). If you leave the field blank, the 'Return-Path' will be the 'From' email address.###14 04 2016 new variable
+exc#:#exc_delete_team#:#Delete Team###14 04 2016 new variable
+sysc#:#sysc_tree_structure_failures#:#Number of failures in the tree structure (parent-Relation):###14 04 2016 new variable
+sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tree structure? Please create a database backup before you proceed.###14 04 2016 new variable
+sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure###14 04 2016 new variable
+crs#:#event_tbl_admins#:#Administrators###14 04 2016 new variable
+crs#:#event_tbl_members#:#Members###14 04 2016 new variable
+crs#:#event_tbl_tutors#:#Tutors###14 04 2016 new variable

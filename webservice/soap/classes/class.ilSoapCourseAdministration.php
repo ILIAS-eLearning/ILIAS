@@ -589,9 +589,14 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		$xmlResultSet->addColumn("ref_id");
 		$xmlResultSet->addColumn("xml");
 		$xmlResultSet->addColumn("parent_ref_id");
+
+		global $ilUser;
+		//#18004
+		// Enable to see own participations by reducing the needed permissions
+		$permission = $user_id == $ilUser->getId() ? 'read' : 'write';
 		
 		foreach ($ref_ids as $course_id) {
-			$course_obj = $this->checkObjectAccess($course_id,"crs","write", true);
+			$course_obj = $this->checkObjectAccess($course_id,"crs",$permission, true);
 			if ($course_obj instanceof ilObjCourse) {
 				$row = new ilXMLResultSetRow();				
 				$row->setValue("ref_id", $course_id);

@@ -1252,6 +1252,31 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 		return $row["obj_id"];
 	}
+	
+	/**
+	 * 
+	 * @global $ilDB $ilDB
+	 * @param int $a_obj_id
+	 * @return int
+	 */
+	public static function lookupGroupStatusTemplateId($a_obj_id)
+	{
+		global $ilDB;
+		
+		$type = self::lookupGroupTye($a_obj_id);
+		if($type == GRP_TYPE_CLOSED)
+		{
+			$query = 'SELECT obj_id FROM object_data WHERE type = '.$ilDB->quote('rolt','text').' AND title = '.$ilDB->quote('il_grp_status_closed','text');
+		}
+		else
+		{
+			$query = 'SELECT obj_id FROM object_data WHERE type = '.$ilDB->quote('rolt','text').' AND title = '.$ilDB->quote('il_grp_status_open','text');
+		}
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return isset($row['obj_id']) ? $row['obj_id'] : 0;
+	}
 
 
 	
@@ -2091,7 +2116,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 					{
 						continue;
 					}
-					$this->getMembersObject()->add($user_id,IL_CRS_MEMBER);
+					$this->getMembersObject()->add($user_id,IL_GRP_MEMBER); // #18213
 					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
 					$waiting_list->removeFromList($user_id);
 

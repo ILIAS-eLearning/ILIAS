@@ -16,23 +16,38 @@ class ilTestPDFGenerator
 	const PDF_OUTPUT_INLINE = 'I';
 	const PDF_OUTPUT_FILE = 'F';
 
+	private static function buildHtmlDocument($contentHtml, $styleHtml)
+	{
+		return "
+			<html>
+				<head>
+					<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+ 					$styleHtml
+ 				</head>
+				<body>$contentHtml</body>
+			</html>
+		";
+	}
+	
 	/**
 	 * @param $html
 	 * @return string
 	 */
-	private static function removeScriptElements($html)
+	private static function makeHtmlDocument($contentHtml, $styleHtml)
 	{
-		if(!is_string($html) || !strlen(trim($html)))
+		if(!is_string($contentHtml) || !strlen(trim($contentHtml)))
 		{
-			return $html;
+			return $contentHtml;
 		}
+		
+		$html = self::buildHtmlDocument($contentHtml, $styleHtml);
 
 		$dom = new DOMDocument("1.0", "utf-8");
-		if(!@$dom->loadHTML('<?xml encoding="UTF-8">' . $html))
+		if(!@$dom->loadHTML($html))
 		{
 			return $html;
 		}
-
+		
 		$invalid_elements = array();
 
 		$script_elements     = $dom->getElementsByTagName('script');
@@ -46,6 +61,13 @@ class ilTestPDFGenerator
 			$elm->parentNode->removeChild($elm);
 		}
 
+		// remove noprint elems as tcpdf will make empty pdf when hidden by css rules
+		$domX = new DomXPath($dom);
+		foreach($domX->query("//*[contains(@class, 'noprint')]") as $node)
+		{
+			$node->parentNode->removeChild($node);
+		}
+
 		$dom->encoding = 'UTF-8';
 		$cleaned_html = $dom->saveHTML();
 		if(!$cleaned_html)
@@ -53,7 +75,7 @@ class ilTestPDFGenerator
 			return $html;
 		}
 
-		return $cleaned_html;
+		return '<?xml encoding="UTF-8">'.$cleaned_html;
 	}
 
 	public static function generatePDF($pdf_output, $output_mode, $filename=null)
@@ -83,9 +105,10 @@ class ilTestPDFGenerator
 	
 	public static function preprocessHTML($html)
 	{
-		$html = self::removeScriptElements($html);
 		$pdf_css_path = self::getTemplatePath('test_pdf.css');
-		return '<style>' . file_get_contents($pdf_css_path)	. '</style>' . $html;
+		$html = self::makeHtmlDocument($html, '<style>'.file_get_contents($pdf_css_path).'</style>');
+		
+		return $html;
 	}
 
 	protected static function getTemplatePath($a_filename)

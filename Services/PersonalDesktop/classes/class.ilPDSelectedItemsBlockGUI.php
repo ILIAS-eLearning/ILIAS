@@ -219,15 +219,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		
 		switch((int)$this->view)
 		{
-			case self::VIEW_MY_STUDYPROGRAMME:
-				// TODO: This seems to be very hacky, but i did not find a way to get the standard PD blocks
-				// and only exchange the middle blog for the study programme list. Sry Alex.
-				require_once("Modules/StudyProgramme/classes/class.ilPDStudyProgrammeExpandableListGUI.php");
-				$list = new ilPDStudyProgrammeExpandableListGUI();
-				$this->setTitle($lng->txt("objs_prg"));
-				$this->setContent($list->getDataSectionContent());
-				$this->setAvailableDetailLevels(0);
-				break;
 			case self::VIEW_MY_MEMBERSHIPS:
 				$ilHelp->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, "crs_grp");
 				if ($ilSetting->get('disable_my_offers') == 0)

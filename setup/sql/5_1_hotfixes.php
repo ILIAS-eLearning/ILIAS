@@ -100,3 +100,23 @@ if(!$ilDB->indexExistsByFields('il_qpl_qst_fq_unit',array('question_fi')))
 $setting = new ilSetting();
 $setting->set('mail_send_html', 1);
 ?>
+<#7>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('copy');	
+if($tgt_ops_id)
+{				
+	$book_type_id = ilDBUpdateNewObjectType::getObjectTypeId('book');
+	if($book_type_id)
+	{			
+		// add "copy" to booking tool
+		ilDBUpdateNewObjectType::addRBACOperation($book_type_id, $tgt_ops_id);				
+									
+		// clone settings from "write" to "copy"
+		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');	
+		ilDBUpdateNewObjectType::cloneOperation('book', $src_ops_id, $tgt_ops_id);		
+	}	
+}
+
+?>

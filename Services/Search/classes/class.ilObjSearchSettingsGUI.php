@@ -226,6 +226,13 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$operator->addOption($or);
 		$this->form->addItem($operator);
 		
+		// user search
+		$us = new ilCheckboxInputGUI($this->lng->txt('search_user_search_form'),'user_search_enabled');
+		$us->setInfo($this->lng->txt('search_user_search_info_form'));
+		$us->setValue(1);
+		$us->setChecked($settings->isLuceneUserSearchEnabled());
+		$this->form->addItem($us);
+		
 		
 		// Item filter
 		$if = new ilCheckboxInputGUI($this->lng->txt('search_item_filter_form'),'if');
@@ -341,8 +348,8 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$settings->setAutoCompleteLength($_POST['auto_complete_length']);
 		$settings->showInactiveUser($_POST["inactive_user"]);
 		$settings->showLimitedUser($_POST["limited_user"]);
-		
 		$settings->enableDateFilter($_POST['cdate']);
+		$settings->enableLuceneUserSearch((int) $_POST['user_search_enabled']);
 		$settings->update();
 		
 		
@@ -405,14 +412,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$offline->setChecked($this->settings->isLuceneOfflineFilterEnabled());
 		$this->form->addItem($offline);
 		 */
-		
-		// user search
-		$us = new ilCheckboxInputGUI($this->lng->txt('search_user_search_form'),'user_search_enabled');
-		$us->setInfo($this->lng->txt('search_user_search_info_form'));
-		$us->setValue(1);
-		$us->setChecked($this->settings->isLuceneUserSearchEnabled());
-		$this->form->addItem($us);
-		
+				
 		
 		// Item filter
 		$if = new ilCheckboxInputGUI($this->lng->txt('search_mime_filter_form'),'mime_enabled');
@@ -505,7 +505,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->initFormLuceneSettings();
 		
 		$settings = ilSearchSettings::getInstance();
-		$settings->enableLuceneUserSearch((int) $_POST['user_search_enabled']);
 		$settings->setFragmentCount((int) $_POST['fragmentCount']);
 		$settings->setFragmentSize((int) $_POST['fragmentSize']);
 		$settings->setMaxSubitems((int) $_POST['maxSubitems']);
@@ -560,7 +559,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 			ilRpcClientFactory::factory('RPCAdministration')->refreshSettings(CLIENT_ID.'_'.$ilSetting->get('inst_id',0));
 		} 
 		catch (Exception $exception) {
-			ilLoggerFactory::getLogger('src')->error('Refresh of lucene server settings failed with message: ' . $e->getMessage());
+			ilLoggerFactory::getLogger('src')->error('Refresh of lucene server settings failed with message: ' . $exception->getMessage());
 			throw $exception;
 		}
 	}

@@ -12496,8 +12496,10 @@ pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 wsp#:#wsp_tab_ownership#:#My Repository Objects
 user#:#user_ownership#:#Repository Objects
 registration#:#registration_code_role_info#:#If you use a registration code, the role selection may be superseded by the code.
-mail#:#mail_system_sender_name#:#Sender Name
-mail#:#mail_system_sender_name_info#:#Please enter a name. This name will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.
+mail#:#mail_system_from_name#:#Sender Name
+mail#:#mail_system_from_name_info#:#Please enter a name. This name (e.g. 'John Doe') will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.
+mail#:#mail_system_return_path#:#Global Return-Path
+mail#:#mail_system_return_path_info#:#Please enter an email address which should be used for the return path (e.g. webmaster@ilias.de). If you leave the field blank, the 'Return-Path' will be the 'From' email address.
 content#:#cont_current_term#:#Current Term
 assessment#:#tst_setting_offer_hints_label#:#Hints
 assessment#:#tst_setting_offer_hints_info#:#Participants request hints to answer a question. With every hint presented the maximum number of points to be earned decreases.
@@ -16183,3 +16185,6 @@ exc#:#exc_delete_team#:#Delete Team
 sysc#:#sysc_tree_structure_failures#:#Number of failures in the tree structure (parent-Relation):
 sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tree structure? Please create a database backup before you proceed.
 sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure
+crs#:#event_tbl_admins#:#Administrators
+crs#:#event_tbl_members#:#Members
+crs#:#event_tbl_tutors#:#Tutors

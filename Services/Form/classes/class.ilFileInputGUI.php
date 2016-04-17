@@ -216,7 +216,16 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	function checkInput()
 	{
 		global $lng;
+		
+		// if no information is received, something went wrong
+		// this is e.g. the case, if the post_max_size has been exceeded
+		if (!is_array($_FILES[$this->getPostVar()]))
+		{
+			$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+			return false;
+		}
 
+		
 		$_FILES[$this->getPostVar()]["name"] = ilUtil::stripSlashes($_FILES[$this->getPostVar()]["name"]);
 
 		include_once("./Services/Utilities/classes/class.ilStr.php");
@@ -227,7 +236,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 		{
 			$_FILES[$this->getPostVar()]["name"] = substr($_FILES[$this->getPostVar()]["name"],0,-1);
 		}
-
+		
 		$filename = $_FILES[$this->getPostVar()]["name"];
 		$filename_arr = pathinfo($_FILES[$this->getPostVar()]["name"]);
 		$suffix = $filename_arr["extension"];
@@ -237,14 +246,6 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 		$error = $_FILES[$this->getPostVar()]["error"];
 		$_POST[$this->getPostVar()] = $_FILES[$this->getPostVar()];
 		
-		// if no information is received, something went wrong
-		// this is e.g. the case, if the post_max_size has been exceeded
-		if (!is_array($_FILES[$this->getPostVar()]))
-		{
-			$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
-			return false;
-		}
-
 		// error handling
 		if ($error > 0)
 		{

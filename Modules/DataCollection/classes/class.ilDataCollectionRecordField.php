@@ -167,8 +167,8 @@ class ilDataCollectionRecordField {
 				$this->value = $tmp;
 				//delete old file from filesystem
 				// TODO Does not belong here, create separate class ilDataCollectionFileField and overwrite setValue method
-				if ($old && $old != $this->value && $this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE) {
-					$this->record->deleteFile($old);
+				if ($old && $this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE) {
+//					$this->record->deleteFile($old); // Removed due to #0018064
 				}
 			}
 		} else {

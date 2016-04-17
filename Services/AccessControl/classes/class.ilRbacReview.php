@@ -536,9 +536,17 @@ class ilRbacReview
 				"WHERE obj_id = ".$this->ilDB->quote($a_role_id ,'integer');
 			$r = $this->ilDB->query($q);
 
-			if ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			if($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				return '#'.$row->title;
+				$ids_for_role_title = ilObject::_getIdsForTitle($row->title, 'role');
+				if(count($ids_for_role_title) > 1)
+				{
+					return '#il_role_' . $a_role_id;
+				}
+				else
+				{
+					return '#' . $row->title;
+				}
 			}
 			else
 			{

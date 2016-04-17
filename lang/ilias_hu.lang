@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.1.x 2016-03-19 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.1.x 2016-04-10 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -1364,9 +1364,9 @@ assessment#:#tst_user_finished_test#:#'%s' tesztet egy felhasználó befejezte
 assessment#:#tst_your_answer_was#:#Az Ön által adott válasz a következő volt
 assessment#:#tst_your_answers#:#Ezek az Ön által adott válaszok az alábbi kérdésekre.
 assessment#:#test_enable_archiving#:#Archiválás engedélyezése
-assessment#:#test_enable_archiving_desc#:#A teszt összes résztvevőjének összes válasza exportálható és letölthető az 'Export' fül alatt.
-assessment#:#ass_create_archive_export#:#Archív-export létrehozása
-assessment#:#cannot_export_archive#:#Archív-export nem hozható létre.
+assessment#:#test_enable_archiving_desc#:#A teszt összes résztvevőjének összes válasza exportálható és letölthető az 'Export' fül alatt. Az archív fájl a felhasználónak akkor jön létre, amikor befejezi a tesztet vagy eredménye manuális pontozás miatt változik. Ez növeli a szerver terhelését és csökkenti a szerver teljesítményét. 
+assessment#:#ass_create_archive_export#:#Archív export létrehozása.
+assessment#:#cannot_export_archive#:#Archív export fájl nem hozható létre.
 assessment#:#tt_assessment#:#Ellenőrző teszt
 assessment#:#tt_online_exam#:#Online vizsga
 assessment#:#tt_self_assessment#:#Önértékelő teszt
@@ -4854,7 +4854,7 @@ common#:#zipcode#:#Irányítószám
 content#:#add_menu_entry#:#Menübejegyzés hozzáadása
 content#:#all_pages#:#a teljes tananyag
 content#:#all#:#Mind
-content#:#choose_public_mode#:#Nem regisztrált felhasználók elérhetik
+content#:#choose_public_mode#:#Be nem jelentkezett felhasználók elérhetik:
 content#:#choose_public_pages#:#Nyilvánosan elérhető lapok kiválasztása
 content#:#citate_from#:#Idéz honnan ...
 content#:#citate_page#:#Idézi ezt a lapot
@@ -5604,7 +5604,7 @@ content#:#scplayer_showtree#:#Tartalomjegyzék megjelenítése
 content#:#scplayer_start#:#Indítás
 content#:#scplayer_suspendall#:#Összes felfüggesztése
 content#:#select_a_file#:#Válasszon ki egy fájlt.
-content#:#selected_pages_only#:#Csak a megváltozott oldalak
+content#:#selected_pages_only#:#csak a kijelölt oldalak
 content#:#selectFooter#:#Kiválasztás láblécként
 content#:#selectHeader#:#Kiválasztás fejlécként
 content#:#seq_abandon#:#Megszakítási kérelmet kaptunk és dolgoztunk fel.
@@ -12496,8 +12496,10 @@ pdesk#:#bookmark_moved_ok#:#A könyvjelző áthelyeződött.
 wsp#:#wsp_tab_ownership#:#Taneszköztárolóban levő objektumaim
 user#:#user_ownership#:#Taneszköztárolóban levő objektumok
 registration#:#registration_code_role_info#:#Ha regisztrációs kódot használ, lehet hogy a kód végzi a szerepkiválasztást.
-mail#:#mail_system_sender_name#:#Feladó neve
-mail#:#mail_system_sender_name_info#:#Adjon meg egy nevet az automatikusan generált (belső és külső) üzenetekhez. Ha üresen hagyja a mezőt, az ILIAS ennek az installációnak a rövid címét használja. Ha nem jól definiált a cím, az 'ILIAS' lesz használva feladóként.
+mail#:#mail_system_from_name#:#Feladó neve
+mail#:#mail_system_from_name_info#:#Adjon meg egy nevet (pl. Gipsz Jakab) az automatikusan generált (belső és külső) üzenetekhez. Ha üresen hagyja a mezőt, az ILIAS ennek az telepítésnek a rövid címét használja. Ha ez sincs megadva, 'ILIAS' lesz a feladó.
+mail#:#mail_system_return_path#:#Globális válasz-címzett
+mail#:#mail_system_return_path_info#:#E-mailre válaszadáskor ez lesz a címzett (pl. info@ilias.hu). Amennyiben üresen hagyja, a válasz-címzett a feladó e-mail címe lesz.
 content#:#cont_current_term#:#Jelenlegi terminus
 assessment#:#tst_setting_offer_hints_label#:#Segítség
 assessment#:#tst_setting_offer_hints_info#:#A résztvevők a kérdés megválaszolásához segítségeket kérhetnek. A megszerezhető pontszám minden segítségkéréssel csökken.
@@ -16168,7 +16170,6 @@ note#:#note_comment_notification_user_has_written#:#%s írta:
 prg#:#prg_show_programmes#:#Láthatóság
 content#:#cont_not_saved_edit_lock_expired#:#Sajnáljuk, módosításait nem sikerült menteni, mert időközben egy másik felhasználó szerkesztésre zárolta ezt az oldalt. Az üzenet bezárása után a tartalmat vágólapra másolhatja.
 content#:#cont_error#:#Sajnáljuk, hiba lépett fel
-prtf#:#prtf_shared_offline_info#:#A portfóliónak online-nak kell lennie, hogy elérjék azok a felhasználók, akikkel meg van osztva.
 crs#:#crs_mail_context_member_info#:#Egy kurzus információs lapján lévő e-mail címekre 
 crs#:#crs_mail_context_tutor_info#:#Egy kurzus tagok és tanulási haladás lapján lévő résztvevők e-mail címeire
 sahs#:#sahs_mail_context_lp_info#:#Egy SCORM-tananyag tanulási haladás lapján lévő résztvevők e-mail címeire
@@ -16184,3 +16185,6 @@ exc#:#exc_delete_team#:#Csapat törlése
 sysc#:#sysc_tree_structure_failures#:#Fastruktúra hibáinak száma (szülőkapcsolat):
 sysc#:#sysc_message_tree_structure_confirm#:#Biztos, hogy javítja a fastruktúrát? A javítás előtt készítsen biztonsági másolatot adatbázisáról.
 sysc#:#sysc_btn_tree_structure#:#Fastruktúra újralétrehozása
+crs#:#event_tbl_admins#:#Administrators###14 04 2016 new variable
+crs#:#event_tbl_members#:#Members###14 04 2016 new variable
+crs#:#event_tbl_tutors#:#Tutors###14 04 2016 new variable

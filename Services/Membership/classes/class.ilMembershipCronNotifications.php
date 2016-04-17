@@ -163,6 +163,12 @@ class ilMembershipCronNotifications extends ilCronJob
 		$wrong_parent = (array_key_exists($a_item["id"], $a_filter_map) &&
 				$a_parent_ref_id != $a_filter_map[$a_item["id"]]);		
 		
+		// #18223
+		if($wrong_parent)
+		{
+			return;
+		}
+		
 		$item_obj_title = trim(ilObject::_lookupTitle($a_item["context_obj_id"]));	
 		$item_obj_type = $a_item["context_obj_type"];
 		
@@ -217,73 +223,60 @@ class ilMembershipCronNotifications extends ilCronJob
 		
 		$title = trim($title);
 		
-		// #18067
-		$content = ilUtil::shortenText(trim($content), 200, true);
+		// #18067 / #18186
+		$content = ilUtil::shortenText(trim(strip_tags($content)), 200, true);
 		
 		$res = "";
 		switch($item_obj_type)
 		{
-			case "frm":
-				if(!$wrong_parent)
+			case "frm":				
+				if(!$a_is_sub)
 				{
-					if(!$a_is_sub)
-					{
-						$res =  $lng->txt("obj_".$item_obj_type).
-							' "'.$item_obj_title.'": '.$title;	
-					}
-					else
-					{
-						$res .= '"'.$title.'": "'.$content.'"';
-					}
+					$res =  $lng->txt("obj_".$item_obj_type).
+						' "'.$item_obj_title.'": '.$title;	
 				}
-				break;
-				
-			case "file":
-				if(!$a_is_sub ||
-					!$wrong_parent)
+				else
 				{
-					if(!is_array($a_item["aggregation"]) ||
-						sizeof($a_item["aggregation"]) == 1)
-					{
-						$res =  $lng->txt("obj_".$item_obj_type).
-							' "'.$item_obj_title.'" - '.$title;	
-					}
-					else
-					{
-						// if files were removed from aggregation update summary count
-						$title = str_replace(
-							" ".sizeof($a_item["aggregation"])." ", 
-							" ".sizeof($sub)." ", 
-							$title
-						);													
-						$res = $title;												
-					}
+					$res .= '"'.$title.'": "'.$content.'"';
 				}				
 				break;
 				
-			default:			
-				if(!$wrong_parent)
+			case "file":
+				if(!is_array($a_item["aggregation"]) ||
+					sizeof($a_item["aggregation"]) == 1)
 				{
-					$res = $lng->txt("obj_".$item_obj_type).
-						' "'.$item_obj_title.'"';	
-					if($title)
-					{
-						$res .= ': "'.$title.'"';
-					}
-					if($content)
-					{
-						$res .= ' - '.$content;
-					}
+					$res =  $lng->txt("obj_".$item_obj_type).
+						' "'.$item_obj_title.'" - '.$title;	
 				}
+				else
+				{
+					// if files were removed from aggregation update summary count
+					$title = str_replace(
+						" ".sizeof($a_item["aggregation"])." ", 
+						" ".sizeof($sub)." ", 
+						$title
+					);													
+					$res = $title;												
+				}								
+				break;
+				
+			default:							
+				$res = $lng->txt("obj_".$item_obj_type).
+					' "'.$item_obj_title.'"';	
+				if($title)
+				{
+					$res .= ': "'.$title.'"';
+				}
+				if($content)
+				{
+					$res .= ' - '.$content;
+				}			
 				break;
 		}	
 		
-		if($res)
-		{
-			$res = $a_is_sub 
-				? "- ".$res
-				: "# ".$res;
-		}
+		$res = $a_is_sub 
+			? "- ".$res
+			: "# ".$res;
 		
 		if(sizeof($sub))
 		{		
@@ -403,9 +396,18 @@ class ilMembershipCronNotifications extends ilCronJob
 					$parsed[md5($parsed_item)] = $parsed_item; 				
 				}
 			}	
-			$parent["news"] = implode("\n", $parsed);
-			
-			$tmp[$path] = $parent;										
+			// any news?
+			if(sizeof($parsed))
+			{
+				$parent["news"] = implode("\n", $parsed);			
+				$tmp[$path] = $parent;		
+			}
+		}
+		
+		// any objects?
+		if(!sizeof($tmp))
+		{
+			return;
 		}
 		
 		ksort($tmp);

@@ -429,7 +429,24 @@ class ilDataCollectionRecordEditGUI {
 
 			//edit values, they are valid we already checked them above
 			foreach ($all_fields as $field) {
-				$record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
+
+				$value = $this->form->getInput("field_" . $field->getId());
+
+				switch (true) {
+					//deletion flag on MOB inputs.
+					case ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB
+					      && $this->form->getItemByPostVar("field_" . $field->getId())->getDeletionFlag()):
+						$value = - 1;
+						$record_obj->setRecordFieldValue($field->getId(), $value);
+						break;
+					// mantis 0018064
+					case ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE && $value['tmp_name']):
+						$record_obj->setRecordFieldValue($field->getId(), $value);
+						break;
+					default:
+						$record_obj->setRecordFieldValue($field->getId(), $value);
+						break;
+				}
 			}
 
 			// Do we need to set a new owner for this record?

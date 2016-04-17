@@ -377,7 +377,8 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			$cat = $this->categories->getCategory($i);
 			if ($cat->other)
 			{
-				if (!in_array($i, $entered_value))
+				// #18212
+				if (!is_array($entered_value) || !in_array($i, $entered_value))
 				{
 					if (strlen($post_data[$this->getId() . "_" . $i . "_other"]))
 					{

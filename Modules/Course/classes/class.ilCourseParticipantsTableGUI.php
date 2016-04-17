@@ -472,15 +472,23 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$a_user_data = array();
 		foreach((array) $usr_data['set'] as $ud)
 		{			
-			$a_user_data[$ud['usr_id']] = array_merge($ud,$course_user_data[$ud['usr_id']]);
+			$user_id = $ud['usr_id'];
+			
+			// #15434
+			if(!$this->checkAcceptance($user_id))
+			{
+				$ud = array();
+			}
+			
+			$a_user_data[$user_id] = array_merge($ud,$course_user_data[$user_id]);
 			
 			if($this->show_lp_status_sync)
 			{								
 				// #9912 / #13208
 				$passed_info = "";
-				if($a_user_data[$ud['usr_id']]["passed_info"])
+				if($a_user_data[$user_id]["passed_info"])
 				{
-					$pinfo = $a_user_data[$ud['usr_id']]["passed_info"];	
+					$pinfo = $a_user_data[$user_id]["passed_info"];	
 					if($pinfo["user_id"])
 					{
 						if($pinfo["user_id"] < 0)
@@ -498,7 +506,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 						$passed_info .= "<br />".ilDatePresentation::formatDate($pinfo["timestamp"]);	
 					}
 				}				
-				$a_user_data[$ud['usr_id']]["passed_info"] = $passed_info;
+				$a_user_data[$user_id]["passed_info"] = $passed_info;
 			}
 		}
 
@@ -571,19 +579,6 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 			}
 		}
 
-		foreach($usr_data['set'] as $user)
-		{
-			// Check acceptance
-			if(!$this->checkAcceptance($user['usr_id']))
-			{
-				continue;
-			}
-			// DONE: accepted
-			foreach($usr_data_fields as $field)
-			{
-				$a_user_data[$user['usr_id']][$field] = $user[$field] ? $user[$field] : '';
-			}
-		}
 		// consultation hours
 		if($this->isColumnSelected('consultation_hour'))
 		{

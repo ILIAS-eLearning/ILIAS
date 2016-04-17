@@ -8241,8 +8241,6 @@ mail#:#mail_sure_delete#:#İşaretli postaları silmek istediğinizden emin misi
 mail#:#mail_sure_delete_entry#:#Aşağıdaki girdileri silmek istediğinizden emin misiniz?
 mail#:#mail_sure_delete_file#:#Seçilen dosyaları silmek istediğinizden emin misiniz?
 mail#:#mail_sure_delete_folder#:#klasörü ve içindekileri kalıcı olarak silinecek
-mail#:#mail_system_sender_name#:#Gönderen Adı
-mail#:#mail_system_sender_name_info#:#Lütfen bir isim girin. Bu ad otomatik olarak oluşturulur mesajları (dahili ve harici) için kullanılacaktır. Bu alanı boş bırakırsanız, ILIAS bu kurulum kısa bir başlık kullanır. Başlık iyi tanımlanmış ise, 'ILIAS' gönderen olarak kullanılır.
 mail#:#mail_to#:#Kime
 mail#:#mail_user_addr_n_valid#:#Aşağıdaki kullanıcıların geçerli bir e-posta adresi yok
 mail#:#placeholders_advise#:#Yer tutucuları sadece "Kime:" alanındaki alıcılar için kullanılır. CC ve BCC alanları için kullanılmaz
@@ -16178,3 +16176,15 @@ style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption###01 03 2016 new variable
 style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)###01 03 2016 new variable
 style#:#sty_va_ihcap_class#:#Vert. Accordion Caption###01 03 2016 new variable
 exc#:#exc_delete_team#:#Delete Team###10 03 2016 new variable
+mail#:#mail_send_html#:#HTML Frame for External Emails###14 04 2016 new variable
+mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .###14 04 2016 new variable
+mail#:#mail_system_from_name#:#Sender Name###14 04 2016 new variable
+mail#:#mail_system_from_name_info#:#Please enter a name. This name (e.g. 'John Doe') will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.###14 04 2016 new variable
+mail#:#mail_system_return_path#:#Global Return-Path###14 04 2016 new variable
+mail#:#mail_system_return_path_info#:#Please enter an email address which should be used for the return path (e.g. webmaster@ilias.de). If you leave the field blank, the 'Return-Path' will be the 'From' email address.###14 04 2016 new variable
+sysc#:#sysc_tree_structure_failures#:#Number of failures in the tree structure (parent-Relation):###14 04 2016 new variable
+sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tree structure? Please create a database backup before you proceed.###14 04 2016 new variable
+sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure###14 04 2016 new variable
+crs#:#event_tbl_admins#:#Administrators###14 04 2016 new variable
+crs#:#event_tbl_members#:#Members###14 04 2016 new variable
+crs#:#event_tbl_tutors#:#Tutors###14 04 2016 new variable

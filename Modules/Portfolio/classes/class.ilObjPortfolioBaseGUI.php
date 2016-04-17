@@ -543,7 +543,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 */
 	function preview($a_return = false, $a_content = false, $a_show_notes = true)
 	{				
-		global $ilSetting;
+		global $ilSetting, $ilUser;
 		
 		$portfolio_id = $this->object->getId();
 		$user_id = $this->object->getOwner();
@@ -661,11 +661,15 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		
 		if(!$a_content)
 		{
-			// get current page content
-			$page_gui = $this->getPageGUIInstance($current_page);
-			$page_gui->setEmbedded(true);
+			// #18291
+			if($current_page)
+			{
+				// get current page content
+				$page_gui = $this->getPageGUIInstance($current_page);
+				$page_gui->setEmbedded(true);
 
-			$content = $this->ctrl->getHTML($page_gui);			
+				$content = $this->ctrl->getHTML($page_gui);		
+			}
 		}
 		else
 		{
@@ -679,7 +683,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 						
 		// blog posting comments are handled within the blog
 		$notes = "";
-		if($a_show_notes && $this->object->hasPublicComments() && !$current_blog)
+		if($a_show_notes && $this->object->hasPublicComments() && !$current_blog && $current_page)
 		{			
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");			
 			$note_gui = new ilNoteGUI($portfolio_id, $current_page, "pfpg");
@@ -716,6 +720,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		{
 			$this->tpl->setPermanentLink($this->perma_link["type"], $this->perma_link["obj_id"]);
 		}
+		
+		// #18208 - see ilPortfolioTemplatePageGUI::getPageContentUserId()
+		if($this->getType() == "prtt" && !$this->checkPermissionBool("write"))
+		{
+			$user_id = $ilUser->getId();
+		}				
 		
 		self::renderFullscreenHeader($this->object, $this->tpl, $user_id);
 		
