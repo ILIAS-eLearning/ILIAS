@@ -87,9 +87,9 @@ Since the representation of the components are implemented as immutable objects,
 you can savely reuse components created elsewhere in your code, or pass your
 component to other code without being concerned if the other code modifies it.
 
-[Example 1](doku/examples.md#example_1)
-[Example 2](doku/examples.md#example_2)
-[Example 3](doku/examples.md#example_3)
+[Example 1](doku/usage_examples.md#example_1)
+[Example 2](doku/usage_examples.md#example_2)
+[Example 3](doku/usage_examples.md#example_3)
 
 ## Implementing Elements in the Framework
 
@@ -109,7 +109,7 @@ An entry in the Kitchen Sink passes through three states:
 * **To be revised**: The entry is still being worked on.
 * **Proposed**: The entry has been revisited and is proposed to the JF, but has
   not yet been decided upon.
-* **Accepted**: The entry has been accepted y trhe JF.
+* **Accepted**: The entry has been accepted by the JF.
 
 These states are represented by using functionality of git and GitHub. After
 acceptance, the new entry is part of the Kitchen Sink as well as part of the
