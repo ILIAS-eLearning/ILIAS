@@ -355,6 +355,7 @@ exercise#:#exc_feedback_from_tutor#:#Feedback des Trainers
 fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen und Ordner öffnen, indem Sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
 gev#:#report_query_view#:#Abfrage betrachten
 gev#:#report_query_text#:#Abfrage:
+gev#:#video_link#:#Link zum Erklärungsvideo
 gev#:#edit_settings#:#Einstellungen bearbeiten
 gev#:#gev_crs_template#:#Vorlage
 gev#:#dont_send_mail#:#keine Mail versenden

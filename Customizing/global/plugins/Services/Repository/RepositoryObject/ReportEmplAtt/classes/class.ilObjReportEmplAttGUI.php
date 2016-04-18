@@ -5,7 +5,7 @@ require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
 * User Interface class for example repository object.
 * ...
 * @ilCtrl_isCalledBy ilObjReportEmplAttGUI: ilRepositoryGUI, ilAdministrationGUI, ilObjPluginDispatchGUI
-* @ilCtrl_Calls ilObjReportEmplAttGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI, gevDBVReportGUI
+* @ilCtrl_Calls ilObjReportEmplAttGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI,
 * @ilCtrl_Calls ilObjReportEmplAttGUI: ilCommonActionDispatcherGUI
 */
 class ilObjReportEmplAttGUI extends ilObjReportBaseGUI {
@@ -119,5 +119,23 @@ class ilObjReportEmplAttGUI extends ilObjReportBaseGUI {
 
 		return parent::transformResultRow($rec);
 	}
-}
 
+	protected function settingsForm($data = null) {
+		$settings_form = parent::settingsForm($data);
+		$title_info_link = new ilTextInputGUI($this->object->plugin->txt('title_info_link_description'),'title_info_link');
+		$title_info_link->setValue($data['title_info_link']);
+		$settings_form->addItem($title_info_link);
+		return $settings_form;
+	}
+
+	protected function getSettingsData() {
+		$data = parent::getSettingsData();
+		$data['title_info_link'] = $this->object->getTitleInfoLink();
+		return $data;
+	}
+
+	protected function saveSettingsData($data) {
+		$this->object->setTitleInfoLink($data['title_info_link']);
+		parent::saveSettingsData($data);
+	}
+}
