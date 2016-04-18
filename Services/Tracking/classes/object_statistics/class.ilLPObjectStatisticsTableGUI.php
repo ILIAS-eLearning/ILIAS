@@ -307,7 +307,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		return $chart->getHTML();
 	}
 	
-	protected function fillMetaExcel($worksheet, &$a_row)
+	protected function fillMetaExcel(ilExcel $a_excel, &$a_row)
 	{
 		
 	}

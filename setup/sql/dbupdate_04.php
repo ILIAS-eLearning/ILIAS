@@ -14740,3 +14740,38 @@ $ilDB->manipulateF(
 	array('pear_mail_enable')
 );
 ?>
+<#4894>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('copy');	
+if($tgt_ops_id)
+{				
+	$book_type_id = ilDBUpdateNewObjectType::getObjectTypeId('book');
+	if($book_type_id)
+	{			
+		// add "copy" to booking tool - returns false if already exists
+		if(ilDBUpdateNewObjectType::addRBACOperation($book_type_id, $tgt_ops_id))
+		{									
+			// clone settings from "write" to "copy" 
+			$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');	
+			ilDBUpdateNewObjectType::cloneOperation('book', $src_ops_id, $tgt_ops_id);		
+		}
+	}	
+}
+
+?>
+<#4895>
+<?php
+
+if(!$ilDB->tableColumnExists('webr_items','internal'))
+{
+	$ilDB->addTableColumn('webr_items', 'internal', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => null
+	));
+}
+
+?>

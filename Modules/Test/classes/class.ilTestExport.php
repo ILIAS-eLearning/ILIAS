@@ -905,7 +905,7 @@ class ilTestExport
 				{
 					if($ts)
 					{
-						$visit = ilFormat::formatDate(date('Y-m-d H:i:s', $ts), "datetime", false, false);
+						$visit = ilDatePresentation::formatDate(new ilDateTime($ts, IL_CAL_UNIX));
 						array_push($datarow2, $visit);
 					}
 					else

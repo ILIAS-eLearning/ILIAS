@@ -196,8 +196,10 @@ class Mail_RFC822 {
         while ($this->address = $this->_splitAddresses($this->address));
 
         if ($this->address === false || isset($this->error)) {
-            require_once 'PEAR.php';
-            return PEAR::raiseError($this->error);
+            // mjansen patch 14 Ap 2016 start
+            require_once 'Services/Mail/exceptions/class.ilMailException.php';
+            throw new ilMailException($this->error);
+            // mjansen patch 14 Ap 2016 end
         }
 
         // Validate each address individually.  If we encounter an invalid
@@ -206,8 +208,10 @@ class Mail_RFC822 {
             $valid = $this->_validateAddress($address);
 
             if ($valid === false || isset($this->error)) {
-                require_once 'PEAR.php';
-                return PEAR::raiseError($this->error);
+                // mjansen patch 14 Ap 2016 start
+                require_once 'Services/Mail/exceptions/class.ilMailException.php';
+                throw new ilMailException($this->error);
+                // mjansen patch 14 Ap 2016 end
             }
 
             if (!$this->nestGroups) {
