@@ -1491,8 +1491,9 @@ class ilMimeTypeUtil {
 	 *
 	 * @return string
 	 */
-	public static function lookupMimeType($path_to_file, $fallback = self::APPLICATION__OCTET_STREAM) {
+	public static function lookupMimeType($path_to_file, $fallback = self::APPLICATION__OCTET_STREAM, $a_external = false) {
 		$obj = new self($path_to_file);
+		$obj->setExternal($a_external);
 		$obj->setFallback($fallback);
 
 		return $obj->get();
@@ -1504,7 +1505,9 @@ class ilMimeTypeUtil {
 	 */
 	public function get() {
 		if ($this->isExternal()) {
-			if (is_int(strpos($this->getPath(), 'youtube.'))) {
+			if (is_int(strpos($this->getPath(), 'youtube.')) ||
+					is_int(strpos($this->getPath(), 'youtu.be'))
+			) {
 				return self::VIDEO__YOUTUBE;
 			}
 			if (is_int(strpos($this->getPath(), 'vimeo.'))) {
