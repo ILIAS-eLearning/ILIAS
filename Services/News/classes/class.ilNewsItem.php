@@ -992,7 +992,7 @@ class ilNewsItem extends ilNewsItemGen
 	/**
 	* Set item read.
 	*/
-	function _setRead($a_user_id, $a_news_id)
+	static function _setRead($a_user_id, $a_news_id)
 	{
 		global $ilDB, $ilAppEventHandler;
 		
@@ -1019,7 +1019,7 @@ class ilNewsItem extends ilNewsItemGen
 	/**
 	* Set item unread.
 	*/
-	function _setUnread($a_user_id, $a_news_id)
+	static function _setUnread($a_user_id, $a_news_id)
 	{
 		global $ilDB, $ilAppEventHandler;
 		
@@ -1433,11 +1433,9 @@ class ilNewsItem extends ilNewsItemGen
 		
 		return $per;
 	}
-	
-	function _lookupUserPDPeriod($a_user_id)
+
+	static function _lookupUserPDPeriod($a_user_id)
 	{
-		global $ilSetting;
-		
 		$news_set = new ilSetting("news");
 		$allow_shorter_periods = $news_set->get("allow_shorter_periods");
 		$allow_longer_periods = $news_set->get("allow_longer_periods");
