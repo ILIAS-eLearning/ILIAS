@@ -683,7 +683,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 		else	// standard type: reference
 		{
-			$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["standard_reference"]));
+			$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["standard_reference"]), true);
 			$media_item->setFormat($format);
 			$media_item->setLocation(ilUtil::secureLink(ilUtil::stripSlashes($_POST["standard_reference"])));
 			$media_item->setLocationType("Reference");
@@ -759,7 +759,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$format = $location = "";
 				if ($_POST["full_reference"] != "")
 				{
-					$format = ilObjMediaObject::getMimeType($_POST["full_reference"]);
+					$format = ilObjMediaObject::getMimeType($_POST["full_reference"], true);
 					$location = ilUtil::stripSlashes($_POST["full_reference"]);
 				}
 			}
@@ -915,7 +915,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$format = $std_item->getFormat();
 			if ($_POST["standard_type"] == "Reference")
 			{
-				$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["standard_reference"]));
+				$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["standard_reference"]), true);
 				$std_item->setFormat($format);
 				$std_item->setLocation(ilUtil::secureLink(ilUtil::stripSlashes($_POST["standard_reference"])));
 				$std_item->setLocationType("Reference");
@@ -1024,7 +1024,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$format = $full_item->getFormat();
 				if ($_POST["full_type"] == "Reference")
 				{
-					$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["full_reference"]));
+					$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["full_reference"]), true);
 					$full_item->setFormat($format);
 					$full_item->setLocationType("Reference");					
 					$location = ilUtil::stripSlashes($_POST["full_reference"]);
