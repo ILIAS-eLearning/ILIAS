@@ -25,7 +25,9 @@ class catTitleGUI {
 	protected $video_link;
 
 	public function __construct($a_title = null, $a_subtitle = null, $a_img = null, $a_use_lng = true) {
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $tpl;
+
+		$tpl->addJavaScript("Services/ReportsRepository/templates/js/catTitleForwardVideoLink.js");
 
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
@@ -39,6 +41,7 @@ class catTitleGUI {
 		$this->use_lng = $a_use_lng;
 		$this->show_tooltip_icon = false;
 		$this->video_link = null;
+		$this->video_link_text = "";
 
 		$this->clear_search = null;
 		$this->clear_search_lng_var = null;
@@ -123,6 +126,10 @@ class catTitleGUI {
 		$this->video_link = $video_link;
 	}
 
+	public function setVideoLinkText($video_link_text) {
+		$this->video_link_text = $video_link_text;
+	}
+
 	public function removeCommand() {
 		$this->command = null;
 		$this->command_lng_var = null;
@@ -148,6 +155,7 @@ class catTitleGUI {
 			if($this->video_link !== null) {
 				$tpl->setCurrentBlock("video_link");
 				$tpl->setVariable("VIDEO_ICON", ilUtil::getImagePath("GEV_img/ico-videolink.png"));
+				$tpl->setVariable("TEXT", $this->video_link_text);
 				$tpl->setVariable("URL", $this->video_link);
 				$tpl->parseCurrentBlock();
 			}
