@@ -119,23 +119,4 @@ class ilObjReportEmplAttGUI extends ilObjReportBaseGUI {
 
 		return parent::transformResultRow($rec);
 	}
-
-	protected function settingsForm($data = null) {
-		$settings_form = parent::settingsForm($data);
-		$title_info_link = new ilTextInputGUI($this->object->plugin->txt('title_info_link_description'),'title_info_link');
-		$title_info_link->setValue($data['title_info_link']);
-		$settings_form->addItem($title_info_link);
-		return $settings_form;
-	}
-
-	protected function getSettingsData() {
-		$data = parent::getSettingsData();
-		$data['title_info_link'] = $this->object->getTitleInfoLink();
-		return $data;
-	}
-
-	protected function saveSettingsData($data) {
-		$this->object->setTitleInfoLink($data['title_info_link']);
-		parent::saveSettingsData($data);
-	}
 }
