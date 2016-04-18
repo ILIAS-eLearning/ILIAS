@@ -25,7 +25,9 @@ class catTitleGUI {
 	protected $video_link;
 
 	public function __construct($a_title = null, $a_subtitle = null, $a_img = null, $a_use_lng = true) {
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $tpl;
+
+		$tpl->addJavaScript("Services/ReportsRepository/templates/js/catTitleForwardVideoLink.js");
 
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
