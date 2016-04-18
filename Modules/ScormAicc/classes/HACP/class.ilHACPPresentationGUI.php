@@ -43,7 +43,7 @@ class ilHACPPresentationGUI extends ilAICCPresentationGUI
 	var $tpl;
 	var $lng;
 
-	function ilHACPPresentationGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;;
 

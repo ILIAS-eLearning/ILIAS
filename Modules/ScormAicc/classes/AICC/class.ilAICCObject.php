@@ -46,7 +46,7 @@ class ilAICCObject
 	* @param	int		$a_id		Object ID
 	* @access	public
 	*/
-	function ilAICCObject($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		global $ilias;
 

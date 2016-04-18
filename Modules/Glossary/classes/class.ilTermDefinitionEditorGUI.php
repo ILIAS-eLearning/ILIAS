@@ -29,7 +29,7 @@ class ilTermDefinitionEditorGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilTermDefinitionEditorGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl;
 

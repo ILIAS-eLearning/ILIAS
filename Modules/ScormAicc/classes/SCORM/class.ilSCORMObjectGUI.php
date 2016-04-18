@@ -44,7 +44,7 @@ class ilSCORMObjectGUI
 	var $lng;
 
 
-	function ilSCORMObjectGUI($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		global $tpl, $lng;
 

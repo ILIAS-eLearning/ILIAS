@@ -34,14 +34,6 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 class ilObjExternalFeedListGUI extends ilObjectListGUI
 {
 	/**
-	* constructor
-	*/
-	function ilObjExternalFeedListGUI()
-	{
-		parent::__construct();
-	}
-
-	/**
 	* initialisation
 	*/
 	function init()

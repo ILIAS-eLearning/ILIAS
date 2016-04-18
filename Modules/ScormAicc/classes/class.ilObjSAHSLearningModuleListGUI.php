@@ -18,7 +18,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	* constructor
 	*
 	*/
-	function ilObjSAHSLearningModuleListGUI()
+	function __construct()
 	{
 		parent::__construct();
 	}

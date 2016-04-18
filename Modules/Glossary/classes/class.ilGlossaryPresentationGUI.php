@@ -33,7 +33,7 @@ class ilGlossaryPresentationGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilGlossaryPresentationGUI()
+	function __construct()
 	{
 		global $lng, $ilias, $tpl, $ilCtrl;
 

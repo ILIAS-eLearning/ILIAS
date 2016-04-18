@@ -50,7 +50,7 @@ class ilHTLMPresentationGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilHTLMPresentationGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
 			$rbacsystem, $ilAccess;

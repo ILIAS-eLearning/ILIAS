@@ -28,7 +28,7 @@ class ilObjSAHSLearningModule extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjSAHSLearningModule($a_id = 0, $a_call_by_reference = true)
+	function __construct($a_id = 0, $a_call_by_reference = true)
 	{
 		$this->type = "sahs";
 		parent::__construct($a_id,$a_call_by_reference);
@@ -119,7 +119,7 @@ class ilObjSAHSLearningModule extends ilObject
 	/**
 	* check wether scorm module is online
 	*/
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 		
@@ -155,7 +155,7 @@ class ilObjSAHSLearningModule extends ilObject
 	*
 	* @param	int		$a_id		object id
 	*/
-	function _lookupSubType($a_obj_id)
+	static function _lookupSubType($a_obj_id)
 	{
 		global $ilDB;
 

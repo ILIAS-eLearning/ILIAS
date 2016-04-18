@@ -30,7 +30,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function ilObjFileBasedLMGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
+	function __construct($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $lng, $ilCtrl;
 

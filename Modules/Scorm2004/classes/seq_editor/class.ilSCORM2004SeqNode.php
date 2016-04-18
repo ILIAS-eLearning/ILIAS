@@ -46,7 +46,7 @@ class ilSCORM2004SeqNode
 	* Constructor
 	* @access	public
 	*/
-	function ilSCORM2004SeqNode()
+	function __construct()
 	{
 		global $ilDB;
 		$this->db = $ilDB;

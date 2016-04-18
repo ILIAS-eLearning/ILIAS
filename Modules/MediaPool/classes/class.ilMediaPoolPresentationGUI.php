@@ -28,7 +28,7 @@ class ilMediaPoolPresentationGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilMediaPoolPresentationGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
 			$rbacsystem;

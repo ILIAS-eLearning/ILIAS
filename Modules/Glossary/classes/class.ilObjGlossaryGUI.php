@@ -34,7 +34,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjGlossaryGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
+	function __construct($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $ilCtrl, $lng;
 

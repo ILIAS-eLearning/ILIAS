@@ -53,7 +53,7 @@ class ilBibItem
 	* Constructor
 	* @access	public
 	*/
-	function ilBibItem($content_obj = 0)
+	function __construct($content_obj = 0)
 	{
 		global $ilias;
 

@@ -148,7 +148,7 @@ class ilObjWikiAccess extends ilObjectAccess
 	*
 	* @param	int		$a_id	wiki id
 	*/
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 
@@ -165,7 +165,7 @@ class ilObjWikiAccess extends ilObjectAccess
 	*
 	* @param	int		$a_id	wiki id
 	*/
-	function _lookupPublicFiles($a_id)
+	static function _lookupPublicFiles($a_id)
 	{
 		global $ilDB;
 

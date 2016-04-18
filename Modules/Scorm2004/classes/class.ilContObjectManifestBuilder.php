@@ -26,7 +26,7 @@ class ilContObjectManifestBuilder
 	 * Constructor
 	 * @access	public
 	 */
-	function ilContObjectManifestBuilder(&$a_cont_obj)
+	function __construct(&$a_cont_obj)
 	{
 		global $ilDB, $ilias;
 

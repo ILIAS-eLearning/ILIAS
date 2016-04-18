@@ -22,7 +22,7 @@ class ilSCORMPresentationGUI
 	var $tpl;
 	var $lng;
 
-	function ilSCORMPresentationGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 

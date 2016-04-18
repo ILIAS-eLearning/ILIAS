@@ -20,7 +20,7 @@ class ilGlossaryLocatorGUI
 	var $tpl;
 
 
-	function ilGlossaryLocatorGUI()
+	function __construct()
 	{
 		global $lng, $tpl, $tree;
 

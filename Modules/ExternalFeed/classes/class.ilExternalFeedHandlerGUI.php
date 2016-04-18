@@ -34,7 +34,7 @@
 */
 class ilExternalFeedHandlerGUI
 {
-	function ilExternalFeedHandlerGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
 

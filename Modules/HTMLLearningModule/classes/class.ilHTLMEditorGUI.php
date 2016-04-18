@@ -50,7 +50,7 @@ class ilHTLMEditorGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilHTLMEditorGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
 			$rbacsystem, $ilLocator;

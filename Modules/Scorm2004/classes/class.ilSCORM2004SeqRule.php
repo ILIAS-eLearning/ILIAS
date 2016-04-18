@@ -43,9 +43,9 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004Chapter
 	* Constructor
 	* @access	public
 	*/
-	function ilSCORM2004SeqTemplate($a_slm_object, $a_id = 0)
+	function __construct($a_slm_object, $a_id = 0)
 	{
-		parent::ilSCORM2004SeqTemplate($a_slm_object, $a_id);
+		parent::__construct($a_slm_object, $a_id);
 	}
 	
 	

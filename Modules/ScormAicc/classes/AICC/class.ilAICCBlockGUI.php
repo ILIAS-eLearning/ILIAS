@@ -34,9 +34,9 @@ require_once ("./Modules/ScormAicc/classes/AICC/class.ilAICCBlock.php");
 class ilAICCBlockGUI extends ilAICCObjectGUI
 {
 
-	function ilAICCBlockGUI($a_id)
+	function __construct($a_id)
 	{
-		parent::ilAICCObjectGUI();
+		parent::__construct();
 		$this->ac_object = new ilAICCBlock($a_id);
 	}
 

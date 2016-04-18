@@ -24,7 +24,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	* Constructor
 	* @access	public
 	*/
-	function ilObjGlossary($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "glo";
 		parent::__construct($a_id,$a_call_by_reference);
@@ -223,7 +223,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	/**
 	 * check wether content object is online
 	 */
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 

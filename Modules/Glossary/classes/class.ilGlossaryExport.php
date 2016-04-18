@@ -44,7 +44,7 @@ class ilGlossaryExport
 	* Constructor
 	* @access	public
 	*/
-	function ilGlossaryExport(&$a_glo_obj, $a_mode = "xml")
+	function __construct(&$a_glo_obj, $a_mode = "xml")
 	{
 		global $ilErr, $ilDB, $ilias;
 

@@ -24,7 +24,7 @@ class ilSAHSPresentationGUI
 	var $tpl;
 	var $lng;
 
-	function ilSAHSPresentationGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 

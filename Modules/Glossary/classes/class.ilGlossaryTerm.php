@@ -26,7 +26,7 @@ class ilGlossaryTerm
 	* Constructor
 	* @access	public
 	*/
-	function ilGlossaryTerm($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		global $lng, $ilias, $tpl;
 
@@ -68,7 +68,7 @@ class ilGlossaryTerm
 	*
 	* @return	int		id
 	*/
-	function _getIdForImportId($a_import_id)
+	static function _getIdForImportId($a_import_id)
 	{
 		global $ilDB;
 		
@@ -102,7 +102,7 @@ class ilGlossaryTerm
 	*
 	* @return	boolean		true, if glossary term exists
 	*/
-	function _exists($a_id)
+	static function _exists($a_id)
 	{
 		global $ilDB;
 		
@@ -542,7 +542,7 @@ class ilGlossaryTerm
 	 * @param
 	 * @return
 	 */
-	function _copyTerm($a_term_id, $a_glossary_id)
+	static function _copyTerm($a_term_id, $a_glossary_id)
 	{ 
 		$old_term = new ilGlossaryTerm($a_term_id);
 

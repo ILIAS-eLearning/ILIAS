@@ -34,9 +34,9 @@ require_once ("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");
 class ilAICCUnitGUI extends ilAICCObjectGUI
 {
 
-	function ilAICCUnitGUI($a_id)
+	function __construct($a_id)
 	{
-		parent::ilAICCObjectGUI();
+		parent::__construct();
 		$this->sc_object = new ilAICCUnit($a_id);
 		$files =& $this->sc_object->getFiles();
 	}

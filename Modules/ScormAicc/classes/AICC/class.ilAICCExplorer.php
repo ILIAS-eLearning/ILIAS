@@ -42,7 +42,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilAICCExplorer($a_target, &$a_slm_obj)
+	function __construct($a_target, &$a_slm_obj)
 	{
 		parent::__construct($a_target);
 		$this->slm_obj = $a_slm_obj;

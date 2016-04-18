@@ -28,14 +28,14 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 
 	var $ctrl = null;
 
-	function ilSCORM2004ScoGUI($a_slm_obj, $a_node_id = 0)
+	function __construct($a_slm_obj, $a_node_id = 0)
 	{
 		global $ilCtrl;
 
 		$ilCtrl->saveParameter($this, "obj_id");
 		$this->ctrl = &$ilCtrl;
 
-		parent::ilSCORM2004NodeGUI($a_slm_obj, $a_node_id);
+		parent::__construct($a_slm_obj, $a_node_id);
 	}
 
 	/**

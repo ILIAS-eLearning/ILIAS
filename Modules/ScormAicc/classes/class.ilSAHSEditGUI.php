@@ -21,7 +21,7 @@ class ilSAHSEditGUI
 	var $tpl;
 	var $lng;
 
-	function ilSAHSEditGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 

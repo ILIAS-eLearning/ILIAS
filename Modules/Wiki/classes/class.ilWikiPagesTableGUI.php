@@ -21,7 +21,7 @@ define ("IL_WIKI_ORPHANED_PAGES", "orphaned");
 class ilWikiPagesTableGUI extends ilTable2GUI
 {
 
-	function ilWikiPagesTableGUI($a_parent_obj, $a_parent_cmd = "",
+	function __construct($a_parent_obj, $a_parent_cmd = "",
 		$a_wiki_id, $a_mode = IL_WIKI_ALL_PAGES, $a_page_id = 0)
 	{
 		global $ilCtrl, $lng;

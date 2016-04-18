@@ -29,7 +29,7 @@ class ilGlossaryDefinition
 	* Constructor
 	* @access	public
 	*/
-	function ilGlossaryDefinition($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		global $lng, $ilias, $tpl;
 
@@ -445,7 +445,7 @@ class ilGlossaryDefinition
 	/**
 	* static
 	*/
-	function getDefinitionList($a_term_id)
+	static function getDefinitionList($a_term_id)
 	{
 		global $ilDB;
 		
@@ -642,7 +642,7 @@ class ilGlossaryDefinition
 	*
 	* @param	int		$a_def_id		definition id
 	*/
-	function _lookupTermId($a_def_id)
+	static function _lookupTermId($a_def_id)
 	{
 		global $ilDB;
 		

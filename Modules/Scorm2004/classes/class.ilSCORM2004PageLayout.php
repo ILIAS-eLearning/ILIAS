@@ -39,7 +39,7 @@ class ilSCORM2004PageLayout
 	
 	var $layout_id = null;
 	
-	function ilSCORM2004PageLayout($a_id) {
+	function __construct($a_id) {
 		$this->layout_id = $a_id;
 	}
 	

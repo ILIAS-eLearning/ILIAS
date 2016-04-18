@@ -28,7 +28,7 @@ class ilGlossaryTermGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilGlossaryTermGUI($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		global $lng, $ilias, $tpl, $ilCtrl;
 

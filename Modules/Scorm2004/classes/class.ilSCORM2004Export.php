@@ -29,7 +29,7 @@ class ilScorm2004Export
 	* Constructor
 	* @access	public
 	*/
-	function ilScorm2004Export(&$a_cont_obj, $a_mode = "SCORM 2004 3rd")
+	function __construct(&$a_cont_obj, $a_mode = "SCORM 2004 3rd")
 	{
 		global $ilErr, $ilDB, $ilias;
 

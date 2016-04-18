@@ -33,7 +33,7 @@ class ilQuestionExporter
 	 * Constructor
 	 * @access	public
 	 */
-	public function ilQuestionExporter($a_preview_mode = false)
+	public function __construct($a_preview_mode = false)
 	{
 		global $ilDB, $lng;
 

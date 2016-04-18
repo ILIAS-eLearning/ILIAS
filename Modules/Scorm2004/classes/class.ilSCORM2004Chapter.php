@@ -22,9 +22,9 @@ class ilSCORM2004Chapter extends ilSCORM2004Node
 	* Constructor
 	* @access	public
 	*/
-	function ilSCORM2004Chapter($a_slm_object, $a_id = 0)
+	function __construct($a_slm_object, $a_id = 0)
 	{
-		parent::ilSCORM2004Node($a_slm_object, $a_id);
+		parent::__construct($a_slm_object, $a_id);
 		$this->setType("chap");
 	}
 
@@ -165,7 +165,7 @@ class ilSCORM2004Chapter extends ilSCORM2004Node
 	*
 	*/
 // @todo Check this
-	function _getPresentationTitle($a_st_id, $a_include_numbers = false)
+	static function _getPresentationTitle($a_st_id, $a_include_numbers = false)
 	{
 		global $ilDB;
 /*

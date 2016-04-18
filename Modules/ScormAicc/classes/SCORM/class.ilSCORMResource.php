@@ -50,12 +50,12 @@ class ilSCORMResource extends ilSCORMObject
 	* @param	int		$a_id		Object ID
 	* @access	public
 	*/
-	function ilSCORMResource($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		$this->files = array();
 		$this->dependencies = array();
 		$this->setType("sre");
-		parent::ilSCORMObject($a_id);
+		parent::__construct($a_id);
 
 	}
 
@@ -199,7 +199,7 @@ class ilSCORMResource extends ilSCORMObject
 		}
 	}
 
-	function _lookupIdByIdRef($a_id_ref, $a_slm_id)
+	static function _lookupIdByIdRef($a_id_ref, $a_slm_id)
 	{
 		global $ilBench, $ilDB;
 		
@@ -218,8 +218,8 @@ class ilSCORMResource extends ilSCORMObject
 		}
 		return 0;
 	}
-	
-	function _lookupScormType($a_obj_id)
+
+	static function _lookupScormType($a_obj_id)
 	{
 		global $ilDB;
 		

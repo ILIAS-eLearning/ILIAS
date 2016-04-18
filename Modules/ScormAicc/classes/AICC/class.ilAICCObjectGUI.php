@@ -40,7 +40,7 @@ class ilAICCObjectGUI
 	var $lng;
 
 
-	function ilAICCObjectGUI($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		global $tpl, $lng;
 

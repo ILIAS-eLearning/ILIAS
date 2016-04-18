@@ -23,13 +23,13 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilSCORM2004PageNodeGUI($a_slm_obj, $a_node_id = 0)
+	function __construct($a_slm_obj, $a_node_id = 0)
 	{
 		global $ilCtrl;
 		
 		$ilCtrl->saveParameter($this, "obj_id");
 		
-		parent::ilSCORM2004NodeGUI($a_slm_obj, $a_node_id);
+		parent::__construct($a_slm_obj, $a_node_id);
 	}
 
 	/**

@@ -21,7 +21,7 @@ class ilSCORM2004NodeGUI
 	*
 	* @param	object		$a_content_obj		node object
 	*/
-	function ilSCORM2004NodeGUI($a_slm_obj, $a_node_id = 0)
+	function __construct($a_slm_obj, $a_node_id = 0)
 	{
 		$this->slm_object = $a_slm_obj;
 		$this->node_object = null;

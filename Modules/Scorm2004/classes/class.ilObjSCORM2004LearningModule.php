@@ -27,7 +27,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjSCORM2004LearningModule($a_id = 0, $a_call_by_reference = true)
+	function __construct($a_id = 0, $a_call_by_reference = true)
 	{
 		$this->type = "sahs";
 		parent::__construct($a_id,$a_call_by_reference);
@@ -667,7 +667,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	*
 	* @access static
 	*/
-	function _ISODurationToCentisec($str) {
+	static function _ISODurationToCentisec($str) {
 	    $aV = array(0, 0, 0, 0, 0, 0);
 	    $bErr = false;
 	    $bTFound = false;
@@ -876,11 +876,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	* get all tracking items of scorm object
 	*
 	* currently a for learning progress only
-	*
-	* @access static
 	*/
-	
-	function _getTrackingItems($a_obj_id)
+	static function _getTrackingItems($a_obj_id)
 	{
 		global $ilDB;
 		

@@ -63,7 +63,7 @@ class ilLMPageObject extends ilLMObject
 		$ilBench->stop("ContentPresentation", "ilLMPageObject_Constructor");
 	}
 
-	function _ilLMPageObject()
+	function __desctruct()
 	{
 		if(is_object($this->page_object))
 		{

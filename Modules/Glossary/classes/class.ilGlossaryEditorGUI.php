@@ -16,7 +16,7 @@
 */
 class ilGlossaryEditorGUI
 {
-	function ilGlossaryEditorGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
 		

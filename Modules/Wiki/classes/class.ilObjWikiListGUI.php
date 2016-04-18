@@ -18,7 +18,7 @@ class ilObjWikiListGUI extends ilObjectListGUI
 	/**
 	* constructor
 	*/
-	function ilObjWikiListGUI()
+	function __construct()
 	{
 		parent::__construct();
 	}

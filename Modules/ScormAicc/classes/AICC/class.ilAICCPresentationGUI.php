@@ -43,7 +43,7 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 	var $tpl;
 	var $lng;
 
-	function ilAICCPresentationGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 
