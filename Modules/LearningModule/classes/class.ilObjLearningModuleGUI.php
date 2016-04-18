@@ -36,19 +36,8 @@ class ilObjLearningModuleGUI extends ilObjContentObjectGUI
 		// SAME REASON
 		if($a_id != 0)
 		{
-			$this->lm_tree =& $this->object->getLMTree();
+			$this->lm_tree = $this->object->getLMTree();
 		}
-		/*
-		global $ilias, $tpl, $lng, $objDefinition;
-
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->objDefinition =& $objDefinition;
-		$this->lm_tree =& $a_tree;
-		*/
-
-		//$this->read(); todo
 	}
 
 	function assignObject()

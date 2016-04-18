@@ -129,7 +129,7 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
 		// copy meta data
 		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getSLMId(), $this->getId(), $this->getType());
-		$new_md =& $md->cloneMD($a_target_slm->getId(), $sco->getId(), $this->getType());
+		$new_md = $md->cloneMD($a_target_slm->getId(), $sco->getId(), $this->getType());
 
 		return $sco;
 	}

@@ -32,10 +32,10 @@ class ilGlossaryTermGUI
 	{
 		global $lng, $ilias, $tpl, $ilCtrl;
 
-		$this->lng =& $lng;
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("term_id"));
 
 		if($a_id != 0)
@@ -59,8 +59,8 @@ class ilGlossaryTermGUI
 			case "iltermdefinitioneditorgui":
 				//$this->ctrl->setReturn($this, "listDefinitions");
 				$def_edit = new ilTermDefinitionEditorGUI();
-				//$ret =& $def_edit->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($def_edit);
+				//$ret = $def_edit->executeCommand();
+				$ret = $this->ctrl->forwardCommand($def_edit);
 				$this->quickList("edit", $def_edit);
 				break;
 
@@ -80,7 +80,7 @@ class ilGlossaryTermGUI
 				break;
 				
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 	}

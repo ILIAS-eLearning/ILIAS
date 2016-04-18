@@ -35,13 +35,13 @@ class ilMediaPoolPresentationGUI
 		
 		$lng->loadLanguageModule("content");
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 
 		// initiate variables
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->objDefinition =& $objDefinition;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->objDefinition = $objDefinition;
 	}
 
 	/**

@@ -71,14 +71,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case "ilfilesystemgui":
 				$this->fs_gui = new ilFileSystemGUI($this->object->getDataDirectory());
 				$this->fs_gui->setUseUploadDirectory(true);
 				$this->fs_gui->setTableId("sahsfs".$this->object->getId());
-				$ret =& $this->ctrl->forwardCommand($this->fs_gui);
+				$ret = $this->ctrl->forwardCommand($this->fs_gui);
 				break;
 
 			case "ilcertificategui":
@@ -87,7 +87,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
 				include_once "./Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";
 				$output_gui = new ilCertificateGUI(new ilSCORMCertificateAdapter($this->object));
-				$ret =& $this->ctrl->forwardCommand($output_gui);
+				$ret = $this->ctrl->forwardCommand($output_gui);
 				break;
 
 			case "illearningprogressgui":
@@ -101,7 +101,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			case 'illicensegui':
 				include_once("./Services/License/classes/class.ilLicenseGUI.php");
 				$license_gui = new ilLicenseGUI($this);
-				$ret =& $this->ctrl->forwardCommand($license_gui);
+				$ret = $this->ctrl->forwardCommand($license_gui);
 				break;
 
 			case "ilinfoscreengui":
@@ -163,7 +163,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 					$this->object->setStyleSheetId(0);
 					$this->object->update();
 				}
-				$ret =& $this->ctrl->forwardCommand($style_gui);
+				$ret = $this->ctrl->forwardCommand($style_gui);
 				if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle")
 				{
 					$style_id = $ret;
@@ -194,7 +194,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 					$cmd .= "Object";
 				}
 
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 	}

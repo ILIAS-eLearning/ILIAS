@@ -34,10 +34,10 @@ class ilTermDefinitionEditorGUI
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl;
 
 		// initiate variables
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ctrl =& $ilCtrl;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
 		$this->glossary = new ilObjGlossary($_GET["ref_id"], true);
 		$this->definition = new ilGlossaryDefinition($_GET["def"]);
 		$this->term = new ilGlossaryTerm($this->definition->getTermId());
@@ -141,14 +141,14 @@ class ilTermDefinitionEditorGUI
 				$page_gui->setHeader($this->term->getTerm());
 				$page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=downloadFile&amp;ref_id=".$_GET["ref_id"]);
 				$page_gui->setPresentationTitle($this->term->getTerm());
-				$ret =& $this->ctrl->forwardCommand($page_gui);
+				$ret = $this->ctrl->forwardCommand($page_gui);
 				$tpl->setContent($ret);
 				break;
 
 			default:
 				$this->setTabs();
 				$gloss_loc->display();
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 
 		}

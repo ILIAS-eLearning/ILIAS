@@ -1160,7 +1160,7 @@ class ilObjSAHSLearningModule extends ilObject
 				$items = $sc_tree->getSubTree($sc_tree->getNodeData($r_id));
 				foreach($items as $item)
 				{
-					$sc_object =& ilSCORMObject::_getInstance($item["obj_id"], $this->getId());
+					$sc_object = ilSCORMObject::_getInstance($item["obj_id"], $this->getId());
 					if (is_object($sc_object))
 					{
 						$sc_object->delete();

@@ -207,7 +207,7 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
 	 */
 	function assignPageObject(&$a_page_obj)
 	{
-		$this->page_object =& $a_page_obj;
+		$this->page_object = $a_page_obj;
 	}
 
 

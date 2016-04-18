@@ -33,9 +33,9 @@ class ilGlossaryDefinition
 	{
 		global $lng, $ilias, $tpl;
 
-		$this->lng =& $lng;
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
 
 		$this->id = $a_id;
 		if ($a_id != 0)
@@ -111,7 +111,7 @@ class ilGlossaryDefinition
 
 	function assignPageObject(&$a_page_object)
 	{
-		$this->page_object =& $a_page_object;
+		$this->page_object = $a_page_object;
 	}
 
 	function &getPageObject()
@@ -566,14 +566,14 @@ class ilGlossaryDefinition
 
 		$glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
 		$md = new ilMD($glo_id, $this->getId(), $this->getType());
-		$md_gen =& $md->getGeneral();
+		$md_gen = $md->getGeneral();
 		$md_gen->setTitle($this->getTitle());
 
 		// sets first description (maybe not appropriate)
-		$md_des_ids =& $md_gen->getDescriptionIds();
+		$md_des_ids = $md_gen->getDescriptionIds();
 		if (count($md_des_ids) > 0)
 		{
-			$md_des =& $md_gen->getDescription($md_des_ids[0]);
+			$md_des = $md_gen->getDescription($md_des_ids[0]);
 			$md_des->setDescription($this->getDescription());
 			$md_des->update();
 		}

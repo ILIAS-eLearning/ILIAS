@@ -38,7 +38,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $lng;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "offset"));
 		
 		$lng->loadLanguageModule("content");
@@ -101,8 +101,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->ctrl->setReturn($this, "listTerms");
 				$term_gui = new ilGlossaryTermGUI($this->term_id);
 				$term_gui->setGlossary($this->object);
-				//$ret =& $term_gui->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($term_gui);
+				//$ret = $term_gui->executeCommand();
+				$ret = $this->ctrl->forwardCommand($term_gui);
 				break;
 				
 			case "ilinfoscreengui":
@@ -152,7 +152,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				}
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
 			case "ilcommonactiondispatchergui":
@@ -214,7 +214,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				{
 					$this->ctrl->setCmd("create");
 					$this->ctrl->setCmdClass("ilGlossaryTermGUI");
-					$ret =& $this->executeCommand();
+					$ret = $this->executeCommand();
 					return;
 				}
 				else
@@ -240,7 +240,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 							}
 						}
 					}
-					$ret =& $this->$cmd();
+					$ret = $this->$cmd();
 				}
 				break;
 		}

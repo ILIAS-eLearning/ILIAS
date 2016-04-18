@@ -291,7 +291,7 @@ class ilSCORM2004Node
 		$md_des_ids = $md_gen->getDescriptionIds();
 		if (count($md_des_ids) > 0)
 		{
-			$md_des =& $md_gen->getDescription($md_des_ids[0]);
+			$md_des = $md_gen->getDescription($md_des_ids[0]);
 //			$md_des->setDescription($this->getDescription());
 			$md_des->update();
 		}
@@ -578,7 +578,7 @@ class ilSCORM2004Node
 		else
 		{
 			// determine last child that serves as predecessor
-			$childs =& $tree->getChilds($parent_id);
+			$childs = $tree->getChilds($parent_id);
 
 			if (count($childs) == 0)
 			{

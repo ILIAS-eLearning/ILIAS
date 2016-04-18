@@ -65,7 +65,7 @@ class ilSCORMPackageParser extends ilSaxParser
 		parent::__construct($a_xml_file);
 		$this->cnt = array();
 		$this->current_element = array();
-		$this->slm_object =& $a_slm_object;
+		$this->slm_object = $a_slm_object;
 		$this->tree_created = false;
 		$this->parent_stack = array();
 		$this->item_stack = array();

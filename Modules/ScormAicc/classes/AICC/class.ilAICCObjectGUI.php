@@ -48,8 +48,8 @@ class ilAICCObjectGUI
 		{
 			$this->sc_object = new ilAICCUnit($a_id);
 		}
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
 	}
 
 	/**

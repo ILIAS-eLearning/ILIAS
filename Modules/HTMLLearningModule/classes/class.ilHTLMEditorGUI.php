@@ -63,7 +63,7 @@ class ilHTLMEditorGUI
 			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 		}
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 
 		//$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
 		$this->ctrl->saveParameter($this, array("ref_id"));

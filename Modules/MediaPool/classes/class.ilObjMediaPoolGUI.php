@@ -83,7 +83,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
 		if (!$this->getCreationMode())
 		{
-			$tree =& $this->object->getTree();
+			$tree = $this->object->getTree();
 			if ($_GET["mepitem_id"] == "")
 			{
 				$_GET["mepitem_id"] = $tree->getRootId();
@@ -159,7 +159,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$ilObjMediaObjectGUI->setTabs();
 				$this->setLocator();
 
-				//$ret =& $ilObjMediaObjectGUI->executeCommand();
 				$ret = $this->ctrl->forwardCommand($ilObjMediaObjectGUI);
 
 				if ($cmd == "save" && $ret != false)
@@ -244,8 +243,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$clip_gui->setMultipleSelections(true);
 				$clip_gui->setInsertButtonTitle($lng->txt("mep_copy_to_mep"));
 				$ilTabs->setTabActive("clipboard");
-				//$ret =& $clip_gui->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($clip_gui);
+				$this->ctrl->forwardCommand($clip_gui);
 				$this->tpl->show();
 				break;
 				
@@ -262,7 +260,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$this->addHeaderAction();
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$this->ctrl->forwardCommand($perm_gui);
 				$this->tpl->show();
 				break;
 				
@@ -279,7 +277,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				{
 					$exp_gui->addFormat("xml_master", "XML (".$lng->txt("mep_master_language_only").")", $this, "export");
 				}
-				$ret = $this->ctrl->forwardCommand($exp_gui);
+				$this->ctrl->forwardCommand($exp_gui);
 				$this->tpl->show();
 				break;
 
@@ -302,8 +300,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 					$fs_gui->clearCommands();
 					$fs_gui->addCommand($this, "selectUploadDirFiles", $this->lng->txt("mep_sel_upload_dir_files"),
 						false, true);
-					//$fs_gui->addCommand($this, "assignFullscreenObject", $this->lng->txt("cont_assign_full"));
-					$ret =& $this->ctrl->forwardCommand($fs_gui);
+					$this->ctrl->forwardCommand($fs_gui);
 				}
 				$this->tpl->show();
 				break;
@@ -679,7 +676,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$tpl->setVariable("CONTENT", $ret);
 		//$ret = "<div style='background-color: white; padding:5px; margin-bottom: 30px;'>".$ret."</div>";
 
-		//$ret =& $page_gui->executeCommand();
+
 		$tpl->show();
 		exit;
 	}
@@ -955,7 +952,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		
 		if (!$this->getCreationMode() && $this->ctrl->getCmd() != "explorer")
 		{
-			$tree =& $this->object->getTree();
+			$tree = $this->object->getTree();
 			$obj_id = ($_GET["mepitem_id"] == "")
 				? $tree->getRootId()
 				: $_GET["mepitem_id"];

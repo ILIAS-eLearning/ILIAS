@@ -648,7 +648,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 		{
 
 			include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-			$wiki_search =& ilObjectSearchFactory::_getWikiContentSearchInstance($query_parser);
+			$wiki_search = ilObjectSearchFactory::_getWikiContentSearchInstance($query_parser);
 			$wiki_search->setFilter(array('wpg'));
 			$search_result->mergeEntries($wiki_search->performSearch());
 		}

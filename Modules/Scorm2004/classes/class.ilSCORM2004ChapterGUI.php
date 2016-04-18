@@ -74,7 +74,7 @@ class ilSCORM2004ChapterGUI extends ilSCORM2004NodeGUI
 				break;
 
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 	}

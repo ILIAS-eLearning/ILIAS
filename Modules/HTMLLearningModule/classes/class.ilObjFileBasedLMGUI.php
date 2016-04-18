@@ -158,7 +158,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				break;
 
 			case "ilinfoscreengui":
-				$ret =& $this->outputInfoScreen();
+				$ret = $this->outputInfoScreen();
 				break;
 
 			case "illearningprogressgui":
@@ -174,14 +174,14 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$ilTabs->activateTab('id_permissions');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case 'illicensegui':
 				$ilTabs->activateTab('id_license');
 				include_once("./Services/License/classes/class.ilLicenseGUI.php");
 				$license_gui = new ilLicenseGUI($this);
-				$ret =& $this->ctrl->forwardCommand($license_gui);
+				$ret = $this->ctrl->forwardCommand($license_gui);
 				break;
 
 			case "ilexportgui":
@@ -207,7 +207,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				{
 					$cmd.= "Object";
 				}
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 		

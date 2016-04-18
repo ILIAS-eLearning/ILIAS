@@ -100,7 +100,7 @@ class ilObjDlBook extends ilObjContentObject
                     $dom = domxml_open_mem($PO);
                     $xpc = xpath_new_context($dom);
                     $path = "//MediaObject/MediaAlias";
-                    $res =& xpath_eval($xpc, $path);
+                    $res = xpath_eval($xpc, $path);
                     for($i = 0; $i < count($res->nodeset); $i++)
                     {
                         $id_arr = explode("_", $res->nodeset[$i]->get_attribute("OriginId"));

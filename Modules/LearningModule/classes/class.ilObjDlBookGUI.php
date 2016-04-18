@@ -54,7 +54,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		// SAME REASON
 		if($a_id != 0)
 		{
-			$this->lm_tree =& $this->object->getLMTree();
+			$this->lm_tree = $this->object->getLMTree();
 		}
 	}
 

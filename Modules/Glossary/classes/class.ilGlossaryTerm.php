@@ -30,9 +30,9 @@ class ilGlossaryTerm
 	{
 		global $lng, $ilias, $tpl;
 
-		$this->lng =& $lng;
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
 
 		$this->id = $a_id;
 		$this->type = "term";
@@ -155,7 +155,7 @@ class ilGlossaryTerm
 	*/
 	function setGlossary(&$a_glossary)
 	{
-		$this->glossary =& $a_glossary;
+		$this->glossary = $a_glossary;
 		$this->setGlossaryId($a_glossary->getId());
 	}
 

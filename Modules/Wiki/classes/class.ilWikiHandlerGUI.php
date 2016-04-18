@@ -39,7 +39,7 @@ class ilWikiHandlerGUI
 		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
 
 		// initialisation stuff
-		$this->ctrl =&  $ilCtrl;
+		$this->ctrl =  $ilCtrl;
 		
 	}
 	

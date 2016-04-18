@@ -38,7 +38,7 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 				$ilTabs->activateTab("id_permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
 			case "ilexternalfeedblockgui":
@@ -51,7 +51,7 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 				{
 					$fb_gui->setRefId($this->object->getRefId());
 				}
-				$ret =& $this->ctrl->forwardCommand($fb_gui);
+				$ret = $this->ctrl->forwardCommand($fb_gui);
 				$tpl->setContent($ret);
 				break;
 

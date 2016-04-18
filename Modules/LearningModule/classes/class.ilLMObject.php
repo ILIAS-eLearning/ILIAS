@@ -151,14 +151,14 @@ class ilLMObject
 		include_once("Services/MetaData/classes/class.ilMDDescription.php");
 
 		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
-		$md_gen =& $md->getGeneral();
+		$md_gen = $md->getGeneral();
 		$md_gen->setTitle($this->getTitle());
 
 		// sets first description (maybe not appropriate)
-		$md_des_ids =& $md_gen->getDescriptionIds();
+		$md_des_ids = $md_gen->getDescriptionIds();
 		if (count($md_des_ids) > 0)
 		{
-			$md_des =& $md_gen->getDescription($md_des_ids[0]);
+			$md_des = $md_gen->getDescription($md_des_ids[0]);
 //			$md_des->setDescription($this->getDescription());
 			$md_des->update();
 		}
@@ -351,7 +351,7 @@ class ilLMObject
 
 	function setContentObject(&$a_content_obj)
 	{
-		$this->content_object =& $a_content_obj;
+		$this->content_object = $a_content_obj;
 	}
 
 	function &getContentObject()
@@ -789,12 +789,12 @@ class ilLMObject
 			if ($a_obj->getType() == "st")
 			{
 				$s_types = array("st", "pg");
-				$childs =& $tree->getChildsByTypeFilter($parent_id, $s_types);
+				$childs = $tree->getChildsByTypeFilter($parent_id, $s_types);
 			}
 			else
 			{
 				$s_types = "pg";
-				$childs =& $tree->getChildsByType($parent_id, $s_types);
+				$childs = $tree->getChildsByType($parent_id, $s_types);
 			}
 
 			if (count($childs) == 0)

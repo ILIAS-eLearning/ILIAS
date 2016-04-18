@@ -47,7 +47,7 @@ class ilSCORM2004Chapter extends ilSCORM2004Node
 		$childs = $this->tree->getChilds($this->getId());
 		foreach ($childs as $child)
 		{
-			$obj =& ilSCORM2004NodeFactory::getInstance($this->slm_object, $child["obj_id"], false);
+			$obj = ilSCORM2004NodeFactory::getInstance($this->slm_object, $child["obj_id"], false);
 			if (is_object($obj))
 			{
 				if ($obj->getType() == "chap")
@@ -85,7 +85,7 @@ class ilSCORM2004Chapter extends ilSCORM2004Node
 		// copy meta data
 		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getSLMId(), $this->getId(), $this->getType());
-		$new_md =& $md->cloneMD($a_target_slm->getId(), $chap->getId(), $this->getType());
+		$new_md = $md->cloneMD($a_target_slm->getId(), $chap->getId(), $this->getType());
 		
 		return $chap;
 	}

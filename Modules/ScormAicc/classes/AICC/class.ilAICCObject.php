@@ -50,7 +50,7 @@ class ilAICCObject
 	{
 		global $ilias;
 
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		$this->id = $a_id;
 		if ($a_id > 0)
 		{

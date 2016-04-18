@@ -111,7 +111,7 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 				break;
 
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 
