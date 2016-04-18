@@ -877,7 +877,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	/**
 	 * Init import form
 	 */
-	protected function initImportForm()
+	protected function initImportForm($a_new_type)
 	{
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();

@@ -2639,7 +2639,7 @@ return;
 			{
 				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
 
-				if (($param[2] <= 0 || $param[2] == IL_INST_ID) && ilMediaPoolPage::_exists($param[1]))
+				if (($param[2] <= 0 || $param[2] == IL_INST_ID) && ilPageObject::_exists("mep", $param[1]))
 				{
 					$page_gui = new ilMediaPoolPageGUI($param[1], 0, true, $this->getLanguage());
 					if ($this->getOutputMode() != "offline")

@@ -103,14 +103,6 @@ class ilContObjectManifestBuilder
 		$attrs = array();
 		$this->writer->xmlElement("title", $attrs, $this->cont_obj->getTitle());
 
-		// entry page
-		/*if ($this->version == "2004" && $this->cont_obj->getEntryPage())
-		{
-			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004EntryAsset.php");
-			ilSCORM2004EntryAsset::addEntryPageItemXML($this->writer,
-				$this->cont_obj);
-		}*/
-        
 		// write item hierarchy
 		//$this->writeItemHierarchy();
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");

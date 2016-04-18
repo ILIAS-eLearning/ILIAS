@@ -511,7 +511,7 @@ class ilObjMediaPool extends ilObject
 			if ($node["type"] == "pg")
 			{
 				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
-				if (ilMediaPoolPage::_exists($node["child"]))
+				if (ilPageObject::_exists("mep", $node["child"]))
 				{
 					$pg = new ilMediaPoolPage($node["child"]);
 					$pg->delete();

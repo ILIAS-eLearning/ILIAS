@@ -1786,7 +1786,7 @@ $this->ctrl->redirect($this, "properties");
 	/**
 	 * Set sub tabs
 	 */
-	function setSubTabs($a_main_tab, $a_active)
+	function setSubTabs($a_main_tab = "", $a_active = "")
 	{
 		global $ilTabs, $ilCtrl, $lng;
 

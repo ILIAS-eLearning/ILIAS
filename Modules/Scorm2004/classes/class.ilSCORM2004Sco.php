@@ -99,11 +99,11 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
 	/**
 	 * Delete
 	 */
-	function delete()
+	function delete($a_delete_meta_data = true)
 	{
 		global $ilDB;
 
-		parent::delete();
+		parent::delete($a_delete_meta_data);
 		$ilDB->manipulate("DELETE FROM sahs_sc13_sco WHERE "
 			. " id = " . $ilDB->quote($this->getId(), "integer")
 			);

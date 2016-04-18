@@ -325,7 +325,9 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	* digilib book menu
 	*/
 	// ok
-    function setilLMMenu()
+    function setilLMMenu($a_offline = false, $a_export_format = "",
+						 $a_active = "content", $a_use_global_tabs = false, $a_as_subtabs = false,
+						 $a_cur_page = 0)
 	{
 		include_once("./Services/UICore/classes/class.ilTemplate.php");
 
