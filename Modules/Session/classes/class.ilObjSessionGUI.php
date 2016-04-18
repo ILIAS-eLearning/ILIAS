@@ -1669,7 +1669,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 				$this->form->addCommandButton('save',$this->lng->txt('event_btn_add'));
 				$this->form->addCommandButton('saveAndAssignMaterials',$this->lng->txt('event_btn_add_edit'));
-				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+				$this->form->addCommandButton('cancelEdit',$this->lng->txt('cancel'));
 		
 				return true;
 			
@@ -1677,7 +1677,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->form->setTitle($this->lng->txt('event_table_update'));
 
 				$this->form->addCommandButton('update',$this->lng->txt('save'));
-				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+				$this->form->addCommandButton('cancelEdit',$this->lng->txt('cancel'));
 				
 				return true;
 		}
@@ -2319,5 +2319,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return true;
 	}
 
+	 function cancelEditObject()
+	 {
+		 global $ilCtrl, $tree;
+		 $parent_id = $tree->getParentId($this->object->getRefId());
+		 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $parent_id);
+		 $ilCtrl->redirectByClass("ilrepositorygui", "");
+	 }
 }
 ?>
