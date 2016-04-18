@@ -99,13 +99,16 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 		parent::saveObject($a_feed_block);
 	}
 
-	function afterSave(ilObject $a_new_object, $a_feed_block)
+	function afterSave(ilObject $a_new_object, $a_feed_block = null)
 	{
-	    // saveObject() parameters are sent as array
-		$a_feed_block = $a_feed_block[0];
+		if ($a_feed_block != null)
+		{
+			// saveObject() parameters are sent as array
+			$a_feed_block = $a_feed_block[0];
 
-		$a_feed_block->setContextObjId($a_new_object->getId());
-		$a_feed_block->setContextObjType("feed");
+			$a_feed_block->setContextObjId($a_new_object->getId());
+			$a_feed_block->setContextObjType("feed");
+		}
 	}
 	
 	/**

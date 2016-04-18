@@ -366,7 +366,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	/**
 	 * save object
 	 */
-	function afterSave($newObj)
+	function afterSave(ilObject $newObj)
 	{
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("object_added"),true);

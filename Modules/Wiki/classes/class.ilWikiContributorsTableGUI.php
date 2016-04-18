@@ -67,7 +67,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
 	function getContributors()
 	{
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-		$contributors = ilWikiPage::getParentObjectContributors($this->wiki_id);
+		$contributors = ilWikiPage::getWikiContributors($this->wiki_id);
 		$this->setDefaultOrderField("lastname");
 		$this->setDefaultOrderDirection("asc");
 		$this->setData($contributors);

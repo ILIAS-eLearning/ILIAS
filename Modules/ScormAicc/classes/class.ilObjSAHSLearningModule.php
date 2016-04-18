@@ -135,7 +135,7 @@ class ilObjSAHSLearningModule extends ilObject
 	 * 
 	 * @param int $a_id scorm lm id
 	 */
-	function getAffectiveLocalization($a_id)
+	static function getAffectiveLocalization($a_id)
 	{
 		global $ilDB, $lng;
 		

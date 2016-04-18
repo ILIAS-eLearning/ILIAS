@@ -452,7 +452,7 @@ die("deprecated");
 	}
 	
 	//callback function for question export
-	private function insertQuestion($matches)
+	static private function insertQuestion($matches)
 	{
 		$q_exporter = new ilQuestionExporter(false);
 		return $q_exporter->exportQuestion($matches[2]);

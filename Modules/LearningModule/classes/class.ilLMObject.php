@@ -690,7 +690,7 @@ class ilLMObject
 	/**
 	* static
 	*/
-	function getObjectList($lm_id, $type = "")
+	static function getObjectList($lm_id, $type = "")
 	{
 		global $ilDB;
 		

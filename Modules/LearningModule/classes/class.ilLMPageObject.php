@@ -390,7 +390,7 @@ class ilLMPageObject extends ilLMObject
 	/**
 	* Get all pages of lm that contain any internal links
 	*/
-	function getPagesWithLinksList($a_lm_id, $a_par_type)
+	static function getPagesWithLinksList($a_lm_id, $a_par_type)
 	{
 		$pages = ilLMPageObject::getPageList($a_lm_id);
 		$ids = array();

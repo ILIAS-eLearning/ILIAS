@@ -429,7 +429,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	* save object
 	* @access	public
 	*/
-	function afterSave($newObj)
+	function afterSave(ilObject $newObj)
 	{
 		if(!$newObj->getStartFile())
 		{
@@ -956,7 +956,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	 * @param
 	 * @return
 	 */
-	function importFileObject($parent_id = null)
+	function importFileObject($parent_id = null, $a_catch_errors = true)
 	{
 		try
 		{

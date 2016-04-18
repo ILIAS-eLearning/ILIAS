@@ -945,7 +945,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 
 		// copy content
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-		$pages = ilWikiPage::getAllPages($this->getId());
+		$pages = ilWikiPage::getAllWikiPages($this->getId());
 		if (count($pages) > 0)
 		{
 			// if we have any pages, delete the start page first

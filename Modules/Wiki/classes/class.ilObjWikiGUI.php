@@ -332,7 +332,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	 * save object
 	 * @access	public
 	 */
-	function afterSave($newObj)
+	function afterSave(ilObject $newObj)
 	{
 		global $ilSetting;
 		
@@ -734,7 +734,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		// Start Page
 		if ($a_mode == "edit")
 		{
-			$pages = ilWikiPage::getAllPages($this->object->getId());
+			$pages = ilWikiPage::getAllWikiPages($this->object->getId());
 			foreach ($pages as $p)
 			{
 				$options[$p["id"]] = ilUtil::shortenText($p["title"], 60, true);
@@ -1759,7 +1759,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		// list pages
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-		$pages = ilWikiPage::getAllPages($this->object->getId());
+		$pages = ilWikiPage::getAllWikiPages($this->object->getId());
 		$options = array("" => $lng->txt("please_select"));
 		foreach ($pages as $p)
 		{

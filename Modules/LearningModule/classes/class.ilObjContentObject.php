@@ -1263,10 +1263,8 @@ class ilObjContentObject extends ilObject
 
 	/**
 	* get all available lm layouts
-	*
-	* static
 	*/
-	function getAvailableLayouts()
+	static function getAvailableLayouts()
 	{
 		$dir = opendir("./Modules/LearningModule/layouts/lm");
 

@@ -22,7 +22,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	 */
 	function __construct($a_slm_object, $a_id = 0)
 	{
-		parent::ilSCORM2004Node($a_slm_object, $a_id);
+		parent::__construct($a_slm_object, $a_id);
 		$this->setType("ass");
 	}
 
@@ -685,7 +685,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		return $a_text;
 	}
 
-		private function fixFullscreeenLink($matches)
+	static private function fixFullscreeenLink($matches)
 	{
 		$media_obj = new ilObjMediaObject($matches[1]);
 		if($media_obj->hasFullscreenItem())
@@ -696,7 +696,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	}
 
 	//callback function for question export
-	private function insertQuestion($matches) {
+	static private function insertQuestion($matches) {
 		$q_exporter = new ilQuestionExporter();
 		
 		$ret = $q_exporter->exportQuestion($matches[2], "./objects/", "offline");

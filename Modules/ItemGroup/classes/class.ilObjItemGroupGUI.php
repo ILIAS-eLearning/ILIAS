@@ -293,7 +293,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 *
 	 * @param array $a_values form values
 	 */
-	function getEditFormCustomValues(&$a_values)
+	function getEditFormCustomValues(array &$a_values)
 	{
 		$a_values["hide_title"] = $this->object->getHideTitle();
 	}

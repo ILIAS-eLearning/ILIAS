@@ -30,13 +30,14 @@ class ilGlossaryTermGUI
 	*/
 	function __construct($a_id = 0)
 	{
-		global $lng, $ilias, $tpl, $ilCtrl;
+		global $lng, $ilias, $tpl, $ilCtrl, $ilTabs;
 
 		$this->lng = $lng;
 		$this->ilias = $ilias;
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("term_id"));
+		$this->tabs_gui	= $ilTabs;
 
 		if($a_id != 0)
 		{

@@ -31,7 +31,7 @@ class ilTermDefinitionEditorGUI
 	*/
 	function __construct()
 	{
-		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl;
+		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl, $ilTabs;
 
 		// initiate variables
 		$this->ilias = $ilias;
@@ -41,6 +41,7 @@ class ilTermDefinitionEditorGUI
 		$this->glossary = new ilObjGlossary($_GET["ref_id"], true);
 		$this->definition = new ilGlossaryDefinition($_GET["def"]);
 		$this->term = new ilGlossaryTerm($this->definition->getTermId());
+		$this->tabs_gui = $ilTabs;
 
 		$this->ctrl->saveParameter($this, array("def"));
 	}

@@ -106,7 +106,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getStatusSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	static function _getStatusSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng;

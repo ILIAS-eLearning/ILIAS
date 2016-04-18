@@ -129,7 +129,7 @@ class ilWikiHTMLExport
 	{
 		global $tpl, $ilBench, $ilLocator;
 
-		$pages = ilWikiPage::getAllPages($this->wiki->getId());
+		$pages = ilWikiPage::getAllWikiPages($this->wiki->getId());
 
 		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");

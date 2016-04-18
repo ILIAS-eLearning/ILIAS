@@ -98,13 +98,13 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 				break;
 
 			case IL_WIKI_ALL_PAGES:
-				$pages = ilWikiPage::getAllPages($this->wiki_id);
+				$pages = ilWikiPage::getAllWikiPages($this->wiki_id);
 				break;
 
 			case IL_WIKI_NEW_PAGES:
 				$this->setDefaultOrderField("created");
 				$this->setDefaultOrderDirection("desc");
-				$pages = ilWikiPage::getNewPages($this->wiki_id);
+				$pages = ilWikiPage::getNewWikiPages($this->wiki_id);
 				break;
 
 			case IL_WIKI_POPULAR_PAGES:
