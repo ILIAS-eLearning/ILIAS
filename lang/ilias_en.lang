@@ -13515,7 +13515,7 @@ dateplaner#:#cal_ch_user_assignment_failed_info#:#The following users could not 
 dateplaner#:#cal_booking_failed_info#:#This appointment is booked out. Please choose another appointment.
 registration#:#registration_codes_override_info#:#This setting overrides any values defined in ‘Registration Settings’.
 registration#:#registration_codes_override_global_info#:#These settings may be overridden by registration codes.
-crs#:#event_list_registered_only#:#Only Registered Members
+crs#:#event_list_registered_only#:#Only Registered
 didactic#:#didactic_default_type#:#Default
 pd#:#pd_info_delete_sure_remove#:#Are you sure you want to remove the following objects from your Personal Desktop?
 pd#:#pd_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
