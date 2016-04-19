@@ -332,5 +332,3 @@ class gevMyTrainingsApGUI {
 		return $this->listParticipationStatus();
 	}
 }
-
-?>
