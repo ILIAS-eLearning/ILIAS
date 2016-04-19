@@ -15,13 +15,13 @@ class gevTrainerMailHandlingGUI extends ilMailingGUI {
 
 	public function __construct($parent) {
 		assert('is_object($parent)');
-		assert('array_key_exists("obj_id", $_GET)');
+		assert('array_key_exists("crs_id", $_GET)');
 
 		$this->parent = $parent;
-		$this->obj_id = $_GET["obj_id"];
-		$this->ref_id = gevObjectUtils::getRefId($this->obj_id);
+		$this->crs_id = $_GET["crs_id"];
+		$this->ref_id = gevObjectUtils::getRefId($this->crs_id);
 
-		parent::__construct($this->obj_id, $this->ref_id, $this->parent);
+		parent::__construct($this->crs_id, $this->ref_id, $this->parent);
 
 		$this->addTabs();
 		$this->lng->loadLanguageModule("mailing");
@@ -41,7 +41,7 @@ class gevTrainerMailHandlingGUI extends ilMailingGUI {
 			, $this->ctrl->getLinkTarget($this->parent)
 		);
 
-		$this->ctrl->setParameter($this, "obj_id", $this->obj_id);
+		$this->ctrl->setParameter($this, "crs_id", $this->crs_id);
 		$this->tabs->addTab("showMaillog"
 			,$this->lng->txt("gev_mail_log")
 			, $this->ctrl->getLinkTarget($this, "showLog")
@@ -94,7 +94,7 @@ class gevTrainerMailHandlingGUI extends ilMailingGUI {
 	 */
 	protected function initMailAttachments() {
 		require_once("Services/GEV/Mailing/classes/class.gevCrsMailAttachments.php");
-		$this->setMailAttachments(new gevCrsMailAttachments($this->obj_id));
+		$this->setMailAttachments(new gevCrsMailAttachments($this->crs_id));
 	}
 
 	/**
@@ -102,7 +102,7 @@ class gevTrainerMailHandlingGUI extends ilMailingGUI {
 	 */
 	protected function initAutoMails() {
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
-		$this->setAutoMails(new gevCrsAutoMails($this->obj_id));
+		$this->setAutoMails(new gevCrsAutoMails($this->crs_id));
 	}
 
 	/**
@@ -112,13 +112,13 @@ class gevTrainerMailHandlingGUI extends ilMailingGUI {
 		require_once("Services/Mailing/classes/class.ilMailLog.php");
 
 		if ($this->mail_log === null) {
-			$this->mail_log = new ilMailLog($this->obj_id);
+			$this->mail_log = new ilMailLog($this->crs_id);
 		}
 	}
 
 	protected function getCourse() {
 		if ($this->crs === null) {
-			$this->crs = new ilObjCourse($this->obj_id, false);
+			$this->crs = new ilObjCourse($this->crs_id, false);
 		}
 
 		return $this->crs;
@@ -133,7 +133,7 @@ class gevTrainerMailHandlingGUI extends ilMailingGUI {
 		$this->tabs->activateTab("selectMailToMembersRecipients");
 		$user_ids = $this->getMemberUserIds();
 		
-		$this->ctrl->setParameter($this, "obj_id", $this->obj_id);
+		$this->ctrl->setParameter($this, "crs_id", $this->crs_id);
 		$command_buttons = array( array("showMailToMembersMailInput", $this->lng->txt("continue"))
 								);
 
@@ -153,6 +153,7 @@ class gevTrainerMailHandlingGUI extends ilMailingGUI {
 	 * @inheritdoc
 	 */
 	protected function showMailToMembersMailInput() {
+		$this->tabs->activateTab("selectMailToMembersRecipients");
 		$recipients = $_POST["recipients"];
 		
 		if (count($recipients) == 0) {
@@ -161,7 +162,7 @@ class gevTrainerMailHandlingGUI extends ilMailingGUI {
 			return;
 		}
 
-		$this->ctrl->setParameter($this, "obj_id", $this->obj_id);
+		$this->ctrl->setParameter($this, "crs_id", $this->crs_id);
 		$form = $this->getMailToMembersForm($recipients);
 
 		$this->tpl->setContent($form->getHTML());
