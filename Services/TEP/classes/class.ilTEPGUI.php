@@ -14,6 +14,7 @@ require_once "Services/TEP/classes/class.ilTEPPermissions.php";
  * @ilCtrl_Calls ilTEPGUI: ilParticipationStatusAdminGUI
  * @ilCtrl_Calls ilTEPGUI: gevMaillogGUI
  * @ilCtrl_Calls ilTEPGUI: ilObjCourseGUI
+ * @ilCtrl_Calls ilTEPGUI: gevTrainerMailHandlingGUI
  */
 class ilTEPGUI
 {
@@ -173,6 +174,11 @@ class ilTEPGUI
 				require_once("Modules/Course/classes/class.ilObjCourseGUI.php");
 				$gui = new ilObjCourseGUI();
 				$ilCtrl->forwardCommand($gui);
+				break;
+			case "gevtrainermailhandlinggui":
+				require_once("Services/GEV/Desktop/classes/class.gevTrainerMailHandlingGUI.php");
+				$gui = new gevTrainerMailHandlingGUI($this);
+				$ret = $ilCtrl->forwardCommand($gui);
 				break;
 			default:
 				// gev-patch start
