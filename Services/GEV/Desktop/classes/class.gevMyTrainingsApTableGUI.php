@@ -268,5 +268,3 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		return $items;
 	}
 }
-
-?>
