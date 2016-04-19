@@ -203,13 +203,6 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 	protected function settingsForm($data = null) {
 		$settings_form = parent::settingsForm($data);
 
-		$is_online = new ilCheckboxInputGUI('online','online');
-		$is_online->setValue(1);
-		if(isset($data["online"])) {
-			$is_online->setChecked($data["online"]);
-		}
-		$settings_form->addItem($is_online);
-
 		$show_filter = new ilCheckboxInputGUI('filter','filter');
 		$show_filter->setValue(1);
 		if(isset($data["filter"])) {
@@ -217,17 +210,23 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 		}
 		$settings_form->addItem($show_filter);
 
+		$is_local = new ilCheckboxInputGUI($this->object->plugin->txt('report_is_local'),'is_local');
+		$is_local->setValue(1);
+		if(isset($data["is_local"])) {
+			$is_local->setChecked($data["is_local"]);
+		}
+		$settings_form->addItem($is_local);
 		return $settings_form;
 	}
 
 	protected function getSettingsData() {
 		$data = parent::getSettingsData();
-		$data["online"] = $this->object->getOnline();
+		$data['is_local'] = $this->object->getIsLocal();
 		return $data;
 	}
 
 	protected function saveSettingsData($data) {
-		$this->object->setOnline($data["online"]);
+		$this->object->setIsLocal($data['is_local']);
 		parent::saveSettingsData($data);
 	}
 
