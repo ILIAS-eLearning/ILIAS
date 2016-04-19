@@ -11,6 +11,7 @@
 * @ilCtrl_Calls gevMyTrainingsApGUI: ilParticipationStatusAdminGUI
 * @ilCtrl_Calls gevMyTrainingsApGUI: gevDesktopGUI
 * @ilCtrl_Calls gevMyTrainingsApGUI: gevMaillogGUI
+* @ilCtrl_Calls gevMyTrainingsApGUI: gevTrainerMailHandlingGUI
 *
 */
 
@@ -78,11 +79,12 @@ class gevMyTrainingsApGUI {
 				//die('forwarding cmd');
 				$ret = $this->gCtrl->forwardCommand($gui);
 				break;
-			case "showMaillog":
-			case "showLoggedMail":
-			case "resendMail":
-				require_once("Services/GEV/Mailing/classes/class.gevMaillogGUI.php");
-				$gui = new gevMaillogGUI("mytrainigsapgui");
+			case "showLog":
+			case "selectMailToMembersRecipients":
+			case "showMailToMembersMailInput":
+			case "sendMailToMembers":
+				require_once("Services/GEV/Desktop/classes/class.gevTrainerMailHandlingGUI.php");
+				$gui = new gevTrainerMailHandlingGUI($this);
 				$ret = $this->gCtrl->forwardCommand($gui);
 				break;
 			case "showSettings":

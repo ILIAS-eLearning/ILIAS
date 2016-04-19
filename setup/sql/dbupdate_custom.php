@@ -5031,3 +5031,8 @@ foreach ($relevant_ref_ids as $ref_id) {
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#212>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
