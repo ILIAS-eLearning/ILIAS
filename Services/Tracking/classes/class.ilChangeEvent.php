@@ -373,7 +373,7 @@ class ilChangeEvent
 	 * @param integer $a_now
 	 * @param integer $a_minimum
 	 */
-	function _syncObjectStats($a_now = null, $a_minimum = 20000)
+	static function _syncObjectStats($a_now = null, $a_minimum = 20000)
 	{
 		global $ilDB;
 		
@@ -998,7 +998,7 @@ class ilChangeEvent
 	 * called in ./Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php
 	 * @return true
 	 */
-	function _updateAccessForScormOfflinePlayer($obj_id, $usr_id, $i_last_access, $t_first_access) {
+	static function _updateAccessForScormOfflinePlayer($obj_id, $usr_id, $i_last_access, $t_first_access) {
 		global $ilDB;
 		$res = $ilDB->queryF('UPDATE read_event SET first_access=%s, last_access = %s WHERE obj_id=%s AND usr_id=%s',
 			array('timestamp','integer','integer','integer'),
