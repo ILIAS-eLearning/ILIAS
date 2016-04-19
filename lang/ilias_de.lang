@@ -15669,3 +15669,4 @@ chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
 crs#:#event_tbl_tutors#:#Tutoren
 crs#:#event_tbl_admins#:#Administratoren
 crs#:#event_tbl_members#:#Mitglieder
+trac#:#trac_cron_info#:#Aktivieren Sie den "Objekt-Statistik"-Cron-Job, um Daten für diese Auswertung zu sammeln.
