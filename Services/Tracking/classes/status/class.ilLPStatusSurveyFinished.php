@@ -16,12 +16,12 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
 */
 class ilLPStatusSurveyFinished extends ilLPStatus
 {
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{
 		return self::getParticipants($a_obj_id);
 	}
 	
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{						
 		return self::getParticipants($a_obj_id, true);
 	}

@@ -23,7 +23,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 		$this->db = $ilDB;
 	}
 
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{
 		global $ilDB;
 
@@ -53,7 +53,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 	}
 
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{
 		global $ilDB;
 
@@ -82,7 +82,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 		return array_values($user_ids);
 	}
 
-	function _getNotAttempted($a_obj_id)
+	static function _getNotAttempted($a_obj_id)
 	{
 		global $ilDB;
 
@@ -116,7 +116,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 	 * @param
 	 * @return
 	 */
-	function getParticipants($a_obj_id)
+	static function getParticipants($a_obj_id)
 	{
 		global $ilDB;
 

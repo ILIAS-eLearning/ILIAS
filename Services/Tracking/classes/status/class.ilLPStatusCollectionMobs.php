@@ -10,7 +10,7 @@ require_once 'Services/Tracking/classes/class.ilLearningProgress.php';
  */
 class ilLPStatusCollectionMobs extends ilLPStatus
 {	
-	public function _getInProgress($a_obj_id)
+	public static function _getInProgress($a_obj_id)
 	{		
 		$users = array();
 		
@@ -23,7 +23,7 @@ class ilLPStatusCollectionMobs extends ilLPStatus
 		return $users;
 	}
 
-	public function _getCompleted($a_obj_id)
+	public static function _getCompleted($a_obj_id)
 	{		
 		$users = array();
 		
@@ -36,7 +36,7 @@ class ilLPStatusCollectionMobs extends ilLPStatus
 		return $users;
 	}
 	
-	public function _getStatusInfo($a_parent_obj_id)
+	public static function _getStatusInfo($a_parent_obj_id)
 	{
 		global $ilDB;
 		

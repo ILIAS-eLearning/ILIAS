@@ -201,7 +201,7 @@ class ilFormat
 	* @param	boolean		whether .0 should be suppressed
 	* @return	string		formatted number
 	*/
-	function fmtFloat($a_float, $a_decimals=0, $a_dec_point = null, $a_thousands_sep = null, $a_suppress_dot_zero=false)
+	static function fmtFloat($a_float, $a_decimals=0, $a_dec_point = null, $a_thousands_sep = null, $a_suppress_dot_zero=false)
 	{
 		global $lng;
 
@@ -233,7 +233,7 @@ class ilFormat
 		$txt = number_format($a_float, $a_decimals, $a_dec_point, $a_thousands_sep);
 		
 		// remove trailing ".0" 
-		if (($a_suppress_dot_zero == 0 || $a_decimal == 0) &&
+		if (($a_suppress_dot_zero == 0 || $a_decimals == 0) &&
 			substr($txt,-2) == $a_dec_point.'0')
 		{
 			$txt = substr($txt, 0, strlen($txt) - 2);

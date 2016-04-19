@@ -120,7 +120,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 *
 	 * @param    int $a_id wiki id
 	 */
-	public function _lookupOnline($a_id) {
+	public static function _lookupOnline($a_id) {
 		global $ilDB;
 
 		$q = "SELECT * FROM il_dcl_data WHERE id = " . $ilDB->quote($a_id, "integer");

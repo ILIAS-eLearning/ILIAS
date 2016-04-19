@@ -671,7 +671,7 @@ class ilConditionHandler
 	* get all conditions of trigger object
 	* @static
 	*/
-	function _getConditionsOfTrigger($a_trigger_obj_type, $a_trigger_id)
+	static function _getConditionsOfTrigger($a_trigger_obj_type, $a_trigger_id)
 	{
 		global $ilDB;
 

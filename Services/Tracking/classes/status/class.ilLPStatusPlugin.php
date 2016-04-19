@@ -25,7 +25,7 @@ class ilLPStatusPlugin extends ilLPStatus
 		return $olp->getPluginInstance();
 	}
 
-	function _getNotAttempted($a_obj_id)
+	static function _getNotAttempted($a_obj_id)
 	{			
 		$plugin = self::initPluginObj($a_obj_id);		
 		if($plugin)
@@ -43,7 +43,7 @@ class ilLPStatusPlugin extends ilLPStatus
 		return array();
 	}
 
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{
 		$plugin = self::initPluginObj($a_obj_id);
 		if($plugin)
@@ -61,7 +61,7 @@ class ilLPStatusPlugin extends ilLPStatus
 		return array();
 	}
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{
 		$plugin = self::initPluginObj($a_obj_id);
 		if($plugin)
@@ -79,7 +79,7 @@ class ilLPStatusPlugin extends ilLPStatus
 		return array();
 	}
 	
-	function _getFailed($a_obj_id)
+	static function _getFailed($a_obj_id)
 	{			
 		$plugin = self::initPluginObj($a_obj_id);
 		if($plugin)

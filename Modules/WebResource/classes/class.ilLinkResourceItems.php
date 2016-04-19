@@ -18,14 +18,14 @@ class ilLinkResourceItems
 	* Constructor
 	* @access public
 	*/
-	function ilLinkResourceItems($webr_id)
+	function __construct($webr_id)
 	{
 		global $ilDB;
 
 		$this->webr_ref_id = 0;
 		$this->webr_id = $webr_id;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 	}
 	
 	// BEGIN PATCH Lucene search
