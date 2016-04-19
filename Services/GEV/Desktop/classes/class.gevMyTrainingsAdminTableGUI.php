@@ -236,7 +236,7 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 		}
 
 		if($crs_utils->userHasPermissionTo($this->user_id, gevSettings::VIEW_MAILLOG)){
-			$items[] = array("title" => $this->gLng->txt("gev_mail_log"), "link" => $this->maillog, "image" => $this->maillog_img, "frame"=>"");
+			$items[] = array("title" => $this->gLng->txt("gev_trainer_mail_handling"), "link" => $this->maillog, "image" => $this->maillog_img, "frame"=>"");
 		}
 
 		if($crs_utils->userHasPermissionTo($this->user_id, gevSettings::LOAD_SIGNATURE_LIST)){
@@ -281,9 +281,9 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 		$this->cancel_training_link = $this->gCtrl->getLinkTargetByClass("ilObjCourseGUI","confirmTrainingCancellation");
 		$this->gCtrl->clearParametersByClass("ilObjCourseGUI");
 
-		$this->gCtrl->setParameterByClass("gevMaillogGUI", "obj_id", $crs_obj_id);
-		$this->maillog = $this->gCtrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog");
-		$this->gCtrl->clearParametersByClass("gevMaillogGUI");
+		$this->gCtrl->setParameterByClass("gevTrainerMailHandlingGUI", "crs_id", $crs_obj_id);
+		$this->maillog = $this->gCtrl->getLinkTargetByClass("gevTrainerMailHandlingGUI", "showLog");
+		$this->gCtrl->clearParametersByClass("gevTrainerMailHandlingGUI");
 
 		$this->gCtrl->setParameterByClass("ilObjCourseGUI", "ref_id", $crs_ref_id);
 		$this->edit_settings_link = $this->gCtrl->getLinkTargetByClass("ilObjCourseGUI", "edit");
