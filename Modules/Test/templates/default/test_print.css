@@ -62,6 +62,12 @@ input[type="submit"], input[type="button"] {
 	vertical-align: top;
 }
 
+body.std
+{
+	height: auto;
+	border: none;
+}
+
 .tblrow1 {
 	background: #EEEEEE;
 	border-collapse: collapse;
