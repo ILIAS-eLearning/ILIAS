@@ -13,8 +13,18 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 
 	public function __construct($ref_id = 0) {
 		parent::__construct($ref_id);
+		global $lng;
+		$this->gLng = $lng;
 	}
-	
+
+	// This is a super evil hack to make #2262 happen for this report.
+	// If there is a correct solution, we also could re-finalize getDescription
+	// in ilObject2.
+	public function getDescription() {
+		$this->gLng->loadLanguageModule("gev");
+		return $this->gLng->txt("gev_rep_attendance_by_employee_desc_short");
+	}
+
 	protected function points_in_cert_year_sql($year) {
 		return   "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL ".($year-1)." YEAR "
 				."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL ".$year." YEAR)"
