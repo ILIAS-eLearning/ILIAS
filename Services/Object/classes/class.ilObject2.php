@@ -52,9 +52,7 @@ abstract class ilObject2 extends ilObject
 	final function getTitle() { return parent::getTitle(); }
 	final function getUntranslatedTitle() { return parent::getUntranslatedTitle(); }
 	final function setTitle($a_title) { return parent::setTitle($a_title); }
-	// gev-patch start
-	/* final */ function getDescription() { return parent::getDescription(); }
-	// gev-patch end
+	function getDescription() { return parent::getDescription(); }
 	final function setDescription($a_desc) { return parent::setDescription($a_desc); }
 	final function getLongDescription() { return parent::getLongDescription(); }
 	final function getImportId() { return parent::getImportId(); }
