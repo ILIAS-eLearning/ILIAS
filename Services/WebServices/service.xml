@@ -12,5 +12,6 @@
 		<event type="listen" id="Modules/Course" component="Services/WebServices/ECS" />
 		<event type="listen" id="Modules/Group" component="Services/WebServices/ECS" />
 		<event type="listen" id="Services/User" component="Services/WebServices/ECS" />
+                <event type="raise" id="newEcsEvent" />
 	</events>
 </service>
