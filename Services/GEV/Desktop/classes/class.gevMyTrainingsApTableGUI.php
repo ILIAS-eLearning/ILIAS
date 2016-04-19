@@ -216,7 +216,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$cancel_training_link = $this->gCtrl->getLinkTargetByClass("ilObjCourseGUI","confirmTrainingCancellation");
 		$this->gCtrl->clearParametersByClass("ilObjCourseGUI");
 
-		$this->gCtrl->setParameterByClass("gevTrainerMailHandlingGUI", "obj_id", $a_set["obj_id"]);
+		$this->gCtrl->setParameterByClass("gevTrainerMailHandlingGUI", "crs_id", $a_set["obj_id"]);
 		$maillog = $this->gCtrl->getLinkTargetByClass("gevTrainerMailHandlingGUI", "showLog");
 		$this->gCtrl->clearParametersByClass("gevTrainerMailHandlingGUI");
 
