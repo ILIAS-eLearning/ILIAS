@@ -82,9 +82,14 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	 */
 	public $ilias;
 
+	/**
+	 * @var ilHelp
+	 */
+	protected $help;
+
 
 	public function __construct() {
-		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias;
+		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias, $ilHelp;
 
 		parent::ilContainerGUI(array(), (int) $_GET['ref_id'], true, false);
 
@@ -97,6 +102,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$this->ilLog = $ilLog;
 		$this->ilias = $ilias;
 		$this->type = "prg";
+		$this->help = $ilHelp;
 
 		$lng->loadLanguageModule("prg");
 	}
@@ -509,6 +515,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	 * Adds the default tabs to the gui
 	 */
 	public function getTabs() {
+		$this->help->setScreenIdComponent("prg");
 		if ($this->checkAccess("read")) {
 			$this->tabs_gui->addTab( self::TAB_VIEW_CONTENT
 								   , $this->lng->txt("content")
