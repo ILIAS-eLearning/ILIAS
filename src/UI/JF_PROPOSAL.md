@@ -7,8 +7,8 @@ Rules in this proposal are formulated according to [RFC2119](https://www.ietf.or
 ## Rules for Consumers
 
 * Consumers of the UI framework MUST only use the UI-Factory provided via the
-  dependency injection container `$DIC->UIFactory()`. The factory implements the
-  interface \ILIAS\UI\Factory.
+  dependency injection container `$DIC->UIFactory()` as entry point top the
+  framework. The factory implements the interface \ILIAS\UI\Factory.
 
 ## Rules for Implementors
 
@@ -47,7 +47,7 @@ The interface to the main factory is \ILIAS\UI\Factory.
 * The block in the documentation containing Kitchen Sink information:
     * SHOULD contain a text field `example` containing a PHP example that show
       cases the usage, if the documented method represents a UI-component
-    * MUST contain a field `description` that is a dictionary containing one or
+    * SHOULD contain a field `description` that is a dictionary containing one or
       more than one of the following text fields:
         * `purpose` - describes the usage scenario of the component
         * `composition` - describes how the component is composed with other
@@ -55,7 +55,7 @@ The interface to the main factory is \ILIAS\UI\Factory.
         * `effect` - describes visual effects that relate to the item
         * `rival` - describes other components fulfilling a similar function
     * MAY contain a text field `background` that gives academic information
-    * MUST contain a text field `context` that describes occurences and
+    * SHOULD contain a text field `context` that describes occurences and
       prevalence of the control if the method describes a concrete UI component.
       If the method represents an abstract node in the in the Kitchen Sink
       taxonomy it MUST NOT contain a `context` field.
@@ -63,7 +63,7 @@ The interface to the main factory is \ILIAS\UI\Factory.
       articles in the feature wiki.
     * MAY contain a field `rules` that contains one or more than one of the 
       following fields `usage`, `interaction`, `wording`, `style`, `ordering`, 
-      `responsiveness`, `accessibility`, where
+      `responsiveness`, `accessibility` and `accessibility, where
         * each of the contained fields is a dictionary from a number to a text
         * each of the contained fields MUST contain at least one rule for the
           proposed Kitchen Sink entry
@@ -78,7 +78,7 @@ The interface to the main factory is \ILIAS\UI\Factory.
 * There MUST be at most one factory per interface declaring to return instances of
   that interface.
 
-### Interfaces to UI components.
+### Interfaces to UI components
 
 The word *path* in this chapter means the chain of successive calls to methods
 of factories leading to the creation of a UI component.
@@ -104,6 +104,21 @@ of factories leading to the creation of a UI component.
 
 ### Introduction of new UI components
 
+* New methods on factory interfaces of the framework MUST be agreed upon by the
+  Jour Fixe, as new methods on factories represent new abstract nodes in the Kitchen
+  Sink taxonomy or new concrete UI components.
+* To propose a new UI component a pull request against the trunk MUST be made on
+  github. The code in the pull request SHOULD obay the rules given in **Interfaces
+  to Factories** and **Interfaces to UI components**. The existing unit tests for
+  the UI framework SHOULD pass.
+* The new method MUST be backed with a stub implementation that raises 
+  ILIAS\UI\NotImplementedException upon call.
+* The proposed UI component MAY already be implemented. If the UI component is
+  implemented, it SHOULD obay the rules given in **Implementations of Factories**.
+* In addition to the YAML-Block described in **Interfaces to Factories** the
+  proposed interfaces, if not already implemented, SHOULD contain the following
+  fields:
+
 ### Modification of existing UI components
 
 ### Changes to the base of the framework
@@ -113,11 +128,9 @@ of factories leading to the creation of a UI component.
 We herby propose the introduction of an UI-Framework for ILIAS with the
 following properties:
 
-* Users of the new UI-Service will be programming against interfaces, they
-  won't be able to rely on concrete classes.
-* Users of the framework will be using factories for instantiation of GUI
-  elements.
-* The content of the Kitchen Sink will be documented in the public interface of
+[X] Users of the framework will be using factories for instantiation of GUI
+  elements. 
+[X] The content of the Kitchen Sink will be documented in the public interface of
   the framework in a form that is machine readable.
 * The UI-Framework in the ILIAS trunk will contain all KS-entries the Jour Fixe
   agreed upon.
