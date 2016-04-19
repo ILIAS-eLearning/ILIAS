@@ -2561,7 +2561,7 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 	";
 	$res = $ilDB->query($query);
 
-	$handled_roles_by_parent = array()
+	$handled_roles_by_parent = array();
 
 	while($row = $ilDB->fetchAssoc($res))
 	{
