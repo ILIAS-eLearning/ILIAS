@@ -430,7 +430,7 @@ class ilObjUserGUI extends ilObjectGUI
 			if (ilDiskQuotaActivationChecker::_isActive())
 			{
 				// The disk quota is entered in megabytes but stored in bytes
-				$userObj->setPref("disk_quota", trim($_POST["disk_quota"]) * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
+				$userObj->setPref("disk_quota", ilFormat::MB2Bytes($_POST["disk_quota"]));
 			}
 			
 			if($this->isSettingChangeable('skin_style'))
@@ -860,12 +860,12 @@ class ilObjUserGUI extends ilObjectGUI
 			if (ilDiskQuotaActivationChecker::_isActive())
 			{
 				// set disk quota
-				$this->object->setPref("disk_quota", $_POST["disk_quota"] * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
+				$this->object->setPref("disk_quota", ilFormat::MB2Bytes($_POST["disk_quota"]));
 			}
 			if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
 			{
 				// set personal workspace disk quota
-				$this->object->setPref("wsp_disk_quota", $_POST["wsp_disk_quota"] * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
+				$this->object->setPref("wsp_disk_quota", ilFormat::MB2Bytes($_POST["wsp_disk_quota"]));
 			}
 
 			if($this->isSettingChangeable('skin_style'))
@@ -1005,11 +1005,11 @@ class ilObjUserGUI extends ilObjectGUI
 		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
 		if (ilDiskQuotaActivationChecker::_isActive())
 		{
-			$data["disk_quota"] = $this->object->getDiskQuota() / ilFormat::_getSizeMagnitude() / ilFormat::_getSizeMagnitude();
+			$data["disk_quota"] = ilFormat::Bytes2MB($this->object->getDiskQuota());
 		}
 		if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
 		{
-			$data["wsp_disk_quota"] = $this->object->getPersonalWorkspaceDiskQuota() / ilFormat::_getSizeMagnitude() / ilFormat::_getSizeMagnitude();
+			$data["wsp_disk_quota"] = ilFormat::Bytes2MB($this->object->getPersonalWorkspaceDiskQuota());
 		}
 		// W. Randelshofer 2008-09-09: Deactivated display of disk space usage,
 		// because determining the disk space usage may take several minutes.

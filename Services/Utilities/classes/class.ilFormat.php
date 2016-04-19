@@ -183,7 +183,7 @@ class ilFormat
 	 *
 	 * @return <type>
 	 */
-	public static function _getSizeMagnitude()
+	protected static function _getSizeMagnitude()
 	{
 		return 1024;
 	}
@@ -303,6 +303,21 @@ class ilFormat
 				' '.$a_lng->txt('lang_size_bytes').')';
 		}
 		return $result;
+	}
+	
+	
+	// 
+	// used for disk quotas
+	// 
+	
+	public static function MB2Bytes($a_value)
+	{
+		return  $a_value * pow(self::_getSizeMagnitude(), 2);
+	}
+	
+	public static function Bytes2MB($a_value)
+	{
+		return  $a_value / (pow(self::_getSizeMagnitude(), 2));
 	}
 }
 
