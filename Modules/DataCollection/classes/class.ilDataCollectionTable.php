@@ -1577,7 +1577,8 @@ class ilDataCollectionTable {
 		if ($has_nref) {
 			$sql .= " GROUP BY record.id, record.owner";
 		}
-		if($id != 'comments' && $sort_field->getDatatypeId() != ilDataCollectionDatatype::INPUTFORMAT_FORMULA) {
+		$props = $sort_field->getProperties();
+		if($id != 'comments' && $sort_field->getDatatypeId() != ilDataCollectionDatatype::INPUTFORMAT_FORMULA && !$props[ilDataCollectionField::PROPERTYID_URL]) {
 			$sql .= " ORDER BY field_{$id} {$direction}";
 		}
 		$set = $ilDB->query($sql);
@@ -1600,6 +1601,25 @@ class ilDataCollectionTable {
 			foreach ($total_record_ids as $id) {
 				$formula_field = ilDataCollectionCache::getRecordFieldCache(new ilDataCollectionRecord($id), $sort_field);
 				$sort_array[$id] = $formula_field->getValue();
+			}
+			switch ($direction) {
+				case 'asc':
+				case 'ASC':
+					asort($sort_array);
+					break;
+				case 'desc':
+				case 'DESC':
+					arsort($sort_array);
+					break;
+			}
+			$total_record_ids = array_keys($sort_array);
+		}
+		//Sort by URL-title if existent
+		if ($props[ilDataCollectionField::PROPERTYID_URL]) {
+			$sort_array = array();
+			foreach ($total_record_ids as $id) {
+				$url_field = ilDataCollectionCache::getRecordFieldCache(new ilDataCollectionRecord($id), $sort_field);
+				$sort_array[$id] = $url_field->getSortingValue();
 			}
 			switch ($direction) {
 				case 'asc':
