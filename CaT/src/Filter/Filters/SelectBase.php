@@ -26,18 +26,6 @@ class SelectBase extends Filter {
 		$this->setDescription($description);
 		$this->setMappings($mappings, $mapping_result_types);
 
-		$keys = array_keys($options);
-		$tf = $factory->type_factory();
-		if ($tf->lst($tf->int())->contains($keys)) {
-			$this->content_type = $tf->lst($tf->int());
-		}
-		else if ($tf->lst($tf->string())->contains($keys)) {
-			$this->content_type = $tf->lst($tf->string());
-		}
-		else {
-			throw new \InvalidArgumentException("Use only strings or only ints as keys for options.");
-		}
-
 		$this->options = $options;
 		$this->default_choice = $default_choice;
 	}

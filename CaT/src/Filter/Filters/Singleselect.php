@@ -12,10 +12,7 @@ class Singleselect extends SelectBase {
 		assert('is_string($label)');
 		assert('is_string($description)');
 
-		$this->setFactory($factory);
-		$this->setLabel($label);
-		$this->setDescription($description);
-		$this->setMappings($mappings, $mapping_result_types);
+		parent::__construct($factory, $label, $description, $options, $default_choice , $mappings, $mapping_result_types);
 
 		$keys = array_keys($options);
 		$tf = $factory->type_factory();
@@ -28,9 +25,6 @@ class Singleselect extends SelectBase {
 		else {
 			throw new \InvalidArgumentException("Use only strings or only ints as keys for options.");
 		}
-
-		$this->options = $options;
-		$this->default_choice = $default_choice;
 	}
 
 	/**
