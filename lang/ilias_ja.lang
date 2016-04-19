@@ -52,7 +52,7 @@ administration#:#adm_container#:#コンテナオブジェクト
 administration#:#adm_content_objects#:#コンテンツオブジェクト
 administration#:#adm_content_services#:#コンテンツサービス
 administration#:#adm_db_bench_by_first_table#:#SQLの最初のテーブルで集計
-administration#:#adm_db_bench_chronological#:#日付順
+administration#:#adm_db_bench_chronological#:#時系列順
 administration#:#adm_db_bench_slowest_first#:#最低値を優先
 administration#:#adm_db_bench_sorted_by_sql#:#SQLで並び替え
 administration#:#adm_db_benchmark#:#DBベンチマーク
@@ -743,6 +743,7 @@ assessment#:#extratime#:#延長時間
 assessment#:#factor#:#要因
 assessment#:#failed_official#:#不合格です
 assessment#:#failed_short#:#不合格
+assessment#:#false#:#False
 assessment#:#feedback_all#:#全解答の特定フィードバックの回答を表示
 assessment#:#feedback_answers#:#問題の各答案に対するフィードバック
 assessment#:#feedback_checked#:#全ての選択された/選択した解答特定のフィードバック解答を表示
@@ -1341,6 +1342,7 @@ assessment#:#toplist_col_score#:#点数
 assessment#:#toplist_col_wtime#:#処理時間
 assessment#:#toplist_top_n_results#:#上位%sの結果
 assessment#:#toplist_your_result#:#順位
+assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#テスト結果への恒久アクセスと、このテストを再開可能性を提供するためにユニークなテストのアクセス コードが作成されました。以降のアクションはこのコードを使って書いてください。
 assessment#:#tst_activate_skill_service#:#能力サービスを有効化
 assessment#:#tst_activate_skill_service_desc#:#新規タブ'能力'が表示されます。このタブには問題が能力へ割り当てられてしきい値は能力の一定レベル達成のせいになります。
@@ -5782,7 +5784,7 @@ common#:#sorting_creation_header#:#作成日順
 common#:#sorting_creation_info#:#コンテンツアイテムは自動的に作成日で整理されます。
 common#:#sorting_desc#:#降順
 common#:#sorting_direction#:#ソート順
-common#:#sorting_header#:#アイテム並び替えの内容
+common#:#sorting_header#:#コンテンツアイテムの並び替え
 common#:#sorting_info_inherit#:#並び替えモードは親コースから引き継がれます。
 common#:#sorting_info_manual#:#手動並び替えができます
 common#:#sorting_info_title#:#タイトルで自動並び替えします
@@ -5844,7 +5846,7 @@ common#:#svy_finished#:#サーベイを完了しました
 common#:#svy_new#:#新規サーベイ
 common#:#svy_no_content#:#サーベイは利用できません
 common#:#svy_not_finished#:#サーベイがまだ完了していません
-common#:#svy_not_started#:#このサーベイに参加
+common#:#svy_not_started#:#このサーベイに参加していません
 common#:#svy_participate#:#サーベイに参加してください
 common#:#svy_run#:#実行
 common#:#svy_upload_file#:#ファイルをアップロード
@@ -7667,7 +7669,7 @@ crs#:#crs_info_start#:#以下に列記されている全てのコース科目を
 crs#:#crs_intro_course_group_notification_for#:#通知を有効にしているコースとグループ用のニュースダイジェストです。
 crs#:#crs_intro_course_group_notification_index#:#次のコースとグループには%1$sから%2$sの期間内にニュースがあります:
 crs#:#crs_item_availability_info#:#一定期間アイテムを利用可能にします。 '表示項目'をチェックすると、アイテムは学習者に表示されるにもかかわらずアクセスができない状態で残ります。
-crs#:#crs_item_presetting_info#:#選択すると学習者へ標準の編集時間を表示します。
+crs#:#crs_item_presetting_info#:#推奨の編集時間を学習者へ提示する際に選択します。
 crs#:#crs_join_request#:#送る
 crs#:#crs_learning_materials#:#教材
 crs#:#crs_lim_assigned#:# 既に関連するコース"%s"へ割当てられています。
@@ -7681,7 +7683,7 @@ crs#:#crs_lm_assignment_deleted#:#割当を削除しました。
 crs#:#crs_lm_deassign#:#割当てを削除しました。
 crs#:#crs_lm_no_assignments_selected#:#割当てを一つ選択してください。
 crs#:#crs_lms_already_assigned#:#これらの学習教材は既に割当て済です。
-crs#:#crs_loc_btn_new_assignment#:#Neue Testzuordnung###23 12 2015 new variable
+crs#:#crs_loc_btn_new_assignment#:#新しいテストの割り当て
 crs#:#crs_loc_confirm_delete_tst#:#本当に、この学習目標志向コースのテストの割り当て解除をしますか?
 crs#:#crs_loc_delete_assignment#:#割り当てを削除
 crs#:#crs_loc_err_no_active_it#:#初期テストなしの学習目標
@@ -7710,8 +7712,8 @@ crs#:#crs_loc_learning_objective#:#学習目標
 crs#:#crs_loc_limited_passes#:#試験回数制限
 crs#:#crs_loc_mem_show_res#:#テスト結果を表示
 crs#:#crs_loc_num_qst#:#問題数
-crs#:#crs_loc_objective_passed_confirmation#:#Sie haben das Lernziel bereits bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zuruck. Wollen Sie den Test erneut starten?###23 12 2015 new variable
-crs#:#crs_loc_objectives_passed_confirmation#:#Sie haben bereits alle Lernziel bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zuruck. Wollen Sie den Test erneut starten?###23 12 2015 new variable
+crs#:#crs_loc_objective_passed_confirmation#:#すでに学習目標に達しています。テストの最初へ戻り結果を設定します。テストをもう一度実施しますか？
+crs#:#crs_loc_objectives_passed_confirmation#:#すべての目標をクリヤしています。テストの最初へ戻り結果を設定します。度テストをやり直しますか？
 crs#:#crs_loc_passes#:#合格者数
 crs#:#crs_loc_passes_info#:#最大試験回数
 crs#:#crs_loc_passes_left#:#残り試験回数
@@ -7734,8 +7736,8 @@ crs#:#crs_loc_qtst_for_objective#:#資格テスト "%1$s"
 crs#:#crs_loc_rand_assign_qpl#:#問題集割り当てフォーム
 crs#:#crs_loc_rand_qpl#:#利用可能な問題集
 crs#:#crs_loc_settings_err_qstart#:#Die Option "Abschlusstest als Startobjekt" wurde deaktiviert, da sie nur fur Kurse ohne Einstiegstest verwendet werden kann.
-crs#:#crs_loc_settings_it_start_object#:#Einstiegstest ist Startobjekt###23 12 2015 new variable
-crs#:#crs_loc_settings_it_type#:#Einstiegstest###23 12 2015 new variable
+crs#:#crs_loc_settings_it_start_object#:#エントリーテストは開始オブジェクトです。
+crs#:#crs_loc_settings_it_type#:#エントリーテスト
 crs#:#crs_loc_settings_itest_tbl#:#初期テスト設定
 crs#:#crs_loc_settings_passed_mode#:#マスター学習目標
 crs#:#crs_loc_settings_passed_mode_hide#:#マスター学習目標用のテスト問題は非表示になります。
@@ -7748,15 +7750,15 @@ crs#:#crs_loc_settings_reset_enable#:#テスト結果をリセットを許可す
 crs#:#crs_loc_settings_reset_enable_info#:#有効にすると全ユーザは個別のテスト結果をリセットしてコースを再開できるようになります。
 crs#:#crs_loc_settings_tbl#:#学習目標志向型コースの設定
 crs#:#crs_loc_settings_tbl_it_nq#:#学習目標あたりの入門試験を診断
-crs#:#crs_loc_settings_tbl_it_q#:#Qualifizierende Einstiegstests pro Lernziel###23 12 2015 new variable
-crs#:#crs_loc_settings_tbl_its_nq_all#:#Diagnostischer Einstiegstest uber alle Lernziele###23 12 2015 new variable
-crs#:#crs_loc_settings_tbl_its_q_all#:#Qualifizierender Einstiegstest uber alle Lernziele###23 12 2015 new variable
+crs#:#crs_loc_settings_tbl_it_q#:#オブジェク当たりの入門試験
+crs#:#crs_loc_settings_tbl_its_nq_all#:#全学習オブジェクトに関する診断テストエントリ
+crs#:#crs_loc_settings_tbl_its_q_all#:#入門試験全学習オブジェクト概要
 crs#:#crs_loc_settings_tbl_qt#:#Abschlusstests pro Lernziel###23 12 2015 new variable
 crs#:#crs_loc_settings_tbl_qts_all#:#Abschlusstest uber alle Lernziele###23 12 2015 new variable
 crs#:#crs_loc_settings_type#:#コースデザイン
 crs#:#crs_loc_settings_type_it_none#:#入門テストなし
 crs#:#crs_loc_settings_type_it_none_info#:#実力テストなし
-crs#:#crs_loc_settings_type_it_placement_all#:#Diagnostischer Einstiegstest uber alle Lernziele###23 12 2015 new variable
+crs#:#crs_loc_settings_type_it_placement_all#:#全ての学習目標についての診断テストエントリ
 crs#:#crs_loc_settings_type_it_placement_all_info#:#すべての学習目標の実力テスト
 crs#:#crs_loc_settings_type_it_placement_sel#:#Diagnostischer Einstiegstest pro Lernziel###23 12 2015 new variable
 crs#:#crs_loc_settings_type_it_placement_sel_info#:#単一学習オブジェクトごとのクラス分けテスト
@@ -8009,7 +8011,7 @@ crs#:#crs_registration#:#コース登録
 crs#:#crs_registration_confirmation_info#:#興味のあるユーザはリクエスト/メッセージをコース管理者へ送ることができます。
 crs#:#crs_registration_deactivated#:#コースへの登録を不可にするにはこれを選択します。このコースへユーザは参加できません。
 crs#:#crs_registration_limited#:#限定登録期間
-crs#:#crs_registration_limited_info#:#メンバーは特定の時間内にこのコースの登録のみ可能です。
+crs#:#crs_registration_limited_info#:#メンバーは決められた期間内に限りこのコースの登録が可能です。
 crs#:#crs_registration_period#:#期間
 crs#:#crs_registration_type#:#登録手順
 crs#:#crs_registration_unlimited#:#無期登録期間
@@ -8076,12 +8078,12 @@ crs#:#crs_subscriber#:#購読者
 crs#:#crs_subscribers#:#リクエストへ参加
 crs#:#crs_subscribers_deleted#:#購読者が削除されました
 crs#:#crs_subscription#:#購読
-crs#:#crs_subscription_failed_limit#:#最大受験者数を超えました。
-crs#:#crs_subscription_max_members#:#制限ありのメンバー数
-crs#:#crs_subscription_max_members_short#:#メンバー数
-crs#:#crs_subscription_max_members_short_info#:#メンバーの最大数それぞれの最小が設定できます。待ちリストが設定できます。
-crs#:#crs_subscription_min_members#:#最小番号
-crs#:#crs_subscription_min_members_info#:#このコースを常時開催するために最小要求ユーザ数を定義します。この数字がユーザが登録またはコースから登録を取り消し可能な日付の後の場合はメールが’メンバー'－タブ内の'通知'フラッグをアクティブにしているこれらのコース管理者または指導教員へ送信されます。
+crs#:#crs_subscription_failed_limit#:#最大参加者数を超えました。
+crs#:#crs_subscription_max_members#:#最大数
+crs#:#crs_subscription_max_members_short#:#メンバー数制限
+crs#:#crs_subscription_max_members_short_info#:#メンバーの最大数それぞれに最小が設定できます。待ちリストが設定できます。
+crs#:#crs_subscription_min_members#:#最小値
+crs#:#crs_subscription_min_members_info#:#このコースを常時開催するための最小要求ユーザ数を定義します。この数値がユーザが登録またはコースから登録を取り消し可能な日付の後の場合はメールが’メンバー'－タブ内の'通知'フラッグをアクティブにしているこれらのコース管理者または指導教員へ送信されます。
 crs#:#crs_subscription_notify#:#購読者への通知
 crs#:#crs_subscription_options_confirmation#:#メンバーシップをリクエスト
 crs#:#crs_subscription_options_deactivated#:#アクティブ解除済
@@ -8102,10 +8104,10 @@ crs#:#crs_test_status_random#:#ランダムテスト
 crs#:#crs_time#:#購読時間
 crs#:#crs_timings_availability_enabled#:#一時利用
 crs#:#crs_timings_availability_tbl#:#アベイラビリティ,可用性
-crs#:#crs_timings_changeable#:#時間目標を変える
-crs#:#crs_timings_changed#:#日程が修正されました
-crs#:#crs_timings_disabled#:#タイミングを使用しない
-crs#:#crs_timings_disabled_info#:#タイミングを使用しない場合に選択します。
+crs#:#crs_timings_changeable#:#時間目標可変性
+crs#:#crs_timings_changed#:#日程が変更されました
+crs#:#crs_timings_disabled#:#タイミングを利用しない
+crs#:#crs_timings_disabled_info#:#タイミングを利用しない場合に選択します。
 crs#:#crs_timings_duration#:#接続時間
 crs#:#crs_timings_early_begin#:#最短開始
 crs#:#crs_timings_end#:#終了時間
@@ -8113,23 +8115,23 @@ crs#:#crs_timings_from_until#:#(いつからいつまで)
 crs#:#crs_timings_in_days#:#(日間)
 crs#:#crs_timings_info_active#:#(Active)
 crs#:#crs_timings_late_end#:#最終期限
-crs#:#crs_timings_not_changed#:#未修整の日程
-crs#:#crs_timings_planed_info#:#編集時間が設定されました
-crs#:#crs_timings_planed_start#:#計画後の
-crs#:#crs_timings_presetting#:#時間目標を使用
+crs#:#crs_timings_not_changed#:#未変更の日程
+crs#:#crs_timings_planed_info#:#計画済み編集時間
+crs#:#crs_timings_planed_start#:#計画済み
+crs#:#crs_timings_presetting#:#時間目標有効化
 crs#:#crs_timings_presetting_tbl#:#時間目標
 crs#:#crs_timings_short_active#:#有効化
-crs#:#crs_timings_short_changeable#:#変える
-crs#:#crs_timings_short_limit_start_end#:#最終日
-crs#:#crs_timings_short_start_end#:#提案
+crs#:#crs_timings_short_changeable#:#可変性
+crs#:#crs_timings_short_limit_start_end#:#最終最終日
+crs#:#crs_timings_short_start_end#:#提示
 crs#:#crs_timings_start#:#開始時間
 crs#:#crs_timings_start_end_info#:#(開始と終了日)
-crs#:#crs_timings_sug_begin#:#提案の開始日
-crs#:#crs_timings_sug_end#:#提案の終了日
-crs#:#crs_timings_suggested_info#:#提案の編集時間
+crs#:#crs_timings_sug_begin#:#提示開始日
+crs#:#crs_timings_sug_end#:#提示終了日
+crs#:#crs_timings_suggested_info#:#提示編集時間
 crs#:#crs_timings_time_frame#:#時間枠
-crs#:#crs_timings_update_error#:#設定が有効ではありません。コース案内に従ってタイミングを確認してください。
-crs#:#crs_timings_visibility#:#選択すると、教材は利用期間外でも表示されます。
+crs#:#crs_timings_update_error#:#設定が有効ではありません。コース案内に従ってタイミングを確認してください:
+crs#:#crs_timings_visibility#:#選択すると教材は利用期間外でも表示されます。
 crs#:#crs_timings_visibility_short#:#表示都合
 crs#:#crs_to#:#期限
 crs#:#crs_tutor#:#指導教員
@@ -8162,7 +8164,7 @@ crs#:#crs_view_mode#:#コースプレゼンテーション
 crs#:#crs_view_objective#:#学習目標指向型コース
 crs#:#crs_view_timing#:#タイミングビュー
 crs#:#crs_visibility_limitless#:#期限なし
-crs#:#crs_visibility_until#:#制限利用期間
+crs#:#crs_visibility_until#:#利用期間限定
 crs#:#crs_visibility_until_info#:#コースは一定の期間そのメンバーへ表示されます。
 crs#:#crs_wait_info#:#有効にしてユーザ最大数を超えると、新しい登録が待ちリストに載せられます。
 crs#:#crs_waiting_list#:#待ちリスト
@@ -9782,7 +9784,7 @@ forum#:#forums_thread_new_entry#:#新しいトピックが作成されました
 forum#:#forums_threads_deleted#:#全ての投稿を含む選択されたスレッドは削除されました。
 forum#:#forums_your_reply#:#返信
 forum#:#frm_anonymous_posting#:#ペンネームで投稿
-forum#:#frm_anonymous_posting_desc#:#有効にすると登録済ユーザはペンネームのみかまたは無記名でこの掲示板へ投稿する事ができます。
+forum#:#frm_anonymous_posting_desc#:#有効にすると登録済ユーザはこの掲示板へペンネームのみまたは無記名で投稿する事ができます。
 forum#:#frm_at_least_one_moderator#:#モデレータが一人は必須です。
 forum#:#frm_censorship#:#検閲
 forum#:#frm_censorship_applied#:#検閲権は正しく適用されました
@@ -9830,7 +9832,7 @@ forum#:#frm_sorting_threads#:#スレッド並び替え
 forum#:#frm_statistics#:#統計
 forum#:#frm_statistics_disabled_for_participants#:#掲示板メンバーには統計は機能しません。
 forum#:#frm_statistics_enabled#:#統計を可能にする
-forum#:#frm_statistics_enabled_desc#:#受講者用の投稿の統計を可能にします。
+forum#:#frm_statistics_enabled_desc#:#受講者の投稿統計を可能にします。
 forum#:#frm_statistics_ranking#:#投稿数
 forum#:#frm_subject_setting#:#Subject設定
 forum#:#frm_sure_delete_threads#:#本当に次のスレッドを削除しますか?
@@ -9839,7 +9841,7 @@ forum#:#frm_wizard_page#:#掲示板をコピー (Step 2/2)
 forum#:#is_read#:#既読としてマーク
 forum#:#make_topics_non_sticky#:#トピックを付箋しない
 forum#:#make_topics_sticky#:#トピックを付箋
-forum#:#mark_moderator_posts#:#モデレータのポストをマーク
+forum#:#mark_moderator_posts#:#モデレータの投稿をマーク
 forum#:#mark_moderator_posts_desc#:#有効にするとモデレータの投稿がハイライトされます。
 forum#:#merge#:#マージ
 forum#:#merge_posts_into_thread#:#投稿を他のスレッドへ統合
@@ -9851,7 +9853,7 @@ forum#:#no_forum_selected#:#移動するトピックスの掲示板が選択さ�
 forum#:#not_allowed_to_merge_into_another_forum#:#他の掲示板のスレッドをマージできません。
 forum#:#number_of_threads#:#ページあたりのスレッド表示数
 forum#:#please_choose_target#:#マージターゲットとしてスレッドを選択してください。
-forum#:#post_activation_desc#:#有効にすると、モデレータは新規投稿をアクティブにしなければなりません。
+forum#:#post_activation_desc#:#告知する前に全ての投稿はモデレータが承認する必要があります。
 forum#:#post_censored_by#:#%1$sによる掲示板"%2$s"内の検閲された投稿:
 forum#:#post_censored_comment_by_moderator#:#モデレータによるコメント、検閲の投稿
 forum#:#post_deleted_by#:#掲示板"%2$s"への次の投稿は"%1$s"により削除されました:
@@ -9874,7 +9876,7 @@ forum#:#sort_by_date#:#日付でソート
 forum#:#sort_by_posts#:#投稿でソート
 forum#:#sorting_manual_sticky#:#貼り付けスレッドの手動並び替え
 forum#:#sticky#:#付箋
-forum#:#sticky_threads_always_on_top#:#`貼り付けスレッド'はスレッド一覧の常時トップへ表示されます。'貼付けスレッド'内でこのオプションを使用すると手動の並び替えができます。
+forum#:#sticky_threads_always_on_top#:#`貼り付けスレッド'はスレッド一覧の常時トップへ表示されます。このオプションを選択すると'貼付けスレッド'内で手動の並び替えができます。
 forum#:#switch_threads_for_merge#:#選択されたスレッドはターゲットノスレッドより古いです。正しくマージするためにソースとターゲットスレッドは切替されます。
 forum#:#thread#:#スレッド
 forum#:#thread_deleted_by#:#掲示板"%2$s"内の次のスレッドは"%1$s"により削除されました:
@@ -10004,7 +10006,7 @@ grp#:#grp_reg_disabled#:#登録は不可能
 grp#:#grp_reg_disabled_info#:#グループ 管理者だけがグループへユーザを追加できます。
 grp#:#grp_reg_end#:#登録終了日時:
 grp#:#grp_reg_limit_num#:#ユーザ最大数
-grp#:#grp_reg_limit_num_info#:#限定登録期間
+grp#:#grp_reg_limit_num_info#:#登録期間限定
 grp#:#grp_reg_limit_time#:#有効
 grp#:#grp_reg_limited#:#自己登録
 grp#:#grp_reg_max_members_info#:#このグループへ割当て可能な最大ユーザ数を定義します。
@@ -10501,6 +10503,8 @@ mail#:#mail_sure_delete#:#本当にマークされたメールを削除します
 mail#:#mail_sure_delete_entry#:#本当に次のエントリーを削除しますか?
 mail#:#mail_sure_delete_file#:#ファイルは完全に削除されます
 mail#:#mail_sure_delete_folder#:#フォルダとそのコンテンツは完全に削除されます
+mail#:#mail_system_sender_name#:#発信者名
+mail#:#mail_system_sender_name_info#:#名前を入力してください
 mail#:#mail_template_client#:#Textテンプレート
 mail#:#mail_template_client_info#:#利用可能なTextテンプレートの一つを選択してそのプレースフォルダを作成します。Textテンプレートを選択するとこのフォームの本文と件名(Textテンプレート内にある場合)が生成されます。
 mail#:#mail_template_context#:#コンテキスト
@@ -14279,7 +14283,9 @@ style#:#sty_glo_char#:#用語集
 style#:#sty_ha_cntr_class#:#Hor. Accordionコンテナ
 style#:#sty_ha_icntr_class#:#Hor. Accordion アイテムコンテナ
 style#:#sty_ha_icont_class#:#Hor. Accordion アイテムコンテンツ
+style#:#sty_ha_ihcap_class#:#Hor. Accordion見出し
 style#:#sty_ha_ihead_class#:#Hor. Accordion アイテムヘッダー
+style#:#sty_ha_iheada_class#:#Hor. Accordionヘッダー(有効)
 style#:#sty_haccordion_templates#:#Hor. Accordion テンプレート
 style#:#sty_height#:#Height
 style#:#sty_hide#:#表示しない
@@ -14411,7 +14417,9 @@ style#:#sty_type_glo_ovuglistlink#:#ユニット用語集リストリンク
 style#:#sty_type_ha_cntr#:#Hor. Accordion Container
 style#:#sty_type_ha_icntr#:#Hor. Accordion Item Container
 style#:#sty_type_ha_icont#:#Hor. Accordion Item Content
+style#:#sty_type_ha_ihcap#:#Hor. Accordion見出し
 style#:#sty_type_ha_ihead#:#Hor. Accordion Item Header
+style#:#sty_type_ha_iheada#:#Hor. Accordionヘッダー
 style#:#sty_type_heading1#:#Heading 1
 style#:#sty_type_heading2#:#Heading 2
 style#:#sty_type_heading3#:#Heading 3
@@ -14483,12 +14491,16 @@ style#:#sty_type_text_inline#:#文字
 style#:#sty_type_va_cntr#:#Vert. Accordion Container
 style#:#sty_type_va_icntr#:#Vert. Accordion Item Container
 style#:#sty_type_va_icont#:#Vert. Accordion Item Content
+style#:#sty_type_va_ihcap#:#Vert. Accordion見出し
 style#:#sty_type_va_ihead#:#Vert. Accordion Item Header
+style#:#sty_type_va_iheada#:#Vert. Accordionヘッダー(有効)
 style#:#sty_ul#:#箇条書き
 style#:#sty_va_cntr_class#:#Vert. Accordion Container
 style#:#sty_va_icntr_class#:#Vert. Accordion Item Container
 style#:#sty_va_icont_class#:#Vert. Accordion Item Content
+style#:#sty_va_ihcap_class#:#Vert. Accordion見出し
 style#:#sty_va_ihead_class#:#Vert. Accordion Item Header
+style#:#sty_va_iheada_class#:#Vert. Accordionヘッダー(有効)
 style#:#sty_vaccordion_templates#:#Vert. Accordion Templates
 style#:#sty_vertical#:#Vertical
 style#:#sty_vertical_align#:#Vertical Alignment
@@ -14503,7 +14515,7 @@ style#:#style_move_style_into#:#Into
 style#:#style_page_layout_module_portfolio#:#ポートフォリオ
 style#:#style_page_layout_module_scorm#:#Scorm
 survey#:#add_category#:#回答を追加
-survey#:#add_heading#:#Headingを追加
+survey#:#add_heading#:#見出しを追加
 survey#:#add_limits_for_standard_numbers#:#回答として追加したい標準数値の上・下限値を入力してください。
 survey#:#add_material#:#教材を追加
 survey#:#add_phrase#:#フレーズを追加
@@ -14739,7 +14751,7 @@ survey#:#invitation_off#:#どのデスクトップにもしない。
 survey#:#invited_groups#:#招待されるグループ
 survey#:#invited_users#:#ユーザを選択
 survey#:#label#:#ラベル
-survey#:#label_info#:#以降のデータの処理(例
+survey#:#label_info#:#今後のデータ処理用の代替識別子、例:SPSS（Statistical Package for Social Science）
 survey#:#label_resume_survey#:#5桁のサーベイコードを入力します
 survey#:#language_changed#:#言語が変更されました
 survey#:#last_update#:#最終更新
@@ -14821,8 +14833,8 @@ survey#:#msg_enter_value_for_valid_constraint#:#有効なルーティングル�
 survey#:#msg_max_nr_answers#:#最大%s個の回答をチェックしてください
 survey#:#msg_message_deleted#:#削除されたメッセージテキスト
 survey#:#msg_message_inserted#:#挿入されたメッセージテキスト
-survey#:#msg_min_max_exact_answers#:#正確に%s個の回答にチェックしてください。
-survey#:#msg_min_max_nr_answers#:#最小%s個で最大%s個の回答をチェックしてください。
+survey#:#msg_min_max_exact_answers#:#回答は正確に%s個チェックしてください。
+survey#:#msg_min_max_nr_answers#:#最小%s個で最大%s個の回答にチェックしてください。
 survey#:#msg_min_nr_answers#:#少なくとも%s個の回答にチェックしてください。
 survey#:#msg_no_message_deleted#:#保存されたメッセージテキストを選択してください
 survey#:#msg_no_message_inserted#:#メッセージテキストを選択してください
@@ -15123,8 +15135,8 @@ survey#:#survey_question_pool#:#質問集
 survey#:#survey_question_pool_title#:#質問集タイトル
 survey#:#survey_question_pool_usage#:#質問集
 survey#:#survey_question_pool_usage_active#:#質問は質問集へオプションで追加することができます。
-survey#:#survey_question_pool_usage_active_info#:#質問集が使用されるならば決定する必要がありいつも質問は作成されます。
-survey#:#survey_question_pool_usage_inactive#:#質問はサーベイ内で直接作成されます。
+survey#:#survey_question_pool_usage_active_info#:#質問集として使用される場合は質問作成ごとに決定する必要があります。
+survey#:#survey_question_pool_usage_inactive#:#質問はサーベイ内に直接作成されます。
 survey#:#survey_question_pool_usage_inactive_info#:#質問は後で質問集へ手動で追加できますがこのサーベイのみ最初に作成されます。
 survey#:#survey_question_text_hidden#:#テキスト非表示
 survey#:#survey_question_text_visible#:#テキスト表示
@@ -15239,7 +15251,7 @@ survey#:#svy_presentation_properties#:#プレゼンテーション
 survey#:#svy_print_label_only#:#ラベルのみ表示
 survey#:#svy_print_title_label#:#タイトルとラベルを表示
 survey#:#svy_print_title_only#:#タイトルのみ表示
-survey#:#svy_result_mail_notification_info#:#サーベイ終了時に各参加者の回答が設定済みの受信者へ送信されます。
+survey#:#svy_result_mail_notification_info#:#サーベイ終了時に各参加者の回答は定義した受信者へ送信されます。
 survey#:#svy_results#:#結果
 survey#:#svy_results_mail_own#:#参加者は自身の回答をメールすることができます
 survey#:#svy_results_mail_own_info#:#参加者は自身の回答を含むメールを要求できます。
@@ -16165,26 +16177,3 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-assessment#:#false#:#False###01 03 2016 new variable
-assessment#:#true#:#True###01 03 2016 new variable
-style#:#sty_type_ha_iheada#:#Hor. Accordion Header (active)###01 03 2016 new variable
-style#:#sty_type_ha_ihcap#:#Hor. Accordion Caption###01 03 2016 new variable
-style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)###01 03 2016 new variable
-style#:#sty_type_va_ihcap#:#Vert. Accordion Caption###01 03 2016 new variable
-style#:#sty_ha_iheada_class#:#Hor. Accordion Header (active)###01 03 2016 new variable
-style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption###01 03 2016 new variable
-style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)###01 03 2016 new variable
-style#:#sty_va_ihcap_class#:#Vert. Accordion Caption###01 03 2016 new variable
-exc#:#exc_delete_team#:#Delete Team###10 03 2016 new variable
-mail#:#mail_send_html#:#HTML Frame for External Emails###14 04 2016 new variable
-mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .###14 04 2016 new variable
-mail#:#mail_system_from_name#:#Sender Name###14 04 2016 new variable
-mail#:#mail_system_from_name_info#:#Please enter a name. This name (e.g. 'John Doe') will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.###14 04 2016 new variable
-mail#:#mail_system_return_path#:#Global Return-Path###14 04 2016 new variable
-mail#:#mail_system_return_path_info#:#Please enter an email address which should be used for the return path (e.g. webmaster@ilias.de). If you leave the field blank, the 'Return-Path' will be the 'From' email address.###14 04 2016 new variable
-sysc#:#sysc_tree_structure_failures#:#Number of failures in the tree structure (parent-Relation):###14 04 2016 new variable
-sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tree structure? Please create a database backup before you proceed.###14 04 2016 new variable
-sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure###14 04 2016 new variable
-crs#:#event_tbl_admins#:#Administrators###14 04 2016 new variable
-crs#:#event_tbl_members#:#Members###14 04 2016 new variable
-crs#:#event_tbl_tutors#:#Tutors###14 04 2016 new variable
