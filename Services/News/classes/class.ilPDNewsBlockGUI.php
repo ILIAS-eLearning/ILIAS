@@ -29,7 +29,8 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$ilBench->start("News", "ilPDNewsBlockGUI_Constructor");
 		$news_set = new ilSetting("news");
 		
-		parent::__construct();
+		// NOT ilNewsForContextBlockGUI::__construct() !
+		ilBlockGUI::__construct();
 		
 		$lng->loadLanguageModule("news");
 		include_once("./Services/News/classes/class.ilNewsItem.php");

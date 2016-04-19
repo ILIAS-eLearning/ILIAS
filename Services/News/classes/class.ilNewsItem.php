@@ -1039,7 +1039,7 @@ class ilNewsItem extends ilNewsItemGen
 	*
 	* @return	array			Array of news
 	*/
-	function mergeNews($n1, $n2)
+	static function mergeNews($n1, $n2)
 	{
 		foreach($n2 as $id => $news)
 		{
@@ -1472,7 +1472,7 @@ class ilNewsItem extends ilNewsItemGen
 		ilNewsItem::$privFeedId = $a_userId;
 	}
 
-	function getPrivateFeedId () {
+	static function getPrivateFeedId () {
 
 		return ilNewsItem::$privFeedId;
 	}
