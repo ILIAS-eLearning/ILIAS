@@ -41,7 +41,8 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 	public function getTrainingTemplateOptions() {
 		// TODO: implement this properly
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		return gevCourseUtils::getAllTemplates();
+
+		return $this->is_local ? $this->getSubtreeCourseTemplates() : gevCourseUtils::getAllTemplates();
 	}
 
 	public function getOrguOptions() {
@@ -220,8 +221,9 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 
 	public function doCreate() {
 		$this->gIldb->manipulate("INSERT INTO rep_robj_rta ".
-			"(id, is_online) VALUES (".
+			"(id, is_online, is_local) VALUES (".
 			$this->gIldb->quote($this->getId(), "integer").",".
+			$this->gIldb->quote(0, "integer").','.
 			$this->gIldb->quote(0, "integer").
 			")");
 	}
@@ -233,12 +235,14 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 			);
 		while ($rec = $this->gIldb->fetchAssoc($set)) {
 			$this->setOnline($rec["is_online"]);
+			$this->setIsLocal($rec["is_local"]);
 		}
 	}
 
 	public function doUpdate() {
 		$this->gIldb->manipulate($up = "UPDATE rep_robj_rta SET ".
 			" is_online = ".$this->gIldb->quote($this->getOnline(), "integer").
+			", is_local = ".$this->gIldb->quote($this->getIsLocal(), "integer").
 			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
 			);
 	}
@@ -265,5 +269,31 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
+	}
+
+	public function getIsLocal() {
+		return $this->is_local;
+	}
+
+	public function setIsLocal($value) {
+		$this->is_local = $value ? 1 : 0;
+	}
+
+	protected function getSubtreeCourseTemplates() {
+		$query = 	'SELECT amd_val.obj_id,od.title FROM adv_md_values_text amd_val '
+					.'	JOIN object_data od ON amd_val.obj_id = od.obj_id'
+					.'	WHERE '.$this->gIldb->in('od.obj_id',
+							$this->getSubtreeTypeIdsBelowParentType('crs','cat'),false,'integer')
+					.'		AND amd_val.field_id = '.$this->gIldb->quote(
+												gevSettings::getInstance()
+													->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE)
+												,'integer')
+					.'		AND amd_val.value = '.$this->gIldb->quote('Ja','text');
+		$return = array();
+		$res = $this->gIldb->query($query);
+		while($rec = $this->gIldb->fetchAssoc($res)) {
+			$return[$rec['obj_id']] = $rec['title'];
+		}
+		return $return;
 	}
 }
