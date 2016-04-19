@@ -14775,3 +14775,10 @@ if(!$ilDB->tableColumnExists('webr_items','internal'))
 }
 
 ?>
+<#4896>
+<?php
+if(!$ilDB->indexExistsByFields('usr_data_multi',array('usr_id')))
+{
+	$ilDB->addIndex('usr_data_multi',array('usr_id'), 'i1');
+}
+?>
