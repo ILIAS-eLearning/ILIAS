@@ -10,7 +10,6 @@
 *
 * @ilCtrl_Calls gevMyTrainingsApGUI: ilParticipationStatusAdminGUI
 * @ilCtrl_Calls gevMyTrainingsApGUI: gevDesktopGUI
-* @ilCtrl_Calls gevMyTrainingsApGUI: gevMaillogGUI
 * @ilCtrl_Calls gevMyTrainingsApGUI: gevTrainerMailHandlingGUI
 *
 */
