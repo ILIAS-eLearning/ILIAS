@@ -1023,7 +1023,7 @@ class ilMainMenuGUI
 		global $ilHelp, $lng, $ilCtrl, $tpl, $ilSetting, $ilUser;
 
 		// screen id
-		if (defined("OH_REF_ID") && OH_REF_ID > 0)
+		if ((defined("OH_REF_ID") && OH_REF_ID > 0) || DEVMODE == 1)
 		{
 			if ($ilHelp->getScreenId() != "")
 			{

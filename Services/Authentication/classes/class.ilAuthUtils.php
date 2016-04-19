@@ -530,17 +530,33 @@ class ilAuthUtils
 	
 	function _getAllAuthModes()
 	{
-		return array(
-			AUTH_LOCAL => ilAuthUtils::_getAuthModeName(AUTH_LOCAL),
-			AUTH_LDAP => ilAuthUtils::_getAuthModeName(AUTH_LDAP),
-			AUTH_SHIBBOLETH => ilAuthUtils::_getAuthModeName(AUTH_SHIBBOLETH),
-			AUTH_CAS => ilAuthUtils::_getAuthModeName(AUTH_CAS),
-			AUTH_SOAP => ilAuthUtils::_getAuthModeName(AUTH_SOAP),
-			AUTH_RADIUS => ilAuthUtils::_getAuthModeName(AUTH_RADIUS),
-			AUTH_ECS => ilAuthUtils::_getAuthModeName(AUTH_ECS),
-			AUTH_OPENID => ilAuthUtils::_getAuthModeName(AUTH_OPENID),
-			AUTH_APACHE => ilAuthUtils::_getAuthModeName(AUTH_APACHE)
+		$modes = array(
+			AUTH_LOCAL,
+			AUTH_LDAP,
+			AUTH_SHIBBOLETH,
+			AUTH_CAS,
+			AUTH_SOAP,
+			AUTH_RADIUS,
+			AUTH_ECS,
+			AUTH_OPENID,
+			AUTH_APACHE
 		);
+		$ret = array();
+		foreach($modes as $mode)
+		{
+			// multi ldap implementation
+			if($mode == AUTH_LDAP)
+			{
+				foreach(ilLDAPServer::_getServerList() as $ldap_id)
+				{
+					$id = AUTH_LDAP . '_' . $ldap_id;
+					$ret[$id] = ilAuthUtils::_getAuthModeName($id);
+				}
+				continue;
+			}
+			$ret[$mode] =  ilAuthUtils::_getAuthModeName($mode);
+		}
+		return $ret;
 	}
 	
 	/**

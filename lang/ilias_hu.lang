@@ -16185,3 +16185,6 @@ exc#:#exc_delete_team#:#Csapat törlése
 sysc#:#sysc_tree_structure_failures#:#Fastruktúra hibáinak száma (szülőkapcsolat):
 sysc#:#sysc_message_tree_structure_confirm#:#Biztos, hogy javítja a fastruktúrát? A javítás előtt készítsen biztonsági másolatot adatbázisáról.
 sysc#:#sysc_btn_tree_structure#:#Fastruktúra újralétrehozása
+crs#:#event_tbl_admins#:#Administrators###14 04 2016 new variable
+crs#:#event_tbl_members#:#Members###14 04 2016 new variable
+crs#:#event_tbl_tutors#:#Tutors###14 04 2016 new variable
