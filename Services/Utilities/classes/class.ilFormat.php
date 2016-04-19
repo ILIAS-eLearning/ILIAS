@@ -201,7 +201,7 @@ class ilFormat
 	* @param	boolean		whether .0 should be suppressed
 	* @return	string		formatted number
 	*/
-	static function fmtFloat($a_float, $a_decimals=0, $a_dec_point = null, $a_thousands_sep = null, $a_suppress_dot_zero=false)
+	protected static function fmtFloat($a_float, $a_decimals=0, $a_dec_point = null, $a_thousands_sep = null, $a_suppress_dot_zero=false)
 	{
 		global $lng;
 
