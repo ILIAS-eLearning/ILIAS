@@ -242,8 +242,14 @@ class ilECSTaskScheduler
 					break;
 
 				default:
-					$this->log->write(__METHOD__.': Unknown event type in queue '.$event['type']);
+					ilLoggerFactory::getRootLogger()->warning('Unknown type in queue, raising new event handling event: '. $event['type']);
 					$event_ignored = true;
+					
+					$GLOBALS['ilAppEventHandler']->raise(
+						'Services/WebServices/ECS',
+						'newEcsEvent',
+						array('event' => $event)
+					);
 					break;
 			}
 			
