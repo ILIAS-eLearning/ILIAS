@@ -189,6 +189,63 @@ class ilFormat
 	}
 	
 	/**
+	* format a float
+	* 
+	* this functions takes php's number_format function and 
+	* formats the given value with appropriate thousand and decimal
+	* separator.
+	* @access	public
+	* @param	float		the float to format
+	* @param	integer		count of decimals
+	* @param	integer		display thousands separator
+	* @param	boolean		whether .0 should be suppressed
+	* @return	string		formatted number
+	*/
+	function fmtFloat($a_float, $a_decimals=0, $a_dec_point = null, $a_thousands_sep = null, $a_suppress_dot_zero=false)
+	{
+		global $lng;
+
+
+		if ($a_dec_point == null)
+		{
+			$a_dec_point = $lng->txt('lang_sep_decimal');
+			{
+				$a_dec_point = ".";
+			}
+		}
+		if ($a_dec_point == '-lang_sep_decimal-')
+		{
+			$a_dec_point = ".";
+		}
+
+		if ($a_thousands_sep == null)
+		{
+			$a_thousands_sep = $lng->txt('lang_sep_thousand');
+			{
+				$a_th = ",";
+			}
+		}
+		if ($a_thousands_sep == '-lang_sep_thousand-')
+		{
+			$a_thousands_sep = ",";
+		}
+		
+		$txt = number_format($a_float, $a_decimals, $a_dec_point, $a_thousands_sep);
+		
+		// remove trailing ".0" 
+		if (($a_suppress_dot_zero == 0 || $a_decimal == 0) &&
+			substr($txt,-2) == $a_dec_point.'0')
+		{
+			$txt = substr($txt, 0, strlen($txt) - 2);
+		}
+		if ($a_float == 0 and $txt == "")
+		{
+			$txt = "0";
+		}
+		return $txt;
+	}
+	
+	/**
 	 * Returns the specified file size value in a human friendly form.
 	 * <p>
 	 * By default, the oder of magnitude 1024 is used. Thus the value returned
