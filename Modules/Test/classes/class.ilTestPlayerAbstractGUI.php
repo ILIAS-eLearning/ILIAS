@@ -1241,7 +1241,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	function endingTimeReached() 
 	{
-		ilUtil::sendInfo(sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
+		ilUtil::sendInfo(sprintf($this->lng->txt("detail_ending_time_reached"), ilDatePresentation::formatDate(new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX))));
 		$this->testSession->increasePass();
 		$this->testSession->setLastSequence(0);
 		$this->testSession->saveToDb();
@@ -1346,8 +1346,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$template->setVariable("HOUR", $date["hours"]);
 		$template->setVariable("MINUTE", $date["minutes"]);
 		$template->setVariable("SECOND", $date["seconds"]);
-		if ($this->object->isEndingTimeEnabled() && preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->object->getEndingTime(), $matches))
+		if ($this->object->isEndingTimeEnabled() )
 		{
+			$date_time = new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX);
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $date_time->get(IL_CAL_TIMESTAMP), $matches);
 			$template->setVariable("ENDYEAR", $matches[1]);
 			$template->setVariable("ENDMONTH", $matches[2]-1);
 			$template->setVariable("ENDDAY", $matches[3]);

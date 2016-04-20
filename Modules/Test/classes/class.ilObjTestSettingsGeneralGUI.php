@@ -738,7 +738,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$startingtime->setShowTime(true);
 		if( strlen($this->testOBJ->getStartingTime()) )
 		{
-			$startingtime->setDate(new ilDateTime($this->testOBJ->getStartingTime(), IL_CAL_TIMESTAMP));
+			$startingtime->setDate(new ilDateTime($this->testOBJ->getStartingTime(), IL_CAL_UNIX));
 		}
 		else
 		{
@@ -762,7 +762,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$endingtime->setShowTime(true);
 		if (strlen($this->testOBJ->getEndingTime()))
 		{
-			$endingtime->setDate(new ilDateTime($this->testOBJ->getEndingTime(), IL_CAL_TIMESTAMP));
+			$endingtime->setDate(new ilDateTime($this->testOBJ->getEndingTime(), IL_CAL_UNIX));
 		}
 		else
 		{
@@ -831,9 +831,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		{
 			if( $form->getItemByPostVar('chb_starting_time')->getChecked() )
 			{
-				$this->testOBJ->setStartingTime(ilFormat::dateDB2timestamp(
-					$form->getItemByPostVar('starting_time')->getDate()->get(IL_CAL_DATETIME)
-				));
+				$starting_time = $form->getItemByPostVar('starting_time');
+				$starting_time = $starting_time->getDate()->getUnixtime();
+				$this->testOBJ->setStartingTime($starting_time);
 
 				$this->testOBJ->setStartingTimeEnabled(true);
 			}
@@ -848,9 +848,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		{
 			if( $form->getItemByPostVar('chb_ending_time')->getChecked() )
 			{
-				$this->testOBJ->setEndingTime(ilFormat::dateDB2timestamp(
-					$form->getItemByPostVar('ending_time')->getDate()->get(IL_CAL_DATETIME)
-				));
+				$ending_time = $form->getItemByPostVar('ending_time');
+				$ending_time = $ending_time->getDate()->getUnixtime();
+				$this->testOBJ->setEndingTime($ending_time);
 
 				$this->testOBJ->setEndingTimeEnabled(true);
 			}
