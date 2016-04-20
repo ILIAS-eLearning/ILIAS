@@ -5007,7 +5007,7 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "Repository", "robj", "Buildi
 
 <#210>
 <?php
-	$ilCtrlStructureReader->getStructure();
+$ilCtrlStructureReader->getStructure();
 
 require_once "Customizing/class.ilCustomInstaller.php";
 ilCustomInstaller::maybeInitClientIni();
@@ -5034,5 +5034,32 @@ foreach ($relevant_ref_ids as $ref_id) {
 
 <#212>
 <?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	ilCustomInstaller::maybeInitSettings();
+
+	require_once("Services/User/classes/class.ilObjUser.php");
+	
+	if (!$ilDB->tableColumnExists('hist_user', 'login'))
+	{		
+		$ilDB->addTableColumn('hist_user', 'login', array(
+			"type" => "text",
+			"length" => 80,
+			"notnull" => false,
+			"default" => "-empty-"
+		));
+	}
+?>
+
+<#213>
+<?php
+
 	$ilCtrlStructureReader->getStructure();
 ?>
