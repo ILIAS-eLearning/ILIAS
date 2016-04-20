@@ -16,14 +16,6 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		$this->gLng = $lng;
 	}
 
-	// This is a super evil hack to make #2262 happen for this report.
-	// If there is a correct solution, we also could re-finalize getDescription
-	// in ilObject2.
-	public function getDescription() {
-		$this->gLng->loadLanguageModule("gev");
-		return $this->gLng->txt("gev_rep_attendance_by_employee_desc_short");
-	}
-
 	public function initType() {
 		 $this->setType("xrea");
 	}
