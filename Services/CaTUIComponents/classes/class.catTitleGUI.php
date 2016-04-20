@@ -158,7 +158,7 @@ class catTitleGUI {
 				$tpl->parseCurrentBlock();
 			}
 
-			if($this->video_link || $this->pdf_link) {
+			if($this->video_link || $this->pdf_link || $this->legend) {
 				if($this->video_link) {
 					$tpl->setCurrentBlock("icon_entry");
 					$tpl->setVariable("VIDEO_ICON", ilUtil::getImagePath("GEV_img/ico-videolink.png"));
@@ -172,6 +172,12 @@ class catTitleGUI {
 					$tpl->setVariable("VIDEO_ICON", ilUtil::getImagePath("GEV_img/ico-videolink.png"));
 					$tpl->setVariable("TEXT", $this->pdf_link_text);
 					$tpl->setVariable("URL", $this->pdf_link);
+					$tpl->parseCurrentBlock();
+				}
+
+				if ($this->legend !== null) {
+					$tpl->setCurrentBlock("legend");
+					$tpl->setVariable("LEGEND", $this->legend->render());
 					$tpl->parseCurrentBlock();
 				}
 
@@ -202,31 +208,25 @@ class catTitleGUI {
 			$tpl->parseCurrentBlock();
 		}
 
-		// if ($this->legend !== null) {
-		// 	$tpl->setCurrentBlock("legend");
-		// 	$tpl->setVariable("LEGEND", $this->legend->render());
-		// 	$tpl->parseCurrentBlock();
-		// }
+		if ($this->command !== null) {
+			$tpl->setCurrentBlock("command");
+			$tpl->setVariable("CMD_TARGET", $this->command);
+			$tpl->setVariable("CMD_TXT", $this->use_lng
+									   ? $this->lng->txt($this->command_lng_var)
+									   : $this->command_lng_var
+									   );
+			$tpl->parseCurrentBlock();
+		}
 
-		// if ($this->command !== null) {
-		// 	$tpl->setCurrentBlock("command");
-		// 	$tpl->setVariable("CMD_TARGET", $this->command);
-		// 	$tpl->setVariable("CMD_TXT", $this->use_lng
-		// 							   ? $this->lng->txt($this->command_lng_var)
-		// 							   : $this->command_lng_var
-		// 							   );
-		// 	$tpl->parseCurrentBlock();
-		// }
-
-		// if ($this->clear_search !== null) {
-		// 	$tpl->setCurrentBlock("clear_search");
-		// 	$tpl->setVariable("CMD_TARGET", $this->clear_search);
-		// 	$tpl->setVariable("CMD_TXT", $this->use_lng
-		// 							   ? $this->lng->txt($this->clear_search_lng_var)
-		// 							   : $this->clear_search_lng_var
-		// 							   );
-		// 	$tpl->parseCurrentBlock();
-		// }
+		if ($this->clear_search !== null) {
+			$tpl->setCurrentBlock("clear_search");
+			$tpl->setVariable("CMD_TARGET", $this->clear_search);
+			$tpl->setVariable("CMD_TXT", $this->use_lng
+									   ? $this->lng->txt($this->clear_search_lng_var)
+									   : $this->clear_search_lng_var
+									   );
+			$tpl->parseCurrentBlock();
+		}
 
 		return $tpl->get();
 	}
