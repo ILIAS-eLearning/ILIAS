@@ -15,7 +15,7 @@ class Navigator {
 	/**
 	 * get current tree
 	 *
-	 * @return Sequence
+	 * @return CaT/Filter/Filters/Sequence
 	 */
 	public function tree() {
 		return $this->tree;
@@ -26,7 +26,7 @@ class Navigator {
 	 *
 	 * @throws OutOfBoundsException
 	 *
-	 * @return Navigator
+	 * @return CaT/Filter/Navigator
 	 */
 	public function left() {
 		$path = $this->path;
@@ -50,7 +50,7 @@ class Navigator {
 	 *
 	 * @throws OutOfBoundsException
 	 *
-	 * @return Navigator
+	 * @return CaT/Filter/Navigator
 	 */
 	public function right() {
 		$path = $this->path;
@@ -74,7 +74,7 @@ class Navigator {
 	 *
 	 * @throws OutOfBoundsException
 	 *
-	 * @return Navigator
+	 * @return CaT/Filter/Navigator
 	 */
 	public function enter() {
 		$current = $this->current();
@@ -93,7 +93,7 @@ class Navigator {
 	 *
 	 * @throws OutOfBoundsException
 	 *
-	 * @return Navigator
+	 * @return CaT/Filter/Navigator
 	 */
 	public function up() {
 		$path = $this->path;
@@ -115,7 +115,7 @@ class Navigator {
 	 *
 	 * @throws OutOfBoundsException
 	 *
-	 * @return Navigator
+	 * @return CaT/Filter/Navigator
 	 */
 	public function go_to($path) {
 		$path = explode("_",$path);
@@ -142,7 +142,7 @@ class Navigator {
 	/**
 	 * get element
 	 *
-	 * @return Filter|Bool
+	 * @return CaT/Filter/Filters/Filter | Bool
 	 */
 	protected function getItemByPath($path, $tmp) {
 		foreach ($path as $value) {
