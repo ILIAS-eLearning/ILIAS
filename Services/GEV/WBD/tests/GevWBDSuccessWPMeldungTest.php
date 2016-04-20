@@ -11,12 +11,12 @@ class GevWBDSuccessWPMeldungTest extends SuccessTestBase {
 															.'<InterneVermittlerId>7665</InterneVermittlerId>'
 															.'<VermittlerId>20150728-100390-74</VermittlerId>'
 															.'<InterneBuchungsId>21352</InterneBuchungsId>'
-															.'<BeginnZertifizierungsPeriode>2015-07-28T00:00:00+02:00</BeginnZertifizierungsPeriode>'
+															.'<BeginnErstePeriode>2015-07-28T00:00:00+02:00</BeginnErstePeriode>'
 														.'</WPMeldungRueckgabewert>'
 													.'</ns1:putResponse>'
 												.'</soap:Body>'
 											.'</soap:Envelope>'
-									));
+									),'201-06-19', 6);
 	}
 
 	public function success_xml_error() {
@@ -28,7 +28,7 @@ class GevWBDSuccessWPMeldungTest extends SuccessTestBase {
 															.'<InterneVdermittlerId>7665</InterneVdermittlerId>'
 															.'<VermittlerId>20150728-100390-74</VermittlerId>'
 															.'<InterneBuchungsId>21352</InterneBuchungsId>'
-															.'<BeginnZertifizierungsPeriode>2015-07-28T00:00:00+02:00</BeginnZertifizierungsPeriode>'
+															.'<BeginnErstePeriode>2015-07-28T00:00:00+02:00</BeginnErstePeriode>'
 														.'</WPMeldungRueckgabewert>'
 													.'</ns1:putResponse>'
 												.'</soap:Body>'
@@ -38,7 +38,7 @@ class GevWBDSuccessWPMeldungTest extends SuccessTestBase {
 				);
 	}
 
-	public function test_isWBDSuccessVvAenderung() {
+	public function test_isWBDSuccessWPMeldung() {
 		$this->assertInstanceOf("gevWBDSuccessWPMeldung",$this->success);
 	}
 
@@ -47,7 +47,7 @@ class GevWBDSuccessWPMeldungTest extends SuccessTestBase {
 	* @expectedException LogicException
 	*/
 	public function test_cantCreateSuccessObject($xml) {
-		$success = new gevWBDSuccessWPMeldung($xml);
+		$success = new gevWBDSuccessWPMeldung($xml,'201-06-19', 6);
 		$this->assertNotInstanceOf("gevWBDSuccessWPMeldung",$success);
 	}
 
