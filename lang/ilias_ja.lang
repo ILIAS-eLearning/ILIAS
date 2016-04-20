@@ -10503,8 +10503,6 @@ mail#:#mail_sure_delete#:#本当にマークされたメールを削除します
 mail#:#mail_sure_delete_entry#:#本当に次のエントリーを削除しますか?
 mail#:#mail_sure_delete_file#:#ファイルは完全に削除されます
 mail#:#mail_sure_delete_folder#:#フォルダとそのコンテンツは完全に削除されます
-mail#:#mail_system_sender_name#:#発信者名
-mail#:#mail_system_sender_name_info#:#名前を入力してください
 mail#:#mail_template_client#:#Textテンプレート
 mail#:#mail_template_client_info#:#利用可能なTextテンプレートの一つを選択してそのプレースフォルダを作成します。Textテンプレートを選択するとこのフォームの本文と件名(Textテンプレート内にある場合)が生成されます。
 mail#:#mail_template_context#:#コンテキスト
@@ -16177,3 +16175,17 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
+mail#:#mail_send_html#:#HTML Frame for External Emails###20 04 2016 new variable
+mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .###20 04 2016 new variable
+mail#:#mail_system_from_name#:#Sender Name###20 04 2016 new variable
+mail#:#mail_system_from_name_info#:#Please enter a name. This name (e.g. 'John Doe') will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.###20 04 2016 new variable
+mail#:#mail_system_return_path#:#Global Return-Path###20 04 2016 new variable
+mail#:#mail_system_return_path_info#:#Please enter an email address which should be used for the return path (e.g. webmaster@ilias.de). If you leave the field blank, the 'Return-Path' will be the 'From' email address.###20 04 2016 new variable
+exc#:#exc_delete_team#:#Delete Team###20 04 2016 new variable
+sysc#:#sysc_tree_structure_failures#:#Number of failures in the tree structure (parent-Relation):###20 04 2016 new variable
+sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tree structure? Please create a database backup before you proceed.###20 04 2016 new variable
+sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure###20 04 2016 new variable
+crs#:#event_tbl_admins#:#Administrators###20 04 2016 new variable
+crs#:#event_tbl_members#:#Members###20 04 2016 new variable
+crs#:#event_tbl_tutors#:#Tutors###20 04 2016 new variable
+trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.###20 04 2016 new variable
