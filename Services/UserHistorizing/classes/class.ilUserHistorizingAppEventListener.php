@@ -175,7 +175,8 @@ class ilUserHistorizingAppEventListener
 
 			//new 2015-06-05
 			'exit_date_wbd'					=> $exit_date_wbd,
-			'next_wbd_action'				=> self::$ilUserHistorizingHelper->getNextWBDAction($parameter['user_obj'])
+			'next_wbd_action'				=> self::$ilUserHistorizingHelper->getNextWBDAction($parameter['user_obj']),
+			'login'							=> self::$ilUserHistorizingHelper->getLogin($parameter['user_obj'])
 		);
 		/*
 		'street'	 	
