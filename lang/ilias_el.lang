@@ -16189,3 +16189,4 @@ sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure###14 04 2016 new variab
 crs#:#event_tbl_admins#:#Administrators###14 04 2016 new variable
 crs#:#event_tbl_members#:#Members###14 04 2016 new variable
 crs#:#event_tbl_tutors#:#Tutors###14 04 2016 new variable
+trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.###20 04 2016 new variable
