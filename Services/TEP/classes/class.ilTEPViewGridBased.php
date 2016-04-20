@@ -732,7 +732,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 							."' title='".$lng->txt("gev_virtual_class")."' target='_blank'>".$vc_img."</a>&nbsp;";
 			}
 
-			if($crs_utils->userHasPermissionTo($cur_user_id, gevSettings::VIEW_MAILLOG)){
+			if($crs_utils->userHasPermissionTo($cur_user_id, gevSettings::VIEW_MAILING)){
 				require_once("Services/GEV/Mailing/classes/class.gevTrainerMailHandlingGUI.php");
 				$ilCtrl->setParameterByClass("gevTrainerMailHandlingGUI", "obj_id", $a_set["obj_id"]);
 				$ilCtrl->setParameterByClass("ilTEPGUI", "obj_id", $a_set["obj_id"]);

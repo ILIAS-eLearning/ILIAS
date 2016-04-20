@@ -245,7 +245,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$items[] = array("title" => $this->gLng->txt("gev_virtual_class"), "link" => $crs_utils->getVirtualClassLink(), "image" => $this->virtualclass_img, "frame"=>"_blank");
 		}
 
-		if($crs_utils->userHasPermissionTo($this->user_id, gevSettings::VIEW_MAILLOG)){
+		if($crs_utils->userHasPermissionTo($this->user_id, gevSettings::VIEW_MAILING)){
 			$items[] = array("title" => $this->gLng->txt("gev_trainer_view_mailing"), "link" => $maillog, "image" => $this->maillog_img, "frame"=>"");
 		}
 
