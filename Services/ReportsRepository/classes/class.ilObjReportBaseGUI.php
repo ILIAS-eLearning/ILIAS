@@ -401,6 +401,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$data["title"] = $this->object->getTitle();
 		$data["description"] = $this->object->getDescription();
 		$data["video_link"] = $this->object->getVideoLink();
+		$data["pdf_link"] = $this->object->getPDFLink();
 
 		return $data;
 	}
@@ -413,6 +414,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->object->setTitle($data["title"]);
 		$this->object->setDescription($data["description"]);
 		$this->object->setVideoLink($data["video_link"]);
+		$this->object->setPDFLink($data["pdf_link"]);
 		$this->object->doUpdate();
 		$this->object->update();
 	}
@@ -443,6 +445,12 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			$video_link->setValue($data["video_link"]);
 		}
 		$settings_form->addItem($video_link);
+
+		$pdf_link = new ilTextInputGUI($this->gLng->txt('gev_reports_settings_pdf_link'),'pdf_link');
+		if(isset($data["pdf_link"])) {
+			$pdf_link->setValue($data["pdf_link"]);
+		}
+		$settings_form->addItem($pdf_link);
 
 		$is_online = new ilCheckboxInputGUI($this->object->plugin->txt('online'),'online');
 		$is_online->setValue(1);

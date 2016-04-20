@@ -170,10 +170,11 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 
 	public function doCreate() {
 		$this->gIldb->manipulate("INSERT INTO rep_robj_rea ".
-			"(id, is_online, video_link) VALUES (".
+			"(id, is_online, video_link, pdf_link) VALUES (".
 			$this->gIldb->quote($this->getId(), "integer")
 			.",".$this->gIldb->quote(0, "integer")
 			.",".$this->gIldb->quote($this->getVideoLink(), "text")
+			.",".$this->gIldb->quote($this->getPDFLink(), "text")
 			.")");
 	}
 
@@ -184,6 +185,7 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		while ($rec = $this->gIldb->fetchAssoc($set)) {
 			$this->setOnline($rec["is_online"]);
 			$this->setVideoLink($rec["video_link"]);
+			$this->setPDFLink($rec["pdf_link"]);
 		}
 	}
 
@@ -191,6 +193,7 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		$this->gIldb->manipulate("UPDATE rep_robj_rea SET "
 			." is_online = ".$this->gIldb->quote($this->getOnline(), "integer")
 			.", video_link = ".$this->gIldb->quote($this->getVideoLink(), "text")
+			.", pdf_link = ".$this->gIldb->quote($this->getPDFLink(), "text")
 			." WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
 			);
 	}

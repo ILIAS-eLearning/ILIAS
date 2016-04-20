@@ -21,8 +21,12 @@ class ilObjReportEmplAttGUI extends ilObjReportBaseGUI {
 		$a_title = parent::prepareTitle($a_title);
 		$a_title->image("GEV_img/ico-head-edubio.png");
 		$a_title->setTooltipText($this->gLng->txt("gev_rep_attendance_by_employee_desc"));
+
 		$a_title->setVideoLink($this->object->getVideoLink());
 		$a_title->setVideoLinkText($this->gLng->txt("gev_reports_settings_video_link"));
+
+		$a_title->setPDFLink($this->object->getPDFLink());
+		$a_title->setPDFLinkText($this->gLng->txt("gev_reports_settings_pdf_link"));
 
 		return $a_title;
 	}

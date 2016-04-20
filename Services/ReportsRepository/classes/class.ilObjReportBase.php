@@ -214,6 +214,18 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		return $this->video_link;
 	}
 
+	public function setPDFLink($pdf_link) {
+		if($pdf_link != "" && !preg_match(self::VIDEO_LINK_REGEX, strtolower($pdf_link))) {
+			$pdf_link = "http://".$pdf_link;
+		}
+
+		$this->pdf_link = $pdf_link;
+	}
+
+	public function getPDFLink() {
+		return $this->pdf_link;
+	}
+
 	// Report discovery
 
 	/**
