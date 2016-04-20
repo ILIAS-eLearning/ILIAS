@@ -5,10 +5,15 @@
 namespace CaT\Filter\Filters;
 
 class Singleselect extends SelectBase {
+	/**
+	 * @var	string
+	 */
+	protected $default_choice;
 
 	public function __construct(\CaT\Filter\FilterFactory $factory, $label, $description, $options,
-								$default_choice = "", array $mappings = array(),
-								array $mapping_result_types = array()) {
+								array $mappings = array(), array $mapping_result_types = array(),
+								$default_choice = "")
+	{
 		assert('is_string($label)');
 		assert('is_string($description)');
 
@@ -25,13 +30,15 @@ class Singleselect extends SelectBase {
 		else {
 			throw new \InvalidArgumentException("Use only strings or only ints as keys for options.");
 		}
+
+		$this->default_choice = $default_choice;
 	}
 
 	/**
 	 * Set or get the default choice of options for the multiselect.
 	 *
 	 * @param	int|string|null		$default_choice
-	 * @return	Multiselect|string[]|int[]
+	 * @return	Multiselect|string|int
 	 */
 	public function default_choice($default_choice = null) {
 		if ($default_choice === null) {
@@ -40,7 +47,7 @@ class Singleselect extends SelectBase {
 
 		list($ms, $mrts) = $this->getMappings();
 		return new Singleselect($this->factory, $this->label(), $this->description(),
-						$this->options, $default_choice, $ms, $mrts);
+						$this->options, $ms, $mrts, $default_choice);
 	}
 
 	/**
@@ -48,6 +55,6 @@ class Singleselect extends SelectBase {
 	 */
 	protected function clone_with_new_mappings($mappings, $mapping_result_types) {
 		return new Singleselect($this->factory, $this->label(), $this->description(),
-						$this->options, $this->default_choice, $mappings, $mapping_result_types);
+						$this->options, $mappings, $mapping_result_types, $this->default_choice);
 	}
 }

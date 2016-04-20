@@ -5,13 +5,19 @@
 namespace CaT\Filter\Filters;
 
 class Multiselect extends SelectBase {
+	/**
+	 * @var	int[]|string[]
+	 */
+	protected $default_choice;
+
 	public function __construct(\CaT\Filter\FilterFactory $factory, $label, $description, $options,
-								$default_choice = "", array $mappings = array(),
-								array $mapping_result_types = array()) {
+								array $mappings = array(), array $mapping_result_types = array()
+								, array $default_choice = array()) 
+	{
 		assert('is_string($label)');
 		assert('is_string($description)');
 
-		parent::__construct($factory, $label, $description, $options, $default_choice , $mappings, $mapping_result_types);
+		parent::__construct($factory, $label, $description, $options, $mappings, $mapping_result_types);
 
 		$keys = array_keys($options);
 		$tf = $factory->type_factory();
@@ -24,6 +30,8 @@ class Multiselect extends SelectBase {
 		else {
 			throw new \InvalidArgumentException("Use only strings or only ints as keys for options.");
 		}
+
+		$this->default_choice = $default_choice;
 	}
 
 	/**
@@ -39,7 +47,7 @@ class Multiselect extends SelectBase {
 
 		list($ms, $mrts) = $this->getMappings();
 		return new Multiselect($this->factory, $this->label(), $this->description(),
-						$this->options, $default_choice, $ms, $mrts);
+						$this->options, $ms, $mrts, $default_choice);
 	}
 
 	/**
@@ -47,7 +55,7 @@ class Multiselect extends SelectBase {
 	 */
 	protected function clone_with_new_mappings($mappings, $mapping_result_types) {
 		return new Multiselect($this->factory, $this->label(), $this->description(),
-						$this->options, $this->default_choice, $mappings, $mapping_result_types);
+						$this->options, $mappings, $mapping_result_types, $this->default_choice);
 	}
 
 	public function use_all_if_nothing(array $values, \CaT\Filter\Types\Type $result_type) {
