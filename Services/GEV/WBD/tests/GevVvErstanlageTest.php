@@ -31,6 +31,7 @@ class GevVvErstanlageTest extends RequestTestBase {
 					  ,"street"=>"Vorgebirgstr. 338"
 					  ,"row_id"=>35214
 					  ,"address_info"=>"Der wohnt bei Mutti"
+					  ,"next_wbd_action"=>"1 - Erstanlage TP Service"
 					);
 
 		$this->request = gevWBDRequestVvErstanlage::getInstance($data);

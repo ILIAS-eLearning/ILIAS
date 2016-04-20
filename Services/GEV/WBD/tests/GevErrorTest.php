@@ -9,7 +9,7 @@ class GevWBDErrorTest extends ErrorTestBase {
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 
-		$this->error = new gevWBDError("Die ist ein Fehler",'new_user',124,0);
+		$this->error = new gevWBDError("Die ist ein Fehler",'usr', 'new_user',124,0);
 	}
 
 	public function error_with_message_null() {
@@ -87,7 +87,7 @@ class GevWBDErrorTest extends ErrorTestBase {
    	 * @expectedException LogicException
      */
 	public function test_noUserId($errMsg,$usr_id,$row_id,$crs_id,$service) {
-		$error = new gevWBDError($errMsg,$service,$usr_id,$row_id,$crs_id);
+		$error = new gevWBDError($errMsg,'usr',$service,$usr_id,$row_id,$crs_id);
 		$this->assertNull($error->userId());
 	}
 
@@ -100,7 +100,7 @@ class GevWBDErrorTest extends ErrorTestBase {
 	 * @expectedException LogicException     
      */
 	public function test_noRowId($errMsg,$usr_id,$row_id,$crs_id,$service) {
-		$error = new gevWBDError($errMsg,$service,$usr_id,$row_id,$crs_id);
+		$error = new gevWBDError($errMsg,'usr',$service,$usr_id,$row_id,$crs_id);
 		$this->assertNull($error->rowId());
 	}
 
@@ -112,14 +112,14 @@ class GevWBDErrorTest extends ErrorTestBase {
      * @dataProvider error_with_crs_id_zero
      */
 	public function test_zeroCrsId($errMsg,$usr_id,$row_id,$crs_id,$service) {
-		$error = new gevWBDError($errMsg,$service,$usr_id,$row_id,$crs_id);
+		$error = new gevWBDError($errMsg,'usr',$service,$usr_id,$row_id,$crs_id);
 		$this->assertEquals(0,$error->crsId());
 	}
 	/**
      * @dataProvider error_with_message
      */
 	public function test_reason($reason, $error) {
-		$err = new gevWBDError($error, 'new_user', 2, 0);
+		$err = new gevWBDError($error, 'usr','new_user', 2, 0);
 		$this->assertEquals($reason, $err->reason());
 	}
 }

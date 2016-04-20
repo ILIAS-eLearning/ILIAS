@@ -40,7 +40,7 @@ class GevWBDSuccessVvAenderungTest extends SuccessTestBase {
 	* @expectedException LogicException
 	*/
 	public function test_cantCreateSuccessObject($xml) {
-		$success = new gevWBDSuccessVvAenderung($xml,$this->row_id);
+		$success = new gevWBDSuccessVvAenderung($xml, $this->row_id);
 		$this->assertNotInstanceOf("gevWBDSuccessVvAenderung",$success);
 	}
 

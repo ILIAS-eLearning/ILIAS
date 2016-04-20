@@ -17,7 +17,7 @@ class GevWBDSuccessVvErstanlageTest extends SuccessTestBase {
 													.'</ns1:putResponse>'
 												.'</soap:Body>'
 											.'</soap:Envelope>'
-									),$this->row_id);
+									),$this->row_id, "1 - Erstanlage TP Service");
 	}
 
 	public function success_xml_error() {
@@ -47,7 +47,7 @@ class GevWBDSuccessVvErstanlageTest extends SuccessTestBase {
 	* @expectedException LogicException
 	*/
 	public function test_cantCreateSuccessObject($xml) {
-		$success = new gevWBDSuccessVvErstanlage($xml,$this->row_id);
+		$success = new gevWBDSuccessVvErstanlage($xml,$this->row_id, "1 - Erstanlage TP Service");
 		$this->assertNotInstanceOf("gevWBDSuccessVvErstanlage",$success);
 	}
 
@@ -57,10 +57,6 @@ class GevWBDSuccessVvErstanlageTest extends SuccessTestBase {
 
 	public function test_agentId() {
 		$this->assertInternalType("string", $this->success->agentId());
-	}
-
-	public function test_createDate() {
-		$this->assertInstanceOf("ilDate", $this->success->createDate());
 	}
 
 	public function test_beginOfCertificationPeriod() {
