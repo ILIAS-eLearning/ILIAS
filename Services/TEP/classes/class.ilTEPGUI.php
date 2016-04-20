@@ -14,6 +14,7 @@ require_once "Services/TEP/classes/class.ilTEPPermissions.php";
  * @ilCtrl_Calls ilTEPGUI: ilParticipationStatusAdminGUI
  * @ilCtrl_Calls ilTEPGUI: gevMaillogGUI
  * @ilCtrl_Calls ilTEPGUI: ilObjCourseGUI
+ * @ilCtrl_Calls ilTEPGUI: gevTrainerMailHandlingGUI
  */
 class ilTEPGUI
 {
@@ -174,6 +175,11 @@ class ilTEPGUI
 				$gui = new ilObjCourseGUI();
 				$ilCtrl->forwardCommand($gui);
 				break;
+			case "gevtrainermailhandlinggui":
+				require_once("Services/GEV/Mailing/classes/class.gevTrainerMailHandlingGUI.php");
+				$gui = new gevTrainerMailHandlingGUI($this);
+				$ret = $ilCtrl->forwardCommand($gui);
+				break;
 			default:
 				// gev-patch start
 				switch($cmd) {
@@ -193,13 +199,6 @@ class ilTEPGUI
 						$ilCtrl->saveParameterByClass("ilParticipationStatusAdminGUI", "crsrefid", $crs_ref_id);	
 						//$gui->returnToList();
 						//die('forwarding cmd');
-						$ret = $ilCtrl->forwardCommand($gui);
-						break;
-					case "showMaillog":
-					case "showLoggedMail":
-					case "resendMail":
-						require_once("Services/GEV/Mailing/classes/class.gevMaillogGUI.php");
-						$gui = new gevMaillogGUI("iltepgui");
 						$ret = $ilCtrl->forwardCommand($gui);
 						break;
 					case "listParticipationStatus":
