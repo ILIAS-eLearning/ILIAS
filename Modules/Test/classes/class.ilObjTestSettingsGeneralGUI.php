@@ -736,7 +736,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		// starting time
 		$startingtime = new ilDateTimeInputGUI('', 'starting_time');
 		$startingtime->setShowTime(true);
-		if( strlen($this->testOBJ->getStartingTime()) )
+		if( $this->testOBJ->getStartingTime() != 0 )
 		{
 			$startingtime->setDate(new ilDateTime($this->testOBJ->getStartingTime(), IL_CAL_UNIX));
 		}
@@ -760,7 +760,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		// ending time
 		$endingtime = new ilDateTimeInputGUI('', 'ending_time');
 		$endingtime->setShowTime(true);
-		if (strlen($this->testOBJ->getEndingTime()))
+		if ($this->testOBJ->getEndingTime() != 0)
 		{
 			$endingtime->setDate(new ilDateTime($this->testOBJ->getEndingTime(), IL_CAL_UNIX));
 		}

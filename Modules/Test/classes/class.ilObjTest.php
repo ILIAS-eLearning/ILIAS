@@ -1247,9 +1247,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'reset_processing_time'      => array('integer', $this->getResetProcessingTime()),
 				'reporting_date'             => array('text', $this->getReportingDate()),
 				'starting_time_enabled'      => array('integer', $this->isStartingTimeEnabled()),
-				'starting_time'              => array('text', $this->getStartingTime()),
+				'starting_time'              => array('integer', $this->getStartingTime()),
 				'ending_time_enabled'        => array('integer', $this->isEndingTimeEnabled()),
-				'ending_time'                => array('text', $this->getEndingTime()),
+				'ending_time'                => array('integer', $this->getEndingTime()),
 				'complete'                   => array('text', $this->isComplete($testQuestionSetConfig)),
 				'ects_output'                => array('text', $this->getECTSOutput()),
 				'ects_a'                     => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL),
@@ -1369,9 +1369,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 						'reset_processing_time'      => array('integer', $this->getResetProcessingTime()),
 						'reporting_date'             => array('text', $this->getReportingDate()),
 						'starting_time_enabled'      => array('integer', $this->isStartingTimeEnabled()),
-						'starting_time'              => array('text', $this->getStartingTime()),
+						'starting_time'              => array('integer', $this->getStartingTime()),
 						'ending_time_enabled'        => array('integer', $this->isEndingTimeEnabled()),
-						'ending_time'                => array('text', $this->getEndingTime()),
+						'ending_time'                => array('integer', $this->getEndingTime()),
 						'complete'                   => array('text', $this->isComplete($testQuestionSetConfig)),
 						'ects_output'                => array('text', $this->getECTSOutput()),
 						'ects_a'                     => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL),
@@ -2981,7 +2981,7 @@ function getAnswerFeedbackPoints()
 	*/
 		function getSecondsUntilEndingTime()
 		{
-			if (strlen($this->getEndingTime()))
+			if ($this->getEndingTime() != 0)
 			{
 				$ending = $this->getEndingTime();
 				$now = time();
@@ -3042,7 +3042,7 @@ function getAnswerFeedbackPoints()
 	 */
 	public function getStartingTime()
 	{
-		return (strlen($this->starting_time)) ? $this->starting_time : NULL;
+		return ($this->starting_time != 0) ? $this->starting_time : 0;
 	}
 
 	/**
@@ -3082,7 +3082,7 @@ function getAnswerFeedbackPoints()
 	 */
 	public function getEndingTime()
 	{
-		return (strlen($this->ending_time)) ? $this->ending_time : NULL;
+		return ($this->ending_time != 0) ? $this->ending_time : 0;
 	}
 
 	/**
@@ -5425,7 +5425,7 @@ function getAnswerFeedbackPoints()
 */
 	function startingTimeReached()
 	{
-		if( $this->isStartingTimeEnabled() && $this->getStartingTime() )
+		if( $this->isStartingTimeEnabled() && $this->getStartingTime() != 0 )
 		{
 				$now = mktime();
 				if ($now < $this->getStartingTime())
@@ -5445,7 +5445,7 @@ function getAnswerFeedbackPoints()
 */
 	function endingTimeReached()
 	{
-		if( $this->isEndingTimeEnabled() && $this->getEndingTime() )
+		if( $this->isEndingTimeEnabled() && $this->getEndingTime() != 0 )
 		{
 				$now = mktime();
 				if ($now > $this->getEndingTime())
