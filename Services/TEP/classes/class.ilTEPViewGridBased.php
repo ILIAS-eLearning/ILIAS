@@ -733,7 +733,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			}
 
 			if($crs_utils->userHasPermissionTo($cur_user_id, gevSettings::VIEW_MAILLOG)){
-				require_once("Services/GEV/Desktop/classes/class.gevTrainerMailHandlingGUI.php");
+				require_once("Services/GEV/Mailing/classes/class.gevTrainerMailHandlingGUI.php");
 				$ilCtrl->setParameterByClass("gevTrainerMailHandlingGUI", "obj_id", $a_set["obj_id"]);
 				$ilCtrl->setParameterByClass("ilTEPGUI", "obj_id", $a_set["obj_id"]);
 				$maillog_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
