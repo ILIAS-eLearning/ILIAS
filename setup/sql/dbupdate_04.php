@@ -14962,3 +14962,115 @@ if(!$ilDB->indexExistsByFields('usr_data_multi',array('usr_id')))
 	$ilDB->addIndex('usr_data_multi',array('usr_id'), 'i1');
 }
 ?>
+<#4897>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests', 'starting_time_tmp'))
+{
+	$ilDB->addTableColumn('tst_tests', 'starting_time_tmp', array(
+		'type'    => 'integer',
+		'length'  => 4,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#4898>
+<?php
+if($ilDB->tableColumnExists('tst_tests', 'starting_time_tmp'))
+{
+	$stmp_up = $ilDB->prepareManip("UPDATE tst_tests SET starting_time_tmp = ? WHERE test_id = ?", array('integer', 'integer'));
+
+	$res = $ilDB->query("SELECT test_id, starting_time FROM tst_tests WHERE starting_time_tmp = " . $ilDB->quote(0, 'integer'));
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$new_starting_time = 0;
+		$starting_time     = $row['starting_time'];
+
+		if(strlen($starting_time) > 0)
+		{
+			if(preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $starting_time, $matches))
+			{
+				if(is_array($matches))
+				{
+					if(checkdate($matches[2], $matches[3], $matches[1]))
+					{	
+						$new_starting_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+					}
+				}
+			}
+		}
+
+		$ilDB->execute($stmp_up, array((int)$new_starting_time, $row['test_id']));
+	}
+}
+?>
+<#4899>
+<?php
+if($ilDB->tableColumnExists('tst_tests', 'starting_time'))
+{
+	$ilDB->dropTableColumn('tst_tests', 'starting_time');
+}
+?>
+<#4900>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests', 'starting_time') && $ilDB->tableColumnExists('tst_tests', 'starting_time_tmp'))
+{
+	$ilDB->renameTableColumn('tst_tests', 'starting_time_tmp', 'starting_time');
+}
+?>
+<#4901>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests', 'ending_time_tmp'))
+{
+	$ilDB->addTableColumn('tst_tests', 'ending_time_tmp', array(
+		'type'    => 'integer',
+		'length'  => 4,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>
+<#4902>
+<?php
+if($ilDB->tableColumnExists('tst_tests', 'ending_time_tmp'))
+{
+	$stmp_up = $ilDB->prepareManip("UPDATE tst_tests SET ending_time_tmp = ? WHERE test_id = ?", array('integer', 'integer'));
+
+	$res = $ilDB->query("SELECT test_id, ending_time FROM tst_tests WHERE ending_time_tmp = " . $ilDB->quote(0, 'integer'));
+	while($row = $ilDB->fetchAssoc($res))
+	{
+		$new_ending_time = 0;
+		$ending_time     = $row['ending_time'];
+
+		if(strlen($ending_time) > 0)
+		{
+			if(preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $ending_time, $matches))
+			{
+				if(is_array($matches))
+				{
+					if(checkdate($matches[2], $matches[3], $matches[1]))
+					{	
+						$new_ending_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+					}
+				}
+			}
+		}
+
+		$ilDB->execute($stmp_up, array((int)$new_ending_time, $row['test_id']));
+	}
+}
+?>
+<#4903>
+<?php
+if($ilDB->tableColumnExists('tst_tests', 'ending_time'))
+{
+	$ilDB->dropTableColumn('tst_tests', 'ending_time');
+}
+?>
+<#4904>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests', 'ending_time') && $ilDB->tableColumnExists('tst_tests', 'ending_time_tmp'))
+{
+	$ilDB->renameTableColumn('tst_tests', 'ending_time_tmp', 'ending_time');
+}
+?>
