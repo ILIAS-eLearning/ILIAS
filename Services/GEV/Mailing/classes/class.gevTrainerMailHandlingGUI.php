@@ -48,7 +48,7 @@ class gevTrainerMailHandlingGUI extends ilMailingGUI {
 		);
 
 		$this->tabs->addTab("selectMailToMembersRecipients"
-			,$this->lng->txt("gev_send_free_text_mail")
+			,$this->lng->txt("gev_custom_mail")
 			, $this->ctrl->getLinkTarget($this, "selectMailToMembersRecipients")
 		);
 		$this->ctrl->clearParameters($this);

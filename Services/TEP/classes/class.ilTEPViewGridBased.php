@@ -738,7 +738,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 				$ilCtrl->setParameterByClass("ilTEPGUI", "obj_id", $a_set["obj_id"]);
 				$maillog_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
 				$actions .= '<a href="'.$ilCtrl->getLinkTargetByClass("gevTrainerMailHandlingGUI", "showLog").'"'
-						.' title="'.$lng->txt("gev_maillog").'">'.$maillog_img.'</a>&nbsp;';
+						.' title="'.$lng->txt("gev_trainer_view_mailing").'">'.$maillog_img.'</a>&nbsp;';
 				$ilCtrl->clearParametersByClass("gevTrainerMailHandlingGUI");
 			}
 

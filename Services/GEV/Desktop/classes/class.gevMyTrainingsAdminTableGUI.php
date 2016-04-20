@@ -236,7 +236,7 @@ class gevMyTrainingsAdminTableGUI extends catAccordionTableGUI {
 		}
 
 		if($crs_utils->userHasPermissionTo($this->user_id, gevSettings::VIEW_MAILLOG)){
-			$items[] = array("title" => $this->gLng->txt("gev_trainer_mail_handling"), "link" => $this->maillog, "image" => $this->maillog_img, "frame"=>"");
+			$items[] = array("title" => $this->gLng->txt("gev_trainer_view_mailing"), "link" => $this->maillog, "image" => $this->maillog_img, "frame"=>"");
 		}
 
 		if($crs_utils->userHasPermissionTo($this->user_id, gevSettings::LOAD_SIGNATURE_LIST)){
