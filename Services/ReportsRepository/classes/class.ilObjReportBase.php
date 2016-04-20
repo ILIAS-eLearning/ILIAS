@@ -23,7 +23,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	protected $order = null;
 	protected $user_utils;
 
-	const VIDEO_LINK_REGEX = "/^(https:\/\/)|(http:\/\/)/";
+	const HTTP_REGEX = "/^(https:\/\/)|(http:\/\/)/";
 
 	public function __construct($a_ref_id = 0) {
 		parent::__construct($a_ref_id);
@@ -203,7 +203,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	}
 
 	public function setVideoLink($video_link) {
-		if($video_link != "" && !preg_match(self::VIDEO_LINK_REGEX, strtolower($video_link))) {
+		if($video_link != "" && !preg_match(self::HTTP_REGEX, strtolower($video_link))) {
 			$video_link = "http://".$video_link;
 		}
 
@@ -212,6 +212,18 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 	public function getVideoLink() {
 		return $this->video_link;
+	}
+
+	public function setPDFLink($pdf_link) {
+		if($pdf_link != "" && !preg_match(self::HTTP_REGEX, strtolower($pdf_link))) {
+			$pdf_link = "http://".$pdf_link;
+		}
+
+		$this->pdf_link = $pdf_link;
+	}
+
+	public function getPDFLink() {
+		return $this->pdf_link;
 	}
 
 	// Report discovery

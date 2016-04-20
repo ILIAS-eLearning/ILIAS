@@ -128,6 +128,14 @@ class catTitleGUI {
 		$this->video_link_text = $video_link_text;
 	}
 
+	public function setPDFLink($pdf_link) {
+		$this->pdf_link = $pdf_link;
+	}
+
+	public function setPDFLinkText($pdf_link_text) {
+		$this->pdf_link_text = $pdf_link_text;
+	}
+
 	public function removeCommand() {
 		$this->command = null;
 		$this->command_lng_var = null;
@@ -150,11 +158,30 @@ class catTitleGUI {
 				$tpl->parseCurrentBlock();
 			}
 
-			if($this->video_link !== null) {
-				$tpl->setCurrentBlock("video_link");
-				$tpl->setVariable("VIDEO_ICON", ilUtil::getImagePath("GEV_img/ico-videolink.png"));
-				$tpl->setVariable("TEXT", $this->video_link_text);
-				$tpl->setVariable("URL", $this->video_link);
+			if($this->video_link || $this->pdf_link || $this->legend) {
+				if($this->video_link) {
+					$tpl->setCurrentBlock("icon_entry");
+					$tpl->setVariable("VIDEO_ICON", ilUtil::getImagePath("GEV_img/ico-videolink.png"));
+					$tpl->setVariable("TEXT", $this->video_link_text);
+					$tpl->setVariable("URL", $this->video_link);
+					$tpl->parseCurrentBlock();
+				}
+				
+				if($this->pdf_link) {
+					$tpl->setCurrentBlock("icon_entry");
+					$tpl->setVariable("VIDEO_ICON", ilUtil::getImagePath("GEV_img/ico-videolink.png"));
+					$tpl->setVariable("TEXT", $this->pdf_link_text);
+					$tpl->setVariable("URL", $this->pdf_link);
+					$tpl->parseCurrentBlock();
+				}
+
+				if ($this->legend !== null) {
+					$tpl->setCurrentBlock("legend");
+					$tpl->setVariable("LEGEND", $this->legend->render());
+					$tpl->parseCurrentBlock();
+				}
+
+				$tpl->setCurrentBlock("icons");
 				$tpl->parseCurrentBlock();
 			}
 
@@ -181,12 +208,6 @@ class catTitleGUI {
 			$tpl->parseCurrentBlock();
 		}
 
-		if ($this->legend !== null) {
-			$tpl->setCurrentBlock("legend");
-			$tpl->setVariable("LEGEND", $this->legend->render());
-			$tpl->parseCurrentBlock();
-		}
-
 		if ($this->command !== null) {
 			$tpl->setCurrentBlock("command");
 			$tpl->setVariable("CMD_TARGET", $this->command);
@@ -206,8 +227,6 @@ class catTitleGUI {
 									   );
 			$tpl->parseCurrentBlock();
 		}
-
-		
 
 		return $tpl->get();
 	}
