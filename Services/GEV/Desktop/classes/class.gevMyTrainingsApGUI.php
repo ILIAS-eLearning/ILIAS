@@ -10,7 +10,7 @@
 *
 * @ilCtrl_Calls gevMyTrainingsApGUI: ilParticipationStatusAdminGUI
 * @ilCtrl_Calls gevMyTrainingsApGUI: gevDesktopGUI
-* @ilCtrl_Calls gevMyTrainingsApGUI: gevMaillogGUI
+* @ilCtrl_Calls gevMyTrainingsApGUI: gevTrainerMailHandlingGUI
 *
 */
 
@@ -25,19 +25,19 @@ class gevMyTrainingsApGUI {
 
 	public function __construct() {
 		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog;
-		
-		$this->lng = &$lng;
-		$this->ctrl = &$ilCtrl;
-		$this->tpl = &$tpl;
-		$this->user = &$ilUser;
-		$this->log = &$ilLog;
-	
+
+		$this->gLng = $lng;
+		$this->gCtrl = $ilCtrl;
+		$this->gTpl = $tpl;
+		$this->gUser = $ilUser;
+		$this->gLog = $ilLog;
+
 		$this->crs_ref_id = false;
 
 	}
 	
 	public function executeCommand() {
-		$cmd = $this->ctrl->getCmd();
+		$cmd = $this->gCtrl->getCmd();
 		if (!$cmd) {
 			$cmd = "view";
 		}
@@ -72,32 +72,33 @@ class gevMyTrainingsApGUI {
 				
 				$gui->from_foreign_class = 'gevMyTrainingsApGUI';
 				$gui->crs_ref_id = $crs_ref_id;
-				$this->ctrl->setParameter($gui, "crsrefid", $crs_ref_id);
+				$this->gCtrl->setParameter($gui, "crsrefid", $crs_ref_id);
 
 				//$gui->returnToList();
 				//die('forwarding cmd');
-				$ret = $this->ctrl->forwardCommand($gui);
+				$ret = $this->gCtrl->forwardCommand($gui);
 				break;
-			case "showMaillog":
-			case "showLoggedMail":
-			case "resendMail":
-				require_once("Services/GEV/Mailing/classes/class.gevMaillogGUI.php");
-				$gui = new gevMaillogGUI("mytrainigsapgui");
-				$ret = $this->ctrl->forwardCommand($gui);
+			case "showLog":
+			case "selectMailToMembersRecipients":
+			case "showMailToMembersMailInput":
+			case "sendMailToMembers":
+				require_once("Services/GEV/Mailing/classes/class.gevTrainerMailHandlingGUI.php");
+				$gui = new gevTrainerMailHandlingGUI($this);
+				$ret = $this->gCtrl->forwardCommand($gui);
 				break;
 			case "showSettings":
 				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingGUI.php");
 				$gui = new gevDecentralTrainingGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
+				$ret = $this->gCtrl->forwardCommand($gui);
 				break;
 			default:
 				$errstr = "gevMyTrainingsApGUI: Unknown command '".$cmd."'";
-				$this->log->write($errstr);
+				$this->gLog->write($errstr);
 				throw new ilException($errstr);
 		}
 		
 		if ($cont) {
-			$this->tpl->setContent($cont);
+			$this->gTpl->setContent($cont);
 		}
 	}
 	
@@ -122,7 +123,7 @@ class gevMyTrainingsApGUI {
 
 	// std-view, my trainings-ap-table;
 	public function view() {
-		$trainings_table = new gevMyTrainingsApTableGUI($this->user->getId(), $this);
+		$trainings_table = new gevMyTrainingsApTableGUI($this->gUser->getId(), $this);
 		return (
 			$trainings_table->getHTML()
 		);
@@ -132,7 +133,7 @@ class gevMyTrainingsApGUI {
 	public function memberList() {
 		
 		$crs_ref_id = $this->getCrsRefId();
-		$this->ctrl->redirect($this, "view");
+		$this->gCtrl->redirect($this, "view");
 	}
 
 
@@ -209,13 +210,13 @@ class gevMyTrainingsApGUI {
 	
 	protected function checkAccomodation($crs_utils) {
 		if (!$crs_utils->isWithAccomodations()) {
-			ilUtil::sendFailure($this->lng->txt("gev_mytrainingsap_no_accomodations"), true);
-			$this->ctrl->redirect($this, "view");
+			ilUtil::sendFailure($this->gLng->txt("gev_mytrainingsap_no_accomodations"), true);
+			$this->gCtrl->redirect($this, "view");
 		}
 	}
 	
 	protected function checkIsTrainer($crs_utils) {
-		if (!in_array($this->user->getId(), $crs_utils->getTrainers())) {
+		if (!in_array($this->gUser->getId(), $crs_utils->getTrainers())) {
 			ilUtil::redirect("index.php");
 		}
 	}
@@ -248,7 +249,7 @@ class gevMyTrainingsApGUI {
 		$this->checkAccomodation($crs_utils);
 		$this->checkIsTrainer($crs_utils);
 		
-		return static::renderShowOvernights($this, $this->ctrl->getLinkTarget($this, "view"), $this->user->getId(), $crs_utils, $a_form);
+		return static::renderShowOvernights($this, $this->gCtrl->getLinkTarget($this, "view"), $this->gUser->getId(), $crs_utils, $a_form);
 	}
 	
 	protected function saveOvernights() {
@@ -259,11 +260,11 @@ class gevMyTrainingsApGUI {
 		$this->checkAccomodation($crs_utils);
 		$this->checkIsTrainer($crs_utils);
 		
-		$this->ctrl->setParameter($this, "crs_id", $crs_id);
-		$form = static::buildOvernightsForm($this->user->getId(), $crs_utils, $this->ctrl->getFormAction($this));
+		$this->gCtrl->setParameter($this, "crs_id", $crs_id);
+		$form = static::buildOvernightsForm($this->gUser->getId(), $crs_utils, $this->gCtrl->getFormAction($this));
 		if ($form->checkInput()) {
-			ilSetAccomodationsGUI::importAccomodationsFromForm($form, $crs_id, $this->user->getId());
-			ilUtil::sendSuccess($this->lng->txt("gev_mytrainingsap_saved_overnights"));
+			ilSetAccomodationsGUI::importAccomodationsFromForm($form, $crs_id, $this->gUser->getId());
+			ilUtil::sendSuccess($this->gLng->txt("gev_mytrainingsap_saved_overnights"));
 		}
 		return $this->showOvernights($form);	
 	}
@@ -293,11 +294,11 @@ class gevMyTrainingsApGUI {
 	protected function viewBookings() {
 		require_once("Services/CourseBooking/classes/class.ilCourseBookingAdminGUI.php");
 		ilCourseBookingAdminGUI::setBackTarget(
-			$this->ctrl->getLinkTargetByClass(array("gevDesktopGUI", "gevMyTrainingsApGUI"), "backFromBookings")
+			$this->gCtrl->getLinkTargetByClass(array("gevDesktopGUI", "gevMyTrainingsApGUI"), "backFromBookings")
 			);
 		
-		$this->ctrl->setParameterByClass("ilCourseBookingGUI", "ref_id", $_GET["crsrefid"]);
-		$this->ctrl->redirectByClass(array("ilCourseBookingGUI", "ilCourseBookingAdminGUI"));
+		$this->gCtrl->setParameterByClass("ilCourseBookingGUI", "ref_id", $_GET["crsrefid"]);
+		$this->gCtrl->redirectByClass(array("ilCourseBookingGUI", "ilCourseBookingAdminGUI"));
 	}
 	
 	protected function backFromBookings() {
@@ -312,7 +313,7 @@ class gevMyTrainingsApGUI {
 		$pstatus = $ptstatus_admingui->getParticipationStatus();
 		
 		if (!array_key_exists("mail_send_confirm", $_POST) || !$ptstatus_admingui->mayWrite()) {
-			ilUtil::sendFailure($this->lng->txt("gev_psstatus_mail_send_date_error"), true);
+			ilUtil::sendFailure($this->gLng->txt("gev_psstatus_mail_send_date_error"), true);
 		}
 		else {
 			$d = $_POST["mail_send_at"]["date"];
@@ -322,15 +323,13 @@ class gevMyTrainingsApGUI {
 			$date_tr = $helper->getCourseStart();
 			$date_tr->increment(ilDateTime::DAY, -3);
 			if ($date_tr->get(IL_CAL_DATE) < $date_set) {
-				ilUtil::sendFailure($this->lng->txt("gev_psstatus_mail_send_date_invalid"), true);
+				ilUtil::sendFailure($this->gLng->txt("gev_psstatus_mail_send_date_invalid"), true);
 			}
 			else {
 				$pstatus->setMailSendDate($date_set);
-				ilUtil::sendSuccess($this->lng->txt("gev_psstatus_mail_send_date_success"), true);
+				ilUtil::sendSuccess($this->gLng->txt("gev_psstatus_mail_send_date_success"), true);
 			}
 		}
 		return $this->listParticipationStatus();
 	}
 }
-
-?>

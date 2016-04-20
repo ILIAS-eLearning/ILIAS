@@ -1334,7 +1334,7 @@ gev#:#load_signature_list#:#Unterschriftenliste herunterladen
 gev#:#crs_load_signature_list#:#Unterschriftenliste herunterladen
 gev#:#load_member_list#:#Mitgliederliste abrufen
 gev#:#crs_load_member_list#:#Mitgliederliste abrufen
-gev#:#view_maillog#:#Maillog einsehen
+gev#:#view_mailing#:#Mailing einsehen
 gev#:#crs_view_maillog#:#Maillog einsehen
 gev#:#load_csn_list#:#CSN Liste herunterladen
 gev#:#crs_load_csn_list#:#CSN Liste herunterladen
@@ -1514,5 +1514,7 @@ gev#:#gev_filter_period_from#:#Von
 gev#:#gev_filter_period_to#:#Bis
 gev#:#gev_training_admin_search_period#:#Zeitraum
 gev#:#gev_org_unit_no_superior#:#Dieser Bericht enthält keine Daten, da Sie in keiner Organisationseinheit Vorgesetzter sind.
+gev#:#gev_trainer_view_mailing#:#Mailing einsehen
+gev#:#gev_custom_mail#:#Freitextmail
 gev#:#gev_reports_settings_video_link#:#Link zum Erklärvideo
 gev#:#gev_reports_settings_pdf_link#:#Link zum PDF

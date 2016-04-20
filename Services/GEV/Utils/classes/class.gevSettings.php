@@ -290,7 +290,7 @@ class gevSettings {
 	const VIEW_SCHEDULE_PDF = "view_schedule_pdf";
 	const LOAD_CSN_LIST = "load_csn_list";
 	const CHANGE_TRAINER = "change_trainer";
-	const VIEW_MAILLOG = "view_maillog";
+	const VIEW_MAILING = "view_mailing";
 	const CANCEL_TRAINING = "cancel_training";
 
 	//building block permissions
