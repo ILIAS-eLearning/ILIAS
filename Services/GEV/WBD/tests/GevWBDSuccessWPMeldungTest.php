@@ -16,7 +16,7 @@ class GevWBDSuccessWPMeldungTest extends SuccessTestBase {
 								.'</ns1:putResponse>'
 							.'</soap:Body>'
 						.'</soap:Envelope>'
-				),'201-06-19', 6);
+				),'2015-06-19', 6);
 	}
 
 	public function success_xml_error() {
@@ -47,7 +47,7 @@ class GevWBDSuccessWPMeldungTest extends SuccessTestBase {
 	* @expectedException LogicException
 	*/
 	public function test_cantCreateSuccessObject($xml) {
-		$success = new gevWBDSuccessWPMeldung($xml,'201-06-19', 6);
+		$success = new gevWBDSuccessWPMeldung($xml,'2015-06-19', 6);
 		$this->assertNotInstanceOf("gevWBDSuccessWPMeldung",$success);
 	}
 
