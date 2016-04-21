@@ -30,4 +30,17 @@ trait gevWBDSuccess{
 
 		return new ilDate($date_str,IL_CAL_DATE);
 	}
+
+	/**
+	* gets the dictionary
+	*
+	* @return gevWBDDictionary
+	*/
+	public function getDictionary() {
+		if($this->dictionary === null) {
+			$this->dictionary = new gevWBDDictionary();
+		}
+
+		return $this->dictionary;
+	}
 }
