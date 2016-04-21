@@ -704,6 +704,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function confirmedBookingObject()
 	{				
+		global $ilUser;
+		
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';		
 		
@@ -717,7 +719,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				$object_id = $_POST['object_id'];
 				if($object_id)
 				{
-					if(ilBookingReservation::isObjectAvailableNoSchedule($object_id))				
+					if(ilBookingReservation::isObjectAvailableNoSchedule($object_id) &&
+						!ilBookingReservation::getObjectReservationForUser($object_id, $ilUser->getId())) // #18304				
 					{
 						$rsv_ids[] = $this->processBooking($object_id);						
 						$success = $object_id;	
