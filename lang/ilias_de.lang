@@ -13488,7 +13488,7 @@ orgu#:#no_roles#:#Es gibt keine weiteren lokalen Rollen an dieser Stelle.
 orgu#:#local_other_roles#:#Weitere lokale Rollen %s
 orgu#:#not_movable_to_subtree#:#Eine Organisationseinheit kann nicht in ihre eigenen Untereinheiten eingeteilt werden, dies würde eine Schlaufe bilden.
 cld#:#cld_object_added#:#Ein neues Cloud Objekt wurde hinzugefügt
-exc#:#exc_peer_review_deadline#:#Ende des Bewertungszeitraums
+exc#:#exc_peer_review_deadline#:#Feedback geben bis
 exc#:#exc_peer_review_deadline_info#:#Bis zu diesem Termin können Bewertungen abgegeben werden. Anschließend ist das erhaltene Feedback einsehbar.
 exc#:#exc_peer_review_deadline_info_button#:#Endtermin: %s
 exc#:#exc_peer_review_deadline_reached#:#Feedback-Zeit ist abgelaufen.
@@ -14331,7 +14331,7 @@ common#:#sorting_desc#:#Absteigend
 common#:#sorting_asc#:#Aufsteigend
 poll#:#poll_anonymous_warning#:#Ihr Name wird in den Abstimmungsergebnissen nicht angezeigt.
 dateplaner#:#cal_exc_deadline#:#Abgabetermin
-dateplaner#:#cal_exc_peer_review_deadline#:#Ende des Bewertungszeitraums
+dateplaner#:#cal_exc_peer_review_deadline#:#Feedback geben bis
 rbac#:#read_learning_progress#:#Lernfortschritt anderer Benutzer einsehen
 rbac#:#crs_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#grp_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
