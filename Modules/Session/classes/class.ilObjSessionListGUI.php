@@ -47,6 +47,8 @@ class ilObjSessionListGUI extends ilObjectListGUI
 		global $lng;
 		
 		$lng->loadLanguageModule('crs');
+		$lng->loadLanguageModule('sess');
+		
 		parent::__construct();
 	}
 	
@@ -146,6 +148,23 @@ class ilObjSessionListGUI extends ilObjectListGUI
 			'property'	=> $this->lng->txt('event_date'),
 			'value'		=> ilSessionAppointment::_appointmentToString($app_info['start'],$app_info['end'],$app_info['fullday']));
 		*/
+		include_once './Modules/Session/classes/class.ilObjSession.php';
+		$session_data = new ilObjSession($this->obj_id, false);
+		include_once './Modules/Session/classes/class.ilSessionParticipants.php';
+		$part = ilSessionParticipants::_getInstanceByObjId($this->obj_id);
+
+		if($session_data->isRegistrationUserLimitEnabled()) {
+			if ($part->getCountMembers() <= $session_data->getRegistrationMaxUsers()) {
+				$props[] = array(
+					'alert' => false,
+					'property' => $this->lng->txt('sess_list_reg_limit_places'),
+					'value' => max(
+						0,
+						$session_data->getRegistrationMaxUsers() - $part->getCountMembers()
+					)
+				);
+			}
+		}
 		
 		if($this->getDetailsLevel() == ilObjectListGUI::DETAILS_MINIMAL)
 		{
