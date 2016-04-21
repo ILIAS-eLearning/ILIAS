@@ -351,5 +351,8 @@ db_template_writer.php
 # /webservice/soap/lib/
 /webservice/soap/lib/*.bak
 
+#orig files created during merges
+*.orig
+
 # /xml/
 /xml/*.bak

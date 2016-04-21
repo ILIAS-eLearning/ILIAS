@@ -164,6 +164,6 @@ class Navigator {
 	 * @return string
 	 */
 	public function path() {
-		return implode("_",$this->path);
+		return is_array($this->path) ? implode("_",$this->path) : null;
 	}
 }
