@@ -1,8 +1,16 @@
 # Jour Fixe Proposal to introduce a centralizes UI-Framework for ILIAS.
 
-Rules in this proposal are formulated according to [RFC2119](https://www.ietf.org/rfc/rfc2119.txt).
 
-## Basic
+## Basics
+
+* Rules in this proposal are formulated according to [RFC2119](https://www.ietf.org/rfc/rfc2119.txt).
+* Goals of this proposal and the rules herein are as such:
+    * Spawn a reliable and controlled process to introduce new components in the
+      UI of ILIAS.
+    * The process should result in guidelines as little as possible and result in
+      machine verifiable rules as much as possible.
+    * The creation of a centralized UI framework for ILIAS where everyone can
+      contribute and that offers a coherent surface for its users.
 
 ## Processes
 
