@@ -21,6 +21,7 @@ class ilContainerRenderer
 	protected $hidden_items = array(); // [array]
 	protected $block_items = array(); // [array]	
 	protected $details = array(); // [array]
+	protected $item_ids = array(); // [array]
 	
 	// block (unique) ids
 	protected $rendered_blocks = array(); // [array]	
@@ -146,7 +147,7 @@ class ilContainerRenderer
 	public function hideItem($a_id)
 	{
 		// see hasItem();
-		$this->hidden_items[] = $a_id;		
+		$this->hidden_items[$a_id] = true;		
 		
 		// #16629 - do not remove hidden items from other blocks		
 		// $this->removeItem($a_id);
@@ -159,6 +160,14 @@ class ilContainerRenderer
 	 */
 	public function removeItem($a_id)
 	{
+		if(!$this->hasItem($a_id))
+		{
+			return;
+		}
+		
+		unset($this->item_ids[$a_id]);		
+		unset($this->hidden_items[$a_id]);		
+		
 		foreach(array_keys($this->items) as $item_id)
 		{
 			if(array_pop(explode(self::UNIQUE_SEPARATOR, $item_id)) == $a_id)
@@ -192,14 +201,8 @@ class ilContainerRenderer
 	 */
 	public function hasItem($a_id)
 	{				
-		foreach(array_keys($this->items) as $item_id)
-		{
-			if(array_pop(explode(self::UNIQUE_SEPARATOR, $item_id)) == $a_id)
-			{
-				return true;
-			}
-		}		
-		return in_array($a_id, $this->hidden_items);
+		return (array_key_exists($a_id, $this->item_ids) ||
+			array_key_exists($a_id, $this->hidden_items));
 	}
 	
 	/**
@@ -226,7 +229,12 @@ class ilContainerRenderer
 				"type" => $a_item_type
 				,"html" => $a_item_html
 			);
+			
+			// #18326
+			$this->item_ids[$a_item_id] = true;
+			
 			$this->block_items[$a_block_id][] = $uniq_id;
+			
 			return true;
 		}
 		return false;
