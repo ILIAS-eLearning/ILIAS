@@ -47,7 +47,7 @@ class ilMembershipCronNotifications extends ilCronJob
 	
 	public function hasFlexibleSchedule()
 	{
-		return false;
+		return true;
 	}
 
 	public function run()
