@@ -10,6 +10,7 @@
 */
 require_once("Services/GEV/WBD/classes/Success/trait.gevWBDSuccess.php");
 require_once("Services/GEV/WBD/classes/Dictionary/class.gevWBDDictionary.php");
+require_once("Services/GEV/WBD/classes/Success/class.gevImportCourseData.php");
 
 class gevWBDSuccessWPAbfrage extends WBDSuccessWPAbfrage {
 	use gevWBDSuccess;
@@ -41,8 +42,10 @@ class gevWBDSuccessWPAbfrage extends WBDSuccessWPAbfrage {
 									,gevImportCourseData::CORRECT_BOOKING
 									);
 
+		$this->toImportCourseValues = self::nodeValuesByPath($response,self::WBD_BOOKING_LIST,$this->toImportCourseNodes);
+
 		foreach ($this->toImportCourseValues as $key => $value) {
-			if(boolval($value[gevImportCourseData::CORRECT_BOOKING]) || boolval($value[gevImportCourseData::STORNO])) {
+			if($value[gevImportCourseData::CORRECT_BOOKING] == 'true' || $value[gevImportCourseData::STORNO] == 'true') {
 				continue;
 			}
 
