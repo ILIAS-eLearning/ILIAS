@@ -45,8 +45,6 @@ The interface to the main factory is \ILIAS\UI\Factory.
     * MUST separate the block containing Kitchen Sink information from the block
       containing documentation of parameters by an empty line in the DocBlock.
 * The block in the documentation containing Kitchen Sink information:
-    * SHOULD contain a text field `example` containing a PHP example that show
-      cases the usage, if the documented method represents a UI-component
     * SHOULD contain a field `description` that is a dictionary containing one or
       more than one of the following text fields:
         * `purpose` - describes the usage scenario of the component
@@ -56,11 +54,16 @@ The interface to the main factory is \ILIAS\UI\Factory.
         * `rival` - describes other components fulfilling a similar function
     * MAY contain a text field `background` that gives academic information
     * SHOULD contain a text field `context` that describes occurences and
-      prevalence of the control if the method describes a concrete UI component.
+      prevalences of the control if the method describes a concrete UI component.
       If the method represents an abstract node in the in the Kitchen Sink
       taxonomy it MUST NOT contain a `context` field.
     * MAY contain a text field `featurewiki` that contains links to relevant
       articles in the feature wiki.
+    * MUST contain a field 'javascript' if the method represents an UI component
+      and the implementation of the component uses a javascript library other
+      than jquery or if the component is not yet implemented but a javascript
+      lib other than jquery is planned to be used, where the field contains the
+      names and versions of all said javascript libraries
     * MAY contain a field `rules` that contains one or more than one of the 
       following fields `usage`, `interaction`, `wording`, `style`, `ordering`, 
       `responsiveness`, `accessibility` and `accessibility, where
@@ -91,6 +94,8 @@ of factories leading to the creation of a UI component.
   \ILIAS\UI\Collection.
 * Every interface describing a UI component MUST be located in the namespace
   \ILIAS\UI\Component or a subnamespace thereof.
+* Per interface to a UI component, there MUST be exactly one factory interface
+  declaring to return instances of the interface type.
 
 ### Implementations of Factories
 
@@ -111,72 +116,39 @@ of factories leading to the creation of a UI component.
   github. The code in the pull request SHOULD obay the rules given in **Interfaces
   to Factories** and **Interfaces to UI components**. The existing unit tests for
   the UI framework SHOULD pass.
-* The new method MUST be backed with a stub implementation that raises 
-  ILIAS\UI\NotImplementedException upon call.
+* The pull request MAY be made from the edge branch in the ILIAS-repo. If the new
+  component is already implemented, the edge installation of ILIAS MAY be used
+  for showcasing the instance.
+* The new method MUST be backed with a stub implementation down to the methods
+  that represent concrete UI components, where said methods MUST raise
+  ILIAS\UI\NotImplementedException upon call, if the UI component is not already
+  implemented.
 * The proposed UI component MAY already be implemented. If the UI component is
   implemented, it SHOULD obay the rules given in **Implementations of Factories**.
 * In addition to the YAML-Block described in **Interfaces to Factories** the
   proposed interfaces, if not already implemented, SHOULD contain the following
   fields:
+    * `html` - gives an example of HTML-code that will be rendered by the
+      UI component
+    * `less` - lists the LESS-variables that will be used to render the
+      UI component including their purpose
+* The new UI component MUST be presented on the JF, including the corresponding
+  pull request. This SHOULD include some visible representation of the presented
+  UI component, like a mock up or a basic implementation on the edge installation.
 
 ### Modification of existing UI components
 
-### Changes to the base of the framework
-
-## Old stuff
-
-We herby propose the introduction of an UI-Framework for ILIAS with the
-following properties:
-
-[X] Users of the framework will be using factories for instantiation of GUI
-  elements. 
-[X] The content of the Kitchen Sink will be documented in the public interface of
-  the framework in a form that is machine readable.
-* The UI-Framework in the ILIAS trunk will contain all KS-entries the Jour Fixe
-  agreed upon.
-* The users entry point to the framework, that is the main factory, is available
-  via the dependency injection container as `$DIC->UIFactory();`.
-* The structure of the factories of the framework is the same as the taxonomy
-  given in the KS-Layout starting at the "Class"-Level in the Taxonomy. I.e. the
-  main factory at some point will provide one method for each node found at the
-  class level.
-    - Names from the Kitchen Sink are transfered to the corresponding camelCase,
-      that is Counter becomes counter and Progress Bar becomes progressBar.
-* The main factory (and subsequent factories) returns factories for a method if
-  the corresponding node in the KS-Taxonomy has subsequent nodes.
-* The method of the factories will return a PHP-object representing the selected
-  component from the KS if the KS element corresponding to the method is a leaf
-  in the KS-taxonomy.
-* The documentation in the source code is the initial representation of KS-entries.
-  Other representations (e.g. http://www.ilias.de/docu/goto_docu_wiki_wpage_4009_1357.html)
-  are derived from there.
-* The KS-Entries are documented at their corresponding factory method using
-  Doc-Strings. The documentation follows the YAML format for the KS-Part of the
-  docu and the PHPDoc-format for the documentation of parameters and return types.
-  For the KS the following information is included as a YAML-fields:
-    - TBD
-* The representations of the KS-components in PHP are implemented as immutable
-  objects. That means:
-    - those objects are compared by equality (not identity) (PHP default)
-    - objects cannot be modified after creation
-    - declaring a property on an existing object yields a new object, where the
-      declared property has changed regarding to the original object and all
-      other property are the same.
-
-This imposes the following:
-
-* on the proposal of new KS-Entries:
-    - will be coupled to the UI-Framework
-    - will need some knowledge on git/GitHub and PHP (not too much)
-
-* on implementors of GUI-elements:
-    -
-
-* on the structure and taxonomy of the KS:
-  - every element that could have a visible representation on the screen must
-    be represented as a leaf in the taxonomy given by the KS-layout
-  - every node in the taxonomy given by the KS-layout can not have a visible
-    representation.
-  - the fields for the KS-entries need to be adjusted as follows:
-      * PHP-Class becomes PHP-Interface, where the description should be updated
-        to "Interface to the PHP-representation of the component." 
+* Any changes on interfaces of factories or UI components MUST be agreed upon by
+  the your fixe. The interfaces are the public surface of the UI framework that
+  consumers rely on, so changes should not be made ad hoc. Moreover it is very
+  likely that a change in an interface corresponds to some observable change in
+  the corresponding UI component which is reflected in the Kitchen Sink. This
+  also includes non editorial changes in the doc blocks of interfaces, excluding
+  the YAML fields `description`, `background` and `context`.
+* To propose a change in of a factory or UI component interface, a pull request
+  with the desired change MUST be made on github. The code in the pull reques
+  SHOULD obay the rules given in **Interfaces to Factories** and **Interfaces to
+  UI components**. The existing unit tests for the UI framework SHOULD pass.
+* The changes in the interface MUST be backed with an implementation.
+* The pull request MAY be made from the edge branch, the edge installation could
+  then be used to showcase the observable part of the change.
