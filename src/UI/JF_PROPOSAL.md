@@ -64,7 +64,7 @@ The interface to the main factory is \ILIAS\UI\Factory.
       than jquery or if the component is not yet implemented but a javascript
       lib other than jquery is planned to be used, where the field contains the
       names and versions of all said javascript libraries
-    * MAY contain a field `rules` that contains one or more than one of the 
+    * SHOULD contain a field `rules` that contains one or more than one of the 
       following fields `usage`, `interaction`, `wording`, `style`, `ordering`, 
       `responsiveness`, `accessibility` and `accessibility, where
         * each of the contained fields is a dictionary from a number to a text
