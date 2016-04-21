@@ -1,8 +1,56 @@
-# Jour Fixe Proposal to introduce an UI-Framework
+# Jour Fixe Proposal to introduce a centralizes UI-Framework for ILIAS.
 
 Rules in this proposal are formulated according to [RFC2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 ## Basic
+
+## Processes
+
+### Introduction of new UI components
+
+* New methods on factory interfaces of the framework MUST be agreed upon by the
+  Jour Fixe, as new methods on factories represent new abstract nodes in the Kitchen
+  Sink taxonomy or new concrete UI components.
+* To propose a new UI component a pull request against the trunk MUST be made on
+  github. The code in the pull request SHOULD obay the rules given in **Interfaces
+  to Factories** and **Interfaces to UI components**. The existing unit tests for
+  the UI framework SHOULD pass.
+* The pull request MAY be made from the edge branch in the ILIAS-repo. If the new
+  component is already implemented, the edge installation of ILIAS MAY be used
+  for showcasing the instance.
+* The new method MUST be backed with a stub implementation down to the methods
+  that represent concrete UI components, where said methods MUST raise
+  ILIAS\UI\NotImplementedException upon call, if the UI component is not already
+  implemented.
+* The proposed UI component MAY already be implemented. If the UI component is
+  implemented, it SHOULD obay the rules given in **Implementations of Factories**.
+* In addition to the YAML-Block described in **Interfaces to Factories** the
+  proposed interfaces, if not already implemented, SHOULD contain the following
+  fields:
+    * `html` - gives an example of HTML-code that will be rendered by the
+      UI component
+    * `less` - lists the LESS-variables that will be used to render the
+      UI component including their purpose
+* The new UI component MUST be presented on the JF, including the corresponding
+  pull request. This SHOULD include some visible representation of the presented
+  UI component, like a mock up or a basic implementation on the edge installation.
+
+### Modification of existing UI components
+
+* Any changes on interfaces of factories or UI components MUST be agreed upon by
+  the your fixe. The interfaces are the public surface of the UI framework that
+  consumers rely on, so changes should not be made ad hoc. Moreover it is very
+  likely that a change in an interface corresponds to some observable change in
+  the corresponding UI component which is reflected in the Kitchen Sink. This
+  also includes non editorial changes in the doc blocks of interfaces, excluding
+  the YAML fields `description`, `background` and `context`.
+* To propose a change in of a factory or UI component interface, a pull request
+  with the desired change MUST be made on github. The code in the pull reques
+  SHOULD obay the rules given in **Interfaces to Factories** and **Interfaces to
+  UI components**. The existing unit tests for the UI framework SHOULD pass.
+* The changes in the interface MUST be backed with an implementation.
+* The pull request MAY be made from the edge branch, the edge installation could
+  then be used to showcase the observable part of the change.
 
 ## Rules for Consumers
 
@@ -105,50 +153,3 @@ of factories leading to the creation of a UI component.
 
 ### Tests for UI
 
-## Processes
-
-### Introduction of new UI components
-
-* New methods on factory interfaces of the framework MUST be agreed upon by the
-  Jour Fixe, as new methods on factories represent new abstract nodes in the Kitchen
-  Sink taxonomy or new concrete UI components.
-* To propose a new UI component a pull request against the trunk MUST be made on
-  github. The code in the pull request SHOULD obay the rules given in **Interfaces
-  to Factories** and **Interfaces to UI components**. The existing unit tests for
-  the UI framework SHOULD pass.
-* The pull request MAY be made from the edge branch in the ILIAS-repo. If the new
-  component is already implemented, the edge installation of ILIAS MAY be used
-  for showcasing the instance.
-* The new method MUST be backed with a stub implementation down to the methods
-  that represent concrete UI components, where said methods MUST raise
-  ILIAS\UI\NotImplementedException upon call, if the UI component is not already
-  implemented.
-* The proposed UI component MAY already be implemented. If the UI component is
-  implemented, it SHOULD obay the rules given in **Implementations of Factories**.
-* In addition to the YAML-Block described in **Interfaces to Factories** the
-  proposed interfaces, if not already implemented, SHOULD contain the following
-  fields:
-    * `html` - gives an example of HTML-code that will be rendered by the
-      UI component
-    * `less` - lists the LESS-variables that will be used to render the
-      UI component including their purpose
-* The new UI component MUST be presented on the JF, including the corresponding
-  pull request. This SHOULD include some visible representation of the presented
-  UI component, like a mock up or a basic implementation on the edge installation.
-
-### Modification of existing UI components
-
-* Any changes on interfaces of factories or UI components MUST be agreed upon by
-  the your fixe. The interfaces are the public surface of the UI framework that
-  consumers rely on, so changes should not be made ad hoc. Moreover it is very
-  likely that a change in an interface corresponds to some observable change in
-  the corresponding UI component which is reflected in the Kitchen Sink. This
-  also includes non editorial changes in the doc blocks of interfaces, excluding
-  the YAML fields `description`, `background` and `context`.
-* To propose a change in of a factory or UI component interface, a pull request
-  with the desired change MUST be made on github. The code in the pull reques
-  SHOULD obay the rules given in **Interfaces to Factories** and **Interfaces to
-  UI components**. The existing unit tests for the UI framework SHOULD pass.
-* The changes in the interface MUST be backed with an implementation.
-* The pull request MAY be made from the edge branch, the edge installation could
-  then be used to showcase the observable part of the change.
