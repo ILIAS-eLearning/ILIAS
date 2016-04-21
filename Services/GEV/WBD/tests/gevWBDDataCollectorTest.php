@@ -1,5 +1,6 @@
 <?php
 require_once("Services/GEV/WBD/classes/class.gevWBDDataCollector.php");
+require_once("Services/GEV/WBD/classes/Error/class.gevWBDError.php");
 
 class _gevWBDError extends gevWBDError {
 	protected function findReason() {
@@ -37,6 +38,14 @@ class _gevWBDDataCollector extends gevWBDDataCollector {
 
 	public function testable_error(gevWBDError $error) {
 		parent::error($error);
+	}
+
+	public function performPreliminaryChecks($checks_to_release, $wbd) {
+		return $this->prem_errors;
+	}
+
+	public function setPreliminaryErrors(array $prem_errors = array()) {
+		$this->prem_errors = $prem_errors;
 	}
 
 	public function setDB($db) {
@@ -137,6 +146,7 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 
 	public function test_createReleaseUserList() {
 		$data = $this->getRealeseUserData();
+		$this->data_collector->setPreliminaryErrors();
 		
 		$db = new mock_db($data);
 
@@ -149,6 +159,7 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 
 	public function test_createReleaseUserListError() {
 		$data = $this->getRealeseUserDataError();
+		$this->data_collector->setPreliminaryErrors(array(new _gevWBDError("mandatory field missing: gender","user", "NEW_USER", 1, 2, 3)));
 		
 		$db = new mock_db($data);
 
@@ -432,12 +443,12 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function wbdErrorProvider() {
-		return array(array(new _gevWBDError("mandatory field missing: gender", "NEW_USER", 1, 2, 3)),
-						array(new _gevWBDError("mandatory field missing: gender", "NEW_USER", 1, 2, 3)),
-						array(new _gevWBDError("mandatory field missing: gender", "NEW_USER", 1, 2, 3)),
-						array(new _gevWBDError("mandatory field missing: gender", "NEW_USER", 1, 2, 3)),
-						array(new _gevWBDError("mandatory field missing: gender", "NEW_USER", 1, 2, 3)),
-						array(new _gevWBDError("mandatory field missing: gender", "NEW_USER", 1, 2, 3))
+		return array(array(new _gevWBDError("mandatory field missing: gender","user", "NEW_USER", 1, 2, 3)),
+						array(new _gevWBDError("mandatory field missing: gender","user", "NEW_USER", 1, 2, 3)),
+						array(new _gevWBDError("mandatory field missing: gender","user", "NEW_USER", 1, 2, 3)),
+						array(new _gevWBDError("mandatory field missing: gender","user", "NEW_USER", 1, 2, 3)),
+						array(new _gevWBDError("mandatory field missing: gender","user", "NEW_USER", 1, 2, 3)),
+						array(new _gevWBDError("mandatory field missing: gender","user", "NEW_USER", 1, 2, 3))
 			);
 	}
 }
