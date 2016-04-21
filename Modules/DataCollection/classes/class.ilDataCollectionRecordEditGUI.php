@@ -430,19 +430,28 @@ class ilDataCollectionRecordEditGUI {
 			//edit values, they are valid we already checked them above
 			foreach ($all_fields as $field) {
 				$value = $this->form->getInput("field_" . $field->getId());
-				//deletion flag on MOB inputs.
-				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB
-					&& $this->form->getItemByPostVar("field_" . $field->getId())->getDeletionFlag()
-				) {
-					$value = - 1;
+
+				switch (true) {
+					//deletion flag on MOB inputs.
+					case ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB
+					      && $this->form->getItemByPostVar("field_" . $field->getId())->getDeletionFlag()):
+						$value = - 1;
+						$record_obj->setRecordFieldValue($field->getId(), $value);
+						break;
+					// mantis 0018064
+					case ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE && $value['tmp_name']):
+						$record_obj->setRecordFieldValue($field->getId(), $value);
+						break;
+					default:
+						$record_obj->setRecordFieldValue($field->getId(), $value);
+						break;
 				}
-				$record_obj->setRecordFieldValue($field->getId(), $value);
 			}
 
 			// Do we need to set a new owner for this record?
-			if (! $create_mode) {
+			if (!$create_mode) {
 				$owner_id = ilObjUser::_lookupId($_POST['field_owner']);
-				if (! $owner_id) {
+				if (!$owner_id) {
 					$this->sendFailure($this->lng->txt('user_not_known'));
 
 					return;

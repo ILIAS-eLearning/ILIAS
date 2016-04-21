@@ -401,7 +401,7 @@ assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#Um eine Lücke in den Text einzufügen, setzen Sie den Cursor an die entsprechende Position und klicken Sie auf die Schaltfläche "Lücke erzeugen". Anschließend stehen weiter unten entsprechende Bearbeitungsbereiche zur Verfügung. Ebenso können Sie die Lücken zur Bearbeitung im Lückentext direkt anklicken.
+assessment#:#close_text_hint#:#Um eine Lücke in den Text einzufügen, setzen Sie den Cursor an die entsprechende Position und klicken Sie auf die Schaltfläche "Lücke einfügen". Anschließend stehen weiter unten entsprechende Bearbeitungsbereiche zur Verfügung. Ebenso können Sie die Lücken zur Bearbeitung im Lückentext direkt anklicken.
 assessment#:#insert_gap#:#Lücke einfügen
 assessment#:#cloze_fixed_textlength#:#Länge des Textfeldes
 assessment#:#cloze_fixed_textlength_description#:#Wenn Sie hier einen Wert eintragen, werden Textlücken, welche keinen eigenen Wert für eine maximale Länge definieren, sowie numerische Lücken mit dieser Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Für numerische Lücken ist darüber hinaus zu beachten, dass das Dezimaltrennzeichen dabei mit gezählt wird.
@@ -6346,7 +6346,7 @@ content#:#st#:#Kapitel
 content#:#start export#:#Export starten
 content#:#text_repr#:#Alternativtext
 content#:#text_repr_info#:#Wird verwendet, wenn die Grafik nicht angezeigt werden kann.
-crs#:#activation_times_not_valid#:#Die Zeidauer für 'Verfügbarkeit' ist nicht gültig.
+crs#:#activation_times_not_valid#:#Die Zeitdauer für 'Verfügbarkeit' ist nicht gültig.
 crs#:#add_event#:#Sitzung hinzufügen
 crs#:#assigned#:#Zugeordnet
 crs#:#contact_email_not_valid#:#Die E-Mail Adresse ist nicht gültig.
@@ -6777,7 +6777,7 @@ crs#:#crs_subscription_type#:#Beitrittsverfahren
 crs#:#crs_suggest_lm#:#Empfehle Lernmaterialien bei:
 crs#:#crs_suggested_sections#:#Empfohlene Abschnitte
 crs#:#crs_suggestion_end#:#Empfohlenes Ende
-crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, dass die ausgewählten Archive gelöscht werden sollen
+crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, dass die ausgewählten Archive gelöscht werden sollen?
 crs#:#crs_syllabus#:#Kursprogramm
 crs#:#crs_table_start_objects#:#Startobjekte
 crs#:#crs_test_status_complete#:#Fertiggestellt
@@ -6813,7 +6813,7 @@ crs#:#crs_timings_sug_end#:#Empfohlenes Ende
 crs#:#crs_timings_suggested_info#:#Empfohlene Bearbeitungszeit
 crs#:#crs_timings_time_frame#:#Zeitrahmen
 crs#:#crs_timings_update_error#:#Die empfohlene Lernzeit folgender Kursmaterialien widerspricht dem angegebenen spätestmöglichen Lernzeitpunkt.
-crs#:#crs_timings_visibility#:#Wenn aktiviert, ist das Lernmaterial auch außerhalb der vorgesehen Verfügbarkeit sichtbar.
+crs#:#crs_timings_visibility#:#Wenn aktiviert, ist das Lernmaterial auch außerhalb der vorgesehenen Verfügbarkeit sichtbar.
 crs#:#crs_timings_visibility_short#:#Sichtbarkeit
 crs#:#crs_to#:#Bis:
 crs#:#crs_tutor#:#Tutor
@@ -13500,7 +13500,7 @@ dateplaner#:#cal_ch_user_assignment_success#:#Die Benutzer wurden den ausgewähl
 dateplaner#:#cal_booking_failed_info#:#Die Buchung konnte nicht vorgenommen werden, da der Termin ausgebucht ist.
 registration#:#registration_codes_override_info#:#Diese Einstellung hat Vorrang vor allen anderen entsprechenden Registrierungs-Einstellungen.
 registration#:#registration_codes_override_global_info#:#Diese Einstellungen werden evtl. durch Registrierungscodes aufgehoben.
-crs#:#event_list_registered_only#:#Nur angemeldete Mitglieder
+crs#:#event_list_registered_only#:#Nur Angemeldete
 didactic#:#didactic_default_type#:#Standard
 pd#:#pd_info_delete_sure_remove#:#Wollen Sie wirklich die folgenden Objekte vom Persönlichen Schreibtisch entfernen?
 pd#:#pd_info_delete_sure_unsubscribe#:#Wollen Sie sich wirklich aus den folgenden Objekten abmelden?
@@ -15325,3 +15325,5 @@ style#:#sty_ha_iheada_class#:#Hor. Akkordeonelement Kopf (aktiv)
 style#:#sty_ha_ihcap_class#:#Hor. Akkordeonelement Überschrift
 style#:#sty_va_iheada_class#:#Vert. Akkordeonelement Kopf (aktiv)
 style#:#sty_va_ihcap_class#:#Vert. Akkordeonelement Überschrift
+exc#:#exc_delete_team#:#Team löschen
+trac#:#trac_cron_info#:#Aktivieren Sie den "Objekt-Statistik"-Cron-Job, um Daten für diese Auswertung zu sammeln.

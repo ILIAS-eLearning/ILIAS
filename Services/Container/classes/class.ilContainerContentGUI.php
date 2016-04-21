@@ -753,9 +753,12 @@ abstract class ilContainerContentGUI
 		$items = ilContainerSorting::_getInstance(
 			$this->getContainerObject()->getId())->sortSubItems('itgr', $a_itgr['obj_id'], $items);
 		
+		// #18285
+		$items = ilContainer::getCompleteDescriptions($items);
+		
 		$position = 1;
 		foreach($items as $item)
-		{
+		{			
 			$html2 = $this->renderItem($item, $position++, false, "[itgr][".$a_itgr['obj_id']."]");
 			if ($html2 != "")
 			{
