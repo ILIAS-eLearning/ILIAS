@@ -99,7 +99,7 @@ class GevWBDErrorTest extends ErrorTestBase {
 	 * @expectedException LogicException     
      */
 	public function test_noRowId($errMsg,$usr_id,$row_id,$crs_id,$service) {
-		$error = new gevWBDError($errMsg,'usr',$service,$usr_id,$row_id,$crs_id);
+		$error = new gevWBDError($errMsg,'user',$service,$usr_id,$row_id,$crs_id);
 		$this->assertNull($error->rowId());
 	}
 
