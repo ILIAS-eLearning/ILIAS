@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Services/Utilities/classes/class.ilFormat.php';
 
 /**
  * Export class for tests

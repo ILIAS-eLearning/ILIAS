@@ -1956,7 +1956,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// create session reminder subform
 		$cb = new ilCheckboxInputGUI($this->lng->txt("session_reminder"), "session_reminder_enabled");
 		$expires = ilSession::getSessionExpireValue();
-		$time = ilFormat::_secondsToString($expires, true);
+		$time = ilDatePresentation::secondsToString($expires, true);
 		$cb->setInfo($this->lng->txt("session_reminder_info")."<br />".
 			sprintf($this->lng->txt('session_reminder_session_duration'), $time));		
 		$fixed->addSubItem($cb);

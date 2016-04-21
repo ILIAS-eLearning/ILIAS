@@ -204,7 +204,7 @@ function outMobImageParams()
 		$tpl->setVariable('IMG_WIDTH', $size[0]);
 		$tpl->setVariable('IMG_HEIGHT', $size[1]);
 		$tpl->setVariable('IMG_PATH', $arr_tinyMCE_image_files[$k]['http_dir']);
-		$tpl->setVariable('F_SIZE', ilFormat::formatSize($fsize));
+		$tpl->setVariable('F_SIZE', ilUtil::formatSize($fsize));
 		$tpl->parseCurrentBlock();
 	}
 }

@@ -102,7 +102,7 @@ class ilMailAttachmentGUI
 			$files && $size_of_selected_files > $this->mfile->getAttachmentsTotalSizeLimit()
 		)
 		{
-			ilUtil::sendFailure($this->lng->txt('mail_max_size_attachments_total_error') . ' ' . ilFormat::formatSize($this->mfile->getAttachmentsTotalSizeLimit()));
+			ilUtil::sendFailure($this->lng->txt('mail_max_size_attachments_total_error') . ' ' . ilUtil::formatSize($this->mfile->getAttachmentsTotalSizeLimit()));
 			return $this->showAttachments();
 		}
 
@@ -222,7 +222,7 @@ class ilMailAttachmentGUI
 				}
 				else
 				{
-					ilUtil::sendFailure($this->lng->txt('mail_maxsize_attachment_error') . ' ' . ilFormat::formatSize($this->mfile->getUploadLimit()));
+					ilUtil::sendFailure($this->lng->txt('mail_maxsize_attachment_error') . ' ' . ilUtil::formatSize($this->mfile->getUploadLimit()));
 				}
 			}
 		}

@@ -471,7 +471,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				}
 				if(!$raw)
 				{
-					$time = ilFormat::_secondsToString(self::_ISODurationToCentisec($data_rec["total_time"])/100);
+					$time = ilDatePresentation::secondsToString(self::_ISODurationToCentisec($data_rec["total_time"])/100);
 					$score = "";
 					if ($data_rec["c_raw"] != null) {
 						$score = $data_rec["c_raw"];

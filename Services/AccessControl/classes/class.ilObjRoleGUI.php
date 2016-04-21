@@ -502,8 +502,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		$role->setAllowRegister($this->form->getInput('reg'));
 		$role->toggleAssignUsersStatus($this->form->getInput('la'));
-		$role->setDiskQuota(ilFormat::MB2Bytes($this->form->getInput('disk_quota')));
-		$role->setPersonalWorkspaceDiskQuota(ilFormat::MB2Bytes($this->form->getInput('wsp_disk_quota')));
+		$role->setDiskQuota(ilUtil::MB2Bytes($this->form->getInput('disk_quota')));
+		$role->setPersonalWorkspaceDiskQuota(ilUtil::MB2Bytes($this->form->getInput('wsp_disk_quota')));
 		return true;
 	}
 	
@@ -525,11 +525,11 @@ class ilObjRoleGUI extends ilObjectGUI
 		$data['la'] = $role->getAssignUsersStatus();
 		if(ilDiskQuotaActivationChecker::_isActive())
 		{
-			$data['disk_quota'] = ilFormat::Bytes2MB($role->getDiskQuota());
+			$data['disk_quota'] = ilUtil::Bytes2MB($role->getDiskQuota());
 		}
 		if(ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
 		{
-			$data['wsp_disk_quota'] = ilFormat::Bytes2MB($role->getPersonalWorkspaceDiskQuota());		
+			$data['wsp_disk_quota'] = ilUtil::Bytes2MB($role->getPersonalWorkspaceDiskQuota());		
 		}
 		$data['pro'] = $rbacreview->isProtected($this->obj_ref_id, $role->getId());
 		

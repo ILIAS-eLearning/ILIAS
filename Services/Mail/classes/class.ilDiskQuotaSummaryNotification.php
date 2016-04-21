@@ -155,11 +155,11 @@ class ilDiskQuotaSummaryNotification extends ilMailNotification
 					."\n");
 					$this->appendBody(
 						$this->getLanguage()->txt('disk_quota').': '.
-						ilFormat::formatSize($user['disk_quota'],'short', $this->getLanguage())
+						ilUtil::formatSize($user['disk_quota'],'short', $this->getLanguage())
 					."\n");
 					$this->appendBody(
 						$this->getLanguage()->txt('currently_used_disk_space').': '.
-						ilFormat::formatSize($user['disk_usage'],'short', $this->getLanguage())
+						ilUtil::formatSize($user['disk_usage'],'short', $this->getLanguage())
 					."\n");
 					
 					$this->appendBody(
