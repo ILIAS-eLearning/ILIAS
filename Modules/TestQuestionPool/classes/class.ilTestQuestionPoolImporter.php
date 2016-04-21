@@ -22,12 +22,14 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		ilObjQuestionPool::_setImportDirectory($this->getImportDirectoryBase());
+		ilObjQuestionPool::_setImportDirectory($this->getImportDirectoryContainer());
 
 		// Container import => test object already created
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
+			
+			$_SESSION['qpl_import_subdir'] = $this->getImportPackageName();
 		}
 		else	// case ii, non container
 		{
@@ -93,11 +95,18 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 		return array($xml,$qti);
 	}
 
-	private function getImportDirectoryBase()
+	private function getImportDirectoryContainer()
 	{
 		$dir = $this->getImportDirectory();
 		$dir = dirname($dir);
 		return $dir;
+	}
+
+	private function getImportPackageName()
+	{
+		$dir = $this->getImportDirectory();
+		$name = basename($dir);
+		return $name;
 	}
 }
 
