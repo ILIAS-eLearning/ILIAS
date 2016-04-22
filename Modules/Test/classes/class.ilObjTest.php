@@ -1542,19 +1542,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
 		if (!$properties_only)
 		{
-			if (PEAR::isError($result)) 
+			if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED)
 			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
+				$this->saveQuestionsToDb();
 			}
-			else
-			{
-				if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED)
-				{
-					$this->saveQuestionsToDb();
-				}
-				$this->mark_schema->saveToDb($this->test_id);
-			}
+			
+			$this->mark_schema->saveToDb($this->test_id);
 		}
   }
 
