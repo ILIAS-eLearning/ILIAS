@@ -31,11 +31,10 @@ class ilGitInformation implements ilVersionControlInformation
 
 		$info = array();
 
-		// https://gist.github.com/reiaguilera/82d164c7211e299d63ac
 		if(!ilUtil::isWindows())
 		{
-			$version_mini_hash = ilUtil::execQuoted('git describe --always');
-			$version_number    = ilUtil::execQuoted('git rev-list HEAD | wc -l');
+			$version_mini_hash = ilUtil::execQuoted('git rev-parse --short HEAD');
+			$version_number    = ilUtil::execQuoted('git rev-list --count HEAD');
 			$line              = ilUtil::execQuoted('git log -1');
 
 			if($version_number[0])
@@ -55,8 +54,8 @@ class ilGitInformation implements ilVersionControlInformation
 		}
 		else
 		{
-			$version_mini_hash = trim(exec('git describe --always'));
-			$version_number    = exec('git rev-list HEAD | find /v /c ""');
+			$version_mini_hash = trim(exec('git rev-parse --short HEAD'));
+			$version_number    = exec('git rev-list --count HEAD');
 			$line              = trim(exec('git log -1'));
 		}
 
