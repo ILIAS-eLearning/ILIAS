@@ -1552,7 +1552,7 @@ class ilTree
 		if($data['type'] == 'crsr' or $data['type'] == 'catr')
 		{
 			include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
-			$data['title'] = ilContainerReference::_lookupTargetTitle($data['obj_id']);
+			$data['title'] = ilContainerReference::_lookupTitle($data['obj_id']);
 		}
 
 		return $data ? $data : array();
