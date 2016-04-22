@@ -147,7 +147,7 @@ class ilObjReportOrguAttGUI extends ilObjReportBaseGUI {
 			$rec['odbd'] = $od .'/' .$bd;
 		}
 
-		return parent::transformResultRow($rec);
+		return parent::transformResultRowXLSX($rec);
 	}
 
 	protected function getSettingsData() {
