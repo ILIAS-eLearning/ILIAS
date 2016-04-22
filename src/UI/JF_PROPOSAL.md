@@ -56,7 +56,8 @@
   with the desired change MUST be made on github. The code in the pull reques
   SHOULD obay the rules given in **Interfaces to Factories** and **Interfaces to
   UI components**. The existing unit tests for the UI framework SHOULD pass.
-* The changes in the interface MUST be backed with an implementation.
+* The changes in the interface SHOULD not break existing usages of the interface.
+* The changes in the interface SHOULD be backed with an implementation.
 * The pull request MAY be made from the edge branch, the edge installation could
   then be used to showcase the observable part of the change.
 
@@ -117,9 +118,9 @@ The interface to the main factory is \ILIAS\UI\Factory.
       articles in the feature wiki.
     * MUST contain a field 'javascript' if the method represents an UI component
       and the implementation of the component uses a javascript library other
-      than jquery or if the component is not yet implemented but a javascript
-      lib other than jquery is planned to be used, where the field contains the
-      names and versions of all said javascript libraries
+      than jquery and bootstrap or if the component is not yet implemented but a
+      javascript lib other than jquery and bootstrap is planned to be used, where
+      the field contains the names and versions of all said javascript libraries.
     * SHOULD contain a field `rules` that contains one or more than one of the 
       following fields `usage`, `interaction`, `wording`, `style`, `ordering`, 
       `responsiveness`, `accessibility` and `accessibility, where
