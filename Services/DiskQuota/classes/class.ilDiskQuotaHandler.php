@@ -281,8 +281,8 @@ class ilDiskQuotaHandler
 					
 		$lng->loadLanguageModule("file");
 		return sprintf($lng->txt("personal_workspace_quota_status_legend"), 
-				ilFormat::formatSize($usage), 
-				ilFormat::formatSize($quota), 
+				ilUtil::formatSize($usage), 
+				ilUtil::formatSize($quota), 
 				$quota ? round($usage/$quota*100) : 0);
 	}
 }

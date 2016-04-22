@@ -318,7 +318,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	* After saving
 	* @access	public
 	*/
-	function afterSave($newObj)
+	function afterSave(ilObject $newObj)
 	{
 		global $ilCtrl;
 		// always send a message

@@ -584,7 +584,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 						}
 						else
 						{
-							$tbl_content_cell = ilFormat::formatSize($row[$key],'short');
+							$tbl_content_cell = ilUtil::formatSize($row[$key],'short');
 						}
 						break;
 					case 'disk_usage' :
@@ -594,11 +594,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 						}
 						else if ($row['disk_usage'] > $row['disk_quota'])
 						{
-						 $tbl_content_cell = "<span class=\"smallred\">".ilFormat::formatSize($row[$key],'short').'</span>';
+						 $tbl_content_cell = "<span class=\"smallred\">".ilUtil::formatSize($row[$key],'short').'</span>';
 						}
 						else
 						{
-						 $tbl_content_cell = ilFormat::formatSize($row[$key],'short');
+						 $tbl_content_cell = ilUtil::formatSize($row[$key],'short');
 						}
 						break;
 					case 'access_until' :

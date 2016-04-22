@@ -253,8 +253,6 @@ class ilFSStorageExercise extends ilFileSystemStorage
 			// CHECK IF FILE PATH EXISTS
 			if (!is_dir($savepath))
 			{
-				require_once "./Services/Utilities/classes/class.ilUtil.php";
-				#ilUtil::makeDirParents($savepath);
 				ilUtil::makeDir($savepath);
 			}
 			$now = getdate();

@@ -119,7 +119,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 		}
 	}
 	
-	protected function shouldBeImportedFromPost(array $a_post)
+	protected function shouldBeImportedFromPost($a_post)
 	{
 		if($this->getForm() instanceof ilPropertyFormGUI &&
 			!(bool)$this->text_input)

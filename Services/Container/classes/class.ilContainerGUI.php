@@ -1611,7 +1611,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $lng, $rbacsystem, $ilAccess;
 		
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once 'Modules/Folder/classes/class.ilObjFolder.php';
 		include_once 'Modules/File/classes/class.ilObjFile.php';
 		include_once 'Modules/File/classes/class.ilFileException.php';

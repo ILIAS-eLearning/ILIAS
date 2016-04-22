@@ -183,8 +183,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 					$progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
 					if(isset($progress['spent_seconds']))
 					{
-						include_once './Services/Utilities/classes/class.ilFormat.php';
-						return ilFormat::_secondsToString($progress['spent_seconds'], false, $this->getLanguage());
+						return ilDatePresentation::secondsToString($progress['spent_seconds'], false, $this->getLanguage());
 					}
 				}
 				break;

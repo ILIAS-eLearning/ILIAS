@@ -731,7 +731,7 @@ class ilMailFormGUI
 					$hidden = new ilHiddenInputGUI('attachments[]');
 					$form_gui->addItem($hidden);
 					$size = filesize($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . $data);
-					$label = $data . " [" . ilFormat::formatSize($size) . "]";
+					$label = $data . " [" . ilUtil::formatSize($size) . "]";
 					$att->addItem($label);
 					$hidden->setValue(urlencode($data));
 				}

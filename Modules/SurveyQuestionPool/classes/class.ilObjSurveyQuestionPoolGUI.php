@@ -414,7 +414,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			// copy uploaded file to import directory
 			$full_path = $this->object->getImportDirectory()."/".$_FILES["qtidoc"]["name"];
 
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::moveUploadedFile($_FILES["qtidoc"]["tmp_name"], 
 				$_FILES["qtidoc"]["name"], $full_path);
 			$source = $full_path;
@@ -567,7 +566,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 
 		$export_dir = $this->object->getExportDirectory();
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		
 		$file = basename($_POST["file"][0]);
 		
@@ -627,7 +625,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			}
 			if (@is_dir($exp_dir))
 			{
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				ilUtil::delDir($exp_dir);
 			}
 		}
@@ -690,7 +687,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$upload = $_FILES["importfile"];
 			$file = pathinfo($upload["name"]);
 			$full_path = $newObj->getImportDirectory()."/".$upload["name"];
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::moveUploadedFile($upload["tmp_name"], $upload["name"], 
 				$full_path);
 

@@ -135,7 +135,7 @@ class ilFileVersionTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_UPLOADED_BY", $username);
 		$this->tpl->setVariable("DL_LINK", $link);
 		$this->tpl->setVariable("TXT_FILENAME", $filename);
-		$this->tpl->setVariable("TXT_FILESIZE", ilFormat::formatSize($filesize));
+		$this->tpl->setVariable("TXT_FILESIZE", ilUtil::formatSize($filesize));
 		
 		// columns depending on confirmation
 		if (!$this->confirmDelete)

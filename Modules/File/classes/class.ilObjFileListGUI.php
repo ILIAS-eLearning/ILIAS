@@ -134,7 +134,7 @@ class ilObjFileListGUI extends ilObjectListGUI
 		if(is_array($fileData))
 		{
 			$props[] = array("alert" => false, "property" => $lng->txt("size"),
-				"value" => ilFormat::formatSize($fileData['size'], 'short'),
+				"value" => ilUtil::formatSize($fileData['size'], 'short'),
 				'propertyNameVisible' => false);
 			$version = $fileData['version'];
 			if ($version > 1)

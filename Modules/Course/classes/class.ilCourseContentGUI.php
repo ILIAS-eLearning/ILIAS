@@ -520,7 +520,7 @@ class ilCourseContentGUI
 			{
 				$this->tpl->setCurrentBlock("tlt");
 				$this->tpl->setVariable("TXT_TLT",$this->lng->txt('meta_typical_learning_time'));
-				$this->tpl->setVariable("TLT_VAL",ilFormat::_secondsToString($tlt));
+				$this->tpl->setVariable("TLT_VAL",ilDatePresentation::secondsToString($tlt));
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -774,7 +774,7 @@ class ilCourseContentGUI
 		{
 			$this->tpl->setCurrentBlock("tlt");
 			$this->tpl->setVariable("TXT_TLT",$this->lng->txt('meta_typical_learning_time'));
-			$this->tpl->setVariable("TLT_VAL",ilFormat::_secondsToString($tlt));
+			$this->tpl->setVariable("TLT_VAL",ilDatePresentation::secondsToString($tlt));
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -988,7 +988,7 @@ class ilCourseContentGUI
 		{
 			$this->tpl->setCurrentBlock("tlt");
 			$this->tpl->setVariable("TXT_TLT",$this->lng->txt('meta_typical_learning_time'));
-			$this->tpl->setVariable("TLT_VAL",ilFormat::_secondsToString($tlt));
+			$this->tpl->setVariable("TLT_VAL",ilDatePresentation::secondsToString($tlt));
 			$this->tpl->parseCurrentBlock();
 		}
 		

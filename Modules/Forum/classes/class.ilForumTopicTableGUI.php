@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
-require_once 'Services/Calendar/classes/class.ilDatePresentation.php';
 require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 require_once 'Modules/Forum/classes/class.ilForumAuthorInformationCache.php';
 require_once 'Services/Rating/classes/class.ilRatingGUI.php';
