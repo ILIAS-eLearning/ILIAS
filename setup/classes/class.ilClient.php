@@ -637,30 +637,19 @@ class ilClient
 		$inst_id = (empty($settings["inst_id"])) ? "0" : $settings["inst_id"];
 
 		// send host information to ilias-nic
+		//#18132: removed ipadr, server_port, server_software, institution, contact_title, contact_position,
+		// contact_institution, contact_street, contact_pcode, contact_city, contact_country, contact_phone
 		$url = 	$a_nic_url.
 				"?cmd=getid".
 				"&inst_id=".rawurlencode($inst_id).
 				"&hostname=".rawurlencode($_SERVER["SERVER_NAME"]).
-				"&ipadr=".rawurlencode($_SERVER["SERVER_ADDR"]).
-				"&server_port=".rawurlencode($_SERVER["SERVER_PORT"]).
-				"&server_software=".rawurlencode($_SERVER["SERVER_SOFTWARE"]).
 				"&inst_name=".rawurlencode($this->ini->readVariable("client","name")).
 				"&inst_info=".rawurlencode($this->ini->readVariable("client","description")).
-				"&institution=".rawurlencode($settings["inst_institution"]).
 				"&http_path=".rawurlencode(ILIAS_HTTP_PATH).
 				"&contact_firstname=".rawurlencode($settings["admin_firstname"]).
 				"&contact_lastname=".rawurlencode($settings["admin_lastname"]).
-				"&contact_title=".rawurlencode($settings["admin_title"]).
-				"&contact_position=".rawurlencode($settings["admin_position"]).			
-				"&contact_institution=".rawurlencode($settings["admin_institution"]).
-				"&contact_street=".rawurlencode($settings["admin_street"]).
-				"&contact_pcode=".rawurlencode($settings["admin_zipcode"]).
-				"&contact_city=".rawurlencode($settings["admin_city"]).
-				"&contact_country=".rawurlencode($settings["admin_country"]).
-				"&contact_phone=".rawurlencode($settings["admin_phone"]).
 				"&contact_email=".rawurlencode($settings["admin_email"]).
-				"&nic_key=".rawurlencode($this->getNICkey()).
-				"&version=".rawurlencode($settings["ilias_version"]);
+				"&nic_key=".rawurlencode($this->getNICkey());
 				
 		return $url;
 	}
