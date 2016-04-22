@@ -117,6 +117,39 @@ class ilObjReportOrguAttGUI extends ilObjReportBaseGUI {
 		return parent::transformResultRow($rec);
 	}
 
+	public static function transformResultRowXLSX($rec) {
+		foreach($rec as &$data) {
+			if((string)$data === "0") {
+				$data = '-';
+			}
+		}
+		if(isset($rec['org_unit_above1'])) {
+			if(!self::$od_regexp || !self::$bd_regexp ) {
+				require_once './Services/ReportsRepository/config/od_bd_strings.php';
+			}
+			$orgu_above1 =  $rec['org_unit_above1'];
+			$orgu_above2 =  $rec['org_unit_above2'];
+			if (preg_match(self::$od_regexp, $orgu_above1)) {
+				$od = $orgu_above1;
+			} elseif(preg_match(self::$od_regexp, $orgu_above2)) {
+				$od = $orgu_above2;
+			} else {
+				$od = '-';
+			}
+
+			if (preg_match(self::$bd_regexp, $orgu_above1)) {
+				$bd = $orgu_above1;
+			} elseif(preg_match(self::$bd_regexp, $orgu_above2)) {
+				$bd = $orgu_above2;
+			} else {
+				$bd = '-';
+			}
+			$rec['odbd'] = $od .'/' .$bd;
+		}
+
+		return parent::transformResultRow($rec);
+	}
+
 	protected function getSettingsData() {
 		$data = parent::getSettingsData();
 		$data['is_local'] = $this->object->getIsLocal();
