@@ -27,17 +27,17 @@ class GevVermitVerwaltungAufnahmeTest extends RequestTestBase {
 
 	public function xml_response_error() {
 		return array(array(simplexml_load_string('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'
-													.'<soap:Body>'
-														.'<soap:Fault>'
-															.'<faultcode>soap:Server</faultcode>'
-															.'<faultstring>Der Benutzer wurde von einem anderen TP angelegt: 5702136776</faultstring>'
-															.'<detail>'
-																.'<ns1:ExterneDoubletteException xmlns:ns1="http://erstanlage.stammdaten.external.service.wbd.gdv.de/" />'
-															.'</detail>'
-														.'</soap:Fault>'
-													.'</soap:Body>'
-												.'</soap:Envelope>'
-									))
+							.'<soap:Body>'
+								.'<soap:Fault>'
+									.'<faultcode>soap:Server</faultcode>'
+									.'<faultstring>Der Benutzer wurde von einem anderen TP angelegt: 5702136776</faultstring>'
+									.'<detail>'
+										.'<ns1:ExterneDoubletteException xmlns:ns1="http://erstanlage.stammdaten.external.service.wbd.gdv.de/" />'
+									.'</detail>'
+								.'</soap:Fault>'
+							.'</soap:Body>'
+						.'</soap:Envelope>'
+				))
 			);
 	}
 }

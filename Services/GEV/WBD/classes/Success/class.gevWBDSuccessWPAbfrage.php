@@ -22,7 +22,7 @@ class gevWBDSuccessWPAbfrage extends WBDSuccessWPAbfrage {
 		$this->user_id = $user_id;
 		$this->import_course_data = array();
 
-		$begin_of_certification_period = self::$nodeValue($response,self::BEGIN_OF_CERTIFICATION_PERIOD);
+		$begin_of_certification_period = self::nodeValue($response,self::BEGIN_OF_CERTIFICATION_PERIOD);
 		$this->begin_of_certification_period = $this->createDate($begin_of_certification_period);
 
 		$this->toImportCourseNodes = array(ImportCourseData::WBD_BOOKING_ID
@@ -43,9 +43,9 @@ class gevWBDSuccessWPAbfrage extends WBDSuccessWPAbfrage {
 			
 			$value[ImportCourseData::BEGIN_DATE] = $this->createDate($value[ImportCourseData::BEGIN_DATE]);
 			$value[ImportCourseData::END_DATE] = $this->createDate($value[ImportCourseData::END_DATE]);
-			$value[ImportCourseData::COURSE_TYPE] = $this->getDictonary()->getInternalName($value[ImportCourseData::COURSE_TYPE]
+			$value[ImportCourseData::COURSE_TYPE] = $this->getDictionary()->getInternalName($value[ImportCourseData::COURSE_TYPE]
 																	,gevWBDDictionary::SERACH_IN_COURSE_TYPE);
-			$value[ImportCourseData::STUDY_CONTENT] = $this->getDictonary()->getInternalName($value[ImportCourseData::STUDY_CONTENT]
+			$value[ImportCourseData::STUDY_CONTENT] = $this->getDictionary()->getInternalName($value[ImportCourseData::STUDY_CONTENT]
 																	,gevWBDDictionary::SEARCH_IN_STUDY_CONTENT);
 
 			$this->import_course_data[] = new gevImportCourseData($value);

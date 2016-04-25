@@ -16,14 +16,6 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		$this->gLng = $lng;
 	}
 
-	// This is a super evil hack to make #2262 happen for this report.
-	// If there is a correct solution, we also could re-finalize getDescription
-	// in ilObject2.
-	public function getDescription() {
-		$this->gLng->loadLanguageModule("gev");
-		return $this->gLng->txt("gev_rep_attendance_by_employee_desc_short");
-	}
-
 	public function initType() {
 		 $this->setType("xrea");
 	}
@@ -178,10 +170,11 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 
 	public function doCreate() {
 		$this->gIldb->manipulate("INSERT INTO rep_robj_rea ".
-			"(id, is_online, video_link) VALUES (".
+			"(id, is_online, video_link, pdf_link) VALUES (".
 			$this->gIldb->quote($this->getId(), "integer")
 			.",".$this->gIldb->quote(0, "integer")
 			.",".$this->gIldb->quote($this->getVideoLink(), "text")
+			.",".$this->gIldb->quote($this->getPDFLink(), "text")
 			.")");
 	}
 
@@ -192,6 +185,7 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		while ($rec = $this->gIldb->fetchAssoc($set)) {
 			$this->setOnline($rec["is_online"]);
 			$this->setVideoLink($rec["video_link"]);
+			$this->setPDFLink($rec["pdf_link"]);
 		}
 	}
 
@@ -199,6 +193,7 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		$this->gIldb->manipulate("UPDATE rep_robj_rea SET "
 			." is_online = ".$this->gIldb->quote($this->getOnline(), "integer")
 			.", video_link = ".$this->gIldb->quote($this->getVideoLink(), "text")
+			.", pdf_link = ".$this->gIldb->quote($this->getPDFLink(), "text")
 			." WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
 			);
 	}

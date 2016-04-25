@@ -4379,7 +4379,7 @@ ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
 <#169>
 <?php
 $new_crs_ops = array(
-	'view_maillog' => array('View Maillog', 6007)
+	'view_mailing' => array('View Mailing', 6007)
 );
 require_once "Customizing/class.ilCustomInstaller.php";
 ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
@@ -4418,11 +4418,11 @@ require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 $central_training_category_ref_ids = array(1696, 1783, 1621, 1644, 1686, 47318 , 43277, 1699, 34937);
 
 foreach ($central_training_category_ref_ids as $ref_id) {
-	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "Admin-eingeschraenkt", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "Admin-eingeschraenkt", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+	gevCourseUtils::grantPermissionsForAllCoursesBelow($ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
 }
 
 ?>
@@ -4451,27 +4451,27 @@ require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
 $fixed_dec_training_category_ref_id = 49841;
 
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "DBV UVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "DBV EVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "RTL", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "flex-dez-Training", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-dez-ID", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Pool Trainingsersteller", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "DBV UVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "DBV EVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "RTL", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "flex-dez-Training", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-dez-ID", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Pool Trainingsersteller", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
 
 
 $flex_dec_training_category_ref_id = 49840;
 
-gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "DBV UVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "flex-dez-Training", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Pool Trainingsersteller", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "DBV UVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "flex-dez-Training", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Pool Trainingsersteller", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
 
 ?>
 
@@ -4499,12 +4499,12 @@ require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
 $fixed_dec_training_category_ref_id = 49841;
 
-gevCourseUtils::revokePermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "DBV UVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
-gevCourseUtils::revokePermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "DBV EVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::revokePermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "DBV UVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
+gevCourseUtils::revokePermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "DBV EVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
 
 $flex_dec_training_category_ref_id = 49840;
 
-gevCourseUtils::revokePermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "DBV UVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf"));
+gevCourseUtils::revokePermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "DBV UVG", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf"));
 
 ?>
 
@@ -4729,26 +4729,26 @@ require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
 $fixed_dec_training_category_ref_id = 49841;
 
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-eingeschraenkt", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "RTL", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "flex-dez-Training", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-dez-ID", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Pool Trainingsersteller", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training", "write_reduced_settings"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-eingeschraenkt", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "RTL", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "flex-dez-Training", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Admin-dez-ID", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Pool Trainingsersteller", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf", "cancel_training", "write_reduced_settings"));
 gevCourseUtils::revokePermissionsForAllCoursesBelow($fixed_dec_training_category_ref_id, "Pool Trainingsersteller", array("write"));
 
 
 $flex_dec_training_category_ref_id = 49840;
 
-gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "flex-dez-Training", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training"));
-gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Pool Trainingsersteller", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_maillog","view_schedule_pdf", "cancel_training", "write_reduced_settings"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Administrator", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Admin-Voll", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "flex-dez-Training", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "admin", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "trainer", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf", "cancel_training"));
+gevCourseUtils::grantPermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Pool Trainingsersteller", array("change_trainer","load_signature_list","load_member_list","load_csn_list","view_mailing","view_schedule_pdf", "cancel_training", "write_reduced_settings"));
 gevCourseUtils::revokePermissionsForAllCoursesBelow($flex_dec_training_category_ref_id, "Pool Trainingsersteller", array("write"));
 
 ?>
@@ -5007,7 +5007,7 @@ ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "Repository", "robj", "Buildi
 
 <#210>
 <?php
-	$ilCtrlStructureReader->getStructure();
+$ilCtrlStructureReader->getStructure();
 
 require_once "Customizing/class.ilCustomInstaller.php";
 ilCustomInstaller::maybeInitClientIni();
@@ -5029,5 +5029,37 @@ foreach ($relevant_ref_ids as $ref_id) {
 
 <#211>
 <?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
+<#212>
+<?php
+	require_once "Customizing/class.ilCustomInstaller.php";
+	ilCustomInstaller::maybeInitClientIni();
+	ilCustomInstaller::maybeInitPluginAdmin();
+	ilCustomInstaller::maybeInitObjDefinition();
+	ilCustomInstaller::maybeInitAppEventHandler();
+	ilCustomInstaller::maybeInitTree();
+	ilCustomInstaller::maybeInitRBAC();
+	ilCustomInstaller::maybeInitObjDataCache();
+	ilCustomInstaller::maybeInitUserToRoot();
+	ilCustomInstaller::maybeInitSettings();
+
+	require_once("Services/User/classes/class.ilObjUser.php");
+	
+	if (!$ilDB->tableColumnExists('hist_user', 'login'))
+	{		
+		$ilDB->addTableColumn('hist_user', 'login', array(
+			"type" => "text",
+			"length" => 80,
+			"notnull" => false,
+			"default" => "-empty-"
+		));
+	}
+?>
+
+<#213>
+<?php
+
 	$ilCtrlStructureReader->getStructure();
 ?>

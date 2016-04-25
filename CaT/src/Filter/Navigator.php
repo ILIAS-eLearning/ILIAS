@@ -12,10 +12,22 @@ class Navigator {
 		$this->tree = $tree;
 	}
 
+	/**
+	 * get current tree
+	 *
+	 * @return CaT/Filter/Filters/Sequence
+	 */
 	public function tree() {
 		return $this->tree;
 	}
 
+	/**
+	 * pointer on next element one step left
+	 *
+	 * @throws OutOfBoundsException
+	 *
+	 * @return CaT/Filter/Navigator
+	 */
 	public function left() {
 		$path = $this->path;
 
@@ -33,6 +45,13 @@ class Navigator {
 		return $this;
 	}
 
+	/**
+	 * pointer on next element one step right
+	 *
+	 * @throws OutOfBoundsException
+	 *
+	 * @return CaT/Filter/Navigator
+	 */
 	public function right() {
 		$path = $this->path;
 
@@ -50,6 +69,13 @@ class Navigator {
 		return $this;
 	}
 
+	/**
+	 * pointer on first element after entering next level
+	 *
+	 * @throws OutOfBoundsException
+	 *
+	 * @return CaT/Filter/Navigator
+	 */
 	public function enter() {
 		$current = $this->current();
 
@@ -62,6 +88,13 @@ class Navigator {
 		return $this;
 	}
 
+	/**
+	 * pointer on first element after jump one level up
+	 *
+	 * @throws OutOfBoundsException
+	 *
+	 * @return CaT/Filter/Navigator
+	 */
 	public function up() {
 		$path = $this->path;
 
@@ -75,6 +108,15 @@ class Navigator {
 		return $this;
 	}
 
+	/**
+	 * pointer on element to $path
+	 *
+	 * @param string $path
+	 *
+	 * @throws OutOfBoundsException
+	 *
+	 * @return CaT/Filter/Navigator
+	 */
 	public function go_to($path) {
 		$path = explode("_",$path);
 		$tmp = $this->getItemByPath($path, $this->tree);
@@ -88,10 +130,20 @@ class Navigator {
 		return $this;
 	}
 
+	/**
+	 * get current element
+	 *
+	 * @return Filter
+	 */
 	public function current() {
 		return $this->getItemByPath($this->path, $this->tree);
 	}
 
+	/**
+	 * get element
+	 *
+	 * @return CaT/Filter/Filters/Filter | Bool
+	 */
 	protected function getItemByPath($path, $tmp) {
 		foreach ($path as $value) {
 			$tmp = $tmp->subs();
@@ -106,7 +158,12 @@ class Navigator {
 		return $tmp;
 	}
 
+	/**
+	 * pointer on first element after entering next level
+	 *
+	 * @return string
+	 */
 	public function path() {
-		return implode("_",$this->path);
+		return is_array($this->path) ? implode("_",$this->path) : null;
 	}
 }

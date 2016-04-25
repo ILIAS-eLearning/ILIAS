@@ -732,13 +732,14 @@ abstract class ilTEPViewGridBased extends ilTEPView
 							."' title='".$lng->txt("gev_virtual_class")."' target='_blank'>".$vc_img."</a>&nbsp;";
 			}
 
-			if($crs_utils->userHasPermissionTo($cur_user_id, gevSettings::VIEW_MAILLOG)){
-				$ilCtrl->setParameterByClass("gevMaillogGUI", "obj_id", $a_set["obj_id"]);
+			if($crs_utils->userHasPermissionTo($cur_user_id, gevSettings::VIEW_MAILING)){
+				require_once("Services/GEV/Mailing/classes/class.gevTrainerMailHandlingGUI.php");
+				$ilCtrl->setParameterByClass("gevTrainerMailHandlingGUI", "obj_id", $a_set["obj_id"]);
 				$ilCtrl->setParameterByClass("ilTEPGUI", "obj_id", $a_set["obj_id"]);
 				$maillog_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
-				$actions .= '<a href="'.$ilCtrl->getLinkTargetByClass("gevMaillogGUI", "showMaillog").'"'
-						.' title="'.$lng->txt("gev_maillog").'">'.$maillog_img.'</a>&nbsp;';
-				$ilCtrl->clearParametersByClass("gevMaillogGUI");
+				$actions .= '<a href="'.$ilCtrl->getLinkTargetByClass("gevTrainerMailHandlingGUI", "showLog").'"'
+						.' title="'.$lng->txt("gev_trainer_view_mailing").'">'.$maillog_img.'</a>&nbsp;';
+				$ilCtrl->clearParametersByClass("gevTrainerMailHandlingGUI");
 			}
 
 			if($crs_utils->isFlexibleDecentrallTraining() && 

@@ -1,5 +1,6 @@
 <?php
 require_once("Services/GEV/WBD/classes/class.gevWBDDataCollector.php");
+require_once("Services/GEV/WBD/classes/Error/class.gevWBDError.php");
 
 class _gevWBDError extends gevWBDError {
 	protected function findReason() {
@@ -37,6 +38,14 @@ class _gevWBDDataCollector extends gevWBDDataCollector {
 
 	public function testable_error(gevWBDError $error) {
 		parent::error($error);
+	}
+
+	public function performPreliminaryChecks($checks_to_release, $wbd) {
+		return $this->prem_errors;
+	}
+
+	public function setPreliminaryErrors(array $prem_errors = array()) {
+		$this->prem_errors = $prem_errors;
 	}
 
 	public function setDB($db) {
@@ -80,7 +89,7 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
-		$this->data_collector = new _gevWBDDataCollector();
+		$this->data_collector = new _gevWBDDataCollector("/Library/WebServer/Documents/44generali2/");
 	}
 
 	public function test_isWBDDataCollector() {
@@ -137,6 +146,7 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 
 	public function test_createReleaseUserList() {
 		$data = $this->getRealeseUserData();
+		$this->data_collector->setPreliminaryErrors();
 		
 		$db = new mock_db($data);
 
@@ -149,6 +159,7 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 
 	public function test_createReleaseUserListError() {
 		$data = $this->getRealeseUserDataError();
+		$this->data_collector->setPreliminaryErrors(array(new _gevWBDError("mandatory field missing: gender","user", "NEW_USER", 1, 2, 3)));
 		
 		$db = new mock_db($data);
 
@@ -195,18 +206,6 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($this->data_collector->called_error === 0);
 	}
 
-	public function test_createWPAbrageRecordListError() {
-		$data = $this->getWPAbfrageRecordDataError();
-		
-		$db = new mock_db($data);
-
-		$this->data_collector->testable_createWPAbfrageRecordList($db);
-
-		$this->assertEquals(1, $db->called_query);
-		$this->assertEquals(count($data) + 1, $db->called_fetchAssoc);
-		$this->assertTrue($this->data_collector->called_error > 0);
-	}
-
 	/**
 	* @dataProvider wbdErrorProvider
 	*/
@@ -233,7 +232,7 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 					  ,"okz"=>"OKZ1"
 					  ,"firstname"=>"Stefan"
 					  ,"wbd_type"=>"3 - TP-Service"
-					  ,"user_id"=>3215
+					  ,"user_id"=>290
 					  ,"street"=>"Vorgebirgstr. 338"
 					  ,"row_id"=>35214
 					),array("gender"=>"m"
@@ -250,7 +249,7 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 					  ,"okz"=>"OKZ1"
 					  ,"firstname"=>"Stefan"
 					  ,"wbd_type"=>"3 - TP-Service"
-					  ,"user_id"=>3215
+					  ,"user_id"=>290
 					  ,"street"=>"Vorgebirgstr. 338"
 					  ,"row_id"=>35214
 					));
@@ -271,7 +270,7 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 					  ,"okz"=>""
 					  ,"firstname"=>"Stefan"
 					  ,"wbd_type"=>"3 - TP-Service"
-					  ,"user_id"=>3215
+					  ,"user_id"=>290
 					  ,"street"=>"Vorgebirgstr. 338"
 					  ,"row_id"=>35214
 					),array("gender"=>"m"
@@ -288,7 +287,7 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 					  ,"okz"=>"OKZ1"
 					  ,"firstname"=>"Stefan"
 					  ,"wbd_type"=>""
-					  ,"user_id"=>3215
+					  ,"user_id"=>290
 					  ,"street"=>"Vorgebirgstr. 338"
 					  ,"row_id"=>35214
 					));
@@ -296,43 +295,43 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 
 	public function successNewUser() {
 		return array(array(simplexml_load_string('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope">'
-												.'<soap:Body>'
-													.'<ns1:putResponse xmlns:ns1="http://erstanlage.stammdaten.external.service.wbd.gdv.de/">'
-														.'<ErstanlageRueckgabewert>'
-															.'<TpInterneVermittlerId>7665</TpInterneVermittlerId>'
-															.'<VermittlerId>20150728-100390-74</VermittlerId>'
-															.'<AnlageDatum>2015-07-28T00:00:00+02:00</AnlageDatum>'
-															.'<BeginnZertifizierungsPeriode>2015-07-28T00:00:00+02:00</BeginnZertifizierungsPeriode>'
-														.'</ErstanlageRueckgabewert>'
-													.'</ns1:putResponse>'
-												.'</soap:Body>'
-											.'</soap:Envelope>'
+					.'<soap:Body>'
+						.'<ns1:putResponse xmlns:ns1="http://erstanlage.stammdaten.external.service.wbd.gdv.de/">'
+							.'<ErstanlageRueckgabewert>'
+								.'<TpInterneVermittlerId>7665</TpInterneVermittlerId>'
+								.'<VermittlerId>20150728-100390-74</VermittlerId>'
+								.'<AnlageDatum>2015-07-28T00:00:00+02:00</AnlageDatum>'
+								.'<BeginnZertifizierungsPeriode>2015-07-28T00:00:00+02:00</BeginnZertifizierungsPeriode>'
+							.'</ErstanlageRueckgabewert>'
+						.'</ns1:putResponse>'
+					.'</soap:Body>'
+				.'</soap:Envelope>'
 									))
 					,array(simplexml_load_string('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope">'
-												.'<soap:Body>'
-												.'<ns1:putResponse xmlns:ns1="http://erstanlage.stammdaten.external.service.wbd.gdv.de/">'
-													.'<ErstanlageRueckgabewert>'
-														.'<TpInterneVermittlerId>7665</TpInterneVermittlerId>'
-														.'<VermittlerId>20150728-100390-74</VermittlerId>'
-														.'<AnlageDatum>2015-07-28T00:00:00+02:00</AnlageDatum>'
-														.'<BeginnZertifizierungsPeriode>2015-07-28T00:00:00+02:00</BeginnZertifizierungsPeriode>'
-													.'</ErstanlageRueckgabewert>'
-												.'</ns1:putResponse>'
-												.'</soap:Body>'
-											.'</soap:Envelope>'
+						.'<soap:Body>'
+						.'<ns1:putResponse xmlns:ns1="http://erstanlage.stammdaten.external.service.wbd.gdv.de/">'
+							.'<ErstanlageRueckgabewert>'
+								.'<TpInterneVermittlerId>7665</TpInterneVermittlerId>'
+								.'<VermittlerId>20150728-100390-74</VermittlerId>'
+								.'<AnlageDatum>2015-07-28T00:00:00+02:00</AnlageDatum>'
+								.'<BeginnZertifizierungsPeriode>2015-07-28T00:00:00+02:00</BeginnZertifizierungsPeriode>'
+							.'</ErstanlageRueckgabewert>'
+						.'</ns1:putResponse>'
+						.'</soap:Body>'
+					.'</soap:Envelope>'
 									))
 					,array(simplexml_load_string('<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope">'
-												.'<soap:Body>'
-												.'<ns1:putResponse xmlns:ns1="http://erstanlage.stammdaten.external.service.wbd.gdv.de/">'
-													.'<ErstanlageRueckgabewert>'
-														.'<TpInterneVermittlerId>7665</TpInterneVermittlerId>'
-														.'<VermittlerId>20150728-100390-74</VermittlerId>'
-														.'<AnlageDatum>2015-07-28T00:00:00+02:00</AnlageDatum>'
-														.'<BeginnZertifizierungsPeriode>2015-07-28T00:00:00+02:00</BeginnZertifizierungsPeriode>'
-													.'</ErstanlageRueckgabewert>'
-												.'</ns1:putResponse>'
-												.'</soap:Body>'
-											.'</soap:Envelope>'
+						.'<soap:Body>'
+						.'<ns1:putResponse xmlns:ns1="http://erstanlage.stammdaten.external.service.wbd.gdv.de/">'
+							.'<ErstanlageRueckgabewert>'
+								.'<TpInterneVermittlerId>7665</TpInterneVermittlerId>'
+								.'<VermittlerId>20150728-100390-74</VermittlerId>'
+								.'<AnlageDatum>2015-07-28T00:00:00+02:00</AnlageDatum>'
+								.'<BeginnZertifizierungsPeriode>2015-07-28T00:00:00+02:00</BeginnZertifizierungsPeriode>'
+							.'</ErstanlageRueckgabewert>'
+						.'</ns1:putResponse>'
+						.'</soap:Body>'
+					.'</soap:Envelope>'
 									))
 			);
 	}
@@ -353,7 +352,7 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 					  ,"wbd_agent_status"=>"Makler"
 					  ,"okz"=>"OKZ1"
 					  ,"firstname"=>"Stefan"
-					  ,"user_id"=>3215
+					  ,"user_id"=>290
 					  ,"street"=>"Vorgebirgstr. 338"
 					  ,"row_id"=>35214
 					  ,"address_info"=>"Der wohnt bei Mutti"
@@ -377,7 +376,7 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 					  ,"wbd_agent_status"=>"Makler"
 					  ,"okz"=>"OKZ1"
 					  ,"firstname"=>"Stefan"
-					  ,"user_id"=>3215
+					  ,"user_id"=>290
 					  ,"street"=>"Vorgebirgstr. 338"
 					  ,"row_id"=>35214
 					  ,"address_info"=>"Der wohnt bei Mutti"
@@ -389,7 +388,7 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 		return array(array("email"=>"shecken@cat06.de"
 					  ,"mobile_phone_nr"=>"0162/9800608"
 					  ,"bwv_id"=>"1212-2323-23-2323"
-					  ,"user_id"=>3215
+					  ,"user_id"=>290
 					  ,"row_id"=>35214
 					));
 	}
@@ -398,7 +397,7 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 		return array(array("email"=>"shecken@cat06.de"
 					  ,"mobile_phone_nr"=>"0162/9800608"
 					  ,"bwv_id"=>""
-					  ,"user_id"=>3215
+					  ,"user_id"=>290
 					  ,"row_id"=>35214
 					));
 	}
@@ -411,7 +410,7 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 					  ,"type" => "Virtuelles Training"
 					  ,"wbd_topic" => "Privat-Vorsorge-Lebens-/Rentenversicherung"
 					  ,"row_id"=>35214
-					  ,"user_id"=>2323
+					  ,"user_id"=>290
 					  ,"bwv_id" => "22332-565-321-65"
 					));
 	}
@@ -424,32 +423,32 @@ class gevWBDDataCollectorTest extends PHPUnit_Framework_TestCase {
 					  ,"type" => ""
 					  ,"wbd_topic" => "Privat-Vorsorge-Lebens-/Rentenversicherung"
 					  ,"row_id"=>35214
-					  ,"user_id"=>2323
+					  ,"user_id"=>290
 					  ,"bwv_id" => "22332-565-321-65"
 					));
 	}
 
 	protected function getWPAbfrageRecordData() {
 		return array(array("row_id"=>35214
-					  ,"user_id"=>2323
+					  ,"user_id"=>290
 					  ,"bwv_id" => "22332-565-321-65"
 					));
 	}
 
 	protected function getWPAbfrageRecordDataError() {
 		return array(array("row_id"=>35214
-					  ,"user_id"=>2323
+					  ,"user_id"=>290
 					  ,"bwv_id" => ""
 					));
 	}
 
 	public function wbdErrorProvider() {
-		return array(array(new _gevWBDError("mandatory field missing: gender", "NEW_USER", 1, 2, 3)),
-						array(new _gevWBDError("mandatory field missing: gender", "NEW_USER", 1, 2, 3)),
-						array(new _gevWBDError("mandatory field missing: gender", "NEW_USER", 1, 2, 3)),
-						array(new _gevWBDError("mandatory field missing: gender", "NEW_USER", 1, 2, 3)),
-						array(new _gevWBDError("mandatory field missing: gender", "NEW_USER", 1, 2, 3)),
-						array(new _gevWBDError("mandatory field missing: gender", "NEW_USER", 1, 2, 3))
+		return array(array(new _gevWBDError("mandatory field missing: gender","user", "NEW_USER", 1, 2, 3)),
+						array(new _gevWBDError("mandatory field missing: gender","user", "NEW_USER", 1, 2, 3)),
+						array(new _gevWBDError("mandatory field missing: gender","user", "NEW_USER", 1, 2, 3)),
+						array(new _gevWBDError("mandatory field missing: gender","user", "NEW_USER", 1, 2, 3)),
+						array(new _gevWBDError("mandatory field missing: gender","user", "NEW_USER", 1, 2, 3)),
+						array(new _gevWBDError("mandatory field missing: gender","user", "NEW_USER", 1, 2, 3))
 			);
 	}
 }

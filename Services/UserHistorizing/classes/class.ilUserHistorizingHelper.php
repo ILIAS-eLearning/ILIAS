@@ -307,4 +307,8 @@ class ilUserHistorizingHelper
 		$wbd = gevWBD::getInstanceByObjOrId($user);
 		return $wbd->getNextWBDAction();
 	}
+
+	public static function getLogin($user) {
+		return $user->getLogin();
+	}
 }

@@ -1282,10 +1282,16 @@ abstract class ilMailingGUI {
 		$form->addItem($to_field);
 		
 		$about_field = new ilTextInputGUI($this->lng->txt("subject"), "subject");
+		//gev-patch #2280 start
+		$about_field->setRequired(true);
+		//gev-patch end
 		$form->addItem($about_field);
 		
 		$message_field = new ilTextAreaInputGUI($this->lng->txt("message"), "message");
 		$message_field->setRows(10);
+		//gev-patch #2280 start
+		$message_field->setRequired(true);
+		//gev-patch end
 		$form->addItem($message_field);
 		
 		$attachment_select = $this->getAttachmentSelect();

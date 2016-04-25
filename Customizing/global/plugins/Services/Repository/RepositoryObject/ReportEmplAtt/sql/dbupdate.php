@@ -26,3 +26,12 @@ $ilDB->addPrimaryKey("rep_robj_rea", array("id"));
 		$ilDB->addTableColumn("rep_robj_rea", "video_link", $field_data);
 	}
 ?>
+
+<#3>
+<?php
+	$field_data = array('type' => 'clob', 'notnull' => false, 'default' =>'');
+
+	if(!$ilDB->tableColumnExists("rep_robj_rea", "pdf_link")) {
+		$ilDB->addTableColumn("rep_robj_rea", "pdf_link", $field_data);
+	}
+?>

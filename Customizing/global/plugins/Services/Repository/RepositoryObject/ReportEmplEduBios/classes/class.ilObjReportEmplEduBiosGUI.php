@@ -18,6 +18,7 @@ class ilObjReportEmplEduBiosGUI extends ilObjReportBaseGUI {
 	protected function prepareTitle($a_title) {
 		$a_title = parent::prepareTitle($a_title);
 		$a_title->image("GEV_img/ico-head-edubio.png");
+		$a_title->setTooltipText($this->gLng->txt("gev_rep_employee_edu_bios_desc"));
 		$a_title->setVideoLink($this->object->getVideoLink());
 		return $a_title;
 	}

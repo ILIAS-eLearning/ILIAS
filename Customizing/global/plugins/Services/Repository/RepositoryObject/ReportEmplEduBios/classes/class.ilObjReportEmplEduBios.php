@@ -13,8 +13,10 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 
 	public function __construct($ref_id = 0) {
 		parent::__construct($ref_id);
+		global $lng;
+		$this->gLng = $lng;
 	}
-	
+
 	protected function points_in_cert_year_sql($year) {
 		return   "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL ".($year-1)." YEAR "
 				."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL ".$year." YEAR)"
