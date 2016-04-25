@@ -46,9 +46,9 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 			->select("crs.end_date")
 			->select("crs.edu_program")
 			->from("hist_user usr")
-			->left_join("hist_usercoursestatus usrcrs")
+			->join("hist_usercoursestatus usrcrs")
 				->on("usr.user_id = usrcrs.usr_id AND usrcrs.hist_historic = 0")
-			->left_join("hist_course crs")
+			->join("hist_course crs")
 				->on("crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0")
 			->left_join("hist_userorgu orgu_all")
 				->on("orgu_all.usr_id = usr.user_id")
@@ -102,7 +102,9 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter("org_unit","orgu_filter.orgu_id",true,true);
-		$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
+		$this->orgu_filter->setFilterOptionsByArray(
+			array_unique(array_map(function($ref_id) {return ilObject::_lookupObjectId($ref_id);},
+									$this->user_utils->getOrgUnitsWhereUserCanViewEduBios())));
 
 		$filter	->dateperiod( "period"
 									, $this->plugin->txt("period")
@@ -139,7 +141,7 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 									 , "asc"
 									 , true
 									 )
-				->static_condition($this->gIldb->in("usr.user_id", $this->user_utils->getEmployees(), false, "integer"))
+				->static_condition($this->gIldb->in("usr.user_id", $this->user_utils->getEmployeesWhereUserCanViewEduBios(), false, "integer"))
 				->static_condition(" usr.hist_historic = 0")
 				->static_condition("( usrcrs.booking_status != '-empty-'"
 								  ." OR usrcrs.hist_historic IS NULL )")
