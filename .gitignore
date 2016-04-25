@@ -354,5 +354,11 @@ db_template_writer.php
 #orig files created during merges
 *.orig
 
+*~HEAD
+*.BACKUP.*
+*.REMOTE.*
+*.BASE.*
+*.LOCAL.*
+
 # /xml/
 /xml/*.bak
