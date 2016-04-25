@@ -431,7 +431,13 @@ class ilErrorHandling extends PEAR
 			}
 		}
 
-		return $prefix.$exception->getMessage()." in ".$exception->getFile()." on line ".$exception->getLine();
+		$msg = $prefix.$exception->getMessage()." in ".$exception->getFile()." on line ".$exception->getLine();
+
+		if (LOG_ERROR_TRACE) {
+			$msg .= "\n".$exception->getTraceAsString();
+		}
+
+		return $msg;
 	}
 
 } // END class.ilErrorHandling
