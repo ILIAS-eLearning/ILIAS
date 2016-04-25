@@ -15832,6 +15832,10 @@ buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Bestätigen
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Anfrage zurückziehen
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Anfrage bestätigen
 buddysystem#:#buddy_bs_action_not_possible#:#Aktion nicht möglich
+buddysystem#:#buddy_bs_action_already_linked#:#Die Kontaktanfrage für Benutzer '%s' wurde bereits bestätigt.
+buddysystem#:#buddy_bs_action_already_requested#:#Benutzer '%s' wurde bereits angefragt.
+buddysystem#:#buddy_bs_action_already_ignored#:#Die Kontaktanfrage von Benutzer '%s' wurde bereits ignoriert.
+buddysystem#:#buddy_bs_action_already_unlinked#:#Jeglicher Kontakt zu Benutzer '%s' wurde bereits gelöst.
 buddysystem#:#buddy_bs_state_linked#:#Vernetzt
 buddysystem#:#buddy_bs_state_linked_a#:#Vernetzt
 buddysystem#:#buddy_bs_state_linked_p#:#Vernetzt
