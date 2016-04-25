@@ -53,7 +53,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter('org_unit', 'orgu_id', true, true);
-		$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
+		$this->orgu_filter->setFilterOptionsAll();
 		$filter ->dateperiod( "period"
 							 , $this->plugin->txt("period")
 							 , $this->plugin->txt("until")
@@ -289,4 +289,5 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
 	}
+
 }
