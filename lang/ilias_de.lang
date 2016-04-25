@@ -55,9 +55,9 @@ administration#:#adm_locale_info#:#Die Locale-Einstellung beeinflusst die alphab
 administration#:#adm_nr_statements#:#Anzahl Aufrufe
 administration#:#adm_objects#:#Objekte
 administration#:#adm_predefined_settings#:#Vordefinierte Einstellungen
-administration#:#adm_rep_shorten_description#:#Beschreibungen kürzen
-administration#:#adm_rep_shorten_description_info#:#Bei Aktivierung werden alle Beschreibungen innerhalb der Objektlisten gekürzt.
-administration#:#adm_rep_shorten_description_length#:#Max. Länge
+administration#:#adm_rep_shorten_description#:#Maximale Länge für Beschreibungen
+administration#:#adm_rep_shorten_description_info#:#Wenn aktiviert, werden alle Beschreibungen in Objektlisten nur bis zu einer definierten Länge angezeigt.
+administration#:#adm_rep_shorten_description_length#:#Maximale Anzahl an Zeichen
 administration#:#adm_rep_tree_all_types#:#Alle Objekte
 administration#:#adm_rep_tree_all_types_info#:#Alle Objekttypen werden im Baum dargestellt.
 administration#:#adm_rep_tree_limit_grp_crs#:#Alle Objekte auf Anzeige in Kursen und Gruppen beschränken
