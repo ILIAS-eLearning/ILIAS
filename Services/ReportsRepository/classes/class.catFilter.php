@@ -1168,6 +1168,6 @@ class recursiveOrguFilter {
 	 * @return catReportQuery $query
 	 */
 	public function addToQuery(catReportQuery $query) {
-		return $query->wherqe($this->deliverQuery());
+		return $query->where($this->deliverQuery());
 	}
 }
