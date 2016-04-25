@@ -487,4 +487,9 @@ interface ilDBInterface {
 	 * @return mixed
 	 */
 	public function free($a_st);
+	/**
+	 * @param $a_word
+	 * @return bool
+	 */
+	public static function isReservedWord($a_word);
 }

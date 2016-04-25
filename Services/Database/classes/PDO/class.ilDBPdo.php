@@ -1133,4 +1133,16 @@ class ilDBPdo implements ilDBInterface {
 		 */
 		return $a_st->closeCursor();
 	}
+
+	/**
+	 * @param $a_word
+	 * @return bool
+	 */
+	public static function isReservedWord($a_word) {
+		require_once('./Services/Database/classes/class.ilDBConstants.php');
+
+		$mysql_reserved_words = ilDBConstants::getReserved();
+
+		return in_array(strtoupper($a_word), $mysql_reserved_words);
+	}
 }
