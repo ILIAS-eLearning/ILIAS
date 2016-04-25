@@ -1134,6 +1134,57 @@ class ilDBPdo implements ilDBInterface {
 		return $a_st->closeCursor();
 	}
 
+
+	/**
+	 * @param $a_name
+	 * @param $a_new_name
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function renameTable($a_name, $a_new_name) {
+		// check table name
+		try {
+			$this->checkTableName($a_new_name);
+		} catch (ilDatabaseException $e) {
+			throw new ilDatabaseException("ilDB Error: renameTable(" . $a_name . "," . $a_new_name . ")<br />" . $e->getMessage());
+		}
+
+		$this->manager->alterTable($a_name, array( "name" => $a_new_name ), false);
+
+		$query = "UPDATE abstraction_progress " . "SET table_name = " . $this->quote($a_new_name, 'text') . " " . "WHERE table_name = "
+		         . $this->quote($a_name, 'text');
+		$this->pdo->query($query);
+
+		return true;
+	}
+
+
+	/**
+	 * @param $a_name
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function checkTableName($a_name) {
+		if (!preg_match("/^[a-z]+[_a-z0-9]*$/", $a_name)) {
+			throw new ilDatabaseException('Table name must only contain _a-z0-9 and must start with a-z.');
+		}
+
+		if ($this->isReservedWord($a_name)) {
+			throw new ilDatabaseException("Invalid table name '" . $a_name . "' (Reserved Word).");
+		}
+
+		if (strtolower(substr($a_name, 0, 4)) == "sys_") {
+			throw new ilDatabaseException("Invalid table name '" . $a_name . "'. Name must not start with 'sys_'.");
+		}
+
+		if (strlen($a_name) > 22) {
+			throw new ilDatabaseException("Invalid table name '" . $a_name . "'. Maximum table identifer length is 22 bytes.");
+		}
+
+		return true;
+	}
+
+
 	/**
 	 * @param $a_word
 	 * @return bool
