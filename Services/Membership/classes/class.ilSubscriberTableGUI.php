@@ -80,8 +80,15 @@ class ilSubscriberTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt('subject'),'subject','15%');
 
 		$this->addColumn('','mail','10%');
-		
-		$this->addMultiCommand('confirmAssignSubscribers',$this->lng->txt('assign'));
+
+		if($a_parent_obj->object->getType() == "sess")
+		{
+			$this->addMultiCommand('confirmAssignSubscribers',$this->lng->txt('sess_accept_request'));
+		}
+		else{
+			$this->addMultiCommand('confirmAssignSubscribers',$this->lng->txt('assign'));
+		}
+
 		$this->addMultiCommand('confirmRefuseSubscribers',$this->lng->txt('refuse'));
 		$this->addMultiCommand('sendMailToSelectedUsers',$this->lng->txt('crs_mem_send_mail'));
 		
