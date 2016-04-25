@@ -1,6 +1,6 @@
 <?php
 
-class settingsCreator extends reportSettings {
+class settingsCreator extends reportSettingsContainer {
 	protected $obj;
 	protected $settings_id;
 

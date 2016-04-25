@@ -1,21 +1,19 @@
 <?php
 
-class reportSettings {
+class reportSettings extends reportSettingsContainer {
 
-	protected $settings;
-	protected $database;
-	protected $fnished;
+	protected $table_name;
 
 	public static function create() {
 		return new self;
 	}
 
-	public function setTable($table_name ) {
-
+	public function setTable($table_name) {
+		$this->table_name = $table_name;
 	}
 
-	public function table($table_name ) {
-
+	public function table() {
+		return $this->table_name;
 	}
 
 	public function setValue($setting_id, $value) {
@@ -23,41 +21,26 @@ class reportSettings {
 	}
 
 	public function defineSetting($setting_id) {
-
-	}
-
-	public function definitionFinished() {
-
-	}
-
-	public function value($setting_id) {
-
+		return new settingsCreator($this);
 	}
 
 	public function type($setting_id) {
-
+		return $this->settings[$setting_id]['type'];
 	}
 
 	public function name($setting_id) {
+		return $this->settings[$setting_id]['name'];
+	}
 
+	public function postprocessing($setting_id) {
+		return $this->settings[$setting_id]['postprocessing'];
 	}
 
 	public function settingIds() {
 		return array_keys($this->settings);
 	}
 
-	protected function addField($setting_id,array $setting_md) {
-
-	}
 }
 
-class settingsCreator extends reportSettings {
 
-	public function setting($setting_id) {
-		throw new reportSettingsException("impossible atm");
-	}
 
-	public function name($name) {
-
-	}
-}

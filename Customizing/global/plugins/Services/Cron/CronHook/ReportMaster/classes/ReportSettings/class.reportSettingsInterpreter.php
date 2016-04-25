@@ -1,7 +1,6 @@
 <?php
 
-
-class reportSettingsInterpreter {
+abstract class reportSettingsInterpreter {
 	public static $valid_formats =
 		array( 'integer', 'text', 'float', 'date', 'time');
 
