@@ -22,10 +22,12 @@ class SettingsTest extends PHPUnit_Framework_TestCase {
 			->setTable('table')
 			->defineSetting('id')
 				->withFormat('text')
-					->withPostprocessing(function ($val) {return $val;})
+				->withPostprocessing(function ($val) {return $val;})
+				->withName('id-foo')
 			->defineSetting('another_id')
-				->withGUI('double')
-					->withPostprocessing(function ($val) {return $val;})
+				->withFormat('float')
+				->withPostprocessing(function ($val) {return $val;})
+				->withName('another_id_foo')
 			->definitionFinished();
 		$ids = $settings->settingsIds();
 		$ref = array('id','another_id');
@@ -38,10 +40,12 @@ class SettingsTest extends PHPUnit_Framework_TestCase {
 			->setTable('table')
 			->defineSetting('id')
 				->withFormat('text')
-					->withPostprocessing(function ($val) {return $val;})
+				->withPostprocessing(function ($val) {return $val;})
+				->withName('id-foo')
 			->defineSetting('another_id')
 				->withFormat('float')
-					->withPostprocessing(function ($val) {return $val;})
+				->withPostprocessing(function ($val) {return $val;})
+				->withName('another_id_foo')
 			->definitionFinished();
 		$this->assertEqual(serialize(array("table" => "table",'id'=>'id_val','another_id'=>1.23)),
 			$db_access->store($settings,array('id'=>$this->db->quote('id_val','text'),'another_id'=>$this->db->quote(1.23,'float')))); 
@@ -59,7 +63,7 @@ class SettingsTest extends PHPUnit_Framework_TestCase {
 				->withFormat('float')
 					->withPostprocessing(function ($val) {return $val;})
 			->definitionFinished();
-		$this->assertEqual(serialize(array("table" => "table",'id'=>'id_val','another_id'=>1.23)),
+		$this->assertEqual(serialize(array('id'=>'id_val','another_id'=>1.23)),
 			$render->render($settings,array('id'=>'id_val','another_id'=>1.23))); 
 	}
 }
