@@ -387,7 +387,7 @@ assessment#:#ects_grade_c#:#generally sound work with a number of notable errors
 assessment#:#ects_grade_d_short#:#SATISFACTORY
 assessment#:#ects_grade_d#:#fair but with significant shortcomings
 assessment#:#ects_grade_e_short#:#SUFFICIENT
-assessment#:#ects_grade_e#:#performance meets the minimum criterion
+assessment#:#ects_grade_e#:#performance meets the minimum criteria
 assessment#:#ects_grade_f_short#:#FAIL
 assessment#:#ects_grade_f#:#considerable further work is required
 assessment#:#ects_grade_fx_short#:#FAIL
@@ -4713,7 +4713,7 @@ common#:#usr_agreement_empty#:#The agreement contains no text
 common#:#usr_agreement#:#User Agreement
 common#:#usr_edit#:#Edit User
 common#:#usr_filter_coursemember#:#Member of course
-common#:#usr_filter_empty_result#:#No users found that match the selected filter criterion
+common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria
 common#:#usr_filter_groupmember#:#Member of group
 common#:#usr_filter_lastlogin#:#Last login of user
 common#:#usr_filter_role#:#Assigned role
@@ -11400,8 +11400,8 @@ ecs#:#ecs_server_addr#:#Server Address
 ecs#:#ecs_activate#:#Activate
 ecs#:#ecs_deactivate#:#Deactivate
 ecs#:#ecs_not_configured#:#Not configured
-administration#:#user_criteria#:#Unique user criterion
-administration#:#user_criteria_desc#:#Unique user criterion that is used for test results import/export. This is needed to identify identical users on different ILIAS systems.
+administration#:#user_criteria#:#Unique user criteria
+administration#:#user_criteria_desc#:#Unique user criteria that is used for test results import/export. This is needed to identify identical users on different ILIAS systems.
 assessment#:#imported#:#imported
 ecs#:#ecs_tbl_import#:#Import
 ecs#:#ecs_tbl_export#:#Export
