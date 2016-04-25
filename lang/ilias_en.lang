@@ -15294,6 +15294,10 @@ buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Confirm
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
 buddysystem#:#buddy_bs_action_not_possible#:#Action not possible
+buddysystem#:#buddy_bs_action_already_linked#:#Already accepted the contact request from user '%s'.
+buddysystem#:#buddy_bs_action_already_requested#:#Already requested user '%s'.
+buddysystem#:#buddy_bs_action_already_ignored#:#Already ignored user '%s'.
+buddysystem#:#buddy_bs_action_already_unlinked#:#The contact state for user '%s' is already unlinked.
 buddysystem#:#buddy_bs_state_linked#:#Linked
 buddysystem#:#buddy_bs_state_linked_a#:#Linked
 buddysystem#:#buddy_bs_state_linked_p#:#Linked
