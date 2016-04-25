@@ -4604,7 +4604,7 @@ common#:#udf_no_name_given#:#Please enter a field name.
 common#:#udf_required_requires_visib_reg#:#When field is set to ‘required’, it must be set to ‘visible in registration’
 common#:#udf_type_date#:#Date
 common#:#udf_type_datetime#:#Date and Time
-common#:#udf_type_select#:#Selection List (Drop-Down)
+common#:#udf_type_select#:#Selection List (Single Choice)
 common#:#udf_type_text#:#Text Field (One Line)
 common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)
 common#:#udf_update_select_field#:#Edit Select Box
@@ -15376,7 +15376,7 @@ prtf#:#prtf_blog_page_created#:#Blog has been added.
 wiki#:#wiki_adv_md_hidden#:#This block is currently hidden.
 wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below.
 content#:#cont_pc_amdpl#:#Page List
-meta#:#udf_type_selectmulti#:#Selection List (Checkboxes)
+meta#:#udf_type_selectmulti#:#Selection List (Multiple Choice)
 wiki#:#wiki_no_page_found#:#No wiki page has been found for search term '$1'.
 wiki#:#wiki_pages_found#:#The following pages match your search term '$1'.
 wiki#:#wiki_no_search_term#:#No search term has been entered. All pages of the wiki are listed below.
