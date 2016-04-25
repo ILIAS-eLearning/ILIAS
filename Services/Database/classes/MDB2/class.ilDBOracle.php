@@ -21,6 +21,11 @@ class ilDBOracle extends ilDB
 	const LIMIT_EXPRESSIONS_IN_LIST = 1000;
 
 
+	public function loadModule($module) {
+		// TODO: Implement loadModule() method.
+	}
+
+
 	/**
 	* Get DSN.
 	*/
