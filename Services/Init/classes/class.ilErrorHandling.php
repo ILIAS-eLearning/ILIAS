@@ -361,7 +361,7 @@ class ilErrorHandling extends PEAR
 		return new CallbackHandler(function(Exception $exception, Inspector $inspector, Run $run) {
 			require_once("Services/Utilities/classes/class.ilUtil.php");
 			ilUtil::sendFailure($exception->getMessage(), true);
-			ilUtil::redirect("error.php");
+			//ilUtil::redirect("error.php");
 		});
 	}
 
@@ -402,7 +402,7 @@ class ilErrorHandling extends PEAR
 			 */
 			global $ilLog;
 
-			$log_message = $self->logMessageFor($exception);
+			$log_message = $self->logMessageFor($exception, (bool)LOG_ERROR_TRACE);
 
 			if(is_object($ilLog) && $ilLog->enabled) {
 				$ilLog->write($log_message);
@@ -419,21 +419,23 @@ class ilErrorHandling extends PEAR
 	 * TODO: Can be made protected when support for PHP 5.3. is dropped.
 	 *
 	 * @param	$exception	Exception
+	 * @param	$log_trace	bool
 	 * @return	string
 	 */
-	public function logMessageFor(Exception $exception) {
+	public function logMessageFor(Exception $exception, $log_trace) {
+		assert('is_bool($log_trace)');
 		$prefix = "PHP Error: ";
 		if ($exception instanceof \Whoops\Exception\ErrorException) {
 			switch ($exception->getCode()) {
 				case E_ERROR:
 				case E_USER_ERROR:
-					$prefix = "PHP Fatal Error: ";
+					$prefix = "PHP Fatal error: ";
 			}
 		}
 
 		$msg = $prefix.$exception->getMessage()." in ".$exception->getFile()." on line ".$exception->getLine();
 
-		if (LOG_ERROR_TRACE) {
+		if ($log_trace) {
 			$msg .= "\n".$exception->getTraceAsString();
 		}
 
