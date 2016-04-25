@@ -359,6 +359,14 @@ class ilErrorHandling extends PEAR
 	 */
 	protected function defaultHandler() {
 		return new CallbackHandler(function(Exception $exception, Inspector $inspector, Run $run) {
+			if ($exception instanceof \Whoops\Exception\ErrorException
+			and $exception->getCode() == E_ERROR) {
+				global $tpl, $lng, $tree;
+				$_SESSION["failure"] = $exception->getMessage();
+				include("error.php");
+				exit();
+			}
+
 			require_once("Services/Utilities/classes/class.ilUtil.php");
 			ilUtil::sendFailure($exception->getMessage(), true);
 			ilUtil::redirect("error.php");
