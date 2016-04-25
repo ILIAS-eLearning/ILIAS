@@ -1696,9 +1696,9 @@ assessment#:#feedback_all#:#Zeige Rückmeldungen zu allen Antwortmöglichkeiten.
 assessment#:#feedback_checked#:#Zeige Rückmeldungen zu ausgewählten Antworten des Teilnehmers.
 assessment#:#feedback_correct_sc_mc#:#Zeige Rückmeldung für richtige Antworten (richtige Antworten sind solche, für die es bei Auswahl positive Punkte gibt).
 assessment#:#feedback_correct_kprim#:#Zeige Rückmeldung für korrekte Antworten (korrekte Antworten sind solche, bei denen die positive Option zu wählen ist).
-assessment#:#tst_add_quest_cont_edit_mode#:#Bearbeitungsmodus für zusätzliche Frageninhalte
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Standard-Bearbeitungsmodus für zusätzliche Frageninhalte
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Bearbeitung zusätzlicher Frageninhalte mit dem ILIAS-Seiteneditor
+assessment#:#tst_add_quest_cont_edit_mode#:#Editor für Rückmeldungen und Lösungshinweise
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich-Text-Editor für das Editieren von Rückmeldungen und Lösungshinweisen nutzen
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ILIAS-Seiteneditor für das Editieren von Rückmeldungen und Lösungshinweisen nutzen
 assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
 assessment#:#enable_examview#:#Übersicht gegebener Antworten
@@ -4430,8 +4430,8 @@ common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerverwaltung
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#obj_webr#:#Weblink
-common#:#obj_webr_duplicate#:#Weblinksammlung kopieren
-common#:#obj_webr_select#:#-- Bitte wählen Sie eine Weblinksammlung aus --
+common#:#obj_webr_duplicate#:#Weblink-Sammlung kopieren
+common#:#obj_webr_select#:#-- Bitte wählen Sie eine Weblink-Sammlung aus --
 common#:#obj_wfld#:#Ordner
 common#:#obj_wiki#:#Wiki
 common#:#object#:#Objekt
@@ -5471,8 +5471,8 @@ common#:#webr#:#Weblink
 common#:#webr_active#:#Aktiv
 common#:#webr_add#:#Weblink anlegen
 common#:#webr_add_item#:#Weblink hinzufügen
-rbac#:#webr_copy#:#Weblinksammlung kopieren
-rbac#:#webr_delete#:#Weblinksammlung löschen
+rbac#:#webr_copy#:#Weblink-Sammlung kopieren
+rbac#:#webr_delete#:#Weblink-Sammlung löschen
 common#:#webr_delete_items#:#Weblink löschen oder verschieben
 common#:#webr_deleted_items#:#Der/die Weblink(s) wurde(n) gelöscht.
 common#:#webr_disable_check#:#Überprüfung deaktivieren
@@ -5481,10 +5481,10 @@ common#:#webr_edit_item#:#Weblink bearbeiten
 rbac#:#webr_edit_permission#:#Rechteeinstellungen ändern
 common#:#webr_fillout_all#:#Bitte füllen Sie alle Felder aus.
 common#:#webr_item_updated#:#Die Änderungen wurden übernommen
-common#:#webr_join#:#Weblinksammlung abonnieren
+common#:#webr_join#:#Weblink-Sammlung abonnieren
 common#:#webr_last_check#:#Letzte Überprüfung
 common#:#webr_last_check_table#:#Letzte Überprüfung:
-common#:#webr_leave#:#Abonnement der Weblinksammlung aufheben
+common#:#webr_leave#:#Abonnement der Weblink-Sammlung aufheben
 common#:#webr_modified_items#:#Die Änderungen wurden übernommen.
 common#:#webr_never_checked#:#Noch nicht überprüft
 common#:#webr_new#:#Neuen Weblink anlegen
@@ -12226,10 +12226,10 @@ user#:#usr_public_profile_global_info#:#Ihr Profil ist ohne Einschränkung im In
 user#:#usr_public_profile_logged_in#:#Für angemeldete Benutzer sichtbar
 user#:#usr_public_profile_logged_in_info#:#Ihre Angaben sind nur für Benutzer sichtbar, die in ILIAS eingeloggt sind.
 webr#:#webr_active#:#Aktiv
-webr#:#webr_container_info#:#Da diese Weblinksammlung mehr als einen Weblink enthalten soll, sollten Sie einen Titel und eventuell einen Beschreibungstext für die Darstellung im Magazin vergeben.
+webr#:#webr_container_info#:#Da diese Weblink-Sammlung mehr als einen Weblink enthalten soll, sollten Sie einen Titel und eventuell einen Beschreibungstext für die Darstellung im Magazin vergeben.
 webr#:#webr_deactivate#:#Weblink deaktivieren
 webr#:#webr_edit_links#:#Weblinks bearbeiten
-webr#:#webr_edit_list#:#Weblinksammlung bearbeiten
+webr#:#webr_edit_list#:#Weblink-Sammlung bearbeiten
 webr#:#webr_edit_settings#:#Einstellungen bearbeiten
 webr#:#webr_imort#:#Weblink importieren
 webr#:#webr_import#:#Weblink importieren
@@ -12237,8 +12237,8 @@ webr#:#webr_inactive_success#:#Der Weblink wurde deaktiviert.
 webr#:#webr_link_added#:#Ein neuer Weblink wurde angelegt.
 webr#:#webr_link_target#:#Ziel
 webr#:#webr_link_title#:#Titel des Weblinks
-webr#:#webr_list_desc#:#Beschreibung der Weblinksammlung
-webr#:#webr_list_title#:#Titel der Weblinksammlung
+webr#:#webr_list_desc#:#Beschreibung der Weblink-Sammlung
+webr#:#webr_list_title#:#Titel der Weblink-Sammlung
 webr#:#webr_new_link#:#Neuen Weblink anlegen
 webr#:#webr_sort_manual#:#Manuelle Sortierung
 webr#:#webr_sort_title#:#Alphabetisch nach Titel
@@ -12402,7 +12402,7 @@ ecs#:#ecs_cat_mapping_by_type_info#:#Wählen Sie diese Einstellung, um nach Obje
 ecs#:#ecs_err_invalid_by_type#:#Wählen Sie einen Objekt-Typen, um danach zuzuordnen.
 common#:#obj_rcat#:#ECS-Kategorie
 ecs#:#ecs_server_deleted#:#Server gelöscht
-blog#:#blog_edit_date#:#Datum editieren
+blog#:#blog_edit_date#:#Datum bearbeiten
 blog#:#blog_edit_date_info#:#Der Status der Veröffentlichung hängt nicht von diesem Datum ab.
 certificate#:#certificate_file_basename#:#Zertifikat
 content#:#cont_captcha_verification#:#Benutzerverifikation

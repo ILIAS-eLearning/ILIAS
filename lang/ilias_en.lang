@@ -1516,9 +1516,9 @@ assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
 assessment#:#feedback_correct_sc_mc#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
 assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).
-assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Default Editing Mode for Additional Question Content
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Editor
+assessment#:#tst_add_quest_cont_edit_mode#:#Editor for Feedack and Hints
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Use rich-text editor for editing feedback and hints
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Use ILIAS page editor for editing feedback and hints
 assessment#:#tst_question_feedback_edit_page#:#Edit Content
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
 assessment#:#enable_examview#:#Overview of Answers Given
@@ -1940,13 +1940,13 @@ common#:#administrator#:#Administrator
 rbac#:#adopt_perm_from_template#:#Copy Permission Settings
 common#:#adopt#:#Adopt
 common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing
-common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor
+common#:#advanced_editing_allow_javascript_editor#:#Enable a rich-text editor
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test and Assessment tool
 common#:#advanced_editing_frm_post_settings#:#Forum Post Settings
 common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.
 common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing
 common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings
-common#:#advanced_editing_no_rte#:#Do not use rich text editing
+common#:#advanced_editing_no_rte#:#Do not use rich-text editing
 common#:#advanced_editing_rep_page_editing_desc#:#This feature allows adding text/media to pages of a category, course, group or folder. If deactivated, existing content will be hidden.
 common#:#advanced_editing_rep_page_editing#:#Enable Content Editing in Repository
 common#:#advanced_editing_required_tags#:#The following HTML tags are required: %s
@@ -4209,8 +4209,8 @@ rbac#:#root_visible#:#<i>Repository - Home</i> is visible
 rbac#:#root_write#:#User can edit settings of <i>Repository - Home</i> and manage content
 common#:#row#:#Row
 common#:#rows#:#Rows
-common#:#rte_editor_disabled#:#Rich Text Editor disabled
-common#:#rte_editor_enabled#:#Rich Text Editor enabled
+common#:#rte_editor_disabled#:#Rich-text editor disabled
+common#:#rte_editor_enabled#:#Rich-text editor enabled
 common#:#sahs_added#:#SCORM Learning Module added
 rbac#:#sahs_copy#:#User can copy SCORM learning module
 common#:#sahs_create#:#Create SCORM Learning Module
@@ -10988,9 +10988,9 @@ blog#:#blog_add_posting#:#Add Posting
 blog#:#blog_permanent_link#:#Permalink
 blog#:#blog_comments#:#Comments
 blog#:#blog_list_more#:#more
-blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the following entry?
-blog#:#blog_number_users_notes_or_comments#:#Number of users that attached notes or comments to this entry
-blog#:#blog_posting_deleted#:#The entry has been deleted.
+blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the following posting?
+blog#:#blog_number_users_notes_or_comments#:#Number of users that attached notes or comments to this posting
+blog#:#blog_posting_deleted#:#Posting has been deleted.
 blog#:#blog_enable_notes#:#Public Comments
 sahs#:#sahs_insert_ass_inside_chap#:#Insert Asset (inside chapter)
 sahs#:#sahs_insert_sco_inside_chap#:#Insert SCO (inside chapter)
@@ -11376,8 +11376,8 @@ survey#:#survey_question_pool_title#:#Pool Title
 common#:#allow_user_toggle_noti#:#Member is allowed to deactivate notification
 cntr#:#container_import_zip_file_invalid#:#The uploaded file is not a valid ILIAS export file. To upload a directory structure please use a file object.
 cntr#:#cntr_adopt_content#:#Adopt Content
-auth#:#login_page_switch_rte#:#Use Rich-Text-Editor
-auth#:#login_page_switch_ipe#:#Use ILIAS Page Editor
+auth#:#login_page_switch_rte#:#Use rich-text editor
+auth#:#login_page_switch_ipe#:#Use ILIAS page editor
 auth#:#login_page_editor_switched#:#The active page editor has been changed
 auth#:#login_page_activate#:#Activate Editor for Selected Languages
 content#:#cont_update_login_page#:#Edit Login Page Element
