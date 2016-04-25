@@ -67,7 +67,7 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter("org_unit","orgu_id",true,true);
-		$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
+		$this->orgu_filter->setFilterOptionsAll();
 		$filter 		->dateperiod( "period"
 									, $this->plugin->txt("period")
 									, $this->plugin->txt("until")
@@ -159,12 +159,11 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 	}
 
 	protected function buildQuery($query) {
-		$rgu_filter_query = 	
+		$orgu_filter_query =
 				"JOIN (SELECT usr_id  \n"
 					."	FROM hist_userorgu \n"
 					." 	WHERE ".$this->orgu_filter->deliverQuery()." \n"
 					."	AND hist_historic = 0 AND `action` >= 0 GROUP BY usr_id) as orgu ON usrcrs.usr_id = orgu.usr_id \n";
-
 		$query 		->select("crs.template_title")
 					->select("crs.edu_program");
 		foreach( $this->sum_parts as $title => $query_parts) {
@@ -192,12 +191,21 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 			" FROM ( \n"
 			."	SELECT usrcrs.usr_id, crs.crs_id, usrcrs.booking_status, \n"
 			."		usrcrs.participation_status, crs.type \n"
-			."		FROM `hist_usercoursestatus` usrcrs \n" 
-			."			JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id \n"
-			."			LEFT JOIN hist_userorgu orgu ON orgu.usr_id = usrcrs.usr_id \n"
-			."		".$this->queryWhere()
-			." 		AND ".$this->orgu_filter->deliverQuery()
-			."		GROUP BY usrcrs.usr_id, crs.crs_id"
+			."		FROM  `hist_course` crs \n"
+			."			JOIN `hist_usercoursestatus` usrcrs  ON usrcrs.crs_id = crs.crs_id \n";
+		if($this->orgu_filter->getSelection()) {
+			$sum_sql .=
+			"			JOIN hist_userorgu orgu ON orgu.usr_id = usrcrs.usr_id \n";
+		}
+		$sum_sql .=
+			"		".$this->queryWhere();
+		if($this->orgu_filter->getSelection()) {
+			$sum_sql .=
+			" 		AND ".$this->orgu_filter->deliverQuery()
+			."		AND orgu.action >=0 AND orgu.hist_historic = 0";
+		}
+		$sum_sql .=
+			"		GROUP BY usrcrs.usr_id, crs.crs_id"
 			.") as temp";
 		return $sum_sql;
 	}
