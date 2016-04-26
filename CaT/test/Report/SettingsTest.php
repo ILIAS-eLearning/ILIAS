@@ -1,7 +1,7 @@
 <?php
 
-require_once "./Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.reportSettings.php";
-
+require_once "./Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.settingFactory.php";
+require_once "./Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/class.ilReportMasterPlugin.php";
 /* Copyright (c) 2016 Stefan Hecken, Extended GPL, see docs/LICENSE */
 
 class SettingsTest extends PHPUnit_Framework_TestCase {
@@ -13,57 +13,28 @@ class SettingsTest extends PHPUnit_Framework_TestCase {
 		ilUnitUtil::performInitialisation();
 		global $ilDB;
 		$this->db = $ilDB;
-
+		$this->s_f = new settingFactory($this->db);
+		$this->master_plugin = new ilReportMasterPlugin();
 		date_default_timezone_set("Europe/Berlin");
 	}
 
 	public function test_Create() {
-		$settings = reportSettings::create()
-			->setTable('table')
-			->defineSetting('id')
-				->withFormat('text')
-				->withPostprocessing(function ($val) {return $val;})
-				->withName('id-foo')
-			->defineSetting('another_id')
-				->withFormat('float')
-				->withPostprocessing(function ($val) {return $val;})
-				->withName('another_id_foo')
-			->definitionFinished();
-		$ids = $settings->settingsIds();
-		$ref = array('id','another_id');
-		$this->assertTrue(count(array_diff($ref,$ids)) === 0 && count(array_diff($ids,$ref)) === 0);
-	}
-
-	public function test_DB() {
-		$db_access = new reportSettingsDBAccess($this->db);
-		$settings = reportSettings::create()
-			->setTable('table')
-			->defineSetting('id')
-				->withFormat('text')
-				->withPostprocessing(function ($val) {return $val;})
-				->withName('id-foo')
-			->defineSetting('another_id')
-				->withFormat('float')
-				->withPostprocessing(function ($val) {return $val;})
-				->withName('another_id_foo')
-			->definitionFinished();
-		$this->assertEqual(serialize(array("table" => "table",'id'=>'id_val','another_id'=>1.23)),
-			$db_access->store($settings,array('id'=>$this->db->quote('id_val','text'),'another_id'=>$this->db->quote(1.23,'float')))); 
-	}
-
-	public function test_Render() {
-		$form = new ilPropertyFormGUI();
-		$render = new reportSettingsRender($form);
-		$settings = reportSettings::create()
-			->setTable('table')
-			->defineSetting('id')
-				->withFormat('text')
-					->withPostprocessing(function ($val) {return $val;})
-			->defineSetting('another_id')
-				->withFormat('float')
-					->withPostprocessing(function ($val) {return $val;})
-			->definitionFinished();
-		$this->assertEqual(serialize(array('id'=>'id_val','another_id'=>1.23)),
-			$render->render($settings,array('id'=>'id_val','another_id'=>1.23))); 
+		$settings =	$this->s_f->reportSettings('rep_master_data')
+							->addSetting($this->s_f
+											->settingBool('is_online',"is_online_name")
+											)
+							->addSetting($this->s_f
+											->settingString('video_link',"pdf_link_name")
+											->setFromForm(function ($string) {
+													if(preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1) {
+														return $string;
+													}
+													return 'https://'.$string;
+												})
+											);
+		$name = $settings->setting('is_online')->name();
+		$redid = call_user_func($settings->setting('video_link')->fromForm(),'www.google.de');
+		$this->assertEquals($name, "is_online_name");
+		$this->assertEquals($redid, 'https://www.google.de');
 	}
 }
