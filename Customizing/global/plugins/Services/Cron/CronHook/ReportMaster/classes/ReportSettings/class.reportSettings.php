@@ -1,46 +1,39 @@
 <?php
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.reportSettingsException.php';
 
-class reportSettings extends reportSettingsContainer {
+class reportSettings {
 
 	protected $table_name;
+	protected $settings;
+	protected $db;
 
-	public static function create() {
-		return new self;
-	}
-
-	public function setTable($table_name) {
+	public function __construct($table_name, $db) {
+		if(!$db->tableExists($table_name)) {
+			throw new reportSettingsException("invalit value for table name, table $table_name does not exist");
+		}
+		$this->db = $db;
 		$this->table_name = $table_name;
+		$this->settings = array();
 	}
 
 	public function table() {
 		return $this->table_name;
 	}
 
-	public function setValue($setting_id, $value) {
-
+	public function addSetting(setting $setting) {
+		$id = $setting->id();
+		if(!$this->db->tableColumnExists($this->table_name, $id)) {
+			throw new reportSettingsException("invalid value for id, column $id in table $this->table_name does not exist");
+		}
+		$this->settings[$id] = $setting;
+		return $this;
 	}
 
-	public function defineSetting($setting_id) {
-		return new settingsCreator($this);
-	}
-
-	public function type($setting_id) {
-		return $this->settings[$setting_id]['type'];
-	}
-
-	public function name($setting_id) {
-		return $this->settings[$setting_id]['name'];
-	}
-
-	public function postprocessing($setting_id) {
-		return $this->settings[$setting_id]['postprocessing'];
+	public function setting($id) {
+		return $this->settings[$id];
 	}
 
 	public function settingIds() {
 		return array_keys($this->settings);
 	}
-
 }
-
-
-
