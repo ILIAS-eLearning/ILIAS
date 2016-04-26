@@ -42,7 +42,10 @@ class ilParticipationStatusTableGUI extends ilTable2GUI
 		$this->may_write = (bool)$a_may_write;
 		$this->invalid = $a_invalid;
 		
-		$this->addColumn($this->lng->txt("name"), "name");
+		//gev-patch #2286 start
+		$this->addColumn($this->lng->txt("lastname"), "lastname");
+		$this->addColumn($this->lng->txt("firstname"), "firstname");
+		//gev-patch end
 		$this->addColumn($this->lng->txt("login"), "login");
 		$this->addColumn($this->lng->txt("objs_orgu"), "org");
 		$this->addColumn($this->lng->txt("ptst_admin_status"), "status");
@@ -98,9 +101,11 @@ class ilParticipationStatusTableGUI extends ilTable2GUI
 				$item["points"] = 0;
 			}
 			
+			//gev-patch #2286 start
 			$data[$item["user_id"]] = array(
 				"id" => $item["user_id"]
-				,"name" => $item["lastname"].", ".$item["firstname"]
+				,"lastname" => $item["lastname"]
+				,"firstname" => $item["firstname"]
 				,"login" => $item["login"]			
 				,"org" => $item["org_unit"]
 				,"org_txt" => $item["org_unit_txt"]
@@ -108,6 +113,7 @@ class ilParticipationStatusTableGUI extends ilTable2GUI
 				,"cpoints" => $item["points"]						
 				,"changed_by_txt" => "-"					
 			);
+			//gev-patch end
 			
 			if($item["changed_by"])
 			{
@@ -135,22 +141,25 @@ class ilParticipationStatusTableGUI extends ilTable2GUI
 	 * @param array $a_set
 	 */
 	protected function fillRow($a_set)
-	{										
-		$this->tpl->setVariable("TXT_NAME", $a_set["name"]);		
-		$this->tpl->setVariable("TXT_LOGIN", $a_set["login"]);		
-		$this->tpl->setVariable("TXT_ORG", $a_set["org_txt"]);	
-		$this->tpl->setVariable("TXT_CHANGED_BY", $a_set["changed_by_txt"]);	
-		
+	{
+		//gev-patch #2286 start
+		$this->tpl->setVariable("TXT_LASTNAME", $a_set["lastname"]);
+		$this->tpl->setVariable("TXT_FIRSTNAME", $a_set["firstname"]);
+		//gev-patch end
+		$this->tpl->setVariable("TXT_LOGIN", $a_set["login"]);
+		$this->tpl->setVariable("TXT_ORG", $a_set["org_txt"]);
+		$this->tpl->setVariable("TXT_CHANGED_BY", $a_set["changed_by_txt"]);
+
 		if(!$this->may_write)
 		{
 			$this->tpl->setCurrentBlock("read_only_bl");
-			$this->tpl->setVariable("STATUS_STATIC", $this->status->statusToString($a_set["status"]));	
-			$this->tpl->setVariable("POINTS_STATIC", $a_set["cpoints"]);	
+			$this->tpl->setVariable("STATUS_STATIC", $this->status->statusToString($a_set["status"]));
+			$this->tpl->setVariable("POINTS_STATIC", $a_set["cpoints"]);
 			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock("option_bl");		
+			$this->tpl->setCurrentBlock("option_bl");
 			foreach($this->status->getValidStatus(true) as $value => $txt)
 			{
 				/* :TODO: cannot return to not set?
@@ -169,20 +178,20 @@ class ilParticipationStatusTableGUI extends ilTable2GUI
 				
 				$this->tpl->parseCurrentBlock();
 			}
-			
-			$this->tpl->setCurrentBlock("edit_bl");		
-			$this->tpl->setVariable("ID", $a_set["id"]);			
-			$this->tpl->setVariable("POINTS", $a_set["cpoints"]);	
-			$this->tpl->setVariable("PMAX", strlen($this->helper->getMaxCreditPoints()));							
+
+			$this->tpl->setCurrentBlock("edit_bl");
+			$this->tpl->setVariable("ID", $a_set["id"]);
+			$this->tpl->setVariable("POINTS", $a_set["cpoints"]);
+			$this->tpl->setVariable("PMAX", strlen($this->helper->getMaxCreditPoints()));
 			
 			if(is_array($this->invalid["points"]) &&
 				in_array($a_set["id"], $this->invalid["points"]))
 			{
 				$this->tpl->setVariable("POINTS_ALERT", ' style="border-color: #C04000;"');
 			}
-							
+
 			$this->tpl->parseCurrentBlock();
-		}	
+		}
 	}
 }
 
