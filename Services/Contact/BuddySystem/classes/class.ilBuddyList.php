@@ -5,6 +5,7 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemRelationRe
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemRelationCollection.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemRelation.php';
 require_once 'Services/Contact/BuddySystem/exceptions/class.ilBuddySystemException.php';
+require_once 'Services/Contact/BuddySystem/exceptions/class.ilBuddySystemRelationStateAlreadyGivenException.php';
 require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemLinkedRelationState.php';
 require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemUnlinkedRelationState.php';
 require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRequestedRelationState.php';
