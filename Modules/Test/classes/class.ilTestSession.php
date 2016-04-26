@@ -80,6 +80,8 @@ class ilTestSession
 	var $submittedTimestamp;
 
 	private $lastFinishedPass;
+
+	private $lastStartedPass;
 	
 	private $objectiveOrientedContainerId;
 
@@ -105,6 +107,7 @@ class ilTestSession
 		$this->ref_id = 0;
 		$this->tstamp = 0;
 
+		$this->lastStartedPass = null;
 		$this->lastFinishedPass = null;
 		$this->objectiveOrientedContainerId = 0;
 	}
@@ -152,6 +155,7 @@ class ilTestSession
 				$this->submittedTimestamp = $row["submittimestamp"];
 				$this->tstamp = $row["tstamp"];
 
+				$this->setLastStartedPass($row['last_started_pass']);
 				$this->setLastFinishedPass($row['last_finished_pass']);
 				$this->setObjectiveOrientedContainerId((int)$row['objective_container']);
 
@@ -183,18 +187,13 @@ class ilTestSession
 						'submittimestamp' => array('timestamp', strlen($this->getSubmittedTimestamp()) ? $this->getSubmittedTimestamp() : NULL),
 						'tstamp' => array('integer', time()),
 						'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
+						'last_started_pass' => array('integer', $this->getLastStartedPass()),
 						'objective_container' => array('integer', (int)$this->getObjectiveOrientedContainerId())
 					),
 					array(
 						'active_id' => array('integer', $this->getActiveId())
 					)
 				);
-
-				// update learning progress
-				include_once("./Modules/Test/classes/class.ilObjTestAccess.php");
-				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-				ilLPStatusWrapper::_updateStatus(ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
-					ilObjTestAccess::_getParticipantId($this->active_id));
 			}
 			else
 			{
@@ -215,15 +214,10 @@ class ilTestSession
 						'submittimestamp' => array('timestamp', $submittedTs),
 						'tstamp' => array('integer', time()),
 						'objective_container' => array('integer', (int)$this->getObjectiveOrientedContainerId()),
+						'last_started_pass' => array('integer', (int) $this->getLastStartedPass())
 					));
 
 					$this->active_id = $next_id;
-
-					// update learning progress
-					include_once("./Modules/Test/classes/class.ilObjTestAccess.php");
-					include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-					ilLPStatusWrapper::_updateStatus(ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
-						$this->getUserId());
 				}
 			}
 		}
@@ -244,18 +238,13 @@ class ilTestSession
 					'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL),
 					'tstamp' => array('integer', time()-10),
 					'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
+					'last_started_pass' => array('integer', $this->getPass()),
 					'objective_container' => array('integer', (int)$this->getObjectiveOrientedContainerId())
 				),
 				array(
 					'active_id' => array('integer', $this->getActiveId())
 				)
 			);
-
-			// update learning progress
-			include_once("./Modules/Test/classes/class.ilObjTestAccess.php");
-			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-			ilLPStatusWrapper::_updateStatus(ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
-				ilObjTestAccess::_getParticipantId($this->getActiveId()));
 		}
 		else
 		{
@@ -276,24 +265,14 @@ class ilTestSession
 						'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL),
 						'tstamp' => array('integer', time()-10),
 						'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
+						'last_started_pass' => array('integer', $this->getPass()),
 						'objective_container' => array('integer', (int)$this->getObjectiveOrientedContainerId())
 					)
 				);
 				$this->active_id = $next_id;
 
-				// update learning progress
-				include_once("./Modules/Test/classes/class.ilObjTestAccess.php");
-				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-				ilLPStatusWrapper::_updateStatus(ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
-					$this->getUserId());
 			}
 		}
-		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
-		include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
-		ilLearningProgress::_tracProgress($this->getUserId(),
-										  ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
-										  $this->getRefId(),
-										  'tst');
 	}
 	
 	function loadTestSession($test_id, $user_id = "", $anonymous_id = "")
@@ -343,6 +322,7 @@ class ilTestSession
 			$this->submittedTimestamp = $row["submittimestamp"];
 			$this->tstamp = $row["tstamp"];
 
+			$this->setLastStartedPass($row['last_started_pass']);
 			$this->setLastFinishedPass($row['last_finished_pass']);
 			$this->setObjectiveOrientedContainerId((int)$row['objective_container']);
 		}
@@ -377,6 +357,7 @@ class ilTestSession
 			$this->submittedTimestamp = $row["submittimestamp"];
 			$this->tstamp = $row["tstamp"];
 
+			$this->setLastStartedPass($row['last_started_pass']);
 			$this->setLastFinishedPass($row['last_finished_pass']);
 			$this->setObjectiveOrientedContainerId((int)$row['objective_container']);
 		}
@@ -480,6 +461,22 @@ class ilTestSession
 	public function getObjectiveOrientedContainerId()
 	{
 		return $this->objectiveOrientedContainerId;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getLastStartedPass()
+	{
+		return $this->lastStartedPass;
+	}
+
+	/**
+	 * @param int $lastStartedPass
+	 */
+	public function setLastStartedPass($lastStartedPass)
+	{
+		$this->lastStartedPass = $lastStartedPass;
 	}
 
 	public function isObjectiveOriented()

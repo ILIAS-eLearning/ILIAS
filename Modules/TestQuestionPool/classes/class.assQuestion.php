@@ -1227,7 +1227,7 @@ abstract class assQuestion
 			$processLocker->releaseUserTestResultUpdateLock();
 		}
 	}
-
+	
 	/** @TODO Move this to a proper place. */
 	public static function _updateTestPassResults($active_id, $pass, $obligationsEnabled = false, ilAssQuestionProcessLocker $processLocker = null, $test_obj_id = null)
 	{

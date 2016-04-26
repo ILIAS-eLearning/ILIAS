@@ -207,6 +207,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		);
 		$_SESSION["active_time_id"] = $active_time_id;
 
+		$this->updateLearningProgressOnTestStart();
+
 		$sequenceElement = $this->testSequence->getFirstSequence();
 
 		$this->ctrl->setParameter($this, 'sequence', $sequenceElement);
@@ -218,6 +220,15 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+	}
+	
+	protected function updateLearningProgressOnTestStart()
+	{
+		global $ilUser;
+
+		require_once ('./Modules/Test/classes/class.ilObjTestAccess.php');
+		require_once('./Services/Tracking/classes/class.ilLPStatusWrapper.php');
+		ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
 	}
 	
 	private function isValidSequenceElement($sequenceElement)

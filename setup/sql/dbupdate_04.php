@@ -15074,3 +15074,15 @@ if(!$ilDB->tableColumnExists('tst_tests', 'ending_time') && $ilDB->tableColumnEx
 	$ilDB->renameTableColumn('tst_tests', 'ending_time_tmp', 'ending_time');
 }
 ?>
+<#4905>
+<?php
+if( !$ilDB->tableColumnExists('tst_active', 'last_started_pass') )
+{
+	$ilDB->addTableColumn('tst_active', 'last_started_pass', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
