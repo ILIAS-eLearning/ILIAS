@@ -8,6 +8,7 @@ require_once 'Services/CaTUIComponents/classes/class.catTitleGUI.php';
 require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
 require_once("Services/ReportsRepository/interfaces/interface.ExcelWriter.php");
+require_once("Customizing/global/plugin/Services/Cron/CronHook/ReportMaster/classes/ReportsSettings/class.reportSettingsFormHandler.php");
 
 abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 
@@ -28,7 +29,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->gLog = $ilLog;
 		$this->gAccess = $ilAccess;
 		$this->gTabs = $ilTabs;
-
+		$this->settings_form_handler = new reportSettingsFormHandler;
 
 		// TODO: this is crapy. The root cause of this problem is, that the
 		// filter should no need to know about it's action. The _rendering_
@@ -382,83 +383,58 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	* Allways call parent methods in final plugin-classmethod static::settingFrom, static::getSettingsData and static::saveSettingsData.
 	*/
 	protected function renderSettings() {
-		$data = $this->getSettingsData();
-		$settings_form = $this->settingsForm($data);
+		$settings_form = $this->fillSettingsFormFromDatabase($this->settingsForm());
 		$this->gTpl->setContent($settings_form->getHtml());
+	}
+
+	protected function fillSettingsFormFromDatabase($settings_form) {
+		$data = $this->object->settingsData();
+		$title = $this->object->getTitle();
+		$desc = $this->object->getDescription();
+
+		$settings_form->getItemByPostVar('title')->setValue($title);
+		$settings_form->getItemByPostVar('description')->setValue($desc);
+
+		$settings_form = $this->settings_form_handler->insertValues($data, $settings_form, $this->object->global_settings_format);
+		$settings_form = $this->settings_form_handler->insertValues($data, $settings_form, $this->object->local_settings_format);
+		return $settings_form;
 	}
 
 	protected function saveSettings() {
 		$settings_form = $this->settingsForm();
 		$settings_form->setValuesByPost();
 		if($settings_form->checkInput()) {
-			$this->saveSettingsData($_POST);
+			$this->saveSettingsData($settings_form);
 		}
-		$this->renderSettings();
+		$this->gTpl->setContent($settings_form->getHtml());
 	}
 
-	protected function getSettingsData() {
-		$data["online"] = $this->object->getOnline();
-		$data["title"] = $this->object->getTitle();
-		$data["description"] = $this->object->getDescription();
-		$data["video_link"] = $this->object->getVideoLink();
-		$data["pdf_link"] = $this->object->getPDFLink();
+	protected function saveSettingsData($settings_form) {
+		$this->object->setTitle($settings_form->getItemByPostVar('title')->getValue());
+		$this->object->setDescription($settings_form->getItemByPostVar('description')->getValue());
 
-		return $data;
-	}
+		$settings = array_merge($this->settings_form_handler->extractValues($settings_form,$this->object->global_settings_format)
+								,$this->settings_form_handler->extractValues($settings_form,$this->object->local_settings_format));
+		$this->object->setSettingsData($settings);
 
-	/*
-	* call this method last in static::saveSettingsData
-	*/
-	protected function saveSettingsData($data) {
-		$this->object->setOnline($data["online"]);
-		$this->object->setTitle($data["title"]);
-		$this->object->setDescription($data["description"]);
-		$this->object->setVideoLink($data["video_link"]);
-		$this->object->setPDFLink($data["pdf_link"]);
 		$this->object->doUpdate();
 		$this->object->update();
 	}
 
-	/*
-	* call this method first in static::settingsForm
-	*/
-	protected function settingsForm($data = null) {
+	protected function settingsForm() {
 		$settings_form = new ilPropertyFormGUI();
 		$settings_form->setFormAction($this->gCtrl->getFormAction($this));
 		$settings_form->addCommandButton("saveSettings", $this->gLng->txt("save"));
 
 		$title = new ilTextInputGUI($this->gLng->txt('title'),'title');
-		if(isset($data["title"])) {
-			$title->setValue($data["title"]);
-		}
 		$title->setRequired(true);
 		$settings_form->addItem($title);
 
 		$description = new ilTextAreaInputGUI($this->gLng->txt('description'),'description');
-		if(isset($data["description"])) {
-			$description->setValue($data["description"]);
-		}
 		$settings_form->addItem($description);
 
-		$video_link = new ilTextInputGUI($this->gLng->txt('gev_reports_settings_video_link'),'video_link');
-		if(isset($data["video_link"])) {
-			$video_link->setValue($data["video_link"]);
-		}
-		$settings_form->addItem($video_link);
-
-		$pdf_link = new ilTextInputGUI($this->gLng->txt('gev_reports_settings_pdf_link'),'pdf_link');
-		if(isset($data["pdf_link"])) {
-			$pdf_link->setValue($data["pdf_link"]);
-		}
-		$settings_form->addItem($pdf_link);
-
-		$is_online = new ilCheckboxInputGUI($this->object->plugin->txt('online'),'online');
-		$is_online->setValue(1);
-		if(isset($data["online"])) {
-			$is_online->setChecked($data["online"]);
-		}
-		$settings_form->addItem($is_online);
-
+		$this->settings_form_handler->addToForm($settings_form, $this->object->global_settings_format);
+		$this->settings_form_handler->addToForm($settings_form, $this->object->local_settings_format);
 		return $settings_form;
 	}
 }
