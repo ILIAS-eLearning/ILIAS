@@ -6,7 +6,9 @@ require_once 'Services/ReportsRepository/classes/class.catReportQuery.php';
 require_once 'Services/ReportsRepository/classes/class.catReportQueryOn.php';
 require_once 'Services/ReportsRepository/classes/class.catFilter.php';
 require_once 'Services/GEV/Utils/classes/class.gevUserUtils.php';
-
+require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.reportSettingsDataHandler.php");
+require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.settingFactory.php");
+require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/class.ilReportMasterPlugin.php");
 /**
 * This class performs all interactions with the database in order to get report-content. Puplic methods may be accessed in 
 * in the GUI via $this->object->{method-name}.
@@ -36,8 +38,52 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		$this->data = false;
 		$this->filter = null;
 		$this->order = null;
+		$this->settings_data_handler = new reportSettingsDataHandler();
+		$this->settings = array();
+		$this->globalReportSettings();
+		$this->localReportSettings();
+		$this->master_plugin = new ilReportMasterPlugin();
 	}
 
+
+	abstract protected function createLocalReportSettings();
+
+	protected function createGlobalReportSettings() {
+		$this->global_report_settings =
+			$settings_factory->settings('repository_reports')
+				->addSetting($settings_factory
+								->settingBool('is_online', $this->master_plugin->txt('is_online'))
+								)
+				->addSetting($settings_factory
+								->settingString('pdf_link', $this->master_plugin->txt('pdf_link'))
+									->setFromForm(function ($string) {
+										if(preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1) {
+											return $string;
+										}
+										return 'https://'.$string;
+									})
+								)
+				->addSetting($settings_factory
+								->settingString('video_link', $this->master_plugin->txt('pdf_link'))
+									->setFromForm(function ($string) {
+										if(preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1) {
+											return $string;
+										}
+										return 'https://'.$string;
+									})
+								)
+				->addSetting($settings_factory
+								->settingRichText('tooltip_info', $this->master_plugin->txt('tooltip_info'))
+								);
+	}
+
+	public function getSettingsData() {
+		return $this->settings;
+	}
+
+	public function setSettingsData(array $settings) {
+		$this->settings = $settings;
+	}
 
 	public function prepareReport() {
 		$this->filter = $this->buildFilter(catFilter::create());
@@ -189,41 +235,30 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 	abstract protected function getRowTemplateTitle();
 
-	public function doClone($a_target_id,$a_copy_id,$new_obj) {
-		$new_obj->setOnline($this->getOnline());
-		$new_obj->update();
+
+	final public function doCreate() {
+		$this->settings_data_handler->createObjEntry($this->getId(), $this->global_settings_format);
+		$this->settings_data_handler->createObjEntry($this->getId(), $this->local_settings_format);
 	}
 
-	public function setOnline($a_val) {
-		$this->online = (int)$a_val;
+	final public function doRead() {
+		$this->settings = array_merge($this->settings_data_handler->readObjEntry($this->getId(), $this->global_settings_format),
+							$this->settings_data_handler->readObjEntry($this->getId(), $this->local_settings_format));
 	}
 
-	public function getOnline() {
-		return $this->online;
+	final public function doUpdate() {
+		$this->settings_data_handler->updateObjEntry($this->getId(), $this->global_settings_format,$this->settings);
+		$this->settings_data_handler->updateObjEntry($this->getId(), $this->local_settings_format,$this->settings);
 	}
 
-	public function setVideoLink($video_link) {
-		if($video_link != "" && !preg_match(self::HTTP_REGEX, strtolower($video_link))) {
-			$video_link = "http://".$video_link;
-		}
-
-		$this->video_link = $video_link;
+	final public function doDelete() {
+		$this->settings_data_handler->deleteObjEntry($this->getId(), $this->global_settings_format);
+		$this->settings_data_handler->deleteObjEntry($this->getId(), $this->local_settings_format);
 	}
 
-	public function getVideoLink() {
-		return $this->video_link;
-	}
-
-	public function setPDFLink($pdf_link) {
-		if($pdf_link != "" && !preg_match(self::HTTP_REGEX, strtolower($pdf_link))) {
-			$pdf_link = "http://".$pdf_link;
-		}
-
-		$this->pdf_link = $pdf_link;
-	}
-
-	public function getPDFLink() {
-		return $this->pdf_link;
+	final public function doClone($a_target_id,$a_copy_id,$new_obj) {
+		$this->settings_data_handler->cloneObj($this->getId(), $this->global_settings_format, $new_obj);
+		$this->settings_data_handler->cloneObj($this->getId(), $this->local_settings_format, $new_obj);
 	}
 
 	// Report discovery
