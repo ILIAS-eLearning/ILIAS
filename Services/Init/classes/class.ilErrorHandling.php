@@ -410,20 +410,54 @@ class ilErrorHandling extends PEAR
 	 * @return Whoops\Handler
 	 */
 	protected function loggingHandler() {
-		return new CallbackHandler(function(Exception $exception, Inspector $inspector, Run $run) {
+		// TODO: remove this, when PHP 5.3 support is dropped. Make logMessageFor protected then as well.
+		$self = $this;
+		return new CallbackHandler(function(Exception $exception, Inspector $inspector, Run $run) use ($self) {
 			/**
 			 * Don't move this out of this callable
 			 * @var ilLog $ilLog;
 			 */
 			global $ilLog;
 
+			$log_message = $self->logMessageFor($exception, (bool)LOG_ERROR_TRACE);
+
 			if(is_object($ilLog) && $ilLog->enabled) {
-				$ilLog->write('ERROR (' . $exception->getCode() .') ' . $exception->getMessage());
+				$ilLog->write($log_message);
 			}
-			
+
 			// Send to system logger
-			error_log($exception->getMessage()." in ".$exception->getFile()." on line ".$exception->getLine()." \n".$exception->getTraceAsString());
+			error_log($log_message);
 		});
 	}
+
+	/**
+	 * Get the error message to be logged.
+	 *
+	 * TODO: Can be made protected when support for PHP 5.3. is dropped.
+	 *
+	 * @param	$exception	Exception
+	 * @param	$log_trace	bool
+	 * @return	string
+	 */
+	public function logMessageFor(Exception $exception, $log_trace) {
+		assert('is_bool($log_trace)');
+		$prefix = "PHP Error: ";
+		if ($exception instanceof \Whoops\Exception\ErrorException) {
+			switch ($exception->getCode()) {
+				case E_ERROR:
+				case E_USER_ERROR:
+					$prefix = "PHP Fatal error: ";
+			}
+		}
+
+		$msg = $prefix.$exception->getMessage()." in ".$exception->getFile()." on line ".$exception->getLine();
+
+		if ($log_trace) {
+			$msg .= "\n".$exception->getTraceAsString();
+		}
+
+		return $msg;
+	}
+
 } // END class.ilErrorHandling
 ?>
