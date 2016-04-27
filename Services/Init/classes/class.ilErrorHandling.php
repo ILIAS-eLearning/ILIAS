@@ -369,7 +369,16 @@ class ilErrorHandling extends PEAR
 
 			require_once("Services/Utilities/classes/class.ilUtil.php");
 			ilUtil::sendFailure($exception->getMessage(), true);
-			ilUtil::redirect("error.php");
+			// many test installation have display_errors on, we do not need additional information in this case
+			// however in cases of warnings, whoops seems to get rid of these messages, but not in the case of fatals
+			// so we do not check for ini_get("display_errors"), but for headers_sent()
+			if (!headers_sent())
+			{
+				ilInitialisation::initHTML();
+				global $tpl, $lng, $tree;
+				include("error.php");				// redirect will not display fatal error messages, since writing to session (sendFailure) will not work at this point
+				// ilUtil::redirect("error.php");
+			}
 		});
 	}
 
@@ -413,7 +422,7 @@ class ilErrorHandling extends PEAR
 			}
 			
 			// Send to system logger
-			error_log($exception->getMessage());
+			error_log($exception->getMessage()." in ".$exception->getFile()." on line ".$exception->getLine()." \n".$exception->getTraceAsString());
 		});
 	}
 } // END class.ilErrorHandling

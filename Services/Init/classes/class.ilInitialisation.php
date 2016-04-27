@@ -1221,7 +1221,7 @@ class ilInitialisation
 	/**
 	 * init HTML output (level 3)
 	 */
-	protected static function initHTML()
+	static function initHTML()
 	{
 		global $ilUser;
 		
