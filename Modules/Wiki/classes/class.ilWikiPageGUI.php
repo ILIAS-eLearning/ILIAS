@@ -69,7 +69,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $ilUser, $ilAccess;
+		global $ilCtrl, $ilTabs, $ilUser, $ilAccess, $lng;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -116,7 +116,16 @@ class ilWikiPageGUI extends ilPageObjectGUI
 						$this->getPageObject()->getId());
 					$this->ctrl->forwardCommand($gui);
 				}
-				break;			
+				break;
+			case 'ilobjectmetadatagui':
+				
+				if(!$ilAccess->checkAccess("write", "", $this->wiki_ref_id))
+				{
+					ilUtil::sendFailure($lng->txt("permission_denied"), true);
+					$ilCtrl->redirect($this, "preview");
+				}
+				return parent::executeCommand();
+				break;
 				
 			default:
 

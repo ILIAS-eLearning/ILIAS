@@ -1171,8 +1171,11 @@ class ilObjWikiGUI extends ilObjectGUI
 		// alter title and description
 		//$tpl->setTitle($wpage_gui->getPageObject()->getTitle());
 		//$tpl->setDescription($this->object->getTitle());
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$wpage_gui->activateMetaDataEditor($this->object, "wpg", $wpage_gui->getId());
+		}
 		
-		$wpage_gui->activateMetaDataEditor($this->object, "wpg", $wpage_gui->getId());
 		
 		$html = $ilCtrl->forwardCommand($wpage_gui);
 		//$this->addPageTabs();
