@@ -71,7 +71,7 @@ class reportSettingsDataHandler {
 	}
 
 	/**
-	 *	update an object in the database
+	 *	use the right quoting for certain settings
 	 * 	@param	int	obj_id 
 	 * 	@param	array	settings
 	 */
