@@ -562,7 +562,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// gev-patch start #2266 we need the ilToolbar for link to BiPro
 		$this->setToolbar();
-		// gev-patch
+		// gev-patch end
 
 		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 
@@ -3882,5 +3882,6 @@ class ilObjUserGUI extends ilObjectGUI
     	$ilToolbar->addButton($this->lng->txt('gev_edu_bio'), $this->ctrl->getLinkTargetByClass(array("gevDesktopGUI", "gevEduBiographyGUI"), 'view'), "blank");
     	$this->ctrl->clearParametersByClass("gevEduBiographyGUI");
     }
+    //gev-patch end
 } // END class.ilObjUserGUI
 ?>
