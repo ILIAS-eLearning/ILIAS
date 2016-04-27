@@ -230,8 +230,8 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 		parent::saveSettingsData($data);
 	}
 
-	protected function exportXLSX() {
+	protected function exportExcel() {
 		$this->object->filter_settings = $this->loadFilterSettings();
-		parent::exportXLSX();
+		parent::exportExcel();
 	}
 }
