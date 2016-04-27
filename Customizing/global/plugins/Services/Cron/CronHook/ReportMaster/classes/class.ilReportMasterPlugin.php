@@ -9,7 +9,7 @@ require_once("./Services/Cron/classes/class.ilCronHookPlugin.php");
  
 class ilReportMasterPlugin extends ilCronHookPlugin {
 	function getPluginName() {
-		return "ReportMasterPlugin";
+		return "ReportMaster";
 	}
 
 	function getCronJobInstances() {
