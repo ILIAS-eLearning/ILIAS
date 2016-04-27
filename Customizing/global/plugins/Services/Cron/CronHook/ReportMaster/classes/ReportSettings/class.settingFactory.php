@@ -31,7 +31,11 @@ class settingFactory {
 	}
 
 	public function settingRichText($id, $name) {
-		return new settingFloat($id, $name);
+		return new settingRichText($id, $name);
+	}
+
+	public function settingText($id, $name) {
+		return new settingText($id, $name);
 	}
 
 	public function reportSettings($table) {
