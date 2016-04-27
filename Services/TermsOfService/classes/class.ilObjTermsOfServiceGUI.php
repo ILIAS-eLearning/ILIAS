@@ -422,7 +422,17 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 		$file = realpath(strip_tags(rawurldecode(ilUtil::stripOnlySlashes($_GET['agreement_document']))));
 		if(preg_match('/Customizing[\/\\\](global[\/\\\]agreement|clients[\/\\\]' . CLIENT_ID . '[\/\\\]agreement)[\/\\\]agreement_([a-z]{2})\.html$/', $file))
 		{
-			$response->setBody(nl2br(trim(file_get_contents($file))));
+			$content = file_get_contents($file);
+			if(strip_tags($content) === $content)
+			{
+				$content       = '';
+				$lines         = file($file);
+				foreach($lines as $line)
+				{
+					$content .= nl2br(trim($line));
+				}
+			}
+			$response->setBody($content);
 		}
 		else
 		{
