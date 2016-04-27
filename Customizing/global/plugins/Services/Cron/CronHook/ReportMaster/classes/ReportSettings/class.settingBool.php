@@ -7,7 +7,7 @@ class settingBool extends setting {
 	 * @inheritdoc
 	 */
 	protected function defaultDefaultValue() {
-		return true;
+		return false;
 	}
 
 	/**
