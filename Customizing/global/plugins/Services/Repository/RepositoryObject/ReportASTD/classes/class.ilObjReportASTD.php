@@ -44,7 +44,7 @@ class ilObjReportASTD extends ilObjReportBase {
 									,'astd_hours_language_course'	=>	' 0 '
 									,'astd_participators'			=>	' COUNT(DISTINCT usr_id)'
 									,'astd_accomodation_cost'		=>	" SUM( IF( type = ".$this->gIldb->quote('Präsenztraining','text')." AND begin_date IS NOT NULL AND end_date IS NOT NULL, (DATEDIFF(end_date,begin_date)+1)*"
-																.$this->gIldb->quote( $this->getAccomodationCost(),'float').', 0) ) '
+																.$this->gIldb->quote( $this->settings['accomodation_cost'],'float').', 0) ) '
 									);
 
 		$this->end_date = $this->filter->get('period')['end']->getUnixTime();
