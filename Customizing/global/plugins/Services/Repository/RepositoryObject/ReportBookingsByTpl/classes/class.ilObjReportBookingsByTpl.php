@@ -33,12 +33,18 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 	protected function getRowTemplateTitle() {
 		return "tpl.gev_bookings_by_tpl_row.html";
 	}
-
+	
+	/**
+	 *	@inheritdoc
+	 */
 	protected function buildOrder($order) {
 		return $order
 			->defaultOrder("template_title", "ASC");
 	}
 
+	/**
+	 *	@inheritdoc
+	 */
 	protected function buildTable($table) {
 		$table 		->column("template_title", $this->plugin->txt("title"),true)
 					->column("edu_program", $this->plugin->txt("edu_program"),true);
@@ -65,6 +71,9 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 		throw new Exception("ilObjReportBase::deliverSumTable: you need to define a sum table.");	
 	}
 
+	/**
+	 *	@inheritdoc
+	 */
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter("org_unit","orgu_id",true,true);
 		$this->orgu_filter->setFilterOptionsAll();
@@ -158,6 +167,9 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 		return $filter;
 	}
 
+	/**
+	 *	@inheritdoc
+	 */
 	protected function buildQuery($query) {
 		$orgu_filter_query =
 				"JOIN (SELECT usr_id  \n"
