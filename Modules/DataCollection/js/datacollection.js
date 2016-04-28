@@ -108,7 +108,7 @@ $(document).ready(function () {
 		return false;
 	});
 
-	$('form[id^="form_dcl"] select[data-ref=1]').parent('div').append(
+	$('form[id^="form_dcl"] select[data-ref="1"]').parent('div').append(
 		$('<a></a>')
 			.attr('href', '#')
 			.addClass('ilDclReferenceAddValue xsmall')
@@ -116,7 +116,7 @@ $(document).ready(function () {
 	);
 
 
-	$('form[id^="form_dcl"] div[class="input"]').parent('div').append(
+	$('form[id^="form_dcl"] div[data-ref="1"]').parent('div').append(
 		$('<a></a>')
 			.attr('href', '#')
 			.addClass('ilDclReferenceAddValueMS xsmall')
