@@ -1,8 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
-require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBaseGUI.php';
 /**
 * @ilCtrl_isCalledBy ilObjReportASTDGUI: ilRepositoryGUI, ilAdministrationGUI, ilObjPluginDispatchGUI
 * @ilCtrl_Calls ilObjReportASTDGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
