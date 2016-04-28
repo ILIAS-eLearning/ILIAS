@@ -19,7 +19,6 @@ class ilObjReportTrainerOpTepCat extends ilObjReportBase {
 		 $this->setType("xttc");
 	}
 
-
 	protected function createLocalReportSettings() {
 		$this->local_report_settings =
 			$this->s_f->reportSettings('rep_robj_rttc');
@@ -28,7 +27,6 @@ class ilObjReportTrainerOpTepCat extends ilObjReportBase {
 	protected function buildOrder($order) {
 		return $order->defaultOrder("fullname", "ASC");
 	}
-
 	
 	protected function buildTable($table) {
 		$table->column("fullname", $this->plugin->txt("name"), true);

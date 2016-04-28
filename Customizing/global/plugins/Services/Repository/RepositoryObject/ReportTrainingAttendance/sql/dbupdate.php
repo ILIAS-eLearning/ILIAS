@@ -27,3 +27,12 @@ $ilDB->addTableColumn('rep_robj_rta', 'is_local', array(
 		"default" => 0
 	));
 ?>
+
+<#3>
+<?php
+$query = "INSERT INTO rep_master_data (id,is_online)"
+		."	SELECT bi.id,bi.is_online FROM rep_master_data md"
+		."		RIGHT JOIN rep_robj_rta bi ON bi.id = md.id "
+		."	WHERE md.id IS NULL";
+$ilDB->manipulate($query);
+?>

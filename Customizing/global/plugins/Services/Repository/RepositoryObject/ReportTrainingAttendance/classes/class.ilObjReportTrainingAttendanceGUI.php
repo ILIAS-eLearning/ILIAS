@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBaseGUI.php';
 require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
 
 /**
@@ -198,36 +198,6 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 			$this->saveFilterSettings($settings);
 			$this->gCtrl->redirect($this, "showContent");
 		}
-	}
-
-	protected function settingsForm($data = null) {
-		$settings_form = parent::settingsForm($data);
-
-		$show_filter = new ilCheckboxInputGUI('filter','filter');
-		$show_filter->setValue(1);
-		if(isset($data["filter"])) {
-			$show_filter->setChecked($data["filter"]);
-		}
-		$settings_form->addItem($show_filter);
-
-		$is_local = new ilCheckboxInputGUI($this->object->plugin->txt('report_is_local'),'is_local');
-		$is_local->setValue(1);
-		if(isset($data["is_local"])) {
-			$is_local->setChecked($data["is_local"]);
-		}
-		$settings_form->addItem($is_local);
-		return $settings_form;
-	}
-
-	protected function getSettingsData() {
-		$data = parent::getSettingsData();
-		$data['is_local'] = $this->object->getIsLocal();
-		return $data;
-	}
-
-	protected function saveSettingsData($data) {
-		$this->object->setIsLocal($data['is_local']);
-		parent::saveSettingsData($data);
 	}
 
 	protected function exportExcel() {

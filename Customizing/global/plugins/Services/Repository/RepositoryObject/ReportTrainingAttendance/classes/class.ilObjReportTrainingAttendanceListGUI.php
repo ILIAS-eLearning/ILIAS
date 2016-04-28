@@ -1,7 +1,6 @@
 <?php
 
-//require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseListGUI.php';
-require_once 'Services/Repository/classes/class.ilObjectPluginListGUI.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjectPluginListGUI.php';
 
 /**
 * ListGUI implementation for Example object plugin. This one
