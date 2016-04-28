@@ -8,7 +8,7 @@ require_once 'Services/CaTUIComponents/classes/class.catTitleGUI.php';
 require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
 require_once("Services/ReportsRepository/interfaces/interface.ExcelWriter.php");
-require_once("Customizing/global/plugin/Services/Cron/CronHook/ReportMaster/classes/ReportsSettings/class.reportSettingsFormHandler.php");
+require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.reportSettingsFormHandler.php");
 
 abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 
@@ -18,7 +18,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	protected $gUser;
 	protected $gLog;
 	protected $gAccess;
-	protected $settings_form;
 
 	protected function afterConstructor() {
 		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog, $ilAccess, $ilTabs;	
@@ -29,8 +28,8 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->gLog = $ilLog;
 		$this->gAccess = $ilAccess;
 		$this->gTabs = $ilTabs;
-		$this->settings_form_handler = new reportSettingsFormHandler;
-
+		$this->s_f = new settingFactory($this->gIldb);
+		$this->settings_form_handler = $this->s_f->reportSettingsFormHandler();
 		// TODO: this is crapy. The root cause of this problem is, that the
 		// filter should no need to know about it's action. The _rendering_
 		// of the filter needs to know about the action.
@@ -75,10 +74,10 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			case "settings":
 				if($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
 					$this->gTabs->addSubTabTarget("edit_settings",
-												 $this->ctrl->getLinkTarget($this,'settings'),
+												 $this->gCtrl->getLinkTarget($this,'settings'),
 												 "write", get_class($this));
 					$this->gTabs->addSubTabTarget("report_query_view",
-												 $this->ctrl->getLinkTarget($this,'query_view'),
+												 $this->gCtrl->getLinkTarget($this,'query_view'),
 												 "write", get_class($this));
 					$this->gTabs->activateTab("properties");
 					$this->gTabs->activateSubTab("edit_settings");
@@ -88,10 +87,10 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 			case "query_view":
 				if($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
 					$this->gTabs->addSubTabTarget("edit_settings",
-												 $this->ctrl->getLinkTarget($this,'settings'),
+												 $this->gCtrl->getLinkTarget($this,'settings'),
 												 "write", get_class($this));
 					$this->gTabs->addSubTabTarget("report_query_view",
-												 $this->ctrl->getLinkTarget($this,'settings'),
+												 $this->gCtrl->getLinkTarget($this,'settings'),
 												 "write", get_class($this));
 					$this->gTabs->activateTab("properties");
 					$this->gTabs->activateSubTab("report_query_view");
@@ -388,15 +387,15 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	}
 
 	protected function fillSettingsFormFromDatabase($settings_form) {
-		$data = $this->object->settingsData();
+		$data = $this->object->settings;
 		$title = $this->object->getTitle();
 		$desc = $this->object->getDescription();
 
 		$settings_form->getItemByPostVar('title')->setValue($title);
 		$settings_form->getItemByPostVar('description')->setValue($desc);
 
-		$settings_form = $this->settings_form_handler->insertValues($data, $settings_form, $this->object->global_settings_format);
-		$settings_form = $this->settings_form_handler->insertValues($data, $settings_form, $this->object->local_settings_format);
+		$settings_form = $this->settings_form_handler->insertValues($data, $settings_form, $this->object->global_report_settings);
+		$settings_form = $this->settings_form_handler->insertValues($data, $settings_form, $this->object->local_report_settings);
 		return $settings_form;
 	}
 
@@ -405,6 +404,8 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$settings_form->setValuesByPost();
 		if($settings_form->checkInput()) {
 			$this->saveSettingsData($settings_form);
+			$red = $this->gCtrl->getLinkTarget($this, "settings", "", false, false);
+			ilUtil::redirect($red);
 		}
 		$this->gTpl->setContent($settings_form->getHtml());
 	}
@@ -413,8 +414,8 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$this->object->setTitle($settings_form->getItemByPostVar('title')->getValue());
 		$this->object->setDescription($settings_form->getItemByPostVar('description')->getValue());
 
-		$settings = array_merge($this->settings_form_handler->extractValues($settings_form,$this->object->global_settings_format)
-								,$this->settings_form_handler->extractValues($settings_form,$this->object->local_settings_format));
+		$settings = array_merge($this->settings_form_handler->extractValues($settings_form,$this->object->global_report_settings)
+								,$this->settings_form_handler->extractValues($settings_form,$this->object->local_report_settings));
 		$this->object->setSettingsData($settings);
 
 		$this->object->doUpdate();
@@ -433,8 +434,8 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 		$description = new ilTextAreaInputGUI($this->gLng->txt('description'),'description');
 		$settings_form->addItem($description);
 
-		$this->settings_form_handler->addToForm($settings_form, $this->object->global_settings_format);
-		$this->settings_form_handler->addToForm($settings_form, $this->object->local_settings_format);
+		$this->settings_form_handler->addToForm($settings_form, $this->object->global_report_settings);
+		$this->settings_form_handler->addToForm($settings_form, $this->object->local_report_settings);
 		return $settings_form;
 	}
 }
