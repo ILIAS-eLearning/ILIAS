@@ -25,6 +25,10 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	protected $order = null;
 	protected $user_utils;
 
+	public $sf;
+	public $master_plugin;
+	public $settings;
+
 	const HTTP_REGEX = "/^(https:\/\/)|(http:\/\/)/";
 
 	public function __construct($a_ref_id = 0) {
@@ -38,41 +42,47 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		$this->data = false;
 		$this->filter = null;
 		$this->order = null;
-		$this->settings_data_handler = new reportSettingsDataHandler();
-		$this->settings = array();
-		$this->globalReportSettings();
-		$this->localReportSettings();
+
+		$this->s_f = new settingFactory($this->gIldb);
 		$this->master_plugin = new ilReportMasterPlugin();
+		$this->settings = array();
+		$this->createLocalReportSettings();
+		$this->createGlobalReportSettings();
+		$this->settings_data_handler = $this->s_f->reportSettingsDataHandler();
+
 	}
 
 
 	abstract protected function createLocalReportSettings();
 
 	protected function createGlobalReportSettings() {
+
 		$this->global_report_settings =
-			$settings_factory->settings('repository_reports')
-				->addSetting($settings_factory
+			$this->s_f->reportSettings('rep_master_data')
+				->addSetting($this->s_f
 								->settingBool('is_online', $this->master_plugin->txt('is_online'))
 								)
-				->addSetting($settings_factory
+				->addSetting($this->s_f
 								->settingString('pdf_link', $this->master_plugin->txt('pdf_link'))
 									->setFromForm(function ($string) {
-										if(preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1) {
+										$string = trim($string);
+										if($string === "" || preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1 ) {
 											return $string;
 										}
 										return 'https://'.$string;
 									})
 								)
-				->addSetting($settings_factory
+				->addSetting($this->s_f
 								->settingString('video_link', $this->master_plugin->txt('pdf_link'))
 									->setFromForm(function ($string) {
-										if(preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1) {
+										$string = trim($string);
+										if($string === "" || preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1 ) {
 											return $string;
 										}
 										return 'https://'.$string;
 									})
 								)
-				->addSetting($settings_factory
+				->addSetting($this->s_f
 								->settingRichText('tooltip_info', $this->master_plugin->txt('tooltip_info'))
 								);
 	}
@@ -237,28 +247,28 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 
 	final public function doCreate() {
-		$this->settings_data_handler->createObjEntry($this->getId(), $this->global_settings_format);
-		$this->settings_data_handler->createObjEntry($this->getId(), $this->local_settings_format);
+		$this->settings_data_handler->createObjEntry($this->getId(), $this->global_report_settings);
+		$this->settings_data_handler->createObjEntry($this->getId(), $this->local_report_settings);
 	}
 
 	final public function doRead() {
-		$this->settings = array_merge($this->settings_data_handler->readObjEntry($this->getId(), $this->global_settings_format),
-							$this->settings_data_handler->readObjEntry($this->getId(), $this->local_settings_format));
+		$this->settings = array_merge($this->settings_data_handler->readObjEntry($this->getId(), $this->global_report_settings),
+							$this->settings_data_handler->readObjEntry($this->getId(), $this->local_report_settings));
 	}
 
 	final public function doUpdate() {
-		$this->settings_data_handler->updateObjEntry($this->getId(), $this->global_settings_format,$this->settings);
-		$this->settings_data_handler->updateObjEntry($this->getId(), $this->local_settings_format,$this->settings);
+		$this->settings_data_handler->updateObjEntry($this->getId(), $this->global_report_settings,$this->settings);
+		$this->settings_data_handler->updateObjEntry($this->getId(), $this->local_report_settings,$this->settings);
 	}
 
 	final public function doDelete() {
-		$this->settings_data_handler->deleteObjEntry($this->getId(), $this->global_settings_format);
-		$this->settings_data_handler->deleteObjEntry($this->getId(), $this->local_settings_format);
+		$this->settings_data_handler->deleteObjEntry($this->getId(), $this->global_report_settings);
+		$this->settings_data_handler->deleteObjEntry($this->getId(), $this->local_report_settings);
 	}
 
 	final public function doClone($a_target_id,$a_copy_id,$new_obj) {
-		$this->settings_data_handler->cloneObj($this->getId(), $this->global_settings_format, $new_obj);
-		$this->settings_data_handler->cloneObj($this->getId(), $this->local_settings_format, $new_obj);
+		$this->settings_data_handler->cloneObj($this->getId(), $this->global_report_settings, $new_obj);
+		$this->settings_data_handler->cloneObj($this->getId(), $this->local_report_settings, $new_obj);
 	}
 
 	// Report discovery
