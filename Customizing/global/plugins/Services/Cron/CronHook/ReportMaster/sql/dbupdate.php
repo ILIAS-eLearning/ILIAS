@@ -10,7 +10,7 @@ $fields =
 		'is_online' => array(
 			'type' => 'integer',
 			'length' => 1,
-			'notnull' => false
+			'notnull' => true
 		),
 		'video_link' => array(
 			'type' => 'text',
