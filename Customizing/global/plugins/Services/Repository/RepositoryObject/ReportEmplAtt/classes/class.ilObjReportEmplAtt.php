@@ -20,6 +20,9 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		 $this->setType("xrea");
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildQuery($query) {
 		$query
 			->select("usr.user_id")
@@ -70,6 +73,9 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		return $query;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildOrder($order) {
 		$order->mapping("date", "crs.begin_date")
 				->mapping("od_bd", array("org_unit_above1", "org_unit_above2"))
@@ -78,6 +84,9 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		return $order;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildTable($table) {
 		$table
 			->column("lastname", $this->plugin->txt("lastname"), true)
@@ -100,6 +109,9 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		return parent::buildTable($table);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter("org_unit","orgu_filter.orgu_id",true,true);
 		$this->orgu_filter->setFilterOptionsByArray(
