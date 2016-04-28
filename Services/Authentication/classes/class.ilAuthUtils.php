@@ -691,8 +691,11 @@ class ilAuthUtils
 			}
 		}
 		// end-patch auth_plugins
-		
-		$options[$default]['checked'] = true;
+
+		if(array_key_exists($default, $options))
+		{
+			$options[$default]['checked'] = true;
+		}
 
 		return $options ? $options : array();
 	}
