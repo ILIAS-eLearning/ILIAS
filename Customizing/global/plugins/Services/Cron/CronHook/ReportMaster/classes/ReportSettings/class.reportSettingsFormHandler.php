@@ -23,7 +23,7 @@ class reportSettingsFormHandler {
 
 		foreach ($fields as $field) {
 			$setting = $settings->setting($field);
-			$settings_form->addItem($this->formForSetting($setting));
+			$settings_form->addItem($this->formElementForSetting($setting));
 		}
 	}
 
@@ -63,7 +63,7 @@ class reportSettingsFormHandler {
 		return $settings_form;
 	}
 
-	protected function formForSetting(setting $setting) {
+	protected function formElementForSetting(setting $setting) {
 		$name = $setting->name();
 		$id = $setting->id();
 		if($setting instanceof settingInt) {
