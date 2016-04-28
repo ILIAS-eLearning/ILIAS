@@ -1,5 +1,5 @@
 <?php
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBase.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php';
 require_once 'Services/GEV/Utils/classes/class.gevOrgUnitUtils.php';
 ini_set("memory_limit","2048M"); 
 ini_set('max_execution_time', 0);
@@ -17,6 +17,12 @@ class ilObjReportTrainerOpTepCat extends ilObjReportBase {
 
 	public function initType() {
 		 $this->setType("xttc");
+	}
+
+
+	protected function createLocalReportSettings() {
+		$this->local_report_settings =
+			$this->s_f->reportSettings('rep_robj_rttc');
 	}
 
 	protected function buildOrder($order) {
@@ -167,34 +173,4 @@ class ilObjReportTrainerOpTepCat extends ilObjReportBase {
 		return "tpl.trainer_op_by_tep_cat_row.html";
 	}
 
-	public function doCreate() {
-		$this->gIldb->manipulate("INSERT INTO rep_robj_rttc ".
-			"(id, is_online) VALUES (".
-			$this->gIldb->quote($this->getId(), "integer")
-			.",".$this->gIldb->quote(0, "integer")
-			.")");
-	}
-
-
-	public function doRead() {
-		$set = $this->gIldb->query("SELECT * FROM rep_robj_rttc ".
-			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-		while ($rec = $this->gIldb->fetchAssoc($set)) {
-			$this->setOnline($rec["is_online"]);
-		}
-	}
-
-	public function doUpdate() {
-		$this->gIldb->manipulate($up = "UPDATE rep_robj_rttc SET "
-			." is_online = ".$this->gIldb->quote($this->getOnline(), "integer")
-			." WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-	}
-
-	public function doDelete() {
-		$this->gIldb->manipulate("DELETE FROM rep_robj_rttc WHERE ".
-			" id = ".$this->gIldb->quote($this->getId(), "integer")
-		); 
-	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBase.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php';
 
 ini_set("memory_limit","2048M"); 
 ini_set('max_execution_time', 0);
@@ -29,6 +29,22 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 	public function initType() {
 		 $this->setType("xrtw");
 	}
+
+
+	protected function createLocalReportSettings() {
+		$this->local_report_settings =
+			$this->s_f->reportSettings('rep_robj_rtw')
+				->addSetting($this->s_f
+								->settingInt('annual_norm_training', $this->plugin->txt('annual_norm_training'))
+								->setDefaultValue(1))
+				->addSetting($this->s_f
+								->settingInt('annual_norm_operation', $this->plugin->txt('annual_norm_operation'))
+								->setDefaultValue(1))
+				->addSetting($this->s_f
+								->settingInt('annual_norm_office', $this->plugin->txt('annual_norm_office'))
+								->setDefaultValue(1));
+	}
+
 
 	protected function hoursPerConditionRatioNorm($condition, $name, $function) {
 		$sql = 	"SUM(IF(".$condition
@@ -89,7 +105,8 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 	}
 
 	protected function buildTable($table) {
-
+		var_dump($this->getNorms());
+		$norms = $this->getNorms();
 		$table->column("fullname", $this->plugin->txt("fullname"),true);
 		foreach($this->meta_cats as $meta_category => $categories) {
 			foreach ($categories as $category) {
@@ -98,7 +115,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 			if(count($categories)>1) {
 				$table->column($meta_category."_sum", $this->plugin->txt($meta_category."_sum"),true);
 			}
-			if(isset($this->norms[$meta_category])) {
+			if(isset($norms[$meta_category])) {
 				$table->column($meta_category."_workload", $this->plugin->txt($meta_category."_workload"),true);
 			}
 		}
@@ -107,6 +124,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 	}
 
 	protected function buildSumTable() {
+		$norms = $this->getNorms();
 		$this->table_sums = catReportTable::create();
 		foreach($this->meta_cats as $meta_category => $categories) {
 			foreach ($categories as $category) {
@@ -115,7 +133,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 			if(count($categories)>1) {
 				$this->table_sums->column($meta_category."_sum", $this->plugin->txt($meta_category."_sum"),true);
 			}
-			if(isset($this->norms[$meta_category])) {
+			if(isset($norms[$meta_category])) {
 				$this->table_sums->column($meta_category."_workload", $this->plugin->txt($meta_category."_workload"),true);
 			}
 		}
@@ -130,7 +148,16 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 		return null;
 	}
 
+	protected function getNorms() {
+		$norms = array();
+		$norms['training']  = $this->settings['annual_norm_training'];
+		$norms['operation']  = $this->settings['annual_norm_operation'];		
+		$norms['office']  = $this->settings['annual_norm_office'];
+		return $norms;
+	}
+
 	protected function fetchData(callable $callback) {
+		$norms = $this->getNorms();
 		$data = parent::fetchData('static::identity');
 		$count_rows = 0;
 		$this->sum_row = array();
@@ -141,7 +168,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 			if(count($categories)>1) {
 				$this->sum_row[$meta_category.'_sum'] = 0;
 			}
-			if(isset($this->norms[$meta_category])) {
+			if(isset($norms[$meta_category])) {
 				$this->sum_row[$meta_category.'_workload'] = 0;
 			}
 		}
@@ -156,15 +183,15 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 						$trainer_data[$meta_category.'_sum'] += $trainer_data[$category];
 					}
 					$this->sum_row[$meta_category.'_sum'] += $trainer_data[$meta_category.'_sum'];
-					if( isset($this->norms[$meta_category])) {
-						$trainer_data[$meta_category.'_workload'] = 100*$trainer_data[$meta_category.'_sum']/($this->norms[$meta_category]*$period_days_factor);
+					if( isset($norms[$meta_category])) {
+						$trainer_data[$meta_category.'_workload'] = 100*$trainer_data[$meta_category.'_sum']/($norms[$meta_category]*$period_days_factor);
 						$this->sum_row[$meta_category.'_workload'] += $trainer_data[$meta_category.'_workload'];
 					}
 				} else {
 					$this->sum_row[$meta_category] += $trainer_data[$meta_category];
 					if( isset($this->norms[$meta_category])) {
 						$meta_category_sum = count($categories)>1 ? $trainer_data[$meta_category.'_sum'] : $trainer_data[ $categories[0]];
-						$trainer_data[$meta_category.'_workload'] = 100*$meta_category_sum/($this->norms[$meta_category]*$period_days_factor);
+						$trainer_data[$meta_category.'_workload'] = 100*$meta_category_sum/($norms[$meta_category]*$period_days_factor);
 						$this->sum_row[$meta_category.'_workload'] += $trainer_data[$meta_category.'_workload'];
 					}
 				}
@@ -172,7 +199,7 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 			$trainer_data = call_user_func($callback,$trainer_data);
 		}
 		$count_rows = ($count_rows == 0) ? 1 : $count_rows;
-		foreach($this->norms as $meta_category => $norm) {
+		foreach($norms as $meta_category => $norm) {
 			$this->sum_row[$meta_category.'_workload'] = $this->sum_row[$meta_category.'_workload']/$count_rows;
 		}
 		$this->sum_row = call_user_func($callback,$this->sum_row);
@@ -278,82 +305,13 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 		return array_unique($relevant_users);
 	}
 
-	public function doCreate() {
-		$this->gIldb->manipulate("INSERT INTO rep_robj_rtw ".
-			"(id, is_online, annual_norm_training, annual_norm_operation, annual_norm_office) VALUES (".
-			$this->gIldb->quote($this->getId(), "integer")
-			.",".$this->gIldb->quote(0, "integer")
-			.",".$this->gIldb->quote(1, "integer")
-			.",".$this->gIldb->quote(1, "integer")
-			.",".$this->gIldb->quote(1, "integer")
-			.")");
-	}
-
-
-	public function doRead() {
-		$set = $this->gIldb->query("SELECT * FROM rep_robj_rtw ".
-			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-		while ($rec = $this->gIldb->fetchAssoc($set)) {
-			$this->setOnline($rec["is_online"]);
-			$this->setAnnualNormTraining($rec["annual_norm_training"]);
-			$this->setAnnualNormOperation($rec["annual_norm_operation"]);
-			$this->setAnnualNormOffice($rec["annual_norm_office"]);
-		}
-	}
-
-	public function doUpdate() {
-		$this->gIldb->manipulate($up = "UPDATE rep_robj_rtw SET "
-			." is_online = ".$this->gIldb->quote($this->getOnline(), "integer")
-			." ,annual_norm_training = ".$this->gIldb->quote($this->getAnnualNormTraining(), "integer")
-			." ,annual_norm_operation = ".$this->gIldb->quote($this->getAnnualNormOperation(), "integer")
-			." ,annual_norm_office = ".$this->gIldb->quote($this->getAnnualNormOffice(), "integer")
-			." WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-	}
-
-	public function doDelete() {
-		$this->gIldb->manipulate("DELETE FROM rep_robj_rtw WHERE ".
-			" id = ".$this->gIldb->quote($this->getId(), "integer")
-		); 
-	}
-
-	public function doClone($a_target_id,$a_copy_id,$new_obj) {
-		$new_obj->setAnnualNormTraining($this->getAnnualNormTraining());
-		$new_obj->setAnnualNormOperation($this->getAnnualNormOperation());
-		$new_obj->setAnnualNormOffice($this->getAnnualNormOffice());
-		parent::doClone($a_target_id,$a_copy_id,$new_obj);
-	}
-
-	public function getAnnualNormTraining() {
-		return $this->norms['training'];
-	}
-
-	public function getAnnualNormOperation() {
-		return $this->norms['operation'];
-	}
-
-	public function getAnnualNormOffice() {
-		return $this->norms['office'];
-	}
-
-	public function setAnnualNormTraining($a_val) {
-		$this->norms['training'] = $a_val;
-	}
-
-	public function setAnnualNormOperation($a_val) {
-		$this->norms['operation'] = $a_val;
-	}
-
-	public function setAnnualNormOffice($a_val) {
-		$this->norms['office'] = $a_val;
-	}
-
+	
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
 	}
 
 	protected function createTemplateFile() {
+		$norms = $this->getNorms();
 		$str = fopen("Services/GEV/Reports/templates/default/"
 			."tpl.gev_trainer_workload_row.html","w"); 
 
@@ -364,12 +322,12 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 			}
 			if(count($categories)>1) {
 				$class = "bold_content";
-				if(!isset($this->norms[$meta_category])) {
+				if(!isset($norms[$meta_category])) {
 					$class .= " bordered_right";
 				}
 				$tpl .= "</td>\n".'<td align = "right" class = "'.$class.'">{VAL_'.strtoupper($meta_category).'_SUM}';
 			}
-			if(isset($this->norms[$meta_category])) {
+			if(isset($norms[$meta_category])) {
 				$tpl.= "</td>\n".'<td align = "right" class = "bordered_right bold_content">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
 			}
 			
@@ -388,12 +346,12 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 			}
 			if(count($categories)>1) {
 				$class = "bold_content";
-				if(!isset($this->norms[$meta_category])) {
+				if(!isset($norms[$meta_category])) {
 					$class .= " bordered_right";
 				}
 				$tpl .= "</td>\n".'<td align = "right" class = "'.$class.'">{VAL_'.strtoupper($meta_category).'_SUM}';
 			}
-			if(isset($this->norms[$meta_category])) {
+			if(isset($norms[$meta_category])) {
 				$tpl.= "</td>\n".'<td align = "right" class = "bordered_right bold_content">{VAL_'.strtoupper($meta_category).'_WORKLOAD}';
 			}
 			
