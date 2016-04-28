@@ -48,11 +48,17 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		throw new Exception("ilObjReportBase::deliverSumTable: you need to define a sum table.");	
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildOrder($order) {
 		return $order
 			->defaultOrder("orgu_title", "ASC");
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildTable($table) {
 		$table	->column("orgu_title", $this->plugin->txt('orgu_title'),true)
 				->column("odbd", $this->plugin->txt('od_bd'),true, "",false,false);
@@ -67,6 +73,9 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		return "tpl.gev_attendance_by_orgunit_row.html";
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildQuery($query) {
 		$query	->select("orgu.orgu_title")
 				->select("orgu.org_unit_above1")
@@ -135,6 +144,9 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		return $table;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter('org_unit', 'orgu.orgu_id', true, true);
 		if("1" === (string)$this->getAllOrgusFilter()) {
