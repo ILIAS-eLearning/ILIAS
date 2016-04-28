@@ -126,7 +126,7 @@ class ilDclExpressionParser {
 		if (abs($value) >= self::SCIENTIFIC_NOTATION_UPPER) {
 			return sprintf("%e", $value);
 		}
-		if (abs($value) <= self::SCIENTIFIC_NOTATION_LOWER) {
+		if (abs($value) <= self::SCIENTIFIC_NOTATION_LOWER && $value != 0 ) {
 			return sprintf("%e", $value);
 		}
 		if (is_float($value)) {
