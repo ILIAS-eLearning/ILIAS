@@ -118,22 +118,27 @@ class catTitleGUI {
 		ilTooltipGUI::addTooltip("tooltip_icon", $tooltip_text, "",
 			"bottom center", "top center", false);
 		$this->show_tooltip_icon = true;
+		return $this;
 	}
 
 	public function setVideoLink($video_link) {
 		$this->video_link = $video_link;
+		return $this;
 	}
 
 	public function setVideoLinkText($video_link_text) {
 		$this->video_link_text = $video_link_text;
+		return $this;
 	}
 
 	public function setPDFLink($pdf_link) {
 		$this->pdf_link = $pdf_link;
+		return $this;
 	}
 
 	public function setPDFLinkText($pdf_link_text) {
 		$this->pdf_link_text = $pdf_link_text;
+		return $this;
 	}
 
 	public function removeCommand() {
