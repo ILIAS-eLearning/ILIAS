@@ -1,5 +1,5 @@
 <?php
-require_once 'Customizing/global/plugins/Services/Cron/CronHook/classes/ReportSettings/class.reportSettingsException.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.reportSettingsException.php';
 require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
 require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
 require_once 'Services/Form/classes/class.ilTextInputGUI.php';
@@ -39,9 +39,10 @@ class reportSettingsFormHandler {
 
 		foreach ($fields as $field) {
 			$setting = $settings->setting($field);
-			$form_member = $settings_form->getItemByPostVar($this->formForSetting($setting));
-			$settings_data[$field] = $this->extractSettingFromFormMember($setting, $form_member_gui);
+			$form_member = $settings_form->getItemByPostVar($field);
+			$settings_data[$field] = $this->extractSettingFromFormMember($setting, $form_member);
 		}
+		return $settings_data;
 	}
 
 	/**
@@ -56,8 +57,8 @@ class reportSettingsFormHandler {
 		foreach ($fields as $field) {
 			$setting = $settings->setting($field);
 			$setting_data = $settings_data[$field];
-			$form_member = $settings_form->getItemByPostVar($this->formForSetting($setting));
-			$this->insertSettingIntoFormMember($setting_data, $setting, $form_member_gui);
+			$form_member = $settings_form->getItemByPostVar($field);
+			$this->insertSettingIntoFormMember($setting_data, $setting, $form_member);
 		}
 		return $settings_form;
 	}
@@ -70,7 +71,7 @@ class reportSettingsFormHandler {
 		}
 		if($setting instanceof settingFloat) {
 			$return = new ilNumberInputGUI($name, $id);
-			$return->allowDecimal(true);
+			$return->allowDecimals(true);
 			return $return;
 		}
 		if($setting instanceof settingBool) {
@@ -95,9 +96,8 @@ class reportSettingsFormHandler {
 
 		} elseif($setting instanceof settingFloat && $form_member_gui instanceof ilNumberInputGUI) {
 
-			return call_user_func($setting->getFromForm(), array($form_member_gui->getChecked()));
 		} elseif($setting instanceof settingBool && $form_member_gui instanceof ilCheckboxInputGUI) {
-
+			return call_user_func($setting->fromForm(), $form_member_gui->getChecked());
 		} elseif($setting instanceof settingString && $form_member_gui instanceof ilTextInputGUI) {
 
 		} elseif($setting instanceof settingText && $form_member_gui instanceof ilTextAreaInputGUI) {
@@ -107,20 +107,20 @@ class reportSettingsFormHandler {
 		} else {
 			throw new reportSettingsException("no formtype defined for setting");
 		}
-		return call_user_func($setting->getFromForm(), array($form_member_gui->getValue()));
+		return call_user_func($setting->fromForm(),  $form_member_gui->getValue());
 
 	}
 
-	protected function extractSettingFromFormMember($setting_data, setting $setting, ilSubEnabledFormPropertyGUI $form_member_gui) {
+	protected function insertSettingIntoFormMember($setting_data, setting $setting, ilSubEnabledFormPropertyGUI $form_member_gui) {
 		if($setting instanceof settingInt && $form_member_gui instanceof ilNumberInputGUI) {
 
 		} elseif($setting instanceof settingFloat && $form_member_gui instanceof ilNumberInputGUI) {
+
+		} elseif($setting instanceof settingBool && $form_member_gui instanceof ilCheckboxInputGUI) {
 			if($setting_data) {
-				$form_member_gui->setChecked();
+				$form_member_gui->setChecked(true);
 			}
 			return;
-		} elseif($setting instanceof settingBool && $form_member_gui instanceof ilCheckboxInputGUI) {
-
 		} elseif($setting instanceof settingString && $form_member_gui instanceof ilTextInputGUI) {
 
 		} elseif($setting instanceof settingText && $form_member_gui instanceof ilTextAreaInputGUI) {
@@ -130,7 +130,7 @@ class reportSettingsFormHandler {
 		} else {
 			throw new reportSettingsException("no formtype defined for setting");
 		}
-		$form_member_gui->setValue(call_user_func($setting->getToForm(), array($setting_data));
+		$form_member_gui->setValue(call_user_func($setting->toForm(), $setting_data));
 		return;
 	}
 }
