@@ -571,7 +571,7 @@ class ilDataCollectionDatatype {
 
 				// FSX MediaPreview
 				include_once("./Services/MediaObjects/classes/class.ilFFmpeg.php");
-				if (ilFFmpeg::supportsImageExtraction($format)) {
+				if (ilFFmpeg::enabled() && ilFFmpeg::supportsImageExtraction($format)) {
 					$med = $mob->getMediaItem("Standard");
 					$mob_file = ilObjMediaObject::_getDirectory($mob->getId()) . "/" . $med->getLocation();
 					$a_target_dir = ilObjMediaObject::_getDirectory($mob->getId());
