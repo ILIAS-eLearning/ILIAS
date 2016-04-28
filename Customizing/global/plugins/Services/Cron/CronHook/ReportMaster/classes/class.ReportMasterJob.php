@@ -3,13 +3,13 @@
 
 
 /**
-* Class		gevCancelPastEmptyTrainingsJob
-*
-* CronJob:	Cancelles past trainings without bookings
-*
-* @author Denis Klöpfer
-* @version $Id$
-*/
+ * Class		reportMasterJob
+ *
+ * CronJob:	perform daily actions on reports
+ *
+ * @author Denis Klöpfer
+ * @version $Id$
+ */
 
 require_once "Services/Cron/classes/class.ilCronManager.php";
 require_once "Services/Cron/classes/class.ilCronJob.php";
