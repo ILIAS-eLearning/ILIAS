@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBase.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php';
 
 
 
@@ -30,6 +30,21 @@ class ilObjReportBill extends ilObjReportBase {
 
 	public function initType() {
 		 $this->setType("xrbi");
+	}
+
+
+	protected function createLocalReportSettings() {
+		$options = array();
+		foreach (self::$config as $key => $label) {
+			$options[$key] = $label["label"];
+		}
+		$this->local_report_settings =
+			$this->s_f->reportSettings('rep_robj_rbi')
+				->addSetting($this->s_f
+								->settingListInt('report_mode', $this->plugin->txt('report_mode'))
+								->setOptions($options)
+							);
+
 	}
 
 	protected function buildQuery($query) {
@@ -122,6 +137,16 @@ class ilObjReportBill extends ilObjReportBase {
 	}
 
 	public function buildQueryStatement() {
+		if(self::REPORT_MODE_VFS === (int)$this->settings['report_mode']) {
+			$this->is_vfs = 1;
+		}
+		if(self::REPORT_MODE_GEV === (int)$this->settings['report_mode']) {
+			$this->is_gev = 1;
+		}
+		if(self::REPORT_MODE_ADMIN === (int)$this->settings['report_mode']) {
+			$this->is_vfs = 1;
+			$this->is_gev = 1;
+		}
 		$is_vfs_range = ($this->is_vfs xor $this->is_gev) ? array($this->is_vfs) : 
 			(($this->is_vfs && $this->is_gev) ? array(0 ,1) : array());
 		$filter_vfs = 
@@ -148,8 +173,8 @@ class ilObjReportBill extends ilObjReportBase {
 					."		, ROUND(SUM(item.billitem_pta) * (1 + bill.bill_vat/100), 2) as amount_posttax"
 					."		, bill.bill_cost_center as cost_center"
 					."      , DATE_FORMAT(FROM_UNIXTIME(bill.bill_finalized_date), '%d.%m.%Y') as bill_finalized_date"
-					."		, usr.firstname as lastname"
-					."		, usr.lastname as firstname"
+					."		, usr.firstname as firstname"
+					."		, usr.lastname as lastname"
 					." 		, usr.gender as gender"
 					."		, usr.org_unit as org_unit"
 					."		, crs.title as title";
@@ -174,11 +199,20 @@ class ilObjReportBill extends ilObjReportBase {
 	}
 
 	protected function getRowTemplateTitle() {
-		return self::$config[$this->report_mode]["tpl"];
+		return self::$config[$this->settings["report_mode"]]["tpl"];
 	}
 
 	protected function buildTable($table) {
-
+		if(self::REPORT_MODE_VFS === (int)$this->settings['report_mode']) {
+			$this->is_vfs = 1;
+		}
+		if(self::REPORT_MODE_GEV === (int)$this->settings['report_mode']) {
+			$this->is_gev = 1;
+		}
+		if(self::REPORT_MODE_ADMIN === (int)$this->settings['report_mode']) {
+			$this->is_vfs = 1;
+			$this->is_gev = 1;
+		}
 		$table 	->column("billnumber", "gev_bill_number")
 				->column("participation_status", "status")
 				->column("fee_pretax", "gev_training_fee_pretax_report")
@@ -214,16 +248,6 @@ class ilObjReportBill extends ilObjReportBase {
 		return $order;
 	}
 
-	public function doCreate() {
-		$this->gIldb->manipulate("INSERT INTO rep_robj_rbi ".
-			"(id, is_online, report_mode) VALUES (".
-			$this->gIldb->quote($this->getId(), "integer").",".
-			$this->gIldb->quote(0, "integer").",".
-			$this->gIldb->quote(0, "integer").
-			")");
-	}
-
-	
 	//_process_ will modify record entries
 	// xls means: only for Excel-Export
 	// date is the key in data-array 
@@ -231,55 +255,6 @@ class ilObjReportBill extends ilObjReportBase {
 		$val = str_replace('<nobr>', '', $val);
 		$val = str_replace('</nobr>', '', $val);
 		return $val;
-	}
-
-	public function doRead() {
-		$set = $this->gIldb->query("SELECT * FROM rep_robj_rbi ".
-			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-		while ($rec = $this->gIldb->fetchAssoc($set)) {
-			$this->setOnline($rec["is_online"]);
-			$this->setReportMode($rec["report_mode"]);
-		}
-	}
-
-	public function doUpdate() {
-		$this->gIldb->manipulate($up = "UPDATE rep_robj_rbi SET ".
-			" is_online = ".$this->gIldb->quote($this->getOnline(), "integer").",".
-			" report_mode = ".$this->gIldb->quote($this->getReportMode(), "integer").
-			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-	}
-
-	public function doDelete() {
-		$this->gIldb->manipulate("DELETE FROM rep_robj_rbi WHERE ".
-			" id = ".$this->gIldb->quote($this->getId(), "integer")
-		); 
-	}
-
-
-
-	public function doClone($a_target_id,$a_copy_id,$new_obj) {
-		$new_obj->setReportMode($this->getReportMode());
-		parent::doClone($a_target_id,$a_copy_id,$new_obj);
-	}
-
-	public function setReportMode($a_val) {
-		$this->report_mode = (int)$a_val;
-		if(self::REPORT_MODE_VFS === (int)$this->report_mode) {
-			$this->is_vfs = 1;
-		}
-		if(self::REPORT_MODE_GEV === (int)$this->report_mode) {
-			$this->is_gev = 1;
-		}
-		if(self::REPORT_MODE_ADMIN === (int)$this->report_mode) {
-			$this->is_vfs = 1;
-			$this->is_gev = 1;
-		}
-	}
-
-	public function getReportMode() {
-		return $this->report_mode;
 	}
 
 	public function getRelevantParameters() {
