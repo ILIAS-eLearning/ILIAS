@@ -72,10 +72,32 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		return $this->order;
 	}
 
+	/**
+	 * Prepare a query to be used for data retrieval in Report later on.
+	 * @param	catReportQuery	$query
+	 * @return	catReportQuery	$query
+	 */
 	abstract protected function buildQuery($query);
+
+	/**
+	 * Prepare a filter to be rendered in Report later on.
+	 * @param	catFilter	$filter
+	 * @return	catFilter	$filter
+	 */
 	abstract protected function buildFilter($filter);
+
+	/**
+	 * Prepare a order for retrieved data in Report later on.
+	 * @param	catReportOrder	$order
+	 * @return	catReportOrder	$order
+	 */
 	abstract protected function buildOrder($order);
 	
+	/**
+	 * Prepare a table to render in Report later on.
+	 * @param	catReportTable	$table
+	 * @return	catReportTable	$table
+	 */
 	protected function buildTable($table) {
 		return $table	->template($this->getRowTemplateTitle(), $this->plugin->getDirectory());
 	}
