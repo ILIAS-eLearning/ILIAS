@@ -37,4 +37,30 @@ class SettingsTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($name, "is_online_name");
 		$this->assertEquals($redid, 'https://www.google.de');
 	}
+
+	public function test_Create_WrongTables() {
+		try {
+			$settings =	$this->s_f->reportSettings('rep_master_data2')
+								->addSetting($this->s_f
+												->settingBool('is_online',"is_online_name")
+												)
+								->addSetting($this->s_f
+												->settingString('video_link',"pdf_link_name")
+												->setFromForm(function ($string) {
+														if(preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1) {
+															return $string;
+														}
+														return 'https://'.$string;
+													})
+												);
+
+			$this->asserFalse('should have failed');
+		} catch (reportSettingException $e) {
+
+		}
+	}
+	
+	public function test_forms() {
+		
+	}	
 }
