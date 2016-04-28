@@ -91,44 +91,40 @@ class reportSettingsFormHandler {
 		throw new reportSettingsException("no formtype defined for setting");
 	}
 
-	protected function extractSettingFromFormMember(setting $setting, ilSubEnabledFormPropertyGUI $form_member_gui) {
+	protected function validSettingGUIRelation(setting $setting, ilSubEnabledFormPropertyGUI $form_member_gui) {
 		if($setting instanceof settingInt && $form_member_gui instanceof ilNumberInputGUI) {
-
+			return true;
 		} elseif($setting instanceof settingFloat && $form_member_gui instanceof ilNumberInputGUI) {
-
+			return true;
 		} elseif($setting instanceof settingBool && $form_member_gui instanceof ilCheckboxInputGUI) {
-			return call_user_func($setting->fromForm(), $form_member_gui->getChecked());
+			return true;
 		} elseif($setting instanceof settingString && $form_member_gui instanceof ilTextInputGUI) {
-
+			return true;
 		} elseif($setting instanceof settingText && $form_member_gui instanceof ilTextAreaInputGUI) {
-
+			return true;
 		} elseif($setting instanceof settingRichText && $form_member_gui instanceof ilTextAreaInputGUI) {
-
+			return true;
 		} else {
-			throw new reportSettingsException("no formtype defined for setting");
+			return false;
+		}
+	}
+
+	protected function extractSettingFromFormMember(setting $setting, ilSubEnabledFormPropertyGUI $form_member_gui) {
+		assert('$this->validSettingGUIRelation($setting, $form_member_gui)');
+		if($setting instanceof settingBool && $form_member_gui instanceof ilCheckboxInputGUI) {
+			return call_user_func($setting->fromForm(), $form_member_gui->getChecked());
 		}
 		return call_user_func($setting->fromForm(),  $form_member_gui->getValue());
 
 	}
 
 	protected function insertSettingIntoFormMember($setting_data, setting $setting, ilSubEnabledFormPropertyGUI $form_member_gui) {
-		if($setting instanceof settingInt && $form_member_gui instanceof ilNumberInputGUI) {
-
-		} elseif($setting instanceof settingFloat && $form_member_gui instanceof ilNumberInputGUI) {
-
-		} elseif($setting instanceof settingBool && $form_member_gui instanceof ilCheckboxInputGUI) {
+		assert('$this->validSettingGUIRelation($setting, $form_member_gui)');
+		if($setting instanceof settingBool && $form_member_gui instanceof ilCheckboxInputGUI) {
 			if($setting_data) {
 				$form_member_gui->setChecked(true);
 			}
 			return;
-		} elseif($setting instanceof settingString && $form_member_gui instanceof ilTextInputGUI) {
-
-		} elseif($setting instanceof settingText && $form_member_gui instanceof ilTextAreaInputGUI) {
-
-		} elseif($setting instanceof settingRichText && $form_member_gui instanceof ilTextAreaInputGUI) {
-
-		} else {
-			throw new reportSettingsException("no formtype defined for setting");
 		}
 		$form_member_gui->setValue(call_user_func($setting->toForm(), $setting_data));
 		return;
