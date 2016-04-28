@@ -14,18 +14,6 @@ class ilObjReportASTDGUI extends ilObjReportBaseGUI {
 		return 'xatd';
 	}
 
-	protected function settingsForm($data = null) {
-		$settings_form = parent::settingsForm($data);
-
-		$accomodation_cost = new ilNumberInputGUI($this->gLng->txt('astd_accomodation_cost_per_day_person'),'accomodation_cost');
-		$accomodation_cost->allowDecimals(true);
-		if(isset($data['accomodation_cost'])) {
-			$accomodation_cost->setValue(number_format($data['accomodation_cost'],2,',','.'));
-		}
-		$settings_form->addItem($accomodation_cost);
-
-		return $settings_form;
-	}
 
 	protected function prepareTitle($a_title) {
 		$a_title = parent::prepareTitle($a_title);
@@ -33,16 +21,6 @@ class ilObjReportASTDGUI extends ilObjReportBaseGUI {
 		return $a_title;
 	}
 
-	protected function getSettingsData() {
-		$data = parent::getSettingsData();
-		$data['accomodation_cost'] = $this->object->getAccomodationCost();
-		return $data;
-	}
-
-	protected function saveSettingsData($data) {
-		$this->object->setAccomodationCost($data['accomodation_cost']);
-		parent::saveSettingsData($data);
-	}
 
 	public static function transformResultRow($rec) {
 		global $lng;

@@ -19,6 +19,14 @@ class ilObjReportASTD extends ilObjReportBase {
 		$this->role_utils = gevRoleUtils::getInstance();
 	}
 
+	protected function createLocalReportSettings() {
+		$this->local_report_settings =
+			$this->s_f->reportSettings('rep_robj_astd')
+				->addSetting($this->s_f
+								->settingFloat('accomodation_cost', $this->plugin->txt('accomodation_cost'))
+							);
+	}
+
 	public function initType() {
 		 $this->setType("xatd");
 	}
@@ -36,7 +44,7 @@ class ilObjReportASTD extends ilObjReportBase {
 									,'astd_hours_language_course'	=>	' 0 '
 									,'astd_participators'			=>	' COUNT(DISTINCT usr_id)'
 									,'astd_accomodation_cost'		=>	" SUM( IF( type = ".$this->gIldb->quote('Präsenztraining','text')." AND begin_date IS NOT NULL AND end_date IS NOT NULL, (DATEDIFF(end_date,begin_date)+1)*"
-																.$this->gIldb->quote( $this->getAccomodationCost(),'float').', 0) ) '
+																.$this->gIldb->quote( $this->settings['accomodation_cost'],'float').', 0) ) '
 									);
 
 		$this->end_date = $this->filter->get('period')['end']->getUnixTime();
@@ -185,56 +193,6 @@ class ilObjReportASTD extends ilObjReportBase {
 		}
 		return $data;
 	}
-
-	public function doCreate() {
-		$this->gIldb->manipulate("INSERT INTO rep_robj_astd ".
-			"(id, is_online, accomodation_cost) VALUES (".
-			$this->gIldb->quote($this->getId(), "integer").",".
-			$this->gIldb->quote(0, "integer").",".
-			$this->gIldb->quote(30, "float")
-			.")");
-	}
-
-
-	public function doRead() {
-		$set = $this->gIldb->query("SELECT * FROM rep_robj_astd ".
-			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-		while ($rec = $this->gIldb->fetchAssoc($set)) {
-			$this->setOnline($rec["is_online"]);
-			$this->setAccomodationCost($rec["accomodation_cost"]);
-		}
-	}
-
-
-	public function doUpdate() {
-		$this->gIldb->manipulate($up = "UPDATE rep_robj_astd SET "
-			." is_online = ".$this->gIldb->quote($this->getOnline(), "integer")
-			.", accomodation_cost = ".$this->gIldb->quote($this->getAccomodationCost(), "float")
-			." WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-	}
-
-	public function doDelete() {
-		$this->gIldb->manipulate("DELETE FROM rep_robj_astd WHERE ".
-			" id = ".$this->gIldb->quote($this->getId(), "integer")
-		); 
-	}
-
-	public function doClone($a_target_id,$a_copy_id,$new_obj) {
-		$new_obj->setAccomodationCost($this->getAccomodationCost());
-		parent::doClone($a_target_id,$a_copy_id,$new_obj);
-	}
-
-
-	public function setAccomodationCost($a_val) {
-		$this->accomodation_cost = str_replace(',', '.', $a_val);
-	}
-
-	public function getAccomodationCost() {
-		return $this->accomodation_cost;
-	}
-
 
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
