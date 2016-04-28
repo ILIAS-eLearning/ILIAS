@@ -256,4 +256,23 @@ class ilMailFormCall
 		$session[self::CONTEXT_PREFIX] = $parameters;
 		ilSession::set(self::SESSION_KEY, $session);
 	}
+
+	/**
+	 * @param array $recipients
+	 */
+	public static function setRecipients(array $recipients)
+	{
+		$session = ilSession::get(self::SESSION_KEY);
+		$session['rcp_to'] = $recipients;
+		ilSession::set(self::SESSION_KEY, $session);
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getRecipients()
+	{
+		$session = ilSession::get(self::SESSION_KEY);
+		return (array)$session['rcp_to'];
+	}
 }
