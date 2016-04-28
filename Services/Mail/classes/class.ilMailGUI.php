@@ -76,7 +76,12 @@ class ilMailGUI
 
 		if ($_GET["type"] == "new")
 		{
-			$_SESSION['rcp_to'] = $_GET['rcp_to'];			
+			$_SESSION['rcp_to'] = $_GET['rcp_to'];
+			if(!strlen($_SESSION['rcp_to']) && ($recipients = ilMailFormCall::getRecipients()))
+			{
+				$_SESSION['rcp_to'] = implode(',', $recipients);
+				ilMailFormCall::setRecipients(array());
+			}
 			$_SESSION['rcp_cc'] = $_GET['rcp_cc'];
 			$_SESSION['rcp_bcc'] = $_GET['rcp_bcc'];
 
