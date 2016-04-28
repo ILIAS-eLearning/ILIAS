@@ -51,9 +51,10 @@ class reportSettingsDataHandler {
 	}
 
 	/**
-	 *	update an object in the database
+	 *	load object settings from database
 	 * 	@param	int	obj_id 
-	 * 	@return	array	settings
+	 * 	@param	reportSettings	settings
+	 *	@return	mixed[] 
 	 */
 	public function readObjEntry($obj_id, reportSettings $settings) {
 		$query = 'SELECT '.implode(', ' ,$settings->settingIds())
@@ -65,7 +66,8 @@ class reportSettingsDataHandler {
 
 	/**
 	 *	delete an object in the database
-	 * 	@param	int	obj_id 
+	 * 	@param	int	obj_id
+	 * 	@param	reportSettings	settings
 	 */
 	public function deleteObjEntry($obj_id, reportSettings $settings) {
 		$query = 'DELETE FROM '.$settings->table().' WHERE id = '.$obj_id;
@@ -74,8 +76,8 @@ class reportSettingsDataHandler {
 
 	/**
 	 *	use the right quoting for certain settings
-	 * 	@param	int	obj_id 
-	 * 	@param	array	settings
+	 * 	@param	mixed 	$value
+	 * 	@param	setting	$settings
 	 */
 	protected function quote($value, setting $setting) {
 		if($setting instanceof settingInt || $setting instanceof settingBool ) {
