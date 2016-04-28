@@ -992,8 +992,9 @@ class recursiveOrguFilter {
 	}
 
 	/**
-	 * Include a configured orgu-filter to @param catFilter filter.
-	 * @return catFilter filter.
+	 * Include a configured orgu-sub-filter to a filter
+	 * @param	catFilter	$filter.
+	 * @return	catFilter	$filter.
 	 */
 	public function addToFilter($filter) {
 		global $lng;
@@ -1032,6 +1033,7 @@ class recursiveOrguFilter {
 
 	/**
 	 * Define the filter options by directly providing an associative @param array(orgu_title => orgu_id)
+	 * @param	int[]	$org_ids
 	 */
 	public function setFilterOptionsByArray(array $org_ids) {
 		$options = array();
@@ -1046,6 +1048,7 @@ class recursiveOrguFilter {
 	/**
 	 * Define the filter options by directly providing a usr object @param gevUserUtils $user_utils.
 	 * The logic by which relevant orgus are extracted is defined later, but will be consistent for any report.
+	 * @param	gevUserUtils	$user_utils
 	 */
 	public function setFilterOptionsByUser(gevUserUtils $user_utils) {
 
@@ -1088,7 +1091,7 @@ class recursiveOrguFilter {
 
 	/**
 	 * Get all orgu units that currently exist in ILIAS-instance
-	 * @return int[] orgu ids
+	 * @return	int[]	$return
 	 */
 	protected function getAllOrguIds() {
 		$query = "SELECT DISTINCT obj_id FROM object_data JOIN object_reference USING(obj_id)"
@@ -1102,14 +1105,16 @@ class recursiveOrguFilter {
 	}
 
 	/**
-	 * @return bool recursive filter selection
+	 * Retrive recursice  filter selection
+	 * @return 	bool
 	 */
 	public function getRecursiveSelection() {
 		return $this->filter->get($this->id.'_recursive');
 	}
 
 	/**
-	 * @return array(orgu_ids) orgu filter selection
+	 * Retrive bulk orgu filter selection
+	 * @return 	int[]	$top_orgu_ids
 	 */
 	public function getSelection() {
 		$top_orgu_ids = $this->filter->get($this->id);
@@ -1129,9 +1134,9 @@ class recursiveOrguFilter {
 	}
 
 	/**
-	 * helper method
-	 * @return	int[]	orgu_ids all children of
-	 * @param	int[]	orgu_ids
+	 * Get some children of given orgu ids.
+	 * @return	int[]	$aux  all children of
+	 * @param	int[]	$orgu_ids
 	 */
 	protected function getChildrenOf($orgu_ids) {
 		require_once 'Services/GEV/Utils/classes/class.gevOrgUnitUtils.php';
@@ -1146,7 +1151,7 @@ class recursiveOrguFilter {
 	}
 
 	/**
-	 * @return	string	sql	which reflects the filter selection
+	 * @return	string	$sql	which reflects the filter selection
 	 */
 	public function deliverQuery() {
 		if(count($this->filter_options) > 0) {
@@ -1164,8 +1169,9 @@ class recursiveOrguFilter {
 	}
 
 	/**
-	 * add a where statement to @param catReportQuery $query which reflects the filter selection
-	 * @return catReportQuery $query
+	 * add a where statement to 
+	 * @param	catReportQuery	$query	which reflects the filter selection
+	 * @return	catReportQuery	$query
 	 */
 	public function addToQuery(catReportQuery $query) {
 		return $query->where($this->deliverQuery());
