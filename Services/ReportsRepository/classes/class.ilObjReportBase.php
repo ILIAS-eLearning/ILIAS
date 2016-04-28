@@ -63,7 +63,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 								->settingBool('is_online', $this->master_plugin->txt('is_online'))
 								)
 				->addSetting($this->s_f
-								->settingString('pdf_link', $this->master_plugin->txt('pdf_link'))
+								->settingString('pdf_link', $this->master_plugin->txt('rep_pdf_desc'))
 									->setFromForm(function ($string) {
 										$string = trim($string);
 										if($string === "" || preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1 ) {
@@ -73,7 +73,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 									})
 								)
 				->addSetting($this->s_f
-								->settingString('video_link', $this->master_plugin->txt('pdf_link'))
+								->settingString('video_link', $this->master_plugin->txt('rep_video_desc'))
 									->setFromForm(function ($string) {
 										$string = trim($string);
 										if($string === "" || preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1 ) {
@@ -83,7 +83,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 									})
 								)
 				->addSetting($this->s_f
-								->settingRichText('tooltip_info', $this->master_plugin->txt('tooltip_info'))
+								->settingRichText('tooltip_info', $this->master_plugin->txt('rep_tooltip_desc'))
 								);
 	}
 
