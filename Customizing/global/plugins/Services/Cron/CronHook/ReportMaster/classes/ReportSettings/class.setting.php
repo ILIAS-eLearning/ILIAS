@@ -30,13 +30,16 @@ abstract class setting {
 	/**
 	 * @return	closure	default_to_form for default_value
 	 */
-	abstract protected function defaultToForm();
+	protected function defaultToForm() {
+		return function($val) {return $val;};
+	}
 
 	/**
 	 * @return	closure	default_from_form for default_value
 	 */
-	abstract protected function defaultFromForm();
-
+	protected function defaultFromForm() {
+		return function($val) {return $val;};
+	}
 	/**
 	 * will be defined during instantiation
 	 * @return	string	id	of current setting 

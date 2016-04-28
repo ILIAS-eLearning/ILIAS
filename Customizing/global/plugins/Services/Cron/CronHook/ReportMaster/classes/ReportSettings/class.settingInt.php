@@ -13,14 +13,7 @@ class settingInt extends setting {
 	/**
 	 * @inheritdoc
 	 */
-	protected function defaultToForm() {
-		return function($val) {return $val;};
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	protected function defaultFromForm() {
-		return function($val) {return $val;};
+		return function($val) {return (int)$val;};
 	}
 }

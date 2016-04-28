@@ -8,18 +8,4 @@ class settingRichText extends setting {
 	protected function defaultDefaultValue() {
 		return "";
 	}
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function defaultToForm() {
-		return function($val) {return $val;};
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function defaultFromForm() {
-		return function($val) {return $val;};
-	}
 }
