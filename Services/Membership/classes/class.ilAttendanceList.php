@@ -47,7 +47,12 @@ class ilAttendanceList
 		// always available
 		$this->presets['name'] = array($lng->txt('name'), true);
 		$this->presets['login'] = array($lng->txt('login'), true);
-		$this->presets['email'] = array($lng->txt('email'));	
+		$this->presets['email'] = array($lng->txt('email'));
+		
+		
+		
+		// add exportable fields
+		$this->readOrderedExportableFields();
 		
 		$lng->loadLanguageModule('crs');
 		
@@ -81,6 +86,61 @@ class ilAttendanceList
 		}			
 	}
 	
+	/**
+	 * read object export fields
+	 * @return boolean
+	 */
+	protected function readOrderedExportableFields()
+	{
+		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+		include_once('Services/User/classes/class.ilUserDefinedFields.php');
+
+		$field_info = ilExportFieldsInfo::_getInstanceByType($this->parent_obj->object->getType());
+		$field_info->sortExportFields();
+
+	 	foreach($field_info->getExportableFields() as $field)
+	 	{
+			switch($field)
+			{
+				case 'username':
+				case 'firstname':
+				case 'lastname':
+				case 'email':
+					continue 2;
+			}
+			
+			ilLoggerFactory::getLogger('mem')->dump($field, ilLogLevel::DEBUG);
+			// Check if default enabled
+			$this->presets[$field] = array(
+				$GLOBALS['lng']->txt($field),
+				false
+			);
+	 	}
+
+		// add udf fields
+	 	$udf = ilUserDefinedFields::_getInstance();
+		foreach($udf->getExportableFields($this->parent_obj->object->getId()) as $field_id => $udf_data)
+	 	{
+			$this->presets['udf_'.$field_id] = array(
+				$udf_data['field_name'],
+				false
+			);
+	 	}
+		
+		// add cdf fields
+		include_once './Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php';
+		foreach(ilCourseDefinedFieldDefinition::_getFields($this->parent_obj->object->getId()) as $field_obj)
+		{
+			$this->presets['cdf_'.$field_obj->getId()] = array(
+				$field_obj->getName(),
+				false
+			);
+		}
+		return true;
+	}
+
 	/**
 	 * Add user field
 	 * 
@@ -167,28 +227,57 @@ class ilAttendanceList
 			$user_ids = array_merge($user_ids, $this->waiting_list->getUserIds());
 		}
 		
+		// Finally read user profile data
+		$profile_data = ilObjUser::_readUsersProfileData($user_ids);
+		foreach($profile_data as $user_id => $fields)
+		{
+			foreach((array) $fields as $field => $value)
+			{
+				$a_res[$user_id][$field] = $value;
+			}
+		}
+
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
+	 	$udf = ilUserDefinedFields::_getInstance();
+		
+		foreach($udf->getExportableFields($this->parent_obj->object->getId()) as $field_id => $udf_data)
+	 	{
+			foreach($profile_data as $user_id => $field)
+			{
+				include_once './Services/User/classes/class.ilUserDefinedData.php';
+				$udf_data = new ilUserDefinedData($user_id);
+				$a_res[$user_id]['udf_'.$field_id] = (string) $udf_data->get('f_'.$field_id);
+			}
+	 	}
+		
 		if(sizeof($user_ids))
 		{
+			// object specific user data
+			include_once 'Modules/Course/classes/Export/class.ilCourseUserData.php';
+			$cdfs = ilCourseUserData::_getValuesByObjId($this->parent_obj->object->getId());
+			
 			foreach(array_unique($user_ids) as $user_id)
 			{					
-				if(!isset($a_res[$user_id]))
+				if($tmp_obj = ilObjectFactory::getInstanceByObjId($user_id, false))
 				{
-					if($tmp_obj = ilObjectFactory::getInstanceByObjId($user_id, false))
-					{
-						$a_res[$user_id]['login'] = $tmp_obj->getLogin();
-						$a_res[$user_id]['name'] = $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();		
-						$a_res[$user_id]['email'] = $tmp_obj->getEmail();		
+					$a_res[$user_id]['login'] = $tmp_obj->getLogin();
+					$a_res[$user_id]['name'] = $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();		
+					$a_res[$user_id]['email'] = $tmp_obj->getEmail();		
 
-						if(in_array($user_id, $subscriber_ids))
-						{
-							$a_res[$user_id]['status'] = $lng->txt('crs_subscriber'); 
-						}
-						else
-						{
-							$a_res[$user_id]['status'] = $lng->txt('crs_waiting_list'); 
-						}
-					}			
-				}
+					if(in_array($user_id, $subscriber_ids))
+					{
+						$a_res[$user_id]['status'] = $lng->txt('crs_subscriber'); 
+					}
+					else
+					{
+						$a_res[$user_id]['status'] = $lng->txt('crs_waiting_list'); 
+					}
+					
+					foreach((array) $cdfs[$user_id] as $field_id => $value)
+					{
+						$a_res[$user_id]['cdf_'.$field_id] = (string) $value;
+					}
+				}	
 			}
 		}
 	}
@@ -590,10 +679,10 @@ class ilAttendanceList
 								}							
 
 							default:
-								$value = (string)$user_data[$id];
+								$value = (string) $user_data[$id];
 								break;
 						}
-						$tpl->setVariable("TXT_PRESET", $value);
+						$tpl->setVariable("TXT_PRESET", (string) $value);
 						$tpl->parseCurrentBlock();
 					}
 				}								
