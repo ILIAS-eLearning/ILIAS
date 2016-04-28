@@ -10,6 +10,11 @@
 class ilMailFormCall
 {
 	/**
+	 *
+	 */
+	const SESSION_KEY = 'mail_transport';
+
+	/**
 	 * HTTP-GET parameter for the referer url
 	 */
 	const REFERER_KEY = 'r';
