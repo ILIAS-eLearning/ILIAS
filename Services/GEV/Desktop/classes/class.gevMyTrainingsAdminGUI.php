@@ -18,7 +18,7 @@ require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
 require_once("Services/GEV/Desktop/classes/class.gevMyTrainingsAdminTableGUI.php");
 require_once("Services/Utilities/classes/class.ilUtil.php");
-require_once("Services/ReportsRepository/classes/class.catFilterFlatViewGUI.php");
+require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.catFilterFlatViewGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevMyTrainingsAdmin.php");
 
 class gevMyTrainingsAdminGUI {

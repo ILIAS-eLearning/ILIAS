@@ -2,7 +2,7 @@
 require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 require_once("Services/Form/classes/class.ilSelectInputGUI.php");
 require_once("Services/Form/classes/class.ilHiddenInputGUI.php");
-require_once("Services/ReportsRepository/classes/class.catFilterGUI.php");
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.catFilterGUI.php';
 
 class catFilterSingleselectGUI extends catFilterGUI {
 	protected $filter;

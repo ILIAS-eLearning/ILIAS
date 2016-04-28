@@ -7,7 +7,7 @@ require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';
 require_once 'Services/CaTUIComponents/classes/class.catTitleGUI.php';
 require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
-require_once("Services/ReportsRepository/interfaces/interface.ExcelWriter.php");
+require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/interfaces/interface.ExcelWriter.php");
 require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.reportSettingsFormHandler.php");
 
 abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
@@ -293,7 +293,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	}
 
 	protected function getExcelWriter() {
-		require_once 'Services/ReportsRepository/classes/class.spoutXLSXWriter.php';
+		require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.spoutXLSXWriter.php';
 		$workbook = new spoutXLSXWriter();
 		return $workbook;
 	}
@@ -376,6 +376,8 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	}
 
 	protected function setFilterAction($cmd) {
+		global $ilLog;
+		$ilLog->write($cmd);
 		$this->enableRelevantParametersCtrl();
 		$this->object->setFilterAction($this->gCtrl->getLinkTarget($this,$cmd));
 		$this->disableRelevantParametersCtrl();

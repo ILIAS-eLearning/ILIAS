@@ -1,10 +1,10 @@
 <?php
 require_once 'Services/Repository/classes/class.ilObjectPlugin.php';
-require_once 'Services/ReportsRepository/classes/class.catReportTable.php';
-require_once 'Services/ReportsRepository/classes/class.catReportOrder.php';
-require_once 'Services/ReportsRepository/classes/class.catReportQuery.php';
-require_once 'Services/ReportsRepository/classes/class.catReportQueryOn.php';
-require_once 'Services/ReportsRepository/classes/class.catFilter.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.catReportTable.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.catReportOrder.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.catReportQuery.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.catReportQueryOn.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.catFilter.php';
 require_once 'Services/GEV/Utils/classes/class.gevUserUtils.php';
 require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.reportSettingsDataHandler.php");
 require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.settingFactory.php");

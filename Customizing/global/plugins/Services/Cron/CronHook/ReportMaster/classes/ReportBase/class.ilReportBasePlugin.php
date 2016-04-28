@@ -10,7 +10,7 @@ abstract class ilReportBasePlugin extends ilRepositoryObjectPlugin {
 	abstract protected function getReportName();
 
 	static public function _getIcon($a_type, $a_size) {
-		return 'Services/ReportsRepository/images/icon.png';
+		return 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/images/icon.png';
 	}
 
 }
