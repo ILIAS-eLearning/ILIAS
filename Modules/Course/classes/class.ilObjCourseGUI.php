@@ -132,7 +132,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			array(), 
 			array(
 				'type' => 'new', 
-				'rcp_to' => implode(',',$rcps),
 				'sig'	=> $this->createMailSignature()
 		)));
 	}
