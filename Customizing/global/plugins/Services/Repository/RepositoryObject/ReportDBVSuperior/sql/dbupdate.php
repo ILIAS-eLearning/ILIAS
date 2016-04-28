@@ -29,3 +29,12 @@ if(!$ilDB->tableColumnExists('rep_robj_rds', 'year')) {
 		));
 }
 ?>
+
+<#3>
+<?php
+$query = "INSERT INTO rep_master_data (id,is_online)"
+		."	SELECT bi.id,bi.is_online FROM rep_master_data md"
+		."		RIGHT JOIN rep_robj_rds bi ON bi.id = md.id "
+		."	WHERE md.id IS NULL";
+$ilDB->manipulate($query);
+?>
