@@ -4,6 +4,7 @@ require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/cla
 require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.settingString.php';
 require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.settingFloat.php';
 require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.settingBool.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.settingListInt.php';
 require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.settingRichText.php';
 require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.reportSettings.php';
 
@@ -36,6 +37,10 @@ class settingFactory {
 
 	public function settingText($id, $name) {
 		return new settingText($id, $name);
+	}
+
+	public function settingListInt($id, $name) {
+		return new settingListInt($id, $name);
 	}
 
 	public function reportSettings($table) {
