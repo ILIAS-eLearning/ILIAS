@@ -41,4 +41,12 @@ class settingFactory {
 	public function reportSettings($table) {
 		return new reportSettings($table, $this->db);
 	}
+
+	public function reportSettingsDataHandler() {
+		return new reportSettingsDataHandler($this->db);
+	}
+
+	public function reportSettingsFormHandler() {
+		return new reportSettingsFormHandler();
+	}
 }
