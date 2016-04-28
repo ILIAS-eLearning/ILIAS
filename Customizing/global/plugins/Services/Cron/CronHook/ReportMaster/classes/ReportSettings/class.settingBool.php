@@ -21,6 +21,7 @@ class settingBool extends setting {
 	 * @inheritdoc
 	 */
 	protected function defaultFromForm() {
-		return function($val) {return $val ? true : false;};
+		return function($val) {
+			return $val ? true : false;};
 	}
 }
