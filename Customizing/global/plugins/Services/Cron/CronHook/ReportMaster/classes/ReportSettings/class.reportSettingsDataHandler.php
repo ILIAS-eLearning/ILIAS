@@ -1,4 +1,5 @@
 <?php
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.reportSettingsException.php';
 
 class reportSettingsDataHandler {
 	protected $db;
@@ -79,12 +80,12 @@ class reportSettingsDataHandler {
 	protected function quote($value, setting $setting) {
 		if($setting instanceof settingInt || $setting instanceof settingBool ) {
 			$quote_format = 'integer';
-		}
-		if($setting instanceof settingFloat ) {
+		} elseif($setting instanceof settingFloat ) {
 			$quote_format = 'float';
-		}
-		if($setting instanceof settingString || $setting instanceof settingText || $setting instanceof settingRichText ) {
+		} elseif($setting instanceof settingString || $setting instanceof settingText || $setting instanceof settingRichText ) {
 			$quote_format = 'text';
+		} else {
+			throw new reportSettingsException("unknown setting type".get_class($setting));
 		}
 
 		return $this->db->quote($value, $quote_format);
