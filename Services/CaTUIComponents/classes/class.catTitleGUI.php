@@ -117,7 +117,9 @@ class catTitleGUI {
 		include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 		ilTooltipGUI::addTooltip("tooltip_icon", $tooltip_text, "",
 			"bottom center", "top center", false);
-		$this->show_tooltip_icon = true;
+		if($tooltip_text) {
+			$this->show_tooltip_icon = true;
+		}
 		return $this;
 	}
 
@@ -156,7 +158,7 @@ class catTitleGUI {
 	public function render() {
 		$tpl = new ilTemplate("tpl.cat_title.html", true, true, "Services/CaTUIComponents");
 
-		if ($this->title !== null) {
+		if ($this->title) {
 			if($this->show_tooltip_icon) {
 				$tpl->setCurrentBlock("info_icon");
 				$tpl->setVariable("INFO", ilUtil::getImagePath("GEV_img/ico-info.png"));
@@ -180,7 +182,7 @@ class catTitleGUI {
 					$tpl->parseCurrentBlock();
 				}
 
-				if ($this->legend !== null) {
+				if ($this->legend) {
 					$tpl->setCurrentBlock("legend");
 					$tpl->setVariable("LEGEND", $this->legend->render());
 					$tpl->parseCurrentBlock();
