@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBaseGUI.php';
 /**
 * User Interface class for example repository object.
 * ...
@@ -18,8 +18,6 @@ class ilObjReportEmplEduBiosGUI extends ilObjReportBaseGUI {
 	protected function prepareTitle($a_title) {
 		$a_title = parent::prepareTitle($a_title);
 		$a_title->image("GEV_img/ico-head-edubio.png");
-		$a_title->setTooltipText($this->gLng->txt("gev_rep_employee_edu_bios_desc"));
-		$a_title->setVideoLink($this->object->getVideoLink());
 		return $a_title;
 	}
 
@@ -62,15 +60,6 @@ class ilObjReportEmplEduBiosGUI extends ilObjReportBaseGUI {
 
 		$rec["od_bd"] = $rec["org_unit_above2"]."/".$rec["org_unit_above1"];		
 		return parent::transformResultRow($rec);
-	}
-
-	protected function getSettingsData() {
-		$data = parent::getSettingsData();
-		return $data;
-	}
-
-	protected function saveSettingsData($data) {
-		parent::saveSettingsData($data);
 	}
 
 	public static function getEduBioLinkFor($a_user_id) {
