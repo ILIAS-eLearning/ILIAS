@@ -4,7 +4,7 @@
 $id = "ReportMaster";
   
 // code version; must be changed for all code changes
-$version = "0.0.2";
+$version = "0.0.3";
   
 // ilias min and max version; must always reflect the versions that should
 // run with the plugin
