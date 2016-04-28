@@ -169,7 +169,7 @@ class catTitleGUI {
 				
 				if($this->pdf_link) {
 					$tpl->setCurrentBlock("icon_entry");
-					$tpl->setVariable("VIDEO_ICON", ilUtil::getImagePath("GEV_img/ico-videolink.png"));
+					$tpl->setVariable("VIDEO_ICON", ilUtil::getImagePath("GEV_img/ico-pdflink.png"));
 					$tpl->setVariable("TEXT", $this->pdf_link_text);
 					$tpl->setVariable("URL", $this->pdf_link);
 					$tpl->parseCurrentBlock();
