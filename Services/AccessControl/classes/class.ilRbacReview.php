@@ -116,6 +116,7 @@ class ilRbacReview
 		$role_ids = array();
 
 		require_once 'Services/Mail/classes/RFC822.php';
+		require_once 'Services/Mail/classes/class.ilMail.php';
 		$parser = new Mail_RFC822();
 		$parsedList = $parser->parseAddressList($a_address_list, ilMail::ILIAS_HOST, false, true);
 		foreach($parsedList as $address)
@@ -467,6 +468,7 @@ class ilRbacReview
 		try
 		{
 			require_once 'Services/Mail/classes/RFC822.php';
+			require_once 'Services/Mail/classes/class.ilMail.php';
 			$obj = new Mail_RFC822($mailbox, ilMail::ILIAS_HOST);
 			$obj->parseAddressList();
 
