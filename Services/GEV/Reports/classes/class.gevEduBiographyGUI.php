@@ -63,7 +63,9 @@ class gevEduBiographyGUI extends catBasicReportGUI {
 						->template('tpl.gev_edu_bio_row.html', 'Services/GEV/Reports');
 
 		$this->order = catReportOrder::create($this->table)
-						->mapping('date',array('usrcrs.begin_date'));
+						->mapping('date',array('usrcrs.begin_date'))
+						->mapping('status',array("usrcrs.participation_status"))
+						->mapping('wbd',array("usrcrs.okz"));
 
 		$this->query = catReportQuery::create()
 						->select("crs.custom_id")
