@@ -247,6 +247,7 @@ assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet Parameters
 assessment#:#apply#:#Apply
 assessment#:#ass_create_export_file#:#Create Test Export File
+assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl. Participant Results)
 assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
 assessment#:#ass_export_files#:#Export Files

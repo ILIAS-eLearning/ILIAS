@@ -347,6 +347,7 @@ assessment#:#apply#:#Übernehmen
 assessment#:#ass_completion_by_submission#:#Bestehen durch Abgabe
 assessment#:#ass_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösungsdatei zur Vergabe der Maximalpunktzahl für diese Frage. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 assessment#:#ass_create_export_file#:#Erstelle Exportdatei
+assessment#:#ass_create_export_file_with_results#:#Erstelle Exportdatei (inkl. Teilnehmerergebnisse)
 assessment#:#ass_create_export_test_results#:#Erstelle Ergebnisdatei
 assessment#:#ass_create_export_test_archive#:#Erstelle Archivdatei für Test
 assessment#:#ass_export_files#:#Exportdateien
