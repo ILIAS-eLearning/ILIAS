@@ -57,12 +57,22 @@ class ilTermsOfServiceFileSystemDocument implements ilTermsOfServiceSignableDocu
 		{
 			if(is_file($file) && is_readable($file))
 			{
-				$lines         = file($file);
 				$this->content = '';
-				foreach($lines as $line)
+
+				$content = file_get_contents($file);
+				if(strip_tags($content) === $content)
 				{
-					$this->content .= trim(nl2br($line));
+					$lines         = file($file);
+					foreach($lines as $line)
+					{
+						$this->content .= nl2br(trim($line));
+					}
 				}
+				else
+				{
+					$this->content = $content;
+				}
+
 				$this->source             = $file;
 				$this->has_content        = (bool)strlen($this->content);
 				$this->iso2_language_code = $iso2_language_code;

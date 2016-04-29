@@ -1189,6 +1189,7 @@ class ilDataCollectionTable {
 		$this->setEditByOwner($original->getEditByOwner());
 		$this->setAddPerm($original->getAddPerm());
 		$this->setEditPerm($original->getEditPerm());
+		$this->setDeleteByOwner($original->getDeleteByOwner());
 		$this->setDeletePerm($original->getDeletePerm());
 		$this->setLimited($original->getLimited());
 		$this->setLimitStart($original->getLimitStart());
