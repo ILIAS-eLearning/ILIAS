@@ -256,7 +256,7 @@ class ilDataCollectionRecordEditGUI {
 							break;
 						case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
 							$value = $record->getRecordFieldValue($fieldref);
-							if ($json = json_decode($value)) {
+							if ($json = json_decode($value) && json_decode($value) instanceof stdClass) {
 								$value = $json->title ? $json->title : $json->link;
 							}
 							$options[$record->getId()] = $value;
