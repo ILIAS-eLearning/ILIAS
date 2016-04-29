@@ -64,7 +64,7 @@ class ilObjReportEmplEduBiosGUI extends ilObjReportBaseGUI {
 
 	public static function getEduBioLinkFor($a_user_id) {
 		global $ilCtrl;
-		$ilCtrl->setParameterByClass("gevEduBiographyGUI", "target_user_id", $a_target_user_id);
+		$ilCtrl->setParameterByClass("gevEduBiographyGUI", "target_user_id", $a_user_id);
 		$link = $ilCtrl->getLinkTargetByClass(array("gevDesktopGUI","gevEduBiographyGUI"), "view");
 		$ilCtrl->clearParametersByClass("gevEduBiographyGUI");
 		return $link;
