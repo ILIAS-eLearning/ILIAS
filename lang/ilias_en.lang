@@ -16195,3 +16195,4 @@ crs#:#event_tbl_tutors#:#Tutors
 trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.
 sess#:#sess_list_reg_limit_places#:#Free places
 sess#:#sess_accept_request#:#Accept Participation
+sess#:#sess_new_registrations#:#Join Request
