@@ -312,7 +312,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 		$obj_data = array();
 		foreach ($plugins as $plugin) {
-			assert($plugin instanceof ilReportBasePlugin);
+			assert('$plugin instanceof ilReportBasePlugin');
 
 			// this actually is the object type
 			$type = $plugin->getId();
