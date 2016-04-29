@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBase.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php';
 require_once 'Services/GEV/Utils/classes/class.gevCourseUtils.php';
 
 ini_set("memory_limit","2048M"); 
@@ -18,6 +18,11 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 
 	public function initType() {
 		 $this->setType("xrea");
+	}
+
+	protected function createLocalReportSettings() {
+		$this->local_report_settings =
+			$this->s_f->reportSettings('rep_robj_rea');
 	}
 
 	/**
@@ -182,39 +187,4 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		return $this->relevant_parameters;
 	}
 
-	public function doCreate() {
-		$this->gIldb->manipulate("INSERT INTO rep_robj_rea ".
-			"(id, is_online, video_link, pdf_link) VALUES (".
-			$this->gIldb->quote($this->getId(), "integer")
-			.",".$this->gIldb->quote(0, "integer")
-			.",".$this->gIldb->quote($this->getVideoLink(), "text")
-			.",".$this->gIldb->quote($this->getPDFLink(), "text")
-			.")");
-	}
-
-	public function doRead() {
-		$set = $this->gIldb->query("SELECT * FROM rep_robj_rea ".
-			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-		while ($rec = $this->gIldb->fetchAssoc($set)) {
-			$this->setOnline($rec["is_online"]);
-			$this->setVideoLink($rec["video_link"]);
-			$this->setPDFLink($rec["pdf_link"]);
-		}
-	}
-
-	public function doUpdate() {
-		$this->gIldb->manipulate("UPDATE rep_robj_rea SET "
-			." is_online = ".$this->gIldb->quote($this->getOnline(), "integer")
-			.", video_link = ".$this->gIldb->quote($this->getVideoLink(), "text")
-			.", pdf_link = ".$this->gIldb->quote($this->getPDFLink(), "text")
-			." WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-	}
-
-	public function doDelete() {
-		$this->gIldb->manipulate("DELETE FROM rep_robj_rea WHERE ".
-			" id = ".$this->gIldb->quote($this->getId(), "integer")
-		); 
-	}
 }

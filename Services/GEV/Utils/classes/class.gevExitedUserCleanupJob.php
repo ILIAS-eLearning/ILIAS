@@ -38,6 +38,7 @@ class gevExitedUserCleanupJob extends ilCronJob {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+		require_once("Services/GEV/WBD/classes/class.gevWBD.php");
 		
 		global $ilLog, $ilDB;
 		
@@ -68,6 +69,7 @@ class gevExitedUserCleanupJob extends ilCronJob {
 			$usr_id = $rec["usr_id"];
 			$usr = new ilObjUser($usr_id);
 			$usr_utils = gevUserUtils::getInstance($usr_id);
+			$wbd_utils = gevWBD::getInstance($usr_id);
 			
 			foreach ($usr_utils->getBookedAndWaitingCourses() as $crs_id) {
 				$crs_utils = gevCourseUtils::getInstance($crs_id);
@@ -118,6 +120,16 @@ class gevExitedUserCleanupJob extends ilCronJob {
 			catch (Exception $e) {
 				$ilLog->write("gevExitedUserCleanupJob: ".$e);
 			}
+
+			try {
+				if($wbd_utils->getWBDTPType() == gevWBD::WBD_TP_SERVICE) {
+					$wbd_utils->setNextWBDAction(gevWBD::USR_WBD_NEXT_ACTION_RELEASE);
+					$ilLog->write("gevExitedUserCleanupJob: Set next wbd action to release for user: ".$usr_id.".");
+				}
+			}catch (Exception $e) {
+				$ilLog->write("gevExitedUserCleanupJob: ".$e);
+			}
+
 			
 			//update user and create a history entry
 			$usr->update();

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBase.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php';
 
 class ilObjReportTrainingAttendance extends ilObjReportBase {
 	
@@ -22,6 +22,12 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 	protected function buildQuery($query) {
 		return $query;
 	}
+	
+	protected function createLocalReportSettings() {
+		$this->local_report_settings =
+			$this->s_f->reportSettings('rep_robj_rta')
+					->addSetting($this->s_f->settingBool('is_local',$this->plugin->txt('is_local')));
+	}
 
 	// TODO: Those are not really used, as we use the new filter logic
 	// in this report. Remove em!
@@ -42,7 +48,7 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 		// TODO: implement this properly
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
-		return $this->is_local ? $this->getSubtreeCourseTemplates() : gevCourseUtils::getAllTemplates();
+		return $this->settings['is_local'] ? $this->getSubtreeCourseTemplates() : gevCourseUtils::getAllTemplates();
 	}
 
 	public function getOrguOptions() {
@@ -219,65 +225,10 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 		return $return;
 	}
 
-	public function doCreate() {
-		$this->gIldb->manipulate("INSERT INTO rep_robj_rta ".
-			"(id, is_online, is_local) VALUES (".
-			$this->gIldb->quote($this->getId(), "integer").",".
-			$this->gIldb->quote(0, "integer").','.
-			$this->gIldb->quote(0, "integer").
-			")");
-	}
-
-
-	public function doRead() {
-		$set = $this->gIldb->query("SELECT * FROM rep_robj_rta ".
-			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-		while ($rec = $this->gIldb->fetchAssoc($set)) {
-			$this->setOnline($rec["is_online"]);
-			$this->setIsLocal($rec["is_local"]);
-		}
-	}
-
-	public function doUpdate() {
-		$this->gIldb->manipulate($up = "UPDATE rep_robj_rta SET ".
-			" is_online = ".$this->gIldb->quote($this->getOnline(), "integer").
-			", is_local = ".$this->gIldb->quote($this->getIsLocal(), "integer").
-			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-	}
-
-	public function doDelete() {
-		$this->gIldb->manipulate("DELETE FROM rep_robj_rta WHERE ".
-			" id = ".$this->gIldb->quote($this->getId(), "integer")
-		); 
-	}
-
-	public function doClone($a_target_id,$a_copy_id,$new_obj) {
-		$new_obj->setOnline($this->getOnline());
-		$new_obj->update();
-	}
-
-
-	public function setOnline($a_val) {
-		$this->online = (int)$a_val;
-	}
-
-	public function getOnline() {
-		return $this->online;
-	}
-
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
 	}
 
-	public function getIsLocal() {
-		return $this->is_local;
-	}
-
-	public function setIsLocal($value) {
-		$this->is_local = $value ? 1 : 0;
-	}
 
 	protected function getSubtreeCourseTemplates() {
 		$query = 	'SELECT amd_val.obj_id,od.title FROM adv_md_values_text amd_val '

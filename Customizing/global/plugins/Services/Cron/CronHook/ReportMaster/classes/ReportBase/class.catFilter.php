@@ -270,15 +270,16 @@ class catFilter {
 		
 		$out = "";
 		
-		$tpl = new ilTemplate("tpl.cat_filter.html", true, true, "Services/ReportsRepository");
+		$tpl = new ilTemplate("tpl.cat_filter.html", true, true, "Customizing/global/plugins/Services/Cron/CronHook/ReportMaster");
 		
 		foreach ($this->filters as $conf) {
 			$postvar = $this->getPostVar($conf);
 			$type = $this->getType($conf);
 			$type_id = $type->getId();
 			
-			$_tpl = new ilTemplate( "tpl.cat_filter_".$type_id.".html", true, true, "Services/ReportsRepository"
-								  , array("POST_VAR" => $postvar));
+			$_tpl = new ilTemplate( "tpl.cat_filter_".$type_id.".html", true, true
+									,"Customizing/global/plugins/Services/Cron/CronHook/ReportMaster"
+									, array("POST_VAR" => $postvar));
 			if($type->render($_tpl, $postvar, $conf, $this->getParameters($conf))) {
 				$tpl->setCurrentBlock($type_id);
 				$_tpl->setVariable("POST_VAR", $postvar);

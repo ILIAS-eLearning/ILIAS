@@ -37,7 +37,7 @@ class catDisplayFilterBaseGUI {
 	}
 
 	protected function flatFilter() {
-		require_once("Services/ReportsRepository/classes/class.catFilterFlatViewGUI.php");
+		require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.catFilterFlatViewGUI.php");
 		$filter_form = new catFilterFlatViewGUI($this, $this->buildFilter(), $this->display_filter, "saveFlatFilter");
 		echo $filter_form->render();
 	}
@@ -50,7 +50,7 @@ class catDisplayFilterBaseGUI {
 		//Muss so aufgerufen werden. Sonst funktioniert das Mapping nicht!!!
 		call_user_func_array(array($fs, "content"), $filter_values);
 
-		require_once("Services/ReportsRepository/classes/class.catFilterFlatViewGUI.php");
+		require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.catFilterFlatViewGUI.php");
 		$filter_form = new catFilterFlatViewGUI($this, $fs, $this->display_filter, "saveFlatFilter");
 		echo $filter_form->render($_POST["filter"]);
 	}

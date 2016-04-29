@@ -117,23 +117,30 @@ class catTitleGUI {
 		include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 		ilTooltipGUI::addTooltip("tooltip_icon", $tooltip_text, "",
 			"bottom center", "top center", false);
-		$this->show_tooltip_icon = true;
+		if($tooltip_text) {
+			$this->show_tooltip_icon = true;
+		}
+		return $this;
 	}
 
 	public function setVideoLink($video_link) {
 		$this->video_link = $video_link;
+		return $this;
 	}
 
 	public function setVideoLinkText($video_link_text) {
 		$this->video_link_text = $video_link_text;
+		return $this;
 	}
 
 	public function setPDFLink($pdf_link) {
 		$this->pdf_link = $pdf_link;
+		return $this;
 	}
 
 	public function setPDFLinkText($pdf_link_text) {
 		$this->pdf_link_text = $pdf_link_text;
+		return $this;
 	}
 
 	public function removeCommand() {
@@ -151,7 +158,7 @@ class catTitleGUI {
 	public function render() {
 		$tpl = new ilTemplate("tpl.cat_title.html", true, true, "Services/CaTUIComponents");
 
-		if ($this->title !== null) {
+		if ($this->title) {
 			if($this->show_tooltip_icon) {
 				$tpl->setCurrentBlock("info_icon");
 				$tpl->setVariable("INFO", ilUtil::getImagePath("GEV_img/ico-info.png"));
@@ -169,13 +176,13 @@ class catTitleGUI {
 				
 				if($this->pdf_link) {
 					$tpl->setCurrentBlock("icon_entry");
-					$tpl->setVariable("VIDEO_ICON", ilUtil::getImagePath("GEV_img/ico-videolink.png"));
+					$tpl->setVariable("VIDEO_ICON", ilUtil::getImagePath("GEV_img/ico-pdflink.png"));
 					$tpl->setVariable("TEXT", $this->pdf_link_text);
 					$tpl->setVariable("URL", $this->pdf_link);
 					$tpl->parseCurrentBlock();
 				}
 
-				if ($this->legend !== null) {
+				if ($this->legend) {
 					$tpl->setCurrentBlock("legend");
 					$tpl->setVariable("LEGEND", $this->legend->render());
 					$tpl->parseCurrentBlock();

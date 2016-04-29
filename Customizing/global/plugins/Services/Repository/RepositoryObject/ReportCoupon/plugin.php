@@ -2,7 +2,7 @@
 
 $id = "xrcp";
 
-$version = "0.1.2";
+$version = "0.1.3";
  
 
 $ilias_min_version = "4.2.0";

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBaseGUI.php';
 require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
 require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
 /**
@@ -38,39 +38,10 @@ class ilObjReportBillGUI extends ilObjReportBaseGUI {
 		}
 	}
 
-	protected function settingsForm($data = null) {
-		$settings_form = parent::settingsForm($data);
-
-		$report_mode = new ilSelectInputGUI($this->gLng->txt('gev_report_mode'),'report_mode');
-		$options = array();
-
-		foreach(ilObjReportBill::$config as $key => $settings) {
-			$options[$key] = $settings["label"];
-		}
-		$report_mode->setOptions($options);
-		if(isset($data["report_mode"])) {
-			$report_mode->setValue($data["report_mode"]);
-		}
-		$settings_form->addItem($report_mode);
-
-		return $settings_form;
-	}
-
 	protected function prepareTitle($a_title) {
 		$a_title = parent::prepareTitle($a_title);
 		$a_title->image("GEV_img/ico-head-rep-billing.png");
 		return $a_title;
-	}
-
-	protected function getSettingsData() {
-		$data = parent::getSettingsData();
-		$data["report_mode"] = $this->object->getReportMode();
-		return $data;
-	}
-
-	protected function saveSettingsData($data) {
-		$this->object->setReportMode($data["report_mode"]);
-		parent::saveSettingsData($data);
 	}
 
 	public static function transformResultRow($rec) {

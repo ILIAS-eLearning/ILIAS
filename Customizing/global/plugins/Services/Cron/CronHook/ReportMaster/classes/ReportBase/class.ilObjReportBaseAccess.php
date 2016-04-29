@@ -48,7 +48,7 @@ abstract class ilObjReportBaseAccess extends ilObjectPluginAccess {
 	static public function checkOnline($a_id) {
 		global $ilDB;
 
-		$set = $ilDB->query("SELECT is_online FROM ".static::TABLE_TITLE
+		$set = $ilDB->query("SELECT is_online FROM rep_master_data"
 			." WHERE id = ".$ilDB->quote($a_id, "integer")
 			);
 

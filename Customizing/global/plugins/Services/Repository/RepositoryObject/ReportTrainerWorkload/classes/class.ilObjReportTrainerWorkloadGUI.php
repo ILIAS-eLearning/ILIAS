@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBaseGUI.php';
 /**
 * User Interface class for example repository object.
 * ...
@@ -27,29 +27,6 @@ class ilObjReportTrainerWorkloadGUI extends ilObjReportBaseGUI {
 		return $a_title;
 	}
 
-	protected function settingsForm($data = null) {
-		$settings_form = parent::settingsForm($data);
-
-		$annual_norm_training = new ilNumberInputGUI($this->object->plugin->txt('annual_norm_training'),'annual_norm_training');
-		if(isset($data['annual_norm_training'])) {
-			$annual_norm_training->setValue($data['annual_norm_training']);
-		}
-		$settings_form->addItem($annual_norm_training);
-
-		$annual_norm_operation = new ilNumberInputGUI($this->object->plugin->txt('annual_norm_operation'),'annual_norm_operation');
-		if(isset($data['annual_norm_operation'])) {
-			$annual_norm_operation->setValue($data['annual_norm_operation']);
-		}
-		$settings_form->addItem($annual_norm_operation);
-
-		$annual_norm_office = new ilNumberInputGUI($this->object->plugin->txt('annual_norm_office'),'annual_norm_office');
-		if(isset($data['annual_norm_office'])) {
-			$annual_norm_office->setValue($data['annual_norm_office']);
-		}
-		$settings_form->addItem($annual_norm_office);
-
-		return $settings_form;
-	}
 
 	protected function renderTable() {
 		$table = parent::renderTable();
@@ -90,21 +67,6 @@ class ilObjReportTrainerWorkloadGUI extends ilObjReportBaseGUI {
 		$return = $table->getHtml();
 		$this->disableRelevantParametersCtrl();
 		return $return;
-	}
-
-	protected function getSettingsData() {
-		$data = parent::getSettingsData();
-		$data["annual_norm_training"] = $this->object->getAnnualNormTraining();
-		$data["annual_norm_operation"] = $this->object->getAnnualNormOperation();
-		$data["annual_norm_office"] = $this->object->getAnnualNormOffice();
-		return $data;
-	}
-
-	protected function saveSettingsData($data) {
-		$this->object->setAnnualNormTraining($data["annual_norm_training"]);
-		$this->object->setAnnualNormOperation($data["annual_norm_operation"]);
-		$this->object->setAnnualNormOffice($data["annual_norm_office"]);
-		parent::saveSettingsData($data);
 	}
 
 	public static function transformResultRow($rec) {

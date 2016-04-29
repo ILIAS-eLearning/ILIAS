@@ -1,5 +1,5 @@
 <?php
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseListGUI.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBaseListGUI.php';
   /**
 * ListGUI implementation for Report plugin. This one
 * handles the presentation in container items (categories, courses, ...)

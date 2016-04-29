@@ -893,7 +893,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 	**/
 	protected function importSeminar(gevImportCourseData $values){
 
-		$title 		= $values->title();
+		$title 		= str_replace("\"", "\\\"", $values->title());
 		$type 		= $values->courseType(); 
 		$wbd_topic 	= $values->studyContent(); 
 		$begin_date	= $values->beginDate()->get(IL_CAL_DATE); // date('Y-m-d', strtotime($rec['Beginn']));
