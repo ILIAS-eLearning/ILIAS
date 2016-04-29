@@ -34,6 +34,8 @@ class ilTestExport
 	private $lng;
 	
 	private $resultsfile;
+	
+	protected $resultExportingEnabledForTestExport = false;
 
 	/**
 	 * Constructor
@@ -75,6 +77,22 @@ class ilTestExport
 				break;
 		}
 		$this->filename = $this->subdir.".".$this->getExtension();
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isResultExportingEnabledForTestExport()
+	{
+		return $this->resultExportingEnabledForTestExport;
+	}
+
+	/**
+	 * @param boolean $resultExprtingEnabledForTestExport
+	 */
+	public function setResultExportingEnabledForTestExport($resultExprtingEnabledForTestExport)
+	{
+		$this->resultExportingEnabledForTestExport = $resultExprtingEnabledForTestExport;
 	}
 
 	function getExtension () {
@@ -1048,7 +1066,7 @@ class ilTestExport
 			, false);
 		$ilBench->stop("TestExport", "buildExportFile_dumpToFile");
 
-		if (@file_exists("./Modules/Test/classes/class.ilTestResultsToXML.php"))
+		if ($this->isResultExportingEnabledForTestExport() && @file_exists("./Modules/Test/classes/class.ilTestResultsToXML.php"))
 		{
 			// dump results xml document to file
 			include_once "./Modules/Test/classes/class.ilTestResultsToXML.php";

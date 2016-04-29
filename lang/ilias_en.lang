@@ -259,6 +259,7 @@ assessment#:#tst_virtual_pass_header_lo_initial#:#Initial Test Results for the L
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s
 assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifying Test Results for the Learning Objective<br />%s
 assessment#:#ass_create_export_file#:#Create Test Export File
+assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl. Participant Results)
 assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
 assessment#:#ass_export_files#:#Export Files
