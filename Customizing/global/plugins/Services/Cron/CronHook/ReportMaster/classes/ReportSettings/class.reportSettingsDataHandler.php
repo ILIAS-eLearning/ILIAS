@@ -57,11 +57,14 @@ class reportSettingsDataHandler {
 	 *	@return	mixed[] 
 	 */
 	public function readObjEntry($obj_id, reportSettings $settings) {
-		$query = 'SELECT '.implode(', ' ,$settings->settingIds())
-				.'	FROM '.$settings->table()
-				.'	WHERE id = '.$obj_id;
+		if(count($settings->settingIds()) > 0 ) {
+			$query = 'SELECT '.implode(', ' ,$settings->settingIds())
+					.'	FROM '.$settings->table()
+					.'	WHERE id = '.$obj_id;
 
-		return $this->db->fetchAssoc($this->db->query($query));
+			return $this->db->fetchAssoc($this->db->query($query));
+		}
+		return array();
 	}
 
 	/**
@@ -82,9 +85,9 @@ class reportSettingsDataHandler {
 	protected function quote($value, setting $setting) {
 		if($setting instanceof settingInt || $setting instanceof settingBool ) {
 			$quote_format = 'integer';
-		} elseif($setting instanceof settingFloat ) {
+		} elseif($setting instanceof settingFloat || $setting instanceof settingListInt) {
 			$quote_format = 'float';
-		} elseif($setting instanceof settingString || $setting instanceof settingText || $setting instanceof settingRichText ) {
+		} elseif($setting instanceof settingString || $setting instanceof settingText || $setting instanceof settingRichText) {
 			$quote_format = 'text';
 		} else {
 			throw new reportSettingsException("unknown setting type".get_class($setting));

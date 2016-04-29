@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBaseGUI.php';
 require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
 /**
 * User Interface class for example repository object.
@@ -16,7 +16,7 @@ class ilObjReportDBVSuperiorGUI extends ilObjReportBaseGUI {
 	protected function afterConstructor() {
 		parent::afterConstructor();
 		if( null !== $this->object) {
-			self::$year = $this->object->getYear();
+			self::$year = $this->object->settings['year'];
 		}
 	}
 
@@ -30,29 +30,6 @@ class ilObjReportDBVSuperiorGUI extends ilObjReportBaseGUI {
 		return $a_title;
 	}
 
-	protected function settingsForm($data = null) {
-		$settings_form = parent::settingsForm($data);
-
-		$year = new ilNumberInputGUI($this->object->plugin->txt('report_year'),'year');
-		$year->allowDecimals(false);
-		if(isset($data["year"])) {
-			$year->setValue($data["year"]);
-		}
-		$settings_form->addItem($year);
-
-		return $settings_form;
-	}
-
-	protected function saveSettingsData($data) {
-		$this->object->setYear($data["year"]);
-		parent::saveSettingsData($data);
-	}
-
-	protected function getSettingsData() {
-		$data = parent::getSettingsData();
-		$data["year"] = $this->object->getYear();
-		return $data;
-	}
 
 	public static function transformResultRow($rec) {
 		global $ilCtrl;

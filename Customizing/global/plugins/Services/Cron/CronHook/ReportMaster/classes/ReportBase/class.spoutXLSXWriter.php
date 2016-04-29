@@ -1,7 +1,7 @@
 <?php
 
 
-require_once 'Services/ReportsRepository/interfaces/interface.ExcelWriter.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/interfaces/interface.ExcelWriter.php';
 
 use Box\Spout\Writer\WriterFactory;
 use Box\Spout\Common\Type;

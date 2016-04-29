@@ -4,7 +4,7 @@
 
 namespace CaT\Filter\Filters;
 
-class SelectBase extends Filter {
+abstract class SelectBase extends Filter {
 	/**
 	 * @var	array
 	 */

@@ -22,3 +22,12 @@ if(!$ilDB->tableExists("rep_robj_astd")) {
 	$ilDB->addPrimaryKey("rep_robj_astd", array("id"));
 }
 ?>
+
+<#2>
+<?php
+$query = "INSERT INTO rep_master_data (id,is_online)"
+		."	SELECT atd.id,atd.is_online FROM rep_master_data md"
+		."		RIGHT JOIN rep_robj_astd atd ON atd.id = md.id "
+		."	WHERE md.id IS NULL";
+$ilDB->manipulate($query);
+?>

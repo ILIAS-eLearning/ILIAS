@@ -346,7 +346,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 
 	protected function getReportingMenuDropDown() {
 		require_once("Services/Link/classes/class.ilLink.php");
-		require_once("Services/ReportsRepository/classes/class.ilObjReportBase.php");
+		require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php");
 		$entries = array
 			( "gev_report_employee_edu_bio" => array($this->canViewReport("gev_report_employee_edu_bio"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportEmployeeEduBios",$this->gLng->txt("gev_report_employee_edu_bios"))
 			, "gev_report_bookingbyvenue" => array($this->canViewReport("gev_report_bookingbyvenue"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportBookingsByVenue",$this->gLng->txt("gev_report_bookingbyvenue"))
@@ -376,7 +376,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$last_permission_calculation = ilSession::get("gev_has_reporting_menu_calculation_ts");
 		if ( $has_reporting_menu === null
 		||   $last_permission_calculation + self::HAS_REPORTING_MENU_RECALCULATION_IN_SECS < time()) {
-			require_once("Services/ReportsRepository/classes/class.ilObjReportBase.php");
+			require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php");
 
 			$visible_repo_reports = ilObjReportBase::getVisibleReportsObjectData($this->gUser);
 

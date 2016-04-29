@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBase.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php';
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
@@ -26,6 +26,17 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 	public function initType() {
 		 $this->setType("xroa");
 	}
+
+
+	protected function createLocalReportSettings() {
+		$this->local_report_settings =
+			$this->s_f->reportSettings('rep_robj_roa')
+				->addSetting($this->s_f
+							->settingBool('is_local',$this->plugin->txt('report_is_local')))
+				->addSetting($this->s_f
+							->settingBool('all_orgus_filter',$this->plugin->txt('report_all_orgus')));
+	}
+
 
 	public function prepareReport() {
 		$this->sum_table = $this->buildSumTable(catReportTable::create());
@@ -135,7 +146,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter('org_unit', 'orgu.orgu_id', true, true);
-		if("1" === (string)$this->getAllOrgusFilter()) {
+		if("1" === (string)$this->settings['all_orgus_filter']) {
 			$this->orgu_filter->setFilterOptionsByArray($this->getAllOrgusIds());
 		} else {
 			$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
@@ -229,7 +240,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 							 , 300
 							 , 160	
 							 );
-			if("0" === (string)$this->getAllOrgusFilter()) {
+			if("0" === (string)$this->options['all_orgus_filter']) {
 				$filter
 				->static_condition($this->gIldb->in("orgu.usr_id", $this->user_utils->getEmployees(), false, "integer"));
 			}
@@ -243,7 +254,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		$this->date_start = $date_filter["start"]->get(IL_CAL_DATE);
 		$this->date_end = $date_filter["end"]->get(IL_CAL_DATE);
 		$this->tpl_filter 
-			= $this->getIsLocal()
+			= (int)$this->settings['is_local'] === 1
 				? $this->gIldb->in('crs.template_obj_id',$this->getSubtreeCourseTemplates(),false,'integer')
 				: "TRUE" ;
 		return $filter;
@@ -269,65 +280,6 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
-	}
-
-	public function doCreate() {
-		$this->gIldb->manipulate("INSERT INTO rep_robj_roa ".
-			"(id, is_online, is_local, all_orgus_filter) VALUES (".
-			$this->gIldb->quote($this->getId(), "integer")
-			.",".$this->gIldb->quote(0, "integer")
-			.",".$this->gIldb->quote(0, "integer")
-			.",".$this->gIldb->quote(0, "integer")
-			.")");
-	}
-
-
-	public function doRead() {
-		$set = $this->gIldb->query("SELECT * FROM rep_robj_roa ".
-			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-		if ($rec = $this->gIldb->fetchAssoc($set)) {
-			$this->setOnline($rec["is_online"]);
-			$this->setIslocal($rec["is_local"]);
-			$this->setAllOrgusFilter($rec["all_orgus_filter"]);
-		}
-	}
-
-	public function doUpdate() {
-		$this->gIldb->manipulate("UPDATE rep_robj_roa SET "
-			." is_online = ".$this->gIldb->quote($this->getOnline(), "integer")
-			." ,is_local = ".$this->gIldb->quote($this->getIsLocal(), "integer")
-			." ,all_orgus_filter = ".$this->gIldb->quote($this->getAllOrgusFilter(), "integer")
-			." WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-	}
-
-	public function doDelete() {
-		$this->gIldb->manipulate("DELETE FROM rep_robj_roa WHERE ".
-			" id = ".$this->gIldb->quote($this->getId(), "integer")
-		); 
-	}
-
-	public function doClone($a_target_id,$a_copy_id,$new_obj) {
-		$new_obj->setIsLocal($this->getIslocal());
-		$new_obj->setAllOrgusFilter($this->getAllOrgusFilter());
-		parent::doClone($a_target_id,$a_copy_id,$new_obj);
-	}
-
-	public function getIslocal() {
-		return $this->is_local;
-	}
-
-	public function setIslocal($value) {
-		$this->is_local = $value ? 1 : 0;
-	}
-
-	public function getAllOrgusFilter() {
-		return $this->all_orgus_filter;
-	}
-
-	public function setAllOrgusFilter($value) {
-		$this->all_orgus_filter = $value ? 1 : 0;
 	}
 
 	protected function getAllOrgusIds() {

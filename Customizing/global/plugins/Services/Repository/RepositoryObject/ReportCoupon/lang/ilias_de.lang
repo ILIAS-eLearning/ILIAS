@@ -20,4 +20,4 @@ rep_robj_xrcp_status#:#Status
 rep_robj_xrcp_offline#:#Offline
 xrcp_content#:#Report
 xrcp_properties#:#Eigenschaften
-online#:#Online
+admin_mode#:#Admin Modus

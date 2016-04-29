@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBaseGUI.php';
 require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
 /**
@@ -18,34 +18,10 @@ class ilObjReportCouponGUI extends ilObjReportBaseGUI {
 		return 'xrcp';
 	}
 
-	protected function settingsForm($data = null) {
-		$settings_form = parent::settingsForm($data);
-
-		$admin_mode = new ilCheckboxInputGUI($this->gLng->txt('gev_coupon_report_admin_mode'),'admin_mode');
-		if(isset($data["admin_mode"])) {
-			$admin_mode->setChecked($data["admin_mode"]);
-		}
-		$settings_form->addItem($admin_mode);
-
-		return $settings_form;
-	}
-
 	protected function prepareTitle($a_title) {
 		$a_title = parent::prepareTitle($a_title);
 		$a_title->image("GEV_img/ico-head-rep-billing.png");
 		return $a_title;
-	}
-
-	protected function getSettingsData() {
-		$data = parent::getSettingsData();
-		$data["admin_mode"] = $this->object->getAdminMode();
-		return $data;
-	}
-
-
-	protected function saveSettingsData($data) {
-		$this->object->setAdminMode($data["admin_mode"]);
-		parent::saveSettingsData($data);
 	}
 
 	public static function transformResultRow($a_rec) {

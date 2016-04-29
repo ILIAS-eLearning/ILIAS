@@ -88,6 +88,12 @@ class reportSettingsFormHandler {
 		if($setting instanceof settingRichText) {
 			return new ilTextAreaInputGUI($name, $id);
 		}
+		if($setting instanceof settingListInt) {
+			$return = new ilSelectInputGUI($name, $id);
+			$return->setOptions($setting->options());
+			return $return;
+
+		}
 		throw new reportSettingsException("no formtype defined for setting");
 	}
 
@@ -104,6 +110,8 @@ class reportSettingsFormHandler {
 			return true;
 		} elseif($setting instanceof settingRichText && $form_member_gui instanceof ilTextAreaInputGUI) {
 			return true;
+		} elseif($setting instanceof settingListInt && $form_member_gui instanceof ilSelectInputGUI) {
+			return true;
 		} else {
 			return false;
 		}
@@ -113,6 +121,11 @@ class reportSettingsFormHandler {
 		assert('$this->validSettingGUIRelation($setting, $form_member_gui)');
 		if($setting instanceof settingBool && $form_member_gui instanceof ilCheckboxInputGUI) {
 			return call_user_func($setting->fromForm(), $form_member_gui->getChecked());
+		}
+		if($setting instanceof settingListInt && $form_member_gui instanceof  ilSelectInputGUI) {
+			if(!in_array((int)$form_member_gui->getValue(),array_keys($setting->options()))) {
+				throw new reportSettingsException("unknown option");
+			}
 		}
 		return call_user_func($setting->fromForm(),  $form_member_gui->getValue());
 
