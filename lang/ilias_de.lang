@@ -15676,3 +15676,4 @@ crs#:#event_tbl_members#:#Mitglieder
 trac#:#trac_cron_info#:#Aktivieren Sie den "Objekt-Statistik"-Cron-Job, um Daten für diese Auswertung zu sammeln.
 sess#:#sess_list_reg_limit_places#:#Freie Plätze
 sess#:#sess_accept_request#:#Zu Sitzung zulassen
+sess#:#sess_new_registrations#:#Teilnahmeanträge
