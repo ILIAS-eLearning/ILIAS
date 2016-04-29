@@ -30,6 +30,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 	/**
 	 * We can not use regular query logic here (since there is no outer-join in mysql and i would like to avoid a lot of subqueries)
 	 * so lets take this opportunity to do some preparation work for the actual query construction in getTrainingTypeQuery at least.
+	 *
 	 * @inheritdoc
 	 */
 	protected function buildQuery($query) {

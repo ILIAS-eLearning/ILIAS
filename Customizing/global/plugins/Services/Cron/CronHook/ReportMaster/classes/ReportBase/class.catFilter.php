@@ -1133,8 +1133,10 @@ class recursiveOrguFilter {
 	}
 
 	/**
-	 * @return array(orgu_ids) orgu filter selection and possibly the orgu_ids below selected orgus,
-	 * depending on @param (bool)$force_recursive and filter selection for recursive filtering (see function getRecursiveSelection).
+	 * get orgus and children depending on recursive setting
+	 *
+	 * @return	int[]	$orgu_ids
+	 * @param	bool	$force_recursive
 	 */
 	public function getSelectionAndRecursive($force_recursive = false) {
 		$orgu_ids = $this->getSelection();
@@ -1163,7 +1165,9 @@ class recursiveOrguFilter {
 	}
 
 	/**
-	 * @return	string	$sql	which reflects the filter selection
+	 * get query filter part for report query acc. to filter selection
+	 *
+	 * @return	string	$sql
 	 */
 	public function deliverQuery() {
 		if(count($this->filter_options) > 0) {
@@ -1181,7 +1185,7 @@ class recursiveOrguFilter {
 	}
 
 	/**
-	 * add a where statement to
+	 * add a where statement to query
 	 *
 	 * @param	catReportQuery	$query	which reflects the filter selection
 	 * @return	catReportQuery	$query
