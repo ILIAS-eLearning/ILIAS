@@ -12775,7 +12775,7 @@ dcl#:#dcl_unknown_exception#:#The value you entered is not valid.
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_not_checked#:#Not checked.
 dcl#:#dcl_any#:#Any
-dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http://) or an email address.
+dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http:// or www.) or an email address.
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
