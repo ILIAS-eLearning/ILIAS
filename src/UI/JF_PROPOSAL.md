@@ -1,6 +1,5 @@
 # Jour Fixe Proposal to introduce a centralizes UI-Framework for ILIAS.
 
-
 ## Basics
 
 * Rules in this proposal are formulated according to [RFC2119](https://www.ietf.org/rfc/rfc2119.txt).
@@ -123,7 +122,7 @@ The interface to the main factory is \ILIAS\UI\Factory.
       the field contains the names and versions of all said javascript libraries.
     * SHOULD contain a field `rules` that contains one or more than one of the 
       following fields `usage`, `interaction`, `wording`, `style`, `ordering`, 
-      `responsiveness`, `accessibility` and `accessibility, where
+      `responsiveness`, `composition` and `accessibility`, where
         * each of the contained fields is a dictionary from a number to a text
         * each of the contained fields MUST contain at least one rule for the
           proposed Kitchen Sink entry
