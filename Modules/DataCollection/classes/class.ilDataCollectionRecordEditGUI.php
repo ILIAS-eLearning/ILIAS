@@ -442,7 +442,7 @@ class ilDataCollectionRecordEditGUI {
 						$record_obj->setRecordFieldValue($field->getId(), $value);
 						break;
 					default:
-						$record_obj->setRecordFieldValue($field->getId(), $value);
+						$record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
 						break;
 				}
 			}
