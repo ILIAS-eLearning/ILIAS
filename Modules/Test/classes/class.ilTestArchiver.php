@@ -682,9 +682,17 @@ class ilTestArchiver
 	protected function logArchivingProcess($message) 
 	{
 		$archive = $this->getTestArchive() . self::DIR_SEP . self::ARCHIVE_LOG;
-		file_put_contents($archive, file_get_contents($archive) . "\n" . $message);
-		
-		return;
+
+		if( file_exists($archive) )
+		{
+			$content = file_get_contents($archive). "\n" . $message;
+		}
+		else
+		{
+			$content = $message;
+		}
+
+		file_put_contents($archive, $content);
 	}
 
 	/**
