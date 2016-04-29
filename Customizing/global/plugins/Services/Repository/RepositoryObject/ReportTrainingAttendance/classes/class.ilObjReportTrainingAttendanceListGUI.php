@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjectPluginListGUI.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBaseListGUI.php';
 
 /**
 * ListGUI implementation for Example object plugin. This one
@@ -23,24 +23,19 @@ class ilObjReportTrainingAttendanceListGUI extends ilObjectPluginListGUI {
 	* Get name of gui class handling the commands
 	*/
 	public function getGuiClass() {
+
 		return "ilObjReportTrainingAttendanceGUI";
 	}
 
-	/**
-	* Get commands
-	*/
-	public function initCommands() {
-		return array(
-			array(
-				"permission" => "read",
-				"cmd" => "showContent",
-				"txt" => "show",
-				"default" => true),
-			array(
-				"permission" => "write",
-				"cmd" => "settings",
-				"txt" => "edit",
-				"default" => false)
-		);
+
+	public function getProperties() {
+		$props = array();
+		$this->plugin->includeClass("class.ilObjReportTrainingAttendanceAccess.php");
+
+		if (!ilObjReportTrainingAttendanceAccess::checkOnline($this->obj_id)) {
+			$props[] = array("alert" => true, "property" => $this->lng->txt("status"),
+			"value" => $this->lng->txt("offline"));
+		}
+		return $props;
 	}
 }
