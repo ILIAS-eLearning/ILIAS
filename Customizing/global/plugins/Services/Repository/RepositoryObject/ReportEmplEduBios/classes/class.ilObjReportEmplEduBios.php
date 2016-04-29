@@ -167,11 +167,19 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 			" (roles.num_wbd_roles > 0 "
 			."		OR usr.okz != ".$this->gIldb->quote("-empty-",'text').")";
 		$this->allowed_user_ids = $this->user_utils->getEmployeesWhereUserCanViewEduBios();
+
+		//add recursive ORguFilter
 		$this->orgu_filter = new recursiveOrguFilter("org_unit","orgu_id",true,true);
+
 		$orgu_refs = $this->user_utils->getOrgUnitsWhereUserCanViewEduBios();
 		require_once "Services/GEV/Utils/classes/class.gevObjectUtils.php";
 		$orgus = array_map(function ($ref_id) {return gevObjectUtils::getObjId($ref_id);},$orgu_refs);
 		$this->orgu_filter->setFilterOptionsByArray($orgus);
+
+		$this->orgu_filter->setPreSelect(array_map(function($v) { return $v["obj_id"];},$this->user_utils->getOrgUnitsWhereUserIsDirectSuperior()));
+		$this->orgu_filter->uncheckRecursiveSearch();
+		$this->orgu_filter->addToFilter($filter);
+		//end
 
 		$filter	->checkbox( "critical"
 						  , $this->plugin->txt("show_critical_persons")
@@ -191,7 +199,6 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 						  , $wbd_relevant_condition
 						  , "TRUE"
 						  );
-		$this->orgu_filter->addToFilter($filter);
 		$filter	->textinput( "lastname"
 								   , $this->plugin->txt("lastname_filter")
 								   , "usr.lastname"
