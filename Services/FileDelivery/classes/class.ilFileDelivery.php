@@ -222,7 +222,7 @@ class ilFileDelivery {
 
 	protected function deliverXSendfile() {
 		$this->clearHeaders();
-		header('X-Sendfile: ' . realpath($this->getPathToFile()));File
+		header('X-Sendfile: ' . realpath($this->getPathToFile()));
 	}
 
 
