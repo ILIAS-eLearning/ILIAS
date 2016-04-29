@@ -17,7 +17,7 @@ class Singleselect extends SelectBase {
 		assert('is_string($label)');
 		assert('is_string($description)');
 
-		parent::__construct($factory, $label, $description, $options, $default_choice , $mappings, $mapping_result_types);
+		parent::__construct($factory, $label, $description, $options,  $mappings, $mapping_result_types);
 
 		$keys = array_keys($options);
 		$tf = $factory->type_factory();
