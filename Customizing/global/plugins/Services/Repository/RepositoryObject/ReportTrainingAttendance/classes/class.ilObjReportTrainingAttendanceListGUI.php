@@ -11,7 +11,7 @@ require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/cla
 * ...Access class to get DB data and keep it small.
 */
 
-class ilObjReportTrainingAttendanceListGUI extends ilObjectPluginListGUI {
+class ilObjReportTrainingAttendanceListGUI extends ilObjReportBaseListGUI {
 	/**
 	* Init type
 	*/
