@@ -386,8 +386,24 @@ class ilAttendanceList
 		// participants by roles
 		foreach($this->role_data as $role_id => $role_data)
 		{
-			$chk = new ilCheckboxOption(sprintf($lng->txt('event_user_selection_include_role'),$role_data[0]), 'role_'.$role_id);
-			$checked[] = 'role_'.$role_id;
+			$title = ilObject::_lookupTitle($role_id);
+			
+			$role_name = $role_id;
+			if(substr($title, 0, 10) == 'il_'.$this->parent_obj->object->getType().'_adm')
+			{
+				$role_name = 'adm';
+			}
+			if(substr($title, 0, 10) == 'il_'.$this->parent_obj->object->getType().'_mem')
+			{
+				$role_name = 'mem';
+			}
+			if(substr($title, 0, 10) == 'il_'.$this->parent_obj->object->getType().'_tut')
+			{
+				$role_name = 'tut';
+			}
+			
+			$chk = new ilCheckboxOption(sprintf($lng->txt('event_user_selection_include_role'),$role_data[0]), 'role_'.$role_name);
+			$checked[] = 'role_'.$role_name;
 			$chk_grp->addOption($chk);
 		}
 
@@ -422,6 +438,11 @@ class ilAttendanceList
 		{
 			include_once "Services/User/classes/class.ilUserFormSettings.php";
 			$settings = new ilUserFormSettings($this->id);
+			if(!$settings->hasStoredEntry())
+			{
+				$settings = new ilUserFormSettings('crss_pview', -1);
+			}
+			
 			$settings->deleteValue('desc'); // #11340
 			$settings->exportToForm($form);
 		}
@@ -461,7 +482,23 @@ class ilAttendanceList
 			$roles = array();
 			foreach(array_keys($this->role_data) as $role_id)
 			{
-				if(in_array('role_'.$role_id, $selection_of_users))
+				$title = ilObject::_lookupTitle($role_id);
+				$role_name = $role_id;
+				if(substr($title, 0, 10) == 'il_'.$this->parent_obj->object->getType().'_adm')
+				{
+					$role_name = 'adm';
+				}
+				if(substr($title, 0, 10) == 'il_'.$this->parent_obj->object->getType().'_mem')
+				{
+					$role_name = 'mem';
+				}
+				if(substr($title, 0, 10) == 'il_'.$this->parent_obj->object->getType().'_tut')
+				{
+					$role_name = 'tut';
+				}
+				
+				
+				if(in_array('role_'.$role_name, (array) $selection_of_users))
 				{
 					$roles[] = $role_id;
 				}

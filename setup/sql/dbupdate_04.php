@@ -16761,3 +16761,63 @@ if(!$ilDB->tableExists('exc_idl'))
 		));
 	}
 ?>
+<#4998>
+<?php
+$ilDB->modifyTableColumn(
+	"usr_pref",
+	"value",
+	array(
+		"type"    => "text",
+		"length"  => 4000,
+		"fixed"   => false,
+		"notnull" => false,
+		"default" => null
+	)
+);
+?>
+<#4999>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5000>
+<?php
+if( !$ilDB->tableExists('crs_cancelations') )
+{
+	$ilDB->createTable('crs_cancelations', array(
+		'crs_id' => array(
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'usr_id' => array(
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'type' => array(
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'counter' => array(
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('crs_cancelations', array('crs_id', 'usr_id', 'type'));
+
+	$ilDB->addIndex('crs_cancelations', array('crs_id', 'usr_id'), 'i1');
+	$ilDB->addIndex('crs_cancelations', array('crs_id', 'type'), 'i2');
+	$ilDB->addIndex('crs_cancelations', array('usr_id', 'type'), 'i3');
+}
+?>
+<#5001>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

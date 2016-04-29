@@ -24,6 +24,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->lng->loadLanguageModule("grp");
+		$this->lng->loadLanguageModule('mem');
 	}
 	
 	abstract protected function getType();
@@ -58,7 +59,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
 			case 'ilmemberexportsettingsgui':
 				$this->setSubTabs('settings', self::SUB_TAB_PRINT_VIEW);
 				include_once './Services/Membership/classes/Export/class.ilMemberExportSettingsGUI.php';
-				$settings_gui = new ilMemberExportSettingsGUI();
+				$settings_gui = new ilMemberExportSettingsGUI($this->getParentObjType());
 				$this->ctrl->forwardCommand($settings_gui);
 				break;
 
