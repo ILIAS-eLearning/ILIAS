@@ -14,8 +14,6 @@ set_time_limit(0);
 class ilObjReportOrguAtt extends ilObjReportBase {
 	protected $relevant_parameters = array();
 	protected $sum_parts = array();
-	protected $is_local;
-	protected $all_orgus_filter;
 
 	public function __construct($ref_id = 0) {
 		parent::__construct($ref_id);
@@ -256,7 +254,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 							 , 300
 							 , 160	
 							 );
-			if("0" === (string)$this->options['all_orgus_filter']) {
+			if("1" !== (string)$this->options['all_orgus_filter']) {
 				$filter
 				->static_condition($this->gIldb->in("orgu.usr_id", $this->user_utils->getEmployeesWhereUserCanViewEduBios(), false, "integer"));
 			}
@@ -297,16 +295,5 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
-	}
-
-	protected function getAllOrgusIds() {
-		$query = "SELECT DISTINCT obj_id FROM object_data JOIN object_reference USING(obj_id)"
-				."	WHERE type = 'orgu' AND deleted IS NULL";
-		$res = $this->gIldb->query($query);
-		$return = array();
-		while($rec = $this->gIldb->fetchAssoc($res)) {
-			$return[] = $rec["obj_id"];
-		}
-		return $return;
 	}
 }
