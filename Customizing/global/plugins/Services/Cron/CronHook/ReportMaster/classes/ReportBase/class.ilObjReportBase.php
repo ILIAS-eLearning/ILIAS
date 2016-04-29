@@ -290,15 +290,29 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		$slot_id = ilRepositoryObjectPlugin::getSlotId();
 		$plugin_names = $ilPluginAdmin->getActivePluginsForSlot($c_type, $c_name, $slot_id);
 
-		$obj_data = array();
+		//remove all non report plugins
+		$plugins = array_map(function($plugin_name) use ($ilPluginAdmin, $c_type, $c_name, $slot_id) {
+								$plugin = $ilPluginAdmin->getPluginObject($c_type, $c_name, $slot_id, $plugin_name);
 
-		foreach ($plugin_names as $plugin_name) {
-			$plugin = $ilPluginAdmin->getPluginObject($c_type, $c_name, $slot_id, $plugin_name);
-			assert($plugin instanceof ilRepositoryObjectPlugin);
+								if ($plugin instanceof ilReportBasePlugin) {
+									return $plugin;
+								}
+							}, $plugin_names);
 
-			if (!($plugin instanceof ilReportBasePlugin)) {
-				continue;
+		$plugins = array_filter($plugins, function($plugin) {
+			if ($plugin instanceof ilReportBasePlugin) {
+				return $plugin;
 			}
+		});
+
+		//return empty array if there are no report plug ins
+		if(empty($plugins)) {
+			return array();
+		}
+
+		$obj_data = array();
+		foreach ($plugins as $plugin) {
+			assert($plugin instanceof ilReportBasePlugin);
 
 			// this actually is the object type
 			$type = $plugin->getId();
