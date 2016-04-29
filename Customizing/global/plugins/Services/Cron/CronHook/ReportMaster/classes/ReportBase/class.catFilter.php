@@ -987,6 +987,8 @@ class recursiveOrguFilter {
 	public function __construct($id, $field, $possibly_recursive, $ignore_in_filter_where) {
 		$this->id = $id;
 		$this->possibly_recursive = $possibly_recursive;
+		$this->search_recursive = true;
+		$this->orgu_preselect = array();
 		$this->field = $field;
 		global $ilDB;
 		$this->gIldb = $ilDB;
@@ -1008,7 +1010,7 @@ class recursiveOrguFilter {
 								 , " TRUE "
 								 , " TRUE "
 								 , false
-								 , true
+								 , $this->search_recursive
 								 );
 			}
 		}
@@ -1017,7 +1019,7 @@ class recursiveOrguFilter {
 								 , $lng->txt("gev_org_unit_short")
 								 , $this->field
 								 , $this->filter_options
-								 , array()
+								 , $this->pre_select
 								 , ""
 								 , 300
 								 , 160
@@ -1148,5 +1150,13 @@ class recursiveOrguFilter {
 	*/
 	public function addToQuery(catReportQuery $query) {
 		return $query->where($this->deliverQuery());
+	}
+
+	public function setPreSelect(array $pre_select) {
+		$this->pre_select = $pre_select;
+	}
+
+	public function uncheckRecursiveSearch() {
+		$this->search_recursive = false;
 	}
 }
