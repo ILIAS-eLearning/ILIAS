@@ -44,7 +44,7 @@ class ilObjReportEmplAttGUI extends ilObjReportBaseGUI {
 
 		// od_bd
 		if(!self::$od_regexp || !self::$bd_regexp ) {
-			require_once './Services/ReportsRepository/config/od_bd_strings.php';
+			require_once './Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/config/od_bd_strings.php';
 		}
 		$orgu_above1 =  $rec['org_unit_above1'];
 		$orgu_above2 =  $rec['org_unit_above2'];
