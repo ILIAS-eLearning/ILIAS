@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.1.x 2016-04-10 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.1.x 2016-05-01 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -258,8 +258,9 @@ assessment#:#tst_pass_details_header_lo_initial#:#A Tanulási célkitűzések Be
 assessment#:#tst_virtual_pass_header_lo_initial#:#A Tanulási célkitűzés Belépő tesztjének eredményei<br />%s
 assessment#:#tst_pass_details_header_lo_qualifying#:#A Tanulási célkitűzések Záró tesztjének eredményei<br />%s - %s
 assessment#:#tst_virtual_pass_header_lo_qualifying#:#A Tanulási célkitűzés Záró tesztjének eredményei<br />%s
-assessment#:#ass_create_export_file#:#Tesztexportfájl létrehozása
-assessment#:#ass_create_export_test_results#:#Teszteredmények exportfájljának létrehozása
+assessment#:#ass_create_export_file#:#Export fájl létrehozása
+assessment#:#ass_create_export_file_with_results#:#Export fájl létrehozása (résztvevők eredményeivel)
+assessment#:#ass_create_export_test_results#:#Eredmények export fájl létrehozása
 assessment#:#ass_create_export_test_archive#:#Teszt archív fájl létrehozása
 assessment#:#ass_export_files#:#Export fájlok
 assessment#:#ass_file#:#Fájl
@@ -1516,9 +1517,9 @@ assessment#:#feedback_all#:#Válaszfüggő visszajelzések megjelenítése az ö
 assessment#:#feedback_checked#:#Válaszfüggő visszajelzések megjelenítése az összes kiválasztott kérdéshez.
 assessment#:#feedback_correct_sc_mc#:#Válaszfüggő visszajelzések megjelenítése az összes helyesen megválaszolt kérdéshez (helyes válasznak az minősül, mely pozitív pontot ér).
 assessment#:#feedback_correct_kprim#:#Válaszfüggő visszajelzések megjelenítése az összes helyesen megválaszolt kérdéshez (helyes válasznak az minősül, mely pozitív lehetőséget választottak).
-assessment#:#tst_add_quest_cont_edit_mode#:#További kérdéstartalom szerkesztésének módja
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Alapértelmezett szerkesztési mód használata
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Oldalszerkesztő használata
+assessment#:#tst_add_quest_cont_edit_mode#:#Visszajelzések és tippek szerkesztésének módja
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich Text szerkesztő használata
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ILIAS-lapszerkesztő használata
 assessment#:#tst_question_feedback_edit_page#:#Tartalom szerkesztése
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Vissza a kérdéshez
 assessment#:#enable_examview#:#Adott válaszok áttekintése
@@ -1536,7 +1537,7 @@ assessment#:#tst_answer_details#:#Válasz részletei
 assessment#:#tst_results_tax_filters#:#Eredményszűrő
 assessment#:#tst_back_to_pass_details#:#Vissza a kitöltés részleteihez
 assessment#:#tst_list_answer_details#:#Mutassa az alábbi listában
-assessment#:#tst_single_answer_details#:#Egyszerű válasz megjelenítése
+assessment#:#tst_single_answer_details#:#Egyszeres válasz megjelenítése
 assessment#:#tst_pass_details_overview_table_title#:#%s. tesztkitöltés válaszainak részletes áttekintése
 assessment#:#tst_btn_show_best_solutions#:#Legjobb megoldások megjelenítése
 assessment#:#tst_btn_hide_best_solutions#:#Legjobb megoldások elrejtése
@@ -4604,7 +4605,7 @@ common#:#udf_no_name_given#:#Adjon meg egy mezőnevet!
 common#:#udf_required_requires_visib_reg#:#Ha a mező 'kötelező', a 'látható a regisztrációban' opciót is be kell állítani
 common#:#udf_type_date#:#Dátum
 common#:#udf_type_datetime#:#Dátum és idő
-common#:#udf_type_select#:#Kiválasztólista (legördülő)
+common#:#udf_type_select#:#Kiválasztólista (egyválasztásos)
 common#:#udf_type_text#:#Szövegmező (egysoros)
 common#:#udf_type_wysiwyg#:#Szövegterület (WYSIWYG)
 common#:#udf_update_select_field#:#Kiválasztódoboz szerkesztése
@@ -10878,8 +10879,8 @@ administration#:#apache_settings_changed_success#:#A konfigurációt sikeresen m
 common#:#err_auth_apache_failed#:#Bejelentkezés sikertelen. Lehetséges, hogy Önnek nem érvényes a felhasználói tanúsítványa, vagy smarcardját nem helyezte be.
 administration#:#apache_auth_authenticate_on_login_page#:#Apache-azonosítás próbálása a bejelentkező lapra belépéskor.
 wiki#:#wiki_change_notification_salutation#:#Tisztelt %s,
-assessment#:#tst_exp_sc_short#:#Egyszerű választásos kérdések esetén elemanalizáláshoz exportálás
-assessment#:#tst_exp_sc_short_desc#:#A 'Statisztikák' fül alatt exportálhatóvá válik egy munkalap ILIAS-on kívüli elemzés céljára. Ez csak akkor lehetséges, ha a teszt összes kérdése tisztán egyszerű választásos.
+assessment#:#tst_exp_sc_short#:#Egyválasztásos kérdések esetén elemanalizáláshoz exportálás
+assessment#:#tst_exp_sc_short_desc#:#A 'Statisztikák' fül alatt exportálhatóvá válik egy munkalap ILIAS-on kívüli elemzés céljára. Ez csak akkor lehetséges, ha a teszt összes kérdése tisztán egyválasztásos.
 rbac#:#frma_visible#:#A felhasználó láthatja a Rendszerbeállítások » Fórum menüpontot
 rbac#:#frma_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Fórum beállításaihoz
 rbac#:#frma_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Fórum jogosultsági beállításait
@@ -11376,8 +11377,8 @@ survey#:#survey_question_pool_title#:#Gyűjtemény címe
 common#:#allow_user_toggle_noti#:#Tag kikapcsolhat értesítést
 cntr#:#container_import_zip_file_invalid#:#A feltöltött fájl nem érvényes ILIAS export fájl. Könyvtárszerkezet feltöltéséhez használjon fájlobjektumot.
 cntr#:#cntr_adopt_content#:#Tartalom örökítése
-auth#:#login_page_switch_rte#:#Rich-Text-Editor használata
-auth#:#login_page_switch_ipe#:#ILIAS lapszerkesztő használata
+auth#:#login_page_switch_rte#:#Rich Text szerkesztő használata
+auth#:#login_page_switch_ipe#:#ILIAS-lapszerkesztő használata
 auth#:#login_page_editor_switched#:#Az aktív lapszerkesztő megváltozott
 auth#:#login_page_activate#:#Szerkesztő bekapcsolása a kiválasztott nyelvekhez
 content#:#cont_update_login_page#:#Bejelentkezési űrlap elemének szerkesztése
@@ -12424,8 +12425,8 @@ tax#:#tax_nodes#:#Csomópontok
 tax#:#tax_create_node#:#Csomópont létrehozása
 tax#:#tax_new_tax_node#:#Új csomópont
 tax#:#tax_order#:#Sorrend
-administration#:#adm_rep_shorten_description#:#Rövidített leírások
-administration#:#adm_rep_shorten_description_info#:#Ha be van kapcsolva, a leírások az objektumlistákban le lesznek rövidítve.
+administration#:#adm_rep_shorten_description#:#Leírások hosszának korlátja
+administration#:#adm_rep_shorten_description_info#:#Ha be van kapcsolva, az objektumok felsorolásánál a leírások maximum ennyi karakterben jelennek meg.
 administration#:#adm_rep_shorten_description_length#:#Karakterek maximális száma
 file#:#file_uploaded_by#:#Feltöltötte
 trac#:#trac_session_statistics_mode_year#:#Év
@@ -12775,7 +12776,7 @@ dcl#:#dcl_unknown_exception#:#Az Ön által megadott érték nem érvényes.
 dcl#:#dcl_checked#:#Kipipált
 dcl#:#dcl_not_checked#:#Nem kipipált
 dcl#:#dcl_any#:#Bármi
-dcl#:#dcl_noturl_exception#:#Meg kell adnia egy linket (http://-vel kezdődjön)
+dcl#:#dcl_noturl_exception#:#Linket kell megadnia (http://-rel vagy www.-tal kezdődőt) vagy e-mail címet.
 dcl#:#dcl_no_search_results_found_for#:#Egyetlen modult sem sikerült találni ez alapján:
 dcl#:#dcl_export_enabled#:#Export használatának engedélyezése az összes felhasználó számára
 dcl#:#dcl_no_fields_yet#:#Nincsenek mezők definiálva ehhez a táblához, így nem hozhat létre még egy rekordot sem.
@@ -14623,7 +14624,7 @@ crs#:#crs_reg_no_selfreg#:#Senki sem regisztrálhatja saját magát
 crs#:#crs_reg_password_info#:#A felhasználóknak a kurzushoz való csatlakozáskor ezt a jelszót kell majd begépelniük.
 cat#:#cat_more_translations#:#További fordítások
 obj#:#obj_deactivate_content_transl_conf#:#Biztos, hogy kikapcsolja a többnyelvűséget? Csak a fő nyelv tartalma marad meg.
-obj#:#obj_cont_transl_deactivated#:#Oldalszerkesztés fordítása ki van kapcsolva van.
+obj#:#obj_cont_transl_deactivated#:#Lapszerkesztés fordítása ki van kapcsolva van.
 content#:#cont_manage_multilang#:#Többnyelvűség kezelése
 content#:#cont_languages#:#Nyelvek
 content#:#cont_language#:#Nyelv
@@ -14656,8 +14657,8 @@ init#:#init_error_redirect_click#:#Kattints a folytatáshoz.
 init#:#init_error_redirect_info#:#Az átirányítás nem támogatott.
 init#:#init_error_maintenance#:#A szerver karbantartás miatt nem elérhető. Elnézést az esetleges kellemetlenségért.
 init#:#init_error_authentication_fail#:#Hitelesítés sikertelen.
-obj#:#obj_multilang_title_descr_only#:#A fordítás csak címre és leírásra van bekapcsolva. Oldalszerkesztés ('Tartalom/Oldal testreszabása') fordításához további aktiválásokra van szükség.
-obj#:#obj_activate_content_lang#:#Oldalszerkesztés fordításának bekapcsolása
+obj#:#obj_multilang_title_descr_only#:#A fordítás csak címre és leírásra van bekapcsolva. Lapszerkesztés ('Tartalom/Oldal testreszabása') fordításához további aktiválásokra van szükség.
+obj#:#obj_activate_content_lang#:#Lapszerkesztés fordításának bekapcsolása
 obj#:#obj_add_languages#:#Nyelvek hozzáadása
 obj#:#obj_activate_multilang#:#Többnyelvűség bekapcsolása
 obj#:#obj_deactivate_multilang#:#Többnyelvűség kikapcsolása
@@ -14744,9 +14745,9 @@ exc#:#exc_completion_by_tutor#:#Csak manuálisan a tutor
 exc#:#exc_your_text#:#Szövege
 content#:#cont_def_feedb_activated#:#Az alapértelmezett visszajelzés-szövegek be vannak kapcsolva a tanulási modul beállításiban.
 content#:#cont_def_feedb_deactivated#:#Az alapértelmezett visszajelzés-szövegek ki vannak kapcsolva a tanulási modul beállításiban.
-adve#:#advanced_editing_tst_editing#:#Oldalszerkesztő használata a további kérdéstartalom szerkesztéséhez
+adve#:#advanced_editing_tst_editing#:#Lapszerkesztő használata a további kérdéstartalom szerkesztéséhez
 ecs#:#ecs_server_title#:#ECS konfiguráció neve
-adve#:#advanced_editing_tst_editing_desc#:#Kapcsolja be az ILIAS-oldalszerkesztőt a visszajelzések és a súgószövegek szerkesztéséhez.
+adve#:#advanced_editing_tst_editing_desc#:#Kapcsolja be az ILIAS-lapszerkesztőt a visszajelzések és a súgószövegek szerkesztéséhez.
 assessment#:#fq_precision_info#:#Adja meg a tizedeshelyek számát.
 assessment#:#result_units_info#:#A megjelölt mértékegységeket a válasz részeként ajánljuk fel a hallgatónak, amiből egyet kell választania.
 assessment#:#fq_no_restriction_info#:#Tizedestört és tört egyaránt megadható.
@@ -15376,7 +15377,7 @@ prtf#:#prtf_blog_page_created#:#Sikeresen létrehozott egy blogot.
 wiki#:#wiki_adv_md_hidden#:#Ez a blokk jelenleg el van rejtve.
 wiki#:#wiki_page_list_form_info#:#Az alábbi kiválasztott metaadathoz rendelt wikioldalakat sorolja fel.
 content#:#cont_pc_amdpl#:#Oldallista
-meta#:#udf_type_selectmulti#:#Választási lista (jelölőnégyzet)
+meta#:#udf_type_selectmulti#:#Választási lista (többválasztásos)
 wiki#:#wiki_no_page_found#:#Nincs wikioldal a kifejezéshez: '$1'.
 wiki#:#wiki_pages_found#:#A következő wikioldalakat találtuk a kifejezéshez: '$1'.
 wiki#:#wiki_no_search_term#:#Nem adott meg keresési feltételt. Az összes wikioldalt felsoroljuk.
@@ -15844,6 +15845,10 @@ buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Jelölés elfogadása
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Jelölés visszavonása
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Jelölés elfogadása
 buddysystem#:#buddy_bs_action_not_possible#:#Ezt a műveletet nem lehet végrehajtani
+buddysystem#:#buddy_bs_action_already_linked#:#'%s' felhasználótól már elfogadta a jelölést.
+buddysystem#:#buddy_bs_action_already_requested#:#'%s' felhasználónak már küldött jelölést.
+buddysystem#:#buddy_bs_action_already_ignored#:#'%s' felhasználót már elutasította.
+buddysystem#:#buddy_bs_action_already_unlinked#:#'%s' felhasználótól már visszavonta a jelölést.
 buddysystem#:#buddy_bs_state_linked#:#Ismerős
 buddysystem#:#buddy_bs_state_linked_a#:#Ismerős
 buddysystem#:#buddy_bs_state_linked_p#:#Ismerős
@@ -16135,7 +16140,7 @@ prg#:#prg_more_objects_without_read_permission#:#Tanulmányi program több olyan
 cmps#:#cmps_uninstall_inactive_confirm#:#'%1$s' bővítmény jelenleg nem aktiválható ('%2$s'), így nem távolítható el teljesen, néhány adata a rendszerben marad. Biztos, hogy folytatja a részleges eltávolítást?
 pd#:#pd_enable_comments_del_tutor_info#:#A 'Beállítások módosítás' jogosultsággal rendelkezők törölhetik az objektumhoz írt megjegyzéseket.
 log#:#log_cache_info#:#A naplóhoz csak akkor adjuk a pillanatnyi kéréshez tartozó naplózási szintet elérő összes üzenet, amikor egy üzenet eléri vagy túlhaladja a gyorsítótár szintjét.
-content#:#cont_ov_preview#:#A kérdésáttekintés nem működik oldalszerkesztő környezetben. Használja inkább az SCO- vagy a SCORM-szint előnézet.
+content#:#cont_ov_preview#:#A kérdésáttekintés nem működik lapszerkesztő környezetben. Használja inkább az SCO- vagy a SCORM-szint előnézet.
 wiki#:#wiki_copy#:#Wiki másolása
 mcst#:#mcst_copy#:#Médiasugárzás másolása
 prg#:#prg_can_not_manage_in_repo#:#Nincs jogosultsága ennek a Tanulmányi programnak a kezeléséhez.
@@ -16185,7 +16190,10 @@ exc#:#exc_delete_team#:#Csapat törlése
 sysc#:#sysc_tree_structure_failures#:#Fastruktúra hibáinak száma (szülőkapcsolat):
 sysc#:#sysc_message_tree_structure_confirm#:#Biztos, hogy javítja a fastruktúrát? A javítás előtt készítsen biztonsági másolatot adatbázisáról.
 sysc#:#sysc_btn_tree_structure#:#Fastruktúra újralétrehozása
-crs#:#event_tbl_admins#:#Administrators###14 04 2016 new variable
-crs#:#event_tbl_members#:#Members###14 04 2016 new variable
-crs#:#event_tbl_tutors#:#Tutors###14 04 2016 new variable
-trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.###20 04 2016 new variable
+crs#:#event_tbl_admins#:#Vezetők
+crs#:#event_tbl_members#:#Tagok
+crs#:#event_tbl_tutors#:#Tutorok
+trac#:#trac_cron_info#:#Adatgyűjtéshez kapcsolja be az 'Objektumstatisztikák' ütemezett feladatot.
+sess#:#sess_list_reg_limit_places#:#Szabad helyek
+sess#:#sess_accept_request#:#Résztvétel elfogadása
+sess#:#sess_new_registrations#:#Csatlakozási kérés
