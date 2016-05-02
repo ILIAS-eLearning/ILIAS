@@ -353,28 +353,25 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$returns = array();
 		$res = $db->query($this->WPAbfrageRecordList());
 		$rows = $db->numRows($res);
-		$use_id = date("w");
+		$start = date("w"); //int value for day of week. first user to import
+		$use_every = 7; //if there are more then 3500 user to import, reduce this step upper
 		$counter = 0;
-		$step_up = 7; //if there are more then 3500 user to import, reduce this step upper
 
 		while ($rec = $db->fetchAssoc($res)) {
-			if((int)$counter !== (int)$use_id) {
-				$counter++;
-				continue;
-			}
+			if(($counter + $start) % $use_every === 0) {
+				$rec["certification_period"] = "Selektiert nicht stornierte Weiterbildungsmaßnahmen aus der aktuelle Zertifizierungsperiode.";
 
-			$counter = 0;
-			$use_id += $step_up;
-			$rec["certification_period"] = "Selektiert nicht stornierte Weiterbildungsmaßnahmen aus der aktuelle Zertifizierungsperiode.";
-
-			$object = gevWBDRequestWPAbfrage::getInstance($rec);
-			if(is_array($object)) {
-				foreach ($object as $error) {
-					$this->gLog->write($error);
+				$object = gevWBDRequestWPAbfrage::getInstance($rec);
+				if(is_array($object)) {
+					foreach ($object as $error) {
+						$this->gLog->write($error);
+					}
+					continue;
 				}
-				continue;
+				$returns[] = $object;
 			}
-			$returns[] = $object;
+
+			$counter++;
 		}
 
 		return $returns;
