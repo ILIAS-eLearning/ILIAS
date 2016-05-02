@@ -193,6 +193,14 @@ interface ilDBInterface {
 
 
 	/**
+	 * @param $table_name
+	 * @param $fields
+	 *
+	 * @return mixed
+	 */
+	public function indexExistsByFields($table_name, $fields);
+
+	/**
 	 * @param int $fetchMode
 	 * @return mixed
 	 */
