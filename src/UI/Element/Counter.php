@@ -8,12 +8,24 @@ namespace ILIAS\UI\Element;
  * This tags a counter object.
  */
 interface Counter extends \ILIAS\UI\Element {
+	// Types of counters:
+	const NOVELTY = "novelty";
+	const STATUS = "status";
+
 	/**
 	 * Get the type of the counter.
 	 *
-	 * @return  CounterType
+	 * @return  string	One of the counter types.
 	 */
 	public function type();
+
+	/**
+	 * Get a new counter resembling this one, but with a new type.
+	 *
+	 * @param	string	$type	One of counter types.
+	 * @return	Counter
+	 */
+	public function withType($type);
 
 	/**
 	 * Get the number on the counter.
@@ -21,9 +33,12 @@ interface Counter extends \ILIAS\UI\Element {
 	 * @return  int
 	 */
 	public function amount();
-}
 
-// Tags for the different types of counters.
-class CounterType {};
-final class NoveltyCounterType extends CounterType {};
-final class StatusCounterType extends CounterType {};
+	/**
+	 * Get a new counter resembling this one, but with a new type.
+	 *
+	 * @param	int		$amount
+	 * @return	Counter
+	 */
+	public function withAmount($amount);
+}
