@@ -100,7 +100,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$manage_mails = $this->gAccess->checkAccess("visible", "", $mail_mgmt);
 		$manage_competences = $this->gAccess->checkAccess("visible", "", $competence_mgmt);
 		$has_managment_menu = ($manage_courses || $search_courses || $manage_users || $manage_org_units || $manage_mails || $manage_competences)
-							&& ($this->user_utils && !$this->user_utils->hasRoleIn(array("OD/BD", "FD", "UA", "ID FK", "DBV UVG", "HA 84")))
+							&& ($this->user_utils && !$this->user_utils->hasRoleIn(array("OD/BD", "UA", "ID FK", "DBV UVG", "HA 84", "OD", "FD", "BD")))
 							;
 		
 		$has_super_admin_menu = $this->gAccess->checkAccess("write", "", $general_settings);
