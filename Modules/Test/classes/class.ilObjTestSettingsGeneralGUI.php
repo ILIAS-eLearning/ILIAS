@@ -304,13 +304,15 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 				case self::INST_FB_HANDLING_OPT_FREEZE:
 					
 					$form->getItemByPostVar('instant_feedback_handling')->setValue(self::INST_FB_HANDLING_OPT_NONE);
-					$infoMsg[] = $this->lng->txt("tst_conflict_fbh_oblig_quest_reset_non_fbh");
+					$infoMsg[] = $this->lng->txt("tst_conflict_fbh_oblig_quest");
+					$infoMsg[] = $this->lng->txt("tst_conflict_reset_non_fbh");
 					break;
 					
 				case self::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE:
 
 					$form->getItemByPostVar('instant_feedback_handling')->setValue(self::INST_FB_HANDLING_OPT_FORCE);
-					$infoMsg[] = $this->lng->txt("tst_conflict_fbh_oblig_quest_reset_fbh_force");
+					$infoMsg[] = $this->lng->txt("tst_conflict_fbh_oblig_quest");
+					$infoMsg[] = $this->lng->txt("tst_conflict_reset_fbh_force");
 					break;
 			}
 		}
