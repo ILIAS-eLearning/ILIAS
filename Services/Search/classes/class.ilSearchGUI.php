@@ -201,14 +201,48 @@ class ilSearchGUI extends ilSearchBaseGUI
 	/**
 	* Data resource for autoComplete
 	*/
-	function autoComplete()
+	public function autoComplete()
 	{
-		$q = $_REQUEST["term"];
-		include_once("./Services/Search/classes/class.ilSearchAutoComplete.php");
-		$list = ilSearchAutoComplete::getList($q);
-		echo $list;
-		exit;
+		if((int) $_REQUEST['search_type'] == -1)
+		{
+			$a_fields = array('login','firstname','lastname','email');
+			$result_field = 'login';
 
+			// Starting user autocomplete search
+			include_once './Services/User/classes/class.ilUserAutoComplete.php';
+			$auto = new ilUserAutoComplete();
+
+
+			$auto->setMoreLinkAvailable(true);
+			$auto->setSearchFields($a_fields);
+			$auto->setResultField($result_field);
+			$auto->enableFieldSearchableCheck(true);
+			$auto->setUserLimitations(true);
+
+			$res = $auto->getList($_REQUEST['term']);
+			
+			$res_obj = json_decode($res);
+			
+			ilLoggerFactory::getLogger('sea')->debug($res);
+			
+			
+			ilLoggerFactory::getLogger('sea')->dump($res_obj->items, ilLogLevel::DEBUG);
+			if(is_array($res_obj->items))
+			{
+				echo json_encode($res_obj->items);
+				exit;
+			}
+			
+		}
+		else
+		{
+			$q = $_REQUEST["term"];
+			include_once("./Services/Search/classes/class.ilSearchAutoComplete.php");
+			$list = ilSearchAutoComplete::getList($q);
+			ilLoggerFactory::getLogger('sea')->dump(json_decode($list));
+			echo $list;
+			exit;
+		}
 	}
 	
 	function showSearch()
