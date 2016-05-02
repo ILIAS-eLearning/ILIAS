@@ -389,6 +389,9 @@ assessment#:#empty_term_message#:#There is a least one empty term field.
 assessment#:#empty_terms_exist#:#There are already empty term fields. Please fill out these fields before you add more terms.
 assessment#:#enable_javascript#:#Click to enable JavaScript support
 assessment#:#end_tag#:#End Tag
+assessment#:#tst_conflict_fbh_oblig_quest#:#The combination of using compulsory questions and locked answers is not allowed.
+assessment#:#tst_conflict_reset_non_fbh#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers".
+assessment#:#tst_conflict_reset_fbh_force#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers but Force Feedback".
 assessment#:#ending_time_reached#:#You have reached the finish time
 assessment#:#enlarge#:#Enlarge
 assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
