@@ -4817,6 +4817,27 @@ abstract class assQuestion
 			array($activeId, $this->getId(), $pass)
 		);
 	}
+	
+	public static function missingResultRecordExists($activeId, $pass, $questionIds)
+	{
+		global $ilDB;
+		
+		$IN_questionIds = $ilDB->in('question_fi', $questionIds, false, 'integer');
+		
+		$query = "
+			SELECT COUNT(*) cnt
+			FROM tst_test_result
+			WHERE active_fi = %s
+			AND pass = %s
+			AND $IN_questionIds
+		";
+
+		$row = $ilDB->fetchAssoc($ilDB->queryF(
+			$query, array('integer', 'integer'), array($activeId, $pass)
+		));
+
+		return $row['cnt'] < count($questionIds);
+	}
 
 	public static function lookupResultRecordExist($activeId, $questionId, $pass)
 	{

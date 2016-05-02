@@ -269,6 +269,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$isQuestionWorkedThrough = assQuestion::_isWorkedThrough(
 			$this->testSession->getActiveId(), $questionId, $this->testSession->getPass()
 		);
+		$missingQuestionResultExists = assQuestion::missingResultRecordExists(
+			$this->testSession->getActiveId(), $this->testSession->getPass(),
+			$this->testSequence->getOrderedSequenceQuestions()
+		);
 		
 		$presentationMode = $this->getPresentationModeParameter();
 		$instantResponse = $this->getInstantResponseParameter();
@@ -337,6 +341,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				break;
 			
 			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
+
+				$navigationToolbarGUI->setFinishTestButtonPrimary(!$missingQuestionResultExists);
 				
 				if( $this->testSequence->isQuestionOptional($questionGui->object->getId()) )
 				{
