@@ -175,7 +175,7 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 				 " GROUP_CONCAT(DISTINCT usrorg.orgu_title SEPARATOR ', ') as orgu, ".
 				 " IF((NOT usrcrs.participation_status IS NULL) AND usrcrs.participation_status = 'teilgenommen','Ja','Nein') as participated, ".
 				 " usrcrs.begin_date as begin_date, usrcrs.end_date as end_date, ".
-				 " IF((NOT usrcrs.booking_status IS NULL) AND usrcrs.booking_status = 'teilgenommen','Ja','Nein') as booked".
+				 " IF((NOT usrcrs.booking_status IS NULL) AND usrcrs.booking_status = 'gebucht','Ja','Nein') as booked".
 				 " FROM usr_data usr ".
 				 " JOIN hist_userorgu usrorg ON usrorg.usr_id = usr.usr_id AND usrorg.hist_historic = 0 AND usrorg.action >= 0".
 				 " LEFT JOIN hist_usercoursestatus usrcrs ON usr.usr_id = usrcrs.usr_id AND usrcrs.hist_historic = 0 AND ".$dt_query.
