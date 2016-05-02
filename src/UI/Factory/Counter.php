@@ -26,7 +26,6 @@ interface Counter {
 	 *          such as grey.
 	 *
 	 * @param   int         $amount
-	 * @throws  \InvalidArgumentException   if $amount is not an int.
 	 * @return  \ILIAS\UI\Element\Counter
 	 */
 	public function status($amount);
@@ -64,7 +63,6 @@ interface Counter {
 	 *          such as red or orange.
 	 *
 	 * @param   int         $amount
-	 * @throws  \InvalidArgumentException   if $amount is not an int.
 	 * @return  \ILIAS\UI\Element\Counter
 	 */
 	public function novelty($amount);
