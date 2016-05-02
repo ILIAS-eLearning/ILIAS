@@ -147,7 +147,7 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 			$rec['participated_date'] = ilDatePresentation::formatPeriod($begin, $end);
 			$rec['booked_for_date'] = "-";
 		}
-		else if ($rec["participated"] == "Ja") {
+		else if ($rec["booked"] == "Ja") {
 			$begin = new ilDate($rec["begin_date"], IL_CAL_DATE);
 			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
 			$rec['participated_date'] = "-";
@@ -159,6 +159,31 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 		}
 
 		return parent::transformResultRow($rec);
+	}
+
+	public static function transformResultRowXLSX($rec) {
+		require_once("Services/Calendar/classes/class.ilDateTime.php");
+		require_once("Services/Calendar/classes/class.ilDate.php");
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+
+		if ($rec["participated"] == "Ja") {
+			$begin = new ilDate($rec["begin_date"], IL_CAL_DATE);
+			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
+			$rec['participated_date'] = ilDatePresentation::formatPeriod($begin, $end);
+			$rec['booked_for_date'] = "-";
+		}
+		else if ($rec["booked"] == "Ja") {
+			$begin = new ilDate($rec["begin_date"], IL_CAL_DATE);
+			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
+			$rec['participated_date'] = "-";
+			$rec['booked_for_date'] = ilDatePresentation::formatPeriod($begin, $end);
+		}
+		else {
+			$rec['participated_date'] = "-";
+			$rec['booked_for_date'] = "-";
+		}
+
+		return parent::transformResultRowXLSX($rec);
 	}
 
 
