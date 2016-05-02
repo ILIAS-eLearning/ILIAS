@@ -15,29 +15,17 @@ interface Component {
 	 * Render element to an HTML string.
 	 *
 	 * This is an escape hatch to the current ILIAS template logic for UIs.
-	 *
-	 * The uncommon underscore_case is a reminder for the fact, that
-	 * to_html_string should vanish from our code by bubbling up in the call
-	 * chain.
-	 *
-	 * TODO: Explain this...
 	 * 
 	 * @return	string
 	 */
-	public function to_html_string();
+	public function toHTMLString();
 
 	/**
 	 * Get to know which JS-files are required to render the component.
 	 *
 	 * This is an escape hatch to the current ILIAS template logic for UIs.
 	 *
-	 * The uncommon underscore_case is a reminder for the fact, that
-	 * get_required_javascript should vanish from our code by bubbling up
-	 * in the call chain.
-	 *
-	 * TODO: Explain this...
-	 *
 	 * @return	string[]	Paths to required javascripts.
 	 */
-	public function get_required_javascript();
+	public function getRequiredJavascript();
 }
