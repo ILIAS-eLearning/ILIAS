@@ -521,6 +521,9 @@ assessment#:#empty_term_message#:#Mindestens ein Textfeld für Terme ist leer.
 assessment#:#empty_terms_exist#:#Sie haben noch nicht alle Terme ausgefüllt. Bitte füllen Sie erst diese Felder aus, bevor Sie neue Terme anlegen.
 assessment#:#enable_javascript#:#Klicken Sie hier, um die JavaScript-Unterstützung zu aktivieren
 assessment#:#end_tag#:#Endmarkierung
+assessment#:#tst_conflict_fbh_oblig_quest#:#Die Kombination der Verwendung von verpflichtenden Fragen und dem Festschreiben von Antworten ist nicht erlaubt.
+assessment#:#tst_conflict_reset_non_fbh#:#Die Einstellung "Antworten nach Rückmeldung festschreiben" wurde auf die Option "Antworten nicht festschreiben" angepasst. 
+assessment#:#tst_conflict_reset_fbh_force#:#Die Einstellung "Antworten nach Rückmeldung festschreiben" wurde auf die Option "Automatische Rückmeldung, aber Antwort nicht festschreiben" angepasst.
 assessment#:#ending_time_reached#:#Sie haben das Ende der möglichen Bearbeitungsdauer des Tests überschritten.
 assessment#:#enlarge#:#vergrößern
 assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
