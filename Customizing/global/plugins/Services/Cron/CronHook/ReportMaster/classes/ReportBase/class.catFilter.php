@@ -971,10 +971,10 @@ class catMultiSelectCustomFilter {
 }
 
 catFilter::addFilterType(catMultiSelectCustomFilter::ID, new catMultiSelectCustomFilter());
-	/**
-	* We need orgu filters which may be recursive and are consitent throughout all of our reports.
-	* This helper class should ensure the requirements.
-	*/
+/**
+ * We need orgu filters which may be recursive and are consistent throughout all of our reports.
+ * This helper class should ensure the requirements.
+ */
 class recursiveOrguFilter {
 	protected $filter_options;
 	protected $filtered_orgus;
@@ -995,9 +995,11 @@ class recursiveOrguFilter {
 	}
 
 	/**
-	* Include a configured orgu-filter to @param catFilter filter.
-	* @return catFilter filter.
-	*/
+	 * Include a configured orgu-sub-filter to a filter
+	 *
+	 * @param	catFilter	$filter.
+	 * @return	catFilter	$filter.
+	 */
 	public function addToFilter($filter) {
 		global $lng;
 
@@ -1034,8 +1036,11 @@ class recursiveOrguFilter {
 	}
 
 	/**
-	* Define the filter options by directly providing an associative @param array(orgu_title => orgu_id)
-	*/
+	 * Define the filter options by directly providing an associative @param array(orgu_title => orgu_id)
+	 *
+	 * @param	int[]	$org_ids
+	 * @return	null
+	 */
 	public function setFilterOptionsByArray(array $org_ids) {
 		$options = array();
 
@@ -1047,9 +1052,12 @@ class recursiveOrguFilter {
 	}
 
 	/**
-	* Define the filter options by directly providing a usr object @param gevUserUtils $user_utils.
-	* The logic by which relevant orgus are extracted is defined later, but will be consistent for any report.
-	*/
+	 * Define the filter options by directly providing a usr object @param gevUserUtils $user_utils.
+	 * The logic by which relevant orgus are extracted is defined later, but will be consistent for any report.
+	 *
+	 * @param	gevUserUtils	$user_utils
+	 * @return	null
+	 */
 	public function setFilterOptionsByUser(gevUserUtils $user_utils) {
 
 		$fn_extract_obj_id =
@@ -1083,24 +1091,55 @@ class recursiveOrguFilter {
 	}
 
 	/**
-	* @return bool recursive filter selection
-	*/
+	 * Any Orgu is used in Filter.
+	 *
+	 * @return	null
+	 */
+	public function setFilterOptionsAll() {
+		$this->setFilterOptionsByArray($this->getAllOrguIds());
+	}
+
+	/**
+	 * Get all orgu units that currently exist in ILIAS-instance
+	 *
+	 * @return	int[]	$return
+	 */
+	protected function getAllOrguIds() {
+		$query = "SELECT DISTINCT obj_id FROM object_data JOIN object_reference USING(obj_id)"
+				."	WHERE type = 'orgu' AND deleted IS NULL";
+		$res = $this->gIldb->query($query);
+		$return = array();
+		while($rec = $this->gIldb->fetchAssoc($res)) {
+			$return[] = $rec["obj_id"];
+		}
+		return $return;
+	}
+
+	/**
+	 * Retrive recursice  filter selection
+	 *
+	 * @return 	bool
+	 */
 	public function getRecursiveSelection() {
 		return $this->filter->get($this->id.'_recursive');
 	}
 
 	/**
-	* @return array(orgu_ids) orgu filter selection
-	*/
+	 * Retrive bulk orgu filter selection
+	 *
+	 * @return 	int[]	$top_orgu_ids
+	 */
 	public function getSelection() {
 		$top_orgu_ids = $this->filter->get($this->id);
 		return $top_orgu_ids;
 	}
 
 	/**
-	* @return array(orgu_ids) orgu filter selection and possibly the orgu_ids below selected orgus,
-	* depending on @param (bool)$force_recursive and filter selection for recursive filtering (see function getRecursiveSelection).
-	*/
+	 * get orgus and children depending on recursive setting
+	 *
+	 * @return	int[]	$orgu_ids
+	 * @param	bool	$force_recursive
+	 */
 	public function getSelectionAndRecursive($force_recursive = false) {
 		$orgu_ids = $this->getSelection();
 		if(count($orgu_ids)>0 && ($this->getRecursiveSelection() || $force_recursive)) {
@@ -1110,10 +1149,11 @@ class recursiveOrguFilter {
 	}
 
 	/**
-	* helper method
-	* @return array(orgu_ids) all children of
-	* @param array(orgu_ids)
-	*/
+	 * Get some children of given orgu ids.
+	 *
+	 * @return	int[]	$aux  all children of
+	 * @param	int[]	$orgu_ids
+	 */
 	protected function getChildrenOf($orgu_ids) {
 		require_once 'Services/GEV/Utils/classes/class.gevOrgUnitUtils.php';
 		$aux = array();
@@ -1127,8 +1167,10 @@ class recursiveOrguFilter {
 	}
 
 	/**
-	* @return a sql string which reflects the filter selection
-	*/
+	 * get query filter part for report query acc. to filter selection
+	 *
+	 * @return	string	$sql
+	 */
 	public function deliverQuery() {
 		if(count($this->filter_options) > 0) {
 			$orgus = $this->possibly_recursive ? $this->getSelectionAndRecursive() : $this->getSelection();
@@ -1145,9 +1187,11 @@ class recursiveOrguFilter {
 	}
 
 	/**
-	* add a where statement to @param catReportQuery $query which reflects the filter selection
-	* @return catReportQuery $query
-	*/
+	 * add a where statement to query
+	 *
+	 * @param	catReportQuery	$query	which reflects the filter selection
+	 * @return	catReportQuery	$query
+	 */
 	public function addToQuery(catReportQuery $query) {
 		return $query->where($this->deliverQuery());
 	}

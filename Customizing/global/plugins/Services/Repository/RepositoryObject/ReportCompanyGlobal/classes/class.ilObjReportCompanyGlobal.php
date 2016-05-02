@@ -28,9 +28,11 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 	}
 
 	/**
-	* We can not use regular query logic here (since there is no outer-join in mysql and i would like to avoid a lot of subqueries)
-	* so lets take this opportunity to do some preparation work for the actual query construction in getTrainingTypeQuery at least.
-	*/
+	 * We can not use regular query logic here (since there is no outer-join in mysql and i would like to avoid a lot of subqueries)
+	 * so lets take this opportunity to do some preparation work for the actual query construction in getTrainingTypeQuery at least.
+	 *
+	 * @inheritdoc
+	 */
 	protected function buildQuery($query) {
 		return $this->prepareQueryComponents($query);
 	}
@@ -56,9 +58,12 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		return null;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter('org_unit', 'orgu_id', true, true);
-		$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
+		$this->orgu_filter->setFilterOptionsAll();
 		$filter ->dateperiod( "period"
 							 , $this->plugin->txt("period")
 							 , $this->plugin->txt("until")
@@ -184,6 +189,9 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		return 'tpl.cat_global_company_report_data_row.html';
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildTable($table) {
 		$table  ->column('type','type')
 				->column('book_book','bookings')
@@ -194,6 +202,9 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		return parent::buildTable($table);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildOrder($order) {
 		return $order;
 	}
@@ -264,4 +275,5 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
 	}
+
 }

@@ -14,8 +14,6 @@ set_time_limit(0);
 class ilObjReportOrguAtt extends ilObjReportBase {
 	protected $relevant_parameters = array();
 	protected $sum_parts = array();
-	protected $is_local;
-	protected $all_orgus_filter;
 
 	public function __construct($ref_id = 0) {
 		parent::__construct($ref_id);
@@ -59,11 +57,17 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		throw new Exception("ilObjReportBase::deliverSumTable: you need to define a sum table.");	
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildOrder($order) {
 		return $order
 			->defaultOrder("orgu_title", "ASC");
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildTable($table) {
 		$table	->column("orgu_title", $this->plugin->txt('orgu_title'),true)
 				->column("odbd", $this->plugin->txt('od_bd'),true, "",false,false);
@@ -78,6 +82,9 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		return "tpl.gev_attendance_by_orgunit_row.html";
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildQuery($query) {
 		$query	->select("orgu.orgu_title")
 				->select("orgu.org_unit_above1")
@@ -93,8 +100,9 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 				->left_join("hist_usercoursestatus usrcrs")
 					->on("usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0 "
 						."	AND usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text')
-						."	AND usrcrs.begin_date >= ".$this->gIldb->quote($this->date_start,'date')
-						."	AND usrcrs.end_date <= ".$this->gIldb->quote($this->date_end,'date'))
+						."	AND (usrcrs.begin_date <= ".$this->gIldb->quote($this->date_end,'date')
+						."		AND (usrcrs.end_date >= ".$this->gIldb->quote($this->date_start,'date')
+						."			OR `usrcrs`.`end_date` = '0000-00-00' OR `usrcrs`.`end_date` = '-empty-'))")
 				->left_join("hist_course crs")
 					->on("usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0"
 						."	AND ".$this->tpl_filter)
@@ -120,8 +128,9 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		."			LEFT JOIN `hist_usercoursestatus` usrcrs "
 		."				ON usrcrs.usr_id = orgu.usr_id AND usrcrs.hist_historic = 0 "
 		."					AND usrcrs.booking_status != ".$this->gIldb->quote('-empty-','text')
-		."					AND usrcrs.begin_date >= ".$this->gIldb->quote($this->date_start,'date')
-		."					AND usrcrs.end_date <= ".$this->gIldb->quote($this->date_end,'date')
+		."					AND (usrcrs.begin_date <= ".$this->gIldb->quote($this->date_end,'date')
+		."						AND (usrcrs.end_date >= ".$this->gIldb->quote($this->date_start,'date')
+		."							OR `usrcrs`.`end_date` = '0000-00-00' OR `usrcrs`.`end_date` = '-empty-'))"
 		."			LEFT JOIN `hist_course` crs "
 		."				ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 "
 		."					AND ".$this->tpl_filter
@@ -144,12 +153,17 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		return $table;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter('org_unit', 'orgu.orgu_id', true, true);
 		if("1" === (string)$this->settings['all_orgus_filter']) {
-			$this->orgu_filter->setFilterOptionsByArray($this->getAllOrgusIds());
+			$this->orgu_filter->setFilterOptionsAll();
 		} else {
-			$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
+			$this->orgu_filter->setFilterOptionsByArray(
+				array_unique(array_map(function($ref_id) {return ilObject::_lookupObjectId($ref_id);},
+										$this->user_utils->getOrgUnitsWhereUserCanViewEduBios())));
 		}
 		$this->orgu_filter->addToFilter($filter);
 		$filter	->dateperiod( "period"
@@ -240,14 +254,15 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 							 , 300
 							 , 160	
 							 );
-			if("0" === (string)$this->options['all_orgus_filter']) {
+			if("1" !== (string)$this->options['all_orgus_filter']) {
 				$filter
-				->static_condition($this->gIldb->in("orgu.usr_id", $this->user_utils->getEmployees(), false, "integer"));
+				->static_condition($this->gIldb->in("orgu.usr_id", $this->user_utils->getEmployeesWhereUserCanViewEduBios(), false, "integer"));
 			}
 			$filter
 				->static_condition('usr.hist_historic = 0')
 				->static_condition("orgu.hist_historic = 0")
 				->static_condition("orgu.action >= 0")
+				->static_condition("orgu.rol_title = 'Mitarbeiter'")
 				->action($this->filter_action)
 				->compile();
 		$date_filter = $filter->get("period");
@@ -280,16 +295,5 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
-	}
-
-	protected function getAllOrgusIds() {
-		$query = "SELECT DISTINCT obj_id FROM object_data JOIN object_reference USING(obj_id)"
-				."	WHERE type = 'orgu' AND deleted IS NULL";
-		$res = $this->gIldb->query($query);
-		$return = array();
-		while($rec = $this->gIldb->fetchAssoc($res)) {
-			$return[] = $rec["obj_id"];
-		}
-		return $return;
 	}
 }

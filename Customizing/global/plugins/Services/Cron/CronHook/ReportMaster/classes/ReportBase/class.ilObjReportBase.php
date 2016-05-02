@@ -128,17 +128,43 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		return $this->order;
 	}
 
+	/**
+	 * Prepare a query to be used for data retrieval in Report later on.
+	 *
+	 * @param	catReportQuery	$query
+	 * @return	catReportQuery	$query
+	 */
 	abstract protected function buildQuery($query);
+
+	/**
+	 * Prepare a filter to be rendered in Report later on.
+	 *
+	 * @param	catFilter	$filter
+	 * @return	catFilter	$filter
+	 */
 	abstract protected function buildFilter($filter);
+
+	/**
+	 * Prepare a order for retrieved data in Report later on.
+	 *
+	 * @param	catReportOrder	$order
+	 * @return	catReportOrder	$order
+	 */
 	abstract protected function buildOrder($order);
 	
+	/**
+	 * Prepare a table to render in Report later on.
+	 *
+	 * @param	catReportTable	$table
+	 * @return	catReportTable	$table
+	 */
 	protected function buildTable($table) {
 		return $table	->template($this->getRowTemplateTitle(), $this->plugin->getDirectory());
 	}
 
 	/**
-	* The sql-query is built by the following methods.
-	*/
+	 * The sql-query is built by the following methods.
+	 */
 	protected function queryWhere() {
 		$query_part = $this->query ? $this->query->getSqlWhere() : ' TRUE ';
 		$filter_part = $this->filter ? $this->filter->getSQLWhere() : ' TRUE ';
@@ -190,10 +216,11 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		return $head.$tail;
 	}
 
-    /**
-    * The following methods perform the query and collect data. 
-    * getData returns the results, to be put into the table.
-    */
+	/**
+	 * The following methods perform the query and collect data.
+	 * getData returns the results, to be put into the table.
+	 */
+
 	public function deliverData(callable $callback) {  
 		if ($this->data == false){
 			$this->data = $this->fetchData($callback);
@@ -214,20 +241,19 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	}
 
 	/**
-	* this stores query results to an array
-	*/
+	 * Stores query results to an array after postprocessing with callback
+	 *
+	 * @param	callable	$callback
+	 * @return	sting|int[]	$data
+	 */
 	protected function fetchData(callable $callback) {
 		if ($this->query === null) {
 			throw new Exception("catBasicReportGUI::fetchData: query not defined.");
 		}
-		
 		$query = $this->buildQueryStatement();
-			   //die($query);
-
-		
 		$res = $this->gIldb->query($query);
 		$data = array();
-		
+
 		while($rec = $this->gIldb->fetchAssoc($res)) {
 			$data[] = call_user_func($callback,$rec);
 		}
