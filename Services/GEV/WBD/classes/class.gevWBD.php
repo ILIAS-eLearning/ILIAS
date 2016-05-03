@@ -73,6 +73,8 @@ class gevWBD {
 	const WBD_YEARS_FOR_A_PERIOD 	= 5;
 	const WBD_YEARS_FOR_A_YEAR 		= 1;
 
+	const WBD_IMPORT_CREATOR_ID = -666;
+
 	//Statics
 	static protected $instances = array(); 
 

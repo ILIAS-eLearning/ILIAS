@@ -906,7 +906,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$wbd_topic 	= $values->studyContent(); 
 		$begin_date	= $values->beginDate()->get(IL_CAL_DATE); // date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date 	= $values->endDate()->get(IL_CAL_DATE); //date('Y-m-d', strtotime($rec['Ende']));
-		$creator_id = -666;
+		$creator_id = gevWBD::WBD_IMPORT_CREATOR_ID;
 
 
 		$sql = "SELECT crs_id\n"
@@ -995,7 +995,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$credit_points 	= $values->creditPoints();
 		$begin_date		= $values->beginDate()->get(IL_CAL_DATE); // date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date 		= $values->endDate()->get(IL_CAL_DATE); //date('Y-m-d', strtotime($rec['Ende']));
-		$creator_id 	= -666;
+		$creator_id 	= gevWBD::WBD_IMPORT_CREATOR_ID;
 		$next_id 		= $this->gDB->nextId('hist_usercoursestatus');
 
 		$sql = "INSERT INTO hist_usercoursestatus\n"
