@@ -39,7 +39,7 @@ class catFilterFlatViewGUI {
 	protected function initForm() {
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormTplGUI.php");
 		$form = new catPropertyFormTplGUI();
-		$form->setTemplate("tpl.cat_filter_flat_view.html", "Services/ReportsRepository");
+		$form->setTemplate("tpl.cat_filter_flat_view.html", "Customizing/global/plugins/Services/Cron/CronHook/ReportMaster");
 		$form->setFormAction($this->gCtrl->getFormAction($this->parent_obj));
 		$form->setShowTopButtons(false);
 		$form->getTemplate()->setVariable("BTN_CMD", $this->cmd_save);
@@ -54,7 +54,7 @@ class catFilterFlatViewGUI {
 			throw new Exception("catFilterFlatViewGUI::createFilterTemplate: to many sequence level: ".substr_count($next_filter_gui->path(), "_")." > 1.");
 		}
 		
-		$tpl = new ilTemplate("tpl.cat_filter_flat_view_element.html", true, true, "Services/ReportsRepository");
+		$tpl = new ilTemplate("tpl.cat_filter_flat_view_element.html", true, true, "Customizing/global/plugins/Services/Cron/CronHook/ReportMaster");
 
 		//sequences in main sequence render filter sidy by side
 		if(substr_count($next_filter_gui->path(), "_") == 1) {
