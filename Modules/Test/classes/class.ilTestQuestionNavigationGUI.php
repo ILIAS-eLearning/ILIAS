@@ -348,7 +348,7 @@ class ilTestQuestionNavigationGUI
 		if( $this->getEditSolutionCommand() )
 		{
 			$this->renderSubmitButton(
-				$tpl, $this->getEditSolutionCommand(), $this->getEditSolutionButtonLabel(), true
+				$tpl, $this->getEditSolutionCommand(), $this->getEditSolutionButtonLabel()
 			);
 		}
 		

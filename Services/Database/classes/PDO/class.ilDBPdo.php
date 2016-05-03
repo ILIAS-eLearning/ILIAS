@@ -309,7 +309,7 @@ class ilDBPdo implements ilDBInterface {
 	 * @param $column_name string
 	 */
 	public function dropTableColumn($table_name, $column_name) {
-		$this->pdo->exec("ALTER TABLE $$table_name DROP COLUMN $column_name");
+		$this->pdo->exec("ALTER TABLE $table_name DROP COLUMN $column_name");
 	}
 
 
@@ -319,7 +319,12 @@ class ilDBPdo implements ilDBInterface {
 	 * @param $column_new_name string
 	 */
 	public function renameTableColumn($table_name, $column_old_name, $column_new_name) {
-		$this->pdo->exec("alter table $table_name change $column_old_name $column_new_name");
+		$get_type_query = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ".$this->quote($table_name, 'text')." AND COLUMN_NAME = ".$this->quote($column_old_name, 'text');
+		$get_type_result = $this->query($get_type_query);
+		$column_type = $this->fetchAssoc($get_type_result);
+
+		$query = "ALTER TABLE $table_name CHANGE ".$this->quote($column_old_name, 'text')." ". $this->quote($column_new_name, 'text')." ".$column_type['COLUMN_TYPE'];
+		$this->pdo->exec($query);
 	}
 
 
@@ -457,6 +462,16 @@ class ilDBPdo implements ilDBInterface {
 		return $this->pdo->quote($value, $pdo_type);
 	}
 
+	/**
+	 * @param string $table_name
+	 * @param array $fields
+	 *
+	 * @return null
+	 */
+	public function indexExistsByFields($table_name, $fields) {
+		//TODO: implement
+		return false;
+	}
 
 	/**
 	 * @param $table_name

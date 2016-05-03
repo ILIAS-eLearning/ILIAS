@@ -65,6 +65,11 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	/**
 	 * @var bool
 	 */
+	private $finishTestButtonPrimary = false;
+
+	/**
+	 * @var bool
+	 */
 	private $disabledStateEnabled = false;
 	
 	/**
@@ -196,6 +201,22 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 	/**
 	 * @return boolean
 	 */
+	public function isFinishTestButtonPrimary()
+	{
+		return $this->finishTestButtonPrimary;
+	}
+
+	/**
+	 * @param boolean $finishTestButtonPrimary
+	 */
+	public function setFinishTestButtonPrimary($finishTestButtonPrimary)
+	{
+		$this->finishTestButtonPrimary = $finishTestButtonPrimary;
+	}
+
+	/**
+	 * @return boolean
+	 */
 	public function isDisabledStateEnabled()
 	{
 		return $this->disabledStateEnabled;
@@ -305,6 +326,7 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
 		));
 		$btn->setCaption('finish_test');
 		//$btn->setDisabled($this->isDisabledStateEnabled());
+		$btn->setPrimary($this->isFinishTestButtonPrimary());
 		$btn->addCSSClass('ilTstNavElem');
 		$this->addButtonInstance($btn);
 	}

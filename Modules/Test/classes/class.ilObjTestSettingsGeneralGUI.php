@@ -216,7 +216,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 			return $this->showFormCmd($form);
 		}
-
+		
 		// return to form when online is to be set, but no questions are configured
 
 		$currentQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
@@ -293,6 +293,28 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		if( $newQuestionSetType != ilObjTest::QUESTION_SET_TYPE_FIXED )
 		{
 			$form->getItemByPostVar('chb_use_previous_answers')->setChecked(false);
+		}
+		
+		// avoid settings conflict "obligate questions" and "freeze answer"
+		
+		if( $form->getItemByPostVar('obligations_enabled')->getChecked() )
+		{
+			switch( $form->getItemByPostVar('instant_feedback_handling')->getValue() )
+			{
+				case self::INST_FB_HANDLING_OPT_FREEZE:
+					
+					$form->getItemByPostVar('instant_feedback_handling')->setValue(self::INST_FB_HANDLING_OPT_NONE);
+					$infoMsg[] = $this->lng->txt("tst_conflict_fbh_oblig_quest");
+					$infoMsg[] = $this->lng->txt("tst_conflict_reset_non_fbh");
+					break;
+					
+				case self::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE:
+
+					$form->getItemByPostVar('instant_feedback_handling')->setValue(self::INST_FB_HANDLING_OPT_FORCE);
+					$infoMsg[] = $this->lng->txt("tst_conflict_fbh_oblig_quest");
+					$infoMsg[] = $this->lng->txt("tst_conflict_reset_fbh_force");
+					break;
+			}
 		}
 
 		// perform saving the form data
