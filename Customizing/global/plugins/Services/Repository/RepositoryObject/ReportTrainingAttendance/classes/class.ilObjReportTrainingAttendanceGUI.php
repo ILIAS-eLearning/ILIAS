@@ -98,6 +98,7 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 		$form->setFormAction(null);
 
 		$settings = call_user_func_array(array($this->object->filter(), "content"), $this->filter_settings);
+
 		$crs_utils = gevCourseUtils::getInstance($settings["template_obj_id"]);
 
 		$begin = new ilDate($settings["start"]->format("Y-m-d"), IL_CAL_DATE);
@@ -114,13 +115,13 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 					, implode(", ", array_map(function($id) {
 								$orgus = $this->object->getOrguOptions();
 								return $orgus[$id];
-						}, $settings["orgu_ids"] ? $settings["orgu_ids"] : array()))
+						}, $settings["orgu_ids"]))
 					)
 			, array( $this->plugin->txt("roles")
 					, implode(", ", array_map(function($id) {
 								$roles = $this->object->getRoleOptions();
 								return $roles[$id];
-						}, $settings["role_ids"] ? $settings["role_ids"] : array()))
+						}, $settings["role_ids"]))
 					)
 			);
 
