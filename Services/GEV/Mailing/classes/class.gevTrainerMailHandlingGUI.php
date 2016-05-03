@@ -29,8 +29,8 @@ class gevTrainerMailHandlingGUI extends ilMailingGUI {
 
 	protected function showLog() {
 		$this->tabs->activateTab("showMaillog");
-		require_once("Services/Mailing/classes/class.ilMailLogTableGUI.php");
-		$log_gui = new ilMailLogTableGUI($this->getMailLog(), $this, $this->ctrl->getCmd());
+		require_once("Services/GEV/Mailing/classes/class.gevMailLogTableGUI.php");
+		$log_gui = new gevMailLogTableGUI($this->getMailLog(), $this, $this->ctrl->getCmd());
 		$this->tpl->setContent($log_gui->getHTML());
 	}
 
