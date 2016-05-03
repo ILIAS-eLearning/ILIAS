@@ -106,7 +106,7 @@ class SqlPredicateInterpreter {
 			return $this->db->quote($var->value(),'integer');
 		}
 		if( $var instanceof \CaT\Filter\Predicates\ValueDate) {
-			return $this->db->quote($var->value()->format('Y-m-d H:i'),'date');
+			return $this->db->quote($var->value()->format('Y-m-d'),'date');
 		}
 		if( $var instanceof \CaT\Filter\Predicates\Field) {
 			return $this->quoteField($var);

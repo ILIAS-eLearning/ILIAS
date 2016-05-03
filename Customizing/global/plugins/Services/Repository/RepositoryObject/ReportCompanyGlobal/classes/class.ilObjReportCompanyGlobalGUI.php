@@ -14,7 +14,7 @@ class ilObjReportCompanyGlobalGUI extends ilObjReportBaseGUI {
 
 	protected function afterConstructor() {
 		parent::afterConstructor();
-		$this->gTpl->addCSS('Services/ReportsRepository/templates/css/report.css');
+		$this->gTpl->addCSS($this->object->master_plugin->getDirectory().'/templates/css/report.css');
 	}
 
 	public function getType() {
