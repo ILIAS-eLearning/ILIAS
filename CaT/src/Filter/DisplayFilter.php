@@ -188,7 +188,7 @@ class DisplayFilter {
 	* @return array|int|string
 	*/
 	protected function unserializeValue($value) {
-		if($uns = unserialize($value)) {
+		if(is_string($value) && $uns = unserialize($value)) {
 			return $uns;
 		}
 		
