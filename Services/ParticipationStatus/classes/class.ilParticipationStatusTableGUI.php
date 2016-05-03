@@ -53,8 +53,10 @@ class ilParticipationStatusTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("ptst_admin_credit_points"), "cpoints");
 		$this->addColumn($this->lng->txt("ptst_admin_changed_by"), "changed_on");
 
-		$this->setDefaultOrderField("name");
-
+		//gev-patch #2286 start
+		//$this->setDefaultOrderField("name");
+		$this->setDefaultOrderField("lastname");
+		//gev-patch end
 		$this->setRowTemplate("tpl.members_row.html", "Services/ParticipationStatus");
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), $this->getParentCmd()));	
 
