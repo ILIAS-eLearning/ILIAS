@@ -292,9 +292,10 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		$this->settings_data_handler->deleteObjEntry($this->getId(), $this->local_report_settings);
 	}
 
-	final public function doClone($a_target_id,$a_copy_id,$new_obj) {
-		$this->settings_data_handler->cloneObj($this->getId(), $this->global_report_settings, $new_obj);
-		$this->settings_data_handler->cloneObj($this->getId(), $this->local_report_settings, $new_obj);
+	final public function doCloneObject($new_obj,$a_target_id,$a_copy_id) {
+		$new_obj->settings = $this->settings;
+		$new_obj->setDescription($this->getDescription());
+		$new_obj->update();
 	}
 
 	// Report discovery
