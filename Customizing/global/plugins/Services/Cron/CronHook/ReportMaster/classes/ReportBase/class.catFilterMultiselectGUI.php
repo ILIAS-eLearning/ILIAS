@@ -1,6 +1,6 @@
 <?php
 require_once("Services/Form/classes/class.ilMultiSelectInputGUI.php");
-require_once("Services/ReportsRepository/classes/class.catFilterGUI.php");
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.catFilterGUI.php';
 
 class catFilterMultiselectGUI extends catFilterGUI {
 	protected $filter;

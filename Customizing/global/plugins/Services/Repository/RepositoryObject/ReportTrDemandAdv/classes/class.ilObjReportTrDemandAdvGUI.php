@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBaseGUI.php';
 /**
 * User Interface class for example repository object.
 * ...
@@ -83,28 +83,5 @@ class ilObjReportTrDemandAdvGUI extends ilObjReportBaseGUI {
 			$rec = array(	'tpl_title' => $rec['tpl_title']);
 		}
 		return parent::transformResultRow($rec);
-	}
-
-
-	protected function settingsForm($data = null) {
-		$settings_form = parent::settingsForm($data);
-		$is_local = new ilCheckboxInputGUI($this->object->plugin->txt('report_is_local'),'is_local');
-		$is_local->setValue(1);
-		if(isset($data["is_local"])) {
-			$is_local->setChecked($data["is_local"]);
-		}
-		$settings_form->addItem($is_local);
-		return $settings_form;
-	}
-
-	protected function getSettingsData() {
-		$data = parent::getSettingsData();
-		$data['is_local'] = $this->object->getIsLocal();
-		return $data;
-	}
-
-	protected function saveSettingsData($data) {
-		$this->object->setIsLocal($data['is_local']);
-		parent::saveSettingsData($data);
 	}
 }

@@ -560,6 +560,10 @@ class ilObjUserGUI extends ilObjectGUI
         global $ilias, $rbacsystem, $rbacreview, $rbacadmin, $styleDefinition, $ilUser
 			,$ilSetting, $ilCtrl;
 
+		// gev-patch start #2266 we need the ilToolbar for link to BiPro
+		$this->setToolbar();
+		// gev-patch end
+
 		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 
         //load ILIAS settings
@@ -3868,6 +3872,15 @@ class ilObjUserGUI extends ilObjectGUI
 		require_once("Services/GEV/Administration/classes/class.gevUserRoleHistoryGUI.php");
 		$gui = new gevUserRoleHistoryGUI($_GET["obj_id"]);
 		$gui->render();
+    }
+    //gev-patch end
+
+    //gev-patch start #2266
+    protected function setToolbar() {
+    	global $ilToolbar;
+    	$this->ctrl->setParameterByClass("gevEduBiographyGUI", "target_user_id", $_GET["obj_id"]);
+    	$ilToolbar->addButton($this->lng->txt('gev_edu_bio'), $this->ctrl->getLinkTargetByClass(array("gevDesktopGUI", "gevEduBiographyGUI"), 'view'), "blank");
+    	$this->ctrl->clearParametersByClass("gevEduBiographyGUI");
     }
     //gev-patch end
 } // END class.ilObjUserGUI

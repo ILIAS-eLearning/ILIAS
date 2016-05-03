@@ -1,5 +1,5 @@
 <?php
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBase.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php';
 
 ini_set("memory_limit","2048M"); 
 ini_set('max_execution_time', 0);
@@ -16,6 +16,12 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 		global $lng;
 		$this->gLng = $lng;
 	}
+
+	protected function createLocalReportSettings() {
+		$this->local_report_settings =
+			$this->s_f->reportSettings('rep_robj_reeb');
+	}
+
 
 	protected function points_in_cert_year_sql($year) {
 		return   "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL ".($year-1)." YEAR "
@@ -47,8 +53,6 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 	}
 
 	protected function buildQuery($query) {
-
-
 		$points_in_current_period
 						  =  "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification"
 							."         AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL 5 YEAR)"
@@ -163,11 +167,19 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 			" (roles.num_wbd_roles > 0 "
 			."		OR usr.okz != ".$this->gIldb->quote("-empty-",'text').")";
 		$this->allowed_user_ids = $this->user_utils->getEmployeesWhereUserCanViewEduBios();
+
+		//add recursive ORguFilter
 		$this->orgu_filter = new recursiveOrguFilter("org_unit","orgu_id",true,true);
+
 		$orgu_refs = $this->user_utils->getOrgUnitsWhereUserCanViewEduBios();
 		require_once "Services/GEV/Utils/classes/class.gevObjectUtils.php";
 		$orgus = array_map(function ($ref_id) {return gevObjectUtils::getObjId($ref_id);},$orgu_refs);
 		$this->orgu_filter->setFilterOptionsByArray($orgus);
+
+		$this->orgu_filter->setPreSelect(array_map(function($v) { return $v["obj_id"];},$this->user_utils->getOrgUnitsWhereUserIsDirectSuperior()));
+		$this->orgu_filter->uncheckRecursiveSearch();
+		$this->orgu_filter->addToFilter($filter);
+		//end
 
 		$filter	->checkbox( "critical"
 						  , $this->plugin->txt("show_critical_persons")
@@ -187,7 +199,6 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 						  , $wbd_relevant_condition
 						  , "TRUE"
 						  );
-		$this->orgu_filter->addToFilter($filter);
 		$filter	->textinput( "lastname"
 								   , $this->plugin->txt("lastname_filter")
 								   , "usr.lastname"
@@ -260,39 +271,5 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
-	}
-
-	public function doCreate() {
-		$this->gIldb->manipulate("INSERT INTO rep_robj_reeb ".
-			"(id, is_online, video_link) VALUES (".
-			$this->gIldb->quote($this->getId(), "integer")
-			.",".$this->gIldb->quote(0, "integer")
-			.",NULL"
-			.")");
-	}
-
-	public function doRead() {
-		$set = $this->gIldb->query("SELECT * FROM rep_robj_reeb ".
-			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-		while ($rec = $this->gIldb->fetchAssoc($set)) {
-			$this->setOnline($rec["is_online"]);
-			$this->setVideoLink($rec['video_link']);
-		}
-	}
-
-	public function doUpdate() {
-
-		$this->gIldb->manipulate("UPDATE rep_robj_reeb SET "
-			." is_online = ".$this->gIldb->quote($this->getOnline(), "integer")
-			.",video_link = ".$this->gIldb->quote($this->getVideoLink(), "text")
-			." WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-	}
-
-	public function doDelete() {
-		$this->gIldb->manipulate("DELETE FROM rep_robj_reeb WHERE ".
-			" id = ".$this->gIldb->quote($this->getId(), "integer")
-		); 
 	}
 }

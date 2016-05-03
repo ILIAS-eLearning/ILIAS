@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseGUI.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBaseGUI.php';
 require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
 
 /**
@@ -147,7 +147,7 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 			$rec['participated_date'] = ilDatePresentation::formatPeriod($begin, $end);
 			$rec['booked_for_date'] = "-";
 		}
-		else if ($rec["participated"] == "Ja") {
+		else if ($rec["booked"] == "Ja") {
 			$begin = new ilDate($rec["begin_date"], IL_CAL_DATE);
 			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
 			$rec['participated_date'] = "-";
@@ -159,6 +159,31 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 		}
 
 		return parent::transformResultRow($rec);
+	}
+
+	public static function transformResultRowXLSX($rec) {
+		require_once("Services/Calendar/classes/class.ilDateTime.php");
+		require_once("Services/Calendar/classes/class.ilDate.php");
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+
+		if ($rec["participated"] == "Ja") {
+			$begin = new ilDate($rec["begin_date"], IL_CAL_DATE);
+			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
+			$rec['participated_date'] = ilDatePresentation::formatPeriod($begin, $end);
+			$rec['booked_for_date'] = "-";
+		}
+		else if ($rec["booked"] == "Ja") {
+			$begin = new ilDate($rec["begin_date"], IL_CAL_DATE);
+			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
+			$rec['participated_date'] = "-";
+			$rec['booked_for_date'] = ilDatePresentation::formatPeriod($begin, $end);
+		}
+		else {
+			$rec['participated_date'] = "-";
+			$rec['booked_for_date'] = "-";
+		}
+
+		return parent::transformResultRowXLSX($rec);
 	}
 
 
@@ -198,36 +223,6 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 			$this->saveFilterSettings($settings);
 			$this->gCtrl->redirect($this, "showContent");
 		}
-	}
-
-	protected function settingsForm($data = null) {
-		$settings_form = parent::settingsForm($data);
-
-		$show_filter = new ilCheckboxInputGUI('filter','filter');
-		$show_filter->setValue(1);
-		if(isset($data["filter"])) {
-			$show_filter->setChecked($data["filter"]);
-		}
-		$settings_form->addItem($show_filter);
-
-		$is_local = new ilCheckboxInputGUI($this->object->plugin->txt('report_is_local'),'is_local');
-		$is_local->setValue(1);
-		if(isset($data["is_local"])) {
-			$is_local->setChecked($data["is_local"]);
-		}
-		$settings_form->addItem($is_local);
-		return $settings_form;
-	}
-
-	protected function getSettingsData() {
-		$data = parent::getSettingsData();
-		$data['is_local'] = $this->object->getIsLocal();
-		return $data;
-	}
-
-	protected function saveSettingsData($data) {
-		$this->object->setIsLocal($data['is_local']);
-		parent::saveSettingsData($data);
 	}
 
 	protected function exportExcel() {

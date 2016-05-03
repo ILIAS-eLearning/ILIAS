@@ -35,3 +35,12 @@ $ilDB->addPrimaryKey("rep_robj_rea", array("id"));
 		$ilDB->addTableColumn("rep_robj_rea", "pdf_link", $field_data);
 	}
 ?>
+
+<#4>
+<?php
+$query = "INSERT INTO rep_master_data (id,is_online)"
+		."	SELECT bi.id,bi.is_online FROM rep_master_data md"
+		."		RIGHT JOIN rep_robj_rea bi ON bi.id = md.id "
+		."	WHERE md.id IS NULL";
+$ilDB->manipulate($query);
+?>

@@ -1871,6 +1871,7 @@ class gevUserUtils {
 					." AND ".$this->db->in("histucs.booking_status", $booking_status, false, "text").""
 					." AND histucs.hist_historic = 0"
 					." AND ".$this->db->in("histu.user_id", $to_search, false, "integer").""
+					." AND histucs.creator_user_id != ".$this->db->quote(gevWBD::WBD_IMPORT_CREATOR_ID, "integer").""
 					." ORDER BY histucs.booking_status, histu.lastname, histu.firstname, histucs.created_ts";
 
 			$res_emp = $this->db->query($sql_emp);

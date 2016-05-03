@@ -352,18 +352,26 @@ class gevWBDDataCollector implements WBDDataCollector {
 	protected function _createWPAbfrageRecordList($db) {
 		$returns = array();
 		$res = $db->query($this->WPAbfrageRecordList());
+		$rows = $db->numRows($res);
+		$start = date("w"); //int value for day of week. first user to import
+		$use_every = 7; //if there are more then 3500 user to import, reduce this step upper
+		$counter = 0;
 
 		while ($rec = $db->fetchAssoc($res)) {
-			$rec["certification_period"] = "Selektiert nicht stornierte Weiterbildungsmaßnahmen aus der aktuelle Zertifizierungsperiode.";
+			if(($counter + $start) % $use_every === 0) {
+				$rec["certification_period"] = "Selektiert nicht stornierte Weiterbildungsmaßnahmen aus der aktuelle Zertifizierungsperiode.";
 
-			$object = gevWBDRequestWPAbfrage::getInstance($rec);
-			if(is_array($object)) {
-				foreach ($object as $error) {
-					$this->gLog->write($error);
+				$object = gevWBDRequestWPAbfrage::getInstance($rec);
+				if(is_array($object)) {
+					foreach ($object as $error) {
+						$this->gLog->write($error);
+					}
+					continue;
 				}
-				continue;
+				$returns[] = $object;
 			}
-			$returns[] = $object;
+
+			$counter++;
 		}
 
 		return $returns;
@@ -893,12 +901,12 @@ class gevWBDDataCollector implements WBDDataCollector {
 	**/
 	protected function importSeminar(gevImportCourseData $values){
 
-		$title 		= $values->title();
+		$title 		= str_replace("\"", "\\\"", $values->title());
 		$type 		= $values->courseType(); 
 		$wbd_topic 	= $values->studyContent(); 
 		$begin_date	= $values->beginDate()->get(IL_CAL_DATE); // date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date 	= $values->endDate()->get(IL_CAL_DATE); //date('Y-m-d', strtotime($rec['Ende']));
-		$creator_id = -666;
+		$creator_id = gevWBD::WBD_IMPORT_CREATOR_ID;
 
 
 		$sql = "SELECT crs_id\n"
@@ -987,7 +995,7 @@ class gevWBDDataCollector implements WBDDataCollector {
 		$credit_points 	= $values->creditPoints();
 		$begin_date		= $values->beginDate()->get(IL_CAL_DATE); // date('Y-m-d', strtotime($rec['Beginn']));
 		$end_date 		= $values->endDate()->get(IL_CAL_DATE); //date('Y-m-d', strtotime($rec['Ende']));
-		$creator_id 	= -666;
+		$creator_id 	= gevWBD::WBD_IMPORT_CREATOR_ID;
 		$next_id 		= $this->gDB->nextId('hist_usercoursestatus');
 
 		$sql = "INSERT INTO hist_usercoursestatus\n"

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBaseListGUI.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBaseListGUI.php';
 
 class ilObjReportTrDemandRetListGUI extends ilObjReportBaseListGUI {
 

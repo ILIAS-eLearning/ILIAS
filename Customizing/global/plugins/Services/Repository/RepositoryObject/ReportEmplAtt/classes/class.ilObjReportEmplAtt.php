@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBase.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php';
 require_once 'Services/GEV/Utils/classes/class.gevCourseUtils.php';
 
 ini_set("memory_limit","2048M"); 
@@ -20,6 +20,14 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		 $this->setType("xrea");
 	}
 
+	protected function createLocalReportSettings() {
+		$this->local_report_settings =
+			$this->s_f->reportSettings('rep_robj_rea');
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildQuery($query) {
 		$query
 			->select("usr.user_id")
@@ -70,6 +78,9 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		return $query;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildOrder($order) {
 		$order->mapping("date", "crs.begin_date")
 				->mapping("od_bd", array("org_unit_above1", "org_unit_above2"))
@@ -78,6 +89,9 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		return $order;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildTable($table) {
 		$table
 			->column("lastname", $this->plugin->txt("lastname"), true)
@@ -100,9 +114,14 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		return parent::buildTable($table);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter("org_unit","orgu_filter.orgu_id",true,true);
-		$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
+		$this->orgu_filter->setFilterOptionsByArray(
+			array_unique(array_map(function($ref_id) {return ilObject::_lookupObjectId($ref_id);},
+									$this->user_utils->getOrgUnitsWhereUserCanViewEduBios())));
 
 		$filter	->dateperiod( "period"
 									, $this->plugin->txt("period")
@@ -139,7 +158,7 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 									 , "asc"
 									 , true
 									 )
-				->static_condition($this->gIldb->in("usr.user_id", $this->user_utils->getEmployees(), false, "integer"))
+				->static_condition($this->gIldb->in("usr.user_id", $this->user_utils->getEmployeesWhereUserCanViewEduBios(), false, "integer"))
 				->static_condition(" usr.hist_historic = 0")
 				->static_condition("( usrcrs.booking_status != '-empty-'"
 								  ." OR usrcrs.hist_historic IS NULL )")
@@ -168,39 +187,4 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 		return $this->relevant_parameters;
 	}
 
-	public function doCreate() {
-		$this->gIldb->manipulate("INSERT INTO rep_robj_rea ".
-			"(id, is_online, video_link, pdf_link) VALUES (".
-			$this->gIldb->quote($this->getId(), "integer")
-			.",".$this->gIldb->quote(0, "integer")
-			.",".$this->gIldb->quote($this->getVideoLink(), "text")
-			.",".$this->gIldb->quote($this->getPDFLink(), "text")
-			.")");
-	}
-
-	public function doRead() {
-		$set = $this->gIldb->query("SELECT * FROM rep_robj_rea ".
-			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-		while ($rec = $this->gIldb->fetchAssoc($set)) {
-			$this->setOnline($rec["is_online"]);
-			$this->setVideoLink($rec["video_link"]);
-			$this->setPDFLink($rec["pdf_link"]);
-		}
-	}
-
-	public function doUpdate() {
-		$this->gIldb->manipulate("UPDATE rep_robj_rea SET "
-			." is_online = ".$this->gIldb->quote($this->getOnline(), "integer")
-			.", video_link = ".$this->gIldb->quote($this->getVideoLink(), "text")
-			.", pdf_link = ".$this->gIldb->quote($this->getPDFLink(), "text")
-			." WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-	}
-
-	public function doDelete() {
-		$this->gIldb->manipulate("DELETE FROM rep_robj_rea WHERE ".
-			" id = ".$this->gIldb->quote($this->getId(), "integer")
-		); 
-	}
 }

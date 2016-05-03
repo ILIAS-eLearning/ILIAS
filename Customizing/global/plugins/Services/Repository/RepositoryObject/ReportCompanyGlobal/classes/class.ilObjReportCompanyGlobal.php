@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBase.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php';
 require_once 'Services/GEV/Utils/classes/class.gevAMDUtils.php';
 require_once 'Services/GEV/Utils/classes/class.gevSettings.php';
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
@@ -28,11 +28,18 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 	}
 
 	/**
-	* We can not use regular query logic here (since there is no outer-join in mysql and i would like to avoid a lot of subqueries)
-	* so lets take this opportunity to do some preparation work for the actual query construction in getTrainingTypeQuery at least.
-	*/
+	 * We can not use regular query logic here (since there is no outer-join in mysql and i would like to avoid a lot of subqueries)
+	 * so lets take this opportunity to do some preparation work for the actual query construction in getTrainingTypeQuery at least.
+	 *
+	 * @inheritdoc
+	 */
 	protected function buildQuery($query) {
 		return $this->prepareQueryComponents($query);
+	}
+
+	protected function createLocalReportSettings() {
+		$this->local_report_settings =
+			$this->s_f->reportSettings('rep_robj_rcg');
 	}
 
 	protected function prepareQueryComponents($query) {
@@ -51,9 +58,12 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		return null;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter('org_unit', 'orgu_id', true, true);
-		$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
+		$this->orgu_filter->setFilterOptionsAll();
 		$filter ->dateperiod( "period"
 							 , $this->plugin->txt("period")
 							 , $this->plugin->txt("until")
@@ -179,6 +189,9 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		return 'tpl.cat_global_company_report_data_row.html';
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildTable($table) {
 		$table  ->column('type','type')
 				->column('book_book','bookings')
@@ -189,6 +202,9 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		return parent::buildTable($table);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function buildOrder($order) {
 		return $order;
 	}
@@ -256,37 +272,8 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 		return $return;
 	}
  
-	public function doCreate() {
-		$this->gIldb->manipulate("INSERT INTO rep_robj_rcg ".
-			"(id, is_online) VALUES (".
-			$this->gIldb->quote($this->getId(), "integer").",".
-			$this->gIldb->quote(0, "integer").
-			")");
-	}
-
-	public function doRead() {
-		$set = $this->gIldb->query("SELECT * FROM rep_robj_rcg ".
-			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-		while ($rec = $this->gIldb->fetchAssoc($set)) {
-			$this->setOnline($rec["is_online"]);
-		}
-	}
-
-	public function doUpdate() {
-		$this->gIldb->manipulate($up = "UPDATE rep_robj_rcg SET "
-			." is_online = ".$this->gIldb->quote($this->getOnline(), "integer")
-			." WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-	}
-
-	public function doDelete() {
-		$this->gIldb->manipulate("DELETE FROM rep_robj_rcg WHERE ".
-			" id = ".$this->gIldb->quote($this->getId(), "integer")
-		); 
-	}
-
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
 	}
+
 }

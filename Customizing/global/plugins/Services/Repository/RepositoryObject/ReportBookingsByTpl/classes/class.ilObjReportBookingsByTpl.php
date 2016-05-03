@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Services/ReportsRepository/classes/class.ilObjReportBase.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php';
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
@@ -21,6 +21,11 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 		require_once $this->plugin->getDirectory().'/config/cfg.bk_by_tpl.php';
 	}
 
+	protected function createLocalReportSettings() {
+		$this->local_report_settings =
+			$this->s_f->reportSettings('rep_robj_rbbt');
+	}
+
 	public function initType() {
 		 $this->setType("xrbt");
 	}
@@ -33,12 +38,18 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 	protected function getRowTemplateTitle() {
 		return "tpl.gev_bookings_by_tpl_row.html";
 	}
-
+	
+	/**
+	 *	@inheritdoc
+	 */
 	protected function buildOrder($order) {
 		return $order
 			->defaultOrder("template_title", "ASC");
 	}
 
+	/**
+	 *	@inheritdoc
+	 */
 	protected function buildTable($table) {
 		$table 		->column("template_title", $this->plugin->txt("title"),true)
 					->column("edu_program", $this->plugin->txt("edu_program"),true);
@@ -65,9 +76,12 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 		throw new Exception("ilObjReportBase::deliverSumTable: you need to define a sum table.");	
 	}
 
+	/**
+	 *	@inheritdoc
+	 */
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter("org_unit","orgu_id",true,true);
-		$this->orgu_filter->setFilterOptionsByUser($this->user_utils);
+		$this->orgu_filter->setFilterOptionsAll();
 		$filter 		->dateperiod( "period"
 									, $this->plugin->txt("period")
 									, $this->plugin->txt("until")
@@ -158,13 +172,15 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 		return $filter;
 	}
 
+	/**
+	 *	@inheritdoc
+	 */
 	protected function buildQuery($query) {
-		$rgu_filter_query = 	
+		$orgu_filter_query =
 				"JOIN (SELECT usr_id  \n"
 					."	FROM hist_userorgu \n"
 					." 	WHERE ".$this->orgu_filter->deliverQuery()." \n"
 					."	AND hist_historic = 0 AND `action` >= 0 GROUP BY usr_id) as orgu ON usrcrs.usr_id = orgu.usr_id \n";
-
 		$query 		->select("crs.template_title")
 					->select("crs.edu_program");
 		foreach( $this->sum_parts as $title => $query_parts) {
@@ -192,12 +208,21 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 			" FROM ( \n"
 			."	SELECT usrcrs.usr_id, crs.crs_id, usrcrs.booking_status, \n"
 			."		usrcrs.participation_status, crs.type \n"
-			."		FROM `hist_usercoursestatus` usrcrs \n" 
-			."			JOIN `hist_course` crs ON usrcrs.crs_id = crs.crs_id \n"
-			."			LEFT JOIN hist_userorgu orgu ON orgu.usr_id = usrcrs.usr_id \n"
-			."		".$this->queryWhere()
-			." 		AND ".$this->orgu_filter->deliverQuery()
-			."		GROUP BY usrcrs.usr_id, crs.crs_id"
+			."		FROM  `hist_course` crs \n"
+			."			JOIN `hist_usercoursestatus` usrcrs  ON usrcrs.crs_id = crs.crs_id \n";
+		if($this->orgu_filter->getSelection()) {
+			$sum_sql .=
+			"			JOIN hist_userorgu orgu ON orgu.usr_id = usrcrs.usr_id \n";
+		}
+		$sum_sql .=
+			"		".$this->queryWhere();
+		if($this->orgu_filter->getSelection()) {
+			$sum_sql .=
+			" 		AND ".$this->orgu_filter->deliverQuery()
+			."		AND orgu.action >=0 AND orgu.hist_historic = 0";
+		}
+		$sum_sql .=
+			"		GROUP BY usrcrs.usr_id, crs.crs_id"
 			.") as temp";
 		return $sum_sql;
 	}
@@ -214,36 +239,6 @@ class ilObjReportBookingsByTpl extends ilObjReportBase {
 		}
 		$table->setData(array(call_user_func($callback,$summed_data)));
 		return $table;
-	}
-
-	public function doCreate() {
-		$this->gIldb->manipulate("INSERT INTO rep_robj_rbbt ".
-			"(id, is_online) VALUES (".
-			$this->gIldb->quote($this->getId(), "integer").",".
-			$this->gIldb->quote(0, "integer").
-			")");
-	}
-
-	public function doRead() {
-		$set = $this->gIldb->query("SELECT * FROM rep_robj_rbbt ".
-			" WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-		while ($rec = $this->gIldb->fetchAssoc($set)) {
-			$this->setOnline($rec["is_online"]);
-		}
-	}
-
-	public function doUpdate() {
-		$this->gIldb->manipulate($up = "UPDATE rep_robj_rbbt SET "
-			." is_online = ".$this->gIldb->quote($this->getOnline(), "integer")
-			." WHERE id = ".$this->gIldb->quote($this->getId(), "integer")
-			);
-	}
-
-	public function doDelete() {
-		$this->gIldb->manipulate("DELETE FROM rep_robj_rbbt WHERE ".
-			" id = ".$this->gIldb->quote($this->getId(), "integer")
-		); 
 	}
 
 	public function getRelevantParameters() {

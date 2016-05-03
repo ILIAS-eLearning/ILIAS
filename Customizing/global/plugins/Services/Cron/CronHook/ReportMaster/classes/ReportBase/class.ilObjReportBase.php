@@ -1,12 +1,14 @@
 <?php
 require_once 'Services/Repository/classes/class.ilObjectPlugin.php';
-require_once 'Services/ReportsRepository/classes/class.catReportTable.php';
-require_once 'Services/ReportsRepository/classes/class.catReportOrder.php';
-require_once 'Services/ReportsRepository/classes/class.catReportQuery.php';
-require_once 'Services/ReportsRepository/classes/class.catReportQueryOn.php';
-require_once 'Services/ReportsRepository/classes/class.catFilter.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.catReportTable.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.catReportOrder.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.catReportQuery.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.catReportQueryOn.php';
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.catFilter.php';
 require_once 'Services/GEV/Utils/classes/class.gevUserUtils.php';
-
+require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.reportSettingsDataHandler.php");
+require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.settingFactory.php");
+require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/class.ilReportMasterPlugin.php");
 /**
 * This class performs all interactions with the database in order to get report-content. Puplic methods may be accessed in 
 * in the GUI via $this->object->{method-name}.
@@ -23,6 +25,10 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	protected $order = null;
 	protected $user_utils;
 
+	public $sf;
+	public $master_plugin;
+	public $settings;
+
 	const HTTP_REGEX = "/^(https:\/\/)|(http:\/\/)/";
 
 	public function __construct($a_ref_id = 0) {
@@ -36,8 +42,58 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		$this->data = false;
 		$this->filter = null;
 		$this->order = null;
+
+		$this->s_f = new settingFactory($this->gIldb);
+		$this->master_plugin = new ilReportMasterPlugin();
+		$this->settings = array();
+		$this->createLocalReportSettings();
+		$this->createGlobalReportSettings();
+		$this->settings_data_handler = $this->s_f->reportSettingsDataHandler();
+
 	}
 
+
+	abstract protected function createLocalReportSettings();
+
+	protected function createGlobalReportSettings() {
+
+		$this->global_report_settings =
+			$this->s_f->reportSettings('rep_master_data')
+				->addSetting($this->s_f
+								->settingBool('is_online', $this->master_plugin->txt('is_online'))
+								)
+				->addSetting($this->s_f
+								->settingString('pdf_link', $this->master_plugin->txt('rep_pdf_desc'))
+									->setFromForm(function ($string) {
+										$string = trim($string);
+										if($string === "" || preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1 ) {
+											return $string;
+										}
+										return 'https://'.$string;
+									})
+								)
+				->addSetting($this->s_f
+								->settingString('video_link', $this->master_plugin->txt('rep_video_desc'))
+									->setFromForm(function ($string) {
+										$string = trim($string);
+										if($string === "" || preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1 ) {
+											return $string;
+										}
+										return 'https://'.$string;
+									})
+								)
+				->addSetting($this->s_f
+								->settingRichText('tooltip_info', $this->master_plugin->txt('rep_tooltip_desc'))
+								);
+	}
+
+	public function getSettingsData() {
+		return $this->settings;
+	}
+
+	public function setSettingsData(array $settings) {
+		$this->settings = $settings;
+	}
 
 	public function prepareReport() {
 		$this->filter = $this->buildFilter(catFilter::create());
@@ -72,17 +128,43 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		return $this->order;
 	}
 
+	/**
+	 * Prepare a query to be used for data retrieval in Report later on.
+	 *
+	 * @param	catReportQuery	$query
+	 * @return	catReportQuery	$query
+	 */
 	abstract protected function buildQuery($query);
+
+	/**
+	 * Prepare a filter to be rendered in Report later on.
+	 *
+	 * @param	catFilter	$filter
+	 * @return	catFilter	$filter
+	 */
 	abstract protected function buildFilter($filter);
+
+	/**
+	 * Prepare a order for retrieved data in Report later on.
+	 *
+	 * @param	catReportOrder	$order
+	 * @return	catReportOrder	$order
+	 */
 	abstract protected function buildOrder($order);
 	
+	/**
+	 * Prepare a table to render in Report later on.
+	 *
+	 * @param	catReportTable	$table
+	 * @return	catReportTable	$table
+	 */
 	protected function buildTable($table) {
 		return $table	->template($this->getRowTemplateTitle(), $this->plugin->getDirectory());
 	}
 
 	/**
-	* The sql-query is built by the following methods.
-	*/
+	 * The sql-query is built by the following methods.
+	 */
 	protected function queryWhere() {
 		$query_part = $this->query ? $this->query->getSqlWhere() : ' TRUE ';
 		$filter_part = $this->filter ? $this->filter->getSQLWhere() : ' TRUE ';
@@ -134,10 +216,11 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		return $head.$tail;
 	}
 
-    /**
-    * The following methods perform the query and collect data. 
-    * getData returns the results, to be put into the table.
-    */
+	/**
+	 * The following methods perform the query and collect data.
+	 * getData returns the results, to be put into the table.
+	 */
+
 	public function deliverData(callable $callback) {  
 		if ($this->data == false){
 			$this->data = $this->fetchData($callback);
@@ -158,20 +241,19 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	}
 
 	/**
-	* this stores query results to an array
-	*/
+	 * Stores query results to an array after postprocessing with callback
+	 *
+	 * @param	callable	$callback
+	 * @return	sting|int[]	$data
+	 */
 	protected function fetchData(callable $callback) {
 		if ($this->query === null) {
 			throw new Exception("catBasicReportGUI::fetchData: query not defined.");
 		}
-		
 		$query = $this->buildQueryStatement();
-			   //die($query);
-
-		
 		$res = $this->gIldb->query($query);
 		$data = array();
-		
+
 		while($rec = $this->gIldb->fetchAssoc($res)) {
 			$data[] = call_user_func($callback,$rec);
 		}
@@ -189,41 +271,30 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 
 	abstract protected function getRowTemplateTitle();
 
-	public function doClone($a_target_id,$a_copy_id,$new_obj) {
-		$new_obj->setOnline($this->getOnline());
-		$new_obj->update();
+
+	final public function doCreate() {
+		$this->settings_data_handler->createObjEntry($this->getId(), $this->global_report_settings);
+		$this->settings_data_handler->createObjEntry($this->getId(), $this->local_report_settings);
 	}
 
-	public function setOnline($a_val) {
-		$this->online = (int)$a_val;
+	final public function doRead() {
+		$this->settings = array_merge($this->settings_data_handler->readObjEntry($this->getId(), $this->global_report_settings),
+							$this->settings_data_handler->readObjEntry($this->getId(), $this->local_report_settings));
 	}
 
-	public function getOnline() {
-		return $this->online;
+	final public function doUpdate() {
+		$this->settings_data_handler->updateObjEntry($this->getId(), $this->global_report_settings,$this->settings);
+		$this->settings_data_handler->updateObjEntry($this->getId(), $this->local_report_settings,$this->settings);
 	}
 
-	public function setVideoLink($video_link) {
-		if($video_link != "" && !preg_match(self::HTTP_REGEX, strtolower($video_link))) {
-			$video_link = "http://".$video_link;
-		}
-
-		$this->video_link = $video_link;
+	final public function doDelete() {
+		$this->settings_data_handler->deleteObjEntry($this->getId(), $this->global_report_settings);
+		$this->settings_data_handler->deleteObjEntry($this->getId(), $this->local_report_settings);
 	}
 
-	public function getVideoLink() {
-		return $this->video_link;
-	}
-
-	public function setPDFLink($pdf_link) {
-		if($pdf_link != "" && !preg_match(self::HTTP_REGEX, strtolower($pdf_link))) {
-			$pdf_link = "http://".$pdf_link;
-		}
-
-		$this->pdf_link = $pdf_link;
-	}
-
-	public function getPDFLink() {
-		return $this->pdf_link;
+	final public function doClone($a_target_id,$a_copy_id,$new_obj) {
+		$this->settings_data_handler->cloneObj($this->getId(), $this->global_report_settings, $new_obj);
+		$this->settings_data_handler->cloneObj($this->getId(), $this->local_report_settings, $new_obj);
 	}
 
 	// Report discovery
