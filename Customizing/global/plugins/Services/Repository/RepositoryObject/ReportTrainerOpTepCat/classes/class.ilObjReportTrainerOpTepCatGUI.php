@@ -21,7 +21,7 @@ class ilObjReportTrainerOpTepCatGUI extends ilObjReportBaseGUI {
 	}
 
 	protected function render() {
-		$this->tpl->addCSS('Services/ReportsRepository/templates/css/report.css');
+		$this->tpl->addCSS($this->object->master_plugin->getDirectory().'/templates/css/report.css');
 		return parent::render();
 	}
 }
