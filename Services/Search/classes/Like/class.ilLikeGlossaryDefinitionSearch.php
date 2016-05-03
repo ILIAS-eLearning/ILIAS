@@ -37,15 +37,6 @@ include_once 'Services/Search/classes/class.ilGlossaryDefinitionSearch.php';
 class ilLikeGlossaryDefinitionSearch extends ilGlossaryDefinitionSearch
 {
 
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilLikeGlossaryDefinitionSearch(&$qp_obj)
-	{
-		parent::ilGlossaryDefinitionSearch($qp_obj);
-	}
-
 	function __createWhereCondition()
 	{
 		global $ilDB;

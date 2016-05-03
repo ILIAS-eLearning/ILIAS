@@ -39,7 +39,7 @@ class ilLuceneHTLMSearch
 	* Constructor
 	* @access public
 	*/
-	function ilLuceneHTLMSearch(&$qp_obj)
+	function __construct($qp_obj)
 	{
 		global $ilLog;
 

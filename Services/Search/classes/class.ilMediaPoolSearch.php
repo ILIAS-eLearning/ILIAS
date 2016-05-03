@@ -16,17 +16,6 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilMediaPoolSearch extends ilAbstractSearch
 {
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilMediaPoolSearch(&$query_parser)
-	{
-		parent::ilAbstractSearch($query_parser);
-	}
-
-
-
 	function &performSearch()
 	{
 		$this->setFields(array('title'));

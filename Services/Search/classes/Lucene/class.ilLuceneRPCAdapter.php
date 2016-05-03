@@ -41,7 +41,7 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 	var $filter = '';
 
 
-	function ilLuceneRPCAdapter()
+	function __construct()
 	{
 		parent::ilRPCServerAdapter();
 	}

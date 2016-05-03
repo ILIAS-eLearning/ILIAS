@@ -46,15 +46,6 @@ class ilAdvancedSearch extends ilAbstractSearch
 	var $db = null;
 
 	/**
-	* Constructor
-	* @access public
-	*/
-	function ilAdvancedSearch(&$qp_obj)
-	{
-		parent::ilAbstractSearch($qp_obj);
-	}
-
-	/**
 	* Define meta elements to search
 	* 
 	* @param array elements to search in. E.G array('keyword','contribute')

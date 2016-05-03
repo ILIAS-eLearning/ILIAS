@@ -34,18 +34,8 @@
 */
 include_once 'Services/Search/classes/class.ilMetaDataSearch.php';
 
-class ilFulltextMetaDataSearch extends ilMetaDAtaSearch
+class ilFulltextMetaDataSearch extends ilMetaDataSearch
 {
-
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilFulltextMetaDataSearch(&$qp_obj)
-	{
-		parent::ilMetaDataSearch($qp_obj);
-	}
-
 	// Private
 	function __createKeywordWhereCondition()
 	{

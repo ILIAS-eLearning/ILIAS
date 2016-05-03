@@ -36,15 +36,6 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilMediaCastSearch extends ilAbstractSearch
 {
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilMediaCastSearch(&$query_parser)
-	{
-		parent::ilAbstractSearch($query_parser);
-	}
-
 	function &performSearch()
 	{
 		// Search in glossary term

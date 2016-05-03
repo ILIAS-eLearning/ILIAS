@@ -37,16 +37,6 @@ include_once 'Services/Search/classes/class.ilForumSearch.php';
 class ilLikeForumSearch extends ilForumSearch
 {
 
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilForumSearch(&$qp_obj)
-	{
-		parent::ilForumSearch($qp_obj);
-	}
-
-
 	function __createPostAndCondition()
 	{
 		global $ilDB;

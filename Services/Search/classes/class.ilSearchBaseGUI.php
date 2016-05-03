@@ -41,7 +41,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	* Constructor
 	* @access public
 	*/
-	function ilSearchBaseGUI()
+	function __construct()
 	{
 		global $ilCtrl,$ilias,$lng,$tpl,$ilMainMenu;
 
