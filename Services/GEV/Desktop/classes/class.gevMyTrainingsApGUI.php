@@ -82,6 +82,7 @@ class gevMyTrainingsApGUI {
 			case "selectMailToMembersRecipients":
 			case "showMailToMembersMailInput":
 			case "sendMailToMembers":
+			case "showLoggedMail":
 				require_once("Services/GEV/Mailing/classes/class.gevTrainerMailHandlingGUI.php");
 				$gui = new gevTrainerMailHandlingGUI($this);
 				$ret = $this->gCtrl->forwardCommand($gui);
