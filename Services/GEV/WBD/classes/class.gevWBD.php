@@ -88,6 +88,8 @@ class gevWBD {
 			*/
 			"OD /BD"
 			,"OD/BD"
+			,"OD"
+			,"BD"
 			,"FD"
 			,"Org PV 59"
 			,"PV 59"
@@ -132,6 +134,8 @@ class gevWBD {
 			,'ID FK'
 			,'ID MA'
 			,'OD/FD/BD ID'
+			,'OD/FD ID'
+			,'BD ID'
 			,'FDA'
 			,'Ausbilder'
 			,'Azubi'

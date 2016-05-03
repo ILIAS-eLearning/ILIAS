@@ -110,6 +110,8 @@ class gevNAUtils {
 		, "Admin-Voll"
 		, "Admin-eingeschraenkt"
 		, "OD/BD"
+		, "OD"
+		, "BD"
 		, "FD"
 		, "UA"
 		, "HA 84"
