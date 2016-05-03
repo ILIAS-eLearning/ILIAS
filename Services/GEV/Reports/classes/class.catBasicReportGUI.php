@@ -245,7 +245,7 @@ class catBasicReportGUI {
 	}
 
 	protected function getExcelWriter() {
-		require_once 'Services/ReportsRepository/classes/class.spoutXLSXWriter.php';
+		require_once './Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.spoutXLSXWriter.php';
 		$workbook = new spoutXLSXWriter();
 		return $workbook;
 	}

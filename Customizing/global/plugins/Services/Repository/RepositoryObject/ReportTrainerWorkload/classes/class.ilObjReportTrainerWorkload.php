@@ -105,7 +105,6 @@ class ilObjReportTrainerWorkload extends ilObjReportBase {
 	}
 
 	protected function buildTable($table) {
-		var_dump($this->getNorms());
 		$norms = $this->getNorms();
 		$table->column("fullname", $this->plugin->txt("fullname"),true);
 		foreach($this->meta_cats as $meta_category => $categories) {
