@@ -134,8 +134,8 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 
 
 	public function test_EQ_date() {
-		$left = '2016-01-01 16:20';
-		$right = '2016-01-01 16:21';
+		$left = '2016-01-01';
+		$right = '2016-01-01';
 		$f = $this->factory;
 		$i = $this->interpreter;
 		$db = $this->db;
@@ -164,8 +164,8 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_NEQ_date() {
-		$left = '2016-01-01 16:20';
-		$right = '2016-01-01 16:21';
+		$left = '2016-01-01';
+		$right = '2016-01-01';
 		$f = $this->factory;
 		$i = $this->interpreter;
 		$db = $this->db;
@@ -195,8 +195,8 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_LT_date() {
-		$left = '2016-01-01 16:20';
-		$right = '2016-01-01 16:21';
+		$left = '2016-01-01';
+		$right = '2016-01-01';
 		$f = $this->factory;
 		$i = $this->interpreter;
 		$db = $this->db;
@@ -276,7 +276,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 		$db = $this->db;
 		$res_t = $f->date(new \DateTime("2016-01-01 10:00"))->EQ()->field("one.two");
-		$this->assertEquals($i->interpret($res_t) , $db->quote("2016-01-01 10:00",'date')." = `one`.`two` ");
+		$this->assertEquals($i->interpret($res_t) , $db->quote("2016-01-01",'date')." = `one`.`two` ");
 	}
 
 	public function test_field_eq_date() {
@@ -284,7 +284,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 		$db = $this->db;
 		$res_t = $f->field("one.two")->EQ()->date(new \DateTime("2016-01-01 10:00"));
-		$this->assertEquals($i->interpret($res_t) , "`one`.`two` = ".$this->db->quote("2016-01-01 10:00",'date')." ");
+		$this->assertEquals($i->interpret($res_t) , "`one`.`two` = ".$this->db->quote("2016-01-01",'date')." ");
 	}
 
 	public function test_date_neq_field() {
@@ -292,7 +292,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 		$db = $this->db;
 		$res_t = $f->date(new \DateTime("2016-01-01 10:00"))->NEQ()->field("one.two");
-		$this->assertEquals($i->interpret($res_t) , $db->quote("2016-01-01 10:00",'date')." != `one`.`two` ");
+		$this->assertEquals($i->interpret($res_t) , $db->quote("2016-01-01",'date')." != `one`.`two` ");
 	}
 	
 	public function test_field_neq_date() {
@@ -300,7 +300,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 		$db = $this->db;
 		$res_t = $f->field("one.two")->NEQ()->date(new \DateTime("2016-01-01 10:00"));
-		$this->assertEquals($i->interpret($res_t) , "`one`.`two` != ".$this->db->quote("2016-01-01 10:00",'date')." ");
+		$this->assertEquals($i->interpret($res_t) , "`one`.`two` != ".$this->db->quote("2016-01-01",'date')." ");
 	}
 
 
@@ -341,7 +341,7 @@ class  SqlInterpreterTest extends PHPUnit_Framework_TestCase {
 		$i = $this->interpreter;
 		$db = $this->db;
 		$res_t = $f->date(new \DateTime("2016-01-01 10:00"))->LT()->field("one.two");
-		$this->assertEquals($i->interpret($res_t) , $db->quote("2016-01-01 10:00",'date')." < `one`.`two` ");
+		$this->assertEquals($i->interpret($res_t) , $db->quote("2016-01-01",'date')." < `one`.`two` ");
 	}
 
 	public function test_eq_two_field() {
