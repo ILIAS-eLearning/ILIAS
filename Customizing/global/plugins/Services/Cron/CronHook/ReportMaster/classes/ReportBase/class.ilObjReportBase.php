@@ -283,35 +283,16 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	static public function getReportsObjectData() {
 		require_once("Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
 
-		global $ilPluginAdmin;
-
-		$c_type = ilRepositoryObjectPlugin::getComponentType();
-		$c_name = ilRepositoryObjectPlugin::getComponentName();
-		$slot_id = ilRepositoryObjectPlugin::getSlotId();
-		$plugin_names = $ilPluginAdmin->getActivePluginsForSlot($c_type, $c_name, $slot_id);
-
-		//remove all non report plugins
-		$plugins = array_map(function($plugin_name) use ($ilPluginAdmin, $c_type, $c_name, $slot_id) {
-								$plugin = $ilPluginAdmin->getPluginObject($c_type, $c_name, $slot_id, $plugin_name);
-
-								if ($plugin instanceof ilReportBasePlugin) {
-									return $plugin;
-								}
-							}, $plugin_names);
-
-		$plugins = array_filter($plugins, function($plugin) {
-			if ($plugin instanceof ilReportBasePlugin) {
-				return $plugin;
-			}
-		});
+		$plugins = self::getPlugins();
+		$report_base_plugins = self::filterPlugins($plugins);
 
 		//return empty array if there are no report plug ins
-		if(empty($plugins)) {
+		if(empty($report_base_plugins)) {
 			return array();
 		}
 
 		$obj_data = array();
-		foreach ($plugins as $plugin) {
+		foreach ($report_base_plugins as $plugin) {
 			assert('$plugin instanceof ilReportBasePlugin');
 
 			// this actually is the object type
@@ -396,5 +377,40 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		return $return;
 	}
 
+	/**
+	 * plugin objects
+	 *
+	 * @return array
+	 */
+	protected static function getPlugins() {
+		global $ilPluginAdmin;
 
+		$c_type = ilRepositoryObjectPlugin::getComponentType();
+		$c_name = ilRepositoryObjectPlugin::getComponentName();
+		$slot_id = ilRepositoryObjectPlugin::getSlotId();
+		$plugin_names = $ilPluginAdmin->getActivePluginsForSlot($c_type, $c_name, $slot_id);
+
+		return array_map(function($plugin_name) use ($ilPluginAdmin, $c_type, $c_name, $slot_id) {
+								$plugin = $ilPluginAdmin->getPluginObject($c_type, $c_name, $slot_id, $plugin_name);
+
+								if ($plugin instanceof ilReportBasePlugin) {
+									return $plugin;
+								}
+							}, $plugin_names);
+	}
+
+	/**
+	 * filterd plugins for ilReportBasePlugin
+	 *
+	 * @param array $plugins
+	 *
+	 * @return array
+	 */
+	protected static function filterPlugins($plugins) {
+		return array_filter($plugins, function($plugin) {
+			if ($plugin instanceof ilReportBasePlugin) {
+				return $plugin;
+			}
+		});
+	}
 }
