@@ -47,4 +47,4 @@ filter_form_title#:#Neuen Report erstellen
 create_new_report#:#Neuen Report erstellen
 org_units#:#Organisationseinheit(en)
 roles#:#Globale Rolle(en)
-report_is_local#:#Lokale Auswertung
+is_local#:#Lokale Auswertung
