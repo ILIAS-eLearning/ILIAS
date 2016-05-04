@@ -335,7 +335,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	/**
 	* Move objects from trash back to repository
 	*/
-	function restoreObjects($a_cur_ref_id, $a_ref_ids)
+	static public function restoreObjects($a_cur_ref_id, $a_ref_ids)
 	{
 		global $rbacsystem, $log, $ilAppEventHandler, $lng, $tree;
 
