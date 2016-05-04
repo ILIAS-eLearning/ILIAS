@@ -35,7 +35,18 @@ class ilExcel
 		$this->workbook = new PHPExcel();	
 		$this->workbook->removeSheetByIndex(0);
 	}		
-	
+
+	//
+	// loading files
+	//
+
+	/**
+	 * Loads a spreadsheet from file
+	 * @param $filename
+	 */
+	public function loadFromFile($filename) {
+		$this->workbook = PHPExcel_IOFactory::load($filename);
+	}
 	
 	// 
 	// type/format
@@ -103,6 +114,26 @@ class ilExcel
 	public function setActiveSheet($a_index)
 	{
 		$this->workbook->setActiveSheetIndex($a_index);
+	}
+
+
+	/**
+	 * Returns number of sheets
+	 *
+	 * @return int
+	 */
+	public function getSheetCount() {
+		return $this->workbook->getSheetCount();
+	}
+
+
+	/**
+	 * Return the current sheet title
+	 *
+	 * @return string
+	 */
+	public function getSheetTitle() {
+		return $this->workbook->getActiveSheet()->getTitle();
 	}
 	
 	
@@ -222,6 +253,39 @@ class ilExcel
 		}
 		
 		$this->workbook->getActiveSheet()->fromArray($a_values, $a_null_value, $a_top_left);
+	}
+
+
+	/**
+	 * Returns the value of a cell
+	 *
+	 * @param int $a_row
+	 * @param int $a_col
+	 *
+	 * @return mixed
+	 */
+	public function getCell($a_row, $a_col) {
+		return $this->workbook->getActiveSheet()->getCellByColumnAndRow($a_col, $a_row)->getValue();
+	}
+
+
+	/**
+	 * Returns the active sheet as an array
+	 * 
+	 * @return array
+	 */
+	public function getSheetAsArray() {
+		return $this->workbook->getActiveSheet()->toArray();
+	}
+
+
+	/**
+	 * Returns the number of columns the sheet contains
+	 *
+	 * @return int
+	 */
+	public function getColumnCount() {
+		return PHPExcel_Cell::columnIndexFromString($this->workbook->getActiveSheet()->getHighestDataColumn());
 	}
 
 	/**
