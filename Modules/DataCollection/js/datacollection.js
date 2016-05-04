@@ -86,14 +86,14 @@ $(document).ready(function () {
 	$('#fixed_content').click(function () {
 		dcl.removeHighlightedRows();
 	});
-
+	
 	/**
 	 * Formula fields
 	 */
 	$('a.dclPropExpressionField').click(function () {
 		var placeholder = '[[' + $(this).attr('data-placeholder') + ']]';
-		var $expression = $('#prop_12');
-		var caretPos = document.getElementById('prop_12').selectionStart;
+		var $expression = $('#prop_expression');
+		var caretPos = document.getElementById('prop_expression').selectionStart;
 		var expression = $expression.val();
 		$expression.val(expression.substring(0, caretPos) + placeholder + expression.substring(caretPos));
 	});

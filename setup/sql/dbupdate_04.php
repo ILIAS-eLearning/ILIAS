@@ -15074,3 +15074,144 @@ if(!$ilDB->tableColumnExists('tst_tests', 'ending_time') && $ilDB->tableColumnEx
 	$ilDB->renameTableColumn('tst_tests', 'ending_time_tmp', 'ending_time');
 }
 ?>
+<#4905>
+<?php
+require_once ('./Modules/DataCollection/classes/Fields/Base/class.ilDclFieldProperty.php');
+
+if(!$ilDB->tableColumnExists('il_dcl_field_prop', 'name')) {
+	$backup_table_name = 'il_dcl_field_prop_b';
+	$ilDB->renameTable('il_dcl_field_prop', $backup_table_name);
+	$ilDB->renameTable('il_dcl_field_prop_seq', 'il_dcl_field_prop_s_b');
+
+	$ilDB->createTable(ilDclFieldProperty::returnDbTableName(), array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 8,
+			'notnull' => true,
+			'default' => 0
+		),
+		'field_id' => array(
+			'type' => 'integer',
+			'length' => 8,
+			'notnull' => true,
+			'default' => 0
+		),
+		'name' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => true
+		),
+		'value' => array(
+			'type' => 'text',
+			'length' => 4000,
+		),
+	));
+
+	$ilDB->addPrimaryKey(ilDclFieldProperty::returnDbTableName(), array('id'));
+	$ilDB->createSequence(ilDclFieldProperty::returnDbTableName());
+	
+	if($ilDB->tableExists('il_dcl_datatype_prop')) {
+		$query = "SELECT field_id, inputformat, title, ".$backup_table_name.".value FROM ".$backup_table_name." LEFT JOIN il_dcl_datatype_prop ON il_dcl_datatype_prop.id = ".$backup_table_name.".datatype_prop_id WHERE ".$backup_table_name.".value IS NOT NULL";
+		$result = $ilDB->query($query);
+
+		while($row = $ilDB->fetchAssoc($result)) {
+			$new_entry = new ilDclFieldProperty();
+			$new_entry->setFieldId($row['field_id']);
+			$new_entry->setInputformat($row['inputformat']);
+			$new_entry->setName($row['title']);
+			$new_entry->setValue($row['value']);
+			$new_entry->store();
+		}
+	} else {
+		throw new Exception("The table 'il_dcl_datatype_prop' is missing for proper migration. Please check if the migration is already completed.");
+	}
+}
+
+?>
+
+<#4906>
+<?php
+
+$result = $ilDB->query("SELECT * FROM il_dcl_datatype WHERE id = 12");
+if($ilDB->numRows($result) == 0) {
+	$ilDB->insert('il_dcl_datatype', array(
+		'id' => array('integer', 12),
+		'title' => array('text', 'plugin'),
+		'ildb_type' => array('text', 'text'),
+		'storage_location' => array('integer', 0),
+		'sort' => array('integer', 100)
+	));
+}
+
+
+$ilDB->update('il_dcl_datatype',
+	array(
+		'title' => array('text', 'fileupload'),
+	),
+	array(
+		'id' => array('integer', 6),
+	)
+);
+
+$ilDB->update('il_dcl_datatype',
+	array(
+		'title' => array('text', 'ilias_reference'),
+	),
+	array(
+		'id' => array('integer', 8),
+	)
+);
+
+$ilDB->update('il_dcl_datatype',
+	array(
+		'title' => array('text', 'number'),
+	),
+	array(
+		'id' => array('integer', 1),
+	)
+);
+
+?>
+
+<#4907>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$dcl_type_id = ilDBUpdateNewObjectType::getObjectTypeId('dcl');
+
+if($dcl_type_id)
+{
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_content');
+	if($src_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($dcl_type_id, $src_ops_id);
+	}
+}
+
+?>
+
+<#4908>
+<?php
+
+global $ilDB;
+
+if(!$ilDB->tableColumnExists('il_dcl_table', 'save_confirmation')) {
+	$ilDB->addTableColumn('il_dcl_table', 'save_confirmation',
+		array(
+			"type"    => "integer",
+			"notnull" => true,
+			"length"  => 1,
+			"default" => 0
+		)
+	);
+}
+
+?>
+<#4909>
+<?php
+
+$ilCtrlStructureReader->getStructure();
+
+?>
+	

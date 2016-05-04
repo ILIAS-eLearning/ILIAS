@@ -12213,12 +12213,12 @@ dcl#:#dcl_table_create#:#Create Table
 dcl#:#dcl_table_edit#:#Update Table
 dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_datatype#:#Datatype
-dcl#:#dcl_integer#:#Integer
+dcl#:#dcl_number#:#Integer
 dcl#:#dcl_text#:#Text
 dcl#:#dcl_reference#:#Reference
 dcl#:#dcl_boolean#:#Boolean
 dcl#:#dcl_datetime#:#Date
-dcl#:#dcl_file#:#Fileupload
+dcl#:#dcl_fileupload#:#Fileupload
 dcl#:#dcl_field_description#:#Description
 dcl#:#dcl_field_required#:#Required
 dcl#:#dcl_length#:#Length
@@ -12391,7 +12391,7 @@ content#:#cont_check_values_info#:#The Test Tool will check whether the values s
 administration#:#adm_social_bm_create#:#Create Social Bookmark
 administration#:#adm_social_bm_edit#:#Edit Social Bookmark
 dcl#:#dcl_actions#:#Actions
-dcl#:#dcl_export_table_excel#:#Export .xls
+dcl#:#dcl_export_table_excel#:#Export .xlsx
 dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available
 dcl#:#dcl_owner_editable#:#Edit only own Etnries
 dcl#:#dcl_order#:#Order
@@ -12505,7 +12505,7 @@ dcl#:#dcl_legend_placeholders#:#Placeholders
 dcl#:#dcl_rating#:#Rating
 dcl#:#dcl_editable_in_table_gui#:#Please vote in the table view.
 dcl#:#dcl_table_settings_saved#:#Table Settings have been saved.
-dcl#:#dcl_ILIAS_reference#:#Link to an ILIAS module
+dcl#:#dcl_ilias_reference#:#Link to an ILIAS module
 dcl#:#dcl_learning_progress#:#Show the learning progress of the linked module of the viewer
 dcl#:#dcl_status#:#Your Status
 dcl#:#dcl_mob#:#Media Object
@@ -12575,7 +12575,7 @@ exc#:#exc_team_notification_changed_by#:#Status changed by
 exc#:#exc_team_notification_link#:#Link to exercise
 poll#:#poll_absolute#:#Current Votes
 dcl#:#dcl_reference_link#:#Show as link in table view
-dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view
+dcl#:#dcl_ilias_reference_link#:#Show as link in table view
 dcl#:#dcl_text_area#:#Textarea
 dcl#:#dcl_delete_table#:#Delete Table
 dcl#:#dcl_table_info#:#Users with the permission ‘edit settings’ (see tab ‘Permission’) always have permission to add/edit/delete entries. Users with permission ‘edit entry’ (see tab ‘Permissions’) only have permissions according to the settings specified in the form below.
@@ -12861,12 +12861,12 @@ cron#:#cron_no_executable_job_selected#:#Please select at least one executable c
 dcl#:#dcl_no_warnings#:#The import terminated with no warnings.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
-dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure to upload an XLS file.
+dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure to upload an XLSX file.
 dcl#:#dcl_import_terminated#:#The import terminated. Entries added
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
 dcl#:#dcl_row_not_found#:# - This field couldn't be found in the table.
-dcl#:#dcl_import_records .xls#:#Import .xls
-dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLS file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first.
+dcl#:#dcl_import_records .xls#:#Import .xlsx
+dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first.
 dcl#:#dcl_simulate_import#:#Simulate Import
 dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the Data Collection but may give you feedback on problems with the import file, thus helping you to prevent corrupted entries.
 dcl#:#dcl_multiple_selection#:#Multiple Selection
@@ -12905,6 +12905,20 @@ dcl#:#dcl_delete_records#:#Delete Entries
 dcl#:#dcl_confirm_delete_records#:#Are you sure you want to delete the following Entries?
 dcl#:#dcl_deleted_records#:#Successfully deleted %s Entries
 dcl#:#dcl_skipped_delete_records#:#%s Entries were not deleted due to permission settings
+dcl#:#dcl_plugin#:#Plugin
+dcl#:#dcl_plugin_desc#:#DataCollection Field-Plugins
+dcl#:#dcl_plugin_hooks#:#Available Plugins
+dcl#:#dcl_save_confirmation#:#Save confirmation
+dcl#:#dcl_save_confirmation_desc#:#Users have to confirm a new DataCollection entry
+dcl#:#dcl_confirm_storing_records#:#Please check and confirm your input
+dcl#:#dcl_save_record#:#Save Entry
+dcl#:#dlc_xls_async_export#:#Asynchronous XLSX-Export
+dcl#:#dcl_export_started#:#Asynchronous Export started
+dcl#:#dcl_export_finished#:#Export finished
+dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
+dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: .pdf, .docx
+dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
+rbac#:#dcl_edit_content#:#Edit entries
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
 common#:#obj_bibs#:#Bibliography
@@ -14891,10 +14905,10 @@ meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
 file#:#file_import#:#Import File
 dcl#:#dcl_boolean_desc#:#Checkbox for "True" or "False"
 dcl#:#dcl_text_desc#:#Textfield for text, links or e-mail addresses.
-dcl#:#dcl_integer_desc#:#Field for integer values. No decimals or fractions.
+dcl#:#dcl_number_desc#:#Field for integer values. No decimals or fractions.
 dcl#:#dcl_datetime_desc#:#Field for a date.
 dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will be displayed directly in the datacollection. Allowed datatypes: %s
-dcl#:#dcl_file_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
+dcl#:#dcl_fileupload_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
 dcl#:#dcl_reference_desc#:#Field to reference options stored in a different field of a table.
 dcl#:#dcl_reference_title#:#Reference to table and field
 dcl#:#dcl_ILIAS_reference_desc#:#Searchfield to select an ILIAS object.
