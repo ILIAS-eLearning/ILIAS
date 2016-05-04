@@ -2138,7 +2138,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		//$t->addFormButton($this->lng->txt($txt_var), "performPasteIntoMultipleObjects");
 		$t->addStickyItem($b);
 
-			$t->addSeparator();
+		$t->addSeparator();
+		$this->lng->loadLanguageModule('obj');
 		$t->addFormButton($this->lng->txt("obj_insert_into_clipboard"), "keepObjectsInClipboard");
 
 		$t->addFormButton($this->lng->txt("cancel"), "cancelMoveLink");
