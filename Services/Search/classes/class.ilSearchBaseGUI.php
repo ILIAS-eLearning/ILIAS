@@ -259,6 +259,11 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 		$this->showSavedResults();
 	}
 	
+	public function cancelMoveLinkObject()
+	{
+		$this->showSavedResults();
+	}
+	
 	/**
 	 * Delete objects
 	 */

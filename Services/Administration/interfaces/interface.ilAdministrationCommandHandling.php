@@ -91,5 +91,10 @@ interface ilAdministrationCommandHandling
 	 */
 	public function disableAdministrationPanel();
 	
+	/**
+	 * Cancel move/link
+	 */
+	public function cancelMoveLinkObject();
+	
 }
 ?>
