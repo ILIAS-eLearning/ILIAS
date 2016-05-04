@@ -2125,6 +2125,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 			$t->addSeparator();
 		$t->addFormButton($this->lng->txt("obj_insert_into_clipboard"), "keepObjectsInClipboard");
+
 		$t->addFormButton($this->lng->txt("cancel"), "cancelMoveLink");
 		$t->setCloseFormTag(false);
 		$t->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), " ");
