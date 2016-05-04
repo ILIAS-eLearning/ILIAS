@@ -22,12 +22,14 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		ilObjQuestionPool::_setImportDirectory($this->getImportDirectory());
+		ilObjQuestionPool::_setImportDirectory($this->getImportDirectoryContainer());
 
 		// Container import => test object already created
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
+			
+			$_SESSION['qpl_import_subdir'] = $this->getImportPackageName();
 		}
 		else	// case ii, non container
 		{
@@ -48,10 +50,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 			$GLOBALS['ilLog']->write(__METHOD__.': Cannot find xml definition: '. $qti_file);
 			return false;
 		}
-
-		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		ilObjQuestionPool::_setImportDirectory($this->getImportDirectory());
-
+		
 		// FIXME: Copied from ilObjQuestionPoolGUI::importVerifiedFileObject
 		// TODO: move all logic to ilObjQuestionPoolGUI::importVerifiedFile and call 
 		// this method from ilObjQuestionPoolGUI and ilTestImporter 
@@ -94,6 +93,20 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 		$qti = $this->getImportDirectory().'/'.preg_replace('/qpl/', 'qti', $basename).'.xml';
 		
 		return array($xml,$qti);
+	}
+
+	private function getImportDirectoryContainer()
+	{
+		$dir = $this->getImportDirectory();
+		$dir = dirname($dir);
+		return $dir;
+	}
+
+	private function getImportPackageName()
+	{
+		$dir = $this->getImportDirectory();
+		$name = basename($dir);
+		return $name;
 	}
 }
 

@@ -22,7 +22,7 @@ class ilExcCronFeedbackNotification extends ilCronJob
 		global $lng;
 		
 		$lng->loadLanguageModule("exc");
-		return $lng->txt("exc_peer_review");
+		return $lng->txt("exc_global_feedback_file_cron");
 	}
 	
 	public function getDescription()
@@ -30,7 +30,7 @@ class ilExcCronFeedbackNotification extends ilCronJob
 		global $lng;
 		
 		$lng->loadLanguageModule("exc");
-		return $lng->txt("exc_peer_review_cron_info");
+		return $lng->txt("exc_global_feedback_file_cron_info");
 	}
 	
 	public function getDefaultScheduleType()

@@ -6886,6 +6886,7 @@ h4.il_ContainerItemTitle {
 }
 div.il_ContainerItemTitle {
   float: left;
+  max-width: calc(100% - 40px);
   padding-bottom: 5px;
 }
 [dir="rtl"] div.il_ContainerItemTitle {
@@ -8019,6 +8020,10 @@ a.mailunread:visited {
 }
 .iosMailFilter .checkbox {
   display: inline-block !important;
+  margin: 0 10px !important;
+}
+.iosMailFilter .checkbox:first-child {
+  margin: 0 15px !important;
 }
 .iosMailFilter .checkbox input[type="checkbox"] {
   margin-left: -15px !important;
@@ -9539,7 +9544,7 @@ span.bibl_text_inline_Emph {
   width: 306px;
   color: #F0F0F0;
   margin-top: -240px;
-  background: url("images//black60.png");
+  background: url("images/black60.png");
 }
 .ilPlayerPreviewOverlay img {
   cursor: pointer;
@@ -9773,6 +9778,7 @@ input[name^="position[blocks]"] {
 }
 div.ilListItemSection {
   clear: both;
+  max-width: calc(100% - 40px);
 }
 div.ilContainerListItemOuterHighlight {
   padding: 15px;
@@ -9847,7 +9853,7 @@ div.il_ContainerListItem {
 .ilContainerBlockHeader {
   /* font-family: 'Open Sans Semibold'; */
   font-weight: normal;
-  padding: 2px;
+  padding: 5px 10px;
   text-align: left;
   vertical-align: middle;
 }
@@ -9913,7 +9919,7 @@ div#right_area {
   bottom: 0;
   width: 50%;
   right: 0px;
-  top: 85px;
+  top: 117px;
   position: fixed;
   padding: 5px;
   background-color: #F5F5F5;
@@ -10892,6 +10898,22 @@ table.mceToolbar td {
 }
 .alert > a {
   text-decoration: underline;
+}
+.alert > a.btn {
+  text-decoration: none;
+}
+#ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
+#mm_adm_tr + span + ul.dropdown-menu > li > div.row,
+#mm_adm_tr + ul.dropdown-menu > li > div.row {
+  width: 750px;
+}
+@media only screen and (max-width: 767px) {
+  #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
+  #mm_adm_tr + span + ul.dropdown-menu > li > div.row,
+  #mm_adm_tr + ul.dropdown-menu > li > div.row {
+    width: 100% !important;
+    margin: 0;
+  }
 }
 /* basic responsiveness (beta)
 

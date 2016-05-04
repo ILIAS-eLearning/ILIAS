@@ -1287,17 +1287,33 @@ class ilObject
 	*/
 	function setPermissions($a_parent_ref)
 	{
-		global $rbacadmin, $rbacreview;
-
-		$parentRoles = $rbacreview->getParentRoleIds($a_parent_ref);
-
-		foreach ($parentRoles as $parRol)
-		{
-			$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"], $this->getType(), $parRol["parent"]);
-			$rbacadmin->grantPermission($parRol["obj_id"], $ops, $this->getRefId());
-		}
-
+		$this->setParentRolePermissions($a_parent_ref);
 		$this->initDefaultRoles();
+	}
+	
+	/**
+	 * Initialize the permissions of parent roles (local roles of categories, global roles...)
+	 * This method is overwritten in e.g courses, groups for building permission intersections with non_member  templates.
+	 */
+	public function setParentRolePermissions($a_parent_ref)
+	{
+		global $rbacadmin, $rbacreview;
+		
+		$parent_roles = $rbacreview->getParentRoleIds($a_parent_ref);
+		foreach((array) $parent_roles as $parent_role)
+		{
+			$operations = $rbacreview->getOperationsOfRole(
+				$parent_role['obj_id'],
+				$this->getType(),
+				$parent_role['parent']
+			);
+			$rbacadmin->grantPermission(
+				$parent_role['obj_id'],
+				$operations,
+				$this->getRefId()
+			);
+		}
+		return true;
 	}
 
 	/**

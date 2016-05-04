@@ -323,6 +323,9 @@ td.ilFileUploadEntryFileName {
     max-width: 100%;
     width: 100%;
 }
+.ilFileUploadEntryOptions .form-group {
+    clear: both;
+}
 
 /* toggle options */
 .ilFileUploadToggleOptions {

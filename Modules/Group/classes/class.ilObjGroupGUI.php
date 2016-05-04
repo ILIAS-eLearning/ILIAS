@@ -1531,12 +1531,13 @@ class ilObjGroupGUI extends ilContainerGUI
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
 
-        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		ilMailFormCall::setRecipients($rcps);
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget(
 			$this, 
 			'members',
 			array(), 
-			array('type' => 'new', 'rcp_to' => implode(',',$rcps),'sig' => $this->createMailSignature())));
+			array('type' => 'new', 'sig' => $this->createMailSignature())));
 		return true;
 	}
 	
@@ -1851,11 +1852,21 @@ class ilObjGroupGUI extends ilContainerGUI
 			{
 				case $this->object->getDefaultAdminRole():
 					$part->add($new_member, IL_GRP_ADMIN);
+					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+					$part->sendNotification(
+						ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
+						$new_member
+					);
 					$assigned = TRUE;
 					break;
 				
 				default:
 					$part->add($new_member, IL_GRP_MEMBER);
+					include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+					$part->sendNotification(
+						ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER, 
+						$new_member
+					);
 					$assigned = TRUE;
 					break;
 			}

@@ -751,7 +751,7 @@ class ilCalendarCategoryGUI
 	 */
 	protected function shareAssignRolesEditable()
 	{
-		return $this->shareAssignRolesEditable(true);
+		return $this->shareAssignRoles(true);
 	}
 	
 	/**

@@ -2471,11 +2471,13 @@ abstract class ilPageObject
 		{
 			include_once("./Services/User/classes/class.ilUserUtil.php");
 			$lock = $this->getEditLockInfo();
-			$errors = $lng->txt("cont_not_saved_edit_lock_expired");
-			$errors.= "</br>".$lng->txt("obj_usr").": ".
-				ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
-			$errors.= "</br>".$lng->txt("content_until").": ".
-				ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"],IL_CAL_UNIX));
+			$errors[0] = array(0 => 0,
+				1 => "nocontent#".$lng->txt("cont_not_saved_edit_lock_expired")."<br />".
+				$lng->txt("obj_usr").": ".
+				ilUserUtil::getNamePresentation($lock["edit_lock_user"])."<br />".
+				$lng->txt("content_until").": ".
+				ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"],IL_CAL_UNIX))
+			);
 		}
 
 //echo "-".htmlentities($this->getXMLFromDom())."-"; exit;

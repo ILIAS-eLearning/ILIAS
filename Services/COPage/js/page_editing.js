@@ -47,18 +47,25 @@ var ilCOPage =
 	displayError: function(str)
 	{
 		// build error string
-		var estr;
+		var estr, show_content = true;
 		/* estr = "Sorry, an error occured. Please copy the content of this window and report the error at:<br /> " +
 		 "<a href='http://www.ilias.de/mantis' target='_blank'>http://www.ilias.de/mantis</a>." +
 		 "<p><b>User Agent</b></p>" +
 		 navigator.userAgent + */
 		estr = "<p><b>Error</b></p>";
+
+		if (ilCOPage.error_str.substr(0,10) == "nocontent#") {
+			ilCOPage.error_str = ilCOPage.error_str.substr(10);
+			show_content = false;
+		}
 		estr = estr + ilCOPage.error_str;
-		estr = estr + "<p><b>Content</b></p>";
-		var content = tinyMCE.get('tinytarget').getContent();
-		content = content.split("<").join("&lt;");
-		content = content.split(">").join("&gt;");
-		estr = estr + content;
+		if (show_content) {
+			estr = estr + "<p><b>Content</b></p>";
+			var content = tinyMCE.get('tinytarget').getContent();
+			content = content.split("<").join("&lt;");
+			content = content.split(">").join("&gt;");
+			estr = estr + content;
+		}
 
 
 		var epan = document.getElementById('error_panel_inner');

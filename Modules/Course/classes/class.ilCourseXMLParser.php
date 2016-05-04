@@ -283,6 +283,11 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			case 'Sort':
 				include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
 				ilContainerSortingSettings::_importContainerSortingSettings($a_attribs, $this->course_obj->getId());
+
+				//#17837
+				$this->course_obj->setOrderType(
+					ilContainerSortingSettings::getInstanceByObjId($this->course_obj->getId())->getSortMode()
+				);
 				break;
 
 

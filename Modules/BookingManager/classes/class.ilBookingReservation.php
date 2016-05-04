@@ -569,13 +569,15 @@ class ilBookingReservation
 			}
 			
 			if(!isset($res[$idx]))
-			{								
+			{				
+				$uname = ilObjUser::_lookupName($user_id);
+				
 				$res[$idx] = array(					
 					"object_id" => $obj_id
 					,"title" => $row["title"]
 					,"user_id" => $user_id
 					,"counter" => 1						
-					,"user_name" => ilObjUser::_lookupFullName($user_id)					
+					,"user_name" => $uname["lastname"].", ".$uname["firstname"] // #17862		
 				);
 				
 				if($a_has_schedule)

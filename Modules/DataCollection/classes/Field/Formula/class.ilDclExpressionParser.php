@@ -123,10 +123,10 @@ class ilDclExpressionParser {
 	 * @return string
 	 */
 	protected function formatScientific($value) {
-		if ($value >= self::SCIENTIFIC_NOTATION_UPPER) {
+		if (abs($value) >= self::SCIENTIFIC_NOTATION_UPPER) {
 			return sprintf("%e", $value);
 		}
-		if ($value <= self::SCIENTIFIC_NOTATION_LOWER) {
+		if (abs($value) <= self::SCIENTIFIC_NOTATION_LOWER && $value != 0 ) {
 			return sprintf("%e", $value);
 		}
 		if (is_float($value)) {
@@ -365,10 +365,10 @@ class ilDclExpressionParser {
 			return (ctype_digit((string)$result)) ? $result : number_format($result, self::N_DECIMALS, '.', "'");
 		} else {
 
-			while ($stack->count() >= 3) {
+			while ($stack->count() >= 2) {
 				$right = $stack->pop();
 				$operator = $stack->pop();
-				$left = $stack->pop();
+				$left = $stack->count() ? $stack->pop() : 0;
 				$stack->push($this->calculate($operator, $left, $right));
 			}
 			$result = $stack->pop();

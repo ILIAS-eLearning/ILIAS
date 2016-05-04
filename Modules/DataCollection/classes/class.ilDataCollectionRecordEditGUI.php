@@ -376,40 +376,40 @@ class ilDataCollectionRecordEditGUI {
 	 */
 	public function save() {
 		$this->initForm();
-		if ($this->form->checkInput()) {
-			$record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
-			$date_obj = new ilDateTime(time(), IL_CAL_UNIX);
-			$record_obj->setTableId($this->table_id);
-			$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
-			$record_obj->setLastEditBy($this->user->getId());
 
-			$create_mode = false;
+		$valid = $this->form->checkInput();
 
-			if (ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id)) {
-				$all_fields = $this->table->getRecordFields();
-			} else {
-				$all_fields = $this->table->getEditableFields();
+
+		$record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
+		$date_obj = new ilDateTime(time(), IL_CAL_UNIX);
+		$record_obj->setTableId($this->table_id);
+		$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
+		$record_obj->setLastEditBy($this->user->getId());
+
+		$create_mode = false;
+
+		if (ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id)) {
+			$all_fields = $this->table->getRecordFields();
+		} else {
+			$all_fields = $this->table->getEditableFields();
+		}
+
+		//Check if we can create this record.
+		foreach ($all_fields as $field) {
+			try {
+				$value = $this->form->getInput("field_" . $field->getId());
+				$field->checkValidity($value, $this->record_id);
+			} catch (ilDataCollectionInputException $e) {
+				$valid = false;
+				$item = $this->form->getItemByPostVar('field_'.$field->getId());
+				$item->setAlert($e);
 			}
+		}
 
-			$fail = "";
-			//Check if we can create this record.
-			foreach ($all_fields as $field) {
-				try {
-					$value = $this->form->getInput("field_" . $field->getId());
-					$field->checkValidity($value, $this->record_id);
-				} catch (ilDataCollectionInputException $e) {
-					$fail .= $field->getTitle() . ": " . $e . "<br>";
-				}
-			}
 
-			if ($fail) {
-				$this->sendFailure($fail);
-
-				return;
-			}
-
-			if (! isset($this->record_id)) {
-				if (! ($this->table->hasPermissionToAddRecord($this->parent_obj->ref_id))) {
+		if ($valid) {
+			if (!isset($this->record_id)) {
+				if (!($this->table->hasPermissionToAddRecord($this->parent_obj->ref_id))) {
 					$this->accessDenied();
 
 					return;
@@ -430,19 +430,28 @@ class ilDataCollectionRecordEditGUI {
 			//edit values, they are valid we already checked them above
 			foreach ($all_fields as $field) {
 				$value = $this->form->getInput("field_" . $field->getId());
-				//deletion flag on MOB inputs.
-				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB
-					&& $this->form->getItemByPostVar("field_" . $field->getId())->getDeletionFlag()
-				) {
-					$value = - 1;
+
+				switch (true) {
+					//deletion flag on MOB inputs.
+					case ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB
+					      && $this->form->getItemByPostVar("field_" . $field->getId())->getDeletionFlag()):
+						$value = - 1;
+						$record_obj->setRecordFieldValue($field->getId(), $value);
+						break;
+					// mantis 0018064
+					case ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE && $value['tmp_name']):
+						$record_obj->setRecordFieldValue($field->getId(), $value);
+						break;
+					default:
+						$record_obj->setRecordFieldValue($field->getId(), $value);
+						break;
 				}
-				$record_obj->setRecordFieldValue($field->getId(), $value);
 			}
 
 			// Do we need to set a new owner for this record?
-			if (! $create_mode) {
+			if (!$create_mode) {
 				$owner_id = ilObjUser::_lookupId($_POST['field_owner']);
-				if (! $owner_id) {
+				if (!$owner_id) {
 					$this->sendFailure($this->lng->txt('user_not_known'));
 
 					return;

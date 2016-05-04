@@ -912,6 +912,7 @@ class ilConsultationHoursGUI
 			{
 				$app_end = clone $app_start;
 				$app_end->increment(ilDateTime::MINUTE,$this->form->getItemByPostVar('du')->getMinutes());
+				$app_end->increment(ilDateTime::HOUR,$this->form->getItemByPostVar('du')->getHours());
 				
 				
 				$entry = new ilCalendarEntry();

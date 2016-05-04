@@ -4368,7 +4368,6 @@ common#:#message_content#:#メッセージ本文
 common#:#message_no_delivered_files#:#ファイル未提出です
 common#:#message_to#:#Message to:
 common#:#meta_data#:#メタデータ
-common#:#mgs_objects_linked_to_the_following_folders#:#オブジェクトは次のフォルダへリンクされました。:%s
 common#:#migrate#:#移行
 common#:#min_time#:#最少時間
 common#:#minute#:#分
@@ -4445,7 +4444,6 @@ common#:#msg_input_is_required#:#入力必須項目です。正しく入力し�
 common#:#msg_invalid_filetype#:#ファイルタイプは無効です
 common#:#msg_is_last_role#:#次のユーザから最後のグローバル役割を削除しました
 common#:#msg_last_role_for_registration#:#最低一つの役割は、新規ユーザの登録中に可能にしなければなりません。この役割は現在唯一利用可能です。
-common#:#msg_link_clipboard#:#次に選択したオブジェクトにリンクして、貼り付け ボタンをクリックする目的の場所を選択してください。
 common#:#msg_linked#:#選択したオブジェクトをリンクしました。
 common#:#msg_may_not_contain#:#このオブジェクトにはオブジェクトのタイプが含まれていません
 common#:#msg_min_one_active_role#:#ユーザはアクティブなグローバル役割を一つは持つ必要があります!
@@ -6319,7 +6317,6 @@ content#:#cont_glo_detach#:#用語集を切り離す
 content#:#cont_glo_menu#:#メニュー
 content#:#cont_glo_properties#:#用語集のプロパティ
 content#:#cont_glossaries#:#用語集
-content#:#cont_got_lock#:#このページは編集用にロックされています。全ての変更が完了したらページを開放してください。
 content#:#cont_header#:#ヘッダー
 content#:#cont_Headline1#:#ヘッダー行 1
 content#:#cont_Headline2#:#ヘッダー行2
@@ -15312,3 +15309,19 @@ content#:#cont_sqst#:#Survey Question (Assigned Material)###16 11 2015 new varia
 mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?###16 11 2015 new variable
 administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings###16 11 2015 new variable
 administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.###16 11 2015 new variable
+common#:#user_not_found_to_delete#:#A user could not be found to delete.###21 01 2016 new variable
+orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.###21 01 2016 new variable
+content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2###21 01 2016 new variable
+content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###21 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s###26 01 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s###26 01 2016 new variable
+common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.###26 01 2016 new variable
+common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###26 01 2016 new variable
+style#:#sty_type_ha_iheada#:#Hor. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_type_ha_ihcap#:#Hor. Accordion Caption###01 03 2016 new variable
+style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_type_va_ihcap#:#Vert. Accordion Caption###01 03 2016 new variable
+style#:#sty_ha_iheada_class#:#Hor. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption###01 03 2016 new variable
+style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)###01 03 2016 new variable
+style#:#sty_va_ihcap_class#:#Vert. Accordion Caption###01 03 2016 new variable

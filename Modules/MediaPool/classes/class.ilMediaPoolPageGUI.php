@@ -33,11 +33,12 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
 		$tpl->parseCurrentBlock();
-		
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 			ilObjStyleSheet::getSyntaxStylePath());
 		$tpl->parseCurrentBlock();
+
+		$this->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));
 
 		$this->setEditPreview(true);
 	}

@@ -2102,7 +2102,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		if (is_object($this->object))
 		{
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
+			// #17955
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "showOverview"), "", $_GET["ref_id"]);
 		}
 	}
 	
@@ -3746,21 +3747,28 @@ class ilObjExerciseGUI extends ilObjectGUI
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		$this->ctrl->redirect($this, "submissionScreenTeam");
 	}
+		
+	public function confirmDeleteTeamObject()
+	{
+		$this->confirmRemoveTeamMemberObject(true);
+	}
 	
-	public function confirmRemoveTeamMemberObject()
+	public function confirmRemoveTeamMemberObject($a_full_delete = false)
 	{
 		global $ilUser, $tpl;
 		
-		$ids = $_POST["id"];
+		$team_id = $this->ass->getTeamId($ilUser->getId());
+		$members = $this->ass->getTeamMembers($team_id);
 		
+		$ids = (bool)$a_full_delete
+			? $members
+			: $_POST["id"];
+
 		if(!sizeof($ids))
 		{
 			ilUtil::sendFailure($this->lng->txt("select_one"), true);
 			$this->ctrl->redirect($this, "submissionScreenTeam");
 		}
-		
-		$team_id = $this->ass->getTeamId($ilUser->getId());
-		$members = $this->ass->getTeamMembers($team_id);
 		
 		$team_deleted = false;
 		if(sizeof($members) <= sizeof($ids))
@@ -3768,7 +3776,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			if(sizeof($members) == 1 && $members[0] == $ilUser->getId())
 			{
 				// direct team deletion - no confirmation
-				return $this->removeTeamMemberObject();
+				return $this->removeTeamMemberObject($a_full_delete);
 			}						
 			else
 			{
@@ -3777,8 +3785,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 		}
 		
-		// #11957
-		
+		// #11957		
 		$team_id = $this->initTeamSubmission("showOverview");
 		
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
@@ -3813,33 +3820,37 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		$tpl->setContent($cgui->getHTML());		
 	}
-	
-	public function removeTeamMemberObject()
+	public function removeTeamMemberObject($a_full_delete = false)
 	{
 		global $ilUser;
+				
+		$team_id = $this->ass->getTeamId($ilUser->getId());
+		$members = $this->ass->getTeamMembers($team_id);
 		
-		$ids = $_POST["id"];
-		
+		$ids = (bool)$a_full_delete
+			? $members
+			: $_POST["id"];
+
 		if(!sizeof($ids))
 		{
 			ilUtil::sendFailure($this->lng->txt("select_one"), true);
 			$this->ctrl->redirect($this, "submissionScreenTeam");
-		}
+		}		
 		
-		$team_id = $this->ass->getTeamId($ilUser->getId());
-		$members = $this->ass->getTeamMembers($team_id);
-		
-		$team_deleted = false;
-		if(sizeof($members) <= sizeof($ids))
+		$team_deleted = (bool)$a_full_delete;		
+		if(!$team_deleted)
 		{
-			if(sizeof($members) == 1 && $members[0] == $ilUser->getId())
+			if(sizeof($members) <= sizeof($ids))
 			{
-				$team_deleted = true;
-			}						
-			else
-			{
-				ilUtil::sendFailure($this->lng->txt("exc_team_at_least_one"), true);
-				$this->ctrl->redirect($this, "submissionScreenTeam");
+				if(sizeof($members) == 1 && $members[0] == $ilUser->getId())
+				{
+					$team_deleted = true;
+				}						
+				else
+				{
+					ilUtil::sendFailure($this->lng->txt("exc_team_at_least_one"), true);
+					$this->ctrl->redirect($this, "submissionScreenTeam");
+				}
 			}
 		}
 		
@@ -4923,6 +4934,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}			
 			
 			$this->ass->getTeamId($ilUser->getId(), true);		
+			
+			// #18046
+			if (!$this->object->members_obj->isAssigned($ilUser->getId()))
+			{
+				$this->object->members_obj->assignMember($ilUser->getId());
+			}
+			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);	
 		}
 		

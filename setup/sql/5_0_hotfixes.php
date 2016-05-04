@@ -187,3 +187,17 @@ while($row = $ilDB->fetchAssoc($res))
 	));
 }
 ?>
+<#15>
+<?php
+if(!$ilDB->indexExistsByFields('il_qpl_qst_fq_unit',array('question_fi')))
+{
+	$ilDB->addIndex('il_qpl_qst_fq_unit',array('question_fi'), 'i2');
+}
+?>
+<#16>
+<?php
+if(!$ilDB->indexExistsByFields('usr_data_multi',array('usr_id')))
+{
+	$ilDB->addIndex('usr_data_multi',array('usr_id'), 'i1');
+}
+?>

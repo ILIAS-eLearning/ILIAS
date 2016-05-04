@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.0.x 2015-11-11 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.0.x 2016-05-01 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -246,8 +246,9 @@ assessment#:#applet_new_parameter#:#Új paraméter
 assessment#:#applet_parameter#:#Paraméter
 assessment#:#applet_parameters#:#Applet-paraméterek
 assessment#:#apply#:#Alkalmaz
-assessment#:#ass_create_export_file#:#Tesztexportfájl létrehozása
-assessment#:#ass_create_export_test_results#:#Teszteredmények exportfájljának létrehozása
+assessment#:#ass_create_export_file#:#Export fájl létrehozása
+assessment#:#ass_create_export_file_with_results#:#Export fájl létrehozása (résztvevők eredményeivel)
+assessment#:#ass_create_export_test_results#:#Eredmények export fájl létrehozása
 assessment#:#ass_create_export_test_archive#:#Teszt archív fájl létrehozása
 assessment#:#ass_export_files#:#Export fájlok
 assessment#:#ass_file#:#Fájl
@@ -953,8 +954,8 @@ assessment#:#tst_invited_selected_roles#:#A kiválasztott szerepeket állandó t
 assessment#:#tst_invited_selected_users#:#A kiválasztott felhasználókat állandó tesztrésztvevőkként sikeresen felvette.
 assessment#:#tst_list_of_answers_show#:#Válaszok listájának megjelenítése
 assessment#:#tst_list_of_answers#:#Válaszok listája
-assessment#:#tst_list_of_questions_end#:#Azelőtt jelenlen meg, mielőtt a résztvevő befejezi a tesztet
-assessment#:#tst_list_of_questions_start#:#Az első kérdést megelőzően jelenleg meg
+assessment#:#tst_list_of_questions_end#:#Azelőtt jelenjen meg, mielőtt a résztvevő befejezi a tesztet
+assessment#:#tst_list_of_questions_start#:#Azelőtt jelenjen meg, mielőtt az első kérdés megjelenik
 assessment#:#tst_list_of_questions_with_description#:#Kérdésleírásokat is tartalmazza
 assessment#:#tst_list_of_questions_yes#:#Igen, és további
 assessment#:#tst_mark_create_new_mark_step#:#Új értékelésséma létrehozása
@@ -3257,7 +3258,6 @@ common#:#message_no_delivered_files#:#Nem küldött be még fájlt.
 common#:#message_to#:#Üzenet (kinek):
 common#:#message#:#Üzenet
 common#:#meta_data#:#Metaadatok
-common#:#mgs_objects_linked_to_the_following_folders#:#Az objektumo(ka)t az alábbi mappá(k)ba linkelte be: %s
 common#:#migrate#:#Migráció
 common#:#min_time#:#Minimumidő
 common#:#minute#:#perc
@@ -3337,7 +3337,6 @@ common#:#msg_input_is_required#:#Kötelező megadni ezt az adatot. Adjon meg egy
 common#:#msg_invalid_filetype#:#Érvénytelen fájltípus
 common#:#msg_is_last_role#:#Eltávolította az utolsó szerepet az alábbi felhasználókról
 common#:#msg_last_role_for_registration#:#Legalább egy elérhető szerepnek kell lennie a regisztrációs nyomtatványon az új felhasználók számára. Jelenleg ez az egyetlen elérhető szerep.
-common#:#msg_link_clipboard#:#Most válassza ki, hová szeretné a kiválasztott objektumokat belinkelni, majd kattintson a Beillesztés gombra.
 common#:#msg_linked#:#Kiválasztott objektum(ok) belinkelve.
 common#:#msg_may_not_contain#:#Ez az objektum feltehetőleg nem tartalmazhatja a következő objektumtípusokat:
 common#:#msg_min_one_active_role#:#Minden felhasználónak legalább egy aktív globális szerepe kell legyen.
@@ -4674,7 +4673,7 @@ common#:#zipcode#:#Irányítószám
 content#:#add_menu_entry#:#Menübejegyzés hozzáadása
 content#:#all_pages#:#a teljes tananyag
 content#:#all#:#Mind
-content#:#choose_public_mode#:#Nem regisztrált felhasználók elérhetik
+content#:#choose_public_mode#:#Be nem jelentkezett felhasználók elérhetik:
 content#:#choose_public_pages#:#Nyilvánosan elérhető lapok kiválasztása
 content#:#citate_from#:#Idéz honnan ...
 content#:#citate_page#:#Idézi ezt a lapot
@@ -5424,7 +5423,7 @@ content#:#scplayer_showtree#:#Tartalomjegyzék megjelenítése
 content#:#scplayer_start#:#Indítás
 content#:#scplayer_suspendall#:#Minden felfüggesztése
 content#:#select_a_file#:#Válasszon ki egy fájlt!
-content#:#selected_pages_only#:#Csak a megváltozott oldalak
+content#:#selected_pages_only#:#csak a kijelölt oldalak
 content#:#selectFooter#:#Kiválasztás láblécként
 content#:#selectHeader#:#Kiválasztás fejlécként
 content#:#seq_abandon#:#Megszakítási kérelmet kaptunk és dolgoztunk fel.
@@ -10775,8 +10774,8 @@ style#:#sty_to#:#erre
 style#:#sty_add_content_style#:#Tartalomstílus létrehozása
 style#:#sty_remove_global_default_state#:#Globálisan alapértelmezett állapot eltávolítása
 style#:#sty_remove_global_fixed_state#:#Globálisan rögzített állapot eltávolítása
-style#:#sty_make_global_default#:#Új objektumokhoz globálisan alapértelmezett stílusként beállítás
-style#:#sty_make_global_fixed#:#Új objektumokhoz ezen stílus kikényszerítése
+style#:#sty_make_global_default#:#Beállítás alapértelmezett stílusként
+style#:#sty_make_global_fixed#:#Ennek a stílusnak készerítése az összes objektumokra
 content#:#cont_save_types#:#Típusok mentése
 content#:#cont_layout_template#:#Elrendezéssablon
 content#:#cont_special_page#:#Speciális tartalomlap
@@ -12218,8 +12217,8 @@ trac#:#trac_sync_session_stats#:#Adatok aggregálása
 trac#:#trac_sync_session_stats_success#:#Az aggregálás sikeresen lezajlott.
 crs#:#crs_course_status_of_users#:#Kurzus teljesítése
 crs#:#crs_status_determination#:#'Sikeresen teljesítette' állapot meghatározása
-crs#:#crs_status_determination_manual#:#Tanulási haladás alapján
-crs#:#crs_status_determination_lp#:#Tanulási haladástól függetlenül
+crs#:#crs_status_determination_manual#:#Tanulási haladástól függetlenül
+crs#:#crs_status_determination_lp#:#Tanulási haladás alapján
 crs#:#crs_status_determination_sync#:#Most az összes felhasználó kurzusstátuszát szinkronizáljuk a tanulási haladási állapotával
 trac#:#trac_session_statistics_mode_day#:#Nap
 trac#:#trac_session_statistics_mode_week#:#Hét
@@ -12589,7 +12588,7 @@ dcl#:#dcl_unknown_exception#:#Az Ön által megadott érték nem érvényes.
 dcl#:#dcl_checked#:#Kipipált
 dcl#:#dcl_not_checked#:#Nem kipipált
 dcl#:#dcl_any#:#Bármi
-dcl#:#dcl_noturl_exception#:#Meg kell adnia egy linket (http://-vel kezdődjön)
+dcl#:#dcl_noturl_exception#:#Linket kell megadnia (http://-rel vagy www.-tal kezdődőt) vagy e-mail címet.
 dcl#:#dcl_no_search_results_found_for#:#Egyetlen modult sem sikerült találni ez alapján:
 dcl#:#dcl_export_enabled#:#Export használatának engedélyezése az összes felhasználó számára
 dcl#:#dcl_no_fields_yet#:#Nincsenek mezők definiálva ehhez a táblához, így nem hozhat létre még egy rekordot sem.
@@ -14442,7 +14441,6 @@ content#:#cont_language#:#Nyelv
 content#:#cont_add_lang#:#Nyelv hozzáadása 
 content#:#cont_conf_delete_lang#:#Biztos, hogy törli az alábbi nyelvi támogatásokat?
 content#:#cont_back_to_page#:#Vissza az oldalra
-content#:#cont_got_lock#:#Az oldalt szerkesztés miatt zároltuk. A szerkesztés végeztével oldja fel a zárolást.
 content#:#cont_finish_editing#:#Szerkesztés befejezése
 content#:#cont_page_lock_released#:#Szerkesztés vége. Az oldal zárolása feloldva.
 notes#:#note_content_removed#:#Tartalom eltávolítva.
@@ -15312,3 +15310,21 @@ content#:#cont_sqst#:#Kérdőívkérdés (segédanyag)
 mmbr#:#info_refuse_sure#:#Biztos, hogy elutasítja az alábbi felhasználó(k)at?
 administration#:#adm_user_starting_point_inherit#:#Általános beállítások használata
 administration#:#adm_user_starting_point_inherit_info#:#A rendszergazda összes beállításának használata a rendszerre.
+common#:#user_not_found_to_delete#:#A törlendő felhasználó nem található.
+orgu#:#not_movable_to_subtree#:#Szervezeti egység nem mozgatható saját fájába, mert az hurkot hozna létre.
+content#:#cont_got_lock_until#:#%1-ig az oldalt zároltuk, mert Ön azt szerkesztésre megnyitotta. A zárolást feloldhatja: %2
+content#:#cont_not_saved_edit_lock_expired#:#Sajnáljuk, módosításait nem sikerült menteni, mert időközben egy másik felhasználó szerkesztésre zárolta ezt az oldalt. Az üzenet bezárása után a tartalmat vágólapra másolhatja.
+common#:#mgs_objects_linked_to_the_following_folders_p#:#Az objektumokat a következő könyvtár(ak)ba sikeresen linkelte: %s
+common#:#mgs_objects_linked_to_the_following_folders_s#:#Az objektumot a következő könyvtár(ak)ba sikeresen linkelte: %s
+common#:#msg_link_clipboard_p#:#Válassza ki a helyet, ahová a kiválasztott objektumokat linkelni szeretné, majd kattintson a 'Beillesztés' gombra.
+common#:#msg_link_clipboard_s#:#Válassza ki a helyet, ahová a kiválasztott objektumot linkelni szeretné, majd kattintson a 'Beillesztés' gombra.
+style#:#sty_type_ha_iheada#:#Vízszintes harmonika fejléc  (aktív)
+style#:#sty_type_ha_ihcap#:#Vízszintes harmonika felirat
+style#:#sty_type_va_iheada#:#Függőleseg harmonika fejléc (aktív)
+style#:#sty_type_va_ihcap#:#Függőleseg harmonika felirat
+style#:#sty_ha_iheada_class#:#Vízszintes harmonika fejléc (aktív)
+style#:#sty_ha_ihcap_class#:#Vízszintes harmonika felirat
+style#:#sty_va_iheada_class#:#Függőleseg harmonika fejléc (aktív)
+style#:#sty_va_ihcap_class#:#Függőleseg harmonika felirat
+exc#:#exc_delete_team#:#Csapat törlése
+trac#:#trac_cron_info#:#Adatgyűjtéshez kapcsolja be az 'Objektumstatisztikák' ütemezett feladatot.

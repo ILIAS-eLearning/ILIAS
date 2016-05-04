@@ -277,6 +277,7 @@ class ilPasswordAssistanceGUI
 	public function sendPasswordAssistanceMail(ilObjUser $userObj)
 	{
 		require_once 'Services/Mail/classes/class.ilMailbox.php';
+		require_once 'Services/Mail/classes/class.ilMail.php';
 		require_once 'Services/Mail/classes/class.ilMimeMail.php';
 		require_once 'include/inc.pwassist_session_handler.php';
 
@@ -318,7 +319,7 @@ class ilPasswordAssistanceGUI
 			. $delimiter . 'lang=' . $this->lng->getLangKey()
 			. $delimiter . 'key=' . $pwassist_session['pwassist_id'];
 
-		$contact_address = $this->settings->get('admin_email');
+		$contact_address = ilMail::getIliasMailerAddress();
 
 		$mm = new ilMimeMail();
 		$mm->Subject($this->lng->txt('pwassist_mail_subject'));
@@ -677,6 +678,7 @@ class ilPasswordAssistanceGUI
 	public function sendUsernameAssistanceMail($email, array $logins)
 	{
 		require_once 'Services/Mail/classes/class.ilMailbox.php';
+		require_once 'Services/Mail/classes/class.ilMail.php';
 		require_once 'Services/Mail/classes/class.ilMimeMail.php';
 		require_once 'include/inc.pwassist_session_handler.php';
 
@@ -684,7 +686,7 @@ class ilPasswordAssistanceGUI
 
 		$server_url      = $protocol . $_SERVER['HTTP_HOST'] . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/')) . '/';
 		$login_url       = $server_url . 'pwassist.php' . '?client_id=' . $this->ilias->getClientId() . '&lang=' . $this->lng->getLangKey();
-		$contact_address = $this->settings->get('admin_email');
+		$contact_address = ilMail::getIliasMailerAddress();
 
 		$mm = new ilMimeMail();
 		$mm->Subject($this->lng->txt('pwassist_mail_subject'));
