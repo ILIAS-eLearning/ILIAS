@@ -92,6 +92,14 @@ interface ilDBInterface {
 
 
 	/**
+	 * @param $old_name
+	 * @param $new_name
+	 *
+	 * @return mixed
+	 */
+	public function renameTable($old_name, $new_name);
+
+	/**
 	 * @param $query string
 	 *
 	 * @return \ilDBStatement

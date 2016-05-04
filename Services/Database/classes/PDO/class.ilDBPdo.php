@@ -265,6 +265,20 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
+	 * @param $old_name
+	 * @param $new_name
+	 *
+	 * @return mixed
+	 */
+	public function renameTable($old_name, $new_name) {
+		//TODO: implement with manager and add more validation
+		$query = "RENAME TABLE " . $old_name . " TO " . $new_name . ";";
+		$this->pdo->exec($query);
+		return true;
+	}
+
+
+	/**
 	 * @param $query string
 	 * @return PDOStatement
 	 * @throws ilDatabaseException
