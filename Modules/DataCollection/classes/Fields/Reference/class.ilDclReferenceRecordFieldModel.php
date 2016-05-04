@@ -43,11 +43,13 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 	public function getExportValue() {
 		if ($this->getValue()) {
 			$ref_rec = ilDclCache::getRecordCache($this->getValue());
-			$exp_value = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE))->getExportValue();
+			$ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
 
-			if ($exp_value instanceof stdClass) {
-				return json_encode($exp_value);
+			$exp_value = "";
+			if($ref_record_field) {
+				$exp_value = $ref_record_field->getExportValue();
 			}
+
 			return $exp_value;
 		} else {
 			return "";

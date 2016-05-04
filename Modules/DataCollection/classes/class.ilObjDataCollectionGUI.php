@@ -279,7 +279,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				$exp_gui = new ilDclExportGUI($this);
 				$exp_gui->addFormat("xml");
 
-				$exporter = new ilDclContentExporter($this->object->getRefId(), $this->table_id);
+				$exporter = new ilDclContentExporter($this->object->getRefId());
 				$exp_gui->addFormat("xls", $this->lng->txt('dlc_xls_async_export'), $exporter, 'exportAsync');
 
 				$this->ctrl->forwardCommand($exp_gui);

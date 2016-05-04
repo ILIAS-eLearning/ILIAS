@@ -88,7 +88,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
 			: $a_set['type'];
 		$this->tpl->setVariable('VAL_TYPE', $type);
 
-		$filename = ($this->isExportInProgress($a_set['file']))? substr($a_set['file'], 0, - strlen(ilDclContentExporter::IN_PROGRESS_POSTFIX)) : $a_set['file'];
+		$filename = ($this->isExportInProgress($a_set['file']))? substr($a_set['file'], 0, - strlen(ilDclContentExporter::IN_PROGRESS_POSTFIX)).".xlsx" : $a_set['file'];
 		$this->tpl->setVariable('VAL_FILE', $filename);
 
 		$this->tpl->setVariable('VAL_SIZE', ilUtil::formatSize($a_set['size']));

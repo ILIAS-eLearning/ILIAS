@@ -158,11 +158,11 @@ class ilDclContentExporter
 	 */
 	public function export($format = self::EXPORT_EXCEL, $filepath = null, $send = false) {
 
-		if(count($this->table_id) == 0) {
+		if(count($this->tables) == 0) {
 			return;
 		}
 
-		if($filepath == null) {
+		if(empty($filepath)) {
 			$filepath = $this->getExportContentPath($format);
 			ilUtil::makeDirParents($filepath);
 
@@ -170,7 +170,6 @@ class ilDclContentExporter
 			$filename = time() . '__' . $basename . "_".date("Y-m-d_H-i");
 
 			$filepath .= $this->sanitizeFilename($filename);
-			$filepath .= ".".$format;
 		} else {
 			$filename = pathinfo($filepath, PATHINFO_FILENAME);
 		}
@@ -178,12 +177,12 @@ class ilDclContentExporter
 		$in_progress_file = $filepath.self::IN_PROGRESS_POSTFIX;
 		file_put_contents($in_progress_file, "");
 
+		$data_available = false;
 		switch ($format) {
 			case self::EXPORT_EXCEL:
 				require_once "./Services/Excel/classes/class.ilExcel.php";
 
 				$adapter = new ilExcel();
-				$data_available = false;
 				foreach($this->tables as $table) {
 					ilDclCache::resetCache();
 
@@ -247,12 +246,7 @@ class ilDclContentExporter
 		$method = self::SOAP_FUNCTION_NAME;
 
 		$soap_params = array($this->dcl->getRefId());
-
-		if($this->table_id != null) {
-			$soap_params[] = $this->table_id;
-		}
-
-		array_push($soap_params, $format, $filepath);
+		array_push($soap_params, $this->table_id, $format, $filepath);
 
 		$new_session_id = ilSession::_duplicate($_COOKIE['PHPSESSID']);
 		$client_id = $_COOKIE['ilClientId'];
@@ -270,7 +264,7 @@ class ilDclContentExporter
 
 		if($soap_client->init())
 		{
-			$ilLog->info('Calling soap '.$method.' method');
+			$ilLog->info('Calling soap '.$method.' method with params '.print_r($soap_params, true));
 			$res = $soap_client->call($method, $soap_params);
 		}
 		else
