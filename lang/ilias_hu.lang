@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.0.x 2016-04-10 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.0.x 2016-05-01 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -246,8 +246,9 @@ assessment#:#applet_new_parameter#:#Új paraméter
 assessment#:#applet_parameter#:#Paraméter
 assessment#:#applet_parameters#:#Applet-paraméterek
 assessment#:#apply#:#Alkalmaz
-assessment#:#ass_create_export_file#:#Tesztexportfájl létrehozása
-assessment#:#ass_create_export_test_results#:#Teszteredmények exportfájljának létrehozása
+assessment#:#ass_create_export_file#:#Export fájl létrehozása
+assessment#:#ass_create_export_file_with_results#:#Export fájl létrehozása (résztvevők eredményeivel)
+assessment#:#ass_create_export_test_results#:#Eredmények export fájl létrehozása
 assessment#:#ass_create_export_test_archive#:#Teszt archív fájl létrehozása
 assessment#:#ass_export_files#:#Export fájlok
 assessment#:#ass_file#:#Fájl
@@ -12587,7 +12588,7 @@ dcl#:#dcl_unknown_exception#:#Az Ön által megadott érték nem érvényes.
 dcl#:#dcl_checked#:#Kipipált
 dcl#:#dcl_not_checked#:#Nem kipipált
 dcl#:#dcl_any#:#Bármi
-dcl#:#dcl_noturl_exception#:#Meg kell adnia egy linket (http://-vel kezdődjön)
+dcl#:#dcl_noturl_exception#:#Linket kell megadnia (http://-rel vagy www.-tal kezdődőt) vagy e-mail címet.
 dcl#:#dcl_no_search_results_found_for#:#Egyetlen modult sem sikerült találni ez alapján:
 dcl#:#dcl_export_enabled#:#Export használatának engedélyezése az összes felhasználó számára
 dcl#:#dcl_no_fields_yet#:#Nincsenek mezők definiálva ehhez a táblához, így nem hozhat létre még egy rekordot sem.
@@ -15326,3 +15327,4 @@ style#:#sty_ha_ihcap_class#:#Vízszintes harmonika felirat
 style#:#sty_va_iheada_class#:#Függőleseg harmonika fejléc (aktív)
 style#:#sty_va_ihcap_class#:#Függőleseg harmonika felirat
 exc#:#exc_delete_team#:#Csapat törlése
+trac#:#trac_cron_info#:#Adatgyűjtéshez kapcsolja be az 'Objektumstatisztikák' ütemezett feladatot.

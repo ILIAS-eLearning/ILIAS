@@ -127,11 +127,11 @@ class ilObjCourseGUI extends ilContainerGUI
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		ilMailFormCall::setRecipients($rcps);
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, 'members',
 			array(), 
 			array(
 				'type' => 'new', 
-				'rcp_to' => implode(',',$rcps),
 				'sig'	=> $this->createMailSignature()
 		)));
 	}
