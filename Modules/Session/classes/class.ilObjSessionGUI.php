@@ -1050,7 +1050,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 		$toolbar = new ilToolbarGUI();		
-		$toolbar->addButton($this->lng->txt('sess_gen_attendance_list'), 
+		$toolbar->addButton($this->lng->txt('crs_print_list'),
 			$this->ctrl->getLinkTarget($this,'attendanceList'));		
 		
 		$this->tpl->setVariable('ACTION_BUTTONS',$toolbar->getHTML());
