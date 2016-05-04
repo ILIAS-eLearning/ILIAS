@@ -1296,7 +1296,6 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "unzip", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"])));
 		$this->ini->setVariable("tools", "ghostscript", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ghostscript_path"])));
 		$this->ini->setVariable("tools", "java", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"])));
-		$this->ini->setVariable("tools", "htmldoc", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"])));
 		//$this->ini->setVariable("tools", "mkisofs", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["mkisofs_path"])));
 		$this->ini->setVariable("tools", "ffmpeg", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ffmpeg_path"])));
 		$this->ini->setVariable("tools", "latex", ilUtil::stripSlashes($a_formdata["latex_url"]));
@@ -1338,7 +1337,6 @@ class ilSetup extends PEAR
 		$unzip_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"]));
 		$ghostscript_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ghostscript_path"]));
 		$java_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"]));
-		$htmldoc_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"]));
 		//$mkisofs_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["mkisofs_path"]));
 		$ffmpeg_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ffmpeg_path"]));
 		$latex_url = ilUtil::stripSlashes($a_formdata["latex_url"]);
@@ -1352,7 +1350,6 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "unzip", $unzip_path);
 		$this->ini->setVariable("tools", "ghostscript", $ghostscript_path);
 		$this->ini->setVariable("tools", "java", $java_path);
-		$this->ini->setVariable("tools", "htmldoc", $htmldoc_path);
 		//$this->ini->setVariable("tools", "mkisofs", $mkisofs_path);
 		$this->ini->setVariable("tools", "ffmpeg", $ffmpeg_path);
 		$this->ini->setVariable("tools", "latex", $latex_url);
@@ -1473,24 +1470,6 @@ class ilSetup extends PEAR
 			}
 		}
 
-		// htmldoc path
-		if (!isset($a_formdata["chk_htmldoc_path"]))
-		{
-			// convert backslashes to forwardslashes
-			$htmldoc_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"]));
-
-			if (empty($htmldoc_path))
-			{
-				$this->error = "no_path_htmldoc";
-				return false;
-			}
-
-			if (!$this->testHtmldoc($htmldoc_path))
-			{
-				$this->error = "check_failed_htmldoc";
-				return false;
-			}
-		}
 		/*if (!isset($a_formdata["chk_mkisofs_path"]))
 		{
 			// convert backslashes to forwardslashes
@@ -1499,12 +1478,6 @@ class ilSetup extends PEAR
 			if (empty($mkisofs_path))
 			{
 				$this->error = "no_path_mkisofs";
-				return false;
-			}
-		
-			if (!$this->testHtmldoc($mkisofs_path))
-			{
-				$this->error = "check_failed_mkisofs";
 				return false;
 			}
 		}*/
@@ -1880,73 +1853,6 @@ class ilSetup extends PEAR
 		}
 */
 	}
-
-	/**
-	* Check htmldoc program
-	*
-	* @param	string		htmldoc_path
-	* @return	boolean		true -> OK | false -> not OK
-	*/
-	function testHtmldoc($a_htmldoc_path)
-	{
-		// java is optional, so empty path is ok
-		if (trim($a_htmldoc_path) == "")
-		{
-			return "";
-		}
-
-		if (!is_file($a_htmldoc_path))
-		{
-			return "check_failed_htmldoc";
-		}
-
-		return "";
-
-
-		$curDir = getcwd();
-
-		chdir(ILIAS_ABSOLUTE_PATH);
-
-		$html = "<html><head><title></title></head><body><p>test</p></body></html>";
-
-		$html_file = "htmldoc_test_file.html";
-
-        $fp = fopen( $html_file ,"wb");
-        fwrite($fp, $html);
-        fclose($fp);
-
-        $htmldoc = $a_htmldoc_path." ";
-        $htmldoc .= "--no-toc ";
-        $htmldoc .= "--no-jpeg ";
-        $htmldoc .= "--webpage ";
-        $htmldoc .= "--outfile htmldoc_test_file.pdf ";
-        $htmldoc .= "--bodyfont Arial ";
-        $htmldoc .= "--charset iso-8859-15 ";
-        $htmldoc .= "--color ";
-        $htmldoc .= "--size A4  ";      // --landscape
-        $htmldoc .= "--format pdf ";
-        $htmldoc .= "--footer ... ";
-        $htmldoc .= "--header ... ";
-        $htmldoc .= "--left 60 ";
-        // $htmldoc .= "--right 200 ";
-        $htmldoc .= $html_file;
-		exec($htmldoc);
-
-		unlink(ILIAS_ABSOLUTE_PATH."/".$html_file);
-
-		chdir($curDir);
-
-		if (file_exists(ILIAS_ABSOLUTE_PATH."/htmldoc_test_file.pdf"))
-		{
-			unlink(ILIAS_ABSOLUTE_PATH."/htmldoc_test_file.pdf");
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
 
 	/**
 	* unzip file

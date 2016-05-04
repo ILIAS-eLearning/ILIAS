@@ -2089,52 +2089,6 @@ class ilUtil
 	}
 
 	/**
-	*	produce pdf out of html with htmldoc
-	*   @param  html    String  HTML-Data given to create pdf-file
-	*   @param  pdf_file    String  Filename to save pdf in
-	*   @static
-	*   
-	*/
-	public static function html2pdf($html, $pdf_file)
-	{
-		$html_file = str_replace(".pdf",".html",$pdf_file);
-
-		$fp = fopen( $html_file ,"wb");
-		fwrite($fp, $html);
-		fclose($fp);
-
-		ilUtil::htmlfile2pdf($html_file,$pdf_file);
-	}
-
-	/**
-	*	produce pdf out of html with htmldoc
-	*   @param  html    String  HTML-Data given to create pdf-file
-	*   @param  pdf_file    String  Filename to save pdf in
-	* @static
-	*/
-	public static function htmlfile2pdf($html_file, $pdf_file)
-	{
-		$htmldoc_path = PATH_TO_HTMLDOC;
-
-		$htmldoc = "--no-toc ";
-		$htmldoc .= "--no-jpeg ";
-		$htmldoc .= "--webpage ";
-		$htmldoc .= "--outfile " . ilUtil::escapeShellArg($pdf_file) . " ";
-		$htmldoc .= "--bodyfont Arial ";
-		$htmldoc .= "--charset iso-8859-15 ";
-		$htmldoc .= "--color ";
-		$htmldoc .= "--size A4  ";      // --landscape
-		$htmldoc .= "--format pdf ";
-		$htmldoc .= "--footer ... ";
-		$htmldoc .= "--header ... ";
-		$htmldoc .= "--left 60 ";
-		// $htmldoc .= "--right 200 ";
-		$htmldoc .= $html_file;
-		ilUtil::execQuoted($htmldoc_path, $htmldoc);
-
-	}
-
-	/**
 	*   deliver data for download via browser.
 	*   
 	* @static
