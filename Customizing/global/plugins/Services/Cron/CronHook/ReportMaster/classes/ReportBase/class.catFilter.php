@@ -1222,8 +1222,9 @@ class courseTopicsFilter {
 	public function __construct($id, $crs_ids_row) {
 		$this->id = $id;
 		$this->crs_ids_row = $crs_ids_row;
-		global $ilDB;
+		global $ilDB,$lng;
 		$this->gIldb = $ilDB;
+		$this->lng = $lng;
 	}
 
 	/**
@@ -1233,9 +1234,8 @@ class courseTopicsFilter {
 	 * 	@return	catReportFilter	$filter
 	 */
 	public function addToFilter($filter) {
-		global $lng;
 		$filter ->multiselect( $this->id
-								 , $lng->txt("gev_course_topics")
+								 , $this->lng->txt("gev_filter_topics")
 								 , $this->crs_ids_row
 								 , $this->getTopics()
 								 , array()
