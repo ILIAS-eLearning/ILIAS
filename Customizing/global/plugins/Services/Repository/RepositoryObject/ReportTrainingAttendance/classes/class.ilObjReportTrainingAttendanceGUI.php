@@ -142,19 +142,17 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 
 		if ($rec["participated"] == "Ja") {
-			$begin = new ilDate($rec["begin_date"], IL_CAL_DATE);
-			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
+			$begin = new ilDate($rec["part_begin_date"], IL_CAL_DATE);
+			$end = new ilDate($rec["part_end_date"], IL_CAL_DATE);
 			$rec['participated_date'] = ilDatePresentation::formatPeriod($begin, $end);
-			$rec['booked_for_date'] = "-";
-		}
-		else if ($rec["booked"] == "Ja") {
-			$begin = new ilDate($rec["begin_date"], IL_CAL_DATE);
-			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
+		} else {
 			$rec['participated_date'] = "-";
+		}
+		if ($rec["booked"] == "Ja") {
+			$begin = new ilDate($rec["book_begin_date"], IL_CAL_DATE);
+			$end = new ilDate($rec["book_end_date"], IL_CAL_DATE);
 			$rec['booked_for_date'] = ilDatePresentation::formatPeriod($begin, $end);
-		}
-		else {
-			$rec['participated_date'] = "-";
+		} else {
 			$rec['booked_for_date'] = "-";
 		}
 
@@ -167,19 +165,17 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 
 		if ($rec["participated"] == "Ja") {
-			$begin = new ilDate($rec["begin_date"], IL_CAL_DATE);
-			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
+			$begin = new ilDate($rec["part_begin_date"], IL_CAL_DATE);
+			$end = new ilDate($rec["part_end_date"], IL_CAL_DATE);
 			$rec['participated_date'] = ilDatePresentation::formatPeriod($begin, $end);
-			$rec['booked_for_date'] = "-";
-		}
-		else if ($rec["booked"] == "Ja") {
-			$begin = new ilDate($rec["begin_date"], IL_CAL_DATE);
-			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
+		} else {
 			$rec['participated_date'] = "-";
+		}
+		if ($rec["booked"] == "Ja") {
+			$begin = new ilDate($rec["book_begin_date"], IL_CAL_DATE);
+			$end = new ilDate($rec["book_end_date"], IL_CAL_DATE);
 			$rec['booked_for_date'] = ilDatePresentation::formatPeriod($begin, $end);
-		}
-		else {
-			$rec['participated_date'] = "-";
+		} else {
 			$rec['booked_for_date'] = "-";
 		}
 
