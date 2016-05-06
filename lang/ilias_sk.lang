@@ -2420,8 +2420,6 @@ certificate#:#certificate_ph_markshort#:#Známka užívate_a (skrátená verzia)
 certificate#:#certificate_ph_matriculation#:#Imatrikula_né _íslo užívate_a
 certificate#:#certificate_ph_maxpoints#:#Maximálne dosiahnute_ných bodov
 certificate#:#certificate_ph_no_sco#:#Ak sú vybrané položky na ur_enie celkového stavu pokroku v u_ení, tituly a miesta pre tieto položky by mohli by_ zobrazené v certifikáte.
-"certificate#:#certificate_ph_passed#:#prospel alebo ""neprospel"", v závislosti od výsledkov testu"
-"certificate#:#certificate_ph_passed_exercise#:#Prešiel alebo ""neprešiel"""
 certificate#:#certificate_ph_resultpercent#:#Dosiahnuté percenta užívate_a
 certificate#:#certificate_ph_resultpoints#:#Dosiahnuté body užívate_a
 certificate#:#certificate_ph_salutation#:#Oslovenie
@@ -4359,7 +4357,6 @@ common#:#message_content#:#Obsah správy
 common#:#message_no_delivered_files#:#Neboli Vám zaslané žiadne súbory!
 common#:#message_to#:#Správa pre:
 common#:#meta_data#:#Metadáta
-common#:#mgs_objects_linked_to_the_following_folders#:#Objekt(y) je/sú pripojené k nasledujúcim zložkám: %s
 common#:#migrate#:#Migrova_
 common#:#min_time#:#Minimálny _as
 common#:#minute#:#Minúta
@@ -4436,7 +4433,6 @@ common#:#msg_input_is_required#:#Tento vstup je vyžadovaný. Vložte prosím ho
 common#:#msg_invalid_filetype#:#Chybný typ súboru
 common#:#msg_is_last_role#:#Nasledujúcim používate_om ste odobral(a) ich posledné globálne role
 common#:#msg_last_role_for_registration#:#Aspo_ jedna úloha musí by_ pre nových používate_ov dosiahnute_ná v registra_nom formulári.
-common#:#msg_link_clipboard#:#Vybrané objekty uložené v schránke (Akcia: vytvori_ odkaz)
 common#:#msg_linked#:#Odkazy na vybrané objekty boli vytvorené.
 common#:#msg_may_not_contain#:#Tento objekt nemôže obsahova_ objekty typu:
 common#:#msg_min_one_active_role#:#Každý užívate_ musí ma_ aspo_ jednu aktívnu globálnu úlohu!
@@ -6307,7 +6303,6 @@ content#:#cont_glo_detach#:#Odpoji_ Glosár
 content#:#cont_glo_menu#:#Ponuka
 content#:#cont_glo_properties#:#Vlastnosti slovníka
 content#:#cont_glossaries#:#Glosáre
-content#:#cont_got_lock#:#Táto stránka bola zamknutá pre úpravy. Prosím, pustite stránku potom, _o ste urobili všetky vaše zmeny.
 content#:#cont_header#:#Hlavi_ky
 content#:#cont_Headline1#:#Nadpis 1
 content#:#cont_Headline2#:#Nadpis 2
@@ -9184,8 +9179,6 @@ forum#:#add_re_to_subject_info#:#Ak je aktivované, 'Re:' je pridané k predmetu
 forum#:#ascending_order#:#Najnovšie príspevky v spodnej _asti
 forum#:#close_topics#:#Zavrie_
 forum#:#cont_captcha_code#:#Kód
-forum#:#deactivate_current_and_childs#:#Deaktivova_ všetky príspevky
-forum#:#deactivate_post_txt#:#Skuto_ne chcete deaktivova_ aktuálny príspevok a celú jeho históriu?
 forum#:#descending_order#:#Posledné príspevky na vrchole
 forum#:#empty_subject#:#V odpovedi musí užívate_ zada_ nový názov.
 forum#:#enable_thread_ratings#:#Hodnotenie témy
@@ -9599,12 +9592,10 @@ ldap#:#ldap_global_role_info#:#Prosím vybra_ priradenie roly ILIAS novým použ
 ldap#:#ldap_group_attribute#:#Atribúty pre skupinu
 ldap#:#ldap_group_attribute_info#:#Atribúty skupinu pre vyh_adávanie.
 ldap#:#ldap_group_dn#:#Skupinové DN
-"ldap#:#ldap_group_dn_info#:#Ur_i_ predponu pre ""BaseDN"" pre vyh_adávanie skupín."
 ldap#:#ldap_group_dn_short#:#Skupinové DN:
 ldap#:#ldap_group_filter#:#LDAP Filter
 ldap#:#ldap_group_filter_info#:#Filter, ktorý bude pridaný k filtru vyh_adávania pre vyh_adávanie skupín: (&(groupattr=group)(memberattr=username)(groupfilter)).
 ldap#:#ldap_group_member#:#Atribúty skupín _lenov
-"ldap#:#ldap_group_member_info#:#Tieto atribúty skupín objektov, kde DN užívate_a môžu by_ nájdené. Zvo_te ""Hodnota atribútu je DN"" ke_ atribúty _lenov sú odlíšené v menách používate_ov."
 ldap#:#ldap_group_member_optional#:#Skupinové _lenstvo je volite_né
 ldap#:#ldap_group_member_short#:#Atribúty:
 ldap#:#ldap_group_membership#:#Skupinové _lenstvo
@@ -9613,7 +9604,6 @@ ldap#:#ldap_group_name_info#:#Názov skupiny užívate_ov je pre _lenov s úspe�
 ldap#:#ldap_group_optional_info#:#Ak je zapnuté, _lenstvo skupiny nie je vyžadované pre úspešnú autentizáciu. Vložte prosím filter používate_ov pre _lenov tejto skupiny: <br /> (& (userattr = username) <strong> (userfilter) </ strong>)
 ldap#:#ldap_group_restrictions#:#Obmedzenie skupiny
 ldap#:#ldap_group_scope#:#Rozsah vyh_adávania
-"ldap#:#ldap_group_scope_info#:#Rozsah skupinového vyh_adávania. Ak nie je zaistené zvo_te ""Sub"""
 ldap#:#ldap_group_search_base#:#Báza skupinového vyh_adávania
 ldap#:#ldap_group_user_filter#:#Užívate_ský filter
 ldap#:#ldap_ilias_role#:#ILIAS Rola
@@ -9627,7 +9617,6 @@ ldap#:#ldap_mapping_table#:#Priradenie atribútov LDAP k užívate_skému profil
 ldap#:#ldap_mapping_template#:#Šablóna pre ObjectClass:
 ldap#:#ldap_member_info#:#Atribút skupiny objektov, kde DN užívate_a je možné nájs_.
 ldap#:#ldap_memberisdn#:#Hodnota atribútu je DN
-"ldap#:#ldap_missing_bind_user#:#Zvolil ste ""Pripojený ako používate_"": Vložte prosím platné meno a heslo LDAP."
 ldap#:#ldap_missing_role_assignment#:#Prosím vyberte globálnu úlohu k priradeniu novému užívate_ovi.
 ldap#:#ldap_moment_sync#:#Typ synchronizácie
 ldap#:#ldap_new_role_assignment#:#Prida_ novú rolu -> Skupinové priradenie
@@ -15249,3 +15238,96 @@ wsp#:#wsp_type_scov#:#Certifikát: SCORM
 wsp#:#wsp_type_tstv#:#Overovanie: Test
 wsp#:#wsp_type_webr#:#Webový odkaz
 wsp#:#wsp_type_wfld#:#Prie_inok
+assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl. Participant Results)###06 05 2016 new variable
+assessment#:#tst_conflict_fbh_oblig_quest#:#The combination of using compulsory questions and locked answers is not allowed.###06 05 2016 new variable
+assessment#:#tst_conflict_reset_non_fbh#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers".###06 05 2016 new variable
+assessment#:#tst_conflict_reset_fbh_force#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers but Force Feedback".###06 05 2016 new variable
+assessment#:#tst_position_without_total#:#Question %s###06 05 2016 new variable
+certificate#:#certificate_ph_passed#:#‘passed’ or ‘failed’, depending on the test results###06 05 2016 new variable
+common#:#copy_of_suffix#:#- Copy###06 05 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s###06 05 2016 new variable
+common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s###06 05 2016 new variable
+common#:#msg_link_clipboard_p#:#Now, please select the desired location, where the selected objects should be linked to and click the button Paste.###06 05 2016 new variable
+common#:#msg_link_clipboard_s#:#Now, please select the desired location, where the selected object should be linked to and click the button Paste.###06 05 2016 new variable
+common#:#user_not_found_to_delete#:#A user could not be found to delete.###06 05 2016 new variable
+content#:#cont_LocalFile#:#Local File###06 05 2016 new variable
+ldap#:#ldap_group_dn_info#:#Gets prepended to ‘BaseDN’ when searching for groups.###06 05 2016 new variable
+ldap#:#ldap_group_member_info#:#The attribute of the group object where the user dn may be found. Choose ‘Attribute Value is DN’ if the member attribute is the distinguished name of the users.###06 05 2016 new variable
+ldap#:#ldap_group_scope_info#:#Scope for group searching. If unsure choose ‘Sub’###06 05 2016 new variable
+ldap#:#ldap_missing_bind_user#:#You have chosen ‘Bind as User’: Please enter a valid LDAP username and password.###06 05 2016 new variable
+certificate#:#certificate_ph_passed_exercise#:#‘Passed’ or ‘Failed’###06 05 2016 new variable
+dcl#:#dcl_allowed_file_types#:#Allowed File Types###06 05 2016 new variable
+dcl#:#dcl_locked_tooltip#:#Disable this field for users to edit. Does not include roles with the permission 'Edit Settings'###06 05 2016 new variable
+bibl#:#news_title_created#:#New bibliography list added###06 05 2016 new variable
+bibl#:#news_content_created#:#A new bibliography list has been added. You can view the entries by clicking the link to the item.###06 05 2016 new variable
+bibl#:#news_title_updated#:#Bibliography list updated###06 05 2016 new variable
+bibl#:#news_content_updated#:#The bibliography list has been modified. You can view the new entries by clicking the link to the item.###06 05 2016 new variable
+common#:#obj_orgu_description#:#Creating and editing organisational structure###06 05 2016 new variable
+common#:#il_orgu_superior#:#Superior###06 05 2016 new variable
+common#:#il_orgu_employee#:#Employee###06 05 2016 new variable
+common#:#view_learning_progress#:#View Learning Progress###06 05 2016 new variable
+common#:#view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits###06 05 2016 new variable
+orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.###06 05 2016 new variable
+content#:#cont_got_lock_until#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes by hitting %2###06 05 2016 new variable
+sysc#:#sysc_overview#:#Overview###06 05 2016 new variable
+sysc#:#sysc_groups#:#System Check Groups###06 05 2016 new variable
+sysc#:#sysc_grp_tree#:#Repository Tree###06 05 2016 new variable
+sysc#:#sysc_grp_tree_desc#:#Performs an analysis of the tree and prints all tree nodes along with analysis data.###06 05 2016 new variable
+sysc#:#sysc_completed_num#:#Fullfilled Tasks###06 05 2016 new variable
+sysc#:#sysc_failed_num#:#Not Fullfilled Tasks###06 05 2016 new variable
+sysc#:#sysc_task_overview#:#Tasks###06 05 2016 new variable
+sysc#:#sysc_action_validate#:#Validate###06 05 2016 new variable
+sysc#:#sysc_action_repair#:#Repair###06 05 2016 new variable
+sysc#:#sysc_task_tree_duplicates#:#Duplicate Entries in Repository Tree###06 05 2016 new variable
+sysc#:#sysc_task_tree_duplicates_desc#:#Search for duplicate entries in the repository tree structure.###06 05 2016 new variable
+sysc#:#sysc_task_tree_dump#:#List Tree###06 05 2016 new variable
+sysc#:#sysc_task_tree_dump_desc#:#Analyses and prints the repository tree structure###06 05 2016 new variable
+sysc#:#sysc_action_list_tree#:#Create Repository Tree Dump###06 05 2016 new variable
+sysc#:#sysc_action_show_tree#:#Show Repository Tree Dump###06 05 2016 new variable
+sysc#:#sysc_tree_duplicate_failures#:#Found duplicate entries in tree structure. Number of duoplicate entries###06 05 2016 new variable
+sysc#:#sysc_message_success#:#No errors found###06 05 2016 new variable
+sysc#:#sysc_tree_list_failures#:#A dump of the the repository tree has been created. Number of errors in tree structure:###06 05 2016 new variable
+sysc#:#sysc_status_na#:#Not Executed###06 05 2016 new variable
+sysc#:#sysc_status_running#:#Running###06 05 2016 new variable
+sysc#:#sysc_status_failed#:#Failed###06 05 2016 new variable
+sysc#:#sysc_status_completed#:#Completed###06 05 2016 new variable
+sysc#:#sysc_task_tree_missing#:#Missing Entries in Repository Tree###06 05 2016 new variable
+sysc#:#sysc_task_tree_missing_desc#:#Searches and repairs missing entries in the repository tree.###06 05 2016 new variable
+sysc#:#sysc_message_tree_missing_confirm#:#Do you really want to restore missing entries in the repository tree structure?###06 05 2016 new variable
+sysc#:#sysc_btn_tree_missing#:#Restore Missing###06 05 2016 new variable
+sysc#:#sysc_tree_missing_failures#:#Found missing entries in the tree structure. Number of missing entries:###06 05 2016 new variable
+sysc#:#sysc_cron_empty_trash#:#Delete Trash Bin###06 05 2016 new variable
+sysc#:#sysc_cron_empty_trash_desc#:#If enabled, the repository trash bin will be purged by given criteria (age, object type or maximum number of objects).###06 05 2016 new variable
+sysc#:#sysc_task_tree_missing_tree#:#Missing Entries in Repository Tree###06 05 2016 new variable
+sysc#:#sysc_task_tree_missing_tree_desc#:#Searches and repairs missing entries in the repository tree.###06 05 2016 new variable
+sysc#:#sysc_task_tree_missing_reference#:#Missing Object References###06 05 2016 new variable
+sysc#:#sysc_task_tree_missing_reference_desc#:#Searches and repairs missing object references in the repository tree.###06 05 2016 new variable
+sysc#:#sysc_task_structure#:#Tree structure###06 05 2016 new variable
+sysc#:#sysc_task_structure_desc#:#Analyzes and corrects the repository tree structure.###06 05 2016 new variable
+blog#:#blog_keywords_other#:#Other Keywords###06 05 2016 new variable
+blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.###06 05 2016 new variable
+forum#:#forums_thread_deleted#:#The selected thread including all postings have been deleted.###06 05 2016 new variable
+forum#:#forums_threads_deleted#:#The selected threads including all postings have been deleted.###06 05 2016 new variable
+user#:#feedhash#:#Newsfeedhash###06 05 2016 new variable
+wsp#:#wsp_shared_filter_reset_button#:#Reset Search###06 05 2016 new variable
+wsp#:#wsp_shared_filter_button#:#Search###06 05 2016 new variable
+exc#:#exc_direct_submit#:#Submit###06 05 2016 new variable
+export#:#no_file#:#No file###06 05 2016 new variable
+content#:#lm_no_download_files#:#There are currently no files for download available.###06 05 2016 new variable
+rbac#:#feed_copy#:#User can copy webfeed###06 05 2016 new variable
+crs#:#crs_unsubscribe_member_explanation#:#You receive this message because you unsubscribed from the course mentioned above.###06 05 2016 new variable
+content#:#cont_sqst#:#Survey Question (Assigned Material)###06 05 2016 new variable
+mmbr#:#info_refuse_sure#:#Are you sure you want to refuse the following user(s)?###06 05 2016 new variable
+administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings###06 05 2016 new variable
+administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.###06 05 2016 new variable
+content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.###06 05 2016 new variable
+style#:#sty_type_ha_iheada#:#Hor. Accordion Header (active)###06 05 2016 new variable
+style#:#sty_type_ha_ihcap#:#Hor. Accordion Caption###06 05 2016 new variable
+style#:#sty_type_va_iheada#:#Vert. Accordion Header (active)###06 05 2016 new variable
+style#:#sty_type_va_ihcap#:#Vert. Accordion Caption###06 05 2016 new variable
+style#:#sty_ha_iheada_class#:#Hor. Accordion Header (active)###06 05 2016 new variable
+style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption###06 05 2016 new variable
+style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)###06 05 2016 new variable
+style#:#sty_va_ihcap_class#:#Vert. Accordion Caption###06 05 2016 new variable
+exc#:#exc_delete_team#:#Delete Team###06 05 2016 new variable
+trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.###06 05 2016 new variable

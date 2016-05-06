@@ -15328,3 +15328,6 @@ style#:#sty_va_iheada_class#:#Függőleseg harmonika fejléc (aktív)
 style#:#sty_va_ihcap_class#:#Függőleseg harmonika felirat
 exc#:#exc_delete_team#:#Csapat törlése
 trac#:#trac_cron_info#:#Adatgyűjtéshez kapcsolja be az 'Objektumstatisztikák' ütemezett feladatot.
+assessment#:#tst_conflict_fbh_oblig_quest#:#The combination of using compulsory questions and locked answers is not allowed.###06 05 2016 new variable
+assessment#:#tst_conflict_reset_non_fbh#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers".###06 05 2016 new variable
+assessment#:#tst_conflict_reset_fbh_force#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers but Force Feedback".###06 05 2016 new variable
