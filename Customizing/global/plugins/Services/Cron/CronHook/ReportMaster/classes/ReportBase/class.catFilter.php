@@ -1204,3 +1204,106 @@ class recursiveOrguFilter {
 		$this->search_recursive = false;
 	}
 }
+
+/**
+ *	This class introduces a consistent course type filter.
+ *	To ensure performance this filter will work by an indirect priciple:
+ *	Instead of operating on topics in the report query it will constrain
+ *	the range of valid crs_ids after checking for relevant courses.
+ */
+class courseTopicsFilter {
+	protected $field;
+	protected $recursive;
+	protected $filter;
+	protected $crs_ids_row;
+	protected $id;
+	protected $gIldb;
+
+	public function __construct($id, $crs_ids_row) {
+		$this->id = $id;
+		$this->crs_ids_row = $crs_ids_row;
+		global $ilDB;
+		$this->gIldb = $ilDB;
+	}
+
+	/**
+	 *	Add the standatized courseTopicsFilter to a concrete report filter
+	 *	
+	 * 	@param	catReportFilter	$filter
+	 * 	@return	catReportFilter	$filter
+	 */
+	public function addToFilter($filter) {
+		global $lng;
+		$filter ->multiselect( $this->id
+								 , $lng->txt("gev_course_topics")
+								 , $this->crs_ids_row
+								 , $this->getTopics()
+								 , array()
+								 , ""
+								 , 300
+								 , 160
+								 , "text"
+								 , "asc"
+								 , true
+								 , true
+								 );
+		$this->filter = $filter;
+		return $filter;
+	}
+
+	protected function getTopics() {
+		require_once 'Services/GEV/Utils/classes/class.gevAMDUtils.php';
+		require_once 'Services/GEV/Utils/classes/class.gevSettings.php';
+		return	gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TOPIC);
+	}
+
+
+	/**
+	 *	Get condition statement for filter selection
+	 *
+	 * @return	string
+	 */
+	public function deliverQuery() {
+		$selection = $this->filter->get($this->id);
+		assert('is_array($selection)');
+		if(count($selection) > 0 ) {
+			return $this->gIldb->in($this->crs_ids_row, $this->relevantCourses($selection), false, 'integer');
+		}
+		return ' TRUE ';
+	}
+
+
+	/**
+	 *	Add a where-statement to query objcet, that corresponds to filter selection
+	 *	
+	 * 	@param	catReportQuery	$query
+	 * 	@return	catReportQuery	$query
+	 */
+	public function addToQuery($query) {
+		return $query->where($this->deliverQuery());
+	}
+
+	/**
+	 *	Get a list of crs ids, which have topics among $topics
+	 *	
+	 * 	@param	string[]	$topics
+	 * 	@return	int[]	$return
+	 */
+	protected function relevantCourses($topics) {
+		$query = 
+				"SELECT crs_id FROM hist_course hc ".
+				"	JOIN hist_topicset2topic hts2t ".
+				"		ON hc.topic_set = hts2t.topic_set_id".
+				"	JOIN hist_topics ht".
+				"		ON ht.topic_id = hts2t.topic_id".
+				" 	WHERE hc.hist_historic = 0".
+				"		AND ".$this->gIldb->in("ht.topic_title",$topics,false,"text").
+				"	GROUP BY crs_id";
+		$res = $this->gIldb->query($query);
+		$return = array();
+		while($rec = $this->gIldb->fetchAssoc($res)) {
+			$return[] = $rec["crs_id"];
+		}
+		return $return;
+	}
+}
