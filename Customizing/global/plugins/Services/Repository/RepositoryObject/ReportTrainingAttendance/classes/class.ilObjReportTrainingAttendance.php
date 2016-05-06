@@ -149,13 +149,8 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 		while($rec = $db->fetchAssoc($res)) {
 			$crs_ids[] = (int)$rec["crs_id"];
 		}
-		if($settings["choice"] === 0 ){
-			$settings["orgu_ids"] = $settings["ids"];
-		} elseif($settings["choice"] === 1) {
-			$settings["role_ids"] = $settings["ids"];
-		}
 
-		if (array_key_exists("orgu_ids", $settings)) {
+		if ((string)$settings["choice"] === "0") {
 			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 			$org_ref_ids = array_map(function($obj_id) {
@@ -166,8 +161,7 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 			}, gevOrgUnitUtils::getAllChildren($org_ref_ids));
 			$all_orgu_ref_ids = array_merge($org_ref_ids, $all_orgu_ref_ids);
 			$users = gevOrgUnitUtils::getAllPeopleIn($all_orgu_ref_ids);
-		}
-		else {
+		} elseif ((string)$settings["choice"] === "1") {
 			require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 			$ru = gevRoleUtils::getInstance();
 			$users = array();
@@ -181,28 +175,48 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 								  , $users
 								  );
 
+
 		$query = "SELECT usr.lastname, usr.firstname, usr.email, usr.login, ".
 				 " GROUP_CONCAT(DISTINCT usrorg.orgu_title SEPARATOR ', ') as orgu, ".
-				 " IF((NOT usrcrs.participation_status IS NULL) AND usrcrs.participation_status = 'teilgenommen','Ja','Nein') as participated, ".
-				 " usrcrs.begin_date as begin_date, usrcrs.end_date as end_date, ".
-				 " IF((NOT usrcrs.booking_status IS NULL) AND usrcrs.booking_status = 'gebucht','Ja','Nein') as booked".
+				 " IF((NOT part.crs_id IS NULL) ,'Ja','Nein') as participated, ".
+				 " part.begin_date as part_begin_date, part.end_date as part_end_date, ".
+				 " IF(NOT book.crs_id IS NULL,'Ja','Nein') as booked,".
+				 " book.begin_date as book_begin_date, book.end_date as book_end_date ".
 				 " FROM usr_data usr ".
 				 " JOIN hist_userorgu usrorg ON usrorg.usr_id = usr.usr_id AND usrorg.hist_historic = 0 AND usrorg.action >= 0".
-				 " LEFT JOIN hist_usercoursestatus usrcrs ON usr.usr_id = usrcrs.usr_id AND usrcrs.hist_historic = 0 AND ".$dt_query.
+				 " LEFT JOIN (".$this->relevantCourses(array("book" => 'gebucht',"part" => 'nicht gesetzt'),array_values($usr_ids),$crs_ids, $settings['start'], $settings['end'] ).")".
+				 " 	AS book ON usr.usr_id = book.usr_id ".
+				 " LEFT JOIN (".$this->relevantCourses(array("book" => 'gebucht',"part" => 'teilgenommen'),array_values($usr_ids),$crs_ids, $settings['start'], $settings['end'] ).")".
+				 " 	AS part ON usr.usr_id = part.usr_id ".
 				 " WHERE ".$db->in("usr.usr_id", array_values($usr_ids), false, "integer").
-				 "		AND ".$db->in("usrcrs.crs_id", $crs_ids, false, "integer").
-				 " GROUP BY usr.usr_id ".
+				 " GROUP BY usr.usr_id".
 				 " ORDER BY usr.lastname, usr.firstname"
-				 ;
-
+				;
 		$res = $this->gIldb->query($query);
 		$data = array();
-		
 		while($rec = $this->gIldb->fetchAssoc($res)) {
 			$data[] = call_user_func($callback,$rec);
 		}
-
 		return $data;
+	}
+
+	protected function relevantCourses(array $stati, array $usr_ids, array $crs_ids, DateTime $start, DateTime $end) {
+		$relevant =
+			"SELECT base.usr_id,base.crs_id,base.begin_date,base.end_date FROM hist_usercoursestatus base ".
+			"	LEFT JOIN hist_usercoursestatus ref ".
+			"		ON base.usr_id = ref.usr_id AND base.begin_date < ref.begin_date".
+			"			AND ref.hist_historic = 0 ".
+			"			AND ".$this->gIldb->in("ref.usr_id", $usr_ids, false, "integer").
+			"			AND ".$this->gIldb->in("ref.crs_id", $crs_ids, false, "integer").
+			"			AND ref.booking_status = ".$this->gIldb->quote($stati["book"])." AND ref.participation_status = ".$this->gIldb->quote($stati["part"]).
+			"			AND ( ref.begin_date < ".$this->gIldb->quote($end->format('Y-m-d'),'text')." AND (ref.end_date > ".$this->gIldb->quote($start->format('Y-m-d'),"text")." OR ref.end_date = '0000-00-00') )".
+			"	WHERE ref.hist_version IS NULL AND base.hist_historic = 0 ".
+			"		AND ".$this->gIldb->in("base.usr_id", $usr_ids, false, "integer").
+			"		AND ".$this->gIldb->in("base.crs_id", $crs_ids, false, "integer").
+			"		AND base.booking_status = ".$this->gIldb->quote($stati["book"])." AND base.participation_status = ".$this->gIldb->quote($stati["part"]).
+			"		AND ( base.begin_date < ".$this->gIldb->quote($end->format('Y-m-d'),"text")." AND (base.end_date > ".$this->gIldb->quote($start->format('Y-m-d'),"text")." OR base.end_date = '0000-00-00') )";
+
+		return $relevant;
 	}
 
 	protected function buildTable($table) {
