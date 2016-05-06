@@ -184,9 +184,9 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 				 " book.begin_date as book_begin_date, book.end_date as book_end_date ".
 				 " FROM usr_data usr ".
 				 " JOIN hist_userorgu usrorg ON usrorg.usr_id = usr.usr_id AND usrorg.hist_historic = 0 AND usrorg.action >= 0".
-				 " LEFT JOIN (".$this->relevantCourses(array("book" => 'gebucht',"part" => 'nicht gesetzt'),array_values($usr_ids),$crs_ids ).")".
+				 " LEFT JOIN (".$this->relevantCourses(array("book" => 'gebucht',"part" => 'nicht gesetzt'),array_values($usr_ids),$crs_ids, $settings['start'], $settings['end'] ).")".
 				 " 	AS book ON usr.usr_id = book.usr_id ".
-				 " LEFT JOIN (".$this->relevantCourses(array("book" => 'gebucht',"part" => 'teilgenommen'),array_values($usr_ids),$crs_ids ).")".
+				 " LEFT JOIN (".$this->relevantCourses(array("book" => 'gebucht',"part" => 'teilgenommen'),array_values($usr_ids),$crs_ids, $settings['start'], $settings['end'] ).")".
 				 " 	AS part ON usr.usr_id = part.usr_id ".
 				 " WHERE ".$db->in("usr.usr_id", array_values($usr_ids), false, "integer").
 				 " GROUP BY usr.usr_id".
@@ -200,7 +200,7 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 		return $data;
 	}
 
-	protected function relevantCourses(array $stati, array $usr_ids, array $crs_ids) {
+	protected function relevantCourses(array $stati, array $usr_ids, array $crs_ids, DateTime $start, DateTime $end) {
 		$relevant =
 			"SELECT base.usr_id,base.crs_id,base.begin_date,base.end_date FROM hist_usercoursestatus base ".
 			"	LEFT JOIN hist_usercoursestatus ref ".
@@ -209,15 +209,13 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 			"			AND ".$this->gIldb->in("ref.usr_id", $usr_ids, false, "integer").
 			"			AND ".$this->gIldb->in("ref.crs_id", $crs_ids, false, "integer").
 			"			AND ref.booking_status = ".$this->gIldb->quote($stati["book"])." AND ref.participation_status = ".$this->gIldb->quote($stati["part"]).
+			"			AND ( ref.begin_date < ".$end->format('Y-m-d')." AND (ref.end_date > ".$start->format('Y-m-d')." OR ref.end_date = '0000-00-00') )".
 			"	WHERE ref.hist_version IS NULL AND base.hist_historic = 0 ".
 			"		AND ".$this->gIldb->in("base.usr_id", $usr_ids, false, "integer").
 			"		AND ".$this->gIldb->in("base.crs_id", $crs_ids, false, "integer").
-			"		AND base.booking_status = ".$this->gIldb->quote($stati["book"])." AND base.participation_status = ".$this->gIldb->quote($stati["part"]);
+			"		AND base.booking_status = ".$this->gIldb->quote($stati["book"])." AND base.participation_status = ".$this->gIldb->quote($stati["part"]).
+			"		AND ( base.begin_date < ".$end->format('Y-m-d')." AND (base.end_date > ".$start->format('Y-m-d')." OR base.end_date = '0000-00-00') )";
 		return $relevant;
-	}
-
-	protected function dtQuery(DateTime $start, DateTime $end, $table) {
-		return "( ".$table.".begin_date < ".$end->format('Y-m-d')." AND ".$table.".end_date > ".$start->format('Y-m-d')." )";
 	}
 
 	protected function buildTable($table) {
