@@ -73,6 +73,8 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('trac');
+		$this->lng->loadLanguageModule('rbac');
+		
 		$this->ctrl = $ilCtrl;
 
 		$this->type = $a_type;
