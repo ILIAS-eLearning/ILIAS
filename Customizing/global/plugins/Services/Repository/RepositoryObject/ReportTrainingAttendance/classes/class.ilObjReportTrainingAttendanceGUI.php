@@ -167,14 +167,14 @@ class ilObjReportTrainingAttendanceGUI extends ilObjReportBaseGUI {
 
 		if ($rec["participated"] == "Ja") {
 			$begin = new ilDate($rec["part_begin_date"], IL_CAL_DATE);
-			$end = new ilDate($rec["part_end_date"], IL_CAL_DATE);
+			$end = $rec["part_end_date"] !== '0000-00-00' ? new ilDate($rec["part_end_date"], IL_CAL_DATE) : $begin;
 			$rec['participated_date'] = ilDatePresentation::formatPeriod($begin, $end);
 		} else {
 			$rec['participated_date'] = "-";
 		}
 		if ($rec["booked"] == "Ja") {
 			$begin = new ilDate($rec["book_begin_date"], IL_CAL_DATE);
-			$end = new ilDate($rec["book_end_date"], IL_CAL_DATE);
+			$end = new ilDate($rec["book_end_date"], IL_CAL_DATE) !== '0000-00-00' ? new ilDate($rec["book_end_date"], IL_CAL_DATE) : $begin;
 			$rec['booked_for_date'] = ilDatePresentation::formatPeriod($begin, $end);
 		} else {
 			$rec['booked_for_date'] = "-";
