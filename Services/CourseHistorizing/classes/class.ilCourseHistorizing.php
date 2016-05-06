@@ -6,8 +6,8 @@ require_once './Services/HistorizingStorage/classes/class.ilHistorizingStorage.p
 /**
  * Class ilCourseHistorizing
  */
-class ilCourseHistorizing extends ilHistorizingStorage
-{
+class ilCourseHistorizing extends ilHistorizingStorage {
+
 	/**
 	 * Returns the defined name of the table to be used for historizing.
 	 *
@@ -18,8 +18,7 @@ class ilCourseHistorizing extends ilHistorizingStorage
 	 *
 	 * @return string Name of the table which contains the historized records.
 	 */
-	protected function getHistorizedTableName()
-	{
+	protected function getHistorizedTableName() {
 		return 'hist_course';
 	}
 
@@ -34,8 +33,7 @@ class ilCourseHistorizing extends ilHistorizingStorage
 	 *
 	 * @return string Name of the column which is used to track the records version.
 	 */
-	protected function getVersionColumnName()
-	{
+	protected function getVersionColumnName() {
 		return 'hist_version';
 	}
 
@@ -50,8 +48,7 @@ class ilCourseHistorizing extends ilHistorizingStorage
 	 *
 	 * @return string Name of the column which holds the current records historic state.
 	 */
-	protected function getHistoricStateColumnName()
-	{
+	protected function getHistoricStateColumnName() {
 		return 'hist_historic';
 	}
 
@@ -66,8 +63,7 @@ class ilCourseHistorizing extends ilHistorizingStorage
 	 *
 	 * @return string Name of the column which holds the current records creator.
 	 */
-	protected function getCreatorColumnName()
-	{
+	protected function getCreatorColumnName() {
 		return 'creator_user_id';
 	}
 
@@ -82,8 +78,7 @@ class ilCourseHistorizing extends ilHistorizingStorage
 	 *
 	 * @return string Name of the column which holds the current records creator.
 	 */
-	protected function getCreatedColumnName()
-	{
+	protected function getCreatedColumnName() {
 		return 'created_ts';
 	}
 
@@ -105,8 +100,7 @@ class ilCourseHistorizing extends ilHistorizingStorage
 	 *
 	 * @return Array Array with field definitions in the format "fieldname" => "datatype".
 	 */
-	protected function getContentColumnsDefinition()
-	{
+	protected function getContentColumnsDefinition() {
 		$definition =  array(
 			'custom_id'				=> 'text',
 			'title'					=> 'text',
@@ -157,8 +151,7 @@ class ilCourseHistorizing extends ilHistorizingStorage
 	 *
 	 * @return string Name of the column which holds the current records database id.
 	 */
-	protected function getRecordIdColumn()
-	{
+	protected function getRecordIdColumn() {
 		return 'row_id';
 	}
 
@@ -175,8 +168,7 @@ class ilCourseHistorizing extends ilHistorizingStorage
 	 *
 	 * @return array Name of the column which holds the current records case id.
 	 */
-	protected function getCaseIdColumns()
-	{
+	protected function getCaseIdColumns() {
 		return array(
 			'crs_id' => 'integer'
 		);
@@ -205,51 +197,43 @@ class ilCourseHistorizing extends ilHistorizingStorage
 		$a_record_creator = null,
 		$a_creation_timestamp = null,
 		$mass_modification_allowed = false
-	)
-	{
+	) {
 		// Deal with the topic-set first and update $a_data accordingly if necessary.
 		/** @var ilDB $ilDB */
 		global $ilDB;
-		try 
-		{
+		try {
 			$current_record 		= parent::getCurrentRecordByCase( $a_case_id );
-		} catch (Exception $ex)
-		{
+		} catch (Exception $ex)	{
 			$current_record = array();
 		}
 		$current_topic_set_id 	= $current_record['topic_set'] != null ? $current_record['topic_set'] : 0;
 
-		$query = 'SELECT * 
-		FROM hist_topicset2topic 
-		JOIN hist_topics ON hist_topicset2topic.topic_id = hist_topics.topic_id
-		WHERE hist_topicset2topic.topic_set_id = ' . $ilDB->quote( $current_topic_set_id, 'integer' );
+		$query =
+			'SELECT topic_title FROM hist_topicset2topic '.
+			'		JOIN hist_topics ON hist_topicset2topic.topic_id = hist_topics.topic_id'.
+			'		WHERE hist_topicset2topic.topic_set_id = ' . $ilDB->quote( $current_topic_set_id, 'integer' );
 
 		$current_topics 	= array();
-		$current_topicset 	= array();
 		$result 			= $ilDB->query( $query );
 
 		/** @noinspection PhpAssignmentInConditionInspection */
-		while ( $row = $ilDB->fetchAssoc( $result ) )
-		{
+		while ( $row = $ilDB->fetchAssoc( $result ) ) {
 			$current_topics[] 		= $row['topic_title'];
-			$current_topicset[] 	= $row;
 		}
-
 		asort($current_topics);
 		$new_topics = $a_data['topic_set'];
 		asort($new_topics);
 
-		if ($current_topics == $new_topics)
-		{
+		if(count($new_topics) === 0) {
+			$a_data['topic_set'] = -1;
+		} elseif ($current_topics == $new_topics) {
 			$a_data['topic_set'] = $current_record['topic_set'];
 		}
-		else
-		{
+		else {
 			$next_id = $ilDB->nextId( 'hist_topicset2topic' );
 			$a_data['topic_set'] = $next_id;
 			self::storeNewTopicSet($a_data['topic_set'], $new_topics);
 		}
-
 		parent::updateHistorizedData($a_case_id, $a_data, $a_record_creator, $a_creation_timestamp, $mass_modification_allowed);
 	}
 
@@ -261,8 +245,7 @@ class ilCourseHistorizing extends ilHistorizingStorage
 	 * 
 	 * @return void
 	 */
-	protected static function storeNewTopicSet( $topic_set_id, $new_topics )
-	{
+	protected static function storeNewTopicSet( $topic_set_id, $new_topics ) {
 		$existing_topics = self::getExistingTopicsFromDatabase();
 		$topic_ids = self::getTopicIdsFromTopicList( $new_topics, $existing_topics );
 		self::writeNewTopicSet( $topic_set_id, $topic_ids );
@@ -274,8 +257,7 @@ class ilCourseHistorizing extends ilHistorizingStorage
 	 * 
 	 * @return string[]
 	 */
-	protected static function getExistingTopicsFromDatabase()
-	{
+	protected static function getExistingTopicsFromDatabase() {
 		/** @var ilDB $ilDB */
 		global $ilDB;
 
@@ -286,7 +268,7 @@ class ilCourseHistorizing extends ilHistorizingStorage
 		/** @noinspection PhpAssignmentInConditionInspection */
 		while ( $row = $ilDB->fetchAssoc( $result ) )
 		{
-			$existing_topics[] = $row;
+			$existing_topics[$row['topic_id']] = $row['topic_title'];
 		}
 		return $existing_topics;
 	}
@@ -298,8 +280,7 @@ class ilCourseHistorizing extends ilHistorizingStorage
 	 *
 	 * @return integer
 	 */
-	protected static function writeTopicToDatabase( $new_topic )
-	{
+	protected static function writeTopicToDatabase( $new_topic ) {
 		/** @var ilDB $ilDB */
 		global $ilDB;
 
@@ -320,11 +301,8 @@ class ilCourseHistorizing extends ilHistorizingStorage
 	 *
 	 * @param integer	$topic_set_id	New topic set id.
 	 * @param integer[]	$topic_ids		List of topic-ids.
-	 * 
-	 * @return void
 	 */
-	protected static function writeNewTopicSet( $topic_set_id, $topic_ids)
-	{
+	protected static function writeNewTopicSet( $topic_set_id, $topic_ids) {
 		/** @var ilDB $ilDB */
 		global $ilDB;
 
@@ -339,7 +317,6 @@ class ilCourseHistorizing extends ilHistorizingStorage
 				)
 			);
 		}
-		return;
 	}
 
 	/**
@@ -350,19 +327,15 @@ class ilCourseHistorizing extends ilHistorizingStorage
 	 *
 	 * @return integer[]
 	 */
-	protected static function getTopicIdsFromTopicList( $new_topics, $existing_topics)
-	{
+	protected static function getTopicIdsFromTopicList( $new_topics, $existing_topics) {
 		$topic_ids = array();
+		foreach ( $new_topics as  $new_topic ) {
 
-		foreach ( $new_topics as $key => $new_topic )
-		{
-			$key = array_search( $new_topic, $existing_topics );
-			if ( $key )
-			{
-				$topic_ids[] = $key;
+			$exists = array_search( $new_topic, $existing_topics );
+			if ( $exists ) {
+				$topic_ids[] = $exists;
 			}
-			else
-			{
+			else {
 				$id          = self::writeTopicToDatabase( $new_topic );
 				$topic_ids[] = $id;
 			}
