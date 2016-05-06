@@ -106,19 +106,29 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 				)->map( function($choice,$id_s) {return array($choice,$id_s);}
 				,$tf->tuple($tf->int(),$tf->lst($tf->int())))
 			)->map(function($tpl_obj_id,$date_period_predicate,$start, $end, $choice, $id_s) {
+						$orgu_ids = array();
+						$role_ids = array();
+						if((int)$choice === 0) {
+							$orgu_ids = $id_s;
+						} else if((int)$choice === 1) {
+							$role_ids = $id_s;
+						}
+
 						return array( "template_obj_id" => $tpl_obj_id
 							, "period_pred" => $date_period_predicate
 							, "start" => $start
 							, "end" => $end
 							, "choice" => $choice
-							, "ids" => $id_s
+							, "orgu_ids" => $orgu_ids
+							, "role_ids" => $role_ids
 							);}
 						, $tf->dict(array("template_obj_id" => $tf->int()
 							,"period_pred" => $tf->cls("CaT\Filter\Predicates\Predicate")
 							,"start" => $tf->cls("DateTime")
 							,"end" => $tf->cls("DateTime")
 							,"choice" => $tf->int()
-							,"ids"=> $tf->lst($tf->int()))));
+							, "orgu_ids" => $tf->lst($tf->int())
+							, "role_ids"=> $tf->lst($tf->int()))));
 
 	}
 
