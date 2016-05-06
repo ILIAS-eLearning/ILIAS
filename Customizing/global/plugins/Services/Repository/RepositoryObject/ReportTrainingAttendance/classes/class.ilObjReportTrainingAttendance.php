@@ -149,13 +149,8 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 		while($rec = $db->fetchAssoc($res)) {
 			$crs_ids[] = (int)$rec["crs_id"];
 		}
-		if($settings["choice"] === 0 ){
-			$settings["orgu_ids"] = $settings["ids"];
-		} elseif($settings["choice"] === 1) {
-			$settings["role_ids"] = $settings["ids"];
-		}
 
-		if (array_key_exists("orgu_ids", $settings)) {
+		if ((string)$settings["choice"] === "0") {
 			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 			$org_ref_ids = array_map(function($obj_id) {
@@ -166,8 +161,7 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 			}, gevOrgUnitUtils::getAllChildren($org_ref_ids));
 			$all_orgu_ref_ids = array_merge($org_ref_ids, $all_orgu_ref_ids);
 			$users = gevOrgUnitUtils::getAllPeopleIn($all_orgu_ref_ids);
-		}
-		else {
+		} elseif ((string)$settings["choice"] === "1") {
 			require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 			$ru = gevRoleUtils::getInstance();
 			$users = array();
