@@ -209,12 +209,13 @@ class ilObjReportTrainingAttendance extends ilObjReportBase {
 			"			AND ".$this->gIldb->in("ref.usr_id", $usr_ids, false, "integer").
 			"			AND ".$this->gIldb->in("ref.crs_id", $crs_ids, false, "integer").
 			"			AND ref.booking_status = ".$this->gIldb->quote($stati["book"])." AND ref.participation_status = ".$this->gIldb->quote($stati["part"]).
-			"			AND ( ref.begin_date < ".$end->format('Y-m-d')." AND (ref.end_date > ".$start->format('Y-m-d')." OR ref.end_date = '0000-00-00') )".
+			"			AND ( ref.begin_date < ".$this->gIldb->quote($end->format('Y-m-d'),'text')." AND (ref.end_date > ".$this->gIldb->quote($start->format('Y-m-d'),"text")." OR ref.end_date = '0000-00-00') )".
 			"	WHERE ref.hist_version IS NULL AND base.hist_historic = 0 ".
 			"		AND ".$this->gIldb->in("base.usr_id", $usr_ids, false, "integer").
 			"		AND ".$this->gIldb->in("base.crs_id", $crs_ids, false, "integer").
 			"		AND base.booking_status = ".$this->gIldb->quote($stati["book"])." AND base.participation_status = ".$this->gIldb->quote($stati["part"]).
-			"		AND ( base.begin_date < ".$end->format('Y-m-d')." AND (base.end_date > ".$start->format('Y-m-d')." OR base.end_date = '0000-00-00') )";
+			"		AND ( base.begin_date < ".$this->gIldb->quote($end->format('Y-m-d'),"text")." AND (base.end_date > ".$this->gIldb->quote($start->format('Y-m-d'),"text")." OR base.end_date = '0000-00-00') )";
+
 		return $relevant;
 	}
 
