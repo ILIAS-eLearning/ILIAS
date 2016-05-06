@@ -94,6 +94,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 				->select_raw($query_term["regular"]);
 		}
 		$this->orgu_filter->addToQuery($query);
+		$this->crs_topics_filter->addToQuery($query);
 		$query	->from("hist_userorgu orgu")
 				->join('hist_user usr')
 					->on('usr.user_id = orgu.usr_id')
@@ -165,7 +166,9 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 				array_unique(array_map(function($ref_id) {return ilObject::_lookupObjectId($ref_id);},
 										$this->user_utils->getOrgUnitsWhereUserCanViewEduBios())));
 		}
+		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','usrcrs.crs_id');
 		$this->orgu_filter->addToFilter($filter);
+		$this->crs_topics_filter->addToFilter($filter);
 		$filter	->dateperiod( "period"
 							, $this->plugin->txt("period")
 							, $this->plugin->txt("until")
