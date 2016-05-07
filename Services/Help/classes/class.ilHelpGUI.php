@@ -376,7 +376,7 @@ class ilHelpGUI
 
 		$module_id = (int) $ilSetting->get("help_module");
 
-		if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de")
+		if ((OH_REF_ID > 0 || $module_id > 0) && ($ilUser->getLanguage() == "de" || $ilUser->getLanguage() == "hu"))
 		{
 			if (ilSession::get("help_pg") > 0)
 			{
