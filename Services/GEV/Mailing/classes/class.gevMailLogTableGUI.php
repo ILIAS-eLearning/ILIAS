@@ -60,7 +60,7 @@ class gevMailLogTableGUI extends ilTable2GUI {
 		
 		for ($i = 0; $i < $count; ++$i) {
 			$this->ctrl->setParameter($this->parent_gui, "mail_id", $data[$i]["id"]);
-			$this->ctrl->setParameter($this->parent_gui, "obj_id", $this->mail_log->getObjectId());
+			$this->ctrl->setParameter($this->parent_gui, "crs_id", $this->mail_log->getObjectId());
 
 			$data[$i]["_view_action"] = $this->ctrl->getLinkTarget($this->parent_gui, "showLoggedMail");
 
@@ -82,7 +82,7 @@ class gevMailLogTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("RECIPIENT", $a_set["to"]);
 		$this->tpl->setVariable("VIEW_LINK", $a_set["_view_action"]);
 		$this->tpl->setVariable("VIEW_TEXT", $this->lng->txt("view"));
-		$this->tpl->setVariable("SEND_LINK", $a_set["_view_action"]);
+		$this->tpl->setVariable("SEND_LINK", $a_set["_send_action"]);
 		$this->tpl->setVariable("SEND_TEXT", $this->lng->txt("gev_resend_mail"));
 	}
 }
