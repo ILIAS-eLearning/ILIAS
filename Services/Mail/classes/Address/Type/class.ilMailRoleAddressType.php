@@ -22,12 +22,12 @@ class ilMailRoleAddressType extends ilMailAddressType
 	protected static $may_send_to_global_roles = array();
 
 	/**
-	 * @param stdClass $a_address
+	 * @param ilMailAddress $a_address
 	 * @return array
 	 */
-	protected static function getRoleIdsByAddress(stdClass $a_address)
+	protected static function getRoleIdsByAddress(ilMailAddress $a_address)
 	{
-		$address = $a_address->mailbox . '@' . $a_address->host;
+		$address = $a_address->getMailbox() . '@' . $a_address->getHost();
 
 		if(!isset(self::$role_ids_by_address[$address]))
 		{
@@ -79,7 +79,7 @@ class ilMailRoleAddressType extends ilMailAddressType
 			{
 				if($rbacreview->isGlobalRole($role_id))
 				{
-					$this->errors[] = array('mail_to_global_roles_not_allowed', $this->address->mailbox);
+					$this->errors[] = array('mail_to_global_roles_not_allowed', $this->address->getMailbox());
 					return false;
 				}
 			}
@@ -87,12 +87,12 @@ class ilMailRoleAddressType extends ilMailAddressType
 
 		if(count($role_ids) == 0)
 		{
-			$this->errors[] = array('mail_recipient_not_found', $this->address->mailbox);
+			$this->errors[] = array('mail_recipient_not_found', $this->address->getMailbox());
 			return false;
 		}
 		else if(count($role_ids) > 1)
 		{
-			$this->errors[] = array('mail_multiple_role_recipients_found', $this->address->mailbox, implode(',', $role_ids));
+			$this->errors[] = array('mail_multiple_role_recipients_found', $this->address->getMailbox(), implode(',', $role_ids));
 			return false;
 		}
 

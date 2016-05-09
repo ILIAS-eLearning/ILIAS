@@ -15,7 +15,7 @@ class ilMailGroupAddressType extends ilMailAddressType
 	 */
 	public function isValid($a_sender_id)
 	{
-		return ilUtil::groupNameExists(substr($this->address->mailbox, 1));
+		return ilUtil::groupNameExists(substr($this->address->getMailbox(), 1));
 	}
 
 	/**
@@ -26,7 +26,7 @@ class ilMailGroupAddressType extends ilMailAddressType
 		$usr_ids = array();
 
 		$grp_object = null;
-		foreach(ilObject::_getAllReferences(ilObjGroup::_lookupIdByTitle(substr($this->address->mailbox, 1))) as $ref_id)
+		foreach(ilObject::_getAllReferences(ilObjGroup::_lookupIdByTitle(substr($this->address->getMailbox(), 1))) as $ref_id)
 		{
 			$grp_object = ilObjectFactory::getInstanceByRefId($ref_id);
 			break;

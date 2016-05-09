@@ -8,7 +8,7 @@
 abstract class ilMailAddressType
 {
 	/**
-	 * @var stdClass
+	 * @var ilMailAddress
 	 */
 	protected $address;
 
@@ -19,9 +19,9 @@ abstract class ilMailAddressType
 
 	/**
 	 * ilMailAddressType constructor.
-	 * @param stdClass $a_address
+	 * @param ilMailAddress $a_address
 	 */
-	public function __construct(stdClass $a_address)
+	public function __construct(ilMailAddress $a_address)
 	{
 		$this->address = $a_address;
 		$this->init();

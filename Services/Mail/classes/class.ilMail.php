@@ -179,23 +179,23 @@ class ilMail
 		$recipients = $this->explodeRecipients($a_existing_recipients);
 		foreach($recipients as $rcp)
 		{
-			if(substr($rcp->mailbox, 0, 1) != '#')
+			if(substr($rcp->getMailbox(), 0, 1) != '#')
 			{
-				if(trim($rcp->mailbox) == trim($a_recipient) || trim($rcp->mailbox . '@' . $rcp->host) == trim($a_recipient))
+				if(trim($rcp->getMailbox()) == trim($a_recipient) || trim($rcp->getMailbox() . '@' . $rcp->getHost()) == trim($a_recipient))
 				{
 					return true;
 				}
 			}
-			else if(substr($rcp->mailbox, 0, 7) == '#il_ml_')
+			else if(substr($rcp->getMailbox(), 0, 7) == '#il_ml_')
 			{
-				if(trim($rcp->mailbox . '@' . $rcp->host) == trim($a_recipient))
+				if(trim($rcp->getMailbox() . '@' . $rcp->getHost()) == trim($a_recipient))
 				{
 					return true;
 				}
 			}
 			else
 			{
-				if(trim($rcp->mailbox . '@' . $rcp->host) == trim($a_recipient))
+				if(trim($rcp->getMailbox() . '@' . $rcp->getHost()) == trim($a_recipient))
 				{
 					return true;
 				}
@@ -925,7 +925,7 @@ class ilMail
 
 	/**
 	 * @param  string $a_recipients recipients seperated by ','
-	 * @return array
+	 * @return int[]
 	 */
 	protected function getUserIds($a_recipients)
 	{
@@ -1389,10 +1389,9 @@ class ilMail
 
 	/**
 	 * Explode recipient string, allowed seperators are ',' ';' ' '
-	 * Returns an array with recipient stdClass objects
+	 * Returns an array with recipient ilMailAddress objects
 	 * @param string $a_recipients
-	 * @return array with recipient objects. array[i]->mailbox gets the mailbox
-	 * of the recipient. array[i]->host gets the host of the recipients.
+	 * @return ilMailAddress[] An array with objects of type ilMailAddress
 	 */
 	protected function explodeRecipients($a_recipients)
 	{
@@ -1404,31 +1403,34 @@ class ilMail
 			require_once 'Services/Mail/classes/Address/Parser/RFC822.php';
 			$parser = new Mail_RFC822();
 			$recipients = $parser->parseAddressList($a_recipients, self::ILIAS_HOST, false, true);
+			$recipients = array_filter($recipients, function($address) {
+				return strlen($address->mailbox) > 0;
+			});
+			require_once 'Services/Mail/classes/Address/class.ilMailAddress.php';
+			$recipients = array_map(function($address) {
+				return new ilMailAddress($address->mailbox, $address->host);
+			}, $recipients);
 		}
-
-		$recipients = array_filter($recipients, function($address) {
-			return strlen($address->mailbox) > 0;
-		});
 
 		return $recipients;
 	}
 
 	/**
-	 * @param string $rcp
+	 * @param string $a_recipients
 	 * @param bool   $a_only_email
 	 * @return int
 	 */
-	protected function getCountRecipient($rcp, $a_only_email = true)
+	protected function getCountRecipient($a_recipients, $a_only_email = true)
 	{
 		$counter = 0;
 
-		$tmp_rcp = $this->explodeRecipients($rcp);
-		foreach($tmp_rcp as $to)
+		$recipients = $this->explodeRecipients($a_recipients);
+		foreach($recipients as $recipient)
 		{
 			if($a_only_email)
 			{
 				// Fixed mantis bug #5875
-				if(ilObjUser::_lookupId($to->mailbox . '@' . $to->host))
+				if(ilObjUser::_lookupId($recipient->getMailbox() . '@' . $recipient->getHost()))
 				{
 					continue;
 				}
@@ -1436,7 +1438,7 @@ class ilMail
 				// Addresses which aren't on the self::ILIAS_HOST host, and
 				// which have a mailbox which does not start with '#',
 				// are external e-mail addresses
-				if($to->host != self::ILIAS_HOST && substr($to->mailbox, 0, 1) != '#')
+				if($recipient->getHost() != self::ILIAS_HOST && substr($recipient->getMailbox(), 0, 1) != '#')
 				{
 					++$counter;
 				}
@@ -1466,25 +1468,25 @@ class ilMail
 	}
 
 	/**
-	 * @param string $a_rcp
+	 * @param string $a_recipients
 	 * @return string
 	 */
-	protected function getEmailRecipients($a_rcp)
+	protected function getEmailRecipients($a_recipients)
 	{
 		$rcp = array();
 
-		$tmp_rcp = $this->explodeRecipients($a_rcp);
-		foreach($tmp_rcp as $to)
+		$recipients = $this->explodeRecipients($a_recipients);
+		foreach($recipients as $recipient)
 		{
-			if(substr($to->mailbox, 0, 1) != '#' && $to->host != self::ILIAS_HOST)
+			if(substr($recipient->getMailbox(), 0, 1) != '#' && $recipient->getHost() != self::ILIAS_HOST)
 			{
 				// Fixed mantis bug #5875
-				if(ilObjUser::_lookupId($to->mailbox . '@' . $to->host))
+				if(ilObjUser::_lookupId($recipient->getMailbox() . '@' . $recipient->getHost()))
 				{
 					continue;
 				}
 
-				$rcp[] = $to->mailbox . '@' . $to->host;
+				$rcp[] = $recipient->getMailbox() . '@' . $recipient->getHost();
 			}
 		}
 

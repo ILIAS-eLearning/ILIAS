@@ -43,12 +43,12 @@ class ilMailMailingListAddressType extends ilMailAddressType
 	 */
 	protected function isValid($a_sender_id)
 	{
-		$valid = self::$maling_lists->mailingListExists($this->address->mailbox);
+		$valid = self::$maling_lists->mailingListExists($this->address->getMailbox());
 
 		if(!$valid)
 		{
 			$this->errors = array(
-				array('mail_no_valid_mailing_list', $this->address->mailbox)
+				array('mail_no_valid_mailing_list', $this->address->getMailbox())
 			);
 		}
 
@@ -62,7 +62,7 @@ class ilMailMailingListAddressType extends ilMailAddressType
 	{
 		$usr_ids = array();
 
-		if(self::$maling_lists->mailingListExists($this->address->mailbox))
+		if(self::$maling_lists->mailingListExists($this->address->getMailbox()))
 		{
 			foreach(self::$maling_lists->getCurrentMailingList()->getAssignedEntries() as $entry)
 			{

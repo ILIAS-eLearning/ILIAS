@@ -17,25 +17,25 @@ class ilMailLoginOrEmailAddressAddressType extends ilMailAddressType
 		/** @var $rbacsystem ilRbacSystem */
 		global $rbacsystem;
 
-		if($this->address->host == ilMail::ILIAS_HOST)
+		if($this->address->getHost() == ilMail::ILIAS_HOST)
 		{
-			$usr_id = ilObjUser::getUserIdByLogin($this->address->mailbox);
+			$usr_id = ilObjUser::getUserIdByLogin($this->address->getMailbox());
 		}
 		else
 		{
 			$usr_id = false;
 		}
 
-		if(!$usr_id && $this->address->host == ilMail::ILIAS_HOST)
+		if(!$usr_id && $this->address->getHost() == ilMail::ILIAS_HOST)
 		{
-			$this->errors[] = array('mail_recipient_not_found', $this->address->mailbox);
+			$this->errors[] = array('mail_recipient_not_found', $this->address->getMailbox());
 			return false;
 		}
 
 		require_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 		if($usr_id && !$rbacsystem->checkAccessOfUser($usr_id, 'internal_mail', ilMailGlobalServices::getMailObjectRefId()))
 		{
-			$this->errors[] = array('user_cant_receive_mail', $this->address->mailbox);
+			$this->errors[] = array('user_cant_receive_mail', $this->address->getMailbox());
 			return false;
 		}
 
@@ -47,13 +47,13 @@ class ilMailLoginOrEmailAddressAddressType extends ilMailAddressType
 	 */
 	public function resolve()
 	{
-		if($this->address->host == ilMail::ILIAS_HOST)
+		if($this->address->getHost() == ilMail::ILIAS_HOST)
 		{
-			return array_filter(array(ilObjUser::getUserIdByLogin($this->address->mailbox)));
+			return array_filter(array(ilObjUser::getUserIdByLogin($this->address->getMailbox())));
 		}
 		else
 		{
-			return array_filter(array(ilObjUser::getUserIdByLogin($this->address->mailbox . '@'. $this->address->host)));
+			return array_filter(array(ilObjUser::getUserIdByLogin($this->address->getMailbox() . '@'. $this->address->getHost())));
 		}
 	}
 }
