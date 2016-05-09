@@ -135,7 +135,7 @@ class ilMailFormGUI
 		$m_type = isset($_POST["m_type"]) ? $_POST["m_type"] : array("normal");
 
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-		if($errorMessage = $this->umail->sendMail(
+		if($errors = $this->umail->sendMail(
 				ilUtil::securePlainString($_POST['rcp_to']),
 				ilUtil::securePlainString($_POST['rcp_cc']),
 				ilUtil::securePlainString($_POST['rcp_bcc']),
@@ -161,7 +161,8 @@ class ilMailFormGUI
 					}
 				}
 			}
-			ilUtil::sendInfo($errorMessage);
+
+			$this->showSubmissionErrors($errors);
 		}
 		else
 		{
@@ -933,5 +934,56 @@ class ilMailFormGUI
 		}
 		$placeholders->render(true);
 		exit();
+	}
+
+	/**
+	 * @param array $errors
+	 */
+	protected function showSubmissionErrors(array $errors)
+	{
+		$errors_to_display = array();
+
+		foreach($errors as $error)
+		{
+			$error       = array_values($error);
+			$translation = $this->lng->txt(array_shift($error));
+			if(count($error) == 0)
+			{
+				$errors_to_display[] = $translation;
+			}
+			else
+			{
+				array_unshift($error, $translation);
+				$errors_to_display[] = call_user_func_array('sprintf', $error);
+			}
+		}
+
+		if(count($errors_to_display) > 0)
+		{
+			$tpl = new ilTemplate('tpl.mail_new_submission_errors.html', true, true, 'Services/Mail');
+			if(count($errors_to_display) == 1)
+			{
+				$tpl->setCurrentBlock('single_error');
+				$tpl->setVariable('SINGLE_ERROR', current($errors_to_display));
+				$tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$first_error = array_shift($errors_to_display);
+
+				foreach($errors_to_display as $error)
+				{
+					$tpl->setCurrentBlock('error_loop');
+					$tpl->setVariable('ERROR', $error);
+					$tpl->parseCurrentBlock();
+				}
+
+				$tpl->setCurrentBlock('multiple_errors');
+				$tpl->setVariable('FIRST_ERROR', $first_error);
+				$tpl->parseCurrentBlock();
+			}
+
+			ilUtil::sendInfo($tpl->get());
+		}
 	}
 }

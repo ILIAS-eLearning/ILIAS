@@ -140,6 +140,8 @@ class ilMailSearchGroupsGUI
 		}
 		
 		require_once './Services/Object/classes/class.ilObject.php';
+		require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
+
 		$ids = ((int) $_GET['search_grp']) ? array((int)$_GET['search_grp']) : $_POST['search_grp'];  
 		foreach ($ids as $grp_id)
 		{
@@ -155,7 +157,7 @@ class ilMailSearchGroupsGUI
 						if(isset($old_mail_data['rcp_to']) && 
 						   trim($old_mail_data['rcp_to']) != '')
 						{
-							$rcpt = $rbacreview->getRoleMailboxAddress($role['obj_id']);
+							$rcpt = ilMailRoleAddressType::getRoleMailboxAddress($role['obj_id']);
 							if(!$this->umail->existsRecipient($rcpt, $old_mail_data['rcp_to']))
 							{
 								array_push($members, $rcpt);
@@ -163,7 +165,7 @@ class ilMailSearchGroupsGUI
 						}
 						else
 						{
-							array_push($members, $rbacreview->getRoleMailboxAddress($role['obj_id']));
+							array_push($members, ilMailRoleAddressType::getRoleMailboxAddress($role['obj_id']));
 						}
 					}
 				}

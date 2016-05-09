@@ -1127,7 +1127,6 @@ class ilUtil
 	*/
 	public static function is_email($a_email)
 	{
-		// BEGIN Mail: If possible, use PearMail to validate e-mail address
 		global $ilErr;
 
 		// additional check for ilias object is needed,
@@ -1136,11 +1135,11 @@ class ilUtil
 		{
 			try
 			{
-				require_once 'Services/Mail/classes/RFC822.php';
+				require_once 'Services/Mail/classes/Address/Parser/RFC822.php';
+				require_once 'Services/Mail/classes/class.ilMail.php';
 				$parser    = new Mail_RFC822();
-				$addresses = $parser->parseAddressList($a_email, 'ilias', false, true);
-
-				return count($addresses) == 1 && $addresses[0]->host != 'ilias';
+				$addresses = $parser->parseAddressList($a_email, ilMail::ILIAS_HOST, false, true);
+				return count($addresses) == 1 && $addresses[0]->host != ilMail::ILIAS_HOST;
 			}
 			catch(ilException $e)
 			{
@@ -1162,7 +1161,6 @@ class ilUtil
 			
 			return(preg_match("/^[-_.[:alnum:]]+@((([[:alnum:]]|[[:alnum:]][[:alnum:]-]*[[:alnum:]])\.)+(".$tlds.")|(([0-9][0-9]?|[0-1][0-9][0-9]|[2][0-4][0-9]|[2][5][0-5])\.){3}([0-9][0-9]?|[0-1][0-9][0-9]|[2][0-4][0-9]|[2][5][0-5]))$/i",$a_email));
 		}
-		// END Mail: If possible, use PearMail to validate e-mail address
 	}
 
 	/**

@@ -4648,7 +4648,7 @@ common#:#user_access#:#Access per user
 common#:#user_activated#:#User has been approved
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
-common#:#user_cant_receive_mail#:#user is not allowed to use the mail system
+common#:#user_cant_receive_mail#:#%1$s (user is not allowed to use the mail system) 
 common#:#user_comment#:#User comment
 common#:#user_deactivated#:#User has been disapproved
 common#:#user_defined_fields#:#Custom Fields
@@ -7322,7 +7322,7 @@ mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attac
 mail#:#mail_no_attachments_found#:#No attachments found
 mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external e-mail
 mail#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.
-mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List
+mail#:#mail_no_valid_mailing_list#:#%1$s (no valid mailing list)
 mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_options_of#:#Options
 mail#:#mail_options_saved#:#Options saved
@@ -9781,7 +9781,7 @@ common#:#session_max_idle_after_first_request_info#:#All sessions that idles for
 common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.
 forum#:#forums_post_activation_mail#:#Unless the following posting is not activated, it is not visible for other forum users. You receive this email because you are assigned as moderator and have the permission to activate this posting.
 rbac#:#mail_mail_to_global_roles#:#User can send mails to global roles
-common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send mails to global roles
+common#:#mail_to_global_roles_not_allowed#:#%1$s (it is not allowed to send mails to global roles) 
 common#:#mail_no_valid_group_role#:#No valid group role
 assessment#:#tst_search_users#:#Search Participants
 survey#:#svy_search_users#:#Search for participants
@@ -15693,3 +15693,6 @@ trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gath
 sess#:#sess_list_reg_limit_places#:#Free places
 sess#:#sess_accept_request#:#Accept Participation
 sess#:#sess_new_registrations#:#Join Request
+mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s
+mail#:#mail_recipient_not_found#:#%1$s (could not find a valid particant)
+mail#:#mail_multiple_role_recipients_found#:#%1$s (found multiple roles for recipient: %2$s)

@@ -1595,16 +1595,15 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function mailToRoleObject()
 	{
-		global $rbacreview;
-		
 		$obj_ids = ilObject::_getIdsForTitle($this->object->getTitle(), $this->object->getType());		
 		if(count($obj_ids) > 1)
 		{
 			$_SESSION['mail_roles'][] = '#il_role_'.$this->object->getId();
 		}
 		else
-		{		
-			$_SESSION['mail_roles'][] = $rbacreview->getRoleMailboxAddress($this->object->getId());
+		{
+			require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
+			$_SESSION['mail_roles'][] = ilMailRoleAddressType::getRoleMailboxAddress($this->object->getId());
 		}
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
