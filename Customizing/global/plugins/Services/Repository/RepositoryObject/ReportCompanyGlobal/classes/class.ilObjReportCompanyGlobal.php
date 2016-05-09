@@ -64,6 +64,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 	protected function buildFilter($filter) {
 		$this->orgu_filter = new recursiveOrguFilter('org_unit', 'orgu_id', true, true);
 		$this->orgu_filter->setFilterOptionsAll();
+		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','hucs.crs_id');
 		$filter ->dateperiod( "period"
 							 , $this->plugin->txt("period")
 							 , $this->plugin->txt("until")
@@ -88,6 +89,7 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 								}
 							 );
 		$this->orgu_filter->addToFilter($filter);
+		$this->crs_topics_filter->addToFilter($filter);
 		$filter->multiselect("edu_program"
 							 , $this->plugin->txt("edu_program")
 							 , "edu_program"
@@ -231,9 +233,11 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 					.', hucs.credit_points, 0) ) '.self::$columns_to_sum['wp_part']);
 		}
 		$query 		->from('hist_course hc')
+
 					->join('hist_usercoursestatus hucs')
 						->on('hc.crs_id = hucs.crs_id'
-							.'	AND '.$this->gIldb->in('hucs.participation_status' , self::$participated, !$has_participated, 'text'));
+							.'	AND '.$this->gIldb->in('hucs.participation_status' , self::$participated, !$has_participated, 'text')
+							.'	AND '.$this->crs_topics_filter->deliverQuery());
 		if($this->sql_filter_orgus) {
 			$query	->raw_join(' JOIN ('.$this->sql_filter_orgus.') as orgu ON orgu.usr_id = hucs.usr_id ');
 		}

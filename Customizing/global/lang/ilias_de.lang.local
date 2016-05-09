@@ -1103,6 +1103,7 @@ gev#:#gev_my_local_user_admin#:#Benutzerverwaltung: %s
 gev#:#gev_report_exportxls#:#Excel-Export
 gev#:#gev_report_excel_export#:#Excel-Export
 gev#:#gev_deleted_user#:#gelöschter Benutzer
+gev#:#gev_filter_topics#:#Trainingskategorien
 content#:#cont_ie_compatibility#:#Internet Explorer 7 Kompatibilitätsmodus
 content#:#cont_ie_compatibility_info#:#Insbesondere für ältere Lernmodule kann das Aktivieren des Kompatibilitätsmodus hilfreich sein. Bitte beachten Sie, dass bei neueren Versionen des Internet Explorer der Kompatibilitätsmodus deaktiviert werden kann.
 content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen

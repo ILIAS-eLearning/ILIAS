@@ -70,6 +70,7 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 					."	AND orgu_filter.hist_historic = 0 "
 					."	AND orgu_filter.rol_title = ".$this->gIldb->quote("Mitarbeiter","text"));
 		}
+		$query = $this->crs_topics_filter->addToQuery($query);
 		$query
 			->group_by("usr.user_id")
 			->group_by("usrcrs.crs_id")
@@ -123,6 +124,7 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 			array_unique(array_map(function($ref_id) {return ilObject::_lookupObjectId($ref_id);},
 									$this->user_utils->getOrgUnitsWhereUserCanViewEduBios())));
 
+		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','crs.crs_id');
 		$filter	->dateperiod( "period"
 									, $this->plugin->txt("period")
 									, $this->plugin->txt("until")
@@ -134,6 +136,7 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 									, " OR usrcrs.hist_historic IS NULL"
 									);
 		$this->orgu_filter->addToFilter($filter);
+		$this->crs_topics_filter->addToFilter($filter);
 		$filter	->multiselect("template_title"
 									 , $this->plugin->txt("title")
 									 , "template_title"

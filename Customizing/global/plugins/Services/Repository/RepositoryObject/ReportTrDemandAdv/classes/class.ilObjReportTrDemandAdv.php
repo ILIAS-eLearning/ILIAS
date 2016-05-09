@@ -70,7 +70,8 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 					->on(' usrcrs.crs_id = crs.crs_id AND usrcrs.hist_historic = 0 ')
 				->left_join('hist_user usr')
 					->on('usr.user_id = usrcrs.usr_id '
-						.' AND usr.hist_historic = 0 ')
+						.' AND usr.hist_historic = 0 ');
+		$this->crs_topics_filter->addToQuery($query)
 			->group_by('crs.crs_id')
 			->compile();
 		return $query;
@@ -85,6 +86,8 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 		foreach ($template_obj_ids as $crs_id) {
 			$template_obj_filter_options[$crs_id] = ilObject::_lookupTitle($crs_id);
 		}*/
+		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','crs.crs_id');
+		$this->crs_topics_filter->addToFilter($filter);
 		$filter
 			->dateperiod( 	  "period"
 							, $this->plugin->txt("period")
