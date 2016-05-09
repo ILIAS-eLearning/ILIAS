@@ -27,6 +27,17 @@ class gevTrainerMailHandlingGUI extends ilMailingGUI {
 		$this->lng->loadLanguageModule("mailing");
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	protected function checkAccess() {
+		//die(var_dump($this->ref_id));
+		if (!$this->access->checkAccess("view_mailing", "", $this->ref_id)) {
+			ilUtil::sendFailure($this->lng->txt("msg_no_perm_write"), true);
+			$this->ctrl->redirect($this->parent_gui);
+		}
+	}
+
 	protected function showLog() {
 		$this->tabs->activateTab("showMaillog");
 		require_once("Services/GEV/Mailing/classes/class.gevMailLogTableGUI.php");
@@ -37,6 +48,7 @@ class gevTrainerMailHandlingGUI extends ilMailingGUI {
 	function addTabs() {
 		$this->tabs->clearTargets();
 
+		$this->ctrl->setParameter($this->parent, "crs_id", $this->crs_id);
 		$this->tabs->setBackTarget($this->lng->txt("back")
 			, $this->ctrl->getLinkTarget($this->parent)
 		);
