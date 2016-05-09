@@ -158,7 +158,7 @@ class ilDBPdo implements ilDBInterface {
 
 			return $next_id;
 		} else {
-			return $this->pdo->lastInsertId("`".$table_name."`") + 1;
+			return $this->pdo->lastInsertId("`" . $table_name . "`") + 1;
 		}
 	}
 
@@ -265,20 +265,6 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
-	 * @param $old_name
-	 * @param $new_name
-	 *
-	 * @return mixed
-	 */
-	public function renameTable($old_name, $new_name) {
-		//TODO: implement with manager and add more validation
-		$query = "RENAME TABLE " . $old_name . " TO " . $new_name . ";";
-		$this->pdo->exec($query);
-		return true;
-	}
-
-
-	/**
 	 * @param $query string
 	 * @return PDOStatement
 	 * @throws ilDatabaseException
@@ -333,11 +319,13 @@ class ilDBPdo implements ilDBInterface {
 	 * @param $column_new_name string
 	 */
 	public function renameTableColumn($table_name, $column_old_name, $column_new_name) {
-		$get_type_query = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ".$this->quote($table_name, 'text')." AND COLUMN_NAME = ".$this->quote($column_old_name, 'text');
+		$get_type_query = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = " . $this->quote($table_name, 'text')
+		                  . " AND COLUMN_NAME = " . $this->quote($column_old_name, 'text');
 		$get_type_result = $this->query($get_type_query);
 		$column_type = $this->fetchAssoc($get_type_result);
 
-		$query = "ALTER TABLE $table_name CHANGE ".$this->quote($column_old_name, 'text')." ". $this->quote($column_new_name, 'text')." ".$column_type['COLUMN_TYPE'];
+		$query = "ALTER TABLE $table_name CHANGE " . $this->quote($column_old_name, 'text') . " " . $this->quote($column_new_name, 'text') . " "
+		         . $column_type['COLUMN_TYPE'];
 		$this->pdo->exec($query);
 	}
 
@@ -476,6 +464,7 @@ class ilDBPdo implements ilDBInterface {
 		return $this->pdo->quote($value, $pdo_type);
 	}
 
+
 	/**
 	 * @param string $table_name
 	 * @param array $fields
@@ -486,6 +475,7 @@ class ilDBPdo implements ilDBInterface {
 		//TODO: implement
 		return false;
 	}
+
 
 	/**
 	 * @param $table_name

@@ -99,6 +99,7 @@ interface ilDBInterface {
 	 */
 	public function renameTable($old_name, $new_name);
 
+
 	/**
 	 * @param $query string
 	 *
@@ -487,14 +488,6 @@ interface ilDBInterface {
 	 * @return mixed
 	 */
 	public function free($a_st);
-
-
-	/**
-	 * @param $a_name
-	 * @param $a_new_name
-	 * @return boolean
-	 */
-	public function renameTable($a_name, $a_new_name);
 
 
 	/**
