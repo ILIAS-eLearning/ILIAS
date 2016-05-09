@@ -99,6 +99,7 @@ interface ilDBInterface {
 	 */
 	public function renameTable($old_name, $new_name);
 
+
 	/**
 	 * @param $query string
 	 *
@@ -487,4 +488,39 @@ interface ilDBInterface {
 	 * @return mixed
 	 */
 	public function free($a_st);
+
+
+	/**
+	 * @param $a_name
+	 * @return bool
+	 */
+	public function checkTableName($a_name);
+
+
+	/**
+	 * @param $a_word
+	 * @return bool
+	 */
+	public static function isReservedWord($a_word);
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function beginTransaction();
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function commit();
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function rollback();
 }

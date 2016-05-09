@@ -1,6 +1,6 @@
 <?php
 require_once('./Services/Utilities/classes/class.ilMimeTypeUtil.php');
-require_once('./Services/Utilities/classes/class.ilUtil.php');
+require_once('./Services/Utilities/classes/class.ilUtil.php'); // This include is needed since WAC can use ilFileDelivery without Initialisation
 require_once('./Services/Context/classes/class.ilContext.php');
 require_once('./Services/Http/classes/class.ilHTTPS.php');
 require_once('./Services/WebAccessChecker/classes/class.ilHTTP.php');
