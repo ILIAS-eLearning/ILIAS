@@ -946,13 +946,25 @@ class ilMailFormGUI
 		foreach($errors as $error)
 		{
 			$error       = array_values($error);
-			$translation = $this->lng->txt(array_shift($error));
-			if(count($error) == 0)
+			$first_error = array_shift($error);
+
+			$translation = $this->lng->txt($first_error);
+			if($translation == '-' . $first_error . '-')
+			{
+				$translation = $first_error;
+			}
+
+			if(count($error) == 0 || $translation == $first_error)
 			{
 				$errors_to_display[] = $translation;
 			}
 			else
 			{
+				// We expect all other parts of this error array are recipient addresses = input parameters
+				$error = array_map(function($address) {
+					return ilUtil::prepareFormOutput($address);
+				}, $error);
+
 				array_unshift($error, $translation);
 				$errors_to_display[] = call_user_func_array('sprintf', $error);
 			}

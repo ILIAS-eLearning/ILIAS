@@ -15696,3 +15696,4 @@ sess#:#sess_new_registrations#:#Join Request
 mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s
 mail#:#mail_recipient_not_found#:#%1$s (could not find a valid particant)
 mail#:#mail_multiple_role_recipients_found#:#%1$s (found multiple roles for recipient: %2$s)
+mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients: %1$s

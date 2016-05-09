@@ -973,6 +973,7 @@ class ilMail
 	 * @param  string $a_recipients string with login names or group names (start with #)
 	 * @param  string $a_type
 	 * @return array Returns an empty array, if all recipients are okay. Returns an array with invalid recipients, if some are not okay.
+	 * @throws ilMailException
 	 */
 	protected function checkRecipients($a_recipients, $a_type)
 	{
@@ -994,7 +995,7 @@ class ilMail
 		catch(ilException $e)
 		{
 			$colon_pos = strpos($e->getMessage(), ':');
-			$errors[] = (($colon_pos === false) ? array($e->getMessage()) : array(substr($e->getMessage(), $colon_pos + 2)));
+			throw new ilMailException(($colon_pos === false) ? $e->getMessage() : substr($e->getMessage(), $colon_pos + 2));
 		}
 
 		return $errors;
@@ -1129,7 +1130,7 @@ class ilMail
  		}
 		catch(ilMailException $e)
  		{
-			return array(array($e->getMessage()));
+			return array(array('mail_generic_rcp_error', $e->getMessage()));
  		}
 
 		$rcp_to = $a_rcp_to;
