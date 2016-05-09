@@ -57,17 +57,18 @@ class gevMailLogTableGUI extends ilTable2GUI {
 										   );
 
 		$count = count($data);
-		
 		for ($i = 0; $i < $count; ++$i) {
+			$mail = $this->mail_log->getEntry($data[$i]["id"]);
+
 			$this->ctrl->setParameter($this->parent_gui, "mail_id", $data[$i]["id"]);
 			$this->ctrl->setParameter($this->parent_gui, "crs_id", $this->mail_log->getObjectId());
 
 			$data[$i]["_view_action"] = $this->ctrl->getLinkTarget($this->parent_gui, "showLoggedMail");
 
-			if($data[$i]["to"] !== NULL && $data[$i]["to"] != "") {
+			if($mail["mail_id"] !== null && $data[$i]["to"] !== null && $data[$i]["to"] != "") {
 				$data[$i]["_send_action"] = $this->ctrl->getLinkTarget($this->parent_gui, "resendMail");
 			} else {
-				$data[$i]["_send_action"] = "";
+				$data[$i]["_send_action"] = null;
 			}
 		}
 		$this->ctrl->setParameter($this, "mail_id", null);
@@ -82,8 +83,15 @@ class gevMailLogTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("RECIPIENT", $a_set["to"]);
 		$this->tpl->setVariable("VIEW_LINK", $a_set["_view_action"]);
 		$this->tpl->setVariable("VIEW_TEXT", $this->lng->txt("view"));
-		$this->tpl->setVariable("SEND_LINK", $a_set["_send_action"]);
-		$this->tpl->setVariable("SEND_TEXT", $this->lng->txt("gev_resend_mail"));
+		
+		if($a_set["_send_action"] !== null) {
+			$this->tpl->setCurrentBlock("resend");
+			$this->tpl->setVariable("SEND_LINK", $a_set["_send_action"]);
+			$this->tpl->setVariable("SEND_TEXT", $this->lng->txt("gev_resend_mail"));
+			$this->tpl->paresCurrentBlock();
+		} else {
+			$this->tpl->touchBlock("empty_td");
+		}
 	}
 }
 
