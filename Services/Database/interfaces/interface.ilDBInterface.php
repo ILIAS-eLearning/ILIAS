@@ -502,4 +502,25 @@ interface ilDBInterface {
 	 * @return bool
 	 */
 	public static function isReservedWord($a_word);
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function beginTransaction();
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function commit();
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function rollback();
 }

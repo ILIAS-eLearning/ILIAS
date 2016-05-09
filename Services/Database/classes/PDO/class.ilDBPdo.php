@@ -14,6 +14,9 @@ require_once('./Services/Database/classes/PDO/Reverse/class.ilDBPdoReverse.php')
  */
 class ilDBPdo implements ilDBInterface {
 
+	const FEATURE_TRANSACTIONS = 'transactions';
+	const FEATURE_FULLTEXT = 'fulltext';
+	const FEATURE_SLAVE = 'slave';
 	/**
 	 * @var string
 	 */
@@ -955,6 +958,32 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
+	 * @return bool
+	 */
+	public function supportsTransactions() {
+		return false;
+	}
+
+
+	/**
+	 * @param $feature
+	 * @return bool
+	 */
+	public function supports($feature) {
+		switch ($feature) {
+			case self::FEATURE_TRANSACTIONS:
+				return $this->supportsTransactions();
+			case self::FEATURE_FULLTEXT:
+				return $this->supportsFulltext();
+			case self::FEATURE_SLAVE:
+				return $this->supportsSlave();
+			default:
+				return false;
+		}
+	}
+
+
+	/**
 	 * @return array
 	 */
 	public function listTables() {
@@ -1185,5 +1214,44 @@ class ilDBPdo implements ilDBInterface {
 		$mysql_reserved_words = ilDBConstants::getReserved();
 
 		return in_array(strtoupper($a_word), $mysql_reserved_words);
+	}
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function beginTransaction() {
+		if (!$this->supports(self::FEATURE_TRANSACTIONS)) {
+			throw new ilDatabaseException("ilDB::beginTransaction: Transactions are not supported.");
+		}
+
+		return $this->pdo->beginTransaction();
+	}
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function commit() {
+		if (!$this->supports(self::FEATURE_TRANSACTIONS)) {
+			throw new ilDatabaseException("ilDB::beginTransaction: Transactions are not supported.");
+		}
+
+		return $this->pdo->commit();
+	}
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function rollback() {
+		if (!$this->supports(self::FEATURE_TRANSACTIONS)) {
+			throw new ilDatabaseException("ilDB::beginTransaction: Transactions are not supported.");
+		}
+
+		return $this->pdo->rollback();
 	}
 }
