@@ -31,7 +31,6 @@ class gevTrainerMailHandlingGUI extends ilMailingGUI {
 	 * @inheritdoc
 	 */
 	protected function checkAccess() {
-		//die(var_dump($this->ref_id));
 		if (!$this->access->checkAccess("view_mailing", "", $this->ref_id)) {
 			ilUtil::sendFailure($this->lng->txt("msg_no_perm_write"), true);
 			$this->ctrl->redirect($this->parent_gui);
