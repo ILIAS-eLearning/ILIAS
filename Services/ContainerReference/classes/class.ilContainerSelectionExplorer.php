@@ -91,7 +91,7 @@ class ilContainerSelectionExplorer extends ilExplorer
 	 * @param
 	 * @return
 	 */
-	public function isClickable($a_type,$a_id)
+	public function isClickable($a_type,$a_id = 0)
 	{
 		global $ilAccess;
 		
@@ -125,7 +125,7 @@ class ilContainerSelectionExplorer extends ilExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader($a_obj_id,$a_option)
+	function formatHeader($a_tpl, $a_obj_id,$a_option)
 	{
 		global $lng, $ilias;
 

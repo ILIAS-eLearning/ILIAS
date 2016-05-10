@@ -73,7 +73,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 	 * @param <type> $a_obj_id
 	 * @return <type>
 	 */
-	public function isClickable($a_type, $a_ref_id, $a_obj_id = 0)
+	public function isClickable($a_type, $a_ref_id = 0, $a_obj_id = 0)
 	{
 		return false;
 	}
