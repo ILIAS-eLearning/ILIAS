@@ -51,39 +51,42 @@ class ilSoapDataCollectionAdministration extends ilSoapAdministration
 	 *
 	 * @return soap_fault|SoapFault
 	 */
-	public function exportDataCollectionContent ($sid, $target_ref_id, $table_id = null, $format = ilDclContentExporter::EXPORT_EXCEL, $filepath = null) {
+	public function exportDataCollectionContent($sid, $target_ref_id, $table_id = null, $format = ilDclContentExporter::EXPORT_EXCEL, $filepath = null)
+	{
 
 		$this->initAuth($sid);
 		$this->initIlias();
 
-   	    if(!$this->__checkSession($sid))
+		if(!$this->__checkSession($sid))
 		{
-			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
+			return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
 		}
 
-        if(!$target_obj = new ilObjDataCollection($target_ref_id))
+		if(!$target_obj = new ilObjDataCollection($target_ref_id))
 		{
 			return $this->__raiseError('No valid target given.', 'CLIENT');
 		}
 
 		if(ilObject::_isInTrash($target_ref_id))
 		{
-			return $this->__raiseError("Parent with ID $target_ref_id has been deleted.", 'CLIENT_TARGET_DELETED');
+			return $this->__raiseError("Parent with ID $target_ref_id has been deleted.",
+							  'CLIENT_TARGET_DELETED');
 		}
 
 		if(!ilObjDataCollectionAccess::hasReadAccess($target_ref_id))
 		{
-			return $this->__raiseError('Check access failed. No permission to read DataCollection', "CLIENT_PERMISSION_ISSUE");
+			return $this->__raiseError('Check access failed. No permission to read DataCollection',
+							  "CLIENT_PERMISSION_ISSUE");
 		}
 
-    	try
-        {
-	        $exporter = new ilDclContentExporter($target_ref_id, $table_id);
-	        return $exporter->export($format, $filepath);
-        }
-        catch(ilException $exception) {
-        	return $this->__raiseError($exception->getMessage(), $exception->getCode());
-     	}
-	 }
+		try {
+			$exporter = new ilDclContentExporter($target_ref_id, $table_id);
+			return $exporter->export($format, $filepath);
+		}
+		catch(ilException $exception) {
+			return $this->__raiseError($exception->getMessage(), $exception->getCode());
+		}
+	}
+
 }
 ?>
