@@ -132,6 +132,7 @@ class gevExitedUserCleanupJob extends ilCronJob {
 
 			
 			//update user and create a history entry
+			$usr->read();
 			$usr->update();
 			
 			// i'm alive!
