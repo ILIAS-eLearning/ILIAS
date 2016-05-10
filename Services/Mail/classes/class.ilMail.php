@@ -698,9 +698,8 @@ class ilMail
 	 * @param int $a_user_id
 	 * @return string
 	 */
-	protected function replacePlaceholders($a_message, $a_user_id)
+	protected function replacePlaceholders($a_message, $a_user_id = 0)
 	{
-		$user = self::getCachedUserInstance($a_user_id);
 		try
 		{
 			if(ilMailFormCall::getContextId())
@@ -714,6 +713,7 @@ class ilMail
 				$context = new ilMailTemplateGenericContext();
 			}
 
+			$user = $a_user_id > 0 ? self::getCachedUserInstance($a_user_id) : null;
 			foreach($context->getPlaceholders() as $key => $ph_definition)
 			{
 				$result    = $context->resolvePlaceholder($key, ilMailFormCall::getContextParameters(), $user);
@@ -1167,7 +1167,7 @@ class ilMail
 				$this->getEmailRecipients($rcp_cc),
 				$this->getEmailRecipients($rcp_bc),
 				$a_m_subject,
-				$a_m_message,
+				$this->replacePlaceholders($a_m_message),
 				$a_attachment,
 				0
 			);
