@@ -38,7 +38,7 @@ class ilSoapStructureReader {
 	var $object;
 	var $structureObject;
 
-	function ilSoapStructureReader (& $object)
+	public function __construct(& $object)
 	{
 		$this->object = & $object;
 		$this->structureObject = & ilSoapStructureObjectFactory::getInstanceForObject ($object);

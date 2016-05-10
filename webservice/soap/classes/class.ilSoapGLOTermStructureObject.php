@@ -36,11 +36,8 @@
 include_once "./webservice/soap/classes/class.ilSoapStructureObject.php";
 
 
-class ilSoapGLOTermStructureObject extends ilSoapStructureObject{
-	function ilSoapGLOTermStructureObject($objId, $type, $title, $description, $parentRefId) {
-		parent::ilSoapStructureObject($objId, $type, $title, $description, $parentRefId);
-	}
-
+class ilSoapGLOTermStructureObject extends ilSoapStructureObject
+{
 
 	function getInternalLink () {
 		return "[iln term=\"".$this->getObjId()."\"]".$this->getTitle()."[/iln]";

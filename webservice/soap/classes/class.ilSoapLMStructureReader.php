@@ -37,9 +37,13 @@ include_once "./webservice/soap/classes/class.ilSoapStructureObjectFactory.php";
 class ilSoapLMStructureReader extends ilSoapStructureReader
 {
 
-	function ilSoapLMStructureReader ($object)
+	/**
+	 * 
+	 * @param object $object
+	 */
+	public function __construct($object)
 	{
-		parent::ilSoapStructureReader($object);
+		parent::__construct($object);
 	}
 
 	function _parseStructure () {

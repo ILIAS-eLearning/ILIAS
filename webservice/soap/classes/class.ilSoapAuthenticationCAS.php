@@ -35,11 +35,6 @@ include_once './webservice/soap/classes/class.ilSoapAuthentication.php';
 
 class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 {
-	function ilSoapAuthenticationCAS()
-	{
-		parent::ilSOAPAuthentication();
-	}
-
 	//
 	// inherited from ilSOAPAuthentication
 	//

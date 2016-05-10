@@ -34,10 +34,6 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapUtils extends ilSoapAdministration
 {
-	function ilSoapUtils()
-	{
-		parent::ilSoapAdministration();
-	}
 
 	function ignoreUserAbort()
 	{

@@ -35,11 +35,6 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapObjectAdministration extends ilSoapAdministration
 {
-	function ilSoapObjectAdministration()
-	{
-		parent::ilSoapAdministration();
-	}
-
 	function getObjIdByImportId($sid,$import_id)
 	{
 		$this->initAuth($sid);

@@ -34,11 +34,6 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapTestAdministration extends ilSoapAdministration
 {
-	function ilSoapTestAdministration()
-	{
-		parent::ilSoapAdministration();
-	}
-	
 	private function hasWritePermissionForTest($active_id)
 	{
 		global $ilDB;

@@ -34,11 +34,6 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapExerciseAdministration extends ilSoapAdministration
 {
-	function ilSoapExerciseAdministration()
-	{
-		parent::ilSoapAdministration();
-	}
-
     /**
      * add an exercise with id.
      *
