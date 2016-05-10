@@ -35,7 +35,7 @@ class ilAuthContainerDatabase extends Auth_Container_MDB2
 	 */
 	private $isObserversEnabled;
         
-	function ilAuthContainerDatabase($dsn)
+	function __construct($dsn)
 	{
 		$this->Auth_Container_MDB2($dsn);
 	}

@@ -40,13 +40,6 @@ class ilFO2PDF extends ilRPCServerAdapter
 	var $mode = MODE_FO2PDF;
 	var $fo_string = '';
 	
-	function ilFO2PDF()
-	{
-		global $ilLog;
-
-		parent::ilRPCServerAdapter();
-
-	}
 
 	function setFOString($a_fo)
 	{

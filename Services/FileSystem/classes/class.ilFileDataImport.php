@@ -27,7 +27,7 @@ class ilFileDataImport extends ilFileData
 	* @param integereger obj_id
 	* @access	public
 	*/
-	function ilFileDataImport()
+	function __construct()
 	{
 		define('IMPORT_PATH','import');
 		parent::__construct();

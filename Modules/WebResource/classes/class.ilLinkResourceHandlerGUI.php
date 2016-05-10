@@ -34,16 +34,12 @@
 */
 class ilLinkResourceHandlerGUI
 {
-	function ilLinkResourceHandlerGUI()
+	public function __construct()
 	{
 		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
 
 		// initialisation stuff
 		$this->ctrl =&  $ilCtrl;
-		
-		//$ilNavigationHistory->addItem($_GET["ref_id"],
-		//	"ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$_GET["ref_id"]);
-
 	}
 	
 	/**

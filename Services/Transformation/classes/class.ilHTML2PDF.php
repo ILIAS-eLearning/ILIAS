@@ -40,13 +40,6 @@
 		var $mode = MODE_HTML2PDF;
 		var $html_string = '';
 
-		function ilHTML2PDF()
-		{
-			global $ilLog;
-
-			parent::ilRPCServerAdapter();
-
-		}
 
 		function setHTMLString($a_html_string)
 		{
