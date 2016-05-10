@@ -88,7 +88,7 @@ class gevMailLogTableGUI extends ilTable2GUI {
 			$this->tpl->setCurrentBlock("resend");
 			$this->tpl->setVariable("SEND_LINK", $a_set["_send_action"]);
 			$this->tpl->setVariable("SEND_TEXT", $this->lng->txt("gev_resend_mail"));
-			$this->tpl->paresCurrentBlock();
+			$this->tpl->parseCurrentBlock();
 		} else {
 			$this->tpl->touchBlock("empty_td");
 		}
