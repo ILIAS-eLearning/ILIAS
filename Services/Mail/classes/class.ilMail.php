@@ -1975,7 +1975,7 @@ class ilMail
 				$this->__getEmailRecipients($rcp_cc),
 				$this->__getEmailRecipients($rcp_bc),
 				$a_m_subject,
-				$this->replacePlaceholders($a_m_message),
+				$a_use_placeholders ? $this->replacePlaceholders($a_m_message) : $a_m_message,
 				$a_attachment,
 				0
 			);
