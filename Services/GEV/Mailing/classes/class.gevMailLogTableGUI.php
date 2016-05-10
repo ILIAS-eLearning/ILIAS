@@ -61,6 +61,7 @@ class gevMailLogTableGUI extends ilTable2GUI {
 			$mail = $this->mail_log->getEntry($data[$i]["id"]);
 
 			$this->ctrl->setParameter($this->parent_gui, "mail_id", $data[$i]["id"]);
+			$this->ctrl->setParameter($this->parent_gui, "log_id", $data[$i]["id"]);
 			$this->ctrl->setParameter($this->parent_gui, "crs_id", $this->mail_log->getObjectId());
 
 			$data[$i]["_view_action"] = $this->ctrl->getLinkTarget($this->parent_gui, "showLoggedMail");
