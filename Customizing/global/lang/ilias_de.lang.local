@@ -1270,7 +1270,7 @@ gev#:#gev_dec_training_save_request#:#Dezentrales Training anlegen
 gev#:#gev_dec_training_show_buildingblocks#:#Ablaufplan anzeigen
 gev#:#gev_dec_ready#:#Fertig
 gev#:#gev_dec_training_no_venue_error_msg#:#Bitte wählen Sie einen Veranstaltungsort.
-gev#:#gev_resend_mail#:#Mail erneut versenden
+gev#:#gev_resend_mail#:#Erneut versenden
 gev#:#gev_forget_passwort#:#Passwort vergessen
 gev#:#gev_forget_username#:#Benutzername vergessen
 gev#:#gev_forget_psswd_login_pretext#:#Hier haben Sie die Möglichkeit, sich Ihren Benutzernamen oder Ihr Passwort zusenden zu lassen.
