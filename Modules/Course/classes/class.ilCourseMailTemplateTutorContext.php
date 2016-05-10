@@ -113,21 +113,22 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 	}
 
 	/**
-	 * @param string    $placeholder_id
-	 * @param array     $context_parameters
-	 * @param ilObjUser $recipient
-	 * @param bool      $html_markup
-	 * @return string
+	 * {@inheritdoc}
 	 */
-	public function resolveSpecificPlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient, $html_markup = false)
+	public function resolveSpecificPlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient = null, $html_markup = false)
 	{
 		/**
 		 * @var $ilObjDataCache ilObjectDataCache
 		 */
 		global $ilObjDataCache;
+
+		if($recipient === null && !in_array($placeholder_id, array('crs_title', 'crs_link')))
+		{
+			return '';
+		}
 		
 		$obj_id = $ilObjDataCache->lookupObjId($context_parameters['ref_id']);
-		
+
 		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 		$tracking = new ilObjUserTracking();
 		
