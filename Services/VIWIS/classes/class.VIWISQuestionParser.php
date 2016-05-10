@@ -46,7 +46,27 @@ class VIWISQuestionParser implements QuestionParser {
 		} else {
 			throw new QuestionException("");
 		}
-		$this->question = (string)$xml->itemBody->choiceInteraction->prompt;
+		$question = (string)$xml->itemBody->choiceInteraction->prompt;
+		if($question) {
+			$this->question = $question;
+		} else {
+			throw new QuestionException("");
+		}
+
+		$answers = array();
+
+		foreach($xml->itemBody->choiceInteraction->children() as $child) {
+			if($child->getName() !== 'simpleChoice') {
+				var_dump($child->getName());
+				continue;
+			}
+			$answers[(string)$child['identifier']] = (string)$child;
+		}
+		if(count($answers) > 0) {
+			$this->answers = $answers;
+		} else {
+			throw new QuestionException("");
+		}
 		return $this;
 	}
 
