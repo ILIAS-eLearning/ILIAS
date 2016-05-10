@@ -45,7 +45,8 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation {
 					break;
 				case ilDclDatatype::INPUTFORMAT_TEXT:
 					$value = $record->getRecordFieldValue($fieldref);
-					if ($json = json_decode($value)) {
+					$json = json_decode($value);
+					if ($json instanceof stdClass) {
 						$value = $json->title ? $json->title : $json->link;
 					}
 					$options[$record->getId()] = $value;
