@@ -34,10 +34,6 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapSCORMAdministration extends ilSoapAdministration
 {
-	function ilSoapExerciseAdministration()
-	{
-		parent::ilSoapAdministration();
-	}
 
   	/**
 	 * get ims manifest xml

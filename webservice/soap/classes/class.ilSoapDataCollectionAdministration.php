@@ -34,11 +34,6 @@ require_once ('./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.
  */
 class ilSoapDataCollectionAdministration extends ilSoapAdministration
 {
-	public function __construct()
-	{
-		parent::ilSoapAdministration();
-	}
-
 
 	/**
 	 * Export DataCollection async
