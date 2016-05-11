@@ -3,6 +3,9 @@ require_once 'Services/VIWIS/interfaces/interface.QuestionParser.php';
 require_once 'Services/VIWIS/classes/class.QuestionException.php';
 require_once 'Services/VIWIS/classes/class.QuestionTypes.php';
 
+/**
+ *	@inheritdoc
+ */
 class VIWISQuestionParser implements QuestionParser {
 
 	private $title;
@@ -46,6 +49,7 @@ class VIWISQuestionParser implements QuestionParser {
 		} else {
 			throw new QuestionException("");
 		}
+
 		$question = (string)$xml->itemBody->choiceInteraction->prompt;
 		if($question) {
 			$this->question = $question;
@@ -57,7 +61,6 @@ class VIWISQuestionParser implements QuestionParser {
 
 		foreach($xml->itemBody->choiceInteraction->children() as $child) {
 			if($child->getName() !== 'simpleChoice') {
-				var_dump($child->getName());
 				continue;
 			}
 			$answers[(string)$child['identifier']] = (string)$child;
@@ -88,7 +91,7 @@ class VIWISQuestionParser implements QuestionParser {
 	 *	@inheritdoc
 	 */
 	public function question() {
-		return $this->questions;
+		return $this->question;
 	}
 
 	/**
