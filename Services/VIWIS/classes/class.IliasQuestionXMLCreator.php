@@ -8,6 +8,9 @@ require_once 'Modules/TestQuestionPool/classes/class.assMultipleChoice.php';
 require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSingleChoiceFeedback.php';
 require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultipleChoiceFeedback.php';
 
+/**
+ *	@inheritdoc
+ */
 class IliasQuestionXMLCreator implements QuestionXMLCreator {
 
 	private $title;
@@ -27,6 +30,7 @@ class IliasQuestionXMLCreator implements QuestionXMLCreator {
 		if(count($this->correct_answers) === 0) {
 			throw new questionException('');
 		}
+		global $ilCtrl,$ilDB,$lng;
 		switch($this->type) {
 			case 'single':
 				$obj = new assSingleChoice(		$this->title,
@@ -52,7 +56,7 @@ class IliasQuestionXMLCreator implements QuestionXMLCreator {
 			$points = in_array($answer_id, $this->correct_answers) ? 1 : 0;
 			$obj->addAnswer($answer,$points);
 		}
-		return $obj->toXML;
+		return $obj->toXML();
 	}
 
 	/**
@@ -106,7 +110,7 @@ class IliasQuestionXMLCreator implements QuestionXMLCreator {
 	 *	@inheritdoc
 	 */
 	public function setType($question_type) {
-		if(types::validType($question_type)) {
+		if(QuestionTypes::validType($question_type)) {
 			$this->type = $question_type;
 			return $this;
 		}
