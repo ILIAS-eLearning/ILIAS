@@ -743,7 +743,6 @@ assessment#:#extratime#:#延長時間
 assessment#:#factor#:#要因
 assessment#:#failed_official#:#不合格です
 assessment#:#failed_short#:#不合格
-assessment#:#false#:#False
 assessment#:#feedback_all#:#全解答の特定フィードバックの回答を表示
 assessment#:#feedback_answers#:#問題の各答案に対するフィードバック
 assessment#:#feedback_checked#:#全ての選択された/選択した解答特定のフィードバック解答を表示
@@ -1342,7 +1341,6 @@ assessment#:#toplist_col_score#:#点数
 assessment#:#toplist_col_wtime#:#処理時間
 assessment#:#toplist_top_n_results#:#上位%sの結果
 assessment#:#toplist_your_result#:#順位
-assessment#:#true#:#True
 assessment#:#tst_access_code_created#:#テスト結果への恒久アクセスと、このテストを再開可能性を提供するためにユニークなテストのアクセス コードが作成されました。以降のアクションはこのコードを使って書いてください。
 assessment#:#tst_activate_skill_service#:#能力サービスを有効化
 assessment#:#tst_activate_skill_service_desc#:#新規タブ'能力'が表示されます。このタブには問題が能力へ割り当てられてしきい値は能力の一定レベル達成のせいになります。
@@ -2075,6 +2073,8 @@ assessment#:#worked_through#:#答案済
 assessment#:#working_time#:#答案時間
 assessment#:#working_time_avg#:#平均答案時間
 assessment#:#you_received_a_of_b_points#:#配点は%s/%s  です。
+assessment#:#FALSE#:#FALSE
+assessment#:#TRUE#:#TRUE
 auth#:#auth_account_code#:#コード
 auth#:#auth_account_code_info#:#アカウントを再設定するとILIASアカウントコードを利用できます。
 auth#:#auth_account_code_title#:#アカウントコード
@@ -2765,8 +2765,8 @@ chatroom#:#chat_create_new_private_room#:#新規プライベートルームを�
 chatroom#:#chat_create_private_room_button#:#プライベートルームを作成
 chatroom#:#chat_delete#:#削除
 chatroom#:#chat_enable_autoscroll#:#オートスクロールON
-chatroom#:#chat_invitation#:#タイトルをクリックしてチャットルーム入り口へリンクしてください。##inviter_name## to chatroom ##room_name
-chatroom#:#chat_invitation_long#:#チャットルームへ参加するには次のURLをフォローしてください。##salutation##\n\n チャットルーム:\nChatroom　タイトル：##room_name##\n　招待者: ##inviter_name##\n　URL: ##link##\n\n
+chatroom#:#chat_invitation#:#[INVITER_NAME] がチャットルーム"[ROOM_NAME]"へ招待します
+chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nチャットルームへ招待されました\nチャットルームタイトル: [ROOM_NAME]\招待者: [INVITER_NAME]\nURL: [LINK]\n\nチャットルームへ参加するには参照先のURLへ。
 chatroom#:#chat_invitation_short#:#タイトルリンクをクリックしてチャットルームへ入室してください。
 chatroom#:#chat_invite#:#招待
 chatroom#:#chat_invite_users#:#ユーザ招待
@@ -2987,7 +2987,7 @@ cmps#:#cmps_db_update#:#DB更新スクリプト
 cmps#:#cmps_deactivate#:#アクティブ解除
 cmps#:#cmps_dir#:#ディレクトリ
 cmps#:#cmps_disable_creation#:#作成禁止
-cmps#:#cmps_duplicate_positions#:#次の位置は複数回割り当てられている事に注意願います
+cmps#:#cmps_duplicate_positions#:#次の位置は複数回割り当てられている事に注意願います:
 cmps#:#cmps_edit_settings#:#設定
 cmps#:#cmps_enable_creation#:#作成を有効にする
 cmps#:#cmps_file_version#:#更新ファイルバージョン
@@ -6340,7 +6340,7 @@ content#:#cont_char_style_com#:#コメント
 content#:#cont_char_style_quot#:#引用
 content#:#cont_characteristic#:#スタイルクラス
 content#:#cont_check_values#:#SCOの送った値をチェック
-content#:#cont_check_values_info#:#テストツリーはSCOからSCORMスタンダードへ準拠する値を送るかどうかをチェックします。<br/>SCORMスタンダードは値の保存に関して非常に多くの要求があります。このオプションはモジュールが標準に準拠するか否かをチェックさせます。ILIASがこのモジュールで動作するかどうかの単なるチェックにこのオプションは使用してはいけません。
+content#:#cont_check_values_info#:#テストツールはSCOからSCORMスタンダードへ準拠する値を送るかどうかをチェックします。<br/>SCORMスタンダードは値の保存に関して非常に多くの要求があります。すべての学習モジュールがスタンダード要件を満たしているものではありません。このオプションはモジュールがスタンダードに準拠するか否かをチェックさせます。ILIASがこのモジュールで動作するかどうかの単なるチェックにこのオプションは使用してはいけません。
 content#:#cont_choose_characteristic#:#特徴を選択
 content#:#cont_choose_characteristic_section#:#セクション
 content#:#cont_choose_characteristic_text#:#テキスト要素
@@ -6364,7 +6364,7 @@ content#:#cont_click_tl_corner#:#希望範囲の左上の角をクリックし�
 content#:#cont_Code#:#コード
 content#:#cont_col_ordering#:#列順
 content#:#cont_colspan#:#Col. Span
-content#:#cont_comments#:#コメントのストレージを有効にする
+content#:#cont_comments#:#コメントを保存する
 content#:#cont_comments_info#:#SCORM 2004学習モジュールにはモジュール内にコメントを提供するものがあります。このオプションはそれらのコメントを保存します。
 content#:#cont_conf_delete_lang#:#本当に次の言語サポートを止めますか?
 content#:#cont_confirm_delete#:#本当にこのアイテムを削除しますか?
@@ -6698,7 +6698,7 @@ content#:#cont_insert_table#:#表を挿入
 content#:#cont_insert_tabs#:#タグを挿入
 content#:#cont_insert_verification#:#検証を追加
 content#:#cont_inst_map_areas#:#リンクエリア実体
-content#:#cont_interactions#:#インタラクション結果のストレージを有効にする
+content#:#cont_interactions#:#インタラクション結果を保存する
 content#:#cont_interactions_info#:#通常、学習モジュール内のインタラクション結果は再読み込み・ロードなしで単純に保存されます。どのように学習モジュールが動作するかが確実であれば、このオプションはパフォーマンスを改善します。
 content#:#cont_interactions_info_12#:# 学習モジュールSCORM 1.2内のインタラクション結果は単純に保存されます。このオプションはパフォーマンスを改善します。
 content#:#cont_internal#:#内部
@@ -7062,7 +7062,7 @@ content#:#cont_saved_map_data#:#マップデータを保存
 content#:#cont_saving#:#保存中...
 content#:#cont_sc_auto_continue#:#リダイレクトユーザ
 content#:#cont_sc_auto_review#:#完了したらレビューにセット
-content#:#cont_sc_auto_review_2004#:#一旦確立されたら追跡ステータスをロック
+content#:#cont_sc_auto_review_2004#:#一旦確立すると追跡ステータスをロック
 content#:#cont_sc_auto_review_completed#:#達成ステータスが完了したら追跡データを保持
 content#:#cont_sc_auto_review_completed_and_passed#:#達成ステータスが完了で通過の場合は追跡データを保持
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#達成ステータスが未実行ではなく完了または通過の場合は調査データを保持
@@ -7089,7 +7089,7 @@ content#:#cont_sc_stat_running#:#実行中
 content#:#cont_sc_store_if_previous_score_was_lower#:#達成点数が以前の結果よりも高くなるか等しい場合に追跡データを保持
 content#:#cont_sc_title#:#タイトル
 content#:#cont_sc_usession#:#自動ログアウトを回避
-content#:#cont_sc_usession_info#:#設定するとセッション継続のためのILIASへの定期的リクエストが有効になります。そうでないとILIASは学習モジュールをアイドル、セッション終了、追跡データ損失としてカテゴリー化します。
+content#:#cont_sc_usession_info#:#セッション継続のためのILIASへの定期的リクエストが送信されます。さもなければILIASは学習モジュールの動作状態をアイドル、セッション終了、追跡データ損失としてカテゴリー化します。
 content#:#cont_sc_version#:#学習モジュールのバージョン
 content#:#cont_sc_version_info#:#バージョン番号は学習モジュール管理により自動的に提供されます。
 content#:#cont_scheduled_activation#:#スケジュールされたアクティベーション
@@ -7125,7 +7125,7 @@ content#:#cont_selected_topic#:#選択したトピック
 content#:#cont_selection#:#選択
 content#:#cont_self_assessment#:#自己評価
 content#:#cont_sequencing#:#他の問題集を選択
-content#:#cont_sequencing_info#:#学習モジュールの定義としてシーケンスとナビゲーションふるまいを有効にする。
+content#:#cont_sequencing_info#:#学習モジュールで定義されているシーケンスとナビゲーションふるまいを有効にする:ナビゲーションオプションはコンテンツのインタラクション結果から決定されます。稀ながら、学習モジュールがこのシーケンスの種類とナビゲーションデータを実際に含むかどうかかわからない場合はチェックしてください。
 content#:#cont_series#:#シリーズ
 content#:#cont_series_editor#:#シリーズエディター
 content#:#cont_series_title#:#シリーズタイトル
@@ -7159,8 +7159,8 @@ content#:#cont_show_line_numbers#:#行番号表示
 content#:#cont_show_print_view#:#印刷表示
 content#:#cont_size#:#サイズ (Bytes)
 content#:#cont_skip_chapter#:#この章をスキップ
-content#:#cont_snippet_from_another_installation#:#断片はもう一つのインストールから来ます。
-content#:#cont_snippets_used#:#コンテンツスニペットを使用
+content#:#cont_snippet_from_another_installation#:#スニペットは別のインストールから来ます。
+content#:#cont_snippets_used#:#使用済コンテンツスニペット
 content#:#cont_source#:#ソース
 content#:#cont_span#:#長さ
 content#:#cont_Special#:#スペシャル
@@ -8234,11 +8234,14 @@ crs#:#event_start_date#:#開始
 crs#:#event_table_create#:#新セッション
 crs#:#event_table_update#:#セッションを編集
 crs#:#event_tbl_admin#:#管理者
+crs#:#event_tbl_admins#:#Administrators
 crs#:#event_tbl_member#:#メンバー
+crs#:#event_tbl_members#:#Member
 crs#:#event_tbl_participants#:#受講者リスト
 crs#:#event_tbl_participated#:#受講済
 crs#:#event_tbl_registered#:#登録済
 crs#:#event_tbl_tutor#:#指導教員
+crs#:#event_tbl_tutors#:#Tutors
 crs#:#event_time#:#時間
 crs#:#event_title#:#タイトル
 crs#:#event_tutor_data#:#講師に関する情報
@@ -9369,6 +9372,7 @@ exc#:#exc_deadline#:#締め切り
 exc#:#exc_deadline_ext_mismatch#:#猶予期間は締め切り後に終了する必要があります。
 exc#:#exc_deadline_extended#:#猶予期間
 exc#:#exc_deadline_extended_info#:#後で提出は締め切りと猶予期間最後の間で可能です。
+exc#:#exc_delete_team#:#チームを削除
 exc#:#exc_direct_submit#:#送信
 exc#:#exc_direct_submit_blog#:#現在のバージョンのブログを直ぐに提出しますか?後からブログエディタでいつでもできます。
 exc#:#exc_direct_submit_portfolio#:#現在のバージョンのポートフォリオを直ぐに提出しますか?後からポートフォリオエディタでいつでもできます。
@@ -10495,6 +10499,8 @@ mail#:#mail_select_one_entry#:#エントリーを一つ選択しなければな�
 mail#:#mail_select_one_file#:#ファイルを一つ選択しなければなりません
 mail#:#mail_select_only_one_entry#:#エントリーを一つだけ選択してください。
 mail#:#mail_select_recipients#:#メールの受取人を選択してください:
+mail#:#mail_send_html#:#外部メール用HTMLフレーム
+mail#:#mail_send_html_info#:#有効にすると外部メールの本文がHTMLフレームへ埋め込まれます。対応のテンプレートは './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' の './Services/Mail/templates/default/tpl.html_mail_template.html' をコピーしてカスタマイズすることができます。
 mail#:#mail_send_with_system_address#:#システムアドレスと一緒に送ってください
 mail#:#mail_settings_incoming_type_see_also#:#<a href="%s">ここ</a>でユーザが今後受信するemaiタイプの修正可能です。
 mail#:#mail_subject_prefix#:#メール件名
@@ -10503,6 +10509,10 @@ mail#:#mail_sure_delete#:#本当にマークされたメールを削除します
 mail#:#mail_sure_delete_entry#:#本当に次のエントリーを削除しますか?
 mail#:#mail_sure_delete_file#:#ファイルは完全に削除されます
 mail#:#mail_sure_delete_folder#:#フォルダとそのコンテンツは完全に削除されます
+mail#:#mail_system_from_name#:#送信者名
+mail#:#mail_system_from_name_info#:#名前を入力してください。この名前(例: 'John Doe') は自動生成メッセージ(内部と外部)用に使用されます。ここを空欄にするとこのシステムのショートタイトルを使用します。タイトルが正しく定義されていないと‘ILIAS’は送信者名として使用します。
+mail#:#mail_system_return_path#:#グローバルReturn-Path
+mail#:#mail_system_return_path_info#:#リターンパス(例:webmaster@ilias.de)用として使用するメールアドレスを入力してください。空欄にすると'Return-Path'にはemailアドレスの'From'が使用されます。
 mail#:#mail_template_client#:#Textテンプレート
 mail#:#mail_template_client_info#:#利用可能なTextテンプレートの一つを選択してそのプレースフォルダを作成します。Textテンプレートを選択するとこのフォームの本文と件名(Textテンプレート内にある場合)が生成されます。
 mail#:#mail_template_context#:#コンテキスト
@@ -15315,6 +15325,7 @@ sysc#:#sysc_action_show_tree#:#リポジトリツリーダンプを作成表示�
 sysc#:#sysc_action_validate#:#確認
 sysc#:#sysc_administrate_deleted#:#削除済みオブジェクトを管理する
 sysc#:#sysc_btn_tree_missing#:#欠損をリストア
+sysc#:#sysc_btn_tree_structure#:#ツリー構造を再生成
 sysc#:#sysc_completed_num#:#タスク遂行
 sysc#:#sysc_cron_empty_trash#:#ゴミ箱を削除
 sysc#:#sysc_cron_empty_trash_desc#:#有効にするとリポジトリゴミ箱は一定の基準(年齢、オブジェクトタイプ、または最大オブジェクト数)で一掃されます。
@@ -15324,6 +15335,7 @@ sysc#:#sysc_grp_tree#:#リポジトリツリー
 sysc#:#sysc_grp_tree_desc#:#ツリーの解析を実行し解析データに沿って全てのツリーノードを印刷
 sysc#:#sysc_message_success#:#エラーは見つかりませんでした
 sysc#:#sysc_message_tree_missing_confirm#:#リポジトリツリー構造内の欠損エントリーを本当にリストアしますか?
+sysc#:#sysc_message_tree_structure_confirm#:#本当にツリー構造を修復しますか?実行する前にデータベースバックアップを作成してください。
 sysc#:#sysc_overview#:#概要
 sysc#:#sysc_status_completed#:#完了しました
 sysc#:#sysc_status_failed#:#失敗しました
@@ -15354,6 +15366,7 @@ sysc#:#sysc_trash_restore_info#:#ゴミ箱から削除されたオブジェク�
 sysc#:#sysc_tree_duplicate_failures#:#ツリー構造内の重複エントリーが見つかりました
 sysc#:#sysc_tree_list_failures#:#リポジトリツリーのダンプが作成されました。ツリー構造内のエラー数。
 sysc#:#sysc_tree_missing_failures#:#ツリー構造内の欠損エントリーが見つかりました欠損エントリー数
+sysc#:#sysc_tree_structure_failures#:#ツリー構造(親関係)内の障害数
 tagging#:#tag_remove_tags_of_obj_without_access#:#タグを削除
 tagging#:#tag_some_obj_tagged_without_access#:#タグされたオブジェクトにはアクセス権のないものがあります。これらのオブジェクト用のタグを削除しますか?
 tagging#:#tag_tags_deleted#:#タグはアクセス可能なオブジェクトから削除されました
@@ -15673,11 +15686,11 @@ trac#:#trac_mode_objectives_info#:#学習進捗は学習目標の達成数に沿
 trac#:#trac_mode_plugin#:#プラグイン
 trac#:#trac_mode_questions#:#全問題に正しく回答
 trac#:#trac_mode_questions_info#:#全ての問題へ正しく解答したユーザは"完了"ステータスに変わります。この設定は学習モジュール内に問題が実在する場合に限り使用してください。
-trac#:#trac_mode_scorm#:#ステータスは自動SCORM アイテム収集により決定されます
+trac#:#trac_mode_scorm#:#ステータスはSCORM アイテム収集により決定されます
 trac#:#trac_mode_scorm_aicc#:#自動SCORM アイテム収集
-trac#:#trac_mode_scorm_info#:#学習進捗進捗は選択したSCOのステータスにより決定されます。
-trac#:#trac_mode_scorm_package#:#自動SCORM コースステータス
-trac#:#trac_mode_scorm_package_info#:#学習進捗ステータスはSCORMコースパッケージにより直接決定されます。構成される全てのSCOは学習進捗に重要です。
+trac#:#trac_mode_scorm_info#:#学習進捗進捗は選択したSCOのステータスにより自動的に決定されます。<br/>ユーザの学習進捗ステータスは収集SCOの学習進捗ステータスにより決定されます:SCOはこの設定を保存した後の画面上で収集を割り当てできます。
+trac#:#trac_mode_scorm_package#:#ステータスは全SCORMパッケージにより決定されます
+trac#:#trac_mode_scorm_package_info#:#学習進捗ステータスは全SCORMパッケージのステータスにより自動的に決定されます。構成される全てのSCOが学習進捗に関係します。
 trac#:#trac_mode_study_programme#:#学習プログラムを完了しました
 trac#:#trac_mode_study_programme_info#:#学習プログラムは学習進捗'完了'をユーザが受領することで完了する必要があります。
 trac#:#trac_mode_survey_finished#:#サーベイ終了
@@ -16175,17 +16188,3 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-mail#:#mail_send_html#:#HTML Frame for External Emails###20 04 2016 new variable
-mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .###20 04 2016 new variable
-mail#:#mail_system_from_name#:#Sender Name###20 04 2016 new variable
-mail#:#mail_system_from_name_info#:#Please enter a name. This name (e.g. 'John Doe') will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.###20 04 2016 new variable
-mail#:#mail_system_return_path#:#Global Return-Path###20 04 2016 new variable
-mail#:#mail_system_return_path_info#:#Please enter an email address which should be used for the return path (e.g. webmaster@ilias.de). If you leave the field blank, the 'Return-Path' will be the 'From' email address.###20 04 2016 new variable
-exc#:#exc_delete_team#:#Delete Team###20 04 2016 new variable
-sysc#:#sysc_tree_structure_failures#:#Number of failures in the tree structure (parent-Relation):###20 04 2016 new variable
-sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tree structure? Please create a database backup before you proceed.###20 04 2016 new variable
-sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure###20 04 2016 new variable
-crs#:#event_tbl_admins#:#Administrators###20 04 2016 new variable
-crs#:#event_tbl_members#:#Members###20 04 2016 new variable
-crs#:#event_tbl_tutors#:#Tutors###20 04 2016 new variable
-trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.###20 04 2016 new variable
