@@ -25,10 +25,10 @@ class IliasQuestionXMLCreator implements QuestionXMLCreator {
 	 */
 	public function XML() {
 		if(count($this->answers) === 0) {
-			throw new questionException('');
+			throw new QuestionException('');
 		}
 		if(count($this->correct_answers) === 0) {
-			throw new questionException('');
+			throw new QuestionException('');
 		}
 		global $ilCtrl,$ilDB,$lng;
 		switch($this->type) {
@@ -49,11 +49,12 @@ class IliasQuestionXMLCreator implements QuestionXMLCreator {
 				$obj->feedbackOBJ = new ilAssMultipleChoiceFeedback($obj,$ilCtrl,$ilDB,$lng);
 				break;
 			default:
-				throw new questionException('unknown question type $this->type');
+				throw new QuestionException('unknown question type $this->type');
 		}
 		$obj->setId($this->id);
+		$points_per_ans = 1/count($this->correct_answers);
 		foreach ($this->answers as $answer_id => $answer) {
-			$points = in_array($answer_id, $this->correct_answers) ? 1 : 0;
+			$points = in_array($answer_id, $this->correct_answers) ? $points_per_ans : -1;
 			$obj->addAnswer($answer,$points);
 		}
 		return $obj->toXML();
@@ -67,7 +68,7 @@ class IliasQuestionXMLCreator implements QuestionXMLCreator {
 			$this->title = $title;
 			return $this;
 		}
-		throw new questionException('invalid title');
+		throw new QuestionException('invalid title');
 	}
 
 	/**
@@ -78,7 +79,7 @@ class IliasQuestionXMLCreator implements QuestionXMLCreator {
 			$this->id = $id;
 			return $this;
 		}
-		throw new questionException('invalid id');
+		throw new QuestionException('invalid id');
 	}
 
 	/**
@@ -89,7 +90,7 @@ class IliasQuestionXMLCreator implements QuestionXMLCreator {
 			$this->question = $question;
 			return $this;
 		}
-		throw new questionException('invalid id');
+		throw new QuestionException('invalid id');
 	}
 
 	/**
@@ -103,7 +104,7 @@ class IliasQuestionXMLCreator implements QuestionXMLCreator {
 			}
 			return $this;
 		}
-		throw new questionException('invalid answer');
+		throw new QuestionException('invalid answer');
 	}
 
 	/**
