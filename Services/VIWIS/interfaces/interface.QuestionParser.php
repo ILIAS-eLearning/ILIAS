@@ -1,5 +1,11 @@
 <?php
 
+/**
+ *	Parser for an XML format question. The XML should contain a title,
+ *	a question-text, a list of possible answers, a list of correct answers,
+ *	some id, and type information (single/multiple - choice).
+ */
+
 interface QuestionParser {
 
 	/**
