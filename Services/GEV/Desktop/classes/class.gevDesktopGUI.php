@@ -23,7 +23,6 @@
 * @ilCtrl_Calls gevDesktopGUI: gevWBDEdupointsReportedGUI
 * @ilCtrl_Calls gevDesktopGUI: gevEmployeeBookingsGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingGUI
-* @ilCtrl_Calls gevDesktopGUI: gevEmployeeEduBiosGUI
 * @ilCtrl_Calls gevDesktopGUI: ilFormPropertyDispatchGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDErrorsGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDBVReportGUI
@@ -151,13 +150,6 @@ class gevDesktopGUI {
 				$gui = new gevDecentralTrainingGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-				
-			case "gevemployeeedubiosgui":
-				$ilMainMenu->setActive("gev_reporting_menu");
-				require_once("Services/GEV/Reports/classes/class.gevEmployeeEduBiosGUI.php");
-				$gui = new gevEmployeeEduBiosGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
-				break;
 
 			case "gevwbderrorsgui":
 				$ilMainMenu->setActive("gev_reporting_menu");
@@ -265,7 +257,6 @@ class gevDesktopGUI {
 			case "toReportBookingsByVenue":
 			case "toBooking":
 			case "toEmployeeBookings":
-			case "toReportEmployeeEduBios":
 			case "toReportWBDEdupoints":
 			case "toDBVReport":
 			case "toWBDErrors":
@@ -340,10 +331,7 @@ class gevDesktopGUI {
 	protected function toTrainerOperationByOrgUnitAndTrainer() {
 		$this->ctrl->redirectByClass("gevTrainerOperationByOrgUnitAndTrainerGUI");
 	}
-	
-	protected function toReportEmployeeEduBios() {
-		$this->ctrl->redirectByClass("gevEmployeeEduBiosGUI");
-	}
+
 	protected function toWBDErrors() {
 		$this->ctrl->redirectByClass("gevWBDErrorsGUI");
 	}
