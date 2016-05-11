@@ -41,7 +41,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	* Constructor
 	* @access public
 	*/
-	function ilSearchBaseGUI()
+	function __construct()
 	{
 		global $ilCtrl,$ilias,$lng,$tpl,$ilMainMenu;
 
@@ -255,6 +255,11 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	 * Cancel delete
 	 */
 	public function cancelDelete()
+	{
+		$this->showSavedResults();
+	}
+	
+	public function cancelMoveLinkObject()
 	{
 		$this->showSavedResults();
 	}

@@ -1335,6 +1335,23 @@ class ilNusoapUserAdministrationAdapter
 		);
 
 
+		$this->server->register(
+			'exportDataCollectionContent',
+			array(
+				'sid' => 'xsd:string',
+				'ref_id' => 'xsd:int',
+				'table_id' => 'xsd:int',
+				'format' => 'xsd:string',
+				'filepath' => 'xsd:string'
+			),
+			array('export_path' => 'xsd:string'),
+			SERVICE_NAMESPACE,
+			SERVICE_NAMESPACE . '#exportDataCollectionTableContent',
+			SERVICE_STYLE,
+			SERVICE_USE,
+			'Generate DataCollectionContent Export'
+		);
+
 
 		return true;
 

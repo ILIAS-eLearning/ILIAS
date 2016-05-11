@@ -39,9 +39,9 @@ class ilContentObject2FO extends ilXML2FO
 {
 
 
-	function ilContentObject2FO()
+	public function __construct()
 	{
-		parent::ilXML2FO();
+		parent::__construct();
 		$this->setXSLTLocation(XSLT_TEMPLATE);
 	}
 

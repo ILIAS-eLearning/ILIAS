@@ -36,15 +36,6 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilTestSearch extends ilAbstractSearch
 {
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilTestSearch(&$query_parser)
-	{
-		parent::ilAbstractSearch($query_parser);
-	}
-
 	function &__searchTestIntroduction()
 	{
 		$this->setFields(array('introduction'));

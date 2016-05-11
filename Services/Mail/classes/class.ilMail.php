@@ -179,23 +179,23 @@ class ilMail
 		$recipients = $this->explodeRecipients($a_existing_recipients);
 		foreach($recipients as $rcp)
 		{
-			if(substr($rcp->mailbox, 0, 1) != '#')
+			if(substr($rcp->getMailbox(), 0, 1) != '#')
 			{
-				if(trim($rcp->mailbox) == trim($a_recipient) || trim($rcp->mailbox . '@' . $rcp->host) == trim($a_recipient))
+				if(trim($rcp->getMailbox()) == trim($a_recipient) || trim($rcp->getMailbox() . '@' . $rcp->getHost()) == trim($a_recipient))
 				{
 					return true;
 				}
 			}
-			else if(substr($rcp->mailbox, 0, 7) == '#il_ml_')
+			else if(substr($rcp->getMailbox(), 0, 7) == '#il_ml_')
 			{
-				if(trim($rcp->mailbox . '@' . $rcp->host) == trim($a_recipient))
+				if(trim($rcp->getMailbox() . '@' . $rcp->getHost()) == trim($a_recipient))
 				{
 					return true;
 				}
 			}
 			else
 			{
-				if(trim($rcp->mailbox . '@' . $rcp->host) == trim($a_recipient))
+				if(trim($rcp->getMailbox() . '@' . $rcp->getHost()) == trim($a_recipient))
 				{
 					return true;
 				}
@@ -698,9 +698,8 @@ class ilMail
 	 * @param int $a_user_id
 	 * @return string
 	 */
-	protected function replacePlaceholders($a_message, $a_user_id)
+	protected function replacePlaceholders($a_message, $a_user_id = 0)
 	{
-		$user = self::getCachedUserInstance($a_user_id);
 		try
 		{
 			if(ilMailFormCall::getContextId())
@@ -714,6 +713,7 @@ class ilMail
 				$context = new ilMailTemplateGenericContext();
 			}
 
+			$user = $a_user_id > 0 ? self::getCachedUserInstance($a_user_id) : null;
 			foreach($context->getPlaceholders() as $key => $ph_definition)
 			{
 				$result    = $context->resolvePlaceholder($key, ilMailFormCall::getContextParameters(), $user);
@@ -925,50 +925,21 @@ class ilMail
 
 	/**
 	 * @param  string $a_recipients recipients seperated by ','
-	 * @return array
+	 * @return int[]
 	 */
 	protected function getUserIds($a_recipients)
 	{
-		/** @var $rbacreview ilRbacReview */
-		global $rbacreview;
+		$usr_ids = array();
 
-		$ids = array();
-
+		require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressTypeFactory.php';  
 		$recipients = $this->explodeRecipients($a_recipients);
 		foreach($recipients as $recipient)
 		{
-			if(
-				substr($recipient->mailbox, 0, 1) === '#' ||
-				(substr($recipient->mailbox, 0, 1) === '"' && substr($recipient->mailbox, 1, 1) === '#')
-			)
-			{
-				$role_ids = $rbacreview->searchRolesByMailboxAddressList($recipient->mailbox . '@' . $recipient->host);
-				foreach($role_ids as $role_id)
-				{
-					foreach($rbacreview->assignedUsers($role_id) as $usr_id)
-					{
-						$ids[] = $usr_id;
-					}
-				}
-			}
-			else if(strtolower($recipient->host) == self::ILIAS_HOST)
-			{
-				if($id = ilObjUser::_lookupId(addslashes($recipient->mailbox)))
-				{
-					$ids[] = $id;
-				}
-			}
-			else
-			{
-				// Fixed mantis bug #5875
-				if($id = ilObjUser::_lookupId($recipient->mailbox . '@' . $recipient->host))
-				{
-					$ids[] = $id;
-				}
-			}
+			$address_type = ilMailAddressTypeFactory::getByPrefix($recipient);
+			$usr_ids = array_merge($usr_ids, $address_type->resolve());
 		}
 
-		return array_unique($ids);
+		return array_unique($usr_ids);
 	}
 
 	/**
@@ -978,117 +949,56 @@ class ilMail
 	 * @param    string $a_m_subject
 	 * @param    string $a_m_message
 	 * @param    string $a_type
-	 * @return    string error message
+	 * @return    string array message
 	 */
 	protected function checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject, $a_m_message, $a_type)
 	{
-		$error_message = '';
-
-		$a_m_subject = trim($a_m_subject);
-		$a_rcp_to    = trim($a_rcp_to);
-
-		if(strlen($a_m_subject) == 0)
+		$errors =  array();
+		foreach(array(
+			$a_m_subject => array('mail_add_subject'),
+			$a_rcp_to    => array('mail_add_recipient')
+		) as $string => $e)
 		{
-			$error_message .= $error_message ? "<br>" : '';
-			$error_message .= $this->lng->txt('mail_add_subject');
+			if(strlen($string) === 0)
+			{
+				$errors[] = $e;
+			}
 		}
 
-		if(strlen($a_rcp_to) == 0)
-		{
-			$error_message .= $error_message ? "<br>" : '';
-			$error_message .= $this->lng->txt('mail_add_recipient');
-		}
-
-		return $error_message;
+		return $errors;
 	}
 
 	/**
 	 * Check if recipients are valid
 	 * @param  string $a_recipients string with login names or group names (start with #)
 	 * @param  string $a_type
-	 * @return string Returns an empty string, if all recipients are okay. Returns a string with invalid recipients, if some are not okay.
+	 * @return array Returns an empty array, if all recipients are okay. Returns an array with invalid recipients, if some are not okay.
+	 * @throws ilMailException
 	 */
 	protected function checkRecipients($a_recipients, $a_type)
 	{
-		global $rbacsystem, $rbacreview;
-
-		$wrong_rcps = '';
+		$errors = array();
 
 		try
 		{
-			$tmp_rcp = $this->explodeRecipients($a_recipients);
-			foreach ($tmp_rcp as $rcp)
+			require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressTypeFactory.php';
+			$recipients = $this->explodeRecipients($a_recipients);
+			foreach($recipients as $recipient)
 			{
-				// NO ROLE MAIL ADDRESS
-				if (substr($rcp->mailbox,0,1) != '#')
+				$address_type = ilMailAddressTypeFactory::getByPrefix($recipient);
+				if(!$address_type->validate($this->user_id))
 				{
-					// ALL RECIPIENTS MUST EITHER HAVE A VALID LOGIN OR A VALID EMAIL
-					$user_id = ($rcp->host == self::ILIAS_HOST) ? ilObjUser::getUserIdByLogin(addslashes($rcp->mailbox)) : false;
-					if ($user_id == false && $rcp->host == self::ILIAS_HOST)
-					{
-						$wrong_rcps .= "<br />".htmlentities($rcp->mailbox);
-						continue;
-					}
-
-					// CHECK IF USER CAN RECEIVE MAIL
-					if ($user_id)
-					{
-						if(!$rbacsystem->checkAccessOfUser($user_id, "internal_mail", $this->getMailObjectReferenceId()))
-						{
-							$wrong_rcps .= "<br />".htmlentities($rcp->mailbox).
-								" (".$this->lng->txt("user_cant_receive_mail").")";
-							continue;
-						}
-					}
-				}
-				else if (substr($rcp->mailbox, 0, 7) == '#il_ml_')
-				{
-					if (!$this->mlists->mailingListExists($rcp->mailbox))
-					{
-						$wrong_rcps .= "<br />".htmlentities($rcp->mailbox).
-							" (".$this->lng->txt("mail_no_valid_mailing_list").")";
-					}
-
-					continue;
-				}
-				else
-				{
-
-					$role_ids = $rbacreview->searchRolesByMailboxAddressList($rcp->mailbox.'@'.$rcp->host);
-					if(!$this->mail_to_global_roles && is_array($role_ids))
-					{
-						foreach($role_ids as $role_id)
-						{
-							if($rbacreview->isGlobalRole($role_id))
-							{
-								include_once('Services/Mail/exceptions/class.ilMailException.php');
-								throw new ilMailException('mail_to_global_roles_not_allowed');
-
-							}
-						}
-					}
-					if (count($role_ids) == 0)
-					{
-						$wrong_rcps .= '<br />'.htmlentities($rcp->mailbox).
-							' ('.$this->lng->txt('mail_no_recipient_found').')';
-						continue;
-					}
-					else if (count($role_ids) > 1)
-					{
-						$wrong_rcps .= '<br/>'.htmlentities($rcp->mailbox).
-							' ('.sprintf($this->lng->txt('mail_multiple_recipients_found'), implode(',', $role_ids)).')';
-					}
+					$errors = array_merge($errors, $address_type->getErrors());
 				}
 			}
 		}
 		catch(ilException $e)
 		{
 			$colon_pos = strpos($e->getMessage(), ':');
-			$wrong_rcps = '<br />'.(($colon_pos === false) ? $e->getMessage() : substr($e->getMessage(), $colon_pos + 2));
+			throw new ilMailException(($colon_pos === false) ? $e->getMessage() : substr($e->getMessage(), $colon_pos + 2));
 		}
 
-		
-		return $wrong_rcps;
+		return $errors;
 	}
 
 	/**
@@ -1174,7 +1084,7 @@ class ilMail
 	 * @param array    $a_attachment
 	 * @param array    $a_type (normal and/or system and/or email)
 	 * @param bool|int $a_use_placeholders
-	 * @return string
+	 * @return array
 	 */
 	public function sendMail($a_rcp_to, $a_rcp_cc, $a_rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $a_type, $a_use_placeholders = 0)
 	{
@@ -1189,99 +1099,43 @@ class ilMail
 			$this->mail_to_global_roles = $rbacsystem->checkAccessOfUser($this->user_id, 'mail_to_global_roles', $this->mail_obj_ref_id);
 		}
 
-		$error_message = '';
-		$message       = '';
-
-		if(in_array("system", $a_type))
+		if(in_array('system', $a_type))
 		{
 			$this->__checkSystemRecipients($a_rcp_to);
 			$a_type = array('system');
 		}
 
-		if($a_attachment)
+		if($a_attachment && !$this->mfile->checkFilesExist($a_attachment))
 		{
-			if(!$this->mfile->checkFilesExist($a_attachment))
-			{
-				return "YOUR LIST OF ATTACHMENTS IS NOT VALID, PLEASE EDIT THE LIST";
-			}
+			return array(array('mail_attachment_file_not_exist', $a_attachment));
 		}
 
-		if($error_message = $this->checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bc, $a_m_subject, $a_m_message, $a_type))
+		$errors = $this->checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bc, $a_m_subject, $a_m_message, $a_type);
+		if(count($errors) > 0)
 		{
-			return $error_message;
+			return $errors;
 		}
 
 		try
  		{
-			if($error_message = $this->checkRecipients($a_rcp_to, $a_type))
-			{
-				$message .= $error_message;
-			}
+			$errors = array();
+			$errors = array_merge($errors, $this->checkRecipients($a_rcp_to, $a_type));
+			$errors = array_merge($errors, $this->checkRecipients($a_rcp_cc, $a_type));
+			$errors = array_merge($errors, $this->checkRecipients($a_rcp_bc, $a_type));
 
-			if($error_message = $this->checkRecipients($a_rcp_cc, $a_type))
+			if(count($errors) > 0)
 			{
-				$message .= $error_message;
-			}
-
-			if($error_message = $this->checkRecipients($a_rcp_bc, $a_type))
-			{
-				$message .= $error_message;
+				return array_merge(array(array('mail_following_rcp_not_valid')), $errors);
 			}
  		}
-
 		catch(ilMailException $e)
  		{
-			return $this->lng->txt($e->getMessage());
+			return array(array('mail_generic_rcp_error', $e->getMessage()));
  		}
 
-		if(strlen($message) > 0)
-		{
-			return $this->lng->txt('mail_following_rcp_not_valid') . $message;
-		}
-
-		$rcp_to_list = $this->parseRcptOfMailingLists($a_rcp_to, true);
-		$rcp_cc_list = $this->parseRcptOfMailingLists($a_rcp_cc, true);
-		$rcp_bc_list = $this->parseRcptOfMailingLists($a_rcp_bc, true);
-
-		$rcp_to = $rcp_cc = $rcp_bc = array();
-		foreach($rcp_to_list as $mlist_id => $mlist_rec)
-		{
-			if($mlist_id)
-			{
-				// internal mailing lists are sent as bcc
-				$mlist_id = substr($mlist_id, 7);
-				if($this->mlists->get($mlist_id)->getMode() == ilMailingList::MODE_TEMPORARY)
-				{
-					$rcp_bc = array_merge($rcp_bc, $mlist_rec);
-					continue;
-				}
-			}
-
-			$rcp_to = array_merge($rcp_to, $mlist_rec);
-		}
-		foreach($rcp_cc_list as $mlist_id => $mlist_rec)
-		{
-			if($mlist_id)
-			{
-				// internal mailing lists are sent as bcc
-				$mlist_id = substr($mlist_id, 7);
-				if($this->mlists->get($mlist_id)->getMode() == ilMailingList::MODE_TEMPORARY)
-				{
-					$rcp_bc = array_merge($rcp_bc, $mlist_rec);
-					continue;
-				}
-			}
-
-			$rcp_cc = array_merge($rcp_cc, $mlist_rec);
-		}
-		foreach($rcp_bc_list as $mlist_id => $mlist_rec)
-		{
-			$rcp_bc = array_merge($rcp_bc, $mlist_rec);
-		}
-
-		$rcp_to = implode(',', $rcp_to);
-		$rcp_cc = implode(',', $rcp_cc);
-		$rcp_bc = implode(',', $rcp_bc);
+		$rcp_to = $a_rcp_to;
+		$rcp_cc = $a_rcp_cc;
+		$rcp_bc = $a_rcp_bc;
 
 		$c_emails = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bc, true);
 
@@ -1290,7 +1144,7 @@ class ilMail
 			!$rbacsystem->checkAccessOfUser($this->user_id, 'smtp_mail', $this->mail_obj_ref_id)
 		)
 		{
-			return $this->lng->txt('mail_no_permissions_write_smtp');
+			return array(array('mail_no_permissions_write_smtp'));
 		}
 
 		if($this->appendInstallationSignature())
@@ -1303,10 +1157,7 @@ class ilMail
 		if($a_attachment)
 		{
 			$this->mfile->assignAttachmentsToDirectory($sent_id, $sent_id);
-			if($error = $this->mfile->saveFiles($sent_id,$a_attachment))
-			{
-				return $error;
-			}
+			$this->mfile->saveFiles($sent_id, $a_attachment);
 		}
 
 		if($c_emails)
@@ -1316,26 +1167,20 @@ class ilMail
 				$this->getEmailRecipients($rcp_cc),
 				$this->getEmailRecipients($rcp_bc),
 				$a_m_subject,
-				$a_m_message,
+				$a_use_placeholders ? $this->replacePlaceholders($a_m_message) : $a_m_message,
 				$a_attachment,
 				0
 			);
 		}
 
-		if(in_array('system', $a_type))
+		if(in_array('system', $a_type) && !$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'system', $a_use_placeholders))
 		{
-			if(!$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'system', $a_use_placeholders))
-			{
-				return $this->lng->txt('mail_send_error');
-			}
+			return array(array('mail_send_error'));
 		}
 
-		if(in_array('normal', $a_type))
+		if(in_array('normal', $a_type) && !$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'normal', $a_use_placeholders))
 		{
-			if(!$this->distributeMail($rcp_to, $rcp_cc, $rcp_bc, $a_m_subject, $a_m_message, $a_attachment, $sent_id, $a_type, 'normal', $a_use_placeholders))
-			{
-				return $this->lng->txt('mail_send_error');
-			}
+			return array(array('mail_send_error'));
 		}
 
 		if(!$this->getSaveInSentbox())
@@ -1343,94 +1188,7 @@ class ilMail
 			$this->deleteMails(array($sent_id));
 		}
 
-		return '';
-	}
-
-	/**
-	 * @param string $rcpt
-	 * @param bool   $maintain_lists
-	 * @return array|string
-	 */
-	protected function parseRcptOfMailingLists($rcpt = '', $maintain_lists = false)
-	{
-		if($rcpt == '')
-		{
-			if(!$maintain_lists)
-			{
-				return $rcpt;
-			}
-			else
-			{
-				return array();
-			}
-		}
-
-		$arrRcpt = $this->explodeRecipients(trim($rcpt));
-		if(!is_array($arrRcpt) || empty($arrRcpt))
-		{
-			if(!$maintain_lists)
-			{
-				return $rcpt;
-			}
-			else
-			{
-				return array();
-			}
-		}
-
-		$new_rcpt = array();
-
-		foreach($arrRcpt as $item)
-		{
-			if(substr($item->mailbox, 0, 7) == '#il_ml_')
-			{
-				if($this->mlists->mailingListExists($item->mailbox))
-				{
-					foreach($this->mlists->getCurrentMailingList()->getAssignedEntries() as $entry)
-					{
-						$login = ilObjUser::_lookupLogin($entry['usr_id']);
-						if(!$maintain_lists)
-						{
-							$new_rcpt[] = $login;
-						}
-						else
-						{
-							$new_rcpt[$item->mailbox][] = $login;
-						}
-					}
-				}
-			}
-			else
-			{
-				$tmp_rcpt = '';
-				if($item->host == self::ILIAS_HOST)
-				{
-					$tmp_rcpt = $item->mailbox;
-				}
-				else
-				{
-					$tmp_rcpt = $item->mailbox . '@' . $item->host;
-				}
-
-				if(!$maintain_lists)
-				{
-					$new_rcpt[] = $tmp_rcpt;
-				}
-				else
-				{
-					$new_rcpt[0][] = $tmp_rcpt;
-				}
-			}
-		}
-
-		if(!$maintain_lists)
-		{
-			return implode(',', $new_rcpt);
-		}
-		else
-		{
-			return $new_rcpt;
-		}
+		return array();
 	}
 
 	/**
@@ -1631,10 +1389,9 @@ class ilMail
 
 	/**
 	 * Explode recipient string, allowed seperators are ',' ';' ' '
-	 * Returns an array with recipient stdClass objects
+	 * Returns an array with recipient ilMailAddress objects
 	 * @param string $a_recipients
-	 * @return array with recipient objects. array[i]->mailbox gets the mailbox
-	 * of the recipient. array[i]->host gets the host of the recipients.
+	 * @return ilMailAddress[] An array with objects of type ilMailAddress
 	 */
 	protected function explodeRecipients($a_recipients)
 	{
@@ -1643,30 +1400,37 @@ class ilMail
 		$a_recipients = preg_replace('/;/', ',', trim($a_recipients));
 		if(strlen(trim($a_recipients)) > 0)
 		{
-			require_once 'Services/Mail/classes/RFC822.php';
+			require_once 'Services/Mail/classes/Address/Parser/RFC822.php';
 			$parser = new Mail_RFC822();
 			$recipients = $parser->parseAddressList($a_recipients, self::ILIAS_HOST, false, true);
+			$recipients = array_filter($recipients, function($address) {
+				return strlen($address->mailbox) > 0;
+			});
+			require_once 'Services/Mail/classes/Address/class.ilMailAddress.php';
+			$recipients = array_map(function($address) {
+				return new ilMailAddress($address->mailbox, $address->host);
+			}, $recipients);
 		}
 
 		return $recipients;
 	}
 
 	/**
-	 * @param string $rcp
+	 * @param string $a_recipients
 	 * @param bool   $a_only_email
 	 * @return int
 	 */
-	protected function getCountRecipient($rcp, $a_only_email = true)
+	protected function getCountRecipient($a_recipients, $a_only_email = true)
 	{
 		$counter = 0;
 
-		$tmp_rcp = $this->explodeRecipients($rcp);
-		foreach($tmp_rcp as $to)
+		$recipients = $this->explodeRecipients($a_recipients);
+		foreach($recipients as $recipient)
 		{
 			if($a_only_email)
 			{
 				// Fixed mantis bug #5875
-				if(ilObjUser::_lookupId($to->mailbox . '@' . $to->host))
+				if(ilObjUser::_lookupId($recipient->getMailbox() . '@' . $recipient->getHost()))
 				{
 					continue;
 				}
@@ -1674,7 +1438,7 @@ class ilMail
 				// Addresses which aren't on the self::ILIAS_HOST host, and
 				// which have a mailbox which does not start with '#',
 				// are external e-mail addresses
-				if($to->host != self::ILIAS_HOST && substr($to->mailbox, 0, 1) != '#')
+				if($recipient->getHost() != self::ILIAS_HOST && substr($recipient->getMailbox(), 0, 1) != '#')
 				{
 					++$counter;
 				}
@@ -1704,25 +1468,25 @@ class ilMail
 	}
 
 	/**
-	 * @param string $a_rcp
+	 * @param string $a_recipients
 	 * @return string
 	 */
-	protected function getEmailRecipients($a_rcp)
+	protected function getEmailRecipients($a_recipients)
 	{
 		$rcp = array();
 
-		$tmp_rcp = $this->explodeRecipients($a_rcp);
-		foreach($tmp_rcp as $to)
+		$recipients = $this->explodeRecipients($a_recipients);
+		foreach($recipients as $recipient)
 		{
-			if(substr($to->mailbox, 0, 1) != '#' && $to->host != self::ILIAS_HOST)
+			if(substr($recipient->getMailbox(), 0, 1) != '#' && $recipient->getHost() != self::ILIAS_HOST)
 			{
 				// Fixed mantis bug #5875
-				if(ilObjUser::_lookupId($to->mailbox . '@' . $to->host))
+				if(ilObjUser::_lookupId($recipient->getMailbox() . '@' . $recipient->getHost()))
 				{
 					continue;
 				}
 
-				$rcp[] = $to->mailbox . '@' . $to->host;
+				$rcp[] = $recipient->getMailbox() . '@' . $recipient->getHost();
 			}
 		}
 
@@ -1734,7 +1498,7 @@ class ilMail
 	 */
 	protected function __checkSystemRecipients(&$a_rcp_to)
 	{
-		if(preg_match("/@all/",$a_rcp_to))
+		if(preg_match("/@all/", $a_rcp_to))
 		{
 			$all = ilObjUser::getAllUserLogins();
 			$a_rcp_to = preg_replace("/@all/", implode(',', $all), $a_rcp_to);

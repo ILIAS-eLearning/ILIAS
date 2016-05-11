@@ -46,7 +46,7 @@ class ilRPCServerAdapter
 	var $rpc_client = null;
 	var $rpc_message = null;
 
-	function ilRPCServerAdapter()
+	function __construct()
 	{
 		global $ilLog,$ilDB,$ilErr;
 

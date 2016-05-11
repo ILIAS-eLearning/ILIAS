@@ -37,15 +37,6 @@ include_once 'Services/Search/classes/class.ilLMContentSearch.php';
 class ilFulltextLMContentSearch extends ilLMContentSearch
 {
 
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilFulltextLMContentSearch(&$qp_obj)
-	{
-		parent::ilLMContentSearch($qp_obj);
-	}
-
 	function __createWhereCondition()
 	{
 		// IN BOOLEAN MODE

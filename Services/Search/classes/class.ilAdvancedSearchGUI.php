@@ -63,13 +63,13 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	* Constructor
 	* @access public
 	*/
-	function ilAdvancedSearchGUI()
+	function __construct()
 	{
 		global $ilTabs;
 		
 		$this->tabs_gui = $ilTabs;
 		
-		parent::ilSearchBaseGUI();
+		parent::__construct();
 
 		$this->lng->loadLanguageModule('meta');
 		$this->fields = ilLuceneAdvancedSearchFields::getInstance(); 

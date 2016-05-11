@@ -932,7 +932,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 				$this->objective_list_gui->addSubItemHTML($sub_item_html);	
 			}
 			
-			return $this->objective_list_gui->getListItemHTML(
+			return $this->objective_list_gui->getObjectiveListItemHTML(
 				0,
 				$a_objective_id,
 				$objective->getTitle(),

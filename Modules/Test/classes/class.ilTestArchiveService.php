@@ -17,11 +17,18 @@ class ilTestArchiveService
 	
 	protected $considerHiddenQuestionsEnabled;
 	
+	protected $testResultHeaderLabelBuilder;
+	
 	public function __construct(ilObjTest $testOBJ)
 	{
+		global $ilObjDataCache, $lng;
+		
 		$this->testOBJ = $testOBJ;
 
 		$this->considerHiddenQuestionsEnabled = true;
+
+		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
+		$this->testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($lng, $ilObjDataCache);
 	}
 
 	public function isConsiderHiddenQuestionsEnabled()
@@ -69,9 +76,11 @@ class ilTestArchiveService
 			$activeId, $pass, false, $this->isConsiderHiddenQuestionsEnabled()
 		);
 		
-		$gui = new ilTestServiceGUI($this);
+		$gui = new ilTestServiceGUI($this->testOBJ);
 		
-		return $gui->getPassListOfAnswers($results, $activeId, $pass, true, false, false, true);
+		return $gui->getPassListOfAnswers(
+			$results, $activeId, $pass, true, false, false, true, false, null, $this->testResultHeaderLabelBuilder
+		);
 	}
 
 	/**

@@ -74,7 +74,7 @@ class ilCopyWizardExplorer extends ilExplorer
 	 * @param int node_id
 	 * 
 	 */
-	public function forceExpanded()
+	public function forceExpanded($a_obj_id)
 	{
 	 	return true;
 	}

@@ -92,6 +92,15 @@ interface ilDBInterface {
 
 
 	/**
+	 * @param $old_name
+	 * @param $new_name
+	 *
+	 * @return mixed
+	 */
+	public function renameTable($old_name, $new_name);
+
+
+	/**
 	 * @param $query string
 	 *
 	 * @return \ilDBStatement
@@ -191,6 +200,14 @@ interface ilDBInterface {
 	 */
 	public function addIndex($table_name, $index_name);
 
+
+	/**
+	 * @param $table_name
+	 * @param $fields
+	 *
+	 * @return mixed
+	 */
+	public function indexExistsByFields($table_name, $fields);
 
 	/**
 	 * @param int $fetchMode
@@ -471,4 +488,39 @@ interface ilDBInterface {
 	 * @return mixed
 	 */
 	public function free($a_st);
+
+
+	/**
+	 * @param $a_name
+	 * @return bool
+	 */
+	public function checkTableName($a_name);
+
+
+	/**
+	 * @param $a_word
+	 * @return bool
+	 */
+	public static function isReservedWord($a_word);
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function beginTransaction();
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function commit();
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function rollback();
 }

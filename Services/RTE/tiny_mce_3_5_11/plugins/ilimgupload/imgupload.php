@@ -165,6 +165,10 @@ if($ilUser->getLanguage() == 'de')
 {
 	$tpl->touchBlock('validation_engine_lang_de');
 }
+else if($ilUser->getLanguage() == 'hu')
+{
+	$tpl->touchBlock('validation_engine_lang_hu');
+}
 else
 {
 	$tpl->touchBlock('validation_engine_lang_default');

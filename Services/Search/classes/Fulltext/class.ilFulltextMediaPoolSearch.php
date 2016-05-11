@@ -37,15 +37,6 @@ include_once 'Services/Search/classes/class.ilMediaPoolSearch.php';
 class ilFulltextMediaPoolSearch extends ilMediaPoolSearch
 {
 
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilFulltextMediaPoolSearch(&$qp_obj)
-	{
-		parent::ilMediaPoolSearch($qp_obj);
-	}
-
 	function __createAndCondition()
 	{
 		// IN BOOLEAN MODE

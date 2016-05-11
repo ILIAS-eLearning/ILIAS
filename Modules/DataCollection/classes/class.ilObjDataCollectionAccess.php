@@ -201,6 +201,20 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 
 
 	/**
+	 * Has permission to view and edit all entries event when he is not the owner
+	 *
+	 * @param $ref
+	 *
+	 * @return mixed
+	 */
+	public static function hasEditAccess($ref) {
+		global $ilAccess;
+
+		return $ilAccess->checkAccess("edit_content", "", $ref);
+	}
+
+
+	/**
 	 * @param $ref int the reference id of the datacollection object to check.
 	 *
 	 * @return bool whether or not the current user has admin/write access to the referenced datacollection

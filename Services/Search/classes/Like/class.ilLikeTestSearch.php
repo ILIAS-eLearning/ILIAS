@@ -37,16 +37,6 @@ include_once 'Services/Search/classes/class.ilTestSearch.php';
 class ilLikeTestSearch extends ilTestSearch
 {
 
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilTestSearch(&$qp_obj)
-	{
-		parent::ilTestSearch($qp_obj);
-	}
-
-
 	function __createWhereCondition()
 	{
 		global $ilDB;

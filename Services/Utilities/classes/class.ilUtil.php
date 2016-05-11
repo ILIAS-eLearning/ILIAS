@@ -1127,7 +1127,6 @@ class ilUtil
 	*/
 	public static function is_email($a_email)
 	{
-		// BEGIN Mail: If possible, use PearMail to validate e-mail address
 		global $ilErr;
 
 		// additional check for ilias object is needed,
@@ -1136,11 +1135,11 @@ class ilUtil
 		{
 			try
 			{
-				require_once 'Services/Mail/classes/RFC822.php';
+				require_once 'Services/Mail/classes/Address/Parser/RFC822.php';
+				require_once 'Services/Mail/classes/class.ilMail.php';
 				$parser    = new Mail_RFC822();
-				$addresses = $parser->parseAddressList($a_email, 'ilias', false, true);
-
-				return count($addresses) == 1 && $addresses[0]->host != 'ilias';
+				$addresses = $parser->parseAddressList($a_email, ilMail::ILIAS_HOST, false, true);
+				return count($addresses) == 1 && $addresses[0]->host != ilMail::ILIAS_HOST;
 			}
 			catch(ilException $e)
 			{
@@ -1162,7 +1161,6 @@ class ilUtil
 			
 			return(preg_match("/^[-_.[:alnum:]]+@((([[:alnum:]]|[[:alnum:]][[:alnum:]-]*[[:alnum:]])\.)+(".$tlds.")|(([0-9][0-9]?|[0-1][0-9][0-9]|[2][0-4][0-9]|[2][5][0-5])\.){3}([0-9][0-9]?|[0-1][0-9][0-9]|[2][0-4][0-9]|[2][5][0-5]))$/i",$a_email));
 		}
-		// END Mail: If possible, use PearMail to validate e-mail address
 	}
 
 	/**
@@ -2086,52 +2084,6 @@ class ilUtil
 		$img.= ' border="'.(int) $a_border.'"/>';
 
 		return $img;
-	}
-
-	/**
-	*	produce pdf out of html with htmldoc
-	*   @param  html    String  HTML-Data given to create pdf-file
-	*   @param  pdf_file    String  Filename to save pdf in
-	*   @static
-	*   
-	*/
-	public static function html2pdf($html, $pdf_file)
-	{
-		$html_file = str_replace(".pdf",".html",$pdf_file);
-
-		$fp = fopen( $html_file ,"wb");
-		fwrite($fp, $html);
-		fclose($fp);
-
-		ilUtil::htmlfile2pdf($html_file,$pdf_file);
-	}
-
-	/**
-	*	produce pdf out of html with htmldoc
-	*   @param  html    String  HTML-Data given to create pdf-file
-	*   @param  pdf_file    String  Filename to save pdf in
-	* @static
-	*/
-	public static function htmlfile2pdf($html_file, $pdf_file)
-	{
-		$htmldoc_path = PATH_TO_HTMLDOC;
-
-		$htmldoc = "--no-toc ";
-		$htmldoc .= "--no-jpeg ";
-		$htmldoc .= "--webpage ";
-		$htmldoc .= "--outfile " . ilUtil::escapeShellArg($pdf_file) . " ";
-		$htmldoc .= "--bodyfont Arial ";
-		$htmldoc .= "--charset iso-8859-15 ";
-		$htmldoc .= "--color ";
-		$htmldoc .= "--size A4  ";      // --landscape
-		$htmldoc .= "--format pdf ";
-		$htmldoc .= "--footer ... ";
-		$htmldoc .= "--header ... ";
-		$htmldoc .= "--left 60 ";
-		// $htmldoc .= "--right 200 ";
-		$htmldoc .= $html_file;
-		ilUtil::execQuoted($htmldoc_path, $htmldoc);
-
 	}
 
 	/**

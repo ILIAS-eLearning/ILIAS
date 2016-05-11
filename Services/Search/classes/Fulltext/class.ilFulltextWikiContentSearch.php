@@ -34,16 +34,7 @@ include_once 'Services/Search/classes/class.ilWikiContentSearch.php';
 */
 class ilFulltextWikiContentSearch extends ilWikiContentSearch
 {
-
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilFulltextWikiContentSearch(&$qp_obj)
-	{
-		parent::ilWikiContentSearch($qp_obj);
-	}
-
+	
 	function __createWhereCondition()
 	{
 		// IN BOOLEAN MODE

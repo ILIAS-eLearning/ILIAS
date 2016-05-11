@@ -34,11 +34,6 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapUserAdministration extends ilSoapAdministration
 {
-	function ilSoapUserAdministration()
-	{
-		parent::ilSoapAdministration();
-	}
-
 
 	// Service methods
 	function login($client,$username,$password)

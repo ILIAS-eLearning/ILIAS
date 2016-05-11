@@ -11852,13 +11852,6 @@ function getAnswerFeedbackPoints()
 		$scoring = new ilTestScoring($this);
 		$scoring->setPreserveManualScores($preserve_manscoring);
 		$scoring->recalculateSolutions();
-
-		if ($this->getEnableArchiving())
-		{
-			require_once 'Modules/Test/classes/class.ilTestArchiveService.php';
-			$archiveService = new ilTestArchiveService($this);
-			$archiveService->archivePassesByActives($scoring->getRecalculatedPassesByActives());
-		}
 	}
 	
 	public static function getPoolQuestionChangeListeners(ilDBInterface $db, $poolObjId)

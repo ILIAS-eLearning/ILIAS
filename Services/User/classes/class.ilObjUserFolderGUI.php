@@ -908,7 +908,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUserRoleAssignmentObject ()
 	{
-		global $ilUser,$rbacreview, $tpl, $lng, $ilCtrl;;
+		global $ilUser, $tpl, $lng, $ilCtrl;;
 	
 		// Blind out tabs for local user import
 		if ($_GET["baseClass"] == 'ilRepositoryGUI')
@@ -1130,12 +1130,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					// local roles and may contains thousands of roles on large ILIAS
 					// installations.
 					$loc_roles = array();
+					require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 					foreach($roles as $role_id => $role)
 					{
 						if ($role["type"] == "Local")
 						{
 							$searchName = (substr($role['name'],0,1) == '#') ? $role['name'] : '#'.$role['name'];
-							$matching_role_ids = $rbacreview->searchRolesByMailboxAddressList($searchName);
+							$matching_role_ids = ilMailRoleAddressType::searchRolesByMailboxAddressList($searchName);
 							foreach ($matching_role_ids as $mid) {
 								if (! in_array($mid, $loc_roles)) {
 									$loc_roles[] = $mid;
@@ -1153,6 +1154,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				
 				// create a search array with  .
 				$l_roles_mailbox_searcharray = array();
+				require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 				foreach ($loc_roles as $key => $loc_role)
 				{
 					// fetch context path of role
@@ -1206,14 +1208,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 						{
 							$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role.")</b>";
 						}
-						$roleMailboxAddress = $rbacreview->getRoleMailboxAddress($loc_role);
+						$roleMailboxAddress = ilMailRoleAddressType::getRoleMailboxAddress($loc_role);
 						$l_roles[$loc_role] = $roleMailboxAddress.', '.$path;
 					}
 				} //foreach role
 	
 				$l_roles[""] = ""; 
 				natcasesort($l_roles);
-				$l_roles[""] = $this->lng->txt("usrimport_ignore_role"); 
+				$l_roles[""] = $this->lng->txt("usrimport_ignore_role");
+				require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 				foreach($roles as $role_id => $role)
 				{
 					if ($role["type"] == "Local")
@@ -1221,7 +1224,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 						$this->tpl->setCurrentBlock("local_role");
 						$this->tpl->setVariable("TXT_IMPORT_LOCAL_ROLE", $role["name"]);
 						$searchName = (substr($role['name'],0,1) == '#') ? $role['name'] : '#'.$role['name'];
-						$matching_role_ids = $rbacreview->searchRolesByMailboxAddressList($searchName);
+						$matching_role_ids = ilMailRoleAddressType::searchRolesByMailboxAddressList($searchName);
 						$pre_select = count($matching_role_ids) == 1 ? $matching_role_ids[0] : "";
 						if ($this->object->getRefId() == USER_FOLDER_ID) {
 							// There are too many roles in a large ILIAS installation

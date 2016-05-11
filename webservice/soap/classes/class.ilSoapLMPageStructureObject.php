@@ -37,9 +37,6 @@ include_once "./webservice/soap/classes/class.ilSoapStructureObject.php";
 
 class ilSoapLMPageStructureObject extends ilSoapStructureObject{
 
-	function ilSoapLMPageStructureObject($objId, $type, $title, $description, $parentRefId) {
-		parent::ilSoapStructureObject($objId, $type, $title, $description, $parentRefId);
-	}
 
 
 	function getInternalLink () {

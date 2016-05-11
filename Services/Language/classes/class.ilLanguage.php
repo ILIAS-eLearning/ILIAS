@@ -604,7 +604,7 @@ class ilLanguage
 		/** @var ilIniFile $ilClientIniFile */
 		global $ilClientIniFile, $ilDB;
 
-		if(!$ilDB instanceof ilDBMySQL || !$ilClientIniFile instanceof ilIniFile)
+		if(!(($ilDB instanceof ilDBMySQL) || ($ilDB instanceof ilDBPdoMySQL)) || !$ilClientIniFile instanceof ilIniFile)
 		{
 
 			return false;
@@ -630,7 +630,7 @@ class ilLanguage
 		global $ilDB;
 
 		//case $ilDB not existing should not happen but if something went wrong it shouldn't leads to any failures
-		if(!$this->usage_log_enabled || !($ilDB instanceof ilDBMySQL))
+		if(!$this->usage_log_enabled || !(($ilDB instanceof ilDBMySQL) || ($ilDB instanceof ilDBPdoMySQL)))
 		{
 			return;
 		}

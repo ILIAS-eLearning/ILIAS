@@ -39,7 +39,7 @@ class ilLuceneFileSearch
 	* Constructor
 	* @access public
 	*/
-	function ilLuceneFileSearch(&$qp_obj)
+	function __construct($qp_obj)
 	{
 		$this->log = ilLoggerFactory::getLogger('src');
 		$this->query_parser =& $qp_obj;

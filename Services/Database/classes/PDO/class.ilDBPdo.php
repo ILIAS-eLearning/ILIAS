@@ -14,6 +14,9 @@ require_once('./Services/Database/classes/PDO/Reverse/class.ilDBPdoReverse.php')
  */
 class ilDBPdo implements ilDBInterface {
 
+	const FEATURE_TRANSACTIONS = 'transactions';
+	const FEATURE_FULLTEXT = 'fulltext';
+	const FEATURE_SLAVE = 'slave';
 	/**
 	 * @var string
 	 */
@@ -158,7 +161,7 @@ class ilDBPdo implements ilDBInterface {
 
 			return $next_id;
 		} else {
-			return $this->pdo->lastInsertId($table_name) + 1;
+			return $this->pdo->lastInsertId("`" . $table_name . "`") + 1;
 		}
 	}
 
@@ -309,7 +312,7 @@ class ilDBPdo implements ilDBInterface {
 	 * @param $column_name string
 	 */
 	public function dropTableColumn($table_name, $column_name) {
-		$this->pdo->exec("ALTER TABLE $$table_name DROP COLUMN $column_name");
+		$this->pdo->exec("ALTER TABLE $table_name DROP COLUMN $column_name");
 	}
 
 
@@ -319,7 +322,14 @@ class ilDBPdo implements ilDBInterface {
 	 * @param $column_new_name string
 	 */
 	public function renameTableColumn($table_name, $column_old_name, $column_new_name) {
-		$this->pdo->exec("alter table $table_name change $column_old_name $column_new_name");
+		$get_type_query = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = " . $this->quote($table_name, 'text')
+		                  . " AND COLUMN_NAME = " . $this->quote($column_old_name, 'text');
+		$get_type_result = $this->query($get_type_query);
+		$column_type = $this->fetchAssoc($get_type_result);
+
+		$query = "ALTER TABLE $table_name CHANGE " . $this->quote($column_old_name, 'text') . " " . $this->quote($column_new_name, 'text') . " "
+		         . $column_type['COLUMN_TYPE'];
+		$this->pdo->exec($query);
 	}
 
 
@@ -455,6 +465,18 @@ class ilDBPdo implements ilDBInterface {
 		}
 
 		return $this->pdo->quote($value, $pdo_type);
+	}
+
+
+	/**
+	 * @param string $table_name
+	 * @param array $fields
+	 *
+	 * @return null
+	 */
+	public function indexExistsByFields($table_name, $fields) {
+		//TODO: implement
+		return false;
 	}
 
 
@@ -936,6 +958,32 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
+	 * @return bool
+	 */
+	public function supportsTransactions() {
+		return false;
+	}
+
+
+	/**
+	 * @param $feature
+	 * @return bool
+	 */
+	public function supports($feature) {
+		switch ($feature) {
+			case self::FEATURE_TRANSACTIONS:
+				return $this->supportsTransactions();
+			case self::FEATURE_FULLTEXT:
+				return $this->supportsFulltext();
+			case self::FEATURE_SLAVE:
+				return $this->supportsSlave();
+			default:
+				return false;
+		}
+	}
+
+
+	/**
 	 * @return array
 	 */
 	public function listTables() {
@@ -1103,5 +1151,107 @@ class ilDBPdo implements ilDBInterface {
 		 * @var $a_st PDOStatement
 		 */
 		return $a_st->closeCursor();
+	}
+
+
+	/**
+	 * @param $a_name
+	 * @param $a_new_name
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function renameTable($a_name, $a_new_name) {
+		// check table name
+		try {
+			$this->checkTableName($a_new_name);
+		} catch (ilDatabaseException $e) {
+			throw new ilDatabaseException("ilDB Error: renameTable(" . $a_name . "," . $a_new_name . ")<br />" . $e->getMessage());
+		}
+
+		$this->manager->alterTable($a_name, array( "name" => $a_new_name ), false);
+
+		$query = "UPDATE abstraction_progress " . "SET table_name = " . $this->quote($a_new_name, 'text') . " " . "WHERE table_name = "
+		         . $this->quote($a_name, 'text');
+		$this->pdo->query($query);
+
+		return true;
+	}
+
+
+	/**
+	 * @param $a_name
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function checkTableName($a_name) {
+		if (!preg_match("/^[a-z]+[_a-z0-9]*$/", $a_name)) {
+			throw new ilDatabaseException('Table name must only contain _a-z0-9 and must start with a-z.');
+		}
+
+		if ($this->isReservedWord($a_name)) {
+			throw new ilDatabaseException("Invalid table name '" . $a_name . "' (Reserved Word).");
+		}
+
+		if (strtolower(substr($a_name, 0, 4)) == "sys_") {
+			throw new ilDatabaseException("Invalid table name '" . $a_name . "'. Name must not start with 'sys_'.");
+		}
+
+		if (strlen($a_name) > 22) {
+			throw new ilDatabaseException("Invalid table name '" . $a_name . "'. Maximum table identifer length is 22 bytes.");
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * @param $a_word
+	 * @return bool
+	 */
+	public static function isReservedWord($a_word) {
+		require_once('./Services/Database/classes/class.ilDBConstants.php');
+
+		$mysql_reserved_words = ilDBConstants::getReserved();
+
+		return in_array(strtoupper($a_word), $mysql_reserved_words);
+	}
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function beginTransaction() {
+		if (!$this->supports(self::FEATURE_TRANSACTIONS)) {
+			throw new ilDatabaseException("ilDB::beginTransaction: Transactions are not supported.");
+		}
+
+		return $this->pdo->beginTransaction();
+	}
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function commit() {
+		if (!$this->supports(self::FEATURE_TRANSACTIONS)) {
+			throw new ilDatabaseException("ilDB::beginTransaction: Transactions are not supported.");
+		}
+
+		return $this->pdo->commit();
+	}
+
+
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function rollback() {
+		if (!$this->supports(self::FEATURE_TRANSACTIONS)) {
+			throw new ilDatabaseException("ilDB::beginTransaction: Transactions are not supported.");
+		}
+
+		return $this->pdo->rollback();
 	}
 }
