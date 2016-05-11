@@ -1,5 +1,12 @@
 <?php
 
+/**
+ *	Creates an XML in a given format representing a test-question.
+ *	One should provide question metadata, such as title,
+ *	a question-text, a list of possible answers, a list of correct answers,
+ *	some id, and type information (single/multiple - choice).
+ */
+
 interface QuestionXMLCreator {
 
 	/**
