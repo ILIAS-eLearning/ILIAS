@@ -33,7 +33,7 @@ interface Glyph {
 	 *       3: The up-glyphs are actions and SHOULD be listed in the action
 	 *          column of a form.
 	 *
-	 * @return \ILIAS\UI\Element\Glyph
+	 * @return \ILIAS\UI\Component\Glyph
 	 */
 	public function up();
 
@@ -62,7 +62,7 @@ interface Glyph {
 	 *       3: The down-glyphs are actions and SHOULD be listed in the action
 	 *          column of a form.
 	 *
-	 * @return \ILIAS\UI\Element\Glyph
+	 * @return \ILIAS\UI\Component\Glyph
 	 */
 	public function down();
 
@@ -92,7 +92,7 @@ interface Glyph {
 	 *          action column of a form.
 	 *       3: The glyphed add-button MUST not be used to add lines to tables.
 	 *
-	 * @return \ILIAS\UI\Element\Glyph
+	 * @return \ILIAS\UI\Component\Glyph
 	 */
 	public function add();
 	
@@ -122,7 +122,7 @@ interface Glyph {
 	 *          action column of a form.
 	 *       3: The glyphed remove-button MUST not be used to add lines to tables.
 	 *
-	 * @return \ILIAS\UI\Element\Glyph
+	 * @return \ILIAS\UI\Component\Glyph
 	 */
 	public function remove();
 
@@ -142,7 +142,7 @@ interface Glyph {
 	 *
 	 * rules: TBD
 	 *
-	 * @return \ILIAS\UI\Element\Glyph
+	 * @return \ILIAS\UI\Component\Glyph
 	 */
 	public function previous();
 
@@ -162,51 +162,51 @@ interface Glyph {
 	 *
 	 * rules: TBD
 	 *
-	 * @return \ILIAS\UI\Element\Glyph
+	 * @return \ILIAS\UI\Component\Glyph
 	 */
 	public function next();
 
 	/**
-	 * @return \ILIAS\UI\Element\Glyph
+	 * @return \ILIAS\UI\Component\Glyph
 	 */
 	public function calendar();
 
 	/**
-	 * @return \ILIAS\UI\Element\Glyph
+	 * @return \ILIAS\UI\Component\Glyph
 	 */
 	public function close();
 
 	/**
-	 * @return \ILIAS\UI\Element\Glyph
+	 * @return \ILIAS\UI\Component\Glyph
 	 */
 	public function attachment();
 
 	/**
-	 * @return \ILIAS\UI\Element\Glyph
+	 * @return \ILIAS\UI\Component\Glyph
 	 */
 	public function caret();
 
 	/**
-	 * @return \ILIAS\UI\Element\Glyph
+	 * @return \ILIAS\UI\Component\Glyph
 	 */
 	public function drag();
 
 	/**
-	 * @return \ILIAS\UI\Element\Glyph
+	 * @return \ILIAS\UI\Component\Glyph
 	 */
 	public function search();
 
 	/**
-	 * @return \ILIAS\UI\Element\Glyph
+	 * @return \ILIAS\UI\Component\Glyph
 	 */
 	public function filter();
 
 	/**
-	 * @return \ILIAS\UI\Element\Glyph
+	 * @return \ILIAS\UI\Component\Glyph
 	 */
 	public function info();
 	/**
-	 * @return \ILIAS\UI\Element\Glyph
+	 * @return \ILIAS\UI\Component\Glyph
 	 */
 	public function envelope();
 }

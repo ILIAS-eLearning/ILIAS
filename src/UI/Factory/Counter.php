@@ -26,7 +26,7 @@ interface Counter {
 	 *          such as grey.
 	 *
 	 * @param   int         $amount
-	 * @return  \ILIAS\UI\Element\Counter
+	 * @return  \ILIAS\UI\Component\Counter
 	 */
 	public function status($amount);
 
@@ -63,7 +63,7 @@ interface Counter {
 	 *          such as red or orange.
 	 *
 	 * @param   int         $amount
-	 * @return  \ILIAS\UI\Element\Counter
+	 * @return  \ILIAS\UI\Component\Counter
 	 */
 	public function novelty($amount);
 }
