@@ -1336,7 +1336,7 @@ gev#:#crs_load_signature_list#:#Unterschriftenliste herunterladen
 gev#:#load_member_list#:#Mitgliederliste abrufen
 gev#:#crs_load_member_list#:#Mitgliederliste abrufen
 gev#:#view_mailing#:#Mailing einsehen
-gev#:#crs_view_maillog#:#Maillog einsehen
+gev#:#crs_view_mailing#:#Maillog einsehen
 gev#:#load_csn_list#:#CSN Liste herunterladen
 gev#:#crs_load_csn_list#:#CSN Liste herunterladen
 gev#:#gev_dec_forward_to_kurs#:#Zum Kurs
@@ -1519,3 +1519,18 @@ gev#:#gev_trainer_view_mailing#:#Mailing einsehen
 gev#:#gev_custom_mail#:#Freitextmail
 gev#:#gev_reports_settings_video_link#:#Link zum Erklärvideo
 gev#:#gev_reports_settings_pdf_link#:#Link zum PDF
+gev#:#rep_robj_xtdr_rbac_create_xtdr#:#Report Trainingsauslastung (Auswertung) anlegen
+gev#:#rep_robj_xrbt_rbac_create_xrbt#:#Report Teilnahmen nach Trainingsvorlage anlegen
+gev#:#rep_robj_xeeb_rbac_create_xeeb#:#Report Bildungsbiografien meiner Mitarbeiter / Vertriebspartner anlegen
+gev#:#rep_robj_xrbi_rbac_create_xrbi#:#Rechnungsreport anlegen
+gev#:#rep_robj_xrcp_rbac_create_xrcp#:#Gutscheincodereport anlegen
+gev#:#rep_robj_xrds_rbac_create_xrds#:#DBV Report für Vorgesetzte anlegen
+gev#:#rep_robj_xrcg_rbac_create_xrcg#:#Unternehmensreport anlegen
+gev#:#rep_robj_xatd_rbac_create_xatd#:#ASTD-Report anlegen
+gev#:#rep_robj_xrtw_rbac_create_xrtw#:#Report Trainerauslastung anlegen
+gev#:#rep_robj_xroa_rbac_create_xroa#:#Report Teilnahmen nach Organisationseinheit anlegen
+gev#:#rep_robj_xbbp_rbac_create_xbbp#:#Pool für Trainingsbausteine anlegen
+gev#:#rep_robj_xrea_rbac_create_xrea#:#Report Teilnahme nach Mitarbeiter / Vertriebspartner anlegen
+gev#:#rep_robj_xttc_rbac_create_xttc#:#Report Trainereinsätze nach TEP-Kategorie anlegen
+gev#:#rep_robj_xrta_rbac_create_xrta#:#Report über Teilnahmen an Trainings anlegen
+gev#:#rep_robj_xtda_rbac_create_xtda#:#Report Trainingsauslastung (Ausblick) anlegen
