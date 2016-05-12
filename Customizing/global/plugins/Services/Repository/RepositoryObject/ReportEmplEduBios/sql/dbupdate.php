@@ -32,3 +32,14 @@ $query = "INSERT INTO rep_master_data (id,is_online)"
 		."	WHERE md.id IS NULL";
 $ilDB->manipulate($query);
 ?>
+
+<#3>
+<?php
+	if(!$ilDB->tableColumnExists("rep_robj_reeb", "truncate_orgu_filter")) {
+		$ilDB->addTableColumn('rep_robj_reeb', 'truncate_orgu_filter', array(
+						'type' => 'integer',
+						'length' => 1,
+						'notnull' => false
+						));
+	}
+?>

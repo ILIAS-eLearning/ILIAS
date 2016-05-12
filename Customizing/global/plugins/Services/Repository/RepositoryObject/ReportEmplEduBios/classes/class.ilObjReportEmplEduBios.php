@@ -19,7 +19,10 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 
 	protected function createLocalReportSettings() {
 		$this->local_report_settings =
-			$this->s_f->reportSettings('rep_robj_reeb');
+			$this->s_f->reportSettings('rep_robj_reeb')
+				->addSetting($this->s_f
+								->settingBool('truncate_orgu_filter', $this->plugin->txt('truncate_orgu_filter'))
+							);
 	}
 
 
@@ -176,8 +179,12 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 		$orgus = array_map(function ($ref_id) {return gevObjectUtils::getObjId($ref_id);},$orgu_refs);
 		$this->orgu_filter->setFilterOptionsByArray($orgus);
 
-		$this->orgu_filter->setPreSelect(array_map(function($v) { return $v["obj_id"];},$this->user_utils->getOrgUnitsWhereUserIsDirectSuperior()));
-		$this->orgu_filter->uncheckRecursiveSearch();
+		//only truncate orgu filter settings if set
+		if((bool)$this->getSettingsDataFor("truncate_orgu_filter")) {
+			$this->orgu_filter->setPreSelect(array_map(function($v) { return $v["obj_id"];},$this->user_utils->getOrgUnitsWhereUserIsDirectSuperior()));
+			$this->orgu_filter->uncheckRecursiveSearch();
+		}
+
 		$this->orgu_filter->addToFilter($filter);
 		//end
 

@@ -91,6 +91,14 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		return $this->settings;
 	}
 
+	public function getSettingsDataFor($key) {
+		if(!array_key_exists($key, $this->settings)) {
+			throw new Exception("ilObjReportBase::getSettingsDataFor: key ".$key." not found in settings.");
+		}
+
+		return $this->settings[$key];
+	}
+
 	public function setSettingsData(array $settings) {
 		$this->settings = $settings;
 	}
