@@ -14,7 +14,12 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
 */
 class ilCourseImporter extends ilXmlImporter
 {
+	const ENTITY_MAIN = 'crs';
+	const ENTITY_OBJECTIVE = 'objectives';
+	
 	private $course = null;
+	
+	private $final_processing_info = array();
 	
 
 	public function init()
@@ -31,8 +36,8 @@ class ilCourseImporter extends ilXmlImporter
 	{
 		include_once './Modules/Course/classes/class.ilCourseXMLParser.php';
 		include_once './Modules/Course/classes/class.ilObjCourse.php';
-
-
+		
+		
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
 			$refs = ilObject::_getAllReferences($new_id);
@@ -48,6 +53,19 @@ class ilCourseImporter extends ilXmlImporter
 		{
 			$this->course = new ilObjCourse();
 			$this->course->create(true);
+		}
+		
+		if($a_entity == self::ENTITY_OBJECTIVE)
+		{
+			$this->addFinalProcessingInfo($this->course, $a_entity, $a_xml);
+
+			// import learning objectives => without materials and fixed questions.
+			// These are handled in afterContainerImportProcessing
+			include_once './Modules/Course/classes/Objectives/class.ilLOXmlParser.php';
+			$parser = new ilLOXmlParser($this->course,$a_xml);
+			$parser->setMapping($a_mapping);
+			$parser->parse();
+			return;
 		}
 
 		try 
@@ -65,6 +83,37 @@ class ilCourseImporter extends ilXmlImporter
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
 		}
+	}
+	
+	
+
+	/**
+	 * 
+	 * @param \ilImportMapping $mapping
+	 */
+	public function afterContainerImportProcessing(\ilImportMapping $mapping)
+	{
+		foreach($this->final_processing_info as $info)
+		{
+			// import learning objectives
+			include_once './Modules/Course/classes/Objectives/class.ilLOXmlParser.php';
+			$parser = new ilLOXmlParser($info['course'],$info['xml']);
+			$parser->setMapping($mapping);
+			$parser->parseObjectDependencies();
+			return;
+		}
+	}
+	
+	/**
+	 * Add information for final processing
+	 */
+	protected function addFinalProcessingInfo($a_course, $a_entity, $a_xml)
+	{
+		$this->final_processing_info[] = array(
+			'course' => $a_course,
+			'entity' => $a_entity,
+			'xml' => $a_xml
+		);
 	}
 }
 ?>

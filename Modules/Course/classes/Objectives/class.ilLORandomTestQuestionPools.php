@@ -248,5 +248,30 @@ class ilLORandomTestQuestionPools
 				')';
 		$ilDB->manipulate($query);
 	}
+	
+	// begin-patch optes_lok_export
+	public static function toXml(ilXmlWriter $writer, $a_objective_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT * FROM loc_rnd_qpl '.
+			'WHERE objective_id = '.$ilDB->quote($a_objective_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			include_once './Modules/Course/classes/Objectives/class.ilLOXmlWriter.php';
+			$writer->xmlElement(
+				'Test',
+				array(
+					'type' => ilLOXmlWriter::TYPE_TST_RND,
+					'objId' => $row->tst_id,
+					'testType' => $row->tst_type,
+					'limit' => $row->percentage,
+					'poolId' => $row->qp_seq
+				)
+			);
+		}
+	}
+	// end-patch optes_lok_export
 }
 ?>
