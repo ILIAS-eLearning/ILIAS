@@ -2,11 +2,11 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Internal\Counter;
+namespace ILIAS\UI\Implementation\Counter;
 
 use ILIAS\UI\Element as E;
 
-class CounterImpl implements \ILIAS\UI\Element\Counter {
+class Counter implements \ILIAS\UI\Element\Counter {
 
 	/**
 	 * @var E\CounterType

@@ -2,11 +2,11 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Internal\Glyph;
+namespace ILIAS\UI\Implementation\Glyph;
 
 use ILIAS\UI\Element as E;
 
-class GlyphImpl implements \ILIAS\UI\Element\Glyph {
+class Glyph implements \ILIAS\UI\Element\Glyph {
 
 	/**
 	 * @var E\GlyphType

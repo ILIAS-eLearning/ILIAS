@@ -2,14 +2,14 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Internal;
+namespace ILIAS\UI\Implementation;
 
-class FactoryImpl implements \ILIAS\UI\Factory {
+class Factory implements \ILIAS\UI\Factory {
     /**
      * @return \ILIAS\UI\Factory\Counter
      */
     public function counter() {
-        return new \ILIAS\UI\Internal\Counter\FactoryImpl();
+        return new \ILIAS\UI\Internal\Counter\Factory();
     }
 
 
@@ -17,6 +17,6 @@ class FactoryImpl implements \ILIAS\UI\Factory {
      * @return \ILIAS\UI\Factory\Glyph
      */
     public function glyph() {
-        return new \ILIAS\UI\Internal\Glyph\FactoryImpl();
+        return new \ILIAS\UI\Internal\Glyph\Factory();
     }
 }

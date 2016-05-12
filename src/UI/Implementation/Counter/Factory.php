@@ -2,23 +2,17 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Internal\Counter;
+namespace ILIAS\UI\Implementation\Counter;
 
 use ILIAS\UI\Element as E;
 
-/**
- * Class FactoryImpl
- * @package ILIAS\UI\Internal\Counter
- */
-class FactoryImpl implements \ILIAS\UI\Factory\Counter {
-
+class Factory implements \ILIAS\UI\Factory\Counter {
 	/**
 	 * @inheritdoc
 	 */
 	public function status($amount) {
 		return new CounterImpl(new E\StatusCounterType(), $amount);
 	}
-
 
 	/**
 	 * @inheritdoc
