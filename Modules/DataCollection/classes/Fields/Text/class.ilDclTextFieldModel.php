@@ -68,7 +68,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel {
 
 		//email or url
 		if ($this->getProperty(ilDclBaseFieldModel::PROP_URL)) {
-			if ($json = json_decode($value)) {
+			if ($json = json_decode($value) && json_decode($value) instanceof stdClass) {
 				$value = $json->link;
 			}
 			if (substr($value, 0, 3) === 'www') {
