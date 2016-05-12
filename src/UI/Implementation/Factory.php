@@ -1,22 +1,22 @@
 <?php
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation;
 
 class Factory implements \ILIAS\UI\Factory {
-    /**
-     * @return \ILIAS\UI\Factory\Counter
-     */
-    public function counter() {
-        return new \ILIAS\UI\Internal\Counter\Factory();
-    }
+	/**
+	 * @return \ILIAS\UI\Factory\Counter
+	 */
+	public function counter() {
+		return new Counter\Factory();
+	}
 
 
-    /**
-     * @return \ILIAS\UI\Factory\Glyph
-     */
-    public function glyph() {
-        return new \ILIAS\UI\Internal\Glyph\Factory();
-    }
+	/**
+	 * @return \ILIAS\UI\Factory\Glyph
+	 */
+	public function glyph() {
+		return new Glyph\Factory();
+	}
 }
