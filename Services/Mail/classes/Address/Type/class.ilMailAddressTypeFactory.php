@@ -8,31 +8,31 @@
 class ilMailAddressTypeFactory
 {
 	/**
-	 * @param ilMailAddress $address
+	 * @param ilMailAddress $a_address
 	 * @return ilMailAddressType
 	 */
-	public static function getByPrefix(ilMailAddress $address)
+	public static function getByPrefix(ilMailAddress $a_address)
 	{
 		switch(true)
 		{
-			case substr($address->getMailbox(), 0, 1) != '#' && substr($address->getMailbox(), 0, 2) != '"#':
+			case substr($a_address->getMailbox(), 0, 1) != '#' && substr($a_address->getMailbox(), 0, 2) != '"#':
 				require_once 'Services/Mail/classes/Address/Type/class.ilMailLoginOrEmailAddressAddressType.php';
-				return new ilMailLoginOrEmailAddressAddressType($address);
+				return new ilMailLoginOrEmailAddressAddressType($a_address);
 				break;
 
-			case substr($address->getMailbox(), 0, 7) == '#il_ml_':
+			case substr($a_address->getMailbox(), 0, 7) == '#il_ml_':
 				require_once 'Services/Mail/classes/Address/Type/class.ilMailMailingListAddressType.php';
-				return new ilMailMailingListAddressType($address);
+				return new ilMailMailingListAddressType($a_address);
 				break;
 
-			case ilUtil::groupNameExists(substr($address->getMailbox(), 1)):
+			case ilUtil::groupNameExists(substr($a_address->getMailbox(), 1)):
 				require_once 'Services/Mail/classes/Address/Type/class.ilMailGroupAddressType.php';
-				return new ilMailGroupAddressType($address);
+				return new ilMailGroupAddressType($a_address);
 				break;
 			
 			default:
 				require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
-				return new ilMailRoleAddressType($address);
+				return new ilMailRoleAddressType($a_address);
 				break;
 		}
 	}

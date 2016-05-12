@@ -1135,11 +1135,10 @@ class ilUtil
 		{
 			try
 			{
-				require_once 'Services/Mail/classes/Address/Parser/RFC822.php';
-				require_once 'Services/Mail/classes/class.ilMail.php';
-				$parser    = new Mail_RFC822();
-				$addresses = $parser->parseAddressList($a_email, ilMail::ILIAS_HOST, false, true);
-				return count($addresses) == 1 && $addresses[0]->host != ilMail::ILIAS_HOST;
+				require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
+				$parser    = ilMailRfc822AddressParserFactory::getParser($a_email);
+				$addresses = $parser->parse();
+				return count($addresses) == 1 && $addresses[0]->getHost() != ilMail::ILIAS_HOST;
 			}
 			catch(ilException $e)
 			{

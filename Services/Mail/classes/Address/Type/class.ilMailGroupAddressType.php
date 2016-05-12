@@ -1,14 +1,14 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressType.php';
+require_once 'Services/Mail/classes/Address/Type/class.ilBaseMailAddressType.php';
 require_once 'Modules/Group/classes/class.ilObjGroup.php';
 
 /**
  * Class ilMailGroupAddressType
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailGroupAddressType extends ilMailAddressType
+class ilMailGroupAddressType extends ilBaseMailAddressType
 {
 	/**
 	 * {@inheritdoc}
