@@ -124,13 +124,12 @@ class ilMailFormGUI
 			}
 		}
 		
-		// Remove \r
-		$f_message = str_replace("\r", '', ilUtil::securePlainString($_POST['m_message']));
-
+		$message = strip_tags(ilUtil::stripSlashes($_POST['m_message'], false));
+		$message = str_replace("\r", '', $message);
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.		
-		$f_message = $this->umail->formatLinebreakMessage($f_message);
-		
-		$this->umail->setSaveInSentbox(true);		
+		$message = $this->umail->formatLinebreakMessage($message);
+
+		$this->umail->setSaveInSentbox(true);
 
 		$m_type = isset($_POST["m_type"]) ? $_POST["m_type"] : array("normal");
 
@@ -139,11 +138,10 @@ class ilMailFormGUI
 				ilUtil::securePlainString($_POST['rcp_to']),
 				ilUtil::securePlainString($_POST['rcp_cc']),
 				ilUtil::securePlainString($_POST['rcp_bcc']),
-				ilUtil::securePlainString($_POST['m_subject']), $f_message,
+				ilUtil::securePlainString($_POST['m_subject']), $message,
 				$files,
-//				$_POST['m_type'],
 				$m_type,
-				ilUtil::securePlainString($_POST['use_placeholders'])
+				(int)$_POST['use_placeholders']
 				)
 			)
 		{
