@@ -4930,14 +4930,6 @@ class ilObjSurvey extends ilObject
 			$ilLog->write(__METHOD__.': '.$e->getMessage());
 			return false;
 		}
-
-		/*
-		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
-		$fo2pdf = new ilFO2PDF();
-		$fo2pdf->setFOString($fo);
-		$result = $fo2pdf->send();
-		ilUtil::deliverData($result, ilUtil::getASCIIFilename($this->getTitle()) . ".pdf", "application/pdf");
-		*/
 	}
 
 	/**

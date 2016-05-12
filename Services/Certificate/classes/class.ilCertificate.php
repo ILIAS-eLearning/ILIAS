@@ -485,22 +485,7 @@ class ilCertificate
 		}
 
 		ilDatePresentation::setUseRelativeDates(true);
-
-		/*
-		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
-		$fo2pdf = new ilFO2PDF();
-		$fo2pdf->setFOString($this->exchangeCertificateVariables($xslfo, $insert_tags));
-		$result = $fo2pdf->send();
-		if ($deliver)
-		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			ilUtil::deliverData($result, $this->getAdapter()->getCertificateFilename($params), "application/pdf");
-		}
-		else
-		{
-			return $result;
-		}
-		*/
+		
 	}
 
 	/**
@@ -535,14 +520,6 @@ class ilCertificate
 
 		ilDatePresentation::setUseRelativeDates(true);
 		
-		/*
-		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
-		$fo2pdf = new ilFO2PDF();
-		$fo2pdf->setFOString($this->exchangeCertificateVariables($xslfo));
-		$result = $fo2pdf->send();
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		ilUtil::deliverData($result, $this->getAdapter()->getCertificateFilename(), "application/pdf");
-		*/
 	}
 	
 	/**

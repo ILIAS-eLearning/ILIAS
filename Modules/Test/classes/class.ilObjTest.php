@@ -9983,15 +9983,6 @@ function getAnswerFeedbackPoints()
 			$ilLog->write(__METHOD__.': '.$e->getMessage());
 			return false;
 		}
-
-		/*
-		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
-		$fo2pdf = new ilFO2PDF();
-		$fo2pdf->setFOString($fo);
-		$result = $fo2pdf->send();
-		$filename = (strlen($title)) ? $title : $this->getTitle();
-		ilUtil::deliverData($result, ilUtil::getASCIIFilename($filename) . ".pdf", "application/pdf", false, true);
-		*/
 	}
 	
 	/**

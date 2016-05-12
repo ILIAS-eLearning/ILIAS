@@ -15214,4 +15214,7 @@ if(!$ilDB->tableColumnExists('il_dcl_table', 'save_confirmation')) {
 $ilCtrlStructureReader->getStructure();
 
 ?>
-	
+<#4910>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
