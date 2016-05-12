@@ -30,7 +30,7 @@ interface Glyph extends \ILIAS\UI\Element {
 	 *
 	 * @return	string	
 	 */
-	public function type();
+	public function getType();
 
 	/**
 	 * Get a glyph like this, but with a new type.
@@ -45,7 +45,7 @@ interface Glyph extends \ILIAS\UI\Element {
 	 *
 	 * @return  Counter[]
 	 */
-	public function counters();
+	public function getCounters();
 
 	/**
 	 * Get a glyph like this, but with a counter on it.
