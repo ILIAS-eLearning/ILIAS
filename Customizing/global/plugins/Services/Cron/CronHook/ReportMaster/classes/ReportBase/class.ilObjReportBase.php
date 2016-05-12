@@ -9,6 +9,7 @@ require_once 'Services/GEV/Utils/classes/class.gevUserUtils.php';
 require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.reportSettingsDataHandler.php");
 require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportSettings/class.settingFactory.php");
 require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/class.ilReportMasterPlugin.php");
+require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/bin/class.catReportBaseUtils.php");
 /**
 * This class performs all interactions with the database in order to get report-content. Puplic methods may be accessed in 
 * in the GUI via $this->object->{method-name}.
@@ -29,7 +30,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	public $master_plugin;
 	public $settings;
 
-	const HTTP_REGEX = "/^(https:\/\/)|(http:\/\/)/";
+	const URL_PREFIX = "https://";
 
 	public function __construct($a_ref_id = 0) {
 		parent::__construct($a_ref_id);
@@ -66,20 +67,20 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 								->settingString('pdf_link', $this->master_plugin->txt('rep_pdf_desc'))
 									->setFromForm(function ($string) {
 										$string = trim($string);
-										if($string === "" || preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1 ) {
+										if($string === "" || catReportBaseUtils::checkForURLPrefix($string)) {
 											return $string;
 										}
-										return 'https://'.$string;
+										return self::URL_PREFIX.$string;
 									})
 								)
 				->addSetting($this->s_f
 								->settingString('video_link', $this->master_plugin->txt('rep_video_desc'))
 									->setFromForm(function ($string) {
 										$string = trim($string);
-										if($string === "" || preg_match("/^(https:\/\/)|(http:\/\/)[\w]+/", $string) === 1 ) {
+										if($string === "" || catReportBaseUtils::checkForURLPrefix($string)) {
 											return $string;
 										}
-										return 'https://'.$string;
+										return self::URL_PREFIX.$string;
 									})
 								)
 				->addSetting($this->s_f
