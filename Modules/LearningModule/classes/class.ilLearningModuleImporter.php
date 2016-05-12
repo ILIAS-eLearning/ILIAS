@@ -57,7 +57,7 @@ class ilLearningModuleImporter extends ilXmlImporter
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
 			$newObj->createLMTree();
 			$newObj->setImportDirectory(dirname(rtrim($this->getImportDirectory(),'/')));
-			$mess = $newObj->importFromDirectory($this->getImportDirectory(),true);
+			$mess = $newObj->importFromDirectory($this->getImportDirectory(),true, $a_mapping);
 			$GLOBALS['ilLog']->write(__METHOD__.': Import message is: '.$mess);
 			$a_mapping->addMapping("Modules/LearningModule", "lm", $a_id, $newObj->getId());
 			$a_mapping->addMapping("Services/Object", "obj", $a_id, $newObj->getId());

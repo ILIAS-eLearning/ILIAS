@@ -3246,7 +3246,9 @@ class ilObjContentObject extends ilObject
 	 * @param
 	 * @return
 	 */
-	function importFromDirectory($a_directory, $a_validate = true)
+	// begin-patch optes_lok_export
+	function importFromDirectory($a_directory, $a_validate = true, $a_mapping = null)
+	// end-patch optes_lok_export
 	{
 		global $lng;
 		
@@ -3290,6 +3292,8 @@ class ilObjContentObject extends ilObject
 		include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
 		$subdir = ".";
 		$contParser = new ilContObjParser($this, $xml_file, $subdir, $a_directory);
+		// smeyer: added \ilImportMapping lok im/export
+		$contParser->setImportMapping($a_mapping);
 		$contParser->setQuestionMapping($qtis);
 		$contParser->startParsing();
 		ilObject::_writeImportId($this->getId(), $this->getImportId());

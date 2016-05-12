@@ -136,6 +136,15 @@ class ilContObjParser extends ilMDSaxParser
 		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
 	}
 
+	/**
+	 * Set import mapping
+	 * @param ilImportMapping $mapping
+	 */
+	public function setImportMapping(ilImportMapping $mapping = null)
+	{
+		$this->mapping = $mapping;
+	}
+
 	
 	/**
 	* start parser
@@ -844,6 +853,25 @@ case "InteractiveImage":
 
 			// Identifier
 			case "Identifier":
+				
+				// begin-patch optes_lok_export
+				if($this->in_meta_data && $this->current_object instanceof ilStructureObject)
+				{
+					if($this->mapping instanceof ilImportMapping)
+					{
+						$import_id_parsed = ilUtil::parseImportId($a_attribs['Entry']);
+						if($import_id_parsed['type'] == 'st')
+						{
+							$this->mapping->addMapping(
+								'Modules/LearningModule',
+								'lm_tree',
+								$import_id_parsed['id'],
+								$this->current_object->getId()
+							);
+						}
+					}
+				}
+				// end-patch optes_lok_export
 			
 				// please note: Meta-Metadata and MetaData are different tags!
 				if (!$this->in_meta_meta_data)
@@ -1100,6 +1128,21 @@ case "InteractiveImage":
 						$this->page_object->updateFromXML();
 						$this->pg_mapping[$this->lm_page_object->getImportId()]
 							= $this->lm_page_object->getId();
+						
+						if($this->mapping instanceof ilImportMapping)
+						{
+							$import_id_parsed = ilUtil::parseImportId($this->lm_page_object->getImportId());
+							if($import_id_parsed['type'] == 'pg')
+							{
+								$this->mapping->addMapping(
+									'Modules/LearningModule',
+									'pg',
+									$import_id_parsed['id'], 
+									$this->lm_page_object->getId()
+								);
+							}
+							
+						}
 	
 						// collect pages with internal links
 						if ($this->page_object->containsIntLink())

@@ -76,6 +76,15 @@ class ilLOTestAssignments
 	{
 		return $this->settings;
 	}
+	
+	/**
+	 * Get assignments
+	 * @return ilLOTestAssignment[]
+	 */
+	public function getAssignments()
+	{
+		return $this->assignments;
+	}
 
 	/**
 	 * Delete assignments by container id (obj_id of course)
@@ -244,7 +253,7 @@ class ilLOTestAssignments
 		}
 		return FALSE;
 	}
-
+	
 	/**
 	 * Read assignments
 	 * @global type $ilDB
@@ -264,4 +273,30 @@ class ilLOTestAssignments
 			$this->assignments[] = $assignment;
 		}
 	}
+	
+	/**
+	 * to xml
+	 * @param ilXmlWriter $writer
+	 */
+	public function toXml(ilXmlWriter $writer, $a_objective_id)
+	{
+		foreach($this->getAssignments() as $assignment)
+		{
+			if($assignment->getObjectiveId() != $a_objective_id)
+			{
+				continue;
+			}
+			
+			include_once './Modules/Course/classes/Objectives/class.ilLOXmlWriter.php';
+			$writer->xmlElement(
+				'Test',
+				array(
+					'type' => ilLOXmlWriter::TYPE_TST_PO,
+					'refId' => $assignment->getTestRefId(),
+					'testType' => $assignment->getAssignmentType()
+				)
+			);
+		}
+	}
 }
+?>

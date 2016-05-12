@@ -250,6 +250,13 @@ class ilCourseObjective
 	{
 		return $this->objective_id;
 	}
+	
+	// begin-patch optes_lok_export
+	public function setPosition($a_pos)
+	{
+		$this->position = $a_pos;
+	}
+	// end-patch optes_lok_export
 
 	function add()
 	{
@@ -569,5 +576,44 @@ class ilCourseObjective
 
 		return true;
 	}
+	
+	// begin-patch optes_lok_export
+	/**
+	 * write objective xml
+	 * @param ilXmlWriter $writer
+	 */
+	public function toXml(ilXmlWriter $writer)
+	{
+		$writer->xmlStartTag(
+			'Objective',
+			array(
+				'online' => (int) $this->isActive(),
+				'position' => (int) $this->position,
+				'id' => (int) $this->getObjectiveId()
+			)
+		);
+		$writer->xmlElement('Title',array(), $this->getTitle());
+		$writer->xmlElement('Description',array(), $this->getDescription());
+		
+		// materials
+		include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
+		$materials = new ilCourseObjectiveMaterials($this->getObjectiveId());
+		$materials->toXml($writer);
+		
+		// test/questions
+		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
+		$test = new ilCourseObjectiveQuestion($this->getObjectiveId());
+		$test->toXml($writer);
+		
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignments.php';
+		$assignments = ilLOTestAssignments::getInstance($this->course_obj->getId());
+		$assignments->toXml($writer, $this->getObjectiveId());
+		
+		include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
+		ilLORandomTestQuestionPools::toXml($writer, $this->getObjectiveId());
+		
+		$writer->xmlEndTag('Objective');
+	}
+	// end-patch optes_lok_export
 }
 ?>

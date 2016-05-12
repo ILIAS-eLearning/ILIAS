@@ -468,5 +468,27 @@ class ilCourseObjectiveMaterials
 		return true;
 	}
 	
+	// begin-patch optes_lok_export
+	
+	/**
+	 * 
+	 * @param ilXmlWriter $writer
+	 */
+	public function toXml(ilXmlWriter $writer)
+	{
+		foreach($this->getMaterials() as $material)
+		{
+			$writer->xmlElement(
+				'Material',
+				array(
+					'refId'		=> $material['ref_id'],
+					'objId'		=> $material['obj_id'],
+					'type'		=> $material['type'],
+				)
+			);
+		}
+		return true;
+	}
+	
 }
 ?>
