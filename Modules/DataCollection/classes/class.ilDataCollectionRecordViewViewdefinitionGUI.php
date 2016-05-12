@@ -198,6 +198,18 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI {
 		$ilCtrl->redirectByClass("ilDataCollectionFieldListGUI", "listFields");
 	}
 
+	/**
+	 * Release page lock
+	 * overwrite to redirect properly
+	 */
+	function releasePageLock()
+	{
+		global $ilCtrl, $lng;
+
+		$this->getPageObject()->releasePageLock();
+		ilUtil::sendSuccess($lng->txt("cont_page_lock_released"), true);
+		$ilCtrl->redirectByClass('ilDataCollectionFieldListGUI', "listFields");
+	}
 
 	/**
 	 * Finalizing output processing
@@ -211,16 +223,18 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI {
 
 		// user view (IL_PAGE_PRESENTATION?)
 		if ($this->getOutputMode() == IL_PAGE_PREVIEW) {
-			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+			//page preview is not being used inside DataCollections - if you are here, something's probably wrong
 
-			// :TODO: find a suitable presentation for matched placeholders
-			$allp = ilDataCollectionRecordViewViewdefinition::getAvailablePlaceholders($this->table_id, true);
-			foreach ($allp as $id => $item) {
-				$parsed_item = new ilTextInputGUI("", "fields[" . $item->getId() . "]");
-				$parsed_item = $parsed_item->getToolbarHTML();
-
-				$a_output = str_replace($id, $item->getTitle() . ": " . $parsed_item, $a_output);
-			}
+//			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+//
+//			// :TODO: find a suitable presentation for matched placeholders
+//			$allp = ilDataCollectionRecordViewViewdefinition::getAvailablePlaceholders($this->table_id, true);
+//			foreach ($allp as $id => $item) {
+//				$parsed_item = new ilTextInputGUI("", "fields[" . $item->getId() . "]");
+//				$parsed_item = $parsed_item->getToolbarHTML();
+//
+//				$a_output = str_replace($id, $item->getTitle() . ": " . $parsed_item, $a_output);
+//			}
 		} // editor
 		else {
 			if ($this->getOutputMode() == IL_PAGE_EDIT) {
