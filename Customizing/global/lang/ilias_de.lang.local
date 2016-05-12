@@ -1335,8 +1335,8 @@ gev#:#load_signature_list#:#Unterschriftenliste herunterladen
 gev#:#crs_load_signature_list#:#Unterschriftenliste herunterladen
 gev#:#load_member_list#:#Mitgliederliste abrufen
 gev#:#crs_load_member_list#:#Mitgliederliste abrufen
-gev#:#view_mailing#:#Mailling einsehen
-gev#:#crs_view_mailing#:#Maillog einsehen
+gev#:#view_mailing#:#Mailing einsehen
+gev#:#crs_view_mailing#:#Mailing einsehen
 gev#:#load_csn_list#:#CSN Liste herunterladen
 gev#:#crs_load_csn_list#:#CSN Liste herunterladen
 gev#:#gev_dec_forward_to_kurs#:#Zum Kurs
