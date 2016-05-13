@@ -12582,7 +12582,8 @@ exc#:#exc_team_notification_body_rmv#:#Sie wurden aus einer Team-Upload-Übungse
 exc#:#exc_team_notification_changed_by#:#Status geändert durch
 exc#:#exc_team_notification_link#:#Link zur Übung
 poll#:#poll_absolute#:#Aktuelle Stimmen
-dcl#:#dcl_reference_link#:#Link zum referenzierten Feldeintrag
+dcl#:#dcl_reference_link#:#Als Link zum referenzierten Eintrag darstellen
+dcl#:#dcl_reference_link_info#:#Die Seitenvorlage zur Einzelansicht muss in der referenzierten Tabelle aktiv sein
 dcl#:#dcl_ILIAS_reference_link#:#Link zum Objekt
 dcl#:#dcl_ILIAS_reference_link_desc#:#Objekt kann per Link aufgerufen werden, wenn Leserecht vorhanden ist
 dcl#:#dcl_text_area#:#Mehrzeiliges Texteingabefeld

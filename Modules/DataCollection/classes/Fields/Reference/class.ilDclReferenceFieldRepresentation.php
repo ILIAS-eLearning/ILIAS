@@ -126,6 +126,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation {
 		$opt->addSubItem($prop_table_selection);
 
 		$prop_ref_link = new ilDclCheckboxInputGUI($this->lng->txt('dcl_reference_link'), 'prop_'.ilDclBaseFieldModel::PROP_REFERENCE_LINK);
+		$prop_ref_link->setInfo($this->lng->txt('dcl_reference_link_info'));
 		$opt->addSubItem($prop_ref_link);
 
 		$prop_multi_select = new ilDclCheckboxInputGUI($this->lng->txt('dcl_multiple_selection'), 'prop_'.ilDclBaseFieldModel::PROP_N_REFERENCE);
