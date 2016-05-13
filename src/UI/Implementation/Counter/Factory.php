@@ -4,25 +4,20 @@
 
 namespace ILIAS\UI\Implementation\Counter;
 
-use ILIAS\UI\Element as E;
+use ILIAS\UI\Component as C;
 
 class Factory implements \ILIAS\UI\Factory\Counter {
 	/**
 	 * @inheritdoc
 	 */
 	public function status($amount) {
-		return new CounterImpl(new E\StatusCounterType(), $amount);
+		return new Counter(C\Counter::STATUS, $amount);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function novelty($amount) {
-		return new CounterImpl(new E\NoveltyCounterType(), $amount);
+		return new Counter(C\Counter::NOVELTY, $amount);
 	}
-}
-
-//Force autoloading of Counter.php for counter types.
-interface Force_Counter extends \ILIAS\UI\Element\Counter {
-
 }

@@ -4,89 +4,61 @@
 
 namespace ILIAS\UI\Implementation\Glyph;
 
-use ILIAS\UI\Element as E;
+use ILIAS\UI\Component as C;
 
-class Glyph implements \ILIAS\UI\Element\Glyph {
-
+class Glyph implements \ILIAS\UI\Component\Glyph {
 	/**
-	 * @var E\GlyphType
+	 * @var	string
 	 */
 	private $type;
-	/**
-	 * @var E\Counter|null
-	 */
-	private $status_counter = null;
-	/**
-	 * @var E\Counter|null
-	 */
-	private $novelty_counter = null;
-
 
 	/**
-	 * GlyphImpl constructor.
-	 * @param E\GlyphType $type
-	 * @param E\Counter|null $status_counter
-	 * @param E\Counter|null $novelty_counter
+	 * @var	C\Counter[]
 	 */
-	public function __construct(E\GlyphType $type, E\Counter $status_counter = null, E\Counter $novelty_counter = null) {
+	private $counters;
+
+	/**
+	 * @param string		$type
+	 * @param C\Counter[]	$counters
+	 */
+	public function __construct($type, array $counters) {
 		$this->type = $type;
-		assert('is_null($status_counter) or $status_counter->type() instanceof \\ILIAS\\UI\\Element\\StatusCounterType');
-		assert('is_null($novelty_counter) or $novelty_counter->type() instanceof \\ILIAS\\UI\\Element\\NoveltyCounterType');
-		$this->status_counter = $status_counter;
-		$this->novelty_counter = $novelty_counter;
+		$this->counters = $counters;
 	}
 
-
 	/**
-	 * @param E\Counter $counter
-	 * @return GlyphImpl
+	 * @inheritdoc
 	 */
-	public function addCounter(E\Counter $counter) {
-		$sc = $this->status_counter;
-		$nc = $this->novelty_counter;
-
-		$t = $counter->type();
-		if ($t instanceof E\StatusCounterType) {
-			$sc = $counter;
-		} else {
-			if ($t instanceof E\NoveltyCounterType) {
-				$nc = $counter;
-			} else {
-				assert(false, "Type of counter unknown: " . get_class($t));
-			}
-		}
-
-		return new GlyphImpl($this->type(), $sc, $nc);
+	public function getCounters() {
+		return array_values($this->counters);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function withCounter(C\Counter $counter) {
+		$counters = array();
+		return new Glyph($this->getType(), $counters);
+	}
 
 	/**
-	 * @return E\GlyphType
+	 * @inheritdoc
 	 */
-	public function type() {
+	public function getType() {
 		return $this->type;
 	}
 
-
 	/**
-	 * @return E\Counter[]
+	 * @inheritdoc
 	 */
-	public function counters() {
-		$arr = array();
-		if ($this->status_counter !== null) {
-			$arr[] = $this->status_counter;
-		}
-		if ($this->novelty_counter !== null) {
-			$arr[] = $this->novelty_counter;
-		}
-		return $arr;
+	public function withType($type) {
+		return $this;
 	}
-
 
 	/**
 	 * @return string
 	 */
-	public function to_html_string() {
+/*	public function to_html_string() {
 		$type = '';
 		switch (true) {
 			case ($this->type instanceof E\DragGlyphType):
@@ -107,5 +79,5 @@ class Glyph implements \ILIAS\UI\Element\Glyph {
 		$tpl->setVariable('TYPE', $type);
 
 		return $tpl->get() . $counter_html;
-	}
+	}*/
 }

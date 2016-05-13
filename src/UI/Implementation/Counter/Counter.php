@@ -4,52 +4,62 @@
 
 namespace ILIAS\UI\Implementation\Counter;
 
-use ILIAS\UI\Element as E;
+use ILIAS\UI\Component as C;
 
-class Counter implements \ILIAS\UI\Element\Counter {
+class Counter implements C\Counter {
 
 	/**
-	 * @var E\CounterType
+	 * @var	string
 	 */
 	private $type;
+
 	/**
-	 * @var
+	 * @var	int
 	 */
 	private $amount;
 
-
 	/**
-	 * CounterImpl constructor.
-	 * @param E\CounterType $type
-	 * @param $amount
+	 * @param string	$type
+	 * @param int		$amount
 	 */
-	public function __construct(E\CounterType $type, $amount) {
+	public function __construct($type, $amount) {
 		assert('is_int($amount)');
 		$this->type = $type;
 		$this->amount = $amount;
 	}
 
-
 	/**
-	 * @return E\CounterType
+	 * @inheritdoc
 	 */
-	public function type() {
+	public function getType() {
 		return $this->type;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function withType($type) {
+		return $this;
+	}
 
 	/**
-	 * @return mixed
+	 * @inheritdoc
 	 */
-	public function amount() {
+	public function getAmount() {
 		return $this->amount;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function withAmount($amount) {
+		return $this;
+	}
 
 	/**
 	 * @throws \Exception
 	 */
-	public function to_html_string() {
+/*	public function to_html_string() {
 		$type_class = '';
 		switch (true) {
 			case ($this->type instanceof E\NoveltyCounterType):
@@ -65,5 +75,5 @@ class Counter implements \ILIAS\UI\Element\Counter {
 		$tpl->setVariable('AMOUNT', $this->amount());
 
 		return $tpl->get();
-	}
+	}*/
 }

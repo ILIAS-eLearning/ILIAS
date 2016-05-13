@@ -3,162 +3,145 @@
 require_once("libs/composer/vendor/autoload.php");
 
 /**
- * Defines tests that a glyph implementation should pass.
+ * Test on glyph implementation.
  */
-abstract class GlyphTest extends PHPUnit_Framework_TestCase {
-    abstract public function getFactoryInstance();
-    abstract public function getCounterFactoryInstance();
-    
-    /**
-     * @dataProvider glyph_provider
-     */
-    public function test_implements_factory_interface($factory_method, $_) {
-        $f = $this->getFactoryInstance();
+class GlyphTest extends PHPUnit_Framework_TestCase {
+	public function getGlyphFactory() {
+		return new \ILIAS\UI\Implementation\Glyph\Factory();
+	}
 
-        $this->assertInstanceOf("ILIAS\\UI\\Factory\\Glyph", $f);
-        $this->assertInstanceOf("ILIAS\\UI\\Element\\Glyph", $f->$factory_method());
-    }
+	public function getCounterFactory() {
+		return new \ILIAS\UI\Implementation\Counter\Factory();
+	}
 
-    /**
-     * @dataProvider glyph_provider
-     */
-    public function test_glyph_types($factory_method, $type) {
-        $f = $this->getFactoryInstance();
-        $g = $f->$factory_method();
+	/**
+	 * @dataProvider glyph_type_provider
+	 */
+	public function test_implements_factory_interface($factory_method) {
+		$f = $this->getGlyphFactory();
 
-        $this->assertNotNull($g);
-        $this->assertInstanceOf($type, $g->type());
-    }
+		$this->assertInstanceOf("ILIAS\\UI\\Factory\\Glyph", $f);
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Glyph", $f->$factory_method());
+	}
 
-    /**
-     * @dataProvider glyph_provider
-     */
-    public function test_no_counter($factory_method, $_) {
-        $f = $this->getFactoryInstance();
-        $cf = $this->getCounterFactoryInstance();
-        $g = $f->$factory_method();
-        $this->assertNotNull($g);
+	/**
+	 * @dataProvider glyph_type_provider
+	 */
+	public function test_glyph_types($factory_method) {
+		$f = $this->getGlyphFactory();
+		$g = $f->$factory_method();
 
-        $this->assertCount(0, $g->counters());
-    }
+		$this->assertNotNull($g);
+		$this->assertEquals($factory_method, $g->getType());
+	}
 
-    /**
-     * @dataProvider glyph_provider
-     */
-    public function test_add_novelty_counter($factory_method, $_) {
-        $f = $this->getFactoryInstance();
-        $fc = $this->getCounterFactoryInstance();
-        $g = $f->$factory_method();
-        $this->assertNotNull($g);
+	/**
+	 * @dataProvider glyph_type_provider
+	 */
+	public function test_no_counter($factory_method) {
+		$f = $this->getGlyphFactory();
+		$g = $f->$factory_method();
 
-        $c = $fc->novelty(0);
-        $g2 = $g->addCounter($c);
-        $this->assertNotNull($g2);
-        $this->assertNotSame($g, $g2);
-        $this->assertInstanceOf("ILIAS\\UI\\Element\\Glyph", $g2);
-        $counters = $g2->counters();
-        $this->assertCount(1, $counters);
-        $this->assertContains($c, $counters); 
-    }
- 
-    /**
-     * @dataProvider glyph_provider
-     */
-    public function test_add_status_counter($factory_method, $_) {
-        $f = $this->getFactoryInstance();
-        $fc = $this->getCounterFactoryInstance();
-        $g = $f->$factory_method();
-        $this->assertNotNull($g);
+		$this->assertCount(0, $g->getCounters());
+	}
 
-        $c = $fc->status(0);
-        $g2 = $g->addCounter($c);
-        $this->assertNotNull($g2);
-        $this->assertNotSame($g, $g2);
-        $this->assertInstanceOf("ILIAS\\UI\\Element\\Glyph", $g2);
-        $counters = $g2->counters();
-        $this->assertCount(1, $counters);
-        $this->assertContains($c, $counters);       
-    }
- 
-    /**
-     * @dataProvider glyph_provider
-     */
-    public function test_add_status_and_novelty_counter($factory_method, $_) {
-        $f = $this->getFactoryInstance();
-        $fc = $this->getCounterFactoryInstance();
-        $g = $f->$factory_method();
-        $this->assertNotNull($g);
+	/**
+	 * @dataProvider counter_type_provider
+	 */
+	public function test_one_counter($counter_type) {
+		$gf = $this->getGlyphFactory();
+		$cf = $this->getCounterFactory();
+		$amount = 1;
 
-        $c1 = $fc->status(0);
-        $c2 = $fc->novelty(0);
-        $g2 = $g->addCounter($c1)
-                ->addCounter($c2);
-        $this->assertNotNull($g2);
-        $this->assertNotSame($g, $g2);
-        $this->assertInstanceOf("ILIAS\\UI\\Element\\Glyph", $g2);
-        $counters = $g2->counters();
-        $this->assertCount(2, $counters);
-        $this->assertContains($c1, $counters);  
-        $this->assertContains($c2, $counters);  
-    }
+		$g = $gf
+			->filter()
+			->withCounter(
+				$cf->$counter_type($amount)
+			);
 
-    /**
-     * @dataProvider glyph_provider
-     */
-    public function test_two_counters_only($factory_method, $_) {
-        $f = $this->getFactoryInstance();
-        $fc = $this->getCounterFactoryInstance();
-        $g = $f->$factory_method();
-        $this->assertNotNull($g);
+		$counters = $g->getCounters();
+		$this->assertCount(1, $counters);
+		$c = $counters[0];
+		$this->assertEquals($counter_type, $c->getType());
+		$this->assertEquals($amount, $c->getAmount());
+	}
 
-        $c1 = $fc->status(0);
-        $c2 = $fc->novelty(0);
-        $g2 = $g->addCounter($c1)
-                ->addCounter($c2);
+	public function test_two_counters() {
+		$gf = $this->getGlyphFactory();
+		$cf = $this->getCounterFactory();
+		$amount_s = 1;
+		$amount_n = 2;
 
-        $c1_n = $fc->status(0);
-        $g3 = $g2->addCounter($c1_n);
-        $counters = $g3->counters();
-        $this->assertCount(2, $counters);
-        $this->assertContains($c1_n, $counters); 
-        $this->assertContains($c2, $counters); 
-        $this->assertNotContains($c1, $counters); 
+		$g = $gf
+			->attachment()
+			->withCounter(
+				$cf->status($amount_s)
+			)
+			->withCounter(
+				$cf->novelty($amount_n)
+			);
 
-        $c2_n = $fc->novelty(0);
-        $g3 = $g2->addCounter($c2_n);
-        $counters = $g3->counters();
-        $this->assertCount(2, $counters);
-        $this->assertContains($c1, $counters); 
-        $this->assertContains($c2_n, $counters); 
-        $this->assertNotContains($c2, $counters); 
-    }
+		$counters = $g->getCounters();
+		$this->assertCount(2, $counters);
+		$vals = array_map(function($c) {
+			return array($c->getType(), $c->getAmount());
+		}, $counters);
+		$this->assertContains(array("status", $amount_s), $counters);
+		$this->assertContains(array("novelty", $amount_n), $counters);
+	}
 
-    public function glyph_provider() {
-        $ns = "ILIAS\\UI\\Element";
-        return array
-            ( array("up", "$ns\\UpGlyphType")
-            , array("down", "$ns\\DownGlyphType")
-            , array("add", "$ns\\AddGlyphType")
-            , array("remove", "$ns\\RemoveGlyphType")
-            , array("previous", "$ns\\PreviousGlyphType")
-            , array("next", "$ns\\NextGlyphType")
-            , array("calendar", "$ns\\CalendarGlyphType")
-            , array("close", "$ns\\CloseGlyphType")
-            , array("attachment", "$ns\\AttachmentGlyphType")
-            , array("caret", "$ns\\CaretGlyphType")
-            , array("drag", "$ns\\DragGlyphType")
-            , array("search", "$ns\\SearchGlyphType")
-            , array("filter", "$ns\\FilterGlyphType")
-            , array("info", "$ns\\InfoGlyphType")
-            );
-    }
+	public function test_only_two_counters() {
+		$gf = $this->getGlyphFactory();
+		$cf = $this->getCounterFactory();
+		$amount_s = 1;
+		$amount_n1 = 2;
+		$amount_n2 = 2;
 
-    public function amount_provider() {
-        return array
-            ( array(-13)
-            , array(0)
-            , array(23)
-            , array(42)
-            );
-    }
+		$g = $gf
+			->attachment()
+			->withCounter(
+				$cf->status($amount_s)
+			)
+			->withCounter(
+				$cf->novelty($amount_n1)
+			)
+			->withCounter(
+				$cf->novelty($amount_n2)
+			);
+
+		$counters = $g->getCounters();
+		$this->assertCount(2, $counters);
+		$vals = array_map(function($c) {
+			return array($c->getType(), $c->getAmount());
+		}, $counters);
+		$this->assertContains(array("status", $amount_s), $counters);
+		$this->assertContains(array("novelty", $amount_n2), $counters);
+	}
+
+	public function glyph_type_provider() {
+		return array
+			( array("up")
+			, array("down")
+			, array("add")
+			, array("remove")
+			, array("previous")
+			, array("next")
+			, array("calendar")
+			, array("close")
+			, array("attachment")
+			, array("caret")
+			, array("drag")
+			, array("search")
+			, array("filter")
+			, array("info")
+			, array("envelope")
+			);
+	}
+
+	public function counter_type_provider() {
+		return array
+			( array("status")
+			, array("novelty")
+			);
+	}
 }
