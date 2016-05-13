@@ -543,6 +543,11 @@ class ilDclTable {
 		return $fields;
 	}
 
+	public function getTableViews() {
+		$tableviews = ilDclTableView::where(array("table_id" => $this->getId()));
+		return $tableviews->get();
+	}
+
 
 	/**
 	 * Returns all fields of this table including the standard fields, wich are supported for formulas

@@ -1,5 +1,5 @@
 <?php
-
+require_once('Modules/DataCollection/classes/TableView/class.ilDclTableViewTableGUI.php');
 /**
  * Class ilDclTableViewGUI
  *
@@ -90,21 +90,11 @@ class ilDclTableViewGUI
         $this->toolbar->addText($this->lng->txt("dcl_table"));
         $this->toolbar->addInputItem($table_selection);
         $button = ilSubmitButton::getInstance();
-//        ilSubmitButton::getInstance();
-//        $button->setUrl($this->ctrl->getLinkTarget($this, 'doTableSwitch'));
         $button->setCommand("doTableSwitch");
         $button->setCaption($this->lng->txt('change'));
         $this->toolbar->addButtonInstance($button);
-//        $this->toolbar->addFormButton($this->lng->txt('change'),'doTableSwitch');
-//        $this->toolbar->addSeparator();
-//        $this->toolbar->addButton($this->lng->txt("dcl_add_new_table"), $this->ctrl->getLinkTargetByClass("ildcltableeditgui", "create"));
-//        $this->toolbar->addSeparator();
-//        $this->ctrl->setParameterByClass("ildcltableeditgui", "table_id", $this->table_id);
-//        $this->toolbar->addButton($this->lng->txt("dcl_table_settings"), $this->ctrl->getLinkTargetByClass("ildcltableeditgui", "edit"));
-//        $this->toolbar->addSeparator();
-//        $this->toolbar->addButton($this->lng->txt("dcl_delete_table"), $this->ctrl->getLinkTargetByClass("ildcltableeditgui", "confirmDelete"));
-//        $this->toolbar->addSeparator();
-//        $this->toolbar->addButton($this->lng->txt("dcl_add_new_field"), $this->ctrl->getLinkTargetByClass("ildclfieldeditgui", "create"));
+
+        $table_gui = new ilDclTableViewTableGUI($this, 'show', $this->table_id);
     }
 
     /*
