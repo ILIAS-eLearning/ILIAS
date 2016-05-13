@@ -938,7 +938,11 @@ div.il_info {
 a#il_mhead_t_focus {
 	color: @brand-secondary;
 	vertical-align: middle;
-	font-size: 26px
+	font-size: 26px;
+    cursor: default;
+    &[href] {
+        cursor: pointer;
+    }
 }
 
 h1.ilHeader {
@@ -1841,6 +1845,10 @@ table.mceToolbar {
 	img {
 		max-width: 100%;
 	}
+    
+    td.ilc_Mob img {
+        height: auto !important;
+    }
 
 	// this fixes the open street map images, not the best place to
 	// to this. another option would be to not put the

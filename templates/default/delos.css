@@ -6975,6 +6975,10 @@ a#il_mhead_t_focus {
   color: #6ea03c;
   vertical-align: middle;
   font-size: 26px;
+  cursor: default;
+}
+a#il_mhead_t_focus[href] {
+  cursor: pointer;
 }
 h1.ilHeader {
   padding: 10px 0 0;
@@ -7534,6 +7538,9 @@ img.ilIcon {
 .il_VAccordionContentDef > div,
 .il_HAccordionContentDef > div {
   overflow: auto;
+}
+div.ilc_va_icont_VAccordICont {
+  overflow: visible !important;
 }
 /* Modules/ScormAicc */
 table.il_ScormTable {
@@ -11410,6 +11417,9 @@ table.mceToolbar td {
   /* height: auto; messes e.g. survey progress bar */
   img {
     max-width: 100%;
+  }
+  td.ilc_Mob img {
+    height: auto !important;
   }
   img.olTileImage {
     max-width: none;
