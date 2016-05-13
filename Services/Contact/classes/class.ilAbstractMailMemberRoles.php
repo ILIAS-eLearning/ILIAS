@@ -24,6 +24,6 @@ abstract class ilAbstractMailMemberRoles
 	public final function getMailboxRoleAddress($role_id)
 	{
 		require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
-		return ilBaseMailRoleAddressType::getRoleMailboxAddress($role_id);
+		return ilMailRoleAddressType::getRoleMailboxAddress($role_id);
 	}
 }
