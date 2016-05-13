@@ -15218,3 +15218,129 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#4911>
+<?php
+//tableview
+$fields = array(
+	'id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'table_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'title' => array(
+		'notnull' => '1',
+		'type' => 'text',
+		'length' => '128',
+
+	),
+	'tableview_order' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_dcl_tableview')) {
+	$ilDB->createTable('il_dcl_tableview', $fields);
+	$ilDB->addPrimaryKey('il_dcl_tableview', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_dcl_tableview')) {
+		$ilDB->createSequence('il_dcl_tableview');
+	}
+
+}
+
+//tableview_access
+$fields = array(
+	'id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'tableview_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'role_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_dcl_tview_role')) {
+	$ilDB->createTable('il_dcl_tview_role', $fields);
+	$ilDB->addPrimaryKey('il_dcl_tview_role', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_dcl_tview_role')) {
+		$ilDB->createSequence('il_dcl_tview_role');
+	}
+
+}
+
+//tableview_field_setting
+$fields = array(
+	'id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'tableview_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'field_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'visible' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+	'in_filter' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+	'filter_value' => array(
+		'type' => 'text',
+		'length' => '128',
+
+	),
+	'filter_changeable' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_dcl_tview_set')) {
+	$ilDB->createTable('il_dcl_tview_set', $fields);
+	$ilDB->addPrimaryKey('il_dcl_tview_set', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_dcl_tview_set')) {
+		$ilDB->createSequence('il_dcl_tview_set');
+	}
+
+}
+
+?>
+	

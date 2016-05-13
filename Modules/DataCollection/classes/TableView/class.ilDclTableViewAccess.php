@@ -1,12 +1,26 @@
 <?php
-require_once('.Services/ActiveRecord/class.ActiveRecord.php');
+require_once('./Services/ActiveRecord/class.ActiveRecord.php');
 /**
  * Class ilDclTableViewAccess
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
+ * @ingroup ModulesDataCollection
  */
 class ilDclTableViewAccess extends ActiveRecord
 {
+
+    /**
+     * @var int
+     *
+     * @db_has_field        true
+     * @db_is_unique        true
+     * @db_is_primary       true
+     * @db_is_notnull       true
+     * @db_fieldtype        integer
+     * @db_length           8
+     * @db_sequence         true
+     */
+    protected $id;
 
     /**
      * @var int
@@ -33,7 +47,7 @@ class ilDclTableViewAccess extends ActiveRecord
      * @description Return the Name of your Database Table
      */
     static function returnDbTableName() {
-        return "il_dcl_tableview_access";
+        return "il_dcl_tview_role";
     }
 
     /**
@@ -67,7 +81,21 @@ class ilDclTableViewAccess extends ActiveRecord
     {
         $this->role_id = $role_id;
     }
+    
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
 }

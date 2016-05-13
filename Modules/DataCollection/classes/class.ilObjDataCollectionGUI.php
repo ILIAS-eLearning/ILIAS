@@ -25,6 +25,7 @@ require_once('./Modules/DataCollection/classes/class.ilDclExportGUI.php');
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListGUI, ilDataCollectionRecordEditViewdefinitionGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordViewGUI, ilDclRecordViewViewdefinitionGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableEditGUI, ilDclFieldListGUI, ilObjFileGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableViewGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListViewdefinitionGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilObjUserGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilRatingGUI
@@ -169,6 +170,15 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				require_once('./Modules/DataCollection/classes/class.ilDclFieldListGUI.php');
 				$fieldlist_gui = new ilDclFieldListGUI($this, $this->table_id);
 				$this->ctrl->forwardCommand($fieldlist_gui);
+				break;
+
+			case "ildcltableviewgui":
+				$this->prepareOutput();
+				$this->addListFieldsTabs("show_tableviews");
+				$ilTabs->setTabActive("id_fields");
+				require_once('./Modules/DataCollection/classes/TableView/class.ilDclTableViewGUI.php');
+				$tableview_gui = new ilDclTableViewGUI($this, $this->table_id);
+				$this->ctrl->forwardCommand($tableview_gui);
 				break;
 
 			case "ildcltableeditgui":
@@ -431,8 +441,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 		$ilTabs->addSubTab("list_fields", $lng->txt("dcl_list_fields"), $ilCtrl->getLinkTargetByClass("ildclfieldlistgui", "listFields"));
 
-		$ilCtrl->setParameterByClass("ildclrecordviewviewdefinitiongui", "table_id", $this->table_id);
-		$ilTabs->addSubTab("view_viewdefinition", $lng->txt("dcl_record_view_viewdefinition"), $ilCtrl->getLinkTargetByClass("ildclrecordviewviewdefinitiongui", "edit"));
+		$ilCtrl->setParameterByClass("ildcltableviewgui", "table_id", $this->table_id);
+		$ilTabs->addSubTab("show_tableviews", $lng->txt("dcl_tableviews"), $ilCtrl->getLinkTargetByClass("ildcltableviewgui", "show"));
+
+//		$ilCtrl->setParameterByClass("ildclrecordviewviewdefinitiongui", "table_id", $this->table_id);
+//		$ilTabs->addSubTab("view_viewdefinition", $lng->txt("dcl_record_view_viewdefinition"), $ilCtrl->getLinkTargetByClass("ildclrecordviewviewdefinitiongui", "edit"));
 
 		$ilTabs->activateSubTab($a_active);
 	}

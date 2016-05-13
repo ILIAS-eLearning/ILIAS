@@ -1,9 +1,10 @@
 <?php
-require_once('.Services/ActiveRecord/class.ActiveRecord.php');
+require_once('./Services/ActiveRecord/class.ActiveRecord.php');
 /**
  * Class ilDclTableView
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
+ * @ingroup ModulesDataCollection
  */
 class ilDclTableView extends ActiveRecord
 {
@@ -48,7 +49,7 @@ class ilDclTableView extends ActiveRecord
      * @db_fieldtype        integer
      * @db_length           8
      */
-    protected $order;
+    protected $tableview_order;
 
     /**
      * @return string
