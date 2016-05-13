@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressType.php';
+require_once 'Services/Mail/classes/Address/Type/class.ilBaseMailAddressType.php';
 
 /**
  * Class ilMailRoleAddressType
@@ -9,7 +9,7 @@ require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressType.php';
  * @author Stefan Meyer <meyer@leifos.com>
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailRoleAddressType extends ilMailAddressType
+class ilMailRoleAddressType extends ilBaseMailAddressType
 {
 	/**
 	 * @var array
@@ -171,13 +171,12 @@ class ilMailRoleAddressType extends ilMailAddressType
 
 		$role_ids = array();
 
-		require_once 'Services/Mail/classes/Address/Parser/RFC822.php';
-		require_once 'Services/Mail/classes/class.ilMail.php';
-		$parser = new Mail_RFC822();
-		$parsedList = $parser->parseAddressList($a_address_list, ilMail::ILIAS_HOST, false, true);
+		require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
+		$parser     = ilMailRfc822AddressParserFactory::getParser($a_address_list);
+		$parsedList = $parser->parse();
 		foreach($parsedList as $address)
 		{
-			$local_part = $address->mailbox;
+			$local_part = $address->getMailbox();
 			if(strpos($local_part,'#') !== 0 && !($local_part{0} == '"' && $local_part{1} == "#"))
 			{
 				// A local-part which doesn't start with a '#' doesn't denote a role.
@@ -211,7 +210,7 @@ class ilMailRoleAddressType extends ilMailAddressType
 				continue;
 			}
 
-			$domain = $address->host;
+			$domain = $address->getHost();
 			if(strpos($domain,'[') == 0 && strrpos($domain,']'))
 			{
 				$domain = substr($domain,1,strlen($domain) - 2);
@@ -219,11 +218,11 @@ class ilMailRoleAddressType extends ilMailAddressType
 			if(strlen($local_part) == 0)
 			{
 				$local_part = $domain;
-				$address->host = ilMail::ILIAS_HOST;
+				$address->setHost(ilMail::ILIAS_HOST);
 				$domain = ilMail::ILIAS_HOST;
 			}
 
-			if(strtolower($address->host) == ilMail::ILIAS_HOST)
+			if(strtolower($address->getHost()) == ilMail::ILIAS_HOST)
 			{
 				// Search for roles = local-part in the whole repository
 				$query = "SELECT dat.obj_id ".
@@ -261,7 +260,7 @@ class ilMailRoleAddressType extends ilMailAddressType
 
 			// Nothing found?
 			// In this case, we search for roles = host.
-			if($count == 0 && strtolower($address->host) == ilMail::ILIAS_HOST)
+			if($count == 0 && strtolower($address->getHost()) == ilMail::ILIAS_HOST)
 			{
 				$q = "SELECT dat.obj_id ".
 					"FROM object_data dat ".
@@ -522,10 +521,9 @@ class ilMailRoleAddressType extends ilMailAddressType
 
 		try
 		{
-			require_once 'Services/Mail/classes/Address/Parser/RFC822.php';
-			require_once 'Services/Mail/classes/class.ilMail.php';
-			$parser = new Mail_RFC822($mailbox, ilMail::ILIAS_HOST);
-			$parser->parseAddressList();
+			require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
+			$parser = ilMailRfc822AddressParserFactory::getParser($mailbox);
+			$parser->parse();
 
 			return $mailbox;
 		}

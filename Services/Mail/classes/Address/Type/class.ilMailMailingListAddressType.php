@@ -1,13 +1,13 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressType.php';
+require_once 'Services/Mail/classes/Address/Type/class.ilBaseMailAddressType.php';
 
 /**
- * Class ilMailRecipientMailingListParser
+ * Class ilMailMailingListAddressType
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailMailingListAddressType extends ilMailAddressType
+class ilMailMailingListAddressType extends ilBaseMailAddressType
 {
 	/**
 	 * @var ilMailingLists|null
