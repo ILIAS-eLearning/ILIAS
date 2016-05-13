@@ -28,13 +28,6 @@ class ilMailRfc822AddressParser extends ilBaseMailRfc822AddressParser
 	 */
 	protected function parseAddressString($a_addresses)
 	{
-		try
-		{
-			return $this->aggregated_parser->parse();
-		}
-		catch(ilMailException $e)
-		{
-			// @todo parse
-		}
+		return $this->aggregated_parser->parse();
 	}
 }
