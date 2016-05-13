@@ -11,21 +11,4 @@ namespace ILIAS\UI;
  * @author	Richard Klees <richard.klees@concepts-and-training.de>
  */
 interface Component {
-	/**
-	 * Render element to an HTML string.
-	 *
-	 * This is an escape hatch to the current ILIAS template logic for UIs.
-	 * 
-	 * @return	string
-	 */
-	public function toHTMLString();
-
-	/**
-	 * Get to know which JS-files are required to render the component.
-	 *
-	 * This is an escape hatch to the current ILIAS template logic for UIs.
-	 *
-	 * @return	string[]	Paths to required javascripts.
-	 */
-	public function getRequiredJavascript();
 }
