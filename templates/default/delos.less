@@ -938,7 +938,11 @@ div.il_info {
 a#il_mhead_t_focus {
 	color: @brand-secondary;
 	vertical-align: middle;
-	font-size: 26px
+	font-size: 26px;
+    cursor: default;
+    &[href] {
+        cursor: pointer;
+    }
 }
 
 h1.ilHeader {

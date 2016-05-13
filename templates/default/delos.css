@@ -6975,6 +6975,10 @@ a#il_mhead_t_focus {
   color: #6ea03c;
   vertical-align: middle;
   font-size: 26px;
+  cursor: default;
+}
+a#il_mhead_t_focus[href] {
+  cursor: pointer;
 }
 h1.ilHeader {
   padding: 10px 0 0;
