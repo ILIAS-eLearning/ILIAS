@@ -2639,9 +2639,14 @@ return;
 			{
 				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
 
+				$snippet_lang = $this->getLanguage();
+				if (!ilPageObject::_exists("mep", $param[1], $snippet_lang))
+				{
+					$snippet_lang = "-";
+				}
 				if (($param[2] <= 0 || $param[2] == IL_INST_ID) && ilMediaPoolPage::_exists($param[1]))
 				{
-					$page_gui = new ilMediaPoolPageGUI($param[1], 0, true, $this->getLanguage());
+					$page_gui = new ilMediaPoolPageGUI($param[1], 0, true, $snippet_lang);
 					if ($this->getOutputMode() != "offline")
 					{
 						$page_gui->setFileDownloadLink($this->determineFileDownloadLink());
