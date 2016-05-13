@@ -10031,6 +10031,7 @@ div.ilContainerListItemIconCB {
   margin-left: 0;
   margin-right: 25px;
 }
+div[class^="il_editarea"] .ilContainerListItemOuter img,
 img.ilListItemIcon {
   width: 35px;
   height: 35px;
