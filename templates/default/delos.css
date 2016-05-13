@@ -11403,6 +11403,9 @@ table.mceToolbar td {
   img {
     max-width: 100%;
   }
+  td.ilc_Mob img {
+    height: auto !important;
+  }
   img.olTileImage {
     max-width: none;
   }
