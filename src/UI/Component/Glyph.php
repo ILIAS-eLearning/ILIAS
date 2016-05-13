@@ -18,7 +18,7 @@ interface Glyph extends \ILIAS\UI\Element {
 	const CALENDAR = "calendar";
 	const CLOSE = "close";
 	const ATTACHMENT = "attachment";
-	const CARRET = "carret";
+	const CARET = "caret";
 	const DRAG = "drag";
 	const SEARCH = "search";
 	const FILTER = "filter";
