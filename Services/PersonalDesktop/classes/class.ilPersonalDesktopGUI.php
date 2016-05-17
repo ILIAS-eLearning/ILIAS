@@ -291,7 +291,7 @@ class ilPersonalDesktopGUI
 
 		// add template for content
 		$this->pd_tpl = new ilTemplate("tpl.usr_personaldesktop.html", true, true, "Services/PersonalDesktop");
-		$this->tpl->getStandardTemplate();
+//		$this->tpl->getStandardTemplate();
 
 		// display infopanel if something happened
 		ilUtil::infoPanel();
