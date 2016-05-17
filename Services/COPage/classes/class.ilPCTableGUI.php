@@ -53,7 +53,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		switch($next_class)
 		{
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 
@@ -109,7 +109,7 @@ class ilPCTableGUI extends ilPageContentGUI
 	/**
 	* Get table templates
 	*/
-	function getTemplateOptions($a_type)
+	function getTemplateOptions($a_type = "")
 	{
 		return parent::getTemplateOptions("table");
 	}

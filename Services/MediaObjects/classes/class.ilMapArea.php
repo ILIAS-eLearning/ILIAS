@@ -252,13 +252,13 @@ class ilMapArea
 		return $mobs;
 	}
 
-		/**
+	/**
 	 * Get all highlight modes
 	 *
 	 * @param
 	 * @return
 	 */
-	function getAllHighlightModes()
+	static function getAllHighlightModes()
 	{
 		global $lng;
 		
@@ -294,10 +294,9 @@ class ilMapArea
 	/**
 	 * Get all highlight classes
 	 *
-	 * @param
-	 * @return
+	 * @return array
 	 */
-	function getAllHighlightClasses()
+	static function getAllHighlightClasses()
 	{
 		global $lng;
 		
@@ -699,11 +698,12 @@ class ilMapArea
 	}
 
 	/**
-	* count the number of coordinates (x,y) in a coordinate string (format: "x1,y1,x2,y2,x3,y3,...")
-	*
-	* @param	string		$c		coordinate string
-	*/
-	function countCoords($c)
+	 * count the number of coordinates (x,y) in a coordinate string (format: "x1,y1,x2,y2,x3,y3,...")
+	 *
+	 * @param string $c coordinate string
+	 * @return int number of coordinates
+	 */
+	static function countCoords($c)
 	{
 		if ($c == "")
 		{

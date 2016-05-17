@@ -33,7 +33,7 @@ class ilPCSkills extends ilPageContent
 	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->skill_node =& $a_node->first_child();		// this is the skill node
+		$this->skill_node = $a_node->first_child();		// this is the skill node
 	}
 
 	/**

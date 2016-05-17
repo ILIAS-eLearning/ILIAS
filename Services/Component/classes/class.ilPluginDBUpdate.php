@@ -22,7 +22,7 @@ class ilPluginDBUpdate extends ilDBUpdate
 		// workaround to allow setup migration
 		if ($a_db_handler)
 		{
-			$this->db =& $a_db_handler;
+			$this->db = $a_db_handler;
 			
 			if ($tmp_flag)
 			{

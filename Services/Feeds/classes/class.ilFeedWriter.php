@@ -31,10 +31,6 @@ class ilFeedWriter
 	var $ch_description = "";
 	var $items = array();
 	
-	function ilFeedWriter()
-	{
-	}
-	
 	/**
 	* Set feed encoding. Default is UTF-8.
 	*/

@@ -1127,7 +1127,7 @@ class ilObjMediaObject extends ilObject
 	*/
 	function getUsages($a_include_history = true)
 	{
-		return $this->lookupUsages($this->getId(), $a_include_history);
+		return self::lookupUsages($this->getId(), $a_include_history);
 	}
 	
 	/**
@@ -1135,7 +1135,7 @@ class ilObjMediaObject extends ilObject
 	*
 	* @todo: This should be all in one context -> mob id table
 	*/
-	function lookupUsages($a_id, $a_include_history = true)
+	static function lookupUsages($a_id, $a_include_history = true)
 	{
 		global $ilDB;
 
@@ -1233,7 +1233,7 @@ class ilObjMediaObject extends ilObject
 	* 
 	* see ilWebAccessChecker 
 	*/
-	function getParentObjectIdForUsage($a_usage, $a_include_all_access_obj_ids = false)
+	static function getParentObjectIdForUsage($a_usage, $a_include_all_access_obj_ids = false)
 	{
 		if(is_int(strpos($a_usage["type"], ":")))
 		{

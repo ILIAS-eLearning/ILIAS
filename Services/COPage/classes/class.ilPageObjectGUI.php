@@ -120,7 +120,7 @@ class ilPageObjectGUI
 		$this->output2template = true;
 		$this->question_xml = "";
 		$this->question_html = "";
-		$this->tabs_gui =& $ilTabs;
+		$this->tabs_gui = $ilTabs;
 
 		$this->template_output_var = "PAGE_CONTENT";
 		$this->citation = false;
@@ -453,7 +453,7 @@ class ilPageObjectGUI
 
 	function setLocator(&$a_locator)
 	{
-		$this->locator =& $a_locator;
+		$this->locator = $a_locator;
 	}
 
 	function setTabs($a_tabs)
@@ -563,7 +563,7 @@ class ilPageObjectGUI
 
 	function setActivationListener(&$a_obj, $a_meth)
 	{
-		$this->act_obj =& $a_obj;
+		$this->act_obj = $a_obj;
 		$this->act_meth = $a_meth;
 	}
 
@@ -950,8 +950,8 @@ return;
 				//$this->ctrl->setReturn($this, "view");
 				$clip_gui = new ilEditClipboardGUI();
 				$clip_gui->setPageBackTitle($this->page_back_title);
-				//$ret =& $clip_gui->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($clip_gui);
+				//$ret = $clip_gui->executeCommand();
+				$ret = $this->ctrl->forwardCommand($clip_gui);
 				break;
 				
 			// notes
@@ -983,7 +983,7 @@ return;
 				$page_editor->setPageBackTitle($this->page_back_title);
 				$page_editor->setIntLinkReturn($this->int_link_return);
 				//$page_editor->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($page_editor);
+				$ret = $this->ctrl->forwardCommand($page_editor);
 				break;
 
 			case 'ilnewsitemgui':
