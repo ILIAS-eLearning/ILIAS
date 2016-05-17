@@ -584,7 +584,10 @@ class ilDBMySQL extends ilDB
 					break;
 			}
 		}
-		$ilLog->write(__METHOD__.': '.$lock);
+		if($ilLog instanceof ilLog) {
+			$ilLog->write(__METHOD__.': '.$lock);
+		}
+
 		$this->query($lock);
 	}
 	
