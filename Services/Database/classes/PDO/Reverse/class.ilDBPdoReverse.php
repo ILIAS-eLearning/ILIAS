@@ -1,4 +1,5 @@
 <?php
+require_once('./Services/Database/interfaces/interface.ilDBReverse.php');
 
 /**
  * Class ilDBPdoReverse
@@ -35,52 +36,48 @@ class ilDBPdoReverse implements ilDBReverse {
 	 * @return array
 	 */
 	public function getTableFieldDefinition($table_name, $field_name) {
+
 		$return = array();
-		throw new ilDatabaseException('not yet implemented ' . __METHOD__);
 
-
-
-
-		//		$result = $db->loadModule('Datatype', null, true); // Hope we dont have to implement this module, too??
-		//		if (PEAR::isError($result)) {
-		//			return $result;
-		//		}
 		$table = $this->db_instance->quoteIdentifier($table_name);
 		$query = "SHOW COLUMNS FROM $table LIKE " . $this->db_instance->quote($field_name);
 		$res = $this->pdo->query($query);
 		$columns = array();
-		while($data = $res->fetch(PDO::FETCH_ASSOC)) {
+		while ($data = $res->fetch(PDO::FETCH_ASSOC)) {
 			$columns[] = $data;
 		}
-		echo '<pre>' . print_r($columns, 1) . '</pre>';
-		echo '<pre>' . print_r($query, 1) . '</pre>';
-		echo '<pre>' . print_r($table_name, 1) . '</pre>';
 
-		throw new Exception();
-		exit;
+		//
+		//		return array(
+		//			0 => array(
+		//				'notnull'    => false,
+		//				'nativetype' => 'int',
+		//				'length'     => 4,
+		//				'unsigned'   => 0,
+		//				'default'    => null,
+		//				'type'       => 'integer',
+		//				'mdb2type'   => 'integer',
+		//			),
+		//		);
 
-		$columns = $db->queryAll($query, null, MDB2_FETCHMODE_ASSOC);
-		if (PEAR::isError($columns)) {
-			return $columns;
-		}
+		$ilDBPdoFieldDefinition = ilDBPdoFieldDefinition::getInstance($this->db_instance);
+
 		foreach ($columns as $column) {
 			$column = array_change_key_case($column, CASE_LOWER);
 			$column['name'] = $column['field'];
 			unset($column['field']);
-			if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
-				if ($db->options['field_case'] == CASE_LOWER) {
-					$column['name'] = strtolower($column['name']);
-				} else {
-					$column['name'] = strtoupper($column['name']);
-				}
-			} else {
-				$column = array_change_key_case($column, $db->options['field_case']);
-			}
+			//			if ($this->db_instance->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
+			//				if ($this->db_instance->options['field_case'] == CASE_LOWER) {
+			//					$column['name'] = strtolower($column['name']);
+			//				} else {
+			//					$column['name'] = strtoupper($column['name']);
+			//				}
+			//			} else {
+			$column = array_change_key_case($column, CASE_LOWER);
+			//			}
 			if ($field_name == $column['name']) {
-				$mapped_datatype = $db->datatype->mapNativeDatatype($column);
-				if (PEAR::IsError($mapped_datatype)) {
-					return $mapped_datatype;
-				}
+				$mapped_datatype = $ilDBPdoFieldDefinition->mapNativeDatatype($column);
+
 				list($types, $length, $unsigned, $fixed) = $mapped_datatype;
 				$notnull = false;
 				if (empty($column['null']) || $column['null'] !== 'YES') {
@@ -130,27 +127,162 @@ class ilDBPdoReverse implements ilDBReverse {
 			}
 		}
 
-		return $db->raiseError(MDB2_ERROR_NOT_FOUND, null, null, 'it was not specified an existing table column', __FUNCTION__);
+		return $this->db_instance->raiseError(MDB2_ERROR_NOT_FOUND, null, null, 'it was not specified an existing table column', __FUNCTION__);
 
 		return $return;
 	}
 
 
-	public function getTableIndexDefinition($table, $constraint_name) {
-		throw new ilDatabaseException('not yet implemented ' . __METHOD__);
+	/**
+	 * @param $table
+	 * @param $index_name
+	 * @return array
+	 * @throws \ilDatabaseException
+	 */
+	public function getTableIndexDefinition($table, $index_name) {
+		$table = $this->db_instance->quoteIdentifier($table, true);
+		$query = "SHOW INDEX FROM $table /*!50002 WHERE Key_name = %s */";
+		$index_name_pdo = $this->db_instance->getIndexName($index_name);
+		$result = $this->db_instance->query(sprintf($query, $this->db_instance->quote($index_name_pdo)));
+		$data = $this->db_instance->fetchAssoc($result);
+
+		if ($data) {
+			$index_name = $index_name_pdo;
+		}
+
+		$result = $this->db_instance->query(sprintf($query, $this->db_instance->quote($index_name)));
+
+		$colpos = 1;
+		$definition = array();
+		while (is_object($row = $result->fetchObject())) {
+			$row = array_change_key_case((array)$row, CASE_LOWER);
+
+			$key_name = $row['key_name'];
+
+			if ($this->db_instance->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
+				if ($this->db_instance->options['field_case'] == CASE_LOWER) {
+					$key_name = strtolower($key_name);
+				} else {
+					$key_name = strtoupper($key_name);
+				}
+			}
+
+			if ($index_name == $key_name) {
+				if (!$row['non_unique']) {
+					throw new ilDatabaseException('it was not specified an existing table index');
+				}
+				$column_name = $row['column_name'];
+				if ($this->db_instance->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
+					if ($this->db_instance->options['field_case'] == CASE_LOWER) {
+						$column_name = strtolower($column_name);
+					} else {
+						$column_name = strtoupper($column_name);
+					}
+				}
+				$definition['fields'][$column_name] = array(
+					'position' => $colpos ++,
+				);
+				if (!empty($row['collation'])) {
+					$definition['fields'][$column_name]['sorting'] = ($row['collation'] == 'A' ? 'ascending' : 'descending');
+				}
+			}
+		}
+
+		if (empty($definition['fields'])) {
+			throw new ilDatabaseException('it was not specified an existing table index (index does not exist)');
+		}
+
+		return $definition;
 	}
 
 
-	public function getTableConstraintDefinition($table, $index_name) {
-		throw new ilDatabaseException('not yet implemented ' . __METHOD__);
+	/**
+	 * @param $table
+	 * @param $constraint_name
+	 * @return array
+	 * @throws \ilDatabaseException
+	 */
+	public function getTableConstraintDefinition($table, $constraint_name) {
+		$table = $this->db_instance->quoteIdentifier($table, true);
+		$query = "SHOW INDEX FROM $table /*!50002 WHERE Key_name = %s */";
+
+		if (strtolower($constraint_name) != 'primary') {
+			$constraint_name_pdo = $this->db_instance->getIndexName($constraint_name);
+			$result = $this->db_instance->query(sprintf($query, $this->db_instance->quote($constraint_name)));
+			$data = $this->db_instance->fetchAssoc($result);
+			if ($data) {
+				// apply 'idxname_format' only if the query succeeded, otherwise
+				// fallback to the given $index_name, without transformation
+				$constraint_name = $constraint_name_pdo;
+			}
+		}
+
+		$result = $this->db_instance->query(sprintf($query, $this->db_instance->quote($constraint_name)));
+
+		$colpos = 1;
+		$definition = array();
+		while (is_object($row = $result->fetchObject())) {
+			$row = (array)$row;
+			$row = array_change_key_case($row, CASE_LOWER);
+			$key_name = $row['key_name'];
+			if ($this->db_instance->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
+				if ($this->db_instance->options['field_case'] == CASE_LOWER) {
+					$key_name = strtolower($key_name);
+				} else {
+					$key_name = strtolower($key_name);
+				}
+			}
+			$key_name = strtolower($key_name); // FSX fix
+			if ($constraint_name == $key_name) {
+				if ($row['non_unique']) {
+					throw new ilDatabaseException(' is not an existing table constraint');
+				}
+				if ($row['key_name'] == 'PRIMARY') {
+					$definition['primary'] = true;
+				} else {
+					$definition['unique'] = true;
+				}
+				$column_name = $row['column_name'];
+				if ($this->db_instance->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
+					if ($this->db_instance->options['field_case'] == CASE_LOWER) {
+						$column_name = strtolower($column_name);
+					} else {
+						$column_name = strtoupper($column_name);
+					}
+				}
+				$definition['fields'][$column_name] = array(
+					'position' => $colpos ++,
+				);
+				if (!empty($row['collation'])) {
+					$definition['fields'][$column_name]['sorting'] = ($row['collation'] == 'A' ? 'ascending' : 'descending');
+				}
+			}
+		}
+
+		if (empty($definition['fields'])) {
+			throw new ilDatabaseException(' is not an existing table constraint');
+		}
+
+		return $definition;
 	}
 
 
+	/**
+	 * @param $trigger
+	 * @return array|void
+	 * @throws \ilDatabaseException
+	 */
 	public function getTriggerDefinition($trigger) {
 		throw new ilDatabaseException('not yet implemented ' . __METHOD__);
 	}
 
 
+	/**
+	 * @param $result
+	 * @param null $mode
+	 * @return array|void
+	 * @throws \ilDatabaseException
+	 */
 	public function tableInfo($result, $mode = null) {
 		throw new ilDatabaseException('not yet implemented ' . __METHOD__);
 	}

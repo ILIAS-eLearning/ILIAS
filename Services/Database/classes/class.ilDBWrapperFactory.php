@@ -58,7 +58,7 @@ class ilDBWrapperFactory {
 				break;
 
 			case ilDBConstants::TYPE_INNODB:
-				include_once("./Services/Database/classes/MDB2/class.ilDBInnoDB.php");
+				require_once("./Services/Database/classes/MDB2/class.ilDBInnoDB.php");
 				$ilDB = new ilDBInnoDB();
 
 				if ($a_inactive_mysqli === null

@@ -1,0 +1,13 @@
+<phpunit>
+	<testsuites>
+		<testsuite name="Global ILIAS Tests">
+			<file>ilServicesDatabaseSuite.php</file>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">../classes/</directory>
+		</whitelist>
+	</filter>
+	<log type="coverage-clover" target="./build/logs/clover.xml" />
+</phpunit>

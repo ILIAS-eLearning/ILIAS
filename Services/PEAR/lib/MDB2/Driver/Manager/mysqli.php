@@ -188,6 +188,51 @@ class MDB2_Driver_Manager_mysqli extends MDB2_Driver_Manager_Common
         return $db->exec($query);
     }
 
+
+    /**
+     * PATCH: For Testcases Only
+     */
+    public function getTableCreationQuery($name, $fields, $options = array()) {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        $query = $this->_getCreateTableQuery($name, $fields, $options);
+        if (PEAR::isError($query)) {
+            return $query;
+        }
+
+        $options_strings = array();
+
+        if (!empty($options['comment'])) {
+            $options_strings['comment'] = 'COMMENT = '.$db->quote($options['comment'], 'text');
+        }
+
+        if (!empty($options['charset'])) {
+            $options_strings['charset'] = 'DEFAULT CHARACTER SET '.$options['charset'];
+            if (!empty($options['collate'])) {
+                $options_strings['charset'].= ' COLLATE '.$options['collate'];
+            }
+        }
+
+        $type = false;
+        if (!empty($options['type'])) {
+            $type = $options['type'];
+        } elseif ($db->options['default_table_type']) {
+            $type = $db->options['default_table_type'];
+        }
+        if ($type) {
+            $options_strings[] = "ENGINE = $type";
+        }
+
+        if (!empty($options_strings)) {
+            $query .= ' '.implode(' ', $options_strings);
+        }
+
+        return $query;
+    }
+
     // }}}
     // {{{ alterTable()
 
