@@ -1545,7 +1545,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	 */
 	function exportHTML($a_inst, $a_target_dir, &$expLog, $a_one_file = "")
 	{
-
 //		$a_xml_writer = new ilXmlWriter;
 		// set dtd definition
 //		$a_xml_writer->xmlSetDtdDef("<!DOCTYPE ContentObject SYSTEM \"http://www.ilias.de/download/dtd/ilias_co_3_7.dtd\">");

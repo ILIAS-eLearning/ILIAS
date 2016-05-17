@@ -144,7 +144,7 @@ class ilGlossaryTermGUI
 	{
 		global $ilTabs, $ilCtrl;
 
-		$this->getTemplate();
+//		$this->getTemplate();
 		$this->displayLocator();
 		$this->setTabs();
 		$ilTabs->activateTab("properties");
@@ -406,7 +406,7 @@ class ilGlossaryTermGUI
 	{
 		global $ilTabs;
 		
-		$this->getTemplate();
+//		$this->getTemplate();
 		$this->displayLocator();
 		$this->setTabs();
 		$ilTabs->activateTab("definitions");
@@ -428,7 +428,7 @@ class ilGlossaryTermGUI
 		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
 		//$this->tpl->addBlockfile("CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
 		//ilUtil::sendInfo();
-		$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
+//		$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$this->tpl->setTitle(
 			$this->lng->txt("cont_term").": ".$this->term->getTerm());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
@@ -788,7 +788,7 @@ class ilGlossaryTermGUI
 		global $ilTabs, $tpl;
 
 		//$this->displayLocator();
-		$this->getTemplate();
+//		$this->getTemplate();
 		$this->displayLocator();
 		$this->setTabs();
 		$ilTabs->activateTab("usage");

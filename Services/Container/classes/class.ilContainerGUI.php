@@ -779,32 +779,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function editPageFrameObject()
 	{
-		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
-		$fs_gui = new ilFramesetGUI();
-		
-		$fs_gui->setFramesetTitle($this->object->getTitle());
-		$fs_gui->setMainFrameName("content");
-		$fs_gui->setSideFrameName("tree");
-
 		// old tiny stuff
 		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
 			"xhtml_page");
 		if ($xpage_id > 0 && $_SESSION["il_cntr_editor"] != "std")
 		{
-			$fs_gui->setMainFrameSource(
-				$this->ctrl->getLinkTarget(
-					$this, "editPageContent"));
-			$fs_gui->setSideFrameSource(
-				$this->ctrl->getLinkTarget($this, "showLinkList"));
+			$this->ctrl->redirect($this, "editPageContent");
 		}
 		else
 		{
 			$this->ctrl->redirectByClass(array("ilcontainerpagegui"), "edit");
-			exit;
 		}
-				
-		$fs_gui->show();
-		exit;
 	}
 
 	/**

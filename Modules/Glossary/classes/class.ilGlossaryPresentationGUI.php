@@ -35,8 +35,9 @@ class ilGlossaryPresentationGUI
 	*/
 	function __construct()
 	{
-		global $lng, $ilias, $tpl, $ilCtrl;
+		global $lng, $ilias, $tpl, $ilCtrl, $ilTabs;
 
+		$this->tabs_gui = $ilTabs;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->ilias = $ilias;
@@ -1297,7 +1298,7 @@ class ilGlossaryPresentationGUI
 			{
 				if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 				{
-					$tabs_gui->addTab("terms",
+					$this->tabs_gui->addTab("terms",
 						$lng->txt("cont_terms"),
 						$ilCtrl->getLinkTarget($this, "listTerms"));
 				}

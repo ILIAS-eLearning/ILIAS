@@ -219,7 +219,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				}
 				else
 				{
-					if (!in_array($cmd, array("frameset", "quickList")))
+					if (!in_array($cmd, array("quickList")))
 					{
 						if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
 							$this->getCreationMode() == true)
@@ -245,7 +245,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				break;
 		}
 
-		if (!in_array($cmd, array("frameset", "quickList")))
+		if (!in_array($cmd, array("quickList")))
 		{
 			if (strtolower($_GET["baseClass"]) != "iladministrationgui")
 			{
@@ -688,32 +688,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$tpl->setContent($this->form->getHTML());
 	}
 
-	/**
-	* glossary edit frameset
-	*/
-	function frameset()
-	{
-		global $ilCtrl;
-		
-		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
-		$fs_gui = new ilFramesetGUI();
-		$fs_gui->setFramesetTitle($this->object->getTitle());
-		if ((int) $_GET["edit_term"] > 0)
-		{
-			$ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", (int) $_GET["edit_term"]);
-			$fs_gui->setMainFrameSource($this->ctrl->getLinkTargetByClass("ilglossarytermgui", "listDefinitions"));
-		}
-		else
-		{
-			$fs_gui->setMainFrameSource($this->ctrl->getLinkTarget($this, "listTerms"));
-		}
-		$fs_gui->setSideFrameSource($this->ctrl->getLinkTarget($this, "quickList"));
-		$fs_gui->setMainFrameName("content");
-		$fs_gui->setSideFrameName("tree");
-		$fs_gui->show();
-		exit;
-	}
-	
 	/**
 	* quick term list
 	*/
