@@ -500,12 +500,19 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
-	 * @param $table_name  string
-	 * @param $column_name string
+	 * @param string $table_name
+	 * @param string $column_name
+	 * @return bool
+	 * @throws \ilDatabaseException
 	 */
 	public function dropTableColumn($table_name, $column_name) {
-		$this->manager->dropSequence($table_name, $column_name);
-		$this->pdo->exec("ALTER TABLE $table_name DROP COLUMN $column_name");
+		$changes = array(
+			"remove" => array(
+				$column_name => array(),
+			),
+		);
+
+		return $this->manager->alterTable($table_name, $changes, false);
 	}
 
 
@@ -819,6 +826,7 @@ class ilDBPdo implements ilDBInterface {
 	/**
 	 * @param string $type
 	 */
+
 	public function setDBType($type) {
 		$this->db_type = $type;
 	}
