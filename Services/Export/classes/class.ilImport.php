@@ -180,7 +180,12 @@ class ilImport
 		$this->setTemporaryImportDir($dir);
 
 		$GLOBALS['ilLog']->write(__METHOD__.': do import with dir '.$dir);
-		$new_id = $this->doImportObject($dir, $a_type, $a_comp, $tmpdir);
+		$ret = $this->doImportObject($dir, $a_type, $a_comp, $tmpdir);
+		$new_id = null;
+		if(is_array($ret))
+		{
+			$new_id = $ret['new_id'];
+		}
 		
 		// delete temporary directory
 		ilUtil::delDir($tmpdir);
@@ -196,9 +201,13 @@ class ilImport
 	 */
 	function importFromDirectory($dir, $a_type, $a_comp)
 	{
-		$new_id = $this->doImportObject($dir, $a_type, $a_comp);
-		return $new_id;
-
+		$ret = $this->doImportObject($dir, $a_type, $a_comp);
+		
+		if(is_array($ret))
+		{
+			return $ret['new_id'];
+		}
+		return null;
 	}
 
 
