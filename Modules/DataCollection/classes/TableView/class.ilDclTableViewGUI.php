@@ -1,10 +1,13 @@
 <?php
 require_once('Modules/DataCollection/classes/TableView/class.ilDclTableViewTableGUI.php');
+require_once('Modules/DataCollection/classes/TableView/class.ilDclTableViewEditGUI.php');
 /**
  * Class ilDclTableViewGUI
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup ModulesDataCollection
+ *
+ * @ilCtrl_Calls ilDclTableViewGUI: ilDclTableViewEditGUI
  */
 class ilDclTableViewGUI
 {
@@ -35,6 +38,11 @@ class ilDclTableViewGUI
     protected $tabs;
 
     /**
+     * @var ilDclTable
+     */
+    protected $table;
+
+    /**
      * Constructor
      *
      * @param	ilObjDataCollectionGUI	$a_parent_obj
@@ -44,29 +52,43 @@ class ilDclTableViewGUI
     {
         global $ilCtrl, $lng, $ilToolbar, $tpl, $ilTabs;
 
-        $this->main_table_id = $a_parent_obj->object->getMainTableId();
-        $this->table_id = $table_id;
         $this->parent_obj = $a_parent_obj;
-        $this->obj_id = $a_parent_obj->obj_id;
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->tpl = $tpl;
         $this->tabs = $ilTabs;
         $this->toolbar = $ilToolbar;
+        $this->table = ilDclCache::getTableCache($table_id);
     }
 
 
     /**
-     * execute command
+     * 
      */
     public function executeCommand()
     {
+        $this->ctrl->saveParameter($this, 'table_id');
         $cmd = $this->ctrl->getCmd("show");
-        switch($cmd) {
+        $next_class = $this->ctrl->getNextClass($this);
+        switch ($next_class)
+        {
+            case 'ildcltablevieweditgui':
+                $this->tabs->clearSubTabs();
+                require_once('./Modules/DataCollection/classes/TableView/class.ilDclTableViewEditGUI.php');
+                $edit_gui = new ilDclTableViewEditGUI($this);
+                $this->ctrl->forwardCommand($edit_gui);
+                break;
             default:
-                $this->$cmd();
+                switch($cmd)
+                {
+                    default:
+                        $this->$cmd();
+                        break;
+                }
                 break;
         }
+
+
     }
 
     /**
@@ -84,7 +106,7 @@ class ilDclTableViewGUI
         include_once './Services/Form/classes/class.ilSelectInputGUI.php';
         $table_selection = new ilSelectInputGUI('', 'table_id');
         $table_selection->setOptions($options);
-        $table_selection->setValue($this->table_id);
+        $table_selection->setValue($this->table->getId());
 
         $this->toolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclTableViewGUI", "doTableSwitch"));
         $this->toolbar->addText($this->lng->txt("dcl_table"));
@@ -94,11 +116,12 @@ class ilDclTableViewGUI
         $button->setCaption($this->lng->txt('change'));
         $this->toolbar->addButtonInstance($button);
 
-        $table_gui = new ilDclTableViewTableGUI($this, 'show', $this->table_id);
+        $table_gui = new ilDclTableViewTableGUI($this, 'show', $this->table);
+        $this->tpl->setContent($table_gui->getHTML());
     }
 
-    /*
-     * doTableSwitch
+    /**
+     * 
      */
     public function doTableSwitch()
     {
@@ -106,5 +129,76 @@ class ilDclTableViewGUI
         $this->ctrl->redirectByClass("ilDclTableViewGUI", "show");
     }
 
+
+    /**
+     * Confirm deletion of multiple fields
+     */
+    public function confirmDeleteFields() 
+    {
+        //at least one view must exist
+        $tableviews = isset($_POST['dcl_tableview_ids']) ? $_POST['dcl_tableview_ids'] : array();
+        $this->checkViewsLeft(count($tableviews));
+        
+        $this->tabs->clearSubTabs();
+        $conf = new ilConfirmationGUI();
+        $conf->setFormAction($this->ctrl->getFormAction($this));
+        $conf->setHeaderText($this->lng->txt('dcl_confirm_delete_tableviews'));
+        
+        foreach ($tableviews as $tableview_id) {
+            $conf->addItem('dcl_tableview_ids[]', $tableview_id, ilDclTableView::find($tableview_id)->getTitle());
+        }
+        $conf->setConfirm($this->lng->txt('delete'), 'deleteFields');
+        $conf->setCancel($this->lng->txt('cancel'), 'show');
+        $this->tpl->setContent($conf->getHTML());
+    }
+
+    protected function deleteFields()
+    {
+        $tableviews = isset($_POST['dcl_tableview_ids']) ? $_POST['dcl_tableview_ids'] : array();
+        foreach ($tableviews as $tableview_id) {
+            ilDclTableView::find($tableview_id)->delete();
+        }
+        $this->table->sortTableViews();
+        ilUtil::sendSuccess($this->lng->txt('dcl_msg_delete_success'), true);
+        $this->ctrl->redirect($this, 'show');
+    }
+
+    /**
+     * redirects if there are no tableviews left after deletion of {$delete_count} tableviews
+     *
+     * @param $delete_count number of tableviews to delete
+     */
+    public function checkViewsLeft($delete_count)
+    {
+        if ($delete_count >= count($this->table->getTableViews()))
+        {
+            ilUtil::sendFailure($this->lng->txt('il_dcl_msg_tableviews_delete_all'), true);
+            $this->ctrl->redirect($this, 'show');
+        }
+    }
+
+    /**
+     * @return ilDclTable
+     */
+    public function getTable()
+    {
+        return $this->table;
+    }
+
+    /**
+     * invoked by ilDclTableViewTableGUI
+     */
+    public function saveTableOrder()
+    {
+        $orders = array_flip($_POST['order']);
+        @ksort($orders);
+        $tableviews = array();
+        foreach($orders as $order => $tableview_id)
+        {
+            $tableviews[] = ilDclTableView::find($tableview_id);
+        }
+        $this->table->sortTableViews($tableviews);
+        $this->ctrl->redirect($this);
+    }
 
 }

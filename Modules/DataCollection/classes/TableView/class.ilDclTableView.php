@@ -43,6 +43,24 @@ class ilDclTableView extends ActiveRecord
     protected $title;
 
     /**
+     * @var array
+     *
+     * @db_has_field        true
+     * @db_fieldtype        text
+     * @db_length           256
+     */
+    protected $roles;
+
+    /**
+     * @var string
+     *
+     * @db_has_field        true
+     * @db_fieldtype        text
+     * @db_length           128
+     */
+    protected $description;
+
+    /**
      * @var int
      *
      * @db_has_field        true
@@ -112,7 +130,7 @@ class ilDclTableView extends ActiveRecord
      */
     public function getOrder()
     {
-        return $this->order;
+        return $this->tableview_order;
     }
 
     /**
@@ -120,9 +138,92 @@ class ilDclTableView extends ActiveRecord
      */
     public function setOrder($order)
     {
-        $this->order = $order;
+        $this->tableview_order = $order;
     }
-    
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTableviewOrder()
+    {
+        return $this->tableview_order;
+    }
+
+    /**
+     * @param int $tableview_order
+     */
+    public function setTableviewOrder($tableview_order)
+    {
+        $this->tableview_order = $tableview_order;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param array $roles
+     */
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+    }
+
+    /**
+     * @param $field_name
+     * @return null|string
+     */
+    public function sleep($field_name)
+    {
+        if ($field_name == 'roles')
+        {
+            return json_encode($this->roles);
+        }
+        return null;
+    }
+
+    /**
+     * @param $field_name
+     * @param $field_value
+     * @return mixed|null
+     */
+    public function wakeUp($field_name, $field_value)
+    {
+        if ($field_name == 'roles')
+        {
+            return json_decode($field_value);
+        }
+        return null;
+    }
+
+    public function delete()
+    {
+        foreach (ilDclTableViewFieldSetting::where(array('tableview_id' => $this->id))->get() as $setting)
+        {
+            $setting->delete();
+        }
+        parent::delete();
+    }
     
 
 }

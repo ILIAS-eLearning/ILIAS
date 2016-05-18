@@ -8,6 +8,7 @@ require_once('./Services/ActiveRecord/class.ActiveRecord.php');
  */
 class ilDclTableViewFieldSetting extends ActiveRecord
 {
+
     /**
      * @var int
      *
@@ -32,15 +33,15 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     protected $tableview_id;
 
     /**
-     * @var int
+     * @var string
      *
      * @db_has_field        true
      * @db_is_notnull       true
-     * @db_fieldtype        integer
-     * @db_length           8
+     * @db_fieldtype        text
+     * @db_length           128
      *
      */
-    protected $field_id;
+    protected $field;
 
     /**
      * @var bool
@@ -105,17 +106,17 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     /**
      * @return int
      */
-    public function getFieldId()
+    public function getField()
     {
-        return $this->field_id;
+        return $this->field;
     }
 
     /**
-     * @param int $field_id
+     * @param int $field
      */
-    public function setFieldId($field_id)
+    public function setField($field)
     {
-        $this->field_id = $field_id;
+        $this->field = $field;
     }
 
     /**
@@ -196,6 +197,51 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @param $field_name
+     * @return null|string
+     */
+    public function sleep($field_name)
+    {
+        if ($field_name == 'filter_value' && is_array($this->filter_value))
+        {
+            return json_encode($this->filter_value);
+        }
+        return null;
+    }
+
+    /**
+     * @param $field_name
+     * @param $field_value
+     * @return mixed|null
+     */
+    public function wakeUp($field_name, $field_value)
+    {
+        if ($field_name == 'filter_value')
+        {
+            $json = json_decode($field_value, true);
+            if (is_array($json))
+            {
+                return $json;
+            }
+        }
+        return null;
+    }
+
+    public static function createDefaults($table_id, $tableview_id)
+    {
+        $table = new ilDclTable($table_id);
+        
+        foreach ($table->getFieldIds() as $field_id)
+        {
+            $setting = new self();
+            $setting->setTableviewId($tableview_id);
+            $setting->setField($field_id);
+            $setting->setVisible(!ilDclStandardField::_isStandardField($field_id));
+            $setting->create();
+        }
     }
 
 }

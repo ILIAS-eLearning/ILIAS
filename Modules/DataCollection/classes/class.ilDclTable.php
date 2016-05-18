@@ -4,6 +4,7 @@
 
 include_once './Modules/DataCollection/classes/Fields/Base/class.ilDclStandardField.php';
 include_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordModel.php';
+include_once './Modules/DataCollection/classes/TableView/class.ilDclTableView.php';
 
 /**
  * Class ilDclBaseFieldModel
@@ -483,7 +484,15 @@ class ilDclTable {
 	 * @return array
 	 */
 	public function getFieldIds() {
-		return array_keys($this->getFields());
+		$field_ids = array();
+		foreach ($this->getFields() as $field)
+		{
+			if ($field->getId())
+			{
+				$field_ids[] = $field->getId();
+			}
+		}
+		return $field_ids;
 	}
 
 
@@ -528,6 +537,37 @@ class ilDclTable {
 		return $place;
 	}
 
+	/**
+	 * @return int
+	 */
+	public function getNewTableviewOrder() 
+	{
+		return ilDclTableView::where(array("table_id" => $this->getId()))->count() + 1;
+	}
+
+	/**
+	 *    ATTENTION: if an array of tableviews is passed, it is not really sorted but just
+	 *    given the right order-numbers (10, 20, ..)
+	 *
+	 * @param ilDclTableView[] $tableviews
+	 */
+	public function sortTableViews(array $tableviews = null)
+	{
+		if ($tableviews == null)
+		{
+			$tableviews = $this->getTableViews();
+		}
+
+		$order = 10;
+		foreach($tableviews as $tableview)
+		{
+			$tableview->setTableviewOrder($order);
+			$tableview->update();
+			$order += 10;
+		}
+
+	}
+
 
 	/**
 	 * Returns all fields of this table including the standard fields
@@ -544,8 +584,7 @@ class ilDclTable {
 	}
 
 	public function getTableViews() {
-		$tableviews = ilDclTableView::where(array("table_id" => $this->getId()));
-		return $tableviews->get();
+		return ilDclTableView::where(array("table_id" => $this->getId()))->orderBy('tableview_order')->get();
 	}
 
 

@@ -25,7 +25,7 @@ require_once('./Modules/DataCollection/classes/class.ilDclExportGUI.php');
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListGUI, ilDataCollectionRecordEditViewdefinitionGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordViewGUI, ilDclRecordViewViewdefinitionGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableEditGUI, ilDclFieldListGUI, ilObjFileGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableViewGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableViewGUI, ilDclTableViewEditGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListViewdefinitionGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilObjUserGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilRatingGUI
@@ -171,7 +171,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				$fieldlist_gui = new ilDclFieldListGUI($this, $this->table_id);
 				$this->ctrl->forwardCommand($fieldlist_gui);
 				break;
-
+	
 			case "ildcltableviewgui":
 				$this->prepareOutput();
 				$this->addListFieldsTabs("show_tableviews");

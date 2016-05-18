@@ -15217,4 +15217,104 @@ $ilCtrlStructureReader->getStructure();
 <#4910>
 <?php
 $ilCtrlStructureReader->getStructure();
-?>	
+?>
+	
+<#4911>
+<?php
+//tableview
+$fields = array(
+	'id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'table_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'title' => array(
+		'notnull' => '1',
+		'type' => 'text',
+		'length' => '128',
+
+	),
+	'roles' => array(
+		'type' => 'text',
+		'length' => '256',
+	),
+	'description' => array(
+		'type' => 'text',
+		'length' => '128',
+
+	),
+	'tableview_order' => array(
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_dcl_tableview')) {
+	$ilDB->createTable('il_dcl_tableview', $fields);
+	$ilDB->addPrimaryKey('il_dcl_tableview', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_dcl_tableview')) {
+		$ilDB->createSequence('il_dcl_tableview');
+	}
+
+}
+
+//tableview_field_setting
+$fields = array(
+	'id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'tableview_id' => array(
+		'notnull' => '1',
+		'type' => 'integer',
+		'length' => '8',
+
+	),
+	'field' => array(
+		'notnull' => '1',
+		'type' => 'text',
+		'length' => '128',
+
+	),
+	'visible' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+	'in_filter' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+	'filter_value' => array(
+		'type' => 'clob',
+	),
+	'filter_changeable' => array(
+		'type' => 'integer',
+		'length' => '1',
+
+	),
+
+);
+if (! $ilDB->tableExists('il_dcl_tview_set')) {
+	$ilDB->createTable('il_dcl_tview_set', $fields);
+	$ilDB->addPrimaryKey('il_dcl_tview_set', array( 'id' ));
+
+	if (! $ilDB->sequenceExists('il_dcl_tview_set')) {
+		$ilDB->createSequence('il_dcl_tview_set');
+	}
+
+}
+
+?>
