@@ -85,7 +85,8 @@ class ilGlossaryTerm
 		{
 			$glo_id = ilGlossaryTerm::_lookGlossaryID($term_rec["id"]);
 
-			if (ilObject::_hasUntrashedReference($glo_id))
+			$ref_ids  = ilObject::_getAllReferences($glo_id);	// will be 0 if import of lm is in progress (new import)
+			if (count($ref_ids) == 0 || ilObject::_hasUntrashedReference($glo_id))
 			{
 				return $term_rec["id"];
 			}
