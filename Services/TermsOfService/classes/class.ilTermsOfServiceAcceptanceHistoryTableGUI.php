@@ -104,6 +104,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 		$row['id']       = $unique_id;
 
 		$modal = ilModalGUI::getInstance();
+		$modal->setType(ilModalGUI::TYPE_LARGE);
 		$modal->setHeading($this->lng->txt('tos_agreement_document'));
 		$modal->setId('tos_' . $unique_id);
 		$modal->setBody('');

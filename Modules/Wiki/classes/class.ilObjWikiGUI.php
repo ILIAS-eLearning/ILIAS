@@ -26,7 +26,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjWikiGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
+	function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
 		global $ilCtrl, $lng;
 		
@@ -71,7 +71,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$ilTabs->activateTab("perm_settings");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case 'ilsettingspermissiongui':
@@ -108,9 +108,11 @@ class ilObjWikiGUI extends ilObjectGUI
 				// alter title and description
 //				$tpl->setTitle($wpage_gui->getPageObject()->getTitle());
 //				$tpl->setDescription($this->object->getTitle());
+				if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+				{
+					$wpage_gui->activateMetaDataEditor($this->object, "wpg", $wpage_gui->getId());
+				}
 				
-				$wpage_gui->activateMetaDataEditor($this->object, "wpg", $wpage_gui->getId());
-
 				$ret = $this->ctrl->forwardCommand($wpage_gui);
 				if ($ret != "")
 				{
@@ -332,7 +334,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	 * save object
 	 * @access	public
 	 */
-	function afterSave($newObj)
+	function afterSave(ilObject $newObj)
 	{
 		global $ilSetting;
 		
@@ -734,7 +736,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		// Start Page
 		if ($a_mode == "edit")
 		{
-			$pages = ilWikiPage::getAllPages($this->object->getId());
+			$pages = ilWikiPage::getAllWikiPages($this->object->getId());
 			foreach ($pages as $p)
 			{
 				$options[$p["id"]] = ilUtil::shortenText($p["title"], 60, true);
@@ -1171,8 +1173,11 @@ class ilObjWikiGUI extends ilObjectGUI
 		// alter title and description
 		//$tpl->setTitle($wpage_gui->getPageObject()->getTitle());
 		//$tpl->setDescription($this->object->getTitle());
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$wpage_gui->activateMetaDataEditor($this->object, "wpg", $wpage_gui->getId());
+		}
 		
-		$wpage_gui->activateMetaDataEditor($this->object, "wpg", $wpage_gui->getId());
 		
 		$html = $ilCtrl->forwardCommand($wpage_gui);
 		//$this->addPageTabs();
@@ -1759,7 +1764,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		// list pages
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-		$pages = ilWikiPage::getAllPages($this->object->getId());
+		$pages = ilWikiPage::getAllWikiPages($this->object->getId());
 		$options = array("" => $lng->txt("please_select"));
 		foreach ($pages as $p)
 		{

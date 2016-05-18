@@ -1698,10 +1698,22 @@ class ilECSSettingsGUI
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
 			$field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'begin');
-			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
+			$dt = '';
+			if(isset($values[$field]))
+			{
+				$dt = new ilDateTime($values[$field], IL_CAL_UNIX);
+				$dt = $dt->get(IL_CAL_DATETIME);
+			}
+			$writer->addColumn($dt);
 			
 			$field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'end');
-			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
+			$dt = '';
+			if(isset($values[$field]))
+			{
+				$dt = new ilDateTime($values[$field], IL_CAL_UNIX);
+				$dt = $dt->get(IL_CAL_DATETIME);
+			}
+			$writer->addColumn($dt);
 			
 			$writer->addColumn($ilObjDataCache->lookupLastUpdate($obj_id));
 		}
@@ -1837,10 +1849,22 @@ class ilECSSettingsGUI
 			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
 			
 			$field = $settings->getMappingByECSName(0,'begin');
-			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
+			$dt = '';
+			if(isset($values[$field]))
+			{
+				$dt = new ilDateTime($values[$field], IL_CAL_UNIX);
+				$dt = $dt->get(IL_CAL_DATETIME);
+			}
+			$writer->addColumn($dt);
 			
 			$field = $settings->getMappingByECSName(0,'end');
-			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
+			$dt = '';
+			if(isset($values[$field]))
+			{
+				$dt = new ilDateTime($values[$field], IL_CAL_UNIX);
+				$dt = $dt->get(IL_CAL_DATETIME);
+			}
+			$writer->addColumn($dt);
 			
 			$writer->addColumn($ilObjDataCache->lookupLastUpdate($obj_id));
 		}

@@ -95,7 +95,6 @@ class ilSurveyQuestionpoolExport
 
 		// create directories
 		$this->spl_obj->createExportDirectory();
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::makeDir($this->export_dir."/".$this->subdir);
 
 		// get Log File

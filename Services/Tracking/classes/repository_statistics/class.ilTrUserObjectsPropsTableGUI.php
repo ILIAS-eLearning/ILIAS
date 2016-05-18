@@ -329,9 +329,8 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 								$val = "-";
 							}
 							else
-							{
-								include_once("./Services/Utilities/classes/class.ilFormat.php");							
-								$val = ilFormat::_secondsToString($data[$c], ($data[$c] < 3600 ? true : false)); // #14858
+							{							
+								$val = ilDatePresentation::secondsToString($data[$c], ($data[$c] < 3600 ? true : false)); // #14858
 							}
 							break;
 

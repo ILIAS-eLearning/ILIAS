@@ -272,12 +272,10 @@ class ilObjSurveyQuestionPool extends ilObject
 		}
 
 		// delete export files
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$spl_data_dir = ilUtil::getDataDir()."/spl_data";
 		$directory = $spl_data_dir."/spl_".$this->getId();
 		if (is_dir($directory))
 		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::delDir($directory);
 		}
 	}
@@ -489,7 +487,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function createExportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$spl_data_dir = ilUtil::getDataDir()."/spl_data";
 		ilUtil::makeDir($spl_data_dir);
 		if(!is_writable($spl_data_dir))
@@ -521,7 +518,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function getExportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$export_dir = ilUtil::getDataDir()."/spl_data"."/spl_".$this->getId()."/export";
 		return $export_dir;
 	}
@@ -573,7 +569,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function createImportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$spl_data_dir = ilUtil::getDataDir()."/spl_data";
 		ilUtil::makeDir($spl_data_dir);
 		
@@ -607,7 +602,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function getImportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/spl_data".
 			"/spl_".$this->getId()."/import";
 		if(@is_dir($import_dir))
@@ -1119,7 +1113,6 @@ class ilObjSurveyQuestionPool extends ilObject
 								$target_path = CLIENT_WEB_DIR . "/survey/" . $this->getId() . "/";
 								if (!@is_dir($target_path))
 								{
-									include_once "./Services/Utilities/classes/class.ilUtil.php";
 									ilUtil::makeDirParents($target_path);
 								}
 								@rename($source_path, $target_path . $question_object["question_id"]);

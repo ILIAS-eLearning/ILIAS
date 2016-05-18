@@ -289,10 +289,7 @@ class ilSurveyEvaluationGUI
 	*/
 	function cancelEvaluationAccess()
 	{
-		global $ilCtrl;
-		
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		global $tree;
+		global $ilCtrl, $tree;
 		$path = $tree->getPathFull($this->object->getRefID());
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
 			$path[count($path) - 2]["child"]);
@@ -897,7 +894,6 @@ class ilSurveyEvaluationGUI
 					$csvrow =& str_replace("\n", " ", $this->object->processCSVRow($csvrow, TRUE, $separator));					
 					$csv .= join($csvrow, $separator) . "\n";
 				}
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				ilUtil::deliverData($csv, "$surveyname.csv");
 				exit();
 				break;

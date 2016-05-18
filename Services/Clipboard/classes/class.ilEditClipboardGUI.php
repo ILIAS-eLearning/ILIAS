@@ -43,16 +43,6 @@ class ilEditClipboardGUI
 	}
 
 	/**
-	* get all gui classes that are called from this one (see class ilCtrl)
-	*
-	* @param	array		array of gui classes that are called
-	*/
-	function _forwards()
-	{
-		return array("ilObjMediaObjectGUI");
-	}
-
-	/**
 	* execute command
 	*/
 	function executeCommand()
@@ -71,7 +61,7 @@ class ilEditClipboardGUI
 					$ilCtrl->getLinkTarget($this, "view"));
 				$mob_gui = new ilObjMediaObjectGUI("", $_GET["clip_item_id"],false, false);
 				$mob_gui->setTabs();
-				$ret =& $ilCtrl->forwardCommand($mob_gui);
+				$ret = $ilCtrl->forwardCommand($mob_gui);
 				switch($cmd)
 				{
 					case "save":
@@ -82,7 +72,7 @@ class ilEditClipboardGUI
 				break;
 
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 
@@ -217,7 +207,7 @@ class ilEditClipboardGUI
 		ilUtil::redirect($_GET["returnCommand"]);
 	}
 	
-	function _getSelectedIDs()
+	static function _getSelectedIDs()
 	{
 		return $_SESSION["ilEditClipboard_mob_id"];
 	}

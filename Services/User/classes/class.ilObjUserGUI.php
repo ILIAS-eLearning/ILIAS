@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
-include_once('./Services/Calendar/classes/class.ilDatePresentation.php');
 
 /**
 * Class ilObjUserGUI
@@ -430,7 +429,7 @@ class ilObjUserGUI extends ilObjectGUI
 			if (ilDiskQuotaActivationChecker::_isActive())
 			{
 				// The disk quota is entered in megabytes but stored in bytes
-				$userObj->setPref("disk_quota", trim($_POST["disk_quota"]) * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
+				$userObj->setPref("disk_quota", ilUtil::MB2Bytes($_POST["disk_quota"]));
 			}
 			
 			if($this->isSettingChangeable('skin_style'))
@@ -860,12 +859,12 @@ class ilObjUserGUI extends ilObjectGUI
 			if (ilDiskQuotaActivationChecker::_isActive())
 			{
 				// set disk quota
-				$this->object->setPref("disk_quota", $_POST["disk_quota"] * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
+				$this->object->setPref("disk_quota", ilUtil::MB2Bytes($_POST["disk_quota"]));
 			}
 			if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
 			{
 				// set personal workspace disk quota
-				$this->object->setPref("wsp_disk_quota", $_POST["wsp_disk_quota"] * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
+				$this->object->setPref("wsp_disk_quota", ilUtil::MB2Bytes($_POST["wsp_disk_quota"]));
 			}
 
 			if($this->isSettingChangeable('skin_style'))
@@ -977,17 +976,16 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["ext_account"] = $this->object->getExternalAccount();
 
 		// system information
-		require_once './Services/Utilities/classes/class.ilFormat.php';
-		$data["create_date"] = ilFormat::formatDate($this->object->getCreateDate(),'datetime',true);
+		$data["create_date"] = ilDatePresentation::formatDate(new ilDateTime($this->object->getCreateDate(), IL_CAL_DATETIME));
 		$data["owner"] = ilObjUser::_lookupLogin($this->object->getOwner());
 		$data["approve_date"] = ($this->object->getApproveDate() != "")
-			? ilFormat::formatDate($this->object->getApproveDate(),'datetime',true)
+			? ilDatePresentation::formatDate(new ilDateTime($this->object->getApproveDate(), IL_CAL_DATETIME))
 			: null;
 		$data["agree_date"] = ($this->object->getAgreeDate() != "")
-			? ilFormat::formatDate($this->object->getAgreeDate(),'datetime',true)
+			? ilDatePresentation::formatDate(new ilDateTime($this->object->getAgreeDate(), IL_CAL_DATETIME))
 			: null;
 		$data["last_login"] =  ($this->object->getLastLogin() != "")
-			 ? ilFormat::formatDate($this->object->getLastLogin(),'datetime',true)
+			 ? ilDatePresentation::formatDate(new ilDateTime($this->object->getLastLogin(), IL_CAL_DATETIME))
 			 : null;
 		$data["active"] = $this->object->getActive();
 		$data["time_limit_unlimited"] = $this->object->getTimeLimitUnlimited();
@@ -1005,11 +1003,11 @@ class ilObjUserGUI extends ilObjectGUI
 		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
 		if (ilDiskQuotaActivationChecker::_isActive())
 		{
-			$data["disk_quota"] = $this->object->getDiskQuota() / ilFormat::_getSizeMagnitude() / ilFormat::_getSizeMagnitude();
+			$data["disk_quota"] = ilUtil::Bytes2MB($this->object->getDiskQuota());
 		}
 		if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
 		{
-			$data["wsp_disk_quota"] = $this->object->getPersonalWorkspaceDiskQuota() / ilFormat::_getSizeMagnitude() / ilFormat::_getSizeMagnitude();
+			$data["wsp_disk_quota"] = ilUtil::Bytes2MB($this->object->getPersonalWorkspaceDiskQuota());
 		}
 		// W. Randelshofer 2008-09-09: Deactivated display of disk space usage,
 		// because determining the disk space usage may take several minutes.
@@ -1280,8 +1278,8 @@ class ilObjUserGUI extends ilObjectGUI
 				if ($dq_info['user_disk_quota'] > $dq_info['role_disk_quota'])
 				{
 					$info_text = sprintf($lng->txt('disk_quota_is_1_instead_of_2_by_3'),
-						ilFormat::formatSize($dq_info['user_disk_quota'],'short'),
-						ilFormat::formatSize($dq_info['role_disk_quota'],'short'),
+						ilUtil::formatSize($dq_info['user_disk_quota'],'short'),
+						ilUtil::formatSize($dq_info['role_disk_quota'],'short'),
 						$dq_info['role_title']);
 				}
 				else if (is_infinite($dq_info['role_disk_quota']))
@@ -1291,7 +1289,7 @@ class ilObjUserGUI extends ilObjectGUI
 				else
 				{
 					$info_text = sprintf($lng->txt('disk_quota_is_1_by_2'),
-						ilFormat::formatSize($dq_info['role_disk_quota'],'short'),
+						ilUtil::formatSize($dq_info['role_disk_quota'],'short'),
 						$dq_info['role_title']);
 				}
 				$disk_quota->setInfo($this->lng->txt("enter_in_mb_desc").'<br>'.$info_text);
@@ -1306,8 +1304,7 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 				else
 				{
-			        require_once './Services/Utilities/classes/class.ilFormat.php';
-					$disk_usage->setValue(ilFormat::formatSize($du_info['disk_usage'],'short'));
+					$disk_usage->setValue(ilUtil::formatSize($du_info['disk_usage'],'short'));
 				$info = '<table class="il_user_quota_disk_usage_overview">';
 					// write the count and size of each object type
 					foreach ($du_info['details'] as $detail_data)
@@ -1315,7 +1312,7 @@ class ilObjUserGUI extends ilObjectGUI
 						$info .= '<tr>'.
 							'<td class="std">'.$detail_data['count'].'</td>'.
 							'<td class="std">'.$lng->txt($detail_data['type']).'</td>'.
-							'<td class="std">'.ilFormat::formatSize($detail_data['size'], 'short').'</td>'.
+							'<td class="std">'.ilUtil::formatSize($detail_data['size'], 'short').'</td>'.
 							'</tr>'
 							;
 					}
@@ -1363,8 +1360,8 @@ class ilObjUserGUI extends ilObjectGUI
 				if ($dq_info['user_wsp_disk_quota'] > $dq_info['role_wsp_disk_quota'])
 				{
 					$info_text = sprintf($lng->txt('disk_quota_is_1_instead_of_2_by_3'),
-						ilFormat::formatSize($dq_info['user_wsp_disk_quota'],'short'),
-						ilFormat::formatSize($dq_info['role_wsp_disk_quota'],'short'),
+						ilUtil::formatSize($dq_info['user_wsp_disk_quota'],'short'),
+						ilUtil::formatSize($dq_info['role_wsp_disk_quota'],'short'),
 						$dq_info['role_title']);
 				}
 				else if (is_infinite($dq_info['role_wsp_disk_quota']))
@@ -1374,7 +1371,7 @@ class ilObjUserGUI extends ilObjectGUI
 				else
 				{
 					$info_text = sprintf($lng->txt('disk_quota_is_1_by_2'),
-						ilFormat::formatSize($dq_info['role_wsp_disk_quota'],'short'),
+						ilUtil::formatSize($dq_info['role_wsp_disk_quota'],'short'),
 						$dq_info['role_title']);
 				}
 				$wsp_disk_quota->setInfo($this->lng->txt("enter_in_mb_desc").'<br>'.$info_text);
@@ -1390,8 +1387,7 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 			else
 			{
-				require_once './Services/Utilities/classes/class.ilFormat.php';
-				$disk_usage->setValue(ilFormat::formatSize(ilDiskQuotaHandler::getFilesizeByOwner($this->object->getId())));
+				$disk_usage->setValue(ilUtil::formatSize(ilDiskQuotaHandler::getFilesizeByOwner($this->object->getId())));
 				$info = '<table class="il_user_quota_disk_usage_overview">';
 				// write the count and size of each object type
 				foreach ($du_info as $detail_data)
@@ -1399,7 +1395,7 @@ class ilObjUserGUI extends ilObjectGUI
 					$info .= '<tr>'.
 						'<td class="std">'.$detail_data['count'].'</td>'.
 						'<td class="std">'.$lng->txt("obj_".$detail_data["src_type"]).'</td>'.
-						'<td class="std">'.ilFormat::formatSize($detail_data['filesize'], 'short').'</td>'.
+						'<td class="std">'.ilUtil::formatSize($detail_data['filesize'], 'short').'</td>'.
 						'</tr>'
 						;
 				}

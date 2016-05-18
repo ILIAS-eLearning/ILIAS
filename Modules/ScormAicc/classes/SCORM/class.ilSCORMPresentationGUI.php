@@ -22,14 +22,14 @@ class ilSCORMPresentationGUI
 	var $tpl;
 	var $lng;
 
-	function ilSCORMPresentationGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ctrl =& $ilCtrl;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
 
 		// Todo: check lm id
 		$this->slm = new ilObjSCORMLearningModule($_GET["ref_id"], true);
@@ -420,7 +420,7 @@ class ilSCORMPresentationGUI
 	*/
 	function view()
 	{
-		$sc_gui_object =& ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
+		$sc_gui_object = ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
 
 		if(is_object($sc_gui_object))
 		{

@@ -38,13 +38,8 @@ include_once "./Modules/Glossary/classes/class.ilGlossaryDefinition.php";
 
 class ilSoapGLOStructureReader extends ilSoapStructureReader
 {
-
-	function ilSoapGLOStructureReader ($object)
+	function _parseStructure () 
 	{
-		parent::ilSoapStructureReader($object);
-	}
-
-	function _parseStructure () {
 	    /* @var $object ilObjGlossary */
 
 	    $terms = $this->object->getTermlist();

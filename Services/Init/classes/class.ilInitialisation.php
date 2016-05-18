@@ -71,8 +71,7 @@ class ilInitialisation
 		}		
 				
 		// really always required?
-		require_once "./Services/Utilities/classes/class.ilUtil.php";	
-		require_once "./Services/Utilities/classes/class.ilFormat.php";
+		require_once "./Services/Utilities/classes/class.ilUtil.php";			
 		require_once "./Services/Calendar/classes/class.ilDatePresentation.php";														
 		require_once "include/inc.ilias_version.php";	
 		
@@ -128,7 +127,6 @@ class ilInitialisation
 		define ("PATH_TO_UNZIP",$ilIliasIniFile->readVariable("tools","unzip"));
 		define ("PATH_TO_GHOSTSCRIPT",$ilIliasIniFile->readVariable("tools","ghostscript"));
 		define ("PATH_TO_JAVA",$ilIliasIniFile->readVariable("tools","java"));
-		define ("PATH_TO_HTMLDOC",$ilIliasIniFile->readVariable("tools","htmldoc"));
 		define ("URL_TO_LATEX",$ilIliasIniFile->readVariable("tools","latex"));
 		define ("PATH_TO_FOP",$ilIliasIniFile->readVariable("tools","fop"));
 

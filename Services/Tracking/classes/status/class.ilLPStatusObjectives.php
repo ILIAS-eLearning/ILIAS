@@ -24,7 +24,7 @@ class ilLPStatusObjectives extends ilLPStatus
 		$this->db = $ilDB;
 	}
 	
-	function _getNotAttempted($a_obj_id)
+	static function _getNotAttempted($a_obj_id)
 	{
 		$users = array();
 		
@@ -40,7 +40,7 @@ class ilLPStatusObjectives extends ilLPStatus
 		return $users;
 	}
 
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{		
 		$objective_results = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$usr_ids = (array)$objective_results['user_status'][self::LP_STATUS_IN_PROGRESS_NUM];
@@ -63,7 +63,7 @@ class ilLPStatusObjectives extends ilLPStatus
 		return $usr_ids ? $usr_ids : array();
 	}
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{						
 		$objective_results = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$usr_ids = (array)$objective_results['user_status'][self::LP_STATUS_COMPLETED_NUM];
@@ -77,7 +77,7 @@ class ilLPStatusObjectives extends ilLPStatus
 		return $usr_ids ? $usr_ids : array();
 	}
 	
-	function _getFailed($a_obj_id)
+	static function _getFailed($a_obj_id)
 	{	
 		$objective_results = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$usr_ids = (array)$objective_results['user_status'][self::LP_STATUS_FAILED_NUM];		
@@ -91,7 +91,7 @@ class ilLPStatusObjectives extends ilLPStatus
 		return $usr_ids ? $usr_ids : array();		
 	}		
 	
-	function _getStatusInfo($a_obj_id)
+	static function _getStatusInfo($a_obj_id)
 	{
 		global $ilDB;
 

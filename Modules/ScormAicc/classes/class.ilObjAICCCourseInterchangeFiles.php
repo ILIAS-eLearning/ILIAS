@@ -32,7 +32,7 @@ class ilObjAICCCourseInterchangeFiles
 	var $requiredFiles=array("crs", "au", "cst", "des");
 	var $optionalFiles=array("cmp", "ort", "pre");
 	
-	function ilObjAICCCourseInterchangeFiles() {
+	function __construct() {
 		$this->errorText=array();
 		$this->coursefiles=array();
 

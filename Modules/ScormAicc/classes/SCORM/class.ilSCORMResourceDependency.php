@@ -35,16 +35,6 @@ class ilSCORMResourceDependency
 {
 	var $identifierref;
 
-	/**
-	* Constructor
-	*
-	* @param	int		$a_id		Object ID
-	* @access	public
-	*/
-	function ilResourceDependency()
-	{
-	}
-
 	function getIdentifierRef()
 	{
 		return $this->identifierref;

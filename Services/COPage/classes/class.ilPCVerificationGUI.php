@@ -60,7 +60,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
 		switch($next_class)
 		{
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 

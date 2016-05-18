@@ -1024,11 +1024,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ne->setValue((PATH_TO_JAVA) ? PATH_TO_JAVA : $not_set);
 		$this->form->addItem($ne);
 		
-		// htmldoc
-		$ne = new ilNonEditableValueGUI($lng->txt("path_to_htmldoc"), "");
-		$ne->setValue((PATH_TO_HTMLDOC) ? PATH_TO_HTMLDOC : $not_set);
-		$this->form->addItem($ne);
-
 		// mkisofs
 		$ne = new ilNonEditableValueGUI($lng->txt("path_to_mkisofs"), "");
 		$ne->setValue((PATH_TO_MKISOFS) ? PATH_TO_MKISOFS : $not_set);

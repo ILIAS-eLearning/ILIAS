@@ -36,16 +36,6 @@ include_once 'Services/Search/classes/class.ilWebresourceSearch.php';
 
 class ilFulltextWebresourceSearch extends ilWebresourceSearch
 {
-
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilFulltextWebresourceSearch(&$qp_obj)
-	{
-		parent::ilWebresourceSearch($qp_obj);
-	}
-
 	function __createWhereCondition()
 	{
 		// IN BOOLEAN MODE

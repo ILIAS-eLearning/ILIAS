@@ -55,9 +55,9 @@ administration#:#adm_locale_info#:#Die Locale-Einstellung beeinflusst die alphab
 administration#:#adm_nr_statements#:#Anzahl Aufrufe
 administration#:#adm_objects#:#Objekte
 administration#:#adm_predefined_settings#:#Vordefinierte Einstellungen
-administration#:#adm_rep_shorten_description#:#Beschreibungen kürzen
-administration#:#adm_rep_shorten_description_info#:#Bei Aktivierung werden alle Beschreibungen innerhalb der Objektlisten gekürzt.
-administration#:#adm_rep_shorten_description_length#:#Max. Länge
+administration#:#adm_rep_shorten_description#:#Maximale Länge für Beschreibungen
+administration#:#adm_rep_shorten_description_info#:#Wenn aktiviert, werden alle Beschreibungen in Objektlisten nur bis zu einer definierten Länge angezeigt.
+administration#:#adm_rep_shorten_description_length#:#Maximale Anzahl an Zeichen
 administration#:#adm_rep_tree_all_types#:#Alle Objekte
 administration#:#adm_rep_tree_all_types_info#:#Alle Objekttypen werden im Baum dargestellt.
 administration#:#adm_rep_tree_limit_grp_crs#:#Alle Objekte auf Anzeige in Kursen und Gruppen beschränken
@@ -359,6 +359,7 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifizierende Ergebnisse 
 assessment#:#ass_completion_by_submission#:#Bestehen durch Abgabe
 assessment#:#ass_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösungsdatei zur Vergabe der Maximalpunktzahl für diese Frage. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 assessment#:#ass_create_export_file#:#Erstelle Exportdatei
+assessment#:#ass_create_export_file_with_results#:#Erstelle Exportdatei (inkl. Teilnehmerergebnisse)
 assessment#:#ass_create_export_test_results#:#Erstelle Ergebnisdatei
 assessment#:#ass_create_export_test_archive#:#Erstelle Archivdatei für Test
 assessment#:#ass_export_files#:#Exportdateien
@@ -520,6 +521,9 @@ assessment#:#empty_term_message#:#Mindestens ein Textfeld für Terme ist leer.
 assessment#:#empty_terms_exist#:#Sie haben noch nicht alle Terme ausgefüllt. Bitte füllen Sie erst diese Felder aus, bevor Sie neue Terme anlegen.
 assessment#:#enable_javascript#:#Klicken Sie hier, um die JavaScript-Unterstützung zu aktivieren
 assessment#:#end_tag#:#Endmarkierung
+assessment#:#tst_conflict_fbh_oblig_quest#:#Die Kombination der Verwendung von verpflichtenden Fragen und dem Festschreiben von Antworten ist nicht erlaubt.
+assessment#:#tst_conflict_reset_non_fbh#:#Die Einstellung "Antworten nach Rückmeldung festschreiben" wurde auf die Option "Antworten nicht festschreiben" angepasst. 
+assessment#:#tst_conflict_reset_fbh_force#:#Die Einstellung "Antworten nach Rückmeldung festschreiben" wurde auf die Option "Automatische Rückmeldung, aber Antwort nicht festschreiben" angepasst.
 assessment#:#ending_time_reached#:#Sie haben das Ende der möglichen Bearbeitungsdauer des Tests überschritten.
 assessment#:#enlarge#:#vergrößern
 assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
@@ -1696,9 +1700,9 @@ assessment#:#feedback_all#:#Zeige Rückmeldungen zu allen Antwortmöglichkeiten.
 assessment#:#feedback_checked#:#Zeige Rückmeldungen zu ausgewählten Antworten des Teilnehmers.
 assessment#:#feedback_correct_sc_mc#:#Zeige Rückmeldung für richtige Antworten (richtige Antworten sind solche, für die es bei Auswahl positive Punkte gibt).
 assessment#:#feedback_correct_kprim#:#Zeige Rückmeldung für korrekte Antworten (korrekte Antworten sind solche, bei denen die positive Option zu wählen ist).
-assessment#:#tst_add_quest_cont_edit_mode#:#Bearbeitungsmodus für zusätzliche Frageninhalte
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Standard-Bearbeitungsmodus für zusätzliche Frageninhalte
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Bearbeitung zusätzlicher Frageninhalte mit dem ILIAS-Seiteneditor
+assessment#:#tst_add_quest_cont_edit_mode#:#Editor für Rückmeldungen und Lösungshinweise
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich-Text-Editor für das Editieren von Rückmeldungen und Lösungshinweisen nutzen
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ILIAS-Seiteneditor für das Editieren von Rückmeldungen und Lösungshinweisen nutzen
 assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
 assessment#:#enable_examview#:#Übersicht gegebener Antworten
@@ -3964,7 +3968,7 @@ common#:#mail_settings#:#Mail-Einstellungen
 rbac#:#mail_smtp_mail#:#Benutzer darf E-Mails per SMTP an externe Adressen senden
 common#:#mail_system#:#Systemnachricht
 rbac#:#mail_system_message#:#Benutzer darf Mails als Systemnachrichten versenden
-common#:#mail_to_global_roles_not_allowed#:#Das Versenden an globale Rollen ist nicht erlaubt.
+common#:#mail_to_global_roles_not_allowed#:#%1$s (das Versenden an globale Rollen ist nicht erlaubt) 
 rbac#:#mail_visible#:#Mail-Administration ist sichtbar
 rbac#:#mail_write#:#Einstellungen im Mail-Administration bearbeiten
 common#:#mail_z_local#:#Eigene Ordner
@@ -4427,8 +4431,8 @@ common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerverwaltung
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#obj_webr#:#Weblink
-common#:#obj_webr_duplicate#:#Weblinksammlung kopieren
-common#:#obj_webr_select#:#-- Bitte wählen Sie eine Weblinksammlung aus --
+common#:#obj_webr_duplicate#:#Weblink-Sammlung kopieren
+common#:#obj_webr_select#:#-- Bitte wählen Sie eine Weblink-Sammlung aus --
 common#:#obj_wfld#:#Ordner
 common#:#obj_wiki#:#Wiki
 common#:#object#:#Objekt
@@ -5248,8 +5252,8 @@ common#:#udf_no_name_given#:#Bitte geben Sie einen Feldnamen ein.
 common#:#udf_required_requires_visib_reg#:#Die Einstellung "Erforderliche Angabe" erfordert die Einstellung "Sichtbar im Registrierungsformular"
 common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum und Uhrzeit
-common#:#udf_type_select#:#Auswahlliste (Drop-Down)
-common#:#udf_type_text#:#Text (beliebige Werte)
+common#:#udf_type_select#:#Auswahlliste (Einfachauswahl)
+common#:#udf_type_text#:#Text (freie Eingabe)
 common#:#udf_type_wysiwyg#:#Textbereich (WYSIWYG)
 common#:#udf_update_select_field#:#Auswahlliste bearbeiten
 common#:#udf_update_success#:#Die Daten wurden aktualisiert.
@@ -5307,7 +5311,7 @@ common#:#user_access#:#Zugriff pro Benutzer
 common#:#user_activated#:#Benutzer wurde bestätigt.
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
-common#:#user_cant_receive_mail#:#Der Benutzer hat nicht das Recht das Mailsystem zu benutzen.
+common#:#user_cant_receive_mail#:#%1$s (der Benutzer keine Berechtigung das Mailsystem zu benutzen)
 common#:#user_comment#:#Benutzer-Kommentar
 common#:#user_deactivated#:#Die ausgewählten Benutzer wurden deaktiviert.
 common#:#user_defined_fields#:#Benutzerdefinierte Felder
@@ -5445,8 +5449,8 @@ common#:#webr#:#Weblink
 common#:#webr_active#:#Aktiv
 common#:#webr_add#:#Weblink anlegen
 common#:#webr_add_item#:#Weblink hinzufügen
-rbac#:#webr_copy#:#Weblinksammlung kopieren
-rbac#:#webr_delete#:#Weblinksammlung löschen
+rbac#:#webr_copy#:#Weblink-Sammlung kopieren
+rbac#:#webr_delete#:#Weblink-Sammlung löschen
 common#:#webr_delete_items#:#Weblink löschen oder verschieben
 common#:#webr_deleted_items#:#Der/die Weblink(s) wurde(n) gelöscht.
 common#:#webr_disable_check#:#Überprüfung deaktivieren
@@ -5455,10 +5459,10 @@ common#:#webr_edit_item#:#Weblink bearbeiten
 rbac#:#webr_edit_permission#:#Rechteeinstellungen ändern
 common#:#webr_fillout_all#:#Bitte füllen Sie alle Felder aus.
 common#:#webr_item_updated#:#Die Änderungen wurden übernommen
-common#:#webr_join#:#Weblinksammlung abonnieren
+common#:#webr_join#:#Weblink-Sammlung abonnieren
 common#:#webr_last_check#:#Letzte Überprüfung
 common#:#webr_last_check_table#:#Letzte Überprüfung:
-common#:#webr_leave#:#Abonnement der Weblinksammlung aufheben
+common#:#webr_leave#:#Abonnement der Weblink-Sammlung aufheben
 common#:#webr_modified_items#:#Die Änderungen wurden übernommen.
 common#:#webr_never_checked#:#Noch nicht überprüft
 common#:#webr_new#:#Neuen Weblink anlegen
@@ -8453,7 +8457,7 @@ mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Anhänge beinhal
 mail#:#mail_no_attachments_found#:#Es wurden keine Anhänge gefunden
 mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.
 mail#:#mail_no_recipient_found#:#Geben Sie eine andere Adresse an. ILIAS konnte keinen Empfänger mit dieser Addresse finden.
-mail#:#mail_no_valid_mailing_list#:#Kein Gültiger Verteiler
+mail#:#mail_no_valid_mailing_list#:#%1$s (kein gültiger Verteiler)
 mail#:#mail_notification_subject#:#Neue Mails im Posteingang
 mail#:#mail_options_of#:#Einstellungen
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
@@ -11688,10 +11692,10 @@ user#:#usr_public_profile_global_info#:#Ihr Profil ist ohne Einschränkung im In
 user#:#usr_public_profile_logged_in#:#Für angemeldete Benutzer sichtbar
 user#:#usr_public_profile_logged_in_info#:#Ihre Angaben sind nur für Benutzer sichtbar, die in ILIAS eingeloggt sind.
 webr#:#webr_active#:#Aktiv
-webr#:#webr_container_info#:#Da diese Weblinksammlung mehr als einen Weblink enthalten soll, sollten Sie einen Titel und eventuell einen Beschreibungstext für die Darstellung im Magazin vergeben.
+webr#:#webr_container_info#:#Da diese Weblink-Sammlung mehr als einen Weblink enthalten soll, sollten Sie einen Titel und eventuell einen Beschreibungstext für die Darstellung im Magazin vergeben.
 webr#:#webr_deactivate#:#Weblink deaktivieren
 webr#:#webr_edit_links#:#Weblinks bearbeiten
-webr#:#webr_edit_list#:#Weblinksammlung bearbeiten
+webr#:#webr_edit_list#:#Weblink-Sammlung bearbeiten
 webr#:#webr_edit_settings#:#Einstellungen bearbeiten
 webr#:#webr_imort#:#Weblink importieren
 webr#:#webr_import#:#Weblink importieren
@@ -11699,8 +11703,8 @@ webr#:#webr_inactive_success#:#Der Weblink wurde deaktiviert.
 webr#:#webr_link_added#:#Ein neuer Weblink wurde angelegt.
 webr#:#webr_link_target#:#Ziel
 webr#:#webr_link_title#:#Titel des Weblinks
-webr#:#webr_list_desc#:#Beschreibung der Weblinksammlung
-webr#:#webr_list_title#:#Titel der Weblinksammlung
+webr#:#webr_list_desc#:#Beschreibung der Weblink-Sammlung
+webr#:#webr_list_title#:#Titel der Weblink-Sammlung
 webr#:#webr_new_link#:#Neuen Weblink anlegen
 webr#:#webr_sort_manual#:#Manuelle Sortierung
 webr#:#webr_sort_title#:#Alphabetisch nach Titel
@@ -11864,7 +11868,7 @@ ecs#:#ecs_cat_mapping_by_type_info#:#Wählen Sie diese Einstellung, um nach Obje
 ecs#:#ecs_err_invalid_by_type#:#Wählen Sie einen Objekt-Typen, um danach zuzuordnen.
 common#:#obj_rcat#:#ECS-Kategorie
 ecs#:#ecs_server_deleted#:#Server gelöscht
-blog#:#blog_edit_date#:#Datum editieren
+blog#:#blog_edit_date#:#Datum bearbeiten
 blog#:#blog_edit_date_info#:#Der Status der Veröffentlichung hängt nicht von diesem Datum ab.
 certificate#:#certificate_file_basename#:#Zertifikat
 content#:#cont_captcha_verification#:#Benutzerverifikation
@@ -12002,6 +12006,7 @@ rbac#:#dcl_write#:#Datensammlung bearbeiten
 rbac#:#dcl_delete#:#Datensammlung löschen
 rbac#:#dcl_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#dcl_add_entry#:#Eintrag hinzufügen
+rbac#:#dcl_edit_content#:#Einträge bearbeiten
 rbac#:#rbac_create_dcl#:#Datensammlung anlegen
 dcl#:#dcl_edit_type#:#Typ bearbeiten
 dcl#:#dcl_activate_rating#:#Bewertung von Einträgen
@@ -12032,12 +12037,12 @@ dcl#:#dcl_table_create#:#Erstelle Tabelle
 dcl#:#dcl_table_edit#:#Speichern
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_datatype#:#Datentyp
-dcl#:#dcl_integer#:#Ganze Zahlen
+dcl#:#dcl_number#:#Ganze Zahlen
 dcl#:#dcl_text#:#Text
 dcl#:#dcl_reference#:#Auswahlmenü
 dcl#:#dcl_boolean#:#Checkbox
 dcl#:#dcl_datetime#:#Datum
-dcl#:#dcl_file#:#Datei-Upload
+dcl#:#dcl_fileupload#:#Datei-Upload
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_required#:#Verpflichtend
 dcl#:#dcl_length#:#Länge
@@ -12065,6 +12070,19 @@ dcl#:#dcl_delete_records#:#Datensätze löschen
 dcl#:#dcl_confirm_delete_records#:#Sind Sie sicher, dass die folgenden Datensätze gelöscht werden sollen?
 dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht
 dcl#:#dcl_skipped_delete_records#:#%s Datensätze wurden aufgrund der Rechteeinstellungen nicht gelöscht
+dcl#:#dcl_plugin#:#Plugin
+dcl#:#dcl_plugin_desc#:#DataCollection Feld Erweiterungen
+dcl#:#dcl_plugin_hooks#:#Verfügbare Erweiterungen
+dcl#:#dcl_save_confirmation#:#Speicherbestätigung
+dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen
+dcl#:#dcl_confirm_storing_records#:#Bitte überprüfen Sie die Angaben vor dem Speichern
+dcl#:#dcl_save_record#:#Eintrag speichern
+dcl#:#dlc_xls_async_export#:#Asynchroner XLSX export
+dcl#:#dcl_export_started#:#Asynchroner Export gestartet
+dcl#:#dcl_export_finished#:#Export Abgeschlossen
+dcl#:#dcl_supported_filetypes#:#Erlaubte Dateiendungen
+dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendungen angeben. Zum Beispiel: .pdf, .docx
+dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.
@@ -12357,7 +12375,7 @@ dcl#:#dcl_title#:#Feldtitel
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_save#:#Speichern
 dcl#:#dcl_description#:#Beschreibung
-dcl#:#dcl_export_table_excel#:#Export .xls
+dcl#:#dcl_export_table_excel#:#Export .xlsx
 dcl#:#dcl_no_exportable_fields_or_no_data#:#Keine exportierbaren Felder definiert oder keine Daten vorhanden
 dcl#:#dcl_confirm_delete_record#:#Möchten Sie diesen Eintrag wirklich löschen?
 dcl#:#dcl_confirm_delete_field#:#Möchten Sie dieses Feld wirklich löschen?
@@ -12470,7 +12488,7 @@ dcl#:#dcl_record_edit_viewdefinition#:#Bearbeite Seitenvorlage
 dcl#:#dcl_record_list_viewdefinition#:#Liste der Seitenvorlagen
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
-dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http://) oder eine E-Mail Adresse ein.
+dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail Adresse ein.
 dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert, dadurch funktionieren unter Umständen die Platzhalter in der Seitenvorlage nicht mehr, diese müssen gegebenenfalls manuell angepasst werden.
 dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_table_title_unique#:#Es existiert bereits eine Tabelle mit diesem Titel. Titel muss eindeutig sein.
@@ -12527,7 +12545,7 @@ dcl#:#dcl_actions#:#Actionen
 dcl#:#dcl_owner_editable#:#Nur eigene Einträge bearbeiten
 dcl#:#dcl_msg_table_created#:#Tabelle angelegt
 dcl#:#dcl_record_deleted#:#Eintrag gelöscht
-dcl#:#dcl_ILIAS_reference#:#Objekt im Magazin
+dcl#:#dcl_ilias_reference#:#Objekt im Magazin
 dcl#:#dcl_learning_progress#:#Lernfortschritt anzeigen
 dcl#:#dcl_learning_progress_desc#:#Wenn vorhanden, wird der Lernfortschritts des Benutzers angezeigt
 dcl#:#dcl_status#:#Dein Status
@@ -12564,7 +12582,8 @@ exc#:#exc_team_notification_body_rmv#:#Sie wurden aus einer Team-Upload-Übungse
 exc#:#exc_team_notification_changed_by#:#Status geändert durch
 exc#:#exc_team_notification_link#:#Link zur Übung
 poll#:#poll_absolute#:#Aktuelle Stimmen
-dcl#:#dcl_reference_link#:#Link zum referenzierten Feldeintrag
+dcl#:#dcl_reference_link#:#Als Link zum referenzierten Eintrag darstellen
+dcl#:#dcl_reference_link_info#:#Die Seitenvorlage zur Einzelansicht muss in der referenzierten Tabelle aktiv sein
 dcl#:#dcl_ILIAS_reference_link#:#Link zum Objekt
 dcl#:#dcl_ILIAS_reference_link_desc#:#Objekt kann per Link aufgerufen werden, wenn Leserecht vorhanden ist
 dcl#:#dcl_text_area#:#Mehrzeiliges Texteingabefeld
@@ -12860,12 +12879,12 @@ cron#:#cron_no_executable_job_selected#:#Bitte wählen Sie mindestens einen ausf
 dcl#:#dcl_no_warnings#:#Der Import wurde reibungslos abgeschlossen.
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp ist für den Import nicht unterstützt.
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
-dcl#:#dcl_file_not_readable#:#Die Datei konnte nicht gelesen werden. Bitte verwenden sie das .xls-Dateiformat.
+dcl#:#dcl_file_not_readable#:#Die Datei konnte nicht gelesen werden. Bitte verwenden sie das .xlsx-Dateiformat.
 dcl#:#dcl_import_terminated#:#Der Import ist abgeschlossen. Anzahl importierter Datensätze
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
-dcl#:#dcl_import_records .xls#:#Import .xls
-dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xls vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Reihe müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Reihen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren.
+dcl#:#dcl_import_records .xls#:#Import .xlsx
+dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Reihe müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Reihen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren.
 dcl#:#dcl_simulate_import#:#Import simulieren
 dcl#:#dcl_simulate_info#:#Hierbei werden keine Datensätze angelegt, sondern nur Feedback zu Fehlern in der Import-Datei gegeben. Dadurch können Sie fehlerhafte Imports vermeiden.
 dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
@@ -13144,7 +13163,7 @@ dateplaner#:#cal_ch_user_assignment_success#:#Die Benutzer wurden den ausgewähl
 dateplaner#:#cal_booking_failed_info#:#Die Buchung konnte nicht vorgenommen werden, da der Termin ausgebucht ist.
 registration#:#registration_codes_override_info#:#Diese Einstellung hat Vorrang vor allen anderen entsprechenden Registrierungs-Einstellungen.
 registration#:#registration_codes_override_global_info#:#Diese Einstellungen werden evtl. durch Registrierungscodes aufgehoben.
-crs#:#event_list_registered_only#:#Nur angemeldete Mitglieder
+crs#:#event_list_registered_only#:#Nur Angemeldete
 didactic#:#didactic_default_type#:#Standard
 pd#:#pd_info_delete_sure_remove#:#Wollen Sie die folgenden Objekte aus der Liste "Ausgewählte Angebote" auf Ihrem Persönlichen Schreibtisch entfernen?
 pd#:#pd_info_delete_sure_unsubscribe#:#Wollen Sie sich wirklich aus den folgenden Objekten abmelden?
@@ -13488,7 +13507,7 @@ orgu#:#no_roles#:#Es gibt keine weiteren lokalen Rollen an dieser Stelle.
 orgu#:#local_other_roles#:#Weitere lokale Rollen %s
 orgu#:#not_movable_to_subtree#:#Eine Organisationseinheit kann nicht in ihre eigenen Untereinheiten eingeteilt werden, dies würde eine Schlaufe bilden.
 cld#:#cld_object_added#:#Ein neues Cloud Objekt wurde hinzugefügt
-exc#:#exc_peer_review_deadline#:#Ende des Bewertungszeitraums
+exc#:#exc_peer_review_deadline#:#Feedback geben bis
 exc#:#exc_peer_review_deadline_info#:#Bis zu diesem Termin können Bewertungen abgegeben werden. Anschließend ist das erhaltene Feedback einsehbar.
 exc#:#exc_peer_review_deadline_info_button#:#Endtermin: %s
 exc#:#exc_peer_review_deadline_reached#:#Feedback-Zeit ist abgelaufen.
@@ -14331,7 +14350,7 @@ common#:#sorting_desc#:#Absteigend
 common#:#sorting_asc#:#Aufsteigend
 poll#:#poll_anonymous_warning#:#Ihr Name wird in den Abstimmungsergebnissen nicht angezeigt.
 dateplaner#:#cal_exc_deadline#:#Abgabetermin
-dateplaner#:#cal_exc_peer_review_deadline#:#Ende des Bewertungszeitraums
+dateplaner#:#cal_exc_peer_review_deadline#:#Feedback geben bis
 rbac#:#read_learning_progress#:#Lernfortschritt anderer Benutzer einsehen
 rbac#:#crs_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#grp_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
@@ -14583,7 +14602,7 @@ maps#:#maps_public_profile_info#:#Zeige Position im eigenen Profil
 maps#:#maps_settings#:#Einstellungen Karten
 maps#:#maps_std_location_desc#:#Klicken Sie auf die Karte, um die eigene Position anzugeben.
 maps#:#maps_std_location#:#Standardposition
-maps#:#maps_zoom_level#:#Vergrösserungsstufe
+maps#:#maps_zoom_level#:#Vergrößerungsstufe
 maps#:#maps_google_maps#:#Google Maps
 maps#:#maps_open_layers_maps#:#Open Layers Maps
 maps#:#maps_map_type#:#Typ
@@ -14828,7 +14847,7 @@ prtf#:#prtf_blog_page_created#:#Blog wurde hinzugefügt.
 wiki#:#wiki_adv_md_hidden#:#Dieser Block wird aktuell nicht präsentiert.
 wiki#:#wiki_page_list_form_info#:#Fügt eine Liste mit Wiki-Seiten hinzu, die nachfolgenden Metadaten zugeordnet sind.
 content#:#cont_pc_amdpl#:#Seitenliste
-meta#:#udf_type_selectmulti#:#Auswahlliste (Checkboxen)
+meta#:#udf_type_selectmulti#:#Auswahlliste (Mehrfachauswahl)
 wiki#:#wiki_no_page_found#:#Es wurden keine Seiten zum Suchbegriff '$1' gefunden.
 wiki#:#wiki_pages_found#:#Die folgenden Seiten wurden zum Suchbegriff '$1' gefunden.
 wiki#:#wiki_no_search_term#:#Es wurde kein Suchbegriff eingegeben. Nachfolgend werden alle Wikiseiten aufgelistet.
@@ -14889,13 +14908,13 @@ meta#:#md_adv_confirm_definition_select_option_all_action#:#Neuer Wert
 file#:#file_import#:#Dateiimport
 dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
 dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
-dcl#:#dcl_integer_desc#:#Eingabefeld für ganze Zahlen. Nicht erlaubt sind Brüche und Dezimalzahlen.
+dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen. Nicht erlaubt sind Brüche und Dezimalzahlen.
 dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender
 dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
-dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
+dcl#:#dcl_fileupload_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
 dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden
 dcl#:#dcl_reference_title#:#Referenz zu Tabelle und Feld
-dcl#:#dcl_ILIAS_reference_desc#:#Suchfeld, um ein Objekt in ILIAS auszuwählen und zu verlinken
+dcl#:#dcl_ilias_reference_desc#:#Suchfeld, um ein Objekt in ILIAS auszuwählen und zu verlinken
 dcl#:#dcl_rating_desc#:#Benutzer können Einträge mit bis zu fünf Sternen bewerten.
 dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.
 dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.
@@ -15208,7 +15227,7 @@ mail#:#mail_tpl_deleted_s#:#Die Textvorlage wurde erfolgreich gelöscht.
 mail#:#mail_template_missing_id#:#Die Aktion kann nicht ausgeführt werden, da die ID der Textvorlage nicht korrekt übertragen wurde.
 mail#:#mail_template_no_valid_context#:#Der gewählte Kontext ist nicht gültig.
 mail#:#mail_template_client#:#Textvorlage
-mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Beim Wahl einer Textvorlage werden Nachrichte und Betreff in diesem Formular (falls in der Vorlage definiert) ersetzt.
+mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Beim Wahl einer Textvorlage werden Nachricht und Betreff in diesem Formular (falls in der Vorlage definiert) ersetzt.
 itgr#:#itgr_hide_title#:#Titel verbergen
 itgr#:#itgr_hide_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner nicht angezeigt.
 content#:#cont_all_languages#:#Alle Sprachen
@@ -15284,6 +15303,10 @@ buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Bestätigen
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Anfrage zurückziehen
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Anfrage bestätigen
 buddysystem#:#buddy_bs_action_not_possible#:#Aktion nicht möglich
+buddysystem#:#buddy_bs_action_already_linked#:#Die Kontaktanfrage für Benutzer '%s' wurde bereits bestätigt.
+buddysystem#:#buddy_bs_action_already_requested#:#Benutzer '%s' wurde bereits angefragt.
+buddysystem#:#buddy_bs_action_already_ignored#:#Die Kontaktanfrage von Benutzer '%s' wurde bereits ignoriert.
+buddysystem#:#buddy_bs_action_already_unlinked#:#Jeglicher Kontakt zu Benutzer '%s' wurde bereits gelöst.
 buddysystem#:#buddy_bs_state_linked#:#Vernetzt
 buddysystem#:#buddy_bs_state_linked_a#:#Vernetzt
 buddysystem#:#buddy_bs_state_linked_p#:#Vernetzt
@@ -15669,3 +15692,11 @@ chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
 crs#:#event_tbl_tutors#:#Tutoren
 crs#:#event_tbl_admins#:#Administratoren
 crs#:#event_tbl_members#:#Mitglieder
+trac#:#trac_cron_info#:#Aktivieren Sie den "Objekt-Statistik"-Cron-Job, um Daten für diese Auswertung zu sammeln.
+sess#:#sess_list_reg_limit_places#:#Freie Plätze
+sess#:#sess_accept_request#:#Zu Sitzung zulassen
+sess#:#sess_new_registrations#:#Teilnahmeanträge
+mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge konnte nicht gefunden werden: %1$s
+mail#:#mail_recipient_not_found#:#%1$s (es konnte kein gültiger Empfänger gefunden werden) 
+mail#:#mail_multiple_role_recipients_found#:#%1$s (für den Emfpänger wurden mehrere Rollen gefunden: %2$s)
+mail#:#mail_generic_rcp_error#:#Beim Validieren der Empfänger ist ein Fehler aufgetreten: %1$s

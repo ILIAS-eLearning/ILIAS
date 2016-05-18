@@ -30,7 +30,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjWiki($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "wiki";
 		parent::__construct($a_id,$a_call_by_reference);
@@ -648,7 +648,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 		{
 
 			include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-			$wiki_search =& ilObjectSearchFactory::_getWikiContentSearchInstance($query_parser);
+			$wiki_search = ilObjectSearchFactory::_getWikiContentSearchInstance($query_parser);
 			$wiki_search->setFilter(array('wpg'));
 			$search_result->mergeEntries($wiki_search->performSearch());
 		}
@@ -945,7 +945,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 
 		// copy content
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-		$pages = ilWikiPage::getAllPages($this->getId());
+		$pages = ilWikiPage::getAllWikiPages($this->getId());
 		if (count($pages) > 0)
 		{
 			// if we have any pages, delete the start page first

@@ -98,6 +98,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface {
 	 * @param $seq_name
 	 * @param int $start
 	 * @param array $options
+	 * @return bool
 	 */
 	public function createSequence($seq_name, $start = 1, $options = array()) {
 		$sequence_name = $this->db_instance->quoteIdentifier($this->getSequenceName($seq_name));
@@ -140,6 +141,107 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface {
 
 		return true;
 	}
+
+
+	/**
+	 * @param $name
+	 * @param $changes
+	 * @param $check
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function alterTable($name, $changes, $check) {
+		require_once('./Services/Database/classes/PDO/Datatype/class.ilPdoDatatype.php');
+		$ilPdoMySQLDatatype = new ilPdoMySQLDatatype();
+
+		$db = $this->db_instance;
+
+		foreach ($changes as $change_name => $change) {
+			switch ($change_name) {
+				case 'add':
+				case 'remove':
+				case 'change':
+				case 'rename':
+				case 'name':
+					break;
+				default:
+					throw new ilDatabaseException('change type "' . $change_name . '" not yet supported');
+			}
+		}
+
+		if ($check) {
+			return true;
+		}
+
+		$query = '';
+		if (!empty($changes['name'])) {
+			$change_name = $db->quoteIdentifier($changes['name']);
+			$query .= 'RENAME TO ' . $change_name;
+		}
+
+		if (!empty($changes['add']) && is_array($changes['add'])) {
+			foreach ($changes['add'] as $field_name => $field) {
+				if ($query) {
+					$query .= ', ';
+				}
+				$query .= 'ADD ' . $ilPdoMySQLDatatype->getDeclaration($field['type'], $field_name, $field);
+			}
+		}
+
+		if (!empty($changes['remove']) && is_array($changes['remove'])) {
+			foreach ($changes['remove'] as $field_name => $field) {
+				if ($query) {
+					$query .= ', ';
+				}
+				$field_name = $db->quoteIdentifier($field_name);
+				$query .= 'DROP ' . $field_name;
+			}
+		}
+
+		$rename = array();
+		if (!empty($changes['rename']) && is_array($changes['rename'])) {
+			foreach ($changes['rename'] as $field_name => $field) {
+				$rename[$field['name']] = $field_name;
+			}
+		}
+
+		if (!empty($changes['change']) && is_array($changes['change'])) {
+			foreach ($changes['change'] as $field_name => $field) {
+				if ($query) {
+					$query .= ', ';
+				}
+				if (isset($rename[$field_name])) {
+					$old_field_name = $rename[$field_name];
+					unset($rename[$field_name]);
+				} else {
+					$old_field_name = $field_name;
+				}
+				$old_field_name = $db->quoteIdentifier($old_field_name);
+				$query .= "CHANGE $old_field_name " . $ilPdoMySQLDatatype->getDeclaration($field['definition']['type'], $field_name, $field['definition']);
+			}
+		}
+
+		if (!empty($rename) && is_array($rename)) {
+			foreach ($rename as $rename_name => $renamed_field) {
+				if ($query) {
+					$query .= ', ';
+				}
+				$field = $changes['rename'][$renamed_field];
+				$renamed_field = $db->quoteIdentifier($renamed_field);
+				$query .= 'CHANGE ' . $renamed_field . ' ' . $ilPdoMySQLDatatype->getDeclaration($field['definition']['type'], $field['name'], $field['definition']);
+			}
+		}
+
+		if (!$query) {
+			return true;
+		}
+
+		$name = $db->quoteIdentifier($name, true);
+
+		return $db->manipulate("ALTER TABLE $name $query");
+	}
+
+
 
 
 

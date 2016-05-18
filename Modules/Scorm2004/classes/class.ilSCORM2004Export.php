@@ -29,7 +29,7 @@ class ilScorm2004Export
 	* Constructor
 	* @access	public
 	*/
-	function ilScorm2004Export(&$a_cont_obj, $a_mode = "SCORM 2004 3rd")
+	function __construct(&$a_cont_obj, $a_mode = "SCORM 2004 3rd")
 	{
 		global $ilErr, $ilDB, $ilias;
 
@@ -39,11 +39,11 @@ class ilScorm2004Export
 		if(!in_array($a_mode,$this->export_types))
 			die("Unsupported format");
 		
-		$this->cont_obj =& $a_cont_obj;
+		$this->cont_obj = $a_cont_obj;
 
-		$this->err =& $ilErr;
-		$this->ilias =& $ilias;
-		$this->db =& $ilDB;
+		$this->err = $ilErr;
+		$this->ilias = $ilias;
+		$this->db = $ilDB;
 		$this->mode = $a_mode;
 
 		$settings = $this->ilias->getAllSettings();

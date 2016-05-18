@@ -55,7 +55,6 @@ class ilFileUtils
 	function processZipFile ($a_directory, $a_file, $structure, $ref_id = null, $containerType = null, $tree = null, $access_handler = null) {
 
 		global $lng;
-		include_once("Services/Utilities/classes/class.ilUtil.php");
 		
 		self::$new_files = array();
 				

@@ -13,9 +13,9 @@ class ilLinkCheckNotify
 	var $db = null;
 
 
-	function ilLinkCheckNotify(&$db)
+	public function __construct($db)
 	{
-		$this->db =& $db;
+		$this->db = $db;
 	}
 	
 	function setUserId($a_usr_id)

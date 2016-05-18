@@ -28,14 +28,14 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 
 	var $ctrl = null;
 
-	function ilSCORM2004ScoGUI($a_slm_obj, $a_node_id = 0)
+	function __construct($a_slm_obj, $a_node_id = 0)
 	{
 		global $ilCtrl;
 
 		$ilCtrl->saveParameter($this, "obj_id");
 		$this->ctrl = &$ilCtrl;
 
-		parent::ilSCORM2004NodeGUI($a_slm_obj, $a_node_id);
+		parent::__construct($a_slm_obj, $a_node_id);
 	}
 
 	/**
@@ -90,7 +90,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 
 			default:
 				$cmd = $ilCtrl->getCmd("showOrganization");
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 	}
@@ -452,7 +452,7 @@ die("deprecated");
 	}
 	
 	//callback function for question export
-	private function insertQuestion($matches)
+	static private function insertQuestion($matches)
 	{
 		$q_exporter = new ilQuestionExporter(false);
 		return $q_exporter->exportQuestion($matches[2]);

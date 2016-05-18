@@ -143,7 +143,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				break;
 
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 	}
@@ -254,7 +254,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					case "PageObject":
 					case "StructureObject":
 						$lm_id = ilLMObject::_lookupContObjID($target_id);
-						$cont_obj =& $this->content_object;
+						$cont_obj = $this->content_object;
 						if ($lm_id == $cont_obj->getId())
 						{
 							$ltarget = "";

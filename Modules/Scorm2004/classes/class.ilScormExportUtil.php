@@ -20,7 +20,7 @@ class ilScormExportUtil
 		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$active_css = ilObjStyleSheet::getContentStylePath($a_slm_object->getStyleSheetId());
-		$active_css = split(@'\?', $active_css, 2);
+		$active_css = explode('?', $active_css);
 		$css = fread(fopen($active_css[0],'r'), filesize($active_css[0]));
 		preg_match_all("/url\(([^\)]*)\)/", $css, $files);
 		$currdir = getcwd();

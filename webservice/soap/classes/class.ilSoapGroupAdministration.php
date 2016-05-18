@@ -39,11 +39,6 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 	const OWNER = 4; 
 	
 	
-	function ilSoapGroupAdministration()
-	{
-		parent::ilSoapAdministration();
-	}
-
 
 	// Service methods
 	function addGroup($sid,$target_id,$grp_xml)

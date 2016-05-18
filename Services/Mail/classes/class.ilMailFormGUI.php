@@ -124,26 +124,24 @@ class ilMailFormGUI
 			}
 		}
 		
-		// Remove \r
-		$f_message = str_replace("\r", '', ilUtil::securePlainString($_POST['m_message']));
-
+		$message = strip_tags(ilUtil::stripSlashes($_POST['m_message'], false));
+		$message = str_replace("\r", '', $message);
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.		
-		$f_message = $this->umail->formatLinebreakMessage($f_message);
-		
-		$this->umail->setSaveInSentbox(true);		
+		$message = $this->umail->formatLinebreakMessage($message);
+
+		$this->umail->setSaveInSentbox(true);
 
 		$m_type = isset($_POST["m_type"]) ? $_POST["m_type"] : array("normal");
 
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-		if($errorMessage = $this->umail->sendMail(
+		if($errors = $this->umail->sendMail(
 				ilUtil::securePlainString($_POST['rcp_to']),
 				ilUtil::securePlainString($_POST['rcp_cc']),
 				ilUtil::securePlainString($_POST['rcp_bcc']),
-				ilUtil::securePlainString($_POST['m_subject']), $f_message,
+				ilUtil::securePlainString($_POST['m_subject']), $message,
 				$files,
-//				$_POST['m_type'],
 				$m_type,
-				ilUtil::securePlainString($_POST['use_placeholders'])
+				(int)$_POST['use_placeholders']
 				)
 			)
 		{
@@ -161,7 +159,8 @@ class ilMailFormGUI
 					}
 				}
 			}
-			ilUtil::sendInfo($errorMessage);
+
+			$this->showSubmissionErrors($errors);
 		}
 		else
 		{
@@ -731,7 +730,7 @@ class ilMailFormGUI
 					$hidden = new ilHiddenInputGUI('attachments[]');
 					$form_gui->addItem($hidden);
 					$size = filesize($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . $data);
-					$label = $data . " [" . ilFormat::formatSize($size) . "]";
+					$label = $data . " [" . ilUtil::formatSize($size) . "]";
 					$att->addItem($label);
 					$hidden->setValue(urlencode($data));
 				}
@@ -933,5 +932,68 @@ class ilMailFormGUI
 		}
 		$placeholders->render(true);
 		exit();
+	}
+
+	/**
+	 * @param array $errors
+	 */
+	protected function showSubmissionErrors(array $errors)
+	{
+		$errors_to_display = array();
+
+		foreach($errors as $error)
+		{
+			$error       = array_values($error);
+			$first_error = array_shift($error);
+
+			$translation = $this->lng->txt($first_error);
+			if($translation == '-' . $first_error . '-')
+			{
+				$translation = $first_error;
+			}
+
+			if(count($error) == 0 || $translation == $first_error)
+			{
+				$errors_to_display[] = $translation;
+			}
+			else
+			{
+				// We expect all other parts of this error array are recipient addresses = input parameters
+				$error = array_map(function($address) {
+					return ilUtil::prepareFormOutput($address);
+				}, $error);
+
+				array_unshift($error, $translation);
+				$errors_to_display[] = call_user_func_array('sprintf', $error);
+			}
+		}
+
+		if(count($errors_to_display) > 0)
+		{
+			$tpl = new ilTemplate('tpl.mail_new_submission_errors.html', true, true, 'Services/Mail');
+			if(count($errors_to_display) == 1)
+			{
+				$tpl->setCurrentBlock('single_error');
+				$tpl->setVariable('SINGLE_ERROR', current($errors_to_display));
+				$tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$first_error = array_shift($errors_to_display);
+
+				foreach($errors_to_display as $error)
+				{
+					$tpl->setCurrentBlock('error_loop');
+					$tpl->setVariable('ERROR', $error);
+					$tpl->parseCurrentBlock();
+				}
+
+				$tpl->setCurrentBlock('multiple_errors');
+				$tpl->setVariable('FIRST_ERROR', $first_error);
+				$tpl->parseCurrentBlock();
+			}
+
+			ilUtil::sendInfo($tpl->get());
+		}
 	}
 }

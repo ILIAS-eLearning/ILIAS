@@ -99,7 +99,6 @@ class ilObjWorkspaceFolder extends ilObject2
 	{
 		global $ilAccess;
 		
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once 'Modules/File/classes/class.ilObjFile.php';
 		include_once 'Modules/File/classes/class.ilFileException.php';
 		

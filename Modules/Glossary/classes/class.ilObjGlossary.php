@@ -24,7 +24,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	* Constructor
 	* @access	public
 	*/
-	function ilObjGlossary($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "glo";
 		parent::__construct($a_id,$a_call_by_reference);
@@ -223,7 +223,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	/**
 	 * check wether content object is online
 	 */
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 
@@ -699,7 +699,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
 			$_GET["term_id"] = $term["id"];
 			$_GET["frame"] = "_blank";
-			$content =& $a_glo_gui->listDefinitions($_GET["ref_id"],$term["id"],false);
+			$content = $a_glo_gui->listDefinitions($_GET["ref_id"],$term["id"],false);
 			$file = $a_target_dir."/term_".$term["id"].".html";
 							
 			// open file
@@ -753,7 +753,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$_GET["obj_type"]  = "MediaObject";
 		$_GET["mob_id"]  = $a_mob_id;
 		$_GET["cmd"] = "";
-		$content =& $a_glo_gui->media();
+		$content = $a_glo_gui->media();
 		$file = $a_target_dir."/media_".$a_mob_id.".html";
 
 		// open file

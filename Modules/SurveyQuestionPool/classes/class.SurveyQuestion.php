@@ -337,7 +337,6 @@ class SurveyQuestion
 	{
 		if (!empty($materials_filename))
 		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$materialspath = $this->getMaterialsPath();
 			if (!file_exists($materialspath))
 			{
@@ -987,7 +986,6 @@ class SurveyQuestion
 */
 	function getImagePathWeb() 
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/images/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
@@ -1000,7 +998,6 @@ class SurveyQuestion
 */
 	function getMaterialsPathWeb() 
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/materials/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
@@ -1152,7 +1149,6 @@ class SurveyQuestion
 		$directory = CLIENT_WEB_DIR . "/survey/" . $obj_id . "/$question_id";
 		if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory))
 		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::delDir($directory);
 		}
 
@@ -1452,7 +1448,6 @@ class SurveyQuestion
 			$materialspath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $materialspath);
 			if (!file_exists($materialspath)) 
 			{
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				ilUtil::makeDirParents($materialspath);
 			}
 			if (!copy($materialspath_original . $filename, $materialspath . $filename)) 
@@ -1640,7 +1635,6 @@ class SurveyQuestion
 		{
 			$type = $matches[1];
 			$target_id = $matches[2];
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			switch($linktypes[$matches[1]])
 			{
 				case "LearningModule":
@@ -1935,7 +1929,6 @@ class SurveyQuestion
 	*/
 	function prepareTextareaOutput($txt_output, $prepare_for_latex_output = FALSE)
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
 	}
 

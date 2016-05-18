@@ -21,10 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once 'XML/RPC2/Client.php';
 
 /**
- * @classDescription Factory for PEAR XML rpc2 clients
+ * @classDescription Factory for ILIAS rpc client
  * @author Stefan Meyer <meyer@leifos.com>
  * @version $Id$
  */
@@ -32,26 +31,18 @@ class ilRpcClientFactory
 {
 	
 	/**
-	 * Create an XML_RPC2 client instance
-	 * 
-	 * We use Php as backend, since xmlrpc encodes utf8 as html entity 
+	 * Creates an ilRpcClient instance to our ilServer
 	 * 
 	 * @param string $a_package	 Package name
-	 * @return 
+	 * @param int $a_timeout The maximum number of seconds to allow ilRpcClient to connect.
+	 * @return ilRpcClient
 	 */
-	public static function factory($a_package)
+	public static function factory($a_package, $a_timeout = 0)
 	{
 		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-
-		$client = XML_RPC2_Client::create(
-			ilRPCServerSettings::getInstance()->getServerUrl(),
-			array(
-				'prefix'	=> $a_package.'.',
-				'encoding'	=> 'utf-8',
-				'backend'	=> 'Php',
-				'debug'		=> false
-			)
-		);
+		
+		include_once './Services/WebServices/RPC/classes/class.ilRpcClient.php';
+		$client = new ilRpcClient(ilRPCServerSettings::getInstance()->getServerUrl(), $a_package.'.', $a_timeout, 'UTF-8');
 		return $client;
 	}
 }

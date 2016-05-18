@@ -56,7 +56,11 @@ class ilSoapAdministration
 	var $error_method = null;
 
 
-	function ilSoapAdministration($use_nusoap = true)
+	/**
+	 * Constructor
+	 * @param bool $use_nusoap
+	 */
+	public function __construct($use_nusoap = true)
 	{
 	    define('USER_FOLDER_ID',7);
 		define('NUSOAP',1);

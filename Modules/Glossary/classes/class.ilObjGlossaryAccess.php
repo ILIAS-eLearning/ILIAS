@@ -96,7 +96,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
 	/**
 	* check wether learning module is online
 	*/
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 

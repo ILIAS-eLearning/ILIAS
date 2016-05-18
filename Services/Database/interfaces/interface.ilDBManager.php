@@ -60,13 +60,13 @@ interface ilDBManager {
 	//	public function createTable($name, $fields, $options = array());
 	//
 	//
-	//	/**
-	//	 * @param $name
-	//	 * @param $changes
-	//	 * @param $check
-	//	 * @return mixed
-	//	 */
-	//	public function alterTable($name, $changes, $check);
+	/**
+	 * @param $name
+	 * @param $changes
+	 * @param $check
+	 * @return mixed
+	 */
+	public function alterTable($name, $changes, $check);
 	//
 	//
 	//	/**

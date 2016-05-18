@@ -20,7 +20,7 @@ class ilLinkChecker
 	var $page_id = 0;
 
 
-	function ilLinkChecker(&$db,$a_validate_all = true)
+	public function __construct(&$db,$a_validate_all = true)
 	{
 		global $ilDB;
 

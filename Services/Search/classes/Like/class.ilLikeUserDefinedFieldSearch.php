@@ -16,15 +16,6 @@ include_once 'Services/Search/classes/class.ilUserDefinedFieldSearch.php';
 */
 class ilLikeUserDefinedFieldSearch extends ilUserDefinedFieldSearch
 {
-
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilLikeUserDefinedFieldSearch(&$qp_obj)
-	{
-		parent::ilUserDefinedFieldSearch($qp_obj);
-	}
 	
 	/**
 	 * 

@@ -24,7 +24,7 @@ class ilLPStatusSCORM extends ilLPStatus
 	}
 
 
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{		
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$users = array();
@@ -39,7 +39,7 @@ class ilLPStatusSCORM extends ilLPStatus
 		return $users;
 	}
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{
 		global $ilDB;
 
@@ -69,7 +69,7 @@ class ilLPStatusSCORM extends ilLPStatus
 		return $users;
 	}
 
-	function _getFailed($a_obj_id)
+	static function _getFailed($a_obj_id)
 	{
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
@@ -118,7 +118,7 @@ class ilLPStatusSCORM extends ilLPStatus
 	}
 
 	
-	function _getStatusInfo($a_obj_id)
+	static function _getStatusInfo($a_obj_id)
 	{				
 		// Which sco's determine the status
 		include_once './Services/Object/classes/class.ilObjectLP.php';

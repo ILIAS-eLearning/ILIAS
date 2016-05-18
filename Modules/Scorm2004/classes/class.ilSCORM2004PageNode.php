@@ -33,9 +33,9 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
 	 * Constructor
 	 * @access	public
 	 */
-	function ilSCORM2004PageNode($a_slm_object, $a_id = 0)
+	function __construct($a_slm_object, $a_id = 0)
 	{
-		parent::ilSCORM2004Node($a_slm_object, $a_id);
+		parent::__construct($a_slm_object, $a_id);
 		$this->setType("page");
 		$this->id = $a_id;
 
@@ -51,7 +51,7 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
 	/**
 	 * Destructor
 	 */
-	function __descruct()
+	function __destruct()
 	{
 		if(is_object($this->page_object))
 		{
@@ -207,7 +207,7 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
 	 */
 	function assignPageObject(&$a_page_obj)
 	{
-		$this->page_object =& $a_page_obj;
+		$this->page_object = $a_page_obj;
 	}
 
 

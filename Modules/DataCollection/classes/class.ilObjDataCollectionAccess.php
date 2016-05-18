@@ -120,7 +120,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	 *
 	 * @param    int $a_id wiki id
 	 */
-	public function _lookupOnline($a_id) {
+	public static function _lookupOnline($a_id) {
 		global $ilDB;
 
 		$q = "SELECT * FROM il_dcl_data WHERE id = " . $ilDB->quote($a_id, "integer");
@@ -197,6 +197,20 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 		global $ilAccess;
 
 		return $ilAccess->checkAccess("write", "", $ref);
+	}
+
+
+	/**
+	 * Has permission to view and edit all entries event when he is not the owner
+	 *
+	 * @param $ref
+	 *
+	 * @return mixed
+	 */
+	public static function hasEditAccess($ref) {
+		global $ilAccess;
+
+		return $ilAccess->checkAccess("edit_content", "", $ref);
 	}
 
 

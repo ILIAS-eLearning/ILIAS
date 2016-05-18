@@ -37,7 +37,7 @@ class ilObjDlBookListGUI extends ilObjectListGUI
 	* constructor
 	*
 	*/
-	function ilObjDlBookListGUI()
+	function __construct()
 	{
 		parent::__construct();
 	}

@@ -43,7 +43,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 		$this->db = $ilDB;
 	}
 
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{
 		global $ilDB;
 
@@ -70,7 +70,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 		return $users ? $users : array();
 	}
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{
 		global $ilDB;
 
@@ -92,7 +92,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 		return $user_ids ? $user_ids : array();
 	}
 
-	function _getNotAttempted($a_obj_id)
+	static function _getNotAttempted($a_obj_id)
 	{
 		$user_ids = array();
 
@@ -108,7 +108,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 		return $user_ids;
 	}
 
-	function _getFailed($a_obj_id)
+	static function _getFailed($a_obj_id)
 	{
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		foreach($status_info['results'] as $user_data)
@@ -121,7 +121,7 @@ class ilLPStatusTestPassed extends ilLPStatus
 		return $user_ids ? $user_ids : array();
 	}
 
-	function _getStatusInfo($a_obj_id)
+	static function _getStatusInfo($a_obj_id)
 	{
 		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 		$status_info['results'] = ilObjTestAccess::_getPassedUsers($a_obj_id);

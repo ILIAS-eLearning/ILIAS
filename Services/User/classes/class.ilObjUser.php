@@ -2830,23 +2830,26 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* STATIC METHOD
-	* get all user logins
-	* @param	ilias object
-	* @static
-	* @return	array of logins
-	* @access	public
+	* @return array of logins
 	*/
-	static function _getAllUserLogins(&$ilias)
+	public static function getAllUserLogins()
 	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
 		global $ilDB;
-		
-		$res = $ilDB->query("SELECT login FROM usr_data");
-		while($row = $ilDB->fetchObject($res))
+
+		$logins = array();
+
+		$res = $ilDB->query(
+			"SELECT login FROM usr_data WHERE " . $ilDB->in('usr_id', array(ANONYMOUS_USER_ID), true, 'integer')
+		);
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			$logins[] = $row->login;
+			$logins[] = $row['login'];
 		}
-		return $logins ? $logins : array();
+
+		return $logins;
 	}
 
 	/**
@@ -4207,7 +4210,6 @@ class ilObjUser extends ilObject
 	function getProfileAsString(&$a_language)
 	{
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		include_once './Services/Utilities/classes/class.ilFormat.php';
 
 		global $lng,$rbacreview;
 
@@ -4336,16 +4338,7 @@ class ilObjUser extends ilObject
 			$end = new ilDateTime($this->getTimeLimitUntil(),IL_CAL_UNIX);
 			
 			$body .= $language->txt('time_limit').': '.$start->get(IL_CAL_DATETIME);
-			$body .= $language->txt('time_limit').': '.$end->get(IL_CAL_DATETIME);
-			
-			
-			#$body .= $language->txt('time_limit').': '.$period;
-			/*
-			$body .= ($language->txt('time_limit').": ".$language->txt('crs_from')." ".
-					  ilFormat::formatUnixTime($this->getTimeLimitFrom(), true)." ".
-					  $language->txt('crs_to')." ".
-					  ilFormat::formatUnixTime($this->getTimeLimitUntil(), true)."\n");
-			*/
+			$body .= $language->txt('time_limit').': '.$end->get(IL_CAL_DATETIME);			
 		}
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';

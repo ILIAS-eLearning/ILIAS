@@ -36,17 +36,6 @@ include_once 'Services/Search/classes/class.ilUserSearch.php';
 
 class ilLikeUserSearch extends ilUserSearch
 {
-
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilLikeUserSearch(&$qp_obj)
-	{
-		parent::ilUserSearch($qp_obj);
-	}
-
-
 	function __createWhereCondition()
 	{
 		global $ilDB;

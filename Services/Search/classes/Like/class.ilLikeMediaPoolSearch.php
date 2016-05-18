@@ -36,16 +36,6 @@ include_once 'Services/Search/classes/class.ilMediaPoolSearch.php';
 
 class ilLikeMediaPoolSearch extends ilMediaPoolSearch
 {
-
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilLikeMediaPoolSearch(&$qp_obj)
-	{
-		parent::ilMediaPoolSearch($qp_obj);
-	}
-
 	function __createAndCondition()
 	{
 		global $ilDB;

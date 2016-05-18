@@ -31,7 +31,7 @@ class ilObjFileBasedLM extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjFileBasedLM($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		// this also calls read() method! (if $a_id is set)
 		$this->type = "htlm";
@@ -174,7 +174,7 @@ class ilObjFileBasedLM extends ilObject
 	/**
 	* check wether content object is online
 	*/
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 		

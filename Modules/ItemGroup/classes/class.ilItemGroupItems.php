@@ -27,7 +27,7 @@ class ilItemGroupItems
 	 *
 	 * @param int $a_item_group_ref_id ref id of item group
 	 */
-	function ilItemGroupItems($a_item_group_ref_id = 0)
+	function __construct($a_item_group_ref_id = 0)
 	{
 		global $ilDB, $lng, $tree, $objDefinition;
 

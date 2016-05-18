@@ -30,7 +30,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function ilObjFileBasedLMGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
+	function __construct($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $lng, $ilCtrl;
 
@@ -158,7 +158,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				break;
 
 			case "ilinfoscreengui":
-				$ret =& $this->outputInfoScreen();
+				$ret = $this->outputInfoScreen();
 				break;
 
 			case "illearningprogressgui":
@@ -174,14 +174,14 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$ilTabs->activateTab('id_permissions');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case 'illicensegui':
 				$ilTabs->activateTab('id_license');
 				include_once("./Services/License/classes/class.ilLicenseGUI.php");
 				$license_gui = new ilLicenseGUI($this);
-				$ret =& $this->ctrl->forwardCommand($license_gui);
+				$ret = $this->ctrl->forwardCommand($license_gui);
 				break;
 
 			case "ilexportgui":
@@ -207,7 +207,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				{
 					$cmd.= "Object";
 				}
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 		
@@ -429,7 +429,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	* save object
 	* @access	public
 	*/
-	function afterSave($newObj)
+	function afterSave(ilObject $newObj)
 	{
 		if(!$newObj->getStartFile())
 		{
@@ -956,7 +956,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	 * @param
 	 * @return
 	 */
-	function importFileObject($parent_id = null)
+	function importFileObject($parent_id = null, $a_catch_errors = true)
 	{
 		try
 		{

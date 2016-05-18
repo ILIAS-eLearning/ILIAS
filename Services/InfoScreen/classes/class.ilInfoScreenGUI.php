@@ -386,7 +386,7 @@ class ilInfoScreenGUI
 		{
 			if($seconds = $educational->getTypicalLearningTimeSeconds())
 			{
-				$learning_time = ilFormat::_secondsToString($seconds);
+				$learning_time = ilDatePresentation::secondsToString($seconds);
 			}
 		}
 
@@ -550,7 +550,7 @@ class ilInfoScreenGUI
 		{
 				$size = $a_obj->getDiskUsage();
 				if ($size !== null) {
-					$this->addProperty($lng->txt("disk_usage"),ilFormat::formatSize($size,'long'));
+					$this->addProperty($lng->txt("disk_usage"),ilUtil::formatSize($size,'long'));
 				}
 		}
 		// change event
@@ -1008,7 +1008,7 @@ class ilInfoScreenGUI
 				// tags of all users
 				$a_tpl->setCurrentBlock("pv");
 				$a_tpl->setVariable("TXT_PROPERTY_VALUE",
-					ilFormat::_secondsToString($progress['spent_seconds']));
+					ilDatePresentation::secondsToString($progress['spent_seconds']));
 				$a_tpl->parseCurrentBlock();
 				$a_tpl->setCurrentBlock("property_row");
 				$a_tpl->setVariable("TXT_PROPERTY", $this->lng->txt('trac_spent_time'));

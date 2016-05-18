@@ -447,7 +447,7 @@ class ilTinyMCE extends ilRTE
 		{
 			$template->setVariable("STYLE_SELECT", ",styleselect");
 		}
-		$template->setVariable("BUTTONS", $this->_buildButtonsFromHTMLTags($buttontags) . ",backcolor,removeformat");
+		$template->setVariable("BUTTONS", $this->getButtonsForUserTextEditor($buttontags) . ",backcolor,removeformat");
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		//$template->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
 		$template->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation() . "," . ilUtil::getStyleSheetLocation("output", "delos.css"));
@@ -456,6 +456,18 @@ class ilTinyMCE extends ilRTE
 		$this->tpl->setCurrentBlock("HeadContent");
 		$this->tpl->setVariable("CONTENT_BLOCK", $template->get());
 		$this->tpl->parseCurrentBlock();
+	}
+	
+	protected function getButtonsForUserTextEditor($buttontags)
+	{
+		$btns = $this->_buildButtonsFromHTMLTags($buttontags);
+
+		$btns = explode(',', $btns);
+		
+		$btns[] = 'undo';
+		$btns[] = 'redo';
+		
+		return implode(',', $btns);
 	}
 	
 	/**

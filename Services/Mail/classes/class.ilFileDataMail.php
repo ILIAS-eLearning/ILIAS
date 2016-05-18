@@ -395,33 +395,21 @@ class ilFileDataMail extends ilFileData
 	}
 
 	/**
-	* save all attachment files in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
-	* @param integer mail id of mail in sent box
-	* @param array filenames to save
-	* @access	public
-	* @return string error message
-	*/
-	function saveFiles($a_mail_id,$a_attachments)
+	 * Saves all attachment files in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
+	 * @param integer $a_mail_id id of mail in sent box
+	 * @param array $a_attachments to save
+	 */
+	public function saveFiles($a_mail_id, array $a_attachments)
 	{
-		if(!$a_mail_id)
+		if(!is_numeric($a_mail_id) || $a_mail_id < 1)
 		{
-			return "INTERNAL HERE ERROR: No valid mail_id given";
+			throw new InvalidArgumentException('The passed mail_id must be a valid integer!');
 		}
-		if(is_array($a_attachments))
+
+		foreach($a_attachments as $attachment)
 		{
-			foreach($a_attachments as $attachment)
-			{
-				if(!$this->saveFile($a_mail_id,$attachment))
-				{
-					return $attachment;
-				}
-			}
+			$this->saveFile($a_mail_id, $attachment);
 		}
-		else
-		{
-			return "ARRAY REQUIRED";
-		}
-		return '';
 	}
 	
 	public static function getStorage($a_mail_id, $a_usr_id)

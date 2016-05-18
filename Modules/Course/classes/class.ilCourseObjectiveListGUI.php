@@ -90,7 +90,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 	 * @param string description
 	 * @return
 	 */
-	public function getListItemHTML($a_ref_id,$a_obj_id,$a_title,$a_description,$a_manage = false)
+	public function getObjectiveListItemHTML($a_ref_id,$a_obj_id,$a_title,$a_description,$a_manage = false)
 	{
 		$this->tpl = new ilTemplate("tpl.container_list_item.html", true, true,
 			"Services/Container");

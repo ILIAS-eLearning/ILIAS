@@ -1247,9 +1247,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 				'reset_processing_time'      => array('integer', $this->getResetProcessingTime()),
 				'reporting_date'             => array('text', $this->getReportingDate()),
 				'starting_time_enabled'      => array('integer', $this->isStartingTimeEnabled()),
-				'starting_time'              => array('text', $this->getStartingTime()),
+				'starting_time'              => array('integer', $this->getStartingTime()),
 				'ending_time_enabled'        => array('integer', $this->isEndingTimeEnabled()),
-				'ending_time'                => array('text', $this->getEndingTime()),
+				'ending_time'                => array('integer', $this->getEndingTime()),
 				'complete'                   => array('text', $this->isComplete($testQuestionSetConfig)),
 				'ects_output'                => array('text', $this->getECTSOutput()),
 				'ects_a'                     => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL),
@@ -1369,9 +1369,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 						'reset_processing_time'      => array('integer', $this->getResetProcessingTime()),
 						'reporting_date'             => array('text', $this->getReportingDate()),
 						'starting_time_enabled'      => array('integer', $this->isStartingTimeEnabled()),
-						'starting_time'              => array('text', $this->getStartingTime()),
+						'starting_time'              => array('integer', $this->getStartingTime()),
 						'ending_time_enabled'        => array('integer', $this->isEndingTimeEnabled()),
-						'ending_time'                => array('text', $this->getEndingTime()),
+						'ending_time'                => array('integer', $this->getEndingTime()),
 						'complete'                   => array('text', $this->isComplete($testQuestionSetConfig)),
 						'ects_output'                => array('text', $this->getECTSOutput()),
 						'ects_a'                     => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL),
@@ -1542,19 +1542,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
 		if (!$properties_only)
 		{
-			if (PEAR::isError($result)) 
+			if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED)
 			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
+				$this->saveQuestionsToDb();
 			}
-			else
-			{
-				if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED)
-				{
-					$this->saveQuestionsToDb();
-				}
-				$this->mark_schema->saveToDb($this->test_id);
-			}
+			
+			$this->mark_schema->saveToDb($this->test_id);
 		}
   }
 
@@ -2981,9 +2974,9 @@ function getAnswerFeedbackPoints()
 	*/
 		function getSecondsUntilEndingTime()
 		{
-			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndingTime(), $matches))
+			if ($this->getEndingTime() != 0)
 			{
-				$ending = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+				$ending = $this->getEndingTime();
 				$now = time();
 				return $ending - $now;
 			}
@@ -3042,7 +3035,7 @@ function getAnswerFeedbackPoints()
 	 */
 	public function getStartingTime()
 	{
-		return (strlen($this->starting_time)) ? $this->starting_time : NULL;
+		return ($this->starting_time != 0) ? $this->starting_time : 0;
 	}
 
 	/**
@@ -3082,7 +3075,7 @@ function getAnswerFeedbackPoints()
 	 */
 	public function getEndingTime()
 	{
-		return (strlen($this->ending_time)) ? $this->ending_time : NULL;
+		return ($this->ending_time != 0) ? $this->ending_time : 0;
 	}
 
 	/**
@@ -5425,18 +5418,13 @@ function getAnswerFeedbackPoints()
 */
 	function startingTimeReached()
 	{
-		if( $this->isStartingTimeEnabled() && $this->getStartingTime() )
+		if( $this->isStartingTimeEnabled() && $this->getStartingTime() != 0 )
 		{
-			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getStartingTime(), $matches))
-			{
-				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 				$now = mktime();
-				if ($now < $epoch_time)
+				if ($now < $this->getStartingTime())
 				{
-					// starting time not reached
 					return false;
 				}
-			}
 		}
 		return true;
 	}
@@ -5450,18 +5438,13 @@ function getAnswerFeedbackPoints()
 */
 	function endingTimeReached()
 	{
-		if( $this->isEndingTimeEnabled() && $this->getEndingTime() )
+		if( $this->isEndingTimeEnabled() && $this->getEndingTime() != 0 )
 		{
-			if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getEndingTime(), $matches))
-			{
-				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
 				$now = mktime();
-				if ($now > $epoch_time)
+				if ($now > $this->getEndingTime())
 				{
-					// ending time reached
 					return true;
 				}
-			}
 		}
 		return false;
 	}
@@ -5849,7 +5832,8 @@ function getAnswerFeedbackPoints()
 					$iso8601period = $metadata["entry"];
 					if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
 					{
-						$this->setStartingTime(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+						$date_time = new ilDateTime(sprintf("%02d-%02d-%02d %02d:%02d:%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]), IL_CAL_DATETIME);
+						$this->setStartingTime($date_time->get(IL_CAL_UNIX));
 						$this->setStartingTimeEnabled(true);
 					}
 					break;
@@ -5857,7 +5841,8 @@ function getAnswerFeedbackPoints()
 					$iso8601period = $metadata["entry"];
 					if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
 					{
-						$this->setEndingTime(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+						$date_time = new ilDateTime(sprintf("%02d-%02d-%02d %02d:%02d:%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]), IL_CAL_DATETIME);
+						$this->setEndingTime($date_time->get(IL_CAL_UNIX));
 						$this->setEndingTimeEnabled(true);
 					}
 					break;
@@ -6356,8 +6341,8 @@ function getAnswerFeedbackPoints()
 		{
 			$a_xml_writer->xmlStartTag("qtimetadatafield");
 			$a_xml_writer->xmlElement("fieldlabel", NULL, "starting_time");
-			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->starting_time, $matches);
-			$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("P%dY%dM%dDT%dH%dM%dS", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+			$backward_compatibility_format = $this->buildIso8601PeriodFromUnixtimeForExportCompatibility($this->starting_time);
+			$a_xml_writer->xmlElement("fieldentry", NULL, $backward_compatibility_format);
 			$a_xml_writer->xmlEndTag("qtimetadatafield");
 		}
 		// ending time
@@ -6365,8 +6350,8 @@ function getAnswerFeedbackPoints()
 		{
 			$a_xml_writer->xmlStartTag("qtimetadatafield");
 			$a_xml_writer->xmlElement("fieldlabel", NULL, "ending_time");
-			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->ending_time, $matches);
-			$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("P%dY%dM%dDT%dH%dM%dS", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+			$backward_compatibility_format = $this->buildIso8601PeriodFromUnixtimeForExportCompatibility($this->ending_time);
+			$a_xml_writer->xmlElement("fieldentry", NULL, $backward_compatibility_format);
 			$a_xml_writer->xmlEndTag("qtimetadatafield");
 		}
 		
@@ -6503,6 +6488,19 @@ function getAnswerFeedbackPoints()
 			}
 		}
 		return $xml;
+	}
+
+	/**
+	 * @param $unix_timestamp
+	 * @return string
+	 */
+	protected function buildIso8601PeriodFromUnixtimeForExportCompatibility($unix_timestamp)
+	{
+		$date_time_unix	= new ilDateTime($unix_timestamp, IL_CAL_UNIX);
+		$date_time		= $date_time_unix->get(IL_CAL_DATETIME);
+		preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $date_time, $matches);
+		$iso8601_period = sprintf("P%dY%dM%dDT%dH%dM%dS", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]);
+		return $iso8601_period;
 	}
 
 	/**
@@ -8181,13 +8179,13 @@ function getAnswerFeedbackPoints()
 		if (!$this->startingTimeReached())
 		{
 			$result["executable"] = false;
-			$result["errormessage"] = sprintf($this->lng->txt("detail_starting_time_not_reached"), ilFormat::ftimestamp2datetimeDB($this->getStartingTime()));
+			$result["errormessage"] = sprintf($this->lng->txt("detail_starting_time_not_reached"), ilDatePresentation::formatDate(new ilDateTime($this->getStartingTime(), IL_CAL_UNIX)));
 			return $result;
 		}
 		if ($this->endingTimeReached())
 		{
 			$result["executable"] = false;
-			$result["errormessage"] = sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->getEndingTime()));
+			$result["errormessage"] = sprintf($this->lng->txt("detail_ending_time_reached"), ilDatePresentation::formatDate(new ilDateTime($this->getEndingTime(), IL_CAL_UNIX)));
 			return $result;
 		}
 
@@ -9985,15 +9983,6 @@ function getAnswerFeedbackPoints()
 			$ilLog->write(__METHOD__.': '.$e->getMessage());
 			return false;
 		}
-
-		/*
-		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
-		$fo2pdf = new ilFO2PDF();
-		$fo2pdf->setFOString($fo);
-		$result = $fo2pdf->send();
-		$filename = (strlen($title)) ? $title : $this->getTitle();
-		ilUtil::deliverData($result, ilUtil::getASCIIFilename($filename) . ".pdf", "application/pdf", false, true);
-		*/
 	}
 	
 	/**
@@ -10064,15 +10053,7 @@ function getAnswerFeedbackPoints()
 				$this->logAction(sprintf($lng->txtlng("assessment", "log_manual_feedback", ilObjAssessmentFolder::_getLogLanguage()), $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")", $username, assQuestion::_getQuestionTitle($question_id), $feedback));
 			}
 		}
-		if (PEAR::isError($result)) 
-		{
-			global $ilias;
-			$ilias->raiseError($result->getMessage());
-		}
-		else
-		{
-			return TRUE;
-		}
+		return TRUE;
 	}
 	
 	/**
@@ -11862,13 +11843,6 @@ function getAnswerFeedbackPoints()
 		$scoring = new ilTestScoring($this);
 		$scoring->setPreserveManualScores($preserve_manscoring);
 		$scoring->recalculateSolutions();
-
-		if ($this->getEnableArchiving())
-		{
-			require_once 'Modules/Test/classes/class.ilTestArchiveService.php';
-			$archiveService = new ilTestArchiveService($this);
-			$archiveService->archivePassesByActives($scoring->getRecalculatedPassesByActives());
-		}
 	}
 	
 	public static function getPoolQuestionChangeListeners(ilDBInterface $db, $poolObjId)

@@ -41,7 +41,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	*/
 	function __construct(&$object)
 	{
-		$this->object =& $object;
+		$this->object = $object;
 	}
 
 	/**

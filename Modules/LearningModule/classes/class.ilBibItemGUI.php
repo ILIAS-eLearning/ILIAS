@@ -46,7 +46,7 @@ class ilBibItemGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilBibItemGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng;
 		$lng->loadLanguageModule("bibitem");

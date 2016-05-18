@@ -40,7 +40,7 @@ class ilWikiExporter extends ilXmlExporter
 		$pg_ids = array();
 		foreach ($a_ids as $id)
 		{
-			$pages = ilWikiPage::getAllPages($id);
+			$pages = ilWikiPage::getAllWikiPages($id);
 			foreach ($pages as $p)
 			{
 				if (ilWikiPage::_exists("wpg", $p["id"]))

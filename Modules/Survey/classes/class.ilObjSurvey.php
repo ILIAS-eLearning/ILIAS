@@ -329,12 +329,10 @@ class ilObjSurvey extends ilObject
 		);
 		
 		// delete export files
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
 		$directory = $svy_data_dir."/svy_".$this->getId();
 		if (is_dir($directory))
 		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::delDir($directory);
 		}
 
@@ -3740,7 +3738,6 @@ class ilObjSurvey extends ilObject
 			$import_dir = $this->getImportDirectory();
 			$import_subdir = "";
 			$importfile = "";
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			if ($isZip)
 			{
 				$importfile = $import_dir."/".$file_info["name"];
@@ -4085,7 +4082,6 @@ class ilObjSurvey extends ilObject
 	*/
 	function createExportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
 		ilUtil::makeDir($svy_data_dir);
 		if(!is_writable($svy_data_dir))
@@ -4117,7 +4113,6 @@ class ilObjSurvey extends ilObject
 	*/
 	function getExportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$export_dir = ilUtil::getDataDir()."/svy_data"."/svy_".$this->getId()."/export";
 
 		return $export_dir;
@@ -4132,7 +4127,6 @@ class ilObjSurvey extends ilObject
 	*/
 	function createImportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
 		ilUtil::makeDir($svy_data_dir);
 		
@@ -4166,7 +4160,6 @@ class ilObjSurvey extends ilObject
 	*/
 	function getImportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/svy_data".
 			"/svy_".$this->getId()."/import";
 		if (!is_dir($import_dir))
@@ -4764,7 +4757,6 @@ class ilObjSurvey extends ilObject
 	*/
 	function prepareTextareaOutput($txt_output)
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
 	}
 
@@ -4918,7 +4910,6 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilLog;
 
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$fo_file = ilUtil::ilTempnam() . ".fo";
 		$fp = fopen($fo_file, "w"); fwrite($fp, $fo); fclose($fp);
 
@@ -4939,14 +4930,6 @@ class ilObjSurvey extends ilObject
 			$ilLog->write(__METHOD__.': '.$e->getMessage());
 			return false;
 		}
-
-		/*
-		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
-		$fo2pdf = new ilFO2PDF();
-		$fo2pdf->setFOString($fo);
-		$result = $fo2pdf->send();
-		ilUtil::deliverData($result, ilUtil::getASCIIFilename($this->getTitle()) . ".pdf", "application/pdf");
-		*/
 	}
 
 	/**

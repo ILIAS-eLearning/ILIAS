@@ -21,7 +21,7 @@ define ("IL_WIKI_ORPHANED_PAGES", "orphaned");
 class ilWikiPagesTableGUI extends ilTable2GUI
 {
 
-	function ilWikiPagesTableGUI($a_parent_obj, $a_parent_cmd = "",
+	function __construct($a_parent_obj, $a_parent_cmd = "",
 		$a_wiki_id, $a_mode = IL_WIKI_ALL_PAGES, $a_page_id = 0)
 	{
 		global $ilCtrl, $lng;
@@ -98,13 +98,13 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 				break;
 
 			case IL_WIKI_ALL_PAGES:
-				$pages = ilWikiPage::getAllPages($this->wiki_id);
+				$pages = ilWikiPage::getAllWikiPages($this->wiki_id);
 				break;
 
 			case IL_WIKI_NEW_PAGES:
 				$this->setDefaultOrderField("created");
 				$this->setDefaultOrderDirection("desc");
-				$pages = ilWikiPage::getNewPages($this->wiki_id);
+				$pages = ilWikiPage::getNewWikiPages($this->wiki_id);
 				break;
 
 			case IL_WIKI_POPULAR_PAGES:

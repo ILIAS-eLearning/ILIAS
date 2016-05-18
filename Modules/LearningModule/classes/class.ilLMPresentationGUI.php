@@ -3873,13 +3873,11 @@ class ilLMPresentationGUI
 				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 
-				include_once("./Services/Utilities/classes/class.ilFormat.php");
-				$this->tpl->setVariable("TXT_SIZE", ilFormat::formatSize($exp_file["size"]));
+				$this->tpl->setVariable("TXT_SIZE", ilUtil::formatSize($exp_file["size"]));
 				$this->tpl->setVariable("TXT_FORMAT", strtoupper($exp_file["type"]));
 				$this->tpl->setVariable("CHECKBOX_ID", $exp_file["type"].":".$exp_file["file"]);
 
 				$file_arr = explode("__", $exp_file["file"]);
-				include_once("./Services/Calendar/classes/class.ilDatePresentation.php");
 				ilDatePresentation::setUseRelativeDates(false);
 				$this->tpl->setVariable("TXT_DATE", ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)));
 

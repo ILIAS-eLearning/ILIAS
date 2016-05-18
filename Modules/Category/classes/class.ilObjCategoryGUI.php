@@ -315,8 +315,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$mdgui = new ilObjectMetaDataGUI($this->object);					
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
-			{			
-				$tabs_gui->addTab("meta_data",
+			{
+				$this->tabs_gui->addTab("meta_data",
 					$this->lng->txt("meta_data"),
 					$mdtab);
 			}	

@@ -33,7 +33,7 @@ class ilPCContentInclude extends ilPageContent
 	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->incl_node =& $a_node->first_child();		// this is the snippet node
+		$this->incl_node = $a_node->first_child();		// this is the snippet node
 	}
 
 	/**
@@ -46,8 +46,8 @@ class ilPCContentInclude extends ilPageContent
 	{
 		$this->node = $this->createPageContentNode();
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-		$this->incl_node =& $this->dom->create_element("ContentInclude");
-		$this->incl_node =& $this->node->append_child($this->incl_node);
+		$this->incl_node = $this->dom->create_element("ContentInclude");
+		$this->incl_node = $this->node->append_child($this->incl_node);
 	}
 
 	/**

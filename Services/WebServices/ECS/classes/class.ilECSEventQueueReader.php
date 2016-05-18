@@ -456,6 +456,11 @@ class ilECSEventQueueReader
 			case 'member_status':
 				$type = self::TYPE_ENROLMENT_STATUS;
 				break;
+			
+			default:
+				// write custom event type
+				$type = $ev->getRessourceType();
+				break;
 		}
 
 		$query = "SELECT * FROM ecs_events ".

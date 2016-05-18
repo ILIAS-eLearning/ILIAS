@@ -737,7 +737,6 @@ class ilExSubmission
 		$filename = $this->initStorage()->getAbsoluteSubmissionPath().
 			"/".$a_user_id."/".basename($filename);
 
-		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::deliverFile($filename, $filetitle);
 	}
 
@@ -747,7 +746,6 @@ class ilExSubmission
 		
 		$path = $this->initStorage()->getAbsoluteSubmissionPath();
 		
-		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		$cdir = getcwd();
 
 		$zip = PATH_TO_ZIP;
@@ -855,7 +853,6 @@ class ilExSubmission
 	{
 		global $lng;
 		
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		
 		$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());

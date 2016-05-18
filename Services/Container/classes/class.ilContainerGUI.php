@@ -779,32 +779,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function editPageFrameObject()
 	{
-		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
-		$fs_gui = new ilFramesetGUI();
-		
-		$fs_gui->setFramesetTitle($this->object->getTitle());
-		$fs_gui->setMainFrameName("content");
-		$fs_gui->setSideFrameName("tree");
-
 		// old tiny stuff
 		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
 			"xhtml_page");
 		if ($xpage_id > 0 && $_SESSION["il_cntr_editor"] != "std")
 		{
-			$fs_gui->setMainFrameSource(
-				$this->ctrl->getLinkTarget(
-					$this, "editPageContent"));
-			$fs_gui->setSideFrameSource(
-				$this->ctrl->getLinkTarget($this, "showLinkList"));
+			$this->ctrl->redirect($this, "editPageContent");
 		}
 		else
 		{
 			$this->ctrl->redirectByClass(array("ilcontainerpagegui"), "edit");
-			exit;
 		}
-				
-		$fs_gui->show();
-		exit;
 	}
 
 	/**
@@ -1611,7 +1596,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $lng, $rbacsystem, $ilAccess;
 		
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once 'Modules/Folder/classes/class.ilObjFolder.php';
 		include_once 'Modules/File/classes/class.ilObjFile.php';
 		include_once 'Modules/File/classes/class.ilFileException.php';
@@ -2139,8 +2123,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		//$t->addFormButton($this->lng->txt($txt_var), "performPasteIntoMultipleObjects");
 		$t->addStickyItem($b);
 
-			$t->addSeparator();
+		$t->addSeparator();
+		$this->lng->loadLanguageModule('obj');
 		$t->addFormButton($this->lng->txt("obj_insert_into_clipboard"), "keepObjectsInClipboard");
+
 		$t->addFormButton($this->lng->txt("cancel"), "cancelMoveLink");
 		$t->setCloseFormTag(false);
 		$t->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), " ");

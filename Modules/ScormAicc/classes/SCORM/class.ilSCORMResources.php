@@ -42,11 +42,11 @@ class ilSCORMResources extends ilSCORMObject
 	* @param	int		$a_id		Object ID
 	* @access	public
 	*/
-	function ilSCORMResources($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		global $lng;
 		
-		parent::ilSCORMObject($a_id);
+		parent::__construct($a_id);
 		$this->setType('srs');
 
 		$this->setTitle($lng->txt('cont_resources'));

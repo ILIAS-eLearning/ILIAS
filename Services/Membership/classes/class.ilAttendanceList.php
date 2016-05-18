@@ -440,7 +440,8 @@ class ilAttendanceList
 		
 		// title
 		
-		$time = ilFormat::formatUnixTime(time(),true);
+		ilDatePresentation::setUseRelativeDates(false);
+		$time = ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX));
 		
 		$tpl->setVariable('TXT_TITLE', $this->title);
 		if($this->description)

@@ -60,7 +60,7 @@ class ilStructureObject extends ilLMObject
 		$childs = $a_tree->getChilds($this->getId());
 		foreach ($childs as $child)
 		{
-			$obj =& ilLMObjectFactory::getInstance($this->content_object, $child["obj_id"], false);
+			$obj = ilLMObjectFactory::getInstance($this->content_object, $child["obj_id"], false);
 			if (is_object($obj))
 			{
 				if($obj->getType() == "st")
@@ -97,7 +97,7 @@ class ilStructureObject extends ilLMObject
 		// copy meta data
 		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
-		$new_md =& $md->cloneMD($a_target_lm->getId(), $chap->getId(), $this->getType());
+		$new_md = $md->cloneMD($a_target_lm->getId(), $chap->getId(), $this->getType());
 
 		// copy translations
 		include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");

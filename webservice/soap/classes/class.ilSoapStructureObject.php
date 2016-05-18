@@ -42,7 +42,7 @@ class ilSoapStructureObject
 	var $structureObjects = array ();
 
 
-	function ilSoapStructureObject ($objId, $type, $title, $description, $parentRefId = null) {
+	function __construct($objId, $type, $title, $description, $parentRefId = null) {
 		$this->setObjId ($objId);
 		$this->setType ($type);
 		$this->setTitle ($title);

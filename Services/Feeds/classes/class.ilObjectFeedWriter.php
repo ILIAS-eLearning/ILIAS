@@ -18,11 +18,11 @@ include_once("./Services/Feeds/classes/class.ilFeedWriter.php");
 */
 class ilObjectFeedWriter extends ilFeedWriter
 {
-	function ilObjectFeedWriter($a_ref_id, $a_userid = false, $a_purpose = false)
+	function __construct($a_ref_id, $a_userid = false, $a_purpose = false)
 	{
 		global $ilSetting, $lng;
 		
-		parent::ilFeedWriter();
+		parent::__construct();
 		
 		if ($a_ref_id <= 0)
 		{

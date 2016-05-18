@@ -86,14 +86,14 @@ $(document).ready(function () {
 	$('#fixed_content').click(function () {
 		dcl.removeHighlightedRows();
 	});
-
+	
 	/**
 	 * Formula fields
 	 */
 	$('a.dclPropExpressionField').click(function () {
 		var placeholder = '[[' + $(this).attr('data-placeholder') + ']]';
-		var $expression = $('#prop_12');
-		var caretPos = document.getElementById('prop_12').selectionStart;
+		var $expression = $('#prop_expression');
+		var caretPos = document.getElementById('prop_expression').selectionStart;
 		var expression = $expression.val();
 		$expression.val(expression.substring(0, caretPos) + placeholder + expression.substring(caretPos));
 	});
@@ -108,7 +108,7 @@ $(document).ready(function () {
 		return false;
 	});
 
-	$('form[id^="form_dcl"] select[data-ref=1]').parent('div').append(
+	$('form[id^="form_dcl"] select[data-ref="1"]').parent('div').append(
 		$('<a></a>')
 			.attr('href', '#')
 			.addClass('ilDclReferenceAddValue xsmall')
@@ -116,7 +116,7 @@ $(document).ready(function () {
 	);
 
 
-	$('form[id^="form_dcl"] div[class="input"]').parent('div').append(
+	$('form[id^="form_dcl"] div[data-ref="1"]').parent('div').append(
 		$('<a></a>')
 			.attr('href', '#')
 			.addClass('ilDclReferenceAddValueMS xsmall')

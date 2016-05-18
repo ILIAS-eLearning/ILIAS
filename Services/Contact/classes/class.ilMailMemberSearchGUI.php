@@ -225,9 +225,10 @@ class ilMailMemberSearchGUI
 		}
 
 		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		ilMailFormCall::setRecipients($rcps);
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget(
 			$this, 'members', array(),
-			array('type' => 'new', 'rcp_to' => implode(',', $rcps), 'sig' => '')));
+			array('type' => 'new', 'sig' => '')));
 		return true;
 	}
 	

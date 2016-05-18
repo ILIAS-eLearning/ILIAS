@@ -37,15 +37,6 @@ include_once 'Services/Search/classes/class.ilLMContentSearch.php';
 class ilLikeLMContentSearch extends ilLMContentSearch
 {
 
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilLikeLMContentSearch(&$qp_obj)
-	{
-		parent::ilLMContentSearch($qp_obj);
-	}
-
 	function __createWhereCondition()
 	{
 		global $ilDB;
