@@ -5,6 +5,6 @@ require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/cla
 class ilReportBookingsByVenuePlugin extends ilReportBasePlugin {
 	// must correspond to the plugin subdirectory
 	protected function getReportName() {
-		return "ReportBookingsByVnue";
+		return "ReportBookingsByVenue";
 	}
 }
