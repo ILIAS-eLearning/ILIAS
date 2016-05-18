@@ -1,0 +1,22 @@
+<!-- language file start -->
+obj_xbbv#:#Report Buchungen nach Veranstaltungsort
+objs_xbbv#:#Reports Buchungen nach Veranstaltungsort
+obj_xbbv_duplicate#:#Buchungen nach Veranstaltungsort kopieren
+objs_xbbv_duplicate#:#Buchungen nach Veranstaltungsort kopieren
+obj_xbbv_select#:#Buchungen nach Veranstaltungsort auswählen
+xbbv_add#:#Report Buchungen nach Veranstaltungsort hinzufügen
+xbbv_new#:#Neuen Report Buchungen nach Veranstaltungsort hinzufügen
+xbbv_read#:#Lesezugriff zum Report Buchungen nach Veranstaltungsort
+xbbv_write#:#Report Buchungen nach Veranstaltungsort bearbeiten
+xbbv_delete#:#Report Buchungen nach Veranstaltungsort löschen
+xbbv_visible#:#sichtbar
+xbbv_edit_permission#:#schreibberechtigt
+crs_create_xbbv#:#Report Buchungen nach Veranstaltungsort erzeugen
+grp_create_xbbv#:#Report Buchungen nach Veranstaltungsort erzeugen
+fold_create_xbbv#:#Report Buchungen nach Veranstaltungsort erzeugen
+root_create_xbbv#:#Report Buchungen nach Veranstaltungsort erzeugen
+cat_create_xbbv#:#Report Buchungen nach Veranstaltungsort erzeugen
+rep_robj_xbbv_status#:#Status
+rep_robj_xbbv_offline#:#Offline
+xbbv_content#:#Report
+xbbv_properties#:#Eigenschaften
