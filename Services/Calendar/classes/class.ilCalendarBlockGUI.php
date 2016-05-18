@@ -527,21 +527,22 @@ class ilCalendarBlockGUI extends ilBlockGUI
 					{
 						include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
 						$now = new ilDateTime(time(), IL_CAL_UNIX);
-						$next_app = null;
 						
 						// default to last booking entry
 						$appointments = ilConsultationHourAppointments::getAppointments($user_id);
 						$next_app = end($appointments);
+						reset($appointments);
+						
 						foreach($appointments as $entry)
 						{
 							// find next entry
-							if(ilDateTime::_before($entry->getStart(), $now))
+							if(ilDateTime::_before($entry->getStart(), $now, IL_CAL_DAY))
 							{
 								continue;
 							}
 							include_once 'Services/Booking/classes/class.ilBookingEntry.php';
 							$booking_entry = new ilBookingEntry($entry->getContextId());
-							if(!$booking_entry->isAppointmentBookableForUser($entry->getEntryId(), $user_id))
+							if(!$booking_entry->isAppointmentBookableForUser($entry->getEntryId(), $GLOBALS['ilUser']->getId()))
 							{
 								continue;
 							}
