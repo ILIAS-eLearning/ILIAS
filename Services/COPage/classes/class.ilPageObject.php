@@ -1931,6 +1931,8 @@ abstract class ilPageObject
 	function resolveIntLinks($a_link_map = null)
 	{
 		$changed = false;
+		
+		$this->log->debug("start");
 
 		// resolve normal internal links
 		$xpc = xpath_new_context($this->dom);
@@ -1944,6 +1946,8 @@ abstract class ilPageObject
 			if ($a_link_map == null)
 			{
 				$new_target = ilInternalLink::_getIdForImportId($type, $target);
+				$this->log->debug("no map, type: ".$type.", target: ".$target.", new target: ".$new_target);
+//				echo "-".$new_target."-".$type."-".$target."-"; exit;
 			}
 			else
 			{
@@ -1953,6 +1957,7 @@ abstract class ilPageObject
 				{
 					$new_target = "il__".$nt[2]."_".$nt[3];
 				}
+				$this->log->debug("map, type: ".$type.", target: ".$target.", new target: ".$new_target);
 			}
 			if ($new_target !== false)
 			{
