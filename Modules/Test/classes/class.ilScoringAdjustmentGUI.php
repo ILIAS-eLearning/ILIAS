@@ -380,13 +380,6 @@ class ilScoringAdjustmentGUI
 		$scoring->setPreserveManualScores($_POST['preserve_manscoring'] == 1 ? true : false);
 		$scoring->recalculateSolutions();
 
-		if ($this->object->getEnableArchiving())
-		{
-			require_once 'Modules/Test/classes/class.ilTestArchiveService.php';
-			$archiveService = new ilTestArchiveService($this->object);
-			$archiveService->archivePassesByActives($scoring->getRecalculatedPassesByActives());
-		}
-
 		ilUtil::sendSuccess($this->lng->txt('saved_adjustment'));
 		$this->questionsObject();
 		
