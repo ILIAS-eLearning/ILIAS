@@ -13,10 +13,24 @@ require_once './Modules/Test/classes/class.ilTestArchiver.php';
  */
 class ilTestArchiveService
 {
+	/**
+	 * @var ilObjTest
+	 */
 	protected $testOBJ;
 	
+	/**
+	 * @var ilTestParticipantData
+	 */
+	protected $participantData;
+	
+	/**
+	 * @var bool
+	 */
 	protected $considerHiddenQuestionsEnabled;
 	
+	/**
+	 * @var ilTestResultHeaderLabelBuilder
+	 */
 	protected $testResultHeaderLabelBuilder;
 	
 	public function __construct(ilObjTest $testOBJ)
@@ -24,11 +38,28 @@ class ilTestArchiveService
 		global $ilObjDataCache, $lng;
 		
 		$this->testOBJ = $testOBJ;
+		$this->participantData = null;
 
 		$this->considerHiddenQuestionsEnabled = true;
 
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
 		$this->testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($lng, $ilObjDataCache);
+	}
+	
+	/**
+	 * @return ilTestParticipantData
+	 */
+	public function getParticipantData()
+	{
+		return $this->participantData;
+	}
+	
+	/**
+	 * @param ilTestParticipantData $participantData
+	 */
+	public function setParticipantData(ilTestParticipantData $participantData)
+	{
+		$this->participantData = $participantData;
 	}
 
 	public function isConsiderHiddenQuestionsEnabled()
@@ -60,6 +91,7 @@ class ilTestArchiveService
 		ilTestPDFGenerator::generatePDF($content, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
 
 		$archiver = new ilTestArchiver($this->testOBJ->getId());
+		$archiver->setParticipantData($this->getParticipantData());
 		$archiver->handInTestResult($activeId, $pass, $filename);
 
 		unlink($filename);
