@@ -736,7 +736,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
 	private function addMiscSettingsFormSection(ilPropertyFormGUI $form)
 	{
-		$fields = array('anonymity', 'enable_archiving');
+		$fields = array('anonymity');
 
 		if( $this->isSectionHeaderRequired($fields) || $this->testQuestionSetConfigFactory->getQuestionSetConfig()->isResultTaxonomyFilterSupported() )
 		{
@@ -781,13 +781,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		$anonymity->addOption($rb);
 		$anonymity->setValue((int)$this->testOBJ->getAnonymity());
 		$form->addItem($anonymity);
-
-		// enable_archiving
-		$enable_archiving = new ilCheckboxInputGUI($this->lng->txt('test_enable_archiving'), 'enable_archiving');
-		$enable_archiving->setInfo($this->lng->txt('test_enable_archiving_desc'));
-		$enable_archiving->setValue(1);
-		$enable_archiving->setChecked($this->testOBJ->getEnableArchiving());
-		$form->addItem($enable_archiving);
 	}
 
 	/**
@@ -810,21 +803,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		{
 			// anonymity setting
 			$this->testOBJ->setAnonymity($form->getItemByPostVar('anonymity')->getValue());
-		}
-
-		if( $this->formPropertyExists($form, 'enable_archiving') )
-		{
-			// Archiving
-			if($this->testOBJ->getAnonymity() == true &&
-				$form->getItemByPostVar('enable_archiving')->getChecked() == true)
-			{
-				$this->testOBJ->setEnableArchiving(false);
-				ilUtil::sendInfo($this->lng->txt('no_archive_on_anonymous'), true);
-			}
-			else
-			{
-				$this->testOBJ->setEnableArchiving($form->getItemByPostVar('enable_archiving')->getChecked());
-			}
 		}
 	}
 
