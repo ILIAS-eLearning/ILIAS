@@ -20,3 +20,14 @@ rep_robj_xbbv_status#:#Status
 rep_robj_xbbv_offline#:#Offline
 xbbv_content#:#Report
 xbbv_properties#:#Eigenschaften
+training_id#:#ID
+title#:#Titel
+venue#:#Veranstaltungsort
+date#:#Datum
+il_crs_tutor#:#Trainer
+no_members#:#Teilnehmer
+no_accomodations#:#Übernachtungen
+list#:#Liste
+filter_show_past_events#:#Auch vergangene Anzeigen
+period#:#Zeitraum
+until#:#bis
