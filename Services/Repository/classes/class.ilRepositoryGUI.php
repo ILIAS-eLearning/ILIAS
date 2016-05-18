@@ -346,7 +346,7 @@ class ilRepositoryGUI
 	function show()
 	{
 		// normal command processing
-		$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+		$ret = $this->ctrl->forwardCommand($this->gui_obj);
 		$this->tpl->setVariable("OBJECTS", $this->gui_obj->getHTML());
 
 		$this->tpl->show();

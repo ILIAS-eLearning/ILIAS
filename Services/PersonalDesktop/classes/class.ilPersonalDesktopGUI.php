@@ -102,7 +102,7 @@ class ilPersonalDesktopGUI
 					$this->getStandardTemplates();
 				}
 				$this->setTabs();
-				$ret =& $this->ctrl->forwardCommand($bookmark_gui);
+				$ret = $this->ctrl->forwardCommand($bookmark_gui);
 				break;
 			
 				// profile
@@ -111,7 +111,7 @@ class ilPersonalDesktopGUI
 				$this->setTabs();
 				include_once("./Services/User/classes/class.ilPersonalProfileGUI.php");
 				$profile_gui = new ilPersonalProfileGUI();
-				$ret =& $this->ctrl->forwardCommand($profile_gui);
+				$ret = $this->ctrl->forwardCommand($profile_gui);
 				break;
 				
 			// settings
@@ -120,14 +120,14 @@ class ilPersonalDesktopGUI
 				$this->setTabs();
 				include_once("./Services/User/classes/class.ilPersonalSettingsGUI.php");
 				$settings_gui = new ilPersonalSettingsGUI();
-				$ret =& $this->ctrl->forwardCommand($settings_gui);
+				$ret = $this->ctrl->forwardCommand($settings_gui);
 				break;
 			
 				// profile
 			case "ilobjusergui":
 				include_once('./Services/User/classes/class.ilObjUserGUI.php');
 				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
-				$ret =& $this->ctrl->forwardCommand($user_gui);
+				$ret = $this->ctrl->forwardCommand($user_gui);
 				break;
 			
 			case 'ilcalendarpresentationgui':
@@ -154,7 +154,7 @@ class ilPersonalDesktopGUI
 				$this->setTabs();
 				include_once("./Services/Notes/classes/class.ilPDNotesGUI.php");
 				$pd_notes_gui = new ilPDNotesGUI();
-				$ret =& $this->ctrl->forwardCommand($pd_notes_gui);
+				$ret = $this->ctrl->forwardCommand($pd_notes_gui);
 				break;
 			
 			// pd news
@@ -163,7 +163,7 @@ class ilPersonalDesktopGUI
 				$this->setTabs();
 				include_once("./Services/News/classes/class.ilPDNewsGUI.php");
 				$pd_news_gui = new ilPDNewsGUI();
-				$ret =& $this->ctrl->forwardCommand($pd_news_gui);
+				$ret = $this->ctrl->forwardCommand($pd_news_gui);
 				break;
 
 			case "illearningprogressgui":
@@ -171,7 +171,7 @@ class ilPersonalDesktopGUI
 				$this->setTabs();
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_PERSONAL_DESKTOP,0);
-				$ret =& $this->ctrl->forwardCommand($new_gui);
+				$ret = $this->ctrl->forwardCommand($new_gui);
 				
 				break;		
 

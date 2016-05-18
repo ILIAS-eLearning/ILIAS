@@ -112,7 +112,7 @@ class ilMainMenuGUI
 	{
 		echo "ilMainMenu->setTemplate is deprecated. Use getHTML instead.";
 		return;
-		$this->tpl =& $tpl;
+		$this->tpl = $tpl;
 	}
 
 	/**
