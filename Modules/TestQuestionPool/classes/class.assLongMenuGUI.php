@@ -341,7 +341,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 						   $show_feedback = FALSE
 	)
 	{
-		//$user_solution = $this->getUserSolution($active_id, $pass);
 		$user_solution = array();
 		if ($active_id)
 		{
