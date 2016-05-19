@@ -11,7 +11,7 @@
 class ilTestEvaluation
 {
 	/**
-	 * @var ilDBInterface
+	 * @var ilDB
 	 */
 	protected $db;
 
@@ -21,9 +21,9 @@ class ilTestEvaluation
 	protected $testId;
 
 	/**
-	 * @param ilDBInterface $db
+	 * @param ilDB $db
 	 */
-	public function __construct(ilDBInterface $db, $testId)
+	public function __construct(ilDB $db, $testId)
 	{
 		$this->db = $db;
 		$this->testId = $testId;

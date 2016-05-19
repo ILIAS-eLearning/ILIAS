@@ -2073,8 +2073,6 @@ assessment#:#worked_through#:#答案済
 assessment#:#working_time#:#答案時間
 assessment#:#working_time_avg#:#平均答案時間
 assessment#:#you_received_a_of_b_points#:#配点は%s/%s  です。
-assessment#:#FALSE#:#FALSE
-assessment#:#TRUE#:#TRUE
 auth#:#auth_account_code#:#コード
 auth#:#auth_account_code_info#:#アカウントを再設定するとILIASアカウントコードを利用できます。
 auth#:#auth_account_code_title#:#アカウントコード
@@ -16188,3 +16186,18 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
+assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl. Participant Results)###19 05 2016 new variable
+assessment#:#tst_conflict_fbh_oblig_quest#:#The combination of using compulsory questions and locked answers is not allowed.###19 05 2016 new variable
+assessment#:#tst_conflict_reset_non_fbh#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers".###19 05 2016 new variable
+assessment#:#tst_conflict_reset_fbh_force#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers but Force Feedback".###19 05 2016 new variable
+assessment#:#false#:#False###19 05 2016 new variable
+assessment#:#true#:#True###19 05 2016 new variable
+dcl#:#dcl_reference_link_info#:#Detailed View must be active in referenced table###19 05 2016 new variable
+buddysystem#:#buddy_bs_action_already_linked#:#Already accepted the contact request from user '%s'.###19 05 2016 new variable
+buddysystem#:#buddy_bs_action_already_requested#:#Already requested user '%s'.###19 05 2016 new variable
+buddysystem#:#buddy_bs_action_already_ignored#:#Already ignored user '%s'.###19 05 2016 new variable
+buddysystem#:#buddy_bs_action_already_unlinked#:#The contact state for user '%s' is already unlinked.###19 05 2016 new variable
+trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.###19 05 2016 new variable
+sess#:#sess_list_reg_limit_places#:#Free places###19 05 2016 new variable
+sess#:#sess_accept_request#:#Accept Participation###19 05 2016 new variable
+sess#:#sess_new_registrations#:#Join Request###19 05 2016 new variable

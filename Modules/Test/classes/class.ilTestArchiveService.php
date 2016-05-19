@@ -39,9 +39,9 @@ class ilTestArchiveService
 		
 		$this->testOBJ = $testOBJ;
 		$this->participantData = null;
-
+		
 		$this->considerHiddenQuestionsEnabled = true;
-
+		
 		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
 		$this->testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($lng, $ilObjDataCache);
 	}
@@ -61,12 +61,12 @@ class ilTestArchiveService
 	{
 		$this->participantData = $participantData;
 	}
-
+	
 	public function isConsiderHiddenQuestionsEnabled()
 	{
 		return $this->considerHiddenQuestionsEnabled;
 	}
-
+	
 	public function setConsiderHiddenQuestionsEnabled($considerHiddenQuestionsEnabled)
 	{
 		$this->considerHiddenQuestionsEnabled = $considerHiddenQuestionsEnabled;
@@ -122,6 +122,7 @@ class ilTestArchiveService
 	 */
 	private function buildOverviewFilename($activeId, $pass)
 	{
-		return ilUtil::getWebspaceDir().'/assessment/scores-'.$this->testOBJ->getId().'-'.$activeId.'-'.$pass.'.pdf';
+		$tmpFileName = ilUtil::ilTempnam();
+		return dirname($tmpFileName).'/scores-'.$this->testOBJ->getId().'-'.$activeId.'-'.$pass.'.pdf';
 	}
 }
