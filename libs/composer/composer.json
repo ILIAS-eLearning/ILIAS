@@ -5,8 +5,8 @@
 	"authors": [],
 	"require": {
 		"filp/whoops": "^2.0",
-        "monolog/monolog": "^1.15",
-        "phpoffice/phpexcel": "^1.8.1",
+	        "monolog/monolog": "^1.15",
+	        "phpoffice/phpexcel": "^1.8.1",
 		"technosophos/LibRIS": "^2.0.2",
 		"ezyang/htmlpurifier": "^4.7.0",
 		"phpmailer/phpmailer": "^5.2",
