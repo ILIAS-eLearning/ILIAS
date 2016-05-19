@@ -194,7 +194,7 @@ echo "<br>+".$client_id;
 				break;
 
 			default:
-				$this->displayError($this->lng->txt("unknown_command"));
+				$this->displayError($this->lng->txt("unknown_command").": '".$this->cmd."'");
 				break;
 		}
 	}
@@ -479,7 +479,7 @@ echo "<br>+".$client_id;
 				break;
 
 			default:
-				$this->displayError($this->lng->txt("unknown_command"));
+				$this->displayError($this->lng->txt("unknown_command").": '".$this->cmd."'");
 				break;
 		}
 	}
