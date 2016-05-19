@@ -205,7 +205,6 @@ echo "<br>+".$client_id;
 	function cmdAdmin()
 	{
 		$cmd = $this->cmd;
-
 		switch ($this->cmd)
 		{
 			case NULL:
@@ -479,6 +478,7 @@ echo "<br>+".$client_id;
 				break;
 
 			default:
+				$this->setDisplayMode("setup");
 				$this->displayError($this->lng->txt("unknown_command").": '".$this->cmd."'");
 				break;
 		}
@@ -1915,16 +1915,18 @@ else
 	 */
 	function displayError($a_message)
 	{
+		$this->setDisplayMode("view");
+
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.error.html", "setup");
 
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("FORMACTION", $_SESSION["referer"]);
 		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
-		$this->tpl->setVariable("ERROR_MESSAGE",($a_message));
+		$this->tpl->setVariable("ERROR_MESSAGE", ($a_message));
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->show();
-		exit();
+//		$this->tpl->show();
+//		exit();
 	}
 
 	/**
