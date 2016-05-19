@@ -23,27 +23,10 @@ class ilTestArchiveService
 	 */
 	protected $participantData;
 	
-	/**
-	 * @var bool
-	 */
-	protected $considerHiddenQuestionsEnabled;
-	
-	/**
-	 * @var ilTestResultHeaderLabelBuilder
-	 */
-	protected $testResultHeaderLabelBuilder;
-	
 	public function __construct(ilObjTest $testOBJ)
 	{
-		global $ilObjDataCache, $lng;
-		
 		$this->testOBJ = $testOBJ;
 		$this->participantData = null;
-
-		$this->considerHiddenQuestionsEnabled = true;
-
-		require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
-		$this->testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($lng, $ilObjDataCache);
 	}
 	
 	/**
@@ -60,16 +43,6 @@ class ilTestArchiveService
 	public function setParticipantData(ilTestParticipantData $participantData)
 	{
 		$this->participantData = $participantData;
-	}
-
-	public function isConsiderHiddenQuestionsEnabled()
-	{
-		return $this->considerHiddenQuestionsEnabled;
-	}
-
-	public function setConsiderHiddenQuestionsEnabled($considerHiddenQuestionsEnabled)
-	{
-		$this->considerHiddenQuestionsEnabled = $considerHiddenQuestionsEnabled;
 	}
 	
 	public function archivePassesByActives($passesByActives)
@@ -105,13 +78,13 @@ class ilTestArchiveService
 	private function renderOverviewContent($activeId, $pass)
 	{
 		$results = $this->testOBJ->getTestResult(
-			$activeId, $pass, false, $this->isConsiderHiddenQuestionsEnabled()
+			$activeId, $pass, false
 		);
 		
 		$gui = new ilTestServiceGUI($this->testOBJ);
 		
 		return $gui->getPassListOfAnswers(
-			$results, $activeId, $pass, true, false, false, true, false, null, $this->testResultHeaderLabelBuilder
+			$results, $activeId, $pass, true, false, false, true, false
 		);
 	}
 
@@ -122,6 +95,7 @@ class ilTestArchiveService
 	 */
 	private function buildOverviewFilename($activeId, $pass)
 	{
-		return ilUtil::getWebspaceDir().'/assessment/scores-'.$this->testOBJ->getId().'-'.$activeId.'-'.$pass.'.pdf';
+		$tmpFileName = ilUtil::ilTempnam();
+		return dirname($tmpFileName).'/scores-'.$this->testOBJ->getId().'-'.$activeId.'-'.$pass.'.pdf';
 	}
 }
