@@ -55,22 +55,22 @@ class ilObjReportWBDPoints extends ilObjReportBase {
 		$table	->column("firstname", "firstname")
 				->column("lastname", "lastname")
 				->column("birthday", "birthday")
-				->column("bwv_id", "gev_bwv_id")
-				->column("wbd_type", "wbd_service_type")
+				->column("bwv_id", "bwv_id")
+				->column("wbd_type", "wbd_type")
 				->column("title", "crs_title")
 				->column("begin_date", "begin_date")
 				->column("end_date", "end_date")
-				->column("credit_points", "gev_credit_points")
+				->column("credit_points", "credit_points")
 				->column("wbd_booking_id", "wbd_booking_id")
-				->column("custom_id", "gev_training_id2")
-				->column("type", "gev_course_type");
+				->column("custom_id", "training_id_2")
+				->column("type", "course_type");
 		return parent::buildTable($table);
 	}
 
 	protected function buildFilter($filter) {
 		$filter ->dateperiod( "period"
-							, $this->lng->txt("gev_period")
-							, $this->lng->txt("gev_until")
+							, $this->plugin->txt("gev_period")
+							, $this->plugin->txt("gev_until")
 							, "usrcrs.begin_date"
 							, "usrcrs.end_date"
 							, date("Y")."-01-01"
@@ -79,7 +79,7 @@ class ilObjReportWBDPoints extends ilObjReportBase {
 							, " OR usrcrs.hist_historic IS NULL"
 							)
 				->multiselect("wbd_type"
-							 , $this->lng->txt("filter_wbd_service_type")
+							 , $this->plugin->txt("filter_wbd_service_type")
 							 , "wbd_type"
 							 , catFilter::getDistinctValues('wbd_type', 'hist_user')
 							 , array()
@@ -88,7 +88,7 @@ class ilObjReportWBDPoints extends ilObjReportBase {
 							 , 160
 							 )
 				->textinput( "lastname"
-						   , $this->lng->txt("gev_lastname_filter")
+						   , $this->plugin->txt("lastname_filter")
 						   , "usr.lastname"
 						   )
 				->static_condition(" usrcrs.hist_historic = 0")
