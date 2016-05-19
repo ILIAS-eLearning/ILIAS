@@ -19,6 +19,20 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
 class ilGlossaryDataSet extends ilDataSet
 {
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
+	 * Constructor
+	 */
+	function __construct()
+	{
+		$this->log = ilLoggerFactory::getLogger('glo');
+		parent::__construct();
+	}
+
+	/**
 	 * Get supported versions
 	 *
 	 * @return string version
@@ -251,8 +265,13 @@ class ilGlossaryDataSet extends ilDataSet
 				$term->setGlossaryId($glo_id);
 				$term->setTerm($a_rec["Term"]);
 				$term->setLanguage($a_rec["Language"]);
+				if ($this->getCurrentInstallationId() > 0)
+				{
+					$term->setImportId("il_".$this->getCurrentInstallationId()."_git_".$a_rec["Id"]);
+				}
 				$term->create();
 				$term_id = $term->getId();
+				$this->log->debug("glo_term, import id: ".$term->getImportId().", term id: ".$term_id);
 
 				$a_mapping->addMapping("Modules/Glossary", "term",
 					$a_rec["Id"], $term_id);

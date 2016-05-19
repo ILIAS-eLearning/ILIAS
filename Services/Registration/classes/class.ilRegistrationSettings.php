@@ -78,7 +78,15 @@ class ilRegistrationSettings
 	{
 		global $ilias;
 
-		return $ilias->getSetting('new_registration_type',IL_REG_DISABLED);
+		$ret  = (int)$ilias->getSetting('new_registration_type',IL_REG_DISABLED);
+
+		if($ret < 1 or $ret > 5)
+		{
+			//data is corrupted and should be processed like "No Registration possible" (#18261)
+			$ret = IL_REG_DISABLED;
+		}
+
+		return $ret;
 	}
 
 	function enabled()
@@ -251,7 +259,9 @@ class ilRegistrationSettings
 	{
 		global $ilias;
 
-		$this->registration_type = $ilias->getSetting('new_registration_type');
+		//static method validates value
+		$this->registration_type = self::_lookupRegistrationType();
+
 		$this->role_type = $ilias->getSetting('reg_role_assignment',1);
 		$this->password_generation_enabled = $ilias->getSetting('passwd_reg_auto_generate');
 		$this->access_limitation = $ilias->getSetting('reg_access_limitation');

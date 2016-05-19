@@ -26,14 +26,7 @@ class ilTestExportGUI extends ilExportGUI
 		$this->addFormat('xml', $a_parent_gui->lng->txt('ass_create_export_file'), $this, 'createTestExport');
 		$this->addFormat('xmlres', $a_parent_gui->lng->txt('ass_create_export_file_with_results'), $this, 'createTestExportWithResults');
 		$this->addFormat('csv', $a_parent_gui->lng->txt('ass_create_export_test_results'), $this, 'createTestResultsExport');
-		if($a_parent_gui->object->getEnableArchiving() == true)
-		{
-			$this->addFormat( 'arc',
-							  $a_parent_gui->lng->txt( 'ass_create_export_test_archive' ),
-							  $this,
-							  'createTestArchiveExport'
-			);
-		}
+		$this->addFormat( 'arc', $a_parent_gui->lng->txt( 'ass_create_export_test_archive' ), $this, 'createTestArchiveExport');
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'texp');
 		foreach($pl_names as $pl)
 		{
@@ -118,10 +111,24 @@ class ilTestExportGUI extends ilExportGUI
 
 	function createTestArchiveExport()
 	{
-		global $ilAccess, $ilCtrl;
+		global $ilAccess, $ilCtrl, $ilDB, $lng;
 
 		if ($ilAccess->checkAccess("write", "", $this->obj->ref_id))
 		{
+			require_once 'Modules/Test/classes/class.ilTestEvaluation.php';
+			$evaluation = new ilTestEvaluation($ilDB, $this->obj->getTestId());
+			$allActivesPasses = $evaluation->getAllActivesPasses();
+			
+			require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+			$participantData = new ilTestParticipantData($ilDB, $lng);
+			$participantData->setActiveIds(array_keys($allActivesPasses));
+			$participantData->load($this->obj->getTestId());
+			
+			require_once 'Modules/Test/classes/class.ilTestArchiveService.php';
+			$archiveService = new ilTestArchiveService($this->obj);
+			$archiveService->setParticipantData($participantData);
+			$archiveService->archivePassesByActives($allActivesPasses);
+
 			include_once("./Modules/Test/classes/class.ilTestArchiver.php");
 			$test_id = $this->obj->getId();
 			$archive_exp = new ilTestArchiver($test_id);
