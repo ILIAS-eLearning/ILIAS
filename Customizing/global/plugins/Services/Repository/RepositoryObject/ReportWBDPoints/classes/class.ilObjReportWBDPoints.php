@@ -8,10 +8,14 @@ set_time_limit(0);
 
 class ilObjReportWBDPoints extends ilObjReportBase {
 	protected $relevant_parameters = array();
-	protected $is_local;
 
 	public function initType() {
 		$this->setType("xwbp");
+	}
+	
+	protected function createLocalReportSettings() {
+		$this->local_report_settings =
+			$this->s_f->reportSettings('rep_robj_wbp');
 	}
 
 	protected function getRowTemplateTitle() {
@@ -52,25 +56,25 @@ class ilObjReportWBDPoints extends ilObjReportBase {
 	}
 
 	protected function buildTable($table) {
-		$table	->column("firstname", "firstname")
-				->column("lastname", "lastname")
-				->column("birthday", "birthday")
-				->column("bwv_id", "bwv_id")
-				->column("wbd_type", "wbd_type")
-				->column("title", "crs_title")
-				->column("begin_date", "begin_date")
-				->column("end_date", "end_date")
-				->column("credit_points", "credit_points")
-				->column("wbd_booking_id", "wbd_booking_id")
-				->column("custom_id", "training_id_2")
-				->column("type", "course_type");
+		$table	->column("firstname", $this->plugin->txt("firstname"), true)
+				->column("lastname", $this->plugin->txt("lastname"), true)
+				->column("birthday", $this->plugin->txt("birthday"), true)
+				->column("bwv_id", $this->plugin->txt("bwv_id"), true)
+				->column("wbd_type", $this->plugin->txt("wbd_type"), true)
+				->column("title", $this->plugin->txt("crs_title"), true)
+				->column("begin_date", $this->plugin->txt("begin_date"), true)
+				->column("end_date", $this->plugin->txt("end_date"), true)
+				->column("credit_points", $this->plugin->txt("credit_points"), true)
+				->column("wbd_booking_id", $this->plugin->txt("wbd_booking_id"), true)
+				->column("custom_id", $this->plugin->txt("training_id_2"), true)
+				->column("type", $this->plugin->txt("course_type"), true);
 		return parent::buildTable($table);
 	}
 
 	protected function buildFilter($filter) {
 		$filter ->dateperiod( "period"
-							, $this->plugin->txt("gev_period")
-							, $this->plugin->txt("gev_until")
+							, $this->plugin->txt("period")
+							, $this->plugin->txt("until")
 							, "usrcrs.begin_date"
 							, "usrcrs.end_date"
 							, date("Y")."-01-01"
@@ -79,7 +83,7 @@ class ilObjReportWBDPoints extends ilObjReportBase {
 							, " OR usrcrs.hist_historic IS NULL"
 							)
 				->multiselect("wbd_type"
-							 , $this->plugin->txt("filter_wbd_service_type")
+							 , $this->plugin->txt("filter_wbd_type")
 							 , "wbd_type"
 							 , catFilter::getDistinctValues('wbd_type', 'hist_user')
 							 , array()
