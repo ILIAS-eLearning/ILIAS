@@ -341,8 +341,22 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 						   $show_feedback = FALSE
 	)
 	{
-		$user_solution = $this->getUserSolution($active_id, $pass);
-
+		//$user_solution = $this->getUserSolution($active_id, $pass);
+		$user_solution = array();
+		if ($active_id)
+		{
+			$solutions = NULL;
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			{
+				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			}
+			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+			foreach ($solutions as $idx => $solution_value)
+			{
+				$user_solution[$solution_value["value1"]] = $solution_value["value2"];
+			}
+		}
 		// generate the question output
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_longmenu_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
