@@ -46,6 +46,7 @@ class ilTCPDFGenerator
 
 		foreach ($job->getPages() as $page)
 		{
+			$page = ' '.$page; // WTF !! otherwise empty page !! must investigate, 50x works with same content
 			$pdf->AddPage();
 			$pdf->writeHTML($page, true, false, true, false, '');			
 		}
