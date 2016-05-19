@@ -331,7 +331,8 @@ class ilTestArchiver
 	 */
 	protected function createArchiveForTest() 
 	{
-		mkdir( $this->getTestArchive(), 0777, true );
+		ilUtil::makeDirParents($this->getTestArchive());
+		//mkdir( $this->getTestArchive(), 0777, true );
 	}
 
 	/**
@@ -750,7 +751,9 @@ class ilTestArchiver
 	protected function logArchivingProcess($message) 
 	{
 		$archive = $this->getTestArchive() . self::DIR_SEP . self::ARCHIVE_LOG;
-		file_put_contents($archive, file_get_contents($archive) . "\n" . $message);
+		if( file_exists($archive) ) $oldContent = file_get_contents($archive) . "\n";
+		else $oldContent = '';
+		file_put_contents($archive, $oldContent.$message);
 		
 		return;
 	}
