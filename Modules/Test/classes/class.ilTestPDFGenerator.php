@@ -68,6 +68,13 @@ class ilTestPDFGenerator
 			$node->parentNode->removeChild($node);
 		}
 
+		// remove noprint elems as tcpdf will make empty pdf when hidden by css rules
+		$domX = new DomXPath($dom);
+		foreach($domX->query("//*[contains(@class, 'ilNoDisplay')]") as $node)
+		{
+			$node->parentNode->removeChild($node);
+		}
+
 		$dom->encoding = 'UTF-8';
 		$cleaned_html = $dom->saveHTML();
 		if(!$cleaned_html)
