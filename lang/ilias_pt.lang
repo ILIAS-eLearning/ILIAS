@@ -702,7 +702,6 @@ assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_answers#:#Feedback for every answer of the question
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
 assessment#:#feedback_complete_solution#:#Correct solution
-assessment#:#feedback_correct#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
 assessment#:#feedback_generic#:#Common Solution Feedback
 assessment#:#feedback_incomplete_solution#:#At least one answer is not correct
 assessment#:#feedback_setting#:#Mode of answer specific feedback.
@@ -938,7 +937,6 @@ assessment#:#polygon_click_next_or_save#:#Please click on the next point of the 
 assessment#:#polygon_click_next_point#:#Please click on the next point of the polygon.
 assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.
 assessment#:#positive_numbers_required#:#Please enter only positive numbers.
-assessment#:#postpone#:#Adiar questão
 assessment#:#postpone_status#:#Postponed
 assessment#:#postponed#:#adiada
 assessment#:#precision#:#Precision
@@ -1077,14 +1075,9 @@ assessment#:#result_x#:#Result %s
 assessment#:#results#:#Results
 assessment#:#review_view#:#Review
 assessment#:#save_and_next#:#Save and Continue
-assessment#:#save_back_to_objective_container#:#Go to Course
 assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!
 assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a java applet!
 assessment#:#save_edit#:#Save and edit content
-assessment#:#save_finish#:#Salvar e finalizar o teste
-assessment#:#save_introduction#:#Guardar e ir para a introdução
-assessment#:#save_next#:#Salvar e ir para a próxima pergunta
-assessment#:#save_previous#:#Salvar e ir para a pergunta anterior
 assessment#:#save_text_answer_points#:#Save text question points
 assessment#:#saved_adjustment#:#Changes saved.
 assessment#:#saveOrder#:#Salvar pedido
@@ -1238,7 +1231,6 @@ assessment#:#tst_answer_details#:#Answer Details
 assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#tst_answered_questions#:#Perguntas respondidas
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
-assessment#:#tst_assign_competence#:#Assign Competence
 assessment#:#tst_attached_xls_file#:#You find the test result for this participant in the attached Excel file.
 assessment#:#tst_availability_limitless_info#:#Choose this mode for making the test available and accessible to users (depending on participants restriction settings below).
 assessment#:#tst_availability_until_info#:#Choose this mode for making the test available and accessible to users for a fixed period of time (depending on participants restriction settings below).
@@ -1252,7 +1244,6 @@ assessment#:#tst_browse_for_questions#:#Procurar por questões
 assessment#:#tst_btn_hide_best_solutions#:#Hide Best Solutions
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Quesitons from Pool
 assessment#:#tst_btn_show_best_solutions#:#Show Best Solutions
-assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#Competence Service activation is not possible due to test mode with non fixed set of questions.
 assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#The test cannot be set to online, because the test mode setting has been changed. You have to set a test mode relating question config before the test can be set to online.
 assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Selection
 assessment#:#tst_change_points_for_question#:#Change the Points for the Answer
@@ -1282,7 +1273,6 @@ assessment#:#tst_delete_all_user_data#:#Excluir todos os dados
 assessment#:#tst_delete_dyn_test_results_btn#:#Delete Test Results
 assessment#:#tst_delete_missing_mark#:#Por favor seleccione pelo menos um avanço de nota para apagá-lo
 assessment#:#tst_delete_results#:#Reset test
-assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Competence service has been deactivated due to test mode with non fixed set of questions.
 assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
 assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured questionpool "%s" has been deleted.
 assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Deleted Permanently)
@@ -1497,7 +1487,6 @@ assessment#:#tst_nr_of_tries_of_user#:#Tentativas já concluídos
 assessment#:#tst_num_all_questions#:#Number of All Questions
 assessment#:#tst_num_correct_answered_questions#:#Correct Answered Questions
 assessment#:#tst_num_marked_questions#:#Marked Questions
-assessment#:#tst_num_non_answered_questions#:#Non Answered Questions
 assessment#:#tst_num_postponed_questions#:#Postponed Questions
 assessment#:#tst_num_questions#:#Number of Questions
 assessment#:#tst_num_selected_questions#:#Number of Selected Questions
@@ -1533,7 +1522,6 @@ assessment#:#tst_percent_solved#:#Percentagem resolvido
 assessment#:#tst_position#:#Question %s of %s
 assessment#:#tst_position_without_total#:#Question %s
 assessment#:#tst_postpone#:#Postpone Questions
-assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test
 assessment#:#tst_presentation_properties#:#Presentation Settings
 assessment#:#tst_print#:#Teste & Avaliação - Visão da impressão
 assessment#:#tst_print_date#:#Date of Print
@@ -1630,7 +1618,6 @@ assessment#:#tst_random_select_questionpool#:#Select the question pool to choose
 assessment#:#tst_random_selection_question_count_too_high#:#The question count you entered was higher than the maximum number of available questions. The question count has been reduced automatically.
 assessment#:#tst_random_selection_question_total_count_too_high#:#The question count you entered was higher than the maximum number of available questions for all selected question pools. The question count has been reduced automatically.
 assessment#:#tst_reached_points#:#Pontos conseguidos
-assessment#:#tst_remove_competence#:#Remove Competence
 assessment#:#tst_remove_mark#:#Remove this mark
 assessment#:#tst_remove_question#:#Are you sure you want to remove the following question from the test?
 assessment#:#tst_remove_questions#:#Tem a certeza que quer remover as seguintes questõe(s) do teste?
@@ -1750,7 +1737,6 @@ assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questio
 assessment#:#tst_signature#:#Signature
 assessment#:#tst_single_answer_details#:#Show Single Answer
 assessment#:#tst_single_results#:#Results by Question
-assessment#:#tst_skl_sub_tab_quest_assign#:#Question/Competence Assignment
 assessment#:#tst_skl_sub_tab_thresholds#:#Competence Thresholds
 assessment#:#tst_source_question_pool#:#Source Question Pool
 assessment#:#tst_src_quest_pool_def_list_table#:#Source Question Pool Definitions
@@ -6569,12 +6555,8 @@ content#:#cont_online#:#Online
 content#:#cont_online_help_ids#:#Help IDs
 content#:#cont_open#:#Display
 content#:#cont_open_heigth#:#height
-content#:#cont_open_iframe_defined#:#in iframe with defined width and height
-content#:#cont_open_iframe_max#:#in iframe with full size
 content#:#cont_open_normal#:#in tab / new window with link
 content#:#cont_open_width#:#width
-content#:#cont_open_window_defined#:#in new window with defined width and height
-content#:#cont_open_window_undefined#:#in new window without defined width and height
 content#:#cont_operation_not_allowed#:#This operation is not allowed.
 content#:#cont_or#:#or
 content#:#cont_order#:#Tipo de Ordem
@@ -7806,7 +7788,6 @@ crs#:#event_location#:#Location
 crs#:#event_materials#:#Session Materials
 crs#:#event_not_participated#:#Not Participated
 crs#:#event_overview#:#Participations in Sessions
-crs#:#event_participant_selection#:#Participant Selection
 crs#:#event_participated#:#Participated
 crs#:#event_participation#:#Participation
 crs#:#event_register#:#Register
@@ -8412,7 +8393,6 @@ dcl#:#dcl_add_new_field#:#Add New Field
 dcl#:#dcl_add_new_record#:#Add New Record
 dcl#:#dcl_add_new_table#:#Add New Table
 dcl#:#dcl_add_perm#:#Permission Add Entry
-dcl#:#dcl_allowed_file_types#:#Allowed File Types
 dcl#:#dcl_any#:#Any
 dcl#:#dcl_asc#:#Ascending Order (ASC)
 dcl#:#dcl_boolean#:#Boolean
@@ -9803,7 +9783,6 @@ mail#:#mail_enter_valid_login#:#Please enter a valid login name.
 mail#:#mail_entry_added#:#Adicionada nova Entrada
 mail#:#mail_entry_changed#:#A entrada mudou
 mail#:#mail_entry_exists#:#An entry with the given login name or e-mail address already exists.
-mail#:#mail_entry_of_addressbook#:#Entry of Address Book
 mail#:#mail_external_sender_noreply#:#noreply-endereço
 mail#:#mail_file_name#:#Nome de ficheiro
 mail#:#mail_file_size#:#Tamanho do ficheiro
@@ -9840,8 +9819,6 @@ mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
 mail#:#mail_list_members#:#Lista de membros
 mail#:#mail_mailing_list#:#Lista de Correio
 mail#:#mail_mailing_lists#:#Listas de correio
-mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#You have already assigned all of your addressbook entries to this mailing list.
-mail#:#mail_mailing_lists_no_addressbook_entries#:#You have not any addressbook entries yet.
 mail#:#mail_mark_read#:#Marcar mensagens lidas
 mail#:#mail_mark_unread#:#Marcar mensagens não lidas
 mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files).
@@ -9913,8 +9890,6 @@ mail#:#mail_sure_delete#:#Tem a certeza que deseja apagar as mensagens marcadas?
 mail#:#mail_sure_delete_entry#:#Tem a certeza que deseja apagar as seguintes entradas?
 mail#:#mail_sure_delete_file#:#O ficheiro será apagado permanentemente
 mail#:#mail_sure_delete_folder#:#A pasta e os seus conteúdos serão removidos permanentemente
-mail#:#mail_system_sender_name#:#Sender Name
-mail#:#mail_system_sender_name_info#:#Please enter a name. This name will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, 'ILIAS' is used as the sender.
 mail#:#mail_to#:#Para
 mail#:#mail_user_addr_n_valid#:#Os seguintes usuários não têm um endereço de correio válido
 mail#:#placeholders_advise#:#Os caracteres são apenas resolvidos para destinatarios no campo To.%sDestinatarios nos campos CC e BCC não têm caracteres resolvidos .
@@ -15324,3 +15299,905 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Verificação: Teste
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Pasta
+assessment#:#char_selector_btn_label#:#&nbsp;Ω&nbsp;###19 05 2016 new variable
+assessment#:#tst_res_lo_objectives_header#:#Relevant Learning Objectives###19 05 2016 new variable
+assessment#:#tst_res_lo_try_header#:#Attempt###19 05 2016 new variable
+assessment#:#tst_res_lo_try_n#:#Attempt %s###19 05 2016 new variable
+assessment#:#tst_pass_overview_header_lo_initial_all_objectives#:#Initial Test Results<br />for the Learning Objectives within the Course %s###19 05 2016 new variable
+assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Initial Test Results<br />for the Learning Objectives %s within the Course %s###19 05 2016 new variable
+assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Qualifying Test Results<br />for the Learning Objectives within the Course %s###19 05 2016 new variable
+assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Qualifying Test Results<br />for the Learning Objectives %s within the Course %s###19 05 2016 new variable
+assessment#:#tst_pass_details_header_lo_initial#:#Initial Test Results for the Learning Objectives<br />%s - %s###19 05 2016 new variable
+assessment#:#tst_virtual_pass_header_lo_initial#:#Initial Test Results for the Learning Objective<br />%s###19 05 2016 new variable
+assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s###19 05 2016 new variable
+assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifying Test Results for the Learning Objective<br />%s###19 05 2016 new variable
+assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl. Participant Results)###19 05 2016 new variable
+assessment#:#tst_objectives_progress_header#:#Learning Objectives Progress###19 05 2016 new variable
+assessment#:#tst_objective_progress_header#:#Learning Objective Progress###19 05 2016 new variable
+assessment#:#assLongMenu#:#Long Menu###19 05 2016 new variable
+assessment#:#answers_text_box#:#Text###19 05 2016 new variable
+assessment#:#answers_select#:#Select###19 05 2016 new variable
+assessment#:#info_text_upload#:#Choose an answer text (UTF-8) file to upload.###19 05 2016 new variable
+assessment#:#manual_editing#:#Manual Editing###19 05 2016 new variable
+assessment#:#longmenu_text#:#Long Menu Text###19 05 2016 new variable
+assessment#:#correct_answers#:#Correct Answers: ###19 05 2016 new variable
+assessment#:#answer_options#:#Answer Options: ###19 05 2016 new variable
+assessment#:#add_answers#:#Add answers ###19 05 2016 new variable
+assessment#:#tst_conflict_fbh_oblig_quest#:#The combination of using compulsory questions and locked answers is not allowed.###19 05 2016 new variable
+assessment#:#tst_conflict_reset_non_fbh#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers".###19 05 2016 new variable
+assessment#:#tst_conflict_reset_fbh_force#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers but Force Feedback".###19 05 2016 new variable
+assessment#:#qpl_lac_legend_header_common#:#Expression Logic###19 05 2016 new variable
+assessment#:#qpl_lac_desc_logical_and#:#Logical AND###19 05 2016 new variable
+assessment#:#qpl_lac_desc_logical_or#:#Logical OR###19 05 2016 new variable
+assessment#:#qpl_lac_desc_negation#:#Negation###19 05 2016 new variable
+assessment#:#qpl_lac_desc_brackets#:#Brackets###19 05 2016 new variable
+assessment#:#qpl_lac_desc_res_of_quest_n#:#Result of n-th Question###19 05 2016 new variable
+assessment#:#qpl_lac_desc_res_of_cur_quest#:#Result of Current Question###19 05 2016 new variable
+assessment#:#qpl_lac_desc_res_of_answ_m_of_quest_n#:#Result of m-th Answer of n-th Question###19 05 2016 new variable
+assessment#:#qpl_lac_desc_res_of_answ_m_of_cur_quest#:#Result of m-th Answer of Current Question###19 05 2016 new variable
+assessment#:#qpl_lac_legend_header_quest_specific#:#Question Specific Expressions###19 05 2016 new variable
+assessment#:#qpl_lac_legend_label_operators#:#Operators###19 05 2016 new variable
+assessment#:#qpl_lac_desc_compare_with_quest_res#:#Compare the Result with the Reached Points in Percent###19 05 2016 new variable
+assessment#:#qpl_lac_desc_compare_with_number#:#Compare the Result with the Number n###19 05 2016 new variable
+assessment#:#qpl_lac_desc_compare_with_text#:#Compare the Result with the text TEXT###19 05 2016 new variable
+assessment#:#qpl_lac_desc_compare_with_assignment#:#Compare the Result with the Matching n:m###19 05 2016 new variable
+assessment#:#qpl_lac_desc_compare_with_sequence#:#Compare the Result with the Answer Sequence ($a,..,z$)###19 05 2016 new variable
+assessment#:#qpl_lac_desc_compare_with_answer_n#:#Compare the Result with the n-th Answer of the Question###19 05 2016 new variable
+assessment#:#qpl_lac_desc_compare_with_exact_sequence#:#Compare the Result with exactly the Given Sequence###19 05 2016 new variable
+assessment#:#qpl_lac_desc_compare_answer_exist#:#Compare if there is an Answer for a Question/Gap###19 05 2016 new variable
+assessment#:#lacex_example_header#:#Examples###19 05 2016 new variable
+assessment#:#lacex_assQuestion_PercentageResultExpression_e#:#R >= %75%###19 05 2016 new variable
+assessment#:#lacex_assQuestion_PercentageResultExpression_d#:#The questions answer result is equal to or greater than 75%###19 05 2016 new variable
+assessment#:#lacex_assQuestion_EmptyAnswerExpression_e#:#R = ?###19 05 2016 new variable
+assessment#:#lacex_assQuestion_EmptyAnswerExpression_d#:#The question was not answered###19 05 2016 new variable
+assessment#:#lacex_assSingleChoice_NumberOfResultExpression_e#:#R = +2+###19 05 2016 new variable
+assessment#:#lacex_assSingleChoice_NumberOfResultExpression_d#:#While answering the question the second answer option was chosen###19 05 2016 new variable
+assessment#:#lacex_assMultipleChoice_NumberOfResultExpression_e#:#R = +2+###19 05 2016 new variable
+assessment#:#lacex_assMultipleChoice_NumberOfResultExpression_d#:#While answering the question the second answer option was chosen###19 05 2016 new variable
+assessment#:#lacex_assMultipleChoice_ExclusiveResultExpression_e#:#R = *1,3,4*###19 05 2016 new variable
+assessment#:#lacex_assMultipleChoice_ExclusiveResultExpression_d#:#Exactly the answer options 1, 3 and 4 were chosen while answering the question###19 05 2016 new variable
+assessment#:#lacex_assErrorText_NumberOfResultExpression_e#:#R = +2+###19 05 2016 new variable
+assessment#:#lacex_assErrorText_NumberOfResultExpression_d#:#While answering the question the second answer option was chosen###19 05 2016 new variable
+assessment#:#lacex_assErrorText_ExclusiveResultExpression_e#:#R = *1,3,4*###19 05 2016 new variable
+assessment#:#lacex_assErrorText_ExclusiveResultExpression_d#:#Exactly the answer options 1, 3 and 4 were chosen while answering the question###19 05 2016 new variable
+assessment#:#lacex_assImagemapQuestion_NumberOfResultExpression_e#:#R = +2+###19 05 2016 new variable
+assessment#:#lacex_assImagemapQuestion_NumberOfResultExpression_d#:#While answering the question the second answer option was chosen###19 05 2016 new variable
+assessment#:#lacex_assImagemapQuestion_ExclusiveResultExpression_e#:#R = *1,3,4*###19 05 2016 new variable
+assessment#:#lacex_assImagemapQuestion_ExclusiveResultExpression_d#:#Exactly the answer options 1, 3 and 4 were chosen while answering the question###19 05 2016 new variable
+assessment#:#lacex_assNumeric_NumericResultExpression_e#:#R = #4.7####19 05 2016 new variable
+assessment#:#lacex_assNumeric_NumericResultExpression_d#:#The question was answered with the numeric value 4.7###19 05 2016 new variable
+assessment#:#lacex_assOrderingQuestion_OrderingResultExpression_e#:#R = $2,5,1,4,3$###19 05 2016 new variable
+assessment#:#lacex_assOrderingQuestion_OrderingResultExpression_d#:#The question's elements were ordered as follows: 2, 5, 1, 4, 3###19 05 2016 new variable
+assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_e#:#R = $2,5,1,4,3$###19 05 2016 new variable
+assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_d#:#The question's elements were ordered as follows: 2, 5, 1, 4, 3###19 05 2016 new variable
+assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_e#:#R = ;1:2; & R = ;2:3; & R = ;3:1;###19 05 2016 new variable
+assessment#:#lacex_assMatchingQuestion_MatchingResultExpression_d#:#The question's terms were assigned to definitions as follows: 1 &rarr; 2 and 2 &rarr; 3 and 3 &rarr; 1###19 05 2016 new variable
+assessment#:#lacex_assTextSubset_StringResultExpression_e#:#R[2] = ~sodium chloride~###19 05 2016 new variable
+assessment#:#lacex_assTextSubset_StringResultExpression_d#:#For the second answer option the answer „sodium chloride“ was entered###19 05 2016 new variable
+assessment#:#lacex_assFormulaQuestion_NumericResultExpression_e#:#R[1] = #3.14159####19 05 2016 new variable
+assessment#:#lacex_assFormulaQuestion_NumericResultExpression_d#:#The first answer option was answered with the numeric value 3.14159###19 05 2016 new variable
+assessment#:#lacex_assClozeTest_NumericResultExpression_e#:#R[2] = #5####19 05 2016 new variable
+assessment#:#lacex_assClozeTest_NumericResultExpression_d#:#The second answer option is a numeric gap and was answered with the numeric value 5###19 05 2016 new variable
+assessment#:#lacex_assClozeTest_StringResultExpression_1_e#:#R[1] = ~Monday~###19 05 2016 new variable
+assessment#:#lacex_assClozeTest_StringResultExpression_1_d#:#The first answer option is a text gap and was answered with „Monday“###19 05 2016 new variable
+assessment#:#lacex_assClozeTest_StringResultExpression_2_e#:#R[4] = ~Green~###19 05 2016 new variable
+assessment#:#lacex_assClozeTest_StringResultExpression_2_d#:#The fourth answer option is a select gap and the option labeled as „Green“ was selected###19 05 2016 new variable
+assessment#:#lacex_assClozeTest_NumberOfResultExpression_e#:#R[4] = +2+###19 05 2016 new variable
+assessment#:#lacex_assClozeTest_NumberOfResultExpression_d#:#The fourth answer option is a select gap and the second option was selected###19 05 2016 new variable
+assessment#:#qpl_skill_point_eval_mode_quest_result#:#Question Result###19 05 2016 new variable
+assessment#:#qpl_skill_point_eval_mode_solution_compare#:#Solution Compare###19 05 2016 new variable
+assessment#:#qpl_skill_point_eval_by_quest_result#:#Evaluation of Competence Points by Question Result###19 05 2016 new variable
+assessment#:#qpl_skill_point_eval_by_solution_compare#:#Evaluation of Competence Points by Solution Compare###19 05 2016 new variable
+assessment#:#tst_solution_compare_cfg#:#Configuration for Solution Compare###19 05 2016 new variable
+assessment#:#tst_sol_comp_expressions#:#Comparison Expressions###19 05 2016 new variable
+assessment#:#ass_lac_hide_legend_btn#:#Hide Legend###19 05 2016 new variable
+assessment#:#ass_lac_show_legend_btn#:#Show Legend###19 05 2016 new variable
+assessment#:#ass_lac_validation_error#:#Errors occured while validating the conditional expression(s)!###19 05 2016 new variable
+assessment#:#ass_lac_expression#:#Expression###19 05 2016 new variable
+assessment#:#ass_lac_question_not_exist#:#The question with index "Q%s" does not exist in this set.###19 05 2016 new variable
+assessment#:#ass_lac_question_not_reachable#:#The question with index "Q%s" is not reachable in this node.###19 05 2016 new variable
+assessment#:#ass_lac_expression_not_supported#:#The Expression "%s" is not supported.###19 05 2016 new variable
+assessment#:#ass_lac_operator_not_supported#:#The Operator "%s" is not supported.###19 05 2016 new variable
+assessment#:#ass_lac_unable_to_parse_condition#:#The condition "%s" can not be validated.###19 05 2016 new variable
+assessment#:#ass_lac_missing_bracket#:#There are not enough "%s"-Brackets in the condition.###19 05 2016 new variable
+assessment#:#ass_lac_invalid_statement#:#The expression at position "%s" is not valid. Please check your input according to the supported expression (see legend).###19 05 2016 new variable
+assessment#:#ass_lac_duplicate_element#:#Duplicate key "%s" in condition.###19 05 2016 new variable
+assessment#:#ass_lac_answer_index_not_exist#:#The question with index "Q%s" does not have an answer with the index "%s".###19 05 2016 new variable
+assessment#:#ass_lac_answer_index_not_exist_cur_qst#:#The current question does not have an answer with the index "%s".###19 05 2016 new variable
+assessment#:#ass_lac_answer_value_not_exists#:#The value "%s" does not exist in question Q%s[%s].###19 05 2016 new variable
+assessment#:#ass_lac_answer_value_not_exists_one_answer#:#The value "%s" does not exist in question Q%s.###19 05 2016 new variable
+assessment#:#ass_lac_answer_value_not_exists_cur_qst#:#The value "%s" does not exist in the answer with index "%s" of current question.###19 05 2016 new variable
+assessment#:#ass_lac_answer_value_not_exists_cur_qst_one_answer#:#The value "%s" does not exist in the current question.###19 05 2016 new variable
+assessment#:#ass_lac_expression_not_supported_by_question#:#The question "Q%s" does not support the Expression "%s".###19 05 2016 new variable
+assessment#:#ass_lac_expression_not_supported_by_cur_question#:#The current question does not support the Expression "%s".###19 05 2016 new variable
+assessment#:#ass_lac_operator_not_supported_by_expression#:#The Operator "%s" can not be used in comparison with the expression "%s".###19 05 2016 new variable
+assessment#:#tst_skill_triggerings_num_req_answers#:#Required Amount of Answers for Competence Triggers###19 05 2016 new variable
+assessment#:#tst_skill_triggerings_num_req_answers_desc#:#Competences aren't triggered before this amount of answered questions contributes to the competence level calculation.###19 05 2016 new variable
+assessment#:#qpl_qst_skl_usg_skill_col#:#Competence###19 05 2016 new variable
+assessment#:#qpl_qst_skl_usg_numq_col#:#Number of Questions in Pool adressing this competence###19 05 2016 new variable
+assessment#:#qpl_qst_skl_usg_sklpnt_col#:#Total Sum of Competence-Points per Competence###19 05 2016 new variable
+assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool(s):<br />%s<br /><br />The configuration of threshold values is to be done here in the test.###19 05 2016 new variable
+assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#The Competence-Question-Assignment for tests with mode "%s" is to be done in the corresponding question pool:<br />%s<br /><br />The configuration of threshold values is to be done here in the test.###19 05 2016 new variable
+assessment#:#qpl_qst_skl_selection_for_question_header#:#Compence Assignments for Question: %s###19 05 2016 new variable
+assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!###19 05 2016 new variable
+assessment#:#tst_skl_level_thresholds_link#:#Configure Competence-Thresholds###19 05 2016 new variable
+assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.###19 05 2016 new variable
+assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'###19 05 2016 new variable
+assessment#:#tst_results_presentation_description#:#If "Show Pass Details for running tests" is selected, the question titles and the reached points for every question in the test pass are available if the test is not finished. If "Show Solutions in Test Results" is selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission. If "Show Answer-Specific Feedback in Test Results" is selected, the answer specific feedback will be shown in the test results next to the questions. If "Results print view (answers only)" is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option. If "Show Signature Placeholder" is selected, a signature placeholder will be shown for printout. If "Show Suggested Solution" is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.###19 05 2016 new variable
+assessment#:#grading_obligations_listlabel#:#Compulsory Questions###19 05 2016 new variable
+assessment#:#grading_obligations_answered_listentry#:#Answered###19 05 2016 new variable
+assessment#:#grading_obligations_missing_listentry#:#Open###19 05 2016 new variable
+assessment#:#tst_pass_finished_on#:#Test pass finished on###19 05 2016 new variable
+assessment#:#tst_wf_info_optional_question#:#This question relates to an already passed learning objective.###19 05 2016 new variable
+assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Your answer from a previous attempt was adopted.###19 05 2016 new variable
+assessment#:#tst_wf_info_answer_not_adopted#:#There was no answer from previous attempts adopted, so you have to work through this question, because otherwise your learning objective result will be degraded.###19 05 2016 new variable
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Question related to already passed learning objectives were answered in previous passes.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on or simply review these questions. If you change your answers that were adopted from previous passes, you can also degrade your learning objective result.<br /><br />If you decide to not work on or review these questions, you can go back. The questions will be considered in the evaluation in every case.###19 05 2016 new variable
+assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Question related to already passed learning objectives are optional.</b><br /><br />You want to navigate to a question, that relates to an already passed learning objective.<br />You can choose:<br /><br />I you proceed, you can work on these questions. Your answers from previous attempts were not adopted, since new random questions were selected for this attempt. With working on this questions you can also degrade your learning objective result.<br /><br />If you decide to not work on these questions, you can go back. In this case these questions won't be considered in the evaluation.###19 05 2016 new variable
+assessment#:#tst_tab_results_pass_oriented#:#Results by Attempts###19 05 2016 new variable
+assessment#:#tst_tab_results_objective_oriented#:#Results by Learning Objectives###19 05 2016 new variable
+assessment#:#tst_attempt#:#Attempt###19 05 2016 new variable
+assessment#:#tst_back_to_virtual_pass#:#Back to Question Overview###19 05 2016 new variable
+assessment#:#passed_status#:#Passed Status###19 05 2016 new variable
+assessment#:#question_summary_btn#:#Dashboard###19 05 2016 new variable
+assessment#:#finish_test#:#Finish the Test###19 05 2016 new variable
+assessment#:#next_question#:#Next###19 05 2016 new variable
+assessment#:#previous_question#:#Previous###19 05 2016 new variable
+assessment#:#submit_answer#:#Save Answer and Next###19 05 2016 new variable
+assessment#:#skip_question#:#Do not Answer and Next###19 05 2016 new variable
+assessment#:#discard_answer#:#Delete Answer###19 05 2016 new variable
+assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?###19 05 2016 new variable
+assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers###19 05 2016 new variable
+assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?###19 05 2016 new variable
+assessment#:#tst_nav_while_edit_modal_save_btn#:#Save###19 05 2016 new variable
+assessment#:#tst_nav_while_edit_modal_nosave_btn#:#Do Not Save###19 05 2016 new variable
+assessment#:#tst_nav_while_edit_modal_cancel_btn#:#Cancel###19 05 2016 new variable
+assessment#:#edit_answer#:#Edit Answer###19 05 2016 new variable
+assessment#:#answer_question#:#Answer Question###19 05 2016 new variable
+assessment#:#back_to_objective_container#:#Go to Course###19 05 2016 new variable
+assessment#:#tst_instant_feedback_handling#:#Lock Answers###19 05 2016 new variable
+assessment#:#tst_instant_feedback_handling_none#:#Do Not Lock Answers###19 05 2016 new variable
+assessment#:#tst_instant_feedback_handling_none_desc#:#Participants can change their answers in all test passes they have.###19 05 2016 new variable
+assessment#:#tst_instant_feedback_handling_freeze#:#Lock Answers, Feedback upon Request###19 05 2016 new variable
+assessment#:#tst_instant_feedback_handling_freeze_desc#:#After participants click 'Answer', they can no longer change their answer. Participants can request feedback by clicking 'Check'. Please configure feedback behavior in the option 'Instant feedback'.###19 05 2016 new variable
+assessment#:#tst_instant_feedback_handling_force_and_freeze#:#Lock Answers and Force Feedback###19 05 2016 new variable
+assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#After participants click 'Answer', they can no longer change their answer. Participants will be automatically presented with feedback as configured in the option 'Instant feedback'.###19 05 2016 new variable
+assessment#:#tst_instant_feedback_handling_force#:#Do Not Lock Answers but Force Feedback###19 05 2016 new variable
+assessment#:#tst_instant_feedback_handling_force_desc#:#After participants click 'Answer', they will be automatically presented with feedback as configured in the option 'Instant feedback'. They may however change their answers afterwards.###19 05 2016 new variable
+assessment#:#tst_eval_results_by_pass_lo#:#List of Answers for Attempt %s###19 05 2016 new variable
+assessment#:#tst_eval_results_lo#:#List of Answers###19 05 2016 new variable
+assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback###19 05 2016 new variable
+assessment#:#tst_instant_feedback_forced_desc#:#On submitting answers the output of instant feedback will be forced.###19 05 2016 new variable
+assessment#:#tst_postpone_on#:#Unanswered questions will be enqueued###19 05 2016 new variable
+assessment#:#tst_postpone_on_desc#:#Question that users just look at and flip over without answering them, will be enqueued to be presented again automatically the end of the test.###19 05 2016 new variable
+assessment#:#tst_postpone_off#:#Unanswered Questions Stay in Position###19 05 2016 new variable
+assessment#:#tst_postpone_off_desc#:#Question that users just look at and flip over without answering them, will stay at their position in the test and will not be enqueued at the end of the test.###19 05 2016 new variable
+assessment#:#tst_dyn_unfreeze_answers_confirmation#:#There are questions to which your initial answers were fixed and you could not make any changes. Do you want to answer them one more time now and thus unfreeze your answers?###19 05 2016 new variable
+assessment#:#tst_dyn_unfreeze_answers#:#Answer once more###19 05 2016 new variable
+assessment#:#tst_dyn_keep_answ_freeze#:#Keep my current answers frozen###19 05 2016 new variable
+assessment#:#tst_num_non_answered_questions_skipped#:#Skipped###19 05 2016 new variable
+assessment#:#tst_num_non_answered_questions_notseen#:#Not Presented, Yet###19 05 2016 new variable
+assessment#:#qpl_tab_competences#:#Competences###19 05 2016 new variable
+assessment#:#qpl_skl_sub_tab_quest_assign#:#Question/Competence Assignment###19 05 2016 new variable
+assessment#:#qpl_skl_sub_tab_usages#:#Assignment Frequency###19 05 2016 new variable
+assessment#:#tst_manage_competence_assigns#:#Manage Competence Assignments###19 05 2016 new variable
+assessment#:#tst_edit_competence_assign#:#Edit Assignment Properties###19 05 2016 new variable
+assessment#:#tst_view_competence_assign#:#View Assignment Properties###19 05 2016 new variable
+assessment#:#qpl_qst_skl_assign_properties_modified#:#The assignment's properties has been modified.###19 05 2016 new variable
+assessment#:#qpl_qst_skl_assigns_updated#:#The competence assignments has been updated.###19 05 2016 new variable
+assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#The question was inserted from another repository object. Should the question's original be updated with the current config of competence assignments?###19 05 2016 new variable
+assessment#:#qpl_qst_skl_assign_synced_to_orig#:#The competence assignments has been synchronised to the questions original.###19 05 2016 new variable
+assessment#:#qpl_save_skill_assigns_update#:#Save Competence Assignments###19 05 2016 new variable
+assessment#:#qpl_cancel_skill_assigns_update#:#Cancel###19 05 2016 new variable
+assessment#:#tst_comp_eval_mode#:#Evaluation by###19 05 2016 new variable
+assessment#:#feedback_correct_sc_mc#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).###19 05 2016 new variable
+assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).###19 05 2016 new variable
+assessment#:#submit_and_check#:#Save Answer and Check###19 05 2016 new variable
+common#:#manage_members#:#Manage Members###19 05 2016 new variable
+common#:#objs_prg#:#Study Programmes###19 05 2016 new variable
+content#:#cont_LocalFile#:#Local File###19 05 2016 new variable
+mail#:#mail_send_html#:#HTML Frame for External Emails###19 05 2016 new variable
+mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .###19 05 2016 new variable
+mail#:#mail_entry_of_contacts#:#Entry of Contacts###19 05 2016 new variable
+mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already assigned all of your contacts to this mailing list.###19 05 2016 new variable
+mail#:#mail_mailing_lists_no_contact_entries#:#You have no entries in your contacts to add to a list.###19 05 2016 new variable
+maps#:#maps_use_custom_server#:#Use custom server###19 05 2016 new variable
+maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".###19 05 2016 new variable
+maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.###19 05 2016 new variable
+maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.###19 05 2016 new variable
+maps#:#maps_tile_server#:#Server for Tiles###19 05 2016 new variable
+maps#:#maps_geolocation_server#:#Server for Reverse Geolocation###19 05 2016 new variable
+rbac#:#role_confirm_block_role#:#Save Role Status###19 05 2016 new variable
+rbac#:#role_blocked#:#: <i>Role will be blocked</i>###19 05 2016 new variable
+rbac#:#role_unblocked#:#: <i>Role will be unblocked</i>###19 05 2016 new variable
+rbac#:#role_confirm_unblock_role_info#:#The following steps will be performed for the action "Unblock Role":<br /><br />- the local policy will be deleted.###19 05 2016 new variable
+wsp#:#wsp_permission_all_pw_info#:#After providing the password this object is visible for all users of the internet.###19 05 2016 new variable
+content#:#cont_interactions_info#:#Typically results from interactions in learning modules are simply stored without being read / loaded again. If you ensured this is how your learning module operates, this option will improve performance.###19 05 2016 new variable
+content#:#cont_interactions_info_12#:#Results from interactions in SCORM 1.2 learning modules are simply stored. This option will improve performance.###19 05 2016 new variable
+content#:#cont_objectives_info#:#If you ensured that this learning module runs properly, this option improves performance.###19 05 2016 new variable
+content#:#cont_comments_info#:#Some SCORM 2004 learning modules allow users providing comments within the module. This option allows saving those comments.###19 05 2016 new variable
+assessment#:#tst_saved_manscoring_by_question_successfully#:#The manual scoring for the question %s for test pass %s has been saved successfully.###19 05 2016 new variable
+mail#:#mail_system_from_name#:#Sender Name###19 05 2016 new variable
+mail#:#mail_system_from_name_info#:#Please enter a name. This name (e.g. 'John Doe') will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.###19 05 2016 new variable
+mail#:#mail_system_return_path#:#Global Return-Path###19 05 2016 new variable
+mail#:#mail_system_return_path_info#:#Please enter an email address which should be used for the return path (e.g. webmaster@ilias.de). If you leave the field blank, the 'Return-Path' will be the 'From' email address.###19 05 2016 new variable
+dcl#:#dcl_all_entries#:#All entries###19 05 2016 new variable
+dcl#:#dcl_own_entries#:#Only own entries###19 05 2016 new variable
+content#:#cont_check_values_info#:#The Test Tool will check whether the values sent from the SCOs adhere to the SCORM standard. <br /> The SCORM Standard is very demanding concerning the saving of values. Not all learning modules meet the requirements of the standard. This Options allows checking if the module adheres to the Standard or not. Do not check this option if you just want to check if ILIAS can run this module or not.###19 05 2016 new variable
+dcl#:#dcl_reference_link_info#:#Detailed View must be active in referenced table###19 05 2016 new variable
+content#:#cont_sc_store_if_previous_score_was_lower#:#keep tracking data if achieved score in previous attempt was higher or equal###19 05 2016 new variable
+cntr#:#sorting_new_items_direction#:#Sorting Direction for New Objects###19 05 2016 new variable
+sess#:#sess_reg_direct_info#:#User has to click ‘Join’ to participate in session###19 05 2016 new variable
+trac#:#trac_mode_survey_finished#:#Survey Finished###19 05 2016 new variable
+trac#:#trac_mode_survey_finished_info#:#The survey has to be finished by an user to receive the status 'Completed'.###19 05 2016 new variable
+dcl#:#dcl_boolean_desc#:#Checkbox for "True" or "False"###19 05 2016 new variable
+dcl#:#dcl_text_desc#:#Textfield for text, links or e-mail addresses.###19 05 2016 new variable
+dcl#:#dcl_integer_desc#:#Field for integer values. No decimals or fractions.###19 05 2016 new variable
+dcl#:#dcl_datetime_desc#:#Field for a date.###19 05 2016 new variable
+dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will be displayed directly in the datacollection. Allowed datatypes: %s###19 05 2016 new variable
+dcl#:#dcl_file_desc#:#Field to upload arbitrary files. They can be downloaded with a link.###19 05 2016 new variable
+dcl#:#dcl_reference_desc#:#Field to reference options stored in a different field of a table.###19 05 2016 new variable
+dcl#:#dcl_reference_title#:#Reference to table and field###19 05 2016 new variable
+dcl#:#dcl_ILIAS_reference_desc#:#Searchfield to select an ILIAS object.###19 05 2016 new variable
+dcl#:#dcl_rating_desc#:#Users can rate entries with up to five stars.###19 05 2016 new variable
+dcl#:#dcl_formula_desc#:#You can aggregate several entries in a record with a formula.###19 05 2016 new variable
+dcl#:#dcl_additional_info_desc#:#The text will be displayed directly above the table.###19 05 2016 new variable
+dcl#:#dcl_public_comments_desc#:#Users can comment on entries of the table.###19 05 2016 new variable
+dcl#:#dcl_default_sort_field_desc#:#The table will be sorted by this field by default.###19 05 2016 new variable
+dcl#:#dcl_visible_desc#:#Users can access this table.###19 05 2016 new variable
+dcl#:#dcl_ILIAS_reference_link_desc#:#The object can be accesses via link, if they have read permission to that object.###19 05 2016 new variable
+dcl#:#dcl_learning_progress_desc#:#If available the learning progress of the object will be displayed.###19 05 2016 new variable
+dcl#:#dcl_display_action_menu_desc#:#Object can be copied or linked if the user has the permissions to do so.###19 05 2016 new variable
+dcl#:#dcl_export_enabled_desc#:#All users can export the data of this table. You have to specify in the table overview which fields will get exported.###19 05 2016 new variable
+dcl#:#dcl_add_perm_desc#:#Users can add entries in this table.###19 05 2016 new variable
+dcl#:#dcl_limited_desc#:#Users can only edit entries in the given time span.###19 05 2016 new variable
+dcl#:#dcl_unique_desc#:#The value in this field needs to be unique among all entires.###19 05 2016 new variable
+dcl#:#dcl_formula_detail_desc#:#Entries are generated automatically, you are not able to edit the entry.###19 05 2016 new variable
+dcl#:#dcl_text_email_detail_desc#:#Please enter a valid URL or E-Mail address.###19 05 2016 new variable
+dcl#:#dcl_text_email_title#:#Title###19 05 2016 new variable
+dcl#:#dcl_text_email_title_info#:#A Title for the above URL or E-Mail address (optional).###19 05 2016 new variable
+adve#:#adve_auto_url_linking#:#URL Auto-Linking###19 05 2016 new variable
+adve#:#adve_auto_url_linking_info#:#Tries to identify URLs like "http://.." in text paragraphs and automatically creates links around them.###19 05 2016 new variable
+content#:#cont_auto_time#:#Auto Animation Waiting Time###19 05 2016 new variable
+content#:#cont_rand_start#:#Random Start###19 05 2016 new variable
+content#:#cont_tabs_carousel#:#Carousel###19 05 2016 new variable
+style#:#sty_type_ca_cntr#:#Carousel Container###19 05 2016 new variable
+style#:#sty_type_ca_icntr#:#Carousel Item Container###19 05 2016 new variable
+style#:#sty_type_ca_icont#:#Carousel Item Content###19 05 2016 new variable
+style#:#sty_type_ca_ihead#:#Carousel Item Header###19 05 2016 new variable
+wiki#:#wiki_link_md_values#:#Automatic Linking###19 05 2016 new variable
+wiki#:#wiki_link_md_values_info#:#Autmatically links properties presented in the side block to wiki pages with the same name.###19 05 2016 new variable
+common#:#toggle_dropdown#:#Toggle Dropdown###19 05 2016 new variable
+forum#:#reply_to_postings#:#Reply###19 05 2016 new variable
+forum#:#add_new_answer#:#Add Posting###19 05 2016 new variable
+mail#:#mail_orphaned_mails#:#Delete old or orphaned mails###19 05 2016 new variable
+mail#:#mail_threshold#:#Threshold###19 05 2016 new variable
+mail#:#mail_threshold_info#:#Internal messages that are older than the defined threshold value here, will be deleted (including possibly existing attachments). <br> Please keep in mind that on the first run of this cronjob  a lot of messages will be deleted and because of this it is not possible to send a mail as a warning.###19 05 2016 new variable
+mail#:#mail_orphaned_mails_desc#:#Delete old or orphaned mails###19 05 2016 new variable
+mail#:#only_inbox_trash#:#Only consider inbox / trash###19 05 2016 new variable
+mail#:#only_inbox_trash_info#:#If enabled, emails are only deleted if they are located in the Inbox and Trash of the respective user. Otherwise, all messages are deleted regardless of the folder. ###19 05 2016 new variable
+mail#:#mail_notify_orphaned#:#Notification Mail###19 05 2016 new variable
+mail#:#mail_notify_orphaned_info#:#If you enter a value here is larger than or equal to 1, ILIAS will send an email to the user before an internal mail is deleted. Please make sure that an external e-mail reception is possible.###19 05 2016 new variable
+mail#:#orphaned_mail_subject#:#Notification about orphaned mails###19 05 2016 new variable
+mail#:#orphaned_mail_body#:#The following old or orphaned mails are in your mailbox. Please note, that these mails will be deleted automatically soon.###19 05 2016 new variable
+common#:#clientlist_clientlist#:#Client List###19 05 2016 new variable
+common#:#clientlist_available_clients#:#Available Clients###19 05 2016 new variable
+common#:#clientlist_installation_name#:#Installation Name###19 05 2016 new variable
+common#:#clientlist_public_access#:#Public Access###19 05 2016 new variable
+common#:#clientlist_login#:#Login###19 05 2016 new variable
+common#:#clientlist_start_page#:#Start page###19 05 2016 new variable
+common#:#clientlist_login_page#:#Login page###19 05 2016 new variable
+forum#:#file_upload_allowed_fora_desc#:#If "Allow Attachments in Selected Forums" is selected, forum moderators can individually allow attaching files to postings in the settings of each forum. In new forums the upload of attachments will be disabled by default.###19 05 2016 new variable
+forum#:#file_upload_allowed_fora#:#Attachments###19 05 2016 new variable
+forum#:#file_upload_option_allow#:#Allow Attachments in All Forums###19 05 2016 new variable
+forum#:#file_upload_option_disallow#:#Allow Attachments in Selected Forums###19 05 2016 new variable
+forum#:#file_upload_allowed#:#Allow Attachments###19 05 2016 new variable
+forum#:#allow_file_upload_desc#:#If enabled, users are able to attach files to their postings.###19 05 2016 new variable
+content#:#cont_cc_sub#:#Subscript###19 05 2016 new variable
+content#:#cont_cc_sup#:#Superscript###19 05 2016 new variable
+style#:#sty_type_sub#:#Subscript###19 05 2016 new variable
+style#:#sty_type_sup#:#Superscript###19 05 2016 new variable
+content#:#cont_text_sub#:#Subscript###19 05 2016 new variable
+content#:#cont_text_sup#:#Superscript###19 05 2016 new variable
+cmps#:#cmps_uninstall#:#Uninstall###19 05 2016 new variable
+cmps#:#cmps_uninstall_confirm#:#Are you sure you want to uninstall the plugin "%s" and remove all related database entries?###19 05 2016 new variable
+cmps#:#cmps_plugin_uninstalled#:#All language and database related entries have been deleted and the plugin has been set inactive. Now you can remove the plugin's directory and source code in the ‘Customizing’ directory to uninstall the plugin definitely.###19 05 2016 new variable
+content#:#cont_pc_carousel#:#Carousel###19 05 2016 new variable
+style#:#sty_carousel_templates#:#Carousel Templates###19 05 2016 new variable
+style#:#sty_ca_cntr_class#:#Carousel Container###19 05 2016 new variable
+style#:#sty_ca_icntr_class#:#Carousel Item Container###19 05 2016 new variable
+style#:#sty_ca_icont_class#:#Carousel Item Content###19 05 2016 new variable
+style#:#sty_ca_ihead_class#:#Carousel Item Header###19 05 2016 new variable
+membership#:#mem_force_notification#:#Notification per Mail###19 05 2016 new variable
+membership#:#mem_force_notification_mode_self#:#Members have to manually activate notification###19 05 2016 new variable
+membership#:#mem_force_notification_mode_blocked#:#Members will be notified automatically ###19 05 2016 new variable
+membership#:#mem_force_notification_mode_all#:#Notification activated for all members (changeable)###19 05 2016 new variable
+membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications###19 05 2016 new variable
+membership#:#mem_force_notification_mode_custom#:#Custom###19 05 2016 new variable
+crs#:#crs_intro_course_group_notification_index#:#There are news for the period of %1$s to %2$s for the following courses and groups:###19 05 2016 new variable
+forum#:#post_deleted_by#:#following posting in forum "%2$s" was deleted by "%1$s":###19 05 2016 new variable
+forum#:#content_deleted_post#:#Content of the deleted posting:###19 05 2016 new variable
+forum#:#post_updated_by#:#subsequently edited posting in forum by "%1$s": "%2$s"###19 05 2016 new variable
+forum#:#content_post_updated#:#Content of the edited posting:###19 05 2016 new variable
+forum#:#post_censored_by#:#censored posting in forum "%2$s" by "%1$s":###19 05 2016 new variable
+forum#:#content_censored_post#:#Content of the censored posting:###19 05 2016 new variable
+forum#:#forums_notification_show_frm#:#Show forum: %s###19 05 2016 new variable
+forum#:#thread_deleted_by#:#following thread in forum "%2$s"was deleted by "%1$s":###19 05 2016 new variable
+forum#:#content_deleted_thread#:#Content of the deleted thread:###19 05 2016 new variable
+forum#:#post_uncensored_by#:#a posting was uncensored by "%1$s"###19 05 2016 new variable
+forum#:#frm_noti_message#:#Message:###19 05 2016 new variable
+forum#:#frm_noti_new_post#:#a new posting was created in forum "%1$s".###19 05 2016 new variable
+forum#:#frm_noti_subject_new_post#:#New posting in forum "%1$s", thread "%2$s"###19 05 2016 new variable
+forum#:#frm_noti_subject_del_thread#:#Thread "%2$s" deleted in forum "%1$s"###19 05 2016 new variable
+forum#:#frm_noti_subject_act_post#:#Posting activated in forum "%1$s", thread "%2$s"###19 05 2016 new variable
+forum#:#frm_noti_subject_answ_post#:#Posting answered in forum "%1$s", thread "%2$s"###19 05 2016 new variable
+forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s", thread "%2$s"###19 05 2016 new variable
+forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s", thread "%2$s"###19 05 2016 new variable
+forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s", thread "%2$s"###19 05 2016 new variable
+forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s", thread "%2$s"###19 05 2016 new variable
+search#:#search_show_inactive_user#:#Show Inactive Users###19 05 2016 new variable
+search#:#search_show_inactive_user_info#:#If enabled, the user search will show inactive users.###19 05 2016 new variable
+search#:#search_show_limited_user#:#Show Limited Users###19 05 2016 new variable
+search#:#search_show_limited_user_info#:#If enabled, the user search will show users with limited access and outside their allowed time period.###19 05 2016 new variable
+trac#:#trac_mode_visited_pages#:#Visiting All Pages###19 05 2016 new variable
+trac#:#trac_mode_visited_pages_info#:#The status ‘Completed’ is automatically assigned to a user once this user visited all pages of the learning module.###19 05 2016 new variable
+exc#:#exc_peer_review_given#:#Show Given Feedback###19 05 2016 new variable
+exc#:#exc_peer_review_show_received_none#:#You received no feedback.###19 05 2016 new variable
+exc#:#exc_peer_review_min_chars_tgl#:#Mininum Length###19 05 2016 new variable
+exc#:#exc_peer_review_min_chars#:#Mininum Number of Characters###19 05 2016 new variable
+exc#:#exc_peer_review_min_chars_info#:#The required number of characters for a valid feedback.###19 05 2016 new variable
+exc#:#exc_peer_review_chars_invalid#:#Your feedback does not have the required minimum length of %s characters.###19 05 2016 new variable
+exc#:#exc_peer_review_show_missing#:#You cannot view your received feedback as you gave not enough feedback.###19 05 2016 new variable
+exc#:#exc_peer_review_simple_unlock#:#Access to received feedback###19 05 2016 new variable
+exc#:#exc_peer_review_simple_unlock_active#:#After giving at least 1 valid feedback###19 05 2016 new variable
+exc#:#exc_peer_review_simple_unlock_inactive#:#After giving all required feedbacks###19 05 2016 new variable
+exc#:#exc_peer_review_completion#:#Determination of "Passed" Status###19 05 2016 new variable
+exc#:#exc_peer_review_completion_none#:#Peer feedback is optional###19 05 2016 new variable
+exc#:#exc_peer_review_completion_none_info#:#The assignment will be automatically set to "Passed" after submission regardless of feedback being provided or not. ###19 05 2016 new variable
+exc#:#exc_peer_review_completion_one#:#At least one feedback ###19 05 2016 new variable
+exc#:#exc_peer_review_completion_one_info#:#The assignment will be automatically set to "Passed" only after submission of a solution and at least one feedback.###19 05 2016 new variable
+exc#:#exc_peer_review_completion_all#:#All required feedbacks ###19 05 2016 new variable
+exc#:#exc_peer_review_completion_all_info#:#The assignment will be automatically set to "Passed" only after submission of a solution and all required feedbacks.###19 05 2016 new variable
+exc#:#exc_team_multi_create#:#Create Team###19 05 2016 new variable
+exc#:#exc_team_multi_dissolve#:#Dissolve Team(s)###19 05 2016 new variable
+exc#:#exc_team_management_tutor#:#Team Management by Tutors###19 05 2016 new variable
+exc#:#exc_team_management_tutor_info#:#If activated participants cannot organize teams themselves.###19 05 2016 new variable
+exc#:#exc_no_team_yet_info_tutor#:#Teams are managed by the exercise tutors.###19 05 2016 new variable
+exc#:#exc_max_file#:#Max Number of Files###19 05 2016 new variable
+exc#:#exc_max_file_info#:#Participants will not be able to upload more files once the limit is reached.###19 05 2016 new variable
+exc#:#exc_max_file_tgl#:#Limit Uploads###19 05 2016 new variable
+exc#:#exc_max_file_reached#:#You cannot upload more than %s files.###19 05 2016 new variable
+exc#:#exc_deadline_extended#:#Grace Period###19 05 2016 new variable
+exc#:#exc_deadline_extended_info#:#Late submission are possible between the deadline and the end of the grace period.###19 05 2016 new variable
+exc#:#exc_late_submission_warning#:#Submissions after %s are marked as late.###19 05 2016 new variable
+exc#:#exc_late_submission#:#Late Submission###19 05 2016 new variable
+exc#:#exc_adopt_group_teams#:#Adopt Teams from Groups###19 05 2016 new variable
+exc#:#exc_adopt_group_teams_no_members#:#No members###19 05 2016 new variable
+exc#:#exc_adopt_group_teams_conflict#:#User "%1$s" is already selected for group "%2$s".###19 05 2016 new variable
+exc#:#exc_adopt_group_teams_added#:#%s Users were added.###19 05 2016 new variable
+exc#:#exc_adopt_group_teams_blocked#:#%s User were already assigned.###19 05 2016 new variable
+exc#:#exc_deadline_ext_mismatch#:#The grace period has to end after the deadline.###19 05 2016 new variable
+exc#:#exc_criteria_catalogues#:#Criteria Catalogues###19 05 2016 new variable
+exc#:#exc_add_criteria_catalogue#:#Add Catalogue###19 05 2016 new variable
+exc#:#exc_criterias#:#Criteria###19 05 2016 new variable
+exc#:#exc_criteria_catalogue_create_form#:#Add New Criteria Catalogue###19 05 2016 new variable
+exc#:#exc_criteria_catalogue_update_form#:#Edit Criteria Catalogue###19 05 2016 new variable
+exc#:#exc_criteria_catalogue_deletion_confirmation#:#Are you sure you want to delete the following criteria catalogues?###19 05 2016 new variable
+exc#:#exc_edit_criterias#:#Edit Criteria###19 05 2016 new variable
+exc#:#exc_add_criteria#:#Add Criteria###19 05 2016 new variable
+exc#:#exc_criteria_create_form#:#Add New Criterion###19 05 2016 new variable
+exc#:#exc_criteria_update_form#:#Edit Criteria###19 05 2016 new variable
+exc#:#exc_criteria_deletion_confirmation#:#Are you sure you want to delete the following criteria?###19 05 2016 new variable
+exc#:#exc_criteria_type_bool#:#Fulfilled Yes/No###19 05 2016 new variable
+exc#:#exc_criteria_type_rating#:#5-Star-Rating###19 05 2016 new variable
+exc#:#exc_criteria_type_text#:#Text###19 05 2016 new variable
+exc#:#exc_criteria_type_file#:#File Upload###19 05 2016 new variable
+exc#:#exc_criteria_catalogue_default#:#No Catalogue###19 05 2016 new variable
+exc#:#exc_peer_review_text#:#Text Input###19 05 2016 new variable
+exc#:#exc_crit_cat_protected_assignment#:#Active Peer Feedback###19 05 2016 new variable
+exc#:#exc_crit_cat_protected_assignment_info#:#Criteria catalogues of assignments with active peer feedback cannot be edited anymore.###19 05 2016 new variable
+survey#:#svy_print_title_only#:#Show only titles###19 05 2016 new variable
+survey#:#svy_print_label_only#:#Show only labels###19 05 2016 new variable
+survey#:#svy_print_title_label#:#Show titles and labels###19 05 2016 new variable
+content#:#cont_mycourses_sortorder#:#Default Sorting###19 05 2016 new variable
+content#:#cont_mycourses_sortorder_alphabetical#:#Alphabetical###19 05 2016 new variable
+content#:#cont_mycourses_sortorder_location#:#By Location###19 05 2016 new variable
+content#:#cont_mycourses_sortorder_info#:#This is a default setting. Every user can choose a personal order which affects all "My Courses"-elements of any portfolio.###19 05 2016 new variable
+rbac#:#redact#:#Redact###19 05 2016 new variable
+common#:#il_blog_editor#:#Blog Editor###19 05 2016 new variable
+rbac#:#blog_redact#:#User can edit postings of other contributors, too###19 05 2016 new variable
+meta#:#meta_obj_type_inactive#:#Not Used###19 05 2016 new variable
+meta#:#meta_obj_type_mandatory#:#Mandatory###19 05 2016 new variable
+meta#:#meta_obj_type_optional#:#Optional###19 05 2016 new variable
+common#:#obj_tool_setting_custom_metadata#:#Custom Metadata###19 05 2016 new variable
+common#:#obj_tool_setting_custom_metadata_info#:#If activated metadata can be configured.###19 05 2016 new variable
+meta#:#meta_section#:#Section###19 05 2016 new variable
+meta#:#meta_tab_lom#:#LOM###19 05 2016 new variable
+meta#:#meta_tab_advmd#:#Custom Metadata###19 05 2016 new variable
+meta#:#meta_tab_advmd_def#:#Custom Metadata Definition###19 05 2016 new variable
+meta#:#meta_global#:#Global###19 05 2016 new variable
+prtf#:#prtf_back_to_portfolio_owner#:#Edit Portfolio ###19 05 2016 new variable
+blog#:#blog_back_to_blog_owner#:#Edit Blog###19 05 2016 new variable
+content#:#cont_assign_to_parent#:#Assign to Parent###19 05 2016 new variable
+content#:#cont_type_not_allowed#:#Content type not allowed at this position###19 05 2016 new variable
+content#:#sahs_insert_st_from_clip#:#Import Chapters from ILIAS Learning Module###19 05 2016 new variable
+content#:#sahs_insert_st_from_clip_inside_chap#:#Import Chapters from ILIAS Learning Module (inside chapter)###19 05 2016 new variable
+content#:#sahs_insert_pg_from_clip#:#Import Pages from ILIAS Learning Module###19 05 2016 new variable
+content#:#cont_active_from#:#Activation Start###19 05 2016 new variable
+content#:#cont_active_to#:#Activation End###19 05 2016 new variable
+pd#:#pd_comments_notification#:#General notification about all comments###19 05 2016 new variable
+pd#:#pd_comments_notification_info#:#Comma separated list of accounts that are notified for each comment###19 05 2016 new variable
+note#:#note_comment_notification_subject#:#A comment has been added to "%s"###19 05 2016 new variable
+note#:#note_comment_notification_subjectc#:#A comment has been changed in "%s"###19 05 2016 new variable
+note#:#note_comment_notification_salutation#:#Hello %s,###19 05 2016 new variable
+note#:#note_by#:#By###19 05 2016 new variable
+note#:#note_comment_notification_link#:#Link###19 05 2016 new variable
+note#:#note_comment_text#:#Text###19 05 2016 new variable
+lng#:#lng_enable_language_detection#:#Enable Language Detection###19 05 2016 new variable
+lng#:#lng_disable_language_detection#:#Disable Language Detection###19 05 2016 new variable
+trac#:#trac_mode_downloaded#:#Downloaded###19 05 2016 new variable
+trac#:#trac_mode_downloaded_info#:#The learning progress is determined by the download status of the file.###19 05 2016 new variable
+trac#:#trac_mode_collection_mobs#:#Collection of Media Objects###19 05 2016 new variable
+trac#:#trac_mode_collection_mobs_info#:#The learning progress status will be determined by the viewing status of selected media objects.###19 05 2016 new variable
+trac#:#trac_lp_determination_info_mob#:#Select the items that determine the overall learning progress status of the Mediacast###19 05 2016 new variable
+trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Atop Container Objects###19 05 2016 new variable
+trac#:#trac_lp_settings_info_parent_usage#:#Determines Learning Progress###19 05 2016 new variable
+trac#:#trac_lp_settings_info_parent_group#:#Other objects in grouping###19 05 2016 new variable
+book#:#book_bobj#:#Booking Object###19 05 2016 new variable
+crs#:#crs_subscription_min_members#:#Minimum Number###19 05 2016 new variable
+crs#:#crs_subscription_min_members_info#:#Define the number of users that is minimally required for this course to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the course a mail will be send to those course administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.###19 05 2016 new variable
+crs#:#crs_waiting_list_no_autofill#:#Without Auto-Fill###19 05 2016 new variable
+crs#:#crs_waiting_list_autofill#:#With Auto-Fill###19 05 2016 new variable
+crs#:#crs_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations. This should not be used with the "Request Membership" registration procedure as autofill will bypass it.###19 05 2016 new variable
+crs#:#crs_cancellation_end#:#Limit 'Unsubscribe from Course'###19 05 2016 new variable
+crs#:#crs_period#:#Course Period###19 05 2016 new variable
+crs#:#crs_course_period_not_valid#:#The course period is not valid.###19 05 2016 new variable
+crs#:#crs_max_and_min_members_needed#:#Set a minimum or maximum number of members - or both.###19 05 2016 new variable
+crs#:#crs_max_members_needed#:#A maximum number of members is needed for the waiting list feature.###19 05 2016 new variable
+crs#:#crs_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.###19 05 2016 new variable
+common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check###19 05 2016 new variable
+common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.###19 05 2016 new variable
+crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###19 05 2016 new variable
+common#:#mem_min_users#:#Minimum of Users###19 05 2016 new variable
+grp#:#grp_wrong_min_max_members#:#Set a minimum or maximum number of members - or both.###19 05 2016 new variable
+grp#:#reg_grp_min_members#:#Minimum Number of Members###19 05 2016 new variable
+grp#:#grp_cancellation_end#:#Cancellation Limit###19 05 2016 new variable
+grp#:#grp_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.###19 05 2016 new variable
+sess#:#sess_reg_min_members#:#Minimum of Users###19 05 2016 new variable
+sess#:#sess_reg_min_members_info#:#A minimum number of users has to register.###19 05 2016 new variable
+crs#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check###19 05 2016 new variable
+crs#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).###19 05 2016 new variable
+grp#:#grp_waiting_list_no_autofill#:#Without Auto-Fill###19 05 2016 new variable
+grp#:#grp_waiting_list_autofill#:#With Auto-Fill###19 05 2016 new variable
+grp#:#grp_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations. This should not be used with the "Request Membership" registration procedure as autofill will bypass it.###19 05 2016 new variable
+sess#:#sess_reg_waiting_list_none#:#None###19 05 2016 new variable
+sess#:#sess_reg_waiting_list_no_autofill#:#Without Auto-Fill###19 05 2016 new variable
+sess#:#sess_reg_waiting_list_no_autofill_info#:#If the maximum number of users is exceeded, new registrations will be placed on a waiting list.###19 05 2016 new variable
+sess#:#sess_reg_waiting_list_autofill#:#With Auto-Fill###19 05 2016 new variable
+sess#:#sess_reg_waiting_list_autofill_info#:#Participants are recruited from the waiting list automatically on cancellations. This should not be used with the "Apply for Participation" registration procedure as autofill will bypass it.###19 05 2016 new variable
+grp#:#grp_cancellation_end_info#:#Until the date selected members can unsubscribe from the group.###19 05 2016 new variable
+crs#:#crs_cancellation_end_info#:#Until the date selected members can unsubscribe from the course.###19 05 2016 new variable
+crs#:#crs_period_info#:#Information about the start and end date of the event, which is supported by the course###19 05 2016 new variable
+meta#:#md_adv_deleted_fields#:#The fields have been deleted.###19 05 2016 new variable
+cntr#:#tab_back_to_repository#:#Back to Repository###19 05 2016 new variable
+obj#:#obj_target_location#:#Target Location###19 05 2016 new variable
+obj#:#obj_copy_progress#:#Copy Progress###19 05 2016 new variable
+cntr#:#cntr_copy_repo_tree#:#Repository Tree###19 05 2016 new variable
+cntr#:#cntr_copy_crs_grp#:#My Courses and Groups###19 05 2016 new variable
+crs#:#crs_mail_context_tutor_title#:#Course Tutor ###19 05 2016 new variable
+crs#:#crs_mail_context_member_title#:#Course Member###19 05 2016 new variable
+sahs#:#sahs_mail_context_lp#:#SCORM Learning Progress###19 05 2016 new variable
+mail#:#mail_templates#:#Text Templates###19 05 2016 new variable
+mail#:#mail_new_template#:#New Text Template###19 05 2016 new variable
+mail#:#mail_template_title#:#Name###19 05 2016 new variable
+mail#:#mail_template_context#:#Context###19 05 2016 new variable
+mail#:#mail_template_no_context_available#:#There is no context provided by any ILIAS service or module. Thus it is not possible to create or edit a text template.###19 05 2016 new variable
+mail#:#mail_template_orphaned_context#:#Orphaned Context###19 05 2016 new variable
+mail#:#mail_create_tpl#:#Create Text Templates###19 05 2016 new variable
+mail#:#mail_edit_tpl#:#Edit Text Templates###19 05 2016 new variable
+mail#:#mail_tpl_deleted_p#:#The text templates were successfully deleted.###19 05 2016 new variable
+mail#:#mail_tpl_deleted_s#:#The text template was successfully deleted.###19 05 2016 new variable
+mail#:#mail_template_missing_id#:#Can't execute the action because the text template id is missing.###19 05 2016 new variable
+mail#:#mail_template_no_valid_context#:#The given context is not valid.###19 05 2016 new variable
+mail#:#mail_template_client#:#Text Template###19 05 2016 new variable
+mail#:#mail_template_client_info#:#Choose one of the available text templates and make use of it's placeholders. If you choose a text template, body and subject of this form (if defined in the text template) will be replaced.###19 05 2016 new variable
+itgr#:#itgr_hide_title#:#Hide Title###19 05 2016 new variable
+itgr#:#itgr_hide_title_info#:#Hides title of item group in presentation for learner.###19 05 2016 new variable
+content#:#cont_all_languages#:#All Languages###19 05 2016 new variable
+mob#:#mob_upload_multi_srt#:#Upload as ZIP###19 05 2016 new variable
+mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory, all .srt files should be located on the top level. The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de".###19 05 2016 new variable
+mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.###19 05 2016 new variable
+mob#:#mob_multi_srt_files#:#SRT Files###19 05 2016 new variable
+content#:#cont_subtitle_files#:#Media Subtitles###19 05 2016 new variable
+content#:#cont_upload_multi_srt_howto#:#This feature allows you to upload multiple subtitle (srt) files in a zip file for all media objects of the learning module. Your .zip file should contain all .srt files on the top level (no subdirectories). The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de". The rest of the filename should correspond to the name of the video file, e.g. "my_video.mp4" -> "my_video_en.srt".###19 05 2016 new variable
+content#:#cont_moved_srt_files#:#Moved subtitles files to media objects.###19 05 2016 new variable
+content#:#cont_subtitle_file#:#SRT ZIP File###19 05 2016 new variable
+content#:#cont_multi_srt_files#:#SRT Files###19 05 2016 new variable
+content#:#cont_master_language_only#:#Master Language for Translation###19 05 2016 new variable
+content#:#cont_import#:#Import###19 05 2016 new variable
+content#:#cont_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.###19 05 2016 new variable
+content#:#cont_import_trans#:#Import Translation###19 05 2016 new variable
+content#:#cont_import_lang#:#Target Language###19 05 2016 new variable
+mep#:#mep_master_language_only#:#Master Language for Translation###19 05 2016 new variable
+mep#:#mep_trans_import_info#:#If you exported this module as XML/Master Language for Translation to another installation, you can now re-import translated export files from this second installation here.###19 05 2016 new variable
+mep#:#mep_import_trans#:#Import Translation###19 05 2016 new variable
+mep#:#mep_import_lang#:#Target Language###19 05 2016 new variable
+content#:#cont_snippet_from_another_installation#:#Snippet comes from another installation.###19 05 2016 new variable
+rbac#:#edit_wiki_navigation#:#Edit Navigation###19 05 2016 new variable
+rbac#:#delete_wiki_pages#:#Delete Pages###19 05 2016 new variable
+rbac#:#activate_wiki_protection#:#Set Read-Only###19 05 2016 new variable
+obj#:#obj_permission_settings#:#Permission Settings###19 05 2016 new variable
+rbac#:#rbac_permissions#:#Permissions###19 05 2016 new variable
+rbac#:#wiki_html_export#:#Export HTML###19 05 2016 new variable
+wiki#:#wiki_html_export#:#Export HTML###19 05 2016 new variable
+rbac#:#wiki_edit_wiki_navigation#:#Edit Wiki Navigation###19 05 2016 new variable
+rbac#:#wiki_delete_wiki_pages#:#Delete Wiki Pages###19 05 2016 new variable
+rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only###19 05 2016 new variable
+rbac#:#wiki_wiki_html_export#:#Export Wiki as HTML###19 05 2016 new variable
+crs#:#crs_loc_settings_it_type#:#Einstiegstest###19 05 2016 new variable
+crs#:#crs_loc_settings_type_it_placement_all#:#Diagnostischer Einstiegstest über alle Lernziele###19 05 2016 new variable
+crs#:#crs_loc_settings_it_start_object#:#Einstiegstest ist Startobjekt###19 05 2016 new variable
+crs#:#crs_loc_settings_type_it_placement_sel#:#Diagnostischer Einstiegstest pro Lernziel###19 05 2016 new variable
+crs#:#crs_loc_settings_type_it_qualifying_all#:#Qualifizierender Einstiegstest über alle Lernziele###19 05 2016 new variable
+crs#:#crs_loc_settings_type_it_qualifying_sel#:#Qualifizierender Einstiegstest pro Lernziel###19 05 2016 new variable
+crs#:#crs_loc_settings_type_it_none#:#Kein Einstiegstest###19 05 2016 new variable
+crs#:#crs_loc_settings_qt_all#:#Abschlusstest###19 05 2016 new variable
+crs#:#crs_loc_settings_type_q_all#:#Abschlusstest über alle Lernziele###19 05 2016 new variable
+crs#:#crs_loc_settings_qt_start_object#:#Abschlusstest ist Startobjekt###19 05 2016 new variable
+crs#:#crs_loc_settings_type_q_selected#:#Abschlusstest pro Lernziel###19 05 2016 new variable
+crs#:#crs_loc_settings_err_qstart#:#Die Option "Abschlusstest als Startobjekt" wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.		###19 05 2016 new variable
+crs#:#crs_loc_tab_qtests#:#Abschlusstests###19 05 2016 new variable
+crs#:#crs_loc_tab_itests#:#Einstiegstests###19 05 2016 new variable
+crs#:#crs_loc_btn_new_assignment#:#Neue Testzuordnung###19 05 2016 new variable
+crs#:#crs_objective_tbl_col_final_tsts#:#Abschlusstests###19 05 2016 new variable
+crs#:#crs_objective_action_qtest_sep#:#Abschlusstest zuordnen###19 05 2016 new variable
+crs#:#crs_loc_settings_tbl_its_q_all#:#Qualifizierender Einstiegstest über alle Lernziele###19 05 2016 new variable
+crs#:#crs_loc_settings_tbl_its_nq_all#:#Diagnostischer Einstiegstest über alle Lernziele###19 05 2016 new variable
+crs#:#crs_loc_settings_tbl_it_q#:#Qualifizierende Einstiegstests pro Lernziel###19 05 2016 new variable
+crs#:#crs_loc_settings_tbl_it_nq#:#Diagnostische Einstiegstests pro Lernziel###19 05 2016 new variable
+crs#:#crs_loc_settings_tbl_qts_all#:#Abschlusstest über alle Lernziele###19 05 2016 new variable
+crs#:#crs_loc_settings_tbl_qt#:#Abschlusstests pro Lernziel###19 05 2016 new variable
+crs#:#crs_loc_objective_passed_confirmation#:#Sie haben das Lernziel bereits bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?###19 05 2016 new variable
+crs#:#crs_loc_objectives_passed_confirmation#:#Sie haben bereits alle Lernziel bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?###19 05 2016 new variable
+crs#:#crs_loc_tst_start#:#Test starten###19 05 2016 new variable
+crs#:#crs_loc_mem_show_res#:#Testergebnisse anzeigen###19 05 2016 new variable
+crs#:#crs_loc_test_results_of#:#Testergebnisse von:###19 05 2016 new variable
+buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Request Contact###19 05 2016 new variable
+buddysystem#:#buddy_bs_btn_txt_unlinked_p#:#Request Contact###19 05 2016 new variable
+buddysystem#:#buddy_bs_btn_txt_linked_a#:#Linked###19 05 2016 new variable
+buddysystem#:#buddy_bs_btn_txt_linked_p#:#Linked###19 05 2016 new variable
+buddysystem#:#buddy_bs_btn_txt_requested_a#:#Requested Contact###19 05 2016 new variable
+buddysystem#:#buddy_bs_btn_txt_requested_p#:#Request###19 05 2016 new variable
+buddysystem#:#buddy_bs_btn_txt_ignored_request_a#:#Requested Contact###19 05 2016 new variable
+buddysystem#:#buddy_bs_btn_txt_ignored_request_p#:#Request Ignored###19 05 2016 new variable
+buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Unlink###19 05 2016 new variable
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_ignored_request#:#Ignore###19 05 2016 new variable
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_unlinked#:#Cancel Request###19 05 2016 new variable
+buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Confirm###19 05 2016 new variable
+buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request###19 05 2016 new variable
+buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request###19 05 2016 new variable
+buddysystem#:#buddy_bs_action_not_possible#:#Action not possible###19 05 2016 new variable
+buddysystem#:#buddy_bs_action_already_linked#:#Already accepted the contact request from user '%s'.###19 05 2016 new variable
+buddysystem#:#buddy_bs_action_already_requested#:#Already requested user '%s'.###19 05 2016 new variable
+buddysystem#:#buddy_bs_action_already_ignored#:#Already ignored user '%s'.###19 05 2016 new variable
+buddysystem#:#buddy_bs_action_already_unlinked#:#The contact state for user '%s' is already unlinked.###19 05 2016 new variable
+buddysystem#:#buddy_bs_state_linked#:#Linked###19 05 2016 new variable
+buddysystem#:#buddy_bs_state_linked_a#:#Linked###19 05 2016 new variable
+buddysystem#:#buddy_bs_state_linked_p#:#Linked###19 05 2016 new variable
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###19 05 2016 new variable
+buddysystem#:#buddy_bs_state_unlinked_a#:#Unlinked###19 05 2016 new variable
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###19 05 2016 new variable
+buddysystem#:#buddy_bs_state_requested#:#Requested###19 05 2016 new variable
+buddysystem#:#buddy_bs_state_requested_a#:#Requested###19 05 2016 new variable
+buddysystem#:#buddy_bs_state_requested_p#:#Requested###19 05 2016 new variable
+buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored###19 05 2016 new variable
+buddysystem#:#buddy_bs_state_ignored_request_a#:#Requested###19 05 2016 new variable
+buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignored###19 05 2016 new variable
+buddysystem#:#buddy_bs_no_new_requests#:#No new requests###19 05 2016 new variable
+contact#:#contact_awrn_ap_contacts#:#Approved Contacts###19 05 2016 new variable
+contact#:#contact_awrn_ap_contacts_info#:#All contacts approved by the user are listed.###19 05 2016 new variable
+contact#:#contact_awrn_req_contacts#:#Contact Requests###19 05 2016 new variable
+contact#:#contact_awrn_req_contacts_info#:#All contact requests are listed.###19 05 2016 new variable
+common#:#my_contacts#:#My Contacts###19 05 2016 new variable
+buddysystem#:#buddy_view_gallery#:#Gallery###19 05 2016 new variable
+buddysystem#:#buddy_view_table#:#List###19 05 2016 new variable
+buddysystem#:#buddy_tbl_title_relations#:#Relations to Other Users###19 05 2016 new variable
+buddysystem#:#buddy_tbl_filter_state#:#Status###19 05 2016 new variable
+buddysystem#:#buddy_notification_contact_request#:#Contact Request###19 05 2016 new variable
+buddysystem#:#buddy_notification_contact_request_short#:#The user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST][BR][IGNORE_REQUEST]###19 05 2016 new variable
+buddysystem#:#buddy_notification_contact_request_link#:#Approve Request:###19 05 2016 new variable
+buddysystem#:#buddy_notification_contact_request_link_osd#:#Approve Request###19 05 2016 new variable
+buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request: ###19 05 2016 new variable
+buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignore Request###19 05 2016 new variable
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]the user "[REQUESTING_USER]" wants to add you to his friends list.[BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]###19 05 2016 new variable
+buddysystem#:#buddy_request_approved#:#You successfully approved the contact.###19 05 2016 new variable
+buddysystem#:#buddy_request_ignored#:#You ignored the user.###19 05 2016 new variable
+buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.###19 05 2016 new variable
+buddysystem#:#buddy_enable#:#Activate ‘Contacts’###19 05 2016 new variable
+buddysystem#:#buddy_enable_info#:#If enabled, users are allowed to contact each other by initiating contact requests. Additionally, there is a personal user setting to allow or prevent being contacted.###19 05 2016 new variable
+buddysystem#:#buddy_allow_to_contact_me#:#Allow to contact me###19 05 2016 new variable
+buddysystem#:#buddy_allow_to_contact_me_info#:#If enabled, other users are able to send me request for getting into contact.###19 05 2016 new variable
+common#:#obj_cadm#:#Contacts###19 05 2016 new variable
+common#:#obj_cadm_desc#:#Contacts Administration###19 05 2016 new variable
+rbac#:#cadm_visible#:#User connection administration is visible###19 05 2016 new variable
+rbac#:#cadm_read#:#User has read access to user connection administration###19 05 2016 new variable
+rbac#:#cadm_write#:#User has write access to user connection administration###19 05 2016 new variable
+rbac#:#cadm_edit_permission#:#User can change permission settings###19 05 2016 new variable
+common#:#no_gallery_users_available#:#There are currently no users in the gallery.###19 05 2016 new variable
+crs#:#crs_mem_contact#:#Tutorial Support###19 05 2016 new variable
+awrn#:#awareness_now_online#:#Online Now###19 05 2016 new variable
+awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]###19 05 2016 new variable
+common#:#obj_awra_desc#:#Manage ‘Who is online?’-Tool###19 05 2016 new variable
+common#:#obj_awra#:#‘Who is online?’-Tool###19 05 2016 new variable
+awrn#:#awareness_settings#:#Settings###19 05 2016 new variable
+awrn#:#awrn_enable#:#Enable ‘Who is online?’-Tool###19 05 2016 new variable
+crs#:#crs_mem_contacts#:#Tutorial Support###19 05 2016 new variable
+user#:#user_awrn_all_users#:#All Users###19 05 2016 new variable
+user#:#user_awrn_all_users_info#:#All users of the platform are listed.###19 05 2016 new variable
+crs#:#crs_awrn_support_contacts#:#Tutorial Support###19 05 2016 new variable
+crs#:#crs_awrn_support_contacts_info#:#All tutorial support contacts of courses with membership of the current user are listed. Users are defined as tutorial support contacts in the Members tab of the respective course.###19 05 2016 new variable
+awrn#:#awrn_inactive#:#Not Listed###19 05 2016 new variable
+awrn#:#awrn_online_only#:#Online Only###19 05 2016 new variable
+awrn#:#awrn_incl_offline#:#Online and Offline###19 05 2016 new variable
+adm#:#adm_support_contacts#:#Technical Support###19 05 2016 new variable
+adm#:#adm_awrn_support_contacts_info#:#All technical support contacts are listed. Users are defined as technical support contacts in the section "General Settings" > "Contact Information".###19 05 2016 new variable
+adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (if activated) in the ‘Who is online?’-Tool. Comma separated list of account logins.###19 05 2016 new variable
+mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Courses###19 05 2016 new variable
+mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or courses of the current user are listed.###19 05 2016 new variable
+crs#:#crs_awrn_current_course#:#Current Course###19 05 2016 new variable
+crs#:#crs_awrn_current_course_info#:#If the user navigates to a course in the repository, all members of the course are listed.###19 05 2016 new variable
+awrn#:#awrn_caching_period#:#Caching Period###19 05 2016 new variable
+awrn#:#awrn_caching_period_info#:#Time that is waited before the number of users in the top bar is updated and new online users are determined.###19 05 2016 new variable
+awrn#:#awrn_seconds#:#sec###19 05 2016 new variable
+awrn#:#awrn_max_nr_entries#:#Max. Number of Items###19 05 2016 new variable
+awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the ‘Who is online?’ list.###19 05 2016 new variable
+awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool###19 05 2016 new variable
+awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).###19 05 2016 new variable
+ldap#:#ldap_servers#:#LDAP Server###19 05 2016 new variable
+ldap#:#add_ldap_server#:#Add Server###19 05 2016 new variable
+ldap#:#ldap_username_filter#:#Username Filter###19 05 2016 new variable
+ldap#:#ldap_username_filter_info#:#Use * as wildcard.###19 05 2016 new variable
+search#:#search_filter_cd#:#Filter by Creation Date###19 05 2016 new variable
+search#:#search_filter_date#:#Search by Date###19 05 2016 new variable
+search#:#search_filter_duration#:#Search by Duration###19 05 2016 new variable
+search#:#search_created_before#:#Objects created before...###19 05 2016 new variable
+search#:#search_created_after#:#Objects created after###19 05 2016 new variable
+search#:#search_created_on#:#Objects create on...###19 05 2016 new variable
+search#:#search_newer_than#:#Objects newer than###19 05 2016 new variable
+search#:#search_cdate_filter#:#Filter by Creation Date###19 05 2016 new variable
+search#:#search_cdate_filter_info#:#If enabled, the object search can be filtered by an optional creation date filter.###19 05 2016 new variable
+content#:#cont_mastery_score_2004#:#overwrite scaled_passing_score###19 05 2016 new variable
+content#:#cont_mastery_score_2004_info#:#Central learning objectives of this learning module are considered as passed if the score reached at least a certain level - the scaled_passing_score. This value - to be stated as a percentage value - can be overwritten here e.g. to reduce the requirement level. If the field is empty, the information in the SCORM manifest are valid. The following values are provided in the manifest-file:###19 05 2016 new variable
+content#:#cont_mastery_score_12#:#overwrite mastery_score###19 05 2016 new variable
+content#:#cont_mastery_score_12_info#:#If a SCO does not autonomously determines a status, a SCO is considered passed if the score reached at least a certain level - the mastery_score. This value can be overwritten here e.g. to reduce the requirement level. If the field is empty, the information in the SCORM manifest are valid. The following values are provided in the manifest-file:###19 05 2016 new variable
+prtf#:#prtf_manage_portfolios#:#Manage Portfolios###19 05 2016 new variable
+pd#:#block_show_pdportf#:#Show Portfolios###19 05 2016 new variable
+prtf#:#prtf_pd_block#:#Personal Desktop Block###19 05 2016 new variable
+prtf#:#prtf_pd_block_info#:#Aktivates a block on the personal desktop that lists all portfolios of the user.###19 05 2016 new variable
+common#:#obj_logs#:#Logging###19 05 2016 new variable
+common#:#obj_logs_desc#:#General Logging Settings###19 05 2016 new variable
+rbac#:#logs_edit_permission#:#User can edit permission settings of Logging administration###19 05 2016 new variable
+rbac#:#logs_read#:#User can read general Logging settings###19 05 2016 new variable
+rbac#:#logs_visible#:#Logging settings are visible###19 05 2016 new variable
+rbac#:#logs_write#:#User can edit Logging settings###19 05 2016 new variable
+logging#:#logs_settings#:#Logging Settings###19 05 2016 new variable
+log#:#log_general_settings#:#Logging Settings###19 05 2016 new variable
+log#:#log_components#:#Components###19 05 2016 new variable
+log#:#log_log_level#:#Log-Level###19 05 2016 new variable
+log#:#log_level_debug#:#DEBUG###19 05 2016 new variable
+log#:#log_level_info#:#INFO###19 05 2016 new variable
+log#:#log_level_notice#:#NOTICE###19 05 2016 new variable
+log#:#log_level_warning#:#WARNING###19 05 2016 new variable
+log#:#log_level_error#:#ERROR###19 05 2016 new variable
+log#:#log_level_critical#:#CRITICAL###19 05 2016 new variable
+log#:#log_level_emergency#:#EMERGENCY###19 05 2016 new variable
+log#:#log_level_alert#:#ALERT###19 05 2016 new variable
+log#:#log_cache_#:#Caching###19 05 2016 new variable
+log#:#log_cache_level#:#Caching-Level###19 05 2016 new variable
+log#:#log_memory#:#Log Memory Usage###19 05 2016 new variable
+log#:#log_browser#:#Browser Console Log###19 05 2016 new variable
+log#:#log_browser_users#:#Usernames Using Console Log###19 05 2016 new variable
+log#:#log_component_col_component#:#Component###19 05 2016 new variable
+log#:#log_component_col_level#:#Log-Level###19 05 2016 new variable
+log#:#log_component_btn_reset#:#Reset Settings###19 05 2016 new variable
+forum#:#frm_search#:#Suche###19 05 2016 new variable
+mail#:#mail_enable_crs_admin_notification#:#Notify Course Administrators###19 05 2016 new variable
+mail#:#mail_enable_grp_admin_notification#:#Notify Group Administrators###19 05 2016 new variable
+mail#:#mail_enable_crs_admin_notification_info#:#In new courses the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of courses. Course administrators will receive an e-mail when a member joins the course or leaves it or if the minimally required number of participants is not met the course needs to take place.###19 05 2016 new variable
+mail#:#mail_enable_grp_admin_notification_info#:#In new groups the setting 'Notification' will be activated by default. It is set in the 'Member'-tab of groups. Course administrators will receive an e-mail when a member joins the group or leaves it or if the minimally required number of participants is not met the group needs to take place.###19 05 2016 new variable
+mail#:#mail_notification_membership_section#:#Membership###19 05 2016 new variable
+prg#:#prg_new#:#New Study Programme###19 05 2016 new variable
+prg#:#prg_add#:#Add Study Programme###19 05 2016 new variable
+prg#:#prg_edit#:#Edit Study Programme###19 05 2016 new variable
+prg#:#prg_type#:#Study Programme Type###19 05 2016 new variable
+prg#:#prg_view_tree#:#Tree View###19 05 2016 new variable
+prg#:#prg_assessment#:#Study Programme Assessment###19 05 2016 new variable
+prg#:#prg_points#:#Points###19 05 2016 new variable
+prg#:#prg_status#:#Status###19 05 2016 new variable
+prg#:#prg_status_draft#:#Draft###19 05 2016 new variable
+prg#:#prg_status_active#:#Active###19 05 2016 new variable
+prg#:#prg_status_outdated#:#Outdated###19 05 2016 new variable
+prg#:#prg_status_in_progress#:#In Progress###19 05 2016 new variable
+prg#:#prg_status_completed#:#Completed###19 05 2016 new variable
+prg#:#prg_status_accredited#:#Accredited###19 05 2016 new variable
+prg#:#prg_status_not_relevant#:#Not Relevant###19 05 2016 new variable
+prg#:#prg_possible#:#Possible###19 05 2016 new variable
+prg#:#prg_completion_by#:#Completion by###19 05 2016 new variable
+prg#:#prg_changed_by#:#Changed by###19 05 2016 new variable
+prg#:#prg_manual_status#:#Manual Status###19 05 2016 new variable
+prg#:#prg_points_required#:#Points Required###19 05 2016 new variable
+prg#:#prg_points_current#:#Points Current###19 05 2016 new variable
+prg#:#prg_custom_plan#:#Custom Plan###19 05 2016 new variable
+prg#:#prg_belongs_to#:#Belongs to###19 05 2016 new variable
+prg#:#prg_show_individual_plan#:#Show Individual Plan###19 05 2016 new variable
+prg#:#prg_remove_user#:#Remove User###19 05 2016 new variable
+prg#:#prg_mark_accredited#:#Mark Accredited###19 05 2016 new variable
+prg#:#prg_unmark_accredited#:#Unmark Accredited###19 05 2016 new variable
+prg#:#prg_mark_accredited_success#:#Accredited Program Node for User successfully.###19 05 2016 new variable
+prg#:#prg_unmark_accredited_success#:#Unaccredited Program Node for User successfully.###19 05 2016 new variable
+prg#:#prg_remove_user_success#:#Removed User successfully.###19 05 2016 new variable
+prg#:#prg_type_add#:#Study Programme Type###19 05 2016 new variable
+prg#:#prg_subtypes#:#Subtypes###19 05 2016 new variable
+prg#:#prg_subtype_add#:#Add new subtype###19 05 2016 new variable
+prg#:#prg_adv_settings#:#Advanced Settings###19 05 2016 new variable
+prg#:#prg_type_custom_icon#:#Custom Icons###19 05 2016 new variable
+prg#:#prg_type_custom_icon_info#:#Custom icon info###19 05 2016 new variable
+prg#:#prg_type_msg_error_custom_icon#:#Error while storing icon###19 05 2016 new variable
+prg#:#prg_type_assign_amd_sets#:#Assign advanced metadata sets###19 05 2016 new variable
+prg#:#prg_type_available_amd_sets#:#Available Advanced Metadata sets###19 05 2016 new variable
+prg#:#prg_type_edit#:#Edit subtype###19 05 2016 new variable
+prg#:#prg_type_msg_deleted#:#Deleted subtype###19 05 2016 new variable
+prg#:#prg_type_msg_unable_delete#:#Unable to delete type because it is still assigned to the following Study Programmes: %s###19 05 2016 new variable
+prg#:#prg_type_msg_missing_title_default_language#:#There must be set a default language and a title for the default language###19 05 2016 new variable
+prg#:#prg_save_tree_order#:#Save tree order###19 05 2016 new variable
+prg#:#prg_cancel_tree_order#:#Dismiss tree order###19 05 2016 new variable
+prg#:#prg_saved_order_successful#:#Saved order successful###19 05 2016 new variable
+prg#:#prg_async_settings#:#Settings###19 05 2016 new variable
+prg#:#prg_open_node#:#Switch to this node###19 05 2016 new variable
+prg#:#prg_async_create#:#Add new tree-child###19 05 2016 new variable
+prg#:#prg_create_new_node#:#Create new node###19 05 2016 new variable
+prg#:#prg_create_new_leaf#:#Create new leaf###19 05 2016 new variable
+prg#:#prg_please_select_a_course_for_creating_a_leaf#:#Please select a course for creating a course-reference leaf###19 05 2016 new variable
+prg#:#prg_deleted_safely#:#Node was deleted safely###19 05 2016 new variable
+prg#:#prg_not_allowed_node_to_delete#:#You are not allowed to delete this node###19 05 2016 new variable
+prg#:#prg_added_course_ref_successful#:#New course-reference was added successfully###19 05 2016 new variable
+prg#:#prg_manage#:#Manage###19 05 2016 new variable
+prg#:#prg_view#:#View###19 05 2016 new variable
+prg#:#prg_update_from_current_plan#:#Update from current Plan###19 05 2016 new variable
+prg#:#prg_update_successful#:#Saved changes successfully!###19 05 2016 new variable
+prg#:#prg_update_from_plan_successful#:#Updated from current plan successfully!###19 05 2016 new variable
+prg#:#prg_warning_img_alt#:#Warning!###19 05 2016 new variable
+prg#:#prg_successful_img_alt#:#successful###19 05 2016 new variable
+prg#:#prg_in_progress_img_alt#:#in progress###19 05 2016 new variable
+prg#:#prg_progress_info#:#You have %1$d points. The Study Programme is completed with %2$d points.###19 05 2016 new variable
+prg#:#prg_progress_status#:# %1$d of %2$d Points###19 05 2016 new variable
+prg#:#prg_progress_status_with_child_sp#:# %1$d of possible %2$d Points###19 05 2016 new variable
+prg#:#prg_no_members_not_active#:#Can't add members, as this programme is not active.###19 05 2016 new variable
+prg#:#prg_type_msg_missing_title#:#Title cannot be empty.###19 05 2016 new variable
+prg#:#prg_added_member#:#The new member was added successfully.###19 05 2016 new variable
+prg#:#prg_added_members#:#The new members were added successfully.###19 05 2016 new variable
+prg#:#prg_acknowledge_completed_courses#:#Acknowledge Completed Courses###19 05 2016 new variable
+common#:#obj_prg_duplicate#:#Copy Study Programme###19 05 2016 new variable
+common#:#obj_prg_select#:#-- Please select one study programme --###19 05 2016 new variable
+common#:#obj_prg#:#Study Programme###19 05 2016 new variable
+common#:#obj_prgs#:#Study Programmes###19 05 2016 new variable
+common#:#obj_prgs_desc#:#Study Programme Administration###19 05 2016 new variable
+trac#:#trac_mode_study_programme#:#Study Programme Completed###19 05 2016 new variable
+trac#:#trac_mode_study_programme_info#:#The Study Programme has to be completed by a user to receive the Learning Progress 'Completed'.###19 05 2016 new variable
+meta#:#meta_advmd_select_options#:#Entries###19 05 2016 new variable
+trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".###19 05 2016 new variable
+search#:#btn_search#:#Search###19 05 2016 new variable
+exc#:#exc_members_already_assigned_tean#:#These users are already assigned to other teams of this assignment.###19 05 2016 new variable
+prg#:#prg_prg_type#:#Study Programme Type###19 05 2016 new variable
+rbac#:#prg_visible#:#Study Programme is visible###19 05 2016 new variable
+rbac#:#prg_copy#:#User can copy Study Programme###19 05 2016 new variable
+rbac#:#prg_write#:#User can edit settings of Study Programme###19 05 2016 new variable
+rbac#:#prg_delete#:#User can delete Study Programme###19 05 2016 new variable
+rbac#:#prg_edit_permission#:#User can change permission settings###19 05 2016 new variable
+rbac#:#rbac_create_prg#:#Create Study Programme###19 05 2016 new variable
+rbac#:#prgs_visible#:#Study Programme administration is visible###19 05 2016 new variable
+rbac#:#prgs_read#:#User has read access to Study Programme administration###19 05 2016 new variable
+rbac#:#prgs_write#:#Edit settings in Study Programme administration###19 05 2016 new variable
+rbac#:#prgs_edit_permission#:#Change permission settings in Study Programme administration###19 05 2016 new variable
+wiki#:#wiki_page_title_too_long#:#Sorry, the title of the wiki page is too long. Please replace it with a shorter title.###19 05 2016 new variable
+membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one precondition is not fullfilled.###19 05 2016 new variable
+log#:#log_level_off#:#Disabled###19 05 2016 new variable
+log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.###19 05 2016 new variable
+administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as Personal Starting Point. Please copy the number directly following "ref_id=" in the browser bar into the text input field.###19 05 2016 new variable
+mail#:#mail_crs_roles#:#Send Mail to Course Roles###19 05 2016 new variable
+mail#:#mail_grp_roles#:#Send Mail to Group Roles###19 05 2016 new variable
+mail#:#send_mail_members#:#All Members###19 05 2016 new variable
+mail#:#send_mail_tutors#:#All Tutors###19 05 2016 new variable
+mail#:#send_mail_admins#:#All Administrators###19 05 2016 new variable
+mail#:#mail_sel_users#:#Send Mail to Selected Users###19 05 2016 new variable
+awrn#:#awrn_max_inactivity#:#Maximum Inactivity Period###19 05 2016 new variable
+awrn#:#awrn_max_inactivity_info#:#After this period users are considered being offline. If nothing is set, the session time will be used.###19 05 2016 new variable
+awrn#:#awrn_minutes#:#min###19 05 2016 new variable
+bkm#:#bkm_fold_created#:#Bookmark folder has been created.###19 05 2016 new variable
+mcst#:#mcst_input_either_file_or_url#:#Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size.###19 05 2016 new variable
+content#:#cont_sc_version_info#:#The version number is provided automatically by the version management of the learning module.###19 05 2016 new variable
+content#:#cont_online_info#:#Set the SCORM learning module online to make it visible and available for users. If not, only users with 'Edit'-permission will have access to it.###19 05 2016 new variable
+content#:#cont_open_window#:#Enforced to Open in New Window , Without ILIAS Main Menu###19 05 2016 new variable
+content#:#cont_open_iframe#:#Opens in the Same Window Underneath the ILIAS Main Menu###19 05 2016 new variable
+content#:#cont_nomenu_info#:#The top navigation bar can be hidden, if the SCORM Learning module contains sufficient functionality to suspend, finish and navigate the content.###19 05 2016 new variable
+content#:#cont_hidenavig_info#:#The navigation tree on the left can be hidden, if the SCORM Learning module contains sufficient functionality to navigate between sections of content or the top navigation bar is displayed.###19 05 2016 new variable
+content#:#cont_width_height_info#:#The presentation can be set to a fixed size. 950 pixels for width and 650 pixels for height are proven values for setting the size. If no value is entered the browser will determine the size of the presentation.###19 05 2016 new variable
+content#:#cont_sc_score_was_higher_message#:#achieved score was higher###19 05 2016 new variable
+meta#:#md_adv_field_filter_warning#:#The field types %s are currently not supported as table filters.###19 05 2016 new variable
+grp#:#grp_subscription_min_members_info#:#Define the number of users that is minimally required for this group to be held at all. If this number is not met either after the date until which users can register or unsubscribe from the group a mail will be send to those group administrators or tutors that have activated the 'Notification' flag in the 'Members'-tab.###19 05 2016 new variable
+grp#:#grp_max_and_min_members_invalid#:#The minimum number must be smaller than the maximum number of members.###19 05 2016 new variable
+crs#:#mem_cron_min_members_reason#:#You receive this message because you have activated the notification in the members-tab.###19 05 2016 new variable
+crs#:#mem_cron_min_members_task#:#Please inform the participants if the course will not take place because of not enough attendants. Adjust the settings afterwards.###19 05 2016 new variable
+common#:#prg_copy_threads_info#:#Please decide which Study Program elements should be copied, linked or even omitted.###19 05 2016 new variable
+common#:#prg_wizard_page#:#Copy Study Program (Step 2/2)###19 05 2016 new variable
+crs#:#crs_loc_settings_passed_mode#:#Mastered Learning Objectives###19 05 2016 new variable
+crs#:#crs_loc_settings_passed_mode_hide#:#Test questions for mastered learning objectives will be hidden###19 05 2016 new variable
+crs#:#crs_loc_settings_passed_mode_mark#:#Test questions for mastered learning objectives will be flagged###19 05 2016 new variable
+crs#:#crs_checklist_objective#:#Checklist Objective###19 05 2016 new variable
+prtf#:#prtf_set_default_publish_global#:#Share with unregistered users also###19 05 2016 new variable
+prtf#:#prtf_set_default_publish_registered#:#Share with registered users only###19 05 2016 new variable
+crs#:#crs_loc_settings_type_it_placement_all_info#:#Placement test on all learning objectives###19 05 2016 new variable
+crs#:#crs_loc_settings_type_it_placement_sel_info#:#Placement test per single learning objective###19 05 2016 new variable
+crs#:#crs_loc_settings_type_it_qualifying_all_info#:#Achievement test on all learning objectives###19 05 2016 new variable
+crs#:#crs_loc_settings_type_it_qualifying_sel_info#:#Achievement test per sinble learning objective###19 05 2016 new variable
+crs#:#crs_loc_settings_type_it_none_info#:#No placement test###19 05 2016 new variable
+crs#:#crs_loc_settings_type_q_all_info#:#Achievement test on all learning objectives###19 05 2016 new variable
+crs#:#crs_loc_settings_type_q_selected_info#:#Achievement test per sinble learning objective###19 05 2016 new variable
+crs#:#crs_visibility_until_info#:#The course will be visible to it's members in a specific period of time.###19 05 2016 new variable
+crs#:#crs_registration_limited_info#:#Members can only register for this course during a specific period of time.###19 05 2016 new variable
+crs#:#crs_subscription_max_members_short_info#:#The minimal respectively maximial number of members can be set. A waiting list can be set up.###19 05 2016 new variable
+rbac#:#prg_read#:#User has read access to Study Programme###19 05 2016 new variable
+sess#:#sess_max_members_needed#:#A maximum number of members is needed for the waiting list feature.###19 05 2016 new variable
+obj#:#obj_import_file_error#:#This file could not be imported. Please make sure that this is a valid ILIAS export file (XML Export), of the same object type. The filename must not be modified after export. Error Message:###19 05 2016 new variable
+survey#:#svy_export_format#:#Export survey data as###19 05 2016 new variable
+survey#:#svy_fraction_of_selections#:#Fraction of selections###19 05 2016 new variable
+prg#:#prg_show_programmes_on_pd_always#:#Study Programmes are always visible on Personal Desktop.###19 05 2016 new variable
+prg#:#prg_show_programmes_on_pd_only_read#:#Study Programmes are only visible on Personal Desktop with ‘read’ permissions.###19 05 2016 new variable
+prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more objects you can't see because of less permissions.###19 05 2016 new variable
+cmps#:#cmps_uninstall_inactive_confirm#:#The plugin "%1$s" can currently not be activated ("%2$s"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?###19 05 2016 new variable
+pd#:#pd_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.###19 05 2016 new variable
+log#:#log_cache_info#:#Only if a message reaches or surpasses the caching level, all messages which have at least the log level will be added to the log for the current request.###19 05 2016 new variable
+content#:#cont_ov_preview#:#The question overview does not work in the page editor context. Use the SCO or SCORM level preview instead.###19 05 2016 new variable
+wiki#:#wiki_copy#:#Copy Wiki###19 05 2016 new variable
+mcst#:#mcst_copy#:#Copy Mediacast###19 05 2016 new variable
+prg#:#prg_can_not_manage_in_repo#:#You're not allowed to manage this Study Programme, because of user assignments.###19 05 2016 new variable
+scov#:#scov_create#:#Create SCORM Certificate###19 05 2016 new variable
+scov#:#scov_create_info#:#Select a completed SCORM module to generate a certificate for it###19 05 2016 new variable
+administration#:#adm_container#:#Container Objects###19 05 2016 new variable
+administration#:#adm_content_objects#:#Content Objects###19 05 2016 new variable
+administration#:#adm_content_services#:#Content Services###19 05 2016 new variable
+administration#:#adm_learning_outcomes#:#Learning Outcomes###19 05 2016 new variable
+administration#:#adm_maintenance#:#Maintenance###19 05 2016 new variable
+administration#:#adm_user_administration#:#User Administration###19 05 2016 new variable
+administration#:#adm_user_services#:#User Services###19 05 2016 new variable
+common#:#enter_new_name#:#Please enter a name###19 05 2016 new variable
+rbac#:#awra_visible#:#‘Who is online?’ administration is visible###19 05 2016 new variable
+rbac#:#awra_read#:#User has read access to ‘Who is online?’ administration###19 05 2016 new variable
+rbac#:#awra_write#:#Edit settings in ‘Who is online?’ administration###19 05 2016 new variable
+rbac#:#awra_edit_permission#:#User can change permission settings in ‘Who is online?’ administration###19 05 2016 new variable
+rbac#:#svy_read_learning_progress#:#User can view learning progress of other users###19 05 2016 new variable
+rbac#:#svy_edit_learning_progress#:#User can edit learning progress settings###19 05 2016 new variable
+rbac#:#sess_edit_learning_progress#:#User can edit learning progress settings###19 05 2016 new variable
+crs#:#event_user_selection_include_role#:# Include all users with role "%1$s"###19 05 2016 new variable
+crs#:#event_user_selection_include_waiting_list#:#Include all users on "Waiting List"###19 05 2016 new variable
+crs#:#event_user_selection_include_requests#:#Include all users on list "Join Requests"###19 05 2016 new variable
+crs#:#event_user_selection_include_filter#:#Include "%1$s"###19 05 2016 new variable
+crs#:#event_user_selection#:#Selection of Users###19 05 2016 new variable
+crs#:#event_tbl_admin#:#Administrator###19 05 2016 new variable
+crs#:#event_tbl_member#:#Member###19 05 2016 new variable
+crs#:#event_tbl_tutor#:#Tutor###19 05 2016 new variable
+news#:#news_sorry_not_accessible_anymore#:#Sorry, this item is not accessible anymore.###19 05 2016 new variable
+note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration (Personal Desktop settings).###19 05 2016 new variable
+note#:#note_comment_notification_user_has_written#:#%s has written:###19 05 2016 new variable
+prg#:#prg_show_programmes#:#Visibility###19 05 2016 new variable
+content#:#cont_error#:#An Error Occured###19 05 2016 new variable
+crs#:#crs_mail_context_member_info#:#For the contact emails on the info screen of a course ###19 05 2016 new variable
+crs#:#crs_mail_context_tutor_info#:#For the participant emails on the member and learning progress screens of a course###19 05 2016 new variable
+sahs#:#sahs_mail_context_lp_info#:#For the participant emails on the learning progress screens of a scorm module###19 05 2016 new variable
+exc#:#exc_delete_team#:#Delete Team###19 05 2016 new variable
+sysc#:#sysc_tree_structure_failures#:#Number of failures in the tree structure (parent-Relation):###19 05 2016 new variable
+sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tree structure? Please create a database backup before you proceed.###19 05 2016 new variable
+sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure###19 05 2016 new variable
+trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.###19 05 2016 new variable
+sess#:#sess_list_reg_limit_places#:#Free places###19 05 2016 new variable
+sess#:#sess_accept_request#:#Accept Participation###19 05 2016 new variable
+sess#:#sess_new_registrations#:#Join Request###19 05 2016 new variable
