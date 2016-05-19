@@ -1,10 +1,11 @@
 <?php
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Created by PhpStorm.
- * User: bheyser
- * Date: 18.05.16
- * Time: 13:37
+ * @author		Björn Heyser <bheyser@databay.de>
+ * @version		$Id$
+ *
+ * @package     Modules/TestQuestionPool
  */
 class ilAssQuestionSkillAssignmentExporter
 {

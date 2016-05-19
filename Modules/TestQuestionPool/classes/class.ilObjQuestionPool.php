@@ -529,7 +529,7 @@ class ilObjQuestionPool extends ilObject
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export File Items");
 
 		// skill assignments
-		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentExporter.php';
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentExporter.php';
 		$skillQuestionAssignmentExporter = new ilAssQuestionSkillAssignmentExporter();
 		$skillQuestionAssignmentExporter->setXmlWriter($a_xml_writer);
 		$skillQuestionAssignmentExporter->setParentObjId($this->getId());
