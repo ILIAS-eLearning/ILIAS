@@ -23,4 +23,5 @@
 	<copage>
 		<pageobject parent_type="gdf" class_name="ilGlossaryDefPage" directory="classes"/>
 	</copage>
+	<logging />
 </module>

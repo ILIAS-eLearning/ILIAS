@@ -304,13 +304,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		$scorer = new ilTestScoring($this->object);
 		$scorer->setPreserveManualScores(true);
 		$scorer->recalculateSolutions();
-
-		if ($this->object->getEnableArchiving())
-		{
-			require_once 'Modules/Test/classes/class.ilTestArchiveService.php';
-			$archiveService = new ilTestArchiveService($this->object);
-			$archiveService->archivePassesByActives($scorer->getRecalculatedPassesByActives());
-		}
 		
 		if($this->object->getAnonymity() == 0)
 		{
