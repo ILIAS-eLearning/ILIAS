@@ -1,0 +1,25 @@
+<!-- language file start -->
+xoto_content#:#Report
+xoto_properties#:#Eigenschaften
+obj_xoto#:#Report Trainerauslastung
+objs_xoto#:#Reports Trainerauslastung
+obj_xoto_duplicate#:#Report Trainerauslastung kopieren
+objs_xoto_duplicate#:#Reports Trainerauslastung kopieren
+obj_xoto_select#:#Report Trainerauslastung auswählen
+xoto_add#:#Report Trainerauslastung hinzufügen
+xoto_new#:#Neuen Report Trainerauslastung hinzufügen
+xoto_read#:#Lesezugriff zum Report Trainerauslastung
+xoto_write#:#Report Trainerauslastung bearbeiten
+xoto_delete#:#Report Trainerauslastung löschen
+xoto_visible#:#sichtbar
+xoto_edit_permission#:#schreibberechtigt
+crs_create_xoto#:#Report Trainerauslastung erzeugen
+grp_create_xoto#:#Report Trainerauslastung erzeugen
+fold_create_xoto#:#Report Trainerauslastung erzeugen
+root_create_xoto#:#Report Trainerauslastung erzeugen
+cat_create_xoto#:#Report Trainerauslastung erzeugen
+org_unit_short#:#Org.-Einheit
+period#:#Zeitraum
+until#:#bis
+crs_tutor#:#Trainer
+title#:#Titel
