@@ -55,15 +55,14 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
          */
         if (is_numeric($a_set->getField()))
         {   //fields
-            $field = ilDclFieldFactory::getFieldModelInstance($a_set->getField());
-            $field->setId($a_set->getId());
+            $field = ilDclCache::getFieldCache($a_set->getField());
             $this->tpl->setVariable('FIELD_TITLE', $field->getTitle());
         }
         else
         {   //standard-fields
             $field = new ilDclStandardField();
             $field->setDatatypeId(ilDclStandardField::_getDatatypeForId($a_set->getField()));
-            $field->setId($a_set->getId());
+            $field->setId($a_set->getField());
             $this->tpl->setVariable('FIELD_TITLE', $this->lng->txt('il_dcl_' . $a_set->getField()));
         }
         $this->tpl->setVariable('ID', $a_set->getId());

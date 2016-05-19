@@ -164,12 +164,12 @@ class ilDclTableViewEditGUI
         {
             foreach (array("Visible", "InFilter", "FilterChangeable") as $attribute)
             {
-                $key = $attribute . '_' . $setting->getId();
+                $key = $attribute . '_' . $setting->getField();
                 $setting->{'set'.$attribute}($_POST[$key] == 'on');
 
             }
 
-            $key = 'filter_' . $setting->getId();
+            $key = 'filter_' . $setting->getField();
             if (isset($_POST[$key]))
             {
                 $setting->setFilterValue($_POST[$key]);
