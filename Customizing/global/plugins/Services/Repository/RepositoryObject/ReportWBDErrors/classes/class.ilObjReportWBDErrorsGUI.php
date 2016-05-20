@@ -35,6 +35,4 @@ class ilObjReportWBDErrorsGUI extends ilObjReportBaseGUI {
 				return false;
 		}
 	}
-
-
 }
