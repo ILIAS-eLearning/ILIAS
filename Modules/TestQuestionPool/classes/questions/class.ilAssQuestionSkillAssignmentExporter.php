@@ -81,7 +81,7 @@ class ilAssQuestionSkillAssignmentExporter
 		$this->questionIds = $questionIds;
 	}
 
-	public function exportSkillAssignments()
+	public function export()
 	{
 		global $ilDB;
 

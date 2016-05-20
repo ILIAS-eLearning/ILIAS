@@ -30,4 +30,9 @@ class ilTestExportFixedQuestionSet extends ilTestExport
 
 		return $questionQtiXml;
 	}
+	
+	protected function getQuestionIds()
+	{
+		return $this->test_obj->questions;
+	}
 }

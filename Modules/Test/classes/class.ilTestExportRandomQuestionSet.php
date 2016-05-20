@@ -127,6 +127,26 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 
 		return $questionQtiXml;
 	}
+	
+	/**
+	 * @return array
+	 */
+	protected function getQuestionIds()
+	{
+		$questionIds = array();
+		
+		foreach($this->srcPoolDefList->getInvolvedSourcePoolIds() as $poolId)
+		{
+			$questionList = $this->getLoadedStagingPoolQuestionList($poolId);
+			
+			foreach ($questionList as $questionId)
+			{
+				$questionIds[] = $questionId;
+			}
+		}
+		
+		return $questionIds;
+	}
 
 	/**
 	 * @param $poolId
@@ -137,7 +157,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 		if( !isset($this->stagingPoolQuestionListByPoolId[$poolId]) )
 		{
 			global $ilDB, $ilPluginAdmin;
-
+			
 			$questionList = new ilTestRandomQuestionSetStagingPoolQuestionList($ilDB, $ilPluginAdmin);
 			$questionList->setTestId($this->test_obj->getTestId());
 			$questionList->setPoolId($poolId);

@@ -534,7 +534,7 @@ class ilObjQuestionPool extends ilObject
 		$skillQuestionAssignmentExporter->setXmlWriter($a_xml_writer);
 		$skillQuestionAssignmentExporter->setParentObjId($this->getId());
 		$skillQuestionAssignmentExporter->setQuestionIds($questions);
-		$skillQuestionAssignmentExporter->exportSkillAssignments();
+		$skillQuestionAssignmentExporter->export();
 
 		$a_xml_writer->xmlEndTag("ContentObject");
 	}

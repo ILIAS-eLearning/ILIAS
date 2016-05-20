@@ -14,6 +14,9 @@ class ilAssQuestionSkillAssignmentImportFails
 	 */
 	protected $settings;
 	
+	/**
+	 * @return ilSeting|ilSetting
+	 */
 	protected function getSettings()
 	{
 		if( $this->settings === null )
@@ -24,6 +27,10 @@ class ilAssQuestionSkillAssignmentImportFails
 		return $this->settings;
 	}
 	
+	/**
+	 * @param $targetParentObjId
+	 * @param ilAssQuestionSkillAssignmentImportList $assignmentList
+	 */
 	public function registerFailedImports($targetParentObjId, ilAssQuestionSkillAssignmentImportList $assignmentList)
 	{
 		$this->getSettings()->set('failed_imp_qsa_parentobj_'.$targetParentObjId, serialize($assignmentList));

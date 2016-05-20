@@ -23,4 +23,9 @@ class ilTestExportDynamicQuestionSet extends ilTestExport
 	{
 		return '';
 	}
+	
+	protected function getQuestionIds()
+	{
+		return array();
+	}
 }

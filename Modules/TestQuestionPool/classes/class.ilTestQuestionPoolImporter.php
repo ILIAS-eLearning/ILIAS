@@ -219,6 +219,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 		$importer->setTargetParentObjId($targetParentObjId);
 		$importer->setImportInstallationId($this->getInstallId());
 		$importer->setImportMappingRegistry($mappingRegistry);
+		$importer->setImportMappingComponent('Modules/TestQuestionPool');
 		$importer->setImportAssignmentList($parser->getAssignmentList());
 		
 		$importer->import();
@@ -228,11 +229,6 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 			$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails();
 			$qsaImportFails->registerFailedImports($targetParentObjId, $importer->getFailedImportAssignmentList());
 		}
-	}
-	
-	protected function registerFailedQuestionSkillAssignmentImports(ilAssQuestionSkillAssignmentImportList $assignmentList, $targetParentObjId)
-	{
-		
 	}
 }
 

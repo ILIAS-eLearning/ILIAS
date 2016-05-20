@@ -29,6 +29,10 @@ class ilAssQuestionSkillAssignmentImporter
 	protected $importMappingRegistry;
 	
 	/**
+	 * @var string
+	 */
+	protected $importMappingComponent;
+	/**
 	 * @var ilAssQuestionSkillAssignmentImportList
 	 */
 	protected $importAssignmentList;
@@ -99,6 +103,22 @@ class ilAssQuestionSkillAssignmentImporter
 	public function setImportMappingRegistry($importMappingRegistry)
 	{
 		$this->importMappingRegistry = $importMappingRegistry;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getImportMappingComponent()
+	{
+		return $this->importMappingComponent;
+	}
+	
+	/**
+	 * @param string $importMappingComponent
+	 */
+	public function setImportMappingComponent($importMappingComponent)
+	{
+		$this->importMappingComponent = $importMappingComponent;
 	}
 	
 	/**
@@ -176,7 +196,7 @@ class ilAssQuestionSkillAssignmentImporter
 		$importableAssignment->setParentObjId($this->getTargetParentObjId());
 		
 		$importableAssignment->setQuestionId($this->getImportMappingRegistry()->getMapping(
-			'Modules/TestQuestionPool', 'quest', $assignment->getImportQuestionId()
+			$this->getImportMappingComponent(), 'quest', $assignment->getImportQuestionId()
 		));
 		
 		return $importableAssignment;
