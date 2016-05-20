@@ -1,0 +1,159 @@
+<?php
+
+require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php';
+
+ini_set("memory_limit","2048M"); 
+ini_set('max_execution_time', 0);
+set_time_limit(0);
+
+class ilObjReportWBDErrors extends ilObjReportBase {
+	protected $relevant_parameters = array();
+	protected $gCtrl;
+
+	public function __construct($ref_id = 0) {
+		parent::__construct($ref_id);
+		global $ilCtrl,$lng;
+		$this->gCtrl = $ilCtrl;
+		$this->gLng = $lng;
+	}
+
+	public function initType() {
+		$this->setType("xwbe");
+	}
+	
+	protected function createLocalReportSettings() {
+		$this->local_report_settings =
+			$this->s_f->reportSettings('rep_robj_wbe');
+	}
+
+	protected function getRowTemplateTitle() {
+		return "tpl.gev_wbd_errors_row.html";
+	}
+
+	public function getRelevantParameters() {
+		return $this->relevant_parameters;
+	}
+
+	protected function buildOrder($order) {
+		return $order;
+	}
+
+	protected function buildTable($table) {
+		$table	->column("ts", "ts")
+				->column("action", "gev_wbd_errors_action")
+				->column("internal", "gev_wbd_errors_internal")
+				->column("user_id", "usr_id")
+				->column("course_id", "crs_id")
+				->column("firstname", "firstname")
+				->column("lastname", "lastname")
+				->column("title", "title")
+				->column("begin_date", "begin_date")
+				->column("end_date", "end_date")
+				->column("reason", "gev_wbd_errors_reason")
+				->column("reason_full", "gev_wbd_errors_reason_full")
+				->column("resolve", "gev_wbd_errors_resolve", 0, 0, 1);
+		return parent::buildTable($table);
+	}
+
+	protected function buildQuery($query) {
+		$query	->distinct()
+				->select("err.id")
+				->select("err.usr_id")
+				->select("err.crs_id")
+				->select("err.internal")
+				->select("err.reason")
+				->select("err.reason_full")
+				->select("err.ts")
+				->select("err.action")
+				->select("ud.firstname")
+				->select("ud.lastname")
+				->select("crs.title")
+				->select("usrcrs.begin_date")
+				->select("usrcrs.end_date")
+				->from("wbd_errors err")
+				->left_join("hist_user usr")
+					->on("err.usr_id = usr.user_id AND usr.hist_historic = 0")
+				->left_join("hist_course crs")
+					->on("err.crs_id = crs.crs_id AND crs.hist_historic = 0")
+				->left_join("hist_usercoursestatus usrcrs")
+					->on("err.usr_id = usrcrs.usr_id AND err.crs_id = usrcrs.crs_id AND usrcrs.hist_historic = 0")
+				->left_join("usr_data ud")
+					->on("err.usr_id = ud.usr_id")
+				->compile();
+		return $query;
+	}
+
+	protected function buildFilter($filter) {
+		$filter ->static_condition("err.resolved = 0")
+				->multiselect("reason"
+							 , $this->lng->txt("gev_wbd_errors_reason")
+							 , "reason"
+							 , array(1,2,3)//catFilter::getDistinctValues('reason', 'wbd_errors')
+							 , array()
+							 )
+				->multiselect("action"
+							 , $this->lng->txt("gev_wbd_errors_action")
+							 , "action"
+							 , catFilter::getDistinctValues('action', 'wbd_errors')
+							 , array()
+							 )
+				->multiselect("internal"
+							 , $this->lng->txt("gev_wbd_errors_internal")
+							 , "internal"
+							 , catFilter::getDistinctValues('internal', 'wbd_errors')
+							 , array()
+							 )
+				->action($this->filter_action)
+				->compile();
+		return $filter;
+	}
+
+	public function fetchData(callable $callback) {
+		/**
+		 *	The following is not nice. I'll have to think of a better way to postprocess data from database, than the static transformResultRow.
+		 *	It probably would suffice just to make is nonstatic...
+		 */
+		$data = parent::fetchData($callback);
+		$this->gCtrl->setParameterByClass("ilObjReportWBDErrorsGUI","ref_id",$this->ref_id);
+		$this->gCtrl->setParameterByClass("ilObjReportWBDErrorsGUI",$this->filter->getGETName(),$this->filter->encodeSearchParamsForGET());
+		foreach ($data as &$rec) {
+			$link_change_usr = $this->gCtrl->getLinkTargetByClass(
+				array("iladministrationgui", "ilobjusergui"), "edit")
+				.'&obj_id='.$rec['usr_id']
+				.'&ref_id=7'; //ref 7: Manage user accounts here.
+			$link_usr = '<a href="' .$link_change_usr.'">%s</a>';
+
+			foreach (array('usr_id','firstname','lastname') as $key) {
+				$rec[$key] = sprintf($link_usr, $rec[$key]);
+			}
+
+			$crs_ref_id = gevObjectUtils::getRefId($rec['crs_id']);
+			if($crs_ref_id && $rec['crs_id'] > 0){
+				$link_change_crs = $this->gCtrl->getLinkTargetByClass(
+					array("ilrepositorygui", "ilobjcoursegui"), "editInfo")
+					.'&ref_id='
+					.$crs_ref_id;
+				$link_change_crs = '<a href="' .$link_change_crs.'">%s</a>';
+			} else {
+				$link_change_crs = '%s';
+			}
+			$rec['crs_id'] = sprintf($link_change_crs, $rec['crs_id']);
+
+			$rec['resolve'] = '<a href="' 
+				.$this->gCtrl->getLinkTargetByClass(array("ilObjPluginDispatchGUI","ilObjReportWBDErrorsGUI"), "resolve")
+				.'&err_id='
+				.$rec['id']
+				.'">'
+				.$this->plugin->txt("wbd_errors_resolve")
+				.'</a>';
+
+			if($this->gLng->exists($rec["reason_full"])) {
+				$rec["reason_full"] = $this->gLng->txt($rec["reason_full"]);
+			}
+
+		}
+		$this->gCtrl->setParameterByClass("ilObjReportWBDErrorsGUI","ref_id",null);
+		$this->gCtrl->setParameterByClass("ilObjReportWBDErrorsGUI",$this->filter->getGETName(),null);
+		return $data;
+	}
+}
