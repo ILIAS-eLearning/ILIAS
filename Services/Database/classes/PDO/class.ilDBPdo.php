@@ -492,10 +492,6 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	public function dropSequence($table_name) {
 		$this->manager->dropSequence($table_name);
-		//		$table_seq = $table_name . "_seq";
-		//		if ($this->tableExists($table_seq)) {
-		//			$this->pdo->exec("DROP TABLE $table_seq");
-		//		}
 	}
 
 
@@ -547,18 +543,6 @@ class ilDBPdo implements ilDBInterface {
 		);
 
 		return $this->manager->alterTable($table_name, $changes, false);
-		//
-		//
-		//
-		//
-		//		$get_type_query = "SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = " . $this->quote($table_name, 'text')
-		//		                  . " AND COLUMN_NAME = " . $this->quote($column_old_name, 'text');
-		//		$get_type_result = $this->query($get_type_query);
-		//		$column_type = $this->fetchAssoc($get_type_result);
-		//
-		//		$query = "ALTER TABLE $table_name CHANGE " . $this->quote($column_old_name, 'text') . " " . $this->quote($column_new_name, 'text') . " "
-		//		         . $column_type['COLUMN_TYPE'];
-		//		$this->pdo->exec($query);
 	}
 
 
