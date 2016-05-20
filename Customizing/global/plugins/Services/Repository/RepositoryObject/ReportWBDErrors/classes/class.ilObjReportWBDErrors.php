@@ -117,7 +117,6 @@ class ilObjReportWBDErrors extends ilObjReportBase {
 		 *	It probably would suffice simply to make is nonstatic...
 		 */
 		$data = parent::fetchData($callback);
-		$this->gCtrl->setParameterByClass("ilObjReportWBDErrorsGUI","ref_id",$this->ref_id);
 		$this->gCtrl->setParameterByClass("ilObjReportWBDErrorsGUI",$this->filter->getGETName(),$this->filter->encodeSearchParamsForGET());
 		foreach ($data as &$rec) {
 			$link_change_usr = $this->gCtrl->getLinkTargetByClass(
@@ -155,7 +154,6 @@ class ilObjReportWBDErrors extends ilObjReportBase {
 			}
 
 		}
-		$this->gCtrl->setParameterByClass("ilObjReportWBDErrorsGUI","ref_id",null);
 		$this->gCtrl->setParameterByClass("ilObjReportWBDErrorsGUI",$this->filter->getGETName(),null);
 		return $data;
 	}
