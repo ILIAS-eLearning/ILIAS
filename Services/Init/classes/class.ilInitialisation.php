@@ -527,7 +527,7 @@ class ilInitialisation
 
 		// load style definitions
 		self::initGlobal("styleDefinition", "ilStyleDefinition",
-			 "./Services/Style/classes/class.ilStyleDefinition.php");
+			 "./Services/Style/System/classes/class.ilStyleDefinition.php");
 
 		// add user interface hook for style initialisation
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");

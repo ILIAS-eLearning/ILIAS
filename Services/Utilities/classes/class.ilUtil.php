@@ -85,7 +85,7 @@ class ilUtil
 		$default_img = ".".$module_path."/templates/default/images/".$img;
 
 		// use ilStyleDefinition instead of account to get the current skin and style
-		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 		$current_skin = ilStyleDefinition::getCurrentSkin();
 		$current_style = ilStyleDefinition::getCurrentStyle();
 		
@@ -179,7 +179,7 @@ class ilUtil
 		
 		// add version as parameter to force reload for new releases
 		// use ilStyleDefinition instead of account to get the current style
-		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 		$stylesheet_name = (strlen($a_css_name))
 			? $a_css_name
 			: ilStyleDefinition::getCurrentStyle().".css";
@@ -190,7 +190,7 @@ class ilUtil
 
 		$filename = "";
 		// use ilStyleDefinition instead of account to get the current skin
-		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 		if (ilStyleDefinition::getCurrentSkin() != "default")
 		{
 			$filename = "./Customizing/global/skin/".ilStyleDefinition::getCurrentSkin()."/".$a_css_location.$stylesheet_name;
@@ -228,7 +228,7 @@ class ilUtil
 
 		$filename = "";
 		// use ilStyleDefinition instead of account to get the current skin
-		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 		if (ilStyleDefinition::getCurrentSkin() != "default")
 		{
 			$filename = "./Customizing/global/skin/".ilStyleDefinition::getCurrentSkin()."/".$a_js_location.$js_name;
@@ -299,7 +299,7 @@ class ilUtil
 		}
 
 		// use ilStyleDefinition instead of account to get the current skin and style
-		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 		if (ilStyleDefinition::getCurrentSkin() == "default")
 		{
 			$in_style = "./templates/".ilStyleDefinition::getCurrentSkin()."/"
