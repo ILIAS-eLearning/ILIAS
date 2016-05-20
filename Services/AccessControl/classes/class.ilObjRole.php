@@ -138,7 +138,7 @@ class ilObjRole extends ilObject
 		return $this->assign_users ? $this->assign_users : 0;
 	}
 	// Same method (static)
-	function _getAssignUsersStatus($a_role_id)
+	public static function _getAssignUsersStatus($a_role_id)
 	{
 		global $ilDB;
 
