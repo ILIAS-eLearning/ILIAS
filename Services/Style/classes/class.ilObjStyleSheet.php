@@ -539,8 +539,8 @@ class ilObjStyleSheet extends ilObject
 		);
 
 	// basic style xml file, image directory and dom
-	protected static $basic_style_file = "./Services/Style/basic_style/style.xml";
-	protected static $basic_style_image_dir = "./Services/Style/basic_style/images";
+	protected static $basic_style_file = "./Services/Style/Content/basic_style/style.xml";
+	protected static $basic_style_image_dir = "./Services/Style/Content/basic_style/images";
 	protected static $basic_style_dom;
 	
 	/**
@@ -2302,7 +2302,7 @@ class ilObjStyleSheet extends ilObject
 		{
 			parent::create();
 		}
-		include_once("./Services/Style/classes/class.ilStyleImportParser.php");
+		include_once("./Services/Style/Content/classes/class.ilStyleImportParser.php");
 		$importParser = new ilStyleImportParser($a_file, $this);
 		$importParser->startParsing();
 		

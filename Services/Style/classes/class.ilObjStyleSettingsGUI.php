@@ -183,7 +183,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 		}
 
-		include_once("./Services/Style/classes/class.ilContentStylesTableGUI.php");
+		include_once("./Services/Style/Content/classes/class.ilContentStylesTableGUI.php");
 		$table = new ilContentStylesTableGUI($this, "editContentStyles", $data, $this->object);
 		$tpl->setContent($table->getHTML());
 
@@ -276,7 +276,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 		}
 		
-		include_once("./Services/Style/classes/class.ilSystemStylesTableGUI.php");
+		include_once("./Services/Style/System/classes/class.ilSystemStylesTableGUI.php");
 		$tab = new ilSystemStylesTableGUI($this, "editSystemStyles");
 		$tpl->setContent($tab->getHTML());
 
@@ -1091,7 +1091,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	 	$ilToolbar->addFormButton($lng->txt("sty_add_assignment"), "addStyleCatAssignment");
 	 	$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 	 	
-	 	include_once("./Services/Style/classes/class.ilSysStyleCatAssignmentTableGUI.php");
+	 	include_once("./Services/Style/System/classes/class.ilSysStyleCatAssignmentTableGUI.php");
 	 	$tab = new ilSysStyleCatAssignmentTableGUI($this, "assignStylesToCats");
 	 	
 	 	$tpl->setContent($tab->getHTML());

@@ -224,7 +224,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			}
 		}
 
-		include_once("./Services/Style/classes/class.ilStyleTableGUI.php");
+		include_once("./Services/Style/Content/classes/class.ilStyleTableGUI.php");
 		$table_gui = new ilStyleTableGUI($this, "edit", $chars, $style_type,
 			$this->object);
 		
@@ -663,14 +663,14 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 						break;
 
 					case "fontsize":
-						include_once("./Services/Style/classes/class.ilFontSizeInputGUI.php");
+						include_once("./Services/Style/Content/classes/class.ilFontSizeInputGUI.php");
 						$fs_input = new ilFontSizeInputGUI($lng->txt("sty_".$var), $basepar);
 						$this->form_gui->addItem($fs_input);
 						break;
 						
 					case "numeric_no_perc":
 					case "numeric":
-						include_once("./Services/Style/classes/class.ilNumericStyleValueInputGUI.php");
+						include_once("./Services/Style/Content/classes/class.ilNumericStyleValueInputGUI.php");
 						$num_input = new ilNumericStyleValueInputGUI($lng->txt("sty_".$var), $basepar);
 						if (ilObjStyleSheet::_getStyleParameterInputType($par) == "numeric_no_perc")
 						{
@@ -697,7 +697,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 						break;
 
 					case "trbl_numeric":
-						include_once("./Services/Style/classes/class.ilTRBLNumericStyleValueInputGUI.php");
+						include_once("./Services/Style/Content/classes/class.ilTRBLNumericStyleValueInputGUI.php");
 						$num_input = new ilTRBLNumericStyleValueInputGUI($lng->txt("sty_".$var), $basepar);
 						if (ilObjStyleSheet::_getStyleParameterInputType($par) == "trbl_numeric_no_perc")
 						{
@@ -707,26 +707,26 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 						break;
 
 					case "border_width":
-						include_once("./Services/Style/classes/class.ilTRBLBorderWidthInputGUI.php");
+						include_once("./Services/Style/Content/classes/class.ilTRBLBorderWidthInputGUI.php");
 						$bw_input = new ilTRBLBorderWidthInputGUI($lng->txt("sty_".$var), $basepar);
 						$this->form_gui->addItem($bw_input);
 						break;
 
 					case "border_style":
-						include_once("./Services/Style/classes/class.ilTRBLBorderStyleInputGUI.php");
+						include_once("./Services/Style/Content/classes/class.ilTRBLBorderStyleInputGUI.php");
 						$bw_input = new ilTRBLBorderStyleInputGUI($lng->txt("sty_".$var), $basepar);
 						$this->form_gui->addItem($bw_input);
 						break;
 
 					case "trbl_color":
-						include_once("./Services/Style/classes/class.ilTRBLColorPickerInputGUI.php");
+						include_once("./Services/Style/Content/classes/class.ilTRBLColorPickerInputGUI.php");
 						$col_input = new ilTRBLColorPickerInputGUI($lng->txt("sty_".$var), $basepar);
 						$col_input->setAcceptNamedColors(true);
 						$this->form_gui->addItem($col_input);
 						break;
 
 					case "background_image":
-						include_once("./Services/Style/classes/class.ilBackgroundImageInputGUI.php");
+						include_once("./Services/Style/Content/classes/class.ilBackgroundImageInputGUI.php");
 						$im_input = new ilBackgroundImageInputGUI($lng->txt("sty_".$var), $basepar);
 						$imgs = array();
 						foreach ($this->object->getImages() as $entry)
@@ -738,7 +738,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 						break;
 
 					case "background_position":
-						include_once("./Services/Style/classes/class.ilBackgroundPositionInputGUI.php");
+						include_once("./Services/Style/Content/classes/class.ilBackgroundPositionInputGUI.php");
 						$im_input = new ilBackgroundPositionInputGUI($lng->txt("sty_".$var), $basepar);
 						$this->form_gui->addItem($im_input);
 						break;
@@ -1309,7 +1309,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				$ilCtrl->getLinkTarget($this, "addImage"));
 		}
 		
-		include_once("./Services/Style/classes/class.ilStyleImageTableGUI.php");
+		include_once("./Services/Style/Content/classes/class.ilStyleImageTableGUI.php");
 		$table_gui = new ilStyleImageTableGUI($this, "listImages",
 			$this->object);
 		$tpl->setContent($table_gui->getHTML());
@@ -1712,7 +1712,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
 		$ilTabs->clearTargets();
 
-		include_once("./Services/Style/classes/class.ilPasteStyleCharacteristicTableGUI.php");
+		include_once("./Services/Style/Content/classes/class.ilPasteStyleCharacteristicTableGUI.php");
 		$table = new ilPasteStyleCharacteristicTableGUI($this, "pasteCharacteristicsOverview");
 		
 		$tpl->setContent($table->getHTML());
@@ -1766,7 +1766,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				$ilCtrl->getLinkTarget($this, "addColor"));
 		}
 		
-		include_once("./Services/Style/classes/class.ilStyleColorTableGUI.php");
+		include_once("./Services/Style/Content/classes/class.ilStyleColorTableGUI.php");
 		$table_gui = new ilStyleColorTableGUI($this, "listColors",
 			$this->object);
 		$tpl->setContent($table_gui->getHTML());
@@ -1992,7 +1992,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				$ilCtrl->getLinkTarget($this, "addMediaQuery"));
 		}
 
-		include_once("./Services/Style/classes/class.ilStyleMediaQueryTableGUI.php");
+		include_once("./Services/Style/Content/classes/class.ilStyleMediaQueryTableGUI.php");
 		$table_gui = new ilStyleMediaQueryTableGUI($this, "listMediaQueries",
 			$this->object);
 		$tpl->setContent($table_gui->getHTML());
@@ -2201,7 +2201,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$ilTabs->setSubTabActive("sty_".$ctype."_templates");
 		
 		$this->includeCSS();
-		include_once("./Services/Style/classes/class.ilTableTemplatesTableGUI.php");
+		include_once("./Services/Style/Content/classes/class.ilTableTemplatesTableGUI.php");
 		$table_gui = new ilTableTemplatesTableGUI($ctype, $this, "listTemplates",
 			$this->object);
 		$tpl->setContent($table_gui->getHTML());
