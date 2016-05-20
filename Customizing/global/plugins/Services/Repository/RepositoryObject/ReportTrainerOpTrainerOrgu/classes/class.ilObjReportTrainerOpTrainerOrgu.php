@@ -63,6 +63,9 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 								 , ""
 								 , 300
 								 , 160
+								 , "integer"
+								 , "asc"
+								 , true
 								 )
 				->multiselect( 	"org_unit"
 								 , $this->plugin->txt("org_unit_short")
