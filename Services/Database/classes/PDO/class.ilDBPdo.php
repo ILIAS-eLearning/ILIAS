@@ -666,11 +666,9 @@ class ilDBPdo implements ilDBInterface {
 
 		switch ($type) {
 			case ilDBConstants::T_INTEGER:
-				$pdo_type = PDO::PARAM_INT;
 				$value = (int)$value;
-				if ($value === 1) {
-					return 1;
-				}
+
+				return $value;
 				break;
 			case ilDBConstants::T_FLOAT:
 				$pdo_type = PDO::PARAM_INT;
