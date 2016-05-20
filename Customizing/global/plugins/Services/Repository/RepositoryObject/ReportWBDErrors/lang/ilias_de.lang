@@ -1,0 +1,33 @@
+<!-- language file start -->
+xwbe_content#:#Report
+xwbe_properties#:#Eigenschaften
+obj_xwbe#:#Report über Fehler bei der WBD-Meldung
+objs_xwbe#:#Reports über Fehler bei der WBD-Meldung
+obj_xwbe_duplicate#:#Report über Fehler bei der WBD-Meldung kopieren
+objs_xwbe_duplicate#:#Reports über Fehler bei der WBD-Meldung kopieren
+obj_xwbe_select#:#Report über Fehler bei der WBD-Meldung auswählen
+xwbe_add#:#Report über Fehler bei der WBD-Meldung hinzufügen
+xwbe_new#:#Neuen Report über Fehler bei der WBD-Meldung hinzufügen
+xwbe_read#:#Lesezugriff zum Report über Fehler bei der WBD-Meldung
+xwbe_write#:#Report über Fehler bei der WBD-Meldung bearbeiten
+xwbe_delete#:#Report über Fehler bei der WBD-Meldung löschen
+xwbe_visible#:#sichtbar
+xwbe_edit_permission#:#schreibberechtigt
+crs_create_xwbe#:#Report über Fehler bei der WBD-Meldung erzeugen
+grp_create_xwbe#:#Report über Fehler bei der WBD-Meldung erzeugen
+fold_create_xwbe#:#Report über Fehler bei der WBD-Meldung erzeugen
+root_create_xwbe#:#Report über Fehler bei der WBD-Meldung erzeugen
+cat_create_xwbe#:#Report über Fehler bei der WBD-Meldung erzeugen
+ts#:#Zeitpunkt
+wbd_errors_action#:#Aktion
+wbd_errors_internal#:#Interner Vor-Filter
+usr_id#:#Benutzer-ID
+crs_id#:#Kurs-ID
+firstname#:#Vorname
+lastname#:#Nachname
+title#:#Titel
+begin_date#:#Startdatum
+end_date#:#Enddatum
+wbd_errors_reason#:#Grund
+wbd_errors_reason_full#:#Grund (Volltext)
+wbd_errors_resolve#:#gelöst
