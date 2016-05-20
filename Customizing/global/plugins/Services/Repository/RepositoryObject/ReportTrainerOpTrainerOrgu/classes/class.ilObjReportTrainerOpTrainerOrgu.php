@@ -42,9 +42,15 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 
 	public function prepareReport() {
 		include_once $this->plugin->getDirectory()."/config/cfg.trainer_operation_by_trainer_and_orgu.php";
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		$this->meta_categories = $meta_categories;
 		$this->meta_category_names = $meta_category_names;
-		$this->top_nodes = $top_nodes;
+		foreach ($top_orgus as $orgu_title) {
+			$obj_id = ilObject::_getIdsForTitle($orgu_title, 'orgu')[0];
+			if($obj_id !== null) {
+				$this->top_nodes[] = gevObjectUtils::getRefId($obj_id);
+			}
+		}
 		parent::prepareReport();
 	}
 
@@ -115,7 +121,6 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 	protected function fetchData() {
 		$query = $this->buildQueryStatement();
 		$this->pre_data = array();
-			//	die($query);
 		$res = $this->gIldb->query($query);
 
 		while ($rec = $this->gIldb->fetchAssoc($res)) {
