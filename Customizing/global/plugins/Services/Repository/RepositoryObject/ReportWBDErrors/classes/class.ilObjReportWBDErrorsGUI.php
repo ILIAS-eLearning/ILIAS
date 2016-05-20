@@ -32,7 +32,7 @@ class ilObjReportWBDErrorsGUI extends ilObjReportBaseGUI {
 				$this->gCtrl->redirect($this, "showContent");
 				break;
 			default:
-				return false;
+				return parent::performCustomCommand($cmd);
 		}
 	}
 }
