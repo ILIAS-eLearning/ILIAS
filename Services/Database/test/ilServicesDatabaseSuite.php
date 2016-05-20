@@ -35,9 +35,6 @@ class ilServicesDatabaseSuite extends PHPUnit_Framework_TestSuite {
 	public static function suite() {
 		$suite = new self();
 
-//		return $suite;
-		// currently not supported by ILIAS tests since a database is needed. fire the tests directly
-
 		// add each test class of the component
 		require_once("./Services/Database/test/ilDatabaseCommonTest.php");
 
