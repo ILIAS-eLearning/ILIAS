@@ -6,7 +6,7 @@ ini_set('max_execution_time', 0);
 set_time_limit(0);
 
 class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
-	const MIN_ROW = "0";
+	const MIN_ROW = "3991";
 	const shift = '<div class = "inline_block">&nbsp;&nbsp;</div>';
 	protected $categories;
 	protected $relevant_parameters = array();	
@@ -45,8 +45,8 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		$this->meta_categories = $meta_categories;
 		$this->meta_category_names = $meta_category_names;
-		foreach ($top_orgus as $orgu_title) {
-			$obj_id = ilObject::_getIdsForTitle($orgu_title, 'orgu')[0];
+		foreach ($top_orgus as $orgu_import_id) {
+			$obj_id = ilObject::_getIdForImportId($orgu_import_id);
 			if($obj_id !== null) {
 				$this->top_nodes[] = gevObjectUtils::getRefId($obj_id);
 			}
