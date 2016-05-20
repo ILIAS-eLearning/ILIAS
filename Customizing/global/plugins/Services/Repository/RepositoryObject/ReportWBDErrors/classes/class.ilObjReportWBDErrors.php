@@ -39,19 +39,19 @@ class ilObjReportWBDErrors extends ilObjReportBase {
 	}
 
 	protected function buildTable($table) {
-		$table	->column("ts", "ts")
-				->column("action", "gev_wbd_errors_action")
-				->column("internal", "gev_wbd_errors_internal")
-				->column("user_id", "usr_id")
-				->column("course_id", "crs_id")
-				->column("firstname", "firstname")
-				->column("lastname", "lastname")
-				->column("title", "title")
-				->column("begin_date", "begin_date")
-				->column("end_date", "end_date")
-				->column("reason", "gev_wbd_errors_reason")
-				->column("reason_full", "gev_wbd_errors_reason_full")
-				->column("resolve", "gev_wbd_errors_resolve", 0, 0, 1);
+		$table	->column("ts", $this->plugin->txt("ts"), true)
+				->column("action", $this->plugin->txt("wbd_errors_action"), true)
+				->column("internal", $this->plugin->txt( "wbd_errors_internal"), true)
+				->column("user_id", $this->plugin->txt("usr_id"), true)
+				->column("course_id", $this->plugin->txt("crs_id"), true)
+				->column("firstname", $this->plugin->txt("firstname"), true)
+				->column("lastname", $this->plugin->txt("lastname"), true)
+				->column("title", $this->plugin->txt("title"), true)
+				->column("begin_date", $this->plugin->txt("begin_date"), true)
+				->column("end_date", $this->plugin->txt("end_date"), true)
+				->column("reason",$this->plugin->txt( "wbd_errors_reason"), true)
+				->column("reason_full", $this->plugin->txt("wbd_errors_reason_full"), true)
+				->column("resolve", $this->plugin->txt("wbd_errors_resolve"), 1, 0, 1);
 		return parent::buildTable($table);
 	}
 
@@ -86,19 +86,19 @@ class ilObjReportWBDErrors extends ilObjReportBase {
 	protected function buildFilter($filter) {
 		$filter ->static_condition("err.resolved = 0")
 				->multiselect("reason"
-							 , $this->lng->txt("gev_wbd_errors_reason")
+							 , $this->plugin->txt("wbd_errors_reason")
 							 , "reason"
-							 , array(1,2,3)//catFilter::getDistinctValues('reason', 'wbd_errors')
+							 , catFilter::getDistinctValues('reason', 'wbd_errors')
 							 , array()
 							 )
 				->multiselect("action"
-							 , $this->lng->txt("gev_wbd_errors_action")
+							 , $this->plugin->txt("wbd_errors_action")
 							 , "action"
 							 , catFilter::getDistinctValues('action', 'wbd_errors')
 							 , array()
 							 )
 				->multiselect("internal"
-							 , $this->lng->txt("gev_wbd_errors_internal")
+							 , $this->plugin->txt("wbd_errors_internal")
 							 , "internal"
 							 , catFilter::getDistinctValues('internal', 'wbd_errors')
 							 , array()
@@ -111,7 +111,7 @@ class ilObjReportWBDErrors extends ilObjReportBase {
 	public function fetchData(callable $callback) {
 		/**
 		 *	The following is not nice. I'll have to think of a better way to postprocess data from database, than the static transformResultRow.
-		 *	It probably would suffice just to make is nonstatic...
+		 *	It probably would suffice simply to make is nonstatic...
 		 */
 		$data = parent::fetchData($callback);
 		$this->gCtrl->setParameterByClass("ilObjReportWBDErrorsGUI","ref_id",$this->ref_id);
