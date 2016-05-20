@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -22,41 +22,24 @@
 */
 
 /**
- * Administrates DB connections in setup.
+ * Database Test-Suite
  *
- * Manage DB Connections
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @version 1.0.0
  */
-class ilDBConnections {
-
-	public $db;
-	var $log;
-
-
-	public function __construct() {
-		$this->connections = array();
-	}
-
+class ilServicesDatabaseSuite extends PHPUnit_Framework_TestSuite {
 
 	/**
-	 * @param $a_dsn_host
-	 * @return mixed
-	 * @throws \ilDatabaseException
-	 * @deprecated
+	 * @return \ilServicesDatabaseSuite
 	 */
-	public function connectHost($a_dsn_host) {
-		throw new ilDatabaseException(__CLASS__ . '::' . __METHOD__ . ' is not longer supported');
-	}
+	public static function suite() {
+		$suite = new self();
 
+		// add each test class of the component
+		require_once("./Services/Database/test/ilDatabaseCommonTest.php");
 
-	/**
-	 * @param $a_dsn_db
-	 * @return mixed
-	 * @throws \ilDatabaseException
-	 * @deprecated
-	 */
-	public function connectDB($a_dsn_db) {
-		throw new ilDatabaseException(__CLASS__ . '::' . __METHOD__ . ' is not longer supported');
+		$suite->addTestSuite("ilDatabaseCommonTest");
+
+		return $suite;
 	}
 }
-
-?>

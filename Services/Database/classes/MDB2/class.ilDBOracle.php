@@ -343,7 +343,7 @@ class ilDBOracle extends ilDB
 	 * @param object $a_allow_null [optional]
 	 * @return 
 	 */
-	public function concat($a_values, $a_allow_null = true)
+	public function concat(array $a_values, $a_allow_null = true)
 	{
 		if(count($a_values) <= 2)
 		{

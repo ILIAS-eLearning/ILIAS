@@ -1,4 +1,5 @@
 <?php
+require_once('./Services/Database/classes/PDO/class.ilDBPdoFieldDefinition.php');
 
 /**
  * Class ilDBConstants
@@ -9,8 +10,6 @@ class ilDBConstants {
 
 	const FETCHMODE_ASSOC = 2;
 	const FETCHMODE_OBJECT = 3;
-	const MODULE_MANAGER = 'Manager';
-	const MODULE_REVERSE = 'Reverse';
 	const TYPE_INNODB = 'innodb';
 	const TYPE_MYSQL = 'mysql';
 	const TYPE_ORACLE = 'oracle';
@@ -21,261 +20,86 @@ class ilDBConstants {
 	const TYPE_MYSQLI = 'mysqli';
 	const LOCK_WRITE = 1;
 	const LOCK_READ = 2;
-	const T_CLOB = 'clob';
-	const T_DATE = 'date';
-	const T_DATETIME = 'datetime';
-	const T_FLOAT = 'float';
-	const T_INTEGER = 'integer';
-	const T_TEXT = 'text';
-	const T_TIME = 'time';
-	const T_TIMESTAMP = 'timestamp';
-	const T_BLOB = 'blob';
-	const INDEX_FORMAT = '%s_idx';
-	const SEQUENCE_FORMAT = '%s_seq';
-	const SEQUENCE_COLUMNS_NAME = 'sequence';
+	const MODULE_MANAGER = 'Manager';
+	const MODULE_REVERSE = 'Reverse';
+	const INDEX_FORMAT = ilDBPdoFieldDefinition::INDEX_FORMAT;
+	const SEQUENCE_FORMAT = ilDBPdoFieldDefinition::SEQUENCE_FORMAT;
+	const SEQUENCE_COLUMNS_NAME = ilDBPdoFieldDefinition::SEQUENCE_COLUMNS_NAME;
+	const T_CLOB = ilDBPdoFieldDefinition::T_CLOB;
+	const T_DATE = ilDBPdoFieldDefinition::T_DATE;
+	const T_DATETIME = ilDBPdoFieldDefinition::T_DATETIME;
+	const T_FLOAT = ilDBPdoFieldDefinition::T_FLOAT;
+	const T_INTEGER = ilDBPdoFieldDefinition::T_INTEGER;
+	const T_TEXT = ilDBPdoFieldDefinition::T_TEXT;
+	const T_TIME = ilDBPdoFieldDefinition::T_TIME;
+	const T_TIMESTAMP = ilDBPdoFieldDefinition::T_TIMESTAMP;
+	const T_BLOB = ilDBPdoFieldDefinition::T_BLOB;
 	/**
 	 * @var array
 	 */
-	public static $allowed_attributes = array(
-		self::T_TEXT      => array( 'length', 'notnull', 'default', 'fixed' ),
-		self::T_INTEGER   => array( 'length', 'notnull', 'default', 'unsigned' ),
-		self::T_FLOAT     => array( 'notnull', 'default' ),
-		self::T_DATE      => array( 'notnull', 'default' ),
-		self::T_TIME      => array( 'notnull', 'default' ),
-		self::T_TIMESTAMP => array( 'notnull', 'default' ),
-		self::T_CLOB      => array( 'notnull', 'default' ),
-		self::T_BLOB      => array( 'notnull', 'default' ),
+	protected static $descriptions = array(
+		ilDBConstants::TYPE_PDO_MYSQL_MYISAM => "MySQL 5.5.x or higher (MyISAM engine)",
+		ilDBConstants::TYPE_PDO_MYSQL_INNODB => "MySQL 5.5.x or higher (InnoDB engine)",
+		ilDBConstants::TYPE_PDO_POSTGRE      => "Postgres (experimental) (InnoDB engine)",
+		ilDBConstants::TYPE_ORACLE           => "Oracle 10g or higher [legacy]",
+		ilDBConstants::TYPE_POSTGRES         => "Postgres (experimental) [legacy]",
+		ilDBConstants::TYPE_MYSQL            => "MySQL 5.0.x or higher (MyISAM engine) [legacy]",
+		ilDBConstants::TYPE_INNODB           => "MySQL 5.0.x or higher (InnoDB engine) [legacy]",
 	);
 
 
 	/**
 	 * @return array
 	 */
-	public static function getReserved() {
+	public static function getInstallableTypes() {
 		return array(
-			"ACCESSIBLE",
-			"ADD",
-			"ALL",
-			"ALTER",
-			"ANALYZE",
-			"AND",
-			"AS",
-			"ASC",
-			"ASENSITIVE",
-			"BEFORE",
-			"BETWEEN",
-			"BIGINT",
-			"BINARY",
-			"BLOB",
-			"BOTH",
-			"BY",
-			"CALL",
-			"CASCADE",
-			"CASE",
-			"CHANGE",
-			"CHAR",
-			"CHARACTER",
-			"CHECK",
-			"COLLATE",
-			"COLUMN",
-			"CONDITION",
-			"CONSTRAINT",
-			"CONTINUE",
-			"CONVERT",
-			"CREATE",
-			"CROSS",
-			"CURRENT_DATE",
-			"CURRENT_TIME",
-			"CURRENT_TIMESTAMP",
-			"CURRENT_USER",
-			"CURSOR",
-			"DATABASE",
-			"DATABASES",
-			"DAY_HOUR",
-			"DAY_MICROSECOND",
-			"DAY_MINUTE",
-			"DAY_SECOND",
-			"DEC",
-			"DECIMAL",
-			"DECLARE",
-			"DEFAULT",
-			"DELAYED",
-			"DELETE",
-			"DESC",
-			"DESCRIBE",
-			"DETERMINISTIC",
-			"DISTINCT",
-			"DISTINCTROW",
-			"DIV",
-			"DOUBLE",
-			"DROP",
-			"DUAL",
-			"EACH",
-			"ELSE",
-			"ELSEIF",
-			"ENCLOSED",
-			"ESCAPED",
-			"EXISTS",
-			"EXIT",
-			"EXPLAIN",
-			"FALSE",
-			"FETCH",
-			"FLOAT",
-			"FLOAT4",
-			"FLOAT8",
-			"FOR",
-			"FORCE",
-			"FOREIGN",
-			"FROM",
-			"FULLTEXT",
-			"GRANT",
-			"GROUP",
-			"HAVING",
-			"HIGH_PRIORITY",
-			"HOUR_MICROSECOND",
-			"HOUR_MINUTE",
-			"HOUR_SECOND",
-			"IF",
-			"IGNORE",
-			"IN",
-			"INDEX",
-			"INFILE",
-			"INNER",
-			"INOUT",
-			"INSENSITIVE",
-			"INSERT",
-			"INT",
-			"INT1",
-			"INT2",
-			"INT3",
-			"INT4",
-			"INT8",
-			"INTEGER",
-			"INTERVAL",
-			"INTO",
-			"IS",
-			"ITERATE",
-			"JOIN",
-			"KEY",
-			"KEYS",
-			"KILL",
-			"LEADING",
-			"LEAVE",
-			"LEFT",
-			"LIKE",
-			"LIMIT",
-			"LINEAR",
-			"LINES",
-			"LOAD",
-			"LOCALTIME",
-			"LOCALTIMESTAMP",
-			"LOCK",
-			"LONG",
-			"LONGBLOB",
-			"LONGTEXT",
-			"LOOP",
-			"LOW_PRIORITY",
-			"MASTER_SSL_VERIFY_SERVER_CERT",
-			"MATCH",
-			"MEDIUMBLOB",
-			"MEDIUMINT",
-			"MEDIUMTEXT",
-			"MIDDLEINT",
-			"MINUTE_MICROSECOND",
-			"MINUTE_SECOND",
-			"MOD",
-			"MODIFIES",
-			"NATURAL",
-			"NOT",
-			"NO_WRITE_TO_BINLOG",
-			"NULL",
-			"NUMERIC",
-			"ON",
-			"OPTIMIZE",
-			"OPTION",
-			"OPTIONALLY",
-			"OR",
-			"ORDER",
-			"OUT",
-			"OUTER",
-			"OUTFILE",
-			"PRECISION",
-			"PRIMARY",
-			"PROCEDURE",
-			"PURGE",
-			"RANGE",
-			"READ",
-			"READS",
-			"READ_WRITE",
-			"REAL",
-			"REFERENCES",
-			"REGEXP",
-			"RELEASE",
-			"RENAME",
-			"REPEAT",
-			"REPLACE",
-			"REQUIRE",
-			"RESTRICT",
-			"RETURN",
-			"REVOKE",
-			"RIGHT",
-			"RLIKE",
-			"SCHEMA",
-			"SCHEMAS",
-			"SECOND_MICROSECOND",
-			"SELECT",
-			"SENSITIVE",
-			"SEPARATOR",
-			"SET",
-			"SHOW",
-			"SMALLINT",
-			"SPATIAL",
-			"SPECIFIC",
-			"SQL",
-			"SQLEXCEPTION",
-			"SQLSTATE",
-			"SQLWARNING",
-			"SQL_BIG_RESULT",
-			"SQL_CALC_FOUND_ROWS",
-			"SQL_SMALL_RESULT",
-			"SSL",
-			"STARTING",
-			"STRAIGHT_JOIN",
-			"TABLE",
-			"TERMINATED",
-			"THEN",
-			"TINYBLOB",
-			"TINYINT",
-			"TINYTEXT",
-			"TO",
-			"TRAILING",
-			"TRIGGER",
-			"TRUE",
-			"UNDO",
-			"UNION",
-			"UNIQUE",
-			"UNLOCK",
-			"UNSIGNED",
-			"UPDATE",
-			"USAGE",
-			"USE",
-			"USING",
-			"UTC_DATE",
-			"UTC_TIME",
-			"UTC_TIMESTAMP",
-			"VALUES",
-			"VARBINARY",
-			"VARCHAR",
-			"VARCHARACTER",
-			"VARYING",
-			"WHEN",
-			"WHERE",
-			"WHILE",
-			"WITH",
-			"WRITE",
-			"XOR",
-			"YEAR_MONTH",
-			"ZEROFILL",
+			ilDBConstants::TYPE_PDO_MYSQL_MYISAM,
+			ilDBConstants::TYPE_PDO_MYSQL_INNODB,
+			ilDBConstants::TYPE_MYSQL,
+			ilDBConstants::TYPE_INNODB,
+		);
+	}
+
+
+	/**
+	 * @param bool $with_descriptions
+	 * @return array
+	 */
+	public static function getAvailableTypes($with_descriptions = true) {
+		$types = array_merge(self::getSupportedTypes(), self::getLegacyTypes());
+		if ($with_descriptions) {
+			$return = array();
+			foreach ($types as $type) {
+				$return [$type] = self::$descriptions[$type];
+			}
+			$types = $return;
+		}
+
+		return $types;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public static function getSupportedTypes() {
+		return array(
+			ilDBConstants::TYPE_PDO_MYSQL_MYISAM,
+			ilDBConstants::TYPE_PDO_MYSQL_INNODB,
+			ilDBConstants::TYPE_PDO_POSTGRE,
+		);
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public static function getLegacyTypes() {
+		return array(
+			ilDBConstants::TYPE_ORACLE,
+			ilDBConstants::TYPE_POSTGRES,
+			ilDBConstants::TYPE_MYSQL,
+			ilDBConstants::TYPE_INNODB,
 		);
 	}
 }

@@ -29,7 +29,7 @@ class ilPDOStatement implements ilDBStatement {
 	 * @return mixed
 	 * @throws ilDatabaseException
 	 */
-	function fetchRow($fetchMode = ilDBConstants::FETCHMODE_ASSOC) {
+	public function fetchRow($fetchMode = ilDBConstants::FETCHMODE_ASSOC) {
 		if ($fetchMode == ilDBConstants::FETCHMODE_ASSOC) {
 			return $this->pdo->fetch(PDO::FETCH_ASSOC);
 		} elseif ($fetchMode == ilDBConstants::FETCHMODE_OBJECT) {

@@ -64,11 +64,11 @@ class ilSetup extends PEAR
 	* @param	boolean		user is authenticated? (true) or not (false)
 	* @param	string		user is admin or common user
 	*/
-	function ilSetup($a_auth,$a_auth_type)
+	public function __construct($a_auth, $a_auth_type)
 	{
-		global $log, $lng;
+		global $lng;
 
-		$this->PEAR();
+//		$this->PEAR();
 		$this->lng = $lng;
 
 		$this->db_connections = new ilDBConnections();
@@ -225,161 +225,155 @@ class ilSetup extends PEAR
 	*/
 	function createDatabase($a_collation = "")
 	{
-		if ($this->client->checkDatabaseExists())
-		{
+		if ($this->client->getDBSetup()->isDatabaseInstalled()) {
 			$this->error = $this->lng->txt("database_exists");
+
 			return false;
 		}
 
-		$this->client->getDB()->connectHost(true);
+	return $this->client->getDBSetup()->createDatabase($a_collation);
 
-		//create database
-		$db = $this->client->getDB();
-		if (MDB2::isError($db))
-		{
-			$this->error = "connection_failed";
-			return false;
-		}
 
-		$r = $db->createDatabase($this->client->getdbName(),
-			"utf8", $a_collation);
-
-		if (MDB2::isError($r))
-		{
-			$this->error = "create_database_failed";
-			return false;
-		}
-
-		//database is created, now disconnect and reconnect
-		$db->disconnect();
-
-		$this->client->db_exists = true;
-		return true;
+//
+//
+//		//create database
+//		$db = $this->client->getDB();
+//		if (MDB2::isError($db))
+//		{
+//			$this->error = "connection_failed";
+//			return false;
+//		}
+//
+//		$r = $db->createDatabase($this->client->getdbName(),
+//			"utf8", $a_collation);
+//
+//		if (MDB2::isError($r))
+//		{
+//			$this->error = "create_database_failed";
+//			return false;
+//		}
+//
+//		//database is created, now disconnect and reconnect
+//		$db->disconnect();
+//
+//		$this->client->db_exists = true;
+//		return true;
 	}
 
 	/**
 	* set the database data
 	* @return	boolean
+	 * @deprecated 
 	*/
-	function installDatabase()
+	public function installDatabase()
 	{
-/*		if (!$this->client->checkDatabaseHost())
-		{
-			$this->error = "no_connection_to_host";
-			return false;
-		}*/
-
-		if (!$this->client->connect())
-		{
+		if (!$this->client->getDBSetup()->isDatabaseConnectable()) {
 			return false;
 		}
 
-		//take sql dump an put it in
-		if ($this->readDump($this->client->db, $this->SQL_FILE))
-		{
+		if ($this->client->getDBSetup()->installDatabase()) {
 			$this->client->db_installed = true;
+
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
-	function getline( $fp, $delim )
-	{
-		$result = "";
-		while( !feof( $fp ) )
-		{
-			$tmp = fgetc( $fp );
-			if( $tmp == $delim )
-				return $result;
-			$result .= $tmp;
-		}
-		return $result;
-	}
-
-	/**
-	* execute a query
-	* @param	string
-	* @param	string
-	* @return	boolean	ture if query was processed successfully
-	*/
-	function readDump($db, $file)
-	{
-		// mysql (old procedure)
-		if ($db->getDBType() == "mysql")
-		{
-			$fp = fopen($file, 'r');
-
-			while(!feof($fp))
-			{
-				//$line = trim(fgets($fp, 200000));
-				$line = trim($this->getline($fp, "\n"));
-
-				if ($line != "" && substr($line,0,1)!="#"
-					&& substr($line,0,1)!="-")
-				{
-					//take line per line, until last char is ";"
-					if (substr($line,-1)==";")
-					{
-						//query is complete
-						$q .= " ".substr($line,0,-1);
-						$r = $db->query($q);
-
-						if ($db->getErrorNo() > 0)
-						{
-							echo "<br />ERROR: ".$db->getError().
-								"<br />SQL: $q";
-							return false;
-						}
-						unset($q);
-						unset($line);
-					} //if
-					else
-					{
-						$q .= " ".$line;
-					} //else
-				} //if
-			} //for
-
-			fclose($fp);
-		}
-
-		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
-		if (in_array($db->getDBType(), array("oracle", "postgres", "innodb")))
-		{
-			if(@is_dir('./setup/sql/ilDBTemplate'))
-			{
-				include_once './Services/Database/classes/class.ilArrayTableDataParser.php';
-				include_once './Services/Xml/exceptions/class.ilSaxParserException.php';
-				$reader = new tmpDirectoyIterator('./setup/sql/ilDBTemplate');
-				foreach($reader as $file)
-				{
-					eval(file_get_contents('./setup/sql/ilDBTemplate/'.$file));
-					try
-					{
-						$parser = new ilArrayTableDataParser('./setup/sql/ilDBTemplate/'.$file.'_inserts');
-						#$parser = new ilSimpleXMLTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.xml');
-						$parser->startParsing();
-						#echo 'Table: '.$file.', memory: '.memory_get_peak_usage().' peak: '.memory_get_peak_usage().'<br />';flush();
-
-					}
-					catch(ilSaxParserException $e)
-					{
-						die($e);
-					}
-				}
-			}
-			else
-			{
-				include_once("./setup/sql/ilDBTemplate.php");
-				setupILIASDatabase();
-			}
-		}
-		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
-		return true;
-	}
+//	function getline( $fp, $delim )
+//	{
+//		$result = "";
+//		while( !feof( $fp ) )
+//		{
+//			$tmp = fgetc( $fp );
+//			if( $tmp == $delim )
+//				return $result;
+//			$result .= $tmp;
+//		}
+//		return $result;
+//	}
+//
+//	/**
+//	* execute a query
+//	* @param	string
+//	* @param	string
+//	* @return	boolean	ture if query was processed successfully
+//	*/
+//	function readDump($db, $file)
+//	{
+//		// mysql (old procedure)
+//		if ($db->getDBType() == "mysql")
+//		{
+//			$fp = fopen($file, 'r');
+//
+//			while(!feof($fp))
+//			{
+//				//$line = trim(fgets($fp, 200000));
+//				$line = trim($this->getline($fp, "\n"));
+//
+//				if ($line != "" && substr($line,0,1)!="#"
+//					&& substr($line,0,1)!="-")
+//				{
+//					//take line per line, until last char is ";"
+//					if (substr($line,-1)==";")
+//					{
+//						//query is complete
+//						$q .= " ".substr($line,0,-1);
+//						$r = $db->query($q);
+//
+//						if ($db->getErrorNo() > 0)
+//						{
+//							echo "<br />ERROR: ".$db->getError().
+//								"<br />SQL: $q";
+//							return false;
+//						}
+//						unset($q);
+//						unset($line);
+//					} //if
+//					else
+//					{
+//						$q .= " ".$line;
+//					} //else
+//				} //if
+//			} //for
+//
+//			fclose($fp);
+//		}
+//
+//		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
+//		if (in_array($db->getDBType(), array("oracle", "postgres", "innodb")))
+//		{
+//			if(@is_dir('./setup/sql/ilDBTemplate'))
+//			{
+//				include_once './Services/Database/classes/class.ilArrayTableDataParser.php';
+//				include_once './Services/Xml/exceptions/class.ilSaxParserException.php';
+//				$reader = new tmpDirectoyIterator('./setup/sql/ilDBTemplate');
+//				foreach($reader as $file)
+//				{
+//					eval(file_get_contents('./setup/sql/ilDBTemplate/'.$file));
+//					try
+//					{
+//						$parser = new ilArrayTableDataParser('./setup/sql/ilDBTemplate/'.$file.'_inserts');
+//						#$parser = new ilSimpleXMLTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.xml');
+//						$parser->startParsing();
+//						#echo 'Table: '.$file.', memory: '.memory_get_peak_usage().' peak: '.memory_get_peak_usage().'<br />';flush();
+//
+//					}
+//					catch(ilSaxParserException $e)
+//					{
+//						die($e);
+//					}
+//				}
+//			}
+//			else
+//			{
+//				include_once("./setup/sql/ilDBTemplate.php");
+//				setupILIASDatabase();
+//			}
+//		}
+//		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
+//		return true;
+//	}
 
 
 	/**
