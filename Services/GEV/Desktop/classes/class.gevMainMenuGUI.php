@@ -347,9 +347,8 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	protected function getReportingMenuDropDown() {
 		require_once("Services/Link/classes/class.ilLink.php");
 		require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php");
-		$entries = array
-			( "gev_report_employee_edu_bio" => array($this->canViewReport("gev_report_employee_edu_bio"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportEmployeeEduBios",$this->gLng->txt("gev_report_employee_edu_bios"))
-			, "gev_report_bookingbyvenue" => array($this->canViewReport("gev_report_bookingbyvenue"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportBookingsByVenue",$this->gLng->txt("gev_report_bookingbyvenue"))
+		$entries = array(
+			 "gev_report_bookingbyvenue" => array($this->canViewReport("gev_report_bookingbyvenue"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportBookingsByVenue",$this->gLng->txt("gev_report_bookingbyvenue"))
 			, "gev_report_wbd_edupoints" => array($this->canViewReport("gev_report_wbd_edupoints"), "ilias.php?baseClass=gevDesktopGUI&cmd=toReportWBDEdupoints",$this->gLng->txt("gev_report_wbd_edupoints"))
 			, "gev_report_wbd_errors" => array($this->canViewReport("gev_report_wbd_errors"), "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->gLng->txt("gev_report_wbd_errors"))
 			, "gev_report_dbv_report" => array($this->canViewReport("gev_report_dbv_report"), "ilias.php?baseClass=gevDesktopGUI&cmd=toDBVReport",$this->gLng->txt("gev_report_dbv_report"))
@@ -382,7 +381,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 
 			$has_reporting_menu
 				=  $this->canViewReport("gev_report_bookingbyvenue")
-				|| $this->canViewReport("gev_report_employee_edu_bio")
 				|| $this->canViewReport("gev_report_wbd_edupoints")
 				|| $this->canViewReport("gev_report_wbd_errors")
 				|| $this->canViewReport("gev_report_dbv_report")
@@ -398,8 +396,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 
 	protected function canViewReport($report_name) {
 		switch ($report_name) {
-			case "gev_report_employee_edu_bio":
-				return $this->user_utils && ($this->user_utils->isAdmin() || $this->user_utils->hasRoleIn(array("OD-Betreuer")) || $this->user_utils->isSuperior());
 			case "gev_report_bookingbyvenue":
 				return $this->user_utils && ($this->user_utils->isAdmin() || $this->user_utils->hasRoleIn(array("Veranstalter")));
 			case "gev_report_wbd_edupoints":

@@ -1,0 +1,11 @@
+.bordered_right {
+	border-right: 1px solid black;
+}
+
+.bold_content {
+	font-weight:bold;
+}
+
+.inline_block {
+	display:inline-block;
+}

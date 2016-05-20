@@ -1,8 +1,8 @@
 <?php
 
-$id = "xeeb";
+$id = "xwbe";
 
-$version = "0.0.3";
+$version = "0.0.1";
  
 
 $ilias_min_version = "4.2.0";
