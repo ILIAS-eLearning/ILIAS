@@ -92,6 +92,7 @@ class ilAssQuestionSkillAssignmentExporter
 
 		$assignmentList->setParentObjId($this->getParentObjId());
 		$assignmentList->loadFromDb();
+		$assignmentList->loadAdditionalSkillData();
 
 		foreach($this->getQuestionIds() as $questionId)
 		{
@@ -105,6 +106,14 @@ class ilAssQuestionSkillAssignmentExporter
 					'SkillBaseId' => $questionSkillAssignment->getSkillBaseId(),
 					'SkillTrefId' => $questionSkillAssignment->getSkillTrefId()
 				));
+				
+				$this->getXmlWriter()->xmlElement(
+					'OriginalSkillTitle', null, $questionSkillAssignment->getSkillTitle()
+				);
+				
+				$this->getXmlWriter()->xmlElement(
+					'OriginalSkillPath', null, $questionSkillAssignment->getSkillPath()
+				);
 
 				switch( $questionSkillAssignment->getEvalMode() )
 				{

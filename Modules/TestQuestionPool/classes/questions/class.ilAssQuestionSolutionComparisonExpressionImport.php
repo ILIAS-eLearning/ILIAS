@@ -147,4 +147,14 @@ class ilAssQuestionSolutionComparisonExpressionImport
 	{
 		$this->points = $points;
 	}
+	
+	public function __sleep()
+	{
+		// TODO: Implement __sleep() method.
+	}
+	
+	public function __wakeup()
+	{
+		// TODO: Implement __wakeup() method.
+	}
 }

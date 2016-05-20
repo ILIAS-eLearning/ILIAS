@@ -185,6 +185,14 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 				$this->setCurAssignment($assignment);
 				break;
 			
+			case 'OriginalSkillTitle':
+				$this->resetCharacterDataBuffer();
+				break;
+			
+			case 'OriginalSkillPath':
+				$this->resetCharacterDataBuffer();
+				break;
+			
 			case 'EvalByQuestionResult':
 				$this->getCurAssignment()->setEvalMode(ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT);
 				$this->getCurAssignment()->setSkillPoints((int)$tagAttributes['SkillPoints']);
@@ -226,6 +234,16 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 				$this->setCurAssignment(null);
 				break;
 			
+			case 'OriginalSkillTitle':
+				$this->getCurAssignment()->setImportSkillTitle($this->getCharacterDataBuffer());
+				$this->resetCharacterDataBuffer();
+				break;
+			
+			case 'OriginalSkillPath':
+				$this->getCurAssignment()->setImportSkillPath($this->getCharacterDataBuffer());
+				$this->resetCharacterDataBuffer();
+				break;
+			
 			case 'EvalByQuestionResult':
 				break;
 			
@@ -234,9 +252,9 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 			
 			case 'SolutionComparisonExpression':
 				$this->getCurExpression()->setExpression($this->getCharacterDataBuffer());
-				$this->getCurAssignment()->getImportSolutionComparisonExpressionList()->add($this->getCurExpression());
+				$this->getCurAssignment()->getImportSolutionComparisonExpressionList()->addExpression($this->getCurExpression());
 				$this->setCurExpression(null);
-				$this->cdata = null;
+				$this->resetCharacterDataBuffer();
 				break;
 		}
 	}

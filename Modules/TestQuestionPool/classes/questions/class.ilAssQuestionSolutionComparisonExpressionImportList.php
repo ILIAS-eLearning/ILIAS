@@ -9,7 +9,7 @@ require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSolu
  *
  * @package     Modules/TestQuestionPool
  */
-class ilAssQuestionSolutionComparisonExpressionImportList
+class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
 {
 	/**
 	 * @var integer
@@ -94,17 +94,67 @@ class ilAssQuestionSolutionComparisonExpressionImportList
 	/**
 	 * @return array
 	 */
-	public function get()
+	public function getExpressions()
 	{
 		return $this->expressions;
 	}
 	
-	public function add(ilAssQuestionSolutionComparisonExpressionImport $expression)
+	public function addExpression(ilAssQuestionSolutionComparisonExpressionImport $expression)
 	{
 		$expression->setImportQuestionId($this->getImportQuestionId());
 		$expression->setImportSkillBaseId($this->getImportSkillBaseId());
 		$expression->setImportSkillTrefId($this->getImportSkillTrefId());
 		
 		$this->expressions[$expression->getOrderIndex()] = $expression;
+	}
+	
+	/**
+	 * @return ilAssQuestionSolutionComparisonExpressionImport
+	 */
+	public function current()
+	{
+		return current($this->expressions);
+	}
+	
+	/**
+	 * @return ilAssQuestionSolutionComparisonExpressionImport
+	 */
+	public function next()
+	{
+		return next($this->expressions);
+	}
+	
+	/**
+	 * @return integer|bool
+	 */
+	public function key()
+	{
+		return key($this->expressions);
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function valid()
+	{
+		return key($this->expressions) !== false;
+	}
+	
+	/**
+	 * @return ilAssQuestionSolutionComparisonExpressionImport|bool
+	 */
+	public function rewind()
+	{
+		return reset($this->expressions);
+	}
+	
+	public function __sleep()
+	{
+		// TODO: Implement __sleep() method.
+	}
+	
+	public function __wakeup()
+	{
+		// TODO: Implement __wakeup() method.
 	}
 }
