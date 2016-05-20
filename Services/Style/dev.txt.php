@@ -11,8 +11,8 @@ System/templates
 Content/...
 classes/class.ilStyleExporter.php
 
-copg: Candidate for COPage Service (General Problem "SCORM RTE features", abandon?) (or content subdirectory)
-sys: system style related
+copg: content related
+sys: system related
 
 - basic_style/...: copg
 - classes/...InputGUI.php: copg
