@@ -18,6 +18,11 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 	protected $parsingActive;
 	
 	/**
+	 * @var string
+	 */
+	protected $characterDataBuffer;
+	
+	/**
 	 * @var integer
 	 */
 	protected $curQuestionId;
@@ -43,7 +48,10 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 	public function __construct($xmlFile)
 	{
 		$this->parsingActive = false;
+		$this->characterDataBuffer = null;
+		$this->curQuestionId = null;
 		$this->curAssignment = null;
+		$this->curExpression = null;
 		$this->assignmentList = new ilAssQuestionSkillAssignmentImportList();
 		return parent::ilSaxParser($xmlFile);
 	}
@@ -62,6 +70,30 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 	public function setParsingActive($parsingActive)
 	{
 		$this->parsingActive = $parsingActive;
+	}
+	
+	/**
+	 * @return string
+	 */
+	protected function getCharacterDataBuffer()
+	{
+		return $this->characterDataBuffer;
+	}
+	
+	/**
+	 * @param string $characterDataBuffer
+	 */
+	protected function resetCharacterDataBuffer()
+	{
+		$this->characterDataBuffer = '';
+	}
+	
+	/** 
+	 * @param string $characterData
+	 */
+	protected function appendToCharacterDataBuffer($characterData)
+	{
+		$this->characterDataBuffer .= $characterData;
 	}
 	
 	/**
@@ -167,7 +199,7 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 				$expression->setPoints((int)$tagAttributes['SkillPoints']);
 				$expression->setOrderIndex((int)$tagAttributes['OrderIndex']);
 				$this->setCurExpression($expression);
-				$this->cdata = '';
+				$this->resetCharacterDataBuffer();
 				break;
 		}
 	}
@@ -190,7 +222,7 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 				break;
 			
 			case 'TriggeredSkill':
-				$this->getAssignmentList()->add($this->getCurAssignment());
+				$this->getAssignmentList()->addAssignment($this->getCurAssignment());
 				$this->setCurAssignment(null);
 				break;
 			
@@ -201,7 +233,7 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 				break;
 			
 			case 'SolutionComparisonExpression':
-				$this->getCurExpression()->setExpression($this->cdata);
+				$this->getCurExpression()->setExpression($this->getCharacterDataBuffer());
 				$this->getCurAssignment()->getImportSolutionComparisonExpressionList()->add($this->getCurExpression());
 				$this->setCurExpression(null);
 				$this->cdata = null;
@@ -221,7 +253,7 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 			// Replace multiple tabs with one space
 			$charData = preg_replace("/\t+/"," ",$charData);
 			
-			$this->cdata .= $charData;
+			$this->appendToCharacterDataBuffer($charData);
 		}
 	}
 }

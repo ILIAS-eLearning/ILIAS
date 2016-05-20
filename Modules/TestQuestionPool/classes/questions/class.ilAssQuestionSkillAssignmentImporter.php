@@ -9,8 +9,40 @@
  */
 class ilAssQuestionSkillAssignmentImporter
 {
-	public function	importQuestionSkillAssignments(ilAssQuestionSkillAssignmentImportList $assignmentList)
+	/**
+	 * @var ilAssQuestionSkillAssignmentImportList
+	 */
+	protected $assignmentList;
+	
+	/**
+	 * ilAssQuestionSkillAssignmentImporter constructor.
+	 */
+	public function __construct()
 	{
-		
+		$this->assignmentList = null;
+	}
+	
+	/**
+	 * @return ilAssQuestionSkillAssignmentImportList
+	 */
+	public function getAssignmentList()
+	{
+		return $this->assignmentList;
+	}
+	
+	/**
+	 * @param ilAssQuestionSkillAssignmentImportList $assignmentList
+	 */
+	public function setAssignmentList($assignmentList)
+	{
+		$this->assignmentList = $assignmentList;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function	import()
+	{
+		return true;
 	}
 }

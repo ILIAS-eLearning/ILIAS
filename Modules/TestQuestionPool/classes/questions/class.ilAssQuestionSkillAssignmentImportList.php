@@ -34,9 +34,13 @@ class ilAssQuestionSkillAssignmentImportList
 	/**
 	 * @param ilAssQuestionSkillAssignmentImport $assignment
 	 */
-	public function add(ilAssQuestionSkillAssignmentImport $assignment)
+	public function addAssignment(ilAssQuestionSkillAssignmentImport $assignment)
 	{
 		$this->assignments[] = $assignment;
 	}
 	
+	public function assignmentsExist()
+	{
+		return count($this->assignments) > 0;
+	}
 }
