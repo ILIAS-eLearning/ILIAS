@@ -1,13 +1,15 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSolutionComparisonExpressionImport.php';
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
  *
  * @package     Modules/TestQuestionPool
  */
-class ilAssQuestionSolutionComparisonExpressionListImport
+class ilAssQuestionSolutionComparisonExpressionImportList
 {
 	/**
 	 * @var integer
@@ -17,7 +19,7 @@ class ilAssQuestionSolutionComparisonExpressionListImport
 	/**
 	 * @var integer
 	 */
-	private  $importSkillBaseId;
+	private $importSkillBaseId;
 	
 	/**
 	 * @var integer
@@ -30,7 +32,7 @@ class ilAssQuestionSolutionComparisonExpressionListImport
 	private $expressions;
 	
 	/**
-	 * ilAssQuestionSolutionComparisonExpressionListImport constructor.
+	 * ilAssQuestionSolutionComparisonExpressionImportList constructor.
 	 */
 	public function __construct()
 	{
@@ -105,5 +107,4 @@ class ilAssQuestionSolutionComparisonExpressionListImport
 		
 		$this->expressions[$expression->getOrderIndex()] = $expression;
 	}
-	
 }

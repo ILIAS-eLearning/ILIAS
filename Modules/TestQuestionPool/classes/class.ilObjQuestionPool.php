@@ -1700,6 +1700,13 @@ class ilObjQuestionPool extends ilObject
 		require_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolXMLParser.php';
 		$parser = new ilObjQuestionPoolXMLParser($this, $xmlFile);
 		$parser->startParsing();
+		
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentXmlParser.php';
+		$parser = new ilAssQuestionSkillAssignmentXmlParser($xmlFile);
+		$parser->startParsing();
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImporter.php';
+		$importer = new ilAssQuestionSkillAssignmentImporter();
+		$importer->importQuestionSkillAssignments($parser->getAssignmentList());
 	}
 } // END class.ilObjQuestionPool
 ?>

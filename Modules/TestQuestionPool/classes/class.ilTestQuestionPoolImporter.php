@@ -26,6 +26,8 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 	 */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
+		/* @var ilObjQuestionPool $newObj */
+		
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		ilObjQuestionPool::_setImportDirectory($this->getImportDirectoryContainer());
 		

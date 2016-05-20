@@ -1,13 +1,15 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImport.php';
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
  *
- * @package     Modules/Test(QuestionPool)
+ * @package     Modules/TestQuestionPool
  */
-class ilAssQuestionSkillAssignmentListImport
+class ilAssQuestionSkillAssignmentImportList
 {
 	
 	/**
@@ -21,7 +23,7 @@ class ilAssQuestionSkillAssignmentListImport
 	protected $assignments;
 	
 	/**
-	 * ilAssQuestionSkillAssignmentListImport constructor.
+	 * ilAssQuestionSkillAssignmentImportList constructor.
 	 */
 	public function __construct()
 	{

@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSolutionComparisonExpressionListImport.php';
+require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSolutionComparisonExpressionImportList.php';
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -34,15 +34,15 @@ class ilAssQuestionSkillAssignmentImport
 	/**
 	 * @var integer
 	 */
-	private $importSkillPoints;
+	private $skillPoints;
 	
 	/**
 	 * @var string
 	 */
-	private $importEvalMode;
+	private $evalMode;
 	
 	/**
-	 * @var ilAssQuestionSolutionComparisonExpressionList
+	 * @var ilAssQuestionSolutionComparisonExpressionImportList
 	 */
 	private $importSolutionComparisonExpressionList;
 	
@@ -51,7 +51,7 @@ class ilAssQuestionSkillAssignmentImport
 	 */
 	public function __construct()
 	{
-		$this->importSolutionComparisonExpressionListImport = new ilAssQuestionSolutionComparisonExpressionListImport();
+		$this->importSolutionComparisonExpressionList = new ilAssQuestionSolutionComparisonExpressionImportList();
 	}
 	
 	/**
@@ -73,17 +73,17 @@ class ilAssQuestionSkillAssignmentImport
 	/**
 	 * @param int $skillPoints
 	 */
-	public function setImportSkillPoints($importSkillPoints)
+	public function setSkillPoints($skillPoints)
 	{
-		$this->importSkillPoints = $importSkillPoints;
+		$this->skillPoints = $skillPoints;
 	}
 	
 	/**
 	 * @return int
 	 */
-	public function getImportSkillPoints()
+	public function getSkillPoints()
 	{
-		return $this->importSkillPoints;
+		return $this->skillPoints;
 	}
 	
 	/**
@@ -134,19 +134,19 @@ class ilAssQuestionSkillAssignmentImport
 		return $this->importSkillTrefId;
 	}
 	
-	public function getImportEvalMode()
+	public function getEvalMode()
 	{
-		return $this->importEvalMode;
+		return $this->evalMode;
 	}
 	
-	public function setImportEvalMode($importEvalMode)
+	public function setEvalMode($evalMode)
 	{
-		$this->importEvalMode = $importEvalMode;
+		$this->evalMode = $evalMode;
 	}
 	
 	public function hasImportEvalModeBySolution()
 	{
-		return $this->getImportEvalMode() == ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION;
+		return $this->getEvalMode() == ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION;
 	}
 	
 	public function initImportSolutionComparisonExpressionList()

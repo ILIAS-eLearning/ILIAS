@@ -2,10 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Xml/classes/class.ilSaxParser.php';
-
-require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImport.php';
-require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSolutionComparisonExpressionListImport.php';
-require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSolutionComparisonExpressionImport.php';
+require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportList.php';
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -21,12 +18,22 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 	protected $parsingActive;
 	
 	/**
+	 * @var integer
+	 */
+	protected $curQuestionId;
+	
+	/**
 	 * @var ilAssQuestionSkillAssignmentImport
 	 */
 	protected $curAssignment;
 	
 	/**
-	 * @var ilAssQuestionSkillAssignmentListImport
+	 * @var ilAssQuestionSolutionComparisonExpressionImport
+	 */
+	protected $curExpression;
+	
+	/**
+	 * @var ilAssQuestionSkillAssignmentImportList
 	 */
 	protected $assignmentList;
 	
@@ -37,7 +44,7 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 	{
 		$this->parsingActive = false;
 		$this->curAssignment = null;
-		$this->assignmentList = new ilAssQuestionSkillAssignmentListImport();
+		$this->assignmentList = new ilAssQuestionSkillAssignmentImportList();
 		return parent::ilSaxParser($xmlFile);
 	}
 	
@@ -58,6 +65,22 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 	}
 	
 	/**
+	 * @return int
+	 */
+	public function getCurQuestionId()
+	{
+		return $this->curQuestionId;
+	}
+	
+	/**
+	 * @param int $curQuestionId
+	 */
+	public function setCurQuestionId($curQuestionId)
+	{
+		$this->curQuestionId = $curQuestionId;
+	}
+	
+	/**
 	 * @return ilAssQuestionSkillAssignmentImport
 	 */
 	public function getCurAssignment()
@@ -74,11 +97,27 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 	}
 	
 	/**
-	 * @return ilAssQuestionSkillAssignmentListImport
+	 * @return ilAssQuestionSkillAssignmentImportList
 	 */
 	public function getAssignmentList()
 	{
 		return $this->assignmentList;
+	}
+	
+	/**
+	 * @return ilAssQuestionSolutionComparisonExpressionImport
+	 */
+	public function getCurExpression()
+	{
+		return $this->curExpression;
+	}
+	
+	/**
+	 * @param ilAssQuestionSolutionComparisonExpressionImport $curExpression
+	 */
+	public function setCurExpression($curExpression)
+	{
+		$this->curExpression = $curExpression;
 	}
 	
 	public function setHandlers($xmlParser)
@@ -102,9 +141,33 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 				break;
 			
 			case 'TriggerQuestion':
+				$this->setCurQuestionId((int)$tagAttributes['Id']);
+				break;
+			
+			case 'TriggeredSkill':
 				$assignment = new ilAssQuestionSkillAssignmentImport();
-				$assignment->setImportQuestionId($tagAttributes['Id']);
+				$assignment->setImportQuestionId($this->getCurQuestionId());
+				$assignment->setImportSkillBaseId((int)$tagAttributes['SkillBaseId']);
+				$assignment->setImportSkillTrefId((int)$tagAttributes['SkillTrefId']);
+				$assignment->initImportSolutionComparisonExpressionList();
 				$this->setCurAssignment($assignment);
+				break;
+			
+			case 'EvalByQuestionResult':
+				$this->getCurAssignment()->setEvalMode(ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT);
+				$this->getCurAssignment()->setSkillPoints((int)$tagAttributes['SkillPoints']);
+				break;
+			
+			case 'EvalByQuestionSolution':
+				$this->getCurAssignment()->setEvalMode(ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION);
+				break;
+			
+			case 'SolutionComparisonExpression':
+				$expression = new ilAssQuestionSolutionComparisonExpressionImport();
+				$expression->setPoints((int)$tagAttributes['SkillPoints']);
+				$expression->setOrderIndex((int)$tagAttributes['OrderIndex']);
+				$this->setCurExpression($expression);
+				$this->cdata = '';
 				break;
 		}
 	}
@@ -123,8 +186,25 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 				break;
 			
 			case 'TriggerQuestion':
+				$this->setCurQuestionId(null);
+				break;
+			
+			case 'TriggeredSkill':
 				$this->getAssignmentList()->add($this->getCurAssignment());
 				$this->setCurAssignment(null);
+				break;
+			
+			case 'EvalByQuestionResult':
+				break;
+			
+			case 'EvalByQuestionSolution':
+				break;
+			
+			case 'SolutionComparisonExpression':
+				$this->getCurExpression()->setExpression($this->cdata);
+				$this->getCurAssignment()->getImportSolutionComparisonExpressionList()->add($this->getCurExpression());
+				$this->setCurExpression(null);
+				$this->cdata = null;
 				break;
 		}
 	}
