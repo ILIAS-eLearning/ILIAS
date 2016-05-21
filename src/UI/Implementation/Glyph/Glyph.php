@@ -21,10 +21,10 @@ class Glyph implements C\Glyph {
 	 * @param string		$type
 	 * @param C\Counter[]	$counters
 	 */
-	public function __construct($type, array $counters) {
-		assert('C\Glyph::is_valid_type($type)');
+	public function __construct($type) {
+		assert('self::is_valid_type($type)');
 		$this->type = $type;
-		$this->counters = $counters;
+		$this->counters = array();
 	}
 
 	/**
@@ -81,4 +81,26 @@ class Glyph implements C\Glyph {
 
 		return $tpl->get() . $counter_html;
 	}*/
+
+    // Helper
+	static function is_valid_type($type) {
+		static $types = array
+			( self::UP
+			, self::DOWN
+			, self::ADD
+			, self::REMOVE
+			, self::PREVIOUS
+			, self::NEXT
+			, self::CALENDAR
+			, self::CLOSE
+			, self::ATTACHMENT
+			, self::CARET
+			, self::DRAG
+			, self::SEARCH
+			, self::FILTER
+			, self::INFO
+			, self::ENVELOPE
+			);
+		return in_array($type, $types);
+	}
 }

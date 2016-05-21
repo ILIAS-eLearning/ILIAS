@@ -25,27 +25,6 @@ interface Glyph extends \ILIAS\UI\Element {
 	const INFO = "info";
 	const ENVELOPE = "envelope";
 
-	/*static function is_valid_type($type) {
-		static $types = array
-			( self::UP
-			, self::DOWN
-			, self::ADD
-			, self::REMOVE
-			, self::PREVIOUS
-			, self::NEXT
-			, self::CALENDAR
-			, self::CLOSE
-			, self::ATTACHMENT
-			, self::CARET
-			, self::DRAG
-			, self::SEARCH
-			, self::FILTER
-			, self::INFO
-			, self::ENVELOPE
-			);
-		return in_array($type, $types);
-	}*/
-
 	/**
 	 * Get the type of the glyph.
 	 *
