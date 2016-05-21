@@ -3,6 +3,7 @@
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("libs/composer/vendor/autoload.php");
+require_once(__DIR__."/Base.php");
 
 use \ILIAS\UI\Component as C;
 
@@ -11,7 +12,7 @@ class GlyphTestCustomException extends \Exception {};
 /**
  * Test on glyph implementation.
  */
-class GlyphTest extends PHPUnit_Framework_TestCase {
+class GlyphTest extends ILIAS_UI_TestBase {
 	public function getGlyphFactory() {
 		return new \ILIAS\UI\Implementation\Glyph\Factory();
 	}
@@ -139,6 +140,7 @@ class GlyphTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_known_glyphs_only() {
+		// TODO: move this pattern to ILIAS_UI_TestBase
 		assert_options(ASSERT_CALLBACK, function () {
 			throw new GlyphTestCustomException();
 		});
@@ -151,6 +153,7 @@ class GlyphTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_known_glyphs_only_withType() {
+		// TODO: move this pattern to ILIAS_UI_TestBase
 		assert_options(ASSERT_CALLBACK, function () {
 			throw new GlyphTestCustomException();
 		});
