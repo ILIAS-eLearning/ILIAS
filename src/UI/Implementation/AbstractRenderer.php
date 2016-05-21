@@ -35,5 +35,20 @@ abstract class AbstractRenderer implements Renderer {
 	 * @return	Template
 	 */
 	final protected function getTemplate($name, $purge_unfilled_vars, $purge_unused_blocks) {
+		$component = $this->getMyComponent();
+		$path = "src/UI/templates/default/$component/$name";
+		return $this->tpl_factory->getTemplate($path, $purge_unfilled_vars, $purge_unused_blocks);
+	}
+
+	private function getMyComponent() {
+		$class = get_class($this);
+		$matches = array();
+		// Extract component
+		$re = "%ILIAS\\\\UI\\\\Implementation\\\\(\\w+)\\\\(\\w+)%";
+		if (preg_match($re, $class, $matches) !== 1) {
+			throw new \LogicException(
+				"The Renderer needs to be located in ILIAS\\UI\\Implemenation\\*.");
+		}
+		return $matches[1];
 	}
 }
