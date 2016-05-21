@@ -4,7 +4,7 @@ require_once("libs/composer/vendor/autoload.php");
 
 use \ILIAS\UI\Component as C;
 
-class CustomException extends \Exception {};
+class GlyphTestCustomException extends \Exception {};
 
 /**
  * Test on glyph implementation.
@@ -138,14 +138,14 @@ class GlyphTest extends PHPUnit_Framework_TestCase {
 
 	public function test_known_glyphs_only() {
 		assert_options(ASSERT_CALLBACK, function () {
-			throw new CustomException();
+			throw new GlyphTestCustomException();
 		});
 
 		try {
 			new \ILIAS\UI\Implementation\Glyph\Glyph("PETER", array());
 			$this->assertFalse("We should not get here");
 		}
-		catch (CustomException $e) {}
+		catch (GlyphTestCustomException $e) {}
 	}
 
 	public function test_withType() {
