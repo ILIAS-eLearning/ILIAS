@@ -86,7 +86,7 @@ class Glyph implements C\Glyph {
 	}*/
 
 	// Helper
-	static function is_valid_type($type) {
+	static protected function is_valid_type($type) {
 		static $types = array
 			( self::UP
 			, self::DOWN
