@@ -71,6 +71,19 @@ class CounterTest extends PHPUnit_Framework_TestCase {
 		catch (CounterTestCustomException $e) {}
 	}
 
+	public function test_known_counters_only_withType() {
+		assert_options(ASSERT_CALLBACK, function () {
+			throw new CounterTestCustomException();
+		});
+		$f = $this->getCounterFactory();
+
+		try {
+			$f->status(1)->withType("FOO");
+			$this->assertFalse("We should not get here");
+		}
+		catch (CounterTestCustomException $e) {}
+	}
+
 	public function test_withType() {
 		$f = $this->getCounterFactory();
 
@@ -111,6 +124,22 @@ class CounterTest extends PHPUnit_Framework_TestCase {
 		$f->novelty($no_number);
 
 		$this->assertEquals(2, $failed_assertions);
+	}
+
+	/**
+	 * @dataProvider no_number_provider
+	 */
+	public function test_int_numbers_only_withNumber($no_number) {
+		assert_options(ASSERT_CALLBACK, function () {
+			throw new CounterTestCustomException();
+		});
+		$f = $this->getCounterFactory();
+
+		try {
+			$f->status(1)->withNumber($no_number);
+			$this->assertFalse("We should not get here");
+		}
+		catch (CounterTestCustomException $e) {}
 	}
 
 	public function number_provider() {
