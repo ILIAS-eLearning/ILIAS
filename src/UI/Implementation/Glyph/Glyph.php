@@ -6,7 +6,7 @@ namespace ILIAS\UI\Implementation\Glyph;
 
 use ILIAS\UI\Component as C;
 
-class Glyph implements \ILIAS\UI\Component\Glyph {
+class Glyph implements C\Glyph {
 	/**
 	 * @var	string
 	 */
@@ -22,6 +22,7 @@ class Glyph implements \ILIAS\UI\Component\Glyph {
 	 * @param C\Counter[]	$counters
 	 */
 	public function __construct($type, array $counters) {
+		assert('C\Glyph::is_valid_type($type)');
 		$this->type = $type;
 		$this->counters = $counters;
 	}
