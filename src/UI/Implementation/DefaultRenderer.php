@@ -21,6 +21,8 @@ class DefaultRenderer implements Renderer {
 	 * @inheritdocs
 	 */
 	public function render(Component $component, Renderer $default_renderer) {
+		$renderer = $this->getRendererFor(get_class($component));
+		return $renderer->render($component, $this);
 	}
 
 	/**
