@@ -11,104 +11,104 @@ class Factory implements \ILIAS\UI\Factory\Glyph {
 	 * @inheritdoc
 	 */
 	public function up() {
-		return new Glyph(G::UP, array());
+		return new Glyph(G::UP);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function down() {
-		return new Glyph(G::DOWN, array());
+		return new Glyph(G::DOWN);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function add() {
-		return new Glyph(G::ADD, array());
+		return new Glyph(G::ADD);
 	}
 	
 	/**
 	 * @inheritdoc
 	 */
 	public function remove() {
-		return new Glyph(G::REMOVE, array());
+		return new Glyph(G::REMOVE);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function previous() {
-		return new Glyph(G::PREVIOUS, array());
+		return new Glyph(G::PREVIOUS);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function next() {
-		return new Glyph(G::NEXT, array());
+		return new Glyph(G::NEXT);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function calendar() {
-		return new Glyph(G::CALENDAR, array());
+		return new Glyph(G::CALENDAR);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function close() {
-		return new Glyph(G::CLOSE, array());
+		return new Glyph(G::CLOSE);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function attachment() {
-		return new Glyph(G::ATTACHMENT, array());
+		return new Glyph(G::ATTACHMENT);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function caret() {
-		return new Glyph(G::CARET, array());
+		return new Glyph(G::CARET);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function drag() {
-		return new Glyph(G::DRAG, array());
+		return new Glyph(G::DRAG);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function search() {
-		return new Glyph(G::SEARCH, array());
+		return new Glyph(G::SEARCH);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function filter() {
-		return new Glyph(G::FILTER, array());
+		return new Glyph(G::FILTER);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function info() {
-		return new Glyph(G::INFO, array());
+		return new Glyph(G::INFO);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function envelope() {
-		return new Glyph(G::ENVELOPE, array());
+		return new Glyph(G::ENVELOPE);
 	}
 }
