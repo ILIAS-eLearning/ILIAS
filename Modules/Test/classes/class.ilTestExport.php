@@ -1064,21 +1064,9 @@ abstract class ilTestExport
 		
 		$this->populateQuestionSetConfigXml($this->xml);
 		
-		// skill assignments
-		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentExporter.php';
-		$skillQuestionAssignmentExporter = new ilAssQuestionSkillAssignmentExporter();
-		$skillQuestionAssignmentExporter->setXmlWriter($this->xml);
-		$skillQuestionAssignmentExporter->setParentObjId($this->test_obj->getId());
-		$skillQuestionAssignmentExporter->setQuestionIds($this->getQuestionIds());
-		$skillQuestionAssignmentExporter->export();
-
-		// skill level thresholds
-		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdExporter.php';
-		$skillLevelThresholdExporter = new ilTestSkillLevelThresholdExporter();
-		$skillLevelThresholdExporter->setXmlWriter($this->xml);
-		$skillLevelThresholdExporter->setParentObjId($this->test_obj->getId());
-		$skillLevelThresholdExporter->setTestId($this->test_obj->getTestId());
-		$skillLevelThresholdExporter->export();
+		$assignmentList = $this->buildQuestionSkillAssignmentList();
+		$this->populateQuestionSkillAssignmentsXml($this->xml, $assignmentList, $this->getQuestionIds());
+		$this->populateSkillLevelThresholdsXml($this->xml, $assignmentList);
 
 		$this->xml->xmlEndTag("ContentObject");
 
@@ -1188,7 +1176,53 @@ abstract class ilTestExport
 			}
 		}
 	}
-
+	
+	/**
+	 * @param ilXmlWriter $a_xml_writer
+	 * @param $questions
+	 */
+	protected function populateQuestionSkillAssignmentsXml(ilXmlWriter $a_xml_writer, ilAssQuestionSkillAssignmentList $assignmentList, $questions)
+	{
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentExporter.php';
+		$skillQuestionAssignmentExporter = new ilAssQuestionSkillAssignmentExporter();
+		$skillQuestionAssignmentExporter->setXmlWriter($a_xml_writer);
+		$skillQuestionAssignmentExporter->setQuestionIds($questions);
+		$skillQuestionAssignmentExporter->setAssignmentList($assignmentList);
+		$skillQuestionAssignmentExporter->export();
+	}
+	
+	protected function populateSkillLevelThresholdsXml(ilXmlWriter $a_xml_writer, ilAssQuestionSkillAssignmentList $assignmentList)
+	{
+		global $ilDB;
+		
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
+		$thresholdList = new ilTestSkillLevelThresholdList($ilDB);
+		$thresholdList->setTestId($this->test_obj->getTestId());
+		$thresholdList->loadFromDb();
+		
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdExporter.php';
+		$skillLevelThresholdExporter = new ilTestSkillLevelThresholdExporter();
+		$skillLevelThresholdExporter->setXmlWriter($a_xml_writer);
+		$skillLevelThresholdExporter->setAssignmentList($assignmentList);
+		$skillLevelThresholdExporter->setThresholdList($thresholdList);
+		$skillLevelThresholdExporter->export();
+	}
+	
+	/**
+	 * @return ilAssQuestionSkillAssignmentList
+	 */
+	protected function buildQuestionSkillAssignmentList()
+	{
+		global $ilDB;
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
+		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
+		$assignmentList->setParentObjId($this->test_obj->getId());
+		$assignmentList->loadFromDb();
+		$assignmentList->loadAdditionalSkillData();
+		
+		return $assignmentList;
+	}
 }
 
 ?>

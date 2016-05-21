@@ -15,15 +15,15 @@ class ilAssQuestionSkillAssignmentExporter
 	protected $xmlWriter;
 
 	/**
-	 * @var integer
-	 */
-	protected $parentObjId;
-
-	/**
 	 * @var array
 	 */
 	protected $questionIds;
-
+	
+	/**
+	 * @var ilAssQuestionSkillAssignmentList
+	 */
+	protected $assignmentList;
+	
 	/**
 	 * ilAssQuestionSkillAssignmentExporter constructor.
 	 */
@@ -31,6 +31,7 @@ class ilAssQuestionSkillAssignmentExporter
 	{
 		$this->xmlWriter = null;
 		$this->questionIds = array();
+		$this->assignmentList = null;
 	}
 
 	/**
@@ -50,22 +51,6 @@ class ilAssQuestionSkillAssignmentExporter
 	}
 
 	/**
-	 * @return int
-	 */
-	public function getParentObjId()
-	{
-		return $this->parentObjId;
-	}
-
-	/**
-	 * @param int $parentObjId
-	 */
-	public function setParentObjId($parentObjId)
-	{
-		$this->parentObjId = $parentObjId;
-	}
-
-	/**
 	 * @return array
 	 */
 	public function getQuestionIds()
@@ -80,20 +65,29 @@ class ilAssQuestionSkillAssignmentExporter
 	{
 		$this->questionIds = $questionIds;
 	}
+	
+	/**
+	 * @return ilAssQuestionSkillAssignmentList
+	 */
+	public function getAssignmentList()
+	{
+		return $this->assignmentList;
+	}
+	
+	/**
+	 * @param ilAssQuestionSkillAssignmentList $assignmentList
+	 */
+	public function setAssignmentList($assignmentList)
+	{
+		$this->assignmentList = $assignmentList;
+	}
 
 	public function export()
 	{
 		global $ilDB;
 
 		$this->getXmlWriter()->xmlStartTag('QuestionSkillAssignments');
-
-		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
-		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
-
-		$assignmentList->setParentObjId($this->getParentObjId());
-		$assignmentList->loadFromDb();
-		$assignmentList->loadAdditionalSkillData();
-
+		
 		foreach($this->getQuestionIds() as $questionId)
 		{
 			$this->getXmlWriter()->xmlStartTag('TriggerQuestion', array('Id' => $questionId));

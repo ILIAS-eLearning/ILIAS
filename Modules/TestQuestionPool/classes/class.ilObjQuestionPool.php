@@ -529,14 +529,31 @@ class ilObjQuestionPool extends ilObject
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export File Items");
 
 		// skill assignments
+		$this->populateQuestionSkillAssignmentsXml($a_xml_writer, $questions);
+
+		$a_xml_writer->xmlEndTag("ContentObject");
+	}
+	
+	/**
+	 * @param ilXmlWriter $a_xml_writer
+	 * @param $questions
+	 */
+	protected function populateQuestionSkillAssignmentsXml(ilXmlWriter &$a_xml_writer, $questions)
+	{
+		global $ilDB;
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
+		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
+		$assignmentList->setParentObjId($this->getId());
+		$assignmentList->loadFromDb();
+		$assignmentList->loadAdditionalSkillData();
+		
 		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentExporter.php';
 		$skillQuestionAssignmentExporter = new ilAssQuestionSkillAssignmentExporter();
 		$skillQuestionAssignmentExporter->setXmlWriter($a_xml_writer);
-		$skillQuestionAssignmentExporter->setParentObjId($this->getId());
 		$skillQuestionAssignmentExporter->setQuestionIds($questions);
+		$skillQuestionAssignmentExporter->setAssignmentList($assignmentList);
 		$skillQuestionAssignmentExporter->export();
-
-		$a_xml_writer->xmlEndTag("ContentObject");
 	}
 
 	/**

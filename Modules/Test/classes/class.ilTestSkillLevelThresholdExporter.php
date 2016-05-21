@@ -15,14 +15,14 @@ class ilTestSkillLevelThresholdExporter
 	protected $xmlWriter;
 	
 	/**
-	 * @var integer
+	 * @var ilAssQuestionSkillAssignmentList
 	 */
-	protected $parentObjId;
+	protected $assignmentList;
 	
 	/**
-	 * @var integer
+	 * @var ilTestSkillLevelThresholdList
 	 */
-	protected $testId;
+	protected $thresholdList;
 	
 	/**
 	 * ilAssQuestionSkillAssignmentExporter constructor.
@@ -49,55 +49,42 @@ class ilTestSkillLevelThresholdExporter
 	}
 	
 	/**
-	 * @return int
+	 * @return ilAssQuestionSkillAssignmentList
 	 */
-	public function getParentObjId()
+	public function getAssignmentList()
 	{
-		return $this->parentObjId;
+		return $this->assignmentList;
 	}
 	
 	/**
-	 * @param int $parentObjId
+	 * @param ilAssQuestionSkillAssignmentList $assignmentList
 	 */
-	public function setParentObjId($parentObjId)
+	public function setAssignmentList($assignmentList)
 	{
-		$this->parentObjId = $parentObjId;
+		$this->assignmentList = $assignmentList;
 	}
 	
 	/**
-	 * @return int
+	 * @return ilTestSkillLevelThresholdList
 	 */
-	public function getTestId()
+	public function getThresholdList()
 	{
-		return $this->testId;
+		return $this->thresholdList;
 	}
 	
 	/**
-	 * @param int $testId
+	 * @param ilTestSkillLevelThresholdList $thresholdList
 	 */
-	public function setTestId($testId)
+	public function setThresholdList($thresholdList)
 	{
-		$this->testId = $testId;
+		$this->thresholdList = $thresholdList;
 	}
 	
 	public function export()
 	{
-		global $ilDB;
-		
 		$this->getXmlWriter()->xmlStartTag('SkillsLevelThresholds');
 		
-		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
-		$assignmentList = new ilAssQuestionSkillAssignmentList($ilDB);
-		
-		$assignmentList->setParentObjId($this->getParentObjId());
-		$assignmentList->loadFromDb();
-		
-		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
-		$thresholdList = new ilTestSkillLevelThresholdList($ilDB);
-		$thresholdList->setTestId($this->getTestId());
-		$thresholdList->loadFromDb();
-		
-		foreach($assignmentList->getUniqueAssignedSkills() as $assignedSkillData)
+		foreach($this->getAssignmentList()->getUniqueAssignedSkills() as $assignedSkillData)
 		{
 			$this->getXmlWriter()->xmlStartTag('QuestionsAssignedSkill', array(
 				'SkillBaseId' => $assignedSkillData['skill_base_id'],
@@ -115,7 +102,7 @@ class ilTestSkillLevelThresholdExporter
 			{
 				$levelData = $skillLevels[$i];
 				
-				$skillLevelThreshold = $thresholdList->getThreshold(
+				$skillLevelThreshold = $this->getThresholdList()->getThreshold(
 					$assignedSkillData['skill_base_id'], $assignedSkillData['skill_tref_id'], $levelData['id'], true
 				);
 				
