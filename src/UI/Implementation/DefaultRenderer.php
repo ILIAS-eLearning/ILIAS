@@ -18,6 +18,15 @@ class DefaultRenderer implements Renderer {
 	protected $cache = array();
 
 	/**
+	 * @var	TemplateFactory
+	 */
+	protected $tpl_factory;
+
+	public function __construct(TemplateFactory $tpl_factory) {
+		$this->tpl_factory = $tpl_factory;
+	}
+
+	/**
 	 * @inheritdocs
 	 */
 	public function render(Component $component, Renderer $default_renderer) {
@@ -58,7 +67,7 @@ class DefaultRenderer implements Renderer {
 		if (!class_exists($renderer_class)) {
 			throw new \LogicException("No rendered for '".$class."' found.");
 		}
-		return new $renderer_class();
+		return new $renderer_class($this->tpl_factory);
 	}
 
 	/**

@@ -4,6 +4,16 @@
 
 require_once("libs/composer/vendor/autoload.php");
 
+require_once(__DIR__."/ilIndependentTemplate.php");
+
+use ILIAS\UI\Implementation\TemplateFactory;
+
+class ilIndependentTemplateFactory implements TemplateFactory {
+	public function getTemplate($path, $purge_unfilled_vars, $purge_unused_blocks) {
+		return new ilIndependentTemplate($path, $purge_unfilled_vars, $purge_unused_blocks);
+	}
+}
+
 /**
  * Provides common functionality for UI tests.
  */
@@ -19,6 +29,7 @@ class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 	}
 
 	public function getDefaultRenderer() {
-		return new \ILIAS\UI\Implementation\DefaultRenderer();
+		$tpl_factory = new ilIndependentTemplateFactory();
+		return new \ILIAS\UI\Implementation\DefaultRenderer($tpl_factory);
 	}
 }
