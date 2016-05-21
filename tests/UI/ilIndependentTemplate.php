@@ -36,7 +36,6 @@ class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementati
         require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
         $this->real_filename = $filename;
 
-		
         if (!($fh = @fopen($filename, 'r'))) {
             $this->err[] = PEAR::raiseError(
                 $this->errorMessage(IT_TPL_NOT_FOUND) .
@@ -81,6 +80,6 @@ class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementati
                                $removeUnknownVariables = true,
                                $removeEmptyBlocks = true )
     {
-		return HTML_Template_IT::loadTemplatefile($filename, $removeUnknownVariables, $removeEmptyBlocks); 
+		return HTML_Template_IT::loadTemplatefile($filename, $removeUnknownVariables, $removeEmptyBlocks);
 	}
 }
