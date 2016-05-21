@@ -1,5 +1,7 @@
 <?php
 
+/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+
 require_once("libs/composer/vendor/autoload.php");
 
 use \ILIAS\UI\Component as C;
@@ -158,5 +160,8 @@ class CounterTest extends PHPUnit_Framework_TestCase {
 			, array(array())
 			, array(new stdClass())
 			);
+	}
+
+	public function test_no_renderer() {
 	}
 }
