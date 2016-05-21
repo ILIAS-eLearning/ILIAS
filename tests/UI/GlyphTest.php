@@ -183,21 +183,21 @@ class GlyphTest extends ILIAS_UI_TestBase {
 
 	public function glyph_type_provider() {
 		return array
-			( array("up")
-			, array("down")
-			, array("add")
-			, array("remove")
-			, array("previous")
-			, array("next")
-			, array("calendar")
-			, array("close")
-			, array("attachment")
-			, array("caret")
-			, array("drag")
-			, array("search")
-			, array("filter")
-			, array("info")
-			, array("envelope")
+			( array(C\Glyph::UP)
+			, array(C\Glyph::DOWN)
+			, array(C\Glyph::ADD)
+			, array(C\Glyph::REMOVE)
+			, array(C\Glyph::PREVIOUS)
+			, array(C\Glyph::NEXT)
+			, array(C\Glyph::CALENDAR)
+			, array(C\Glyph::CLOSE)
+			, array(C\Glyph::ATTACHMENT)
+			, array(C\Glyph::CARET)
+			, array(C\Glyph::DRAG)
+			, array(C\Glyph::SEARCH)
+			, array(C\Glyph::FILTER)
+			, array(C\Glyph::INFO)
+			, array(C\Glyph::ENVELOPE)
 			);
 	}
 
