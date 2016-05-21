@@ -156,5 +156,14 @@ class CounterTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_no_renderer() {
+		$f = $this->getCounterFactory();
+		$r = $this->getDefaultRenderer();
+		$c = $f->status(1);
+
+		try {
+			$r->render($c, $r);	
+			$this->assertFalse("We should not get here");
+		}
+		catch (\LogicException $e) {}
 	}
 }
