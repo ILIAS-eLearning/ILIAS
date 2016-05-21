@@ -54,6 +54,7 @@ class Glyph implements C\Glyph {
 	 * @inheritdoc
 	 */
 	public function withType($type) {
+		assert('self::is_valid_type($type)');
 		$clone = clone $this;
 		$clone->type = $type;
 		return $clone;
