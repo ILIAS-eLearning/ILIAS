@@ -11,7 +11,12 @@ use ILIAS\UI\Component;
  * Renderer that dispatches rendering of UI components to a Renderer found
  * in the same namespace as the component to be renderered.
  */
-class  DefaultRenderer implements Renderer {
+class DefaultRenderer implements Renderer {
+	/**
+	 * @var	array<string, Renderer>
+	 */
+	protected $cache = array();
+
 	/**
 	 * @inheritdocs
 	 */
@@ -29,6 +34,12 @@ class  DefaultRenderer implements Renderer {
 	 * @return	Renderer
 	 */
 	public function getRendererFor($class) {
+		if (array_key_exists($class, $this->cache)) {
+			return $this->cache[$class];
+		}
+		$renderer = $this->instantiateRendererFor($class);
+		$this->cache[$class] = $renderer;
+		return $renderer;
 	}
 
 	/**
@@ -38,8 +49,25 @@ class  DefaultRenderer implements Renderer {
 	 *
 	 * @param	string	$class
 	 * @throws	\LogicException		if no renderer could be found for component.
-	 * @return Renderer
+	 * @return	Renderer
 	 */
 	public function instantiateRendererFor($class) {
+		$renderer_class = $this->getRendererNameFor($class);
+		if (!class_exists($renderer_class)) {
+			throw new \LogicException("No rendered for '".$class."' found.");
+		}
+		return new $renderer_class();
+	}
+
+	/**
+	 * Get the class name for the renderer of Component class.
+	 *
+	 * @param	string	$class
+	 * @return 	string
+	 */
+	public function	getRendererNameFor($class) {
+		$parts = explode("\\", $class);
+		$parts[count($parts)-1] = "Renderer";
+		return implode("\\", $parts);
 	}
 }
