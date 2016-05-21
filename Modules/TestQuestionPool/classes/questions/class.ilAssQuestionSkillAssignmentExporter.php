@@ -92,7 +92,7 @@ class ilAssQuestionSkillAssignmentExporter
 		{
 			$this->getXmlWriter()->xmlStartTag('TriggerQuestion', array('Id' => $questionId));
 
-			foreach($assignmentList->getAssignmentsByQuestionId($questionId) as $questionSkillAssignment)
+			foreach($this->getAssignmentList()->getAssignmentsByQuestionId($questionId) as $questionSkillAssignment)
 			{
 				/* @var ilAssQuestionSkillAssignment $questionSkillAssignment */
 
