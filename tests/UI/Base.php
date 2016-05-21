@@ -18,4 +18,7 @@ class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 		assert_options(ASSERT_CALLBACK, null);
 	}
 
+	public function getDefaultRenderer() {
+		return new \ILIAS\UI\Implementation\DefaultRenderer();
+	}
 }

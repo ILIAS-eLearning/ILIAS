@@ -6,6 +6,7 @@ require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__."/Base.php");
 
 use \ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation\Glyph\Renderer as GlyphRenderer;
 
 class GlyphTestCustomException extends \Exception {};
 
@@ -206,5 +207,20 @@ class GlyphTest extends ILIAS_UI_TestBase {
 			( array("status")
 			, array("novelty")
 			);
+	}
+
+	/**
+	 * @dataProvider glyph_type_provider
+	 */
+	public function test_render_simple($type) {
+		$f = $this->getGlyphFactory();
+		$r = $this->getDefaultRenderer();
+		$c = $f->$type();
+
+		$html = $r->render($c, $r);
+
+		$css_class = GlyphRenderer::getCssClassFor($type);
+		$expected = '<span class="glyphicon '.$css_class.'"></span>"';
+		$this->assertEquals($expected, $html);
 	}
 }
