@@ -42,4 +42,12 @@ interface Template {
 	 * @return 	null
 	 */
 	public function setVariable($name, $value);
+
+	/**
+	 * Get the rendered template or a specific block.
+	 *
+	 * @param	string|null		$name
+	 * @return	string
+	 */
+	public function get($name = null);
 }

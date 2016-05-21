@@ -82,4 +82,12 @@ class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementati
     {
 		return HTML_Template_IT::loadTemplatefile($filename, $removeUnknownVariables, $removeEmptyBlocks);
 	}
+
+	// Small adjustment to fit \ILIAS\UI\Implementation\Template and call to
+	public function get($name = null) {
+		if ($name === null) {
+			$name = "__global__";
+		}
+		return ilTemplateX::get($name);
+	}
 }
