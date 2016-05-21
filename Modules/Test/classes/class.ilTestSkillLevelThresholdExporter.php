@@ -112,8 +112,8 @@ class ilTestSkillLevelThresholdExporter
 				
 				$this->getXmlWriter()->xmlElement('SkillPointsThreshold', null, $skillLevelThreshold->getThreshold());
 				
-				$this->getXmlWriter()->xmlElement('OriginalSkillTitle', null, $levelData['title']);
-				$this->getXmlWriter()->xmlElement('OriginalSkillDescription', null, $levelData['description']);
+				$this->getXmlWriter()->xmlElement('OriginalLevelTitle', null, $levelData['title']);
+				$this->getXmlWriter()->xmlElement('OriginalLevelDescription', null, $levelData['description']);
 				
 				$this->getXmlWriter()->xmlEndTag('SkillLevel');
 			}
