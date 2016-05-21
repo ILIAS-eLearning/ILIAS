@@ -49,6 +49,7 @@ class NullTemplate implements Template {
 class TemplateFactoryMock implements TemplateFactory {
 	public $files = array();
 	public function getTemplate($file_name, $purge_unfilled_vars, $purge_unused_blocks) {
+		$file_name = realpath(__DIR__."/../../".$file_name);
 		$this->files[$file_name] = array($purge_unfilled_vars, $purge_unused_blocks);
 
 		if (!file_exists($file_name)) {
@@ -71,7 +72,7 @@ class AbstractRendererTest extends ILIAS_UI_TestBase {
 		$tpl = $r->_getTemplate("tpl.glyph.html", true, false);
 
 		$expected = array
-			( realpath(__DIR__."/../../src/UI/templates/Glyph/tpl.glyph.html")
+			( realpath(__DIR__."/../../src/UI/templates/default/Glyph/tpl.glyph.html")
 				=> array(true, false)
 			);
 		$this->assertEquals($expected, $this->factory->files);
@@ -86,7 +87,7 @@ class AbstractRendererTest extends ILIAS_UI_TestBase {
 		} catch (\InvalidArgumentException $e) {};
 
 		$expected = array
-			( realpath(__DIR__."/../../src/UI/templates/Counter/tpl.counter.html")
+			( realpath(__DIR__."/../../src/UI/templates/default/Counter/tpl.counter.html")
 				=> array(true, false)
 			);
 		$this->assertEquals($expected, $this->factory->files);
