@@ -142,7 +142,7 @@ class GlyphTest extends PHPUnit_Framework_TestCase {
 		});
 
 		try {
-			new \ILIAS\UI\Implementation\Glyph\Glyph("PETER", array());
+			new \ILIAS\UI\Implementation\Glyph\Glyph("FOO", array());
 			$this->assertFalse("We should not get here");
 		}
 		catch (GlyphTestCustomException $e) {}
