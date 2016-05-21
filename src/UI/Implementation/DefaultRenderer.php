@@ -4,19 +4,17 @@
 
 namespace ILIAS\UI\Implementation;
 
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component;
+
 /**
  * An entity that renders elements to a string output.
  *
  * @author	Richard Klees <richard.klees@concepts-and-training.de>
  */
-class  DefaultRenderer {
+class  DefaultRenderer implements Renderer {
 	/**
-	 * Render the element if possible and delegate additional rendering to the
-	 * default_renderer.
-	 *
-	 * @param	$component			Component
-	 * @param	$default_renderer	Renderer
-	 * @return	string
+	 * @inheritdocs
 	 */
 	public function render(Component $component, Renderer $default_renderer) {
 	}
