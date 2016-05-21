@@ -24,6 +24,7 @@ class Counter implements C\Counter {
 	 */
 	public function __construct($type, $number) {
 		assert('is_int($number)');
+		assert('self::is_valid_type($type)');
 		$this->type = $type;
 		$this->number = $number;
 	}
@@ -39,7 +40,10 @@ class Counter implements C\Counter {
 	 * @inheritdoc
 	 */
 	public function withType($type) {
-		return $this;
+		assert('self::is_valid_type($type)');
+		$clone = clone $this;
+		$clone->type = $type;
+		return $clone;
 	}
 
 	/**
@@ -53,7 +57,10 @@ class Counter implements C\Counter {
 	 * @inheritdoc
 	 */
 	public function withNumber($number) {
-		return $this;
+		assert('is_int($number)');
+		$clone = clone $this;
+		$clone->number = $number;
+		return $clone;
 	}
 
 	/**
@@ -76,4 +83,14 @@ class Counter implements C\Counter {
 
 		return $tpl->get();
 	}*/
+
+	// Helper
+	static protected function is_valid_type($type) {
+		static $types = array
+			( self::NOVELTY
+			, self::STATUS
+			);
+		return in_array($type, $types);
+	}
+
 }
