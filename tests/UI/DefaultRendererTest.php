@@ -50,4 +50,12 @@ class DefaultRendererTest extends ILIAS_UI_TestBase {
 		$r2 = $dr->getRendererFor("\\ILIAS\\UI\\Implementation\\Glyph\\Glyph");
 		$this->assertTrue($r1 === $r2, "Instances not equal");
 	}
+
+	public function test_getRendererNameFor() {
+		$dr = $this->getDefaultRenderer();
+
+		$renderer_class = $dr->getRendererNameFor("\\ILIAS\\UI\\Implementation\\Glyph\\Glyph");
+		$expected = "\\ILIAS\\UI\\Implementation\\Glyph\\Renderer";
+		$this->assertEquals($expected, $renderer_class);
+	}
 }
