@@ -22,6 +22,24 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		return new \ILIAS\UI\Implementation\Counter\Factory();
 	}
 
+	static $canonical_css_classes = array
+		( C\Glyph::UP			=>	 "glyphicon glyphicon-chevron-up"
+		, C\Glyph::DOWN			=>	 "glyphicon glyphicon-chevron-down"
+		, C\Glyph::ADD			=>	 "glyphicon glyphicon-plus"
+		, C\Glyph::REMOVE		=>	 "glyphicon glyphicon-minus"
+		, C\Glyph::PREVIOUS		=>	 "glyphicon glyphicon-chevron-left"
+		, C\Glyph::NEXT			=>	 "glyphicon glyphicon-chevron-right"
+		, C\Glyph::CALENDAR		=>	 "glyphicon glyphicon-calendar"
+		, C\Glyph::CLOSE		=>	 "glyphicon glyphicon-remove"
+		, C\Glyph::ATTACHMENT	=>	 "glyphicon glyphicon-paperclip"
+		, C\Glyph::CARET		=>	 "glyphicon glyphicon-caret"
+		, C\Glyph::DRAG			=>	 "glyphicon glyphicon-share-alt"
+		, C\Glyph::SEARCH		=>	 "glyphicon glyphicon-search"
+		, C\Glyph::FILTER		=>	 "glyphicon glyphicon-filter"
+		, C\Glyph::INFO			=>	 "glyphicon glyphicon-info-sign"
+		, C\Glyph::ENVELOPE		=>	 "glyphicon glyphicon-envelope"
+		);
+
 	/**
 	 * @dataProvider glyph_type_provider
 	 */
@@ -219,8 +237,8 @@ class GlyphTest extends ILIAS_UI_TestBase {
 
 		$html = $r->render($c, $r);
 
-		$css_class = GlyphRenderer::getCssClassFor($type);
-		$expected = '<span class="glyphicon '.$css_class.'"></span>"';
+		$css_classes = self::$canonical_css_classes[$type];
+		$expected = "<span class=\"$css_classes\"></span>";
 		$this->assertEquals($expected, $html);
 	}
 }
