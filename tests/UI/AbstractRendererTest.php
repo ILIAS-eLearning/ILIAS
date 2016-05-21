@@ -91,7 +91,6 @@ class AbstractRendererTest extends ILIAS_UI_TestBase {
 				=> array(true, false)
 			);
 		$this->assertEquals($expected, $this->factory->files);
-
 	}
 }
 
