@@ -38,7 +38,6 @@ use \ILIAS\UI\Component as C;
 use \ILIAS\UI\Implementation\Template;
 use \ILIAS\UI\Implementation\TemplateFactory;
 
-
 class NullTemplate implements Template {
 	public function setCurrentBlock($name) {}
 	public function parseCurrentBlock() {}
