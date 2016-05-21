@@ -11,11 +11,11 @@ interface TemplateFactory {
 	/**
  	 * Get template instance.
 	 *
-	 * @param	string	$file_name
+	 * @param	string	$path
 	 * @param	bool	$purge_unfilled_vars
 	 * @param	bool	$purge_unused_blocks
 	 * @throws	\InvalidArgumentException	if there is no such template
 	 * @return	Template
 	 */
-	public function getTemplate($file_name, $purge_unfilled_vars, $purge_unused_blocks);
+	public function getTemplate($path, $purge_unfilled_vars, $purge_unused_blocks);
 }
