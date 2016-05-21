@@ -15,7 +15,7 @@ interface Counter extends \ILIAS\UI\Element {
 	/**
 	 * Get the type of the counter.
 	 *
-	 * @return  string	One of the counter types.
+	 * @return	string	One of the counter types.
 	 */
 	public function getType();
 
@@ -30,7 +30,7 @@ interface Counter extends \ILIAS\UI\Element {
 	/**
 	 * Get the number on the counter.
 	 *
-	 * @return  int
+	 * @return	int
 	 */
 	public function getAmount();
 

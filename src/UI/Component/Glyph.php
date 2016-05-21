@@ -28,7 +28,7 @@ interface Glyph extends \ILIAS\UI\Element {
 	/**
 	 * Get the type of the glyph.
 	 *
-	 * @return	string	
+	 * @return	string
 	 */
 	public function getType();
 
@@ -43,7 +43,7 @@ interface Glyph extends \ILIAS\UI\Element {
 	/**
 	 * Get all counters attached to this glyph.
 	 *
-	 * @return  Counter[]
+	 * @return	Counter[]
 	 */
 	public function getCounters();
 
@@ -52,9 +52,9 @@ interface Glyph extends \ILIAS\UI\Element {
 	 *
 	 * If there already is a counter of the given counter type, replace that
 	 * counter by the new one.
-	 * 
-	 * @param   Counter $counter
-	 * @return  Glyph
+	 *
+	 * @param	Counter $counter
+	 * @return	Glyph
 	 */
 	public function withCounter(Counter $counter);
 }

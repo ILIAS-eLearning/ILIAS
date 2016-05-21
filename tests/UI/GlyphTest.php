@@ -122,19 +122,19 @@ class GlyphTest extends PHPUnit_Framework_TestCase {
 		$this->assertContains(array("novelty", $amount_n2), $vals);
 	}
 
-    public function test_immutability_withCounter() {
+	public function test_immutability_withCounter() {
 		$gf = $this->getGlyphFactory();
 		$cf = $this->getCounterFactory();
 
 		$g = $gf->filter();
-        $g2 = $g
+		$g2 = $g
 			->withCounter(
 				$cf->novelty(0)
 			);
 
 		$counters = $g->getCounters();
 		$this->assertCount(0, $counters);
-    }
+	}
 
 	public function test_known_glyphs_only() {
 		assert_options(ASSERT_CALLBACK, function () {
@@ -148,20 +148,20 @@ class GlyphTest extends PHPUnit_Framework_TestCase {
 		catch (CustomException $e) {}
 	}
 
-    public function test_withType() {
+	public function test_withType() {
 		$gf = $this->getGlyphFactory();
-        $g = $gf
-            ->up()
-            ->withType(C\Glyph::DOWN);
-        $this->assertEquals(C\Glyph::DOWN, $g->getType());
-    }
+		$g = $gf
+			->up()
+			->withType(C\Glyph::DOWN);
+		$this->assertEquals(C\Glyph::DOWN, $g->getType());
+	}
 
-    public function test_immutability_withType() {
+	public function test_immutability_withType() {
 		$gf = $this->getGlyphFactory();
-        $g = $gf->up();
-        $g2 = $g->withType(C\Glyph::DOWN);
-        $this->assertEquals(C\Glyph::UP, $g->getType());
-    }
+		$g = $gf->up();
+		$g2 = $g->withType(C\Glyph::DOWN);
+		$this->assertEquals(C\Glyph::UP, $g->getType());
+	}
 
 	public function glyph_type_provider() {
 		return array

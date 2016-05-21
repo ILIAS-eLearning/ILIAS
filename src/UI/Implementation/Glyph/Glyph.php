@@ -38,8 +38,8 @@ class Glyph implements C\Glyph {
 	 * @inheritdoc
 	 */
 	public function withCounter(C\Counter $counter) {
-        $clone = clone $this;
-        $clone->counters[$counter->getType()] = $counter;
+		$clone = clone $this;
+		$clone->counters[$counter->getType()] = $counter;
 		return $clone;
 	}
 
@@ -54,8 +54,8 @@ class Glyph implements C\Glyph {
 	 * @inheritdoc
 	 */
 	public function withType($type) {
-        $clone = clone $this;
-        $clone->type = $type;
+		$clone = clone $this;
+		$clone->type = $type;
 		return $clone;
 	}
 
@@ -85,7 +85,7 @@ class Glyph implements C\Glyph {
 		return $tpl->get() . $counter_html;
 	}*/
 
-    // Helper
+	// Helper
 	static function is_valid_type($type) {
 		static $types = array
 			( self::UP
