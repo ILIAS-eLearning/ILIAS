@@ -14,7 +14,7 @@ interface Counter {
 	 *   purpose:
 	 *       The Status counter is used to display information about the
 	 *       total number of some items like users active on the system or total
-	 *       amount of comments.
+	 *       number of comments.
 	 *   composition:
 	 *       The Status Counter is a non-obstrusive Counter.
 	 *
@@ -25,10 +25,10 @@ interface Counter {
 	 *       2: The Status Counter SHOULD have a non-obstrusive background color,
 	 *          such as grey.
 	 *
-	 * @param   int         $amount
+	 * @param   int         $number
 	 * @return  \ILIAS\UI\Component\Counter
 	 */
-	public function status($amount);
+	public function status($number);
 
 	/**
 	 * description:
@@ -62,8 +62,8 @@ interface Counter {
 	 *       6: The Novelty Counter SHOULD have an obstrusive background color,
 	 *          such as red or orange.
 	 *
-	 * @param   int         $amount
+	 * @param   int         $number
 	 * @return  \ILIAS\UI\Component\Counter
 	 */
-	public function novelty($amount);
+	public function novelty($number);
 }
