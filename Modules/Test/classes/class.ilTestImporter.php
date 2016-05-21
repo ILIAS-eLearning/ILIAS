@@ -132,7 +132,8 @@ class ilTestImporter extends ilXmlImporter
 		}
 		
 		$this->importQuestionSkillAssignments($xml_file, $a_mapping, $newObj->getId());
-		
+		$this->importSkillLevelThresholds($xml_file, $a_mapping);
+			
 		$a_mapping->addMapping("Modules/Test", "tst", $a_id, $newObj->getId());
 
 		$newObj->saveToDb();
@@ -285,6 +286,15 @@ class ilTestImporter extends ilXmlImporter
 			$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails();
 			$qsaImportFails->registerFailedImports($targetParentObjId, $importer->getFailedImportAssignmentList());
 		}
+	}
+	
+	protected function importSkillLevelThresholds($xmlFile, ilImportMapping $mappingRegistry)
+	{
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdXmlParser.php';
+		$parser = new ilTestSkillLevelThresholdXmlParser($xmlFile);
+		$parser->startParsing();
+		
+		
 	}
 }
 
