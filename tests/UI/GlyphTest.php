@@ -238,7 +238,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$html = $r->render($c, $r);
 
 		$css_classes = self::$canonical_css_classes[$type];
-		$expected = "<span class=\"$css_classes\"></span>";
+		$expected = "<span class=\"$css_classes\" aria-hidden=\"true\"></span>";
 		$this->assertEquals($expected, $html);
 	}
 }
