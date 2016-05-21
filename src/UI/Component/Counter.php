@@ -22,6 +22,9 @@ interface Counter extends \ILIAS\UI\Element {
 	/**
 	 * Get a new counter resembling this one, but with a new type.
 	 *
+	 * TODO: Maybe this should go away. Why would i need to change the type
+	 * of a counter after construction?
+	 *
 	 * @param	string	$type	One of counter types.
 	 * @return	Counter
 	 */
@@ -32,13 +35,16 @@ interface Counter extends \ILIAS\UI\Element {
 	 *
 	 * @return	int
 	 */
-	public function getAmount();
+	public function getNumber();
 
 	/**
 	 * Get a new counter resembling this one, but with a new type.
 	 *
-	 * @param	int		$amount
+	 * TODO: Maybe this should go away. Why would i need to change the number
+	 * on a counter after construction?
+	 *
+	 * @param	int		$number
 	 * @return	Counter
 	 */
-	public function withAmount($amount);
+	public function withNumber($number);
 }

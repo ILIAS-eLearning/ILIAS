@@ -10,14 +10,14 @@ class Factory implements \ILIAS\UI\Factory\Counter {
 	/**
 	 * @inheritdoc
 	 */
-	public function status($amount) {
-		return new Counter(C\Counter::STATUS, $amount);
+	public function status($number) {
+		return new Counter(C\Counter::STATUS, $number);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function novelty($amount) {
-		return new Counter(C\Counter::NOVELTY, $amount);
+	public function novelty($number) {
+		return new Counter(C\Counter::NOVELTY, $number);
 	}
 }

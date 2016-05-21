@@ -16,16 +16,16 @@ class Counter implements C\Counter {
 	/**
 	 * @var	int
 	 */
-	private $amount;
+	private $number;
 
 	/**
 	 * @param string	$type
-	 * @param int		$amount
+	 * @param int		$number
 	 */
-	public function __construct($type, $amount) {
-		assert('is_int($amount)');
+	public function __construct($type, $number) {
+		assert('is_int($number)');
 		$this->type = $type;
-		$this->amount = $amount;
+		$this->number = $number;
 	}
 
 	/**
@@ -45,14 +45,14 @@ class Counter implements C\Counter {
 	/**
 	 * @inheritdoc
 	 */
-	public function getAmount() {
-		return $this->amount;
+	public function getNumber() {
+		return $this->number;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function withAmount($amount) {
+	public function withNumber($number) {
 		return $this;
 	}
 
@@ -72,7 +72,7 @@ class Counter implements C\Counter {
 
 		$tpl = new \ilTemplate('./src/UI/templates/default/Counter/tpl.counter.html', true, false);
 		$tpl->setVariable('TYPE_CLASS', $type_class);
-		$tpl->setVariable('AMOUNT', $this->amount());
+		$tpl->setVariable('AMOUNT', $this->number());
 
 		return $tpl->get();
 	}*/
