@@ -2,6 +2,8 @@
 
 require_once("libs/composer/vendor/autoload.php");
 
+use \ILIAS\UI\Component as C;
+
 class CustomException extends \Exception {};
 
 /**
@@ -145,6 +147,21 @@ class GlyphTest extends PHPUnit_Framework_TestCase {
 		}
 		catch (CustomException $e) {}
 	}
+
+    public function test_withType() {
+		$gf = $this->getGlyphFactory();
+        $g = $gf
+            ->up()
+            ->withType(C\Glyph::DOWN);
+        $this->assertEquals(C\Glyph::DOWN, $g->getType());
+    }
+
+    public function test_immutability_withType() {
+		$gf = $this->getGlyphFactory();
+        $g = $gf->up();
+        $g2 = $g->withType(C\Glyph::DOWN);
+        $this->assertEquals(C\Glyph::UP, $g->getType());
+    }
 
 	public function glyph_type_provider() {
 		return array
