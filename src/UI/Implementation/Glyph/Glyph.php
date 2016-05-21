@@ -38,8 +38,9 @@ class Glyph implements C\Glyph {
 	 * @inheritdoc
 	 */
 	public function withCounter(C\Counter $counter) {
-		$counters = array();
-		return new Glyph($this->getType(), $counters);
+        $clone = clone $this;
+        $clone->counters[$counter->getType()] = $counter;
+		return $clone;
 	}
 
 	/**
