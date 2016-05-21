@@ -8,9 +8,6 @@ require_once(__DIR__."/Base.php");
 use \ILIAS\UI\Component as C;
 use \ILIAS\UI\Implementation\Glyph\Renderer as GlyphRenderer;
 
-/**
- * Test on default renderer. 
- */
 class DefaultRendererTest extends ILIAS_UI_TestBase {
 	public function test_instantiateRenderer_successfully() {
 		// There should be a renderer for Glyph...
