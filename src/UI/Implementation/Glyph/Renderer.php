@@ -20,7 +20,7 @@ class Renderer extends AbstractRenderer {
 		}
 
 		$css_class = self::getCssClassFor($component->getType());
-		return '<span class="glyphicon '.$css_class.'"></span>"';
+		return '<span class="glyphicon '.$css_class.'"></span>';
 	}
 
 	/**
