@@ -55,71 +55,71 @@ class GlyphTest extends PHPUnit_Framework_TestCase {
 	public function test_one_counter($counter_type) {
 		$gf = $this->getGlyphFactory();
 		$cf = $this->getCounterFactory();
-		$amount = 1;
+		$number = 1;
 
 		$g = $gf
 			->filter()
 			->withCounter(
-				$cf->$counter_type($amount)
+				$cf->$counter_type($number)
 			);
 
 		$counters = $g->getCounters();
 		$this->assertCount(1, $counters);
 		$c = $counters[0];
 		$this->assertEquals($counter_type, $c->getType());
-		$this->assertEquals($amount, $c->getAmount());
+		$this->assertEquals($number, $c->getNumber());
 	}
 
 	public function test_two_counters() {
 		$gf = $this->getGlyphFactory();
 		$cf = $this->getCounterFactory();
-		$amount_s = 1;
-		$amount_n = 2;
+		$number_s = 1;
+		$number_n = 2;
 
 		$g = $gf
 			->attachment()
 			->withCounter(
-				$cf->status($amount_s)
+				$cf->status($number_s)
 			)
 			->withCounter(
-				$cf->novelty($amount_n)
+				$cf->novelty($number_n)
 			);
 
 		$counters = $g->getCounters();
 		$this->assertCount(2, $counters);
 		$vals = array_map(function($c) {
-			return array($c->getType(), $c->getAmount());
+			return array($c->getType(), $c->getNumber());
 		}, $counters);
-		$this->assertContains(array("status", $amount_s), $vals);
-		$this->assertContains(array("novelty", $amount_n), $vals);
+		$this->assertContains(array("status", $number_s), $vals);
+		$this->assertContains(array("novelty", $number_n), $vals);
 	}
 
 	public function test_only_two_counters() {
 		$gf = $this->getGlyphFactory();
 		$cf = $this->getCounterFactory();
-		$amount_s = 1;
-		$amount_n1 = 2;
-		$amount_n2 = 2;
+		$number_s = 1;
+		$number_n1 = 2;
+		$number_n2 = 2;
 
 		$g = $gf
 			->attachment()
 			->withCounter(
-				$cf->status($amount_s)
+				$cf->status($number_s)
 			)
 			->withCounter(
-				$cf->novelty($amount_n1)
+				$cf->novelty($number_n1)
 			)
 			->withCounter(
-				$cf->novelty($amount_n2)
+				$cf->novelty($number_n2)
 			);
 
 		$counters = $g->getCounters();
 		$this->assertCount(2, $counters);
 		$vals = array_map(function($c) {
-			return array($c->getType(), $c->getAmount());
+			return array($c->getType(), $c->getNumber());
 		}, $counters);
-		$this->assertContains(array("status", $amount_s), $vals);
-		$this->assertContains(array("novelty", $amount_n2), $vals);
+		$this->assertContains(array("status", $number_s), $vals);
+		$this->assertContains(array("novelty", $number_n2), $vals);
 	}
 
 	public function test_immutability_withCounter() {
