@@ -54,7 +54,9 @@ class Glyph implements C\Glyph {
 	 * @inheritdoc
 	 */
 	public function withType($type) {
-		return $this;
+        $clone = clone $this;
+        $clone->type = $type;
+		return $clone;
 	}
 
 	/**
