@@ -148,6 +148,19 @@ class GlyphTest extends PHPUnit_Framework_TestCase {
 		catch (GlyphTestCustomException $e) {}
 	}
 
+	public function test_known_glyphs_only_withType() {
+		assert_options(ASSERT_CALLBACK, function () {
+			throw new GlyphTestCustomException();
+		});
+		$gf = $this->getGlyphFactory();
+
+		try {
+			$gf->up()->withType("FOO");
+			$this->assertFalse("We should not get here");
+		}
+		catch (GlyphTestCustomException $e) {}
+	}
+
 	public function test_withType() {
 		$gf = $this->getGlyphFactory();
 		$g = $gf
