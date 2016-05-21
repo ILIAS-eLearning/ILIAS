@@ -2,7 +2,7 @@
 
 require_once("libs/composer/vendor/autoload.php");
 
-class CustomExceptions extends \Exception {};
+class CustomException extends \Exception {};
 
 /**
  * Test on glyph implementation.
@@ -119,6 +119,20 @@ class GlyphTest extends PHPUnit_Framework_TestCase {
 		$this->assertContains(array("status", $amount_s), $counters);
 		$this->assertContains(array("novelty", $amount_n2), $counters);
 	}
+
+    public function test_immutability_withCounter() {
+		$gf = $this->getGlyphFactory();
+		$cf = $this->getCounterFactory();
+
+		$g = $gf->filter();
+        $g2 = $g
+			->withCounter(
+				$cf->novelty(0)
+			);
+
+		$counters = $g->getCounters();
+		$this->assertCount(0, $counters);
+    }
 
 	public function test_known_glyphs_only() {
 		assert_options(ASSERT_CALLBACK, function () {
