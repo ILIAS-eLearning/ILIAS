@@ -88,8 +88,8 @@ class GlyphTest extends PHPUnit_Framework_TestCase {
 		$vals = array_map(function($c) {
 			return array($c->getType(), $c->getAmount());
 		}, $counters);
-		$this->assertContains(array("status", $amount_s), $counters);
-		$this->assertContains(array("novelty", $amount_n), $counters);
+		$this->assertContains(array("status", $amount_s), $vals);
+		$this->assertContains(array("novelty", $amount_n), $vals);
 	}
 
 	public function test_only_two_counters() {
@@ -116,8 +116,8 @@ class GlyphTest extends PHPUnit_Framework_TestCase {
 		$vals = array_map(function($c) {
 			return array($c->getType(), $c->getAmount());
 		}, $counters);
-		$this->assertContains(array("status", $amount_s), $counters);
-		$this->assertContains(array("novelty", $amount_n2), $counters);
+		$this->assertContains(array("status", $amount_s), $vals);
+		$this->assertContains(array("novelty", $amount_n2), $vals);
 	}
 
     public function test_immutability_withCounter() {
