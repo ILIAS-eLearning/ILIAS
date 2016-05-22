@@ -9,10 +9,25 @@
  */
 class ilAssQuestionAssignedSkillList
 {
+	/**
+	 * @var array
+	 */
 	protected $skills = array();
 	
+	/**
+	 * @param integer $skillBaseId
+	 * @param integer $skillTrefId
+	 */
 	public function addSkill($skillBaseId, $skillTrefId)
 	{
 		$this->skills[] = "{$skillBaseId}:{$skillTrefId}";
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function skillsExist()
+	{
+		return (bool)count($this->skills);
 	}
 }
