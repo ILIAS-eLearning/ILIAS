@@ -1212,6 +1212,21 @@ class ilInitialisation
 			self::goToLogin($status);
 		}
 	}
+
+	/**
+	 * init the ILIAS UI framework.
+	 */
+	protected static function initUIFramework(\ILIAS\DI\Container $c) {
+		$c["UIFactory"] = function ($c) {
+			return new ILIAS\UI\Implementation\Factory();
+		};
+		$c["UIRenderer"] = function($c) {
+			return new ILIAS\UI\Implementation\DefaultRenderer($c["UITemplateFactory"]);
+		};
+		$c["UITemplateFactory"] = function($c) {
+			return new ILIAS\UI\Implementation\ilTemplateWrapperFactory();
+		};
+	}
 	
 	/**
 	 * init HTML output (level 3)
@@ -1227,7 +1242,7 @@ class ilInitialisation
 			self::initStyle();
 		}
 
-		$GLOBALS["UIFactory"] = new ILIAS\UI\Implementation\Factory();
+		self::initUIFramework($GLOBALS["DIC"]);
 
 		// $tpl
 		$tpl = new ilTemplate("tpl.main.html", true, true);
