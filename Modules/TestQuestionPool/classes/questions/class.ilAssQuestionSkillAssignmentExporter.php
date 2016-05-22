@@ -97,8 +97,8 @@ class ilAssQuestionSkillAssignmentExporter
 				/* @var ilAssQuestionSkillAssignment $questionSkillAssignment */
 
 				$this->getXmlWriter()->xmlStartTag('TriggeredSkill', array(
-					'SkillBaseId' => $questionSkillAssignment->getSkillBaseId(),
-					'SkillTrefId' => $questionSkillAssignment->getSkillTrefId()
+					'BaseId' => $questionSkillAssignment->getSkillBaseId(),
+					'TrefId' => $questionSkillAssignment->getSkillTrefId()
 				));
 				
 				$this->getXmlWriter()->xmlElement(
@@ -114,7 +114,7 @@ class ilAssQuestionSkillAssignmentExporter
 					case ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT:
 
 						$this->getXmlWriter()->xmlElement('EvalByQuestionResult', array(
-							'SkillPoints' => $questionSkillAssignment->getSkillPoints()
+							'Points' => $questionSkillAssignment->getSkillPoints()
 						));
 						break;
 
@@ -130,8 +130,8 @@ class ilAssQuestionSkillAssignmentExporter
 							/* @var ilAssQuestionSolutionComparisonExpression $expression */
 
 							$this->getXmlWriter()->xmlStartTag('SolutionComparisonExpression', array(
-								'SkillPoints' => $expression->getPoints(),
-								'OrderIndex' => $expression->getOrderIndex()
+								'Points' => $expression->getPoints(),
+								'Index' => $expression->getOrderIndex()
 							));
 
 							$this->getXmlWriter()->xmlData($expression->getExpression(), false, true);

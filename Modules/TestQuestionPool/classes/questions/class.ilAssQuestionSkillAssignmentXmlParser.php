@@ -179,8 +179,8 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 			case 'TriggeredSkill':
 				$assignment = new ilAssQuestionSkillAssignmentImport();
 				$assignment->setImportQuestionId($this->getCurQuestionId());
-				$assignment->setImportSkillBaseId((int)$tagAttributes['SkillBaseId']);
-				$assignment->setImportSkillTrefId((int)$tagAttributes['SkillTrefId']);
+				$assignment->setImportSkillBaseId((int)$tagAttributes['BaseId']);
+				$assignment->setImportSkillTrefId((int)$tagAttributes['TrefId']);
 				$assignment->initImportSolutionComparisonExpressionList();
 				$this->setCurAssignment($assignment);
 				break;
@@ -195,7 +195,7 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 			
 			case 'EvalByQuestionResult':
 				$this->getCurAssignment()->setEvalMode(ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT);
-				$this->getCurAssignment()->setSkillPoints((int)$tagAttributes['SkillPoints']);
+				$this->getCurAssignment()->setSkillPoints((int)$tagAttributes['Points']);
 				break;
 			
 			case 'EvalByQuestionSolution':
@@ -204,8 +204,8 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
 			
 			case 'SolutionComparisonExpression':
 				$expression = new ilAssQuestionSolutionComparisonExpressionImport();
-				$expression->setPoints((int)$tagAttributes['SkillPoints']);
-				$expression->setOrderIndex((int)$tagAttributes['OrderIndex']);
+				$expression->setPoints((int)$tagAttributes['Points']);
+				$expression->setOrderIndex((int)$tagAttributes['Index']);
 				$this->setCurExpression($expression);
 				$this->resetCharacterDataBuffer();
 				break;
