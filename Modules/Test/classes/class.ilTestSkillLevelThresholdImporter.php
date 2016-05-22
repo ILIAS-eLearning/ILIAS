@@ -12,22 +12,43 @@ class ilTestSkillLevelThresholdImporter
 	/**
 	 * @var integer
 	 */
+	protected $targetTestId = null;
+	
+	/**
+	 * @var integer
+	 */
 	protected $importInstallationId = null;
 	
 	/**
 	 * @var ilImportMapping
 	 */
 	protected $importMappingRegistry = null;
-
+	
 	/**
-	 * @var integer
+	 * @var ilAssQuestionSkillAssignmentList
 	 */
-	protected $targetTestId = null;
+	protected $importedQuestionSkillAssignmentList = null;
 	
 	/**
 	 * @var ilTestSkillLevelThresholdImportList
 	 */
 	protected $thresholdList = null;
+	
+	/**
+	 * @return int
+	 */
+	public function getTargetTestId()
+	{
+		return $this->targetTestId;
+	}
+	
+	/**
+	 * @param int $targetTestId
+	 */
+	public function setTargetTestId($targetTestId)
+	{
+		$this->targetTestId = $targetTestId;
+	}
 	
 	/**
 	 * @return int
@@ -62,19 +83,19 @@ class ilTestSkillLevelThresholdImporter
 	}
 	
 	/**
-	 * @return int
+	 * @return ilAssQuestionSkillAssignmentList
 	 */
-	public function getTargetTestId()
+	public function getImportedQuestionSkillAssignmentList()
 	{
-		return $this->targetTestId;
+		return $this->importedQuestionSkillAssignmentList;
 	}
 	
 	/**
-	 * @param int $targetTestId
+	 * @param ilAssQuestionSkillAssignmentList $importedQuestionSkillAssignmentList
 	 */
-	public function setTargetTestId($targetTestId)
+	public function setImportedQuestionSkillAssignmentList($importedQuestionSkillAssignmentList)
 	{
-		$this->targetTestId = $targetTestId;
+		$this->importedQuestionSkillAssignmentList = $importedQuestionSkillAssignmentList;
 	}
 	
 	/**
@@ -108,6 +129,13 @@ class ilTestSkillLevelThresholdImporter
 	 */
 	public function	import()
 	{
+		foreach($this->getImportedQuestionSkillAssignmentList()->getUniqueAssignedSkills() as $skillData)
+		{
+			//$this->getThresholdList()->getLevelThresholdsBySkill();
+			
+			$exisingLevels = $skillData['skill']->getLevelData();
+		}
+		
 		return true;
 	}
 }

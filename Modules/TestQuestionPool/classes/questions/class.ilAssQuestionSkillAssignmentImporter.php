@@ -43,6 +43,11 @@ class ilAssQuestionSkillAssignmentImporter
 	protected $failedImportAssignmentList;
 	
 	/**
+	 * @var ilAssQuestionSkillAssignmentList
+	 */
+	protected $successImportAssignmentList;
+	
+	/**
 	 * ilAssQuestionSkillAssignmentImporter constructor.
 	 */
 	public function __construct()
@@ -55,6 +60,7 @@ class ilAssQuestionSkillAssignmentImporter
 		$this->importMappingRegistry = null;
 		$this->importAssignmentList = null;
 		$this->failedImportAssignmentList = null;
+		$this->successImportAssignmentList = null;
 	}
 	
 	/**
@@ -145,6 +151,22 @@ class ilAssQuestionSkillAssignmentImporter
 		return $this->failedImportAssignmentList;
 	}
 	
+	/**
+	 * @return ilAssQuestionSkillAssignmentList
+	 */
+	public function getSuccessImportAssignmentList()
+	{
+		return $this->successImportAssignmentList;
+	}
+	
+	/**
+	 * @param ilAssQuestionSkillAssignmentList $successImportAssignmentList
+	 */
+	public function setSuccessImportAssignmentList($successImportAssignmentList)
+	{
+		$this->successImportAssignmentList = $successImportAssignmentList;
+	}
+	
 	/*
 		$r = ilBasicSkill::getCommonSkillIdForImportId($a_source_inst_id,
 		$a_skill_import_id, $a_tref_import_id);
@@ -180,6 +202,8 @@ class ilAssQuestionSkillAssignmentImporter
 			
 			$importableAssignment->saveToDb();
 			$importableAssignment->saveComparisonExpressions();
+			
+			$this->getSuccessImportAssignmentList()->addAssignment($importableAssignment);
 		}
 	}
 	
