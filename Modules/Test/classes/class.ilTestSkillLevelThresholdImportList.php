@@ -7,7 +7,7 @@
  *
  * @package     Modules/Test(QuestionPool)
  */
-class ilTestSkillLevelThresholdImportList
+class ilTestSkillLevelThresholdImportList implements Iterator
 {
 	protected $originalSkillTitles = array();
 	protected $originalSkillPaths = array();
@@ -26,5 +26,67 @@ class ilTestSkillLevelThresholdImportList
 	public function addSkillLevelThreshold(ilTestSkillLevelThresholdImport $importedSkillLevelThreshold)
 	{
 		$this->importedSkillLevelThresholds[] = $importedSkillLevelThreshold;
+	}
+	
+	public function getThresholdsByImportSkill($importSkillBaseId, $importSkillTrefId)
+	{
+		$thresholds = array();
+		
+		foreach($this as $skillLevelThreshold)
+		{
+			if( $skillLevelThreshold->setImportSkillBaseId() != $importSkillBaseId )
+			{
+				continue;
+			}
+			
+			if( $skillLevelThreshold->setImportSkillTrefId() != $importSkillTrefId )
+			{
+				continue;
+			}
+			
+			$thresholds[] = $skillLevelThreshold;
+		}
+		
+		return $thresholds;
+	}
+	
+	/**
+	 * @return ilTestSkillLevelThresholdImport
+	 */
+	public function current()
+	{
+		return current($this->importedSkillLevelThresholds);
+	}
+	
+	/**
+	 * @return ilTestSkillLevelThresholdImport
+	 */
+	public function next()
+	{
+		return next($this->importedSkillLevelThresholds);
+	}
+	
+	/**
+	 * @return integer|bool
+	 */
+	public function key()
+	{
+		return key($this->importedSkillLevelThresholds);
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function valid()
+	{
+		return key($this->importedSkillLevelThresholds) !== false;
+	}
+	
+	/**
+	 * @return ilTestSkillLevelThresholdImport|bool
+	 */
+	public function rewind()
+	{
+		return reset($this->importedSkillLevelThresholds);
 	}
 }

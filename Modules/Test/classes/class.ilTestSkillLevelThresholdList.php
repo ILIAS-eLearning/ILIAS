@@ -67,18 +67,37 @@ class ilTestSkillLevelThresholdList
 		while( $row = $this->db->fetchAssoc($res) )
 		{
 			$threshold = $this->buildSkillLevelThresholdByArray($row);
-
-			$skillKey = $threshold->getSkillBaseId() . ':' . $threshold->getSkillTrefId();
-
-			$this->addThreshold($skillKey, $threshold->getSkillLevelId(), $threshold);
+			$this->addThreshold($threshold);
 		}
 	}
-
-	private function addThreshold($skillKey, $skillLevelId, $threshold)
+	
+	/**
+	 */
+	public function saveToDb()
 	{
-		$this->thresholds[$skillKey][$skillLevelId] = $threshold;
+		foreach($this->thresholds as $skillKey => $skillLevels)
+		{
+			foreach($skillLevels as $levelThreshold)
+			{
+				/* @var ilTestSkillLevelThreshold $levelThreshold */
+				$levelThreshold->saveToDb();
+			}
+		}
 	}
-
+	
+	/**
+	 * @param ilTestSkillLevelThreshold $threshold
+	 */
+	public function addThreshold($threshold)
+	{
+		$skillKey = $threshold->getSkillBaseId().':'.$threshold->getSkillTrefId();
+		$this->thresholds[$skillKey][$threshold->getSkillLevelId()] = $threshold;
+	}
+	
+	/**
+	 * @param array $data
+	 * @return ilTestSkillLevelThreshold
+	 */
 	private function buildSkillLevelThresholdByArray($data)
 	{
 		$threshold = new ilTestSkillLevelThreshold($this->db);
@@ -120,17 +139,6 @@ class ilTestSkillLevelThresholdList
 		}
 
 		return null;
-	}
-	
-	/**
-	 * @param $skillBaseId
-	 * @param $skillTrefId
-	 * @param $skillLevelId
-	 * @return ilTestSkillLevelThreshold
-	 */
-	public function getThresholdObject($skillBaseId, $skillTrefId, $skillLevelId)
-	{
-		
 	}
 
 	public function cloneListForTest($testId)

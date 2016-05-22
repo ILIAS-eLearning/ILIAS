@@ -25,7 +25,7 @@ class ilTestSkillLevelThresholdImport
 	/**
 	 * @var integer
 	 */
-	protected $importOrderIndex = null;
+	protected $orderIndex = null;
 	
 	/**
 	 * @var integer
@@ -92,17 +92,17 @@ class ilTestSkillLevelThresholdImport
 	/**
 	 * @return int
 	 */
-	public function getImportOrderIndex()
+	public function getOrderIndex()
 	{
-		return $this->importOrderIndex;
+		return $this->orderIndex;
 	}
 	
 	/**
-	 * @param int $importOrderIndex
+	 * @param int $orderIndex
 	 */
-	public function setImportOrderIndex($importOrderIndex)
+	public function setOrderIndex($orderIndex)
 	{
-		$this->importOrderIndex = $importOrderIndex;
+		$this->orderIndex = $orderIndex;
 	}
 	
 	/**

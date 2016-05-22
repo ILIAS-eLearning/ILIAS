@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Skill/classes/class.ilBasicSkill.php';
+require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionAssignedSkillIdImportMapping.php';
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -192,6 +193,14 @@ class ilAssQuestionSkillAssignmentImporter
 				continue;
 			}
 			
+			$this->getImportMappingRegistry()->addMapping(
+				'Modules/Test', 'skl_base_id_reverse', $foundSkillData['skill_id'], $assignment->getImportSkillBaseId()
+			);
+			
+			$this->getImportMappingRegistry()->addMapping(
+				'Modules/Test', 'skl_tref_id_reverse', $foundSkillData['tref_id'], $assignment->getImportSkillTrefId()
+			);
+			
 			$importableAssignment = $this->buildImportableAssignment($assignment, $foundSkillData);
 			
 			foreach($assignment->getImportSolutionComparisonExpressionList() as $solCompExp)
@@ -239,6 +248,11 @@ class ilAssQuestionSkillAssignmentImporter
 	
 	protected function isValidSkill($foundSkillData)
 	{
+		if( !is_array($foundSkillData) )
+		{
+			return false;
+		}
+		
 		if( !isset($foundSkillData['skill_id']) || !$foundSkillData['skill_id'] )
 		{
 			return false;

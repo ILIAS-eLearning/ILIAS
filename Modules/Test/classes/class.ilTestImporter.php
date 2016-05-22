@@ -192,8 +192,9 @@ class ilTestImporter extends ilXmlImporter
 			$results->startParsing();
 		}
 		
+		// import skill assignments
 		$importedAssignmentList = $this->importQuestionSkillAssignments($newObj->getId());
-		$this->importSkillLevelThresholds($importedAssignmentList, $newObj->getTestId());
+		$this->importSkillLevelThresholds($importedAssignmentList, $newObj->getTestId(), $newObj->getId());
 			
 		$a_mapping->addMapping("Modules/Test", "tst", $a_id, $newObj->getId());
 
@@ -358,7 +359,7 @@ class ilTestImporter extends ilXmlImporter
 	}
 	
 	
-	protected function importSkillLevelThresholds(ilAssQuestionSkillAssignmentList $assignmentList, $testId)
+	protected function importSkillLevelThresholds(ilAssQuestionSkillAssignmentList $assignmentList, $testId, $parentObjId)
 	{
 		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdXmlParser.php';
 		$parser = new ilTestSkillLevelThresholdXmlParser($this->getXmlFile());
@@ -370,8 +371,14 @@ class ilTestImporter extends ilXmlImporter
 		$importer->setImportInstallationId($this->getInstallId());
 		$importer->setImportMappingRegistry($this->getMappingRegistry());
 		$importer->setImportedQuestionSkillAssignmentList($assignmentList);
-		$importer->setThresholdList($parser->getSkillLevelThresholdImportList());
+		$importer->setImportThresholdList($parser->getSkillLevelThresholdImportList());
 		$importer->import();
+		
+		if( $importer->getFailedThresholdImportSkillList()->skillsExist() )
+		{
+			$sltImportFails = new ilTestSkillLevelThresholdImportFails();
+			$sltImportFails->registerFailedImports($parentObjId, $importer->getFailedThresholdImportSkillList());
+		}
 	}
 }
 
