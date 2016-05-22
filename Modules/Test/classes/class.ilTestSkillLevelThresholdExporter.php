@@ -87,8 +87,8 @@ class ilTestSkillLevelThresholdExporter
 		foreach($this->getAssignmentList()->getUniqueAssignedSkills() as $assignedSkillData)
 		{
 			$this->getXmlWriter()->xmlStartTag('QuestionsAssignedSkill', array(
-				'SkillBaseId' => $assignedSkillData['skill_base_id'],
-				'SkillTrefId' => $assignedSkillData['skill_tref_id']
+				'BaseId' => $assignedSkillData['skill_base_id'],
+				'TrefId' => $assignedSkillData['skill_tref_id']
 			));
 			
 			$this->getXmlWriter()->xmlElement('OriginalSkillTitle', null, $assignedSkillData['skill_title']);
