@@ -241,4 +241,39 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$expected = "<span class=\"$css_classes\" aria-hidden=\"true\"></span>";
 		$this->assertEquals($expected, $html);
 	}
+
+	/**
+ 	 * @dataProvider counter_type_provider
+	 */
+	public function test_render_withCounter($type) {
+		$fg = $this->getGlyphFactory();
+		$fc = $this->getCounterFactory();
+		$r = $this->getDefaultRenderer();
+		$c = $fg->envelope()->withCounter($fc->$type(42));
+
+		$html = $r->render($c, $r);
+
+		$css_classes = self::$canonical_css_classes[C\Glyph::ENVELOPE];
+		$expected = "<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
+					"<span class=\"badge badge-notify il-counter-$type\">42</span>";
+		$this->assertEquals($expected, $html);
+	}
+
+	public function test_render_withTwoCounters() {
+		$fg = $this->getGlyphFactory();
+		$fc = $this->getCounterFactory();
+		$r = $this->getDefaultRenderer();
+		$c = $fg->envelope()
+				->withCounter($fc->novelty(42))
+				->withCounter($fc->status(7));
+
+		$html = $r->render($c, $r);
+
+		$css_classes = self::$canonical_css_classes[C\Glyph::ENVELOPE];
+		$expected = "<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
+					"<span class=\"badge badge-notify il-counter-status\">7</span>".
+					"<span class=\"badge badge-notify il-counter-novelty\">42</span>";
+		$this->assertEquals($expected, $html);
+
+	}
 }

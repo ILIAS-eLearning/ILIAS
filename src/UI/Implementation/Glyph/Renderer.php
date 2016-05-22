@@ -20,6 +20,13 @@ class Renderer extends AbstractRenderer {
 		}
 		$tpl = $this->getTemplate("tpl.glyph.html", true, true);
 		$tpl->touchBlock($component->getType());
-		return trim($tpl->get());
+		
+		foreach ($component->getCounters() as $counter) {
+			$tpl->setCurrentBlock("counter_".$counter->getType());
+			$tpl->setVariable("NUMBER", $counter->getNumber());
+			$tpl->parseCurrentBlock();
+		}
+
+		return trim(str_replace("\n", "", $tpl->get()));
 	}
 }
