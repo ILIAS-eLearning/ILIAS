@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Skill/classes/class.ilBasicSkill.php';
+require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
 require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionAssignedSkillList.php';
 
 /**
@@ -41,6 +42,14 @@ class ilTestSkillLevelThresholdImporter
 	 * @var ilAssQuestionAssignedSkillList
 	 */
 	protected $failedThresholdImportSkillList = null;
+	
+	/**
+	 * ilTestSkillLevelThresholdImporter constructor.
+	 */
+	public function __construct()
+	{
+		$this->failedThresholdImportSkillList = new ilAssQuestionAssignedSkillList();
+	}
 	
 	/**
 	 * @return int

@@ -58,7 +58,8 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
 	 */
 	public function key()
 	{
-		return key($this->assignments);
+		$res = key($this->assignments);
+		return $res;
 	}
 	
 	/**
@@ -66,7 +67,8 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
 	 */
 	public function valid()
 	{
-		return key($this->assignments) !== false;
+		$res = key($this->assignments);
+		return $res !== null;
 	}
 	
 	/**

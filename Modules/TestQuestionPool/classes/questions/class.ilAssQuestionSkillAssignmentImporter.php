@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Skill/classes/class.ilBasicSkill.php';
-require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionAssignedSkillIdImportMapping.php';
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -60,8 +59,8 @@ class ilAssQuestionSkillAssignmentImporter
 		$this->importInstallationId = null;
 		$this->importMappingRegistry = null;
 		$this->importAssignmentList = null;
-		$this->failedImportAssignmentList = null;
-		$this->successImportAssignmentList = null;
+		$this->failedImportAssignmentList = new ilAssQuestionSkillAssignmentImportList();
+		$this->successImportAssignmentList = new ilAssQuestionSkillAssignmentList($this->db);
 	}
 	
 	/**
@@ -183,25 +182,25 @@ class ilAssQuestionSkillAssignmentImporter
 	{
 		foreach($this->getImportAssignmentList() as $assignment)
 		{
-			$foundSkillData = ilBasicSkill::getCommonSkillIdForImportId($this->getImportInstallationId(),
+			$foundSkillId = $this->getSkillIdMapping(
 				$assignment->getImportSkillBaseId(), $assignment->getImportSkillTrefId()
 			);
 			
-			if( !$this->isValidSkill($foundSkillData) )
+			if( !$this->isValidSkill($foundSkillId) )
 			{
 				$this->getFailedImportAssignmentList()->addAssignment($assignment);
 				continue;
 			}
 			
 			$this->getImportMappingRegistry()->addMapping(
-				'Modules/Test', 'skl_base_id_reverse', $foundSkillData['skill_id'], $assignment->getImportSkillBaseId()
+				'Modules/Test', 'skl_base_id_reverse', $foundSkillId['skill_id'], $assignment->getImportSkillBaseId()
 			);
 			
 			$this->getImportMappingRegistry()->addMapping(
-				'Modules/Test', 'skl_tref_id_reverse', $foundSkillData['tref_id'], $assignment->getImportSkillTrefId()
+				'Modules/Test', 'skl_tref_id_reverse', $foundSkillId['tref_id'], $assignment->getImportSkillTrefId()
 			);
 			
-			$importableAssignment = $this->buildImportableAssignment($assignment, $foundSkillData);
+			$importableAssignment = $this->buildImportableAssignment($assignment, $foundSkillId);
 			
 			foreach($assignment->getImportSolutionComparisonExpressionList() as $solCompExp)
 			{
@@ -216,21 +215,23 @@ class ilAssQuestionSkillAssignmentImporter
 		}
 	}
 	
-	protected function buildImportableAssignment(ilAssQuestionSkillAssignmentImport $assignment, $foundSkillData)
+	protected function buildImportableAssignment(ilAssQuestionSkillAssignmentImport $assignment, $foundSkillId)
 	{
 		$importableAssignment = new ilAssQuestionSkillAssignment($this->db);
 		
 		$importableAssignment->setEvalMode($assignment->getEvalMode());
 		$importableAssignment->setSkillPoints($assignment->getSkillPoints());
 		
-		$importableAssignment->setSkillBaseId($foundSkillData['skill_id']);
-		$importableAssignment->setSkillTrefId($foundSkillData['tref_id']);
+		$importableAssignment->setSkillBaseId($foundSkillId['skill_id']);
+		$importableAssignment->setSkillTrefId($foundSkillId['tref_id']);
 		
 		$importableAssignment->setParentObjId($this->getTargetParentObjId());
 		
 		$importableAssignment->setQuestionId($this->getImportMappingRegistry()->getMapping(
 			$this->getImportMappingComponent(), 'quest', $assignment->getImportQuestionId()
 		));
+		
+		$importableAssignment->initSolutionComparisonExpressionList();
 		
 		return $importableAssignment;
 	}
@@ -248,21 +249,20 @@ class ilAssQuestionSkillAssignmentImporter
 	
 	protected function isValidSkill($foundSkillData)
 	{
-		if( !is_array($foundSkillData) )
-		{
-			return false;
-		}
-		
-		if( !isset($foundSkillData['skill_id']) || !$foundSkillData['skill_id'] )
-		{
-			return false;
-		}
-		
-		if( !isset($foundSkillData['tref_id']) || !$foundSkillData['tref_id'] )
+		if( !is_array($foundSkillData) || !isset($foundSkillData['skill_id']) || !$foundSkillData['skill_id'] )
 		{
 			return false;
 		}
 		
 		return true;
+	}
+	
+	protected function getSkillIdMapping($importSkillBaseId, $importSkillTrefId)
+	{
+		$foundSkillData = ilBasicSkill::getCommonSkillIdForImportId(
+			$this->getImportInstallationId(), $importSkillBaseId, $importSkillTrefId
+		);
+		
+		return current($foundSkillData);
 	}
 }

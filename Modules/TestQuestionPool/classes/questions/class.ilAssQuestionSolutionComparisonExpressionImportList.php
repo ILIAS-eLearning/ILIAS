@@ -137,7 +137,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
 	 */
 	public function valid()
 	{
-		return key($this->expressions) !== false;
+		return key($this->expressions) !== null;
 	}
 	
 	/**

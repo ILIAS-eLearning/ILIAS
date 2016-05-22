@@ -34,12 +34,12 @@ class ilTestSkillLevelThresholdImportList implements Iterator
 		
 		foreach($this as $skillLevelThreshold)
 		{
-			if( $skillLevelThreshold->setImportSkillBaseId() != $importSkillBaseId )
+			if( $skillLevelThreshold->getImportSkillBaseId() != $importSkillBaseId )
 			{
 				continue;
 			}
 			
-			if( $skillLevelThreshold->setImportSkillTrefId() != $importSkillTrefId )
+			if( $skillLevelThreshold->getImportSkillTrefId() != $importSkillTrefId )
 			{
 				continue;
 			}
@@ -79,7 +79,7 @@ class ilTestSkillLevelThresholdImportList implements Iterator
 	 */
 	public function valid()
 	{
-		return key($this->importedSkillLevelThresholds) !== false;
+		return key($this->importedSkillLevelThresholds) !== null;
 	}
 	
 	/**
