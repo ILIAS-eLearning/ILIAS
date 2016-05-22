@@ -48,11 +48,10 @@ class ilTemplateWrapper implements Template {
 	/**
  	 * @inheritdocs
 	 */
-	public function get($name = null) {
-		if ($name === null) {
-			$name = "__global__";
+	public function get($block = null) {
+		if ($block === null) {
+			$block = "__global__";
 		}
-		return $this->tpl->get($name);
+		return $this->tpl->get($block);
 	}
-
 }

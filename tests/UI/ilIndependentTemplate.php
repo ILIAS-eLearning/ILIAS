@@ -84,10 +84,10 @@ class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementati
 	}
 
 	// Small adjustment to fit \ILIAS\UI\Implementation\Template and call to
-	public function get($name = null) {
-		if ($name === null) {
-			$name = "__global__";
+	public function get($block = null) {
+		if ($block === null) {
+			$block = "__global__";
 		}
-		return ilTemplateX::get($name);
+		return ilTemplateX::get($block);
 	}
 }

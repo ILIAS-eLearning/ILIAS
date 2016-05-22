@@ -46,8 +46,8 @@ interface Template {
 	/**
 	 * Get the rendered template or a specific block.
 	 *
-	 * @param	string|null		$name
+	 * @param	string|null		$block
 	 * @return	string
 	 */
-	public function get($name = null);
+	public function get($block = null);
 }
