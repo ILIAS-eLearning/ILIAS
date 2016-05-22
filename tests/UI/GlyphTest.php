@@ -32,7 +32,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		, C\Glyph::CALENDAR		=>	 "glyphicon glyphicon-calendar"
 		, C\Glyph::CLOSE		=>	 "glyphicon glyphicon-remove"
 		, C\Glyph::ATTACHMENT	=>	 "glyphicon glyphicon-paperclip"
-		, C\Glyph::CARET		=>	 "glyphicon glyphicon-caret"
+		, C\Glyph::CARET		=>	 "caret"
 		, C\Glyph::DRAG			=>	 "glyphicon glyphicon-share-alt"
 		, C\Glyph::SEARCH		=>	 "glyphicon glyphicon-search"
 		, C\Glyph::FILTER		=>	 "glyphicon glyphicon-filter"
