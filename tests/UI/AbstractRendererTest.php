@@ -43,6 +43,7 @@ class NullTemplate implements Template {
 	public function parseCurrentBlock() {}
 	public function touchBlock($name) {}
 	public function setVariable($name, $value) {}
+	public function get($name = null) { return ""; }
 }
 
 class TemplateFactoryMock implements TemplateFactory {
