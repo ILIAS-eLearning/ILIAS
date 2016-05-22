@@ -199,10 +199,15 @@ class ilTestSkillLevelThresholdImporter
 					continue(2);
 				}
 				
+				if( !is_numeric($importLevelThreshold->getThreshold()) )
+				{
+					continue(2);
+				}
+				
 				$mappedLevelId = $this->getLevelIdMapping($importLevelThreshold->getImportLevelId());
 				
 				$threshold = new ilTestSkillLevelThreshold($ilDB);
-				$threshold->setTestId($importedLevelThresholdList->getTestId());
+				$threshold->setTestId($this->getTargetTestId());
 				$threshold->setSkillBaseId($skillData['skill_base_id']);
 				$threshold->setSkillTrefId($skillData['skill_tref_id']);
 				$threshold->setSkillLevelId($mappedLevelId);
@@ -231,7 +236,7 @@ class ilTestSkillLevelThresholdImporter
 		*/
 		
 		$result = ilBasicSkill::getLevelIdForImportId($this->getImportInstallationId(), $importLevelId);
-		
-		return $result['level_id'];
+		$mostNewLevelData = current($result);
+		return $mostNewLevelData['level_id'];
 	}
 }
