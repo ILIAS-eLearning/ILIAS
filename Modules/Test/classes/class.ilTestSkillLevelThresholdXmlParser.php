@@ -36,24 +36,9 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
 	protected $curSkillTrefId = null;
 	
 	/**
-	 * @var string
+	 * @var ilTestSkillLevelThresholdImport
 	 */
-	protected $curOriginalSkillTitle = null;
-	
-	/**
-	 * @var string
-	 */
-	protected $curOriginalSkillPath = null;
-	
-	/**
-	 * @var string
-	 */
-	protected $curOriginalLevelTitle = null;
-	
-	/**
-	 * @var string
-	 */
-	protected $curOriginalLevelDescription = null;
+	protected $curSkillLevelThreshold = null;
 	
 	/**
 	 * @return boolean
@@ -96,7 +81,7 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
 	}
 	
 	/**
-	 * @return ilTestSkillLevelThresholdList
+	 * @return ilTestSkillLevelThresholdImportList
 	 */
 	public function getSkillLevelThresholdImportList()
 	{
@@ -108,7 +93,7 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
 	public function initSkillLevelThresholdImportList()
 	{
 		global $ilDB;
-		$this->skillLevelThresholdImportList = new ilTestSkillLevelThresholdList($ilDB);
+		$this->skillLevelThresholdImportList = new ilTestSkillLevelThresholdImportList($ilDB);
 	}
 	
 	/**
@@ -144,67 +129,19 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
 	}
 	
 	/**
-	 * @return string
+	 * @return ilTestSkillLevelThresholdImport
 	 */
-	public function getCurOriginalSkillTitle()
+	public function getCurSkillLevelThreshold()
 	{
-		return $this->curOriginalSkillTitle;
+		return $this->curSkillLevelThreshold;
 	}
 	
 	/**
-	 * @param string $curOriginalSkillTitle
+	 * @param ilTestSkillLevelThresholdImport $curSkillLevelThreshold
 	 */
-	public function setCurOriginalSkillTitle($curOriginalSkillTitle)
+	public function setCurSkillLevelThreshold($curSkillLevelThreshold)
 	{
-		$this->curOriginalSkillTitle = $curOriginalSkillTitle;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getCurOriginalSkillPath()
-	{
-		return $this->curOriginalSkillPath;
-	}
-	
-	/**
-	 * @param string $curOriginalSkillPath
-	 */
-	public function setCurOriginalSkillPath($curOriginalSkillPath)
-	{
-		$this->curOriginalSkillPath = $curOriginalSkillPath;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getCurOriginalLevelTitle()
-	{
-		return $this->curOriginalLevelTitle;
-	}
-	
-	/**
-	 * @param string $curOriginalLevelTitle
-	 */
-	public function setCurOriginalLevelTitle($curOriginalLevelTitle)
-	{
-		$this->curOriginalLevelTitle = $curOriginalLevelTitle;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getCurOriginalLevelDescription()
-	{
-		return $this->curOriginalLevelDescription;
-	}
-	
-	/**
-	 * @param string $curOriginalLevelDescription
-	 */
-	public function setCurOriginalLevelDescription($curOriginalLevelDescription)
-	{
-		$this->curOriginalLevelDescription = $curOriginalLevelDescription;
+		$this->curSkillLevelThreshold = $curSkillLevelThreshold;
 	}
 	
 	public function setHandlers($xmlParser)
@@ -245,7 +182,7 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
 				$skillLevelThreshold = new ilTestSkillLevelThresholdImport($ilDB);
 				$skillLevelThreshold->setImportSkillBaseId($this->getCurSkillBaseId());
 				$skillLevelThreshold->setImportSkillTrefId($this->getCurSkillTrefId());
-				// add to cur
+				$this->setCurSkillLevelThreshold($skillLevelThreshold);
 				break;
 			
 			case 'SkillPointsThreshold':
@@ -291,20 +228,27 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
 					$this->getCurSkillBaseId(), $this->getCurSkillTrefId(), $this->getCharacterDataBuffer()
 				);
 				$this->resetCharacterDataBuffer();
-				$this->resetCharacterDataBuffer();
 				break;
 			
 			case 'SkillLevel':
+				$this->getSkillLevelThresholdImportList()->addSkillLevelThreshold(
+					$this->getCurSkillLevelThreshold()
+				);
+				$this->setCurSkillLevelThreshold(null);
 				break;
 			
 			case 'SkillPointsThreshold':
+				$this->getCurSkillLevelThreshold()->setThreshold($this->getCharacterDataBuffer());
+				$this->resetCharacterDataBuffer();
 				break;
 			
 			case 'OriginalLevelTitle':
+				$this->getCurSkillLevelThreshold()->setOriginalLevelTitle($this->getCharacterDataBuffer());
 				$this->resetCharacterDataBuffer();
 				break;
 			
 			case 'OriginalLevelDescription':
+				$this->getCurSkillLevelThreshold()->setOriginalLevelDescription($this->getCharacterDataBuffer());
 				$this->resetCharacterDataBuffer();
 				break;
 		}

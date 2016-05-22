@@ -11,6 +11,7 @@ class ilTestSkillLevelThresholdImportList
 {
 	protected $originalSkillTitles = array();
 	protected $originalSkillPaths = array();
+	protected $importedSkillLevelThresholds = array();
 	
 	public function addOriginalSkillTitle($skillBaseId, $skillTrefId, $originalSkillTitle)
 	{
@@ -20,5 +21,10 @@ class ilTestSkillLevelThresholdImportList
 	public function addOriginalSkillPath($skillBaseId, $skillTrefId, $originalSkillPath)
 	{
 		$this->originalSkillPaths["{$skillBaseId}:{$skillTrefId}"] = $originalSkillPath;
+	}
+	
+	public function addSkillLevelThreshold(ilTestSkillLevelThresholdImport $importedSkillLevelThreshold)
+	{
+		$this->importedSkillLevelThresholds[] = $importedSkillLevelThreshold;
 	}
 }
