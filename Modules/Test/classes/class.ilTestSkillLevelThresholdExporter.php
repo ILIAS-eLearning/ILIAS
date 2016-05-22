@@ -110,7 +110,7 @@ class ilTestSkillLevelThresholdExporter
 					'Id' => $levelData['id'], 'Nr' => $levelData['nr']
 				));
 				
-				$this->getXmlWriter()->xmlElement('SkillPointsThreshold', null, $skillLevelThreshold->getThreshold());
+				$this->getXmlWriter()->xmlElement('ThresholdPercentage', null, $skillLevelThreshold->getThreshold());
 				
 				$this->getXmlWriter()->xmlElement('OriginalLevelTitle', null, $levelData['title']);
 				$this->getXmlWriter()->xmlElement('OriginalLevelDescription', null, $levelData['description']);

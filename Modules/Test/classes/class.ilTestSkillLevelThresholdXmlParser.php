@@ -189,7 +189,8 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
 				$this->setCurSkillLevelThreshold($skillLevelThreshold);
 				break;
 			
-			case 'SkillPointsThreshold':
+			case 'ThresholdPercentage':
+				$this->resetCharacterDataBuffer();
 				break;
 			
 			case 'OriginalLevelTitle':
@@ -241,7 +242,7 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
 				$this->setCurSkillLevelThreshold(null);
 				break;
 			
-			case 'SkillPointsThreshold':
+			case 'ThresholdPercentage':
 				$this->getCurSkillLevelThreshold()->setThreshold($this->getCharacterDataBuffer());
 				$this->resetCharacterDataBuffer();
 				break;
