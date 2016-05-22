@@ -1,6 +1,6 @@
 <?php
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-namespace ILIAS\DIC;
+namespace ILIAS\DI;
 /**
  * Customizing of pimple-DIC for ILIAS.
  *

@@ -866,7 +866,7 @@ class ilInitialisation
 			return;
 		}
 
-		$GLOBALS["DIC"] = new \ILIAS\DIC\Container();
+		$GLOBALS["DIC"] = new \ILIAS\DI\Container();
 
 		self::$already_initialized = true;
 
@@ -1227,7 +1227,7 @@ class ilInitialisation
 			self::initStyle();
 		}
 
-		$GLOBALS["UIFactory"] = new ILIAS\UI\Internal\FactoryImpl();
+		$GLOBALS["UIFactory"] = new ILIAS\UI\Implementation\Factory();
 
 		// $tpl
 		$tpl = new ilTemplate("tpl.main.html", true, true);
