@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Xml/classes/class.ilSaxParser.php';
+require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignment.php';
 require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportList.php';
 
 /**
