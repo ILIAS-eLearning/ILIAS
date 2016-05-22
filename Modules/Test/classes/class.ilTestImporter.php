@@ -132,7 +132,7 @@ class ilTestImporter extends ilXmlImporter
 		}
 		
 		$this->importQuestionSkillAssignments($xml_file, $a_mapping, $newObj->getId());
-		$this->importSkillLevelThresholds($xml_file, $a_mapping);
+		$this->importSkillLevelThresholds($xml_file, $a_mapping, $newObj->getTestId());
 			
 		$a_mapping->addMapping("Modules/Test", "tst", $a_id, $newObj->getId());
 
@@ -288,13 +288,20 @@ class ilTestImporter extends ilXmlImporter
 		}
 	}
 	
-	protected function importSkillLevelThresholds($xmlFile, ilImportMapping $mappingRegistry)
+	protected function importSkillLevelThresholds($xmlFile, ilImportMapping $mappingRegistry, $testId)
 	{
 		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdXmlParser.php';
 		$parser = new ilTestSkillLevelThresholdXmlParser($xmlFile);
 		$parser->startParsing();
 		
+		require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdImporter.php';
+		$importer = new ilTestSkillLevelThresholdImporter();
+		$importer->setImportInstallationId($this->getInstallId());
+		$importer->setImportMappingRegistry($mappingRegistry);
+		$importer->setTargetTestId($testId);
+		$importer->setThresholdList($parser->getSkillLevelThresholdImportList());
 		
+		$importer->import();
 	}
 }
 
