@@ -19,8 +19,20 @@ $tpl = $DIC["tpl"];
 
 $tpl->getStandardTemplate();
 
-require_once("./src/UI/examples/Glyph1.php");
-$content = Glyph1();
+if (array_key_exists("which", $_GET)) {
+	$which = $_GET["which"];
+	if (preg_match("%(\w|/)+%", $which) !== 1) {
+		$content = "Unknown example: $which";
+	}
+	else {
+		require_once("./src/UI/examples/$which.php");
+		$fn = str_replace("/", "_", $which);
+		$content = $fn();
+	}
+}
+else {
+	$content = "Define an example via 'which' parameter to page.";
+}
 
 $tpl->setContent($content);
 
