@@ -15806,34 +15806,34 @@ rbac#:#wiki_edit_wiki_navigation#:#Edit Wiki Navigation
 rbac#:#wiki_delete_wiki_pages#:#Delete Wiki Pages
 rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
 rbac#:#wiki_wiki_html_export#:#Export Wiki as HTML
-crs#:#crs_loc_settings_it_type#:#Einstiegstest
-crs#:#crs_loc_settings_type_it_placement_all#:#Diagnostischer Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_it_start_object#:#Einstiegstest ist Startobjekt
-crs#:#crs_loc_settings_type_it_placement_sel#:#Diagnostischer Einstiegstest pro Lernziel
-crs#:#crs_loc_settings_type_it_qualifying_all#:#Qualifizierender Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_type_it_qualifying_sel#:#Qualifizierender Einstiegstest pro Lernziel
-crs#:#crs_loc_settings_type_it_none#:#Kein Einstiegstest
-crs#:#crs_loc_settings_qt_all#:#Abschlusstest
-crs#:#crs_loc_settings_type_q_all#:#Abschlusstest über alle Lernziele
-crs#:#crs_loc_settings_qt_start_object#:#Abschlusstest ist Startobjekt
-crs#:#crs_loc_settings_type_q_selected#:#Abschlusstest pro Lernziel
-crs#:#crs_loc_settings_err_qstart#:#Die Option "Abschlusstest als Startobjekt" wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.		
-crs#:#crs_loc_tab_qtests#:#Abschlusstests
-crs#:#crs_loc_tab_itests#:#Einstiegstests
-crs#:#crs_loc_btn_new_assignment#:#Neue Testzuordnung
-crs#:#crs_objective_tbl_col_final_tsts#:#Abschlusstests
-crs#:#crs_objective_action_qtest_sep#:#Abschlusstest zuordnen
-crs#:#crs_loc_settings_tbl_its_q_all#:#Qualifizierender Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_tbl_its_nq_all#:#Diagnostischer Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_tbl_it_q#:#Qualifizierende Einstiegstests pro Lernziel
-crs#:#crs_loc_settings_tbl_it_nq#:#Diagnostische Einstiegstests pro Lernziel
-crs#:#crs_loc_settings_tbl_qts_all#:#Abschlusstest über alle Lernziele
-crs#:#crs_loc_settings_tbl_qt#:#Abschlusstests pro Lernziel
-crs#:#crs_loc_objective_passed_confirmation#:#Sie haben das Lernziel bereits bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?
-crs#:#crs_loc_objectives_passed_confirmation#:#Sie haben bereits alle Lernziel bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?
-crs#:#crs_loc_tst_start#:#Test starten
-crs#:#crs_loc_mem_show_res#:#Testergebnisse anzeigen
-crs#:#crs_loc_test_results_of#:#Testergebnisse von:
+crs#:#crs_loc_settings_it_type#:#Initial Test
+crs#:#crs_loc_settings_type_it_placement_all#:#Initial Diagnostic Test for all Objectives
+crs#:#crs_loc_settings_it_start_object#:#Initial Test is Start Objects
+crs#:#crs_loc_settings_type_it_placement_sel#:#Initial Diagnostic Test per Objective
+crs#:#crs_loc_settings_type_it_qualifying_all#:#Initial Qualifying Test for all Objectives
+crs#:#crs_loc_settings_type_it_qualifying_sel#:#Initial Qualifying Test per Objective
+crs#:#crs_loc_settings_type_it_none#:#No Initial Test
+crs#:#crs_loc_settings_qt_all#:#Final Test
+crs#:#crs_loc_settings_type_q_all#:#Final Test all Objectives
+crs#:#crs_loc_settings_qt_start_object#:#Final Test is Start Object
+crs#:#crs_loc_settings_type_q_selected#:#Final Test per Objective
+crs#:#crs_loc_settings_err_qstart#:#The option "Final Test as Start Object" has been deactivated, since it can only be chosen for courses without initial test.		
+crs#:#crs_loc_tab_qtests#:#Final Tests
+crs#:#crs_loc_tab_itests#:#Initial Tests
+crs#:#crs_loc_btn_new_assignment#:#New Test Assignment
+crs#:#crs_objective_tbl_col_final_tsts#:#Final Tests
+crs#:#crs_objective_action_qtest_sep#:#Assign Final Test
+crs#:#crs_loc_settings_tbl_its_q_all#:#Initial Qualifying Test (all Objecives)
+crs#:#crs_loc_settings_tbl_its_nq_all#:#Initial Diagnostic Test (all Objectives)
+crs#:#crs_loc_settings_tbl_it_q#:#Initial Qualifying Test (per Objective)
+crs#:#crs_loc_settings_tbl_it_nq#:#Initial Diagnostic Test (per Objective)
+crs#:#crs_loc_settings_tbl_qts_all#:#Finaly Test (all Objectives)
+crs#:#crs_loc_settings_tbl_qt#:#Final Test (per Objective)
+crs#:#crs_loc_objective_passed_confirmation#:#You have already passed this learning objective. Starting a new test run will reset the result. Do you really want to start a new test run?
+crs#:#crs_loc_objectives_passed_confirmation#:#You have already passed all learning objectives. Starting a new test run will reset all results. Do you really want to start a new test run?
+crs#:#crs_loc_tst_start#:#Start Test
+crs#:#crs_loc_mem_show_res#:#Show Test Results
+crs#:#crs_loc_test_results_of#:#Test results of:
 buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Request Contact
 buddysystem#:#buddy_bs_btn_txt_unlinked_p#:#Request Contact
 buddysystem#:#buddy_bs_btn_txt_linked_a#:#Linked
