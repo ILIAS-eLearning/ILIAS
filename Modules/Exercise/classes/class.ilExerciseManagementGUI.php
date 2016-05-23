@@ -818,8 +818,10 @@ class ilExerciseManagementGUI
 		{
 			$this->ctrl->redirect($this, "members");
 		}
-		$data = array();
-		foreach(array_keys($members) as $user_id)
+		
+		// #18408 - saveStatus() will rollout teams, we need raw (form) data here 
+		$data = array();				
+		foreach(array_keys($_POST["member"]) as $user_id)
 		{
 			$data[-1][$user_id] = array(
 				"status" => ilUtil::stripSlashes($_POST["status"][$user_id])
