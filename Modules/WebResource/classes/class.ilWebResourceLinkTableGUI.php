@@ -112,6 +112,9 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 		$items = $this->getWebResourceItems()->getActivatedItems();
 		$items = $this->getWebResourceItems()->sortItems($items);
 		
+		include_once "Services/Form/classes/class.ilFormPropertyGUI.php";
+		include_once "Services/Form/classes/class.ilLinkInputGUI.php";								
+		
 		$counter = 1;
 		foreach($items as $link)
 		{
@@ -126,6 +129,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 			$tmp['description'] = $link['description'];
 			$tmp['target'] = $link['target'];
 			$tmp['link_id'] = $link['link_id'];
+			$tmp['internal'] = ilLinkInputGUI::isInternalLink($link["target"]);
 			
 			$rows[] = $tmp;
 		}
@@ -149,6 +153,11 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 		// $this->tpl->setVariable('TARGET',$a_set['target']);
 		$this->tpl->setVariable('TARGET',
 			$ilCtrl->getLinkTarget($this->parent_obj, "callLink"));
+		
+		if(!$a_set['internal'])
+		{
+			$this->tpl->setVariable('FRAME', ' target="_blank"');
+		}
 		
 		if(!$this->isEditable())
 		{
