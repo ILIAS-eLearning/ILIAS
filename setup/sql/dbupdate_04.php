@@ -15218,3 +15218,15 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#4911>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('prg');
+$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('manage_members', 'Manage Members', 'object', 2400);
+if($type_id && $new_ops_id)
+{
+	ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
+}
+?>
