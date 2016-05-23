@@ -1195,7 +1195,12 @@ class ilDclTable {
 	}
 
 
-	function compareOrder($a, $b) {
+	/**
+	 * @param $a
+	 * @param $b
+	 * @return int
+	 */
+	public function compareOrder($a, $b) {
 		if (is_null($a->getOrder() == NULL) && is_null($b->getOrder() == NULL)) {
 			return 0;
 		}
