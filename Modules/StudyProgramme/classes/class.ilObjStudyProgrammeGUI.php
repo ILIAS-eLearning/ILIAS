@@ -172,7 +172,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				$this->ctrl->forwardCommand($ilTranslationGui);
 				break;*/
 			case "ilobjstudyprogrammemembersgui":
-				$this->denyAccessIfNot("write");
+				$this->denyAccessIfNot("manage_members");
 				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
 				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeMembersGUI.php");
 				$gui = new ilObjStudyProgrammeMembersGUI($this, $this->ref_id);
@@ -534,13 +534,14 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 								   , $this->lng->txt("settings")
 								   , $this->getLinkTarget("settings")
 								   );
-			//Maybe some time this will be: if ($this->checkAccess("manage_members")) {
-			$this->tabs_gui->addTab( self::TAB_MEMBERS
-								   , $this->lng->txt("members")
-								   , $this->getLinkTarget("members")
-								   );
 		}
 
+		if ($this->checkAccess("manage_members") ) {
+			$this->tabs_gui->addTab( self::TAB_MEMBERS
+					   , $this->lng->txt("members")
+					   , $this->getLinkTarget("members")
+					   );
+		}
 		parent::getTabs();
 	}
 
