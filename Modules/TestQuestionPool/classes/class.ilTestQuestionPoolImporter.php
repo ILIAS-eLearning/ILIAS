@@ -66,7 +66,9 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 			$GLOBALS['ilLog']->write(__METHOD__.': Cannot find qti definition: '. $qti_file);
 			return false;
 		}
-
+		
+		$this->poolOBJ = $newObj;
+		
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		ilObjQuestionPool::_setImportDirectory($this->getImportDirectory());
 		
@@ -132,9 +134,10 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 		$this->importQuestionSkillAssignments($xml_file, $a_mapping, $newObj->getId());
 
 		$a_mapping->addMapping("Modules/TestQuestionPool", "qpl", $a_id, $newObj->getId());
+
 		ilObjQuestionPool::_setImportDirectory(null);
 		
-		$this->poolOBJ = $newObj;
+		$newObj->saveToDb();
 	}
 
 	/**
@@ -229,6 +232,8 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
 			$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($targetParentObjId);
 			$qsaImportFails->registerFailedImports($importer->getFailedImportAssignmentList());
+			
+			$this->poolOBJ->setOnline(false);
 		}
 	}
 }
