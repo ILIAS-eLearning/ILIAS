@@ -35,6 +35,8 @@ class ilServicesDatabaseSuite extends PHPUnit_Framework_TestSuite {
 	public static function suite() {
 		$suite = new self();
 
+		return $suite;
+
 		// add each test class of the component
 		require_once("./Services/Database/test/ilDatabaseCommonTest.php");
 

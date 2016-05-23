@@ -1,7 +1,7 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="Global ILIAS Tests">
-			<file>ilServicesDatabaseSuite.php</file>
+			<file>ilDatabaseCommonTest.php</file>
 		</testsuite>
 	</testsuites>
 	<filter>
