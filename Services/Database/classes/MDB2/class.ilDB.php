@@ -377,6 +377,31 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	}
 
 	/**
+	 * @param $feature
+	 * @return bool
+	 */
+	public function supports($feature) {
+		switch ($feature) {
+			case 'transaction':
+				return $this->supportsTransactions();
+			case 'fulltext':
+				return $this->supportsFulltext();
+			case 'slave':
+				return $this->supportsSlave();
+			default:
+				return false;
+		}
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsTransactions() {
+		return $this->db->supports('transactions');
+	}
+
+	/**
 	 * Use slave
 	 *
 	 * @param

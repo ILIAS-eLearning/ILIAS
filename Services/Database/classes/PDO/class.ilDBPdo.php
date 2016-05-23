@@ -220,19 +220,6 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
-	 * experimental....
-	 *
-	 * @param $table_name string
-	 * @param $fields     array
-	 */
-	public function createTableLeg($table_name, $fields) {
-		$fields_query = $this->createTableFields($fields);
-		$query = "CREATE TABLE $table_name ($fields_query);";
-		$this->pdo->exec($query);
-	}
-
-
-	/**
 	 * @param $table_name
 	 * @param $fields
 	 * @param bool $drop_table
@@ -312,26 +299,6 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
-	 * @param $fields
-	 * @deprecated
-	 * @return string
-	 */
-	protected function createTableFields($fields) {
-		$query = "";
-		foreach ($fields as $name => $field) {
-			$type = $this->type_to_mysql_type[$field['type']];
-			$length = $field['length'] ? "(" . $field['length'] . ")" : "";
-			$primary = isset($field['is_primary']) && $field['is_primary'] ? "PRIMARY KEY" : "";
-			$notnull = isset($field['is_notnull']) && $field['is_notnull'] ? "NOT NULL" : "";
-			$sequence = isset($field['sequence']) && $field['sequence'] ? "AUTO_INCREMENT" : "";
-			$query .= "$name $type $length $sequence $primary $notnull,";
-		}
-
-		return substr($query, 0, - 1);
-	}
-
-
-	/**
 	 * @param string $table_name
 	 * @param array $primary_keys
 	 * @return bool
@@ -355,18 +322,18 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
-	 * @param $atable_name
+	 * @param $table_name
 	 * @param $fields
 	 * @return bool|mixed
 	 * @throws \ilDatabaseException
 	 */
-	public function dropIndexByFields($atable_name, $fields) {
-		foreach ($this->manager->listTableIndexes($atable_name) as $idx_name) {
-			$def = $this->reverse->getTableIndexDefinition($atable_name, $idx_name);
+	public function dropIndexByFields($table_name, $fields) {
+		foreach ($this->manager->listTableIndexes($table_name) as $idx_name) {
+			$def = $this->reverse->getTableIndexDefinition($table_name, $idx_name);
 			$idx_fields = array_keys((array)$def['fields']);
 
 			if ($idx_fields === $fields) {
-				return $this->dropIndex($atable_name, $idx_name);
+				return $this->dropIndex($table_name, $idx_name);
 			}
 		}
 
@@ -421,14 +388,27 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
-	 * @param $table_name  string
-	 * @param $column_name string
-	 * @param $attributes  array
+	 * @param string $table_name
+	 * @param string $column_name
+	 * @param array $attributes
+	 * @return bool
+	 * @throws \ilDatabaseException
 	 */
 	public function addTableColumn($table_name, $column_name, $attributes) {
-		$col = array( $column_name => $attributes );
-		$col_str = $this->createTableFields($col);
-		$this->pdo->exec("ALTER TABLE $table_name ADD $col_str");
+		if (!$this->checkColumnName($column_name)) {
+			throw new ilDatabaseException("ilDB Error: addTableColumn(" . $table_name . ", " . $column_name . ")");
+		}
+		if (!$this->checkColumnDefinition($attributes)) {
+			throw new ilDatabaseException("ilDB Error: addTableColumn(" . $table_name . ", " . $column_name . ")");
+		}
+
+		$changes = array(
+			"add" => array(
+				$column_name => $attributes,
+			),
+		);
+
+		return $this->manager->alterTable($table_name, $changes, false);
 	}
 
 
@@ -589,23 +569,74 @@ class ilDBPdo implements ilDBInterface {
 	 * @param $where      array
 	 * @return int|void
 	 */
-	public function update($table_name, $values, $where) {
+	public function update($table_name, $columns, $where) {
+		$fields = array();
+		$field_values = array();
+		$placeholders = array();
+		$placeholders_full = array();
+		$types = array();
+		$values = array();
+		$lobs = false;
+		$lob = array();
+		foreach ($columns as $k => $col) {
+			$fields[] = $k;
+			$placeholders[] = "%s";
+			$placeholders_full[] = ":$k";
+			$types[] = $col[0];
 
-		$query_fields = array();
-		foreach ($values as $key => $val) {
-			$qval = $this->quote($val[1], $val[0]);
-			$query_fields[] = "$key = $qval";
+			// integer auto-typecast (this casts bool values to integer)
+			if ($col[0] == 'integer' && !is_null($col[1])) {
+				$col[1] = (int)$col[1];
+			}
+
+			$values[] = $col[1];
+			$field_values[$k] = $col[1];
+			if ($col[0] == "blob" || $col[0] == "clob") {
+				$lobs = true;
+				$lob[$k] = $k;
+			}
 		}
 
-		$query_where = array();
-		foreach ($where as $key => $val) {
-			$qval = $this->quote($val[1], $val[0]);
-			$query_where[] = "$key = $qval";
+		if ($lobs) {
+			$q = "UPDATE " . $table_name . " SET ";
+			$lim = "";
+			foreach ($fields as $k => $field) {
+				$q .= $lim . $field . " = " . $placeholders_full[$k];
+				$lim = ", ";
+			}
+			$q .= " WHERE ";
+			$lim = "";
+			foreach ($where as $k => $col) {
+				$q .= $lim . $k . " = " . $this->quote($col[1], $col[0]);
+				$lim = " AND ";
+			}
+			
+			$r = $this->prepareManip($q, $types);
+			$this->execute($r, $field_values);
+			$this->free($r);
+		} else {
+			foreach ($where as $k => $col) {
+				$types[] = $col[0];
+				$values[] = $col[1];
+				$field_values[$k] = $col;
+			}
+			$q = "UPDATE " . $table_name . " SET ";
+			$lim = "";
+			foreach ($fields as $k => $field) {
+				$q .= $lim . $field . " = " . $placeholders[$k];
+				$lim = ", ";
+			}
+			$q .= " WHERE ";
+			$lim = "";
+			foreach ($where as $k => $col) {
+				$q .= $lim . $k . " = %s";
+				$lim = " AND ";
+			}
+
+			$r = $this->manipulateF($q, $types, $values);
 		}
 
-		$query = "UPDATE $table_name" . " SET " . implode(", ", $query_fields) . " WHERE " . implode(" AND ", $query_where);
-
-		return $this->manipulate($query);
+		return $r;
 	}
 
 
@@ -734,6 +765,17 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
+	 * @param $table_name
+	 * @param $afields
+	 * @param string $a_name
+	 * @return bool
+	 */
+	public function addFulltextIndex($table_name, $afields, $a_name = 'in') {
+		return false;
+	}
+
+
+	/**
 	 * @param $index_name_base
 	 * @return string
 	 */
@@ -760,33 +802,6 @@ class ilDBPdo implements ilDBInterface {
 		return $a_constraint;
 	}
 
-
-	public function addFulltextIndex() {
-	}
-
-
-	/**
-	 * @param $fetchMode int
-	 * @return mixed
-	 * @throws ilDatabaseException
-	 */
-	public function fetchRow($fetchMode = ilDBConstants::FETCHMODE_ASSOC) {
-		if ($fetchMode == ilDBConstants::FETCHMODE_ASSOC) {
-			return $this->fetchRowAssoc();
-		} elseif ($fetchMode == ilDBConstants::FETCHMODE_OBJECT) {
-			return $this->fetchRowObject();
-		} else {
-			throw new ilDatabaseException("No valid fetch mode given, choose ilDBConstants::FETCHMODE_ASSOC or ilDBConstants::FETCHMODE_OBJECT");
-		}
-	}
-
-
-	private function fetchRowAssoc() {
-	}
-
-
-	private function fetchRowObject() {
-	}
 
 
 	/**
@@ -1165,12 +1180,12 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
-	 * @param $a_query
-	 * @param null $a_types
-	 * @return ilDBStatement
+	 * @param $query
+	 * @param null $types
+	 * @return \ilDBStatement
 	 */
-	public function prepareManip($a_query, $a_types = null) {
-		return $this->pdo->prepare($a_query);
+	public function prepareManip($query, $types = null) {
+		return $this->pdo->prepare($query);
 	}
 
 
@@ -1334,6 +1349,7 @@ class ilDBPdo implements ilDBInterface {
 	 * @param $a_column
 	 * @param $a_attributes
 	 * @return bool
+	 * @throws \ilDatabaseException
 	 */
 	public function modifyTableColumn($table, $a_column, $a_attributes) {
 		$def = $this->reverse->getTableFieldDefinition($table, $a_column);

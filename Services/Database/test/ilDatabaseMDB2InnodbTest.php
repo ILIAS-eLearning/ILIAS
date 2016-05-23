@@ -21,33 +21,21 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once('ilDatabaseBaseTest.php');
+
 /**
- * Database Test-Suite
+ * TestCase for the ilDatabaseMDB2InnodbTest
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilServicesDatabaseSuite extends PHPUnit_Framework_TestSuite {
+class ilDatabaseMDB2InnodbTest extends ilDatabaseBaseTest {
 
 	/**
-	 * @return \ilServicesDatabaseSuite
+	 * @return \ilDBPdoMySQLInnoDB
+	 * @throws \ilDatabaseException
 	 */
-	public static function suite() {
-		$suite = new self();
-
-		// add each test class of the component
-		require_once("./Services/Database/test/ilDatabasePDOInnodbTest.php");
-		$suite->addTestSuite("ilDatabasePDOInnodbTest");
-
-		require_once("./Services/Database/test/ilDatabaseMDB2InnodbTest.php");
-		$suite->addTestSuite("ilDatabaseMDB2InnodbTest");
-
-		require_once("./Services/Database/test/ilDatabasePDOMyISAMTest.php");
-		$suite->addTestSuite("ilDatabasePDOMyISAMTest");
-		
-		require_once("./Services/Database/test/ilDatabaseMDB2MyISAMTest.php");
-		$suite->addTestSuite("ilDatabaseMDB2MyISAMTest");
-
-		return $suite;
+	protected static function getDBInstance() {
+		return ilDBWrapperFactory::getWrapper('innodb');
 	}
 }

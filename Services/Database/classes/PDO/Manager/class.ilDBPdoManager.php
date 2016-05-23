@@ -38,8 +38,10 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface {
 		$str = 'SHOW TABLES ' . ($database ? ' IN ' . $database : '');
 		$r = $this->pdo->query($str);
 		$tables = array();
+
+		$sequence_identifier = "_seq";
 		while ($data = $r->fetchColumn()) {
-			if (strpos($data, '_seq') === false) {
+			if (!preg_match("/{$sequence_identifier}$/um", $data)) {
 				$tables[] = $data;
 			}
 		}
@@ -464,5 +466,17 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface {
 		$sequence_name = $this->db_instance->quoteIdentifier($this->db_instance->getSequenceName($table_name));
 
 		return $this->db_instance->manipulate("DROP TABLE $sequence_name");
+	}
+
+
+	/**
+	 * @param $name
+	 * @param $fields
+	 * @param array $options
+	 * @return string
+	 * @throws \ilDatabaseException
+	 */
+	public function getTableCreationQuery($name, $fields, $options = array()) {
+		return ilMySQLQueryUtils::getInstance($this->db_instance)->createTable($name, $fields, $options);
 	}
 }

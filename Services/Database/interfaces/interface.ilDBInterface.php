@@ -422,6 +422,14 @@ interface ilDBInterface {
 	//
 	// type-specific methods
 	//
+
+	/**
+	 * @param $feature
+	 * @return bool
+	 */
+	public function supports($feature);
+
+
 	/**
 	 * @return bool
 	 */
@@ -557,15 +565,24 @@ interface ilDBInterface {
 
 
 	/**
-	 * @param $atable_name
+	 * @param $table_name
 	 * @param $afields
 	 * @return bool
 	 */
-	public function dropIndexByFields($atable_name, $afields);
+	public function dropIndexByFields($table_name, $afields);
 
 
 	/**
 	 * @return string
 	 */
 	public function getPrimaryKeyIdentifier();
+
+
+	/**
+	 * @param $table_name
+	 * @param $afields
+	 * @param string $a_name
+	 * @return bool
+	 */
+	public function addFulltextIndex($table_name, $afields, $a_name = 'in');
 }

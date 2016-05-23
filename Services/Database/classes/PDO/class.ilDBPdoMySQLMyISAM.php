@@ -9,6 +9,11 @@ require_once('class.ilDBPdoMySQL.php');
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilDBPdoMySQLMyISAM extends ilDBPdoMySQL implements ilDBInterface {
-
+	/**
+	 * @return bool
+	 */
+	public function supportsFulltext() {
+		return true;
+	}
 }
 
