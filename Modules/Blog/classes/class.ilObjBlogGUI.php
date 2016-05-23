@@ -451,9 +451,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$cmd = $ilCtrl->getCmd();
 		
 		if($this->id_type == self::REPOSITORY_NODE_ID)
-		{			
-			$tpl->getStandardTemplate();
-			
+		{						
 			// add entry to navigation history
 			if(!$this->getCreationMode() &&
 				$this->getAccessHandler()->checkAccess("read", "", $this->node_id))
@@ -465,10 +463,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		switch($next_class)
 		{
-			case 'ilblogpostinggui':	
+			case 'ilblogpostinggui':					
 				// #9680
 				if($this->id_type == self::REPOSITORY_NODE_ID)
-				{						
+				{			
+					$tpl->getStandardTemplate();
 					$this->setLocator();						
 				}				
 				else
@@ -1904,21 +1903,21 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$this->renderNavigationByDate($a_items, $a_list_cmd, $a_posting_cmd, $a_link_template, $a_show_inactive)
 			);
 		}
-				
-		// authors
-		if($this->id_type == self::REPOSITORY_NODE_ID && 
-			$this->object->hasAuthors())
-		{
-			$authors = $this->renderNavigationByAuthors($a_items, $a_list_cmd, $a_show_inactive);
-			if($authors)
-			{
-				$blocks[$order["authors"]] = array($this->lng->txt("blog_authors"), $authors);
-			}
-		}		
 		
 		// is not part of (html) export
 		if(!$a_link_template)
-		{
+		{		
+			// authors
+			if($this->id_type == self::REPOSITORY_NODE_ID && 
+				$this->object->hasAuthors())
+			{
+				$authors = $this->renderNavigationByAuthors($a_items, $a_list_cmd, $a_show_inactive);
+				if($authors)
+				{
+					$blocks[$order["authors"]] = array($this->lng->txt("blog_authors"), $authors);
+				}
+			}		
+		
 			if($this->object->hasKeywords())
 			{
 				// keywords 		
