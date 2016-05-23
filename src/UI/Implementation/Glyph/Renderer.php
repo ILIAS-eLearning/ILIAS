@@ -18,9 +18,10 @@ class Renderer extends AbstractRenderer {
 			throw new \LogicException(
 				"Expected Glyph, found '".get_class($component)."' when rendering.");
 		}
+
 		$tpl = $this->getTemplate("tpl.glyph.html", true, true);
 		$tpl->touchBlock($component->getType());
-		
+
 		foreach ($component->getCounters() as $counter) {
 			$tpl->setCurrentBlock("counter_".$counter->getType());
 			$tpl->setVariable("NUMBER", $counter->getNumber());
