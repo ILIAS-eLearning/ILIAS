@@ -39,6 +39,10 @@ class IliasQuestionXMLCreator implements QuestionXMLCreator {
 												-1,
 												$this->question);
 				$obj->feedbackOBJ = new ilAssSingleChoiceFeedback($obj,$ilCtrl,$ilDB,$lng);
+				$points_per_ans = array();
+				foreach ($this->correct_answers as $correct_answers_id) {
+					$points_per_ans[$correct_answers_id] = 1;
+				}
 				break;
 			case 'multiple':
 				$obj = new assMultipleChoice(	$this->title,
@@ -47,14 +51,30 @@ class IliasQuestionXMLCreator implements QuestionXMLCreator {
 												-1,
 												$this->question);
 				$obj->feedbackOBJ = new ilAssMultipleChoiceFeedback($obj,$ilCtrl,$ilDB,$lng);
+				$cnt_correct_answers = count($this->correct_answers);
+				if($cnt_correct_answers % 3 === 0 || $cnt_correct_answers % 7 === 0) {
+					$pnts = 1/($cnt_correct_answers +1);
+					$cnt = 0;
+					foreach ($this->correct_answers as $correct_answers_id) {
+						$points_per_ans[$correct_answers_id] = ($cnt === 0) ? 2*$pnts : $pnts;
+						$cnt++;
+					}
+				} else {
+					$pnts = 1/$cnt_correct_answers;
+					foreach ($this->correct_answers as $correct_answers_id) {
+						$points_per_ans[$correct_answers_id] = $pnts;
+					}
+				}
+
 				break;
 			default:
 				throw new QuestionException('unknown question type $this->type');
 		}
 		$obj->setId($this->id);
-		$points_per_ans = 1/count($this->correct_answers);
+
+
 		foreach ($this->answers as $answer_id => $answer) {
-			$points = in_array($answer_id, $this->correct_answers) ? $points_per_ans : -1;
+			$points = in_array($answer_id, $this->correct_answers) ? $points_per_ans[$answer_id] : -1;
 			$obj->addAnswer($answer,$points);
 		}
 		return $obj->toXML();
