@@ -200,8 +200,8 @@ class ilPersonalDesktopGUI
 				break;
 
 			case 'ilpersonalworkspacegui':		
-				$this->getStandardTemplates();
-				$this->setTabs();
+				// $this->getStandardTemplates();
+				// $this->setTabs();
 				include_once 'Services/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php';
 				$wsgui = new ilPersonalWorkspaceGUI();
 				$ret = $this->ctrl->forwardCommand($wsgui);								
