@@ -1340,7 +1340,7 @@ class ilExerciseManagementGUI
 	 */
 	function saveMultiFeedbackObject()
 	{
-		$this->assignment->saveMultiFeedbackFiles($_POST["file"]);
+		$this->assignment->saveMultiFeedbackFiles($_POST["file"], $this->exercise);
 		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "members");
