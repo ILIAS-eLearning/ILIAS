@@ -129,8 +129,7 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 		
 		if($dl)
 		{
-			$time_diff = ilUtil::int2array($dl - time(), null);
-			$dl = ilUtil::timearray2string($time_diff);
+			$dl = ilUtil::period2String(new ilDateTime($dl, IL_CAL_UNIX));
 		}
 		
 		return array(
