@@ -10,6 +10,31 @@ class ilDatabaseCommonTestsDataOutputs {
 	/**
 	 * @var array
 	 */
+	public static $index_info_with_fulltext = array(
+		0 => array(
+			'name'     => 'i1',
+			'fulltext' => false,
+			'fields'   => array(
+				'init_mob_id' => array(
+					'position' => 1,
+					'sorting'  => 'ascending',
+				),
+			),
+		),
+		1 => array(
+			'name'     => 'i2',
+			'fulltext' => true,
+			'fields'   => array(
+				'address' => array(
+					'position' => 1,
+					'sorting'  => null,
+				),
+			),
+		),
+	);
+	/**
+	 * @var array
+	 */
 	public static $index_info = array(
 		0 => array(
 			'name'     => 'i1',
@@ -38,7 +63,7 @@ class ilDatabaseCommonTestsDataOutputs {
 	 * @var array
 	 */
 	public static $analyzer_field_info = array(
-		'id'                     => array(
+		'id'             => array(
 			'notnull'       => true,
 			'nativetype'    => 'int',
 			'length'        => 4,
@@ -49,7 +74,7 @@ class ilDatabaseCommonTestsDataOutputs {
 			'type'          => 'integer',
 			'alt_types'     => '',
 		),
-		'is_online'              => array(
+		'is_online'      => array(
 			'notnull'       => false,
 			'nativetype'    => 'tinyint',
 			'length'        => 1,
@@ -60,7 +85,7 @@ class ilDatabaseCommonTestsDataOutputs {
 			'type'          => 'integer',
 			'alt_types'     => 'boolean1 ',
 		),
-		'is_default'             => array(
+		'is_default'     => array(
 			'notnull'       => false,
 			'nativetype'    => 'tinyint',
 			'length'        => 1,
@@ -71,7 +96,7 @@ class ilDatabaseCommonTestsDataOutputs {
 			'type'          => 'integer',
 			'alt_types'     => 'boolean1 ',
 		),
-		'latitude'               => array(
+		'latitude'       => array(
 			'notnull'       => false,
 			'nativetype'    => 'double',
 			'length'        => null,
@@ -82,7 +107,7 @@ class ilDatabaseCommonTestsDataOutputs {
 			'type'          => 'float',
 			'alt_types'     => '',
 		),
-		'longitude'              => array(
+		'longitude'      => array(
 			'notnull'       => false,
 			'nativetype'    => 'double',
 			'length'        => null,
@@ -93,7 +118,7 @@ class ilDatabaseCommonTestsDataOutputs {
 			'type'          => 'float',
 			'alt_types'     => '',
 		),
-		'elevation'              => array(
+		'elevation'      => array(
 			'notnull'       => false,
 			'nativetype'    => 'double',
 			'length'        => null,
@@ -104,7 +129,7 @@ class ilDatabaseCommonTestsDataOutputs {
 			'type'          => 'float',
 			'alt_types'     => '',
 		),
-		'address'                => array(
+		'address'        => array(
 			'notnull'       => false,
 			'nativetype'    => 'varchar',
 			'length'        => '256',
@@ -115,7 +140,7 @@ class ilDatabaseCommonTestsDataOutputs {
 			'type'          => 'text',
 			'alt_types'     => '',
 		),
-		'init_mob_id'            => array(
+		'init_mob_id'    => array(
 			'notnull'       => false,
 			'nativetype'    => 'int',
 			'length'        => 4,
@@ -126,7 +151,7 @@ class ilDatabaseCommonTestsDataOutputs {
 			'type'          => 'integer',
 			'alt_types'     => '',
 		),
-		'comment_mob_id_altered' => array(
+		'comment_mob_id' => array(
 			'notnull'       => false,
 			'nativetype'    => 'varchar',
 			'length'        => '250',
@@ -137,7 +162,7 @@ class ilDatabaseCommonTestsDataOutputs {
 			'type'          => 'text',
 			'alt_types'     => '',
 		),
-		'container_id'           => array(
+		'container_id'   => array(
 			'notnull'       => false,
 			'nativetype'    => 'int',
 			'length'        => 4,
@@ -148,7 +173,7 @@ class ilDatabaseCommonTestsDataOutputs {
 			'type'          => 'integer',
 			'alt_types'     => '',
 		),
-		'big_data'               => array(
+		'big_data'       => array(
 			'notnull'       => false,
 			'nativetype'    => 'longtext',
 			'length'        => null,
@@ -216,10 +241,17 @@ class ilDatabaseCommonTestsDataOutputs {
 		'container_id'   => '456',
 		'big_data'       => 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
 	);
+
+
 	/**
-	 * @var string
+	 * @param $table_name
+	 * @return string
 	 */
-	public static $table_creation_query_native = "CREATE  TABLE il_unittest_common (id INT NOT NULL, is_online TINYINT DEFAULT NULL, is_default TINYINT DEFAULT 1, latitude DOUBLE DEFAULT NULL, longitude DOUBLE DEFAULT NULL, elevation DOUBLE DEFAULT NULL, address VARCHAR(256) DEFAULT NULL NULL, init_mob_id INT DEFAULT NULL, comment_mob_id INT DEFAULT NULL, container_id INT DEFAULT NULL, big_data LONGTEXT)";
+	public static function getCreationQueryBuildByILIAS($table_name) {
+		return "CREATE  TABLE $table_name (id INT NOT NULL, is_online TINYINT DEFAULT NULL, is_default TINYINT DEFAULT 1, latitude DOUBLE DEFAULT NULL, longitude DOUBLE DEFAULT NULL, elevation DOUBLE DEFAULT NULL, address VARCHAR(256) DEFAULT NULL NULL, init_mob_id INT DEFAULT NULL, comment_mob_id INT DEFAULT NULL, container_id INT DEFAULT NULL, big_data LONGTEXT)";
+	}
+
+
 	/**
 	 * @var array
 	 */
@@ -387,7 +419,7 @@ class ilDatabaseCommonTestsDataOutputs {
 		123 => 'il_qpl_qst_fq_unit',
 		124 => 'il_qpl_qst_fq_var',
 		125 => 'il_rating_cat',
-		126 => 'il_unittest_common',
+		126 => 'il_ut_en_pdo_i',
 		127 => 'il_wiki_page',
 		128 => 'ldap_rg_mapping',
 		129 => 'ldap_role_assignments',
@@ -519,6 +551,13 @@ class ilDatabaseCommonTestsDataOutputs {
 	 */
 	public static $table_indices = array(
 		0 => 'i1',
+	);
+	/**
+	 * @var array
+	 */
+	public static $table_indices_fulltext = array(
+		0 => 'i1',
+		1 => 'i2',
 	);
 	/**
 	 * @var array

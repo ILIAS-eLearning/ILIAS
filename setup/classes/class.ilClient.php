@@ -548,9 +548,9 @@ class ilClient
 		switch ($this->getDbType()) {
 			case ilDBConstants::TYPE_ORACLE:
 				return true;
-			case ilDBConstants::TYPE_INNODB:
-			case ilDBConstants::TYPE_MYSQL:
-			case ilDBConstants::TYPE_POSTGRES:
+			case ilDBConstants::TYPE_INNODB_LEGACY:
+			case ilDBConstants::TYPE_MYSQL_LEGACY:
+			case ilDBConstants::TYPE_POSTGRES_LEGACY:
 				$db = $this->db_connections->connectHost($this->dsn_host);
 				if (class_exists('MDB2')) {
 					if (MDB2::isError($db)) {
@@ -561,16 +561,9 @@ class ilClient
 					}
 				}
 			default:
-				try {
-					$this->db_connections->connectHost($this->dsn_host);
-				} catch (ilDatabaseException $ilDatabaseException) {
-					var_dump($ilDatabaseException); // FSX
-				}
-
-				return false;
+				$this->db_connections->connectHost($this->dsn_host);
+				return true;
 		}
-
-		return false;
 	}
 
 	/**

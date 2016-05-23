@@ -279,6 +279,8 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface {
 	 * @return int
 	 */
 	public function createTable($name, $fields, $options = array()) {
+		$options['type'] = $this->db_instance->getStorageEngine();
+
 		return $this->pdo->exec(ilMySQLQueryUtils::getInstance($this->db_instance)->createTable($name, $fields, $options));
 	}
 

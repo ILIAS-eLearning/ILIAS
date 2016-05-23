@@ -161,7 +161,7 @@ class ilDatabaseCommonTestMockData {
 	/**
 	 * @return mixed
 	 */
-	public function getTableCreateSQL($tablename) {
+	public function getTableCreateSQL($tablename, $engine) {
 		return "CREATE TABLE `" . $tablename . "` (
   `id` int(11) NOT NULL,
   `is_online` tinyint(4) DEFAULT NULL,
@@ -174,14 +174,18 @@ class ilDatabaseCommonTestMockData {
   `comment_mob_id` int(11) DEFAULT NULL,
   `container_id` int(11) DEFAULT NULL,
   `big_data` longtext,
-  PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+  PRIMARY KEY (`id`)) ENGINE=$engine DEFAULT CHARSET=utf8";
 	}
 
 
 	/**
 	 * @return mixed
 	 */
-	public function getTableCreateSQLAfterRename($tablename) {
+	public function getTableCreateSQLAfterRename($tablename, $engine, $supports_fulltext) {
+		$add_idex = '';
+		if($supports_fulltext) {
+			$add_idex = ", FULLTEXT KEY `i2_idx` (`address`)";
+		}
 		return "CREATE TABLE `" . $tablename . "` (
   `id` int(11) NOT NULL,
   `is_online` tinyint(4) DEFAULT NULL,
@@ -194,13 +198,17 @@ class ilDatabaseCommonTestMockData {
   `comment_mob_id_altered` int(11) DEFAULT NULL,
   `container_id` int(11) DEFAULT NULL,
   `big_data` longtext,
-  PRIMARY KEY (`id`), KEY `i1_idx` (`init_mob_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+  PRIMARY KEY (`id`), KEY `i1_idx` (`init_mob_id`)$add_idex) ENGINE=$engine DEFAULT CHARSET=utf8";
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getTableCreateSQLAfterAlter($tablename) {
+	public function getTableCreateSQLAfterAlter($tablename, $engine, $supports_fulltext) {
+		$add_idex = '';
+		if($supports_fulltext) {
+			$add_idex = ", FULLTEXT KEY `i2_idx` (`address`)";
+		}
 		return "CREATE TABLE `" . $tablename . "` (
   `id` int(11) NOT NULL,
   `is_online` tinyint(4) DEFAULT NULL,
@@ -213,6 +221,6 @@ class ilDatabaseCommonTestMockData {
   `comment_mob_id_altered` varchar(250) DEFAULT NULL,
   `container_id` int(11) DEFAULT NULL,
   `big_data` longtext,
-  PRIMARY KEY (`id`), KEY `i1_idx` (`init_mob_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+  PRIMARY KEY (`id`), KEY `i1_idx` (`init_mob_id`)$add_idex) ENGINE=$engine DEFAULT CHARSET=utf8";
 	}
 }

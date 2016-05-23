@@ -585,4 +585,32 @@ interface ilDBInterface {
 	 * @return bool
 	 */
 	public function addFulltextIndex($table_name, $afields, $a_name = 'in');
+
+
+	/**
+	 * @param $a_table
+	 * @param $a_name
+	 * @return bool
+	 */
+	public function dropFulltextIndex($a_table, $a_name);
+
+
+	/**
+	 * @param $a_table
+	 * @param $a_name
+	 * @return bool
+	 */
+	public function isFulltextIndex($a_table, $a_name);
+
+
+	/**
+	 * @param $storage_engine
+	 */
+	public function setStorageEngine($storage_engine);
+
+
+	/**
+	 * @return string
+	 */
+	public function getStorageEngine();
 }

@@ -35,7 +35,15 @@ class ilDatabaseMDB2MyISAMTest extends ilDatabaseBaseTest {
 	 * @return \ilDBPdoMySQLInnoDB
 	 * @throws \ilDatabaseException
 	 */
-	protected static function getDBInstance() {
-		return ilDBWrapperFactory::getWrapper('mysql');
+	protected function getDBInstance() {
+		return ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_MYSQL_LEGACY);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	protected function getTableName() {
+		return strtolower(self::TABLE_NAME . '_mdb_m');
 	}
 }

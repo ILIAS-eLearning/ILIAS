@@ -35,7 +35,15 @@ class ilDatabasePDOInnodbTest extends ilDatabaseBaseTest {
 	 * @return \ilDBPdoMySQLInnoDB
 	 * @throws \ilDatabaseException
 	 */
-	protected static function getDBInstance() {
-		return ilDBWrapperFactory::getWrapper('pdo-mysql-myisam');
+	protected function getDBInstance() {
+		return ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_INNODB);
+	}
+
+
+	/**
+	 * @return string
+	 */
+	protected function getTableName() {
+		return strtolower(self::TABLE_NAME . '_pdo_i');
 	}
 }

@@ -62,6 +62,10 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	protected $offset = null;
 	/**
+	 * @var string
+	 */
+	protected $storage_engine = 'MyISAM';
+	/**
 	 * @var array
 	 */
 	protected $type_to_mysql_type = array(
@@ -610,7 +614,7 @@ class ilDBPdo implements ilDBInterface {
 				$q .= $lim . $k . " = " . $this->quote($col[1], $col[0]);
 				$lim = " AND ";
 			}
-			
+
 			$r = $this->prepareManip($q, $types);
 			$this->execute($r, $field_values);
 			$this->free($r);
@@ -765,12 +769,39 @@ class ilDBPdo implements ilDBInterface {
 
 
 	/**
-	 * @param $table_name
-	 * @param $afields
+	 * @param $a_table
+	 * @param $a_fields
 	 * @param string $a_name
+	 * @throws \ilDatabaseException
 	 * @return bool
 	 */
-	public function addFulltextIndex($table_name, $afields, $a_name = 'in') {
+	public function addFulltextIndex($a_table, $a_fields, $a_name = "in") {
+		$i_name = $this->constraintName($a_table, $a_name) . "_idx";
+		$f_str = implode($a_fields, ",");
+		$q = "ALTER TABLE $a_table ADD FULLTEXT $i_name ($f_str)";
+		$this->query($q);
+	}
+
+
+	/**
+	 * Drop fulltext index
+	 */
+	public function dropFulltextIndex($a_table, $a_name) {
+		$i_name = $this->constraintName($a_table, $a_name) . "_idx";
+		$this->query("ALTER TABLE $a_table DROP FULLTEXT $i_name");
+	}
+
+
+	/**
+	 * Is index a fulltext index?
+	 */
+	public function isFulltextIndex($a_table, $a_name) {
+		$set = $this->query("SHOW INDEX FROM " . $a_table);
+		while ($rec = $this->fetchAssoc($set)) {
+			if ($rec["Key_name"] == $a_name && $rec["Index_type"] == "FULLTEXT") {
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -801,7 +832,6 @@ class ilDBPdo implements ilDBInterface {
 	public function constraintName($a_table, $a_constraint) {
 		return $a_constraint;
 	}
-
 
 
 	/**
@@ -1312,7 +1342,7 @@ class ilDBPdo implements ilDBInterface {
 	 * @return string
 	 */
 	public function concat(array $values, $allow_null = true) {
-		return ilMySQLQueryUtils::getInstance()->concat($values, $allow_null);
+		return ilMySQLQueryUtils::getInstance($this)->concat($values, $allow_null);
 	}
 
 
@@ -1340,7 +1370,7 @@ class ilDBPdo implements ilDBInterface {
 	 * @return string
 	 */
 	public function locate($a_needle, $a_string, $a_start_pos = 1) {
-		return ilMySQLQueryUtils::getInstance()->locate($a_needle, $a_string, $a_start_pos);
+		return ilMySQLQueryUtils::getInstance($this)->locate($a_needle, $a_string, $a_start_pos);
 	}
 
 
@@ -1496,5 +1526,21 @@ class ilDBPdo implements ilDBInterface {
 	 */
 	public function dropIndex($a_table, $a_name = "i1") {
 		return $this->manager->dropIndex($a_table, $a_name);
+	}
+
+
+	/**
+	 * @param $storage_engine
+	 */
+	public function setStorageEngine($storage_engine) {
+		$this->storage_engine = $storage_engine;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getStorageEngine() {
+		return $this->storage_engine;
 	}
 }

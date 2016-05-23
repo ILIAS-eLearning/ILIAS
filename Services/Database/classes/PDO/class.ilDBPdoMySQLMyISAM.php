@@ -9,11 +9,20 @@ require_once('class.ilDBPdoMySQL.php');
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilDBPdoMySQLMyISAM extends ilDBPdoMySQL implements ilDBInterface {
+
+	/**
+	 * @var string
+	 */
+	protected $storage_engine = 'MyISAM';
+
+
 	/**
 	 * @return bool
 	 */
 	public function supportsFulltext() {
 		return true;
 	}
+	
+	
 }
 
