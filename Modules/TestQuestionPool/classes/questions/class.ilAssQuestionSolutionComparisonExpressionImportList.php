@@ -148,12 +148,12 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
 		return reset($this->expressions);
 	}
 	
-	public function __sleep()
+	public function sleep()
 	{
 		// TODO: Implement __sleep() method.
 	}
 	
-	public function __wakeup()
+	public function wakeup()
 	{
 		// TODO: Implement __wakeup() method.
 	}

@@ -157,7 +157,11 @@ class ilObjQuestionPool extends ilObject
 
 		//put here your module specific stuff
 		$this->deleteQuestionpool();
-
+		
+		require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
+		$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->getId());
+		$qsaImportFails->deleteRegisteredImportFails();
+		
 		return true;
 	}
 

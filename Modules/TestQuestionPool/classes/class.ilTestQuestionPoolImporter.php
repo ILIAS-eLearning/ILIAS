@@ -226,8 +226,9 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 		
 		if( $importer->getFailedImportAssignmentList()->assignmentsExist() )
 		{
-			$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails();
-			$qsaImportFails->registerFailedImports($targetParentObjId, $importer->getFailedImportAssignmentList());
+			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
+			$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($targetParentObjId);
+			$qsaImportFails->registerFailedImports($importer->getFailedImportAssignmentList());
 		}
 	}
 }

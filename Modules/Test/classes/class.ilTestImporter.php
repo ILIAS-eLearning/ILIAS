@@ -350,11 +350,8 @@ class ilTestImporter extends ilXmlImporter
 		if( $importer->getFailedImportAssignmentList()->assignmentsExist() )
 		{
 			require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportFails.php';
-			$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails();
-			
-			$qsaImportFails->registerFailedImports(
-				$this->getTestOBJ()->getId(), $importer->getFailedImportAssignmentList()
-			);
+			$qsaImportFails = new ilAssQuestionSkillAssignmentImportFails($this->getTestOBJ()->getId());
+			$qsaImportFails->registerFailedImports($importer->getFailedImportAssignmentList());
 		}
 		
 		return $importer->getSuccessImportAssignmentList();
@@ -379,11 +376,8 @@ class ilTestImporter extends ilXmlImporter
 		if( $importer->getFailedThresholdImportSkillList()->skillsExist() )
 		{
 			require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdImportFails.php';
-			$sltImportFails = new ilTestSkillLevelThresholdImportFails();
-			
-			$sltImportFails->registerFailedImports(
-				$this->getTestOBJ()->getId(), $importer->getFailedThresholdImportSkillList()
-			);
+			$sltImportFails = new ilTestSkillLevelThresholdImportFails($this->getTestOBJ()->getId());
+			$sltImportFails->registerFailedImports($importer->getFailedThresholdImportSkillList());
 		}
 	}
 }

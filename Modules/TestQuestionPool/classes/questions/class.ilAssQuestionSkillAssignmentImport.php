@@ -194,12 +194,12 @@ class ilAssQuestionSkillAssignmentImport
 		return $this->importSolutionComparisonExpressionList;
 	}
 	
-	public function __sleep()
+	public function sleep()
 	{
 		// TODO: Implement __sleep() method.
 	}
 	
-	public function __wakeup()
+	public function wakeup()
 	{
 		// TODO: Implement __wakeup() method.
 	}

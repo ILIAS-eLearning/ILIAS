@@ -79,12 +79,12 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
 		return reset($this->assignments);
 	}
 	
-	public function __sleep()
+	public function sleep()
 	{
 		// TODO: Implement __sleep() method.
 	}
 	
-	public function __wakeup()
+	public function wakeup()
 	{
 		// TODO: Implement __wakeup() method.
 	}
