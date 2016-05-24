@@ -52,20 +52,27 @@ class IliasQuestionXMLCreator implements QuestionXMLCreator {
 												$this->question);
 				$obj->feedbackOBJ = new ilAssMultipleChoiceFeedback($obj,$ilCtrl,$ilDB,$lng);
 				$cnt_correct_answers = count($this->correct_answers);
-				if($cnt_correct_answers % 3 === 0 || $cnt_correct_answers % 7 === 0) {
-					$pnts = 1/($cnt_correct_answers +1);
-					$cnt = 0;
-					foreach ($this->correct_answers as $correct_answers_id) {
-						$points_per_ans[$correct_answers_id] = ($cnt === 0) ? 2*$pnts : $pnts;
-						$cnt++;
-					}
-				} else {
-					$pnts = 1/$cnt_correct_answers;
-					foreach ($this->correct_answers as $correct_answers_id) {
-						$points_per_ans[$correct_answers_id] = $pnts;
-					}
+				$step = 0;
+				/**
+				 *	We would like to assign 1 point to any question.
+				 *	For multiple select type questions this means that
+				 *	we must distribute fractional points among several right
+				 *	answers. If we chose a constant distribution, this would cause
+				 *	problems due to rounding-errors in floats, for instance in case of
+				 *	3 right answers. To avoid this, we pick a different distribution, where
+				 *	the floating point representation of points for any right answer is
+				 *	exact and thus the sum remains 1.
+				 */
+				while($cnt_correct_answers % 3 === 0 || $cnt_correct_answers % 7 === 0) { 	//in principle we should continue to exclude all primes > 10
+					$step++;																//for now we will assume that there are no questions having more
+					$cnt_correct_answers++;													//than 10 correct answers.
 				}
-
+				$pnts = 1/($cnt_correct_answers + $step);
+				$cnt = 0;
+				foreach ($this->correct_answers as $correct_answers_id) {
+					$points_per_ans[$correct_answers_id] = ($cnt === 0) ? (1 + $step) * $pnts : $pnts;
+					$cnt++;
+				}
 				break;
 			default:
 				throw new QuestionException('unknown question type $this->type');
