@@ -720,7 +720,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			
 			$this->tpl->touchBlock("path_action");
 		}
-		else
+		else if($a_set["ref_ids"]) // #18446
 		{
 			// #16453
 			include_once './Services/Tree/classes/class.ilPathGUI.php';
