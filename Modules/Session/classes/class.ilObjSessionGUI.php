@@ -441,7 +441,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function infoScreen()
 	{
-		global $ilAccess, $ilUser,$ilCtrl,$tree,$ilToolbar;
+		global $ilAccess, $ilUser,$ilCtrl,$tree,$ilToolbar,$lng;
 
 		$this->checkPermission('visible');
 		$this->tabs_gui->setTabActive('info_short');
@@ -505,6 +505,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->object->getId(),
 			$eventItems
 		);			
+		
+		$lng->loadLanguageModule("cntr");// #14158		
 		
 		foreach($eventItems as $item)
 		{						
