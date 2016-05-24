@@ -176,7 +176,7 @@ class ilMail
 	 */
 	public function existsRecipient($a_recipient, $a_existing_recipients)
 	{
-		$recipients = $this->explodeRecipients($a_existing_recipients);
+		$recipients = $this->parseAddresses($a_existing_recipients);
 		foreach($recipients as $rcp)
 		{
 			if(substr($rcp->getMailbox(), 0, 1) != '#')
@@ -932,7 +932,7 @@ class ilMail
 		$usr_ids = array();
 
 		require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressTypeFactory.php';  
-		$recipients = $this->explodeRecipients($a_recipients);
+		$recipients = $this->parseAddresses($a_recipients);
 		foreach($recipients as $recipient)
 		{
 			$address_type = ilMailAddressTypeFactory::getByPrefix($recipient);
@@ -982,7 +982,7 @@ class ilMail
 		try
 		{
 			require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressTypeFactory.php';
-			$recipients = $this->explodeRecipients($a_recipients);
+			$recipients = $this->parseAddresses($a_recipients);
 			foreach($recipients as $recipient)
 			{
 				$address_type = ilMailAddressTypeFactory::getByPrefix($recipient);
@@ -1389,30 +1389,15 @@ class ilMail
 
 	/**
 	 * Explode recipient string, allowed seperators are ',' ';' ' '
-	 * Returns an array with recipient ilMailAddress objects
-	 * @param string $a_recipients
+	 * Returns an array with recipient ilMailAddress instances
+	 * @param string $a_addresses
 	 * @return ilMailAddress[] An array with objects of type ilMailAddress
 	 */
-	protected function explodeRecipients($a_recipients)
+	protected function parseAddresses($a_addresses)
 	{
-		$recipients = array();
-
-		$a_recipients = preg_replace('/;/', ',', trim($a_recipients));
-		if(strlen(trim($a_recipients)) > 0)
-		{
-			require_once 'Services/Mail/classes/Address/Parser/RFC822.php';
-			$parser = new Mail_RFC822();
-			$recipients = $parser->parseAddressList($a_recipients, self::ILIAS_HOST, false, true);
-			$recipients = array_filter($recipients, function($address) {
-				return strlen($address->mailbox) > 0;
-			});
-			require_once 'Services/Mail/classes/Address/class.ilMailAddress.php';
-			$recipients = array_map(function($address) {
-				return new ilMailAddress($address->mailbox, $address->host);
-			}, $recipients);
-		}
-
-		return $recipients;
+		require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
+		$parser = ilMailRfc822AddressParserFactory::getParser($a_addresses);
+		return $parser->parse();
 	}
 
 	/**
@@ -1424,7 +1409,7 @@ class ilMail
 	{
 		$counter = 0;
 
-		$recipients = $this->explodeRecipients($a_recipients);
+		$recipients = $this->parseAddresses($a_recipients);
 		foreach($recipients as $recipient)
 		{
 			if($a_only_email)
@@ -1475,7 +1460,7 @@ class ilMail
 	{
 		$rcp = array();
 
-		$recipients = $this->explodeRecipients($a_recipients);
+		$recipients = $this->parseAddresses($a_recipients);
 		foreach($recipients as $recipient)
 		{
 			if(substr($recipient->getMailbox(), 0, 1) != '#' && $recipient->getHost() != self::ILIAS_HOST)

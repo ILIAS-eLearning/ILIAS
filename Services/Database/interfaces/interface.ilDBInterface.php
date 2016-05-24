@@ -24,9 +24,10 @@ interface ilDBInterface {
 
 
 	/**
-	 * @return void
+	 * @param bool $return_false_on_error
+	 * @return mixed
 	 */
-	public function connect();
+	public function connect($return_false_on_error = false);
 
 
 	/**
@@ -38,12 +39,13 @@ interface ilDBInterface {
 
 
 	/**
-	 * experimental....
-	 *
-	 * @param $table_name string
-	 * @param $fields     array
+	 * @param $table_name
+	 * @param $fields
+	 * @param bool $drop_table
+	 * @param bool $ignore_erros
+	 * @return mixed
 	 */
-	public function createTable($table_name, $fields);
+	public function createTable($table_name, $fields, $drop_table = false, $ignore_erros = false);
 
 
 	/**
@@ -86,9 +88,11 @@ interface ilDBInterface {
 
 
 	/**
-	 * @param $table_name string
+	 * @param $table_name
+	 * @param bool $error_if_not_existing
+	 * @return bool
 	 */
-	public function dropTable($table_name);
+	public function dropTable($table_name, $error_if_not_existing = true);
 
 
 	/**
@@ -194,11 +198,12 @@ interface ilDBInterface {
 
 	/**
 	 * @param $table_name
-	 * @param $index_name
-	 *
-	 * @return null
+	 * @param $fields
+	 * @param string $index_name
+	 * @param bool $fulltext
+	 * @return bool
 	 */
-	public function addIndex($table_name, $index_name);
+	public function addIndex($table_name, $fields, $index_name = '', $fulltext = false);
 
 
 	/**
@@ -233,7 +238,7 @@ interface ilDBInterface {
 	 * @param array table definitions
 	 * @return
 	 */
-	public function lockTables($a_tables);
+	public function lockTables($tables);
 
 
 	/**
@@ -294,10 +299,10 @@ interface ilDBInterface {
 	 * @param string $column
 	 * @param string $type
 	 * @param mixed $value
-	 * @param bool $caseInsensitive
+	 * @param bool $case_insensitive
 	 * @return string
 	 */
-	public function like($column, $type, $value = "?", $caseInsensitive = true);
+	public function like($column, $type, $value = "?", $case_insensitive = true);
 
 
 	/**
@@ -374,7 +379,7 @@ interface ilDBInterface {
 	/**
 	 * @param $a_query
 	 * @param null $a_types
-	 * @return mixed
+	 * @return ilDBStatement
 	 */
 	public function prepareManip($a_query, $a_types = null);
 
@@ -417,6 +422,14 @@ interface ilDBInterface {
 	//
 	// type-specific methods
 	//
+
+	/**
+	 * @param $feature
+	 * @return bool
+	 */
+	public function supports($feature);
+
+
 	/**
 	 * @return bool
 	 */
@@ -469,9 +482,10 @@ interface ilDBInterface {
 
 	/**
 	 * @param $identifier
-	 * @return mixed
+	 * @param bool $check_option
+	 * @return string
 	 */
-	public function quoteIdentifier($identifier);
+	public function quoteIdentifier($identifier, $check_option = false);
 
 
 	/**
@@ -523,4 +537,80 @@ interface ilDBInterface {
 	 * @throws \ilDatabaseException
 	 */
 	public function rollback();
+
+
+	/**
+	 * @param $a_table
+	 * @param $a_constraint
+	 * @return string
+	 */
+	public function constraintName($a_table, $a_constraint);
+
+
+	/**
+	 * @param $a_table
+	 * @param string $a_name
+	 * @return bool
+	 */
+	public function dropIndex($a_table, $a_name = "i1");
+
+
+	/**
+	 * @param $a_name
+	 * @param string $a_charset
+	 * @param string $a_collation
+	 * @return mixed
+	 */
+	public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "");
+
+
+	/**
+	 * @param $table_name
+	 * @param $afields
+	 * @return bool
+	 */
+	public function dropIndexByFields($table_name, $afields);
+
+
+	/**
+	 * @return string
+	 */
+	public function getPrimaryKeyIdentifier();
+
+
+	/**
+	 * @param $table_name
+	 * @param $afields
+	 * @param string $a_name
+	 * @return bool
+	 */
+	public function addFulltextIndex($table_name, $afields, $a_name = 'in');
+
+
+	/**
+	 * @param $a_table
+	 * @param $a_name
+	 * @return bool
+	 */
+	public function dropFulltextIndex($a_table, $a_name);
+
+
+	/**
+	 * @param $a_table
+	 * @param $a_name
+	 * @return bool
+	 */
+	public function isFulltextIndex($a_table, $a_name);
+
+
+	/**
+	 * @param $storage_engine
+	 */
+	public function setStorageEngine($storage_engine);
+
+
+	/**
+	 * @return string
+	 */
+	public function getStorageEngine();
 }

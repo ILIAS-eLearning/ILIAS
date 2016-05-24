@@ -108,7 +108,7 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setIe_force_render(ilUtil::yn2tf($lm_rec["ie_force_render"]));
 			$this->setMasteryScore($lm_rec["mastery_score"]);
 			
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			if (ilObject::_lookupType($this->getStyleSheetId()) != "sty")
 			{
 				$this->setStyleSheetId(0);
@@ -1358,7 +1358,7 @@ class ilObjSAHSLearningModule extends ilObject
 
 
 		// set/copy stylesheet
-/*		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+/*		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{

@@ -52,8 +52,8 @@ class ilPreviewGUI
 		}
 		
 		// assign values
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
 		
 		// access handler NOT provided?
 		if ($a_access_handler == null)

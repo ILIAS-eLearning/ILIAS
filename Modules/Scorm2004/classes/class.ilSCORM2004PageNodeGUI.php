@@ -70,7 +70,7 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 					$this->slm_object->getAssignedGlossary());
 				$page_gui->setEditPreview(true);
 				$page_gui->setPresentationTitle($this->node_object->getTitle());
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->slm_object->getStyleSheetId(), "sahs"));
 

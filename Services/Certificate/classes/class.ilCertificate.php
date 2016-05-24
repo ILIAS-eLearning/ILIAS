@@ -473,11 +473,6 @@ class ilCertificate
 				return $pdf_base64->scalar;
 			}
 		}
-		catch(XML_RPC2_FaultException $e)
-		{
-			$ilLog->write(__METHOD__.': '.$e->getMessage());
-			return false;
-		}
 		catch(Exception $e)
 		{
 			$ilLog->write(__METHOD__.': '.$e->getMessage());
@@ -506,11 +501,6 @@ class ilCertificate
 				$this->exchangeCertificateVariables($xslfo));
 			ilUtil::deliverData($pdf_base64->scalar, $this->getAdapter()->getCertificateFilename(), "application/pdf");
 
-		}
-		catch(XML_RPC2_FaultException $e)
-		{
-			$ilLog->write(__METHOD__.': '.$e->getMessage());
-			return false;
 		}
 		catch(Exception $e)
 		{
@@ -1067,11 +1057,6 @@ class ilCertificate
 			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($content);
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::deliverData($pdf_base64->scalar, $this->getAdapter()->getCertificateFilename(array()), "application/pdf");
-		}
-		catch(XML_RPC2_FaultException $e)
-		{
-			$ilLog->write(__METHOD__.': '.$e->getMessage());
-			return false;
 		}
 		catch(Exception $e)
 		{

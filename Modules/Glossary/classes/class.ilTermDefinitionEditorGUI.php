@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 require_once ("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
 
 /**
@@ -72,7 +72,7 @@ class ilTermDefinitionEditorGUI
 		$gloss_loc->setGlossary($this->glossary);
 		$gloss_loc->setDefinition($this->definition);
 
-		$this->tpl->getStandardTemplate();
+//		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->term->getTerm()." - ".
 			$this->lng->txt("cont_definition")." ".
 			$this->definition->getNr());

@@ -127,11 +127,6 @@ class ilLuceneIndexer extends ilCronJob
 			);
 			ilLoggerFactory::getLogger('src')->info('Lucene update index call --- END');
 		}
-		catch(XML_RPC2_FaultException $e)
-		{
-			$error_message = $e->getMessage();
-			ilLoggerFactory::getLogger('src')->critical($error_message);
-		}
 		catch(Exception $e)
 		{
 			$error_message = $e->getMessage();

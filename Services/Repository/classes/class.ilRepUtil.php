@@ -85,7 +85,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			{
 				foreach($a_ids as $id)
 				{
-					$obj =& ilObjectFactory::getInstanceByObjId($id);
+					$obj = ilObjectFactory::getInstanceByObjId($id);
 					$obj->delete();
 					
 					// write log entry
@@ -221,7 +221,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 
 			foreach ($subtree_nodes as $node)
 			{
-				if(!$node_obj =& ilObjectFactory::getInstanceByRefId($node["ref_id"],false))
+				if(!$node_obj = ilObjectFactory::getInstanceByRefId($node["ref_id"],false))
 				{
 					continue;
 				}
@@ -304,7 +304,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 				{
 					foreach ($del_subtree_nodes as $node)
 					{
-						$node_obj =& ilObjectFactory::getInstanceByRefId($node["ref_id"]);
+						$node_obj = ilObjectFactory::getInstanceByRefId($node["ref_id"]);
 						
 						// write log entry
 						$log->write("ilObjectGUI::removeDeletedNodes(), delete obj_id: ".$node_obj->getId().

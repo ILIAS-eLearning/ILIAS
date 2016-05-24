@@ -78,7 +78,7 @@ class ilDclRecordViewGUI {
 		}
 
 		// content style (using system defaults)
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
@@ -200,7 +200,7 @@ class ilDclRecordViewGUI {
 		// see ilObjDataCollectionGUI->executeCommand about instantiation
 		include_once("./Modules/DataCollection/classes/class.ilDclRecordViewViewdefinitionGUI.php");
 		$pageObj = new ilDclRecordViewViewdefinitionGUI($this->record_obj->getTableId(), $view_id);
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$pageObj->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "dcl"));
 
 		$html = $pageObj->getHTML();

@@ -35,8 +35,9 @@ class ilGlossaryPresentationGUI
 	*/
 	function __construct()
 	{
-		global $lng, $ilias, $tpl, $ilCtrl;
+		global $lng, $ilias, $tpl, $ilCtrl, $ilTabs;
 
+		$this->tabs_gui = $ilTabs;
 		$this->tpl = $tpl;
 		$this->lng = $lng;
 		$this->ilias = $ilias;
@@ -628,7 +629,7 @@ class ilGlossaryPresentationGUI
 	function media($a_mode = "media")
 	{
 		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
@@ -1297,7 +1298,7 @@ class ilGlossaryPresentationGUI
 			{
 				if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 				{
-					$tabs_gui->addTab("terms",
+					$this->tabs_gui->addTab("terms",
 						$lng->txt("cont_terms"),
 						$ilCtrl->getLinkTarget($this, "listTerms"));
 				}

@@ -33,7 +33,7 @@ class ilPCProfile extends ilPageContent
 	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->prof_node =& $a_node->first_child();		// this is the profile node
+		$this->prof_node = $a_node->first_child();		// this is the profile node
 	}
 
 	/**

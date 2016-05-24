@@ -179,7 +179,7 @@ class ilBookmarkFolder
 	/**
 	* lookup bookmark folder title
 	*/
-	function _lookupTitle($a_bmf_id)
+	static function _lookupTitle($a_bmf_id)
 	{
 		global $ilDB;
 
@@ -299,7 +299,7 @@ class ilBookmarkFolder
 		return $tree->getRootId();
 	}
 
-	function _getParentId($a_id)
+	static function _getParentId($a_id)
 	{
 		$a_tree_id = $_SESSION["AccountId"];
 		$tree = new ilTree($a_tree_id);

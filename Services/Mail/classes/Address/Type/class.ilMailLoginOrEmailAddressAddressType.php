@@ -1,13 +1,13 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/Address/Type/class.ilMailAddressType.php';
+require_once 'Services/Mail/classes/Address/Type/class.ilBaseMailAddressType.php';
 
 /**
  * Class ilMailLoginOrEmailAddressAddressType
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailLoginOrEmailAddressAddressType extends ilMailAddressType
+class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 {
 	/**
 	 * {@inheritdoc}

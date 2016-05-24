@@ -23,9 +23,6 @@ class ilFileDataImport extends ilFileData
 	/**
 	* Constructor
 	* call base constructors
-	* checks if directory is writable and sets the optional obj_id
-	* @param integereger obj_id
-	* @access	public
 	*/
 	function __construct()
 	{

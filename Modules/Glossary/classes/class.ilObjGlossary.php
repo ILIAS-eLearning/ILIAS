@@ -58,7 +58,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
 		if (((int) $this->getStyleSheetId()) > 0)
 		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 		}
 
@@ -88,7 +88,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$this->setSnippetLength($gl_rec["snippet_length"]);
 		$this->setShowTaxonomy($gl_rec["show_tax"]);
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
 	}
@@ -342,7 +342,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 			" snippet_length = ".$ilDB->quote((int)$this->getSnippetLength(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 
 		parent::update();
@@ -1114,7 +1114,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$new_obj->update();
 
 		// set/copy stylesheet
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{

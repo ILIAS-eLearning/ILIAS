@@ -40,8 +40,8 @@ class ilChatroomConfigFileHandler
 		// The client config file only needs information about driver not engine
 		$type = $a_type = $ilClientIniFile->readVariable('db', 'type');
 		if(in_array($type, array(
-			ilDBConstants::TYPE_MYSQL,
-			ilDBConstants::TYPE_INNODB,
+			ilDBConstants::TYPE_MYSQL_LEGACY,
+			ilDBConstants::TYPE_INNODB_LEGACY,
 			ilDBConstants::TYPE_PDO_MYSQL_INNODB,
 			ilDBConstants::TYPE_PDO_MYSQL_MYISAM,
 			''

@@ -47,7 +47,7 @@ class ilBookmark
 		global $ilias;
 
 		// Initiate variables
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		if ($a_tree_id == 0)
 		{
 			$a_tree_id = $_SESSION["AccountId"];

@@ -24,7 +24,7 @@ class ilFileSelectorGUI extends ilExplorer
 	{
 		global $tree,$ilCtrl;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->parent_class = $a_par_class;
 		parent::__construct($a_target);
 

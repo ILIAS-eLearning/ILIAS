@@ -30,9 +30,67 @@ interface ilDBManager {
 	public function createConstraint($table, $name, $definition);
 
 
+	/**
+	 * @param $table
+	 * @return mixed
+	 */
+	public function listTableFields($table);
 
 
+	/**
+	 * @param $table
+	 * @return mixed
+	 */
+	public function listTableConstraints($table);
 
+
+	/**
+	 * @param $seq_name
+	 * @param int $start
+	 * @param array $options
+	 * @return mixed
+	 */
+	public function createSequence($seq_name, $start = 1, $options = array());
+
+
+	/**
+	 * @param $table
+	 * @return mixed
+	 */
+	public function listTableIndexes($table);
+
+
+	/**
+	 * @param $name
+	 * @param $changes
+	 * @param $check
+	 * @return mixed
+	 */
+	public function alterTable($name, $changes, $check);
+
+
+	/**
+	 * @param $table
+	 * @param $name
+	 * @param $definition
+	 * @return mixed
+	 */
+	public function createIndex($table, $name, $definition);
+
+
+	/**
+	 * @param $table
+	 * @param $name
+	 * @return mixed
+	 */
+	public function dropIndex($table, $name);
+
+
+	/**
+	 * @param $seq_name
+	 * @return bool
+	 */
+	public function dropSequence($seq_name);
 	//
 	// NOT YET IMPLEMENTED
 	//
@@ -59,21 +117,10 @@ interface ilDBManager {
 	//	 */
 	//	public function createTable($name, $fields, $options = array());
 	//
-	//
-	/**
-	 * @param $name
-	 * @param $changes
-	 * @param $check
-	 * @return mixed
-	 */
-	public function alterTable($name, $changes, $check);
-	//
-	//
 	//	/**
 	//	 * @return mixed
 	//	 */
 	//	public function listDatabases();
-	//
 	//
 	//
 	//	/**
@@ -104,39 +151,6 @@ interface ilDBManager {
 	//
 	//	/**
 	//	 * @param $table
-	//	 * @return mixed
-	//	 */
-	//	public function listTableFields($table);
-	//
-	//
-	//	/**
-	//	 * @param $table
-	//	 * @param $name
-	//	 * @param $definition
-	//	 * @return mixed
-	//	 */
-	//	public function createIndex($table, $name, $definition);
-	//
-	//
-	//	/**
-	//	 * @param $table
-	//	 * @param $name
-	//	 * @return mixed
-	//	 */
-	//	public function dropIndex($table, $name);
-	//
-	//
-	//	/**
-	//	 * @param $table
-	//	 * @return mixed
-	//	 */
-	//	public function listTableIndexes($table);
-	//
-
-	//
-	//
-	//	/**
-	//	 * @param $table
 	//	 * @param $name
 	//	 * @param bool $primary
 	//	 * @return mixed
@@ -144,27 +158,6 @@ interface ilDBManager {
 	//	public function dropConstraint($table, $name, $primary = false);
 	//
 	//
-	//	/**
-	//	 * @param $table
-	//	 * @return mixed
-	//	 */
-	//	public function listTableConstraints($table);
-	//
-	//
-	/**
-	 * @param $seq_name
-	 * @param int $start
-	 * @param array $options
-	 * @return mixed
-	 */
-	public function createSequence($seq_name, $start = 1, $options = array());
-	//
-	//
-	//	/**
-	//	 * @param $seq_name
-	//	 * @return mixed
-	//	 */
-	//	public function dropSequence($seq_name);
 
 }
 

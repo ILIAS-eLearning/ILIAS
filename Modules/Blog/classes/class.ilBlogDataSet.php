@@ -214,7 +214,7 @@ class ilBlogDataSet extends ilDataSet
 			$dir = ilObjBlog::initStorage($a_set["Id"]);
 			$a_set["Dir"] = $dir;
 			
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$a_set["Style"] = ilObjStyleSheet::lookupObjectStyle($a_set["Id"]);
 			
 			// #14734

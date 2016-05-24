@@ -584,7 +584,10 @@ class ilDBMySQL extends ilDB
 					break;
 			}
 		}
-		$ilLog->write(__METHOD__.': '.$lock);
+		if($ilLog instanceof ilLog) {
+			$ilLog->write(__METHOD__.': '.$lock);
+		}
+
 		$this->query($lock);
 	}
 	
@@ -658,6 +661,11 @@ class ilDBMySQL extends ilDB
 	 */
 	public function loadModule($module) {
 		return $this->db->loadModule($module);
+	}
+
+
+	public function getStorageEngine() {
+		return 'MyISAM';
 	}
 }
 ?>

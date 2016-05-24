@@ -53,7 +53,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		switch($next_class)
 		{
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 
@@ -109,7 +109,7 @@ class ilPCTableGUI extends ilPageContentGUI
 	/**
 	* Get table templates
 	*/
-	function getTemplateOptions($a_type)
+	function getTemplateOptions($a_type = "")
 	{
 		return parent::getTemplateOptions("table");
 	}
@@ -406,7 +406,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		{
 			if (ilObject::_lookupType($this->getStyleId()) == "sty")
 			{
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$style = new ilObjStyleSheet($this->getStyleId());
 				$template_xml = $style->getTemplateXML();
 			}

@@ -1545,7 +1545,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	 */
 	function exportHTML($a_inst, $a_target_dir, &$expLog, $a_one_file = "")
 	{
-
 //		$a_xml_writer = new ilXmlWriter;
 		// set dtd definition
 //		$a_xml_writer->xmlSetDtdDef("<!DOCTYPE ContentObject SYSTEM \"http://www.ilias.de/download/dtd/ilias_co_3_7.dtd\">");
@@ -1697,7 +1696,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			// put header into file
 			$sco_tpl = new ilTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
 			include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
-			$sco_tpl = ilCOPageHTMLExport::getPreparedMainTemplate($sco_tpl);
+			$page_html_export = new ilCOPageHTMLExport($a_target_dir);
+			$sco_tpl = $page_html_export->getPreparedMainTemplate($sco_tpl);
 			
 			$sco_tpl->setCurrentBlock("js_file");
 			$sco_tpl->setVariable("JS_FILE", "./js/pure.js");
@@ -1768,14 +1768,14 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	function prepareHTMLExporter($a_target_dir)
 	{
 		// system style html exporter
-		include_once("./Services/Style/classes/class.ilSystemStyleHTMLExport.php");
+		include_once("./Services/Style/System/classes/class.ilSystemStyleHTMLExport.php");
 		$this->sys_style_html_export = new ilSystemStyleHTMLExport($a_target_dir);
 		$this->sys_style_html_export->export();
 
 		// init co page html exporter
 		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
 		$this->co_page_html_export = new ilCOPageHTMLExport($a_target_dir);
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->co_page_html_export->setContentStyleId(
 			ilObjStyleSheet::getEffectiveContentStyleId($this->getStyleSheetId()));
 		$this->co_page_html_export->createDirectories();
@@ -1928,7 +1928,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		global $ilias;
 		
 		// set/copy stylesheet
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{

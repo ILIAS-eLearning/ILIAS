@@ -4,8 +4,8 @@
 require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php");
 require_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Export.php");
-include_once("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
-include_once("./Services/Style/classes/class.ilPageLayout.php");
+include_once("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
+include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 
 /**
 * Class ilObjSCORMLearningModuleGUI
@@ -180,38 +180,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	{
 		if ($this->object->getEditable())	// show editing frameset
 		{
-$this->ctrl->redirect($this, "properties");
-			include_once("./Services/Frameset/classes/class.ilFramesetGUI.php");
-			$fs_gui = new ilFramesetGUI();
-			$fs_gui->setFramesetTitle($this->lng->txt("editor"));
-			$fs_gui->setMainFrameName("content");
-			$fs_gui->setSideFrameName("tree");
-			$this->ctrl->setParameter($this, "active_node", $_GET["obj_id"]);
-			$fs_gui->setSideFrameSource($this->ctrl->getLinkTarget($this, "showTree"));
-			$this->ctrl->setParameter($this, "activeNode", "");
-			if ($_GET["obj_id"] > 0)
-			{
-				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
-				$type = ilSCORM2004Node::_lookupType($_GET["obj_id"]);
-			}
-			if (in_array($type, array("sco", "chap", "seqc", "page")))
-			{
-				$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-				$fs_gui->setMainFrameSource($this->ctrl->getLinkTarget($this, "jumpToNode"));
-			}
-			else
-			{
-				if ($a_to_organization)
-				{
-					$fs_gui->setMainFrameSource($this->ctrl->getLinkTarget($this, "showOrganization"));
-				}
-				else
-				{
-					$fs_gui->setMainFrameSource($this->ctrl->getLinkTarget($this, "properties"));
-				}
-			}
-			$fs_gui->show();
-			exit;
+			$this->ctrl->redirect($this, "properties");
 		}
 		else						// otherwise show standard frameset
 		{

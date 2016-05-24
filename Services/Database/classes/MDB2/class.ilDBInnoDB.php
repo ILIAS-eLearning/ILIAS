@@ -56,6 +56,11 @@ class ilDBInnoDB extends ilDBMySQL {
 		// InnoDB is default engine for MySQL >= 5.5
 		return array( 'type' => 'InnoDB' );
 	}
+
+
+	public function getStorageEngine() {
+		return 'InnoDB';
+	}
 }
 
 ?>

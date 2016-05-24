@@ -29,6 +29,22 @@ class ilMailAddress
 	}
 
 	/**
+	 * @param string $host
+	 */
+	public function setHost($host)
+	{
+		$this->host = $host;
+	}
+
+	/**
+	 * @param string $mailbox
+	 */
+	public function setMailbox($mailbox)
+	{
+		$this->mailbox = $mailbox;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getHost()

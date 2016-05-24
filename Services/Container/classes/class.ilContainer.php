@@ -775,7 +775,7 @@ class ilContainer extends ilObject
 		
 		if (((int) $this->getStyleSheetId()) > 0)
 		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 		}
 
@@ -789,7 +789,7 @@ class ilContainer extends ilObject
 	{
 		$ret = parent::update();
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 
 		return $ret;
@@ -810,7 +810,7 @@ class ilContainer extends ilObject
 		include_once("./Services/Container/classes/class.ilContainerSortingSettings.php");
 		$this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
 	}
 

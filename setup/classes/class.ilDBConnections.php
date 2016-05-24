@@ -21,34 +21,42 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
-
 /**
-* Administrates DB connections in setup.
-*
-* Manage DB Connections
-*/
-class ilDBConnections
-{
-	var $db;
+ * Administrates DB connections in setup.
+ *
+ * Manage DB Connections
+ */
+class ilDBConnections {
+
+	public $db;
 	var $log;
 
-	function ilDBConnections()
-	{
+
+	public function __construct() {
 		$this->connections = array();
 	}
 
-	function connectHost($a_dsn_host)
-	{
-//echo "<br>connectingHost:".$a_dsn_host;
-		$db = MDB2::connect($a_dsn_host);
-		return $db;
+
+	/**
+	 * @param $a_dsn_host
+	 * @return mixed
+	 * @throws \ilDatabaseException
+	 * @deprecated
+	 */
+	public function connectHost($a_dsn_host) {
+		throw new ilDatabaseException(__CLASS__ . '::' . __METHOD__ . ' is not longer supported');
 	}
-	
-	function connectDB($a_dsn_db)
-	{
-//echo "<br>connectingDB:".$a_dsn_db;
-		return MDB2::connect($a_dsn_db);
+
+
+	/**
+	 * @param $a_dsn_db
+	 * @return mixed
+	 * @throws \ilDatabaseException
+	 * @deprecated
+	 */
+	public function connectDB($a_dsn_db) {
+		throw new ilDatabaseException(__CLASS__ . '::' . __METHOD__ . ' is not longer supported');
 	}
 }
+
 ?>

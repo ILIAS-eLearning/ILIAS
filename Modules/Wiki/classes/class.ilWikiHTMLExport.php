@@ -89,7 +89,7 @@ class ilWikiHTMLExport
 		ilUtil::makeDir($this->export_dir);
 		
 		// system style html exporter
-		include_once("./Services/Style/classes/class.ilSystemStyleHTMLExport.php");
+		include_once("./Services/Style/System/classes/class.ilSystemStyleHTMLExport.php");
 		$this->sys_style_html_export = new ilSystemStyleHTMLExport($this->export_dir);
 		$this->sys_style_html_export->addImage("icon_wiki.svg");
 		$this->sys_style_html_export->export();

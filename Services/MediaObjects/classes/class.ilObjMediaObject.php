@@ -240,14 +240,14 @@ class ilObjMediaObject extends ilObject
 		include_once("Services/MetaData/classes/class.ilMDDescription.php");
 
 		$md = new ilMD(0, $this->getId(), $this->getType());
-		$md_gen =& $md->getGeneral();
+		$md_gen = $md->getGeneral();
 		$md_gen->setTitle($this->getTitle());
 
 		// sets first description (maybe not appropriate)
-		$md_des_ids =& $md_gen->getDescriptionIds();
+		$md_des_ids = $md_gen->getDescriptionIds();
 		if (count($md_des_ids) > 0)
 		{
-			$md_des =& $md_gen->getDescription($md_des_ids[0]);
+			$md_des = $md_gen->getDescription($md_des_ids[0]);
 			$md_des->setDescription($this->getDescription());
 			$md_des->update();
 		}
@@ -461,10 +461,10 @@ class ilObjMediaObject extends ilObject
 
 		if ($a_save_media_items)
 		{
-			$media_items =& $this->getMediaItems();
+			$media_items = $this->getMediaItems();
 			for($i=0; $i<count($media_items); $i++)
 			{
-				$item =& $media_items[$i];
+				$item = $media_items[$i];
 				$item->setMobId($this->getId());
 				$item->setNr($i+1);
 				$item->create();
@@ -498,11 +498,11 @@ class ilObjMediaObject extends ilObject
 		ilMediaItem::deleteAllItemsOfMob($this->getId());
 
 		// iterate all items
-		$media_items =& $this->getMediaItems();
+		$media_items = $this->getMediaItems();
 		$j = 1;
 		foreach($media_items as $key => $val)
 		{
-		    $item =& $media_items[$key];
+		    $item = $media_items[$key];
 			if (is_object($item))
 			{
 				$item->setMobId($this->getId());
@@ -694,10 +694,10 @@ class ilObjMediaObject extends ilObject
 			case IL_MODE_ALIAS:
 				$xml = "<MediaObject>";
 				$xml .= "<MediaAlias OriginId=\"il__mob_".$this->getId()."\"/>";
-				$media_items =& $this->getMediaItems();
+				$media_items = $this->getMediaItems();
 				for($i=0; $i<count($media_items); $i++)
 				{
-					$item =& $media_items[$i];
+					$item = $media_items[$i];
 					$xml .= "<MediaAliasItem Purpose=\"".$item->getPurpose()."\">";
 
 					// Layout
@@ -741,13 +741,13 @@ class ilObjMediaObject extends ilObject
 			case IL_MODE_OUTPUT:
 
 				// get first technical section
-//				$meta =& $this->getMetaData();
+//				$meta = $this->getMetaData();
 				$xml = "<MediaObject Id=\"il__mob_".$this->getId()."\">";
 
-				$media_items =& $this->getMediaItems();
+				$media_items = $this->getMediaItems();
 				for($i=0; $i<count($media_items); $i++)
 				{
-					$item =& $media_items[$i];
+					$item = $media_items[$i];
 
 					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\">";
 
@@ -816,7 +816,7 @@ class ilObjMediaObject extends ilObject
 			// full xml for export
 			case IL_MODE_FULL:
 
-//				$meta =& $this->getMetaData();
+//				$meta = $this->getMetaData();
 				$xml = "<MediaObject>";
 
 				// meta data
@@ -826,10 +826,10 @@ class ilObjMediaObject extends ilObject
 				$md2xml->startExport();
 				$xml.= $md2xml->getXML();
 
-				$media_items =& $this->getMediaItems();
+				$media_items = $this->getMediaItems();
 				for($i=0; $i<count($media_items); $i++)
 				{
-					$item =& $media_items[$i];
+					$item = $media_items[$i];
 					
 					// highlight mode					
 					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\">";
@@ -1127,7 +1127,7 @@ class ilObjMediaObject extends ilObject
 	*/
 	function getUsages($a_include_history = true)
 	{
-		return $this->lookupUsages($this->getId(), $a_include_history);
+		return self::lookupUsages($this->getId(), $a_include_history);
 	}
 	
 	/**
@@ -1135,7 +1135,7 @@ class ilObjMediaObject extends ilObject
 	*
 	* @todo: This should be all in one context -> mob id table
 	*/
-	function lookupUsages($a_id, $a_include_history = true)
+	static function lookupUsages($a_id, $a_include_history = true)
 	{
 		global $ilDB;
 
@@ -1233,7 +1233,7 @@ class ilObjMediaObject extends ilObject
 	* 
 	* see ilWebAccessChecker 
 	*/
-	function getParentObjectIdForUsage($a_usage, $a_include_all_access_obj_ids = false)
+	static function getParentObjectIdForUsage($a_usage, $a_include_all_access_obj_ids = false)
 	{
 		if(is_int(strpos($a_usage["type"], ":")))
 		{

@@ -590,7 +590,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$mob_id = $item->getForeignId();
 
 		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
-		include_once("Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
@@ -649,7 +649,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		include_once("./Services/Container/classes/class.ilContainerPage.php");
 		include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
@@ -664,7 +664,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		//$lang = $ot->getEffectiveContentLang($ilUser->getCurrentLanguage(), "cont");
 		include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
 		$page_gui = new ilMediaPoolPageGUI((int) $_GET["mepitem_id"]);
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		//$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 		//	$this->object->getStyleSheetId(), $this->object->getType()));
 

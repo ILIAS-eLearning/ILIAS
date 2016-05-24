@@ -343,11 +343,6 @@ class ilScorm2004Export
 			//ilUtil::deliverData($pdf_base64->scalar,'learning_progress.pdf','application/pdf');
 			fputs(fopen($this->export_dir.'/'.$this->subdir.'.pdf','w+'),$pdf_base64->scalar);
 		}
-		catch(XML_RPC2_FaultException $e)
-		{
-			ilUtil::sendFailure($e->getMessage(),true);
-			return false;
-		}
 		catch(Exception $e)
 		{
 			ilUtil::sendFailure($e->getMessage(),true);
