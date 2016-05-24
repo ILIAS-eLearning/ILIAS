@@ -367,7 +367,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	protected function populateContentStyleBlock()
 	{
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock( "ContentStyle" );
 		$this->tpl->setVariable( "LOCATION_CONTENT_STYLESHEET",
 								 ilObjStyleSheet::getContentStylePath( 0 )
@@ -1486,7 +1486,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_correct_solution.html", "Modules/Test");
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
 		$this->tpl->parseCurrentBlock();

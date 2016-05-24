@@ -39,7 +39,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$this->getPageObject()->setPortfolioId($this->portfolio_id);
 		
 		// content style
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",

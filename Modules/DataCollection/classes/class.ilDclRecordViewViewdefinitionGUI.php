@@ -62,7 +62,7 @@ class ilDclRecordViewViewdefinitionGUI extends ilPageObjectGUI {
 		$this->getPageObject()->setTableId($this->table_id);
 
 		// content style (using system defaults)
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());

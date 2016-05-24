@@ -382,7 +382,7 @@ class ilSCORM2004NodeGUI
 		global $tpl;
 		
 		// content styles
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->slm_object->getStyleSheetId()));

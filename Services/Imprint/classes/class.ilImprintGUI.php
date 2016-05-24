@@ -34,7 +34,7 @@ class ilImprintGUI extends ilPageObjectGUI
 		parent::__construct("impr", 1);
 		
 		// content style (using system defaults)
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",

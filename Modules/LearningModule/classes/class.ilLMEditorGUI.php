@@ -4,7 +4,7 @@
 include_once ("./Modules/LearningModule/classes/class.ilLMObjectFactory.php");
 include_once ("./Services/Utilities/classes/class.ilDOMUtil.php");
 include_once ("./Services/COPage/classes/class.ilPageEditorGUI.php");
-include_once ("./Services/Style/classes/class.ilObjStyleSheet.php");
+include_once ("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 include_once ("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 
 

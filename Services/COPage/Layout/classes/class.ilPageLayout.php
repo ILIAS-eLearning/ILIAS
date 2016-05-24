@@ -219,7 +219,7 @@ class ilPageLayout
 	 */
 	public function getXMLContent()
 	{
-		include_once "Services/Style/classes/class.ilPageLayoutPage.php";
+		include_once "Services/COPage/Layout/classes/class.ilPageLayoutPage.php";
 		$layout_page = new ilPageLayoutPage($this->layout_id);
 		return $layout_page->getXMLContent();
 	}
@@ -235,7 +235,7 @@ class ilPageLayout
 		
 	
 	private function getXSLPath() {
-		return "./Services/Style/xml/layout2html.xsl";
+		return "./Services/COPage/Layout/xml/layout2html.xsl";
 	}
 	
 	private function generatePreview() {

@@ -362,7 +362,7 @@ die("deprecated");
 		
 		// init main template
 		$tpl = new ilTemplate("tpl.main.html", true, true);
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$tpl->setBodyClass("");
 		$tpl->setCurrentBlock("ContentStyle");

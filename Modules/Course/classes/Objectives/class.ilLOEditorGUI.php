@@ -139,7 +139,7 @@ class ilLOEditorGUI
 				$pgui->setPresentationTitle(ilCourseObjective::lookupObjectiveTitle($objtv_id));
 				
 				// needed for editor?
-				include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
+				include_once('./Services/Style/Content/classes/class.ilObjStyleSheet.php');
 				$pgui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));	
 				
 				// #14895

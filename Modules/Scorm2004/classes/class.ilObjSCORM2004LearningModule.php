@@ -1775,7 +1775,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		// init co page html exporter
 		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
 		$this->co_page_html_export = new ilCOPageHTMLExport($a_target_dir);
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->co_page_html_export->setContentStyleId(
 			ilObjStyleSheet::getEffectiveContentStyleId($this->getStyleSheetId()));
 		$this->co_page_html_export->createDirectories();
@@ -1928,7 +1928,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		global $ilias;
 		
 		// set/copy stylesheet
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{

@@ -374,7 +374,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 
 		if (((int) $this->getStyleSheetId()) > 0)
 		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 		}
 	}
@@ -424,7 +424,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 			$start_page->create();
 		}
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 
 		return true;
@@ -459,7 +459,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 		$this->setEmptyPageTemplate($rec["empty_page_templ"]);
 		$this->setLinkMetadataValues($rec["link_md_values"]);
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
 	}
@@ -933,7 +933,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 		$new_obj->update();
 
 		// set/copy stylesheet
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{

@@ -106,7 +106,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					"_".$_GET["ref_id"],
 					$view_frame);
 
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->content_object->getStyleSheetId(), "lm"));
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
