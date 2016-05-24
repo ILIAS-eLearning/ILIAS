@@ -806,7 +806,6 @@ class ilExplorer
 		ilYuiUtil::initConnection();
 		$tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
 
-		$tpl->addBlockFile("EXPLORER_TOP", "exp_top", "tpl.explorer_top.html");
 //echo "hh";
 		// set global body class
 //		$tpl->setBodyClass("il_Explorer");
