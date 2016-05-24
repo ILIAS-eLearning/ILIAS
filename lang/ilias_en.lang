@@ -12225,7 +12225,7 @@ dcl#:#dcl_length#:#Length
 dcl#:#dcl_length_info#:#(for more than 200 characters, use the additional option Text Area)
 dcl#:#dcl_regex#:#Regular Expression
 dcl#:#dcl_regex_info#:#(without delimiter)
-dcl#:#dcl_filter#:#Filter
+dcl#:#dcl_filter#:#Available in filter
 dcl#:#dcl_max_text_length#:#Maximum Length
 dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
@@ -12244,6 +12244,20 @@ dcl#:#dcl_create_fields#:#Please create at least one field in the tab ‘List Fi
 dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistent. A reference no longer exists.
 dcl#:#dcl_all_entries#:#All entries
 dcl#:#dcl_own_entries#:#Only own entries
+dcl#:#dcl_tableviews#:#Tableviews
+dcl#:#dcl_tableview_add#:#Add Tableview
+dcl#:#dcl_delete_views#:#Delete Views
+dcl#:#dcl_msg_tableview_created#:#Tableviews created
+dcl#:#dcl_msg_tableview_deleted#:#Tableview deleted
+dcl#:#dcl_msg_tableviews_deleted#:#Tableviews deleted
+dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one Tableview must exist
+dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following Tableviews?
+dcl#:#dcl_tableview_confirm_delete#:#Do you really want to delete the following Tableview?
+dcl#:#dcl_tableview_fieldsettings#:#Fieldspecific Settings
+dcl#:#dcl_std_filter#:#Standardfilter
+dcl#:#dcl_field_visible#:#Visible
+dcl#:#dcl_filter_changeable#:#Filter changeable
+common#:#mail_member#:#Mail to Member
 common#:#mail_member#:#Mail to Member
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_team#:#Team
@@ -12395,7 +12409,7 @@ dcl#:#dcl_export_table_excel#:#Export .xlsx
 dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available
 dcl#:#dcl_owner_editable#:#Edit only own Etnries
 dcl#:#dcl_order#:#Order
-dcl#:#dcl_title#:#Field Title
+dcl#:#dcl_fieldtitle#:#Field Title
 dcl#:#dcl_description#:#Field Description
 dcl#:#dcl_msg_table_created#:#Table created
 dcl#:#dcl_save#:#Save Table
