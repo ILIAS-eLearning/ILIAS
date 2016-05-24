@@ -18,7 +18,7 @@ class ilScormExportUtil
 		ilUtil::makeDir($a_target_dir."/css");
 		ilUtil::makeDir($a_target_dir."/css/images");
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$active_css = ilObjStyleSheet::getContentStylePath($a_slm_object->getStyleSheetId());
 		$active_css = explode('?', $active_css);
 		$css = fread(fopen($active_css[0],'r'), filesize($active_css[0]));

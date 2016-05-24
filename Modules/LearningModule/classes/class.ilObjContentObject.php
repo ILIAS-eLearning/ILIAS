@@ -3238,14 +3238,14 @@ class ilObjContentObject extends ilObject
 		$style_zip_file = $a_directory."/style.zip";
 		if (is_file($style_zip_file))	// try to import style.zip first
 		{
-			require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$style = new ilObjStyleSheet();
 			$style->import($style_zip_file);
 			$this->writeStyleSheetId($style->getId());
 		}
 		else if (is_file($style_file))	// try to import style.xml
 		{
-			require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$style = new ilObjStyleSheet();
 			$style->import($style_file);
 			$this->writeStyleSheetId($style->getId());
@@ -3322,7 +3322,7 @@ class ilObjContentObject extends ilObject
 		$new_obj->createLMTree();
 		
 		// copy style
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 &&
 			!ilObjStyleSheet::_lookupStandard($style_id))

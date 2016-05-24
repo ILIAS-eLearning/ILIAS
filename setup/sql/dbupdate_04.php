@@ -15234,3 +15234,7 @@ if($type_id && $new_ops_id)
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4913>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

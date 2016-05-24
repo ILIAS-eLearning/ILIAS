@@ -126,7 +126,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 		// this may not be cool, if styles are organised as (independent) Service
 		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 
 		$from_styles = $to_styles = $data = array();
 		$styles = $this->object->getStyles();
@@ -486,7 +486,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	 */
 	function saveActiveStylesObject()
 	{
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$styles = $this->object->getStyles();
 		foreach($styles as $style)
 		{
@@ -591,7 +591,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	{
 		global $tree;
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		if ($_GET["cat"] == $tree->readRootId())
 		{
 			$_GET["cat"] = "";

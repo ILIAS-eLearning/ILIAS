@@ -4,7 +4,7 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object id="sty" class_name="StyleSheet" dir="classes"
+		<object id="sty" class_name="StyleSheet" dir="Content/classes"
 			checkbox="1" inherit="0" translate="0" rbac="0">
 		</object>
 		<object id="stys" class_name="StyleSettings" dir="classes"

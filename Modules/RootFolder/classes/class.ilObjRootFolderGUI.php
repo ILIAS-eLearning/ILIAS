@@ -139,7 +139,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 			case "ilcolumngui":
 				$this->checkPermission("read");
 				$this->prepareOutput();
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 				$this->renderObject();
@@ -185,7 +185,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 					$this->checkPermission("read");
 				}
 				$this->prepareOutput();
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 

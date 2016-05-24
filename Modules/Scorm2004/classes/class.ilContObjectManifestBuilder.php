@@ -309,7 +309,7 @@ class ilContObjectManifestBuilder
 			$attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
 			$this->writer->xmlStartTag("resource", $attrs, "");
 			
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			
 			$active_css = ilObjStyleSheet::getContentStylePath($this->cont_obj->getStyleSheetId());
 			$active_css = explode('?', $active_css);

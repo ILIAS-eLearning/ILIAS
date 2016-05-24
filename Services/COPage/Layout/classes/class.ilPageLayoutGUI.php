@@ -36,7 +36,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 		$this->layout_object->readObject();
 
 		// content style
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->layout_object->getStyleId()));
@@ -154,7 +154,7 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
 		}
 		else
 		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$st_styles = ilObjStyleSheet::_getStandardStyles(true, false);
 			$st_styles[0] = $this->lng->txt("default");
 			ksort($st_styles);

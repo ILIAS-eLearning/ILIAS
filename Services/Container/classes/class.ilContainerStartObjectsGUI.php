@@ -60,7 +60,7 @@ class ilContainerStartObjectsGUI
 				$pgui = new ilContainerStartObjectsPageGUI($this->object->getId());			
 				
 				// needed for editor?
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$pgui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));		
 				
 				$ret = $this->ctrl->forwardCommand($pgui);

@@ -235,7 +235,7 @@ class ilPageLayout
 		
 	
 	private function getXSLPath() {
-		return "./Services/Style/xml/layout2html.xsl";
+		return "./Services/COPage/Layout/xml/layout2html.xsl";
 	}
 	
 	private function generatePreview() {

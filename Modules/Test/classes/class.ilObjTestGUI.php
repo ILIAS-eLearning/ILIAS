@@ -430,7 +430,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$ret                     =& $this->ctrl->forwardCommand($pageObject);
 					break;
 				}
-				require_once "./Services/Style/classes/class.ilObjStyleSheet.php";
+				require_once "./Services/Style/Content/classes/class.ilObjStyleSheet.php";
 				$this->tpl->setCurrentBlock("ContentStyle");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath(0));
@@ -525,7 +525,7 @@ class ilObjTestGUI extends ilObjectGUI
 				//global $___test_express_mode;
 				//$___test_express_mode = true;
 				$_GET['calling_test'] = $this->object->getRefId();
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setCurrentBlock("ContentStyle");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath(0));

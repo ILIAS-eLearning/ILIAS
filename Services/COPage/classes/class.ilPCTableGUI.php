@@ -406,7 +406,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		{
 			if (ilObject::_lookupType($this->getStyleId()) == "sty")
 			{
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$style = new ilObjStyleSheet($this->getStyleId());
 				$template_xml = $style->getTemplateXML();
 			}
