@@ -83,11 +83,11 @@ class reportSettingsDataHandler {
 	 * 	@param	setting	$settings
 	 */
 	protected function quote($value, setting $setting) {
-		if($setting instanceof settingInt || $setting instanceof settingBool ) {
+		if($setting instanceof settingInt || $setting instanceof settingBool  || $setting instanceof settingHiddenInt) {
 			$quote_format = 'integer';
 		} elseif($setting instanceof settingFloat || $setting instanceof settingListInt) {
 			$quote_format = 'float';
-		} elseif($setting instanceof settingString || $setting instanceof settingText || $setting instanceof settingRichText) {
+		} elseif($setting instanceof settingString || $setting instanceof settingText || $setting instanceof settingRichText || $setting instanceof settingHiddenString) {
 			$quote_format = 'text';
 		} else {
 			throw new reportSettingsException("unknown setting type".get_class($setting));

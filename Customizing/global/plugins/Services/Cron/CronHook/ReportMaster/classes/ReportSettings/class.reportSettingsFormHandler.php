@@ -94,6 +94,9 @@ class reportSettingsFormHandler {
 			return $return;
 
 		}
+		if($setting instanceof settingHidden) {
+			return new ilHiddenInputGUI($name, $id);
+		}
 		throw new reportSettingsException("no formtype defined for setting");
 	}
 
@@ -111,6 +114,8 @@ class reportSettingsFormHandler {
 		} elseif($setting instanceof settingRichText && $form_member_gui instanceof ilTextAreaInputGUI) {
 			return true;
 		} elseif($setting instanceof settingListInt && $form_member_gui instanceof ilSelectInputGUI) {
+			return true;
+		} elseif($setting instanceof settingHidden && $form_member_gui instanceof ilHiddenInputGUI) {
 			return true;
 		} else {
 			return false;
