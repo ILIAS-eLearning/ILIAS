@@ -84,6 +84,18 @@ class ilContextWebAccessCheck extends ilContextBase
 		// see ilWebAccessChecker::checkAccess();
 		return false;
 	}
+
+	/**
+	 * Supports push messages
+	 *
+	 * @return bool
+	 */
+	public static function supportsPushMessages()
+	{
+		return false;
+	}
+
+
 }
 
 ?>

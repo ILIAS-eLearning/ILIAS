@@ -52,14 +52,21 @@ abstract class ilContextBase
 	 *  
 	 * @return bool
 	 */
-	abstract public static function initClient();	
-	
+	abstract public static function initClient();
+
 	/**
 	 * Try authentication
-	 *  
+	 *
 	 * @return bool
 	 */
-	abstract public static function doAuthentication();	
+	abstract public static function doAuthentication();
+
+	/**
+	 * Supports push messages
+	 *
+	 * @return bool
+	 */
+	abstract public static function supportsPushMessages();
 }
 
 ?>

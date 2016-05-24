@@ -131,4 +131,15 @@ if(!$ilDB->indexExistsByFields('usr_data_multi',array('usr_id')))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#10>
+<?php
+if (!$ilDB->tableColumnExists('usr_session', 'context'))
+{
+	$ilDB->addTableColumn('usr_session', 'context', array(
+			'type'	=> 'integer',
+			'length'	=> '4',
+			'notnull' => false)
+	);
+}
+?>
 

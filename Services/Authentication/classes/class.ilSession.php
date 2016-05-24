@@ -115,7 +115,14 @@ class ilSession
 		{
 			$fields["session_id"] = array("text", $a_session_id);
 			$fields["createtime"] = array("integer", $now);
-			
+
+			// note that we do this only when inserting the new record
+			// updating may get us other contexts for the same session, especially ilContextWAC, which we do not want
+			if (class_exists("ilContext"))
+			{
+				$fields["context"] = array("integer", (int) ilContext::getType());
+			}
+
 			$ilDB->insert("usr_session", $fields);
 		
 			// check type against session control

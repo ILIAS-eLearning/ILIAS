@@ -65,6 +65,18 @@ class ilContextWAC extends ilContextBase {
 	public static function doAuthentication() {
 		return true;
 	}
+
+	/**
+	 * Supports push messages
+	 *
+	 * @return bool
+	 */
+	public static function supportsPushMessages()
+	{
+		return false;
+	}
+
+
 }
 
 ?>

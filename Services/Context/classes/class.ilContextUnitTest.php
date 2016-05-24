@@ -83,6 +83,18 @@ class ilContextUnitTest extends ilContextBase
 	{
 		return false;
 	}
+
+	/**
+	 * Supports push messages
+	 *
+	 * @return bool
+	 */
+	public static function supportsPushMessages()
+	{
+		return false;
+	}
+
+
 }
 
 ?>

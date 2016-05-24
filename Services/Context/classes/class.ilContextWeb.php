@@ -73,13 +73,23 @@ class ilContextWeb extends ilContextBase
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Try authentication
-	 *  
+	 *
 	 * @return bool
 	 */
 	public static function doAuthentication()
+	{
+		return true;
+	}
+
+	/**
+	 * Supports push messages
+	 *
+	 * @return bool
+	 */
+	public static function supportsPushMessages()
 	{
 		return true;
 	}
