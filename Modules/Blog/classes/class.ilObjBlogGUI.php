@@ -1414,6 +1414,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");	
 		$last_month = null;
+		$is_empty = true;
 		foreach($items as $item)
 		{			
 			// only published items
@@ -1422,6 +1423,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 				continue;
 			}
+			
+			$is_empty = false;
 			
 			if(!$this->keyword && !$this->author)
 			{
@@ -1642,7 +1645,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				: "");			
 		}
 		
-		return $wtpl->get();
+		if(!$is_empty || $a_show_inactive)
+		{
+			return $wtpl->get();
+		}
 	}
 	
 	/**
@@ -2258,6 +2264,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$file = $this->buildExportLink($a_link_template, "list", $month);
 			$list = $this->renderList($this->items[$month], "render", $a_link_template, false, $a_target_directory);			
 			
+			if(!$list)
+			{
+				continue;
+			}
+				
 			if(!$a_tpl_callback)
 			{
 				$tpl = $this->buildExportTemplate();
@@ -2372,7 +2383,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 * @param type $a_right_content
 	 * @return string 
 	 */
-	protected function writeExportFile($a_target_directory, $a_file, $a_tpl, $a_content, $a_right_content = null)
+	protected function writeExportFile($a_target_directory, $a_file, $a_tpl, $a_content, $a_right_content = null, $a_back = null)
 	{
 		$file = $a_target_directory."/".$a_file;
 		// return if file is already existing
@@ -2383,17 +2394,26 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		// export template: page content
 		$ep_tpl = new ilTemplate("tpl.export_page.html", true, true,
-			"Modules/Blog");
-		$ep_tpl->setVariable("PAGE_CONTENT", $a_content);		
-	
-		// export template: right content			
+			"Modules/Blog");		
+		if($a_back)
+		{
+			$ep_tpl->setVariable("PAGE_CONTENT", $a_content);		
+		}
+		else
+		{
+			$ep_tpl->setVariable("LIST", $a_content);	
+		}	
+		unset($a_content);
+		$a_tpl->setContent($ep_tpl->get());		
+		unset($ep_tpl);
+
+		// template: right content			
 		if($a_right_content)
 		{
-			$ep_tpl->setVariable("RIGHT_CONTENT", $a_right_content);
-		}
+			$a_tpl->setRightContent($a_right_content);
+			unset($a_right_content);
+		}	
 		
-		$a_tpl->setContent($ep_tpl->get());		
-
 		$content = $a_tpl->get("DEFAULT", false, false, false,
 			true, true, true);		
 
