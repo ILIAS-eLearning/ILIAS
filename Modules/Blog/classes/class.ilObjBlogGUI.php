@@ -675,7 +675,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$this->ctrl->forwardCommand($gui);
 				break;
 
-			default:				
+			default:							
 				if($cmd != "gethtml")
 				{
 					// desktop item handling, must be toggled before header action
@@ -693,8 +693,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 						$ilCtrl->setCmd($cmd);
 					}					
 					$this->addHeaderActionForCommand($cmd);
+				}				
+				if(!$this->prtf_embed)
+				{
+					return parent::executeCommand();			
 				}
-				return parent::executeCommand();			
+				else
+				{
+					if(!$cmd)
+					{
+						$cmd = "render";
+					}
+					return $this->$cmd();
+				}
 		}
 		
 		return true;
