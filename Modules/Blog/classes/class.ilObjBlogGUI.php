@@ -451,9 +451,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$cmd = $ilCtrl->getCmd();
 		
 		if($this->id_type == self::REPOSITORY_NODE_ID)
-		{			
-			$tpl->getStandardTemplate();
-			
+		{						
 			// add entry to navigation history
 			if(!$this->getCreationMode() &&
 				$this->getAccessHandler()->checkAccess("read", "", $this->node_id))
@@ -465,10 +463,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		switch($next_class)
 		{
-			case 'ilblogpostinggui':	
+			case 'ilblogpostinggui':					
 				// #9680
 				if($this->id_type == self::REPOSITORY_NODE_ID)
-				{						
+				{			
+					$tpl->getStandardTemplate();
 					$this->setLocator();						
 				}				
 				else
@@ -643,7 +642,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				break;
 			
 			case "ilobjstylesheetgui":
-				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+				include_once ("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "editStyleProperties");
 				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
@@ -676,7 +675,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$this->ctrl->forwardCommand($gui);
 				break;
 
-			default:				
+			default:							
 				if($cmd != "gethtml")
 				{
 					// desktop item handling, must be toggled before header action
@@ -694,8 +693,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 						$ilCtrl->setCmd($cmd);
 					}					
 					$this->addHeaderActionForCommand($cmd);
+				}				
+				if(!$this->prtf_embed)
+				{
+					return parent::executeCommand();			
 				}
-				return parent::executeCommand();			
+				else
+				{
+					if(!$cmd)
+					{
+						$cmd = "render";
+					}
+					return $this->$cmd();
+				}
 		}
 		
 		return true;
@@ -1272,6 +1282,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");	
 		$last_month = null;
+		$is_empty = true;
 		foreach($items as $item)
 		{			
 			// only published items
@@ -1280,6 +1291,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 				continue;
 			}
+			
+			$is_empty = false;
 			
 			if(!$this->keyword && !$this->author)
 			{
@@ -1515,7 +1528,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				: "");			
 		}
 		
-		return $wtpl->get();
+		if(!$is_empty || $a_show_inactive)
+		{
+			return $wtpl->get();
+		}
 	}
 	
 	/**
@@ -1904,21 +1920,21 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$this->renderNavigationByDate($a_items, $a_list_cmd, $a_posting_cmd, $a_link_template, $a_show_inactive)
 			);
 		}
-				
-		// authors
-		if($this->id_type == self::REPOSITORY_NODE_ID && 
-			$this->object->hasAuthors())
-		{
-			$authors = $this->renderNavigationByAuthors($a_items, $a_list_cmd, $a_show_inactive);
-			if($authors)
-			{
-				$blocks[$order["authors"]] = array($this->lng->txt("blog_authors"), $authors);
-			}
-		}		
 		
 		// is not part of (html) export
 		if(!$a_link_template)
-		{
+		{		
+			// authors
+			if($this->id_type == self::REPOSITORY_NODE_ID && 
+				$this->object->hasAuthors())
+			{
+				$authors = $this->renderNavigationByAuthors($a_items, $a_list_cmd, $a_show_inactive);
+				if($authors)
+				{
+					$blocks[$order["authors"]] = array($this->lng->txt("blog_authors"), $authors);
+				}
+			}		
+		
 			if($this->object->hasKeywords())
 			{
 				// keywords 		
@@ -2145,6 +2161,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$file = $this->buildExportLink($a_link_template, "list", $month);
 			$list = $this->renderList($this->items[$month], "render", $a_link_template, false, $a_target_directory);			
 			
+			if(!$list)
+			{
+				continue;
+			}
+			
 			if(!$a_tpl_callback)
 			{
 				$tpl = $this->buildExportTemplate();
@@ -2259,7 +2280,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 * @param type $a_right_content
 	 * @return string 
 	 */
-	protected function writeExportFile($a_target_directory, $a_file, $a_tpl, $a_content, $a_right_content = null)
+	protected function writeExportFile($a_target_directory, $a_file, $a_tpl, $a_content, $a_right_content = null, $a_back = null)
 	{
 		$file = $a_target_directory."/".$a_file;
 		// return if file is already existing
@@ -2270,16 +2291,25 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		// export template: page content
 		$ep_tpl = new ilTemplate("tpl.export_page.html", true, true,
-			"Modules/Blog");
-		$ep_tpl->setVariable("PAGE_CONTENT", $a_content);		
-	
-		// export template: right content			
+			"Modules/Blog");		
+		if($a_back)
+		{
+			$ep_tpl->setVariable("PAGE_CONTENT", $a_content);		
+		}
+		else
+		{
+			$ep_tpl->setVariable("LIST", $a_content);	
+		}	
+		unset($a_content);
+		$a_tpl->setContent($ep_tpl->get());		
+		unset($ep_tpl);
+
+		// template: right content			
 		if($a_right_content)
 		{
-			$ep_tpl->setVariable("RIGHT_CONTENT", $a_right_content);
-		}
-		
-		$a_tpl->setContent($ep_tpl->get());		
+			$a_tpl->setRightContent($a_right_content);
+			unset($a_right_content);
+		}			
 
 		$content = $a_tpl->get("DEFAULT", false, false, false,
 			true, true, true);		
@@ -2865,7 +2895,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		global $ilSetting;
 						
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->lng->loadLanguageModule("style");
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -2942,7 +2972,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		global $ilSetting;
 	
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		if ($ilSetting->get("fixed_content_style_id") <= 0 &&
 			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
 			|| $this->object->getStyleSheetId() == 0))

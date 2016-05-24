@@ -326,7 +326,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		if(!$has_container_page && $has_lo_page)
 		{			
 			// add core co page css
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$GLOBALS["tpl"]->setVariable("LOCATION_CONTENT_STYLESHEET",
 				ilObjStyleSheet::getContentStylePath(0));
 			$GLOBALS["tpl"]->setCurrentBlock("SyntaxStyle");
@@ -998,7 +998,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 				include_once 'Modules/Course/classes/Objectives/class.ilLOPageGUI.php';
 				$page_gui = new ilLOPageGUI($objective->getObjectiveId());
 				
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));
 				$page_gui->setPresentationTitle("");
 				$page_gui->setTemplateOutput(false);

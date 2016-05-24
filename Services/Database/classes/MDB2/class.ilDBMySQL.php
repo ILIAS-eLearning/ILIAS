@@ -662,5 +662,10 @@ class ilDBMySQL extends ilDB
 	public function loadModule($module) {
 		return $this->db->loadModule($module);
 	}
+
+
+	public function getStorageEngine() {
+		return 'MyISAM';
+	}
 }
 ?>

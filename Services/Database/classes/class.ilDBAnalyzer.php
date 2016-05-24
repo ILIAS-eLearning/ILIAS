@@ -202,7 +202,12 @@ class ilDBAnalyzer {
 
 		// get additional information if database is MySQL
 		$mysql_info = array();
-		if ($this->il_db->getDBType() == "mysql") {
+		if (in_array($this->il_db->getDBType(), array(
+			ilDBConstants::TYPE_MYSQL_LEGACY,
+			ilDBConstants::TYPE_INNODB_LEGACY,
+			ilDBConstants::TYPE_PDO_MYSQL_INNODB,
+			ilDBConstants::TYPE_PDO_MYSQL_MYISAM,
+		))) {
 			$set = $this->il_db->query("SHOW INDEX FROM " . $a_table);
 			while ($rec = $this->il_db->fetchAssoc($set)) {
 				if (!empty ($rec["Key_name"])) {

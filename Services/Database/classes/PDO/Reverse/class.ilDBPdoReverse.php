@@ -47,19 +47,6 @@ class ilDBPdoReverse implements ilDBReverse {
 			$columns[] = $data;
 		}
 
-		//
-		//		return array(
-		//			0 => array(
-		//				'notnull'    => false,
-		//				'nativetype' => 'int',
-		//				'length'     => 4,
-		//				'unsigned'   => 0,
-		//				'default'    => null,
-		//				'type'       => 'integer',
-		//				'mdb2type'   => 'integer',
-		//			),
-		//		);
-
 		$ilDBPdoFieldDefinition = ilDBPdoFieldDefinition::getInstance($this->db_instance);
 
 		foreach ($columns as $column) {
@@ -127,9 +114,7 @@ class ilDBPdoReverse implements ilDBReverse {
 			}
 		}
 
-		return $this->db_instance->raiseError(MDB2_ERROR_NOT_FOUND, null, null, 'it was not specified an existing table column', __FUNCTION__);
-
-		return $return;
+		throw new ilDatabaseException('it was not specified an existing table column');
 	}
 
 

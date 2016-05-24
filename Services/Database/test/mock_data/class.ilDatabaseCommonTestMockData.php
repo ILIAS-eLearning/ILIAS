@@ -55,6 +55,9 @@ class ilDatabaseCommonTestMockData {
 				'type'   => 'integer',
 				'length' => 4,
 			),
+			'big_data'       => array(
+				'type' => 'clob',
+			),
 		);
 
 		return $fields;
@@ -62,9 +65,11 @@ class ilDatabaseCommonTestMockData {
 
 
 	/**
+	 * @param bool $update_mob_id
+	 * @param bool $blob_null
 	 * @return array
 	 */
-	public function getInputArray() {
+	public function getInputArray($update_mob_id = false, $blob_null = true, $with_clob = true) {
 		$fields = array(
 			'id'             => array(
 				'integer',
@@ -96,7 +101,7 @@ class ilDatabaseCommonTestMockData {
 			),
 			'init_mob_id'    => array(
 				'integer',
-				78,
+				$update_mob_id ? $update_mob_id : 78,
 			),
 			'comment_mob_id' => array(
 				'integer',
@@ -105,6 +110,35 @@ class ilDatabaseCommonTestMockData {
 			'container_id'   => array(
 				'integer',
 				456,
+			),
+		);
+		if ($with_clob) {
+			$fields['big_data'] = array(
+				'clob',
+				$blob_null ? null : 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+			);
+		}
+
+		return $fields;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getInputArrayForTransaction() {
+		$fields = array(
+			'id'         => array(
+				'integer',
+				123456,
+			),
+			'is_online'  => array(
+				'integer',
+				true,
+			),
+			'is_default' => array(
+				'integer',
+				false,
 			),
 		);
 
@@ -127,7 +161,7 @@ class ilDatabaseCommonTestMockData {
 	/**
 	 * @return mixed
 	 */
-	public function getTableCreateSQL($tablename) {
+	public function getTableCreateSQL($tablename, $engine) {
 		return "CREATE TABLE `" . $tablename . "` (
   `id` int(11) NOT NULL,
   `is_online` tinyint(4) DEFAULT NULL,
@@ -139,6 +173,54 @@ class ilDatabaseCommonTestMockData {
   `init_mob_id` int(11) DEFAULT NULL,
   `comment_mob_id` int(11) DEFAULT NULL,
   `container_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+  `big_data` longtext,
+  PRIMARY KEY (`id`)) ENGINE=$engine DEFAULT CHARSET=utf8";
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getTableCreateSQLAfterRename($tablename, $engine, $supports_fulltext) {
+		$add_idex = '';
+		if($supports_fulltext) {
+			$add_idex = ", FULLTEXT KEY `i2_idx` (`address`)";
+		}
+		return "CREATE TABLE `" . $tablename . "` (
+  `id` int(11) NOT NULL,
+  `is_online` tinyint(4) DEFAULT NULL,
+  `is_default` tinyint(4) DEFAULT '1',
+  `latitude` double DEFAULT NULL,
+  `longitude` double DEFAULT NULL,
+  `elevation` double DEFAULT NULL,
+  `address` varchar(256) DEFAULT NULL,
+  `init_mob_id` int(11) DEFAULT NULL,
+  `comment_mob_id_altered` int(11) DEFAULT NULL,
+  `container_id` int(11) DEFAULT NULL,
+  `big_data` longtext,
+  PRIMARY KEY (`id`), KEY `i1_idx` (`init_mob_id`)$add_idex) ENGINE=$engine DEFAULT CHARSET=utf8";
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getTableCreateSQLAfterAlter($tablename, $engine, $supports_fulltext) {
+		$add_idex = '';
+		if($supports_fulltext) {
+			$add_idex = ", FULLTEXT KEY `i2_idx` (`address`)";
+		}
+		return "CREATE TABLE `" . $tablename . "` (
+  `id` int(11) NOT NULL,
+  `is_online` tinyint(4) DEFAULT NULL,
+  `is_default` tinyint(4) DEFAULT '1',
+  `latitude` double DEFAULT NULL,
+  `longitude` double DEFAULT NULL,
+  `elevation` double DEFAULT NULL,
+  `address` varchar(256) DEFAULT NULL,
+  `init_mob_id` int(11) DEFAULT NULL,
+  `comment_mob_id_altered` varchar(250) DEFAULT NULL,
+  `container_id` int(11) DEFAULT NULL,
+  `big_data` longtext,
+  PRIMARY KEY (`id`), KEY `i1_idx` (`init_mob_id`)$add_idex) ENGINE=$engine DEFAULT CHARSET=utf8";
 	}
 }

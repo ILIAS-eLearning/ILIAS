@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
-require_once "./Services/Style/classes/class.ilObjStyleSheet.php";
+require_once "./Services/Style/Content/classes/class.ilObjStyleSheet.php";
 
 /**
  * Class ilObjStyleSheetGUI
@@ -954,7 +954,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		
 //echo "HH"; exit;
 		$class_name = "ilObjStyleSheet";
-		require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$newObj = new ilObjStyleSheet();
 		$newObj->setTitle("-");
 		$newObj->create();
@@ -1043,7 +1043,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 		else	// old import
 		{
-			require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$newObj = new ilObjStyleSheet();
 			$newObj->import($_FILES["importfile"]);
 		}

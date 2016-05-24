@@ -3851,7 +3851,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('none');
 				$this->checkPermission("read");
 				//$this->prepareOutput();
-				//include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				//include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				//$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 				//	ilObjStyleSheet::getContentStylePath(0));
 				//$this->renderObject();

@@ -35,12 +35,18 @@ class ilServicesDatabaseSuite extends PHPUnit_Framework_TestSuite {
 	public static function suite() {
 		$suite = new self();
 
-		return $suite;
-
 		// add each test class of the component
-		require_once("./Services/Database/test/ilDatabaseCommonTest.php");
+		require_once("./Services/Database/test/ilDatabasePDOInnodbTest.php");
+		$suite->addTestSuite("ilDatabasePDOInnodbTest");
 
-		$suite->addTestSuite("ilDatabaseCommonTest");
+		require_once("./Services/Database/test/ilDatabasePDOMyISAMTest.php");
+		$suite->addTestSuite("ilDatabasePDOMyISAMTest");
+
+		require_once("./Services/Database/test/ilDatabaseMDB2InnodbTest.php");
+		$suite->addTestSuite("ilDatabaseMDB2InnodbTest");
+
+		require_once("./Services/Database/test/ilDatabaseMDB2MyISAMTest.php");
+		$suite->addTestSuite("ilDatabaseMDB2MyISAMTest");
 
 		return $suite;
 	}

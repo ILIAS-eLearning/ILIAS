@@ -565,6 +565,11 @@ class ilDBPdoFieldDefinition {
 
 				break;
 
+			case self::T_CLOB:
+			case self::T_BLOB:
+				$declaration_options = '';
+				break;
+
 			default:
 				$declaration_options = $this->getDeclarationOptions($field_info);
 				break;

@@ -67,8 +67,8 @@ class ilDbSetup {
 			switch ($this->ilDBInterface->getDBType()) {
 				case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
 				case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
-				case ilDBConstants::TYPE_MYSQL:
-				case ilDBConstants::TYPE_INNODB:
+				case ilDBConstants::TYPE_MYSQL_LEGACY:
+				case ilDBConstants::TYPE_INNODB_LEGACY:
 					$clientIniFile = $this->client->ini;
 
 					if (!$this->ilDBInterface->createDatabase($clientIniFile->readVariable("db", "name"), 'utf8', $a_collation)) {
@@ -170,8 +170,8 @@ class ilDbSetup {
 			switch ($this->ilDBInterface->getDBType()) {
 				case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
 				case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
-				case ilDBConstants::TYPE_MYSQL:
-				case ilDBConstants::TYPE_INNODB:
+				case ilDBConstants::TYPE_MYSQL_LEGACY:
+				case ilDBConstants::TYPE_INNODB_LEGACY:
 					$this->ilDBInterface->connect();
 					//$this->dropTables();
 					//$this->readDump();

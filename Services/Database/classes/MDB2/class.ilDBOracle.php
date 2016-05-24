@@ -485,5 +485,20 @@ class ilDBOracle extends ilDB
 		
 		return $this->handleError($res, "dropPrimaryKey(".$a_table.")");
 	}
+
+
+	public function setStorageEngine($storage_engine) {
+		unset($storage_engine);
+	}
+
+
+	public function getStorageEngine() {
+		return null;
+	}
+
+
+	public function dropFulltextIndex($a_table, $a_name) {
+		return false;
+	}
 }
 ?>

@@ -166,7 +166,7 @@ class ilPageContentGUI
 		{
 			if (ilObject::_lookupType($this->getStyleId()) == "sty")
 			{
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$this->style = new ilObjStyleSheet($this->getStyleId());
 			}
 		}
@@ -182,7 +182,7 @@ class ilPageContentGUI
 		if ($this->getStyleId() > 0 &&
 			ilObject::_lookupType($this->getStyleId()) == "sty")
 		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$style = new ilObjStyleSheet($this->getStyleId());
 			$chars = array();
 			if (!is_array($a_type))

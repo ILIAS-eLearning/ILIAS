@@ -42,7 +42,7 @@ class ilStyleImporter extends ilXmlImporter
 		$tmp_file = $this->getImportDirectory()."/sty_".$a_id.".xml";
 		file_put_contents($tmp_file, $a_xml);	
 				
-		include_once "./Services/Style/classes/class.ilObjStyleSheet.php";
+		include_once "./Services/Style/Content/classes/class.ilObjStyleSheet.php";
 		$style = new ilObjStyleSheet();
 		$style->createFromXMLFile($tmp_file);
 		$new_id = $style->getId();

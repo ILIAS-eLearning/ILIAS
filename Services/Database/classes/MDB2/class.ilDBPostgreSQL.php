@@ -248,5 +248,19 @@ class ilDBPostgreSQL extends ilDB
 		$this->db->commit();
 	}
 
+
+	public function getStorageEngine() {
+		return null;
+	}
+
+
+	public function dropFulltextIndex($a_table, $a_name) {
+		return false;
+	}
+
+
+	public function setStorageEngine($storage_engine) {
+		return false;
+	}
 }
 ?>

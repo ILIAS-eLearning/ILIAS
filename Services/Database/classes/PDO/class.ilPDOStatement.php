@@ -17,22 +17,22 @@ class ilPDOStatement implements ilDBStatement {
 
 
 	/**
-	 * @param $pdoStatement PDOStatement The PDO Statement to be wrapped.
+	 * @param $pdo_statement PDOStatement The PDO Statement to be wrapped.
 	 */
-	public function __construct($pdoStatement) {
-		$this->pdo = $pdoStatement;
+	public function __construct(PDOStatement $pdo_statement) {
+		$this->pdo = $pdo_statement;
 	}
 
 
 	/**
-	 * @param int $fetchMode
+	 * @param int $fetch_mode
 	 * @return mixed
 	 * @throws ilDatabaseException
 	 */
-	public function fetchRow($fetchMode = ilDBConstants::FETCHMODE_ASSOC) {
-		if ($fetchMode == ilDBConstants::FETCHMODE_ASSOC) {
+	public function fetchRow($fetch_mode = ilDBConstants::FETCHMODE_ASSOC) {
+		if ($fetch_mode == ilDBConstants::FETCHMODE_ASSOC) {
 			return $this->pdo->fetch(PDO::FETCH_ASSOC);
-		} elseif ($fetchMode == ilDBConstants::FETCHMODE_OBJECT) {
+		} elseif ($fetch_mode == ilDBConstants::FETCHMODE_OBJECT) {
 			return $this->pdo->fetch(PDO::FETCH_OBJ);
 		} else {
 			throw new ilDatabaseException("No valid fetch mode given, choose ilDBConstants::FETCHMODE_ASSOC or ilDBConstants::FETCHMODE_OBJECT");
@@ -41,11 +41,11 @@ class ilPDOStatement implements ilDBStatement {
 
 
 	/**
-	 * @param int $fetchMode
+	 * @param int $fetch_mode
 	 * @return mixed|void
 	 */
-	function fetch($fetchMode = ilDBConstants::FETCHMODE_ASSOC) {
-		return $this->fetchRow($fetchMode);
+	public function fetch($fetch_mode = ilDBConstants::FETCHMODE_ASSOC) {
+		return $this->fetchRow($fetch_mode);
 	}
 
 
@@ -60,7 +60,7 @@ class ilPDOStatement implements ilDBStatement {
 	/**
 	 * @return int
 	 */
-	function rowCount() {
+	public function rowCount() {
 		return $this->pdo->rowCount();
 	}
 
@@ -68,7 +68,7 @@ class ilPDOStatement implements ilDBStatement {
 	/**
 	 * @return stdClass
 	 */
-	function fetchObject() {
+	public function fetchObject() {
 		return $this->fetch(ilDBConstants::FETCHMODE_OBJECT);
 	}
 
@@ -76,7 +76,7 @@ class ilPDOStatement implements ilDBStatement {
 	/**
 	 * @return int
 	 */
-	function numRows() {
+	public function numRows() {
 		return $this->pdo->rowCount();
 	}
 }

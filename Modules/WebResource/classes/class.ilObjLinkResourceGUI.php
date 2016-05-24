@@ -1445,8 +1445,8 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	function __prepareOutput()
 	{
 		// output objects
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		// $this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		// $this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		$this->tpl->setLocator();
 

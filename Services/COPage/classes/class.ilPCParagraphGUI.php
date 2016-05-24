@@ -60,7 +60,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		if ($a_style_id > 0 &&
 			ilObject::_lookupType($a_style_id) == "sty")
 		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$style = new ilObjStyleSheet($a_style_id);
 			$types = array("text_block", "heading1", "heading2", "heading3");
 			$chars = array();
@@ -619,7 +619,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	private function setStyle()
 	{
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		
 		if ($this->pg_obj->getParentType() == "gdf" ||
 			$this->pg_obj->getParentType() == "lm" ||
