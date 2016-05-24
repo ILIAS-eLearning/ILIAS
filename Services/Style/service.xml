@@ -13,7 +13,4 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
-	<copage>
-		<pageobject parent_type="stys" class_name="ilPageLayoutPage" directory="classes"/>
-	</copage>
 </service>

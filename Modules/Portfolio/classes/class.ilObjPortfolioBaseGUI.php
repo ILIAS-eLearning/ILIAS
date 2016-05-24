@@ -356,7 +356,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		// save and cancel commands
 		if ($a_mode == "create")
 		{
-			include_once "Services/Style/classes/class.ilPageLayout.php";
+			include_once "Services/COPage/Layout/classes/class.ilPageLayout.php";
 			$templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
 			if($templates)
 			{			
@@ -410,7 +410,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			$layout_id = $form->getInput("tmpl");
 			if($layout_id)
 			{
-				include_once("./Services/Style/classes/class.ilPageLayout.php");
+				include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 				$layout_obj = new ilPageLayout($layout_id);
 				$page->setXMLContent($layout_obj->getXMLContent());
 			}

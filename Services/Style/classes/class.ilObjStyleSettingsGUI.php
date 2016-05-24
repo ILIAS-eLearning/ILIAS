@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Services/Object/classes/class.ilObjectGUI.php";
-include_once("./Services/Style/classes/class.ilPageLayout.php");
+include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 
 /**
  * Style settings GUI class
@@ -51,20 +51,22 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		if ($next_class == "ilpagelayoutgui" || $cmd =="createPg") {
 			$this->peditor_active =true;
 		}
-		
-		$this->prepareOutput();
-		
+
+
+
+
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
+				$this->prepareOutput();
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
 			case 'ilpagelayoutgui':
-				include_once("./Services/Style/classes/class.ilPageLayoutGUI.php");
-				$this->tpl->getStandardTemplate();
+				include_once("./Services/COPage/Layout/classes/class.ilPageLayoutGUI.php");
+//				$this->tpl->getStandardTemplate();
 				$this->ctrl->setReturn($this, "edit");
 				if ($this->pg_id!=null) {
 					$layout_gui = new ilPageLayoutGUI($this->type,$this->pg_id);
@@ -79,6 +81,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 				break;	
 
 			default:
+				$this->prepareOutput();
 				if ($cmd == "" || $cmd == "view")
 				{
 					$cmd = "editSystemStyles";
@@ -621,7 +624,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 		$oa_tpl = new ilTemplate("tpl.stys_pglayout.html", true, true, "Services/Style");
    		
-		include_once("./Services/Style/classes/class.ilPageLayoutTableGUI.php");
+		include_once("./Services/COPage/Layout/classes/class.ilPageLayoutTableGUI.php");
 		$pglayout_table = new ilPageLayoutTableGUI($this, "viewPageLayouts");
 		$oa_tpl->setVariable("PGLAYOUT_TABLE", $pglayout_table->getHTML());
 		$tpl->setContent($oa_tpl->get());
@@ -823,7 +826,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$pg_object->setModules($form_gui->getInput('module'));		
 		$pg_object->update();
 		
-		include_once("./Services/Style/classes/class.ilPageLayoutPage.php");
+		include_once("./Services/COPage/Layout/classes/class.ilPageLayoutPage.php");
 		
 		//create Page
 		if(!is_object($pg_content))
@@ -931,7 +934,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	{
 		global $lng, $ilCtrl;
 
-		include_once("./Services/Style/classes/class.ilPageLayout.php");
+		include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 
 		if (is_array($_POST["type"]))
 		{
@@ -1037,7 +1040,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	 	$form = $this->initPageLayoutImportForm();
 	 	if ($form->checkInput())
 	 	{
-	 		include_once("./Services/Style/classes/class.ilPageLayout.php");
+	 		include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 	 		$pg = ilPageLayout::import($_FILES["file"]["name"], $_FILES["file"]["tmp_name"]);
 	 		if ($pg > 0)
 	 		{

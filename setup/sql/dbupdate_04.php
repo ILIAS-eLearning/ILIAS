@@ -15230,3 +15230,7 @@ if($type_id && $new_ops_id)
 	ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
 }
 ?>
+<#4912>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

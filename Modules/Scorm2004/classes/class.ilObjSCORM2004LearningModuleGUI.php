@@ -5,7 +5,7 @@ require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php"
 require_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Export.php");
 include_once("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
-include_once("./Services/Style/classes/class.ilPageLayout.php");
+include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 
 /**
 * Class ilObjSCORMLearningModuleGUI

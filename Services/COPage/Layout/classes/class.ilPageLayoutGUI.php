@@ -30,7 +30,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 		parent::__construct($a_parent_type, $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 
 		//associated object
-		include_once("./Services/Style/classes/class.ilPageLayout.php");
+		include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 
 		$this->layout_object = new ilPageLayout($a_id);
 		$this->layout_object->readObject();
@@ -196,7 +196,7 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
 	/**
 	* output tabs
 	*/
-	function setTabs()
+	function setTabs($a_tabs = "")
 	{
 		global $ilTabs, $ilCtrl, $tpl, $lng;
 		$ilCtrl->setParameterByClass("ilpagelayoutgui", "obj_id", $this->obj->id);

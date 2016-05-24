@@ -99,7 +99,7 @@ class ilSCORM2004Page extends ilPageObject
 	function createWithLayoutId($a_layout_id)
 	{
 
-		include_once("./Services/Style/classes/class.ilPageLayout.php");
+		include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 
 		//get XML Data for Layout		
 		$layout_obj = new ilPageLayout($a_layout_id);

@@ -272,7 +272,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$type_page->addSubItem($tf);	
 
 		// page templates
-		include_once "Services/Style/classes/class.ilPageLayout.php";
+		include_once "Services/COPage/Layout/classes/class.ilPageLayout.php";
 		$templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
 		if($templates)
 		{			
@@ -395,7 +395,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$layout_id = $_POST["tmpl"];
 			if($layout_id)
 			{
-				include_once("./Services/Style/classes/class.ilPageLayout.php");
+				include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 				$layout_obj = new ilPageLayout($layout_id);
 				$page->setXMLContent($layout_obj->getXMLContent());
 			}
