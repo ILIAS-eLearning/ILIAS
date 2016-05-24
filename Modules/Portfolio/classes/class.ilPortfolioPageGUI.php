@@ -85,7 +85,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
 				$blog_gui = new ilObjBlogGUI($blog_node_id,	ilObjBlogGUI::WORKSPACE_NODE_ID);
 				$blog_gui->disableNotes(!$this->enable_comments);
-				$blog_gui->prtf_embed = true; // disables prepareOutput() in blog
+				$blog_gui->prtf_embed = true; // disables prepareOutput()/getStandardTemplate() in blog
 				return $ilCtrl->forwardCommand($blog_gui);		
 				
 			case "ilcalendarmonthgui":
