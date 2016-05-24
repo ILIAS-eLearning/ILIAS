@@ -54,15 +54,7 @@ class ilDclBaseFieldModel {
 	/**
 	 * @var bool
 	 */
-	protected $visible;
-	/**
-	 * @var bool
-	 */
 	protected $editable;
-	/**
-	 * @var bool
-	 */
-	protected $filterable;
 	/**
 	 * @var bool
 	 */
@@ -107,9 +99,7 @@ class ilDclBaseFieldModel {
 
 
 	// type of table il_dcl_view
-	const VIEW_VIEW = 1;
 	const EDIT_VIEW = 2;
-	const FILTER_VIEW = 3;
 	const EXPORTABLE_VIEW = 4;
 	
 	/**
@@ -303,34 +293,6 @@ class ilDclBaseFieldModel {
 	}
 
 	/**
-	 * setVisible
-	 *
-	 * @param $visible bool
-	 */
-	public function setVisible($visible) {
-		if ($visible == true && $this->order === NULL) {
-			$this->setOrder(0);
-		}
-
-		$this->visible = $visible;
-	}
-
-
-	/**
-	 * setFilterable
-	 *
-	 * @param $filterable bool
-	 */
-	public function setFilterable($filterable) {
-		if ($filterable == true && $this->order === NULL) {
-			$this->setOrder(0);
-		}
-
-		$this->filterable = $filterable;
-	}
-
-
-	/**
 	 * @return ilDclDatatype
 	 */
 	public function getDatatype() {
@@ -373,51 +335,6 @@ class ilDclBaseFieldModel {
 		}
 	}
 
-
-	/**
-	 * @return bool
-	 */
-	public function isVisible() {
-		if (! isset($this->visible)) {
-			$this->loadVisibility();
-		}
-
-		return $this->visible;
-	}
-
-
-	/**
-	 * Load visibility
-	 */
-	protected function loadVisibility() {
-		if ($this->visible == NULL) {
-			$this->loadViewDefinition(self::VIEW_VIEW);
-		}
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function isFilterable() {
-		if (! isset($this->filterable)) {
-			$this->loadFilterability();
-		}
-
-		return $this->filterable;
-	}
-
-
-	/**
-	 * Load filterbility
-	 */
-	protected function loadFilterability() {
-		if ($this->filterable == NULL) {
-			$this->loadViewDefinition(self::FILTER_VIEW);
-		}
-	}
-
-
 	/**
 	 * loadViewDefinition
 	 *
@@ -433,14 +350,8 @@ class ilDclBaseFieldModel {
 		$prop = $rec['is_set'];
 
 		switch ($view) {
-			case self::VIEW_VIEW:
-				$this->visible = $prop;
-				break;
 			case self::EDIT_VIEW:
 				$this->editable = $prop;
-				break;
-			case self::FILTER_VIEW:
-				$this->filterable = $prop;
 				break;
 			case self::EXPORTABLE_VIEW:
 				$this->exportable = $prop;
@@ -581,8 +492,6 @@ class ilDclBaseFieldModel {
 			. $ilDB->quote($this->isUnique(), "integer") . "," . $ilDB->quote($this->getLocked() ? 1 : 0, "integer") . ")";
 		$ilDB->manipulate($query);
 
-		$this->updateVisibility();
-		$this->updateFilterability();
 		$this->updateEditability();
 		$this->updateExportability();
 	}
@@ -629,8 +538,6 @@ class ilDclBaseFieldModel {
 				$this->getId()
 			)
 		));
-		$this->updateVisibility();
-		$this->updateFilterability();
 		$this->updateEditability();
 		$this->updateExportability();
 		$this->updateProperties();
@@ -645,31 +552,7 @@ class ilDclBaseFieldModel {
 			$prop->store();
 		}
 	}
-
-
-	/**
-	 * @return bool returns the same as isFilterable.
-	 */
-	public function getFilterable() {
-		return $this->isFilterable();
-	}
-
-
-	/**
-	 * Update visibility
-	 */
-	protected function updateVisibility() {
-		$this->updateViewDefinition(self::VIEW_VIEW);
-	}
-
-
-	/**
-	 * Update filterbility
-	 */
-	protected function updateFilterability() {
-		$this->updateViewDefinition(self::FILTER_VIEW);
-	}
-
+	
 
 	/**
 	 * Update editability
@@ -698,18 +581,6 @@ class ilDclBaseFieldModel {
 		switch ($view) {
 			case self::EDIT_VIEW:
 				$set = $this->isEditable();
-				break;
-			case self::VIEW_VIEW:
-				$set = $this->isVisible();
-				if ($set && $this->order === NULL) {
-					$this->order = 0;
-				}
-				break;
-			case self::FILTER_VIEW:
-				$set = $this->isFilterable();
-				if ($set && $this->order === NULL) {
-					$this->order = 0;
-				}
 				break;
 			case self::EXPORTABLE_VIEW:
 				$set = $this->getExportable();
@@ -764,8 +635,6 @@ class ilDclBaseFieldModel {
 		global $ilDB;
 
 		// delete viewdefinitions.
-		$this->deleteViewDefinition(self::VIEW_VIEW);
-		$this->deleteViewDefinition(self::FILTER_VIEW);
 		$this->deleteViewDefinition(self::EDIT_VIEW);
 		$this->deleteViewDefinition(self::EXPORTABLE_VIEW);
 
@@ -782,7 +651,7 @@ class ilDclBaseFieldModel {
 	 */
 	public function getOrder() {
 		if (! isset($this->order)) {
-			$this->loadVisibility();
+			$this->loadViewDefinition(self::EXPORTABLE_VIEW);
 		}
 
 		return ! $this->order ? 0 : $this->order;
@@ -945,8 +814,6 @@ class ilDclBaseFieldModel {
 		$this->setDescription($original->getDescription());
 		$this->setEditable($original->isEditable());
 		$this->setLocked($original->getLocked());
-		$this->setFilterable($original->isFilterable());
-		$this->setVisible($original->isVisible());
 		$this->setOrder($original->getOrder());
 		$this->setRequired($original->getRequired());
 		$this->setUnique($original->isUnique());

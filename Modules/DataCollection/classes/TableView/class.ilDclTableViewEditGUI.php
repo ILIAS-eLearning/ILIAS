@@ -80,7 +80,13 @@ class ilDclTableViewEditGUI
      */
     public function executeCommand()
     {
+        $this->tabs_gui->clearTargets();
         $this->tabs_gui->clearSubTabs();
+        $this->tabs_gui->setBackTarget('Ansichten', '');
+        $this->tabs_gui->addTab('alg', 'Allgemeine Einstellungen', '');
+        $this->tabs_gui->addTab('fld', 'Felder', '');
+        $this->tabs_gui->addTab('einz', 'Einzelansicht', '');
+        $this->tabs_gui->setTabActive('einz');
         $cmd = $this->ctrl->getCmd('init');
         switch($cmd) {
             case 'show':
@@ -134,14 +140,13 @@ class ilDclTableViewEditGUI
                 $this->tableview->setOrder($this->table->getNewTableviewOrder() * 10);
                 $this->tableview->create();
                 require_once './Modules/DataCollection/classes/TableView/class.ilDclTableViewFieldSetting.php';
-                ilDclTableViewFieldSetting::createDefaults($this->tableview->getTableId(), $this->tableview->getId());
                 $this->ctrl->setParameter($this, 'tableview_id', $this->tableview->getId());
-                ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_create_succeed'), true);
+                ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_created'), true);
             }
             else
             {
                 $this->tableview->update();
-                ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_update_succeed'), true);
+                ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
             }
             $this->ctrl->saveParameter($this, 'tableview_id');
             $this->ctrl->redirect($this, 'init');
@@ -193,7 +198,7 @@ class ilDclTableViewEditGUI
         global $rbacreview;
 
         $form = new ilPropertyFormGUI();
-        $form->setTitle($this->lng->txt('dcl_general_settings'));
+        $form->setTitle($this->lng->txt('general_settings'));
 
         //title
         $item = new ilTextInputGUI($this->lng->txt('title'), 'title');
@@ -255,7 +260,7 @@ class ilDclTableViewEditGUI
         include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $conf = new ilConfirmationGUI();
         $conf->setFormAction($this->ctrl->getFormAction($this));
-        $conf->setHeaderText($this->lng->txt('dcl_confirm_delete_tableview'));
+        $conf->setHeaderText($this->lng->txt('dcl_tableview_confirm_delete'));
 
         $conf->addItem('tableview_id', (int)$this->tableview->getId(), $this->tableview->getTitle());
 
@@ -268,7 +273,7 @@ class ilDclTableViewEditGUI
     protected function delete() {
         $this->tableview->delete();
         $this->table->sortTableViews();
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_delete_success'), true);
+        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_deleted'), true);
         $this->cancel();
     }
 

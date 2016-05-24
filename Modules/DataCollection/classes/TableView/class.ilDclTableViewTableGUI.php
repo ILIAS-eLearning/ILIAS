@@ -33,8 +33,8 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->setId('dcl_tableviews');
         $this->addColumn('', '', '1', true);
         $this->addColumn($lng->txt('dcl_order'), NULL, '30px');
-        $this->addColumn($lng->txt('dcl_tableview_title'), NULL, 'auto');
-        $this->addColumn($lng->txt('dcl_tableview_description'), NULL, 'auto');
+        $this->addColumn($lng->txt('title'), NULL, 'auto');
+        $this->addColumn($lng->txt('description'), NULL, 'auto');
         $this->addColumn($lng->txt('actions'), NULL, '30px');
 
         $this->addMultiCommand('confirmDeleteFields', $lng->txt('dcl_delete_views'));
@@ -47,7 +47,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
 
         $add_button = ilLinkButton::getInstance();
         $add_button->setUrl($this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI'));
-        $add_button->setCaption($this->lng->txt('add'));
+        $add_button->setCaption($this->lng->txt('dcl_tableview_add'));
         $this->addCommandButtonInstance($add_button);
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -67,7 +67,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->setLimit(0);
 
         $this->setData($this->table->getTableViews());
-        $this->setTitle($lng->txt('dcl_table_tableviews'));
+        $this->setTitle($lng->txt("dcl_tableviews"));
         $this->setRowTemplate('tpl.tableview_list_row.html', 'Modules/DataCollection');
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
     }

@@ -238,24 +238,13 @@ class ilDclTable {
 		$ilDB->manipulate($query);
 
 		if ($create_views) {
-			//add view definition
-			$view_id = $ilDB->nextId("il_dcl_view");
-			$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (" . $ilDB->quote($view_id, "integer") . ", "
-				. $ilDB->quote($this->id, "integer") . ", " . $ilDB->quote(ilDclBaseFieldModel::VIEW_VIEW, "integer") . ", "
-				. $ilDB->quote(1, "integer") . ")";
-			$ilDB->manipulate($query);
+			//standard tableview
+			$this->createStandardView();
 
 			//add edit definition
 			$view_id = $ilDB->nextId("il_dcl_view");
 			$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (" . $ilDB->quote($view_id, "integer") . ", "
 				. $ilDB->quote($this->id, "integer") . ", " . $ilDB->quote(ilDclBaseFieldModel::EDIT_VIEW, "integer") . ", "
-				. $ilDB->quote(1, "integer") . ")";
-			$ilDB->manipulate($query);
-
-			//add filter definition
-			$view_id = $ilDB->nextId("il_dcl_view");
-			$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (" . $ilDB->quote($view_id, "integer") . ", "
-				. $ilDB->quote($this->id, "integer") . ", " . $ilDB->quote(ilDclBaseFieldModel::FILTER_VIEW, "integer") . ", "
 				. $ilDB->quote(1, "integer") . ")";
 			$ilDB->manipulate($query);
 
@@ -583,8 +572,46 @@ class ilDclTable {
 		return $fields;
 	}
 
+	/**
+	 * @return array all tableviews ordered by tableview_order
+	 */
 	public function getTableViews() {
 		return ilDclTableView::where(array("table_id" => $this->getId()))->orderBy('tableview_order')->get();
+	}
+
+	public function getVisibleTableViews($user_id = 0) {
+		//current user
+		if (!$user_id)
+		{
+			global $ilUser;
+			$user_id = $ilUser->getId();
+		}
+
+		$visible_views = array();
+		foreach ($this->getTableViews() as $tableView)
+		{
+			if ($this->checkPermForTableView($user_id, $tableView))
+			{
+				$visible_views[] = $tableView;
+			}
+		}
+		return $visible_views;
+	}
+
+	public function checkPermForTableView($user_id, ilDclTableView $tableView)
+	{
+		global $rbacreview;
+		$assigned_roles = $rbacreview->assignedGlobalRoles($user_id);
+		$allowed_roles = $tableView->getRoles();
+
+		foreach ($assigned_roles as $role_id)
+		{
+			if (in_array($role_id, $allowed_roles))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 
@@ -655,27 +682,6 @@ class ilDclTable {
 		return $this->fields;
 	}
 
-
-	/**
-	 * Returns all fields of this table who have set their visibility to true, including standard fields.
-	 *
-	 * @return ilDclBaseFieldModel[]
-	 */
-	public function getVisibleFields() {
-		$fields = $this->getFields();
-
-		$visibleFields = array();
-
-		foreach ($fields as $field) {
-			if ($field->isVisible()) {
-				$visibleFields[] = $field;
-			}
-		}
-
-		return $visibleFields;
-	}
-
-
 	/**
 	 * @return array
 	 */
@@ -691,27 +697,6 @@ class ilDclTable {
 
 		return $editableFields;
 	}
-
-
-	/**
-	 * getFilterableFields
-	 * Returns all fields of this table who have set their filterable to true, including standard fields.
-	 *
-	 * @return ilDclBaseFieldModel[]
-	 */
-	public function getFilterableFields() {
-		$fields = $this->getFields();
-		$filterableFields = array();
-
-		foreach ($fields as $field) {
-			if ($field->isFilterable()) {
-				$filterableFields[] = $field;
-			}
-		}
-
-		return $filterableFields;
-	}
-
 
 	/**
 	 * Return all the fields that are marked as exportable
@@ -1515,5 +1500,19 @@ class ilDclTable {
 		}
 
 		return array( 'records' => $records, 'total' => count($total_record_ids) );
+	}
+
+	/**
+	 * @param $lng
+	 */
+	protected function createStandardView()
+	{
+		global $lng;
+		$view = new ilDclTableView();
+		$view->setTableId($this->id);
+		$view->setTitle($lng->txt('il_dcl_standardview'));
+		$view->setDescription($lng->txt('il_dcl_standardview_description'));
+		$view->setTableviewOrder(10);
+		$view->create();
 	}
 }

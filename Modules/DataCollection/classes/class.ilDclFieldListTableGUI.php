@@ -35,9 +35,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI {
 		$this->setId('dcl_field_list');
 		$this->addColumn('', '', '1', true);
 		$this->addColumn($lng->txt('dcl_order'), NULL, '30px');
-		$this->addColumn($lng->txt('dcl_title'), NULL, 'auto');
-		$this->addColumn($lng->txt('dcl_visible'), NULL, '30px');
-		$this->addColumn($lng->txt('dcl_filter'), NULL, '30px');
+		$this->addColumn($lng->txt('dcl_fieldtitle'), NULL, 'auto');
 		$this->addColumn($lng->txt('dcl_locked'), NULL, '30px', false, "", $lng->txt('dcl_locked_tooltip'));
 		$this->addColumn($lng->txt('dcl_in_export'), NULL, '30px');
 		$this->addColumn($lng->txt('dcl_description'), NULL, 'auto');
@@ -95,39 +93,11 @@ class ilDclFieldListTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable('NAME', 'order[' . $a_set->getId() . ']');
 		$this->tpl->setVariable('VALUE', $this->order);
 
-		$this->tpl->setVariable('CHECKBOX_VISIBLE', 'visible[' . $a_set->getId() . ']');
-		if ($a_set->isVisible()) {
-			$this->tpl->setVariable('CHECKBOX_VISIBLE_CHECKED', 'checked');
-		}
-
 		/* Don't enable setting filter for MOB fields or reference fields that reference a MOB field */
-		$show_filter = true;
 		$show_exportable = true;
-		if ($a_set->getDatatypeId() == ilDclDatatype::INPUTFORMAT_MOB
-			|| $a_set->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILE
-		) {
-			$show_filter = false;
-		}
-		if ($a_set->getDatatypeId() == ilDclDatatype::INPUTFORMAT_REFERENCE) {
-			$ref_field = ilDclCache::getFieldCache((int)$a_set->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
-			if ($ref_field
-				&& ($ref_field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_MOB
-					|| $ref_field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILE)
-			) {
-				$show_filter = false;
-			}
-		}
+		
 		if ($a_set->getId() == 'comments') {
-			$show_filter = false;
 			$show_exportable = false;
-		}
-		if ($show_filter) {
-			$this->tpl->setVariable('CHECKBOX_FILTERABLE', 'filterable[' . $a_set->getId() . ']');
-			if ($a_set->isFilterable()) {
-				$this->tpl->setVariable('CHECKBOX_FILTERABLE_CHECKED', 'checked');
-			}
-		} else {
-			$this->tpl->setVariable('NO_FILTER', '');
 		}
 
 		if ($show_exportable) {

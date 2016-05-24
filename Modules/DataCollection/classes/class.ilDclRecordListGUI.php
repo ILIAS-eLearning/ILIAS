@@ -63,6 +63,7 @@ class ilDclRecordListGUI {
 		if ($this->table_id == NULL) {
 			$this->table_id = $_GET["table_id"];
 		}
+		$this->tableview_id = $_GET["tableview_id"];
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->parent_obj = $a_parent_obj;
 		$this->table_obj = ilDclCache::getTableCache($table_id);
@@ -114,24 +115,12 @@ class ilDclRecordListGUI {
 		 */
 		// Show tables
 		require_once("./Modules/DataCollection/classes/class.ilDclTable.php");
-		$options = $this->getAvailableTables();
 
 		$tpl->addCss("./Modules/DataCollection/css/dcl_reference_hover.css");
 
 		list($list, $total) = $this->getRecordListTableGUI();
 
-		if (count($options) > 0) {
-			include_once './Services/Form/classes/class.ilSelectInputGUI.php';
-			$table_selection = new ilSelectInputGUI('', 'table_id');
-			$table_selection->setOptions($options);
-			$table_selection->setValue($this->table_id);
-
-			$ilToolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclRecordListGUI", "doTableSwitch"));
-			$ilToolbar->addText($this->lng->txt("dcl_table"));
-			$ilToolbar->addInputItem($table_selection);
-			$ilToolbar->addFormButton($this->lng->txt('change'), 'doTableSwitch');
-			$ilToolbar->addSeparator();
-		}
+		$this->createSwitchers();
 
 		$permission_to_add_or_import = $this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id) AND $this->table_obj->hasCustomFields();
 		if ($permission_to_add_or_import) {
@@ -276,9 +265,16 @@ class ilDclRecordListGUI {
 		$this->ctrl->redirect($this, "listRecords");
 	}
 
+	/**
+	 * doTableViewSwitch
+	 */
+	public function doTableViewSwitch() {
+		$this->ctrl->setParameter($this, "tableview_id", $_POST['tableview_id']);
+		$this->ctrl->redirect($this, "listRecords");
+	}
 
 	protected function applyFilter() {
-		$table = new ilDclRecordListTableGUI($this, "listRecords", $this->table_obj);
+		$table = new ilDclRecordListTableGUI($this, "listRecords", $this->table_obj, $this->tableview_id);
 		$table->resetOffset();
 		$table->writeFilterToSession();
 		$this->ctrl->redirect($this, 'listRecords');
@@ -287,7 +283,7 @@ class ilDclRecordListGUI {
 
 
 	protected function resetFilter() {
-		$table = new ilDclRecordListTableGUI($this, "listRecords", $this->table_obj);
+		$table = new ilDclRecordListTableGUI($this, "listRecords", $this->table_obj, $this->tableview_id);
 		$table->resetOffset();
 		$table->resetFilter();
 		$this->ctrl->redirect($this, 'listRecords');
@@ -456,6 +452,23 @@ class ilDclRecordListGUI {
 		return $options;
 	}
 
+	/**
+	 * @return array
+	 */
+	protected function getAvailableTableViews() {
+		if (ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id)) {
+			$tableviews = $this->table_obj->getTableViews();
+		} else {
+			$tableviews = $this->table_obj->getVisibleTableViews();
+		}
+		$options = array();
+		foreach ($tableviews as $tableview) {
+			$options[$tableview->getId()] = $tableview->getTitle();
+		}
+
+		return $options;
+	}
+
 
 	/**
 	 * @param int|null $table_id
@@ -468,7 +481,7 @@ class ilDclRecordListGUI {
 		if($table_id != null) {
 			$table_obj = ilDclCache::getTableCache($table_id);
 		}
-		$list = new ilDclRecordListTableGUI($this, "listRecords", $table_obj, $this->mode);
+		$list = new ilDclRecordListTableGUI($this, "listRecords", $table_obj, $this->tableview_id, $this->mode);
 		$list->setExternalSegmentation(true);
 		$list->setExternalSorting(true);
 		$list->determineLimit();
@@ -484,6 +497,46 @@ class ilDclRecordListGUI {
 		$list->setRecordData($records);
 
 		return array( $list, $total );
+	}
+
+	/**
+	 * @param $options
+	 * @param $ilToolbar
+	 */
+	protected function createSwitchers()
+	{
+		$options = $this->getAvailableTables();
+
+		if (count($options) > 0) {
+			global $ilToolbar;
+
+			//table switcher
+			include_once './Services/Form/classes/class.ilSelectInputGUI.php';
+			$table_selection = new ilSelectInputGUI('', 'table_id');
+			$table_selection->setOptions($options);
+			$table_selection->setValue($this->table_id);
+
+			$ilToolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclRecordListGUI", "doTableSwitch"));
+			$ilToolbar->addText($this->lng->txt("dcl_table"));
+			$ilToolbar->addInputItem($table_selection);
+			$button = ilSubmitButton::getInstance();
+			$button->setCaption($this->lng->txt('change'));
+			$button->setCommand('doTableSwitch');
+			$ilToolbar->addButtonInstance($button);
+			$ilToolbar->addSeparator();
+
+			//tableview switcher
+			$tableview_selection = new ilSelectInputGUI('', 'tableview_id');
+			$tableview_selection->setOptions($this->getAvailableTableViews());
+			$tableview_selection->setValue($this->tableview_id);
+			$ilToolbar->addInputItem($tableview_selection);
+
+			$button = ilSubmitButton::getInstance();
+			$button->setCaption($this->lng->txt('change'));
+			$button->setCommand('doTableViewSwitch');
+			$ilToolbar->addButtonInstance($button);
+			$ilToolbar->addSeparator();
+		}
 	}
 }
 

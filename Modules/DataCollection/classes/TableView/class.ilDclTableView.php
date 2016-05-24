@@ -1,5 +1,6 @@
 <?php
 require_once('./Services/ActiveRecord/class.ActiveRecord.php');
+require_once('./Modules/DataCollection/classes/TableView/class.ilDclTableViewFieldSetting.php');
 /**
  * Class ilDclTableView
  *
@@ -225,5 +226,73 @@ class ilDclTableView extends ActiveRecord
         parent::delete();
     }
     
+    public function getTable()
+    {
+        return ilDclCache::getTableCache($this->table_id);
+    }
+
+    /**
+     * getFilterableFields
+     * Returns all  field-objects (or field-settings if flag is true) of this tableview which have set their filterable to true, including standard fields.
+     *
+     * @return ilDclBaseFieldModel[]|ilDclTableViewFieldSetting[]
+     */
+    public function getFilterableFields($as_field_setting = false)
+    {
+        return $this->getFields('in_filter', $as_field_setting);
+    }
+
+    /**
+     * Returns all field-objects (or field-settings if flag is true) of this tableview which have set their visibility to true, including standard fields.
+     *
+     * @return ilDclBaseFieldModel[]|ilDclTableViewFieldSetting[]
+     */
+    public function getVisibleFields($as_field_setting = false) {
+        return $this->getFields('visible', $as_field_setting);
+    }
+    
+    public function getFields($property, $as_field_setting = false)
+    {
+        $fieldRecords = ilDclTableViewFieldSetting::where(array("tableview_id" => $this->id, $property => 1))->get();
+        if ($as_field_setting)
+        {
+            return $fieldRecords;
+        }
+
+        $fields = array();
+
+        foreach ($fieldRecords as $field_rec) {
+            $fields[] = $field_rec->getFieldObject();
+        }
+        return $fields;
+    }
+
+    public function create($create_default_settings = true)
+    {
+        parent::create();
+        if ($create_default_settings)
+        {
+            $this->createDefaultSettings();
+        }
+    }
+
+
+    /**
+     * create default ilDclTableViewFieldSetting s
+     */
+    public function createDefaultSettings()
+    {
+        $table = new ilDclTable($this->table_id);
+
+        foreach ($table->getFieldIds() as $field_id)
+        {
+            $setting = new ilDclTableViewFieldSetting();
+            $setting->setTableviewId($this->id);
+            $setting->setField($field_id);
+            $setting->setVisible(!ilDclStandardField::_isStandardField($field_id));
+            $setting->create();
+        }
+    }
+
 
 }

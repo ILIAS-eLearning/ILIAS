@@ -142,7 +142,7 @@ class ilDclTableViewGUI
         $this->tabs->clearSubTabs();
         $conf = new ilConfirmationGUI();
         $conf->setFormAction($this->ctrl->getFormAction($this));
-        $conf->setHeaderText($this->lng->txt('dcl_confirm_delete_tableviews'));
+        $conf->setHeaderText($this->lng->txt('dcl_tableviews_confirm_delete'));
         
         foreach ($tableviews as $tableview_id) {
             $conf->addItem('dcl_tableview_ids[]', $tableview_id, ilDclTableView::find($tableview_id)->getTitle());
@@ -159,7 +159,7 @@ class ilDclTableViewGUI
             ilDclTableView::find($tableview_id)->delete();
         }
         $this->table->sortTableViews();
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_delete_success'), true);
+        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableviews_deleted'), true);
         $this->ctrl->redirect($this, 'show');
     }
 
@@ -172,7 +172,7 @@ class ilDclTableViewGUI
     {
         if ($delete_count >= count($this->table->getTableViews()))
         {
-            ilUtil::sendFailure($this->lng->txt('il_dcl_msg_tableviews_delete_all'), true);
+            ilUtil::sendFailure($this->lng->txt('dcl_msg_tableviews_delete_all'), true);
             $this->ctrl->redirect($this, 'show');
         }
     }

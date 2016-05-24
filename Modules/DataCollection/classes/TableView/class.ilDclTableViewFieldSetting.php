@@ -230,18 +230,27 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return null;
     }
 
-    public static function createDefaults($table_id, $tableview_id)
+
+
+    /**
+     * @return ilDclBaseFieldModel|ilDclStandardField
+     */
+    public function getFieldObject()
     {
-        $table = new ilDclTable($table_id);
-        
-        foreach ($table->getFieldIds() as $field_id)
-        {
-            $setting = new self();
-            $setting->setTableviewId($tableview_id);
-            $setting->setField($field_id);
-            $setting->setVisible(!ilDclStandardField::_isStandardField($field_id));
-            $setting->create();
+        if (is_numeric($this->field))
+        {   //normal field
+            return ilDclCache::getFieldCache($this->field);
         }
+        else
+        {   //standard field
+            global $lng;
+            $stdfield = new ilDclStandardField();
+            $stdfield->setId($this->field);
+            $stdfield->setDatatypeId(ilDclStandardField::_getDatatypeForId($this->field));
+            $stdfield->setTitle($lng->txt('dcl_'.$this->field));
+            return $stdfield;
+        }
+
     }
 
 }

@@ -194,7 +194,7 @@ class ilDclTableEditGUI {
 		if ($a_mode != 'create') {
 			$item = new ilSelectInputGUI($this->lng->txt('dcl_default_sort_field'), 'default_sort_field');
             $item->setInfo($this->lng->txt('dcl_default_sort_field_desc'));
-			$fields = $this->table->getVisibleFields();
+			$fields = $this->table->getFields();
 			$options = array( 0 => $this->lng->txt('dcl_please_select') );
 			foreach ($fields as $field) {
 				$options[$field->getId()] = $field->getTitle();
