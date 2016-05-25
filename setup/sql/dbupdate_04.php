@@ -15218,8 +15218,6 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-<<<<<<< HEAD
-=======
 
 <#4911>
 <?php

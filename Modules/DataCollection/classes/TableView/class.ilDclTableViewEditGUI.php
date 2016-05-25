@@ -71,7 +71,6 @@ class ilDclTableViewEditGUI
         $this->parent_obj = $parent_obj;
         $this->tableview = ilDclTableView::findOrGetInstance($_GET['tableview_id']);
         $this->tabs_gui = $ilTabs;
-        $ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ildcltableviewgui', 'show'));
     }
 
 
@@ -82,15 +81,33 @@ class ilDclTableViewEditGUI
     {
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->clearSubTabs();
-        $this->tabs_gui->setBackTarget('Ansichten', '');
-        $this->tabs_gui->addTab('alg', 'Allgemeine Einstellungen', '');
-        $this->tabs_gui->addTab('fld', 'Felder', '');
-        $this->tabs_gui->addTab('einz', 'Einzelansicht', '');
-        $this->tabs_gui->setTabActive('einz');
-        $cmd = $this->ctrl->getCmd('init');
+        $this->tabs_gui->setBackTarget($this->lng->txt('dcl_tableviews'), $this->ctrl->getLinkTarget($this->parent_obj));
+
+        $cmd = $this->ctrl->getCmd('show');
         switch($cmd) {
             case 'show':
-                $this->init();
+                if ($this->tableview->getId()) {
+                    $this->ctrl->redirect($this, 'editGeneralSettings');
+                } else {
+                    $this->ctrl->redirect($this, 'create');
+                }
+            break;
+            case 'add':
+                $this->initFormGUI(true);
+                $this->tpl->setContent($this->form->getHTML());
+                break;
+            case 'editGeneralSettings':
+                $this->setTabs('general_settings');
+                $this->initFormGUI();
+                $this->tpl->setContent($this->form->getHTML());
+                break;
+            case 'editFieldSettings':
+                $this->setTabs('field_settings');
+                $this->initTableGUI();
+                $this->tpl->setContent($this->table_gui->getHTML());
+                break;
+            case 'editDetailedView':
+                $viewdefinition = new ilDclRecordViewViewdefinitionGUI($this->table->getId());
                 break;
             default:
                 $this->$cmd();
@@ -98,26 +115,12 @@ class ilDclTableViewEditGUI
         }
     }
 
-    /**
-     * initialize form and table
-     */
-    public function init()
+    protected function setTabs($active)
     {
-        $this->initFormGUI();
-        if ($this->tableview->getId())
-        {
-            $this->initTableGUI();
-        }
-        $this->show();
-    }
-
-    /**
-     * set content to template
-     */
-    public function show()
-    {
-        $detail_view_html = $this->tableview->getId() ? '<a>Detailed View<a>' : '';
-        $this->tpl->setContent($this->form->getHTML() . ($this->table_gui ? $this->table_gui->getHTML() : '') . $detail_view_html);
+        $this->tabs_gui->addTab('general_settings', $this->lng->txt('general_settings'), $this->ctrl->getLinkTarget($this, 'show'));
+        $this->tabs_gui->addTab('field_settings', $this->lng->txt('fields'), $this->ctrl->getLinkTarget($this, 'editFieldSettings'));
+        $this->tabs_gui->addTab('detailed_view', $this->lng->txt('detailed_view'), $this->ctrl->getLinkTarget($this, 'detailedView'));
+        $this->tabs_gui->setTabActive($active);
     }
 
     /**
@@ -133,26 +136,41 @@ class ilDclTableViewEditGUI
             $this->tableview->setTitle($this->form->getInput('title'));
             $this->tableview->setDescription($this->form->getInput('description'));
             $this->tableview->setRoles($this->form->getInput('roles'));
-           
-            if (!$this->tableview->getId()) 
-            {
-                $this->tableview->setTableId($this->table->getId());
-                $this->tableview->setOrder($this->table->getNewTableviewOrder() * 10);
-                $this->tableview->create();
-                require_once './Modules/DataCollection/classes/TableView/class.ilDclTableViewFieldSetting.php';
-                $this->ctrl->setParameter($this, 'tableview_id', $this->tableview->getId());
-                ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_created'), true);
-            }
-            else
-            {
-                $this->tableview->update();
-                ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
-            }
+
+            $this->tableview->update();
+            ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
+
             $this->ctrl->saveParameter($this, 'tableview_id');
-            $this->ctrl->redirect($this, 'init');
+            $this->ctrl->redirect($this, 'editGeneralSettings');
         }
 
-        $this->show();
+        $this->ctrl->redirect($this, 'editGeneralSettings');
+    }
+
+    /**
+     *
+     */
+    public function create()
+    {
+        $this->initFormGUI();
+        $this->form->setValuesByPost();
+
+        if ($this->form->checkInput())
+        {
+            $this->tableview->setTitle($this->form->getInput('title'));
+            $this->tableview->setDescription($this->form->getInput('description'));
+            $this->tableview->setRoles($this->form->getInput('roles'));
+
+            $this->tableview->setTableId($this->table->getId());
+            $this->tableview->setOrder($this->table->getNewTableviewOrder() * 10);
+            $this->tableview->create();
+            require_once './Modules/DataCollection/classes/TableView/class.ilDclTableViewFieldSetting.php';
+            $this->ctrl->setParameter($this, 'tableview_id', $this->tableview->getId());
+            ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_created'), true);
+            $this->ctrl->redirect($this, 'editGeneralSettings');
+        }
+
+        $this->ctrl->redirect($this, 'editGeneralSettings');
     }
 
     /**
@@ -187,18 +205,18 @@ class ilDclTableViewEditGUI
             $setting->update();
         }
         $this->ctrl->saveParameter($this, 'tableview_id');
-        $this->ctrl->redirect($this, 'init');
+        $this->ctrl->redirect($this, 'editFieldSettings');
     }
 
     /**
      * @return ilPropertyFormGUI
      */
-    protected function initFormGUI()
+    protected function initFormGUI($creation = false)
     {
         global $rbacreview;
 
         $form = new ilPropertyFormGUI();
-        $form->setTitle($this->lng->txt('general_settings'));
+        $form->setTitle($creation ? $this->lng->txt('dcl_new_tableview') : $this->lng->txt('general_settings'));
 
         //title
         $item = new ilTextInputGUI($this->lng->txt('title'), 'title');
@@ -219,13 +237,22 @@ class ilDclTableViewEditGUI
             $role = new ilObjRole($role_id);
             $options[$role_id] = $role->getTitle();
         }
+        foreach ($rbacreview->getLocalRoles($_GET['ref_id']) as $role_id)
+        {
+            $role = new ilObjRole($role_id);
+            $options[$role_id] = $role->getTitle();
+        }
         $item->setOptions($options);
         $item->setValue($this->tableview->getRoles());
         $form->addItem($item);
 
         $this->ctrl->saveParameter($this, 'tableview_id');
         $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->addCommandButton('saveForm', $this->lng->txt('save'));
+        if($creation) {
+            $form->addCommandButton('create', $this->lng->txt('create'));
+        } else {
+            $form->addCommandButton('saveForm', $this->lng->txt('save'));
+        }
         $form->addCommandButton('cancel', $this->lng->txt('cancel'));
 
         $this->form = $form;

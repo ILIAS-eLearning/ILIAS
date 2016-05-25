@@ -53,7 +53,7 @@ class ilDclRecordListGUI {
 	 * @param ilObjDataCollectionGUI $a_parent_obj
 	 * @param                        $table_id
 	 */
-	public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id) {
+	public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id, $tableview_id = 0) {
 		global $ilCtrl, $lng;
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
@@ -63,10 +63,17 @@ class ilDclRecordListGUI {
 		if ($this->table_id == NULL) {
 			$this->table_id = $_GET["table_id"];
 		}
-		$this->tableview_id = $_GET["tableview_id"];
+
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->parent_obj = $a_parent_obj;
 		$this->table_obj = ilDclCache::getTableCache($table_id);
+
+		if ($tableview_id) {
+			$this->tableview_id = $tableview_id;
+		} else {
+			//get first visible tableview
+			$this->tableview_id = array_shift($this->table_obj->getVisibleTableViews($this->parent_obj->ref_id))->getId();
+		}
 		$this->ctrl->setParameterByClass("ildclrecordeditgui", "table_id", $table_id);
 		$this->mode = (isset($_GET['mode']) && in_array($_GET['mode'], self::$available_modes)) ? (int)$_GET['mode'] : self::MODE_VIEW;
 	}
@@ -261,6 +268,8 @@ class ilDclRecordListGUI {
 	 * doTableSwitch
 	 */
 	public function doTableSwitch() {
+		$this->ctrl->clearParametersByClass("ilObjDataCollectionGUI");
+		$this->ctrl->clearParameters($this);
 		$this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
 		$this->ctrl->redirect($this, "listRecords");
 	}
@@ -452,23 +461,6 @@ class ilDclRecordListGUI {
 		return $options;
 	}
 
-	/**
-	 * @return array
-	 */
-	protected function getAvailableTableViews() {
-		if (ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id)) {
-			$tableviews = $this->table_obj->getTableViews();
-		} else {
-			$tableviews = $this->table_obj->getVisibleTableViews();
-		}
-		$options = array();
-		foreach ($tableviews as $tableview) {
-			$options[$tableview->getId()] = $tableview->getTitle();
-		}
-
-		return $options;
-	}
-
 
 	/**
 	 * @param int|null $table_id
@@ -527,8 +519,13 @@ class ilDclRecordListGUI {
 
 			//tableview switcher
 			$tableview_selection = new ilSelectInputGUI('', 'tableview_id');
-			$tableview_selection->setOptions($this->getAvailableTableViews());
+			$options = array();
+			foreach ($this->table_obj->getVisibleTableViews($this->parent_obj->ref_id) as $tableview) {
+				$options[$tableview->getId()] = $tableview->getTitle();
+			}
+			$tableview_selection->setOptions($options);
 			$tableview_selection->setValue($this->tableview_id);
+			$ilToolbar->addText($this->lng->txt("dcl_tableview"));
 			$ilToolbar->addInputItem($tableview_selection);
 
 			$button = ilSubmitButton::getInstance();

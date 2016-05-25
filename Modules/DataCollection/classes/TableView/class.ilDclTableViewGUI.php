@@ -73,9 +73,9 @@ class ilDclTableViewGUI
         switch ($next_class)
         {
             case 'ildcltablevieweditgui':
-                $this->tabs->clearSubTabs();
                 require_once('./Modules/DataCollection/classes/TableView/class.ilDclTableViewEditGUI.php');
                 $edit_gui = new ilDclTableViewEditGUI($this);
+                $this->ctrl->saveParameter($edit_gui, 'tableview_id');
                 $this->ctrl->forwardCommand($edit_gui);
                 break;
             default:
@@ -133,7 +133,7 @@ class ilDclTableViewGUI
     /**
      * Confirm deletion of multiple fields
      */
-    public function confirmDeleteFields() 
+    public function confirmDeleteTableviews()
     {
         //at least one view must exist
         $tableviews = isset($_POST['dcl_tableview_ids']) ? $_POST['dcl_tableview_ids'] : array();
@@ -147,12 +147,12 @@ class ilDclTableViewGUI
         foreach ($tableviews as $tableview_id) {
             $conf->addItem('dcl_tableview_ids[]', $tableview_id, ilDclTableView::find($tableview_id)->getTitle());
         }
-        $conf->setConfirm($this->lng->txt('delete'), 'deleteFields');
+        $conf->setConfirm($this->lng->txt('delete'), 'deleteTableviews');
         $conf->setCancel($this->lng->txt('cancel'), 'show');
         $this->tpl->setContent($conf->getHTML());
     }
 
-    protected function deleteFields()
+    protected function deleteTableviews()
     {
         $tableviews = isset($_POST['dcl_tableview_ids']) ? $_POST['dcl_tableview_ids'] : array();
         foreach ($tableviews as $tableview_id) {

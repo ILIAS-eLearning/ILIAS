@@ -314,9 +314,10 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 				}
 			}
 
-//			$filter_value = $field_set->getFilterValue();
+			$filter_value = $field_set->getFilterValue();
 			$this->applyFilter($field->getId(), $filter_value);
 		}
+
 	}
 
 	public function applyFilter($field_id, $filter_value) {

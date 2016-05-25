@@ -83,7 +83,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 					), 'getRecordData', '', true) . "');");
 		}
 		$ilCtrl->saveParameter($this, "table_id");
-		$ilCtrl->saveParameter($this, "tableview_id");
 	}
 
 
@@ -199,12 +198,14 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				break;
 
 			case "ildclrecordlistgui":
+				$ilCtrl->saveParameter($this, "tableview_id");
 				$this->addHeaderAction(false);
 				$this->prepareOutput();
 				$ilTabs->activateTab("id_records");
 				require_once('./Modules/DataCollection/classes/class.ilDclRecordListGUI.php');
-				$this->ctrl->setParameterByClass('ildclrecordlistgui', 'tableview_id', $_REQUEST['tableview_id']);
-				$recordlist_gui = new ilDclRecordListGUI($this, $this->table_id);
+//				$this->ctrl->setParameterByClass('ildclrecordlistgui', 'tableview_id', $_GET['tableview_id']);
+				$tableview_id = $_REQUEST['cmd']['doTableSwitch'] ? 0 : $_REQUEST['tableview_id'];
+				$recordlist_gui = new ilDclRecordListGUI($this, $this->table_id, $tableview_id);
 				$this->ctrl->forwardCommand($recordlist_gui);
 				break;
 
