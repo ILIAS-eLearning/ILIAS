@@ -526,10 +526,8 @@ class ilObjStudyProgramme extends ilContainer {
 			$ref_ids = $sorting->sortItems(array('crs_ref'=>$ref_ids));
 			$ref_ids = $ref_ids['crs_ref'];
 
-			// TODO: $this could be removed as soon as support for PHP 5.3 is dropped:
-			$self = $this;
-			$lp_children = array_map(function($node_data) use ($self) {
-				$lp_obj = $self->object_factory->getInstanceByRefId($node_data["child"]);
+			$lp_children = array_map(function($node_data) {
+				$lp_obj = $this->object_factory->getInstanceByRefId($node_data["child"]);
 
 				// filter out all StudyProgramme instances
 				return ($lp_obj instanceof $self)? null : $lp_obj;
