@@ -175,7 +175,7 @@ class ilCourseParticipants extends ilParticipants
 			$old = $ilDB->fetchAssoc($res);			
 			if((int)$old["passed"] != (int)$a_passed)
 			{			
-				$query = "UPDATE obj_members SET ".
+				$update_query = "UPDATE obj_members SET ".
 					"passed = ".$ilDB->quote((int) $a_passed,'integer').", ".
 					"origin = ".$ilDB->quote($origin,'integer').", ".
 					"origin_ts = ".$ilDB->quote(time(),'integer')." ".
@@ -197,7 +197,7 @@ class ilCourseParticipants extends ilParticipants
 				$origin_ts = time();
 			}
 			
-			$query = "INSERT INTO obj_members (passed,obj_id,usr_id,notification,blocked,origin,origin_ts) ".
+			$update_query = "INSERT INTO obj_members (passed,obj_id,usr_id,notification,blocked,origin,origin_ts) ".
 				"VALUES ( ".
 				$ilDB->quote((int) $a_passed,'integer').", ".
 				$ilDB->quote($a_obj_id,'integer').", ".
@@ -207,7 +207,10 @@ class ilCourseParticipants extends ilParticipants
 				$ilDB->quote($origin,'integer').", ".
 				$ilDB->quote($origin_ts,'integer').")";					
 		}
-		$res = $ilDB->manipulate($query);
+		if(strlen($update_query))
+		{
+			$ilDB->manipulate($update_query);
+		}
 		return true;	
 	}
 	

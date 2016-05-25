@@ -11,15 +11,6 @@
 */
 class ilObjSCORMTracking
 {
-	/**
-	* Constructor
-	* @access	public
-	*/
-	function ilObjSCORMTracking()
-	{
-		global $ilias;
-
-	}
 
 	function extractData()
 	{
@@ -330,7 +321,7 @@ class ilObjSCORMTracking
 	 * @param
 	 * @return
 	 */
-	function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id)
+	static function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id)
 	{
 		global $ilDB, $ilLog;
 		//TODO: use sahs_user in future!! Especially for learningTime!
@@ -369,7 +360,7 @@ class ilObjSCORMTracking
 		ilChangeEvent::_recordReadEvent($a_type, $a_ref_id, $a_obj_id, $a_user_id, false, $attempts, $time);
 	}
 
-	function _insertTrackData($a_sahs_id, $a_lval, $a_rval, $a_obj_id)
+	static function _insertTrackData($a_sahs_id, $a_lval, $a_rval, $a_obj_id)
 	{
 		global $ilDB, $ilUser;
 
@@ -585,7 +576,7 @@ class ilObjSCORMTracking
 	 * @param object $a_obj_id
 	 * @return 
 	 */
-	function _getTrackedUsers($a_obj_id)
+	static function _getTrackedUsers($a_obj_id)
 	{
 		global $ilDB, $ilLog;
 
@@ -609,7 +600,7 @@ class ilObjSCORMTracking
 	 * @param object $a_obj_id
 	 * @return 
 	 */
-	function _getFailed($scorm_item_id,$a_obj_id)
+	static function _getFailed($scorm_item_id,$a_obj_id)
 	{
 		global $ilDB;
 

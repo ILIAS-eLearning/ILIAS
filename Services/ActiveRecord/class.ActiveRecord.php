@@ -55,7 +55,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @deprecated
 	 */
 	public static function returnDbTableName() {
-		throw new arException('Implement getConnectorContainerName in your child-class');
+		throw new arException(arException::UNKNONWN_EXCEPTION, 'Implement getConnectorContainerName in your child-class');
 	}
 
 

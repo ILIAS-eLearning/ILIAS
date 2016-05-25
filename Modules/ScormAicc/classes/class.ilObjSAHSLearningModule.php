@@ -28,7 +28,7 @@ class ilObjSAHSLearningModule extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjSAHSLearningModule($a_id = 0, $a_call_by_reference = true)
+	function __construct($a_id = 0, $a_call_by_reference = true)
 	{
 		$this->type = "sahs";
 		parent::__construct($a_id,$a_call_by_reference);
@@ -108,7 +108,7 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setIe_force_render(ilUtil::yn2tf($lm_rec["ie_force_render"]));
 			$this->setMasteryScore($lm_rec["mastery_score"]);
 			
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			if (ilObject::_lookupType($this->getStyleSheetId()) != "sty")
 			{
 				$this->setStyleSheetId(0);
@@ -119,7 +119,7 @@ class ilObjSAHSLearningModule extends ilObject
 	/**
 	* check wether scorm module is online
 	*/
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 		
@@ -135,7 +135,7 @@ class ilObjSAHSLearningModule extends ilObject
 	 * 
 	 * @param int $a_id scorm lm id
 	 */
-	function getAffectiveLocalization($a_id)
+	static function getAffectiveLocalization($a_id)
 	{
 		global $ilDB, $lng;
 		
@@ -155,7 +155,7 @@ class ilObjSAHSLearningModule extends ilObject
 	*
 	* @param	int		$a_id		object id
 	*/
-	function _lookupSubType($a_obj_id)
+	static function _lookupSubType($a_obj_id)
 	{
 		global $ilDB;
 
@@ -1160,7 +1160,7 @@ class ilObjSAHSLearningModule extends ilObject
 				$items = $sc_tree->getSubTree($sc_tree->getNodeData($r_id));
 				foreach($items as $item)
 				{
-					$sc_object =& ilSCORMObject::_getInstance($item["obj_id"], $this->getId());
+					$sc_object = ilSCORMObject::_getInstance($item["obj_id"], $this->getId());
 					if (is_object($sc_object))
 					{
 						$sc_object->delete();
@@ -1358,7 +1358,7 @@ class ilObjSAHSLearningModule extends ilObject
 
 
 		// set/copy stylesheet
-/*		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+/*		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{

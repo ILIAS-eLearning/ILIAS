@@ -36,18 +36,6 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilLMContentSearch extends ilAbstractSearch
 {
-
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilLMContentSearch(&$query_parser)
-	{
-		global $ilDB;
-
-		parent::ilAbstractSearch($query_parser);
-	}
-
 	function &performSearch()
 	{
 		$this->setFields(array('content'));

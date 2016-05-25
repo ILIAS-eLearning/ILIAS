@@ -14,14 +14,6 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 */
 class ilObjMediaPoolListGUI extends ilObjectListGUI
 {
-	/**
-	* constructor
-	*
-	*/
-	function ilObjMediaPoolListGUI()
-	{
-		parent::__construct();
-	}
 
 	/**
 	* initialisation

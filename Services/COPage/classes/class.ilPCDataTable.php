@@ -58,8 +58,8 @@ class ilPCDataTable extends ilPCTable
 	{
 		$this->node = $this->createPageContentNode();
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-		$this->tab_node =& $this->dom->create_element("Table");
-		$this->tab_node =& $this->node->append_child($this->tab_node);
+		$this->tab_node = $this->dom->create_element("Table");
+		$this->tab_node = $this->node->append_child($this->tab_node);
 		$this->tab_node->set_attribute("Language", "");
 		$this->tab_node->set_attribute("DataTable", "y");
 	}
@@ -74,7 +74,7 @@ class ilPCDataTable extends ilPCTable
 			"/Table/TableRow[$i+1]/TableData[$j+1]/PageContent[1]/Paragraph[1]";
 //echo "<br>++".$path;
 //]--//PageContent[@HierId='3']/Table/TableRow[+1]/TableData[0 style=+1]/PageContent[1]/Paragraph[1]
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 
 		if (is_object($res->nodeset[0]))
 		{
@@ -87,7 +87,7 @@ class ilPCDataTable extends ilPCTable
 				"/Table/TableRow[".($i+1)."]/TableData[".($j+1)."]";
 			//$path2 = "//PageContent";
 			
-			$res2 =& xpath_eval($xpc2, $path2);
+			$res2 = xpath_eval($xpc2, $path2);
 
 			$td_node = $res2->nodeset[0];
 
@@ -196,11 +196,11 @@ class ilPCDataTable extends ilPCTable
 							// copy new content children in paragraph node
 							$xpc = xpath_new_context($temp_dom);
 							$path = "//Paragraph";
-							$res =& xpath_eval($xpc, $path);
+							$res = xpath_eval($xpc, $path);
 
 							if (count($res->nodeset) == 1)
 							{
-								$new_par_node =& $res->nodeset[0];
+								$new_par_node = $res->nodeset[0];
 								$new_childs = $new_par_node->child_nodes();
 								for ($l = 0; $l < count($new_childs); $l++)
 								{

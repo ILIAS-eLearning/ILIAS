@@ -23,7 +23,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     protected $cloud_object;
 
     /**
-     * @param ilPropertyFormGUI
+     * @var ilPropertyFormGUI
      */
     protected $form;
 
@@ -150,12 +150,13 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
                 $this->cloud_object->setOnline($this->form->getInput("online"));
                 $this->cloud_object->update();
                 ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-
+                $ilCtrl->redirect($this, 'editSettings');
             }
         } catch (Exception $e)
         {
             ilUtil::sendFailure($e->getMessage());
         }
+
         $this->form->setValuesByPost();
         $tpl->setContent($this->form->getHtml());
     }

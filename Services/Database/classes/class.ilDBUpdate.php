@@ -247,10 +247,13 @@ class ilDBUpdate
 					$check = $this->checkQuery($q);
 					if ($check === true)
 					{
-						$r = $db->query($q);
-						if (MDB2::isError($r))
-						{
-							$this->error = $r->getMessage();
+						try {
+							$r = $db->query($q);
+						} catch (ilDatabaseException $e) {
+							var_dump($e); // FSX
+							exit;
+							$this->error = $e->getMessage();
+
 							return false;
 						}
 					}

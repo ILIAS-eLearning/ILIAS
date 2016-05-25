@@ -29,10 +29,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function __construct(&$a_content_obj, &$a_tree)
 	{
-		global $ilias, $tpl, $lng;
-
 		parent::__construct($a_content_obj);
-		$this->tree =& $a_tree;
+		$this->tree = $a_tree;
 	}
 
 	/**
@@ -42,7 +40,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function setStructureObject(&$a_st_object)
 	{
-		$this->obj =& $a_st_object;
+		$this->obj = $a_st_object;
 	}
 	
 	
@@ -91,17 +89,17 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				{
 					$this->setTabs();
 					$this->initConditionHandlerInterface();
-					$ret =& $this->condHI->executeCommand();
+					$this->condHI->executeCommand();
 				}
 				elseif(($cmd == "create") && ($_POST["new_type"] == "pg"))
 				{
 					$this->setTabs();
 					$pg_gui = new ilLMPageObjectGUI($this->content_object);
-					$ret =& $pg_gui->executeCommand();
+					$pg_gui->executeCommand();
 				}
 				else
 				{
-					$ret =& $this->$cmd();
+					$this->$cmd();
 				}
 				break;
 		}
@@ -431,7 +429,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				? $_GET["obj_id"]
 				: $tree->getRootId();
 			// determine last child of type pg
-			$childs =& $tree->getChildsByType($parent_id, "pg");
+			$childs = $tree->getChildsByType($parent_id, "pg");
 			if (count($childs) != 0)
 			{
 				$_GET["target"] = $childs[count($childs) - 1]["obj_id"];

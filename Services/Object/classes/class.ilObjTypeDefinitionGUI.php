@@ -22,7 +22,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function ilObjTypeDefinitionGUI($a_data,$a_id,$a_call_by_reference)
+	public function __construct($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "typ";
 		parent::__construct($a_data,$a_id,$a_call_by_reference);

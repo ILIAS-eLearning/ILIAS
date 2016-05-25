@@ -91,8 +91,8 @@ class ilPCParagraph extends ilPageContent
 	function createAtNode(&$node)
 	{
 		$this->node = $this->createPageContentNode();
-		$this->par_node =& $this->dom->create_element("Paragraph");
-		$this->par_node =& $this->node->append_child($this->par_node);
+		$this->par_node = $this->dom->create_element("Paragraph");
+		$this->par_node = $this->node->append_child($this->par_node);
 		$this->par_node->set_attribute("Language", "");
 		$node->append_child ($this->node);
 	}
@@ -105,8 +105,8 @@ class ilPCParagraph extends ilPageContent
 	function createBeforeNode(&$node)
 	{
 		$this->node = $this->createPageContentNode();
-		$this->par_node =& $this->dom->create_element("Paragraph");
-		$this->par_node =& $this->node->append_child($this->par_node);
+		$this->par_node = $this->dom->create_element("Paragraph");
+		$this->par_node = $this->node->append_child($this->par_node);
 		$this->par_node->set_attribute("Language", "");
 		$node->insert_before($this->node, $node);
 	}
@@ -145,13 +145,13 @@ class ilPCParagraph extends ilPageContent
 	{
 //echo "-$a_pc_id-";
 //echo "<br>-".htmlentities($a_pg_obj->getXMLFromDom())."-<br><br>"; mk();
-		$this->node =& $this->dom->create_element("PageContent");
+		$this->node = $this->dom->create_element("PageContent");
 
 		// this next line kicks out placeholders, if something is inserted
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
 
-		$this->par_node =& $this->dom->create_element("Paragraph");
-		$this->par_node =& $this->node->append_child($this->par_node);
+		$this->par_node = $this->dom->create_element("Paragraph");
+		$this->par_node = $this->node->append_child($this->par_node);
 		$this->par_node->set_attribute("Language", "");
 	}
 
@@ -205,15 +205,15 @@ class ilPCParagraph extends ilPageContent
 			// copy new content children in paragraph node
 			$xpc = xpath_new_context($temp_dom);
 			$path = "//Paragraph";
-			$res =& xpath_eval($xpc, $path);
+			$res = xpath_eval($xpc, $path);
 			if (count($res->nodeset) == 1)
 			{
-				$new_par_node =& $res->nodeset[0];
+				$new_par_node = $res->nodeset[0];
 				$new_childs = $new_par_node->child_nodes();
 
 				for($i=0; $i<count($new_childs); $i++)
 				{
-					$cloned_child =& $new_childs[$i]->clone_node(true);
+					$cloned_child = $new_childs[$i]->clone_node(true);
 					$this->par_node->append_child($cloned_child);
 				}
 				$orig_characteristic = $this->getCharacteristic();

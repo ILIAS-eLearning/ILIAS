@@ -1437,9 +1437,12 @@ class ilExAssignment
 	 * @param
 	 * @return
 	 */
-	function saveMultiFeedbackFiles($a_files)
-	{			
-		$exc = new ilObjExercise($this->getExerciseId(), false);
+	function saveMultiFeedbackFiles($a_files, ilObjExercise $a_exc)
+	{					
+		if($this->getExerciseId() != $a_exc->getId())
+		{
+			return;
+		}
 		
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$fstorage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
@@ -1474,7 +1477,7 @@ class ilExAssignment
 										
 					if ($noti_rec_ids)
 					{
-						$exc->sendFeedbackFileNotification($file_name, $noti_rec_ids,
+						$a_exc->sendFeedbackFileNotification($file_name, $noti_rec_ids,
 							(int) $this->getId());
 					}
 				}				

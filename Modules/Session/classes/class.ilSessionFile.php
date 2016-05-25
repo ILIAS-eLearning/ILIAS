@@ -240,7 +240,7 @@ class ilSessionFile
 		return true;
 	}
 
-	function _readFilesByEvent($a_event_id)
+	static function _readFilesByEvent($a_event_id)
 	{
 		global $ilDB;
 

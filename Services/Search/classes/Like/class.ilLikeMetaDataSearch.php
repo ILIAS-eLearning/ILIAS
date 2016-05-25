@@ -37,15 +37,6 @@ include_once 'Services/Search/classes/class.ilMetaDataSearch.php';
 class ilLikeMetaDataSearch extends ilMetaDataSearch
 {
 
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilLikeMetaDataSearch(&$qp_obj)
-	{
-		parent::ilMetaDataSearch($qp_obj);
-	}
-
 	// Private
 	function __createKeywordWhereCondition()
 	{

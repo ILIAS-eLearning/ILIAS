@@ -51,7 +51,7 @@ class ilPCBlog extends ilPageContent
 	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->blog_node =& $a_node->first_child();		// this is the blog node
+		$this->blog_node = $a_node->first_child();		// this is the blog node
 	}
 
 	/**

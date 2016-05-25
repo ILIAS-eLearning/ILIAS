@@ -33,11 +33,11 @@ class ilLMObjectGUI
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ctrl =& $ilCtrl;
-		$this->content_object =& $a_content_obj;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
+		$this->content_object = $a_content_obj;
 	}
 
 
@@ -134,7 +134,7 @@ class ilLMObjectGUI
 		else
 		{
 			// determine last child of current type
-			$childs =& $tree->getChildsByType($parent_id, $this->obj->getType());
+			$childs = $tree->getChildsByType($parent_id, $this->obj->getType());
 			if (count($childs) == 0)
 			{
 				$target = IL_FIRST_NODE;

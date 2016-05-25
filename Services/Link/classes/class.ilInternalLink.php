@@ -177,6 +177,7 @@ class ilInternalLink
 			case "GlossaryItem":
 				include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 				$id = ilGlossaryTerm::_getIdForImportId($a_target);
+				//echo "+".$id."+".$a_target."+";
 				if($id > 0)
 				{
 					return "il__git_".$id;

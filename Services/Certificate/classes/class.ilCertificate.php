@@ -473,11 +473,6 @@ class ilCertificate
 				return $pdf_base64->scalar;
 			}
 		}
-		catch(XML_RPC2_FaultException $e)
-		{
-			$ilLog->write(__METHOD__.': '.$e->getMessage());
-			return false;
-		}
 		catch(Exception $e)
 		{
 			$ilLog->write(__METHOD__.': '.$e->getMessage());
@@ -485,22 +480,7 @@ class ilCertificate
 		}
 
 		ilDatePresentation::setUseRelativeDates(true);
-
-		/*
-		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
-		$fo2pdf = new ilFO2PDF();
-		$fo2pdf->setFOString($this->exchangeCertificateVariables($xslfo, $insert_tags));
-		$result = $fo2pdf->send();
-		if ($deliver)
-		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			ilUtil::deliverData($result, $this->getAdapter()->getCertificateFilename($params), "application/pdf");
-		}
-		else
-		{
-			return $result;
-		}
-		*/
+		
 	}
 
 	/**
@@ -522,11 +502,6 @@ class ilCertificate
 			ilUtil::deliverData($pdf_base64->scalar, $this->getAdapter()->getCertificateFilename(), "application/pdf");
 
 		}
-		catch(XML_RPC2_FaultException $e)
-		{
-			$ilLog->write(__METHOD__.': '.$e->getMessage());
-			return false;
-		}
 		catch(Exception $e)
 		{
 			$ilLog->write(__METHOD__.': '.$e->getMessage());
@@ -535,14 +510,6 @@ class ilCertificate
 
 		ilDatePresentation::setUseRelativeDates(true);
 		
-		/*
-		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
-		$fo2pdf = new ilFO2PDF();
-		$fo2pdf->setFOString($this->exchangeCertificateVariables($xslfo));
-		$result = $fo2pdf->send();
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		ilUtil::deliverData($result, $this->getAdapter()->getCertificateFilename(), "application/pdf");
-		*/
 	}
 	
 	/**
@@ -1090,11 +1057,6 @@ class ilCertificate
 			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($content);
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::deliverData($pdf_base64->scalar, $this->getAdapter()->getCertificateFilename(array()), "application/pdf");
-		}
-		catch(XML_RPC2_FaultException $e)
-		{
-			$ilLog->write(__METHOD__.': '.$e->getMessage());
-			return false;
 		}
 		catch(Exception $e)
 		{

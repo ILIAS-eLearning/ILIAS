@@ -82,9 +82,14 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	 */
 	public $ilias;
 
+	/**
+	 * @var ilHelp
+	 */
+	protected $help;
+
 
 	public function __construct() {
-		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias;
+		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog, $ilias, $ilHelp;
 
 		parent::__construct(array(), (int) $_GET['ref_id'], true, false);
 
@@ -97,6 +102,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 		$this->ilLog = $ilLog;
 		$this->ilias = $ilias;
 		$this->type = "prg";
+		$this->help = $ilHelp;
 
 		$lng->loadLanguageModule("prg");
 	}
@@ -166,7 +172,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 				$this->ctrl->forwardCommand($ilTranslationGui);
 				break;*/
 			case "ilobjstudyprogrammemembersgui":
-				$this->denyAccessIfNot("write");
+				$this->denyAccessIfNot("manage_members");
 				$this->tabs_gui->setTabActive(self::TAB_MEMBERS);
 				require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgrammeMembersGUI.php");
 				$gui = new ilObjStudyProgrammeMembersGUI($this, $this->ref_id);
@@ -509,6 +515,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 	 * Adds the default tabs to the gui
 	 */
 	public function getTabs() {
+		$this->help->setScreenIdComponent("prg");
 		if ($this->checkAccess("read")) {
 			$this->tabs_gui->addTab( self::TAB_VIEW_CONTENT
 								   , $this->lng->txt("content")
@@ -527,13 +534,14 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI {
 								   , $this->lng->txt("settings")
 								   , $this->getLinkTarget("settings")
 								   );
-			//Maybe some time this will be: if ($this->checkAccess("manage_members")) {
-			$this->tabs_gui->addTab( self::TAB_MEMBERS
-								   , $this->lng->txt("members")
-								   , $this->getLinkTarget("members")
-								   );
 		}
 
+		if ($this->checkAccess("manage_members") ) {
+			$this->tabs_gui->addTab( self::TAB_MEMBERS
+					   , $this->lng->txt("members")
+					   , $this->getLinkTarget("members")
+					   );
+		}
 		parent::getTabs();
 	}
 

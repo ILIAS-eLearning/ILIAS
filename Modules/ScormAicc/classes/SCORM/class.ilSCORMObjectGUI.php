@@ -44,7 +44,7 @@ class ilSCORMObjectGUI
 	var $lng;
 
 
-	function ilSCORMObjectGUI($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		global $tpl, $lng;
 
@@ -52,8 +52,8 @@ class ilSCORMObjectGUI
 		{
 			$this->sc_object = new ilSCORMItem($a_id);
 		}
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
 	}
 
 	/**

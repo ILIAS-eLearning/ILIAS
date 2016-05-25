@@ -19,11 +19,11 @@ include_once("./Services/Feeds/classes/class.ilFeedWriter.php");
 class ilUserFeedWriter extends ilFeedWriter
 {
 	
-	function ilUserFeedWriter($a_user_id, $a_hash, $privFeed = false)
+	function __construct($a_user_id, $a_hash, $privFeed = false)
 	{
 		global $ilSetting, $lng;
 
-		parent::ilFeedWriter();
+		parent::__construct();
 		
 		//$lng->loadLanguageModule("news");
 		

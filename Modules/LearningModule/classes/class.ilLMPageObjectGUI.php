@@ -106,7 +106,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					"_".$_GET["ref_id"],
 					$view_frame);
 
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->content_object->getStyleSheetId(), "lm"));
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
@@ -143,7 +143,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				break;
 
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 	}
@@ -254,7 +254,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					case "PageObject":
 					case "StructureObject":
 						$lm_id = ilLMObject::_lookupContObjID($target_id);
-						$cont_obj =& $this->content_object;
+						$cont_obj = $this->content_object;
 						if ($lm_id == $cont_obj->getId())
 						{
 							$ltarget = "";

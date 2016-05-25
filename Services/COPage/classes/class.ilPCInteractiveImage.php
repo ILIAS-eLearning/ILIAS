@@ -70,7 +70,7 @@ class ilPCInteractiveImage extends ilPageContent
 	 */
 	function setDom(&$a_dom)
 	{
-		$this->dom =& $a_dom;
+		$this->dom = $a_dom;
 	}
 
 	/**
@@ -147,22 +147,22 @@ class ilPCInteractiveImage extends ilPageContent
 	 */
 	function createAlias(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
 	{
-		$this->node =& $this->dom->create_element("PageContent");
+		$this->node = $this->dom->create_element("PageContent");
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-		$this->iim_node =& $this->dom->create_element("InteractiveImage");
-		$this->iim_node =& $this->node->append_child($this->iim_node);
-		$this->mal_node =& $this->dom->create_element("MediaAlias");
-		$this->mal_node =& $this->iim_node->append_child($this->mal_node);
+		$this->iim_node = $this->dom->create_element("InteractiveImage");
+		$this->iim_node = $this->node->append_child($this->iim_node);
+		$this->mal_node = $this->dom->create_element("MediaAlias");
+		$this->mal_node = $this->iim_node->append_child($this->mal_node);
 		$this->mal_node->set_attribute("OriginId", "il__mob_".$this->getMediaObject()->getId());
 
 		// standard view
-		$item_node =& $this->dom->create_element("MediaAliasItem");
-		$item_node =& $this->iim_node->append_child($item_node);
+		$item_node = $this->dom->create_element("MediaAliasItem");
+		$item_node = $this->iim_node->append_child($item_node);
 		$item_node->set_attribute("Purpose", "Standard");
-		$media_item =& $this->getMediaObject()->getMediaItem("Standard");
+		$media_item = $this->getMediaObject()->getMediaItem("Standard");
 
-		$layout_node =& $this->dom->create_element("Layout");
-		$layout_node =& $item_node->append_child($layout_node);
+		$layout_node = $this->dom->create_element("Layout");
+		$layout_node = $item_node->append_child($layout_node);
 		if ($media_item->getWidth() > 0)
 		{
 			//$layout_node->set_attribute("Width", $media_item->getWidth());
@@ -176,8 +176,8 @@ class ilPCInteractiveImage extends ilPageContent
 		// caption
 		if ($media_item->getCaption() != "")
 		{
-			$cap_node =& $this->dom->create_element("Caption");
-			$cap_node =& $item_node->append_child($cap_node);
+			$cap_node = $this->dom->create_element("Caption");
+			$cap_node = $item_node->append_child($cap_node);
 			$cap_node->set_attribute("Align", "bottom");
 			$cap_node->set_content($media_item->getCaption());
 		}
@@ -185,8 +185,8 @@ class ilPCInteractiveImage extends ilPageContent
 		// text representation
 		if ($media_item->getTextRepresentation() != "")
 		{
-			$tr_node =& $this->dom->create_element("TextRepresentation");
-			$tr_node =& $item_node->append_child($tr_node);
+			$tr_node = $this->dom->create_element("TextRepresentation");
+			$tr_node = $item_node->append_child($tr_node);
 			$tr_node->set_content($media_item->getTextRepresentation());
 		}
 	}
@@ -490,7 +490,7 @@ die("pcinteractiveimage: setstyleclass");
 		{
 			$xpc = xpath_new_context($this->dom);
 			$path = "//PageContent[@PCID = '".$a_pc_id."']/InteractiveImage/Trigger";
-			$res =& xpath_eval($xpc, $path);
+			$res = xpath_eval($xpc, $path);
 			if (count($res->nodeset) > 0)
 			{
 				return $res->nodeset;
@@ -500,7 +500,7 @@ die("pcinteractiveimage: setstyleclass");
 		
 		$xpc = xpath_new_context($this->dom);
 		$path = "//PageContent[@HierId = '".$a_hier_id."']/InteractiveImage/Trigger";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		if (count($res->nodeset) > 0)
 		{
 			return $res->nodeset;
@@ -725,7 +725,7 @@ die("pcinteractiveimage: setstyleclass");
 
 		$xpc = xpath_new_context($this->dom);
 		$path = "//PageContent[@HierId = '".$this->hier_id."']/InteractiveImage/MediaAliasItem/MapArea[@Id='".$a_nr."']/ExtLink";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		if (count($res->nodeset) > 0)
 		{
 			$res->nodeset[0]->set_content($a_title);

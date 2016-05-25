@@ -34,10 +34,6 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapRBACAdministration extends ilSoapAdministration
 {
-	function ilSoapRBACAdministration()
-	{
-		parent::ilSoapAdministration();
-	}
 
 
 	function deleteRole($sid,$role_id)

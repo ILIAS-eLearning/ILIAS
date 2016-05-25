@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
-require_once 'Services/Calendar/classes/class.ilDatePresentation.php';
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -96,7 +95,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
 				return ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX));
 
 			case 'filesize':
-				return ilFormat::formatSize($value);
+				return ilUtil::formatSize($value);
 
 			default:
 				return $value;

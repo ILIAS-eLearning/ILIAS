@@ -71,6 +71,7 @@ class ilLMImportGUI
 		$form->addItem($fi);
 
 		include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 		$ot = ilObjectTranslation::getInstance($this->lm->getId());
 		foreach ($ot->getLanguages() as $l)
 		{
@@ -102,6 +103,7 @@ class ilLMImportGUI
 		$conf = $imp->getConfig("Modules/LearningModule");
 
 		$target_lang = ilUtil::stripSlashes($_POST["import_lang"]);
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 		$ot = ilObjectTranslation::getInstance($this->lm->getId());
 		if ($target_lang == $ot->getMasterLanguage())
 		{

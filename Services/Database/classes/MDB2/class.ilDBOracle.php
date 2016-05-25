@@ -21,6 +21,11 @@ class ilDBOracle extends ilDB
 	const LIMIT_EXPRESSIONS_IN_LIST = 1000;
 
 
+	public function loadModule($module) {
+		// TODO: Implement loadModule() method.
+	}
+
+
 	/**
 	* Get DSN.
 	*/
@@ -338,7 +343,7 @@ class ilDBOracle extends ilDB
 	 * @param object $a_allow_null [optional]
 	 * @return 
 	 */
-	public function concat($a_values, $a_allow_null = true)
+	public function concat(array $a_values, $a_allow_null = true)
 	{
 		if(count($a_values) <= 2)
 		{
@@ -479,6 +484,21 @@ class ilDBOracle extends ilDB
 		$res = $this->db->query($query);		
 		
 		return $this->handleError($res, "dropPrimaryKey(".$a_table.")");
+	}
+
+
+	public function setStorageEngine($storage_engine) {
+		unset($storage_engine);
+	}
+
+
+	public function getStorageEngine() {
+		return null;
+	}
+
+
+	public function dropFulltextIndex($a_table, $a_name) {
+		return false;
 	}
 }
 ?>

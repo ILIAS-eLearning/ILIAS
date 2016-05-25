@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Services/Utilities/classes/class.ilFormat.php';
 
 /**
  * Export class for tests
@@ -35,6 +34,8 @@ class ilTestExport
 	private $lng;
 	
 	private $resultsfile;
+	
+	protected $resultExportingEnabledForTestExport = false;
 
 	/**
 	 * Constructor
@@ -76,6 +77,22 @@ class ilTestExport
 				break;
 		}
 		$this->filename = $this->subdir.".".$this->getExtension();
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isResultExportingEnabledForTestExport()
+	{
+		return $this->resultExportingEnabledForTestExport;
+	}
+
+	/**
+	 * @param boolean $resultExprtingEnabledForTestExport
+	 */
+	public function setResultExportingEnabledForTestExport($resultExprtingEnabledForTestExport)
+	{
+		$this->resultExportingEnabledForTestExport = $resultExprtingEnabledForTestExport;
 	}
 
 	function getExtension () {
@@ -905,7 +922,7 @@ class ilTestExport
 				{
 					if($ts)
 					{
-						$visit = ilFormat::formatDate(date('Y-m-d H:i:s', $ts), "datetime", false, false);
+						$visit = ilDatePresentation::formatDate(new ilDateTime($ts, IL_CAL_UNIX));
 						array_push($datarow2, $visit);
 					}
 					else
@@ -1049,7 +1066,7 @@ class ilTestExport
 			, false);
 		$ilBench->stop("TestExport", "buildExportFile_dumpToFile");
 
-		if (@file_exists("./Modules/Test/classes/class.ilTestResultsToXML.php"))
+		if ($this->isResultExportingEnabledForTestExport() && @file_exists("./Modules/Test/classes/class.ilTestResultsToXML.php"))
 		{
 			// dump results xml document to file
 			include_once "./Modules/Test/classes/class.ilTestResultsToXML.php";

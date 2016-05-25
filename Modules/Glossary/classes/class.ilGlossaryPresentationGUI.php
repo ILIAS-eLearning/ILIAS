@@ -33,21 +33,22 @@ class ilGlossaryPresentationGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilGlossaryPresentationGUI()
+	function __construct()
 	{
-		global $lng, $ilias, $tpl, $ilCtrl;
+		global $lng, $ilias, $tpl, $ilCtrl, $ilTabs;
 
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ilias =& $ilias;
-		$this->ctrl =& $ilCtrl;
+		$this->tabs_gui = $ilTabs;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
+		$this->ctrl = $ilCtrl;
 		$this->offline = false;
 		$this->ctrl->saveParameter($this, array("ref_id", "letter", "tax_node"));
 
 		// Todo: check lm id
 		include_once("./Modules/Glossary/classes/class.ilObjGlossaryGUI.php");
 		$this->glossary_gui = new ilObjGlossaryGUI("", $_GET["ref_id"], true, "");
-		$this->glossary =& $this->glossary_gui->object;
+		$this->glossary = $this->glossary_gui->object;
 
 		// determine term id and check whether it is valid (belongs to
 		// current glossary or a virtual (online) sub-glossary)
@@ -140,11 +141,11 @@ class ilGlossaryPresentationGUI
 		{
 			case "ilnotegui":
 				$this->setTabs();
-				$ret =& $this->listDefinitions();
+				$ret = $this->listDefinitions();
 				break;
 
 			case "ilinfoscreengui":
-				$ret =& $this->outputInfoScreen();
+				$ret = $this->outputInfoScreen();
 				break;
 
 			case "ilpresentationlisttablegui":
@@ -154,7 +155,7 @@ class ilGlossaryPresentationGUI
 				break;
 
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 		$this->tpl->show();
@@ -628,7 +629,7 @@ class ilGlossaryPresentationGUI
 	function media($a_mode = "media")
 	{
 		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
@@ -933,7 +934,7 @@ class ilGlossaryPresentationGUI
 					case "PageObject":
 					case "StructureObject":
 						$lm_id = ilLMObject::_lookupContObjID($target_id);
-						$cont_obj =& $this->content_object;
+						$cont_obj = $this->content_object;
 						if ($type == "PageObject")
 						{
 							$href = "./goto.php?target=pg_".$target_id.$anc_add;
@@ -1297,7 +1298,7 @@ class ilGlossaryPresentationGUI
 			{
 				if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 				{
-					$tabs_gui->addTab("terms",
+					$this->tabs_gui->addTab("terms",
 						$lng->txt("cont_terms"),
 						$ilCtrl->getLinkTarget($this, "listTerms"));
 				}

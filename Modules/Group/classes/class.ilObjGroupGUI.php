@@ -157,7 +157,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			case "ilcolumngui":
 				$this->tabs_gui->setTabActive('none');
 				$this->checkPermission("read");
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 				$this->renderObject();
@@ -1458,12 +1458,13 @@ class ilObjGroupGUI extends ilContainerGUI
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
 
-        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		ilMailFormCall::setRecipients($rcps);
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget(
 			$this, 
 			'members',
 			array(), 
-			array('type' => 'new', 'rcp_to' => implode(',',$rcps),'sig' => $this->createMailSignature())));
+			array('type' => 'new', 'sig' => $this->createMailSignature())));
 		return true;
 	}
 	

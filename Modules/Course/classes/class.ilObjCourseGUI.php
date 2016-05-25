@@ -127,10 +127,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
-		
-        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		include_once './Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
-		
+
+		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		require_once 'Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
+
+		ilMailFormCall::setRecipients($rcps);
 		ilUtil::redirect(
 			ilMailFormCall::getRedirectTarget(
 				$this, 
@@ -138,7 +139,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				array(),
 				array(
 					'type'   => 'new',
-					'rcp_to' => implode(',',$rcps),
 					'sig' => $this->createMailSignature()
 				),
 				array(
@@ -3851,7 +3851,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('none');
 				$this->checkPermission("read");
 				//$this->prepareOutput();
-				//include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				//include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				//$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 				//	ilObjStyleSheet::getContentStylePath(0));
 				//$this->renderObject();

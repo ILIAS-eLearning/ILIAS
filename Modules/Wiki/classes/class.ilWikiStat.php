@@ -346,7 +346,7 @@ class ilWikiStat
 	 */
 	protected static function countPages($a_wiki_id)
 	{
-		return sizeof(ilWikiPage::getAllPages($a_wiki_id));		
+		return sizeof(ilWikiPage::getAllWikiPages($a_wiki_id));
 	}
 	
 	/**

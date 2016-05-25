@@ -24,7 +24,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjAICCLearningModule($a_id = 0, $a_call_by_reference = true)
+	function __construct($a_id = 0, $a_call_by_reference = true)
 	{
 		$this->type = "sahs";
 		parent::__construct($a_id,$a_call_by_reference);
@@ -161,7 +161,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 	/**
 	* get all tracking items of scorm object
 	*/
-	function _getTrackingItems($a_obj_id)
+	static function _getTrackingItems($a_obj_id)
 	{
 		global $ilDB;
 

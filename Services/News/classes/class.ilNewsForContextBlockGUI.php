@@ -23,7 +23,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	/**
 	* Constructor
 	*/
-	function ilNewsForContextBlockGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng, $ilUser, $ilHelp;
 

@@ -166,7 +166,7 @@ class ilPageContentGUI
 		{
 			if (ilObject::_lookupType($this->getStyleId()) == "sty")
 			{
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$this->style = new ilObjStyleSheet($this->getStyleId());
 			}
 		}
@@ -182,7 +182,7 @@ class ilPageContentGUI
 		if ($this->getStyleId() > 0 &&
 			ilObject::_lookupType($this->getStyleId()) == "sty")
 		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$style = new ilObjStyleSheet($this->getStyleId());
 			$chars = array();
 			if (!is_array($a_type))
@@ -375,7 +375,7 @@ class ilPageContentGUI
 		}
 
 		// check whether target is allowed
-		$curr_node =& $this->pg_obj->getContentNode($a_hid[0], $a_hid[1]);
+		$curr_node = $this->pg_obj->getContentNode($a_hid[0], $a_hid[1]);
 		if (is_object($curr_node) && $curr_node->node_name() == "FileItem")
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_operation_not_allowed"),$this->ilias->error_obj->MESSAGE);
@@ -431,7 +431,7 @@ class ilPageContentGUI
 		}
 
 		// check whether target is allowed
-		$curr_node =& $this->pg_obj->getContentNode($a_hid[0], $a_hid[1]);
+		$curr_node = $this->pg_obj->getContentNode($a_hid[0], $a_hid[1]);
 		if (is_object($curr_node) && $curr_node->node_name() == "FileItem")
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_operation_not_allowed"),$this->ilias->error_obj->MESSAGE);
@@ -476,7 +476,7 @@ class ilPageContentGUI
 		}
 		else
 		{
-			$lm_page =& ilLMPageObject::_splitPage($this->pg_obj->getId(),
+			$lm_page = ilLMPageObject::_splitPage($this->pg_obj->getId(),
 				$this->pg_obj->getParentType(), $this->hier_id);
 				
 			// jump to new page

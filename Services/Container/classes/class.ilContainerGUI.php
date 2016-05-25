@@ -137,7 +137,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilTabs->clearTargets();
 		
 		$cmd = $ilCtrl->getCmd();
-		include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+		include_once ("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
 		$this->ctrl->setReturn($this, "editStyleProperties");
 		$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 		$style_gui->omitLocator();
@@ -208,7 +208,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$lng->loadLanguageModule("content");
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 		$this->tpl->setCurrentBlock("SyntaxStyle");
@@ -229,7 +229,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// get page object
 		$this->ctrl->setReturnByClass("ilcontainerpagegui", "edit");
 		$page_gui = new ilContainerPageGUI($this->object->getId());
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->object->getStyleSheetId(), $this->object->getType()));
 
@@ -316,7 +316,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once("./Services/Container/classes/class.ilContainerPage.php");
 		include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 		$this->tpl->setCurrentBlock("SyntaxStyle");
@@ -329,7 +329,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ot = ilObjectTranslation::getInstance($this->object->getId());
 		$lang = $ot->getEffectiveContentLang($ilUser->getCurrentLanguage(), "cont");
 		$page_gui = new ilContainerPageGUI($this->object->getId(), 0, $lang);
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->object->getStyleSheetId(), $this->object->getType()));
 
@@ -779,32 +779,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function editPageFrameObject()
 	{
-		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
-		$fs_gui = new ilFramesetGUI();
-		
-		$fs_gui->setFramesetTitle($this->object->getTitle());
-		$fs_gui->setMainFrameName("content");
-		$fs_gui->setSideFrameName("tree");
-
 		// old tiny stuff
 		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
 			"xhtml_page");
 		if ($xpage_id > 0 && $_SESSION["il_cntr_editor"] != "std")
 		{
-			$fs_gui->setMainFrameSource(
-				$this->ctrl->getLinkTarget(
-					$this, "editPageContent"));
-			$fs_gui->setSideFrameSource(
-				$this->ctrl->getLinkTarget($this, "showLinkList"));
+			$this->ctrl->redirect($this, "editPageContent");
 		}
 		else
 		{
 			$this->ctrl->redirectByClass(array("ilcontainerpagegui"), "edit");
-			exit;
 		}
-				
-		$fs_gui->show();
-		exit;
 	}
 
 	/**
@@ -1611,7 +1596,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $lng, $rbacsystem, $ilAccess;
 		
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once 'Modules/Folder/classes/class.ilObjFolder.php';
 		include_once 'Modules/File/classes/class.ilObjFile.php';
 		include_once 'Modules/File/classes/class.ilFileException.php';
@@ -2139,8 +2123,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		//$t->addFormButton($this->lng->txt($txt_var), "performPasteIntoMultipleObjects");
 		$t->addStickyItem($b);
 
-			$t->addSeparator();
+		$t->addSeparator();
+		$this->lng->loadLanguageModule('obj');
 		$t->addFormButton($this->lng->txt("obj_insert_into_clipboard"), "keepObjectsInClipboard");
+
 		$t->addFormButton($this->lng->txt("cancel"), "cancelMoveLink");
 		$t->setCloseFormTag(false);
 		$t->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), " ");
@@ -3230,7 +3216,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilCtrl->getHTML($page_gui);
 		$ilTabs->setTabActive("obj_sty");
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$lng->loadLanguageModule("style");
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -3330,7 +3316,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $ilSetting;
 	
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		if ($ilSetting->get("fixed_content_style_id") <= 0 &&
 			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
 			|| $this->object->getStyleSheetId() == 0))

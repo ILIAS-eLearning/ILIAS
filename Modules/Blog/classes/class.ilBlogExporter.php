@@ -50,7 +50,7 @@ class ilBlogExporter extends ilXmlExporter
 		$style_ids = array();
 		foreach ($a_ids as $id)
 		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$style_id = ilObjStyleSheet::lookupObjectStyle($id);			
 			if ($style_id > 0)
 			{

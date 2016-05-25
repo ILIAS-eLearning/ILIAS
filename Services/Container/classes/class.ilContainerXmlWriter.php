@@ -64,7 +64,7 @@ class ilContainerXmlWriter extends ilXmlWriter
 		
 		include_once('./Services/Container/classes/class.ilContainerPage.php');	
 		include_once('./Services/Container/classes/class.ilContainerStartObjectsPage.php');		
-		include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
+		include_once('./Services/Style/Content/classes/class.ilObjStyleSheet.php');
 				
 		$this->xmlStartTag(
 			'Item',

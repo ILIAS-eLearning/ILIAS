@@ -13,13 +13,6 @@
 class ilFormPropertyDispatchGUI
 {
 	/**
-	* Constructor
-	*/
-	function _construct()
-	{
-	}
-	
-	/**
 	* Set item
 	*
 	* @param	object		item

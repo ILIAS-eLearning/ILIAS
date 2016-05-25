@@ -54,7 +54,7 @@ class ilMailTemplateGenericContext extends ilMailTemplateContext
 	/**
 	 * {@inheritdoc}
 	 */
-	public function resolveSpecificPlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient, $html_markup = false)
+	public function resolveSpecificPlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient = null, $html_markup = false)
 	{
 		return '';
 	}

@@ -36,15 +36,6 @@ class ilUserSearch extends ilAbstractSearch
 {
 	private $active_check = false;
 	private $inactive_check = false;
-
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilUserSearch(&$query_parser)
-	{
-		parent::ilAbstractSearch($query_parser);
-	}
 	
 	/**
 	 * search only active accounts

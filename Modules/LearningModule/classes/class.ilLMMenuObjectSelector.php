@@ -113,20 +113,16 @@ class ilLMMenuObjectSelector extends ilExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader($a_obj_id,$a_option)
+	function formatHeader($a_tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $ilias;
+		global $lng;
 
 		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 
 		$tpl->setCurrentBlock("text");
 		$tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
 		$tpl->parseCurrentBlock();
-
-//		$tpl->setCurrentBlock("row");
-//		$tpl->parseCurrentBlock();
-
 		$this->output[] = $tpl->get();
 	}
-} // END class ilLMMenuObjectSelector
+}
 ?>

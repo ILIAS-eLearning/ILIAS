@@ -1,10 +1,9 @@
 <?php
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 require_once('./Services/Object/classes/class.ilObject2.php');
-require_once('class.ilDataCollectionTable.php');
-require_once('class.ilDataCollectionCache.php');
+require_once('class.ilDclTable.php');
+require_once('class.ilDclCache.php');
 
 /**
  * Class ilObjDataCollection
@@ -50,8 +49,8 @@ class ilObjDataCollection extends ilObject2 {
 		$ilLog->write('doCreate');
 
 		//Create Main Table - The title of the table is per default the title of the data collection object
-		require_once('./Modules/DataCollection/classes/class.ilDataCollectionTable.php');
-		$main_table = ilDataCollectionCache::getTableCache();
+		require_once('./Modules/DataCollection/classes/class.ilDclTable.php');
+		$main_table = ilDclCache::getTableCache();
 		$main_table->setObjId($this->getId());
 		$main_table->setTitle($this->getTitle());
 		$main_table->setAddPerm(1);
@@ -129,7 +128,7 @@ class ilObjDataCollection extends ilObject2 {
 		if ($dclObj->getNotification() != 1) {
 			return;
 		}
-		$obj_table = ilDataCollectionCache::getTableCache($a_table_id);
+		$obj_table = ilDclCache::getTableCache($a_table_id);
 		$obj_dcl = $obj_table->getCollectionObject();
 
 		// recipients
@@ -155,8 +154,7 @@ class ilObjDataCollection extends ilObject2 {
 		require_once('./Services/Language/classes/class.ilLanguageFactory.php');
 		require_once('./Services/User/classes/class.ilUserUtil.php');
 		require_once('./Services/User/classes/class.ilUserUtil.php');
-		require_once('./Modules/DataCollection/classes/class.ilDataCollectionTable.php');
-
+		require_once('./Modules/DataCollection/classes/class.ilDclTable.php');
 		foreach (array_unique($users) as $idx => $user_id) {
 			// the user responsible for the action should not be notified
 			// FIXME  $_GET['ref_id]
@@ -174,7 +172,7 @@ class ilObjDataCollection extends ilObject2 {
 				$message .= $ulng->txt('dcl_record') . ":\n";
 				$message .= "------------------------------------\n";
 				if ($a_record_id) {
-					$record = ilDataCollectionCache::getRecordCache($a_record_id);
+					$record = ilDclCache::getRecordCache($a_record_id);
 					if (! $record->getTableId()) {
 						$record->setTableId($a_table_id);
 					}
@@ -229,7 +227,7 @@ class ilObjDataCollection extends ilObject2 {
 	 *
 	 * @return ilObjPoll
 	 */
-	public function doCloneObject(ilObjDataCollection $new_obj, $a_target_id, $a_copy_id = 0) {
+	public function doCloneObject($new_obj, $a_target_id, $a_copy_id = NULL) {
 
 		//copy online status if object is not the root copy object
 		$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -295,7 +293,7 @@ class ilObjDataCollection extends ilObject2 {
 
 		// add new tables.
 		foreach ($original->getTables() as $table) {
-			$new_table = new ilDataCollectionTable();
+			$new_table = new ilDclTable();
 			$new_table->setObjId($this->getId());
 			$new_table->cloneStructure($table);
 
@@ -310,20 +308,20 @@ class ilObjDataCollection extends ilObject2 {
 		// Set new field-ID of referenced fields
 		foreach ($original->getTables() as $origTable) {
 			foreach ($origTable->getRecordFields() as $origField) {
-				if ($origField->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) {
+				if ($origField->getDatatypeId() == ilDclDatatype::INPUTFORMAT_REFERENCE) {
 					$newRefId = NULL;
-					$origFieldRefObj = ilDataCollectionCache::getFieldCache($origField->getFieldRef());
-					$origRefTable = ilDataCollectionCache::getTableCache($origFieldRefObj->getTableId());
+					$origFieldRefObj = ilDclCache::getFieldCache($origField->getFieldRef());
+					$origRefTable = ilDclCache::getTableCache($origFieldRefObj->getTableId());
 					// Lookup the new ID of the referenced field in the actual DC
-					$tableId = ilDataCollectionTable::_getTableIdByTitle($origRefTable->getTitle(), $this->getId());
-					$fieldId = ilDataCollectionField::_getFieldIdByTitle($origFieldRefObj->getTitle(), $tableId);
-					$field = ilDataCollectionCache::getFieldCache($fieldId);
+					$tableId = ilDclTable::_getTableIdByTitle($origRefTable->getTitle(), $this->getId());
+					$fieldId = ilDclBaseFieldModel::_getFieldIdByTitle($origFieldRefObj->getTitle(), $tableId);
+					$field = ilDclCache::getFieldCache($fieldId);
 					$newRefId = $field->getId();
 					// Set the new refID in the actual DC
-					$tableId = ilDataCollectionTable::_getTableIdByTitle($origTable->getTitle(), $this->getId());
-					$fieldId = ilDataCollectionField::_getFieldIdByTitle($origField->getTitle(), $tableId);
-					$field = ilDataCollectionCache::getFieldCache($fieldId);
-					$field->setPropertyvalue($newRefId, ilDataCollectionField::PROPERTYID_REFERENCE);
+					$tableId = ilDclTable::_getTableIdByTitle($origTable->getTitle(), $this->getId());
+					$fieldId = ilDclBaseFieldModel::_getFieldIdByTitle($origField->getTitle(), $tableId);
+					$field = ilDclCache::getFieldCache($fieldId);
+					$field->setPropertyvalue($newRefId, ilDclBaseFieldModel::PROPERTYID_REFERENCE);
 					$field->doUpdate();
 				}
 			}
@@ -434,7 +432,7 @@ class ilObjDataCollection extends ilObject2 {
 
 
 	/**
-	 * @return ilDataCollectionTable[] Returns an array of tables of this collection with ids of the tables as keys.
+	 * @return ilDclTable[] Returns an array of tables of this collection with ids of the tables as keys.
 	 */
 	public function getTables() {
 		global $ilDB;
@@ -444,12 +442,15 @@ class ilObjDataCollection extends ilObject2 {
 		$tables = array();
 
 		while ($rec = $ilDB->fetchAssoc($set)) {
-			$tables[$rec['id']] = ilDataCollectionCache::getTableCache($rec['id']);
+			$tables[$rec['id']] = ilDclCache::getTableCache($rec['id']);
 		}
 
 		return $tables;
 	}
 
+	public function getTableById($table_id) {
+		return ilDclCache::getTableCache($table_id);
+	}
 
 	/**
 	 * @return array

@@ -24,14 +24,14 @@ class ilSAHSPresentationGUI
 	var $tpl;
 	var $lng;
 
-	function ilSAHSPresentationGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ctrl =& $ilCtrl;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
 		
 		$this->ctrl->saveParameter($this, "ref_id");
 	}
@@ -71,7 +71,7 @@ class ilSAHSPresentationGUI
 		{
 			require_once "./Modules/ScormAicc/classes/SCORM/class.ilSCORMPresentationGUI.php";
 			$scorm_gui = new ilSCORMPresentationGUI();
-			$ret =& $this->ctrl->forwardCommand($scorm_gui);
+			$ret = $this->ctrl->forwardCommand($scorm_gui);
 		}
 		
 		if (substr($cmd,0,11) == "offlineMode" || $this->offline_mode) $next_class = "ilscormofflinemodegui";
@@ -135,31 +135,31 @@ class ilSAHSPresentationGUI
 		switch($next_class)
 		{
 			case "ilinfoscreengui":
-				$ret =& $this->outputInfoScreen();
+				$ret = $this->outputInfoScreen();
 				break;
 
 			case "ilscorm13player":
 				require_once "./Modules/Scorm2004/classes/ilSCORM13Player.php";
 				$scorm_gui = new ilSCORM13Player();
-				$ret =& $this->ctrl->forwardCommand($scorm_gui);
+				$ret = $this->ctrl->forwardCommand($scorm_gui);
 				break;	
 				
 			case "ilscormpresentationgui":
 				require_once "./Modules/ScormAicc/classes/SCORM/class.ilSCORMPresentationGUI.php";
 				$scorm_gui = new ilSCORMPresentationGUI();
-				$ret =& $this->ctrl->forwardCommand($scorm_gui);
+				$ret = $this->ctrl->forwardCommand($scorm_gui);
 				break;
 
 			case "ilaiccpresentationgui":
 				require_once "./Modules/ScormAicc/classes/AICC/class.ilAICCPresentationGUI.php";
 				$aicc_gui = new ilAICCPresentationGUI();
-				$ret =& $this->ctrl->forwardCommand($aicc_gui);
+				$ret = $this->ctrl->forwardCommand($aicc_gui);
 				break;
 
 			case "ilhacppresentationgui":
 				require_once "./Modules/ScormAicc/classes/HACP/class.ilHACPPresentationGUI.php";
 				$hacp_gui = new ilHACPPresentationGUI();
-				$ret =& $this->ctrl->forwardCommand($hacp_gui);
+				$ret = $this->ctrl->forwardCommand($hacp_gui);
 				break;
 			
 			case "illearningprogressgui":
@@ -285,7 +285,7 @@ class ilSAHSPresentationGUI
 
 	function view()
 	{
-		$sc_gui_object =& ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
+		$sc_gui_object = ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
 
 		if(is_object($sc_gui_object))
 		{

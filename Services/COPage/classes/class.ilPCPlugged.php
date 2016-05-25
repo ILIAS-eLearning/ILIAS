@@ -32,7 +32,7 @@ class ilPCPlugged extends ilPageContent
 	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->plug_node =& $a_node->first_child();		// this is the Plugged node
+		$this->plug_node = $a_node->first_child();		// this is the Plugged node
 	}
 
 	/**
@@ -46,8 +46,8 @@ class ilPCPlugged extends ilPageContent
 	{
 		$this->node = $this->createPageContentNode();
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-		$this->plug_node =& $this->dom->create_element("Plugged");
-		$this->plug_node =& $this->node->append_child($this->plug_node);
+		$this->plug_node = $this->dom->create_element("Plugged");
+		$this->plug_node = $this->node->append_child($this->plug_node);
 		$this->plug_node->set_attribute("PluginName", $a_plugin_name);
 		$this->plug_node->set_attribute("PluginVersion", $a_plugin_version);
 	}

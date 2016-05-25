@@ -42,6 +42,7 @@
 	invalid CDATA #IMPLIED
 	disableValidation CDATA #IMPLIED
 	position CDATA #IMPLIED
+	internal CDATA #IMPLIED
 >
 
 <!-- 

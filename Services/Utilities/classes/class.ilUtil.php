@@ -85,7 +85,7 @@ class ilUtil
 		$default_img = ".".$module_path."/templates/default/images/".$img;
 
 		// use ilStyleDefinition instead of account to get the current skin and style
-		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 		$current_skin = ilStyleDefinition::getCurrentSkin();
 		$current_style = ilStyleDefinition::getCurrentStyle();
 		
@@ -179,7 +179,7 @@ class ilUtil
 		
 		// add version as parameter to force reload for new releases
 		// use ilStyleDefinition instead of account to get the current style
-		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 		$stylesheet_name = (strlen($a_css_name))
 			? $a_css_name
 			: ilStyleDefinition::getCurrentStyle().".css";
@@ -190,7 +190,7 @@ class ilUtil
 
 		$filename = "";
 		// use ilStyleDefinition instead of account to get the current skin
-		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 		if (ilStyleDefinition::getCurrentSkin() != "default")
 		{
 			$filename = "./Customizing/global/skin/".ilStyleDefinition::getCurrentSkin()."/".$a_css_location.$stylesheet_name;
@@ -228,7 +228,7 @@ class ilUtil
 
 		$filename = "";
 		// use ilStyleDefinition instead of account to get the current skin
-		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 		if (ilStyleDefinition::getCurrentSkin() != "default")
 		{
 			$filename = "./Customizing/global/skin/".ilStyleDefinition::getCurrentSkin()."/".$a_js_location.$js_name;
@@ -299,7 +299,7 @@ class ilUtil
 		}
 
 		// use ilStyleDefinition instead of account to get the current skin and style
-		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 		if (ilStyleDefinition::getCurrentSkin() == "default")
 		{
 			$in_style = "./templates/".ilStyleDefinition::getCurrentSkin()."/"
@@ -1127,27 +1127,21 @@ class ilUtil
 	*/
 	public static function is_email($a_email)
 	{
-		// BEGIN Mail: If possible, use PearMail to validate e-mail address
 		global $ilErr;
 
 		// additional check for ilias object is needed,
 		// otherwise setup will fail with this if branch
 		if(is_object($ilErr)) // seems to work in Setup now
 		{
-			require_once './Services/Mail/classes/RFC822.php';
-			$parser = new Mail_RFC822();
-			PEAR::setErrorHandling(PEAR_ERROR_RETURN);		
-			$addresses = $parser->parseAddressList($a_email, 'ilias', false, true);
-			if(!is_a($addresses, 'PEAR_Error') &&
-				count($addresses) == 1 && $addresses[0]->host != 'ilias'
-			)
+			try
 			{
-				PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
-				return true;
+				require_once 'Services/Mail/classes/Address/Parser/class.ilMailRfc822AddressParserFactory.php';
+				$parser    = ilMailRfc822AddressParserFactory::getParser($a_email);
+				$addresses = $parser->parse();
+				return count($addresses) == 1 && $addresses[0]->getHost() != ilMail::ILIAS_HOST;
 			}
-			else			
+			catch(ilException $e)
 			{
-				PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 				return false;
 			}
 		}
@@ -1166,7 +1160,6 @@ class ilUtil
 			
 			return(preg_match("/^[-_.[:alnum:]]+@((([[:alnum:]]|[[:alnum:]][[:alnum:]-]*[[:alnum:]])\.)+(".$tlds.")|(([0-9][0-9]?|[0-1][0-9][0-9]|[2][0-4][0-9]|[2][5][0-5])\.){3}([0-9][0-9]?|[0-1][0-9][0-9]|[2][0-4][0-9]|[2][5][0-5]))$/i",$a_email));
 		}
-		// END Mail: If possible, use PearMail to validate e-mail address
 	}
 
 	/**
@@ -2090,52 +2083,6 @@ class ilUtil
 		$img.= ' border="'.(int) $a_border.'"/>';
 
 		return $img;
-	}
-
-	/**
-	*	produce pdf out of html with htmldoc
-	*   @param  html    String  HTML-Data given to create pdf-file
-	*   @param  pdf_file    String  Filename to save pdf in
-	*   @static
-	*   
-	*/
-	public static function html2pdf($html, $pdf_file)
-	{
-		$html_file = str_replace(".pdf",".html",$pdf_file);
-
-		$fp = fopen( $html_file ,"wb");
-		fwrite($fp, $html);
-		fclose($fp);
-
-		ilUtil::htmlfile2pdf($html_file,$pdf_file);
-	}
-
-	/**
-	*	produce pdf out of html with htmldoc
-	*   @param  html    String  HTML-Data given to create pdf-file
-	*   @param  pdf_file    String  Filename to save pdf in
-	* @static
-	*/
-	public static function htmlfile2pdf($html_file, $pdf_file)
-	{
-		$htmldoc_path = PATH_TO_HTMLDOC;
-
-		$htmldoc = "--no-toc ";
-		$htmldoc .= "--no-jpeg ";
-		$htmldoc .= "--webpage ";
-		$htmldoc .= "--outfile " . ilUtil::escapeShellArg($pdf_file) . " ";
-		$htmldoc .= "--bodyfont Arial ";
-		$htmldoc .= "--charset iso-8859-15 ";
-		$htmldoc .= "--color ";
-		$htmldoc .= "--size A4  ";      // --landscape
-		$htmldoc .= "--format pdf ";
-		$htmldoc .= "--footer ... ";
-		$htmldoc .= "--header ... ";
-		$htmldoc .= "--left 60 ";
-		// $htmldoc .= "--right 200 ";
-		$htmldoc .= $html_file;
-		ilUtil::execQuoted($htmldoc_path, $htmldoc);
-
 	}
 
 	/**
@@ -4649,96 +4596,58 @@ class ilUtil
 	}
 
 	/**
-	* Return an array of date segments.
+	* Return a string of time period
 	*
-	* @param	  int $seconds Number of seconds to be parsed
-	* @return	 mixed An array containing named segments
-	* @static
-	* 
-	*/
-	public static function int2array ($seconds, $periods = null)
-	{
-		// Define time periods
-		if (!is_array($periods))
-		{
-			$periods = array (
-			'years'	=> 31536000,
-			'months' => 2592000,
-			'days'	=> 86400,
-			'hours'	=> 3600,
-			'minutes' => 60,
-			'seconds' => 1
-			);
-		}
-
-		// Loop
-		$seconds = (float) $seconds;
-		foreach ($periods as $period => $value)
-		{
-			$count = floor($seconds / $value);
-
-			if ($count == 0)
-			{
-				continue;
-			}
-
-			$values[$period] = $count;
-			$seconds = $seconds % $value;
-		}
-		// Return
-		if (empty($values))
-		{
-			$values = null;
-		}
-
-		return $values;
-	}
-
-	/**
-	* Return a string of time periods.
-	*
-	* @param	  mixed $duration An array of named segments
+	* @param	  ilDateTime $a_from
+	* @param	  ilDateTime $a_to 
 	* @return	 string
 	* @static
 	* 
 	*/
-	public static function timearray2string ($duration)
+	public static function period2String(ilDateTime $a_from, $a_to = null)
 	{
 		global $lng;
-
-		if (!is_array($duration))
+		
+		if (!$a_to)
 		{
-			return false;
+			$a_to = new ilDateTime(time(), IL_CAL_UNIX);
+		}
+		
+		$from = new DateTime($a_from->get(IL_CAL_DATETIME));
+		$to = new DateTime($a_to->get(IL_CAL_DATETIME));
+		$diff = $to->diff($from);
+		
+		$periods = array();
+		$periods["years"] = $diff->format("%y");
+		$periods["months"] = $diff->format("%m");
+		$periods["days"] = $diff->format("%d");
+		$periods["hours"] = $diff->format("%h");
+		$periods["minutes"] = $diff->format("%i");
+		$periods["seconds"] = $diff->format("%s");
+
+		if (!array_sum($periods))
+		{
+			return;
 	 	}
 
-		foreach ($duration as $key => $value) {
-
-			// Plural
-			if ($value > 1)
-			{
-				$segment_name = $key;
-				$segment_name = $lng->txt($segment_name);
-				$segment = $value . ' ' . $segment_name;
-			}
-			else
-			{
-				$segment_name = substr($key, 0, -1);
-				$segment_name = $lng->txt($segment_name);
-				$segment = $value . ' ' . $segment_name;
-			}
-
-			$array[] = $segment;
-	 	}
-	 	$len = count($array);
-
-		if ($len>3)
+		foreach ($periods as $key => $value) 
 		{
-			$array=array_slice($array,0,(3-$len));
+			if($value)
+			{
+				$segment_name = ($value > 1)
+					? $key
+					: substr($key, 0, -1);								
+				$array[] = $value . ' ' . $lng->txt($segment_name);
+			}
+	 	}
+		
+	 	$len = sizeof($array);
+		if ($len > 3)
+		{
+			$array = array_slice($array, 0, (3-$len));
     	}
 
-	 	$str = implode(', ', $array);
-
-	 	return $str;
+	 	return implode(', ', $array);
 	}
 
 	public static function getFileSizeInfo()
@@ -5307,7 +5216,160 @@ class ilUtil
 		}
 
 		fclose($fp);
+	}
+	
+	
+	//
+	//  used to be in ilFormat
+	//
+	
+	/**
+	 * Returns the magnitude used for size units.
+	 *
+	 * This function always returns the value 1024. Thus the value returned
+	 * by this function is the same value that Windows and Mac OS X return for a
+	 * file. The value is a GibiBit, MebiBit, KibiBit or byte unit.
+	 *
+	 * For more information about these units see:
+	 * http://en.wikipedia.org/wiki/Megabyte
+	 *
+	 * @return <type>
+	 */
+	protected static function _getSizeMagnitude()
+	{
+		return 1024;
+	}
+	
+	/**
+	* format a float
+	* 
+	* this functions takes php's number_format function and 
+	* formats the given value with appropriate thousand and decimal
+	* separator.
+	* @access	public
+	* @param	float		the float to format
+	* @param	integer		count of decimals
+	* @param	integer		display thousands separator
+	* @param	boolean		whether .0 should be suppressed
+	* @return	string		formatted number
+	*/
+	protected static function fmtFloat($a_float, $a_decimals=0, $a_dec_point = null, $a_thousands_sep = null, $a_suppress_dot_zero=false)
+	{
+		global $lng;
 
+
+		if ($a_dec_point == null)
+		{
+			$a_dec_point = $lng->txt('lang_sep_decimal');
+			{
+				$a_dec_point = ".";
+			}
+		}
+		if ($a_dec_point == '-lang_sep_decimal-')
+		{
+			$a_dec_point = ".";
+		}
+
+		if ($a_thousands_sep == null)
+		{
+			$a_thousands_sep = $lng->txt('lang_sep_thousand');
+			{
+				$a_th = ",";
+			}
+		}
+		if ($a_thousands_sep == '-lang_sep_thousand-')
+		{
+			$a_thousands_sep = ",";
+		}
+		
+		$txt = number_format($a_float, $a_decimals, $a_dec_point, $a_thousands_sep);
+		
+		// remove trailing ".0" 
+		if (($a_suppress_dot_zero == 0 || $a_decimals == 0) &&
+			substr($txt,-2) == $a_dec_point.'0')
+		{
+			$txt = substr($txt, 0, strlen($txt) - 2);
+		}
+		if ($a_float == 0 and $txt == "")
+		{
+			$txt = "0";
+		}
+		return $txt;
+	}
+	
+	/**
+	 * Returns the specified file size value in a human friendly form.
+	 * <p>
+	 * By default, the oder of magnitude 1024 is used. Thus the value returned
+	 * by this function is the same value that Windows and Mac OS X return for a
+	 * file. The value is a GibiBig, MebiBit, KibiBit or byte unit.
+	 * <p>
+	 * For more information about these units see:
+	 * http://en.wikipedia.org/wiki/Megabyte
+	 *
+	 * @param	integer	size in bytes
+	 * @param	string	mode:
+	 *                  "short" is useful for display in the repository
+	 *                  "long" is useful for display on the info page of an object
+	 * @param	ilLanguage  The language object, or null if you want to use the system language.
+	 */
+	public static function formatSize($size, $a_mode = 'short', $a_lng = null)
+	{
+		global $lng;
+		if ($a_lng == null) {
+			$a_lng = $lng;
+		}
+
+		$result;
+		$mag = self::_getSizeMagnitude();
+
+		$scaled_size;
+		$scaled_unit;
+
+		if ($size >= $mag * $mag * $mag)
+		{
+			$scaled_size = $size/$mag/$mag/$mag;
+			$scaled_unit = 'lang_size_gb';
+		}
+		else if ($size >= $mag * $mag)
+		{
+			$scaled_size = $size/$mag/$mag;
+			$scaled_unit = 'lang_size_mb';
+		}
+		else if ($size >= $mag)
+		{
+			$scaled_size = $size/$mag;
+			$scaled_unit = 'lang_size_kb';
+		}
+		else
+		{
+			$scaled_size = $size;
+			$scaled_unit = 'lang_size_bytes';
+		}
+
+		$result = self::fmtFloat($scaled_size,($scaled_unit == 'lang_size_bytes') ? 0:1, $a_lng->txt('lang_sep_decimal'), $a_lng->txt('lang_sep_thousand'), true).' '.$a_lng->txt($scaled_unit);
+		if ($a_mode == 'long' && $size > $mag)
+		{
+			$result .= ' ('.
+				self::fmtFloat($size,0,$a_lng->txt('lang_sep_decimal'),$a_lng->txt('lang_sep_thousand')).
+				' '.$a_lng->txt('lang_size_bytes').')';
+		}
+		return $result;
+	}
+	
+	
+	// 
+	// used for disk quotas
+	// 
+	
+	public static function MB2Bytes($a_value)
+	{
+		return  $a_value * pow(self::_getSizeMagnitude(), 2);
+	}
+	
+	public static function Bytes2MB($a_value)
+	{
+		return  $a_value / (pow(self::_getSizeMagnitude(), 2));
 	}
 
 

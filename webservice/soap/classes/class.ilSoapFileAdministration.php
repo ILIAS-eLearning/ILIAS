@@ -34,10 +34,6 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapFileAdministration extends ilSoapAdministration
 {
-	function ilSoapFileAdministration()
-	{
-		parent::ilSoapAdministration();
-	}
 
     /**
      * add an File with id.

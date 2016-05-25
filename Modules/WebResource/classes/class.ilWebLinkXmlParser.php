@@ -190,6 +190,12 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 				
 				// Disable check
 				$this->current_link->setDisableCheckStatus($a_attribs['disableValidation'] ? 1 : 0);
+				
+				// internal
+				if(isset($a_attribs['internal']))
+				{
+					$this->current_link->setInternal($a_attribs['internal']);
+				}				
 				break;
 
 

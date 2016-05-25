@@ -24,7 +24,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 		$this->db = $ilDB;
 	}
 
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{
 		global $ilDB;
 
@@ -44,7 +44,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 		return $user_ids ? $user_ids : array();
 	}
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{
 		global $ilDB;
 
@@ -65,7 +65,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
 		return $user_ids ? $user_ids : array();
 	}
 
-	function _getStatusInfo($a_obj_id)
+	static function _getStatusInfo($a_obj_id)
 	{		
 		$status_info['tlt'] = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
 

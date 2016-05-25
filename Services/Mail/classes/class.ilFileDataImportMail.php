@@ -161,7 +161,8 @@ class ilFileDataImportMail extends ilFileDataImport
 				'name'			=> $file,
 				'abs_path'		=> $a_dir."/".$file,
 				'size'			=> filesize($a_dir."/".$file),
-				'ctime'			=> ilFormat::formatDate(date('Y-m-d H:i:s',filectime($a_dir.'/'.$file))));
+				'ctime'			=> filectime($a_dir.'/'.$file)
+			);
 		}
 		closedir($dp);
 

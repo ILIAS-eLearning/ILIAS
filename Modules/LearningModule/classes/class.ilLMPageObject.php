@@ -63,7 +63,7 @@ class ilLMPageObject extends ilLMObject
 		$ilBench->stop("ContentPresentation", "ilLMPageObject_Constructor");
 	}
 
-	function _ilLMPageObject()
+	function __desctruct()
 	{
 		if(is_object($this->page_object))
 		{
@@ -182,10 +182,10 @@ class ilLMPageObject extends ilLMObject
 		// copy meta data
 		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
-		$new_md =& $md->cloneMD($a_cont_obj->getId(), $lm_page->getId(), $this->getType());
+		$new_md = $md->cloneMD($a_cont_obj->getId(), $lm_page->getId(), $this->getType());
 
 		// copy page content
-		$page =& $lm_page->getPageObject();
+		$page = $lm_page->getPageObject();
 		$page->setXMLContent($this->page_object->getXMLContent());
 		$page->buildDom();
 		$page->update();
@@ -296,14 +296,14 @@ class ilLMPageObject extends ilLMObject
 		$tree->setTreeTablePK("lm_id");
 
 		$source_lm_page = new ilLMPageObject($cont_obj, $a_page_id);
-		$source_page =& $source_lm_page->getPageObject();
+		$source_page = $source_lm_page->getPageObject();
 		
 		// get next page
 		$succ = $tree->fetchSuccessorNode($a_page_id, "pg");
 		if ($succ["child"] > 0)
 		{
 			$target_lm_page = new ilLMPageObject($cont_obj, $succ["child"]);
-			$target_page =& $target_lm_page->getPageObject();
+			$target_page = $target_lm_page->getPageObject();
 			$target_page->buildDom();
 			$target_page->addHierIds();
 			
@@ -326,7 +326,7 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function assignPageObject(&$a_page_obj)
 	{
-		$this->page_object =& $a_page_obj;
+		$this->page_object = $a_page_obj;
 	}
 
 	
@@ -390,7 +390,7 @@ class ilLMPageObject extends ilLMObject
 	/**
 	* Get all pages of lm that contain any internal links
 	*/
-	function getPagesWithLinksList($a_lm_id, $a_par_type)
+	static function getPagesWithLinksList($a_lm_id, $a_par_type)
 	{
 		$pages = ilLMPageObject::getPageList($a_lm_id);
 		$ids = array();

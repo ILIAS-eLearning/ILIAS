@@ -52,7 +52,7 @@ class ilAwarenessUserProviderCurrentCourse extends ilAwarenessUserProvider
 	 */
 	function getInitialUserSet()
 	{
-		global $ilDB, $tree;
+		global $ilDB, $tree, $ilAccess;
 
 		$ub = array();
 
@@ -65,7 +65,10 @@ class ilAwarenessUserProviderCurrentCourse extends ilAwarenessUserProvider
 			{
 				foreach ($path as $p)
 				{
-					if ($p["type"] == "crs")
+					include_once("./Modules/Course/classes/class.ilObjCourse.php");
+					if ($p["type"] == "crs" &&
+						($ilAccess->checkAccess("write", "", $p["child"]) ||
+							(ilObjCourse::lookupShowMembersEnabled($p["obj_id"]) && $ilAccess->checkAccess("read", "", $p["child"]))))
 					{
 						$set = $ilDB->query($q = "SELECT DISTINCT usr_id FROM obj_members ".
 							" WHERE obj_id = ".$ilDB->quote($p["obj_id"], "integer"));

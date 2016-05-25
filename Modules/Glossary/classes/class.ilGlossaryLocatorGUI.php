@@ -20,15 +20,15 @@ class ilGlossaryLocatorGUI
 	var $tpl;
 
 
-	function ilGlossaryLocatorGUI()
+	function __construct()
 	{
 		global $lng, $tpl, $tree;
 
 		$this->mode = "edit";
 		$this->temp_var = "LOCATOR";
-		$this->lng =& $lng;
-		$this->tpl =& $tpl;
-		$this->tree =& $tree;
+		$this->lng = $lng;
+		$this->tpl = $tpl;
+		$this->tree = $tree;
 	}
 
 	function setTemplateVariable($a_temp_var)
@@ -38,17 +38,17 @@ class ilGlossaryLocatorGUI
 
 	function setTerm(&$a_term)
 	{
-		$this->term =& $a_term;
+		$this->term = $a_term;
 	}
 
 	function setGlossary(&$a_glossary)
 	{
-		$this->glossary =& $a_glossary;
+		$this->glossary = $a_glossary;
 	}
 
 	function setDefinition(&$a_def)
 	{
-		$this->definition =& $a_def;
+		$this->definition = $a_def;
 	}
 
 	function setMode($a_mode)

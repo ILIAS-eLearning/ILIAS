@@ -107,7 +107,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			case "ilcolumngui":
 				$this->checkPermission("read");
 				$this->prepareOutput();
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 				$this->renderObject();
@@ -240,7 +240,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				}
 
 				$this->prepareOutput();
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				if (is_object($this->object))
 				{
 					$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -315,8 +315,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$mdgui = new ilObjectMetaDataGUI($this->object);					
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
-			{			
-				$tabs_gui->addTab("meta_data",
+			{
+				$this->tabs_gui->addTab("meta_data",
 					$this->lng->txt("meta_data"),
 					$mdtab);
 			}	
@@ -394,7 +394,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		// inherit parents content style, if not individual
 		$parent_ref_id = $tree->getParentId($a_new_object->getRefId());
 		$parent_id = ilObject::_lookupObjId($parent_ref_id);
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = ilObjStyleSheet::lookupObjectStyle($parent_id);
 		if ($style_id > 0)
 		{

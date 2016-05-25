@@ -42,14 +42,14 @@ class ilSCORMOrganizations extends ilSCORMObject
 	* @param	int		$a_id		Object ID
 	* @access	public
 	*/
-	function ilSCORMOrganizations($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		global $lng;
 
 		// title should be overrriden by ilSCORMExplorer
 		$this->setTitle($lng->txt("cont_organizations"));
 
-		parent::ilSCORMObject($a_id);
+		parent::__construct($a_id);
 		$this->setType("sos");
 	}
 

@@ -34,7 +34,7 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 class ilWikiSearchResultsTableGUI extends ilTable2GUI
 {
 
-	function ilWikiSearchResultsTableGUI($a_parent_obj, $a_parent_cmd = "",
+	function __construct($a_parent_obj, $a_parent_cmd = "",
 		$a_wiki_id, $a_results, $a_term)
 	{
 		global $ilCtrl, $lng;

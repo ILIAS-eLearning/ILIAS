@@ -34,7 +34,7 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 class ilSCORM2004TrackingTableGUI extends ilTable2GUI
 {
 
-	function ilSCORM2004TrackingTableGUI($a_parent_obj, $a_parent_cmd = "")
+	function __construct($a_parent_obj, $a_parent_cmd = "")
 	{
 		global $ilCtrl, $lng;
 		

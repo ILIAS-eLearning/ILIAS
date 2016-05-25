@@ -36,15 +36,6 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilGlossaryDefinitionSearch extends ilAbstractSearch
 {
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilGlossaryDefinitionSearch(&$query_parser)
-	{
-		parent::ilAbstractSearch($query_parser);
-	}
-
 	function &performSearch()
 	{
 		// Search in glossary term

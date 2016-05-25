@@ -40,7 +40,7 @@ class ilSearch
 	* Constructor
 	* @access	public
 	*/
-	function ilSearch($a_user_id = 0,$a_read = false)
+	function __construct($a_user_id = 0,$a_read = false)
 	{
 		global $ilias,$rbacsystem,$lng;
 		

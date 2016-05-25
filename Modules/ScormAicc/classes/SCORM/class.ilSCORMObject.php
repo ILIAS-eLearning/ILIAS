@@ -44,11 +44,11 @@ class ilSCORMObject
 	* @param	int		$a_id		Object ID
 	* @access	public
 	*/
-	function ilSCORMObject($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		global $ilias;
 
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		$this->id = $a_id;
 		if ($a_id > 0)
 		{
@@ -111,7 +111,7 @@ class ilSCORMObject
 	/**
 	* Count number of presentable SCOs/Assets of SCORM learning module. 
 	*/
-	function _lookupPresentableItems($a_slm_id)
+	static function _lookupPresentableItems($a_slm_id)
 	{
 		global $ilDB;
 		

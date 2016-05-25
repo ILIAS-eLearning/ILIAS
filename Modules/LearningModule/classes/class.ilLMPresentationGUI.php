@@ -3,7 +3,7 @@
 
 require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 require_once("./Services/MainMenu/classes/class.ilMainMenuGUI.php");
-require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 
 /**
 * Class ilLMPresentationGUI
@@ -1710,7 +1710,7 @@ class ilLMPresentationGUI
 	 */
 	function basicPageGuiInit($a_page_gui)
 	{
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$a_page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->lm->getStyleSheetId(), "lm"));
 		if (!$this->offlineMode())
@@ -3208,7 +3208,7 @@ class ilLMPresentationGUI
 			if (ilLMObject::_exists($this->lm->getFooterPage()))
 			{
 				$page_object_gui = $this->getLMPageGUI($this->lm->getFooterPage());
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->lm->getStyleSheetId(), "lm"));
 
@@ -3228,7 +3228,7 @@ class ilLMPresentationGUI
 			if (ilLMObject::_exists($this->lm->getHeaderPage()))
 			{
 				$page_object_gui = $this->getLMPageGUI($this->lm->getHeaderPage());
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->lm->getStyleSheetId(), "lm"));
 
@@ -3353,7 +3353,7 @@ class ilLMPresentationGUI
 					$page_id = $node["obj_id"];
 					$page_object_gui = $this->getLMPageGUI($page_id);
 					$page_object = $page_object_gui->getPageObject();
-					include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+					include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 					$page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 						$this->lm->getStyleSheetId(), "lm"));
 
@@ -3873,13 +3873,11 @@ class ilLMPresentationGUI
 				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 
-				include_once("./Services/Utilities/classes/class.ilFormat.php");
-				$this->tpl->setVariable("TXT_SIZE", ilFormat::formatSize($exp_file["size"]));
+				$this->tpl->setVariable("TXT_SIZE", ilUtil::formatSize($exp_file["size"]));
 				$this->tpl->setVariable("TXT_FORMAT", strtoupper($exp_file["type"]));
 				$this->tpl->setVariable("CHECKBOX_ID", $exp_file["type"].":".$exp_file["file"]);
 
 				$file_arr = explode("__", $exp_file["file"]);
-				include_once("./Services/Calendar/classes/class.ilDatePresentation.php");
 				ilDatePresentation::setUseRelativeDates(false);
 				$this->tpl->setVariable("TXT_DATE", ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)));
 

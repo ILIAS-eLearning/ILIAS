@@ -14,7 +14,7 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
 
 class ilLPStatusCollectionTLT extends ilLPStatus
 {
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{		
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		
@@ -33,7 +33,7 @@ class ilLPStatusCollectionTLT extends ilLPStatus
 		return $users;
 	}
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{		
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
@@ -57,7 +57,7 @@ class ilLPStatusCollectionTLT extends ilLPStatus
 		return $users;
 	}
 	
-	function _getStatusInfo($a_obj_id, $a_include_tlt_data = false)
+	static function _getStatusInfo($a_obj_id, $a_include_tlt_data = false)
 	{
 		global $ilDB;
 		

@@ -364,12 +364,12 @@ class ilNote
 	/**
 	* lookup creation date of note
 	*/
-	function _lookupCreationDate($a_id)
+	static function _lookupCreationDate($a_id)
 	{
 		global $ilDB;
 		
 		$q = "SELECT * FROM note WHERE id = ".
-			$ilDB->quote((int) $this->getId(), "integer");
+			$ilDB->quote((int) $a_id, "integer");
 		$set = $ilDB->query($q);
 		$note_rec = $ilDB->fetchAssoc($set);
 
@@ -379,12 +379,12 @@ class ilNote
 	/**
 	* lookup update date of note
 	*/
-	function _lookupUpdateDate($a_id)
+	static function _lookupUpdateDate($a_id)
 	{
 		global $ilDB;
 		
 		$q = "SELECT * FROM note WHERE id = ".
-			$ilDB->quote((int) $this->getId(), "integer");
+			$ilDB->quote((int) $a_id, "integer");
 		$set = $ilDB->query($q);
 		$note_rec = $ilDB->fetchAssoc($set);
 

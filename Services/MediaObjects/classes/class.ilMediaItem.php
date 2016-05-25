@@ -505,7 +505,7 @@ class ilMediaItem
 
 	function addMapArea(&$a_map_area)
 	{
-		$this->mapareas[$this->map_cnt] =& $a_map_area;
+		$this->mapareas[$this->map_cnt] = $a_map_area;
 		$this->map_cnt++;
 	}
 
@@ -518,7 +518,7 @@ class ilMediaItem
 		{
 			if($i > $nr)
 			{
-				$this->mapareas[$i-2] =& $this->mapareas[$i-1];
+				$this->mapareas[$i-2] = $this->mapareas[$i-1];
 				$this->mapareas[$i-2]->setNr($i-1);
 			}
 		}
@@ -929,7 +929,7 @@ class ilMediaItem
 					($a_area_nr == 0)
 				)
 			{
-				$area =& $this->mapareas[$i];
+				$area = $this->mapareas[$i];
 				$area->draw($this->getMapWorkImage(), $this->color1, $this->color2, true,
 					$x_ratio, $y_ratio);
 			}
@@ -1071,7 +1071,7 @@ class ilMediaItem
 		// build xml of map areas
 		for ($i=0; $i < count($this->mapareas); $i++)
 		{
-			$area =& $this->mapareas[$i];
+			$area = $this->mapareas[$i];
 			
 			// highlight mode
 			$hm = "";

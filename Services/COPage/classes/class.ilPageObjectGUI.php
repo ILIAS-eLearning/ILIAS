@@ -120,7 +120,7 @@ class ilPageObjectGUI
 		$this->output2template = true;
 		$this->question_xml = "";
 		$this->question_html = "";
-		$this->tabs_gui =& $ilTabs;
+		$this->tabs_gui = $ilTabs;
 
 		$this->template_output_var = "PAGE_CONTENT";
 		$this->citation = false;
@@ -453,7 +453,7 @@ class ilPageObjectGUI
 
 	function setLocator(&$a_locator)
 	{
-		$this->locator =& $a_locator;
+		$this->locator = $a_locator;
 	}
 
 	function setTabs($a_tabs)
@@ -563,7 +563,7 @@ class ilPageObjectGUI
 
 	function setActivationListener(&$a_obj, $a_meth)
 	{
-		$this->act_obj =& $a_obj;
+		$this->act_obj = $a_obj;
 		$this->act_meth = $a_meth;
 	}
 
@@ -950,8 +950,8 @@ return;
 				//$this->ctrl->setReturn($this, "view");
 				$clip_gui = new ilEditClipboardGUI();
 				$clip_gui->setPageBackTitle($this->page_back_title);
-				//$ret =& $clip_gui->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($clip_gui);
+				//$ret = $clip_gui->executeCommand();
+				$ret = $this->ctrl->forwardCommand($clip_gui);
 				break;
 				
 			// notes
@@ -983,7 +983,7 @@ return;
 				$page_editor->setPageBackTitle($this->page_back_title);
 				$page_editor->setIntLinkReturn($this->int_link_return);
 				//$page_editor->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($page_editor);
+				$ret = $this->ctrl->forwardCommand($page_editor);
 				break;
 
 			case 'ilnewsitemgui':
@@ -1228,7 +1228,7 @@ return;
 					ilModalGUI::initJS();
 					$lng->toJS("cont_error");
 
-					include_once './Services/Style/classes/class.ilObjStyleSheet.php';
+					include_once './Services/Style/Content/classes/class.ilObjStyleSheet.php';
 					$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
 						preloader.src = './templates/default/images/loader.svg';
 						ilCOPage.setUser('".$ilUser->getLogin()."');
@@ -1564,7 +1564,7 @@ return;
 		{
 			if (ilObject::_lookupType($this->getStyleId()) == "sty")
 			{
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$style = new ilObjStyleSheet($this->getStyleId());
 				$template_xml = $style->getTemplateXML();
 				$disable_auto_margins = "n";
@@ -2639,9 +2639,14 @@ return;
 			{
 				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
 
-				if (($param[2] <= 0 || $param[2] == IL_INST_ID) && ilMediaPoolPage::_exists($param[1]))
+				$snippet_lang = $this->getLanguage();
+				if (!ilPageObject::_exists("mep", $param[1], $snippet_lang))
 				{
-					$page_gui = new ilMediaPoolPageGUI($param[1], 0, true, $this->getLanguage());
+					$snippet_lang = "-";
+				}
+				if (($param[2] <= 0 || $param[2] == IL_INST_ID) && ilPageObject::_exists("mep", $param[1]))
+				{
+					$page_gui = new ilMediaPoolPageGUI($param[1], 0, true, $snippet_lang);
 					if ($this->getOutputMode() != "offline")
 					{
 						$page_gui->setFileDownloadLink($this->determineFileDownloadLink());

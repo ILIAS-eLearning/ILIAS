@@ -290,6 +290,87 @@ class ilDatePresentation
 		
 		return ilDateTime::_equals(self::$tomorrow,$date,IL_CAL_DAY,$ilUser->getTimeZone());
 	}
+	
+	/**
+	 * converts seconds to string:
+	 * Long: 7 days 4 hour(s) ...
+	 *
+	 * @param int $seconds seconds
+	 * @param bool $force_with_seconds
+	 * @param ilLanguage $a_lng
+	 * @return string
+	 */
+	public static function secondsToString($seconds, $force_with_seconds = false, $a_lng = null)
+	{
+		global $lng;
 
+		if($a_lng)
+		{
+			$lng = $a_lng;
+		}
+
+		$seconds = $seconds ? $seconds : 0;
+		
+		// #13625
+		if($seconds > 0)
+		{
+			$days = floor($seconds / 86400);
+			$rest = $seconds % 86400;
+
+			$hours = floor($rest / 3600);
+			$rest = $rest % 3600;
+
+			$minutes = floor($rest / 60);
+			$seconds = $rest % 60;
+		}
+		else
+		{
+			$days = ceil($seconds / 86400);
+			$rest = $seconds % 86400;
+
+			$hours = ceil($rest / 3600);
+			$rest = $rest % 3600;
+
+			$minutes = ceil($rest / 60);
+			$seconds = $rest % 60;
+		}
+
+		if($days)
+		{
+			$message = $days . ' '. ($days == 1 ? $lng->txt('day') : $lng->txt('days'));
+		}
+		if($hours)
+		{
+			if($message)
+			{
+				$message .= ' ';
+			}
+			$message .= ($hours . ' '. ($hours == 1 ? $lng->txt('hour') : $lng->txt('hours')));
+		}
+		if($minutes)
+		{
+			if($message)
+			{
+				$message .= ' ';
+			}
+			$message .= ($minutes . ' '. ($minutes == 1 ? $lng->txt('minute') : $lng->txt('minutes')));
+		}
+		if($force_with_seconds && $seconds)
+		{
+			if($message)
+			{
+				$message .= ' ';
+			}
+			$message .= ($seconds . ' '. ($seconds == 1 ? $lng->txt('second') : $lng->txt('seconds')));
+		}
+		if(!$days and !$hours and !$minutes)
+		{
+			return $seconds .' '. ($seconds == 1 ? $lng->txt('second') : $lng->txt('seconds'));
+		}
+		else
+		{
+			return $message;
+		}
+	}
 }
 ?>

@@ -377,6 +377,31 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	}
 
 	/**
+	 * @param $feature
+	 * @return bool
+	 */
+	public function supports($feature) {
+		switch ($feature) {
+			case 'transaction':
+				return $this->supportsTransactions();
+			case 'fulltext':
+				return $this->supportsFulltext();
+			case 'slave':
+				return $this->supportsSlave();
+			default:
+				return false;
+		}
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsTransactions() {
+		return $this->db->supports('transactions');
+	}
+
+	/**
 	 * Use slave
 	 *
 	 * @param
@@ -397,79 +422,35 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	* @param	mixed 	result set or anything that is a MDB2::error if
 	*					something went wrong
 	*/
-	function handleError($a_res, $a_info = "", $a_level = "")
-	{
+	function handleError($a_res, $a_info = "", $a_level = "") {
 		global $ilLog;
 
-		if (MDB2::isError($a_res))
-		{
-			if ($a_level == "")
-			{
+		if (MDB2::isError($a_res)) {
+			if ($a_level == "") {
 				$a_level = $this->error_class->FATAL;
 			}
 
 			// :TODO: ADT (jluetzen)
-			
+
 			// if(!$this->exception)
-			if(true)
-			{
+			if (true) {
 				// Show stack
-				try
-				{
+				try {
 					throw new Exception();
-				}
-				catch(Exception $e)
-				{
+				} catch (Exception $e) {
 					$stack = $e->getTraceAsString();
 				}
 
-				if(is_object($ilLog))
+				if (is_object($ilLog)) {
 					$ilLog->logStack();
-				$this->raisePearError("ilDB Error: ".$a_info."<br />".
-					$a_res->getMessage()."<br />".$a_res->getUserInfo()."<br />".$stack, $a_level);							
-			}
-			/*
-			else
-			{
-				$error = $this->db->errorInfo($a_res->getCode());	
-				
-				$mess = $a_info.
-					" ### ".$a_res->getMessage().
-					" ### ".$a_res->getUserInfo();
-				
-				$exception = new $this->exception($a_res->getUserInfo(), $error[0]);
-				
-				if($exception instanceof ilADTDBException)
-				{
-					// try to find offending column (primary is set AS "PRIMARY")
-					if($error[0] == MDB2_ERROR_CONSTRAINT && $error[1] == 1062)
-					{				
-						$col = explode("'", $error[2]);
-						array_pop($col);
-						$col = array_pop($col);
-						$exception->setColumn($col);
-					}
 				}
-				
-				throw $exception;
-			}				 
-			*/					
+//				$this->raisePearError("ilDB Error: " . $a_info . "<br />" . $a_res->getMessage() . "<br />" . $a_res->getUserInfo() . "<br />"
+//				                      . $stack, $a_level);
+
+				throw new ilDatabaseException("ilDB Error: " . $a_info . "<br />" . $a_res->getMessage() . "<br />" . $a_res->getUserInfo() . "<br />"
+				                              . $stack, $a_level);
+			}
 		}
-		/* :TODO: mysql(i) warnings (experimental, jluetzen)
-		else if(DEVMODE && $this instanceof ilDBMySQL)
-		{							
-			$j = mysqli_warning_count($this->db->connection);			
-			if($j > 0) 
-			{								
-				$e = mysqli_get_warnings($this->db->connection);
-				for($i = 0; $i < $j; $i++) 
-				{
-					trigger_error("MYSQLi warning: "."(".$e->errno.") ".$e->message, E_USER_NOTICE);					
-					$e->next();
-				}								
-			} 						
-		} 
-		*/
 
 		return $a_res;
 	}
@@ -940,6 +921,9 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	*/
 	function addIndex($a_table, $a_fields, $a_name = "in", $a_fulltext = false)
 	{
+		/**
+		 * @var $manager MDB2_Driver_Manager_mysqli
+		 */
 		$manager = $this->db->loadModule('Manager');
 		
 		// check index name
@@ -1161,7 +1145,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	function createSequence($a_table_name, $a_start = 1)
 	{
 		$manager = $this->db->loadModule('Manager');
-		
+
 		$r = $manager->createSequence($a_table_name, $a_start);
 
 		return $this->handleError($r, "createSequence(".$a_table_name.")");
@@ -1919,8 +1903,6 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	*/
 	function in($a_field, $a_values, $negate = false, $a_type = "")
 	{
-        return ilMySQLQueryUtils::getInstance()->in($a_field, $a_values, $negate, $a_type);
-
 		if (count($a_values) == 0)
 		{
 			// BEGIN fixed mantis #0014191:
@@ -1943,7 +1925,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 			}
 			$str.= ")";
 		}
-		
+
 		return $str;
 	}
 	
@@ -2366,7 +2348,7 @@ abstract class ilDB extends PEAR implements ilDBInterface
 	* your table or field, if it conflicts with a reserved word.
 	*
 	*/
-	function quoteIdentifier($a_identifier)
+	function quoteIdentifier($a_identifier, $check_option = false)
 	{
 		return $this->db->quoteIdentifier($a_identifier);
 	}

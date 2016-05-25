@@ -170,6 +170,10 @@ class ilBuddySystemGUI
 			ilBuddyList::getInstanceByGlobalUser()->request($relation);
 			ilUtil::sendSuccess($this->lng->txt('buddy_relation_requested'), true);
 		}
+		catch(ilBuddySystemRelationStateAlreadyGivenException $e)
+		{
+			ilUtil::sendInfo(sprintf($this->lng->txt($e->getMessage()), ilObjUser::_lookupLogin((int)$_GET['user_id'])), true);
+		}
 		catch(ilException $e)
 		{
 			ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
@@ -197,6 +201,10 @@ class ilBuddySystemGUI
 			);
 			ilUtil::sendSuccess($this->lng->txt('buddy_request_ignored'), true);
 		}
+		catch(ilBuddySystemRelationStateAlreadyGivenException $e)
+		{
+			ilUtil::sendInfo(sprintf($this->lng->txt($e->getMessage()), ilObjUser::_lookupLogin((int)$_GET['user_id'])), true);
+		}
 		catch(ilException $e)
 		{
 			ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
@@ -223,6 +231,10 @@ class ilBuddySystemGUI
 				ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId((int)$_GET['user_id'])
 			);
 			ilUtil::sendSuccess($this->lng->txt('buddy_request_approved'), true);
+		}
+		catch(ilBuddySystemRelationStateAlreadyGivenException $e)
+		{
+			ilUtil::sendInfo(sprintf($this->lng->txt($e->getMessage()), ilObjUser::_lookupLogin((int)$_GET['user_id'])), true);
 		}
 		catch(ilException $e)
 		{
@@ -287,6 +299,10 @@ class ilBuddySystemGUI
 			{
 				$this->buddylist->{$action}($relation);
 				$response->success = true;
+			}
+			catch(ilBuddySystemRelationStateAlreadyGivenException $e)
+			{
+				$response->message = sprintf($this->lng->txt($e->getMessage()), ilObjUser::_lookupLogin((int)$usr_id));
 			}
 			catch(Exception $e)
 			{

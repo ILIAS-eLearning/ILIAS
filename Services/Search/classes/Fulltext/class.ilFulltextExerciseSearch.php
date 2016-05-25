@@ -37,15 +37,6 @@ include_once 'Services/Search/classes/class.ilExerciseSearch.php';
 class ilFulltextExerciseSearch extends ilExerciseSearch
 {
 
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilFulltextExerciseSearch(&$qp_obj)
-	{
-		parent::ilExerciseSearch($qp_obj);
-	}
-
 	function __createWhereCondition()
 	{
 		// IN BOOLEAN MODE

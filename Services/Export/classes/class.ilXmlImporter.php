@@ -185,5 +185,16 @@ abstract class ilXmlImporter
 	{
 
 	}
+	
+	// begin-patch optes_lok_export
+	/**
+	 * Called after all container objects have been implemented. 
+	 * @param ilImportMapping $mapping
+	 */
+	public function afterContainerImportProcessing(ilImportMapping $mapping)
+	{
+		
+	}
+	// end-patch optes_lok_export
 }
 ?>

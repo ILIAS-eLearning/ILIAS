@@ -49,10 +49,10 @@ class ilSCORMExplorer extends ilExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilSCORMExplorer($a_target, &$a_slm_obj)
+	function __construct($a_target, &$a_slm_obj)
 	{
 		parent::__construct($a_target);
-		$this->slm_obj =& $a_slm_obj;
+		$this->slm_obj = $a_slm_obj;
 		$this->tree = new ilSCORMTree($a_slm_obj->getId());
 		$this->root_id = $this->tree->readRootId();
 		$this->checkPermissions(false);
@@ -284,7 +284,7 @@ class ilSCORMExplorer extends ilExplorer
 		{
 			if (is_object($a_obj))
 			{
-				$sc_object =& $a_obj;
+				$sc_object = $a_obj;
 			}
 			else
 			{

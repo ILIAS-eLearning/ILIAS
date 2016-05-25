@@ -250,7 +250,7 @@ class ilExport
 	* Generates an index.html file including links to all xml files included
 	* (for container exports)
 	*/
-	function _generateIndexFile($a_filename, $a_obj_id, $a_files, $a_type = "")
+	static function _generateIndexFile($a_filename, $a_obj_id, $a_files, $a_type = "")
 	{
 		global $lng;
 		

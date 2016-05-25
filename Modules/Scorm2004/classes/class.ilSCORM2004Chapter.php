@@ -22,9 +22,9 @@ class ilSCORM2004Chapter extends ilSCORM2004Node
 	* Constructor
 	* @access	public
 	*/
-	function ilSCORM2004Chapter($a_slm_object, $a_id = 0)
+	function __construct($a_slm_object, $a_id = 0)
 	{
-		parent::ilSCORM2004Node($a_slm_object, $a_id);
+		parent::__construct($a_slm_object, $a_id);
 		$this->setType("chap");
 	}
 
@@ -47,7 +47,7 @@ class ilSCORM2004Chapter extends ilSCORM2004Node
 		$childs = $this->tree->getChilds($this->getId());
 		foreach ($childs as $child)
 		{
-			$obj =& ilSCORM2004NodeFactory::getInstance($this->slm_object, $child["obj_id"], false);
+			$obj = ilSCORM2004NodeFactory::getInstance($this->slm_object, $child["obj_id"], false);
 			if (is_object($obj))
 			{
 				if ($obj->getType() == "chap")
@@ -85,7 +85,7 @@ class ilSCORM2004Chapter extends ilSCORM2004Node
 		// copy meta data
 		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getSLMId(), $this->getId(), $this->getType());
-		$new_md =& $md->cloneMD($a_target_slm->getId(), $chap->getId(), $this->getType());
+		$new_md = $md->cloneMD($a_target_slm->getId(), $chap->getId(), $this->getType());
 		
 		return $chap;
 	}
@@ -165,7 +165,7 @@ class ilSCORM2004Chapter extends ilSCORM2004Node
 	*
 	*/
 // @todo Check this
-	function _getPresentationTitle($a_st_id, $a_include_numbers = false)
+	static function _getPresentationTitle($a_st_id, $a_include_numbers = false)
 	{
 		global $ilDB;
 /*

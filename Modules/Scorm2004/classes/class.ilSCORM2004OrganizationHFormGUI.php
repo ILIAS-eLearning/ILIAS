@@ -37,7 +37,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 		// @todo: move this to a service since it can be used here, too
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 
-		include_once("./Services/Style/classes/class.ilPageLayout.php");
+		include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 		$page_layouts = (count(ilPageLayout::activeLayouts()) > 0);
 		$special_pages = (count(ilPageLayout::activeLayouts(true)) > 0);
 		

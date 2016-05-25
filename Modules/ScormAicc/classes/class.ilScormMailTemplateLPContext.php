@@ -119,24 +119,25 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 	}
 
 	/**
-	 * @param string    $placeholder_id
-	 * @param array     $context_parameters
-	 * @param ilObjUser $recipient
-	 * @param bool      $html_markup
-	 * @return string
+	 * {@inheritdoc}
 	 */
-	public function resolveSpecificPlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient, $html_markup = false)
+	public function resolveSpecificPlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient = null, $html_markup = false)
 	{
 		/**
 		 * @var $ilObjDataCache ilObjectDataCache
 		 */
 		global $ilObjDataCache;
-		
+
+		if($recipient === null && !in_array($placeholder_id, array('sahs_title', 'sahs_link')))
+		{
+			return '';
+		}
+
 		$obj_id = $ilObjDataCache->lookupObjId($context_parameters['ref_id']);
 		
 		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 		$tracking = new ilObjUserTracking();
-		
+
 		switch($placeholder_id)
 		{
 			case 'sahs_title':
@@ -183,8 +184,7 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 					$progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
 					if(isset($progress['spent_seconds']))
 					{
-						include_once './Services/Utilities/classes/class.ilFormat.php';
-						return ilFormat::_secondsToString($progress['spent_seconds'], false, $this->getLanguage());
+						return ilDatePresentation::secondsToString($progress['spent_seconds'], false, $this->getLanguage());
 					}
 				}
 				break;

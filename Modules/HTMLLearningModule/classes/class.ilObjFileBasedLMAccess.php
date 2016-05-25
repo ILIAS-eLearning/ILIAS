@@ -98,7 +98,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	/**
 	* check wether learning module is online
 	*/
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 
@@ -118,7 +118,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	/**
 	* check wether learning module is online
 	*/
-	function _determineStartUrl($a_id)
+	static function _determineStartUrl($a_id)
 	{
 		global $ilDB;
 
@@ -181,7 +181,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	 * with the specified object id.
 	 * @param int object id of a file object.
 	 */
-	function _lookupDiskUsage($a_id)
+	static function _lookupDiskUsage($a_id)
 	{
 		$lm_data_dir = ilUtil::getWebspaceDir('filesystem')."/lm_data";
 		$lm_dir = $lm_data_dir.DIRECTORY_SEPARATOR."lm_".$a_id;

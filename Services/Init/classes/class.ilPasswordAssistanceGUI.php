@@ -706,7 +706,7 @@ class ilPasswordAssistanceGUI
 					$server_url,
 					$_SERVER['REMOTE_ADDR'],
 					$email,
-					'mailto:' . $contact_address,
+					'mailto:' . $contact_address[0],
 					$login_url
 				)
 			)

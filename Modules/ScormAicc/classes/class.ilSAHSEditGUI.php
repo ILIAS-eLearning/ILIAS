@@ -21,14 +21,14 @@ class ilSAHSEditGUI
 	var $tpl;
 	var $lng;
 
-	function ilSAHSEditGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ctrl =& $ilCtrl;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
 		
 		$this->ctrl->saveParameter($this, "ref_id");
 	}
@@ -113,15 +113,15 @@ class ilSAHSEditGUI
 		{ 
 			case "ilobjscormlearningmodulegui":
 			case "ilobjscorm2004learningmodulegui":
-				$ret =& $this->ctrl->forwardCommand($this->slm_gui);
+				$ret = $this->ctrl->forwardCommand($this->slm_gui);
 				break;
 
 			case "ilobjaicclearningmodulegui":
-				$ret =& $this->ctrl->forwardCommand($this->slm_gui);
+				$ret = $this->ctrl->forwardCommand($this->slm_gui);
 				break;
 
 			case "ilobjhacplearningmodulegui":
-				$ret =& $this->ctrl->forwardCommand($this->slm_gui);
+				$ret = $this->ctrl->forwardCommand($this->slm_gui);
 				break;
 
 			default:

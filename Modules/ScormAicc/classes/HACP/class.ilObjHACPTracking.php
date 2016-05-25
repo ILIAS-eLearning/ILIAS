@@ -34,7 +34,7 @@ class ilObjHACPTracking extends ilObjAICCTracking {
 	* Constructor
 	* @access	public
 	*/
-	function ilObjHACPTracking($ref_id, $obj_id)
+	function __construct($ref_id, $obj_id)
 	{
 		global $ilias, $ilDB, $ilUser;
 		

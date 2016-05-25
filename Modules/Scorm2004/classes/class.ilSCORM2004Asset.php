@@ -22,7 +22,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	 */
 	function __construct($a_slm_object, $a_id = 0)
 	{
-		parent::ilSCORM2004Node($a_slm_object, $a_id);
+		parent::__construct($a_slm_object, $a_id);
 		$this->setType("ass");
 	}
 
@@ -59,7 +59,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$childs = $this->tree->getChilds($this->getId());
 		foreach ($childs as $child)
 		{
-			$obj =& ilSCORM2004NodeFactory::getInstance($this->slm_object, $child["obj_id"], false);
+			$obj = ilSCORM2004NodeFactory::getInstance($this->slm_object, $child["obj_id"], false);
 			if (is_object($obj))
 			{
 				if ($obj->getType() == "page")
@@ -249,7 +249,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 				include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 				foreach ($q_ids as $q_id)
 				{
-					$q_obj =& assQuestion::_instanciateQuestion($q_id);
+					$q_obj = assQuestion::_instanciateQuestion($q_id);
 					$qti_file = fopen($a_target_dir."/qti_".$q_id.".xml", "w");
 					fwrite($qti_file, $q_obj->toXML());
 					fclose($qti_file);
@@ -447,7 +447,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 				foreach ($q_ids as $q_id)
 				{
 					include_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
-					$q_gui =& assQuestionGUI::_getQuestionGUI("", $q_id);
+					$q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
 					$q_gui->outAdditionalOutput();
 					$html = $q_gui->getPreview(TRUE);
 					$page_output = preg_replace("/{{{{{Question;il__qst_".$q_id."}}}}}/i",$html,$page_output);
@@ -685,7 +685,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		return $a_text;
 	}
 
-		private function fixFullscreeenLink($matches)
+	static private function fixFullscreeenLink($matches)
 	{
 		$media_obj = new ilObjMediaObject($matches[1]);
 		if($media_obj->hasFullscreenItem())
@@ -696,7 +696,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	}
 
 	//callback function for question export
-	private function insertQuestion($matches) {
+	static private function insertQuestion($matches) {
 		$q_exporter = new ilQuestionExporter();
 		
 		$ret = $q_exporter->exportQuestion($matches[2], "./objects/", "offline");

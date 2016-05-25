@@ -35,7 +35,7 @@ class ilSCORM2004Item
 	 * Constructor
 	 * @access	public
 	 */
-	function ilSCORM2004Item($a_treeid = null , $a_rootlevel = false)
+	function __construct($a_treeid = null , $a_rootlevel = false)
 	{
 		//different handling for organization level
 		$this->rootLevel = $a_rootlevel;

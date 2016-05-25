@@ -115,6 +115,15 @@ class ilCloudPluginService
     public function deleteItem($path = null, ilCloudFileTree $file_tree = null){}
 
     /**
+     * by default false
+     * @return bool
+     */
+    public function isCaseSensitive()
+    {
+        return false;
+    }
+
+    /**
      * @param int $bytes
      * @return string
      */

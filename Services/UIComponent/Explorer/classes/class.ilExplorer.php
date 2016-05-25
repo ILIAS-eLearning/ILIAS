@@ -188,7 +188,7 @@ class ilExplorer
 			}
 		}
 
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		$this->output = array();
 		$this->expanded = array();
 		$this->target = $a_target;
@@ -806,7 +806,6 @@ class ilExplorer
 		ilYuiUtil::initConnection();
 		$tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
 
-		$tpl->addBlockFile("EXPLORER_TOP", "exp_top", "tpl.explorer_top.html");
 //echo "hh";
 		// set global body class
 //		$tpl->setBodyClass("il_Explorer");

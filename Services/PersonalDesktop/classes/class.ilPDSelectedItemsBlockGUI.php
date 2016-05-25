@@ -499,7 +499,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				// get list gui class for each object type
 				if ($cur_obj_type != $item["type"])
 				{
-					$item_list_gui =& $this->getItemListGUI($item["type"]);
+					$item_list_gui = $this->getItemListGUI($item["type"]);
 					if(!$item_list_gui)
 					{
 						continue;
@@ -843,7 +843,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	{
 		global $ilUser, $rbacsystem, $objDefinition, $ilBench;
 
-		$tpl =& $this->newBlockTemplate();
+		$tpl = $this->newBlockTemplate();
 		
 		switch ($ilUser->getPref("pd_order_items"))
 		{
@@ -1078,7 +1078,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				// get list gui class for each object type
 				if ($cur_obj_type != $item["type"])
 				{
-					$item_list_gui =& $this->getItemListGUI($item["type"]);
+					$item_list_gui = $this->getItemListGUI($item["type"]);
 					if(!$item_list_gui)
 					{
 						continue;
@@ -1207,11 +1207,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			//echo "<br>-".$location."/class.".$full_class.".php"."-";
 			include_once($location."/class.".$full_class.".php");
 			$item_list_gui = new $full_class();
-			$this->item_list_guis[$a_type] =& $item_list_gui;
+			$this->item_list_guis[$a_type] = $item_list_gui;
 		}
 		else
 		{
-			$item_list_gui =& $this->item_list_guis[$a_type];
+			$item_list_gui = $this->item_list_guis[$a_type];
 		}
 
 		if ($this->manage)
@@ -1313,7 +1313,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		}
 		
 /*		
-		$item_list_gui =& $this->getItemListGUI($type);
+		$item_list_gui = $this->getItemListGUI($type);
 		
 		$item_list_gui->enableIcon(false);
 		$item_list_gui->enableDelete(false);

@@ -67,7 +67,7 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
 		
 		$this->tpl->setVariable('VAL_ID', $a_set['id']);
 		$this->tpl->setVariable('VAL_TYPE', $a_set['type']);
-		$this->tpl->setVariable('VAL_SIZE', ilFormat::formatSize($a_set['size']));
+		$this->tpl->setVariable('VAL_SIZE', ilUtil::formatSize($a_set['size']));
 		$this->tpl->setVariable('VAL_DATE', ilDatePresentation::formatDate(new ilDateTime($a_set['date'], IL_CAL_UNIX)));
 		
 		$ilCtrl->setParameter($this->getParentObject(), 'fl', $a_set['id']);

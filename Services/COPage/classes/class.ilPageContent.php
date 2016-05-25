@@ -91,7 +91,7 @@ abstract class ilPageContent
 	*/
 	function setNode($a_node)
 	{
-		$this->node =& $a_node;
+		$this->node = $a_node;
 	}
 	
 

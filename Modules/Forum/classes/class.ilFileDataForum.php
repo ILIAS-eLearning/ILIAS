@@ -98,7 +98,7 @@ class ilFileDataForum extends ilFileData
 					'md5'   => md5($this->obj_id . '_' . $this->pos_id . '_' . $rest),
 					'name'  => $rest,
 					'size'  => $file->getSize(),
-					'ctime' => ilFormat::formatDate(date('Y-m-d H:i:s', $file->getCTime()))
+					'ctime' => $file->getCTime()
 				);
 			}
 		}
@@ -135,7 +135,7 @@ class ilFileDataForum extends ilFileData
 						'md5'   => md5($this->obj_id . '_' . $this->pos_id . '_' . $rest),
 						'name'  => $rest,
 						'size'  => $file->getSize(),
-						'ctime' => ilFormat::formatDate(date('Y-m-d H:i:s', $file->getCTime()))
+						'ctime' => $file->getCTime()
 					);
 				}
 			}

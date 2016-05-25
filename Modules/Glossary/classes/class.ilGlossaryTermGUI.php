@@ -28,15 +28,16 @@ class ilGlossaryTermGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilGlossaryTermGUI($a_id = 0)
+	function __construct($a_id = 0)
 	{
-		global $lng, $ilias, $tpl, $ilCtrl;
+		global $lng, $ilias, $tpl, $ilCtrl, $ilTabs;
 
-		$this->lng =& $lng;
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("term_id"));
+		$this->tabs_gui	= $ilTabs;
 
 		if($a_id != 0)
 		{
@@ -59,8 +60,8 @@ class ilGlossaryTermGUI
 			case "iltermdefinitioneditorgui":
 				//$this->ctrl->setReturn($this, "listDefinitions");
 				$def_edit = new ilTermDefinitionEditorGUI();
-				//$ret =& $def_edit->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($def_edit);
+				//$ret = $def_edit->executeCommand();
+				$ret = $this->ctrl->forwardCommand($def_edit);
 				$this->quickList("edit", $def_edit);
 				break;
 
@@ -80,7 +81,7 @@ class ilGlossaryTermGUI
 				break;
 				
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 	}
@@ -143,7 +144,7 @@ class ilGlossaryTermGUI
 	{
 		global $ilTabs, $ilCtrl;
 
-		$this->getTemplate();
+//		$this->getTemplate();
 		$this->displayLocator();
 		$this->setTabs();
 		$ilTabs->activateTab("properties");
@@ -405,7 +406,7 @@ class ilGlossaryTermGUI
 	{
 		global $ilTabs;
 		
-		$this->getTemplate();
+//		$this->getTemplate();
 		$this->displayLocator();
 		$this->setTabs();
 		$ilTabs->activateTab("definitions");
@@ -427,7 +428,7 @@ class ilGlossaryTermGUI
 		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
 		//$this->tpl->addBlockfile("CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
 		//ilUtil::sendInfo();
-		$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
+//		$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$this->tpl->setTitle(
 			$this->lng->txt("cont_term").": ".$this->term->getTerm());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
@@ -787,7 +788,7 @@ class ilGlossaryTermGUI
 		global $ilTabs, $tpl;
 
 		//$this->displayLocator();
-		$this->getTemplate();
+//		$this->getTemplate();
 		$this->displayLocator();
 		$this->setTabs();
 		$ilTabs->activateTab("usage");

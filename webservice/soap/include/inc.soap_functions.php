@@ -1055,7 +1055,23 @@ class ilSoapFunctions {
 
 	}
 
-	
+	/**
+	 * Exports a given table of a datacollection into xls
+	 *
+	 * @param string $sid
+	 * @param int $data_collection_id
+	 * @param int $table_id
+	 * @param string $format
+	 * @param string $filepath
+	 *
+	 * @return string
+	 */
+	public static function exportDataCollectionContent($sid, $data_collection_id, $table_id = null, $format = "xls", $filepath = null) {
+		include_once './webservice/soap/classes/class.ilSoapDataCollectionAdministration.php';
+		$dcl = new ilSoapDataCollectionAdministration();
+		return $dcl->exportDataCollectionContent($sid, $data_collection_id, $table_id, $format, $filepath);
+	}
+
 }
 
 ?>

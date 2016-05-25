@@ -374,7 +374,6 @@ class ilECSCategoryMappingRule
 				return $lng->txt('ecs_field_'.$this->getFieldName()).': '.$this->getMappingValue();
 				
 			case self::TYPE_DURATION:
-				include_once './Services/Calendar/classes/class.ilDatePresentation.php';
 				return $lng->txt('ecs_field_'.$this->getFieldName()).': '.ilDatePresentation::formatPeriod(
 					$this->getDateRangeStart(),
 					$this->getDateRangeEnd());

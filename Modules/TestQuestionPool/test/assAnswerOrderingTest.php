@@ -90,7 +90,6 @@ class assAnswerOrderingTest extends PHPUnit_Framework_TestCase
 		$instance = new ASS_AnswerOrdering();
 		$random_id = 13579;
 
-		//require_once './Services/PEAR/lib/MDB2.php';
 		$ildb_mock = $this->getMockBuilder('ilDBInterface')->getMock('ilDBInterface', array('queryF', 'fetchAssoc'), array(), '', false, false);
 		$ildb_mock->expects( $this->once() )
 				  ->method( 'queryF' )

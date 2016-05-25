@@ -934,7 +934,7 @@ class ilObject
 	*
 	* @param	int		$a_id		object id
 	*/
-	function _lookupOwner($a_id)
+	static function _lookupOwner($a_id)
 	{
 		global $ilObjDataCache;
 

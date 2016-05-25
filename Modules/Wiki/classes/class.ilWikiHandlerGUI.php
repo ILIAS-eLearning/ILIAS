@@ -34,12 +34,12 @@
 */
 class ilWikiHandlerGUI
 {
-	function ilWikiHandlerGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
 
 		// initialisation stuff
-		$this->ctrl =&  $ilCtrl;
+		$this->ctrl =  $ilCtrl;
 		
 	}
 	

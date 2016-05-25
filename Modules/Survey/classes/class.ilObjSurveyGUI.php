@@ -1889,7 +1889,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $ilAccess, $lng;
 		
 		// see ilObjSurveyAccess::_checkGoto()
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		if (strlen($a_access_code))
 		{
 			$_SESSION["anonymous_id"][ilObject::_lookupObjId($a_target)] = $a_access_code;

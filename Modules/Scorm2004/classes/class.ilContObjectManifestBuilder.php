@@ -26,14 +26,14 @@ class ilContObjectManifestBuilder
 	 * Constructor
 	 * @access	public
 	 */
-	function ilContObjectManifestBuilder(&$a_cont_obj)
+	function __construct(&$a_cont_obj)
 	{
 		global $ilDB, $ilias;
 
-		$this->cont_obj =& $a_cont_obj;
+		$this->cont_obj = $a_cont_obj;
 
-		$this->ilias =& $ilias;
-		$this->db =& $ilDB;
+		$this->ilias = $ilias;
+		$this->db = $ilDB;
 
 		$this->inst_id = IL_INST_ID;
 
@@ -103,14 +103,6 @@ class ilContObjectManifestBuilder
 		$attrs = array();
 		$this->writer->xmlElement("title", $attrs, $this->cont_obj->getTitle());
 
-		// entry page
-		/*if ($this->version == "2004" && $this->cont_obj->getEntryPage())
-		{
-			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004EntryAsset.php");
-			ilSCORM2004EntryAsset::addEntryPageItemXML($this->writer,
-				$this->cont_obj);
-		}*/
-        
 		// write item hierarchy
 		//$this->writeItemHierarchy();
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
@@ -317,10 +309,10 @@ class ilContObjectManifestBuilder
 			$attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
 			$this->writer->xmlStartTag("resource", $attrs, "");
 			
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			
 			$active_css = ilObjStyleSheet::getContentStylePath($this->cont_obj->getStyleSheetId());
-			$active_css = split(@'\?',$active_css,2);
+			$active_css = explode('?', $active_css);
 			$css = fread(fopen($active_css[0],'r'),filesize($active_css[0]));
 			preg_match_all("/url\(([^\)]*)\)/",$css,$css_files);
 			$css_files = array_unique($css_files[1]);
