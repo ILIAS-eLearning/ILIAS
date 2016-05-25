@@ -294,7 +294,7 @@ class ilBadgeManagementGUI
 		if($custom &&
 			$custom instanceof ilBadgeTypeGUI)
 		{
-			$custom->initConfigForm($form);
+			$custom->initConfigForm($form, $this->parent_ref_id);
 		}
 		
 		// :TODO: valid date/period		

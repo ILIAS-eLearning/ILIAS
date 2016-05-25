@@ -15,8 +15,9 @@ interface ilBadgeTypeGUI
 	 * Add custom fields to form
 	 * 
 	 * @param ilPropertyFormGUI $a_form
+	 * @param int $a_parent_ref_id
 	 */
-	public function initConfigForm(ilPropertyFormGUI $a_form);
+	public function initConfigForm(ilPropertyFormGUI $a_form, $a_parent_ref_id);
 	
 	/**
 	 * Set form values

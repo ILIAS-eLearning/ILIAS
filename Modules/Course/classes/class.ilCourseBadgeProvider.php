@@ -16,8 +16,10 @@ class ilCourseBadgeProvider implements ilBadgeProvider
 	public function getBadgeTypes() 
 	{
 		include_once "Modules/Course/classes/Badges/class.ilCourseMeritBadge.php";
+		include_once "Modules/Course/classes/Badges/class.ilCourseLPBadge.php";
 		return array(
-			new ilCourseMeritBadge()
+			new ilCourseMeritBadge(),
+			new ilCourseLPBadge()
 		);
 	}	
 }

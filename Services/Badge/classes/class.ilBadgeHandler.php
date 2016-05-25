@@ -192,7 +192,7 @@ class ilBadgeHandler
 		if($provider)
 		{						
 			foreach($provider->getBadgeTypes() as $type)
-			{
+			{				
 				if($type->getId() == $type_id)
 				{
 					return $type;
@@ -381,15 +381,15 @@ class ilBadgeHandler
 		return true;		
 	}
 	
-	public function triggerEvaluation($a_type_id, $a_user_id)
+	public function triggerEvaluation($a_type_id, $a_user_id, array $a_params = null)
 	{
 		if(!$this->isActive() ||
 			in_array($a_type_id, $this->getInactiveTypes()))
 		{
 			return;
 		}		
-		
-		$type = $this->getTypeInstanceByUniqueId($a_type_id);
+						
+		$type = $this->getTypeInstanceByUniqueId($a_type_id);		
 		if(!$type || 
 			!$type instanceof ilBadgeAuto)
 		{
@@ -406,7 +406,7 @@ class ilBadgeHandler
 				// already assigned?
 				if(!ilBadgeAssignment::exists($badge->getId(), $a_user_id))
 				{
-					if((bool)$type->evaluate($a_user_id, $badge->getConfiguration()))
+					if((bool)$type->evaluate($a_user_id, $a_params, $badge->getConfiguration()))
 					{
 						$ass = new ilBadgeAssignment($badge->getId(), $a_user_id);
 						$ass->store();

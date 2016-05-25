@@ -23,9 +23,27 @@ class ilBadgeAppEventListener implements ilAppEventListener
 				{					
 					case 'afterUpdate':
 						$user_obj = $a_params['user_obj'];	
-						ilBadgeHandler::getInstance()->triggerEvaluation("user/profile", $user_obj->getId());				
+						ilBadgeHandler::getInstance()->triggerEvaluation(
+							'user/profile', 
+							$user_obj->getId()						
+						);				
 						break;
 				}
+				break;
+			
+			case 'Services/Tracking':				
+				switch($a_event)
+				{					
+					case 'updateStatus':						
+						ilBadgeHandler::getInstance()->triggerEvaluation(
+							'crs/course_lp', 
+							$a_params['usr_id'],
+							array('obj_id' => $a_params['obj_id'])								
+						);				
+						break;
+				}
+				break;
+						
 		}
 	}
 }

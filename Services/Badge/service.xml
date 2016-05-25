@@ -12,6 +12,7 @@
 	</objects>	
 	<events>		
 		<event type="listen" id="Services/User" />
+		<event type="listen" id="Services/Tracking" />
 	</events>
 	<web_access_checker>
 		<secure_path path="ilBadge" checking-class="ilBadgeWAC" in-sec-folder="1" />

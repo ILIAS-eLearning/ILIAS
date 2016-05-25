@@ -13,7 +13,7 @@ require_once "./Services/Badge/interfaces/interface.ilBadgeTypeGUI.php";
  */
 class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
 {	
-	public function initConfigForm(ilPropertyFormGUI $a_form)
+	public function initConfigForm(ilPropertyFormGUI $a_form, $a_parent_ref_id)
 	{
 		global $lng;
 		
