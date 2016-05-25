@@ -34,13 +34,6 @@ include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
 class ilMDOrComposite extends ilMDRequirement
 {
-	function ilMDOrComposite($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDRequirement($a_rbac_id,
-								$a_obj_id,
-								$a_obj_type);
-	}
-
 	// SET/GET
 	function setOrCompositeId($a_or_composite_id)
 	{
@@ -57,7 +50,7 @@ class ilMDOrComposite extends ilMDRequirement
 				"AND obj_id = ".$ilDB->quote($this->getObjId() ,'integer')." ";
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->or_composite_id = $row->orc;
 			}
@@ -85,7 +78,7 @@ class ilMDOrComposite extends ilMDRequirement
 		{
 			return false;
 		}
-		$req =& new ilMDRequirement();
+		$req = new ilMDRequirement();
 		$req->setMetaId($a_requirement_id);
 
 		return $req;
@@ -95,7 +88,7 @@ class ilMDOrComposite extends ilMDRequirement
 	{
 		include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
-		$req =& new ilMDRequirement($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$req = new ilMDRequirement($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$req->setParentId($this->getParentId());
 		$req->setParentType('meta_technical');
 		$req->setOrCompositeId($this->getOrCompositeId());
@@ -150,7 +143,7 @@ class ilMDOrComposite extends ilMDRequirement
 
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
+	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type,$a_or_composite_id = 0)
 	{
 		global $ilDB;
 
@@ -162,7 +155,7 @@ class ilMDOrComposite extends ilMDRequirement
 			"AND or_composite_id > 0 ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->or_composite_id;
 		}

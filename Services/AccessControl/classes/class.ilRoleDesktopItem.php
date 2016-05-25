@@ -23,11 +23,11 @@ class ilRoleDesktopItem
 	* Constructor
 	* @access public
 	*/
-	function ilRoleDesktopItem($a_role_id)
+	function __construct($a_role_id)
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 		$this->role_id = $a_role_id;
 	}
 
@@ -104,7 +104,7 @@ class ilRoleDesktopItem
 			"AND role_item_id = ".$ilDB->quote($a_role_item_id,'integer')." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$item['item_id'] = $row->item_id;
 			$item['item_type'] = $row->item_type;
@@ -124,7 +124,7 @@ class ilRoleDesktopItem
 			"WHERE role_id = ".$this->db->quote($this->getRoleId(),'integer')." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			// TODO this check must be modified for non tree objects
 			if(!$tree->isInTree($row->item_id))

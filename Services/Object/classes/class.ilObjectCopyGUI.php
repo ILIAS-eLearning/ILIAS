@@ -232,7 +232,7 @@ class ilObjectCopyGUI
 	protected function initTargetSelection()
 	{
 		global $ilCtrl, $tree;
-		
+		$ilCtrl->setParameter($this, 'selectMode', self::TARGET_SELECTION);
 		// empty session on init
 		$_SESSION['paste_copy_repexpand'] = array();
 		
@@ -444,7 +444,7 @@ class ilObjectCopyGUI
 	 */
 	protected function saveTarget()
 	{
-		global $objDefinition, $tree;
+		global $objDefinition, $tree, $ilCtrl;
 
 
 		// begin-patch mc
@@ -462,6 +462,7 @@ class ilObjectCopyGUI
 		// end-patch multi copy
 		else
 		{
+			$ilCtrl->setParameter($this, 'selectMode', self::TARGET_SELECTION);
 			ilUtil::sendFailure($this->lng->txt('select_one'));
 			$this->showTargetSelectionTree();
 			return false;	

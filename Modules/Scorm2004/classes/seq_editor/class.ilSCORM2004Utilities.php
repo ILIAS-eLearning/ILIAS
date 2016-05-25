@@ -24,7 +24,7 @@ class ilSCORM2004Utilities
 	* Constructor
 	* @access	public
 	*/
-	function ilSCORM2004Utilities($a_id)
+	function __construct($a_id)
 	{
 		$this->id = $a_id;
 	}
@@ -93,7 +93,7 @@ class ilSCORM2004Utilities
 		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".
 			$ilDB->quote($this->getId(), "integer");
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return $obj_rec['sequencingid'];
 	}
 	
@@ -104,7 +104,7 @@ class ilSCORM2004Utilities
 		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".
 			$ilDB->quote($this->getId(), "integer");
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return $obj_rec['seqnodeid'];
 	}
 	
@@ -115,7 +115,7 @@ class ilSCORM2004Utilities
 		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".
 			$ilDB->quote($this->getId(), "integer");
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return $obj_rec['importid'];
 	}
 	
@@ -133,7 +133,7 @@ class ilSCORM2004Utilities
 		$query = "SELECT * FROM sahs_sc13_seq_item WHERE sahs_sc13_tree_node_id = ".
 			$ilDB->quote($this->getId(), "integer");
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return array("copy"=>!$obj_rec['nocopy'],"move"=>!$obj_rec['nomove'],"delete"=>!$obj_rec['nodelete']);
 	}
 	
@@ -143,7 +143,7 @@ class ilSCORM2004Utilities
 		$query = "SELECT * FROM sahs_sc13_seq_seq WHERE id = ".
 			$ilDB->quote($this->getSequencingId(), "text");
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		$c_properties = array(
 			'flow' => $obj_rec['flow'],
 			'forwardOnly' => $obj_rec['forwardonly'],
@@ -160,7 +160,7 @@ class ilSCORM2004Utilities
 			" AND importid=".$ilDB->quote($this->getImportIdent(), "text").")";
 		$obj_set = $ilDB->query($query);
 		$ilLog->write("SCORM: getAllSequencingProperties for".$this->getSequencingId());
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		$sprop = array(
 			'importId' => $obj_rec['importid'],
 			'activityAbsoluteDurationLimit' => $obj_rec['activityabsolutedurationlimit'],

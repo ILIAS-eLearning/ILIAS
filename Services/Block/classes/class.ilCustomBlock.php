@@ -334,7 +334,7 @@ die("ilCustomBlock::queryTitleForId is deprecated");
 				
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$result[] = $rec;
 		}

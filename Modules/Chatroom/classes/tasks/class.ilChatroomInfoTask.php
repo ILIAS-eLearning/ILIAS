@@ -1,40 +1,32 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilChatroomInfoTask
- *
  * Provides methods to prepare and display the info task.
- *
- * @author Jan Posselt <jposselt@databay.de>
+ * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- *
  * @ingroup ModulesChatroom
  */
 class ilChatroomInfoTask extends ilChatroomTaskHandler
 {
-	private $gui;
 
 	/**
 	 * Constructor
-	 *
 	 * Requires ilInfoScreenGUI and sets $this->gui using given $gui.
-	 *
 	 * @param ilChatroomObjectGUI $gui
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
 	{
-		$this->gui = $gui;
+		parent::__construct($gui);
 		require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
 	}
 
 	/**
 	 * Prepares and displays the info screen.
-	 *
-	 * @global ilCtrl2 $ilCtrl
+	 * @global ilCtrl2    $ilCtrl
 	 * @global ilLanguage $lng
-	 * @param string $method
+	 * @param string      $method
 	 */
 	public function executeDefault($method)
 	{
@@ -47,11 +39,7 @@ class ilChatroomInfoTask extends ilChatroomTaskHandler
 
 		include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
-		if(!ilChatroom::checkUserPermissions('read', $this->gui->ref_id))
-		{
-			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
-			$ilCtrl->redirectByClass("ilrepositorygui", "");
-		}
+		$this->redirectIfNoPermission('read');
 
 		$this->gui->switchToVisibleMode();
 
@@ -62,7 +50,7 @@ class ilChatroomInfoTask extends ilChatroomTaskHandler
 			);
 		}
 
-		$info = new ilInfoScreenGUI($this->gui);
+		$info = $this->createInfoScreenGUI($this->gui);
 
 		$info->enablePrivateNotes();
 
@@ -83,5 +71,14 @@ class ilChatroomInfoTask extends ilChatroomTaskHandler
 			$ilCtrl->setCmd($method);
 		}
 		$ilCtrl->forwardCommand($info);
+	}
+
+	/**
+	 * @param ilChatroomObjectGui $gui
+	 * @return ilInfoScreenGUI
+	 */
+	protected function createInfoScreenGUI($gui)
+	{
+		return new ilInfoScreenGUI($gui);
 	}
 }

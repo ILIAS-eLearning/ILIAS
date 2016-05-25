@@ -37,10 +37,10 @@ class ilPCAMDPageList extends ilPageContent
 	/**
 	* Set node
 	*/
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->amdpl_node =& $a_node->first_child();		// this is the courses node
+		$this->amdpl_node = $a_node->first_child();		// this is the courses node
 	}
 
 	/**
@@ -60,7 +60,7 @@ class ilPCAMDPageList extends ilPageContent
 	/**
 	 * Set list settings
 	 */
-	function setData(array $a_fields_data)
+	function setData(array $a_fields_data, $a_mode = null)
 	{		
 		global $ilDB;
 		
@@ -76,6 +76,8 @@ class ilPCAMDPageList extends ilPageContent
 			$this->amdpl_node->set_attribute("Id", $data_id);
 		};
 		
+		$this->amdpl_node->set_attribute("Mode", (int)$a_mode);		
+		
 		foreach($a_fields_data as $field_id => $field_data)
 		{
 			$fields = array(
@@ -86,6 +88,14 @@ class ilPCAMDPageList extends ilPageContent
 			$ilDB->insert("pg_amd_page_list", $fields);	
 		}
 	}
+
+	function getMode()
+	{
+		if (is_object($this->amdpl_node))
+		{	
+			return (int)$this->amdpl_node->get_attribute("Mode");
+		}
+	}	
 	
 	/**
 	 * Get filter field values
@@ -231,7 +241,12 @@ class ilPCAMDPageList extends ilPageContent
 		$i = 1;
 		while ($end > 0)
 		{
-			$list_id = (int)substr($a_html, $start + 17, $end - $start - 17);	
+			$parts = explode(";", substr($a_html, $start + 17, $end - $start - 17));
+			
+			$list_id = (int)$parts[0];
+			$list_mode = (sizeof($parts) == 2)
+				? (int)$parts[1]
+				: 0;
 			
 			$ltpl = new ilTemplate("tpl.wiki_amd_page_list.html", true, true, "Modules/Wiki");
 				
@@ -254,6 +269,8 @@ class ilPCAMDPageList extends ilPageContent
 			{
 				$ltpl->touchBlock("no_hits_bl");
 			}
+			
+			$ltpl->setVariable("LIST_MODE", $list_mode ? "ol" : "ul");
 											
 			$a_html = substr($a_html, 0, $start).
 				$ltpl->get().

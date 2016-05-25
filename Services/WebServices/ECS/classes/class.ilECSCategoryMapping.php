@@ -47,7 +47,7 @@ class ilECSCategoryMapping
 		global $ilDB;
 		
 		$res = $ilDB->query('SELECT mapping_id FROM ecs_container_mapping');
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$rules[] = new ilECSCategoryMappingRule($row->mapping_id);
 		}
@@ -155,7 +155,7 @@ class ilECSCategoryMapping
 		global $ilDB;
 		
 		$res = $ilDB->query("SELECT container_id FROM ecs_container_mapping ");
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		$ref_ids[] = $row->container_id;
 	 	}

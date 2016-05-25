@@ -24,14 +24,14 @@ class ilContObjectManifestBuilder
 	* Constructor
 	* @access	public
 	*/
-	function ilContObjectManifestBuilder(&$a_cont_obj)
+	function __construct(&$a_cont_obj)
 	{
 		global $ilDB, $ilias;
 
-		$this->cont_obj =& $a_cont_obj;
+		$this->cont_obj = $a_cont_obj;
 
-		$this->ilias =& $ilias;
-		$this->db =& $ilDB;
+		$this->ilias = $ilias;
+		$this->db = $ilDB;
 
 		$this->inst_id = IL_INST_ID;
 

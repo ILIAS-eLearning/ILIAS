@@ -58,7 +58,7 @@ class ASS_Mark {
 * @param double $minimum_level The minimum percentage level reaching the mark
 * @access public
 */
-  function ASS_Mark(
+  public function __construct(
     $short_name = "",
     $official_name = "",
     $minimum_level = 0,

@@ -276,7 +276,7 @@ class ilPluginAdmin
 	/**
 	* Get all active plugins for a slot
 	*/
-	function getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id)
+	static function getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id)
 	{
 		// cache the list of active plugins
 		if (!isset(self::$active_plugins[$a_ctype][$a_cname][$a_slot_id]))

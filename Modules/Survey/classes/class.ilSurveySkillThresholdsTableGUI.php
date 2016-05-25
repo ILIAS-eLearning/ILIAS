@@ -20,7 +20,7 @@ class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_survey,
 		$a_base_skill_id, $a_tref_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng;
 		
 		$this->object = $a_survey;
 		$this->base_skill_id = $a_base_skill_id;

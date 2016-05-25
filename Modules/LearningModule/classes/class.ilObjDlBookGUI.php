@@ -44,17 +44,17 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	*
 	* @access	public
 	*/
-	function ilObjDlBookGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
+	function __construct($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
         $this->type = "dbk";
-		parent::ilObjContentObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		# BETTER DO IT HERE THAN IN PARENT CLASS ( PROBLEMS FOR import, create)
 		$this->assignObject();
 		
 		// SAME REASON
 		if($a_id != 0)
 		{
-			$this->lm_tree =& $this->object->getLMTree();
+			$this->lm_tree = $this->object->getLMTree();
 		}
 	}
 
@@ -63,7 +63,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		include_once("./Modules/LearningModule/classes/class.ilObjDlBook.php");
 
 		$this->link_params = "ref_id=".$this->ref_id;
-		$this->object =& new ilObjDlBook($this->id, true);
+		$this->object = new ilObjDlBook($this->id, true);
 	}
 
 
@@ -265,7 +265,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	function export() 
 	{
 		// BASE CLASS objectGUI IS INSTATIATING $this->object
-		#$this->object =& new ilObjDlBook($this->id, true);
+		#$this->object = new ilObjDlBook($this->id, true);
 		$this->object->export($_GET["ref_id"]);
 	}
 
@@ -325,11 +325,13 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	* digilib book menu
 	*/
 	// ok
-    function setilLMMenu()
+    function setilLMMenu($a_offline = false, $a_export_format = "",
+						 $a_active = "content", $a_use_global_tabs = false, $a_as_subtabs = false,
+						 $a_cur_page = 0)
 	{
 		include_once("./Services/UICore/classes/class.ilTemplate.php");
 
-		$tpl_menu =& new ilTemplate("tpl.lm_menu.html", true, true, "Modules/LearningModule");
+		$tpl_menu = new ilTemplate("tpl.lm_menu.html", true, true, "Modules/LearningModule");
 
 		$tpl_menu->setCurrentBlock("lm_menu_btn");
 
@@ -520,7 +522,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	{
 		include_once("./Services/Search/classes/class.ilSearch.php");
 
-		$search =& new ilSearch($_SESSION["AccountId"]);
+		$search = new ilSearch($_SESSION["AccountId"]);
 		$search->setPerformUpdate(false);
 		$search->setSearchString($_POST["search_str"]);
 		$search->setCombination("and");

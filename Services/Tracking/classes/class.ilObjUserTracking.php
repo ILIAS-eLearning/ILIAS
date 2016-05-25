@@ -45,10 +45,10 @@ class ilObjUserTracking extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjUserTracking($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "trac";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 
 		$this->__readSettings();
 	}
@@ -283,25 +283,6 @@ class ilObjUserTracking extends ilObject
 		return true;
 	}
 	
-	/*
-	function setLearningProgressDesktop($a_value)
-	{
-		$this->lp_desktop = (bool)$a_value;
-	}
-	
-	function hasLearningProgressDesktop()
-	{
-		return (bool)$this->lp_desktop;
-	}
-	 
-	static function _hasLearningProgressDesktop()
-	{
-		global $ilias;
-		
-		return (bool)$ilias->getSetting("lp_desktop");		
-	}
-	*/ 
-	
 	static function _hasLearningProgressOtherUsers()
 	{		
 		global $rbacsystem;
@@ -324,9 +305,9 @@ class ilObjUserTracking extends ilObject
 	
 	static function _hasLearningProgressLearner()
 	{
-		global $ilias;
-		
-		return (bool)$ilias->getSetting("lp_learner", 1);
+		global $ilSetting;
+					
+		return (bool)$ilSetting->get("lp_learner", 1);
 	}
 	
 	function setLearningProgressListGUI($a_value)
@@ -341,9 +322,9 @@ class ilObjUserTracking extends ilObject
 	
 	static function _hasLearningProgressListGUI()
 	{
-		global $ilias;
-		
-		return (bool)$ilias->getSetting("lp_list_gui", 0);
+		global $ilSetting;
+					
+		return (bool)$ilSetting->get("lp_list_gui", 0);
 	}
 
 } // END class.ilObjUserTracking

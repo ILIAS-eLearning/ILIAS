@@ -12,16 +12,16 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.
 class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
 	private $assessmentLogEnabled = false;
 
 	/**
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 */
-	public function __construct(ilDB $db)
+	public function __construct(ilDBInterface $db)
 	{
 		$this->db = $db;
 	}
@@ -39,27 +39,27 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	private function getTablesUsedDuringAssessmentLog()
 	{
 		return array(
-			array('name' => 'qpl_questions', 'type' => ilDB::LOCK_WRITE),
-			array('name' => 'tst_tests', 'type' => ilDB::LOCK_WRITE),
-			array('name' => 'tst_active', 'type' => ilDB::LOCK_WRITE),
-			array('name' => 'ass_log', 'type' => ilDB::LOCK_WRITE),
-			array('name' => 'ass_log', 'type' => ilDB::LOCK_WRITE, 'sequence' => true)
+			array('name' => 'qpl_questions', 'type' => ilDBConstants::LOCK_WRITE),
+			array('name' => 'tst_tests', 'type' => ilDBConstants::LOCK_WRITE),
+			array('name' => 'tst_active', 'type' => ilDBConstants::LOCK_WRITE),
+			array('name' => 'ass_log', 'type' => ilDBConstants::LOCK_WRITE),
+			array('name' => 'ass_log', 'type' => ilDBConstants::LOCK_WRITE, 'sequence' => true)
 		);
 	}
 
 	private function getTablesUsedDuringSolutionUpdate()
 	{
 		return array(
-			array('name' => 'tst_solutions', 'type' => ilDB::LOCK_WRITE),
-			array('name' => 'tst_solutions', 'type' => ilDB::LOCK_WRITE, 'sequence' => true)
+			array('name' => 'tst_solutions', 'type' => ilDBConstants::LOCK_WRITE),
+			array('name' => 'tst_solutions', 'type' => ilDBConstants::LOCK_WRITE, 'sequence' => true)
 		);
 	}
 
 	private function getTablesUsedDuringResultUpdate()
 	{
 		return array(
-			array('name' => 'tst_test_result', 'type' => ilDB::LOCK_WRITE),
-			array('name' => 'tst_test_result', 'type' => ilDB::LOCK_WRITE, 'sequence' => true)
+			array('name' => 'tst_test_result', 'type' => ilDBConstants::LOCK_WRITE),
+			array('name' => 'tst_test_result', 'type' => ilDBConstants::LOCK_WRITE, 'sequence' => true)
 		);
 	}
 
@@ -109,7 +109,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 		// no lock neccessary, because a single replace query is used
 		
 		//$this->db->lockTables(array(
-		//	array('name' => 'tst_pass_result', 'type' => ilDB::LOCK_WRITE)
+		//	array('name' => 'tst_pass_result', 'type' => ilDBConstants::LOCK_WRITE)
 		//));
 	}
 
@@ -123,7 +123,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
 	public function requestUserTestResultUpdateLock()
 	{
 		$this->db->lockTables(array(
-			array('name' => 'tst_result_cache', 'type' => ilDB::LOCK_WRITE)
+			array('name' => 'tst_result_cache', 'type' => ilDBConstants::LOCK_WRITE)
 		));
 	}
 

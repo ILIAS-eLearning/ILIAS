@@ -37,11 +37,11 @@ class ilRegistrationRoleAccessLimitations
 {
 	var $access_limits = array();
 
-	function ilRegistrationRoleAccessLimitations()
+	function __construct()
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 		$this->__read();
 	}
 	
@@ -54,7 +54,7 @@ class ilRegistrationRoleAccessLimitations
 		$res = $this->db->query($query);
 
 		$this->access_limitations = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->access_limitations[$row->role_id]['id'] =  $row->role_id;
 			$this->access_limitations[$row->role_id]['absolute'] = $row->limit_absolute;

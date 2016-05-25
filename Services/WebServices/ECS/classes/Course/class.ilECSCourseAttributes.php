@@ -221,7 +221,7 @@ class ilECSCourseAttributes
 				'AND mid = '.$ilDB->quote($this->mid,'integer').' '.
 				'ORDER BY id';
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->attributes[] = new ilECSCourseAttribute($row->id);
 		}

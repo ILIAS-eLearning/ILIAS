@@ -27,13 +27,15 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		ilObjQuestionPool::_setImportDirectory($this->getImportDirectoryBase());
-
+		ilObjQuestionPool::_setImportDirectory($this->getImportDirectoryContainer());
+		
 		// Container import => pool object already created
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
 			$newObj->setOnline(true);
+
+			$_SESSION['qpl_import_subdir'] = $this->getImportPackageName();
 		}
 		else if ($new_id = $a_mapping->getMapping('Modules/TestQuestionPool','qpl', "new_id"))
 		{
@@ -45,6 +47,8 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 			$GLOBALS['ilLog']->write(__METHOD__.': non container and no tax mapping, perhaps old qpl export' );
 			return false;
 		}
+
+		
 
 		list($xml_file,$qti_file) = $this->parseXmlFileNames();
 
@@ -79,6 +83,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 		if( isset($_SESSION["qpl_import_idents"]) )
 		{
 			$idents = $_SESSION["qpl_import_idents"];
+			unset($_SESSION["qpl_import_idents"]);
 		}
 		else
 		{
@@ -180,11 +185,18 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 		return array($xml,$qti);
 	}
 
-	private function getImportDirectoryBase()
+	private function getImportDirectoryContainer()
 	{
 		$dir = $this->getImportDirectory();
 		$dir = dirname($dir);
 		return $dir;
+	}
+
+	private function getImportPackageName()
+	{
+		$dir = $this->getImportDirectory();
+		$name = basename($dir);
+		return $name;
 	}
 }
 

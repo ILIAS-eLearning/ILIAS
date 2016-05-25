@@ -18,14 +18,14 @@ class ilLinkResourceItems
 	* Constructor
 	* @access public
 	*/
-	function ilLinkResourceItems($webr_id)
+	function __construct($webr_id)
 	{
 		global $ilDB;
 
 		$this->webr_ref_id = 0;
 		$this->webr_id = $webr_id;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 	}
 	
 	// BEGIN PATCH Lucene search
@@ -38,7 +38,7 @@ class ilLinkResourceItems
 			"AND link_id = ".$ilDB->quote($a_link_id ,'integer');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$item['title']				= $row->title;
 			$item['description']		= $row->description;
@@ -50,6 +50,7 @@ class ilLinkResourceItems
 			$item['last_check']			= $row->last_check;
 			$item['valid']				= $row->valid;
 			$item['link_id']			= $row->link_id;
+			$item['internal']			= $row->internal;
 		}
 		return $item ? $item : array();
 			
@@ -173,6 +174,14 @@ class ilLinkResourceItems
 	{
 		return (bool) $this->valid;
 	}
+	function setInternal($a_status)
+	{
+		$this->internal = (bool) $a_status;
+	}
+	function getInternal()
+	{
+		return (bool) $this->internal;
+	}
 	
 	/**
 	 * Copy web resource items
@@ -196,6 +205,7 @@ class ilLinkResourceItems
 	 		$new_item->setDisableCheckStatus($item['disable_check']);
 	 		$new_item->setLastCheckDate($item['last_check']);
 	 		$new_item->setValidStatus($item['valid']);
+	 		$new_item->setInternal($item['internal']);
 	 		$new_item->add(true);
 
 			// Add parameters
@@ -249,6 +259,7 @@ class ilLinkResourceItems
 			"active = ".$ilDB->quote($this->getActiveStatus() ,'integer').", ".
 			"valid = ".$ilDB->quote($this->getValidStatus() ,'integer').", ".
 			"disable_check = ".$ilDB->quote($this->getDisableCheckStatus() ,'integer').", ".
+			"internal = ".$ilDB->quote($this->getInternal() ,'integer').", ".
 			"last_update = ".$ilDB->quote($this->getLastUpdateDate() ,'integer').", ".
 			"last_check = ".$ilDB->quote($this->getLastCheckDate() ,'integer')." ".
 			"WHERE link_id = ".$ilDB->quote($this->getLinkId() ,'integer')." ".
@@ -367,7 +378,7 @@ class ilLinkResourceItems
 
 		$next_id = $ilDB->nextId('webr_items');
 		$query = "INSERT INTO webr_items (link_id,title,description,target,active,disable_check,".
-			"last_update,create_date,webr_id,valid) ".
+			"last_update,create_date,webr_id,valid,internal) ".
 			"VALUES( ". 
 			$ilDB->quote($next_id ,'integer').", ".
 			$ilDB->quote($this->getTitle() ,'text').", ".
@@ -378,7 +389,8 @@ class ilLinkResourceItems
 			$ilDB->quote($this->getLastUpdateDate() ,'integer').", ".
 			$ilDB->quote($this->getCreateDate() ,'integer').", ".
 			$ilDB->quote($this->getLinkResourceId() ,'integer').", ".
-			$ilDB->quote($this->getValidStatus(),'integer'). ' '.
+			$ilDB->quote($this->getValidStatus(),'integer'). ', '.
+			$ilDB->quote($this->getInternal(),'integer'). ' '.
 			")";
 		$res = $ilDB->manipulate($query);
 
@@ -402,7 +414,7 @@ class ilLinkResourceItems
 			"WHERE link_id = ".$ilDB->quote($a_link_id ,'integer');
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setTitle($row->title);
 			$this->setDescription($row->description);
@@ -414,6 +426,7 @@ class ilLinkResourceItems
 			$this->setLastCheckDate($row->last_check);
 			$this->setValidStatus($row->valid);
 			$this->setLinkId($row->link_id);
+			$this->setInternal($row->internal);
 		}
 		return true;
 	}
@@ -428,7 +441,7 @@ class ilLinkResourceItems
 			"AND link_id = ".$ilDB->quote($a_link_id ,'integer');
 			
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$item['title']				= $row->title;
 			$item['description']		= $row->description;
@@ -440,6 +453,7 @@ class ilLinkResourceItems
 			$item['last_check']			= $row->last_check;
 			$item['valid']				= $row->valid;
 			$item['link_id']			= $row->link_id;
+			$item['internal']			= $row->internal;
 		}
 		return $item ? $item : array();
 	}
@@ -456,7 +470,7 @@ class ilLinkResourceItems
 		$query = "SELECT link_id FROM webr_items ".
 			"WHERE webr_id = ".$ilDB->quote($a_webr_id ,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$link_ids[] = $row['link_id'];
 		}
@@ -471,7 +485,7 @@ class ilLinkResourceItems
 			"WHERE webr_id = ".$ilDB->quote($this->getLinkResourceId() ,'integer');
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$items[$row->link_id]['title']				= $row->title;
 			$items[$row->link_id]['description']		= $row->description;
@@ -483,6 +497,7 @@ class ilLinkResourceItems
 			$items[$row->link_id]['last_check']			= $row->last_check;
 			$items[$row->link_id]['valid']				= $row->valid;
 			$items[$row->link_id]['link_id']			= $row->link_id;
+			$items[$row->link_id]['internal']			= $row->internal;
 		}
 		return $items ? $items : array();
 	}
@@ -604,7 +619,7 @@ class ilLinkResourceItems
 		$query = "SELECT COUNT(*) num FROM webr_items ".
 			"WHERE webr_id = ".$ilDB->quote($a_webr_id,'integer');
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		return $row->num;
 	}
 
@@ -656,7 +671,8 @@ class ilLinkResourceItems
 					'active'			=> $link['active'] ? 1 : 0,
 					'valid'				=> $link['valid'] ? 1 : 0,
 					'disableValidation'	=> $link['disable_check'] ? 1 : 0,
-					'position'			=> $position
+					'position'			=> $position,
+					'internal'			=> $link['internal']
 				)
 			);
 			$writer->xmlElement('Title',array(),$link['title']);

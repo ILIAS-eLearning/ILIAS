@@ -3,7 +3,7 @@
  * TestCase for the ilContext
  *
  * @author Richard Klees <richard.klees@concepts-and-training.de>
-*/
+ */
 class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 	protected $backupGlobals = FALSE;
 
@@ -25,10 +25,14 @@ class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 		$this->assertSame($GLOBALS[$global_name], $DIC[$global_name]);
 	}
 
-	public function test_DIC_getters() {
+	/**
+	 * @dataProvider getterProvider
+	 */
+	public function test_DIC_getters($class_name, $getter) {
 		global $DIC;
 
-		$this->assertInstanceOf("ilDB", $DIC->ilDB());
+		$service = $getter($DIC);
+		$this->assertInstanceOf($class_name, $service);
 	}
 
 	public function globalsProvider() {
@@ -39,6 +43,28 @@ class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 			, array("tree", "ilTree")
 			, array("ilLog", "ilLogger")
 			, array("ilDB", "ilDB")
+			, array("ilDB", "ilDBInterface")
+			);
+	}
+
+	public function getterProvider() {
+		return array
+			( array("ilDBInterface", function ($DIC) { return $DIC->database(); })
+			, array("ilCtrl", function ($DIC) { return $DIC->ctrl(); })
+			, array("ilObjUser", function ($DIC) { return $DIC->user(); })
+			, array("ilRbacSystem", function ($DIC) { return $DIC->rbac()->system(); })
+			, array("ilRbacAdmin", function ($DIC) { return $DIC->rbac()->admin(); })
+			, array("ilRbacReview", function ($DIC) { return $DIC->rbac()->review(); })
+			, array("ilAccessHandler", function ($DIC) { return $DIC->access(); })
+			, array("ilTree", function ($DIC) { return $DIC->repositoryTree(); })
+			, array("ilLanguage", function ($DIC) { return $DIC->language(); })
+			// TODO: Can't test these until context for unit tests does not have HTML.
+			//, array("ilToolbarGUI", function ($DIC) { return $DIC->toolbar(); })
+			//, array("ilTabsGUI", function ($DIC) { return $DIC->tabs(); })
+			, array("ilLogger", function ($DIC) { return $DIC->logger()->root(); })
+			, array("ilLogger", function ($DIC) { return $DIC->logger()->grp(); })
+			, array("ilLogger", function ($DIC) { return $DIC->logger()->crs(); })
+			, array("ilLogger", function ($DIC) { return $DIC->logger()->tree(); })
 			);
 	}
 }

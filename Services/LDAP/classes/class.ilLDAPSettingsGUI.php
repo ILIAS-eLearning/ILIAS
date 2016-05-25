@@ -959,7 +959,7 @@ class ilLDAPSettingsGUI
 			$this->mapping->save();
 	
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
-			$this->ctrl->redirect($this,'editServerSettings');
+			$this->ctrl->redirect($this,'serverList');
 			return true;
 			#$this->form_gui->setValuesByPost();
 			#return $this->tpl->setContent($this->form_gui->getHtml());

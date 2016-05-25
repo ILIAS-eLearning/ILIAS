@@ -74,14 +74,14 @@ class ilSoapDummyAuthServer
 	var $server = null;
 
 
-    function ilSoapDummyAuthServer($a_use_wsdl = true)
+    function __construct($a_use_wsdl = true)
     {
 		define('SERVICE_NAME','ILIAS SOAP Dummy Authentication Server');
 		define('SERVICE_NAMESPACE','urn:ilSoapDummyAuthServer');
 		define('SERVICE_STYLE','rpc');
 		define('SERVICE_USE','encoded');
 
-		$this->server =& new soap_server();
+		$this->server = new soap_server();
 
 		if($a_use_wsdl)
 		{

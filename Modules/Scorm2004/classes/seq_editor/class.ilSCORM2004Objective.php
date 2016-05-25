@@ -37,9 +37,9 @@ class ilSCORM2004Objective extends ilSCORM2004Item
 	* Constructor
 	* @access	public
 	*/
-	function ilSCORM2004Objective($a_treeid = null, $a_obj_id = null)
+	function __construct($a_treeid = null, $a_obj_id = null)
 	{
-		parent::ilSCORM2004Item($a_treeid);
+		parent::__construct($a_treeid);
 		
 		if ($a_obj_id !=null && $a_treeid != null) {
 			$xpath_obj = new DOMXPath($this->dom);

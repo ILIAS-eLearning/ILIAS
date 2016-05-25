@@ -24,7 +24,6 @@ class ilRepUtil
 		global $ilAppEventHandler, $rbacsystem, $rbacadmin, $log, $ilUser, $tree, $lng,
 			$ilSetting;
 		
-		include_once './Services/Payment/classes/class.ilPaymentObject.php';
 		include_once("./Services/Repository/exceptions/class.ilRepositoryException.php");
 		
 		// Remove duplicate ids from array
@@ -58,35 +57,21 @@ class ilRepUtil
 					$not_deletable[] = $node["child"];
 					$perform_delete = false;
 				}
-				else if(ilPaymentObject::_isBuyable($node['child']))
-				{
-					$buyable[] = $node['child'];
-					$perform_delete = false;
-				}
 			}
 		}
 
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO DELETE
 		if (count($not_deletable))
 		{
-			$not_deletable = implode(',',$not_deletable);
+			$not_deletable_titles = array();
+			foreach ($not_deletable as $key => $ref_id) {
+				$obj_id = ilObject::_lookupObjId($ref_id);
+				$not_deletable_titles[] = ilObject::_lookupTitle($obj_id);
+			}
+			
 			ilSession::clear("saved_post");
 			throw new ilRepositoryException(
-				$lng->txt("msg_no_perm_delete")." ".$not_deletable."<br/>".$lng->txt("msg_cancel"));
-		}
-
-		if(count($buyable))
-		{
-			foreach($buyable as $id)
-			{
-				$tmp_object = ilObjectFactory::getInstanceByRefId($id);
-
-				$titles[] = $tmp_object->getTitle();
-			}
-			$title_str = implode(',',$titles);
-
-			throw new ilRepositoryException(
-				$lng->txt('msg_obj_not_deletable_sold').' '.$title_str);
+				$lng->txt("msg_no_perm_delete")." ".implode(', ',$not_deletable_titles)."<br/>".$lng->txt("msg_cancel"));
 		}
 
 		// DELETE THEM
@@ -100,7 +85,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			{
 				foreach($a_ids as $id)
 				{
-					$obj =& ilObjectFactory::getInstanceByObjId($id);
+					$obj = ilObjectFactory::getInstanceByObjId($id);
 					$obj->delete();
 					
 					// write log entry
@@ -177,8 +162,6 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 						   "old_parent_ref_id" => $affected_parents[$aid]
 						 ));
 			}
-			// inform other objects in hierarchy about paste operation
-			//$this->object->notify("confirmedDelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["saved_post"]);
 		}
 		
 		if (!$ilSetting->get('enable_trash'))
@@ -238,7 +221,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 
 			foreach ($subtree_nodes as $node)
 			{
-				if(!$node_obj =& ilObjectFactory::getInstanceByRefId($node["ref_id"],false))
+				if(!$node_obj = ilObjectFactory::getInstanceByRefId($node["ref_id"],false))
 				{
 					continue;
 				}
@@ -321,7 +304,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 				{
 					foreach ($del_subtree_nodes as $node)
 					{
-						$node_obj =& ilObjectFactory::getInstanceByRefId($node["ref_id"]);
+						$node_obj = ilObjectFactory::getInstanceByRefId($node["ref_id"]);
 						
 						// write log entry
 						$log->write("ilObjectGUI::removeDeletedNodes(), delete obj_id: ".$node_obj->getId().
@@ -352,7 +335,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	/**
 	* Move objects from trash back to repository
 	*/
-	function restoreObjects($a_cur_ref_id, $a_ref_ids)
+	static public function restoreObjects($a_cur_ref_id, $a_ref_ids)
 	{
 		global $rbacsystem, $log, $ilAppEventHandler, $lng, $tree;
 

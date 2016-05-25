@@ -235,7 +235,7 @@ class ilSessionControl
 	{
 		global $ilSetting;
 		
-		$max_sessions = (int)$ilSetting->get('session_max_count', DEFAULT_MAX_COUNT);
+		$max_sessions = (int)$ilSetting->get('session_max_count', self::DEFAULT_MAX_COUNT);
 
 		if($max_sessions > 0)
 		{
@@ -325,7 +325,7 @@ class ilSessionControl
 					"AND ".$ilDB->in('type', $a_types, false, 'integer');
 	
 		$res = $ilDB->queryF($query, array('integer'), array($ts));
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 		return $row->num_sessions;
 	}
@@ -359,7 +359,7 @@ class ilSessionControl
 				array($ts, $ts, $max_idle, $min_idle)
 		);
 		
-		while( $row = $res->fetchRow(DB_FETCHMODE_OBJECT) )
+		while( $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT) )
 		{
 			ilSession::_destroy($row->session_id, ilSession::SESSION_CLOSE_IDLE, $row->expires);
 
@@ -400,7 +400,7 @@ class ilSessionControl
 		);
 		
 		$session_ids = array();
-		while( $row = $res->fetchRow(DB_FETCHMODE_OBJECT) )
+		while( $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT) )
 		{
 			$session_ids[$row->session_id] = $row->expires;					
 		}		

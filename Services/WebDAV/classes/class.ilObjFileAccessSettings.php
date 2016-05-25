@@ -84,10 +84,10 @@ class ilObjFileAccessSettings extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	public function ilObjFileAccessSettings($a_id = 0,$a_call_by_reference = true)
+	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "facs";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	/**
@@ -284,11 +284,10 @@ class ilObjFileAccessSettings extends ilObject
 	}
 	/**
 	* read object data from db into object
-	* @param	boolean
 	*/
-	public function read($a_force_db = false)
+	public function read()
 	{
-		parent::read($a_force_db);
+		parent::read();
 
 		global $ilClientIniFile;
 		$this->webdavEnabled = $ilClientIniFile->readVariable('file_access','webdav_enabled') == '1';

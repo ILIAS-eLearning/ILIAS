@@ -111,7 +111,7 @@ class ilCalendarShared
 		$query = 'SELECT * FROM cal_shared '.
 			"WHERE cal_id = ".$ilDB->quote($a_calendar_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$obj_ids[$row->obj_id] = $row->obj_type;
 		}
@@ -160,7 +160,7 @@ class ilCalendarShared
 			"ORDER BY create_date";
 		$res = $ilDB->query($query);
 		$calendars = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$calendars[] = $row->cal_id; 
 			
@@ -176,7 +176,7 @@ class ilCalendarShared
 			"AND ".$ilDB->in('obj_id',$assigned_roles,false ,'integer');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if(in_array($row->cal_id,$calendars))
 			{
@@ -365,7 +365,7 @@ class ilCalendarShared
 		
 		$query = "SELECT * FROM cal_shared WHERE cal_id = ".$this->db->quote($this->getCalendarId() ,'integer');
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			switch($row->obj_type)
 			{

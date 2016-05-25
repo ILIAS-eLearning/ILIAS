@@ -145,7 +145,7 @@ class ilConditionHandler
 		$query = 'SELECT hidden_status FROM conditions '.
 				'WHERE target_ref_id = '.$ilDB->quote($a_target_ref_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->hidden_status;
 		}
@@ -199,7 +199,7 @@ class ilConditionHandler
 		
 		$query = "SELECT DISTINCT target_ref_id ref FROM conditions ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ref_ids[] = $row->ref;
 		}
@@ -671,7 +671,7 @@ class ilConditionHandler
 	* get all conditions of trigger object
 	* @static
 	*/
-	function _getConditionsOfTrigger($a_trigger_obj_type, $a_trigger_id)
+	static function _getConditionsOfTrigger($a_trigger_obj_type, $a_trigger_id)
 	{
 		global $ilDB;
 
@@ -680,7 +680,7 @@ class ilConditionHandler
 			" AND trigger_type = ".$ilDB->quote($a_trigger_obj_type,'text');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$tmp_array['id']			= $row->condition_id;
 			$tmp_array['target_ref_id'] = $row->target_ref_id;
@@ -779,7 +779,7 @@ class ilConditionHandler
 	 * @param
 	 * @return
 	 */
-	function preloadConditionsForTargetRecords($a_type, $a_obj_ids)
+	static function preloadConditionsForTargetRecords($a_type, $a_obj_ids)
 	{
 		global $ilDB;
 
@@ -805,7 +805,7 @@ class ilConditionHandler
 		}
 	}
 
-	function _getCondition($a_id)
+	static function _getCondition($a_id)
 	{
 		global $ilDB;
 
@@ -813,7 +813,7 @@ class ilConditionHandler
 			"WHERE condition_id = ".$ilDB->quote($a_id,'integer');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$tmp_array['id']			= $row->condition_id;
 			$tmp_array['target_ref_id'] = $row->target_ref_id;
@@ -840,7 +840,7 @@ class ilConditionHandler
 	* every trigger object type must implement a static method
 	* _checkCondition($a_operator, $a_value)
 	*/
-	function _checkCondition($a_id,$a_usr_id = 0)
+	static function _checkCondition($a_id,$a_usr_id = 0)
 	{
 		global $ilUser, $objDefinition;
 		
@@ -962,7 +962,7 @@ class ilConditionHandler
 	/**
 	* checks wether all conditions of a target object are fulfilled
 	*/
-	function _checkAllConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type = "",$a_usr_id = 0)
+	static function _checkAllConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type = "",$a_usr_id = 0)
 	{
 		global $ilBench,$ilUser,$tree;
 		

@@ -52,7 +52,7 @@ class ilChangeEvent
 	 *      of the object. If this is not null, then the event is only 
 	 *      recorded for the specified parent.
 	 */
-	function _recordWriteEvent($obj_id, $usr_id, $action, $parent_obj_id = null)
+	public static function _recordWriteEvent($obj_id, $usr_id, $action, $parent_obj_id = null)
 	{
 		global $ilDB;
 		
@@ -99,7 +99,6 @@ class ilChangeEvent
 			$aff = $ilDB->manipulate($query);
 			
 		}
-		//error_log ('ilChangeEvent::_recordWriteEvent '.$q);
 	}
 	
 	/**
@@ -110,7 +109,7 @@ class ilChangeEvent
 	 * @param $catchupWriteEvents boolean If true, this function catches up with
 	 * 	write events.
 	 */
-	function _recordReadEvent($a_type, $a_ref_id, $obj_id, $usr_id,
+	static function _recordReadEvent($a_type, $a_ref_id, $obj_id, $usr_id,
 		$isCatchupWriteEvents = true, $a_ext_rc = false, $a_ext_time = false)
 	{
 		global $ilDB, $tree;
@@ -322,7 +321,7 @@ class ilChangeEvent
 		// - add diffs to childs_spent_seconds and childs_read_count
 	}
 
-	function _recordObjStats($a_obj_id, $a_spent_seconds, $a_read_count, $a_childs_spent_seconds = null, $a_child_read_count = null)
+	static function _recordObjStats($a_obj_id, $a_spent_seconds, $a_read_count, $a_childs_spent_seconds = null, $a_child_read_count = null)
 	{
 		global $ilDB;
 		
@@ -374,7 +373,7 @@ class ilChangeEvent
 	 * @param integer $a_now
 	 * @param integer $a_minimum
 	 */
-	function _syncObjectStats($a_now = null, $a_minimum = 20000)
+	static function _syncObjectStats($a_now = null, $a_minimum = 20000)
 	{
 		global $ilDB;
 		
@@ -391,8 +390,8 @@ class ilChangeEvent
 		if($row["counter"] >= $a_minimum)
 		{
 			// lock source and transfer table
-			$ilDB->lockTables(array(array("name"=>"obj_stat_log", "type"=>ilDB::LOCK_WRITE),
-				array("name"=>"obj_stat_tmp", "type"=>ilDB::LOCK_WRITE)));
+			$ilDB->lockTables(array(array("name"=>"obj_stat_log", "type"=>ilDBConstants::LOCK_WRITE),
+				array("name"=>"obj_stat_tmp", "type"=>ilDBConstants::LOCK_WRITE)));
 
 			// if other process was transferring, we had to wait for the lock and
 			// the source table should now have less than minimum/needed entries
@@ -413,8 +412,8 @@ class ilChangeEvent
 				$ilDB->unlockTables();
 
 				// lock transfer and target table (is this needed?)
-				$ilDB->lockTables(array(array("name"=>"obj_stat_tmp", "type"=>ilDB::LOCK_WRITE),
-				array("name"=>"obj_stat", "type"=>ilDB::LOCK_WRITE)));
+				$ilDB->lockTables(array(array("name"=>"obj_stat_tmp", "type"=>ilDBConstants::LOCK_WRITE),
+				array("name"=>"obj_stat", "type"=>ilDBConstants::LOCK_WRITE)));
 
 				// process log data (timestamp is not needed anymore)
 				$sql = "SELECT obj_id, obj_type, yyyy, mm, dd, hh, SUM(read_count) AS read_count,".
@@ -487,7 +486,7 @@ class ilChangeEvent
 	 * @param $usr_id int The user.
 	 * @param $timestamp SQL timestamp.
 	 */
-	function _catchupWriteEvents($obj_id, $usr_id, $timestamp = null)
+	static function _catchupWriteEvents($obj_id, $usr_id, $timestamp = null)
 	{
 		global $ilDB;
 		
@@ -586,7 +585,7 @@ class ilChangeEvent
 			"AND usr_id=".$ilDB->quote($usr_id ,'integer');
 		$r = $ilDB->query($q);
 		$catchup = null;
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
 		
@@ -639,7 +638,7 @@ class ilChangeEvent
 			"AND usr_id=".$ilDB->quote($usr_id ,'integer');
 		$r = $ilDB->query($q);
 		$catchup = null;
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
 
@@ -704,7 +703,7 @@ class ilChangeEvent
 			"AND usr_id=".$ilDB->quote($usr_id);
 		$r = $ilDB->query($q);
 		$catchup = null;
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
 
@@ -763,7 +762,7 @@ class ilChangeEvent
 			"AND usr_id=".$ilDB->quote($usr_id);
 		$r = $ilDB->query($q);
 		$catchup = null;
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
 		
@@ -775,7 +774,7 @@ class ilChangeEvent
 			"ORDER BY last_access DESC";
 		$r = $ilDB->query($q);
 		$events = array();
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$events[] = $row;
 		}
@@ -913,15 +912,8 @@ class ilChangeEvent
 				$res = $ilDB->query($query);
 			}
 			
-			if ($ilDB->isError($res) || $ilDB->isError($res->result))
-			{
-				return 'couldn\'t insert initial data into table "write_event": '.
-				(($ilDB->isError($r->result)) ? $r->result->getMessage() : $r->getMessage());
-			}
-
-
-			global $ilias;
-			$ilias->setSetting('enable_change_event_tracking', '1');
+			global $ilSetting;
+			$ilSetting->set('enable_change_event_tracking', '1');
 
 			return $res;
 		}
@@ -933,9 +925,8 @@ class ilChangeEvent
 	 * @return mixed true on success, a string with an error message on failure.
 	 */
 	public static function _deactivate() {
-		global $ilias;
-		$ilias->setSetting('enable_change_event_tracking', '0');
-		
+		global $ilSetting;
+		$ilSetting->set('enable_change_event_tracking', '0');		
 	}
 
 	/**
@@ -944,9 +935,8 @@ class ilChangeEvent
 	 * @return mixed true on success, a string with an error message on failure.
 	 */
 	public static function _isActive() {
-		global $ilias;
-		return $ilias->getSetting('enable_change_event_tracking', '0') == '1';
-		
+		global $ilSetting;
+		$ilSetting->get('enable_change_event_tracking', '0') == '1';		
 	}
 	
 	/**
@@ -1008,7 +998,7 @@ class ilChangeEvent
 	 * called in ./Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php
 	 * @return true
 	 */
-	function _updateAccessForScormOfflinePlayer($obj_id, $usr_id, $i_last_access, $t_first_access) {
+	static function _updateAccessForScormOfflinePlayer($obj_id, $usr_id, $i_last_access, $t_first_access) {
 		global $ilDB;
 		$res = $ilDB->queryF('UPDATE read_event SET first_access=%s, last_access = %s WHERE obj_id=%s AND usr_id=%s',
 			array('timestamp','integer','integer','integer'),

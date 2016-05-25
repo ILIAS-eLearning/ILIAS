@@ -35,7 +35,7 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 class ilMilestoneResponsiblesTableGUI extends ilTable2GUI
 {
 
-	function ilMilestoneResponsiblesTableGUI($a_parent_obj, $a_parent_cmd = "",
+	public function __construct($a_parent_obj, $a_parent_cmd = "",
 		$a_grp_id, $a_app_id)
 	{
 		global $ilCtrl, $lng;

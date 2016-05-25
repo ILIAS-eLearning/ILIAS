@@ -96,6 +96,9 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		$this->editQuestion();
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	protected function writePostData($upload = false)
 	{
 		$form = $this->buildEditForm();

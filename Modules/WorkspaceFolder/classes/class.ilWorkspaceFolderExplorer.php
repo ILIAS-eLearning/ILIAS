@@ -100,7 +100,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
 	* @param	integer		depth level where to start (default=1)
 	* @return	string
 	*/
-	function setOutput($a_parent, $a_depth = 1)
+	function setOutput($a_parent, $a_depth = 1, $a_obj_id = 0, $a_highlighted_subtree = false)
 	{
 		global $lng;
 		static $counter = 0;
@@ -297,7 +297,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
 		}
 	}
 	
-	function getImageAlt($a_def, $a_type, $a_obj_id)
+	function getImageAlt($a_def, $a_type = "", $a_obj_id = "")
 	{
 		global $lng;
 		

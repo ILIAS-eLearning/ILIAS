@@ -65,7 +65,7 @@ class ilBookingEntry
 		$res = $ilDB->query($query);
 		
 		$booked_entries = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$booked_entries[] = $row->entry_id;
 		}
@@ -296,7 +296,7 @@ class ilBookingEntry
 		$query = "SELECT * FROM booking_entry ".
 			"WHERE booking_id = ".$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$this->setObjId($row['obj_id']);
 			$this->setDeadlineHours($row['deadline']);
@@ -309,7 +309,7 @@ class ilBookingEntry
 		$res = $ilDB->query($query);
 		
 		$this->target_obj_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->target_obj_ids[] = $row->target_obj_id;
 		}
@@ -401,7 +401,7 @@ class ilBookingEntry
 
 		$res = $ilDB->query($query);
 		$all = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$all[] = $row->obj_id;
 		}
@@ -433,7 +433,7 @@ class ilBookingEntry
 		$res = $ilDB->query($query);
 		
 		$objs = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if(!in_array($row->bobj,$objs))
 			{
@@ -454,7 +454,7 @@ class ilBookingEntry
 		
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if(!in_array($row->bobj,$objs))
 			{
@@ -487,7 +487,7 @@ class ilBookingEntry
 				$user_restriction;
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return true;
 		}
@@ -502,7 +502,7 @@ class ilBookingEntry
 				'WHERE entry_id = '.$ilDB->quote($a_entry_id,'integer').' '.
 				'AND user_id = '.$ilDB->quote($a_usr_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->booking_message;
 		}
@@ -607,7 +607,7 @@ class ilBookingEntry
 		$res = $ilDB->query($query);
 		
 		$bookings = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$dt = new ilDateTime($row->starta,IL_CAL_DATETIME,  ilTimeZone::UTC);
 			$dt_end = new ilDateTime($row->enda,IL_CAL_DATETIME, ilTimeZone::UTC);

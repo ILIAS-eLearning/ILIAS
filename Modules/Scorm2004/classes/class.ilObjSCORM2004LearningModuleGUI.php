@@ -4,8 +4,8 @@
 require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php");
 require_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Export.php");
-include_once("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
-include_once("./Services/Style/classes/class.ilPageLayout.php");
+include_once("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
+include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 
 /**
 * Class ilObjSCORMLearningModuleGUI
@@ -28,7 +28,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	*
 	* @access	public
 	*/
-	function ilObjSCORM2004LearningModuleGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
 		global $lng;
 
@@ -37,8 +37,8 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$lng->loadLanguageModule("search");
 		$lng->loadLanguageModule("exp");
 		$this->type = "sahs";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
-		#$this->tabs_gui =& new ilTabsGUI();
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
+		#$this->tabs_gui = new ilTabsGUI();
 	}
 
 	/**
@@ -180,38 +180,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	{
 		if ($this->object->getEditable())	// show editing frameset
 		{
-$this->ctrl->redirect($this, "properties");
-			include_once("./Services/Frameset/classes/class.ilFramesetGUI.php");
-			$fs_gui = new ilFramesetGUI();
-			$fs_gui->setFramesetTitle($this->lng->txt("editor"));
-			$fs_gui->setMainFrameName("content");
-			$fs_gui->setSideFrameName("tree");
-			$this->ctrl->setParameter($this, "active_node", $_GET["obj_id"]);
-			$fs_gui->setSideFrameSource($this->ctrl->getLinkTarget($this, "showTree"));
-			$this->ctrl->setParameter($this, "activeNode", "");
-			if ($_GET["obj_id"] > 0)
-			{
-				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
-				$type = ilSCORM2004Node::_lookupType($_GET["obj_id"]);
-			}
-			if (in_array($type, array("sco", "chap", "seqc", "page")))
-			{
-				$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-				$fs_gui->setMainFrameSource($this->ctrl->getLinkTarget($this, "jumpToNode"));
-			}
-			else
-			{
-				if ($a_to_organization)
-				{
-					$fs_gui->setMainFrameSource($this->ctrl->getLinkTarget($this, "showOrganization"));
-				}
-				else
-				{
-					$fs_gui->setMainFrameSource($this->ctrl->getLinkTarget($this, "properties"));
-				}
-			}
-			$fs_gui->show();
-			exit;
+			$this->ctrl->redirect($this, "properties");
 		}
 		else						// otherwise show standard frameset
 		{
@@ -955,7 +924,6 @@ $this->ctrl->redirect($this, "properties");
 			$newObj->createReference();
 			$newObj->putInTree($parent_ref_id);
 			$newObj->setPermissions($parent_ref_id);
-			$newObj->notify("new",$parent_ref_id,$_GET["parent_non_rbac_id"],$parent_ref_id,$newObj->getRefId());
 			
 			// perform save
 			$this->object->setAssignedGlossary($newObj->getId());
@@ -1032,11 +1000,11 @@ $this->ctrl->redirect($this, "properties");
 		{
 			if ($this->call_by_reference)
 			{
-				$this->object =& new ilObjSCORM2004LearningModule($this->id, true);
+				$this->object = new ilObjSCORM2004LearningModule($this->id, true);
 			}
 			else
 			{
-				$this->object =& new ilObjSCORM2004LearningModule($this->id, false);
+				$this->object = new ilObjSCORM2004LearningModule($this->id, false);
 			}
 		}
 	}
@@ -1687,7 +1655,7 @@ $this->ctrl->redirect($this, "properties");
 	 *
 	 * @param	object		$tabs_gui		ilTabsGUI object
 	 */
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $ilAccess, $ilHelp;
 
@@ -1698,13 +1666,13 @@ $this->ctrl->redirect($this, "properties");
 
 		if (!$this->object->getEditable())
 		{
-			return parent::getTabs($tabs_gui);
+			return parent::getTabs();
 		}
 		
 		$ilHelp->setScreenIdComponent("sahsed");
 
 		// organization
-		$tabs_gui->addTarget("sahs_organization",
+		$this->tabs_gui->addTarget("sahs_organization",
 		$this->ctrl->getLinkTarget($this, "showOrganization"), "showOrganization",
 		get_class($this));
 
@@ -1712,12 +1680,12 @@ $this->ctrl->redirect($this, "properties");
 		$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui")
 		? true
 		: false;
-		$tabs_gui->addTarget("info_short",
+		$this->tabs_gui->addTarget("info_short",
 		$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"), "",
 			"ilinfoscreengui", "", $force_active);
 			
 		// settings
-		$tabs_gui->addTarget("settings",
+		$this->tabs_gui->addTarget("settings",
 		$this->ctrl->getLinkTarget($this, "properties"), "properties",
 		get_class($this));
 
@@ -1729,12 +1697,12 @@ $this->ctrl->redirect($this, "properties");
 			*/
 		
 		// objective alignment
-		$tabs_gui->addTarget("sahs_objectives_alignment",
+		$this->tabs_gui->addTarget("sahs_objectives_alignment",
 		$this->ctrl->getLinkTarget($this, "showLearningObjectivesAlignment"), "showLearningObjectivesAlignment",
 		get_class($this));
 
 		// sequencing
-		$tabs_gui->addTarget("sahs_sequencing",
+		$this->tabs_gui->addTarget("sahs_sequencing",
 		$this->ctrl->getLinkTarget($this, "showSequencing"), "showSequencing",
 			get_class($this));
 
@@ -1756,27 +1724,27 @@ $this->ctrl->redirect($this, "properties");
 		$mdtab = $mdgui->getTab();
 		if($mdtab)
 		{
-			$tabs_gui->addTarget("meta_data",
+			$this->tabs_gui->addTarget("meta_data",
 				$mdtab,
 				"", "ilmdeditorgui");
 		}
 
 		// export
-		$tabs_gui->addTarget("export",
+		$this->tabs_gui->addTarget("export",
 		$this->ctrl->getLinkTarget($this, "showExportList"), array("showExportList", 'confirmDeleteExportFile'),
 		get_class($this));
 
 		// perm
 		if ($ilAccess->checkAccess('edit_permission', '', $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 		
 		if ($this->object->editable==1)
 		{
 			// preview
-			$tabs_gui->addNonTabbedLink("preview",
+			$this->tabs_gui->addNonTabbedLink("preview",
 				$this->lng->txt("cont_sc_preview"),
 				$this->ctrl->getLinkTarget($this, "preview"),
 				"_blank");
@@ -1787,7 +1755,7 @@ $this->ctrl->redirect($this, "properties");
 	/**
 	 * Set sub tabs
 	 */
-	function setSubTabs($a_main_tab, $a_active)
+	function setSubTabs($a_main_tab = "", $a_active = "")
 	{
 		global $ilTabs, $ilCtrl, $lng;
 
@@ -1933,7 +1901,7 @@ $this->ctrl->redirect($this, "properties");
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
-		$slm_tree =& new ilTree($this->object->getId());
+		$slm_tree = new ilTree($this->object->getId());
 		$slm_tree->setTreeTablePK("slm_id");
 		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 
@@ -1983,7 +1951,7 @@ $this->ctrl->redirect($this, "properties");
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
-		$slm_tree =& new ilTree($this->object->getId());
+		$slm_tree = new ilTree($this->object->getId());
 		$slm_tree->setTreeTablePK("slm_id");
 		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 
@@ -2034,7 +2002,7 @@ $this->ctrl->redirect($this, "properties");
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
-		$slm_tree =& new ilTree($this->object->getId());
+		$slm_tree = new ilTree($this->object->getId());
 		$slm_tree->setTreeTablePK("slm_id");
 		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 
@@ -2085,7 +2053,7 @@ $this->ctrl->redirect($this, "properties");
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
-		$slm_tree =& new ilTree($this->object->getId());
+		$slm_tree = new ilTree($this->object->getId());
 		$slm_tree->setTreeTablePK("slm_id");
 		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 
@@ -2208,7 +2176,7 @@ $this->ctrl->redirect($this, "properties");
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
-		$slm_tree =& new ilTree($this->object->getId());
+		$slm_tree = new ilTree($this->object->getId());
 		$slm_tree->setTreeTablePK("slm_id");
 		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 
@@ -2339,7 +2307,7 @@ $this->ctrl->redirect($this, "properties");
 
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
 
-		$slm_tree =& new ilTree($this->object->getId());
+		$slm_tree = new ilTree($this->object->getId());
 		$slm_tree->setTreeTablePK("slm_id");
 		$slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 

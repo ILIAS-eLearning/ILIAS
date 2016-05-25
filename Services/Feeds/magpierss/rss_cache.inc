@@ -21,7 +21,7 @@ class RSSCache {
     var $MAX_AGE    = 3600;         // when are files stale, default one hour
     var $ERROR      = "";           // accumulate error messages
     
-    function RSSCache ($base='', $age='') {
+    function __construct ($base='', $age='') {
         if ( $base ) {
             $this->BASE_CACHE = $base;
         }

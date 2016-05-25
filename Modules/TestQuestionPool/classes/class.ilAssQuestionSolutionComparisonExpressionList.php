@@ -12,7 +12,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSolutionCompar
 class ilAssQuestionSolutionComparisonExpressionList
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
@@ -37,9 +37,9 @@ class ilAssQuestionSolutionComparisonExpressionList
 	private $expressions;
 	
 	/**
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 */
-	public function __construct(ilDB $db)
+	public function __construct(ilDBInterface $db)
 	{
 		$this->db = $db;
 		

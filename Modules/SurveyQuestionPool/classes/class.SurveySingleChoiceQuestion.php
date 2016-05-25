@@ -54,16 +54,10 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-	function SurveySingleChoiceQuestion(
-		$title = "",
-		$description = "",
-		$author = "",
-		$questiontext = "",
-		$owner = -1,
-		$orientation = 1
-	)
+	function __construct($title = "", $description = "", $author = "", $questiontext = "", $owner = -1, $orientation = 1)
 	{
-		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
+		parent::__construct($title, $description, $author, $questiontext, $owner);
+		
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
 		$this->orientation = $orientation;
 		$this->categories = new SurveyCategories();
@@ -134,7 +128,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	* @return array Array containing the question fields and data from the database
 	* @access public
 	*/
-	function _getQuestionDataArray($id)
+	function getQuestionDataArray($id)
 	{
 		global $ilDB;
 		
@@ -542,24 +536,6 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		return "";
 	}
 
-	/**
-	* Saves random answers for a given active user in the database
-	*
-	* @param integer $active_id The database ID of the active user
-	*/
-	public function saveRandomData($active_id)
-	{
-		global $ilDB;
-		// single response
-		$category = rand(0, $this->categories->getCategoryCount()-1);
-		$cat = $this->categories->getCategory($category);
-		$next_id = $ilDB->nextId('svy_answer');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-			array('integer','integer','integer','float','text','integer'),
-			array($next_id, $this->getId(), $active_id, $category, ($cat->other) ? "Random Data" : null, time())
-		);
-	}
-
 	function saveUserInput($post_data, $active_id, $a_return = false)
 	{
 		global $ilDB;
@@ -685,93 +661,96 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 		return $result_array;
 	}
 	
-	/**
-	* Creates an Excel worksheet for the detailed cumulated results of this question
-	*
-	* @param object $workbook Reference to the parent excel workbook
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
-	* @access public
-	*/
-	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data, $export_label)
+	function setExportDetailsXLS(ilExcel $a_excel, $a_eval_data, $a_export_label)
 	{
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
-		$worksheet =& $workbook->addWorksheet();
-		$rowcounter = 0;
-		switch ($export_label)
+		$row = 1;						
+		switch($a_export_label)
 		{
-			case 'label_only':
-				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("label")), $format_bold);
-				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->label));
+			case 'label_only':				
+				$a_excel->setCell($row, 0, $this->lng->txt("label"));
+				$a_excel->setCell($row++, 1, $this->label);			
 				break;
+			
 			case 'title_only':
-				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
-				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
+				$a_excel->setCell($row, 0, $this->lng->txt("title"));
+				$a_excel->setCell($row++, 1, $this->getTitle());							
 				break;
+			
 			default:
-				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
-				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
-				$rowcounter++;
-				$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("label")), $format_bold);
-				$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->label));
+				$a_excel->setCell($row, 0, $this->lng->txt("title"));
+				$a_excel->setCell($row++, 1, $this->getTitle());		
+				$a_excel->setCell($row, 0, $this->lng->txt("title"));
+				$a_excel->setCell($row++, 1, $this->getTitle());		
 				break;
 		}
-		$rowcounter++;
-		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("question")), $format_bold);
-		$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
-		$rowcounter++;
-		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("question_type")), $format_bold);
-		$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())));
-		$rowcounter++;
-		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered")), $format_bold);
-		$worksheet->write($rowcounter, 1, $eval_data["USERS_ANSWERED"]);
-		$rowcounter++;
-		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped")), $format_bold);
-		$worksheet->write($rowcounter, 1, $eval_data["USERS_SKIPPED"]);
-		$rowcounter++;
+		
+		$a_excel->setCell($row, 0, $this->lng->txt("question"));
+		$a_excel->setCell($row++, 1, $this->getQuestiontext());
+		
+		$a_excel->setCell($row, 0, $this->lng->txt("question_type"));
+		$a_excel->setCell($row++, 1, $this->lng->txt($this->getQuestionType()));
+		
+		$a_excel->setCell($row, 0, $this->lng->txt("users_answered"));
+		$a_excel->setCell($row++, 1, (int)$a_eval_data["USERS_ANSWERED"]);
+		
+		$a_excel->setCell($row, 0, $this->lng->txt("users_skipped"));
+		$a_excel->setCell($row++, 1, (int)$a_eval_data["USERS_SKIPPED"]);
+		
+		preg_match("/(.*?)\s+-\s+(.*)/", $a_eval_data["MODE"], $matches);
+		
+		$a_excel->setCell($row, 0, $this->lng->txt("mode"));
+		$a_excel->setCell($row++, 1, $matches[1]);
+		
+		$a_excel->setCell($row, 0, $this->lng->txt("mode_text"));
+		$a_excel->setCell($row++, 1, $matches[2]);
+		
+		$a_excel->setCell($row, 0, $this->lng->txt("mode_nr_of_selections"));
+		$a_excel->setCell($row++, 1, (int)$a_eval_data["MODE_NR_OF_SELECTIONS"]);
+		
+		$a_excel->setCell($row, 0, $this->lng->txt("median"));
+		$a_excel->setCell($row++, 1, str_replace("<br />", " ", $a_eval_data["MEDIAN"]));
+		
+		$a_excel->setCell($row, 0, $this->lng->txt("arithmetic_mean"));
+		$a_excel->setCell($row++, 1, $a_eval_data["ARITHMETIC_MEAN"]);
+	
+		// "subtitles"
+		$a_excel->setColors("B".$row.":E".$row, ilSurveyEvaluationGUI::EXCEL_SUBTITLE);
+		$a_excel->setCell($row, 0, $this->lng->txt("categories"));
+		$a_excel->setCell($row, 1, $this->lng->txt("title"));
+		$a_excel->setCell($row, 2, $this->lng->txt("value"));
+		$a_excel->setCell($row, 3, $this->lng->txt("category_nr_selected"));
+		$a_excel->setCell($row++, 4, $this->lng->txt("svy_fraction_of_selections"));
 
-		preg_match("/(.*?)\s+-\s+(.*)/", $eval_data["MODE"], $matches);
-		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode")), $format_bold);
-		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($matches[1]));
-		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_text")), $format_bold);
-		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($matches[2]));
-		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("mode_nr_of_selections")), $format_bold);
-		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($eval_data["MODE_NR_OF_SELECTIONS"]));
-		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("median")), $format_bold);
-		$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval_data["MEDIAN"])));
-		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("categories")), $format_bold);
-		$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_title);
-		$worksheet->write($rowcounter, 2, ilExcelUtils::_convert_text($this->lng->txt("value")), $format_title);
-		$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($this->lng->txt("category_nr_selected")), $format_title);
-		$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($this->lng->txt("svy_fraction_of_selections")), $format_title);
-
-		foreach ($eval_data["variables"] as $key => $value)
-		{
-			$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($value["title"]));
+		foreach($a_eval_data["variables"] as $key => $value)
+		{		
 			$category = $this->categories->getCategory($key);
-			$worksheet->write($rowcounter, 2, $category->scale);
-			$worksheet->write($rowcounter, 3, ilExcelUtils::_convert_text($value["selected"]));
-			$worksheet->write($rowcounter++, 4, ilExcelUtils::_convert_text($value["percentage"]), $format_percent);
+			
+			$a_excel->setCell($row, 1, $value["title"]);
+			$a_excel->setCell($row, 2, (int)$category->scale);
+			$a_excel->setCell($row, 3, (int)$value["selected"]);
+			$a_excel->setCell($row++, 4, ($value["percentage"]*100)."%");
 		}
 		
 		// add text answers to detailed results
-		if (is_array($eval_data["textanswers"]))
+		if(is_array($a_eval_data["textanswers"]))
 		{
-			$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("freetext_answers")), $format_bold);
-			$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_title);
-			$worksheet->write($rowcounter++, 2, ilExcelUtils::_convert_text($this->lng->txt("answer")), $format_title);
+			$a_excel->setColors("B".$row.":C".$row, ilSurveyEvaluationGUI::EXCEL_SUBTITLE);
+			$a_excel->setCell($row, 0, $this->lng->txt("freetext_answers"));
+			$a_excel->setCell($row, 1, $this->lng->txt("title"));
+			$a_excel->setCell($row++, 2, $this->lng->txt("answer"));
 			
-			foreach ($eval_data["textanswers"] as $key => $answers)
+			foreach($a_eval_data["textanswers"] as $key => $answers)
 			{
-				$title = $eval_data["variables"][$key]["title"];
-				foreach ($answers as $answer)
+				$title = $a_eval_data["variables"][$key]["title"];
+				foreach($answers as $answer)
 				{
-					$worksheet->write($rowcounter, 1, ilExcelUtils::_convert_text($title));
-					$worksheet->write($rowcounter++, 2, ilExcelUtils::_convert_text($answer));
+					$a_excel->setCell($row, 1, $title);
+					$a_excel->setCell($row++, 2, $answer);
 				}
 			}
-		}			
+		}		
+		
+		return $row;
 	}
 	
 	/**
@@ -973,7 +952,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	*/
 	function getPreconditionValueOutput($value)
 	{
-		$category = $this->categories->getCategory($value);
+		// #18136
+		$category = $this->categories->getCategoryForScale($value+1);
 		
 		// #17895 - see getPreconditionOptions()
 		return $category->scale . 

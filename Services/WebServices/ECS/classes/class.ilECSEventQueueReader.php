@@ -456,6 +456,11 @@ class ilECSEventQueueReader
 			case 'member_status':
 				$type = self::TYPE_ENROLMENT_STATUS;
 				break;
+			
+			default:
+				// write custom event type
+				$type = $ev->getRessourceType();
+				break;
 		}
 
 		$query = "SELECT * FROM ecs_events ".
@@ -465,7 +470,7 @@ class ilECSEventQueueReader
 		$res = $ilDB->query($query);
 
 		$event_id = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$event_id = $row->event_id;
 		}
@@ -617,7 +622,7 @@ class ilECSEventQueueReader
 		
 	 	$res = $this->db->query($query);
 	 	$counter = 0;
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		$this->events[$counter]['event_id'] = $row->event_id;
 	 		$this->events[$counter]['type'] = $row->type;

@@ -14,7 +14,7 @@ class ilTestVirtualSequenceRandomQuestionSet extends ilTestVirtualSequence imple
 {
 	private $questionsSourcePoolDefinitionMap;
 	
-	public function __construct(ilDB $db, ilObjTest $testOBJ, ilTestSequenceFactory $testSequenceFactory)
+	public function __construct(ilDBInterface $db, ilObjTest $testOBJ, ilTestSequenceFactory $testSequenceFactory)
 	{
 		parent::__construct($db, $testOBJ, $testSequenceFactory);
 		

@@ -53,7 +53,7 @@ abstract class ilPageObject
 	var $xml;
 	var $encoding;
 	var $node;
-	var $cur_dtd = "ilias_pg_5_1.dtd";
+	var $cur_dtd = "ilias_pg_5_2.dtd";
 	var $contains_int_link;
 	var $needs_parsing;
 	var $parent_type;
@@ -76,7 +76,7 @@ abstract class ilPageObject
 	* Constructor
 	* @access	public
 	*/
-	final public function ilPageObject($a_id = 0, $a_old_nr = 0, $a_lang = "-")
+	final public function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "-")
 	{
 		global $ilias;
 
@@ -88,7 +88,7 @@ abstract class ilPageObject
 
 		$this->parent_type = $this->getParentType();
 		$this->id = $a_id;
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		$this->setLanguage($a_lang);
 
 		$this->contains_int_link = false;
@@ -416,15 +416,22 @@ abstract class ilPageObject
 
 //echo "\n<br>buildDomWith:".$this->getId().":xml:".$this->getXMLContent(true).":<br>";
 
-		$this->dom = @domxml_open_mem($this->getXMLContent(true), DOMXML_LOAD_VALIDATING, $error);
-
+		$options = 0;
+		//$options = DOMXML_LOAD_VALIDATING;
+		//$options = LIBXML_DTDLOAD;
+		//$options = LIBXML_NOXMLDECL;
+//echo htmlentities($this->getXMLContent(true))."<br>";
+		$this->dom = @domxml_open_mem($this->getXMLContent(true), $options, $error);
+//var_dump($error);
 		$xpc = xpath_new_context($this->dom);
 		$path = "//PageObject";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
-			$this->node =& $res->nodeset[0];
+//	echo "h";
+			$this->node = $res->nodeset[0];
 		}
+//echo htmlentities($this->dom->dump_node($this->node)); exit;
 
 		if (empty($error))
 		{
@@ -494,7 +501,7 @@ abstract class ilPageObject
 	function addUpdateListener(&$a_object, $a_method, $a_parameters = "")
 	{
 		$cnt = $this->update_listener_cnt;
-		$this->update_listeners[$cnt]["object"] =& $a_object;
+		$this->update_listeners[$cnt]["object"] = $a_object;
 		$this->update_listeners[$cnt]["method"] = $a_method;
 		$this->update_listeners[$cnt]["parameters"] = $a_parameters;
 		$this->update_listener_cnt++;
@@ -504,7 +511,7 @@ abstract class ilPageObject
 	{
 		for($i=0; $i<$this->update_listener_cnt; $i++)
 		{
-			$object =& $this->update_listeners[$i]["object"];
+			$object = $this->update_listeners[$i]["object"];
 			$method = $this->update_listeners[$i]["method"];
 			$parameters = $this->update_listeners[$i]["parameters"];
 			$object->$method($parameters);
@@ -640,7 +647,7 @@ abstract class ilPageObject
 	/**
 	 * write activation status
 	 */
-	function _writeActive($a_id, $a_parent_type, $a_active, $a_reset_scheduled_activation = true, $a_lang = "-")
+	static function _writeActive($a_id, $a_parent_type, $a_active, $a_reset_scheduled_activation = true, $a_lang = "-")
 	{
 		global $ilDB;
 		
@@ -668,7 +675,7 @@ abstract class ilPageObject
 	/**
 	 * Lookup activation data
 	 */
-	function _lookupActivationData($a_id, $a_parent_type, $a_lang = "-")
+	static function _lookupActivationData($a_id, $a_parent_type, $a_lang = "-")
 	{
 		global $ilDB;
 
@@ -711,7 +718,7 @@ abstract class ilPageObject
 	/**
 	 * Write parent id
 	 */
-	function _writeParentId($a_parent_type, $a_pg_id, $a_par_id)
+	static function _writeParentId($a_parent_type, $a_pg_id, $a_par_id)
 	{
 		global $ilDB;
 
@@ -824,7 +831,7 @@ abstract class ilPageObject
 			//require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 			require_once("./Services/COPage/classes/class.ilPCMediaObject.php");
 			
-			$mal_node =& $child_node->first_child();
+			$mal_node = $child_node->first_child();
 //echo "ilPageObject::getContentObject:nodename:".$mal_node->node_name().":<br>";
 			$id_arr = explode("_", $mal_node->get_attribute("OriginId"));
 			$mob_id = $id_arr[count($id_arr) - 1];
@@ -835,7 +842,7 @@ abstract class ilPageObject
 				$mob_id = 0;
 			}
 
-			//$mob =& new ilObjMediaObject($mob_id);
+			//$mob = new ilObjMediaObject($mob_id);
 			$mob = new ilPCMediaObject($this);
 			$mob->readMediaObject($mob_id);
 			
@@ -887,20 +894,20 @@ abstract class ilPageObject
 			if ($a_pc_id != "")
 			{
 				$path = "//*[@PCID = '$a_pc_id']";
-				$res =& xpath_eval($xpc, $path);
+				$res = xpath_eval($xpc, $path);
 				if (count($res->nodeset) == 1)
 				{
-					$cont_node =& $res->nodeset[0];
+					$cont_node = $res->nodeset[0];
 					return $cont_node;
 				}
 			}
 			
 			// fall back to hier id
 			$path = "//*[@HierId = '$a_hier_id']";
-			$res =& xpath_eval($xpc, $path);
+			$res = xpath_eval($xpc, $path);
 			if (count($res->nodeset) == 1)
 			{
-				$cont_node =& $res->nodeset[0];
+				$cont_node = $res->nodeset[0];
 				return $cont_node;
 			}
 		}
@@ -928,7 +935,7 @@ abstract class ilPageObject
 		
 		// fall back to hier id
 		$path = "//*[@HierId = '$a_hier_id']//".$a_content_tag;
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		if (count($res->nodeset) > 0)
 		{
 			return true;
@@ -941,7 +948,7 @@ abstract class ilPageObject
 	{
 		$xpc = xpath_new_context($this->dom);
 		$path = "//*[@HierId = '$a_hier_id']";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 			return "YES";
 		else
@@ -1018,8 +1025,8 @@ abstract class ilPageObject
 			$this->handleCopiedContent($temp_dom, true, $a_clone_mobs);
 		}
 		$xml = $temp_dom->dump_mem(0, $this->encoding);
-		$xml = eregi_replace("<\?xml[^>]*>","",$xml);
-		$xml = eregi_replace("<!DOCTYPE[^>]*>","",$xml);
+		$xml = preg_replace('/<\?xml[^>]*>/i',"",$xml);
+		$xml = preg_replace('/<!DOCTYPE[^>]*>/i',"",$xml);
 
 		return $xml;
 	}
@@ -1250,14 +1257,15 @@ abstract class ilPageObject
 				$bibs = "";
 				if ($a_append_mobs)
 				{
-					$mobs =& $this->getMultimediaXML();
+					$mobs = $this->getMultimediaXML();
 				}
 				if ($a_append_bib)
 				{
 // deprecated
-//					$bibs =& $this->getBibliographyXML();
+//					$bibs = $this->getBibliographyXML();
 				}
-				$trans =& $this->getLanguageVariablesXML();
+				$trans = $this->getLanguageVariablesXML();
+		//echo htmlentities($this->dom->dump_node($this->node)); exit;
 				return "<dummy>".$this->dom->dump_node($this->node).$mobs.$bibs.$trans.$a_append_str."</dummy>";
 			}
 			else
@@ -1267,7 +1275,7 @@ abstract class ilPageObject
 					if ($a_omit_pageobject_tag)
 					{
 						$xml = "";
-						$childs =& $this->node->child_nodes();
+						$childs = $this->node->child_nodes();
 						for($i = 0; $i < count($childs); $i++)
 						{
 							$xml.= $this->dom->dump_node($childs[$i]);
@@ -1277,9 +1285,8 @@ abstract class ilPageObject
 					else
 					{
 						$xml = $this->dom->dump_mem(0, $this->encoding);
-						$xml = eregi_replace("<\?xml[^>]*>","",$xml);
-						$xml = eregi_replace("<!DOCTYPE[^>]*>","",$xml);
-
+						$xml = preg_replace('/<\?xml[^>]*>/i',"",$xml);
+						$xml = preg_replace('/<!DOCTYPE[^>]*>/i',"",$xml);
 						return $xml;
 
 						// don't use dump_node. This gives always entities.
@@ -1355,11 +1362,11 @@ abstract class ilPageObject
 			require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 			$xpc = xpath_new_context($this->dom);
 			$path = "//Paragraph[1]";
-			$res =& xpath_eval($xpc, $path);
+			$res = xpath_eval($xpc, $path);
 			if (count($res->nodeset) > 0)
 			{
-				$cont_node =& $res->nodeset[0]->parent_node();
-				$par =& new ilPCParagraph($this);
+				$cont_node = $res->nodeset[0]->parent_node();
+				$par = new ilPCParagraph($this);
 				$par->setNode($cont_node);
 				return $par->getText();
 			}
@@ -1476,7 +1483,7 @@ abstract class ilPageObject
 		// determine all media aliases of the page
 		$xpc = xpath_new_context($this->dom);
 		$path = "//MediaObject/MediaAlias";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		$mob_ids = array();
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
@@ -1488,7 +1495,7 @@ abstract class ilPageObject
 		// determine all media aliases of interactive images
 		$xpc = xpath_new_context($this->dom);
 		$path = "//InteractiveImage/MediaAlias";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$id_arr = explode("_", $res->nodeset[$i]->get_attribute("OriginId"));
@@ -1499,7 +1506,7 @@ abstract class ilPageObject
 		// determine all inline internal media links
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink[@Type = 'MediaObject']";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
@@ -1576,7 +1583,7 @@ abstract class ilPageObject
 		// get all media aliases
 		$xpc = xpath_new_context($this->dom);
 		$path = "//MediaAlias";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 
 		require_once("Services/MediaObjects/classes/class.ilMediaItem.php");
 		for($i = 0; $i < count($res->nodeset); $i++)
@@ -1615,7 +1622,7 @@ abstract class ilPageObject
 		{
 			if (ilObject::_lookupType($mob_id) == "mob")
 			{
-				$mob_obj =& new ilObjMediaObject($mob_id);
+				$mob_obj = new ilObjMediaObject($mob_id);
 				$mobs_xml .= $mob_obj->getXML(IL_MODE_OUTPUT);
 			}
 		}
@@ -1631,9 +1638,9 @@ abstract class ilPageObject
 	{
 		$xpc = xpath_new_context($this->dom);
 		$path = "//MediaObject/MediaAlias[@OriginId='il__mob_$a_mob_id']";
-		$res =& xpath_eval($xpc, $path);
-		$mal_node =& $res->nodeset[$a_nr - 1];
-		$mob_node =& $mal_node->parent_node();
+		$res = xpath_eval($xpc, $path);
+		$mal_node = $res->nodeset[$a_nr - 1];
+		$mob_node = $mal_node->parent_node();
 
 		return $this->dom->dump_node($mob_node);
 	}
@@ -1651,7 +1658,7 @@ abstract class ilPageObject
 		libxml_disable_entity_loader(false);
 
 		@$this->dom->validate($error);
-
+		//var_dump($this->dom); exit;
 		return $error;
 	}
 
@@ -1690,7 +1697,7 @@ abstract class ilPageObject
 			$sep = " | ";
 		}
 
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$cnode = $res->nodeset[$i];
@@ -1698,7 +1705,7 @@ abstract class ilPageObject
 
 			// get hierarchical id of previous sibling
 			$sib_hier_id = "";
-			while($cnode =& $cnode->previous_sibling())
+			while($cnode = $cnode->previous_sibling())
 			{
 				if (($cnode->node_type() == XML_ELEMENT_NODE)
 					&& $cnode->has_attribute("HierId"))
@@ -1736,7 +1743,7 @@ abstract class ilPageObject
 				// get hierarchical id of next parent
 				$cnode = $res->nodeset[$i];
 				$par_hier_id = "";
-				while($cnode =& $cnode->parent_node())
+				while($cnode = $cnode->parent_node())
 				{
 					if (($cnode->node_type() == XML_ELEMENT_NODE)
 						&& $cnode->has_attribute("HierId"))
@@ -1782,7 +1789,7 @@ abstract class ilPageObject
 		// set special hierarchical id "pg" for pageobject
 		$xpc = xpath_new_context($this->dom);
 		$path = "//PageObject";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)	// should only be 1
 		{
 			$res->nodeset[$i]->set_attribute("HierId", "pg");
@@ -1844,7 +1851,7 @@ abstract class ilPageObject
 		{
 			$xpc = xpath_new_context($this->dom);
 			$path = "//*[@HierId]";
-			$res =& xpath_eval($xpc, $path);
+			$res = xpath_eval($xpc, $path);
 			for($i = 0; $i < count($res->nodeset); $i++)	// should only be 1
 			{
 				if ($res->nodeset[$i]->has_attribute("HierId"))
@@ -1871,7 +1878,7 @@ abstract class ilPageObject
 		{
 			$xpc = xpath_new_context($this->dom);
 			$path = "//*[@PCID]";
-			$res =& xpath_eval($xpc, $path);
+			$res = xpath_eval($xpc, $path);
 			for($i = 0; $i < count($res->nodeset); $i++)	// should only be 1
 			{
 				$pc_id = $res->nodeset[$i]->get_attribute("PCID");
@@ -1894,14 +1901,14 @@ abstract class ilPageObject
 	{
 		$xpc = xpath_new_context($this->dom);
 		$path = "//FileItem";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
-			$cnode =& $res->nodeset[$i];
-			$size_node =& $this->dom->create_element("Size");
-			$size_node =& $cnode->append_child($size_node);
+			$cnode = $res->nodeset[$i];
+			$size_node = $this->dom->create_element("Size");
+			$size_node = $cnode->append_child($size_node);
 
-			$childs =& $cnode->child_nodes();
+			$childs = $cnode->child_nodes();
 			$size = "";
 			for($j = 0; $j < count($childs); $j++)
 			{
@@ -1931,11 +1938,13 @@ abstract class ilPageObject
 	function resolveIntLinks($a_link_map = null)
 	{
 		$changed = false;
+		
+		$this->log->debug("start");
 
 		// resolve normal internal links
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$target = $res->nodeset[$i]->get_attribute("Target");
@@ -1944,6 +1953,8 @@ abstract class ilPageObject
 			if ($a_link_map == null)
 			{
 				$new_target = ilInternalLink::_getIdForImportId($type, $target);
+				$this->log->debug("no map, type: ".$type.", target: ".$target.", new target: ".$new_target);
+//				echo "-".$new_target."-".$type."-".$target."-"; exit;
 			}
 			else
 			{
@@ -1953,6 +1964,7 @@ abstract class ilPageObject
 				{
 					$new_target = "il__".$nt[2]."_".$nt[3];
 				}
+				$this->log->debug("map, type: ".$type.", target: ".$target.", new target: ".$new_target);
 			}
 			if ($new_target !== false)
 			{
@@ -1979,7 +1991,7 @@ abstract class ilPageObject
 		// resolve internal links in map areas
 		$xpc = xpath_new_context($this->dom);
 		$path = "//MediaAlias";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 //echo "<br><b>page::resolve</b><br>";
 //echo "Content:".htmlentities($this->getXMLFromDOM()).":<br>";
 		for($i = 0; $i < count($res->nodeset); $i++)
@@ -2004,7 +2016,7 @@ abstract class ilPageObject
 		// resolve normal internal links
 		$xpc = xpath_new_context($this->dom);
 		$path = "//MediaAlias";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		$changed = false;
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
@@ -2045,7 +2057,7 @@ abstract class ilPageObject
 		// resolve normal internal links
 		$xpc = xpath_new_context($this->dom);
 		$path = "//InteractiveImage/MediaAlias";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		$changed = false;
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
@@ -2073,7 +2085,7 @@ abstract class ilPageObject
 		// resolve normal internal links
 		$xpc = xpath_new_context($this->dom);
 		$path = "//FileItem/Identifier";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		$changed = false;
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
@@ -2101,7 +2113,7 @@ abstract class ilPageObject
 		// resolve normal internal links
 		$xpc = xpath_new_context($this->dom);
 		$path = "//Question";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		$updated = false;
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
@@ -2135,7 +2147,7 @@ abstract class ilPageObject
 		// resolve normal internal links
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$target = $res->nodeset[$i]->get_attribute("Target");
@@ -2161,7 +2173,7 @@ abstract class ilPageObject
 		$this->addHierIDs();
 		$xpc = xpath_new_context($this->dom);
 		$path = "//MediaAlias";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		
 		require_once("Services/MediaObjects/classes/class.ilMediaItem.php");
 		require_once("Services/COPage/classes/class.ilMediaAliasItem.php");
@@ -2331,7 +2343,7 @@ abstract class ilPageObject
 		// resolve normal internal links
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 //echo "1";
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
@@ -2732,7 +2744,7 @@ abstract class ilPageObject
 			{
 				$copg_logger->debug("ilPageObject: ... delete mob ".$mob_id.".");
 
-				$mob_obj =& new ilObjMediaObject($mob_id);
+				$mob_obj = new ilObjMediaObject($mob_id);
 				$mob_obj->delete();
 			}
 			else
@@ -3064,7 +3076,7 @@ abstract class ilPageObject
 	*/
 	function deleteContent($a_hid, $a_update = true, $a_pcid = "")
 	{
-		$curr_node =& $this->getContentNode($a_hid, $a_pcid);
+		$curr_node = $this->getContentNode($a_hid, $a_pcid);
 		$curr_node->unlink_node($curr_node);
 		if ($a_update)
 		{
@@ -3095,7 +3107,7 @@ abstract class ilPageObject
 			// do not delete question nodes in assessment pages
 			if (!$this->checkForTag("Question", $a_hid[0], $a_hid[1]) || $a_self_ass)
 			{
-				$curr_node =& $this->getContentNode($a_hid[0], $a_hid[1]);
+				$curr_node = $this->getContentNode($a_hid[0], $a_hid[1]);
 				if (is_object($curr_node))
 				{
 					$parent_node = $curr_node->parent_node();
@@ -3184,8 +3196,8 @@ abstract class ilPageObject
 				{
 					$content = $this->dom->dump_node($curr_node);
 					// remove pc and hier ids
-					$content = eregi_replace("PCID=\"[a-z0-9]*\"","",$content);
-					$content = eregi_replace("HierId=\"[a-z0-9_]*\"","",$content);
+					$content = preg_replace('/PCID=\"[a-z0-9]*\"/i',"",$content);
+					$content = preg_replace('/HierId=\"[a-z0-9_]*\"/i',"",$content);
 					
 					$ilUser->addToPCClipboard($content, $time, $nr);
 					$nr++;
@@ -3252,12 +3264,12 @@ abstract class ilPageObject
 		foreach($a_hids as $a_hid)
 		{
 			$a_hid = explode(":", $a_hid);
-			$curr_node =& $this->getContentNode($a_hid[0], $a_hid[1]);
+			$curr_node = $this->getContentNode($a_hid[0], $a_hid[1]);
 			if (is_object($curr_node))
 			{
 				if ($curr_node->node_name() == "PageContent")
 				{
-					$cont_obj =& $this->getContentObject($a_hid[0], $a_hid[1]);
+					$cont_obj = $this->getContentObject($a_hid[0], $a_hid[1]);
 					if ($cont_obj->isEnabled ())
 					{
 						// do not deactivate question nodes in assessment pages
@@ -3300,7 +3312,7 @@ abstract class ilPageObject
 			{
 				if ($hier_id != "pg" && $hier_id >= $a_hid)
 				{
-					$curr_node =& $this->getContentNode($hier_id);
+					$curr_node = $this->getContentNode($hier_id);
 					$curr_node->unlink_node($curr_node);
 				}
 			}
@@ -3330,7 +3342,7 @@ abstract class ilPageObject
 			{
 				if ($hier_id != "pg" && $hier_id < $a_hid)
 				{
-					$curr_node =& $this->getContentNode($hier_id);
+					$curr_node = $this->getContentNode($hier_id);
 					$curr_node->unlink_node($curr_node);
 				}
 			}
@@ -3349,7 +3361,7 @@ abstract class ilPageObject
 	* @param	boolean		$a_update	update page in db (note: update deletes all
 	*									hierarchical ids in DOM!)
 	*/
-	function _moveContentAfterHierId(&$a_source_page, &$a_target_page, $a_hid)
+	static function _moveContentAfterHierId(&$a_source_page, &$a_target_page, $a_hid)
 	{
 		$hier_ids = $a_source_page->getHierIds();
 
@@ -3369,31 +3381,31 @@ abstract class ilPageObject
 		}
 		asort($copy_ids);
 
-		$parent_node =& $a_target_page->getContentNode("pg");
-		$target_dom =& $a_target_page->getDom();
-		$parent_childs =& $parent_node->child_nodes();
+		$parent_node = $a_target_page->getContentNode("pg");
+		$target_dom = $a_target_page->getDom();
+		$parent_childs = $parent_node->child_nodes();
 		$cnt_parent_childs = count($parent_childs);
 //echo "-$cnt_parent_childs-";
-		$first_child =& $parent_childs[0];
+		$first_child = $parent_childs[0];
 		foreach($copy_ids as $copy_id)
 		{
-			$source_node =& $a_source_page->getContentNode($copy_id);
+			$source_node = $a_source_page->getContentNode($copy_id);
 
-			$new_node =& $source_node->clone_node(true);
+			$new_node = $source_node->clone_node(true);
 			$new_node->unlink_node($new_node);
 
 			$source_node->unlink_node($source_node);
 
 			if($cnt_parent_childs == 0)
 			{
-				$new_node =& $parent_node->append_child($new_node);
+				$new_node = $parent_node->append_child($new_node);
 			}
 			else
 			{
 				//$target_dom->import_node($new_node);
-				$new_node =& $first_child->insert_before($new_node, $first_child);
+				$new_node = $first_child->insert_before($new_node, $first_child);
 			}
-			$parent_childs =& $parent_node->child_nodes();
+			$parent_childs = $parent_node->child_nodes();
 
 			//$cnt_parent_childs++;
 		}
@@ -3442,56 +3454,56 @@ abstract class ilPageObject
 		// get the parent node
 		if($parent_pos != "")
 		{
-			$parent_node =& $this->getContentNode($parent_pos);
+			$parent_node = $this->getContentNode($parent_pos);
 		}
 		else
 		{
-			$parent_node =& $this->getNode();
+			$parent_node = $this->getNode();
 		}
 
 		// count the parent children
-		$parent_childs =& $parent_node->child_nodes();
+		$parent_childs = $parent_node->child_nodes();
 		$cnt_parent_childs = count($parent_childs);
 //echo "ZZ$a_mode";
 		switch ($a_mode)
 		{
 			// insert new node after sibling at $a_pos
 			case IL_INSERT_AFTER:
-				$new_node =& $a_cont_obj->getNode();
+				$new_node = $a_cont_obj->getNode();
 				//$a_pos = ilPageContent::incEdId($a_pos);
-				//$curr_node =& $this->getContentNode($a_pos);
+				//$curr_node = $this->getContentNode($a_pos);
 //echo "behind $a_pos:";
-				if($succ_node =& $curr_node->next_sibling())
+				if($succ_node = $curr_node->next_sibling())
 				{
-					$new_node =& $succ_node->insert_before($new_node, $succ_node);
+					$new_node = $succ_node->insert_before($new_node, $succ_node);
 				}
 				else
 				{
 //echo "movin doin append_child";
-					$new_node =& $parent_node->append_child($new_node);
+					$new_node = $parent_node->append_child($new_node);
 				}
 				$a_cont_obj->setNode($new_node);
 				break;
 
 			case IL_INSERT_BEFORE:
 //echo "INSERT_BEF";
-				$new_node =& $a_cont_obj->getNode();
-				$succ_node =& $this->getContentNode($a_pos);
-				$new_node =& $succ_node->insert_before($new_node, $succ_node);
+				$new_node = $a_cont_obj->getNode();
+				$succ_node = $this->getContentNode($a_pos);
+				$new_node = $succ_node->insert_before($new_node, $succ_node);
 				$a_cont_obj->setNode($new_node);
 				break;
 
 			// insert new node as first child of parent $a_pos (= $a_parent)
 			case IL_INSERT_CHILD:
 //echo "insert as child:parent_childs:$cnt_parent_childs:<br>";
-				$new_node =& $a_cont_obj->getNode();
+				$new_node = $a_cont_obj->getNode();
 				if($cnt_parent_childs == 0)
 				{
-					$new_node =& $parent_node->append_child($new_node);
+					$new_node = $parent_node->append_child($new_node);
 				}
 				else
 				{
-					$new_node =& $parent_childs[0]->insert_before($new_node, $parent_childs[0]);
+					$new_node = $parent_childs[0]->insert_before($new_node, $parent_childs[0]);
 				}
 				$a_cont_obj->setNode($new_node);
 //echo "PP";
@@ -3546,22 +3558,22 @@ abstract class ilPageObject
 		// get the parent node
 		if($parent_pos != "")
 		{
-			$parent_node =& $this->getContentNode($parent_pos);
+			$parent_node = $this->getContentNode($parent_pos);
 		}
 		else
 		{
-			$parent_node =& $this->getNode();
+			$parent_node = $this->getNode();
 		}
 
 		// count the parent children
-		$parent_childs =& $parent_node->child_nodes();
+		$parent_childs = $parent_node->child_nodes();
 		$cnt_parent_childs = count($parent_childs);
 
 		switch ($a_mode)
 		{
 			// insert new node after sibling at $a_pos
 			case IL_INSERT_AFTER:
-				//$new_node =& $a_cont_obj->getNode();
+				//$new_node = $a_cont_obj->getNode();
 				if($succ_node = $curr_node->next_sibling())
 				{
 					$a_cont_node = $succ_node->insert_before($a_cont_node, $succ_node);
@@ -3574,7 +3586,7 @@ abstract class ilPageObject
 				break;
 
 			case IL_INSERT_BEFORE:
-				//$new_node =& $a_cont_obj->getNode();
+				//$new_node = $a_cont_obj->getNode();
 				$succ_node = $this->getContentNode($a_pos);
 				$a_cont_node = $succ_node->insert_before($a_cont_node, $succ_node);
 				//$a_cont_obj->setNode($new_node);
@@ -3582,7 +3594,7 @@ abstract class ilPageObject
 
 			// insert new node as first child of parent $a_pos (= $a_parent)
 			case IL_INSERT_CHILD:
-				//$new_node =& $a_cont_obj->getNode();
+				//$new_node = $a_cont_obj->getNode();
 				if($cnt_parent_childs == 0)
 				{
 					$a_cont_node = $parent_node->append_child($a_cont_node);
@@ -3608,9 +3620,9 @@ abstract class ilPageObject
 		}
 
 		// clone the node
-		$content =& $this->getContentObject($a_source, $a_spcid);
-		$source_node =& $content->getNode();
-		$clone_node =& $source_node->clone_node(true);
+		$content = $this->getContentObject($a_source, $a_spcid);
+		$source_node = $content->getNode();
+		$clone_node = $source_node->clone_node(true);
 
 		// delete source node
 		$this->deleteContent($a_source, false, $a_spcid);
@@ -3634,9 +3646,9 @@ abstract class ilPageObject
 		}
 
 		// clone the node
-		$content =& $this->getContentObject($a_source, $a_spcid);
-		$source_node =& $content->getNode();
-		$clone_node =& $source_node->clone_node(true);
+		$content = $this->getContentObject($a_source, $a_spcid);
+		$source_node = $content->getNode();
+		$clone_node = $source_node->clone_node(true);
 
 		// delete source node
 		$this->deleteContent($a_source, false, $a_spcid);
@@ -3653,12 +3665,12 @@ abstract class ilPageObject
 	// @todo: move to paragraph
 	function bbCode2XML(&$a_content)
 	{
-		$a_content = eregi_replace("\[com\]","<Comment>",$a_content);
-		$a_content = eregi_replace("\[\/com\]","</Comment>",$a_content);
-		$a_content = eregi_replace("\[emp]","<Emph>",$a_content);
-		$a_content = eregi_replace("\[\/emp\]","</Emph>",$a_content);
-		$a_content = eregi_replace("\[str]","<Strong>",$a_content);
-		$a_content = eregi_replace("\[\/str\]","</Strong>",$a_content);
+		$a_content = preg_replace('/\[com\]/i',"<Comment>",$a_content);
+		$a_content = preg_replace('/\[\/com\]/i',"</Comment>",$a_content);
+		$a_content = preg_replace('/\[emp]/i',"<Emph>",$a_content);
+		$a_content = preg_replace('/\[\/emp\]/i',"</Emph>",$a_content);
+		$a_content = preg_replace('/\[str]/i',"<Strong>",$a_content);
+		$a_content = preg_replace('/\[\/str\]/i',"</Strong>",$a_content);
 	}
 
 	/**
@@ -3670,7 +3682,7 @@ abstract class ilPageObject
 		// insert inst id into internal links
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$target = $res->nodeset[$i]->get_attribute("Target");
@@ -3714,7 +3726,7 @@ abstract class ilPageObject
 		// insert inst id into media aliases
 		$xpc = xpath_new_context($this->dom);
 		$path = "//MediaAlias";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$origin_id = $res->nodeset[$i]->get_attribute("OriginId");
@@ -3729,7 +3741,7 @@ abstract class ilPageObject
 		// insert inst id file item identifier entries
 		$xpc = xpath_new_context($this->dom);
 		$path = "//FileItem/Identifier";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$origin_id = $res->nodeset[$i]->get_attribute("Entry");
@@ -3744,7 +3756,7 @@ abstract class ilPageObject
 		// insert inst id into question references
 		$xpc = xpath_new_context($this->dom);
 		$path = "//Question";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$qref = $res->nodeset[$i]->get_attribute("QRef");
@@ -3761,7 +3773,7 @@ abstract class ilPageObject
 		// insert inst id into content snippets
 		$xpc = xpath_new_context($this->dom);
 		$path = "//ContentInclude";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$ci = $res->nodeset[$i]->get_attribute("InstId");
@@ -4095,7 +4107,7 @@ abstract class ilPageObject
 			" inactive_elements = ".$ilDB->quote(1, "integer");
 		$obj_set = $ilDB->query($query);
 		
-		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($obj_rec = $obj_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			return true;
 		}

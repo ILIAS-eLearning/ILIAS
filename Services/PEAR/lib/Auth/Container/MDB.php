@@ -328,7 +328,7 @@ class Auth_Container_MDB extends Auth_Container
 
         $this->log('Running SQL against MDB: '.$query, AUTH_LOG_DEBUG);
 
-        $res = $this->db->getRow($query, null, null, null, MDB_FETCHMODE_ASSOC);
+        $res = $this->db->getRow($query, null, null, null, MilDBConstants::FETCHMODE_ASSOC);
 
         if (MDB::isError($res) || PEAR::isError($res)) {
             return PEAR::raiseError($res->getMessage(), $res->getCode());
@@ -420,7 +420,7 @@ class Auth_Container_MDB extends Auth_Container
 
         $this->log('Running SQL against MDB: '.$query, AUTH_LOG_DEBUG);
 
-        $res = $this->db->getAll($query, null, null, null, MDB_FETCHMODE_ASSOC);
+        $res = $this->db->getAll($query, null, null, null, MilDBConstants::FETCHMODE_ASSOC);
 
         if (MDB::isError($res)) {
             return PEAR::raiseError($res->getMessage(), $res->getCode());

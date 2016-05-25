@@ -121,7 +121,7 @@ class ilFileDataMail extends ilFileData
 /*		$query = "SELECT path FROM mail_attachment ".
 			"WHERE mail_id = ".$ilDB->quote($a_mail_id)."";
 		
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->ilias->db->getRow($query,ilDBConstants::FETCHMODE_OBJECT);
 		$path = $this->getMailPath().'/'.$row->path;
 */
 		$query = $ilDB->query("SELECT path FROM mail_attachment 
@@ -164,7 +164,7 @@ class ilFileDataMail extends ilFileData
 /*		$query = "SELECT path FROM mail_attachment ".
 			"WHERE mail_id = ".$ilDB->quote($a_mail_id)."";
 		
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->ilias->db->getRow($query,ilDBConstants::FETCHMODE_OBJECT);
 		$path = $this->getMailPath().'/'.$row->path.'/'.$a_filename;
 */
 		$query = $ilDB->query("SELECT path FROM mail_attachment ".
@@ -236,7 +236,7 @@ class ilFileDataMail extends ilFileData
 	*/
 	function getUserFilesData()
 	{
-		return $files = $this->getUnsentFiles();
+		return $this->getUnsentFiles();
 	}
 
 	/**
@@ -245,31 +245,30 @@ class ilFileDataMail extends ilFileData
 	* @access	private
 	* @return array
 	*/
-	function getUnsentFiles()
+	private function getUnsentFiles()
 	{
 		$files = array();
-		$dp = opendir($this->mail_path);
 
-		while($file = readdir($dp))
+		$iter = new DirectoryIterator($this->mail_path);
+		foreach($iter as $file)
 		{
-			if(is_dir($file))
+			/**
+			 * @var $file SplFileInfo
+			 */
+			if($file->isFile())
 			{
-				continue;
-			}
-			list($uid,$rest) = explode('_',$file,2);
-			if($uid == $this->user_id)
-			{
-				if(!is_dir($this->mail_path.'/'.$file))
+				list($uid, $rest) = explode('_', $file->getFilename(), 2);
+				if($uid == $this->user_id)
 				{
 					$files[] = array(
 						'name'     => $rest,
-						'size'     => filesize($this->mail_path.'/'.$file),
-						'ctime'    => filectime($this->mail_path.'/'.$file)
+						'size'     => $file->getSize(),
+						'ctime'    => $file->getCTime()
 					);
 				}
 			}
 		}
-		closedir($dp);
+
 		return $files;
 	}
 	
@@ -396,33 +395,21 @@ class ilFileDataMail extends ilFileData
 	}
 
 	/**
-	* save all attachment files in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
-	* @param integer mail id of mail in sent box
-	* @param array filenames to save
-	* @access	public
-	* @return string error message
-	*/
-	function saveFiles($a_mail_id,$a_attachments)
+	 * Saves all attachment files in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
+	 * @param integer $a_mail_id id of mail in sent box
+	 * @param array $a_attachments to save
+	 */
+	public function saveFiles($a_mail_id, array $a_attachments)
 	{
-		if(!$a_mail_id)
+		if(!is_numeric($a_mail_id) || $a_mail_id < 1)
 		{
-			return "INTERNAL HERE ERROR: No valid mail_id given";
+			throw new InvalidArgumentException('The passed mail_id must be a valid integer!');
 		}
-		if(is_array($a_attachments))
+
+		foreach($a_attachments as $attachment)
 		{
-			foreach($a_attachments as $attachment)
-			{
-				if(!$this->saveFile($a_mail_id,$attachment))
-				{
-					return $attachment;
-				}
-			}
+			$this->saveFile($a_mail_id, $attachment);
 		}
-		else
-		{
-			return "ARRAY REQUIRED";
-		}
-		return '';
 	}
 	
 	public static function getStorage($a_mail_id, $a_usr_id)
@@ -519,7 +506,7 @@ class ilFileDataMail extends ilFileData
 		$res = $ilDB->query("SELECT path FROM mail_attachment
 				WHERE mail_id = ".$ilDB->quote($a_mail_id,'integer'));
 	
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$path = $row->path;
 		}
@@ -528,7 +515,7 @@ class ilFileDataMail extends ilFileData
 			$res = $ilDB->query("SELECT COUNT(mail_id) count_mail_id FROM mail_attachment 
 					WHERE path = ".$ilDB->quote($path,'text')) ;
 			
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$cnt_mail_id = $row->count_mail_id;
 			}
@@ -597,7 +584,7 @@ class ilFileDataMail extends ilFileData
 	 *                            // an associative array with the disk
 	 *                            // usage in bytes and the count of attachments.
 	 */
-	function _lookupDiskUsageOfUser($user_id)
+	public static function _lookupDiskUsageOfUser($user_id)
 	{
 		// XXX - This method is extremely slow. We should
 		// use a cache to speed it up, for example, we should
@@ -613,7 +600,7 @@ class ilFileDataMail extends ilFileData
 		$result_set = $ilDB->query($q);
 		$size = 0;
 		$count = 0;
-		while($row = $result_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $result_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$attachment_path = $mail_data_dir.DIRECTORY_SEPARATOR.$row['path'];
 			$attachment_size = ilUtil::dirsize($attachment_path);
@@ -632,7 +619,7 @@ class ilFileDataMail extends ilFileData
 	public function onUserDelete()
 	{
 		/**
- 		 * @var $ilDB ilDB
+ 		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 		

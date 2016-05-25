@@ -37,13 +37,13 @@ class ilMainMenuGUI
 	* @param	boolean		$a_use_start_template	true means: target scripts should
 	*												be called through start template
 	*/
-	function ilMainMenuGUI($a_target = "_top", $a_use_start_template = false)
+	function __construct($a_target = "_top", $a_use_start_template = false)
 	{
 		global $ilias, $rbacsystem, $ilUser;
 		
 		$this->tpl = new ilTemplate("tpl.main_menu.html", true, true,
 			"Services/MainMenu");
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		$this->target = $a_target;
 		$this->start_template = $a_use_start_template;
 		
@@ -112,7 +112,7 @@ class ilMainMenuGUI
 	{
 		echo "ilMainMenu->setTemplate is deprecated. Use getHTML instead.";
 		return;
-		$this->tpl =& $tpl;
+		$this->tpl = $tpl;
 	}
 
 	/**
@@ -178,6 +178,17 @@ class ilMainMenuGUI
 		{		
 			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
 			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
+			
+			// #15759
+			include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
+			$header_top_title = ilObjSystemFolder::_getHeaderTitle();
+			if (trim($header_top_title) != "" && $this->tpl->blockExists("header_top_title"))
+			{
+				$this->tpl->setCurrentBlock("header_top_title");
+				$this->tpl->setVariable("TXT_HEADER_TITLE", $header_top_title);
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			return;
 		}
 
@@ -291,6 +302,9 @@ class ilMainMenuGUI
 					 */
 					global $tpl;
 
+					// php7-workaround JL start
+					// the frequent polling messes up the log files
+					/* 
 					$this->tpl->touchBlock('osd_container');
 
 					include_once "Services/jQuery/classes/class.iljQueryUtil.php";
@@ -298,7 +312,7 @@ class ilMainMenuGUI
 
 					include_once 'Services/MediaObjects/classes/class.ilPlayerUtil.php';
 					ilPlayerUtil::initMediaElementJs();
-
+					
 					$tpl->addJavaScript('Services/Notifications/templates/default/notifications.js');
 					$tpl->addCSS('Services/Notifications/templates/default/osd.css');
 
@@ -310,6 +324,8 @@ class ilMainMenuGUI
 					$this->tpl->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
 					$this->tpl->setVariable('OSD_POLLING_INTERVALL', $notificationSettings->get('osd_polling_intervall') ? $notificationSettings->get('osd_polling_intervall') : '60');
 					$this->tpl->setVariable('OSD_PLAY_SOUND', $chatSettings->get('play_invitation_sound') && $ilUser->getPref('chat_play_invitation_sound') ? 'true' : 'false');
+					*/
+					// php7-workaround end
 				}
 
 				$this->tpl->setCurrentBlock("userisloggedin");
@@ -344,7 +360,8 @@ class ilMainMenuGUI
 			if (trim($header_top_title) != "" && $this->tpl->blockExists("header_top_title"))
 			{
 				$this->tpl->setCurrentBlock("header_top_title");
-				$this->tpl->setVariable("TXT_HEADER_TITLE", $header_top_title);
+				// php7-workaround alex: added phpversion() to help during development of php7 compatibility
+				$this->tpl->setVariable("TXT_HEADER_TITLE", $header_top_title." PHP ".phpversion());
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -435,20 +452,13 @@ class ilMainMenuGUI
 			{
 				$title = $lng->txt("repository");
 			}
-			if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID || IS_PAYMENT_ENABLED)
+			if($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 			{
 				$this->renderEntry($a_tpl, "repository",
 					$title, "#");
 			}
 		}
 
-
-		// webshop
-		if(IS_PAYMENT_ENABLED)
-		{
-			$title = $lng->txt("shop");
-			$this->renderEntry($a_tpl, "shop", $title, "#" );
-		}
 
 		// administration
 		if(ilMainMenuGUI::_checkAdministrationPermission())
@@ -684,34 +694,6 @@ class ilMainMenuGUI
 			$a_tpl->setVariable("DESK_CONT_OV", $gl->getHTML());
 		}
 
-		if(IS_PAYMENT_ENABLED)
-		{
-			// shop
-			if ($a_id == "shop")
-			{
-				$gl = new ilGroupedListGUI();
-				$gl->setAsDropDown(true);
-
-				// shop_content
-				$gl->addEntry($lng->txt("content"),
-					"ilias.php?baseClass=ilShopController&amp;cmd=firstpage",
-					"_top");
-
-				// shoppingcart
-				include_once 'Services/Payment/classes/class.ilPaymentShoppingCart.php';
-				global $ilUser;
-				$objShoppingCart = new ilPaymentShoppingCart($ilUser);
-				$items = $objShoppingCart->getEntries();
-
-				if(count($items) > 0 )
-				{
-					$gl->addEntry($lng->txt("shoppingcart").' ('.count($items).')',
-						"ilias.php?baseClass=ilShopController&amp;cmdClass=ilshopshoppingcartgui",
-						"_top");
-				}
-				$a_tpl->setVariable("SHOP_CONT_OV", $gl->getHTML());
-			}
-		}
 		$a_tpl->setVariable("TXT_".$id_up, $a_txt);
 		$a_tpl->setVariable("SCRIPT_".$id_up, $a_script);
 		$a_tpl->setVariable("TARGET_".$id_up, $a_target);
@@ -772,7 +754,7 @@ class ilMainMenuGUI
 		return $script;
 	}
 
-	function _checkAdministrationPermission()
+	static function _checkAdministrationPermission()
 	{
 		global $rbacsystem;
 
@@ -950,14 +932,6 @@ class ilMainMenuGUI
 
 				break;
 
-			// shop
-			case 'shop':
-				$selection->setListTitle($lng->txt("shop"));
-				$selection->setId("dd_shp");
-				$selection->addItem($lng->txt("shop"), "", "ilias.php?baseClass=ilShopController&cmd=firstpage",
-					"", "", "_top");
-				break;
-
 			// administration
 			case "administration":
 				$selection->setListTitle($lng->txt("administration"));
@@ -1000,7 +974,7 @@ class ilMainMenuGUI
 		global $ilHelp, $lng, $ilCtrl, $tpl, $ilSetting, $ilUser;
 
 		// screen id
-		if (defined("OH_REF_ID") && OH_REF_ID > 0)
+		if ((defined("OH_REF_ID") && OH_REF_ID > 0) || DEVMODE == 1)
 		{
 			if ($ilHelp->getScreenId() != "")
 			{

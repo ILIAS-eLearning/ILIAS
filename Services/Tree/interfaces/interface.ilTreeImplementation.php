@@ -77,5 +77,14 @@ interface ilTreeImplementation
 	 * @return array
 	 */
 	public function getSubtreeInfo($a_endnode_id);
+	
+	
+	/**
+	 * Validate the parent relations of the tree implementation
+	 * For nested set, validate the lft, rgt against child <-> parent
+	 * For materialized path validate path against child <-> parent
+	 * @return int[] array of failure nodes
+	 */
+	public function validateParentRelations();
 }
 ?>

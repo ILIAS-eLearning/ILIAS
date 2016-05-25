@@ -156,7 +156,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 	 * @param
 	 * @return
 	 */
-	function setTabs($a_tab)
+	function setTabs($a_tab = "")
 	{
 		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
 

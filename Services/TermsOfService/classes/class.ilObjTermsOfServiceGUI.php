@@ -55,7 +55,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	{
 		/**
 		 * @var $lng  ilLanguage
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $lng, $ilDB;
 
@@ -107,7 +107,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 	/**
 	 * @param ilTabsGUI $tabs_gui
 	 */
-	public function getAdminTabs(ilTabsGUI $tabs_gui)
+	public function getAdminTabs()
 	{
 		/**
 		 * @var $rbacsystem ilRbacSystem
@@ -116,24 +116,24 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 
 		if($rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'settings'), array('saveSettings', 'settings', '', 'view'), '', '');
+			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'settings'), array('saveSettings', 'settings', '', 'view'), '', '');
 		}
 
 		if($rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('tos_agreement_by_lng', $this->ctrl->getLinkTarget($this, 'showAgreementByLanguage'), array('reset', 'confirmReset', 'showAgreementByLanguage', 'resetAgreementByLanguageFilter', 'applyAgreementByLanguageFilter'), '', '');
+			$this->tabs_gui->addTarget('tos_agreement_by_lng', $this->ctrl->getLinkTarget($this, 'showAgreementByLanguage'), array('reset', 'confirmReset', 'showAgreementByLanguage', 'resetAgreementByLanguageFilter', 'applyAgreementByLanguageFilter'), '', '');
 		}
 
 		if($rbacsystem->checkAccess('read', $this->object->getRefId()) &&
 			$rbacsystem->checkAccess('read', USER_FOLDER_ID)
 		)
 		{
-			$tabs_gui->addTarget('tos_acceptance_history', $this->ctrl->getLinkTarget($this, 'showAcceptanceHistory'), array('showAcceptanceHistory', 'resetAcceptanceHistoryFilter', 'applyAcceptanceHistoryFilter'), '', '');
+			$this->tabs_gui->addTarget('tos_acceptance_history', $this->ctrl->getLinkTarget($this, 'showAcceptanceHistory'), array('showAcceptanceHistory', 'resetAcceptanceHistoryFilter', 'applyAcceptanceHistoryFilter'), '', '');
 		}
 
 		if($rbacsystem->checkAccess('edit_permission', $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
+			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
 		}
 	}
 
@@ -422,7 +422,17 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 		$file = realpath(strip_tags(rawurldecode(ilUtil::stripOnlySlashes($_GET['agreement_document']))));
 		if(preg_match('/Customizing[\/\\\](global[\/\\\]agreement|clients[\/\\\]' . CLIENT_ID . '[\/\\\]agreement)[\/\\\]agreement_([a-z]{2})\.html$/', $file))
 		{
-			$response->setBody(nl2br(trim(file_get_contents($file))));
+			$content = file_get_contents($file);
+			if(strip_tags($content) === $content)
+			{
+				$content       = '';
+				$lines         = file($file);
+				foreach($lines as $line)
+				{
+					$content .= nl2br(trim($line));
+				}
+			}
+			$response->setBody($content);
 		}
 		else
 		{

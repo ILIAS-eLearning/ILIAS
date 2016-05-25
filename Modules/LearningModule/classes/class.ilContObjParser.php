@@ -82,7 +82,7 @@ class ilContObjParser extends ilMDSaxParser
 	* @param	string		$a_subdir			subdirectory in import directory
 	* @access	public
 	*/
-	function ilContObjParser(&$a_content_object, $a_xml_file, $a_subdir, $a_import_dir = "")
+	function __construct(&$a_content_object, $a_xml_file, $a_subdir, $a_import_dir = "")
 	{
 		global $lng, $tree;
 
@@ -91,7 +91,7 @@ class ilContObjParser extends ilMDSaxParser
 			? $a_import_dir
 			: $a_content_object->getImportDirectory();
 
-		parent::ilMDSaxParser($a_xml_file);
+		parent::__construct($a_xml_file);
 		$this->cnt = array();
 		$this->current_element = array();
 		$this->structure_objects = array();
@@ -134,6 +134,15 @@ class ilContObjParser extends ilMDSaxParser
 		xml_set_object($a_xml_parser,$this);
 		xml_set_element_handler($a_xml_parser,'handlerBeginTag','handlerEndTag');
 		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
+	}
+
+	/**
+	 * Set import mapping
+	 * @param ilImportMapping $mapping
+	 */
+	public function setImportMapping(ilImportMapping $mapping = null)
+	{
+		$this->mapping = $mapping;
 	}
 
 	
@@ -621,8 +630,7 @@ case "InteractiveImage":
 					$this->glossary_object->createReference();
 					$parent = $this->tree->getParentNodeData($this->content_object->getRefId());
 					$this->glossary_object->putInTree($parent["child"]);
-					$this->glossary_object->setPermissions($parent["child"]);
-					$this->glossary_object->notify("new", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$this->glossary_object->getRefId());
+					$this->glossary_object->setPermissions($parent["child"]);				
 				}
 				$this->current_object = $this->glossary_object;
 				break;
@@ -844,6 +852,25 @@ case "InteractiveImage":
 
 			// Identifier
 			case "Identifier":
+				
+				// begin-patch optes_lok_export
+				if($this->in_meta_data && $this->current_object instanceof ilStructureObject)
+				{
+					if($this->mapping instanceof ilImportMapping)
+					{
+						$import_id_parsed = ilUtil::parseImportId($a_attribs['Entry']);
+						if($import_id_parsed['type'] == 'st')
+						{
+							$this->mapping->addMapping(
+								'Modules/LearningModule',
+								'lm_tree',
+								$import_id_parsed['id'],
+								$this->current_object->getId()
+							);
+						}
+					}
+				}
+				// end-patch optes_lok_export
 			
 				// please note: Meta-Metadata and MetaData are different tags!
 				if (!$this->in_meta_meta_data)
@@ -1100,6 +1127,21 @@ case "InteractiveImage":
 						$this->page_object->updateFromXML();
 						$this->pg_mapping[$this->lm_page_object->getImportId()]
 							= $this->lm_page_object->getId();
+						
+						if($this->mapping instanceof ilImportMapping)
+						{
+							$import_id_parsed = ilUtil::parseImportId($this->lm_page_object->getImportId());
+							if($import_id_parsed['type'] == 'pg')
+							{
+								$this->mapping->addMapping(
+									'Modules/LearningModule',
+									'pg',
+									$import_id_parsed['id'], 
+									$this->lm_page_object->getId()
+								);
+							}
+							
+						}
 	
 						// collect pages with internal links
 						if ($this->page_object->containsIntLink())

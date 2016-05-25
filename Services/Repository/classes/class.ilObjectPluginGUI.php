@@ -31,7 +31,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $tpl, $ilAccess, $lng, $ilNavigationHistory, $ilTabs;
 
@@ -318,7 +318,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	* After saving
 	* @access	public
 	*/
-	function afterSave($newObj)
+	function afterSave(ilObject $newObj)
 	{
 		global $ilCtrl;
 		// always send a message

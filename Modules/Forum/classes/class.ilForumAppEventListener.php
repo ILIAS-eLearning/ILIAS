@@ -227,7 +227,7 @@ class ilForumAppEventListener
 	/**
 	 * @param int $obj_id
 	 */
-	private function getCachedReferences($obj_id)
+	private static function getCachedReferences($obj_id)
 	{
 		if(!array_key_exists($obj_id, self::$ref_ids))
 		{

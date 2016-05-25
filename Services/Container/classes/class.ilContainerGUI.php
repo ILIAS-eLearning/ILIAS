@@ -26,29 +26,29 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	* Constructor
 	* @access public
 	*/
-	function ilContainerGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+	function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $rbacsystem, $lng, $tree;
+		global $rbacsystem, $lng;
 
-		$this->rbacsystem =& $rbacsystem;
+		$this->rbacsystem = $rbacsystem;
 		
 		$lng->loadLanguageModule("cntr");
 
-		//$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		//parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		
         // Activate tree cache when rendering the container to improve performance
         //$tree->useCache(false);
 
 		// prepare output things should generally be made in executeCommand
 		// method (maybe dependent on current class/command
-		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, false);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 	}
 
 	/**
 	* execute command
 	* note: this method is overwritten in all container objects
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl;
 		
@@ -137,7 +137,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilTabs->clearTargets();
 		
 		$cmd = $ilCtrl->getCmd();
-		include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+		include_once ("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
 		$this->ctrl->setReturn($this, "editStyleProperties");
 		$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 		$style_gui->omitLocator();
@@ -208,7 +208,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$lng->loadLanguageModule("content");
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 		$this->tpl->setCurrentBlock("SyntaxStyle");
@@ -229,7 +229,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// get page object
 		$this->ctrl->setReturnByClass("ilcontainerpagegui", "edit");
 		$page_gui = new ilContainerPageGUI($this->object->getId());
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->object->getStyleSheetId(), $this->object->getType()));
 
@@ -316,7 +316,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once("./Services/Container/classes/class.ilContainerPage.php");
 		include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 		$this->tpl->setCurrentBlock("SyntaxStyle");
@@ -329,7 +329,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ot = ilObjectTranslation::getInstance($this->object->getId());
 		$lang = $ot->getEffectiveContentLang($ilUser->getCurrentLanguage(), "cont");
 		$page_gui = new ilContainerPageGUI($this->object->getId(), 0, $lang);
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->object->getStyleSheetId(), $this->object->getType()));
 
@@ -345,11 +345,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 	
 	/**
-	* prepare output
-	*/
-	function prepareOutput($a_show_subobjects = true)
+	 * prepare output
+	 */
+	protected function prepareOutput($a_show_subobjects = true)
 	{
-		if (parent::prepareOutput())	// return false in admin mode
+		if (parent::prepareOutput($a_show_subobjects))	// return false in admin mode
 		{
 			if ($this->getCreationMode() != true && $a_show_subobjects)
 			{
@@ -779,32 +779,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function editPageFrameObject()
 	{
-		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
-		$fs_gui = new ilFramesetGUI();
-		
-		$fs_gui->setFramesetTitle($this->object->getTitle());
-		$fs_gui->setMainFrameName("content");
-		$fs_gui->setSideFrameName("tree");
-
 		// old tiny stuff
 		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
 			"xhtml_page");
 		if ($xpage_id > 0 && $_SESSION["il_cntr_editor"] != "std")
 		{
-			$fs_gui->setMainFrameSource(
-				$this->ctrl->getLinkTarget(
-					$this, "editPageContent"));
-			$fs_gui->setSideFrameSource(
-				$this->ctrl->getLinkTarget($this, "showLinkList"));
+			$this->ctrl->redirect($this, "editPageContent");
 		}
 		else
 		{
 			$this->ctrl->redirectByClass(array("ilcontainerpagegui"), "edit");
-			exit;
 		}
-				
-		$fs_gui->show();
-		exit;
 	}
 
 	/**
@@ -1226,26 +1211,26 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	* common tabs for all container objects (should be called
 	* at the end of child getTabs() method
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $ilCtrl;
 
 		// edit permissions
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
 				array("perm","info","owner"), 'ilpermissiongui');
 			if ($ilCtrl->getNextClass() == "ilpermissiongui")
 			{
-				$tabs_gui->activateTab("perm_settings");
+				$this->tabs_gui->activateTab("perm_settings");
 			}
 		}
 
 		// show clipboard
 		if (strtolower($_GET["baseClass"]) == "ilrepositorygui" && !empty($_SESSION["clipboard"]))
 		{
-			$tabs_gui->addTarget("clipboard",
+			$this->tabs_gui->addTarget("clipboard",
 				 $this->ctrl->getLinkTarget($this, "clipboard"), "clipboard", get_class($this));
 		}
 
@@ -1368,23 +1353,27 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 
-		require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-		if (ilDAVServer::_isActive() && ilDAVServer::_isActionsVisible())
+		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+		if (ilDAVActivationChecker::_isActive())
 		{
-			require_once 'Services/WebDAV/classes/class.ilDAVLocks.php';
-			$locks = new ilDAVLocks();
+			require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
+			if (ilDAVServer::_isActionsVisible())
+			{
+				require_once 'Services/WebDAV/classes/class.ilDAVLocks.php';
+				$locks = new ilDAVLocks();
 
-			$result = $locks->lockRef($_GET['item_ref_id'],
-					$ilUser->getId(), $ilUser->getLogin(), 
-					'ref_'.$_GET['item_ref_id'].'_usr_'.$ilUser->getId(), 
-					time() + /*30*24*60**/60, 0, 'exclusive'
-					);
+				$result = $locks->lockRef($_GET['item_ref_id'],
+						$ilUser->getId(), $ilUser->getLogin(), 
+						'ref_'.$_GET['item_ref_id'].'_usr_'.$ilUser->getId(), 
+						time() + /*30*24*60**/60, 0, 'exclusive'
+						);
 
-			ilUtil::sendInfo(
-						$this->lng->txt(
-								($result === true) ? 'object_locked' : $result
-								),
-						true);
+				ilUtil::sendInfo(
+							$this->lng->txt(
+									($result === true) ? 'object_locked' : $result
+									),
+							true);
+			}
 		}
 		$this->renderObject();
 	}
@@ -1439,8 +1428,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
 		if (count($no_cut))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_cut")." ".implode(',',$this->getTitlesByRefId($no_cut)),
-									 $this->ilias->error_obj->MESSAGE);
+			$titles = array();
+			foreach((array) $no_cut as $cut_id)
+			{
+				$titles[] = ilObject::_lookupTitle(ilObject::_lookupObjId($cut_id));
+			}
+			$this->ilias->raiseError(
+				$this->lng->txt("msg_no_perm_cut")." ".implode(',',(array) $titles),
+				$this->ilias->error_obj->MESSAGE
+			);
 		}
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
 		$_SESSION["clipboard"]["cmd"] = $ilCtrl->getCmd();
@@ -1513,8 +1509,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
 		if (count($no_copy))
 		{
+			$titles = array();
+			foreach((array) $no_copy as $copy_id)
+			{
+				$titles[] = ilObject::_lookupTitle(ilObject::_lookupObjId($copy_id));
+			}
 			$this->ilias->raiseError(
-				$this->lng->txt("msg_no_perm_copy") . " " . implode(',',$this->getTitlesByRefId($no_copy)),
+				$this->lng->txt("msg_no_perm_copy") . " " . implode(',',$titles),
 				$this->ilias->error_obj->MESSAGE);
 		}
 
@@ -1595,7 +1596,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $lng, $rbacsystem, $ilAccess;
 		
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once 'Modules/Folder/classes/class.ilObjFolder.php';
 		include_once 'Modules/File/classes/class.ilObjFile.php';
 		include_once 'Modules/File/classes/class.ilFileException.php';
@@ -2123,8 +2123,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		//$t->addFormButton($this->lng->txt($txt_var), "performPasteIntoMultipleObjects");
 		$t->addStickyItem($b);
 
-			$t->addSeparator();
+		$t->addSeparator();
+		$this->lng->loadLanguageModule('obj');
 		$t->addFormButton($this->lng->txt("obj_insert_into_clipboard"), "keepObjectsInClipboard");
+
 		$t->addFormButton($this->lng->txt("cancel"), "cancelMoveLink");
 		$t->setCloseFormTag(false);
 		$t->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), " ");
@@ -2557,8 +2559,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 			$log->write("ilObjectGUI::pasteObject(), link finished");
 
-			// inform other objects in hierarchy about link operation
-			//$this->object->notify("link",$this->object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$this->object->getRefId(),$subnodes);
 		} // END LINK
 
 		// save cmd for correct message output after clearing the clipboard
@@ -2587,87 +2587,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 	} // END PASTE
 	
-
-	// BEGIN WebDAV: Support a copy command in repository
-	
-	/**
-	* Copy object(s) out from a container and write the information to clipboard
-	* It is not possible to copy multiple objects at once.
-	*
-	*
-	* @access	public
-	*/
-	// stefan.born@phzh.ch (01.07.2013): 
-	// UNCOMMENTED DUE NEW copyObject FUNCTION AND BECAUSE IT SEEMS THIS FUNCTION IS NOT USED ANYWHERE
-	/*function copyObject()
-	{
-		global $ilAccess,$ilObjDefinition;
-		
-		if(!$ilAccess->checkAccess('copy','',$_GET['item_ref_id']))
-		{
-			$title = ilObject::_lookupTitle(ilObject::_lookupObjId($_GET['item_ref_id']));
-			
-			ilUtil::sendFailure($this->lng->txt('msg_no_perm_copy').' '.$title,true);
-			$this->ctrl->returnToParent($this);
-		}
-		
-		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
-		$_SESSION["clipboard"]["cmd"] = 'copy';
-
-		ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"),true);
-		
-		// THIS FUNCTION DOES NOT EXIST!
-		return $this->initAndDisplayCopyIntoObjectObject();
-		
-		
-		
-
-		
-
-		// FOR ALL OBJECTS THAT SHOULD BE COPIED
-		foreach ($_POST["id"] as $ref_id)
-		{
-			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			$node_data = $this->tree->getNodeData($ref_id);
-			$subtree_nodes = $this->tree->getSubTree($node_data);
-
-			$all_node_data[] = $node_data;
-			$all_subtree_nodes[] = $subtree_nodes;
-
-			// CHECK VIEW, READ AND COPY PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
-			foreach ($subtree_nodes as $node)
-			{
-				if($node['type'] == 'rolf')
-				{
-					continue;
-				}
-				
-				if (!$rbacsystem->checkAccess('visible,read,copy',$node["ref_id"]))
-				{
-					$no_copy[] = $node["ref_id"];
-				}
-			}
-		}
-		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'view,read'
-		if (count($no_copy))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_copy")." ".implode(',',$this->getTitlesByRefId($no_copy)),
-									 $this->ilias->error_obj->MESSAGE);
-		}
-		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
-		$_SESSION["clipboard"]["cmd"] = ($_GET["cmd"] != "" && $_GET["cmd"] != "post")
-			? $_GET["cmd"]
-			: key($_POST["cmd"]);
-		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
-
-		ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"),true);
-
-		$this->ctrl->returnToParent($this);
-
-	} // END COPY
-	*/
-	// BEGIN WebDAV: Support copy command in repository
-
 
 	/**
 	* show clipboard
@@ -2873,7 +2792,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	/**
 	* May be overwritten in subclasses.
 	*/
-	function setColumnSettings($column_gui)
+	function setColumnSettings(ilColumnGUI $column_gui)
 	{
 		global $ilAccess;
 		parent::setColumnSettings($column_gui);
@@ -3202,9 +3121,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	// END PATCH WebDAV: Support a copy command in the repository
 
 	/**
-	* Modify Item ListGUI for presentation in container
-	*/
-	function modifyItemGUI(&$a_item_list_gui, $a_item_data, $a_show_path)
+	 * Modify list gui for presentation in container
+	 * @global type $lng
+	 * @param type $a_item_list_gui
+	 * @param type $a_item_data
+	 * @param type $a_show_path
+	 */
+	public function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
 	{
 		global $lng;
 		
@@ -3293,7 +3216,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilCtrl->getHTML($page_gui);
 		$ilTabs->setTabActive("obj_sty");
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$lng->loadLanguageModule("style");
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -3393,7 +3316,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $ilSetting;
 	
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		if ($ilSetting->get("fixed_content_style_id") <= 0 &&
 			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
 			|| $this->object->getStyleSheetId() == 0))

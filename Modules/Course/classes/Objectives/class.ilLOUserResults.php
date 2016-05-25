@@ -52,7 +52,7 @@ class ilLOUserResults
 			'tries' => 0,
 			'is_final' => 0
 		);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ur['status'] = $row->status;
 			$ur['result_perc'] = $row->result_perc;
@@ -504,7 +504,7 @@ class ilLOUserResults
 				'AND user_id = '.$ilDB->quote($a_user_id,'integer');
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return true;
 		}

@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Context/classes/class.ilContextBase.php";
+include_once "Services/Context/interfaces/interface.ilContextTemplate.php";
 
 /** 
  * Service context for web access checker
@@ -12,7 +12,7 @@ include_once "Services/Context/classes/class.ilContextBase.php";
  * 
  * @ingroup ServicesContext
  */
-class ilContextWebAccessCheck extends ilContextBase
+class ilContextWebAccessCheck implements ilContextTemplate
 {			
 	/**
 	 * Are redirects supported?

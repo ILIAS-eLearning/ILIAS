@@ -61,7 +61,7 @@ class ilObjWorkspaceFolder extends ilObject2
 	 * @return returns first created directory
 	 */
 	private static function recurseFolder ($refid, $title, $tmpdir) {
-		global $rbacsystem, $tree, $ilAccess;
+		global $tree, $ilAccess;
 				
 		$tmpdir = $tmpdir.DIRECTORY_SEPARATOR.ilUtil::getASCIIFilename($title);
 		ilUtil::makeDir($tmpdir);
@@ -95,18 +95,22 @@ class ilObjWorkspaceFolder extends ilObject2
 		
 	}
 	
-	public function downloadFolder() {
-		global $lng, $rbacsystem, $ilAccess;
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
+	public function downloadFolder() 
+	{
+		global $ilAccess;
+		
 		include_once 'Modules/File/classes/class.ilObjFile.php';
 		include_once 'Modules/File/classes/class.ilFileException.php';
+		
 		if (!$ilAccess->checkAccess("read", "", $this->getRefId()))
 		{
-			$this->ilErr->raiseError(get_class($this)."::downloadFolder(): missing read permission!",$this->ilErr->WARNING);
+			include_once "Services/Object/exceptions/class.ilObjectException.php";
+			throw new ilObjectException("missing read permission!");
 		}
 		if (ilObject::_isInTrash($this->getRefId()))
 		{
-			$this->ilErr->raiseError(get_class($this)."::downloadFolder(): object is trashed!",$this->ilErr->WARNING);
+			include_once "Services/Object/exceptions/class.ilObjectException.php";
+			throw new ilObjectException("object is trashed!");
 		}
 		
 		$zip = PATH_TO_ZIP;

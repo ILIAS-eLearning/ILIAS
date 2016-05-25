@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2016 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -259,6 +259,7 @@ assessment#:#tst_virtual_pass_header_lo_initial#:#Initial Test Results for the L
 assessment#:#tst_pass_details_header_lo_qualifying#:#Qualifying Test Results for the Learning Objectives<br />%s - %s
 assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifying Test Results for the Learning Objective<br />%s
 assessment#:#ass_create_export_file#:#Create Test Export File
+assessment#:#ass_create_export_file_with_results#:#Create Test Export File (incl. Participant Results)
 assessment#:#ass_create_export_test_results#:#Create Test Results Export File
 assessment#:#ass_create_export_test_archive#:#Create Test Archive File
 assessment#:#ass_export_files#:#Export Files
@@ -411,6 +412,9 @@ assessment#:#empty_term_message#:#There is a least one empty term field.
 assessment#:#empty_terms_exist#:#There are already empty term fields. Please fill out these fields before you add more terms.
 assessment#:#enable_javascript#:#Click to enable JavaScript support
 assessment#:#end_tag#:#End Tag
+assessment#:#tst_conflict_fbh_oblig_quest#:#The combination of using compulsory questions and locked answers is not allowed.
+assessment#:#tst_conflict_reset_non_fbh#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers".
+assessment#:#tst_conflict_reset_fbh_force#:#The setting "Lock Answers" was adjusted to "Do Not Lock Answers but Force Feedback".
 assessment#:#ending_time_reached#:#You have reached the finish time
 assessment#:#enlarge#:#Enlarge
 assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
@@ -1516,9 +1520,9 @@ assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
 assessment#:#feedback_correct_sc_mc#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
 assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).
-assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Default Editing Mode for Additional Question Content
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Editor
+assessment#:#tst_add_quest_cont_edit_mode#:#Editor for Feedback and Hints
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Use rich-text editor for editing feedback and hints
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Use ILIAS page editor for editing feedback and hints
 assessment#:#tst_question_feedback_edit_page#:#Edit Content
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
 assessment#:#enable_examview#:#Overview of Answers Given
@@ -1902,7 +1906,7 @@ common#:#action#:#Action
 common#:#actions#:#Actions
 common#:#activate_assessment_logging#:#Activate Test and Assessment Logging
 common#:#activate_block#:#Activate
-common#:#activate_https#:#HTTPS handling by ILIAS<br />(Payment, Login)
+common#:#activate_https#:#HTTPS handling by ILIAS<br />(Login)
 common#:#activate_tracking#:#Activation
 common#:#activate#:#Set Active
 common#:#activation#:#Edit Timings
@@ -1940,13 +1944,13 @@ common#:#administrator#:#Administrator
 rbac#:#adopt_perm_from_template#:#Copy Permission Settings
 common#:#adopt#:#Adopt
 common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing
-common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor
+common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich-text editor
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test and Assessment tool
 common#:#advanced_editing_frm_post_settings#:#Forum Post Settings
 common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.
 common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing
 common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings
-common#:#advanced_editing_no_rte#:#Do not use rich text editing
+common#:#advanced_editing_no_rte#:#Do not use rich-text editing
 common#:#advanced_editing_rep_page_editing_desc#:#This feature allows adding text/media to pages of a category, course, group or folder. If deactivated, existing content will be hidden.
 common#:#advanced_editing_rep_page_editing#:#Enable Content Editing in Repository
 common#:#advanced_editing_required_tags#:#The following HTML tags are required: %s
@@ -3367,8 +3371,6 @@ common#:#mail_settings#:#Mail Settings
 rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP to external addresses
 rbac#:#mail_system_message#:#User can send internal system messages
 common#:#mail_system#:#System Message
-common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is limited. Pear Mail fully supports internet compliant e-mail addresses.
-common#:#mail_use_pear_mail#:#Use Pear Mail
 rbac#:#mail_visible#:#Mail administration is visible
 rbac#:#mail_write#:#User can edit settings in Mail administration
 common#:#mail_z_local#:#User Folders
@@ -3570,7 +3572,6 @@ common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_obj_may_not_contain_objects_of_type#:#The object %s may not contain objects of type: %s.
 common#:#msg_obj_modified#:#Modifications saved.
 common#:#msg_obj_no_link#:#It is not possible to link container objects like categories, courses, groups or folder due to technical reasons. Instead you may link several single objects within such a container to other areas or use a reference object for categories and courses.
-common#:#msg_obj_not_deletable_sold#:#Payment is activated for the following objects. They can no be deleted.
 common#:#msg_paste_object_not_in_itself#:#It’s not possible to paste the object %s in itself.
 common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from
@@ -3760,8 +3761,6 @@ common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only
 common#:#obj_objf#:#Object Definitions
 common#:#obj_owner#:#This Object is owned by
 common#:#obj_page#:#Page
-common#:#obj_pays_desc#:#Configure shop settings and vendors
-common#:#obj_pays#:#Shop
 common#:#obj_pdts_desc#:#Configure the Personal Desktop
 common#:#obj_pdts#:#Personal Desktop
 common#:#obj_pg#:#Page
@@ -3945,17 +3944,6 @@ common#:#path_to_unzip#:#Path to Unzip
 common#:#path_to_zip#:#Path to Zip
 common#:#path#:#Path
 common#:#pathes#:#Paths
-common#:#pay_methods#:#Pay methods
-common#:#payment_buyable#:#Buyable
-common#:#payment_demo#:#Demo
-common#:#payment_in_sc#:#Already in shopping cart
-common#:#payment_payed_access#:#Payed/Access
-common#:#payment_system#:#Payment System
-rbac#:#pays_edit_permission#:#User can change permission settings in Shop administration
-common#:#pays_edit#:#Edit shop settings
-rbac#:#pays_read#:#User has read access to Shop administration
-rbac#:#pays_visible#:#Shop administration is visible
-rbac#:#pays_write#:#User can edit settings in Shop administration
 common#:#pd_enable_chatviewer#:#Enable Chat Viewer
 common#:#pd_enable_contacts_requires_mail#:#Requires mail permission
 common#:#pd_enable_contacts#:#Enable Contacts
@@ -4209,8 +4197,8 @@ rbac#:#root_visible#:#<i>Repository - Home</i> is visible
 rbac#:#root_write#:#User can edit settings of <i>Repository - Home</i> and manage content
 common#:#row#:#Row
 common#:#rows#:#Rows
-common#:#rte_editor_disabled#:#Rich Text Editor disabled
-common#:#rte_editor_enabled#:#Rich Text Editor enabled
+common#:#rte_editor_disabled#:#Rich-text editor disabled
+common#:#rte_editor_enabled#:#Rich-text editor enabled
 common#:#sahs_added#:#SCORM Learning Module added
 rbac#:#sahs_copy#:#User can copy SCORM learning module
 common#:#sahs_create#:#Create SCORM Learning Module
@@ -4360,8 +4348,6 @@ common#:#shib_visible#:#Shibboleth settings are visible
 common#:#shib_write#:#Edit Shibboleth settings
 common#:#shib_zipcode#:#Attribute for zipcode
 common#:#shib#:#Shibboleth
-common#:#shop_actions#:#Actions###Replacement of the wording of ‘actions’ when in shop.
-common#:#shop#:#Shop
 common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, ‘ILIAS’ is used.
 common#:#short_inst_name#:#Short Title
 common#:#show_details#:#Show Details
@@ -4604,7 +4590,7 @@ common#:#udf_no_name_given#:#Please enter a field name.
 common#:#udf_required_requires_visib_reg#:#When field is set to ‘required’, it must be set to ‘visible in registration’
 common#:#udf_type_date#:#Date
 common#:#udf_type_datetime#:#Date and Time
-common#:#udf_type_select#:#Selection List (Drop-Down)
+common#:#udf_type_select#:#Selection List (Single Choice)
 common#:#udf_type_text#:#Text Field (One Line)
 common#:#udf_type_wysiwyg#:#Text Area (WYSIWYG)
 common#:#udf_update_select_field#:#Edit Select Box
@@ -4662,7 +4648,7 @@ common#:#user_access#:#Access per user
 common#:#user_activated#:#User has been approved
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
-common#:#user_cant_receive_mail#:#user is not allowed to use the mail system
+common#:#user_cant_receive_mail#:#%1$s (user is not allowed to use the mail system) 
 common#:#user_comment#:#User comment
 common#:#user_deactivated#:#User has been disapproved
 common#:#user_defined_fields#:#Custom Fields
@@ -7237,6 +7223,8 @@ mail#:#info_mail_external_sender_noreply#:#Please enter the e-mail that shall be
 mail#:#invite_to_chat#:#Invite to Chat
 mail#:#linebreak#:#Line break
 mail#:#mail_account_mail_check#:#Send Account Mail
+mail#:#mail_send_html#:#HTML Frame for External Emails
+mail#:#mail_send_html_info#:#If enabled, the body of external emails will be embedded in a HTML frame. The corresponding template can be customized by creating a copy of './Services/Mail/templates/default/tpl.html_mail_template.html' at './Customizing/global/skin/[SKIN]/Services/Mail/tpl.html_mail_template.html' .
 mail#:#mail_account_mail#:#Account Mail
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Sub-folder
@@ -7334,7 +7322,7 @@ mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attac
 mail#:#mail_no_attachments_found#:#No attachments found
 mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external e-mail
 mail#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.
-mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List
+mail#:#mail_no_valid_mailing_list#:#%1$s (no valid mailing list)
 mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_options_of#:#Options
 mail#:#mail_options_saved#:#Options saved
@@ -8165,463 +8153,6 @@ notes#:#notes_note_deleted#:#The note has been deleted.
 notes#:#notes_notes_deleted#:#The notes have been deleted.
 notes#:#notes_public_comments#:#Public Comments
 notes#:#notes_show_comments#:#Show Comments
-payment#:#advanced_search#:#Advanced Search
-payment#:#coupon_type#:#Coupon-Type
-payment#:#currency_cent#:#Cent
-payment#:#currency_euro#:#Euro
-payment#:#currency#:#Currency
-payment#:#delete_addresses_bill#:#Delete Billing addresses
-payment#:#delete_addresses_bmf#:#Delete BMF addresses
-payment#:#delete_addresses_paypal#:#Delete Paypal addresses
-payment#:#duration#:#Duration
-payment#:#edit_topic#:#Edit Topic
-payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.
-payment#:#enable_ean#:#Enable EAN
-payment#:#excel_export#:#Excel export
-payment#:#filter_by#:#by
-payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one code per line.
-payment#:#info#:#Information about the pay method
-payment#:#new_topic#:#New Topic
-payment#:#no_topics_yet#:#No topics created yet
-payment#:#no_vendor_selected#:#No vendor selected.
-payment#:#object_deleted#:#Object Deleted
-payment#:#pay_abstract#:#Abstract
-payment#:#pay_add_to_shopping_cart#:#Add to shopping cart
-payment#:#pay_added_to_shopping_cart#:#Added item to shopping cart.
-payment#:#pay_all#:#All
-payment#:#pay_article#:#Article
-payment#:#pay_bank_data#:#Bank data
-payment#:#pay_bill_no#:#Invoice no.
-payment#:#pay_bmf_account_holder#:#Account holder
-payment#:#pay_bmf_account_number#:#Account number
-payment#:#pay_bmf_back#:#back
-payment#:#pay_bmf_bank_code#:#Bank code
-payment#:#pay_bmf_card_holder#:#Card holder
-payment#:#pay_bmf_card_number#:#Card number
-payment#:#pay_bmf_check_number#:#Check number
-payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you've read the terms and conditions and accept it.
-payment#:#pay_bmf_credit_card_data#:#Credit card
-payment#:#pay_bmf_credit_card_not_valid#:#The credit card data you've entered isn't valid. Please check out whether all fields are filled out correctly.
-payment#:#pay_bmf_credit_card#:#Credit card
-payment#:#pay_bmf_debit_entry_data#:#Debit entry
-payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly.
-payment#:#pay_bmf_debit_entry#:#Debit entry (german bank accounts only)
-payment#:#pay_bmf_description_credit_card#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your credit card data and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.
-payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.
-payment#:#pay_bmf_description_payment_type#:#Please select how to pay.
-payment#:#pay_bmf_description_personal_data#:#Please fill out the following form completely.
-payment#:#pay_bmf_house_number#:#House number
-payment#:#pay_bmf_optional#:#optional
-payment#:#pay_bmf_or#:#or
-payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid.
-payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you've chosen isn't valid. Please select another option.
-payment#:#pay_bmf_payment_type#:#Kind of paying
-payment#:#pay_bmf_personal_data_not_valid#:#Your personal data isn't valid. Please check out whether all fields are filled out correctly.
-payment#:#pay_bmf_personal_data#:#Your personal data
-payment#:#pay_bmf_please_select#:#Please select
-payment#:#pay_bmf_po_box#:#PO Box
-payment#:#pay_bmf_server_error_code#:#Payment server returns error code
-payment#:#pay_bmf_server_error_communication#:#Error while communication with payment server.
-payment#:#pay_bmf_server_error_sysadmin#:#Please contact system administrator for further information.
-payment#:#pay_bmf_shopping_cart_empty#:#Your shopping card is empty.
-payment#:#pay_bmf_street_or_pobox#:#Please enter street and house number or po box.
-payment#:#pay_bmf_subtotal_amount#:#Subtotal amount
-payment#:#pay_bmf_terms_conditions_read#:#I have read the general terms and conditions and accept it.
-payment#:#pay_bmf_terms_conditions_show#:#show
-payment#:#pay_bmf_terms_conditions#:#General terms and conditions
-payment#:#pay_bmf_thanks#:#Thank you. Your order was submitted.
-payment#:#pay_bmf_total_amount#:#Total amount
-payment#:#pay_bmf_validity#:#valid until
-payment#:#pay_bmf_vat_included#:#VAT included
-payment#:#pay_bmf_your_order#:#Your order
-payment#:#pay_change_price#:#Change price/duration combination
-payment#:#pay_click_to_buy#:#Buy now
-payment#:#pay_confirm_order#:#Please confirm your order by entering your password.
-payment#:#pay_crs_max_members_exceeded#:#You cannot buy this course because the maximum number of users is already exceeded.
-payment#:#pay_customer_no#:#Customer no.
-payment#:#pay_deleted_booking#:#The entry has been deleted.
-payment#:#pay_deleted_items#:#The selected items have been deleted.
-payment#:#pay_edit_abstract#:#Edit Abstract
-payment#:#pay_enable_shop_info#:#If activated the ILIAS webshop is available and objects can be bought.
-payment#:#pay_enable_shop#:#Enable Shop
-payment#:#pay_ending#:#ends with
-payment#:#pay_entitled_retrieve#:#Entitled to retrieve data for
-payment#:#pay_epay_canceled#:#The payment was canceled.
-payment#:#pay_epay_success#:#The payment has been processed. Please be aware that it can take a few minutes before your purchase is fully registered.
-payment#:#pay_expires_info#:#This object is disposable. The payment has been expired, you can not buy it.
-payment#:#pay_filter#:#Filter
-payment#:#pay_goto_buyed_objects#:#Goto your bought objects
-payment#:#pay_goto_shopping_cart#:#Goto the shopping cart
-payment#:#pay_header#:#Shop
-payment#:#pay_hide_advanced_search_info#:#For simple shop with a few items hide the advanced search tab.
-payment#:#pay_hide_advanced_search#:#Hide Advanced Search
-payment#:#pay_hide_coupons_info#:#Hide coupons for the shopper. In case your shop is not using coupons this simplifies the buying process for your customer.
-payment#:#pay_hide_coupons#:#Hide coupons
-payment#:#pay_hide_filtering_info#:#Hide filtering options from the shopper.
-payment#:#pay_hide_filtering#:#Hide Filtering
-payment#:#pay_hide_news_info#:#Hides the shop news tab in case you're not using the news.
-payment#:#pay_hide_news#:#Hide news
-payment#:#pay_hint_epay#:#Tip to ePay
-payment#:#pay_hint_paypal#:#Hint for PayPal
-payment#:#pay_info_epay#:#When press ‘pay’ the ePay payment window opens. After you have completed the payment you will return to ILIAS.
-payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.
-payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button ‘shopping cart’ on your personal desktop.  You are going to gain immediate access to a chosen object and period.
-payment#:#pay_item_already_in_sc_choose_another#:#This object was already taken up in your shopping cart. Select if necessary a new price/duration combination.
-payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.
-payment#:#pay_locator#:#Shop
-payment#:#pay_manual_sorting_of_topics#:#Manual Sorting of Topics
-payment#:#pay_max_hits_info#:#Please enter a number for the maximum number of search results.
-payment#:#pay_max_hits#:#Max hits
-payment#:#pay_message_attachment#:#As a confirmation for your order we send you a bill (PDF format) as attachment.
-payment#:#pay_message_hello#:#Dear
-payment#:#pay_message_regards#:#Yours sincerely
-payment#:#pay_message_subject#:#Your ILIAS order
-payment#:#pay_message_thanks#:#Thank you for your ILIAS order.
-payment#:#pay_no_vendors_created#:#No vendors created
-payment#:#pay_not_buyed_any_object#:#You have not bought any object.
-payment#:#pay_order_date_from#:#Order date from
-payment#:#pay_order_date_til#:#Order date til
-payment#:#pay_order_paid_body#:#Your invoice for %products% is attached this mail. Thank you for your order.
-payment#:#pay_order_paid_subject#:#Your invoice
-payment#:#pay_payed_bill#:#Bill already payed
-payment#:#pay_unpayed_bill#:#Please wire the open balance to the given bank account.
-payment#:#pay_payed_credit_card#:#The order was paid by credit card.
-payment#:#pay_payed_debit_entry#:#The order was paid by debit entry.
-payment#:#pay_payed_paypal#:#The order was paid by PayPal.
-payment#:#pay_paypal_error_fails#:#PayPal reports errors that occurred during the transaction.
-payment#:#pay_paypal_error_info#:#If necessary feel free to contact the system administrator of this ILIAS installation.
-payment#:#pay_paypal_error_not_completed#:#The transaction isn't totally completed yet.
-payment#:#pay_paypal_error_prev_trans_id#:#The transaction id given by PayPal was already used before.
-payment#:#pay_paypal_error_wrong_customer#:#Checking this transaction resulted in no match of the customer.
-payment#:#pay_paypal_error_wrong_items#:#Checking this transaction resulted in no match of the sold items.
-payment#:#pay_paypal_error_wrong_vendor#:#Checking this transaction resulted in no match of the vendor.
-payment#:#pay_paypal_failed#:#Your purchase of ILIAS objects using PayPal failed!
-payment#:#pay_paypal_success#:#Thanks for your purchase of ILIAS objects using PayPal! You'll receive a written confirmation in PDF format by e-mail.
-payment#:#pay_paypal_unreachable#:#The connection to the payment server of PayPal failed.
-payment#:#pay_personal_settings#:#Personal Settings
-payment#:#pay_reset_filter#:#Reset filter
-payment#:#pay_save_sorting#:#Save Sorting
-payment#:#pay_select_one_item#:#Please select one item.
-payment#:#pay_select_price#:#Please select a price/duration combination.
-payment#:#pay_send_order#:#Send order
-payment#:#pay_shopping_cart_empty#:#Your shopping cart is empty.
-payment#:#pay_sorting_value#:#Sorting Value
-payment#:#pay_starting#:#starts with
-payment#:#pay_step1#:#Your order - Step 1/3: Enter your personal data
-payment#:#pay_step2#:#Your order - Step 2/3: Choose kind of payment
-payment#:#pay_step3_credit_card#:#Your order - Step 3/3: Enter your credit card data and send your order
-payment#:#pay_step3_debit_entry#:#Your order - Step 3/3: Enter your bank data and send your order
-payment#:#pay_thumbnail#:#Thumbnail
-payment#:#pay_topics_allow_custom_sorting_info#:#If enabled, every user can determine the sorting of topics in the webshop independently.
-payment#:#pay_topics_allow_custom_sorting#:#Custom Sorting of Topics
-payment#:#pay_topics_default_sorting_direction#:#Default Sorting Direction of Topics
-payment#:#pay_topics_default_sorting_type#:#Default Sorting Type of Topics
-payment#:#pay_topics_sort_by_date#:#By Date
-payment#:#pay_topics_sort_by_title#:#Titles in Alphabetical Order
-payment#:#pay_topics_sort_manually#:#Manually
-payment#:#pay_update_view#:#Update view
-payment#:#paya_access#:#Access
-payment#:#paya_add_customer#:#Add Selling Process
-payment#:#paya_add_price_title#:#New price
-payment#:#paya_add_price#:#Add new price
-payment#:#paya_added_new_object#:#Added new object. Please edit the pay method and the prices.
-payment#:#paya_added_new_price#:#Created new price
-payment#:#paya_added_trustee#:#Created new trustee.
-payment#:#paya_bookings_available#:#This object has been sold. Please delete all statistic data first.
-payment#:#paya_buyable#:#Buyable
-payment#:#paya_buyed_objects#:#Bought Objects
-payment#:#paya_count_purchaser#:#Number of purchasers
-payment#:#paya_coupon_codes_import_successful#:#Import successful.
-payment#:#paya_coupons_add#:#Add Coupon
-payment#:#paya_coupons_already_in_use#:#The code you typed in belongs to the same coupon as a code which is already in use.
-payment#:#paya_coupons_assigned_objects#:#Assigned Objects
-payment#:#paya_coupons_availability#:#Maximum Number of Usage of one Code
-payment#:#paya_coupons_code_chars#:#Chars
-payment#:#paya_coupons_code_deleted_successfully#:#Deleted Successfully
-payment#:#paya_coupons_code_generation#:#Code Generation
-payment#:#paya_coupons_code_length#:#Code Length
-payment#:#paya_coupons_code#:#Code
-payment#:#paya_coupons_codes_import#:#Import Codes
-payment#:#paya_coupons_codes_not_available#:#No codes created yet.
-payment#:#paya_coupons_codes#:#Codes
-payment#:#paya_coupons_coupon_added#:#Coupon added.
-payment#:#paya_coupons_coupon_not_found#:#No coupon found for the code you typed in.
-payment#:#paya_coupons_coupon#:#Coupon
-payment#:#paya_coupons_coupons#:#Coupons
-payment#:#paya_coupons_description#:#Description
-payment#:#paya_coupons_edit_codes#:#Edit Codes
-payment#:#paya_coupons_edit_objects#:#Edit Objects
-payment#:#paya_coupons_edit#:#Edit Coupon
-payment#:#paya_coupons_fix_all_objects#:#%s %s discount on the total amount of all objects
-payment#:#paya_coupons_fix_selected_objects#:#%s %s discount on the total amount of selected objects
-payment#:#paya_coupons_fix#:#fix
-payment#:#paya_coupons_from#:#Valid From
-payment#:#paya_coupons_generate_codes#:#Generate Codes
-payment#:#paya_coupons_import_codes#:#Import Codes
-payment#:#paya_coupons_import_error_opening_file#:#Error opening the import file!
-payment#:#paya_coupons_no_codes_generated#:#No codes generated.
-payment#:#paya_coupons_no_codes_selected#:#You did not select any code
-payment#:#paya_coupons_no_object_assigned#:#No object assigned to the coupon.
-payment#:#paya_coupons_not_available#:#No coupons created yet.
-payment#:#paya_coupons_not_found#:#No coupons found.
-payment#:#paya_coupons_not_valid#:#The coupon is not valid.
-payment#:#paya_coupons_number_of_codes#:#Number of Codes
-payment#:#paya_coupons_objects#:#Objects
-payment#:#paya_coupons_percentaged_all_objects#:#%s %s discount on the total amount of all objects
-payment#:#paya_coupons_percentaged_selected_objects#:#%s %s discount on the total amount of selected objects
-payment#:#paya_coupons_percentaged#:#percentaged
-payment#:#paya_coupons_sure_delete_all_codes#:#Are you sure you want to delete all codes?
-payment#:#paya_coupons_sure_delete_selected_codes#:#Are you sure you want to delete the selected codes?
-payment#:#paya_coupons_till#:#Valid Till
-payment#:#paya_coupons_title#:#Title
-payment#:#paya_coupons_type_auto#:#Automatically
-payment#:#paya_coupons_type_self#:#Manually
-payment#:#paya_coupons_type#:#Coupon Type
-payment#:#paya_coupons_unassigned_objects#:#Unassigned Objects
-payment#:#paya_coupons_usage_of_codes#:#Usage of Codes
-payment#:#paya_coupons_value#:#Value
-payment#:#paya_customer_added_successfully#:#The selling process was added to the statistics successfully.
-payment#:#paya_customer#:#Customer
-payment#:#paya_delete_price#:#Delete price
-payment#:#paya_delete_trustee_msg#:#Deleted selected trustees.
-payment#:#paya_deleted_last_price#:#The last price has been deleted.
-payment#:#paya_deleted_object#:#Stopped payment for the selected object.
-payment#:#paya_deleted_selected_prices#:#Price(s) deleted
-payment#:#paya_details_updated#:#Details updated.
-payment#:#paya_disabled#:#Disabled
-payment#:#paya_edit_details#:#Edit Details
-payment#:#paya_edit_pay_method#:#Edit Pay Method
-payment#:#paya_edit_prices_first#:#Please edit the prices first.
-payment#:#paya_edit_prices#:#Edit Prices
-payment#:#paya_enabled#:#Enabled
-payment#:#paya_enter_login#:#Please enter a username.
-payment#:#paya_err_adding_object#:#Error adding object
-payment#:#paya_error_adding_customer#:#An error occurred while adding the selling process to the statistics.
-payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).
-payment#:#paya_error_no_object_id_given#:#Please choose an object.
-payment#:#paya_error_update_booking#:#Error saving statistic data.
-payment#:#paya_expires#:#Expire payment
-payment#:#paya_filter_reseted#:#Filter reset.
-payment#:#paya_header#:#Shop Administration
-payment#:#paya_insert_only_numbers#:#Please insert only integers.
-payment#:#paya_insert_vats#:#Insert Vat-Rate
-payment#:#paya_locator#:#Shop Administration
-payment#:#paya_months#:#Month(s)
-payment#:#paya_no_booking_id_given#:#Error: no ‘booking id’ given
-payment#:#paya_no_bookings#:#No statistic available.
-payment#:#paya_no_object_selected#:#Please select one object.
-payment#:#paya_no_objects_assigned#:#There are no objects to sell.
-payment#:#paya_no_price_available#:#No prices available
-payment#:#paya_no_prices_selected#:#Please select one price
-payment#:#paya_no_settings_necessary#:#There are no settings necessary for this pay method
-payment#:#paya_no_trustees#:#No trustees created.
-payment#:#paya_no_valid_login#:#This username is not valid.
-payment#:#paya_no_vat_id_given#:#There is no vat-id given
-payment#:#paya_no_vats_assigned#:#No vats assigned
-payment#:#paya_no_vendor_selected#:#You haven‘t selected a vendor.
-payment#:#paya_not_assign_yourself#:#It is not possible to assign yourself.
-payment#:#paya_not_buyable#:#Not to buy
-payment#:#paya_object_not_purchasable#:#It is not possible to sell this object.
-payment#:#paya_object#:#Objects
-payment#:#paya_order_date#:#Order date
-payment#:#paya_pay_method_not_specified#:#Not specified
-payment#:#paya_pay_method#:#Pay method
-payment#:#paya_payed_access#:#Payed/Access
-payment#:#paya_payed#:#Payed
-payment#:#paya_perm_coupons#:#Edit coupons
-payment#:#paya_perm_obj#:#Edit objects
-payment#:#paya_perm_stat#:#Edit statistics
-payment#:#paya_price_not_valid#:#This price is not valid. Please insert only numbers
-payment#:#paya_select_object_to_sell#:#Please select the object which you want to sell.
-payment#:#paya_select_pay_method_first#:#Please select one pay method first.
-payment#:#paya_sell_object#:#Sell object
-payment#:#paya_shopping_cart#:#Shopping Cart
-payment#:#paya_statistic#:#Statistic
-payment#:#paya_sure_delete_object#:#Are you sure, you want to stop payment for this object? All assigned data will get lost.
-payment#:#paya_sure_delete_selected_prices#:#Are you sure you want to delete the selected prices?
-payment#:#paya_sure_delete_selected_trustees#:#Are you sure you want to delete the selected trustees?
-payment#:#paya_sure_delete_stat#:#Are you sure, you want to delete this statistic?
-payment#:#paya_sure_delete_vat#:#Are you sure, you want to delete this vat?
-payment#:#paya_sure_delete_vats#:#Are you sure you want to delete vat(s)?
-payment#:#paya_transaction#:#Transaction
-payment#:#paya_trustee_table#:#Trustees
-payment#:#paya_trustees#:#Trustees
-payment#:#paya_update_price#:#Update prices
-payment#:#paya_updated_booking#:#Updated statistic.
-payment#:#paya_updated_price#:#The price was saved.
-payment#:#paya_updated_prices#:#Updated prices
-payment#:#paya_updated_trustees#:#Updated permissions.
-payment#:#paya_user_already_assigned#:#User already assigned.
-payment#:#paya_vat_already_exists#:#This vat rate already exists
-payment#:#paya_vat_not_deleted#:#This vat rate is not deleted
-payment#:#paya_vat_not_valid#:#This vat is not valid
-payment#:#paya_vats_info#:#If you like to sell an object without a vat, please insert a vat-rate with 0 %
-payment#:#paya_vendor#:#Vendor
-payment#:#payment_add_vat#:#Create VAT
-payment#:#payment_already_bought_but_no_access#:#You already bought the object %s, but you do not have access yet or your license is expired.
-payment#:#payment_back_to_shop#:#Back to Shop
-payment#:#payment_cannot_find_vat#:#Cannot find VAT data set for the passed id.
-payment#:#payment_cannot_read_nonexisting_vat#:#The ID for fechting the VAT data set was not passed.
-payment#:#payment_cannot_save_existing_vat#:#Cannot save an existing VAT.
-payment#:#payment_cannot_update_nonexisting_vat#:#Cannot update a non existing VAT.
-payment#:#payment_edit_vat#:#Edit VAT
-payment#:#payment_login_to_buy_object#:#Please login for purchasing the object.
-payment#:#payment_news_add_news#:#Add Shop News
-payment#:#payment_news_archive_period_info#:#Time period to define when news move to archive
-payment#:#payment_news_archive_period#:#Archive-Period
-payment#:#payment_news_created#:#Shop news added
-payment#:#payment_news_delete_sure#:#Are you sure, you want to delete this shop news?
-payment#:#payment_news_deleted#:#Shop news deleted
-payment#:#payment_news_no_news_items#:#No news available
-payment#:#payment_news_settings_saved#:#The settings have been saved
-payment#:#payment_news_settings#:#Shop News Settings
-payment#:#payment_news_updated#:#The news have been saved
-payment#:#payment_news#:#Shop News
-payment#:#payment_no_price_selected#:#No price selected.
-payment#:#payment_no_price_type_selected#:#Please select a type for the price.
-payment#:#payment_no_topic#:#No Topic
-payment#:#payment_object_not_buyable_if_not_vat_assigned#:#Until there is no VAT assigned the object cannot be bought in the webshop.
-payment#:#payment_price_invalid_price#:#Please enter a valid price.
-payment#:#payment_shop_not_objects_found#:#No objects to buy could be found.
-payment#:#payment_tax_rates#:#Tax Rates
-payment#:#payment_vat_administration#:#Administration
-payment#:#payment_vat_already_created#:#A VAT with this rate is already created.
-payment#:#payment_vat_deleted_successfully#:#VAT was deleted successfully.
-payment#:#payment_vat_has_to_be_defined_by_administration_short#:#----
-payment#:#payment_vat_input_invalid#:#Please insert a valid value for the VAT rate.
-payment#:#payment_vat_rate_info#:#Please insert the VAT rate (without the %-sign), e.g. 7.
-payment#:#payment_vat_title_info#:#Please insert a label/title for the VAT.
-payment#:#pays_active_bookings#:#There active bookings for the selected vendor(s). Please delete them first.
-payment#:#pays_add_info#:#Additional information for bill (optional)
-payment#:#pays_add_vendor#:#Add vendor
-payment#:#pays_added_vendor#:#Added new vendor
-payment#:#pays_address#:#Address for bill
-payment#:#pays_already_assigned_vendors#:#The following number of users were already assigned:
-payment#:#pays_assigned_vendors#:#The following number of users have been assigned to the vendor list:
-payment#:#pays_auth_token#:#Unique Token Given by PayPal
-payment#:#pays_bank_data#:#Bank data for bill
-payment#:#pays_bill#:#Bill
-payment#:#pays_bmf_bewirtschafter_nr#:#Operator No.
-payment#:#pays_bmf_ca_certificate#:#Path to CA-Certificate
-payment#:#pays_bmf_client_certificate#:#Path to Client-Certificate
-payment#:#pays_bmf_client_id#:#Cliend Id
-payment#:#pays_bmf_epayment_server#:#ePayment-Server
-payment#:#pays_bmf_haushaltsstelle#:#Accounting Entry BMF
-payment#:#pays_bmf_kennzeichen_mahnverfahren#:#Dunning Procedure Id
-payment#:#pays_bmf_object_id#:#Object Id
-payment#:#pays_bmf_settings_not_valid#:#Your settings for BMF aren't valid. Please check out whether all fields are filled out correctly.
-payment#:#pays_bmf_settings#:#Settings for BMF
-payment#:#pays_bmf_timeout#:#Timeout
-payment#:#pays_bmf_waehrungskennzeichen#:#Currency (e.g. EUR)
-payment#:#pays_bmf#:#BMF
-payment#:#pays_cost_center_not_valid#:#Please enter a valid cost center.
-payment#:#pays_cost_center#:#Cost center
-payment#:#pays_currency_subunit#:#Currency (1/100) (e.g. Cent)
-payment#:#pays_currency_unit#:#Currency (e.g. EUR)
-payment#:#pays_delete_vendor#:#Deassign user
-payment#:#pays_deleted_number_vendors#:#The following number of vendors have been deleted:
-payment#:#pays_eco_agreement#:#Agreement Number
-payment#:#pays_eco_cur_handle_code#:#Currency Code
-payment#:#pays_eco_layout#:#Invoice Layout
-payment#:#pays_eco_payment_terms#:#Payment Terms
-payment#:#pays_eco_product_number#:#Product Number
-payment#:#pays_edit_vendor#:#Edit user
-payment#:#pays_email_vendor#:#Mail Address of the Vendor
-payment#:#pays_epay_auth_email_info#:#Email where information about processed transactions/payments are sent.
-payment#:#pays_epay_auth_email#:#Email Notification
-payment#:#pays_epay_auth_token_info#:#You also need to enter this in the ePay backend. The secret prevents users from simulating payments.
-payment#:#pays_epay_auth_token#:#Authentication Token
-payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> is a payment gateway that enables ILIAS to receive VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX etc. In order to use this you must have a seperate agreement with ePay and a Merchant Id.
-payment#:#pays_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.
-payment#:#pays_epay_instant_capture#:#Instant Capture
-payment#:#pays_epay_merchant_number#:#Merchant id
-payment#:#pays_epay_server_host#:#Server host
-payment#:#pays_epay_server_path#:#Server path
-payment#:#pays_epay_settings_not_valid#:#The ePay settings could not be saved because they are invalid.
-payment#:#pays_epay_settings#:#ePay configuration
-payment#:#pays_epay#:#ePay
-payment#:#pays_erp_bad_settings#:#Please change the settings for %s as they are not valid.
-payment#:#pays_erp_connection_established#:#Connection established with %s successfully.
-payment#:#pays_erp_error#:#Error interacting with %s!
-payment#:#pays_erp_info#:#Enterprise, Resource and Planning systems setup. Integrates ILIAS with accounting systems.
-payment#:#pays_erp_invoice_attached#:#Your invoice is attached this message.
-payment#:#pays_erp_invoice_copies_info#:#Copies will be saved in:
-payment#:#pays_erp_invoice_copies#:#Save copies of generated invoices
-payment#:#pays_erp_invoice_deleted#:#Test Invoice Deleted
-payment#:#pays_erp_invoice_delpreview#:#Delete Test Invoice
-payment#:#pays_erp_invoice_nowrite#:#Cannot write to directory.
-payment#:#pays_erp_invoice_preview#:#View test invoice in new window
-payment#:#pays_erp_settings#:#ERP Settings
-payment#:#pays_erp_system#:#ERP System
-payment#:#pays_erp_tst_billed#:#billed for
-payment#:#pays_erp_tst_existing#:#Existing Debtor
-payment#:#pays_erp_tst_new#:#New Debtor
-payment#:#pays_erp_tst_product#:#This is just a test invoice. In an actual purchase the name of the course or file will be printed here.
-payment#:#pays_erp_updated_settings#:#ERP settings updated and %s set active.
-payment#:#pays_erp#:#ERP
-payment#:#pays_general_settings_not_valid#:#Your general settings aren't valid. Please check out whether all fields are filled out correctly.
-payment#:#pays_general_settings#:#General settings
-payment#:#pays_general#:#General
-payment#:#pays_header_select_vendor#:#Vendor selection
-payment#:#pays_invoice#:#Invoice
-payment#:#pays_no_username_given#:#No username given
-payment#:#pays_no_valid_username_given#:#No valid username given
-payment#:#pays_no_vendor_selected#:#No vendor selected
-payment#:#pays_number_bookings#:#Active bookings
-payment#:#pays_objects_bill_exist#:#Pay method ‘bill’ is activated for some objects. Therefore it can not be deactivated.
-payment#:#pays_objects_bmf_exist#:#Pay method ‘BMF’ is activated for some objects. Therefore it can not be deactivated.
-payment#:#pays_objects_paypal_exist#:#Pay method ‘PayPal’ is activated for some objects. Therefore it can not be deactivated.
-payment#:#pays_offline#:#Offline
-payment#:#pays_online#:#Online
-payment#:#pays_page_style#:#Page Style
-payment#:#pays_pay_methods#:#Pay methods
-payment#:#pays_paypal_settings_not_valid#:#Your settings for PayPal aren't valid. Please check out whether all fields are filled out correctly.
-payment#:#pays_paypal_settings#:#Settings for PayPal
-payment#:#pays_paypal#:#PayPal
-payment#:#pays_pdf_path#:#Path for generating bill as PDF file
-payment#:#pays_server_host#:#Server Host (e.g. https://www.paypal.com)
-payment#:#pays_server_path#:#Path to the Scripts (e.g. /cgi-bin/webscr)
-payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)
-payment#:#pays_too_many_vendors_selected#:#Please select only one customer to perform this action.
-payment#:#pays_updated_bmf_settings#:#Your settings for BMF were updated.
-payment#:#pays_updated_epay_settings#:#Settings for ePay was updated
-payment#:#pays_updated_general_settings#:#Your general settings were updated.
-payment#:#pays_updated_pay_method#:#Changed pay method.
-payment#:#pays_updated_paypal_settings#:#Your settings for PayPal were updated.
-payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list
-payment#:#pays_vat_rate#:#VAT rate in % (optional)
-payment#:#pays_vendor#:#Vendor
-payment#:#price_a#:#Price
-payment#:#price_from#:#from
-payment#:#prices#:#Prices
-payment#:#reset_filter#:#Reset Filter
-payment#:#search_in_title#:#Search in title
-payment#:#select_one_topic#:#Please select at least one topic.
-payment#:#set_filter#:#Set Filter
-payment#:#shop_info#:#Shop Information
-payment#:#sort_asc#:#sort ascending
-payment#:#sort_by#:#Sort Objects by
-payment#:#sort_desc#:#sort descending
-payment#:#sort_topics_by_date#:#Date
-payment#:#sort_topics_by_title#:#Title
-payment#:#sort_topics_by#:#Sort Topics by
-payment#:#sort_topics_manually#:#Manually
-payment#:#sort#:#Sort
-payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the ‘Update View’ button.
-payment#:#sure_delete_topics#:#Are you sure you want to delete the chosen topics?
-payment#:#topic_edited#:#The topic was edited successfully
-payment#:#topic_saved#:#The topic was saved successfully
-payment#:#topic_title#:#Title
-payment#:#topic#:#Topic
-payment#:#topics_deleted#:#The chosen topics were deleted successfully
-payment#:#topics#:#Topics
-payment#:#unlimited_duration#:#Unlimited duration
-payment#:#update#:#Update
-payment#:#user_deleted#:#User Deleted
-payment#:#vat_rate#:#Vat-Rate
-payment#:#vat_title#:#Vat-Title
-payment#:#vat_unit#:#Vat-Unit
-payment#:#vats#:#Vats
 pd#:#pd_enable_active_users#:#Enable Active Users Block
 pd#:#pd_enable_block_moving_info#:#Allow users to reorganize the content blocks on the personal desktop.
 pd#:#pd_enable_block_moving#:#Enable Block Moving
@@ -10250,9 +9781,8 @@ common#:#session_max_idle_after_first_request_info#:#All sessions that idles for
 common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.
 forum#:#forums_post_activation_mail#:#Unless the following posting is not activated, it is not visible for other forum users. You receive this email because you are assigned as moderator and have the permission to activate this posting.
 rbac#:#mail_mail_to_global_roles#:#User can send mails to global roles
-common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send mails to global roles
+common#:#mail_to_global_roles_not_allowed#:#%1$s (it is not allowed to send mails to global roles) 
 common#:#mail_no_valid_group_role#:#No valid group role
-payment#:#paya_bill_history#:#Bill History
 assessment#:#tst_search_users#:#Search Participants
 survey#:#svy_search_users#:#Search for participants
 survey#:#dont_use_questionpool#:#Don't insert the questions in a question pool (only available in this survey)
@@ -10260,9 +9790,6 @@ trac#:#trac_first_access#:#First Access
 trac#:#trac_read_count#:#Access Number
 trac#:#trac_spent_seconds#:#Time Spent
 trac#:#trac_percentage#:#Percentage
-payment#:#have_existing_account#:#Do you already have an existing account? Please enter your username and password.
-payment#:#have_no_existing_account#:#if you don't have an account, you are able to login in with this account:(Username: %s  Password: %s ).
-payment#:#please_use_account#:#For further purchases please login with use your account.
 content#:#cont_lk_file#:#File/Document
 content#:#cont_select_file#:#Select File
 content#:#cont_create_link#:#Create Link
@@ -10986,9 +10513,9 @@ blog#:#blog_add_posting#:#Add Posting
 blog#:#blog_permanent_link#:#Permalink
 blog#:#blog_comments#:#Comments
 blog#:#blog_list_more#:#more
-blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the following entry?
-blog#:#blog_number_users_notes_or_comments#:#Number of users that attached notes or comments to this entry
-blog#:#blog_posting_deleted#:#The entry has been deleted.
+blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the following posting?
+blog#:#blog_number_users_notes_or_comments#:#Number of users that attached notes or comments to this posting
+blog#:#blog_posting_deleted#:#Posting has been deleted.
 blog#:#blog_enable_notes#:#Public Comments
 sahs#:#sahs_insert_ass_inside_chap#:#Insert Asset (inside chapter)
 sahs#:#sahs_insert_sco_inside_chap#:#Insert SCO (inside chapter)
@@ -11031,13 +10558,8 @@ trac#:#trac_group_materials_num#:#Number of Compulsory Materials
 trac#:#trac_grouped_material_obligatory_err#:#The number materials which must be passed has to be greater than 0 and smaller than the number of materials of the grouping.
 rbac#:#precondition_obligatory_settings#:#Precondition Settings
 rbac#:#precondition_num_obligatory#:#Number of Required Materials
-common#:#payment_notification#:#Send Shop Notification
-common#:#payment_notification_desc#:#If enabled, users get a reminder to extend the duration of bought objects
-common#:#payment_reminder_notification_subject#:#The access duration of bought objects is ending soon.
 common#:#bought_objects_expire_soon#:#For some of your bought objects the access duration is ending soon. You are able to extend the access duration, by buying an extension for these objects.
 common#:#access_enddate#:#Access End Date
-payment#:#buy_extension#:#Buy Extension
-payment#:#extension_price#:#Extension Price
 wiki#:#wiki_ordering#:#Ordering
 wiki#:#wiki_indentation#:#Indentation
 wiki#:#wiki_save_ordering_and_indent#:#Save Ordering and Indentation
@@ -11213,24 +10735,10 @@ adve#:#adve_pe_general#:#General
 adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 content#:#cont_tex#:#Latex Code
-payment#:#terms_conditions#:#GTC
-payment#:#accept_terms_conditions#:#Please accept the %s to continue the purchasing process.
-payment#:#documents#:#Documents
-payment#:#activate_placeholders#:#Activate Placeholders
-payment#:#billing_mail#:#Billing-Email
-payment#:#select_subtype#:#Suboption
-payment#:#pay_hide_shop_info#:#Hide Shop-Information
-payment#:#pay_hide_shop_info_info#:#Hides the tab shop-information
-payment#:#use_shop_specials#:#Use Shop Specials
-payment#:#use_shop_specials_info#:#If enabled, it is possible to mark shop objects as a ‘special’-offer. These objects will be shown on the entire shop site.
-payment#:#special#:#Special-Offer
-payment#:#special_info#:#If enabled, this object will be shown on the entire shop site.
 common#:#object_purchased_date#:#Purchase-Date
 common#:#object_duration#:#Access-Duration
 common#:#new_customer#:#Are you a new customer?
 common#:#new_customer_info#:#Please click here if you do not have a user account.
-payment#:#shop_url#:#Link to shop
-payment#:#shop_bought_objects_url#:#Link to bought objects
 tstv#:#tstv_create#:#Create Test Certificate
 tstv#:#tstv_create_info#:#Select a completed test to generate a certificate for it
 wsp#:#wsp_type_excv#:#Certificate: Exercise
@@ -11351,31 +10859,16 @@ content#:#cont_ov_some_correct#:#You have correctly answered [x] out of [y] ques
 content#:#cont_ov_wrong_answered#:#The following questions were not answered or answered wrong
 common#:#invoice_number_reset_period#:#Reset incremental number
 common#:#invoice_number_reset_period_desc#:#Choose the period for resetting the incremental number to the start value
-common#:#payment_userdefined_invoice_number_not_activated#:#Userdefined invoice numbers are not enabled
 common#:#invoice_number#:#Invoice number
 common#:#invoice_number_setting#:#Invoice number settings
-payment#:#ilias_invoice_number#:#ILIAS invoice number
-payment#:#userdefined_invoice_number#:#Userdefined invoice number
-payment#:#incremental_start_value#:#Incremental Number
-payment#:#incremental_start_value_info#:#This start value will be used as first incremental number for the next period.
-payment#:#incremental_current_value#:#current incremental number
-payment#:#invoice_number_text#:#invoice number definition
 common#:#yearly#:#yearly
-common#:#payment_notification_days_desc#:#Please enter the number days, to define when users should be notified about the limited access time to bought objects
-common#:#payment_notification_days#:#Number of days
-payment#:#show_general_filter#:#Show general filter
-payment#:#show_general_filter_info#:#Let users find buyable objects with this general search filter
-payment#:#show_topics_filter#:#Show topics filter
-payment#:#show_topics_filter_info#:#Let users find buyable objects with this topics filter
-payment#:#show_shop_explorer#:#Show shop explorer
-payment#:#show_shop_explorer_info#:#This shop explorer simplifies the navigation within shop
 survey#:#survey_available_question_pools#:#Available Pools
 survey#:#survey_question_pool_title#:#Pool Title
 common#:#allow_user_toggle_noti#:#Member is allowed to deactivate notification
 cntr#:#container_import_zip_file_invalid#:#The uploaded file is not a valid ILIAS export file. To upload a directory structure please use a file object.
 cntr#:#cntr_adopt_content#:#Adopt Content
-auth#:#login_page_switch_rte#:#Use Rich-Text-Editor
-auth#:#login_page_switch_ipe#:#Use ILIAS Page Editor
+auth#:#login_page_switch_rte#:#Use Rich-text editor
+auth#:#login_page_switch_ipe#:#Use ILIAS page editor
 auth#:#login_page_editor_switched#:#The active page editor has been changed
 auth#:#login_page_activate#:#Activate Editor for Selected Languages
 content#:#cont_update_login_page#:#Edit Login Page Element
@@ -11404,15 +10897,6 @@ assessment#:#imported#:#imported
 ecs#:#ecs_tbl_import#:#Import
 ecs#:#ecs_tbl_export#:#Export
 ecs#:#ecs_tbl_import_type#:#Import Type
-payment#:#position#:#Pos.
-payment#:#amount#:#Amount
-payment#:#external_bill_no#:#%s Billing-No.
-payment#:#day_of_service_provision#:#Day of service provision
-payment#:#total_netprice#:#Total netprice (without VAT)
-payment#:#unit_price#:#Unit price
-payment#:#plus_vat#:#Plus VAT
-payment#:#credit#:#Credit
-payment#:#period_of_service_provision#:#Period of service provision
 wsp#:#wsp_permissions#:#Share
 wsp#:#wsp_shared_with#:#Shared With
 wsp#:#wsp_set_permission_single_user#:#A Single User
@@ -11795,6 +11279,7 @@ chatroom#:#auto_scroll#:#Scroll to Bottom
 chatroom#:#public_chat_created#:#The public chat room has been added to the repository.
 chatroom#:#lost_connection#:#The connection to the chat server was interrupted.
 chatroom#:#banned#:#You have been banned from this chat room
+chatroom#:#kicked#:#You have been kicked from this chat room
 chatroom#:#unban#:#Unban
 chatroom_adm#:#keystore#:#Keystore
 chatroom_adm#:#keypass#:#Keypass
@@ -12060,7 +11545,6 @@ skmg#:#skmg_remove_skill#:#Remove Competence
 style#:#style_page_layout_module_scorm#:#Scorm
 style#:#style_page_layout_module_portfolio#:#Portfolio
 prtf#:#prtf_use_page_layout#:#Use Page Layout
-common#:#shoppingcart#:#Shoppingcart
 content#:#cont_ed_insert_skills#:#Insert Competences
 content#:#cont_pc_skills#:#Competence
 content#:#cont_insert_skills#:#Insert Competence
@@ -12082,18 +11566,6 @@ style#:#sty_type_rte_texp#:#Tree Icon
 style#:#sty_type_rte_tli#:#Tree List Item
 style#:#sty_type_rte_tul#:#Tree List
 chatroom_adm#:#port_info#:#Rarely used ports are often blocked by firewalls or proxy servers. The user's browser will not be able to establish a connection to the chat server if the defined port is blocked.
-payment#:#check_shop_activation#:#Check Shop Settings for activation
-payment#:#please_enter_currency#:#Please enter a currency
-payment#:#please_enter_address#:#Please enter an address
-payment#:#please_enter_bank_data#:#Please enter the bank details
-payment#:#please_enter_pdf_path#:#Please enter a path for generating bill as PDF file
-payment#:#please_activate_one_paymethod#:#Please activate at least one pay method
-payment#:#please_enter_bmf_data#:#Please enter your BMF data
-payment#:#please_enter_paypal_data#:#Please enter your Paypal data
-payment#:#please_enter_epay_data#:#Please enter your EPay data
-payment#:#please_enter_vats#:#Please create at least one vat
-payment#:#please_create_vendor#:#Please create at least one vendor
-payment#:#shop_activation_ok#:#The shop settings are complete. You can now activate the webshop.
 blog#:#blog_rename_posting#:#Rename Posting
 prtf#:#prtf_tab_portfolios#:#My Portfolios
 prtf#:#prtf_tab_other_users#:#Portfolios of Other Users
@@ -12117,7 +11589,7 @@ chatroom#:#user_invited_self#:#<b>#user#</b> invited you to the chat room <b>#ro
 chatroom#:#private_room_closed#:#The chat room <b>#title#</b> has been closed.
 chatroom#:#private_room_entered#:#Welcome to the private room <b>#title#</b>.
 chatroom#:#private_room_left#:#The user <b>#user#</b> has left the private room <b>#title#</b>.
-chatroom#:#private_room_entered_user#:#The user <b>#user#</b> has entered the private room <b>#title#</b>.
+chatroom#:#private_room_entered_user#:#The user <b>#username#</b> has entered the private room <b>#title#</b>.
 chatroom#:#kicked_from_private_room#:#You have been kicked from the private room <b>#title#</b>.
 assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.
 administration#:#obj_otpl#:#Didactic Templates
@@ -12132,7 +11604,7 @@ didactic#:#didactic_not_changed#:#The didactic template setting is unchanged.
 didactic#:#didactic_selected_tpl_option#:#Applied didactic template:
 didactic#:#didactic_template_applied#:#Applied didactic template.
 didactic#:#didactic_confirm_apply_new_template#:#Do you really want to apply the chosen didactic template? All current permission settings will get lost!
-chatroom#:#chatserver_address#:#IP-Address of Chat Server
+chatroom#:#chatserver_address#:#IP-Address/FQN of Chat Server
 chatroom#:#chatserver_port#:#Port of Chat Server
 chatroom#:#instance_name#:#Unique Identifier
 chatroom#:#ilias_url#:#Base-URL of your ILIAS Installation
@@ -12149,6 +11621,7 @@ chatroom#:#speak_to#:#Speak to <b>#user#</b>
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
 chatroom_adm#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.
 chatroom#:#leave_private_room#:#Leave Private Room
+chatroom#:#left_private_room#:#Left private room
 chatroom#:#delete_private_room#:#Delete Private Room
 chatroom#:#invite_to_private_room#:#Invite to Current Room
 wiki#:#wiki_page_actions#:#Page Actions
@@ -12320,16 +11793,9 @@ wfld#:#wfld_edit#:#Edit Folder
 pd#:#pd_enable_comments#:#Enable Comments
 crs#:#event_blank_columns#:#Additional Columns
 common#:#continue#:#continue
-payment#:#click_to_buy_info#:#You are successfully logged on. For continuing the purchasing process accept the general terms and conditions and click the buy button
-payment#:#click_to_continue_info#:#To continue the shopping process, click on "Continue" to log in or register.
 rbac#:#rbac_edit_condition#:#Edit Precondition
 rbac#:#rbac_condition_delete_sure#:#Are you sure you want to delete the following preconditions?
 crs#:#crs_starter_delete_sure#:#Are you sure you want to delete the following start objects?
-common#:#statutory_regulations#:#Statutory Regulations
-common#:#show_sr_shoppingcart#:#Show in Shopping Cart
-common#:#attach_sr_invoice#:#Attach at e-mail
-common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shopping cart
-common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email
 rbac#:#tst_tst_statistics#:#User has access to test statistics
 common#:#ignore_required_fields#:#Ignore required fields
 common#:#ignore_required_fields_info#:#If activated, you can submit this form without filling out all mandatory fields. The new user has to add the missing information on the personal profile after the next login.
@@ -12422,9 +11888,9 @@ tax#:#tax_nodes#:#Nodes
 tax#:#tax_create_node#:#Create Node
 tax#:#tax_new_tax_node#:#New Node
 tax#:#tax_order#:#Order
-administration#:#adm_rep_shorten_description#:#Shorten Descriptions
-administration#:#adm_rep_shorten_description_info#:#If activated all descriptions in object lists will be shortened.
-administration#:#adm_rep_shorten_description_length#:#Max. number of characters
+administration#:#adm_rep_shorten_description#:#Limited Length of Descriptions
+administration#:#adm_rep_shorten_description_info#:#If activated all descriptions in object lists are presented with a maximum number of characters.
+administration#:#adm_rep_shorten_description_length#:#Maximum number of characters
 file#:#file_uploaded_by#:#Uploaded by
 trac#:#trac_session_statistics_mode_year#:#Year
 assessment#:#tst_question#:#Question
@@ -12494,8 +11960,10 @@ pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 wsp#:#wsp_tab_ownership#:#My Repository Objects
 user#:#user_ownership#:#Repository Objects
 registration#:#registration_code_role_info#:#If you use a registration code, the role selection may be superseded by the code.
-mail#:#mail_system_sender_name#:#Sender Name
-mail#:#mail_system_sender_name_info#:#Please enter a name. This name will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.
+mail#:#mail_system_from_name#:#Sender Name
+mail#:#mail_system_from_name_info#:#Please enter a name. This name (e.g. 'John Doe') will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, ‘ILIAS’ is used as the sender.
+mail#:#mail_system_return_path#:#Global Return-Path
+mail#:#mail_system_return_path_info#:#Please enter an email address which should be used for the return path (e.g. webmaster@ilias.de). If you leave the field blank, the 'Return-Path' will be the 'From' email address.
 content#:#cont_current_term#:#Current Term
 assessment#:#tst_setting_offer_hints_label#:#Hints
 assessment#:#tst_setting_offer_hints_info#:#Participants request hints to answer a question. With every hint presented the maximum number of points to be earned decreases.
@@ -12596,9 +12064,6 @@ dcl#:#dcl_err_formula_field_not_found#:#Field with title '%s' not found
 common#:#obj_dcl_duplicate#:#Copy Data Collection
 survey#:#freetext_answers#:#Open Answers
 forum#:#frm_at_least_one_moderator#:#There has to be at least one moderator.
-payment#:#duration_month#:#Access duration in months
-payment#:#duration_date#:#Access duration
-payment#:#please_choose_category#:#Please choose a category
 forum#:#select_max_one_thread#:#Please select one thread only!
 common#:#shib_matriculation#:#Attribute for Matriculation Number
 common#:#soap_connect_timeout#:#Connection Timeout
@@ -12748,12 +12213,12 @@ dcl#:#dcl_table_create#:#Create Table
 dcl#:#dcl_table_edit#:#Update Table
 dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_datatype#:#Datatype
-dcl#:#dcl_integer#:#Integer
+dcl#:#dcl_number#:#Integer
 dcl#:#dcl_text#:#Text
 dcl#:#dcl_reference#:#Reference
 dcl#:#dcl_boolean#:#Boolean
 dcl#:#dcl_datetime#:#Date
-dcl#:#dcl_file#:#Fileupload
+dcl#:#dcl_fileupload#:#Fileupload
 dcl#:#dcl_field_description#:#Description
 dcl#:#dcl_field_required#:#Required
 dcl#:#dcl_length#:#Length
@@ -12771,7 +12236,7 @@ dcl#:#dcl_unknown_exception#:#The value you entered is not valid.
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_not_checked#:#Not checked.
 dcl#:#dcl_any#:#Any
-dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http://) or an email address.
+dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http:// or www.) or an email address.
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for
 dcl#:#dcl_export_enabled#:#Allow export function for all users
 dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.
@@ -12926,7 +12391,7 @@ content#:#cont_check_values_info#:#The Test Tool will check whether the values s
 administration#:#adm_social_bm_create#:#Create Social Bookmark
 administration#:#adm_social_bm_edit#:#Edit Social Bookmark
 dcl#:#dcl_actions#:#Actions
-dcl#:#dcl_export_table_excel#:#Export .xls
+dcl#:#dcl_export_table_excel#:#Export .xlsx
 dcl#:#dcl_no_exportable_fields_or_no_data#:#No exportable fields defined or no data available
 dcl#:#dcl_owner_editable#:#Edit only own Etnries
 dcl#:#dcl_order#:#Order
@@ -13040,7 +12505,7 @@ dcl#:#dcl_legend_placeholders#:#Placeholders
 dcl#:#dcl_rating#:#Rating
 dcl#:#dcl_editable_in_table_gui#:#Please vote in the table view.
 dcl#:#dcl_table_settings_saved#:#Table Settings have been saved.
-dcl#:#dcl_ILIAS_reference#:#Link to an ILIAS module
+dcl#:#dcl_ilias_reference#:#Link to an ILIAS module
 dcl#:#dcl_learning_progress#:#Show the learning progress of the linked module of the viewer
 dcl#:#dcl_status#:#Your Status
 dcl#:#dcl_mob#:#Media Object
@@ -13109,8 +12574,9 @@ exc#:#exc_team_notification_body_rmv#:#you have been removed from  a team upload
 exc#:#exc_team_notification_changed_by#:#Status changed by
 exc#:#exc_team_notification_link#:#Link to exercise
 poll#:#poll_absolute#:#Current Votes
-dcl#:#dcl_reference_link#:#Show as link in table view
-dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view
+dcl#:#dcl_reference_link#:#Show as link to referenced entry
+dcl#:#dcl_reference_link_info#:#Detailed View must be active in referenced table
+dcl#:#dcl_ilias_reference_link#:#Show as link in table view
 dcl#:#dcl_text_area#:#Textarea
 dcl#:#dcl_delete_table#:#Delete Table
 dcl#:#dcl_table_info#:#Users with the permission ‘edit settings’ (see tab ‘Permission’) always have permission to add/edit/delete entries. Users with permission ‘edit entry’ (see tab ‘Permissions’) only have permissions according to the settings specified in the form below.
@@ -13396,12 +12862,12 @@ cron#:#cron_no_executable_job_selected#:#Please select at least one executable c
 dcl#:#dcl_no_warnings#:#The import terminated with no warnings.
 dcl#:#dcl_not_supported_in_import#:#This type of field is not supported in the import
 dcl#:#dcl_no_such_reference#:#The following value is not available in the reference table:
-dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure to upload an XLS file.
+dcl#:#dcl_file_not_readable#:#The file could not be read. Please make sure to upload an XLSX file.
 dcl#:#dcl_import_terminated#:#The import terminated. Entries added
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
 dcl#:#dcl_row_not_found#:# - This field couldn't be found in the table.
-dcl#:#dcl_import_records .xls#:#Import .xls
-dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLS file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first.
+dcl#:#dcl_import_records .xls#:#Import .xlsx
+dcl#:#dcl_file_format_description#:#The file needs to be an excel .XLSX file with the data you want to import on the first sheet. In the first row there have to be exactly the names of the fields (case sensitive) you want to import and in the following rows you can add the values. It is strongly recommended to simulate your import first.
 dcl#:#dcl_simulate_import#:#Simulate Import
 dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the Data Collection but may give you feedback on problems with the import file, thus helping you to prevent corrupted entries.
 dcl#:#dcl_multiple_selection#:#Multiple Selection
@@ -13440,6 +12906,20 @@ dcl#:#dcl_delete_records#:#Delete Entries
 dcl#:#dcl_confirm_delete_records#:#Are you sure you want to delete the following Entries?
 dcl#:#dcl_deleted_records#:#Successfully deleted %s Entries
 dcl#:#dcl_skipped_delete_records#:#%s Entries were not deleted due to permission settings
+dcl#:#dcl_plugin#:#Plugin
+dcl#:#dcl_plugin_desc#:#DataCollection Field-Plugins
+dcl#:#dcl_plugin_hooks#:#Available Plugins
+dcl#:#dcl_save_confirmation#:#Save confirmation
+dcl#:#dcl_save_confirmation_desc#:#Users have to confirm a new DataCollection entry
+dcl#:#dcl_confirm_storing_records#:#Please check and confirm your input
+dcl#:#dcl_save_record#:#Save Entry
+dcl#:#dlc_xls_async_export#:#Asynchronous XLSX-Export
+dcl#:#dcl_export_started#:#Asynchronous Export started
+dcl#:#dcl_export_finished#:#Export finished
+dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
+dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: .pdf, .docx
+dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
+rbac#:#dcl_edit_content#:#Edit entries
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
 common#:#obj_bibs#:#Bibliography
@@ -13696,7 +13176,7 @@ dateplaner#:#cal_ch_user_assignment_failed_info#:#The following users could not 
 dateplaner#:#cal_booking_failed_info#:#This appointment is booked out. Please choose another appointment.
 registration#:#registration_codes_override_info#:#This setting overrides any values defined in ‘Registration Settings’.
 registration#:#registration_codes_override_global_info#:#These settings may be overridden by registration codes.
-crs#:#event_list_registered_only#:#Only Registered Members
+crs#:#event_list_registered_only#:#Only Registered
 didactic#:#didactic_default_type#:#Default
 pd#:#pd_info_delete_sure_remove#:#Are you sure you want to remove the following objects from your Personal Desktop?
 pd#:#pd_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
@@ -13948,10 +13428,6 @@ rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s
 rep#:#rep_new_item_group_edit#:#Edit Grouping
 rep#:#rep_new_item_group_delete_sure#:#Are you sure you want to delete the following groupings?
 registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.
-payment#:#placeholders#:#Placeholders
-payment#:#current_timestamp#:#Current Unix Timestamp
-payment#:#user_id#:#User ID
-payment#:#incremental_number#:#Incrementing Number
 rep#:#rep_new_item_group_add_separator#:#Add Column Separator
 rep#:#rep_new_item_group_separator#:#Column Separator
 rep#:#rep_new_item_group_other#:#Other
@@ -15311,9 +14787,6 @@ crs#:#crs_loc_form_assign_initial_info#:#Select a test from this course to serve
 crs#:#crs_loc_form_assign_qualified_info#:#--
 poll#:#poll_view_results_after_period_impossible#:#The voting period is not limited.
 content#:#cont_download#:#Download
-payment#:#topics_settings#:#Topics Settings
-payment#:#enable_topics#:#Enable Topics
-payment#:#enable_topics_info#:#If enabled, you can assign purchasable objects to self-created topics. 
 exc#:#exc_assignment_type#:#Type of Submission
 trac#:#trac_mode_event_info#:#Tutors monitor whether or not participants attend the session. Tutors record attendance manually in the 'Edit Participants'-tab.
 sess#:#sess_lp_preset#:#Activate Learning Progress
@@ -15372,7 +14845,7 @@ prtf#:#prtf_blog_page_created#:#Blog has been added.
 wiki#:#wiki_adv_md_hidden#:#This block is currently hidden.
 wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below.
 content#:#cont_pc_amdpl#:#Page List
-meta#:#udf_type_selectmulti#:#Selection List (Checkboxes)
+meta#:#udf_type_selectmulti#:#Selection List (Multiple Choice)
 wiki#:#wiki_no_page_found#:#No wiki page has been found for search term '$1'.
 wiki#:#wiki_pages_found#:#The following pages match your search term '$1'.
 wiki#:#wiki_no_search_term#:#No search term has been entered. All pages of the wiki are listed below.
@@ -15433,10 +14906,10 @@ meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
 file#:#file_import#:#Import File
 dcl#:#dcl_boolean_desc#:#Checkbox for "True" or "False"
 dcl#:#dcl_text_desc#:#Textfield for text, links or e-mail addresses.
-dcl#:#dcl_integer_desc#:#Field for integer values. No decimals or fractions.
+dcl#:#dcl_number_desc#:#Field for integer values. No decimals or fractions.
 dcl#:#dcl_datetime_desc#:#Field for a date.
 dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will be displayed directly in the datacollection. Allowed datatypes: %s
-dcl#:#dcl_file_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
+dcl#:#dcl_fileupload_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
 dcl#:#dcl_reference_desc#:#Field to reference options stored in a different field of a table.
 dcl#:#dcl_reference_title#:#Reference to table and field
 dcl#:#dcl_ILIAS_reference_desc#:#Searchfield to select an ILIAS object.
@@ -15797,34 +15270,34 @@ rbac#:#wiki_edit_wiki_navigation#:#Edit Wiki Navigation
 rbac#:#wiki_delete_wiki_pages#:#Delete Wiki Pages
 rbac#:#wiki_activate_wiki_protection#:#Set Wiki Pages to Read-Only
 rbac#:#wiki_wiki_html_export#:#Export Wiki as HTML
-crs#:#crs_loc_settings_it_type#:#Einstiegstest
-crs#:#crs_loc_settings_type_it_placement_all#:#Diagnostischer Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_it_start_object#:#Einstiegstest ist Startobjekt
-crs#:#crs_loc_settings_type_it_placement_sel#:#Diagnostischer Einstiegstest pro Lernziel
-crs#:#crs_loc_settings_type_it_qualifying_all#:#Qualifizierender Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_type_it_qualifying_sel#:#Qualifizierender Einstiegstest pro Lernziel
-crs#:#crs_loc_settings_type_it_none#:#Kein Einstiegstest
-crs#:#crs_loc_settings_qt_all#:#Abschlusstest
-crs#:#crs_loc_settings_type_q_all#:#Abschlusstest über alle Lernziele
-crs#:#crs_loc_settings_qt_start_object#:#Abschlusstest ist Startobjekt
-crs#:#crs_loc_settings_type_q_selected#:#Abschlusstest pro Lernziel
-crs#:#crs_loc_settings_err_qstart#:#Die Option "Abschlusstest als Startobjekt" wurde deaktiviert, da sie nur für Kurse ohne Einstiegstest verwendet werden kann.		
-crs#:#crs_loc_tab_qtests#:#Abschlusstests
-crs#:#crs_loc_tab_itests#:#Einstiegstests
-crs#:#crs_loc_btn_new_assignment#:#Neue Testzuordnung
-crs#:#crs_objective_tbl_col_final_tsts#:#Abschlusstests
-crs#:#crs_objective_action_qtest_sep#:#Abschlusstest zuordnen
-crs#:#crs_loc_settings_tbl_its_q_all#:#Qualifizierender Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_tbl_its_nq_all#:#Diagnostischer Einstiegstest über alle Lernziele
-crs#:#crs_loc_settings_tbl_it_q#:#Qualifizierende Einstiegstests pro Lernziel
-crs#:#crs_loc_settings_tbl_it_nq#:#Diagnostische Einstiegstests pro Lernziel
-crs#:#crs_loc_settings_tbl_qts_all#:#Abschlusstest über alle Lernziele
-crs#:#crs_loc_settings_tbl_qt#:#Abschlusstests pro Lernziel
-crs#:#crs_loc_objective_passed_confirmation#:#Sie haben das Lernziel bereits bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?
-crs#:#crs_loc_objectives_passed_confirmation#:#Sie haben bereits alle Lernziel bestanden. Ein erneutes Starten des Tests setzt die Ergebnisse zurück. Wollen Sie den Test erneut starten?
-crs#:#crs_loc_tst_start#:#Test starten
-crs#:#crs_loc_mem_show_res#:#Testergebnisse anzeigen
-crs#:#crs_loc_test_results_of#:#Testergebnisse von:
+crs#:#crs_loc_settings_it_type#:#Initial Test
+crs#:#crs_loc_settings_type_it_placement_all#:#Initial Diagnostic Test for all Objectives
+crs#:#crs_loc_settings_it_start_object#:#Initial Test is Start Objects
+crs#:#crs_loc_settings_type_it_placement_sel#:#Initial Diagnostic Test per Objective
+crs#:#crs_loc_settings_type_it_qualifying_all#:#Initial Qualifying Test for all Objectives
+crs#:#crs_loc_settings_type_it_qualifying_sel#:#Initial Qualifying Test per Objective
+crs#:#crs_loc_settings_type_it_none#:#No Initial Test
+crs#:#crs_loc_settings_qt_all#:#Final Test
+crs#:#crs_loc_settings_type_q_all#:#Final Test all Objectives
+crs#:#crs_loc_settings_qt_start_object#:#Final Test is Start Object
+crs#:#crs_loc_settings_type_q_selected#:#Final Test per Objective
+crs#:#crs_loc_settings_err_qstart#:#The option "Final Test as Start Object" has been deactivated, since it can only be chosen for courses without initial test.		
+crs#:#crs_loc_tab_qtests#:#Final Tests
+crs#:#crs_loc_tab_itests#:#Initial Tests
+crs#:#crs_loc_btn_new_assignment#:#New Test Assignment
+crs#:#crs_objective_tbl_col_final_tsts#:#Final Tests
+crs#:#crs_objective_action_qtest_sep#:#Assign Final Test
+crs#:#crs_loc_settings_tbl_its_q_all#:#Initial Qualifying Test (all Objecives)
+crs#:#crs_loc_settings_tbl_its_nq_all#:#Initial Diagnostic Test (all Objectives)
+crs#:#crs_loc_settings_tbl_it_q#:#Initial Qualifying Test (per Objective)
+crs#:#crs_loc_settings_tbl_it_nq#:#Initial Diagnostic Test (per Objective)
+crs#:#crs_loc_settings_tbl_qts_all#:#Finaly Test (all Objectives)
+crs#:#crs_loc_settings_tbl_qt#:#Final Test (per Objective)
+crs#:#crs_loc_objective_passed_confirmation#:#You have already passed this learning objective. Starting a new test run will reset the result. Do you really want to start a new test run?
+crs#:#crs_loc_objectives_passed_confirmation#:#You have already passed all learning objectives. Starting a new test run will reset all results. Do you really want to start a new test run?
+crs#:#crs_loc_tst_start#:#Start Test
+crs#:#crs_loc_mem_show_res#:#Show Test Results
+crs#:#crs_loc_test_results_of#:#Test results of:
 buddysystem#:#buddy_bs_btn_txt_unlinked_a#:#Request Contact
 buddysystem#:#buddy_bs_btn_txt_unlinked_p#:#Request Contact
 buddysystem#:#buddy_bs_btn_txt_linked_a#:#Linked
@@ -15840,6 +15313,10 @@ buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Confirm
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
 buddysystem#:#buddy_bs_action_not_possible#:#Action not possible
+buddysystem#:#buddy_bs_action_already_linked#:#Already accepted the contact request from user '%s'.
+buddysystem#:#buddy_bs_action_already_requested#:#Already requested user '%s'.
+buddysystem#:#buddy_bs_action_already_ignored#:#Already ignored user '%s'.
+buddysystem#:#buddy_bs_action_already_unlinked#:#The contact state for user '%s' is already unlinked.
 buddysystem#:#buddy_bs_state_linked#:#Linked
 buddysystem#:#buddy_bs_state_linked_a#:#Linked
 buddysystem#:#buddy_bs_state_linked_p#:#Linked
@@ -16178,3 +15655,46 @@ style#:#sty_ha_iheada_class#:#Hor. Accordion Header (active)
 style#:#sty_ha_ihcap_class#:#Hor. Accordion Caption
 style#:#sty_va_iheada_class#:#Vert. Accordion Header (active)
 style#:#sty_va_ihcap_class#:#Vert. Accordion Caption
+exc#:#exc_delete_team#:#Delete Team
+sysc#:#sysc_tree_structure_failures#:#Number of failures in the tree structure (parent-Relation):
+sysc#:#sysc_message_tree_structure_confirm#:#Do you really want to repair the tree structure? Please create a database backup before you proceed.
+sysc#:#sysc_btn_tree_structure#:#Recreate Tree Structure
+wiki#:#wiki_page_list_mode#:#Type of List
+wiki#:#wiki_page_list_mode_unordered#:#Not numbered
+wiki#:#wiki_page_list_mode_ordered#:#Numbered
+blog#:#blog_news_title#:#%1$s by %2$s
+blog#:#blog_news_posting_updated#:#A blog posting has been updated by %s. 
+blog#:#blog_news_posting_published#:#A blog posting has been published by %s.
+blog#:#blog_news_posting_authors#:#Contributing authors: %s
+book#:#book_reservation_filter_period#:#Period for the reservation list
+book#:#book_reservation_filter_period_info#:#The default value for the period-filter in days from the current date.
+book#:#book_filter_past_reservations#:#Show past reservations
+book#:#book_deadline_options#:#Booking deadline
+book#:#book_deadline_hours#:#X hours prior to booking priod
+book#:#book_deadline_slot_end#:#Until end of booking period
+book#:#book_deadline_slot_start#:#Until begin of booking period
+chatroom#:#chatroom_auth#:#Authentication
+chatroom#:#chatroom_auth_key#:#Authentication-Key
+chatroom#:#chatroom_auth_secret#:#Authentication-Secret
+chatroom#:#chatroom_auth_btn_txt#:#Generate Keys
+chatroom#:#key#:#Key
+chatroom#:#dhparam#:#Diffie-Hellman Parameter
+chatroom#:#ilias_chatserver_connection#:#ILIAS to Server Connection
+chatroom#:#ilias_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for ILIAS to Server connection.
+chatroom#:#client_chatserver_connection#:#Client to Server Connection
+chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.
+chatroom#:#connection_url_info#:#Please insert an URL without using the Protocol-Definition
+chatroom#:#log#:#Chatserver Log
+chatroom#:#error_log#:#Chatserver Error-Log
+chatroom#:#delete_private_room_question#:#Confirm delete private room?
+crs#:#event_tbl_admins#:#Administrators
+crs#:#event_tbl_members#:#Members
+crs#:#event_tbl_tutors#:#Tutors
+trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.
+sess#:#sess_list_reg_limit_places#:#Free places
+sess#:#sess_accept_request#:#Accept Participation
+sess#:#sess_new_registrations#:#Join Request
+mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s
+mail#:#mail_recipient_not_found#:#%1$s (could not find a valid particant)
+mail#:#mail_multiple_role_recipients_found#:#%1$s (found multiple roles for recipient: %2$s)
+mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients: %1$s

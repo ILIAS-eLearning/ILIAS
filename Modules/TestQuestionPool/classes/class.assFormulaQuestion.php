@@ -1082,19 +1082,13 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
 		$previewSession->setParticipantsSolution($userSolution);
 	}
-	
+
 	/**
-	 * Reworks the allready saved working data if neccessary
-	 *
-	 * @abstract
-	 * @access protected
-	 * @param integer $active_id
-	 * @param integer $pass
-	 * @param boolean $obligationsAnswered
+	 * {@inheritdoc}
 	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered)
+	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
 	{
-		// nothing to do
+		// nothing to rework!
 	}
 
 	/**
@@ -1160,48 +1154,42 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	}
 
 	/**
-	 * Creates an Excel worksheet for the detailed cumulated results of this question
-	 * @param object $worksheet    Reference to the parent excel worksheet
-	 * @param object $startrow     Startrow of the output in the excel worksheet
-	 * @param object $active_id    Active id of the participant
-	 * @param object $pass         Test pass
-	 * @param object $format_title Excel title format
-	 * @param object $format_bold  Excel bold format
-	 * @param array  $eval_data    Cumulated evaluation data
-	 * @access public
+	 * {@inheritdoc}
 	 */
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
-		require_once 'Services/Excel/classes/class.ilExcelUtils.php';
+		parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+
 		$solution = $this->getSolutionValues($active_id, $pass);
-		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
-		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+
 		$i = 1;
 		foreach($solution as $solutionvalue)
 		{
-			$worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($solutionvalue["value1"]), $format_bold);
+			$worksheet->setCell($startrow + $i, 0,$solutionvalue["value1"]);
+			$worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
 			if(strpos($solutionvalue["value1"], "_unit"))
 			{
 				$unit = $this->getUnitrepository()->getUnit($solutionvalue["value2"]);
 				if(is_object($unit))
 				{
-					$worksheet->write($startrow + $i, 1, $unit->getUnit());
+					$worksheet->setCell($startrow + $i, 1, $unit->getUnit());
 				}
 			}
 			else
 			{
-				$worksheet->write($startrow + $i, 1, $solutionvalue["value2"]);
+				$worksheet->setCell($startrow + $i, 1, $solutionvalue["value2"]);
 			}
 			if(preg_match("/(\\\$v\\d+)/", $solutionvalue["value1"], $matches))
 			{
 				$var = $this->getVariable($solutionvalue["value1"]);
 				if(is_object($var) && (is_object($var->getUnit())))
 				{
-					$worksheet->write($startrow + $i, 2, $var->getUnit()->getUnit());
+					$worksheet->setCell($startrow + $i, 2, $var->getUnit()->getUnit());
 				}
 			}
 			$i++;
 		}
+
 		return $startrow + $i + 1;
 	}
 
@@ -1383,7 +1371,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	 */
 	public function getUserQuestionResult($active_id, $pass)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 

@@ -150,7 +150,7 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 			}
 			else
 			{
-				$this->tpl->setVariable('VAL_DURATION',ilFormat::_secondsToString($a_set['duration']));
+				$this->tpl->setVariable('VAL_DURATION',ilDatePresentation::secondsToString($a_set['duration']));
 			}
 		}
 		else

@@ -13,9 +13,9 @@ class ilLinkCheckNotify
 	var $db = null;
 
 
-	function ilLinkCheckNotify(&$db)
+	public function __construct($db)
 	{
-		$this->db =& $db;
+		$this->db = $db;
 	}
 	
 	function setUserId($a_usr_id)
@@ -105,7 +105,7 @@ class ilLinkCheckNotify
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$usr_ids[] = $row->usr_id;
 		}
@@ -120,7 +120,7 @@ class ilLinkCheckNotify
 		$query = "SELECT * FROM link_check_report ";
 
 		$res = $db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$usr_ids[$row->usr_id][] = $row->obj_id;
 		}

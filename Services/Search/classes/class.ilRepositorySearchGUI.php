@@ -55,13 +55,13 @@ class ilRepositorySearchGUI
 	* Constructor
 	* @access public
 	*/
-	function ilRepositorySearchGUI()
+	function __construct()
 	{
 		global $ilCtrl,$tpl,$lng;
 
-		$this->ctrl =& $ilCtrl;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
+		$this->ctrl = $ilCtrl;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('search');
 		$this->lng->loadLanguageModule('crs');
 
@@ -72,7 +72,7 @@ class ilRepositorySearchGUI
 
 		$this->result_obj = new ilSearchResult();
 		$this->result_obj->setMaxHits(1000000);
-		$this->settings =& new ilSearchSettings();
+		$this->settings = new ilSearchSettings();
 
 	}
 
@@ -300,7 +300,7 @@ class ilRepositorySearchGUI
 	* Control
 	* @access public
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem;
 

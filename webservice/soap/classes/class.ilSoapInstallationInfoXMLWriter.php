@@ -17,9 +17,9 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 	* @param	string	input encoding
 	* @access	public
 	*/
-	function ilSoapInstallationInfoXMLWriter()
+	function __construct()
 	{
-		parent::ilXmlWriter();
+		parent::__construct();
 	}
 	
 	/**
@@ -87,7 +87,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 	{
 		// determine skins/styles
 		$skin_styles = array();
-		include_once("./Services/Style/classes/class.ilStyleDefinition.php");
+		include_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 		$styleDefinition = new ilStyleDefinition();
 		include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
 		$templates = $styleDefinition->getAllTemplates();
@@ -98,7 +98,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 			foreach($templates as $template)
 			{
 				// get styles information of template
-				$styleDef =& new ilStyleDefinition($template["id"]);
+				$styleDef = new ilStyleDefinition($template["id"]);
 				$styleDef->startParsing();
 				$styles = $styleDef->getStyles();
 				

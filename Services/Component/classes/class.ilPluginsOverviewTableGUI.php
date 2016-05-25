@@ -26,6 +26,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 		$this->setId("cmpspl");
 				
 		$this->addColumn($lng->txt("cmps_plugin"), "plugin_name");
+		$this->addColumn($lng->txt("id"), "plugin_id");
 		$this->addColumn($lng->txt("cmps_plugin_slot"), "slot_name");
 		$this->addColumn($lng->txt("cmps_component"), "component_name");			
 		$this->addColumn($lng->txt("active"), "plugin_active");
@@ -198,6 +199,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 			? "<b>".$lng->txt("yes")."</b>"
 			: $lng->txt("no");
 		$this->tpl->setVariable("TXT_PLUGIN_NAME", $a_set["plugin_name"]);		
+		$this->tpl->setVariable("TXT_PLUGIN_ID", $a_set["plugin_id"]);		
 		$this->tpl->setVariable("TXT_ACTIVE", $act_str);		
 	}
 }

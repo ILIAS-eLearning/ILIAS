@@ -53,9 +53,9 @@ class ilFileXMLWriter extends ilXmlWriter
 	* @param	string	input encoding
 	* @access	public
 	*/
-	function ilFileXMLWriter()
+	function __construct()
 	{
-		parent::ilXmlWriter();
+		parent::__construct();
 		$this->attachFileContents = ilFileXMLWriter::$CONTENT_ATTACH_NO;
 	}
 
@@ -187,7 +187,7 @@ class ilFileXMLWriter extends ilXmlWriter
 		    $this->xmlStartTag("Versions");
 		    foreach ($versions as $version) {
 		        $info_params = $version["info_params"];
-		        list($filename,$history_id) = split(",",$info_params);
+		        list($filename,$history_id) = explode(",",$info_params);
 		        $attribs = array (
 		          "id" => $history_id,
 		          "date" => ilUtil::date_mysql2time($version["date"]),

@@ -50,12 +50,12 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 					array_push($this->pairs, new assAnswerMatchingPair(new assAnswerMatchingTerm('', '', $term), new assAnswerMatchingDefinition('', '', $a_value['definition'][$idx]), $a_value['points'][$idx]));
 				}
 			}
-			$term_ids = split(",", $a_value['term_id']);
+			$term_ids = explode(",", $a_value['term_id']);
 			foreach ($term_ids as $id)
 			{
 				array_push($this->terms, new assAnswerMatchingTerm('', '', $id));
 			}
-			$definition_ids = split(",", $a_value['definition_id']);
+			$definition_ids = explode(",", $a_value['definition_id']);
 			foreach ($definition_ids as $id)
 			{
 				array_push($this->definitions, new assAnswerMatchingDefinition('', '', $id));
@@ -186,7 +186,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
 	*
 	* @return	int	Size
 	*/
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		global $lng;
 		

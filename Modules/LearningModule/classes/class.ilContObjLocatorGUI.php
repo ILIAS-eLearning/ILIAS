@@ -39,16 +39,16 @@ class ilContObjLocatorGUI
 	var $tpl;
 
 
-	function ilContObjLocatorGUI($a_tree)
+	function __construct($a_tree)
 	{
 		global $lng, $tpl, $ilCtrl;
 
-		$this->ctrl =& $ilCtrl;
-		$this->tree =& $a_tree;
+		$this->ctrl = $ilCtrl;
+		$this->tree = $a_tree;
 		$this->mode = "std";
 		$this->temp_var = "LOCATOR";
-		$this->lng =& $lng;
-		$this->tpl =& $tpl;
+		$this->lng = $lng;
+		$this->tpl = $tpl;
 		$this->show_user = false;
 	}
 
@@ -64,7 +64,7 @@ class ilContObjLocatorGUI
 
 	function setContentObject($a_cont_obj)
 	{
-		$this->cont_obj =& $a_cont_obj;
+		$this->cont_obj = $a_cont_obj;
 	}
 
 	/**

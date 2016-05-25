@@ -18,11 +18,11 @@ class ilStartUpGUI
 	/**
 	* constructor
 	*/
-	function ilStartUpGUI()
+	function __construct()
 	{
 		global $ilCtrl;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 
 		$ilCtrl->saveParameter($this, array("rep_ref_id", "lang", "target", "client_id"));
 	}
@@ -30,12 +30,11 @@ class ilStartUpGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilLog;
 		
 		$cmd = $this->ctrl->getCmd("processIndexPHP",array('processIndexPHP','showLogin'));
-		$ilLog->write(__METHOD__.' cmd = '.$cmd);
 		$next_class = $this->ctrl->getNextClass($this);
 
 		switch($next_class)
@@ -114,16 +113,7 @@ class ilStartUpGUI
 		{
 			if (empty($_GET['cookies']))
 			{
-				$additional_params = '';     
-			
-				if(IS_PAYMENT_ENABLED)
-				{
-					if((int)$_GET['forceShoppingCartRedirect'])# && (int)$_SESSION['price_id'] && (int)$_SESSION['pobject_id'])
-					{
-						$additional_params .= '&login_to_purchase_object=1&forceShoppingCartRedirect=1';
-					}
-				}
-				
+				$additional_params = '';
 				ilUtil::setCookie("iltest","cookie",false);
 				ilUtil::redirect("login.php?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"].
 					"&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".
@@ -159,22 +149,6 @@ class ilStartUpGUI
 		}
 		
 		$failure = $success = null;
-	
-		if(IS_PAYMENT_ENABLED)
-		{
-			if(isset($_GET['forceShoppingCartRedirect']) && (int)$_GET['forceShoppingCartRedirect'] == 1)
-			{
-				$this->ctrl->setParameter($this, 'forceShoppingCartRedirect', 1);
-				ilSession::set('forceShoppingCartRedirect', 1);
-			}
-									
-			if (isset($_GET['login_to_purchase_object']) && $_GET['login_to_purchase_object'])
-			{
-				$lng->loadLanguageModule('payment');
-				$failure = $lng->txt("payment_login_to_buy_object");
-				ilSession::set('forceShoppingCartRedirect', 1);
-			}
-		}
 
 		// :TODO: handle internally?
 		if (isset($_GET['reg_confirmation_msg']) && strlen(trim($_GET['reg_confirmation_msg'])))
@@ -752,7 +726,7 @@ class ilStartUpGUI
 		include_once './Services/Authentication/classes/class.ilLoginPage.php';
 		include_once './Services/Authentication/classes/class.ilLoginPageGUI.php';
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",ilObjStyleSheet::getContentStylePath(0));
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",ilObjStyleSheet::getSyntaxStylePath());
@@ -761,7 +735,7 @@ class ilStartUpGUI
 		// get page object
 		$page_gui = new ilLoginPageGUI(ilLanguage::lookupId($active_lang));
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(0, 'auth');
 
 		$page_gui->setPresentationTitle("");
@@ -1446,18 +1420,6 @@ class ilStartUpGUI
 		{										
 			// for password change and incomplete profile 
 			// see ilPersonalDesktopGUI
-			
-			if(IS_PAYMENT_ENABLED)
-			{                
-				include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
-				ilPaymentShoppingCart::_assignObjectsToUserId($ilUser->getId());
-
-				if((int)$_GET['forceShoppingCartRedirect'])
-				{
-					ilUtil::redirect('ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilshopshoppingcartgui');
-				}
-			}
-		
 			if(!$_GET["target"])
 			{										
 				// Redirect here to switch back to http if desired
@@ -1466,13 +1428,12 @@ class ilStartUpGUI
 			}
 			else
 			{
-				// will handle shop redirects, too
 				ilUtil::redirect("goto.php?target=".$_GET["target"]);
 			}
 		}
 	}
 
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $objDefinition, $ilPluginAdmin, $ilUser;
 

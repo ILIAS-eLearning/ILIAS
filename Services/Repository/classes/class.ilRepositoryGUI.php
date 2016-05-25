@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTableGUI.php");
-include_once("Services/Payment/classes/class.ilPaymentObject.php");
 
 
 /**
@@ -42,19 +41,18 @@ class ilRepositoryGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilRepositoryGUI()
+	function __construct()
 	{
-		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition,
-			$_GET, $ilCtrl, $ilLog;;
-//var_dump($_SESSION['il_rep_clipboard']);
-		$this->lng =& $lng;
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->tree =& $tree;
-		$this->rbacsystem =& $rbacsystem;
-		$this->objDefinition =& $objDefinition;
+		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition, $ilCtrl, $ilLog;
 
-		$this->ctrl =& $ilCtrl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->tree = $tree;
+		$this->rbacsystem = $rbacsystem;
+		$this->objDefinition = $objDefinition;
+
+		$this->ctrl = $ilCtrl;
 		
 		$this->creation_mode = false;
 
@@ -175,7 +173,7 @@ class ilRepositoryGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem, $ilias, $lng, $ilCtrl, $ilHelp;
 
@@ -348,7 +346,7 @@ class ilRepositoryGUI
 	function show()
 	{
 		// normal command processing
-		$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+		$ret = $this->ctrl->forwardCommand($this->gui_obj);
 		$this->tpl->setVariable("OBJECTS", $this->gui_obj->getHTML());
 
 		$this->tpl->show();
@@ -361,47 +359,7 @@ class ilRepositoryGUI
 	{
 		global $lng, $ilCtrl, $ilAccess;
 		
-$ilCtrl->redirectByClass("ilrepositorygui", "");
-
-		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
-		$fs_gui = new ilFramesetGUI();
-
-		if ($_GET["rep_frame"] == 1)
-		{
-			// workaround for passing anchors (e.g. used in ilNoteGUI)
-			$anchor = ($_GET["anchor"] != "")
-				? "#".$_GET["anchor"]
-				: "";
-			$fs_gui->setMainFrameSource(
-				str_replace("rep_frame", "rep_frame_done", $_SERVER["REQUEST_URI"]).$anchor);
-		}
-		else
-		{
-			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->cur_ref_id);
-			$ilCtrl->setParameterByClass("ilrepositorygui", "getlast", "true");
-			if ($ilAccess->checkAccess("read", "", $this->cur_ref_id))
-			{
-				$fs_gui->setMainFrameSource(
-					$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
-			}
-			else
-			{
-				// if no read permission is given, do not display frameset
-				// see bug http://www.ilias.de/mantis/view.php?id=10305
-				$ilCtrl->redirectByClass("ilrepositorygui", "");
-			}
-			$ilCtrl->clearParametersByClass("ilrepositorygui");
-		}
-		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->cur_ref_id);
-		$fs_gui->setSideFrameSource(
-			$ilCtrl->getLinkTargetByClass("ilrepositorygui", "showTree"));
-		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
-
-		$fs_gui->setSideFrameName("tree");
-		$fs_gui->setMainFrameName("rep_content");
-		$fs_gui->setFramesetTitle($this->lng->txt("repository"));
-		$fs_gui->show();
-		exit;
+		$ilCtrl->redirectByClass("ilrepositorygui", "");
 	}
 
 

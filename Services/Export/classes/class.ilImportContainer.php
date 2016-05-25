@@ -29,7 +29,7 @@ class ilImportContainer extends ilImport
 	 * @param object $type
 	 * @return 
 	 */
-	protected function doImportObject($dir, $type)
+	protected function doImportObject($dir, $type, $a_component = "", $a_tmpdir = "")
 	{
 		$manifest_file = $dir."/manifest.xml";
 		if(!file_exists($manifest_file))
@@ -41,26 +41,39 @@ class ilImportContainer extends ilImport
 		$parser = new ilManifestParser($manifest_file);		
 		
 		// Handling single containers without subitems
+		
+		// begin-patch optes_lok_export
+		$all_importers = array();
+		
 		if(!$parser->getExportSets())
 		{
 			$this->createDummy($type);
-			$new_id = parent::doImportObject($dir,$type);
-			return $new_id;
+			$import_info = parent::doImportObject($dir,$type);
+			
+			$all_importers = array_merge($all_importers, $import_info['importers']);
+			return $import_info['new_id'];
 		}
 		
 		// Handling containers with subitems
 		$first = true;
 		foreach($parser->getExportSets() as $set)
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': do import with dir '.$dir.DIRECTORY_SEPARATOR.$set['path'].' and type '.$set['type']);
-			$new_id = parent::doImportObject($dir.DIRECTORY_SEPARATOR.$set['path'],$set['type']);
+			$import_info = parent::doImportObject($dir.DIRECTORY_SEPARATOR.$set['path'],$set['type']);
 			
+			$all_importers = array_merge($all_importers, $import_info['importers']);
 			if($first)
 			{
-				$ret = $new_id;
+				$ret = $import_info['new_id'];
 				$first = false;
 			}
 		}
+		// after container import is finished, call all importers to perform a final processing
+		foreach((array) $all_importers as $importer)
+		{
+			$importer->afterContainerImportProcessing($this->getMapping());
+		}
+		// end-patch optes_lok_export
+		
 		return $ret;
 	}
 	

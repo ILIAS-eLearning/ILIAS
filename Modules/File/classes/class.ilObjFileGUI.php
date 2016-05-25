@@ -12,7 +12,7 @@ require_once "./Modules/File/classes/class.ilObjFileAccess.php";
 * @author Stefan Born <stefan.born@phzh.ch> 
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjFileGUI: ilObjectMetaDataGUI, ilInfoScreenGUI, ilPermissionGUI, ilShopPurchaseGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjFileGUI: ilObjectMetaDataGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjFileGUI: ilLearningProgressGUI
 *
@@ -40,12 +40,6 @@ class ilObjFileGUI extends ilObject2GUI
 		return "file";
 	}
 
-	// ???
-	function _forwards()
-	{
-		return array();
-	}
-	
 	function executeCommand()
 	{
 		global $ilNavigationHistory, $ilCtrl, $ilUser, $ilTabs, $ilAccess, $ilErr;
@@ -61,30 +55,7 @@ class ilObjFileGUI extends ilObject2GUI
 
 		if(!$this->getCreationMode())
 		{
-			// do not move this payment block!!
-			if(IS_PAYMENT_ENABLED)
-			{
-				include_once './Services/Payment/classes/class.ilPaymentObject.php';
-				if(ANONYMOUS_USER_ID == $ilUser->getId() && isset($_GET['transaction']))
-				{
-					$transaction = $_GET['transaction'];
-					include_once './Services/Payment/classes/class.ilPaymentBookings.php';
-					$valid_transaction = ilPaymentBookings::_readBookingByTransaction($transaction);
-				}
-			
-				if(ilPaymentObject::_requiresPurchaseToAccess($this->node_id, $type = (isset($_GET['purchasetype'])
-						? $_GET['purchasetype'] : NULL) ))
-				{
-					$this->setLocator();
-					$this->tpl->getStandardTemplate();
-
-					include_once './Services/Payment/classes/class.ilShopPurchaseGUI.php';
-					$pp = new ilShopPurchaseGUI((int)$this->node_id);
-					$ret = $this->ctrl->forwardCommand($pp);
-					return true;
-				}
-			}
-			else if($this->id_type == self::REPOSITORY_NODE_ID 
+			if($this->id_type == self::REPOSITORY_NODE_ID 
 				&& $this->checkPermissionBool("read"))
 			{
 				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->node_id);
@@ -126,8 +97,8 @@ class ilObjFileGUI extends ilObject2GUI
 			case 'ilpermissiongui':
 				$ilTabs->activateTab("id_permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$perm_gui = new ilPermissionGUI($this);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 		
 			case "ilexportgui":
@@ -162,7 +133,7 @@ class ilObjFileGUI extends ilObject2GUI
 			case "illearningprogressgui":
 				$ilTabs->activateTab('learning_progress');
 				require_once 'Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$new_gui =& new ilLearningProgressGUI(
+				$new_gui = new ilLearningProgressGUI(
 					ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
 					$this->object->getRefId(),
 					$_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId()
@@ -198,7 +169,10 @@ class ilObjFileGUI extends ilObject2GUI
 		$this->addHeaderAction();
 	}
 	
-	protected function initCreationForms()
+	/**
+	 * @param string $a_new_type
+	 */
+	protected function initCreationForms($a_new_type)
 	{				
 		$forms = array();		
 			
@@ -527,11 +501,8 @@ class ilObjFileGUI extends ilObject2GUI
 		$data = $form->getInput('file');		
 
 		// delete trailing '/' in filename
-		while (substr($data["name"],-1) == '/')
-		{
-			$data["name"] = substr($data["name"],0,-1);
-		}
-		
+		$data["name"] = rtrim($data["name"], '/');
+
 		$filename = empty($data["name"]) ? $this->object->getFileName() : $data["name"];
 		$title = $form->getInput('title');
 		if(strlen(trim($title)) == 0)
@@ -840,7 +811,7 @@ class ilObjFileGUI extends ilObject2GUI
 				$this->object->guessFileType());
 		// END WebDAV Guess file type.
 		$info->addProperty($this->lng->txt("size"),
-			ilFormat::formatSize(ilObjFile::_lookupFileSize($this->object->getId()),'long'));
+			ilUtil::formatSize(ilObjFile::_lookupFileSize($this->object->getId()),'long'));
 		$info->addProperty($this->lng->txt("version"),
 			$this->object->getVersion());
 		

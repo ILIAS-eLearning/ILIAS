@@ -38,17 +38,16 @@ class ilObjCourseGrouping
 	protected static $assignedObjects = array();
 
 	/**
-	* Constructor
-	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
-	*/
-	function ilObjCourseGrouping($a_id = 0)
+	 * Constructor
+	 * @access	public
+	 * @param	int	reference_id or object_id
+	 */
+	public function __construct($a_id = 0)
 	{
 		global $ilDB;
 
 		$this->setType('crsg');
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 
 		$this->setId($a_id);
 
@@ -164,7 +163,7 @@ class ilObjCourseGrouping
 			$res = $ilDB->manipulate($query);
 
 			// Delete conditions
-			$condh =& new ilConditionHandler();
+			$condh = new ilConditionHandler();
 			$condh->deleteByObjId($this->getId());
 
 			return true;
@@ -258,7 +257,7 @@ class ilObjCourseGrouping
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')." ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setTitle($row->title);
 			$this->setDescription($row->description);
@@ -268,7 +267,7 @@ class ilObjCourseGrouping
 			"WHERE crs_grp_id = ".$ilDB->quote($this->getId(),'integer')." ";
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setUniqueField($row->unique_field);
 			$this->setContainerRefId($row->crs_ref_id);
@@ -297,12 +296,15 @@ class ilObjCourseGrouping
 		return $found_invisible ? false : true;
 	}
 
+
 	/**
-	* 
-	* Returns a list of all groupings for which the current user hast write permission on all assigned objects. Or groupings
-	* the given object id is assigned to.
-	*/
-	function _getVisibleGroupings($a_obj_id)
+	 * @param int $a_obj_id
+	 * @return array
+	 *
+	 * Returns a list of all groupings for which the current user hast write permission on all assigned objects. Or groupings
+	 * the given object id is assigned to.
+	 */
+	public static function _getVisibleGroupings($a_obj_id)
 	{
 		global $ilObjDataCache,$ilAccess,$ilDB;
 
@@ -313,7 +315,7 @@ class ilObjCourseGrouping
 		$query = "SELECT * FROM object_data WHERE type = 'crsg' ORDER BY title";
 		$res = $ilDB->query($query);
 		$groupings = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$groupings[] = $row->obj_id;
 		}
@@ -365,7 +367,7 @@ class ilObjCourseGrouping
 		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
 
-		$condh =& new ilConditionHandler();
+		$condh = new ilConditionHandler();
 
 		// DELETE also original course if its the last
 		if($this->getCountAssignedCourses() == 2)
@@ -393,7 +395,7 @@ class ilObjCourseGrouping
 	{
 		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
-		$tmp_condh =& new ilConditionHandler();
+		$tmp_condh = new ilConditionHandler();
 		$tmp_condh->enableAutomaticValidation(false);
 
 		$tmp_condh->setTargetRefId($a_target_ref_id);
@@ -424,7 +426,7 @@ class ilObjCourseGrouping
 		{
 			include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 
-			$condh =& new ilConditionHandler();
+			$condh = new ilConditionHandler();
 			$condh->deleteByObjId($grouping_id);
 		}
 
@@ -443,14 +445,14 @@ class ilObjCourseGrouping
 			"WHERE crs_id = ".$ilDB->quote($a_course_id,'integer')." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$groupings[] = $row->crs_grp_id;
 		}
 		return $groupings ? $groupings : array();
 	}
 
-	function _checkCondition($trigger_obj_id,$operator,$value,$a_usr_id = 0)
+	static function _checkCondition($trigger_obj_id,$operator,$value,$a_usr_id = 0)
 	{
 		// in the moment i alway return true, there are some problems with presenting the condition if it fails,
 		// only course register class check manually if this condition is fullfilled

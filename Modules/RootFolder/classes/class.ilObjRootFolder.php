@@ -42,10 +42,10 @@ class ilObjRootFolder extends ilContainer
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjRootFolder($a_id,$a_call_by_reference = true)
+	public function __construct($a_id,$a_call_by_reference = true)
 	{
 		$this->type = "root";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id, $a_call_by_reference);
 	}
 
 
@@ -76,59 +76,6 @@ class ilObjRootFolder extends ilContainer
 	}
 
 	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	*
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional parameters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{
-		global $tree;
-
-		switch ($a_event)
-		{
-			case "link":
-
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "RootFolder ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "cut":
-
-				//echo "RootFolder ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "copy":
-
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "RootFolder ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "paste":
-
-				//echo "RootFolder ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "new":
-
-				//echo "RootFolder ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-		}
-
-
-		return true;
-	}
-
-	/**
 	* get all translations from this category
 	*
 	* @access	public
@@ -145,7 +92,7 @@ class ilObjRootFolder extends ilContainer
 		$num = 0;
 
 		$data["Fobject"] = array();
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$data["Fobject"][$num]= array("title"	=> $row->title,
 										  "desc"	=> $row->description,

@@ -255,7 +255,7 @@ class ilExportGUI
 			{
 				if (is_object($f["call_obj"]))
 				{
-					$f["call_obj"]->$f["call_func"]();
+					$f["call_obj"]->{$f["call_func"]}();
 				}
 				elseif($this->getParentGUI() instanceof ilContainerGUI)
 				{

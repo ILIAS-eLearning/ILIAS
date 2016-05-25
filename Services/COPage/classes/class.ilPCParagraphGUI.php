@@ -20,9 +20,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCParagraphGUI($a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
+	function __construct($a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		
 		// characteristics (should be flexible in the future)
 		$this->setCharacteristics(ilPCParagraphGUI::_getStandardCharacteristics());
@@ -60,7 +60,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		if ($a_style_id > 0 &&
 			ilObject::_lookupType($a_style_id) == "sty")
 		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$style = new ilObjStyleSheet($a_style_id);
 			$types = array("text_block", "heading1", "heading2", "heading3");
 			$chars = array();
@@ -90,7 +90,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
@@ -106,7 +106,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		switch($next_class)
 		{
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 
@@ -619,7 +619,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	private function setStyle()
 	{
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		
 		if ($this->pg_obj->getParentType() == "gdf" ||
 			$this->pg_obj->getParentType() == "lm" ||

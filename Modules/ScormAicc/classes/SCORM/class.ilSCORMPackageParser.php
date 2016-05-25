@@ -60,12 +60,12 @@ class ilSCORMPackageParser extends ilSaxParser
 	* @param	string		$a_xml_file		xml file
 	* @access	public
 	*/
-	function ilSCORMPackageParser(&$a_slm_object, $a_xml_file)
+	function __construct(&$a_slm_object, $a_xml_file)
 	{
-		parent::ilSaxParser($a_xml_file);
+		parent::__construct($a_xml_file);
 		$this->cnt = array();
 		$this->current_element = array();
-		$this->slm_object =& $a_slm_object;
+		$this->slm_object = $a_slm_object;
 		$this->tree_created = false;
 		$this->parent_stack = array();
 		$this->item_stack = array();
@@ -191,7 +191,7 @@ class ilSCORMPackageParser extends ilSaxParser
 		switch($a_name)
 		{
 			case "manifest":
-				$manifest =& new ilSCORMManifest();
+				$manifest = new ilSCORMManifest();
 				$manifest->setSLMId($this->slm_object->getId());
 				$manifest->setImportId($a_attribs["identifier"]);
 				$manifest->setVersion($a_attribs["version"]);
@@ -199,7 +199,7 @@ class ilSCORMPackageParser extends ilSaxParser
 				$manifest->create();
 				if (!$this->tree_created)
 				{
-					$this->sc_tree =& new ilSCORMTree($this->slm_object->getId());
+					$this->sc_tree = new ilSCORMTree($this->slm_object->getId());
 					$this->sc_tree->addTree($this->slm_object->getId(), $manifest->getId());
 				}
 				else
@@ -210,7 +210,7 @@ class ilSCORMPackageParser extends ilSaxParser
 				break;
 
 			case "organizations":
-				$organizations =& new ilSCORMOrganizations();
+				$organizations = new ilSCORMOrganizations();
 				$organizations->setSLMId($this->slm_object->getId());
 				$organizations->setDefaultOrganization($a_attribs["default"]);
 				$organizations->create();
@@ -219,7 +219,7 @@ class ilSCORMPackageParser extends ilSaxParser
 				break;
 
 			case "organization":
-				$organization =& new ilSCORMOrganization();
+				$organization = new ilSCORMOrganization();
 				$organization->setSLMId($this->slm_object->getId());
 				$organization->setImportId($a_attribs["identifier"]);
 				$organization->setStructure($a_attribs["structure"]);
@@ -230,7 +230,7 @@ class ilSCORMPackageParser extends ilSaxParser
 				break;
 
 			case "item":
-				$item =& new ilSCORMItem();
+				$item = new ilSCORMItem();
 				$item->setSLMId($this->slm_object->getId());
 				$item->setImportId($a_attribs["identifier"]);
 				$item->setIdentifierRef($a_attribs["identifierref"]);
@@ -254,7 +254,7 @@ class ilSCORMPackageParser extends ilSaxParser
 				break;
 
 			case "resources":
-				$resources =& new ilSCORMResources();
+				$resources = new ilSCORMResources();
 				$resources->setSLMId($this->slm_object->getId());
 				$resources->setXmlBase($a_attribs["xml:base"]);
 				$resources->create();
@@ -263,7 +263,7 @@ class ilSCORMPackageParser extends ilSaxParser
 				break;
 
 			case "resource":
-				$resource =& new ilSCORMResource();
+				$resource = new ilSCORMResource();
 				$resource->setSLMId($this->slm_object->getId());
 				$resource->setImportId($a_attribs["identifier"]);
 				$resource->setResourceType($a_attribs["type"]);
@@ -277,13 +277,13 @@ class ilSCORMPackageParser extends ilSaxParser
 				break;
 
 			case "file":
-				$file =& new ilSCORMResourceFile();
+				$file = new ilSCORMResourceFile();
 				$file->setHRef($a_attribs["href"]);
 				$this->current_resource->addFile($file);
 				break;
 
 			case "dependency":
-				$dependency =& new ilSCORMResourceDependency();
+				$dependency = new ilSCORMResourceDependency();
 				$dependency->setIdentifierRef($a_attribs["identifierref"]);
 				$this->current_resource->addDependency($dependency);
 				break;

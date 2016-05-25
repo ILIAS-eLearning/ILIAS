@@ -36,15 +36,6 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilTestSearch extends ilAbstractSearch
 {
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilTestSearch(&$query_parser)
-	{
-		parent::ilAbstractSearch($query_parser);
-	}
-
 	function &__searchTestIntroduction()
 	{
 		$this->setFields(array('introduction'));
@@ -58,7 +49,7 @@ class ilTestSearch extends ilAbstractSearch
 			$where;
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->obj_fi,'tst',$this->__prepareFound($row));
 		}
@@ -77,7 +68,7 @@ class ilTestSearch extends ilAbstractSearch
 			$where;
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->obj_fi,'qpl',$this->__prepareFound($row));
 		}
@@ -96,7 +87,7 @@ class ilTestSearch extends ilAbstractSearch
 			$where;
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->obj_fi,'svy',$this->__prepareFound($row));
 		}
@@ -115,7 +106,7 @@ class ilTestSearch extends ilAbstractSearch
 			$where;
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->obj_fi,'spl',$this->__prepareFound($row));
 		}

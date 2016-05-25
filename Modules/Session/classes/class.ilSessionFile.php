@@ -45,13 +45,17 @@ class ilSessionFile
 
 	private $fss_storage = null;
 
-	function ilSessionFile($a_file_id = null)
+	/**
+	 * Constructor
+	 * @param int $a_file_id
+	 */
+	public function __construct($a_file_id = null)
 	{
 		global $ilErr,$ilDB,$lng;
 
-		$this->ilErr =& $ilErr;
-		$this->db  =& $ilDB;
-		$this->lng =& $lng;
+		$this->ilErr = $ilErr;
+		$this->db  = $ilDB;
+		$this->lng = $lng;
 
 		$this->file_id = $a_file_id;
 		$this->__read();
@@ -236,7 +240,7 @@ class ilSessionFile
 		return true;
 	}
 
-	function _readFilesByEvent($a_event_id)
+	static function _readFilesByEvent($a_event_id)
 	{
 		global $ilDB;
 
@@ -244,9 +248,9 @@ class ilSessionFile
 			"WHERE event_id = ".$ilDB->quote($a_event_id ,'integer')."";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			$files[] =& new ilSessionFile($row->file_id);
+			$files[] = new ilSessionFile($row->file_id);
 		}
 		return is_array($files) ? $files : array();
 	}
@@ -263,7 +267,7 @@ class ilSessionFile
 		// read file data
 		$query = "SELECT * FROM event_file WHERE file_id = ".$ilDB->quote($this->file_id ,'integer')."";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setFileName($row->file_name);
 			$this->setFileSize($row->file_size);

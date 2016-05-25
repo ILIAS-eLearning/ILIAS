@@ -32,8 +32,6 @@
 */
 @include_once("PEAR.php");
 @include_once("Auth/Auth.php");
-@include_once("MDB2.php");
-@include_once("MDB2/Driver/mysql.php");
 
 require_once "HTML/Template/ITX.php";
 $tpl_class_name = "HTML_Template_ITX";
@@ -53,10 +51,8 @@ $include_paths = explode($separator,$include_paths);
 
 $pear = class_exists("PEAR");
 $auth = class_exists("Auth");
-$mdb2 = class_exists("MDB2");
-$mdb2_mysql = class_exists("MDB2_Driver_mysql");
 
-if (!$pear || !$auth || !$html_templ_it || !$mdb2 || !$mdb2_mysql)
+if (!$pear || !$auth || !$html_templ_it )
 {
 	$logo = (is_file("../templates/default/images/HeaderIcon.png"))
 		? "../templates/default/images/HeaderIcon.png"

@@ -27,7 +27,7 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
   */
   function ilCopyWizardSettingsXMLParser($xml)
   {
-    parent::ilSaxParser('', true);
+    parent::__construct('', true);
     $this->setXMLContent($xml);    
   }
 

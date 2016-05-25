@@ -971,7 +971,7 @@ class ilECSSetting
 		$query = 'SELECT * FROM ecs_server '.
 			'WHERE server_id = '.$ilDB->quote($this->getServerId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$this->setServer($row['server']);
 			$this->setTitle($row['title']);

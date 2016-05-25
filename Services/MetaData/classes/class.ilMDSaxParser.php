@@ -63,7 +63,7 @@ class ilMDSaxParser extends ilSaxParser
 	*
 	* @access	public
 	*/
-	function ilMDSaxParser($a_xml_file = '')
+	function __construct($a_xml_file = '')
 	{
 		global $lng, $tree;
 
@@ -71,7 +71,7 @@ class ilMDSaxParser extends ilSaxParser
 		// Enable parsing. E.g qpl' s will set this value to false
 		$this->md_parsing_enabled = true;
 
-		parent::ilSaxParser($a_xml_file);
+		parent::__construct($a_xml_file);
 	}
 
 	function enableMDParsing($a_status)

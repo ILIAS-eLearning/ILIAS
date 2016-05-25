@@ -20,7 +20,7 @@ class ilObjPluginDispatchGUI
 	{
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 		

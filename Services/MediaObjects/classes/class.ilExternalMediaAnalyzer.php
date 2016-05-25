@@ -37,7 +37,8 @@ class ilExternalMediaAnalyzer
 	*/
 	static function isYouTube($a_location)
 	{
-		if (strpos($a_location, "youtube.com") > 0)
+		if (strpos($a_location, "youtube.com") > 0 ||
+				strpos($a_location, "youtu.be") > 0)
 		{
 			return true;
 		}
@@ -58,6 +59,10 @@ class ilExternalMediaAnalyzer
 				? $pos2
 				: strlen($a_location);
 			$par["v"] = substr($a_location, $pos1+2, $len - ($pos1+2));
+		}
+		else if (strpos($a_location, "youtu.be") > 0)
+		{
+			//$par["v"] = substr($a_location, strrpos($a_location, "/") + 1);
 		}
 
 		return $par;

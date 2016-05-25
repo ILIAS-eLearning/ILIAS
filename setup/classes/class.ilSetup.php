@@ -64,11 +64,11 @@ class ilSetup extends PEAR
 	* @param	boolean		user is authenticated? (true) or not (false)
 	* @param	string		user is admin or common user
 	*/
-	function ilSetup($a_auth,$a_auth_type)
+	public function __construct($a_auth, $a_auth_type)
 	{
-		global $log, $lng;
+		global $lng;
 
-		$this->PEAR();
+//		$this->PEAR();
 		$this->lng = $lng;
 
 		$this->db_connections = new ilDBConnections();
@@ -225,161 +225,155 @@ class ilSetup extends PEAR
 	*/
 	function createDatabase($a_collation = "")
 	{
-		if ($this->client->checkDatabaseExists())
-		{
+		if ($this->client->getDBSetup()->isDatabaseInstalled()) {
 			$this->error = $this->lng->txt("database_exists");
+
 			return false;
 		}
 
-		$this->client->getDB()->connectHost(true);
+	return $this->client->getDBSetup()->createDatabase($a_collation);
 
-		//create database
-		$db = $this->client->getDB();
-		if (MDB2::isError($db))
-		{
-			$this->error = "connection_failed";
-			return false;
-		}
 
-		$r = $db->createDatabase($this->client->getdbName(),
-			"utf8", $a_collation);
-
-		if (MDB2::isError($r))
-		{
-			$this->error = "create_database_failed";
-			return false;
-		}
-
-		//database is created, now disconnect and reconnect
-		$db->disconnect();
-
-		$this->client->db_exists = true;
-		return true;
+//
+//
+//		//create database
+//		$db = $this->client->getDB();
+//		if (MDB2::isError($db))
+//		{
+//			$this->error = "connection_failed";
+//			return false;
+//		}
+//
+//		$r = $db->createDatabase($this->client->getdbName(),
+//			"utf8", $a_collation);
+//
+//		if (MDB2::isError($r))
+//		{
+//			$this->error = "create_database_failed";
+//			return false;
+//		}
+//
+//		//database is created, now disconnect and reconnect
+//		$db->disconnect();
+//
+//		$this->client->db_exists = true;
+//		return true;
 	}
 
 	/**
 	* set the database data
 	* @return	boolean
+	 * @deprecated 
 	*/
-	function installDatabase()
+	public function installDatabase()
 	{
-/*		if (!$this->client->checkDatabaseHost())
-		{
-			$this->error = "no_connection_to_host";
-			return false;
-		}*/
-
-		if (!$this->client->connect())
-		{
+		if (!$this->client->getDBSetup()->isDatabaseConnectable()) {
 			return false;
 		}
 
-		//take sql dump an put it in
-		if ($this->readDump($this->client->db, $this->SQL_FILE))
-		{
+		if ($this->client->getDBSetup()->installDatabase()) {
 			$this->client->db_installed = true;
+
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
-	function getline( $fp, $delim )
-	{
-		$result = "";
-		while( !feof( $fp ) )
-		{
-			$tmp = fgetc( $fp );
-			if( $tmp == $delim )
-				return $result;
-			$result .= $tmp;
-		}
-		return $result;
-	}
-
-	/**
-	* execute a query
-	* @param	string
-	* @param	string
-	* @return	boolean	ture if query was processed successfully
-	*/
-	function readDump($db, $file)
-	{
-		// mysql (old procedure)
-		if ($db->getDBType() == "mysql")
-		{
-			$fp = fopen($file, 'r');
-
-			while(!feof($fp))
-			{
-				//$line = trim(fgets($fp, 200000));
-				$line = trim($this->getline($fp, "\n"));
-
-				if ($line != "" && substr($line,0,1)!="#"
-					&& substr($line,0,1)!="-")
-				{
-					//take line per line, until last char is ";"
-					if (substr($line,-1)==";")
-					{
-						//query is complete
-						$q .= " ".substr($line,0,-1);
-						$r = $db->query($q);
-
-						if ($db->getErrorNo() > 0)
-						{
-							echo "<br />ERROR: ".$db->getError().
-								"<br />SQL: $q";
-							return false;
-						}
-						unset($q);
-						unset($line);
-					} //if
-					else
-					{
-						$q .= " ".$line;
-					} //else
-				} //if
-			} //for
-
-			fclose($fp);
-		}
-
-		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
-		if (in_array($db->getDBType(), array("oracle", "postgres", "innodb")))
-		{
-			if(@is_dir('./setup/sql/ilDBTemplate'))
-			{
-				include_once './Services/Database/classes/class.ilArrayTableDataParser.php';
-				include_once './Services/Xml/exceptions/class.ilSaxParserException.php';
-				$reader = new tmpDirectoyIterator('./setup/sql/ilDBTemplate');
-				foreach($reader as $file)
-				{
-					eval(file_get_contents('./setup/sql/ilDBTemplate/'.$file));
-					try
-					{
-						$parser = new ilArrayTableDataParser('./setup/sql/ilDBTemplate/'.$file.'_inserts');
-						#$parser = new ilSimpleXMLTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.xml');
-						$parser->startParsing();
-						#echo 'Table: '.$file.', memory: '.memory_get_peak_usage().' peak: '.memory_get_peak_usage().'<br />';flush();
-
-					}
-					catch(ilSaxParserException $e)
-					{
-						die($e);
-					}
-				}
-			}
-			else
-			{
-				include_once("./setup/sql/ilDBTemplate.php");
-				setupILIASDatabase();
-			}
-		}
-		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
-		return true;
-	}
+//	function getline( $fp, $delim )
+//	{
+//		$result = "";
+//		while( !feof( $fp ) )
+//		{
+//			$tmp = fgetc( $fp );
+//			if( $tmp == $delim )
+//				return $result;
+//			$result .= $tmp;
+//		}
+//		return $result;
+//	}
+//
+//	/**
+//	* execute a query
+//	* @param	string
+//	* @param	string
+//	* @return	boolean	ture if query was processed successfully
+//	*/
+//	function readDump($db, $file)
+//	{
+//		// mysql (old procedure)
+//		if ($db->getDBType() == "mysql")
+//		{
+//			$fp = fopen($file, 'r');
+//
+//			while(!feof($fp))
+//			{
+//				//$line = trim(fgets($fp, 200000));
+//				$line = trim($this->getline($fp, "\n"));
+//
+//				if ($line != "" && substr($line,0,1)!="#"
+//					&& substr($line,0,1)!="-")
+//				{
+//					//take line per line, until last char is ";"
+//					if (substr($line,-1)==";")
+//					{
+//						//query is complete
+//						$q .= " ".substr($line,0,-1);
+//						$r = $db->query($q);
+//
+//						if ($db->getErrorNo() > 0)
+//						{
+//							echo "<br />ERROR: ".$db->getError().
+//								"<br />SQL: $q";
+//							return false;
+//						}
+//						unset($q);
+//						unset($line);
+//					} //if
+//					else
+//					{
+//						$q .= " ".$line;
+//					} //else
+//				} //if
+//			} //for
+//
+//			fclose($fp);
+//		}
+//
+//		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
+//		if (in_array($db->getDBType(), array("oracle", "postgres", "innodb")))
+//		{
+//			if(@is_dir('./setup/sql/ilDBTemplate'))
+//			{
+//				include_once './Services/Database/classes/class.ilArrayTableDataParser.php';
+//				include_once './Services/Xml/exceptions/class.ilSaxParserException.php';
+//				$reader = new tmpDirectoyIterator('./setup/sql/ilDBTemplate');
+//				foreach($reader as $file)
+//				{
+//					eval(file_get_contents('./setup/sql/ilDBTemplate/'.$file));
+//					try
+//					{
+//						$parser = new ilArrayTableDataParser('./setup/sql/ilDBTemplate/'.$file.'_inserts');
+//						#$parser = new ilSimpleXMLTableDataParser('./setup/sql/ilDBTemplate/'.$file.'.xml');
+//						$parser->startParsing();
+//						#echo 'Table: '.$file.', memory: '.memory_get_peak_usage().' peak: '.memory_get_peak_usage().'<br />';flush();
+//
+//					}
+//					catch(ilSaxParserException $e)
+//					{
+//						die($e);
+//					}
+//				}
+//			}
+//			else
+//			{
+//				include_once("./setup/sql/ilDBTemplate.php");
+//				setupILIASDatabase();
+//			}
+//		}
+//		#echo 'Start Memory: '.memory_get_usage().' peak: '.memory_get_peak_usage();
+//		return true;
+//	}
 
 
 	/**
@@ -1065,7 +1059,7 @@ class ilSetup extends PEAR
 		$res = $db->query($query);
 
 		$rows = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			if( $row['value'] != '' )
 					$rows[] = $row;
@@ -1296,7 +1290,6 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "unzip", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"])));
 		$this->ini->setVariable("tools", "ghostscript", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ghostscript_path"])));
 		$this->ini->setVariable("tools", "java", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"])));
-		$this->ini->setVariable("tools", "htmldoc", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"])));
 		//$this->ini->setVariable("tools", "mkisofs", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["mkisofs_path"])));
 		$this->ini->setVariable("tools", "ffmpeg", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ffmpeg_path"])));
 		$this->ini->setVariable("tools", "latex", ilUtil::stripSlashes($a_formdata["latex_url"]));
@@ -1338,7 +1331,6 @@ class ilSetup extends PEAR
 		$unzip_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"]));
 		$ghostscript_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ghostscript_path"]));
 		$java_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"]));
-		$htmldoc_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"]));
 		//$mkisofs_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["mkisofs_path"]));
 		$ffmpeg_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ffmpeg_path"]));
 		$latex_url = ilUtil::stripSlashes($a_formdata["latex_url"]);
@@ -1352,7 +1344,6 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "unzip", $unzip_path);
 		$this->ini->setVariable("tools", "ghostscript", $ghostscript_path);
 		$this->ini->setVariable("tools", "java", $java_path);
-		$this->ini->setVariable("tools", "htmldoc", $htmldoc_path);
 		//$this->ini->setVariable("tools", "mkisofs", $mkisofs_path);
 		$this->ini->setVariable("tools", "ffmpeg", $ffmpeg_path);
 		$this->ini->setVariable("tools", "latex", $latex_url);
@@ -1473,24 +1464,6 @@ class ilSetup extends PEAR
 			}
 		}
 
-		// htmldoc path
-		if (!isset($a_formdata["chk_htmldoc_path"]))
-		{
-			// convert backslashes to forwardslashes
-			$htmldoc_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"]));
-
-			if (empty($htmldoc_path))
-			{
-				$this->error = "no_path_htmldoc";
-				return false;
-			}
-
-			if (!$this->testHtmldoc($htmldoc_path))
-			{
-				$this->error = "check_failed_htmldoc";
-				return false;
-			}
-		}
 		/*if (!isset($a_formdata["chk_mkisofs_path"]))
 		{
 			// convert backslashes to forwardslashes
@@ -1499,12 +1472,6 @@ class ilSetup extends PEAR
 			if (empty($mkisofs_path))
 			{
 				$this->error = "no_path_mkisofs";
-				return false;
-			}
-		
-			if (!$this->testHtmldoc($mkisofs_path))
-			{
-				$this->error = "check_failed_mkisofs";
 				return false;
 			}
 		}*/
@@ -1882,73 +1849,6 @@ class ilSetup extends PEAR
 	}
 
 	/**
-	* Check htmldoc program
-	*
-	* @param	string		htmldoc_path
-	* @return	boolean		true -> OK | false -> not OK
-	*/
-	function testHtmldoc($a_htmldoc_path)
-	{
-		// java is optional, so empty path is ok
-		if (trim($a_htmldoc_path) == "")
-		{
-			return "";
-		}
-
-		if (!is_file($a_htmldoc_path))
-		{
-			return "check_failed_htmldoc";
-		}
-
-		return "";
-
-
-		$curDir = getcwd();
-
-		chdir(ILIAS_ABSOLUTE_PATH);
-
-		$html = "<html><head><title></title></head><body><p>test</p></body></html>";
-
-		$html_file = "htmldoc_test_file.html";
-
-        $fp = fopen( $html_file ,"wb");
-        fwrite($fp, $html);
-        fclose($fp);
-
-        $htmldoc = $a_htmldoc_path." ";
-        $htmldoc .= "--no-toc ";
-        $htmldoc .= "--no-jpeg ";
-        $htmldoc .= "--webpage ";
-        $htmldoc .= "--outfile htmldoc_test_file.pdf ";
-        $htmldoc .= "--bodyfont Arial ";
-        $htmldoc .= "--charset iso-8859-15 ";
-        $htmldoc .= "--color ";
-        $htmldoc .= "--size A4  ";      // --landscape
-        $htmldoc .= "--format pdf ";
-        $htmldoc .= "--footer ... ";
-        $htmldoc .= "--header ... ";
-        $htmldoc .= "--left 60 ";
-        // $htmldoc .= "--right 200 ";
-        $htmldoc .= $html_file;
-		exec($htmldoc);
-
-		unlink(ILIAS_ABSOLUTE_PATH."/".$html_file);
-
-		chdir($curDir);
-
-		if (file_exists(ILIAS_ABSOLUTE_PATH."/htmldoc_test_file.pdf"))
-		{
-			unlink(ILIAS_ABSOLUTE_PATH."/htmldoc_test_file.pdf");
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-
-	/**
 	* unzip file
 	*
 	* @param	string	$a_file		full path/filename
@@ -2031,7 +1931,7 @@ class ilSetup extends PEAR
 						array('text', 'text'), array('common', $field));
 
 				$row = array();
-				while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) break;
+				while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) break;
 
 				if( count($row) > 0 )
 				{
@@ -2087,7 +1987,7 @@ class ilSetup extends PEAR
 		$res = $db->queryF($query, array('text'), array('common'));
 
 		$session_settings = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$session_settings[$row['keyword']] = $row['value'];
 		}

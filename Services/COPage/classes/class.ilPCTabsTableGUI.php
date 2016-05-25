@@ -14,7 +14,7 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 class ilPCTabsTableGUI extends ilTable2GUI
 {
 
-	function ilPCTabsTableGUI($a_parent_obj, $a_parent_cmd,
+	function __construct($a_parent_obj, $a_parent_cmd,
 		$a_tabs)
 	{
 		global $ilCtrl, $lng;

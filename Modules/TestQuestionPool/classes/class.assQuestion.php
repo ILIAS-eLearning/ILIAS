@@ -114,7 +114,7 @@ abstract class assQuestion
 	protected $lng;
 
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
@@ -751,7 +751,7 @@ abstract class assQuestion
 * @param integer $question_id The database Id of the question
 * @see $points
 */
-  function _getMaximumPoints($question_id) 
+	public static function _getMaximumPoints($question_id)
 	{
 		global $ilDB;
 
@@ -774,7 +774,7 @@ abstract class assQuestion
 	* @param integer $question_id The database Id of the question
 	* @return array The database row containing the question data
 	*/
-	function &_getQuestionInfo($question_id)
+	public static function _getQuestionInfo($question_id)
 	{
 		global $ilDB;
 
@@ -895,7 +895,7 @@ abstract class assQuestion
 	* @param integer $test_id The database Id of the test containing the question
 	* @param integer $question_id The database Id of the question
 	*/
-	function _getReachedPoints($active_id, $question_id, $pass = NULL)
+	public static function _getReachedPoints($active_id, $question_id, $pass = NULL)
 	{
 		global $ilDB;
 
@@ -927,7 +927,7 @@ abstract class assQuestion
 	*/
 	function getReachedPoints($active_id, $pass = NULL)
 	{
-		return round($this->_getReachedPoints($active_id, $this->getId(), $pass), 2);
+		return round(self::_getReachedPoints($active_id, $this->getId(), $pass), 2);
 	}
 	
 	/**
@@ -981,7 +981,7 @@ abstract class assQuestion
 	 * Calculates the question results from a previously saved question solution
 	 *
 	 * @final
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @global ilObjUser $ilUser
 	 * @param integer $active_id Active id of the user
 	 * @param integer $pass Test pass
@@ -1084,7 +1084,7 @@ abstract class assQuestion
 		}
 
 		// update test pass results
-		$this->_updateTestPassResults($active_id, $pass, $obligationsEnabled, $this->getProcessLocker());
+		self::_updateTestPassResults($active_id, $pass, $obligationsEnabled, $this->getProcessLocker());
 
 		// Update objective status
 		include_once 'Modules/Course/classes/class.ilCourseObjectiveResult.php';
@@ -1144,14 +1144,12 @@ abstract class assQuestion
 
 	/**
 	 * Reworks the allready saved working data if neccessary
-	 *
-	 * @abstract
-	 * @access protected
 	 * @param integer $active_id
 	 * @param integer $pass
 	 * @param boolean $obligationsAnswered
+	 * @param boolean $authorized
 	 */
-	//abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $intermediate);
+	abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized);
 
 	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
 	{
@@ -1159,7 +1157,7 @@ abstract class assQuestion
 	}
 	
 	/** @TODO Move this to a proper place. */
-	function _updateTestResultCache($active_id, ilAssQuestionProcessLocker $processLocker = null)
+	public static function _updateTestResultCache($active_id, ilAssQuestionProcessLocker $processLocker = null)
 	{
 		global $ilDB;
 
@@ -1231,7 +1229,7 @@ abstract class assQuestion
 	}
 
 	/** @TODO Move this to a proper place. */
-	function _updateTestPassResults($active_id, $pass, $obligationsEnabled = false, ilAssQuestionProcessLocker $processLocker = null, $test_obj_id = null)
+	public static function _updateTestPassResults($active_id, $pass, $obligationsEnabled = false, ilAssQuestionProcessLocker $processLocker = null, $test_obj_id = null)
 	{
 		global $ilDB;
 
@@ -1325,7 +1323,7 @@ abstract class assQuestion
 				$query, array('integer','integer'), array($active_id, $pass)
 			);
 			*/
-			/** @var $ilDB ilDB */
+			/** @var $ilDB ilDBInterface */
 			$ilDB->replace('tst_pass_result', 
 						    array(
 								'active_fi' 			=> array('integer', $active_id), 
@@ -1363,7 +1361,7 @@ abstract class assQuestion
 
 			if( is_object($processLocker) )
 			{
-				$this->getProcessLocker()->releaseUserPassResultUpdateLock();
+				$processLocker->releaseUserPassResultUpdateLock();
 			}
 		}
 		
@@ -1703,7 +1701,7 @@ abstract class assQuestion
 	*
 	* note: please don't use $this in this class to allow static calls
 	*/
-	function getQuestionTypeFromDb($question_id)
+	public static function getQuestionTypeFromDb($question_id)
 	{
 		global $ilDB;
 
@@ -2169,14 +2167,12 @@ abstract class assQuestion
 		return $page->getXMLContent();
 	}
 
-/**
-* Returns the question type of a question with a given id
-*
-* @param integer $question_id The database id of the question
-* @result string The question type string
-* @access private
-*/
-	function _getQuestionType($question_id) 
+	/**
+	 * Returns the question type of a question with a given id
+	 * @param integer $question_id The database id of the question
+	 * @return string The question type string
+	 */
+	public static function _getQuestionType($question_id)
 	{
 		global $ilDB;
 
@@ -2203,7 +2199,7 @@ abstract class assQuestion
 * @result string The question title
 * @access private
 */
-	function _getQuestionTitle($question_id) 
+	public static function _getQuestionTitle($question_id) 
 	{
 		global $ilDB;
 		
@@ -2674,7 +2670,7 @@ abstract class assQuestion
 		foreach ($this->suggested_solutions as $index => $solution)
 		{
 			$next_id = $ilDB->nextId('qpl_sol_sug');
-			/** @var ilDB $ilDB */
+			/** @var ilDBInterface $ilDB */
 			$ilDB->insert('qpl_sol_sug', array(
 										   'suggested_solution_id'	=> array( 'integer', 	$next_id ),
 										   'question_fi'			=> array( 'integer', 	$id ),
@@ -2718,7 +2714,7 @@ abstract class assQuestion
 		
 		$next_id = $ilDB->nextId('qpl_sol_sug');
 		include_once("./Services/RTE/classes/class.ilRTE.php");
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		$affectedRows = $ilDB->insert('qpl_sol_sug', array(
 													   'suggested_solution_id'	=> array( 'integer', 	$next_id ),
 													   'question_fi'			=> array( 'integer', 	$this->getId() ),
@@ -2830,7 +2826,7 @@ abstract class assQuestion
 		}
 	}
 	
-	function _getInternalLinkHref($target = "")
+	public static function _getInternalLinkHref($target = "")
 	{
 		global $ilDB;
 		$linktypes = array(
@@ -3097,7 +3093,7 @@ abstract class assQuestion
 */
 	function getSolutionMaxPass($active_id)
 	{
-		return $this->_getSolutionMaxPass($this->getId(), $active_id);
+		return self::_getSolutionMaxPass($this->getId(), $active_id);
 	}
 
 /**
@@ -3106,7 +3102,7 @@ abstract class assQuestion
 * @param return integer The maximum pass of the users solution
 * @access public
 */
-	function _getSolutionMaxPass($question_id, $active_id)
+	public static function _getSolutionMaxPass($question_id, $active_id)
 	{
 /*		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		$pass = ilObjTest::_getPass($active_id);
@@ -3140,7 +3136,7 @@ abstract class assQuestion
 * @result boolean True, if the question exists, otherwise False
 * @access public
 */
-	function _isWriteable($question_id, $user_id)
+	public static function _isWriteable($question_id, $user_id)
 	{
 		global $ilDB;
 
@@ -3172,7 +3168,7 @@ abstract class assQuestion
 	* @return boolean The number how often the question is used in a random test
 	* @access public
 	*/
-	function _isUsedInRandomTest($question_id = "")
+	public static function _isUsedInRandomTest($question_id = "")
 	{
 		global $ilDB;
 		
@@ -3441,7 +3437,7 @@ abstract class assQuestion
 	* @return boolean true on success, otherwise false
 	* @access public
 	*/
-	function _setReachedPoints($active_id, $question_id, $points, $maxpoints, $pass, $manualscoring, $obligationsEnabled)
+	public static function _setReachedPoints($active_id, $question_id, $points, $maxpoints, $pass, $manualscoring, $obligationsEnabled)
 	{
 		global $ilDB;
 		
@@ -3584,7 +3580,7 @@ abstract class assQuestion
 			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$next_id = $ilDB->nextId('qpl_hints');
-				/** @var ilDB $ilDB */
+				/** @var ilDBInterface $ilDB */
 				$ilDB->insert('qpl_hints', array(
 						'qht_hint_id'     => array('integer', $next_id),
 						'qht_question_fi' => array('integer', $this->original_id),
@@ -3678,7 +3674,7 @@ abstract class assQuestion
 		return $instances;
 	}
 
-	function _needsManualScoring($question_id)
+	public static function _needsManualScoring($question_id)
 	{
 		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		$scoring = ilObjAssessmentFolder::_getManualScoringTypes();
@@ -3891,21 +3887,22 @@ abstract class assQuestion
 		}
 		return $question_gui;
 	}
-	
+
 	/**
-	* Creates an Excel worksheet for the detailed cumulated results of this question
-	*
-	* @param object $worksheet Reference to the parent excel worksheet
-	* @param object $startrow Startrow of the output in the excel worksheet
-	* @param object $active_id Active id of the participant
-	* @param object $pass Test pass
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
-	* @access public
-	*/
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	 * Creates an Excel worksheet for the detailed cumulated results of this question
+	 *
+	 * @param object $worksheet    Reference to the parent excel worksheet
+	 * @param object $startrow     Startrow of the output in the excel worksheet
+	 * @param object $active_id    Active id of the participant
+	 * @param object $pass         Test pass
+	 *
+	 * @return object
+	 */
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord(0) . $startrow, $this->lng->txt($this->getQuestionType()));
+		$worksheet->setFormattedExcelTitle($worksheet->getColumnCoord(1) . $startrow, $this->getTitle());
+
 		return $startrow;
 	}
 
@@ -4053,7 +4050,7 @@ abstract class assQuestion
 		$this->export_image_path = (string)$a_path;
 	}
 
-	function _questionExistsInTest($question_id, $test_id)
+	public static function _questionExistsInTest($question_id, $test_id)
 	{
 		global $ilDB;
 
@@ -4163,7 +4160,7 @@ abstract class assQuestion
 	// scorm2004-end ???
 
 	/**
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $questionId
 	 * @return integer $parentObjectId
 	 */
@@ -4183,7 +4180,7 @@ abstract class assQuestion
 	 * returns the parent object id for given original question id
 	 * (should be a qpl id, but theoretically it can be a tst id, too)
 	 * 
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $originalQuestionId
 	 * @return integer $originalQuestionParentObjectId
 	 *
@@ -4302,7 +4299,7 @@ abstract class assQuestion
 	 *
 	 * @access protected
 	 * @static
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 * @param integer $activeId
 	 * @param integer $pass
 	 * @param integer $questionId
@@ -4488,7 +4485,7 @@ abstract class assQuestion
 	 * @param int $active_id
 	 * @param int $pass
 	 * @param bool|true $authorized
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 *
 	 * @return object
 	 */
@@ -4532,7 +4529,7 @@ abstract class assQuestion
 
 	/**
 	 * @param $solutionId
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 *
 	 * @return int
 	 */
@@ -4549,7 +4546,7 @@ abstract class assQuestion
 	 * @param int $active_id
 	 * @param int $pass
 	 * @param bool|true $authorized
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 *
 	 * @return int
 	 */
@@ -4562,7 +4559,7 @@ abstract class assQuestion
 	 * @param int $active_id
 	 * @param int $pass
 	 * @param bool|true $authorized
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 *
 	 * @return int
 	 */
@@ -4607,7 +4604,7 @@ abstract class assQuestion
 	 * @param mixed $value1
 	 * @param mixed $value2
 	 * @param bool|true $authorized
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 *
 	 * @return int
 	 */
@@ -4642,7 +4639,7 @@ abstract class assQuestion
 	 * @param mixed $value1
 	 * @param mixed $value2
 	 * @param bool|true $authorized
-	 * @global ilDB $ilDB
+	 * @global ilDBInterface $ilDB
 	 *
 	 * @return int
 	 */
@@ -4761,7 +4758,7 @@ abstract class assQuestion
 	 */
 	protected function lookupMaxStep($active_id, $pass)
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 
 		$res = $ilDB->queryF(
@@ -4797,7 +4794,7 @@ abstract class assQuestion
 		$this->removeExistingSolutions($activeId, $pass);
 		$this->removeResultRecord($activeId, $pass);
 
-		$this->_updateTestPassResults(
+		self::_updateTestPassResults(
 			$activeId, $pass, $this->areObligationsToBeConsidered(), $this->getProcessLocker(), $this->getTestId()
 		);
 	}
@@ -4816,6 +4813,27 @@ abstract class assQuestion
 		return $ilDB->manipulateF($query, array('integer', 'integer', 'integer'),
 			array($activeId, $this->getId(), $pass)
 		);
+	}
+	
+	public static function missingResultRecordExists($activeId, $pass, $questionIds)
+	{
+		global $ilDB;
+		
+		$IN_questionIds = $ilDB->in('question_fi', $questionIds, false, 'integer');
+		
+		$query = "
+			SELECT COUNT(*) cnt
+			FROM tst_test_result
+			WHERE active_fi = %s
+			AND pass = %s
+			AND $IN_questionIds
+		";
+
+		$row = $ilDB->fetchAssoc($ilDB->queryF(
+			$query, array('integer', 'integer'), array($activeId, $pass)
+		));
+
+		return $row['cnt'] < count($questionIds);
 	}
 
 	public static function lookupResultRecordExist($activeId, $questionId, $pass)

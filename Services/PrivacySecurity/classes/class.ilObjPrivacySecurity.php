@@ -44,7 +44,7 @@ class ilObjPrivacySecurity extends ilObject
 
 		$ilBench->start("Core", "ilObjPrivacySecurity_Constructor");
 		$this->type = "ps";
-		parent::ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 		$ilBench->stop("Core", "ilObjPrivacySecurity_Constructor");
 	}
 	

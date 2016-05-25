@@ -36,15 +36,6 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilGlossaryDefinitionSearch extends ilAbstractSearch
 {
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilGlossaryDefinitionSearch(&$query_parser)
-	{
-		parent::ilAbstractSearch($query_parser);
-	}
-
 	function &performSearch()
 	{
 		// Search in glossary term
@@ -61,7 +52,7 @@ class ilGlossaryDefinitionSearch extends ilAbstractSearch
 			$where;
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->glo_id,'glo',$this->__prepareFound($row),$row->id);
 		}

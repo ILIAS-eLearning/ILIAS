@@ -136,8 +136,10 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 		}
 	}
 	
-	public function isInCondition(ilADTMultiEnum $a_adt)
+	public function isInCondition(ilADT $a_adt)
 	{
+		assert($a_adt instanceof ilADTMultiEnum);
+		
 		$current = $this->getADT()->getSelections();			
 		if(is_array($current) &&
 			sizeof($current))

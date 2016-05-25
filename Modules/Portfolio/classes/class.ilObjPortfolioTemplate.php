@@ -63,7 +63,7 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
 	{
 		// delete pages
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
-		$pages = ilPortfolioTemplatePage::getAllPages($this->id);
+		$pages = ilPortfolioTemplatePage::getAllPortfolioPages($this->id);
 		foreach($pages as $page)
 		{
 			$page_obj = new ilPortfolioTemplatePage($page["id"]);
@@ -86,7 +86,7 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
 		
 		// copy pages
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
-		foreach(ilPortfolioPage::getAllPages($this->getId()) as $page)
+		foreach(ilPortfolioPage::getAllPortfolioPages($this->getId()) as $page)
 		{			
 			// see ilObjWiki::cloneObject();
 			

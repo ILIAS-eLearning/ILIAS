@@ -30,10 +30,10 @@ class ilPCResources extends ilPageContent
 	/**
 	* Set node
 	*/
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->res_node =& $a_node->first_child();		// this is the Resources node
+		$this->res_node = $a_node->first_child();		// this is the Resources node
 	}
 
 	/**
@@ -46,8 +46,8 @@ class ilPCResources extends ilPageContent
 	{
 		$this->node = $this->createPageContentNode();
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-		$this->res_node =& $this->dom->create_element("Resources");
-		$this->res_node =& $this->node->append_child($this->res_node);
+		$this->res_node = $this->dom->create_element("Resources");
+		$this->res_node = $this->node->append_child($this->res_node);
 	}
 
 	/**
@@ -64,8 +64,8 @@ class ilPCResources extends ilPageContent
 			{
 				$this->res_node->remove_child($children[$i]);
 			}
-			$list_node =& $this->dom->create_element("ResourceList");
-			$list_node =& $this->res_node->append_child($list_node);
+			$list_node = $this->dom->create_element("ResourceList");
+			$list_node = $this->res_node->append_child($list_node);
 			$list_node->set_attribute("Type", $a_type);
 		}
 	}
@@ -84,8 +84,8 @@ class ilPCResources extends ilPageContent
 			{
 				$this->res_node->remove_child($children[$i]);
 			}
-			$list_node =& $this->dom->create_element("ItemGroup");
-			$list_node =& $this->res_node->append_child($list_node);
+			$list_node = $this->dom->create_element("ItemGroup");
+			$list_node = $this->res_node->append_child($list_node);
 			$list_node->set_attribute("RefId", $a_ref_id);
 		}
 	}

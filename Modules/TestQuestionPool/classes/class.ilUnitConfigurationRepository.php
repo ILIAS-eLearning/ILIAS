@@ -66,7 +66,7 @@ class ilUnitConfigurationRepository
 	public function isCRUDAllowed($a_category_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -88,7 +88,7 @@ class ilUnitConfigurationRepository
 	public function copyCategory($a_category_id, $a_question_fi, $a_category_name = null)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -122,7 +122,7 @@ class ilUnitConfigurationRepository
 	public function copyUnitsByCategories($a_from_category_id, $a_to_category_id, $a_question_fi)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -239,7 +239,7 @@ class ilUnitConfigurationRepository
 	public function checkDeleteCategory($id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -476,7 +476,7 @@ class ilUnitConfigurationRepository
 	public function saveUnitOrder($unit_id, $sequence)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -539,7 +539,7 @@ class ilUnitConfigurationRepository
 	public function getUnitCategoryById($id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -563,7 +563,7 @@ class ilUnitConfigurationRepository
 	public function saveCategory(assFormulaQuestionUnitCategory $category)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -591,7 +591,7 @@ class ilUnitConfigurationRepository
 	public function saveNewUnitCategory(assFormulaQuestionUnitCategory $category)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -624,7 +624,7 @@ class ilUnitConfigurationRepository
 	public function getAllUnitCategories()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -653,7 +653,7 @@ class ilUnitConfigurationRepository
 	public function deleteCategory($id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -686,7 +686,7 @@ class ilUnitConfigurationRepository
 	public function createNewUnit(assFormulaQuestionUnit $unit)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -718,7 +718,7 @@ class ilUnitConfigurationRepository
 	public function saveUnit(assFormulaQuestionUnit $unit)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 

@@ -13,7 +13,7 @@ require_once('./Services/Environment/classes/class.ilRuntime.php');
  */
 class ilApc extends ilGlobalCacheService {
 
-	const MIN_MEMORY = 128;
+	const MIN_MEMORY = 64;
 	const CACHE_ID = 'user';
 
 
@@ -26,7 +26,7 @@ class ilApc extends ilGlobalCacheService {
 		if (function_exists('apc_exists')) {
 			return apc_exists($this->returnKey($key));
 		} else {
-			return apc_fetch($this->returnKey($key)) !== NULL;
+			return apc_fetch($this->returnKey($key)) !== null;
 		}
 	}
 
@@ -103,12 +103,12 @@ class ilApc extends ilGlobalCacheService {
 		unset($cache_info['slot_distribution']);
 
 		$return['__cache_info'] = array(
-			'apc.enabled' => ini_get('apc.enabled'),
-			'apc.shm_size' => ini_get('apc.shm_size'),
+			'apc.enabled'      => ini_get('apc.enabled'),
+			'apc.shm_size'     => ini_get('apc.shm_size'),
 			'apc.shm_segments' => ini_get('apc.shm_segments'),
-			'apc.gc_ttl' => ini_get('apc.gc_ttl'),
-			'apc.user_ttl' => ini_get('apc.ttl'),
-			'info' => $cache_info
+			'apc.gc_ttl'       => ini_get('apc.gc_ttl'),
+			'apc.user_ttl'     => ini_get('apc.ttl'),
+			'info'             => $cache_info,
 		);
 
 		$cache_info = apc_cache_info();

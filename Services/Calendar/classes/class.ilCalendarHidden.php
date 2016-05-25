@@ -241,7 +241,7 @@ class ilCalendarHidden
 		$query = "SELECT * FROM cal_categories_hidden ".
 			"WHERE user_id = ".$this->db->quote($this->user_id ,'integer')." ";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->hidden[] = $row->cat_id;
 		}

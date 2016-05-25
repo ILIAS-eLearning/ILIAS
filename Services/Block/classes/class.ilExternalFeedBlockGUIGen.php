@@ -65,7 +65,7 @@ abstract class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	* Execute command.
 	*
 	*/
-	public function &executeCommand()
+	public function executeCommand()
 	{
 		global $ilCtrl;
 		

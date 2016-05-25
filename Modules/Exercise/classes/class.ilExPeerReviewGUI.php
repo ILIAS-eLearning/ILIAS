@@ -720,7 +720,6 @@ class ilExPeerReviewGUI
 		if($file)
 		{
 			ilUtil::deliverFile($file, basename($file));
-			break(2);		
 		}				
 		
 		$ilCtrl->redirect($this, "returnToParent");		

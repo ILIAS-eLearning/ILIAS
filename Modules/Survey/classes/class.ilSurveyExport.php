@@ -30,9 +30,7 @@
 */
 class ilSurveyExport
 {
-	var $err;			// error object
 	var $db;			// database object
-	var $ilias;			// ilias object
 	var $survey_obj;		// survey object
 	var $inst_id;		// installation id
 	var $mode;
@@ -44,19 +42,14 @@ class ilSurveyExport
 	* Constructor
 	* @access	public
 	*/
-	function ilSurveyExport(&$a_survey_obj, $a_mode = "xml")
+	function __construct($a_survey_obj, $a_mode = "xml")
 	{
-		global $ilErr, $ilDB, $ilias;
+		global $ilDB;
 
-		$this->survey_obj =& $a_survey_obj;
-
-		$this->err =& $ilErr;
-		$this->ilias =& $ilias;
-		$this->db =& $ilDB;
+		$this->survey_obj = $a_survey_obj;
+	
+		$this->db = $ilDB;
 		$this->mode = $a_mode;
-
-		$settings = $this->ilias->getAllSettings();
-		//$this->inst_id = $settings["inst_id"];
 		$this->inst_id = IL_INST_ID;
 
 		$date = time();
@@ -104,7 +97,6 @@ class ilSurveyExport
 
 		// create directories
 		$this->survey_obj->createExportDirectory();
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::makeDir($this->export_dir."/".$this->subdir);
 		ilUtil::makeDir($this->export_dir."/".$this->subdir."/objects");
 
@@ -152,7 +144,7 @@ class ilSurveyExport
 		$mobs = ilObjMediaObject::_getMobsOfObject("svy:html", $this->survey_obj->getId());
 		foreach ($mobs as $mob)
 		{
-			$mob_obj =& new ilObjMediaObject($mob);
+			$mob_obj = new ilObjMediaObject($mob);
 			$mob_obj->exportFiles($a_export_dir);
 			unset($mob_obj);
 		}
@@ -162,7 +154,7 @@ class ilSurveyExport
 			$mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $question_id);
 			foreach ($mobs as $mob)
 			{
-				$mob_obj =& new ilObjMediaObject($mob);
+				$mob_obj = new ilObjMediaObject($mob);
 				$mob_obj->exportFiles($a_export_dir);
 				unset($mob_obj);
 			}

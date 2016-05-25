@@ -31,9 +31,9 @@ class ilSCORMItem extends ilSCORMObject
 	* @param	int		$a_id		Object ID
 	* @access	public
 	*/
-	function ilSCORMItem($a_id = 0)
+	function __construct($a_id = 0)
 	{
-		parent::ilSCORMObject($a_id);
+		parent::__construct($a_id);
 		$this->setType("sit");
 	}
 
@@ -248,7 +248,7 @@ class ilSCORMItem extends ilSCORMObject
 		return $trdata;
 	}
 
-	function _lookupTrackingDataOfUser($a_item_id, $a_user_id = 0, $a_obj_id = 0)
+	static function _lookupTrackingDataOfUser($a_item_id, $a_user_id = 0, $a_obj_id = 0)
 	{
 		global $ilDB, $ilUser;
 
@@ -308,7 +308,7 @@ class ilSCORMItem extends ilSCORMObject
 	}
 
 	// Static
-	function _getItems($a_obj_id)
+	static function _getItems($a_obj_id)
 	{
 		global $ilDB;
 
@@ -326,7 +326,7 @@ class ilSCORMItem extends ilSCORMObject
 		return $item_ids ? $item_ids : array();
 	}
 
-	function _lookupTitle($a_obj_id)
+	static function _lookupTitle($a_obj_id)
 	{
 		global $ilDB;
 

@@ -27,7 +27,7 @@ class ilObjWikiAccess extends ilObjectAccess
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array
 		(
@@ -104,7 +104,7 @@ class ilObjWikiAccess extends ilObjectAccess
 	/**
 	* check whether goto script will succeed
 	*/
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 //	echo "-".$a_target."-"; exit;
@@ -148,7 +148,7 @@ class ilObjWikiAccess extends ilObjectAccess
 	*
 	* @param	int		$a_id	wiki id
 	*/
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 
@@ -165,7 +165,7 @@ class ilObjWikiAccess extends ilObjectAccess
 	*
 	* @param	int		$a_id	wiki id
 	*/
-	function _lookupPublicFiles($a_id)
+	static function _lookupPublicFiles($a_id)
 	{
 		global $ilDB;
 

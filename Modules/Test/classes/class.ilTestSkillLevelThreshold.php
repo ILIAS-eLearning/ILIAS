@@ -11,7 +11,7 @@
 class ilTestSkillLevelThreshold
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db;
 
@@ -40,7 +40,7 @@ class ilTestSkillLevelThreshold
 	 */
 	private $threshold;
 
-	public function __construct(ilDB $db)
+	public function __construct(ilDBInterface $db)
 	{
 		$this->db = $db;
 	}

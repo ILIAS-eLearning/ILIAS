@@ -60,7 +60,6 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 		$this->cut_enabled = false;
 		$this->subscribe_enabled = false;
 		$this->link_enabled = false;
-		$this->payment_enabled = false;
 		$this->info_screen_enabled = false;
 		$this->progress_enabled = true;
 		$this->type = "lobj";
@@ -91,9 +90,9 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 	 * @param string description
 	 * @return
 	 */
-	public function getListItemHTML($a_ref_id,$a_obj_id,$a_title,$a_description,$a_manage = false)
+	public function getObjectiveListItemHTML($a_ref_id,$a_obj_id,$a_title,$a_description,$a_manage = false)
 	{
-		$this->tpl =& new ilTemplate("tpl.container_list_item.html", true, true,
+		$this->tpl = new ilTemplate("tpl.container_list_item.html", true, true,
 			"Services/Container");
 		$this->initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
 

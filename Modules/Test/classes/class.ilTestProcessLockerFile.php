@@ -43,7 +43,10 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
 		$this->releaseLock(self::PROCESS_NAME_TEST_START_LOCK_CHECK);
 	}
 
-	public function requestRandomPassBuildLock()
+	/**
+	 * {@inheritdoc}
+	 */
+	public function requestRandomPassBuildLock($withTaxonomyTables = false)
 	{
 		$this->requestLock(self::PROCESS_NAME_RANDOM_PASS_BUILD);
 	}

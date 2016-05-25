@@ -12,14 +12,14 @@ require_once 'Modules/Test/classes/class.ilTestProcessLocker.php';
 class ilTestProcessLockerDb extends ilTestProcessLocker
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
 	/**
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 */
-	public function __construct(ilDB $db)
+	public function __construct(ilDBInterface $db)
 	{
 		$this->db = $db;
 	}
@@ -27,7 +27,7 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
 	public function requestTestStartLockCheckLock()
 	{
 		$tables = array(
-			array('name' => 'tst_active', 'type' => ilDB::LOCK_WRITE)
+			array('name' => 'tst_active', 'type' => ilDBConstants::LOCK_WRITE)
 		);
 
 		$this->db->lockTables($tables);
@@ -38,23 +38,26 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
 		$this->db->unlockTables();
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function requestRandomPassBuildLock($withTaxonomyTables = false)
 	{
 		$tables = array();
 		
-		$tables[] = array('name' => 'tst_rnd_cpy', 'type' => ilDB::LOCK_WRITE);
-		$tables[] = array('name' => 'qpl_questions', 'type' => ilDB::LOCK_WRITE);
-		$tables[] = array('name' => 'qpl_qst_type', 'type' => ilDB::LOCK_WRITE);
-		$tables[] = array('name' => 'tst_test_rnd_qst', 'type' => ilDB::LOCK_WRITE);
-		$tables[] = array('name' => 'tst_test_rnd_qst', 'type' => ilDB::LOCK_WRITE, 'sequence' => true);
-		$tables[] = array('name' => 'il_pluginslot', 'type' => ilDB::LOCK_WRITE);
-		$tables[] = array('name' => 'il_plugin', 'type' => ilDB::LOCK_WRITE);
+		$tables[] = array('name' => 'tst_rnd_cpy', 'type' => ilDBConstants::LOCK_WRITE);
+		$tables[] = array('name' => 'qpl_questions', 'type' => ilDBConstants::LOCK_WRITE);
+		$tables[] = array('name' => 'qpl_qst_type', 'type' => ilDBConstants::LOCK_WRITE);
+		$tables[] = array('name' => 'tst_test_rnd_qst', 'type' => ilDBConstants::LOCK_WRITE);
+		$tables[] = array('name' => 'tst_test_rnd_qst', 'type' => ilDBConstants::LOCK_WRITE, 'sequence' => true);
+		$tables[] = array('name' => 'il_pluginslot', 'type' => ilDBConstants::LOCK_WRITE);
+		$tables[] = array('name' => 'il_plugin', 'type' => ilDBConstants::LOCK_WRITE);
 
 		if( $withTaxonomyTables )
 		{
-			$tables[] = array('name' => 'tax_tree s', 'type' => ilDB::LOCK_WRITE);
-			$tables[] = array('name' => 'tax_tree t', 'type' => ilDB::LOCK_WRITE);
-			$tables[] = array('name' => 'tax_node_assignment', 'type' => ilDB::LOCK_WRITE);
+			$tables[] = array('name' => 'tax_tree s', 'type' => ilDBConstants::LOCK_WRITE);
+			$tables[] = array('name' => 'tax_tree t', 'type' => ilDBConstants::LOCK_WRITE);
+			$tables[] = array('name' => 'tax_node_assignment', 'type' => ilDBConstants::LOCK_WRITE);
 		}
 
 		$this->db->lockTables($tables);

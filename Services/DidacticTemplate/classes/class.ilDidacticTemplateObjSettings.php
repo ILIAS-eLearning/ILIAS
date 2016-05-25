@@ -23,7 +23,7 @@ class ilDidacticTemplateObjSettings
 		$query = 'SELECT tpl_id FROM didactic_tpl_objs '.
 			'WHERE ref_id = '.$ilDB->quote($a_ref_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->tpl_id;
 		}

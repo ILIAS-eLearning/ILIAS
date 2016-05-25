@@ -58,16 +58,16 @@ class ilErrorHandling extends PEAR
 	var $MESSAGE;
 
 	/**
-	 * Are the error handlers already registered?
+	 * Are the whoops error handlers already registered?
 	 * @var bool
 	 */
-	protected static $handlers_registered = false;
+	protected static $whoops_handlers_registered = false;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilErrorHandling()
+	function __construct()
 	{
 		$this->PEAR();
 
@@ -79,7 +79,11 @@ class ilErrorHandling extends PEAR
 
 		$this->error_obj = false;
 		
-		$this->initHandlers();
+		$this->initWhoopsHandlers();
+		
+		// somehow we need to get rid of the whoops error handler
+		restore_error_handler();
+		set_error_handler(array($this, "handlePreWhoops"));
 	}
 	
 	/**
@@ -90,24 +94,24 @@ class ilErrorHandling extends PEAR
 	 *
 	 * @return void
 	 */
-	protected function initHandlers() {
-		if (self::$handlers_registered) {
+	protected function initWhoopsHandlers() {
+		if (self::$whoops_handlers_registered) {
 			// Only register whoops error handlers once.
 			return;
 		}
 		
 		$ilRuntime = $this->getIlRuntime();
-		$whoops = $this->getWhoops();
+		$this->whoops = $this->getWhoops();
 		
-		$whoops->pushHandler(new ilDelegatingHandler($this));
+		$this->whoops->pushHandler(new ilDelegatingHandler($this));
 		
 		if ($ilRuntime->shouldLogErrors()) {
-			$whoops->pushHandler($this->loggingHandler());
+			$this->whoops->pushHandler($this->loggingHandler());
 		}
 		
-		$whoops->register();
+		$this->whoops->register();
 		
-		self::$handlers_registered = true;
+		self::$whoops_handlers_registered = true;
 	}
 
 	/**
@@ -343,7 +347,8 @@ class ilErrorHandling extends PEAR
 	 * @return Whoops\Handler
 	 */
 	protected function defaultHandler() {
-		return new CallbackHandler(function(Exception $exception, Inspector $inspector, Run $run) {
+		// php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
+		return new CallbackHandler(function($exception, Inspector $inspector, Run $run) {
 			require_once("Services/Utilities/classes/class.ilUtil.php");
 			ilUtil::sendFailure($exception->getMessage(), true);
 			ilUtil::redirect("error.php");
@@ -378,7 +383,8 @@ class ilErrorHandling extends PEAR
 	 * @return Whoops\Handler
 	 */
 	protected function loggingHandler() {
-		return new CallbackHandler(function(Exception $exception, Inspector $inspector, Run $run) {
+		// php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
+		return new CallbackHandler(function($exception, Inspector $inspector, Run $run) {
 			/**
 			 * Don't move this out of this callable
 			 * @var ilLog $ilLog;
@@ -393,5 +399,46 @@ class ilErrorHandling extends PEAR
 			error_log($exception->getMessage());
 		});
 	}
+	
+	public function handlePreWhoops($level, $message, $file, $line)
+	{
+		global $ilLog;
+		
+		if ($level & error_reporting()) {
+			
+			// correct-with-php5-removal JL start
+			// ignore all E_STRICT that are E_NOTICE (or nothing at all) in PHP7
+			if (version_compare(PHP_VERSION, '7.0.0', '<')) {
+				if ($level == E_STRICT) {
+					if (!stristr($message, "should be compatible") &&
+						!stristr($message, "should not be called statically")) {
+						return true;
+					};
+				}
+			}
+			// correct-with-php5-removal end
+
+			if (!$this->isDevmodeActive()) {
+				// log E_USER_NOTICE, E_STRICT, E_DEPRECATED, E_USER_DEPRECATED only
+				if ($level >= E_USER_NOTICE) {	
+					
+					if ($ilLog) {				
+						$severity = Whoops\Util\Misc::TranslateErrorCode($level);
+						$ilLog->write("\n\n".$severity." - ".$message."\n".$file." - line ".$line."\n");
+					}
+					return true;
+				}
+			}
+			
+			// trigger whoops error handling
+			if($this->whoops)
+			{
+				return $this->whoops->handleError($level, $message, $file, $line);
+			}
+		}
+		
+		return false;
+	}
+	
 } // END class.ilErrorHandling
 ?>

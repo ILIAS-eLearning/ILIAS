@@ -91,7 +91,7 @@ class ilCloudPluginService
      * @param ilCloudFileTree $file_tree
      * @param string $parent_folder
      */
-    public function addToFileTree(ilCloudFileTree  &$file_tree, $parent_folder = "/"){}
+    public function addToFileTree(ilCloudFileTree  $file_tree, $parent_folder = "/"){}
 
     /**
      * Called when a file is accessed for download by the user
@@ -113,6 +113,15 @@ class ilCloudPluginService
      * @param ilCloudFileTree $file_tree
      */
     public function deleteItem($path = null, ilCloudFileTree $file_tree = null){}
+
+    /**
+     * by default false
+     * @return bool
+     */
+    public function isCaseSensitive()
+    {
+        return false;
+    }
 
     /**
      * @param int $bytes

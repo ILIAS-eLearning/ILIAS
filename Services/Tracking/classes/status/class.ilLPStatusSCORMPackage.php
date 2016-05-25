@@ -34,29 +34,29 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
 class ilLPStatusSCORMPackage extends ilLPStatus
 {
 
-	function ilLPStatusSCORMPackage($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
-		parent::ilLPStatus($a_obj_id);
-		$this->db =& $ilDB;
+		parent::__construct($a_obj_id);
+		$this->db = $ilDB;
 	}
 
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$users = $status_info['in_progress'];
 		return array_unique($users);
 	}
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$users = $status_info['completed'];
 		return array_unique($users);
 	}
 
-	function _getFailed($a_obj_id)
+	static function _getFailed($a_obj_id)
 	{
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$users = $status_info['failed'];
@@ -64,7 +64,7 @@ class ilLPStatusSCORMPackage extends ilLPStatus
 	}
 
 	
-	function _getStatusInfo($a_obj_id)
+	static function _getStatusInfo($a_obj_id)
 	{
 		include_once './Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php';
 		$status_info['subtype'] = "scorm2004";
@@ -108,9 +108,9 @@ class ilLPStatusSCORMPackage extends ilLPStatus
 		return $status;		
 	}
 
-	function refreshStatus($a_obj_id)
+	function refreshStatus($a_obj_id, $a_users = null)
 	{
-		parent::refreshStatus($a_obj_id);
+		parent::refreshStatus($a_obj_id, $a_users);
 		
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
 		$in_progress = ilLPStatusWrapper::_getInProgress($a_obj_id);		

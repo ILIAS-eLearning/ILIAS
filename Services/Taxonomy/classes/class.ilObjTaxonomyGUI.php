@@ -141,10 +141,8 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	/**
 	 * Init creation forms
 	 */
-	protected function initCreationForms()
+	protected function initCreationForms($a_new_type)
 	{
-		$forms = array();
-		
 		$forms = array(
 			self::CFORM_NEW => $this->initCreateForm("tax")
 			);
@@ -797,7 +795,7 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 *
 	 * @param $a_id string tab id to be activated
 	 */
-	function setTabs($a_id)
+	function setTabs($a_id = "")
 	{
 		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
 		

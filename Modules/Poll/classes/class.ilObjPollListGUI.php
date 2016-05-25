@@ -24,7 +24,6 @@ class ilObjPollListGUI extends ilObjectListGUI
 		$this->cut_enabled = false;
 		$this->subscribe_enabled = false;
 		$this->link_enabled = false;
-		$this->payment_enabled = false;
 		$this->info_screen_enabled = true;
 		$this->type = "poll";
 		$this->gui_class_name = "ilobjpollgui";

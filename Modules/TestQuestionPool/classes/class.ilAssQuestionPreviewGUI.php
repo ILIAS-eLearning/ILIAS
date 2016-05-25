@@ -47,7 +47,7 @@ class ilAssQuestionPreviewGUI
 	protected $lng;
 
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
@@ -81,7 +81,7 @@ class ilAssQuestionPreviewGUI
 	 */
 	protected $hintTracking;
 	
-	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilTemplate $tpl, ilLanguage $lng, ilDB $db, ilObjUser $user)
+	public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilTemplate $tpl, ilLanguage $lng, ilDBInterface $db, ilObjUser $user)
 	{
 		$this->ctrl = $ctrl;
 		$this->tabs = $tabs;
@@ -133,7 +133,7 @@ class ilAssQuestionPreviewGUI
 	
 	public function initStyleSheets()
 	{
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));

@@ -28,26 +28,26 @@ class ilMediaPoolPresentationGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilMediaPoolPresentationGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
 			$rbacsystem;
 		
 		$lng->loadLanguageModule("content");
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 
 		// initiate variables
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->objDefinition =& $objDefinition;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->objDefinition = $objDefinition;
 	}
 
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl, $ilCtrl, $ilAccess, $ilNavigationHistory;
 
@@ -65,7 +65,7 @@ class ilMediaPoolPresentationGUI
 		{
 			case "ilobjmediapoolgui":
 				require_once ("./Modules/MediaPool/classes/class.ilObjMediaPoolGUI.php");
-				$mep_gui =& new ilObjMediaPoolGUI($_GET["ref_id"]);
+				$mep_gui = new ilObjMediaPoolGUI($_GET["ref_id"]);
 				$ilCtrl->forwardCommand($mep_gui);
 				break;
 

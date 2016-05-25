@@ -23,8 +23,8 @@ class ilMySQLAbstraction
 		global $ilDB;
 		
 		$this->il_db = $ilDB;
-		$this->manager = $ilDB->db->loadModule('Manager');
-		$this->reverse = $ilDB->db->loadModule('Reverse');
+		$this->manager = $ilDB->loadModule(ilDBConstants::MODULE_MANAGER);
+		$this->reverse = $ilDB->loadModule(ilDBConstants::MODULE_REVERSE);
 		if (@is_file('../Services/Database/classes/class.ilDBAnalyzer.php'))
 		{
 			include_once '../Services/Database/classes/class.ilDBAnalyzer.php';

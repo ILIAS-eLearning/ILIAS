@@ -14,7 +14,7 @@ class ilObjPortfolioAccess
 	/**
 	* check whether goto script will succeed
 	*/
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		$t_arr = explode("_", $a_target);
 		

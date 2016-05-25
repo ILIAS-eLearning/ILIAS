@@ -329,9 +329,8 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 								$val = "-";
 							}
 							else
-							{
-								include_once("./Services/Utilities/classes/class.ilFormat.php");							
-								$val = ilFormat::_secondsToString($data[$c], ($data[$c] < 3600 ? true : false)); // #14858
+							{							
+								$val = ilDatePresentation::secondsToString($data[$c], ($data[$c] < 3600 ? true : false)); // #14858
 							}
 							break;
 
@@ -449,24 +448,25 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		}
 	}
 	
-	protected function fillHeaderExcel($worksheet, &$a_row)
+	protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
 	{
-		$worksheet->write($a_row, 0, $this->lng->txt("type"));
-		$worksheet->write($a_row, 1, $this->lng->txt("title"));
+		$a_excel->setCell($a_row, 0, $this->lng->txt("type"));
+		$a_excel->setCell($a_row, 1, $this->lng->txt("title"));
 
 		$labels = $this->getSelectableColumns();
 		$cnt = 2;
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			$worksheet->write($a_row, $cnt, $labels[$c]["txt"]);
-			$cnt++;
+			$a_excel->setCell($a_row, $cnt++, $labels[$c]["txt"]);
 		}
+		
+		$a_excel->setBold("A".$a_row.":".$a_excel->getColumnCoord($cnt-1).$a_row);
 	}
 
-	protected function fillRowExcel($worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
 	{
-		$worksheet->write($a_row, 0, $this->lng->txt($a_set["type"]));
-		$worksheet->write($a_row, 1, $a_set["title"]);
+		$a_excel->setCell($a_row, 0, $this->lng->txt($a_set["type"]));
+		$a_excel->setCell($a_row, 1, $a_set["title"]);
 
 		$cnt = 2;
 		foreach ($this->getSelectedColumns() as $c)
@@ -479,8 +479,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 			{
 				$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set[$c]);
 			}
-			$worksheet->write($a_row, $cnt, $val);
-			$cnt++;
+			$a_excel->setCell($a_row, $cnt++, $val);
 		}
 	}
 

@@ -88,7 +88,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 				break;
 			
 			case "ilobjstylesheetgui":
-				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+				include_once ("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "editStyleProperties");
 				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
@@ -179,15 +179,12 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	*/
 	function infoScreenForward()
 	{
-		global $ilTabs, $ilErr, $ilToolbar;
+		global $ilTabs, $ilToolbar;
 		
 		$ilTabs->activateTab("id_info");
 
-		if (!$this->checkPermissionBool("visible"))
-		{
-			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
-		}
-		
+		$this->checkPermission("visible");
+	
 		if ($this->checkPermissionBool("read"))
 		{
 			$this->lng->loadLanguageModule("cntr");

@@ -16,15 +16,15 @@ include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
 class ilLPStatusVisits extends ilLPStatus
 {
 
-	function ilLPStatusVisits($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
-		parent::ilLPStatus($a_obj_id);
-		$this->db =& $ilDB;
+		parent::__construct($a_obj_id);
+		$this->db = $ilDB;
 	}
 
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{
 		global $ilDB;
 
@@ -43,7 +43,7 @@ class ilLPStatusVisits extends ilLPStatus
 		return $user_ids ? $user_ids : array();
 	}		
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{
 		global $ilDB;
 
@@ -62,7 +62,7 @@ class ilLPStatusVisits extends ilLPStatus
 		return $user_ids ? $user_ids : array();
 	}
 
-	function _getStatusInfo($a_obj_id)
+	static function _getStatusInfo($a_obj_id)
 	{
 		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 		$status_info['visits'] = ilLPObjSettings::_lookupVisits($a_obj_id);

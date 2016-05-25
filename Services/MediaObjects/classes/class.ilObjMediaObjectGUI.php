@@ -23,13 +23,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	var $target_script;
 	var $enabledmapareas = true;
 
-	function ilObjMediaObjectGUI($a_data, $a_id = 0, $a_call_by_reference = false, $a_prepare_output = false)
+	function __construct($a_data, $a_id = 0, $a_call_by_reference = false, $a_prepare_output = false)
 	{
 		global $lng, $ilCtrl;
 
-		$this->ctrl =& $ilCtrl;
-		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
-		$this->lng =& $lng;
+		$this->ctrl = $ilCtrl;
+		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		$this->lng = $lng;
 		$this->back_title = "";
 		$this->type = "mob";
 		
@@ -120,7 +120,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	{
 		if ($this->id != 0)
 		{
-			$this->object =& new ilObjMediaObject($this->id);
+			$this->object = new ilObjMediaObject($this->id);
 		}
 	}
 
@@ -133,7 +133,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	/**
 	* Execute current command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl, $ilAccess, $ilErr;
 		
@@ -159,7 +159,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				
 			case "ilfilesystemgui":
 				include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
-				$fs_gui =& new ilFileSystemGUI(ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId());
+				$fs_gui = new ilFileSystemGUI(ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId());
 				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
 				$fs_gui->setTableId("mobfs".$this->object->getId());
 				$fs_gui->labelFile($this->object->getMediaItem("Standard")->getLocation(),
@@ -171,7 +171,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				}
 				$fs_gui->addCommand($this, "assignStandardObject", $this->lng->txt("cont_assign_std"));
 				$fs_gui->addCommand($this, "assignFullscreenObject", $this->lng->txt("cont_assign_full"));
-				$ret =& $this->ctrl->forwardCommand($fs_gui);
+				$ret = $this->ctrl->forwardCommand($fs_gui);
 				break;
 
 
@@ -183,7 +183,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 					$cmd = "editImagemapForward";
 				}
 				$cmd.= "Object";
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 
@@ -653,7 +653,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$a_mob->createDirectory();
 		$mob_dir = ilObjMediaObject::_getDirectory($a_mob->getId());
 
-		$media_item =& new ilMediaItem();
+		$media_item = new ilMediaItem();
 		$a_mob->addMediaItem($media_item);
 		$media_item->setPurpose("Standard");
 
@@ -683,7 +683,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 		else	// standard type: reference
 		{
-			$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["standard_reference"]));
+			$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["standard_reference"]), true);
 			$media_item->setFormat($format);
 			$media_item->setLocation(ilUtil::secureLink(ilUtil::stripSlashes($_POST["standard_reference"])));
 			$media_item->setLocationType("Reference");
@@ -759,7 +759,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$format = $location = "";
 				if ($_POST["full_reference"] != "")
 				{
-					$format = ilObjMediaObject::getMimeType($_POST["full_reference"]);
+					$format = ilObjMediaObject::getMimeType($_POST["full_reference"], true);
 					$location = ilUtil::stripSlashes($_POST["full_reference"]);
 				}
 			}
@@ -826,7 +826,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$mob_dir = ilObjMediaObject::_getDirectory($this->object->getId());
 
 		// standard item
-		$std_item =& $this->object->getMediaItem("Standard");
+		$std_item = $this->object->getMediaItem("Standard");
 		if ($std_item->getLocationType() == "LocalFile" &&
 			is_int(strpos($std_item->getFormat(), "image"))
 			)
@@ -841,7 +841,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		// fullscreen item
 		if($this->object->hasFullScreenItem())
 		{
-			$full_item =& $this->object->getMediaItem("Fullscreen");
+			$full_item = $this->object->getMediaItem("Fullscreen");
 			if ($full_item->getLocationType() == "LocalFile" &&
 				is_int(strpos($full_item->getFormat(), "image"))
 				)
@@ -883,7 +883,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function getFullscreenSizeObject()
 	{
-		$full_item =& $this->object->getMediaItem("Fullscreen");
+		$full_item = $this->object->getMediaItem("Fullscreen");
 		$mob_dir = ilObjMediaObject::_getDirectory($this->object->getId());
 
 		if ($full_item->getLocationType() == "LocalFile")
@@ -915,7 +915,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$format = $std_item->getFormat();
 			if ($_POST["standard_type"] == "Reference")
 			{
-				$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["standard_reference"]));
+				$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["standard_reference"]), true);
 				$std_item->setFormat($format);
 				$std_item->setLocation(ilUtil::secureLink(ilUtil::stripSlashes($_POST["standard_reference"])));
 				$std_item->setLocationType("Reference");
@@ -1024,7 +1024,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$format = $full_item->getFormat();
 				if ($_POST["full_type"] == "Reference")
 				{
-					$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["full_reference"]));
+					$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["full_reference"]), true);
 					$full_item->setFormat($format);
 					$full_item->setLocationType("Reference");					
 					$location = ilUtil::stripSlashes($_POST["full_reference"]);
@@ -1154,10 +1154,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	function editFilesObject()
 	{
 		// standard item
-		$std_item =& $this->object->getMediaItem("Standard");
+		$std_item = $this->object->getMediaItem("Standard");
 		if($this->object->hasFullscreenItem())
 		{
-			$full_item =& $this->object->getMediaItem("Fullscreen");
+			$full_item = $this->object->getMediaItem("Fullscreen");
 		}
 
 		// create table
@@ -1403,7 +1403,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("cont_select_file"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$std_item =& $this->object->getMediaItem("Standard");
+		$std_item = $this->object->getMediaItem("Standard");
 		$std_item->setLocationType("LocalFile");
 		$std_item->setLocation($location);
 		$format = ilObjMediaObject::getMimeType($file);
@@ -1435,10 +1435,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		if(!$this->object->hasFullScreenItem())
 		{	// create new fullscreen item
-			$std_item =& $this->object->getMediaItem("Standard");
+			$std_item = $this->object->getMediaItem("Standard");
 			$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId();
 			$file = $mob_dir."/".$location;
-			$full_item =& new ilMediaItem();
+			$full_item = new ilMediaItem();
 			$full_item->setMobId($std_item->getMobId());
 			$full_item->setLocation($location);
 			$full_item->setLocationType("LocalFile");
@@ -1448,7 +1448,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 		else	// alter existing fullscreen item
 		{
-			$full_item =& $this->object->getMediaItem("Fullscreen");
+			$full_item = $this->object->getMediaItem("Fullscreen");
 
 			$full_item->setLocationType("LocalFile");
 			$full_item->setLocation($location);
@@ -1480,8 +1480,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	{
 		if (!$this->object->hasFullScreenItem())
 		{
-			$std_item =& $this->object->getMediaItem("Standard");
-			$full_item =& new ilMediaItem();
+			$std_item = $this->object->getMediaItem("Standard");
+			$full_item = new ilMediaItem();
 			$full_item->setMobId($std_item->getMobId());
 			$full_item->setLocation($std_item->getLocation());
 			$full_item->setLocationType($std_item->getLocationType());
@@ -1530,8 +1530,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			? $cur_subdir."/".$_POST["file"][0]
 			: $_POST["file"][0];
 
-		$full_item =& $this->object->getMediaItem("Fullscreen");
-		$std_item =& $this->object->getMediaItem("Standard");
+		$full_item = $this->object->getMediaItem("Fullscreen");
+		$std_item = $this->object->getMediaItem("Standard");
 
 		if ($location == $std_item->getLocation())
 		{
@@ -1618,11 +1618,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	/**
 	* get media info as html
 	*/
-	function _getMediaInfoHTML(&$a_mob)
+	static function _getMediaInfoHTML(&$a_mob)
 	{
 		global $lng;
 
-		$tpl =& new ilTemplate("tpl.media_info.html", true, true, "Services/MediaObjects");
+		$tpl = new ilTemplate("tpl.media_info.html", true, true, "Services/MediaObjects");
 		$types = array("Standard", "Fullscreen");
 		foreach ($types as $type)
 		{
@@ -1721,7 +1721,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 //echo "setAdminTabs should not be called.";
 
 		// catch feedback message
-		$this->getTabs($this->tabs_gui);
+		$this->getTabs();
 
 		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
 		$this->tpl->clearHeader();
@@ -1742,27 +1742,27 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	/**
 	* Get Tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
-		global $ilTabs, $ilHelp;
+		global $ilHelp;
 
 		$ilHelp->setScreenIdComponent("mob");
 		
-		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
+		//$this->tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
 		if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject"
 			&& $this->object->getId() > 0)
 		{	
 			// object properties
-			$ilTabs->addTarget("cont_mob_def_prop",
+			$this->tabs_gui->addTarget("cont_mob_def_prop",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit",
 				get_class($this));
 			
-			$st_item =& $this->object->getMediaItem("Standard");
+			$st_item = $this->object->getMediaItem("Standard");
 
 			// video tools
 			if (substr($st_item->getFormat(), 0, 6) == "video/" && DEVMODE)
 			{
-				$ilTabs->addTarget("mob_video_tools",
+				$this->tabs_gui->addTarget("mob_video_tools",
 					$this->ctrl->getLinkTargetByClass("ilobjmediaobjectgui", "showVideoTool"),
 					"showVideoTool", "ilobjmediaobjectgui");
 			}
@@ -1774,7 +1774,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$format = $st_item->getFormat();
 				if (substr($format, 0, 5) == "image")
 				{
-					$ilTabs->addTarget("cont_def_map_areas",
+					$this->tabs_gui->addTarget("cont_def_map_areas",
 						$this->ctrl->getLinkTargetByClass(
 							array("ilobjmediaobjectgui", "ilimagemapeditorgui"), "editMapAreas"), "editMapAreas",
 						"ilimagemapeditorgui");
@@ -1782,7 +1782,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			}
 
 			// object usages
-			$ilTabs->addTarget("cont_mob_usages",
+			$this->tabs_gui->addTarget("cont_mob_usages",
 				$this->ctrl->getLinkTarget($this, "showUsages"), "showUsages",
 				get_class($this));
 
@@ -1799,7 +1799,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 //					$this->ctrl->getLinkTarget($this, "editFiles"), "editFiles",
 //					get_class($this));
 					
-				$ilTabs->addTarget("cont_files",
+				$this->tabs_gui->addTarget("cont_files",
 					$this->ctrl->getLinkTargetByClass(
 					array("ilobjmediaobjectgui", "ilfilesystemgui"), "listFiles"), "",
 					"ilfilesystemgui");
@@ -1810,7 +1810,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$mdtab = $mdgui->getTab("ilobjmediaobjectgui");
 			if($mdtab)
 			{
-				$ilTabs->addTarget("meta_data",
+				$this->tabs_gui->addTarget("meta_data",
 					$mdtab,
 					"", "ilmdeditorgui");
 			}
@@ -1820,7 +1820,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		// back to upper context
 		if ($this->back_title != "")
 		{
-			$tabs_gui->setBackTarget($this->back_title,
+			$this->tabs_gui->setBackTarget($this->back_title,
 				$this->ctrl->getParentReturn($this));
 		}
 	}
@@ -1850,7 +1850,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	/**
 	 * Include media object presentation JS
 	 */
-	function includePresentationJS($a_tpl = null)
+	static function includePresentationJS($a_tpl = null)
 	{
 		global $tpl;
 

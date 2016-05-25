@@ -61,7 +61,8 @@ class ilNewsCache extends ilCache
 	/**
 	 * Id is user_id:ref_id, we store ref_if additionally
 	 */
-	function storeEntry($a_id, $a_value)
+	function storeEntry($a_id, $a_value, $a_int_key1 = null, $a_int_key2 = null,
+						$a_text_key1 = null, $a_text_key2 = null)
 	{
 		global $ilSetting;
 		if(!$this->isDisabled())

@@ -35,11 +35,6 @@ include_once './webservice/soap/classes/class.ilSoapAuthentication.php';
 
 class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 {
-	function ilSoapAuthenticationCAS()
-	{
-		parent::ilSOAPAuthentication();
-	}
-
 	//
 	// inherited from ilSOAPAuthentication
 	//
@@ -161,7 +156,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 		/*
 		$init->initIliasIniFile();
 		$init->initSettings();
-		$ilias =& new ILIAS();
+		$ilias = new ILIAS();
 		$GLOBALS['ilias'] =& $ilias;*/
 
 		$this->auth->start();
@@ -257,7 +252,7 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 			" keyword = ".$this->db->quote("cas_uri");
 		$res = $this->db->query($query);
 		$cas_set = array();
-		while ($rec = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$cas_set[$rec["keyword"]] = $rec["value"];
 		}*/

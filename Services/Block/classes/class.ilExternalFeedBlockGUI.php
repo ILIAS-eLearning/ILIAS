@@ -24,12 +24,11 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	/**
 	* Constructor
 	*/
-	function ilExternalFeedBlockGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng;
 		
 		parent::__construct();
-		parent::ilBlockGUI();
 		
 		$lng->loadLanguageModule("feed");
 		$this->setLimit(5);
@@ -107,7 +106,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 

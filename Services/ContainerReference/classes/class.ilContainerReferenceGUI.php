@@ -414,7 +414,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$res = $ilDB->query($query);
 		
 		$options[0] = $lng->txt('obj_'.$a_target_type.'_select');
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if(strlen($title = $row->obj_title) > 40)
 			{

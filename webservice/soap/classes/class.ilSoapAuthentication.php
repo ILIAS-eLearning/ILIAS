@@ -38,12 +38,15 @@ class ilSoapAuthentication extends ilBaseAuthentication
 	var $soap_check = true;
 
 
-	function ilSoapAuthentication()
+	/**
+	 * Constructor
+	 */
+	public function __construct()
 	{
 		// First unset all cookie inforamtions
 		unset($_COOKIE['PHPSESSID']);
 
-		parent::ilBaseAuthentication();
+		parent::__construct();
 		$this->__setMessageCode('Client');
 	}
 
@@ -188,9 +191,9 @@ class ilSoapAuthentication extends ilBaseAuthentication
 	// PRIVATE
 	function __checkSOAPEnabled()
 	{
-		include_once './Services/Database/classes/class.ilDB.php';
+		include_once './Services/Database/classes/MDB2/class.ilDB.php';
 
-		//$db =& new ilDB($this->dsn);
+		//$db = new ilDB($this->dsn);
 		$ilDB = $this->db;
 		$ilDB->connect();
 

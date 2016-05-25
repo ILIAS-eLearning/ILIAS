@@ -33,10 +33,10 @@ class ilPCQuestion extends ilPageContent
 	/**
 	* Set node
 	*/
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->q_node =& $a_node->first_child();		//... and this the Question
+		$this->q_node = $a_node->first_child();		//... and this the Question
 	}
 
 	/**
@@ -234,7 +234,7 @@ class ilPCQuestion extends ilPageContent
 	 * @param
 	 * @return array
 	 */
-	function _getPageForQuestionId($a_q_id, $a_parent_type = "")
+	static function _getPageForQuestionId($a_q_id, $a_parent_type = "")
 	{
 		global $ilDB;
 

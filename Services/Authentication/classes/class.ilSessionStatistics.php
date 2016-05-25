@@ -232,7 +232,7 @@ class ilSessionStatistics
 		global $ilDB;
 		
 		// get exclusive lock
-		$ilDB->lockTables(array(array("name"=>"usr_session_stats", "type"=>ilDB::LOCK_WRITE)));
+		$ilDB->lockTables(array(array("name"=>"usr_session_stats", "type"=>ilDBConstants::LOCK_WRITE)));
 		
 		// if we had to wait for the lock, no current slot should be returned here
 		$slot = self::getCurrentSlot($a_now);		

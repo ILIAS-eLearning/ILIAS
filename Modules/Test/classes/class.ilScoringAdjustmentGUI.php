@@ -276,7 +276,7 @@ class ilScoringAdjustmentGUI
 		
 		foreach ($active_ids as $active_id)
 		{
-			$passes[] = $this->object->_getPass($active_id);
+			$passes[] = ilObjTest::_getPass($active_id);
 			foreach ($passes as $key => $pass)
 			{
 				for ($i = 0; $i <= $pass; $i++)
@@ -379,13 +379,6 @@ class ilScoringAdjustmentGUI
 		$scoring = new ilTestScoring($this->object);
 		$scoring->setPreserveManualScores($_POST['preserve_manscoring'] == 1 ? true : false);
 		$scoring->recalculateSolutions();
-
-		if ($this->object->getEnableArchiving())
-		{
-			require_once 'Modules/Test/classes/class.ilTestArchiveService.php';
-			$archiveService = new ilTestArchiveService($this->object);
-			$archiveService->archivePassesByActives($scoring->getRecalculatedPassesByActives());
-		}
 
 		ilUtil::sendSuccess($this->lng->txt('saved_adjustment'));
 		$this->questionsObject();

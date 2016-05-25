@@ -14,6 +14,11 @@ class ilMailMemberSearchGUI
 	protected $mail_roles;
 
 	/**
+	 * @var ilObjGroupGUI|ilObjCourseGUI
+	 */
+	protected $gui;
+
+	/**
 	 * @var ilAbstractMailMemberRoles
 	 */
 	protected $objMailMemberRoles;
@@ -24,10 +29,11 @@ class ilMailMemberSearchGUI
 
 	/**
 	 * ilMailMemberSearchGUI constructor.
+	 * @param ilObjGroupGUI|ilObjCourseGUI $gui
 	 * @param                           $ref_id
 	 * @param ilAbstractMailMemberRoles $objMailMemberRoles
 	 */
-	public function __construct($ref_id, ilAbstractMailMemberRoles $objMailMemberRoles)
+	public function __construct($gui, $ref_id, ilAbstractMailMemberRoles $objMailMemberRoles)
 	{
 		global $ilCtrl, $tpl, $lng;
 		
@@ -38,8 +44,9 @@ class ilMailMemberSearchGUI
 		$this->lng->loadLanguageModule('mail');
 		$this->lng->loadLanguageModule('search');
 
+		$this->gui    = $gui;
 		$this->ref_id = $ref_id;
-		
+
 		$this->objMailMemberRoles = $objMailMemberRoles;
 		$this->mail_roles = $objMailMemberRoles->getMailRoles($ref_id);
 	}
@@ -142,12 +149,18 @@ class ilMailMemberSearchGUI
 						$mailbox = $this->objMailMemberRoles->getMailboxRoleAddress($role_id);
 						$role_mail_boxes[] = $mailbox;
 					}
-					
+
 					require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 					$_SESSION['mail_roles'] = $role_mail_boxes;
+							
 					ilUtil::redirect(ilMailFormCall::getRedirectTarget(
-							$this, 'showSearchForm', array('type' => 'role'), array('type' => 'role', 'rcp_to' => implode(',', $role_mail_boxes), 'sig' => ''
-					)));
+						$this, 'showSearchForm',
+						array('type' => 'role'),
+						array('type' => 'role',
+						      'rcp_to' => implode(',', $role_mail_boxes),
+						      'sig' =>  $this->gui->createMailSignature()),
+						$this->generateContextArray()
+					));
 				}
 				else
 				{
@@ -167,7 +180,25 @@ class ilMailMemberSearchGUI
 		$form->setValuesByPost();
 		$this->showSearchForm();
 	}
-
+	
+	/**
+	 * @return array
+	 */
+	protected function generateContextArray()
+	{
+		global $ilAccess;
+		
+		$context_array = array();
+		require_once 'Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php';
+		if($ilAccess->checkAccess('write',"",$this->ref_id) )
+		{
+			$context_array = array(ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
+			                       'ref_id' => $this->ref_id,
+			                       'ts'     => time());
+		}
+		return $context_array;
+	}	
+	
 	/**
 	 * 
 	 */
@@ -212,9 +243,15 @@ class ilMailMemberSearchGUI
 		}
 
 		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		ilMailFormCall::setRecipients($rcps);
+		
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget(
-			$this, 'members', array(),
-			array('type' => 'new', 'rcp_to' => implode(',', $rcps), 'sig' => '')));
+			$this, 'members', 
+			array(),
+			array('type' => 'new', 
+			      'sig'  => ''),
+			$this->generateContextArray()
+		));
 		return true;
 	}
 	

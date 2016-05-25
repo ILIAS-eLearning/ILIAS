@@ -20,7 +20,7 @@ class ilLinkChecker
 	var $page_id = 0;
 
 
-	function ilLinkChecker(&$db,$a_validate_all = true)
+	public function __construct(&$db,$a_validate_all = true)
 	{
 		global $ilDB;
 
@@ -94,7 +94,7 @@ class ilLinkChecker
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId(),'integer')." ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$invalid[] = array('page_id' => $row->page_id,
 							   'url'	 => $row->url);
@@ -172,7 +172,7 @@ class ilLinkChecker
 				"AND parent_type = 'lm'";
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$pages[] = array('page_id' => $row->page_id,
 								 'content' => $row->content,
@@ -185,7 +185,7 @@ class ilLinkChecker
 				"WHERE parent_type = 'lm'";
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$pages[] = array('page_id' => $row->page_id,
 								 'content' => $row->content,
@@ -239,7 +239,7 @@ class ilLinkChecker
 		
 		$query = "SELECT email FROM usr_data WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
 
-		$row = $this->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->db->getRow($query,ilDBConstants::FETCHMODE_OBJECT);
 
 		$data['email'] = $row->email;
 
@@ -261,7 +261,7 @@ class ilLinkChecker
 		$query = "SELECT title FROM object_data ".
 			"WHERE obj_id = ".$ilDB->quote($a_lm_obj_id ,'integer')." ";
 
-		$row = $this->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->db->getRow($query,ilDBConstants::FETCHMODE_OBJECT);
 
 		return $row->title;
 	}
@@ -558,7 +558,7 @@ class ilLinkChecker
 		$query = "SELECT lm_id FROM lm_data ".
 			"WHERE obj_id = '".$a_page_id."'";
 
-		$row = $this->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $this->db->getRow($query,ilDBConstants::FETCHMODE_OBJECT);
 
 		return $row->lm_id ? $row->lm_id : 0;
 	}

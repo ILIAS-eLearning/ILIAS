@@ -33,13 +33,13 @@ class ilObjSCORMValidator {
 			if (is_dir($dir)) {
 				if ($dh = opendir($dir)) {
 					while (($file = readdir($dh)) !== false) {
-						if (!eregi("^[\.]{1,2}",$file)) {
+						if (!preg_match("~^[\.]{1,2}~i",$file)) {
 							//2DO FIXME regex machen dass nur . und .. erkannt werden und nicht .lala. oder so
 							if (is_dir($dir.$file)) {
 								// This is commented because subdirecories of my scromexamples contain xml files which aren't valid!
 								//$this->searchDir($dir.$file."/");
 							}
-							if (eregi("(\.xml)$",$file)) {
+							if (preg_match("~(\.xml)$~i",$file)) {
 								
 								// we skip index.xml and indexMD.xml which come from the
 								// scorm editor and currently do not validate against anything
@@ -55,7 +55,7 @@ class ilObjSCORMValidator {
 			}
 		}
 
-		function ilObjSCORMValidator($directory) {
+		function __construct($directory) {
 			$this->dir = $directory.'/';
 		}
 

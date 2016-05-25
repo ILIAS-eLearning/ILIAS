@@ -39,10 +39,10 @@ class ilObjRoleTemplate extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjRoleTemplate($a_id = 0,$a_call_by_reference = false)
+	function __construct($a_id = 0,$a_call_by_reference = false)
 	{
 		$this->type = "rolt";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 

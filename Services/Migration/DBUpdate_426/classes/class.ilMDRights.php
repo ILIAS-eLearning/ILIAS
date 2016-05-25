@@ -32,13 +32,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDRights extends ilMDBase
 {
-	function ilMDRights($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
 	// SET/GET
 	function setCosts($a_costs)
 	{
@@ -171,7 +164,7 @@ class ilMDRights extends ilMDBase
 
 		
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
@@ -209,7 +202,7 @@ class ilMDRights extends ilMDBase
 			"AND obj_id = ".$ilDB->quote($a_obj_id);
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->meta_rights_id;
 		}

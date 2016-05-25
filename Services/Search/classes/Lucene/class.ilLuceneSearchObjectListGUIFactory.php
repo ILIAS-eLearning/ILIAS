@@ -66,7 +66,6 @@ class ilLuceneSearchObjectListGUIFactory
 		$item_list_gui->enableDelete(true);
 		$item_list_gui->enableCut(true);
 		$item_list_gui->enableSubscribe(true);
-		$item_list_gui->enablePayment(false);
 		$item_list_gui->enableLink(true);
 		$item_list_gui->enablePath(false);
 		$item_list_gui->enableLinkedPath(true);

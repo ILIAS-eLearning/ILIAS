@@ -118,7 +118,7 @@ abstract class ilLPCollection
 		
 		$res = $ilDB->query("SELECT * FROM ut_lp_collections".
 			" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer"));
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if($this->validateEntry($row->item_id))
 			{

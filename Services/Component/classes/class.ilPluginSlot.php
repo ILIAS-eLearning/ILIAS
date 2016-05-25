@@ -144,7 +144,7 @@ class ilPluginSlot
 	/**
 	* Get plugins directory
 	*/
-	function _getPluginsDirectory($a_ctype, $a_cname, $a_slot_id)
+	static function _getPluginsDirectory($a_ctype, $a_cname, $a_slot_id)
 	{
 		return "./Customizing/global/plugins/".$a_ctype.
 			"/".$a_cname."/".ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);

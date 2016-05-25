@@ -18,7 +18,7 @@
 // $Id: IT.php,v 1.20 2006/08/17 15:47:22 dsp Exp $
 //
 
-require_once 'PEAR.php';
+include_once("./Services/PEAR/lib/HTML/exceptions/class.ilTemplateException.php");
 
 define('IT_OK',                         1);
 define('IT_ERROR',                     -1);
@@ -367,7 +367,7 @@ class HTML_Template_IT
      *                     given to the object.
      * @see      setRoot()
      */
-    function HTML_Template_IT($root = '', $options = null)
+    function __construct($root = '', $options = null)
     {
         if (!is_null($options)) {
             $this->setOptions($options);
@@ -400,11 +400,7 @@ class HTML_Template_IT
             $this->_options[$option] = $value;
             return IT_OK;
         }
-
-        return PEAR::raiseError(
-                $this->errorMessage(IT_UNKNOWN_OPTION) . ": '{$option}'",
-                IT_UNKNOWN_OPTION
-            );
+        throw (new ilTemplateException($this->errorMessage(IT_UNKNOWN_OPTION) . ": '{$option}'"));
     }
 
     /**
@@ -424,9 +420,6 @@ class HTML_Template_IT
         if (is_array($options)) {
             foreach ($options as $option => $value) {
                 $error = $this->setOption($option, $value);
-                if (PEAR::isError($error)) {
-                    return $error;
-                }
             }
         }
 
@@ -447,7 +440,7 @@ class HTML_Template_IT
      *
      * @param    string     name of the block
      * @return   string
-     * @throws   PEAR_Error
+     * @throws   ilTemplateException
      * @access   public
      * @see      show()
      */
@@ -458,12 +451,8 @@ class HTML_Template_IT
         }
 
         if (!isset($this->blocklist[$block])) {
-            $this->err[] = PEAR::raiseError(
-                            $this->errorMessage(IT_BLOCK_NOT_FOUND) .
-                            '"' . $block . "'",
-                            IT_BLOCK_NOT_FOUND
-                        );
-            return '';
+            throw (new ilTemplateException($this->errorMessage(IT_BLOCK_NOT_FOUND) .
+                '"' . $block . "'"));
         }
 
         if (isset($this->blockdata[$block])) {
@@ -491,17 +480,15 @@ class HTML_Template_IT
      * @param    string    name of the block to be parsed
      * @access   public
      * @see      parseCurrentBlock()
-     * @throws   PEAR_Error
+     * @throws   ilTemplateException
      */
     function parse($block = '__global__', $flag_recursion = false)
     {
         static $regs, $values;
 
         if (!isset($this->blocklist[$block])) {
-            return PEAR::raiseError(
-                $this->errorMessage( IT_BLOCK_NOT_FOUND ) . '"' . $block . "'",
-                        IT_BLOCK_NOT_FOUND
-                );
+            throw (new ilTemplateException($this->errorMessage(IT_BLOCK_NOT_FOUND) .
+                '"' . $block . "'"));
         }
 
         if ($block == '__global__') {
@@ -640,17 +627,15 @@ class HTML_Template_IT
      *
      * @param    string      name of the block
      * @return   boolean     false on failure, otherwise true
-     * @throws   PEAR_Error
+     * @throws   ilTemplateException
      * @access   public
      */
     function setCurrentBlock($block = '__global__')
     {
 
         if (!isset($this->blocklist[$block])) {
-            return PEAR::raiseError(
-                $this->errorMessage( IT_BLOCK_NOT_FOUND ) .
-                '"' . $block . "'", IT_BLOCK_NOT_FOUND
-            );
+            throw (new ilTemplateException($this->errorMessage(IT_BLOCK_NOT_FOUND) .
+                '"' . $block . "'"));
         }
 
         $this->currentBlock = $block;
@@ -663,16 +648,15 @@ class HTML_Template_IT
      *
      * @param    string      name of the block
      * @return   boolean     false on false, otherwise true
-     * @throws   PEAR_Error
+     * @throws   ilTemplateException
      * @access   public
      * @see      $removeEmptyBlocks
      */
     function touchBlock($block)
     {
         if (!isset($this->blocklist[$block])) {
-            return PEAR::raiseError(
-                $this->errorMessage(IT_BLOCK_NOT_FOUND) .
-                '"' . $block . "'", IT_BLOCK_NOT_FOUND);
+            throw (new ilTemplateException($this->errorMessage(IT_BLOCK_NOT_FOUND) .
+                '"' . $block . "'"));
         }
 
         $this->touchedBlocks[$block] = true;
@@ -880,12 +864,8 @@ class HTML_Template_IT
                 $blockcontent = $match[2];
 
                 if (isset($this->blocklist[$blockname])) {
-                    $this->err[] = PEAR::raiseError(
-                                            $this->errorMessage(
-                                            IT_BLOCK_DUPLICATE, $blockname),
-                                            IT_BLOCK_DUPLICATE
-                                    );
-                    $this->flagBlocktrouble = true;
+                    throw (new ilTemplateException($this->errorMessage(
+                        IT_BLOCK_DUPLICATE, $blockname)));
                 }
 
                 $this->blocklist[$blockname] = $blockcontent;
@@ -935,12 +915,8 @@ class HTML_Template_IT
         $ilGlobalCache = ilGlobalCache::getInstance(ilGlobalCache::COMP_TEMPLATE);
         if(!$content = $ilGlobalCache->get($filename)) {
             if (!($fh = @fopen($filename, 'r'))) {
-                $this->err[] = PEAR::raiseError(
-                    $this->errorMessage(IT_TPL_NOT_FOUND) .
-                    ': "' .$filename .'"',
-                    IT_TPL_NOT_FOUND
-                );
-                return "";
+                throw (new ilTemplateException($this->errorMessage(IT_TPL_NOT_FOUND) .
+                    ': "' .$filename .'"'));
             }
 
             $fsize = filesize($filename);
@@ -1018,10 +994,6 @@ class HTML_Template_IT
                                                'may appear.',
                 IT_UNKNOWN_OPTION           => 'Unknown option'
             );
-        }
-
-        if (PEAR::isError($value)) {
-            $value = $value->getCode();
         }
 
         return isset($errorMessages[$value]) ?

@@ -36,10 +36,10 @@ require_once ("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
 */
 class ilSCORMItemGUI extends ilSCORMObjectGUI
 {
-	function ilSCORMItemGUI($a_id)
+	function __construct($a_id)
 	{
-		parent::ilSCORMObjectGUI();
-		$this->sc_object =& new ilSCORMItem($a_id);
+		parent::__construct();
+		$this->sc_object = new ilSCORMItem($a_id);
 	}
 
 	function view()
@@ -50,10 +50,10 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 		$id_ref = $this->sc_object->getIdentifierRef();
 		if ($id_ref != "")
 		{
-			$resource =& new ilSCORMResource();
+			$resource = new ilSCORMResource();
 			$resource->readByIdRef($id_ref, $this->sc_object->getSLMId());
 
-			$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
+			$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
 			if ($resource->getHref() != "")
 			{
@@ -61,7 +61,7 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 					? "?".$this->sc_object->getParameters()
 					: "";
 
-				$this->tpl =& new ilTemplate("tpl.scorm_content_frameset.html", true, true, "Modules/ScormAicc");
+				$this->tpl = new ilTemplate("tpl.scorm_content_frameset.html", true, true, "Modules/ScormAicc");
 				$this->tpl->setVariable("ITEM_LOCATION",$slm_obj->getDataDirectory()."/".$resource->getHref().$param_str);
 				$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
 				$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
@@ -109,13 +109,13 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 	{
 		global $ilias;
 
-		$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
+		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
 		$func_tpl = new ilTemplate("tpl.scorm_functions.html", true, true, "Modules/ScormAicc");
 		$func_tpl->setVariable("PREFIX", $slm_obj->getAPIFunctionsPrefix());
 		$func_tpl->parseCurrentBlock();
 
-		$this->tpl =& new ilTemplate("tpl.scorm_api.html", true, true, "Modules/ScormAicc");
+		$this->tpl = new ilTemplate("tpl.scorm_api.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("SCORM_FUNCTIONS", $func_tpl->get());
 		$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
 		$this->tpl->setVariable("USER_ID",$ilias->account->getId());

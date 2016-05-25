@@ -32,14 +32,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDRelation extends ilMDBase
 {
-	function ilMDRelation($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
-
 	// METHODS OF CHILD OBJECTS (Taxon)
 	function &getIdentifier_Ids()
 	{
@@ -55,7 +47,7 @@ class ilMDRelation extends ilMDBase
 		{
 			return false;
 		}
-		$ide =& new ilMDIdentifier_();
+		$ide = new ilMDIdentifier_();
 		$ide->setMetaId($a_identifier__id);
 
 		return $ide;
@@ -64,7 +56,7 @@ class ilMDRelation extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
 
-		$ide =& new ilMDIdentifier_($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$ide = new ilMDIdentifier_($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$ide->setParentId($this->getMetaId());
 		$ide->setParentType('meta_relation');
 
@@ -85,7 +77,7 @@ class ilMDRelation extends ilMDBase
 		{
 			return false;
 		}
-		$des =& new ilMDDescription();
+		$des = new ilMDDescription();
 		$des->setMetaId($a_description_id);
 
 		return $des;
@@ -94,7 +86,7 @@ class ilMDRelation extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 		
-		$des =& new ilMDDescription($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$des = new ilMDDescription($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$des->setParentId($this->getMetaId());
 		$des->setParentType('meta_relation');
 
@@ -206,7 +198,7 @@ class ilMDRelation extends ilMDBase
 				"WHERE meta_relation_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
@@ -264,7 +256,7 @@ class ilMDRelation extends ilMDBase
 				
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id)
+	static function _getIds($a_rbac_id,$a_obj_id)
 	{
 		global $ilDB;
 
@@ -273,7 +265,7 @@ class ilMDRelation extends ilMDBase
 			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->meta_relation_id;
 		}

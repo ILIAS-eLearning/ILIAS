@@ -36,15 +36,15 @@ include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 class ilLPStatusEvent extends ilLPStatus
 {
 
-	function ilLPStatusEvent($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
-		parent::ilLPStatus($a_obj_id);
-		$this->db =& $ilDB;
+		parent::__construct($a_obj_id);
+		$this->db = $ilDB;
 	}
 
-	function _getNotAttempted($a_obj_id)
+	static function _getNotAttempted($a_obj_id)
 	{		
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		
@@ -61,7 +61,7 @@ class ilLPStatusEvent extends ilLPStatus
 		return $users;
 	}
 
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
@@ -80,13 +80,13 @@ class ilLPStatusEvent extends ilLPStatus
 		return $status_info['registered_users'] ? $status_info['registered_users'] : array();
 	}
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		return $status_info['participated_users'] ? $status_info['participated_users'] : array();
 	}
 
-	function _getStatusInfo($a_obj_id)
+	static function _getStatusInfo($a_obj_id)
 	{
 		global $tree;
 

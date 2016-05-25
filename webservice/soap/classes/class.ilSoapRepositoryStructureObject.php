@@ -35,11 +35,21 @@
 
 include_once "./webservice/soap/classes/class.ilSoapStructureObject.php";
 
-class ilSoapRepositoryStructureObject extends ilSoapStructureObject {
-	var $ref_id;
+class ilSoapRepositoryStructureObject extends ilSoapStructureObject 
+{
+	protected $ref_id;
 
-	function ilSoapRepositoryStructureObject ($objId, $type, $title, $description, $refId) {
-		parent::ilSoapStructureObject($objId, $type, $title, $description);
+	/**
+	 * Constructor
+	 * @param type $objId
+	 * @param type $type
+	 * @param type $title
+	 * @param type $description
+	 * @param type $refId
+	 */
+	public function __construct ($objId, $type, $title, $description, $refId) 
+	{
+		parent::__construct($objId, $type, $title, $description);
 		$this->setRefId ($refId);
 	}
 

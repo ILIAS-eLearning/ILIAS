@@ -36,12 +36,12 @@ class ilBookmarkFolder
 	* @access	public
 	* @param	integer		user_id (optional)
 	*/
-	function ilBookmarkFolder($a_bmf_id = 0, $a_tree_id = 0)
+	function __construct($a_bmf_id = 0, $a_tree_id = 0)
 	{
 		global $ilias;
 
 		// Initiate variables
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		if ($a_tree_id == 0)
 		{
 			$a_tree_id = $_SESSION["AccountId"];
@@ -179,7 +179,7 @@ class ilBookmarkFolder
 	/**
 	* lookup bookmark folder title
 	*/
-	function _lookupTitle($a_bmf_id)
+	static function _lookupTitle($a_bmf_id)
 	{
 		global $ilDB;
 
@@ -194,7 +194,7 @@ class ilBookmarkFolder
 	/**
 	* static
 	*/
-	function getObjects($a_id)
+	static function getObjects($a_id)
 	{
 		$a_tree_id = $_SESSION["AccountId"];
 		$tree = new ilTree($a_tree_id);
@@ -233,7 +233,7 @@ class ilBookmarkFolder
 	/**
 	* Get number of folders and bookmarks for current user.
 	*/
-	function _getNumberOfObjects()
+	static function _getNumberOfObjects()
 	{
 		$a_tree_id = $_SESSION["AccountId"];
 		$tree = new ilTree($a_tree_id);
@@ -274,7 +274,7 @@ class ilBookmarkFolder
 		return $object;
 	}
 
-	function isRootFolder($a_id)
+	static function isRootFolder($a_id)
 	{
 		$a_tree_id = $_SESSION["AccountId"];
 		$tree = new ilTree($a_tree_id);
@@ -299,7 +299,7 @@ class ilBookmarkFolder
 		return $tree->getRootId();
 	}
 
-	function _getParentId($a_id)
+	static function _getParentId($a_id)
 	{
 		$a_tree_id = $_SESSION["AccountId"];
 		$tree = new ilTree($a_tree_id);

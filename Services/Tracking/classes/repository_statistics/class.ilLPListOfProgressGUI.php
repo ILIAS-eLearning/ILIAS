@@ -25,9 +25,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	var $details_type = '';
 	var $details_mode = 0;
 
-	function ilLPListOfProgressGUI($a_mode,$a_ref_id,$a_user_id = 0)
+	function __construct($a_mode,$a_ref_id,$a_user_id = 0)
 	{
-		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id,$a_user_id);
+		parent::__construct($a_mode,$a_ref_id,$a_user_id);
 		$this->__initUser($a_user_id);
 		
 		// Set item id for details
@@ -39,7 +39,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilUser;
 		

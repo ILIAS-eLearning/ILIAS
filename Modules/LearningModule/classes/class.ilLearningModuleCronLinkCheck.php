@@ -60,7 +60,7 @@ class ilLearningModuleCronLinkCheck extends ilCronJob
 				
 		include_once'./Services/LinkChecker/classes/class.ilLinkChecker.php';
 
-		$link_checker =& new ilLinkChecker($ilDB);
+		$link_checker = new ilLinkChecker($ilDB);
 		$link_checker->setMailStatus(true);
 
 		$link_checker->checkLinks();

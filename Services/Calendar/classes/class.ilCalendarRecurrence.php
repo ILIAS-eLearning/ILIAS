@@ -771,7 +771,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 	 	$query = "SELECT * FROM cal_recurrence_rules ".
 	 		"WHERE rule_id = ".$this->db->quote($this->recurrence_id ,'integer')." ";
 	 	$res = $this->db->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		$this->cal_id = $row->cal_id;
 	 		$this->recurrence_type = $row->cal_recurrence;

@@ -376,11 +376,12 @@ abstract class ilMailNotification
 			$this->getAttachments(),
 			$a_type
 		);
-
-		if(strlen($error))
+		// smeyer: 19.5.16 fixed strlen warning, since $error is of type array
+		if($error)
 		{
 			require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
-			ilLoggerFactory::getLogger('mail')->error($error);
+			ilLoggerFactory::getLogger('mail')->dump($error, ilLogLevel::ERROR);
+			//ilLoggerFactory::getLogger('mail')->error($error);
 		}
 	}
 

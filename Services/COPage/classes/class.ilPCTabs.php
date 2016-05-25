@@ -51,10 +51,10 @@ class ilPCTabs extends ilPageContent
 	/**
 	* Set content node
 	*/
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->tabs_node =& $a_node->first_child();		// this is the Tabs node
+		$this->tabs_node = $a_node->first_child();		// this is the Tabs node
 	}
 
 	/**
@@ -64,8 +64,8 @@ class ilPCTabs extends ilPageContent
 	{
 		$this->node = $this->createPageContentNode();
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-		$this->tabs_node =& $this->dom->create_element("Tabs");
-		$this->tabs_node =& $this->node->append_child($this->tabs_node);
+		$this->tabs_node = $this->dom->create_element("Tabs");
+		$this->tabs_node = $this->node->append_child($this->tabs_node);
 	}
 
 	/**

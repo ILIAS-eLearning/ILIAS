@@ -54,18 +54,14 @@ abstract class ilMailTemplateContext
 	 */
 	abstract public function getDescription();
 
-	/**
-	 * Return an array of placeholders
-	 * @return array
-	 */
-	final public function getPlaceholders()
+	final private static function getGenericPlaceholders()
 	{
 		/**
 		 * @var $lng ilLanguage
 		 */
 		global $lng;
 
-		$placeholders = array(
+		return array(
 			'mail_salutation' => array(
 				'placeholder' => 'MAIL_SALUTATION',
 				'label'       => $lng->txt('mail_nacc_salutation')
@@ -91,8 +87,17 @@ abstract class ilMailTemplateContext
 				'label'       => $lng->txt('mail_nacc_client_name')
 			)
 		);
+	}
 
-		$specific = $this->getSpecificPlaceholders();
+	/**
+	 * Return an array of placeholders
+	 * @return array
+	 */
+	final public function getPlaceholders()
+	{
+		$placeholders = self::getGenericPlaceholders();
+		$specific     = $this->getSpecificPlaceholders();
+
 		return $placeholders + $specific;
 	}
 
@@ -103,70 +108,76 @@ abstract class ilMailTemplateContext
 	abstract public function getSpecificPlaceholders();
 
 	/**
-	 * @param string    $placeholder_id
-	 * @param array     $context_parameters
-	 * @param ilObjUser $recipient
-	 * @param bool      $html_markup
+	 * @param string         $placeholder_id
+	 * @param array          $context_parameters
+	 * @param ilObjUser|null $recipient
+	 * @param bool           $html_markup
 	 * @return string
 	 */
-	abstract public function resolveSpecificPlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient, $html_markup = false);
+	abstract public function resolveSpecificPlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient = null, $html_markup = false);
 
 	/**
-	 * @param string    $placeholder_id     The unique (in the context of your class) placeholder id
-	 * @param array     $context_parameters The context parameters given by the mail system (array of key/value pairs)
-	 * @param ilObjUser $recipient          The recipient for this mail
-	 * @param bool      $html_markup        A flag whether or not the return value may contain HTML markup
+	 * @param string         $placeholder_id     The unique (in the context of your class) placeholder id
+	 * @param array          $context_parameters The context parameters given by the mail system (array of key/value pairs)
+	 * @param ilObjUser|null $recipient          The recipient for this mail
+	 * @param bool           $html_markup        A flag whether or not the return value may contain HTML markup
 	 * @return string
 	 */
-	public function resolvePlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient, $html_markup = false)
+	public function resolvePlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient = null, $html_markup = false)
 	{
-		$this->initLanguage($recipient);
-		
-		// switch to user lang
+		if($recipient !== null)
+		{
+			$this->initLanguage($recipient);
+		}
+
 		$old_lang = ilDatePresentation::getLanguage();
 		ilDatePresentation::setLanguage($this->getLanguage());
 
-		$resolved = null;
-		if('mail_salutation' == $placeholder_id)
+		$resolved = '';
+
+		switch(true)
 		{
-			switch($recipient->getGender())
-			{
-				case 'f':
-					$resolved = $this->getLanguage()->txt('salutation_f');
-					break;
-				case 'm':
-					$resolved = $this->getLanguage()->txt('salutation_m');
-					break;
-				default:
-					$resolved = $this->getLanguage()->txt('salutation');
-			}
+			case ('mail_salutation' == $placeholder_id && $recipient !== null):
+				switch($recipient->getGender())
+				{
+					case 'f':
+						$resolved = $this->getLanguage()->txt('salutation_f');
+						break;
+
+					case 'm':
+						$resolved = $this->getLanguage()->txt('salutation_m');
+						break;
+
+					default:
+						$resolved = $this->getLanguage()->txt('salutation');
+				}
+				break;
+			
+			case ('first_name' == $placeholder_id && $recipient !== null):
+				$resolved = $recipient->getFirstname();
+				break;
+
+			case ('last_name' == $placeholder_id && $recipient !== null):
+				$resolved = $recipient->getLastname();
+				break;
+
+			case ('login' == $placeholder_id && $recipient !== null):
+				$resolved = $recipient->getLogin();
+				break;
+			
+			case 'ilias_url' == $placeholder_id:
+				$resolved = ILIAS_HTTP_PATH . '/login.php?client_id=' . CLIENT_ID;
+				break;
+
+			case 'client_name' == $placeholder_id:
+				$resolved = CLIENT_NAME;
+				break;
+
+			case !in_array($placeholder_id, array_keys(self::getGenericPlaceholders())):
+				$resolved = $this->resolveSpecificPlaceholder($placeholder_id, $context_parameters, $recipient, $html_markup);
+				break;
 		}
-		else if('first_name' == $placeholder_id)
-		{
-			$resolved = $recipient->getFirstName();
-		}
-		else if('last_name' == $placeholder_id)
-		{
-			$resolved = $recipient->getLastName();
-		}
-		else if('login' == $placeholder_id)
-		{
-			$resolved = $recipient->getLogin();
-		}
-		else if('ilias_url' == $placeholder_id)
-		{
-			$resolved = ILIAS_HTTP_PATH . '/login.php?client_id=' . CLIENT_ID;
-		}
-		else if('client_name' == $placeholder_id)
-		{
-			$resolved = CLIENT_NAME;
-		}
-		else
-		{						
-			$resolved = $this->resolveSpecificPlaceholder($placeholder_id, $context_parameters, $recipient, $html_markup);
-		}
-		
-		// reset to global lang
+
 		ilDatePresentation::setLanguage($old_lang);
 
 		return $resolved;

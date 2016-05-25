@@ -108,7 +108,7 @@ class ilTermsOfServiceHelper
 	private static function getDataGatewayFactory()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 

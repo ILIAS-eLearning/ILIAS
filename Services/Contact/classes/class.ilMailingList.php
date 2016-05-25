@@ -159,7 +159,7 @@ class ilMailingList
 				array('integer', 'integer'),
 				array($this->getId(), $this->getUserId())); 
 	
-			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 	
 			if (is_object($row))
 			{
@@ -187,7 +187,7 @@ class ilMailingList
 
 		$entries = array();
 		$counter = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$entries[$row->a_id] = array(
 				'a_id'   => $row->a_id,
@@ -329,7 +329,7 @@ class ilMailingList
 	public static function removeAssignmentsByUserId($usr_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 

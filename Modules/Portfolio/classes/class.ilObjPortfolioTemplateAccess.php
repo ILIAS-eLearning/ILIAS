@@ -12,7 +12,7 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 */
 class ilObjPortfolioTemplateAccess extends ilObjectAccess
 {		
-	public function _getCommands()
+	public static function _getCommands()
 	{
 		$commands = array
 		(
@@ -75,7 +75,7 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
 		  return true;
 	 }
 	
-	public function _lookupOnline($a_id)
+	public static function _lookupOnline($a_id)
 	{
 		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
 		return ilObjPortfolioTemplate::lookupOnline($a_id);
@@ -84,7 +84,7 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
 	/**
 	* check whether goto script will succeed
 	*/
-	public function _checkGoto($a_target)
+	public static function _checkGoto($a_target)
 	{		
 		global $ilAccess;
 		

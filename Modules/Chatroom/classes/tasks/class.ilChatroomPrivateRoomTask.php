@@ -6,333 +6,181 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
 /**
  * Class ilChatroomPrivateRoomTask
- *
- * @author Jan Posselt <jposselt@databay.de>
+ * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
- *
  * @ingroup ModulesChatroom
  */
 class ilChatroomPrivateRoomTask extends ilChatroomTaskHandler
 {
 
-	private $gui;
+	/**
+	 * @var ilObjUser
+	 */
+	protected $ilUser;
 
 	/**
-	 * Constructor
-	 *
-	 * Sets $this->gui using given $gui
-	 *
+	 * ilChatroomPrivateRoomTask constructor.
 	 * @param ilChatroomObjectGUI $gui
 	 */
 	public function __construct(ilChatroomObjectGUI $gui)
 	{
-		$this->gui = $gui;
+		global $ilUser;
+
+		$this->ilUser = $ilUser;
+
+		parent::__construct($gui);
 	}
 
-	public function executeDefault($method) {
+	public function executeDefault($method)
+	{
+	}
 
+	public function create()
+	{
+		$this->redirectIfNoPermission('read');
+
+		$room      = ilChatroom::byObjectId($this->gui->object->getId());
+		$chat_user = new ilChatroomUser($this->ilUser, $room);
+
+		$this->exitIfNoRoomExists($room);
+		$this->exitIfNoRoomSubscription($room, $chat_user);
+
+		$title     = $room->getUniquePrivateRoomTitle($_REQUEST['title']);
+		$subRoomId = $room->addPrivateRoom($title, $chat_user, array('public' => false));
+
+		$connector = $this->gui->getConnector();
+		$response  = $connector->sendCreatePrivateRoom($room->getRoomId(), $subRoomId, $chat_user->getUserId(), $title);
+
+		if($this->isSuccessful($response))
+		{
+			$response = array(
+				'success'   => true,
+				'title'     => $title,
+				'owner'     => $chat_user->getUserId(),
+				'subRoomId' => $subRoomId
+			);
+		}
+
+		$this->sendResponse($response);
 	}
 
 	/**
-	 * Prepares and posts message fetched from $_REQUEST['message']
-	 * to recipients fetched from $_REQUEST['recipient']
-	 * and adds an entry to history if successful.
-	 *
-	 * @global ilTemplate $tpl
-	 * @global ilObjUser $ilUser
-	 * @param string $method
+	 * @param ilChatroom     $room
+	 * @param ilChatroomUser $chat_user
 	 */
-	public function create()
+	protected function exitIfNoRoomSubscription($room, $chat_user)
 	{
-		global $tpl, $ilUser, $ilCtrl;
-
-		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-		require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
-
-		if(!ilChatroom::checkUserPermissions('read', $this->gui->ref_id))
+		if(!$room->isSubscribed($chat_user->getUserId()))
 		{
-			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
-			$ilCtrl->redirectByClass("ilrepositorygui", "");
-		}
-
-		$room = ilChatroom::byObjectId($this->gui->object->getId());
-
-		$chat_user = new ilChatroomUser($ilUser, $room);
-		$user_id   = $chat_user->getUserId();
-
-		if(!$room)
-		{
-			$response = json_encode(array(
-				'success' => false,
-				'reason'  => 'unkown room'
-			));
-			echo json_encode($response);
-			exit;
-		}
-		else if(!$room->isSubscribed($chat_user->getUserId()))
-		{
-			$response = json_encode(array(
+			$this->sendResponse(array(
 				'success' => false,
 				'reason'  => 'not subscribed'
 			));
-			echo json_encode($response);
-			exit;
 		}
-
-		if(!strlen($_REQUEST['title']))
-		{
-			$response = json_encode(array(
-				'success' => false,
-				'reason'  => 'empty title'
-			));
-			echo $response;
-			exit;
-		}
-
-		$title     = $room->getUniquePrivateRoomTitle(ilUtil::stripSlashes($_REQUEST['title']));
-		$connector = $this->gui->getConnector();
-		$response  = $connector->createPrivateRoom($room, $title, $chat_user);
-
-		echo json_encode($response);
-		exit;
 	}
 
 	public function delete()
 	{
-	    global $tpl, $ilUser, $rbacsystem;
+		$room      = ilChatroom::byObjectId($this->gui->object->getId());
+		$subRoom   = $_REQUEST['sub'];
+		$chat_user = new ilChatroomUser($this->ilUser, $room);
 
-	    require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-	    require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
+		$this->exitIfNoRoomExists($room);
+		$this->exitIfNoRoomSubscription($room, $chat_user);
 
-	    $room = ilChatroom::byObjectId( $this->gui->object->getId() );
+		$room->closePrivateRoom($subRoom);
 
-	    $chat_user = new ilChatroomUser($ilUser, $room);
-	    $user_id = $chat_user->getUserId();
+		$connector = $this->gui->getConnector();
+		$response  = $connector->sendDeletePrivateRoom($room->getRoomId(), $subRoom, $chat_user->getUserId());
 
-	    if( !$room )
-	    {
-		$response = json_encode( array(
-			    'success'	=> false,
-			    'reason'	=> 'unkown room'
-			    ) );
-		echo json_encode( $response );
-		exit;
-	    }
-	    else if( !$room->isOwnerOfPrivateRoom( $user_id, $_REQUEST['sub'] ) && !$rbacsystem->checkAccess('moderate', $this->gui->getRefId()) )
-	    {
-		$response = json_encode( array(
-			'success'   => false,
-			'reason'    => 'not owner of private room'
-		) );
-		echo json_encode( $response );
-		exit;
-	    }
-
-	    $scope = $room->getRoomId();
-	    $params = array();
-
-	    $params['user'] =  $chat_user->getUserId();
-	    $params['id']   = $room->closePrivateRoom($_REQUEST['sub'], $chat_user, $settings);
-	    $query	    = http_build_query( $params );
-	    $connector	    = $this->gui->getConnector();
-
-	    if( true || $responseObject->success == true )
-	    {
-		$message = json_encode( array(
-			  'type'	=> 'private_room_deleted',
-			//'recipients'	=> $chat_user->getUserId(),//$users,
-			  'timestamp'	=> date( 'c' ),
-			  'public'	=> 1,
-			//'title'	=> $title,
-			  'id'		=> $responseObject->id,
-			  'proom_id'	=> $_REQUEST['sub'],
-			  'message'	=> array(
-					    'message'	=> 'room deleted',
-					    'public'	=> '1',
-					    'user'	=> 'system'
-					    )
-		) );
-
-		$connector->sendMessage( $room->getRoomId(), $message, array('public' => 1) );
-	    }
-
-	    $response = json_encode(array('success' => true));
-	    echo $response;
-	    exit;
+		$this->sendResponse($response);
 	}
 
-	/**
-	 * Prepares and posts message fetched from $_REQUEST['message']
-	 * to recipients fetched from $_REQUEST['recipient']
-	 * and adds an entry to history if successful.
-	 *
-	 * @global ilTemplate $tpl
-	 * @global ilObjUser $ilUser
-	 * @param string $method
-	 */
 	public function leave()
 	{
-		global $tpl, $ilUser;
+		$room      = ilChatroom::byObjectId($this->gui->object->getId());
+		$chat_user = new ilChatroomUser($this->ilUser, $room);
+		$subRoom   = $_REQUEST['sub'];
 
-		$room = ilChatroom::byObjectId( $this->gui->object->getId() );
+		$this->exitIfNoRoomExists($room);
+		$this->exitIfNoRoomSubscription($room, $chat_user);
 
-		$chat_user = new ilChatroomUser( $ilUser, $room );
-		$user_id = $chat_user->getUserId();
 		$connector = $this->gui->getConnector();
+		$response  = $connector->sendLeavePrivateRoom($room->getRoomId(), $subRoom, $chat_user->getUserId());
 
-		if( !$room )
+		if($room->userIsInPrivateRoom($subRoom, $chat_user->getUserId()))
 		{
-			$response = json_encode( array(
-				    'success' => false,
-				    'reason' => 'unkown room'
-				    ) );
-				    echo json_encode( $response );
-				    exit;
-		}
-		else if( !$room->isSubscribed( $chat_user->getUserId() ) )
-		{
-			$response = json_encode( array(
-				    'success' => false,
-				    'reason' => 'not subscribed'
-				    ) );
-				    echo json_encode( $response );
-				    exit;
+			$room->unsubscribeUserFromPrivateRoom($subRoom, $chat_user->getUserId());
 		}
 
-		$scope = $room->getRoomId();
-		$params = array();
-
-		$params['user'] = $chat_user->getUserId();
-		$params['sub'] = $_REQUEST['sub'];
-
-		$message = json_encode( array(
-			'type' => 'private_room_left',
-			'user' => $params['user'],
-			'sub'	=> $params['sub']
-		));
-
-		$connector->sendMessage( $room->getRoomId(), $message, array('public' => 1, 'sub' => $params['sub']) );
-
-		if( $room->userIsInPrivateRoom( $params['sub'], $params['user'] ) )
-		{
-			//$params			= array_merge( $params, array('message' => $message) );
-			$query = http_build_query( $params );
-			$connector = $this->gui->getConnector();
-			$response = $connector->leavePrivateRoom( $scope, $query );
-			$responseObject = json_decode( $response );
-/*
-			if( $responseObject->success == true && $room->getSetting( 'enable_history' ) )
-			{
-				//$room->addHistoryEntry( $message, $recipient, $publicMessage );
-			}
-*/
-			$room->unsubscribeUserFromPrivateRoom( $params['sub'], $params['user'] );
-		}
-		else
-		{
-			$response = json_encode( array('success' => true, 'message' => 'was not in room') );
-		}
-
-		echo $response;
-		exit;
+		$this->sendResponse($response);
 	}
 
 	public function enter()
 	{
-		global $tpl, $ilUser;
+		global $ilUser;
 
-		ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id );
+		ilChatroom::checkUserPermissions('read', $this->gui->ref_id);
 
-		$room = ilChatroom::byObjectId( $this->gui->object->getId() );
+		$room      = ilChatroom::byObjectId($this->gui->object->getId());
+		$subRoom   = $_REQUEST['sub'];
+		$chat_user = new ilChatroomUser($ilUser, $room);
 
-		$chat_user = new ilChatroomUser( $ilUser, $room );
-		$user_id = $chat_user->getUserId();
+		$this->exitIfNoRoomExists($room);
+		$this->exitIfEnterRoomIsNotAllowed($room, $subRoom, $chat_user);
 
-		if( !$room )
-		{
-			$response = json_encode( array(
-				    'success' => false,
-				    'reason' => 'unkown room'
-				    ) );
-				    echo json_encode( $response );
-				    exit;
-		}
-		else if( !$room->isAllowedToEnterPrivateRoom( $chat_user->getUserId(), $_REQUEST['sub'] ) )
-		{
-			$response = json_encode( array(
-				    'success' => false,
-				    'reason' => 'not allowed enter to private room'
-				    ) );
-				    	
-				    echo json_encode( $response );
-				    exit;
-		}
-
-		$scope = $room->getRoomId();
-		$params = array();
+		/*$params = array();
 
 		$params['user'] = $chat_user->getUserId();
 		$params['sub'] = $_REQUEST['sub'];
 		$params['message'] = json_encode( array(
 			'type' => 'private_room_entered',
 			'user' => $user_id
-		));
+		));*/
 
-
-		$query = http_build_query( $params );
+		//$query = http_build_query( $params );
 		$connector = $this->gui->getConnector();
-		$response = $connector->enterPrivateRoom( $scope, $query );
-		$responseObject = json_decode( $response );
+		$response  = $connector->sendEnterPrivateRoom($room->getRoomId(), $subRoom, $chat_user->getUserId());
 
-		$message = json_encode( array(
+		if($this->isSuccessful($response))
+		{
+			$room->subscribeUserToPrivateRoom($subRoom, $chat_user->getUserId());
+		}
+
+		/*$message = json_encode( array(
 			'type' => 'private_room_entered',
 			'user' => $params['user'],
 			'sub'	=> $params['sub']
 		));
 
-		$connector->sendMessage( $room->getRoomId(), $message, array('public' => 1, 'sub' => $params['sub']) );
+		$connector->sendMessage( $room->getRoomId(), $message, array('public' => 1, 'sub' => $params['sub']) );*/
 
-		if( $responseObject->success == true )
+		$this->sendResponse($response);
+	}
+
+	/**
+	 * @param ilChatroom     $room
+	 * @param int            $subRoom
+	 * @param ilChatroomUser $chat_user
+	 */
+	protected function exitIfEnterRoomIsNotAllowed($room, $subRoom, $chat_user)
+	{
+		if(!$room->isAllowedToEnterPrivateRoom($chat_user->getUserId(), $subRoom))
 		{
-			$room->subscribeUserToPrivateRoom( $params['sub'], $params['user'] );
+			$this->sendResponse(array(
+				'success' => false,
+				'reason'  => 'not allowed enter to private room'
+			));
 		}
-
-		echo $response;
-		exit;
 	}
 
 	public function listUsers()
 	{
-		global $ilUser;
+		$room = ilChatroom::byObjectId($this->gui->object->getId());
 
-		$room = ilChatroom::byObjectId( $this->gui->object->getId() );
-
-		echo json_encode( $room->listUsersInPrivateRoom( $_REQUEST['sub'] ) );
-		exit;
+		$response = $room->listUsersInPrivateRoom($_REQUEST['sub']);
+		$this->sendResponse($response);
 	}
-
-	/**
-	 * Instantiates stdClass, sets $data->user, $data->message, $data->public
-	 * and $data->recipients using given $chat_user, $messageString and
-	 * $params and returns $data.
-	 *
-	 * @param string $messageString
-	 * @param array $params
-	 * @param ilChatroomUser $chat_user
-	 * @return stdClass
-	 */
-	private function buildMessage($messageString, $params, ilChatroomUser $chat_user)
-	{
-		$data = new stdClass();
-
-		$data->user			= $chat_user->getUserId(); //$this->gui->object->getPersonalInformation( $chat_user );
-		$data->title		= $params['title'];
-		$data->timestamp	= date( 'c' );
-		$data->type		= 'private_room_created';
-
-		return $data;
-	}
-
 }
 
 ?>

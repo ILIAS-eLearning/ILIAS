@@ -237,7 +237,7 @@ class ilTaggingGUI
 	/**
 	 * Init javascript
 	 */
-	function initJavascript($a_ajax_url)
+	static function initJavascript($a_ajax_url)
 	{
 		global $tpl, $lng;
 
@@ -260,7 +260,7 @@ class ilTaggingGUI
 	 * @param string $a_update_code
 	 * @return string 
 	 */
-	function getListTagsJSCall($a_hash, $a_update_code = null)
+	static function getListTagsJSCall($a_hash, $a_update_code = null)
 	{
 		global $tpl;
 		

@@ -30,7 +30,7 @@ class ilObjForumAccess extends ilObjectAccess
 	 * Comment mjansen: Cannot make this static because parent method is not static ...
 	 * @return array
 	 */
-	public function _getCommands()
+	public static function _getCommands()
 	{
 		$commands = array
 		(
@@ -56,7 +56,7 @@ class ilObjForumAccess extends ilObjectAccess
 	 * @param string $a_target
 	 * @return bool
 	 */
-	public function _checkGoto($a_target)
+	public static function _checkGoto($a_target)
 	{
 		/**
 		 * @var $ilAccess ilAccessHandler
@@ -87,7 +87,7 @@ class ilObjForumAccess extends ilObjectAccess
 	public static function _getThreadForPosting($a_pos_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -111,7 +111,7 @@ class ilObjForumAccess extends ilObjectAccess
 	public static function _lookupDiskUsage($a_obj_id)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -165,7 +165,7 @@ class ilObjForumAccess extends ilObjectAccess
 	 * @param array $obj_ids
 	 * @param array $ref_ids
 	 */
-	public function _preloadData($obj_ids, $ref_ids)
+	public static function _preloadData($obj_ids, $ref_ids)
 	{
 		/*
 		We are only able to preload the top_pk values for the forum ref_ids.

@@ -181,7 +181,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 		include_once './Services/Search/classes/class.ilQueryParser.php';
 
-		$query_parser =& new ilQueryParser($filter["query"]);
+		$query_parser = new ilQueryParser($filter["query"]);
 		$query_parser->setMinWordLength(0);
 		$query_parser->setCombination(QP_COMBINATION_AND);
 		$query_parser->parse();
@@ -201,7 +201,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		}
 
 		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
-		$object_search =& new ilLikeObjectSearch($query_parser);
+		$object_search = new ilLikeObjectSearch($query_parser);
 		$object_search->setFilter($filter["type"]);
 		if($preset_obj_ids)
 		{
@@ -267,7 +267,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	 *
 	 * @param bool $a_split_learning_resources
 	 */
-	public function initFilter($a_split_learning_resources = false, $a_include_no_status_filter = true)
+	public function initBaseFilter($a_split_learning_resources = false, $a_include_no_status_filter = true)
 	{
 		global $lng, $ilObjDataCache;
 		
@@ -496,9 +496,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
 					$value = "-";
 				}
 				else
-				{
-					include_once("./Services/Utilities/classes/class.ilFormat.php");					
-					$value = ilFormat::_secondsToString($value, ($value < 3600 ? true : false)); // #14858					
+				{					
+					$value = ilDatePresentation::secondsToString($value, ($value < 3600 ? true : false)); // #14858					
 				}
 				break;
 
@@ -547,7 +546,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	public function getCurrentFilter($as_query = false)
 	{
 		$result = array();
-		foreach($this->filter as $id => $value)
+		foreach((array)$this->filter as $id => $value)
 		{
 			$item = $this->getFilterItemByPostVar($id);
 			switch($id)
@@ -726,12 +725,12 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		return $data;
 	}
 
-	protected function fillMetaExcel($worksheet, &$a_row)
+	protected function fillMetaExcel(ilExcel $a_excel, &$a_row)
 	{
 		foreach($this->getExportMeta() as $caption => $value)
 		{
-			$worksheet->write($a_row, 0, $caption);
-			$worksheet->write($a_row, 1, $value);
+			$a_excel->setCell($a_row, 0, $caption);
+			$a_excel->setCell($a_row, 1, $value);
 			$a_row++;
 		}
 		$a_row++;

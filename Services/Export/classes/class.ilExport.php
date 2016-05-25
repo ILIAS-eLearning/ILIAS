@@ -163,7 +163,7 @@ class ilExport
 	/**
 	 * Get Export Files for a repository object
 	 */
-	function _getExportFiles($a_obj_id, $a_export_types = "", $a_obj_type = "")
+	static function _getExportFiles($a_obj_id, $a_export_types = "", $a_obj_type = "")
 	{
 		$GLOBALS['ilLog']->write(__METHOD__);
 
@@ -206,7 +206,7 @@ class ilExport
 				if ($entry != "." and
 					$entry != ".." and
 					substr($entry, -4) == ".zip" and
-					ereg("^[0-9]{10}_{2}[0-9]+_{2}(".$a_obj_type."_)*[0-9]+\.zip\$", $entry))
+					preg_match("/^[0-9]{10}_{2}[0-9]+_{2}(".$a_obj_type."_)*[0-9]+\.zip\$/", $entry))
 				{
 					$ts = substr($entry, 0, strpos($entry, "__"));
 					$file[$entry.$type] = array("type" => $type, "file" => $entry,
@@ -225,10 +225,14 @@ class ilExport
 		return $file;
 	}
 
+
 	/**
-	* Create export directory
-	*/
-	function _createExportDirectory($a_obj_id, $a_export_type = "xml", $a_obj_type = "")
+	 * @param $a_obj_id
+	 * @param string $a_export_type
+	 * @param string $a_obj_type
+	 * @return bool
+	 */
+	public static function _createExportDirectory($a_obj_id, $a_export_type = "xml", $a_obj_type = "")
 	{
 		global $ilErr;
 		
@@ -246,7 +250,7 @@ class ilExport
 	* Generates an index.html file including links to all xml files included
 	* (for container exports)
 	*/
-	function _generateIndexFile($a_filename, $a_obj_id, $a_files, $a_type = "")
+	static function _generateIndexFile($a_filename, $a_obj_id, $a_files, $a_type = "")
 	{
 		global $lng;
 		

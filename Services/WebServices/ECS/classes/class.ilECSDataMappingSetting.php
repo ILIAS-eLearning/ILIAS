@@ -192,7 +192,7 @@ class ilECSDataMappingSetting
 				'AND mapping_type = '.$ilDB->quote($this->getMappingType(),'integer').' '.
 				'AND ecs_field = '.$ilDB->quote($this->getECSField(),'text');
 			$res = $ilDB->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setAdvMDId($row->advmd_id);
 			}

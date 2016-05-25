@@ -46,15 +46,6 @@ class ilMetaDataSearch extends ilAbstractSearch
 	var $db = null;
 
 	/**
-	* Constructor
-	* @access public
-	*/
-	function ilMetaDataSearch(&$qp_obj)
-	{
-		parent::ilAbstractSearch($qp_obj);
-	}
-
-	/**
 	* Define meta elements to search
 	* 
 	* @param array elements to search in. E.G array('keyword','contribute')
@@ -126,7 +117,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 			$where." ".$in.' ';
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
@@ -149,7 +140,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 			$where." ".$in.' ';
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
@@ -170,7 +161,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 			$where." ".$in.' ';
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}
@@ -191,7 +182,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 			$where." ".$in.' ';
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,$this->__prepareFound($row),$row->obj_id);
 		}

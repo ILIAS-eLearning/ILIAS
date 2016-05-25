@@ -55,7 +55,7 @@ class ilCronDeleteInactiveUserReminderMail
 			'usr_id',
 			'ts'
 		));
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$lastLoginUnixtime = strtotime(ilObjUser::_lookupLastLogin($row->usr_id));
 			$lastReminderSent  = (int)$row->ts;
@@ -71,7 +71,7 @@ class ilCronDeleteInactiveUserReminderMail
 		global $ilDB;
 		$query = "SELECT ts FROM " . self::TABLE_NAME . " WHERE usr_id = %s";
 		$res   = $ilDB->queryF($query, array('integer'), array($user->getId()));
-		$row   = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row   = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		if($row->ts == null)
 		{
 			self::sendReminder($user, $reminderTime, $time_frame_for_deletion);

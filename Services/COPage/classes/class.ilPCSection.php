@@ -30,10 +30,10 @@ class ilPCSection extends ilPageContent
 	/**
 	* Set node
 	*/
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->sec_node =& $a_node->first_child();		// this is the Section node
+		$this->sec_node = $a_node->first_child();		// this is the Section node
 	}
 
 	/**
@@ -46,8 +46,8 @@ class ilPCSection extends ilPageContent
 	{
 		$this->node = $this->createPageContentNode();
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-		$this->sec_node =& $this->dom->create_element("Section");
-		$this->sec_node =& $this->node->append_child($this->sec_node);
+		$this->sec_node = $this->dom->create_element("Section");
+		$this->sec_node = $this->node->append_child($this->sec_node);
 		$this->sec_node->set_attribute("Characteristic", "Block");
 	}
 

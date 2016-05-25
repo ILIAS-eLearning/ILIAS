@@ -83,8 +83,10 @@ class ilADTFloatSearchBridgeSingle extends ilADTSearchBridgeSingle
 		}
 	}
 	
-	public function isInCondition(ilADTFloat $a_adt)
+	public function isInCondition(ilADT $a_adt)
 	{
+		assert($a_adt instanceof ilADTFloat);
+		
 		return $this->getADT()->equals($a_adt);
 	}		
 	

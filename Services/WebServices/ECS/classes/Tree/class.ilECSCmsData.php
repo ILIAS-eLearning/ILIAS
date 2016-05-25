@@ -42,7 +42,7 @@ class ilECSCmsData
 			'AND tree_id  = '.$ilDB->quote($a_tree_id,'integer');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->num > 0 ? true : false;
 		}
@@ -72,7 +72,7 @@ class ilECSCmsData
 		$res = $ilDB->query($query);
 		
 		$deleted = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$deleted[] = $row->obj_id;
 		}
@@ -92,7 +92,7 @@ class ilECSCmsData
 		
 		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->obj_id;
 		}
@@ -120,7 +120,7 @@ class ilECSCmsData
 			'ORDER BY tree_id ';
 		$res = $ilDB->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->tree_id;
 		}
@@ -140,7 +140,7 @@ class ilECSCmsData
 			'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
 			'AND tree_id = '.$ilDB->quote($a_tree_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->title;
 		}
@@ -166,7 +166,7 @@ class ilECSCmsData
 			'AND tree_id = '.$ilDB->quote($a_tree_id,'integer').' '.
 			'ORDER BY depth';
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->term;
 		}
@@ -187,7 +187,7 @@ class ilECSCmsData
 			'AND tree_id = '.$ilDB->quote($a_tree_id,'integer').' '.
 			'AND obj_id = '.$ilDB->quote($obj_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if($row->deleted)
 			{
@@ -212,7 +212,7 @@ class ilECSCmsData
 			'AND tree_id = '.$ilDB->quote($a_tree_id,'integer').' '.
 			'AND cms_id = '.$ilDB->quote($cms_id,'text');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->status;
 		}
@@ -261,7 +261,7 @@ class ilECSCmsData
 		$res = $ilDB->query($query);
 
 		$cms_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$cms_ids[] = $row->cms_id;
 		}
@@ -285,7 +285,7 @@ class ilECSCmsData
 				'AND tree_id = '.$ilDB->quote($a_tree_id,'integer');
 		$res = $ilDB->query($query);
 		$cms_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$cms_ids[] = $row->cms_id;
 		}
@@ -369,7 +369,7 @@ class ilECSCmsData
 		$res = $ilDB->query($query);
 
 		$tree_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$tree_ids[] = $row->tid;
 		}
@@ -539,7 +539,7 @@ class ilECSCmsData
 		$query = 'SELECT * FROM ecs_cms_data '.
 			'WHERE obj_id = '.$ilDB->quote($this->obj_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->title = $row->title;
 			$this->term = $row->term;

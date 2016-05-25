@@ -35,7 +35,7 @@ class ilSCORM2004Item
 	 * Constructor
 	 * @access	public
 	 */
-	function ilSCORM2004Item($a_treeid = null , $a_rootlevel = false)
+	function __construct($a_treeid = null , $a_rootlevel = false)
 	{
 		//different handling for organization level
 		$this->rootLevel = $a_rootlevel;
@@ -179,7 +179,7 @@ class ilSCORM2004Item
 			$ilDB->quote($a_node_id, "integer").
 			" AND rootlevel = ".$ilDB->quote(false, "integer");
 		$obj_set = $ilDB->query($query);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $obj_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return array("copy"=>!$obj_rec['nocopy'],"move"=>!$obj_rec['nomove'],"delete"=>!$obj_rec['nodelete']);
 	}
 	

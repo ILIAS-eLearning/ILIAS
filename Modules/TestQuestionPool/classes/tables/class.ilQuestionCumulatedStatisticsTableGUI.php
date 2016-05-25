@@ -100,7 +100,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
 	/**
 	 * @param array $row
 	 */
-	public function fillRow(array $row)
+	public function fillRow($row)
 	{
 		$this->tpl->setVariable('VAL_RESULT', $row['result']);
 		$this->tpl->setVariable('VAL_VALUE', sprintf("%2.2f",  $row['value']) . ' %');

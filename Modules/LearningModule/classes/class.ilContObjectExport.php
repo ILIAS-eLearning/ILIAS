@@ -26,7 +26,7 @@ class ilContObjectExport
 	* Constructor
 	* @access	public
 	*/
-	function ilContObjectExport(&$a_cont_obj, $a_mode = "xml", $a_lang = "")
+	function __construct(&$a_cont_obj, $a_mode = "xml", $a_lang = "")
 	{
 		global $ilErr, $ilDB, $ilias;
 
@@ -166,7 +166,7 @@ class ilContObjectExport
 		// export style
 		if ($this->cont_obj->getStyleSheetId() > 0)
 		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$style_obj = new ilObjStyleSheet($this->cont_obj->getStyleSheetId(), false);
 			//$style_obj->exportXML($this->export_dir."/".$this->subdir);
 			$style_obj->setExportSubDir("style");

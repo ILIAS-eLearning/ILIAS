@@ -117,7 +117,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 						require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 						if (ilObject::_lookupType($page_obj->getParentId()) == "lm")
 						{
-							$lm_obj =& new ilObjLearningModule($page_obj->getParentId(), false);
+							$lm_obj = new ilObjLearningModule($page_obj->getParentId(), false);
 							$item["obj_type_txt"] = $this->lng->txt("obj_".$cont_type);
 							$item["obj_title"] = $lm_obj->getTitle();
 							$item["sub_txt"] = $this->lng->txt("pg");
@@ -136,7 +136,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 						require_once("./Modules/LearningModule/classes/class.ilObjDlBook.php");
 						if (ilObject::_lookupType($page_obj->getParentId()) == "dbk")
 						{
-							$lm_obj =& new ilObjDlBook($page_obj->getParentId(), false);
+							$lm_obj = new ilObjDlBook($page_obj->getParentId(), false);
 							$item["obj_type_txt"] = $this->lng->txt("obj_".$cont_type);
 							$item["obj_title"] = $lm_obj->getTitle();
 							$item["sub_txt"] = $this->lng->txt("pg");

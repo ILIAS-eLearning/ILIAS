@@ -65,7 +65,7 @@ class ilLDAPRoleAssignmentRules
 		$query = "SELECT DISTINCT(role_id) FROM ldap_role_assignments ".
 				'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$roles[$row->role_id] = $row->role_id;
 		}
@@ -88,7 +88,7 @@ class ilLDAPRoleAssignmentRules
 			"FROM ldap_role_assignments ".
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$name = strtolower(trim($row->att_name));
 			if($name)
@@ -125,7 +125,7 @@ class ilLDAPRoleAssignmentRules
 		
 		$res = $ilDB->query($query);
 		$roles = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php';
 			$rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($row->rule_id);
@@ -188,7 +188,7 @@ class ilLDAPRoleAssignmentRules
 		
 		$num_matches = 0;
 		$roles = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php';
 			$rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($row->rule_id);

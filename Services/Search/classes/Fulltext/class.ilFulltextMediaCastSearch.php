@@ -36,15 +36,6 @@ include_once 'Services/Search/classes/class.ilMediaCastSearch.php';
 class ilFulltextMediaCastSearch extends ilMediaCastSearch
 {
 
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilFulltextMediaCastSearch(&$qp_obj)
-	{
-		parent::ilMediaCastSearch($qp_obj);
-	}
-
 	function __createWhereCondition()
 	{
 		// IN BOOLEAN MODE

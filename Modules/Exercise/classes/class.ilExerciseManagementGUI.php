@@ -406,9 +406,7 @@ class ilExerciseManagementGUI
 	 * Add new partipant
 	 */
 	function addMembersObject($a_user_ids = array())
-	{
-		global $ilAccess,$ilErr;
-
+	{		
 		if(!count($a_user_ids))
 		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
@@ -450,9 +448,7 @@ class ilExerciseManagementGUI
 	 * Select assignment
 	 */
 	function selectAssignmentObject()
-	{
-		global $ilTabs;
-
+	{		
 		$_GET["ass_id"] = ilUtil::stripSlashes($_POST["ass_id"]);
 		$this->membersObject();
 	}
@@ -462,7 +458,7 @@ class ilExerciseManagementGUI
 	 */
 	function showParticipantObject()
 	{
-		global $rbacsystem, $tree, $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
+		global $tpl, $ilToolbar, $ilCtrl, $lng;
 
 		$this->addSubTabs("participant");
 		
@@ -817,16 +813,18 @@ class ilExerciseManagementGUI
 		if(!$members)
 		{
 			$this->ctrl->redirect($this, "members");
-		}
-		$data = array();
-		foreach(array_keys($members) as $user_id)
+		}				
+		
+		// #18408 - saveStatus() will rollout teams, we need raw (form) data here 
+		$data = array();				
+		foreach(array_keys($_POST["member"]) as $user_id)
 		{
 			$data[-1][$user_id] = array(
 				"status" => ilUtil::stripSlashes($_POST["status"][$user_id])
 				,"notice" => ilUtil::stripSlashes($_POST["notice"][$user_id])			
 				,"mark" => ilUtil::stripSlashes($_POST["mark"][$user_id])
 			);
-		}				
+		}		
 		$this->saveStatus($data);
 	}
 	
@@ -1344,7 +1342,7 @@ class ilExerciseManagementGUI
 	 */
 	function saveMultiFeedbackObject()
 	{
-		$this->assignment->saveMultiFeedbackFiles($_POST["file"]);
+		$this->assignment->saveMultiFeedbackFiles($_POST["file"], $this->exercise);
 		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "members");

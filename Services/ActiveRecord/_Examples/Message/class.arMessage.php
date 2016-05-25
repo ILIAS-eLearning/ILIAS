@@ -1,5 +1,5 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
+require_once('./Services/ActiveRecord/class.ActiveRecord.php');
 require_once(dirname(__FILE__) . '/../../Connector/class.arConnectorSession.php');
 
 /**
@@ -28,11 +28,12 @@ class arMessage extends ActiveRecord {
 	/**
 	 * @var int
 	 *
-	 * @con_is_primary true
-	 * @con_is_unique  true
-	 * @con_has_field  true
-	 * @con_fieldtype  integer
-	 * @con_length     8
+	 * @con_is_primary   true
+	 * @con_is_unique    true
+	 * @con_has_field    true
+	 * @con_fieldtype    integer
+	 * @con_length       8
+	 * @con_sequence     true
 	 */
 	protected $id;
 	/**
@@ -185,12 +186,12 @@ class arMessage extends ActiveRecord {
 
 
 	/**
-	 * @param int  $primary_key
+	 * @param int $primary_key
 	 * @param bool $dev
 	 */
-	public function __construct($primary_key = 0, $dev = false) {
-		parent::__construct($primary_key, new arConnectorSession());
-	}
+	//	public function __construct($primary_key = 0, $dev = false) {
+	//		parent::__construct($primary_key, new arConnectorSession());
+	//	}
 }
 
 ?>

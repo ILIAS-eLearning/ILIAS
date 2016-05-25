@@ -69,7 +69,7 @@ class ilForumXMLWriter extends ilXmlWriter
 
 		$res = $ilDB->query($query_frm);
 
-		while( $row = $res->fetchRow(DB_FETCHMODE_OBJECT) )
+		while( $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT) )
 		{
 			break;
 		}

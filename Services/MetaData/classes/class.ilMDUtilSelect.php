@@ -41,7 +41,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search 
-	function _getLanguageSelect($a_selected,$a_name,$prepend = array(),$a_options_only = false)
+	static function _getLanguageSelect($a_selected,$a_name,$prepend = array(),$a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
@@ -75,7 +75,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getStructureSelect($a_selected,$a_name,$prepend = array(),$a_options_only = false)
+	static function _getStructureSelect($a_selected,$a_name,$prepend = array(),$a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng;
@@ -106,7 +106,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getStatusSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	static function _getStatusSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng;
@@ -137,7 +137,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getRoleSelect($a_selected,$a_name,$prepend = array(),$a_options_only = false)
+	static function _getRoleSelect($a_selected,$a_name,$prepend = array(),$a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng;
@@ -170,7 +170,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getOperatingSystemSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	static function _getOperatingSystemSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng;
@@ -201,7 +201,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getBrowserSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	static function _getBrowserSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng;
@@ -233,7 +233,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getFormatSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	static function _getFormatSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng,$ilDB;
@@ -252,7 +252,7 @@ class ilMDUtilSelect
 		{
 			return '';
 		}
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if(strlen($row->format))
 			{
@@ -275,7 +275,7 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getDurationSelect($a_selected,$a_name,$prepend = array())
+	static function _getDurationSelect($a_selected,$a_name,$prepend = array())
 	{
 		global $lng;
 
@@ -284,14 +284,14 @@ class ilMDUtilSelect
 			$options[$value] = $translation;
 		}
 		
-		$items = array(15 => '15 '.$this->lng->txt('minutes'),
-					  30 => '30 '.$this->lng->txt('minutes'),
-					  45 => '45 '.$this->lng->txt('minutes'),
-					  60 => '1 '. $this->lng->txt('hour'),
-					  90 => '1 '. $this->lng->txt('hour').' 30 '.$this->lng->txt('minutes'),
-					  120 => '2 '.$this->lng->txt('hours'),
-					  180 => '3 '.$this->lng->txt('hours'),
-					  240 => '4 '.$this->lng->txt('hours'));
+		$items = array(15 => '15 '.$lng->txt('minutes'),
+					  30 => '30 '.$lng->txt('minutes'),
+					  45 => '45 '.$lng->txt('minutes'),
+					  60 => '1 '. $lng->txt('hour'),
+					  90 => '1 '. $lng->txt('hour').' 30 '.$lng->txt('minutes'),
+					  120 => '2 '.$lng->txt('hours'),
+					  180 => '3 '.$lng->txt('hours'),
+					  240 => '4 '.$lng->txt('hours'));
 
 		foreach($items as $key => $item)
 		{
@@ -310,7 +310,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getInteractivityTypeSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	static function _getInteractivityTypeSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng;
@@ -342,7 +342,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getLearningResourceTypeSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	static function _getLearningResourceTypeSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng;
@@ -374,7 +374,7 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getInteractivityLevelSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	static function _getInteractivityLevelSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	{
 		global $lng;
 
@@ -405,7 +405,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getSemanticDensitySelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	static function _getSemanticDensitySelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng;
@@ -437,7 +437,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getIntendedEndUserRoleSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	static function _getIntendedEndUserRoleSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng;
@@ -468,7 +468,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getContextSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	static function _getContextSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng;
@@ -500,7 +500,7 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getLocationTypeSelect($a_selected,$a_name,$prepend = array())
+	static function _getLocationTypeSelect($a_selected,$a_name,$prepend = array())
 	{
 		global $lng;
 
@@ -528,7 +528,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getDifficultySelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	static function _getDifficultySelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng;
@@ -559,7 +559,7 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getTypicalAgeRangeSelect($a_selected,$a_name,$prepend = array())
+	static function _getTypicalAgeRangeSelect($a_selected,$a_name,$prepend = array())
 	{
 		global $lng;
 
@@ -588,7 +588,7 @@ class ilMDUtilSelect
 	 *
 	 * @return string Complete html select
 	 */
-	function _getTypicalLearningTimeSelect($a_selected,$a_name,$prepend = array())
+	static function _getTypicalLearningTimeSelect($a_selected,$a_name,$prepend = array())
 	{
 		global $lng;
 
@@ -596,14 +596,14 @@ class ilMDUtilSelect
 		{
 			$options[$value] = $translation;
 		}
-		$items = array(15 => '15 '.$this->lng->txt('minutes'),
-					  30 => '30 '.$this->lng->txt('minutes'),
-					  45 => '45 '.$this->lng->txt('minutes'),
-					  60 => '1 '. $this->lng->txt('hour'),
-					  90 => '1 '. $this->lng->txt('hour').' 30 '.$this->lng->txt('minutes'),
-					  120 => '2 '.$this->lng->txt('hours'),
-					  180 => '3 '.$this->lng->txt('hours'),
-					  240 => '4 '.$this->lng->txt('hours'));
+		$items = array(15 => '15 '.$lng->txt('minutes'),
+					  30 => '30 '.$lng->txt('minutes'),
+					  45 => '45 '.$lng->txt('minutes'),
+					  60 => '1 '. $lng->txt('hour'),
+					  90 => '1 '. $lng->txt('hour').' 30 '.$lng->txt('minutes'),
+					  120 => '2 '.$lng->txt('hours'),
+					  180 => '3 '.$lng->txt('hours'),
+					  240 => '4 '.$lng->txt('hours'));
 
 		foreach($items as $key => $item)
 		{
@@ -622,7 +622,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getCostsSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	static function _getCostsSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng;
@@ -654,7 +654,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getCopyrightAndOtherRestrictionsSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	static function _getCopyrightAndOtherRestrictionsSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng;
@@ -686,7 +686,7 @@ class ilMDUtilSelect
 	 * @return string Complete html select
 	 */
 	// BEGIN PATCH Lucene search
-	function _getPurposeSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
+	static function _getPurposeSelect($a_selected,$a_name,$prepend = array(), $a_options_only = false)
 	// END PATCH Lucene Search
 	{
 		global $lng;

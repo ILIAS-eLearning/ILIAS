@@ -497,7 +497,7 @@ class ilCalendarUtil
 			"WHERE obj_id = ".$ilDB->quote($a_usr_id,'integer')." ".
 			"AND type = ".$ilDB->quote($a_type_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return self::$default_calendar[$a_usr_id][$a_type_id] = new ilCalendarCategory($row->cat_id);
 		}

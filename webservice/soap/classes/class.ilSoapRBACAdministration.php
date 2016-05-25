@@ -34,10 +34,6 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapRBACAdministration extends ilSoapAdministration
 {
-	function ilSoapRBACAdministration()
-	{
-		parent::ilSoapAdministration();
-	}
 
 
 	function deleteRole($sid,$role_id)
@@ -376,7 +372,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		
 		include_once 'webservice/soap/classes/class.ilObjectXMLParser.php';
 
-		$xml_parser =& new ilObjectXMLParser($role_xml);
+		$xml_parser = new ilObjectXMLParser($role_xml);
 		$xml_parser->startParsing();
 
 		foreach($xml_parser->getObjectData() as $object_data)
@@ -440,7 +436,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		include_once 'webservice/soap/classes/class.ilObjectXMLParser.php';
 
-		$xml_parser =& new ilObjectXMLParser($role_xml);
+		$xml_parser = new ilObjectXMLParser($role_xml);
 		$xml_parser->startParsing();
 
 		foreach($xml_parser->getObjectData() as $object_data)
@@ -605,7 +601,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			);
 
 			$rbacresult = $ilDB->query($query);
-			while ($rbacrow = $rbacresult->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($rbacrow = $rbacresult->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 			{
 				if ($rbacrow["assign"] != "y")
 				continue;
@@ -715,7 +711,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		include_once './Services/Search/classes/class.ilQueryParser.php';
 
-		$query_parser =& new ilQueryParser($key);
+		$query_parser = new ilQueryParser($key);
 		$query_parser->setMinWordLength(3);
 		$query_parser->setCombination($combination == 'and' ? QP_COMBINATION_AND : QP_COMBINATION_OR);
 		$query_parser->parse();

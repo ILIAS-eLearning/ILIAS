@@ -28,13 +28,13 @@ class ilAdministrationExplorer extends ilExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilAdministrationExplorer($a_target)
+	function __construct($a_target)
 	{
 		global $tree,$ilCtrl,$lng;
 
 		$this->ctrl = $ilCtrl;
 
-		parent::ilExplorer($a_target);
+		parent::__construct($a_target);
 		$this->tree = $tree;
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = "title";

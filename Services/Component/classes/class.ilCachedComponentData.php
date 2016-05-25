@@ -1,5 +1,4 @@
 <?php
-require_once('./Services/GlobalCache/classes/class.ilGlobalCacheDBLayer.php');
 
 /**
  * Class ilCachedComponentData
@@ -410,7 +409,7 @@ class ilCachedComponentData {
 
 	public static function flush() {
 		ilGlobalCache::getInstance(ilGlobalCache::COMP_COMPONENT)->flush();
-		self::$instance = NULL;
+		self::$instance = null;
 	}
 
 

@@ -131,7 +131,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 			$this->items['sess_link']['prev']['value'] ||
 			$this->items['sess_link']['next']['value'])
 		{
-			$this->items['sess'] = ilUtil::sortArray($this->items['sess'],'start','ASC',true,true);
+			$this->items['sess'] = ilUtil::sortArray($this->items['sess'],'start','asc',true,false);
 			
 			if($this->items['sess_link']['prev']['value'])
 			{

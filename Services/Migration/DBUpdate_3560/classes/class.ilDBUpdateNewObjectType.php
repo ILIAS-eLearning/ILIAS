@@ -80,6 +80,7 @@ class ilDBUpdateNewObjectType
 	 * 
 	 * @param int $a_type_id
 	 * @param int $a_ops_id 
+	 * @return bool
 	 */
 	public static function addRBACOperation($a_type_id, $a_ops_id)
 	{
@@ -91,14 +92,15 @@ class ilDBUpdateNewObjectType
 			' AND ops_id = '.$ilDB->quote($a_ops_id, 'integer'));
 		if($ilDB->numRows($set))
 		{			
-			return;
+			return false;
 		}		
 		
 		$fields = array(
 			'typ_id' => array('integer', $a_type_id),
 			'ops_id' => array('integer', $a_ops_id)
 		);
-		return $ilDB->insert('rbac_ta', $fields);
+		$ilDB->insert('rbac_ta', $fields);
+		return true;
 	}
 
 	/**
@@ -431,7 +433,7 @@ class ilDBUpdateNewObjectType
 		// oracle does not support ALTER TABLE varchar2 to CLOB
 	
 		$ilDB->lockTables(array(
-			array('name'=> $a_table_name, 'type'=>ilDB::LOCK_WRITE)
+			array('name'=> $a_table_name, 'type'=>ilDBConstants::LOCK_WRITE)
 		));
 
 		$def = array(

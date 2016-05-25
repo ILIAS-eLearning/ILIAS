@@ -71,8 +71,7 @@ class ilInitialisation
 		}		
 				
 		// really always required?
-		require_once "./Services/Utilities/classes/class.ilUtil.php";	
-		require_once "./Services/Utilities/classes/class.ilFormat.php";
+		require_once "./Services/Utilities/classes/class.ilUtil.php";			
 		require_once "./Services/Calendar/classes/class.ilDatePresentation.php";														
 		require_once "include/inc.ilias_version.php";	
 		
@@ -128,7 +127,6 @@ class ilInitialisation
 		define ("PATH_TO_UNZIP",$ilIliasIniFile->readVariable("tools","unzip"));
 		define ("PATH_TO_GHOSTSCRIPT",$ilIliasIniFile->readVariable("tools","ghostscript"));
 		define ("PATH_TO_JAVA",$ilIliasIniFile->readVariable("tools","java"));
-		define ("PATH_TO_HTMLDOC",$ilIliasIniFile->readVariable("tools","htmldoc"));
 		define ("URL_TO_LATEX",$ilIliasIniFile->readVariable("tools","latex"));
 		define ("PATH_TO_FOP",$ilIliasIniFile->readVariable("tools","fop"));
 
@@ -426,7 +424,11 @@ class ilInitialisation
 		// Do not accept external session ids
 		if (!ilSession::_exists(session_id()) && !defined('IL_PHPUNIT_TEST'))
 		{
-			session_regenerate_id();
+			// php7-todo, correct-with-php5-removal : alex, 1.3.2016: added if, please check
+			if(function_exists("session_status") && session_status() == PHP_SESSION_ACTIVE)
+			{
+				session_regenerate_id();
+			}
 		}				
 	}
 	
@@ -514,10 +516,6 @@ class ilInitialisation
 		{
 			self::buildHTTPPath();
 		}
-
-		// payment setting
-		require_once('Services/Payment/classes/class.ilPaymentSettings.php');
-		define('IS_PAYMENT_ENABLED', ilPaymentSettings::_isPaymentEnabled());		
 	}
 
 	/**
@@ -529,7 +527,7 @@ class ilInitialisation
 
 		// load style definitions
 		self::initGlobal("styleDefinition", "ilStyleDefinition",
-			 "./Services/Style/classes/class.ilStyleDefinition.php");
+			 "./Services/Style/System/classes/class.ilStyleDefinition.php");
 
 		// add user interface hook for style initialisation
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
@@ -656,17 +654,8 @@ class ilInitialisation
 		
 		// authenticate (anonymous)
 		$oldSid = session_id();		
-		$ilAuth->start();		
-		if (IS_PAYMENT_ENABLED)
-		{
-			$newSid = session_id();
-			if($oldSid != $newSid)
-			{
-				include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
-				ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
-			}
-		}
-		
+		$ilAuth->start();
+
 		if (!$ilAuth->getAuth())
 		{
 			self::abortAndDie("ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!");
@@ -863,10 +852,31 @@ class ilInitialisation
 	{
 		if (self::$already_initialized) 
 		{
+			// workaround for bug #17990
+			// big mess. we prevent double initialisations with ILIAS 5.1, which is good, but...
+			// the style service uses $_GET["ref_id"] to determine
+			// the context styles. $_GET["ref_id"] is "corrected" by the "goto" procedure and which calls
+			// initILIAS again.
+			// we need a mechanism that detemines our repository context and stores that in an information object
+			// usable by the style component afterwars. This needs new concepts and a refactoring.
+			if(ilContext::initClient())
+			{
+				global $tpl;
+				if (is_object($tpl))
+				{
+					// load style sheet depending on user's settings
+					$location_stylesheet = ilUtil::getStyleSheetLocation();
+					$tpl->setVariable("LOCATION_STYLESHEET", $location_stylesheet);
+				}
+			}
+
 			return;
 		}
 
 		$GLOBALS["DIC"] = new \ILIAS\DI\Container();
+		$GLOBALS["DIC"]["ilLoggerFactory"] = function($c) {
+			return ilLoggerFactory::getInstance();
+		};
 
 		self::$already_initialized = true;
 
@@ -910,18 +920,8 @@ class ilInitialisation
 	 */
 	public static function handleErrorReporting()
 	{		
-		// remove notices from error reporting
-		if (version_compare(PHP_VERSION, '5.4.0', '>='))
-		{
-			// Prior to PHP 5.4.0 E_ALL does not include E_STRICT.
-			// With PHP 5.4.0 and above E_ALL >DOES< include E_STRICT.
-			
-			error_reporting(((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED) & ~E_STRICT);
-		}
-		else
-		{
-			error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
-		}
+		// push the error level as high as possible / sane
+		error_reporting(E_ALL & ~E_NOTICE);
 		
 		// see handleDevMode() - error reporting might be overwritten again
 		// but we need the client ini first
@@ -948,7 +948,7 @@ class ilInitialisation
 		$ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, 'errorHandler'));		
 		
 		// :TODO: obsolete?
-		PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
+		// PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 					
 		// workaround: load old post variables if error handler 'message' was called
 		include_once "Services/Authentication/classes/class.ilSession.php";
@@ -1072,9 +1072,7 @@ class ilInitialisation
 		}		
 
 		// $ilAuth 
-		require_once "Auth/Auth.php";
-		require_once "./Services/AuthShibboleth/classes/class.ilShibboleth.php";		
-		include_once("./Services/Authentication/classes/class.ilAuthUtils.php");
+		include_once "./Services/Authentication/classes/class.ilAuthUtils.php";
 		ilAuthUtils::_initAuth();
 		$ilias->auth = $ilAuth;
 
@@ -1095,18 +1093,8 @@ class ilInitialisation
 			// could we use session_destroy() instead?
 			// [this is done after every $ilAuth->logout() call elsewhere] 
 			ilSession::_destroy(session_id(), ilSession::SESSION_CLOSE_LOGIN);
-
-			// :TODO: keep session because of cart content?
-			if(!isset($_GET['forceShoppingCartRedirect']))
-			{
-				$_SESSION = array();
-			}
-			else
-			{
-				ilSession::set("AccountId", "");	
-			}
-		}		
-		
+			$_SESSION = array();
+		}
 	}
 
 	/**
@@ -1129,18 +1117,7 @@ class ilInitialisation
 		
 		$ilAuth->start();
 		$ilias->setAuthError($ilErr->getLastError());
-				
-		if(IS_PAYMENT_ENABLED)
-		{
-			// cart is "attached" to session, has to be updated
-			$newSid = session_id();
-			if($oldSid != $newSid)
-			{
-				include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
-				ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
-			}
-		}					
-		
+
 		if($ilAuth->getAuth() && $ilAuth->getStatus() == '')
 		{
 			self::initUserAccount();

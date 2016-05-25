@@ -43,7 +43,7 @@ class ilWikiContributor
 	* @param	int		$a_user_id	member id
 	* @return	mixed	false (if user is no member) or notgraded|passed|failed
 	*/
-	function _lookupStatus($a_obj_id, $a_user_id)
+	static function _lookupStatus($a_obj_id, $a_user_id)
 	{
 		global $ilDB;
 
@@ -65,7 +65,7 @@ class ilWikiContributor
 	* @param	int		$a_user_id	member id
 	* @return	mixed	false (if user is no member) or notgraded|passed|failed
 	*/
-	function _lookupStatusTime($a_obj_id, $a_user_id)
+	static function _lookupStatusTime($a_obj_id, $a_user_id)
 	{
 		global $ilDB;
 
@@ -89,7 +89,7 @@ class ilWikiContributor
 	*
 	* @return	int		number of affected rows
 	*/
-	function _writeStatus($a_obj_id, $a_user_id, $a_status)
+	static function _writeStatus($a_obj_id, $a_user_id, $a_status)
 	{
 		global $ilDB;
 

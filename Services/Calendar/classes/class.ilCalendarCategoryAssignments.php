@@ -67,7 +67,7 @@ class ilCalendarCategoryAssignments
 		$query = "SELECT cat_id FROM cal_cat_assignments ".
 			"WHERE cal_id = ".$ilDB->quote($a_cal_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$cat_ids[] = $row->cat_id;
 		}
@@ -105,7 +105,7 @@ class ilCalendarCategoryAssignments
 		$query = "SELECT * FROM cal_cat_assignments ".
 			"WHERE ".$ilDB->in('cal_id',$a_cal_ids,false,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$map[$row->cal_id] = $row->cat_id;
 		}
@@ -127,7 +127,7 @@ class ilCalendarCategoryAssignments
 			"WHERE ".$ilDB->in('cat_id',$a_cat_id,false,'integer');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$cal_ids[] = $row->cal_id;
 		}
@@ -145,7 +145,7 @@ class ilCalendarCategoryAssignments
 		$query = 'SELECT COUNT(*) num FROM cal_cat_assignments '.
 				'WHERE '.$ilDB->in('cat_id', $a_cat_ids, false, 'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->num;
 		}
@@ -170,7 +170,7 @@ class ilCalendarCategoryAssignments
 			"WHERE auto_generated = 1 ".
 			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$apps[] = $row->cal_id;
 		}
@@ -310,7 +310,7 @@ class ilCalendarCategoryAssignments
 			"WHERE cal_id = ".$this->db->quote($this->cal_entry_id ,'integer')." ";
 		
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->assignments[] = $row->cat_id;
 		}

@@ -69,7 +69,7 @@ class ilObjSession extends ilObject
 		$query = "SELECT reg_type FROM event ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return (bool) $row->reg_type != ilMembershipRegistrationSettings::TYPE_NONE;
 		}
@@ -88,7 +88,7 @@ class ilObjSession extends ilObject
 		$query = "SELECT * FROM event ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$data['location'] 	= $row->location ? $row->location : '';
 			$data['details']	= $row->details ? $row->details : '';
@@ -644,7 +644,7 @@ class ilObjSession extends ilObject
 			"obj_id = ".$this->db->quote($this->getId() ,'integer')." ";
 		$res = $this->db->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setLocation($row->location);
 			$this->setName($row->tutor_name);

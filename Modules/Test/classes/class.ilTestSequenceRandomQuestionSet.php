@@ -15,7 +15,7 @@ class ilTestSequenceRandomQuestionSet extends ilTestSequence implements ilTestRa
 {
 	private $responsibleSourcePoolDefinitionByQuestion = array();
 
-	public function loadQuestions()
+	public function loadQuestions(ilTestQuestionSetConfig $testQuestionSetConfig = null, $taxonomyFilterSelection = array())
 	{
 		global $ilDB;
 

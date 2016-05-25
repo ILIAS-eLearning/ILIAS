@@ -43,25 +43,25 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 	var $tpl;
 	var $lng;
 
-	function ilAICCPresentationGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ctrl =& $ilCtrl;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
 
 		$cmd = (!empty($_GET["cmd"])) ? $_GET["cmd"] : "frameset";
 
 		// Todo: check lm id
-		$this->slm =& new ilObjAICCLearningModule($_GET["ref_id"], true);
+		$this->slm = new ilObjAICCLearningModule($_GET["ref_id"], true);
 	}
 	
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess, $ilLog;
 
@@ -82,7 +82,7 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 	
 	function view()
 	{
-		$sc_gui_object =& ilAICCObjectGUI::getInstance($_GET["obj_id"]);
+		$sc_gui_object = ilAICCObjectGUI::getInstance($_GET["obj_id"]);
 
 		if(is_object($sc_gui_object))
 		{
@@ -148,10 +148,10 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 			? $_POST["ref_id"]
 			: $_GET["ref_id"];
 
-		$this->slm =& new ilObjAICCLearningModule($ref_id, true);
+		$this->slm = new ilObjAICCLearningModule($ref_id, true);
 
 		include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");
-		$unit =& new ilAICCUnit($sahs_id);
+		$unit = new ilAICCUnit($sahs_id);
 		
 		//guess the url
 		$url=$unit->getCommand_line();

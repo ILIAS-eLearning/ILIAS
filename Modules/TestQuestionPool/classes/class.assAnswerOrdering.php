@@ -34,13 +34,14 @@ class ASS_AnswerOrdering extends ASS_AnswerSimple {
 * @param integer $random_id A random ID
 * @access public
 */
-	function ASS_AnswerOrdering (
+	public function __construct (
 		$answertext = "",
 		$random_id = 0,
-		$depth = 0
+		$depth = 0,
+		$id = -1
 	)
 	{
-		parent::__construct($answertext, 0, 0);
+		parent::__construct($answertext, 0, 0, $id);
 		$this->setRandomID($random_id);
 		$this->setOrderingDepth($depth);
 	}

@@ -133,8 +133,8 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 
 		if ($a_node["type"] == "st")
 		{
-			return ilStructureObject::_getPresentationTitle($a_node["child"],
-				$this->lm->isActiveNumbering(), false, $this->lm->getId(), $this->lang);
+			return ilStructureObject::_getPresentationTitle($a_node["child"], IL_CHAPTER_TITLE,
+				$this->lm->isActiveNumbering(), false, false, $this->lm->getId(), $this->lang);
 		}
 		else if ($a_node["type"] == "pg")
 		{
@@ -303,10 +303,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 		{
 			// check public area mode
 			include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-			include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-			if (($ilUser->getId() == ANONYMOUS_USER_ID ||
-					ilPaymentObject::_requiresPurchaseToAccess((int)$this->lm->getRefId())) &&
-				!ilLMObject::_isPagePublic($a_node["child"], true))
+			if($ilUser->getId() == ANONYMOUS_USER_ID && !ilLMObject::_isPagePublic($a_node["child"], true))
 			{
 				return false;
 			}

@@ -18,9 +18,9 @@ include_once "Services/Tracking/classes/class.ilLearningProgressBaseGUI.php";
 */
 class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 {
-	function ilLPObjectStatisticsGUI($a_mode,$a_ref_id = 0)
+	function __construct($a_mode,$a_ref_id = 0)
 	{
-		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
+		parent::__construct($a_mode,$a_ref_id);
 	
 		if(!$this->ref_id)
 		{
@@ -161,6 +161,8 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		global $tpl;
 		
 		$this->tabs_gui->activateSubTab('trac_object_stat_types');
+		
+		$this->showCronJobInfo();
 
 		include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTypesTableGUI.php");
 		$lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types", null, $a_load_data);
@@ -362,6 +364,8 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		global $tpl;
 		
 		$this->tabs_gui->activateSubTab('trac_object_stat_lp');
+		
+		$this->showCronJobInfo();
 
 		include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsLPTableGUI.php");
 		$lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", null, $a_load_data);
@@ -421,7 +425,17 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		}
 		
 		ilUtil::sendInfo(sprintf($lng->txt("trac_log_info"), $info_date, $info["counter"]).$link);
-
+	}
+	
+	protected function showCronJobInfo()
+	{
+		global $lng;
+		
+		include_once "Services/Cron/classes/class.ilCronManager.php";
+		if(!ilCronManager::isJobActive("lp_object_statistics"))
+		{
+			ilUtil::sendInfo($lng->txt("trac_cron_info"));
+		}
 	}
 }
 

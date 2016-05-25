@@ -21,18 +21,18 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCQuestionGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
+	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
 		global $ilCtrl;
 		$this->scormlmid = $a_pg_obj->parent_id;
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		$ilCtrl->saveParameter($this, array("qpool_ref_id"));
 	}
 
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng;
 		
@@ -311,7 +311,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 			if($q_id < 1 && $q_type)
 			{
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-				$q_gui =& assQuestionGUI::_getQuestionGUI($q_type);
+				$q_gui = assQuestionGUI::_getQuestionGUI($q_type);
 
 				// feedback editing mode
 				include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
@@ -348,7 +348,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 		else	// behaviour in question pool
 		{
 			require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
-			$q_gui =& assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+			$q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 			$this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($q_gui)), "editQuestion");
 		}
 	}

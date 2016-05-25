@@ -22,23 +22,23 @@ class ilSCORMPresentationGUI
 	var $tpl;
 	var $lng;
 
-	function ilSCORMPresentationGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ctrl =& $ilCtrl;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
 
 		// Todo: check lm id
-		$this->slm =& new ilObjSCORMLearningModule($_GET["ref_id"], true);
+		$this->slm = new ilObjSCORMLearningModule($_GET["ref_id"], true);
 	}
 	
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess, $ilLog, $ilias, $lng;
 
@@ -420,7 +420,7 @@ class ilSCORMPresentationGUI
 	*/
 	function view()
 	{
-		$sc_gui_object =& ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
+		$sc_gui_object = ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
 
 		if(is_object($sc_gui_object))
 		{
@@ -481,7 +481,7 @@ class ilSCORMPresentationGUI
 	{
 		global $ilias;
 
-		$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
+		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
 		$this->tpl = new ilTemplate("tpl.sahs_api.html", true, true, "Modules/ScormAicc");
 		
@@ -491,7 +491,7 @@ class ilSCORMPresentationGUI
 			$this->tpl->setCurrentBlock("auto_launch");
 			include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
 			include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResource.php");
-			$sc_object =& new ilSCORMItem($_GET["autolaunch"]);
+			$sc_object = new ilSCORMItem($_GET["autolaunch"]);
 			$id_ref = $sc_object->getIdentifierRef();
 			$sc_res_id = ilSCORMResource::_lookupIdByIdRef($id_ref, $sc_object->getSLMId());
 			$scormtype = strtolower(ilSCORMResource::_lookupScormType($sc_res_id));
@@ -547,16 +547,16 @@ class ilSCORMPresentationGUI
 			? $_POST["ref_id"]
 			: $_GET["ref_id"];
 
-		$this->slm =& new ilObjSCORMLearningModule($ref_id, true);
+		$this->slm = new ilObjSCORMLearningModule($ref_id, true);
 
 		include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
 		include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResource.php");
-		$item =& new ilSCORMItem($sco_id);
+		$item = new ilSCORMItem($sco_id);
 
 		$id_ref = $item->getIdentifierRef();
-		$resource =& new ilSCORMResource();
+		$resource = new ilSCORMResource();
 		$resource->readByIdRef($id_ref, $item->getSLMId());
-		//$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
+		//$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 		$href = $resource->getHref();
 		$this->tpl = new ilTemplate("tpl.sahs_launch_cbt.html", true, true, "Modules/ScormAicc");
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
@@ -789,14 +789,14 @@ class ilSCORMPresentationGUI
 			? $_POST["ref_id"]
 			: $_GET["ref_id"];
 
-		$this->slm =& new ilObjSCORMLearningModule($ref_id, true);
+		$this->slm = new ilObjSCORMLearningModule($ref_id, true);
 
 		include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
 		include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResource.php");
-		$item =& new ilSCORMItem($sco_id);
+		$item = new ilSCORMItem($sco_id);
 
 		$id_ref = $item->getIdentifierRef();
-		$resource =& new ilSCORMResource();
+		$resource = new ilSCORMResource();
 		$resource->readByIdRef($id_ref, $item->getSLMId());
 		$href = $resource->getHref();
 		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);

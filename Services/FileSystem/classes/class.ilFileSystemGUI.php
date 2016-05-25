@@ -15,14 +15,14 @@ class ilFileSystemGUI
 
 	protected $use_upload_directory = false;
 
-	function ilFileSystemGUI($a_main_directory)
+	function __construct($a_main_directory)
 	{
 		global $lng, $ilCtrl, $tpl, $ilias;
 
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
 		$this->main_dir = $a_main_directory;
 		$this->post_dir_path = false;
 		$this->commands = array(
@@ -198,7 +198,7 @@ class ilFileSystemGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("listFiles");
@@ -209,11 +209,11 @@ class ilFileSystemGUI
 			default:
 				if (substr($cmd, 0, 11) == "extCommand_")
 				{
-					$ret =& $this->extCommand(substr($cmd, 11, strlen($cmd) - 11));
+					$ret = $this->extCommand(substr($cmd, 11, strlen($cmd) - 11));
 				}
 				else
 				{
-					$ret =& $this->$cmd();
+					$ret = $this->$cmd();
 				}
 				break;
 		}
@@ -230,7 +230,7 @@ class ilFileSystemGUI
 	{
 		$i = count($this->commands);
 
-		$this->commands[$i]["object"] =& $a_obj;
+		$this->commands[$i]["object"] = $a_obj;
 		$this->commands[$i]["method"] = $a_func;
 		$this->commands[$i]["name"] = $a_name;
 		$this->commands[$i]["single"] = $a_single;

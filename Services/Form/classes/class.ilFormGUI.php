@@ -21,15 +21,6 @@ class ilFormGUI
 	protected $id;
 	protected $name;
 	protected $prevent_double_submission = false;
-	
-	/**
-	* Constructor
-	*
-	* @param
-	*/
-	function ilFormGUI()
-	{
-	}
 
 	/**
 	* Set FormAction.

@@ -34,7 +34,7 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 class ilPDNewsTableGUI extends ilTable2GUI
 {
 
-	function ilPDNewsTableGUI($a_parent_obj, $a_parent_cmd = "", $a_contexts,
+	function __construct($a_parent_obj, $a_parent_cmd = "", $a_contexts,
 		$a_selected_context)
 	{
 		global $ilCtrl, $lng;

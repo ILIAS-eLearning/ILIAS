@@ -41,7 +41,7 @@ class ilAssQuestionUserSolutionAdopter
 	protected static $preparedInsertResultRecordStatement = null;
 
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
@@ -71,11 +71,11 @@ class ilAssQuestionUserSolutionAdopter
 	protected $questionIds;
 
 	/**
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 * @param ilSetting $assSettings
 	 * @param bool $isAssessmentLogEnabled
 	 */
-	public function __construct(ilDB $db, ilSetting $assSettings, $isAssessmentLogEnabled)
+	public function __construct(ilDBInterface $db, ilSetting $assSettings, $isAssessmentLogEnabled)
 	{
 		$this->db = $db;
 		

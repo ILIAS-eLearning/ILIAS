@@ -21,7 +21,7 @@ class ilSCORM2004NodeGUI
 	*
 	* @param	object		$a_content_obj		node object
 	*/
-	function ilSCORM2004NodeGUI($a_slm_obj, $a_node_id = 0)
+	function __construct($a_slm_obj, $a_node_id = 0)
 	{
 		$this->slm_object = $a_slm_obj;
 		$this->node_object = null;
@@ -110,7 +110,7 @@ class ilSCORM2004NodeGUI
 	{
 		$this->setTabs();
 
-		$cont_obj_gui =& new ilObjContentObjectGUI("",$this->content_object->getRefId(),
+		$cont_obj_gui = new ilObjContentObjectGUI("",$this->content_object->getRefId(),
 			true, false);
 		$cont_obj_gui->delete($this->obj->getId());
 	}
@@ -136,7 +136,7 @@ class ilSCORM2004NodeGUI
 	*/
 /*	function confirmedDelete()
 	{
-		$cont_obj_gui =& new ilObjContentObjectGUI("",$this->content_object->getRefId(),
+		$cont_obj_gui = new ilObjContentObjectGUI("",$this->content_object->getRefId(),
 			true, false);
 		$cont_obj_gui->confirmedDelete($this->obj->getId());
 		$this->ctrl->redirect($this, $_GET["backcmd"]);
@@ -382,7 +382,7 @@ class ilSCORM2004NodeGUI
 		global $tpl;
 		
 		// content styles
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->slm_object->getStyleSheetId()));

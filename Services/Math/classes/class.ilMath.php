@@ -215,7 +215,7 @@ class ilMath
 	* Converts numbers in the form "1.5e4" into decimal notation
 	* Only available for bcmath
 	*/
-	function exp2dec($float_str)
+	public static function exp2dec($float_str)
 	{
 		// make sure its a standard php float string (i.e. change 0.2e+2 to 20)
 		// php will automatically format floats decimally if they are within a certain range

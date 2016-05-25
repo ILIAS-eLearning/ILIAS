@@ -843,6 +843,7 @@ h4.il_ContainerItemTitle {
 
 div.il_ContainerItemTitle {
 	float: left;
+    max-width: calc(~"100% - 40px");
 	padding-bottom: 5px;
 }
 
@@ -937,7 +938,11 @@ div.il_info {
 a#il_mhead_t_focus {
 	color: @brand-secondary;
 	vertical-align: middle;
-	font-size: 26px
+	font-size: 26px;
+    cursor: default;
+    &[href] {
+        cursor: pointer;
+    }
 }
 
 h1.ilHeader {
@@ -1041,7 +1046,7 @@ footer.ilFooter {
 	right: 0;
 	bottom: -1px !important;
 	font-size: 0.9em;
-	height: 160px;
+	height: 70px;
 	margin: 0 auto;
 	padding: 20px 0 0;
 	text-align: left;
@@ -1673,16 +1678,31 @@ img[src$="icon_checked.svg"] {
 	text-align: center;
 }
 
+//mantis #0017943
 div.ilNewObjectSelector {
-	margin-bottom: 8px;
-	text-align: right;
-	padding-right:10px;
+	display: inline-block;
+    float: right;
+    margin-bottom: 8px;
+    padding: 0 10px;
+    > .btn-group {
+        display: block;
+        width: 100%;
+        #ilAdvSelListAnchorText_asl {
+            float: right;
+        }
+        .dropdown-menu.pull-right {
+            top: 30px;
+        }
+    }
 }
 
 [dir="rtl"] div.ilNewObjectSelector {
-	text-align: left;
-	padding-right: 0;
-	padding-left: 10px;
+	float: left;
+    > .btn-group {
+        #ilAdvSelListAnchorText_asl {
+            float: left;
+        }
+    }
 }
 
 .pdMailRow {
@@ -1768,8 +1788,9 @@ table.mceToolbar {
 	}
 }
 
-//mantis #0017724, 17884...
+//mantis #0017724, 17884, #17943
 #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
+#ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
 #mm_adm_tr + span + ul.dropdown-menu > li > div.row,
 #mm_adm_tr + ul.dropdown-menu > li > div.row {
     width: 750px;
@@ -1824,6 +1845,10 @@ table.mceToolbar {
 	img {
 		max-width: 100%;
 	}
+    
+    td.ilc_Mob img {
+        height: auto !important;
+    }
 
 	// this fixes the open street map images, not the best place to
 	// to this. another option would be to not put the

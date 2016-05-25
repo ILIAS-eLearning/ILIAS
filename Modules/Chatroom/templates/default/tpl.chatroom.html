@@ -1,60 +1,140 @@
 <script type="text/javascript">
-var myId = {MY_ID};
+
+	var myId = {MY_ID};
 
 
-    il.Util.addOnLoad(function() {
-	var lang = {
-		main                       :{LBL_MAINROOM},
-		leave                      :{LBL_LEAVE_PRIVATE_ROOM},
-		enter                      :{LBL_JOIN},
-		delete_private_room        :{LBL_DELETE_PRIVATE_ROOM},
-		invite_users               :{LBL_INVITE_TO_PRIVATE_ROOM},
-		kick                       :{LBL_KICK},
-		ban                        :{LBL_BAN},
-		kick_question              :{LBL_KICK_QUESTION},
-		ban_question               :{LBL_BAN_QUESTION},
-		address                    :{LBL_ADDRESS},
-		speak_to                   :{LBL_SPEAK_TO},
-		whisper                    :{LBL_WHISPER},
-		whisper_to                 :{LBL_WHISPER_TO},
-		connect                    :{LBL_CONNECT},
-		disconnected               :{LBL_DISCONNECT},
-		create_private_room        :{LBL_CREATE_PRIVATE_ROOM_JS},
-		welcome_to_chat            :{LBL_WELCOME_TO_CHAT},
-		user_invited               :{LBL_USER_INVITED},
-		user_kicked                :{LBL_USER_KICKED},
-		user_invited_self          :{LBL_USER_INVITED_SELF},
-		private_room_closed        :{LBL_PRIVATE_ROOM_CLOSED},
-		private_room_entered       :{LBL_PRIVATE_ROOM_ENTERED},
-		private_room_left          :{LBL_PRIVATE_ROOM_LEFT},
-		private_room_entered_user  :{LBL_PRIVATE_ROOM_ENTERED_USER},
-		kicked_from_private_room   :{LBL_KICKED_FROM_PRIVATE_ROOM},
-		ok                         :{LBL_OK},
-		cancel                     :{LBL_CANCEL},
-		invite                     :{LBL_INVITE},
-		history_has_been_cleared   :{LBL_HISTORY_CLEARED},
-		clear_room_history         :{LBL_CLEAR_ROOM_HISTORY},
-		clear_room_history_question:{LBL_CLEAR_ROOM_HISTORY_QUESTION},
-		show_settings              :{LBL_SHOW_SETTINGS_JS},
-		hide_settings              :{LBL_HIDE_SETTINGS},
-		end_whisper                :{LBL_END_WHISPER},
-		timeformat                 :{LBL_TIMEFORMAT},
-		dateformat                 :{LBL_DATEFORMAT}
-	};
-	$('#colorpicker').colorPicker();
-        var initial = {INITIAL_DATA};
-	$('#chat_messages').chat(lang, '{BASEURL}', '{SESSION_ID}', '{INSTANCE}', '{SCOPE}', '{POSTURL}', initial);
-    });
+	il.Util.addOnLoad(function() {
+		var lang = {
+			main                       :{LBL_MAINROOM},
+			leave                      :{LBL_LEAVE_PRIVATE_ROOM},
+			left                       :{LBL_LEFT_PRIVATE_ROOM},
+			enter                      :{LBL_JOIN},
+			delete_private_room_question :{LBL_DELETE_PRIVATE_ROOM_QUESTION},
+			delete_private_room        :{LBL_DELETE_PRIVATE_ROOM},
+			invite_users               :{LBL_INVITE_TO_PRIVATE_ROOM},
+			kick                       :{LBL_KICK},
+			ban                        :{LBL_BAN},
+			kick_question              :{LBL_KICK_QUESTION},
+			ban_question               :{LBL_BAN_QUESTION},
+			address                    :{LBL_ADDRESS},
+			speak_to                   :{LBL_SPEAK_TO},
+			whisper                    :{LBL_WHISPER},
+			whisper_to                 :{LBL_WHISPER_TO},
+			connect                    :{LBL_CONNECT},
+			disconnected               :{LBL_DISCONNECT},
+			create_private_room        :{LBL_CREATE_PRIVATE_ROOM_JS},
+			welcome_to_chat            :{LBL_WELCOME_TO_CHAT},
+			user_invited               :{LBL_USER_INVITED},
+			user_kicked                :{LBL_USER_KICKED},
+			user_invited_self          :{LBL_USER_INVITED_SELF},
+			private_room_closed        :{LBL_PRIVATE_ROOM_CLOSED},
+			private_room_entered       :{LBL_PRIVATE_ROOM_ENTERED},
+			private_room_left          :{LBL_PRIVATE_ROOM_LEFT},
+			private_room_entered_user  :{LBL_PRIVATE_ROOM_ENTERED_USER},
+			kicked_from_private_room   :{LBL_KICKED_FROM_PRIVATE_ROOM},
+			ok                         :{LBL_OK},
+			cancel                     :{LBL_CANCEL},
+			history_has_been_cleared   :{LBL_HISTORY_CLEARED},
+			clear_room_history         :{LBL_CLEAR_ROOM_HISTORY},
+			clear_room_history_question:{LBL_CLEAR_ROOM_HISTORY_QUESTION},
+			show_settings              :{LBL_SHOW_SETTINGS_JS},
+			hide_settings              :{LBL_HIDE_SETTINGS},
+			end_whisper                :{LBL_END_WHISPER},
+			timeformat                 :{LBL_TIMEFORMAT},
+			dateformat                 :{LBL_DATEFORMAT}
+		};
+		$('#colorpicker').colorPicker();
+		var initial = {INITIAL_DATA};
+		$('#chat_messages').chat(lang, '{BASEURL}', '{SESSION_ID}', '{INSTANCE}', '{SCOPE}', '{POSTURL}', initial);
+	});
+
+</script>
+
+<script src="Modules/Chatroom/chat/node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>
+
+<script type="text/javascript">
+	var initial = {INITIAL_DATA};
+	var room 	= {SCOPE};
+	var userId = initial.userinfo.userid;
+	var user = null;
+	var instance = "{INSTANCE}";
+
+	$(initial.users).each(function(key){
+		if(initial.users[key].id == userId) {
+			user = initial.users[key].login;
+		}
+	});
+
+	/*var socket = io.connect('http://localhost:7373/'+instance);
+
+	 socket.on('connect', function(){
+	 console.log('connect');
+
+	 socket.emit('login', user, userId, room);
+	 });
+
+	 socket.on('message', function(username, data){
+	 var container = $('<div></div>').addClass('messageLine').addClass('chat').addClass('public');
+
+	 if(username == 'SERVER') {
+	 container.addClass('notice');
+	 }
+	 else
+	 {
+	 var time = formatTime(data.timestamp);
+	 $(container).append(
+	 $('<span></span>').addClass('chat').addClass('content').addClass('date').html(time + " ")
+	 ).append(
+	 $('<span></span>').addClass('chat').addClass('content').addClass('username').html(username)
+	 ).append(
+	 $('<span></span>').addClass('chat').addClass('content').addClass('messageseperator').html(': ')
+	 );
+	 }
+
+	 $(container).append(
+	 $('<span></span>').addClass('chat').html(data.message.content)
+	 );
+	 $('#chat_messages').append(container);
+	 });*/
+
+	var formatTime = function(timestamp) {
+		var date = new Date(timestamp * 1000);
+
+		var hours = date.getHours();
+		var minutes = date.getMinutes();
+		var seconds = date.getSeconds();
+
+		return (hours < 10? "0": "") + hours + ":" + (minutes < 10? "0": "") + minutes + ":" + (seconds < 10? "0": "") + seconds;
+	}
+
+	// on load of page
+	/*$(function(){
+	 // when the client clicks SEND
+	 $('#submit_message').click( function() {
+	 var message = $('#submit_message_text').val();
+	 $('#submit_message_text').val('');
+	 // tell server to execute 'sendchat' and send along one parameter
+	 socket.emit('message', message, room);
+	 });
+
+	 // when the client hits ENTER on their keyboard
+	 $('#submit_message_text').keypress(function(e) {
+	 if(e.which == 13) {
+	 $(this).blur();
+	 $('#submit_message').focus().click();
+	 }
+	 });
+	 });*/
 </script>
 
 <div id="invite_users_container" class="ilNoDisplayChat">
 	<div>
-		<input type="radio" name="invite_users_type" id="invite_users_in_room"/><label for="invite_users_in_room" id="labelInviteUsersInRoom">&nbsp;{LBL_USER_IN_ROOM}&nbsp;&nbsp;</label>
-		<input type="radio" name="invite_users_type" id="invite_users_global"/><label for="invite_users_global" id="labelInviteGlobalUsers">&nbsp;{LBL_USER_IN_ILIAS}</label>
+		<input type="radio" name="invite_users_type" id="invite_users_in_room"/><span id="radioText">{LBL_USER_IN_ROOM}&nbsp;&nbsp;</span>
+		<input type="radio" name="invite_users_type" id="invite_users_global"/>{LBL_USER_IN_ILIAS}
 	</div>
 	<div>
 		<p id="invite_user_text_wrapper" class="ilNoDisplayChat"><label for="invite_user_text">{LBL_USER_TEXT}:</label> <input type="text" class="form-control" id="invite_user_text" /></p>
-		<ul id="invite_users_available" class="ilNoDisplay">
+		<ul id="invite_users_available">
 			<li></li>
 		</ul>
 	</div>
@@ -80,80 +160,85 @@ var myId = {MY_ID};
 		</td>
 	</tr>
 	<tr>
-	    <td class="ilRight">
+		<td class="ilRight">
 			<div class="form-group">
-			<label for="chat_auto_scroll" class="control-label">{LBL_AUTO_SCROLL}</label>
-			<input type="checkbox" id="chat_auto_scroll" checked="checked" />
+				<label for="chat_auto_scroll" class="control-label">{LBL_AUTO_SCROLL}</label>
+				<input type="checkbox" id="chat_auto_scroll" checked="checked" />
 			</div>
 		</td>
 	</tr>
 	<tr>
 		<td>
-		<form role="form" class="form-horizontal">
-			<div class="ilFormHeader">
-				<h3><a name="il_form_top"></a>{LBL_MESSAGE}</h3>
-				<div class="ilFormCmds">
+			<form role="form" class="form-horizontal">
+				<div class="ilFormHeader">
+					<h3><a name="il_form_top"></a>{LBL_MESSAGE}</h3>
+					<div class="ilFormCmds">
+					</div>
+					<div class="help-block"></div>
 				</div>
-				<div class="help-block"></div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label" for="submit_message_text"><span id="message_recipient_info_all">{LBL_TOALL}</span><span id="message_recipient_info"></span></label>
-				<div id="iosChatInputContainer" class="col-sm-9">
-					<input class="form-control" type="text" name="message" id="submit_message_text"/>
-					<input type="button" class="btn btn-default btn-sm" value="{LBL_SEND}" id="submit_message"/>
+				<div class="form-group">
+					<div class="col-sm-3">
+						<label class="control-label" for="submit_message_text">
+							<span id="message_recipient_info_all">{LBL_TOALL}</span>
+							<span id="message_recipient_info"></span>
+						</label>
+					</div>
+					<div id="iosChatInputContainer" class="col-sm-9">
+						<input class="form-control" type="text" name="message" id="submit_message_text"/>
+						<input type="button" class="btn btn-default btn-sm" value="{LBL_SEND}" id="submit_message"/>
+					</div>
 				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label" onclick="$('#show_options').click()">{LBL_LAYOUT}</label>
-				<div class="col-sm-9">
-					<div class="ilSubForm">
-						<a id="show_options" href="javascript:;">{LBL_SHOW_SETTINGS}</a>
-						<div class="chat optionlist form-group">
-							<label class="col-sm-3 control-label" for="colorpicker">{LBL_FONTCOLOR}:</label>
-							<div class="col-sm-9">
-								<input class="form-control" type="text" id="colorpicker" value="{VAL_FONTCOLOR}" />
+				<div class="form-group">
+					<label class="col-sm-3 control-label" onclick="$('#show_options').click()">{LBL_LAYOUT}</label>
+					<div class="col-sm-9">
+						<div class="ilSubForm">
+							<a id="show_options" href="javascript:;">{LBL_SHOW_SETTINGS}</a>
+							<div class="chat optionlist form-group">
+								<label class="col-sm-3 control-label" for="colorpicker">{LBL_FONTCOLOR}:</label>
+								<div class="col-sm-9">
+									<input class="form-control" type="text" id="colorpicker" value="{VAL_FONTCOLOR}" />
+								</div>
 							</div>
-						</div>
-						<div class="chat optionlist form-group">
-							<label class="col-sm-3 control-label" for="fontfamily">{LBL_FONTFAMILY}:</label>
-							<div class="col-sm-9">
-								<select class="form-control" id="fontfamily">
-									<!-- BEGIN chat_fontfamily -->
-									<option value="{VAL_FONTFAMILY}" {SELECTED_FONTFAMILY}>{LBL_FONTFAMILY}</option>
-									<!-- END chat_fontfamily -->
-								</select>
+							<div class="chat optionlist form-group">
+								<label class="col-sm-3 control-label" for="fontfamily">{LBL_FONTFAMILY}:</label>
+								<div class="col-sm-9">
+									<select class="form-control" id="fontfamily">
+										<!-- BEGIN chat_fontfamily -->
+										<option value="{VAL_FONTFAMILY}" {SELECTED_FONTFAMILY}>{LBL_FONTFAMILY}</option>
+										<!-- END chat_fontfamily -->
+									</select>
+								</div>
 							</div>
-						</div>
-						<div class="chat optionlist form-group">
-							<label class="col-sm-3 control-label" for="fontstyle">{LBL_FONTSTYLE}:</label>
-							<div class="col-sm-9">
-								<select class="form-control" id="fontstyle">
-									<!-- BEGIN chat_fontstyle -->
-									<option value="{VAL_FONTSTYLE}" {SELECTED_FONTSTYLE}>{LBL_FONTSTYLE}</option>
-									<!-- END chat_fontstyle -->
-								</select>
+							<div class="chat optionlist form-group">
+								<label class="col-sm-3 control-label" for="fontstyle">{LBL_FONTSTYLE}:</label>
+								<div class="col-sm-9">
+									<select class="form-control" id="fontstyle">
+										<!-- BEGIN chat_fontstyle -->
+										<option value="{VAL_FONTSTYLE}" {SELECTED_FONTSTYLE}>{LBL_FONTSTYLE}</option>
+										<!-- END chat_fontstyle -->
+									</select>
+								</div>
 							</div>
-						</div>
-						<div class="chat optionlist form-group">
-							<label class="col-sm-3 control-label" for="fontsize">{LBL_FONTSIZE}:</label>
-							<div class="col-sm-9">
-								<select class="form-control" id="fontsize">
-									<!-- BEGIN chat_fontsize -->
-									<option value="{VAL_FONTSIZE}" {SELECTED_FONTSIZE}>{LBL_FONTSIZE}</option>
-									<!-- END chat_fontsize -->
-								</select>
+							<div class="chat optionlist form-group">
+								<label class="col-sm-3 control-label" for="fontsize">{LBL_FONTSIZE}:</label>
+								<div class="col-sm-9">
+									<select class="form-control" id="fontsize">
+										<!-- BEGIN chat_fontsize -->
+										<option value="{VAL_FONTSIZE}" {SELECTED_FONTSIZE}>{LBL_FONTSIZE}</option>
+										<!-- END chat_fontsize -->
+									</select>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</form>
-        </td>
-    </tr>
+			</form>
+		</td>
+	</tr>
 </table>
 
 <input class="ilHidden" type="text" name="moreOptions" id="moreOptions" />
 
 <div class="ilNoDisplayChat" id="create_private_room_dialog">
-    <label for="new_room_name">{LBL_CREATE_PRIVATE_ROOM_TEXT}:</label> <input class="form-control" type="text" id="new_room_name" />
+	<label for="new_room_name">{LBL_CREATE_PRIVATE_ROOM_TEXT}:</label> <input class="form-control" type="text" id="new_room_name" />
 </div>

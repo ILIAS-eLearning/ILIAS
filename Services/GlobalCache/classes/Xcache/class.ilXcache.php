@@ -29,7 +29,7 @@ class ilXcache extends ilGlobalCacheService {
 	 *
 	 * @return bool
 	 */
-	public function set($key, $serialized_value, $ttl = NULL) {
+	public function set($key, $serialized_value, $ttl = null) {
 		return xcache_set($this->returnKey($key), $serialized_value, $ttl);
 	}
 

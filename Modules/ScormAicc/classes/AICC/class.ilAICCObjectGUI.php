@@ -40,16 +40,16 @@ class ilAICCObjectGUI
 	var $lng;
 
 
-	function ilAICCObjectGUI($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		global $tpl, $lng;
 
 		if($a_id != 0)
 		{
-			$this->sc_object =& new ilAICCUnit($a_id);
+			$this->sc_object = new ilAICCUnit($a_id);
 		}
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
 	}
 
 	/**
@@ -63,17 +63,17 @@ class ilAICCObjectGUI
 		switch($object->getType())
 		{
 			case "sbl":					// Block
-				$block =& new ilAICCBlockGUI($a_id);
+				$block = new ilAICCBlockGUI($a_id);
 				return $block;
 				break;
 
 			case "sau":					// assignable unit
-				$sau =& new ilAICCUnitGUI($a_id);
+				$sau = new ilAICCUnitGUI($a_id);
 				return $sau;
 				break;
 				
 			case "shd":					// course
-				$shd =& new ilAICCCourseGUI($a_id);
+				$shd = new ilAICCCourseGUI($a_id);
 				return $shd;
 				break;
 		}

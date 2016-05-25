@@ -23,13 +23,13 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilSCORM2004PageNodeGUI($a_slm_obj, $a_node_id = 0)
+	function __construct($a_slm_obj, $a_node_id = 0)
 	{
 		global $ilCtrl;
 		
 		$ilCtrl->saveParameter($this, "obj_id");
 		
-		parent::ilSCORM2004NodeGUI($a_slm_obj, $a_node_id);
+		parent::__construct($a_slm_obj, $a_node_id);
 	}
 
 	/**
@@ -43,7 +43,7 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $tpl;
 		
@@ -64,13 +64,13 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 
 				$ilCtrl->setReturn($this, "edit");
 				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php");
-				$page_gui =& new ilSCORM2004PageGUI($this->slm_object->getType(),
+				$page_gui = new ilSCORM2004PageGUI($this->slm_object->getType(),
 					$this->node_object->getId(), 0,
 					$this->getParentGUI()->object->getId(),
 					$this->slm_object->getAssignedGlossary());
 				$page_gui->setEditPreview(true);
 				$page_gui->setPresentationTitle($this->node_object->getTitle());
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->slm_object->getStyleSheetId(), "sahs"));
 
@@ -111,7 +111,7 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 				break;
 
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 

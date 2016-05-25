@@ -26,13 +26,13 @@ class ilTabsGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilTabsGUI()
+	function __construct()
 	{
 		global $tpl, $objDefinition, $lng;
 
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->objDefinition =& $objDefinition;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->objDefinition = $objDefinition;
 		$this->manual_activation = false;
 		$this->subtab_manual_activation = false;
 		$this->temp_var = "TABS";

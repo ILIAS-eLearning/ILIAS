@@ -21,18 +21,18 @@ class ilPCResourcesGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCResourcesGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
+	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
 		global $tree;
 		
 		$this->rep_tree = $tree;
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
@@ -43,7 +43,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
 		switch($next_class)
 		{
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 
@@ -302,7 +302,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
 		}
 		
 		// handle item groups
-		while (eregi("\[(item-group-([0-9]*))\]", $a_content, $found))
+		while (preg_match('/\[(item-group-([0-9]*))\]/i', $a_content, $found))
 		{
 			$itgr_ref_id = (int) $found[2];
 			
@@ -331,7 +331,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
 			{
 				$html = "<i>".$lng->txt("cont_element_refers_removed_itgr")."</i>";
 			}
-			$a_content = eregi_replace("\[".$found[1]."\]", $html, $a_content);
+			$a_content = preg_replace('/\['.$found[1].'\]/i', $html, $a_content);
 		}
 		
 

@@ -32,12 +32,12 @@ class ilObjGroupGUI extends ilContainerGUI
 	public function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = false)
 	{
 		$this->type = "grp";
-		$this->ilContainerGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
 		$this->lng->loadLanguageModule('grp');
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilUser,$rbacsystem,$ilAccess, $ilNavigationHistory,$ilErr, $ilCtrl, $ilToolbar;
 
@@ -90,13 +90,13 @@ class ilObjGroupGUI extends ilContainerGUI
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search = new ilRepositorySearchGUI();
 				$rep_search->setCallback($this,
 					'addUserObject',
 					$this->getLocalRoles()
@@ -117,7 +117,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			case "illearningprogressgui":
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 
-				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
 													  $this->object->getRefId(),
 													  $_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
 				$this->ctrl->forwardCommand($new_gui);
@@ -129,7 +129,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				
 				include_once './Modules/Course/classes/class.ilObjCourseGroupingGUI.php';
 				$this->ctrl->setReturn($this,'edit');
-				$crs_grp_gui =& new ilObjCourseGroupingGUI($this->object,(int) $_GET['obj_id']);
+				$crs_grp_gui = new ilObjCourseGroupingGUI($this->object,(int) $_GET['obj_id']);
 				$this->ctrl->forwardCommand($crs_grp_gui);
 				
 				$this->tabs_gui->setTabActive('settings');
@@ -157,7 +157,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			case "ilcolumngui":
 				$this->tabs_gui->setTabActive('none');
 				$this->checkPermission("read");
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 				$this->renderObject();
@@ -271,7 +271,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				include_once './Services/Contact/classes/class.ilMailMemberSearchGUI.php';
 				include_once './Services/Contact/classes/class.ilMailMemberGroupRoles.php';
 
-				$mail_search = new ilMailMemberSearchGUI($this->object->getRefId(), new ilMailMemberGroupRoles());
+				$mail_search = new ilMailMemberSearchGUI($this, $this->object->getRefId(), new ilMailMemberGroupRoles());
 				$mail_search->setObjParticipants(ilCourseParticipants::_getInstanceByObjId($this->object->getId()));
 				$this->ctrl->forwardCommand($mail_search);
 				break;
@@ -369,9 +369,13 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 
 	/**
-	* Modify Item ListGUI for presentation in container
-	*/
-	function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
+	 * Modify Item ListGUI for presentation in container
+	 * @global type $tree
+	 * @param type $a_item_list_gui
+	 * @param type $a_item_data
+	 * @param type $a_show_path
+	 */
+	public function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
 	{
 		global $tree;
 
@@ -381,9 +385,16 @@ class ilObjGroupGUI extends ilContainerGUI
 			include_once("./Modules/Course/classes/class.ilObjCourse.php");
 			include_once("./Modules/Course/classes/class.ilObjCourseGUI.php");
 			$course_obj_id = ilObject::_lookupObjId($course_ref_id);
-			ilObjCourseGUI::_modifyItemGUI($a_item_list_gui,'ilcoursecontentgui',$a_item_data, $a_show_path,
-				ilObjCourse::_lookupAboStatus($course_obj_id), $course_ref_id, $course_obj_id,
-				$this->object->getRefId());
+			ilObjCourseGUI::_modifyItemGUI(
+					$a_item_list_gui,
+					'ilcoursecontentgui',
+					$a_item_data, 
+					$a_show_path,
+					ilObjCourse::_lookupAboStatus($course_obj_id), 
+					$course_ref_id, 
+					$course_obj_id,
+					$this->object->getRefId()
+			);
 		}
 	}
 	
@@ -1447,12 +1458,13 @@ class ilObjGroupGUI extends ilContainerGUI
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
 
-        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		ilMailFormCall::setRecipients($rcps);
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget(
 			$this, 
 			'members',
 			array(), 
-			array('type' => 'new', 'rcp_to' => implode(',',$rcps),'sig' => $this->createMailSignature())));
+			array('type' => 'new', 'sig' => $this->createMailSignature())));
 		return true;
 	}
 	
@@ -1826,7 +1838,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 
 	// get tabs
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $ilUser, $ilAccess, $lng, $ilHelp;
 		
@@ -1834,12 +1846,12 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$tabs_gui->addTab("view_content", $lng->txt("content"),
+			$this->tabs_gui->addTab("view_content", $lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 		}
 		if ($rbacsystem->checkAccess('visible',$this->ref_id))
 		{
-			$tabs_gui->addTarget("info_short",
+			$this->tabs_gui->addTarget("info_short",
 								 $this->ctrl->getLinkTargetByClass(
 								 array("ilobjgroupgui", "ilinfoscreengui"), "showSummary"),
 								 "infoScreen",
@@ -1849,7 +1861,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if ($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit", "editMapSettings"), get_class($this),
 				"");
 		}
@@ -1860,7 +1872,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		// Members
 		if($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			$tabs_gui->addTarget('members', $this->ctrl->getLinkTarget($this, 'members'), array(), get_class($this));
+			$this->tabs_gui->addTarget('members', $this->ctrl->getLinkTarget($this, 'members'), array(), get_class($this));
 		}
 		else if($is_participant)
 		{
@@ -1875,7 +1887,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), $is_participant))
 		{
-			$tabs_gui->addTarget('learning_progress',
+			$this->tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjgroupgui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
@@ -1884,7 +1896,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				'export',
 				$this->ctrl->getLinkTargetByClass('ilexportgui',''),
 				'export',
@@ -1892,19 +1904,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			);
 		}
 
-		/*
-		if ($rbacsystem->checkAccess('write',$this->object->getRefId()))
-		{
-			
-			
-			$tabs_gui->addTarget('export',
-								 $this->ctrl->getLinkTarget($this,'listExportFiles'),
-								 array('listExportFiles','exportXML','confirmDeleteExportFile','downloadExportFile'),
-								 get_class($this));
-		}
-		*/
 		// parent tabs (all container: edit_permission, clipboard, trash
-		parent::getTabs($tabs_gui);
+		parent::getTabs();
 
 		if($ilAccess->checkAccess('join','',$this->object->getRefId()) and
 			!$this->object->members_obj->isAssigned($ilUser->getId()))
@@ -1912,7 +1913,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			include_once './Modules/Group/classes/class.ilGroupWaitingList.php';
 			if(ilGroupWaitingList::_isOnList($ilUser->getId(), $this->object->getId()))
 			{
-				$tabs_gui->addTab(
+				$this->tabs_gui->addTab(
 					'leave',
 					$this->lng->txt('membership_leave'),
 					$this->ctrl->getLinkTargetByClass('ilgroupregistrationgui','show','')
@@ -1922,7 +1923,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			else
 			{			
 				
-				$tabs_gui->addTarget("join",
+				$this->tabs_gui->addTarget("join",
 									 $this->ctrl->getLinkTargetByClass('ilgroupregistrationgui', "show"), 
 									 'show',
 									 "");
@@ -1931,214 +1932,12 @@ class ilObjGroupGUI extends ilContainerGUI
 		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and
 			$this->object->members_obj->isMember($ilUser->getId()))
 		{
-			$tabs_gui->addTarget("grp_btn_unsubscribe",
+			$this->tabs_gui->addTarget("grp_btn_unsubscribe",
 								 $this->ctrl->getLinkTarget($this, "leave"), 
 								 '',
 								 "");
 		}
 	}
-
-	// IMPORT FUNCTIONS
-
-	function importFileObject2()
-	{
-		if(!is_array($_FILES['xmldoc']))
-		{
-			ilUtil::sendFailure($this->lng->txt("import_file_not_valid"));
-			$this->createObject();
-			return false;
-		}
-		
-		include_once './Modules/Group/classes/class.ilObjGroup.php';
-
-		if($ref_id = ilObjGroup::_importFromFile($_FILES['xmldoc'],(int) $_GET['ref_id']))
-		{
-			$this->ctrl->setParameter($this, "ref_id", $ref_id);
-			ilUtil::sendSuccess($this->lng->txt("import_grp_finished"),true);
-			ilUtil::redirect($this->ctrl->getLinkTarget($this,'edit','',false,false));
-		}
-		
-		ilUtil::sendFailure($this->lng->txt("import_file_not_valid"));
-		$this->createObject();
-	}	
-	
-/**
-* Creates the output form for group member export
-*
-* Creates the output form for group member export
-*
-*/
-	function exportObject()
-	{
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.grp_members_export.html",
-			"Modules/Group");
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("export",$this->ctrl->getFormAction($this)));
-		$this->tpl->setVariable("BUTTON_EXPORT", $this->lng->txt("export_group_members"));
-		$this->tpl->parseCurrentBlock();
-	}
-	
-/**
-* Exports group members to Microsoft Excel file
-*
-* Exports group members to Microsoft Excel file
-*
-*/
-	function exportMembersObject()
-	{
-		$title = preg_replace("/\s/", "_", $this->object->getTitle());
-		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
-		$adapter = new ilExcelWriterAdapter("export_" . $title . ".xls");
-		$workbook = $adapter->getWorkbook();
-		// Creating a worksheet
-		$format_bold =& $workbook->addFormat();
-		$format_bold->setBold();
-		$format_percent =& $workbook->addFormat();
-		$format_percent->setNumFormat("0.00%");
-		$format_datetime =& $workbook->addFormat();
-		$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
-		$format_title =& $workbook->addFormat();
-		$format_title->setBold();
-		$format_title->setColor('black');
-		$format_title->setPattern(1);
-		$format_title->setFgColor('silver');
-		$worksheet =& $workbook->addWorksheet();
-		$column = 0;
-		$profile_data = array("email", "gender", "firstname", "lastname", "person_title", "institution", 
-			"department", "street", "zipcode","city", "country", "phone_office", "phone_home", "phone_mobile",
-			"fax", "matriculation");
-		foreach ($profile_data as $data)
-		{
-			$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt($data)), $format_title);
-		}
-		$member_ids = $this->object->getGroupMemberIds();
-		$row = 1;
-		foreach ($member_ids as $member_id)
-		{
-			$column = 0;
-			$member =& $this->ilias->obj_factory->getInstanceByObjId($member_id);
-			if ($member->getPref("public_email")=="y")
-			{
-				$worksheet->writeString($row, $column++, $this->cleanString($member->getEmail()));
-			}
-			else
-			{
-				$column++;
-			}
-			$worksheet->writeString($row, $column++, $this->cleanString($this->lng->txt("gender_" . $member->getGender())));
-			$worksheet->writeString($row, $column++, $this->cleanString($member->getFirstname()));
-			$worksheet->writeString($row, $column++, $this->cleanString($member->getLastname()));
-			$worksheet->writeString($row, $column++, $this->cleanString($member->getUTitle()));
-			if ($member->getPref("public_institution")=="y")
-			{
-				$worksheet->writeString($row, $column++, $this->cleanString($member->getInstitution()));
-			}
-			else
-			{
-				$column++;
-			}
-			if ($member->getPref("public_department")=="y")
-			{
-				$worksheet->writeString($row, $column++, $this->cleanString($member->getDepartment()));
-			}
-			else
-			{
-				$column++;
-			}
-			if ($member->getPref("public_street")=="y")
-			{
-				$worksheet->writeString($row, $column++, $this->cleanString($member->getStreet()));
-			}
-			else
-			{
-				$column++;
-			}
-			if ($member->getPref("public_zip")=="y")
-			{
-				$worksheet->writeString($row, $column++, $this->cleanString($member->getZipcode()));
-			}
-			else
-			{
-				$column++;
-			}
-			if ($member->getPref("public_city")=="y")
-			{
-				$worksheet->writeString($row, $column++, $this->cleanString($member->getCity()));
-			}
-			else
-			{
-				$column++;
-			}
-			if ($member->getPref("public_country")=="y")
-			{
-				$worksheet->writeString($row, $column++, $this->cleanString($member->getCountry()));
-			}
-			else
-			{
-				$column++;
-			}
-			if ($member->getPref("public_phone_office")=="y")
-			{
-				$worksheet->writeString($row, $column++, $this->cleanString($member->getPhoneOffice()));
-			}
-			else
-			{
-				$column++;
-			}
-			if ($member->getPref("public_phone_home")=="y")
-			{
-				$worksheet->writeString($row, $column++, $this->cleanString($member->getPhoneHome()));
-			}
-			else
-			{
-				$column++;
-			}
-			if ($member->getPref("public_phone_mobile")=="y")
-			{
-				$worksheet->writeString($row, $column++, $this->cleanString($member->getPhoneMobile()));
-			}
-			else
-			{
-				$column++;
-			}
-			if ($member->getPref("public_fax")=="y")
-			{
-				$worksheet->writeString($row, $column++, $this->cleanString($member->getFax()));
-			}
-			else
-			{
-				$column++;
-			}
-			if ($member->getPref("public_matriculation")=="y")
-			{
-				$worksheet->writeString($row, $column++, $this->cleanString($member->getMatriculation()));
-			}
-			else
-			{
-				$column++;
-			}
-			$row++;
-		}
-		$workbook->close();
-	}
-	
-	/**
-	* Clean output string from german umlauts
-	*
-	* Clean output string from german umlauts. Replaces �� -> ae etc.
-	*
-	* @param string $str String to clean
-	* @return string Cleaned string
-	*/
-	function cleanString($str)
-	{
-		return str_replace(array("��","��","��","��","��","��","��"), array("ae","oe","ue","ss","Ae","Oe","Ue"), $str);
-	}
-
-	/**
-	* set sub tabs
-	*/
-
 
 	/**
 	* this one is called from the info button in the repository
@@ -2603,13 +2402,19 @@ class ilObjGroupGUI extends ilContainerGUI
 			}	
 			
 			if($hasParentMembership &&
-				$this->object->getViewMode(false) == ilContainer::VIEW_INHERIT)
+				$this->object->getViewMode() == ilContainer::VIEW_INHERIT)
 			{
 				$view_type->setValue(ilContainer::VIEW_INHERIT);
 			}
 			else
 			{
-				$view_type->setValue($this->object->getViewMode(true));
+				$view_type->setValue(
+					ilObjGroup::translateViewMode(
+						$this->object->getId(),
+						$this->object->getViewMode(),
+						$this->object->getRefId()
+					)
+				);
 			}
 			
 			$opt = new ilRadioOption($this->lng->txt('cntr_view_simple'),ilContainer::VIEW_SIMPLE);
@@ -2932,7 +2737,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 * Handle member view
 	 * @return 
 	 */
-	public function prepareOutput()
+	public function prepareOutput($a_show_subobjects = true)
 	{
 		global $rbacsystem;
 		if(!$this->getCreationMode())
@@ -2947,14 +2752,14 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			*/
 		}
-		parent::prepareOutput();
+		parent::prepareOutput($a_show_subobjects);
 	}
 	
 	/**
 	 * Create a course mail signature
-	 * @return 
+	 * @return string 
 	 */
-	protected function createMailSignature()
+	public function createMailSignature()
 	{
 		$link = chr(13).chr(10).chr(13).chr(10);
 		$link .= $this->lng->txt('grp_mail_permanent_link');

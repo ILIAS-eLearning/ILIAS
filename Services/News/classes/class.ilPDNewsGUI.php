@@ -20,16 +20,16 @@ class ilPDNewsGUI
 	*
 	* @access	public
 	*/
-	function ilPDNewsGUI()
+	function __construct()
 	{
 		global $tpl, $lng, $ilCtrl, $ilHelp;
 
 		$ilHelp->setScreenIdComponent("news");
 		
 		// initiate variables
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ctrl =& $ilCtrl;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
 		
 		$lng->loadLanguageModule("news");
 		
@@ -39,7 +39,7 @@ class ilPDNewsGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass();
 

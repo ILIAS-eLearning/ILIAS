@@ -3,7 +3,7 @@
 
 require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 require_once("./Services/MainMenu/classes/class.ilMainMenuGUI.php");
-require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 
 /**
 * Class ilLMPresentationGUI
@@ -13,7 +13,7 @@ require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilShopPurchaseGUI
+* @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilLMPresentationGUI: ilLMPageGUI, ilGlossaryDefPageGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilLMPresentationGUI: ilLearningProgressGUI, ilAssGenFeedbackPageGUI
 * @ilCtrl_Calls ilLMPresentationGUI: ilRatingGUI
@@ -32,10 +32,8 @@ class ilLMPresentationGUI
 	protected $current_page_id = false;
 	protected $focus_id = 0;		// focus id is set e.g. from learning objectives course, we focus on a chapter/page
 	protected $export_all_languages = false;
-	
-	private $needs_to_be_purchased = false;
 
-	function ilLMPresentationGUI()
+	function __construct()
 	{
 		global $ilUser, $lng, $tpl, $rbacsystem, $ilCtrl, $ilAccess;
 
@@ -77,13 +75,6 @@ class ilLMPresentationGUI
 			}
 		}
 
-		if(IS_PAYMENT_ENABLED)
-		{
-			include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-			$this->needs_to_be_purchased = ilPaymentObject::_requiresPurchaseToAccess((int)$this->lm->getRefId());
-		}
-		else $this->needs_to_be_purchased = false;
-
 		// check, if learning module is online
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
@@ -114,31 +105,7 @@ class ilLMPresentationGUI
 	{
 		global $ilNavigationHistory, $ilAccess, $ilias, $lng, $ilCtrl, $ilUser;
 
-		if(IS_PAYMENT_ENABLED)
-		{
-			include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-			if($ilAccess->checkAccess('visible', '', $_GET['ref_id']) &&
-			   $this->needs_to_be_purchased)
-			{
-				if(!((int)$_GET['obj_id'] &&
-				   ($this->lm->getPublicAccessMode() == 'selected' && ilLMObject::_isPagePublic($_GET['obj_id'])) &&
-				   ($this->ctrl->getCmd() == 'layout' || $this->ctrl->getCmd() == '')))
-
-				{
-					unset($_GET['obj_id']);
-
-					$this->tpl->getStandardTemplate();
-					$this->ilLocator();
-
-					include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
-					$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);
-					$ret = $this->ctrl->forwardCommand($pp);
-					$this->tpl->show();
-					return true;
-				}
-			}
-		}
-		// check read permission, payment and parent conditions
+		// check read permission and parent conditions
 		// todo: replace all this by ilAccess call
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]) &&
 			(!(($this->ctrl->getCmd() == "infoScreen" || $this->ctrl->getNextClass() == "ilinfoscreengui")
@@ -1164,9 +1131,9 @@ class ilLMPresentationGUI
 					{
 						$ilLocator->addItem(
 							ilUtil::shortenText(
-								ilStructureObject::_getPresentationTitle($row["child"],
+								ilStructureObject::_getPresentationTitle($row["child"], IL_CHAPTER_TITLE,
 									$this->lm->isActiveNumbering(),
-									$this->lm_set->get("time_scheduled_page_activation"), 0, $this->lang),
+									$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang),
 								50,true),
 							$this->getLink($_GET["ref_id"], "layout", $row["child"], $frame_param, "StructureObject"),
 							$frame_target);
@@ -1281,7 +1248,7 @@ class ilLMPresentationGUI
 			}
 
 			// if public access get first public page in chapter
-			if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) &&
+			if($ilUser->getId() == ANONYMOUS_USER_ID &&
 			   $this->lm_gui->object->getPublicAccessMode() == 'selected')
 			{
 				$public = ilLMObject::_isPagePublic($page_id);
@@ -1366,7 +1333,7 @@ class ilLMPresentationGUI
 		$this->fill_on_load_code = true;
 
 		// check if page is (not) visible in public area
-		if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) && 
+		if($ilUser->getId() == ANONYMOUS_USER_ID && 
 		   $this->lm_gui->object->getPublicAccessMode() == 'selected')
 		{
 			$public = ilLMObject::_isPagePublic($this->getCurrentPageId());
@@ -1743,7 +1710,7 @@ class ilLMPresentationGUI
 	 */
 	function basicPageGuiInit($a_page_gui)
 	{
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$a_page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 			$this->lm->getStyleSheetId(), "lm"));
 		if (!$this->offlineMode())
@@ -2261,7 +2228,7 @@ class ilLMPresentationGUI
 				$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
 
 			if ($succ_node["obj_id"] > 0 &&
-				($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) &&
+				$ilUser->getId() == ANONYMOUS_USER_ID &&
 				( $this->lm->getPublicAccessMode() == "selected" &&
 					!ilLMObject::_isPagePublic($succ_node["obj_id"])))
 			{
@@ -2400,7 +2367,7 @@ class ilLMPresentationGUI
 				$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
 
 			if ($succ_node["obj_id"] > 0 &&
-				($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) &&
+				$ilUser->getId() == ANONYMOUS_USER_ID &&
 				( $this->lm->getPublicAccessMode() == "selected" &&
 				!ilLMObject::_isPagePublic($succ_node["obj_id"])))
 			{
@@ -2447,7 +2414,7 @@ class ilLMPresentationGUI
 			$active = ilLMPage::_lookupActive($c_id,
 				$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
 			if ($pre_node["obj_id"] > 0 &&
-				($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) &&
+				$ilUser->getId() == ANONYMOUS_USER_ID &&
 				($this->lm->getPublicAccessMode() == "selected" &&
 				!ilLMObject::_isPagePublic($pre_node["obj_id"])))
 			{
@@ -2516,7 +2483,7 @@ class ilLMPresentationGUI
 				$prev_target = 'target="_top" ';
 			}
 			
-			if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) &&
+			if($ilUser->getId() == ANONYMOUS_USER_ID &&
 			   ($this->lm->getPublicAccessMode() == 'selected' && !ilLMObject::_isPagePublic($pre_node["obj_id"])))
 			{
 				$output = $this->lng->txt("msg_page_not_public");
@@ -2573,7 +2540,7 @@ class ilLMPresentationGUI
 				$succ_target = ' target="_top" ';
 			}
 			
-			if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) &&
+			if($ilUser->getId() == ANONYMOUS_USER_ID &&
 			   ($this->lm->getPublicAccessMode() == 'selected' && !ilLMObject::_isPagePublic($pre_node["obj_id"])))
 			{
 				$output = $this->lng->txt("msg_page_not_public");
@@ -3024,7 +2991,7 @@ class ilLMPresentationGUI
 						$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
 						$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
 					
-					if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased)&&
+					if($ilUser->getId() == ANONYMOUS_USER_ID &&
 					   $this->lm_gui->object->getPublicAccessMode() == "selected")
 					{
 						if (!ilLMObject::_isPagePublic($node["obj_id"]))
@@ -3047,10 +3014,10 @@ class ilLMPresentationGUI
 				// chapter
 				case "st":
 					$text =
-						ilStructureObject::_getPresentationTitle($node["obj_id"],
+						ilStructureObject::_getPresentationTitle($node["obj_id"], IL_CHAPTER_TITLE,
 							$this->lm->isActiveNumbering(),
-							$this->lm_set->get("time_scheduled_page_activation"), 0, $this->lang);
-					if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) && 
+							$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
+					if($ilUser->getId() == ANONYMOUS_USER_ID && 
 					   $this->lm_gui->object->getPublicAccessMode() == "selected")
 					{
 						if (!ilLMObject::_isPagePublic($node["obj_id"]))
@@ -3082,7 +3049,7 @@ class ilLMPresentationGUI
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
 				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
 			
-			if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) &&
+			if($ilUser->getId() == ANONYMOUS_USER_ID &&
 			   $this->lm_gui->object->getPublicAccessMode() == "selected")
 			{
 				if (!ilLMObject::_isPagePublic($_GET["obj_id"]))
@@ -3241,7 +3208,7 @@ class ilLMPresentationGUI
 			if (ilLMObject::_exists($this->lm->getFooterPage()))
 			{
 				$page_object_gui = $this->getLMPageGUI($this->lm->getFooterPage());
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->lm->getStyleSheetId(), "lm"));
 
@@ -3261,7 +3228,7 @@ class ilLMPresentationGUI
 			if (ilLMObject::_exists($this->lm->getHeaderPage()))
 			{
 				$page_object_gui = $this->getLMPageGUI($this->lm->getHeaderPage());
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->lm->getStyleSheetId(), "lm"));
 
@@ -3335,7 +3302,7 @@ class ilLMPresentationGUI
 				// output chapter title
 				if ($node["type"] == "st")
 				{
-					if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) && 
+					if($ilUser->getId() == ANONYMOUS_USER_ID && 
 					   $this->lm_gui->object->getPublicAccessMode() == "selected")
 					{
 						if (!ilLMObject::_isPagePublic($node["obj_id"]))
@@ -3371,7 +3338,7 @@ class ilLMPresentationGUI
 				// output page
 				if ($node["type"] == "pg")
 				{
-					if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) &&
+					if($ilUser->getId() == ANONYMOUS_USER_ID &&
 					   $this->lm_gui->object->getPublicAccessMode() == "selected")
 					{
 						if (!ilLMObject::_isPagePublic($node["obj_id"]))
@@ -3386,7 +3353,7 @@ class ilLMPresentationGUI
 					$page_id = $node["obj_id"];
 					$page_object_gui = $this->getLMPageGUI($page_id);
 					$page_object = $page_object_gui->getPageObject();
-					include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+					include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 					$page_object_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
 						$this->lm->getStyleSheetId(), "lm"));
 
@@ -3665,9 +3632,9 @@ class ilLMPresentationGUI
 					}
 					$this->tpl->setCurrentBlock("toc_entry");
 					$this->tpl->setVariable("TXT_TOC_TITLE",
-						ilStructureObject::_getPresentationTitle($node2["obj_id"],
+						ilStructureObject::_getPresentationTitle($node2["obj_id"], IL_CHAPTER_TITLE,
 							$this->lm->isActiveNumbering(),
-							$this->lm_set->get("time_scheduled_page_activation"), 0, $this->lang));
+							$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang));
 					$this->tpl->parseCurrentBlock();
 				}
 			}
@@ -3906,13 +3873,11 @@ class ilLMPresentationGUI
 				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 
-				include_once("./Services/Utilities/classes/class.ilFormat.php");
-				$this->tpl->setVariable("TXT_SIZE", ilFormat::formatSize($exp_file["size"]));
+				$this->tpl->setVariable("TXT_SIZE", ilUtil::formatSize($exp_file["size"]));
 				$this->tpl->setVariable("TXT_FORMAT", strtoupper($exp_file["type"]));
 				$this->tpl->setVariable("CHECKBOX_ID", $exp_file["type"].":".$exp_file["file"]);
 
 				$file_arr = explode("__", $exp_file["file"]);
-				include_once("./Services/Calendar/classes/class.ilDatePresentation.php");
 				ilDatePresentation::setUseRelativeDates(false);
 				$this->tpl->setVariable("TXT_DATE", ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)));
 

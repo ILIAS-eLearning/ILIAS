@@ -32,7 +32,7 @@ class ilFile
 	* get ilias object
 	* @access	public
 	*/
-	function ilFile()
+	function __construct()
 	{
 		global $ilias;
 

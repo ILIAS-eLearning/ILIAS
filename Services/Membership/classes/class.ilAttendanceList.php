@@ -367,7 +367,7 @@ class ilAttendanceList
 			$this->setTitle($form->getInput('title'), $form->getInput('desc'));
 			$this->setBlankColumns($form->getInput('blank'));
 
-			$selection_of_users = $form->getInput('selection_of_users');
+			$selection_of_users = (array)$form->getInput('selection_of_users'); // #18238
 
 			$roles = array();
 			foreach(array_keys($this->role_data) as $role_id)
@@ -440,7 +440,8 @@ class ilAttendanceList
 		
 		// title
 		
-		$time = ilFormat::formatUnixTime(time(),true);
+		ilDatePresentation::setUseRelativeDates(false);
+		$time = ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX));
 		
 		$tpl->setVariable('TXT_TITLE', $this->title);
 		if($this->description)

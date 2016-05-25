@@ -144,7 +144,7 @@ class ilTree
 	* @param	integer	$a_tree_id		tree_id
 	* @param	integer	$a_root_id		root_id (optional)
 	*/
-	function ilTree($a_tree_id, $a_root_id = 0)
+	function __construct($a_tree_id, $a_root_id = 0)
 	{
 		global $ilDB,$ilErr,$ilias,$ilLog;
 
@@ -503,7 +503,7 @@ class ilTree
 		$res = $ilDB->query($query);
 		
 		$childs = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$childs[] = $row->child;
 		}
@@ -987,6 +987,15 @@ class ilTree
 		$this->resetInTreeCache();
 		
 	}
+	
+	/**
+	 * Validate parent relations of tree
+	 * @return int[] array of failure nodes
+	 */
+	public function validateParentRelations()
+	{
+		return $this->getTreeImplementation()->validateParentRelations();
+	}
 
 	/**
 	* get path from a given startnode to a given endnode
@@ -1000,7 +1009,7 @@ class ilTree
 	*/
 	function getPathFull($a_endnode_id, $a_startnode_id = 0)
 	{
-		$pathIds =& $this->getPathId($a_endnode_id, $a_startnode_id);
+		$pathIds = $this->getPathId($a_endnode_id, $a_startnode_id);
 
 		// We retrieve the full path in a single query to improve performance
         global $ilDB;
@@ -1028,7 +1037,7 @@ class ilTree
 		$r = $ilDB->query($q);
 
 		$pathFull = array();
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$pathFull[] = $this->fetchNodeData($row);
 
@@ -1193,7 +1202,7 @@ class ilTree
 		$r = $ilDB->query($q);
 		
 		$rows = array();
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$row['title'] = UtfNormal::toNFC($row['title']);
 			$row['ref_id'] = $row['child'];
@@ -1458,7 +1467,7 @@ class ilTree
 		$query = 'SELECT * FROM '.$this->table_tree.' '.
 				'WHERE child = '.$ilDB->quote($a_node_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			return $row;
 		}
@@ -1605,7 +1614,7 @@ class ilTree
 		if($data['type'] == 'crsr' or $data['type'] == 'catr')
 		{
 			include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
-			$data['title'] = ilContainerReference::_lookupTargetTitle($data['obj_id']);
+			$data['title'] = ilContainerReference::_lookupTitle($data['obj_id']);
 		}
 
 		return $data ? $data : array();
@@ -1887,15 +1896,15 @@ class ilTree
 		{
 			$ilDB->lockTables(
 				array(
-					0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE),
-					1 => array('name' => 'object_reference', 'type' => ilDB::LOCK_WRITE)));
+					0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE),
+					1 => array('name' => 'object_reference', 'type' => ilDBConstants::LOCK_WRITE)));
 		}
 
 		$query = $this->getTreeImplementation()->getSubTreeQuery($this->getNodeTreeData($a_node_id),'',false);
 		$res = $ilDB->query($query);
 
 		$subnodes = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$subnodes[] = $row['child'];
 		}
@@ -2376,12 +2385,12 @@ class ilTree
 			*/	
 			$ilDB->lockTables(
 				array(			
-					0 => array('name' => $this->table_tree, 'type' => ilDB::LOCK_WRITE),
-					1 => array('name' => $this->table_obj_data, 'type' => ilDB::LOCK_WRITE),
-					2 => array('name' => $this->table_obj_reference, 'type' => ilDB::LOCK_WRITE),
-					3 => array('name' => 'object_translation', 'type' => ilDB::LOCK_WRITE),
-					4 => array('name' => 'object_data', 'type' => ilDB::LOCK_WRITE, 'alias' => 'od'),
-					5 => array('name' => 'container_reference', 'type' => ilDB::LOCK_WRITE, 'alias' => 'cr')
+					0 => array('name' => $this->table_tree, 'type' => ilDBConstants::LOCK_WRITE),
+					1 => array('name' => $this->table_obj_data, 'type' => ilDBConstants::LOCK_WRITE),
+					2 => array('name' => $this->table_obj_reference, 'type' => ilDBConstants::LOCK_WRITE),
+					3 => array('name' => 'object_translation', 'type' => ilDBConstants::LOCK_WRITE),
+					4 => array('name' => 'object_data', 'type' => ilDBConstants::LOCK_WRITE, 'alias' => 'od'),
+					5 => array('name' => 'container_reference', 'type' => ilDBConstants::LOCK_WRITE, 'alias' => 'cr')
 				));
 		}
 		$return = $this->__renumber($node_id,$i);
@@ -2809,7 +2818,7 @@ class ilTree
 		$res = $ilDB->query($query);
 		
 		$types_deleted = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$types_deleted[] = $row->type;
 		}

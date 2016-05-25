@@ -21,9 +21,9 @@ class ilPCTableGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCTableGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
+	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		$this->setCharacteristics(array("StandardTable" => $this->lng->txt("cont_StandardTable")));
 
 	}
@@ -40,7 +40,7 @@ class ilPCTableGUI extends ilPageContentGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$this->getCharacteristicsOfCurrentStyle("table");	// scorm-2004
 		
@@ -53,7 +53,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		switch($next_class)
 		{
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 
@@ -109,7 +109,7 @@ class ilPCTableGUI extends ilPageContentGUI
 	/**
 	* Get table templates
 	*/
-	function getTemplateOptions()
+	function getTemplateOptions($a_type = "")
 	{
 		return parent::getTemplateOptions("table");
 	}
@@ -406,7 +406,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		{
 			if (ilObject::_lookupType($this->getStyleId()) == "sty")
 			{
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$style = new ilObjStyleSheet($this->getStyleId());
 				$template_xml = $style->getTemplateXML();
 			}

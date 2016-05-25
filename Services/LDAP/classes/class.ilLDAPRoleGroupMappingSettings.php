@@ -300,7 +300,7 @@ class ilLDAPRoleGroupMappingSettings
 	 		"ORDER BY title,dn";
 			
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->mappings[$row->mapping_id]['mapping_id'] 			= $row->mapping_id;
 			$this->mappings[$row->mapping_id]['dn'] 					= $row->dn;

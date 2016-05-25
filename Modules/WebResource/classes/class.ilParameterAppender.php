@@ -51,12 +51,12 @@ class ilParameterAppender
 	* Constructor
 	* @access public
 	*/
-	function ilParameterAppender($webr_id)
+	function __construct($webr_id)
 	{
 		global $ilDB;
 
 		$this->webr_id = $webr_id;
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 	}
 	
 	/**
@@ -73,7 +73,7 @@ class ilParameterAppender
 			"WHERE webr_id = ".$ilDB->quote($a_webr_id,'integer')." ".
 			"AND link_id = ".$ilDB->quote($a_link_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$params[] = $row['param_id'];
 		}
@@ -239,7 +239,7 @@ class ilParameterAppender
 
 		$res = $ilDB->query("SELECT * FROM webr_params WHERE link_id = ".
 			$ilDB->quote((int) $a_link_id ,'integer'));
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$params[$row->param_id]['name'] = $row->name;
 			$params[$row->param_id]['value'] = $row->value;

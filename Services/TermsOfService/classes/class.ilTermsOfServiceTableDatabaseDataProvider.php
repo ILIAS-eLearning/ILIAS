@@ -11,14 +11,15 @@ require_once 'Services/TermsOfService/interfaces/interface.ilTermsOfServiceTable
 abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfServiceTableDataProvider
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
 	/**
-	 * @param ilDB $db
+	 * ilTermsOfServiceTableDatabaseDataProvider constructor.
+	 * @param ilDBInterface $db
 	 */
-	public function __construct(ilDB $db)
+	public function __construct(ilDBInterface $db)
 	{
 		$this->db = $db;
 	}

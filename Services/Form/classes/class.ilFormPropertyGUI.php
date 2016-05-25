@@ -40,7 +40,7 @@ class ilFormPropertyGUI
 	/**
 	* Execute command.
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 		

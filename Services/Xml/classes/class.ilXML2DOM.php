@@ -21,7 +21,7 @@ class XMLStruct
 	/**
 	* constructor
 	*/
-	function XMLStruct($a_name = "", $a_attrs = array())
+	function __construct($a_name = "", $a_attrs = array())
 	{
 		$this->name = $a_name;
 		$this->attrs = $a_attrs;
@@ -88,7 +88,7 @@ class XMLStruct
 class XML2DOM
 {
 
-	function XML2DOM($a_xml)
+	function __construct($a_xml)
 	{
 		$xml_parser = xml_parser_create("UTF-8");
 		xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, false);

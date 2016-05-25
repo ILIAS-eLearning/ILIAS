@@ -223,7 +223,7 @@ class ilWikiPage extends ilPageObject
 		$this->updateNews();
 	}
 	
-	public function afterUpdate($a_domdoc, $a_xml)
+	public function afterUpdate($a_domdoc = null, $a_xml = "")
 	{				
 		// internal == wiki links	
 		include_once "Modules/Wiki/classes/class.ilWikiUtil.php";
@@ -499,7 +499,7 @@ class ilWikiPage extends ilPageObject
 	*
 	* @access	public
 	*/
-	static function getAllPages($a_wiki_id)
+	static function getAllWikiPages($a_wiki_id)
 	{
 		global $ilDB;
 		
@@ -568,7 +568,7 @@ class ilWikiPage extends ilPageObject
 	{
 		global $ilDB;
 		
-		$pages = ilWikiPage::getAllPages($a_wiki_id);
+		$pages = ilWikiPage::getAllWikiPages($a_wiki_id);
 		
 		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		
@@ -631,7 +631,7 @@ class ilWikiPage extends ilPageObject
 	*
 	* @access	public
 	*/
-	static function getParentObjectContributors($a_wiki_id)
+	static function getWikiContributors($a_wiki_id)
 	{
 		global $ilDB;
 		
@@ -645,7 +645,7 @@ class ilWikiPage extends ilPageObject
 	*
 	* @access	public
 	*/
-	static function getPageContributors($a_page_id)
+	static function getWikiPageContributors($a_page_id)
 	{
 		global $ilDB;
 		
@@ -822,7 +822,7 @@ class ilWikiPage extends ilPageObject
 	*
 	* @access	public
 	*/
-	static function getNewPages($a_wiki_id)
+	static function getNewWikiPages($a_wiki_id)
 	{
 		global $ilDB;
 		

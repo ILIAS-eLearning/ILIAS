@@ -61,7 +61,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 	/**
 	 * @param array $row
 	 */
-	public function fillRow(array $row)
+	public function fillRow($row)
 	{
 		/**
 		 * @var $ilCtrl ilCtrl

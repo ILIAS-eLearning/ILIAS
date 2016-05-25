@@ -104,7 +104,6 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		$path = new ilPathGUI();
 		$path->enableDisplayCut(true);
 		$path->enableTextOnly(false);
-		$this->tpl->setVariable("PATH",$this->lng->txt('path'));
 		$this->tpl->setVariable("COLL_PATH",$path->getPath($this->getContainerRefId(), $a_set['ref_id']));
 	}
 

@@ -20,7 +20,7 @@ class ilLPStatusFactory
 {
 	static private $class_by_obj_id = array();
 	
-	function _getClassById($a_obj_id, $a_mode = NULL)
+	static function _getClassById($a_obj_id, $a_mode = NULL)
 	{		
 		if($a_mode === NULL)
 		{
@@ -74,7 +74,7 @@ class ilLPStatusFactory
 		 include_once $path.'class.'.$a_class.'.php';
 	}
 
-	function _getClassByIdAndType($a_obj_id,$a_type)
+	static function _getClassByIdAndType($a_obj_id,$a_type)
 	{
 		// id is ignored in the moment
 		switch($a_type)
@@ -89,7 +89,7 @@ class ilLPStatusFactory
 		}
 	}
 
-	function _getInstance($a_obj_id, $a_mode = NULL)
+	static function _getInstance($a_obj_id, $a_mode = NULL)
 	{		
 		if($a_mode === NULL)
 		{

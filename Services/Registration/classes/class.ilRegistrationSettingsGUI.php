@@ -42,14 +42,14 @@ class ilRegistrationSettingsGUI
 	var $tpl;
 	var $ref_id;
 
-	function ilRegistrationSettingsGUI()
+	function __construct()
 	{
 		global $ilCtrl,$tpl,$lng;
 
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
+		$this->tpl = $tpl;
+		$this->ctrl = $ilCtrl;
 		
-		$this->lng =& $lng;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('administration');
 		$this->lng->loadLanguageModule('registration');
 		$this->lng->loadLanguageModule('user');

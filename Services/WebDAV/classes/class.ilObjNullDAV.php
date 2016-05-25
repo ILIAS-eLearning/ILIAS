@@ -131,7 +131,7 @@ class ilObjNullDAV extends ilObjectDAV
 	{
 		if (is_null($this->obj))
 		{
-			$this->obj = &new ilObjNull($this->getRefId(),true);
+			$this->obj = new ilObjNull($this->getRefId(),true);
 			$this->obj->read();
 		}
 	}

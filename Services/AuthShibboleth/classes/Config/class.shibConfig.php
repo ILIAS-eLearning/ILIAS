@@ -197,8 +197,9 @@ class shibConfig {
 
 	/**
 	 * @return shibConfig
+	 * php7-todo : alex, 1.3.2016: added array $data, please check
 	 */
-	public static function getInstance() {
+	public static function getInstance(array $data) {
 		if (! isset(self::$cache)) {
 			self::$cache = new self();
 		}

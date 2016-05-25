@@ -131,7 +131,7 @@ class ilObjItemGroup extends ilObject2
 	 * @param
 	 * @return
 	 */
-	protected function doCloneObject($new_obj, $a_target_id, $a_copy_id)
+	protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null)
 	{
 		
 	}

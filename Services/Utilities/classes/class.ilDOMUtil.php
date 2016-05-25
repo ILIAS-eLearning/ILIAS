@@ -39,7 +39,7 @@ class ilDOMUtil
 	* $a_successors. the content of the node is set to $a_content and the
 	* attributes to $a_attributes
 	*/
-	function setFirstOptionalElement(&$doc, &$parent_node, $a_node_name, $a_successors,
+	static function setFirstOptionalElement($doc, $parent_node, $a_node_name, $a_successors,
 		$a_content, $a_attributes, $a_remove_childs = true)
 	{
 		$search = $a_successors;
@@ -108,7 +108,7 @@ class ilDOMUtil
 	* @param	object	$a_node			node
 	* @param	array	$a_attributes	attributes array (attribute_name => attribute_value pairs)
 	*/
-	function set_attributes(&$a_node, $a_attributes)
+	static function set_attributes($a_node, $a_attributes)
 	{
 		foreach ($a_attributes as $attribute => $value)
 		{
@@ -118,7 +118,7 @@ class ilDOMUtil
 			}
 			else
 			{
-				if ($a_node->has_attribute($attibute))
+				if ($a_node->has_attribute($attribute))
 				{
 					$a_node->remove_attribute($attribute);
 				}
@@ -129,7 +129,7 @@ class ilDOMUtil
 	/**
 	* delete all childs of a node by names in $a_node_names
 	*/
-	function deleteAllChildsByName(&$a_parent, $a_node_names)
+	static function deleteAllChildsByName($a_parent, $a_node_names)
 	{
 		$childs = $a_parent->child_nodes();
 		foreach($childs as $child)
@@ -147,7 +147,7 @@ class ilDOMUtil
 	* $a_successors. The content of the node is set to $a_content and the
 	* attributes to $a_attributes
 	*/
-	function addElementToList(&$doc, &$parent_node, $a_node_name, $a_successors,
+	static function addElementToList($doc, $parent_node, $a_node_name, $a_successors,
 		$a_content, $a_attributes)
 	{
 		$search = $a_successors;

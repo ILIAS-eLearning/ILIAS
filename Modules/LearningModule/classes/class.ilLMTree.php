@@ -18,9 +18,9 @@ class ilLMTree extends ilTree
 	 *
 	 * @param integer $a_tree_id tree id
 	 */
-	private function __construct($a_tree_id)
+	function __construct($a_tree_id)
 	{
-		parent::ilTree($a_tree_id);
+		parent::__construct($a_tree_id);
 		$this->setTableNames('lm_tree','lm_data');
 		$this->setTreeTablePK("lm_id");
 		$this->useCache(true);

@@ -38,7 +38,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 	/** @var ilTree $tree */
 	protected $tree = null;
 	
-	/** @var ilDB $db */
+	/** @var ilDBInterface $db */
 	protected $db = null;
 
 	/** @var ilPluginAdmin $pluginAdmin */
@@ -67,7 +67,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 	 * @param ilAccessHandler $access
 	 * @param ilLanguage      $lng
 	 * @param ilTemplate      $tpl
-	 * @param ilDB            $db
+	 * @param ilDBInterface   $db
 	 * @param ilObjTestGUI    $testGUI
 	 * 
 	 * @return \ilObjTestSettingsGeneralGUI
@@ -78,7 +78,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 		ilLanguage $lng, 
 		ilTemplate $tpl, 
 		ilTree $tree,
-		ilDB $db,
+		ilDBInterface $db,
 		ilPluginAdmin $pluginAdmin,
 		ilObjTestGUI $testGUI
 	)
@@ -736,7 +736,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
 	private function addMiscSettingsFormSection(ilPropertyFormGUI $form)
 	{
-		$fields = array('anonymity', 'enable_archiving');
+		$fields = array('anonymity');
 
 		if( $this->isSectionHeaderRequired($fields) || $this->testQuestionSetConfigFactory->getQuestionSetConfig()->isResultTaxonomyFilterSupported() )
 		{
@@ -771,13 +771,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 				$form->addItem($results_presentation);
 			}
 		}
-
-		// enable_archiving
-		$enable_archiving = new ilCheckboxInputGUI($this->lng->txt('test_enable_archiving'), 'enable_archiving');
-		$enable_archiving->setInfo($this->lng->txt('test_enable_archiving_desc'));
-		$enable_archiving->setValue(1);
-		$enable_archiving->setChecked($this->testOBJ->getEnableArchiving());
-		$form->addItem($enable_archiving);
 	}
 
 	/**
@@ -800,21 +793,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 				}
 
 				$this->testOBJ->setResultFilterTaxIds($taxFilters);
-			}
-		}
-
-		if( $this->formPropertyExists($form, 'enable_archiving') )
-		{
-			// Archiving
-			if($this->testOBJ->getAnonymity() == true &&
-				$form->getItemByPostVar('enable_archiving')->getChecked() == true)
-			{
-				$this->testOBJ->setEnableArchiving(false);
-				ilUtil::sendInfo($this->lng->txt('no_archive_on_anonymous'), true);
-			}
-			else
-			{
-				$this->testOBJ->setEnableArchiving($form->getItemByPostVar('enable_archiving')->getChecked());
 			}
 		}
 	}

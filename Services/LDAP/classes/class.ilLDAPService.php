@@ -30,15 +30,6 @@ include_once("./Services/Component/classes/class.ilService.php");
  */
 class ilLDAPService extends ilService
 {
-	
-	/**
-	 * Constructor 
-	 */
-	public function __construct()
-	{
-		
-	}
-
     /**
      * @see ilComponent::getVersion()
      */
@@ -52,7 +43,7 @@ class ilLDAPService extends ilService
      */
     public function isCore()
     {
-        //TODO Auto generated method stub
+       return true;
     }
 	
 }

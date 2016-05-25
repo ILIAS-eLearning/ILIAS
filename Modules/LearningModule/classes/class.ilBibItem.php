@@ -53,11 +53,11 @@ class ilBibItem
 	* Constructor
 	* @access	public
 	*/
-	function ilBibItem($content_obj = 0)
+	function __construct($content_obj = 0)
 	{
 		global $ilias;
 
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 
 		$this->import_id = array();
 		$this->title = "";
@@ -68,7 +68,7 @@ class ilBibItem
 		$this->coverage = "";
 		$this->structure = "";
 
-		$this->content_obj =& $content_obj;
+		$this->content_obj = $content_obj;
 		if(is_object($content_obj))
 		{
 			$this->setID($this->content_obj->getId());
@@ -233,7 +233,7 @@ class ilBibItem
 	{
 		include_once("./Services/Xml/classes/class.ilNestedSetXML.php");
 
-		$this->nested_obj =& new ilNestedSetXML();
+		$this->nested_obj = new ilNestedSetXML();
 		$this->nested_obj->init($this->getID(), "bib");
 
 		return $this->nested_obj->initDom();

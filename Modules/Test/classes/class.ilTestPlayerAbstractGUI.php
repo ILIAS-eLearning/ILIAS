@@ -66,7 +66,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	*/
 	public function __construct($a_object)
 	{
-		parent::ilTestServiceGUI($a_object);
+		parent::__construct($a_object);
 		$this->ref_id = $_GET["ref_id"];
 		
 		global $rbacsystem, $ilUser, $lng;
@@ -367,7 +367,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 	protected function populateContentStyleBlock()
 	{
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock( "ContentStyle" );
 		$this->tpl->setVariable( "LOCATION_CONTENT_STYLESHEET",
 								 ilObjStyleSheet::getContentStylePath( 0 )
@@ -518,7 +518,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	function redirectAfterAutosaveCmd()
 	{
 		$active_id = $this->testSession->getActiveId();
-		$actualpass = $this->object->_getPass($active_id);
+		$actualpass = ilObjTest::_getPass($active_id);
 		
 		$this->performTestPassFinishedTasks($actualpass);
 
@@ -654,7 +654,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		unset($_SESSION["tst_next"]);
 
 		$active_id = $this->testSession->getActiveId();
-		$actualpass = $this->object->_getPass($active_id);
+		$actualpass = ilObjTest::_getPass($active_id);
 
 		$allObligationsAnswered = ilObjTest::allObligationsAnswered($this->testSession->getTestId(), $active_id, $actualpass);
 
@@ -750,11 +750,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->testSession->setSubmitted(1);
 			$this->testSession->setSubmittedTimestamp(date('Y-m-d H:i:s'));
 			$this->testSession->saveToDb();
-		}
-
-		if( $this->object->getEnableArchiving() )
-		{
-			$this->archiveParticipantSubmission($this->testSession->getActiveId(), $finishedPass);
 		}
 	}
 
@@ -1241,7 +1236,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	function endingTimeReached() 
 	{
-		ilUtil::sendInfo(sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
+		ilUtil::sendInfo(sprintf($this->lng->txt("detail_ending_time_reached"), ilDatePresentation::formatDate(new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX))));
 		$this->testSession->increasePass();
 		$this->testSession->setLastSequence(0);
 		$this->testSession->saveToDb();
@@ -1321,17 +1316,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			}
 		}
 		$date = getdate($starting_time);
-		$formattedStartingTime = ilDatePresentation::formatDate(new ilDateTime($date,IL_CAL_FKT_GETDATE));
-		/*
-		$formattedStartingTime = ilFormat::formatDate(
-			$date["year"]."-".
-			sprintf("%02d", $date["mon"])."-".
-			sprintf("%02d", $date["mday"])." ".
-			sprintf("%02d", $date["hours"]).":".
-			sprintf("%02d", $date["minutes"]).":".
-			sprintf("%02d", $date["seconds"])
-		);
-		*/
+		$formattedStartingTime = ilDatePresentation::formatDate(new ilDateTime($date,IL_CAL_FKT_GETDATE));		
 		$datenow = getdate();
 		$this->tpl->setCurrentBlock("enableprocessingtime");
 		$this->tpl->setVariable("USER_WORKING_TIME", 
@@ -1356,8 +1341,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$template->setVariable("HOUR", $date["hours"]);
 		$template->setVariable("MINUTE", $date["minutes"]);
 		$template->setVariable("SECOND", $date["seconds"]);
-		if ($this->object->isEndingTimeEnabled() && preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->object->getEndingTime(), $matches))
+		if ($this->object->isEndingTimeEnabled() )
 		{
+			$date_time = new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX);
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $date_time->get(IL_CAL_TIMESTAMP), $matches);
 			$template->setVariable("ENDYEAR", $matches[1]);
 			$template->setVariable("ENDMONTH", $matches[2]-1);
 			$template->setVariable("ENDDAY", $matches[3]);
@@ -1499,7 +1486,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_correct_solution.html", "Modules/Test");
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
 		$this->tpl->parseCurrentBlock();

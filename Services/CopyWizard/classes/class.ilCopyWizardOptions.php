@@ -40,6 +40,7 @@ class ilCopyWizardOptions
 	const OWNER_KEY = -3;
 	const DISABLE_SOAP = -4;
 	const ROOT_NODE = -5;
+	const DISABLE_TREE_COPY = -6;
 	
 	private $db;
 	
@@ -73,7 +74,7 @@ class ilCopyWizardOptions
 	 * @access public
 	 * @static
 	 *
-	 * @param int copy id
+	 * @param ilCopyWizardOptions
 	 */
 	public static function _getInstance($a_copy_id)
 	{
@@ -126,7 +127,7 @@ class ilCopyWizardOptions
 		
 	 	$query = "SELECT MAX(copy_id) latest FROM copy_wizard_options ";
 	 	$res = $ilDB->query($query);
-	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+	 	$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 	 	
 		$ilDB->insert("copy_wizard_options", array(
 			"copy_id" => array("integer", ((int) $row->latest) + 1),
@@ -206,6 +207,38 @@ class ilCopyWizardOptions
 			"source_id" => array("integer", self::DISABLE_SOAP),
 			"options"	=> array('clob',serialize(array(1)))
 			));
+	}
+	
+	/**
+	 * Disable copying of tree. 
+	 * Used for workspace copies
+	 * @global type $ilDB
+	 */
+	public function disableTreeCopy()
+	{
+		global $ilDB;
+		
+		$this->options[self::DISABLE_TREE_COPY] = 1;
+		
+		$ilDB->insert("copy_wizard_options", array(
+			"copy_id" 	=> array("integer", $this->getCopyId()),
+			"source_id" => array("integer", self::DISABLE_TREE_COPY),
+			"options"	=> array('clob',serialize(array(1)))
+			));
+	}
+
+	/**
+	 * Check if tree copy is enabled
+	 * @return boolean
+	 */
+	public function isTreeCopyDisabled()
+	{
+	 	if(isset($this->options[self::DISABLE_TREE_COPY]) and $this->options[self::DISABLE_TREE_COPY])
+	 	{
+	 		return true;
+	 	}
+	 	return false;
+		
 	}
 	
 	/**
@@ -460,7 +493,7 @@ class ilCopyWizardOptions
 			"AND source_id = -2 ";
 		$res = $this->db->query($query);
 		$mappings = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$mappings = unserialize($row->options);
 		}
@@ -527,7 +560,7 @@ class ilCopyWizardOptions
 	 	$res = $this->db->query($query);
 	 	
 	 	$this->options = array();
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		$this->options[$row->source_id] = unserialize($row->options);
 	 	}

@@ -40,10 +40,6 @@ class ilXML2FO
 	var $xslt_handler = null;
 	var $xslt_args = null;
 	var $xslt_params = null;
-	function ilXML2FO()
-	{
-
-	}
 
 	function setXMLString($a_xml)
 	{

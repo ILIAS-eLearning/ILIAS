@@ -5,34 +5,79 @@
 	"authors": [],
 	"require": {
 		"filp/whoops": "^2.0",
-		"monolog/monolog": "^1.15",
-		"pimple/pimple": "^3.0"
+	    "monolog/monolog": "^1.15",
+	    "phpoffice/phpexcel": "^1.8.1",
+		"technosophos/LibRIS": "^2.0.2",
+		"ezyang/htmlpurifier": "^4.7.0",
+		"phpmailer/phpmailer": "^5.2",
+		"phansys/getid3": "^1.9.4",
+		"pimple/pimple" : "^3.0"
 	},
 	"autoload": {
 		"psr-4" : { "ILIAS\\" : "../../src" }
 	},
 	"extra": {
+		"technosophos/LibRIS" : {
+			"source" : "github.com/filp/whoops",
+			"used_version" : "v2.0.2",
+			"wrapped_by" : "Modules/Bibliographic/classes/Types/Ris/class.ilRisWrapper.php",
+			"added_by" : "Fabian Schmid <fs@studer-raimann.ch>",
+			"last_update" : "2016-03-31",
+			"last_update_by" : "Fabian Schmid <fs@studer-raimann.ch>"
+		},
 		"filp/whoops" : {
 			"source" : "github.com/filp/whoops",
-			"used_version" : "v2.0.0",
+			"used_version" : "v2.1.0",
 			"wrapped_by" : null,
 			"added_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>",
-			"last_update" : "2016-02-17",
-			"last_update_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>"
+			"last_update" : "2016-03-22",
+			"last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>"
 		},
 		"monolog/monolog" : {
 			"source" : "https://github.com/Seldaek/monolog",
-			"used_version" : "v1.15",
+			"used_version" : "v1.18.1",
 			"wrapped_by" : "Services/Logging",
-			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de",
-			"last_update" : "2016-02-17",
-			"last_update_by" : "Stefan Meyer <smeyer.ilias@gmx.de"
+			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
+			"last_update" : "2016-03-22",
+			"last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>"
+		},
+		"phpoffice/phpexcel" : {
+			"source" : "https://github.com/PHPOffice/PHPExcel",
+			"used_version" : "v1.8.1",
+			"wrapped_by" : "Services/Excel",
+			"added_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>",
+			"last_update" : "2016-03-22",
+			"last_update_by" : "Jörg Lützenkirchen <luetzenkirchen@leifos.com>"
+		},
+		"ezyang/htmlpurifier" : {
+			"source" : "http://repo.or.cz/htmlpurifier.git",
+			"used_version" : "v4.7.0",
+			"wrapped_by" : "Services/Html",
+			"added_by" : "Michael Jansen <mjansen@databay.de>",
+			"last_update" : "2016-04-01",
+			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
+		},
+		"phpmailer/phpmailer" : {
+			"source" : "https://github.com/PHPMailer/PHPMailer",
+			"used_version" : "v5.2.14",
+			"wrapped_by" : "Services/Mail",
+			"added_by" : "Maximilian Becker <mbecker@databay.de>",
+			"last_update" : "2016-04-01",
+			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
+		},
+		"phansys/getid3" : {
+			"source" : "https://github.com/phansys/GetId3",
+			"used_version" : "v1.9.4",
+			"wrapped_by" : "Services/MediaObjects",
+			"added_by" : "Alexander Killing <killing@leifos.de>",
+			"last_update" : "2016-04-13",
+			"last_update_by" : "Alexander Killing <killing@leifos.de>"
 		},
 		"pimple/pimple" : {
 			"source" : "https://github.com/silexphp/Pimple.git",
 			"used_version" : "v3.0.2",
-			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
 			"wrapped_by" : "ILIAS\\DIC\\Container",
+			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
 			"last_update" : "2016-02-29",
 			"last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>"
 		}

@@ -41,7 +41,7 @@ class ilSCGroup
 		$query = 'SELECT component FROM sysc_groups '.
 				'WHERE id = '.$ilDB->quote($a_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return (string) $row->component;
 		}
@@ -116,7 +116,7 @@ class ilSCGroup
 		$query = 'SELECT * FROM sysc_groups '.
 				'WHERE id = '.$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setComponentId($row->component);
 			$this->setLastUpdate(new ilDateTime($row->last_update,IL_CAL_DATETIME,'UTC'));

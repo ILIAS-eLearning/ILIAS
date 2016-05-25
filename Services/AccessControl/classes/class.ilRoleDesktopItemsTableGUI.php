@@ -86,7 +86,7 @@ class ilRoleDesktopItemsTableGUI extends ilTable2GUI
 		return $path;
 	}
 
-	public function fillRow(array $a_set)
+	public function fillRow($a_set)
 	{		
 		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
 		$this->tpl->setVariable("VAL_ICON_SRC", ilObject::_getIcon("", "big", $a_set["type"]));

@@ -19,10 +19,10 @@ class ilObjDlBook extends ilObjContentObject
 	* Constructor
 	* @access	public
 	*/
-	function ilObjDlBook($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "dbk";
-		parent::ilObjContentObject($a_id, $a_call_by_reference);
+		parent::__construct($a_id, $a_call_by_reference);
 
 		if($a_id)
 		{
@@ -38,7 +38,7 @@ class ilObjDlBook extends ilObjContentObject
 	{
 		include_once("./Modules/LearningModule/classes/class.ilBibItem.php");
 
-		$this->bib_obj =& new ilBibItem($this);
+		$this->bib_obj = new ilBibItem($this);
 		$this->bib_obj->read();
 
 		return true;
@@ -90,7 +90,7 @@ class ilObjDlBook extends ilObjContentObject
                 $query = "SELECT * FROM page_object WHERE page_id= ".$ilDB->quote($row["obj_id"], "integer");
 				$result2 = $this->ilias->db->query($query);
 		
-				$row2 = $result2->fetchRow(DB_FETCHMODE_ASSOC);
+				$row2 = $result2->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 				
 				$PO = $row2["content"]."\n";
 
@@ -100,7 +100,7 @@ class ilObjDlBook extends ilObjContentObject
                     $dom = domxml_open_mem($PO);
                     $xpc = xpath_new_context($dom);
                     $path = "//MediaObject/MediaAlias";
-                    $res =& xpath_eval($xpc, $path);
+                    $res = xpath_eval($xpc, $path);
                     for($i = 0; $i < count($res->nodeset); $i++)
                     {
                         $id_arr = explode("_", $res->nodeset[$i]->get_attribute("OriginId"));

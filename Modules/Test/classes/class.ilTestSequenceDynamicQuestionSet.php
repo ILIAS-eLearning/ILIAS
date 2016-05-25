@@ -16,7 +16,7 @@ require_once 'Modules/Test/interfaces/interface.ilTestSequenceSummaryProvider.ph
 class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db = null;
 	
@@ -105,7 +105,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 	 * 
 	 * @param ilTestDynamicQuestionSet $questionSet
 	 */
-	public function __construct(ilDB $db, ilTestDynamicQuestionSet $questionSet, $activeId)
+	public function __construct(ilDBInterface $db, ilTestDynamicQuestionSet $questionSet, $activeId)
 	{
 		$this->db = $db;
 		$this->questionSet = $questionSet;

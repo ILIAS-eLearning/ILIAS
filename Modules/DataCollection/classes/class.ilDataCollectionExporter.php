@@ -2,7 +2,7 @@
 require_once("./Services/Export/classes/class.ilExport.php");
 require_once('./Services/Export/classes/class.ilXmlExporter.php');
 require_once('class.ilDataCollectionDataSet.php');
-require_once('class.ilDataCollectionCache.php');
+require_once('class.ilDclCache.php');
 require_once('./Modules/MediaPool/classes/class.ilObjMediaPool.php');
 
 /**
@@ -77,12 +77,12 @@ class ilDataCollectionExporter extends ilXmlExporter {
 		}
 
 		$dependencies = array(
-			ilDataCollectionDatatype::INPUTFORMAT_FILE => array(
+			ilDclDatatype::INPUTFORMAT_FILE => array(
 				'component' => 'Modules/File',
 				'entity' => 'file',
 				'ids' => array(),
 			),
-			ilDataCollectionDatatype::INPUTFORMAT_MOB => array(
+			ilDclDatatype::INPUTFORMAT_MOB => array(
 				'component' => 'Services/MediaObjects',
 				'entity' => 'mob',
 				'ids' => array(),
@@ -105,11 +105,11 @@ class ilDataCollectionExporter extends ilXmlExporter {
 
 		// Return external dependencies/IDs if there are any
 		$return = array();
-		if (count($dependencies[ilDataCollectionDatatype::INPUTFORMAT_FILE]['ids'])) {
-			$return[] = $dependencies[ilDataCollectionDatatype::INPUTFORMAT_FILE];
+		if (count($dependencies[ilDclDatatype::INPUTFORMAT_FILE]['ids'])) {
+			$return[] = $dependencies[ilDclDatatype::INPUTFORMAT_FILE];
 		}
-		if (count($dependencies[ilDataCollectionDatatype::INPUTFORMAT_MOB]['ids'])) {
-			$return[] = $dependencies[ilDataCollectionDatatype::INPUTFORMAT_MOB];
+		if (count($dependencies[ilDclDatatype::INPUTFORMAT_MOB]['ids'])) {
+			$return[] = $dependencies[ilDclDatatype::INPUTFORMAT_MOB];
 		}
 
 		return $return;

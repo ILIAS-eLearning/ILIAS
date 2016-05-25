@@ -213,7 +213,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 		include_once("./Services/Notes/classes/class.ilNote.php");
 		$this->setPublicComments(ilNote::commentsActivated($this->id, 0, $this->getType()));
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->id));
 		
 		$this->doReadCustom($row);
@@ -250,7 +250,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 		include_once("./Services/Notes/classes/class.ilNote.php");
 		ilNote::activateComments($this->id, 0, $this->getType(), $this->hasPublicComments());
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());
 				
 		$ilDB->update("usr_portfolio", $fields,
@@ -420,7 +420,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 		ilFSStoragePortfolio::_copyDirectory($source_dir, $target_dir);
 		
 		// set/copy stylesheet
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $a_source->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{
@@ -469,7 +469,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 		// copy pages
 		$blog_count = 0;
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
-		foreach(ilPortfolioPage::getAllPages($source_id) as $page)
+		foreach(ilPortfolioPage::getAllPortfolioPages($source_id) as $page)
 		{
 			$page_id = $page["id"];	
 			

@@ -315,7 +315,7 @@ class ilTable2GUI extends ilTableGUI
 	/**
 	 * Execute command.
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 		
@@ -953,7 +953,7 @@ class ilTable2GUI extends ilTableGUI
 	*
 	* @param	string	$a_formname	Form name
 	*/
-	function setFormName($a_formname)
+	function setFormName($a_formname = "")
 	{
 		$this->formname = $a_formname;
 	}
@@ -3184,19 +3184,19 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 			switch($format)
 			{
 				case self::EXPORT_EXCEL:
-					include_once "./Services/Excel/classes/class.ilExcelUtils.php";
-					include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
-					$adapter = new ilExcelWriterAdapter($filename.".xls", $send);
-					$workbook = $adapter->getWorkbook();
-					$worksheet = $workbook->addWorksheet();
-					$row = 0;
+					include_once "./Services/Excel/classes/class.ilExcel.php";
+					$excel = new ilExcel();			
+					$excel->addSheet($this->title 
+						? $this->title
+						: $this->lng->txt("export"));		
+					$row = 1;
 					
 					ob_start();
-					$this->fillMetaExcel($worksheet, $row); // row must be increment in fillMetaExcel()! (optional method)
+					$this->fillMetaExcel($excel, $row); // row must be increment in fillMetaExcel()! (optional method)
 					
 					// #14813
 					$pre = $row;
-					$this->fillHeaderExcel($worksheet, $row); // row should NOT be incremented in fillHeaderExcel()! (required method)
+					$this->fillHeaderExcel($excel, $row); // row should NOT be incremented in fillHeaderExcel()! (required method)
 					if($pre == $row)
 					{
 						$row++; 
@@ -3204,12 +3204,19 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 					
 					foreach($this->row_data as $set)
 					{						
-						$this->fillRowExcel($worksheet, $row, $set);
+						$this->fillRowExcel($excel, $row, $set);
 						$row++; // #14760
 					}
 					ob_end_clean();
 
-					$workbook->close();					
+					if($send)
+					{
+						$excel->sendToClient($filename);
+					}
+					else
+					{
+						$excel->writeToFile($filename);
+					}
 					break;
 
 				case self::EXPORT_CSV:
@@ -3255,10 +3262,10 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	 * Add meta information to excel export. Likely to
 	 * be overwritten by derived class.
 	 *
-	 * @param	object	$a_worksheet	current sheet
-	 * @param	int		$a_row			row counter
+	 * @param	ilExcel	$a_excel	excel wrapper
+	 * @param	int		$a_row		row counter
 	 */
-	protected function fillMetaExcel($worksheet, &$a_row)
+	protected function fillMetaExcel(ilExcel $a_excel, &$a_row)
 	{
 
 	}
@@ -3267,10 +3274,10 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	 * Excel Version of Fill Header. Likely to
 	 * be overwritten by derived class.
 	 *
-	 * @param	object	$a_worksheet	current sheet
-	 * @param	int		$a_row			row counter
+	 * @param	ilExcel	$a_excel	excel wrapper
+	 * @param	int		$a_row		row counter
 	 */
-	protected function fillHeaderExcel($worksheet, &$a_row)
+	protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
 	{
 		$col = 0;
 		foreach ($this->column as $column)
@@ -3278,31 +3285,30 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 			$title = strip_tags($column["text"]);
 			if($title)
 			{
-				$worksheet->write($a_row, $col, $title);
-				$col++;
+				$a_excel->setCell($a_row, $col++, $title);
 			}
 		}		
+		$a_excel->setBold("A".$a_row.":".$a_excel->getColumnCoord($col-1).$a_row);
 	}
 
 	/**
 	* Excel Version of Fill Row. Most likely to
 	* be overwritten by derived class.
 	*
-	* @param	object	$a_worksheet	current sheet
-	* @param	int		$a_row			row counter
-	* @param	array	$a_set			data array
+	* @param	ilExcel	$a_excel	excel wrapper
+	* @param	int		$a_row		row counter
+	* @param	array	$a_set		data array
 	*/
-	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
 	{
 		$col = 0;
-		foreach ($a_set as $key => $value)
+		foreach ($a_set as $value)
 		{
 			if(is_array($value))
 			{
 				$value = implode(', ', $value);
 			}
-			$a_worksheet->write($a_row, $col, strip_tags($value));
-			$col++;
+			$a_excel->setCell($a_row, $col++, $value);
 		}
 	}
 

@@ -48,7 +48,7 @@ class ilCalendarRecurrenceExclusions
 			"WHERE cal_id = ".$ilDB->quote($a_cal_id,'integer');
 		$res = $ilDB->query($query);
 		$exclusions = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$exclusions[] = new ilCalendarRecurrenceExclusion($row->excl_id);
 		}

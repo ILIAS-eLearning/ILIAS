@@ -36,7 +36,7 @@ class ilChatroomObjectDefinition
 	 * @param string $moduleName
 	 * @param string $moduleBasePath
 	 * @param string $relativeClassPath Optional.
-	 * @param string $taskScope Optional.
+	 * @param string $taskScope         Optional.
 	 */
 	public function __construct($moduleName, $moduleBasePath, $relativeClassPath = 'classes', $taskScope = '')
 	{
@@ -86,28 +86,14 @@ class ilChatroomObjectDefinition
 	}
 
 	/**
-	 * Requires file, whereby given $task is used as parameter in getTaskPath
-	 * method to build the filename of the file to required.
+	 * Builds task path using given $task and returns it.
 	 * @param string $task
+	 * @return string
 	 */
-	public function loadTask($task)
+	public function getTaskPath($task)
 	{
-		require_once $this->getTaskPath($task);
-	}
-
-
-	/**
-	 * Builds and returns new task using given $task and $gui
-	 * @param string              $task
-	 * @param ilChatroomObjectGUI $gui
-	 * @return ilChatroomTaskHandler
-	 */
-	public function buildTask($task, ilChatroomObjectGUI $gui)
-	{
-		$className = $this->getTaskClassName($task);
-		$task      = new $className($gui);
-
-		return $task;
+		return $this->moduleBasePath . '/' . $this->relativeClassPath . '/' .
+		$this->taskScope . 'tasks/class.' . $this->getTaskClassName($task) . '.php';
 	}
 
 	/**
@@ -121,13 +107,26 @@ class ilChatroomObjectDefinition
 	}
 
 	/**
-	 * Builds task path using given $task and returns it.
+	 * Requires file, whereby given $task is used as parameter in getTaskPath
+	 * method to build the filename of the file to required.
 	 * @param string $task
-	 * @return string
 	 */
-	public function getTaskPath($task)
+	public function loadTask($task)
 	{
-		return $this->moduleBasePath . '/' . $this->relativeClassPath . '/' .
-			$this->taskScope . 'tasks/class.' . $this->getTaskClassName($task) . '.php';
+		require_once $this->getTaskPath($task);
+	}
+
+	/**
+	 * Builds and returns new task using given $task and $gui
+	 * @param string              $task
+	 * @param ilChatroomObjectGUI $gui
+	 * @return ilChatroomTaskHandler
+	 */
+	public function buildTask($task, ilChatroomObjectGUI $gui)
+	{
+		$className = $this->getTaskClassName($task);
+		$task      = new $className($gui);
+
+		return $task;
 	}
 }

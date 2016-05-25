@@ -48,7 +48,7 @@ class ilCalendarRecurrences
 		$query = "SELECT rule_id FROM cal_recurrence_rules ".
 			"WHERE cal_id = ".$ilDB->quote($a_cal_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$recurrences[] = new ilCalendarRecurrence($row->rule_id);
 		}

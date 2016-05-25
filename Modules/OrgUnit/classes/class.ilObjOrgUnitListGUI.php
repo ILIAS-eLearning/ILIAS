@@ -20,7 +20,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI {
 
 	function __construct() {
 		global $tpl;
-		$this->ilObjectListGUI();
+		parent::__construct();
 		$this->tpl = $tpl;
 		//$this->enableComments(false, false);
 	}
@@ -37,7 +37,6 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI {
 		$this->copy_enabled = false;
 		$this->subscribe_enabled = false;
 		$this->link_enabled = false;
-		$this->payment_enabled = false;
 
 		$this->type = "orgu";
 		$this->gui_class_name = "ilobjorgunitgui";

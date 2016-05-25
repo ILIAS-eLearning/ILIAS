@@ -28,7 +28,7 @@ class ilObjMediaPoolAccess extends ilObjectAccess
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array
 		(
@@ -47,7 +47,7 @@ class ilObjMediaPoolAccess extends ilObjectAccess
 	/**
 	 * check whether goto script will succeed
 	 */
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 

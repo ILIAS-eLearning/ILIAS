@@ -86,10 +86,6 @@ class ilObject
 	*/
 	var $add_dots;
 
-	/**
-	* object_data record
-	*/
-	var $obj_data_record;
 
 	/**
 	* Constructor
@@ -97,7 +93,7 @@ class ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObject($a_id = 0, $a_reference = true)
+	function __construct($a_id = 0, $a_reference = true)
 	{
 		global $ilias, $lng, $ilBench, $objDefinition;
 
@@ -156,16 +152,12 @@ class ilObject
 	* @param	boolean
 	* @access	public
 	*/
-	function read($a_force_db = false)
+	public function read()
 	{
 		global $objDefinition, $ilBench, $ilDB, $log;
 
 		$ilBench->start("Core", "ilObject_read");
-		if (isset($this->obj_data_record) && !$a_force_db)
-		{
-			$obj = $this->obj_data_record;
-		}
-		else if ($this->referenced)
+		if ($this->referenced)
 		{
 			// check reference id
 			if (!isset($this->ref_id))
@@ -250,7 +242,7 @@ class ilObject
 			// Read long description
 			$query = "SELECT * FROM object_description WHERE obj_id = ".$ilDB->quote($this->id,'integer');
 			$res = $this->ilias->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				if(strlen($row->description))
 				{
@@ -275,7 +267,7 @@ class ilObject
 				 "AND lang_code = ".$ilDB->quote($this->ilias->account->getCurrentLanguage(),'text')." ".
 				 "AND NOT lang_default = 1";
 			$r = $this->ilias->db->query($q);
-			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 			if ($row)
 			{
 				$this->title = $row->title;
@@ -586,19 +578,6 @@ class ilObject
 	}
 
 	/**
-	* set object_data record (note: this method should
-	* only be called from the ilObjectFactory class)
-	*
-	* @param	array	$a_record	assoc. array from table object_data
-	* @access	public
-	* @return	integer	object id
-	*/
-	function setObjDataRecord($a_record)
-	{
-		$this->obj_data_record = $a_record;
-	}
-
-	/**
 	* create
 	*
 	* note: title, description and type should be set when this function is called
@@ -827,13 +806,13 @@ class ilObject
 		include_once("Services/MetaData/classes/class.ilMDGeneral.php");
 		include_once("Services/MetaData/classes/class.ilMDDescription.php");
 
-		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md = new ilMD($this->getId(), 0, $this->getType());
 		$md_gen =& $md->getGeneral();
 		// BEGIN WebDAV: meta data can be missing sometimes.
 		if ($md_gen == null)
 		{
 			$this->createMetaData();
-			$md =& new ilMD($this->getId(), 0, $this->getType());
+			$md = new ilMD($this->getId(), 0, $this->getType());
 			$md_gen =& $md->getGeneral();
 		}
 		// END WebDAV: meta data can be missing sometimes.
@@ -955,7 +934,7 @@ class ilObject
 	*
 	* @param	int		$a_id		object id
 	*/
-	function _lookupOwner($a_id)
+	static function _lookupOwner($a_id)
 	{
 		global $ilObjDataCache;
 
@@ -1022,7 +1001,7 @@ class ilObject
 	*
 	* @param	array
 	*/
-	function _getLastUpdateOfObjects($a_objs)
+	static function _getLastUpdateOfObjects($a_objs)
 	{
 		global $ilDB;
 		
@@ -1207,7 +1186,7 @@ class ilObject
 	/**
 	* checks wether object is in trash
 	*/
-	function _isInTrash($a_ref_id)
+	public static function _isInTrash($a_ref_id)
 	{
 		global $tree;
 
@@ -1217,7 +1196,7 @@ class ilObject
 	/**
 	* checks wether an object has at least one reference that is not in trash
 	*/
-	function _hasUntrashedReference($a_obj_id)
+	static function _hasUntrashedReference($a_obj_id)
 	{
 		$ref_ids  = ilObject::_getAllReferences($a_obj_id);
 		foreach($ref_ids as $ref_id)
@@ -1300,17 +1279,33 @@ class ilObject
 	*/
 	function setPermissions($a_parent_ref)
 	{
-		global $rbacadmin, $rbacreview;
-
-		$parentRoles = $rbacreview->getParentRoleIds($a_parent_ref);
-
-		foreach ($parentRoles as $parRol)
-		{
-			$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"], $this->getType(), $parRol["parent"]);
-			$rbacadmin->grantPermission($parRol["obj_id"], $ops, $this->getRefId());
-		}
-
+		$this->setParentRolePermissions($a_parent_ref);
 		$this->initDefaultRoles();
+	}
+	
+	/**
+	 * Initialize the permissions of parent roles (local roles of categories, global roles...)
+	 * This method is overwritten in e.g courses, groups for building permission intersections with non_member  templates.
+	 */
+	public function setParentRolePermissions($a_parent_ref)
+	{
+		global $rbacadmin, $rbacreview;
+		
+		$parent_roles = $rbacreview->getParentRoleIds($a_parent_ref);
+		foreach((array) $parent_roles as $parent_role)
+		{
+			$operations = $rbacreview->getOperationsOfRole(
+				$parent_role['obj_id'],
+				$this->getType(),
+				$parent_role['parent']
+			);
+			$rbacadmin->grantPermission(
+				$parent_role['obj_id'],
+				$operations,
+				$this->getRefId()
+			);
+		}
+		return true;
 	}
 
 	/**
@@ -1497,7 +1492,7 @@ class ilObject
 		// remove conditions
 		if ($this->referenced)
 		{
-			$ch =& new ilConditionHandler();
+			$ch = new ilConditionHandler();
 			$ch->delete($this->getRefId());
 			unset($ch);
 		}
@@ -1571,35 +1566,8 @@ class ilObject
 
 		return $ilDB->numRows($r) ? true : false;
 	}
-
-	/**
-	* notifys an object about an event occured
-	* Based on the event passed, each object may decide how it reacts.
-	* TODO: add optional array to pass parameters
-	*
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	integer reference id of node in the tree which is actually notified
-	* @param	array	passes optional parameters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{ 
-		global $tree;
 		
-		$parent_id = (int) $tree->getParentId($a_node_id);
-		
-		if ($parent_id != 0)
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
-			$obj_data->notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$parent_id,$a_params);
-		}
-				
-		return true;
-	}
-	
-	// toggle subscription interface
+// toggle subscription interface
 	function setRegisterMode($a_bool)
 	{
 		$this->register = (bool) $a_bool;
@@ -1666,11 +1634,18 @@ class ilObject
 	
 	/**
 	 * Prepare copy wizard object selection 
-	 *
-	 * @access public
+	 * 
+	 * This method should renamed. Currently used in ilObjsurvey and ilObjTest
+	 * @deprecated since version 5.2
 	 * @static
-	 *
-	 * @param array int array of ref ids
+	 * 
+	 * @global type $ilDB
+	 * @global type $lng
+	 * @global type $objDefinition
+	 * @param array $a_ref_ids
+	 * @param string $new_type
+	 * @param bool $show_path
+	 * @return array
 	 */
 	public static function _prepareCloneSelection($a_ref_ids,$new_type,$show_path = true)
 	{
@@ -1726,14 +1701,17 @@ class ilObject
 	 * @return object new object
 	 *  
 	 */
-	public function cloneObject($a_target_id,$a_copy_id = 0,$a_omit_tree = false)
+	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
 		global $objDefinition,$ilUser,$rbacadmin, $ilDB;
 		
 		$location = $objDefinition->getLocation($this->getType());
 		$class_name = ('ilObj'.$objDefinition->getClassName($this->getType()));
 		
-		if(!$a_omit_tree)
+		include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
+		$options = ilCopyWizardOptions::_getInstance($a_copy_id);
+		
+		if(!$options->isTreeCopyDisabled())
 		{
 			$title = $this->appendCopyInfo($a_target_id,$a_copy_id);
 		}
@@ -1751,9 +1729,10 @@ class ilObject
 		$new_obj->setType($this->getType());
 		// Choose upload mode to avoid creation of additional settings, db entries ...
 		$new_obj->create(true);
-		
-		if(!$a_omit_tree)
+
+		if(!$options->isTreeCopyDisabled())
 		{
+			ilLoggerFactory::getLogger('obj')->debug('Tree copy is enabled');
 			$new_obj->createReference();
 			$new_obj->putInTree($a_target_id);
 			$new_obj->setPermissions($a_target_id);
@@ -1764,6 +1743,10 @@ class ilObject
 				// copy local roles
 				$rbacadmin->copyLocalRoles($this->getRefId(),$new_obj->getRefId());
 			}
+		}
+		else
+		{
+			ilLoggerFactory::getLogger('obj')->debug('Tree copy is disabled');
 		}
 		
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
@@ -2035,7 +2018,9 @@ class ilObject
 		// restrict to repository
 		$types = array_keys($objDefinition->getSubObjectsRecursively("root"));	
 			
-		$sql = "SELECT od.obj_id,od.type,od.title FROM object_data od";
+		$sql = "SELECT od.obj_id,od.type,od.title FROM object_data od".
+			" JOIN object_reference oref ON(oref.obj_id = od.obj_id)".
+			" JOIN tree ON (tree.child = oref.ref_id)";
 		
 		if($a_user_id)
 		{
@@ -2049,7 +2034,8 @@ class ilObject
 				" AND od.owner <> ".$ilDB->quote(-1, "integer");
 		}
 		
-		$sql .= " AND ".$ilDB->in("od.type", $types, "", "text");
+		$sql .= " AND ".$ilDB->in("od.type", $types, "", "text").
+			" AND tree.tree > ".$ilDB->quote(0, "integer"); // #12485
 			
 		$res = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($res))

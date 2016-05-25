@@ -72,7 +72,7 @@ class ilExportOptions
 			'GROUP BY export_id ';
 		$res = $ilDB->query($query);
 		$exp_id = 1;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$exp_id = $row->exp + 1;
 		}
@@ -142,7 +142,7 @@ class ilExportOptions
 		$res = $ilDB->query($query);
 		
 		$pos = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$pos = $row->position;
 		}
@@ -222,7 +222,7 @@ class ilExportOptions
 			"WHERE export_id = ".$ilDB->quote($this->getExportId(),'integer').' '.
 			"ORDER BY pos";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if($row->ref_id)
 			{

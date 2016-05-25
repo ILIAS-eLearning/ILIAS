@@ -102,22 +102,17 @@ class SurveySearch
 	* @param integer $owner A numerical ID to identify the owner/creator
 	* @access public
 	*/
-	function SurveySearch(
-	  $search_text = "",
-	  $concatenation = self::CONCAT_AND,
-	  $search_field = "all",
-		  $search_type = "all"
-	)
+	function __construct($search_text = "", $concatenation = self::CONCAT_AND, $search_field = "all", $search_type = "all")
 	{
 		global $ilDB;
 
-		$this->ilDB =& $ilDB;
+		$this->ilDB = $ilDB;
 
-		$this->search_terms = split(" +", $search_text);
+		$this->search_terms = explode(" +", $search_text);
 		$this->concatenation = $concatenation;
-			$this->search_field = $search_field;
+		$this->search_field = $search_field;
 		$this->search_type = $search_type;
-			$this->search_results = array();
+		$this->search_results = array();
 	}
 	
 	/**

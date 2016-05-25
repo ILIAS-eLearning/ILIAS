@@ -1,9 +1,10 @@
 <?php
 require_once('./Services/Utilities/classes/class.ilMimeTypeUtil.php');
-require_once('./Services/Utilities/classes/class.ilUtil.php');
+require_once('./Services/Utilities/classes/class.ilUtil.php'); // This include is needed since WAC can use ilFileDelivery without Initialisation
 require_once('./Services/Context/classes/class.ilContext.php');
 require_once('./Services/Http/classes/class.ilHTTPS.php');
 require_once('./Services/WebAccessChecker/classes/class.ilHTTP.php');
+require_once('./Services/WebAccessChecker/classes/class.ilWACLog.php');
 
 /**
  * Class ilFileDelivery
@@ -13,6 +14,7 @@ require_once('./Services/WebAccessChecker/classes/class.ilHTTP.php');
  */
 class ilFileDelivery {
 
+	const DIRECT_PHP_OUTPUT = 'php://output';
 	const DELIVERY_METHOD_NONE = 'cache';
 	const DELIVERY_METHOD_XSENDFILE = 'mod_xsendfile';
 	const DELIVERY_METHOD_XACCEL = 'x-accel-redirect';
@@ -29,12 +31,12 @@ class ilFileDelivery {
 	 */
 	protected static $self_streaming_methods = array(
 		self::DELIVERY_METHOD_XSENDFILE,
-		self::DELIVERY_METHOD_XACCEL
+		self::DELIVERY_METHOD_XACCEL,
 	);
 	/**
 	 * @var integer
 	 */
-	protected static $delivery_type_static = NULL;
+	protected static $delivery_type_static = null;
 	/**
 	 * @var string
 	 */
@@ -90,14 +92,20 @@ class ilFileDelivery {
 	/**
 	 * @var bool
 	 */
+	protected $delete_file = false;
+	/**
+	 * @var bool
+	 */
 	protected static $DEBUG = false;
 
 
 	/**
-	 * @param      $path_to_file
+	 * @param $path_to_file
 	 * @param null $download_file_name
+	 * @param null $mime_type
+	 * @param bool $delete_file
 	 */
-	public static function deliverFileAttached($path_to_file, $download_file_name = NULL, $mime_type = NULL) {
+	public static function deliverFileAttached($path_to_file, $download_file_name = null, $mime_type = null, $delete_file = false) {
 		$obj = new self($path_to_file);
 		if ($download_file_name) {
 			$obj->setDownloadFileName($download_file_name);
@@ -106,6 +114,7 @@ class ilFileDelivery {
 			$obj->setMimeType($mime_type);
 		}
 		$obj->setDisposition(self::DISP_ATTACHMENT);
+		$obj->setDeleteFile($delete_file);
 		$obj->deliver();
 	}
 
@@ -114,7 +123,7 @@ class ilFileDelivery {
 	 * @param      $path_to_file
 	 * @param null $download_file_name
 	 */
-	public static function streamVideoInline($path_to_file, $download_file_name = NULL) {
+	public static function streamVideoInline($path_to_file, $download_file_name = null) {
 		$obj = new self($path_to_file);
 		if ($download_file_name) {
 			$obj->setDownloadFileName($download_file_name);
@@ -128,7 +137,7 @@ class ilFileDelivery {
 	 * @param      $path_to_file
 	 * @param null $download_file_name
 	 */
-	public static function deliverFileInline($path_to_file, $download_file_name = NULL) {
+	public static function deliverFileInline($path_to_file, $download_file_name = null) {
 		$obj = new self($path_to_file);
 
 		if ($download_file_name) {
@@ -143,12 +152,16 @@ class ilFileDelivery {
 	 * @param $path_to_file
 	 */
 	public function __construct($path_to_file) {
-		$parts = parse_url($path_to_file);
-		$this->setPathToFile(($parts['path']));
-		$this->detemineDeliveryType();
-		$this->determineMimeType();
-		$this->determineDownloadFileName();
-		$this->setHasContext(ilContext::getType() !== NULL);
+		if ($path_to_file == self::DIRECT_PHP_OUTPUT) {
+			$this->setPathToFile(self::DIRECT_PHP_OUTPUT);
+		} else {
+			$parts = parse_url($path_to_file);
+			$this->setPathToFile(($parts['path']));
+			$this->detemineDeliveryType();
+			$this->determineMimeType();
+			$this->determineDownloadFileName();
+		}
+		$this->setHasContext(ilContext::getType() !== null);
 	}
 
 
@@ -184,6 +197,9 @@ class ilFileDelivery {
 			case self::DELIVERY_METHOD_NONE;
 				break;
 		}
+		if ($this->isDeleteFile()) {
+			unlink($this->getPathToFile());
+		}
 		if ($this->isExitAfter()) {
 			$this->close();
 		}
@@ -206,7 +222,6 @@ class ilFileDelivery {
 
 	protected function deliverXSendfile() {
 		$this->clearHeaders();
-		header('Content-type:');
 		header('X-Sendfile: ' . realpath($this->getPathToFile()));
 	}
 
@@ -236,7 +251,7 @@ class ilFileDelivery {
 	}
 
 
-	protected function setGeneralHeaders() {
+	public function setGeneralHeaders() {
 		$this->checkExisting();
 		if ($this->isSendMimeType()) {
 			header("Content-type: " . $this->getMimeType());
@@ -251,7 +266,7 @@ class ilFileDelivery {
 		header('Content-Disposition: ' . $this->getDisposition() . '; filename="' . $download_file_name . '"');
 		header('Content-Description: ' . $download_file_name);
 		header('Accept-Ranges: bytes');
-		if ($this->getDeliveryType() == self::DELIVERY_METHOD_PHP) {
+		if ($this->getDeliveryType() == self::DELIVERY_METHOD_PHP && $this->getPathToFile() != self::DIRECT_PHP_OUTPUT) {
 			header("Content-Length: " . (string)filesize($this->getPathToFile()));
 		}
 		header("Connection: close");
@@ -271,7 +286,7 @@ class ilFileDelivery {
 	}
 
 
-	protected function close() {
+	public function close() {
 		exit;
 	}
 
@@ -336,6 +351,10 @@ class ilFileDelivery {
 		require_once('./Services/Environment/classes/class.ilRuntime.php');
 		$ilRuntime = ilRuntime::getInstance();
 		if ((!$ilRuntime->isFPM() && !$ilRuntime->isHHVM()) && $this->getDeliveryType() == self::DELIVERY_METHOD_XACCEL) {
+			$this->setDeliveryType(self::DELIVERY_METHOD_PHP);
+		}
+
+		if ($this->getDeliveryType() == self::DELIVERY_METHOD_XACCEL && strpos($this->getPathToFile(), './data') !== 0) {
 			$this->setDeliveryType(self::DELIVERY_METHOD_PHP);
 		}
 
@@ -702,7 +721,7 @@ class ilFileDelivery {
 	}
 
 
-	protected function checkCache() {
+	public function checkCache() {
 		if ($this->hasCache()) {
 			$this->generateEtag();
 			$this->sendEtagHeader();
@@ -716,7 +735,7 @@ class ilFileDelivery {
 	}
 
 
-	protected function clearBuffer() {
+	public function clearBuffer() {
 		$ob_get_contents = ob_get_contents();
 		if ($ob_get_contents) {
 			ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: ' . $ob_get_contents);
@@ -726,14 +745,14 @@ class ilFileDelivery {
 
 
 	protected function checkExisting() {
-		if (!file_exists($this->getPathToFile())) {
+		if ($this->getPathToFile() != self::DIRECT_PHP_OUTPUT && !file_exists($this->getPathToFile())) {
 			ilHTTP::status(404);
 			$this->close();
 		}
 	}
 
 
-	protected function cleanDownloadFileName() {
+	public function cleanDownloadFileName() {
 		$download_file_name = self::returnASCIIFileName($this->getDownloadFileName());
 		$this->setDownloadFileName($download_file_name);
 	}
@@ -746,6 +765,22 @@ class ilFileDelivery {
 	public static function returnASCIIFileName($original_name) {
 		return ilUtil::getASCIIFilename($original_name);
 		//		return iconv("UTF-8", "ASCII//TRANSLIT", $original_name); // proposal
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isDeleteFile() {
+		return $this->delete_file;
+	}
+
+
+	/**
+	 * @param boolean $delete_file
+	 */
+	public function setDeleteFile($delete_file) {
+		$this->delete_file = $delete_file;
 	}
 }
 

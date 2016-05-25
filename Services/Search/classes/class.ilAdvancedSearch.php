@@ -46,15 +46,6 @@ class ilAdvancedSearch extends ilAbstractSearch
 	var $db = null;
 
 	/**
-	* Constructor
-	* @access public
-	*/
-	function ilAdvancedSearch(&$qp_obj)
-	{
-		parent::ilAbstractSearch($qp_obj);
-	}
-
-	/**
 	* Define meta elements to search
 	* 
 	* @param array elements to search in. E.G array('keyword','contribute')
@@ -159,7 +150,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			"ORDER BY obj_id DESC";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->obj_id,$row->type,$this->__prepareFound($row));
 		}
@@ -193,7 +184,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			$and;
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if($this->options['lom_coverage'])
 			{
@@ -228,7 +219,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 
 		$res = $this->db->query($query);
 		#var_dump("<pre>",$query,"<pre>");
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}
@@ -250,7 +241,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 
 		$res = $this->db->query($query);
 		#var_dump("<pre>",$query,"<pre>");
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}
@@ -271,7 +262,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			$where." ".$and.' ';
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$found = $this->__prepareFound($row);
 			if(!in_array(0,$found))
@@ -297,7 +288,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 		$query = $query.$where.$and;
 		$res = $this->db->query($query);
 		#var_dump("<pre>",$query,"<pre>");
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}
@@ -315,7 +306,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 		$and = ("AND obj_type ".$this->__getInStatement($this->getFilter()));
 		$query = $query.$where.$and;
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}
@@ -336,7 +327,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 
 		$res = $this->db->query($query);
 		#var_dump("<pre>",$query,"<pre>");
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}
@@ -355,7 +346,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 		$query = $query.$where.$and;
 		$res = $this->db->query($query);
 		#var_dump("<pre>",$query,"<pre>");
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}
@@ -374,7 +365,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 		$query = $query.$where.$and;
 		$res = $this->db->query($query);
 		#var_dump("<pre>",$query,"<pre>");
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}
@@ -395,7 +386,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			$where." ".$and.' ';
 			
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$found = $this->__prepareFound($row);
 			if(!in_array(0,$found))
@@ -425,7 +416,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			$where." ".$and.' ';
 			
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$found = $this->__prepareFound($row);
 			if(!in_array(0,$found) or !$a_in_classification)
@@ -464,7 +455,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 			$where." ".$and.' ';
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$found = $this->__prepareFound($row);
 			if(!in_array(0,$found))
@@ -491,7 +482,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 		
 		$res = $this->db->query($query);
 		#var_dump("<pre>",$query,"<pre>");
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->rbac_id,$row->obj_type,array(),$row->obj_id);
 		}

@@ -22,17 +22,17 @@ class ilPersonalProfileGUI
 	/**
 	* constructor
 	*/
-    function ilPersonalProfileGUI()
+    function __construct()
     {
-        global $ilias, $tpl, $lng, $rbacsystem, $ilCtrl;
+        global $ilias, $tpl, $lng, $ilCtrl;
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
 
-        $this->tpl =& $tpl;
-        $this->lng =& $lng;
-        $this->ilias =& $ilias;
-		$this->ctrl =& $ilCtrl;
+        $this->tpl = $tpl;
+        $this->lng = $lng;
+        $this->ilias = $ilias;
+		$this->ctrl = $ilCtrl;
 		$this->settings = $ilias->getAllSettings();
 		$lng->loadLanguageModule("jsmath");
 		$lng->loadLanguageModule("pd");
@@ -45,7 +45,7 @@ class ilPersonalProfileGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilUser, $ilCtrl, $tpl, $ilTabs, $lng;
 		

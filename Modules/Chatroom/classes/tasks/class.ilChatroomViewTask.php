@@ -13,25 +13,113 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 class ilChatroomViewTask extends ilChatroomTaskHandler
 {
 	/**
-	 * @var ilChatroomObjectGUI
+	 * Joins user to chatroom with custom username, fetched from
+	 * $_REQUEST['custom_username_text'] or by calling buld method.
+	 * If sucessful, $this->showRoom method is called, otherwise
+	 * $this->showNameSelection.
 	 */
-	private $gui;
-
-	/**
-	 * @param ilChatroomObjectGUI $gui
-	 */
-	public function __construct(ilChatroomObjectGUI $gui)
+	public function joinWithCustomName()
 	{
-		$this->gui = $gui;
+		/**
+		 * @var $ilUser ilObjUser
+		 * @var $lng    ilLanguage
+		 */
+		global $ilUser, $lng;
+
+		$this->gui->switchToVisibleMode();
+		$this->setupTemplate();
+		$room      = ilChatroom::byObjectId($this->gui->object->getId());
+		$chat_user = new ilChatroomUser($ilUser, $room);
+		$failure   = false;
+		$username  = '';
+
+		if($_REQUEST['custom_username_radio'] == 'custom_username')
+		{
+			$username = $_REQUEST['custom_username_text'];
+		}
+		elseif(method_exists($chat_user, 'build' . $_REQUEST['custom_username_radio']))
+		{
+			$username = $chat_user->{'build' . $_REQUEST['custom_username_radio']}();
+		}
+		else
+		{
+			$failure = true;
+		}
+
+		if(!$failure && trim($username) != '')
+		{
+			if(!$room->isSubscribed($chat_user->getUserId()))
+			{
+				$username = $this->buildUniqueUsername($username, $room);
+				$chat_user->setUsername($username);
+			}
+
+			$this->showRoom($room, $chat_user);
+		}
+		else
+		{
+			ilUtil::sendFailure($lng->txt('no_username_given'));
+			$this->showNameSelection($chat_user);
+		}
 	}
 
 	/**
-	 * Calls ilUtil::sendFailure method using given $message as parameter.
-	 * @param string $message
+	 * Adds CSS and JavaScript files that should be included in the header.
 	 */
-	private function cancelJoin($message)
+	private function setupTemplate()
 	{
-		ilUtil::sendFailure($message);
+		/**
+		 * @var $tpl ilTemplate
+		 */
+		global $tpl;
+
+		$tpl->addJavaScript('Modules/Chatroom/js/colorpicker/jquery.colorPicker.js');
+		$tpl->addJavaScript('Modules/Chatroom/js/chat.js');
+		$tpl->addJavaScript('Modules/Chatroom/js/iliaschat.jquery.js');
+		$tpl->addJavaScript('Services/jQuery/js/jquery.outside.events.min.js');
+		$tpl->addJavaScript('Modules/Chatroom/js/json2.js');
+
+		$tpl->addJavaScript('./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js');
+
+		$tpl->addCSS('Modules/Chatroom/js/colorpicker/colorPicker.css');
+		$tpl->addCSS('Modules/Chatroom/templates/default/style.css');
+	}
+
+	/**
+	 * @param string     $username
+	 * @param ilChatroom $room
+	 * @return string
+	 */
+	private function buildUniqueUsername($username, ilChatroom $room)
+	{
+		/**
+		 * @var ilDB $ilDB
+		 */
+		global $ilDB;
+		$username   = htmlspecialchars(trim($username));
+		$usernames  = array();
+		$uniqueName = $username;
+
+		$rset = $ilDB->query('SELECT * FROM chatroom_users WHERE '
+			. $ilDB->like('userdata', 'text', '%"login":"' . $username . '%')
+			. ' AND room_id = ' . $ilDB->quote($room->getRoomId(), 'integer')
+		);
+
+		while(($row = $ilDB->fetchAssoc($rset)))
+		{
+			$json        = json_decode($row['userdata'], true);
+			$usernames[] = $json['login'];
+		}
+
+		for($index = 1; $index <= \count($usernames); $index++)
+		{
+			if(in_array($uniqueName, $usernames))
+			{
+				$uniqueName = sprintf('%s_%d', $username, $index);
+			}
+		}
+
+		return $uniqueName;
 	}
 
 	/**
@@ -77,25 +165,17 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 			$ilCtrl->redirectByClass('ilinfoscreengui', 'info');
 		}
 
-		if(!$room->isSubscribed($chat_user->getUserId()) && $room->connectUser($chat_user))
+		if(!$room->isSubscribed($chat_user->getUserId()))
 		{
-			$messageObject = array(
-				'type'      => 'connected',
-				'users'     => array(
-					array(
-						'login' => $chat_user->getUsername(),
-						'id'    => $user_id,
-					),
-				),
-				'timestamp' => time() * 1000
-			);
-			$message       = json_encode($messageObject);
-			$connector->sendMessage(
-				$scope,
-				$message
-			);
+			$room->connectUser($chat_user);
+		}
 
-			$room->addHistoryEntry($messageObject);
+		$subScope = 0;
+		$response = $connector->sendEnterPrivateRoom($scope, $subScope, $user_id);
+		if(!$response)
+		{
+			ilUtil::sendFailure($lng->txt('unable_to_connect'), true);
+			$ilCtrl->redirectByClass('ilinfoscreengui', 'info');
 		}
 
 		$connection_info    = json_decode($response);
@@ -110,7 +190,8 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 
 		$initial->userinfo = array(
 			'moderator' => $rbacsystem->checkAccess('moderate', (int)$_GET['ref_id']),
-			'userid'    => $chat_user->getUserId()
+			'id'        => $chat_user->getUserId(),
+			'login'     => $chat_user->getUsername()
 		);
 
 		$smileys = array();
@@ -182,42 +263,15 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 						)
 					);
 
-					$query     = http_build_query($params);
 					$connector = $this->gui->getConnector();
-					$response  = $connector->enterPrivateRoom($scope, $query);
+					$response  = $connector->sendEnterPrivateRoom($scope, $_REQUEST['sub'], $chat_user->getUserId());
 
-					$responseObject = json_decode($response);
-
-					if($responseObject->success == true)
+					if($this->isSuccessful($response))
 					{
 						$room->subscribeUserToPrivateRoom($params['sub'], $params['user']);
 					}
 
-					$message = json_encode(array(
-						'type' => 'private_room_entered',
-						'user' => $params['user'],
-						'sub'  => $params['sub']
-					));
-
-					$connector->sendMessage($room->getRoomId(), $message, array('public' => 1, 'sub' => $params['sub']));
-
 					$initial->enter_room = $_REQUEST['sub'];
-					$initial->messages[] = array(
-						'type'     => 'notice',
-						'user'     => $params['user'],
-						'sub'      => $params['sub'],
-						'entersub' => 1
-					);
-				}
-
-				if($_SESSION['show_invitation_message'])
-				{
-					$initial->messages[] = array(
-						'type'    => 'notice',
-						'message' => $lng->txt('user_invited'),
-						'sub'     => $_REQUEST['sub']
-					);
-					unset($_SESSION['show_invitation_message']);
 				}
 			}
 			else
@@ -236,7 +290,7 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 
 		$roomTpl = new ilTemplate('tpl.chatroom.html', true, true, 'Modules/Chatroom');
 		$roomTpl->setVariable('SESSION_ID', $connection_info->{'session-id'});
-		$roomTpl->setVariable('BASEURL', $settings->getBaseURL());
+		$roomTpl->setVariable('BASEURL', $settings->generateClientUrl());
 		$roomTpl->setVariable('INSTANCE', $settings->getInstance());
 		$roomTpl->setVariable('SCOPE', $scope);
 		$roomTpl->setVariable('MY_ID', $user_id);
@@ -255,7 +309,7 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		$this->renderFileUploadForm($roomTpl);
 		$this->renderSendMessageBox($roomTpl);
 		$this->renderLanguageVariables($roomTpl);
-		
+
 		require_once 'Services/UIComponent/Modal/classes/class.ilModalGUI.php';
 		ilModalGUI::initJS();
 
@@ -274,6 +328,148 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 	}
 
 	/**
+	 * Calls ilUtil::sendFailure method using given $message as parameter.
+	 * @param string $message
+	 */
+	private function cancelJoin($message)
+	{
+		ilUtil::sendFailure($message);
+	}
+
+	/**
+	 * Prepares given $roomTpl with font settings using given $defaultSettings
+	 * among other things.
+	 * @param ilTemplate $roomTpl
+	 * @param array      $defaultSettings
+	 */
+	private function renderFontSettings(ilTemplate $roomTpl, array $defaultSettings)
+	{
+		/**
+		 * @var $lng    ilLanguage
+		 * @var $ilCtrl ilCtrl
+		 */
+		global $lng, $ilCtrl;
+
+		$font_family = array(
+			'sans'      => 'Sans Serif',
+			'times'     => 'Times',
+			'monospace' => 'Monospace',
+		);
+
+		$font_style = array(
+			'italic'     => $lng->txt('italic'),
+			'bold'       => $lng->txt('bold'),
+			'normal'     => $lng->txt('normal'),
+			'underlined' => $lng->txt('underlined'),
+		);
+
+		$font_size = array(
+			'small'  => $lng->txt('small'),
+			'normal' => $lng->txt('normal'),
+			'large'  => $lng->txt('large')
+		);
+
+		$default_font_color = '#000000';
+
+		$default_font_family = (
+		isset($defaultSettings['font_family']) &&
+		isset($font_family[$defaultSettings['font_family']]) ?
+			$defaultSettings['font_family'] : 'sans'
+		);
+
+		$default_font_style = (
+		isset($defaultSettings['font_style']) &&
+		isset($font_family[$defaultSettings['font_style']]) ?
+			$defaultSettings['font_style'] : 'normal'
+		);
+
+		$default_font_size = (
+		isset($defaultSettings['font_size']) &&
+		isset($font_family[$defaultSettings['font_size']]) ?
+			$defaultSettings['font_size'] : 'normal'
+		);
+
+		$roomTpl->setVariable('VAL_FONTCOLOR', $default_font_color);
+
+		foreach($font_family as $font => $label)
+		{
+			$roomTpl->setCurrentBlock('chat_fontfamily');
+			$roomTpl->setVariable('VAL_FONTFAMILY', $font);
+			$roomTpl->setVariable('LBL_FONTFAMILY', $label);
+			$roomTpl->setVariable(
+				'SELECTED_FONTFAMILY', $font == $default_font_family ?
+				'selected="selected"' : ''
+			);
+			$roomTpl->parseCurrentBlock();
+		}
+
+		foreach($font_style as $font => $label)
+		{
+			$roomTpl->setCurrentBlock('chat_fontstyle');
+			$roomTpl->setVariable('VAL_FONTSTYLE', $font);
+			$roomTpl->setVariable('LBL_FONTSTYLE', $label);
+			$roomTpl->setVariable(
+				'SELECTED_FONTSTYLE', $font == $default_font_style ?
+				'selected="selected"' : ''
+			);
+			$roomTpl->parseCurrentBlock();
+		}
+
+		foreach($font_size as $font => $label)
+		{
+			$roomTpl->setCurrentBlock('chat_fontsize');
+			$roomTpl->setVariable('VAL_FONTSIZE', $font);
+			$roomTpl->setVariable('LBL_FONTSIZE', $label);
+			$roomTpl->setVariable(
+				'SELECTED_FONTSIZE',
+				$font == $default_font_size ? 'selected="selected"' : ''
+			);
+			$roomTpl->parseCurrentBlock();
+		}
+
+		$roomTpl->setVariable('LBL_FONTCOLOR', $lng->txt('fontcolor'));
+		$roomTpl->setVariable('LBL_FONTFAMILY', $lng->txt('fontfamily'));
+		$roomTpl->setVariable('LBL_FONTSTYLE', $lng->txt('fontstyle'));
+		$roomTpl->setVariable('LBL_FONTSIZE', $lng->txt('fontsize'));
+
+		$logoutLink = $ilCtrl->getLinkTarget($this->gui, 'view-logout');
+		$roomTpl->setVariable('LOGOUT_LINK', $logoutLink);
+	}
+
+	/**
+	 * Prepares Fileupload form and displays it.
+	 * @param ilTemplate $roomTpl
+	 */
+	public function renderFileUploadForm(ilTemplate $roomTpl)
+	{
+		// @todo: Not implemented yet
+		return;
+
+		require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
+		$formFactory = new ilChatroomFormFactory();
+		$file_upload = $formFactory->getFileUploadForm();
+		//$file_upload->setFormAction( $ilCtrl->getFormAction($this->gui, 'UploadFile-uploadFile') );
+		$roomTpl->setVariable('FILE_UPLOAD', $file_upload->getHTML());
+	}
+
+	/**
+	 * @param ilTemplate $roomTpl
+	 */
+	protected function renderSendMessageBox(ilTemplate $roomTpl)
+	{
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
+
+		$roomTpl->setVariable('LBL_MESSAGE', $lng->txt('chat_message'));
+		$roomTpl->setVariable('LBL_TOALL', $lng->txt('chat_message_to_all'));
+		$roomTpl->setVariable('LBL_OPTIONS', $lng->txt('chat_message_options'));
+		$roomTpl->setVariable('LBL_DISPLAY', $lng->txt('chat_message_display'));
+		$roomTpl->setVariable('LBL_SEND', $lng->txt('send'));
+	}
+
+	/**
 	 * @param ilTemplate $roomTpl
 	 */
 	protected function renderLanguageVariables(ilTemplate $roomTpl)
@@ -284,43 +480,45 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		global $lng;
 
 		$js_translations = array(
-			'LBL_MAINROOM' => 'chat_mainroom',
-			'LBL_LEAVE_PRIVATE_ROOM' => 'leave_private_room',
-			'LBL_JOIN' => 'chat_join',
-			'LBL_DELETE_PRIVATE_ROOM' => 'delete_private_room',
-			'LBL_INVITE_TO_PRIVATE_ROOM' => 'invite_to_private_room',
-			'LBL_KICK' => 'chat_kick',
-			'LBL_BAN' => 'chat_ban',
-			'LBL_KICK_QUESTION' => 'kick_question',
-			'LBL_BAN_QUESTION' => 'ban_question',
-			'LBL_ADDRESS' => 'chat_address',
-			'LBL_WHISPER' => 'chat_whisper',
-			'LBL_CONNECT' => 'chat_connection_established',
-			'LBL_DISCONNECT' => 'chat_connection_disconnected',
-			'LBL_TO_MAINROOM' => 'chat_to_mainroom',
-			'LBL_CREATE_PRIVATE_ROOM_JS' => 'chat_create_private_room_button',
-			'LBL_WELCOME_TO_CHAT' => 'welcome_to_chat',
-			'LBL_USER_INVITED' => 'user_invited',
-			'LBL_USER_KICKED' => 'user_kicked',
-			'LBL_USER_INVITED_SELF' => 'user_invited_self',
-			'LBL_PRIVATE_ROOM_CLOSED' => 'private_room_closed',
-			'LBL_PRIVATE_ROOM_ENTERED' => 'private_room_entered',
-			'LBL_PRIVATE_ROOM_LEFT' => 'private_room_left',
-			'LBL_PRIVATE_ROOM_ENTERED_USER' => 'private_room_entered_user',
-			'LBL_KICKED_FROM_PRIVATE_ROOM' => 'kicked_from_private_room',
-			'LBL_OK' => 'ok',
-			'LBL_INVITE' => 'chat_invite',
-			'LBL_CANCEL' => 'cancel',
-			'LBL_WHISPER_TO' => 'whisper_to',
-			'LBL_SPEAK_TO' => 'speak_to',
-			'LBL_HISTORY_CLEARED' => 'history_cleared',
-			'LBL_CLEAR_ROOM_HISTORY' => 'clear_room_history',
-			'LBL_CLEAR_ROOM_HISTORY_QUESTION' => 'clear_room_history_question',
-			'LBL_END_WHISPER' => 'end_whisper',
-			'LBL_SHOW_SETTINGS_JS' => 'show_settings',
-			'LBL_HIDE_SETTINGS' => 'hide_settings',
-			'LBL_TIMEFORMAT' => 'lang_timeformat_no_sec',
-			'LBL_DATEFORMAT' => 'lang_dateformat'
+			'LBL_MAINROOM'                     => 'chat_mainroom',
+			'LBL_LEAVE_PRIVATE_ROOM'           => 'leave_private_room',
+			'LBL_LEFT_PRIVATE_ROOM'            => 'left_private_room',
+			'LBL_JOIN'                         => 'chat_join',
+			'LBL_DELETE_PRIVATE_ROOM'          => 'delete_private_room',
+			'LBL_DELETE_PRIVATE_ROOM_QUESTION' => 'delete_private_room_question',
+			'LBL_INVITE_TO_PRIVATE_ROOM'       => 'invite_to_private_room',
+			'LBL_KICK'                         => 'chat_kick',
+			'LBL_BAN'                          => 'chat_ban',
+			'LBL_KICK_QUESTION'                => 'kick_question',
+			'LBL_BAN_QUESTION'                 => 'ban_question',
+			'LBL_ADDRESS'                      => 'chat_address',
+			'LBL_WHISPER'                      => 'chat_whisper',
+			'LBL_CONNECT'                      => 'chat_connection_established',
+			'LBL_DISCONNECT'                   => 'chat_connection_disconnected',
+			'LBL_TO_MAINROOM'                  => 'chat_to_mainroom',
+			'LBL_CREATE_PRIVATE_ROOM_JS'       => 'chat_create_private_room_button',
+			'LBL_WELCOME_TO_CHAT'              => 'welcome_to_chat',
+			'LBL_USER_INVITED'                 => 'user_invited',
+			'LBL_USER_KICKED'                  => 'user_kicked',
+			'LBL_USER_INVITED_SELF'            => 'user_invited_self',
+			'LBL_PRIVATE_ROOM_CLOSED'          => 'private_room_closed',
+			'LBL_PRIVATE_ROOM_ENTERED'         => 'private_room_entered',
+			'LBL_PRIVATE_ROOM_LEFT'            => 'private_room_left',
+			'LBL_PRIVATE_ROOM_ENTERED_USER'    => 'private_room_entered_user',
+			'LBL_KICKED_FROM_PRIVATE_ROOM'     => 'kicked_from_private_room',
+			'LBL_OK'                           => 'ok',
+			'LBL_INVITE'                       => 'chat_invite',
+			'LBL_CANCEL'                       => 'cancel',
+			'LBL_WHISPER_TO'                   => 'whisper_to',
+			'LBL_SPEAK_TO'                     => 'speak_to',
+			'LBL_HISTORY_CLEARED'              => 'history_cleared',
+			'LBL_CLEAR_ROOM_HISTORY'           => 'clear_room_history',
+			'LBL_CLEAR_ROOM_HISTORY_QUESTION'  => 'clear_room_history_question',
+			'LBL_END_WHISPER'                  => 'end_whisper',
+			'LBL_SHOW_SETTINGS_JS'             => 'show_settings',
+			'LBL_HIDE_SETTINGS'                => 'hide_settings',
+			'LBL_TIMEFORMAT'                   => 'lang_timeformat_no_sec',
+			'LBL_DATEFORMAT'                   => 'lang_dateformat'
 		);
 		foreach($js_translations as $placeholder => $lng_variable)
 		{
@@ -346,23 +544,6 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		global $lng;
 
 		$roomTpl->setVariable('LBL_NO_FURTHER_USERS', $lng->txt('no_further_users'));
-	}
-
-	/**
-	 * @param ilTemplate $roomTpl
-	 */
-	protected function renderSendMessageBox(ilTemplate $roomTpl)
-	{
-		/**
-		 * @var $lng ilLanguage
-		 */
-		global $lng;
-
-		$roomTpl->setVariable('LBL_MESSAGE', $lng->txt('chat_message'));
-		$roomTpl->setVariable('LBL_TOALL', $lng->txt('chat_message_to_all'));
-		$roomTpl->setVariable('LBL_OPTIONS', $lng->txt('chat_message_options'));
-		$roomTpl->setVariable('LBL_DISPLAY', $lng->txt('chat_message_display'));
-		$roomTpl->setVariable('LBL_SEND', $lng->txt('send'));
 	}
 
 	/**
@@ -394,74 +575,6 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		);
 
 		$tpl->setVariable('ADM_CONTENT', $selectionForm->getHtml());
-	}
-
-	/**
-	 * Adds CSS and JavaScript files that should be included in the header.
-	 */
-	private function setupTemplate()
-	{
-		/**
-		 * @var $tpl ilTemplate
-		 */
-		global $tpl;
-
-		$tpl->addJavaScript('Modules/Chatroom/js/colorpicker/jquery.colorPicker.js');
-		$tpl->addJavaScript('Modules/Chatroom/js/chat.js');
-		$tpl->addJavaScript('Modules/Chatroom/js/iliaschat.jquery.js');
-		$tpl->addJavaScript('Services/jQuery/js/jquery.outside.events.min.js');
-		$tpl->addJavaScript('Modules/Chatroom/js/json2.js');
-
-		$tpl->addJavaScript('./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js');
-
-		$tpl->addCSS('Modules/Chatroom/js/colorpicker/colorPicker.css');
-		$tpl->addCSS('Modules/Chatroom/templates/default/style.css');
-	}
-
-	/**
-	 * Joins user to chatroom with custom username, fetched from
-	 * $_REQUEST['custom_username_text'] or by calling buld method.
-	 * If sucessful, $this->showRoom method is called, otherwise
-	 * $this->showNameSelection.
-	 */
-	public function joinWithCustomName()
-	{
-		/**
-		 * @var $ilUser ilObjUser
-		 * @var $lng    ilLanguage
-		 */
-		global $ilUser, $lng;
-
-		$this->gui->switchToVisibleMode();
-		$this->setupTemplate();
-		$room      = ilChatroom::byObjectId($this->gui->object->getId());
-		$chat_user = new ilChatroomUser($ilUser, $room);
-		$failure   = false;
-		$username  = '';
-
-		if($_REQUEST['custom_username_radio'] == 'custom_username')
-		{
-			$username = $_REQUEST['custom_username_text'];
-		}
-		elseif(method_exists($chat_user, 'build' . $_REQUEST['custom_username_radio']))
-		{
-			$username = $chat_user->{'build' . $_REQUEST['custom_username_radio']}();
-		}
-		else
-		{
-			$failure = true;
-		}
-
-		if(!$failure && trim($username) != '')
-		{
-			$chat_user->setUsername($username);
-			$this->showRoom($room, $chat_user);
-		}
-		else
-		{
-			ilUtil::sendFailure($lng->txt('no_username_given'));
-			$this->showNameSelection($chat_user);
-		}
 	}
 
 	/**
@@ -543,133 +656,21 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		$chat_user = new ilChatroomUser($ilUser, $room);
 		$user_id   = $_REQUEST['usr_id'];
 		$connector = $this->gui->getConnector();
-		$title     = $room->getUniquePrivateRoomTitle($chat_user->getUsername());
-		$response  = $connector->createPrivateRoom($room, $title, $chat_user);
-		$connector->inviteToPrivateRoom($room, $response->id, $ilUser, $user_id);
-		$room->sendInvitationNotification($this->gui, $chat_user, $user_id, $response->id);
+		$title     = $room->getUniquePrivateRoomTitle($chat_user->buildLogin());
+		$subRoomId = $room->addPrivateRoom($title, $chat_user, array('public' => false));
 
-		$_REQUEST['sub'] = $response->id;
+		$room->inviteUserToPrivateRoom($user_id, $subRoomId);
+		$connector->sendCreatePrivateRoom($room->getRoomId(), $subRoomId, $chat_user->getUserId(), $title);
+		$connector->sendInviteToPrivateRoom($room->getRoomId(), $subRoomId, $chat_user->getUserId(), $user_id);
+
+		$room->sendInvitationNotification($this->gui, $chat_user, $user_id, $subRoomId);
+
+		$_REQUEST['sub'] = $subRoomId;
 
 		$_SESSION['show_invitation_message'] = $user_id;
 
-		$ilCtrl->setParameter($this->gui, 'sub', $response->id);
+		$ilCtrl->setParameter($this->gui, 'sub', $subRoomId);
 		$ilCtrl->redirect($this->gui, 'view');
-	}
-
-	/**
-	 * Prepares given $roomTpl with font settings using given $defaultSettings
-	 * among other things.
-	 * @param ilTemplate $roomTpl
-	 * @param array      $defaultSettings
-	 */
-	private function renderFontSettings(ilTemplate $roomTpl, array $defaultSettings)
-	{
-		/**
-		 * @var $lng    ilLanguage
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $lng, $ilCtrl;
-
-		$font_family = array(
-			'sans'      => 'Sans Serif',
-			'times'     => 'Times',
-			'monospace' => 'Monospace',
-		);
-
-		$font_style = array(
-			'italic'     => $lng->txt('italic'),
-			'bold'       => $lng->txt('bold'),
-			'normal'     => $lng->txt('normal'),
-			'underlined' => $lng->txt('underlined'),
-		);
-
-		$font_size = array(
-			'small'  => $lng->txt('small'),
-			'normal' => $lng->txt('normal'),
-			'large'  => $lng->txt('large')
-		);
-
-		$default_font_color = '#000000';
-
-		$default_font_family = (
-		isset($defaultSettings['font_family']) &&
-			isset($font_family[$defaultSettings['font_family']]) ?
-			$defaultSettings['font_family'] : 'sans'
-		);
-
-		$default_font_style = (
-		isset($defaultSettings['font_style']) &&
-			isset($font_family[$defaultSettings['font_style']]) ?
-			$defaultSettings['font_style'] : 'normal'
-		);
-
-		$default_font_size = (
-		isset($defaultSettings['font_size']) &&
-			isset($font_family[$defaultSettings['font_size']]) ?
-			$defaultSettings['font_size'] : 'normal'
-		);
-
-		$roomTpl->setVariable('VAL_FONTCOLOR', $default_font_color);
-
-		foreach($font_family as $font => $label)
-		{
-			$roomTpl->setCurrentBlock('chat_fontfamily');
-			$roomTpl->setVariable('VAL_FONTFAMILY', $font);
-			$roomTpl->setVariable('LBL_FONTFAMILY', $label);
-			$roomTpl->setVariable(
-				'SELECTED_FONTFAMILY', $font == $default_font_family ?
-					'selected="selected"' : ''
-			);
-			$roomTpl->parseCurrentBlock();
-		}
-
-		foreach($font_style as $font => $label)
-		{
-			$roomTpl->setCurrentBlock('chat_fontstyle');
-			$roomTpl->setVariable('VAL_FONTSTYLE', $font);
-			$roomTpl->setVariable('LBL_FONTSTYLE', $label);
-			$roomTpl->setVariable(
-				'SELECTED_FONTSTYLE', $font == $default_font_style ?
-					'selected="selected"' : ''
-			);
-			$roomTpl->parseCurrentBlock();
-		}
-
-		foreach($font_size as $font => $label)
-		{
-			$roomTpl->setCurrentBlock('chat_fontsize');
-			$roomTpl->setVariable('VAL_FONTSIZE', $font);
-			$roomTpl->setVariable('LBL_FONTSIZE', $label);
-			$roomTpl->setVariable(
-				'SELECTED_FONTSIZE',
-				$font == $default_font_size ? 'selected="selected"' : ''
-			);
-			$roomTpl->parseCurrentBlock();
-		}
-
-		$roomTpl->setVariable('LBL_FONTCOLOR', $lng->txt('fontcolor'));
-		$roomTpl->setVariable('LBL_FONTFAMILY', $lng->txt('fontfamily'));
-		$roomTpl->setVariable('LBL_FONTSTYLE', $lng->txt('fontstyle'));
-		$roomTpl->setVariable('LBL_FONTSIZE', $lng->txt('fontsize'));
-
-		$logoutLink = $ilCtrl->getLinkTarget($this->gui, 'view-logout');
-		$roomTpl->setVariable('LOGOUT_LINK', $logoutLink);
-	}
-
-	/**
-	 * Prepares Fileupload form and displays it.
-	 * @param ilTemplate $roomTpl
-	 */
-	public function renderFileUploadForm(ilTemplate $roomTpl)
-	{
-		// @todo: Not implemented yet
-		return;
-
-		require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
-		$formFactory = new ilChatroomFormFactory();
-		$file_upload = $formFactory->getFileUploadForm();
-		//$file_upload->setFormAction( $ilCtrl->getFormAction($this->gui, 'UploadFile-uploadFile') );
-		$roomTpl->setVariable('FILE_UPLOAD', $file_upload->getHTML());
 	}
 
 	/**
@@ -702,7 +703,28 @@ class ilChatroomViewTask extends ilChatroomTaskHandler
 		 */
 		global $lng, $ilCtrl;
 
-		ilUtil::sendFailure($lng->txt('lost_connection'), true);
+		if(isset($_GET['msg']))
+		{
+			switch($_GET['msg'])
+			{
+				case 'kicked':
+					ilUtil::sendFailure($lng->txt('kicked'), true);
+					break;
+
+				case 'banned':
+					ilUtil::sendFailure($lng->txt('banned'), true);
+					break;
+
+				default:
+					ilUtil::sendFailure($lng->txt('lost_connection'), true);
+					break;
+			}
+		}
+		else
+		{
+			ilUtil::sendFailure($lng->txt('lost_connection'), true);
+		}
+
 		$ilCtrl->redirectByClass('ilinfoscreengui', 'info');
 	}
 }

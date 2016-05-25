@@ -36,15 +36,15 @@ include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
 class ilLPStatusExerciseReturned extends ilLPStatus
 {
 
-	function ilLPStatusVisits($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
-		parent::ilLPStatus($a_obj_id);
-		$this->db =& $ilDB;
+		parent::__construct($a_obj_id);
+		$this->db = $ilDB;
 	}
 
-	function _getNotAttempted($a_obj_id)
+	static function _getNotAttempted($a_obj_id)
 	{
 		$users = array();
 		
@@ -59,7 +59,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 		return $users;
 	}
 
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{		
 		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
@@ -79,14 +79,14 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 		return $users;
 	}		
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{		
 		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 		$ret = ilExerciseMembers::_getPassedUsers($a_obj_id);
 		return $ret ? $ret : array();
 	}
 
-	function _getFailed($a_obj_id)
+	static function _getFailed($a_obj_id)
 	{
 		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 		$failed = ilExerciseMembers::_getFailedUsers($a_obj_id);

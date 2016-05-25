@@ -90,7 +90,7 @@ class ilOrgUnitSimpleImportGUI {
 			$this->ctrl->redirectByClass('ilinfoscreengui', '');
 		}
 
-		$this->tabs_gui->setTabActive("import");
+		$this->tabs_gui->setTabActive('view_content');
 		$this->tabs_gui->removeSubTab("page_editor");
 		$this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
 

@@ -24,7 +24,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 		$this->testOutputGUI = $testOutputGUI;
 		$this->testSession = $testSession;
 		
-		parent::ilTestServiceGUI($testOBJ);
+		parent::__construct($testOBJ);
 	}
 	
 	function executeCommand()

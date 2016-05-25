@@ -15,9 +15,9 @@ require_once 'Services/Taxonomy/interfaces/interface.ilTaxAssignedItemInfo.php';
 class ilAssQuestionList implements ilTaxAssignedItemInfo
 {
 	/**
-	 * global ilDB object instance
+	 * global ilDBInterface object instance
 	 *
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db = null;
 	
@@ -127,10 +127,10 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	/**
 	 * Constructor
 	 * 
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 * @param integer $parentObjId
 	 */
-	public function __construct(ilDB $db, ilLanguage $lng, ilPluginAdmin $pluginAdmin)
+	public function __construct(ilDBInterface $db, ilLanguage $lng, ilPluginAdmin $pluginAdmin)
 	{
 		$this->db = $db;
 		$this->lng = $lng;

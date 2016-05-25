@@ -69,7 +69,7 @@ class ilContainerReference extends ilObject
 		$query = "SELECT * FROM container_reference ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->target_obj_id;
 		}
@@ -90,7 +90,7 @@ class ilContainerReference extends ilObject
 	 		"JOIN container_reference cr ON obr.obj_id = cr.target_obj_id ".
 	 		"WHERE cr.obj_id = ".$ilDB->quote($a_obj_id,'integer');
 	 	$res = $ilDB->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		return $row->ref_id;
 	 	}
@@ -110,7 +110,7 @@ class ilContainerReference extends ilObject
 				 'JOIN object_data od ON cr.obj_id = od.obj_id '.
 				 'WHERE cr.obj_id = '.$ilDB->quote($a_obj_id,'integer');
 		 $res = $ilDB->query($query);
-		 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		 while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		 {
 			 if($row->title_type == ilContainerReference::TITLE_TYPE_CUSTOM)
 			 {
@@ -134,7 +134,7 @@ class ilContainerReference extends ilObject
 	 		"JOIN container_reference cr ON target_obj_id = od.obj_id ".
 	 		"WHERE cr.obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 	 	$res = $ilDB->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		return $row->title;
 	 	}
@@ -155,7 +155,7 @@ class ilContainerReference extends ilObject
 	 	$query = "SELECT * FROM container_reference ".
 	 		"WHERE target_obj_id = ".$ilDB->quote($a_target_id,'integer')." ";
 	 	$res = $ilDB->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		return $row->obj_id;
 	 	}
@@ -178,7 +178,7 @@ class ilContainerReference extends ilObject
 			"WHERE target_obj_id = ".$ilDB->quote($a_target_id,'integer')." ";
 		$res = $ilDB->query($query);
 		$ret = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ret[] = $row->obj_id;
 		}
@@ -267,7 +267,7 @@ class ilContainerReference extends ilObject
 			"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer')." ";
 		$res = $ilDB->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setTargetId($row->target_obj_id);
 			$this->setTitleType($row->title_type);

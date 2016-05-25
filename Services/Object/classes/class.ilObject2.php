@@ -22,7 +22,7 @@ abstract class ilObject2 extends ilObject
 	function __construct($a_id = 0, $a_reference = true)
 	{
 		$this->initType();
-		parent::ilObject($a_id, $a_reference);
+		parent::__construct($a_id, $a_reference);
 	}
 
 	abstract protected function initType();
@@ -32,9 +32,9 @@ abstract class ilObject2 extends ilObject
 	/**
 	* Read data from db
 	*/
-	final function read($a_force_db = false)
+	final public function read()
 	{
-		parent::read($a_force_db);
+		parent::read();
 		$this->doRead();
 	}
 	protected function doRead()
@@ -64,7 +64,6 @@ abstract class ilObject2 extends ilObject
 	final function setOwner($a_owner) { return parent::setOwner($a_owner); }
 	final function getCreateDate() { return parent::getCreateDate(); }
 	final function getLastUpdateDate() { return parent::getLastUpdateDate(); }
-	final function setObjDataRecord($a_record) { return parent::setObjDataRecord($a_record); }
 
 	final function create($a_clone_mode = false)
 	{
@@ -189,11 +188,11 @@ abstract class ilObject2 extends ilObject
 	final function _getIdForImportId($a_import_id) { return parent::_getIdForImportId($a_import_id); }
 	static final function _getAllReferences($a_id) { return parent::_getAllReferences($a_id); }
 	final static function _lookupTitle($a_id) { return parent::_lookupTitle($a_id); }
-	final function _lookupOwner($a_id) { return parent::_lookupOwner($a_id); }
+	final static function _lookupOwner($a_id) { return parent::_lookupOwner($a_id); }
 	final static function _getIdsForTitle($title, $type = '', $partialmatch = false) { return parent::_getIdsForTitle($title, $type, $partialmatch); }
 	final static function _lookupDescription($a_id) { return parent::_lookupDescription($a_id); }
 	final function _lookupLastUpdate($a_id, $a_as_string = false) { return parent::_lookupLastUpdate($a_id, $a_as_string); }
-	final function _getLastUpdateOfObjects($a_objs) { return parent::_getLastUpdateOfObjects($a_objs); }
+	final static function _getLastUpdateOfObjects($a_objs) { return parent::_getLastUpdateOfObjects($a_objs); }
 	final static function _lookupObjId($a_id) { return parent::_lookupObjId($a_id); }
 	final function _setDeletedDate($a_ref_id) { return parent::_setDeletedDate($a_ref_id); }
 	final function _resetDeletedDate($a_ref_id) { return parent::_resetDeletedDate($a_ref_id); }
@@ -202,8 +201,8 @@ abstract class ilObject2 extends ilObject
 	final function _writeDescription($a_obj_id, $a_desc) { return parent::_writeDescription($a_obj_id, $a_desc); }
 	final function _writeImportId($a_obj_id, $a_import_id) { return parent::_writeImportId($a_obj_id, $a_import_id); }
 	final static function _lookupType($a_id,$a_reference = false) { return parent::_lookupType($a_id,$a_reference); }
-	final function _isInTrash($a_ref_id) { return parent::_isInTrash($a_ref_id); }
-	final function _hasUntrashedReference($a_obj_id) { return parent::_hasUntrashedReference($a_obj_id); }
+	final public static function _isInTrash($a_ref_id) { return parent::_isInTrash($a_ref_id); }
+	final static function _hasUntrashedReference($a_obj_id) { return parent::_hasUntrashedReference($a_obj_id); }
 	final static function _lookupObjectId($a_ref_id) { return parent::_lookupObjectId($a_ref_id); }
 	final function _getObjectsDataForType($a_type, $a_omit_trash = false) { return parent::_getObjectsDataForType($a_type, $a_omit_trash); }
 	final function putInTree($a_parent_ref) { return parent::putInTree($a_parent_ref); }
@@ -237,8 +236,7 @@ abstract class ilObject2 extends ilObject
 
 	function initDefaultRoles() { return array(); }
 	
-	final public static function _exists($a_id, $a_reference = false) { return parent::_exists($a_id, $a_reference); }
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0) { return parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params); }
+	final public static function _exists($a_id, $a_reference = false, $a_type = null) { return parent::_exists($a_id, $a_reference, $a_type); }
 	final function setRegisterMode($a_bool) { return parent::setRegisterMode($a_bool); }
 	final function isUserRegistered($a_user_id = 0) { return parent::isUserRegistered($a_user_id); }
 	final function requireRegistration() { return parent::requireRegistration(); }
@@ -246,15 +244,15 @@ abstract class ilObject2 extends ilObject
 	//final function getHTMLDirectory() { return parent::getHTMLDirectory(); }
 	final static function _getObjectsByType($a_obj_type = "", $a_owner = "") { return parent::_getObjectsByType($a_obj_type, $a_owner); }
 	
-	final static function _prepareCloneSelection($a_ref_ids,$new_type) { return parent::_prepareCloneSelection($a_ref_ids,$new_type); }
+	final static function _prepareCloneSelection($a_ref_ids,$new_type, $a_show_path = true) { return parent::_prepareCloneSelection($a_ref_ids,$new_type, $a_show_path); }
 	final function appendCopyInfo($a_target_id,$a_copy_id) { return parent::appendCopyInfo($a_target_id,$a_copy_id); }
 	final function cloneMetaData($target_obj)  { return parent::cloneMetaData($target_obj); }
 	
-	final function cloneObject($a_target_id, $a_copy_id = null, $a_omit_tree = false)
+	final function cloneObject($a_target_id, $a_copy_id = null)
 	{
 		if($this->beforeCloneObject())
 		{
-			$new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+			$new_obj = parent::cloneObject($a_target_id, $a_copy_id);
 			if($new_obj)
 			{
 				$this->doCloneObject($new_obj, $a_target_id, $a_copy_id);

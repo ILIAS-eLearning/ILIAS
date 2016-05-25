@@ -369,7 +369,7 @@ class ilShibbolethRoleAssignmentRule {
 		}
 		$query = 'SELECT * FROM ' . self::TABLE_NAME . ' ' . 'WHERE rule_id = ' . $this->db->quote($this->getRuleId(), 'integer');
 		$res = $this->db->query($query);
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 			$this->setRoleId($row->role_id);
 			$this->setName($row->name);
 			$this->setValue($row->value);

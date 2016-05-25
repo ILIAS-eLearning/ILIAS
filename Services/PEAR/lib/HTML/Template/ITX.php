@@ -19,7 +19,6 @@
 //
 
 require_once 'HTML/Template/IT.php';
-require_once 'HTML/Template/IT_Error.php';
 
 /**
 * Integrated Template Extension - ITX
@@ -115,14 +114,14 @@ class HTML_Template_ITX extends HTML_Template_IT
     *
     * @see    HTML_Template_IT()
     */
-    function HTML_Template_ITX($root = '')
+    function __construct($root = '')
     {
 
         $this->checkblocknameRegExp = '@' . $this->blocknameRegExp . '@';
         $this->functionRegExp = '@' . $this->functionPrefix . '(' .
                                 $this->functionnameRegExp . ')\s*\(@sm';
 
-        $this->HTML_Template_IT($root);
+        parent::__construct($root);
     } // end func constructor
 
     function init()
@@ -157,22 +156,19 @@ class HTML_Template_ITX extends HTML_Template_IT
     * @param    boolean     true if the new block inherits the content
     *                       of the old block
     * @return   boolean
-    * @throws   IT_Error
+    * @throws   ilTemplateException
     * @see      replaceBlockfile(), addBlock(), addBlockfile()
     * @access   public
     */
     function replaceBlock($block, $template, $keep_content = false)
     {
         if (!isset($this->blocklist[$block])) {
-            return new IT_Error(
-            "The block "."'$block'".
-            " does not exist in the template and thus it can't be replaced.",
-            __FILE__, __LINE__
-            );
+            throw (new ilTemplateException("The block "."'$block'".
+                " does not exist in the template and thus it can't be replaced."));
         }
 
         if ($template == '') {
-            return new IT_Error('No block content given.', __FILE__, __LINE__);
+            throw (new ilTemplateException('No block content given.'));
         }
 
         if ($keep_content) {
@@ -241,7 +237,7 @@ class HTML_Template_ITX extends HTML_Template_IT
     * @param    string    Name of the block to be added
     * @param    string    Content of the block
     * @return   boolean
-    * @throws   IT_Error
+    * @throws   ilTemplateException
     * @see      addBlockfile()
     * @access   public
     */
@@ -249,33 +245,23 @@ class HTML_Template_ITX extends HTML_Template_IT
     {
         // Don't trust any user even if it's a programmer or yourself...
         if ($placeholder == '') {
-            return new IT_Error('No variable placeholder given.',
-                                __FILE__, __LINE__
-                                );
+            throw (new ilTemplateException('No variable placeholder given.'));
         } elseif ($blockname == '' ||
                     !preg_match($this->checkblocknameRegExp, $blockname)
         ) {
-            return new IT_Error("No or invalid blockname '$blockname' given.",
-                    __FILE__, __LINE__
-                    );
+            throw (new ilTemplateException("No or invalid blockname '$blockname' given."));
         } elseif ($template == '') {
-            return new IT_Error('No block content given.', __FILE__, __LINE__);
+            throw (new ilTemplateException('No block content given.'));
         } elseif (isset($this->blocklist[$blockname])) {
-            return new IT_Error('The block already exists.',
-                                __FILE__, __LINE__
-                            );
+            throw (new ilTemplateException('The block '.$blockname.' already exists.'));
         }
 
         // find out where to insert the new block
         $parents = $this->findPlaceholderBlocks($placeholder);
         if (count($parents) == 0) {
-
-            return new IT_Error(
-                "The variable placeholder".
-                " '$placeholder' was not found in the template.",
-                __FILE__, __LINE__
-            );
-
+            throw (new ilTemplateException("The variable placeholder".
+                " '$placeholder' was not found in the template."));
+            return;
         } elseif (count($parents) > 1) {
 
             reset($parents);
@@ -283,11 +269,8 @@ class HTML_Template_ITX extends HTML_Template_IT
                 $msg .= "$parent, ";
             }
             $msg = substr($parent, -2);
-
-            return new IT_Error("The variable placeholder "."'$placeholder'".
-                                " must be unique, found in multiple blocks '$msg'.",
-                                __FILE__, __LINE__
-                                );
+            throw (new ilTemplateException("The variable placeholder "."'$placeholder'".
+                " must be unique, found in multiple blocks '$msg'."));
         }
 
         $template = "<!-- BEGIN $blockname -->" . $template . "<!-- END $blockname -->";
@@ -338,19 +321,17 @@ class HTML_Template_ITX extends HTML_Template_IT
     *                   the specified placeholder.
     *                   If the placeholder was not found or an error occured
     *                   an empty string is returned.
-    * @throws   IT_Error
+    * @throws   ilTemplateException
     * @access   public
     */
     function placeholderExists($placeholder, $block = '')
     {
         if ($placeholder == '') {
-            new IT_Error('No placeholder name given.', __FILE__, __LINE__);
-            return '';
+            throw (new ilTemplateException('No placeholder name given.'));
         }
 
         if ($block != '' && !isset($this->blocklist[$block])) {
-            new IT_Error("Unknown block '$block'.", __FILE__, __LINE__);
-            return '';
+            throw (new ilTemplateException("Unknown block '$block'."));
         }
 
         // name of the block where the given placeholder was found
@@ -487,7 +468,7 @@ class HTML_Template_ITX extends HTML_Template_IT
     * @param      boolean   If the callback is called with a list of parameters or
     *                     with an array holding the parameters
     * @return     boolean   False on failure.
-    * @throws     IT_Error
+    * @throws     ilTemplateException
     * @access     public
     * @deprecated The $callbackobject parameter is depricated since 
     *             version 1.2 and might be dropped in further versions.
@@ -496,11 +477,8 @@ class HTML_Template_ITX extends HTML_Template_IT
     setCallbackFunction($tplfunction, $callbackfunction, $callbackobject = '', $expandCallbackParameters=false)
     {
         if ($tplfunction == '' || $callbackfunction == '') {
-            return new IT_Error(
-                "No template function "."('$tplfunction')".
-                " and/or no callback function ('$callback') given.",
-                    __FILE__, __LINE__
-                );
+            throw (new ilTemplateException("No template function "."('$tplfunction')".
+                " and/or no callback function ('$callbackfunction') given."));
         }
         $this->callback[$tplfunction] = array(
                                           'function' => $callbackfunction,

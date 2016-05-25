@@ -48,7 +48,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	/** @var ilTree $tree */
 	protected $tree = null;
 
-	/** @var ilDB $db */
+	/** @var ilDBInterface $db */
 	protected $db = null;
 
 	/** @var ilPluginAdmin $pluginAdmin */
@@ -70,7 +70,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	 * @param ilAccessHandler $access
 	 * @param ilLanguage      $lng
 	 * @param ilTemplate      $tpl
-	 * @param ilDB            $db
+	 * @param ilDBInterface   $db
 	 * @param ilObjTestGUI    $testGUI
 	 *
 	 * @return \ilObjTestSettingsGeneralGUI
@@ -81,7 +81,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		ilLanguage $lng,
 		ilTemplate $tpl,
 		ilTree $tree,
-		ilDB $db,
+		ilDBInterface $db,
 		ilPluginAdmin $pluginAdmin,
 		ilObjUser $activeUser,
 		ilObjTestGUI $testGUI
@@ -216,7 +216,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 			return $this->showFormCmd($form);
 		}
-
+		
 		// return to form when online is to be set, but no questions are configured
 
 		$currentQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
@@ -293,6 +293,28 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		if( $newQuestionSetType != ilObjTest::QUESTION_SET_TYPE_FIXED )
 		{
 			$form->getItemByPostVar('chb_use_previous_answers')->setChecked(false);
+		}
+		
+		// avoid settings conflict "obligate questions" and "freeze answer"
+		
+		if( $form->getItemByPostVar('obligations_enabled')->getChecked() )
+		{
+			switch( $form->getItemByPostVar('instant_feedback_handling')->getValue() )
+			{
+				case self::INST_FB_HANDLING_OPT_FREEZE:
+					
+					$form->getItemByPostVar('instant_feedback_handling')->setValue(self::INST_FB_HANDLING_OPT_NONE);
+					$infoMsg[] = $this->lng->txt("tst_conflict_fbh_oblig_quest");
+					$infoMsg[] = $this->lng->txt("tst_conflict_reset_non_fbh");
+					break;
+					
+				case self::INST_FB_HANDLING_OPT_FORCE_AND_FREEZE:
+
+					$form->getItemByPostVar('instant_feedback_handling')->setValue(self::INST_FB_HANDLING_OPT_FORCE);
+					$infoMsg[] = $this->lng->txt("tst_conflict_fbh_oblig_quest");
+					$infoMsg[] = $this->lng->txt("tst_conflict_reset_fbh_force");
+					break;
+			}
 		}
 
 		// perform saving the form data
@@ -736,9 +758,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		// starting time
 		$startingtime = new ilDateTimeInputGUI('', 'starting_time');
 		$startingtime->setShowTime(true);
-		if( strlen($this->testOBJ->getStartingTime()) )
+		if( $this->testOBJ->getStartingTime() != 0 )
 		{
-			$startingtime->setDate(new ilDateTime($this->testOBJ->getStartingTime(), IL_CAL_TIMESTAMP));
+			$startingtime->setDate(new ilDateTime($this->testOBJ->getStartingTime(), IL_CAL_UNIX));
 		}
 		else
 		{
@@ -760,9 +782,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		// ending time
 		$endingtime = new ilDateTimeInputGUI('', 'ending_time');
 		$endingtime->setShowTime(true);
-		if (strlen($this->testOBJ->getEndingTime()))
+		if ($this->testOBJ->getEndingTime() != 0)
 		{
-			$endingtime->setDate(new ilDateTime($this->testOBJ->getEndingTime(), IL_CAL_TIMESTAMP));
+			$endingtime->setDate(new ilDateTime($this->testOBJ->getEndingTime(), IL_CAL_UNIX));
 		}
 		else
 		{
@@ -831,9 +853,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		{
 			if( $form->getItemByPostVar('chb_starting_time')->getChecked() )
 			{
-				$this->testOBJ->setStartingTime(ilFormat::dateDB2timestamp(
-					$form->getItemByPostVar('starting_time')->getDate()->get(IL_CAL_DATETIME)
-				));
+				$starting_time = $form->getItemByPostVar('starting_time');
+				$starting_time = $starting_time->getDate()->getUnixtime();
+				$this->testOBJ->setStartingTime($starting_time);
 
 				$this->testOBJ->setStartingTimeEnabled(true);
 			}
@@ -848,9 +870,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		{
 			if( $form->getItemByPostVar('chb_ending_time')->getChecked() )
 			{
-				$this->testOBJ->setEndingTime(ilFormat::dateDB2timestamp(
-					$form->getItemByPostVar('ending_time')->getDate()->get(IL_CAL_DATETIME)
-				));
+				$ending_time = $form->getItemByPostVar('ending_time');
+				$ending_time = $ending_time->getDate()->getUnixtime();
+				$this->testOBJ->setEndingTime($ending_time);
 
 				$this->testOBJ->setEndingTimeEnabled(true);
 			}

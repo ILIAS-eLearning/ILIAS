@@ -385,8 +385,10 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	// presentation
 	//
 	
-	public function prepareElementForEditor(ilADTEnumFormBridge $a_enum)
+	public function prepareElementForEditor(ilADTFormBridge $a_enum)
 	{
+		assert($a_enum instanceof ilADTEnumFormBridge);
+		
 		$a_enum->setAutoSort(false);		
 	}
 }

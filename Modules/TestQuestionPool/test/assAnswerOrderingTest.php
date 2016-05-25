@@ -1,6 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+require_once 'Services/Database/interfaces/interface.ilDBInterface.php';
 /** 
 * Unit tests
 * 
@@ -90,9 +90,7 @@ class assAnswerOrderingTest extends PHPUnit_Framework_TestCase
 		$instance = new ASS_AnswerOrdering();
 		$random_id = 13579;
 
-		//require_once './Services/PEAR/lib/MDB2.php';
-		require_once './Services/Database/classes/class.ilDB.php';
-		$ildb_mock = $this->getMock('ilDBMySQL', array('queryF', 'fetchAssoc'), array(), '', false, false);
+		$ildb_mock = $this->getMockBuilder('ilDBInterface')->getMock('ilDBInterface', array('queryF', 'fetchAssoc'), array(), '', false, false);
 		$ildb_mock->expects( $this->once() )
 				  ->method( 'queryF' )
 				  ->with( $this->equalTo('SELECT * FROM qpl_a_ordering WHERE random_id = %s'),

@@ -11,15 +11,8 @@
 */
 class ilSCORM2004Tracking
 {
-	/**
-	* Constructor
-	* @access	public
-	*/
-	function ilObjSCORM2004Tracking()
-	{
-	}
 
-	function _getInProgress($scorm_item_id,$a_obj_id)
+	static function _getInProgress($scorm_item_id,$a_obj_id)
 	{
 		
 die("Not Implemented: ilSCORM2004Tracking_getInProgress");
@@ -47,7 +40,7 @@ die("Not Implemented: ilSCORM2004Tracking_getInProgress");
 		
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$in_progress[$row->sco_id][] = $row->user_id;
 		}
@@ -55,7 +48,7 @@ die("Not Implemented: ilSCORM2004Tracking_getInProgress");
 */
 	}
 
-	function _getCompleted($scorm_item_id,$a_obj_id)
+	static function _getCompleted($scorm_item_id,$a_obj_id)
 	{
 		global $ilDB;
 		
@@ -77,7 +70,7 @@ die("Not Implemented: ilSCORM2004Tracking_getCompleted");
 			"AND ( rvalue = 'completed' ".
 			"OR rvalue = 'passed')";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_ids[] = $row->user_id;
 		}
@@ -85,7 +78,7 @@ die("Not Implemented: ilSCORM2004Tracking_getCompleted");
 */
 	}
 
-	function _getFailed($scorm_item_id,$a_obj_id)
+	static function _getFailed($scorm_item_id,$a_obj_id)
 	{
 		global $ilDB;
 		
@@ -106,7 +99,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 			"AND lvalue = 'cmi.core.lesson_status' ".
 			"AND rvalue = 'failed'";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_ids[] = $row->user_id;
 		}
@@ -121,7 +114,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 * @param bool $a_omit_failed do not include success==failed 
 	 * @return 
 	 */
-	function _getCountCompletedPerUser($a_scorm_item_ids, $a_obj_id, $a_omit_failed = false)
+	static function _getCountCompletedPerUser($a_scorm_item_ids, $a_obj_id, $a_omit_failed = false)
 	{
 		global $ilDB;
 		
@@ -158,7 +151,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 * @param object $a_obj_id
 	 * @return 
 	 */
-	function _getProgressInfo($a_obj_id)
+	static function _getProgressInfo($a_obj_id)
 	{
 		global $ilDB;
 
@@ -198,7 +191,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 * @param object $a_obj_id
 	 * @return 
 	 */
-	function _getProgressInfoOfUser($a_obj_id, $a_user_id)
+	static function _getProgressInfoOfUser($a_obj_id, $a_user_id)
 	{
 		global $ilDB, $ilLog;
 
@@ -234,7 +227,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 * @param object $a_obj_id
 	 * @return 
 	 */
-	function _getTrackedUsers($a_obj_id)
+	static function _getTrackedUsers($a_obj_id)
 	{
 		global $ilDB, $ilLog;
 
@@ -253,8 +246,8 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		}
 		return $users;
 	}
-	
-	function _getItemProgressInfo($a_scorm_item_ids, $a_obj_id, $a_omit_failed = false)
+
+	static function _getItemProgressInfo($a_scorm_item_ids, $a_obj_id, $a_omit_failed = false)
 	{
 		global $ilDB;
 		
@@ -386,7 +379,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 	 * @param
 	 * @return
 	 */
-	function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id, $time_from_lms = null)
+	static function _syncReadEvent($a_obj_id, $a_user_id, $a_type, $a_ref_id, $time_from_lms = null)
 	{
 		global $ilDB;
 		

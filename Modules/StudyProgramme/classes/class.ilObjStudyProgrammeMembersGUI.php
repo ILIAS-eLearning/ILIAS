@@ -205,7 +205,7 @@ class ilObjStudyProgrammeMembersGUI {
 		foreach ($completed_programmes as $user_id => $prg_ref_ids) {
 			$ass_id = $assignments[$user_id]->getId();
 			foreach ($prg_ref_ids as $ids) {
-				list($prg_ref_id, $crs_id, $crsr_id) = split(";", $ids);
+				list($prg_ref_id, $crs_id, $crsr_id) = explode(";", $ids);
 				$prg = $this->getStudyProgramme($prg_ref_id);
 				$progress = $prg->getProgressForAssignment($ass_id);
 				$progress->setLPCompleted($crsr_id, $user_id);

@@ -36,15 +36,6 @@ class ilUserSearch extends ilAbstractSearch
 {
 	private $active_check = false;
 	private $inactive_check = false;
-
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilUserSearch(&$query_parser)
-	{
-		parent::ilAbstractSearch($query_parser);
-	}
 	
 	/**
 	 * search only active accounts
@@ -90,7 +81,7 @@ class ilUserSearch extends ilAbstractSearch
 		
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->usr_id,'usr',$this->__prepareFound($row));
 		}

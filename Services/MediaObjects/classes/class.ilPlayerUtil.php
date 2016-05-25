@@ -16,7 +16,7 @@ class ilPlayerUtil
 	/**
 	 * Get local path of jQuery file
 	 */
-	function getLocalMediaElementJsPath()
+	static function getLocalMediaElementJsPath()
 	{
 		return "./Services/MediaObjects/media_element_".self::$mejs_ver."/mediaelement-and-player.js";
  	}
@@ -24,7 +24,7 @@ class ilPlayerUtil
 	/**
 	 * Get local path of jQuery file
 	 */
-	function getLocalMediaElementCssPath()
+	static function getLocalMediaElementCssPath()
 	{
 		return "./Services/MediaObjects/media_element_".self::$mejs_ver."/mediaelementplayer.min.css";
  	}
@@ -106,7 +106,7 @@ class ilPlayerUtil
 	 * @param
 	 * @return
 	 */
-	function copyPlayerFilesToTargetDirectory($a_target_dir)
+	static function copyPlayerFilesToTargetDirectory($a_target_dir)
 	{
 		ilUtil::rCopy("./Services/MediaObjects/media_element_".self::$mejs_ver,
 			$a_target_dir);

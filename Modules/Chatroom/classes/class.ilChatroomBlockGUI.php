@@ -10,8 +10,8 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
 
 /**
  * Class ilChatroomBlockGUI
- * @author			Michael Jansen <mjansen@databay.de>
- * @version		   $Id$
+ * @author            Michael Jansen <mjansen@databay.de>
+ * @version           $Id$
  * @ilCtrl_IsCalledBy ilChatroomBlockGUI: ilColumnGUI
  */
 class ilChatroomBlockGUI extends ilBlockGUI
@@ -32,20 +32,11 @@ class ilChatroomBlockGUI extends ilBlockGUI
 		parent::__construct();
 
 		$lng->loadLanguageModule('chatroom');
-		
+
 		$this->setImage(ilUtil::getImagePath('icon_chat.svg'));
 		$this->setTitle($lng->txt('chat_chatviewer'));
 		$this->setAvailableDetailLevels(1, 0);
 		$this->allow_moving = true;
-	}
-
-	/**
-	 * @static
-	 * @return string
-	 */
-	public static function getBlockType()
-	{
-		return self::$block_type;
 	}
 
 	/**
@@ -110,8 +101,8 @@ class ilChatroomBlockGUI extends ilBlockGUI
 	public function fillDataSection()
 	{
 		/**
-		 * @var $tpl	ilTemplate
-		 * @var $lng	ilLanguage
+		 * @var $tpl    ilTemplate
+		 * @var $lng    ilLanguage
 		 * @var $ilCtrl ilCtrl
 		 */
 		global $tpl, $lng, $ilCtrl;
@@ -125,7 +116,7 @@ class ilChatroomBlockGUI extends ilBlockGUI
 		$tpl->addJavascript('./Modules/Chatroom/js/chatviewer.js');
 		$tpl->addCss('./Modules/Chatroom/templates/default/style.css');
 
-		$body_tpl  = new ilTemplate('tpl.chatroom_block_message_body.html', true, true, 'Modules/Chatroom');
+		$body_tpl = new ilTemplate('tpl.chatroom_block_message_body.html', true, true, 'Modules/Chatroom');
 
 		$body_tpl->setVariable('TXT_ENABLE_AUTOSCROLL', $lng->txt('chat_enable_autoscroll'));
 		$body_tpl->setVariable('LOADER_PATH', ilUtil::getImagePath('loader.svg'));
@@ -200,13 +191,13 @@ class ilChatroomBlockGUI extends ilBlockGUI
 				break;
 		}
 	}
-	
+
 	protected function getChatroomSelectionList()
 	{
 		$result     = new stdClass();
 		$result->ok = true;
 
-		$chatblock = new ilChatroomBlock();
+		$chatblock    = new ilChatroomBlock();
 		$result->html = $chatblock->getRoomSelect();
 
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
@@ -215,20 +206,19 @@ class ilChatroomBlockGUI extends ilBlockGUI
 	}
 
 	/**
-
 	 */
 	protected function getMessages()
 	{
 		/**
 		 * @var $rbacsystem ilRbacSystem
 		 * @var $ilUser     ilObjUser
-		 * @var $lng	    ilLanguage
+		 * @var $lng        ilLanguage
 		 */
 		global $rbacsystem, $ilUser, $lng;
 
 		$result     = new stdClass();
 		$result->ok = false;
-		
+
 		if(!(int)$_REQUEST['ref_id'])
 		{
 			echo ilJsonUtil::encode($result);
@@ -275,5 +265,14 @@ class ilChatroomBlockGUI extends ilBlockGUI
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
 		echo ilJsonUtil::encode($result);
 		exit();
+	}
+
+	/**
+	 * @static
+	 * @return string
+	 */
+	public static function getBlockType()
+	{
+		return self::$block_type;
 	}
 }

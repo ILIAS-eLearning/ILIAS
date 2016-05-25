@@ -12,7 +12,7 @@ class ilPageUtil
 	* @param	string		$a_parent_type	parent type
 	* @param	int			$a_id			page id
 	*/
-	function _existsAndNotEmpty($a_parent_type, $a_id, $a_lang = "-")
+	static function _existsAndNotEmpty($a_parent_type, $a_id, $a_lang = "-")
 	{
 		global $ilDB;
 		

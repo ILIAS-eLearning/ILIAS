@@ -35,16 +35,6 @@ class ilSCORMResourceFile
 {
 	var $href;
 
-	/**
-	* Constructor
-	*
-	* @param	int		$a_id		Object ID
-	* @access	public
-	*/
-	function ilResourceFile()
-	{
-	}
-
 	function getHRef()
 	{
 		return $this->href;

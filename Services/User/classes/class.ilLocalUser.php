@@ -21,11 +21,11 @@ class ilLocalUser
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilLocalUser($a_parent_id)
+	function __construct($a_parent_id)
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 		$this->parent_id = $a_parent_id;
 		
 	}
@@ -39,8 +39,7 @@ class ilLocalUser
 		return $this->parent_id;
 	}
 
-	// STATIC
-	function _getUserData($a_filter)
+	static function _getUserData($a_filter)
 	{
 		include_once './Services/User/classes/class.ilObjUser.php';
 
@@ -63,7 +62,7 @@ class ilLocalUser
 		$query = "SELECT DISTINCT(time_limit_owner) as parent_id FROM usr_data ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			// Workaround for users with time limit owner "0". 
 			if(!$row->parent_id)
@@ -85,7 +84,8 @@ class ilLocalUser
 		}
 		return $parent ? $parent : array();
 	}
-	function _getAllUserIds($a_filter = 0)
+
+	static function _getAllUserIds($a_filter = 0)
 	{
 		global $ilDB;
 		switch($a_filter)
@@ -124,7 +124,7 @@ class ilLocalUser
 		return $users ? $users : array();
 	}
 
-	function _getUserFolderId()
+	static function _getUserFolderId()
 	{
 		return 7;
 	}

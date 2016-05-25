@@ -23,6 +23,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
 		
 		$this->ref_id = $a_ref_id;
 		
+		$this->setId('recf_'. $a_ref_id);
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 //		$this->setTitle($lng->txt("items"));
 		$this->setSelectAllCheckbox("id[]");
@@ -39,7 +40,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
 		$this->setEnableTitle(true);
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
-
+		
 		// TODO: Needs other solution
 		if(ilObject::_lookupType((int) $_GET['ref_id'],true) == 'chac')
 		{

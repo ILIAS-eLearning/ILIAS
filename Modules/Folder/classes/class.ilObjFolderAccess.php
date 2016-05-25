@@ -41,7 +41,7 @@ class ilObjFolderAccess extends ilObjectAccess
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array();
 		$commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);
@@ -85,7 +85,7 @@ class ilObjFolderAccess extends ilObjectAccess
 	}
 
 	
-	private function hasDownloadAction ($ref_id)
+	private static function hasDownloadAction ($ref_id)
 	{
 	    global $tree, $ilUser;
 	    $settings = ilObjFolderAccess::getFolderSettings();
@@ -96,6 +96,7 @@ class ilObjFolderAccess extends ilObjectAccess
 	    /*
 	     * deactivated check for now, because wrong ref_id here!
 	     
+		 * 
 	    $children = $tree->getChildsByTypeFilter($ref_id, array("file","fold"));
 
 	    // no children at all, so no download button

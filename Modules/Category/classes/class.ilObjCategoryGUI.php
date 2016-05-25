@@ -28,7 +28,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjCategoryGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+	function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		//global $ilCtrl;
 
@@ -38,7 +38,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$GLOBALS['lng']->loadLanguageModule('cat');
 
 		$this->type = "cat";
-		$this->ilContainerGUI($a_data,(int) $a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,(int) $a_id,$a_call_by_reference,false);
 		
 		if (is_object($this->object))
 		{
@@ -51,7 +51,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem, $ilNavigationHistory, $ilAccess, $ilCtrl,$ilTabs;
 
@@ -107,7 +107,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			case "ilcolumngui":
 				$this->checkPermission("read");
 				$this->prepareOutput();
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 				$this->renderObject();
@@ -117,7 +117,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->prepareOutput();
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
@@ -131,7 +131,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				
 			case 'ilcontainerlinklistgui':
 				include_once("Services/Container/classes/class.ilContainerLinkListGUI.php");
-				$link_list_gui =& new ilContainerLinkListGUI();
+				$link_list_gui = new ilContainerLinkListGUI();
 				$ret =& $this->ctrl->forwardCommand($link_list_gui);
 				break;
 
@@ -240,7 +240,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				}
 
 				$this->prepareOutput();
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				if (is_object($this->object))
 				{
 					$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -265,7 +265,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	/**
 	* Get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $lng, $ilHelp, $ilAccess;
 
@@ -282,7 +282,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "render")
 				? true
 				: false;
-			$tabs_gui->addTab("view_content", $lng->txt("content"),
+			$this->tabs_gui->addTab("view_content", $lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 
 			//BEGIN ChangeEvent add info tab to category object
@@ -292,7 +292,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 					|| strtolower($_GET["cmdClass"]) == "ilnotegui")
 					? true
 					: false;
-				$tabs_gui->addTarget("info_short",
+				$this->tabs_gui->addTarget("info_short",
 					 $this->ctrl->getLinkTargetByClass(
 					 array("ilobjcategorygui", "ilinfoscreengui"), "showSummary"),
 					 array("showSummary","", "infoScreen"),
@@ -306,7 +306,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$force_active = ($_GET["cmd"] == "edit")
 				? true
 				: false;
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
 				, "", $force_active);
 			
@@ -315,8 +315,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$mdgui = new ilObjectMetaDataGUI($this->object);					
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
-			{			
-				$tabs_gui->addTab("meta_data",
+			{
+				$this->tabs_gui->addTab("meta_data",
 					$this->lng->txt("meta_data"),
 					$mdtab);
 			}	
@@ -328,7 +328,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 						false
 				))
 			{
-				$tabs_gui->addTarget("obj_tool_setting_taxonomies",
+				$this->tabs_gui->addTarget("obj_tool_setting_taxonomies",
 					$this->ctrl->getLinkTarget($this, "editTaxonomySettings"), "editTaxonomySettings", get_class($this));
 			}
 		}				
@@ -338,13 +338,13 @@ class ilObjCategoryGUI extends ilContainerGUI
 			ilUserAccountSettings::getInstance()->isLocalUserAdministrationEnabled() and 
 			$rbacsystem->checkAccess('cat_administrate_users',$this->ref_id))
 		{
-			$tabs_gui->addTarget("administrate_users",
+			$this->tabs_gui->addTarget("administrate_users",
 				$this->ctrl->getLinkTarget($this, "listUsers"), "listUsers", get_class($this));
 		}
 
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				'export',
 				$this->ctrl->getLinkTargetByClass('ilexportgui',''),
 				'export',
@@ -353,7 +353,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 		
 		// parent tabs (all container: edit_permission, clipboard, trash
-		parent::getTabs($tabs_gui);
+		parent::getTabs();
 
 	}
 
@@ -394,7 +394,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		// inherit parents content style, if not individual
 		$parent_ref_id = $tree->getParentId($a_new_object->getRefId());
 		$parent_id = ilObject::_lookupObjId($parent_ref_id);
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = ilObjStyleSheet::lookupObjectStyle($parent_id);
 		if ($style_id > 0)
 		{

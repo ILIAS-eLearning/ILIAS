@@ -84,35 +84,6 @@ class ilObjectSearchFactory
 				return self::_getObjectSearchInstance($a_query_parser);
 		}
 	}
-	
-	
-	
-	/**
-	 * get reference of LikeShopObjectSearch.
-	 * 
-	 * @param object query parser object
-	 * @return object reference of LikeShopObjectSearch
-	 * @static
-     * @access public
-	 * 
-	 */
-	public static function _getShopObjectSearchInstance($query_parser)
-	{
-		include_once 'Services/Search/classes/Like/class.ilLikeShopObjectSearch.php';
-		return new ilLikeShopObjectSearch($query_parser);
-	}
-	
-	/**
-	 * get reference of LikeShopMetaDataSearch.
-	 * 
-	 * @param object query parser object
-	 * @return object reference of LikeShopMetaDataSearch
-	 */
-	public static function _getShopMetaDataSearchInstance($query_parser)
-	{
-		include_once 'Services/Search/classes/Like/class.ilLikeShopMetaDataSearch.php';
-		return new ilLikeShopMetaDataSearch($query_parser);
-	}
 
 	/**
 	 * get reference of ilFulltext/LikeMetaDataSearch.

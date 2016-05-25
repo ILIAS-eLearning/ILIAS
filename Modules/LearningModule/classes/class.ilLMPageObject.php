@@ -39,13 +39,13 @@ class ilLMPageObject extends ilLMObject
 	* Constructor
 	* @access	public
 	*/
-	function ilLMPageObject(&$a_content_obj, $a_id = 0, $a_halt = true)
+	function __construct(&$a_content_obj, $a_id = 0, $a_halt = true)
 	{
 		global $ilias, $ilBench;
 
 		$ilBench->start("ContentPresentation", "ilLMPageObject_Constructor");
 
-		parent::ilLMObject($a_content_obj, $a_id);
+		parent::__construct($a_content_obj, $a_id);
 		$this->setType("pg");
 		$this->id = $a_id;
 
@@ -63,7 +63,7 @@ class ilLMPageObject extends ilLMObject
 		$ilBench->stop("ContentPresentation", "ilLMPageObject_Constructor");
 	}
 
-	function _ilLMPageObject()
+	function __desctruct()
 	{
 		if(is_object($this->page_object))
 		{
@@ -170,7 +170,7 @@ class ilLMPageObject extends ilLMObject
 	function &copyToOtherContObject(&$a_cont_obj, &$a_copied_nodes)
 	{
 		// copy page
-		$lm_page =& new ilLMPageObject($a_cont_obj);
+		$lm_page = new ilLMPageObject($a_cont_obj);
 		$lm_page->setTitle($this->getTitle());
 		$lm_page->setLMId($a_cont_obj->getId());
 		$lm_page->setImportId("il__pg_".$this->getId());
@@ -182,10 +182,10 @@ class ilLMPageObject extends ilLMObject
 		// copy meta data
 		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
-		$new_md =& $md->cloneMD($a_cont_obj->getId(), $lm_page->getId(), $this->getType());
+		$new_md = $md->cloneMD($a_cont_obj->getId(), $lm_page->getId(), $this->getType());
 
 		// copy page content
-		$page =& $lm_page->getPageObject();
+		$page = $lm_page->getPageObject();
 		$page->setXMLContent($this->page_object->getXMLContent());
 		$page->buildDom();
 		$page->update();
@@ -200,7 +200,7 @@ class ilLMPageObject extends ilLMObject
 	* object is not available within ilPageContentGUI where this method
 	* is called
 	*/
-	function _splitPage($a_page_id, $a_pg_parent_type, $a_hier_id)
+	static function _splitPage($a_page_id, $a_pg_parent_type, $a_hier_id)
 	{
 		// get content object (learning module / digilib book)
 		$lm_id = ilLMObject::_lookupContObjID($a_page_id);
@@ -274,7 +274,7 @@ class ilLMPageObject extends ilLMObject
 	* object is not available within ilPageContentGUI where this method
 	* is called
 	*/
-	function _splitPageNext($a_page_id, $a_pg_parent_type, $a_hier_id)
+	static function _splitPageNext($a_page_id, $a_pg_parent_type, $a_hier_id)
 	{
 		// get content object (learning module / digilib book)
 		$lm_id = ilLMObject::_lookupContObjID($a_page_id);
@@ -295,15 +295,15 @@ class ilLMPageObject extends ilLMObject
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");
 
-		$source_lm_page =& new ilLMPageObject($cont_obj, $a_page_id);
-		$source_page =& $source_lm_page->getPageObject();
+		$source_lm_page = new ilLMPageObject($cont_obj, $a_page_id);
+		$source_page = $source_lm_page->getPageObject();
 		
 		// get next page
 		$succ = $tree->fetchSuccessorNode($a_page_id, "pg");
 		if ($succ["child"] > 0)
 		{
-			$target_lm_page =& new ilLMPageObject($cont_obj, $succ["child"]);
-			$target_page =& $target_lm_page->getPageObject();
+			$target_lm_page = new ilLMPageObject($cont_obj, $succ["child"]);
+			$target_page = $target_lm_page->getPageObject();
 			$target_page->buildDom();
 			$target_page->addHierIds();
 			
@@ -326,7 +326,7 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function assignPageObject(&$a_page_obj)
 	{
-		$this->page_object =& $a_page_obj;
+		$this->page_object = $a_page_obj;
 	}
 
 	
@@ -382,7 +382,7 @@ class ilLMPageObject extends ilLMObject
 	/**
 	* static
 	*/
-	function getPageList($lm_id)
+	public static function getPageList($lm_id)
 	{
 		return ilLMObject::getObjectList($lm_id, "pg");
 	}
@@ -390,7 +390,7 @@ class ilLMPageObject extends ilLMObject
 	/**
 	* Get all pages of lm that contain any internal links
 	*/
-	function getPagesWithLinksList($a_lm_id, $a_par_type)
+	static function getPagesWithLinksList($a_lm_id, $a_par_type)
 	{
 		$pages = ilLMPageObject::getPageList($a_lm_id);
 		$ids = array();
@@ -501,10 +501,10 @@ class ilLMPageObject extends ilLMObject
 				}
 			}
 			require_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
-			//$struct_obj =& new ilStructureObject($pred_node["obj_id"]);
+			//$struct_obj = new ilStructureObject($pred_node["obj_id"]);
 			//return $struct_obj->getTitle();
-			return ilStructureObject::_getPresentationTitle($pred_node["obj_id"],
-				$a_include_numbers, false, 0, $a_lang).$cnt_str;
+			return ilStructureObject::_getPresentationTitle($pred_node["obj_id"], IL_CHAPTER_TITLE,
+				$a_include_numbers, false, false, 0, $a_lang).$cnt_str;
 
 			//return $pred_node["title"].$cnt_str;
 		}
@@ -558,7 +558,7 @@ class ilLMPageObject extends ilLMObject
 	/**
 	* export page alias to xml
 	*/
-	function _exportXMLAlias(&$a_xml_writer, $a_id, $a_inst = 0)
+	static function _exportXMLAlias(&$a_xml_writer, $a_id, $a_inst = 0)
 	{
 		$attrs = array();
 		$a_xml_writer->xmlStartTag("PageObject", $attrs);

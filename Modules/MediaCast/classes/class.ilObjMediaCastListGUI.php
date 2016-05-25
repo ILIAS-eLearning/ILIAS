@@ -16,14 +16,6 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 class ilObjMediaCastListGUI extends ilObjectListGUI
 {
 	/**
-	* constructor
-	*/
-	function ilObjMediaCastListGUI()
-	{
-		$this->ilObjectListGUI();
-	}
-
-	/**
 	* initialisation
 	*/
 	function init()
@@ -33,7 +25,6 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
 		$this->cut_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
-		$this->payment_enabled = false;
 		$this->info_screen_enabled = true;
 		$this->type = "mcst";
 		$this->gui_class_name = "ilobjmediacastgui";

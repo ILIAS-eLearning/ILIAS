@@ -32,7 +32,7 @@ class ilObjAICCCourseInterchangeFiles
 	var $requiredFiles=array("crs", "au", "cst", "des");
 	var $optionalFiles=array("cmp", "ort", "pre");
 	
-	function ilObjAICCCourseInterchangeFiles() {
+	function __construct() {
 		$this->errorText=array();
 		$this->coursefiles=array();
 
@@ -312,7 +312,7 @@ class ilObjAICCCourseInterchangeFiles
 		}
 		
 		//write tree
-		$tree =& new ilAICCTree($alm_id);
+		$tree = new ilAICCTree($alm_id);
 		$tree->addTree($alm_id, $identifier["root"]);
 		
 		//writing members

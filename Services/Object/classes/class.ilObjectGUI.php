@@ -88,11 +88,11 @@ class ilObjectGUI
 	* @param	integer	object id
 	* @param	boolean	call be reference
 	*/
-	function ilObjectGUI($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
+	function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $ilias, $objDefinition, $tpl, $tree, $ilCtrl, $ilErr, $lng, $ilTabs;
 
-		$this->tabs_gui =& $ilTabs;
+		$this->tabs_gui = $ilTabs;
 
 		if (!isset($ilErr))
 		{
@@ -101,14 +101,14 @@ class ilObjectGUI
 		}
 		else
 		{
-			$this->ilErr =& $ilErr;
+			$this->ilErr = $ilErr;
 		}
 
-		$this->ilias =& $ilias;
-		$this->objDefinition =& $objDefinition;
-		$this->tpl =& $tpl;
+		$this->ilias = $ilias;
+		$this->objDefinition = $objDefinition;
+		$this->tpl = $tpl;
 		$this->html = "";
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 
 		$params = array("ref_id");
 
@@ -120,7 +120,7 @@ class ilObjectGUI
 		$this->ctrl->saveParameter($this, $params);
 
 		$this->lng = $lng;
-		$this->tree =& $tree;
+		$this->tree = $tree;
 		$this->formaction = array();
 		$this->return_location = array();
 		$this->target_frame = array();
@@ -168,7 +168,7 @@ class ilObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -238,7 +238,7 @@ class ilObjectGUI
 	/**
 	* prepare output
 	*/
-	protected function prepareOutput()
+	protected function prepareOutput($a_show_subobjects = true)
 	{
 		global $ilLocator, $tpl, $ilUser;
 
@@ -297,11 +297,13 @@ class ilObjectGUI
 			$this->setTabs();
 
 			// BEGIN WebDAV: Display Mount Webfolder icon.
-			require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-			if (ilDAVServer::_isActive() && 
-				$ilUser->getId() != ANONYMOUS_USER_ID)
+			if ($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
-				$this->showMountWebfolderIcon();
+				require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
+				if (ilDAVActivationChecker::_isActive())
+				{			
+					$this->showMountWebfolderIcon();
+				}
 			}
 			// END WebDAV: Display Mount Webfolder icon.
 			
@@ -464,7 +466,7 @@ class ilObjectGUI
 	*/
 	protected function setTabs()
 	{
-		$this->getTabs($this->tabs_gui);
+		$this->getTabs();
 	}
 
 	/**
@@ -473,20 +475,20 @@ class ilObjectGUI
 	*/
 	protected final function setAdminTabs()
 	{
-		$this->getAdminTabs($this->tabs_gui);
+		$this->getAdminTabs();
 	}
 
 	/**
 	* administration tabs show only permissions and trash folder
 	*/
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
 		global $tree;
 
 /*		if ($_GET["admin_mode"] == "repository")
 		{
 			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
-			$tabs_gui->setBackTarget($this->lng->txt("administration"),
+			$this->tabs_gui->setBackTarget($this->lng->txt("administration"),
 				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
 				ilFrameTargetInfo::_getFrame("MainContent"));
 			$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "repository");
@@ -494,20 +496,20 @@ class ilObjectGUI
 		
 		if ($this->checkPermissionBool("visible,read"))
 		{
-			$tabs_gui->addTarget("view",
+			$this->tabs_gui->addTarget("view",
 				$this->ctrl->getLinkTarget($this, "view"), array("", "view"), get_class($this));
 
 		}
 		
 		if ($this->checkPermissionBool("edit_permission"))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), "", "ilpermissiongui");
 		}
 			
 		if ($tree->getSavedNodeData($this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("trash",
+			$this->tabs_gui->addTarget("trash",
 				$this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
 		}
 	}
@@ -699,7 +701,7 @@ class ilObjectGUI
 	* @access	public
 	*
 	*/
-	public function cancelObject($in_rep = false)
+	public function cancelObject()
 	{
 		ilSession::clear("saved_post");
 		$this->ctrl->returnToParent($this);
@@ -1667,34 +1669,13 @@ class ilObjectGUI
 	}
 
 	/**
-	* get Titles of objects
-	* this method is used for error messages in methods cut/copy/paste
-	*
-	* @param	array	Array of ref_ids (integer)
-	* @return   array	Array of titles (string)
-	* @access	private
- 	*/
-	protected function getTitlesByRefId($a_ref_ids)
-	{
-		foreach ($a_ref_ids as $id)
-		{
-			// GET OBJECT TITLE
-			$tmp_obj =& $this->ilias->obj_factory->getInstanceByRefId($id);
-			$title[] = $tmp_obj->getTitle();
-			unset($tmp_obj);
-		}
-
-		return $title ? $title : array();
-	}
-
-	/**
 	* get tabs
 	* abstract method.
 	* @abstract	overwrite in derived GUI class of your object type
 	* @access	public
 	* @param	object	instance of ilTabsGUI
 	*/
-	protected function getTabs(&$tabs_gui)
+	protected function getTabs()
 	{
 		// please define your tabs here
 
@@ -1938,7 +1919,7 @@ class ilObjectGUI
 	/**
 	* May be overwritten in subclasses.
 	*/
-	protected function setColumnSettings($column_gui)
+	protected function setColumnSettings(ilColumnGUI $column_gui)
 	{
 		$column_gui->setRepositoryMode(true);
 		$column_gui->setEnableEdit(false);
@@ -1954,7 +1935,8 @@ class ilObjectGUI
 	 * @param string $a_perm
 	 * @param string $a_cmd
 	 * @param string $a_type
-	 * @param int $a_ref_id
+	 * @param int $a_ref_id	 
+	 * @throws ilObjectException
 	 * @return bool
 	 */
 	protected function checkPermission($a_perm, $a_cmd = "", $a_type = "", $a_ref_id = null)
@@ -1987,8 +1969,14 @@ class ilObjectGUI
 				}
 
 				ilSession::clear("il_rep_ref_id");
+				
+				include_once "Services/Object/exceptions/class.ilObjectException.php";
+				throw new ilObjectException($this->lng->txt("permission_denied"));
+				
+				/*
 				ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
-				ilUtil::redirect("goto.php?target=".$type."_".$a_ref_id);
+				ilUtil::redirect("goto.php?target=".$type."_".$a_ref_id);				
+				*/
 			}
 			// we should never be here
 			else	

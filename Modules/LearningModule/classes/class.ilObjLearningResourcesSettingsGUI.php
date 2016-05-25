@@ -27,7 +27,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		$this->type = 'lrss';
-		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->lng->loadLanguageModule('content');
 	}
@@ -56,15 +56,15 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 		{
 			case 'illicenseoverviewgui':
 				include_once("./Services/License/classes/class.ilLicenseOverviewGUI.php");
-				$license_gui =& new ilLicenseOverviewGUI($this,ilLicenseOverviewGUI::LIC_MODE_ADMINISTRATION);
-				$ret =& $this->ctrl->forwardCommand($license_gui);
+				$license_gui = new ilLicenseOverviewGUI($this,ilLicenseOverviewGUI::LIC_MODE_ADMINISTRATION);
+				$ret = $this->ctrl->forwardCommand($license_gui);
 				break;
 
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$perm_gui = new ilPermissionGUI($this);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:

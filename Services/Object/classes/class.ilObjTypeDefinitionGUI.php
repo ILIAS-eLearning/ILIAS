@@ -22,10 +22,10 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function ilObjTypeDefinitionGUI($a_data,$a_id,$a_call_by_reference)
+	public function __construct($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "typ";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		parent::__construct($a_data,$a_id,$a_call_by_reference);
 	}
 
 	/**
@@ -395,7 +395,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		} //if is_array
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -420,16 +420,16 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 	* @access	public
 	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem;
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "view"), array("view",""), "", "");
 
-			$tabs_gui->addTarget("edit_operations",
+			$this->tabs_gui->addTarget("edit_operations",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", "", "");
 		}
 	}

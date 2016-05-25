@@ -32,13 +32,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDTechnical extends ilMDBase
 {
-	function ilMDTechnical($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
 	// Methods for child objects (Format, Location, Requirement OrComposite)
 	function &getFormatIds()
 	{
@@ -54,7 +47,7 @@ class ilMDTechnical extends ilMDBase
 		{
 			return false;
 		}
-		$for =& new ilMDFormat($this,$a_format_id);
+		$for = new ilMDFormat($this,$a_format_id);
 		$for->setMetaId($a_format_id);
 
 		return $for;
@@ -63,7 +56,7 @@ class ilMDTechnical extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDFormat.php';
 
-		$for =& new ilMDFormat($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$for = new ilMDFormat($this->getRBACId(),$this->getObjId(),$this->getObjType());
 
 		return $for;
 	}
@@ -81,7 +74,7 @@ class ilMDTechnical extends ilMDBase
 		{
 			return false;
 		}
-		$loc =& new ilMDLocation();
+		$loc = new ilMDLocation();
 		$loc->setMetaId($a_location_id);
 
 		return $loc;
@@ -90,7 +83,7 @@ class ilMDTechnical extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDLocation.php';
 
-		$loc =& new ilMDLocation($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$loc = new ilMDLocation($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$loc->setParentId($this->getMetaId());
 		$loc->setParentType('meta_technical');
 
@@ -110,7 +103,7 @@ class ilMDTechnical extends ilMDBase
 		{
 			return false;
 		}
-		$rec =& new ilMDRequirement();
+		$rec = new ilMDRequirement();
 		$rec->setMetaId($a_requirement_id);
 		
 		return $rec;
@@ -119,7 +112,7 @@ class ilMDTechnical extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDRequirement.php';
 
-		$rec =& new ilMDRequirement($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$rec = new ilMDRequirement($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$rec->setParentId($this->getMetaId());
 		$rec->setParentType('meta_technical');
 
@@ -139,7 +132,7 @@ class ilMDTechnical extends ilMDBase
 		{
 			return false;
 		}
-		$orc =& new ilMDOrComposite($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$orc = new ilMDOrComposite($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$orc->setOrCompositeId($a_or_composite_id);
 		$orc->setParentId($this->getMetaId());
 		$orc->setParentType('meta_technical');
@@ -150,7 +143,7 @@ class ilMDTechnical extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDOrComposite.php';
 
-		$orc =& new ilMDOrComposite($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$orc = new ilMDOrComposite($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$orc->setParentId($this->getMetaId());
 		$orc->setParentType('meta_technical');
 
@@ -323,7 +316,7 @@ class ilMDTechnical extends ilMDBase
 
 		
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
@@ -417,7 +410,7 @@ class ilMDTechnical extends ilMDBase
 			"AND obj_id = ".$ilDB->quote($a_obj_id);
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->meta_technical_id;
 		}

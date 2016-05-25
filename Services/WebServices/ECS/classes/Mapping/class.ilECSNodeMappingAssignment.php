@@ -199,7 +199,7 @@ class ilECSNodeMappingAssignment
 		
 		#$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setObjId($row->obj_id);
 			$this->setRefId($row->ref_id);

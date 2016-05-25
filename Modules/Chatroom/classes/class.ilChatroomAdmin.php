@@ -45,7 +45,7 @@ class ilChatroomAdmin
 	public static function getDefaultConfiguration()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -77,7 +77,7 @@ class ilChatroomAdmin
 	public function saveGeneralSettings(stdClass $settings)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -164,12 +164,12 @@ class ilChatroomAdmin
 
 	/**
 	 * Returns an array containing server settings from settingsTable.
-	 * @return null|stdClass
+	 * @return array
 	 */
 	public function loadGeneralSettings()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
@@ -177,29 +177,48 @@ class ilChatroomAdmin
 
 		if(($row = $ilDB->fetchAssoc($ilDB->query($query))) && $row['server_settings'])
 		{
-			return json_decode($row['server_settings']);
+			$settings = json_decode($row['server_settings'], true);
+
+			if(!$settings['protocol'])
+			{
+				$settings['protocol'] = 'http';
+			}
+
+			return $settings;
 		}
 
-		return null;
+		return array();
 	}
 
 	/**
 	 * Returns an array containing client settings from settingsTable.
-	 * @return null|stdClass
+	 * @return array
 	 */
 	public function loadClientSettings()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 
 		$query = 'SELECT * FROM ' . self::$settingsTable . ' WHERE instance_id = ' . $ilDB->quote($this->config_id, 'integer');
 		if(($row = $ilDB->fetchAssoc($ilDB->query($query))) && $row['client_settings'])
 		{
-			return json_decode($row['client_settings']);
+			$settings = json_decode($row['client_settings'], true);
+
+			if(!$settings['osd_intervall'])
+			{
+				$settings['osd_intervall'] = 60;
+			}
+
+			if(!$settings['client'])
+			{
+				$settings['client'] = CLIENT_ID;
+			}
+
+			return $settings;
 		}
 
-		return null;
+		return array();
 	}
 }

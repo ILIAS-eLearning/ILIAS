@@ -18,10 +18,10 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjExternalFeedGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
+	function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
 		$this->type = "feed";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
 	
 	
@@ -37,21 +37,21 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$ilTabs->activateTab("id_permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$perm_gui = new ilPermissionGUI($this);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
 			case "ilexternalfeedblockgui":
 				$this->prepareOutput();
 				$ilTabs->activateTab("id_settings");
 				include_once("./Services/Block/classes/class.ilExternalFeedBlockGUI.php");
-				$fb_gui =& new ilExternalFeedBlockGUI();
+				$fb_gui = new ilExternalFeedBlockGUI();
 				$fb_gui->setGuiObject($this);
 				if (is_object($this->object))
 				{
 					$fb_gui->setRefId($this->object->getRefId());
 				}
-				$ret =& $this->ctrl->forwardCommand($fb_gui);
+				$ret = $this->ctrl->forwardCommand($fb_gui);
 				$tpl->setContent($ret);
 				break;
 
@@ -99,13 +99,16 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 		parent::saveObject($a_feed_block);
 	}
 
-	function afterSave(ilObject $a_new_object, $a_feed_block)
+	function afterSave(ilObject $a_new_object, $a_feed_block = null)
 	{
-	    // saveObject() parameters are sent as array
-		$a_feed_block = $a_feed_block[0];
+		if ($a_feed_block != null)
+		{
+			// saveObject() parameters are sent as array
+			$a_feed_block = $a_feed_block[0];
 
-		$a_feed_block->setContextObjId($a_new_object->getId());
-		$a_feed_block->setContextObjType("feed");
+			$a_feed_block->setContextObjId($a_new_object->getId());
+			$a_feed_block->setContextObjType("feed");
+		}
 	}
 	
 	/**

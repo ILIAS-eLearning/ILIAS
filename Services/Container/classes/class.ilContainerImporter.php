@@ -53,7 +53,7 @@ class ilContainerImporter extends ilXmlImporter
 		}
 		
 		// style
-		include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
+		include_once('./Services/Style/Content/classes/class.ilObjStyleSheet.php');
 		$sty_map = $a_mapping->getMappingsOfEntity('Services/Style', 'sty');
 		foreach ($sty_map as $old_sty_id => $new_sty_id)
 		{			

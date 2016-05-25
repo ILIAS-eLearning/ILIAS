@@ -67,7 +67,7 @@ class ilWikiUserHTMLExport
 
 		$this->db->lockTables(
 			array(
-				0 => array('name' => 'wiki_user_html_export', 'type' => ilDB::LOCK_WRITE)));
+				0 => array('name' => 'wiki_user_html_export', 'type' => ilDBConstants::LOCK_WRITE)));
 		$this->read();
 		$ts = ilUtil::now();
 

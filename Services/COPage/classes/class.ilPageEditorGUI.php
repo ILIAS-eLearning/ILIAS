@@ -55,21 +55,21 @@ class ilPageEditorGUI
 	* @param	object		$a_page_object		page object
 	* @access	public
 	*/
-	function ilPageEditorGUI(&$a_page_object, &$a_page_object_gui)
+	function __construct(&$a_page_object, &$a_page_object_gui)
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,$ilTabs;
 
 		$this->log = ilLoggerFactory::getLogger('copg');
 
 		// initiate variables
-		$this->ilias =& $ilias;
-		$this->ctrl =& $ilCtrl;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
+		$this->ilias = $ilias;
+		$this->ctrl = $ilCtrl;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
 		$this->objDefinition = $objDefinition;
-		$this->tabs_gui =& $ilTabs;
-		$this->page =& $a_page_object;
-		$this->page_gui =& $a_page_object_gui;
+		$this->tabs_gui = $ilTabs;
+		$this->page = $a_page_object;
+		$this->page_gui = $a_page_object_gui;
 
 		$this->ctrl->saveParameter($this, array("hier_id", "pc_id"));
 	}
@@ -102,7 +102,7 @@ class ilPageEditorGUI
 	*/
 	function setLocator(&$a_locator)
 	{
-		$this->locator =& $a_locator;
+		$this->locator = $a_locator;
 	}
 
 	/**
@@ -127,7 +127,7 @@ class ilPageEditorGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $ilHelp;;
 
@@ -268,7 +268,7 @@ exit;
 				{
 //$this->ctrl->debug("gettingContentObject (no linked media)");
 //echo $hier_id."-".$pc_id;
-					$cont_obj =& $this->page->getContentObject($hier_id, $pc_id);
+					$cont_obj = $this->page->getContentObject($hier_id, $pc_id);
 					if (!is_object($cont_obj))
 					{
 						$this->log->debug("ilPageEditorGUI: ...returnToParent");
@@ -292,7 +292,7 @@ exit;
 			$this->displayLocator();
 		}
 
-		$this->cont_obj =& $cont_obj;
+		$this->cont_obj = $cont_obj;
 
 
 		// special command / command class handling
@@ -344,7 +344,7 @@ exit;
 					$link_gui->setMode("asynch");
 				}
 
-				$ret =& $this->ctrl->forwardCommand($link_gui);
+				$ret = $this->ctrl->forwardCommand($link_gui);
 				break;
 
 			// PC Media Object
@@ -354,10 +354,10 @@ exit;
 				$this->tabs_gui->clearTargets();
 				$this->tabs_gui->setBackTarget($this->page_gui->page_back_title,
 					$ilCtrl->getLinkTarget($this->page_gui, "edit"));
-				$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$pcmob_gui = new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$pcmob_gui->setStyleId($this->page_gui->getStyleId());
 				$pcmob_gui->setEnabledMapAreas($this->page_gui->getPageConfig()->getEnableInternalLinks());
-				$ret =& $this->ctrl->forwardCommand($pcmob_gui);
+				$ret = $this->ctrl->forwardCommand($pcmob_gui);
 				$ilHelp->setScreenIdComponent("copg_media");
 				break;
 
@@ -366,18 +366,18 @@ exit;
 				$this->tabs_gui->clearTargets();
 				$this->tabs_gui->setBackTarget($this->lng->txt("back"),
 					$ilCtrl->getParentReturn($this));
-				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
-				$mob_gui->getTabs($this->tabs_gui);
+				$mob_gui = new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
+				$mob_gui->getTabs();
 				$mob_gui->setEnabledMapAreas($this->page_gui->getPageConfig()->getEnableInternalLinks());
 				$this->tpl->setTitle($this->lng->txt("mob").": ".
 					ilObject::_lookupTitle($_GET["mob_id"]));
-				$ret =& $this->ctrl->forwardCommand($mob_gui);
+				$ret = $this->ctrl->forwardCommand($mob_gui);
 				break;
 
 			// Question
 			case "ilpcquestiongui":
 				include_once("./Services/COPage/classes/class.ilPCQuestionGUI.php");
-				$pc_question_gui =& new ilPCQuestionGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				$pc_question_gui = new ilPCQuestionGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$pc_question_gui->setSelfAssessmentMode($this->page_gui->getPageConfig()->getEnableSelfAssessment());
 				$pc_question_gui->setPageConfig($this->page_gui->getPageConfig());
 
@@ -457,9 +457,9 @@ exit;
 	* checks if current user has activated js editing and
 	* if browser is js capable
 	*/
-	function _doJSEditing()
+	static function _doJSEditing()
 	{
-		global $ilUser, $ilias, $ilSetting;
+		global $ilUser;
 
 		if ($ilUser->getPref("ilPageEditor_JavaScript") != "disable"
 			&& ilPageEditorGUI::_isBrowserJSEditCapable())
@@ -472,19 +472,9 @@ exit;
 	/**
 	* checks wether browser is javascript editing capable
 	*/
-	function _isBrowserJSEditCapable()
+	static function _isBrowserJSEditCapable()
 	{
-		global $ilBrowser;
-return true;
-		$version = $ilBrowser->getVersion();
-
-		if ($ilBrowser->isFirefox() ||
-			($ilBrowser->isIE() && !$ilBrowser->isMac()) ||
-			($ilBrowser->isMozilla() && $version[0] >= 5))
-		{
-			return true;
-		}
-		return false;
+		return true;
 	}
 
 	function activatePage()
@@ -692,7 +682,7 @@ return true;
 			foreach ($_POST["target"] as $t)
 			{
 				$tarr = explode(":", $t);
-				$cont_obj =& $this->page->getContentObject($tarr[0], $tarr[1]);
+				$cont_obj = $this->page->getContentObject($tarr[0], $tarr[1]);
 				if (is_object($cont_obj) && $cont_obj->getType() == "par")
 				{
 					$types["par"] = "par";
@@ -777,7 +767,7 @@ return true;
 			foreach ($_POST["target"] as $t)
 			{
 				$tarr = explode(":", $t);
-				$cont_obj =& $this->page->getContentObject($tarr[0], $tarr[1]);
+				$cont_obj = $this->page->getContentObject($tarr[0], $tarr[1]);
 				if (is_object($cont_obj) && $cont_obj->getType() == "par")
 				{
 					$cont_obj->setCharacteristic($char_par);

@@ -37,15 +37,6 @@ include_once 'Services/Search/classes/class.ilTestSearch.php';
 class ilFulltextTestSearch extends ilTestSearch
 {
 
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilFulltextTestSearch(&$qp_obj)
-	{
-		parent::ilTestSearch($qp_obj);
-	}
-
 	function __createWhereCondition($a_field_str)
 	{
 		// IN BOOLEAN MODE

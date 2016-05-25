@@ -63,13 +63,13 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	* Constructor
 	* @access public
 	*/
-	function ilAdvancedSearchGUI()
+	function __construct()
 	{
 		global $ilTabs;
 		
 		$this->tabs_gui = $ilTabs;
 		
-		parent::ilSearchBaseGUI();
+		parent::__construct();
 
 		$this->lng->loadLanguageModule('meta');
 		$this->fields = ilLuceneAdvancedSearchFields::getInstance(); 
@@ -87,7 +87,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	* Control
 	* @access public
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem;
 
@@ -185,7 +185,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		
 
 		include_once 'Services/Search/classes/class.ilSearchResult.php';
-		$res =& new ilSearchResult();
+		$res = new ilSearchResult();
 
 		if($res_con =& $this->__performContentSearch())
 		{
@@ -355,7 +355,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		}
 
 		include_once 'Services/Search/classes/class.ilSearchResult.php';
-		$res =& new ilSearchResult();
+		$res = new ilSearchResult();
 		
 		if($res_tit =& $this->__performTitleSearch())
 		{
@@ -575,7 +575,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 			return false;
 		}
 
-		$res =& new ilSearchResult();
+		$res = new ilSearchResult();
 
 		$query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['lom_content']));
 		#$query_parser->setCombination($this->options['content_ao']);

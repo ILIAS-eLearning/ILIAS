@@ -16,12 +16,12 @@
 */
 class ilGlossaryEditorGUI
 {
-	function ilGlossaryEditorGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
 		
 		// initialisation stuff
-		$this->ctrl =&  $ilCtrl;
+		$this->ctrl =  $ilCtrl;
 		$lng->loadLanguageModule("content");
 		
 		// check write permission
@@ -40,7 +40,7 @@ class ilGlossaryEditorGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $lng, $ilAccess;
 		
@@ -57,7 +57,7 @@ class ilGlossaryEditorGUI
 			case 'ilobjglossarygui':
 			default:
 				require_once "./Modules/Glossary/classes/class.ilObjGlossaryGUI.php";
-				$glossary_gui =& new ilObjGlossaryGUI("", $_GET["ref_id"], true, false);
+				$glossary_gui = new ilObjGlossaryGUI("", $_GET["ref_id"], true, false);
 				$this->ctrl->forwardCommand($glossary_gui);
 				break;
 		}

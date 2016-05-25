@@ -108,7 +108,7 @@ class Auth_Container_Vpopmaild extends Auth_Container
     function fetchData($username, $password)
     {
         $this->log('Auth_Container_Vpopmaild::fetchData() called.', AUTH_LOG_DEBUG);
-        $vpopmaild =& new Net_Vpopmaild();
+        $vpopmaild = new Net_Vpopmaild();
         // Connect
         try {
             $res = $vpopmaild->connect($this->server, $this->port, $this->method);

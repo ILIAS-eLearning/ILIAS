@@ -48,10 +48,10 @@ class ilObjSurveyQuestionPool extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjSurveyQuestionPool($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "spl";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	/**
@@ -87,12 +87,11 @@ class ilObjSurveyQuestionPool extends ilObject
 
 /**
 	* read object data from db into object
-	* @param	boolean
 	* @access	public
 	*/
-	function read($a_force_db = false)
+	public function read()
 	{
-		parent::read($a_force_db);
+		parent::read();
 		$this->loadFromDb();
 	}
 
@@ -141,7 +140,7 @@ class ilObjSurveyQuestionPool extends ilObject
 
 			include_once "./Modules/SurveyQuestionPool/classes/class.".$question_type."GUI.php";
 			$question_type_gui = $question_type . "GUI";
-			$question =& new $question_type_gui();
+			$question = new $question_type_gui();
 
 			if ($question_id > 0)
 			{
@@ -273,80 +272,12 @@ class ilObjSurveyQuestionPool extends ilObject
 		}
 
 		// delete export files
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$spl_data_dir = ilUtil::getDataDir()."/spl_data";
 		$directory = $spl_data_dir."/spl_".$this->getId();
 		if (is_dir($directory))
 		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::delDir($directory);
 		}
-	}
-
-	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	* 
-	* If you are not required to handle any events related to your module, just delete this method.
-	* (For an example how this method is used, look at ilObjGroup)
-	* 
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional parameters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{
-		global $tree;
-		
-		switch ($a_event)
-		{
-			case "link":
-				
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Module name ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-			
-			case "cut":
-				
-				//echo "Module name ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-				
-			case "copy":
-			
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Module name ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "paste":
-				
-				//echo "Module name ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-			
-			case "new":
-				
-				//echo "Module name ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-		}
-		
-		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
-		if ($a_node_id==$_GET["ref_id"])
-		{	
-			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
-			$parent_type = $parent_obj->getType();
-			if($parent_type == $this->getType())
-			{
-				$a_node_id = (int) $tree->getParentId($a_node_id);
-			}
-		}
-		
-		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 
 /**
@@ -551,16 +482,17 @@ class ilObjSurveyQuestionPool extends ilObject
 	* creates data directory for export files
 	* (data_dir/spl_data/spl_<id>/export, depending on data
 	* directory that is set in ILIAS setup/ini)
+	* 
+	* @throws ilSurveyException
 	*/
 	function createExportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$spl_data_dir = ilUtil::getDataDir()."/spl_data";
 		ilUtil::makeDir($spl_data_dir);
 		if(!is_writable($spl_data_dir))
 		{
-			$this->ilias->raiseError("Survey Questionpool Data Directory (".$spl_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Survey Questionpool Data Directory (".$spl_data_dir.") not writeable.");
 		}
 		
 		// create learning module directory (data_dir/lm_data/lm_<id>)
@@ -568,14 +500,16 @@ class ilObjSurveyQuestionPool extends ilObject
 		ilUtil::makeDir($spl_dir);
 		if(!@is_dir($spl_dir))
 		{
-			$this->ilias->raiseError("Creation of Survey Questionpool Directory failed.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Creation of Survey Questionpool Directory failed.");
 		}
 		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
 		$export_dir = $spl_dir."/export";
 		ilUtil::makeDir($export_dir);
 		if(!@is_dir($export_dir))
 		{
-			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Creation of Survey Questionpool Export Directory failed.");
 		}
 	}
 
@@ -584,7 +518,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function getExportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$export_dir = ilUtil::getDataDir()."/spl_data"."/spl_".$this->getId()."/export";
 		return $export_dir;
 	}
@@ -612,7 +545,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		{
 			if ($entry != "." &&
 				$entry != ".." &&
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(spl_)*[0-9]+\.[A-Za-z]{3}\$", $entry))
+				preg_match("/^[0-9]{10}__[0-9]+__(spl_)*[0-9]+\.[A-Za-z]{3}$/", $entry))
 			{
 				$file[] = $entry;
 			}
@@ -631,17 +564,18 @@ class ilObjSurveyQuestionPool extends ilObject
 	* creates data directory for import files
 	* (data_dir/spl_data/spl_<id>/import, depending on data
 	* directory that is set in ILIAS setup/ini)
+	* 
+	* @throws ilSurveyException
 	*/
 	function createImportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$spl_data_dir = ilUtil::getDataDir()."/spl_data";
 		ilUtil::makeDir($spl_data_dir);
 		
 		if(!is_writable($spl_data_dir))
 		{
-			$this->ilias->raiseError("Survey Questionpool Data Directory (".$spl_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Survey Questionpool Data Directory (".$spl_data_dir.") not writeable.");
 		}
 
 		// create test directory (data_dir/spl_data/spl_<id>)
@@ -649,7 +583,8 @@ class ilObjSurveyQuestionPool extends ilObject
 		ilUtil::makeDir($spl_dir);
 		if(!@is_dir($spl_dir))
 		{
-			$this->ilias->raiseError("Creation of Survey Questionpool Directory failed.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Creation of Survey Questionpool Directory failed.");
 		}
 
 		// create import subdirectory (data_dir/spl_data/spl_<id>/import)
@@ -657,7 +592,8 @@ class ilObjSurveyQuestionPool extends ilObject
 		ilUtil::makeDir($import_dir);
 		if(!@is_dir($import_dir))
 		{
-			$this->ilias->raiseError("Creation of Import Directory failed.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Creation of Survey Questionpool Import Directory failed.");
 		}
 	}
 
@@ -666,7 +602,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	*/
 	function getImportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/spl_data".
 			"/spl_".$this->getId()."/import";
 		if(@is_dir($import_dir))
@@ -857,7 +792,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		return $this->online;
 	}
 	
-	function _lookupOnline($a_obj_id)
+	static function _lookupOnline($a_obj_id)
 	{
 		global $ilDB;
 		
@@ -880,7 +815,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	* @param integer $user_id The database id of the user
 	* @access public
 	*/
-	function _isWriteable($object_id, $user_id)
+	static function _isWriteable($object_id, $user_id)
 	{
 		global $rbacsystem;
 		global $ilDB;
@@ -903,7 +838,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	* @return array An array containing the available questiontypes
 	* @access public
 	*/
-	function &_getQuestiontypes()
+	static function _getQuestiontypes()
 	{
 		global $ilDB;
 		global $lng;
@@ -976,7 +911,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		return $types;
 	}
 	
-	public static function &_getQuestionTypeTranslations()
+	public static function _getQuestionTypeTranslations()
 	{
 		global $ilDB;
 		global $lng;
@@ -1015,7 +950,7 @@ class ilObjSurveyQuestionPool extends ilObject
 	* @return array The available question pools
 	* @access public
 	*/
-	function _getAvailableQuestionpools($use_object_id = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $permission = "read")
+	static function _getAvailableQuestionpools($use_object_id = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $permission = "read")
 	{
 		global $ilUser;
 		global $ilDB;
@@ -1178,7 +1113,6 @@ class ilObjSurveyQuestionPool extends ilObject
 								$target_path = CLIENT_WEB_DIR . "/survey/" . $this->getId() . "/";
 								if (!@is_dir($target_path))
 								{
-									include_once "./Services/Utilities/classes/class.ilUtil.php";
 									ilUtil::makeDirParents($target_path);
 								}
 								@rename($source_path, $target_path . $question_object["question_id"]);

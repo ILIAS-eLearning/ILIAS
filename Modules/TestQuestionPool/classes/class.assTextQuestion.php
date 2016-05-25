@@ -403,7 +403,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 				array('float','integer','integer','integer'),
 				array($points, $active_id, $this->getId(), $pass)
 			);
-			$this->_updateTestPassResults($active_id, $pass);
+			self::_updateTestPassResults($active_id, $pass);
 			return TRUE;
 		}
 			else
@@ -693,7 +693,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
 	public function saveAdditionalQuestionDataToDb()
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
 							array( "integer" ),
@@ -717,7 +717,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
 	public function saveAnswerSpecificDataToDb()
 	{
-		/** @var ilDB $ilDB */
+		/** @var ilDBInterface $ilDB */
 		global $ilDB;
 
 		$ilDB->manipulateF( "DELETE FROM qpl_a_essay WHERE question_fi = %s",
@@ -742,14 +742,9 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 	}
 
 	/**
-	 * Reworks the allready saved working data if neccessary
-	 *
-	 * @access protected
-	 * @param integer $active_id
-	 * @param integer $pass
-	 * @param boolean $obligationsAnswered
+	 * {@inheritdoc}
 	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered)
+	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
 	{
 		// nothing to rework!
 	}
@@ -828,30 +823,24 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 	}
 
 	/**
-	* Creates an Excel worksheet for the detailed cumulated results of this question
-	*
-	* @param object $worksheet Reference to the parent excel worksheet
-	* @param object $startrow Startrow of the output in the excel worksheet
-	* @param object $active_id Active id of the participant
-	* @param object $pass Test pass
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
-	* @access public
-	*/
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	 * {@inheritdoc}
+	 */
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
+		parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+
 		$solutions = $this->getSolutionValues($active_id, $pass);
-		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
-		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+		
 		$i = 1;
-		$worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($this->lng->txt("result")), $format_bold);
+		$worksheet->setCell($startrow + $i, 0, $this->lng->txt("result"));
+		$worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
+		
 		if (strlen($solutions[0]["value1"]))
 		{
-			$worksheet->write($startrow + $i, 1, ilExcelUtils::_convert_text($solutions[0]["value1"]));
+			$worksheet->write($startrow + $i, 1, $solutions[0]["value1"]);
 		}
 		$i++;
+
 		return $startrow + $i + 1;
 	}
 	

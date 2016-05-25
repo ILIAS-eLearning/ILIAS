@@ -21,7 +21,7 @@ class ilTestProcessLockerFactory
 	protected $settings;
 
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
@@ -32,9 +32,9 @@ class ilTestProcessLockerFactory
 
 	/**
 	 * @param ilSetting $settings
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 */
-	public function __construct(ilSetting $settings, ilDB $db)
+	public function __construct(ilSetting $settings, ilDBInterface $db)
 	{
 		$this->settings = $settings;
 		$this->db = $db;

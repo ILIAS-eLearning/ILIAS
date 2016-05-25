@@ -420,7 +420,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		$res = $ilDB->query($query);
 		
 		$scos = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$scos[] = $row->cp_node_id;
 		}

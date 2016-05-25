@@ -61,7 +61,7 @@ class ilLog
 	* @access	public
 	* @throws ilLogException
 	*/
-	function ilLog($a_log_path, $a_log_file, $a_tag = "", $a_enabled = true, $a_log_level = NULL)
+	function __construct($a_log_path, $a_log_file, $a_tag = "", $a_enabled = true, $a_log_level = NULL)
 	{
 		// init vars
 		include_once './Services/Logging/classes/public/class.ilLogLevel.php';

@@ -182,7 +182,7 @@ class ilAssQuestionHint
 	 * and assigns it the to this hint object instance
 	 * 
 	 * @access	public
-	 * @global	ilDB	$ilDB
+	 * @global	ilDBInterface	$ilDB
 	 * @param	integer	$id
 	 * @return	boolean	$success
 	 */
@@ -236,7 +236,7 @@ class ilAssQuestionHint
 	 * an existing dataset identified by hint id
 	 *
 	 * @access	private
-	 * @global	ilDB	$ilDB
+	 * @global	ilDBInterface	$ilDB
 	 * @return	boolean	$success
 	 */
 	private function update()
@@ -262,7 +262,7 @@ class ilAssQuestionHint
 	 * a new dataset with a new hint id fetched from primary key sequence
 	 *
 	 * @access	private
-	 * @global	ilDB	$ilDB
+	 * @global	ilDBInterface	$ilDB
 	 * @return	boolean	$success
 	 */
 	private function insert()
@@ -323,7 +323,7 @@ class ilAssQuestionHint
 	 *
 	 * @access	public
 	 * @static
-	 * @global	ilDB	$ilDB
+	 * @global	ilDBInterface	$ilDB
 	 * @param	integer	$hintId
 	 * @return	integer	$affectedRows
 	 */

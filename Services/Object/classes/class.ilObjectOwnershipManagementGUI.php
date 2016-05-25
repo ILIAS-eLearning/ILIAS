@@ -25,7 +25,7 @@ class ilObjectOwnershipManagementGUI
 		$this->user_id = (int)$a_user_id;
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 		

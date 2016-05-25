@@ -28,10 +28,10 @@ class ilObjSAHSLearningModule extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjSAHSLearningModule($a_id = 0, $a_call_by_reference = true)
+	function __construct($a_id = 0, $a_call_by_reference = true)
 	{
 		$this->type = "sahs";
-		parent::ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	/**
@@ -108,7 +108,7 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setIe_force_render(ilUtil::yn2tf($lm_rec["ie_force_render"]));
 			$this->setMasteryScore($lm_rec["mastery_score"]);
 			
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			if (ilObject::_lookupType($this->getStyleSheetId()) != "sty")
 			{
 				$this->setStyleSheetId(0);
@@ -119,7 +119,7 @@ class ilObjSAHSLearningModule extends ilObject
 	/**
 	* check wether scorm module is online
 	*/
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 		
@@ -135,7 +135,7 @@ class ilObjSAHSLearningModule extends ilObject
 	 * 
 	 * @param int $a_id scorm lm id
 	 */
-	function getAffectiveLocalization($a_id)
+	static function getAffectiveLocalization($a_id)
 	{
 		global $ilDB, $lng;
 		
@@ -155,7 +155,7 @@ class ilObjSAHSLearningModule extends ilObject
 	*
 	* @param	int		$a_id		object id
 	*/
-	function _lookupSubType($a_obj_id)
+	static function _lookupSubType($a_obj_id)
 	{
 		global $ilDB;
 
@@ -1160,7 +1160,7 @@ class ilObjSAHSLearningModule extends ilObject
 				$items = $sc_tree->getSubTree($sc_tree->getNodeData($r_id));
 				foreach($items as $item)
 				{
-					$sc_object =& ilSCORMObject::_getInstance($item["obj_id"], $this->getId());
+					$sc_object = ilSCORMObject::_getInstance($item["obj_id"], $this->getId());
 					if (is_object($sc_object))
 					{
 						$sc_object->delete();
@@ -1220,69 +1220,6 @@ class ilObjSAHSLearningModule extends ilObject
 
 		// always call parent delete function at the end!!
 		return true;
-	}
-
-	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	*
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional paramters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{
-		global $tree;
-
-		switch ($a_event)
-		{
-			case "link":
-
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "SCORMLearningModule ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "cut":
-
-				//echo "SCORMLearningModule ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "copy":
-
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "SCORMLearningModule ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "paste":
-
-				//echo "SCORMLearningModule ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "new":
-
-				//echo "SCORMLearningModule ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-		}
-
-		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
-		if ($a_node_id==$_GET["ref_id"])
-		{
-			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
-			$parent_type = $parent_obj->getType();
-			if($parent_type == $this->getType())
-			{
-				$a_node_id = (int) $tree->getParentId($a_node_id);
-			}
-		}
-
-		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 
 	/**
@@ -1421,7 +1358,7 @@ class ilObjSAHSLearningModule extends ilObject
 
 
 		// set/copy stylesheet
-/*		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+/*		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{
