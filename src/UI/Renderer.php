@@ -11,8 +11,7 @@ namespace ILIAS\UI;
  */
 interface Renderer {
 	/**
-	 * Render the component if possible and delegate additional rendering to the
-	 * default_renderer.
+	 * Render given component.
 	 *
 	 * @param	$component			Component
 	 * @throws	\LogicException		if renderer is called with a component it can't render
