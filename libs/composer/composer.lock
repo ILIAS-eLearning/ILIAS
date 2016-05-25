@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8f6b2ea9ce64fdb69da0e2ef75912845",
-    "content-hash": "cf91a6ae71e7498e25a4ef97229e8f07",
+    "hash": "a5ab5d519a61ab786f56826241263df3",
+    "content-hash": "d3bc2036b651927965cf829b468cbd9b",
     "packages": [
         {
             "name": "ezyang/htmlpurifier",
@@ -110,6 +110,43 @@
                 "zf2"
             ],
             "time": "2016-03-13 10:22:39"
+        },
+        {
+            "name": "geshi/geshi",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeSHi/geshi-1.0.git",
+                "reference": "ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeSHi/geshi-1.0/zipball/ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc",
+                "reference": "ac5c9c1f26eba2e6d0a9e374dc3d8316b586cdcc",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/geshi/",
+                    "src/geshi.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Benny Baumann",
+                    "email": "BenBE@geshi.org",
+                    "homepage": "http://blog.benny-baumann.de/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Generic Syntax Highlighter",
+            "homepage": "http://qbnz.com/highlighter/",
+            "time": "2016-02-01 23:14:34"
         },
         {
             "name": "monolog/monolog",
@@ -436,7 +473,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "geshi/geshi": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
