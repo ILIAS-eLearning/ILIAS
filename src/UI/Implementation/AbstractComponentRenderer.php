@@ -4,12 +4,10 @@
 
 namespace ILIAS\UI\Implementation;
 
-use ILIAS\UI\Renderer;
-
 /**
  * Base class for all component renderers.
  */
-abstract class AbstractRenderer implements Renderer {
+abstract class AbstractComponentRenderer implements ComponentRenderer {
 	/**
 	 * @var	TemplateFactory
 	 */
@@ -47,7 +45,7 @@ abstract class AbstractRenderer implements Renderer {
 		$re = "%ILIAS\\\\UI\\\\Implementation\\\\(\\w+)\\\\(\\w+)%";
 		if (preg_match($re, $class, $matches) !== 1) {
 			throw new \LogicException(
-				"The Renderer needs to be located in ILIAS\\UI\\Implemenation\\*.");
+				"The Renderer needs to be located in ILIAS\\UI\\Implementation\\*.");
 		}
 		return $matches[1];
 	}

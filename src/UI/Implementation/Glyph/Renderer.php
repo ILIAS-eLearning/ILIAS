@@ -4,12 +4,12 @@
 
 namespace ILIAS\UI\Implementation\Glyph;
 
-use ILIAS\UI\Implementation\AbstractRenderer;
+use ILIAS\UI\Implementation\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component;
 
-class Renderer extends AbstractRenderer {
+class Renderer extends AbstractComponentRenderer {
 	/**
 	 * @inheritdocs
 	 */

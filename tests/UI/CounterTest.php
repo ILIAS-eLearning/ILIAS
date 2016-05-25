@@ -161,7 +161,7 @@ class CounterTest extends ILIAS_UI_TestBase {
 		$c = $f->status(1);
 
 		try {
-			$r->render($c, $r);	
+			$r->render($c);	
 			$this->assertFalse("We should not get here");
 		}
 		catch (\LogicException $e) {}

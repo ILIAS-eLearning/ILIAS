@@ -7,8 +7,8 @@ namespace ILIAS\UI\Implementation\Glyph {
 
 	use \ILIAS\UI\Component;
 	use \ILIAS\UI\Renderer;
-	use \ILIAS\UI\Implementation\AbstractRenderer;
-	class GlyphNonAbstractRenderer extends AbstractRenderer {
+	use \ILIAS\UI\Implementation\AbstractComponentRenderer;
+	class GlyphNonAbstractRenderer extends AbstractComponentRenderer {
 		public function render(Component $component, Renderer $default_renderer) {
 		}
 		public function _getTemplate($a, $b, $c) {
@@ -20,8 +20,8 @@ namespace ILIAS\UI\Implementation\Glyph {
 namespace ILIAS\UI\Implementation\Counter {
 	use \ILIAS\UI\Component;
 	use \ILIAS\UI\Renderer;
-	use \ILIAS\UI\Implementation\AbstractRenderer;
-	class CounterNonAbstractRenderer extends AbstractRenderer {
+	use \ILIAS\UI\Implementation\AbstractComponentRenderer;
+	class CounterNonAbstractRenderer extends AbstractComponentRenderer {
 		public function render(Component $component, Renderer $default_renderer) {
 		}
 		public function _getTemplate($a, $b, $c) {

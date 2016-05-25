@@ -13,7 +13,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase {
 		// There should be a renderer for Glyph...
 		$dr = $this->getDefaultRenderer();
 		$r = $dr->instantiateRendererFor("\\ILIAS\\UI\\Implementation\\Glyph\\Glyph");
-		$this->assertInstanceOf("\\ILIAS\\UI\\Renderer", $r);
+		$this->assertInstanceOf("\\ILIAS\\UI\\Implementation\\ComponentRenderer", $r);
 	}
 
 	public function test_instantiateRenderer_unsuccessfully() {
@@ -29,7 +29,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase {
 		// There should be a renderer for Glyph...
 		$dr = $this->getDefaultRenderer();
 		$r = $dr->getRendererFor("\\ILIAS\\UI\\Implementation\\Glyph\\Glyph");
-		$this->assertInstanceOf("\\ILIAS\\UI\\Renderer", $r);
+		$this->assertInstanceOf("\\ILIAS\\UI\\Implementation\\ComponentRenderer", $r);
 	}
 
 	public function test_getRenderer_unsuccessfully() {

@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation;
 
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\ComponentRenderer;
 
 /**
  * Renderer that dispatches rendering of UI components to a Renderer found
@@ -13,7 +14,7 @@ use ILIAS\UI\Component;
  */
 class DefaultRenderer implements Renderer {
 	/**
-	 * @var	array<string, Renderer>
+	 * @var	array<string, ComponentRenderer>
 	 */
 	protected $cache = array();
 
@@ -29,7 +30,7 @@ class DefaultRenderer implements Renderer {
 	/**
 	 * @inheritdocs
 	 */
-	public function render(Component $component, Renderer $default_renderer) {
+	public function render(Component $component) {
 		$renderer = $this->getRendererFor(get_class($component));
 		return $renderer->render($component, $this);
 	}
@@ -42,7 +43,7 @@ class DefaultRenderer implements Renderer {
 	 *
 	 * @param	string	$class
 	 * @throws	\LogicException		if no renderer could be found for component.
-	 * @return	Renderer
+	 * @return	ComponentRenderer
 	 */
 	public function getRendererFor($class) {
 		if (array_key_exists($class, $this->cache)) {
@@ -60,7 +61,7 @@ class DefaultRenderer implements Renderer {
 	 *
 	 * @param	string	$class
 	 * @throws	\LogicException		if no renderer could be found for component.
-	 * @return	Renderer
+	 * @return	ComponentRenderer
 	 */
 	public function instantiateRendererFor($class) {
 		$renderer_class = $this->getRendererNameFor($class);
