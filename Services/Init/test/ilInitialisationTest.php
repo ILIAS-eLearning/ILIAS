@@ -42,7 +42,6 @@ class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 			, array("ilCtrl", "ilCtrl")
 			, array("tree", "ilTree")
 			, array("ilLog", "ilLogger")
-			, array("ilDB", "ilDB")
 			, array("ilDB", "ilDBInterface")
 			);
 	}
@@ -61,6 +60,8 @@ class ilInitialisationTest extends PHPUnit_Framework_TestCase {
 			// TODO: Can't test these until context for unit tests does not have HTML.
 			//, array("ilToolbarGUI", function ($DIC) { return $DIC->toolbar(); })
 			//, array("ilTabsGUI", function ($DIC) { return $DIC->tabs(); })
+			//, array("ILIAS\\UI\\Factory", function ($DIC) { return $DIC->ui()->factory();})
+			//, array("ILIAS\\UI\\Renderer", function ($DIC) { return $DIC->ui()->renderer();})
 			, array("ilLogger", function ($DIC) { return $DIC->logger()->root(); })
 			, array("ilLogger", function ($DIC) { return $DIC->logger()->grp(); })
 			, array("ilLogger", function ($DIC) { return $DIC->logger()->crs(); })

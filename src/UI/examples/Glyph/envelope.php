@@ -4,10 +4,10 @@
 
 function Glyph_envelope() {
 	global $DIC;
-	$f = $DIC["UIFactory"]; // this should be $DIC->UI()->Factory();
-	$renderer = $DIC["UIRenderer"]; // this should be $DIC->UI()->Renderer();
+	$f = $DIC->ui()->factory();
+	$renderer = $DIC->ui()->renderer();
 
 	$envelope = $f->glyph()->envelope();
 
-	return "Envelope: ".$renderer->render($envelope, $renderer)."</br>";
+	return "Envelope: ".$renderer->render($envelope)."</br>";
 }

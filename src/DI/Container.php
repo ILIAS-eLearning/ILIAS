@@ -99,4 +99,13 @@ class Container extends \Pimple\Container {
 	public function tabs() {
 		return $this["ilTabs"];
 	}
+
+	/**
+	 * Get the interface to get services from UI framework.
+	 *
+	 * @return	UIServices
+	 */
+	public function ui() {
+		return new UIServices($this);
+	}
 }

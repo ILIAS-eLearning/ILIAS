@@ -1194,13 +1194,13 @@ class ilInitialisation
 	 * init the ILIAS UI framework.
 	 */
 	protected static function initUIFramework(\ILIAS\DI\Container $c) {
-		$c["UIFactory"] = function ($c) {
+		$c["ui.factory"] = function ($c) {
 			return new ILIAS\UI\Implementation\Factory();
 		};
-		$c["UIRenderer"] = function($c) {
-			return new ILIAS\UI\Implementation\DefaultRenderer($c["UITemplateFactory"]);
+		$c["ui.renderer"] = function($c) {
+			return new ILIAS\UI\Implementation\DefaultRenderer($c["ui.template_factory"]);
 		};
-		$c["UITemplateFactory"] = function($c) {
+		$c["ui.template_factory"] = function($c) {
 			return new ILIAS\UI\Implementation\ilTemplateWrapperFactory();
 		};
 	}
