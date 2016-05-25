@@ -1,7 +1,7 @@
 <?php
 include_once("./Services/Component/classes/class.ilPluginConfigGUI.php");
-include_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecordList.php');
-include_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Index/class.arIndexTableGUI.php');
+include_once('./Services/ActiveRecord/class.ActiveRecordList.php');
+include_once('./Services/ActiveRecord/Views/Index/class.arIndexTableGUI.php');
 include_once('./Services/UICore/classes/class.ilTemplate.php');
 
 /**
