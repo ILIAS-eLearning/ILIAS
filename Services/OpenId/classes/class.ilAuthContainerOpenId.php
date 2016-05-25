@@ -130,6 +130,7 @@ class ilAuthContainerOpenId extends Auth_Container
 				{
 					$a_auth->logout();
 					$_SESSION['tmp_auth_mode'] = 'openid';
+					$_SESSION['tmp_auth_mode_type'] = 'openid';
 					$_SESSION['tmp_oid_username'] = urldecode($_GET['openid_identity']);
 					$_SESSION['tmp_oid_provider'] = $_POST['oid_provider'];
 					$_SESSION['tmp_external_account'] = $this->response_data['nickname'];

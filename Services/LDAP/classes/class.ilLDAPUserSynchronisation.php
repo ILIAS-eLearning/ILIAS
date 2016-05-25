@@ -174,9 +174,9 @@ class ilLDAPUserSynchronisation
 	 */
 	protected function handleAccountMigration()
 	{
-		// TODO: handle multiple ldap server
-		
 		$_SESSION['tmp_auth_mode'] = $this->getAuthMode();
+		$_SESSION['tmp_auth_mode_type'] = 'ldap';
+		$_SESSION['tmp_auth_mode_id'] = $this->getServer()->getServerId();
 		$_SESSION['tmp_external_account'] = $this->getExternalAccount();
 		$_SESSION['tmp_pass'] = $_POST['password'];
 		
