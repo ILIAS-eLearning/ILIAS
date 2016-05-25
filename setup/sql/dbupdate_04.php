@@ -15230,6 +15230,7 @@ if($type_id && $new_ops_id)
 	ilDBUpdateNewObjectType::addRBACOperation($type_id, $new_ops_id);
 }
 ?>
+
 <#4912>
 <?php
 	$ilCtrlStructureReader->getStructure();
@@ -15238,4 +15239,11 @@ if($type_id && $new_ops_id)
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
->>>>>>> a88423ff53640804f58c3a43ea02480f3d8f4c19
+
+<#4914>
+<?php
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+	$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_members');
+	ilDBUpdateNewObjectType::cloneOperation('prg', $src_ops_id, $tgt_ops_id);
+?>
