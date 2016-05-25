@@ -5,11 +5,6 @@
 define("DEVMODE", 1);
 
 require_once("./libs/composer/vendor/autoload.php");
-include("./include/inc.header.php");
-
-
-require_once("./Services/Context/classes/class.ilContext.php");
-ilContext::init("ilContextUIShowcase");
 
 require_once("./Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
@@ -21,11 +16,13 @@ $tpl->getStandardTemplate();
 
 if (array_key_exists("which", $_GET)) {
 	$which = $_GET["which"];
-	if (preg_match("%(\w|/)+%", $which) !== 1) {
+	$include = "./src/UI/examples/$which.php";
+	if (preg_match("%(\w|/)+%", $which) !== 1
+	|| !file_exists($include)) {
 		$content = "Unknown example: $which";
 	}
 	else {
-		require_once("./src/UI/examples/$which.php");
+		require_once($include);
 		$fn = str_replace("/", "_", $which);
 		$content = $fn();
 	}
