@@ -23,6 +23,7 @@ class ilDclInputException extends ilException {
 	const NOT_URL = 4;
 	const NOT_IMAGE = 5;
 	const WRONG_FILE_TYPE = 6;
+	const CUSTOM_MESSAGE = 7;
 
 
 	/**
@@ -81,6 +82,9 @@ class ilDclInputException extends ilException {
 				break;
 			case self::WRONG_FILE_TYPE:
 				$message = $lng->txt('dcl_not_supported_file_type');
+				break;
+			case self::CUSTOM_MESSAGE:
+				return $this->additional_text;
 				break;
 			default:
 				$message = $lng->txt('dcl_unknown_exception');
