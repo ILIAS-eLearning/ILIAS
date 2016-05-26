@@ -122,6 +122,12 @@ class ilDclTable {
 	 */
 	protected $view_own_records_perm = 0;
 
+	/**
+	 * table fields and std fields combined
+	 * @var null|array
+	 */
+	protected $all_fields = null;
+
 
 	/**
 	 * @param int $a_id
@@ -535,12 +541,17 @@ class ilDclTable {
 	 * @return ilDclBaseFieldModel[]
 	 */
 	public function getFields() {
-		$this->loadFields();
-		$this->stdFields = $this->getStandardFields();
-		$fields = array_merge($this->fields, $this->stdFields);
-		$this->sortByOrder($fields);
+		if($this->all_fields == null) {
+			$this->loadFields();
+			$this->stdFields = $this->getStandardFields();
+			$fields = array_merge($this->fields, $this->stdFields);
 
-		return $fields;
+			$this->sortByOrder($fields);
+
+			$this->all_fields = $fields;
+		}
+
+		return $this->all_fields;
 	}
 
 

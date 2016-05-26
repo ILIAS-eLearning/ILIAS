@@ -157,9 +157,9 @@ class ilDclRecordEditGUI {
 		$all_fields = $this->table->getRecordFields();
 		$record_data = "";
 		foreach($all_fields as $key=>$field) {
-			$field_record = ilDclFieldFactory::getRecordFieldInstance($field, $record);
+			$field_record = ilDclCache::getRecordFieldCache($record, $field);
 
-			$record_representation = ilDclFieldFactory::getRecordRepresentationInstance($field_record);
+			$record_representation = ilDclCache::getRecordRepresentation($field_record);
 			if($record_representation->getConfirmationHTML() !== false) {
 				$record_data .= $field->getTitle().": ".$record_representation->getConfirmationHTML() ."<br />";
 			}
@@ -348,10 +348,10 @@ class ilDclRecordEditGUI {
 		$record_data = "";
 
 		foreach($all_fields as $key=>$field) {
-			$field_record = ilDclFieldFactory::getRecordFieldInstance($field, $record_obj);
+			$field_record = ilDclCache::getRecordFieldCache($record_obj, $field);
 			$field_record->setValue($all_values[$field->getId()]);
 
-			$record_representation = ilDclFieldFactory::getRecordRepresentationInstance($field_record);
+			$record_representation = ilDclCache::getRecordRepresentation($field_record);
 			if(is_array($all_values[$field->getId()])) {
 				foreach($all_values[$field->getId()] as $key=>$value) {
 					$confirmation->addHiddenItem('field_'.$field->getId().'['.$key.']', $value);
