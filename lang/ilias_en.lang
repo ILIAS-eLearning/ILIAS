@@ -14926,7 +14926,7 @@ dcl#:#dcl_mob_desc#:#Field to upload an image, audio, or video file. They will b
 dcl#:#dcl_fileupload_desc#:#Field to upload arbitrary files. They can be downloaded with a link.
 dcl#:#dcl_reference_desc#:#Field to reference options stored in a different field of a table.
 dcl#:#dcl_reference_title#:#Reference to table and field
-dcl#:#dcl_ILIAS_reference_desc#:#Searchfield to select an ILIAS object.
+dcl#:#dcl_ilias_reference_desc#:#Searchfield to select an ILIAS object.
 dcl#:#dcl_rating_desc#:#Users can rate entries with up to five stars.
 dcl#:#dcl_formula_desc#:#You can aggregate several entries in a record with a formula.
 dcl#:#dcl_additional_info_desc#:#The text will be displayed directly above the table.
