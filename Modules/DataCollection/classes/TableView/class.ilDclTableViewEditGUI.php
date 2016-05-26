@@ -6,6 +6,8 @@ require_once("./Services/AccessControl/classes/class.ilObjRole.php");
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup ModulesDataCollection
+ *
+ * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclRecordViewViewdefinitionGUI
  */
 class ilDclTableViewEditGUI
 {
@@ -84,42 +86,64 @@ class ilDclTableViewEditGUI
         $this->tabs_gui->setBackTarget($this->lng->txt('dcl_tableviews'), $this->ctrl->getLinkTarget($this->parent_obj));
 
         $cmd = $this->ctrl->getCmd('show');
-        switch($cmd) {
-            case 'show':
-                if ($this->tableview->getId()) {
-                    $this->ctrl->redirect($this, 'editGeneralSettings');
-                } else {
-                    $this->ctrl->redirect($this, 'create');
+        $next_class = $this->ctrl->getNextClass($this);
+
+        switch($next_class)
+        {
+            case 'ildclrecordviewviewdefinitiongui':
+                $this->setTabs('detailed_view');
+                require_once('./Modules/DataCollection/classes/class.ilDclRecordViewViewdefinitionGUI.php');
+                $recordedit_gui = new ilDclRecordViewViewdefinitionGUI($this->tableview->getId());
+                $ret = $this->ctrl->forwardCommand($recordedit_gui);
+                if ($ret != "") {
+                    $this->tpl->setContent($ret);
                 }
-            break;
-            case 'add':
-                $this->initFormGUI(true);
-                $this->tpl->setContent($this->form->getHTML());
-                break;
-            case 'editGeneralSettings':
-                $this->setTabs('general_settings');
-                $this->initFormGUI();
-                $this->tpl->setContent($this->form->getHTML());
-                break;
-            case 'editFieldSettings':
-                $this->setTabs('field_settings');
-                $this->initTableGUI();
-                $this->tpl->setContent($this->table_gui->getHTML());
-                break;
-            case 'editDetailedView':
-                $viewdefinition = new ilDclRecordViewViewdefinitionGUI($this->table->getId());
+                global $ilTabs;
+                $ilTabs->removeTab('edit');
+                $ilTabs->removeTab('history');
+                $ilTabs->removeTab('clipboard'); // Fixme
+                $ilTabs->removeTab('pg');
                 break;
             default:
-                $this->$cmd();
+                switch($cmd) {
+                    case 'show':
+                        if ($this->tableview->getId()) {
+                            $this->ctrl->redirect($this, 'editGeneralSettings');
+                        } else {
+                            $this->ctrl->redirect($this, 'create');
+                        }
+                        break;
+                    case 'add':
+                        $this->initFormGUI(true);
+                        $this->tpl->setContent($this->form->getHTML());
+                        break;
+                    case 'editGeneralSettings':
+                        $this->setTabs('general_settings');
+                        $this->initFormGUI();
+                        $this->tpl->setContent($this->form->getHTML());
+                        break;
+                    case 'editFieldSettings':
+                        $this->setTabs('field_settings');
+                        $this->initTableGUI();
+                        $this->tpl->setContent($this->table_gui->getHTML());
+                        break;
+                    case 'editDetailedView':
+                        $viewdefinition = new ilDclRecordViewViewdefinitionGUI($this->table->getId());
+                        break;
+                    default:
+                        $this->$cmd();
+                        break;
+                }
                 break;
         }
+
     }
 
     protected function setTabs($active)
     {
         $this->tabs_gui->addTab('general_settings', $this->lng->txt('general_settings'), $this->ctrl->getLinkTarget($this, 'show'));
         $this->tabs_gui->addTab('field_settings', $this->lng->txt('fields'), $this->ctrl->getLinkTarget($this, 'editFieldSettings'));
-        $this->tabs_gui->addTab('detailed_view', $this->lng->txt('detailed_view'), $this->ctrl->getLinkTarget($this, 'detailedView'));
+        $this->tabs_gui->addTab('detailed_view', $this->lng->txt('detailed_view'), $this->ctrl->getLinkTargetByClass('ildclrecordviewviewdefinitiongui', 'edit'));
         $this->tabs_gui->setTabActive($active);
     }
 

@@ -70,6 +70,7 @@ class ilDclTableViewGUI
         $this->ctrl->saveParameter($this, 'table_id');
         $cmd = $this->ctrl->getCmd("show");
         $next_class = $this->ctrl->getNextClass($this);
+        
         switch ($next_class)
         {
             case 'ildcltablevieweditgui':

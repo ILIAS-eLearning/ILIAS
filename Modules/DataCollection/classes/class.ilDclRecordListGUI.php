@@ -72,7 +72,14 @@ class ilDclRecordListGUI {
 			$this->tableview_id = $tableview_id;
 		} else {
 			//get first visible tableview
-			$this->tableview_id = array_shift($this->table_obj->getVisibleTableViews($this->parent_obj->ref_id))->getId();
+			$tableview = array_shift($this->table_obj->getVisibleTableViews($this->parent_obj->ref_id));
+			if (!$tableview)
+			{
+				$this->parent_obj->tpl->setContent('Permission denied');
+				$this->parent_obj->tpl->show();
+				return;
+			}
+			$this->tableview_id = $tableview->getId();
 		}
 		$this->ctrl->setParameterByClass("ildclrecordeditgui", "table_id", $table_id);
 		$this->mode = (isset($_GET['mode']) && in_array($_GET['mode'], self::$available_modes)) ? (int)$_GET['mode'] : self::MODE_VIEW;

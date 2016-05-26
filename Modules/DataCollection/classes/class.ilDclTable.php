@@ -1344,14 +1344,15 @@ class ilDclTable {
 			$new_record->cloneStructure($orig_record->getId(), $new_fields);
 		}*/
 
-		if ($old_view_id = ilDclRecordViewViewdefinition::getIdByTableId($original->getId())) {
-			$old_view = new ilDclRecordViewViewdefinition($old_view_id);
-			$old_view->setTableId($original->getId());
-			$viewdef = new ilDclRecordViewViewdefinition();
-			$viewdef->setTableId($this->id);
-			$viewdef->setXMLContent($old_view->getXMLContent(false));
-			$viewdef->create();
-		}
+		//TODO: copy tableviews and pageobjects
+//		if ($old_view_id = ilDclRecordViewViewdefinition::getIdByTableId($original->getId())) {
+//			$old_view = new ilDclRecordViewViewdefinition($old_view_id);
+//			$old_view->setTableId($original->getId());
+//			$viewdef = new ilDclRecordViewViewdefinition();
+//			$viewdef->setTableId($this->id);
+//			$viewdef->setXMLContent($old_view->getXMLContent(false));
+//			$viewdef->create();
+//		}
 	}
 
 
