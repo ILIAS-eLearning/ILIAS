@@ -16,7 +16,7 @@ class ilGlobalSuite extends PHPUnit_Framework_TestSuite
     public static function suite()
     {
 		$suite = new ilGlobalSuite();
-
+		chdir('/var/www/ilias');
         require_once('include/inc.get_pear.php');
 		echo "\n";
 		

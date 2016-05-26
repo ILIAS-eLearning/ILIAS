@@ -1,5 +1,5 @@
 <?php
-require_once('./Services/Database/classes/PDO/class.ilDBPdoFieldDefinition.php');
+require_once('./Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoFieldDefinition.php');
 
 /**
  * Class ilDBConstants
@@ -10,6 +10,7 @@ class ilDBConstants {
 
 	const FETCHMODE_ASSOC = 2;
 	const FETCHMODE_OBJECT = 3;
+	const FETCHMODE_DEFAULT = self::FETCHMODE_ASSOC;
 	// Legacy
 	const TYPE_INNODB_LEGACY = 'innodb';
 	const TYPE_MYSQL_LEGACY = 'mysql';

@@ -2,10 +2,67 @@
 require_once('./Services/Database/classes/QueryUtils/class.ilQueryUtils.php');
 
 /**
- * Class ilMySQLQueryUtils
+ * Class ilPostgresQueryUtils
  *
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMySQLQueryUtils extends ilQueryUtils {
+class ilPostgresQueryUtils extends ilQueryUtils {
+
+	/**
+	 * @param $name
+	 * @param $fields
+	 * @param array $options
+	 * @return string
+	 * @throws \ilDatabaseException
+	 */
+	public function createTable($name, $fields, $options = array()) {
+		if (!$name) {
+			throw new ilDatabaseException('no valid table name specified');
+		}
+		if (empty($fields)) {
+			throw new ilDatabaseException('no fields specified for table "' . $name . '"');
+		}
+		$query_fields_array = array();
+		foreach ($fields as $field_name => $field) {
+			$query_fields_array[] = $this->db_instance->getFieldDefinition()->getDeclaration($field['type'], $field_name, $field);
+		}
+
+		$query_fields = implode(', ', $query_fields_array);
+
+		if (!empty($options['primary'])) {
+			$query_fields .= ', PRIMARY KEY (' . implode(', ', array_keys($options['primary'])) . ')';
+		}
+
+		$query = "CREATE  TABLE $name ($query_fields)";
+
+		$options_strings = array();
+
+		if (!empty($options['comment'])) {
+			$options_strings['comment'] = 'COMMENT = ' . $this->quote($options['comment'], 'text');
+		}
+
+		if (!empty($options['charset'])) {
+			$options_strings['charset'] = 'DEFAULT CHARACTER SET ' . $options['charset'];
+			if (!empty($options['collate'])) {
+				$options_strings['charset'] .= ' COLLATE ' . $options['collate'];
+			}
+		}
+
+		$type = false;
+		if (!empty($options['type'])) {
+			$type = $options['type'];
+		}
+		if ($type) {
+			$options_strings[] = "ENGINE = $type";
+		}
+
+		if (!empty($options_strings)) {
+			$query .= ' ' . implode(' ', $options_strings);
+		}
+
+		return $query;
+	}
+
 
 	/**
 	 * @param string $field
@@ -122,62 +179,6 @@ class ilMySQLQueryUtils extends ilQueryUtils {
 	 */
 	public function quoteIdentifier($identifier) {
 		return $this->db_instance->quoteIdentifier($identifier);
-	}
-
-
-	/**
-	 * @param $name
-	 * @param $fields
-	 * @param array $options
-	 * @return string
-	 * @throws \ilDatabaseException
-	 */
-	public function createTable($name, $fields, $options = array()) {
-		if (!$name) {
-			throw new ilDatabaseException('no valid table name specified');
-		}
-		if (empty($fields)) {
-			throw new ilDatabaseException('no fields specified for table "' . $name . '"');
-		}
-		$query_fields_array = array();
-		foreach ($fields as $field_name => $field) {
-			$query_fields_array[] = $this->db_instance->getFieldDefinition()->getDeclaration($field['type'], $field_name, $field);
-		}
-
-		$query_fields = implode(', ', $query_fields_array);
-
-		if (!empty($options['primary'])) {
-			$query_fields .= ', PRIMARY KEY (' . implode(', ', array_keys($options['primary'])) . ')';
-		}
-
-		$query = "CREATE  TABLE $name ($query_fields)";
-
-		$options_strings = array();
-
-		if (!empty($options['comment'])) {
-			$options_strings['comment'] = 'COMMENT = ' . $this->quote($options['comment'], 'text');
-		}
-
-		if (!empty($options['charset'])) {
-			$options_strings['charset'] = 'DEFAULT CHARACTER SET ' . $options['charset'];
-			if (!empty($options['collate'])) {
-				$options_strings['charset'] .= ' COLLATE ' . $options['collate'];
-			}
-		}
-
-		$type = false;
-		if (!empty($options['type'])) {
-			$type = $options['type'];
-		}
-		if ($type) {
-			$options_strings[] = "ENGINE = $type";
-		}
-
-		if (!empty($options_strings)) {
-			$query .= ' ' . implode(' ', $options_strings);
-		}
-
-		return $query;
 	}
 
 

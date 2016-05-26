@@ -2491,6 +2491,23 @@ abstract class ilDB extends PEAR implements ilDBInterface
 		
 		return $r;
 	} //end function
+
+	/**
+	 * @param $query_result
+	 * @param int $fetch_mode
+	 * @return array
+	 */
+	public function fetchAll($query_result, $fetch_mode = ilDBConstants::FETCHMODE_ASSOC) {
+		/**
+		 * @var $query_result ilPDOStatement
+		 */
+		$return = array();
+		while ($data = $query_result->fetch($fetch_mode)) {
+			$return[] = $data;
+		}
+
+		return $return;
+	}
 		
 	/**
 	 * Set sub type
@@ -2512,5 +2529,6 @@ abstract class ilDB extends PEAR implements ilDBInterface
 		return $this->sub_type;
 	}
 
-} //end Class
-?>
+
+
+}

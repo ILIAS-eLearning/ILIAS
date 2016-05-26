@@ -13,14 +13,14 @@ class ilPDOStatement implements ilDBStatement {
 	/**
 	 * @var PDOStatement
 	 */
-	protected $pdo;
+	protected $pdo_statement;
 
 
 	/**
 	 * @param $pdo_statement PDOStatement The PDO Statement to be wrapped.
 	 */
 	public function __construct(PDOStatement $pdo_statement) {
-		$this->pdo = $pdo_statement;
+		$this->pdo_statement = $pdo_statement;
 	}
 
 
@@ -31,9 +31,9 @@ class ilPDOStatement implements ilDBStatement {
 	 */
 	public function fetchRow($fetch_mode = ilDBConstants::FETCHMODE_ASSOC) {
 		if ($fetch_mode == ilDBConstants::FETCHMODE_ASSOC) {
-			return $this->pdo->fetch(PDO::FETCH_ASSOC);
+			return $this->pdo_statement->fetch(PDO::FETCH_ASSOC);
 		} elseif ($fetch_mode == ilDBConstants::FETCHMODE_OBJECT) {
-			return $this->pdo->fetch(PDO::FETCH_OBJ);
+			return $this->pdo_statement->fetch(PDO::FETCH_OBJ);
 		} else {
 			throw new ilDatabaseException("No valid fetch mode given, choose ilDBConstants::FETCHMODE_ASSOC or ilDBConstants::FETCHMODE_OBJECT");
 		}
@@ -53,7 +53,7 @@ class ilPDOStatement implements ilDBStatement {
 	 * Pdo allows for a manual closing of the cursor.
 	 */
 	public function closeCursor() {
-		$this->pdo->closeCursor();
+		$this->pdo_statement->closeCursor();
 	}
 
 
@@ -61,7 +61,7 @@ class ilPDOStatement implements ilDBStatement {
 	 * @return int
 	 */
 	public function rowCount() {
-		return $this->pdo->rowCount();
+		return $this->pdo_statement->rowCount();
 	}
 
 
@@ -74,9 +74,17 @@ class ilPDOStatement implements ilDBStatement {
 
 
 	/**
+	 * @return array
+	 */
+	public function fetchAssoc() {
+		return $this->fetch(ilDBConstants::FETCHMODE_ASSOC);
+	}
+
+
+	/**
 	 * @return int
 	 */
 	public function numRows() {
-		return $this->pdo->rowCount();
+		return $this->pdo_statement->rowCount();
 	}
 }

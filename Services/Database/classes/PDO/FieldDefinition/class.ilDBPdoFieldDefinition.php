@@ -43,7 +43,7 @@ class ilDBPdoFieldDefinition {
 	/**
 	 * @var ilDBInterface
 	 */
-	protected $ilDBInterface;
+	protected $db_instance;
 	/**
 	 * @var array
 	 */
@@ -292,6 +292,10 @@ class ilDBPdoFieldDefinition {
 		"YEAR_MONTH",
 		"ZEROFILL",
 	);
+	/**
+	 * @var
+	 */
+	protected $query_utils;
 
 
 	/**
@@ -299,21 +303,20 @@ class ilDBPdoFieldDefinition {
 	 *
 	 * @param \ilDBInterface $ilDBInterface
 	 */
-	protected function __construct(\ilDBInterface $ilDBInterface) {
-		$this->ilDBInterface = $ilDBInterface;
+	public function __construct(\ilDBInterface $ilDBInterface) {
+		$this->db_instance = $ilDBInterface;
 	}
 
 
 	/**
-	 * @param \ilDBInterface $ilDBInterface
-	 * @return \ilDBPdoFieldDefinition
+	 * @return \ilMySQLQueryUtils
 	 */
-	public static function getInstance(ilDBInterface $ilDBInterface) {
-		if (empty(self::$instance)) {
-			self::$instance = new self($ilDBInterface);
+	protected function getQueryUtils() {
+		if (!$this->query_utils) {
+			$this->query_utils = new ilMySQLQueryUtils($this->db_instance);
 		}
 
-		return self::$instance;
+		return $this->query_utils;
 	}
 
 
@@ -553,7 +556,7 @@ class ilDBPdoFieldDefinition {
 					if ($field_info['default'] === '') {
 						$field_info['default'] = empty($field_info['notnull']) ? null : 0;
 					}
-					$default = ' DEFAULT ' . $this->ilDBInterface->quote($field_info['default'], self::T_INTEGER);
+					$default = ' DEFAULT ' . $this->db_instance->quote($field_info['default'], self::T_INTEGER);
 				} elseif (empty($field_info['notnull'])) {
 					$default = ' DEFAULT NULL';
 				}
@@ -683,7 +686,7 @@ class ilDBPdoFieldDefinition {
 					//					$field['default'] = $valid_default_values[$field['type']];
 				}
 			}
-			$default = ' DEFAULT ' . ilMySQLQueryUtils::getInstance($this->ilDBInterface)->quote($field['default'], $field['type']);
+			$default = ' DEFAULT ' . $this->getQueryUtils()->quote($field['default'], $field['type']);
 		} elseif (empty($field['notnull'])) {//} && $field['notnull'] !== false) {
 			$default = ' DEFAULT NULL';
 		}

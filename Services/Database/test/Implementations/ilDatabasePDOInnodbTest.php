@@ -21,48 +21,29 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once('ilDBBaseTest.php');
+
 /**
- * Database Test-Suite
+ * TestCase for the ilDatabasePDOInnodbTest
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilServicesDatabaseSuite extends PHPUnit_Framework_TestSuite {
+class ilDatabasePDOInnodbTest extends ilDBBaseTest {
 
 	/**
-	 * @return \ilServicesDatabaseSuite
+	 * @return \ilDBPdoMySQLInnoDB
+	 * @throws \ilDatabaseException
 	 */
-	public static function suite() {
-		$suite = new self();
-		// The following line is inspired by BlueMotion and BOSCH
-		if (strpos(getcwd(), 'Services/Database') === false) {
-			return $suite;
-		}
-		chdir('/var/www/ilias');
+	protected function getDBInstance() {
+		return ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_INNODB);
+	}
 
-		// Some basic tests such as every table has a primary
-		require_once("./Services/Database/test/Basic/ilDatabaseBaseTest.php");
-		$suite->addTestSuite("ilDatabaseBaseTest");
 
-		// Tests for different DB-Implementations. All based on the same base test
-		require_once("./Services/Database/test/Implementations/ilDatabasePDOInnodbTest.php");
-		$suite->addTestSuite("ilDatabasePDOInnodbTest");
-
-		require_once("./Services/Database/test/Implementations/ilDatabaseMDB2InnodbTest.php");
-		$suite->addTestSuite("ilDatabaseMDB2InnodbTest");
-
-		require_once("./Services/Database/test/Implementations/ilDatabasePDOMyISAMTest.php");
-		$suite->addTestSuite("ilDatabasePDOMyISAMTest");
-
-		require_once("./Services/Database/test/Implementations/ilDatabaseMDB2MyISAMTest.php");
-		$suite->addTestSuite("ilDatabaseMDB2MyISAMTest");
-
-		require_once("./Services/Database/test/Implementations/ilDatabasePDOPostgresTest.php");
-		$suite->addTestSuite("ilDatabasePDOPostgresTest");
-
-		require_once("./Services/Database/test/Implementations/ilDatabaseMDB2PostgresTest.php");
-		$suite->addTestSuite("ilDatabaseMDB2PostgresTest");
-
-		return $suite;
+	/**
+	 * @return string
+	 */
+	protected function getTableName() {
+		return strtolower(self::TABLE_NAME . '_pdo_i');
 	}
 }

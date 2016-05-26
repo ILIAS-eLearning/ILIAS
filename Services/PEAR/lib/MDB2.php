@@ -3332,7 +3332,7 @@ class MDB2_Result
 
 // }}}
 // {{{ class MDB2_Result_Common extends MDB2_Result
-
+require_once('./Services/Database/interfaces/interface.ilDBStatement.php');
 /**
  * The common result class for MDB2 result objects
  *
@@ -3340,7 +3340,7 @@ class MDB2_Result
  * @category    Database
  * @author      Lukas Smith <smith@pooteeweet.org>
  */
-class MDB2_Result_Common extends MDB2_Result
+class MDB2_Result_Common extends MDB2_Result implements ilDBStatement
 {
     // {{{ Variables (Properties)
 
@@ -3366,6 +3366,21 @@ class MDB2_Result_Common extends MDB2_Result
         $this->result = $result;
         $this->offset = $offset;
         $this->limit = max(0, $limit - 1);
+    }
+
+
+    public function fetch($fetch_mode = ilDBConstants::FETCHMODE_ASSOC) {
+        return $this->fetchRow($fetch_mode);
+    }
+
+
+    public function fetchObject() {
+        return $this->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+    }
+
+    
+    public function fetchAssoc() {
+        return $this->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
     }
 
     // }}}

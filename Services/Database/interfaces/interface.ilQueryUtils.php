@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Interface ilQueryUtils
+ * Interface ilQueryUtilsInterface
  */
-interface ilQueryUtils {
+interface ilQueryUtilsInterface {
 
 	/**
 	 * @param $field       string

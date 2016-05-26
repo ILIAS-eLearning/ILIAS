@@ -528,6 +528,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
         if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
             $result = array_map(($db->options['field_case'] == CASE_LOWER ? 'strtolower' : 'strtoupper'), $result);
         }
+        sort($result); // FSX Patch
         return $result;
     }
 
@@ -717,6 +718,8 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
         if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
             $result = array_map(($db->options['field_case'] == CASE_LOWER ? 'strtolower' : 'strtoupper'), $result);
         }
+        sort($result); // FSX patch
+
         return $result;
     }
 }
