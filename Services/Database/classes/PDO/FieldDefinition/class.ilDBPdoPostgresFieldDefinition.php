@@ -8,6 +8,112 @@ require_once('class.ilDBPdoFieldDefinition.php');
  */
 class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition {
 
+	/**
+	 * @var array
+	 */
+	protected $reserved = array(
+		"ALL",
+		"ANALYSE",
+		"ANALYZE",
+		"AND",
+		"ANY",
+		"ARRAY",
+		"AS",
+		"ASC",
+		"ASYMMETRIC",
+		"AUTHORIZATION",
+		"BETWEEN",
+		"BINARY",
+		"BOTH",
+		"CASE",
+		"CAST",
+		"CHECK",
+		"COLLATE",
+		"COLUMN",
+		"CONSTRAINT",
+		"CREATE",
+		"CROSS",
+		"CURRENT_DATE",
+		"CURRENT_ROLE",
+		"CURRENT_TIME",
+		"CURRENT_TIMESTAMP",
+		"CURRENT_USER",
+		"DEFAULT",
+		"DEFERRABLE",
+		"DESC",
+		"DISTINCT",
+		"DO",
+		"ELSE",
+		"END",
+		"EXCEPT",
+		"FALSE",
+		"FOR",
+		"FOREIGN",
+		"FREEZE",
+		"FROM",
+		"FULL",
+		"GRANT",
+		"GROUP",
+		"HAVING",
+		"ILIKE",
+		"IN",
+		"INITIALLY",
+		"INNER",
+		"INTERSECT",
+		"INTO",
+		"IS",
+		"ISNULL",
+		"JOIN",
+		"LEADING",
+		"LEFT",
+		"LIKE",
+		"LIMIT",
+		"LOCALTIME",
+		"LOCALTIMESTAMP",
+		"NATURAL",
+		"NEW",
+		"NOT",
+		"NOTNULL",
+		"NULL",
+		"OFF",
+		"OFFSET",
+		"OLD",
+		"ON",
+		"ONLY",
+		"OR",
+		"ORDER",
+		"OUTER",
+		"OVERLAPS",
+		"PLACING",
+		"PRIMARY",
+		"REFERENCES",
+		"RETURNING",
+		"RIGHT",
+		"SELECT",
+		"SESSION_USER",
+		"SIMILAR",
+		"SOME",
+		"SYMMETRIC",
+		"TABLE",
+		"THEN",
+		"TO",
+		"TRAILING",
+		"TRUE",
+		"UNION",
+		"UNIQUE",
+		"USER",
+		"USING",
+		"VERBOSE",
+		"WHEN",
+		"WHERE",
+		"WITH",
+	);
+
+
+	/**
+	 * @param $field
+	 * @return string
+	 */
 	public function getTypeDeclaration($field) {
 		$db = $this->getDBInstance();
 
@@ -98,6 +204,11 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition {
 	}
 
 
+	/**
+	 * @param $field
+	 * @return array
+	 * @throws \ilDatabaseException
+	 */
 	protected function mapNativeDatatypeInternal($field) {
 		$db_type = strtolower($field['type']);
 		$length = $field['length'];

@@ -871,15 +871,16 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	/**
-	 * Get reserved words. This must be overwritten in DBMS specific class.
-	 * This is mainly used to check whether a new identifier can be problematic
-	 * because it is a reserved word. So createTable / alterTable usually check
-	 * these.
+	 * @return array
+	 * @deprecated use 
 	 */
 	public static function getReservedWords() {
 		global $ilDB;
 
-		return ilDBPdoFieldDefinition::getInstance($ilDB)->getReserved();
+		/**
+		 * @var $ilDB ilDBPdo
+		 */
+		return $ilDB->getFieldDefinition()->getReserved();
 	}
 
 
