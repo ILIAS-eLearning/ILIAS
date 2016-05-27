@@ -219,7 +219,7 @@ class ilDclTableView extends ActiveRecord
 
     public function delete()
     {
-        foreach (ilDclTableViewFieldSetting::where(array('tableview_id' => $this->id))->get() as $setting)
+        foreach (ilDclTableViewFieldSetting::getAllForTableViewId($this->id) as $setting)
         {
             $setting->delete();
         }
@@ -250,10 +250,15 @@ class ilDclTableView extends ActiveRecord
     public function getVisibleFields($as_field_setting = false) {
         return $this->getFields('visible', $as_field_setting);
     }
-    
+
+    /**
+     * @param $property
+     * @param bool $as_field_setting
+     * @return array
+     */
     public function getFields($property, $as_field_setting = false)
     {
-        $fieldRecords = ilDclTableViewFieldSetting::where(array("tableview_id" => $this->id, $property => 1))->get();
+        $fieldRecords = ilDclTableViewFieldSetting::where(array("tableview_id" => $this->id, $property => true))->get();
         if ($as_field_setting)
         {
             return $fieldRecords;
@@ -278,7 +283,7 @@ class ilDclTableView extends ActiveRecord
 
 
     /**
-     * create default ilDclTableViewFieldSetting s
+     * create default ilDclTableViewFieldSetting entries
      */
     public function createDefaultSettings()
     {
@@ -286,13 +291,45 @@ class ilDclTableView extends ActiveRecord
 
         foreach ($table->getFieldIds() as $field_id)
         {
-            $setting = new ilDclTableViewFieldSetting();
-            $setting->setTableviewId($this->id);
-            $setting->setField($field_id);
-            $setting->setVisible(!ilDclStandardField::_isStandardField($field_id));
-            $setting->create();
+            $this->addField($field_id);
         }
     }
 
+    /**
+     * create ilDclTableViewFieldSetting for this tableview and the given field id
+     *
+     * @param $field_id
+     */
+    public function addField($field_id)
+    {
+        if (!ilDclTableViewFieldSetting::where(
+            array('tableview_id' => $this->id, 'field' => $field_id))->get())
+        {
+            $field_set = new ilDclTableViewFieldSetting();
+            $field_set->setTableviewId($this->id);
+            $field_set->setField($field_id);
+            $field_set->setVisible(!ilDclStandardField::_isStandardField($field_id));
+            $field_set->create();
+        }
+    }
+
+
+    /**
+     * @param $table_id
+     * @return ilDclTableView[]
+     */
+    public static function getAllForTableId($table_id)
+    {
+        return self::where(array('table_id' => $table_id))->orderBy('tableview_order')->get();
+    }
+
+    /**
+     * @param $table_id
+     * @return int
+     */
+    public static function getCountForTableId($table_id)
+    {
+        return self::where(array('table_id' => $table_id))->orderBy('tableview_order')->count();
+    }
 
 }

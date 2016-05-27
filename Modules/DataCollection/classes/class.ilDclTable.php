@@ -243,10 +243,10 @@ class ilDclTable {
 
 		$ilDB->manipulate($query);
 
+
 		if ($create_views) {
 			//standard tableview
 			$this->createStandardView();
-
 			//add edit definition
 			$view_id = $ilDB->nextId("il_dcl_view");
 			$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (" . $ilDB->quote($view_id, "integer") . ", "
@@ -265,6 +265,11 @@ class ilDclTable {
 		}
 	}
 
+	public function deleteTableViews() {
+		foreach ($this->getTableViews() as $tableview) {
+			$tableview->delete();
+		}
+	}
 
 	/*
 	 * doUpdate
@@ -520,7 +525,7 @@ class ilDclTable {
 	 *
 	 * @return int returns the place where a new field should be placed.
 	 */
-	public function getNewOrder() {
+	public function getNewFieldOrder() {
 		$fields = $this->getFields();
 		$place = 0;
 		foreach ($fields as $field) {
@@ -537,7 +542,7 @@ class ilDclTable {
 	 */
 	public function getNewTableviewOrder() 
 	{
-		return ilDclTableView::where(array("table_id" => $this->getId()))->count() + 1;
+		return ilDclTableView::getCountForTableId($this->getId()) + 1;
 	}
 
 	/**
@@ -587,21 +592,14 @@ class ilDclTable {
 	 * @return ilDclTableView[] all tableviews ordered by tableview_order
 	 */
 	public function getTableViews() {
-		return ilDclTableView::where(array("table_id" => $this->getId()))->orderBy('tableview_order')->get();
+		return ilDclTableView::getAllForTableId($this->getId());
 	}
 
 	/**
-	 * @param int $user_id if no user id is given, the current user is being checked
+	 * @param int $ref_id DataCollections reference
 	 * @return ilDclTableView[]
 	 */
-	public function getVisibleTableViews($ref_id, $user_id = 0) {
-		//current user
-		if (!$user_id)
-		{
-			global $ilUser;
-			$user_id = $ilUser->getId();
-		}
-
+	public function getVisibleTableViews($ref_id) {
 		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id))
 		{
 			return $this->getTableViews();
@@ -610,23 +608,27 @@ class ilDclTable {
 		$visible_views = array();
 		foreach ($this->getTableViews() as $tableView)
 		{
-			if ($this->checkPermForTableView($user_id, $tableView))
+			if ($this->checkPermForTableView($tableView))
 			{
 				$visible_views[] = $tableView;
 			}
 		}
 		return $visible_views;
 	}
+	
+	public function getFirstTableViewId($ref_id) {
+		$tableview = array_shift($this->getVisibleTableViews($ref_id));
+		return $tableview ? $tableview->getId() : false;
+	}
 
 	/**
-	 * @param $user_id
 	 * @param ilDclTableView $tableView
 	 * @return bool
 	 */
-	public function checkPermForTableView($user_id, ilDclTableView $tableView)
+	public function checkPermForTableView(ilDclTableView $tableView)
 	{
-		global $rbacreview;
-		$assigned_roles = $rbacreview->assignedGlobalRoles($user_id);
+		global $rbacreview, $ilUser;
+		$assigned_roles = $rbacreview->assignedGlobalRoles($ilUser->getId());
 		$allowed_roles = $tableView->getRoles();
 
 		foreach ($assigned_roles as $role_id)
@@ -909,34 +911,7 @@ class ilDclTable {
 			$field->doUpdate();
 		}
 	}
-
-	/**
-	 * @param $field_id
-	 */
-	public function updateFieldInTableViews($field_id, $deleted = false)
-	{
-		if ($deleted)
-		{
-			$field_settings = ilDclTableViewFieldSetting::where(array('field' => $field_id))->get();
-			foreach ($field_settings as $set)
-			{
-				$set->delete();
-			}
-		}
-		else
-		{
-			foreach ($this->getTableViews() as $tableview)
-			{
-				$field_setting = new ilDclTableViewFieldSetting();
-				$field_setting->setField($field_id);
-				$field_setting->setTableviewId($tableview->getId());
-				$field_setting->setVisible(true);
-				$field_setting->create();
-			}
-		}
-	}
-
-
+	
 	/**
 	 * sortFields
 	 *

@@ -127,9 +127,6 @@ class ilDclTableViewEditGUI
                         $this->initTableGUI();
                         $this->tpl->setContent($this->table_gui->getHTML());
                         break;
-                    case 'editDetailedView':
-                        $viewdefinition = new ilDclRecordViewViewdefinitionGUI($this->table->getId());
-                        break;
                     default:
                         $this->$cmd();
                         break;
@@ -202,7 +199,7 @@ class ilDclTableViewEditGUI
      */
     public function saveTable()
     {
-        $field_settings = ilDclTableViewFieldSetting::where(array("tableview_id" => $this->tableview->getId()))->get();
+        $field_settings = ilDclTableViewFieldSetting::getAllForTableViewId($this->tableview->getId());
 
         /**
          * @var ilDclTableViewFieldSetting $setting

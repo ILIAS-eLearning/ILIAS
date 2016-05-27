@@ -39,7 +39,7 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation {
 		$field = $this->getRecordField()->getField();
 
 		$is_linked_field = $field->getProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT);
-		$has_view = ilDclRecordViewViewdefinition::getIdByTableId($this->getRecordField()->getRecord()->getTableId());
+		$has_view = ilDclRecordViewViewdefinition::isActive($_GET['tableview_id']);
 
 		if (in_array($med->getSuffix(), array('jpg', 'jpeg', 'png', 'gif'))) {
 			// Image

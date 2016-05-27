@@ -328,9 +328,8 @@ class ilDclFieldEditGUI {
 			if ($a_mode == "update") {
 				$this->field_obj->doUpdate();
 			} else {
-				$this->field_obj->setOrder($this->table->getNewOrder());
+				$this->field_obj->setOrder($this->table->getNewFieldOrder());
 				$this->field_obj->doCreate();
-				$this->table->updateFieldInTableViews($this->field_obj->getId());
 			}
 
 			// Get possible properties and save them

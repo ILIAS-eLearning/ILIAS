@@ -16,15 +16,11 @@ require_once("./Modules/DataCollection/classes/class.ilDclRecordViewViewdefiniti
  * @ilCtrl_Calls ilDclRecordViewViewdefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
 class ilDclRecordViewViewdefinitionGUI extends ilPageObjectGUI {
-
+	
 	/**
-	 * @var int
+	 * @var ilDclRecordViewViewdefinition
 	 */
-	protected $obj_id;
-	/**
-	 * @var int
-	 */
-	protected $table_id;
+	public $obj;
 	/**
 	 * @var ilCtrl
 	 */
@@ -35,31 +31,24 @@ class ilDclRecordViewViewdefinitionGUI extends ilPageObjectGUI {
 	 * @param     $table_id
 	 * @param int $a_definition_id
 	 */
-	public function __construct($table_id, $a_definition_id = 0) {
+	public function __construct($tableview_id, $a_definition_id = 0) {
 		global $tpl, $ilCtrl;
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
 		$this->ctrl = $ilCtrl;
-
+		$this->tableview_id = $tableview_id;
 		//TODO Permission-Check
-		$this->table_id = $table_id;
-
-		if (! $a_definition_id) {
-			$a_definition_id = ilDclRecordViewViewdefinition::getIdByTableId($this->table_id);
-		}
 
 		// we always need a page object - create on demand
-		if (! $a_definition_id) {
+		if (! ilPageObject::_exists('dclf', $tableview_id)) {
 			$viewdef = new ilDclRecordViewViewdefinition();
-			$viewdef->setTableId($this->table_id);
+			$viewdef->setId($tableview_id);
 			$viewdef->setActive(false);
 			$viewdef->create();
-			$a_definition_id = $viewdef->getId();
 		}
 
-		parent::__construct("dclf", $a_definition_id);
-		$this->getPageObject()->setTableId($this->table_id);
+		parent::__construct("dclf", $tableview_id);
 
 		// content style (using system defaults)
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
@@ -103,7 +92,7 @@ class ilDclRecordViewViewdefinitionGUI extends ilPageObjectGUI {
 
 
 	public function showPage() {
-		global $lng, $ilToolbar;
+		global $ilToolbar;
 		/**
 		 * @var $ilToolbar ilToolbarGUI
 		 */
@@ -125,7 +114,7 @@ class ilDclRecordViewViewdefinitionGUI extends ilPageObjectGUI {
 
 			$ilToolbar->addButtonInstance($activation_button);
 
-			$legend = ilDclRecordViewViewdefinition::getAvailablePlaceholders($this->table_id);
+			$legend = $this->getPageObject()->getAvailablePlaceholders();
 			if (sizeof($legend)) {
 				$this->setPrependingHtml("<span class=\"small\">" . $this->lng->txt("dcl_legend_placeholders") . ": " . implode(" ", $legend)
 					. "</span>");
@@ -163,7 +152,7 @@ class ilDclRecordViewViewdefinitionGUI extends ilPageObjectGUI {
 		$conf->setFormAction($ilCtrl->getFormAction($this));
 		$conf->setHeaderText($lng->txt('dcl_confirm_delete_view_title'));
 
-		$conf->addItem('table', (int)$this->table_id, $lng->txt('dcl_confirm_delete_view_text'));
+		$conf->addItem('tableview', (int)$this->tableview_id, $lng->txt('dcl_confirm_delete_view_text'));
 
 		$conf->setConfirm($lng->txt('delete'), 'deleteView');
 		$conf->setCancel($lng->txt('cancel'), 'cancelDelete');
@@ -185,11 +174,9 @@ class ilDclRecordViewViewdefinitionGUI extends ilPageObjectGUI {
 	public function deleteView() {
 		global $ilCtrl, $lng;
 
-		if ($this->table_id && ilDclRecordViewViewdefinition::getIdByTableId($this->table_id)) {
-			$id = ilDclRecordViewViewdefinition::getIdByTableId($this->table_id);
+		if ($this->tableview_id && ilDclRecordViewViewdefinition::exists($this->tableview_id)) {
 			include_once("./Modules/DataCollection/classes/class.ilDclRecordViewViewdefinition.php");
-			$pageObject = new ilDclRecordViewViewdefinition($id);
-			$pageObject->removeDclView($this->table_id);
+			$pageObject = new ilDclRecordViewViewdefinition($this->tableview_id);
 			$pageObject->delete();
 		}
 
@@ -238,7 +225,7 @@ class ilDclRecordViewViewdefinitionGUI extends ilPageObjectGUI {
 		} // editor
 		else {
 			if ($this->getOutputMode() == IL_PAGE_EDIT) {
-				$allp = ilDclRecordViewViewdefinition::getAvailablePlaceholders($this->table_id);
+				$allp = $this->getPageObject()->getAvailablePlaceholders();
 
 				// :TODO: find a suitable markup for matched placeholders
 				foreach ($allp as $item) {

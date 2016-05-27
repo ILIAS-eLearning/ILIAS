@@ -42,7 +42,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
         $this->setDefaultOrderDirection('asc');
 
-        $this->setData(ilDclTableViewFieldSetting::where(array("tableview_id" => $_GET['tableview_id']))->get());
+        $this->setData(ilDclTableViewFieldSetting::getAllForTableViewId($_GET['tableview_id']));
     }
 
     /**
@@ -88,6 +88,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
      */
     protected function SetFilterValue(ilFormPropertyGUI $a_item, $a_value)
     {
+        //TODO: find nicer way
         if ($a_item instanceof ilCombinationInputGUI && is_array($a_value))
         {
             foreach ($a_value as $key => $value)

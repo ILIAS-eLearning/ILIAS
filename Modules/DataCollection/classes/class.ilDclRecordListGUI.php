@@ -44,6 +44,11 @@ class ilDclRecordListGUI {
 	protected $lng;
 
 	/**
+	 * @var integer
+	 */
+	protected $tableview_id;
+
+	/**
 	 * @var array
 	 */
 	protected static $available_modes = array( self::MODE_VIEW, self::MODE_MANAGE );
@@ -53,7 +58,7 @@ class ilDclRecordListGUI {
 	 * @param ilObjDataCollectionGUI $a_parent_obj
 	 * @param                        $table_id
 	 */
-	public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id, $tableview_id = 0) {
+	public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id) {
 		global $ilCtrl, $lng;
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
@@ -68,20 +73,21 @@ class ilDclRecordListGUI {
 		$this->parent_obj = $a_parent_obj;
 		$this->table_obj = ilDclCache::getTableCache($table_id);
 
-		if ($tableview_id) {
+		if ($tableview_id = $_POST['tableview_id']) {
 			$this->tableview_id = $tableview_id;
 		} else {
 			//get first visible tableview
-			$tableview = array_shift($this->table_obj->getVisibleTableViews($this->parent_obj->ref_id));
-			if (!$tableview)
-			{
+			$this->tableview_id = $this->table_obj->getFirstTableViewId($this->parent_obj->ref_id);
+			if (!$this->tableview_id){
 				$this->parent_obj->tpl->setContent('Permission denied');
 				$this->parent_obj->tpl->show();
 				return;
 			}
-			$this->tableview_id = $tableview->getId();
+			$_POST['tableview_id'] = $this->tableview_id;
+
 		}
-		$this->ctrl->setParameterByClass("ildclrecordeditgui", "table_id", $table_id);
+		$this->ctrl->setParameterByClass("ildclrecordeditgui", "table_id", $this->table_id);
+		$this->ctrl->setParameterByClass("ildclrecordviewgui", "tableview_id", $this->tableview_id);
 		$this->mode = (isset($_GET['mode']) && in_array($_GET['mode'], self::$available_modes)) ? (int)$_GET['mode'] : self::MODE_VIEW;
 	}
 
@@ -92,12 +98,16 @@ class ilDclRecordListGUI {
 	public function executeCommand() {
 		global $ilTabs;
 		$this->ctrl->saveParameter($this, 'mode');
-		$cmd = $this->ctrl->getCmd();
+		$cmd = $this->ctrl->getCmd('show');
 
 		switch ($cmd) {
+			case 'show':
+				$this->setSubTabs();
+				$this->listRecords(true);
+				break;
 			case 'listRecords':
 				$this->setSubTabs();
-				$this->listRecords();
+				$this->listRecords(false);
 				break;
 			case 'confirmDeleteRecords':
 				$this->confirmDeleteRecords();
@@ -119,9 +129,13 @@ class ilDclRecordListGUI {
 				break;
 		}
 	}
+	
+	public function show() {
+		
+	}
 
 
-	public function listRecords() {
+	public function listRecords($use_tableview_filter = true) {
 		global $tpl, $ilToolbar;
 		/**
 		 * @var $ilToolbar ilToolbarGUI
@@ -132,7 +146,7 @@ class ilDclRecordListGUI {
 
 		$tpl->addCss("./Modules/DataCollection/css/dcl_reference_hover.css");
 
-		list($list, $total) = $this->getRecordListTableGUI();
+		list($list, $total) = $this->getRecordListTableGUI($use_tableview_filter);
 
 		$this->createSwitchers();
 
@@ -275,10 +289,11 @@ class ilDclRecordListGUI {
 	 * doTableSwitch
 	 */
 	public function doTableSwitch() {
+		unset($_POST['tableview_id']);
 		$this->ctrl->clearParametersByClass("ilObjDataCollectionGUI");
 		$this->ctrl->clearParameters($this);
 		$this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
-		$this->ctrl->redirect($this, "listRecords");
+		$this->ctrl->redirect($this, "show");
 	}
 
 	/**
@@ -286,24 +301,26 @@ class ilDclRecordListGUI {
 	 */
 	public function doTableViewSwitch() {
 		$this->ctrl->setParameter($this, "tableview_id", $_POST['tableview_id']);
-		$this->ctrl->redirect($this, "listRecords");
+		$this->ctrl->redirect($this, "show");
 	}
 
 	protected function applyFilter() {
 		$table = new ilDclRecordListTableGUI($this, "listRecords", $this->table_obj, $this->tableview_id);
+		$table->initFilter();
 		$table->resetOffset();
 		$table->writeFilterToSession();
 		$this->ctrl->redirect($this, 'listRecords');
-		//		$this->listRecords();
+//				$this->listRecords(false);
 	}
 
 
 	protected function resetFilter() {
 		$table = new ilDclRecordListTableGUI($this, "listRecords", $this->table_obj, $this->tableview_id);
+		$table->initFilter();
 		$table->resetOffset();
 		$table->resetFilter();
 		$this->ctrl->redirect($this, 'listRecords');
-		//		$this->listRecords();
+//				$this->listRecords(false);
 	}
 
 
@@ -475,19 +492,23 @@ class ilDclRecordListGUI {
 	 *
 	 * @return array
 	 */
-	protected function getRecordListTableGUI($table_id = null, $export = false) {
+	protected function getRecordListTableGUI($use_tableview_filter) {
 		$table_obj = $this->table_obj;
-		if($table_id != null) {
-			$table_obj = ilDclCache::getTableCache($table_id);
-		}
+
 		$list = new ilDclRecordListTableGUI($this, "listRecords", $table_obj, $this->tableview_id, $this->mode);
+		if ($use_tableview_filter) {
+			$list->initFilterFromTableView();
+		} else {
+			$list->initFilter();
+		}
+//		$list->writeFilterToSession();
 		$list->setExternalSegmentation(true);
 		$list->setExternalSorting(true);
 		$list->determineLimit();
 		$list->determineOffsetAndOrder();
 
-		$limit = $export? null : $list->getLimit();
-		$offset = $export? null : $list->getOffset();
+		$limit = $list->getLimit();
+		$offset = $list->getOffset();
 
 		$data = $table_obj->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $limit, $offset, $list->getFilter());
 		$records = $data['records'];
@@ -541,6 +562,11 @@ class ilDclRecordListGUI {
 			$ilToolbar->addButtonInstance($button);
 			$ilToolbar->addSeparator();
 		}
+	}
+
+	public static function getCurrentTableView()
+	{
+
 	}
 }
 

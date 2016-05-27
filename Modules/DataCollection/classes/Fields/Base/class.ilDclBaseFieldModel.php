@@ -494,6 +494,19 @@ class ilDclBaseFieldModel {
 
 		$this->updateEditability();
 		$this->updateExportability();
+
+		$this->addToTableViews();
+	}
+
+	/**
+	 * create ilDclTableViewFieldSettings for this field in each tableview
+	 */
+	protected function addToTableViews()
+	{
+		foreach (ilDclTableView::getAllForTableId($this->table_id) as $tableview)
+		{
+			$tableview->addField($this->id);
+		}
 	}
 
 
@@ -643,6 +656,11 @@ class ilDclBaseFieldModel {
 
 		$query = "DELETE FROM il_dcl_field WHERE id = " . $ilDB->quote($this->getId(), "text");
 		$ilDB->manipulate($query);
+
+		foreach (ilDclTableViewFieldSetting::getAllForFieldId($this->id) as $field_setting)
+		{
+			$field_setting->delete();
+		}
 	}
 
 

@@ -203,9 +203,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				$this->prepareOutput();
 				$ilTabs->activateTab("id_records");
 				require_once('./Modules/DataCollection/classes/class.ilDclRecordListGUI.php');
-//				$this->ctrl->setParameterByClass('ildclrecordlistgui', 'tableview_id', $_GET['tableview_id']);
-				$tableview_id = $_REQUEST['cmd']['doTableSwitch'] ? 0 : $_REQUEST['tableview_id'];
-				$recordlist_gui = new ilDclRecordListGUI($this, $this->table_id, $tableview_id);
+				$recordlist_gui = new ilDclRecordListGUI($this, $this->table_id);
 				$this->ctrl->forwardCommand($recordlist_gui);
 				break;
 
@@ -406,7 +404,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 		// list records
 		if ($ilAccess->checkAccess('read', "", $this->object->getRefId())) {
-			$ilTabs->addTab("id_records", $lng->txt("content"), $this->ctrl->getLinkTargetByClass("ildclrecordlistgui", "listRecords"));
+			$ilTabs->addTab("id_records", $lng->txt("content"), $this->ctrl->getLinkTargetByClass("ildclrecordlistgui", "show"));
 		}
 
 		// info screen
