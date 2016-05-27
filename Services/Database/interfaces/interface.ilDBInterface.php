@@ -645,4 +645,32 @@ interface ilDBPdoInterface {
 	 * @return array
 	 */
 	public function queryRow($query, $types = null, $fetchmode = ilDBConstants::FETCHMODE_DEFAULT);
+
+
+	/**
+	 * @param $value
+	 * @param bool $escape_wildcards
+	 * @return string
+	 */
+	public function escape($value, $escape_wildcards = false);
+
+
+	/**
+	 * @param $text
+	 * @return string
+	 */
+	public function escapePattern($text);
+
+
+	/**
+	 * @param string $engine
+	 * @return array of failed tables
+	 */
+	public function migrateAllTablesToEngine($engine = ilDBConstants::ENGINE_INNODB);
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsEngineMigration();
 }

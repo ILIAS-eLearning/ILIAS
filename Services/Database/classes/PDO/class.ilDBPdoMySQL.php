@@ -42,5 +42,36 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface {
 
 		return ($this->pdo->errorCode() == PDO::ERR_NONE);
 	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsEngineMigration() {
+		return true;
+	}
+
+
+	/**
+	 * @param string $engine
+	 * @return array
+	 */
+	public function migrateAllTablesToEngine($engine = ilDBConstants::ENGINE_INNODB) {
+		$engines = $this->queryCol('SHOW ENGINES');
+		if (!in_array($engine, $engines)) {
+			return array();
+		}
+
+		$errors = array();
+		foreach ($this->listTables() as $table) {
+			try {
+				$this->pdo->exec("ALTER TABLE {$table} ENGINE={$engine}");
+			} catch (Exception $e) {
+				$errors[$table] = $e->getMessage();
+			}
+		}
+
+		return $errors;
+	}
 }
 

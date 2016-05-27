@@ -5,7 +5,7 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilDBPdoFieldDefinition {
+abstract class ilDBPdoFieldDefinition {
 
 	const DEFAULT_DECIMAL_PLACES = 2;
 	const DEFAULT_TEXT_LENGTH = 4000;
@@ -321,6 +321,23 @@ class ilDBPdoFieldDefinition {
 
 
 	/**
+	 * @var array
+	 */
+	protected $valid_default_values = array(
+		'text'      => '',
+		'boolean'   => true,
+		'integer'   => 0,
+		'decimal'   => 0.0,
+		'float'     => 0.0,
+		'timestamp' => '1970-01-01 00:00:00',
+		'time'      => '00:00:00',
+		'date'      => '1970-01-01',
+		'clob'      => '',
+		'blob'      => '',
+	);
+
+
+	/**
 	 * @param $table_name
 	 * @return bool
 	 * @throws \ilDatabaseException
@@ -539,125 +556,255 @@ class ilDBPdoFieldDefinition {
 
 
 	/**
-	 * @param $type
-	 * @param $field_name
-	 * @param array $field_info
-	 * @return string
+	 * @return \ilDBPdo
 	 */
-	public function getDeclaration($type, $field_name, array $field_info) {
-		$query = $field_name . ' ' . $this->getTypeDeclaration($type, $field_info);
+	protected function getDBInstance() {
+		return $this->db_instance;
+	}
 
-		switch ($type) {
-			case self::T_INTEGER:
-				$default = $autoinc = '';
-				if (!empty($field_info['autoincrement'])) {
-					$autoinc = ' AUTO_INCREMENT PRIMARY KEY';
-				} elseif (array_key_exists('default', $field_info)) {
-					if ($field_info['default'] === '') {
-						$field_info['default'] = empty($field_info['notnull']) ? null : 0;
-					}
-					$default = ' DEFAULT ' . $this->db_instance->quote($field_info['default'], self::T_INTEGER);
-				} elseif (empty($field_info['notnull'])) {
-					$default = ' DEFAULT NULL';
+
+	/**
+	 * @return array
+	 */
+	public function getValidTypes() {
+		$types = $this->valid_default_values;
+		$db = $this->getDBInstance();
+
+		if (!empty($db->options['datatype_map'])) {
+			foreach ($db->options['datatype_map'] as $type => $mapped_type) {
+				if (array_key_exists($mapped_type, $types)) {
+					$types[$type] = $types[$mapped_type];
+				} elseif (!empty($db->options['datatype_map_callback'][$type])) {
+					$parameter = array( 'type' => $type, 'mapped_type' => $mapped_type );
+					$default = call_user_func_array($db->options['datatype_map_callback'][$type], array( &$db, __FUNCTION__, $parameter ));
+					$types[$type] = $default;
 				}
-
-				$notnull = empty($field_info['notnull']) ? '' : ' NOT NULL';
-				$unsigned = empty($field_info['unsigned']) ? '' : ' UNSIGNED';
-
-				$declaration_options = $unsigned . $default . $notnull . $autoinc;
-
-				break;
-
-			case self::T_CLOB:
-			case self::T_BLOB:
-				$declaration_options = '';
-				break;
-
-			default:
-				$declaration_options = $this->getDeclarationOptions($field_info);
-				break;
+			}
 		}
 
-		$field_declaration = $query . $declaration_options;
+		return $types;
+	}
 
-		return $field_declaration;
+
+	/**
+	 * @param $types
+	 * @return array|\ilDBInterface
+	 * @throws \ilDatabaseException
+	 */
+	protected function checkResultTypes($types) {
+		$types = is_array($types) ? $types : array( $types );
+		foreach ($types as $key => $type) {
+			if (!isset($this->valid_default_values[$type])) {
+				$db = $this->getDBInstance();
+				if (empty($db->options['datatype_map'][$type])) {
+					throw new ilDatabaseException($type . ' for ' . $key . ' is not a supported column type');
+				}
+			}
+		}
+
+		return $types;
+	}
+
+
+	/**
+	 * @param $value
+	 * @param $type
+	 * @param bool $rtrim
+	 * @return bool|float|int|resource|string
+	 * @throws \ilDatabaseException
+	 */
+	protected function baseConvertResult($value, $type, $rtrim = true) {
+		switch ($type) {
+			case 'text':
+				if ($rtrim) {
+					$value = rtrim($value);
+				}
+
+				return $value;
+			case 'integer':
+				return intval($value);
+			case 'boolean':
+				return !empty($value);
+			case 'decimal':
+				return $value;
+			case 'float':
+				return doubleval($value);
+			case 'date':
+				return $value;
+			case 'time':
+				return $value;
+			case 'timestamp':
+				return $value;
+			case 'clob':
+			case 'blob':
+				$this->lobs[] = array(
+					'buffer'    => null,
+					'position'  => 0,
+					'lob_index' => null,
+					'endOfLOB'  => false,
+					'resource'  => $value,
+					'value'     => null,
+					'loaded'    => false,
+				);
+				end($this->lobs);
+				$lob_index = key($this->lobs);
+				$this->lobs[$lob_index]['lob_index'] = $lob_index;
+
+				return fopen('MDB2LOB://' . $lob_index . '@' . $this->db_index, 'r+');
+		}
+
+		throw new ilDatabaseException('attempt to convert result value to an unknown type :' . $type);
+	}
+
+
+	/**
+	 * @param $value
+	 * @param $type
+	 * @param bool $rtrim
+	 * @return bool|float|int|mixed|null|resource|string
+	 * @throws \ilDatabaseException
+	 */
+	public function convertResult($value, $type, $rtrim = true) {
+		if (is_null($value)) {
+			return null;
+		}
+		$db = $this->getDBInstance();
+
+		if (!empty($db->options['datatype_map'][$type])) {
+			$type = $db->options['datatype_map'][$type];
+			if (!empty($db->options['datatype_map_callback'][$type])) {
+				$parameter = array( 'type' => $type, 'value' => $value, 'rtrim' => $rtrim );
+
+				return call_user_func_array($db->options['datatype_map_callback'][$type], array( &$db, __FUNCTION__, $parameter ));
+			}
+		}
+
+		return $this->baseConvertResult($value, $type, $rtrim);
+	}
+
+
+	/**
+	 * @param $types
+	 * @param $row
+	 * @param bool $rtrim
+	 * @return bool|float|int|mixed|null|resource|string
+	 */
+	public function convertResultRow($types, $row, $rtrim = true) {
+		$types = $this->sortResultFieldTypes(array_keys($row), $types);
+		foreach ($row as $key => $value) {
+			if (empty($types[$key])) {
+				continue;
+			}
+			$value = $this->convertResult($row[$key], $types[$key], $rtrim);
+
+			$row[$key] = $value;
+		}
+
+		return $row;
+	}
+
+	// }}}
+	// {{{ _sortResultFieldTypes()
+
+	/**
+	 * @param $columns
+	 * @param $types
+	 * @return array
+	 */
+	protected function sortResultFieldTypes($columns, $types) {
+		$n_cols = count($columns);
+		$n_types = count($types);
+		if ($n_cols > $n_types) {
+			for ($i = $n_cols - $n_types; $i >= 0; $i --) {
+				$types[] = null;
+			}
+		}
+		$sorted_types = array();
+		foreach ($columns as $col) {
+			$sorted_types[$col] = null;
+		}
+		foreach ($types as $name => $type) {
+			if (array_key_exists($name, $sorted_types)) {
+				$sorted_types[$name] = $type;
+				unset($types[$name]);
+			}
+		}
+		// if there are left types in the array, fill the null values of the
+		// sorted array with them, in order.
+		if (count($types)) {
+			reset($types);
+			foreach (array_keys($sorted_types) as $k) {
+				if (is_null($sorted_types[$k])) {
+					$sorted_types[$k] = current($types);
+					next($types);
+				}
+			}
+		}
+
+		return $sorted_types;
 	}
 
 
 	/**
 	 * @param $type
-	 * @param array $field
-	 * @return string
-	 * @TODO refactor all SQL to ilMySQLQueryUtils
+	 * @param $name
+	 * @param $field
+	 * @return \ilDBInterface|mixed
+	 * @throws \ilDatabaseException
 	 */
-	public function getTypeDeclaration($type, array $field) {
-		switch ($type) {
+	public function getDeclaration($type, $name, $field) {
+		$db = $this->getDBInstance();
+
+		if (!empty($db->options['datatype_map'][$type])) {
+			$type = $db->options['datatype_map'][$type];
+			if (!empty($db->options['datatype_map_callback'][$type])) {
+				$parameter = array( 'type' => $type, 'name' => $name, 'field' => $field );
+
+				return call_user_func_array($db->options['datatype_map_callback'][$type], array( &$db, __FUNCTION__, $parameter ));
+			}
+			$field['type'] = $type;
+		}
+
+		if (!method_exists($this, "get{$type}Declaration")) {
+			throw new ilDatabaseException('type not defined: ' . $type);
+		}
+
+		return $this->{"get{$type}Declaration"}($name, $field);
+	}
+
+
+	/**
+	 * @param $field
+	 * @return \ilDBInterface|string
+	 */
+	public function getTypeDeclaration($field) {
+		$db = $this->getDBInstance();
+
+		switch ($field['type']) {
 			case 'text':
-				if (empty($field['length']) && array_key_exists('default', $field)) {
-					$field['length'] = self::DEFAULT_TEXT_LENGTH;
-				}
-				$length = !empty($field['length']) ? $field['length'] : false;
+				$length = !empty($field['length']) ? $field['length'] : $db->options['default_text_field_length'];
 				$fixed = !empty($field['fixed']) ? $field['fixed'] : false;
 
-				return $fixed ? ($length ? 'CHAR(' . $length . ')' : 'CHAR(255)') : ($length ? 'VARCHAR(' . $length . ')' : 'TEXT');
+				return $fixed ? ($length ? 'CHAR(' . $length . ')' : 'CHAR(' . $db->options['default_text_field_length']
+				                                                     . ')') : ($length ? 'VARCHAR(' . $length . ')' : 'TEXT');
 			case 'clob':
-				if (!empty($field['length'])) {
-					$length = $field['length'];
-					if ($length <= 255) {
-						return 'TINYTEXT';
-					} elseif ($length <= 65532) {
-						return 'TEXT';
-					} elseif ($length <= 16777215) {
-						return 'MEDIUMTEXT';
-					}
-				}
-
-				return 'LONGTEXT';
+				return 'TEXT';
 			case 'blob':
-				if (!empty($field['length'])) {
-					$length = $field['length'];
-					if ($length <= 255) {
-						return 'TINYBLOB';
-					} elseif ($length <= 65532) {
-						return 'BLOB';
-					} elseif ($length <= 16777215) {
-						return 'MEDIUMBLOB';
-					}
-				}
-
-				return 'LONGBLOB';
+				return 'TEXT';
 			case 'integer':
-				if (!empty($field['length'])) {
-					$length = $field['length'];
-					if ($length <= 1) {
-						return 'TINYINT';
-					} elseif ($length == 2) {
-						return 'SMALLINT';
-					} elseif ($length == 3) {
-						return 'MEDIUMINT';
-					} elseif ($length == 4) {
-						return 'INT';
-					} elseif ($length > 4) {
-						return 'BIGINT';
-					}
-				}
-
 				return 'INT';
 			case 'boolean':
-				return 'TINYINT(1)';
+				return 'INT';
 			case 'date':
-				return 'DATE';
+				return 'CHAR (' . strlen('YYYY-MM-DD') . ')';
 			case 'time':
-				return 'TIME';
+				return 'CHAR (' . strlen('HH:MM:SS') . ')';
 			case 'timestamp':
-				return 'DATETIME';
+				return 'CHAR (' . strlen('YYYY-MM-DD HH:MM:SS') . ')';
 			case 'float':
-				return 'DOUBLE';
+				return 'TEXT';
 			case 'decimal':
-				$length = !empty($field['length']) ? $field['length'] : 18;
-				$scale = !empty($field['scale']) ? $field['scale'] : self::DEFAULT_DECIMAL_PLACES;
-
-				return 'DECIMAL(' . $length . ',' . $scale . ')';
+				return 'TEXT';
 		}
 
 		return '';
@@ -665,236 +812,873 @@ class ilDBPdoFieldDefinition {
 
 
 	/**
-	 * @param array $field
-	 * @return string
-	 * @TODO refactor all SQL to ilMySQLQueryUtils
+	 * @param $name
+	 * @param $field
+	 * @return \ilDBInterface|string
 	 */
-	protected function getDeclarationOptions(array $field) {
-		// Charset
-		$charset = empty($field['charset']) ? '' : ' CHARACTER SET ' . $field['charset'];
+	protected function getInternalDeclaration($name, $field) {
+		$db = $this->getDBInstance();
 
-		// Default value
+		$name = $db->quoteIdentifier($name, true);
+		$declaration_options = $db->getFieldDefinition()->getDeclarationOptions($field);
+
+		return $name . ' ' . $this->getTypeDeclaration($field) . $declaration_options;
+	}
+
+
+	/**
+	 * @param $field
+	 * @return \ilDBPdo|string
+	 * @throws \ilDatabaseException
+	 */
+	protected function getDeclarationOptions($field) {
+		$charset = empty($field['charset']) ? '' : ' ' . $this->getCharsetFieldDeclaration($field['charset']);
+
 		$default = '';
 		if (array_key_exists('default', $field)) {
 			if ($field['default'] === '') {
+				$db = $this->getDBInstance();
 
 				if (empty($field['notnull'])) {
 					$field['default'] = null;
 				} else {
-					$field['default'] = null;
-					//					$valid_default_values = $this->getValidTypes();
-					//					$field['default'] = $valid_default_values[$field['type']];
+					$valid_default_values = $this->getValidTypes();
+					$field['default'] = $valid_default_values[$field['type']];
+				}
+				if ($field['default'] === ''
+				    && ($db->options['portability'] & 32)
+				) {
+					$field['default'] = ' ';
 				}
 			}
-			$default = ' DEFAULT ' . $this->getQueryUtils()->quote($field['default'], $field['type']);
-		} elseif (empty($field['notnull'])) {//} && $field['notnull'] !== false) {
+			$default = ' DEFAULT ' . $this->quote($field['default'], $field['type']);
+		} elseif (empty($field['notnull'])) {
 			$default = ' DEFAULT NULL';
 		}
 
-		// Not null
 		$notnull = empty($field['notnull']) ? '' : ' NOT NULL';
-
+		// alex patch 28 Nov 2011 start
 		if ($field['notnull'] === false) {
 			$notnull = " NULL";
 		}
+		// alex patch 28 Nov 2011 end
 
-		// Collation
-		$collation = empty($field['collation']) ? '' : ' COLLATE ' . $field['collation'];
+		$collation = empty($field['collation']) ? '' : ' ' . $this->getCollationFieldDeclaration($field['collation']);
 
-		//var_dump($charset . $default . $notnull . $collation); // FSX
 		return $charset . $default . $notnull . $collation;
 	}
 
 
 	/**
-	 * @param $type
-	 * @param array $field
+	 * @param $charset
 	 * @return string
-	 * @deprecated
-	 * @TODO refactor all SQL to ilMySQLQueryUtils
 	 */
-	protected function getTypeDeclarationMySQL($type, array $field) {
-		switch ($type) {
-			case self::T_TEXT:
-				$length = !empty($field['length']) ? $field['length'] : self::DEFAULT_TEXT_LENGTH;
-				$fixed = !empty($field['fixed']) ? $field['fixed'] : false;
+	protected function getCharsetFieldDeclaration($charset) {
+		return '';
+	}
 
-				return $fixed ? ($length ? 'CHAR(' . $length . ')' : 'CHAR(' . self::DEFAULT_TEXT_LENGTH . ')') : ($length ? 'VARCHAR(' . $length
-				                                                                                                             . ')' : 'TEXT');
-			case self::T_CLOB:
-				return 'TEXT';
-			case self::T_BLOB:
-				return 'TEXT';
-			case self::T_INTEGER:
-				return 'INT';
-			case 'boolean':
-				return 'INT';
-			case self::T_DATE:
-				return 'CHAR (' . strlen('YYYY-MM-DD') . ')';
-			case self::T_TIME:
-				return 'CHAR (' . strlen('HH:MM:SS') . ')';
-			case self::T_TIMESTAMP:
-				return 'CHAR (' . strlen('YYYY-MM-DD HH:MM:SS') . ')';
-			case self::T_FLOAT:
-				return 'DOUBLE';
-			case 'decimal':
-				return 'TEXT';
+
+	/**
+	 * @param $collation
+	 * @return string
+	 */
+	protected function getCollationFieldDeclaration($collation) {
+		return '';
+	}
+
+
+	/**
+	 * @param $name
+	 * @param $field
+	 * @return \ilDBInterface|\ilDBPdo|mixed
+	 * @throws \ilDatabaseException
+	 */
+	protected function getIntegerDeclaration($name, $field) {
+		if (!empty($field['unsigned'])) {
+			$db = $this->getDBInstance();
+
+			$db->warnings[] = "unsigned integer field \"$name\" is being declared as signed integer";
 		}
 
+		return $this->getInternalDeclaration($name, $field);
+	}
+
+
+	/**
+	 * @param $name
+	 * @param $field
+	 * @return \ilDBInterface|mixed
+	 * @throws \ilDatabaseException
+	 */
+	protected function getTextDeclaration($name, $field) {
+		return $this->getInternalDeclaration($name, $field);
+	}
+
+
+	/**
+	 * @param $name
+	 * @param $field
+	 * @return \ilDBPdo|string
+	 */
+	protected function getCLOBDeclaration($name, $field) {
+		$db = $this->getDBInstance();
+
+		$notnull = empty($field['notnull']) ? '' : ' NOT NULL';
+		$name = $db->quoteIdentifier($name, true);
+
+		return $name . ' ' . $this->getTypeDeclaration($field) . $notnull;
+	}
+
+
+	/**
+	 * @param $name
+	 * @param $field
+	 * @return \ilDBPdo|string
+	 */
+	protected function getBLOBDeclaration($name, $field) {
+		$db = $this->getDBInstance();
+
+		$notnull = empty($field['notnull']) ? '' : ' NOT NULL';
+		$name = $db->quoteIdentifier($name, true);
+
+		return $name . ' ' . $this->getTypeDeclaration($field) . $notnull;
+	}
+
+
+	/**
+	 * @param $name
+	 * @param $field
+	 * @return \ilDBInterface|string
+	 */
+	protected function getBooleanDeclaration($name, $field) {
+		return $this->getInternalDeclaration($name, $field);
+	}
+
+
+	/**
+	 * @param $name
+	 * @param $field
+	 * @return \ilDBInterface|string
+	 */
+	protected function getDateDeclaration($name, $field) {
+		return $this->getInternalDeclaration($name, $field);
+	}
+
+
+	/**
+	 * @param $name
+	 * @param $field
+	 * @return \ilDBInterface|string
+	 */
+	protected function getTimestampDeclaration($name, $field) {
+		return $this->getInternalDeclaration($name, $field);
+	}
+
+
+	/**
+	 * @param $name
+	 * @param $field
+	 * @return \ilDBInterface|string
+	 */
+	protected function getTimeDeclaration($name, $field) {
+		return $this->getInternalDeclaration($name, $field);
+	}
+
+
+	/**
+	 * @param $name
+	 * @param $field
+	 * @return \ilDBInterface|string
+	 */
+	protected function getFloatDeclaration($name, $field) {
+		return $this->getInternalDeclaration($name, $field);
+	}
+
+
+	/**
+	 * @param $name
+	 * @param $field
+	 * @return \ilDBInterface|string
+	 */
+	protected function getDecimalDeclaration($name, $field) {
+		return $this->getInternalDeclaration($name, $field);
+	}
+
+
+	/**
+	 * @param $current
+	 * @param $previous
+	 * @return \ilDBPdo|mixed
+	 * @throws \ilDatabaseException
+	 */
+	public function compareDefinition($current, $previous) {
+		$type = !empty($current['type']) ? $current['type'] : null;
+
+		if (!method_exists($this, "compare{$type}Definition")) {
+			$db = $this->getDBInstance();
+
+			if (!empty($db->options['datatype_map_callback'][$type])) {
+				$parameter = array( 'current' => $current, 'previous' => $previous );
+				$change = call_user_func_array($db->options['datatype_map_callback'][$type], array( &$db, __FUNCTION__, $parameter ));
+
+				return $change;
+			}
+
+			throw new ilDatabaseException('type "' . $current['type'] . '" is not yet supported');
+		}
+
+		if (empty($previous['type']) || $previous['type'] != $type) {
+			return $current;
+		}
+
+		$change = $this->{"compare{$type}Definition"}($current, $previous);
+
+		if ($previous['type'] != $type) {
+			$change['type'] = true;
+		}
+
+		$previous_notnull = !empty($previous['notnull']) ? $previous['notnull'] : false;
+		$notnull = !empty($current['notnull']) ? $current['notnull'] : false;
+		if ($previous_notnull != $notnull) {
+			$change['notnull'] = true;
+		}
+
+		$previous_default = array_key_exists('default', $previous) ? $previous['default'] : ($previous_notnull ? '' : null);
+		$default = array_key_exists('default', $current) ? $current['default'] : ($notnull ? '' : null);
+		if ($previous_default !== $default) {
+			$change['default'] = true;
+		}
+
+		return $change;
+	}
+
+
+	/**
+	 * @param $current
+	 * @param $previous
+	 * @return array
+	 */
+	protected function compareIntegerDefinition($current, $previous) {
+		$change = array();
+		$previous_unsigned = !empty($previous['unsigned']) ? $previous['unsigned'] : false;
+		$unsigned = !empty($current['unsigned']) ? $current['unsigned'] : false;
+		if ($previous_unsigned != $unsigned) {
+			$change['unsigned'] = true;
+		}
+		$previous_autoincrement = !empty($previous['autoincrement']) ? $previous['autoincrement'] : false;
+		$autoincrement = !empty($current['autoincrement']) ? $current['autoincrement'] : false;
+		if ($previous_autoincrement != $autoincrement) {
+			$change['autoincrement'] = true;
+		}
+
+		return $change;
+	}
+
+
+	/**
+	 * @param $current
+	 * @param $previous
+	 * @return array
+	 */
+	protected function compareTextDefinition($current, $previous) {
+		$change = array();
+		$previous_length = !empty($previous['length']) ? $previous['length'] : 0;
+		$length = !empty($current['length']) ? $current['length'] : 0;
+		if ($previous_length != $length) {
+			$change['length'] = true;
+		}
+		$previous_fixed = !empty($previous['fixed']) ? $previous['fixed'] : 0;
+		$fixed = !empty($current['fixed']) ? $current['fixed'] : 0;
+		if ($previous_fixed != $fixed) {
+			$change['fixed'] = true;
+		}
+
+		return $change;
+	}
+
+
+	/**
+	 * @param $current
+	 * @param $previous
+	 * @return array
+	 */
+	protected function compareCLOBDefinition($current, $previous) {
+		return $this->compareTextDefinition($current, $previous);
+	}
+
+
+	/**
+	 * @param $current
+	 * @param $previous
+	 * @return array
+	 */
+	protected function compareBLOBDefinition($current, $previous) {
+		return $this->compareTextDefinition($current, $previous);
+	}
+
+
+	/**
+	 * @param $current
+	 * @param $previous
+	 * @return array
+	 */
+	protected function compareDateDefinition($current, $previous) {
+		return array();
+	}
+
+
+	/**
+	 * @param $current
+	 * @param $previous
+	 * @return array
+	 */
+	protected function compareTimeDefinition($current, $previous) {
+		return array();
+	}
+
+
+	/**
+	 * @param $current
+	 * @param $previous
+	 * @return array
+	 */
+	protected function compareTimestampDefinition($current, $previous) {
+		return array();
+	}
+
+
+	/**
+	 * @param $current
+	 * @param $previous
+	 * @return array
+	 */
+	protected function compareBooleanDefinition($current, $previous) {
+		return array();
+	}
+
+
+	/**
+	 * @param $current
+	 * @param $previous
+	 * @return array
+	 */
+	protected function compareFloatDefinition($current, $previous) {
+		return array();
+	}
+
+
+	/**
+	 * @param $current
+	 * @param $previous
+	 * @return array
+	 */
+	protected function compareDecimalDefinition($current, $previous) {
+		return array();
+	}
+
+
+	/**
+	 * @param $value
+	 * @param null $type
+	 * @param bool $quote
+	 * @param bool $escape_wildcards
+	 * @return \ilDBPdo|mixed|string
+	 * @throws \ilDatabaseException
+	 */
+	public function quote($value, $type = null, $quote = true, $escape_wildcards = false) {
+		$db = $this->getDBInstance();
+		return $db->quote($value, $type);
+
+		if (is_null($value)
+		    || ($value === '' && $db->options['portability'] & MDB2_PORTABILITY_EMPTY_TO_NULL)
+		) {
+			if (!$quote) {
+				return null;
+			}
+
+			return 'NULL';
+		}
+
+		if (is_null($type)) {
+			switch (gettype($value)) {
+				case 'integer':
+					$type = 'integer';
+					break;
+				case 'double':
+					// todo: default to decimal as float is quite unusual
+					// $type = 'float';
+					$type = 'decimal';
+					break;
+				case 'boolean':
+					$type = 'boolean';
+					break;
+				case 'array':
+					$value = serialize($value);
+				case 'object':
+					$type = 'text';
+					break;
+				default:
+					if (preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/', $value)) {
+						$type = 'timestamp';
+					} elseif (preg_match('/^\d{2}:\d{2}$/', $value)) {
+						$type = 'time';
+					} elseif (preg_match('/^\d{4}-\d{2}-\d{2}$/', $value)) {
+						$type = 'date';
+					} else {
+						$type = 'text';
+					}
+					break;
+			}
+		} elseif (!empty($db->options['datatype_map'][$type])) {
+			$type = $db->options['datatype_map'][$type];
+			if (!empty($db->options['datatype_map_callback'][$type])) {
+				$parameter = array( 'type' => $type, 'value' => $value, 'quote' => $quote, 'escape_wildcards' => $escape_wildcards );
+
+				return call_user_func_array($db->options['datatype_map_callback'][$type], array( &$db, __FUNCTION__, $parameter ));
+			}
+		}
+
+		if (!method_exists($this, "quote{$type}")) {
+			throw new ilDatabaseException('type not defined: ' . $type);
+		}
+		$value = $this->{"quote{$type}"}($value, $quote, $escape_wildcards);
+		if ($quote && $escape_wildcards && $db->string_quoting['escape_pattern']
+		    && $db->string_quoting['escape'] !== $db->string_quoting['escape_pattern']
+		) {
+			$value .= $this->patternEscapeString();
+		}
+
+		return $value;
+	}
+
+
+	/**
+	 * @param $value
+	 * @param $quote
+	 * @param $escape_wildcards
+	 * @return int
+	 */
+	protected function quoteInteger($value, $quote, $escape_wildcards) {
+		return (int)$value;
+	}
+
+
+	/**
+	 * @param $value
+	 * @param $quote
+	 * @param $escape_wildcards
+	 * @return \ilDBPdo|string
+	 */
+	protected function quoteText($value, $quote, $escape_wildcards) {
+		if (!$quote) {
+			return $value;
+		}
+
+		$db = $this->getDBInstance();
+
+		$value = $db->escape($value, $escape_wildcards);
+
+		return "'" . $value . "'";
+	}
+
+
+	/**
+	 * @param $value
+	 * @return \ilDBPdo|string
+	 */
+	protected function readFile($value) {
+		$close = false;
+		if (preg_match('/^(\w+:\/\/)(.*)$/', $value, $match)) {
+			$close = true;
+			if ($match[1] == 'file://') {
+				$value = $match[2];
+			}
+			// do not try to open urls
+			#$value = @fopen($value, 'r');
+		}
+
+		if (is_resource($value)) {
+			$db = $this->getDBInstance();
+
+			$fp = $value;
+			$value = '';
+			while (!@feof($fp)) {
+				$value .= @fread($fp, $db->options['lob_buffer_length']);
+			}
+			if ($close) {
+				@fclose($fp);
+			}
+		}
+
+		return $value;
+	}
+
+
+	/**
+	 * @param $value
+	 * @param $quote
+	 * @param $escape_wildcards
+	 * @return \ilDBPdo|string
+	 */
+	protected function quoteLOB($value, $quote, $escape_wildcards) {
+		$value = $this->readFile($value);
+
+		return $this->quoteText($value, $quote, $escape_wildcards);
+	}
+
+
+	/**
+	 * @param $value
+	 * @param $quote
+	 * @param $escape_wildcards
+	 * @return \ilDBPdo|string
+	 */
+	protected function quoteCLOB($value, $quote, $escape_wildcards) {
+		return $this->quoteLOB($value, $quote, $escape_wildcards);
+	}
+
+
+	/**
+	 * @param $value
+	 * @param $quote
+	 * @param $escape_wildcards
+	 * @return \ilDBPdo|string
+	 */
+	protected function quoteBLOB($value, $quote, $escape_wildcards) {
+		return $this->quoteLOB($value, $quote, $escape_wildcards);
+	}
+
+
+	/**
+	 * @param $value
+	 * @param $quote
+	 * @param $escape_wildcards
+	 * @return int
+	 */
+	protected function quoteBoolean($value, $quote, $escape_wildcards) {
+		return ($value ? 1 : 0);
+	}
+
+
+	/**
+	 * @param $value
+	 * @param $quote
+	 * @param $escape_wildcards
+	 * @return \ilDBPdo|string
+	 */
+	protected function quoteDate($value, $quote, $escape_wildcards) {
+		if ($value === 'CURRENT_DATE') {
+			$db = $this->getDBInstance();
+
+			return 'CURRENT_DATE';
+		}
+
+		return $this->quoteText($value, $quote, $escape_wildcards);
+	}
+
+
+	/**
+	 * @param $value
+	 * @param $quote
+	 * @param $escape_wildcards
+	 * @return \ilDBPdo|string
+	 */
+	protected function quoteTimestamp($value, $quote, $escape_wildcards) {
+		if ($value === 'CURRENT_TIMESTAMP') {
+			$db = $this->getDBInstance();
+
+			if (isset($db->function) && is_a($db->function, 'MDB2_Driver_Function_Common')) {
+				return $db->function->now('timestamp');
+			}
+
+			return 'CURRENT_TIMESTAMP';
+		}
+
+		return $this->quoteText($value, $quote, $escape_wildcards);
+	}
+
+
+	/**
+	 * @param $value
+	 * @param $quote
+	 * @param $escape_wildcards
+	 * @return \ilDBPdo|string
+	 */
+	protected function quoteTime($value, $quote, $escape_wildcards) {
+		if ($value === 'CURRENT_TIME') {
+			$db = $this->getDBInstance();
+
+			if (isset($db->function) && is_a($db->function, 'MDB2_Driver_Function_Common')) {
+				return $db->function->now('time');
+			}
+
+			return 'CURRENT_TIME';
+		}
+
+		return $this->quoteText($value, $quote, $escape_wildcards);
+	}
+
+
+	/**
+	 * @param $value
+	 * @param $quote
+	 * @param $escape_wildcards
+	 * @return string
+	 */
+	protected function quoteFloat($value, $quote, $escape_wildcards) {
+		if (preg_match('/^(.*)e([-+])(\d+)$/i', $value, $matches)) {
+			$decimal = $this->quoteDecimal($matches[1], $quote, $escape_wildcards);
+			$sign = $matches[2];
+			$exponent = str_pad($matches[3], 2, '0', STR_PAD_LEFT);
+			$value = $decimal . 'E' . $sign . $exponent;
+		} else {
+			$value = $this->quoteDecimal($value, $quote, $escape_wildcards);
+		}
+
+		return $value;
+	}
+
+
+	/**
+	 * @param $value
+	 * @param $quote
+	 * @param $escape_wildcards
+	 * @return mixed|string
+	 */
+	protected function quoteDecimal($value, $quote, $escape_wildcards) {
+		$value = (string)$value;
+		$value = preg_replace('/[^\d\.,\-+eE]/', '', $value);
+		if (preg_match('/[^.0-9]/', $value)) {
+			if (strpos($value, ',')) {
+				// 1000,00
+				if (!strpos($value, '.')) {
+					// convert the last "," to a "."
+					$value = strrev(str_replace(',', '.', strrev($value)));
+					// 1.000,00
+				} elseif (strpos($value, '.') && strpos($value, '.') < strpos($value, ',')) {
+					$value = str_replace('.', '', $value);
+					// convert the last "," to a "."
+					$value = strrev(str_replace(',', '.', strrev($value)));
+					// 1,000.00
+				} else {
+					$value = str_replace(',', '', $value);
+				}
+			}
+		}
+
+		return $value;
+	}
+
+
+	/**
+	 * @param $lob
+	 * @param $file
+	 * @return bool|\ilDBPdo
+	 * @throws \ilDatabaseException
+	 */
+	public function writeLOBToFile($lob, $file) {
+		$db = $this->getDBInstance();
+
+		if (preg_match('/^(\w+:\/\/)(.*)$/', $file, $match)) {
+			if ($match[1] == 'file://') {
+				$file = $match[2];
+			}
+		}
+
+		$fp = @fopen($file, 'wb');
+		while (!@feof($lob)) {
+			$result = @fread($lob, $db->options['lob_buffer_length']);
+			$read = strlen($result);
+			if (@fwrite($fp, $result, $read) != $read) {
+				@fclose($fp);
+
+				throw new ilDatabaseException('could not write to the output file');
+			}
+		}
+		@fclose($fp);
+
+		return MDB2_OK;
+	}
+
+
+	/**
+	 * @param $lob
+	 * @return bool
+	 */
+	protected function retrieveLOB(&$lob) {
+		if (is_null($lob['value'])) {
+			$lob['value'] = $lob['resource'];
+		}
+		$lob['loaded'] = true;
+
+		return MDB2_OK;
+	}
+
+
+	/**
+	 * @param $lob
+	 * @param $length
+	 * @return string
+	 */
+	protected function readLOB($lob, $length) {
+		return substr($lob['value'], $lob['position'], $length);
+	}
+
+
+	/**
+	 * @param $lob
+	 * @return mixed
+	 */
+	protected function endOfLOB($lob) {
+		return $lob['endOfLOB'];
+	}
+
+
+	/**
+	 * @param $lob
+	 * @return bool
+	 */
+	public function destroyLOB($lob) {
+		$lob_data = stream_get_meta_data($lob);
+		$lob_index = $lob_data['wrapper_data']->lob_index;
+		fclose($lob);
+		if (isset($this->lobs[$lob_index])) {
+			$this->destroyLOBInternal($this->lobs[$lob_index]);
+			unset($this->lobs[$lob_index]);
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * @param $lob
+	 * @return bool
+	 */
+	protected function destroyLOBInternal(&$lob) {
+		return true;
+	}
+
+
+	/**
+	 * @param $array
+	 * @param bool $type
+	 * @return string
+	 * @throws \ilDatabaseException
+	 */
+	public function implodeArray($array, $type = false) {
+		if (!is_array($array) || empty($array)) {
+			return 'NULL';
+		}
+		if ($type) {
+			foreach ($array as $value) {
+				$return[] = $this->quote($value, $type);
+			}
+		} else {
+			$return = $array;
+		}
+
+		return implode(', ', $return);
+	}
+
+
+	/**
+	 * @param $pattern
+	 * @param null $operator
+	 * @param null $field
+	 * @return \ilDBPdo|string
+	 * @throws \ilDatabaseException
+	 */
+	public function matchPattern($pattern, $operator = null, $field = null) {
+		$db = $this->getDBInstance();
+
+		$match = '';
+		if (!is_null($operator)) {
+			$operator = strtoupper($operator);
+			switch ($operator) {
+				// case insensitive
+				case 'ILIKE':
+					if (is_null($field)) {
+						throw new ilDatabaseException('case insensitive LIKE matching requires passing the field name');
+					}
+					$db->loadModule('Function', null, true);
+					$match = $db->function->lower($field) . ' LIKE ';
+					break;
+				// case sensitive
+				case 'LIKE':
+					$match = is_null($field) ? 'LIKE ' : $field . ' LIKE ';
+					break;
+				default:
+					throw new ilDatabaseException('not a supported operator type:' . $operator);
+			}
+		}
+		$match .= "'";
+		foreach ($pattern as $key => $value) {
+			if ($key % 2) {
+				$match .= $value;
+			} else {
+				if ($operator === 'ILIKE') {
+					$value = strtolower($value);
+				}
+				$escaped = $db->escape($value);
+				$match .= $db->escapePattern($escaped);
+			}
+		}
+		$match .= "'";
+		$match .= $this->patternEscapeString();
+
+		return $match;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function patternEscapeString() {
 		return '';
 	}
 
 
 	/**
 	 * @param $field
-	 * @return array
-	 * @throws \ilDatabaseException
+	 * @return \ilDBPdo|mixed
 	 */
 	public function mapNativeDatatype($field) {
-		$db_type = strtolower($field['type']);
-		$db_type = strtok($db_type, '(), ');
-		if ($db_type == 'national') {
-			$db_type = strtok('(), ');
-		}
-		if (!empty($field['length'])) {
-			$length = strtok($field['length'], ', ');
-			$decimal = strtok(', ');
-		} else {
-			$length = strtok('(), ');
-			$decimal = strtok('(), ');
-		}
-		$type = array();
-		$unsigned = $fixed = null;
-		switch ($db_type) {
-			case 'tinyint':
-				$type[] = 'integer';
-				$type[] = 'boolean';
-				if (preg_match('/^(is|has)/', $field['name'])) {
-					$type = array_reverse($type);
-				}
-				$unsigned = preg_match('/ unsigned/i', $field['type']);
-				$length = 1;
-				break;
-			case 'smallint':
-				$type[] = 'integer';
-				$unsigned = preg_match('/ unsigned/i', $field['type']);
-				$length = 2;
-				break;
-			case 'mediumint':
-				$type[] = 'integer';
-				$unsigned = preg_match('/ unsigned/i', $field['type']);
-				$length = 3;
-				break;
-			case 'int':
-			case 'integer':
-				$type[] = 'integer';
-				$unsigned = preg_match('/ unsigned/i', $field['type']);
-				$length = 4;
-				break;
-			case 'bigint':
-				$type[] = 'integer';
-				$unsigned = preg_match('/ unsigned/i', $field['type']);
-				$length = 8;
-				break;
-			case 'tinytext':
-			case 'mediumtext':
-			case 'longtext':
-			case 'text':
-			case 'text':
-			case 'varchar':
-				$fixed = false;
-			case 'string':
-			case 'char':
-				$type[] = 'text';
-				if ($length == '1') {
-					$type[] = 'boolean';
-					if (preg_match('/^(is|has)/', $field['name'])) {
-						$type = array_reverse($type);
-					}
-				} elseif (strstr($db_type, 'text')) {
-					$type[] = 'clob';
-					if ($decimal == 'binary') {
-						$type[] = 'blob';
-					}
-				}
-				if ($fixed !== false) {
-					$fixed = true;
-				}
-				break;
-			case 'enum':
-				$type[] = 'text';
-				preg_match_all('/\'.+\'/U', $field['type'], $matches);
-				$length = 0;
-				$fixed = false;
-				if (is_array($matches)) {
-					foreach ($matches[0] as $value) {
-						$length = max($length, strlen($value) - 2);
-					}
-					if ($length == '1' && count($matches[0]) == 2) {
-						$type[] = 'boolean';
-						if (preg_match('/^(is|has)/', $field['name'])) {
-							$type = array_reverse($type);
-						}
-					}
-				}
-				$type[] = 'integer';
-			case 'set':
-				$fixed = false;
-				$type[] = 'text';
-				$type[] = 'integer';
-				break;
-			case 'date':
-				$type[] = 'date';
-				$length = null;
-				break;
-			case 'datetime':
-			case 'timestamp':
-				$type[] = 'timestamp';
-				$length = null;
-				break;
-			case 'time':
-				$type[] = 'time';
-				$length = null;
-				break;
-			case 'float':
-			case 'double':
-			case 'real':
-				$type[] = 'float';
-				$unsigned = preg_match('/ unsigned/i', $field['type']);
-				break;
-			case 'unknown':
-			case 'decimal':
-			case 'numeric':
-				$type[] = 'decimal';
-				$unsigned = preg_match('/ unsigned/i', $field['type']);
-				if ($decimal !== false) {
-					$length = $length . ',' . $decimal;
-				}
-				break;
-			case 'tinyblob':
-			case 'mediumblob':
-			case 'longblob':
-			case 'blob':
-				$type[] = 'blob';
-				$length = null;
-				break;
-			case 'binary':
-			case 'varbinary':
-				$type[] = 'blob';
-				break;
-			case 'year':
-				$type[] = 'integer';
-				$type[] = 'date';
-				$length = null;
-				break;
-			default:
-				throw new ilDatabaseException('unknown database attribute type: ' . $db_type);
+		$db = $this->getDBInstance();
+		$db_type = strtok($field['type'], '(), ');
+		if (!empty($db->options['nativetype_map_callback'][$db_type])) {
+			return call_user_func_array($db->options['nativetype_map_callback'][$db_type], array( $db, $field ));
 		}
 
-		if ((int)$length <= 0) {
-			$length = null;
+		return $this->mapNativeDatatypeInternal($field);
+	}
+
+
+	/**
+	 * @param $field
+	 * @return \ilDBPdo
+	 * @throws \ilDatabaseException
+	 */
+	abstract protected function mapNativeDatatypeInternal($field);
+
+
+	/**
+	 * @param $type
+	 * @return \ilDBPdo|mixed
+	 */
+	public function mapPrepareDatatype($type) {
+		$db = $this->getDBInstance();
+
+		if (!empty($db->options['datatype_map'][$type])) {
+			$type = $db->options['datatype_map'][$type];
+			if (!empty($db->options['datatype_map_callback'][$type])) {
+				$parameter = array( 'type' => $type );
+
+				return call_user_func_array($db->options['datatype_map_callback'][$type], array( &$db, __FUNCTION__, $parameter ));
+			}
 		}
 
-		return array( $type, $length, $unsigned, $fixed );
+		return $type;
 	}
 }
+

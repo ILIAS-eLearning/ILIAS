@@ -149,7 +149,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager {
 						throw new ilDatabaseException('changing column type for "' . $change_name . '\" requires PostgreSQL 8.0 or above');
 					}
 
-					$query = "ALTER $field_name TYPE " . $db->getFieldDefinition()->getTypeDeclaration($field['type'], $field); // FSX
+					$query = "ALTER $field_name TYPE " . $db->getFieldDefinition()->getTypeDeclaration($field);
 					$result = $db->manipulate("ALTER TABLE $name $query");
 				}
 				if (array_key_exists('default', $field)) {

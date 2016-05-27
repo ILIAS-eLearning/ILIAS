@@ -13,7 +13,7 @@ class ilDatabasePostgresTestsDataOutputs extends ilDatabaseCommonTestsDataOutput
 	 * @return string
 	 */
 	public function getCreationQueryBuildByILIAS($table_name) {
-		return "CREATE  TABLE $table_name (id INT NOT NULL, is_online SMALLINT DEFAULT NULL, is_default SMALLINT DEFAULT 1, latitude FLOAT8 DEFAULT NULL, longitude FLOAT8 DEFAULT NULL, elevation FLOAT8 DEFAULT NULL, address VARCHAR(256) DEFAULT NULL NULL, init_mob_id INT DEFAULT NULL, comment_mob_id INT DEFAULT NULL, container_id INT DEFAULT NULL, big_data TEXT)";
+		return "CREATE TABLE $table_name (id INT NOT NULL, is_online SMALLINT DEFAULT NULL, is_default SMALLINT DEFAULT 1, latitude FLOAT8 DEFAULT NULL, longitude FLOAT8 DEFAULT NULL, elevation FLOAT8 DEFAULT NULL, address VARCHAR(256) DEFAULT NULL NULL, init_mob_id INT DEFAULT NULL, comment_mob_id INT DEFAULT NULL, container_id INT DEFAULT NULL, big_data TEXT)";
 	}
 
 
@@ -690,6 +690,10 @@ class ilDatabasePostgresTestsDataOutputs extends ilDatabaseCommonTestsDataOutput
 	}
 
 
+	/**
+	 * @param $table_name
+	 * @return array
+	 */
 	public function getTableSequences($table_name) {
 		return array(
 			0   => 'addressbook_mlist',

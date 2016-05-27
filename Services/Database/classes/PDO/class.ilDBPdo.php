@@ -441,7 +441,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 	/**
 	 * @param $query string
-	 * @return PDOStatement
+	 * @return ilPDOStatement
 	 * @throws ilDatabaseException
 	 */
 	public function query($query) {
@@ -664,7 +664,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		try {
 			$r = $this->pdo->exec($query);
 		} catch (PDOException $e) {
-			return false;
 			throw new ilDatabaseException($e->getMessage() . ' QUERY: ' . $query);
 		}
 
@@ -1608,5 +1607,41 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 */
 	public function getServerVersion($native = false) {
 		return $this->pdo->query('SELECT VERSION()')->fetchColumn();
+	}
+
+
+	/**
+	 * @param $value
+	 * @param bool $escape_wildcards
+	 * @return string
+	 */
+	public function escape($value, $escape_wildcards = false) {
+		return $value;
+	}
+
+
+	/**
+	 * @param $text
+	 * @return string
+	 */
+	public function escapePattern($text) {
+		return $text;
+	}
+
+
+	/**
+	 * @param string $engine
+	 * @return array
+	 */
+	public function migrateAllTablesToEngine($engine = ilDBConstants::ENGINE_INNODB) {
+		return array();
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsEngineMigration() {
+		return false;
 	}
 }

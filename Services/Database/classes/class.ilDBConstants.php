@@ -42,6 +42,10 @@ class ilDBConstants {
 	const T_TIME = ilDBPdoFieldDefinition::T_TIME;
 	const T_TIMESTAMP = ilDBPdoFieldDefinition::T_TIMESTAMP;
 	const T_BLOB = ilDBPdoFieldDefinition::T_BLOB;
+	// Engines
+	const ENGINE_INNODB = 'InnoDB';
+	const ENGINE_MYISAM = 'MyISAM';
+	
 	/**
 	 * @var array
 	 */

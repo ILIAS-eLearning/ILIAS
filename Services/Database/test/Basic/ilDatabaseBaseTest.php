@@ -114,26 +114,11 @@ class ilDatabaseBaseTest extends PHPUnit_Framework_TestCase {
 		/**
 		 * @var $manager ilDBPdoManager
 		 */
-		$ignore = array(
-			'il_request_token',
-			'il_event_handling',
-			'il_dcl_viewdefinition',
-			'cp_suspend',
-			'copg_section_timings',
-			'cmi_gobjective',
-			'bookmark_tree',
-		);
-
 		$manager = $this->db->loadModule(ilDBConstants::MODULE_MANAGER);
 		foreach ($this->db->listTables() as $table) {
-			if (in_array($table, $ignore)) {
-				//				continue;
-			}
 			$constraints = $manager->listTableConstraints($table);
-			$this->assertTrue(in_array('primary', $constraints));
-			if (!in_array('primary', $constraints)) {
-//				throw new ilDatabaseException("Table {$table} has no correct primary key. Existing contraints: " . print_r($constraints, true));
-			}
+			$this->assertTrue(in_array('primary', $constraints), "Table {$table} has no correct primary key. Existing contraints: "
+			                                                     . print_r($constraints, true));
 		}
 	}
 }

@@ -8,59 +8,8 @@ require_once('class.ilDBPdoFieldDefinition.php');
  */
 class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition {
 
-	/**
-	 * @param $type
-	 * @param $field_name
-	 * @param array $field_info
-	 * @return string
-	 */
-	public function getDeclaration($type, $field_name, array $field_info) {
-		$query = $field_name . ' ' . $this->getTypeDeclaration($type, $field_info);
-
-		switch ($type) {
-			case self::T_INTEGER:
-				$default = $autoinc = '';
-				if (!empty($field_info['autoincrement'])) {
-					$autoinc = ' AUTO_INCREMENT PRIMARY KEY';
-				} elseif (array_key_exists('default', $field_info)) {
-					if ($field_info['default'] === '') {
-						$field_info['default'] = empty($field_info['notnull']) ? null : 0;
-					}
-					$default = ' DEFAULT ' . $this->db_instance->quote($field_info['default'], self::T_INTEGER);
-				} elseif (empty($field_info['notnull'])) {
-					$default = ' DEFAULT NULL';
-				}
-
-				$notnull = empty($field_info['notnull']) ? '' : ' NOT NULL';
-				$unsigned = empty($field_info['unsigned']) ? '' : ' UNSIGNED';
-
-				$declaration_options = $unsigned . $default . $notnull . $autoinc;
-
-				break;
-
-			case self::T_CLOB:
-			case self::T_BLOB:
-				$declaration_options = '';
-				break;
-
-			default:
-				$declaration_options = $this->getDeclarationOptions($field_info);
-				break;
-		}
-
-		$field_declaration = $query . $declaration_options;
-
-		return $field_declaration;
-	}
-
-
-	/**
-	 * @param $type
-	 * @param array $field
-	 * @return null
-	 */
-	public function getTypeDeclaration($type, array $field) {
-		$db = $this->db_instance;
+	public function getTypeDeclaration($field) {
+		$db = $this->getDBInstance();
 
 		switch ($field['type']) {
 			case 'text':
@@ -116,11 +65,40 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition {
 
 
 	/**
+	 * @param $name
 	 * @param $field
-	 * @return array
+	 * @return string
 	 * @throws \ilDatabaseException
 	 */
-	public function mapNativeDatatype($field) {
+	protected function getIntegerDeclaration($name, $field) {
+		$db = $this->getDBInstance();
+
+		if (!empty($field['unsigned'])) {
+			$db->warnings[] = "unsigned integer field \"$name\" is being declared as signed integer";
+		}
+		if (!empty($field['autoincrement'])) {
+			$name = $db->quoteIdentifier($name, true);
+
+			return $name . ' ' . $this->getTypeDeclaration($field);
+		}
+		$default = '';
+		if (array_key_exists('default', $field)) {
+			if ($field['default'] === '') {
+				$field['default'] = empty($field['notnull']) ? null : 0;
+			}
+			$default = ' DEFAULT ' . $this->quote($field['default'], 'integer');
+		} elseif (empty($field['notnull'])) {
+			$default = ' DEFAULT NULL';
+		}
+
+		$notnull = empty($field['notnull']) ? '' : ' NOT NULL';
+		$name = $db->quoteIdentifier($name, true);
+
+		return $name . ' ' . $this->getTypeDeclaration($field) . $default . $notnull;
+	}
+
+
+	protected function mapNativeDatatypeInternal($field) {
 		$db_type = strtolower($field['type']);
 		$length = $field['length'];
 		$type = array();

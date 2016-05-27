@@ -180,6 +180,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	public function testConnection() {
 		//		$this->assertFalse($this->connect($this->getDBInstance(), true)); // Currently MDB2 Postgres doesn't check if connections possible
 		$this->assertTrue($this->connect($this->getDBInstance()));
+		if ($this->db->supportsEngineMigration()) {
+			$this->db->migrateAllTablesToEngine($this->db->getStorageEngine());
+		}
 	}
 
 
@@ -189,7 +192,7 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 		 */
 		$manager = $this->db->loadModule(ilDBConstants::MODULE_MANAGER);
 		$query = $manager->getTableCreationQuery($this->getTableName(), $this->mock->getDBFields(), array());
-		$this->assertEquals($this->outputs->getCreationQueryBuildByILIAS($this->getTableName()), $query);
+		$this->assertEquals($this->outputs->getCreationQueryBuildByILIAS($this->getTableName()), $this->normalizeSQL($query));
 	}
 
 
@@ -218,6 +221,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testInsertNative() {
 		$values = $this->mock->getInputArray(false, false);
 		$id = $values['id'][1];
@@ -231,6 +237,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testUpdateNative() {
 		// With / without clob
 		$with_clob = $this->mock->getInputArray(2222, true);
@@ -252,6 +261,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testInsertSQL() {
 		// PDO
 		$this->db->manipulate($this->mock->getInsertQuery($this->getTableName()));
@@ -291,6 +303,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testIndices() {
 		// Add index
 		$this->db->addIndex($this->getTableName(), array( 'init_mob_id' ), self::INDEX_NAME);
@@ -317,6 +332,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testTableColums() {
 		$this->assertTrue($this->db->tableColumnExists($this->getTableName(), 'init_mob_id'));
 
@@ -328,6 +346,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testSequences() {
 		if ($this->db->sequenceExists($this->getTableName())) {
 			$this->db->dropSequence($this->getTableName());
@@ -338,6 +359,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testReverse() {
 		/**
 		 * @var $reverse  ilDBPdoReverse|MDB2_Driver_Reverse_mysqli|MDB2_Driver_Reverse_pgsql
@@ -357,6 +381,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testManager() {
 		/**
 		 * @var $manager  ilDBPdomanager|MDB2_Driver_Manager_mysqli|MDB2_Driver_Manager_pgsql
@@ -387,6 +414,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testDBAnalyser() {
 		require_once('./Services/Database/classes/class.ilDBAnalyzer.php');
 		$analyzer = new ilDBAnalyzer($this->db);
@@ -419,6 +449,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testDropSequence() {
 		$this->assertTrue($this->db->sequenceExists($this->getTableName()));
 		if ($this->db->sequenceExists($this->getTableName())) {
@@ -428,6 +461,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testChangeTableName() {
 		$this->db->dropTable($this->getTableName() . '_a', false);
 		$this->db->renameTable($this->getTableName(), $this->getTableName() . '_a');
@@ -436,6 +472,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testRenameTableColumn() {
 		$this->changeGlobal($this->db);
 
@@ -453,6 +492,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testModifyTableColumn() {
 		$changes = array(
 			"type"    => "text",
@@ -478,6 +520,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testLockTables() {
 		$locks = array(
 			0 => array( 'name' => 'usr_data', 'type' => ilDBConstants::LOCK_WRITE ),
@@ -490,6 +535,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testTransactions() {
 		// PDO
 		//		$this->db->beginTransaction();
@@ -500,6 +548,9 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * @depends testConnection
+	 */
 	public function testDropTable() {
 		$this->db->dropTable($this->getTableName());
 		$this->assertTrue(!$this->db->tableExists($this->getTableName()));
@@ -530,7 +581,7 @@ abstract class ilDBBaseTest extends PHPUnit_Framework_TestCase {
 	 * @return string
 	 */
 	protected function normalizeSQL($sql) {
-		return preg_replace('/[ \t]+/', ' ', preg_replace('/\s*$^\s*/m', " ", preg_replace("/\n/", "", $sql)));
+		return preg_replace('/[ \t]+/', ' ', preg_replace('/\s*$^\s*/m', " ", preg_replace("/\n/", "", preg_replace("/`/", "", $sql))));
 	}
 
 

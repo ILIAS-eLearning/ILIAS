@@ -292,7 +292,9 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface {
 
 		$name = $db->quoteIdentifier($name, true);
 
-		return $this->pdo->exec("ALTER TABLE $name $query");
+		$statement = "ALTER TABLE $name $query";
+
+		return $this->pdo->exec($statement);
 	}
 
 
