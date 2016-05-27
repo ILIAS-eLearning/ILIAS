@@ -52,7 +52,12 @@
  * @author      Lukas Smith <smith@pooteeweet.org>
  */
 
-require_once 'PEAR.php';
+//require_once 'PEAR.php';
+
+// PATCH
+require_once('./Services/PEAR/lib/PEAR.php');
+set_include_path("./Services/Database/lib/PEAR" . PATH_SEPARATOR .  ini_get('include_path'));
+// END PATCH
 
 // {{{ Error constants
 
