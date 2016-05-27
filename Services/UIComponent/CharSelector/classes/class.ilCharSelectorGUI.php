@@ -259,11 +259,11 @@ class ilCharSelectorGUI
 				$tpl->parseCurrentBlock();
 				$index++;
 			}
-
-			$tpl->setVariable('TXT_PREVIOUS_PAGE', $lng->txt('previous'));
-			$tpl->setVariable('TXT_NEXT_PAGE', $lng->txt('next'));
-			$tpl->setVariable('TXT_PAGE', $lng->txt('page'));
 		}
+
+        $tpl->setVariable('TXT_PREVIOUS_PAGE', $lng->txt('previous'));
+        $tpl->setVariable('TXT_NEXT_PAGE', $lng->txt('next'));
+        $tpl->setVariable('TXT_PAGE', $lng->txt('page'));
 
 		$tpl->touchBlock('chars');
 		return '<script type="text/html" id="ilCharSelectorTemplate">'.$tpl->get().'</script>';
