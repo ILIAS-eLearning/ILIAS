@@ -621,6 +621,10 @@ abstract class ilDatabaseCommonTestsDataOutputs {
 	}
 
 
+	/**
+	 * @param $table_name
+	 * @return array
+	 */
 	public function getListTables($table_name) {
 		return array(
 			0   => 'abstraction_progress',

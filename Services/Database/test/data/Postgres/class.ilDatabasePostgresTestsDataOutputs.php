@@ -71,6 +71,10 @@ class ilDatabasePostgresTestsDataOutputs extends ilDatabaseCommonTestsDataOutput
 	}
 
 
+	/**
+	 * @param $table_name
+	 * @return array
+	 */
 	public function getListTables($table_name) {
 		return array(
 			0   => 'acc_access_key',

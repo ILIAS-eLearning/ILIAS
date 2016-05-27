@@ -110,15 +110,44 @@ class ilDatabaseBaseTest extends PHPUnit_Framework_TestCase {
 	}
 
 
+	/**
+	 * Checks if every table has a primary key
+	 */
 	public function testPrimaryKeys() {
 		/**
 		 * @var $manager ilDBPdoManager
 		 */
 		$manager = $this->db->loadModule(ilDBConstants::MODULE_MANAGER);
+		$all_tables_primary_mock = array();
+		$all_tables_primary_actual = array();
 		foreach ($this->db->listTables() as $table) {
 			$constraints = $manager->listTableConstraints($table);
-			$this->assertTrue(in_array('primary', $constraints), "Table {$table} has no correct primary key. Existing contraints: "
-			                                                     . print_r($constraints, true));
+			$all_tables_primary_actual[$table] = $constraints[0];
+			$all_tables_primary_mock[$table] = 'primary';
 		}
+
+		$this->assertEquals($all_tables_primary_mock, $all_tables_primary_actual);
+	}
+
+
+	/**
+	 * Checks if every table at least has a primary and/or indices
+	 */
+	public function testIndicesOrPrimaries() {
+		/**
+		 * @var $manager ilDBPdoManager
+		 */
+		$manager = $this->db->loadModule(ilDBConstants::MODULE_MANAGER);
+		$all_tables_primary_mock = array();
+		$all_tables_primary_actual = array();
+		foreach ($this->db->listTables() as $table) {
+			$indices = $manager->listTableIndexes($table);
+			$constraints = $manager->listTableConstraints($table);
+			$count = count($indices) + count($constraints);
+			$all_tables_primary_actual[$table] = $count;
+			$all_tables_primary_mock[$table] = $count ? $count : 1;
+		}
+
+		$this->assertEquals($all_tables_primary_mock, $all_tables_primary_actual);
 	}
 }
