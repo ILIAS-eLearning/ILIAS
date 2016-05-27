@@ -173,8 +173,8 @@ class ilGlobalCache {
 			$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
 			$function = $backtrace[1]['function'];
 			$class = $backtrace[1]['class'];
-			if ($ilLog instanceof ilLog) {
-				$ilLog->write($class . '::' . $function . '(): ' . $message);
+			if ($ilLog instanceof ilComponentLogger) {
+				$ilLog->alert($class . '::' . $function . '(): ' . $message);
 			}
 		}
 	}
