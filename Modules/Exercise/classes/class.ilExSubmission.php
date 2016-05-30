@@ -293,7 +293,7 @@ class ilExSubmission
 	* processes errorhandling etc for uploaded archive
 	* @param string $tmpFile path and filename to uploaded file
 	*/
-	function processUploadedFile($fileTmp)
+	function processUploadedZipFile($fileTmp)
 	{		
 		global $lng; 
 		
@@ -303,31 +303,47 @@ class ilExSubmission
 
 		include_once ("Services/Utilities/classes/class.ilFileUtils.php");
 		
+		$success = true;
+		
 		try 
 		{
-			$success = ilFileUtils::processZipFile($newDir,$fileTmp, false);
+			ilFileUtils::processZipFile($newDir,$fileTmp, false);
 			ilFileUtils::recursive_dirscan($newDir, $filearray);			
 
-			foreach ($filearray["file"] as $key => $filename)
+			// #18441 - check number of files in zip
+			$max_num = $this->assignment->getMaxFile();
+			if($max_num)
 			{
-				$a_http_post_files["name"] = ilFileUtils::utf8_encode($filename);
-				$a_http_post_files["type"] = "other";
-				$a_http_post_files["tmp_name"] = $filearray["path"][$key]."/".$filename;
-				$a_http_post_files["error"] = 0;
-				$a_http_post_files["size"] = filesize($filearray["path"][$key]."/".$filename);
-
-				if(!$this->uploadFile($a_http_post_files, true))
+				$current_num = sizeof($this->getFiles());
+				$zip_num = sizeof($filearray["file"]);
+				if($current_num + $zip_num > $max_num)
 				{
+					$success = false;
 					ilUtil::sendFailure($lng->txt("exc_upload_error"), true);
-				}		
-				else
-				{
-					$success = true;
 				}
-			}			
+			}
+			
+			if($success)
+			{			
+				foreach ($filearray["file"] as $key => $filename)
+				{
+					$a_http_post_files["name"] = ilFileUtils::utf8_encode($filename);
+					$a_http_post_files["type"] = "other";
+					$a_http_post_files["tmp_name"] = $filearray["path"][$key]."/".$filename;
+					$a_http_post_files["error"] = 0;
+					$a_http_post_files["size"] = filesize($filearray["path"][$key]."/".$filename);
+
+					if(!$this->uploadFile($a_http_post_files, true))
+					{
+						$success = false;
+						ilUtil::sendFailure($lng->txt("exc_upload_error"), true);
+					}		
+				}			
+			}
 		} 
 		catch (ilFileUtilsException $e) 
 		{
+			$success = false;
 			ilUtil::sendFailure($e->getMessage());
 		}
 		
