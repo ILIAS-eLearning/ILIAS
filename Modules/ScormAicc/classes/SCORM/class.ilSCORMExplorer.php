@@ -21,10 +21,11 @@
 	+-----------------------------------------------------------------------------+
 */
 
-/*
+/**
 * Explorer View for SCORM Learning Modules
 *
 * @author Alex Killing <alex.killing@gmx.de>
+* @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
 * @version $Id$
 *
 * @ingroup ModulesScormAicc
@@ -86,8 +87,6 @@ class ilSCORMExplorer extends ilExplorer
 		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 
 		$tpl->setCurrentBlock("row");
-		//$tpl->setVariable("TYPE", $a_option["c_type"]);
-		//$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["c_type"].".png"));
 		$tpl->setVariable("TITLE", $lng->txt("cont_manifest"));
 		$tpl->setVariable("LINK_TARGET", $this->target."&".$this->target_get."=".$a_obj_id);
 		$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
@@ -95,7 +94,6 @@ class ilSCORMExplorer extends ilExplorer
 
 		$this->output[] = $tpl->get();
 	}
-
 
 	/**
 	* Creates Get Parameter
@@ -116,119 +114,63 @@ class ilSCORMExplorer extends ilExplorer
 		return $_SERVER["PATH_INFO"]."?cmd=explorer&ref_id=".$this->slm_obj->getRefId()."&scexpand=".$a_child;
 	}
 
-	function setOutput($a_parent_id, $a_depth = 0)
-	{
+	/**
+	 * possible output array is set
+	 * @param int 	$parent_id
+	 */
+	public function setOutput($parent_id) {
+		$this->format_options = $this->createOutputArray($parent_id);
+	}
 
-		global $rbacadmin, $rbacsystem;
-		static $counter = 0;
-
-		//echo "setOutput <br>";
+	/**
+	 * recursivi creating of outputs
+	 * @param int 	$a_parent_id
+	 * @param array 	$options 		existing output options
+	 *
+	 * @return array $options
+	 */
+	protected function createOutputArray($a_parent_id, $options = array()) {
+		$types_do_not_display = array("sos", "sma");
+		$types_do_not_load = array("srs");
 
 		if (!isset($a_parent_id))
-		{
-			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
-		}
+			{
+				$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
+			}
 
-		if ($this->showChilds($a_parent_id))
-		{			
-			$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
-		}
-		else
-		{
-			$objects = array();
-		}				
+			if (!$this->showChilds($a_parent_id))
+			{
+				return array();
+			}
 
-		if (count($objects) > 0)
-		{
-			
-			//moved the scorm-only constant parameter to a function
-			//to be able to reuse the code
-			//$tab = ++$a_depth - 2;
-			$tab = ++$a_depth - $this->getNodesToSkip();
-			
-			
-			// Maybe call a lexical sort function for the child objects
-			
-			//666if ($this->post_sort)
-			//{
-				//$objects = $this->sortNodes($objects);
-			//}
+			foreach ($this->tree->getChilds($a_parent_id, $this->order_column) as $key => $child) {
+				if(in_array($child["c_type"], $types_do_not_load)) {
+					continue;
+				}
 
-			foreach ($objects as $key => $object)
-			{				
-				//ask for FILTER																
-				if ($this->filtered == false or $this->checkFilter($object["c_type"]) == false)
-				{
-					if ($this->isVisible($object["obj_id"], $object["c_type"]))
-					{
-						if ($object["child"] != $this->tree->getRootId())
-						{
-							$parent_index = $this->getIndex($object);
-						}
-						$this->format_options["$counter"]["parent"]		= $object["parent"];
-						$this->format_options["$counter"]["child"]		= $object["child"];
-						$this->format_options["$counter"]["title"]		= $object["title"];
-						$this->format_options["$counter"]["c_type"]		= $object["c_type"];
-						$this->format_options["$counter"]["obj_id"]		= $object["obj_id"];
-						$this->format_options["$counter"]["desc"] 		= "obj_".$object["c_type"];
-						$this->format_options["$counter"]["depth"]		= $tab;
-						$this->format_options["$counter"]["container"]	= false;
-						$this->format_options["$counter"]["visible"]	= true;
-						
-						// Create prefix array
-						for ($i = 0; $i < $tab; ++$i)
-						{							
-							 $this->format_options["$counter"]["tab"][] = 'blank';
-						}												
-														
-						if ($object["c_type"]=="sos")
-							$this->setExpand($object["obj_id"]);
+				$option = array();
+				$option["parent"]		= $child["parent"];
+				$option["id"]			= $child["child"];
+				$option["title"]		= $child["title"];
+				$option["c_type"]		= $child["c_type"];
+				$option["obj_id"]		= $child["obj_id"];
+				$option["desc"] 		= "obj_".$child["c_type"];
+				$option["container"]	= false;
+				$option["visible"]		= !in_array($child["c_type"], $types_do_not_display);
 
-						// fix explorer (sometimes explorer disappears)
-						if ($parent_index == 0)
-						{
-							if (!$this->expand_all and !in_array($object["parent"],$this->expanded))
-							{
-								$this->expanded[] = $object["parent"];
-							}
-							//$this->format_options["$parent_index"]["visible"] = true;
-						}
+				if($this->showChilds($option["id"])) {
+					$option = $this->createOutputArray($option["id"], $option, ++$depth);
+				}
 
-						if ($object["child"] != $this->tree->getRootId() and (!$this->expand_all and !in_array($object["parent"],$this->expanded)
-						   or !$this->format_options["$parent_index"]["visible"]))
-						{
-							$this->format_options["$counter"]["visible"] = false;
-						}
+				$options["childs"][] = $option;
+			}
 
-						// if object exists parent is container
-						if ($object["child"] != $this->tree->getRootId())
-						{
-							$this->format_options["$parent_index"]["container"] = true;
+			return $options;
+	}
 
-							if ($this->expand_all or in_array($object["parent"],$this->expanded))
-							{
-								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
-							}
-							else
-							{
-								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'plus';
-							}
-						}
-
-						++$counter;
-
-						// stop recursion if 2. level beyond expanded nodes is reached
-						if ($this->expand_all or in_array($object["parent"],$this->expanded) or ($object["parent"] == 0))
-						{
-							// recursive
-							$this->setOutput($object["child"],$a_depth);
-						}
-					} //if
-				} //if FILTER
-			} //foreach
-		} //if
-	} //function
-
+	/**
+	 * @inheritdoc
+	 */
 	function isVisible($a_id, $a_type)
 	{
 		if ($a_type == "sre")
@@ -242,38 +184,56 @@ class ilSCORMExplorer extends ilExplorer
 	}
 
 	/**
-	* Creates output
-	* recursive method
-	* @access	public
-	* @return	string
-	*/
+	 * Creates output template
+	 *
+	 * @access	public
+	 *
+	 * @return	string
+	 */
 	function getOutput($jsApi = false)
 	{
-		global $ilBench;
-		
-		//echo "getOutput <br>";
-		$this->format_options[0]["tab"] = array();
+		$output = $this->createOutput($this->format_options, $jsApi);
 
-		$depth = $this->tree->getMaximumDepth();
-		
-		for ($i=0;$i<$depth;++$i)
-		{
-			$this->createLines($i);
+		return $output->get();
+	}
+
+	/**
+	 * recursive creation of output templates
+	 *
+	 * @param array 		$option
+	 * @param bool 			$jsApi
+	 *
+	 * @return ilTemplate 	$tpl
+	 */
+	function createOutput($option, $jsApi) {
+		global $ilBench;
+
+		if ($option["visible"]) {
+			$tpl = new ilTemplate("tpl.sahs_tree_ul.html", true, true, "Modules/ScormAicc");
+			$tpl = $this->insertObject($option, $tpl, $jsApi);
+		} else {
+			$tpl = new ilTemplate("tpl.sahs_tree_free.html", true, true, "Modules/ScormAicc");
 		}
 
-		foreach ($this->format_options as $key => $options)
-		{
-			if ($options["visible"] and $key != 0)
-			{
-				$ilBench->start("SCORMExplorer", "formatObject");
-				$this->formatObject($options["child"],$options,$jsApi);
-				$ilBench->stop("SCORMExplorer", "formatObject");
+		if (count($option["childs"])) {
+			foreach ($option["childs"] as $key => $ch_option) {
+				$tpl->setCurrentBlock("childs");
+				$tpl->setVariable("CHILDS", $this->createOutput($ch_option, $jsApi)->get());
+				$tpl->parseCurrentBlock();
 			}
 		}
 
-		return implode('',$this->output);
+		return $tpl;
 	}
 
+	/**
+	 * can i click on the module name
+	 * @param string 	$a_type
+	 * @param int 		$a_id
+	 * @param int 		$a_obj
+	 *
+	 * @return bool
+	 */
 	function isClickable($a_type, $a_id = 0, $a_obj = 0)
 	{
 		if ($a_type != "sit")
@@ -298,135 +258,77 @@ class ilSCORMExplorer extends ilExplorer
 		return false;
 	}
 
-	function formatItemTable(&$tpl, $a_id, $a_type)
-	{
-		global $lng;
-
-	}
-
 	/**
-	* Creates output
-	* recursive method
-	* @access	private
-	* @param	integer
-	* @param	array
-	* @return	string
-	*/
-	function formatObject($a_node_id,$a_option,$jsApi)
-	{
-		global $lng, $ilBench;
-		
-		//echo "scorm: ".$a_option["title"]." >> ".implode(", ",$a_option["tab"])."<br>";
-
-		if (!isset($a_node_id) or !is_array($a_option))
-		{
-			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
+	 * insert the option data in $tpl
+	 *
+	 * @param array 		$option
+	 * @param ilTemplate 	$tpl
+	 * @param bool 			$jsApi
+	 *
+	 * @return ilTemplate 	$tpl
+	 */
+	protected function insertObject($option, ilTemplate $tpl, $jsApi) {
+		if (!is_array($option) || !isset($option["id"])) {
+			$this->ilias->raiseError(get_class($this)."::insertObject(): Missing parameter or wrong datatype! ".
 									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
 		}
 
-		$tpl = new ilTemplate("tpl.sahs_tree.html", true, true, "Modules/ScormAicc");
-
-	 	if ($a_option["c_type"]=="sos")
-			return;
-
-		if ($a_option["c_type"]=="srs")
-			return;
-
-		$ilBench->start("SCORMExplorer", "renderIcons");
-		if (is_array($a_option["tab"])) { //test if there are any tabs
-			foreach ($a_option["tab"] as $picture)
-			{
-				if ($picture == 'plus')
-				{
-					$target = $this->createTarget('+',$a_node_id);
-					$tpl->setCurrentBlock("expander");
-					$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
-					$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.png"));
-					$tpl->parseCurrentBlock();
-				}
-
-				if ($picture == 'minus' && $this->show_minus)
-				{
-					$target = $this->createTarget('-',$a_node_id);
-					$tpl->setCurrentBlock("expander");
-					$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
-					$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.png"));
-					$tpl->parseCurrentBlock();
-				}
-	
-				if ($picture == 'blank' or $picture == 'winkel'
-				   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
-				{
-					$picture = 'blank';
-					$tpl->setCurrentBlock("lines");
-					$tpl->setVariable("IMGPATH_LINES", ilUtil::getImagePath("browser/".$picture.".png"));
-					$tpl->parseCurrentBlock();
-				}
-			}
-		}
-		$ilBench->stop("SCORMExplorer", "renderIcons");
-		
-		$ilBench->start("SCORMExplorer", "initSCORMItem");
-		$sc_object = new ilSCORMItem($a_node_id);
+		//get scorm item
+		$sc_object =& new ilSCORMItem($option["id"]);
 		$id_ref = $sc_object->getIdentifierRef();
-		$ilBench->stop("SCORMExplorer", "initSCORMItem");
-		
-		$ilBench->start("SCORMExplorer", "initResource");
-		//$sc_res = new ilSCORMResource();
+
+		//get scorm resource ref id
 		$sc_res_id = ilSCORMResource::_lookupIdByIdRef($id_ref, $sc_object->getSLMId());
-		$ilBench->stop("SCORMExplorer", "initResource");
-		
+
+		//get scorm type
 		$scormtype = strtolower(ilSCORMResource::_lookupScormType($sc_res_id));
-		
-		$ilBench->start("SCORMExplorer", "renderLink");
-		$ilBench->start("SCORMExplorer", "renderLink_OutputIcons");
-		if ($this->output_icons)
-		{
-			if ($this->isClickable($a_option["c_type"], $a_node_id, $sc_object))
-			{
-				$this->getOutputIcons($tpl, $a_option, $a_node_id, $scormtype);
-			}
+
+		//is scorm clickabke
+		$clickable = $this->isClickable($option["c_type"], $option["id"], $sc_object);
+
+		if ($this->output_icons && $clickable) {
+			$this->getOutputIcons($tpl, $option, $option["id"], $scormtype);
 		}
-		$ilBench->stop("SCORMExplorer", "renderLink_OutputIcons");
-		
-		if ($this->isClickable($a_option["c_type"], $a_node_id, $sc_object))	// output link
+
+		if ($clickable)	// output link
 		{
-			$ilBench->start("SCORMExplorer", "renderLink_parseLinkBlock");
 			$tpl->setCurrentBlock("link");
-			$frame_target = $this->buildFrameTarget($a_option["c_type"], $a_node_id, $a_option["obj_id"]);
+			$frame_target = $this->buildFrameTarget($option["c_type"], $option["id"], $option["obj_id"]);
 			if ($frame_target != "")
 			{
-				$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
+				$tpl->setVariable("TITLE", ilUtil::shortenText($option["title"], $this->textwidth, true));
 				$tpl->setVariable("LINK_TARGET", "javascript:void(0);");
 				if ($jsApi == true) {
-					$tpl->setVariable("ONCLICK", " onclick=\"parent.API.IliasLaunch('".$a_node_id."');return false;\"");
+					$tpl->setVariable("ONCLICK", " onclick=\"parent.API.IliasLaunch('".$option["id"]."');return false;\"");
 				} else {
 					$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API."
 						.($scormtype == 'asset' ? 'IliasLaunchAsset' : 'IliasLaunchSahs')
-						."('".$a_node_id."');return false;\"");
+						."('".$option["id"]."');return false;\"");
 				}
 			}
 			$tpl->parseCurrentBlock();
-			$ilBench->stop("SCORMExplorer", "renderLink_parseLinkBlock");
 		}
 		else			// output text only
 		{
 			$tpl->setCurrentBlock("text");
-			$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
+			$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText($option["title"], $this->textwidth, true));
 			$tpl->parseCurrentBlock();
 		}
-		$ilBench->stop("SCORMExplorer", "renderLink");
-		
-		$ilBench->start("SCORMExplorer", "formatItemTable");
-		$this->formatItemTable($tpl, $a_node_id, $a_option["c_type"]);
-		$ilBench->stop("SCORMExplorer", "formatItemTable");
 
-		$tpl->setCurrentBlock("row");
+		$tpl->setCurrentBlock("li");
 		$tpl->parseCurrentBlock();
 
-		$this->output[] = $tpl->get();
+		return $tpl;
 	}
-	
+
+	/**
+	 * tpl is filled with option state
+	 * 
+	 * @param ilTemplate 	$tpl
+	 * @param array 		$a_option
+	 * @param int 			$a_node_id
+	 * @param string 		$scormtype
+	 */
 	function getOutputIcons(&$tpl, $a_option, $a_node_id, $scormtype="sco")
 	{
 		global $lng;
