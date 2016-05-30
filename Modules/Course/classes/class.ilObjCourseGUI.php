@@ -118,8 +118,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if (!count($_POST["member"]))
 		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
-			$this->membersObject();
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+			$this->cancelMemberObject();
 			return false;
 		}
 		
