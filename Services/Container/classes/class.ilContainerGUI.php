@@ -1779,10 +1779,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if (isset($_POST["cmd"]["clear"]))
 		{
 			ilUtil::sendSuccess($this->lng->txt("msg_clear_clipboard"),true);
-
-			//$this->ctrl->returnToParent($this);
-			//ilUtil::redirect($this->getReturnLocation("clear",$this->ctrl->getLinkTarget($this)),get_class($this));
-			$this->disableAdministrationPanelObject();
+			// fixed mantis 0018474: Clear Clipboard redirects to Subtab View, instead of Subtab "Edit Multiple"
+			$this->ctrl->redirect($this, 'render');
 		}
 	}
 	
