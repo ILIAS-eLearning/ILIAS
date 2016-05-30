@@ -1228,7 +1228,7 @@ return;
 					ilModalGUI::initJS();
 					$lng->toJS("cont_error");
 
-					include_once './Services/Style/classes/class.ilObjStyleSheet.php';
+					include_once './Services/Style/Content/classes/class.ilObjStyleSheet.php';
 					$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
 						preloader.src = './templates/default/images/loader.svg';
 						ilCOPage.setUser('".$ilUser->getLogin()."');
@@ -1564,7 +1564,7 @@ return;
 		{
 			if (ilObject::_lookupType($this->getStyleId()) == "sty")
 			{
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$style = new ilObjStyleSheet($this->getStyleId());
 				$template_xml = $style->getTemplateXML();
 				$disable_auto_margins = "n";

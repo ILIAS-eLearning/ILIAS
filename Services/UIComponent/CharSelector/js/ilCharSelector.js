@@ -258,35 +258,45 @@ il.CharSelector = new function() {
 		
 		// adjust the navigation
 		//
-		$('#ilCharSelectorSelPage').val(config.current_page);
-		if (config.current_page == 0 && 
-			config.current_subpage == 0) 
-		{
-			$('#ilCharSelectorPrevPage').attr('disabled','disabled');
-		} else 
-		{
-			$('#ilCharSelectorPrevPage').removeAttr('disabled');
-		}
-		if (config.current_page >= config.pages.length - 1 && 
-			config.current_subpage >= page_subpages -1) 
-		{
-			$('#ilCharSelectorNextPage').attr('disabled','disabled');
-		} else 
-		{
-			$('#ilCharSelectorNextPage').removeAttr('disabled');
-		}
-		
-		// fill the subpage navigation
-		var options = '';
-		for (var i = 0; i <= page_subpages - 1; i++) {
-			options = options 
-					+ '<option value="' + i + '">' 
-					+ texts.page + ' ' + (i+1) + ' / ' + page_subpages
-					+ '</option>';
-		}
-		$('#ilCharSelectorSelSubPage').html(options);
-		$('#ilCharSelectorSelSubPage').val(config.current_subpage);
-		
+        if (config.pages.length < 2 && page_subpages <2)
+        {
+            $('#ilCharSelectorPaging').hide();
+        }
+        else
+        {
+            $('#ilCharSelectorPaging').show();
+
+            $('#ilCharSelectorSelPage').val(config.current_page);
+            if (config.current_page == 0 &&
+                config.current_subpage == 0)
+            {
+                $('#ilCharSelectorPrevPage').attr('disabled','disabled');
+            } else
+            {
+                $('#ilCharSelectorPrevPage').removeAttr('disabled');
+            }
+            if (config.current_page >= config.pages.length - 1 &&
+                config.current_subpage >= page_subpages -1)
+            {
+                $('#ilCharSelectorNextPage').attr('disabled','disabled');
+            } else
+            {
+                $('#ilCharSelectorNextPage').removeAttr('disabled');
+            }
+
+            // fill the subpage navigation
+            var options = '';
+            for (var i = 0; i <= page_subpages - 1; i++) {
+                options = options
+                    + '<option value="' + i + '">'
+                    + texts.page + ' ' + (i+1) + ' / ' + page_subpages
+                    + '</option>';
+            }
+            $('#ilCharSelectorSelSubPage').html(options);
+            $('#ilCharSelectorSelSubPage').val(config.current_subpage);
+        }
+
+
 		// clear the character area
 		$('#ilCharSelectorChars').off('mousedown');
 		$('#ilCharSelectorChars').off('click');

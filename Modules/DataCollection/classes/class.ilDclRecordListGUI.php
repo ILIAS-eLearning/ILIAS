@@ -348,9 +348,9 @@ class ilDclRecordListGUI {
 			if ($record) {
 				$record_data = "";
 				foreach($all_fields as $key=>$field) {
-					$field_record = ilDclFieldFactory::getRecordFieldInstance($field, $record);
-
-					$record_representation = ilDclFieldFactory::getRecordRepresentationInstance($field_record);
+					$field_record = ilDclCache::getRecordFieldCache($record, $field);
+					
+					$record_representation = ilDclCache::getRecordRepresentation($field_record);
 					if($record_representation->getConfirmationHTML() !== false) {
 						$record_data .= $field->getTitle().": ".$record_representation->getConfirmationHTML() ."<br />";
 					}

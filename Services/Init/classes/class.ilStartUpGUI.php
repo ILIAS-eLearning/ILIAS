@@ -726,7 +726,7 @@ class ilStartUpGUI
 		include_once './Services/Authentication/classes/class.ilLoginPage.php';
 		include_once './Services/Authentication/classes/class.ilLoginPageGUI.php';
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",ilObjStyleSheet::getContentStylePath(0));
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",ilObjStyleSheet::getSyntaxStylePath());
@@ -735,7 +735,7 @@ class ilStartUpGUI
 		// get page object
 		$page_gui = new ilLoginPageGUI(ilLanguage::lookupId($active_lang));
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(0, 'auth');
 
 		$page_gui->setPresentationTitle("");

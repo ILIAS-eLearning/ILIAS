@@ -141,6 +141,60 @@ class ilDclFieldProperty extends ActiveRecord
 		$this->value = $value;
 	}
 
+
+	/**
+	 * @inheritdoc
+	 */
+	public function create() {
+		$this->value = $this->serializeData($this->value);
+		parent::create();
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function update() {
+		$this->value = $this->serializeData($this->value);
+		parent::update();
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function afterObjectLoad() {
+		$this->value = $this->deserializeData($this->value);
+	}
+
+
+	/**
+	 * Serialize data before storing to db
+	 * @param $value mixed
+	 *
+	 * @return mixed
+	 */
+	public function serializeData($value) {
+		if(is_array($value)) {
+			$value = json_encode($value);
+		}
+		return $value;
+	}
+
+
+	/**
+	 * Deserialize data before applying to field
+	 * @param $value mixed
+	 *
+	 * @return mixed
+	 */
+	public function deserializeData($value) {
+		$deserialize = json_decode($value, true);
+		if(is_array($deserialize)) {
+			return $deserialize;
+		}
+		return $value;
+	}
 }
 
 

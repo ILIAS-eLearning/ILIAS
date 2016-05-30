@@ -10,7 +10,8 @@
 		"technosophos/LibRIS": "^2.0.2",
 		"ezyang/htmlpurifier": "^4.7.0",
 		"phpmailer/phpmailer": "^5.2",
-		"phansys/getid3": "^1.9.4"
+		"phansys/getid3": "^1.9.4",
+		"geshi/geshi": "dev-master"
 	},
 	"extra": {
 		"technosophos/LibRIS" : {
@@ -67,6 +68,14 @@
 			"wrapped_by" : "Services/MediaObjects",
 			"added_by" : "Alexander Killing <killing@leifos.de>",
 			"last_update" : "2016-04-13",
+			"last_update_by" : "Alexander Killing <killing@leifos.de>"
+		},
+		"geshi/geshi" : {
+			"source" : "https://github.com/GeSHi/geshi-1.0",
+			"used_version" : "v1.0.8.12",
+			"wrapped_by" : "Services/COPage",
+			"added_by" : "Alexander Killing <killing@leifos.de>",
+			"last_update" : "2016-05-25",
 			"last_update_by" : "Alexander Killing <killing@leifos.de>"
 		}
 

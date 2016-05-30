@@ -103,7 +103,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 			case "ilobjstylesheetgui":
 				$this->addLocations();
-				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+				include_once ("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "editStyleProperties");
 				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();

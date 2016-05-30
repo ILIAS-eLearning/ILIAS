@@ -3437,7 +3437,7 @@ class ilObjStyleSheet extends ilObject
 				")");
 		}
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
 		$this->writeTemplatePreview($tid, 
 			ilObjStyleSheetGUI::_getTemplatePreview($this, $a_type, $tid, true));
 		

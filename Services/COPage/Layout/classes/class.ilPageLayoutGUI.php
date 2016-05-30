@@ -30,13 +30,13 @@ class ilPageLayoutGUI extends ilPageObjectGUI
 		parent::__construct($a_parent_type, $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 
 		//associated object
-		include_once("./Services/Style/classes/class.ilPageLayout.php");
+		include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 
 		$this->layout_object = new ilPageLayout($a_id);
 		$this->layout_object->readObject();
 
 		// content style
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->layout_object->getStyleId()));
@@ -154,7 +154,7 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
 		}
 		else
 		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$st_styles = ilObjStyleSheet::_getStandardStyles(true, false);
 			$st_styles[0] = $this->lng->txt("default");
 			ksort($st_styles);
@@ -196,7 +196,7 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
 	/**
 	* output tabs
 	*/
-	function setTabs()
+	function setTabs($a_tabs = "")
 	{
 		global $ilTabs, $ilCtrl, $tpl, $lng;
 		$ilCtrl->setParameterByClass("ilpagelayoutgui", "obj_id", $this->obj->id);

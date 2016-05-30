@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 require_once ("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
 
 /**

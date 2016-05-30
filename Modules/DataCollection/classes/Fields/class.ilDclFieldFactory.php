@@ -60,6 +60,7 @@ class ilDclFieldFactory {
 		if (!empty(self::$record_field_cache[$field->getId()][$record->getId()])) {
 			return self::$record_field_cache[$field->getId()][$record->getId()];
 		}
+
 		$path = self::getClassPathByInstance($field, self::$record_field_class_patter);
 		if (file_exists($path)) {
 			require_once($path);
@@ -99,6 +100,7 @@ class ilDclFieldFactory {
 		if (!empty(self::$field_class_cache[$datatype . $class_pattern])) {
 			return self::$field_class_cache[$datatype . $class_pattern];
 		}
+
 		$fieldtype = $datatype;
 
 		$class = sprintf($class_pattern, $fieldtype);
@@ -136,9 +138,11 @@ class ilDclFieldFactory {
 	 * @throws ilDclException
 	 */
 	public static function getFieldRepresentationInstance(ilDclBaseFieldModel $field) {
-		if (!empty(self::$field_representation_cache[$field->getId()])) {
+		// when the datatype overview is generated no field-models are available, so an empty instance is used => no caching there
+		if ($field->getId() != null && !empty(self::$field_representation_cache[$field->getId()])) {
 			return self::$field_representation_cache[$field->getId()];
 		}
+
 		$class_path = self::getClassPathByInstance($field, self::$field_representation_class_pattern);
 
 		$instance = null;
@@ -153,7 +157,10 @@ class ilDclFieldFactory {
 		if ($instance == null) {
 			throw new ilDclException("Could not create FieldRepresentation of " . $class . " with file " . $class_path);
 		}
-		self::$field_representation_cache[$field->getId()] = $instance;
+
+		if($field->getId() != null) {
+			self::$field_representation_cache[$field->getId()] = $instance;
+		}
 
 		return $instance;
 	}
@@ -174,9 +181,11 @@ class ilDclFieldFactory {
 	 * @throws ilDclException
 	 */
 	public static function getRecordRepresentationInstance(ilDclBaseRecordFieldModel $record_field) {
-		if (!empty(self::$record_representation_cache[$record_field->getId()])) {
+		// there are some field types which have no recordFieldModel object (e.g rating) => no caching
+		if ($record_field->getId() != null && !empty(self::$record_representation_cache[$record_field->getId()])) {
 			return self::$record_representation_cache[$record_field->getId()];
 		}
+
 		$class_path = self::getClassPathByInstance($record_field->getField(), self::$record_representation_class_pattern);
 		$instance = null;
 
@@ -190,11 +199,12 @@ class ilDclFieldFactory {
 		$instance = new $class($record_field);
 
 		if ($instance == null) {
-			throw new ilDclException("Could not create RecordRepresentation of " . $class_path . " " . $record_field->getField()->getDatatype()
-			                                                                                                        ->getTitle());
+			throw new ilDclException("Could not create RecordRepresentation of " . $class_path . " " . $record_field->getField()->getDatatype()->getTitle());
 		}
 
-		self::$record_representation_cache[$record_field->getId()] = $instance;
+		if($record_field->getId() != null) {
+			self::$record_representation_cache[$record_field->getId()] = $instance;
+		}
 
 		return $instance;
 	}
@@ -238,9 +248,10 @@ class ilDclFieldFactory {
 	 * @throws ilDclException
 	 */
 	public static function getFieldModelInstanceByClass(ilDclBaseFieldModel $field, $field_id = null) {
-		if (!empty(self::$field_model_cache[$field->getId()])) {
+		if ($field->getId() != null && !empty(self::$field_model_cache[$field->getId()])) {
 			return self::$field_model_cache[$field->getId()];
 		}
+
 		$path_type = self::getClassPathByInstance($field, self::$field_class_patter);
 
 		if (file_exists($path_type)) {
@@ -260,7 +271,9 @@ class ilDclFieldFactory {
 			throw new ilDclException("Could not create FieldModel of " . $class);
 		}
 
-		self::$field_model_cache[$field->getId()] = $instance;
+		if($field->getId() != null) {
+			self::$field_model_cache[$field->getId()] = $instance;
+		}
 
 		return $instance;
 	}
@@ -280,9 +293,17 @@ class ilDclFieldFactory {
 	 */
 	public static function getFieldTypeByInstance(ilDclBaseFieldModel $field) {
 		$datatype = $field->getDatatype();
-		if (!empty($field_type_cache[$datatype->getId()]) && $datatype->getId() != ilDclDatatype::INPUTFORMAT_PLUGIN) {
-			return $field_type_cache[$field];
+
+		if (!empty(self::$field_type_cache[$datatype->getId()])) {
+			if($datatype->getId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
+				if(!empty(self::$field_type_cache[$datatype->getId()][$field->getId()])) {
+					return self::$field_type_cache[$datatype->getId()][$field->getId()];
+				}
+			} else {
+				return self::$field_type_cache[$datatype->getId()];
+			}
 		}
+
 		if ($datatype->getId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
 			if ($field->hasProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME)) {
 				$plugin_data = ilPlugin::getPluginObject(IL_COMP_MODULE, ilDclFieldTypePlugin::COMPONENT_NAME, ilDclFieldTypePlugin::SLOT_ID, $field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME));
@@ -290,11 +311,13 @@ class ilDclFieldFactory {
 			} else {
 				$fieldtype = self::$default_prefix . ucfirst(self::parseDatatypeTitle($datatype->getTitle()));
 			}
+			self::$field_type_cache[$datatype->getId()][$field->getId()] = $fieldtype;
 		} else {
-			$field_type_cache[$datatype->getId()] = self::$default_prefix . ucfirst(self::parseDatatypeTitle($datatype->getTitle()));
+			$fieldtype = self::$default_prefix . ucfirst(self::parseDatatypeTitle($datatype->getTitle()));
+			self::$field_type_cache[$datatype->getId()] = $fieldtype;
 		}
 
-		return $field_type_cache[$datatype->getId()];
+		return $fieldtype;
 	}
 
 
@@ -326,8 +349,9 @@ class ilDclFieldFactory {
 	 */
 	public static function getClassPathByInstance(ilDclBaseFieldModel $field, $class_pattern) {
 		$datatype = $field->getDatatype();
-		if (!empty(self::$class_path_cache[$datatype->getId()][$class_pattern])) {
-			return self::$class_path_cache[$datatype->getId()][$class_pattern];
+
+		if ($field->getId() != null && !empty(self::$class_path_cache[$field->getId()][$class_pattern])) {
+			return self::$class_path_cache[$field->getId()][$class_pattern];
 		}
 
 		if ($datatype->getId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
@@ -335,9 +359,9 @@ class ilDclFieldFactory {
 				$plugin_data = ilPlugin::getPluginObject(IL_COMP_MODULE, ilDclFieldTypePlugin::COMPONENT_NAME, ilDclFieldTypePlugin::SLOT_ID, $field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME));
 				if ($plugin_data == null) {
 					throw new ilDclException("Something went wrong by initializing the FieldHook-Plugin '"
-					                         . $field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME) . "' on Component '"
-					                         . ilDclFieldTypePlugin::COMPONENT_NAME . "' with slot '" . ilDclFieldTypePlugin::SLOT_ID . "' on field: "
-					                         . $field->getTitle());
+						. $field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME) . "' on Component '"
+						. ilDclFieldTypePlugin::COMPONENT_NAME . "' with slot '" . ilDclFieldTypePlugin::SLOT_ID . "' on field: "
+						. $field->getTitle());
 				}
 
 				$class_path = $plugin_data->getDirectory() . "/classes/";
@@ -349,7 +373,10 @@ class ilDclFieldFactory {
 		}
 
 		$return = $class_path . self::getFieldClassFile(self::getFieldTypeByInstance($field), $class_pattern);
-		self::$class_path_cache[$datatype->getId()][$class_pattern] = $return;
+
+		if($field->getId() != null) {
+			self::$class_path_cache[$field->getId()][$class_pattern] = $return;
+		}
 
 		return $return;
 	}
