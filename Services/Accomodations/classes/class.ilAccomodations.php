@@ -380,6 +380,9 @@ class ilAccomodations
 		$ilDB->manipulate("DELETE FROM crs_acco".
 			" WHERE crs_id = ".$ilDB->quote($course_id, "integer").
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer"));
+		// gev patch start
+		self::raiseEvent("delete", $course_id, $a_user_id);
+		// gev patch end
 	}
 	
 	
