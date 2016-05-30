@@ -95,6 +95,7 @@ class ilTestImporter extends ilXmlImporter
 			$newObj->saveToDb(); // this generates test id first time
 			$questionParentObjId = $newObj->getId();
 			$newObj->setOnline(true);
+			$questionParentObjId = $newObj->getId();
 		}
 		else
 		{
@@ -193,6 +194,8 @@ class ilTestImporter extends ilXmlImporter
 			$results->startParsing();
 		}
 		
+		$newObj->saveToDb(); // this creates test_fi
+		
 		// import skill assignments
 		$importedAssignmentList = $this->importQuestionSkillAssignments();
 		$this->importSkillLevelThresholds($importedAssignmentList);
@@ -200,8 +203,6 @@ class ilTestImporter extends ilXmlImporter
 		$a_mapping->addMapping("Modules/Test", "tst", $a_id, $newObj->getId());
 
 		ilObjTest::_setImportDirectory();
-		
-		$newObj->saveToDb();
 	}
 
 	/**
