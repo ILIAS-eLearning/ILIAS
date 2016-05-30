@@ -34,12 +34,15 @@ class ilBadgeAppEventListener implements ilAppEventListener
 			case 'Services/Tracking':				
 				switch($a_event)
 				{					
-					case 'updateStatus':						
-						ilBadgeHandler::getInstance()->triggerEvaluation(
-							'crs/course_lp', 
-							$a_params['usr_id'],
-							array('obj_id' => $a_params['obj_id'])								
-						);				
+					case 'updateStatus':									
+						if($a_params['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM)
+						{
+							ilBadgeHandler::getInstance()->triggerEvaluation(
+								'crs/course_lp', 
+								$a_params['usr_id'],
+								array('obj_id' => $a_params['obj_id'])								
+							);	
+						}
 						break;
 				}
 				break;
