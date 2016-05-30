@@ -265,6 +265,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function afterSave(ilObject $a_new_object)
 	{		
+		// #16446
+		$a_new_object->loadFromDb();
+		
 		$tpl = $this->getDidacticTemplateVar("svytpl");
 		if($tpl)
 		{
