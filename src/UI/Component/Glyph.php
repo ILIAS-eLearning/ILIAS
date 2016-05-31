@@ -7,7 +7,7 @@ namespace ILIAS\UI\Component;
 /**
  * This describes how a glyph could be modified during construction of UI.
  */
-interface Glyph extends \ILIAS\UI\Element {
+interface Glyph extends \ILIAS\UI\Component {
 	// Types of glyphs:
 	const UP = "up";
 	const DOWN = "down";

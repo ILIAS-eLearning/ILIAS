@@ -7,7 +7,7 @@ namespace ILIAS\UI\Component;
 /**
  * This tags a counter object.
  */
-interface Counter extends \ILIAS\UI\Element {
+interface Counter extends \ILIAS\UI\Component {
 	// Types of counters:
 	const NOVELTY = "novelty";
 	const STATUS = "status";
