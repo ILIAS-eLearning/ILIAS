@@ -2,12 +2,12 @@
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Glyph {
+namespace ILIAS\UI\Implementation\Component\Glyph {
 	require_once("libs/composer/vendor/autoload.php");
 
 	use \ILIAS\UI\Component\Component;
 	use \ILIAS\UI\Renderer;
-	use \ILIAS\UI\Implementation\AbstractComponentRenderer;
+	use \ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 	class GlyphNonAbstractRenderer extends AbstractComponentRenderer {
 		public function render(Component $component, Renderer $default_renderer) {
 		}
@@ -20,10 +20,10 @@ namespace ILIAS\UI\Implementation\Glyph {
 	}
 }
 
-namespace ILIAS\UI\Implementation\Counter {
+namespace ILIAS\UI\Implementation\Component\Counter {
 	use \ILIAS\UI\Component\Component;
 	use \ILIAS\UI\Renderer;
-	use \ILIAS\UI\Implementation\AbstractComponentRenderer;
+	use \ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 	class CounterNonAbstractRenderer extends AbstractComponentRenderer {
 		public function render(Component $component, Renderer $default_renderer) {
 		}
@@ -41,8 +41,8 @@ namespace {
 require_once(__DIR__."/Base.php");
 
 use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation\Template;
-use \ILIAS\UI\Implementation\TemplateFactory;
+use \ILIAS\UI\Implementation\Template\Template;
+use \ILIAS\UI\Implementation\Template\TemplateFactory;
 
 class NullTemplate implements Template {
 	public function setCurrentBlock($name) {}
@@ -74,7 +74,7 @@ class AbstractRendererTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_getTemplate_successfull() {
-		$r = new \ILIAS\UI\Implementation\Glyph\GlyphNonAbstractRenderer($this->factory);
+		$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRenderer($this->factory);
 		$tpl = $r->_getTemplate("tpl.glyph.html", true, false);
 
 		$expected = array
@@ -85,7 +85,7 @@ class AbstractRendererTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_getTemplate_unsuccessfull() {
-		$r = new \ILIAS\UI\Implementation\Counter\CounterNonAbstractRenderer($this->factory);
+		$r = new \ILIAS\UI\Implementation\Component\Counter\CounterNonAbstractRenderer($this->factory);
 
 		try {
 			$tpl = $r->_getTemplate("tpl.counter_foo.html", true, false);

@@ -15,11 +15,11 @@ class GlyphTestCustomException extends \Exception {};
  */
 class GlyphTest extends ILIAS_UI_TestBase {
 	public function getGlyphFactory() {
-		return new \ILIAS\UI\Implementation\Glyph\Factory();
+		return new \ILIAS\UI\Implementation\Component\Glyph\Factory();
 	}
 
 	public function getCounterFactory() {
-		return new \ILIAS\UI\Implementation\Counter\Factory();
+		return new \ILIAS\UI\Implementation\Component\Counter\Factory();
 	}
 
 	static $canonical_css_classes = array
@@ -165,7 +165,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		});
 
 		try {
-			new \ILIAS\UI\Implementation\Glyph\Glyph("FOO");
+			new \ILIAS\UI\Implementation\Component\Glyph\Glyph("FOO");
 			$this->assertFalse("We should not get here");
 		}
 		catch (GlyphTestCustomException $e) {}
@@ -277,7 +277,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_dont_render_counter() {
-		$r = new \ILIAS\UI\Implementation\Glyph\Renderer($this->getTemplateFactory());
+		$r = new \ILIAS\UI\Implementation\Component\Glyph\Renderer($this->getTemplateFactory());
 		$f = $this->getCounterFactory();
 
 		try {

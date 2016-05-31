@@ -2,9 +2,10 @@
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation;
+namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Implementation\Template;
 
 /**
  * Base class for all component renderers.
@@ -18,7 +19,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	/**
 	 * Component renderers must only depend on a Template Factory.
 	 */
-	final public function __construct(TemplateFactory $tpl_factory) {
+	final public function __construct(Template\TemplateFactory $tpl_factory) {
 		$this->tpl_factory = $tpl_factory;
 	}
 
@@ -32,7 +33,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	 * @param	bool	$purge_unfilled_vars
 	 * @param	bool	$purge_unused_blocks
 	 * @throws	\InvalidArgumentException	if there is no such template
-	 * @return	Template
+	 * @return	Template\Template
 	 */
 	final protected function getTemplate($name, $purge_unfilled_vars, $purge_unused_blocks) {
 		$component = $this->getMyComponent();
@@ -70,10 +71,10 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		$class = get_class($this);
 		$matches = array();
 		// Extract component
-		$re = "%ILIAS\\\\UI\\\\Implementation\\\\(\\w+)\\\\(\\w+)%";
+		$re = "%ILIAS\\\\UI\\\\Implementation\\\\Component\\\\(\\w+)\\\\(\\w+)%";
 		if (preg_match($re, $class, $matches) !== 1) {
 			throw new \LogicException(
-				"The Renderer needs to be located in ILIAS\\UI\\Implementation\\*.");
+				"The Renderer needs to be located in ILIAS\\UI\\Implementation\\Component\\*.");
 		}
 		return $matches[1];
 	}

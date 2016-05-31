@@ -15,7 +15,7 @@ require_once("./Services/UICore/classes/class.ilTemplateHTMLITX.php");
 require_once("./Services/UICore/classes/class.ilTemplate.php");
 chdir($cur_cwd);
 
-class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementation\Template {
+class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementation\Template\Template {
     /**
      * Reads a file from disk and returns its content.
 	 *

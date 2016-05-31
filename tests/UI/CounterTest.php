@@ -14,7 +14,7 @@ class CounterTestCustomException extends \Exception {};
  */
 class CounterTest extends ILIAS_UI_TestBase {
 	public function getCounterFactory() {
-		return new \ILIAS\UI\Implementation\Counter\Factory();
+		return new \ILIAS\UI\Implementation\Component\Counter\Factory();
 	}
 
 	public function test_implements_factory_interface() {
@@ -58,7 +58,7 @@ class CounterTest extends ILIAS_UI_TestBase {
 		});
 
 		try {
-			new \ILIAS\UI\Implementation\Counter\Counter("FOO", 1);
+			new \ILIAS\UI\Implementation\Component\Counter\Counter("FOO", 1);
 			$this->assertFalse("We should not get here");
 		}
 		catch (CounterTestCustomException $e) {}

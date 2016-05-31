@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Glyph;
+namespace ILIAS\UI\Implementation\Component\Glyph;
 
 use ILIAS\UI\Component\Glyph as G;
 

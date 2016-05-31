@@ -2,9 +2,9 @@
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Glyph;
+namespace ILIAS\UI\Implementation\Component\Glyph;
 
-use ILIAS\UI\Implementation\AbstractComponentRenderer;
+use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Component;
