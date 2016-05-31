@@ -20,8 +20,9 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->touchBlock($component->getType());
 
 		foreach ($component->getCounters() as $counter) {
-			$tpl->setCurrentBlock("counter_".$counter->getType());
-			$tpl->setVariable("NUMBER", $counter->getNumber());
+			$n = "counter_".$counter->getType();
+			$tpl->setCurrentBlock($n);
+			$tpl->setVariable( strtoupper($n), $default_renderer->render($counter));
 			$tpl->parseCurrentBlock();
 		}
 
