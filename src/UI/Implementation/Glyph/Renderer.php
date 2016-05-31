@@ -28,6 +28,6 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->parseCurrentBlock();
 		}
 
-		return trim(str_replace("\n", "", $tpl->get()));
+		return $tpl->get();
 	}
 }

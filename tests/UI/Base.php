@@ -32,4 +32,8 @@ class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 		$tpl_factory = new ilIndependentTemplateFactory();
 		return new \ILIAS\UI\Implementation\DefaultRenderer($tpl_factory);
 	}
+
+	public function normalizeHTML($html) {
+		return trim(str_replace("\n", "", $html));
+	}        
 }

@@ -235,7 +235,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 		$c = $f->$type();
 
-		$html = $r->render($c);
+		$html = $this->normalizeHTML($r->render($c));
 
 		$css_classes = self::$canonical_css_classes[$type];
 		$expected = "<span class=\"$css_classes\" aria-hidden=\"true\"></span>";
@@ -251,7 +251,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$r = $this->getDefaultRenderer();
 		$c = $fg->envelope()->withCounter($fc->$type(42));
 
-		$html = $r->render($c);
+		$html = $this->normalizeHTML($r->render($c));
 
 		$css_classes = self::$canonical_css_classes[C\Glyph::ENVELOPE];
 		$expected = "<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
@@ -267,7 +267,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 				->withCounter($fc->novelty(42))
 				->withCounter($fc->status(7));
 
-		$html = $r->render($c);
+		$html = $this->normalizeHTML($r->render($c));
 
 		$css_classes = self::$canonical_css_classes[C\Glyph::ENVELOPE];
 		$expected = "<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
