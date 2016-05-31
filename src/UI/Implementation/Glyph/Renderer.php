@@ -14,10 +14,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * @inheritdocs
 	 */
 	public function render(Component $component, RendererInterface $default_renderer) {
-		if (!($component instanceof C\Glyph)) {
-			throw new \LogicException(
-				"Expected Glyph, found '".get_class($component)."' when rendering.");
-		}
+		$this->checkComponent($component);
 
 		$tpl = $this->getTemplate("tpl.glyph.html", true, true);
 		$tpl->touchBlock($component->getType());

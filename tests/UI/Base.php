@@ -28,8 +28,12 @@ class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 		assert_options(ASSERT_CALLBACK, null);
 	}
 
+	public function getTemplateFactory() {
+		return new ilIndependentTemplateFactory();
+	}
+
 	public function getDefaultRenderer() {
-		$tpl_factory = new ilIndependentTemplateFactory();
+		$tpl_factory = $this->getTemplateFactory();
 		return new \ILIAS\UI\Implementation\DefaultRenderer($tpl_factory);
 	}
 

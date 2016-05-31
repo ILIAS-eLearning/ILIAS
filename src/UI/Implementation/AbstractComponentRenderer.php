@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI\Implementation;
 
+use ILIAS\UI\Component;
+
 /**
  * Base class for all component renderers.
  */
@@ -38,6 +40,24 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 		return $this->tpl_factory->getTemplate($path, $purge_unfilled_vars, $purge_unused_blocks);
 	}
 
+	/**
+	 * Check if a given component fits this renderer and throw \LogicError if that is not
+     * the case.
+	 *
+	 * @param	Component			$component
+	 * @throws	\LogicException		if component does not fit.
+     * @return  null
+	 */
+	final protected function checkComponent(Component $component) {
+		$cmp = $this->getMyComponent();
+		$interface = "\\ILIAS\\UI\\Component\\$cmp";
+		if(!($component instanceof $interface)) {
+			throw new \LogicException(
+				"Expected $cmp, found '".get_class($component)."' when rendering.");
+		}
+	}
+
+	// TODO: We might want to cache this.
 	private function getMyComponent() {
 		$class = get_class($this);
 		$matches = array();

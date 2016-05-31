@@ -275,4 +275,15 @@ class GlyphTest extends ILIAS_UI_TestBase {
 					"<span class=\"badge badge-notify il-counter-novelty\">42</span>";
 		$this->assertEquals($expected, $html);
 	}
+
+	public function test_dont_render_counter() {
+		$r = new \ILIAS\UI\Implementation\Glyph\Renderer($this->getTemplateFactory());
+		$f = $this->getCounterFactory();
+
+		try {
+			$r->render($f->status(0), $this->getDefaultRenderer());
+			$this->assertFalse("This should not happen!");
+		}
+		catch (\LogicException $e) {}
+	}
 }
