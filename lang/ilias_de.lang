@@ -12409,7 +12409,7 @@ file#:#file_copy#:#Datei kopieren
 webr#:#webr_copy#:#Weblink kopieren
 exc#:#exc_copy#:#Übung kopieren
 assessment#:#tst_copy#:#Test kopieren
-poll#:#poll_population#:#%s abgegebene Stimmen
+poll#:#poll_population#:#%s Teilnehmer
 poll#:#poll_participants#:#Teilnehmer
 poll#:#poll_delete_votes#:#Alle Stimmen löschen
 poll#:#poll_delete_votes_sure#:#Sind sie sicher, dass Sie alle Stimmen löschen möchten?
