@@ -274,6 +274,5 @@ class GlyphTest extends ILIAS_UI_TestBase {
 					"<span class=\"badge badge-notify il-counter-status\">7</span>".
 					"<span class=\"badge badge-notify il-counter-novelty\">42</span>";
 		$this->assertEquals($expected, $html);
-
 	}
 }
