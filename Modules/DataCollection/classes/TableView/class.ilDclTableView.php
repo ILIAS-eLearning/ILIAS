@@ -331,5 +331,17 @@ class ilDclTableView extends ActiveRecord
     {
         return self::where(array('table_id' => $table_id))->orderBy('tableview_order')->count();
     }
+    
+    public static function createStandardView($table_id, $create_default_settings = true)
+    {
+        global $lng, $rbacreview;
+        $view = new self();
+        $view->setRoles(array_merge($rbacreview->getGlobalRoles(), $rbacreview->getLocalRoles($_GET['ref_id'])));
+        $view->setTableId($table_id);
+        $view->setTitle($lng->txt('dcl_standardview'));
+        $view->setTableviewOrder(10);
+        $view->create($create_default_settings);
+        return $view;
+    }
 
 }

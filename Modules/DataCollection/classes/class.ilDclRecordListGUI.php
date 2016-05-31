@@ -97,6 +97,8 @@ class ilDclRecordListGUI {
 	 */
 	public function executeCommand() {
 		global $ilTabs;
+
+
 		$this->ctrl->saveParameter($this, 'mode');
 		$cmd = $this->ctrl->getCmd('show');
 

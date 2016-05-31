@@ -246,7 +246,7 @@ class ilDclTable {
 
 		if ($create_views) {
 			//standard tableview
-			$this->createStandardView();
+			ilDclTableView::createStandardView($this->id);
 			//add edit definition
 			$view_id = $ilDB->nextId("il_dcl_view");
 			$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (" . $ilDB->quote($view_id, "integer") . ", "
@@ -1532,19 +1532,5 @@ class ilDclTable {
 		}
 
 		return array( 'records' => $records, 'total' => count($total_record_ids) );
-	}
-
-	/**
-	 * @param $lng
-	 */
-	protected function createStandardView()
-	{
-		global $lng;
-		$view = new ilDclTableView();
-		$view->setTableId($this->id);
-		$view->setTitle($lng->txt('il_dcl_standardview'));
-		$view->setDescription($lng->txt('il_dcl_standardview_description'));
-		$view->setTableviewOrder(10);
-		$view->create();
 	}
 }

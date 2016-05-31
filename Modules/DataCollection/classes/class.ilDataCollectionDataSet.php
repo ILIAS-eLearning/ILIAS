@@ -424,6 +424,12 @@ class ilDataCollectionDataSet extends ilDataSet {
 			$field_prop->setValue($value);
 			$field_prop->update();
 		}
+		foreach ($a_mapping->getMappingsOfEntity('Modules/DataCollection', 'il_dcl_table') as $key => $tableid) {
+			//create standardview if a table has no tableviews, e.g. if import is from a earlier ILIAS version
+			if (!ilDclTableView::getAllForTableId($tableid)) {
+				ilDclTableView::createStandardView($tableid);
+			}
+		}
 	}
 
 

@@ -112,6 +112,10 @@ class ilDclRecordViewGUI {
 
 	public function executeCommand() {
 		global $ilCtrl;
+		if (!$this->checkAccess($_REQUEST['tableview_id']))
+		{
+			$this->offerAlternativeViews();
+		}
 
 		$cmd = $ilCtrl->getCmd();
 		$cmdClass = $ilCtrl->getCmdClass();
