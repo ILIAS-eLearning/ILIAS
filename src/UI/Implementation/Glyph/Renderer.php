@@ -22,7 +22,7 @@ class Renderer extends AbstractComponentRenderer {
 		foreach ($component->getCounters() as $counter) {
 			$n = "counter_".$counter->getType();
 			$tpl->setCurrentBlock($n);
-			$tpl->setVariable( strtoupper($n), $default_renderer->render($counter));
+			$tpl->setVariable(strtoupper($n), $default_renderer->render($counter));
 			$tpl->parseCurrentBlock();
 		}
 
