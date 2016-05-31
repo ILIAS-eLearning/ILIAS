@@ -2,12 +2,12 @@
 
 /* Copyright (c) 2015, 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Factory;
+namespace ILIAS\UI\Component\Glyph;
 
 /**
  * This is how a factory for glyphs looks like.
  */
-interface Glyph {
+interface Factory {
 	/**
 	 * description:
 	 *   purpose:
@@ -33,7 +33,7 @@ interface Glyph {
 	 *       3: The up-glyphs are actions and SHOULD be listed in the action
 	 *          column of a form.
 	 *
-	 * @return \ILIAS\UI\Component\Glyph
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function up();
 
@@ -62,7 +62,7 @@ interface Glyph {
 	 *       3: The down-glyphs are actions and SHOULD be listed in the action
 	 *          column of a form.
 	 *
-	 * @return \ILIAS\UI\Component\Glyph
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function down();
 
@@ -92,7 +92,7 @@ interface Glyph {
 	 *          action column of a form.
 	 *       3: The glyphed add-button MUST not be used to add lines to tables.
 	 *
-	 * @return \ILIAS\UI\Component\Glyph
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function add();
 	
@@ -122,7 +122,7 @@ interface Glyph {
 	 *          action column of a form.
 	 *       3: The glyphed remove-button MUST not be used to add lines to tables.
 	 *
-	 * @return \ILIAS\UI\Component\Glyph
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function remove();
 
@@ -142,7 +142,7 @@ interface Glyph {
 	 *
 	 * rules: TBD
 	 *
-	 * @return \ILIAS\UI\Component\Glyph
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function previous();
 
@@ -162,51 +162,52 @@ interface Glyph {
 	 *
 	 * rules: TBD
 	 *
-	 * @return \ILIAS\UI\Component\Glyph
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function next();
 
 	/**
-	 * @return \ILIAS\UI\Component\Glyph
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function calendar();
 
 	/**
-	 * @return \ILIAS\UI\Component\Glyph
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function close();
 
 	/**
-	 * @return \ILIAS\UI\Component\Glyph
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function attachment();
 
 	/**
-	 * @return \ILIAS\UI\Component\Glyph
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function caret();
 
 	/**
-	 * @return \ILIAS\UI\Component\Glyph
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function drag();
 
 	/**
-	 * @return \ILIAS\UI\Component\Glyph
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function search();
 
 	/**
-	 * @return \ILIAS\UI\Component\Glyph
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function filter();
 
 	/**
-	 * @return \ILIAS\UI\Component\Glyph
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function info();
+
 	/**
-	 * @return \ILIAS\UI\Component\Glyph
+	 * @return \ILIAS\UI\Component\Glyph\Glyph
 	 */
 	public function envelope();
 }

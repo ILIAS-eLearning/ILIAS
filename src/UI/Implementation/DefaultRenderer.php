@@ -5,7 +5,7 @@
 namespace ILIAS\UI\Implementation;
 
 use ILIAS\UI\Renderer;
-use ILIAS\UI\Component;
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\ComponentRenderer;
 
 /**

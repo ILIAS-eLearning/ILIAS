@@ -4,7 +4,7 @@
 
 namespace ILIAS\UI\Implementation;
 
-use ILIAS\UI\Component;
+use ILIAS\UI\Component\Component;
 
 /**
  * Base class for all component renderers.
@@ -49,13 +49,21 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
      * @return  null
 	 */
 	final protected function checkComponent(Component $component) {
-		$cmp = $this->getMyComponent();
-		$interface = "\\ILIAS\\UI\\Component\\$cmp";
+		$interface = $this->getComponentInterfaceName();
 		if(!($component instanceof $interface)) {
 			throw new \LogicException(
 				"Expected $cmp, found '".get_class($component)."' when rendering.");
 		}
 	}
+
+	/**
+	 * Get the name of the component-interface this renderer is supposed to render.
+	 *
+	 * ATTENTION: Fully qualified please!
+	 *
+	 * @return string
+	 */
+	abstract protected function getComponentInterfaceName();
 
 	// TODO: We might want to cache this.
 	private function getMyComponent() {

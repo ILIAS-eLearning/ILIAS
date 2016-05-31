@@ -2,12 +2,14 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Component;
+namespace ILIAS\UI\Component\Glyph;
+
+use \ILIAS\UI\Component\Counter\Counter;
 
 /**
  * This describes how a glyph could be modified during construction of UI.
  */
-interface Glyph extends \ILIAS\UI\Component {
+interface Glyph extends \ILIAS\UI\Component\Component {
 	// Types of glyphs:
 	const UP = "up";
 	const DOWN = "down";

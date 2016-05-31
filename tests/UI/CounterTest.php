@@ -20,10 +20,10 @@ class CounterTest extends ILIAS_UI_TestBase {
 	public function test_implements_factory_interface() {
 		$f = $this->getCounterFactory();
 
-		$this->assertInstanceOf("ILIAS\\UI\\Factory\\Counter", $f);
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Counter\\Factory", $f);
 
-		$this->assertInstanceOf("ILIAS\\UI\\Component\\Counter", $f->status(0));
-		$this->assertInstanceOf("ILIAS\\UI\\Component\\Counter", $f->novelty(0));
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Counter\\Counter", $f->status(0));
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Counter\\Counter", $f->novelty(0));
 	}
 
 	/**
@@ -35,7 +35,7 @@ class CounterTest extends ILIAS_UI_TestBase {
 		$c = $f->status($number);
 
 		$this->assertNotNull($c);
-		$this->assertEquals(C\Counter::STATUS, $c->getType());
+		$this->assertEquals(C\Counter\Counter::STATUS, $c->getType());
 		$this->assertEquals($number, $c->getNumber());
 	}
 
@@ -48,7 +48,7 @@ class CounterTest extends ILIAS_UI_TestBase {
 		$c = $f->novelty($number);
 
 		$this->assertNotNull($c);
-		$this->assertEquals(C\Counter::NOVELTY, $c->getType());
+		$this->assertEquals(C\Counter\Counter::NOVELTY, $c->getType());
 		$this->assertEquals($number, $c->getNumber());
 	}
 
@@ -81,18 +81,18 @@ class CounterTest extends ILIAS_UI_TestBase {
 	public function test_withType() {
 		$f = $this->getCounterFactory();
 
-		$c = $f->novelty(0)->withType(C\Counter::STATUS);
+		$c = $f->novelty(0)->withType(C\Counter\Counter::STATUS);
 
-		$this->assertEquals(C\Counter::STATUS, $c->getType());
+		$this->assertEquals(C\Counter\Counter::STATUS, $c->getType());
 	}
 
 	public function test_immutability_withType() {
 		$f = $this->getCounterFactory();
 
 		$c = $f->novelty(0);
-		$c2 = $c->withType(C\Counter::STATUS);
+		$c2 = $c->withType(C\Counter\Counter::STATUS);
 
-		$this->assertEquals(C\Counter::NOVELTY, $c->getType());
+		$this->assertEquals(C\Counter\Counter::NOVELTY, $c->getType());
 	}
 
 	public function test_withNumber() {

@@ -17,5 +17,5 @@ interface Renderer {
 	 * @throws	\LogicException		if renderer is called with a component it can't render
 	 * @return	string
 	 */
-	public function render(Component $component);
+	public function render(Component\Component $component);
 }

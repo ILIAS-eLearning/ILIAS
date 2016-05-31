@@ -6,109 +6,109 @@ namespace ILIAS\UI\Implementation\Glyph;
 
 use ILIAS\UI\Component\Glyph as G;
 
-class Factory implements \ILIAS\UI\Factory\Glyph {
+class Factory implements G\Factory {
 	/**
 	 * @inheritdoc
 	 */
 	public function up() {
-		return new Glyph(G::UP);
+		return new Glyph(G\Glyph::UP);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function down() {
-		return new Glyph(G::DOWN);
+		return new Glyph(G\Glyph::DOWN);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function add() {
-		return new Glyph(G::ADD);
+		return new Glyph(G\Glyph::ADD);
 	}
 	
 	/**
 	 * @inheritdoc
 	 */
 	public function remove() {
-		return new Glyph(G::REMOVE);
+		return new Glyph(G\Glyph::REMOVE);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function previous() {
-		return new Glyph(G::PREVIOUS);
+		return new Glyph(G\Glyph::PREVIOUS);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function next() {
-		return new Glyph(G::NEXT);
+		return new Glyph(G\Glyph::NEXT);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function calendar() {
-		return new Glyph(G::CALENDAR);
+		return new Glyph(G\Glyph::CALENDAR);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function close() {
-		return new Glyph(G::CLOSE);
+		return new Glyph(G\Glyph::CLOSE);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function attachment() {
-		return new Glyph(G::ATTACHMENT);
+		return new Glyph(G\Glyph::ATTACHMENT);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function caret() {
-		return new Glyph(G::CARET);
+		return new Glyph(G\Glyph::CARET);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function drag() {
-		return new Glyph(G::DRAG);
+		return new Glyph(G\Glyph::DRAG);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function search() {
-		return new Glyph(G::SEARCH);
+		return new Glyph(G\Glyph::SEARCH);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function filter() {
-		return new Glyph(G::FILTER);
+		return new Glyph(G\Glyph::FILTER);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function info() {
-		return new Glyph(G::INFO);
+		return new Glyph(G\Glyph::INFO);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function envelope() {
-		return new Glyph(G::ENVELOPE);
+		return new Glyph(G\Glyph::ENVELOPE);
 	}
 }

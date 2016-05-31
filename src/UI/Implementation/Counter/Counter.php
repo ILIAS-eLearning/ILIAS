@@ -6,8 +6,7 @@ namespace ILIAS\UI\Implementation\Counter;
 
 use ILIAS\UI\Component as C;
 
-class Counter implements C\Counter {
-
+class Counter implements C\Counter\Counter {
 	/**
 	 * @var	string
 	 */

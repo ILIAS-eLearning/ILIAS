@@ -2,13 +2,13 @@
 
 /* Copyright (c) 2015, 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Factory;
+namespace ILIAS\UI\Component\Counter;
 
 /**
  * This is how the factory for UI elements looks. This should provide access
  * to all UI elements at some point.
  */
-interface Counter {
+interface Factory {
 	/**
 	 * description:
 	 *   purpose:

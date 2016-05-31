@@ -6,7 +6,7 @@ namespace ILIAS\UI\Implementation\Counter;
 
 use ILIAS\UI\Implementation\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
-use ILIAS\UI\Component;
+use ILIAS\UI\Component\Component;
 
 class Renderer extends AbstractComponentRenderer {
 	/**
@@ -21,5 +21,12 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl->parseCurrentBlock();
 
 		return $tpl->get();
+	}
+
+	/**
+	 * @inheritdocs
+	 */
+	protected function getComponentInterfaceName() {
+		return "\\ILIAS\\UI\\Component\\Counter\\Counter";
 	}
 }

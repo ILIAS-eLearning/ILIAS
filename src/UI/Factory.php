@@ -36,7 +36,7 @@ interface Factory {
 	 *       2: A counter MUST contain exactly one number greater than zero and no
 	 *          other characters.
 	 *
-	 * @return  \ILIAS\UI\Factory\Counter
+	 * @return  \ILIAS\UI\Component\Counter\Factory
 	 */
 	public function counter();
 
@@ -90,7 +90,7 @@ interface Factory {
 	 *          accompanies some text describing the functionality of the triggered,
 	 *          this MUST be indicated by the aria-labelledby attribute.
 	 *
-	 * @return  \ILIAS\UI\Factory\Glyph
+	 * @return  \ILIAS\UI\Component\Glyph\Factory
 	 */
 	public function glyph();
 }

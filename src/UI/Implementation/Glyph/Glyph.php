@@ -5,8 +5,9 @@
 namespace ILIAS\UI\Implementation\Glyph;
 
 use ILIAS\UI\Component as C;
+use \ILIAS\UI\Component\Counter\Counter;
 
-class Glyph implements C\Glyph {
+class Glyph implements C\Glyph\Glyph {
 	/**
 	 * @var	string
 	 */
@@ -37,7 +38,7 @@ class Glyph implements C\Glyph {
 	/**
 	 * @inheritdoc
 	 */
-	public function withCounter(C\Counter $counter) {
+	public function withCounter(Counter $counter) {
 		$clone = clone $this;
 		$clone->counters[$counter->getType()] = $counter;
 		return $clone;

@@ -23,21 +23,21 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	}
 
 	static $canonical_css_classes = array
-		( C\Glyph::UP			=>	 "glyphicon glyphicon-chevron-up"
-		, C\Glyph::DOWN			=>	 "glyphicon glyphicon-chevron-down"
-		, C\Glyph::ADD			=>	 "glyphicon glyphicon-plus"
-		, C\Glyph::REMOVE		=>	 "glyphicon glyphicon-minus"
-		, C\Glyph::PREVIOUS		=>	 "glyphicon glyphicon-chevron-left"
-		, C\Glyph::NEXT			=>	 "glyphicon glyphicon-chevron-right"
-		, C\Glyph::CALENDAR		=>	 "glyphicon glyphicon-calendar"
-		, C\Glyph::CLOSE		=>	 "glyphicon glyphicon-remove"
-		, C\Glyph::ATTACHMENT	=>	 "glyphicon glyphicon-paperclip"
-		, C\Glyph::CARET		=>	 "caret"
-		, C\Glyph::DRAG			=>	 "glyphicon glyphicon-share-alt"
-		, C\Glyph::SEARCH		=>	 "glyphicon glyphicon-search"
-		, C\Glyph::FILTER		=>	 "glyphicon glyphicon-filter"
-		, C\Glyph::INFO			=>	 "glyphicon glyphicon-info-sign"
-		, C\Glyph::ENVELOPE		=>	 "glyphicon glyphicon-envelope"
+		( C\Glyph\Glyph::UP			=>	 "glyphicon glyphicon-chevron-up"
+		, C\Glyph\Glyph::DOWN		=>	 "glyphicon glyphicon-chevron-down"
+		, C\Glyph\Glyph::ADD		=>	 "glyphicon glyphicon-plus"
+		, C\Glyph\Glyph::REMOVE		=>	 "glyphicon glyphicon-minus"
+		, C\Glyph\Glyph::PREVIOUS	=>	 "glyphicon glyphicon-chevron-left"
+		, C\Glyph\Glyph::NEXT		=>	 "glyphicon glyphicon-chevron-right"
+		, C\Glyph\Glyph::CALENDAR	=>	 "glyphicon glyphicon-calendar"
+		, C\Glyph\Glyph::CLOSE		=>	 "glyphicon glyphicon-remove"
+		, C\Glyph\Glyph::ATTACHMENT	=>	 "glyphicon glyphicon-paperclip"
+		, C\Glyph\Glyph::CARET		=>	 "caret"
+		, C\Glyph\Glyph::DRAG		=>	 "glyphicon glyphicon-share-alt"
+		, C\Glyph\Glyph::SEARCH		=>	 "glyphicon glyphicon-search"
+		, C\Glyph\Glyph::FILTER		=>	 "glyphicon glyphicon-filter"
+		, C\Glyph\Glyph::INFO		=>	 "glyphicon glyphicon-info-sign"
+		, C\Glyph\Glyph::ENVELOPE	=>	 "glyphicon glyphicon-envelope"
 		);
 
 	/**
@@ -46,8 +46,8 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	public function test_implements_factory_interface($factory_method) {
 		$f = $this->getGlyphFactory();
 
-		$this->assertInstanceOf("ILIAS\\UI\\Factory\\Glyph", $f);
-		$this->assertInstanceOf("ILIAS\\UI\\Component\\Glyph", $f->$factory_method());
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Glyph\\Factory", $f);
+		$this->assertInstanceOf("ILIAS\\UI\\Component\\Glyph\\Glyph", $f->$factory_method());
 	}
 
 	/**
@@ -189,34 +189,34 @@ class GlyphTest extends ILIAS_UI_TestBase {
 		$gf = $this->getGlyphFactory();
 		$g = $gf
 			->up()
-			->withType(C\Glyph::DOWN);
-		$this->assertEquals(C\Glyph::DOWN, $g->getType());
+			->withType(C\Glyph\Glyph::DOWN);
+		$this->assertEquals(C\Glyph\Glyph::DOWN, $g->getType());
 	}
 
 	public function test_immutability_withType() {
 		$gf = $this->getGlyphFactory();
 		$g = $gf->up();
-		$g2 = $g->withType(C\Glyph::DOWN);
-		$this->assertEquals(C\Glyph::UP, $g->getType());
+		$g2 = $g->withType(C\Glyph\Glyph::DOWN);
+		$this->assertEquals(C\Glyph\Glyph::UP, $g->getType());
 	}
 
 	public function glyph_type_provider() {
 		return array
-			( array(C\Glyph::UP)
-			, array(C\Glyph::DOWN)
-			, array(C\Glyph::ADD)
-			, array(C\Glyph::REMOVE)
-			, array(C\Glyph::PREVIOUS)
-			, array(C\Glyph::NEXT)
-			, array(C\Glyph::CALENDAR)
-			, array(C\Glyph::CLOSE)
-			, array(C\Glyph::ATTACHMENT)
-			, array(C\Glyph::CARET)
-			, array(C\Glyph::DRAG)
-			, array(C\Glyph::SEARCH)
-			, array(C\Glyph::FILTER)
-			, array(C\Glyph::INFO)
-			, array(C\Glyph::ENVELOPE)
+			( array(C\Glyph\Glyph::UP)
+			, array(C\Glyph\Glyph::DOWN)
+			, array(C\Glyph\Glyph::ADD)
+			, array(C\Glyph\Glyph::REMOVE)
+			, array(C\Glyph\Glyph::PREVIOUS)
+			, array(C\Glyph\Glyph::NEXT)
+			, array(C\Glyph\Glyph::CALENDAR)
+			, array(C\Glyph\Glyph::CLOSE)
+			, array(C\Glyph\Glyph::ATTACHMENT)
+			, array(C\Glyph\Glyph::CARET)
+			, array(C\Glyph\Glyph::DRAG)
+			, array(C\Glyph\Glyph::SEARCH)
+			, array(C\Glyph\Glyph::FILTER)
+			, array(C\Glyph\Glyph::INFO)
+			, array(C\Glyph\Glyph::ENVELOPE)
 			);
 	}
 
@@ -253,7 +253,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 
 		$html = $this->normalizeHTML($r->render($c));
 
-		$css_classes = self::$canonical_css_classes[C\Glyph::ENVELOPE];
+		$css_classes = self::$canonical_css_classes[C\Glyph\Glyph::ENVELOPE];
 		$expected = "<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
 					"<span class=\"badge badge-notify il-counter-$type\">42</span>";
 		$this->assertEquals($expected, $html);
@@ -269,7 +269,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 
 		$html = $this->normalizeHTML($r->render($c));
 
-		$css_classes = self::$canonical_css_classes[C\Glyph::ENVELOPE];
+		$css_classes = self::$canonical_css_classes[C\Glyph\Glyph::ENVELOPE];
 		$expected = "<span class=\"$css_classes\" aria-hidden=\"true\"></span>".
 					"<span class=\"badge badge-notify il-counter-status\">7</span>".
 					"<span class=\"badge badge-notify il-counter-novelty\">42</span>";

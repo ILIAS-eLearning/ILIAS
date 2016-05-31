@@ -5,7 +5,7 @@
 namespace ILIAS\UI\Implementation\Glyph {
 	require_once("libs/composer/vendor/autoload.php");
 
-	use \ILIAS\UI\Component;
+	use \ILIAS\UI\Component\Component;
 	use \ILIAS\UI\Renderer;
 	use \ILIAS\UI\Implementation\AbstractComponentRenderer;
 	class GlyphNonAbstractRenderer extends AbstractComponentRenderer {
@@ -14,11 +14,14 @@ namespace ILIAS\UI\Implementation\Glyph {
 		public function _getTemplate($a, $b, $c) {
 			return $this->getTemplate($a, $b, $c);
 		}
+		protected function getComponentInterfaceName() {
+			return "\\ILIAS\\UI\\Component\\Glyph\\Glyph";
+		}
 	}
 }
 
 namespace ILIAS\UI\Implementation\Counter {
-	use \ILIAS\UI\Component;
+	use \ILIAS\UI\Component\Component;
 	use \ILIAS\UI\Renderer;
 	use \ILIAS\UI\Implementation\AbstractComponentRenderer;
 	class CounterNonAbstractRenderer extends AbstractComponentRenderer {
@@ -26,6 +29,9 @@ namespace ILIAS\UI\Implementation\Counter {
 		}
 		public function _getTemplate($a, $b, $c) {
 			return $this->getTemplate($a, $b, $c);
+		}
+		protected function getComponentInterfaceName() {
+			return "\\ILIAS\\UI\\Component\\Counter\\Counter";
 		}
 	}
 }
