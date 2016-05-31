@@ -82,12 +82,12 @@ class AbstractRendererTest extends ILIAS_UI_TestBase {
 		$r = new \ILIAS\UI\Implementation\Counter\CounterNonAbstractRenderer($this->factory);
 
 		try {
-			$tpl = $r->_getTemplate("tpl.counter.html", true, false);
+			$tpl = $r->_getTemplate("tpl.counter_foo.html", true, false);
 			$this->assertFalse("We should not get here");
 		} catch (\InvalidArgumentException $e) {};
 
 		$expected = array
-			( realpath(__DIR__."/../../src/UI/templates/default/Counter/tpl.counter.html")
+			( realpath(__DIR__."/../../src/UI/templates/default/Counter/tpl.counter_foo.html")
 				=> array(true, false)
 			);
 		$this->assertEquals($expected, $this->factory->files);
