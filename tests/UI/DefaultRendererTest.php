@@ -16,29 +16,11 @@ class DefaultRendererTest extends ILIAS_UI_TestBase {
 		$this->assertInstanceOf("\\ILIAS\\UI\\Implementation\\ComponentRenderer", $r);
 	}
 
-	public function test_instantiateRenderer_unsuccessfully() {
-		// There should be no renderer for Counter...
-		$dr = $this->getDefaultRenderer();
-		try {
-			$r = $dr->instantiateRendererFor("\\ILIAS\\UI\\Implementation\\Counter\\Counter");
-			$this->assertFalse("We should not get here");
-		} catch (\LogicException $e) {}
-	}
-
 	public function test_getRenderer_successfully() {
 		// There should be a renderer for Glyph...
 		$dr = $this->getDefaultRenderer();
 		$r = $dr->getRendererFor("\\ILIAS\\UI\\Implementation\\Glyph\\Glyph");
 		$this->assertInstanceOf("\\ILIAS\\UI\\Implementation\\ComponentRenderer", $r);
-	}
-
-	public function test_getRenderer_unsuccessfully() {
-		// There should be no renderer for Counter...
-		$dr = $this->getDefaultRenderer();
-		try {
-			$r = $dr->getRendererFor("\\ILIAS\\UI\\Implementation\\Counter\\Counter");
-			$this->assertFalse("We should not get here");
-		} catch (\LogicException $e) {}
 	}
 
 	public function test_getRenderer_caching() {
