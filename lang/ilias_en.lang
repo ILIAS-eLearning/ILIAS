@@ -15334,3 +15334,5 @@ exc#:#exc_delete_team#:#Delete Team
 trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.
 rbac#:#mep_copy#:#User can copy media pool
 crs#:#crs_cannot_find_role#:#Can't find this role.
+grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
+crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
