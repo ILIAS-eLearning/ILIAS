@@ -336,7 +336,7 @@ class ilDclFieldEditGUI {
 			// Get possible properties and save them
 			$field_props = $this->field_obj->getValidFieldProperties();
 			foreach ($field_props as $property) {
-				$representation = ilDclCache::getFieldRepresentation($this->field_obj);
+				$representation = ilDclFieldFactory::getFieldRepresentationInstance($this->field_obj);
 				$value = $this->form->getInput($representation->getPropertyInputFieldId($property));
 
 				// save non empty values and set them to null, when they already exist. Do not override plugin-hook when already set.

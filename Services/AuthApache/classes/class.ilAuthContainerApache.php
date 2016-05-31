@@ -142,6 +142,7 @@ class ilAuthContainerApache extends Auth_Container
 								{
 									$this->_auth_obj->logout();
 									$_SESSION['tmp_auth_mode']        = 'apache';
+									$_SESSION['tmp_auth_mode_type'] = 'apache';
 									$_SESSION['tmp_external_account'] = $a_username;
 									$_SESSION['tmp_pass']             = $_POST['password'];
 
