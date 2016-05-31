@@ -4798,7 +4798,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		$this->checkPermission("write");
 		$ass = new ilExAssignment((int) $_GET["ass_id"]);
-		$ass->saveMultiFeedbackFiles($_POST["file"]);
+		$ass->saveMultiFeedbackFiles($_POST["file"], $this->object);
 		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "members");

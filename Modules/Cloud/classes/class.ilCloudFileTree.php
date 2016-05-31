@@ -52,16 +52,24 @@ class ilCloudFileTree
     protected $service_name = "";
 
     /**
+     * @var bool
+     */
+    protected $case_sensitive = false;
+
+    /**
      * @param string $root_path
      * @param string $root_id
      * @param int $id
      * @param string $service_name
+     * @param bool $case_sensitive
      */
     public function __construct($root_path = "/", $root_id = "root", $id, $service_name)
     {
         $this->setId($id);
         $this->root_node = $this->createNode($root_path, $root_id, true);
         $this->setServiceName($service_name);
+        $service = ilCloudConnector::getServiceClass($service_name, $id);
+        $this->setCaseSensitive($service->isCaseSensitive());
     }
 
     /**
@@ -113,6 +121,21 @@ class ilCloudFileTree
         return $this->service_name;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isCaseSensitive()
+    {
+        return $this->case_sensitive;
+    }
+
+    /**
+     * @param boolean $case_sensitive
+     */
+    public function setCaseSensitive($case_sensitive)
+    {
+        $this->case_sensitive = $case_sensitive;
+    }
 
     /**
      * @return ilCloudFileNode|null
@@ -199,7 +222,20 @@ class ilCloudFileTree
      */
     public function getNodeFromPath($path = "/")
     {
-        return $this->item_list[$path];
+        if (!$this->isCaseSensitive() || $this->item_list[$path])
+        {
+            return $this->item_list[$path];
+        }
+
+        foreach (array_keys($this->item_list) as $item)
+        {
+            if (strtolower($item) == strtolower($path))
+            {
+                return $this->item_list[$item];
+            }
+        }
+
+        return null;
     }
 
     /**

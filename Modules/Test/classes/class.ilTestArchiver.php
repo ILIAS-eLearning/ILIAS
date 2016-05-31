@@ -83,6 +83,11 @@ class ilTestArchiver
 	protected $archive_data_index;		/** @var $archive_data_index array[string[]] Archive data index as associative array */
 
 	protected $ilDB;					/** @var $ilDB ilDB */
+	
+	/**
+	 * @var ilTestParticipantData
+	 */
+	protected $participantData;
 
 	#endregion
 
@@ -101,6 +106,24 @@ class ilTestArchiver
 		$this->ilDB						= $ilias->db;
 
 		$this->archive_data_index 		= $this->readArchiveDataIndex();
+		
+		$this->participantData = null;
+	}
+	
+	/**
+	 * @return ilTestParticipantData
+	 */
+	public function getParticipantData()
+	{
+		return $this->participantData;
+	}
+	
+	/**
+	 * @param ilTestParticipantData $participantData
+	 */
+	public function setParticipantData($participantData)
+	{
+		$this->participantData = $participantData;
 	}
 
 	#region API methods
@@ -308,7 +331,8 @@ class ilTestArchiver
 	 */
 	protected function createArchiveForTest() 
 	{
-		mkdir( $this->getTestArchive(), 0777, true );
+		ilUtil::makeDirParents($this->getTestArchive());
+		//mkdir( $this->getTestArchive(), 0777, true );
 	}
 
 	/**
@@ -463,6 +487,20 @@ class ilTestArchiver
 		mkdir($this->getPassDataDirectory($active_fi, $pass), 0777, true);
 		return;
 	}
+	
+	private function buildPassDataDirectory($active_fi, $pass)
+	{
+		foreach ($this->archive_data_index as $data_index_entry)
+		{
+			if ( $data_index_entry != null && $data_index_entry['identifier'] == $active_fi.'|'.$pass )
+			{
+				array_shift($data_index_entry);
+				return $this->getTestArchive() . self::DIR_SEP . implode(self::DIR_SEP, $data_index_entry);
+			}
+		}
+		
+		return null;
+	}
 
 	/**
 	 * Returns the pass data directory.
@@ -474,19 +512,34 @@ class ilTestArchiver
 	 */
 	protected function getPassDataDirectory($active_fi, $pass) 
 	{
-		foreach ($this->archive_data_index as $data_index_entry)
+		$passDataDir = $this->buildPassDataDirectory($active_fi, $pass);
+		
+		if( !$passDataDir )
 		{
-			if ( $data_index_entry != null && $data_index_entry['identifier'] == $active_fi.'|'.$pass )
+			if( $this->getParticipantData() )
 			{
-				array_shift($data_index_entry);
-				return $this->getTestArchive() . self::DIR_SEP . implode(self::DIR_SEP, $data_index_entry);
+				$usrData = $this->getParticipantData()->getUserDataByActiveId($active_fi);
+				$user = new ilObjUser();
+				$user->setFirstname($usrData['firstname']);
+				$user->setLastname($usrData['lastname']);
+				$user->setMatriculation($usrData['matriculation']);
+				$user->setFirstname($usrData['firstname']);
 			}
+			else
+			{
+				global $ilUser;
+				$user = $ilUser;
+			}
+			
+			$this->appendToArchiveDataIndex(
+				date(DATE_ISO8601), $active_fi, $pass,
+				$user->getFirstname(), $user->getLastname(), $user->getMatriculation()
+			);
+			
+			$passDataDir = $this->buildPassDataDirectory($active_fi, $pass);
 		}
-		global $ilUser;
-		$this->appendToArchiveDataIndex(date(DATE_ISO8601), $active_fi, $pass, $ilUser->getFirstname(), $ilUser->getLastname(), $ilUser->getMatriculation());
-		$data_index_entry = $this->getPassDataDirectory($active_fi, $pass);
-		@array_shift($data_index_entry);
-		return $this->getTestArchive() . self::DIR_SEP . implode(self::DIR_SEP, $data_index_entry);
+		
+		return $passDataDir;
 	}
 
 	/**
@@ -542,9 +595,25 @@ class ilTestArchiver
 	{
 		// Data are taken from the current user as the implementation expects the first interaction of the pass
 		// takes place from the usage/behaviour of the current user.
-		global $ilUser;
+		
+		if( $this->getParticipantData() )
+		{
+			$usrData = $this->getParticipantData()->getUserDataByActiveId($active_fi);
+			$user = new ilObjUser();
+			$user->setFirstname($usrData['firstname']);
+			$user->setLastname($usrData['lastname']);
+			$user->setMatriculation($usrData['matriculation']);
+			$user->setFirstname($usrData['firstname']);
+		}
+		else
+		{
+			global $ilUser;
+			$user = $ilUser;
+		}
 
-		$this->appendToArchiveDataIndex(date('Y'), $active_fi, $pass, $ilUser->getFirstname(), $ilUser->getLastname(), $ilUser->getMatriculation());
+		$this->appendToArchiveDataIndex(
+			date('Y'), $active_fi, $pass, $user->getFirstname(), $user->getLastname(), $user->getMatriculation()
+		);
 		mkdir($this->getPassMaterialsDirectory($active_fi, $pass) , 0777, true );
 	}
 
@@ -682,7 +751,9 @@ class ilTestArchiver
 	protected function logArchivingProcess($message) 
 	{
 		$archive = $this->getTestArchive() . self::DIR_SEP . self::ARCHIVE_LOG;
-		file_put_contents($archive, file_get_contents($archive) . "\n" . $message);
+		if( file_exists($archive) ) $oldContent = file_get_contents($archive) . "\n";
+		else $oldContent = '';
+		file_put_contents($archive, $oldContent.$message);
 		
 		return;
 	}

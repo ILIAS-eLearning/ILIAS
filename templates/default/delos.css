@@ -7493,6 +7493,9 @@ img.ilIcon {
 .il_HAccordionContentDef > div {
   overflow: auto;
 }
+div.ilc_va_icont_VAccordICont {
+  overflow: visible !important;
+}
 /* Modules/ScormAicc */
 table.il_ScormTable {
   color: #222;

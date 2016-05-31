@@ -376,40 +376,40 @@ class ilDataCollectionRecordEditGUI {
 	 */
 	public function save() {
 		$this->initForm();
-		if ($this->form->checkInput()) {
-			$record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
-			$date_obj = new ilDateTime(time(), IL_CAL_UNIX);
-			$record_obj->setTableId($this->table_id);
-			$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
-			$record_obj->setLastEditBy($this->user->getId());
 
-			$create_mode = false;
+		$valid = $this->form->checkInput();
 
-			if (ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id)) {
-				$all_fields = $this->table->getRecordFields();
-			} else {
-				$all_fields = $this->table->getEditableFields();
+
+		$record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
+		$date_obj = new ilDateTime(time(), IL_CAL_UNIX);
+		$record_obj->setTableId($this->table_id);
+		$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
+		$record_obj->setLastEditBy($this->user->getId());
+
+		$create_mode = false;
+
+		if (ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id)) {
+			$all_fields = $this->table->getRecordFields();
+		} else {
+			$all_fields = $this->table->getEditableFields();
+		}
+
+		//Check if we can create this record.
+		foreach ($all_fields as $field) {
+			try {
+				$value = $this->form->getInput("field_" . $field->getId());
+				$field->checkValidity($value, $this->record_id);
+			} catch (ilDataCollectionInputException $e) {
+				$valid = false;
+				$item = $this->form->getItemByPostVar('field_'.$field->getId());
+				$item->setAlert($e);
 			}
+		}
 
-			$fail = "";
-			//Check if we can create this record.
-			foreach ($all_fields as $field) {
-				try {
-					$value = $this->form->getInput("field_" . $field->getId());
-					$field->checkValidity($value, $this->record_id);
-				} catch (ilDataCollectionInputException $e) {
-					$fail .= $field->getTitle() . ": " . $e . "<br>";
-				}
-			}
 
-			if ($fail) {
-				$this->sendFailure($fail);
-
-				return;
-			}
-
-			if (! isset($this->record_id)) {
-				if (! ($this->table->hasPermissionToAddRecord($this->parent_obj->ref_id))) {
+		if ($valid) {
+			if (!isset($this->record_id)) {
+				if (!($this->table->hasPermissionToAddRecord($this->parent_obj->ref_id))) {
 					$this->accessDenied();
 
 					return;

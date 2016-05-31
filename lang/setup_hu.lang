@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator 5.0.x 2015-07-06 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator 5.0.x 2016-04-01 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @translator 31603 Antónia Berecz <berecz@gdf.hu>
 * @module       setup language file hungarian
 * @modulegroup  language
@@ -206,7 +206,7 @@ info_text_ini#:#Válasszon kliens-azonosítót (ID-t). Minden betű használhat�
 info_text_lang#:#Válasszon további nyelveket és/vagy távolítsa el a kiválasztott nyelveket. Az alapértelmezett nyelv azon új felhasználói fiókoknak vagy felhasználóknak határozza meg a használt nyelvet, akik nem választottak még.
 info_text_list#:#Ebben az áttekintésben minden elérhető kliens, setup és elérési állapot látszik. Jobb fent a kliensválasztás képernyőjét be-/kikapcsolhatja. Ha a kliensválasztás bekapcsolt, minden elérhető on-line kliens megjelenik az ILIAS kezdőlapján egy listában. Ha a kliensválasztás kikapcsolt, és egy felhasználó a startlapra lép, az <i>alapértelmezett</i> kliens bejelentkezési képernyője jelenik meg. Az alapértelmezett klienst az alul lévő gombbal határozhatja meg.
 info_text_login#:#Adja meg telepítése kliensazonosítóját (ID) és számlafiókjának adatait. Felhasználói fiókját hozzá kell rendelni az 'rendszergazda' szerephez.
-info_text_nic#:#Amennyiben úgy gondolja, regisztráljon és szerezzen be telepítési ID-t (NIC-ID) a nyílt forráskódú ILIAS közösségi szervernél. A NIC-ID beszerzése ajánlott, ha más ILIAS telepítésekkel tartalmat szeretne megosztani.
+info_text_nic#:#Regisztrálhat és beszerezhet egy egyedi telepítési azonosítót (NIC-ID) a nyílt forráskódú ILIAS közösségi szerverről. <b>Megjegyzés</b>: A NIC-ID beszerzése célszerű, ha más ILIAS-telepítéssel tartalom megosztását tervezi vagy ha másik ILIAS-telepítés tartalmát szeretné újrafelhasználni.<br /><br /><b>Adatvédelem</b><br />A NIC-szerver az első regisztráció során az alábbi adatokat tárolja (később az adatok nem frissülnek):<br />&nbsp;•&nbsp;Kiszolgálónév<br />&nbsp;•&nbsp;Telepítési név<br />&nbsp;•&nbsp;Telepítési információ<br />&nbsp;•&nbsp;HTTP útvonal<br />&nbsp;•&nbsp;Kapocslattartó vezetékneve<br />&nbsp;•&nbsp;Kapocslattartó keresztneve<br />&nbsp;•&nbsp;Kapocslattartó e-mail címe<br /><br />Az összes személyes adatot kizárólag a <a href="http://verein.ilias.de" target="_blank">ILIAS open source e-Learning e.V.</a> használja belső dokumentálási célzattal, azokat tovább nem adja, semmilyen marketing tevékenységre nem használja. Amennyiben ILIAS-telepítését mások előtt is ismertté kívánja tenni, töltse fel adatit a '<a href="http://www.ilias.de/docu/goto_docu_dcl_3444.html" target="_blank">List of Known Installations</a>' oldalra.
 info_text_nic3#:#Sikeresen regisztrálta telepítését. Az Ön nic-id-je
 info_text_password#:#Itt cserélheti le setup-programjának mesterjelszavát.
 info_text_pathes#:#Az ILIAS támogatja a többklienses struktúrát különböző adatbázisokkal. Alább megadhatja az alap adatkönyvtárat, a naplófájl helyét és az elérési utat a 3. felek által készített eszközökhöz. Ezen beállítások az Ön által később létrehozott összes kliensre érvényesek lesznek.

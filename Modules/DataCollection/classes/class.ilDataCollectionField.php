@@ -936,7 +936,7 @@ class ilDataCollectionField {
 			}
 			//email or url
 			if ($properties[$url]
-				&& !(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $value)
+				&& !(preg_match('~(^(www|news|(ht|f)tp(s?)\://){1}\S+)~i', $value)
 					|| preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i", $value))
 			) {
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_URL);

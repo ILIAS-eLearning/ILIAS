@@ -520,29 +520,62 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				$users = array_unique(array_merge($participants->getTutors(), $participants->getAdmins()));
 				//$users = $participants->getParticipants();
 				include_once 'Services/Booking/classes/class.ilBookingEntry.php';
-				//$users = ilBookingEntry::isBookable($users, $obj_id);
 				$users = ilBookingEntry::lookupBookableUsersForObject($obj_id,$users);
-				if($users)
+				foreach($users as $user_id)
 				{
-					foreach($users as $user_id)
+					if(!isset($_GET["bkid"]))
 					{
-						if(!isset($_GET["bkid"]))
+						include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
+						$now = new ilDateTime(time(), IL_CAL_UNIX);
+						
+						// default to last booking entry
+						$appointments = ilConsultationHourAppointments::getAppointments($user_id);
+						$next_app = end($appointments);
+						reset($appointments);
+						
+						foreach($appointments as $entry)
 						{
-							$ilCtrl->setParameter($this, "bkid", $user_id);
-							$this->addBlockCommand(
-								$ilCtrl->getLinkTargetByClass("ilCalendarMonthGUI",
-									""),
-								$lng->txt("cal_consultation_hours_for").' '.ilObjUser::_lookupFullname($user_id));
-							
-							$this->cal_footer[] = array(
-								'link' => $ilCtrl->getLinkTargetByClass('ilCalendarMonthGUI',''),
-								'txt' => $lng->txt("cal_consultation_hours_for").' '.ilObjUser::_lookupFullname($user_id)
-							);
-							
+							// find next entry
+							if(ilDateTime::_before($entry->getStart(), $now, IL_CAL_DAY))
+							{
+								continue;
+							}
+							include_once 'Services/Booking/classes/class.ilBookingEntry.php';
+							$booking_entry = new ilBookingEntry($entry->getContextId());
+							if(!$booking_entry->isAppointmentBookableForUser($entry->getEntryId(), $GLOBALS['ilUser']->getId()))
+							{
+								continue;
+							}
+							$next_app = $entry;
+							break;
 						}
+						
+						$ilCtrl->setParameter($this, "bkid", $user_id);
+						if($next_app)
+						{
+							$ilCtrl->setParameter(
+								$this,
+								'seed',
+								(string) $next_app->getStart()->get(IL_CAL_DATE)
+							);
+						}
+						
+						$this->addBlockCommand(
+							$ilCtrl->getLinkTargetByClass(
+								"ilCalendarMonthGUI",
+								""),
+							$lng->txt("cal_consultation_hours_for").' '. ilObjUser::_lookupFullname($user_id)
+						);
+						
+						$this->cal_footer[] = array(
+							'link' => $ilCtrl->getLinkTargetByClass('ilCalendarMonthGUI',''),
+							'txt' => $lng->txt("cal_consultation_hours_for").' '.ilObjUser::_lookupFullname($user_id)
+						);
+						
 					}
-					$ilCtrl->setParameter($this, "bkid", "");
 				}
+				$ilCtrl->setParameter($this, "bkid", "");
+				$ilCtrl->setParameter($this, 'seed', '');
 			}
 			else
 			{

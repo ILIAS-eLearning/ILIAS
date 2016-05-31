@@ -56,7 +56,8 @@ class ilConsultationHourAppointments
 			$query .= " AND ce.starta = ".$ilDB->quote($a_start->get(IL_CAL_DATETIME, '', 'UTC'), 'text');
 		}
 		
-
+		$query .= (' ORDER BY ce.starta ASC');
+		
 		$res = $ilDB->query($query);
 		$entries = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
