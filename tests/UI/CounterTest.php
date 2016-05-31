@@ -155,15 +155,34 @@ class CounterTest extends ILIAS_UI_TestBase {
 			);
 	}
 
-	public function test_no_renderer() {
+	static $canonical_css_classes = array
+		( "status"	=> "badge badge-notify il-counter-status"
+		, "novelty" => "badge badge-notify il-counter-novelty"
+		);
+
+	/**
+	 * @dataProvider	counter_type_and_number_provider
+	 */
+	public function test_render_status($type, $number) {
 		$f = $this->getCounterFactory();
 		$r = $this->getDefaultRenderer();
-		$c = $f->status(1);
+		$c = $f->$type($number);
 
-		try {
-			$r->render($c);	
-			$this->assertFalse("We should not get here");
-		}
-		catch (\LogicException $e) {}
+		$html = $this->normalizeHTML($r->render($c));
+
+		$css_classes = self::$canonical_css_classes[$type];
+		$expected = "<span class=\"$css_classes\">$number</span>";
+		$this->assertEquals($expected, $html);
 	}
+
+	public function counter_type_and_number_provider() {
+		return array
+			( array("status", 42)
+			, array("novelty", 13)
+			, array("status", 1)
+			, array("novelty", 23)
+			);
+	}
+
+
 }
