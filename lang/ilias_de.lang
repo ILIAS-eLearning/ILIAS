@@ -15700,3 +15700,4 @@ mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge 
 mail#:#mail_recipient_not_found#:#%1$s (es konnte kein gültiger Empfänger gefunden werden) 
 mail#:#mail_multiple_role_recipients_found#:#%1$s (für den Emfpänger wurden mehrere Rollen gefunden: %2$s)
 mail#:#mail_generic_rcp_error#:#Beim Validieren der Empfänger ist ein Fehler aufgetreten: %1$s
+rbac#:#mep_copy#:#Medienpool kopieren
