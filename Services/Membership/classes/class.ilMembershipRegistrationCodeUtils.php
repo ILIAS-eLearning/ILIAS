@@ -45,6 +45,9 @@ class ilMembershipRegistrationCodeUtils
 				case 789://out of registration period
 					ilUtil::sendFailure($lng->txt($a_type."_admission_link_failure_registration_period"), true);
 					break;
+				case 125://admission link is invalid
+					ilUtil::sendFailure($lng->txt($a_type."_admission_link_failure_invalid_code"), true);
+					break;
 				default:
 					ilUtil::sendFailure($e->getMessage(), true);
 					break;
@@ -74,6 +77,13 @@ class ilMembershipRegistrationCodeUtils
 		global $tree,$ilUser;
 		
 		$obj_ids = self::lookupObjectsByCode($a_code);
+
+		if(!$obj_ids)
+		{
+			include_once './Services/Membership/exceptions/class.ilMembershipRegistrationException.php';
+			throw new ilMembershipRegistrationException('Admission code is not valid', '125');
+		}
+
 		foreach($tree->getPathId($a_endnode) as $ref_id)
 		{
 			if(in_array(ilObject::_lookupObjId($ref_id), $obj_ids))
