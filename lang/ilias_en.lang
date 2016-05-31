@@ -15699,3 +15699,4 @@ mail#:#mail_recipient_not_found#:#%1$s (could not find a valid particant)
 mail#:#mail_multiple_role_recipients_found#:#%1$s (found multiple roles for recipient: %2$s)
 mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients: %1$s
 rbac#:#mep_copy#:#User can copy media pool
+crs#:#crs_cannot_find_role#:#Can't find this role.
