@@ -15333,3 +15333,4 @@ style#:#sty_va_ihcap_class#:#Vert. Accordion Caption
 exc#:#exc_delete_team#:#Delete Team
 trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.
 rbac#:#mep_copy#:#User can copy media pool
+crs#:#crs_cannot_find_role#:#Can't find this role.
