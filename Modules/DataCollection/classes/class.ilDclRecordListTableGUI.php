@@ -82,7 +82,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$this->addMultiCommand("confirmDeleteRecords", $lng->txt('dcl_delete_records'));
 		}
 
-		if (ilDclRecordViewViewdefinition::isActive($this->tableview)) {
+		if (ilDclRecordViewViewdefinition::isActive($this->tableview->getId())) {
 			$this->addColumn("", "_front", '15px');
 		}
 
@@ -188,7 +188,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$ilCtrl->setParameterByClass("ildclrecordeditgui", "record_id", $record->getId());
 			$ilCtrl->setParameterByClass("ildclrecordeditgui", "mode", $this->mode);
 
-			if (ilDclRecordViewViewdefinition::isActive($this->tableview)) {
+			if (ilDclRecordViewViewdefinition::isActive($this->tableview->getId())) {
 				$record_data["_front"] = $ilCtrl->getLinkTargetByClass("ildclrecordviewgui", 'renderRecord');
 			}
 
@@ -196,7 +196,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$alist->setId($record->getId());
 			$alist->setListTitle($lng->txt("actions"));
 
-			if (ilDclRecordViewViewdefinition::isActive($this->tableview)) {
+			if (ilDclRecordViewViewdefinition::isActive($this->tableview->getId())) {
 				$alist->addItem($lng->txt('view'), 'view', $ilCtrl->getLinkTargetByClass("ildclrecordviewgui", 'renderRecord'));
 			}
 

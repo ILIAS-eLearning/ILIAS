@@ -39,22 +39,22 @@ class ilDclRecordViewViewdefinition extends ilPageObject {
 	 * @var array Cache record views per table-id, key=table-id, value=view definition id
 	 */
 	protected static $record_view_cache = array();
-	/**
-	 * @var ilDclRecordViewViewdefinition[]
-	 */
-	protected static $instances = array();
-
-
-	/**
-	 * @param $key
-	 *
-	 * @return ilDclRecordViewViewdefinition
-	 */
-	public static function getInstance($key) {
-		self::$instances[$key] = new self($key);
-
-		return self::$instances[$key];
-	}
+//	/**
+//	 * @var ilDclRecordViewViewdefinition[]
+//	 */
+//	protected static $instances = array();
+//
+//
+//	/**
+//	 * @param $key
+//	 *
+//	 * @return ilDclRecordViewViewdefinition
+//	 */
+//	public static function getInstance($key) {
+//		self::$instances[$key] = new self($key);
+//
+//		return self::$instances[$key];
+//	}
 
 	/**
 	 * Get parent type
@@ -64,42 +64,20 @@ class ilDclRecordViewViewdefinition extends ilPageObject {
 	function getParentType() {
 		return self::PARENT_TYPE;
 	}
-	
-	/**
-	 * @param $table_id
-	 *
-	 * @return ilDclRecordViewViewdefinition
-	 */
-	public static function getInstanceByTableViewId($tableview_id) {
-		$id = self::getIdByTableViewId($tableview_id);
 
-		return self::getInstance($id);
-	}
-
-	public static function getIdByTableViewId($tableview_id){
-		global $ilDB;
-		$sql = $ilDB->query('SELECT id FROM page_object WHERE parent_id = ' . $ilDB->quote($tableview_id, 'text') .
-			' AND parent_type = ' . $ilDB->quote('dclf', 'text'));
-		if ($sql->numRows()) {
-			return $ilDB->fetchObject($sql)->id;
-		} else {
-			
-		}
-	}
 	/**
 	 * Get all placeholders for table id
-	 *
-	 * @param int  $a_table_id
-	 * @param bool $a_verbose
-	 *
 	 * @return array
+	 * @internal param int $a_table_id
+	 * @internal param bool $a_verbose
+	 *
 	 */
 	public function getAvailablePlaceholders() {
 		$all = array();
 
 		require_once("./Modules/DataCollection/classes/class.ilDclTable.php");
 		require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableView.php");
-		$tableview = new ilDclTableView($this->id);
+		$tableview = new ilDclTableView($this->getId());
 		$table_id = $tableview->getTableId();
 		$objTable = ilDclCache::getTableCache($table_id);
 		$fields = $objTable->getRecordFields();

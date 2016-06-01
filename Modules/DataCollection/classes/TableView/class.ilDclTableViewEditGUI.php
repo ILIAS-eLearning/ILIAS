@@ -34,7 +34,7 @@ class ilDclTableViewEditGUI
     /**
      * @var ilDclTableView
      */
-    protected $tableview;
+    public $tableview;
 
     /**
      * @var ilPropertyFormGUI
@@ -54,7 +54,7 @@ class ilDclTableViewEditGUI
     /**
      * @var ilDclTable
      */
-    protected $table;
+    public $table;
 
 
     /**

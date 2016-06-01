@@ -599,7 +599,7 @@ class ilDclTable {
 	 * @param int $ref_id DataCollections reference
 	 * @return ilDclTableView[]
 	 */
-	public function getVisibleTableViews($ref_id) {
+	public function getVisibleTableViews($ref_id, $with_active_detailedview = false) {
 		if (ilObjDataCollectionAccess::hasWriteAccess($ref_id))
 		{
 			return $this->getTableViews();
@@ -610,7 +610,10 @@ class ilDclTable {
 		{
 			if ($this->checkPermForTableView($tableView))
 			{
-				$visible_views[] = $tableView;
+				if (!$with_active_detailedview || ilDclRecordViewViewdefinition::isActive($tableView->getId()))
+				{
+					$visible_views[] = $tableView;
+				}
 			}
 		}
 		return $visible_views;
@@ -622,14 +625,17 @@ class ilDclTable {
 	}
 
 	/**
-	 * @param ilDclTableView $tableView
+	 * @param integer|ilDclTableView $tableview can be object or id
 	 * @return bool
 	 */
-	public function checkPermForTableView(ilDclTableView $tableView)
+	public function checkPermForTableView($tableview)
 	{
 		global $rbacreview, $ilUser;
+		if (is_numeric($tableview)) {
+			$tableview = ilDclTableView::find($tableview);
+		}
 		$assigned_roles = $rbacreview->assignedGlobalRoles($ilUser->getId());
-		$allowed_roles = $tableView->getRoles();
+		$allowed_roles = $tableview->getRoles();
 
 		foreach ($assigned_roles as $role_id)
 		{

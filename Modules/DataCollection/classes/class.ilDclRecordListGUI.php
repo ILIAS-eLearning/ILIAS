@@ -73,7 +73,7 @@ class ilDclRecordListGUI {
 		$this->parent_obj = $a_parent_obj;
 		$this->table_obj = ilDclCache::getTableCache($table_id);
 
-		if ($tableview_id = $_POST['tableview_id']) {
+		if ($tableview_id = $_REQUEST['tableview_id']) {
 			$this->tableview_id = $tableview_id;
 		} else {
 			//get first visible tableview
@@ -83,7 +83,8 @@ class ilDclRecordListGUI {
 				$this->parent_obj->tpl->show();
 				return;
 			}
-			$_POST['tableview_id'] = $this->tableview_id;
+			//this is for ilDclTextRecordRepresentation with link to detail page
+			$_GET['tableview_id'] = $this->tableview_id; //TODO: find better way
 
 		}
 		$this->ctrl->setParameterByClass("ildclrecordeditgui", "table_id", $this->table_id);
@@ -474,7 +475,7 @@ class ilDclRecordListGUI {
 	 * @return array
 	 */
 	protected function getAvailableTables() {
-		if (ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id)) {
+		if (ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id)) {
 			$tables = $this->parent_obj->object->getTables();
 		} else {
 			$tables = $this->parent_obj->object->getVisibleTables();
@@ -527,18 +528,18 @@ class ilDclRecordListGUI {
 	 */
 	protected function createSwitchers()
 	{
+		global $ilToolbar;
+		$ilToolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclRecordListGUI", "doTableSwitch"));
+
+		//table switcher
 		$options = $this->getAvailableTables();
-
 		if (count($options) > 0) {
-			global $ilToolbar;
 
-			//table switcher
 			include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 			$table_selection = new ilSelectInputGUI('', 'table_id');
 			$table_selection->setOptions($options);
 			$table_selection->setValue($this->table_id);
 
-			$ilToolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclRecordListGUI", "doTableSwitch"));
 			$ilToolbar->addText($this->lng->txt("dcl_table"));
 			$ilToolbar->addInputItem($table_selection);
 			$button = ilSubmitButton::getInstance();
@@ -546,13 +547,17 @@ class ilDclRecordListGUI {
 			$button->setCommand('doTableSwitch');
 			$ilToolbar->addButtonInstance($button);
 			$ilToolbar->addSeparator();
+		}
 
-			//tableview switcher
+		//tableview switcher
+		$options = array();
+		foreach ($this->table_obj->getVisibleTableViews($this->parent_obj->ref_id) as $tableview) {
+			$options[$tableview->getId()] = $tableview->getTitle();
+		}
+
+		if (count($options) > 0) {
+
 			$tableview_selection = new ilSelectInputGUI('', 'tableview_id');
-			$options = array();
-			foreach ($this->table_obj->getVisibleTableViews($this->parent_obj->ref_id) as $tableview) {
-				$options[$tableview->getId()] = $tableview->getTitle();
-			}
 			$tableview_selection->setOptions($options);
 			$tableview_selection->setValue($this->tableview_id);
 			$ilToolbar->addText($this->lng->txt("dcl_tableview"));

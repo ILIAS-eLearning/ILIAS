@@ -12,7 +12,7 @@ include_once('./Modules/DataCollection/classes/Fields/class.ilDclFieldFactory.ph
 class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
 {
 
-    public function __construct(ilDclTableViewEditGUI $a_parent_obj, ilDclTableView $tableview)
+    public function __construct(ilDclTableViewEditGUI $a_parent_obj)
     {
         global $lng, $ilCtrl;
         parent::__construct($a_parent_obj);
@@ -42,7 +42,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
         $this->setDefaultOrderDirection('asc');
 
-        $this->setData(ilDclTableViewFieldSetting::getAllForTableViewId($_GET['tableview_id']));
+        $this->setData(ilDclTableViewFieldSetting::getAllForTableViewId($a_parent_obj->tableview->getId()));
     }
 
     /**
@@ -51,7 +51,10 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
     public function fillRow($a_set)
     {
         $field = $a_set->getFieldObject();
-        
+        if ($field->getId() == 'comments' && !$this->parent_obj->table->getPublicCommentsEnabled()) {
+            return;
+        }
+
         $this->tpl->setVariable('FIELD_TITLE', $field->getTitle());
         $this->tpl->setVariable('ID', $a_set->getId());
         $this->tpl->setVariable('FIELD_ID', $a_set->getField());
@@ -59,7 +62,8 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         if ($field->getDatatypeId() != ilDclDatatype::INPUTFORMAT_MOB
             && $field->getDatatypeId() != ilDclDatatype::INPUTFORMAT_FILE
             && $field->getDatatypeId() != ilDclDatatype::INPUTFORMAT_FORMULA
-            && $field->getDatatypeId() != ilDclDatatype::INPUTFORMAT_PLUGIN)    //TODO: find better way, also handle reference field referencing a MOB
+            && $field->getDatatypeId() != ilDclDatatype::INPUTFORMAT_PLUGIN
+            && $field->getId() != 'comments')    //TODO: find better way, also handle reference field referencing a MOB
         {
             $this->tpl->setVariable('IN_FILTER', $a_set->isInFilter() ? 'checked' : '');
             $this->tpl->setVariable('FILTER_VALUE', $this->getStandardFilterHTML($field, $a_set->getFilterValue()));

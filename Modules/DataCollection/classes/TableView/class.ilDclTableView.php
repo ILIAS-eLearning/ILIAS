@@ -331,7 +331,12 @@ class ilDclTableView extends ActiveRecord
     {
         return self::where(array('table_id' => $table_id))->orderBy('tableview_order')->count();
     }
-    
+
+    /**
+     * @param $table_id
+     * @param bool $create_default_settings
+     * @return ilDclTableView
+     */
     public static function createStandardView($table_id, $create_default_settings = true)
     {
         global $lng, $rbacreview;

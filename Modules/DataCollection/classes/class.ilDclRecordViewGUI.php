@@ -12,6 +12,7 @@ require_once('./Modules/DataCollection/classes/class.ilDclRecordEditGUI.php');
 require_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
 require_once("./Modules/DataCollection/classes/class.ilDclRecordListTableGUI.php");
 require_once("./Modules/DataCollection/classes/class.ilDclRecordListGUI.php");
+require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableViewTableGUI.php");
 
 /**
  *
@@ -112,9 +113,11 @@ class ilDclRecordViewGUI {
 
 	public function executeCommand() {
 		global $ilCtrl;
-		if (!$this->checkAccess($_REQUEST['tableview_id']))
+		if (!$this->table->checkPermForTableView($_GET['tableview_id'])
+			|| !ilDclRecordViewViewdefinition::isActive($_GET['tableview_id']))
 		{
 			$this->offerAlternativeViews();
+			return;
 		}
 
 		$cmd = $ilCtrl->getCmd();
@@ -146,6 +149,13 @@ class ilDclRecordViewGUI {
 				break;
 		}
 	}
+
+	protected function offerAlternativeViews() {
+		global $tpl, $lng;
+		ilUtil::sendInfo($lng->txt('dcl_msg_info_alternatives'));
+		$table_gui = new ilDclTableViewTableGUI($this, 'renderRecord', $this->table);
+		$tpl->setContent($table_gui->getHTML());
+	}
 	
 	/**
 	 * @param ilDclBaseRecordModel $record_obj
@@ -160,16 +170,16 @@ class ilDclRecordViewGUI {
 	}
 
 
-	/**
-	 * @param ilDclTable $table
-	 *
-	 * @return bool
-	 */
-	public static function hasTableViewValidViewDefinition(ilDclTableView $tableview) {
-		$view = ilDclRecordViewViewdefinition::getInstance($tableview->getId());
-
-		return $view->getActive() AND $view->getId() !== NULL;
-	}
+//	/**
+//	 * @param ilDclTable $table
+//	 *
+//	 * @return bool
+//	 */
+//	public static function hasTableViewValidViewDefinition(ilDclTableView $tableview) {
+//		$view = ilDclRecordViewViewdefinition::getInstance($tableview->getId());
+//
+//		return $view->getActive() AND $view->getId() !== NULL;
+//	}
 
 
 	/**
