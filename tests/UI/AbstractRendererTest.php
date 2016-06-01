@@ -41,8 +41,8 @@ namespace {
 require_once(__DIR__."/Base.php");
 
 use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation\Template\Template;
-use \ILIAS\UI\Implementation\Template\TemplateFactory;
+use \ILIAS\UI\Implementation\Render\Template;
+use \ILIAS\UI\Implementation\Render\TemplateFactory;
 
 class NullTemplate implements Template {
 	public function setCurrentBlock($name) {}

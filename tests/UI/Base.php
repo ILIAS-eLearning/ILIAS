@@ -6,7 +6,7 @@ require_once("libs/composer/vendor/autoload.php");
 
 require_once(__DIR__."/ilIndependentTemplate.php");
 
-use ILIAS\UI\Implementation\Template\TemplateFactory;
+use ILIAS\UI\Implementation\Render\TemplateFactory;
 
 class ilIndependentTemplateFactory implements TemplateFactory {
 	public function getTemplate($path, $purge_unfilled_vars, $purge_unused_blocks) {

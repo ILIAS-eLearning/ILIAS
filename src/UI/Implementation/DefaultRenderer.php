@@ -7,7 +7,7 @@ namespace ILIAS\UI\Implementation;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
-use ILIAS\UI\Implementation\Template\TemplateFactory;
+use ILIAS\UI\Implementation\Render\TemplateFactory;
 
 /**
  * Renderer that dispatches rendering of UI components to a Renderer found

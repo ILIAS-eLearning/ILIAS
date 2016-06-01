@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Template;
+namespace ILIAS\UI\Implementation\Render;
 
 /**
  * Interface to templating as it is used in the UI framework.
