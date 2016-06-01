@@ -26,18 +26,8 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 		global $tpl;
 		
 		parent::__construct("mep", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
-		
-		// content style
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-		$tpl->setCurrentBlock("ContentStyle");
-		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath(0));
-		$tpl->parseCurrentBlock();
-		$tpl->setCurrentBlock("SyntaxStyle");
-		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-			ilObjStyleSheet::getSyntaxStylePath());
-		$tpl->parseCurrentBlock();
 
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));
 
 		$this->setEditPreview(true);
@@ -110,7 +100,22 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
 	function showPage($a_no_title = false)
 	{
 		global $tpl, $ilCtrl;
-		
+
+		// get raw page content is used for including into other pages
+		if (!$this->getRawPageContent())
+		{
+			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			$tpl->setCurrentBlock("ContentStyle");
+			$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath(0));
+			$tpl->parseCurrentBlock();
+
+			$tpl->setCurrentBlock("SyntaxStyle");
+			$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+				ilObjStyleSheet::getSyntaxStylePath());
+			$tpl->parseCurrentBlock();
+		}
+
 		$this->setTemplateOutput(false);
 		if (!$a_no_title)
 		{
