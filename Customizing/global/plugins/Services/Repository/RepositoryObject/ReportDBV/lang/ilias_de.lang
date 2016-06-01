@@ -21,7 +21,7 @@ xrdv_properties#:#Eigenschaften
 lastname#:#Nachname
 firstname#:#Vorname
 filter_show_critical_dbvs#:#Zeige mir nur kritische DBVen.
-od_bd#:#OD/BD
+od_bd#:#BD
 job_number#:#Vermittlernummer
 title#:#Titel
 dbv_hot_topic#:#Relevante Themen
