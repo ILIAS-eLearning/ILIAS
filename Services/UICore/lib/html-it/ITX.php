@@ -18,7 +18,6 @@
 // $Id: ITX.php,v 1.16 2006/08/17 15:47:22 dsp Exp $
 //
 
-require_once 'HTML/Template/IT.php';
 
 /**
 * Integrated Template Extension - ITX

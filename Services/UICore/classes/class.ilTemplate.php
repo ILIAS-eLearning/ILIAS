@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once("./Services/UICore/lib/html-it/IT.php");
+include_once("./Services/UICore/lib/html-it/ITX.php");
 
 /**
 * special template class to simplify handling of ITX/PEAR

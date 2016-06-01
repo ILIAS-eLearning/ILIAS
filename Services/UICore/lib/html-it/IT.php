@@ -18,7 +18,7 @@
 // $Id: IT.php,v 1.20 2006/08/17 15:47:22 dsp Exp $
 //
 
-include_once("./Services/PEAR/lib/HTML/exceptions/class.ilTemplateException.php");
+include_once("./Services/UICore/lib/html-it/exceptions/class.ilTemplateException.php");
 
 define('IT_OK',                         1);
 define('IT_ERROR',                     -1);
