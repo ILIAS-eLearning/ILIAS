@@ -201,3 +201,24 @@ if(!$ilDB->indexExistsByFields('usr_data_multi',array('usr_id')))
 	$ilDB->addIndex('usr_data_multi',array('usr_id'), 'i1');
 }
 ?>
+<#17>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('copy');
+if($tgt_ops_id)
+{
+	$mep_type_id = ilDBUpdateNewObjectType::getObjectTypeId('mep');
+	if($mep_type_id)
+	{
+		if (!ilDBUpdateNewObjectType::isRBACOperation($mep_type_id, $tgt_ops_id))
+		{
+			// add "copy" to (external) feed
+			ilDBUpdateNewObjectType::addRBACOperation($mep_type_id, $tgt_ops_id);
+
+			// clone settings from "write" to "copy"
+			$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+			ilDBUpdateNewObjectType::cloneOperation('mep', $src_ops_id, $tgt_ops_id);
+		}
+	}
+}
+?>

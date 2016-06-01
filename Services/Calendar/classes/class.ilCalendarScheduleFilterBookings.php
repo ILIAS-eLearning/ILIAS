@@ -38,6 +38,12 @@ class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
 		
 		$booking = new ilBookingEntry($a_event->getContextId());
 		
+		// do not show bookings of foreign users
+		if($booking->getObjId() != $this->user_id)
+		{
+			return false;
+		}
+
 		// portfolio embedded: filter by consultation hour groups?
 		if(!is_array($this->group_ids) ||
 			in_array($booking->getBookingGroup(), $this->group_ids)) 

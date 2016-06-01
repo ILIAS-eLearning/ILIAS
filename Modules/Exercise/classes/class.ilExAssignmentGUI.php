@@ -689,21 +689,7 @@ class ilExAssignmentGUI
 		}
 		else
 		{
-			$time_diff = ilUtil::int2array($a_deadline - time(),null);	
-			// #11576  - order ascending!
-			if (isset($time_diff['minutes']))
-			{
-				unset($time_diff['seconds']);
-			}			
-			if (isset($time_diff['days']))
-			{
-				unset($time_diff['minutes']);
-			}
-			if (isset($time_diff['months']))
-			{
-				unset($time_diff['hours']);
-			}		
-			$time_str = ilUtil::timearray2string($time_diff);
+			$time_str = ilUtil::period2String(new ilDateTime($a_deadline, IL_CAL_UNIX));
 		}
 
 		return $time_str;
