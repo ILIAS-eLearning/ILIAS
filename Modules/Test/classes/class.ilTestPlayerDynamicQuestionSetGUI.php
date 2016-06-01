@@ -145,6 +145,14 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		return $ret;
 	}
+	
+	/**
+	 * @return integer
+	 */
+	protected function getCurrentQuestionId()
+	{
+		return $this->testSession->getCurrentQuestionId();
+	}
 
 	/**
 	 * Resume a test at the last position
