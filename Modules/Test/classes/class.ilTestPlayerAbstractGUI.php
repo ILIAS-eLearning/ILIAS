@@ -718,20 +718,29 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("CONTENT_BLOCK", "<meta http-equiv=\"refresh\" content=\"5; url=" . $this->ctrl->getLinkTarget($this, "afterTestPassFinished") . "\">");
 		$this->tpl->parseCurrentBlock();
 	}
+	
+	abstract protected function getCurrentQuestionId();
 
 	function autosaveCmd()
 	{
 		$result = "";
 		if (is_array($_POST) && count($_POST) > 0)
 		{
-			$res = $this->saveQuestionSolution(TRUE);
-			if ($res)
+			if( $this->isParticipantsAnswerFixed($this->getCurrentQuestionId()) )
 			{
-				$result = $this->lng->txt("autosave_success");
+				$result = '-IGNORE-';
 			}
 			else
 			{
-				$result = $this->lng->txt("autosave_failed");
+				$res = $this->saveQuestionSolution(TRUE);
+				if ($res)
+				{
+					$result = $this->lng->txt("autosave_success");
+				}
+				else
+				{
+					$result = $this->lng->txt("autosave_failed");
+				}
 			}
 		}
 		if (!$this->canSaveResult())
