@@ -533,6 +533,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("CONTENT_BLOCK", "<meta http-equiv=\"refresh\" content=\"5; url=" . $url . "\">");
 		$this->tpl->parseCurrentBlock();
 	}
+	
+	abstract protected function getCurrentQuestionId();
 
 	function autosaveCmd()
 	{
@@ -542,14 +544,21 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$result = "";
 		if (is_array($_POST) && count($_POST) > 0)
 		{
-			$res = $this->saveQuestionSolution($authorizedSolution, true);
-			if ($res)
+			if( $this->isParticipantsAnswerFixed($this->getCurrentQuestionId()) )
 			{
-				$result = $this->lng->txt("autosave_success");
+				$result = '-IGNORE-';
 			}
 			else
 			{
-				$result = $this->lng->txt("autosave_failed");
+				$res = $this->saveQuestionSolution($authorizedSolution, true);
+				if ($res)
+				{
+					$result = $this->lng->txt("autosave_success");
+				}
+				else
+				{
+					$result = $this->lng->txt("autosave_failed");
+				}
 			}
 		}
 		if (!$canSaveResult)
