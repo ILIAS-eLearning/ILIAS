@@ -309,8 +309,16 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 
 	private function createArrayFromFile()
 	{
+		$files = glob( $this->buildFolderName() . '*.txt' );
+		
+		if($files === false)
+		{
+			$files = array();
+		}
+		
 		$answers = array();
-		foreach( glob( $this->buildFolderName() . '*.txt' ) as $file) 
+
+		foreach( $files as $file)
 		{
 			$gap					= str_replace('.txt', '', basename($file));
 			$answers[(int) $gap] 	= explode('\n', file_get_contents($file));

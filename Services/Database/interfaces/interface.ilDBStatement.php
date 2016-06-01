@@ -38,4 +38,10 @@ interface ilDBStatement {
 	 * @return stdClass
 	 */
 	public function fetchObject();
+
+
+	/**
+	 * @return array
+	 */
+	public function fetchAssoc();
 }

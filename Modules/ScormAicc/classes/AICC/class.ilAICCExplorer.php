@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-/*
+/**
 * Explorer View for AICC Learning Modules
 *
 * @version $Id$
@@ -79,10 +79,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 		else
 		{
 			$sc_object = new ilAICCUnit($a_id);
-			//if ($sc_object->getIdentifierRef() != "")
-			//{
-				return true;
-			//}
+			return true;
 		}
 		return false;
 	}
@@ -90,51 +87,6 @@ class ilAICCExplorer extends ilSCORMExplorer
 	function formatItemTable(&$tpl, $a_id, $a_type)
 	{
 		global $lng;
-/*
-		if ($a_type != "sau")
-		{
-			return;
-		}
-		else
-		{
-			$sc_object = new ilAICCUnit($a_id);
-			//if ($sc_object->getIdentifierRef() != "")
-			//{
-				$trdata = $sc_object->getTrackingDataOfUser();
-
-				// status
-				$status = ($trdata["lesson_status"] == "")
-					? "not attempted"
-					: $trdata["lesson_status"];
-				$tpl->setCurrentBlock("item_row");
-				$tpl->setVariable("TXT_KEY", $lng->txt("cont_status"));
-				$tpl->setVariable("TXT_VALUE",
-					$lng->txt("cont_sc_stat_".str_replace(" ", "_", $status)));
-				$tpl->parseCurrentBlock();
-
-				// credits
-				if ($trdata["mastery_score"] != "")
-				{
-					$tpl->setCurrentBlock("item_row");
-					$tpl->setVariable("TXT_KEY", $lng->txt("cont_credits"));
-					$tpl->setVariable("TXT_VALUE", $trdata["mastery_score"]);
-					$tpl->parseCurrentBlock();
-				}
-
-				// total time
-				if ($trdata["total_time"] != "")
-				{
-					$tpl->setCurrentBlock("item_row");
-					$tpl->setVariable("TXT_KEY", $lng->txt("cont_total_time"));
-					$tpl->setVariable("TXT_VALUE", $trdata["total_time"]);
-					$tpl->parseCurrentBlock();
-				}
-
-				$tpl->setCurrentBlock("item_table");
-				$tpl->parseCurrentBlock();
-			//}
-		}
-*/		
 	}
 
 
@@ -178,7 +130,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 					$tpl->parseCurrentBlock();
 					$pic = true;
 				}
-	
+
 				if ($picture == 'minus' && $this->show_minus)
 				{
 					$target = $this->createTarget('-',$a_node_id);
@@ -199,7 +151,7 @@ class ilAICCExplorer extends ilSCORMExplorer
 			}
 		}
 
-		if ($this->output_icons)	{
+		if ($this->output_icons) {
 			if ($this->isClickable($a_option["c_type"], $a_node_id) && !$a_option["c_type"]=="sbl")
 				$this->getOutputIcons($tpl, $a_option, $a_node_id);
 		}
@@ -207,40 +159,23 @@ class ilAICCExplorer extends ilSCORMExplorer
 		if ($this->isClickable($a_option["c_type"], $a_node_id))	// output link
 		{
 			$tpl->setCurrentBlock("link");
-			//$target = (strpos($this->target, "?") === false) ?
-			//	$this->target."?" : $this->target."&";
-			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
-			//$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
+
 			$frame_target = $this->buildFrameTarget($a_option["c_type"], $a_node_id, $a_option["obj_id"]);
 			if ($frame_target != "")
 			{
-//				if ($this->api == 1)
-//				{
-//					$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
-//					$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
-//					//$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["c_type"]));
-//					$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["c_type"]));
-//				}
-//				else
-//				{
-					if ($a_option["c_type"]=="sbl") {
-						$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
-						$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
-						$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["c_type"]));
-						
-					} else {
-						
-						$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
-						$tpl->setVariable("LINK_TARGET", "javascript:void(0);");
-						$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API.IliasLaunchSahs('".$a_node_id."');return false;\"");
-						
-//					}
+				if ($a_option["c_type"]=="sbl") {
+					$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
+					$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
+					$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["c_type"]));
+				} else {
+					$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
+					$tpl->setVariable("LINK_TARGET", "javascript:void(0);");
+					$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API.IliasLaunchSahs('".$a_node_id."');return false;\"");
 				}
-
 			}
 			$tpl->parseCurrentBlock();
 		}
-		else			// output text only
+		else // output text only
 		{
 			$tpl->setCurrentBlock("text");
 			$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
@@ -252,6 +187,118 @@ class ilAICCExplorer extends ilSCORMExplorer
 		$tpl->parseCurrentBlock();
 
 		$this->output[] = $tpl->get();
+	}
+
+	function setOutput($a_parent_id, $a_depth = 0)
+	{
+		global $rbacadmin, $rbacsystem;
+		static $counter = 0;
+
+		if (!isset($a_parent_id))
+		{
+			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
+		}
+		if ($this->showChilds($a_parent_id))
+		{
+			$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
+		}
+		else
+		{
+			$objects = array();
+		}
+		if (count($objects) > 0)
+		{
+
+			//moved the scorm-only constant parameter to a function
+			//to be able to reuse the code
+			//$tab = ++$a_depth - 2;
+			$tab = ++$a_depth - $this->getNodesToSkip();
+
+			foreach ($objects as $key => $object) {
+				//ask for FILTER
+				if ($this->filtered == false or $this->checkFilter($object["c_type"]) == false) {
+					if ($this->isVisible($object["obj_id"], $object["c_type"])) {
+						$this->addObjectToOutputArray($counter, $tab, $object);
+
+						$this->createPrefixArray($counter, $tab);
+
+						$this->makeObjectNodeExpandable($object["c_type"], $object["obj_id"]);
+
+						$parent_index = $this->getParentIndex($object["child"]);
+
+						if ($parent_index == 0) {
+							$this->setParentExpanded($object["parent"]);
+						}
+
+						$this->format_options["$counter"]["visible"] = !$this->shouldHideCurrentNode($object["child"], $parent_index, $object["parent"]);
+
+						// if object exists parent is container
+						if ($object["child"] != $this->tree->getRootId()) {
+							$this->format_options["$parent_index"]["container"] = true;
+
+							if ($this->expand_all or in_array($object["parent"],$this->expanded)) {
+								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
+							} else {
+								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'plus';
+							}
+						}
+						++$counter;
+						// stop recursion if 2. level beyond expanded nodes is reached
+						if ($this->expand_all or in_array($object["parent"],$this->expanded) or ($object["parent"] == 0)) {
+							// recursive
+							$this->setOutput($object["child"],$a_depth);
+						}
+					} //if
+				} //if FILTER
+			} //foreach
+		} //if
+	} //function
+
+	protected function createPrefixArray($counter, $tab) {
+		for ($i = 0; $i < $tab; ++$i) {
+			 $this->format_options["$counter"]["tab"][] = 'blank';
+		}
+	}
+
+	protected function addObjectToOutputArray($counter, $tab, $object) {
+		$this->format_options["$counter"]["parent"]		= $object["parent"];
+		$this->format_options["$counter"]["child"]		= $object["child"];
+		$this->format_options["$counter"]["title"]		= $object["title"];
+		$this->format_options["$counter"]["c_type"]		= $object["c_type"];
+		$this->format_options["$counter"]["obj_id"]		= $object["obj_id"];
+		$this->format_options["$counter"]["desc"] 		= "obj_".$object["c_type"];
+		$this->format_options["$counter"]["depth"]		= $tab;
+		$this->format_options["$counter"]["container"]	= false;
+		$this->format_options["$counter"]["visible"]	= true;
+	}
+
+	protected function makeObjectNodeExpandable($c_type, $obj_id) {
+		if ($c_type =="sos") {
+			$this->setExpand($obj_id);
+		}
+	}
+
+	protected function getParentIndex($child) {
+		if ($child != $this->tree->getRootId()) {
+			return $this->getIndex($object);
+		}
+	}
+
+	protected function setParentExpanded($parent) {
+		if (!$this->expand_all && !in_array($parent, $this->expanded)) {
+			$this->expanded[] = $parent;
+		}
+	}
+
+	protected function shouldHideCurrentNode($child, $parent_index, $parent) {
+		if ($child != $this->tree->getRootId() 
+				&& (!$this->expand_all and !in_array($parent, $this->expanded)
+					or !$this->format_options["$parent_index"]["visible"])) 
+		{
+			return true;
+		}
+
+		return false;
 	}
 }
 ?>

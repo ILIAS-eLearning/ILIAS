@@ -12425,7 +12425,7 @@ file#:#file_copy#:#Datei kopieren
 webr#:#webr_copy#:#Weblink kopieren
 exc#:#exc_copy#:#Übung kopieren
 assessment#:#tst_copy#:#Test kopieren
-poll#:#poll_population#:#%s abgegebene Stimmen
+poll#:#poll_population#:#%s Teilnehmer
 poll#:#poll_participants#:#Teilnehmer
 poll#:#poll_delete_votes#:#Alle Stimmen löschen
 poll#:#poll_delete_votes_sure#:#Sind sie sicher, dass Sie alle Stimmen löschen möchten?
@@ -15716,3 +15716,7 @@ mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge 
 mail#:#mail_recipient_not_found#:#%1$s (es konnte kein gültiger Empfänger gefunden werden) 
 mail#:#mail_multiple_role_recipients_found#:#%1$s (für den Emfpänger wurden mehrere Rollen gefunden: %2$s)
 mail#:#mail_generic_rcp_error#:#Beim Validieren der Empfänger ist ein Fehler aufgetreten: %1$s
+rbac#:#mep_copy#:#Medienpool kopieren
+crs#:#crs_cannot_find_role#:#Rolle konnte nicht gefunden werden.
+grp#:#grp_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
+crs#:#crs_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.

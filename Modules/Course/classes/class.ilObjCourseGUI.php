@@ -118,8 +118,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if (!count($_POST["member"]))
 		{
-			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
-			$this->membersObject();
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+			$this->cancelMemberObject();
 			return false;
 		}
 		
@@ -2814,6 +2814,12 @@ class ilObjCourseGUI extends ilContainerGUI
 						$this->object->getMembersObject()->add($user_id,IL_CRS_MEMBER);
 						$this->object->getMembersObject()->updateRoleAssignments($user_id,(array)$a_type);
 					}
+					else
+					{
+						$GLOBALS['ilLog']->write(__METHOD__.': Can\'t find role with role id "' . $a_type . '" to assign users to.');
+						ilUtil::sendFailure($this->lng->txt("crs_cannot_find_role"),true);
+						return false;
+					}
 					break;
 			}
 			$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
@@ -3931,12 +3937,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 				else
 				{
+					//#18445 excludes admin role
 					$rep_search->setCallback($this,
 						'assignMembersObject',
-						array(
-							ilCourseConstants::CRS_MEMBER => $this->lng->txt('crs_member'),
-							ilCourseConstants::CRS_TUTOR	=> $this->lng->txt('crs_tutor'),
-							)
+					    $this->getLocalRoles(array($this->object->getDefaultAdminRole()))
 						);
 					
 				}
@@ -5005,10 +5009,12 @@ class ilObjCourseGUI extends ilContainerGUI
 	// end-patch lok
 
 	/**
+	 *
+	 * @var int[] $a_exclude a list of role ids which will not added to the results (optional)
 	 * returns all local roles [role_id] => title
 	 * @return array localroles
 	 */
-	protected function getLocalRoles()
+	protected function getLocalRoles($a_exclude = array())
 	{
 		$crs_admin = $this->object->getDefaultAdminRole();
 		$crs_member = $this->object->getDefaultMemberRole();
@@ -5030,6 +5036,17 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 
 			$crs_roles[$role_id] = ilObjRole::_getTranslation($title);
+		}
+
+		if(count($a_exclude) > 0)
+		{
+			foreach($a_exclude as $excluded_role)
+			{
+				if(isset($crs_roles[$excluded_role]))
+				{
+					unset($crs_roles[$excluded_role]);
+				}
+			}
 		}
 		return $crs_roles;
 	}

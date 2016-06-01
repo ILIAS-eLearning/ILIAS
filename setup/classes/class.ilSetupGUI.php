@@ -2700,7 +2700,7 @@ echo "<br>+".$client_id;
 	 */
 	function installDatabase()
 	{
-		if (!$this->setup->getClient()->getDBSetup()->isDatabaseInstalled()) {
+		if (!$this->setup->getClient()->getDBSetup()->isDatabaseExisting()) {
 			if ($_POST["chk_db_create"]) {
 				if (!$this->setup->createDatabase($_POST["collation"])) {
 					echo "installation failed";

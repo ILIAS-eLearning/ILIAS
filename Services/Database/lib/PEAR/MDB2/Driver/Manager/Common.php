@@ -311,6 +311,13 @@ class MDB2_Driver_Manager_Common extends MDB2_Module_Common
         return $db->exec($query);
     }
 
+    /**
+     * PATCH: For Testcases Only
+     */
+    public function getTableCreationQuery($name, $fields, $options = array()) {
+        return $this->_getCreateTableQuery($name, $fields, $options);
+    }
+
     // }}}
     // {{{ dropTable()
 

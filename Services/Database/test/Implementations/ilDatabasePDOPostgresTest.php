@@ -21,22 +21,28 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once('ilDatabaseBaseTest.php');
+require_once('ilDBBaseTest.php');
 
 /**
- * TestCase for the ilDatabasePDOInnodbTest
+ * TestCase for the ilDatabasePDOMyISAMTest
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilDatabasePDOInnodbTest extends ilDatabaseBaseTest {
+class ilDatabasePDOPostgresTest extends ilDBBaseTest {
+
+	/**
+	 * @var string
+	 */
+	protected $ini_file = '/var/www/ilias/data/psql/client.ini.php';
+
 
 	/**
 	 * @return \ilDBPdoMySQLInnoDB
 	 * @throws \ilDatabaseException
 	 */
 	protected function getDBInstance() {
-		return ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_MYSQL_INNODB);
+		return ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_PDO_POSTGRE);
 	}
 
 
@@ -44,6 +50,6 @@ class ilDatabasePDOInnodbTest extends ilDatabaseBaseTest {
 	 * @return string
 	 */
 	protected function getTableName() {
-		return strtolower(self::TABLE_NAME . '_pdo_i');
+		return strtolower(self::TABLE_NAME . '_pdo_p');
 	}
 }

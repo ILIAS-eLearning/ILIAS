@@ -21,22 +21,22 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once('ilDatabaseBaseTest.php');
+require_once('ilDBBaseTest.php');
 
 /**
- * TestCase for the ilDatabaseMDB2InnodbTest
+ * TestCase for the ilDatabaseMDB2MyISAMTest
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilDatabaseMDB2InnodbTest extends ilDatabaseBaseTest {
+class ilDatabaseMDB2MyISAMTest extends ilDBBaseTest {
 
 	/**
 	 * @return \ilDBPdoMySQLInnoDB
 	 * @throws \ilDatabaseException
 	 */
 	protected function getDBInstance() {
-		return ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_INNODB_LEGACY);
+		return ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_MYSQL_LEGACY);
 	}
 
 
@@ -44,6 +44,6 @@ class ilDatabaseMDB2InnodbTest extends ilDatabaseBaseTest {
 	 * @return string
 	 */
 	protected function getTableName() {
-		return strtolower(self::TABLE_NAME . '_mdb_i');
+		return strtolower(self::TABLE_NAME . '_mdb_m');
 	}
 }

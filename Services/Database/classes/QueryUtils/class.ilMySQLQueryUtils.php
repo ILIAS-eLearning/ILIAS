@@ -1,40 +1,11 @@
 <?php
-require_once 'Services/Database/interfaces/interface.ilQueryUtils.php';
+require_once('./Services/Database/classes/QueryUtils/class.ilQueryUtils.php');
 
 /**
  * Class ilMySQLQueryUtils
  *
  */
-class ilMySQLQueryUtils implements ilQueryUtils {
-
-	/**
-	 * @var ilMySQLQueryUtils
-	 */
-	protected static $instance = null;
-	protected $ilDBInterface;
-
-
-	/**
-	 * @return ilMySQLQueryUtils
-	 */
-	public static function getInstance(ilDBInterface $ilDBInterface) {
-		if (!self::$instance) {
-			self::$instance = new \ilMySQLQueryUtils($ilDBInterface);
-		}
-
-		return self::$instance;
-	}
-
-
-	/**
-	 * ilMySQLQueryUtils constructor.
-	 *
-	 * @param \ilDBInterface $ilDBInterface
-	 */
-	protected function __construct(ilDBInterface $ilDBInterface) {
-		$this->ilDBInterface = $ilDBInterface;
-	}
-
+class ilMySQLQueryUtils extends ilQueryUtils {
 
 	/**
 	 * @param string $field
@@ -74,7 +45,7 @@ class ilMySQLQueryUtils implements ilQueryUtils {
 	 * @return string
 	 */
 	public function quote($value, $type = null) {
-		return $this->ilDBInterface->quote($value, $type);
+		return $this->db_instance->quote($value, $type);
 	}
 
 
@@ -150,7 +121,7 @@ class ilMySQLQueryUtils implements ilQueryUtils {
 	 * @return string
 	 */
 	public function quoteIdentifier($identifier) {
-		return $this->ilDBInterface->quoteIdentifier($identifier);
+		return $this->db_instance->quoteIdentifier($identifier);
 	}
 
 
@@ -170,7 +141,7 @@ class ilMySQLQueryUtils implements ilQueryUtils {
 		}
 		$query_fields_array = array();
 		foreach ($fields as $field_name => $field) {
-			$query_fields_array[] = ilDBPdoFieldDefinition::getInstance($this->ilDBInterface)->getDeclaration($field['type'], $field_name, $field);
+			$query_fields_array[] = $this->db_instance->getFieldDefinition()->getDeclaration($field['type'], $field_name, $field);
 		}
 
 		$query_fields = implode(', ', $query_fields_array);
@@ -267,7 +238,7 @@ class ilMySQLQueryUtils implements ilQueryUtils {
 			}
 
 			if (isset($table['sequence']) && $table['sequence']) {
-				$table_name = $this->ilDBInterface->getSequenceName($table['name']);
+				$table_name = $this->db_instance->getSequenceName($table['name']);
 			} else {
 				$table_name = $table['name'];
 			}

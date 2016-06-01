@@ -69,6 +69,7 @@ class ilDbSetup {
 				case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
 				case ilDBConstants::TYPE_MYSQL_LEGACY:
 				case ilDBConstants::TYPE_INNODB_LEGACY:
+				case ilDBConstants::TYPE_PDO_POSTGRE:
 					$clientIniFile = $this->client->ini;
 
 					if (!$this->ilDBInterface->createDatabase($clientIniFile->readVariable("db", "name"), 'utf8', $a_collation)) {
@@ -172,6 +173,7 @@ class ilDbSetup {
 				case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
 				case ilDBConstants::TYPE_MYSQL_LEGACY:
 				case ilDBConstants::TYPE_INNODB_LEGACY:
+
 					$this->ilDBInterface->connect();
 					//$this->dropTables();
 					//$this->readDump();
@@ -180,6 +182,12 @@ class ilDbSetup {
 
 					return true;
 
+					break;
+				case ilDBConstants::TYPE_PDO_POSTGRE:
+				case ilDBConstants::TYPE_POSTGRES_LEGACY:
+					include_once("./setup/sql/ilDBTemplate.php");
+					setupILIASDatabase();
+					return true;
 					break;
 			}
 		}
@@ -253,6 +261,14 @@ class ilDbSetup {
 	 * @return bool
 	 */
 	public function isDatabaseExisting() {
+		if (!$this->isConnectable()) {
+			return false;
+		}
+		if (!$this->isDatabaseConnectable()) {
+			return false;
+		}
+
+		return true;
 	}
 
 
@@ -263,6 +279,7 @@ class ilDbSetup {
 		switch ($this->ilDBInterface->getDBType()) {
 			case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
 			case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
+			case ilDBConstants::TYPE_PDO_POSTGRE:
 				try {
 					$connect = $this->ilDBInterface->connect();
 				} catch (PDOException $e) {
@@ -301,12 +318,10 @@ class ilDbSetup {
 	 * @return bool
 	 */
 	public function isDatabaseInstalled() {
-		if (!$this->isConnectable()) {
+		if (!$this->isDatabaseExisting()) {
 			return false;
 		}
-		if (!$this->isDatabaseConnectable()) {
-			return false;
-		}
+
 		$target = array( 'usr_data', 'object_data', 'object_reference' );
 
 		return count(array_intersect($this->ilDBInterface->listTables(), $target)) == count($target);
@@ -317,7 +332,10 @@ class ilDbSetup {
 	 * @return bool
 	 */
 	protected function canDatabaseBeInstalled() {
-		return ($this->isDatabaseConnectable() && !$this->isDatabaseExisting());
+		$connectable = $this->isDatabaseConnectable();
+		$installed = $this->isDatabaseInstalled();
+
+		return ($connectable && !$installed);
 	}
 
 

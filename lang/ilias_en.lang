@@ -12543,7 +12543,7 @@ webr#:#webr_copy#:#Copy Weblink
 exc#:#exc_copy#:#Copy Exercise
 assessment#:#tst_copy#:#Copy Test
 survey#:#svy_copy#:#Copy Survey
-poll#:#poll_population#:#%s Votes
+poll#:#poll_population#:#%s Participants
 poll#:#poll_participants#:#Participants
 poll#:#poll_delete_votes#:#Delete All Votes
 poll#:#poll_delete_votes_sure#:#Are you sure you want to delete all votes?
@@ -15712,3 +15712,7 @@ mail#:#mail_attachment_file_not_exist#:#At least one of the following attachment
 mail#:#mail_recipient_not_found#:#%1$s (could not find a valid particant)
 mail#:#mail_multiple_role_recipients_found#:#%1$s (found multiple roles for recipient: %2$s)
 mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients: %1$s
+rbac#:#mep_copy#:#User can copy media pool
+crs#:#crs_cannot_find_role#:#Can't find this role.
+grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
+crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.

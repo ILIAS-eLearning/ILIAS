@@ -7,7 +7,7 @@
  */
 
 //pear MDB2 abstraction layer
-include_once ("Services/PEAR/lib/MDB2.php");
+require_once('./Services/Database/lib/PEAR/MDB2.php');
 require_once 'Services/Database/classes/QueryUtils/class.ilMySQLQueryUtils.php';
 require_once 'Services/Database/interfaces/interface.ilDBInterface.php';
 
@@ -2491,6 +2491,23 @@ abstract class ilDB extends PEAR implements ilDBInterface
 		
 		return $r;
 	} //end function
+
+	/**
+	 * @param $query_result
+	 * @param int $fetch_mode
+	 * @return array
+	 */
+	public function fetchAll($query_result, $fetch_mode = ilDBConstants::FETCHMODE_ASSOC) {
+		/**
+		 * @var $query_result ilPDOStatement
+		 */
+		$return = array();
+		while ($data = $query_result->fetch($fetch_mode)) {
+			$return[] = $data;
+		}
+
+		return $return;
+	}
 		
 	/**
 	 * Set sub type
@@ -2512,5 +2529,21 @@ abstract class ilDB extends PEAR implements ilDBInterface
 		return $this->sub_type;
 	}
 
-} //end Class
-?>
+
+	/**
+	 * @param string $engine
+	 * @return array
+	 */
+	public function migrateAllTablesToEngine($engine = ilDBConstants::ENGINE_INNODB) {
+		return array();
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function supportsEngineMigration() {
+		return false;
+	}
+
+}
