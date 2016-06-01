@@ -4,8 +4,8 @@ $BEAUT_PATH = realpath(".")."/Services/COPage/syntax_highlight/php";
 if (!isset ($BEAUT_PATH)) return;
 require_once("$BEAUT_PATH/Beautifier/HFile.php");
   class HFile_vb extends HFile{
-   function HFile_vb(){
-     $this->HFile();
+   function __construct(){
+     parent::__construct();
      
 /*************************************/
 // Beautifier Highlighting Configuration File 

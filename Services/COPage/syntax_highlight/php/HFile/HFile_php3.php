@@ -6,9 +6,9 @@ require_once($BEAUT_PATH.'/Beautifier/HFile.php');
 
 class HFile_php3 extends HFile{
 
- function HFile_php3(){
+ function __construct(){
 
-    $this->HFile();	
+    parent::__construct();
 
 
 /*************************************/
