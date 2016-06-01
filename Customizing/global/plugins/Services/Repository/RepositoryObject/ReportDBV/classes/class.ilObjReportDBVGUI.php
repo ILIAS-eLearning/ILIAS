@@ -38,7 +38,7 @@ class ilObjReportDBVGUI extends ilObjReportBaseGUI {
 			$date = '-';
 		}
 		$rec['date'] = $date;
-		return parent::transformResultRow(self::setODBD($rec));
+		return parent::transformResultRow(self::setBD($rec));
 	}
 
 	public static function transformResultRowXLSX($rec) {
@@ -52,22 +52,16 @@ class ilObjReportDBVGUI extends ilObjReportBaseGUI {
 			$date = '-';
 		}
 		$rec['date'] = $date;
-		return parent::transformResultRowXLSX(self::setODBD($rec));
+		return parent::transformResultRowXLSX(self::setBD($rec));
 	}
 
-	public static function setODBD($rec) {
-		if(!self::$od_regexp || !self::$bd_regexp ) {
+	public static function setBD($rec) {
+		if(!self::$bd_regexp ) {
 			require_once './Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/config/od_bd_strings.php';
 		}
 		$orgu_above1 =  $rec['org_unit_above1'];
 		$orgu_above2 =  $rec['org_unit_above2'];
-		if (preg_match(self::$od_regexp, $orgu_above1)) {
-			$od = $orgu_above1;
-		} elseif(preg_match(self::$od_regexp, $orgu_above2)) {
-			$od = $orgu_above2;
-		} else {
-			$od = '-';
-		}
+
 		if (preg_match(self::$bd_regexp, $orgu_above1)) {
 			$bd = $orgu_above1;
 		} elseif(preg_match(self::$bd_regexp, $orgu_above2)) {
@@ -75,7 +69,7 @@ class ilObjReportDBVGUI extends ilObjReportBaseGUI {
 		} else {
 			$bd = '-';
 		}
-		$rec['odbd'] = $od .'/' .$bd;
+		$rec['odbd'] = $bd;
 		return $rec;
 	}
 
