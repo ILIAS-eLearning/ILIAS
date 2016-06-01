@@ -1,0 +1,34 @@
+<!-- language file start -->
+obj_xrdv#:#DBV Report
+objs_xrdv#:#DBV Reports
+obj_xrdv_duplicate#:#DBV Report kopieren
+objs_xrdv_duplicate#:#DBV Reports kopieren
+obj_xrdv_select#:#DBV Report auswählen
+xrdv_add#:#DBV Report hinzufügen
+xrdv_new#:#Neuen DBV Report für Vorgesetzte hinzufügen
+xrdv_read#:#Lesezugriff zum DBV Report für Vorgesetzte
+xrdv_write#:#DBV Report für Vorgesetzte bearbeiten
+xrdv_delete#:#DBV Report für Vorgesetzte löschen
+xrdv_visible#:#sichtbar
+xrdv_edit_permission#:#schreibberechtigt
+crs_create_xrdv#:#DBV Report erzeugen
+grp_create_xrdv#:#DBV Report erzeugen
+fold_create_xrdv#:#DBV Report erzeugen
+root_create_xrdv#:#DBV Report erzeugen
+cat_create_xrdv#:#DBV Report erzeugen
+xrdv_content#:#Report
+xrdv_properties#:#Eigenschaften
+lastname#:#Nachname
+firstname#:#Vorname
+filter_show_critical_dbvs#:#Zeige mir nur kritische DBVen.
+od_bd#:#OD/BD
+job_number#:#Vermittlernummer
+title#:#Titel
+dbv_hot_topic#:#Relevante Themen
+type#:#Typ
+date#:#Datum
+credit_points#:#Bildungspunkte
+credit_points_forecast#:#Gebuchte Bildungspunkte
+sum_credit_points#:#Gesamtpunktzahl
+sum_credit_points_forecast#:#Gesamte Gebuchte Bildungspunkte
+report_year#:#Jahr der Auswertung
