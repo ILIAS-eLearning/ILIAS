@@ -63,7 +63,6 @@ class ilDclRecordListGUI {
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 
-		$this->main_table_id = $a_parent_obj->object->getMainTableId();
 		$this->table_id = $table_id;
 		if ($this->table_id == NULL) {
 			$this->table_id = $_GET["table_id"];

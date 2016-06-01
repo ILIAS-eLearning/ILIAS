@@ -469,6 +469,18 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 		$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_notification"), "notification");
 		$cb->setInfo($this->lng->txt("dcl_notification_info"));
 		$a_form->addItem($cb);
+
+		//table order
+		$order_options = array();
+		foreach($this->getDataCollectionObject()->getTables() as $table) {
+			$order_options[$table->getId()] = $table->getTitle();
+		}
+		$sort = new ilNonEditableValueGUI($this->lng->txt("dcl_tableorder"), "table_order");
+		$sort->setInfo($this->lng->txt("dcl_tableorder_info"));
+		$sort->setMultiValues($order_options);
+		$sort->setValue(array_shift($order_options));
+		$sort->setMulti(true, true, false);
+		$a_form->addItem($sort);
 	}
 
 
@@ -512,13 +524,13 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 * @param ilPropertyFormGUI $a_form
 	 */
 	public function updateCustom(ilPropertyFormGUI $a_form) {
-		global $ilUser;
-
 		$this->object->setOnline($a_form->getInput("is_online"));
 		$this->object->setRating($a_form->getInput("rating"));
 		$this->object->setPublicNotes($a_form->getInput("public_notes"));
 		$this->object->setApproval($a_form->getInput("approval"));
 		$this->object->setNotification($a_form->getInput("notification"));
+		$this->object->reorderTables($a_form->getInput('table_order'));
+
 		$this->emptyInfo();
 	}
 

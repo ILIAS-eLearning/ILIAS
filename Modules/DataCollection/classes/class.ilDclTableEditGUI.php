@@ -423,8 +423,8 @@ class ilDclTableEditGUI {
 	  */
 	public function delete() {
 		$mainTableId = $this->table->getCollectionObject()->getMainTableId();
-		if ($mainTableId == $this->table->getId()) {
-			ilUtil::sendFailure($this->lng->txt("dcl_cant_delete_main_table"), true);
+		if (count($this->table->getCollectionObject()->getTables()) < 2) {
+			ilUtil::sendFailure($this->lng->txt("dcl_cant_delete_main_table"), true); //TODO change lng var
 		} else {
 			$this->ctrl->setParameterByClass("ildclfieldlistgui", "table_id", $mainTableId);
 		}

@@ -341,9 +341,9 @@ class ilDclTableView extends ActiveRecord
     {
         global $lng, $rbacreview;
         $view = new self();
-        $view->setRoles(array_merge($rbacreview->getGlobalRoles(), $rbacreview->getLocalRoles($_GET['ref_id'])));
+//        $view->setRoles(array_merge($rbacreview->getGlobalRoles(), $rbacreview->getLocalRoles($_GET['ref_id'])));
         $view->setTableId($table_id);
-        $view->setTitle($lng->txt('dcl_standardview'));
+        $view->setTitle('Standardview');
         $view->setTableviewOrder(10);
         $view->create($create_default_settings);
         return $view;

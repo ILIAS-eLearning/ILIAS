@@ -22,7 +22,6 @@ class ilDclRecordListViewdefinitionGUI
 	 */
 	public function __construct($a_parent_obj, $table_id)
 	{
-		$this->main_table_id = $a_parent_obj->object->getMainTableId();
 		$this->table_id = $table_id;
 		$this->obj_id = $a_parent_obj->obj_id;
 

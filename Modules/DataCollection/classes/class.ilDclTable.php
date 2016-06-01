@@ -93,6 +93,10 @@ class ilDclTable {
 	 */
 	protected $export_enabled;
 	/**
+	 * @var integer
+	 */
+	protected $table_order;
+	/**
 	 * ID of the default sorting field. Can be a DB field (int) or a standard field (string)
 	 *
 	 * @var string
@@ -169,6 +173,7 @@ class ilDclTable {
 		$this->setViewOwnRecordsPerm($rec['view_own_records_perm']);
 		$this->setDeleteByOwner($rec['delete_by_owner']);
 		$this->setSaveConfirmation($rec['save_confirmation']);
+		$this->setOrder($rec['table_order']);
 	}
 
 
@@ -229,7 +234,7 @@ class ilDclTable {
 		$this->setId($id);
 		$query = "INSERT INTO il_dcl_table (" . "id" . ", obj_id" . ", title" . ", add_perm" . ", edit_perm" . ", delete_perm" . ", edit_by_owner"
 			. ", limited" . ", limit_start" . ", limit_end" . ", is_visible" . ", export_enabled" . ", default_sort_field_id"
-			. ", default_sort_field_order" . ", description" . ", public_comments" . ", view_own_records_perm"
+			. ", default_sort_field_order" . ", description" . ", public_comments" . ", view_own_records_perm" . ", table_order"
 			. ", delete_by_owner, save_confirmation ) VALUES (" . $ilDB->quote($this->getId(), "integer") . ","
 			. $ilDB->quote($this->getObjId(), "integer") . "," . $ilDB->quote($this->getTitle(), "text") . ","
 			. $ilDB->quote($this->getAddPerm() ? 1 : 0, "integer") . "," . $ilDB->quote($this->getEditPerm() ? 1 : 0, "integer") . ","
@@ -239,7 +244,8 @@ class ilDclTable {
 			. $ilDB->quote($this->getExportEnabled() ? 1 : 0, "integer") . "," . $ilDB->quote($this->getDefaultSortField(), "text") . ","
 			. $ilDB->quote($this->getDefaultSortFieldOrder(), "text") . "," . $ilDB->quote($this->getDescription(), "text") . ","
 			. $ilDB->quote($this->getPublicCommentsEnabled(), "integer") . "," . $ilDB->quote($this->getViewOwnRecordsPerm(), "integer") . ","
-			. $ilDB->quote($this->getDeleteByOwner() ? 1 : 0, 'integer') . "," . $ilDB->quote($this->getSaveConfirmation() ? 1 : 0, 'integer') . ")";
+			. $ilDB->quote($this->getDeleteByOwner() ? 1 : 0, 'integer') . "," . $ilDB->quote($this->getSaveConfirmation() ? 1 : 0, 'integer') . ","
+			. $ilDB->quote($this->getOrder(), 'integer') . ")";
 
 		$ilDB->manipulate($query);
 
@@ -296,6 +302,7 @@ class ilDclTable {
 			"view_own_records_perm" => array( "integer", $this->getViewOwnRecordsPerm() ),
 			'delete_by_owner' => array( 'integer', $this->getDeleteByOwner() ? 1 : 0 ),
 			'save_confirmation' => array( 'integer', $this->getSaveConfirmation() ? 1 : 0 ),
+			'table_order' => array( 'integer', $this->getOrder() ),
 		), array(
 			"id" => array( "integer", $this->getId() )
 		));
@@ -1296,6 +1303,7 @@ class ilDclTable {
 		$this->setExportEnabled($original->getExportEnabled());
 		$this->setPublicCommentsEnabled($original->getPublicCommentsEnabled());
 		$this->setDefaultSortFieldOrder($original->getDefaultSortFieldOrder());
+		$this->setOrder($original->getOrder());
 
 		$this->doCreate();
 		// reset stdFields to get new for the created object
@@ -1398,6 +1406,12 @@ class ilDclTable {
 		return $id;
 	}
 
+	public static function _getMainTableId($obj_id) {
+		global $ilDB;
+		$result = $ilDB->query('SELECT id FROM il_dcl_table WHERE obj_id = ' . $ilDB->quote($obj_id, 'integer') . ' ORDER BY table_order LIMIT 1');
+		return $ilDB->fetchObject($result)->id;
+	}
+
 
 	/**
 	 * @param boolean $export_enabled
@@ -1412,6 +1426,32 @@ class ilDclTable {
 	 */
 	public function getExportEnabled() {
 		return $this->export_enabled;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getOrder()
+	{
+		if (!$this->table_order) {
+			$this->updateOrder();
+		}
+		return $this->table_order;
+	}
+
+	public function updateOrder(){
+		global $ilDB;
+		$result = $ilDB->query('SELECT MAX(table_order) AS table_order FROM il_dcl_table WHERE obj_id = ' . $ilDB->quote($this->getCollectionObject()->getId(), 'integer'));
+		$this->table_order = $ilDB->fetchObject($result)->table_order + 10;
+		$ilDB->query('UPDATE il_dcl_table SET table_order = ' . $ilDB->quote($this->table_order, 'integer') . ' WHERE id = ' . $ilDB->quote($this->getId(), 'integer'));
+	}
+
+	/**
+	 * @param int $table_order
+	 */
+	public function setOrder($table_order)
+	{
+		$this->table_order = $table_order;
 	}
 
 

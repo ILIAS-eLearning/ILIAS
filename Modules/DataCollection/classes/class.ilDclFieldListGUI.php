@@ -58,7 +58,6 @@ class ilDclFieldListGUI
 	{
         global $ilCtrl, $lng, $ilToolbar, $tpl, $ilTabs;
 
-		$this->main_table_id = $a_parent_obj->object->getMainTableId();
 		$this->table_id = $table_id;
 		$this->parent_obj = $a_parent_obj;
 		$this->obj_id = $a_parent_obj->obj_id;
