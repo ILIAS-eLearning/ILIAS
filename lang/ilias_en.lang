@@ -12251,13 +12251,13 @@ dcl#:#dcl_msg_tableview_created#:#Tableviews created
 dcl#:#dcl_msg_tableview_deleted#:#Tableview deleted
 dcl#:#dcl_msg_tableviews_deleted#:#Tableviews deleted
 dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one Tableview must exist
+dcl#:#dcl_msg_info_alternatives#:#You do not have enough permissions to view this record, or there is no detailed view defined for this tableview. Choose a view from the list below to view the record anyway.
 dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following Tableviews?
 dcl#:#dcl_tableview_confirm_delete#:#Do you really want to delete the following Tableview?
 dcl#:#dcl_tableview_fieldsettings#:#Fieldspecific Settings
-dcl#:#dcl_std_filter#:#Standardfilter
+common#:#mail_memberdcl#:#dcl_std_filter#:#Standardfilter
 dcl#:#dcl_field_visible#:#Visible
 dcl#:#dcl_filter_changeable#:#Filter changeable
-common#:#mail_member#:#Mail to Member
 common#:#mail_member#:#Mail to Member
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_team#:#Team
