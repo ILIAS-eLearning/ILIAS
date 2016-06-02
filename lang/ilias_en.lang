@@ -13072,7 +13072,7 @@ webr#:#webr_copy#:#Copy Weblink
 exc#:#exc_copy#:#Copy Exercise
 assessment#:#tst_copy#:#Copy Test
 survey#:#svy_copy#:#Copy Survey
-poll#:#poll_population#:#%s Votes
+poll#:#poll_population#:#%s Participants
 poll#:#poll_participants#:#Participants
 poll#:#poll_delete_votes#:#Delete All Votes
 poll#:#poll_delete_votes_sure#:#Are you sure you want to delete all votes?
@@ -16201,3 +16201,7 @@ trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gath
 sess#:#sess_list_reg_limit_places#:#Free places
 sess#:#sess_accept_request#:#Accept Participation
 sess#:#sess_new_registrations#:#Join Request
+rbac#:#mep_copy#:#User can copy media pool
+crs#:#crs_cannot_find_role#:#Can't find this role.
+grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
+crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.

@@ -216,7 +216,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				
 				$this->setSubTabs('members');
 				$this->tabs_gui->setTabActive('members');
-				$this->tabs_gui->setSubTabActive('export_members');
+				$this->tabs_gui->setSubTabActive('grp_export_members');
 				$export = new ilMemberExportGUI($this->object->getRefId());
 				$this->ctrl->forwardCommand($export);
 				break;

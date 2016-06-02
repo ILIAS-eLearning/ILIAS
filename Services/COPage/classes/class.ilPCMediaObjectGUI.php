@@ -1253,7 +1253,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				if (is_object($st_item))
 				{
 					$format = $st_item->getFormat();
-					if (substr($format, 0, 5) == "image")
+					if (substr($format, 0, 5) == "image" && !is_int(strpos($format, "svg")))
 					{
 						$ilTabs->addTarget("cont_inst_map_areas",
 							$ilCtrl->getLinkTargetByClass("ilpcimagemapeditorgui", "editMapAreas"), array(),
