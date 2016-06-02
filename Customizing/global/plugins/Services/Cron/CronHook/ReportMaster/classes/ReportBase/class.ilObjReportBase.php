@@ -49,7 +49,6 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		$this->createLocalReportSettings();
 		$this->createGlobalReportSettings();
 		$this->settings_data_handler = $this->s_f->reportSettingsDataHandler();
-
 	}
 
 
@@ -85,6 +84,10 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 				->addSetting($this->s_f
 								->settingRichText('tooltip_info', $this->master_plugin->txt('rep_tooltip_desc'))
 								);
+	}
+
+	public function prepareRelevantParameters() {
+
 	}
 
 	public function getSettingsData() {
@@ -273,7 +276,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		$this->filter_action = $link;
 	}
 
-	public function getRelevantaParameters() {
+	public function getRelevantParameters() {
 		return $this->relevant_parameters;
 	}
 
