@@ -41,7 +41,7 @@ class ilQTISetvar
 	var $action;
 	var $content;
 	
-	function ilQTISetvar()
+	function __construct()
 	{
 	}
 

@@ -53,7 +53,7 @@ class ilQTIRenderFib
 	var $columns;
 	var $charset;
 
-	function ilQTIRenderFib()
+	function __construct()
 	{
 		$this->showdraw = SHOWDRAW_NO;
 		$this->response_labels = array();

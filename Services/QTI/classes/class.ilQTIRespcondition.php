@@ -42,7 +42,7 @@ class ilQTIRespcondition
 	var $displayfeedback;
 	var $respcond_extension;
 	
-	function ilQTIRespcondition()
+	function __construct()
 	{
 		$this->setvar = array();
 		$this->displayfeedback = array();
