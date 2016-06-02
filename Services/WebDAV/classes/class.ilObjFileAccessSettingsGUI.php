@@ -965,7 +965,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		}
 		
 		// set warning if ghostscript not installed
-		if (!is_file(PATH_TO_GHOSTSCRIPT))
+		include_once("./Services/Preview/classes/class.ilGhostscriptRenderer.php");
+		if (!ilGhostscriptRenderer::isGhostscriptInstalled())
 		{
 			ilUtil::sendInfo($lng->txt("ghostscript_not_configured"));
 		}
