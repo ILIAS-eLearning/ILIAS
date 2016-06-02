@@ -25,27 +25,33 @@ class ilObjReportEduBio extends ilObjReportBase {
 	}
 
 	public function prepareRelevantParameters() {
+		$self_id = $this->user_utils->getId();
 		$this->target_user_id = $_POST["target_user_id"]
 					  ? $_POST["target_user_id"]
 					  : ( $_GET["target_user_id"]
 					  	? $_GET["target_user_id"]
-					  	: $this->user_utils->getId()
+					  	: $self_id
 					  	);
-		$this->addRelevantParameter("target_user_id", $this->target_user_id);
+		if ($target_user_id != $self_id) {
+			if ( in_array($target_user_id, $this->user_utils->getEmployeesWhereUserCanViewEduBios())) {
+				$this->addRelevantParameter("target_user_id", $this->target_user_id);
+			}
+		}
+		$this->addRelevantParameter("target_user_id", $self_id);
 	}
 
 	protected function buildTable($table) {
-		$table	->column("custom_id", "gev_training_id")
-				->column("title", "title")
-				->column("type", "gev_learning_type")
-				->column("date", "date", false, "112px")
-				->column("venue", "gev_location")
-				->column("provider", "gev_provider")
-				->column("tutor", "il_crs_tutor")
-				->column("credit_points", "gev_points")
-				->column("fee", "gev_costs")
-				->column("status", "status")
-				->column("wbd", "gev_wbd_relevant")
+		$table	->column("custom_id", $this->plugin->txt("gev_training_id"), true)
+				->column("title", $this->plugin->txt("title"), true)
+				->column("type", $this->plugin->txt("gev_learning_type"), true)
+				->column("date", $this->plugin->txt("date", false, "112px"), true)
+				->column("venue", $this->plugin->txt("gev_location"), true)
+				->column("provider", $this->plugin->txt("gev_provider"), true)
+				->column("tutor", $this->plugin->txt("il_crs_tutor"), true)
+				->column("credit_points", $this->plugin->txt("gev_points"), true)
+				->column("fee", $this->plugin->txt("gev_costs"), true)
+				->column("status", $this->plugin->txt("status"), true)
+				->column("wbd", $this->plugin->txt("gev_wbd_relevant"), true)
 				->column("action", '<img src="'.ilUtil::getImagePath("gev_action.png").'" />', true, "", true)
 				->template($this->getRowTemplateTitle(),"Services/GEV/Reports");			
 		return $table;
@@ -64,8 +70,8 @@ class ilObjReportEduBio extends ilObjReportBase {
 
 	protected function buildFilter($filter) {
 		$filter	->dateperiod( "period"
-							, $this->lng->txt("gev_period")
-							, $this->lng->txt("gev_until")
+							, $this->plugin->txt("gev_period")
+							, $this->plugin->txt("gev_until")
 							, "usrcrs.begin_date"
 							, "usrcrs.end_date"
 							, date("Y")."-01-01"
@@ -208,5 +214,33 @@ class ilObjReportEduBio extends ilObjReportBase {
 				." FROM hist_usercoursestatus usrcrs"
 				.$this->wbdQueryWhere($start, $end, false)
 				." AND NOT usrcrs.wbd_booking_id IS NULL";
+	}
+
+	public function validateBill($bill_id) {
+		$res = $this->gIldb->query( "SELECT crs_id"
+								."  FROM hist_usercoursestatus "
+								." WHERE usr_id = ".$this->gIldb->quote($this->target_user_id, "integer")
+								."   AND bill_id = ".$this->gIldb->quote($bill_id, "text")
+								."   AND hist_historic = 0");
+		return $this->gIldb->numRows($res) == 1;
+	}
+
+	public function validateCertificate($cert_id) {
+		$res = $this->gIldb->query( "SELECT COUNT(*) cnt"
+						."  FROM hist_usercoursestatus "
+						." WHERE usr_id = ".$this->gIldb->quote($this->target_user_id, "integer")
+						."   AND certificate = ".$this->gILdb->quote($cert_id, "integer"));
+		if($this->gIldb->fetchAssoc($res)['cnt'] == 0) {
+			return false;
+		}
+		return true;
+	}
+
+	public function certificateData($cert_id) {
+		$res = $this->gIldb->query( "SELECT hc.certfile, hs.crs_id "
+								."  FROM hist_certfile hc"
+								." JOIN hist_usercoursestatus hs ON hs.certificate = hc.row_id"
+								." WHERE hc.row_id = ".$this->gIldb->quote($cert_id, "integer"));
+		return $this->gIldb->fetchAssoc($res);
 	}
 }
