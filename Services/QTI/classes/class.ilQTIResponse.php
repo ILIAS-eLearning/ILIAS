@@ -58,7 +58,7 @@ class ilQTIResponse
 	var $rtiming;
 	var $numtype;
 	
-	function ilQTIResponse($a_response_type = 0)
+	function __construct($a_response_type = 0)
 	{
 		$this->flow = 0;
 		$this->render_type = NULL;
