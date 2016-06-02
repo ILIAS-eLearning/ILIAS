@@ -736,9 +736,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
 	private function addMiscSettingsFormSection(ilPropertyFormGUI $form)
 	{
-		$fields = array('anonymity');
-
-		if( $this->isSectionHeaderRequired($fields) || $this->testQuestionSetConfigFactory->getQuestionSetConfig()->isResultTaxonomyFilterSupported() )
+		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->isResultTaxonomyFilterSupported() )
 		{
 			// misc settings
 			$header_misc = new ilFormSectionHeaderGUI();
