@@ -15,6 +15,11 @@ class ilLearningModuleImporter extends ilXmlImporter
 	protected $config;
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
 	 * Initialisation
 	 */
 	function init()
@@ -22,6 +27,8 @@ class ilLearningModuleImporter extends ilXmlImporter
 		include_once("./Modules/LearningModule/classes/class.ilLearningModuleDataSet.php");
 		$this->ds = new ilLearningModuleDataSet();
 		$this->ds->setDSPrefix("ds");
+
+		$this->log = ilLoggerFactory::getLogger('lm');
 
 		$this->config = $this->getImport()->getConfig("Modules/LearningModule");
 		if ($this->config->getTranslationImportMode())
@@ -51,6 +58,8 @@ class ilLearningModuleImporter extends ilXmlImporter
 	{
 		include_once './Modules/File/classes/class.ilObjFile.php';
 
+		$this->log->debug("import XML Representation");
+
 		// case i container
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
@@ -58,18 +67,20 @@ class ilLearningModuleImporter extends ilXmlImporter
 			$newObj->createLMTree();
 			$newObj->setImportDirectory(dirname(rtrim($this->getImportDirectory(),'/')));
 			$mess = $newObj->importFromDirectory($this->getImportDirectory(),true, $a_mapping);
-			$GLOBALS['ilLog']->write(__METHOD__.': Import message is: '.$mess);
+			$this->log->debug("imported from directory ($mess)");
 			$a_mapping->addMapping("Modules/LearningModule", "lm", $a_id, $newObj->getId());
 			$a_mapping->addMapping("Services/Object", "obj", $a_id, $newObj->getId());
 		}
 		else	// case ii, non container
 		{
+			$this->log->debug("create ilDataSetIportParser instance");
 			include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
 			$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
 				$a_xml, $this->ds, $a_mapping);
 		}
 
 		// import qti stuff
+		$this->log->debug("import qti data");
 		$qti_file = $this->getImportDirectory().'/qti.xml';
 		$this->qtis = array();
 		if (is_file($qti_file))

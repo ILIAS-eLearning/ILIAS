@@ -43,4 +43,5 @@
 	<web_access_checker>
 		<secure_path path="lm_data" checking-class="ilObjLearningModuleAccess" />
 	</web_access_checker>
+	<logging />
 </module>

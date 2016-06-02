@@ -74,6 +74,11 @@ class ilContObjParser extends ilMDSaxParser
 	protected $glossary_term_map = array();
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
 	* Constructor
 	*
 	* @param	object		$a_content_object	must be of type ilObjContentObject
@@ -86,6 +91,7 @@ class ilContObjParser extends ilMDSaxParser
 	{
 		global $lng, $tree;
 
+		$this->log = ilLoggerFactory::getLogger('lm');
 
 		$this->import_dir = ($a_import_dir != "")
 			? $a_import_dir
@@ -151,6 +157,8 @@ class ilContObjParser extends ilMDSaxParser
 	*/
 	function startParsing()
 	{
+		$this->log->debug("start");
+
 //echo "<b>start parsing</b><br>";
 		parent::startParsing();
 //echo "<b>storeTree</b><br>";
