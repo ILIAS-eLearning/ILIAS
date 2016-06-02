@@ -317,8 +317,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 
 			$filter_value = $field_set->getFilterValue();
 
-			$this->setFilterValue($filter, $filter_value);
-
+			$filter->setValueByArray($filter_value);
 			$this->applyFilter($field->getId(), $filter_value);
 		}
 	}
@@ -337,7 +336,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			{
 				//always set tableview-filtervalue with disabled fields, so resetFilter won't reset it
 				$filter_value = $field_set->getFilterValue();
-				$this->setFilterValue($filter, $filter_value);
+				$filter->SetValueByArray($filter_value);
 				$filter->setDisabled(true);
 				if ($filter instanceof ilCombinationInputGUI)
 				{
@@ -346,28 +345,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			}
 
 			$this->applyFilter($field->getId(), $filter_value);
-		}
-	}
-
-	/**
-	 * @param ilFormPropertyGUI $a_item
-	 * @param mixed $a_value
-	 */
-	protected function setFilterValue(ilFormPropertyGUI $a_item, $a_value)
-	{
-		//TODO: find nicer way
-		if ($a_item instanceof ilCombinationInputGUI && is_array($a_value))
-		{
-			foreach ($a_value as $key => $value)
-			{
-				$subitem = $a_item->getCombinationItem($key);
-				$subitem->setParent($a_item);
-				$subitem->setValueByArray(array($subitem->getPostVar() => $value));
-			}
-		}
-		else
-		{
-			parent::SetFilterValue($a_item, $a_value);
 		}
 	}
 

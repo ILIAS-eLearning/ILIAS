@@ -76,37 +76,20 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
 
     }
 
+    /**
+     * @param ilDclBaseFieldModel $field
+     * @param $value
+     * @return mixed
+     * @throws ilDclException
+     */
     protected function getStandardFilterHTML(ilDclBaseFieldModel $field, $value)
     {
         $field_representation = ilDclFieldFactory::getFieldRepresentationInstance($field);
         $field_representation->addFilterInputFieldToTable($this);
         $filter = end($this->filters);
         $this->filters = null;
-        $this->SetFilterValue($filter, $value);
+        $filter->setValueByArray($value);
         return $filter->render();
     }
-
-    /**
-     * @param ilFormPropertyGUI $a_item
-     * @param mixed $a_value
-     */
-    protected function SetFilterValue(ilFormPropertyGUI $a_item, $a_value)
-    {
-        //TODO: find nicer way
-        if ($a_item instanceof ilCombinationInputGUI && is_array($a_value))
-        {
-            foreach ($a_value as $key => $value)
-            {
-                $subitem = $a_item->getCombinationItem($key);
-                $subitem->setParent($a_item);
-                $subitem->setValueByArray(array($subitem->getPostVar() => $value));
-            }
-        }
-        else
-        {
-            parent::SetFilterValue($a_item, $a_value);
-        }
-    }
-
 
 }

@@ -505,7 +505,7 @@ class ilDclBaseFieldModel {
 	{
 		foreach (ilDclTableView::getAllForTableId($this->table_id) as $tableview)
 		{
-			$tableview->addField($this->id);
+			$tableview->createFieldSetting($this->id);
 		}
 	}
 

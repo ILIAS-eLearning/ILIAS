@@ -20,6 +20,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
      */
     private $table;
 
+
     public function __construct(ilDclTableViewGUI $a_parent_obj, $a_parent_cmd, ilDclTable $table)
     {
         global $lng, $ilCtrl;
@@ -53,10 +54,14 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->addColumn($lng->txt('dcl_order'), NULL, '30px');
 
             $this->setRowTemplate('tpl.tableview_list_row.html', 'Modules/DataCollection');
+
+            $this->setData($this->table->getTableViews());
         }
         elseif ($this->parent_obj instanceof ilDclRecordViewGUI)
         {
             $this->setRowTemplate('tpl.detailview_list_row.html', 'Modules/DataCollection');
+            $this->setData($this->table->getVisibleTableViews($this->parent_obj->parent_obj->ref_id, true));
+
         }
         $this->addColumn($lng->txt('title'), NULL, 'auto');
         $this->addColumn($lng->txt('description'), NULL, 'auto');
@@ -75,15 +80,6 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
         $this->setDefaultOrderDirection('asc');
         $this->setLimit(0);
-
-        if ($this->parent_obj instanceof ilDclTableViewGUI)
-        {
-            $this->setData($this->table->getTableViews());
-        }
-        elseif ($this->parent_obj instanceof ilDclRecordViewGUI)
-        {
-            $this->setData($this->table->getVisibleTableViews($this->parent_obj->parent_obj->ref_id, true));
-        }
 
         $this->setTitle($lng->txt("dcl_tableviews"));
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
@@ -104,10 +100,13 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ACTIONS', $this->buildAction($a_set->getId()));
 
     }
-    
+
+    /**
+     * build either actions menu or view button
+     * @param $id
+     * @return string
+     */
     protected function buildAction($id) {
-
-
         if ($this->parent_obj instanceof ilDclTableViewGUI)
         {
             include_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');

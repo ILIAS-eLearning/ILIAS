@@ -252,13 +252,19 @@ class ilDclTableViewFieldSetting extends ActiveRecord
 
     }
 
-    
-    
+    /**
+     * @param $tableview_id
+     * @return array
+     */
     public static function getAllForTableViewId($tableview_id)
     {
         return self::where(array('tableview_id' => $tableview_id))->get();
     }
 
+    /**
+     * @param $field_id
+     * @return array
+     */
     public static function getAllForFieldId($field_id)
     {
         return self::where(array('field' => $field_id))->get();

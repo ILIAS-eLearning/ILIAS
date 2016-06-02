@@ -291,7 +291,7 @@ class ilDclRecordListGUI {
 	 * doTableSwitch
 	 */
 	public function doTableSwitch() {
-		unset($_POST['tableview_id']);
+		unset($_REQUEST['tableview_id']);
 		$this->ctrl->clearParametersByClass("ilObjDataCollectionGUI");
 		$this->ctrl->clearParameters($this);
 		$this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
@@ -522,8 +522,8 @@ class ilDclRecordListGUI {
 	}
 
 	/**
-	 * @param $options
-	 * @param $ilToolbar
+	 * @internal param $options
+	 * @internal param $ilToolbar
 	 */
 	protected function createSwitchers()
 	{

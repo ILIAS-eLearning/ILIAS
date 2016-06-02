@@ -206,6 +206,7 @@ class ilDclTableViewEditGUI
          */
         foreach ($field_settings as $setting)
         {
+            //Checkboxes
             foreach (array("Visible", "InFilter", "FilterChangeable") as $attribute)
             {
                 $key = $attribute . '_' . $setting->getField();
@@ -213,14 +214,15 @@ class ilDclTableViewEditGUI
 
             }
 
+            //Filter Value
             $key = 'filter_' . $setting->getField();
             if (isset($_POST[$key]))
             {
-                $setting->setFilterValue($_POST[$key]);
+                $setting->setFilterValue(array($key => $_POST[$key]));
             }
             elseif (isset($_POST[$key . '_from']) && isset($_POST[$key . '_to']))
             {
-                $setting->setFilterValue( array( "from" => $_POST[$key . '_from'], "to" => $_POST[$key . '_to'] ) );
+                $setting->setFilterValue( array( $key . "_from" => $_POST[$key . '_from'], $key . "_to" => $_POST[$key . '_to'] ) );
             }
 
             $setting->update();

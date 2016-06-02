@@ -476,7 +476,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 			$order_options[$table->getId()] = $table->getTitle();
 		}
 		$sort = new ilNonEditableValueGUI($this->lng->txt("dcl_tableorder"), "table_order");
-		$sort->setInfo($this->lng->txt("dcl_tableorder_info"));
+//		//Info can't be set since it will count as item and can be moved
+//		$sort->setInfo($this->lng->txt("dcl_tableorder_info"));
 		$sort->setMultiValues($order_options);
 		$sort->setValue(array_shift($order_options));
 		$sort->setMulti(true, true, false);

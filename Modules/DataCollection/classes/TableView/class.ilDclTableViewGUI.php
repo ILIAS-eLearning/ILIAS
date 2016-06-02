@@ -15,8 +15,7 @@ class ilDclTableViewGUI
      * @var ilCtrl
      */
     protected $ctrl;
-
-
+    
     /**
      * @var ilLanguage
      */
@@ -153,6 +152,9 @@ class ilDclTableViewGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
+    /**
+     * 
+     */
     protected function deleteTableviews()
     {
         $tableviews = isset($_POST['dcl_tableview_ids']) ? $_POST['dcl_tableview_ids'] : array();

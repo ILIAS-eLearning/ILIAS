@@ -217,15 +217,22 @@ class ilDclTableView extends ActiveRecord
         return null;
     }
 
+    /**
+     *
+     */
     public function delete()
     {
+        //Delete settings
         foreach (ilDclTableViewFieldSetting::getAllForTableViewId($this->id) as $setting)
         {
             $setting->delete();
         }
         parent::delete();
     }
-    
+
+    /**
+     * @return ilDclTable
+     */
     public function getTable()
     {
         return ilDclCache::getTableCache($this->table_id);
@@ -253,8 +260,8 @@ class ilDclTableView extends ActiveRecord
 
     /**
      * @param $property
-     * @param bool $as_field_setting
-     * @return array
+     * @param bool $as_field_setting return ilDclTableViewFieldSetting[] if true, ilDclBaseFieldModel[] otherwise
+     * @return ilDclTableViewFieldSetting[]|ilDclBaseFieldModel[]
      */
     public function getFields($property, $as_field_setting = false)
     {
@@ -272,6 +279,9 @@ class ilDclTableView extends ActiveRecord
         return $fields;
     }
 
+    /**
+     * @param bool $create_default_settings
+     */
     public function create($create_default_settings = true)
     {
         parent::create();
@@ -287,11 +297,11 @@ class ilDclTableView extends ActiveRecord
      */
     public function createDefaultSettings()
     {
-        $table = new ilDclTable($this->table_id);
+        $table = ilDclCache::getTableCache($this->table_id);
 
         foreach ($table->getFieldIds() as $field_id)
         {
-            $this->addField($field_id);
+            $this->createFieldSetting($field_id);
         }
     }
 
@@ -300,7 +310,7 @@ class ilDclTableView extends ActiveRecord
      *
      * @param $field_id
      */
-    public function addField($field_id)
+    public function createFieldSetting($field_id)
     {
         if (!ilDclTableViewFieldSetting::where(
             array('tableview_id' => $this->id, 'field' => $field_id))->get())
