@@ -84,8 +84,9 @@ class ilAwarenessUserCollector
 			include_once("./Services/User/classes/class.ilObjUser.php");
 			foreach (ilObjUser::_getUsersOnline() as $u)
 			{
-				// todo: ask context $u["context"] if it supports pushMessages
-				if ($u["context"] == 1)
+				// ask context $u["context"] if it supports pushMessages
+				if ($u["context"] && 
+					ilContext::directCall($u["context"], "supportsPushMessages"))
 				{
 					self::$online_users[] = $u;
 					self::$online_user_ids[] = $u["user_id"];
