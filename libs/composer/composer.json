@@ -11,7 +11,8 @@
 		"ezyang/htmlpurifier": "^4.7.0",
 		"phpmailer/phpmailer": "^5.2",
 		"phansys/getid3": "^1.9.4",
-		"geshi/geshi": "dev-master"
+		"geshi/geshi": "dev-master",
+		"tecnickcom/tcpdf": "^6.2.12"
 	},
 	"extra": {
 		"technosophos/LibRIS" : {
@@ -56,10 +57,10 @@
 		},
 		"phpmailer/phpmailer" : {
 			"source" : "https://github.com/PHPMailer/PHPMailer",
-			"used_version" : "v5.2.14",
+			"used_version" : "v5.2.15",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2016-04-01",
+			"last_update" : "2016-06-02",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
 		},
 		"phansys/getid3" : {
@@ -77,7 +78,14 @@
 			"added_by" : "Alexander Killing <killing@leifos.de>",
 			"last_update" : "2016-05-25",
 			"last_update_by" : "Alexander Killing <killing@leifos.de>"
+		},
+		"tecnickcom/tcpdf" : {
+			"source" : "https://github.com/tecnickcom/TCPDF",
+			"used_version" : "v6.2.12",
+			"wrapped_by" : "Services/PDFGeneration",
+			"added_by" : "Maximilian Becker <mbecker@databay.de>",
+			"last_update" : "2016-06-02",
+			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
 		}
-
 	}
 }
