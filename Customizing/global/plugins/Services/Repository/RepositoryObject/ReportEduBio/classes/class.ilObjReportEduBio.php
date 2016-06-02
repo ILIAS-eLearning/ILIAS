@@ -24,6 +24,16 @@ class ilObjReportEduBio extends ilObjReportBase {
 			$this->s_f->reportSettings('rep_robj_reb');
 	}
 
+	public function prepareRelevantParameters() {
+		$this->target_user_id = $_POST["target_user_id"]
+					  ? $_POST["target_user_id"]
+					  : ( $_GET["target_user_id"]
+					  	? $_GET["target_user_id"]
+					  	: $this->user_utils->getId()
+					  	);
+		$this->addRelevantParameter("target_user_id", $this->target_user_id);
+	}
+
 	protected function buildTable($table) {
 		$table	->column("custom_id", "gev_training_id")
 				->column("title", "title")
@@ -36,8 +46,13 @@ class ilObjReportEduBio extends ilObjReportBase {
 				->column("fee", "gev_costs")
 				->column("status", "status")
 				->column("wbd", "gev_wbd_relevant")
-				->column("action", $this->action_img, true, "", true);
-		return parent::buildTable();
+				->column("action", '<img src="'.ilUtil::getImagePath("gev_action.png").'" />', true, "", true)
+				->template($this->getRowTemplateTitle(),"Services/GEV/Reports");			
+		return $table;
+	}
+
+	protected function getRowTemplateTitle() {
+		return "tpl.gev_edu_bio_row.html";
 	}
 
 	protected function buildOrder($order) {
@@ -56,9 +71,9 @@ class ilObjReportEduBio extends ilObjReportBase {
 							, date("Y")."-01-01"
 							, date("Y")."-12-31"
 							)
-				->static_condition("usr.user_id = ".$this->db->quote($this->target_user_id, "integer"))
+				->static_condition("usr.user_id = ".$this->gIldb->quote($this->target_user_id, "integer"))
 				->static_condition("usrcrs.hist_historic = 0")
-				->static_condition($this->db
+				->static_condition($this->gIldb
 										->in(	"usrcrs.booking_status"
 												, array( "gebucht", "kostenpflichtig storniert")
 												, false, "text")
@@ -98,22 +113,16 @@ class ilObjReportEduBio extends ilObjReportBase {
 	}
 
 	public function prepareReport() {
-		$this->target_user_id = $_POST["target_user_id"]
-					  ? $_POST["target_user_id"]
-					  : ( $_GET["target_user_id"]
-					  	? $_GET["target_user_id"]
-					  	: $this->user->getId()
-					  	);
-		$this->addToRelevantParameters("target_user_id", $this->target_user_id);
+		parent::prepareReport();		
+
 		$this->target_user_utils = gevUserUtils::getInstance($this->target_user_id);
-		
-		parent::prepareReport();
-		
-		$this->getWBDData();
+		$this->wbd_data = $this->getWBDData();
+		$this->academy_data = $this->getAcademyData();
 	}
 
 	protected function getWBDData() {
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+		$wbd_data = array();
 		$wbd = gevWBD::getInstance($this->target_user_id);
 
 		$cy_start = $wbd->getStartOfCurrentCertificationYear();
@@ -124,20 +133,44 @@ class ilObjReportEduBio extends ilObjReportBase {
 		$cp_end = $wbd->getStartOfCurrentCertificationPeriod();
 		$cp_end->increment(ilDateTime::YEAR, 5);
 
+		$wbd_data["cert_period"] = ilDatePresentation::formatPeriod($cp_start, $cp_end);
+		$wbd_data["cert_year"] = ilDatePresentation::formatPeriod($cy_start, $cy_end);
+
 		$period = $this->filter->get("period");
 
 		$query = $this->wbdQuery($period["start"], $period["end"]);
-		$wbd_sum = $this->db->fetchAssoc($this->db->query($query))["sum"];
+		$wbd_data["sum"] =  $this->gIldb->fetchAssoc($this->gIldb->query($query))["sum"];
 
 		$query = $this->wbdQuery($cy_start, $cy_end);
-		$wbd_sum_cur_year = $this->db->fetchAssoc($this->db->query($query))["sum"];
+		$wbd_data["sum_cur_year"] =  $this->gIldb->fetchAssoc($this->gIldb->query($query))["sum"];
 
 		$query = $this->wbdQuery($cp_start, $cp_end);
-		$wbd_sum_cert_period = $this->db->fetchAssoc($this->db->query($query))["sum"];
+		$wbd_data["sum_cert_period"] = $this->gIldb->fetchAssoc($this->gIldb->query($query))["sum"];
 
 		$query =  $this->curYearPredQuery($cy_start, $cy_end);
+		$wbd_data["sum_cur_year_pred"] = $this->gIldb->fetchAssoc($this->gIldb->query($query))["sum"];
+		return $wbd_data;
+	}
 
-		$wbd_sum_cur_year_pred = $this->db->fetchAssoc($this->db->query($query))["sum"];
+	protected function getAcademyData() {
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+
+		$academy_data = array();
+
+		$period = $this->filter->get("period");
+		$start_date = $period["start"]->get(IL_CAL_FKT_GETDATE);
+		$fy_start = new ilDate($start_date["year"]."-01-01", IL_CAL_DATE);
+		$fy_end = new ilDate($start_date["year"]."-12-31", IL_CAL_DATE);
+		$fy_end->increment(ilDateTime::YEAR, 4);
+
+		$academy_data["five_year"] = ilDatePresentation::formatPeriod($fy_start, $fy_end);
+
+		$query = $this->academyQuery($period["start"], $period["end"]);
+		$academy_data["sum"] = $this->gIldb->fetchAssoc($this->gIldb->query($query))["sum"];
+
+		$query = $this->academyQuery($fy_start, $fy_end);
+		$academy_data["sum_five_year"] = $this->gIldb->fetchAssoc($this->gIldb->query($query))["sum"];
+		return $academy_data;
 	}
 
 	protected function curYearPredQuery(ilDate $start = null, ilDate $end = null) {
@@ -145,27 +178,35 @@ class ilObjReportEduBio extends ilObjReportBase {
 				." FROM hist_usercoursestatus usrcrs"
 				." JOIN hist_user usr ON usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0"
 				." JOIN hist_course crs ON crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0"
-				.$this->curYearPredQueryWhere($start, $end)
+				.$this->wbdQueryWhere($start, $end)
 				." AND usrcrs.booking_status = 'gebucht'"
-				." AND ".$this->db->in("usrcrs.participation_status", array("teilgenommen", "nicht gesetzt"), false, "text")
-				." AND ".$this->db->in("usrcrs.okz", array("OKZ1", "OKZ2", "OKZ3"), false, "text");
+				." AND ".$this->gIldb->in("usrcrs.participation_status", array("teilgenommen", "nicht gesetzt"), false, "text")
+				." AND ".$this->gIldb->in("usrcrs.okz", array("OKZ1", "OKZ2", "OKZ3"), false, "text");
 	}
 
-	protected function curYearPredQueryWhere(ilDate $start = null, ilDate $end = null, $no_historic = true) {
+	protected function wbdQueryWhere(ilDate $start = null, ilDate $end = null, $no_historic = true) {
 		return $start === null ?
 				$this->queryWhere() :
-				" WHERE usrcrs.usr_id = ".$this->db->quote($this->target_user_id, "integer")
+				" WHERE usrcrs.usr_id = ".$this->gIldb->quote($this->target_user_id, "integer")
 				.($no_historic ? "   AND usrcrs.hist_historic = 0 " : "")
-				."   AND ( usrcrs.end_date >= ".$this->db->quote($start->get(IL_CAL_DATE), "date")
+				."   AND ( usrcrs.end_date >= ".$this->gIldb->quote($start->get(IL_CAL_DATE), "date")
 				."        OR usrcrs.end_date = '0000-00-00')"
-				."   AND usrcrs.begin_date <= ".$this->db->quote($end->get(IL_CAL_DATE), "date")
-				."   AND ".$this->db->in("usrcrs.booking_status", array("gebucht", "kostenpflichtig storniert", "kostenfrei storniert"), false, "text");
+				."   AND usrcrs.begin_date <= ".$this->gIldb->quote($end->get(IL_CAL_DATE), "date")
+				."   AND ".$this->gIldb->in("usrcrs.booking_status", array("gebucht", "kostenpflichtig storniert", "kostenfrei storniert"), false, "text");
+	}
+
+	protected function academyQuery(ilDate $start, ilDate $end) {
+		return   "SELECT SUM(usrcrs.credit_points) sum "
+				.$this->query->sqlFrom()
+				.$this->queryWhere($start, $end)
+				." AND usrcrs.participation_status = 'teilgenommen'"
+				." AND usrcrs.credit_points > 0";
 	}
 
 	protected function wbdQuery(ilDate $start, ilDate $end) {
 		return   "SELECT SUM(usrcrs.credit_points) sum "
 				." FROM hist_usercoursestatus usrcrs"
-				.$this->queryWhere($start, $end, false)
+				.$this->wbdQueryWhere($start, $end, false)
 				." AND NOT usrcrs.wbd_booking_id IS NULL";
 	}
 }
