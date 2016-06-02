@@ -11,6 +11,10 @@ class ComposerStaticInitbd7f39d053649d4bfd736508ecb933b7
     );
 
     public static $prefixLengthsPsr4 = array (
+        'c' => 
+        array (
+            'cweagans\\Composer\\' => 18,
+        ),
         'W' => 
         array (
             'Whoops\\' => 7,
@@ -22,6 +26,10 @@ class ComposerStaticInitbd7f39d053649d4bfd736508ecb933b7
     );
 
     public static $prefixDirsPsr4 = array (
+        'cweagans\\Composer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cweagans/composer-patches/src',
+        ),
         'Whoops\\' => 
         array (
             0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',

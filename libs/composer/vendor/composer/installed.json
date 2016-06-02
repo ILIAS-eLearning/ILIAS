@@ -479,6 +479,52 @@
         "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
     },
     {
+        "name": "cweagans/composer-patches",
+        "version": "1.5.0",
+        "version_normalized": "1.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/cweagans/composer-patches.git",
+            "reference": "8de7c73b2eae217f4e7028d7262ff2330aa4b4e8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/8de7c73b2eae217f4e7028d7262ff2330aa4b4e8",
+            "reference": "8de7c73b2eae217f4e7028d7262ff2330aa4b4e8",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0",
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "composer/composer": "~1.0",
+            "phpunit/phpunit": "~4.6"
+        },
+        "time": "2016-03-28 18:54:21",
+        "type": "composer-plugin",
+        "extra": {
+            "class": "cweagans\\Composer\\Patches"
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "cweagans\\Composer\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD"
+        ],
+        "authors": [
+            {
+                "name": "Cameron Eagans",
+                "email": "me@cweagans.net"
+            }
+        ],
+        "description": "Provides a way to patch Composer packages."
+    },
+    {
         "name": "tecnickcom/tcpdf",
         "version": "6.2.12",
         "version_normalized": "6.2.12.0",
@@ -498,6 +544,11 @@
         },
         "time": "2015-09-12 10:08:34",
         "type": "library",
+        "extra": {
+            "patches_applied": {
+                "ILIAS TCPDF Patches": "patches/tcpdf.patch"
+            }
+        },
         "installation-source": "dist",
         "autoload": {
             "classmap": [

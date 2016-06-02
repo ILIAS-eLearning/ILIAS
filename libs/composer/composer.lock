@@ -4,9 +4,53 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c6bfe40f270010f64627e135ac4a2909",
-    "content-hash": "d5b6de83c61617350c669fd2c0a63f11",
+    "hash": "e91f4363e5048434a5d8ac159d7b9dde",
+    "content-hash": "24d51cf8c126881cb96135d5fac20ea3",
     "packages": [
+        {
+            "name": "cweagans/composer-patches",
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cweagans/composer-patches.git",
+                "reference": "8de7c73b2eae217f4e7028d7262ff2330aa4b4e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/8de7c73b2eae217f4e7028d7262ff2330aa4b4e8",
+                "reference": "8de7c73b2eae217f4e7028d7262ff2330aa4b4e8",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "composer/composer": "~1.0",
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "cweagans\\Composer\\Patches"
+            },
+            "autoload": {
+                "psr-4": {
+                    "cweagans\\Composer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Cameron Eagans",
+                    "email": "me@cweagans.net"
+                }
+            ],
+            "description": "Provides a way to patch Composer packages.",
+            "time": "2016-03-28 18:54:21"
+        },
         {
             "name": "ezyang/htmlpurifier",
             "version": "v4.7.0",
@@ -486,6 +530,11 @@
                 "php": ">=5.3.0"
             },
             "type": "library",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS TCPDF Patches": "patches/tcpdf.patch"
+                }
+            },
             "autoload": {
                 "classmap": [
                     "fonts",

@@ -4,9 +4,10 @@
 	"license": "GPL v3",
 	"authors": [],
 	"require": {
+		"cweagans/composer-patches": "~1.0",
 		"filp/whoops": "^2.0",
-	        "monolog/monolog": "^1.15",
-	        "phpoffice/phpexcel": "^1.8.1",
+		"monolog/monolog": "^1.15",
+		"phpoffice/phpexcel": "^1.8.1",
 		"technosophos/LibRIS": "^2.0.2",
 		"ezyang/htmlpurifier": "^4.7.0",
 		"phpmailer/phpmailer": "^5.2",
@@ -15,6 +16,14 @@
 		"tecnickcom/tcpdf": "^6.2.12"
 	},
 	"extra": {
+		"cweagans/composer-patches" : {
+			"source" : "https://github.com/cweagans/composer-patches",
+			"used_version" : "v1.0",
+			"wrapped_by" : "",
+			"added_by" : "Michael Jansen <mjansen@databay.de>",
+			"last_update" : "2016-06-02",
+			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
+		},
 		"technosophos/LibRIS" : {
 			"source" : "github.com/filp/whoops",
 			"used_version" : "v2.0.2",
@@ -86,6 +95,11 @@
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
 			"last_update" : "2016-06-02",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
+		},
+		"patches": {
+			"tecnickcom/tcpdf": {
+				"ILIAS TCPDF Patches": "patches/tcpdf.patch"
+			}
 		}
 	}
 }
