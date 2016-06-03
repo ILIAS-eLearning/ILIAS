@@ -372,7 +372,11 @@ abstract class assQuestionGUI
 		{
 			$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", "Modules/TestQuestionPool");
+		// @todo Björn: Maybe this has to be changed for PHP 7/ILIAS 5.2.x because ass[XYZ]QuestionGUI::editQuestion is called multiple times
+		if(!$this->tpl->blockExists('adm_content'))
+		{
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", "Modules/TestQuestionPool");
+		}
 	}
 
 	/**
