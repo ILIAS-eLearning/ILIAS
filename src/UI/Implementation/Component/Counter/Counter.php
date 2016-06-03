@@ -4,9 +4,16 @@
 
 namespace ILIAS\UI\Implementation\Component\Counter;
 
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Counter\Counter as Spec;
 
 class Counter implements Spec {
+	use ComponentHelper;
+
+	private static $types = array
+		( self::NOVELTY
+		, self::STATUS
+		);
 
 	/**
 	 * @var	string
@@ -23,8 +30,8 @@ class Counter implements Spec {
 	 * @param int		$number
 	 */
 	public function __construct($type, $number) {
-		assert('is_int($number)');
-		assert('self::is_valid_type($type)');
+		$this->checkArgIsElement("type", $type, self::$types, "counter type");
+		$this->checkIntArg("number", $number);
 		$this->type = $type;
 		$this->number = $number;
 	}
@@ -40,7 +47,7 @@ class Counter implements Spec {
 	 * @inheritdoc
 	 */
 	public function withType($type) {
-		assert('self::is_valid_type($type)');
+		$this->checkArgIsElement("type", $type, self::$types, "counter type");
 		$clone = clone $this;
 		$clone->type = $type;
 		return $clone;
@@ -57,7 +64,7 @@ class Counter implements Spec {
 	 * @inheritdoc
 	 */
 	public function withNumber($number) {
-		assert('is_int($number)');
+		$this->checkIntArg("number", $number);
 		$clone = clone $this;
 		$clone->number = $number;
 		return $clone;

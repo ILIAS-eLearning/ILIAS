@@ -7,8 +7,6 @@ require_once(__DIR__."/Base.php");
 
 use \ILIAS\UI\Component as C;
 
-class CounterTestCustomException extends \Exception {};
-
 /**
  * Defines tests that a counter implementation should pass.
  */
@@ -53,29 +51,21 @@ class CounterTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_known_counters_only() {
-		assert_options(ASSERT_CALLBACK, function () {
-			throw new CounterTestCustomException();
-		});
-
 		try {
 			new \ILIAS\UI\Implementation\Component\Counter\Counter("FOO", 1);
 			$this->assertFalse("We should not get here");
 		}
-		catch (CounterTestCustomException $e) {}
+		catch (\InvalidArgumentException $e) {}
 	}
 
 	public function test_known_counters_only_withType() {
-		// TODO: move this pattern to ILIAS_UI_TestBase
-		assert_options(ASSERT_CALLBACK, function () {
-			throw new CounterTestCustomException();
-		});
 		$f = $this->getCounterFactory();
 
 		try {
 			$f->status(1)->withType("FOO");
 			$this->assertFalse("We should not get here");
 		}
-		catch (CounterTestCustomException $e) {}
+		catch (\InvalidArgumentException $e) {}
 	}
 
 	public function test_withType() {
@@ -108,33 +98,25 @@ class CounterTest extends ILIAS_UI_TestBase {
 	 */
 	public function test_int_numbers_only($no_number) {
 		$f = $this->getCounterFactory();
-		$failed_assertions = 0;
 
-		assert_options(ASSERT_CALLBACK, function() use (&$failed_assertions) {
-			$failed_assertions++;
-		});
-
-		$f->status($no_number);
-		$f->novelty($no_number);
-
-		$this->assertEquals(2, $failed_assertions);
+		try {
+			$f->status($no_number);
+			$this->assertFalse("This should not happen");
+		}
+		catch (\InvalidArgumentException $e) {}
 	}
 
 	/**
 	 * @dataProvider no_number_provider
 	 */
 	public function test_int_numbers_only_withNumber($no_number) {
-		// TODO: move this pattern to ILIAS_UI_TestBase
-		assert_options(ASSERT_CALLBACK, function () {
-			throw new CounterTestCustomException();
-		});
 		$f = $this->getCounterFactory();
 
 		try {
 			$f->status(1)->withNumber($no_number);
 			$this->assertFalse("We should not get here");
 		}
-		catch (CounterTestCustomException $e) {}
+		catch (\InvalidArgumentException $e) {}
 	}
 
 	public function number_provider() {
