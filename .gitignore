@@ -19,6 +19,7 @@
 db_template_writer.php
 .svn
 *.swp
+*.swo
 
 
 # /Customizing/
