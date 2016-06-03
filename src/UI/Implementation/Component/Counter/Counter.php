@@ -69,14 +69,4 @@ class Counter implements Spec {
 		$clone->number = $number;
 		return $clone;
 	}
-
-	// Helper
-	static protected function is_valid_type($type) {
-		static $types = array
-			( self::NOVELTY
-			, self::STATUS
-			);
-		return in_array($type, $types);
-	}
-
 }
