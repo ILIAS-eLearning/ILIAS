@@ -41,17 +41,16 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 
 	protected function prepareTitle($a_title) {
 		if ( (string)$this->gUser->getId() == (string)$this->object->target_user_id) {
-			$a_title->title("gev_my_edu_bio")
-							->subTitle("gev_my_edu_bio_desc")
+			$a_title->title($this->object->plugin->txt("my_edu_bio"))
+							->subTitle($this->object->plugin->txt("my_edu_bio_desc"))
 							->image("GEV_img/ico-head-edubio.png");
+		} else {
+			$a_title->title(sprintf($this->object->plugin->txt("others_edu_bio"), $this->object->target_user_utils->getFullName()))
+					->subTitle(sprintf($this->object->plugin->txt("others_edu_bio_desc"), $this->object->target_user_utils->getFullName()))
+					->image("GEV_img/ico-head-edubio.png");
 		}
-		else {
-			$a_title->title(sprintf($this->object->plugin->txt("gev_others_edu_bio"), $this->object->target_user_utils->getFullName()))
-					->subTitle(sprintf($this->object->plugin->txt("gev_others_edu_bio_desc"), $this->object->target_user_utils->getFullName()))
-					->image("GEV_img/ico-head-edubio.png")
-					->useLng(false);
-		}
-		$a_title->setVideoLink($this->object->settings['video_link'])
+		$a_title->useLng(false)
+				->setVideoLink($this->object->settings['video_link'])
 				->setVideoLinkText($this->object->master_plugin->txt("rep_video_desc"))
 				->setPdfLink($this->object->settings['pdf_link'])
 				->setPdfLinkText($this->object->master_plugin->txt("rep_pdf_desc"))
@@ -99,14 +98,14 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 			if(gevWBD::getInstance($this->object->target_user_id)->transferPointsToWBD()) {
 				$tpl->setVariable("WBDTRANSVISIBIBLE", "visible");
 				$tpl->setCurrentBlock("wbd_transfer");
-				$tpl->setVariable("TRANSFER_TITLE", $this->object->plugin->txt("gev_wbd_transfer_on"));
+				$tpl->setVariable("TRANSFER_TITLE", $this->object->plugin->txt("wbd_transfer_on"));
 				$tpl->parseCurrentBlock();
 			}
 			elseif (gevWBD::getInstance($this->object->target_user_id)->wbdRegistrationIsPending()){
 				$tpl->setVariable("WBDPOINTSVISIBIBLE", "invisible");
 				$tpl->setCurrentBlock("wbd_reg_pending");
 				$tpl->setVariable("WBDREGPENDINGVISIBIBLE", "visible");
-				$tpl->setVariable("WBD_REG_PENDING", $this->object->plugin->txt("gev_wbd_reg_pending"));
+				$tpl->setVariable("WBD_REG_PENDING", $this->object->plugin->txt("wbd_reg_pending"));
 				$tpl->parseCurrentBlock();
 			}
 			else {
@@ -117,8 +116,8 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 	}
 
 	protected function insertAcademyPoints($tpl) {
-		$tpl->setVariable("ACADEMY_SUM_TITLE",$this->object->plugin->txt("gev_points_in_academy"));
-		$tpl->setVariable("ACADEMY_SUM_FIVE_YEAR_TITLE", $this->object->plugin->txt("gev_points_in_five_years"));
+		$tpl->setVariable("ACADEMY_SUM_TITLE",$this->object->plugin->txt("points_in_academy"));
+		$tpl->setVariable("ACADEMY_SUM_FIVE_YEAR_TITLE", $this->object->plugin->txt("points_in_five_years"));
 
 		$tpl->setVariable("ACADEMY_FIVE_YEAR", $this->object->academy_data["five_year"]);
 
@@ -131,10 +130,10 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 	}
 
 	protected function insertWBDPoints($tpl) {
-		$tpl->setVariable("WBD_SUM_TITLE", $this->object->plugin->txt("gev_points_in_wbd"));
-		$tpl->setVariable("WBD_SUM_CERT_PERIOD_TITLE", $this->object->plugin->txt("gev_points_in_wbd_cert_period"));
-		$tpl->setVariable("WBD_SUM_CUR_YEAR_TITLE", $this->object->plugin->txt("gev_points_in_wbd_cert_year"));
-		$tpl->setVariable("WBD_SUM_CUR_YEAR_PRED_TITLE", $this->object->plugin->txt("gev_points_at_end_of_cert_year"));
+		$tpl->setVariable("WBD_SUM_TITLE", $this->object->plugin->txt("points_in_wbd"));
+		$tpl->setVariable("WBD_SUM_CERT_PERIOD_TITLE", $this->object->plugin->txt("points_in_wbd_cert_period"));
+		$tpl->setVariable("WBD_SUM_CUR_YEAR_TITLE", $this->object->plugin->txt("points_in_wbd_cert_year"));
+		$tpl->setVariable("WBD_SUM_CUR_YEAR_PRED_TITLE", $this->object->plugin->txt("points_at_end_of_cert_year"));
 
 		$tpl->setVariable("WBD_CERT_PERIOD", $this->object->wbd_data["cert_period"]);
 		$tpl->setVariable("WBD_CERT_YEAR", $this->object->wbd_data["cert_year"]);
@@ -189,34 +188,29 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 		global $lng;
 		$no_entry = $lng->txt("gev_table_no_entry");
 
-		$rec["fee"] = (($rec["bill_id"] != -1 || gevUserUtils::getInstanceById(self::$target_user_id)->paysFees())&& $rec["fee"] != -1)
+		$rec["fee"] = (($rec["bill_id"] != -1 || gevUserUtils::getInstanceById(self::$target_user_id)->paysFees()) && $rec["fee"] != -1)
 					? $rec["fee"] = gevCourseUtils::formatFee($rec["fee"])." &euro;"
 					: $rec["fee"] == "-empty-";
 
 		if ($rec["participation_status"] == "teilgenommen") {
 			$rec["status"] = self::$success_img;
-		}
-		else if (in_array($rec["participation_status"], array("fehlt entschuldigt", "fehlt ohne Absage"))
+		} elseif (in_array($rec["participation_status"], array("fehlt entschuldigt", "fehlt ohne Absage"))
 			 ||  in_array($rec["booking_status"], array("kostenpflichtig storniert", "kostenfrei storniert"))
 			) {
 			$rec["status"] = self::$failed_img;
-		}
-		else {
+		} else {
 			$rec["status"] = self::$in_progress_img;
 		}
 
 		if ($rec["begin_date"] == "0000-00-00" && $rec["end_date"] == "0000-00-00") {
 			$rec["date"] = $no_entry;
-		}
-		else if ($rec["end_date"] == "0000-00-00") {
+		} elseif ($rec["end_date"] == "0000-00-00") {
 			$dt = new ilDate($rec["begin_date"], IL_CAL_DATE);
 			$rec["date"] = $lng->txt("gev_from")." ".ilDatePresentation::formatDate($dt);
-		}
-		else if ($rec["begin_date"] == "0000-00-00") {
+		} elseif ($rec["begin_date"] == "0000-00-00") {
 			$dt = new ilDate($rec["end_date"], IL_CAL_DATE);
 			$rec["date"] = $lng->txt("gev_until")." ".ilDatePresentation::formatDate($dt);
-		}
-		else {
+		} else {
 			$start = new ilDate($rec["begin_date"], IL_CAL_DATE);
 			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
 			$rec["date"] = ilDatePresentation::formatDate($start)." - <br/>".ilDatePresentation::formatDate($end);
@@ -257,28 +251,23 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 
 		if ($rec["participation_status"] == "teilgenommen") {
 			$rec["status"] = self::$success_img;
-		}
-		else if (in_array($rec["participation_status"], array("fehlt entschuldigt", "fehlt ohne Absage"))
+		} elseif (in_array($rec["participation_status"], array("fehlt entschuldigt", "fehlt ohne Absage"))
 			 ||  in_array($rec["booking_status"], array("kostenpflichtig storniert", "kostenfrei storniert"))
 			) {
 			$rec["status"] = self::$failed_img;
-		}
-		else {
+		} else {
 			$rec["status"] = self::$in_progress_img;
 		}
 
 		if ($rec["begin_date"] == "0000-00-00" && $rec["end_date"] == "0000-00-00") {
 			$rec["date"] = $no_entry;
-		}
-		else if ($rec["end_date"] == "0000-00-00") {
+		} elseif ($rec["end_date"] == "0000-00-00") {
 			$dt = new ilDate($rec["begin_date"], IL_CAL_DATE);
 			$rec["date"] = $lng->txt("gev_from")." ".ilDatePresentation::formatDate($dt);
-		}
-		else if ($rec["begin_date"] == "0000-00-00") {
+		} elseif ($rec["begin_date"] == "0000-00-00") {
 			$dt = new ilDate($rec["end_date"], IL_CAL_DATE);
 			$rec["date"] = $lng->txt("gev_until")." ".ilDatePresentation::formatDate($dt);
-		}
-		else {
+		} else {
 			$start = new ilDate($rec["begin_date"], IL_CAL_DATE);
 			$end = new ilDate($rec["end_date"], IL_CAL_DATE);
 			$rec["date"] = ilDatePresentation::formatDate($start)." - <br/>".ilDatePresentation::formatDate($end);
