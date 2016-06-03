@@ -3,17 +3,10 @@
 require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeSingle.php";
 
 class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
-{
-	protected $text_input; // [bool]
-	
+{	
 	protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
 	{
 		return ($a_adt_def instanceof ilADTDateDefinition);
-	}
-	
-	public function setTextInputMode($a_value)
-	{
-		$this->text_input = (bool)$a_value;
 	}
 	
 	
@@ -32,23 +25,11 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 	// form
 	
 	public function addToForm()
-	{					
-		global $lng;
-		
+	{							
 		$adt_date = $this->getADT()->getDate();
 		
 		$date = new ilDateTimeInputGUI($this->getTitle(), $this->getElementId());		
-		$date->setShowTime(false);
-		
-		if(!(bool)$this->text_input)
-		{
-			$checked = !(!$adt_date || $adt_date->isNull());
-			$date->enableDateActivation($lng->txt("enabled"), $this->addToElementId("tgl"), $checked);
-		}
-		else
-		{
-			$date->setMode(ilDateTimeInputGUI::MODE_INPUT);
-		}		
+		$date->setShowTime(false);	
 		
 		$date->setDate($adt_date);
 		
@@ -63,30 +44,15 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 		}
 		return parent::shouldBeImportedFromPost($a_post);
 	}
-	
+
 	public function importFromPost(array $a_post = null)
 	{		
 		$post = $this->extractPostValues($a_post);
 	
 		if($post && $this->shouldBeImportedFromPost($post))
 		{
-			include_once "Services/ADT/classes/class.ilADTDateSearchUtil.php";
-			
-			if((bool)$this->text_input)
-			{
-				$date = ilADTDateSearchUtil::handleTextInputPost(ilADTDateSearchUtil::MODE_DATE, $post);
-			}
-			else
-			{
-				$date = ilADTDateSearchUtil::handleSelectInputPost(ilADTDateSearchUtil::MODE_DATE, $post);	
-			}
-			
-			// :TODO: all dates are imported as valid 
-			
-			if($date)
-			{
-				$date = new ilDate($date, IL_CAL_UNIX);
-			}
+			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";			
+			$date = ilCalendarUtil::parseIncomingDate($post);
 			
 			if($this->getForm() instanceof ilPropertyFormGUI)
 			{

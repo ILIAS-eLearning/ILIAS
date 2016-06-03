@@ -498,7 +498,7 @@ $this->next_link = $this->ctrl->getLinkTarget($this,'performSearch');
 			$now = new ilDate(time(),IL_CAL_UNIX);
 		}
 		$ds = new ilDateTimeInputGUI('','screation_date');
-		#$ds->setMode(ilDateTimeInputGUI::MODE_INPUT);
+		$ds->setRequired(true);
 		$ds->setDate($now);
 		$enabled->addSubItem($ds);
 		

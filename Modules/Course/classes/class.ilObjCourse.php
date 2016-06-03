@@ -244,7 +244,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	} 	
 	function getActivationStart()
 	{
-		return $this->activation_start ? $this->activation_start : time();
+		return $this->activation_start;
 	}
 	function setActivationStart($a_value)
 	{
@@ -252,7 +252,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	function getActivationEnd()
 	{
-		return $this->activation_end ? $this->activation_end : mktime(0,0,0,12,12,date("Y",time())+2);
+		return $this->activation_end;
 	}
 	function setActivationEnd($a_value)
 	{
@@ -289,7 +289,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	} 
 	function getSubscriptionStart()
 	{
-		return $this->subscription_start ? $this->subscription_start : time();
+		return $this->subscription_start;
 	}
 	function setSubscriptionStart($a_value)
 	{
@@ -297,7 +297,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	function getSubscriptionEnd()
 	{
-		return $this->subscription_end ? $this->subscription_end : mktime(0,0,0,12,12,date("Y",time())+2);
+		return $this->subscription_end;
 	}
 	function setSubscriptionEnd($a_value)
 	{
@@ -1119,8 +1119,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->appendMessage($this->lng->txt('err_check_input'));
 		}
 		
-		if($this->getCourseStart() && 
-			$this->getCourseStart()->get(IL_CAL_UNIX) > $this->getCourseEnd()->get(IL_CAL_UNIX))
+		// :TODO: checkInput() is not used properly
+		if(($this->getCourseStart() && !$this->getCourseEnd()) ||
+			(!$this->getCourseStart() && $this->getCourseEnd()) ||
+			($this->getCourseStart() && $this->getCourseEnd() && $this->getCourseStart()->get(IL_CAL_UNIX) > $this->getCourseEnd()->get(IL_CAL_UNIX)))
 		{
 			$this->appendMessage($this->lng->txt("crs_course_period_not_valid"));
 		}

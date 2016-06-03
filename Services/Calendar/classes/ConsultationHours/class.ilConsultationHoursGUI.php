@@ -733,7 +733,7 @@ class ilConsultationHoursGUI
 			include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';
 			$dur = new ilDateTimeInputGUI($this->lng->txt('cal_start'),'st');
 			$dur->setShowTime(true);
-			$dur->setMinuteStepSize(5);
+			$dur->setRequired(true);
 			$this->form->addItem($dur);
 
 			// Duration
