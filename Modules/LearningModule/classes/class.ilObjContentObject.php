@@ -32,6 +32,10 @@ class ilObjContentObject extends ilObject
 	var $auto_glossaries = array();
 	
 	private $import_dir = '';
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
 
 	/**
 	* Constructor
@@ -43,6 +47,8 @@ class ilObjContentObject extends ilObject
 	{
 		// this also calls read() method! (if $a_id is set)
 		parent::__construct($a_id,$a_call_by_reference);
+
+		$this->log = ilLoggerFactory::getLogger('lm');
 
 		$this->mob_ids = array();
 		$this->file_ids = array();
@@ -3185,6 +3191,8 @@ class ilObjContentObject extends ilObject
 	// end-patch optes_lok_export
 	{
 		global $lng;
+
+		$this->log->debug("import from directory ".$a_directory);
 		
 		// determine filename of xml file
 		$subdir = basename($a_directory);
@@ -3193,16 +3201,19 @@ class ilObjContentObject extends ilObject
 		// check directory exists within zip file
 		if (!is_dir($a_directory))
 		{
+			$this->log->error(sprintf($lng->txt("cont_no_subdir_in_zip"), $subdir));
 			return sprintf($lng->txt("cont_no_subdir_in_zip"), $subdir);
 		}
 
 		// check whether xml file exists within zip file
 		if (!is_file($xml_file))
 		{
+			$this->log->error(sprintf($lng->txt("cont_zip_file_invalid"), $subdir."/".$subdir.".xml"));
 			return sprintf($lng->txt("cont_zip_file_invalid"), $subdir."/".$subdir.".xml");
 		}
 
 		// import questions
+		$this->log->debug("import qti");
 		$qti_file = $a_directory."/qti.xml";
 		$qtis = array();
 		if (is_file($qti_file))
@@ -3223,6 +3234,7 @@ class ilObjContentObject extends ilObject
 			}
 		}
 
+		$this->log->debug("get ilContObjParser");
 		include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
 		$subdir = ".";
 		$contParser = new ilContObjParser($this, $xml_file, $subdir, $a_directory);
