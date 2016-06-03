@@ -22,3 +22,21 @@ rep_robj_xatd_offline#:#Offline
 xatd_content#:#Report
 xatd_properties#:#Eigenschaften
 accomodation_cost#:#Verpflegungspauschale (€)
+period#:#Zeitraum
+until#:#bis
+astd_managers_f#:#Executive and Senior Managers<br>(F1 ggf. Vorstände/GFs)<br>weiblich
+astd_managers_m#:#Executive and Senior Managers<br>(F1 ggf. Vorstände/GFs)<br>männlich
+astd_middle_managers_f#:#Middle Managers<br>(F 2)<br>weiblich
+astd_middle_managers_m#:#Middle Managers<br>(F 2)<br>männlich
+astd_employee_f#:#Employee Line<br>(F 3 und ID-Mitarbeiter, P2, E1 und E2)<br>weiblich
+astd_employee_m#:#Employee Line<br>(F 3 und ID-Mitarbeiter, P2, E1 und E2)<br>männlich
+astd_sales_employee_f#:#Sales Employees<br>(festangestellter AD)<br>weiblich
+astd_sales_employee_m#:#Sales Employees<br>(festangestellter AD)<br>männlich
+astd_sales_not_employee_f#:#Sales NON Employees<br>(§84 HGB)<br>weiblich
+astd_sales_not_employee_m#:#Sales NON Employees<br>(§84 HGB)<br>männlich
+astd_hours_not_self_learn#:#Anzahl der Lernstunden interner und externer Veranstaltungen
+astd_hours_self_learn#:#Anzahl der E-Learning-Stunden
+astd_hours_language_course#:#Anzahl der Sprachkurs-Lernstunden
+astd_participators#:#Anzahl der Empfänger von PE-Maßnahmen
+astd_accomodation_cost#:#Bewirtungs-, Raum- und Technikkosten
+astd_accomodation_cost_per_day_person#:#Bewirtungs-, Raum- und Technikkosten pro Tag und pro Person

@@ -70,14 +70,14 @@ class ilObjReportCoupon extends ilObjReportBase {
 
 	protected function buildFilter($filter) {
 		$filter	->checkbox("active_only"
-								, $this->lng->txt("gev_coupon_active_only")
+								, $this->plugin->txt("coupon_active_only")
 								," current > 0 AND c.coupon_expires > ".$this->gIldb->quote(time(),"integer")
 								," TRUE"
 								, true
 								)
 				->dateperiod( "period"
-								, $this->lng->txt("gev_date_of_issue")
-								, $this->lng->txt("gev_until")
+								, $this->plugin->txt("date_of_issue")
+								, $this->plugin->txt("until")
 								, "c.coupon_created"
 								, "c.coupon_created"
 								, date("Y")."-01-01"
@@ -103,16 +103,16 @@ class ilObjReportCoupon extends ilObjReportBase {
 	}
 
 	protected function buildTable($table) {
-		$table	->column("code","gev_coupon_bill_item_code")
-				->column("start","gev_coupon_start_ammount")
-				->column("diff","gev_coupon_diff_ammount")
-				->column("current","gev_coupon_current_ammount")
-				->column("expires","gev_coupon_expires");
+		$table	->column("code", $this->plugin->txt("coupon_bill_item_code"), true)
+				->column("start", $this->plugin->txt("coupon_start_ammount"), true)
+				->column("diff", $this->plugin->txt("coupon_diff_ammount"), true)
+				->column("current", $this->plugin->txt("coupon_current_ammount"), true)
+				->column("expires", $this->plugin->txt("coupon_expires"), true);
 		if($this->settings['admin_mode']) {
-			$table	->column("firstname","firstname")
-					->column("lastname","lastname")
-					->column("odbd","gev_od_bd")
-					->column("orgu","gev_org_unit_short");
+			$table	->column("firstname", $this->plugin->txt("firstname"), true)
+					->column("lastname", $this->plugin->txt("lastname"), true)
+					->column("odbd", $this->plugin->txt("od_bd"), true)
+					->column("orgu", $this->plugin->txt("org_unit_short"), true);
 		}
 		return parent::buildTable($table);
 	}

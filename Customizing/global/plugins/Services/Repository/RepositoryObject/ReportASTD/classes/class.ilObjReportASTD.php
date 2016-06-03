@@ -60,8 +60,8 @@ class ilObjReportASTD extends ilObjReportBase {
 
 	protected function buildFilter($filter) {
 		$filter	->dateperiod( "period"
-								, $this->lng->txt("gev_period")
-								, $this->lng->txt("gev_until")
+								, $this->plugin->txt("period")
+								, $this->plugin->txt("until")
 								, "c.end_date"
 								, "c.end_date"
 								, date("Y")."-01-01"
@@ -102,8 +102,8 @@ class ilObjReportASTD extends ilObjReportBase {
 
 		$table		->column("astd_category","astd_category");
 		foreach($this->hierarchy as $position => $roles) {
-			$table	->column($position.'_f',$position.'_f')
-					->column($position.'_m',$position.'_m');
+			$table	->column($position.'_f', $this->plugin->txt($position.'_f'), true)
+					->column($position.'_m', $this->plugin->txt($position.'_m'), true);
 		}
 		return parent::buildTable($table);
 	}
