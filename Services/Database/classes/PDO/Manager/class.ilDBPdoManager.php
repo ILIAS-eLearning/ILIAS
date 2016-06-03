@@ -507,4 +507,24 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface {
 	public function getTableCreationQuery($name, $fields, $options = array()) {
 		return $this->getQueryUtils()->createTable($name, $fields, $options);
 	}
+
+
+	/**
+	 * @param $table
+	 * @param $name
+	 * @param bool $primary
+	 * @return int
+	 */
+	public function dropConstraint($table, $name, $primary = false) {
+		$db = $this->getDBInstance();
+		$table = $db->quoteIdentifier($table, true);
+		if ($primary || strtolower($name) == 'primary') {
+			$query = "ALTER TABLE $table DROP PRIMARY KEY";
+		} else {
+			$name = $db->quoteIdentifier($db->getIndexName($name), true);
+			$query = "ALTER TABLE $table DROP INDEX $name";
+		}
+
+		return $this->pdo->exec($query);
+	}
 }

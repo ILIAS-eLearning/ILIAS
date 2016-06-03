@@ -673,4 +673,36 @@ interface ilDBPdoInterface {
 	 * @return bool
 	 */
 	public function supportsEngineMigration();
+
+
+	/**
+	 * @param $table
+	 * @param $fields
+	 * @param string $name
+	 * @return bool
+	 */
+	public function addUniqueConstraint($table, $fields, $name = "con");
+
+
+	/**
+	 * @param $table
+	 * @param string $name
+	 * @return bool
+	 */
+	public function dropUniqueConstraint($table, $name = "con");
+
+
+	/**
+	 * @param $table
+	 * @param $fields
+	 * @return bool
+	 */
+	public function dropUniqueConstraintByFields($table, $fields);
+
+
+	/**
+	 * @param $name
+	 * @return bool
+	 */
+	public function checkIndexName($name);
 }
