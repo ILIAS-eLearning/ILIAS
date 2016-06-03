@@ -26,32 +26,33 @@ class ilObjReportEduBio extends ilObjReportBase {
 
 	public function prepareRelevantParameters() {
 		$self_id = $this->user_utils->getId();
-		$this->target_user_id = $_POST["target_user_id"]
+		$target_user_id = $_POST["target_user_id"]
 					  ? $_POST["target_user_id"]
 					  : ( $_GET["target_user_id"]
 					  	? $_GET["target_user_id"]
 					  	: $self_id
 					  	);
 		if ($target_user_id != $self_id) {
-			if ( in_array($target_user_id, $this->user_utils->getEmployeesWhereUserCanViewEduBios())) {
-				$this->addRelevantParameter("target_user_id", $this->target_user_id);
+			if ( !in_array($target_user_id, $this->user_utils->getEmployeesWhereUserCanViewEduBios())) {
+				$target_user_id = $self_id;
 			}
 		}
-		$this->addRelevantParameter("target_user_id", $self_id);
+		$this->target_user_id = $target_user_id;
+		$this->addRelevantParameter("target_user_id", $this->target_user_id);
 	}
 
 	protected function buildTable($table) {
-		$table	->column("custom_id", $this->plugin->txt("gev_training_id"), true)
+		$table	->column("custom_id", $this->plugin->txt("training_id"), true)
 				->column("title", $this->plugin->txt("title"), true)
-				->column("type", $this->plugin->txt("gev_learning_type"), true)
-				->column("date", $this->plugin->txt("date", false, "112px"), true)
-				->column("venue", $this->plugin->txt("gev_location"), true)
-				->column("provider", $this->plugin->txt("gev_provider"), true)
-				->column("tutor", $this->plugin->txt("il_crs_tutor"), true)
-				->column("credit_points", $this->plugin->txt("gev_points"), true)
-				->column("fee", $this->plugin->txt("gev_costs"), true)
+				->column("type", $this->plugin->txt("learning_type"), true)
+				->column("date", $this->plugin->txt("date"), true, "112px", true)
+				->column("venue", $this->plugin->txt("location"), true)
+				->column("provider", $this->plugin->txt("provider"), true)
+				->column("tutor", $this->plugin->txt("crs_tutor"), true)
+				->column("credit_points", $this->plugin->txt("points"), true)
+				->column("fee", $this->plugin->txt("fee"), true)
 				->column("status", $this->plugin->txt("status"), true)
-				->column("wbd", $this->plugin->txt("gev_wbd_relevant"), true)
+				->column("wbd", $this->plugin->txt("wbd_relevant"), true)
 				->column("action", '<img src="'.ilUtil::getImagePath("gev_action.png").'" />', true, "", true)
 				->template($this->getRowTemplateTitle(),"Services/GEV/Reports");			
 		return $table;
@@ -70,8 +71,8 @@ class ilObjReportEduBio extends ilObjReportBase {
 
 	protected function buildFilter($filter) {
 		$filter	->dateperiod( "period"
-							, $this->plugin->txt("gev_period")
-							, $this->plugin->txt("gev_until")
+							, $this->plugin->txt("period")
+							, $this->plugin->txt("until")
 							, "usrcrs.begin_date"
 							, "usrcrs.end_date"
 							, date("Y")."-01-01"
