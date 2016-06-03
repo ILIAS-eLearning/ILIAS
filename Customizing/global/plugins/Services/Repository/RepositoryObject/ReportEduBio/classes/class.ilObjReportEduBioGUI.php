@@ -54,12 +54,14 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 				->setVideoLinkText($this->object->master_plugin->txt("rep_video_desc"))
 				->setPdfLink($this->object->settings['pdf_link'])
 				->setPdfLinkText($this->object->master_plugin->txt("rep_pdf_desc"))
-				->setToolTipText($this->object->settings['tooltip_info'])->legend(catLegendGUI::create()
-				->item(self::$get_cert_img, "gev_get_certificate")
-				->item(self::$get_bill_img, "gev_get_bill")
-				->item(self::$success_img, "gev_passed")
-				->item(self::$in_progress_img, "gev_in_progress")
-				->item(self::$failed_img, "gev_failed"));
+				->setToolTipText($this->object->settings['tooltip_info'])
+				->legend(catLegendGUI::create()
+					->item(self::$get_cert_img, "gev_get_certificate")
+					->item(self::$get_bill_img, "gev_get_bill")
+					->item(self::$success_img, "gev_passed")
+					->item(self::$in_progress_img, "gev_in_progress")
+					->item(self::$failed_img, "gev_failed")
+					);
 		return $a_title;
 	}
 
