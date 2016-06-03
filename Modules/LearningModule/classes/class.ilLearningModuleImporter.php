@@ -15,6 +15,11 @@ class ilLearningModuleImporter extends ilXmlImporter
 	protected $config;
 
 	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
+	/**
 	 * Initialisation
 	 */
 	function init()
@@ -22,6 +27,8 @@ class ilLearningModuleImporter extends ilXmlImporter
 		include_once("./Modules/LearningModule/classes/class.ilLearningModuleDataSet.php");
 		$this->ds = new ilLearningModuleDataSet();
 		$this->ds->setDSPrefix("ds");
+
+		$this->log = ilLoggerFactory::getLogger('lm');
 
 		$this->config = $this->getImport()->getConfig("Modules/LearningModule");
 		if ($this->config->getTranslationImportMode())
@@ -51,25 +58,42 @@ class ilLearningModuleImporter extends ilXmlImporter
 	{
 		include_once './Modules/File/classes/class.ilObjFile.php';
 
+		$this->log->debug("import XML Representation");
+
 		// case i container
 		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
 		{
 			$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
 			$newObj->createLMTree();
-			$newObj->setImportDirectory(dirname(rtrim($this->getImportDirectory(),'/')));
-			$mess = $newObj->importFromDirectory($this->getImportDirectory(),true, $a_mapping);
-			$GLOBALS['ilLog']->write(__METHOD__.': Import message is: '.$mess);
+			$this->log->debug("got mapping, new id is: ".$new_id);
+		}
+
+		// in the new version (5.1)  we are also here, but the following file should not exist
+		// if being exported with 5.1 or higher
+		$xml_file = $this->getImportDirectory().'/'.basename($this->getImportDirectory()).'.xml';
+
+		// old school import
+		// currently this means we got a container and mapping, too, since
+		// for single lms the processing in ilObjContentObjectGUI->importFileObject is used
+		// (this should be streamlined, see glossary)
+		if (file_exists($xml_file))
+		{
+			$newObj->setImportDirectory(dirname(rtrim($this->getImportDirectory(), '/')));
+			$mess = $newObj->importFromDirectory($this->getImportDirectory(), true, $a_mapping);
+			$this->log->debug("imported from directory ($mess)");
 			$a_mapping->addMapping("Modules/LearningModule", "lm", $a_id, $newObj->getId());
 			$a_mapping->addMapping("Services/Object", "obj", $a_id, $newObj->getId());
 		}
-		else	// case ii, non container
+		else	// new import version (does mapping, too)
 		{
+			$this->log->debug("create ilDataSetIportParser instance");
 			include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
 			$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
 				$a_xml, $this->ds, $a_mapping);
 		}
 
 		// import qti stuff
+		$this->log->debug("import qti data");
 		$qti_file = $this->getImportDirectory().'/qti.xml';
 		$this->qtis = array();
 		if (is_file($qti_file))

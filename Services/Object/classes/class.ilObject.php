@@ -1057,13 +1057,13 @@ class ilObject
 	/**
 	* only called in ilObjectGUI::insertSavedNodes
 	*/
-	function _resetDeletedDate($a_ref_id)
+	public static function _resetDeletedDate($a_ref_id)
 	{
 		global $ilDB;
 		
 		$query = "UPDATE object_reference SET deleted = ".$ilDB->quote(null,'timestamp').
 			" WHERE ref_id = ".$ilDB->quote($a_ref_id,'integer');
-		$res = $ilDB->manipulate($query);
+		$ilDB->manipulate($query);
 	}
 	
 	/**

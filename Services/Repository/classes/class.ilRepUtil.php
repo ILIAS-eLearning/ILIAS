@@ -403,7 +403,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	/**
 	* Recursive method to insert all saved nodes of the clipboard
 	*/
-	private function insertSavedNodes($a_source_id, $a_dest_id, $a_tree_id, &$a_affected_ids)
+	private static function insertSavedNodes($a_source_id, $a_dest_id, $a_tree_id, &$a_affected_ids)
 	{
 		global $rbacadmin, $rbacreview, $log, $tree;
 
