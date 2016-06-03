@@ -273,7 +273,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	 */
 	public function getRegistrationStart()
 	{
-		return $this->reg_start ? $this->reg_start : $this->reg_start = new ilDateTime(date('Y-m-d').' 08:00:00',IL_CAL_DATETIME);
+		return $this->reg_start;
 	}
 	
 
@@ -297,7 +297,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	 */
 	public function getRegistrationEnd()
 	{
-		return $this->reg_end ? $this->reg_end : $this->reg_end = new ilDateTime(date('Y-m-d').' 16:00:00',IL_CAL_DATETIME);
+		return $this->reg_end;
 	}
 
 	/**
@@ -593,10 +593,12 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$ilErr->appendMessage($this->lng->txt(self::ERR_MISSING_PASSWORD));
 		}
+		/*
 		if(ilDateTime::_before($this->getRegistrationEnd(),$this->getRegistrationStart()))
 		{
 			$ilErr->appendMessage($this->lng->txt(self::ERR_WRONG_REG_TIME_LIMIT));
-		}
+		}		 
+		*/
 		if($this->isMembershipLimited())
 		{
 			if($this->getMinMembers() <= 0 && $this->getMaxMembers() <= 0)
@@ -641,8 +643,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->getRegistrationType() ,'integer').", ".
 			$ilDB->quote(($this->isRegistrationEnabled() ? 1 : 0) ,'integer').", ".
 			$ilDB->quote(($this->isRegistrationUnlimited() ? 1 : 0) ,'integer').", ".
-			$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'') ,'timestamp').", ".
-			$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'') ,'timestamp').", ".
+			$ilDB->quote(($this->getRegistrationStart() && !$this->getRegistrationStart()->isNull()) ? $this->getRegistrationStart()->get(IL_CAL_DATETIME,'') : null,'timestamp').", ".
+			$ilDB->quote(($this->getRegistrationEnd() && !$this->getRegistrationEnd()->isNull()) ? $this->getRegistrationEnd()->get(IL_CAL_DATETIME,'') : null,'timestamp').", ".
 			$ilDB->quote($this->getPassword() ,'text').", ".
 			$ilDB->quote((int) $this->isMembershipLimited() ,'integer').", ".
 			$ilDB->quote($this->getMaxMembers() ,'integer').", ".
@@ -688,8 +690,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			"registration_type = ".$ilDB->quote($this->getRegistrationType() ,'integer').", ".
 			"registration_enabled = ".$ilDB->quote($this->isRegistrationEnabled() ? 1 : 0 ,'integer').", ".
 			"registration_unlimited = ".$ilDB->quote($this->isRegistrationUnlimited() ? 1 : 0 ,'integer').", ".
-			"registration_start = ".$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'') ,'timestamp').", ".
-			"registration_end = ".$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'') ,'timestamp').", ".
+			"registration_start = ".$ilDB->quote(($this->getRegistrationStart() && !$this->getRegistrationStart()->isNull()) ? $this->getRegistrationStart()->get(IL_CAL_DATETIME,'') : null,'timestamp').", ".
+			"registration_end = ".$ilDB->quote(($this->getRegistrationEnd() && !$this->getRegistrationEnd()->isNull()) ? $this->getRegistrationEnd()->get(IL_CAL_DATETIME,'') : null,'timestamp').", ".
 			"registration_password = ".$ilDB->quote($this->getPassword() ,'text').", ".
 //			"registration_membership_limited = ".$ilDB->quote((int) $this->isMembershipLimited() ,'integer').", ".
 			"registration_mem_limit = ".$ilDB->quote((int) $this->isMembershipLimited() ,'integer').", ".

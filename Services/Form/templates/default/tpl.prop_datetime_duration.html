@@ -1,68 +1,36 @@
-<!-- BEGIN prop_date_activation -->
-	<input type="checkbox" name="{CHECK_ENABLED_DATE}" value="1" {CHECKED_ENABLED} {CHECKED_DISABLED}/> {TXT_DATE_ENABLED}<br />
-<!-- END prop_date_activation -->
-
 <!-- BEGIN toggle_fullday -->
-	<div class="form-group">
-		<label class="col-sm-3 control-label"></label>
-		<div class="col-sm-9">		
-			<input type="checkbox" id="{FULLDAY_POSTVAR}_fulltime" onchange="ilToggleFullTime(this,'{FULLDAY_POSTVAR}');" name="{FULLDAY_TOGGLE_NAME}" value="1" {FULLDAY_TOGGLE_CHECKED} {FULLDAY_TOGGLE_DISABLED} />
-			<label for="{FULLDAY_POSTVAR}_fulltime">{TXT_TOGGLE_FULLDAY}</label>
+<div class="ilFormInnerCol">
+	<div class="form-group form-inline">		
+		<div class="input-group">		
+			<input type="checkbox" name="{DATE_TOGGLE_ID}" id="{FULLDAY_TOGGLE_ID}" value="1"{FULLDAY_TOGGLE_CHECKED} {FULLDAY_TOGGLE_DISABLED} />
 		</div>
+		<label class=control-label">{TXT_TOGGLE_FULLDAY}</label>
 	</div>
+</div>
 <!-- END toggle_fullday -->
-
-	<div class="form-group">
-		<label class="col-sm-3 control-label">{TXT_START}</label>
-		<div class="col-sm-9">			
-
-			<div class="form-inline">
-			{START_SELECT}
-			<button type="button" class="btn btn-link" id="btn_cal_start_{START_ID}">{IMG_START_CALENDAR}</button>
-			</div>
-			<!-- BEGIN show_start_time -->
-			<div class="form-inline">{START_TIME_SELECT} {TXT_START_TIME}</div>
-			<!-- END show_start_time -->
-			<script type="text/javascript">
-			//<![CDATA[
-			Calendar.setup( 
-			{ 
-				button : "btn_cal_start_{DATE_ID_START}",
-				inputFieldsDate : "{INPUT_FIELDS_START}",
-				firstDay : {DATE_FIRST_DAY},
-				onUpdate : ilUpdateEndDate
-			}
-			);
-			YAHOO.util.Event.onDOMReady(ilInitDuration,prefix = new String("{POST_VAR}"));
-			YAHOO.util.Event.onDOMReady(ilDisableSessionTime,prefix = new String("{POST_VAR}"));
-
-			//]]>
-			</script>
+<div class="col-sm-6 ilFormInnerCol">
+	<div class="form-group form-inline">
+		<!-- BEGIN start_label_bl -->
+		<label class="control-label">{START_LABEL}</label>
+		<!-- END start_label_bl -->
+		<div class="input-group date<!-- BEGIN start_width_bl --> noop<!-- END start_width_bl -->" id="{DATEPICKER_START_ID}">
+			<input type="text" class="form-control" style="min-width:120px" placeholder="{START_PLACEHOLDER}" value="{DATEPICKER_START_VALUE}" name="{DATE_START_ID}"{DATEPICKER_START_DISABLED} {START_REQUIRED}/>
+			<span class="input-group-addon">
+				<span class="glyphicon glyphicon-calendar"></span>
+			</span>
 		</div>
 	</div>
-
-	<div class="form-group">
-		<label class="col-sm-3 control-label">{TXT_END}</label>
-		<div class="col-sm-9">			
-						
-				<div class="form-inline">
-				{END_SELECT}
-				<button type="button" class="btn btn-link" id="btn_cal_end_{END_ID}">{IMG_END_CALENDAR}</button>
-				</div>
-				<!-- BEGIN show_end_time -->
-				<div class="form-inline">{END_TIME_SELECT} {TXT_END_TIME}</div>
-				<!-- END show_end_time -->
-				<script type="text/javascript">
-					//<![CDATA[
-					Calendar.setup( 
-					{ 
-						button : "btn_cal_end_{DATE_ID_END}",
-						firstDay : {DATE_FIRST_DAY},
-						inputFieldsDate : "{INPUT_FIELDS_END}"
-					}
-					);
-
-					//]]>
-				</script>
+</div>
+<div class="col-sm-6 ilFormInnerCol">
+	<div class="form-group form-inline">
+		<!-- BEGIN end_label_bl -->
+		<label class="control-label">{END_LABEL}</label>
+		<!-- END end_label_bl -->
+		<div class="input-group date<!-- BEGIN end_width_bl --> noop<!-- END end_width_bl -->" id="{DATEPICKER_END_ID}">
+			<input type="text" class="form-control" style="min-width:120px" placeholder="{END_PLACEHOLDER}" value="{DATEPICKER_END_VALUE}" name="{DATE_END_ID}"{DATEPICKER_END_DISABLED} {END_REQUIRED} />
+			<span class="input-group-addon">
+				<span class="glyphicon glyphicon-calendar"></span>
+			</span>
 		</div>
 	</div>
+</div>

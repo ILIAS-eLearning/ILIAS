@@ -134,7 +134,7 @@ class ilCalendarEntry implements ilDatePeriod
 	 */
 	public function getStart()
 	{
-		return $this->start ? $this->start : $this->start = new ilDateTime();
+		return $this->start;
 		
 	}
 	
@@ -144,7 +144,7 @@ class ilCalendarEntry implements ilDatePeriod
 	 * @param
 	 * @return
 	 */
-	public function setStart(ilDateTime $a_start)
+	public function setStart($a_start)
 	{
 		$this->start = $a_start;
 	}
@@ -156,7 +156,7 @@ class ilCalendarEntry implements ilDatePeriod
 	 */
 	public function getEnd()
 	{
-		return $this->end ? $this->end : $this->end = new ilDateTime();
+		return $this->end;
 	}
 	
 	/**
@@ -660,8 +660,12 @@ class ilCalendarEntry implements ilDatePeriod
 		{
 			$success = false;
 			$ilErr->appendMessage($lng->txt('err_missing_title'));
+		}	
+		if(!$this->getStart() || !$this->getEnd())
+		{
+			$success = false;			
 		}
-		if(ilDateTime::_before($this->getEnd(),$this->getStart(),''))
+		else if(ilDateTime::_before($this->getEnd(),$this->getStart(),''))
 		{
 			$success = false;
 			$ilErr->appendMessage($lng->txt('err_end_before_start'));

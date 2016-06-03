@@ -595,11 +595,15 @@ class ilObjUserGUI extends ilObjectGUI
 				break;
 		}		
 		
-		$from = new ilDateTime($_POST['time_limit_from']['date'].' '.$_POST['time_limit_from']['time'],IL_CAL_DATETIME);
-		$user->setTimeLimitFrom($from->get(IL_CAL_UNIX));
+		$from = $this->form_gui->getItemByPostVar('time_limit_from')->getDate();	
+		$user->setTimeLimitFrom($from 
+			? $from->get(IL_CAL_UNIX)
+			: null);
 		
-		$until = new ilDateTime($_POST['time_limit_until']['date'].' '.$_POST['time_limit_until']['time'],IL_CAL_DATETIME);
-		$user->setTimeLimitUntil($until->get(IL_CAL_UNIX));
+		$until = $this->form_gui->getItemByPostVar('time_limit_until')->getDate();		
+		$user->setTimeLimitUntil($until 
+			? $until->get(IL_CAL_UNIX)
+			: null);
 		
 		$user->setTimeLimitUnlimited($this->form_gui->getInput('time_limit_unlimited'));
 		
@@ -611,15 +615,11 @@ class ilObjUserGUI extends ilObjectGUI
 		// Birthday
 		if($this->isSettingChangeable('birthday'))
 		{
-			$bd = $this->form_gui->getInput('birthday');
-			if($bd['date'])
-			{
-				$user->setBirthday($bd['date']);
-			}
-			else
-			{
-				$user->setBirthday(null);
-			}
+			$bd = $this->form_gui->getItemByPostVar('birthday');
+			$bd = $bd->getDate();			
+			$user->setBirthday($bd
+				? $bd->get(IL_CAL_DATE)
+				: null);			
 		}
 		
 		// Login
@@ -990,14 +990,13 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["active"] = $this->object->getActive();
 		$data["time_limit_unlimited"] = $this->object->getTimeLimitUnlimited();
 		
-		$from = new ilDateTime($this->object->getTimeLimitFrom() ? $this->object->getTimeLimitFrom() : time(),IL_CAL_UNIX);
-		$data["time_limit_from"]["date"] = $from->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
-		$data["time_limit_from"]["time"] = $from->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
-
-		$until = new ilDateTime($this->object->getTimeLimitUntil() ? $this->object->getTimeLimitUntil() : time(),IL_CAL_UNIX);
-		$data['time_limit_until']['date'] = $until->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
-		$data['time_limit_until']['time'] = $until->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
-
+		$data["time_limit_from"] = $this->object->getTimeLimitFrom()
+			? new ilDateTime($this->object->getTimeLimitFrom(), IL_CAL_UNIX)
+			: null;
+		$data["time_limit_until"] = $this->object->getTimeLimitUntil()
+			? new ilDateTime($this->object->getTimeLimitUntil(), IL_CAL_UNIX)
+			: null;
+	
 		
 		// BEGIN DiskQuota, Show disk space used
 		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
@@ -1033,7 +1032,9 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["firstname"] = $this->object->getFirstname();
 		$data["lastname"] = $this->object->getLastname();
 		$data["title"] = $this->object->getUTitle();
-		$data['birthday'] = $this->object->getBirthday();
+		$data['birthday'] = $this->object->getBirthday()
+			? new ilDate($this->object->getBirthday(), IL_CAL_DATE)
+			: null;
 		$data["institution"] = $this->object->getInstitution();
 		$data["department"] = $this->object->getDepartment();
 		$data["street"] = $this->object->getStreet();
@@ -1241,12 +1242,14 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// access.from
 		$acfrom = new ilDateTimeInputGUI($this->lng->txt("crs_from"), "time_limit_from");
+		$acfrom->setRequired(true);
 		$acfrom->setShowTime(true);
 //		$ac->addSubItem($acfrom);
 		$op2->addSubItem($acfrom);
 
 		// access.to
 		$acto = new ilDateTimeInputGUI($this->lng->txt("crs_to"), "time_limit_until");
+		$acto->setRequired(true);
 		$acto->setShowTime(true);
 //		$ac->addSubItem($acto);
 		$op2->addSubItem($acto);
@@ -1463,9 +1466,7 @@ class ilObjUserGUI extends ilObjectGUI
 		if($this->isSettingChangeable('birthday'))
 		{
 			$birthday = new ilBirthdayInputGUI($lng->txt('birthday'), 'birthday');
-			$birthday->setRequired(isset($settings["require_birthday"]) && $settings["require_birthday"]);
-			$birthday->setShowEmpty(true);
-			$birthday->setStartYear(1900);
+			$birthday->setRequired(isset($settings["require_birthday"]) && $settings["require_birthday"]);			
 			$this->form_gui->addItem($birthday);
 		}
 

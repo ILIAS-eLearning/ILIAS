@@ -35,6 +35,7 @@ class ilCalendarUtil
 	private static $today = null;
 	private static $default_calendar = array();
 	static $init_done;
+	static protected $init_datetimepicker;
 	
 	/**
 	 * check if a date is today 
@@ -517,5 +518,223 @@ class ilCalendarUtil
 
 		return self::$default_calendar[$a_usr_id][$a_type_id];
 	}
+	
+	
+	//
+	// BOOTSTRAP DATEPICKER
+	// 	
+	
+	/**
+	 * Parse current user setting into date/time format 
+	 *
+	 * @param int $a_add_time 1=hh:mm, 2=hh:mm:ss
+	 * @param bool $a_for_parsing
+	 * @return string
+	 */
+	public static function getUserDateFormat($a_add_time = false, $a_for_parsing = false)
+	{
+		global $ilUser;
+		
+		// getDateFormat() should return calendar defaults for ANONYMOUS user
+		switch($ilUser->getDateFormat())					
+		{
+			case ilCalendarSettings::DATE_FORMAT_DMY:
+				$format = "DD.MM.YYYY";					
+				break;
+
+			case ilCalendarSettings::DATE_FORMAT_YMD:
+				$format = "YYYY-MM-DD";								
+				break;
+
+			case ilCalendarSettings::DATE_FORMAT_MDY:
+				$format = "MM/DD/YYYY";								
+				break;		
+		}
+		if($a_add_time)
+		{				
+			$format .= " ".(($ilUser->getTimeFormat() == ilCalendarSettings::TIME_FORMAT_24)
+				? "HH:mm"
+				: "hh:mma");
+			if($a_add_time == 2)
+			{
+				$format .= ":ss";
+			}				
+		}		
+		
+		// translate datepicker format to PHP format
+		if((bool)$a_for_parsing)
+		{
+			$format = str_replace("DD", "d", $format);
+			$format = str_replace("MM", "m", $format);
+			$format = str_replace("mm", "i", $format);
+			$format = str_replace("YYYY", "Y", $format);
+			$format = str_replace("HH", "H", $format);
+			$format = str_replace("hh", "h", $format);
+		}
+		
+		return $format;
+	}
+	
+	/**
+	 * Add date time picker to element
+	 * 
+	 * @param string $a_id
+	 * @param int $a_add_time 1=hh:mm, 2=hh:mm:ss
+	 * @param array $a_custom_config
+	 * @param string $a_id2
+	 * @param array $a_custom_config2
+	 * @param string $a_toggle_id
+	 * @param string $a_subform_id
+	 * @return string
+	 */
+	public static function addDateTimePicker($a_id, $a_add_time = null, array $a_custom_config = null, $a_id2 = null, $a_custom_config2 = null, $a_toggle_id = null, $a_subform_id = null)
+	{
+		global $tpl, $ilUser;
+		
+		if(!self::$init_datetimepicker)
+		{			
+			$tpl->addJavaScript("./Services/Calendar/lib/bootstrap3_datepicker/moment-with-locales.min.js");		
+			$tpl->addJavaScript("./Services/Calendar/lib/bootstrap3_datepicker/bootstrap-datetimepicker.min.js");		
+			$tpl->addJavaScript("Services/Form/js/Form.js"); // see ilPropertyFormGUI	
+		
+			self::$init_datetimepicker = true;	
+		}
+		
+		// weekStart is currently governed by locale and cannot be changed
+	 			
+		$default = array(
+			'locale' => $ilUser->getLanguage()
+			,'stepping' => 5
+			,'useCurrent' => false
+			,'calendarWeeks' => true
+			,'toolbarPlacement' => 'top'
+			// ,'showTodayButton' => true
+			,'showClear' => true
+			// ,'showClose' => true
+			,'keepInvalid' => true
+			,'sideBySide' => true
+			// ,'collapse' => false						
+			,'format' => self::getUserDateFormat($a_add_time)			
+		);
+		
+		$config = (!$a_custom_config)
+			? $default
+			: array_merge($default, $a_custom_config);		
+					
+		$tpl->addOnLoadCode('$("#'.$a_id.'").datetimepicker('.json_encode($config).')');
+		
+
+		// optional 2nd picker aka duration
+		if($a_id2)
+		{
+			$config2 = (!$a_custom_config2)
+				? $default
+				: array_merge($default, $a_custom_config2);	
+			
+			$config2["useCurrent"] = false; //Important! See issue #1075
+			
+			$tpl->addOnLoadCode('$("#'.$a_id2.'").datetimepicker('.json_encode($config2).')');			
+						
+			// duration limits, diff and subform handling
+			$tpl->addOnLoadCode('il.Form.initDateDurationPicker("'.$a_id.'","'.$a_id2.'","'.$a_toggle_id.'","'.$a_subform_id.'");');			
+		}			
+		else if($a_subform_id)
+		{
+			// subform handling
+			$tpl->addOnLoadCode('il.Form.initDatePicker("'.$a_id.'","'.$a_subform_id.'");');	
+		}
+	}
+	
+	/**
+	 * Parse (incoming) string to date/time object
+	 * @param string $a_date
+	 * @param int $a_add_time 1=hh:mm, 2=hh:mm:ss
+	 * @return array date, warnings, errors
+	 */
+	public static function parseDateString($a_date, $a_add_time = null, $a_use_generic_format = false)
+	{	
+		global $ilUser;
+		
+		if(!$a_use_generic_format)
+		{
+			$out_format = self::getUserDateFormat($a_add_time, true);			
+		}
+		else
+		{
+			$out_format = $a_add_time
+				? "Y-m-d H:i:s"
+				: "Y-m-d";
+		}
+		$tmp = date_parse_from_format($out_format, $a_date);
+		
+		$date = null;
+		
+		if(!$tmp["error_count"] &&
+			!$tmp["warning_count"])
+		{						
+			$format = $tmp["year"]."-".
+				str_pad($tmp["month"], 2, "0", STR_PAD_LEFT)."-".
+				str_pad($tmp["day"],  2, "0", STR_PAD_LEFT);
+				
+			if($a_add_time)
+			{			
+				$format .= " ".
+					str_pad($tmp["hour"], 2, "0", STR_PAD_LEFT).":".
+					str_pad($tmp["minute"], 2, "0", STR_PAD_LEFT).":".
+					str_pad($tmp["second"], 2, "0", STR_PAD_LEFT);
+				
+				$date = new ilDateTime($format, IL_CAL_DATETIME, $ilUser->getTimeZone());
+			}
+			else
+			{
+				$date = new ilDate($format, IL_CAL_DATE);								
+			}		
+		}
+		
+		return array(
+			"date" => $date
+			, "warnings" => sizeof($tmp["warnings"])
+				? $tmp["warnings"]
+				: null
+			, "errors" => sizeof($tmp["errors"])
+				? $tmp["errors"]
+				: null
+		);
+	}
+				
+	/**
+	 * Try to parse incoming value to date object
+	 * 
+	 * @param mixed $a_value
+	 * @param int $a_add_time
+	 * @return ilDateTime|ilDate
+	 */
+	public static function parseIncomingDate($a_value, $a_add_time = null)
+	{						
+		// already datetime object?
+		if(is_object($a_value) && 
+			$a_value instanceof ilDateTime)
+		{
+			return $a_value;
+		}
+		else if(trim($a_value))
+		{							
+			// try user-specific format
+			$parsed = self::parseDateString($a_value, $a_add_time);				
+			if(is_object($parsed["date"]))
+			{
+				return $parsed["date"];
+			}		
+			else 
+			{			
+				// try generic format 
+				$parsed = self::parseDateString($a_value, $a_add_time, true);				
+				if(is_object($parsed["date"]))
+				{
+					return $parsed["date"];
+				}	
+			}			
+		}		
+	}		
 }
 ?>

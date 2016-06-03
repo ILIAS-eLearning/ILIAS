@@ -241,8 +241,7 @@ class ilCalendarAppointmentGUI
 			include_once './Services/Form/classes/class.ilDateDurationInputGUI.php';
 			$tpl->addJavaScript('./Services/Form/js/date_duration.js');
 			$dur = new ilDateDurationInputGUI($this->lng->txt('cal_fullday'),'event');
-			$dur->setStartText($this->lng->txt('cal_start'));
-			$dur->setEndText($this->lng->txt('cal_end'));
+			$dur->setRequired(true);
 			$dur->enableToggleFullTime(
 				$this->lng->txt('cal_fullday_title'),
 				$this->app->isFullday() ? true : false 
@@ -424,7 +423,7 @@ class ilCalendarAppointmentGUI
 	{
 		global $ilErr;
 		
-		$this->load($a_as_milestone);
+		$this->load('create', $a_as_milestone);
 		
 		if($this->app->validate() and $this->notification->validate())
 		{
@@ -824,7 +823,7 @@ class ilCalendarAppointmentGUI
 
 		$single_editing = ($_REQUEST['rexl'] ? true : false);
 		
-		$this->load($this->app->isMilestone());
+		$this->load('edit', $this->app->isMilestone());
 		
 		if($this->app->validate() and $this->notification->validate())
 		{
@@ -1065,8 +1064,12 @@ class ilCalendarAppointmentGUI
 	 * @param
 	 * @return
 	 */
-	protected function load($a_as_milestone = false)
-	{
+	protected function load($a_mode, $a_as_milestone = false)
+	{		
+		// needed for date handling
+		$this->initForm($a_mode, $a_as_milestone);		
+		$this->form->checkInput();
+		
 		if ($a_as_milestone)
 		{
 			$this->app->setMilestone(true);
@@ -1078,52 +1081,26 @@ class ilCalendarAppointmentGUI
 		$this->app->setDescription(ilUtil::stripSlashes($_POST['description']));
 		$this->app->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->app->enableNotification((int) $_POST['not']);
+		
+		$period = $this->form->getItemByPostVar('event');
+		$start = $period->getStart();
+		$end = $period->getEnd();
+	
 		if ($a_as_milestone)	// milestones are always fullday events
 		{
 			$this->app->setFullday(true);
+			
+			// for milestones is end date = start date			
+			$this->app->setStart($start);	
+			$this->app->setEnd($start);												
 		}
 		else
 		{
-			$this->app->setFullday(isset($_POST['event']['fulltime']) ? true : false);
+			$this->app->setFullday($start instanceof ilDate);
+			$this->app->setStart($start);						
+			$this->app->setEnd($end);					
 		}
 
-		if($this->app->isFullday())
-		{
-			$start = new ilDate($_POST['event']['start']['date']['y'].'-'.$_POST['event']['start']['date']['m'].'-'.$_POST['event']['start']['date']['d'],
-				IL_CAL_DATE);
-			$this->app->setStart($start);
-				
-			$end = new ilDate($_POST['event']['end']['date']['y'].'-'.$_POST['event']['end']['date']['m'].'-'.$_POST['event']['end']['date']['d'],
-				IL_CAL_DATE);
-
-			if ($a_as_milestone)
-			{
-				// for milestones is end date = start date
-				$this->app->setEnd($start);
-			}
-			else
-			{
-				$this->app->setEnd($end);
-			}
-		}
-		else
-		{
-			$start_dt['year'] = (int) $_POST['event']['start']['date']['y'];
-			$start_dt['mon'] = (int) $_POST['event']['start']['date']['m'];
-			$start_dt['mday'] = (int) $_POST['event']['start']['date']['d'];
-			$start_dt['hours'] = (int) $_POST['event']['start']['time']['h'];
-			$start_dt['minutes'] = (int) $_POST['event']['start']['time']['m'];
-			$start = new ilDateTime($start_dt,IL_CAL_FKT_GETDATE,$this->timezone);
-			$this->app->setStart($start);
-
-			$end_dt['year'] = (int) $_POST['event']['end']['date']['y'];
-			$end_dt['mon'] = (int) $_POST['event']['end']['date']['m'];
-			$end_dt['mday'] = (int) $_POST['event']['end']['date']['d'];
-			$end_dt['hours'] = (int) $_POST['event']['end']['time']['h'];
-			$end_dt['minutes'] = (int) $_POST['event']['end']['time']['m'];
-			$end = new ilDateTime($end_dt,IL_CAL_FKT_GETDATE,$this->timezone);
-			$this->app->setEnd($end);
-		}
 		$this->loadNotificationRecipients();
 		$this->loadRecurrenceSettings($a_as_milestone = false);
 	}
@@ -1257,12 +1234,13 @@ class ilCalendarAppointmentGUI
 				break;
 				
 			case 3:
-				$end_dt['year'] = (int) $_POST['until_end']['date']['y'];
-				$end_dt['mon'] = (int) $_POST['until_end']['date']['m'];
-				$end_dt['mday'] = (int) $_POST['until_end']['date']['d'];
-				
-				$this->rec->setFrequenceUntilCount(0);
-				$this->rec->setFrequenceUntilDate(new ilDate($end_dt,IL_CAL_FKT_GETDATE,$this->timezone));
+				$dt = new ilDateTimeInputGUI('','until_end');
+				$dt->setRequired(true);
+				if($dt->checkInput())
+				{								
+					$this->rec->setFrequenceUntilCount(0);
+					$this->rec->setFrequenceUntilDate($dt->getDate());
+				}				
 				break;
 		}
 		
