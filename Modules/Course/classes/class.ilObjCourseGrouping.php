@@ -417,7 +417,7 @@ class ilObjCourseGrouping
 	}
 	
 	// STATIC
-	function _deleteAll($a_course_id)
+	public static function _deleteAll($a_course_id)
 	{
 		global $ilDB;
 
@@ -437,7 +437,7 @@ class ilObjCourseGrouping
 		return true;
 	}
 
-	function _getGroupings($a_course_id)
+	public static function _getGroupings($a_course_id)
 	{
 		global $ilDB;
 
@@ -452,7 +452,7 @@ class ilObjCourseGrouping
 		return $groupings ? $groupings : array();
 	}
 
-	static function _checkCondition($trigger_obj_id,$operator,$value,$a_usr_id = 0)
+	public static function _checkCondition($trigger_obj_id,$operator,$value,$a_usr_id = 0)
 	{
 		// in the moment i alway return true, there are some problems with presenting the condition if it fails,
 		// only course register class check manually if this condition is fullfilled
@@ -466,7 +466,7 @@ class ilObjCourseGrouping
 	* @param	integer	 object_id of one course
 	* @param	array integer ids of courses or empty array if course is not in grouping
 	*/
-	function _getGroupingCourseIds($a_course_ref_id,$a_course_id)
+   public static function _getGroupingCourseIds($a_course_ref_id,$a_course_id)
 	{
 		global $tree;
 
@@ -501,7 +501,7 @@ class ilObjCourseGrouping
 		return self::$assignedObjects ? self::$assignedObjects : array();
 	}
 
-	function _checkGroupingDependencies(&$container_obj, $a_user_id = null)
+	public static function _checkGroupingDependencies(&$container_obj, $a_user_id = null)
 	{
 		global $ilUser,$lng,$tree;
 
@@ -611,7 +611,7 @@ class ilObjCourseGrouping
 	 * @param object container object
 	 * @return array array of reference ids
 	 */
-	function _getGroupingItems($container_obj)
+	public static function _getGroupingItems($container_obj)
 	{
 		global $tree,$ilObjDataCache,$ilAccess,$tree;
 

@@ -4344,7 +4344,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 	
 	// STATIC
-	function _forwards()
+	public static function _forwards()
 	{
 		return array("ilCourseRegisterGUI",'ilConditionHandlerGUI');
 	}

@@ -717,7 +717,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * @param int id of user
 	 * @return boolean
 	 */
-	function _isActivated($a_obj_id)
+	public static function _isActivated($a_obj_id)
 	{
 		include_once("./Modules/Course/classes/class.ilObjCourseAccess.php");
 		return ilObjCourseAccess::_isActivated($a_obj_id);
@@ -729,7 +729,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * @param int id of user
 	 * @return boolean
 	 */
-	function _registrationEnabled($a_obj_id)
+	public static function _registrationEnabled($a_obj_id)
 	{
 		include_once("./Modules/Course/classes/class.ilObjCourseAccess.php");
 		return ilObjCourseAccess::_registrationEnabled($a_obj_id);
@@ -1843,7 +1843,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return false;
 	}
 
-	function _deleteUser($a_usr_id)
+	public static function _deleteUser($a_usr_id)
 	{
 		// Delete all user related data
 		// delete lm_history
