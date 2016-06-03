@@ -1,5 +1,6 @@
 <?php
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
+require_once('./Services/Table/classes/class.ilTable2GUI.php');
+require_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
 
 /**
  * Class ilDclTableViewTableGUI
@@ -13,14 +14,22 @@ class ilDclTableViewTableGUI extends ilTable2GUI
     /**
      * @var ilCtrl
      */
-    private $ctrl;
-
+    protected $ctrl;
     /**
      * @var ilDclTable
      */
-    private $table;
+    protected $table;
+    /**
+     * @var ilDclTableViewGUI
+     */
+    protected $parent_obj;
 
-
+    /**
+     * ilDclTableViewTableGUI constructor.
+     * @param ilDclTableViewGUI $a_parent_obj
+     * @param string $a_parent_cmd
+     * @param ilDclTable $table
+     */
     public function __construct(ilDclTableViewGUI $a_parent_obj, $a_parent_cmd, ilDclTable $table)
     {
         global $lng, $ilCtrl;
@@ -31,15 +40,11 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
 
-        $this->setId('dcl_tableviews');
         if ($this->parent_obj instanceof ilDclTableViewGUI)
         {
-            $this->addMultiCommand('confirmDeleteTableviews', $lng->txt('dcl_delete_views'));
-
-            $ilCtrl->setParameterByClass('ildcltablevieweditgui', 'table_id', $table->getId());
             $ilCtrl->setParameterByClass('ildcltableviewgui', 'table_id', $table->getId());
-
             $this->setFormAction($ilCtrl->getFormActionByClass('ildcltableviewgui'));
+            $this->addMultiCommand('confirmDeleteTableviews', $lng->txt('dcl_delete_views'));
             $this->addCommandButton('saveTableOrder', $lng->txt('dcl_save'));
 
             $add_button = ilLinkButton::getInstance();
@@ -54,7 +59,6 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->addColumn($lng->txt('dcl_order'), NULL, '30px');
 
             $this->setRowTemplate('tpl.tableview_list_row.html', 'Modules/DataCollection');
-
             $this->setData($this->table->getTableViews());
         }
         elseif ($this->parent_obj instanceof ilDclRecordViewGUI)
@@ -63,12 +67,11 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->setData($this->table->getVisibleTableViews($this->parent_obj->parent_obj->ref_id, true));
 
         }
+
         $this->addColumn($lng->txt('title'), NULL, 'auto');
         $this->addColumn($lng->txt('description'), NULL, 'auto');
         $this->addColumn($lng->txt('actions'), NULL, '30px');
 
-
-        //those two are important as we get our data as objects not as arrays.
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
 
@@ -81,6 +84,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection('asc');
         $this->setLimit(0);
 
+        $this->setId('dcl_tableviews');
         $this->setTitle($lng->txt("dcl_tableviews"));
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
     }
@@ -107,14 +111,14 @@ class ilDclTableViewTableGUI extends ilTable2GUI
      * @return string
      */
     protected function buildAction($id) {
+        
         if ($this->parent_obj instanceof ilDclTableViewGUI)
         {
-            include_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
             $alist = new ilAdvancedSelectionListGUI();
             $alist->setId($id);
             $alist->setListTitle($this->lng->txt('actions'));
-            $this->ctrl->setParameterByClass('ildcltablevieweditgui', 'tableview_id', $id);
-            $alist->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui'));
+            $this->ctrl->setParameterByClass('ildcltableviewgui', 'tableview_id', $id);
+            $alist->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editGeneralSettings'));
             $alist->addItem($this->lng->txt('delete'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'confirmDelete'));
             return $alist->getHTML();
         }

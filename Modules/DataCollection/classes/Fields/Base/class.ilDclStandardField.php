@@ -248,6 +248,14 @@ class ilDclStandardField extends ilDclBaseFieldModel
 
 		return parent::hasNumericSorting();
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function allowFilterInListView() {
+		//comments are filterable if they are enabled in the tables settings
+		return $this->id != 'comments' || ilDclCache::getTableCache($this->getTableId())->getPublicCommentsEnabled();
+	}
 }
 
 ?>

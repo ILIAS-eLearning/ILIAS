@@ -74,7 +74,7 @@ class ilDclTableViewGUI
         {
             case 'ildcltablevieweditgui':
                 require_once('./Modules/DataCollection/classes/TableView/class.ilDclTableViewEditGUI.php');
-                $edit_gui = new ilDclTableViewEditGUI($this);
+                $edit_gui = new ilDclTableViewEditGUI($this, $this->table, ilDclTableView::findOrGetInstance($_GET['tableview_id']));
                 $this->ctrl->saveParameter($edit_gui, 'tableview_id');
                 $this->ctrl->forwardCommand($edit_gui);
                 break;
@@ -178,14 +178,6 @@ class ilDclTableViewGUI
             ilUtil::sendFailure($this->lng->txt('dcl_msg_tableviews_delete_all'), true);
             $this->ctrl->redirect($this, 'show');
         }
-    }
-
-    /**
-     * @return ilDclTable
-     */
-    public function getTable()
-    {
-        return $this->table;
     }
 
     /**

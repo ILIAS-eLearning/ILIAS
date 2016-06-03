@@ -87,4 +87,14 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel {
 	public function getValidFieldProperties() {
 		return array(ilDclBaseFieldModel::PROP_REFERENCE, ilDclBaseFieldModel::PROP_REFERENCE_LINK, ilDclBaseFieldModel::PROP_N_REFERENCE);
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function allowFilterInListView() {
+		//A reference-field is not filterable if the referenced field is of datatype MOB or File
+		$ref_field = ilDclCache::getFieldCache((int)$this->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+		return ! ($ref_field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_MOB
+			|| $ref_field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILE);
+	}
 }

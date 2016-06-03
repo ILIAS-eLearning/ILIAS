@@ -113,8 +113,9 @@ class ilDclRecordViewGUI {
 
 	public function executeCommand() {
 		global $ilCtrl;
-		if (!$this->table->checkPermForTableView($_GET['tableview_id'])
-			|| !ilDclRecordViewViewdefinition::isActive($_GET['tableview_id']))
+		if (!ilObjDataCollectionAccess::hasWriteAccess($_GET['ref_id']) &&
+			(!ilObjDataCollectionAccess::hasAccessToTableView($_GET['tableview_id'])
+			|| !ilDclRecordViewViewdefinition::isActive($_GET['tableview_id'])))
 		{
 			$this->offerAlternativeViews();
 			return;

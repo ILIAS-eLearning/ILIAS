@@ -299,7 +299,7 @@ class ilDclTableView extends ActiveRecord
     {
         $table = ilDclCache::getTableCache($this->table_id);
 
-        foreach ($table->getFieldIds() as $field_id)
+        foreach ($table->getFieldIds(true) as $field_id)
         {
             $this->createFieldSetting($field_id);
         }
@@ -349,9 +349,9 @@ class ilDclTableView extends ActiveRecord
      */
     public static function createStandardView($table_id, $create_default_settings = true)
     {
-        global $lng, $rbacreview;
+        global $rbacreview;
         $view = new self();
-//        $view->setRoles(array_merge($rbacreview->getGlobalRoles(), $rbacreview->getLocalRoles($_GET['ref_id'])));
+        $view->setRoles(array_merge($rbacreview->getGlobalRoles(), $rbacreview->getLocalRoles($_GET['ref_id']))); //TODO fix $_GET['ref_id']
         $view->setTableId($table_id);
         $view->setTitle('Standardview');
         $view->setTableviewOrder(10);

@@ -72,7 +72,7 @@ class ilDclRecordListGUI {
 		$this->parent_obj = $a_parent_obj;
 		$this->table_obj = ilDclCache::getTableCache($table_id);
 
-		if ($tableview_id = $_REQUEST['tableview_id']) {
+		if ($tableview_id = $_GET['tableview_id']) {
 			$this->tableview_id = $tableview_id;
 		} else {
 			//get first visible tableview
@@ -102,6 +102,8 @@ class ilDclRecordListGUI {
 		$this->ctrl->saveParameter($this, 'mode');
 		$cmd = $this->ctrl->getCmd('show');
 
+		// 'show' fills all filters with the predefined values from the tableview,
+		// whereas 'listRecords' handels the filters "normally", filling them from the POST-variable
 		switch ($cmd) {
 			case 'show':
 				$this->setSubTabs();
@@ -131,11 +133,6 @@ class ilDclRecordListGUI {
 				break;
 		}
 	}
-	
-	public function show() {
-		
-	}
-
 
 	public function listRecords($use_tableview_filter = true) {
 		global $tpl, $ilToolbar;
@@ -291,8 +288,6 @@ class ilDclRecordListGUI {
 	 * doTableSwitch
 	 */
 	public function doTableSwitch() {
-		unset($_REQUEST['tableview_id']);
-		$this->ctrl->clearParametersByClass("ilObjDataCollectionGUI");
 		$this->ctrl->clearParameters($this);
 		$this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
 		$this->ctrl->redirect($this, "show");
@@ -306,23 +301,26 @@ class ilDclRecordListGUI {
 		$this->ctrl->redirect($this, "show");
 	}
 
+	/**
+	 *
+	 */
 	protected function applyFilter() {
 		$table = new ilDclRecordListTableGUI($this, "listRecords", $this->table_obj, $this->tableview_id);
 		$table->initFilter();
 		$table->resetOffset();
 		$table->writeFilterToSession();
 		$this->ctrl->redirect($this, 'listRecords');
-//				$this->listRecords(false);
 	}
 
-
+	/**
+	 *
+	 */
 	protected function resetFilter() {
 		$table = new ilDclRecordListTableGUI($this, "listRecords", $this->table_obj, $this->tableview_id);
 		$table->initFilter();
 		$table->resetOffset();
 		$table->resetFilter();
 		$this->ctrl->redirect($this, 'listRecords');
-//				$this->listRecords(false);
 	}
 
 

@@ -196,21 +196,14 @@ class ilObjDataCollection extends ilObject2 {
 			}
 		}
 	}
-
-
-//	/**
-//	 * @param $a_val
-//	 */
-//	public function setMainTableId($a_val) {
-//		$this->main_table_id = $a_val;
-//	}
-
-
+	
 	/**
 	 * @return mixed
 	 */
 	public function getMainTableId() {
-		return ilDclTable::_getMainTableId($this->getId());
+		global $ilDB;
+		$result = $ilDB->query('SELECT id FROM il_dcl_table WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ORDER BY table_order LIMIT 1');
+		return $ilDB->fetchObject($result)->id;	
 	}
 
 	/**

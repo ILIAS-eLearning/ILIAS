@@ -130,7 +130,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_EXCEL_ASYNC));
 		}
 
-		$ilCtrl->saveParameter($a_parent_obj, 'tableview_gui');
+//		$ilCtrl->saveParameter($a_parent_obj, 'tableview_gui');
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
 		$this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
 	}

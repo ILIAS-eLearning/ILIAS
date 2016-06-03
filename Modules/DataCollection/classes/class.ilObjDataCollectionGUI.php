@@ -198,7 +198,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				break;
 
 			case "ildclrecordlistgui":
-				$ilCtrl->saveParameter($this, "tableview_id");
+//				$ilCtrl->saveParameter($this, "tableview_id");
 				$this->addHeaderAction(false);
 				$this->prepareOutput();
 				$ilTabs->activateTab("id_records");

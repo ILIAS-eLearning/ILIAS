@@ -59,11 +59,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ID', $a_set->getId());
         $this->tpl->setVariable('FIELD_ID', $a_set->getField());
         $this->tpl->setVariable('VISIBLE', $a_set->isVisible() ? 'checked' : '');
-        if ($field->getDatatypeId() != ilDclDatatype::INPUTFORMAT_MOB
-            && $field->getDatatypeId() != ilDclDatatype::INPUTFORMAT_FILE
-            && $field->getDatatypeId() != ilDclDatatype::INPUTFORMAT_FORMULA
-            && $field->getDatatypeId() != ilDclDatatype::INPUTFORMAT_PLUGIN
-            && $field->getId() != 'comments')    //TODO: find better way, also handle reference field referencing a MOB
+        if ($field->allowFilterInListView())
         {
             $this->tpl->setVariable('IN_FILTER', $a_set->isInFilter() ? 'checked' : '');
             $this->tpl->setVariable('FILTER_VALUE', $this->getStandardFilterHTML($field, $a_set->getFilterValue()));
