@@ -3425,7 +3425,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			include_once 'Services/Badge/classes/class.ilBadgeHandler.php';
 			if(ilBadgeHandler::getInstance()->isObjectActive($this->object->getId()))
 			{
-				$tabs_gui->addTarget("obj_tool_setting_badges",
+				$this->tabs_gui->addTarget("obj_tool_setting_badges",
 					 $this->ctrl->getLinkTargetByClass("ilbadgemanagementgui", ""), 
 					 "",
 					 "ilbadgemanagementgui");

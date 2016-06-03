@@ -15,6 +15,7 @@ include_once("./Services/Badge/classes/class.ilBadge.php");
 class ilBadgeTableGUI extends ilTable2GUI
 {		
 	protected $has_write; // [bool]
+	protected $parent_type; // [string]
 	
 	function __construct($a_parent_obj, $a_parent_cmd = "", $a_parent_obj_id, $a_has_write = false)
 	{
@@ -22,6 +23,7 @@ class ilBadgeTableGUI extends ilTable2GUI
 		
 		$this->setId("bdgbdg");
 		$this->has_write = (bool)$a_has_write;
+		$this->parent_type = ilObject::_lookupType($a_parent_obj_id);
 				
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 			
@@ -57,12 +59,12 @@ class ilBadgeTableGUI extends ilTable2GUI
 		$this->setFilterCommand("applyBadgeFilter");
 		$this->setResetCommand("resetBadgeFilter");
 		
-		$this->initFilter(ilObject::_lookupType($a_parent_obj_id));
+		$this->initFilter();
 								
 		$this->getItems($a_parent_obj_id);				
 	}
 	
-	public function initFilter($a_parent_type)
+	public function initFilter()
 	{
 		global $lng;
 		
@@ -70,7 +72,7 @@ class ilBadgeTableGUI extends ilTable2GUI
 		$this->filter["title"] = $title->getValue();
 		
 		$handler = ilBadgeHandler::getInstance();			
-		$valid_types = $handler->getAvailableTypesForObjType($a_parent_type);
+		$valid_types = $handler->getAvailableTypesForObjType($this->parent_type);
 		if($valid_types && 
 			sizeof($valid_types) > 1)
 		{			
