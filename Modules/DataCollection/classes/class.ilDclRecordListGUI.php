@@ -487,9 +487,7 @@ class ilDclRecordListGUI {
 
 
 	/**
-	 * @param int|null $table_id
-	 * @param bool $export
-	 *
+	 * @param $use_tableview_filter
 	 * @return array
 	 */
 	protected function getRecordListTableGUI($use_tableview_filter) {
@@ -501,7 +499,7 @@ class ilDclRecordListGUI {
 		} else {
 			$list->initFilter();
 		}
-//		$list->writeFilterToSession();
+
 		$list->setExternalSegmentation(true);
 		$list->setExternalSorting(true);
 		$list->determineLimit();

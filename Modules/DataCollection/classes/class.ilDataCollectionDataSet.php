@@ -264,7 +264,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 					$a_mapping->addMapping('Modules/DataCollection', 'il_dcl_record', $a_rec['id'], $record->getId());
 				}
 				break;
-			case 'il_dcl_view':
+			case 'il_dcl_view': //TODO check if necessary
 				$new_table_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_table', $a_rec['table_id']);
 				if ($new_table_id) {
 						// Other definitions - grab next ID from il_dcl_view
@@ -425,7 +425,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 			$field_prop->update();
 		}
 		foreach ($a_mapping->getMappingsOfEntity('Modules/DataCollection', 'il_dcl_table') as $key => $tableid) {
-			//create standardview if a table has no tableviews, e.g. if import is from a earlier ILIAS version
+			//create standardview if a table has no tableviews, e.g. if import is from an earlier ILIAS version
 			if (!ilDclTableView::getAllForTableId($tableid)) {
 				ilDclTableView::createStandardView($tableid);
 			}

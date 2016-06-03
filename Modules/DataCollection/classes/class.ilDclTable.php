@@ -227,7 +227,7 @@ class ilDclTable {
 	/**
 	 * @param bool $create_views
 	 */
-	public function doCreate($create_views = true) {
+	public function doCreate($create_views = true, $create_standardview = true) {
 		global $ilDB;
 
 		$id = $ilDB->nextId("il_dcl_table");
@@ -249,10 +249,12 @@ class ilDclTable {
 
 		$ilDB->manipulate($query);
 
-
-		if ($create_views) {
+		if ($create_standardview) {
 			//standard tableview
 			ilDclTableView::createStandardView($this->id);
+		}
+
+		if ($create_views) {
 			//add edit definition
 			$view_id = $ilDB->nextId("il_dcl_view");
 			$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (" . $ilDB->quote($view_id, "integer") . ", "
@@ -1282,7 +1284,7 @@ class ilDclTable {
 		$this->setDefaultSortFieldOrder($original->getDefaultSortFieldOrder());
 		$this->setOrder($original->getOrder());
 
-		$this->doCreate();
+		$this->doCreate(true, false);
 		// reset stdFields to get new for the created object
 
 		$default_sort_field = 0;
@@ -1315,21 +1317,19 @@ class ilDclTable {
 
 		//TODO: Find better way to copy data (include referenced data)
 		// Clone Records with recordfields
-		/*foreach($original->getRecords() as $orig_record){
+		foreach($original->getRecords() as $orig_record){
 			$new_record = new ilDclBaseRecordModel();
 			$new_record->setTableId($this->getId());
 			$new_record->cloneStructure($orig_record->getId(), $new_fields);
-		}*/
+		}
 
-		//TODO: copy tableviews and pageobjects
-//		if ($old_view_id = ilDclRecordViewViewdefinition::getIdByTableId($original->getId())) {
-//			$old_view = new ilDclRecordViewViewdefinition($old_view_id);
-//			$old_view->setTableId($original->getId());
-//			$viewdef = new ilDclRecordViewViewdefinition();
-//			$viewdef->setTableId($this->id);
-//			$viewdef->setXMLContent($old_view->getXMLContent(false));
-//			$viewdef->create();
-//		}
+		//clone tableviews (includes pageobjects)
+		foreach ($original->getTableViews() as $orig_tableview) {
+			$new_tableview = new ilDclTableView();
+			$new_tableview->setTableId($this->getId());
+			$new_tableview->cloneStructure($orig_tableview, $new_fields);
+
+		}
 	}
 
 

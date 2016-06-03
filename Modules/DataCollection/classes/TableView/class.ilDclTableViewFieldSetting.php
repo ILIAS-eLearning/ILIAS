@@ -230,6 +230,13 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return null;
     }
 
+    public function cloneStructure(ilDclTableViewFieldSetting $orig) {
+        $this->setFilterChangeable($orig->isFilterChangeable());
+        $this->setInFilter($orig->isInFilter());
+        $this->setVisible($orig->isVisible());
+        $this->setFilterValue($orig->getFilterValue());
+        $this->create();
+    }
     
     /**
      * @return ilDclBaseFieldModel|ilDclStandardField
@@ -254,7 +261,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
 
     /**
      * @param $tableview_id
-     * @return array
+     * @return ilDclTableViewFieldSetting[]
      */
     public static function getAllForTableViewId($tableview_id)
     {
@@ -268,5 +275,14 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     public static function getAllForFieldId($field_id)
     {
         return self::where(array('field' => $field_id))->get();
+    }
+
+    /**
+     * @param $tableview_id
+     * @param $field_id
+     * @return ActiveRecord
+     */
+    public static function findByIds($tableview_id, $field_id) {
+        return self::where(array('field' => $field_id, 'tableview_id' => $tableview_id))->first();
     }
 }

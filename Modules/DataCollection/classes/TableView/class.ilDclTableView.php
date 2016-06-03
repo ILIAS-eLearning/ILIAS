@@ -323,6 +323,38 @@ class ilDclTableView extends ActiveRecord
         }
     }
 
+    /**
+     * @param ilDclTableView $orig
+     * @param array $new_fields fields mapping
+     */
+    public function cloneStructure(ilDclTableView $orig, array $new_fields) {
+        //clone structure
+        $this->setTitle($orig->getTitle());
+        $this->setOrder($orig->getOrder());
+        $this->setDescription($orig->getDescription());
+        $this->setRoles($orig->getRoles());
+        $this->create(false); //create default setting, adjust them later
+
+        //clone fieldsettings
+        foreach (ilDclTableViewFieldSetting::getAllForTableViewId($orig->getId()) as $orig_fieldsetting) {
+            $new_fieldsetting = new ilDclTableViewFieldSetting();
+            $new_fieldsetting->setTableviewId($this->getId());
+            if ($new_fields[$orig_fieldsetting->getField()]) {
+                //normal fields
+                $new_fieldsetting->setField($new_fields[$orig_fieldsetting->getField()]->getId());
+            } else {
+                //standard fields
+                $new_fieldsetting->setField($orig_fieldsetting->getField());
+            }
+            $new_fieldsetting->cloneStructure($orig_fieldsetting);
+        }
+
+        //clone pageobject
+        if (ilDclRecordViewViewdefinition::exists($orig->getId())) {
+            $orig_pageobject = new ilDclRecordViewViewdefinition($orig->getId());
+            $orig_pageobject->copy($this->getId());
+        }
+    }
 
     /**
      * @param $table_id

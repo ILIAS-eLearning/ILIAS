@@ -312,7 +312,7 @@ class ilObjDataCollection extends ilObject2 {
 			foreach ($origTable->getRecordFields() as $origField) {
 				if ($origField->getDatatypeId() == ilDclDatatype::INPUTFORMAT_REFERENCE) {
 					$newRefId = NULL;
-					$origFieldRefObj = ilDclCache::getFieldCache($origField->getFieldRef());
+					$origFieldRefObj = $origField->getFieldRef();
 					$origRefTable = ilDclCache::getTableCache($origFieldRefObj->getTableId());
 					// Lookup the new ID of the referenced field in the actual DC
 					$tableId = ilDclTable::_getTableIdByTitle($origRefTable->getTitle(), $this->getId());
@@ -323,7 +323,7 @@ class ilObjDataCollection extends ilObject2 {
 					$tableId = ilDclTable::_getTableIdByTitle($origTable->getTitle(), $this->getId());
 					$fieldId = ilDclBaseFieldModel::_getFieldIdByTitle($origField->getTitle(), $tableId);
 					$field = ilDclCache::getFieldCache($fieldId);
-					$field->setPropertyvalue($newRefId, ilDclBaseFieldModel::PROPERTYID_REFERENCE);
+					$field->setProperty($newRefId, ilDclBaseFieldModel::PROP_REFERENCE);
 					$field->doUpdate();
 				}
 			}
