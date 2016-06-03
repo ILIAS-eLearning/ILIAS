@@ -742,7 +742,7 @@ abstract class ilPlugin
 	{
 		global $ilPluginAdmin;
 
-		return $ilPluginAdmin->isActive($this->getComponentType(),
+		return $ilPluginAdmin->needsUpdate($this->getComponentType(),
 			$this->getComponentName(), $this->getSlotId(), $this->getPluginName());
 	}
 
