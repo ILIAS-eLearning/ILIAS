@@ -1,0 +1,45 @@
+<!-- language file start -->
+obj_xreb#:#Bildungsbiografie
+objs_xreb#:#Bildungsbiografien
+obj_xreb_duplicate#:#Bildungsbiografie kopieren
+objs_xreb_duplicate#:#Bildungsbiografien kopieren
+obj_xreb_select#:#Bildungsbiografie auswählen
+xreb_add#:#Bildungsbiografie hinzufügen
+xreb_new#:#Neuen Bildungsbiografie hinzufügen
+xreb_read#:#Lesezugriff zum Bildungsbiografie
+xreb_write#:#Bildungsbiografie bearbeiten
+xreb_delete#:#Bildungsbiografie löschen
+xreb_visible#:#sichtbar
+xreb_edit_permission#:#schreibberechtigt
+crs_create_xreb#:#Bildungsbiografie erzeugen
+grp_create_xreb#:#Bildungsbiografie erzeugen
+fold_create_xreb#:#Bildungsbiografie erzeugen
+root_create_xreb#:#Bildungsbiografie erzeugen
+cat_create_xreb#:#Bildungsbiografie erzeugen
+xreb_content#:#Report
+xreb_properties#:#Eigenschaften
+my_edu_bio#:#Meine Bildungsbiografie
+my_edu_bio_desc#:#Hier sehen Sie Ihre Bildungspunkte und die von Ihnen besuchten Trainings.
+others_edu_bio_desc#:#Hier sehen Sie die Bildungspunkte und besuchten Trainings von %s.<br>In der Zeile „Zeitraum“ können Sie den Auswertungszeitraum verändern, indem Sie die Voreinstellung verändern und auf die Schaltfläche „Filter“ klicken. Voreingestellt ist immer das laufende Kalenderjahr.<br>Bei Klick auf die Spaltenüberschrift der Ergebnistabelle (z.B. Titel) erfolgt eine Sortierung der Tabelle nach diesem Kriterium.
+others_edu_bio#:#Hier sehen Sie die Bildungspunkte und die von %s besuchten Trainings.
+wbd_transfer_on#:#Ihre Bildungspunkte werden an die WBD gemeldet.
+wbd_reg_pending#:#Ihre Anmeldung bei der WBD wird in Kürze erfolgen.
+points_at_end_of_cert_year#:#voraussichtliche Punkte bis zum Ende des aktuellen Zertifizierungsjahres
+points_in_academy#:#Bildungspunkte in der Generali Online Akademie im ausgewählten Zeitraum
+points_in_five_years#:#Punkte im 5-Jahres-Zeitraum
+points_in_wbd#:#Bildungspunkte in der WBD im ausgewählten Zeitraum<br><small>Die Angaben erfolgen ohne Gewähr. Die verbindliche Angabe Ihrer Weiterbildungspunkte erhalten Sie ausschließlich auf den Seiten der WBD.</small>
+points_in_wbd_cert_period#:#Punkte in der aktuellen Zertifizierungsperiode
+points_in_wbd_cert_year#:#Punkte im aktuellen Zertifizierungsjahr
+training_id#:#ID
+title#:#Titel
+learning_type#:#Trainingstyp
+date#:#Datum
+location#:#Ort
+provider#:#Anbieter
+crs_tutor#:#Trainer
+points#:#Punkte
+fee#:#Kosten
+status#:#Status
+wbd_relevant#:#WBD relevant
+period#:#Zeitraum:
+until#:#bis

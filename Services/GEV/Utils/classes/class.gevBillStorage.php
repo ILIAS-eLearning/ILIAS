@@ -20,14 +20,14 @@ class gevBillStorage extends ilFileSystemStorage {
 	 *
 	 * @param integer $a_obj_id The id of the object the storage is responsible for.
 	 */
-	public function __construct() {
-		parent::__construct(self::STORAGE_DATA, false, date("Y"));
+	public function __construct($year = null) {
+		parent::__construct(self::STORAGE_DATA, false, $year !== null ? $year : date("Y"));
 		$this->create();
 	}
 	
-	public static function getInstance() {
+	public static function getInstance($year = null) {
 		if (self::$instance === null) {
-			self::$instance = new gevBillStorage();
+			self::$instance = new gevBillStorage($year);
 		}
 		return self::$instance;
 	}

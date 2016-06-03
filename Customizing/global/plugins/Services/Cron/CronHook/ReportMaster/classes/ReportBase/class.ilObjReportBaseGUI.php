@@ -64,7 +64,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	*/
 	public function performCommand() {
 		$cmd = $this->gCtrl->getCmd("showContent");
-
 		switch ($cmd) {
 			case "saveSettings":
 				if($this->gAccess->checkAccess("write", "", $this->object->getRefId())) {
@@ -95,18 +94,23 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 												 "write", get_class($this));
 					$this->gTabs->activateTab("properties");
 					$this->gTabs->activateSubTab("report_query_view");
+					$this->object->prepareRelevantParameters();
 					$this->setFilterAction($cmd);
 					return $this->renderQueryView();
 				}
 				break;
 			case "exportexcel":
-				$this->setFilterAction($cmd);
-				$this->exportExcel();
+				if($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
+					$this->object->prepareRelevantParameters();
+					$this->setFilterAction($cmd);
+					$this->exportExcel();
+				}
 				exit();
 			case "showContent":
-				$this->setFilterAction($cmd);
 				if($this->gAccess->checkAccess("read", "", $this->object->getRefId())) {
 					$this->gTabs->activateTab("content");
+					$this->object->prepareRelevantParameters();
+					$this->setFilterAction($cmd);
 					return $this->renderReport();
 				}
 				break;
@@ -148,7 +152,7 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	/**
 	 * render report.
 	 */
-	final public function renderReport() {
+	public function renderReport() {
 		$this->object->prepareReport();
 		$this->title = $this->prepareTitle(catTitleGUI::create());
 		$this->spacer = $this->prepareSpacer(new catHSpacerGUI());
@@ -220,7 +224,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	}
 
 	protected function renderUngroupedTable($data) {
-
 		if(!$this->object->deliverTable()->row_template_filename) {
 			throw new Exception("No template defined for table ".get_class($this));
 		}
@@ -377,8 +380,6 @@ abstract class ilObjReportBaseGUI extends ilObjectPluginGUI {
 	}
 
 	protected function setFilterAction($cmd) {
-		global $ilLog;
-		$ilLog->write($cmd);
 		$this->enableRelevantParametersCtrl();
 		$this->object->setFilterAction($this->gCtrl->getLinkTarget($this,$cmd));
 		$this->disableRelevantParametersCtrl();
