@@ -4,9 +4,10 @@
 
 namespace ILIAS\UI\Implementation\Component\Counter;
 
-use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Counter\Counter as Spec;
 
-class Counter implements C\Counter\Counter {
+class Counter implements Spec {
+
 	/**
 	 * @var	string
 	 */
@@ -61,27 +62,6 @@ class Counter implements C\Counter\Counter {
 		$clone->number = $number;
 		return $clone;
 	}
-
-	/**
-	 * @throws \Exception
-	 */
-/*	public function to_html_string() {
-		$type_class = '';
-		switch (true) {
-			case ($this->type instanceof E\NoveltyCounterType):
-				$type_class = 'il-counter-novelty';
-				break;
-			case ($this->type instanceof E\StatusCounterType):
-				$type_class = 'il-counter-status';
-				break;
-		}
-
-		$tpl = new \ilTemplate('./src/UI/templates/default/Counter/tpl.counter.html', true, false);
-		$tpl->setVariable('TYPE_CLASS', $type_class);
-		$tpl->setVariable('AMOUNT', $this->number());
-
-		return $tpl->get();
-	}*/
 
 	// Helper
 	static protected function is_valid_type($type) {
