@@ -81,7 +81,7 @@ abstract class ilGlobalCacheService {
 	 * @description set self::$valid_keys from GlobalCache
 	 */
 	protected function readValid() {
-		if ($this->isActive()) {
+		if ($this->isActive() && $this->isInstallable()) {
 			$this->valid_keys = $this->unserialize($this->get('valid_keys'));
 			$this->valid_key_hash = md5(serialize($this->valid_keys));
 		}

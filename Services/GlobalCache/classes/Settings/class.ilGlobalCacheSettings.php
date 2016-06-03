@@ -79,6 +79,13 @@ class ilGlobalCacheSettings {
 	}
 
 
+	public function activateAll() {
+		foreach (ilGlobalCache::getAvailableComponents() as $comp) {
+			$this->addActivatedComponent($comp);
+		}
+	}
+
+
 	/**
 	 * @param $component
 	 */
@@ -100,6 +107,14 @@ class ilGlobalCacheSettings {
 	 */
 	public function isComponentActivated($component) {
 		return in_array($component, $this->activated_components);
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function areAllComponentActivated() {
+		return count($this->activated_components) == count(ilGlobalCache::getAvailableComponents());
 	}
 
 
