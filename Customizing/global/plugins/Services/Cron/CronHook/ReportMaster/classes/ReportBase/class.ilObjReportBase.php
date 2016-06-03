@@ -273,7 +273,7 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 		$this->filter_action = $link;
 	}
 
-	public function getRelevantaParameters() {
+	public function getRelevantParameters() {
 		return $this->relevant_parameters;
 	}
 
