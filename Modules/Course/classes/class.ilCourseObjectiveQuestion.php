@@ -373,7 +373,7 @@ class ilCourseObjectiveQuestion
 		return $final ? $final : array();
 	}
 	
-	function _getTest($a_test_objective_id)
+	public static function _getTest($a_test_objective_id)
 	{
 		global $ilDB;
 
