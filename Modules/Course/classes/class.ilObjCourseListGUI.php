@@ -14,14 +14,6 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
  */
 class ilObjCourseListGUI extends ilObjectListGUI
 {
-	/**
-	* constructor
-	*
-	*/
-	function ilObjCourseListGUI()
-	{
-		$this->ilObjectListGUI();
-	}
 
 	/**
 	* initialisation
@@ -34,7 +26,6 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		$this->copy_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
-		$this->payment_enabled = true;
 		$this->info_screen_enabled = true;
 		$this->type = "crs";
 		$this->gui_class_name = "ilobjcoursegui";
@@ -60,9 +51,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 	* @param	string		$a_description	description
 	*/
 	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
-	{
-		global $ilBench;
-
+	{		
 		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
 
 		$this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$this->obj_id);

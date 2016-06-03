@@ -36,14 +36,6 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilForumSearch extends ilAbstractSearch
 {
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilForumSearch(&$query_parser)
-	{
-		parent::ilAbstractSearch($query_parser);
-	}
 
 	function &performSearch()
 	{
@@ -63,7 +55,7 @@ class ilForumSearch extends ilAbstractSearch
 
 		$res = $this->db->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			#$thread_post = $row->thr_pk.'_0';
 			$thread_post = $row->thr_pk;
@@ -83,7 +75,7 @@ class ilForumSearch extends ilAbstractSearch
 			$and;
 			
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			#$thread_post = $row->pos_thr_fk.'_'.$row->pos_pk;
 			$thread_post = $row->pos_thr_fk;

@@ -14,9 +14,9 @@ class ilXMLResultSetWriter extends ilXmlWriter
 {
 	var $xmlResultSet;
 
-	function ilXMLResultSetWriter(& $xmlResultSet)
+	function __construct(& $xmlResultSet)
 	{
-		parent::ilXmlWriter();
+		parent::__construct();
 		$this->xmlResultSet = $xmlResultSet;
 	}
 

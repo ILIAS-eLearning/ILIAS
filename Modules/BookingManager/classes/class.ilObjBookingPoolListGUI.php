@@ -19,7 +19,7 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
 	*/
 	function __construct()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**
@@ -33,7 +33,6 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
 		$this->copy_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
-		$this->payment_enabled = false;
 		$this->info_screen_enabled = true;
 		$this->type = "book";
 		$this->gui_class_name = "ilobjbookingpoolgui";

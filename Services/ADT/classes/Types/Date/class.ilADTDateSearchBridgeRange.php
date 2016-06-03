@@ -119,7 +119,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 		}
 	}
 	
-	protected function shouldBeImportedFromPost(array $a_post)
+	protected function shouldBeImportedFromPost($a_post)
 	{
 		if($this->getForm() instanceof ilPropertyFormGUI &&
 			!(bool)$this->text_input)
@@ -234,8 +234,10 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 		}
 	}
 	
-	public function isInCondition(ilADTDate $a_adt)
+	public function isInCondition(ilADT $a_adt)
 	{
+		assert($a_adt instanceof ilADTDate);
+		
 		if(!$this->getLowerADT()->isNull() && !$this->getUpperADT()->isNull())
 		{
 			return $a_adt->isInbetweenOrEqual($this->getLowerADT(), $this->getUpperADT());

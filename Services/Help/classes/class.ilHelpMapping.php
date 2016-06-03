@@ -237,7 +237,7 @@ class ilHelpMapping
 	 * @param
 	 * @return
 	 */
-	function hasScreenIdSections($a_screen_id)
+	static function hasScreenIdSections($a_screen_id)
 	{
 		global $ilDB, $ilAccess, $ilSetting, $ilUser;
 		

@@ -25,7 +25,7 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 	 *        array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *    );
 	 */
-	public function _getCommands() {
+	public static function _getCommands() {
 		$commands = array
 		(
 			array( "permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true ),
@@ -42,7 +42,7 @@ class ilObjBibliographicAccess extends ilObjectAccess {
 	 *
 	 * @return bool
 	 */
-	public function _checkGoto($a_target) {
+	public static function _checkGoto($a_target) {
 		global $ilAccess, $lng;
 		$t_arr = explode('_', $a_target);
 		if ($t_arr[0] != 'bibl' || ((int)$t_arr[1]) <= 0) {

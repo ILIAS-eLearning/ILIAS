@@ -61,8 +61,7 @@ abstract class ilComponent
 //		global $ilDB;
 		$this->global_cache = ilCachedComponentData::getInstance();
 
-		$rec = $this->global_cache->lookCompId($this->getName(), $this->getComponentType());
-		$this->setId($rec["id"]);
+		$this->setId($this->global_cache->lookCompId($this->getComponentType(), $this->getName()));	
 		$this->setPluginSlots(ilComponent::lookupPluginSlots(
 			$this->getComponentType(), $this->getName()));
 
@@ -360,7 +359,7 @@ abstract class ilComponent
 				'WHERE id = '.$ilDB->quote($a_component_id,'text');
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->name;
 		}

@@ -35,7 +35,7 @@ class ilECSRemoteUser
 		$query = 'SELECT eru_id FROM ecs_remote_user '.
 				'WHERE usr_id = '.$ilDB->quote($a_usr_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return new self($row->eru_id);
 		}
@@ -54,7 +54,7 @@ class ilECSRemoteUser
 				'AND mid = '.$ilDB->quote($this->getMid(),'integer').' '.
 				'AND usr_id = '.$ilDB->quote($this->getUserId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return (bool) $row->eru_id;
 		}
@@ -156,7 +156,7 @@ class ilECSRemoteUser
 		$query = 'SELECT * FROM ecs_remote_user '.
 				'WHERE eru_id = '.$GLOBALS['ilDB']->quote($this->getId(),'integer');
 		$res = $GLOBALS['ilDB']->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setServerId($row->sid);
 			$this->setMid($row->mid);

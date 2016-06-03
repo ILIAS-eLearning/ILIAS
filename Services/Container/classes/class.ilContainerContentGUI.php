@@ -361,11 +361,11 @@ abstract class ilContainerContentGUI
 		}
 		
 		// determine item groups
-		while (eregi("\[(item-group-([0-9]*))\]", $a_container_page_html, $found))
+		while (preg_match('~\[(item-group-([0-9]*))\]~i', $a_container_page_html, $found))
 		{
 			$this->addEmbeddedBlock("itgr", (int) $found[2]);
 			
-			$a_container_page_html = eregi_replace("\[".$found[1]."\]", $html, $a_container_page_html);
+			$a_container_page_html = preg_replace('~\['.$found[1].'\]~i', $html, $a_container_page_html);
 		}
 	}
 	
@@ -628,17 +628,17 @@ abstract class ilContainerContentGUI
 			// set template (overall or type specific)
 			if (is_int(strpos($a_output_html, "[list-".$type."]")))
 			{
-				$a_output_html = eregi_replace("\[list-".$type."\]",
+				$a_output_html = preg_replace('~\[list-'.$type.'\]~i',
 					$this->renderer->renderSingleTypeBlock($type), $a_output_html);
 			}
 		}
 		
 		// insert all item groups
-		while (eregi("\[(item-group-([0-9]*))\]", $a_output_html, $found))
+		while (preg_match('~\[(item-group-([0-9]*))\]~i', $a_output_html, $found))
 		{
 			$itgr_ref_id = (int) $found[2];
 			
-			$a_output_html = eregi_replace("\[".$found[1]."\]", 
+			$a_output_html = preg_replace('~\['.$found[1].'\]~i',
 				$this->renderer->renderSingleCustomBlock($itgr_ref_id), $a_output_html);
 		}
 
@@ -761,6 +761,9 @@ abstract class ilContainerContentGUI
 		
 		$items = ilContainerSorting::_getInstance(
 			$this->getContainerObject()->getId())->sortSubItems('itgr', $a_itgr['obj_id'], $items);
+		
+		// #18285
+		$items = ilContainer::getCompleteDescriptions($items);
 		
 		$position = 1;
 		foreach($items as $item)

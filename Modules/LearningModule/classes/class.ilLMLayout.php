@@ -47,11 +47,11 @@ class ilLMLayout
 	* Constructor
 	* @access	public
 	*/
-	function ilLMLayout()
+	function __construct()
 	{
 		global $ilias;
 
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 	}
 
 	/**

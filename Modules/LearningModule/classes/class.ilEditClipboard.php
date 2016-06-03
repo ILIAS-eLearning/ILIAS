@@ -35,7 +35,7 @@
 */
 class ilEditClipboard
 {
-	function getContentObjectType()
+	static function getContentObjectType()
 	{
 		if (isset($_SESSION["ilEditClipboard"]))
 		{
@@ -47,12 +47,12 @@ class ilEditClipboard
 		}
 	}
 
-	function setAction($a_action)
+	static function setAction($a_action)
 	{
 		$_SESSION["ilEditClipboard"] = array("action" => $a_action);
 	}
 
-	function getAction()
+	static function getAction()
 	{
 		if (isset($_SESSION["ilEditClipboard"]))
 		{
@@ -64,7 +64,7 @@ class ilEditClipboard
 		}
 	}
 
-	function getContentObjectId()
+	static function getContentObjectId()
 	{
 		if (isset($_SESSION["ilEditClipboard"]))
 		{
@@ -72,13 +72,13 @@ class ilEditClipboard
 		}
 	}
 
-	function storeContentObject($a_type, $a_id, $a_action = "cut")
+	static function storeContentObject($a_type, $a_id, $a_action = "cut")
 	{
 		$_SESSION["ilEditClipboard"] = array("type" => $a_type,
 			"id" => $a_id, "action" => $a_action);
 	}
 
-	function clear()
+	static function clear()
 	{
 		unset($_SESSION["ilEditClipboard"]);
 	}

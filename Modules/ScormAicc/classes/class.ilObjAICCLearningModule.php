@@ -24,10 +24,10 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjAICCLearningModule($a_id = 0, $a_call_by_reference = true)
+	function __construct($a_id = 0, $a_call_by_reference = true)
 	{
 		$this->type = "sahs";
-		parent::ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	/**
@@ -161,7 +161,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 	/**
 	* get all tracking items of scorm object
 	*/
-	function _getTrackingItems($a_obj_id)
+	static function _getTrackingItems($a_obj_id)
 	{
 		global $ilDB;
 
@@ -196,7 +196,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 			if($child["c_type"] == "sau")
 			{
 				include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");
-				$ac_item =& new ilAICCUnit($child["obj_id"]);
+				$ac_item = new ilAICCUnit($child["obj_id"]);
 				$items[count($items)] =& $ac_item;
 			}
 		}
@@ -220,7 +220,7 @@ class ilObjAICCLearningModule extends ilObjSCORMLearningModule
 		while($sco_rec = $ilDB->fetchAssoc($sco_set))
 		{
 			include_once("./Modules/ScormAicc/classes/AICC/class.ilAICCUnit.php");	
-			$ac_item =& new ilAICCUnit($sco_rec["sco_id"]);
+			$ac_item = new ilAICCUnit($sco_rec["sco_id"]);
 			$items[count($items)] =& $ac_item;
 
 		}		

@@ -23,10 +23,10 @@ class ilObjTaxonomy extends ilObject2
 	 *
 	 * @param	integer	object id
 	 */
-	function ilObjTaxonomy($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		$this->type = "tax";
-		parent::ilObject($a_id, false);
+		parent::__construct($a_id, false);
 	}
 
 	/**
@@ -142,7 +142,7 @@ class ilObjTaxonomy extends ilObject2
  	 * @access	public
 	 * @return	integer		new obj id
 	 */
-	function doCloneObject($a_new_obj, $a_target_id, $a_copy_id)
+	function doCloneObject($a_new_obj, $a_target_id, $a_copy_id = null)
 	{
 		global $log, $lng;
 		

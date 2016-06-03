@@ -70,7 +70,7 @@ class assTextSubsetImport extends assQuestionImport
 							$respident = $conditionvar->varsubset[$order["index"]]->getRespident();
 							$content = $conditionvar->varsubset[$order["index"]]->getContent();
 							if (!is_array($responses[$respident])) $responses[$respident] = array();
-							$vars = split(",", $content);
+							$vars = explode(",", $content);
 							foreach ($vars as $var)
 							{
 								array_push($responses[$respident], array("solution" => $var, "points" => ""));

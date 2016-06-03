@@ -23,11 +23,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	/**
 	* Constructor
 	*/
-	function ilNewsForContextBlockGUI()
+	function __construct()
 	{
 		global $ilCtrl, $lng, $ilUser, $ilHelp;
 
-		parent::ilBlockGUI();
+		parent::__construct();
 		
 		$lng->loadLanguageModule("news");
 		$ilHelp->addHelpSection("news_block");
@@ -175,7 +175,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 
@@ -750,7 +750,14 @@ if (empty(self::$st_data))
 					$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
 						"pg_".$item["context_sub_obj_id"]."_".$item["ref_id"];
 				}
-
+				
+				// blog posting hack, not nice
+				if ($obj_type == "blog" && $item["context_sub_obj_type"] == "blp"
+					&& $item["context_sub_obj_id"] > 0)
+				{
+					$url_target = "./goto.php?client_id=".rawurlencode(CLIENT_ID)."&target=".
+						"blog_".$item["ref_id"]."_".$item["context_sub_obj_id"];
+				}
 	
 				$context_opened = false;				
 				if ($item["loc_context"] != null && $item["loc_context"] != $item["loc_stop"])

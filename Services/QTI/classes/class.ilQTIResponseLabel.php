@@ -52,7 +52,7 @@ class ilQTIResponseLabel
 	var $flow_mat;
 	var $content;
 
-	function ilQTIResponseLabel()
+	function __construct()
 	{
 		$this->material = array();
 		$this->flow_mat = array();

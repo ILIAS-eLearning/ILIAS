@@ -21,21 +21,21 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjExternalToolsSettingsGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		global $lng;
 		
 		$this->type = "extt";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 		
 		$lng->loadLanguageModule("delic");
 		$lng->loadLanguageModule("maps");
 		$lng->loadLanguageModule("mathjax");
 	}
 
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}	
 	
 	/**
@@ -43,7 +43,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	* @access	public
 	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem;
 
@@ -51,7 +51,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "view"),
 				array("editMaps", "editMathJax", "editSocialBookmarks", ""), "", "");
 			$this->lng->loadLanguageModule('ecs');
@@ -59,7 +59,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
@@ -554,7 +554,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 											"", "", "", $socialbookmarks);
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess;
 		
@@ -577,7 +577,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				$this->tabs_gui->setTabActive('perm_settings');
 				break;

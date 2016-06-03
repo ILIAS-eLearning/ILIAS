@@ -114,6 +114,15 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 	{
 		global $lng;
 		
+		// see ilFileInputGUI
+		// if no information is received, something went wrong
+		// this is e.g. the case, if the post_max_size has been exceeded
+		if (!is_array($_FILES[$this->getPostVar()]))
+		{
+			$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+			return false;
+		}
+		
 		$pictures = $_FILES[$this->getPostVar()];
 		$uploadcheck = true;
 		if (is_array($pictures))
@@ -121,10 +130,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 			foreach ($pictures['name'] as $index => $name)
 			{
 				// remove trailing '/'
-				while (substr($name, -1) == '/')
-				{
-					$name = substr($name, 0, -1);
-				}
+				$name = rtrim($name, '/');
 
 				$filename = $name;
 				$filename_arr = pathinfo($name);
@@ -219,7 +225,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 	*
 	* @return	int	Size
 	*/
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		global $lng;
 		

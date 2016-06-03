@@ -61,7 +61,7 @@ class ilMapArea
 	* @param	int		$a_item_id		parent media item id
 	* @param	int		$a_nr			map area number within media item
 	*/
-	function ilMapArea($a_item_id = 0, $a_nr = 0)
+	function __construct($a_item_id = 0, $a_nr = 0)
 	{
 		$this->title = "";
 		if ($a_item_id !=0 && $a_nr != 0)
@@ -104,7 +104,7 @@ class ilMapArea
 	*
 	* @return	int		maximum nr
 	*/
-	function _getMaxNr($a_item_id)
+	static function _getMaxNr($a_item_id)
 	{
 		global $ilDB;
 		
@@ -169,7 +169,7 @@ class ilMapArea
 	/**
 	* resolve internal links of an item id
 	*/
-	function _resolveIntLinks($a_item_id)
+	static function _resolveIntLinks($a_item_id)
 	{
 		global $ilDB;
 
@@ -204,7 +204,7 @@ class ilMapArea
 	*
 	* @param	int		$a_item_id		media item id
 	*/
-	function _getIntLinks($a_item_id)
+	static function _getIntLinks($a_item_id)
 	{
 		global $ilDB;
 		
@@ -252,13 +252,13 @@ class ilMapArea
 		return $mobs;
 	}
 
-		/**
+	/**
 	 * Get all highlight modes
 	 *
 	 * @param
 	 * @return
 	 */
-	function getAllHighlightModes()
+	static function getAllHighlightModes()
 	{
 		global $lng;
 		
@@ -294,10 +294,9 @@ class ilMapArea
 	/**
 	 * Get all highlight classes
 	 *
-	 * @param
-	 * @return
+	 * @return array
 	 */
-	function getAllHighlightClasses()
+	static function getAllHighlightClasses()
 	{
 		global $lng;
 		
@@ -699,11 +698,12 @@ class ilMapArea
 	}
 
 	/**
-	* count the number of coordinates (x,y) in a coordinate string (format: "x1,y1,x2,y2,x3,y3,...")
-	*
-	* @param	string		$c		coordinate string
-	*/
-	function countCoords($c)
+	 * count the number of coordinates (x,y) in a coordinate string (format: "x1,y1,x2,y2,x3,y3,...")
+	 *
+	 * @param string $c coordinate string
+	 * @return int number of coordinates
+	 */
+	static function countCoords($c)
 	{
 		if ($c == "")
 		{

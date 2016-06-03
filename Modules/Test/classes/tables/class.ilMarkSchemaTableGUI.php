@@ -110,7 +110,7 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 	/**
 	 * @param array $row
 	 */
-	public function fillRow(array $row)
+	public function fillRow($row)
 	{
 		$short_name = new ilTextInputGUI('', 'mark_short_' . $row['mark_id']);
 		$short_name->setValue($row['mark_short']);

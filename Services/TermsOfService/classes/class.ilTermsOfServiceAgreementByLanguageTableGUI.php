@@ -103,6 +103,7 @@ class ilTermsOfServiceAgreementByLanguageTableGUI extends ilTermsOfServiceTableG
 
 			$modal = ilModalGUI::getInstance();
 			$modal->setHeading($this->lng->txt('tos_agreement_document'));
+			$modal->setType(ilModalGUI::TYPE_LARGE);
 			$modal->setId('tos_' . $unique_id);
 			$modal->setBody('');
 			$row['modal'] = $modal->getHTML();

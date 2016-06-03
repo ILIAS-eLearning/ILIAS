@@ -37,15 +37,6 @@ include_once 'Services/Search/classes/class.ilForumSearch.php';
 class ilFulltextForumSearch extends ilForumSearch
 {
 
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilFulltextForumSearch(&$qp_obj)
-	{
-		parent::ilForumSearch($qp_obj);
-	}
-
 	function __createTopicAndCondition()
 	{
 		// IN BOOLEAN MODE

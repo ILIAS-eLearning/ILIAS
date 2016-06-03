@@ -71,7 +71,7 @@ class ilSCGroups
 		$query = 'SELECT id FROM sysc_groups '.
 				'WHERE component = '.$ilDB->quote($a_component_id,'text');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->id;
 		}
@@ -100,7 +100,7 @@ class ilSCGroups
 		$res = $ilDB->query($query);
 		
 		$this->groups = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->groups[] = new ilSCGroup($row->id);
 		}

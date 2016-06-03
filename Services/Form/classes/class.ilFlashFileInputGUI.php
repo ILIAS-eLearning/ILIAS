@@ -75,10 +75,7 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 		global $lng;
 
 		// remove trailing '/'
-		while (substr($_FILES[$this->getPostVar()]["name"],-1) == '/')
-		{
-			$_FILES[$this->getPostVar()]["name"] = substr($_FILES[$this->getPostVar()]["name"],0,-1);
-		}
+		$_FILES[$this->getPostVar()]["name"] = rtrim($_FILES[$this->getPostVar()]["name"], '/');
 
 		$filename = $_FILES[$this->getPostVar()]["name"];
 		$filename_arr = pathinfo($_FILES[$this->getPostVar()]["name"]);
@@ -314,7 +311,7 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 	/**
 	* Insert property html
 	*/
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		global $lng;
 		

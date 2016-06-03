@@ -217,16 +217,21 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	{
 		global $lng;
 
+		// if no information is received, something went wrong
+		// this is e.g. the case, if the post_max_size has been exceeded
+		if (!is_array($_FILES[$this->getPostVar()]))
+		{
+			$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+			return false;
+		}
+
 		$_FILES[$this->getPostVar()]["name"] = ilUtil::stripSlashes($_FILES[$this->getPostVar()]["name"]);
 
 		include_once("./Services/Utilities/classes/class.ilStr.php");
 		$_FILES[$this->getPostVar()]["name"] = ilStr::normalizeUtf8String($_FILES[$this->getPostVar()]["name"]);
 
 		// remove trailing '/'
-		while (substr($_FILES[$this->getPostVar()]["name"],-1) == '/')
-		{
-			$_FILES[$this->getPostVar()]["name"] = substr($_FILES[$this->getPostVar()]["name"],0,-1);
-		}
+		$_FILES[$this->getPostVar()]["name"] = rtrim($_FILES[$this->getPostVar()]["name"], '/');
 
 		$filename = $_FILES[$this->getPostVar()]["name"];
 		$filename_arr = pathinfo($_FILES[$this->getPostVar()]["name"]);
@@ -237,14 +242,6 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 		$error = $_FILES[$this->getPostVar()]["error"];
 		$_POST[$this->getPostVar()] = $_FILES[$this->getPostVar()];
 		
-		// if no information is received, something went wrong
-		// this is e.g. the case, if the post_max_size has been exceeded
-		if (!is_array($_FILES[$this->getPostVar()]))
-		{
-			$this->setAlert($lng->txt("form_msg_file_size_exceeds"));
-			return false;
-		}
-
 		// error handling
 		if ($error > 0)
 		{
@@ -428,7 +425,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	*
 	* @return	int	Size
 	*/
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		$html = $this->render();
 
@@ -505,7 +502,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 		return $html;
 	}	
 	
-	function setPersonalWorkspaceQuotaCheck($a_value)
+	static function setPersonalWorkspaceQuotaCheck($a_value)
 	{
 		if((bool)$a_value)
 		{

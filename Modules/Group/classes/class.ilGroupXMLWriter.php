@@ -54,11 +54,11 @@ class ilGroupXMLWriter extends ilXmlWriter
 	* @param	string	input encoding
 	* @access	public
 	*/
-	function ilGroupXMLWriter($group_obj)
+	function __construct($group_obj)
 	{
 		global $ilias;
 
-		parent::ilXmlWriter();
+		parent::__construct();
 
 		$this->EXPORT_VERSION = "3";
 

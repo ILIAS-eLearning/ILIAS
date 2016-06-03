@@ -27,7 +27,7 @@ class ilNote
 	/**
 	* constructor
 	*/
-	function ilNote($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		if ($a_id > 0)
 		{
@@ -364,12 +364,12 @@ class ilNote
 	/**
 	* lookup creation date of note
 	*/
-	function _lookupCreationDate($a_id)
+	static function _lookupCreationDate($a_id)
 	{
 		global $ilDB;
 		
 		$q = "SELECT * FROM note WHERE id = ".
-			$ilDB->quote((int) $this->getId(), "integer");
+			$ilDB->quote((int) $a_id, "integer");
 		$set = $ilDB->query($q);
 		$note_rec = $ilDB->fetchAssoc($set);
 
@@ -379,12 +379,12 @@ class ilNote
 	/**
 	* lookup update date of note
 	*/
-	function _lookupUpdateDate($a_id)
+	static function _lookupUpdateDate($a_id)
 	{
 		global $ilDB;
 		
 		$q = "SELECT * FROM note WHERE id = ".
-			$ilDB->quote((int) $this->getId(), "integer");
+			$ilDB->quote((int) $a_id, "integer");
 		$set = $ilDB->query($q);
 		$note_rec = $ilDB->fetchAssoc($set);
 
@@ -394,7 +394,7 @@ class ilNote
 	/**
 	* get all notes related to a specific object
 	*/
-	function _getNotesOfObject($a_rep_obj_id, $a_obj_id, $a_obj_type,
+	static function _getNotesOfObject($a_rep_obj_id, $a_obj_id, $a_obj_type,
 		$a_type = IL_NOTE_PRIVATE, $a_incl_sub = false, $a_filter = "",
 		$a_all_public = "y", $a_repository_mode = true, $a_sort_ascending = false)
 	{
@@ -449,7 +449,7 @@ class ilNote
 	/**
 	* get last notes of current user
 	*/
-	function _getLastNotesOfUser()
+	static function _getLastNotesOfUser()
 	{
 		global $ilDB, $ilUser;
 		
@@ -475,7 +475,7 @@ class ilNote
 	/**
 	* get all related objects for user
 	*/
-	function _getRelatedObjectsOfUser($a_mode)
+	static function _getRelatedObjectsOfUser($a_mode)
 	{
 		global $ilDB, $ilUser, $tree;
 		

@@ -16,6 +16,9 @@ include_once './Services/Export/classes/class.ilXmlExporter.php';
 */
 class ilCourseExporter extends ilXmlExporter
 {
+	const ENTITY_OBJECTIVE = 'objectives';
+	const ENTITY_MAIN = 'crs';
+	
 	private $writer = null;
 
 	/**
@@ -44,6 +47,11 @@ class ilCourseExporter extends ilXmlExporter
 	 */
 	public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
 	{
+		if($a_entity != self::ENTITY_MAIN)
+		{
+			return array();
+		}
+
 		// always trigger container because of co-page(s)
 		return array(
 			array(
@@ -52,29 +60,52 @@ class ilCourseExporter extends ilXmlExporter
 				'ids'			=> $a_ids
 			)
 		);
-		
-		/*
-		include_once './Services/Export/classes/class.ilExportOptions.php';
-		$eo = ilExportOptions::getInstance();
-
-		$obj_id = end($a_ids);
-		if($eo->getOption(ilExportOptions::KEY_ROOT) != $obj_id)
-		{
-			return array();
-		}
-		if(count(ilExportOptions::getInstance()->getSubitemsForExport()) > 1)
-		{
-			return array(
-				array(
-					'component'		=> 'Services/Container',
-					'entity'		=> 'struct',
-					'ids'			=> $a_ids
-				)
-			);
-		}
-		return array();				 
-		*/
 	}
+	
+	// begin-patch optes_lok_export
+	public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+	{
+		$dependencies = array();
+		if($a_entity == self::ENTITY_MAIN)
+		{
+			$obj_id = 0;
+			foreach($a_ids as $id)
+			{
+				$obj_id = $id;
+			}
+
+			$dependencies[] = array(
+					'component'			=> 'Modules/Course',
+					'entity'			=> self::ENTITY_OBJECTIVE,
+					'ids'				=> $obj_id
+			);
+			
+			include_once './Modules/Course/classes/Objectives/class.ilLOPage.php';
+			include_once './Modules/Course/classes/class.ilCourseObjective.php';
+			$page_ids = array();
+			foreach(ilCourseObjective::_getObjectiveIds($obj_id) as $objective_id)
+			{
+				foreach(ilLOPage::getAllPages('lobj', $objective_id) as $page_id)
+				{
+					$page_ids[] = ('lobj:'.$page_id['id']);
+				}
+			}
+			
+			if($page_ids)
+			{
+				$dependencies[] = array(
+					'component' => 'Services/COPage',
+					'entity' => 'pg',
+					'ids' => $page_ids
+				);
+			}
+			
+			
+			
+		}
+		return $dependencies;
+	}
+	// end-patch optes_lok_export
 	
 	
 	/**
@@ -85,9 +116,24 @@ class ilCourseExporter extends ilXmlExporter
 	 * @return 
 	 */
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
-	{
+	{		
 		$course_ref_id = end(ilObject::_getAllReferences($a_id));
 		$course = ilObjectFactory::getInstanceByRefId($course_ref_id,false);
+		
+		// begin-patch optes_lok_export
+		if($a_entity == self::ENTITY_OBJECTIVE)
+		{
+			try {
+				include_once './Modules/Course/classes/Objectives/class.ilLOXmlWriter.php';
+				$writer = new ilLOXmlWriter($course_ref_id);
+				$writer->write();
+				return $writer->getXml();
+			} 
+			catch (Exception $ex) {
+				return '';
+			}
+		}
+		// end-patch optes_lok_export
 		
 		if(!$course instanceof ilObjCourse)
 		{

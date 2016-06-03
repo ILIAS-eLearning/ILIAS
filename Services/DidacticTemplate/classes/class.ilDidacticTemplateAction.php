@@ -151,7 +151,7 @@ abstract class ilDidacticTemplateAction
 		$query = 'SELECT * FROM didactic_tpl_a '.
 			'WHERE id = '.$ilDB->quote($this->getActionId(), 'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setTemplateId($row->tpl_id);
 		}

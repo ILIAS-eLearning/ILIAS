@@ -1,7 +1,7 @@
-﻿/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator 5.1.x 2015-12-09 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator 5.2.x 2016-05-01 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @translator 31603 Antónia Berecz <berecz@gdf.hu>
 * @module       setup language file hungarian
 * @modulegroup  language
@@ -37,8 +37,6 @@ change_sort_direction#:#Rendezési irány módosítása
 change#:#Módosítás
 check_db_versions#:#Bizonyosodjon meg arról, hogy az ILIAS által meghatározott adatbázis-mód és az Ön MySQL verziója illeszkedik. Ha nem így van, az Ön verziója nem támogatott.<br>1. példa: Ha a mód 'MySQL 4.1.x vagy magasabb' és az Ön adatbázis-verziója '4.0.12', akkor ez a MySQL verzió nem támogatott. Vegye fel a kapcsolatot az ILIAS teammel.<br />2. példa: Ha a mód 'MySQL 4.1.x vagy magasabb', és az Ön adatbázis-verziója '4.1.14', akkor minden rendben van.
 check_failed_convert#:#A konvertálási parancs nem található.
-check_failed_htmldoc#:#A HTMLdoc parancs nem található.
-check_failed_htmldoc#:#A FPO tesztelése nem sikerült.
 check_failed_java#:#A Java parancs nem található.
 check_failed_latex#:#A LaTeX CGI script tesztelése sikertelen volt.
 check_failed_unzip#:#Az unzip parancs nem található.
@@ -177,9 +175,6 @@ hide_clientlist#:#A kliensválasztás rejtve marad a felhasználók elől.
 host#:#Kiszolgáló
 hotfix_applied#:#Gyorsjavítások alkalmazva
 hotfix_available#:#Gyorsjavítások elérhetőek
-htmldoc_path_comment_win#:#PDF dokumentumok generálásának lehetősége, e.g. 'C:/tools/htmldoc/htmldoc.exe'.
-htmldoc_path_comment#:#PDF dokumentumok generálásának lehetősége, pl. '/your_path/htmldoc'.
-htmldoc_path#:#HTMLdoc elérési útvonal
 http_path#:#HTTP elérési út
 id#:#Azonosító
 ilias_db_mode#:#ILIAS adatbázis-mód
@@ -205,8 +200,8 @@ info_text_ini#:#Válasszon kliens-azonosítót (ID-t). Minden betű használhat�
 info_text_lang#:#Válasszon további nyelveket és/vagy távolítsa el a kiválasztott nyelveket. Az alapértelmezett nyelv azon új felhasználói fiókoknak vagy felhasználóknak határozza meg a használt nyelvet, akik nem választottak még.
 info_text_list#:#Ebben az áttekintésben az összes elérhető kliens setup és elérési állapotát láthatja. Jobb fent a kliensválasztás képernyőjét be-/kikapcsolhatja. Ha a kliensválasztást bekapcsolja, az összes elérhető on-line kliens egy felsorolásban megjelenik az ILIAS kezdőlapján. Ha a kliensválasztást kikapcsolja, az <i>alapértelmezett</i> kliens bejelentkezési képernyője jelenik meg a kezdőlapon. Az alapértelmezett klienst a lejjebb lévő gombbal állíthatja be.
 info_text_login#:#Adja meg telepítése kliensazonosítóját (ID) és számlafiókjának adatait. Felhasználói fiókját hozzá kell rendelni az 'rendszergazda' szerephez.
-info_text_nic#:#Amennyiben úgy gondolja, regisztráljon és szerezzen be telepítési ID-t (NIC-ID) a nyílt forráskódú ILIAS közösségi szervernél. A NIC-ID beszerzése ajánlott, ha más ILIAS telepítésekkel tartalmat szeretne megosztani.
-info_text_nic3#:#Sikeresen regisztrálta telepítését. Az Ön nic-id-je
+info_text_nic#:#Regisztrálhat és beszerezhet egy egyedi telepítési azonosítót (NIC-ID) a nyílt forráskódú ILIAS közösségi szerverről. <b>Megjegyzés</b>: A NIC-ID beszerzése célszerű, ha más ILIAS-telepítéssel tartalom megosztását tervezi vagy ha másik ILIAS-telepítés tartalmát szeretné újrafelhasználni.<br /><br /><b>Adatvédelem</b><br />A NIC-szerver az első regisztráció során az alábbi adatokat tárolja (később az adatok nem frissülnek):<br />&nbsp;•&nbsp;Kiszolgálónév<br />&nbsp;•&nbsp;Telepítési név<br />&nbsp;•&nbsp;Telepítési információ<br />&nbsp;•&nbsp;HTTP útvonal<br />&nbsp;•&nbsp;Kapcsolattartó vezetékneve<br />&nbsp;•&nbsp;Kapcsolattartó keresztneve<br />&nbsp;•&nbsp;Kapcsolattartó e-mail címe<br /><br />Az összes személyes adatot kizárólag a <a href="http://verein.ilias.de" target="_blank">ILIAS open source e-Learning e.V.</a> használja belső dokumentálási célzattal, azokat tovább nem adja, semmilyen marketing tevékenységre nem használja. Amennyiben ILIAS-telepítését mások előtt is ismertté kívánja tenni, töltse fel adatit a '<a href="http://www.ilias.de/docu/goto_docu_dcl_3444.html" target="_blank">List of Known Installations</a>' oldalra.
+info_text_nic3#:#Sikeresen regisztrálta telepítését. Az Ön NIC-ID-je
 info_text_password#:#Itt cserélheti le setup-programjának mesterjelszavát.
 info_text_pathes#:#Az ILIAS kliensenkénti adatbázisokkal támogatja a többklienses struktúrát. Alább megadhatja az alap adatkönyvtárat, a naplófájl helyét és az elérési utat a 3. felek által készített eszközökhöz. Ezen beállítások az Ön által később létrehozott összes kliensre érvényesek lesznek.
 ini_client_id_exists#:#Ezzel az azonosítóval (ID) már létezik kliens. Válasszon másik kliensazonosítót.
@@ -337,7 +332,6 @@ no_path_convert#:#Nincs megadva konvertálási útvonal.
 no_path_datadir#:#Nincs megadva adatkönyvtár.
 no_path_fop#:#Nincs megadva FOP elérési útvonal.
 no_path_given#:#Nincs megadva elérési útvonal.
-no_path_htmldoc#:#Nincs megadva HTML dokumentum elérési útvonal.
 no_path_java#:#Nincs megadva java elérési útvonal.
 no_path_log#:#Nincs megadva log elérési útvonal.
 no_path_mkisofs#:#Nincs megadva mkisofs elérési útvonal.
@@ -370,7 +364,6 @@ password#:#Jelszó
 path_not_set#:#Elérési út nincs beállítva.
 path_to_convert#:#Elérési út konvertáláshoz
 path_to_fop#:#Elérési útvonal FOP-hoz
-path_to_htmldoc#:#Elérési út HTML dokumentumokhoz
 path_to_java#:#Elérési út a Java-hoz
 path_to_mkisofs#:#Elérési út mkisofs-hoz
 path_to_unzip#:#Elérési út az Unzip-hez
@@ -576,7 +569,7 @@ tree_implementation_ns#:#Nested-Set Modell
 tree_implementation_mp#:#Materialized-Path Modell
 tree_implementation_switch_btn#:#Faszerkezet modell váltása
 tree_implementation_switched#:#Faszerkezet modell váltása megtörtént.
-feedback_recipient_info#:#Ez a cím kerül láblécben lévő 'Kapcsolat a rendszergazdával' linkbe.
+feedback_recipient_info#:#Ez a cím kerül láblécben lévő 'Kapcsolat' linkbe.
 passwd#:#Jelszókódolás
 step_passwd#:#Jelszókódolás
 setup_process_step_passwd#:#Jelszavak

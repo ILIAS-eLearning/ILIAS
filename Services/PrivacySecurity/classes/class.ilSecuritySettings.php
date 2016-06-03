@@ -365,7 +365,7 @@ class ilSecuritySettings
 				"AND object_reference.ref_id = tree.child ".
 				"AND object_reference.obj_id = object_data.obj_id";
 		$res = $this->db->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		$this->ref_id = $row["ref_id"];
 
 		$this->https_enable = (boolean) $this->settings->get('https', false);

@@ -104,7 +104,7 @@ class ilAdvSelectInputGUI extends ilFormPropertyGUI
 	*
 	* @return	int	Size
 	*/
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$selection = new ilAdvancedSelectionListGUI();

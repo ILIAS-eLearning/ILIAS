@@ -32,13 +32,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDClassification extends ilMDBase
 {
-	function ilMDClassification($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
 	// METHODS OF CLIENT OBJECTS (TaxonPath, Keyword)
 	function &getTaxonPathIds()
 	{
@@ -54,7 +47,7 @@ class ilMDClassification extends ilMDBase
 		{
 			return false;
 		}
-		$tax =& new ilMDTaxonPath();
+		$tax = new ilMDTaxonPath();
 		$tax->setMetaId($a_taxon_path_id);
 
 		return $tax;
@@ -63,7 +56,7 @@ class ilMDClassification extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDTaxonPath.php';
 
-		$tax =& new ilMDTaxonPath($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$tax = new ilMDTaxonPath($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$tax->setParentId($this->getMetaId());
 		$tax->setParentType('meta_classification');
 
@@ -84,7 +77,7 @@ class ilMDClassification extends ilMDBase
 		{
 			return false;
 		}
-		$key =& new ilMDKeyword();
+		$key = new ilMDKeyword();
 		$key->setMetaId($a_keyword_id);
 
 		return $key;
@@ -93,7 +86,7 @@ class ilMDClassification extends ilMDBase
 	{
 		include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
 
-		$key =& new ilMDKeyword($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$key = new ilMDKeyword($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$key->setParentId($this->getMetaId());
 		$key->setParentType('meta_classification');
 
@@ -230,7 +223,7 @@ class ilMDClassification extends ilMDBase
 				"WHERE meta_classification_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
@@ -293,7 +286,7 @@ class ilMDClassification extends ilMDBase
 				
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id)
+	static function _getIds($a_rbac_id,$a_obj_id)
 	{
 		global $ilDB;
 
@@ -303,7 +296,7 @@ class ilMDClassification extends ilMDBase
 
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->meta_classification_id;
 		}

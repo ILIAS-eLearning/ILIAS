@@ -47,16 +47,16 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	public function ilObjSurveyQuestionPoolGUI()
+	public function __construct()
 	{
 		global $lng, $ilCtrl;
 
 		$this->type = "spl";
 		$lng->loadLanguageModule("survey");
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id"));
 
-		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
+		parent::__construct("", $_GET["ref_id"], true, false);
 	}
 
 	/**
@@ -64,18 +64,17 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory, $ilErr;
+		global $ilNavigationHistory;
 						
-		if (!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
-			!$ilAccess->checkAccess("read", "", $this->ref_id))
+		if (!$this->checkPermissionBool("visible") &&
+			!$this->checkPermissionBool("read"))
 		{
-			global $ilias;
-			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+			$this->checkPermission("read");
 		}
 		
 		// add entry to navigation history
 		if (!$this->getCreationMode() &&
-			$ilAccess->checkAccess("read", "", $this->ref_id))
+			$this->checkPermissionBool("read"))
 		{
 			$ilNavigationHistory->addItem($this->ref_id,
 				"ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&cmd=questions&ref_id=".$this->ref_id, "spl");
@@ -96,10 +95,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilobjectmetadatagui':
-				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
-				{
-					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
-				}				
+				$this->checkPermission('write');			
 				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
 				$md_gui = new ilObjectMetaDataGUI($this->object);	
 				$this->ctrl->forwardCommand($md_gui);
@@ -107,13 +103,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
 			case "ilsurveyphrasesgui":
 				include_once("./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrasesGUI.php");
-				$phrases_gui =& new ilSurveyPhrasesGUI($this);
+				$phrases_gui = new ilSurveyPhrasesGUI($this);
 				$ret =& $this->ctrl->forwardCommand($phrases_gui);
 				break;
 				
@@ -292,21 +288,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	* Creates a confirmation form to delete questions from the question pool
 	*/
 	public function deleteQuestionsObject()
-	{
-		global $rbacsystem;
+	{		
+		$this->checkPermission('write');
 		
 		// create an array of all checked checkboxes
 		$checked_questions = $_POST['q_id'];
-		if (count($checked_questions) > 0) 
-		{
-			if (!$rbacsystem->checkAccess('write', $this->ref_id)) 
-			{				
-				ilUtil::sendFailure($this->lng->txt("qpl_delete_rbac_error"));
-				$this->questionsObject();
-				return;
-			}
-		} 
-		elseif (count($checked_questions) == 0) 
+		if (count($checked_questions) == 0) 
 		{
 			ilUtil::sendInfo($this->lng->txt("qpl_delete_select_none"));
 			$this->questionsObject();
@@ -427,7 +414,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			// copy uploaded file to import directory
 			$full_path = $this->object->getImportDirectory()."/".$_FILES["qtidoc"]["name"];
 
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::moveUploadedFile($_FILES["qtidoc"]["tmp_name"], 
 				$_FILES["qtidoc"]["name"], $full_path);
 			$source = $full_path;
@@ -458,15 +444,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function questionsObject($arrFilter = null)
 	{
-		global $rbacsystem;
-		global $ilUser;
-		global $ilToolbar;
+		global $ilUser, $ilToolbar;
 
 		$this->object->purgeQuestions();
 
 		$_SESSION['q_id_table_nav'] = $_GET['q_id_table_nav'];
 			
-		if ($rbacsystem->checkAccess('write', $_GET['ref_id']))
+		if ($this->checkPermissionBool('write'))
 		{
 			include_once "Services/Form/classes/class.ilSelectInputGUI.php";
 			$qtypes = new ilSelectInputGUI("", "sel_question_types");
@@ -497,8 +481,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
 				
 		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionsTableGUI.php";
-		$table_gui = new ilSurveyQuestionsTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)));
-		$table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
+		$table_gui = new ilSurveyQuestionsTableGUI($this, 'questions', (($this->checkPermissionBool('write') ? true : false)));
+		$table_gui->setEditable($this->checkPermissionBool('write'));
 		$arrFilter = array();
 		foreach ($table_gui->getFilterItems() as $item)
 		{
@@ -554,20 +538,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	* create export file
 	*/
 	public function createExportFileObject($questions = null)
-	{
-		global $rbacsystem;
+	{		
+		$this->checkPermission("write");
 		
-		if ($rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			include_once("./Modules/SurveyQuestionPool/classes/class.ilSurveyQuestionpoolExport.php");
-			$survey_exp = new ilSurveyQuestionpoolExport($this->object);
-			$survey_exp->buildExportFile($questions);
-			$this->ctrl->redirect($this, "export");
-		}
-		else
-		{
-			ilUtil::sendInfo("cannot_export_questionpool");
-		}
+		include_once("./Modules/SurveyQuestionPool/classes/class.ilSurveyQuestionpoolExport.php");
+		$survey_exp = new ilSurveyQuestionpoolExport($this->object);
+		$survey_exp->buildExportFile($questions);
+		$this->ctrl->redirect($this, "export");		
 	}
 	
 	/**
@@ -589,7 +566,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 
 		$export_dir = $this->object->getExportDirectory();
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		
 		$file = basename($_POST["file"][0]);
 		
@@ -649,7 +625,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			}
 			if (@is_dir($exp_dir))
 			{
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				ilUtil::delDir($exp_dir);
 			}
 		}
@@ -677,11 +652,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	/**
 	* form for new survey object import
 	*/
-	public function importFileObject()
+	public function importFileObject($parent_id = null, $a_catch_errors = true)
 	{
 		global $tpl, $ilErr;
 
-		$parent_id = $_GET["ref_id"];
+		if(!$parent_id)
+		{
+			$parent_id = $_GET["ref_id"];
+		}
 		$new_type = $_REQUEST["new_type"];
 
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
@@ -709,7 +687,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$upload = $_FILES["importfile"];
 			$file = pathinfo($upload["name"]);
 			$full_path = $newObj->getImportDirectory()."/".$upload["name"];
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::moveUploadedFile($upload["tmp_name"], $upload["name"], 
 				$full_path);
 
@@ -773,14 +750,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	* show information screen
 	*/
 	function infoScreenForward()
-	{
-		global $ilErr, $ilAccess;
-		
-		if(!$ilAccess->checkAccess("visible", "", $this->ref_id) &&
-			!$ilAccess->checkAccess("read", "", $this->ref_id))
-		{
-			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
-		}
+	{		
+		$this->checkPermission("visible");
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
@@ -826,9 +797,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
-	public function getTabs(&$tabs_gui)
+	public function getTabs()
 	{
-		global $ilAccess, $ilHelp;
+		global $ilHelp;
 		
 		$ilHelp->setScreenIdComponent("spl");
 
@@ -859,9 +830,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			}
 		}
 		
-		if ($ilAccess->checkAccess("read", "", $this->ref_id))
+		if ($this->checkPermissionBool("read"))
 		{
-			$tabs_gui->addTarget("survey_questions",
+			$this->tabs_gui->addTarget("survey_questions",
 				 $this->ctrl->getLinkTarget($this,'questions'),
 				 array("questions", "filterQuestionBrowser", "filter", "reset", "createQuestion", 
 				 "importQuestions", "deleteQuestions", "copy", "paste", 
@@ -877,21 +848,21 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				 ),
 				 array("ilobjsurveyquestionpoolgui", "ilsurveyphrasesgui"), "", $force_active);
 						
-			$tabs_gui->addTarget("info_short",
+			$this->tabs_gui->addTarget("info_short",
 				 $this->ctrl->getLinkTarget($this, "infoScreen"),
 				array("infoScreen", "showSummary"));		
 		}
 
-		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		if ($this->checkPermissionBool('write'))
 		{
 			// properties
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 			 $this->ctrl->getLinkTarget($this,'properties'),
 			 array("properties", "saveProperties"),
 			 "", "");
 			 
 			// manage phrases
-			$tabs_gui->addTarget("manage_phrases",
+			$this->tabs_gui->addTarget("manage_phrases",
 				 $this->ctrl->getLinkTargetByClass("ilsurveyphrasesgui", "phrases"),
 				 array("phrases", "deletePhrase", "confirmDeletePhrase", "cancelDeletePhrase", "editPhrase", "newPhrase", "saveEditPhrase", "phraseEditor"),
 				 "ilsurveyphrasesgui", "");
@@ -902,22 +873,22 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
 			{			
-				$tabs_gui->addTarget("meta_data",
+				$this->tabs_gui->addTarget("meta_data",
 					$mdtab,
 					"", "ilmdeditorgui");
 			}
 				 
 			// export
-			$tabs_gui->addTarget("export",
+			$this->tabs_gui->addTarget("export",
 				 $this->ctrl->getLinkTarget($this,'export'),
 				 array("export", "createExportFile", "confirmDeleteExportFile",
 				 "downloadExportFile", "cancelDeleteExportFile", "deleteExportFile"),
 				 "", "");
 		}
 
-		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
+		if ($this->checkPermissionBool("edit_permission"))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
@@ -949,7 +920,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public static function _goto($a_target)
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $ilAccess, $lng;
+		
 		if ($ilAccess->checkAccess("visible", "", $a_target) ||
 			$ilAccess->checkAccess("read", "", $a_target))
 		{
@@ -965,7 +937,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
-		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
 } // END class.ilObjSurveyQuestionPoolGUI
 ?>

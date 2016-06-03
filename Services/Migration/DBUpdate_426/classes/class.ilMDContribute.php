@@ -33,14 +33,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDContribute extends ilMDBase
 {
-	function ilMDContribute($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
-
 	// Subelements
 	function &getEntityIds()
 	{
@@ -56,7 +48,7 @@ class ilMDContribute extends ilMDBase
 		{
 			return false;
 		}
-		$ent =& new ilMDEntity();
+		$ent = new ilMDEntity();
 		$ent->setMetaId($a_entity_id);
 
 		return $ent;
@@ -65,7 +57,7 @@ class ilMDContribute extends ilMDBase
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDEntity.php';
 
-		$ent =& new ilMDEntity($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$ent = new ilMDEntity($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$ent->setParentId($this->getMetaId());
 		$ent->setParentType('meta_contribute');
 
@@ -189,7 +181,7 @@ class ilMDContribute extends ilMDBase
 				"WHERE meta_contribute_id = ".$ilDB->quote($this->getMetaId());
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
@@ -235,7 +227,7 @@ class ilMDContribute extends ilMDBase
 			"AND parent_type = ".$ilDB->quote($a_parent_type);
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->meta_contribute_id;
 		}

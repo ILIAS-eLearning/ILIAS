@@ -47,7 +47,7 @@ class ilQTIMattext
 	var $y0;
 	var $content;
 	
-	function ilQTIMatimage()
+	function __construct()
 	{
 	}
 

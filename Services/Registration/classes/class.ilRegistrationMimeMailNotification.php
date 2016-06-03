@@ -57,7 +57,7 @@ class ilRegistrationMimeMailNotification extends ilMimeMailNotification
 					$this->appendBody("\n\n");
 					$this->appendBody(sprintf(
 						$this->getLanguage()->txt('reg_mail_body_2_confirmation'),
-						ilFormat::_secondsToString($additional_information['hash_lifetime'], false, $this->getLanguage())
+						ilDatePresentation::secondsToString($additional_information['hash_lifetime'], false, $this->getLanguage())
 					));
 					$this->appendBody("\n\n");
 					$this->appendBody($this->getLanguage()->txt('reg_mail_body_3_confirmation'));

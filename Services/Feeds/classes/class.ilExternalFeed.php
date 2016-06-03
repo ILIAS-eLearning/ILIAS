@@ -26,7 +26,7 @@ class ilExternalFeed
 	/**
 	* Constructor
 	*/
-	function ilExternalFeed()
+	function __construct()
 	{		
 		// IF YOU ADD THINGS HERE, THEY MAY ALSO BE ADDED TO
 		// SOME OF THE STATIC METHODS
@@ -268,7 +268,7 @@ class ilExternalFeed
 	* This one is by Keith Devens
 	*, see http://keithdevens.com/weblog/archive/2002/Jun/03/RSSAuto-DiscoveryPHP
 	*/
-	function _getRSSLocation($html, $location)
+	static function _getRSSLocation($html, $location)
 	{
 		if(!$html or !$location){
 			return false;

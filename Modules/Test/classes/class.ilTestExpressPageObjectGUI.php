@@ -71,7 +71,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 		parent::__construct($a_id, $a_old_nr);
 	}
 
-    function &executeCommand()
+    function executeCommand()
 	{
         global $ilCtrl, $ilTabs, $ilUser, $lng;
 
@@ -119,24 +119,24 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 				
                 break;
 
-            case '':
-            case 'iltestexpresspageobjectgui':
-                
+			case '':
+			case 'iltestexpresspageobjectgui':
+
 				include_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
 
-				if( $cmd == 'view' )
-                {
+				if($cmd == 'view')
+				{
 					$cmd = 'showPage';
 				}
 
-                $q_gui = & assQuestionGUI::_getQuestionGUI('', $_REQUEST["q_id"]);
-				
-                if ($q_gui->object)
+				$q_gui = assQuestionGUI::_getQuestionGUI('', (int)$_REQUEST["q_id"]);
+
+				if($q_gui->object)
 				{
-                    $obj = ilObjectFactory::getInstanceByRefId($_REQUEST['ref_id']);
-                    $q_gui->object->setObjId($obj->getId());
-                }
-		
+					$obj = ilObjectFactory::getInstanceByRefId((int)$_REQUEST['ref_id']);
+					$q_gui->object->setObjId($obj->getId());
+				}
+
 				$cmds = array(
 					'handleToolbarCommand',
 					'addQuestion',
@@ -175,37 +175,32 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
                 break;
 
             default:
-				
-                $qtype = $_REQUEST['qtype'];
-                $type = ilObjQuestionPool::getQuestionTypeByTypeId($qtype);
+				$type = ilObjQuestionPool::getQuestionTypeByTypeId(ilUtil::stripSlashes((string)$_REQUEST['qtype']));
 
-				if( !$_GET['q_id'] )
+				if(!$_GET['q_id'])
 				{
-                    $q_gui = $this->addPageOfQuestions(preg_replace('/(.*?)gui/i', '$1', $_GET['sel_question_types']));
-                    $q_gui->setQuestionTabs();
+					$q_gui = $this->addPageOfQuestions(preg_replace('/(.*?)gui/i', '$1', $_GET['sel_question_types']));
+					$q_gui->setQuestionTabs();
 
-                    $ret = $this->ctrl->forwardCommand($q_gui);
+					$this->ctrl->forwardCommand($q_gui);
+					break;
+				}
 
-                    break;
-                }
-				
-                $this->ctrl->setReturn($this, "questions");
-                
-				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-                $q_gui = & assQuestionGUI::_getQuestionGUI($type, $_GET["q_id"]);
+				$this->ctrl->setReturn($this, "questions");
 
-                if( $q_gui->object )
+				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+				$q_gui = assQuestionGUI::_getQuestionGUI($type, (int)$_GET['q_id']);
+				if($q_gui->object)
 				{
-                    $obj = ilObjectFactory::getInstanceByRefId($_GET['ref_id']);
-                    $q_gui->object->setObjId($obj->getId());
-                }
-				
-                $this->ctrl->saveParameterByClass('ilpageeditorgui', 'q_id');
-                $this->ctrl->saveParameterByClass('ilpageeditorgui', 'q_mode');
+					$obj = ilObjectFactory::getInstanceByRefId((int)$_GET['ref_id']);
+					$q_gui->object->setObjId($obj->getId());
+				}
 
-                $q_gui->setQuestionTabs();
-                $ret = & $this->ctrl->forwardCommand($q_gui);
-                
+				$this->ctrl->saveParameterByClass('ilpageeditorgui', 'q_id');
+				$this->ctrl->saveParameterByClass('ilpageeditorgui', 'q_mode');
+
+				$q_gui->setQuestionTabs();
+				$this->ctrl->forwardCommand($q_gui);
 				break;
         }
     }

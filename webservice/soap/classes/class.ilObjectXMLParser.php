@@ -52,7 +52,7 @@ class ilObjectXMLParser extends ilSaxParser
 	*/
 	function ilObjectXMLParser($a_xml_data = '', $throwException = false)
 	{
-		parent::ilSaxParser('', $throwException);
+		parent::__construct('', $throwException);
 		$this->setXMLContent($a_xml_data);
 	}
 

@@ -5,8 +5,8 @@ if (!isset ($BEAUT_PATH)) return;
 require_once("$BEAUT_PATH/Beautifier/HFile.php");
 
 class HFile_java122 extends HFile{
-   function HFile_java122(){
-     $this->HFile();
+   function __construct(){
+     parent::__construct();
 /*************************************/
 // Beautifier Highlighting Configuration File
 // Java 2 Version 1.22

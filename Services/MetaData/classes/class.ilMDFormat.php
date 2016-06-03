@@ -33,13 +33,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDFormat extends ilMDBase
 {
-	function ilMDFormat($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
 	// SET/GET
 	function setFormat($a_format)
 	{
@@ -117,7 +110,7 @@ class ilMDFormat extends ilMDBase
 				"WHERE meta_format_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
@@ -143,7 +136,7 @@ class ilMDFormat extends ilMDBase
 
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id)
+	static function _getIds($a_rbac_id,$a_obj_id)
 	{
 		global $ilDB;
 
@@ -152,7 +145,7 @@ class ilMDFormat extends ilMDBase
 			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->meta_format_id;
 		}

@@ -175,7 +175,7 @@ class ilSurveyEditorGUI
 		
 		$this->questionsSubtabs("questions");
 
-		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
+		$hasDatasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
 		$read_only = $hasDatasets;
 		
 
@@ -1038,7 +1038,7 @@ class ilSurveyEditorGUI
 		
 		if($a_block_id)
 		{
-			$questionblock = $this->object->getQuestionblock($a_block_id);
+			$questionblock = ilObjSurvey::_getQuestionblock($a_block_id);
 			$title->setValue($questionblock["title"]);
 			$toggle_blocktitle->setChecked($questionblock["show_blocktitle"]);
 			$toggle_questiontitle->setChecked($questionblock["show_questiontext"]);

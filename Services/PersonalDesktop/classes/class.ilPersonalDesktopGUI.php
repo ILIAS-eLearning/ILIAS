@@ -38,15 +38,15 @@ class ilPersonalDesktopGUI
 	/**
 	* constructor
 	*/
-	function ilPersonalDesktopGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $rbacsystem, $ilCtrl, $ilMainMenu, $ilUser, $tree;
 		
 		
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ilias =& $ilias;
-		$this->ctrl =& $ilCtrl;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
+		$this->ctrl = $ilCtrl;
 		
 		$ilCtrl->setContext($ilUser->getId(),
 				"user");
@@ -70,7 +70,7 @@ class ilPersonalDesktopGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilSetting, $rbacsystem, $ilErr;
 
@@ -103,7 +103,7 @@ class ilPersonalDesktopGUI
 					$this->getStandardTemplates();
 				}
 				$this->setTabs();
-				$ret =& $this->ctrl->forwardCommand($bookmark_gui);
+				$ret = $this->ctrl->forwardCommand($bookmark_gui);
 				break;
 			
 				// profile
@@ -112,7 +112,7 @@ class ilPersonalDesktopGUI
 				$this->setTabs();
 				include_once("./Services/User/classes/class.ilPersonalProfileGUI.php");
 				$profile_gui = new ilPersonalProfileGUI();
-				$ret =& $this->ctrl->forwardCommand($profile_gui);
+				$ret = $this->ctrl->forwardCommand($profile_gui);
 				break;
 				
 			// settings
@@ -121,14 +121,14 @@ class ilPersonalDesktopGUI
 				$this->setTabs();
 				include_once("./Services/User/classes/class.ilPersonalSettingsGUI.php");
 				$settings_gui = new ilPersonalSettingsGUI();
-				$ret =& $this->ctrl->forwardCommand($settings_gui);
+				$ret = $this->ctrl->forwardCommand($settings_gui);
 				break;
 			
 				// profile
 			case "ilobjusergui":
 				include_once('./Services/User/classes/class.ilObjUserGUI.php');
 				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
-				$ret =& $this->ctrl->forwardCommand($user_gui);
+				$ret = $this->ctrl->forwardCommand($user_gui);
 				break;
 			
 			case 'ilcalendarpresentationgui':
@@ -155,7 +155,7 @@ class ilPersonalDesktopGUI
 				$this->setTabs();
 				include_once("./Services/Notes/classes/class.ilPDNotesGUI.php");
 				$pd_notes_gui = new ilPDNotesGUI();
-				$ret =& $this->ctrl->forwardCommand($pd_notes_gui);
+				$ret = $this->ctrl->forwardCommand($pd_notes_gui);
 				break;
 			
 			// pd news
@@ -164,7 +164,7 @@ class ilPersonalDesktopGUI
 				$this->setTabs();
 				include_once("./Services/News/classes/class.ilPDNewsGUI.php");
 				$pd_news_gui = new ilPDNewsGUI();
-				$ret =& $this->ctrl->forwardCommand($pd_news_gui);
+				$ret = $this->ctrl->forwardCommand($pd_news_gui);
 				break;
 
 			case "illearningprogressgui":
@@ -172,7 +172,7 @@ class ilPersonalDesktopGUI
 				$this->setTabs();
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_PERSONAL_DESKTOP,0);
-				$ret =& $this->ctrl->forwardCommand($new_gui);
+				$ret = $this->ctrl->forwardCommand($new_gui);
 				
 				break;		
 
@@ -201,8 +201,8 @@ class ilPersonalDesktopGUI
 				break;
 
 			case 'ilpersonalworkspacegui':		
-				$this->getStandardTemplates();
-				$this->setTabs();
+				// $this->getStandardTemplates();
+				// $this->setTabs();
 				include_once 'Services/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php';
 				$wsgui = new ilPersonalWorkspaceGUI();
 				$ret = $this->ctrl->forwardCommand($wsgui);								
@@ -301,7 +301,7 @@ class ilPersonalDesktopGUI
 
 		// add template for content
 		$this->pd_tpl = new ilTemplate("tpl.usr_personaldesktop.html", true, true, "Services/PersonalDesktop");
-		$this->tpl->getStandardTemplate();
+//		$this->tpl->getStandardTemplate();
 
 		// display infopanel if something happened
 		ilUtil::infoPanel();
@@ -611,18 +611,7 @@ class ilPersonalDesktopGUI
 
 		$this->show();
 	}
-	
 
-	/**
-	 * Jump to a study programme.
-	 */
-	public function jumpToStudyProgramme()
-	{
-		require_once 'Services/PersonalDesktop/classes/class.ilPDSelectedItemsBlockGUI.php';
-		$_GET['view'] = ilPDSelectedItemsBlockGUI::VIEW_MY_STUDYPROGRAMME;
-		$this->show();
-	}
-	
 	/**
 	 * workaround for menu in calendar only
 	 */

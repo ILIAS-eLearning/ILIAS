@@ -24,9 +24,9 @@ class ilFileSelectorGUI extends ilExplorer
 	{
 		global $tree,$ilCtrl;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->parent_class = $a_par_class;
-		parent::ilExplorer($a_target);
+		parent::__construct($a_target);
 
 		$this->force_open_path = array();
 		if ($_GET["ref_id"] > 0)

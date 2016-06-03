@@ -43,9 +43,9 @@ class ilSCORMOrganization extends ilSCORMObject
 	* @param	int		$a_id		Object ID
 	* @access	public
 	*/
-	function ilSCORMOrganization($a_id = 0)
+	function __construct($a_id = 0)
 	{
-		parent::ilSCORMObject($a_id);
+		parent::__construct($a_id);
 		$this->setType('sor');
 	}
 

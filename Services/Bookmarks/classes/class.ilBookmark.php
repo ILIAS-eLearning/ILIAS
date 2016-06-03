@@ -42,12 +42,12 @@ class ilBookmark
 	* @access	public
 	* @param	integer		user_id (optional)
 	*/
-	function ilBookmark($a_bm_id = 0, $a_tree_id = 0)
+	function __construct($a_bm_id = 0, $a_tree_id = 0)
 	{
 		global $ilias;
 
 		// Initiate variables
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		if ($a_tree_id == 0)
 		{
 			$a_tree_id = $_SESSION["AccountId"];

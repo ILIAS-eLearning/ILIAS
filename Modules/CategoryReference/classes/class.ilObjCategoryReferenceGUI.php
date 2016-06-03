@@ -88,7 +88,7 @@ class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI
 	 * @access public
      * @param	object	tabs gui object
 	 */
-	public function getTabs($tabs_gui)
+	public function getTabs()
 	{
 		global $ilAccess, $ilHelp;
 
@@ -96,14 +96,14 @@ class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI
 		
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("edit",
+			$this->tabs_gui->addTarget("edit",
 				$this->ctrl->getLinkTarget($this, "edit"),
 				array(),
 				"");
 		}
 		if ($ilAccess->checkAccess('edit_permission','',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
 				array("perm","info","owner"), 'ilpermissiongui');
 		}

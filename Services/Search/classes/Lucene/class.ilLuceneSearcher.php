@@ -129,11 +129,6 @@ class ilLuceneSearcher
 				$this->query_parser->getQuery()
 				);
 		}
-		catch(XML_RPC2_FaultException $e)
-		{
-			ilLoggerFactory::getLogger('src')->critical('Highlighting failed with message: ' . $e->getMessage());
-			return new ilLuceneHighlighterResultParser();
-		}
 		catch(Exception $e)
 		{
 			ilLoggerFactory::getLogger('src')->error('Highlighting failed with message: ' . $e->getMessage());
@@ -231,11 +226,6 @@ class ilLuceneSearcher
 				
 			}
 			ilLoggerFactory::getLogger('src')->debug('Searching for: ' . $this->query_parser->getQuery());
-		}
-		catch(XML_RPC2_FaultException $e)
-		{
-			ilLoggerFactory::getLogger('src')->critical($e->getMessage());
-			return;
 		}
 		catch(Exception $e)
 		{

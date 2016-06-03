@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./setup/classes/class.ilSetup.php";
+require_once('./Services/Database/classes/class.ilDBConstants.php');
 
 /**
  * Setup GUI class
@@ -36,7 +37,7 @@ class ilSetupGUI
 	 * Constructor
 	 *
 	 */
-	function ilSetupGUI()
+	function __construct()
 	{
 		global $tpl, $lng;
 
@@ -194,7 +195,7 @@ echo "<br>+".$client_id;
 				break;
 
 			default:
-				$this->displayError($this->lng->txt("unknown_command"));
+				$this->displayError($this->lng->txt("unknown_command").": '".$this->cmd."'");
 				break;
 		}
 	}
@@ -205,13 +206,10 @@ echo "<br>+".$client_id;
 	function cmdAdmin()
 	{
 		$cmd = $this->cmd;
-
 		switch ($this->cmd)
 		{
 			case NULL:
 			case "clientlist":
-				
-				$GLOBALS['ilLog']->warning('Achtung fehlerhaft');
 				
 				$this->setDisplayMode("view");
 				$this->displayClientList();
@@ -481,7 +479,8 @@ echo "<br>+".$client_id;
 				break;
 
 			default:
-				$this->displayError($this->lng->txt("unknown_command"));
+				$this->setDisplayMode("setup");
+				$this->displayError($this->lng->txt("unknown_command").": '".$this->cmd."'");
 				break;
 		}
 	}
@@ -829,7 +828,7 @@ echo "<br>+".$client_id;
 		$sh->setTitle($this->lng->txt("3rd_party_software"));
 		$this->form->addItem($sh);
 
-		$tools = array("convert", "zip", "unzip", "ghostscript", "java", "htmldoc", "ffmpeg");
+		$tools = array("convert", "zip", "unzip", "ghostscript", "java", "ffmpeg");
 
 		foreach ($tools as $tool)
 		{
@@ -1134,11 +1133,6 @@ echo "<br>+".$client_id;
 		$ti->setInfo($lng->txt("java_path_comment".$lvext));
 		$this->form->addItem($ti);
 
-		// htmldoc path
-		$ti = new ilTextInputGUI($lng->txt("htmldoc_path"), "htmldoc_path");
-		$ti->setInfo($lng->txt("htmldoc_path_comment".$lvext));
-		$this->form->addItem($ti);
-
 		// ffmpeg path
 		$ti = new ilTextInputGUI($lng->txt("ffmpeg_path"), "ffmpeg_path");
 		$ti->setInfo($lng->txt("ffmpeg_path_comment"));
@@ -1217,7 +1211,6 @@ echo "<br>+".$client_id;
 		$values["unzip_path"] = $this->setup->ini->readVariable("tools","unzip");
 		$values["ghostscript_path"] = $this->setup->ini->readVariable("tools","ghostscript");
 		$values["java_path"] = $this->setup->ini->readVariable("tools","java");
-		$values["htmldoc_path"] = $this->setup->ini->readVariable("tools","htmldoc");
 		//$values["mkisofs_path"] = $this->setup->ini->readVariable("tools","mkisofs");
 		$values["ffmpeg_path"] = $this->setup->ini->readVariable("tools","ffmpeg");
 		$values["latex_url"] = $this->setup->ini->readVariable("tools","latex");
@@ -1253,7 +1246,7 @@ echo "<br>+".$client_id;
 			if (ilUtil::isWindows())
 			{
 				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
-					"unzip_path", "ghostscript_path", "java_path", "htmldoc_path", "ffmpeg_path");
+					"unzip_path", "ghostscript_path", "java_path", "ffmpeg_path");
 				foreach ($fs as $f)
 				{
 					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
@@ -1307,7 +1300,7 @@ echo "<br>+".$client_id;
 			if (ilUtil::isWindows())
 			{
 				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
-					"unzip_path", "ghostscript_path", "java_path", "htmldoc_path", "ffmpeg_path");
+					"unzip_path", "ghostscript_path", "java_path", "ffmpeg_path");
 				foreach ($fs as $f)
 				{
 					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
@@ -1546,7 +1539,7 @@ echo "<br>+".$client_id;
 		{
 			$tools = array("convert" => "convert",
 				"zip" => "zip", "unzip" => "unzip", "ghostscript" => "gs",
-				"java" => "java",  "htmldoc" => "htmldoc", "ffmpeg" => "ffmpeg");
+				"java" => "java", "ffmpeg" => "ffmpeg");
 			$dirs = array("/usr/local", "/usr/local/bin", "/usr/bin", "/bin", "/sw/bin", "/usr/bin");
 		}
 		else
@@ -1594,27 +1587,11 @@ echo "<br>+".$client_id;
 	{
 		$this->checkDisplayMode("create_new_client");
 
-
-if (true)
-{
 		unset($_SESSION["db_type"]);
 		$this->initDBSelectionForm();
 		$this->tpl->setVariable("SETUP_CONTENT", $this->form->getHTML());
-}
-else
-{
-		// output
 
-		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_select_db.html", "setup");
-
-		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-
-		$this->tpl->setVariable("TXT_DB_TYPE", $this->lng->txt("db_type"));
-		$this->tpl->setVariable("TXT_DB_SELECTION", $this->lng->txt("db_selection"));
-}
-		if ($this->setup->getClient()->status["ini"]["status"])
-		{
+		if ($this->setup->getClient()->status["ini"]["status"]) {
 			$this->setButtonNext("db");
 		}
 
@@ -1626,18 +1603,14 @@ else
 	 */
 	public function initDBSelectionForm()
 	{
-		global $lng, $ilCtrl;
+		global $lng;
 
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		require_once('./Services/Database/classes/class.ilDBConstants.php');
 		$this->form = new ilPropertyFormGUI();
 
 		// db type
-		$options = array(
-			"mysql" => "MySQL 5.0.x or higher (MyISAM engine)",
-			"innodb" => "MySQL 5.0.x or higher (InnoDB engine)",
-			"oracle" => "Oracle 10g or higher",
-			"postgres" => "Postgres (experimental)"
-			);
+		$options = ilDBConstants::getAvailableTypes();
 		$si = new ilSelectInputGUI($lng->txt("db_type"), "db_type");
 		$si->setOptions($options);
 		$si->setInfo($lng->txt(""));
@@ -1660,34 +1633,27 @@ else
 	{
 		$this->checkDisplayMode("create_new_client");
 
-		if ($_POST["db_type"] != "")
-		{
+		if ($_POST["db_type"] != "") {
 			$_SESSION["db_type"] = $_POST["db_type"];
-		}
-		else
-		{
+		} else {
 			$_POST["db_type"] = $_SESSION["db_type"];
 		}
-		
+
 		$has_ini = $this->setup->getClient()->status["ini"]["status"];
-		
+
 		// use value from client ini if setup was resumed (no value in session)
-		if (!$_SESSION["db_type"] && $has_ini)
-		{
+		if (!$_SESSION["db_type"] && $has_ini) {
 			$_SESSION["db_type"] = $this->setup->getClient()->getDbType();
 		}
 
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_ini"));
-		if (!$a_omit_form_init)
-		{
+		if (!$a_omit_form_init) {
 			$this->initClientIniForm();
 			$this->getClientIniValues();
 		}
-		$this->tpl->setVariable("SETUP_CONTENT",
-			$this->form->getHTML());
+		$this->tpl->setVariable("SETUP_CONTENT", $this->form->getHTML());
 
-		if ($has_ini)
-		{
+		if ($has_ini) {
 			$this->setButtonNext("db");
 		}
 
@@ -1697,16 +1663,15 @@ else
 	/**
 	 * Init client ini form.
 	 */
-	public function initClientIniForm()
+	protected function initClientIniForm()
 	{
-		global $lng, $ilCtrl;
+		global $lng;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
 		// client id
-		if ($this->setup->ini_client_exists)
-		{
+		if ($this->setup->ini_client_exists) {
 			$hi = new ilHiddenInputGUI("client_id");
 			$hi->setValue($this->client_id);
 			$this->form->addItem($hi);
@@ -1714,9 +1679,7 @@ else
 			$ne = new ilNonEditableValueGUI($lng->txt("client_id"), "hh");
 			$ne->setValue($this->client_id);
 			$this->form->addItem($ne);
-		}
-		else
-		{
+		} else {
 			$ti = new ilTextInputGUI($lng->txt("client_id"), "client_id");
 			$ti->setMaxLength(32);
 			$ti->setRequired(true);
@@ -1730,7 +1693,8 @@ else
 
 		// db type
 		$ne = new ilNonEditableValueGUI($lng->txt("db_type"), "dbt");
-		$ne->setValue($lng->txt("db_".$_SESSION["db_type"]));
+		$at = ilDBConstants::getAvailableTypes(true);
+		$ne->setValue($at[$_SESSION["db_type"]] );
 		$this->form->addItem($ne);
 
 		// db host
@@ -1740,13 +1704,11 @@ else
 		$this->form->addItem($ti);
 
 		// db name
-		if (in_array($_SESSION["db_type"], array("mysql", "postgres", "innodb")))
-		{
+		require_once('./Services/Database/classes/class.ilDBConstants.php');
+		if (!in_array($_SESSION["db_type"], array( ilDBConstants::TYPE_ORACLE ))) {
 			$ti = new ilTextInputGUI($lng->txt("db_name"), "db_name");
 			$ti->setRequired(true);
-		}
-		else
-		{
+		} else {
 			$ti = new ilTextInputGUI($lng->txt("db_service_name"), "db_name");
 		}
 		$ti->setMaxLength(40);
@@ -1796,115 +1758,95 @@ else
 	 */
 	public function saveClientIni()
 	{
-		global $tpl, $lng, $ilCtrl;
-
 		$this->initClientIniForm();
-		if ($this->form->checkInput())
-		{
+		if ($this->form->checkInput()) {
 			if (strlen($_POST["client_id"]) != strlen(urlencode(($_POST["client_id"])))
-				|| is_int(strpos($_POST["client_id"], "_")))
-			{
+			    || is_int(strpos($_POST["client_id"], "_"))
+			) {
 				$i = $this->form->getItemByPostVar("client_id");
 				$i->setAlert($this->lng->txt("ini_client_id_invalid"));
-				ilUtil::sendFailure($this->lng->txt("ini_client_id_invalid"),true);
-			}
-			else if (strlen($_POST["client_id"]) < 4)
-			{
-				$i = $this->form->getItemByPostVar("client_id");
-				$i->setAlert($this->lng->txt("ini_client_id_too_short"));
-				ilUtil::sendFailure($this->lng->txt("ini_client_id_too_short"),true);
-			}
-			else if (strlen($_POST["client_id"]) > 32)
-			{
-				$i = $this->form->getItemByPostVar("client_id");
-				$i->setAlert($this->lng->txt("ini_client_id_too_long"));
-				ilUtil::sendFailure($this->lng->txt("ini_client_id_too_long"),true);
-			}
-			else if (!$this->setup->ini_client_exists && file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$_POST["client_id"]))
-			{
-				$i = $this->form->getItemByPostVar("client_id");
-				$i->setAlert($this->lng->txt("ini_client_id_exists"));
-				ilUtil::sendFailure($this->lng->txt("ini_client_id_exists"),true);
-			}
-			else
-			{
+				ilUtil::sendFailure($this->lng->txt("ini_client_id_invalid"), true);
+			} else {
+				if (strlen($_POST["client_id"]) < 4) {
+					$i = $this->form->getItemByPostVar("client_id");
+					$i->setAlert($this->lng->txt("ini_client_id_too_short"));
+					ilUtil::sendFailure($this->lng->txt("ini_client_id_too_short"), true);
+				} else {
+					if (strlen($_POST["client_id"]) > 32) {
+						$i = $this->form->getItemByPostVar("client_id");
+						$i->setAlert($this->lng->txt("ini_client_id_too_long"));
+						ilUtil::sendFailure($this->lng->txt("ini_client_id_too_long"), true);
+					} else {
+						if (!$this->setup->ini_client_exists && file_exists(ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . "/" . $_POST["client_id"])) {
+							$i = $this->form->getItemByPostVar("client_id");
+							$i->setAlert($this->lng->txt("ini_client_id_exists"));
+							ilUtil::sendFailure($this->lng->txt("ini_client_id_exists"), true);
+						} else {
 
-				// save some old values
-				$old_db_name = $this->setup->getClient()->getDbName();
-				$old_db_type = $this->setup->getClient()->getDbType();
-				$old_client_id = $this->setup->getClient()->getId();
+							// save some old values
+							$old_db_name = $this->setup->getClient()->getDbName();
+							$old_db_type = $this->setup->getClient()->getDbType();
+							$old_client_id = $this->setup->getClient()->getId();
 
-				// create new client object if it does not exist
-				if (!$this->setup->ini_client_exists)
-				{
-					$client_id = $_POST["client_id"];
-					$this->setup->newClient($client_id);
-				}
-
-				// set client data
-				$this->setup->getClient()->setId($_POST["client_id"]);
-				$this->setup->getClient()->setDbHost($_POST["db_host"]);
-				$this->setup->getClient()->setDbName($_POST["db_name"]);
-				$this->setup->getClient()->setDbUser($_POST["db_user"]);
-				$this->setup->getClient()->setDbPort($_POST["db_port"]);
-				$this->setup->getClient()->setDbPass($_POST["db_pass"]);
-				$this->setup->getClient()->setDbType($_SESSION["db_type"]);
-				$this->setup->getClient()->setDSN();
-
-				// try to connect to database
-				if (!$this->setup->getClient()->checkDatabaseHost())
-				{
-					$i = $this->form->getItemByPostVar("db_host");
-					$i->setAlert($this->lng->txt($this->setup->getClient()->getError()));
-					ilUtil::sendFailure($this->setup->getClient()->getError(),true);
-				}
-				else
-				{
-					// check if db exists
-					$db_installed = $this->setup->getClient()->checkDatabaseExists();
-
-					if ($db_installed and (!$this->setup->ini_ilias_exists or ($this->setup->getClient()->getDbName() != $old_db_name)))
-					{
-						$_POST["db_name"] = $old_db_name;
-						$message = ucfirst($this->lng->txt("database"))." \"".$this->setup->getClient()->getDbName()."\" ".$this->lng->txt("ini_db_name_exists");
-						$i = $this->form->getItemByPostVar("db_name");
-						$i->setAlert($message);
-						ilUtil::sendFailure($message, true);
-					}
-					else
-					{
-						// all ok. create client.ini and save posted data
-						if (!$this->setup->ini_client_exists)
-						{
-							if ($this->setup->saveNewClient())
-							{
-								ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-								$this->setup->getClient()->status["ini"]["status"] = true;
-								$_SESSION["ClientId"] = $client_id;
-								ilUtil::redirect("setup.php?cmd=displayIni&client_id=".$client_id);
+							// create new client object if it does not exist
+							if (!$this->setup->ini_client_exists) {
+								$client_id = $_POST["client_id"];
+								$this->setup->newClient($client_id);
 							}
-							else
-							{
-								$err = $this->setup->getError();
-								ilUtil::sendFailure($this->lng->txt("save_error").": ".$err, true);
-								$this->setup->getClient()->status["ini"]["status"] = false;
-								$this->setup->getClient()->status["ini"]["comment"] = $err;
-							}
-						}
-						else
-						{
-							if ($this->setup->getClient()->ini->write())
-							{
-								ilUtil::sendSuccess($this->lng->txt("settings_changed"));
-								$this->setup->getClient()->status["ini"]["status"] = true;
-								ilUtil::redirect("setup.php?cmd=displayIni");
-							}
-							else
-							{
-								$err = $this->setup->getClient()->ini->getError();
-								ilUtil::sendFailure($this->lng->txt("save_error").": ".$err, true);
-								$this->setup->getClient()->status["ini"]["status"] = false;
-								$this->setup->getClient()->status["ini"]["comment"] = $err;
+
+							// set client data
+							$this->setup->getClient()->setId($_POST["client_id"]);
+							$this->setup->getClient()->setDbHost($_POST["db_host"]);
+							$this->setup->getClient()->setDbName($_POST["db_name"]);
+							$this->setup->getClient()->setDbUser($_POST["db_user"]);
+							$this->setup->getClient()->setDbPort($_POST["db_port"]);
+							$this->setup->getClient()->setDbPass($_POST["db_pass"]);
+							$this->setup->getClient()->setDbType($_SESSION["db_type"]);
+							$this->setup->getClient()->setDSN();
+
+							// try to connect to database
+							if (!$this->setup->getClient()->getDBSetup()->isConnectable()) {
+								$i = $this->form->getItemByPostVar("db_host");
+								$i->setAlert($this->lng->txt($this->setup->getClient()->getError()));
+								ilUtil::sendFailure($this->setup->getClient()->getError(), true);
+							} else {
+								// check if db exists
+								$db_installed = $this->setup->getClient()->getDBSetup()->isDatabaseInstalled();
+
+								if ($db_installed and (!$this->setup->ini_ilias_exists or ($this->setup->getClient()->getDbName() != $old_db_name))) {
+									$_POST["db_name"] = $old_db_name;
+									$message = ucfirst($this->lng->txt("database")) . " \"" . $this->setup->getClient()->getDbName() . "\" "
+									           . $this->lng->txt("ini_db_name_exists");
+									$i = $this->form->getItemByPostVar("db_name");
+									$i->setAlert($message);
+									ilUtil::sendFailure($message, true);
+								} else {
+									// all ok. create client.ini and save posted data
+									if (!$this->setup->ini_client_exists) {
+										if ($this->setup->saveNewClient()) {
+											ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+											$this->setup->getClient()->status["ini"]["status"] = true;
+											$_SESSION["ClientId"] = $client_id;
+											ilUtil::redirect("setup.php?cmd=displayIni&client_id=" . $client_id);
+										} else {
+											$err = $this->setup->getError();
+											ilUtil::sendFailure($this->lng->txt("save_error") . ": " . $err, true);
+											$this->setup->getClient()->status["ini"]["status"] = false;
+											$this->setup->getClient()->status["ini"]["comment"] = $err;
+										}
+									} else {
+										if ($this->setup->getClient()->ini->write()) {
+											ilUtil::sendSuccess($this->lng->txt("settings_changed"));
+											$this->setup->getClient()->status["ini"]["status"] = true;
+											ilUtil::redirect("setup.php?cmd=displayIni");
+										} else {
+											$err = $this->setup->getClient()->ini->getError();
+											ilUtil::sendFailure($this->lng->txt("save_error") . ": " . $err, true);
+											$this->setup->getClient()->status["ini"]["status"] = false;
+											$this->setup->getClient()->status["ini"]["comment"] = $err;
+										}
+									}
+								}
 							}
 						}
 					}
@@ -1923,16 +1865,18 @@ else
 	 */
 	function displayError($a_message)
 	{
+		$this->setDisplayMode("view");
+
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.error.html", "setup");
 
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("FORMACTION", $_SESSION["referer"]);
 		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
-		$this->tpl->setVariable("ERROR_MESSAGE",($a_message));
+		$this->tpl->setVariable("ERROR_MESSAGE", ($a_message));
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->show();
-		exit();
+//		$this->tpl->show();
+//		exit();
 	}
 
 	/**
@@ -2153,7 +2097,7 @@ else
 		//$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_db.html", "setup");
 
 		// database is intalled
-		if ($this->setup->getClient()->db_installed)
+		if ($this->setup->getClient()->getDBSetup()->isDatabaseInstalled())
 		{
 			$this->setDbSubTabs("db");
 
@@ -2562,8 +2506,7 @@ else
 		$this->form->addItem($ne);
 
 		// creation / collation for mysql
-		if (($this->setup->getClient()->getDBType() == "mysql" ||
-			$this->setup->getClient()->getDBType() == "innodb") && $a_install)
+		if ((in_array($this->setup->getClient()->getDBType(), ilDBConstants::getInstallableTypes()) && $a_install))
 		{
 			// create database 
 			$cb = new ilCheckboxInputGUI($lng->txt("database_create"), "chk_db_create");
@@ -2757,28 +2700,21 @@ else
 	 */
 	function installDatabase()
 	{
-		if (!$this->setup->getClient()->db_exists)
-		{
-			if ($_POST["chk_db_create"])
-			{
-				if (!$this->setup->createDatabase($_POST["collation"]))
-				{
+		if (!$this->setup->getClient()->getDBSetup()->isDatabaseExisting()) {
+			if ($_POST["chk_db_create"]) {
+				if (!$this->setup->createDatabase($_POST["collation"])) {
+					echo "installation failed";
 					ilUtil::sendFailure($this->lng->txt($this->setup->getError()), true);
 					ilUtil::redirect("setup.php?cmd=displayDatabase");
 				}
-			}
-			else
-			{
+			} else {
 				ilUtil::sendFailure($this->lng->txt("database_not_exists_create_first"), true);
 				ilUtil::redirect("setup.php?cmd=displayDatabase");
 			}
 		}
-		if (!$this->setup->installDatabase())
-		{
+		if (!$this->setup->installDatabase()) {
 			ilUtil::sendFailure($this->lng->txt($this->setup->getError()), true);
-		}
-		else
-		{
+		} else {
 			ilUtil::sendSuccess($this->lng->txt("database_installed"), true);
 		}
 		ilUtil::redirect("setup.php?cmd=displayDatabase");

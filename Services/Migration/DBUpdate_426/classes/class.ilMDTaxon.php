@@ -32,13 +32,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDTaxon extends ilMDBase
 {
-	function ilMDTaxon($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
 	// SET/GET
 	function setTaxon($a_taxon)
 	{
@@ -142,7 +135,7 @@ class ilMDTaxon extends ilMDBase
 				"WHERE meta_taxon_id = ".$ilDB->quote($this->getMetaId());
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
@@ -182,7 +175,7 @@ class ilMDTaxon extends ilMDBase
 
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->meta_taxon_id;
 		}

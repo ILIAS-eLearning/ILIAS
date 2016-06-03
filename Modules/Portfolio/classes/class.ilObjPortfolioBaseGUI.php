@@ -356,7 +356,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		// save and cancel commands
 		if ($a_mode == "create")
 		{
-			include_once "Services/Style/classes/class.ilPageLayout.php";
+			include_once "Services/COPage/Layout/classes/class.ilPageLayout.php";
 			$templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
 			if($templates)
 			{			
@@ -410,7 +410,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			$layout_id = $form->getInput("tmpl");
 			if($layout_id)
 			{
-				include_once("./Services/Style/classes/class.ilPageLayout.php");
+				include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 				$layout_obj = new ilPageLayout($layout_id);
 				$page->setXMLContent($layout_obj->getXMLContent());
 			}
@@ -543,14 +543,14 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 */
 	function preview($a_return = false, $a_content = false, $a_show_notes = true)
 	{				
-		global $ilSetting;
+		global $ilSetting, $ilUser;
 		
 		$portfolio_id = $this->object->getId();
 		$user_id = $this->object->getOwner();
 		
 		$this->tabs_gui->clearTargets();
 			
-		$pages = ilPortfolioPage::getAllPages($portfolio_id);		
+		$pages = ilPortfolioPage::getAllPortfolioPages($portfolio_id);		
 		$current_page = (int)$_GET["user_page"];
 		
 		// validate current page
@@ -661,11 +661,15 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		
 		if(!$a_content)
 		{
-			// get current page content
-			$page_gui = $this->getPageGUIInstance($current_page);
-			$page_gui->setEmbedded(true);
+			// #18291
+			if($current_page)
+			{
+				// get current page content
+				$page_gui = $this->getPageGUIInstance($current_page);
+				$page_gui->setEmbedded(true);
 
-			$content = $this->ctrl->getHTML($page_gui);			
+				$content = $this->ctrl->getHTML($page_gui);			
+			}
 		}
 		else
 		{
@@ -679,7 +683,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 						
 		// blog posting comments are handled within the blog
 		$notes = "";
-		if($a_show_notes && $this->object->hasPublicComments() && !$current_blog)
+		if($a_show_notes && $this->object->hasPublicComments() && !$current_blog && $current_page)
 		{			
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");			
 			$note_gui = new ilNoteGUI($portfolio_id, $current_page, "pfpg");
@@ -716,6 +720,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		{
 			$this->tpl->setPermanentLink($this->perma_link["type"], $this->perma_link["obj_id"]);
 		}
+		
+		// #18208 - see ilPortfolioTemplatePageGUI::getPageContentUserId()
+		if($this->getType() == "prtt" && !$this->checkPermissionBool("write"))
+		{
+			$user_id = $ilUser->getId();
+		}	
 		
 		self::renderFullscreenHeader($this->object, $this->tpl, $user_id);
 		
@@ -931,7 +941,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	{
 		global $ilSetting;
 						
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->lng->loadLanguageModule("style");
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -1008,7 +1018,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	{
 		global $ilSetting;
 	
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		if ($ilSetting->get("fixed_content_style_id") <= 0 &&
 			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
 			|| $this->object->getStyleSheetId() == 0))

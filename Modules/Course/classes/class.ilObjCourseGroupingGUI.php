@@ -16,20 +16,21 @@ class ilObjCourseGroupingGUI
 	var $tpl;
 	var $ctrl;
 	var $lng;
+	
 	/**
-	* Constructor
-	* @access public
-	*/
-	function ilObjCourseGroupingGUI(&$content_obj,$a_obj_id = 0)
+	 * Constructor
+	 * @access public
+	 */
+	public function __construct($content_obj,$a_obj_id = 0)
 	{
 		global $tpl,$ilCtrl,$lng,$ilObjDataCache;
 
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
+		$this->tpl = $tpl;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
 
 		$this->type = "crsg";
-		$this->content_obj =& $content_obj;
+		$this->content_obj = $content_obj;
 		$this->content_type = $ilObjDataCache->lookupType($this->content_obj->getId());
 
 		$this->id = $a_obj_id;
@@ -39,7 +40,7 @@ class ilObjCourseGroupingGUI
 
 	}
 	
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilTabs;
 
@@ -58,7 +59,7 @@ class ilObjCourseGroupingGUI
 	{
 		include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
 
-		$this->grp_obj =& new ilObjCourseGrouping($this->id);
+		$this->grp_obj = new ilObjCourseGrouping($this->id);
 	}
 
 	function getContentType()

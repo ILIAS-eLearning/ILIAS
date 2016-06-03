@@ -19,7 +19,10 @@ abstract class ilTestProcessLocker
 		// overwrite method in concrete locker if something to do
 	}
 
-	public function requestRandomPassBuildLock()
+	/**
+	 * @param bool $withTaxonomyTables
+	 */
+	public function requestRandomPassBuildLock($withTaxonomyTables = false)
 	{
 		// overwrite method in concrete locker if something to do
 	}

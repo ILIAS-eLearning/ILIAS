@@ -129,7 +129,7 @@ class ilConsultationHourGroup
 		$query = 'SELECT * FROM cal_ch_group '.
 				'WHERE grp_id = '.$ilDB->quote($this->getGroupId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setUserId($row->usr_id);
 			$this->setTitle($row->title);

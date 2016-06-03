@@ -30,7 +30,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		$ilCtrl->saveParameter($this, array("obj_id", "level_id"));
 		$this->base_skill_id = $a_node_id;
 		
-		parent::ilSkillTreeNodeGUI($a_node_id);
+		parent::__construct($a_node_id);
 	}
 	
 	/**
@@ -48,7 +48,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	{
 		global $ilCtrl, $tpl, $ilTabs, $ilHelp;
 		
-		$tpl->getStandardTemplate();
+		//$tpl->getStandardTemplate();
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -616,7 +616,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	/**
 	 * Redirect to parent (identified by current obj_id)
 	 */
-	function redirectToParent()
+	function redirectToParent($a_tmp_mode = false)
 	{
 		global $ilCtrl;
 		

@@ -24,7 +24,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjUserFolderGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
 		global $ilCtrl;
 
@@ -32,7 +32,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		define('USER_FOLDER_ID',7);
 		
 		$this->type = "usrf";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 		
 		$this->lng->loadLanguageModule('search');
 		$this->lng->loadLanguageModule("user");
@@ -49,7 +49,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		return $this->user_owner_id ? $this->user_owner_id : USER_FOLDER_ID;
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilTabs;
 		
@@ -69,13 +69,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
-				$user_search =& new ilRepositorySearchGUI();
+				$user_search = new ilRepositorySearchGUI();
 				$user_search->setTitle($this->lng->txt("search_user_extended")); // #17502
 				$user_search->enableSearchableCheck(false);
 				$user_search->setUserLimitations(false);
@@ -908,7 +908,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUserRoleAssignmentObject ()
 	{
-		global $ilUser,$rbacreview, $tpl, $lng, $ilCtrl;;
+		global $ilUser, $tpl, $lng, $ilCtrl;;
 	
 		// Blind out tabs for local user import
 		if ($_GET["baseClass"] == 'ilRepositoryGUI')
@@ -1130,12 +1130,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					// local roles and may contains thousands of roles on large ILIAS
 					// installations.
 					$loc_roles = array();
+					require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 					foreach($roles as $role_id => $role)
 					{
 						if ($role["type"] == "Local")
 						{
 							$searchName = (substr($role['name'],0,1) == '#') ? $role['name'] : '#'.$role['name'];
-							$matching_role_ids = $rbacreview->searchRolesByMailboxAddressList($searchName);
+							$matching_role_ids = ilMailRoleAddressType::searchRolesByMailboxAddressList($searchName);
 							foreach ($matching_role_ids as $mid) {
 								if (! in_array($mid, $loc_roles)) {
 									$loc_roles[] = $mid;
@@ -1153,6 +1154,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				
 				// create a search array with  .
 				$l_roles_mailbox_searcharray = array();
+				require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 				foreach ($loc_roles as $key => $loc_role)
 				{
 					// fetch context path of role
@@ -1177,8 +1179,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 						// with false, and only set to true if we find the object id of the
 						// locally administrated category in the tree path to the local role.
 						$isInSubtree = $this->object->getRefId() == USER_FOLDER_ID;
-						
-						$path = "";
+
+						$path_array = array();
 						if ($this->tree->isInTree($rolf[0]))
 						{
 							// Create path. Paths which have more than 4 segments
@@ -1186,34 +1188,34 @@ class ilObjUserFolderGUI extends ilObjectGUI
 							$tmpPath = $this->tree->getPathFull($rolf[0]);
 							for ($i = 1, $n = count($tmpPath) - 1; $i < $n; $i++)
 							{
-								if ($i > 1)
-								{
-									$path = $path.' > ';
-								}
 								if ($i < 3 || $i > $n - 3)
 								{
-									$path = $path.$tmpPath[$i]['title'];
+									$path_array[] = $tmpPath[$i]['title'];
 								} 
 								else if ($i == 3 || $i == $n - 3)
 								{
-									$path = $path.'...';
+									$path_array[] = '...';
 								}
 								
 								$isInSubtree |= $tmpPath[$i]['obj_id'] == $this->object->getId();
 							}
+							//revert this path for a better readability in dropdowns #18306
+							$path = implode(" < ", array_reverse($path_array));
+
 						}
 						else
 						{
 							$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role.")</b>";
 						}
-						$roleMailboxAddress = $rbacreview->getRoleMailboxAddress($loc_role);
+						$roleMailboxAddress = ilMailRoleAddressType::getRoleMailboxAddress($loc_role);
 						$l_roles[$loc_role] = $roleMailboxAddress.', '.$path;
 					}
 				} //foreach role
 	
 				$l_roles[""] = ""; 
 				natcasesort($l_roles);
-				$l_roles[""] = $this->lng->txt("usrimport_ignore_role"); 
+				$l_roles[""] = $this->lng->txt("usrimport_ignore_role");
+				require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 				foreach($roles as $role_id => $role)
 				{
 					if ($role["type"] == "Local")
@@ -1221,7 +1223,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 						$this->tpl->setCurrentBlock("local_role");
 						$this->tpl->setVariable("TXT_IMPORT_LOCAL_ROLE", $role["name"]);
 						$searchName = (substr($role['name'],0,1) == '#') ? $role['name'] : '#'.$role['name'];
-						$matching_role_ids = $rbacreview->searchRolesByMailboxAddressList($searchName);
+						$matching_role_ids = ilMailRoleAddressType::searchRolesByMailboxAddressList($searchName);
 						$pre_select = count($matching_role_ids) == 1 ? $matching_role_ids[0] : "";
 						if ($this->object->getRefId() == USER_FOLDER_ID) {
 							// There are too many roles in a large ILIAS installation
@@ -1956,7 +1958,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// create session reminder subform
 		$cb = new ilCheckboxInputGUI($this->lng->txt("session_reminder"), "session_reminder_enabled");
 		$expires = ilSession::getSessionExpireValue();
-		$time = ilFormat::_secondsToString($expires, true);
+		$time = ilDatePresentation::secondsToString($expires, true);
 		$cb->setInfo($this->lng->txt("session_reminder_info")."<br />".
 			sprintf($this->lng->txt('session_reminder_session_duration'), $time));		
 		$fixed->addSubItem($cb);
@@ -2762,9 +2764,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "newAccountMail");
 	}
 
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 
 	/**
@@ -2772,7 +2774,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	* @access	public
 	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 
@@ -2780,10 +2782,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("usrf",
+			$this->tabs_gui->addTarget("usrf",
 				$this->ctrl->getLinkTarget($this, "view"), array("view","delete","resetFilter", "userAction", ""), "", "");
 
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				"search_user_extended",
 				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI',''),
 				array(),
@@ -2794,10 +2796,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "generalSettings"),array('settings','generalSettings','listUserDefinedField','newAccountMail'));
 				
-			$tabs_gui->addTarget("export",
+			$this->tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTarget($this, "export"), "export", "", "");
 
 			/* deprecated, JF 27 May 2013
@@ -2812,7 +2814,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 								 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
 								 array("perm","info","owner"), 'ilpermissiongui');
 		}

@@ -38,7 +38,7 @@ define("IL_NO_LICENSE",'no_license');
 */
 class ilAccessInfo
 {
-	function ilAccessInfo()
+	function __construct()
 	{
 		$this->info_items = array();
 	}

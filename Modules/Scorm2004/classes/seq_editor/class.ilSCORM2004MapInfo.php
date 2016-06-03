@@ -29,9 +29,9 @@ class ilSCORM2004MapInfo extends ilSCORM2004SeqNode
 	* Constructor
 	* @access	public
 	*/
-	function ilSCORM2004MapInfo()
+	function __construct()
 	{
-		parent::ilSCORM2004SeqNode();
+		parent::__construct();
 		$this->setNodeName("mapinfo");
 	}
 	

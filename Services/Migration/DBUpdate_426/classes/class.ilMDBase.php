@@ -48,14 +48,14 @@ class ilMDBase
 	var $obj_type;
 
 
-	function ilMDBase($a_rbac_id = 0,
+	function __construct($a_rbac_id = 0,
 					  $a_obj_id = 0,
 					  $a_type = 0)
 	{
 		global $ilDB,$ilLog;
 
-		$this->db =& $ilDB;
-		$this->log =& $ilLog;
+		$this->db = $ilDB;
+		$this->log = $ilLog;
 
 		$this->rbac_id = $a_rbac_id;
 		$this->obj_id = $a_obj_id;

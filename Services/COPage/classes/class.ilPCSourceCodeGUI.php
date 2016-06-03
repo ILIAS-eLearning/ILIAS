@@ -22,16 +22,16 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCSourceCodeGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
+	function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
@@ -42,7 +42,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		switch($next_class)
 		{
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 
@@ -277,7 +277,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		$prog_langs_ini = file ("Services/COPage/syntax_highlight/php/admin/prog_langs.ini");
 		$prog_langs = array ("" => $this->lng->txt("cont_src_other"));
 		foreach ($prog_langs_ini as $prog_lang) {
-			$prog_lang_prop = split (":", $prog_lang);
+			$prog_lang_prop = explode(":", $prog_lang);
 			if ($prog_lang_prop[2] == 1) {
 				$prog_langs[$prog_lang_prop[0]] = $prog_lang_prop[1];
 			}
@@ -301,8 +301,9 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($a_title);
 		$form->setFormAction($this->ctrl->getFormAction($this, $a_cmd));
-		$form->addCommandButton($a_cmd_cancel,$this->lng->txt("cancel"));
 		$form->addCommandButton($a_cmd,$this->lng->txt("save"));
+		$form->addCommandButton($a_cmd_cancel,$this->lng->txt("cancel"));
+
 
 		require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
 		$lang_var = ilMDLanguageItem::_getLanguages();

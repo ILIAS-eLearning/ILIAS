@@ -26,7 +26,7 @@ class ilTestStatistics
 * @param integer $eval_data Complete test data as ilTestEvaluationData object
 * @access public
 */
-	function ilTestStatistics($eval_data)
+	public function __construct($eval_data)
 	{
 		$this->statistics = NULL;
 		$this->calculateStatistics($eval_data);

@@ -89,9 +89,9 @@ abstract class ilPageContent
 	*
 	* @param	object	$a_node		node object
 	*/
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
-		$this->node =& $a_node;
+		$this->node = $a_node;
 	}
 	
 
@@ -108,7 +108,7 @@ abstract class ilPageContent
 	/**
 	 * Get Javascript files
 	 */
-	function getJavascriptFiles()
+	function getJavascriptFiles($a_mode)
 	{
 		return array();
 	}
@@ -116,7 +116,7 @@ abstract class ilPageContent
 	/**
 	 * Get css files
 	 */
-	function getCssFiles()
+	function getCssFiles($a_mode)
 	{
 		return array();
 	}
@@ -124,7 +124,7 @@ abstract class ilPageContent
 	/**
 	 * Get on load code
 	 */
-	function getOnloadCode()
+	function getOnloadCode($a_mode)
 	{
 		return array();
 	}

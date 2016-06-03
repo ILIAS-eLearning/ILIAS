@@ -256,7 +256,7 @@ class ilObjUser extends ilObject
 			}
 
 			//check skin-setting
-			include_once("./Services/Style/classes/class.ilStyleDefinition.php");
+			include_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
 			if ($this->prefs["skin"] == "" ||
 				!ilStyleDefinition::skinExists($this->prefs["skin"]))
 			{
@@ -708,7 +708,7 @@ class ilObjUser extends ilObject
 	/**
 	* Lookup Full Name
 	*/
-	function _lookupFullname($a_user_id)
+	static function _lookupFullname($a_user_id)
 	{
 		global $ilDB;
 		
@@ -736,7 +736,7 @@ class ilObjUser extends ilObject
 	/**
 	* Lookup IM
 	*/
-	function _lookupIm($a_user_id, $a_type)
+	static function _lookupIm($a_user_id, $a_type)
 	{
 		return ilObjUser::_lookup($a_user_id, "im_".$a_type);
 	}
@@ -745,7 +745,7 @@ class ilObjUser extends ilObject
 	/**
 	* Lookup email
 	*/
-	function _lookupEmail($a_user_id)
+	static function _lookupEmail($a_user_id)
 	{
 		return ilObjUser::_lookup($a_user_id, "email");
 	}
@@ -764,7 +764,7 @@ class ilObjUser extends ilObject
 	* @param	int		user id
 	* @return	string	client ip
 	*/
-	function _lookupClientIP($a_user_id)
+	static function _lookupClientIP($a_user_id)
 	{
 		return ilObjUser::_lookup($a_user_id, "client_ip");
 	}
@@ -792,7 +792,7 @@ class ilObjUser extends ilObject
 	/**
 	* lookup fields (deprecated; use more specific methods instead)
 	*/
-	function _lookupFields($a_user_id)
+	static function _lookupFields($a_user_id)
 	{
 		global $ilDB;
 
@@ -813,7 +813,7 @@ class ilObjUser extends ilObject
 	/**
 	* lookup external account for login and authmethod
 	*/
-	function _lookupExternalAccount($a_user_id)
+	static function _lookupExternalAccount($a_user_id)
 	{
 		return ilObjUser::_lookup($a_user_id, "ext_account");
 	}
@@ -849,7 +849,7 @@ class ilObjUser extends ilObject
 	/**
 	* lookup last login
 	*/
-	function _lookupLastLogin($a_user_id)
+	static function _lookupLastLogin($a_user_id)
 	{
 		return ilObjUser::_lookup($a_user_id, "last_login");
 	}
@@ -1117,7 +1117,7 @@ class ilObjUser extends ilObject
 	* @access	public
 	* @param	string	keyword
 	*/
-	function _deleteAllPref($a_user_id)
+	static function _deleteAllPref($a_user_id)
 	{
 		global $ilDB;
 
@@ -1262,7 +1262,7 @@ class ilObjUser extends ilObject
 		}
 	}
 
-	function _lookupPref($a_usr_id,$a_keyword)
+	static function _lookupPref($a_usr_id,$a_keyword)
 	{
 		global $ilDB;
 
@@ -1270,7 +1270,7 @@ class ilObjUser extends ilObject
 			"AND keyword = ".$ilDB->quote($a_keyword, "text");
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->value;
 		}
@@ -1934,7 +1934,7 @@ class ilObjUser extends ilObject
 		$query = "SELECT matriculation FROM usr_data ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id);
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		return $row->matriculation ? $row->matriculation : '';
 	}
 
@@ -2056,7 +2056,7 @@ class ilObjUser extends ilObject
 		return 'en';
 	}
 
-	function _writeExternalAccount($a_usr_id, $a_ext_id)
+	static function _writeExternalAccount($a_usr_id, $a_ext_id)
 	{
 		global $ilDB;
 
@@ -2066,7 +2066,7 @@ class ilObjUser extends ilObject
 			array($a_ext_id, $a_usr_id));
 	}
 
-	function _writeAuthMode($a_usr_id, $a_auth_mode)
+	static function _writeAuthMode($a_usr_id, $a_auth_mode)
 	{
 		global $ilDB;
 
@@ -2226,7 +2226,7 @@ class ilObjUser extends ilObject
 	/**
 	 * Check user account active
 	 */
-	public function _lookupActive($a_usr_id)
+	static public function _lookupActive($a_usr_id)
 	{
 		global $ilDB;
 
@@ -2234,7 +2234,7 @@ class ilObjUser extends ilObject
 			'WHERE active = '.$ilDB->quote(1,'integer').' '.
 			'AND usr_id = '.$ilDB->quote($a_usr_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return true;
 		}
@@ -2265,7 +2265,7 @@ class ilObjUser extends ilObject
         if ((!empty($storedActive) && empty($currentActive)) ||
                 (empty($storedActive) && !empty($currentActive)))
         {
-            $this->setActive($currentActive, $this->getUserIdByLogin(ilObjUser::getLoginFromAuth()));
+            $this->setActive($currentActive, self::getUserIdByLogin(ilObjUser::getLoginFromAuth()));
         }
     }
 
@@ -2635,7 +2635,7 @@ class ilObjUser extends ilObject
 	 * @static
 	 * @access	public
 	 */
-	function getUserIdByLogin($a_login)
+	public static function getUserIdByLogin($a_login)
 	{
 		return (int) ilObjUser::_lookupId($a_login);
 	}
@@ -2648,7 +2648,7 @@ class ilObjUser extends ilObject
 	 * @static
 	 * @access	public
 	 */
-	function _getUserIdsByEmail($a_email)
+	static function _getUserIdsByEmail($a_email)
 	{
 		global $ilias, $ilDB;
 
@@ -2834,23 +2834,26 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* STATIC METHOD
-	* get all user logins
-	* @param	ilias object
-	* @static
-	* @return	array of logins
-	* @access	public
+	* @return array of logins
 	*/
-	function _getAllUserLogins(&$ilias)
+	public static function getAllUserLogins()
 	{
+		/**
+		 * @var $ilDB ilDBInterface
+		 */
 		global $ilDB;
-		
-		$res = $ilDB->query("SELECT login FROM usr_data");
-		while($row = $ilDB->fetchObject($res))
+
+		$logins = array();
+
+		$res = $ilDB->query(
+			"SELECT login FROM usr_data WHERE " . $ilDB->in('usr_id', array(ANONYMOUS_USER_ID), true, 'integer')
+		);
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			$logins[] = $row->login;
+			$logins[] = $row['login'];
 		}
-		return $logins ? $logins : array();
+
+		return $logins;
 	}
 
 	/**
@@ -2881,7 +2884,7 @@ class ilObjUser extends ilObject
      * @return	array of user data
      * @access	public
      */
-	function _getAllUserData($a_fields = NULL, $active =-1)
+	static function _getAllUserData($a_fields = NULL, $active =-1)
 	{
 		global $ilDB;
 
@@ -2993,7 +2996,7 @@ class ilObjUser extends ilObject
 	/**
 	* skins and styles
 	*/
-	function _getNumberOfUsersForStyle($a_skin, $a_style)
+	static function _getNumberOfUsersForStyle($a_skin, $a_style)
 	{
 		global $ilDB;
 
@@ -3014,7 +3017,7 @@ class ilObjUser extends ilObject
 	/**
 	* skins and styles
 	*/
-	function _getAllUserAssignedStyles()
+	static function _getAllUserAssignedStyles()
 	{
 		global $ilDB;
 
@@ -3037,7 +3040,7 @@ class ilObjUser extends ilObject
 	/**
 	* skins and styles
 	*/
-	function _moveUsersToStyle($a_from_skin, $a_from_style, $a_to_skin, $a_to_style)
+	static function _moveUsersToStyle($a_from_skin, $a_from_style, $a_to_skin, $a_to_style)
 	{
 		global $ilDB;
 
@@ -3575,7 +3578,7 @@ class ilObjUser extends ilObject
 	*
 	* @return	array		array of user IDs
 	*/
-	function _getUsersForClipboadObject($a_type, $a_id)
+	static function _getUsersForClipboadObject($a_type, $a_id)
 	{
 		global $ilDB;
 
@@ -3610,7 +3613,7 @@ class ilObjUser extends ilObject
 		$ilDB->manipulate($q);
 	}
 
-	function _getImportedUserId($i2_id)
+	static function _getImportedUserId($i2_id)
 	{
 		global $ilDB;
 
@@ -3828,7 +3831,7 @@ class ilObjUser extends ilObject
 	/**
 	* get number of users per auth mode
 	*/
-	function _getNumberOfUsersPerAuthMode()
+	static function _getNumberOfUsersPerAuthMode()
 	{
 		global $ilDB;
 
@@ -3848,7 +3851,7 @@ class ilObjUser extends ilObject
 	* matches with a user
 	*
 	*/
-	function _getLocalAccountsForEmail($a_email)
+	static function _getLocalAccountsForEmail($a_email)
 	{
 		global $ilDB, $ilSetting;
 
@@ -3886,7 +3889,7 @@ class ilObjUser extends ilObject
 	* @param	int	$obj_id The object id of the related user account
 	* @return returns TRUE on success, otherwise FALSE
 	*/
-	function _uploadPersonalPicture($tmp_file, $obj_id)
+	static function _uploadPersonalPicture($tmp_file, $obj_id)
 	{
 		$webspace_dir = ilUtil::getWebspaceDir();
 		$image_dir = $webspace_dir."/usr_images";
@@ -4163,7 +4166,7 @@ class ilObjUser extends ilObject
 			"WHERE usr_id = ".$ilDB->quote($this->getId(),'integer');
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$this->user_defined_data = $row;
 		}*/
@@ -4211,7 +4214,6 @@ class ilObjUser extends ilObject
 	function getProfileAsString(&$a_language)
 	{
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		include_once './Services/Utilities/classes/class.ilFormat.php';
 
 		global $lng,$rbacreview;
 
@@ -4340,16 +4342,7 @@ class ilObjUser extends ilObject
 			$end = new ilDateTime($this->getTimeLimitUntil(),IL_CAL_UNIX);
 			
 			$body .= $language->txt('time_limit').': '.$start->get(IL_CAL_DATETIME);
-			$body .= $language->txt('time_limit').': '.$end->get(IL_CAL_DATETIME);
-			
-			
-			#$body .= $language->txt('time_limit').': '.$period;
-			/*
-			$body .= ($language->txt('time_limit').": ".$language->txt('crs_from')." ".
-					  ilFormat::formatUnixTime($this->getTimeLimitFrom(), true)." ".
-					  $language->txt('crs_to')." ".
-					  ilFormat::formatUnixTime($this->getTimeLimitUntil(), true)."\n");
-			*/
+			$body .= $language->txt('time_limit').': '.$end->get(IL_CAL_DATETIME);			
 		}
 
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
@@ -4402,7 +4395,7 @@ class ilObjUser extends ilObject
 	/**
 	* Lookup news feed hash for user. If hash does not exist, create one.
 	*/
-	function _lookupFeedHash($a_user_id, $a_create = false)
+	static function _lookupFeedHash($a_user_id, $a_create = false)
 	{
 		global $ilDB;
 
@@ -4436,7 +4429,7 @@ class ilObjUser extends ilObject
 	* @param	integer	user_id
 	* @return	string	feed_password md5-encoded, or false
 	*/
-	function _getFeedPass($a_user_id)
+	static function _getFeedPass($a_user_id)
 	{
 		global $ilDB;
 
@@ -4452,7 +4445,7 @@ class ilObjUser extends ilObject
 	* @param	integer	user_id
 	* @param 	string	new password
 	*/
-	function _setFeedPass($a_user_id, $a_password)
+	static function _setFeedPass($a_user_id, $a_password)
 	{
 		global $ilDB;
 		
@@ -5056,7 +5049,7 @@ class ilObjUser extends ilObject
 				WHERE reg_hash = %s',
 		        array('text'),
 		        array($hashcode));		         
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				if($row->cnt > 0) $continue = true;
 				break;
@@ -5162,7 +5155,7 @@ class ilObjUser extends ilObject
 		$res = $ilDB->queryF($query, array('timestamp'), array($date));
 
 		$ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->usr_id;
 		}
@@ -5195,7 +5188,7 @@ class ilObjUser extends ilObject
 		$res = $ilDB->queryF($query, array('timestamp', 'integer'), array($date, 0));
 		
 		$ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->usr_id;
 		}
@@ -5271,7 +5264,7 @@ class ilObjUser extends ilObject
 				'JOIN usr_data ud ON obj_id = usr_id '.
 				'WHERE '.$ilDB->in('obj_id',$a_usr_ids,false,'integer').' ';
 		$res = $ilDB->query($query);
-		$num_rows =$res->fetchRow(DB_FETCHMODE_OBJECT)->num;
+		$num_rows =$res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)->num;
 		return $num_rows == count((array) $a_usr_ids);
 	}
 	// end-patch deleteProgress

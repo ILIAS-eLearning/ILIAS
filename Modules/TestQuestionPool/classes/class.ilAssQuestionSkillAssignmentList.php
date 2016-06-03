@@ -12,7 +12,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmen
 class ilAssQuestionSkillAssignmentList
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	private $db;
 
@@ -41,7 +41,7 @@ class ilAssQuestionSkillAssignmentList
 	 */
 	private $questionIdFilter;
 
-	public function __construct(ilDB $db)
+	public function __construct(ilDBInterface $db)
 	{
 		$this->db = $db;
 		

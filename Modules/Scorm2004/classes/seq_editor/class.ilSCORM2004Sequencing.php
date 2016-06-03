@@ -68,9 +68,9 @@ var $node = null;
 * Constructor
 * @access	public
 */
-function ilSCORM2004Sequencing($a_treeid = null,$a_rootlevel=false)
+function __construct($a_treeid = null,$a_rootlevel=false)
 {
-	parent::ilSCORM2004Item($a_treeid, $a_rootlevel);
+	parent::__construct($a_treeid, $a_rootlevel);
 		
 	if ($a_treeid != null) {
 		$xpath_obj = new DOMXPath($this->dom);

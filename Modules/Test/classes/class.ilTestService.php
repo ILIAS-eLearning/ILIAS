@@ -40,7 +40,7 @@ class ilTestService
 		global $ilUser;
 
 		$scoredPass = $this->object->_getResultPass($active_id);
-		$lastPass = $this->object->_getPass($active_id);
+		$lastPass = ilObjTest::_getPass($active_id);
 
 		$testPercentage = 0;
 		$testReachedPoints = 0;

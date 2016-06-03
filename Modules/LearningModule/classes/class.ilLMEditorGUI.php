@@ -4,7 +4,7 @@
 include_once ("./Modules/LearningModule/classes/class.ilLMObjectFactory.php");
 include_once ("./Services/Utilities/classes/class.ilDOMUtil.php");
 include_once ("./Services/COPage/classes/class.ilPageEditorGUI.php");
-include_once ("./Services/Style/classes/class.ilObjStyleSheet.php");
+include_once ("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 include_once ("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 
 
@@ -40,7 +40,7 @@ class ilLMEditorGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilLMEditorGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
 			$rbacsystem, $ilNavigationHistory;
@@ -56,20 +56,20 @@ class ilLMEditorGUI
 		}
 
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 
 		//$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
 		$this->ctrl->saveParameter($this, array("ref_id", "transl"));
 
 		// initiate variables
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->objDefinition =& $objDefinition;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->objDefinition = $objDefinition;
 		$this->ref_id = $_GET["ref_id"];
 		$this->obj_id = $_GET["obj_id"];
 
-		$this->lm_obj =& $this->ilias->obj_factory->getInstanceByRefId($this->ref_id);
+		$this->lm_obj = $this->ilias->obj_factory->getInstanceByRefId($this->ref_id);
 		$this->tree = new ilTree($this->lm_obj->getId());
 		$this->tree->setTableNames('lm_tree','lm_data');
 		$this->tree->setTreeTablePK("lm_id");
@@ -82,7 +82,7 @@ class ilLMEditorGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 
 		global $ilHelp;
@@ -132,9 +132,9 @@ class ilLMEditorGUI
 				include_once ("./Modules/LearningModule/classes/class.ilObjDlBookGUI.php");
 
 				$this->main_header($this->lm_obj->getType());
-				$book_gui =& new ilObjDlBookGUI("", $_GET["ref_id"], true, false);
+				$book_gui = new ilObjDlBookGUI("", $_GET["ref_id"], true, false);
 				//$ret =& $book_gui->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($book_gui);
+				$ret = $this->ctrl->forwardCommand($book_gui);
 				if (strcmp($cmd, "explorer") != 0)
 				{
 					// don't call the locator in the explorer frame
@@ -158,9 +158,9 @@ class ilLMEditorGUI
 				include_once ("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 				include_once ("./Modules/LearningModule/classes/class.ilObjLearningModuleGUI.php");
 				$this->main_header($this->lm_obj->getType());
-				$lm_gui =& new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
+				$lm_gui = new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
 				//$ret =& $lm_gui->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($lm_gui);
+				$ret = $this->ctrl->forwardCommand($lm_gui);
 				if (strcmp($cmd, "explorer") != 0)
 				{
 					// don't call the locator in the explorer frame

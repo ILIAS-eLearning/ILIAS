@@ -104,7 +104,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				break;
 			
 			case "ilobjstylesheetgui":
-				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+				include_once ("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "editStyleProperties");
 				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
@@ -272,7 +272,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$type_page->addSubItem($tf);	
 
 		// page templates
-		include_once "Services/Style/classes/class.ilPageLayout.php";
+		include_once "Services/COPage/Layout/classes/class.ilPageLayout.php";
 		$templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
 		if($templates)
 		{			
@@ -320,7 +320,12 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt("prtf_no_blogs_info"));				
+				// #18147
+				$this->lng->loadLanguageModule('pd');
+				$url = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumpToWorkspace");
+				$url = '<a href="'.$url.'">'.$this->lng->txt("pd_personal_workspace").'</a>';
+
+				ilUtil::sendInfo(sprintf($this->lng->txt("prtf_no_blogs_info"), $url), true);				
 				$type->setValue("page");
 			}
 		}
@@ -390,7 +395,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$layout_id = $_POST["tmpl"];
 			if($layout_id)
 			{
-				include_once("./Services/Style/classes/class.ilPageLayout.php");
+				include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 				$layout_obj = new ilPageLayout($layout_id);
 				$page->setXMLContent($layout_obj->getXMLContent());
 			}
@@ -721,7 +726,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$skill_ids = array();
 		
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
-		foreach(ilPortfolioTemplatePage::getAllPages($a_prtt_id) as $page)
+		foreach(ilPortfolioTemplatePage::getAllPortfolioPages($a_prtt_id) as $page)
 		{
 			switch($page["type"])
 			{
@@ -856,7 +861,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			if($form->checkInput())
 			{
 				include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
-				foreach(ilPortfolioTemplatePage::getAllPages($prtt_id) as $page)
+				foreach(ilPortfolioTemplatePage::getAllPortfolioPages($prtt_id) as $page)
 				{
 					switch($page["type"])
 					{												

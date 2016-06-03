@@ -34,7 +34,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	* @param    int         id (ignored)
 	* @param    boolean     call-by-reference (ignored)
 	*/
-	function ilObjLanguageExtGUI($a_data, $a_id = 0, $a_call_by_reference = false)
+	function __construct($a_data, $a_id = 0, $a_call_by_reference = false)
 	{
 		global $lng, $ilCtrl, $ilClientIniFile;
 
@@ -53,7 +53,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 		}
 		
 		// do all generic GUI initialisations
-		$this->ilObjectGUI($a_data, $this->id, false, true);
+		parent::__construct($a_data, $this->id, false, true);
 		
 		// initialize the array to store session variables for extended language maintenance
 		if (!is_array($_SESSION['lang_ext_maintenance']))
@@ -77,7 +77,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	function assignObject()
 	{
 		require_once("Services/Language/classes/class.ilObjLanguageExt.php");
-		$this->object =& new ilObjLanguageExt($this->id);
+		$this->object = new ilObjLanguageExt($this->id);
 	}
 
     /**
@@ -92,7 +92,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilHelp;
 		
@@ -782,31 +782,31 @@ class ilObjLanguageExtGUI extends ilObjectGUI
      *
 	 * @param	object	tabs gui object
 	 */
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
         if (!ilObjLanguageAccess::_isPageTranslation())
         {
-            $tabs_gui->addTarget("edit",
+            $this->tabs_gui->addTarget("edit",
                 $this->ctrl->getLinkTarget($this, "view"),
                 array("","view","cancel","save"));
 
-            $tabs_gui->addTarget("export",
+            $this->tabs_gui->addTarget("export",
                 $this->ctrl->getLinkTarget($this, "export"),
                 array("export","download"));
 
-            $tabs_gui->addTarget("import",
+            $this->tabs_gui->addTarget("import",
                 $this->ctrl->getLinkTarget($this, "import"),
                 array("import","upload"));
 
-            $tabs_gui->addTarget("language_maintain",
+            $this->tabs_gui->addTarget("language_maintain",
                 $this->ctrl->getLinkTarget($this, "maintain"),
                 array("maintain"));
 
-            $tabs_gui->addTarget("settings",
+            $this->tabs_gui->addTarget("settings",
                 $this->ctrl->getLinkTarget($this, "settings"),
                 array("settings"));
 
-            $tabs_gui->addTarget("language_statistics",
+            $this->tabs_gui->addTarget("language_statistics",
                 $this->ctrl->getLinkTarget($this, "statistics"),
                 array("statistics"));
         }
@@ -817,7 +817,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	 * Set the locator for admin mode
 	 *(Overwritten from ilObjectGUI, called by prepareOutput)
 	 */
-	function addAdminLocatorItems()
+	function addAdminLocatorItems($a_do_not_add_object = false)
 	{
 		global $ilLocator;
 

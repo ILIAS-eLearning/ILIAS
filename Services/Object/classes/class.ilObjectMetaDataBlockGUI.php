@@ -29,7 +29,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 	*/
 	function __construct(ilAdvancedMDRecord $a_record, $a_decorator_callback = null)
 	{		
-		parent::ilBlockGUI();
+		parent::__construct();
 						
 		$this->record = $a_record;		
 		$this->callback = $a_decorator_callback;
@@ -77,7 +77,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 

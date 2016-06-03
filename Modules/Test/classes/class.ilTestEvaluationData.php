@@ -65,7 +65,7 @@ class ilTestEvaluationData
 	*
 	* @access	public
 	*/
-	function ilTestEvaluationData(ilObjTest $test = null)
+	public function __construct(ilObjTest $test = null)
 	{
 		$this->participants = array();
 		$this->questionTitles = array();

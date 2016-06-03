@@ -36,14 +36,6 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
  
 class ilWebresourceSearch extends ilAbstractSearch
 {
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilWebresourceSearch(&$query_parser)
-	{
-		parent::ilAbstractSearch($query_parser);
-	}
 
 	function &performSearch()
 	{
@@ -58,7 +50,7 @@ class ilWebresourceSearch extends ilAbstractSearch
 			$where;
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->webr_id,'webr',$this->__prepareFound($row),$row->link_id);
 		}

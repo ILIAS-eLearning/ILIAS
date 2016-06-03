@@ -55,13 +55,13 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
 		$this->addToParentElement($date);
 	}
 	
-	protected function shouldBeImportedFromPost(array $a_post)
+	protected function shouldBeImportedFromPost($a_post)
 	{
 		if(!(bool)$this->text_input)
 		{
 			return (bool)$a_post["tgl"];			
 		}
-		return parent::shouldBeImportedFromPost($post);
+		return parent::shouldBeImportedFromPost($a_post);
 	}
 	
 	public function importFromPost(array $a_post = null)
@@ -121,8 +121,10 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
 		}
 	}
 	
-	public function isInCondition(ilADTDateTime $a_adt)
+	public function isInCondition(ilADT $a_adt)
 	{
+		assert($a_adt instanceof ilADTDateTime);
+		
 		return $this->getADT()->equals($a_adt);
 	}		
 	

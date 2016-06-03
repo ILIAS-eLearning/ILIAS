@@ -121,20 +121,47 @@ class ilUserLPTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_FIRSTNAME", $user["firstname"]);
 		$this->tpl->setVariable("VAL_LASTNAME", $user["lastname"]);
 		$this->tpl->setVariable("VAL_ONLINE_TIME",
-			ilFormat::_secondsToShortString($user["online_time"]));
+			self::secondsToShortString($user["online_time"]));
 		$this->tpl->setVariable("VAL_LAST_LOGIN", 
 			ilDatePresentation::formatDate(new ilDateTime($user["last_login"], IL_CAL_DATETIME)));		
 	}
 	
-	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
 	{
-		$a_worksheet->write($a_row, 0, $a_set["login"]);
-		$a_worksheet->write($a_row, 1, $a_set["firstname"]);
-		$a_worksheet->write($a_row, 2, $a_set["lastname"]);
-		$a_worksheet->write($a_row, 3, 
-			ilFormat::_secondsToShortString($a_set["online_time"]));
-		$a_worksheet->write($a_row, 4, 
-			ilDatePresentation::formatDate(new ilDateTime($a_set["last_login"], IL_CAL_DATETIME)));		
+		$a_excel->setCell($a_row, 0, $a_set["login"]);
+		$a_excel->setCell($a_row, 1, $a_set["firstname"]);
+		$a_excel->setCell($a_row, 2, $a_set["lastname"]);
+		$a_excel->setCell($a_row, 3, 
+			self::secondsToShortString($a_set["online_time"]));
+		$a_excel->setCell($a_row, 4, new ilDateTime($a_set["last_login"], IL_CAL_DATETIME));		
+	}
+	
+	/**
+	 * converts seconds to string:
+	 * Long: 7 days 4 hour(s) ...
+	 *
+	 * @param	string	datetime
+	 * @return	integer	unix timestamp  
+	 */
+	protected static function secondsToShortString($seconds)
+	{
+		global $lng;
+
+		$seconds = $seconds ? $seconds : 0;
+
+		global $lng;
+
+		$days = floor($seconds / 86400);
+		$rest = $seconds % 86400;
+
+		$hours = floor($rest / 3600);
+		$rest = $rest % 3600;
+
+		$minutes = floor($rest / 60);
+		$rest = $rest % 60;
+
+		return sprintf("%02d:%02d:%02d:%02d",$days,$hours,$minutes,$rest);
+
 	}
 }
 

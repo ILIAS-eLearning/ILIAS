@@ -284,15 +284,16 @@ class ilExSubmission
 				$this->team->writeLog(ilExAssignmentTeam::TEAM_LOG_ADD_FILE, 
 					$a_http_post_files["name"]);			
 			}			
-		}
-		return true;
+			
+			return true;
+		}		
 	}
 	
 	/**
 	* processes errorhandling etc for uploaded archive
 	* @param string $tmpFile path and filename to uploaded file
 	*/
-	function processUploadedFile($fileTmp)
+	function processUploadedZipFile($fileTmp)
 	{		
 		global $lng; 
 		
@@ -302,31 +303,47 @@ class ilExSubmission
 
 		include_once ("Services/Utilities/classes/class.ilFileUtils.php");
 		
+		$success = true;
+		
 		try 
 		{
-			$success = ilFileUtils::processZipFile($newDir,$fileTmp, false);
+			ilFileUtils::processZipFile($newDir,$fileTmp, false);
 			ilFileUtils::recursive_dirscan($newDir, $filearray);			
 
-			foreach ($filearray["file"] as $key => $filename)
+			// #18441 - check number of files in zip
+			$max_num = $this->assignment->getMaxFile();
+			if($max_num)
 			{
-				$a_http_post_files["name"] = ilFileUtils::utf8_encode($filename);
-				$a_http_post_files["type"] = "other";
-				$a_http_post_files["tmp_name"] = $filearray["path"][$key]."/".$filename;
-				$a_http_post_files["error"] = 0;
-				$a_http_post_files["size"] = filesize($filearray["path"][$key]."/".$filename);
-
-				if(!$this->uploadFile($a_http_post_files, true))
+				$current_num = sizeof($this->getFiles());
+				$zip_num = sizeof($filearray["file"]);
+				if($current_num + $zip_num > $max_num)
 				{
+					$success = false;
 					ilUtil::sendFailure($lng->txt("exc_upload_error"), true);
-				}		
-				else
-				{
-					$success = true;
 				}
-			}			
+			}
+			
+			if($success)
+			{			
+				foreach ($filearray["file"] as $key => $filename)
+				{
+					$a_http_post_files["name"] = ilFileUtils::utf8_encode($filename);
+					$a_http_post_files["type"] = "other";
+					$a_http_post_files["tmp_name"] = $filearray["path"][$key]."/".$filename;
+					$a_http_post_files["error"] = 0;
+					$a_http_post_files["size"] = filesize($filearray["path"][$key]."/".$filename);
+
+					if(!$this->uploadFile($a_http_post_files, true))
+					{
+						$success = false;
+						ilUtil::sendFailure($lng->txt("exc_upload_error"), true);
+					}		
+				}			
+			}
 		} 
 		catch (ilFileUtilsException $e) 
 		{
+			$success = false;
 			ilUtil::sendFailure($e->getMessage());
 		}
 		
@@ -737,7 +754,6 @@ class ilExSubmission
 		$filename = $this->initStorage()->getAbsoluteSubmissionPath().
 			"/".$a_user_id."/".basename($filename);
 
-		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::deliverFile($filename, $filetitle);
 	}
 
@@ -747,7 +763,6 @@ class ilExSubmission
 		
 		$path = $this->initStorage()->getAbsoluteSubmissionPath();
 		
-		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		$cdir = getcwd();
 
 		$zip = PATH_TO_ZIP;
@@ -849,12 +864,12 @@ class ilExSubmission
 	 * Download all submitted files of an assignment (all user)
 	 *
 	 * @param	$members		array of user names, key is user id
+	 * @throws ilExerciseException
 	 */
 	public static function downloadAllAssignmentFiles(ilExAssignment $a_ass, array $members)
 	{
-		global $lng, $ilias;
+		global $lng;
 		
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		
 		$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
@@ -991,9 +1006,8 @@ class ilExSubmission
 
 				if (!copy ($sourcefile, $targetfile))
 				{
-					//echo 'Could not copy '.$sourcefile.' to '.$targetfile;
-					$ilias->raiseError('Could not copy '.basename($sourcefile)." to '".$targetfile."'.",
-						$ilias->error_obj->MESSAGE);
+					include_once "Modules/Exercise/exceptions/class.ilExerciseException.php";
+					throw new ilExerciseException("Could not copy ".basename($sourcefile)." to '".$targetfile."'.");					
 				}
 				else
 				{

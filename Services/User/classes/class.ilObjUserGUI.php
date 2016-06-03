@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
-include_once('./Services/Calendar/classes/class.ilDatePresentation.php');
 
 /**
 * Class ilObjUserGUI
@@ -44,17 +43,17 @@ class ilObjUserGUI extends ilObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjUserGUI($a_data,$a_id,$a_call_by_reference = false, $a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference = false, $a_prepare_output = true)
 	{
 		global $ilCtrl, $lng;
 
 		define('USER_FOLDER_ID',7);
 
 		$this->type = "usr";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 		$this->usrf_ref_id =& $this->ref_id;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array('obj_id', 'letter'));
 		$this->ctrl->setParameterByClass("ilobjuserfoldergui", "letter", $_GET["letter"]);
 		
@@ -68,7 +67,7 @@ class ilObjUserGUI extends ilObjectGUI
 							  );
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem;
 
@@ -81,7 +80,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			case "illearningprogressgui":
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_USER_FOLDER,USER_FOLDER_ID,$this->object->getId());
+				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_USER_FOLDER,USER_FOLDER_ID,$this->object->getId());
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 
@@ -141,37 +140,37 @@ class ilObjUserGUI extends ilObjectGUI
 	/**
 	* admin and normal tabs are equal for roles
 	*/
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 
 	/**
 	* get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $ilHelp;
 
-		$tabs_gui->clearTargets();
+		$this->tabs_gui->clearTargets();
 		
 		$ilHelp->setScreenIdComponent("usr");
 
 		if ($_GET["search"])
 		{
-			$tabs_gui->setBackTarget(
+			$this->tabs_gui->setBackTarget(
 				$this->lng->txt("search_results"),$_SESSION["usr_search_link"]);
 
-			$tabs_gui->addTarget("properties",
+			$this->tabs_gui->addTarget("properties",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit","","view"), get_class($this),"",true);
 		}
 		else
 		{
-			$tabs_gui->addTarget("properties",
+			$this->tabs_gui->addTarget("properties",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit","","view"), get_class($this));
 		}
 
-		$tabs_gui->addTarget("role_assignment",
+		$this->tabs_gui->addTarget("role_assignment",
 			$this->ctrl->getLinkTarget($this, "roleassignment"), array("roleassignment"), get_class($this));
 
 		// learning progress
@@ -181,13 +180,13 @@ class ilObjUserGUI extends ilObjectGUI
 			ilObjUserTracking::_enabledUserRelatedData())
 		{
 
-			$tabs_gui->addTarget('learning_progress',
+			$this->tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass('illearningprogressgui',''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 
-		$tabs_gui->addTarget('user_ownership',
+		$this->tabs_gui->addTarget('user_ownership',
 			$this->ctrl->getLinkTargetByClass('ilobjectownershipmanagementgui',''),
 			'',
 			'ilobjectownershipmanagementgui');
@@ -430,7 +429,7 @@ class ilObjUserGUI extends ilObjectGUI
 			if (ilDiskQuotaActivationChecker::_isActive())
 			{
 				// The disk quota is entered in megabytes but stored in bytes
-				$userObj->setPref("disk_quota", trim($_POST["disk_quota"]) * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
+				$userObj->setPref("disk_quota", ilUtil::MB2Bytes($_POST["disk_quota"]));
 			}
 			
 			if($this->isSettingChangeable('skin_style'))
@@ -860,12 +859,12 @@ class ilObjUserGUI extends ilObjectGUI
 			if (ilDiskQuotaActivationChecker::_isActive())
 			{
 				// set disk quota
-				$this->object->setPref("disk_quota", $_POST["disk_quota"] * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
+				$this->object->setPref("disk_quota", ilUtil::MB2Bytes($_POST["disk_quota"]));
 			}
 			if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
 			{
 				// set personal workspace disk quota
-				$this->object->setPref("wsp_disk_quota", $_POST["wsp_disk_quota"] * ilFormat::_getSizeMagnitude() * ilFormat::_getSizeMagnitude());
+				$this->object->setPref("wsp_disk_quota", ilUtil::MB2Bytes($_POST["wsp_disk_quota"]));
 			}
 
 			if($this->isSettingChangeable('skin_style'))
@@ -977,17 +976,16 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["ext_account"] = $this->object->getExternalAccount();
 
 		// system information
-		require_once './Services/Utilities/classes/class.ilFormat.php';
-		$data["create_date"] = ilFormat::formatDate($this->object->getCreateDate(),'datetime',true);
+		$data["create_date"] = ilDatePresentation::formatDate(new ilDateTime($this->object->getCreateDate(), IL_CAL_DATETIME));
 		$data["owner"] = ilObjUser::_lookupLogin($this->object->getOwner());
 		$data["approve_date"] = ($this->object->getApproveDate() != "")
-			? ilFormat::formatDate($this->object->getApproveDate(),'datetime',true)
+			? ilDatePresentation::formatDate(new ilDateTime($this->object->getApproveDate(), IL_CAL_DATETIME))
 			: null;
 		$data["agree_date"] = ($this->object->getAgreeDate() != "")
-			? ilFormat::formatDate($this->object->getAgreeDate(),'datetime',true)
+			? ilDatePresentation::formatDate(new ilDateTime($this->object->getAgreeDate(), IL_CAL_DATETIME))
 			: null;
 		$data["last_login"] =  ($this->object->getLastLogin() != "")
-			 ? ilFormat::formatDate($this->object->getLastLogin(),'datetime',true)
+			 ? ilDatePresentation::formatDate(new ilDateTime($this->object->getLastLogin(), IL_CAL_DATETIME))
 			 : null;
 		$data["active"] = $this->object->getActive();
 		$data["time_limit_unlimited"] = $this->object->getTimeLimitUnlimited();
@@ -1005,11 +1003,11 @@ class ilObjUserGUI extends ilObjectGUI
 		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
 		if (ilDiskQuotaActivationChecker::_isActive())
 		{
-			$data["disk_quota"] = $this->object->getDiskQuota() / ilFormat::_getSizeMagnitude() / ilFormat::_getSizeMagnitude();
+			$data["disk_quota"] = ilUtil::Bytes2MB($this->object->getDiskQuota());
 		}
 		if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
 		{
-			$data["wsp_disk_quota"] = $this->object->getPersonalWorkspaceDiskQuota() / ilFormat::_getSizeMagnitude() / ilFormat::_getSizeMagnitude();
+			$data["wsp_disk_quota"] = ilUtil::Bytes2MB($this->object->getPersonalWorkspaceDiskQuota());
 		}
 		// W. Randelshofer 2008-09-09: Deactivated display of disk space usage,
 		// because determining the disk space usage may take several minutes.
@@ -1087,6 +1085,9 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"] == 'y';
 		$data['bs_allow_to_contact_me'] = $this->object->prefs['bs_allow_to_contact_me'] == 'y';
 		$data["session_reminder_enabled"] = (int)$this->object->prefs["session_reminder_enabled"];
+
+		$data["send_mail"] = ($this->object->prefs['send_info_mails'] == 'y');
+
 
 		$this->form_gui->setValuesByArray($data);
 	}
@@ -1277,8 +1278,8 @@ class ilObjUserGUI extends ilObjectGUI
 				if ($dq_info['user_disk_quota'] > $dq_info['role_disk_quota'])
 				{
 					$info_text = sprintf($lng->txt('disk_quota_is_1_instead_of_2_by_3'),
-						ilFormat::formatSize($dq_info['user_disk_quota'],'short'),
-						ilFormat::formatSize($dq_info['role_disk_quota'],'short'),
+						ilUtil::formatSize($dq_info['user_disk_quota'],'short'),
+						ilUtil::formatSize($dq_info['role_disk_quota'],'short'),
 						$dq_info['role_title']);
 				}
 				else if (is_infinite($dq_info['role_disk_quota']))
@@ -1288,7 +1289,7 @@ class ilObjUserGUI extends ilObjectGUI
 				else
 				{
 					$info_text = sprintf($lng->txt('disk_quota_is_1_by_2'),
-						ilFormat::formatSize($dq_info['role_disk_quota'],'short'),
+						ilUtil::formatSize($dq_info['role_disk_quota'],'short'),
 						$dq_info['role_title']);
 				}
 				$disk_quota->setInfo($this->lng->txt("enter_in_mb_desc").'<br>'.$info_text);
@@ -1303,8 +1304,7 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 				else
 				{
-			        require_once './Services/Utilities/classes/class.ilFormat.php';
-					$disk_usage->setValue(ilFormat::formatSize($du_info['disk_usage'],'short'));
+					$disk_usage->setValue(ilUtil::formatSize($du_info['disk_usage'],'short'));
 				$info = '<table class="il_user_quota_disk_usage_overview">';
 					// write the count and size of each object type
 					foreach ($du_info['details'] as $detail_data)
@@ -1312,7 +1312,7 @@ class ilObjUserGUI extends ilObjectGUI
 						$info .= '<tr>'.
 							'<td class="std">'.$detail_data['count'].'</td>'.
 							'<td class="std">'.$lng->txt($detail_data['type']).'</td>'.
-							'<td class="std">'.ilFormat::formatSize($detail_data['size'], 'short').'</td>'.
+							'<td class="std">'.ilUtil::formatSize($detail_data['size'], 'short').'</td>'.
 							'</tr>'
 							;
 					}
@@ -1360,8 +1360,8 @@ class ilObjUserGUI extends ilObjectGUI
 				if ($dq_info['user_wsp_disk_quota'] > $dq_info['role_wsp_disk_quota'])
 				{
 					$info_text = sprintf($lng->txt('disk_quota_is_1_instead_of_2_by_3'),
-						ilFormat::formatSize($dq_info['user_wsp_disk_quota'],'short'),
-						ilFormat::formatSize($dq_info['role_wsp_disk_quota'],'short'),
+						ilUtil::formatSize($dq_info['user_wsp_disk_quota'],'short'),
+						ilUtil::formatSize($dq_info['role_wsp_disk_quota'],'short'),
 						$dq_info['role_title']);
 				}
 				else if (is_infinite($dq_info['role_wsp_disk_quota']))
@@ -1371,7 +1371,7 @@ class ilObjUserGUI extends ilObjectGUI
 				else
 				{
 					$info_text = sprintf($lng->txt('disk_quota_is_1_by_2'),
-						ilFormat::formatSize($dq_info['role_wsp_disk_quota'],'short'),
+						ilUtil::formatSize($dq_info['role_wsp_disk_quota'],'short'),
 						$dq_info['role_title']);
 				}
 				$wsp_disk_quota->setInfo($this->lng->txt("enter_in_mb_desc").'<br>'.$info_text);
@@ -1387,8 +1387,7 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 			else
 			{
-				require_once './Services/Utilities/classes/class.ilFormat.php';
-				$disk_usage->setValue(ilFormat::formatSize(ilDiskQuotaHandler::getFilesizeByOwner($this->object->getId())));
+				$disk_usage->setValue(ilUtil::formatSize(ilDiskQuotaHandler::getFilesizeByOwner($this->object->getId())));
 				$info = '<table class="il_user_quota_disk_usage_overview">';
 				// write the count and size of each object type
 				foreach ($du_info as $detail_data)
@@ -1396,7 +1395,7 @@ class ilObjUserGUI extends ilObjectGUI
 					$info .= '<tr>'.
 						'<td class="std">'.$detail_data['count'].'</td>'.
 						'<td class="std">'.$lng->txt("obj_".$detail_data["src_type"]).'</td>'.
-						'<td class="std">'.ilFormat::formatSize($detail_data['filesize'], 'short').'</td>'.
+						'<td class="std">'.ilUtil::formatSize($detail_data['filesize'], 'short').'</td>'.
 						'</tr>'
 						;
 				}
@@ -1730,7 +1729,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				foreach ($templates as $template)
 				{
-					$styleDef =& new ilStyleDefinition($template["id"]);
+					$styleDef = new ilStyleDefinition($template["id"]);
 					$styleDef->startParsing();
 					$styles = $styleDef->getStyles();
 					foreach ($styles as $style)
@@ -2845,7 +2844,7 @@ class ilObjUserGUI extends ilObjectGUI
 	* should be overwritten to add object specific items
 	* (repository items are preloaded)
 	*/
-	function addAdminLocatorItems()
+	function addAdminLocatorItems($a_do_not_add_object = false)
 	{
 		global $ilLocator;
 

@@ -86,7 +86,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjCourse($a_id = 0,$a_call_by_reference = true)
+	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		
 		#define("ILIAS_MODULE","course");
@@ -122,7 +122,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$query = 'SELECT show_members FROM crs_settings '.
 				'WHERE obj_id = '.$GLOBALS['ilDB']->quote($a_obj_id,'integer');
 		$res = $GLOBALS['ilDB']->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return (bool) $row->show_members;
 		}
@@ -458,7 +458,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * @param bool $a_include_side_block[optional]
 	 * @return array 
 	 */
-	public function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false)
+	public function getSubItems($a_admin_panel_enabled = false, $a_include_side_block = false, $a_get_single = 0)
 	{
 		global $ilUser;
 
@@ -469,7 +469,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		}
 		
 		// Results are stored in $this->items
-		parent::getSubItems($a_admin_panel_enabled,$a_include_side_block);
+		parent::getSubItems($a_admin_panel_enabled,$a_include_side_block, $a_get_single);
 		
 		$limit_sess = false;		
 		if(!$a_admin_panel_enabled &&
@@ -578,26 +578,31 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return $this->view_mode;
 	}
 
-	function _lookupViewMode($a_id)
+	/**
+	 * lookup view mode of container
+	 * @param int $a_id
+	 * @return mixed int | bool
+	 */
+	public static function _lookupViewMode($a_id)
 	{
 		global $ilDB;
 
 		$query = "SELECT view_mode FROM crs_settings WHERE obj_id = ".$ilDB->quote($a_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->view_mode;
 		}
 		return false;
 	}
 
-	function _lookupAboStatus($a_id)
+	static function _lookupAboStatus($a_id)
 	{
 		global $ilDB;
 
 		$query = "SELECT abo FROM crs_settings WHERE obj_id = ".$ilDB->quote($a_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->abo;
 		}
@@ -748,9 +753,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return $this->ABO == $this->ABO_ENABLED;
 	}
 
-	function read($a_force_db = false)
+	/**
+	 * 
+	 */
+	public function read()
 	{
-		parent::read($a_force_db);
+		parent::read();
 
 		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
 		$this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
@@ -1125,7 +1133,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		global $ilErr;
 		$error = false;
 		if($this->getContactEmail()) {
-  		$emails = split(",",$this->getContactEmail());
+  		$emails = explode(",",$this->getContactEmail());
 			
 			foreach ($emails as $email) {
 				$email = trim($email);
@@ -1440,7 +1448,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$query = "SELECT * FROM crs_settings WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')."";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setSyllabus($row->syllabus);
 			$this->setContactName($row->contact_name);
@@ -1584,7 +1592,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
 		if(!is_object($this->archives_obj))
 		{
-			$this->archives_obj =& new ilCourseArchives($this);
+			$this->archives_obj = new ilCourseArchives($this);
 		}
 		return true;
 	}
@@ -1616,96 +1624,33 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 				$this->getRefId()
 		);
 		
-		// Break inheritance, create local roles and initialize permission
-		// settings depending on course status.
-		$this->__setCourseStatus();
-
 		return array();
 	}
-
+	
 	/**
-	* set course status
-	*
-	* Grants permissions on the course object for all parent roles.  
-	* Each permission is granted by computing the intersection of the role 
-	* template il_crs_non_member and the permission template of 
-	* the parent role.
-	*
-	* Creates linked roles in the local role folder object for all 
-	* parent roles and initializes their permission templates.
-	* Each permission template is initialized by computing the intersection 
-	* of the role template il_crs_non_member and the permission
-	* template of the parent role.
-	*
-	* @access	private
-	*/
-	function __setCourseStatus()
+	 * This method is called before "initDefaultRoles".
+	 * Therefore now local course roles are created.
+	 * 
+	 * Grants permissions on the course object for all parent roles.
+	 * Each permission is granted by computing the intersection of the 
+	 * template il_crs_non_member and the permission template of the parent role.
+	 * @param type $a_parent_ref
+	 */
+	public function setParentRolePermissions($a_parent_ref)
 	{
-		global $rbacadmin, $rbacreview, $rbacsystem;
-
-
-		//define all relevant roles for which rights are needed to be changed
-		$arr_parentRoles = $rbacreview->getParentRoleIds($this->getRefId());
-		$arr_relevantParentRoleIds = array_diff(array_keys($arr_parentRoles),$this->getDefaultCourseRoles());
-
-		$template_id = $this->__getCrsNonMemberTemplateId();
-
-		//get defined operations from template
-		if (is_null($template_id))
+		global $rbacadmin, $rbacreview;
+		
+		$parent_roles = $rbacreview->getParentRoleIds($a_parent_ref);
+		foreach((array) $parent_roles as $parent_role)
 		{
-			$template_ops = array();
-		} 
-		else 
-		{
-			$template_ops = $rbacreview->getOperationsOfRole($template_id, 'crs', ROLE_FOLDER_ID);
+			$rbacadmin->initIntersectionPermissions(
+				$this->getRefId(),
+				$parent_role['obj_id'],
+				$parent_role['parent'],
+				$this->__getCrsNonMemberTemplateId(),
+				ROLE_FOLDER_ID
+			);
 		}
-
-		foreach ($arr_relevantParentRoleIds as $parentRole)
-		{
-			if ($rbacreview->isProtected($arr_parentRoles[$parentRole]['parent'],$parentRole))
-			{
-				continue;
-			}
-				
-			$granted_permissions = array();
-
-			// Delete the linked role for the parent role
-			// (just in case if it already exists).
-			$rbacadmin->deleteLocalRole($parentRole,$this->getRefId());
-
-			// Grant permissions on the course object for 
-			// the parent role. In the foreach loop we
-			// compute the intersection of the role     
-			// template il_crs_non_member and the 
-			// permission template of the parent role.
-			$current_ops = $rbacreview->getRoleOperationsOnObject($parentRole, $this->getRefId());
-			$rbacadmin->revokePermission($this->getRefId(), $parentRole);
-			foreach ($template_ops as $template_op) 
-			{
-				if (in_array($template_op,$current_ops)) 
-				{
-					array_push($granted_permissions,$template_op);
-				}
-			}
-			if (!empty($granted_permissions))
-			{
-				$rbacadmin->grantPermission($parentRole, $granted_permissions, $this->getRefId());
-			}
-
-			// Create a linked role for the parent role and
-			// initialize it with the intersection of 
-			// il_crs_non_member and the permission
-			// template of the parent role
-			if (! is_null($template_id))
-			{
-				$rbacadmin->copyRolePermissionIntersection(
-					$template_id, ROLE_FOLDER_ID, 
-					$parentRole, $arr_parentRoles[$parentRole]['parent'], 
-					$this->getRefId(), $parentRole
-				);
-			}
-			$rbacadmin->assignRoleToFolder($parentRole,$this->getRefId(),"false");
-		}//END foreach
 	}
 
 	/**
@@ -1720,9 +1665,24 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_crs_non_member'";
 		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 		return $row["obj_id"];
+	}
+
+	/**
+	 * Lookup course non member id
+	 * @return int
+	 */
+	public static function lookupCourseNonMemberTemplatesId()
+	{
+		global $ilDB;
+		
+		$query = 'SELECT obj_id FROM object_data WHERE type = '.$ilDB->quote('rolt','text').' AND title = '.$ilDB->quote('il_crs_non_member','text');
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return isset($row['obj_id']) ? $row['obj_id'] : 0;
 	}
 	
 	/**
@@ -2031,7 +1991,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$res = $ilDB->query($query);
 		
 		$obj_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$obj_ids[] = $row->obj_id;
 		}

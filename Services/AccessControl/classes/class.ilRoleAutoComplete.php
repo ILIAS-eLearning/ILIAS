@@ -29,7 +29,7 @@ class ilRoleAutoComplete
 		$res = $ilDB->query($query);
 		$counter = 0;
 		$result = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$result[$counter] = new stdClass();
 			$result[$counter]->value = $row->role;
@@ -72,7 +72,7 @@ class ilRoleAutoComplete
 			'ORDER BY title';
 		$res = $ilDB->query($query);
 		$counter = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			foreach($rbacreview->getRolesOfRoleFolder($row->ref_id,false) as $rol_id)
 			{

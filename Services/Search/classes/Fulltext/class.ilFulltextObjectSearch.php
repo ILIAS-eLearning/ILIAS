@@ -36,15 +36,6 @@ include_once 'Services/Search/classes/class.ilObjectSearch.php';
 
 class ilFulltextObjectSearch extends ilObjectSearch
 {
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilFulltextObjectSearch(&$qp_obj)
-	{
-		parent::ilObjectSearch($qp_obj);
-	}
-
 	function __createWhereCondition()
 	{
 		

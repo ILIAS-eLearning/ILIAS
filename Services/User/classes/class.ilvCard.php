@@ -95,7 +95,7 @@ class ilvCard
 *
 * @access	public
 */
-	function ilvCard($version = "3.0")
+	function __construct($version = "3.0")
 	{
 		$this->types = array(
 			"FN" => "",

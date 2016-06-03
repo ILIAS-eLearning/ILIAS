@@ -40,7 +40,7 @@ class ilSearch
 	* Constructor
 	* @access	public
 	*/
-	function ilSearch($a_user_id = 0,$a_read = false)
+	function __construct($a_user_id = 0,$a_read = false)
 	{
 		global $ilias,$rbacsystem,$lng;
 		
@@ -321,7 +321,7 @@ class ilSearch
 			$res = $ilDB->query($query);
 			if ($res->numRows())
 			{
-				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+				$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 				$this->setResult(unserialize(stripslashes($row->search_result)));
 			}
 			else

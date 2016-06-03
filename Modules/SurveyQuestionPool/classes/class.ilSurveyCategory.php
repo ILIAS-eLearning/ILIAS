@@ -37,14 +37,7 @@ class ilSurveyCategory
 	/**
 	* ilSurveyPhrases constructor
 	*/
-	function __construct
-	(
-		$title = null,
-		$other = 0,
-		$neutral = 0,
-		$label = null,
-		$scale = null
-	)
+	function __construct($title = null, $other = 0, $neutral = 0, $label = null, $scale = null	)
 	{
 		$this->arrData = array(
 			"title" => $title,

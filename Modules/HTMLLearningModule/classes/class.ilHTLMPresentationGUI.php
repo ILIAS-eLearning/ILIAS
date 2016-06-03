@@ -50,7 +50,7 @@ class ilHTLMPresentationGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilHTLMPresentationGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $objDefinition, $ilCtrl,
 			$rbacsystem, $ilAccess;
@@ -64,16 +64,16 @@ class ilHTLMPresentationGUI
 		}
 
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 
 		//$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
 		$this->ctrl->saveParameter($this, array("ref_id"));
 
 		// initiate variables
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->objDefinition =& $objDefinition;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->objDefinition = $objDefinition;
 		$this->ref_id = $_GET["ref_id"];
 
 	}
@@ -81,7 +81,7 @@ class ilHTLMPresentationGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl, $ilCtrl,$ilAccess, $ilNavigationHistory;
 
@@ -99,7 +99,7 @@ class ilHTLMPresentationGUI
 		{
 			case "ilobjfilebasedlmgui":
 				require_once ("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMGUI.php");
-				$fblm_gui =& new ilObjFileBasedLMGUI("", $_GET["ref_id"],true, false);
+				$fblm_gui = new ilObjFileBasedLMGUI("", $_GET["ref_id"],true, false);
 				$ilCtrl->forwardCommand($fblm_gui);
 				$tpl->show();
 				break;

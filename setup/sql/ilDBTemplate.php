@@ -2,6 +2,9 @@
 function setupILIASDatabase()
 {
 	global $ilDB;
+	/**
+	 * @var ilDB $ilDB 
+	 */
 
 
 

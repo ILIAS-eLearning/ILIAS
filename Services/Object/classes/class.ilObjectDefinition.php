@@ -47,14 +47,14 @@ class ilObjectDefinition// extends ilSaxParser
 	* setup ILIAS global object
 	* @access	public
 	*/
-	function ilObjectDefinition()
+	function __construct()
 	{
 		global $ilias;
 		
 		$this->readDefinitionData();
 		$this->ilias = $ilias;
 		
-		//parent::ilSaxParser(ILIAS_ABSOLUTE_PATH."/objects.xml");
+		//parent::__construct(ILIAS_ABSOLUTE_PATH."/objects.xml");
 		
 		// removing this line leads to segmentation faults in
 		// learning module editor with
@@ -360,7 +360,7 @@ class ilObjectDefinition// extends ilSaxParser
 				$q = "SELECT count(obj_id) cnt FROM object_translation WHERE obj_id = ".
 					$ilDB->quote(ROOT_FOLDER_ID,'integer')." ";
 				$set = $ilDB->query($q);
-				$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+				$rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 				if($rec["cnt"] > 0)
 				{
 					$this->root_trans_type = "db";
@@ -946,7 +946,7 @@ class ilObjectDefinition// extends ilSaxParser
 		
 		$set = $ilDB->query("SELECT * FROM il_object_group");
 		$groups = array();
-		while ($gr_rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($gr_rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$groups[$gr_rec["id"]] = $gr_rec;
 		}

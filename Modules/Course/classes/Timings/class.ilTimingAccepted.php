@@ -37,7 +37,12 @@ class ilTimingAccepted
 	var $ilDB;
 	var $lng;
 
-	function ilTimingAccepted($crs_id,$a_usr_id)
+	/**
+	 * Constructor
+	 * @param int $crs_id
+	 * @param int $a_usr_id
+	 */
+	public function __construct($crs_id,$a_usr_id)
 	{
 		global $ilErr,$ilDB,$lng,$tree;
 
@@ -147,7 +152,7 @@ class ilTimingAccepted
 			"WHERE crs_id = ".$ilDB->quote($this->getCourseId() ,'integer')." ".
 			"AND usr_id = ".$ilDB->quote($this->getUserId() ,'integer')."";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setVisible($row->visible);
 			$this->setRemark($row->remark);

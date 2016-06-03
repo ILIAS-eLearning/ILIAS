@@ -21,7 +21,7 @@ class ilSurveySkillChangesTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_survey, $a_appraisee)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng;
+		global $ilCtrl, $lng;
 		
 		$this->survey = $a_survey;
 		$this->appraisee = $a_appraisee;

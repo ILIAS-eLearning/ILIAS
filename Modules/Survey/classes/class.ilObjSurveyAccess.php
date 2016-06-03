@@ -62,7 +62,6 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 		switch($a_operator)
 		{
 			case ilConditionHandler::OPERATOR_FINISHED:
-				//if (ilExerciseMembers::_lookupStatus($a_exc_id, $ilias->account->getId()) == "passed")
 				include_once("./Modules/Survey/classes/class.ilObjSurveyAccess.php");
 				if (ilObjSurveyAccess::_lookupFinished($a_svy_id, $a_usr_id))
 				{
@@ -171,7 +170,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array
 		(
@@ -191,7 +190,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	/**
 	* checks wether all necessary parts of the survey are given
 	*/
-	function _lookupCreationComplete($a_obj_id)
+	static function _lookupCreationComplete($a_obj_id)
 	{
 		global $ilDB;
 
@@ -241,7 +240,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 		return ($result->numRows() == 1) ? true : false;
 	}
 	
-	function _lookupAnonymize($a_obj_id)
+	static function _lookupAnonymize($a_obj_id)
 	{
 		global $ilDB;
 
@@ -331,7 +330,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	/**
 	* get status
 	*/
-	function _lookupOnline($a_obj_id)
+	static function _lookupOnline($a_obj_id)
 	{
 		global $ilDB;
 
@@ -351,7 +350,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	*
 	* @param	int		$a_obj_id		survey id
 	*/
-	function _lookupFinished($a_obj_id, $a_user_id = "")
+	static function _lookupFinished($a_obj_id, $a_user_id = "")
 	{
 		global $ilDB, $ilUser;
 
@@ -391,7 +390,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 		return $finished;
 	}
 	
-	function _lookup360Mode($a_obj_id)
+	static function _lookup360Mode($a_obj_id)
 	{
 		global $ilDB;
 
@@ -406,7 +405,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	/**
 	* check whether goto script will succeed
 	*/
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 		

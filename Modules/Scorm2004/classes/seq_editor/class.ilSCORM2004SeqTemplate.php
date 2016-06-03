@@ -39,10 +39,10 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
 	private $sahs_sc13_treeId = null;
 	private $importid;
 	
-	public function ilSCORM2004SeqTemplate($a_identifier)
+	public function __construct($a_identifier)
 	{
 		
-		parent::ilSCORM2004SeqNode();
+		parent::__construct();
 		$this->setNodeName("seqtemplate");
 		
 		if ($a_identifier==null) {return;}

@@ -47,11 +47,11 @@ class ilObjExercise extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjExercise($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->setPassMode("all");
 		$this->type = "exc";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	// SET, GET METHODS
@@ -163,13 +163,6 @@ class ilObjExercise extends ilObject
 	{
 		global $ilDB;
 		
-		// SAVE ONLY EXERCISE SPECIFIC DATA
-		/*$query = "INSERT INTO exc_data SET ".
-			"obj_id = ".$ilDB->quote($this->getId()).", ".
-			"instruction = ".$ilDB->quote($this->getInstruction()).", ".
-			"time_stamp = ".$ilDB->quote($this->getTimestamp());
-		$this->ilias->db->query($query);*/
-
 		$ilDB->insert("exc_data", array(
 			"obj_id" => array("integer", $this->getId()),
 			"instruction" => array("clob", $this->getInstruction()),
@@ -246,11 +239,6 @@ class ilObjExercise extends ilObject
 		$ilDB->manipulate("DELETE FROM exc_data ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId(), "integer"));
 
-		//$this->ilias->db->query($query);
-
-		//$this->file_obj->delete();
-		//$this->members_obj->delete();
-		
 		include_once "Modules/Exercise/classes/class.ilExcCriteriaCatalogue.php";
 		ilExcCriteriaCatalogue::deleteByParent($this->getId());
 
@@ -263,23 +251,6 @@ class ilObjExercise extends ilObject
 			array('obj_id'=>$this->getId()));		
 
 		return true;
-	}
-
-	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	*
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional paramters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_node_id,$a_params = 0)
-	{
-		// object specific event handling
-
-		parent::notify($a_event,$a_ref_id,$a_node_id,$a_params);
 	}
 
 	function read()
@@ -320,12 +291,6 @@ class ilObjExercise extends ilObject
 
 		parent::update();
 
-		/*$query = "UPDATE exc_data SET ".
-			"instruction = ".$ilDB->quote($this->getInstruction()).", ".
-			"time_stamp = ".$ilDB->quote($this->getTimestamp())." ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId());
-		*/
-		
 		if ($this->getPassMode() == "all")
 		{
 			$pass_nr = null;
@@ -348,9 +313,6 @@ class ilObjExercise extends ilObject
 
 		$this->updateAllUsersStatus();
 		
-		//$res = $this->ilias->db->query($query);
-
-		#$this->members_obj->update();
 		return true;
 	}
 
@@ -576,122 +538,100 @@ class ilObjExercise extends ilObject
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$ass_data = ilExAssignment::getInstancesByExercise($this->getId());
 		
-		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
-		$excelfile = ilUtil::ilTempnam();
-		$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
-		$workbook = $adapter->getWorkbook();
-		$workbook->setVersion(8); // Use Excel97/2000 Format
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
+		include_once "./Services/Excel/classes/class.ilExcel.php";
+		$excel = new ilExcel();
+		$excel->addSheet($this->lng->txt("exc_status"));
+		
 		
 		//
 		// status
 		//
-		$mainworksheet = $workbook->addWorksheet();
 		
 		// header row
-		$mainworksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("name")));
-		$cnt = 1;
+		$row = $cnt = 1;
+		$excel->setCell($row, 0, $this->lng->txt("name"));		
 		foreach ($ass_data as $ass)
 		{
-			$mainworksheet->writeString(0, $cnt, $cnt);
-			$cnt++;
+			$excel->setCell($row, $cnt++, $cnt-1);		
 		}
-		$mainworksheet->writeString(0, $cnt++, ilExcelUtils::_convert_text($this->lng->txt("exc_total_exc")));
-		$mainworksheet->writeString(0, $cnt++, ilExcelUtils::_convert_text($this->lng->txt("exc_mark")));
-		$mainworksheet->writeString(0, $cnt, ilExcelUtils::_convert_text($this->lng->txt("exc_comment_for_learner")));
+		$excel->setCell($row, $cnt++, $this->lng->txt("exc_total_exc"));
+		$excel->setCell($row, $cnt++, $this->lng->txt("exc_mark"));
+		$excel->setCell($row++, $cnt, $this->lng->txt("exc_comment_for_learner"));
+		$excel->setBold("A1:".$excel->getColumnCoord($cnt)."1");
 		
 		// data rows
-		$this->mem_obj = new ilExerciseMembers($this);
-		$getmems = $this->mem_obj->getMembers();
+		$mem_obj = new ilExerciseMembers($this);
 		$mems = array();
-		foreach ($getmems as $user_id)
+		foreach($mem_obj->getMembers() as $user_id)
 		{
 			$mems[$user_id] = ilObjUser::_lookupName($user_id);
 		}
 		$mems = ilUtil::sortArray($mems, "lastname", "asc", false, true);
 		
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-
-		$data = array();
-		$row_cnt = 1;
 		foreach ($mems as $user_id => $d)
 		{
-			$col_cnt = 1;
+			$col = 0;
 
 			// name
-			$mainworksheet->writeString($row_cnt, 0,
-				ilExcelUtils::_convert_text($d["lastname"].", ".$d["firstname"]." [".$d["login"]."]"));
+			$excel->setCell($row, $col++, $d["lastname"].", ".$d["firstname"]." [".$d["login"]."]");
 
 			reset($ass_data);
-
 			foreach ($ass_data as $ass)
 			{
 				$status = $ass->getMemberStatus($user_id)->getStatus();
-				$mainworksheet->writeString($row_cnt, $col_cnt, ilExcelUtils::_convert_text($this->lng->txt("exc_".$status)));
-				$col_cnt++;
+				$excel->setCell($row, $col++, $this->lng->txt("exc_".$status));		
 			}
 			
 			// total status
 			$status = ilExerciseMembers::_lookupStatus($this->getId(), $user_id);
-			$mainworksheet->writeString($row_cnt, $col_cnt++, ilExcelUtils::_convert_text($this->lng->txt("exc_".$status)));
+			$excel->setCell($row, $col++, $this->lng->txt("exc_".$status));
 			
 			// #18096
 			$marks_obj = new ilLPMarks($this->getId(), $user_id);
-			$mainworksheet->writeString($row_cnt, $col_cnt++, ilExcelUtils::_convert_text($marks_obj->getMark()));
-			$mainworksheet->writeString($row_cnt, $col_cnt, ilExcelUtils::_convert_text($marks_obj->getComment()));			
-
-			$row_cnt++;
+			$excel->setCell($row, $col++, $marks_obj->getMark());
+			$excel->setCell($row++, $col, $marks_obj->getComment());						
 		}
+		
 		
 		//
 		// mark
 		//
-		$worksheet2 = $workbook->addWorksheet();
+		
+		$excel->addSheet($this->lng->txt("exc_mark"));
 		
 		// header row
-		$worksheet2->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("name")));
-		$cnt = 1;
+		$row = $cnt = 1;
+		$excel->setCell($row, 0, $this->lng->txt("name"));		
 		foreach ($ass_data as $ass)
 		{
-			$worksheet2->writeString(0, $cnt, $cnt);
-			$cnt++;
+			$excel->setCell($row, $cnt++, $cnt-1);		
 		}
-		$worksheet2->writeString(0, $cnt, ilExcelUtils::_convert_text($this->lng->txt("exc_total_exc")));
+		$excel->setCell($row++, $cnt++, $this->lng->txt("exc_total_exc"));
+		$excel->setBold("A1:".$excel->getColumnCoord($cnt)."1");
 		
-		// data rows
-		$data = array();
-		$row_cnt = 1;
+		// data rows		
 		reset($mems);
 		foreach ($mems as $user_id => $d)
 		{
-			$col_cnt = 1;
+			$col = 0;
+			
+			// name			
 			$d = ilObjUser::_lookupName($user_id);
-
-			// name
-			$worksheet2->writeString($row_cnt, 0,
-				ilExcelUtils::_convert_text($d["lastname"].", ".$d["firstname"]." [".$d["login"]."]"));
+			$excel->setCell($row, $col++, $d["lastname"].", ".$d["firstname"]." [".$d["login"]."]");
 
 			reset($ass_data);
-
 			foreach ($ass_data as $ass)
 			{
-				$mark = $ass->getMemberStatus($user_id)->getMark();
-				$worksheet2->writeString($row_cnt, $col_cnt, ilExcelUtils::_convert_text($mark));
-				$col_cnt++;
+				$excel->setCell($row, $col++, $ass->getMemberStatus($user_id)->getMark());
 			}
 			
-			// total mark
-			include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-			$worksheet2->writeString($row_cnt, $col_cnt,
-				ilExcelUtils::_convert_text(ilLPMarks::_lookupMark($user_id, $this->getId())));
-
-			$row_cnt++;
+			// total mark			
+			$excel->setCell($row++, $col, ilLPMarks::_lookupMark($user_id, $this->getId()));
 		}
-
 		
-		$workbook->close();
 		$exc_name = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->getTitle()));
-		ilUtil::deliverFile($excelfile, $exc_name.".xls", "application/vnd.ms-excel");
+		$excel->sendToClient($exc_name);
 	}
 	
 	/**

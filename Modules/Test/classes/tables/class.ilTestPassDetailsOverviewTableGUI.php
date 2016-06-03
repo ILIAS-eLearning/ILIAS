@@ -31,6 +31,11 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 	private $multipleObjectivesInvolved = true;
 	
 	private $passColumnEnabled = false;
+	
+	private $tableIdsByParentClasses = array(
+		'ilTestEvaluationGUI' => 1,
+		'ilTestServiceGUI' => 2
+	);
 
 	/**
 	 * @var ilTestQuestionRelatedObjectivesList
@@ -39,10 +44,16 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 
 	public function __construct(ilCtrl $ctrl, $parent, $cmd)
 	{
+		$tableId = 0;
+		if( isset($this->tableIdsByParentClasses[get_class($parent)]) )
+		{
+			$tableId = $this->tableIdsByParentClasses[get_class($parent)];
+		}
+
 		$this->ctrl = $ctrl;
 
-		$this->setId('tst_pass_details_overview_'.get_class($parent));
-		$this->setPrefix('tst_pass_details_overview_'.get_class($parent));
+		$this->setId('tst_pdo_'.$tableId);
+		$this->setPrefix('tst_pdo_'.$tableId);
 
 		$this->setDefaultOrderField('nr');
 		$this->setDefaultOrderDirection('ASC');
@@ -160,7 +171,10 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 		$this->is_pdf_generation_request = $is_print_request;
 	}
 
-	public function fillRow(array $row)
+	/**
+	 * @param array $row
+	 */
+	public function fillRow($row)
 	{
 		$this->ctrl->setParameter($this->parent_obj, 'evaluation', $row['qid']);
 		

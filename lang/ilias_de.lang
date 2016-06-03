@@ -55,9 +55,9 @@ administration#:#adm_locale_info#:#Die Locale-Einstellung beeinflusst die alphab
 administration#:#adm_nr_statements#:#Anzahl Aufrufe
 administration#:#adm_objects#:#Objekte
 administration#:#adm_predefined_settings#:#Vordefinierte Einstellungen
-administration#:#adm_rep_shorten_description#:#Beschreibungen kürzen
-administration#:#adm_rep_shorten_description_info#:#Bei Aktivierung werden alle Beschreibungen innerhalb der Objektlisten gekürzt.
-administration#:#adm_rep_shorten_description_length#:#Max. Länge
+administration#:#adm_rep_shorten_description#:#Maximale Länge für Beschreibungen
+administration#:#adm_rep_shorten_description_info#:#Wenn aktiviert, werden alle Beschreibungen in Objektlisten nur bis zu einer definierten Länge angezeigt.
+administration#:#adm_rep_shorten_description_length#:#Maximale Anzahl an Zeichen
 administration#:#adm_rep_tree_all_types#:#Alle Objekte
 administration#:#adm_rep_tree_all_types_info#:#Alle Objekttypen werden im Baum dargestellt.
 administration#:#adm_rep_tree_limit_grp_crs#:#Alle Objekte auf Anzeige in Kursen und Gruppen beschränken
@@ -359,6 +359,7 @@ assessment#:#tst_virtual_pass_header_lo_qualifying#:#Qualifizierende Ergebnisse 
 assessment#:#ass_completion_by_submission#:#Bestehen durch Abgabe
 assessment#:#ass_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösungsdatei zur Vergabe der Maximalpunktzahl für diese Frage. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 assessment#:#ass_create_export_file#:#Erstelle Exportdatei
+assessment#:#ass_create_export_file_with_results#:#Erstelle Exportdatei (inkl. Teilnehmerergebnisse)
 assessment#:#ass_create_export_test_results#:#Erstelle Ergebnisdatei
 assessment#:#ass_create_export_test_archive#:#Erstelle Archivdatei für Test
 assessment#:#ass_export_files#:#Exportdateien
@@ -424,7 +425,7 @@ assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#Um eine Lücke in den Text einzufügen, setzen Sie den Cursor an die entsprechende Position und klicken Sie auf die Schaltfläche "Lücke erzeugen". Anschließend stehen weiter unten entsprechende Bearbeitungsbereiche zur Verfügung. Ebenso können Sie die Lücken zur Bearbeitung im Lückentext direkt anklicken.
+assessment#:#close_text_hint#:#Um eine Lücke in den Text einzufügen, setzen Sie den Cursor an die entsprechende Position und klicken Sie auf die Schaltfläche "Lücke einfügen". Anschließend stehen weiter unten entsprechende Bearbeitungsbereiche zur Verfügung. Ebenso können Sie die Lücken zur Bearbeitung im Lückentext direkt anklicken.
 assessment#:#insert_gap#:#Lücke einfügen
 assessment#:#cloze_fixed_textlength#:#Länge des Textfeldes
 assessment#:#cloze_fixed_textlength_description#:#Wenn Sie hier einen Wert eintragen, werden Textlücken, welche keinen eigenen Wert für eine maximale Länge definieren, sowie numerische Lücken mit dieser Länge erzeugt, so dass es nicht möglich ist eine größere Anzahl an Zeichen einzugeben. Für numerische Lücken ist darüber hinaus zu beachten, dass das Dezimaltrennzeichen dabei mit gezählt wird.
@@ -520,6 +521,9 @@ assessment#:#empty_term_message#:#Mindestens ein Textfeld für Terme ist leer.
 assessment#:#empty_terms_exist#:#Sie haben noch nicht alle Terme ausgefüllt. Bitte füllen Sie erst diese Felder aus, bevor Sie neue Terme anlegen.
 assessment#:#enable_javascript#:#Klicken Sie hier, um die JavaScript-Unterstützung zu aktivieren
 assessment#:#end_tag#:#Endmarkierung
+assessment#:#tst_conflict_fbh_oblig_quest#:#Die Kombination der Verwendung von verpflichtenden Fragen und dem Festschreiben von Antworten ist nicht erlaubt.
+assessment#:#tst_conflict_reset_non_fbh#:#Die Einstellung "Antworten nach Rückmeldung festschreiben" wurde auf die Option "Antworten nicht festschreiben" angepasst. 
+assessment#:#tst_conflict_reset_fbh_force#:#Die Einstellung "Antworten nach Rückmeldung festschreiben" wurde auf die Option "Automatische Rückmeldung, aber Antwort nicht festschreiben" angepasst.
 assessment#:#ending_time_reached#:#Sie haben das Ende der möglichen Bearbeitungsdauer des Tests überschritten.
 assessment#:#enlarge#:#vergrößern
 assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
@@ -1622,7 +1626,7 @@ assessment#:#tst_question_set_type_dynamic_desc#:#Allen Teilnehmern werden nach 
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Wenn Sie die Auswahl der Testfragen von <b>%s</b> auf <b>%s</b> ändern, geht die aktuelle Fragenzuordnung verloren. Sie müssen dann für die neue Konfiguration erneut Fragen zuordnen bzw. den Fragenpool entsprechend konfigurieren.<br />Klicken Sie auf <b>Bestätigen</b>, um die neue Einstellung zu verwenden, oder wählen Sie <b>Abbrechen</b>, wenn die aktuell eingestellte Auswahl der Testfragen beibehalten werden soll.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenauswahl wurde geändert.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
-assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#Die Konfiguration für die zufällige Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
+assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#Die Konfiguration für die zufällige Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebnisse vorliegen.
 assessment#:#tst_delete_dyn_test_results_btn#:#Testergebnisse entfernen
 assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Bisherige Antworten entfernen
 assessment#:#tst_dyn_test_pass_deletion_button#:#Zurücksetzen sämtlicher Testantworten
@@ -1696,9 +1700,9 @@ assessment#:#feedback_all#:#Zeige Rückmeldungen zu allen Antwortmöglichkeiten.
 assessment#:#feedback_checked#:#Zeige Rückmeldungen zu ausgewählten Antworten des Teilnehmers.
 assessment#:#feedback_correct_sc_mc#:#Zeige Rückmeldung für richtige Antworten (richtige Antworten sind solche, für die es bei Auswahl positive Punkte gibt).
 assessment#:#feedback_correct_kprim#:#Zeige Rückmeldung für korrekte Antworten (korrekte Antworten sind solche, bei denen die positive Option zu wählen ist).
-assessment#:#tst_add_quest_cont_edit_mode#:#Bearbeitungsmodus für zusätzliche Frageninhalte
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Standard-Bearbeitungsmodus für zusätzliche Frageninhalte
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Bearbeitung zusätzlicher Frageninhalte mit dem ILIAS-Seiteneditor
+assessment#:#tst_add_quest_cont_edit_mode#:#Editor für Rückmeldungen und Lösungshinweise
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich-Text-Editor für das Editieren von Rückmeldungen und Lösungshinweisen nutzen
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ILIAS-Seiteneditor für das Editieren von Rückmeldungen und Lösungshinweisen nutzen
 assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
 assessment#:#enable_examview#:#Übersicht gegebener Antworten
@@ -2148,6 +2152,7 @@ chatroom#:#autogen_usernames_info#:#Schema für automatisch generierte Benutzern
 chatroom#:#ban_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum ausschließen?
 chatroom#:#ban_table_title#:#Gesperrte Benutzer
 chatroom#:#banned#:#Sie wurden für diesen Chatraum gesperrt
+chatroom#:#kicked#:#Sie wurden von einem Moderator aus dem Chatraum geworfen 
 chatroom#:#bans#:#Gesperrte Benutzer
 chatroom#:#chat_address#:#Ansprechen
 chatroom#:#chat_ban#:#Sperren
@@ -2174,7 +2179,7 @@ chatroom#:#chat_right_box_user#:#Benutzer
 chatroom#:#chat_to_mainroom#:#Zum Hauptraum
 chatroom#:#chat_whisper#:#Flüstern
 chatroom#:#chatroom_smiley_keyword#:#Schlagwort
-chatroom#:#chatserver_address#:#IP-Adresse des Chat-Servers
+chatroom#:#chatserver_address#:#IP-Adresse/FQN des Chat-Servers
 chatroom#:#chatserver_port#:#Port des Chat-Servers
 chatroom#:#chtr_add#:#Chatraum anlegen
 chatroom#:#chtr_moderate#:#Moderieren
@@ -2220,6 +2225,7 @@ chatroom#:#kicked_from_private_room#:#Sie wurden aus dem Separée <b>#title#</b>
 chatroom#:#large#:#Groß
 chatroom#:#layout#:#Layout
 chatroom#:#leave_private_room#:#Séparée verlassen
+chatroom#:#left_private_room#:#Séparée verlassen
 chatroom#:#lost_connection#:#Die Verbindung zum Chat-Server wurde unterbrochen.
 chatroom#:#main#:#Hauptraum
 chatroom#:#moderate#:#Moderieren
@@ -2230,7 +2236,7 @@ chatroom#:#period#:#Zeitraum
 chatroom#:#permissions#:#Rechte
 chatroom#:#private_room_closed#:#Der Raum <b>#title#</b> wurde geschlossen.
 chatroom#:#private_room_entered#:#Willkommen im Séparée <b>#title#</b>.
-chatroom#:#private_room_entered_user#:#Der Benutzer <b>#user#</b> hat das Separée <b>#title#</b> betreten.
+chatroom#:#private_room_entered_user#:#Der Benutzer <b>#username#</b> hat das Separée <b>#title#</b> betreten.
 chatroom#:#private_room_left#:#Der Benutzer <b>#user#</b> hat das Separée <b>#title#</b> verlassen.
 chatroom#:#private_rooms_enabled#:#Séparées aktivieren
 chatroom#:#private_rooms_enabled_info#:#Wenn aktiviert, können Benutzer Séparées anlegen, zu denen nur eingeladene Benutzer zutritt haben.
@@ -2250,7 +2256,7 @@ chatroom#:#small#:#Klein
 chatroom#:#soap_must_be_enabled#:#Bitte aktivieren Sie den SOAP Server in den allgemeinen Einstellungen bevor Sie den Chat aktivieren.
 chatroom#:#soap_user#:#Name des SOAP-Benutzer
 chatroom#:#soap_user_password#:#Passwort des SOAP-Benutzer
-chatroom#:#speak_to#:#<b>#user#</b>&nbsp;ansprechen
+chatroom#:#speak_to#:#<b>#user#</b> ansprechen
 chatroom#:#unable_to_connect#:#Die Verbindung zum Chat-Server konnte nicht hergestellt werden.
 chatroom#:#unban#:#Entsperren
 chatroom#:#underlined#:#Unterstrichen
@@ -2418,7 +2424,7 @@ common#:#actions#:#Aktionen
 common#:#activate#:#Aktivieren
 common#:#activate_assessment_logging#:#Protokollieren des Test und Assessments aktivieren
 common#:#activate_block#:#Aktivieren
-common#:#activate_https#:#HTTPS aktivieren (Payment, Anmeldung)
+common#:#activate_https#:#HTTPS aktivieren (Anmeldung)
 common#:#activate_tracking#:#Tracking aktivieren
 common#:#activation#:#Verfügbarkeit
 common#:#active#:#Aktiv
@@ -3962,9 +3968,7 @@ common#:#mail_settings#:#Mail-Einstellungen
 rbac#:#mail_smtp_mail#:#Benutzer darf E-Mails per SMTP an externe Adressen senden
 common#:#mail_system#:#Systemnachricht
 rbac#:#mail_system_message#:#Benutzer darf Mails als Systemnachrichten versenden
-common#:#mail_to_global_roles_not_allowed#:#Das Versenden an globale Rollen ist nicht erlaubt.
-common#:#mail_use_pear_mail#:#PEAR-Mail verwenden
-common#:#mail_use_pear_mail_info#:#Verwende PEAR-Mail zum Parsen von Mailbox-Adressen. Der in ILIAS integrierte Parser ist sehr limitiert. PEAR-Mail unterstützt Internet-konforme E-Mail-Adressen vollständig.
+common#:#mail_to_global_roles_not_allowed#:#%1$s (das Versenden an globale Rollen ist nicht erlaubt) 
 rbac#:#mail_visible#:#Mail-Administration ist sichtbar
 rbac#:#mail_write#:#Einstellungen im Mail-Administration bearbeiten
 common#:#mail_z_local#:#Eigene Ordner
@@ -4166,7 +4170,6 @@ common#:#msg_obj_exists_in_folder#:#Das Objekt %s existiert bereits im Ordner %s
 common#:#msg_obj_may_not_contain_objects_of_type#:#Das Objekt %s darf keine Objekte des folgenden Typs beinhalten: %s.
 common#:#msg_obj_modified#:#Änderungen gespeichert
 common#:#msg_obj_no_link#:#Das Verknüpfen von Containerobjekten wie Kategorien, Kursen, Gruppen und Ordnern ist aus technischen Gründen leider nicht möglich. Verknüpfen Sie stattdessen die einzelnen Objekte der Container zum gewünschten Ort oder verwenden das Referenz-Objekt für Kurse und Kategorien.
-common#:#msg_obj_not_deletable_sold#:#Die folgenden Objekte können nicht gelöscht werden, da das Payment für sie aktiviert ist:
 common#:#msg_paste_object_not_in_itself#:#Es ist nicht möglich das Objekte %s in sich selbst einzufügen.
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellungen von der aktuellen Rolle bzw. Rollenvorlage selbst zu übernehmen.
 common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
@@ -4370,8 +4373,6 @@ common#:#obj_objf#:#Objektdefinitionen
 common#:#obj_objf_desc#:#ILIAS-Objekttypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_page#:#Seite
-common#:#obj_pays#:#Shop
-common#:#obj_pays_desc#:#Konfiguration der Shopeinstellungen, Verkäuferverwaltung...
 common#:#obj_pdts#:#Persönlicher Schreibtisch
 common#:#obj_pdts_desc#:#Persönlichen Schreibtisch anpassen
 common#:#obj_pg#:#Seite
@@ -4430,8 +4431,8 @@ common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerverwaltung
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#obj_webr#:#Weblink
-common#:#obj_webr_duplicate#:#Weblinksammlung kopieren
-common#:#obj_webr_select#:#-- Bitte wählen Sie eine Weblinksammlung aus --
+common#:#obj_webr_duplicate#:#Weblink-Sammlung kopieren
+common#:#obj_webr_select#:#-- Bitte wählen Sie eine Weblink-Sammlung aus --
 common#:#obj_wfld#:#Ordner
 common#:#obj_wiki#:#Wiki
 common#:#object#:#Objekt
@@ -4442,7 +4443,6 @@ common#:#object_duration#:#Objekt verfügbar
 common#:#object_id#:#Objekt-ID
 common#:#object_imported#:#Objekt importiert
 common#:#object_not_found#:#Das Objekt wurde nicht gefunden
-common#:#object_purchased_date#:#Objekt gekauft am
 common#:#objects#:#Objekte
 common#:#objf#:#Objektdefinitionen
 common#:#objf_edit_permission#:#Rechteeinstellungen ändern
@@ -4565,23 +4565,6 @@ common#:#path_to_java#:#JAVA-Befehlszeile
 common#:#path_to_unzip#:#UNZIP-Befehlszeile
 common#:#path_to_zip#:#ZIP-Befehlszeile
 common#:#pathes#:#Pfade
-common#:#pay_methods#:#Bezahlarten
-common#:#payment_buyable#:#Kaufbar
-common#:#payment_demo#:#Demo
-common#:#payment_in_sc#:#Bereits im Warenkorb
-common#:#payment_notification#:#Sende Shop-Benachrichtigungen
-common#:#payment_notification_days#:#Anzahl der Tage
-common#:#payment_notification_days_desc#:#Bitte geben Sie die Anzahl der Tage ein, die für den Versand verwendet werden soll bevor der Zugriff auf das gekaufte Objekt ausläuft
-common#:#payment_notification_desc#:#Wenn aktiviert, erhalten die Benutzer eine Benachrichtigung um die Zugriffsdauer bereits gekaufter Objekte zu verlängern.
-common#:#payment_payed_access#:#Bezahlt/Zugriff
-common#:#payment_reminder_notification_subject#:#Die Zugriffsdauer bereits gekaufter Objekte endet bald.
-common#:#payment_system#:#Bezahlungssystem
-common#:#payment_userdefined_invoice_number_not_activated#:#Benutzerdefinierte Rechnungsnummern sind nicht aktiviert
-common#:#pays_edit#:#Shopeinstellungen können bearbeitet werden
-rbac#:#pays_edit_permission#:#Rechteeinstellungen in Shop-Administration ändern
-rbac#:#pays_read#:#Lesezugriff auf Shop-Administration
-rbac#:#pays_visible#:#Shop-Administration ist sichtbar
-rbac#:#pays_write#:#Einstellungen in Shop-Administration bearbeiten
 common#:#pd_enable_chatviewer#:#Chatviewer aktivieren
 common#:#pd_enable_contacts#:#Kontakte aktivieren
 common#:#pd_enable_contacts_requires_mail#:#Benötigt Berechtigung für Mail-System
@@ -5013,9 +4996,6 @@ common#:#shib_user_default_role#:#Generelle Rolle für Shibboleth-Benutzer
 common#:#shib_visible#:#Einstellungen für Shibboleth sind sichtbar
 common#:#shib_write#:#Einstellungen für Shibboleth editieren
 common#:#shib_zipcode#:#Attribut für Postleitzahl
-common#:#shop#:#Shop
-common#:#shop_actions#:#Aktionen
-common#:#shoppingcart#:#Warenkorb
 common#:#short_inst_name#:#Kurztitel
 common#:#short_inst_name_info#:#Dieser Titel erscheint in der Kopfzeile des Browsers. Wird hier nichts eingetragen, erscheint 'ILIAS'.
 common#:#show#:#Anzeigen
@@ -5027,8 +5007,6 @@ common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
 common#:#show_private_notes#:#Private Notizen zeigen
 common#:#show_profile#:#Zeige Profil
-common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen
-common#:#show_sr_shoppingcart_info#:#Wenn aktiviert, werden die gesetzlichen Bestimmungen innerhalb des Warenkorbs angezeigt
 common#:#show_structure#:#Strukturansicht einblenden
 common#:#show_system_messages#:#Systemnachrichten
 common#:#show_users_online#:#Aktive Benutzer anzeigen
@@ -5274,8 +5252,8 @@ common#:#udf_no_name_given#:#Bitte geben Sie einen Feldnamen ein.
 common#:#udf_required_requires_visib_reg#:#Die Einstellung "Erforderliche Angabe" erfordert die Einstellung "Sichtbar im Registrierungsformular"
 common#:#udf_type_date#:#Datum
 common#:#udf_type_datetime#:#Datum und Uhrzeit
-common#:#udf_type_select#:#Auswahlliste (Drop-Down)
-common#:#udf_type_text#:#Text (beliebige Werte)
+common#:#udf_type_select#:#Auswahlliste (Einfachauswahl)
+common#:#udf_type_text#:#Text (freie Eingabe)
 common#:#udf_type_wysiwyg#:#Textbereich (WYSIWYG)
 common#:#udf_update_select_field#:#Auswahlliste bearbeiten
 common#:#udf_update_success#:#Die Daten wurden aktualisiert.
@@ -5333,7 +5311,7 @@ common#:#user_access#:#Zugriff pro Benutzer
 common#:#user_activated#:#Benutzer wurde bestätigt.
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
-common#:#user_cant_receive_mail#:#Der Benutzer hat nicht das Recht das Mailsystem zu benutzen.
+common#:#user_cant_receive_mail#:#%1$s (der Benutzer keine Berechtigung das Mailsystem zu benutzen)
 common#:#user_comment#:#Benutzer-Kommentar
 common#:#user_deactivated#:#Die ausgewählten Benutzer wurden deaktiviert.
 common#:#user_defined_fields#:#Benutzerdefinierte Felder
@@ -5471,8 +5449,8 @@ common#:#webr#:#Weblink
 common#:#webr_active#:#Aktiv
 common#:#webr_add#:#Weblink anlegen
 common#:#webr_add_item#:#Weblink hinzufügen
-rbac#:#webr_copy#:#Weblinksammlung kopieren
-rbac#:#webr_delete#:#Weblinksammlung löschen
+rbac#:#webr_copy#:#Weblink-Sammlung kopieren
+rbac#:#webr_delete#:#Weblink-Sammlung löschen
 common#:#webr_delete_items#:#Weblink löschen oder verschieben
 common#:#webr_deleted_items#:#Der/die Weblink(s) wurde(n) gelöscht.
 common#:#webr_disable_check#:#Überprüfung deaktivieren
@@ -5481,10 +5459,10 @@ common#:#webr_edit_item#:#Weblink bearbeiten
 rbac#:#webr_edit_permission#:#Rechteeinstellungen ändern
 common#:#webr_fillout_all#:#Bitte füllen Sie alle Felder aus.
 common#:#webr_item_updated#:#Die Änderungen wurden übernommen
-common#:#webr_join#:#Weblinksammlung abonnieren
+common#:#webr_join#:#Weblink-Sammlung abonnieren
 common#:#webr_last_check#:#Letzte Überprüfung
 common#:#webr_last_check_table#:#Letzte Überprüfung:
-common#:#webr_leave#:#Abonnement der Weblinksammlung aufheben
+common#:#webr_leave#:#Abonnement der Weblink-Sammlung aufheben
 common#:#webr_modified_items#:#Die Änderungen wurden übernommen.
 common#:#webr_never_checked#:#Noch nicht überprüft
 common#:#webr_new#:#Neuen Weblink anlegen
@@ -6519,7 +6497,7 @@ content#:#st#:#Kapitel
 content#:#start export#:#Export starten
 content#:#text_repr#:#Alternativtext
 content#:#text_repr_info#:#Wird verwendet, wenn die Grafik nicht angezeigt werden kann.
-crs#:#activation_times_not_valid#:#Die Zeidauer für 'Verfügbarkeit' ist nicht gültig.
+crs#:#activation_times_not_valid#:#Die Zeitdauer für 'Verfügbarkeit' ist nicht gültig.
 crs#:#add_event#:#Sitzung hinzufügen
 crs#:#assigned#:#Zugeordnet
 crs#:#contact_email_not_valid#:#Die E-Mail Adresse ist nicht gültig.
@@ -6949,7 +6927,7 @@ crs#:#crs_subscription_type#:#Beitrittsverfahren
 crs#:#crs_suggest_lm#:#Empfehle Lernmaterialien bei:
 crs#:#crs_suggested_sections#:#Empfohlene Abschnitte
 crs#:#crs_suggestion_end#:#Empfohlenes Ende
-crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, dass die ausgewählten Archive gelöscht werden sollen
+crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, dass die ausgewählten Archive gelöscht werden sollen?
 crs#:#crs_syllabus#:#Kursprogramm
 crs#:#crs_table_start_objects#:#Startobjekte
 crs#:#crs_test_status_complete#:#Fertiggestellt
@@ -6985,7 +6963,7 @@ crs#:#crs_timings_sug_end#:#Empfohlenes Ende
 crs#:#crs_timings_suggested_info#:#Empfohlene Bearbeitungszeit
 crs#:#crs_timings_time_frame#:#Zeitrahmen
 crs#:#crs_timings_update_error#:#Die empfohlene Lernzeit folgender Kursmaterialien widerspricht dem angegebenen spätestmöglichen Lernzeitpunkt.
-crs#:#crs_timings_visibility#:#Wenn aktiviert, ist das Lernmaterial auch außerhalb der vorgesehen Verfügbarkeit sichtbar.
+crs#:#crs_timings_visibility#:#Wenn aktiviert, ist das Lernmaterial auch außerhalb der vorgesehenen Verfügbarkeit sichtbar.
 crs#:#crs_timings_visibility_short#:#Sichtbarkeit
 crs#:#crs_to#:#Bis:
 crs#:#crs_tutor#:#Tutor
@@ -8479,7 +8457,7 @@ mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Anhänge beinhal
 mail#:#mail_no_attachments_found#:#Es wurden keine Anhänge gefunden
 mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.
 mail#:#mail_no_recipient_found#:#Geben Sie eine andere Adresse an. ILIAS konnte keinen Empfänger mit dieser Addresse finden.
-mail#:#mail_no_valid_mailing_list#:#Kein Gültiger Verteiler
+mail#:#mail_no_valid_mailing_list#:#%1$s (kein gültiger Verteiler)
 mail#:#mail_notification_subject#:#Neue Mails im Posteingang
 mail#:#mail_options_of#:#Einstellungen
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
@@ -9334,518 +9312,6 @@ notes#:#notes_private_annotating#:#Privat annotieren
 notes#:#notes_public_commenting#:#Öffentlich kommentieren
 notes#:#notes_public_comments#:#Öffentliche Kommentare
 notes#:#notes_show_comments#:#Kommentare anzeigen
-payment#:#accept_terms_conditions#:#Sie müssen die %s akzeptieren um den Kauf fortsetzen zu können.
-payment#:#activate_placeholders#:#Aktiviere Platzhalter
-payment#:#advanced_search#:#Erweiterte Suche
-payment#:#amount#:#Menge
-payment#:#billing_mail#:#E-Mail Kaufbestätigung
-payment#:#buy_extension#:#Verlängerung kaufen
-payment#:#check_shop_activation#:#Überprüfung der Shop-Einstellung zur Aktivierung
-payment#:#click_to_buy_info#:#Sie wurden nun erfolgreich angemeldet. Um den Bezahlvorgang Ihres Einkaufs fortzusetzen, akzeptieren Sie die AGB und klicken auf den "zur Kasse"-Button
-payment#:#click_to_continue_info#:#Um den Einkaufsprozess fortzusetzen klicken Sie nun auf "Weiter" um sich anzumelden oder zu registrieren.
-payment#:#coupon_type#:#Gutschein-Typ
-payment#:#credit#:#Gutschrift
-payment#:#currency#:#Währung
-payment#:#currency_cent#:#Cent
-payment#:#currency_euro#:#Euro
-payment#:#day_of_service_provision#:#Tag der Leistungserbringung
-payment#:#delete_addresses_bill#:#Lösche Rechnungs-Adressen
-payment#:#delete_addresses_bmf#:#Lösche BMF-Adressen
-payment#:#delete_addresses_paypal#:#Lösche Paypal-Adressen
-payment#:#documents#:#Dokumente
-payment#:#duration#:#Dauer
-payment#:#edit_topic#:#Thema bearbeiten
-payment#:#enable_ean#:#EAN aktivieren
-payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.
-payment#:#excel_export#:#Excel Export
-payment#:#extension_price#:#Verlängerungspreis
-payment#:#external_bill_no#:#%s Rechnungsnr.
-payment#:#filter_by#:#nach
-payment#:#have_existing_account#:#Besitzen Sie bereits ein Benutzerkonto? Dann geben Sie bitte nun ihren Benutzernamen und ihr Passwort ein.
-payment#:#have_no_existing_account#:#Falls Sie noch kein Benutzerkonto besitzen, wurde soeben ein Account erstellt(Benutzername: %s  Passwort: %s ).
-payment#:#ilias_invoice_number#:#Von ILIAS vergebene Rechnungsnummer
-payment#:#import_use_only_textfile#:#Hinweis: Bitte verwenden Sie eine reine Textdatei mit je einem Code pro Zeile.
-payment#:#incremental_current_value#:#aktuell verwendete aufsteigende Nummer
-payment#:#incremental_start_value#:#Aufsteigende Nummer
-payment#:#incremental_start_value_info#:#Dieser Wert wird als Startwert der aufsteigenden Nummer für den nächsten Zeitraum verwendet.
-payment#:#info#:#Informationen zur Bezahlart
-payment#:#invoice_number_text#:#Aufbau der Rechnungsnummer
-payment#:#new_topic#:#Neues Thema
-payment#:#no_topics_yet#:#Es wurden noch keine Themen eingetragen
-payment#:#no_vendor_selected#:#Kein Verkäufer ausgewählt.
-payment#:#object_deleted#:#Objekt gelöscht
-payment#:#pay_abstract#:#Zusammenfassung
-payment#:#pay_add_to_shopping_cart#:#In den Warenkorb legen
-payment#:#pay_added_to_shopping_cart#:#Der Artikel wurde in den Warenkorb aufgenommen.
-payment#:#pay_all#:#Alle
-payment#:#pay_article#:#Artikel
-payment#:#pay_bank_data#:#Bankverbindung
-payment#:#pay_bill_no#:#Rechnungsnr.
-payment#:#pay_bmf_account_holder#:#Kontoinhaber
-payment#:#pay_bmf_account_number#:#Kontonummer
-payment#:#pay_bmf_back#:#zurück
-payment#:#pay_bmf_bank_code#:#Bankleitzahl
-payment#:#pay_bmf_card_holder#:#Karteninhaber
-payment#:#pay_bmf_card_number#:#Kartennummer
-payment#:#pay_bmf_check_number#:#Kartenprüfnummer
-payment#:#pay_bmf_check_terms_conditions#:#Bitte bestätigen Sie, dass Sie die AGB gelesen haben und akzeptieren.
-payment#:#pay_bmf_credit_card#:#Kreditkarte
-payment#:#pay_bmf_credit_card_data#:#Kreditkarte
-payment#:#pay_bmf_credit_card_not_valid#:#Ihre Angaben zur Kreditkarte sind ungültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
-payment#:#pay_bmf_debit_entry#:#Lastschriftverfahren (nur mit deutschen Konten)
-payment#:#pay_bmf_debit_entry_data#:#Lastschriftverfahren
-payment#:#pay_bmf_debit_entry_not_valid#:#Ihre Angaben für das Lastschriftverfahren sind ungültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
-payment#:#pay_bmf_description_credit_card#:#Bitte überprüfen Sie zunächst, ob sich alle Artikel, die Sie bestellen möchten, im Warenkorb befinden. Durch Eingabe Ihrer Kreditkartendaten und Anklicken des "Speichern"-Buttons bestätigen Sie Ihre Bestellung, die daraufhin ausgeführt wird. Die Prüfung der Bestelldaten kann einige Sekunden dauern.
-payment#:#pay_bmf_description_debit_entry#:#Bitte überprüfen Sie zunächst, ob sich alle Artikel, die Sie bestellen möchten, im Warenkorb befinden. Durch Eingabe Ihrer Kontodaten und Anklicken des "Speichern"-Buttons bestätigen Sie Ihre Bestellung, die daraufhin ausgeführt wird. Die Prüfung der Bestelldaten kann einige Sekunden dauern.
-payment#:#pay_bmf_description_payment_type#:#Bitte wählen Sie eine Bezahlart aus.
-payment#:#pay_bmf_description_personal_data#:#Bitte füllen Sie das nachfolgende Formular vollständig aus.
-payment#:#pay_bmf_house_number#:#Hausnummer
-payment#:#pay_bmf_optional#:#optional
-payment#:#pay_bmf_or#:#oder
-payment#:#pay_bmf_password_not_valid#:#Ihr Passwort ist nicht gültig.
-payment#:#pay_bmf_payment_type#:#Bezahlart
-payment#:#pay_bmf_payment_type_not_valid#:#Die Bezahlart, die Sie gewählt haben, ist nicht gültig. Bitte wählen Sie eine andere.
-payment#:#pay_bmf_personal_data#:#Ihre persönlichen Daten
-payment#:#pay_bmf_personal_data_not_valid#:#Ihre persönlichen Daten sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
-payment#:#pay_bmf_please_select#:#Bitte wählen
-payment#:#pay_bmf_po_box#:#Postfach
-payment#:#pay_bmf_server_error_code#:#Der Payment-Server meldet einen Fehler Code
-payment#:#pay_bmf_server_error_communication#:#Fehler bei der Kommunikation mit dem Payment-Server.
-payment#:#pay_bmf_server_error_sysadmin#:#Bitte wenden Sie sich für weitere Informationen an den Systemadministrator.
-payment#:#pay_bmf_shopping_cart_empty#:#Ihr Warenkorb ist leer.
-payment#:#pay_bmf_street_or_pobox#:#Bitte geben Sie entweder Straße und Hausnummer oder ein Postfach ein.
-payment#:#pay_bmf_subtotal_amount#:#Zwischensumme
-payment#:#pay_bmf_terms_conditions#:#AGB
-payment#:#pay_bmf_terms_conditions_read#:#Ich habe die AGB gelesen und akzeptiere sie.
-payment#:#pay_bmf_terms_conditions_show#:#anzeigen
-payment#:#pay_bmf_thanks#:#Vielen Dank. Ihre Bestellung wurde erfolgreich durchgeführt.
-payment#:#pay_bmf_total_amount#:#Gesamtsumme
-payment#:#pay_bmf_validity#:#gültig bis
-payment#:#pay_bmf_vat_included#:#MwSt. enthalten
-payment#:#pay_bmf_your_order#:#Ihre Bestellung
-payment#:#pay_change_price#:#Preis-/Dauer-Kombination ändern
-payment#:#pay_click_to_buy#:#Zur Kasse
-payment#:#pay_confirm_order#:#Bitte bestätigen Sie, dass Sie die oben aufgeführten Objekte kaufen möchten, indem Sie Ihr ILIAS-Passwort eingeben.
-payment#:#pay_crs_max_members_exceeded#:#Die maximale Teilnehmerzahl für diesen Kurs ist bereits erreicht. Deswegen können Sie diesen Kurs momentan leider nicht kaufen.
-payment#:#pay_customer_no#:#Kundennr.
-payment#:#pay_deleted_booking#:#Der Datensatz wurde gelöscht.
-payment#:#pay_deleted_items#:#Die ausgewählten Artikel wurden gelöscht.
-payment#:#pay_edit_abstract#:#Abstract bearbeiten
-payment#:#pay_enable_shop#:#Shop aktivieren
-payment#:#pay_enable_shop_info#:#Wenn aktiviert, ist der ILIAS-Webshop verfügbar und Objekte können von Benutzern gekauft werden.
-payment#:#pay_ending#:#hört auf mit
-payment#:#pay_entitled_retrieve#:#Berechtigt, Daten abzurufen für
-payment#:#pay_epay_canceled#:#Die Zahlung wurde abgebrochen
-payment#:#pay_epay_success#:#Die Zahlung wurde durchgeführt. Bitte berücksichtigen Sie, dass es einige Minuten dauern kann, bis der Zahlungsvorgang vollständig durchgeführt wurde.
-payment#:#pay_expires_info#:#Dieses Objekt ist nicht frei zugänglich. Sie können jedoch keinen Zugang erwerben, da die Bezahlfrist abgelaufen ist.
-payment#:#pay_filter#:#Filtermöglichkeiten
-payment#:#pay_goto_buyed_objects#:#Zu den gekauften Objekten
-payment#:#pay_goto_shopping_cart#:#Zum Warenkorb
-payment#:#pay_header#:#Shop
-payment#:#pay_hide_advanced_search#:#Erweiterte Suche verbergen
-payment#:#pay_hide_advanced_search_info#:#Verberge den Reiter für "Erweiterte Suche" für einen Shop mit wenigen Objekten.
-payment#:#pay_hide_coupons#:#Verberge Coupons
-payment#:#pay_hide_coupons_info#:#Verbirgt Coupons für den Einkäufer. Falls Ihr Shop keine Coupons benutzt, vereinfacht dies die Handhabung für Ihre Kunden.
-payment#:#pay_hide_filtering#:#Verberge Filter
-payment#:#pay_hide_filtering_info#:#Verberge Filter für Objekte
-payment#:#pay_hide_news#:#Verberge Nachrichten
-payment#:#pay_hide_news_info#:#Verbirgt Tab für Shop-News, falls Sie keine News verwenden.
-payment#:#pay_hide_shop_info#:#Verberge Shop-Informationen
-payment#:#pay_hide_shop_info_info#:#Verbirgt den Reiter Shop-Informationen
-payment#:#pay_hint_epay#:#Trinkgeld für ePay
-payment#:#pay_hint_paypal#:#Hinweis zu PayPal
-payment#:#pay_info#:#Der Zugang zu diesem Bereich ist nicht frei verfügbar. Wenn Sie einen Zugang zu diesem Objekt erwerben möchten, wählen Sie bitte einen Preis aus. Sie können dann eines oder mehrere Objekte über den Warenkorb des 'Persönlichen Schreibtisches' kaufen und erhalten sofort für dieses Objekt einen Zugang für die ausgewählte Dauer.
-payment#:#pay_info_epay#:#Wenn Sie auf Bezahlen klicken, öffnet sich das ePay-Fenster. Sobald Sie die Zahlung abgeschlossen haben, kehren Sie zu ILIAS zurück.
-payment#:#pay_info_paypal#:#Zum Bezahlen der Objekte, die sich in Ihrem Warenkorb befinden, verlassen Sie kurzzeitig ILIAS und werden zur PayPal-Website weitergeleitet. Folgen Sie dort bitte den angegebenen Schritten. Nach erfolgreicher Bezahlung werden Sie automatisch zu ILIAS zurückgeleitet. Bitte schließen Sie während des Bezahlvorgangs nicht das Fenster Ihres Browsers, da die Freischaltung der bezahlten Objekte sonst nicht automatisch erfolgen kann.
-payment#:#pay_item_already_in_sc#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen.
-payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.
-payment#:#pay_locator#:#Shop
-payment#:#pay_manual_sorting_of_topics#:#Manuelle Sortierung der Themen
-payment#:#pay_max_hits#:#Maximalanzahl von Treffern
-payment#:#pay_max_hits_info#:#Sie können hier die Maximalanzahl von Treffern einstellen, die nach einer Suche ausgegeben wird. Je geringer die Zahl ist, desto schneller erfolgt der Seitenaufbau.
-payment#:#pay_message_attachment#:#Als Bestätigung Ihrer Bestellung finden Sie eine Rechnung im PDF Format im Anhang dieser E-Mail.
-payment#:#pay_message_hello#:#Guten Tag
-payment#:#pay_message_regards#:#Mit freundlichen Grüßen
-payment#:#pay_message_subject#:#Ihre ILIAS-Bestellung
-payment#:#pay_message_thanks#:#Vielen Dank für Ihre ILIAS-Bestellung.
-payment#:#pay_no_vendors_created#:#Sie haben noch keine Verkäufer angelegt.
-payment#:#pay_not_buyed_any_object#:#Sie haben noch keine Objekte gekauft.
-payment#:#pay_order_date_from#:#Zeitraum von
-payment#:#pay_order_date_til#:#Zeitraum bis
-payment#:#pay_order_paid_body#:#Ihre Rechnung für %products% ist an diese E-Mail angehängt. Vielen Dank für Ihren Auftrag.
-payment#:#pay_order_paid_subject#:#Ihre Rechnung
-payment#:#pay_payed_bill#:#Rechnung bezahlt
-payment#:#pay_unpayed_bill#:#Bitte überweisen Sie den Rechnungsbetrag auf das angegebene Konto.
-payment#:#pay_payed_credit_card#:#Die Bestellung wurde per Kreditkarte bezahlt.
-payment#:#pay_payed_debit_entry#:#Die Bestellung wurde per Lastschriftverfahren bezahlt.
-payment#:#pay_payed_paypal#:#Die Bestellung wurde per PayPal bezahlt.
-payment#:#pay_paypal_error_fails#:#PayPal meldet, dass Fehler während der Transaktion aufgetreten sind.
-payment#:#pay_paypal_error_info#:#Bitte wenden Sie sich ggf. an den Systemadministrator dieser ILIAS-Installation.
-payment#:#pay_paypal_error_not_completed#:#Die Transaktion wurde nicht vollständig abgeschlossen.
-payment#:#pay_paypal_error_prev_trans_id#:#Die von PayPal erhaltene Transaktions-ID wurde bereits verwendet.
-payment#:#pay_paypal_error_wrong_customer#:#Die Überprüfung der Transaktion ergab keine Übereinstimmung des Käufers.
-payment#:#pay_paypal_error_wrong_items#:#Die Überprüfung der Transaktion ergab keine Übereinstimmung der gekauften Objekte.
-payment#:#pay_paypal_error_wrong_vendor#:#Die Überprüfung der Transaktion ergab keine Übereinstimmung des Verkäufers.
-payment#:#pay_paypal_failed#:#Ihr Kauf von ILIAS-Objekten über PayPal ist leider fehlgeschlagen!
-payment#:#pay_paypal_success#:#Vielen Dank für Ihren Kauf von ILIAS-Objekten! Sie erhalten darüber eine schriftliche Bestätigung im PDF Format an Ihre E-Mail-Adresse.
-payment#:#pay_paypal_unreachable#:#Es konnte keine Verbindung zum Payment-Server von PayPal aufgebaut werden.
-payment#:#pay_personal_settings#:#Persönliche Einstellungen
-payment#:#pay_reset_filter#:#Filter zurücksetzen
-payment#:#pay_save_sorting#:#Sortierung speichern
-payment#:#pay_select_one_item#:#Bitte wählen Sie mindestens einen Artikel aus.
-payment#:#pay_select_price#:#Bitte wählen Sie eine Preis-/Dauer-Kombination aus.
-payment#:#pay_send_order#:#Bestellung abschicken
-payment#:#pay_shopping_cart_empty#:#Ihr Einkaufswagen ist leer.
-payment#:#pay_sorting_value#:#Sortierwert
-payment#:#pay_starting#:#beginnt mit
-payment#:#pay_step1#:#Ihre Bestellung - Schritt 1/3: Eingabe der persönlichen Daten
-payment#:#pay_step2#:#Ihre Bestellung - Schritt 2/3: Auswahl der Bezahlart
-payment#:#pay_step3_credit_card#:#Ihre Bestellung - Schritt 3/3: Eingabe der Kreditkarten-Daten und Absenden der Bestellung
-payment#:#pay_step3_debit_entry#:#Ihre Bestellung - Schritt 3/3: Eingabe der Bankverbindung und Absenden der Bestellung
-payment#:#pay_thumbnail#:#Thumbnail
-payment#:#pay_topics_allow_custom_sorting#:#Benutzerspezifisches Sortieren der Themen
-payment#:#pay_topics_allow_custom_sorting_info#:#Wenn aktiviert, können Benutzer die Sortierung der Themen im Shopbereich selbstständig festlegen.
-payment#:#pay_topics_default_sorting_direction#:#Standard-Sortierungrichtung der Themen
-payment#:#pay_topics_default_sorting_type#:#Standard-Sortierung der Themen
-payment#:#pay_topics_sort_by_date#:#Nach Datum
-payment#:#pay_topics_sort_by_title#:#Alphabetisch nach Titel
-payment#:#pay_topics_sort_manually#:#Händisch
-payment#:#pay_update_view#:#Ansicht aktualisieren
-payment#:#paya_access#:#Zugriff
-payment#:#paya_add_customer#:#Verkaufsvorgang hinzufügen
-payment#:#paya_add_price#:#Neuen Preis anlegen
-payment#:#paya_add_price_title#:#Neuer Preis
-payment#:#paya_added_new_object#:#Ein neues Objekt wurde angelegt. Bitte bearbeiten Sie nun die Bezahlart und Preise
-payment#:#paya_added_new_price#:#Ein neuer Preis wurde angelegt
-payment#:#paya_added_trustee#:#Ein neuer Verwalter wurde angelegt.
-payment#:#paya_bill_history#:#Rechnungs-Historie
-payment#:#paya_bookings_available#:#Dieses Objekt wurde bereits gekauft. Bitte löschen Sie zuerst die Statistikdaten.
-payment#:#paya_buyable#:#Kaufbar
-payment#:#paya_buyed_objects#:#Gekaufte Objekte
-payment#:#paya_count_purchaser#:#Anzahl Käufer
-payment#:#paya_coupon_codes_import_successful#:#Die Codes wurden erfolgreich importiert.
-payment#:#paya_coupons_add#:#Gutschein hinzufügen
-payment#:#paya_coupons_already_in_use#:#Der eingegebene Code und ein bereits verwendeter Code gehören zum gleichen Gutschein.
-payment#:#paya_coupons_assigned_objects#:#Zugeordnete Objekte
-payment#:#paya_coupons_availability#:#Maximale Nutzbarkeit eines Codes
-payment#:#paya_coupons_code#:#Code
-payment#:#paya_coupons_code_chars#:#Zeichen
-payment#:#paya_coupons_code_deleted_successfully#:#Der Code wurde erfolgreich gelöscht.
-payment#:#paya_coupons_code_generation#:#Code-Generierung
-payment#:#paya_coupons_code_length#:#Code-Länge
-payment#:#paya_coupons_codes#:#Codes
-payment#:#paya_coupons_codes_import#:#Codes importieren
-payment#:#paya_coupons_codes_not_available#:#Es sind keine Codes angelegt.
-payment#:#paya_coupons_coupon#:#Gutschein
-payment#:#paya_coupons_coupon_added#:#Der Gutschein wurde hinzugefügt.
-payment#:#paya_coupons_coupon_not_found#:#Kein passender Gutschein zum eingegebenen Code gefunden.
-payment#:#paya_coupons_coupons#:#Gutscheine
-payment#:#paya_coupons_description#:#Beschreibung
-payment#:#paya_coupons_edit#:#Gutschein bearbeiten
-payment#:#paya_coupons_edit_codes#:#Codes bearbeiten
-payment#:#paya_coupons_edit_objects#:#Objekte bearbeiten
-payment#:#paya_coupons_fix#:#fix
-payment#:#paya_coupons_fix_all_objects#:#%s %s Rabatt auf die Summe aller Objekte
-payment#:#paya_coupons_fix_selected_objects#:#%s %s Rabatt auf die Summe ausgewählter Objekte
-payment#:#paya_coupons_from#:#Gültig von
-payment#:#paya_coupons_generate_codes#:#Generiere Codes
-payment#:#paya_coupons_import_codes#:#Code Import
-payment#:#paya_coupons_import_error_opening_file#:#Fehler beim Öffnen der Importdatei!
-payment#:#paya_coupons_no_codes_generated#:#Es wurden keine Codes generiert.
-payment#:#paya_coupons_no_codes_selected#:#Kein Code ausgewählt
-payment#:#paya_coupons_no_object_assigned#:#Es wurde kein passendes Objekt zum Gutschein im Warenkorb gefunden.
-payment#:#paya_coupons_not_available#:#Es wurden bisher keine Gutscheine angelegt.
-payment#:#paya_coupons_not_found#:#Es wurden keine Gutscheine gefunden.
-payment#:#paya_coupons_not_valid#:#Der Gutschein ist nicht gültig.
-payment#:#paya_coupons_number_of_codes#:#Anzahl der Codes
-payment#:#paya_coupons_objects#:#Objekte
-payment#:#paya_coupons_percentaged#:#prozentual
-payment#:#paya_coupons_percentaged_all_objects#:#%s %s Rabatt auf die Summe aller Objekte
-payment#:#paya_coupons_percentaged_selected_objects#:#%s %s Rabatt auf die Summe ausgewählter Objekte
-payment#:#paya_coupons_sure_delete_all_codes#:#Sollen alle Codes wirklich gelöscht werden?
-payment#:#paya_coupons_sure_delete_selected_codes#:#Sollen die ausgewählten Codes wirklich gelöscht werden?
-payment#:#paya_coupons_till#:#Gültig bis
-payment#:#paya_coupons_title#:#Titel
-payment#:#paya_coupons_type#:#Gutschein-Typ
-payment#:#paya_coupons_type_auto#:#Automatisch
-payment#:#paya_coupons_type_self#:#Manuell
-payment#:#paya_coupons_unassigned_objects#:#Nicht zugeordnete Objekte
-payment#:#paya_coupons_usage_of_codes#:#Verbrauchte Codes
-payment#:#paya_coupons_value#:#Wert
-payment#:#paya_customer#:#Käufer
-payment#:#paya_customer_added_successfully#:#Der Verkaufsvorgang wurde erfolgreich zur Statistik hinzugefügt.
-payment#:#paya_delete_price#:#Preis löschen
-payment#:#paya_delete_trustee_msg#:#Die ausgewählten Verwalter wurden gelöscht.
-payment#:#paya_deleted_last_price#:#Der letzte Preis wurde gelöscht. Das Objekt kann nicht mehr verkauft werden.
-payment#:#paya_deleted_object#:#Das Payment wurde für dieses Objekt aufgelöst. Alle zugehörigen Daten wurden entfernt.
-payment#:#paya_deleted_selected_prices#:#Preis(e) gelöscht
-payment#:#paya_details_updated#:#Die Änderungen wurden übernommen.
-payment#:#paya_disabled#:#Ausgeschaltet
-payment#:#paya_edit_details#:#Details bearbeiten
-payment#:#paya_edit_pay_method#:#Bezahlart bearbeiten
-payment#:#paya_edit_prices#:#Preise bearbeiten
-payment#:#paya_edit_prices_first#:#Bitte bearbeiten Sie zuerst die Preise.
-payment#:#paya_enabled#:#Eingeschaltet
-payment#:#paya_enter_login#:#Bitte geben Sie einen Benutzernamen ein.
-payment#:#paya_err_adding_object#:#Fehler beim Anlegen des Objektes
-payment#:#paya_error_adding_customer#:#Es ist ein Fehler beim Hinzufügen des Verkaufsvorgangs zur Statistik aufgetreten.
-payment#:#paya_error_mandatory_fields#:#Bitte füllen Sie alle mit * gekennzeichneten Pflichtfelder aus.
-payment#:#paya_error_no_object_id_given#:#Bitte wählen Sie noch ein Objekt aus.
-payment#:#paya_error_update_booking#:#Fehler beim Speichern.
-payment#:#paya_expires#:#Bezahlung auslaufen lassen
-payment#:#paya_filter_reseted#:#Der Filter wurde zurückgesetzt.
-payment#:#paya_header#:#Shopverwaltung
-payment#:#paya_insert_only_numbers#:#Bitte geben Sie nur ganze Zahlen ein.
-payment#:#paya_insert_vats#:#Steuersatz hinzufügen
-payment#:#paya_locator#:#Shopverwaltung
-payment#:#paya_months#:#Monat(e)
-payment#:#paya_no_booking_id_given#:#Fehler: kein Datensatz angegeben
-payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.
-payment#:#paya_no_object_selected#:#Sie haben kein Objekt ausgewählt.
-payment#:#paya_no_objects_assigned#:#Sie haben noch keine Objekte verkauft.
-payment#:#paya_no_price_available#:#Es sind keine Preise festgelegt.
-payment#:#paya_no_prices_selected#:#Bitte wählen Sie mindestens einen Preis aus
-payment#:#paya_no_settings_necessary#:#Bei der ausgewählten Bezahlart sind keine weiteren Einstellungen nötig
-payment#:#paya_no_trustees#:#Es sind keine Verwalter angelegt.
-payment#:#paya_no_valid_login#:#Dieser Benutzername ist nicht gültig.
-payment#:#paya_no_vat_id_given#:#Es wurde keine Steuer-Id übergeben
-payment#:#paya_no_vats_assigned#:#Es existieren keine Steuersätze
-payment#:#paya_no_vendor_selected#:#Sie haben keinen Verkäufer ausgewählt.
-payment#:#paya_not_assign_yourself#:#Sie können sich nicht selbst als Verwalter zuordnen.
-payment#:#paya_not_buyable#:#Nicht kaufbar
-payment#:#paya_object#:#Objekte
-payment#:#paya_object_not_purchasable#:#Dieses Objekt kann nicht verkauft werden.
-payment#:#paya_order_date#:#Bestelldatum
-payment#:#paya_pay_method#:#Bezahlart
-payment#:#paya_pay_method_not_specified#:#Nicht festgelegt
-payment#:#paya_payed#:#Bezahlt
-payment#:#paya_payed_access#:#Bezahlt/Zugriff
-payment#:#paya_perm_coupons#:#Gutscheine bearbeiten
-payment#:#paya_perm_obj#:#Objekte bearbeiten
-payment#:#paya_perm_stat#:#Statistiken bearbeiten
-payment#:#paya_price_not_valid#:#Die Angaben sind nicht gültig. Bitte geben Sie ausschliesslich Ganzzahlen ein
-payment#:#paya_select_object_to_sell#:#Bitte wählen Sie das zu verkaufende Objekt aus.
-payment#:#paya_select_pay_method_first#:#Bitte legen Sie zuerst die Bezahlart fest.
-payment#:#paya_sell_object#:#Objekt verkaufen
-payment#:#paya_shopping_cart#:#Warenkorb
-payment#:#paya_statistic#:#Statistik
-payment#:#paya_sure_delete_object#:#Sind Sie sicher, dass dieses Objekt nicht mehr verkauft werden soll? Alle zugehörigen Daten werden gelöscht.
-payment#:#paya_sure_delete_selected_prices#:#Sollen die ausgewählten Preise wirklich gelöscht werden?
-payment#:#paya_sure_delete_selected_trustees#:#Sollen die ausgewählten Verwalter wirklich gelöscht werden?
-payment#:#paya_sure_delete_stat#:#Sind Sie sicher, dass dieser Datensatz gelöscht werden soll?
-payment#:#paya_sure_delete_vat#:#Sind Sie sicher, dass Sie diesen Steuersatz löschen möchten?
-payment#:#paya_sure_delete_vats#:#Sind Sie sicher, dass Sie die Angaben zur Mehrwertsteuer löschen möchten?
-payment#:#paya_transaction#:#Transaktion
-payment#:#paya_trustee_table#:#Verwalter
-payment#:#paya_trustees#:#Verwalter
-payment#:#paya_update_price#:#Preise aktualisieren
-payment#:#paya_updated_booking#:#Der Datensatz wurde aktualisiert.
-payment#:#paya_updated_price#:#Der Preis wurde erfolgreich gespeichert.
-payment#:#paya_updated_prices#:#Die Preise wurden aktualisiert.
-payment#:#paya_updated_trustees#:#Die Rechte wurden aktualisiert.
-payment#:#paya_user_already_assigned#:#Dieser Benutzer wurde bereits zugeordnet.
-payment#:#paya_vat_already_exists#:#Dieser Steuersatz existiert bereits
-payment#:#paya_vat_not_deleted#:#Der Steuersatz wurde nicht gelöscht
-payment#:#paya_vat_not_valid#:#Dieser Steuersatz ist ungültig
-payment#:#paya_vats_info#:#Wenn Sie einen Artikel ohne Mehrwertsteuer verkaufen möchten, legen Sie bitte einen Steuersatz mit 0 % an.
-payment#:#paya_vendor#:#Verkäufer
-payment#:#payment_add_vat#:#Steuersatz anlegen
-payment#:#payment_already_bought_but_no_access#:#Sie haben das Objekt %s bereits gekauft, haben jedoch noch keinen Zugriff oder Ihre Lizenz ist bereits abgelaufen.
-payment#:#payment_back_to_shop#:#Zurück zum Shop
-payment#:#payment_cannot_find_vat#:#Es konnte kein Steuersatz zur übergebenen ID gefunden werden.
-payment#:#payment_cannot_read_nonexisting_vat#:#Die ID zum Einlesen des Steuersatzes wurde nicht übertragen.
-payment#:#payment_cannot_save_existing_vat#:#Ein vorhandener Steuersatz kann nicht angelegt werden.
-payment#:#payment_cannot_update_nonexisting_vat#:#Kann einen nicht existierenden Steuersatz nicht aktualisieren.
-payment#:#payment_edit_vat#:#Steuersatz bearbeiten
-payment#:#payment_login_to_buy_object#:#Bitte melden Sie sich bei ILIAS an, damit das Objekt in den Warenkorb gelegt werden kann.
-payment#:#payment_news#:#Shop-Nachrichten
-payment#:#payment_news_add_news#:#Shop-Nachricht hinzufügen
-payment#:#payment_news_archive_period#:#Archiv-Zeitraum
-payment#:#payment_news_archive_period_info#:#Anzahl der Tage, nach denen eine Nachricht ins Archiv verschoben wird
-payment#:#payment_news_created#:#Shop Nachricht hinzugefügt
-payment#:#payment_news_delete_sure#:#Sind Sie sicher, dass Sie diese Shop-Nachricht löschen möchten?
-payment#:#payment_news_deleted#:#Die Nachricht wurde gelöscht
-payment#:#payment_news_no_news_items#:#Keine Nachrichten vorhanden
-payment#:#payment_news_settings#:#Shop-Nachrichten-Einstellungen
-payment#:#payment_news_settings_saved#:#Die Einstellungen wurden gespeichert
-payment#:#payment_news_updated#:#Die Nachricht wurde gespeichert
-payment#:#payment_no_price_selected#:#Es wurde kein Preis ausgewählt.
-payment#:#payment_no_price_type_selected#:#Bitte wählen Sie einen Preistyp.
-payment#:#payment_no_topic#:#Kein Thema
-payment#:#payment_object_not_buyable_if_not_vat_assigned#:#Bevor dem Objekt kein Steuersatz zugewiesen wird ist dieses nicht kaufbar.
-payment#:#payment_price_invalid_price#:#Bitte geben Sie einen gültigen Preis ein.
-payment#:#payment_shop_not_objects_found#:#Es konnten keine kaufbaren Objekte gefunden werden.
-payment#:#payment_tax_rates#:#Steuersätze
-payment#:#payment_vat_administration#:#Verwaltung
-payment#:#payment_vat_already_created#:#Es existiert bereits ein Steuersatz mit diesem Wert.
-payment#:#payment_vat_deleted_successfully#:#Die gewählten Steuersätze wurden gelöscht.
-payment#:#payment_vat_has_to_be_defined_by_administration_short#:#----
-payment#:#payment_vat_input_invalid#:#Bitte geben Sie einen gültigen Wert für den Steuersatz ein.
-payment#:#payment_vat_rate_info#:#Tragen Sie hier den Prozentsatz (ohne das %-Zeichen) für den Steuersatz ein, z.B. 7.
-payment#:#payment_vat_title_info#:#Tragen Sie hier eine Bezeichnung/einen Titel für den Steuersatz ein.
-payment#:#pays_active_bookings#:#Bitte löschen Sie zuerst alle noch aktiven Verkaufsvorgänge.
-payment#:#pays_add_info#:#Zusatzdaten für Rechnung (optional)
-payment#:#pays_add_vendor#:#Verkäufer anlegen
-payment#:#pays_added_vendor#:#Ein neuer Verkäufer wurde angelegt.
-payment#:#pays_address#:#Adresse für Rechnung
-payment#:#pays_already_assigned_vendors#:#Die folgende Anzahl an Benutzern war bereits vorhanden:
-payment#:#pays_assigned_vendors#:#Die folgende Anzahl an Verkäufern wurde angelegt:
-payment#:#pays_auth_token#:#Von PayPal vergebenes eindeutiges Merkmal
-payment#:#pays_bank_data#:#Bankverbindung für Rechnung
-payment#:#pays_bill#:#Rechnung
-payment#:#pays_bmf#:#BMF
-payment#:#pays_bmf_bewirtschafter_nr#:#Bewirtschafter-Nr
-payment#:#pays_bmf_ca_certificate#:#Pfad zum CA-Zertifikat
-payment#:#pays_bmf_client_certificate#:#Pfad zum Client-Zertifikat
-payment#:#pays_bmf_client_id#:#Mandanten-Nr
-payment#:#pays_bmf_epayment_server#:#ePayment-Server
-payment#:#pays_bmf_haushaltsstelle#:#Haushaltsstelle
-payment#:#pays_bmf_kennzeichen_mahnverfahren#:#Kennzeichen Mahnverfahren
-payment#:#pays_bmf_object_id#:#Objekt-Nr
-payment#:#pays_bmf_settings#:#Einstellungen für BMF
-payment#:#pays_bmf_settings_not_valid#:#Ihre Einstellungen für BMF sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
-payment#:#pays_bmf_timeout#:#Timeout
-payment#:#pays_bmf_waehrungskennzeichen#:#Währungskennzeichen
-payment#:#pays_cost_center#:#Kostenstelle
-payment#:#pays_cost_center_not_valid#:#Bitte geben Sie eine gültige Kostenstelle ein.
-payment#:#pays_currency_subunit#:#Währung (1/100) (z.B. Cent)
-payment#:#pays_currency_unit#:#Währung (z.B. EUR)
-payment#:#pays_delete_vendor#:#Benutzer austragen
-payment#:#pays_deleted_number_vendors#:#Die folgende Anzahl an Verkäufern wurde gelöscht:
-payment#:#pays_eco_agreement#:#Agreement Number
-payment#:#pays_eco_cur_handle_code#:#Währungscode
-payment#:#pays_eco_layout#:#Layout Rechnung
-payment#:#pays_eco_payment_terms#:#Payment Terms
-payment#:#pays_eco_product_number#:#Produktnummer
-payment#:#pays_edit_vendor#:#Benutzer bearbeiten
-payment#:#pays_email_vendor#:#E-Mail-Adresse des Verkäufers
-payment#:#pays_epay#:#ePay
-payment#:#pays_epay_auth_email#:#E-Mail-Benachrichtigung
-payment#:#pays_epay_auth_email_info#:#E-Mail, an die die Informationen über durchgeführte Transaktionen und Zahlungen gesendet wird.
-payment#:#pays_epay_auth_token#:#Authentifizierungs-Token
-payment#:#pays_epay_auth_token_info#:#Sie müssen dieses auch im ePay-Backend eintragen. Das Secret schützt Benutzer vor einem vorgetäuschten Abrechnungsvorgang.
-payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> ist ein Payment-Service der die Abrechnung von ILIAS mit VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners und AMEX ermöglicht. Um ePay mit ILIAS zu nutzen, benötigen Sie eine eigene Vereinbarung mit ePay, sowie eine Händler-ID.
-payment#:#pays_epay_instant_capture#:#Momentaufnahme
-payment#:#pays_epay_instant_capture_info#:#Wenn aktiviert, werden alle Beträge unverzüglich vom Kundenkonto gebucht. Bitte sichern Sie sich ab, dass dieses Vorgehen mit den gesetzlichen Regelungen in Ihrem Land konform geht.
-payment#:#pays_epay_merchant_number#:#Händler-ID
-payment#:#pays_epay_server_host#:#Server-Host
-payment#:#pays_epay_server_path#:#Server-Pfad
-payment#:#pays_epay_settings#:#ePay-Konfiguration
-payment#:#pays_epay_settings_not_valid#:#Die ePay-Einstellungen konnten nicht gespeichert werden, da sie ungültig sind.
-payment#:#pays_erp#:#ERP
-payment#:#pays_erp_bad_settings#:#Bitte ändern Sie die Einstellungen für %s, da sie nicht mehr gültig sind.
-payment#:#pays_erp_connection_established#:#Verbindung mit %s erfolgreich hergestellt..
-payment#:#pays_erp_error#:#Fehler bei der Interaktion mit %s!
-payment#:#pays_erp_info#:#ERP-System-Setup. Integriert ILIAS mit einem Kassensystem.
-payment#:#pays_erp_invoice_attached#:#Ihre Rechnung ist an diese Nachricht angehängt..
-payment#:#pays_erp_invoice_copies#:#Speichere Kopien der erzeugten Rechnungen
-payment#:#pays_erp_invoice_copies_info#:#Kopien werden gespeichert in:
-payment#:#pays_erp_invoice_deleted#:#Proberechnung gelöscht
-payment#:#pays_erp_invoice_delpreview#:#Proberechnung löschen
-payment#:#pays_erp_invoice_nowrite#:#In Verzeichnis kann nicht geschrieben/gespeichert werden.
-payment#:#pays_erp_invoice_preview#:#Proberechnung in neuem Fenster anzeigen
-payment#:#pays_erp_settings#:#ERP-Einstellungen
-payment#:#pays_erp_system#:#ERP-System
-payment#:#pays_erp_tst_billed#:#gebucht für
-payment#:#pays_erp_tst_existing#:#Existing Debtor
-payment#:#pays_erp_tst_new#:#New Debtor
-payment#:#pays_erp_tst_product#:#Dies ist nur eine Proberechnung. Bei einem wirklichen Kaufvorgang  erscheint hier der Name des Kurses oder der Datei.
-payment#:#pays_erp_updated_settings#:#ERP-Einstellungen aktualisiert und %s aktiviert.
-payment#:#pays_general#:#Allgemein
-payment#:#pays_general_settings#:#Allgemeine Einstellungen
-payment#:#pays_general_settings_not_valid#:#Ihre allgemeinen Einstellungen sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
-payment#:#pays_header_select_vendor#:#Verkäuferauswahl
-payment#:#pays_invoice#:#Rechnung
-payment#:#pays_no_username_given#:#Bitte geben Sie einen Benutzernamen ein.
-payment#:#pays_no_valid_username_given#:#Der angegebene Benutzername ist nicht gültig.
-payment#:#pays_no_vendor_selected#:#Sie haben keinen Verkäufer ausgewählt.
-payment#:#pays_number_bookings#:#Verkaufsvorgänge
-payment#:#pays_objects_bill_exist#:#Für einige Objekte ist die Bezahlart 'Rechnung' aktiviert. Diese kann deswegen nicht deaktiviert werden.
-payment#:#pays_objects_bmf_exist#:#Für einige Objekte ist die Bezahlart 'BMF' aktiviert. Diese kann deswegen nicht deaktiviert werden.
-payment#:#pays_objects_paypal_exist#:#Für einige Objekte ist die Bezahlart 'PayPal' aktiviert. Diese kann deswegen nicht deaktiviert werden.
-payment#:#pays_offline#:#Offline
-payment#:#pays_online#:#Online
-payment#:#pays_page_style#:#Seitenstil
-payment#:#pays_pay_methods#:#Bezahlarten
-payment#:#pays_paypal#:#PayPal
-payment#:#pays_paypal_settings#:#Einstellungen für PayPal
-payment#:#pays_paypal_settings_not_valid#:#Ihre Einstellungen für PayPal sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
-payment#:#pays_pdf_path#:#Pfad zur Rechnungsgenerierung als PDF-Datei
-payment#:#pays_server_host#:#Server Host (z.B. https://www.paypal.com)
-payment#:#pays_server_path#:#Pfad zu den Skripten (z.B. /cgi-bin/webscr)
-payment#:#pays_sure_delete_selected_vendors#:#Sind sie sicher, dass die ausgewählten Verkäufer gelöscht werden sollen?
-payment#:#pays_too_many_vendors_selected#:#Für diese Aktion bitte nur einen Verkäufer auswählen.
-payment#:#pays_updated_bmf_settings#:#Ihre Einstellungen für BFM wurden aktualisiert.
-payment#:#pays_updated_epay_settings#:#Einstellungen für ePay wurden aktualisiert.
-payment#:#pays_updated_general_settings#:#Ihre allgemeinen Einstellungen wurden aktualisiert.
-payment#:#pays_updated_pay_method#:#Die Bezahlart wurde geändert.
-payment#:#pays_updated_paypal_settings#:#Ihre Einstellungen für PayPal wurden aktualisiert.
-payment#:#pays_user_already_assigned#:#Dieser Benutzer ist bereits zugeordnet.
-payment#:#pays_vat_rate#:#MwSt.-Satz in % (optional)
-payment#:#pays_vendor#:#Verkäufer
-payment#:#period_of_service_provision#:#Zeitraum der Leistungserbringung
-payment#:#please_activate_one_paymethod#:#Bitte aktivieren Sie wenigstens eine Bezahlart
-payment#:#please_create_vendor#:#Bitte erstellen Sie wenigstens einen Verkäufer
-payment#:#please_enter_address#:#Bitte geben Sie eine Adresse ein
-payment#:#please_enter_bank_data#:#Bitte geben Sie die Bankverbindung ein
-payment#:#please_enter_bmf_data#:#Bitte geben Sie Ihre BMF-Daten ein
-payment#:#please_enter_currency#:#Bitte geben Sie eine Währung ein
-payment#:#please_enter_epay_data#:#Bitte geben Sie Ihre EPay-Daten ein
-payment#:#please_enter_paypal_data#:#Bitte geben Sie Ihre Paypal-Daten ein
-payment#:#please_enter_pdf_path#:#Bitte geben Sie den Pfad zur Rechnungsgenerierung als PDF-Datei an
-payment#:#please_enter_vats#:#Bitte erstellen Sie wenigstens einen Steuersatz
-payment#:#please_use_account#:#Bitte melden Sie sich bei zukünftigen Käufen mit ihren Benutzerdaten an.
-payment#:#plus_vat#:#zuzüglich gesetzlicher Umsatzsteuer
-payment#:#position#:#Pos.
-payment#:#price_a#:#Preis
-payment#:#price_from#:#ab
-payment#:#prices#:#Preise
-payment#:#reset_filter#:#Filter zurücksetzen
-payment#:#search_in_title#:#Suche in Titel
-payment#:#select_one_topic#:#Sie müssen mindestens ein Thema auswählen
-payment#:#select_subtype#:#Unteroption
-payment#:#set_filter#:#Filter setzen
-payment#:#shop_activation_ok#:#Die Shop Einstellungen sind vollständig. Sie können nun den Webshop aktivieren.
-payment#:#shop_bought_objects_url#:#Link zu den gekauften Objekten
-payment#:#shop_info#:#Shop-Information
-payment#:#shop_url#:#Link zum Shop
-payment#:#show_general_filter#:#Allgemeinen Filter verwenden
-payment#:#show_general_filter_info#:#Mit diesem Filter können Benutzer nach einem kaufbaren Objekt suchen
-payment#:#show_shop_explorer#:#Shop-Baum verwenden
-payment#:#show_shop_explorer_info#:#Der Shop-Baum vereinfacht die Navigation innerhalb des Shops
-payment#:#show_topics_filter#:#Themenfilter verwenden
-payment#:#show_topics_filter_info#:#Mit diesem Filter können Benutzer kaufbare Objekte nach Themen filtern
-payment#:#sort#:#Sortieren
-payment#:#sort_asc#:#aufsteigend sortieren
-payment#:#sort_by#:#Sortiere Objekte nach
-payment#:#sort_desc#:#absteigend sortieren
-payment#:#sort_topics_by#:#Sortiere Themen nach
-payment#:#sort_topics_by_date#:#Datum
-payment#:#sort_topics_by_title#:#Titel
-payment#:#sort_topics_manually#:#Manuell
-payment#:#special#:#Spezial-Angebot
-payment#:#special_info#:#Wenn aktiviert erscheint dieses Objekt auf der Startseite des Shops
-payment#:#statistics_filter_advice#:#Bitte tätigen Sie die gewünschten Filtereinstellungen und klicken Sie anschließend auf "Ansicht aktualisieren"
-payment#:#sure_delete_topics#:#Sollen die gewählten Themen wirklich gelöscht werden?
-payment#:#terms_conditions#:#AGB
-payment#:#topic#:#Thema
-payment#:#topic_edited#:#Das Thema wurde erfolgreich bearbeitet
-payment#:#topic_saved#:#Das Thema wurde erfolgreich gespeichert
-payment#:#topic_title#:#Titel
-payment#:#topics#:#Themen
-payment#:#topics_deleted#:#Die gewählten Themen wurden erfolgreich gelöscht
-payment#:#total_netprice#:#Nettobetrag (ohne USt)
-payment#:#unit_price#:#Einzelpreis
-payment#:#unlimited_duration#:#Unbegrenzte Dauer
-payment#:#update#:#Aktualisieren
-payment#:#use_shop_specials#:#Spezial-Angebote verwenden
-payment#:#use_shop_specials_info#:#Wenn aktiviert, können Kaufobjekte als Spezial-Angebote markiert werden. Diese werden dann auf der Startseite angezeigt.
-payment#:#user_deleted#:#Benutzer gelöscht
-payment#:#userdefined_invoice_number#:#Benutzerdefinierte Rechnungsnummer
-payment#:#vat_rate#:#Steuer-Prozentsatz
-payment#:#vat_title#:#Steuer-Titel
-payment#:#vat_unit#:#Steuer-Einheit
-payment#:#vats#:#Steuern
 pd#:#pd_enable_active_users#:#Block 'Aktive Benutzer' aktivieren
 pd#:#pd_enable_block_moving#:#'Verschieben der Blöcke' aktivieren
 pd#:#pd_enable_block_moving_info#:#Erlaube Benutzern, ihren Persönlichen Schreibtisch anzupassen.
@@ -12226,10 +11692,10 @@ user#:#usr_public_profile_global_info#:#Ihr Profil ist ohne Einschränkung im In
 user#:#usr_public_profile_logged_in#:#Für angemeldete Benutzer sichtbar
 user#:#usr_public_profile_logged_in_info#:#Ihre Angaben sind nur für Benutzer sichtbar, die in ILIAS eingeloggt sind.
 webr#:#webr_active#:#Aktiv
-webr#:#webr_container_info#:#Da diese Weblinksammlung mehr als einen Weblink enthalten soll, sollten Sie einen Titel und eventuell einen Beschreibungstext für die Darstellung im Magazin vergeben.
+webr#:#webr_container_info#:#Da diese Weblink-Sammlung mehr als einen Weblink enthalten soll, sollten Sie einen Titel und eventuell einen Beschreibungstext für die Darstellung im Magazin vergeben.
 webr#:#webr_deactivate#:#Weblink deaktivieren
 webr#:#webr_edit_links#:#Weblinks bearbeiten
-webr#:#webr_edit_list#:#Weblinksammlung bearbeiten
+webr#:#webr_edit_list#:#Weblink-Sammlung bearbeiten
 webr#:#webr_edit_settings#:#Einstellungen bearbeiten
 webr#:#webr_imort#:#Weblink importieren
 webr#:#webr_import#:#Weblink importieren
@@ -12237,8 +11703,8 @@ webr#:#webr_inactive_success#:#Der Weblink wurde deaktiviert.
 webr#:#webr_link_added#:#Ein neuer Weblink wurde angelegt.
 webr#:#webr_link_target#:#Ziel
 webr#:#webr_link_title#:#Titel des Weblinks
-webr#:#webr_list_desc#:#Beschreibung der Weblinksammlung
-webr#:#webr_list_title#:#Titel der Weblinksammlung
+webr#:#webr_list_desc#:#Beschreibung der Weblink-Sammlung
+webr#:#webr_list_title#:#Titel der Weblink-Sammlung
 webr#:#webr_new_link#:#Neuen Weblink anlegen
 webr#:#webr_sort_manual#:#Manuelle Sortierung
 webr#:#webr_sort_title#:#Alphabetisch nach Titel
@@ -12402,7 +11868,7 @@ ecs#:#ecs_cat_mapping_by_type_info#:#Wählen Sie diese Einstellung, um nach Obje
 ecs#:#ecs_err_invalid_by_type#:#Wählen Sie einen Objekt-Typen, um danach zuzuordnen.
 common#:#obj_rcat#:#ECS-Kategorie
 ecs#:#ecs_server_deleted#:#Server gelöscht
-blog#:#blog_edit_date#:#Datum editieren
+blog#:#blog_edit_date#:#Datum bearbeiten
 blog#:#blog_edit_date_info#:#Der Status der Veröffentlichung hängt nicht von diesem Datum ab.
 certificate#:#certificate_file_basename#:#Zertifikat
 content#:#cont_captcha_verification#:#Benutzerverifikation
@@ -12444,8 +11910,10 @@ pdesk#:#bookmark_moved_ok#:#Bookmark wurde verschoben.
 wsp#:#wsp_tab_ownership#:#Meine Magazin-Objekte
 user#:#user_ownership#:#Magazin-Objekte
 registration#:#registration_code_role_info#:#Bei Benutzung eines Registrierungscodes kann diese Auswahl überschrieben werden.
-mail#:#mail_system_sender_name#:#Absendername
-mail#:#mail_system_sender_name_info#:#Bitte geben Sie einen Namen ein, der als Absender für automatisch generierte Nachrichten (intern und extern) genutzt werden soll. Falls Sie dieses Feld leer lassen, nutzt ILIAS den Kurztitel dieser Installation. Ist dieser ebenfalls nicht definiert, wird 'ILIAS' als Absender verwendet.
+mail#:#mail_system_from_name#:#Absendername
+mail#:#mail_system_from_name_info#:#Bitte geben Sie einen Namen (z.B. 'John Doe') ein, der als Absender für automatisch generierte Nachrichten (intern und extern) genutzt werden soll. Falls Sie dieses Feld leer lassen, nutzt ILIAS den Kurztitel dieser Installation. Ist dieser ebenfalls nicht definiert, wird 'ILIAS' als Absender verwendet.
+mail#:#mail_system_return_path#:#Globaler Return-Path
+mail#:#mail_system_return_path_info#:#Bitte geben Sie eine E-Mail-Adresse an, die als 'Return-Path' genutzt werden soll (z.B. webmaster@ilias.de). Falls Sie dieses Feld leer lassen, entspricht der 'Return-Path' der 'From' E-Mail-Adresse.
 content#:#cont_current_term#:#Aktueller Begriff
 assessment#:#tst_setting_offer_hints_label#:#Lösungshinweise
 assessment#:#tst_setting_offer_hints_info#:#Teilnehmer können Lösungshinweise anfordern, um eine Frage zu beantworten. Pro gegebenem Lösungshinweis verringern sich die Punkte für die richtige Antwort.
@@ -12538,6 +12006,7 @@ rbac#:#dcl_write#:#Datensammlung bearbeiten
 rbac#:#dcl_delete#:#Datensammlung löschen
 rbac#:#dcl_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#dcl_add_entry#:#Eintrag hinzufügen
+rbac#:#dcl_edit_content#:#Einträge bearbeiten
 rbac#:#rbac_create_dcl#:#Datensammlung anlegen
 dcl#:#dcl_edit_type#:#Typ bearbeiten
 dcl#:#dcl_activate_rating#:#Bewertung von Einträgen
@@ -12568,12 +12037,12 @@ dcl#:#dcl_table_create#:#Erstelle Tabelle
 dcl#:#dcl_table_edit#:#Speichern
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_datatype#:#Datentyp
-dcl#:#dcl_integer#:#Ganze Zahlen
+dcl#:#dcl_number#:#Ganze Zahlen
 dcl#:#dcl_text#:#Text
 dcl#:#dcl_reference#:#Auswahlmenü
 dcl#:#dcl_boolean#:#Checkbox
 dcl#:#dcl_datetime#:#Datum
-dcl#:#dcl_file#:#Datei-Upload
+dcl#:#dcl_fileupload#:#Datei-Upload
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_required#:#Verpflichtend
 dcl#:#dcl_length#:#Länge
@@ -12601,12 +12070,22 @@ dcl#:#dcl_delete_records#:#Datensätze löschen
 dcl#:#dcl_confirm_delete_records#:#Sind Sie sicher, dass die folgenden Datensätze gelöscht werden sollen?
 dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht
 dcl#:#dcl_skipped_delete_records#:#%s Datensätze wurden aufgrund der Rechteeinstellungen nicht gelöscht
+dcl#:#dcl_plugin#:#Plugin
+dcl#:#dcl_plugin_desc#:#DataCollection Feld Erweiterungen
+dcl#:#dcl_plugin_hooks#:#Verfügbare Erweiterungen
+dcl#:#dcl_save_confirmation#:#Speicherbestätigung
+dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen
+dcl#:#dcl_confirm_storing_records#:#Bitte überprüfen Sie die Angaben vor dem Speichern
+dcl#:#dcl_save_record#:#Eintrag speichern
+dcl#:#dlc_xls_async_export#:#Asynchroner XLSX export
+dcl#:#dcl_export_started#:#Asynchroner Export gestartet
+dcl#:#dcl_export_finished#:#Export Abgeschlossen
+dcl#:#dcl_supported_filetypes#:#Erlaubte Dateiendungen
+dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendungen angeben. Zum Beispiel: .pdf, .docx
+dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.
-payment#:#duration_month#:#Zugriffsdauer in Monaten
-payment#:#duration_date#:#Zugriffszeitraum
-payment#:#please_choose_category#:#Bitte wählen Sie eine Kategorie
 forum#:#select_max_one_thread#:#Bitte wählen Sie nur ein Thema aus!
 common#:#shib_matriculation#:#Attribut für Matrikelnummer
 common#:#soap_connect_timeout#:#Timeout für Verbindungsaufbau
@@ -12896,7 +12375,7 @@ dcl#:#dcl_title#:#Feldtitel
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_save#:#Speichern
 dcl#:#dcl_description#:#Beschreibung
-dcl#:#dcl_export_table_excel#:#Export .xls
+dcl#:#dcl_export_table_excel#:#Export .xlsx
 dcl#:#dcl_no_exportable_fields_or_no_data#:#Keine exportierbaren Felder definiert oder keine Daten vorhanden
 dcl#:#dcl_confirm_delete_record#:#Möchten Sie diesen Eintrag wirklich löschen?
 dcl#:#dcl_confirm_delete_field#:#Möchten Sie dieses Feld wirklich löschen?
@@ -12930,7 +12409,7 @@ file#:#file_copy#:#Datei kopieren
 webr#:#webr_copy#:#Weblink kopieren
 exc#:#exc_copy#:#Übung kopieren
 assessment#:#tst_copy#:#Test kopieren
-poll#:#poll_population#:#%s abgegebene Stimmen
+poll#:#poll_population#:#%s Teilnehmer
 poll#:#poll_participants#:#Teilnehmer
 poll#:#poll_delete_votes#:#Alle Stimmen löschen
 poll#:#poll_delete_votes_sure#:#Sind sie sicher, dass Sie alle Stimmen löschen möchten?
@@ -13009,7 +12488,7 @@ dcl#:#dcl_record_edit_viewdefinition#:#Bearbeite Seitenvorlage
 dcl#:#dcl_record_list_viewdefinition#:#Liste der Seitenvorlagen
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
-dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http://) oder eine E-Mail Adresse ein.
+dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail Adresse ein.
 dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert, dadurch funktionieren unter Umständen die Platzhalter in der Seitenvorlage nicht mehr, diese müssen gegebenenfalls manuell angepasst werden.
 dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_table_title_unique#:#Es existiert bereits eine Tabelle mit diesem Titel. Titel muss eindeutig sein.
@@ -13066,7 +12545,7 @@ dcl#:#dcl_actions#:#Actionen
 dcl#:#dcl_owner_editable#:#Nur eigene Einträge bearbeiten
 dcl#:#dcl_msg_table_created#:#Tabelle angelegt
 dcl#:#dcl_record_deleted#:#Eintrag gelöscht
-dcl#:#dcl_ILIAS_reference#:#Objekt im Magazin
+dcl#:#dcl_ilias_reference#:#Objekt im Magazin
 dcl#:#dcl_learning_progress#:#Lernfortschritt anzeigen
 dcl#:#dcl_learning_progress_desc#:#Wenn vorhanden, wird der Lernfortschritts des Benutzers angezeigt
 dcl#:#dcl_status#:#Dein Status
@@ -13103,7 +12582,8 @@ exc#:#exc_team_notification_body_rmv#:#Sie wurden aus einer Team-Upload-Übungse
 exc#:#exc_team_notification_changed_by#:#Status geändert durch
 exc#:#exc_team_notification_link#:#Link zur Übung
 poll#:#poll_absolute#:#Aktuelle Stimmen
-dcl#:#dcl_reference_link#:#Link zum referenzierten Feldeintrag
+dcl#:#dcl_reference_link#:#Als Link zum referenzierten Eintrag darstellen
+dcl#:#dcl_reference_link_info#:#Die Seitenvorlage zur Einzelansicht muss in der referenzierten Tabelle aktiv sein
 dcl#:#dcl_ILIAS_reference_link#:#Link zum Objekt
 dcl#:#dcl_ILIAS_reference_link_desc#:#Objekt kann per Link aufgerufen werden, wenn Leserecht vorhanden ist
 dcl#:#dcl_text_area#:#Mehrzeiliges Texteingabefeld
@@ -13399,12 +12879,12 @@ cron#:#cron_no_executable_job_selected#:#Bitte wählen Sie mindestens einen ausf
 dcl#:#dcl_no_warnings#:#Der Import wurde reibungslos abgeschlossen.
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp ist für den Import nicht unterstützt.
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
-dcl#:#dcl_file_not_readable#:#Die Datei konnte nicht gelesen werden. Bitte verwenden sie das .xls-Dateiformat.
+dcl#:#dcl_file_not_readable#:#Die Datei konnte nicht gelesen werden. Bitte verwenden sie das .xlsx-Dateiformat.
 dcl#:#dcl_import_terminated#:#Der Import ist abgeschlossen. Anzahl importierter Datensätze
 dcl#:#dcl_max_import#:#Die maximal erlaubte Anzahl an importierten Datensätze wurde überschritten.
 dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
-dcl#:#dcl_import_records .xls#:#Import .xls
-dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xls vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Reihe müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Reihen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren.
+dcl#:#dcl_import_records .xls#:#Import .xlsx
+dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xlsx vorliegen, mit den zu importierenden Daten auf der ersten Seite. In der ersten Reihe müssen die exakten Namen der Felder stehen (inklusive Grossschreibung) und in den folgenden Reihen die Werte der zu importierenden Datensatzeinträge. Es wird empfohlen, jeden Import zuerst zu simulieren.
 dcl#:#dcl_simulate_import#:#Import simulieren
 dcl#:#dcl_simulate_info#:#Hierbei werden keine Datensätze angelegt, sondern nur Feedback zu Fehlern in der Import-Datei gegeben. Dadurch können Sie fehlerhafte Imports vermeiden.
 dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
@@ -13683,7 +13163,7 @@ dateplaner#:#cal_ch_user_assignment_success#:#Die Benutzer wurden den ausgewähl
 dateplaner#:#cal_booking_failed_info#:#Die Buchung konnte nicht vorgenommen werden, da der Termin ausgebucht ist.
 registration#:#registration_codes_override_info#:#Diese Einstellung hat Vorrang vor allen anderen entsprechenden Registrierungs-Einstellungen.
 registration#:#registration_codes_override_global_info#:#Diese Einstellungen werden evtl. durch Registrierungscodes aufgehoben.
-crs#:#event_list_registered_only#:#Nur angemeldete Mitglieder
+crs#:#event_list_registered_only#:#Nur Angemeldete
 didactic#:#didactic_default_type#:#Standard
 pd#:#pd_info_delete_sure_remove#:#Wollen Sie die folgenden Objekte aus der Liste "Ausgewählte Angebote" auf Ihrem Persönlichen Schreibtisch entfernen?
 pd#:#pd_info_delete_sure_unsubscribe#:#Wollen Sie sich wirklich aus den folgenden Objekten abmelden?
@@ -13927,10 +13407,6 @@ rep#:#rep_new_item_group_unassigned_subitems#:#Anzahl nicht zugeordneter Objekte
 rep#:#rep_new_item_group_edit#:#Gruppierung bearbeiten
 rep#:#rep_new_item_group_delete_sure#:#Wollen Sie wirklich die folgenden Gruppierungen löschen?
 registration#:#reg_email_domains_code#:#Bei Verwendung eines Codes sind beliebige E-Mail-Adressen möglich.
-payment#:#placeholders#:#Platzhalter
-payment#:#current_timestamp#:#Aktueller Unix-Zeitstempel
-payment#:#user_id#:#Benutzer-ID
-payment#:#incremental_number#:#Eine sich inkrementierende Ziffer
 rep#:#rep_new_item_group_separator#:#Spaltentrenner 
 rep#:#rep_new_item_group_other#:#Weitere
 wsp#:#wsp_shared_title#:#Titel der Ressource
@@ -14031,7 +13507,7 @@ orgu#:#no_roles#:#Es gibt keine weiteren lokalen Rollen an dieser Stelle.
 orgu#:#local_other_roles#:#Weitere lokale Rollen %s
 orgu#:#not_movable_to_subtree#:#Eine Organisationseinheit kann nicht in ihre eigenen Untereinheiten eingeteilt werden, dies würde eine Schlaufe bilden.
 cld#:#cld_object_added#:#Ein neues Cloud Objekt wurde hinzugefügt
-exc#:#exc_peer_review_deadline#:#Ende des Bewertungszeitraums
+exc#:#exc_peer_review_deadline#:#Feedback geben bis
 exc#:#exc_peer_review_deadline_info#:#Bis zu diesem Termin können Bewertungen abgegeben werden. Anschließend ist das erhaltene Feedback einsehbar.
 exc#:#exc_peer_review_deadline_info_button#:#Endtermin: %s
 exc#:#exc_peer_review_deadline_reached#:#Feedback-Zeit ist abgelaufen.
@@ -14046,7 +13522,7 @@ fold#:#fold_settings#:#Ordnereigenschaften
 mcst#:#mcst_download_cnt#:#Heruntergeladen
 mcst#:#mcst_play_cnt#:#Abgespielt
 glo#:#glo_term#:#Glossarbegriff
-content#:#glo_add_term_properties#:#Zusätzliche Eigenschaften von Glossarbegriffen
+content#:#glo_add_term_properties#:#Erweiterte Metadaten von Glossarbegriffen
 exc#:#exc_multi_feedback#:#Multi-Feedback
 exc#:#exc_download_zip_structure#:#ZIP-Verzeichnisstruktur herunterladen
 exc#:#exc_multi_feedback_file#:#Multi-Feedback-Datei
@@ -14767,7 +14243,7 @@ survey#:#svy_results_view_own#:#Teilnehmer kann eigene Antworten einsehen
 survey#:#svy_results_mail_own#:#Teilnehmer kann sich E-Mail mit den eigenen Antworten senden
 exercise#:#exc_to_desktop_info#:#Nach Abgabe die Übung auf den Schreibtisch legen
 wiki#:#wiki_wpg#:#Wiki-Seite
-wiki#:#wiki_add_page_properties#:#Zusätzliche Eigenschaften von Wikiseiten
+wiki#:#wiki_add_page_properties#:#Erweiterte Metadaten von Wikiseiten
 wiki#:#wiki_advmd_block_title#:#Erweiterte Metadaten der Seite
 content#:#cont_ed_insert_amd_page_list#:#Seitenliste einfügen
 content#:#cont_insert_amd_page_list#:#Seitenliste einfügen
@@ -14874,7 +14350,7 @@ common#:#sorting_desc#:#Absteigend
 common#:#sorting_asc#:#Aufsteigend
 poll#:#poll_anonymous_warning#:#Ihr Name wird in den Abstimmungsergebnissen nicht angezeigt.
 dateplaner#:#cal_exc_deadline#:#Abgabetermin
-dateplaner#:#cal_exc_peer_review_deadline#:#Ende des Bewertungszeitraums
+dateplaner#:#cal_exc_peer_review_deadline#:#Feedback geben bis
 rbac#:#read_learning_progress#:#Lernfortschritt anderer Benutzer einsehen
 rbac#:#crs_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#grp_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
@@ -15126,7 +14602,7 @@ maps#:#maps_public_profile_info#:#Zeige Position im eigenen Profil
 maps#:#maps_settings#:#Einstellungen Karten
 maps#:#maps_std_location_desc#:#Klicken Sie auf die Karte, um die eigene Position anzugeben.
 maps#:#maps_std_location#:#Standardposition
-maps#:#maps_zoom_level#:#Vergrösserungsstufe
+maps#:#maps_zoom_level#:#Vergrößerungsstufe
 maps#:#maps_google_maps#:#Google Maps
 maps#:#maps_open_layers_maps#:#Open Layers Maps
 maps#:#maps_map_type#:#Typ
@@ -15313,9 +14789,6 @@ crs#:#crs_loc_form_assign_initial_info#:#Einen der bereits im Kurs vorliegenden 
 crs#:#crs_loc_form_assign_qualified_info#:#--
 poll#:#poll_view_results_after_period_impossible#:#Die Stimmperiode ist nicht zeitlich begrenzt.
 content#:#cont_download#:#Download
-payment#:#topics_settings#:#Themen-Einstellungen
-payment#:#enable_topics#:#Aktiviere Themen
-payment#:#enable_topics_info#:#Wenn aktiviert, können Sie kaufbare Objekte selbsterstellten Themen zuordnen.
 exc#:#exc_assignment_type#:#Abgabetyp
 trac#:#trac_mode_event_info#:#Tutoren prüfen, welche Teilnehmer an der Sitzung teilgenommen haben, und erfassen die Teilnahme händisch im Reiter 'Sitzungsteilnehmer verwalten'.
 sess#:#sess_lp_preset#:#Lernfortschritt aktivieren
@@ -15374,7 +14847,7 @@ prtf#:#prtf_blog_page_created#:#Blog wurde hinzugefügt.
 wiki#:#wiki_adv_md_hidden#:#Dieser Block wird aktuell nicht präsentiert.
 wiki#:#wiki_page_list_form_info#:#Fügt eine Liste mit Wiki-Seiten hinzu, die nachfolgenden Metadaten zugeordnet sind.
 content#:#cont_pc_amdpl#:#Seitenliste
-meta#:#udf_type_selectmulti#:#Auswahlliste (Checkboxen)
+meta#:#udf_type_selectmulti#:#Auswahlliste (Mehrfachauswahl)
 wiki#:#wiki_no_page_found#:#Es wurden keine Seiten zum Suchbegriff '$1' gefunden.
 wiki#:#wiki_pages_found#:#Die folgenden Seiten wurden zum Suchbegriff '$1' gefunden.
 wiki#:#wiki_no_search_term#:#Es wurde kein Suchbegriff eingegeben. Nachfolgend werden alle Wikiseiten aufgelistet.
@@ -15435,13 +14908,13 @@ meta#:#md_adv_confirm_definition_select_option_all_action#:#Neuer Wert
 file#:#file_import#:#Dateiimport
 dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
 dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
-dcl#:#dcl_integer_desc#:#Eingabefeld für ganze Zahlen. Nicht erlaubt sind Brüche und Dezimalzahlen.
+dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen. Nicht erlaubt sind Brüche und Dezimalzahlen.
 dcl#:#dcl_datetime_desc#:#Datumseingabe per Auswahlmenü oder Kalender
 dcl#:#dcl_mob_desc#:#Möglichkeit zum Hochladen von Bild-, Audio- oder Video-Dateien, die direkt in der Datensammlung präsentiert werden. Erlaubte Dateitypen: %s
-dcl#:#dcl_file_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
+dcl#:#dcl_fileupload_desc#:#Möglichkeit zum Hochladen beliebiger Dateien, die per Link heruntergeladen werden können
 dcl#:#dcl_reference_desc#:#Bereitstellen von Auswahloptionen, die in einem anderen Feld einer Tabelle gepflegt werden
 dcl#:#dcl_reference_title#:#Referenz zu Tabelle und Feld
-dcl#:#dcl_ILIAS_reference_desc#:#Suchfeld, um ein Objekt in ILIAS auszuwählen und zu verlinken
+dcl#:#dcl_ilias_reference_desc#:#Suchfeld, um ein Objekt in ILIAS auszuwählen und zu verlinken
 dcl#:#dcl_rating_desc#:#Benutzer können Einträge mit bis zu fünf Sternen bewerten.
 dcl#:#dcl_formula_desc#:#Ähnlich wie bei der Tabellenkalkulation können per Formel Einträge verbunden oder berechnet werden.
 dcl#:#dcl_additional_info_desc#:#Der Text wird direkt oberhalb der Tabelle angezeigt.
@@ -15577,7 +15050,7 @@ forum#:#frm_noti_message#:#Nachricht:
 forum#:#frm_noti_new_post#:#es wurde ein neuer Beitrag im Forum "%1$s" erstellt.
 forum#:#frm_noti_subject_new_post#:#Neuer Beitrag im Forum "%1$s" zum Thema "%2$s"
 forum#:#frm_noti_subject_del_thread#:#Thema "%2$s" im Forum "%1$s" gelöscht
-forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" gelöscht
+forum#:#frm_noti_subject_act_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" aktiviert
 forum#:#frm_noti_subject_answ_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" beantwortet
 forum#:#frm_noti_subject_upt_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" geändert
 forum#:#frm_noti_subject_cens_post#:#Beitrag im Forum "%1$s" zum Thema "%2$s" zensiert
@@ -15669,7 +15142,7 @@ meta#:#meta_tab_lom#:#LOM
 meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten
 meta#:#meta_tab_advmd_def#:#Metadatensätze verwalten
 meta#:#meta_global#:#Global
-wiki#:#wiki_unhide_meta_adv_records#:#Zusätzliche Eigenschaften anzeigen
+wiki#:#wiki_unhide_meta_adv_records#:#Erweiterte Metadaten anzeigen
 prtf#:#prtf_back_to_portfolio_owner#:#Portfolio bearbeiten
 blog#:#blog_back_to_blog_owner#:#Blog bearbeiten
 content#:#cont_assign_to_parent#:#Dem übergordneten Knoten zuordnen
@@ -15754,7 +15227,7 @@ mail#:#mail_tpl_deleted_s#:#Die Textvorlage wurde erfolgreich gelöscht.
 mail#:#mail_template_missing_id#:#Die Aktion kann nicht ausgeführt werden, da die ID der Textvorlage nicht korrekt übertragen wurde.
 mail#:#mail_template_no_valid_context#:#Der gewählte Kontext ist nicht gültig.
 mail#:#mail_template_client#:#Textvorlage
-mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Beim Wahl einer Textvorlage werden Nachrichte und Betreff in diesem Formular (falls in der Vorlage definiert) ersetzt.
+mail#:#mail_template_client_info#:#Wählen Sie zwischen einer der verfügbaren Textvorlagen. Sie haben die Möglichkeit, die durch die Textvorlage angebotenen Platzhalter zu nutzen. Beim Wahl einer Textvorlage werden Nachricht und Betreff in diesem Formular (falls in der Vorlage definiert) ersetzt.
 itgr#:#itgr_hide_title#:#Titel verbergen
 itgr#:#itgr_hide_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner nicht angezeigt.
 content#:#cont_all_languages#:#Alle Sprachen
@@ -15830,6 +15303,10 @@ buddysystem#:#buddy_bs_act_btn_txt_requested_to_linked#:#Bestätigen
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Anfrage zurückziehen
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Anfrage bestätigen
 buddysystem#:#buddy_bs_action_not_possible#:#Aktion nicht möglich
+buddysystem#:#buddy_bs_action_already_linked#:#Die Kontaktanfrage für Benutzer '%s' wurde bereits bestätigt.
+buddysystem#:#buddy_bs_action_already_requested#:#Benutzer '%s' wurde bereits angefragt.
+buddysystem#:#buddy_bs_action_already_ignored#:#Die Kontaktanfrage von Benutzer '%s' wurde bereits ignoriert.
+buddysystem#:#buddy_bs_action_already_unlinked#:#Jeglicher Kontakt zu Benutzer '%s' wurde bereits gelöst.
 buddysystem#:#buddy_bs_state_linked#:#Vernetzt
 buddysystem#:#buddy_bs_state_linked_a#:#Vernetzt
 buddysystem#:#buddy_bs_state_linked_p#:#Vernetzt
@@ -16181,3 +15658,49 @@ style#:#sty_ha_ihcap_class#:#Hor. Akkordeonelement Überschrift
 style#:#sty_va_iheada_class#:#Vert. Akkordeonelement Kopf (aktiv)
 style#:#sty_va_ihcap_class#:#Vert. Akkordeonelement Überschrift
 exc#:#exc_delete_team#:#Team löschen
+sysc#:#sysc_tree_structure_failures#:#Anzahl von Fehlern in der Baumstruktur (parent-Relation): 
+sysc#:#sysc_message_tree_structure_confirm#:#Sind sie sicher, dass sie die Baumstruktur reparieren möchten. Es wird unbedingt empfohlen vor Reparatur eine Sicherung der ILIAS-Datenbank zu erstellen.
+sysc#:#sysc_btn_tree_structure#:#Baumstruktur neu generieren
+wiki#:#wiki_page_list_mode#:#Listentyp
+wiki#:#wiki_page_list_mode_unordered#:#Nicht nummeriert
+wiki#:#wiki_page_list_mode_ordered#:#Nummeriert
+blog#:#blog_news_title#:#%1$s von %2$s
+blog#:#blog_news_posting_updated#:#Ein Blogbeitrag wurde aktualisiert von %s.
+blog#:#blog_news_posting_published#:#Ein neuer Blogbeitrag wurde veröffentlicht von %s.
+blog#:#blog_news_posting_authors#:#Beteiligte Autoren: %s
+book#:#book_reservation_filter_period#:#Zeitraum für Buchungsübersicht
+book#:#book_reservation_filter_period_info#:#Der Default-Wert für den Zeitraum-Filter in Tagen ab dem aktuellem Datum.
+book#:#book_filter_past_reservations#:#Abgelaufene Buchungen anzeigen
+book#:#book_deadline_options#:#Spätester Buchungszeitpunkt
+book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
+book#:#book_deadline_slot_end#:#Bis zum Ende des Zeitfensters
+book#:#book_deadline_slot_start#:#Bis zum Beginn des Zeitfensters
+chatroom#:#chatroom_auth#:#Authentifikation
+chatroom#:#chatroom_auth_key#:#Authentifikation-Schlüssel
+chatroom#:#chatroom_auth_secret#:#Authentifikation-Geheimnis
+chatroom#:#chatroom_auth_btn_txt#:#Schüssel generieren
+chatroom#:#key#:#Schlüssel
+chatroom#:#dhparam#:#Diffie-Hellman Parameter
+chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server
+chatroom#:#ilias_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, eine alternative URL für die Verbindung zwischen ILIAS und Server zu definieren.
+chatroom#:#client_chatserver_connection#:#Verbindung Client zum Server
+chatroom#:#client_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, eine alternative URL für die Verbindung zwischen Client und Server zu definieren.
+chatroom#:#connection_url_info#:#Tragen Sie hier eine URL ohne Protokoll-Definition ein.
+chatroom#:#log#:#Chatserver Log-File
+chatroom#:#error_log#:#Chatserver Error-Log-File
+chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
+crs#:#event_tbl_tutors#:#Tutoren
+crs#:#event_tbl_admins#:#Administratoren
+crs#:#event_tbl_members#:#Mitglieder
+trac#:#trac_cron_info#:#Aktivieren Sie den "Objekt-Statistik"-Cron-Job, um Daten für diese Auswertung zu sammeln.
+sess#:#sess_list_reg_limit_places#:#Freie Plätze
+sess#:#sess_accept_request#:#Zu Sitzung zulassen
+sess#:#sess_new_registrations#:#Teilnahmeanträge
+mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge konnte nicht gefunden werden: %1$s
+mail#:#mail_recipient_not_found#:#%1$s (es konnte kein gültiger Empfänger gefunden werden) 
+mail#:#mail_multiple_role_recipients_found#:#%1$s (für den Emfpänger wurden mehrere Rollen gefunden: %2$s)
+mail#:#mail_generic_rcp_error#:#Beim Validieren der Empfänger ist ein Fehler aufgetreten: %1$s
+rbac#:#mep_copy#:#Medienpool kopieren
+crs#:#crs_cannot_find_role#:#Rolle konnte nicht gefunden werden.
+grp#:#grp_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
+crs#:#crs_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.

@@ -20,9 +20,9 @@ class ilFileData extends ilFile
 	* setup an mail object
 	* @access	public
 	*/
-	function ilFileData()
+	function __construct()
 	{
-		parent::ilFile();
+		parent::__construct();
 		$this->path = CLIENT_DATA_DIR;
 	}
 

@@ -12,7 +12,7 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetQuestionCollecti
 abstract class ilTestRandomQuestionSetBuilder
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db = null;
 
@@ -37,14 +37,14 @@ abstract class ilTestRandomQuestionSetBuilder
 	protected $stagingPoolQuestionList = null;
 
 	/**
-	 * @param ilDB $db
+	 * @param ilDBInterface $db
 	 * @param ilObjTest $testOBJ
 	 * @param ilTestRandomQuestionSetConfig $questionSetConfig
 	 * @param ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList
 	 * @param ilTestRandomQuestionSetStagingPoolQuestionList $stagingPoolQuestionList
 	 */
 	protected function __construct(
-		ilDB $db,
+		ilDBInterface $db,
 		ilObjTest $testOBJ,
 		ilTestRandomQuestionSetConfig $questionSetConfig,
 		ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList,
@@ -185,7 +185,7 @@ abstract class ilTestRandomQuestionSetBuilder
 	// =================================================================================================================
 
 	final static public function getInstance(
-		ilDB $db, ilObjTest $testOBJ, ilTestRandomQuestionSetConfig $questionSetConfig,
+		ilDBInterface $db, ilObjTest $testOBJ, ilTestRandomQuestionSetConfig $questionSetConfig,
 		ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList,
 		ilTestRandomQuestionSetStagingPoolQuestionList $stagingPoolQuestionList
 	)

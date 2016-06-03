@@ -92,7 +92,7 @@ class ilECSParticipantSettings
 		$res = $ilDB->query($query);
 		
 		$mids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$mids[] = $row->mid;
 		}
@@ -116,7 +116,7 @@ class ilECSParticipantSettings
 		$res = $ilDB->query($query);
 		$mids = array();
 		$counter = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if(in_array($a_type, (array) unserialize($row->export_types)))
 			{
@@ -143,7 +143,7 @@ class ilECSParticipantSettings
 			'AND active = '.$ilDB->quote(1,'integer').' ';
 		$res = $ilDB->query($query);
 		$sids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$sids[] = $row->sid;
 		}
@@ -179,7 +179,7 @@ class ilECSParticipantSettings
 				'WHERE sid = '.$ilDB->quote($a_server_id,'integer').' '.
 				'AND import_type = '.$ilDB->quote(ilECSParticipantSetting::IMPORT_CMS);
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->mid;
 		}
@@ -207,7 +207,7 @@ class ilECSParticipantSettings
 		$query = 'SELECT * FROM ecs_part_settings '.
 			'WHERE sid = '.$ilDB->quote($this->getServerId(),'integer').' ';
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->export[$row->mid] = $row->export;
 			$this->import[$row->mid] = $row->import;

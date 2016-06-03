@@ -48,12 +48,12 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjRoleFolderGUI($a_data,$a_id,$a_call_by_reference)
+	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
 		global $lng;
 
 		$this->type = "rolf";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference, false);
 		$lng->loadLanguageModule('rbac');
 	}
 	
@@ -70,7 +70,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
@@ -590,7 +590,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	* DEPRECATED !!!
 	* @access	public
 	*/
-	function deleteObject()	
+	function deleteObject($a_error = false)	
 	{
 		$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 	}
@@ -613,7 +613,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	*
 	* @access	public
  	*/
-	function showPossibleSubObjects($a_tpl)
+	function showPossibleSubObjects()
 	{
 		global $rbacsystem;
 
@@ -656,14 +656,12 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		{
 			//build form
 			$opts = ilUtil::formSelect(12,"new_type",$subobj);
-			$a_tpl->setCurrentBlock("add_object");
-			$a_tpl->setVariable("SELECT_OBJTYPE", $opts);
-			$a_tpl->setVariable("BTN_NAME", "create");
-			$a_tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
-			$a_tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("add_object");
+			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+			$this->tpl->setVariable("BTN_NAME", "create");
+			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+			$this->tpl->parseCurrentBlock();
 		}
-		
-		return $a_tpl;
 	}
 
 	/**
@@ -696,20 +694,18 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	 * @global ilLanguage $lng
 	 * @param ilTabsGUI $tabs_gui 
 	 */
-	function getAdminTabs(&$tabs_gui)
-	{
-		global $tree,$lng;
-
+	function getAdminTabs()
+	{		
 		if ($this->checkPermissionBool("visible,read"))
 		{
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				"view",
 				$this->ctrl->getLinkTarget($this, "view"),
 				array("", "view"),
 				get_class($this)
 			);
 			
-			$tabs_gui->addTarget(
+			$this->tabs_gui->addTarget(
 				"settings",
 				$this->ctrl->getLinkTarget($this, "editSettings"),
 				array("editSettings"),
@@ -719,7 +715,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 		if($this->checkPermissionBool("edit_permission"))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'),
 				"perm"),
 				"",

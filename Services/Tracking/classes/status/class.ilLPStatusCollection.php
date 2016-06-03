@@ -36,15 +36,15 @@ include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 class ilLPStatusCollection extends ilLPStatus
 {
 
-	function ilLPStatusCollection($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
-		parent::ilLPStatus($a_obj_id);
-		$this->db =& $ilDB;
+		parent::__construct($a_obj_id);
+		$this->db = $ilDB;
 	}
 
-	function _getNotAttempted($a_obj_id)
+	static function _getNotAttempted($a_obj_id)
 	{
 		$users = array();
 		
@@ -60,7 +60,7 @@ class ilLPStatusCollection extends ilLPStatus
 		return $users;
 	}
 
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{			
 		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 		$users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
@@ -101,7 +101,7 @@ class ilLPStatusCollection extends ilLPStatus
 	 * @param int $a_obj_id
 	 * @return array users
 	 */
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{		
 		global $ilObjDataCache;
 		
@@ -187,7 +187,7 @@ class ilLPStatusCollection extends ilLPStatus
 		return (array) $users;
 	}
 
-	function _getFailed($a_obj_id)
+	static function _getFailed($a_obj_id)
 	{
 		global $ilObjDataCache;
 				
@@ -250,7 +250,7 @@ class ilLPStatusCollection extends ilLPStatus
 		return array_unique($users);
 	}
 		
-	function _getStatusInfo($a_obj_id)
+	static function _getStatusInfo($a_obj_id)
 	{
 		$status_info = array();
 		
@@ -266,7 +266,7 @@ class ilLPStatusCollection extends ilLPStatus
 		return $status_info;
 	}
 
-	function _getTypicalLearningTime($a_obj_id)
+	static function _getTypicalLearningTime($a_obj_id)
 	{
 		global $ilObjDataCache;
 

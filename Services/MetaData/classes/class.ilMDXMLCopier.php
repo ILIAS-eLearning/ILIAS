@@ -38,12 +38,12 @@ class ilMDXMLCopier extends ilMDSaxParser
 {
 	var $filter = array();
 
-	function ilMDXMLCopier($content,$a_rbac_id,$a_obj_id,$a_obj_type)
+	function __construct($content,$a_rbac_id,$a_obj_id,$a_obj_type)
 	{
 
 		$this->setMDObject(new ilMD($a_rbac_id,$a_obj_id,$a_obj_type));
 
-		parent::ilMDSaxParser();
+		parent::__construct();
 		$this->setXMLContent($content);
 
 		// set filter of tags which are handled in this class

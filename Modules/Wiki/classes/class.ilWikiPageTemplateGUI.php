@@ -58,7 +58,7 @@ class ilWikiPageTemplateGUI
 	{
 		// list pages
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-		$pages = ilWikiPage::getAllPages($this->wiki->getId());
+		$pages = ilWikiPage::getAllWikiPages($this->wiki->getId());
 		$options = array("" => $this->lng->txt("please_select"));
 		foreach ($pages as $p)
 		{

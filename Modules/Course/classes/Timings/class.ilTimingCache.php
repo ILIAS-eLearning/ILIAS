@@ -34,7 +34,7 @@ include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
 
 class ilTimingCache
 {
-	function &_getTimings($a_ref_id)
+	static function &_getTimings($a_ref_id)
 	{
 		static $cache = array();
 
@@ -48,7 +48,7 @@ class ilTimingCache
 		return $cache[$a_ref_id];
 	}
 		
-	function _showWarning($a_ref_id, $a_usr_id)
+	static function _showWarning($a_ref_id, $a_usr_id)
 	{
 		global $ilObjDataCache;
 		

@@ -19,6 +19,20 @@ class ilPCParagraph extends ilPageContent
 	var $par_node;			// node of Paragraph element
 
 
+	static protected $bb_tags = array(
+			"com" => "Comment",
+			"emp" => "Emph",
+			"str" => "Strong",
+			"fn" => "Footnote",
+			"code" => "Code",
+			"acc" => "Accent",
+			"imp" => "Important",
+			"kw" => "Keyw",
+			"sub" => "Sub",
+			"sup" => "Sup",
+			"quot" => "Quotation",
+			);
+
 	/**
 	* Init page content component.
 	*/
@@ -28,11 +42,33 @@ class ilPCParagraph extends ilPageContent
 	}
 
 	/**
+	 * Get bb to xml tag map
+	 *
+	 * @return array map
+	 */
+	protected static function getBBMap()
+	{
+		return self::$bb_tags;
+	}
+
+	/**
+	 * Get tag to bb map
+	 *
+	 * @return array map
+	 */
+	protected static function getXMLTagMap()
+	{
+		return array_flip(self::$bb_tags);
+	}
+
+
+
+	/**
 	* Set Page Content Node
 	*
 	* @param	object	$a_node		Page Content DOM Node
 	*/
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
 
@@ -55,8 +91,8 @@ class ilPCParagraph extends ilPageContent
 	function createAtNode(&$node)
 	{
 		$this->node = $this->createPageContentNode();
-		$this->par_node =& $this->dom->create_element("Paragraph");
-		$this->par_node =& $this->node->append_child($this->par_node);
+		$this->par_node = $this->dom->create_element("Paragraph");
+		$this->par_node = $this->node->append_child($this->par_node);
 		$this->par_node->set_attribute("Language", "");
 		$node->append_child ($this->node);
 	}
@@ -69,8 +105,8 @@ class ilPCParagraph extends ilPageContent
 	function createBeforeNode(&$node)
 	{
 		$this->node = $this->createPageContentNode();
-		$this->par_node =& $this->dom->create_element("Paragraph");
-		$this->par_node =& $this->node->append_child($this->par_node);
+		$this->par_node = $this->dom->create_element("Paragraph");
+		$this->par_node = $this->node->append_child($this->par_node);
 		$this->par_node->set_attribute("Language", "");
 		$node->insert_before($this->node, $node);
 	}
@@ -109,13 +145,13 @@ class ilPCParagraph extends ilPageContent
 	{
 //echo "-$a_pc_id-";
 //echo "<br>-".htmlentities($a_pg_obj->getXMLFromDom())."-<br><br>"; mk();
-		$this->node =& $this->dom->create_element("PageContent");
+		$this->node = $this->dom->create_element("PageContent");
 
 		// this next line kicks out placeholders, if something is inserted
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
 
-		$this->par_node =& $this->dom->create_element("Paragraph");
-		$this->par_node =& $this->node->append_child($this->par_node);
+		$this->par_node = $this->dom->create_element("Paragraph");
+		$this->par_node = $this->node->append_child($this->par_node);
 		$this->par_node->set_attribute("Language", "");
 	}
 
@@ -127,8 +163,6 @@ class ilPCParagraph extends ilPageContent
 	*/
 	function setText($a_text, $a_auto_split = false)
 	{
-
-//var_dump($a_text);
 		if (!is_array($a_text))
 		{
 			$text = array(array("level" => 0, "text" => $a_text));
@@ -153,8 +187,8 @@ class ilPCParagraph extends ilPageContent
 			DOMXML_LOAD_PARSING, $error);*/
 		$temp_dom = domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$check.'</Paragraph>',
 			DOMXML_LOAD_PARSING, $error);
-
 		//$this->text = $a_text;
+
 		// remove all childs
 		if(empty($error))
 		{
@@ -171,15 +205,15 @@ class ilPCParagraph extends ilPageContent
 			// copy new content children in paragraph node
 			$xpc = xpath_new_context($temp_dom);
 			$path = "//Paragraph";
-			$res =& xpath_eval($xpc, $path);
+			$res = xpath_eval($xpc, $path);
 			if (count($res->nodeset) == 1)
 			{
-				$new_par_node =& $res->nodeset[0];
+				$new_par_node = $res->nodeset[0];
 				$new_childs = $new_par_node->child_nodes();
 
 				for($i=0; $i<count($new_childs); $i++)
 				{
-					$cloned_child =& $new_childs[$i]->clone_node(true);
+					$cloned_child = $new_childs[$i]->clone_node(true);
 					$this->par_node->append_child($cloned_child);
 				}
 				$orig_characteristic = $this->getCharacteristic();
@@ -245,6 +279,11 @@ class ilPCParagraph extends ilPageContent
 				$e = str_replace(" in Entity", "", $e);
 				$estr.= $e."<br />";
 			}
+			if (DEVMODE)
+			{
+				$estr.= "<br />".$text;
+			}
+
 			return $estr;
 		}
 	}
@@ -490,6 +529,22 @@ class ilPCParagraph extends ilPageContent
 	}
 
 	/**
+	 * Replace bb code
+	 *
+	 * @param string $a_text text
+	 * @param string $a_bb bb tag
+	 * @param string $a_tag xml tag
+	 * @return string
+	 */
+	static protected function replaceBBCode($a_text, $a_bb, $a_tag)
+	{
+		$a_text = preg_replace('/\['.$a_bb.'\]/i',"<".$a_tag.">",$a_text);
+		$a_text = preg_replace('/\[\/'.$a_bb.'\]/i',"</".$a_tag.">",$a_text);
+		return $a_text;
+	}
+
+
+	/**
 	* converts user input to xml
 	*/
 	static function _input2xml($a_text, $a_lang, $a_wysiwyg = 0, $a_handle_lists = true)
@@ -540,52 +595,30 @@ echo htmlentities($a_text);*/
 			$a_text = ilPCParagraph::input2xmlReplaceLists($a_text);
 		}
 
-		// remove empty tags
-		$atags = array("com", "emp", "str", "fn", "quot", "code", "acc", "imp", "kw", "sub", "sup");
-		foreach ($atags as $at)
+		foreach (self::getBBMap() as $bb => $tag)
 		{
-			$a_text = str_replace("[".$at."][/".$at."]", "", $a_text);
-		}
+			// remove empty tags
+			$a_text = str_replace("[".$bb."][/".$bb."]", "", $a_text);
 
-		// bb code to xml
-		$a_text = eregi_replace("\[com\]","<Comment Language=\"".$a_lang."\">",$a_text);
-		$a_text = eregi_replace("\[\/com\]","</Comment>",$a_text);
-		$a_text = eregi_replace("\[emp\]","<Emph>",$a_text);
-		$a_text = eregi_replace("\[\/emp\]","</Emph>",$a_text);
-		$a_text = eregi_replace("\[str\]","<Strong>",$a_text);
-		$a_text = eregi_replace("\[\/str\]","</Strong>",$a_text);
-		$a_text = eregi_replace("\[fn\]","<Footnote>",$a_text);
-		$a_text = eregi_replace("\[\/fn\]","</Footnote>",$a_text);
-		$a_text = eregi_replace("\[quot\]","<Quotation Language=\"".$a_lang."\">",$a_text);
-		$a_text = eregi_replace("\[\/quot\]","</Quotation>",$a_text);
-		$a_text = eregi_replace("\[code\]","<Code>",$a_text);
-		$a_text = eregi_replace("\[\/code\]","</Code>",$a_text);
-		$a_text = eregi_replace("\[acc\]","<Accent>",$a_text);
-		$a_text = eregi_replace("\[\/acc\]","</Accent>",$a_text);
-		$a_text = eregi_replace("\[imp\]","<Important>",$a_text);
-		$a_text = eregi_replace("\[\/imp\]","</Important>",$a_text);
-		$a_text = eregi_replace("\[kw\]","<Keyw>",$a_text);
-		$a_text = eregi_replace("\[\/kw\]","</Keyw>",$a_text);
-		$a_text = eregi_replace("\[sub\]","<Sub>",$a_text);
-		$a_text = eregi_replace("\[\/sub\]","</Sub>",$a_text);
-		$a_text = eregi_replace("\[sup\]","<Sup>",$a_text);
-		$a_text = eregi_replace("\[\/sup\]","</Sup>",$a_text);
+			// replace bb code by tag
+			$a_text = self::replaceBBCode($a_text, $bb, $tag);
+		}
 
 		$a_text = self::intLinks2xml($a_text);
 
 		// external link
 		$ws= "[ \t\r\f\v\n]*";
 		// remove empty external links
-		while (eregi("\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]\[\/xln\]", $a_text, $found))
+		while (preg_match('~\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]\[\/xln\]~i', $a_text, $found))
 		{
 			$a_text = str_replace($found[0], "",$a_text);
 		}
-		while (eregi("\[(xln$ws(url$ws=$ws(([^]])*)))$ws\]\[\/xln\]", $a_text, $found))
+		while (preg_match('~\[(xln$ws(url$ws=$ws(([^]])*)))$ws\]\[\/xln\]~i', $a_text, $found))
 		{
 			$a_text = str_replace($found[0], "",$a_text);
 		}
 		// external links
-		while (eregi("\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]", $a_text, $found))
+		while (preg_match('~\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]~i', $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
 			if (isset($attribs["url"]))
@@ -605,7 +638,7 @@ echo htmlentities($a_text);*/
 		}
 
 		// ie/tinymce fix for links without "", see bug #8391
-		while (eregi("\[(xln$ws(url$ws=$ws(([^]])*)))$ws\]", $a_text, $found))
+		while (preg_match('~\[(xln$ws(url$ws=$ws(([^]])*)))$ws\]~i', $a_text, $found))
 		{
 			if ($found[3] != "")
 			{
@@ -616,16 +649,16 @@ echo htmlentities($a_text);*/
 				$a_text = str_replace("[".$found[1]."]", "[error: xln".$found[1]."]",$a_text);
 			}
 		}
-		$a_text = eregi_replace("\[\/xln\]","</ExtLink>",$a_text);
+		$a_text = preg_replace('~\[\/xln\]~i',"</ExtLink>",$a_text);
 
 		// anchor
 		$ws= "[ \t\r\f\v\n]*";
-		while (eregi("\[(anc$ws(name$ws=$ws\"([^\"])*\")$ws)\]", $a_text, $found))
+		while (preg_match('~\[(anc$ws(name$ws=$ws\"([^\"])*\")$ws)\]~i', $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
 			$a_text = str_replace("[".$found[1]."]", "<Anchor Name=\"".$attribs["name"]."\">", $a_text);
 		}
-		$a_text = eregi_replace("\[\/anc\]","</Anchor>",$a_text);
+		$a_text = preg_replace('~\[\/anc\]~i', "</Anchor>",$a_text);
 //echo htmlentities($a_text); exit;
 		return $a_text;
 	}
@@ -647,16 +680,15 @@ echo htmlentities($a_text);*/
 		$ws= "[ \t\r\f\v\n]*";
 		$ltypes = "page|chap|term|media|obj|dfile|sess|wpage|".implode($rtypes, "|");
 		// empty internal links
-		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?$ws".
+		while (preg_match('~\[(iln'.$ws.'((inst'.$ws.'='.$ws.'([\"0-9])*)?'.$ws.
 			"((".$ltypes.")$ws=$ws([\"0-9])*)$ws".
-			"(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws(anchor$ws=$ws(\"([^\"])*\"))?$ws))\]\[\/iln\]", $a_text, $found))
+			"(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws(anchor$ws=$ws(\"([^\"])*\"))?$ws))\]\[\/iln\]~i", $a_text, $found))
 		{
 			$a_text = str_replace($found[0], "",$a_text);
 		}
-
-		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?$ws".
+		while (preg_match('~\[(iln'.$ws.'((inst'.$ws.'='.$ws.'([\"0-9])*)?'.$ws.
 			"((".$ltypes.")$ws=$ws([\"0-9])*)$ws".
-			"(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws(anchor$ws=$ws(\"([^\"])*\"))?$ws))\]", $a_text, $found))
+			"(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws(anchor$ws=$ws(\"([^\"])*\"))?$ws))\]~i", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
 			$inst_str = $attribs["inst"];
@@ -673,7 +705,7 @@ echo htmlentities($a_text);*/
 				{
 					$ancstr = ' Anchor="'.$attribs["anchor"].'" ';
 				}
-				$a_text = eregi_replace("\[".$found[1]."\]",
+				$a_text = preg_replace('/\['.$found[1].'\]/i',
 					"<IntLink Target=\"il_".$inst_str."_pg_".$attribs[page]."\" Type=\"PageObject\"".$tframestr.$ancstr.">", $a_text);
 			}
 			// chapters
@@ -687,7 +719,7 @@ echo htmlentities($a_text);*/
 				{
 					$tframestr = "";
 				}
-				$a_text = eregi_replace("\[".$found[1]."\]",
+				$a_text = preg_replace('/\['.$found[1].'\]/i',
 					"<IntLink Target=\"il_".$inst_str."_st_".$attribs[chap]."\" Type=\"StructureObject\"".$tframestr.">", $a_text);
 			}
 			// glossary terms
@@ -703,7 +735,7 @@ echo htmlentities($a_text);*/
 						$tframestr = " TargetFrame=\"Glossary\" ";
 						break;
 				}
-				$a_text = eregi_replace("\[".$found[1]."\]",
+				$a_text = preg_replace('/\['.$found[1].'\]/i',
 					"<IntLink Target=\"il_".$inst_str."_git_".$attribs[term]."\" Type=\"GlossaryItem\" $tframestr>", $a_text);
 			}
 			// wiki pages
@@ -720,7 +752,7 @@ echo htmlentities($a_text);*/
 						$tframestr = " TargetFrame=\"Glossary\" ";
 						break;
 				}*/
-				$a_text = eregi_replace("\[".$found[1]."\]",
+				$a_text = preg_replace('/\['.$found[1].'\]/i',
 					"<IntLink Target=\"il_".$inst_str."_wpage_".$attribs[wpage]."\" Type=\"WikiPage\" $tframestr>", $a_text);
 			}
 			// media object
@@ -729,19 +761,19 @@ echo htmlentities($a_text);*/
 				if (!empty($found[10]))
 				{
 					$tframestr = " TargetFrame=\"".$found[10]."\" ";
-					$a_text = eregi_replace("\[".$found[1]."\]",
+					$a_text = preg_replace('/\['.$found[1].'\]/i',
 						"<IntLink Target=\"il_".$inst_str."_mob_".$attribs[media]."\" Type=\"MediaObject\"".$tframestr.">", $a_text);
 				}
 				else
 				{
-					$a_text = eregi_replace("\[".$found[1]."\]",
+					$a_text = preg_replace('/\['.$found[1].'\]/i',
 						"<IntLink Target=\"il_".$inst_str."_mob_".$attribs[media]."\" Type=\"MediaObject\"/>", $a_text);
 				}
 			}
 			// direct download file (no repository object)
 			else if (isset($attribs["dfile"]))
 			{
-				$a_text = eregi_replace("\[".$found[1]."\]",
+				$a_text = preg_replace('/\['.$found[1].'\]/i',
 					"<IntLink Target=\"il_".$inst_str."_dfile_".$attribs[dfile]."\" Type=\"File\">", $a_text);
 			}
 			// repository items (id is ref_id (will be used internally but will
@@ -764,41 +796,42 @@ echo htmlentities($a_text);*/
 				{
 					if ($inst_str == "")
 					{
-						$a_text = eregi_replace("\[".$found[1]."\]",
+						$a_text = preg_replace('/\['.$found[1].'\]/i',
 							"<IntLink Target=\"il_".$inst_str."_obj_".$obj_id."\" Type=\"RepositoryItem\">", $a_text);
 					}
 					else
 					{
-						$a_text = eregi_replace("\[".$found[1]."\]",
+						$a_text = preg_replace('/\['.$found[1].'\]/i',
 							"<IntLink Target=\"il_".$inst_str."_".$found[6]."_".$obj_id."\" Type=\"RepositoryItem\">", $a_text);
 					}
 				}
 				else
 				{
-					$a_text = eregi_replace("\[".$found[1]."\]", "[error: iln".$found[1]."]",$a_text);
+					$a_text = preg_replace('/\['.$found[1].'\]/i', "[error: iln".$found[1]."]",$a_text);
 				}
 			}
 		}
-		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?".$ws."media$ws=$ws([\"0-9])*)$ws)/\]", $a_text, $found))
+
+		while (preg_match("~\[(iln$ws((inst$ws=$ws([\"0-9])*)?".$ws."media$ws=$ws([\"0-9])*)$ws)/\]~i", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
 			$inst_str = $attribs["inst"];
-			$a_text = eregi_replace("\[".$found[1]."/\]",
+			$a_text = preg_replace('~\['.$found[1].'/\]~i',
 				"<IntLink Target=\"il_".$inst_str."_mob_".$attribs[media]."\" Type=\"MediaObject\"/>", $a_text);
 		}
 
 		// user
-		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?".$ws."user$ws=$ws(\"([^\"])*)\")$ws)/\]", $a_text, $found))
+		while (preg_match('~\[(iln$ws((inst$ws=$ws([\"0-9])*)?".$ws."user$ws=$ws(\"([^\"])*)\")$ws)/\]~i', $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
 			$inst_str = $attribs["inst"];
 			include_once("./Services/User/classes/class.ilObjUser.php");
 			$user_id = ilObjUser::_lookupId($attribs[user]);
-			$a_text = eregi_replace("\[".$found[1]."/\]",
+			$a_text = preg_replace('~\['.$found[1].'/\]~i',
 				"<IntLink Target=\"il_".$inst_str."_user_".$user_id."\" Type=\"User\"/>", $a_text);
 		}
 
-		$a_text = eregi_replace("\[\/iln\]","</IntLink>",$a_text);
+		$a_text = preg_replace('~\[\/iln\]~i',"</IntLink>",$a_text);
 		return $a_text;
 	}
 
@@ -1045,34 +1078,13 @@ echo htmlentities($a_text);*/
 
 		// xml to bb code
 		$any = "[^>]*";
-		$a_text = eregi_replace("<Comment[^>]*>","[com]",$a_text);
-		$a_text = eregi_replace("</Comment>","[/com]",$a_text);
-		$a_text = eregi_replace("<Comment/>","[com][/com]",$a_text);
-		$a_text = eregi_replace("<Emph>","[emp]",$a_text);
-		$a_text = eregi_replace("</Emph>","[/emp]",$a_text);
-		$a_text = eregi_replace("<Emph/>","[emp][/emp]",$a_text);
-		$a_text = eregi_replace("<Strong>","[str]",$a_text);
-		$a_text = eregi_replace("</Strong>","[/str]",$a_text);
-		$a_text = eregi_replace("<Strong/>","[str][/str]",$a_text);
-		$a_text = eregi_replace("<Footnote[^>]*>","[fn]",$a_text);
-		$a_text = eregi_replace("</Footnote>","[/fn]",$a_text);
-		$a_text = eregi_replace("<Footnote/>","[fn][/fn]",$a_text);
-		$a_text = eregi_replace("<Quotation[^>]*>","[quot]",$a_text);
-		$a_text = eregi_replace("</Quotation>","[/quot]",$a_text);
-		$a_text = eregi_replace("<Quotation/>","[quot][/quot]",$a_text);
-		$a_text = eregi_replace("<Code[^>]*>","[code]",$a_text);
-		$a_text = eregi_replace("</Code>","[/code]",$a_text);
-		$a_text = eregi_replace("<Code/>","[code][/code]",$a_text);
-		$a_text = eregi_replace("<Accent>","[acc]",$a_text);
-		$a_text = eregi_replace("</Accent>","[/acc]",$a_text);
-		$a_text = eregi_replace("<Important>","[imp]",$a_text);
-		$a_text = eregi_replace("</Important>","[/imp]",$a_text);
-		$a_text = eregi_replace("<Keyw>","[kw]",$a_text);
-		$a_text = eregi_replace("</Keyw>","[/kw]",$a_text);
-		$a_text = eregi_replace("<Sup>","[sup]",$a_text);
-		$a_text = eregi_replace("</Sup>","[/sup]",$a_text);
-		$a_text = eregi_replace("<Sub>","[sub]",$a_text);
-		$a_text = eregi_replace("</Sub>","[/sub]",$a_text);
+
+		foreach (self::getBBMap() as $bb => $tag)
+		{
+			$a_text = preg_replace('~<'.$tag.'[^>]*>~i',"[".$bb."]", $a_text);
+			$a_text = preg_replace('~</'.$tag.'>~i',"[/".$bb."]", $a_text);
+			$a_text = preg_replace('~<'.$tag.'/>~i',"[".$bb."][/".$bb."]", $a_text);
+		}
 
 		// replace lists
 		if ($a_replace_lists)
@@ -1083,7 +1095,7 @@ echo htmlentities($a_text);*/
 		}
 
 		// internal links
-		while (eregi("<IntLink($any)>", $a_text, $found))
+		while (preg_match('~<IntLink('.$any.')>~i', $a_text, $found))
 		{
 			$found[0];
 			$attribs = ilUtil::attribsToArray($found[1]);
@@ -1101,21 +1113,21 @@ echo htmlentities($a_text);*/
 					$ancstr = (!empty($attribs["Anchor"]))
 						? ' anchor="'.$attribs["Anchor"].'"'
 						: "";
-					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."page=\"".$target_id."\"$tframestr$ancstr]",$a_text);
+					$a_text = preg_replace('~<IntLink'.$found[1].'>~i',"[iln ".$inst_str."page=\"".$target_id."\"$tframestr$ancstr]",$a_text);
 					break;
 
 				case "StructureObject":
 					$tframestr = (!empty($attribs["TargetFrame"]))
 						? " target=\"".$attribs["TargetFrame"]."\""
 						: "";
-					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."chap=\"".$target_id."\"$tframestr]",$a_text);
+					$a_text = preg_replace('~<IntLink'.$found[1].'>~i',"[iln ".$inst_str."chap=\"".$target_id."\"$tframestr]",$a_text);
 					break;
 
 				case "GlossaryItem":
 					$tframestr = (empty($attribs["TargetFrame"]) || $attribs["TargetFrame"] == "Glossary")
 						? ""
 						: " target=\"".$attribs["TargetFrame"]."\"";
-					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."term=\"".$target_id."\"".$tframestr."]",$a_text);
+					$a_text = preg_replace('~<IntLink'.$found[1].'>~i',"[iln ".$inst_str."term=\"".$target_id."\"".$tframestr."]",$a_text);
 					break;
 
 				case "WikiPage":
@@ -1123,17 +1135,17 @@ echo htmlentities($a_text);*/
 					/*$tframestr = (empty($attribs["TargetFrame"]) || $attribs["TargetFrame"] == "Glossary")
 						? ""
 						: " target=\"".$attribs["TargetFrame"]."\"";*/
-					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."wpage=\"".$target_id."\"".$tframestr."]",$a_text);
+					$a_text = preg_replace('~<IntLink'.$found[1].'>~i',"[iln ".$inst_str."wpage=\"".$target_id."\"".$tframestr."]",$a_text);
 					break;
 
 				case "MediaObject":
 					if (empty($attribs["TargetFrame"]))
 					{
-						$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."media=\"".$target_id."\"/]",$a_text);
+						$a_text = preg_replace('~<IntLink'.$found[1].'>~i',"[iln ".$inst_str."media=\"".$target_id."\"/]",$a_text);
 					}
 					else
 					{
-						$a_text = eregi_replace("<IntLink".$found[1].">","[iln media=\"".$target_id."\"".
+						$a_text = preg_replace('~<IntLink'.$found[1].'>~i',"[iln media=\"".$target_id."\"".
 							" target=\"".$attribs["TargetFrame"]."\"]",$a_text);
 					}
 					break;
@@ -1149,29 +1161,29 @@ echo htmlentities($a_text);*/
 						$rtype = $target[count($target) - 2];
 						$target_type = $rtype;
 					}
-					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."$target_type=\"".$target_id."\"".$tframestr."]",$a_text);
+					$a_text = preg_replace('~<IntLink'.$found[1].'>~i',"[iln ".$inst_str."$target_type=\"".$target_id."\"".$tframestr."]",$a_text);
 					break;
 
 				// Download File (not in repository, Object ID)
 				case "File":
-					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."dfile=\"".$target_id."\"".$tframestr."]",$a_text);
+					$a_text = preg_replace('~<IntLink'.$found[1].'>~i',"[iln ".$inst_str."dfile=\"".$target_id."\"".$tframestr."]",$a_text);
 					break;
 
 				// User
 				case "User":
 					include_once("./Services/User/classes/class.ilObjUser.php");
-					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."user=\"".ilObjUser::_lookupLogin($target_id)."\"/]",$a_text);
+					$a_text = preg_replace('~<IntLink'.$found[1].'>~i',"[iln ".$inst_str."user=\"".ilObjUser::_lookupLogin($target_id)."\"/]",$a_text);
 					break;
 
 				default:
-					$a_text = eregi_replace("<IntLink".$found[1].">","[iln]",$a_text);
+					$a_text = preg_replace('~<IntLink'.$found[1].'>~i',"[iln]",$a_text);
 					break;
 			}
 		}
-		$a_text = eregi_replace("</IntLink>","[/iln]",$a_text);
+		$a_text = str_replace("</IntLink>","[/iln]",$a_text);
 
 		// external links
-		while (eregi("<ExtLink($any)>", $a_text, $found))
+		while (preg_match('~<ExtLink('.$any.')>~i', $a_text, $found))
 		{
 			$found[0];
 			$attribs = ilUtil::attribsToArray($found[1]);
@@ -1183,22 +1195,22 @@ echo htmlentities($a_text);*/
 			}
 			$a_text = str_replace("<ExtLink".$found[1].">","[xln url=\"".$attribs["Href"]."\"$tstr]",$a_text);
 		}
-		$a_text = eregi_replace("</ExtLink>","[/xln]",$a_text);
+		$a_text = str_replace("</ExtLink>","[/xln]",$a_text);
 
 		// anchor
-		while (eregi("<Anchor($any/)>", $a_text, $found))
+		while (preg_match('~<Anchor('.$any.'/)>~i', $a_text, $found))
 		{
 			$found[0];
 			$attribs = ilUtil::attribsToArray($found[1]);
 			$a_text = str_replace("<Anchor".$found[1].">","[anc name=\"".$attribs["Name"]."\"][/anc]",$a_text);
 		}
-		while (eregi("<Anchor($any)>", $a_text, $found))
+		while (preg_match('~<Anchor('.$any.')>~i', $a_text, $found))
 		{
 			$found[0];
 			$attribs = ilUtil::attribsToArray($found[1]);
 			$a_text = str_replace("<Anchor".$found[1].">","[anc name=\"".$attribs["Name"]."\"]",$a_text);
 		}
-		$a_text = eregi_replace("</Anchor>","[/anc]",$a_text);
+		$a_text = str_replace("</Anchor>","[/anc]",$a_text);
 
 
 		// br to linefeed
@@ -1912,7 +1924,7 @@ if (!$a_wysiwyg)
 	 *
 	 * @param	string		xml page code
 	 */
-	function saveAnchors($a_page, $a_domdoc)
+	static function saveAnchors($a_page, $a_domdoc)
 	{
 		self::_deleteAnchors($a_page->getParentType(), $a_page->getId(), $a_page->getLanguage());
 
@@ -1992,7 +2004,7 @@ if (!$a_wysiwyg)
 	 * @param object $a_page page object
 	 * @param object $a_domdoc dom document
 	 */
-	function saveMetaKeywords($a_page, $a_domdoc)
+	static function saveMetaKeywords($a_page, $a_domdoc)
 	{
 		// not nice, should be set by context per method
 		if ($a_page->getParentType() == "gdf" ||

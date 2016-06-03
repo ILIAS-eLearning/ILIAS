@@ -50,7 +50,7 @@ class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array
 		(
@@ -63,7 +63,7 @@ class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
 		return $commands;
 	}
 
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 		

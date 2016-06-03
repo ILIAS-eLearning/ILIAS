@@ -35,10 +35,10 @@ require_once ("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResources.php");
 class ilSCORMResourcesGUI extends ilSCORMObjectGUI
 {
 
-	function ilSCORMResourcesGUI($a_id)
+	function __construct($a_id)
 	{
-		parent::ilSCORMObjectGUI();
-		$this->sc_object =& new ilSCORMResources($a_id);
+		parent::__construct();
+		$this->sc_object = new ilSCORMResources($a_id);
 	}
 
 	function view()

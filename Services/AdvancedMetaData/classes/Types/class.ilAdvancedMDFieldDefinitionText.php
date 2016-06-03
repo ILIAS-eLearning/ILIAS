@@ -242,8 +242,10 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinition
 	// presentation
 	//
 	
-	public function prepareElementForEditor(ilADTTextFormBridge $a_text)
+	public function prepareElementForEditor(ilADTFormBridge $a_text)
 	{
+		assert($a_text instanceof ilADTTextFormBridge);
+		
 		// seems to be default in course info editor
 		$a_text->setMulti($this->isMulti(), 80, 6);		
 	}

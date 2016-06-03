@@ -8,13 +8,12 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
 {
 	/**
 	 * The database access object
-	 * @var         ilDB
+	 * @var         ilDBInterface
 	 */
 	protected $db;
 
 	/**
-	 * MDB2_Result_Common
-	 * @var     MDB2_Result_Common
+	 * @var     ilDBStatement
 	 */
 	protected $res;
 
@@ -46,7 +45,7 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
 	public function __construct($quoted_term, $term)
 	{
 		/**
-		 * @var $ilDB   ilDB
+		 * @var $ilDB   ilDBInterface
 		 * @var $ilUser ilObjUser
 		 */
 		global $ilDB, $ilUser;

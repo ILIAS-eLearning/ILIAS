@@ -13,15 +13,7 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 */
 class ilUserDefinedFieldSearch extends ilAbstractSearch
 {
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilUserDefinedFieldSearch(&$query_parser)
-	{
-		parent::ilAbstractSearch($query_parser);
-	}
-
+	
 	function &performSearch()
 	{
 		$where = $this->__createWhereCondition();
@@ -32,7 +24,7 @@ class ilUserDefinedFieldSearch extends ilAbstractSearch
 			"FROM udf_text ".
 			$where;
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->usr_id,'usr',$this->__prepareFound($row));
 		}

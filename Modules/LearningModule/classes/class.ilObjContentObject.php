@@ -32,6 +32,10 @@ class ilObjContentObject extends ilObject
 	var $auto_glossaries = array();
 	
 	private $import_dir = '';
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
 
 	/**
 	* Constructor
@@ -39,10 +43,12 @@ class ilObjContentObject extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjContentObject($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		// this also calls read() method! (if $a_id is set)
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
+
+		$this->log = ilLoggerFactory::getLogger('lm');
 
 		$this->mob_ids = array();
 		$this->file_ids = array();
@@ -325,7 +331,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function createLMTree()
 	{
-		$this->lm_tree =& new ilTree($this->getId());
+		$this->lm_tree = new ilTree($this->getId());
 		$this->lm_tree->setTreeTablePK("lm_id");
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
 		$this->lm_tree->addTree($this->getId(), 1);
@@ -737,7 +743,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* move learning modules from one style to another
 	*/
-	function _moveLMStyles($a_from_style, $a_to_style)
+	static function _moveLMStyles($a_from_style, $a_to_style)
 	{
 		global $ilDB, $ilias;
 
@@ -757,7 +763,7 @@ class ilObjContentObject extends ilObject
 				$ilDB->manipulate($q);
 				
 				// delete style
-				$style_obj =& $ilias->obj_factory->getInstanceByObjId($style_rec["stylesheet"]);
+				$style_obj = $ilias->obj_factory->getInstanceByObjId($style_rec["stylesheet"]);
 				$style_obj->delete();
 			}
 		}
@@ -804,7 +810,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* lookup style sheet ID
 	*/
-	function _lookupStyleSheetId($a_cont_obj_id)
+	static function _lookupStyleSheetId($a_cont_obj_id)
 	{
 		global $ilDB;
 
@@ -819,7 +825,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* lookup style sheet ID
 	*/
-	function _lookupContObjIdByStyleId($a_style_id)
+	static function _lookupContObjIdByStyleId($a_style_id)
 	{
 		global $ilDB;
 
@@ -870,7 +876,7 @@ class ilObjContentObject extends ilObject
 	*
 	* @param	int		$a_style_id		style id
 	*/
-	function _getNrOfAssignedLMs($a_style_id)
+	static function _getNrOfAssignedLMs($a_style_id)
 	{
 		global $ilDB;
 		
@@ -886,7 +892,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* get number of learning modules with individual styles
 	*/
-	function _getNrLMsIndividualStyles()
+	static function _getNrLMsIndividualStyles()
 	{
 		global $ilDB;
 		
@@ -903,7 +909,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* get number of learning modules assigned no style
 	*/
-	function _getNrLMsNoStyle()
+	static function _getNrLMsNoStyle()
 	{
 		global $ilDB;
 		
@@ -920,7 +926,7 @@ class ilObjContentObject extends ilObject
 	*
 	* @param	int		$a_style_id		style_id
 	*/
-	function _deleteStyleAssignments($a_style_id)
+	static function _deleteStyleAssignments($a_style_id)
 	{
 		global $ilDB;
 		
@@ -1248,7 +1254,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* check wether content object is online
 	*/
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 		
@@ -1263,10 +1269,8 @@ class ilObjContentObject extends ilObject
 
 	/**
 	* get all available lm layouts
-	*
-	* static
 	*/
-	function getAvailableLayouts()
+	static function getAvailableLayouts()
 	{
 		$dir = opendir("./Modules/LearningModule/layouts/lm");
 
@@ -1310,7 +1314,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* checks wether the preconditions of a page are fulfilled or not
 	*/
-	function _checkPreconditionsOfPage($cont_ref_id,$cont_obj_id, $page_id)
+	static function _checkPreconditionsOfPage($cont_ref_id,$cont_obj_id, $page_id)
 	{
 		global $ilUser,$ilErr;
 
@@ -1339,7 +1343,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* gets all missing preconditions of page
 	*/
-	function _getMissingPreconditionsOfPage($cont_ref_id,$cont_obj_id, $page_id)
+	static function _getMissingPreconditionsOfPage($cont_ref_id,$cont_obj_id, $page_id)
 	{
 		$lm_tree = new ilTree($cont_obj_id);
 		$lm_tree->setTableNames('lm_tree','lm_data');
@@ -1374,7 +1378,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* get top chapter of page for that any precondition is missing
 	*/
-	function _getMissingPreconditionsTopChapter($cont_obj_ref_id,$cont_obj_id, $page_id)
+	static function _getMissingPreconditionsTopChapter($cont_obj_ref_id,$cont_obj_id, $page_id)
 	{
 		$lm_tree = new ilTree($cont_obj_id);
 		$lm_tree->setTableNames('lm_tree','lm_data');
@@ -1407,73 +1411,9 @@ class ilObjContentObject extends ilObject
 	}
 
 	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	*
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional paramters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{
-		global $tree;
-		
-		switch ($a_event)
-		{
-			case "link":
-
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Content Object ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-			
-			case "cut":
-				
-				//echo "Content Object ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-				
-			case "copy":
-			
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Content Object ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "paste":
-				
-				//echo "Content Object ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-			
-			case "new":
-				
-				//echo "Content Object ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-		}
-
-		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
-		if ($a_node_id==$_GET["ref_id"])
-		{	
-			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
-			$parent_type = $parent_obj->getType();
-			if($parent_type == $this->getType())
-			{
-				$a_node_id = (int) $tree->getParentId($a_node_id);
-			}
-		}
-		
-		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
-	}
-
-	
-	/**
 	* checks if page has a successor page
 	*/
-	function hasSuccessorPage($a_cont_obj_id, $a_page_id)
+	static function hasSuccessorPage($a_cont_obj_id, $a_page_id)
 	{
 		$tree = new ilTree($a_cont_obj_id);
 		$tree->setTableNames('lm_tree','lm_data');
@@ -1507,7 +1447,7 @@ class ilObjContentObject extends ilObject
 	{
 		global $ilDB;
 
-		$tree =& $this->getLMTree();
+		$tree = $this->getLMTree();
 		
 		// check numbering, if errors, renumber
 		// it is very important to keep this step before deleting subtrees
@@ -1988,7 +1928,7 @@ class ilObjContentObject extends ilObject
 				if ($entry != "." and
 					$entry != ".." and
 					substr($entry, -4) == ".zip" and
-					ereg("^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.zip\$", $entry))
+					preg_match("~^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.zip\$~", $entry))
 				{
 					$file[$entry.$type] = array("type" => $type, "file" => $entry,
 						"size" => filesize($dir."/".$entry));
@@ -2052,7 +1992,7 @@ class ilObjContentObject extends ilObject
 			if ($entry != "." and
 				$entry != ".." and
 				substr($entry, -4) == ".pdf" and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.pdf\$", $entry))
+				preg_match("~^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.pdf\$~", $entry))
 			{
 				$file[] = $entry;
 			}
@@ -2199,7 +2139,7 @@ class ilObjContentObject extends ilObject
 		$_GET["cmd"] = "nop";
 		$get_transl = $_GET["transl"];
 		$_GET["transl"] = "";
-		$lm_gui =& new ilLMPresentationGUI();
+		$lm_gui = new ilLMPresentationGUI();
 		$lm_gui->setOfflineMode(true, ($a_lang == "all"));
 		$lm_gui->setOfflineDirectory($a_target_dir);
 		$lm_gui->setExportFormat($a_export_format);
@@ -2307,7 +2247,7 @@ class ilObjContentObject extends ilObject
 		{
 			$tpl = new ilTemplate("tpl.main.html", true, true);
 			//$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-			$content =& $lm_gui->showTableOfContents();
+			$content = $lm_gui->showTableOfContents();
 			$file = $a_target_dir."/table_of_contents.html";
 				
 			// open file
@@ -2544,7 +2484,7 @@ class ilObjContentObject extends ilObject
 		$_GET["mob_id"]  = $a_mob_id;
 		$_GET["frame"] = $a_frame;
 		$_GET["cmd"] = "";
-		$content =& $a_lm_gui->media();
+		$content = $a_lm_gui->media();
 		$file = $a_target_dir."/media_".$a_mob_id.".html";
 
 		// open file
@@ -2568,7 +2508,7 @@ class ilObjContentObject extends ilObject
 			$_GET["frame"]  = "";
 			$_GET["mob_id"]  = $a_mob_id;
 			$_GET["cmd"] = "fullscreen";
-			$content =& $a_lm_gui->fullscreen();
+			$content = $a_lm_gui->fullscreen();
 			$file = $a_target_dir."/fullscreen_".$a_mob_id.".html";
 	
 			// open file
@@ -2602,7 +2542,7 @@ class ilObjContentObject extends ilObject
 
 				$_GET["obj_id"] = $int_link["id"];
 				$_GET["frame"] = "_blank";
-				$content =& $a_lm_gui->glossary();
+				$content = $a_lm_gui->glossary();
 				$file = $a_target_dir."/term_".$int_link["id"].".html";
 					
 				// open file
@@ -2645,7 +2585,7 @@ class ilObjContentObject extends ilObject
 				
 		$pages = ilLMPageObject::getPageList($this->getId());
 		
-		$lm_tree =& $this->getLMTree();
+		$lm_tree = $this->getLMTree();
 		$first_page = $lm_tree->fetchSuccessorNode($lm_tree->getRootId(), "pg");
 		$this->first_page_id = $first_page["child"];
 
@@ -2792,7 +2732,7 @@ class ilObjContentObject extends ilObject
 			return;
 		}
 
-		$content =& $a_lm_gui->layout("main.xml", false);
+		$content = $a_lm_gui->layout("main.xml", false);
 
 		// open file
 		if (!($fp = @fopen($file,"w+")))
@@ -2987,9 +2927,9 @@ class ilObjContentObject extends ilObject
 				else
 				{
 					// copy page
-					$new_page =& $source_obj->copy();
+					$new_page = $source_obj->copy();
 					$source_id = $new_page->getId();
-					$source_obj =& $new_page;
+					$source_obj = $new_page;
 				}
 
 				// paste page
@@ -3004,7 +2944,7 @@ class ilObjContentObject extends ilObject
 					{
 						$parent = $target_id;
 						$target_pos = IL_FIRST_NODE;
-						$pg_childs =& $lmtree->getChildsByType($parent, "pg");
+						$pg_childs = $lmtree->getChildsByType($parent, "pg");
 						if (count($pg_childs) != 0)
 						{
 							$target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
@@ -3060,7 +3000,7 @@ class ilObjContentObject extends ilObject
 				$target_pos = IL_FIRST_NODE;
 				$target_parent = $target_id;
 				
-				$pg_childs =& $lmtree->getChildsByType($target_parent, "pg");
+				$pg_childs = $lmtree->getChildsByType($target_parent, "pg");
 				if (count($pg_childs) != 0)
 				{
 					$target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
@@ -3070,7 +3010,7 @@ class ilObjContentObject extends ilObject
 			{
 				$target_parent = $target_id;
 				$target_pos = IL_FIRST_NODE;
-				$childs =& $lmtree->getChilds($target_parent);
+				$childs = $lmtree->getChilds($target_parent);
 				if (count($childs) != 0)
 				{
 					$target_pos = $childs[count($childs) - 1]["obj_id"];
@@ -3105,7 +3045,7 @@ class ilObjContentObject extends ilObject
 			else
 			{
 				// copy chapter (incl. subcontents)
-				$new_chapter =& $source_obj->copy($lmtree, $target_parent, $target_pos);
+				$new_chapter = $source_obj->copy($lmtree, $target_parent, $target_pos);
 			}
 
 			if (!$lmtree->isInTree($source_id))
@@ -3246,9 +3186,13 @@ class ilObjContentObject extends ilObject
 	 * @param
 	 * @return
 	 */
-	function importFromDirectory($a_directory, $a_validate = true)
+	// begin-patch optes_lok_export
+	function importFromDirectory($a_directory, $a_validate = true, $a_mapping = null)
+	// end-patch optes_lok_export
 	{
 		global $lng;
+
+		$this->log->debug("import from directory ".$a_directory);
 		
 		// determine filename of xml file
 		$subdir = basename($a_directory);
@@ -3257,16 +3201,19 @@ class ilObjContentObject extends ilObject
 		// check directory exists within zip file
 		if (!is_dir($a_directory))
 		{
+			$this->log->error(sprintf($lng->txt("cont_no_subdir_in_zip"), $subdir));
 			return sprintf($lng->txt("cont_no_subdir_in_zip"), $subdir);
 		}
 
 		// check whether xml file exists within zip file
 		if (!is_file($xml_file))
 		{
+			$this->log->error(sprintf($lng->txt("cont_zip_file_invalid"), $subdir."/".$subdir.".xml"));
 			return sprintf($lng->txt("cont_zip_file_invalid"), $subdir."/".$subdir.".xml");
 		}
 
 		// import questions
+		$this->log->debug("import qti");
 		$qti_file = $a_directory."/qti.xml";
 		$qtis = array();
 		if (is_file($qti_file))
@@ -3287,9 +3234,12 @@ class ilObjContentObject extends ilObject
 			}
 		}
 
+		$this->log->debug("get ilContObjParser");
 		include_once ("./Modules/LearningModule/classes/class.ilContObjParser.php");
 		$subdir = ".";
 		$contParser = new ilContObjParser($this, $xml_file, $subdir, $a_directory);
+		// smeyer: added \ilImportMapping lok im/export
+		$contParser->setImportMapping($a_mapping);
 		$contParser->setQuestionMapping($qtis);
 		$contParser->startParsing();
 		ilObject::_writeImportId($this->getId(), $this->getImportId());
@@ -3300,14 +3250,14 @@ class ilObjContentObject extends ilObject
 		$style_zip_file = $a_directory."/style.zip";
 		if (is_file($style_zip_file))	// try to import style.zip first
 		{
-			require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$style = new ilObjStyleSheet();
 			$style->import($style_zip_file);
 			$this->writeStyleSheetId($style->getId());
 		}
 		else if (is_file($style_file))	// try to import style.xml
 		{
-			require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$style = new ilObjStyleSheet();
 			$style->import($style_file);
 			$this->writeStyleSheetId($style->getId());
@@ -3377,13 +3327,14 @@ class ilObjContentObject extends ilObject
 		$new_obj->setProgressIcons($this->getProgressIcons());
 		$new_obj->setStoreTries($this->getStoreTries());
 		$new_obj->setRestrictForwardNavigation($this->getRestrictForwardNavigation());
-		
+		$new_obj->setAutoGlossaries($this->getAutoGlossaries());
+
 		$new_obj->update();
 		
 		$new_obj->createLMTree();
 		
 		// copy style
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 &&
 			!ilObjStyleSheet::_lookupStandard($style_id))
@@ -3482,7 +3433,7 @@ class ilObjContentObject extends ilObject
 	 * @param
 	 * @return
 	 */
-	function lookupAutoGlossaries($a_lm_id)
+	static function lookupAutoGlossaries($a_lm_id)
 	{
 		global $ilDB;
 		

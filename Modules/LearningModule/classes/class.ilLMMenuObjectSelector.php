@@ -32,7 +32,7 @@ class ilLMMenuObjectSelector extends ilExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilLMMenuObjectSelector($a_target,&$a_gui_obj)
+	function __construct($a_target,&$a_gui_obj)
 	{
 		global $tree,$ilCtrl;
 
@@ -40,7 +40,7 @@ class ilLMMenuObjectSelector extends ilExplorer
 		
 		$this->gui_obj = $a_gui_obj;
 
-		parent::ilExplorer($a_target);
+		parent::__construct($a_target);
 		$this->tree = $tree;
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = "title";
@@ -113,20 +113,16 @@ class ilLMMenuObjectSelector extends ilExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader($a_obj_id,$a_option)
+	function formatHeader($a_tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $ilias;
+		global $lng;
 
 		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 
 		$tpl->setCurrentBlock("text");
 		$tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
 		$tpl->parseCurrentBlock();
-
-//		$tpl->setCurrentBlock("row");
-//		$tpl->parseCurrentBlock();
-
 		$this->output[] = $tpl->get();
 	}
-} // END class ilLMMenuObjectSelector
+}
 ?>

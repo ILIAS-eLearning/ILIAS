@@ -64,14 +64,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 	}
 
 	/**
-	 * Evaluates a posted edit form and writes the form data in the question object
-	 *
-	 * @param bool $always
-	 *
-	 * @return integer A positive value, if one of the required fields wasn't set, else 0
-	 *
+	 * {@inheritdoc}
 	 */
-	public function writePostData($always = false)
+	protected function writePostData($always = false)
 	{
 		$form = $this->buildEditForm();
 		$form->setValuesByPost();
@@ -341,7 +336,21 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 						   $show_feedback = FALSE
 	)
 	{
-		$user_solution = $this->getUserSolution($active_id, $pass);
+		$user_solution = array();
+		if ($active_id)
+		{
+			$solutions = NULL;
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			{
+				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			}
+			$solutions = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
+			foreach ($solutions as $idx => $solution_value)
+			{
+				$user_solution[$solution_value["value1"]] = $solution_value["value2"];
+			}
+		}
 
 		// generate the question output
 		include_once "./Services/UICore/classes/class.ilTemplate.php";

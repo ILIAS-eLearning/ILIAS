@@ -74,7 +74,7 @@ class ilDidacticTemplateActionFactory
 		$res = $ilDB->query($query);
 
 		$actions = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$actions[] = self::factoryByTypeAndId($row->id, $row->type_id);
 		}

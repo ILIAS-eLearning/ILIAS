@@ -127,6 +127,21 @@ class ilLanguage
 	protected $cached_modules = array();
 
 	/**
+	 * @var string[]
+	 */
+	protected $map_modules_txt = array();
+
+	/**
+	 * @var bool
+	 */
+	protected $usage_log_enabled = false;
+
+	/**
+	 * @var string[]
+	 */
+	protected static $lng_log = array();
+
+	/**
 	 * Constructor
 	 * read the single-language file and put this in an array text.
 	 * the text array is two-dimensional. First dimension is the language.
@@ -136,7 +151,7 @@ class ilLanguage
 	 * @param	string		languagecode (two characters), e.g. "de", "en", "in"
 	 * @return	boolean 	false if reading failed
 	 */
-	function ilLanguage($a_lang_key)
+	function __construct($a_lang_key)
 	{
 		global $ilias,$log,$ilIliasIniFile,$ilUser,$ilSetting;
 
@@ -159,6 +174,9 @@ class ilLanguage
 		
 		$this->text = array();
 		$this->loaded_modules = array();
+
+		$this->usage_log_enabled = self::isUsageLogEnabled();
+
 		//$this->lang_path = ILIAS_ABSOLUTE_PATH.substr($this->ilias->ini->readVariable("language","path"),1);
 
 		// if no directory was found fall back to default lang dir
@@ -175,7 +193,7 @@ class ilLanguage
 		}
 		$this->lang_user = $ilUser->prefs["language"];
 		
-		$langs = $this->getInstalledLanguages();
+		$langs = self::getInstalledLanguages();
 		
 		if (!in_array($this->lang_key,$langs))
 		{
@@ -275,6 +293,10 @@ class ilLanguage
 		}
 		else
 		{
+			if($this->usage_log_enabled)
+			{
+				self::logUsage($this->map_modules_txt[$a_topic], $a_topic);
+			}
 			return $translation;
 		}
 	}
@@ -322,7 +344,7 @@ class ilLanguage
 				"AND module = '$a_module'";
 		$r = $this->ilias->db->query($query);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->text[$row->identifier] = $row->value;
 		}
@@ -332,17 +354,25 @@ class ilLanguage
 				"WHERE lang_key = ".$ilDB->quote($lang_key, "text")." AND module = ".
 				$ilDB->quote($a_module, "text");
 		$r = $ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		
 		$new_text = unserialize($row["lang_array"]);
 		if (is_array($new_text))
 		{
 			$this->text = array_merge($this->text, $new_text);
+
+			if($this->usage_log_enabled)
+			{
+				foreach (array_keys($new_text) as $key)
+				{
+					$this->map_modules_txt[$key] = $a_module;
+				}
+			}
 		}
 	}
 	
 	
-	function getInstalledLanguages()
+	static function getInstalledLanguages()
 	{
 		include_once("./Services/Object/classes/class.ilObject.php");
 		$langlist = ilObject::_getObjectsByType("lng");
@@ -374,7 +404,12 @@ class ilLanguage
 			// remember the used topics
 			self::$used_topics[$a_id]   = $a_id;
 			self::$used_modules[$a_mod] = $a_mod;
-			
+
+			if(self::isUsageLogEnabled())
+			{
+				self::logUsage($a_mod, $a_id);
+			}
+
 			return $rec["value"];
 		}
 		
@@ -396,7 +431,7 @@ class ilLanguage
 			'AND type = '.$ilDB->quote('lng','text');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->obj_id;
 		}
@@ -542,6 +577,77 @@ class ilLanguage
 		}
 	}
 
-	
+	/**
+	 * saves tupel of language module and identifier
+	 *
+	 * @param string $a_module
+	 * @param string $a_identifier
+	 */
+	protected static function  logUsage($a_module, $a_identifier)
+	{
+		if($a_module != "" && $a_identifier != "")
+		{
+			self::$lng_log[$a_identifier] = $a_module;
+		}
+	}
+
+	/**
+	 * checks if language usage log is enabled
+	 * you need MySQL to use this function
+	 * this function is automatically enabled if DEVMODE is on
+	 * this function is also enabled if language_log is 1
+	 *
+	 * @return bool
+	 */
+	protected static function isUsageLogEnabled()
+	{
+		/** @var ilIniFile $ilClientIniFile */
+		global $ilClientIniFile, $ilDB;
+
+		if(!(($ilDB instanceof ilDBMySQL) || ($ilDB instanceof ilDBPdoMySQL)) || !$ilClientIniFile instanceof ilIniFile)
+		{
+
+			return false;
+		}
+
+		if(DEVMODE)
+		{
+			return true;
+		}
+
+		if(!$ilClientIniFile->variableExists('system', 'LANGUAGE_LOG'))
+		{
+			return $ilClientIniFile->readVariable('system', 'LANGUAGE_LOG') == 1;
+		}
+		return false;
+	}
+
+	/**
+	 * destructor saves all language usages to db if log is enabled and ilDB exists
+	 */
+	function __destruct()
+	{
+		global $ilDB;
+
+		//case $ilDB not existing should not happen but if something went wrong it shouldn't leads to any failures
+		if(!$this->usage_log_enabled || !(($ilDB instanceof ilDBMySQL) || ($ilDB instanceof ilDBPdoMySQL)))
+		{
+			return;
+		}
+
+		foreach((array)self::$lng_log as $identifier => $module)
+		{
+			$wave[] = '(' . $ilDB->quote($module, 'text'). ', ' . $ilDB->quote($identifier, 'text') . ')';
+			unset(self::$lng_log[$identifier]);
+
+			if(count($wave) == 150 || (count(self::$lng_log) == 0 && count($wave) > 0))
+			{
+				$query = 'REPLACE INTO lng_log (module, identifier) VALUES ' . implode(', ', $wave);
+				$ilDB->manipulate($query);
+
+				$wave = array();
+			}
+		}
+	}
 } // END class.Language
 ?>

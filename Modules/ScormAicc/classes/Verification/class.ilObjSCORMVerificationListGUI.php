@@ -25,7 +25,6 @@ class ilObjSCORMVerificationListGUI extends ilObjectListGUI
 		$this->copy_enabled = true;
 		$this->subscribe_enabled = false;
 		$this->link_enabled = false;
-		$this->payment_enabled = false;
 		$this->info_screen_enabled = false;
 		$this->type = "scov";
 		$this->gui_class_name = "ilobjscormverificationgui";

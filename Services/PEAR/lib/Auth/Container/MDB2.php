@@ -80,20 +80,23 @@ class Auth_Container_MDB2 extends Auth_Container
      *
      * Initate connection to the database via PEAR::MDB2
      *
-     * @param  string Connection data or MDB2 object
+     * @param $options
      * @return object Returns an error object if something went wrong
+     * @throws Exception
+     * @internal param Connection $string data or MDB2 object
      */
-    function Auth_Container_MDB2($dsn)
+    function Auth_Container_MDB2($options)
     {
         $this->_setDefaults();
 
-        if (is_array($dsn)) {
-            $this->_parseOptions($dsn);
-            if (empty($this->options['dsn'])) {
-                PEAR::raiseError('No connection parameters specified!');
-            }
+        if (is_array($options)) {
+            $this->_parseOptions($options);
+//            if (empty($this->options['dsn'])) {
+//                PEAR::raiseError('No connection parameters specified!');
+//            }
         } else {
-            $this->options['dsn'] = $dsn;
+            throw new Exception("No Options given for authentication");
+//            $this->options['dsn'] = $dsn;
         }
     }
 
@@ -109,43 +112,46 @@ class Auth_Container_MDB2 extends Auth_Container
      */
     function _connect($dsn)
     {
+        global $ilDB;
+        $this->db = $ilDB;
+//        return true;
         $this->log('Auth_Container_MDB2::_connect() called.', AUTH_LOG_DEBUG);
-        if (is_string($dsn) || is_array($dsn)) {
-            $this->db =& MDB2::connect($dsn, $this->options['db_options']);
-        } elseif (is_subclass_of($dsn, 'MDB2_Driver_Common')) {
-            $this->db = $dsn;
-        } elseif (is_object($dsn) && MDB2::isError($dsn)) {
-            return PEAR::raiseError($dsn->getMessage(), $dsn->code);
-        } else {
-            return PEAR::raiseError('The given dsn was not valid in file ' . __FILE__ . ' at line ' . __LINE__,
-                                    41,
-                                    PEAR_ERROR_RETURN,
-                                    null,
-                                    null
-                                    );
-
-        }
+//        if (is_string($dsn) || is_array($dsn)) {
+//            $this->db =& MDB2::connect($dsn, $this->options['db_options']);
+//        } elseif (is_subclass_of($dsn, 'MDB2_Driver_Common')) {
+//            $this->db = $dsn;
+//        } elseif (is_object($dsn) && MDB2::isError($dsn)) {
+//            return PEAR::raiseError($dsn->getMessage(), $dsn->code);
+//        } else {
+//            return PEAR::raiseError('The given dsn was not valid in file ' . __FILE__ . ' at line ' . __LINE__,
+//                                    41,
+//                                    PEAR_ERROR_RETURN,
+//                                    null,
+//                                    null
+//                                    );
+//
+//        }
 
         if (MDB2::isError($this->db) || PEAR::isError($this->db)) {
             return PEAR::raiseError($this->db->getMessage(), $this->db->code);
         }
 
-        if ($this->options['auto_quote']) {
-            if (strpos('.', $this->options['table']) === false) {
-                $this->options['final_table'] = $this->db->quoteIdentifier($this->options['table'], true);
-            } else {
-                $t = explode('.', $this->options['table']);
-                for ($i = 0, $count = count($t); $i < $count; $i++)
-                    $t[$i] = $this->db->quoteIdentifier($t[$i], true);
-                $this->options['final_table'] = implode('.', $t);
-            }
-            $this->options['final_usernamecol'] = $this->db->quoteIdentifier($this->options['usernamecol'], true);
-            $this->options['final_passwordcol'] = $this->db->quoteIdentifier($this->options['passwordcol'], true);
-        } else {
+//        if ($this->options['auto_quote']) {
+//            if (strpos('.', $this->options['table']) === false) {
+//                $this->options['final_table'] = $this->db->quoteIdentifier($this->options['table'], true);
+//            } else {
+//                $t = explode('.', $this->options['table']);
+//                for ($i = 0, $count = count($t); $i < $count; $i++)
+//                    $t[$i] = $this->db->quoteIdentifier($t[$i], true);
+//                $this->options['final_table'] = implode('.', $t);
+//            }
+//            $this->options['final_usernamecol'] = $this->db->quoteIdentifier($this->options['usernamecol'], true);
+//            $this->options['final_passwordcol'] = $this->db->quoteIdentifier($this->options['passwordcol'], true);
+//        } else {
             $this->options['final_table'] = $this->options['table'];
             $this->options['final_usernamecol'] = $this->options['usernamecol'];
             $this->options['final_passwordcol'] = $this->options['passwordcol'];
-        }
+//        }
 
         return true;
     }
@@ -164,6 +170,10 @@ class Auth_Container_MDB2 extends Auth_Container
      */
     function _prepare()
     {
+        // we use ilDB... we are prepared..
+        $this->_connect("");
+        return true;
+
         if (is_subclass_of($this->db, 'MDB2_Driver_Common')) {
             return true;
         }
@@ -327,10 +337,14 @@ class Auth_Container_MDB2 extends Auth_Container
 
         $this->log('Running SQL against MDB2: '.$query, AUTH_LOG_DEBUG);
 
-        $res = $this->db->queryRow($query, null, MDB2_FETCHMODE_ASSOC);
-        if (MDB2::isError($res) || PEAR::isError($res)) {
-            return PEAR::raiseError($res->getMessage(), $res->getCode());
-        }
+//        $res = $this->db->queryRow($query, null, MDB2_FETCHMODE_ASSOC);
+        /** @var ilDBInterface $db */
+        $db = $this->db;
+        $res = $db->query($query);
+        $res = $db->fetchAssoc($res);
+//        if (MDB2::isError($res) || PEAR::isError($res)) {
+//            return PEAR::raiseError($res->getMessage(), $res->getCode());
+//        }
         if (!is_array($res)) {
             $this->activeUser = '';
             return false;

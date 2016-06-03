@@ -664,7 +664,7 @@ copy various files and directories to your ILIAS web directory:
     cd /tmp/ilias
     cp -p * /opt/ilias/www/htdocs/ilias/
     cp -rp classes cron docs include lang /opt/ilias/www/htdocs/ilias/
-    cp -rp Modules payment Services setup templates /opt/ilias/www/htdocs/ilias/
+    cp -rp Modules Services setup templates /opt/ilias/www/htdocs/ilias/
     cp -rp webservice xml /opt/ilias/www/htdocs/ilias/
 
 Please ignore any 'File exists' error messages. After all files have been copied

@@ -3,6 +3,7 @@
 
 require_once 'Modules/Chatroom/classes/class.ilChatroomObjectDefinition.php';
 require_once 'Modules/Chatroom/classes/class.ilChatroomTaskHandler.php';
+require_once 'Services/UICore/classes/class.ilFrameTargetInfo.php';
 
 /**
  * @author jposselt@databay.de
@@ -10,18 +11,6 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomTaskHandler.php';
  */
 abstract class ilChatroomObjectGUI extends ilObjectGUI
 {
-	/**
-	 * @return ilChatroomObjectDefinition
-	 * @abstract
-	 */
-	abstract protected function getObjectDefinition();
-
-	/**
-	 * @return ilChatroomServerConnector
-	 * @abstract
-	 */
-	abstract public function getConnector();
-
 	/**
 	 * Loads end executes given $task.
 	 * @param string $task
@@ -42,6 +31,18 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 	}
 
 	/**
+	 * @return ilChatroomObjectDefinition
+	 * @abstract
+	 */
+	abstract protected function getObjectDefinition();
+
+	/**
+	 * @return ilChatroomServerConnector
+	 * @abstract
+	 */
+	abstract public function getConnector();
+
+	/**
 	 * Calls $this->prepareOutput() method.
 	 */
 	public function switchToVisibleMode()
@@ -50,9 +51,9 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 	}
 
 	/**
-	 * @param ilTabsGUI $tabs_gui
+	 * {@inheritdoc}
 	 */
-	public function getAdminTabs(ilTabsGUI $tabs_gui)
+	public function getAdminTabs()
 	{
 		/**
 		 * @var $tree ilTree
@@ -62,7 +63,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 		if(isset($_GET['admin_mode']) && $_GET['admin_mode'] == 'repository')
 		{
 			$this->ctrl->setParameterByClass('iladministrationgui', 'admin_mode', 'settings');
-			$tabs_gui->setBackTarget(
+			$this->tabs_gui->setBackTarget(
 				$this->lng->txt('administration'),
 				$this->ctrl->getLinkTargetByClass('iladministrationgui', 'frameset'),
 				ilFrameTargetInfo::_getFrame('MainContent')
@@ -71,7 +72,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
 		}
 		if($tree->getSavedNodeData($this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', get_class($this));
+			$this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', get_class($this));
 		}
 	}
 }

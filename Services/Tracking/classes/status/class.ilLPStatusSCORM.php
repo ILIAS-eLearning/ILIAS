@@ -15,16 +15,16 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
 class ilLPStatusSCORM extends ilLPStatus
 {
 
-	function ilLPStatusSCORM($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
-		parent::ilLPStatus($a_obj_id);
-		$this->db =& $ilDB;
+		parent::__construct($a_obj_id);
+		$this->db = $ilDB;
 	}
 
 
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{		
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$users = array();
@@ -39,7 +39,7 @@ class ilLPStatusSCORM extends ilLPStatus
 		return $users;
 	}
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{
 		global $ilDB;
 
@@ -69,7 +69,7 @@ class ilLPStatusSCORM extends ilLPStatus
 		return $users;
 	}
 
-	function _getFailed($a_obj_id)
+	static function _getFailed($a_obj_id)
 	{
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
@@ -118,7 +118,7 @@ class ilLPStatusSCORM extends ilLPStatus
 	}
 
 	
-	function _getStatusInfo($a_obj_id)
+	static function _getStatusInfo($a_obj_id)
 	{				
 		// Which sco's determine the status
 		include_once './Services/Object/classes/class.ilObjectLP.php';
@@ -307,9 +307,9 @@ class ilLPStatusSCORM extends ilLPStatus
 		return $per;
 	}
 
-	function refreshStatus($a_obj_id)
+	function refreshStatus($a_obj_id, $a_users = null)
 	{
-		parent::refreshStatus($a_obj_id);
+		parent::refreshStatus($a_obj_id, $a_users);
 		
 		// this is restricted to SCOs in the current collection
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	

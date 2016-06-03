@@ -44,16 +44,16 @@ class ilSCORMObjectGUI
 	var $lng;
 
 
-	function ilSCORMObjectGUI($a_id = 0)
+	function __construct($a_id = 0)
 	{
 		global $tpl, $lng;
 
 		if($a_id != 0)
 		{
-			$this->sc_object =& new ilSCORMItem($a_id);
+			$this->sc_object = new ilSCORMItem($a_id);
 		}
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
 	}
 
 	/**
@@ -67,32 +67,32 @@ class ilSCORMObjectGUI
 		switch($object->getType())
 		{
 			case "sit":					// item
-				$item =& new ilSCORMItemGUI($a_id);
+				$item = new ilSCORMItemGUI($a_id);
 				return $item;
 				break;
 
 			case "sos":					// organizations
-				$sos_gui =& new ilSCORMOrganizationsGUI($a_id);
+				$sos_gui = new ilSCORMOrganizationsGUI($a_id);
 				return $sos_gui;
 				break;
 
 			case "sor":					// organization
-				$sor_gui =& new ilSCORMOrganizationGUI($a_id);
+				$sor_gui = new ilSCORMOrganizationGUI($a_id);
 				return $sor_gui;
 				break;
 
 			case "sma":					// manifest
-				$sma_gui =& new ilSCORMManifestGUI($a_id);
+				$sma_gui = new ilSCORMManifestGUI($a_id);
 				return $sma_gui;
 				break;
 
 			case "srs":					// resources
-				$srs_gui =& new ilSCORMResourcesGUI($a_id);
+				$srs_gui = new ilSCORMResourcesGUI($a_id);
 				return $srs_gui;
 				break;
 
 			case "sre":					// resource
-				$sre_gui =& new ilSCORMResourceGUI($a_id);
+				$sre_gui = new ilSCORMResourceGUI($a_id);
 				return $sre_gui;
 				break;
 		}

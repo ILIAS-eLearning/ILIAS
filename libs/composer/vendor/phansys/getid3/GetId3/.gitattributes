@@ -1,0 +1,4 @@
+Tests/ export-ignore
+phpunit.xml.dist export-ignore
+Resources/doc/ export-ignore
+.travis.yml export-ignore

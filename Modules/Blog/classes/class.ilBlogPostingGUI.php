@@ -53,7 +53,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$this->setEnableEditing($a_may_contribute);
 		
 		// content style
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
@@ -434,6 +434,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			$page->setTitle($form->getInput("title"));
 			$page->update();			
 			
+			$page->handleNews(true);
+			
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 			$ilCtrl->redirect($this, "preview");
 		}
@@ -557,6 +559,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		}
 		else
 		{
+			$this->ctrl->setParameterByClass("ilobjbloggui", "blpg", "");
 			$this->ctrl->redirectByClass("ilobjbloggui", "");
 		}
 	}
@@ -580,6 +583,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		}
 		else
 		{
+			$this->ctrl->setParameterByClass("ilobjbloggui", "blpg", "");
 			$this->ctrl->redirectByClass("ilobjbloggui", "");
 		}
 	}

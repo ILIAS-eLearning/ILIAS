@@ -26,7 +26,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl, $lng, $ilTabs;
 
@@ -49,7 +49,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 			{
 				$tpl->setVariable("HEADER", $lng->txt("mob").": ".
 					$this->content_obj->getMediaObject()->getTitle());
-				$mob_gui =& new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(),false, false);
+				$mob_gui = new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(),false, false);
 				$mob_gui->setBackTitle($this->page_back_title);
 				$mob_gui->setEnabledMapAreas($this->getEnabledMapAreas());
 				$mob_gui->getTabs($this->tabs_gui);
@@ -72,7 +72,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 				break;
 			
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 
@@ -328,7 +328,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function centerAlign()
 	{
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+		$std_alias_item = new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
 			$this->content_obj->getPcId(), "InteractiveImage");
 		$std_alias_item->setHorizontalAlign("Center");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
@@ -340,7 +340,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function leftAlign()
 	{
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+		$std_alias_item = new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
 			$this->content_obj->getPcId(), "InteractiveImage");
 		$std_alias_item->setHorizontalAlign("Left");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
@@ -352,7 +352,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function rightAlign()
 	{
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+		$std_alias_item = new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
 			$this->content_obj->getPcId(), "InteractiveImage");
 		$std_alias_item->setHorizontalAlign("Right");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
@@ -364,7 +364,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function leftFloatAlign()
 	{
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+		$std_alias_item = new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
 			$this->content_obj->getPcId(), "InteractiveImage");
 		$std_alias_item->setHorizontalAlign("LeftFloat");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
@@ -376,7 +376,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 	 */
 	function rightFloatAlign()
 	{
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+		$std_alias_item = new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
 			$this->content_obj->getPcId(), "InteractiveImage");
 		$std_alias_item->setHorizontalAlign("RightFloat");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();

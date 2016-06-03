@@ -29,16 +29,7 @@ include_once("./Services/Component/classes/class.ilService.php");
  * @version $Id$
  */
 class ilPersonalDesktopService extends ilService
-{
-	
-	/**
-	 * Constructor 
-	 */
-	public function __construct()
-	{
-		
-	}
-
+{	
     /**
      * @see ilComponent::getVersion()
      */
@@ -52,7 +43,7 @@ class ilPersonalDesktopService extends ilService
      */
     public function isCore()
     {
-        //TODO Auto generated method stub
+        return true;
     }
 	
 }

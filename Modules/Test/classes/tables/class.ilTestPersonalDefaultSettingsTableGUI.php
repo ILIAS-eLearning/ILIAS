@@ -46,7 +46,7 @@ class ilTestPersonalDefaultSettingsTableGUI extends ilTable2GUI
 	/**
 	 * @param array $row
 	 */
-	public function fillRow(array $row)
+	public function fillRow($row)
 	{
 		parent::fillRow(array(
 			'name'     => $row['name'],

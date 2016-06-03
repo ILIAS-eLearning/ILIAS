@@ -48,7 +48,7 @@ class ilCalendarAuthenticationToken
 			"AND selection = ".$ilDB->quote($a_selection,'integer').' '.
 			"AND calendar = ".$ilDB->quote($a_calendar,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->hash;
 		}
@@ -67,7 +67,7 @@ class ilCalendarAuthenticationToken
 		$query = "SELECT * FROM cal_auth_token ".
 			"WHERE hash = ".$ilDB->quote($a_token,'text');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->user_id;
 		}
@@ -237,7 +237,7 @@ class ilCalendarAuthenticationToken
 		}
 			
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->token = $row->hash;
 			$this->selection_type = $row->selection;

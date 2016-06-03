@@ -44,14 +44,14 @@ class ilUserFilterGUI
 	var $lng = null;
 	var $ctrl = null;
 
-	function ilUserFilterGUI($a_usr_id)
+	function __construct($a_usr_id)
 	{
 		global $lng,$ilCtrl,$tpl;
 
-		$this->ctrl =& $ilCtrl;
-		$this->lng =& $lng;
+		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('trac');
-		$this->tpl =& $tpl;
+		$this->tpl = $tpl;
 		$this->usr_id = $a_usr_id;
 		$this->__initFilter();
 	}
@@ -59,7 +59,7 @@ class ilUserFilterGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		switch($this->ctrl->getNextClass())
 		{

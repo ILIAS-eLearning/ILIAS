@@ -31,16 +31,16 @@ class ilPCListItem extends ilPageContent
 	*/
 	function newItemAfter()
 	{
-		$li =& $this->getNode();
-		$new_li =& $this->dom->create_element("ListItem");
-		if ($next_li =& $li->next_sibling())
+		$li = $this->getNode();
+		$new_li = $this->dom->create_element("ListItem");
+		if ($next_li = $li->next_sibling())
 		{
-			$new_li =& $next_li->insert_before($new_li, $next_li);
+			$new_li = $next_li->insert_before($new_li, $next_li);
 		}
 		else
 		{
-			$parent_list =& $li->parent_node();
-			$new_li =& $parent_list->append_child($new_li);
+			$parent_list = $li->parent_node();
+			$new_li = $parent_list->append_child($new_li);
 		}
 	}
 
@@ -50,9 +50,9 @@ class ilPCListItem extends ilPageContent
 	*/
 	function newItemBefore()
 	{
-		$li =& $this->getNode();
-		$new_li =& $this->dom->create_element("ListItem");
-		$new_li =& $li->insert_before($new_li, $li);
+		$li = $this->getNode();
+		$new_li = $this->dom->create_element("ListItem");
+		$new_li = $li->insert_before($new_li, $li);
 	}
 
 
@@ -71,7 +71,7 @@ class ilPCListItem extends ilPageContent
 		}
 		else
 		{
-			$li =& $this->getNode();
+			$li = $this->getNode();
 			$li->unlink($li);
 		}
 	}
@@ -81,10 +81,10 @@ class ilPCListItem extends ilPageContent
 	*/
 	function moveItemDown()
 	{
-		$li =& $this->getNode();
-		$next =& $li->next_sibling();
+		$li = $this->getNode();
+		$next = $li->next_sibling();
 		$next_copy = $next->clone_node(true);
-		$next_copy =& $li->insert_before($next_copy, $li);
+		$next_copy = $li->insert_before($next_copy, $li);
 		$next->unlink($next);
 	}
 
@@ -93,10 +93,10 @@ class ilPCListItem extends ilPageContent
 	*/
 	function moveItemUp()
 	{
-		$li =& $this->getNode();
-		$prev =& $li->previous_sibling();
+		$li = $this->getNode();
+		$prev = $li->previous_sibling();
 		$li_copy = $li->clone_node(true);
-		$li_copy =& $prev->insert_before($li_copy, $prev);
+		$li_copy = $prev->insert_before($li_copy, $prev);
 		$li->unlink($li);
 	}
 

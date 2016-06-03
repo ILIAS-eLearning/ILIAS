@@ -39,10 +39,10 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjRecoveryFolderGUI($a_data,$a_id,$a_call_by_reference)
+	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
 		$this->type = "recf";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 	}
 	
 	/**
@@ -73,7 +73,7 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 		$this->ctrl->redirect($this, "view");
 	}
 	
-		function &executeCommand()
+		function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -83,7 +83,7 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 		{
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 

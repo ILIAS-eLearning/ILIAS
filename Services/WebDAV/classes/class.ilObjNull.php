@@ -106,7 +106,7 @@ class ilObjNull extends ilObject
 	function ilObjNull($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "null";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 	/**
 	* update object in db

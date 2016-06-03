@@ -58,7 +58,7 @@ class ilDate extends ilDateTime
 	 * @param int format type
 	 * @param string format string
 	 */
-	public function get($a_format,$a_format_str = '')
+	public function get($a_format,$a_format_str = '',$a_tz = '')
 	{
 		return parent::get($a_format,$a_format_str);
 	}

@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once './Services/Object/classes/class.ilObjectListGUI.php';
 
 /**
 * Class ilObjectListGUIFactory
@@ -12,7 +13,7 @@
 */
 class ilObjectListGUIFactory
 {
-	function &_getListGUIByType($a_type)
+	static function _getListGUIByType($a_type, $a_context = ilObjectListGUI::CONTEXT_REPOSITORY)
 	{
 		global $objDefinition;
 		
@@ -21,11 +22,11 @@ class ilObjectListGUIFactory
 		$full_class = "ilObj".$class."ListGUI";
 		if(@include_once($location."/class.".$full_class.".php"))
 		{
-			return new $full_class();
+			return new $full_class($a_context);
 		}
 
-		include_once './Services/Object/classes/class.ilObjectListGUI.php';
-		return new ilObjectListGUI($a_type);
+		// php7-todo JL: throw exception instead?		
+		return new ilObjectListGUI($a_context);
 	}
 	
 } // END class.ilObjectListGUIFactory

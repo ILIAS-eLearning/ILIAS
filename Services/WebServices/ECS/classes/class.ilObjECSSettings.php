@@ -22,7 +22,7 @@ class ilObjECSSettings extends ilObject
 	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "ecss";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 	

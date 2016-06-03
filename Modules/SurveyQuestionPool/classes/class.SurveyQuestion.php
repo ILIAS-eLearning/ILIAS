@@ -154,23 +154,14 @@ class SurveyQuestion
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-	function SurveyQuestion
-	(
-		$title = "",
-		$description = "",
-		$author = "",
-		$questiontext = "",
-		$owner = -1
-	)
+	function __construct($title = "", $description = "", $author = "", $questiontext = "",	$owner = -1)
 	{
-		global $ilias;
-		global $lng;
-		global $tpl;
+		global $ilias, $lng, $tpl;
 
-		$this->ilias =& $ilias;
-		$this->lng =& $lng;
-		$this->tpl =& $tpl;
-		$this->complete = 
+		$this->ilias = $ilias;
+		$this->lng = $lng;
+		$this->tpl = $tpl;
+		$this->complete = 0; 
 		$this->title = $title;
 		$this->description = $description;
 		$this->questiontext = $questiontext;
@@ -192,11 +183,6 @@ class SurveyQuestion
 		$this->materials = array();
 		$this->material = array();
 		$this->arrData = array();
-		register_shutdown_function(array(&$this, '_SurveyQuestion'));
-	}
-
-	function _SurveyQuestion()
-	{
 	}
 
 	/**
@@ -351,7 +337,6 @@ class SurveyQuestion
 	{
 		if (!empty($materials_filename))
 		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$materialspath = $this->getMaterialsPath();
 			if (!file_exists($materialspath))
 			{
@@ -666,7 +651,7 @@ class SurveyQuestion
 			return;
 		}
 		$clone = $this;
-		$original_id = SurveyQuestion::_getOriginalId($this->getId(), false);
+		$original_id = self::_getOriginalId($this->getId(), false);
 		$clone->setId(-1);
 		$source_questionpool = $this->getObjId();
 		$clone->setObjId($target_questionpool);
@@ -739,7 +724,7 @@ class SurveyQuestion
 * @return boolean TRUE if the question is complete, FALSE otherwise
 * @access public
 */
-	function _isComplete($question_id)
+	static function _isComplete($question_id)
 	{
 		global $ilDB;
 
@@ -1001,7 +986,6 @@ class SurveyQuestion
 */
 	function getImagePathWeb() 
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/images/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
@@ -1014,7 +998,6 @@ class SurveyQuestion
 */
 	function getMaterialsPathWeb() 
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/materials/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
@@ -1166,7 +1149,6 @@ class SurveyQuestion
 		$directory = CLIENT_WEB_DIR . "/survey/" . $obj_id . "/$question_id";
 		if (preg_match("/\d+/", $obj_id) and preg_match("/\d+/", $question_id) and is_dir($directory))
 		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::delDir($directory);
 		}
 
@@ -1179,7 +1161,7 @@ class SurveyQuestion
 		foreach($mobs as $mob)
 		{
 			ilObjMediaObject::_removeUsage($mob, "spl:html", $question_id);
-			$mob_obj =& new ilObjMediaObject($mob);
+			$mob_obj = new ilObjMediaObject($mob);
 			$mob_obj->delete();
 		}
 		
@@ -1199,7 +1181,7 @@ class SurveyQuestion
 * @result string The question type string
 * @access private
 */
-	function _getQuestionType($question_id) 
+	static function _getQuestionType($question_id) 
 	{
 		global $ilDB;
 
@@ -1227,7 +1209,7 @@ class SurveyQuestion
 * @result string The question title
 * @access private
 */
-	function _getTitle($question_id) 
+	static function _getTitle($question_id) 
 	{
 		global $ilDB;
 
@@ -1255,7 +1237,7 @@ class SurveyQuestion
 * @return integer The database id of the original question
 * @access public
 */
-	function _getOriginalId($question_id, $a_return_question_id_if_no_original = true)
+	static function _getOriginalId($question_id, $a_return_question_id_if_no_original = true)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT * FROM svy_question WHERE question_id = %s",
@@ -1363,7 +1345,7 @@ class SurveyQuestion
 * @result boolean True, if the question exists, otherwise False
 * @access public
 */
-	function _questionExists($question_id)
+	static function _questionExists($question_id)
 	{
 		global $ilDB;
 
@@ -1394,7 +1376,7 @@ class SurveyQuestion
 					{
 						case "lm":
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $target_id, true);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $target_id, true);
 							$cont_obj = $cont_obj_gui->object;
 							$material_title .= $cont_obj->getTitle();
 							break;
@@ -1403,9 +1385,9 @@ class SurveyQuestion
 							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
-							$pg_obj =& new ilLMPageObject($cont_obj, $target_id);
+							$pg_obj = new ilLMPageObject($cont_obj, $target_id);
 							$material_title .= $pg_obj->getTitle();
 							break;
 						case "st":
@@ -1413,9 +1395,9 @@ class SurveyQuestion
 							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
-							$st_obj =& new ilStructureObject($cont_obj, $target_id);
+							$st_obj = new ilStructureObject($cont_obj, $target_id);
 							$material_title .= $st_obj->getTitle();
 							break;
 						case "git":
@@ -1466,7 +1448,6 @@ class SurveyQuestion
 			$materialspath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $materialspath);
 			if (!file_exists($materialspath)) 
 			{
-				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				ilUtil::makeDirParents($materialspath);
 			}
 			if (!copy($materialspath_original . $filename, $materialspath . $filename)) 
@@ -1496,7 +1477,7 @@ class SurveyQuestion
 			if ($is_import)
 			{
 				$import_id = $material_id;
-				$material_id = $this->_resolveInternalLink($import_id);
+				$material_id = self::_resolveInternalLink($import_id);
 			}
 			if (strcmp($material_title, "") == 0)
 			{
@@ -1509,7 +1490,7 @@ class SurveyQuestion
 					{
 						case "lm":
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $target_id, true);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $target_id, true);
 							$cont_obj = $cont_obj_gui->object;
 							$material_title .= $cont_obj->getTitle();
 							break;
@@ -1518,9 +1499,9 @@ class SurveyQuestion
 							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
-							$pg_obj =& new ilLMPageObject($cont_obj, $target_id);
+							$pg_obj = new ilLMPageObject($cont_obj, $target_id);
 							$material_title .= $pg_obj->getTitle();
 							break;
 						case "st":
@@ -1528,9 +1509,9 @@ class SurveyQuestion
 							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
 							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-							$cont_obj_gui =& new ilObjContentObjectGUI("", $lm_id, FALSE);
+							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
-							$st_obj =& new ilStructureObject($cont_obj, $target_id);
+							$st_obj = new ilStructureObject($cont_obj, $target_id);
 							$material_title .= $st_obj->getTitle();
 							break;
 						case "git":
@@ -1551,7 +1532,7 @@ class SurveyQuestion
 		$this->saveMaterial();
 	}
 	
-	function _resolveInternalLink($internal_link)
+	static function _resolveInternalLink($internal_link)
 	{
 		if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches))
 		{
@@ -1588,7 +1569,7 @@ class SurveyQuestion
 		return $resolved_link;
 	}
 	
-	function _resolveIntLinks($question_id)
+	static function _resolveIntLinks($question_id)
 	{
 		global $ilDB;
 		$resolvedlinks = 0;
@@ -1602,7 +1583,7 @@ class SurveyQuestion
 			{
 				$internal_link = $row["internal_link"];
 				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-				$resolved_link = SurveyQuestion::_resolveInternalLink($internal_link);
+				$resolved_link = self::_resolveInternalLink($internal_link);
 				if (strcmp($internal_link, $resolved_link) != 0)
 				{
 					// internal link was resolved successfully
@@ -1639,7 +1620,7 @@ class SurveyQuestion
 		}
 	}
 	
-	function _getInternalLinkHref($target = "", $a_parent_ref_id = null)
+	static function _getInternalLinkHref($target = "", $a_parent_ref_id = null)
 	{
 		global $ilDB;
 		$linktypes = array(
@@ -1654,7 +1635,6 @@ class SurveyQuestion
 		{
 			$type = $matches[1];
 			$target_id = $matches[2];
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			switch($linktypes[$matches[1]])
 			{
 				case "LearningModule":
@@ -1683,7 +1663,7 @@ class SurveyQuestion
 * @result boolean True, if the question exists, otherwise False
 * @access public
 */
-	function _isWriteable($question_id, $user_id)
+	static function _isWriteable($question_id, $user_id)
 	{
 		global $ilDB;
 
@@ -1814,12 +1794,12 @@ class SurveyQuestion
 	* @return object The question instance
 	* @access public
 	*/
-	function &_instanciateQuestion($question_id) 
+	static function _instanciateQuestion($question_id) 
 	{
-		$question_type = SurveyQuestion::_getQuestionType($question_id);
+		$question_type = self::_getQuestionType($question_id);
 		if($question_type)
 		{
-			SurveyQuestion::_includeClass($question_type);
+			self::_includeClass($question_type);
 			$question = new $question_type();
 			$question->loadFromDb($question_id);
 			return $question;
@@ -1833,12 +1813,12 @@ class SurveyQuestion
 	* @return object The question GUI instance
 	* @access public
 	*/
-	function &_instanciateQuestionGUI($question_id) 
+	static function _instanciateQuestionGUI($question_id) 
 	{
-		$question_type = SurveyQuestion::_getQuestionType($question_id);
+		$question_type = self::_getQuestionType($question_id);
 		if($question_type)
 		{
-			SurveyQuestion::_includeClass($question_type, 1);
+			self::_includeClass($question_type, 1);
 			$guitype = $question_type . "GUI";
 			$question = new $guitype($question_id);
 			return $question;
@@ -1928,7 +1908,7 @@ class SurveyQuestion
 			$mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $this->getId());
 			foreach ($mobs as $mob)
 			{
-				$mob_obj =& new ilObjMediaObject($mob);
+				$mob_obj = new ilObjMediaObject($mob);
 				$imgattrs = array(
 					"label" => "il_" . IL_INST_ID . "_mob_" . $mob,
 					"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle(),
@@ -1949,7 +1929,6 @@ class SurveyQuestion
 	*/
 	function prepareTextareaOutput($txt_output, $prepare_for_latex_output = FALSE)
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
 	}
 
@@ -1960,7 +1939,7 @@ class SurveyQuestion
 	* @return array Array containing the question fields and data from the database
 	* @access public
 	*/
-	function _getQuestionDataArray($id)
+	function getQuestionDataArray($id)
 	{
 		return array();
 	}
@@ -2012,7 +1991,7 @@ class SurveyQuestion
 	* @return array An array containing the answers to the question. The keys are either the user id or the anonymous id
 	* @access public
 	*/
-	function &getUserAnswers($survey_id)
+	function &getUserAnswers($survey_id, $finished_ids)
 	{
 		// overwrite in inherited classes
 		return array();
@@ -2080,65 +2059,54 @@ class SurveyQuestion
 	/**
 	* Creates the Excel output for the cumulated results of this question
 	*
-	* @param object $worksheet Reference to the excel worksheet
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
-	* @param integer $row Actual row in the worksheet
+	* @param ilExcel $a_excel Reference to the excel worksheet
+	* @param array $a_eval_data Cumulated evaluation data
+	* @param integer $a_row Actual row in the worksheet
+	* @param integer $a_export_label 
 	* @return integer The next row which should be used for the export
 	* @access public
 	*/
-	function setExportCumulatedXLS(&$worksheet, &$format_title, &$format_bold, &$eval_data, $row, $export_label)
+	function setExportCumulatedXLS(ilExcel $a_excel, array $a_eval_data, $a_row, $a_export_label)
 	{
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
 		$column = 0;
-		switch ($export_label)
+		
+		switch ($a_export_label)
 		{
 			case 'label_only':
-				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->label));
+				$a_excel->setCell($a_row, $column++, $this->label);
 				break;
+			
 			case 'title_only':
-				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->getTitle()));
+				$a_excel->setCell($a_row, $column++, $this->getTitle());
 				break;
+			
 			default:
-				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->getTitle()));
-				$column++;
-				$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->label));
+				$a_excel->setCell($a_row, $column++, $this->getTitle());
+				$a_excel->setCell($a_row, $column++, $this->label);
 				break;
 		}
-		$column++;
-		$worksheet->writeString($row, $column, ilExcelUtils::_convert_text(strip_tags($this->getQuestiontext()))); // #12942
-		$column++;
-		$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->lng->txt($eval_data["QUESTION_TYPE"])));
-		$column++;
-		$worksheet->write($row, $column, $eval_data["USERS_ANSWERED"]);
-		$column++;
-		$worksheet->write($row, $column, $eval_data["USERS_SKIPPED"]);
-		$column++;
-		$worksheet->write($row, $column, ilExcelUtils::_convert_text($eval_data["MODE_VALUE"]));
-		$column++;
-		$worksheet->write($row, $column, ilExcelUtils::_convert_text($eval_data["MODE"]));
-		$column++;
-		$worksheet->write($row, $column, $eval_data["MODE_NR_OF_SELECTIONS"]);
-		$column++;
-		$worksheet->write($row, $column, ilExcelUtils::_convert_text(str_replace("<br />", " ", $eval_data["MEDIAN"])));
-		$column++;
-		$worksheet->write($row, $column, $eval_data["ARITHMETIC_MEAN"]);
-		return $row + 1;
+		
+		$a_excel->setCell($a_row, $column++, $this->getQuestiontext());
+		$a_excel->setCell($a_row, $column++, $this->lng->txt($a_eval_data["QUESTION_TYPE"]));
+		$a_excel->setCell($a_row, $column++, (int)$a_eval_data["USERS_ANSWERED"]);
+		$a_excel->setCell($a_row, $column++, (int)$a_eval_data["USERS_SKIPPED"]);
+		$a_excel->setCell($a_row, $column++, $a_eval_data["MODE_VALUE"]);
+		$a_excel->setCell($a_row, $column++, $a_eval_data["MODE"]);
+		$a_excel->setCell($a_row, $column++, (int)$a_eval_data["MODE_NR_OF_SELECTIONS"]);
+		$a_excel->setCell($a_row, $column++, str_replace("<br />", " ", $a_eval_data["MEDIAN"]));
+		$a_excel->setCell($a_row, $column++, $a_eval_data["ARITHMETIC_MEAN"]);
+		
+		return $a_row+1;
 	}
 	
 	/**
 	* Creates the CSV output for the cumulated results of this question
 	*
-	* @param object $worksheet Reference to the excel worksheet
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
 	* @param array $eval_data Cumulated evaluation data
-	* @param integer $row Actual row in the worksheet
-	* @return integer The next row which should be used for the export
+	* @param integer $export_label 
 	* @access public
 	*/
-	function &setExportCumulatedCVS(&$eval_data, $export_label)
+	function setExportCumulatedCVS($eval_data, $export_label)
 	{
 		$csvrow = array();
 		switch ($export_label)
@@ -2170,13 +2138,12 @@ class SurveyQuestion
 	/**
 	* Creates an Excel worksheet for the detailed cumulated results of this question
 	*
-	* @param object $workbook Reference to the parent excel workbook
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
+	* @param ilExcel $a_excel Reference to the parent excel workbook
+	* @param array $a_eval_data Cumulated evaluation data
+	* @param integer $a_export_label 
 	* @access public
 	*/
-	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data, $export_label)
+	function setExportDetailsXLS(ilExcel $a_excel, $a_eval_data, $a_export_label)
 	{
 		// overwrite in inherited classes
 	}
@@ -2261,16 +2228,6 @@ class SurveyQuestion
 	function getOriginalId()
 	{
 		return $this->original_id;
-	}
-	
-	/**
-	* Saves random answers for a given active user in the database
-	*
-	* @param integer $active_id The database ID of the active user
-	*/
-	public function saveRandomData($active_id)
-	{
-		// do nothing, overwrite in parent classes
 	}
 	
 	public function getMaterial()

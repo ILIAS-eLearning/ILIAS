@@ -130,13 +130,13 @@ class ilQTIParser extends ilSaxParser
 	* @access	public
 	*/
 	//  TODO: The following line gets me an parse error in PHP 4, but I found no hint that pass-by-reference is forbidden in PHP 4 ????
-	function ilQTIParser($a_xml_file, $a_mode = IL_MO_PARSE_QTI, $a_qpl_id = 0, $a_import_idents = "")
+	function __construct($a_xml_file, $a_mode = IL_MO_PARSE_QTI, $a_qpl_id = 0, $a_import_idents = "")
 	{
 		global $lng;
 
 		$this->setParserMode($a_mode);
 
-		parent::ilSaxParser($a_xml_file);
+		parent::__construct($a_xml_file);
 
 		$this->qpl_id = $a_qpl_id;
 		$this->import_idents = array();

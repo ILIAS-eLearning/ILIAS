@@ -14,7 +14,7 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 class ilNewsForContextTableGUI extends ilTable2GUI
 {
 
-	function ilNewsForContextTableGUI($a_parent_obj, $a_parent_cmd = "", $a_perm_ref_id = 0)
+	function __construct($a_parent_obj, $a_parent_cmd = "", $a_perm_ref_id = 0)
 	{
 		global $ilCtrl, $lng;
 		

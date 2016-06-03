@@ -51,7 +51,7 @@ class assImagemapQuestionGUITest extends PHPUnit_Framework_TestCase
 
 	public function test_instantiateObject_shouldReturnInstance()
 	{
-		$this->markTestIncomplete('ilSetting / ilDB -> more mocks needed.');
+		$this->markTestIncomplete('ilSetting / ilDBInterface -> more mocks needed.');
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assImagemapQuestionGUI.php';
 

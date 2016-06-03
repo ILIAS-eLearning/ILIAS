@@ -59,7 +59,7 @@ class ilLogComponentLevel
 				'WHERE component_id = '.$ilDB->quote($this->getComponentId(),'text');
 		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->component_level = $row->log_level;
 		}

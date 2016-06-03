@@ -22,7 +22,7 @@ class ilSCORM2004AssetGUI extends ilSCORM2004ScoGUI
 	 * Constructor
 	 * @access	public
 	 */
-	function ilSCORM2004AssetGUI($a_slm_obj, $a_node_id = 0)
+	function __construct($a_slm_obj, $a_node_id = 0)
 	{
 		global $ilCtrl;
 

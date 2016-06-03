@@ -27,7 +27,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 		$ilCtrl->saveParameter($this, "obj_id");
 		$this->tref_id = $a_tref_id;
 		
-		parent::ilSkillTreeNodeGUI($a_node_id);
+		parent::__construct($a_node_id);
 	}
 
 	/**
@@ -41,11 +41,11 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	/**
 	 * Execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $tpl, $ilTabs;
 		
-		$tpl->getStandardTemplate();
+		//$tpl->getStandardTemplate();
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();

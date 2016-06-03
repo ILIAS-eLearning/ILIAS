@@ -24,10 +24,10 @@ class ilStructureObject extends ilLMObject
 	* Constructor
 	* @access	public
 	*/
-	function ilStructureObject(&$a_content_obj, $a_id = 0)
+	function __construct(&$a_content_obj, $a_id = 0)
 	{
 		$this->setType("st");
-		parent::ilLMObject($a_content_obj, $a_id);
+		parent::__construct($a_content_obj, $a_id);
 	}
 
 	function create($a_upload = false)
@@ -60,7 +60,7 @@ class ilStructureObject extends ilLMObject
 		$childs = $a_tree->getChilds($this->getId());
 		foreach ($childs as $child)
 		{
-			$obj =& ilLMObjectFactory::getInstance($this->content_object, $child["obj_id"], false);
+			$obj = ilLMObjectFactory::getInstance($this->content_object, $child["obj_id"], false);
 			if (is_object($obj))
 			{
 				if($obj->getType() == "st")
@@ -97,7 +97,7 @@ class ilStructureObject extends ilLMObject
 		// copy meta data
 		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
-		$new_md =& $md->cloneMD($a_target_lm->getId(), $chap->getId(), $this->getType());
+		$new_md = $md->cloneMD($a_target_lm->getId(), $chap->getId(), $this->getType());
 
 		// copy translations
 		include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
@@ -170,8 +170,8 @@ class ilStructureObject extends ilLMObject
 	* get presentation title
 	*
 	*/
-	static function _getPresentationTitle($a_st_id, $a_include_numbers = false,
-		$a_time_scheduled_activation = false, $a_lm_id = 0, $a_lang = "-")
+	static function _getPresentationTitle($a_st_id, $a_mode = IL_CHAPTER_TITLE, $a_include_numbers = false,
+		$a_time_scheduled_activation = false, $a_force_content = false, $a_lm_id = 0, $a_lang = "-")
 	{
 		global $ilDB;
 
@@ -218,7 +218,7 @@ class ilStructureObject extends ilLMObject
 					$ilDB->quote($a_st_id, "integer")." AND lm_id = ".
 					$ilDB->quote($a_lm_id, "integer");
 				$tree_set = $ilDB->query($query);
-				$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
+				$tree_node = $tree_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 				$depth = $tree_node["depth"];
 
 				$nr = $tree->getChildSequenceNumber($tree_node, "st")." ";
@@ -229,7 +229,7 @@ class ilStructureObject extends ilLMObject
 						$ilDB->quote($tree_node["parent"], "integer")." AND lm_id = ".
 						$ilDB->quote($a_lm_id, "integer");
 					$tree_set = $ilDB->query($query);
-					$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
+					$tree_node = $tree_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 					$seq = $tree->getChildSequenceNumber($tree_node, "st");
 
 					$nr = $seq.".".$nr;

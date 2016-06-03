@@ -149,7 +149,10 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 		return $this->checkSubItemsInput();
 	}
 
-	public function insert(&$a_tpl)
+	/**
+	 * @param $a_tpl ilTemplate
+	 */
+	public function insert($a_tpl)
 	{
 		$tpl = new ilTemplate("tpl.prop_kprimchoicewizardinput.html", true, true, "Modules/TestQuestionPool");
 

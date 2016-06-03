@@ -101,12 +101,12 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 		$a_csv->addRow();
 	}
 	
-	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
 	{
-		$a_worksheet->write($a_row, 0, $a_set["pos"]/10);
-		$a_worksheet->write($a_row, 1, $a_set["answer"]);
-		$a_worksheet->write($a_row, 2, $a_set["votes"]);
-		$a_worksheet->write($a_row, 3, $a_set["percentage"]);		
+		$a_excel->setCell($a_row, 0, $a_set["pos"]/10);
+		$a_excel->setCell($a_row, 1, $a_set["answer"]);
+		$a_excel->setCell($a_row, 2, $a_set["votes"]);
+		$a_excel->setCell($a_row, 3, $a_set["percentage"]."%");		
 	}
 }
 

@@ -35,54 +35,60 @@ class ilLPStatus
 	const LP_STATUS_PARTICIPATED = 'trac_participated';
 	const LP_STATUS_NOT_PARTICIPATED = 'trac_not_participated';
 	
-	function ilLPStatus($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
 		$this->obj_id = $a_obj_id;
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 	}
 
-	function _getCountNotAttempted($a_obj_id)
+	static function _getCountNotAttempted($a_obj_id)
 	{
 		return 0;
 	}
 
-	function _getNotAttempted($a_obj_id)
+	static function _getNotAttempted($a_obj_id)
 	{
 		return array();
 	}
 	
-	function _getCountInProgress($a_obj_id)
+	static function _getCountInProgress($a_obj_id)
 	{
 		return 0;
 	}
-	function _getInProgress($a_obj_id)
+	
+	static function _getInProgress($a_obj_id)
 	{
 		return array();
 	}
 
-	function _getCountCompleted($a_obj_id)
+	static function _getCountCompleted($a_obj_id)
 	{
 		return 0;
 	}
-	function _getCompleted($a_obj_id)
+	
+	static function _getCompleted($a_obj_id)
 	{
 		return array();
 	}
-	function _getFailed($a_obj_id)
+	
+	static function _getFailed($a_obj_id)
 	{
 		return array();
 	}
-	function _getCountFailed()
+	
+	static function _getCountFailed()
 	{
 		return 0;
 	}
-	function _getStatusInfo($a_obj_id)
+	
+	static function _getStatusInfo($a_obj_id)
 	{
 		return array();
 	}
-	function _getTypicalLearningTime($a_obj_id)
+	
+	static function _getTypicalLearningTime($a_obj_id)
 	{
 		include_once 'Services/MetaData/classes/class.ilMDEducational.php';
 		return ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
@@ -613,7 +619,7 @@ class ilLPStatus
 	 * @param int $a_obj_id object id
 	 * @param int $a_user_id user id
 	 */
-	function _lookupStatusChanged($a_obj_id, $a_user_id)
+	public static function _lookupStatusChanged($a_obj_id, $a_user_id)
 	{
 		global $ilDB;
 		

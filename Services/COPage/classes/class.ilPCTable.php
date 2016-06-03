@@ -28,38 +28,38 @@ class ilPCTable extends ilPageContent
 		$this->setType("tab");
 	}
 
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->tab_node =& $a_node->first_child();		// this is the Table node
+		$this->tab_node = $a_node->first_child();		// this is the Table node
 	}
 
 	function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
 	{
 		$this->node = $this->createPageContentNode();
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-		$this->tab_node =& $this->dom->create_element("Table");
-		$this->tab_node =& $this->node->append_child($this->tab_node);
+		$this->tab_node = $this->dom->create_element("Table");
+		$this->tab_node = $this->node->append_child($this->tab_node);
 		$this->tab_node->set_attribute("Language", "");
 	}
 
 	function &addRow () {
-		$new_tr =& $this->dom->create_element("TableRow");
+		$new_tr = $this->dom->create_element("TableRow");
 		$new_tr = &$this->tab_node->append_child($new_tr);
 		return $new_tr;
 	}
 
 	function &addCell (&$aRow, $a_data = "", $a_lang = "")
 	{
-		$new_td =& $this->dom->create_element("TableData");
-		$new_td =& $aRow->append_child($new_td);
+		$new_td = $this->dom->create_element("TableData");
+		$new_td = $aRow->append_child($new_td);
 		
 		// insert data if given
 		if ($a_data != "")
 		{
-			$new_pg =& $this->createPageContentNode(false);
-			$new_par =& $this->dom->create_element("Paragraph");
-			$new_par =& $new_pg->append_child($new_par);
+			$new_pg = $this->createPageContentNode(false);
+			$new_par = $this->dom->create_element("Paragraph");
+			$new_par = $new_pg->append_child($new_par);
 			$new_par->set_attribute("Language", $a_lang);
 			$new_par->set_attribute("Characteristic", "TableContent");
 			$new_par->set_content($a_data);
@@ -245,7 +245,7 @@ class ilPCTable extends ilPageContent
 		{
 			$path = "//TableData[@PCID = '".$a_pc_id."']";
 		}
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 
 		if (count($res->nodeset) == 1)
 		{
@@ -585,7 +585,7 @@ class ilPCTable extends ilPageContent
 		{
 			$path = "//TableData[@PCID = '".$a_pc_id."']";
 		}
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
 			if($a_class != "")
@@ -616,7 +616,7 @@ class ilPCTable extends ilPageContent
 		{
 			$path = "//TableData[@PCID = '".$a_pc_id."']";
 		}
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
 			if($a_class != "")
@@ -643,7 +643,7 @@ class ilPCTable extends ilPageContent
 		{
 			$xpc = xpath_new_context($this->dom);
 			$path = "//PageContent[@HierId = '".$hier_id."']/Table/Caption";
-			$res =& xpath_eval($xpc, $path);
+			$res = xpath_eval($xpc, $path);
 
 			if (count($res->nodeset) == 1)
 			{
@@ -662,7 +662,7 @@ class ilPCTable extends ilPageContent
 		{
 			$xpc = xpath_new_context($this->dom);
 			$path = "//PageContent[@HierId = '".$hier_id."']/Table/Caption";
-			$res =& xpath_eval($xpc, $path);
+			$res = xpath_eval($xpc, $path);
 			if (count($res->nodeset) == 1)
 			{
 				return $res->nodeset[0]->get_attribute("Align");

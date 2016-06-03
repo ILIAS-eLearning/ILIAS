@@ -39,7 +39,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$this->getPageObject()->setPortfolioId($this->portfolio_id);
 		
 		// content style
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
@@ -66,7 +66,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $ilUser;
 		
@@ -85,6 +85,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
 				$blog_gui = new ilObjBlogGUI($blog_node_id,	ilObjBlogGUI::WORKSPACE_NODE_ID);
 				$blog_gui->disableNotes(!$this->enable_comments);
+				$blog_gui->prtf_embed = true; // disables prepareOutput()/getStandardTemplate() in blog
 				return $ilCtrl->forwardCommand($blog_gui);		
 				
 			case "ilcalendarmonthgui":

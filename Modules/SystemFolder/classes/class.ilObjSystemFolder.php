@@ -41,10 +41,10 @@ class ilObjSystemFolder extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjSystemFolder($a_id,$a_call_by_reference = true)
+	function __construct($a_id,$a_call_by_reference = true)
 	{
 		$this->type = "adm";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 
@@ -133,7 +133,7 @@ class ilObjSystemFolder extends ilObject
 		return true;
 	}
 
-	function _getId()
+	static function _getId()
 	{
 		/**
 		 * @var $ilDB ilDB
@@ -147,7 +147,7 @@ class ilObjSystemFolder extends ilObject
 		return $row->obj_id;
 	}
 
-	function _getHeaderTitle()
+	static function _getHeaderTitle()
 	{
 		/**
 		 * @var $ilDB ilDB

@@ -71,6 +71,23 @@ class ilAdvancedMDValues
 	}
 	
 	/**
+	 * Set the primary values for active record
+	 * 
+	 * @param int $a_obj_id
+	 * @param string $a_sub_type
+	 * @param int $a_sub_id
+	 */
+	public function setActiveRecordPrimary($a_obj_id, $a_sub_type = "-", $a_sub_id = 0)
+	{
+		$this->obj_id = (int)$a_obj_id;
+		$this->sub_type = $a_sub_type ? $a_sub_type : "-";
+		$this->sub_id = (int)$a_sub_id;
+		
+		// make sure they get used
+		$this->active_record = null;
+	}
+	
+	/**
 	 * Get record field definitions
 	 * 
 	 * @return array

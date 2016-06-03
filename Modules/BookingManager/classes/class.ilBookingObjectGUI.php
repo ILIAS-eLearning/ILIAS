@@ -95,29 +95,35 @@ class ilBookingObjectGUI
 	/**
 	 * Render creation form
 	 */
-	function create()
+	function create(ilPropertyFormGUI $a_form = null)
 	{
 		global $ilCtrl, $tpl, $lng, $ilTabs;
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
 
-		$form = $this->initForm();
-		$tpl->setContent($form->getHTML());
+		if(!$a_form)
+		{
+			$a_form = $this->initForm();
+		}
+		$tpl->setContent($a_form->getHTML());
 	}
 
 	/**
 	 * Render edit form
 	 */
-	function edit()
+	function edit(ilPropertyFormGUI $a_form = null)
     {
 		global $tpl, $ilCtrl, $ilTabs, $lng;
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
 
-		$form = $this->initForm('edit', (int)$_GET['object_id']);
-		$tpl->setContent($form->getHTML());
+		if(!$a_form)
+		{
+			$a_form = $this->initForm('edit', (int)$_GET['object_id']);
+		}
+		$tpl->setContent($a_form->getHTML());
 	}
 
 	/**
@@ -183,15 +189,16 @@ class ilBookingObjectGUI
 		$pfile->setALlowDeletion(true);
 		$form_gui->addItem($pfile);
 
+		// #18214 - should also work for new objects
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, "book", $this->pool_id, "bobj", $id);
+		$this->record_gui->setPropertyForm($form_gui);			
+		$this->record_gui->parse();
+
 		if ($a_mode == "edit")
 		{
 			$form_gui->setTitle($lng->txt("book_edit_object"));
 			
-			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-			$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, "book", $this->pool_id, "bobj", $id);
-			$this->record_gui->setPropertyForm($form_gui);			
-			$this->record_gui->parse();
-
 			$item = new ilHiddenInputGUI('object_id');
 			$item->setValue($id);
 			$form_gui->addItem($item);
@@ -228,59 +235,69 @@ class ilBookingObjectGUI
 	 */
 	function save()
 	{
-		global $ilCtrl, $tpl, $lng, $ilTabs;
+		global $ilCtrl, $lng;
 
 		$form = $this->initForm();
 		if($form->checkInput())
 		{
-			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-			$obj = new ilBookingObject;
-			$obj->setPoolId($this->pool_id);
-			$obj->setTitle($form->getInput("title"));
-			$obj->setDescription($form->getInput("desc"));
-			$obj->setNrOfItems($form->getInput("items"));
-			$obj->setPostText($form->getInput("post_text"));					
-			
-			if($this->pool_has_schedule)
+			$valid = true;
+			if($this->record_gui &&
+				!$this->record_gui->importEditFormPostValues())
 			{
-				$obj->setScheduleId($form->getInput("schedule"));
+				$valid = false;
 			}
 			
-			$obj->save();
-			
-			$file = $form->getItemByPostVar("file");						
-			if($_FILES["file"]["tmp_name"]) 
-			{
-				$obj->uploadFile($_FILES["file"]);
-			}
-			else if($file->getDeletionFlag())
-			{
-				$obj->deleteFile();
-			}		
-			
-			$pfile = $form->getItemByPostVar("post_file");						
-			if($_FILES["post_file"]["tmp_name"]) 
-			{
-				$obj->uploadPostFile($_FILES["post_file"]);
-			}
-			else if($pfile->getDeletionFlag())
-			{
-				$obj->deletePostFile();
-			}		
-			
-			$obj->update();
+			if($valid)
+			{						
+				include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+				$obj = new ilBookingObject;
+				$obj->setPoolId($this->pool_id);
+				$obj->setTitle($form->getInput("title"));
+				$obj->setDescription($form->getInput("desc"));
+				$obj->setNrOfItems($form->getInput("items"));
+				$obj->setPostText($form->getInput("post_text"));					
 
-			ilUtil::sendSuccess($lng->txt("book_object_added"));
-			$this->render();
-		}
-		else
-		{			
-			$ilTabs->clearTargets();
-			$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
+				if($this->pool_has_schedule)
+				{
+					$obj->setScheduleId($form->getInput("schedule"));
+				}
 
-			$form->setValuesByPost();
-			$tpl->setContent($form->getHTML());
+				$obj->save();
+
+				$file = $form->getItemByPostVar("file");						
+				if($_FILES["file"]["tmp_name"]) 
+				{
+					$obj->uploadFile($_FILES["file"]);
+				}
+				else if($file->getDeletionFlag())
+				{
+					$obj->deleteFile();
+				}		
+
+				$pfile = $form->getItemByPostVar("post_file");						
+				if($_FILES["post_file"]["tmp_name"]) 
+				{
+					$obj->uploadPostFile($_FILES["post_file"]);
+				}
+				else if($pfile->getDeletionFlag())
+				{
+					$obj->deletePostFile();
+				}		
+
+				$obj->update();
+				
+				if($this->record_gui)
+				{					
+					$this->record_gui->writeEditForm(null, $obj->getId());
+				}
+
+				ilUtil::sendSuccess($lng->txt("book_object_added"), true);
+				$ilCtrl->redirect($this, "render");
+			}
 		}
+			
+		$form->setValuesByPost();
+		$this->create($form);
 	}
 
 	/**
@@ -288,7 +305,7 @@ class ilBookingObjectGUI
 	 */
 	function update()
 	{
-		global $tpl, $lng;
+		global $lng, $ilCtrl;
 
 		$form = $this->initForm('edit', (int)$_POST['object_id']);
 		if($form->checkInput())
@@ -341,13 +358,13 @@ class ilBookingObjectGUI
 					$this->record_gui->writeEditForm();
 				}
 
-				ilUtil::sendSuccess($lng->txt("book_object_updated"));
-				$this->render();
+				ilUtil::sendSuccess($lng->txt("book_object_updated"), true);
+				$ilCtrl->redirect($this, "render");
 			}
 		}
 		
 		$form->setValuesByPost();
-		$tpl->setContent($form->getHTML());	
+		$this->edit($form);
 	}
 
 	/**

@@ -36,17 +36,7 @@ include_once 'Services/Search/classes/class.ilExerciseSearch.php';
 
 class ilLikeExerciseSearch extends ilExerciseSearch
 {
-
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilExerciseSearch(&$qp_obj)
-	{
-		parent::ilExerciseSearch($qp_obj);
-	}
-
-
+	
 	function __createWhereCondition()
 	{
 		global $ilDB;

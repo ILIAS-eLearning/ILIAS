@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Utilities/classes/class.ilFormat.php';
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
 
 /**
@@ -37,11 +36,11 @@ class ilTimingOverviewTableGUI extends ilTable2GUI
 	/**
 	 * @param array $data
 	 */
-	public function fillRow(array $data)
+	public function fillRow($data)
 	{
 		$this->tpl->setVariable("LOGIN", $data['login']);
 		$this->tpl->setVariable("NAME", $data['name']);
 		$this->tpl->setVariable("STARTED", $data['started']);
-		$this->tpl->setVariable("EXTRATIME", ilFormat::_secondsToString($data['extratime'] * 60));
+		$this->tpl->setVariable("EXTRATIME", ilDatePresentation::secondsToString($data['extratime'] * 60));
 	}
 }

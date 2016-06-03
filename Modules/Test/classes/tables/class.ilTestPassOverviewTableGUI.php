@@ -96,7 +96,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 	/**
 	 * @param array $row
 	 */
-	public function fillRow(array $row)
+	public function fillRow($row)
 	{
 		if(array_key_exists('percentage', $row))
 		{

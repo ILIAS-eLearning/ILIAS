@@ -1,0 +1,17 @@
+{
+  "name": "ILIAS-Chat",
+  "description": "ILIAS CHAT",
+  "version": "1.0.1",
+  "dependencies": {
+    "express": "3.4.x",
+    "mysql": "^2.7.0",
+    "node-mysql": "^0.4.2",
+    "socket.io": "*"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "should": "^7.0.1",
+    "sinon": "^1.15.4",
+    "supertest": "^1.0.1"
+  }
+}

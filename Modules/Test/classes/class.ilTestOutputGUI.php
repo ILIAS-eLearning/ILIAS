@@ -269,6 +269,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$isQuestionWorkedThrough = assQuestion::_isWorkedThrough(
 			$this->testSession->getActiveId(), $questionId, $this->testSession->getPass()
 		);
+		$missingQuestionResultExists = assQuestion::missingResultRecordExists(
+			$this->testSession->getActiveId(), $this->testSession->getPass(),
+			$this->testSequence->getOrderedSequenceQuestions()
+		);
 		
 		$presentationMode = $this->getPresentationModeParameter();
 		$instantResponse = $this->getInstantResponseParameter();
@@ -337,6 +341,8 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				break;
 			
 			case ilTestPlayerAbstractGUI::PRESENTATION_MODE_VIEW:
+
+				$navigationToolbarGUI->setFinishTestButtonPrimary(!$missingQuestionResultExists);
 				
 				if( $this->testSequence->isQuestionOptional($questionGui->object->getId()) )
 				{
@@ -541,6 +547,14 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	 }
 	
 	/**
+	 * @return integer
+	 */
+	protected function getCurrentQuestionId()
+	{
+		return $this->testSequence->getQuestionForSequence($_GET["sequence"]);
+	}
+	
+	/**
 	 * saves the user input of a question
 	 */
 	public function saveQuestionSolution($authorized = true, $force = false)
@@ -572,7 +586,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$active_id = $this->testSession->getActiveId();
 				if ($this->object->isRandomTest())
 				{
-					$pass = $this->object->_getPass($active_id);
+					$pass = ilObjTest::_getPass($active_id);
 				}
 				$this->saveResult = $questionOBJ->persistWorkingState(
 						$active_id, $pass, $this->object->areObligationsEnabled(), $authorized

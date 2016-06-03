@@ -31,7 +31,7 @@ class ilMailBoxQuery
 	public static function _getMailBoxListData()
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB ilDBInterface
 		 */
 		global $ilDB;
 		

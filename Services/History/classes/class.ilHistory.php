@@ -28,7 +28,7 @@ class ilHistory
 	*										in object_data table)
 	* @param	string		$a_user_comment	user comment
 	*/
-	function _createEntry($a_obj_id, $a_action, $a_info_params = "", $a_obj_type = "",
+	static function _createEntry($a_obj_id, $a_action, $a_info_params = "", $a_obj_type = "",
 		$a_user_comment = "", $a_update_last = false)
 	{
 		global $ilDB, $ilUser;
@@ -126,7 +126,7 @@ class ilHistory
 	* @return	array	array of history entries (arrays with keys
 	*					"date", "user_id", "obj_id", "action", "info_params")
 	*/
-	function _getEntriesForObject($a_obj_id, $a_obj_type = "")
+	static function _getEntriesForObject($a_obj_id, $a_obj_type = "")
 	{
 		global $ilDB;
 
@@ -185,7 +185,7 @@ class ilHistory
 		return $hist_items;
 	}
 
-	function _compareHistArray($a, $b)
+	static function _compareHistArray($a, $b)
 	{
 		if ($a["date"] == $b["date"])
 		{
@@ -201,7 +201,7 @@ class ilHistory
 	*
 	* @return	boolean
 	*/
-	function _removeEntriesForObject($a_obj_id)
+	static function _removeEntriesForObject($a_obj_id)
 	{
 		global $ilDB;
 
@@ -219,7 +219,7 @@ class ilHistory
 	* @param	integer $a_dst_id		destination object id
 	* @return	boolean
 	*/
-	function _copyEntriesForObject($a_src_id,$a_dst_id)
+	static function _copyEntriesForObject($a_src_id,$a_dst_id)
 	{
 		global $ilDB;
 
@@ -264,7 +264,7 @@ class ilHistory
 	 * 
 	 * 
 	 */
-	function _getEntryByHistoryID($a_hist_entry_id)
+	static function _getEntryByHistoryID($a_hist_entry_id)
 	{
 		global $ilDB;
 

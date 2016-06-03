@@ -15,16 +15,11 @@ include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 *
 */
 class ilLearningProgressGUI extends ilLearningProgressBaseGUI
-{
-	function ilLearningProgressGUI($a_mode,$a_ref_id = 0,$a_user_id = 0)
-	{
-		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id,$a_user_id);
-	}
-
+{	
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilBench, $ilHelp, $ilAccess;
 		
@@ -444,8 +439,8 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 			if($needed)
 			{								
 				$field->setInfo(sprintf($lng->txt("trac_collection_tlt_learner_subitem"), 
-					ilFormat::_secondsToString($spent),
-					ilFormat::_secondsToString($needed), 
+					ilDatePresentation::secondsToString($spent),
+					ilDatePresentation::secondsToString($needed), 
 					min(100, round(abs($spent)/$needed*100))));
 			}
 			

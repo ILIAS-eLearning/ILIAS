@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Services/Object/classes/class.ilObjectGUI.php";
-include_once("./Services/Style/classes/class.ilPageLayout.php");
+include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 
 /**
  * Style settings GUI class
@@ -23,7 +23,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	/**
 	 * Constructor
 	 */
-	function ilObjStyleSettingsGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		global $lng,$ilCtrl;
 		
@@ -35,7 +35,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$this->peditor_active = true;
 		}
 					
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		
 		$lng->loadLanguageModule("style");
 	}
@@ -43,7 +43,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	/**
 	 * Execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -51,34 +51,37 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		if ($next_class == "ilpagelayoutgui" || $cmd =="createPg") {
 			$this->peditor_active =true;
 		}
-		
-		$this->prepareOutput();
-		
+
+
+
+
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
+				$this->prepareOutput();
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$perm_gui = new ilPermissionGUI($this);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
 			case 'ilpagelayoutgui':
-				include_once("./Services/Style/classes/class.ilPageLayoutGUI.php");
-				$this->tpl->getStandardTemplate();
+				include_once("./Services/COPage/Layout/classes/class.ilPageLayoutGUI.php");
+//				$this->tpl->getStandardTemplate();
 				$this->ctrl->setReturn($this, "edit");
 				if ($this->pg_id!=null) {
-					$layout_gui =& new ilPageLayoutGUI($this->type,$this->pg_id);
+					$layout_gui = new ilPageLayoutGUI($this->type,$this->pg_id);
 				} else {
-					$layout_gui =& new ilPageLayoutGUI($this->type,$_GET["obj_id"]);	
+					$layout_gui = new ilPageLayoutGUI($this->type,$_GET["obj_id"]);
 				}				
 				$layout_gui->setTabs();
 				$layout_gui->setEditPreview(true);
 				$this->ctrl->saveParameter($this, "obj_id");
-				$ret =& $this->ctrl->forwardCommand($layout_gui);
+				$ret = $this->ctrl->forwardCommand($layout_gui);
 				$this->tpl->setContent($ret);
 				break;	
 
 			default:
+				$this->prepareOutput();
 				if ($cmd == "" || $cmd == "view")
 				{
 					$cmd = "editSystemStyles";
@@ -123,7 +126,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 		// this may not be cool, if styles are organised as (independent) Service
 		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 
 		$from_styles = $to_styles = $data = array();
 		$styles = $this->object->getStyles();
@@ -183,7 +186,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 		}
 
-		include_once("./Services/Style/classes/class.ilContentStylesTableGUI.php");
+		include_once("./Services/Style/Content/classes/class.ilContentStylesTableGUI.php");
 		$table = new ilContentStylesTableGUI($this, "editContentStyles", $data, $this->object);
 		$tpl->setContent($table->getHTML());
 
@@ -276,7 +279,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 		}
 		
-		include_once("./Services/Style/classes/class.ilSystemStylesTableGUI.php");
+		include_once("./Services/Style/System/classes/class.ilSystemStylesTableGUI.php");
 		$tab = new ilSystemStylesTableGUI($this, "editSystemStyles");
 		$tpl->setContent($tab->getHTML());
 
@@ -418,7 +421,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		foreach($_POST["id"] as $id)
 		{
 			$this->object->removeStyle($id);
-			$style_obj =& $ilias->obj_factory->getInstanceByObjId($id);
+			$style_obj = $ilias->obj_factory->getInstanceByObjId($id);
 			$style_obj->delete();
 		}
 		$this->object->update();
@@ -483,7 +486,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	 */
 	function saveActiveStylesObject()
 	{
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$styles = $this->object->getStyles();
 		foreach($styles as $style)
 		{
@@ -588,7 +591,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	{
 		global $tree;
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		if ($_GET["cat"] == $tree->readRootId())
 		{
 			$_GET["cat"] = "";
@@ -621,7 +624,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 
 		$oa_tpl = new ilTemplate("tpl.stys_pglayout.html", true, true, "Services/Style");
    		
-		include_once("./Services/Style/classes/class.ilPageLayoutTableGUI.php");
+		include_once("./Services/COPage/Layout/classes/class.ilPageLayoutTableGUI.php");
 		$pglayout_table = new ilPageLayoutTableGUI($this, "viewPageLayouts");
 		$oa_tpl->setVariable("PGLAYOUT_TABLE", $pglayout_table->getHTML());
 		$tpl->setContent($oa_tpl->get());
@@ -823,7 +826,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$pg_object->setModules($form_gui->getInput('module'));		
 		$pg_object->update();
 		
-		include_once("./Services/Style/classes/class.ilPageLayoutPage.php");
+		include_once("./Services/COPage/Layout/classes/class.ilPageLayoutPage.php");
 		
 		//create Page
 		if(!is_object($pg_content))
@@ -873,9 +876,9 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		echo "settings_setTabs";
 	}
 	
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 		
 	/**
@@ -883,24 +886,24 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	* @access	public
 	* @param	object	tabs gui object
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $lng, $ilTabs;
 		
 		if ($this->peditor_active) {
-			$tabs_gui->setBackTarget($this->lng->txt("page_layouts"),
+			$this->tabs_gui->setBackTarget($this->lng->txt("page_layouts"),
 			$this->ctrl->getLinkTarget($this, "viewPageLayouts"));
 		}
 			
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()) && !$this->peditor_active)
 		{			
-			$tabs_gui->addTarget("system_styles",
+			$this->tabs_gui->addTarget("system_styles",
 				$this->ctrl->getLinkTarget($this, "editSystemStyles"), array("editSystemStyles", "", "view"), "", "");
 				
-			$tabs_gui->addTarget("content_styles",
+			$this->tabs_gui->addTarget("content_styles",
 				$this->ctrl->getLinkTarget($this, "editContentStyles"), "editContentStyles", "", "");
 				
-			$tabs_gui->addTarget("page_layouts",
+			$this->tabs_gui->addTarget("page_layouts",
 				$this->ctrl->getLinkTarget($this, "viewPageLayouts"), "viewPageLayouts", "", "");
 				
 		}
@@ -908,7 +911,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()) && !$this->peditor_active)
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
@@ -931,7 +934,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	{
 		global $lng, $ilCtrl;
 
-		include_once("./Services/Style/classes/class.ilPageLayout.php");
+		include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 
 		if (is_array($_POST["type"]))
 		{
@@ -1037,7 +1040,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	 	$form = $this->initPageLayoutImportForm();
 	 	if ($form->checkInput())
 	 	{
-	 		include_once("./Services/Style/classes/class.ilPageLayout.php");
+	 		include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 	 		$pg = ilPageLayout::import($_FILES["file"]["name"], $_FILES["file"]["tmp_name"]);
 	 		if ($pg > 0)
 	 		{
@@ -1091,7 +1094,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	 	$ilToolbar->addFormButton($lng->txt("sty_add_assignment"), "addStyleCatAssignment");
 	 	$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 	 	
-	 	include_once("./Services/Style/classes/class.ilSysStyleCatAssignmentTableGUI.php");
+	 	include_once("./Services/Style/System/classes/class.ilSysStyleCatAssignmentTableGUI.php");
 	 	$tab = new ilSysStyleCatAssignmentTableGUI($this, "assignStylesToCats");
 	 	
 	 	$tpl->setContent($tab->getHTML());

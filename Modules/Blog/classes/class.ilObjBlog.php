@@ -81,7 +81,7 @@ class ilObjBlog extends ilObject2
 		include_once("./Services/Notes/classes/class.ilNote.php");
 		$this->setNotesStatus(ilNote::commentsActivated($this->id, 0, "blog"));
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->id));
 	}
 
@@ -114,7 +114,7 @@ class ilObjBlog extends ilObject2
 		/*
 		if ($this->getStyleSheetId() > 0)
 		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());
 		}		 
 		*/
@@ -168,12 +168,12 @@ class ilObjBlog extends ilObject2
 			include_once("./Services/Notes/classes/class.ilNote.php");
 			ilNote::activateComments($this->id, 0, "blog", $this->getNotesStatus());
 			
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());			
 		}
 	}
 
-	protected function doCloneObject(ilObjBlog $new_obj, $a_target_id, $a_copy_id = null)
+	protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null)
 	{
 		// banner?
 		$img = $this->getImage();
@@ -201,7 +201,7 @@ class ilObjBlog extends ilObject2
 		$new_obj->update();		
 		
 		// set/copy stylesheet
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{
@@ -688,6 +688,13 @@ class ilObjBlog extends ilObject2
 						break;				
 				}
 			}
+		}
+		
+		// create/update news item (only in repository)
+		if(!$a_in_wsp &&
+			in_array($a_action, array("update", "new")))
+		{
+			$posting->handleNews(($a_action == "update"));
 		}
 		
 		// recipients

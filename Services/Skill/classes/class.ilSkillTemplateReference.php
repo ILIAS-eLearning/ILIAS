@@ -22,7 +22,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
 	 */
 	function __construct($a_id = 0)
 	{
-		parent::ilSkillTreeNode($a_id);
+		parent::__construct($a_id);
 		$this->setType("sktr");
 	}
 
@@ -148,7 +148,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
 	 * @param $a_template_id (top) template node id
 	 * @return array array of integer tref ids
 	 */
-	function _lookupTrefIdsForTopTemplateId($a_template_id)
+	static function _lookupTrefIdsForTopTemplateId($a_template_id)
 	{
 		global $ilDB;
 

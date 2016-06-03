@@ -90,7 +90,7 @@ class ilObjCourseDAV extends ilObjectDAV
 	{
 		if (is_null($this->obj))
 		{
-			$this->obj = &new ilObjCourse($this->getRefId(),true);
+			$this->obj = new ilObjCourse($this->getRefId(),true);
 			$this->obj->read();
 		}
 	}

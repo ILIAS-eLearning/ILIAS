@@ -24,10 +24,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjSCORMLearningModule($a_id = 0, $a_call_by_reference = true)
+	function __construct($a_id = 0, $a_call_by_reference = true)
 	{
 		$this->type = "sahs";
-		parent::ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 	}
 
 
@@ -63,7 +63,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	* get all tracking items of scorm object
 	* @access static
 	*/
-	function _getTrackingItems($a_obj_id)
+	static function _getTrackingItems($a_obj_id)
 	{
 		include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
 		$tree = new ilSCORMTree($a_obj_id);
@@ -77,7 +77,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			if($child["c_type"] == "sit")
 			{
 				include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
-				$sc_item =& new ilSCORMItem($child["obj_id"]);
+				$sc_item = new ilSCORMItem($child["obj_id"]);
 				if ($sc_item->getIdentifierRef() != "")
 				{
 					$items[count($items)] =& $sc_item;
@@ -270,7 +270,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		while($sco_rec = $ilDB->fetchAssoc($sco_set))
 		{
 			include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
-			$sc_item =& new ilSCORMItem($sco_rec["sco_id"]);
+			$sc_item = new ilSCORMItem($sco_rec["sco_id"]);
 			if ($sc_item->getIdentifierRef() != "")
 			{
 				$items[count($items)] =& $sc_item;
@@ -341,7 +341,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		$res = $ilDB->query($query);
 
 		$attempts = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$attempts[$row['user_id']] = (int) $row['package_attempts'];
 		}
@@ -378,7 +378,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		$res = $ilDB->query($query);
 
 		$versions = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$versions[$row['user_id']] = (int) $row['module_version'];
 		}
@@ -487,7 +487,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			}
 			//create sco_object
 			include_once './Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php';
-			$sc_item =& new ilSCORMItem($sco_rec["sco_id"]);
+			$sc_item = new ilSCORMItem($sco_rec["sco_id"]);
 			$data[] = array("sco_id"=>$sco_rec["sco_id"], "title" => $sc_item->getTitle(),
 			"score" => $score, "time" => $time, "status" => $status);
 				
@@ -1258,8 +1258,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			array($user_id)
 		);
 	}
-	
-	function _getScoresForUser($a_item_id, $a_user_id)
+
+	static function _getScoresForUser($a_item_id, $a_user_id)
 	{
 		global $ilDB;
 

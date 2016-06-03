@@ -51,8 +51,8 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$perm_gui = new ilPermissionGUI($this);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			default:
@@ -118,13 +118,11 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 	/**
 	 * administration tabs show only permissions and trash folder
 	 */
-	function getAdminTabs(&$tabs_gui)
-	{
-		global $tree;
-
+	function getAdminTabs()
+	{		
 		if ($this->checkPermissionBool("visible,read"))
 		{
-			$tabs_gui->addTab("settings",
+			$this->tabs_gui->addTab("settings",
 				$this->lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "editSettings"));
 
@@ -132,7 +130,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 		
 		if ($this->checkPermissionBool("edit_permission"))
 		{
-			$tabs_gui->addTab("perm_settings",
+			$this->tabs_gui->addTab("perm_settings",
 				$this->lng->txt("perm_settings"),
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm")
 			);

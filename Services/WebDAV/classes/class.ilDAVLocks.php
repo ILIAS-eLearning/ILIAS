@@ -342,7 +342,7 @@ class ilDAVLocks
 		$r = $ilDB->query($q);
 		
 		$result = array();		
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			if ($row['depth'] == -1) $row['depth'] = 'infinity';
 			$row['scope'] = ($row['scope'] == 'x') ? 'exclusive' : 'shared';
@@ -403,7 +403,7 @@ class ilDAVLocks
 		$r = $ilDB->query($q);
 		
 		$result = array();		
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			if ($row['depth'] == -1) $row['depth'] = 'infinity';
 			$row['scope'] = ($row['scope'] == 'x') ? 'exclusive' : 'shared';
@@ -455,7 +455,7 @@ class ilDAVLocks
 		$r = $ilDB->query($q);
 		
 		$result = array();		
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			if ($row['depth'] == -1) $row['depth'] = 'infinity';
 			$row['scope'] = ($row['scope'] == 'x') ? 'exclusive' : 'shared';
@@ -510,7 +510,7 @@ class ilDAVLocks
 		$r = $ilDB->query($q);
 		
 		$result = array();		
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			if ($row['depth'] == -1) $row['depth'] = 'infinity';
 			$row['scope'] = ($row['scope'] == 'x') ? 'exclusive' : 'shared';
@@ -548,7 +548,7 @@ class ilDAVLocks
 /*	TODO: smeyer.' FOR UPDATE' */
 		
             	$r = $ilDB->query($q);
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$references = ilObject::_getAllReferences($row['obj_id']);
 			$obj = new ilObjNull($row['obj_id'], false);

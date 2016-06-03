@@ -473,6 +473,107 @@ class ilBlogPosting extends ilPageObject
 		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
 		return ilMDKeyword::lookupKeywords($a_obj_id, $a_posting_id);
 	}	
+		
+	/**
+	 * Handle news item
+	 * 
+	 * @param bool $a_update
+	 */
+	public function handleNews($a_update = false)
+	{		
+		global $lng, $ilUser;
+		
+		// see ilWikiPage::updateNews()
+
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$news_item = null;
+		
+		// try to re-use existing news item		
+		if((bool)$a_update)
+		{
+			// get last news item of the day (if existing)
+			$news_id = ilNewsItem::getLastNewsIdForContext(
+				$this->getBlogId(), 
+				"blog",
+				$this->getId(), 
+				$this->getParentType(), 
+				true
+			);
+			if($news_id > 0)
+			{
+				$news_item = new ilNewsItem($news_id);
+			}
+		}
+		
+		// create new news item
+		if(!$news_item)
+		{						
+			$news_set = new ilSetting("news");
+			$default_visibility = $news_set->get("default_visibility", "users");		
+			
+			$news_item = new ilNewsItem();
+			$news_item->setContext(
+				$this->getBlogId(), 
+				"blog",
+				$this->getId(), 
+				$this->getParentType()
+			);
+			$news_item->setPriority(NEWS_NOTICE);
+			$news_item->setVisibility($default_visibility);
+		}
+		
+		// news author
+		$news_item->setUserId($ilUser->getId());
+		
+		
+		// news title/content
+		
+		$news_item->setTitle($this->getTitle());		
+				
+		$content = $a_update 
+			? "blog_news_posting_updated"
+			: "blog_news_posting_published";
+		
+		// news "author"
+		include_once "Services/User/classes/class.ilUserUtil.php";
+		$content = sprintf($lng->txt($content), ilUserUtil::getNamePresentation($ilUser->getId()));
+		
+		// posting author[s]
+		$contributors = array();
+		foreach(self::getPageContributors($this->getParentType(), $this->getId()) as $user)
+		{
+			$contributors[] = $user["user_id"];
+		}	
+		if(sizeof($contributors) > 1 || !in_array($this->getAuthor(), $contributors))
+		{
+			// original author should come first?
+			$authors = array(ilUserUtil::getNamePresentation($this->getAuthor()));
+			foreach($contributors as $user_id)
+			{
+				if($user_id != $this->getAuthor())
+				{
+					$authors[] = ilUserUtil::getNamePresentation($user_id);
+				}
+			}
+			$content .= "\n".sprintf($lng->txt("blog_news_posting_authors"), implode(", ", $authors));
+		}
+		
+		$news_item->setContentTextIsLangVar(false);				
+		$news_item->setContent($content);	
+		
+		include_once "Modules/Blog/classes/class.ilBlogPostingGUI.php";
+		$snippet = ilBlogPostingGUI::getSnippet($this->getId());
+		$news_item->setContentLong($snippet);
+			
+		if(!$news_item->getId())
+		{
+			$news_item->create();
+		}
+		else
+		{
+			$news_item->update(true);
+		}		
+	}
 }
 
 ?>

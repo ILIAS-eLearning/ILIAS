@@ -34,18 +34,7 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilWikiContentSearch extends ilAbstractSearch
 {
-
-	/**
-	* Constructor
-	* @access public
-	*/
-	function ilWikiContentSearch(&$query_parser)
-	{
-		global $ilDB;
-
-		parent::ilAbstractSearch($query_parser);
-	}
-
+	
 	function &performSearch()
 	{
 		$this->setFields(array('content'));
@@ -62,7 +51,7 @@ class ilWikiContentSearch extends ilAbstractSearch
 			$in;
 			
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->search_result->addEntry($row->parent_id,$row->parent_type,$this->__prepareFound($row),$row->page_id);
 		}

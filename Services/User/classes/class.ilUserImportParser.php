@@ -283,7 +283,7 @@ class ilUserImportParser extends ilSaxParser
 	*
 	* @access	public
 	*/
-	function ilUserImportParser($a_xml_file = '', $a_mode = IL_USER_IMPORT, $a_conflict_rule = IL_FAIL_ON_CONFLICT)
+	function __construct($a_xml_file = '', $a_mode = IL_USER_IMPORT, $a_conflict_rule = IL_FAIL_ON_CONFLICT)
 	{
 		global $lng, $tree, $ilias, $ilUser, $styleDefinition;
 
@@ -302,7 +302,7 @@ class ilUserImportParser extends ilSaxParser
 		// get all active style  instead of only assigned ones -> cannot transfer all to another otherwise
 		$this->userStyles = array();
 		include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
-		include_once './Services/Style/classes/class.ilStyleDefinition.php';
+		include_once './Services/Style/System/classes/class.ilStyleDefinition.php';
 		$templates = ilStyleDefinition::_getAllTemplates();
 		
 		if (is_array($templates))
@@ -311,7 +311,7 @@ class ilUserImportParser extends ilSaxParser
 			foreach($templates as $template)
 			{
 				// get styles information of template
-				$styleDef =& new ilStyleDefinition($template["id"]);
+				$styleDef = new ilStyleDefinition($template["id"]);
 				$styleDef->startParsing();
 				$styles = $styleDef->getStyles();
 				
@@ -348,7 +348,7 @@ class ilUserImportParser extends ilSaxParser
 		$this->acc_mail = new ilAccountMail();
 		$this->acc_mail->useLangVariablesAsFallback(true);
 
-		parent::ilSaxParser($a_xml_file);
+		parent::__construct($a_xml_file);
 	}
 
 	/**

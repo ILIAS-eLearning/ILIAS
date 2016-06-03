@@ -29,10 +29,10 @@ class ilPCMap extends ilPageContent
 	/**
 	* Set node
 	*/
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->map_node =& $a_node->first_child();		// this is the Map node
+		$this->map_node = $a_node->first_child();		// this is the Map node
 	}
 
 	/**
@@ -46,8 +46,8 @@ class ilPCMap extends ilPageContent
 		$this->node = $this->createPageContentNode();
 
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-		$this->map_node =& $this->dom->create_element("Map");
-		$this->map_node =& $this->node->append_child($this->map_node);
+		$this->map_node = $this->dom->create_element("Map");
+		$this->map_node = $this->node->append_child($this->map_node);
 		$this->map_node->set_attribute("Latitude", "0");
 		$this->map_node->set_attribute("Longitude", "0");
 		$this->map_node->set_attribute("Zoom", "3");

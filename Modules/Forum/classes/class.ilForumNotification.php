@@ -1,7 +1,8 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/Forum/classes/class.ilObjForum.php';
+require_once 'Modules/Forum/classes/class.ilObjForum.php';
+require_once 'Modules/Forum/classes/class.ilForum.php';
 
 
 /**
@@ -352,40 +353,13 @@ class ilForumNotification
 		$result = array();
 		if($parent_obj->getType() == 'crs' || $parent_obj->getType() == 'grp')
 		{
-			$moderator_ids = self::_getModerators($ref_id);
+			$moderator_ids = ilForum::_getModerators($ref_id);
 			$admin_ids = $oParticipants->getAdmins();
 			$tutor_ids = $oParticipants->getTutors();
 			
 			$result = array_unique(array_merge($moderator_ids,$admin_ids,$tutor_ids));
 		}
 		return $result;
-   }
-	
-	/**
-	* get all users assigned to local role il_frm_moderator_<frm_ref_id> (static)
-	*
-	* @param	int		$a_ref_id	reference id
-	* @return	array	user_ids
-	* @access	public
-	*/
-	public function _getModerators($a_ref_id)
-	{
-		global $rbacreview;
-
-		$role_arr  = $rbacreview->getRolesOfRoleFolder($a_ref_id);
-
-		foreach ($role_arr as $role_id)
-		{
-			//$roleObj = $this->ilias->obj_factory->getInstanceByObjId($role_id);
-			$title = ilObject::_lookupTitle($role_id);
-			if ($title == "il_frm_moderator_".$a_ref_id)			
-			{
-				#return $rbacreview->assignedUsers($roleObj->getId());
-				return $title = $rbacreview->assignedUsers($role_id);
-			}
-		}
-
-		return array();
 	}
 
 	public function update()

@@ -122,7 +122,7 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function splitParams($params = "")
 	{
-		$params_array = split("<separator>", $params);
+		$params_array = explode("<separator>", $params);
 		foreach ($params_array as $pair)
 		{
 			if (preg_match("/(.*?)\=(.*)/", $pair, $matches))
@@ -868,13 +868,9 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	}
 
 	/**
-	 * Reworks the allready saved working data if neccessary
-	 *
-	 * @param integer $active_id
-	 * @param integer $pass
-	 * @param boolean $obligationsAnswered
+	 * {@inheritdoc}
 	 */
-	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered)
+	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered, $authorized)
 	{
 		// nothing to rework!
 	}
@@ -961,31 +957,23 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	}
 
 	/**
-	 * Creates an Excel worksheet for the detailed cumulated results of this question
-	 *
-	 * @param object $worksheet    Reference to the parent excel worksheet
-	 * @param object $startrow     Startrow of the output in the excel worksheet
-	 * @param object $active_id    Active id of the participant
-	 * @param object $pass         Test pass
-	 * @param object $format_title Excel title format
-	 * @param object $format_bold  Excel bold format
-	 *
-	 * @return object
+	 * {@inheritdoc}
 	 */
-	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
 	{
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
+		parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
+
 		$solutions = $this->getSolutionValues($active_id, $pass);
-		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
-		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+
 		$i = 1;
 		foreach ($solutions as $solution)
 		{
-			$worksheet->write($startrow + $i, 1, ilExcelUtils::_convert_text($this->lng->txt("result") . " $i"));
-			if (strlen($solution["value1"])) $worksheet->write($startrow + $i, 1, ilExcelUtils::_convert_text($solution["value1"]));
-			if (strlen($solution["value2"])) $worksheet->write($startrow + $i, 2, ilExcelUtils::_convert_text($solution["value2"]));
+			$worksheet->setCell($startrow + $i, 1, $this->lng->txt("result") . " $i");
+			if (strlen($solution["value1"])) $worksheet->setCell($startrow + $i, 1, $solution["value1"]);
+			if (strlen($solution["value2"])) $worksheet->setCell($startrow + $i, 2, $solution["value2"]);
 			$i++;
 		}
+
 		return $startrow + $i + 1;
 	}
 

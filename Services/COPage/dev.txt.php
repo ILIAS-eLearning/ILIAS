@@ -196,8 +196,6 @@ Services/Help
 
 Services/MediaObjects
 
-Services/Payment (config intro)
-
 
 
 

@@ -25,12 +25,12 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjRootFolderGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		global $lng;
 		
 		$this->type = "root";
-		$this->ilContainerGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		
 		$lng->loadLanguageModule("cntr");
 		$lng->loadLanguageModule("obj");
@@ -72,7 +72,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	}
 
 
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $rbacsystem, $lng, $ilHelp;
 		
@@ -82,7 +82,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
-			$tabs_gui->addTab('view_content', $lng->txt("content"),
+			$this->tabs_gui->addTab('view_content', $lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
 		}
 		
@@ -91,17 +91,17 @@ class ilObjRootFolderGUI extends ilContainerGUI
 			$force_active = ($_GET["cmd"] == "edit")
 				? true
 				: false;
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
 				, "", $force_active);
 		}
 
 		// parent tabs (all container: edit_permission, clipboard, trash
-		parent::getTabs($tabs_gui);
+		parent::getTabs();
 
 	}
 
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $rbacsystem;
 
@@ -115,7 +115,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		{
 			case 'ilcontainerlinklistgui':
 				include_once("Services/Container/classes/class.ilContainerLinkListGUI.php");
-				$link_list_gui =& new ilContainerLinkListGUI();
+				$link_list_gui = new ilContainerLinkListGUI();
 				$ret =& $this->ctrl->forwardCommand($link_list_gui);
 				break;
 
@@ -132,14 +132,14 @@ class ilObjRootFolderGUI extends ilContainerGUI
 			case 'ilpermissiongui':
 				$this->prepareOutput();
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
+				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case "ilcolumngui":
 				$this->checkPermission("read");
 				$this->prepareOutput();
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 				$this->renderObject();
@@ -185,7 +185,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 					$this->checkPermission("read");
 				}
 				$this->prepareOutput();
-				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 

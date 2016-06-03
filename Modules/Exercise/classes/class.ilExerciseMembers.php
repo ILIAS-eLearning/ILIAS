@@ -20,7 +20,7 @@ class ilExerciseMembers
 //	var $status_returned;
 //	var $notice;
 
-	function ilExerciseMembers($a_exc)
+	function __construct($a_exc)
 	{
 		$this->exc = $a_exc;
 		$this->obj_id = $a_exc->getId();
@@ -266,7 +266,7 @@ class ilExerciseMembers
 		return true;
 	}
 
-	function _getMembers($a_obj_id)
+	static function _getMembers($a_obj_id)
 	{
 		global $ilDB;
 
@@ -296,7 +296,7 @@ class ilExerciseMembers
 	 * @param	int		$a_user_id	member id
 	 * @return	mixed	false (if user is no member) or notgraded|passed|failed
 	 */
-	function _lookupStatus($a_obj_id, $a_user_id)
+	static function _lookupStatus($a_obj_id, $a_user_id)
 	{
 		global $ilDB;
 
@@ -324,7 +324,7 @@ class ilExerciseMembers
 	 * @param	int		user id
 	 * @param	text	status
 	 */
-	function _writeStatus($a_obj_id, $a_user_id, $a_status)
+	static function _writeStatus($a_obj_id, $a_user_id, $a_status)
 	{
 		global $ilDB;
 		
@@ -350,7 +350,7 @@ class ilExerciseMembers
 	 * @param	int		user id
 	 * @param	text	status
 	 */
-	function _writeReturned($a_obj_id, $a_user_id, $a_status)
+	static function _writeReturned($a_obj_id, $a_user_id, $a_status)
 	{
 		global $ilDB;
 		
@@ -373,7 +373,7 @@ class ilExerciseMembers
 	 * Get returned status for all members (if they have anything returned for
 	 * any assignment)
 	 */
-	function _getReturned($a_obj_id)
+	static function _getReturned($a_obj_id)
 	{
 		global $ilDB;
 
@@ -397,7 +397,7 @@ class ilExerciseMembers
 	 * @param		integer		user id
 	 * @return		boolean		true/false
 	 */
-	function _hasReturned($a_obj_id, $a_user_id)
+	static function _hasReturned($a_obj_id, $a_user_id)
 	{
 		global $ilDB;
 	
@@ -416,7 +416,7 @@ class ilExerciseMembers
 	/**
 	 * Get all users that passed the exercise
 	 */
-	function _getPassedUsers($a_obj_id)
+	static function _getPassedUsers($a_obj_id)
 	{
 		global $ilDB;
 
@@ -434,7 +434,7 @@ class ilExerciseMembers
 	/**
 	 * Get all users that failed the exercise
 	 */
-	function _getFailedUsers($a_obj_id)
+	static function _getFailedUsers($a_obj_id)
 	{
 		global $ilDB;
 

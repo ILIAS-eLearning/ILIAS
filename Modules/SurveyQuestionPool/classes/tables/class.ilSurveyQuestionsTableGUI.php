@@ -204,9 +204,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 	 * @return
 	 */
 	public function fillRow($data)
-	{
-		global $ilUser,$ilAccess;
-		
+	{		
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 		$class = strtolower(SurveyQuestionGUI::_getGUIClassNameForId($data["question_id"]));

@@ -32,13 +32,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDRequirement extends ilMDBase
 {
-	function ilMDRequirement($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
 	// SET/GET
 	function setOrCompositeId($a_or_composite_id)
 	{
@@ -199,7 +192,7 @@ class ilMDRequirement extends ilMDBase
 				"WHERE meta_requirement_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
@@ -251,7 +244,7 @@ class ilMDRequirement extends ilMDBase
 
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type,$a_or_composite_id = 0)
+	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type,$a_or_composite_id = 0)
 	{
 		global $ilDB;
 
@@ -263,7 +256,7 @@ class ilMDRequirement extends ilMDBase
 			"AND or_composite_id = ".$ilDB->quote($a_or_composite_id ,'integer');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->meta_requirement_id;
 		}

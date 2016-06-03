@@ -416,7 +416,7 @@ abstract class ilParticipants
 	 		"WHERE notification = 1 ".
 	 		"AND obj_id = ".$ilDB->quote($this->obj_id)." ";
 	 	$res = $ilDB->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		if($this->isAdmin($row->usr_id) or $this->isTutor($row->usr_id))
 	 		{
@@ -1072,7 +1072,7 @@ abstract class ilParticipants
 	 		"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ";
 	 	$res = $ilDB->query($query);
 	 	$this->participants_status = array();
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		$this->participants_status[$row->usr_id]['blocked'] = $row->blocked;
 	 		$this->participants_status[$row->usr_id]['notification']  = $row->notification;
@@ -1141,7 +1141,7 @@ abstract class ilParticipants
 			"ORDER BY sub_time ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$subscribers[] = $row->usr_id;
 		}
@@ -1385,7 +1385,7 @@ abstract class ilParticipants
 			"AND obj_id = ".$ilDB->quote($this->obj_id ,'integer')."";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return true;
 		}
@@ -1407,7 +1407,7 @@ abstract class ilParticipants
 			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')."";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return true;
 		}
@@ -1430,7 +1430,7 @@ abstract class ilParticipants
 			"ORDER BY sub_time ";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			// DELETE SUBSCRIPTION IF USER HAS BEEN DELETED
 			if(!ilObjectFactory::getInstanceByObjId($row->usr_id,false))
@@ -1456,7 +1456,7 @@ abstract class ilParticipants
 			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')."";
 
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$data["time"] = $row->sub_time;
 			$data["usr_id"] = $row->usr_id;
@@ -1474,7 +1474,7 @@ abstract class ilParticipants
 		$res = $ilDB->query($query);
 
 		$data = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$data[$row->usr_id]['time'] = $row->sub_time;
 			$data[$row->usr_id]['usr_id'] = $row->usr_id;

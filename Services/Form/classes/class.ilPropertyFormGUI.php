@@ -64,12 +64,11 @@ class ilPropertyFormGUI extends ilFormGUI
 	*
 	* @param
 	*/
-	function ilPropertyFormGUI()
+	function __construct()
 	{
 		global $lng;
 		
 		$lng->loadLanguageModule("form");
-		parent::ilFormGUI();
 
 		// avoid double submission
 		$this->setPreventDoubleSubmission(true);
@@ -81,7 +80,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	/**
 	* Execute command.
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 		

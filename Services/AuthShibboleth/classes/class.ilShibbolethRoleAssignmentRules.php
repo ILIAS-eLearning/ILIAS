@@ -49,7 +49,7 @@ class ilShibbolethRoleAssignmentRules {
 		 */
 		$query = "SELECT rule_id FROM shib_role_assignment ORDER BY rule_id";
 		$res = $ilDB->query($query);
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 			$rules[$row->rule_id] = new ilShibbolethRoleAssignmentRule($row->rule_id);
 		}
 
@@ -61,7 +61,7 @@ class ilShibbolethRoleAssignmentRules {
 		global $ilDB;
 		$query = "SELECT COUNT(*) num FROM shib_role_assignment ";
 		$res = $ilDB->query($query);
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 			return $row->num;
 		}
 
@@ -81,7 +81,7 @@ class ilShibbolethRoleAssignmentRules {
 		global $ilDB, $rbacadmin, $rbacreview, $ilLog;
 		$query = "SELECT rule_id,add_on_update,remove_on_update FROM shib_role_assignment " . "WHERE add_on_update = 1 OR remove_on_update = 1";
 		$res = $ilDB->query($query);
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 			$rule = new ilShibbolethRoleAssignmentRule($row->rule_id);
 			//			$matches = $rule->matches($a_data);
 			if ($rule->doesMatch($a_data) and $row->add_on_update) {
@@ -115,7 +115,7 @@ class ilShibbolethRoleAssignmentRules {
 		$query = "SELECT rule_id FROM shib_role_assignment ";
 		$num_matches = 0;
 		$res = $ilDB->query($query);
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 			$rule = new ilShibbolethRoleAssignmentRule($row->rule_id);
 			if ($rule->doesMatch($a_data)) {
 				$num_matches ++;

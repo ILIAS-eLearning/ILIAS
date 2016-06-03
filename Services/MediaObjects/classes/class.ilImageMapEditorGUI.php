@@ -190,7 +190,7 @@ class ilImageMapEditorGUI
 	*/
 	function showImageMap()
 	{
-		$item =& new ilMediaItem($_GET["item_id"]);
+		$item = new ilMediaItem($_GET["item_id"]);
 		$item->outputMapWorkCopy();
 	}
 
@@ -201,11 +201,11 @@ class ilImageMapEditorGUI
 	{
 		global $lng, $ilCtrl;
 		
-		$st_item =& $this->media_object->getMediaItem("Standard");
+		$st_item = $this->media_object->getMediaItem("Standard");
 		$max = ilMapArea::_getMaxNr($st_item->getId());
 		for ($i=1; $i<=$max; $i++)
 		{
-			$area =& new ilMapArea($st_item->getId(), $i);
+			$area = new ilMapArea($st_item->getId(), $i);
 			$area->setTitle(ilUtil::stripSlashes($_POST["name_".$i]));
 			$area->setHighlightMode(ilUtil::stripSlashes($_POST["hl_mode_".$i]));
 			$area->setHighlightClass(ilUtil::stripSlashes($_POST["hl_class_".$i]));
@@ -697,14 +697,14 @@ class ilImageMapEditorGUI
 
 			case "GlossaryItem":
 				require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-				$term =& new ilGlossaryTerm($t_arr[count($t_arr) - 1]);
+				$term = new ilGlossaryTerm($t_arr[count($t_arr) - 1]);
 				$link_str = $lng->txt("term").
 					": ".$term->getTerm()." [".$t_arr[count($t_arr) - 1]."]".$frame_str;
 				break;
 
 			case "MediaObject":
 				require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-				$mob =& new ilObjMediaObject($t_arr[count($t_arr) - 1]);
+				$mob = new ilObjMediaObject($t_arr[count($t_arr) - 1]);
 				$link_str = $lng->txt("mob").
 					": ".$mob->getTitle()." [".$t_arr[count($t_arr) - 1]."]".$frame_str;
 				break;
@@ -742,7 +742,7 @@ class ilImageMapEditorGUI
 	/**
 	* Recover parameters from session variables (static)
 	*/
-	function _recoverParameters()
+	static function _recoverParameters()
 	{
 		$_GET["ref_id"] = $_SESSION["il_map_edit_ref_id"];
 		$_GET["obj_id"] = $_SESSION["il_map_edit_obj_id"];
@@ -791,7 +791,7 @@ class ilImageMapEditorGUI
 			case "edit_shape":
 				$st_item = $this->media_object->getMediaItem("Standard");
 				$max = ilMapArea::_getMaxNr($st_item->getId());
-				$area =& new ilMapArea($st_item->getId(), $_SESSION["il_map_area_nr"]);
+				$area = new ilMapArea($st_item->getId(), $_SESSION["il_map_area_nr"]);
 
 				$area->setShape($_SESSION["il_map_edit_area_type"]);
 				$area->setCoords($_SESSION["il_map_edit_coords"]);

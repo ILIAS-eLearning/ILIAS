@@ -42,11 +42,16 @@ class ilCourseObjectiveQuestion
 	public $questions;
 	protected $tests = array();
 
-	function ilCourseObjectiveQuestion($a_objective_id)
+	/**
+	 * Constructor
+	 * @global type $ilDB
+	 * @param type $a_objective_id
+	 */
+	public function __construct($a_objective_id)
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
+		$this->db = $ilDB;
 	
 		$this->objective_id = $a_objective_id;
 
@@ -69,7 +74,7 @@ class ilCourseObjectiveQuestion
 				'WHERE question_id = '.$ilDB->quote($a_qid,'integer');
 		$res = $ilDB->query($query);
 		$objectiveIds = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$objectiveIds[] = $row->objective_id;
 		}
@@ -229,7 +234,7 @@ class ilCourseObjectiveQuestion
 		$res = $this->db->query($query);
 		
 		$limit = 100;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$limit = $row->tst_limit_p;
 		}
@@ -315,7 +320,7 @@ class ilCourseObjectiveQuestion
 			"ORDER BY title ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$test['test_objective_id'] = $row->test_objective_id;
 			$test['objective_id']		= $row->objective_id;
@@ -376,7 +381,7 @@ class ilCourseObjectiveQuestion
 			"WHERE test_objective_id = ".$ilDB->quote($a_test_objective_id ,'integer')." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$test['test_objective_id'] = $row->test_objective_id;
 			$test['objective_id']		= $row->objective_id;
@@ -721,7 +726,7 @@ class ilCourseObjectiveQuestion
 			"WHERE qst_ass_id = ".$ilDB->quote($qst_id ,'integer')." ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$test_rid = $row->ref_id;
 			$test_oid = $row->obj_id;
@@ -823,7 +828,7 @@ class ilCourseObjectiveQuestion
 		$query = "SELECT * FROM crs_objective_tst ".
 			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ";
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->tests[$row->ref_id]['test_objective_id'] = $row->test_objective_id;
 			$this->tests[$row->ref_id]['ref_id'] = $row->ref_id;
@@ -839,7 +844,7 @@ class ilCourseObjectiveQuestion
 			"ORDER BY title";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if(!$tree->isInTree($row->ref_id) or !$tree->isGrandChild($container_ref_id,$row->ref_id))
 			{
@@ -898,7 +903,7 @@ class ilCourseObjectiveQuestion
 			"AND question_id = ".$ilDB->quote($a_question_id ,'integer')." ";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$objective_id = $row->objective_id;
 		}
@@ -917,7 +922,7 @@ class ilCourseObjectiveQuestion
 		$res = $ilDB->query($query);
 		
 		$questions = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$questions[] = $row->question_id;
 		}
@@ -932,11 +937,40 @@ class ilCourseObjectiveQuestion
 				'WHERE objective_id = '.$ilDB->quote($a_objective_id,'integer').' '.
 				'AND obj_id = '.$ilDB->quote($a_test_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return (int) $row->tst_limit_p;
 		}
 		return 0;
+	}
+	
+	/**
+	 * To xml
+	 * @param ilXmlWriter $writer
+	 */
+	public function toXml(ilXmlWriter $writer)
+	{
+		foreach($this->getTests() as $test)
+		{
+			include_once './Modules/Course/classes/Objectives/class.ilLOXmlWriter.php';
+			$writer->xmlStartTag(
+				'Test',
+				array(
+					'type' => ilLOXmlWriter::TYPE_TST_ALL,
+					'refId' => $test['ref_id'],
+					'testType' => $test['tst_status'],
+					'limit' => $test['tst_limit']
+				)
+			);
+			
+			// questions
+			foreach($this->getQuestionsByTest($test['ref_id']) as $question_id)
+			{
+				$writer->xmlElement('Question', array('id' => $question_id));
+			}
+			$writer->xmlEndTag('Test');
+		}
+		
 	}
 	
 	// end-patch lok

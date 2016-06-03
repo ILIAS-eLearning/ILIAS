@@ -80,7 +80,7 @@ class ilDiskQuotaChecker
 	        array('integer'),
 	        array($a_user_id));
 
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 			switch ($row->keyword)
 			{
 				case 'disk_quota' :
@@ -108,7 +108,7 @@ class ilDiskQuotaChecker
 	        array('integer','integer'),
 	        array(ROLE_FOLDER_ID, $a_user_id));
 
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		$info['role_id'] = $row->role_id;
 		$info['role_title'] = $row->title;
 
@@ -150,7 +150,7 @@ class ilDiskQuotaChecker
 			"AND ".$ilDB->like("keyword", "text", 'disk\\_usage%')
 			);
 
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 			switch ($row->keyword)
 			{
 				case 'disk_usage.last_update' :
@@ -309,7 +309,7 @@ class ilDiskQuotaChecker
 	        array(ROLE_FOLDER_ID, SYSTEM_ROLE_ID)
 		);
 		$previous_usr_id = null;
-		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			if ($previous_usr_id != $row['usr_id'])
 			{
 				$data[] = $row;
@@ -452,7 +452,7 @@ class ilDiskQuotaChecker
 		$count = null;
 		$size = null;
 		$owner = null;
-		while ($row = $a_objects->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($row = $a_objects->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 			if ($row->owner != $owner) {
 				if ($owner != null) {					
 					$a_result[$owner]["size"] += $size;
@@ -536,7 +536,7 @@ class ilDiskQuotaChecker
 		$res = $ilDB->query("SELECT usr_id FROM usr_data");
 
 		// for each user count the number of objects and sum up the size
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 			$data = $a_access_obj->_lookupDiskUsageOfUser($row->usr_id);
 			self::__saveUserData($row->usr_id, $a_type, $data["size"], $data["count"]);
 		}
@@ -630,7 +630,7 @@ class ilDiskQuotaChecker
 	        array(ROLE_FOLDER_ID, SYSTEM_ROLE_ID)
 		);
 
-		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
 			$details = self::_lookupDiskUsage($row['usr_id']);
 			$row['disk_usage_details'] = $details['details'];
 
@@ -673,7 +673,7 @@ class ilDiskQuotaChecker
 
 		$res = $ilDB->query("SELECT MAX(value) last_update ".
 			"FROM usr_pref WHERE keyword='disk_usage.last_update'");
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return ($row != null) ? $row['last_update'] : null;
 	}
 	
@@ -690,7 +690,7 @@ class ilDiskQuotaChecker
 	        array('integer', 'text'),
 	        array($a_user_id, "wsp_disk_quota"));
 
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		$info['user_wsp_disk_quota'] = $row->value;
 				
 
@@ -709,7 +709,7 @@ class ilDiskQuotaChecker
 	        array('integer','integer'),
 	        array(ROLE_FOLDER_ID, $a_user_id));
 
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		$info['role_id'] = $row->role_id;
 		$info['role_title'] = $row->title;
 

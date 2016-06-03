@@ -53,10 +53,10 @@ class ilObjQuestionPool extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjQuestionPool($a_id = 0,$a_call_by_reference = true)
+	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "qpl";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 		$this->setOnline(0);
 		
 		$this->skillServiceEnabled = false;
@@ -182,73 +182,6 @@ class ilObjQuestionPool extends ilObject
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::delDir($directory);
 		}
-	}
-
-
-	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	*
-	* If you are not required to handle any events related to your module, just delete this method.
-	* (For an example how this method is used, look at ilObjGroup)
-	*
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional parameters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{
-		global $tree;
-
-		switch ($a_event)
-		{
-			case "link":
-
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Module name ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "cut":
-
-				//echo "Module name ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "copy":
-
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Module name ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "paste":
-
-				//echo "Module name ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "new":
-
-				//echo "Module name ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-		}
-
-		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
-		if ($a_node_id==$_GET["ref_id"])
-		{
-			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
-			$parent_type = $parent_obj->getType();
-			if($parent_type == $this->getType())
-			{
-				$a_node_id = (int) $tree->getParentId($a_node_id);
-			}
-		}
-
-		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 
 	/**
@@ -821,7 +754,7 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* set import directory
 	*/
-	function _setImportDirectory($a_import_dir = null)
+	public static function _setImportDirectory($a_import_dir = null)
 	{
 		if (strlen($a_import_dir))
 		{
@@ -836,7 +769,7 @@ class ilObjQuestionPool extends ilObject
 	/**
 	* get import directory of lm
 	*/
-	function _getImportDirectory()
+	public static function _getImportDirectory()
 	{
 		if (strlen($_SESSION["qpl_import_dir"]))
 		{
@@ -951,7 +884,7 @@ class ilObjQuestionPool extends ilObject
 	* @return integer The number of questions in the questionpool object
 	* @access public
 	*/
-	function _getQuestionCount($questionpool_id, $complete_questions_only = FALSE)
+	public static function _getQuestionCount($questionpool_id, $complete_questions_only = FALSE)
 	{
 		global $ilDB;
 		if ($complete_questions_only)
@@ -1024,7 +957,7 @@ class ilObjQuestionPool extends ilObject
 		return $this->getShowTaxonomies() && (int)$this->getNavTaxonomyId();
 	}
 	
-	function _lookupOnline($a_obj_id, $is_reference = FALSE)
+	public static function _lookupOnline($a_obj_id, $is_reference = FALSE)
 	{
 		global $ilDB;
 		
@@ -1214,7 +1147,7 @@ class ilObjQuestionPool extends ilObject
 * @param integer $user_id The database id of the user
 * @access public
 */
-	function _isWriteable($object_id, $user_id)
+	public static function _isWriteable($object_id, $user_id)
 	{
 		global $rbacsystem;
 
@@ -1359,7 +1292,7 @@ class ilObjQuestionPool extends ilObject
 * @return array The available question pools
 * @access public
 */
-	function &_getAvailableQuestionpools($use_object_id = FALSE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE, $permission = "read", $usr_id = "")
+	public static function _getAvailableQuestionpools($use_object_id = FALSE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE, $permission = "read", $usr_id = "")
 	{
 		global $ilUser, $ilDB, $lng;
 
@@ -1505,12 +1438,12 @@ class ilObjQuestionPool extends ilObject
 		return $newObj;
 	}
 
-	function &getQuestionTypes($all_tags = FALSE, $fixOrder = false)
+	function getQuestionTypes($all_tags = FALSE, $fixOrder = false)
 	{
-		return $this->_getQuestionTypes($all_tags, $fixOrder);
+		return self::_getQuestionTypes($all_tags, $fixOrder);
 	}
 
-	function &_getQuestionTypes($all_tags = FALSE, $fixOrder = false)
+	public static function _getQuestionTypes($all_tags = FALSE, $fixOrder = false)
 	{
 		global $ilDB;
 		global $lng;
@@ -1554,16 +1487,20 @@ class ilObjQuestionPool extends ilObject
 		return $types;
 	}
 
-        public static function getQuestionTypeByTypeId($type_id) {
-            global $ilDB;
-            $query = "SELECT type_tag FROM qpl_qst_type WHERE question_type_id = %s";
-            $types = array('integer');
-            $values = array($type_id);
-            $result = $ilDB->queryF($query, $types, $values);
-            if ($row = $ilDB->fetchAssoc($result)) {
-                return $row['type_tag'];
-            }
-        }
+	public static function getQuestionTypeByTypeId($type_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT type_tag FROM qpl_qst_type WHERE question_type_id = %s";
+		$types = array('integer');
+		$values = array($type_id);
+		$result = $ilDB->queryF($query, $types, $values);
+
+		if($row = $ilDB->fetchAssoc($result))
+		{
+			return $row['type_tag'];
+		}
+	}
 
 	public static function getQuestionTypeTranslations()
 	{

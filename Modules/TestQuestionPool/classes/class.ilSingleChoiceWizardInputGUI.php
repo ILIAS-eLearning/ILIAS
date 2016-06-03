@@ -341,11 +341,9 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 	}
 
 	/**
-	* Insert property html
-	*
-	* @return	int	Size
-	*/
-	function insert(&$a_tpl)
+	 * @param $a_tpl ilTemplate
+	 */
+	function insert($a_tpl)
 	{
 		global $lng;
 		

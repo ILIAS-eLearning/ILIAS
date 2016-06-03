@@ -545,7 +545,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	*
 	* @return	int	Size
 	*/
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		$html = $this->render();
 

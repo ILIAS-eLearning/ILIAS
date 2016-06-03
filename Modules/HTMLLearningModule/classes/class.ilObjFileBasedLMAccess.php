@@ -78,7 +78,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array
 		(
@@ -98,7 +98,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	/**
 	* check wether learning module is online
 	*/
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 
@@ -118,7 +118,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	/**
 	* check wether learning module is online
 	*/
-	function _determineStartUrl($a_id)
+	static function _determineStartUrl($a_id)
 	{
 		global $ilDB;
 
@@ -157,7 +157,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	/**
 	* check whether goto script will succeed
 	*/
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 		
@@ -181,7 +181,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	 * with the specified object id.
 	 * @param int object id of a file object.
 	 */
-	function _lookupDiskUsage($a_id)
+	static function _lookupDiskUsage($a_id)
 	{
 		$lm_data_dir = ilUtil::getWebspaceDir('filesystem')."/lm_data";
 		$lm_dir = $lm_data_dir.DIRECTORY_SEPARATOR."lm_".$a_id;
@@ -207,7 +207,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	 *
 	 * @param array $a_obj_ids array of object ids
 	 */
-	function _preloadData($a_obj_ids, $a_ref_ids)
+	static function _preloadData($a_obj_ids, $a_ref_ids)
 	{
 		global $ilDB, $ilUser;
 		

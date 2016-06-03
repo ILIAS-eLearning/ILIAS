@@ -123,7 +123,7 @@ class ilSessionParticipants extends ilParticipants
 	 * Add user
 	 * @param type $a_usr_id
 	 */
-	public function add($a_usr_id)
+	public function add($a_usr_id, $a_role = "")
 	{
 		$this->getEventParticipants()->register($a_usr_id);
 	}

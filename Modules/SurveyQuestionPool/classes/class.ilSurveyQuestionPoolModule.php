@@ -34,15 +34,6 @@ include_once("./Services/Component/classes/class.ilModule.php");
 */
 class ilSurveyQuestionPoolModule extends ilModule
 {
-	
-	/**
-	* Constructor: read information on component
-	*/
-	function __construct()
-	{
-		parent::__construct();
-	}
-	
 	/**
 	* Core modules vs. plugged in modules
 	*/

@@ -21,9 +21,9 @@ class ilPCSectionGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCSectionGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
+	function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		
 		$this->setCharacteristics(ilPCSectionGUI::_getStandardCharacteristics());
 	}
@@ -55,7 +55,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 		if ($a_style_id > 0 &&
 			ilObject::_lookupType($a_style_id) == "sty")
 		{
-			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$style = new ilObjStyleSheet($a_style_id);
 			$chars = $style->getCharacteristics("section");
 			$new_chars = array();
@@ -79,7 +79,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$this->getCharacteristicsOfCurrentStyle("section");	// scorm-2004
 		
@@ -92,7 +92,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 		switch($next_class)
 		{
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 

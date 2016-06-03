@@ -89,6 +89,7 @@ class ilMimeMail
 	 * by default autoCheck feature is on
 	 * @param boolean	set to true to turn on the auto validation
 	 * @access public
+	 * @deprecated
 	 */
 	function autoCheck($bool )
 	{
@@ -318,7 +319,7 @@ class ilMimeMail
 	 * Build the email message
 	 * @access public
 	 */
-	function BuildMail()
+	protected function BuildMail()
 	{
 		/**
 		 * @var $ilUser          ilObjUser
@@ -327,8 +328,13 @@ class ilMimeMail
 		 */
 		global $ilUser, $ilSetting, $ilClientIniFile;
 
-		require_once './Services/Mail/phpmailer/class.phpmailer.php';
+		require_once 'libs/composer/vendor/autoload.php';
 		$mail = new PHPMailer();
+
+		if($ilSetting->get('mail_system_return_path', ''))
+		{
+			$mail->Sender = $ilSetting->get('mail_system_return_path', '');
+		}
 
 		$mail->SetFrom($this->xheaders['From'], $this->xheaders['FromName']);
 		foreach($this->sendto as $recipients)
@@ -385,7 +391,13 @@ class ilMimeMail
 			}
 
 			$mail->AltBody = $this->body;
-			$mail->Body    = str_replace( '{PLACEHOLDER}', nl2br( ilUtil::makeClickable( $this->body ) ), $bracket );
+
+			if(strip_tags($this->body, '<b><u><i><a>') == $this->body)
+			{
+				// Let's assume that there is no HTML, so convert "\n" to "<br>" 
+				$this->body = nl2br($this->body);
+			}
+			$mail->Body    = str_replace( '{PLACEHOLDER}', ilUtil::makeClickable( $this->body ), $bracket );
 
 			$directory = './Services/Mail/templates/default/img/';
 			if($style != 'delos')
@@ -438,18 +450,27 @@ class ilMimeMail
 			" | Subject: " .$mail->Subject
 		));
 
-		$result = $mail->Send();
-
-		if($result)
+		if(!(int)$ilSetting->get('prevent_smtp_globally'))
 		{
-			ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				'Successfully delegated external mail delivery'
-			));
+			$result = $mail->Send();
+
+			if($result)
+			{
+				ilLoggerFactory::getLogger('mail')->debug(sprintf(
+					'Successfully delegated external mail delivery'
+				));
+			}
+			else
+			{
+				ilLoggerFactory::getLogger('mail')->debug(sprintf(
+					'Could not deliver external email: %s', $mail->ErrorInfo
+				));
+			}
 		}
 		else
 		{
 			ilLoggerFactory::getLogger('mail')->debug(sprintf(
-				'Could not deliver external email: %s', $mail->ErrorInfo
+				'Suppressed delegation of email delivery according to global setting ( prevent_smtp_globally ).'
 			));
 		}
 	}
@@ -481,14 +502,18 @@ class ilMimeMail
 	 * 	@access public
 	 * 	@param string address : email address to check
 	 * 	@return boolean true if email adress is ok
+	 * @deprecated                  
 	 */
 
 	function ValidEmail($address)
 	{
-		if( ereg( ".*<(.+)>", $address, $regs ) ) {
+		$regs = array();
+		if(preg_match("/.*<(.+)>/", $address, $regs))
+		{
 			$address = $regs[1];
 		}
-		if(ereg( "^[^@  ]+@([a-zA-Z0-9\-]+\.)+([a-zA-Z0-9\-]{2}|net|com|gov|mil|org|edu|int)\$",$address) )
+
+		if(preg_match('/^[^@  ]+@([a-zA-Z0-9\-]+\.)+([a-zA-Z0-9\-]{2}|net|com|gov|mil|org|edu|int)$/', $address))
 		{
 			return true;
 		}
@@ -502,6 +527,7 @@ class ilMimeMail
 	 * check validity of email addresses
 	 * return if unvalid, output an error message and exit, this may -should- be customized
 	 * @param	array aad -
+	 * @deprecated                 
 	 */
 	function CheckAdresses( $aad )
 	{
@@ -562,7 +588,7 @@ class ilMimeMail
 		$this->fullBody .= implode($sep, $ata);
 	}
 
-	function _mimeEncode($a_string)
+	public static function _mimeEncode($a_string)
 	{
 		$encoded = '=?utf-8?b?';
 		$encoded .= base64_encode($a_string);

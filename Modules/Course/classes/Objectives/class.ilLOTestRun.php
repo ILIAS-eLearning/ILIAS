@@ -46,7 +46,7 @@ class ilLOTestRun
 				'AND user_id = '.$ilDB->quote($a_user_id,'integer');
 		$res = $ilDB->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return true;
 		}
@@ -92,7 +92,7 @@ class ilLOTestRun
 		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
 		$res = $ilDB->query($query);
 		$objectives = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$objectives[] = $row->objective_id;
 		}
@@ -114,7 +114,7 @@ class ilLOTestRun
 		$res = $ilDB->query($query);
 		
 		$run = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$run[] = new ilLOTestRun($a_container_id, $a_user_id, $a_test_id, $row->objective_id);
 		}
@@ -268,7 +268,7 @@ class ilLOTestRun
 				'AND test_id = '.$ilDB->quote($this->getTestId(),'integer').' '.
 				'AND objective_id = '.$ilDB->quote($this->getObjectiveId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->max_points = $row->max_points;
 			if($row->questions)

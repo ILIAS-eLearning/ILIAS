@@ -18,7 +18,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
 	protected $downloadable = false;
 	protected $edit_order;
 	
-	function ilMediaCastTableGUI($a_parent_obj, $a_parent_cmd = "", $a_edit_order = false,
+	function __construct($a_parent_obj, $a_parent_cmd = "", $a_edit_order = false,
 		$a_presentation_mode = false)
 	{
 		global $ilCtrl, $lng;

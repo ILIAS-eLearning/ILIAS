@@ -326,7 +326,7 @@ class Auth_Container_DB extends Auth_Container
 
         $this->log('Running SQL against DB: '.$query, AUTH_LOG_DEBUG);
 
-        $res = $this->db->getRow($query, null, DB_FETCHMODE_ASSOC);
+        $res = $this->db->getRow($query, null, ilDBConstants::FETCHMODE_ASSOC);
 
         if (DB::isError($res)) {
             return PEAR::raiseError($res->getMessage(), $res->getCode());
@@ -422,7 +422,7 @@ class Auth_Container_DB extends Auth_Container
 
         $this->log('Running SQL against DB: '.$query, AUTH_LOG_DEBUG);
 
-        $res = $this->db->getAll($query, null, DB_FETCHMODE_ASSOC);
+        $res = $this->db->getAll($query, null, ilDBConstants::FETCHMODE_ASSOC);
 
         if (DB::isError($res)) {
             return PEAR::raiseError($res->getMessage(), $res->getCode());

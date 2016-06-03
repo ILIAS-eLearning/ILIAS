@@ -23,7 +23,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 	 *        array('permission' => 'write', 'cmd' => 'edit', 'lang_var' => 'edit'),
 	 *    );
 	 */
-	public function _getCommands()
+	public static function _getCommands()
 	{
 		$commands = array();
 		$commands[] = array( 'permission' => 'read', 'cmd' => 'view', 'lang_var' => 'show', 'default' => true );
@@ -124,7 +124,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 	/**
 	 * check whether goto script will succeed
 	 */
-	function _checkGoto($a_target)
+	public static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 		$t_arr = explode('_', $a_target);

@@ -34,22 +34,18 @@
 */
 class ilLinkResourceHandlerGUI
 {
-	function ilLinkResourceHandlerGUI()
+	public function __construct()
 	{
 		global $ilCtrl, $lng, $ilAccess, $ilias, $ilNavigationHistory;
 
 		// initialisation stuff
 		$this->ctrl =&  $ilCtrl;
-		
-		//$ilNavigationHistory->addItem($_GET["ref_id"],
-		//	"ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$_GET["ref_id"]);
-
 	}
 	
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $lng, $ilAccess, $tpl, $ilNavigationHistory;
 		
@@ -72,7 +68,7 @@ class ilLinkResourceHandlerGUI
 		{
 			case 'ilobjlinkresourcegui':
 				require_once "./Modules/WebResource/classes/class.ilObjLinkResourceGUI.php";
-				$link_gui =& new ilObjLinkResourceGUI((int)$_GET["ref_id"], ilObjLinkResourceGUI::REPOSITORY_NODE_ID);
+				$link_gui = new ilObjLinkResourceGUI((int)$_GET["ref_id"], ilObjLinkResourceGUI::REPOSITORY_NODE_ID);
 				$this->ctrl->forwardCommand($link_gui);
 				break;
 		}

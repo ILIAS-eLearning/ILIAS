@@ -53,8 +53,8 @@ class FormMailCodesGUI extends ilPropertyFormGUI
 		global $lng;
 		global $ilAccess;
 		
-		$this->lng = &$lng;
-		$this->guiclass = &$guiclass;
+		$this->lng = $lng;
+		$this->guiclass = $guiclass;
 		
 		$this->setFormAction($guiclass->ctrl->getFormAction($this->guiclass));
 		$this->setTitle($this->lng->txt('compose'));

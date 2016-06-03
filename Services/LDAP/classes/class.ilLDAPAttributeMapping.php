@@ -104,7 +104,7 @@ class ilLDAPAttributeMapping
 	 		"AND keyword = ".$ilDB->quote('global_role','text');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return (int) $row->value;		
 		}
@@ -322,7 +322,7 @@ class ilLDAPAttributeMapping
 	 		"WHERE server_id =".$this->db->quote($this->server_id,'integer')." ";
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->mapping_rules[$row->keyword]['value'] = $row->value;
 			$this->mapping_rules[$row->keyword]['performUpdate'] = (bool) $row->perform_update;

@@ -11,12 +11,14 @@ require_once("Modules/StudyProgramme/classes/class.ilPDStudyProgrammeSimpleListG
  * @ilCtrl_IsCalledBy ilPDStudyProgrammeExpandableListGUI: ilColumnGUI
  */
 class ilPDStudyProgrammeExpandableListGUI extends ilPDStudyProgrammeSimpleListGUI {
+	const BLOCK_TYPE = "prgexpandablelist";
+
 	public function __construct() {
 		parent::__construct();
 	}
 
 	protected function shouldShowThisList() {
-		return $_GET["cmd"] == "jumpToStudyProgramme";
+		return $_GET["cmd"] == "jumpToSelectedItems" &&  $_GET["expand"];
 	}
 
 	protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeUserAssignment $a_assignment) {

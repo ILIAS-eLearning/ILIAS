@@ -158,7 +158,7 @@ class ilECSDataMappingSettings
 		$query = 'SELECT * FROM ecs_data_mapping '.
 			'WHERE sid = '.$ilDB->quote($this->getServer()->getServerId(),'integer').' ';
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->mappings[$row->mapping_type][$row->ecs_field] = $row->advmd_id;
 		}

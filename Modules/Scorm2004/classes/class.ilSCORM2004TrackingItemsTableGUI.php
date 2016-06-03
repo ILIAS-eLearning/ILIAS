@@ -205,18 +205,18 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 		
 	}
 
-	protected function fillHeaderExcel($worksheet, &$a_row)
+	protected function fillHeaderExcel(ilExcel $worksheet, &$a_row)
 	{
 		$labels = $this->getSelectableColumns();
 		$cnt = 0;
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			$worksheet->write($a_row, $cnt, $labels[$c]["txt"]);
+			$worksheet->setCell($a_row, $cnt, $labels[$c]["txt"]);
 			$cnt++;
 		}
 	}
 
-	protected function fillRowExcel($worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $worksheet, &$a_row, $a_set)
 	{
 		global $lng;
 		$lng->loadLanguageModule("trac");
@@ -232,7 +232,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 			{
 				$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set[$c]);
 			}
-			$worksheet->write($a_row, $cnt, $val);
+			$worksheet->setCell($a_row, $cnt, $val);
 			$cnt++;
 		}
 	}

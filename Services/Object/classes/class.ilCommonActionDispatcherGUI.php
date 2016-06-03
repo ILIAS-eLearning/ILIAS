@@ -274,7 +274,12 @@ class ilCommonActionDispatcherGUI
 		}
 		
 		include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
-		$this->header_action = ilObjectListGUIFactory::_getListGUIByType($this->obj_type);
+		$this->header_action = ilObjectListGUIFactory::_getListGUIByType(
+			$this->obj_type,
+			($this->node_type == self::TYPE_REPOSITORY)
+				? ilObjectListGUI::CONTEXT_REPOSITORY
+				: ilObjectListGUI::CONTEXT_WORKSPACE
+		);
 		
 		// remove all currently unwanted actions
 		$this->header_action->enableCopy(false);
@@ -282,24 +287,10 @@ class ilCommonActionDispatcherGUI
 		$this->header_action->enableDelete(false);
 		$this->header_action->enableLink(false);
 		$this->header_action->enableInfoscreen(false);				
-		$this->header_action->enablePayment(false);
 		$this->header_action->enableTimings(false);
+		$this->header_action->enableSubscribe($this->node_type == self::TYPE_REPOSITORY);
 		
-		switch($this->node_type)
-		{
-			case self::TYPE_REPOSITORY:
-				$this->header_action->enableSubscribe(true);
-				$context = ilObjectListGUI::CONTEXT_REPOSITORY;				
-				break;
-			
-			case self::TYPE_WORKSPACE:
-				$this->header_action->enableSubscribe(false);
-				$context = ilObjectListGUI::CONTEXT_WORKSPACE;
-				break;
-		}
-		
-		$this->header_action->initItem($this->node_id, $this->obj_id, "", "", 
-			$context);		
+		$this->header_action->initItem($this->node_id, $this->obj_id);				
 		$this->header_action->setHeaderSubObject($this->sub_type, $this->sub_id);		
 		$this->header_action->setAjaxHash($this->getAjaxHash());
 		

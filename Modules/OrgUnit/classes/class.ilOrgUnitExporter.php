@@ -41,46 +41,50 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 		return "orgu_".CLIENT_ID."_".$orgu_ref_id;
 	}
 
-	public function simpleExportExcel($orgu_ref_id){
+
+	/**
+	 * @param $orgu_ref_id
+	 */
+	public function simpleExportExcel($orgu_ref_id) {
+		// New File and Sheet
+		$file_name = "org_unit_export_" . $orgu_ref_id;
+		require_once('./Services/Excel/classes/class.ilExcel.php');
+		$worksheet = new ilExcel();
+		$worksheet->addSheet('org_units');
+		$row = 1;
+
+		// Headers
+		$worksheet->setCell($row, 0, "ou_id");
+		$worksheet->setCell($row, 1, "ou_id_type");
+		$worksheet->setCell($row, 2, "ou_parent_id");
+		$worksheet->setCell($row, 3, "ou_parent_id_type");
+		$worksheet->setCell($row, 4, "reference_id");
+		$worksheet->setCell($row, 5, "external_id");
+		$worksheet->setCell($row, 6, "title");
+		$worksheet->setCell($row, 7, "description");
+		$worksheet->setCell($row, 8, "action");
+
+		// Rows
 		$nodes = $this->getStructure($orgu_ref_id);
-		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
-		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
-		$adapter = new ilExcelWriterAdapter("org_unit_export_".$orgu_ref_id.".xls", true);
-		$workbook = $adapter->getWorkbook();
-		/** @var Spreadsheet_Excel_Writer_Worksheet $worksheet */
-		$worksheet = $workbook->addWorksheet();
 
-		ob_start();
-		$worksheet->write(0, 0, "ou_id");
-		$worksheet->write(0, 1, "ou_id_type");
-		$worksheet->write(0, 2, "ou_parent_id");
-		$worksheet->write(0, 3, "ou_parent_id_type");
-		$worksheet->write(0, 4, "reference_id");
-		$worksheet->write(0, 5, "external_id");
-		$worksheet->write(0, 6, "title");
-		$worksheet->write(0, 7, "description");
-		$worksheet->write(0, 8, "action");
-
-		$row = 0;
-		foreach($nodes as $node)
-		{
+		foreach ($nodes as $node) {
 			$orgu = new ilObjOrgUnit($node);
-			if($orgu->getRefId() == ilObjOrgUnit::getRootOrgRefId())
+			if ($orgu->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
 				continue;
-			$row++;
+			}
+			$row ++;
 			$attrs = $this->getAttributesForOrgu($orgu);
-			$worksheet->write($row, 0, $attrs["ou_id"]);
-			$worksheet->write($row, 1, $attrs["ou_id_type"]);
-			$worksheet->write($row, 2, $attrs["ou_parent_id"]);
-			$worksheet->write($row, 3, $attrs["ou_parent_id_type"]);
-			$worksheet->write($row, 4, $orgu->getRefId());
-			$worksheet->write($row, 5, $orgu->getImportId());
-			$worksheet->write($row, 6, $orgu->getTitle());
-			$worksheet->write($row, 7, $orgu->getDescription());
-			$worksheet->write($row, 8, "create");
+			$worksheet->setCell($row, 0, $attrs["ou_id"]);
+			$worksheet->setCell($row, 1, $attrs["ou_id_type"]);
+			$worksheet->setCell($row, 2, $attrs["ou_parent_id"]);
+			$worksheet->setCell($row, 3, $attrs["ou_parent_id_type"]);
+			$worksheet->setCell($row, 4, $orgu->getRefId());
+			$worksheet->setCell($row, 5, $orgu->getImportId());
+			$worksheet->setCell($row, 6, $orgu->getTitle());
+			$worksheet->setCell($row, 7, $orgu->getDescription());
+			$worksheet->setCell($row, 8, "create");
 		}
-		ob_end_clean();
-		$workbook->close();
+		$worksheet->sendToClient($file_name);
 	}
 
 	public function sendAndCreateSimpleExportFile(){

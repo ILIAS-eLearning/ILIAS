@@ -115,7 +115,7 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 	*
 	* @return	int	Size
 	*/
-//	function insert(&$a_tpl)
+//	function insert($a_tpl)
 //	{
 //		$a_tpl->setCurrentBlock("prop_generic");
 //		$a_tpl->setVariable("PROP_GENERIC", "zz");

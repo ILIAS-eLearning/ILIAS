@@ -1290,8 +1290,8 @@ class ilTrQuery
 			// what about LP_MODE_SCORM_PACKAGE ?
 			case ilLPObjSettings::LP_MODE_SCORM:
 				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
-				$status_scorm = ilLPStatusFactory::_getInstance($a_parent_obj_id, ilLPObjSettings::LP_MODE_SCORM);
-				$scorm = $status_scorm->_getStatusInfo($a_parent_obj_id);
+				$status_scorm = get_class(ilLPStatusFactory::_getInstance($a_parent_obj_id, ilLPObjSettings::LP_MODE_SCORM));				
+				$scorm = $status_scorm::_getStatusInfo($a_parent_obj_id);
 				break;
 			
 			case ilLPObjSettings::LP_MODE_OBJECTIVES:				
@@ -1305,8 +1305,8 @@ class ilTrQuery
 			case ilLPObjSettings::LP_MODE_COLLECTION_TLT:
 			case ilLPObjSettings::LP_MODE_COLLECTION_MOBS:
 				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
-				$status_coll_tlt = ilLPStatusFactory::_getInstance($a_parent_obj_id, $mode);
-				$subitems = $status_coll_tlt->_getStatusInfo($a_parent_obj_id);
+				$status_coll_tlt = get_class(ilLPStatusFactory::_getInstance($a_parent_obj_id, $mode));
+				$subitems = $status_coll_tlt::_getStatusInfo($a_parent_obj_id);
 				break;
 				
 			default:

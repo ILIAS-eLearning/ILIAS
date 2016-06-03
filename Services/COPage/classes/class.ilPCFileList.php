@@ -27,18 +27,18 @@ class ilPCFileList extends ilPageContent
 		$this->setType("flst");
 	}
 
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->list_node =& $a_node->first_child();		// this is the Table node
+		$this->list_node = $a_node->first_child();		// this is the Table node
 	}
 
 	function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
 	{
 		$this->node = $this->createPageContentNode();
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-		$this->list_node =& $this->dom->create_element("FileList");
-		$this->list_node =& $this->node->append_child($this->list_node);
+		$this->list_node = $this->dom->create_element("FileList");
+		$this->list_node = $this->node->append_child($this->list_node);
 	}
 
 	/*
@@ -46,32 +46,32 @@ class ilPCFileList extends ilPageContent
 	{
 		for ($i=1; $i<=$a_nr; $i++)
 		{
-			$new_item =& $this->dom->create_element("ListItem");
-			$new_item =& $this->list_node->append_child($new_item);
+			$new_item = $this->dom->create_element("ListItem");
+			$new_item = $this->list_node->append_child($new_item);
 		}
 	}*/
 
 	function appendItem($a_id, $a_location, $a_format)
 	{
 		// File Item
-		$new_item =& $this->dom->create_element("FileItem");
-		$new_item =& $this->list_node->append_child($new_item);
+		$new_item = $this->dom->create_element("FileItem");
+		$new_item = $this->list_node->append_child($new_item);
 
 		// Identifier
-		$id_node =& $this->dom->create_element("Identifier");
-		$id_node =& $new_item->append_child($id_node);
+		$id_node = $this->dom->create_element("Identifier");
+		$id_node = $new_item->append_child($id_node);
 		$id_node->set_attribute("Catalog", "ILIAS");
 		$id_node->set_attribute("Entry", "il__file_".$a_id);
 
 		// Location
-		$loc_node =& $this->dom->create_element("Location");
-		$loc_node =& $new_item->append_child($loc_node);
+		$loc_node = $this->dom->create_element("Location");
+		$loc_node = $new_item->append_child($loc_node);
 		$loc_node->set_attribute("Type", "LocalFile");
 		$loc_node->set_content($a_location);
 
 		// Format
-		$form_node =& $this->dom->create_element("Format");
-		$form_node =& $new_item->append_child($form_node);
+		$form_node = $this->dom->create_element("Format");
+		$form_node = $new_item->append_child($form_node);
 		$form_node->set_content($a_format);
 	}
 
@@ -84,7 +84,7 @@ class ilPCFileList extends ilPageContent
 
 	function getListTitle()
 	{
-		$chlds =& $this->list_node->child_nodes();
+		$chlds = $this->list_node->child_nodes();
 		for($i=0; $i<count($chlds); $i++)
 		{
 			if ($chlds[$i]->node_name() == "Title")
@@ -97,7 +97,7 @@ class ilPCFileList extends ilPageContent
 
 	function getLanguage()
 	{
-		$chlds =& $this->list_node->child_nodes();
+		$chlds = $this->list_node->child_nodes();
 		for($i=0; $i<count($chlds); $i++)
 		{
 			if ($chlds[$i]->node_name() == "Title")

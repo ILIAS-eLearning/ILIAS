@@ -118,7 +118,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	*
 	* @param	int		$a_id	learning object id
 	*/
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 
@@ -141,7 +141,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	* @param	int		$a_obj_id	content object id
 	* @param	int		$a_user_id	user object id
 	*/
-	function _getLastAccessedPage($a_ref_id, $a_user_id = "")
+	static function _getLastAccessedPage($a_ref_id, $a_user_id = "")
 	{
 		global $ilDB, $ilUser;
 		
@@ -182,7 +182,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	/**
 	* check whether goto script will succeed
 	*/
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 		
@@ -248,7 +248,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	 *
 	 * @param array $a_obj_ids array of object ids
 	 */
-	function _preloadData($a_obj_ids, $a_ref_ids)
+	static function _preloadData($a_obj_ids, $a_ref_ids)
 	{
 		global $ilDB, $ilUser;
 		

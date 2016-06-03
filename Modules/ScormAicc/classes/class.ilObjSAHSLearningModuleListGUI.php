@@ -18,9 +18,9 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	* constructor
 	*
 	*/
-	function ilObjSAHSLearningModuleListGUI()
+	function __construct()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**
@@ -35,7 +35,6 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 		$this->cut_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
-		$this->payment_enabled = true;
 		$this->info_screen_enabled = true;
 		$this->type = "sahs";
 		$this->gui_class_name = "ilobjsahslearningmodulegui";
@@ -139,22 +138,13 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "view":
-				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 				require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 				$sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
-				if(ilPaymentObject::_isBuyable($this->ref_id) && 
-				   !ilPaymentObject::_hasAccess($this->ref_id))
-				{
-					$frame = '';
+				if ($this->offline_mode) {
+					$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				}
-				else
-				{
-					if ($this->offline_mode) {
-						$frame = ilFrameTargetInfo::_getFrame("MainContent");
-					}
-					else {
-						$frame = "ilContObj".$this->obj_id;
-					}
+				else {
+					$frame = "ilContObj".$this->obj_id;
 				}
 				if ($sahs_obj->getEditable() == 1)
 				{

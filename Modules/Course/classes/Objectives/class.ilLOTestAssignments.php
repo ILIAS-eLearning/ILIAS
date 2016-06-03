@@ -56,7 +56,7 @@ class ilLOTestAssignments
 		$query = 'SELECT container_id FROM loc_tst_assignments '.
 				'WHERE tst_ref_id = '.$ilDB->quote($a_test_ref_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->container_id;
 		}
@@ -75,6 +75,15 @@ class ilLOTestAssignments
 	public function getSettings()
 	{
 		return $this->settings;
+	}
+	
+	/**
+	 * Get assignments
+	 * @return ilLOTestAssignment[]
+	 */
+	public function getAssignments()
+	{
+		return $this->assignments;
 	}
 
 	/**
@@ -244,7 +253,7 @@ class ilLOTestAssignments
 		}
 		return FALSE;
 	}
-
+	
 	/**
 	 * Read assignments
 	 * @global type $ilDB
@@ -256,7 +265,7 @@ class ilLOTestAssignments
 		$query = 'SELECT assignment_id FROM loc_tst_assignments '.
 				'WHERE container_id = '.$ilDB->quote($this->getContainerId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			include_once './Modules/Course/classes/Objectives/class.ilLOTestAssignment.php';
 			$assignment = new ilLOTestAssignment($row->assignment_id);
@@ -264,4 +273,30 @@ class ilLOTestAssignments
 			$this->assignments[] = $assignment;
 		}
 	}
+	
+	/**
+	 * to xml
+	 * @param ilXmlWriter $writer
+	 */
+	public function toXml(ilXmlWriter $writer, $a_objective_id)
+	{
+		foreach($this->getAssignments() as $assignment)
+		{
+			if($assignment->getObjectiveId() != $a_objective_id)
+			{
+				continue;
+			}
+			
+			include_once './Modules/Course/classes/Objectives/class.ilLOXmlWriter.php';
+			$writer->xmlElement(
+				'Test',
+				array(
+					'type' => ilLOXmlWriter::TYPE_TST_PO,
+					'refId' => $assignment->getTestRefId(),
+					'testType' => $assignment->getAssignmentType()
+				)
+			);
+		}
+	}
 }
+?>

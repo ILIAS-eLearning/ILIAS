@@ -500,7 +500,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 	 * @param integer $poolObjId
 	 * @return \ilDynamicTestQuestionChangeListener
 	 */
-	public static function getPoolQuestionChangeListener(ilDB $db, $poolObjId)
+	public static function getPoolQuestionChangeListener(ilDBInterface $db, $poolObjId)
 	{
 		$query = "
 			SELECT obj_fi

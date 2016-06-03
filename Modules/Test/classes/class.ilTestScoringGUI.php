@@ -31,9 +31,9 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	* @param object $a_object Associated ilObjTest class
 	* @access public
 	*/
-	function ilTestScoringGUI(ilObjTest $a_object)
+	public function __construct(ilObjTest $a_object)
 	{
-		parent::ilTestServiceGUI($a_object);
+		parent::__construct($a_object);
 	}
 
 	/**
@@ -94,7 +94,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilAccess;
 		
@@ -304,13 +304,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		$scorer = new ilTestScoring($this->object);
 		$scorer->setPreserveManualScores(true);
 		$scorer->recalculateSolutions();
-
-		if ($this->object->getEnableArchiving())
-		{
-			require_once 'Modules/Test/classes/class.ilTestArchiveService.php';
-			$archiveService = new ilTestArchiveService($this->object);
-			$archiveService->archivePassesByActives($scorer->getRecalculatedPassesByActives());
-		}
 		
 		if($this->object->getAnonymity() == 0)
 		{

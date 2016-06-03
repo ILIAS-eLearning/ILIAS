@@ -54,21 +54,25 @@ class ilCourseObjectivesGUI
 	protected $test_type = 0;
 	// end-patch lok
 	
-	function ilCourseObjectivesGUI($a_course_id)
+	/**
+	 * Constructor
+	 * @param int $a_course_id
+	 */
+	public function __construct($a_course_id)
 	{
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 
 		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree,$ilTabs;
 
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this,array("ref_id"));
 
-		$this->ilErr =& $ilErr;
-		$this->lng =& $lng;
+		$this->ilErr = $ilErr;
+		$this->lng = $lng;
 		$this->lng->loadLanguageModule('crs');
-		$this->tpl =& $tpl;
-		$this->tree =& $tree;
-		$this->tabs_gui =& $ilTabs;
+		$this->tpl = $tpl;
+		$this->tree = $tree;
+		$this->tabs_gui = $ilTabs;
 		
 		$this->course_id = $a_course_id;
 		$this->__initCourseObject();
@@ -82,7 +86,7 @@ class ilCourseObjectivesGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilTabs;
 
@@ -189,7 +193,7 @@ class ilCourseObjectivesGUI
 
 		ilUtil::sendQuestion($this->lng->txt('crs_delete_objectve_sure'));
 
-		$tpl =& new ilTemplate("tpl.table.html", true, true);
+		$tpl = new ilTemplate("tpl.table.html", true, true);
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_delete_row.html",'Modules/Course');
 
 		$counter = 0;
@@ -394,7 +398,7 @@ class ilCourseObjectivesGUI
 	function __initLMObject($a_objective_id = 0)
 	{
 		include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
-		$this->objectives_lm_obj =& new ilCourseObjectiveMaterials($a_objective_id);
+		$this->objectives_lm_obj = new ilCourseObjectiveMaterials($a_objective_id);
 
 		return true;
 	}
@@ -408,7 +412,7 @@ class ilCourseObjectivesGUI
 	function __initQuestionObject($a_objective_id = 0)
 	{
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
-		$this->objectives_qst_obj =& new ilCourseObjectiveQuestion($a_objective_id);
+		$this->objectives_qst_obj = new ilCourseObjectiveQuestion($a_objective_id);
 
 		return $this->objectives_qst_obj;
 	}

@@ -179,7 +179,7 @@ class ilObjSurvey extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjSurvey($a_id = 0,$a_call_by_reference = true)
+	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		global $ilUser, $lng;
 		
@@ -252,29 +252,16 @@ class ilObjSurvey extends ilObject
 		return $result;
 	}
 
-/**
-	* read object data from db into object
-	* @param	boolean
-	* @access	public
-	*/
-	function read($a_force_db = false)
+	/**
+	 * read object data from db into object
+	 * @access	public
+	 */
+	public function read()
 	{
-		parent::read($a_force_db);
+		parent::read();
 		$this->loadFromDb();
 	}
 	
-	/**
-	* Adds a question to the survey
-	*
-	* @param	integer	$question_id The question id of the question
-	* @access	public
-	*/
-	function addQuestion($question_id)
-	{
-		array_push($this->questions, $question_id);
-	}
-
-
 	/**
 	* delete object and all related data
 	*
@@ -342,12 +329,10 @@ class ilObjSurvey extends ilObject
 		);
 		
 		// delete export files
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
 		$directory = $svy_data_dir."/svy_".$this->getId();
 		if (is_dir($directory))
 		{
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::delDir($directory);
 		}
 
@@ -360,7 +345,7 @@ class ilObjSurvey extends ilObject
 		foreach($mobs as $mob)
 		{
 			ilObjMediaObject::_removeUsage($mob, "svy:html", $this->getId());
-			$mob_obj =& new ilObjMediaObject($mob);
+			$mob_obj = new ilObjMediaObject($mob);
 			$mob_obj->delete();
 		}
 	}
@@ -480,72 +465,6 @@ class ilObjSurvey extends ilObject
 		return $participants;
 	}
 
-	/**
-	* notifys an object about an event occured
-	* Based on the event happend, each object may decide how it reacts.
-	* 
-	* If you are not required to handle any events related to your module, just delete this method.
-	* (For an example how this method is used, look at ilObjGroup)
-	* 
-	* @access	public
-	* @param	string	event
-	* @param	integer	reference id of object where the event occured
-	* @param	array	passes optional parameters if required
-	* @return	boolean
-	*/
-	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
-	{
-		global $tree;
-		
-		switch ($a_event)
-		{
-			case "link":
-				
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Module name ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-			
-			case "cut":
-				
-				//echo "Module name ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-				
-			case "copy":
-			
-				//var_dump("<pre>",$a_params,"</pre>");
-				//echo "Module name ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-
-			case "paste":
-				
-				//echo "Module name ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-			
-			case "new":
-				
-				//echo "Module name ".$this->getRefId()." triggered by paste (new) event. Objects are applied to target object ref_id: ".$a_ref_id;
-				//exit;
-				break;
-		}
-		
-		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
-		if ($a_node_id==$_GET["ref_id"])
-		{	
-			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
-			$parent_type = $parent_obj->getType();
-			if($parent_type == $this->getType())
-			{
-				$a_node_id = (int) $tree->getParentId($a_node_id);
-			}
-		}
-		
-		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
-	}
-
 /**
 * Returns 1, if a survey is complete for use
 *
@@ -562,49 +481,6 @@ class ilObjSurvey extends ilObject
 		{
 			return 0;
 		}
-	}
-
-/**
-* Returns 1, if a survey is complete for use
-*
-* @return boolean 1, if the survey is complete for use, otherwise 0
-* @access public
-*/
-	function _isComplete($obj_id)
-	{
-		$survey = new ilObjSurvey($obj_id, false);
-		$survey->loadFromDb();
-		if (($survey->getTitle()) and (count($survey->questions)))
-		{
-			return 1;
-		} 
-			else 
-		{
-			return 0;
-		}
-	}
-
-/**
-* Returns an array with data needed in the repository, personal desktop or courses
-*
-* @return array resulting array
-* @access public
-*/
-	function &_getGlobalSurveyData($obj_id)
-	{
-		$survey = new ilObjSurvey($obj_id, false);
-		$survey->loadFromDb();
-		$result = array();
-		if (($survey->getTitle()) and ($survey->author) and (count($survey->questions)))
-		{
-			$result["complete"] = true;
-		} 
-			else 
-		{
-			$result["complete"] = false;
-		}
-		$result["evaluation_access"] = $survey->getEvaluationAccess();
-		return $result;
 	}
 
 /**
@@ -717,36 +593,6 @@ class ilObjSurvey extends ilObject
 			$show_blocktitle = $row["show_blocktitle"];
 		}
 		$this->createQuestionblock($title, $show_questiontext, $show_blocktitle, $questions);
-	}
-	
-	/**
-	* Returns the content of all RTE enabled text areas in the test
-	*
-	* @access private
-	*/
-	function getAllRTEContent()
-	{
-		$result = array();
-		array_push($result, $this->getIntroduction());
-		array_push($result, $this->getOutro());
-		return $result;
-	}
-	
-	/**
-	* Cleans up the media objects for all text fields in a test which are using an RTE field
-	*
-	* @access private
-	*/
-	function cleanupMediaobjectUsage()
-	{
-		include_once("./Services/RTE/classes/class.ilRTE.php");
-		$completecontent = "";
-		foreach ($this->getAllRTEContent() as $content)
-		{
-			$completecontent .= $content;
-		}
-		ilRTE::_cleanupMediaObjectUsage($completecontent, $this->getType() . ":html",
-			$this->getId());
 	}
 	
 	public function saveUserSettings($usr_id, $key, $title, $value)
@@ -1262,7 +1108,7 @@ class ilObjSurvey extends ilObject
 */
 	function saveAuthorToMetadata($a_author = "")
 	{
-		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md = new ilMD($this->getId(), 0, $this->getType());
 		$md_life =& $md->getLifecycle();
 		if (!$md_life)
 		{
@@ -1294,7 +1140,7 @@ class ilObjSurvey extends ilObject
 	{
 		$author = array();
 		include_once "./Services/MetaData/classes/class.ilMD.php";
-		$md =& new ilMD($this->getId(), 0, $this->getType());
+		$md = new ilMD($this->getId(), 0, $this->getType());
 		$md_life =& $md->getLifecycle();
 		if ($md_life)
 		{
@@ -1812,131 +1658,6 @@ class ilObjSurvey extends ilObject
 	}
 	
 /**
-* Moves a question up in the list of survey questions
-*
-* @param integer $question_id The question id of the question which has to be moved up
-* @access public
-*/
-	function moveUpQuestion($question_id)
-	{
-		$move_questions = array($question_id);
-		$pages =& $this->getSurveyPages();
-		$pageindex = -1;
-		foreach ($pages as $idx => $page)
-		{
-			if ($page[0]["question_id"] == $question_id)
-			{
-				$pageindex = $idx;
-			}
-		}
-		if ($pageindex > 0)
-		{
-			$this->moveQuestions($move_questions, $pages[$pageindex-1][0]["question_id"], 0);
-		}
-		else
-		{
-			// move up a question in a questionblock
-			$questions = $this->getSurveyQuestions();
-			$questions = array_keys($questions);
-			$index = array_search($question_id, $questions);
-			if (($index !== FALSE) && ($index > 0))
-			{
-				$this->moveQuestions($move_questions, $questions[$index-1], 0);
-			}
-		}
-	}
-	
-/**
-* Moves a question down in the list of survey questions
-*
-* @param integer $question_id The question id of the question which has to be moved down
-*/
-	public function moveDownQuestion($question_id)
-	{
-		$move_questions = array($question_id);
-		$pages =& $this->getSurveyPages();
-		$pageindex = -1;
-		foreach ($pages as $idx => $page)
-		{
-			if (($page[0]["question_id"] == $question_id) && (strcmp($page[0]["questionblock_id"], "") == 0))
-			{
-				$pageindex = $idx;
-			}
-		}
-		if (($pageindex < count($pages)-1) && ($pageindex >= 0))
-		{
-			$this->moveQuestions($move_questions, $pages[$pageindex+1][count($pages[$pageindex+1])-1]["question_id"], 1);
-		}
-		else
-		{
-			// move down a question in a questionblock
-			$questions = $this->getSurveyQuestions();
-			$questions = array_keys($questions);
-			$index = array_search($question_id, $questions);
-			if (($index !== FALSE) && ($index < count($questions)-1))
-			{
-				$this->moveQuestions($move_questions, $questions[$index+1], 1);
-			}
-		}
-	}
-	
-/**
-* Moves a questionblock up in the list of survey questions
-*
-* @param integer $questionblock_id The questionblock id of the questionblock which has to be moved up
-* @access public
-*/
-	function moveUpQuestionblock($questionblock_id)
-	{
-		$pages =& $this->getSurveyPages();
-		$move_questions = array();
-		$pageindex = -1;
-		foreach ($pages as $idx => $page)
-		{
-			if ($page[0]["questionblock_id"] == $questionblock_id)
-			{
-				foreach ($page as $pageidx => $question)
-				{
-					array_push($move_questions, $question["question_id"]);
-				}
-				$pageindex = $idx;
-			}
-		}
-		if ($pageindex > 0)
-		{
-			$this->moveQuestions($move_questions, $pages[$pageindex-1][0]["question_id"], 0);
-		}
-	}
-	
-/**
-* Moves a questionblock down in the list of survey questions
-*
-* @param integer $questionblock_id The questionblock id of the questionblock which has to be moved down
-* @access public
-*/
-	function moveDownQuestionblock($questionblock_id)
-	{
-		$pages =& $this->getSurveyPages();
-		$move_questions = array();
-		$pageindex = -1;
-		foreach ($pages as $idx => $page)
-		{
-			if ($page[0]["questionblock_id"] == $questionblock_id)
-			{
-				foreach ($page as $pageidx => $question)
-				{
-					array_push($move_questions, $question["question_id"]);
-				}
-				$pageindex = $idx;
-			}
-		}
-		if ($pageindex < count($pages)-1)
-		{
-			$this->moveQuestions($move_questions, $pages[$pageindex+1][count($pages[$pageindex+1])-1]["question_id"], 1);
-		}
-	}
-	
-/**
 * Move questions and/or questionblocks to another position
 *
 * @param array $move_questions An array with the question id's of the questions to move
@@ -1998,7 +1719,7 @@ class ilObjSurvey extends ilObject
 	function removeQuestion($question_id)
 	{
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-		$question =& $this->_instanciateQuestion($question_id);
+		$question = self::_instanciateQuestion($question_id);
 		$question->delete($question_id);
 		$this->removeConstraintsConcerningQuestion($question_id);
 	}
@@ -2203,24 +1924,7 @@ class ilObjSurvey extends ilObject
 * @result array The database row of the question block
 * @access public
 */
-	function getQuestionblock($questionblock_id)
-	{
-		global $ilDB;
-		$result = $ilDB->queryF("SELECT * FROM svy_qblk WHERE questionblock_id = %s",
-			array('integer'),
-			array($questionblock_id)
-		);
-		return $ilDB->fetchAssoc($result);
-	}
-	
-/**
-* Returns the database row for a given question block
-*
-* @param integer $questionblock_id The database id of the question block
-* @result array The database row of the question block
-* @access public
-*/
-	function _getQuestionblock($questionblock_id)
+	static function _getQuestionblock($questionblock_id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT * FROM svy_qblk WHERE questionblock_id = %s",
@@ -2239,7 +1943,7 @@ class ilObjSurvey extends ilObject
 * @return integer The database id of the newly created questionblock
 * @access public
 */
-	function _addQuestionblock($title = "", $owner = 0,  $show_questiontext = true, $show_blocktitle = false)
+	static function _addQuestionblock($title = "", $owner = 0,  $show_questiontext = true, $show_blocktitle = false)
 	{		
 		global $ilDB;
 		$next_id = $ilDB->nextId('svy_qblk');
@@ -2383,8 +2087,8 @@ class ilObjSurvey extends ilObject
 			}
 			if ($add)
 			{
-				$question =& $this->_instanciateQuestion($row["question_id"]);
-				$questionrow = $question->_getQuestionDataArray($row["question_id"]);
+				$question = self::_instanciateQuestion($row["question_id"]);
+				$questionrow = $question->getQuestionDataArray($row["question_id"]);
 				foreach ($row as $key => $value)
 				{
 					$questionrow[$key] = $value;
@@ -2733,7 +2437,7 @@ class ilObjSurvey extends ilObject
 *
 * @access public
 */
-	function _getConstraints($survey_id)
+	static function _getConstraints($survey_id)
  	{
 		global $ilDB;
 		$result_array = array();
@@ -2953,61 +2657,6 @@ class ilObjSurvey extends ilObject
 		}
 	}
 
-	/**
-	* Invites a group to a survey
-	*
-	* @param integer $group_id The database id of the invited group
-	* @access public
-	*/
-		function inviteGroup($group_id)
-		{
-			global $ilAccess;
-			$invited = 0;
-			include_once "./Modules/Group/classes/class.ilObjGroup.php";
-			$group = new ilObjGroup($group_id);
-			$members = $group->getGroupMemberIds();
-			foreach ($members as $user_id)
-			{
-				if ($ilAccess->checkAccessOfUser($user_id, "read", "", $this->getRefId(), "svy", $this->getId()))
-				{
-					$this->inviteUser($user_id);
-					if ($this->getInvitation() == self::INVITATION_ON)
-					{
-						include_once './Services/User/classes/class.ilObjUser.php';
-						ilObjUser::_addDesktopItem($user_id, $this->getRefId(), "svy");
-					}
-				}
-			}
-			return $invited;
-		}
-
-	/**
-	* Invites a role to a survey
-	*
-	* @param integer $role_id The database id of the invited role
-	* @access public
-	*/
-		function inviteRole($role_id)
-		{
-			global $rbacreview;
-			global $ilAccess;
-			$invited = 0;
-			$members = $rbacreview->assignedUsers($role_id);
-			foreach ($members as $user_id)
-			{
-				if ($ilAccess->checkAccessOfUser($user_id, "read", "", $this->getRefId(), "svy", $this->getId()))
-				{
-					$this->inviteUser($user_id);
-					if ($this->getInvitation() == self::INVITATION_ON)
-					{
-						include_once './Services/User/classes/class.ilObjUser.php';
-						ilObjUser::_addDesktopItem($user_id, $this->getRefId(), "svy");
-					}
-				}
-			}
-			return $invited;
-		}
-
 /**
 * Returns a list of all invited users in a survey
 *
@@ -3077,39 +2726,6 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
-	/**
-	* Fills a survey randomly with data for a given user.
-	*
-	* @param integer $user_id The database id of the user. If empty an anonymous user will be taken
-	* @access public
-	*/
-	function fillSurveyForUser($user_id = ANONYMOUS_USER_ID)
-	{
-		global $ilDB;
-		// create an anonymous key
-		$anonymous_id = $this->createNewAccessCode();
-		$this->saveUserAccessCode($user_id, $anonymous_id);
-		// create the survey_finished dataset and set the survey finished already
-		$active_id = $ilDB->nextId('svy_finished');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_finished (finished_id, survey_fi, user_fi, anonymous_id, state, tstamp) ".
-			"VALUES (%s, %s, %s, %s, %s, %s)",
-			array('integer','integer','integer','text','text','integer'),
-			array($active_id, $this->getSurveyId(), $user_id, $anonymous_id, 1, time())
-		);
-		// fill the questions randomly
-		$pages =& $this->getSurveyPages();
-		foreach ($pages as $key => $question_array)
-		{
-			foreach ($question_array as $question)
-			{
-				// instanciate question
-				require_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-				$question =& SurveyQuestion::_instanciateQuestion($question["question_id"]);
-				$question->saveRandomData($active_id);
-			}
-		}		
-	}
-
 /**
 * Starts the survey creating an entry in the database
 *
@@ -3268,56 +2884,6 @@ class ilObjSurvey extends ilObject
 		return $textresult;
 	}
 
-	function getDetailedParticipantResultsAsText()
-	{
-		$counter = 0;
-		$questions =& $this->getSurveyQuestions();
-		$counter++;
-		foreach ($questions as $data)
-		{
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$question = SurveyQuestion::_instanciateQuestion($data["question_id"]);
-
-			$eval = $this->getCumulatedResults($question);
-		}
-	}
-	
-	/**
-	* Checks if a user is allowed to take multiple survey
-	*
-	* @param int $userid user id of the user
-	* @return boolean TRUE if the user is allowed to take the survey more than once, FALSE otherwise
-	* @access public
-	*/
-	function isAllowedToTakeMultipleSurveys($userid = "")
-	{		
-		// #7927: special users are deprecated
-		return false;
-		
-		/*
-		$result = FALSE;
-		if ($this->getAnonymize())
-		{
-			if ($this->isAccessibleWithoutCode())
-			{
-				if (strlen($username) == 0)
-				{
-					global $ilUser;
-					$userid = $ilUser->getId();
-				}
-				global $ilSetting;
-				$surveysetting = new ilSetting("survey");
-				$allowedUsers = strlen($surveysetting->get("multiple_survey_users")) ? explode(",",$surveysetting->get("multiple_survey_users")) : array();
-				if (in_array($userid, $allowedUsers))
-				{
-					$result = TRUE;
-				}
-			}
-		}
-		return $result;		 
-		*/
-	}
-	
 /**
 * Checks if a user already started a survey
 *
@@ -3359,46 +2925,6 @@ class ilObjSurvey extends ilObject
 			
 			return (int)$row["state"];
 		}
-
-		/*
-		if ($this->getAnonymize())
-		{
-			if ((($user_id != ANONYMOUS_USER_ID) && sizeof($anonymize_id)) && (!($this->isAccessibleWithoutCode() && $this->isAllowedToTakeMultipleSurveys())))
-			{
-				$result = $ilDB->queryF("SELECT * FROM svy_finished".
-					" WHERE survey_fi = %s AND user_fi = %s AND appr_id = %s",
-					array('integer','integer','integer'),
-					array($this->getSurveyId(), $user_id, $appr_id)
-				);
-			}
-			else
-			{
-				$result = $ilDB->queryF("SELECT * FROM svy_finished".
-					" WHERE survey_fi = %s AND anonymous_id = %s AND appr_id = %s",
-					array('integer','text','integer'),
-					array($this->getSurveyId(), $anonymize_id, $appr_id)
-				);
-			}
-		}
-		else
-		{
-			$result = $ilDB->queryF("SELECT * FROM svy_finished".
-				" WHERE survey_fi = %s AND user_fi = %s AND appr_id = %s",
-				array('integer','integer','integer'),
-				array($this->getSurveyId(), $user_id, $appr_id)
-			);
-		}
-		if ($result->numRows() == 0)
-		{
-			return false;
-		}			
-		else
-		{
-			$row = $ilDB->fetchAssoc($result);
-			$_SESSION["finished_id"][$this->getId()] = $row["finished_id"];
-			return (int)$row["state"];
-		}		
-		*/
 	}
 
 	/**
@@ -3440,45 +2966,6 @@ class ilObjSurvey extends ilObject
 			$row = $ilDB->fetchAssoc($result);			
 			return $row["finished_id"];
 		}	
-
-		/*
-		if ($this->getAnonymize())
-		{
-			if ((($user_id != ANONYMOUS_USER_ID) && (strlen($anonymize_id) == 0)) && (!($this->isAccessibleWithoutCode() && $this->isAllowedToTakeMultipleSurveys())))
-			{
-				$result = $ilDB->queryF("SELECT finished_id FROM svy_finished".
-					" WHERE survey_fi = %s AND user_fi = %s AND appr_id = %s",
-					array('integer','integer','integer'),
-					array($this->getSurveyId(), $user_id, $appr_id)
-				);
-			}
-			else
-			{
-				$result = $ilDB->queryF("SELECT finished_id FROM svy_finished".
-					" WHERE survey_fi = %s AND anonymous_id = %s AND appr_id = %s",
-					array('integer','text','integer'),
-					array($this->getSurveyId(), $anonymize_id, $appr_id)
-				);
-			}
-		}
-		else
-		{
-			$result = $ilDB->queryF("SELECT finished_id FROM svy_finished".
-				" WHERE survey_fi = %s AND user_fi = %s AND appr_id = %s",
-				array('integer','integer','integer'),
-				array($this->getSurveyId(), $user_id, $appr_id)
-			);
-		}
-		if ($result->numRows() == 0)
-		{
-			return false;
-		}			
-		else
-		{
-			$row = $ilDB->fetchAssoc($result);
-			return $row["finished_id"];
-		}		 
-		*/
 	}
 	
 /**
@@ -3582,7 +3069,7 @@ class ilObjSurvey extends ilObject
 		return (int)$found;
 	}
 	
-	function _hasDatasets($survey_id)
+	static function _hasDatasets($survey_id)
 	{
 		global $ilDB;
 		
@@ -3791,7 +3278,7 @@ class ilObjSurvey extends ilObject
 * @return integer The number of participants
 * @access public
 */
-	function _getNrOfParticipants($survey_id)
+	static function _getNrOfParticipants($survey_id)
 	{
 		global $ilDB;
 		
@@ -3800,21 +3287,6 @@ class ilObjSurvey extends ilObject
 			array($survey_id)
 		);
 		return $result->numRows();
-	}
-
-	function &getQuestions($question_ids)
-	{
-		global $ilDB;
-		
-		$result_array = array();
-		$result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag FROM svy_question, svy_qtype WHERE ".
-			"svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.tstamp > 0 AND ".
-			$ilDB->in('svy_question.question_id', $question_ids, false, 'integer'));
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			array_push($result_array, $row);
-		}
-		return $result_array;
 	}
 	
 /**
@@ -4136,7 +3608,7 @@ class ilObjSurvey extends ilObject
 				{
 					$a_xml_writer->xmlElement("textblock", NULL, $question["heading"]);
 				}
-				$questionObject =& $this->_instanciateQuestion($question["question_id"]);
+				$questionObject = self::_instanciateQuestion($question["question_id"]);
 				if ($questionObject !== FALSE) $questionObject->insertXML($a_xml_writer, FALSE, $obligatory_states[$question["question_id"]]);
 			}
 			if (count($question_array) > 1)
@@ -4150,15 +3622,15 @@ class ilObjSurvey extends ilObject
 		$xml = $a_xml_writer->xmlDumpMem(FALSE);
 		return $xml;
 	}
-	
-/**
-* Creates an instance of a question with a given question id
-*
-* @param integer $question_id The question id
-* @return object The question instance
-* @access public
-*/
-  function &_instanciateQuestion($question_id) 
+
+	/**
+	* Creates an instance of a question with a given question id
+	*
+	* @param integer $question_id The question id
+	* @return object The question instance
+	* @access public
+	*/
+	static function _instanciateQuestion($question_id) 
 	{
 		if ($question_id < 1) return FALSE;
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
@@ -4168,7 +3640,7 @@ class ilObjSurvey extends ilObject
 		$question = new $question_type();
 		$question->loadFromDb($question_id);
 		return $question;
-  }
+	}
 
 	/**
 	* Locates the import directory and the xml file in a directory with an unzipped import file
@@ -4212,7 +3684,10 @@ class ilObjSurvey extends ilObject
 			}
 			foreach($files as $file)
 			{
-				if(@is_file($importDirectory."/".$file) && ($file != "." && $file!="..") && (ereg("^[0-9]{10}_{2}[0-9]+_{2}(svy_)*[0-9]+\.[a-z]{1,3}\$", $file) || ereg("^[0-9]{10}_{2}[0-9]+_{2}(survey__)*[0-9]+\.[a-z]{1,3}\$", $file)))
+				if(@is_file($importDirectory."/".$file) && 
+					($file != "." && $file!="..") && 
+					(preg_match("/^[0-9]{10}__[0-9]+__(svy_)*[0-9]+\.[A-Za-z]{1,3}$/", $file) || 
+						preg_match("/^[0-9]{10}__[0-9]+__(survey__)*[0-9]+\.[A-Za-z]{1,3}$/", $file)))
 				{
 					// found xml file
 					$xmlFile = $importDirectory."/".$file;
@@ -4263,7 +3738,6 @@ class ilObjSurvey extends ilObject
 			$import_dir = $this->getImportDirectory();
 			$import_subdir = "";
 			$importfile = "";
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			if ($isZip)
 			{
 				$importfile = $import_dir."/".$file_info["name"];
@@ -4441,7 +3915,7 @@ class ilObjSurvey extends ilObject
 		
 		foreach ($this->questions as $key => $question_id)
 		{
-			$question = ilObjSurvey::_instanciateQuestion($question_id);
+			$question = self::_instanciateQuestion($question_id);
 			if($question) // #10824
 			{
 				$question->id = -1;
@@ -4500,8 +3974,8 @@ class ilObjSurvey extends ilObject
 		// create new questionblocks
 		foreach ($questionblocks as $key => $value)
 		{
-			$questionblock = ilObjSurvey::_getQuestionblock($key); 
-			$questionblock_id = ilObjSurvey::_addQuestionblock($questionblock["title"], $questionblock["owner_fi"], $questionblock["show_questiontext"], $questionblock["show_blocktitle"]);
+			$questionblock = self::_getQuestionblock($key); 
+			$questionblock_id = self::_addQuestionblock($questionblock["title"], $questionblock["owner_fi"], $questionblock["show_questiontext"], $questionblock["show_blocktitle"]);
 			$questionblocks[$key] = $questionblock_id;
 		}
 		// create new questionblock questions
@@ -4520,7 +3994,7 @@ class ilObjSurvey extends ilObject
 		}
 		
 		// clone the constraints
-		$constraints = ilObjSurvey::_getConstraints($this->getSurveyId());
+		$constraints = self::_getConstraints($this->getSurveyId());
 		$newConstraints = array();
 		foreach ($constraints as $key => $constraint)
 		{
@@ -4603,16 +4077,17 @@ class ilObjSurvey extends ilObject
 	* creates data directory for export files
 	* (data_dir/svy_data/svy_<id>/export, depending on data
 	* directory that is set in ILIAS setup/ini)
+	* 
+	* @throws ilSurveyException
 	*/
 	function createExportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
 		ilUtil::makeDir($svy_data_dir);
 		if(!is_writable($svy_data_dir))
 		{
-			$this->ilias->raiseError("Survey Data Directory (".$svy_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Survey Data Directory (".$svy_data_dir.") not writeable.");
 		}
 		
 		// create learning module directory (data_dir/lm_data/lm_<id>)
@@ -4620,14 +4095,16 @@ class ilObjSurvey extends ilObject
 		ilUtil::makeDir($svy_dir);
 		if(!@is_dir($svy_dir))
 		{
-			$this->ilias->raiseError("Creation of Survey Directory failed.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Creation of Survey Directory failed.");
 		}
 		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
 		$export_dir = $svy_dir."/export";
 		ilUtil::makeDir($export_dir);
 		if(!@is_dir($export_dir))
 		{
-			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Creation of Export Directory failed.");
 		}
 	}
 
@@ -4636,7 +4113,6 @@ class ilObjSurvey extends ilObject
 	*/
 	function getExportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$export_dir = ilUtil::getDataDir()."/svy_data"."/svy_".$this->getId()."/export";
 
 		return $export_dir;
@@ -4646,17 +4122,18 @@ class ilObjSurvey extends ilObject
 	* creates data directory for import files
 	* (data_dir/svy_data/svy_<id>/import, depending on data
 	* directory that is set in ILIAS setup/ini)
+	* 
+	* @throws ilSurveyException
 	*/
 	function createImportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$svy_data_dir = ilUtil::getDataDir()."/svy_data";
 		ilUtil::makeDir($svy_data_dir);
 		
 		if(!is_writable($svy_data_dir))
 		{
-			$this->ilias->raiseError("Survey Data Directory (".$svy_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Survey Data Directory (".$svy_data_dir.") not writeable.");
 		}
 
 		// create test directory (data_dir/svy_data/svy_<id>)
@@ -4664,7 +4141,8 @@ class ilObjSurvey extends ilObject
 		ilUtil::makeDir($svy_dir);
 		if(!@is_dir($svy_dir))
 		{
-			$this->ilias->raiseError("Creation of Survey Directory failed.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Creation of Survey Directory failed.");
 		}
 
 		// create import subdirectory (data_dir/svy_data/svy_<id>/import)
@@ -4672,7 +4150,8 @@ class ilObjSurvey extends ilObject
 		ilUtil::makeDir($import_dir);
 		if(!@is_dir($import_dir))
 		{
-			$this->ilias->raiseError("Creation of Import Directory failed.",$this->ilias->error_obj->FATAL);
+			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
+			throw new ilSurveyException("Creation of Import Directory failed.");
 		}
 	}
 
@@ -4681,7 +4160,6 @@ class ilObjSurvey extends ilObject
 	*/
 	function getImportDirectory()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$import_dir = ilUtil::getDataDir()."/svy_data".
 			"/svy_".$this->getId()."/import";
 		if (!is_dir($import_dir))
@@ -4726,26 +4204,6 @@ class ilObjSurvey extends ilObject
 			array($key, $this->getSurveyId())
 		);
 		return ($result->numRows() == 1) ? true : false;
-	}
-	
-	function getUserSurveyCode($user_id)
-	{
-		global $ilDB;
-		
-		if (($user_id == ANONYMOUS_USER_ID) || (($this->isAccessibleWithoutCode() && $this->isAllowedToTakeMultipleSurveys()))) return "";
-		$result = $ilDB->queryF("SELECT anonymous_id FROM svy_finished WHERE survey_fi = %s AND user_fi = %s",
-			array('integer','integer'),
-			array($this->getSurveyId(), $user_id)
-		);
-		if ($result->numRows() == 1)
-		{
-			$row = $ilDB->fetchAssoc($result);
-			return $row["anonymous_id"];
-		}
-		else
-		{
-			return "";
-		}
 	}
 	
 	function bindSurveyCodeToUser($user_id, $code)
@@ -4795,23 +4253,6 @@ class ilObjSurvey extends ilObject
 		}
 	}
 
-	/**
-	* Returns the number of generated survey codes for the survey
-	*
-	* @return integer The number of generated survey codes
-	* @access public
-	*/
-	function getSurveyCodesCount()
-	{
-		global $ilDB;
-
-		$result = $ilDB->queryF("SELECT anonymous_id FROM svy_anonymous WHERE survey_fi = %s AND user_key IS NULL",
-			array('integer'),
-			array($this->getSurveyId())
-		);
-		return $result->numRows();
-	}
-	
 	/**
 	* Returns a list of survey codes for file export
 	*
@@ -5280,7 +4721,7 @@ class ilObjSurvey extends ilObject
 		return $resultarray;
 	}
 
-	function _getLastAccess($finished_id)
+	function getLastAccess($finished_id)
 	{
 		global $ilDB;
 		
@@ -5316,7 +4757,6 @@ class ilObjSurvey extends ilObject
 	*/
 	function prepareTextareaOutput($txt_output)
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
 	}
 
@@ -5371,7 +4811,7 @@ class ilObjSurvey extends ilObject
 				$mob_id = "il_" . IL_INST_ID . "_mob_" . $mob;
 				if (strpos($mattext, $mob_id) !== FALSE)
 				{
-					$mob_obj =& new ilObjMediaObject($mob);
+					$mob_obj = new ilObjMediaObject($mob);
 					$imgattrs = array(
 						"label" => $mob_id,
 						"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle(),
@@ -5470,7 +4910,6 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilLog;
 
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$fo_file = ilUtil::ilTempnam() . ".fo";
 		$fp = fopen($fo_file, "w"); fwrite($fp, $fo); fclose($fp);
 
@@ -5481,24 +4920,11 @@ class ilObjSurvey extends ilObject
 			ilUtil::deliverData($pdf_base64->scalar, ilUtil::getASCIIFilename($this->getTitle()) . ".pdf", "application/pdf");
 			return true;
 		}
-		catch(XML_RPC2_FaultException $e)
-		{
-			$ilLog->write(__METHOD__.': '.$e->getMessage());
-			return false;
-		}
 		catch(Exception $e)
 		{
 			$ilLog->write(__METHOD__.': '.$e->getMessage());
 			return false;
 		}
-
-		/*
-		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
-		$fo2pdf = new ilFO2PDF();
-		$fo2pdf->setFOString($fo);
-		$result = $fo2pdf->send();
-		ilUtil::deliverData($result, ilUtil::getASCIIFilename($this->getTitle()) . ".pdf", "application/pdf");
-		*/
 	}
 
 	/**
@@ -5551,29 +4977,6 @@ class ilObjSurvey extends ilObject
 		return $result_array;
 	}
 
-	function &getGroupData($ids)
-	{
-		if (!is_array($ids) || count($ids) ==0) return array();
-		$result = array();
-		foreach ($ids as $ref_id)
-		{
-			$obj_id = ilObject::_lookupObjId($ref_id);
-			$result[$ref_id] = array("ref_id" => $ref_id, "title" => ilObject::_lookupTitle($obj_id), "description" => ilObject::_lookupDescription($obj_id));
-		}
-		return $result;
-	}
-
-	function &getRoleData($ids)
-	{
-		if (!is_array($ids) || count($ids) ==0) return array();
-		$result = array();
-		foreach ($ids as $obj_id)
-		{
-			$result[$obj_id] = array("obj_id" => $obj_id, "title" => ilObject::_lookupTitle($obj_id), "description" => ilObject::_lookupDescription($obj_id));
-		}
-		return $result;
-	}
-	
 	function getMailNotification()
 	{
 		return $this->mailnotification;
@@ -5602,23 +5005,6 @@ class ilObjSurvey extends ilObject
 	function setMailParticipantData($a_data)
 	{
 		$this->mailparticipantdata = $a_data;
-	}
-	
-	public function getSurveyTimes()
-	{
-		global $ilDB;
-
-		$result = $ilDB->queryF("SELECT * FROM svy_times, svy_finished WHERE svy_finished.survey_fi = %s",
-			array('integer'),
-			array($this->getId())
-		);
-		$times = array();;
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			if (strlen($row['left_page']) && strlen($row['entered_page']))
-				$times[$row['finished_fi']] += ($row['left_page']-$row['entered_page']);
-		}
-		return $times;
 	}
 	
 	function setStartTime($finished_id, $first_question)

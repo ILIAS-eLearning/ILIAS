@@ -49,15 +49,10 @@ class SurveyTextQuestion extends SurveyQuestion
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-	function SurveyTextQuestion(
-		$title = "",
-		$description = "",
-		$author = "",
-		$questiontext = "",
-		$owner = -1
-	)
+	function __construct($title = "", $description = "", $author = "", $questiontext = "",	$owner = -1)
 	{
-		$this->SurveyQuestion($title, $description, $author, $questiontext, $owner);
+		parent::__construct($title, $description, $author, $questiontext, $owner);
+		
 		$this->maxchars = 0;
 		$this->textwidth = 50;
 		$this->textheight = 5;
@@ -70,7 +65,7 @@ class SurveyTextQuestion extends SurveyQuestion
 	* @return array Array containing the question fields and data from the database
 	* @access public
 	*/
-	function _getQuestionDataArray($id)
+	function getQuestionDataArray($id)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
@@ -282,27 +277,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	}
 
 	/**
-	* Returns the maxium number of allowed characters for the text answer
-	*
-	* @return integer The maximum number of characters
-	* @access public
-	*/
-	function _getMaxChars($question_id)
-	{
-		global $ilDB;
-		$result = $ilDB->queryF("SELECT maxchars FROM svy_question WHERE question_id = %s",
-			array('integer'),
-			array($question_id)
-		);
-		if ($result->numRows())
-		{
-			$row = $ilDB->fetchAssoc($result);
-			return $row["maxchars"];
-		}
-		return 0;
-	}
-
-	/**
 	* Returns the question type of the question
 	*
 	* @return integer The question type of the question
@@ -361,42 +335,10 @@ class SurveyTextQuestion extends SurveyQuestion
 		return "";
 	}
 	
-	function randomText($length)
-	{
-		$random= "";
-		$char_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		$char_list .= "abcdefghijklmnopqrstuvwxyz";
-		$char_list .= "1234567890";
-		for($i = 0; $i < $length; $i++)
-		{ 
-			$random .= substr($char_list,(rand()%(strlen($char_list))), 1);
-			if (!rand(0,5)) $random .= ' ';
-		}
-		return $random;
-	}
-	
-	/**
-	* Saves random answers for a given active user in the database
-	*
-	* @param integer $active_id The database ID of the active user
-	*/
-	public function saveRandomData($active_id)
-	{
-		global $ilDB;
-		// single response
-		$randomtext = $this->randomText(rand(25,100));
-		$next_id = $ilDB->nextId('svy_answer');
-		$affectedRows = $ilDB->manipulateF("INSERT INTO svy_answer (answer_id, question_fi, active_fi, value, textanswer, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-			array('integer', 'integer', 'integer', 'float', 'text', 'integer'),
-			array($next_id, $this->getId(), $active_id, NULL, $randomtext, time())
-		);
-	}
-
 	function saveUserInput($post_data, $active_id, $a_return = false)
 	{
 		global $ilDB;
 
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$entered_value = ilUtil::stripSlashes($post_data[$this->getId() . "_text_question"]);
 		$maxchars = $this->getMaxChars();
 		if ($maxchars > 0)
@@ -451,62 +393,53 @@ class SurveyTextQuestion extends SurveyQuestion
 		$result_array["textvalues"] = $textvalues;
 		return $result_array;
 	}
-	
-	/**
-	* Creates an Excel worksheet for the detailed cumulated results of this question
-	*
-	* @param object $workbook Reference to the parent excel workbook
-	* @param object $format_title Excel title format
-	* @param object $format_bold Excel bold format
-	* @param array $eval_data Cumulated evaluation data
-	* @access public
-	*/
-	function setExportDetailsXLS(&$workbook, &$format_title, &$format_bold, &$eval_data, $export_label)
+
+	function setExportDetailsXLS(ilExcel $a_excel, $a_eval_data, $a_export_label)
 	{
-		include_once ("./Services/Excel/classes/class.ilExcelUtils.php");
-		$worksheet =& $workbook->addWorksheet();
-		$rowcounter = 0;
-		switch ($export_label)
+		$row = 1;						
+		switch($a_export_label)
 		{
-			case 'label_only':
-				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("label")), $format_bold);
-				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->label));
+			case 'label_only':				
+				$a_excel->setCell($row, 0, $this->lng->txt("label"));
+				$a_excel->setCell($row++, 1, $this->label);			
 				break;
+			
 			case 'title_only':
-				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
-				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
+				$a_excel->setCell($row, 0, $this->lng->txt("title"));
+				$a_excel->setCell($row++, 1, $this->getTitle());							
 				break;
+			
 			default:
-				$worksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title")), $format_bold);
-				$worksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->getTitle()));
-				$rowcounter++;
-				$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("label")), $format_bold);
-				$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->label));
+				$a_excel->setCell($row, 0, $this->lng->txt("title"));
+				$a_excel->setCell($row++, 1, $this->getTitle());		
+				$a_excel->setCell($row, 0, $this->lng->txt("title"));
+				$a_excel->setCell($row++, 1, $this->getTitle());		
 				break;
 		}
-		$rowcounter++;
-		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("question")), $format_bold);
-		$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->getQuestiontext()));
-		$rowcounter++;
-		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("question_type")), $format_bold);
-		$worksheet->writeString($rowcounter, 1, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())));
-		$rowcounter++;
-		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("users_answered")), $format_bold);
-		$worksheet->write($rowcounter, 1, $eval_data["USERS_ANSWERED"]);
-		$rowcounter++;
-		$worksheet->writeString($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("users_skipped")), $format_bold);
-		$worksheet->write($rowcounter, 1, $eval_data["USERS_SKIPPED"]);
-		$rowcounter++;
-
-		$worksheet->write($rowcounter, 0, ilExcelUtils::_convert_text($this->lng->txt("given_answers")), $format_bold);
-		$textvalues = "";
-		if (is_array($eval_data["textvalues"]))
+		
+		$a_excel->setCell($row, 0, $this->lng->txt("question"));
+		$a_excel->setCell($row++, 1, $this->getQuestiontext());
+		
+		$a_excel->setCell($row, 0, $this->lng->txt("question_type"));
+		$a_excel->setCell($row++, 1, $this->lng->txt($this->getQuestionType()));
+		
+		$a_excel->setCell($row, 0, $this->lng->txt("users_answered"));
+		$a_excel->setCell($row++, 1, (int)$a_eval_data["USERS_ANSWERED"]);
+		
+		$a_excel->setCell($row, 0, $this->lng->txt("users_skipped"));
+		$a_excel->setCell($row++, 1, (int)$a_eval_data["USERS_SKIPPED"]);
+		
+		$a_excel->setCell($row, 0, $this->lng->txt("given_answers"));
+			
+		if(is_array($a_eval_data["textvalues"]))
 		{
-			foreach ($eval_data["textvalues"] as $textvalue)
+			foreach($a_eval_data["textvalues"] as $textvalue)
 			{
-				$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($textvalue));
+				$a_excel->setCell($row++, 1, $textvalue);
 			}
 		}
+		
+		return $row;
 	}
 
 	/**

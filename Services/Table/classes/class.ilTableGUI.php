@@ -84,26 +84,26 @@ class ilTableGUI
 	* @param	boolean	use global template (default)
 	* @access	public
 	*/
-	function ilTableGUI($a_data = 0,$a_global_tpl = true)
+	function __construct($a_data = 0,$a_global_tpl = true)
 	{
 		global $ilias, $tpl, $lng;
 
 		$this->global_tpl = $a_global_tpl;
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		$this->header_vars = array();
 		$this->header_params = array();
 		$this->enabled["form"] = true;
 		$this->action_buttons = array();
 		if ($this->global_tpl)
 		{
-			$this->tpl =& $tpl;
+			$this->tpl = $tpl;
 		}
 		else
 		{
 			$this->tpl = new ilTemplate("tpl.table.html", true, true, "Services/Table");
 		}
 
-		$this->lng =& $lng;
+		$this->lng = $lng;
 
 		if (!$this->lng)
 		{
@@ -119,9 +119,9 @@ class ilTableGUI
 	* @access	public
 	* @param	object	template object
 	*/
-	function setTemplate(&$a_tpl)
+	function setTemplate($a_tpl)
 	{
-		$this->tpl =& $a_tpl;
+		$this->tpl = $a_tpl;
 	}
 
 	function &getTemplateObject()

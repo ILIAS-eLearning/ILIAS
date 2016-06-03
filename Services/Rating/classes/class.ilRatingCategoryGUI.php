@@ -40,7 +40,7 @@ class ilRatingCategoryGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 		
@@ -256,11 +256,10 @@ class ilRatingCategoryGUI
 	protected function export()
 	{		
 		global $lng;
-		
-		$title = ilObject::_lookupTitle($this->parent_id);
-		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
-		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
-		$adapter = new ilExcelWriterAdapter($title.".xls", true);
+	
+		include_once "./Services/Excel/classes/class.ilExcel.php";
+		$excel = new ilExcel();
+		$excel->addSheet($lng->txt("rating_categories"));
 		
 		// restrict to currently active (probably not needed - see delete())
 		$active = array();
@@ -269,24 +268,25 @@ class ilRatingCategoryGUI
 			$active[$item["id"]] = $item["title"];
 		}
 		
-		ob_start();
-		$workbook = $adapter->getWorkbook();
-		$worksheet = $workbook->addWorksheet();
+		// title row	
+		$row = 1;
+		$excel->setCell($row, 0, $this->export_subobj_title." (".$lng->txt("id").")");
+		$excel->setCell($row, 1, $this->export_subobj_title);
+		$excel->setCell($row, 2, $lng->txt("rating_export_category")." (".$lng->txt("id").")");
+		$excel->setCell($row, 3, $lng->txt("rating_export_category"));
+		$excel->setCell($row, 4, $lng->txt("rating_export_date"));
+		$excel->setCell($row, 5, $lng->txt("rating_export_rating"));
+		$excel->setBold("A1:F1");
 		
-		var_dump();
-		
-		// title row
-		$row = 0;		
-		$worksheet->write($row, 0, $this->export_subobj_title." (".$lng->txt("id").")");
-		$worksheet->write($row, 1, $this->export_subobj_title);
-		$worksheet->write($row, 2, $lng->txt("rating_export_category")." (".$lng->txt("id").")");
-		$worksheet->write($row, 3, $lng->txt("rating_export_category"));
-		$worksheet->write($row, 4, $lng->txt("rating_export_date"));
-		$worksheet->write($row, 5, $lng->txt("rating_export_rating"));			
-		
-		// content rows
+		// content rows	
 		foreach(ilRating::getExportData($this->parent_id, ilObject::_lookupType($this->parent_id), array_keys($active)) as $item)
 		{
+			// overall rating?
+			if(!$item["sub_obj_id"])
+			{
+				continue;
+			}
+			
 			$row++;		
 			
 			$sub_obj_title = $item["sub_obj_type"];
@@ -295,17 +295,15 @@ class ilRatingCategoryGUI
 				$sub_obj_title = call_user_func($this->export_callback, $item["sub_obj_id"], $item["sub_obj_type"]);
 			}
 			
-			$worksheet->write($row, 0, $item["sub_obj_id"]);
-			$worksheet->write($row, 1, $sub_obj_title);
-			$worksheet->write($row, 2, $item["category_id"]);
-			$worksheet->write($row, 3, $active[$item["category_id"]]);
-			$worksheet->write($row, 4, date("Y-m-d H:i:s", $item["tstamp"]));
-			$worksheet->write($row, 5, $item["rating"]);							
+			$excel->setCell($row, 0, (int)$item["sub_obj_id"]);
+			$excel->setCell($row, 1, $sub_obj_title);
+			$excel->setCell($row, 2, (int)$item["category_id"]);
+			$excel->setCell($row, 3, $active[$item["category_id"]]);
+			$excel->setCell($row, 4, new ilDateTime($item["tstamp"], IL_CAL_UNIX));
+			$excel->setCell($row, 5, $item["rating"]);							
 		}	
 		
-		ob_end_clean();
-
-		$workbook->close();													
+		$excel->sendToClient(ilObject::_lookupTitle($this->parent_id));												
 	}
 }
 

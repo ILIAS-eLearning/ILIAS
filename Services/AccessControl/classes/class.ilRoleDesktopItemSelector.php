@@ -35,7 +35,7 @@ class ilRoleDesktopItemSelector extends ilExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilRoleDesktopItemSelector($a_target,$role_desk_item_obj)
+	function __construct($a_target,$role_desk_item_obj)
 	{
 		global $tree,$ilCtrl;
 
@@ -43,7 +43,7 @@ class ilRoleDesktopItemSelector extends ilExplorer
 
 		$this->role_desk_obj =& $role_desk_item_obj;
 
-		parent::ilExplorer($a_target);
+		parent::__construct($a_target);
 		$this->tree = $tree;
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = "title";
@@ -73,7 +73,7 @@ class ilRoleDesktopItemSelector extends ilExplorer
 		return '';
 	}
 
-	function isClickable($a_type, $a_ref_id)
+	function isClickable($a_type, $a_ref_id = 0)
 	{
 		global $rbacsystem;
 
@@ -99,9 +99,9 @@ class ilRoleDesktopItemSelector extends ilExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader($a_obj_id,$a_option)
+	function formatHeader($tpl, $a_obj_id, $a_option)
 	{
-		global $lng, $ilias;
+		global $lng;
 
 		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 

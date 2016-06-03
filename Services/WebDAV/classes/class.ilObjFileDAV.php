@@ -193,7 +193,7 @@ class ilObjFileDAV extends ilObjectDAV
 	{
 		if (is_null($this->obj))
 		{
-			$this->obj = &new ilObjFile($this->getRefId(),true);
+			$this->obj = new ilObjFile($this->getRefId(),true);
 			$this->obj->read();
 		}
 	}

@@ -21,9 +21,9 @@ class ilObjWorkspaceRootFolderGUI extends ilObjWorkspaceFolderGUI
 		return "wsrt";
 	}
 	
-	function setTabs()
+	function setTabs($a_show_settings = false)
 	{
-		global $lng, $ilHelp;
+		global $ilHelp;
 
 		parent::setTabs(false);
 		$ilHelp->setScreenIdComponent("wsrt");

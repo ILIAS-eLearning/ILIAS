@@ -46,14 +46,14 @@ class ilBibItemGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilBibItemGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng;
 		$lng->loadLanguageModule("bibitem");
 
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
 	}
 
 	function setObject($a_obj)

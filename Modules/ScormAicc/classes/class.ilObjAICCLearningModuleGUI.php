@@ -46,13 +46,13 @@ class ilObjAICCLearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	*
 	* @access	public
 	*/
-	function ilObjAICCLearningModuleGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
+	function __construct($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
 		global $lng;
 		
 		$lng->loadLanguageModule("content");
 		$this->type = "sahs";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
 
 
@@ -65,11 +65,11 @@ class ilObjAICCLearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		{
 			if ($this->call_by_reference)
 			{
-				$this->object =& new ilObjAICCLearningModule($this->id, true);
+				$this->object = new ilObjAICCLearningModule($this->id, true);
 			}
 			else
 			{
-				$this->object =& new ilObjAICCLearningModule($this->id, false);
+				$this->object = new ilObjAICCLearningModule($this->id, false);
 			}
 		}
 	}

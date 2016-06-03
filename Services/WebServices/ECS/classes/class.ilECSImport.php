@@ -59,7 +59,7 @@ class ilECSImport
 				'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
 				'AND econtent_id = '.$ilDB->quote($a_econtent_id,'text');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->content_id;
 		}
@@ -92,7 +92,7 @@ class ilECSImport
 		}
 		$res = $ilDB->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->obj_id;
 		}	
@@ -110,7 +110,7 @@ class ilECSImport
 		$res = $ilDB->query($query);
 		
 		$obj_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$obj_ids[] = $row->obj_id;
 		}	
@@ -135,7 +135,7 @@ class ilECSImport
 				'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
 				'AND content_id = '.$ilDB->quote($a_content_id,'text');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->econtent_id;
 		}
@@ -159,7 +159,7 @@ class ilECSImport
 			'WHERE server_id = '.$ilDB->quote($a_server_id).' '.
 			'AND '.$ilDB->in('type',  ilECSUtils::getPossibleRemoteTypes(), false, 'text');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$all[$row->econtent_id] = $row->obj_id;
 		}
@@ -184,7 +184,7 @@ class ilECSImport
 			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$obj_ids[] = $row->obj_id;
 		}
@@ -205,7 +205,7 @@ class ilECSImport
 		
 		$query = "SELECT * FROM ecs_import WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->econtent_id;
 		}
@@ -224,7 +224,7 @@ class ilECSImport
 
 		$query = 'SELECT * FROM ecs_import WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->server_id;
 		}
@@ -245,7 +245,7 @@ class ilECSImport
 	 	$query = "SELECT obj_id FROM ecs_import WHERE econtent_id  = ".$ilDB->quote($a_econtent_id,'text')." ".
 			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
 	 	$res = $ilDB->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		$obj_ids[] = $row->obj_id;
 	 	}
@@ -279,7 +279,7 @@ class ilECSImport
 		}
 		$res = $ilDB->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->obj_id;
 		}	
@@ -299,7 +299,7 @@ class ilECSImport
 	 	$query = "SELECT * FROM ecs_emport WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
 			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->mid;
 		}
@@ -322,7 +322,7 @@ class ilECSImport
 		$query = "SELECT mid FROM ecs_import WHERE econtent_id = ".$ilDB->quote($a_econtent_id,'text')." ".
 			'AND server_id = '.$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$mids[] = $row->mid;
 		}
@@ -533,7 +533,7 @@ class ilECSImport
 	 		"obj_id = ".$this->db->quote($this->obj_id,'integer')." ".
 			'AND server_id = '.$ilDB->quote($this->getServerId(),'integer');
 	 	$res = $this->db->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		$this->econtent_id = $row->econtent_id;
 			$this->mid = $row->mid;

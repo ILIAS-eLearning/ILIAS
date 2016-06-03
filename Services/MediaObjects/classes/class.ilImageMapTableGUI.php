@@ -85,7 +85,7 @@ class ilImageMapTableGUI extends ilTable2GUI
 	*/
 	function getItems()
 	{
-		$st_item =& $this->media_object->getMediaItem("Standard");
+		$st_item = $this->media_object->getMediaItem("Standard");
 		$max = ilMapArea::_getMaxNr($st_item->getId());
 		$areas = array();
 		

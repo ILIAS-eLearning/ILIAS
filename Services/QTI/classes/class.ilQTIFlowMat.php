@@ -38,7 +38,7 @@ class ilQTIFlowMat implements ilQTIMaterialAware
 	var $material;
 	var $material_ref;
 	
-	function ilQTIFlowMat()
+	function __construct()
 	{
 		$this->flow_mat = array();
 		$this->material = array();

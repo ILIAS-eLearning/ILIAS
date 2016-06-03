@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once("./Services/UICore/lib/html-it/IT.php");
+include_once("./Services/UICore/lib/html-it/ITX.php");
 
 /**
 * special template class to simplify handling of ITX/PEAR
@@ -8,7 +10,7 @@
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-class ilTemplate extends ilTemplateX
+class ilTemplate extends HTML_Template_ITX
 {
 	/**
 	* Content-type for template output
@@ -67,7 +69,7 @@ class ilTemplate extends ilTemplateX
 	* @param	array	$vars 		variables to replace
 	* @access	public
 	*/
-	function ilTemplate($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
+	function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
 		$plugin = false, $a_use_cache = false)
 	{
 		global $ilias;
@@ -96,7 +98,7 @@ class ilTemplate extends ilTemplateX
 		}
 
 		//$this->IntegratedTemplateExtension(dirname($fname));
-		$this->callConstructor();
+		parent::__construct();
 		//$this->loadTemplatefile(basename($fname), $flag1, $flag2);
 		$this->loadTemplatefile($fname, $flag1, $flag2);
 		//add tplPath to replacevars
@@ -715,19 +717,19 @@ class ilTemplate extends ilTemplateX
 				reset($this->js_files);
 				foreach($this->js_files as $file)
 				{
-					if (is_file($file) || substr($file, 0, 4) == "http" || substr($file, 0, 2) == "//" || $a_force)
+					if ($this->js_files_batch[$file] == $i)
 					{
-						if ($this->js_files_batch[$file] == $i)
+						if (is_file($file) || substr($file, 0, 4) == "http" || substr($file, 0, 2) == "//" || $a_force)
 						{
-							$this->fillJavascriptFile($file, $vers);
+							$this->fillJavascriptFile($file, $vers);							
 						}
-					}
-					else if(substr($file, 0, 2) == './') // #13962
-					{
-						$url_parts = parse_url($file);
-						if(is_file($url_parts['path']))
+						else if(substr($file, 0, 2) == './') // #13962
 						{
-							$this->fillJavascriptFile($file, $vers);
+							$url_parts = parse_url($file);
+							if(is_file($url_parts['path']))
+							{
+								$this->fillJavascriptFile($file, $vers);
+							}
 						}
 					}
 				}
@@ -940,19 +942,20 @@ class ilTemplate extends ilTemplateX
 			{
 				$ftpl->setVariable("MEMORY_USAGE", "<br>".implode(" | ", $mem_usage));
 			}
-			
-			if (is_object($ilAuth) && isset($_SESSION[$ilAuth->_sessionName]) &&
-				isset($_SESSION[$ilAuth->_sessionName]["timestamp"]))
-			{
-				$ftpl->setVariable("SESS_INFO", "<br />maxlifetime: ".
-					ini_get("session.gc_maxlifetime")." (".
-					(ini_get("session.gc_maxlifetime")/60)."), id: ".session_id()."<br />".
-					"timestamp: ".date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["timestamp"]).
-					", idle: ".date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["idle"]).
-					"<br />expire: ".($exp = $ilClientIniFile->readVariable("session","expire")).
-					" (".($exp/60)."), session ends at: ".
-					date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["idle"] + $exp));
-			}
+
+            // uses protected variable _sessionName.
+//			if (is_object($ilAuth) && isset($_SESSION[$ilAuth->_sessionName]) &&
+//				isset($_SESSION[$ilAuth->_sessionName]["timestamp"]))
+//			{
+//				$ftpl->setVariable("SESS_INFO", "<br />maxlifetime: ".
+//					ini_get("session.gc_maxlifetime")." (".
+//					(ini_get("session.gc_maxlifetime")/60)."), id: ".session_id()."<br />".
+//					"timestamp: ".date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["timestamp"]).
+//					", idle: ".date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["idle"]).
+//					"<br />expire: ".($exp = $ilClientIniFile->readVariable("session","expire")).
+//					" (".($exp/60)."), session ends at: ".
+//					date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["idle"] + $exp));
+//			}
 			
 			if (!empty($_GET["do_dev_validate"]) && $ftpl->blockExists("xhtml_validation"))
 			{
@@ -1505,7 +1508,7 @@ class ilTemplate extends ilTemplateX
 			}
 
 			// use ilStyleDefinition instead of account to get the current skin
-			include_once "Services/Style/classes/class.ilStyleDefinition.php";
+			include_once "Services/Style/System/classes/class.ilStyleDefinition.php";
 			if (ilStyleDefinition::getCurrentSkin() != "default")
 			{
 				$fname = "./Customizing/global/skin/".

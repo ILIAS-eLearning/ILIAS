@@ -52,7 +52,7 @@ class ilMDCreator
 	 */
 	var $obj_type;
 
-	function ilMDCreator($a_rbac_id,$a_obj_id,$a_type)
+	function __construct($a_rbac_id,$a_obj_id,$a_type)
 	{
 		include_once 'Services/Migration/DBUpdate_426/classes/class.ilMD.php';
 
@@ -60,7 +60,7 @@ class ilMDCreator
 		$this->obj_id = $a_obj_id;
 		$this->obj_type = $a_type;
 
-		$this->md_obj =& new ilMD($a_rbac_id,$a_obj_id,$a_type);
+		$this->md_obj = new ilMD($a_rbac_id,$a_obj_id,$a_type);
 	}
 
 	// SET/GET

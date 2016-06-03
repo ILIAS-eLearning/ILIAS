@@ -75,7 +75,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	static function _getCommands()
 	{
 		$commands = array
 		(
@@ -96,7 +96,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
 	/**
 	* check wether learning module is online
 	*/
-	function _lookupOnline($a_id)
+	static function _lookupOnline($a_id)
 	{
 		global $ilDB;
 
@@ -111,7 +111,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
 	/**
 	* check whether goto script will succeed
 	*/
-	function _checkGoto($a_target)
+	static function _checkGoto($a_target)
 	{
 		global $ilAccess;
 		

@@ -165,7 +165,7 @@ class ilExplorer
 	* @access	public
 	* @param	string	scriptname
 	*/
-	function ilExplorer($a_target)
+	function __construct($a_target)
 	{
 		global $ilias, $objDefinition;
 
@@ -188,7 +188,7 @@ class ilExplorer
 			}
 		}
 
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 		$this->output = array();
 		$this->expanded = array();
 		$this->target = $a_target;
@@ -806,7 +806,6 @@ class ilExplorer
 		ilYuiUtil::initConnection();
 		$tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
 
-		$tpl->addBlockFile("EXPLORER_TOP", "exp_top", "tpl.explorer_top.html");
 //echo "hh";
 		// set global body class
 //		$tpl->setBodyClass("il_Explorer");
@@ -968,7 +967,7 @@ class ilExplorer
 	* @param	integer obj_id
 	* @param	integer array options
 	*/
-	function formatHeader(&$tpl,$a_obj_id,$a_option)
+	function formatHeader($tpl,$a_obj_id,$a_option)
 	{
 	}
 
@@ -980,7 +979,7 @@ class ilExplorer
 	* @param	array
 	* @return	string
 	*/
-	function formatObject(&$tpl, $a_node_id,$a_option,$a_obj_id = 0)
+	function formatObject($tpl, $a_node_id,$a_option,$a_obj_id = 0)
 	{
 		global $lng;
 		if (!isset($a_node_id) or !is_array($a_option))

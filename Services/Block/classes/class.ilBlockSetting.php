@@ -105,7 +105,7 @@ class ilBlockSetting
 	 * @param
 	 * @return
 	 */
-	function preloadPDBlockSettings()
+	static function preloadPDBlockSettings()
 	{
 		global $ilDB, $ilUser;
 

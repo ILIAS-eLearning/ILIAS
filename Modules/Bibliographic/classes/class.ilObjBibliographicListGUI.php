@@ -21,7 +21,6 @@ class ilObjBibliographicListGUI extends ilObjectListGUI {
 		$this->cut_enabled = true;
 		$this->subscribe_enabled = false;
 		$this->link_enabled = true;
-		$this->payment_enabled = false;
 		$this->info_screen_enabled = true;
 		$this->type = "bibl";
 		$this->gui_class_name = "ilobjbibliographicgui";

@@ -84,7 +84,7 @@ class ilMemberAgreement
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 			
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_data[$row->usr_id]['accepted'] = $row->accepted;
 			$user_data[$row->usr_id]['acceptance_time'] = $row->acceptance_time;
@@ -147,7 +147,7 @@ class ilMemberAgreement
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
 			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		
 		return $row->accepted == 1 ? true : false;
 	}
@@ -167,7 +167,7 @@ class ilMemberAgreement
 			
 		$res = $ilDB->query($query);			
 		$user_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
 		{
 			$user_ids[] = $row['usr_id'];
 		}
@@ -365,7 +365,7 @@ class ilMemberAgreement
 	 		"AND obj_id = ".$this->db->quote($this->obj_id ,'integer')." ";
 	 		
 	 	$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 		 	$this->accepted = $row->accepted;
 		 	$this->acceptance_time = $row->acceptance_time;

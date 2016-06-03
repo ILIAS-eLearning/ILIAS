@@ -149,31 +149,20 @@ class ilWikiStatGUI
 			{
 				$filename .= " - ".ilWikiPage::lookupTitle($this->page_id);
 			}
-			$filename .= " - ".ilWikiStat::getFigureTitle($params["figure"])." - ".$period.".xls";
+			$filename .= " - ".ilWikiStat::getFigureTitle($params["figure"])." - ".$period;
 			
-			include_once "./Services/Excel/classes/class.ilExcelUtils.php";
-			include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
-			$adapter = new ilExcelWriterAdapter($filename, true);
-			$workbook = $adapter->getWorkbook();
-			$worksheet = $workbook->addWorksheet();
-			// $worksheet->setLandscape();
-
-			/*
-			$worksheet->setColumn(0, 0, 20);
-			$worksheet->setColumn(1, 1, 40);
-			*/
+			include_once "./Services/Excel/classes/class.ilExcel.php";
+			$excel = new ilExcel();
+			$excel->addSheet($this->lng->txt("statistics"));
 			
-			$row = 0;
+			$row = 1;
 			foreach($chart_data as $day => $value)
-			{
-				$row++;
-
-				$worksheet->writeString($row, 0, $day);
-				$worksheet->writeNumber($row, 1, $value);							
+			{				
+				$excel->setCell($row, 0, $day);
+				$excel->setCell($row++, 1, $value);							
 			}
-
-			$workbook->close();
-			exit();
+			
+			$excel->sendToClient($filename);
 		}
 		
 		$ilCtrl->redirect($this, "view");

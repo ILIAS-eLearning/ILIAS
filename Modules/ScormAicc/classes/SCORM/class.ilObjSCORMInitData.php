@@ -22,7 +22,7 @@ class ilObjSCORMInitData
 
 	function getIliasScormVars($slm_obj) {
 		global $ilias, $ilLog, $ilUser, $lng, $ilDB;
-//		$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
+//		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
 		//variables to set in administration interface
 		$b_storeObjectives='false';

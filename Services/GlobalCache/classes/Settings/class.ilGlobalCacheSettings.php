@@ -45,7 +45,7 @@ class ilGlobalCacheSettings {
 		$this->setActive($ilIniFile->readVariable(self::INI_HEADER_CACHE, self::INI_FIELD_ACTIVATE_GLOBAL_CACHE));
 		$this->setService($ilIniFile->readVariable(self::INI_HEADER_CACHE, self::INI_FIELD_GLOBAL_CACHE_SERVICE_TYPE));
 		$this->setLogLevel($ilIniFile->readVariable(self::INI_HEADER_CACHE, self::INI_FIELD_LOG_LEVEL));
-		if (! $this->isActive()) {
+		if (!$this->isActive()) {
 			$this->resetActivatedComponents();
 		} else {
 			$cache_components = $ilIniFile->readGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS);
@@ -155,10 +155,10 @@ class ilGlobalCacheSettings {
 	 * @param ilIniFile $ilIniFile
 	 */
 	protected function checkIniHeader(ilIniFile $ilIniFile) {
-		if (! $ilIniFile->readGroup(self::INI_HEADER_CACHE)) {
+		if (!$ilIniFile->readGroup(self::INI_HEADER_CACHE)) {
 			$ilIniFile->addGroup(self::INI_HEADER_CACHE);
 		}
-		if (! $ilIniFile->readGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS)) {
+		if (!$ilIniFile->readGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS)) {
 			$ilIniFile->addGroup(self::INI_HEADER_CACHE_ACTIVATED_COMPONENTS);
 		}
 	}

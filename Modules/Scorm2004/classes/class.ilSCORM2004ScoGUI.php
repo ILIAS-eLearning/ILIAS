@@ -28,14 +28,14 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 
 	var $ctrl = null;
 
-	function ilSCORM2004ScoGUI($a_slm_obj, $a_node_id = 0)
+	function __construct($a_slm_obj, $a_node_id = 0)
 	{
 		global $ilCtrl;
 
 		$ilCtrl->saveParameter($this, "obj_id");
 		$this->ctrl = &$ilCtrl;
 
-		parent::ilSCORM2004NodeGUI($a_slm_obj, $a_node_id);
+		parent::__construct($a_slm_obj, $a_node_id);
 	}
 
 	/**
@@ -49,7 +49,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $tpl, $ilCtrl, $ilTabs;
 
@@ -90,7 +90,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 
 			default:
 				$cmd = $ilCtrl->getCmd("showOrganization");
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 	}
@@ -362,7 +362,7 @@ die("deprecated");
 		
 		// init main template
 		$tpl = new ilTemplate("tpl.main.html", true, true);
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$tpl->setBodyClass("");
 		$tpl->setCurrentBlock("ContentStyle");
@@ -452,7 +452,7 @@ die("deprecated");
 	}
 	
 	//callback function for question export
-	private function insertQuestion($matches)
+	static private function insertQuestion($matches)
 	{
 		$q_exporter = new ilQuestionExporter(false);
 		return $q_exporter->exportQuestion($matches[2]);
@@ -844,7 +844,7 @@ die("deprecated");
 	{
 		$file = explode("_", $_GET["file_id"]);
 		require_once("./Modules/File/classes/class.ilObjFile.php");
-		$fileObj =& new ilObjFile($file[count($file) - 1], false);
+		$fileObj = new ilObjFile($file[count($file) - 1], false);
 		$fileObj->sendFile();
 		exit;
 	}

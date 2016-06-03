@@ -17,7 +17,7 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilGlossaryPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilShopPurchaseGUI, ilPresentationListTableGUI
+* @ilCtrl_Calls ilGlossaryPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilPresentationListTableGUI
 *
 * @ingroup ModulesGlossary
 */
@@ -33,21 +33,22 @@ class ilGlossaryPresentationGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilGlossaryPresentationGUI()
+	function __construct()
 	{
-		global $lng, $ilias, $tpl, $ilCtrl;
+		global $lng, $ilias, $tpl, $ilCtrl, $ilTabs;
 
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ilias =& $ilias;
-		$this->ctrl =& $ilCtrl;
+		$this->tabs_gui = $ilTabs;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
+		$this->ilias = $ilias;
+		$this->ctrl = $ilCtrl;
 		$this->offline = false;
 		$this->ctrl->saveParameter($this, array("ref_id", "letter", "tax_node"));
 
 		// Todo: check lm id
 		include_once("./Modules/Glossary/classes/class.ilObjGlossaryGUI.php");
-		$this->glossary_gui =& new ilObjGlossaryGUI("", $_GET["ref_id"], true, "");
-		$this->glossary =& $this->glossary_gui->object;
+		$this->glossary_gui = new ilObjGlossaryGUI("", $_GET["ref_id"], true, "");
+		$this->glossary = $this->glossary_gui->object;
 
 		// determine term id and check whether it is valid (belongs to
 		// current glossary or a virtual (online) sub-glossary)
@@ -136,39 +137,26 @@ class ilGlossaryPresentationGUI
 			$this->prepareOutput();
 		}
 
-		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-		if(IS_PAYMENT_ENABLED == true 
-		&& (ilPaymentObject::_requiresPurchaseToAccess($_GET["ref_id"], $type = (isset($_GET['purchasetype']) ? $_GET['purchasetype'] : NULL) )))
+		switch($next_class)
 		{
-			$this->tpl->getStandardTemplate();
+			case "ilnotegui":
+				$this->setTabs();
+				$ret = $this->listDefinitions();
+				break;
 
-			include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
-			$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);
-			$ret = $this->ctrl->forwardCommand($pp);
-		}
-		else
-		{
-			switch($next_class)
-			{
-				case "ilnotegui":
-					$this->setTabs();
-					$ret =& $this->listDefinitions();
-					break;
+			case "ilinfoscreengui":
+				$ret = $this->outputInfoScreen();
+				break;
 
-				case "ilinfoscreengui":
-					$ret =& $this->outputInfoScreen();
-					break;
-					
-				case "ilpresentationlisttablegui":
-					$prtab = $this->getPresentationTable();
-					$this->ctrl->forwardCommand($prtab);
-					return;
-					break;
+			case "ilpresentationlisttablegui":
+				$prtab = $this->getPresentationTable();
+				$this->ctrl->forwardCommand($prtab);
+				return;
+				break;
 
-				default:
-					$ret =& $this->$cmd();
-					break;
-			}
+			default:
+				$ret = $this->$cmd();
+				break;
 		}
 		$this->tpl->show();
 	}
@@ -640,8 +628,8 @@ class ilGlossaryPresentationGUI
 	*/
 	function media($a_mode = "media")
 	{
-		$this->tpl =& new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$this->tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
@@ -655,7 +643,7 @@ class ilGlossaryPresentationGUI
 		$link_xlm = "";
 
 		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
+		$media_obj = new ilObjMediaObject($_GET["mob_id"]);
 
 		$xml = "<dummy>";
 		// todo: we get always the first alias now (problem if mob is used multiple
@@ -861,11 +849,11 @@ class ilGlossaryPresentationGUI
 	{		
 		//$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
 		require_once ("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
-		$gloss_loc =& new ilGlossaryLocatorGUI();
+		$gloss_loc = new ilGlossaryLocatorGUI();
 		$gloss_loc->setMode("presentation");
 		if (!empty($this->term_id))
 		{
-			$term =& new ilGlossaryTerm($this->term_id);
+			$term = new ilGlossaryTerm($this->term_id);
 			$gloss_loc->setTerm($term);
 		}
 		$gloss_loc->setGlossary($this->glossary);
@@ -887,7 +875,7 @@ class ilGlossaryPresentationGUI
 
 		$file = explode("_", $_GET["file_id"]);
 		include_once("./Modules/File/classes/class.ilObjFile.php");
-		$fileObj =& new ilObjFile($file[count($file) - 1], false);
+		$fileObj = new ilObjFile($file[count($file) - 1], false);
 		$fileObj->sendFile();
 		exit;
 	}
@@ -897,8 +885,7 @@ class ilGlossaryPresentationGUI
 	*/
 	function setTabs()
 	{
-		global $ilTabs;
-		$this->getTabs($ilTabs);
+		$this->getTabs();
 	}
 
 	/**
@@ -947,7 +934,7 @@ class ilGlossaryPresentationGUI
 					case "PageObject":
 					case "StructureObject":
 						$lm_id = ilLMObject::_lookupContObjID($target_id);
-						$cont_obj =& $this->content_object;
+						$cont_obj = $this->content_object;
 						if ($type == "PageObject")
 						{
 							$href = "./goto.php?target=pg_".$target_id.$anc_add;
@@ -1297,7 +1284,7 @@ class ilGlossaryPresentationGUI
 	/**
 	* get tabs
 	*/
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
 		global $ilAccess, $lng, $ilCtrl, $ilHelp;
 		
@@ -1311,16 +1298,16 @@ class ilGlossaryPresentationGUI
 			{
 				if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 				{
-					$tabs_gui->addTab("terms",
+					$this->tabs_gui->addTab("terms",
 						$lng->txt("cont_terms"),
 						$ilCtrl->getLinkTarget($this, "listTerms"));
 				}
 	
-				$tabs_gui->addTab("info",
+				$this->tabs_gui->addTab("info",
 					$lng->txt("info_short"),
 					$ilCtrl->getLinkTarget($this, "infoScreen"));
 
-				$tabs_gui->addTab("print_view",
+				$this->tabs_gui->addTab("print_view",
 					$lng->txt("cont_print_view"),
 					$ilCtrl->getLinkTarget($this, "printViewSelection"));
 
@@ -1343,7 +1330,7 @@ class ilGlossaryPresentationGUI
 					$ilAccess->checkAccess("edit_content", "", (int) $_GET["ref_id"]))
 				{
 					include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-					$tabs_gui->addNonTabbedLink("editing_view",
+					$this->tabs_gui->addNonTabbedLink("editing_view",
 						$lng->txt("glo_editing_view"),
 						"ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".(int) $_GET["ref_id"],
 						"_top");
@@ -1353,7 +1340,7 @@ class ilGlossaryPresentationGUI
 		}
 		else
 		{
-			$tabs_gui->addTarget("cont_back",
+			$this->tabs_gui->addTarget("cont_back",
 				"index.html#term_".$this->term_id, "",
 				"");
 		}

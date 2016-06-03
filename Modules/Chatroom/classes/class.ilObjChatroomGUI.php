@@ -13,16 +13,13 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomObjectGUI.php';
  * @author            Jan Posselt <jposselt at databay.de>
  * @version           $Id$
  * @ilCtrl_Calls      ilObjChatroomGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI
  * @ingroup           ModulesChatroom
  */
 class ilObjChatroomGUI extends ilChatroomObjectGUI
 {
 	/**
-	 * Constructor
-	 * @param array   $a_data
-	 * @param integer $a_id
-	 * @param boolean $a_call_by_reference
+	 * {@inheritdoc}
 	 */
 	public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
 	{
@@ -51,6 +48,42 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 	}
 
 	/**
+	 * Overwrites $_GET['ref_id'] with given $ref_id.
+	 * @param string $params
+	 */
+	public static function _goto($params)
+	{
+		/**
+		 * @var $rbacsystem ilRbacSystem
+		 * @var $ilError    ilErrorHandling
+		 * @var $lng        ilLanguage
+		 */
+		global $rbacsystem, $ilErr, $lng;
+
+		$parts  = explode('_', $params);
+		$ref_id = $parts[0];
+		$sub    = $parts[1];
+
+		if($rbacsystem->checkAccess('read', $ref_id))
+		{
+			if($sub)
+			{
+				$_REQUEST['sub'] = $_GET['sub'] = (int)$sub;
+			}
+			include_once 'Services/Object/classes/class.ilObjectGUI.php';
+			ilObjectGUI::_gotoRepositoryNode($ref_id, 'view');
+		}
+		else if($rbacsystem->checkAccess('read', ROOT_FOLDER_ID))
+		{
+			ilUtil::sendInfo(sprintf($lng->txt('msg_no_perm_read_item'), ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))), true);
+			include_once 'Services/Object/classes/class.ilObjectGUI.php';
+			ilObjectGUI::_gotoRepositoryNode(ROOT_FOLDER_ID, '');
+		}
+
+		$ilErr->raiseError(sprintf($lng->txt('msg_no_perm_read_item'), ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))), $ilErr->FATAL);
+	}
+
+	/**
 	 * Returns object definition by calling getDefaultDefinition method
 	 * in ilChatroomObjectDefinition.
 	 * @return ilChatroomObjectDefinition
@@ -58,6 +91,42 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 	protected function getObjectDefinition()
 	{
 		return ilChatroomObjectDefinition::getDefaultDefinition('Chatroom');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function initCreationForms($a_new_type)
+	{
+		$forms = parent::initCreationForms($a_new_type);
+
+		unset($forms[self::CFORM_IMPORT]);
+		$forms[self::CFORM_NEW]->clearCommandButtons();
+		$forms[self::CFORM_NEW]->addCommandButton('create-save', $this->lng->txt($a_new_type . '_add'));
+		$forms[self::CFORM_NEW]->addCommandButton('cancel', $this->lng->txt('cancel'));
+		return $forms;
+	}
+
+	protected function addLocatorItems()
+	{
+		/**
+		 * @var $ilLocator ilLocatorGUI
+		 */
+		global $ilLocator;
+
+		if(is_object($this->object))
+		{
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, 'view'), '', $this->getRefId());
+		}
+	}
+
+	/**
+	 * Returns RefId
+	 * @return integer
+	 */
+	public function getRefId()
+	{
+		return $this->object->getRefId();
 	}
 
 	/**
@@ -70,7 +139,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 	}
 
 	/**
-	 * Dispatches the command to the related executor class.
+	 * {@inheritdoc}
 	 */
 	public function executeCommand()
 	{
@@ -126,6 +195,15 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 
 		switch($next_class)
 		{
+			case "ilpropertyformgui":
+				include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+
+				require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
+				$factory = new ilChatroomFormFactory();
+				$form    = $factory->getClientSettingsForm();
+
+				$ilCtrl->forwardCommand($form);
+				break;
 			case 'ilpermissiongui':
 				include_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
 				$this->prepareOutput();
@@ -263,78 +341,5 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 		$this->object = $newObj;
 
 		return $newObj;
-	}
-
-	/**
-	 * Returns RefId
-	 * @return integer
-	 */
-	public function getRefId()
-	{
-		return $this->object->getRefId();
-	}
-
-	/**
-	 * Overwrites $_GET['ref_id'] with given $ref_id.
-	 * @param string $params
-	 */
-	public static function _goto($params)
-	{
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 * @var $ilError    ilErrorHandling
-		 * @var $lng        ilLanguage
-		 */
-		global $rbacsystem, $ilErr, $lng;
-
-		$parts  = explode('_', $params);
-		$ref_id = $parts[0];
-		$sub    = $parts[1];
-
-		if($rbacsystem->checkAccess('read', $ref_id))
-		{
-			if($sub)
-			{
-				$_REQUEST['sub'] = $_GET['sub'] = (int)$sub;
-			}
-			include_once 'Services/Object/classes/class.ilObjectGUI.php';
-			ilObjectGUI::_gotoRepositoryNode($ref_id, 'view');
-		}
-		else if($rbacsystem->checkAccess('read', ROOT_FOLDER_ID))
-		{
-			ilUtil::sendInfo(sprintf($lng->txt('msg_no_perm_read_item'), ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))), true);
-			include_once 'Services/Object/classes/class.ilObjectGUI.php';
-			ilObjectGUI::_gotoRepositoryNode(ROOT_FOLDER_ID, '');
-		}
-
-		$ilErr->raiseError(sprintf($lng->txt('msg_no_perm_read_item'), ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))), $ilErr->FATAL);
-	}
-
-	/**
-	 * @param string $a_new_type
-	 * @return array
-	 */
-	protected function initCreationForms($a_new_type)
-	{
-		$forms = parent::initCreationForms($a_new_type);
-
-		unset($forms[self::CFORM_IMPORT]);
-		$forms[self::CFORM_NEW]->clearCommandButtons();
-		$forms[self::CFORM_NEW]->addCommandButton('create-save', $this->lng->txt($a_new_type . '_add'));
-		$forms[self::CFORM_NEW]->addCommandButton('cancel', $this->lng->txt('cancel'));
-		return $forms;
-	}
-
-	function addLocatorItems()
-	{
-		/**
-		 * @var $ilLocator ilLocatorGUI
-		 */
-		global $ilLocator;
-
-		if(is_object($this->object))
-		{
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, 'view'), '', $this->getRefId());
-		}
 	}
 }

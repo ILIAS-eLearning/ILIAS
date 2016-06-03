@@ -21,9 +21,9 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	public function ilPCLoginPageElementGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
+	public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 
 		if(!is_object($this->content_obj))
 		{
@@ -54,7 +54,7 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
 		switch($next_class)
 		{
 			default:
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 		}
 

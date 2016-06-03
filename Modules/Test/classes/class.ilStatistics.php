@@ -40,7 +40,7 @@ class ilStatistics
 	*
 	* @access public
 	*/
-	function ilStatistics($nan_handling = NAN_HANDLING_REMOVE)
+	public function __construct($nan_handling = NAN_HANDLING_REMOVE)
 	{
 		$this->nan_handling = $nan_handling;
 		$this->stat_data = array();

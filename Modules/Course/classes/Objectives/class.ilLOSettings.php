@@ -197,7 +197,7 @@ class ilLOSettings
 				'WHERE itest = '.$ilDB->quote($a_trst_ref_id,'integer').' '.
 				'OR qtest = '.$ilDB->quote($a_trst_ref_id,'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			return $row->obj_id;
 		}
@@ -577,7 +577,7 @@ class ilLOSettings
 		$query = 'SELECT * FROM loc_settings '.
 				'WHERE obj_id = '.$ilDB->quote($this->getObjId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->entry_exists = true;
 			
@@ -603,6 +603,28 @@ class ilLOSettings
 		{
 			$this->setQualifiedTest(0);
 		}
+	}
+	
+	/**
+	 * export to xml
+	 * @param ilXmlWriter $writer
+	 */
+	public function toXml(ilXmlWriter $writer)
+	{
+		$writer->xmlElement(
+			'Settings',
+			array(
+				'initialTestType'			=> (int) $this->getInitialTestType(),
+				'initialTestStart'			=> (int) $this->isInitialTestStart(),
+				'qualifyingTestType'		=> (int) $this->getQualifyingTestType(),
+				'qualifyingTestStart'		=> (int) $this->isQualifyingTestStart(),
+				'resetResults'				=> (int) $this->isResetResultsEnabled(),
+				'passedObjectivesMode'		=> (int) $this->getPassedObjectiveMode(),
+				'iTest'						=> (int) $this->getInitialTest(),
+				'qTest'						=> (int) $this->getQualifiedTest()
+			)
+		);
+		
 	}
 }
 ?>

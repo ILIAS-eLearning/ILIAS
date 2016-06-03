@@ -52,13 +52,13 @@ class ilSearchRootSelector extends ilExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilSearchRootSelector($a_target)
+	function __construct($a_target)
 	{
 		global $tree,$ilCtrl;
 
 		$this->ctrl = $ilCtrl;
 
-		parent::ilExplorer($a_target);
+		parent::__construct($a_target);
 		$this->tree = $tree;
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = "title";
@@ -160,7 +160,7 @@ class ilSearchRootSelector extends ilExplorer
 	* @param	integer array options
 	* @return	string
 	*/
-	function formatHeader(&$tpl,$a_option)
+	function formatHeader($tpl,$a_obj_id,$a_option)
 	{
 		global $lng, $ilias;
 

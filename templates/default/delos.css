@@ -6904,6 +6904,7 @@ h4.il_ContainerItemTitle {
 }
 div.il_ContainerItemTitle {
   float: left;
+  max-width: calc(100% - 40px);
   padding-bottom: 5px;
 }
 [dir="rtl"] div.il_ContainerItemTitle {
@@ -6974,6 +6975,10 @@ a#il_mhead_t_focus {
   color: #6ea03c;
   vertical-align: middle;
   font-size: 26px;
+  cursor: default;
+}
+a#il_mhead_t_focus[href] {
+  cursor: pointer;
 }
 h1.ilHeader {
   padding: 10px 0 0;
@@ -7057,7 +7062,7 @@ footer.ilFooter {
   right: 0;
   bottom: -1px !important;
   font-size: 0.9em;
-  height: 160px;
+  height: 70px;
   margin: 0 auto;
   padding: 20px 0 0;
   text-align: left;
@@ -7534,6 +7539,9 @@ img.ilIcon {
 .il_HAccordionContentDef > div {
   overflow: auto;
 }
+div.ilc_va_icont_VAccordICont {
+  overflow: visible !important;
+}
 /* Modules/ScormAicc */
 table.il_ScormTable {
   color: #222;
@@ -7852,6 +7860,7 @@ a.ilTreeView:focus {
 .jstree li,
 .jstree ins {
   background: url("images/jstree.svg") no-repeat;
+  vertical-align: top;
 }
 .jstree li {
   background-position: -90px 0;
@@ -7883,7 +7892,7 @@ a.ilTreeView:focus {
   background-position: -56px -19px;
 }
 .jstree a.jstree-loading .jstree-icon {
-  background: url(throbber.gif) no-repeat center !important;
+  background: url("images/throbber.gif") no-repeat center !important;
 }
 .jstree a.jstree-loading .loader {
   display: block;
@@ -8101,6 +8110,16 @@ div.ilFrmPostHeader span.small {
 }
 .ilFrmBottomToolbar {
   margin-top: 20px;
+}
+.ilForumTreeTitleUnread {
+  font-weight: bold;
+}
+.ilForumTreeUnlinkedContent {
+  text-decoration: none;
+  cursor: text;
+  font-size: smaller;
+  color: #333333;
+  padding-left: 23px;
 }
 /* Services/Mail */
 a.mailread,
@@ -9989,6 +10008,7 @@ input[name^="position[blocks]"] {
 }
 div.ilListItemSection {
   clear: both;
+  max-width: calc(100% - 40px);
 }
 div.ilContainerListItemOuterHighlight {
   padding: 15px;
@@ -10029,6 +10049,7 @@ div.ilContainerListItemIconCB {
   margin-left: 0;
   margin-right: 25px;
 }
+div[class^="il_editarea"] .ilContainerListItemOuter img,
 img.ilListItemIcon {
   width: 35px;
   height: 35px;
@@ -10062,7 +10083,7 @@ div.il_ContainerListItem {
 }
 .ilContainerBlockHeader {
   font-weight: 400;
-  padding: 2px;
+  padding: 5px 10px;
   text-align: left;
   vertical-align: middle;
 }
@@ -11013,6 +11034,9 @@ a.ilTag:active {
 .ilTag.ilHighlighted {
   background-color: #ea6705;
 }
+#il_tags_modal textarea {
+  resize: vertical;
+}
 /* Services/UIComponent/Checklist */
 div.ilChecklist ul {
   list-style-type: none;
@@ -11274,14 +11298,26 @@ img[src$="icon_checked.svg"] {
   text-align: center;
 }
 div.ilNewObjectSelector {
+  display: inline-block;
+  float: right;
   margin-bottom: 8px;
-  text-align: right;
-  padding-right: 10px;
+  padding: 0 10px;
+}
+div.ilNewObjectSelector > .btn-group {
+  display: block;
+  width: 100%;
+}
+div.ilNewObjectSelector > .btn-group #ilAdvSelListAnchorText_asl {
+  float: right;
+}
+div.ilNewObjectSelector > .btn-group .dropdown-menu.pull-right {
+  top: 30px;
 }
 [dir="rtl"] div.ilNewObjectSelector {
-  text-align: left;
-  padding-right: 0;
-  padding-left: 10px;
+  float: left;
+}
+[dir="rtl"] div.ilNewObjectSelector > .btn-group #ilAdvSelListAnchorText_asl {
+  float: left;
 }
 .pdMailRow .imageSpace {
   margin-left: 40px;
@@ -11350,12 +11386,14 @@ table.mceToolbar td {
   text-decoration: none;
 }
 #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
+#ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
 #mm_adm_tr + span + ul.dropdown-menu > li > div.row,
 #mm_adm_tr + ul.dropdown-menu > li > div.row {
   width: 750px;
 }
 @media only screen and (max-width: 767px) {
   #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
+  #ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
   #mm_adm_tr + span + ul.dropdown-menu > li > div.row,
   #mm_adm_tr + ul.dropdown-menu > li > div.row {
     width: 100% !important;
@@ -11397,6 +11435,9 @@ table.mceToolbar td {
   /* height: auto; messes e.g. survey progress bar */
   img {
     max-width: 100%;
+  }
+  td.ilc_Mob img {
+    height: auto !important;
   }
   img.olTileImage {
     max-width: none;

@@ -36,7 +36,7 @@ class ilQTIAssessmentcontrol
 	var $view;
 	var $feedbackswitch;
 	
-	function ilQTIAssessmentcontrol()
+	function __construct()
 	{
 		$this->hintswitch = "";
 		$this->solutionswitch = "";

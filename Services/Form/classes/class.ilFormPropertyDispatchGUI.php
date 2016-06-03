@@ -13,13 +13,6 @@
 class ilFormPropertyDispatchGUI
 {
 	/**
-	* Constructor
-	*/
-	function _construct()
-	{
-	}
-	
-	/**
 	* Set item
 	*
 	* @param	object		item
@@ -42,7 +35,7 @@ class ilFormPropertyDispatchGUI
 	/**
 	* Execute command.
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl;
 		

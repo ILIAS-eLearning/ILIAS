@@ -36,8 +36,6 @@ class ilUserSearchCache
 {
 	const DEFAULT_SEARCH = 0;
 	const ADVANCED_SEARCH = 1;
-	const SHOP_CONTENT = 2;
-	const SHOP_ADVANCED_SEARCH = 3;
 	const ADVANCED_MD_SEARCH = 4;
 	const LUCENE_DEFAULT = 5;
 	const LUCENE_ADVANCED = 6;
@@ -366,7 +364,7 @@ class ilUserSearchCache
 			"WHERE usr_id = ".$ilDB->quote($this->usr_id,'integer')." ".
 			"AND search_type = ".$ilDB->quote($this->search_type,'integer');
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 		
 		if($row->num > 0)
 		{
@@ -525,7 +523,7 @@ class ilUserSearchCache
 	 		"AND search_type = ".$this->db->quote($this->search_type ,'integer');
 		
 	 	$res = $this->db->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 	 	{
 	 		$this->search_result = unserialize(stripslashes($row->search_result));
 	 		if(strlen($row->checked))

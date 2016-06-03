@@ -53,13 +53,13 @@ class ilQueryParser
 	* Constructor
 	* @access public
 	*/
-	function ilQueryParser($a_query_str)
+	function __construct($a_query_str)
 	{
 		global $lng;
 
 		define(MIN_WORD_LENGTH,3);
 
-		$this->lng =& $lng;
+		$this->lng = $lng;
 
 		$this->query_str = $a_query_str;
 		$this->message = '';

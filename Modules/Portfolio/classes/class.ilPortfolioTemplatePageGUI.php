@@ -53,7 +53,7 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 			default:
 				
 				// needed for placeholders
-				include_once "Services/Style/classes/class.ilObjStyleSheet.php";
+				include_once "Services/Style/Content/classes/class.ilObjStyleSheet.php";
 				$this->tpl->addCss(ilObjStyleSheet::getPlaceHolderStylePath());
 				
 				return parent::showPage();

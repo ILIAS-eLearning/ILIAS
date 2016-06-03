@@ -187,7 +187,7 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 		$query = 'SELECT * FROM didactic_tpl_alr '.
 			'WHERE action_id = '.$ilDB->quote($this->getActionId(),'integer');
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setRoleTemplateId($row->role_template_id);
 		}

@@ -8,7 +8,6 @@ require_once("./Services/Export/classes/class.ilExportGUI.php");
 require_once('./Services/News/classes/class.ilNewsItem.php');
 require_once('./Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php');
 
-
 /**
  * Class ilObjBibliographicGUI
  *
@@ -77,7 +76,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		global $ilCtrl, $ilTabs, $ilNavigationHistory, $tpl, $lng;
 		// Navigation History
 		$link = $ilCtrl->getLinkTarget($this, $this->getStandardCmd());
-		if ($this->object != NULL) {
+		if ($this->object != null) {
 			$ilNavigationHistory->addItem($this->object->getRefId(), $link, "bibl");
 			$this->addHeaderAction();
 		}
@@ -147,7 +146,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	 */
 	public function infoScreenForward() {
 		global $ilTabs, $ilErr, $lng;
-		if (! $this->checkPermissionBool("visible")) {
+		if (!$this->checkPermissionBool("visible")) {
 			ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
 			$this->ctrl->redirectByClass('ilPersonalDesktopGUI', '');
 		}
@@ -227,9 +226,13 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
 
 	/**
-	 * @param ilObjBibliographic $a_new_object
+	 * @param \ilObject $a_new_object
 	 */
-	protected function afterSave(ilObjBibliographic $a_new_object) {
+	protected function afterSave(ilObject $a_new_object) {
+		/**
+		 * @var $a_new_object ilObjBibliographic
+		 */
+		assert($a_new_object instanceof ilObjBibliographic);
 		$a_new_object->doUpdate();
 		$this->addNews($a_new_object->getId(), 'created');
 		$this->ctrl->redirect($this, "edit");
@@ -314,8 +317,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 	}
 
 
-
-
 	public function render() {
 		$this->showContent();
 	}
@@ -328,7 +329,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		global $ilAccess, $tpl, $lng, $ilToolbar, $ilCtrl, $ilTabs;
 		// if user has read permission and object is online OR user has write permissions
 		if (($ilAccess->checkAccess('read', "", $this->object->getRefId()) && $this->object->getOnline())
-			|| $ilAccess->checkAccess('write', "", $this->object->getRefId())
+		    || $ilAccess->checkAccess('write', "", $this->object->getRefId())
 		) {
 			$ilTabs->setTabActive("content");
 			include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -363,7 +364,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 					$filename = $path_array[sizeof($path_array) - 1];
 					require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
 					ilFileDelivery::deliverFileAttached($file_path, null, 'application/octet-stream');
-//					ilUtil::deliverFile($file_path, $filename);
+					//					ilUtil::deliverFile($file_path, $filename);
 				} else {
 					ilUtil::sendFailure($lng->txt("file_not_found"));
 					$this->showContent($this->bibl_obj);
@@ -403,15 +404,15 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 				$this->object->setOnline($a_form->getInput("is_online"));
 			}
 
-			if (! empty($_FILES['bibliographic_file']['name'])) {
+			if (!empty($_FILES['bibliographic_file']['name'])) {
 				$this->addNews($this->bibl_obj->getId(), 'updated');
 			}
-
 		} else {
 			ilUtil::sendFailure($this->lng->txt("no_permission"), true);
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
 	}
+
 
 	public function toggleNotification() {
 		global $ilCtrl, $ilUser;
@@ -426,6 +427,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		}
 		$ilCtrl->redirect($this, "");
 	}
+
 
 	/**
 	 * @param string $change
@@ -443,8 +445,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		$ilNewsItem->create();
 	}
 
+
 	/**
 	 * Add desktop item
+	 *
 	 * @access public
 	 */
 	public function addToDeskObject() {
@@ -454,8 +458,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		$this->ctrl->redirect($this, 'view');
 	}
 
+
 	/**
 	 * Remove from desktop
+	 *
 	 * @access public
 	 */
 	public function removeFromDeskObject() {
@@ -465,16 +471,20 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		$this->ctrl->redirect($this, 'view');
 	}
 
+
 	/**
 	 * Add desktop item. Alias for addToDeskObject.
+	 *
 	 * @access public
 	 */
 	public function addToDesk() {
 		$this->addToDeskObject();
 	}
 
+
 	/**
 	 * Remove from desktop. Alias for removeFromDeskObject.
+	 *
 	 * @access public
 	 */
 	public function removeFromDesk() {

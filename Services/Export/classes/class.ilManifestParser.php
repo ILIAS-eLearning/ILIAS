@@ -23,7 +23,7 @@ class ilManifestParser extends ilSaxParser
 	 */
 	function __construct($a_file)
 	{
-		parent::ilSaxParser($a_file, true);
+		parent::__construct($a_file, true);
 		$this->startParsing();
 	}
 

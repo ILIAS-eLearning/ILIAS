@@ -29,7 +29,7 @@ class assClozeSelectGap extends assClozeGap
 * @param integer $a_type An integer representing the gap type
 * @access public
 */
-  function assClozeSelectGap($a_type)
+  public function __construct($a_type)
   {
     $this->type = $a_type;
 		$this->items = array();

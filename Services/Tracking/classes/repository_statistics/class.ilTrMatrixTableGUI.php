@@ -417,7 +417,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		return false;
 	}
 
-	function fillRow(array $a_set)
+	function fillRow($a_set)
 	{
 		global $lng;
 				
@@ -534,11 +534,11 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		$this->tpl->setVariable("VAL_LOGIN", $login);				
 	}
 
-	protected function fillHeaderExcel($worksheet, &$a_row)
+	protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
 	{
 		global $ilObjDataCache;
 		
-		$worksheet->write($a_row, 0, $this->lng->txt("login"));
+		$a_excel->setCell($a_row, 0, $this->lng->txt("login"));
 
 		$labels = $this->getSelectableColumns();
 		$cnt = 1;
@@ -548,25 +548,27 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			{				
 				$obj_id = substr($c, 4);
 				$type = $ilObjDataCache->lookupType($obj_id);
-				$worksheet->write($a_row, $cnt, "(".$this->lng->txt($type).") ".$labels[$c]["txt"]);
+				$a_excel->setCell($a_row, $cnt, "(".$this->lng->txt($type).") ".$labels[$c]["txt"]);
 				
 				if(is_array($this->perc_map) && $this->perc_map[$obj_id])
 				{
 					$cnt++;
-					$worksheet->write($a_row, $cnt, $this->lng->txt("trac_percentage")." (%)");
+					$a_excel->setCell($a_row, $cnt, $this->lng->txt("trac_percentage")." (%)");
 				}
 			}
 			else
 			{
-				$worksheet->write($a_row, $cnt, $labels[$c]["txt"]);
+				$a_excel->setCell($a_row, $cnt, $labels[$c]["txt"]);
 			}
 			$cnt++;
 		}
+		
+		$a_excel->setBold("A".$a_row.":".$a_excel->getColumnCoord($cnt).$a_row);
 	}
 
-	protected function fillRowExcel($worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
 	{
-		$worksheet->write($a_row, 0, $a_set["login"]);
+		$a_excel->setCell($a_row, 0, $a_set["login"]);
 
 		$cnt = 1;
 		foreach ($this->getSelectedColumns() as $c)
@@ -576,17 +578,16 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				case (substr($c, 0, 4) == "obj_"):
 					$obj_id = substr($c, 4);
 					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set[$c]);
-					$worksheet->write($a_row, $cnt, $val);
+					$a_excel->setCell($a_row, $cnt, $val);
 					
 					if(is_array($this->perc_map) && $this->perc_map[$obj_id])
 					{
 						$cnt++;
 						$perc = (int)$a_set[$c."_perc"];
-						if(!$perc)
-						{
-							$perc = null;
-						}					
-						$worksheet->write($a_row, $cnt, $perc);
+						$perc = !$perc
+							? null
+							: $perc."%";						
+						$a_excel->setCell($a_row, $cnt, $perc);
 					}
 					break;
 				
@@ -594,7 +595,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				case (substr($c, 0, 7) == "objsco_"):
 				case (substr($c, 0, 7) == "objsub_"):					
 					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set[$c]);
-					$worksheet->write($a_row, $cnt, $val);
+					$a_excel->setCell($a_row, $cnt, $val);
 					break;										
 				
 				/* #14142
@@ -604,7 +605,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				*/
 				default:
 					$val = $this->parseValue($c, $a_set[$c], "user");
-					$worksheet->write($a_row, $cnt, $val);
+					$a_excel->setCell($a_row, $cnt, $val);
 					break;
 					
 			}			

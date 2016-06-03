@@ -303,7 +303,7 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 	*
 	* @return	int	Size
 	*/
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		$html = $this->render();
 

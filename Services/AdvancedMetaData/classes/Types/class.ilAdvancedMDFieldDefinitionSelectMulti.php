@@ -217,8 +217,10 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
 	// presentation
 	//
 	
-	public function prepareElementForEditor(ilADTMultiEnumFormBridge $a_enum)
+	public function prepareElementForEditor(ilADTFormBridge $a_enum)
 	{
+		assert($a_enum instanceof ilADTMultiEnumFormBridge);
+		
 		$a_enum->setAutoSort(false);		
 	}
 }

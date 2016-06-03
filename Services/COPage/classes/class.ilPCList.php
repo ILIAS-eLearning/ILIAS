@@ -28,7 +28,7 @@ class ilPCList extends ilPageContent
 	/**
 	* Set pc node
 	*/
-	function setNode(&$a_node)
+	function setNode($a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
 		$this->list_node = $a_node->first_child();		// this is the Table node
@@ -41,8 +41,8 @@ class ilPCList extends ilPageContent
 	{
 		$this->node = $this->createPageContentNode();
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-		$this->list_node =& $this->dom->create_element("List");
-		$this->list_node =& $this->node->append_child($this->list_node);
+		$this->list_node = $this->dom->create_element("List");
+		$this->list_node = $this->node->append_child($this->list_node);
 	}
 
 	/**
@@ -52,8 +52,8 @@ class ilPCList extends ilPageContent
 	{
 		for ($i=1; $i<=$a_nr; $i++)
 		{
-			$new_item =& $this->dom->create_element("ListItem");
-			$new_item =& $this->list_node->append_child($new_item);
+			$new_item = $this->dom->create_element("ListItem");
+			$new_item = $this->list_node->append_child($new_item);
 		}
 	}
 

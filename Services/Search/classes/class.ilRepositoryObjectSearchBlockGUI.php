@@ -29,7 +29,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $lng;
 		
-		parent::ilBlockGUI();
+		parent::__construct();
 		
 		$this->setEnableNumInfo(false);
 		

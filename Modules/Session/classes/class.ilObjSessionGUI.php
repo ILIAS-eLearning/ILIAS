@@ -160,9 +160,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     /**
      * @see ilObjectGUI::prepareOutput()
      */
-    protected function prepareOutput()
+    protected function prepareOutput($a_show_subobjects = true)
     {
-        parent::prepareOutput();
+        parent::prepareOutput($a_show_subobjects);
 		
 		if(!$this->getCreationMode())
 		{
@@ -332,9 +332,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 
 	/**
-	* Modify Item ListGUI for presentation in container
-	*/
-	function modifyItemGUI($a_item_list_gui,$a_item_data, $a_show_path)
+	 * Modify Item ListGUI for presentation in container
+	 * @global type $tree
+	 * @param type $a_item_list_gui
+	 * @param type $a_item_data
+	 * @param type $a_show_path
+	 */
+	public function modifyItemGUI($a_item_list_gui,$a_item_data, $a_show_path)
 	{
 		global $tree;
 
@@ -441,7 +445,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function infoScreen()
 	{
-		global $ilAccess, $ilUser,$ilCtrl,$tree,$ilToolbar;
+		global $ilAccess, $ilUser,$ilCtrl,$tree,$ilToolbar,$lng;
 
 		$this->checkPermission('visible');
 		$this->tabs_gui->setTabActive('info_short');
@@ -505,6 +509,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->object->getId(),
 			$eventItems
 		);			
+		
+		$lng->loadLanguageModule("cntr");// #14158		
 		
 		foreach($eventItems as $item)
 		{						
@@ -1046,7 +1052,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 		$toolbar = new ilToolbarGUI();		
-		$toolbar->addButton($this->lng->txt('sess_gen_attendance_list'), 
+		$toolbar->addButton($this->lng->txt('crs_print_list'),
 			$this->ctrl->getLinkTarget($this,'attendanceList'));		
 		
 		$this->tpl->setVariable('ACTION_BUTTONS',$toolbar->getHTML());
@@ -1109,7 +1115,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->readSubscriberData();
-			$table_gui->setTitle($this->lng->txt('group_new_registrations'),'icon_usr.svg',$this->lng->txt('group_new_registrations'));
+			$table_gui->setTitle($this->lng->txt('sess_new_registrations'),'icon_usr.svg',$this->lng->txt('sess_new_registrations'));
 			$this->tpl->setVariable('TABLE_SUB',$table_gui->getHTML());
 		}
 		
@@ -1164,7 +1170,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->clearParameters($this);
 			}
 			$table->addCommandButton('updateMembers',$this->lng->txt('save'));
-			$table->setTitle($this->lng->txt('event_tbl_tutors'),'icon_usr.svg',$this->lng->txt('event_tbl_admins'));
+			$table->setTitle($this->lng->txt('event_tbl_tutors'),'icon_usr.svg',$this->lng->txt('event_tbl_tutors'));
 			$table->enableRegistration($this->object->enabledRegistration());
 			$table->setParticipants($tutors);
 			$table->parse();
@@ -1192,7 +1198,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->clearParameters($this);
 			}
 			$table->addCommandButton('updateMembers',$this->lng->txt('save'));
-			$table->setTitle($this->lng->txt('event_tbl_members'),'icon_usr.svg',$this->lng->txt('event_tbl_admins'));
+			$table->setTitle($this->lng->txt('event_tbl_members'),'icon_usr.svg',$this->lng->txt('event_tbl_members'));
 			$table->enableRegistration($this->object->enabledRegistration());
 			$table->setParticipants($members);
 			$table->parse();
@@ -1678,7 +1684,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 				$this->form->addCommandButton('save',$this->lng->txt('event_btn_add'));
 				$this->form->addCommandButton('saveAndAssignMaterials',$this->lng->txt('event_btn_add_edit'));
-				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+				$this->form->addCommandButton('cancelEdit',$this->lng->txt('cancel'));
 		
 				return true;
 			
@@ -1686,7 +1692,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->form->setTitle($this->lng->txt('event_table_update'));
 
 				$this->form->addCommandButton('update',$this->lng->txt('save'));
-				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+				$this->form->addCommandButton('cancelEdit',$this->lng->txt('cancel'));
 				
 				return true;
 		}
@@ -1919,7 +1925,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 * @access public
 	 * 
 	 */
-	public function getTabs($tabs_gui)
+	public function getTabs()
 	{
 	 	global $ilAccess, $ilTabs, $tree, $ilCtrl, $ilHelp;
 
@@ -1931,20 +1937,20 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$parent_type = ilObject::_lookupType($parent_id, true);		
 
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $parent_id);
-		$tabs_gui->setBackTarget($this->lng->txt('back_to_'.$parent_type.'_content'),
+		$this->tabs_gui->setBackTarget($this->lng->txt('back_to_'.$parent_type.'_content'),
 			$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 		
-		$tabs_gui->addTarget('info_short',
+		$this->tabs_gui->addTarget('info_short',
 							 $this->ctrl->getLinkTarget($this,'infoScreen'));
 
 	 	if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 	 	{
-			$tabs_gui->addTarget('settings',
+			$this->tabs_gui->addTarget('settings',
 								 $this->ctrl->getLinkTarget($this,'edit'));
-			$tabs_gui->addTarget('crs_materials',
+			$this->tabs_gui->addTarget('crs_materials',
 								 $this->ctrl->getLinkTarget($this,'materials'));
-			$tabs_gui->addTarget('event_edit_members',
+			$this->tabs_gui->addTarget('event_edit_members',
 								 $this->ctrl->getLinkTarget($this,'members'));
 	 	}
 		
@@ -1952,7 +1958,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
 		{
-			$tabs_gui->addTarget('learning_progress',
+			$this->tabs_gui->addTarget('learning_progress',
 				$this->ctrl->getLinkTargetByClass(array('ilobjsessiongui','illearningprogressgui'),''),
 				'',
 				array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
@@ -1961,7 +1967,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// export
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			$ilTabs->addTarget("export",
+			$this->tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTargetByClass("ilexportgui", ""), "", "ilexportgui");
 		}
 
@@ -1969,7 +1975,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// edit permissions
 		if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("perm_settings",
+			$this->tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	 	
@@ -2346,5 +2352,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return true;
 	}
 
+	 function cancelEditObject()
+	 {
+		 global $ilCtrl, $tree;
+		 $parent_id = $tree->getParentId($this->object->getRefId());
+		 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $parent_id);
+		 $ilCtrl->redirectByClass("ilrepositorygui", "");
+	 }
 }
 ?>

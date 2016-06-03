@@ -144,7 +144,7 @@ class ilCalendarAppointmentColors
 			"WHERE ".$ilDB->in('cat.cat_id',$this->categories->getCategories(true),false,'integer');
 
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->appointment_colors[$row->cat_id] = $row->color;
 			$this->cat_app_ass[$row->cal_id] = $row->cat_id;

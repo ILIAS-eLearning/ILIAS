@@ -31,7 +31,7 @@ class ilTestServiceGUI
 	public $service = null;
 
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
@@ -105,7 +105,7 @@ class ilTestServiceGUI
 	 * @param object $a_object Associated ilObjTest class
 	 * @access public
 	 */
-	function ilTestServiceGUI(ilObjTest $a_object)
+	public function __construct(ilObjTest $a_object)
 	{
 		global $lng, $tpl, $ilCtrl, $ilias, $tree, $ilDB, $ilPluginAdmin, $ilTabs, $ilObjDataCache;
 
@@ -259,7 +259,7 @@ class ilTestServiceGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
@@ -853,7 +853,7 @@ class ilTestServiceGUI
 			if ($this->object->isShowExamIdInTestResultsEnabled())
 			{
 				$template->setCurrentBlock('exam_id_footer');
-				$template->setVariable('EXAM_ID_VAL', $this->object->lookupExamId(
+				$template->setVariable('EXAM_ID_VAL', ilObjTest::lookupExamId(
 					$testSession->getActiveId(), $pass
 				));
 				$template->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
@@ -1201,7 +1201,7 @@ class ilTestServiceGUI
 			);
 		}
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
 		$this->tpl->parseCurrentBlock();

@@ -34,11 +34,11 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		 // #12788
 		foreach($this->getMonthsYear($this->filter["year"]) as $num => $caption)
 		{
-			$this->addColumn($caption, "month_".$num, "", false, "ilRight");
+			$this->addColumn($caption, "month_".$num);
 		}
 		if($this->filter["year"] == date("Y"))
 		{
-			$this->addColumn($lng->txt("trac_current"), "month_live", "", false, "ilRight");
+			$this->addColumn($lng->txt("trac_current"), "month_live");
 		}
 	
 		$this->setTitle($this->lng->txt("trac_object_stat_types"));
@@ -277,29 +277,27 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		return $chart->getHTML();
 	}
 	
-	protected function fillMetaExcel()
+	protected function fillMetaExcel(ilExcel $a_excel, &$a_row)
 	{
 		
 	}
 	
-	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
 	{
-		$a_worksheet->write($a_row, 0, $a_set["title"]);	
+		$a_excel->setCell($a_row, 0, $a_set["title"]);	
 		
 		$cnt = 1;		
 		foreach(array_keys($this->getMonthsYear($this->filter["year"])) as $month)
 		{
 			$value = $this->anonymizeValue((int)$a_set["month_".$month]);
-			$a_worksheet->write($a_row, $cnt, $value);
-			
-			$cnt++;
+			$a_excel->setCell($a_row, $cnt++, $value);
 		}
 		
 		$value = $this->anonymizeValue((int)$a_set["month_live"]);
-		$a_worksheet->write($a_row, $cnt, $value);
+		$a_excel->setCell($a_row, $cnt, $value);
 	}
 	
-	protected function fillMetaCSV()
+	protected function fillMetaCSV($a_csv)
 	{
 		
 	}

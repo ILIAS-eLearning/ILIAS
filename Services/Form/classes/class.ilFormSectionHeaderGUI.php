@@ -169,7 +169,7 @@ class ilFormSectionHeaderGUI
 	* Insert property html
 	*
 	*/
-	function insert(&$a_tpl)
+	function insert($a_tpl)
 	{
 		$section_icon = $this->getSectionIcon();
 		

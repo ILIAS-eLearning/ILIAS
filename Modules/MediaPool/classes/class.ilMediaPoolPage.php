@@ -154,17 +154,6 @@ class ilMediaPoolPage extends ilPageObject
 	}
 	
 	/**
-	 * Check whether meida pool page exists
-	 * 
-	 * @param	int			page id
-	 * @return	boolean		true/false
-	 */
-	static function _exists($a_id)
-	{
-		return ilPageObject::_exists("mep", $a_id);
-	}
-	
-	/**
 	* get all usages of current media object
 	*/
 	function getUsages($a_incl_hist = true)

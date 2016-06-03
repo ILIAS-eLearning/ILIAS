@@ -4,8 +4,10 @@ require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
 /**
  * Class ilGlobalCacheQueryWrapper
  *
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.0
+ * @author      Fabian Schmid <fs@studer-raimann.ch>
+ * @version     1.0.0
+ *
+ * @deprecated  currently unused
  */
 class ilGlobalCacheQueryWrapper {
 
@@ -52,7 +54,7 @@ class ilGlobalCacheQueryWrapper {
 		$ilGlobalCache = ilGlobalCache::getInstance();
 		if ($ilGlobalCache->isActive()) {
 			$rec = $ilGlobalCache->get($this->cache_key);
-			if (! $rec) {
+			if (!$rec) {
 				$rec = $this->getFromDb();
 				$ilGlobalCache->set($this->cache_key, $rec, 600);
 			}

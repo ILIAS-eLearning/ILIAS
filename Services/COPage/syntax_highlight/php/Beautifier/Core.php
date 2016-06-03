@@ -26,7 +26,7 @@ include_once($BEAUT_PATH."/Beautifier/Context.php");
 class Core
 {
 
-function Core($file=undef, $outputmodule)
+function __construct($file=undef, $outputmodule)
 {
 	if (!isset($file)) $file = new HFile();
 	$this->zbuffer = false;
@@ -570,7 +570,8 @@ function _munge($munge)
 						if (
 						  isset($this->highlightfile->linkscripts) &&
 							(
-							  $code = call_user_method($this->highlightfile->linkscripts{$category}, $this->highlightfile, $oldword, $this->output_module)
+							  $code = call_user_func(array($this->highlightfile, $this->highlightfile->linkscripts{$category}), $oldword, $this->output_module)
+							  //$code = call_user_method($this->highlightfile->linkscripts{$category}, $this->highlightfile, $oldword, $this->output_module)
 							) != $oldword
 							)
 						{

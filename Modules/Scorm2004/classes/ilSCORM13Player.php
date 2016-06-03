@@ -139,12 +139,12 @@ class ilSCORM13Player
 		
 		$this->page = $_REQUEST['page'];
 		
-		$this->slm =& new ilObjSCORM2004LearningModule($_GET["ref_id"], true);
+		$this->slm = new ilObjSCORM2004LearningModule($_GET["ref_id"], true);
 		
 			
-		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->ctrl =& $ilCtrl;
+		$this->ilias = $ilias;
+		$this->tpl = $tpl;
+		$this->ctrl = $ilCtrl;
 				
         $this->packageId=ilObject::_lookupObjectId($_GET['ref_id']);
 		$this->ref_id = $_GET['ref_id'];

@@ -50,21 +50,21 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 	/**
 	* Constructor
 	*
-	* @param	object		$a_content_object	must be of type ilObjContentObject
+	* @param	ilObject		$a_content_object	must be of type ilObjContentObject
 	*											ilObjTest or ilObjQuestionPool
 	* @param	string		$a_xml_file			xml file
 	* @param	string		$a_subdir			subdirectory in import directory
 	* @access	public
 	*/
-	function ilCourseXMLParser($a_course_obj, $a_xml_file = '')
+	public function __construct($a_course_obj, $a_xml_file = '')
 	{
 		global $lng,$ilLog;
 
-		parent::ilMDSaxParser($a_xml_file);
+		parent::__construct($a_xml_file);
 
 		$this->sax_controller = new ilSaxController();
 
-		$this->log =& $ilLog;
+		$this->log = $ilLog;
 
 		$this->course_obj = $a_course_obj;
 		$this->course_members = ilCourseParticipants::_getInstanceByObjId($this->course_obj->getId());
@@ -75,7 +75,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 		$this->md_obj = new ilMD($this->course_obj->getId(),0,'crs');
 		$this->setMDObject($this->md_obj);
 
-		$this->lng =& $lng;
+		$this->lng = $lng;
 	}
 
 	/**

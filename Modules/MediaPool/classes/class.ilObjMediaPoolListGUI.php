@@ -14,14 +14,6 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 */
 class ilObjMediaPoolListGUI extends ilObjectListGUI
 {
-	/**
-	* constructor
-	*
-	*/
-	function ilObjMediaPoolListGUI()
-	{
-		$this->ilObjectListGUI();
-	}
 
 	/**
 	* initialisation
@@ -34,7 +26,6 @@ class ilObjMediaPoolListGUI extends ilObjectListGUI
 		$this->cut_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
-		$this->payment_enabled = false;
 		$this->info_screen_enabled = true;
 		$this->type = "mep";
 		$this->gui_class_name = "ilobjmediapoolgui";

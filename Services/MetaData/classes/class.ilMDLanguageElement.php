@@ -35,7 +35,7 @@ class ilMDLanguageElement
 	var $possible_language_codes = array();
 
 
-	function ilMDLanguageElement($a_code)
+	function __construct($a_code)
 	{
 		$this->language_code = $a_code;
 

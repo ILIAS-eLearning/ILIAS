@@ -470,7 +470,7 @@ class ilObjectActivation
 		// #10077
 		$ilDB->lockTables(array(
 			array("name" => "crs_items", 
-				"type" => ilDB::LOCK_WRITE, 
+				"type" => ilDBConstants::LOCK_WRITE,
 				"alias" => "")
 		));
 		

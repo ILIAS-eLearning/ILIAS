@@ -38,14 +38,14 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function ilObjRoleTemplateGUI($a_data,$a_id,$a_call_by_reference)
+	function __construct($a_data,$a_id,$a_call_by_reference)
 	{
 		global $lng;
 		
 		$lng->loadLanguageModule('rbac');
 		
 		$this->type = "rolt";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
+		parent::__construct($a_data,$a_id,$a_call_by_reference,false);
 		$this->rolf_ref_id =& $this->ref_id;
 		$this->ctrl->saveParameter($this, "obj_id");
 	}
@@ -608,22 +608,22 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	/**
 	* admin and normal tabs are equal for roles
 	*/
-	function getAdminTabs(&$tabs_gui)
+	function getAdminTabs()
 	{
-		$this->getTabs($tabs_gui);
+		$this->getTabs();
 	}
 	
-	function getTabs(&$tabs_gui)
+	function getTabs()
 	{
-		global $rbacsystem,$rbacreview;
+		global $rbacsystem;
 
 		if ($rbacsystem->checkAccess('write',$this->rolf_ref_id))
 		{
-			$tabs_gui->addTarget("settings",
+			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"),
 				array("edit","update"), get_class($this));
 				
-			$tabs_gui->addTarget("default_perm_settings",
+			$this->tabs_gui->addTarget("default_perm_settings",
 				$this->ctrl->getLinkTarget($this, "perm"),
 				array("perm"), get_class($this));
 		}
@@ -646,7 +646,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	* should be overwritten to add object specific items
 	* (repository items are preloaded)
 	*/
-	function addAdminLocatorItems()
+	function addAdminLocatorItems($a_do_not_add_object = false)
 	{
 		global $ilLocator;
 		

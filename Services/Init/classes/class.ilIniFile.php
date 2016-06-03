@@ -70,7 +70,7 @@ class ilIniFile
 	* @param	string		name of file to be parsed
 	* @return	boolean
 	*/
-	function ilIniFile($a_ini_file_name)
+	function __construct($a_ini_file_name)
 	{
 		//check if a filename is given
 		if (empty($a_ini_file_name))
@@ -184,36 +184,6 @@ class ilIniFile
 		
 	}
 	
-	/**
-	* parse data
-	* @access	private
- 	* @param	array
-	*/
-	function parse_data($a_data)
-	{
-		if (ereg("\[([[:alnum:]]+)\]",$a_data,$out))
-		{
-			$this->CURRENT_GROUP= trim($out[1]);
-		}
-		elseif (!empty($a_data))
-		{
-			$split_data = split("=", $a_data);
-			$this->GROUPS[$this->CURRENT_GROUP][trim($split_data[0])]=trim($split_data[1]);
-		}
-	}
-
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	* @param	string
-	* @return	boolean	true
-	*/
-	function setContent($a_data)
-	{
-		$this->GROUPS = $a_data;
-		return true;
-	}
-
 	/**
 	* save ini-file-data to filesystem
 	* @access	private

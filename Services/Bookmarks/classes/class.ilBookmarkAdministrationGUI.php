@@ -44,7 +44,7 @@ class ilBookmarkAdministrationGUI
 	 * @access    public
 	 * @param    integer        user_id (optional)
 	 */
-	function ilBookmarkAdministrationGUI()
+	function __construct()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl, $ilUser;
 
@@ -78,7 +78,7 @@ class ilBookmarkAdministrationGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass();
 

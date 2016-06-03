@@ -39,7 +39,7 @@ class ilSCORM2004PageLayout
 	
 	var $layout_id = null;
 	
-	function ilSCORM2004PageLayout($a_id) {
+	function __construct($a_id) {
 		$this->layout_id = $a_id;
 	}
 	
@@ -48,7 +48,7 @@ class ilSCORM2004PageLayout
 		global $ilias, $ilDB;
          $r = $ilias->db->query("SELECT content FROM page_layout WHERE layout_id=".
 								 $ilDB->quote($this->layout_id));
-	     $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+	     $row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return $row['content'];
 	}
 	

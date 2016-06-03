@@ -64,7 +64,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->addColumn($this->lng->txt("actions"), "", "5%");
 
 			$this->setTitle(sprintf($this->lng->txt("trac_learning_progress_of"), $user->getFullName()));
-			$this->initFilter();
+			$this->initBaseFilter();
 
 			$this->setSelectAllCheckbox("item_id");
 			$this->addMultiCommand("hideSelected", $lng->txt("trac_hide_selected"));
@@ -331,33 +331,33 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		}
 	}
 
-	protected function fillHeaderExcel($worksheet, &$a_row)
+	protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
 	{
-		$worksheet->write($a_row, 0, $this->lng->txt("type"));
-		$worksheet->write($a_row, 1, $this->lng->txt("trac_title"));
-		$worksheet->write($a_row, 2, $this->lng->txt("status"));
-		$worksheet->write($a_row, 3, $this->lng->txt("trac_status_changed"));
-		$worksheet->write($a_row, 4, $this->lng->txt("trac_percentage"));
-		$worksheet->write($a_row, 5, $this->lng->txt("trac_mark"));
-		$worksheet->write($a_row, 6, $this->lng->txt("comment"));
-		$worksheet->write($a_row, 7, $this->lng->txt("trac_mode"));
-		// $worksheet->write($a_row, 7, $this->lng->txt("path"));
+		$a_excel->setCell($a_row, 0, $this->lng->txt("type"));
+		$a_excel->setCell($a_row, 1, $this->lng->txt("trac_title"));
+		$a_excel->setCell($a_row, 2, $this->lng->txt("status"));
+		$a_excel->setCell($a_row, 3, $this->lng->txt("trac_status_changed"));
+		$a_excel->setCell($a_row, 4, $this->lng->txt("trac_percentage"));
+		$a_excel->setCell($a_row, 5, $this->lng->txt("trac_mark"));
+		$a_excel->setCell($a_row, 6, $this->lng->txt("comment"));
+		$a_excel->setCell($a_row, 7, $this->lng->txt("trac_mode"));
+		// $a_excel->setCell($a_row, 7, $this->lng->txt("path"));
+		
+		$a_excel->setBold("A".$a_row.":H".$a_row);
 	}
 	
-	protected function fillRowExcel($worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
 	{
-		$worksheet->write($a_row, 0, $this->lng->txt($a_set["type"]));
-		$worksheet->write($a_row, 1, $a_set["title"]);
-		$worksheet->write($a_row, 2, ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
+		$a_excel->setCell($a_row, 0, $this->lng->txt($a_set["type"]));
+		$a_excel->setCell($a_row, 1, $a_set["title"]);
+		$a_excel->setCell($a_row, 2, ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
 
-		ilDatePresentation::setUseRelativeDates(false);
-		$worksheet->write($a_row, 3, ilDatePresentation::formatDate(new ilDateTime($a_set['status_changed'],IL_CAL_DATETIME)));
-		ilDatePresentation::resetToDefaults();
+		$a_excel->setCell($a_row, 3, new ilDateTime($a_set['status_changed'],IL_CAL_DATETIME));
 
-		$worksheet->write($a_row, 4, sprintf("%d%%", $a_set["percentage"]));
-		$worksheet->write($a_row, 5, $a_set["mark"]);
-		$worksheet->write($a_row, 6, $a_set["comment"]);
-		$worksheet->write($a_row, 7, ilLPObjSettings::_mode2Text($a_set["u_mode"]));
+		$a_excel->setCell($a_row, 4, $a_set["percentage"]."%");
+		$a_excel->setCell($a_row, 5, $a_set["mark"]);
+		$a_excel->setCell($a_row, 6, $a_set["comment"]);
+		$a_excel->setCell($a_row, 7, ilLPObjSettings::_mode2Text($a_set["u_mode"]));
 
 		/*
 		// path

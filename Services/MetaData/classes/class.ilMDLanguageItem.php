@@ -35,7 +35,7 @@ class ilMDLanguageItem
 	var $possible_language_codes = array();
 
 
-	function ilMDLanguageItem($a_code)
+	function __construct($a_code)
 	{
 		$this->language_code = $a_code;
 	}
@@ -55,7 +55,7 @@ class ilMDLanguageItem
 	/*
 	 * @static
 	 */
-	function _getPossibleLanguageCodes()
+	static function _getPossibleLanguageCodes()
 	{
 		return array("aa","ab","af","am","ar","as","ay","az","ba","be","bg","bh",
 					 "bi","bn","bo","br","ca","co","cs","cy","da","de","dz","el","en","eo",
@@ -75,7 +75,7 @@ class ilMDLanguageItem
 	/*
 	 * @static
 	 */
-	function _getLanguages()
+	static function _getLanguages()
 	{
 		global $lng;
 

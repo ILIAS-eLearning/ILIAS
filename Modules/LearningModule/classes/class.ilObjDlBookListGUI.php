@@ -37,9 +37,9 @@ class ilObjDlBookListGUI extends ilObjectListGUI
 	* constructor
 	*
 	*/
-	function ilObjDlBookListGUI()
+	function __construct()
 	{
-		$this->ilObjectListGUI();
+		parent::__construct();
 	}
 
 	/**
@@ -54,7 +54,6 @@ class ilObjDlBookListGUI extends ilObjectListGUI
 		$this->cut_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
-		$this->payment_enabled = true;
 		$this->type = "dbk";
 		$this->gui_class_name = "ilobjdlbookgui";
 		$this->info_screen_enabled = true;
@@ -135,21 +134,7 @@ class ilObjDlBookListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "view":
-				//$showViewInFrameset = $ilias->ini->readVariable("layout","view_target") == "frame";
-				$showViewInFrameset = true;
-
-				include_once 'Services/Payment/classes/class.ilPaymentObject.php';
-				$isBuyable = ilPaymentObject::_isBuyable($this->ref_id);
-				if (($isBuyable && ilPaymentObject::_hasAccess($this->ref_id) == false) ||
-					$showViewInFrameset)
-				{
-					$frame = ilFrameTargetInfo::_getFrame("MainContent");
-				}
-				else
-				{
-					$frame = ilFrameTargetInfo::_getFrame("MainContent");
-					//$frame = "ilContObj".$this->obj_id;
-				}
+				$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				break;
 
 			case "edit":

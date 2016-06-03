@@ -46,7 +46,9 @@ abstract class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	public function __construct()
 	{
 		global $ilCtrl;
-		
+
+		parent::__construct();
+
 		$this->ctrl = $ilCtrl;
 		
 		
@@ -65,7 +67,7 @@ abstract class ilExternalFeedBlockGUIGen extends ilBlockGUI
 	* Execute command.
 	*
 	*/
-	public function &executeCommand()
+	public function executeCommand()
 	{
 		global $ilCtrl;
 		

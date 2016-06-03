@@ -106,21 +106,22 @@ class ilPollUserTableGUI extends ilTable2GUI
 		$a_csv->addRow();
 	}
 	
-	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
 	{
-		$a_worksheet->write($a_row, 0, $a_set["login"]);		
-		$a_worksheet->write($a_row, 1, $a_set["lastname"]);		
-		$a_worksheet->write($a_row, 2, $a_set["firstname"]);
+		$a_excel->setCell($a_row, 0, $a_set["login"]);		
+		$a_excel->setCell($a_row, 1, $a_set["lastname"]);		
+		$a_excel->setCell($a_row, 2, $a_set["firstname"]);
+		
 		$col = 2;
 		foreach($this->answer_ids as $answer_id)
 		{			
 			if($a_set["answer".$answer_id])
 			{				
-				$a_worksheet->write($a_row, ++$col, true);						
+				$a_excel->setCell($a_row, ++$col, true);						
 			}
 			else
 			{				
-				$a_worksheet->write($a_row, ++$col, false);				
+				$a_excel->setCell($a_row, ++$col, false);				
 			}
 		}	
 	}

@@ -208,7 +208,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		{
 			$ilDB->lockTables(
 					array(
-						0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+						0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE)));
 		}
 
 		// get path and depth of parent
@@ -297,7 +297,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		{
 			$ilDB->lockTables(
 					array(
-						0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+						0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE)));
 		}
 		try 
 		{
@@ -345,7 +345,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		{
 			$ilDB->lockTables(
 					array(
-						0 => array('name' => 'tree', 'type' => ilDB::LOCK_WRITE)));
+						0 => array('name' => 'tree', 'type' => ilDBConstants::LOCK_WRITE)));
 		}
 
 		// Receive node infos for source and target
@@ -509,7 +509,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		
 		$res = $ilDB->query($query);
 		$nodes = array();
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			#$nodes[$row->child]['lft'] = $row->lft;
 			#$nodes[$row->child]['rgt'] = $row->rgt;
@@ -546,6 +546,31 @@ class ilMaterializedPathTree implements ilTreeImplementation
 		#$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($nodes,TRUE));
 
 		return (array) $nodes;
+	}
+
+	/**
+	 * Validaate parent relations 
+	 * @return int[] array of failure nodes
+	 */
+	public function validateParentRelations()
+	{
+		global $ilDB;
+		
+		$query = 'select child from '.$this->getTree()->getTreeTable().' child where not exists '.
+				'( '.
+					'select child from '.$this->getTree()->getTreeTable().' parent where child.parent = parent.child and '.
+					'(child.path BETWEEN parent.path AND CONCAT(parent.path,'.$ilDB->quote('Z','text').') )'. 				')'.
+				'and '.$this->getTree()->getTreePk().' = '.$this->getTree()->getTreeId().' and child <> 1';
+		$res = $ilDB->query($query);
+		
+		ilLoggerFactory::getLogger('tree')->debug($query);
+		
+		$failures = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$failures[] = $row[$this->getTree()->getTreePk()];
+		}
+		return $failures;
 	}
 }
 

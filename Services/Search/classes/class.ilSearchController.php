@@ -27,7 +27,7 @@ class ilSearchController
 	* Constructor
 	* @access public
 	*/
-	function ilSearchController()
+	function __construct()
 	{
 		global $ilCtrl,$ilias,$lng,$tpl;
 

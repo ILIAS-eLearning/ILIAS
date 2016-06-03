@@ -32,13 +32,6 @@ include_once 'class.ilMDBase.php';
 
 class ilMDAnnotation extends ilMDBase
 {
-	function ilMDAnnotation($a_rbac_id = 0,$a_obj_id = 0,$a_obj_type = '')
-	{
-		parent::ilMDBase($a_rbac_id,
-						 $a_obj_id,
-						 $a_obj_type);
-	}
-
 	// SET/GET
 	function setEntity($a_entity)
 	{
@@ -154,7 +147,7 @@ class ilMDAnnotation extends ilMDBase
 				"WHERE meta_annotation_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
@@ -162,7 +155,7 @@ class ilMDAnnotation extends ilMDBase
 				$this->setEntity($row->entity);
 				$this->setDate($row->a_date);
 				$this->setDescription($row->description);
-				$this->description_language =& new ilMDLanguageItem($row->description_language);
+				$this->description_language = new ilMDLanguageItem($row->description_language);
 			}
 		}
 		return true;
@@ -188,7 +181,7 @@ class ilMDAnnotation extends ilMDBase
 				
 
 	// STATIC
-	function _getIds($a_rbac_id,$a_obj_id)
+	static function _getIds($a_rbac_id,$a_obj_id)
 	{
 		global $ilDB;
 
@@ -198,7 +191,7 @@ class ilMDAnnotation extends ilMDBase
 
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$ids[] = $row->meta_annotation_id;
 		}

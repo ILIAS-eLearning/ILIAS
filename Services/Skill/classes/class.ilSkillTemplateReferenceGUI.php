@@ -46,11 +46,11 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 	/**
 	 * Execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilCtrl, $tpl, $ilTabs;
 		
-		$tpl->getStandardTemplate();
+		//$tpl->getStandardTemplate();
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();

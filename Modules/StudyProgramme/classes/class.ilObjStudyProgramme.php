@@ -40,7 +40,7 @@ class ilObjStudyProgramme extends ilContainer {
 	public function __construct($a_id = 0, $a_call_by_reference = true) {
 		$this->type = "prg";
 		$this->settings = null;
-		$this->ilContainer($a_id, $a_call_by_reference);
+		parent::__construct($a_id, $a_call_by_reference);
 		
 		$this->clearParentCache();
 		$this->clearChildrenCache();
@@ -191,6 +191,15 @@ class ilObjStudyProgramme extends ilContainer {
 
 	public function update() {
 		parent::update();
+
+		// Update selection for advanced meta data of the type
+		if ($this->getSubtypeId()) {
+			ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'prg_type', $this->getSubType()->getAssignedAdvancedMDRecordIds());
+		} else {
+			// If no type is assigned, delete relations by passing an empty array
+			ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'prg_type', array());
+		}
+
 		$this->updateSettings();
 	}
 
@@ -512,10 +521,13 @@ class ilObjStudyProgramme extends ilContainer {
 			// TODO: find a better way to get all elements except StudyProgramme-children
 			$ref_ids = $this->tree->getChilds($this->getRefId());
 
-			// TODO: $this could be removed as soon as support for PHP 5.3 is dropped:
-			$self = $this;
-			$lp_children = array_map(function($node_data) use ($self) {
-				$lp_obj = $self->object_factory->getInstanceByRefId($node_data["child"]);
+			// apply container sorting to tree
+			$sorting = ilContainerSorting::_getInstance($this->getId());
+			$ref_ids = $sorting->sortItems(array('crs_ref'=>$ref_ids));
+			$ref_ids = $ref_ids['crs_ref'];
+
+			$lp_children = array_map(function($node_data) {
+				$lp_obj = $this->object_factory->getInstanceByRefId($node_data["child"]);
 
 				// filter out all StudyProgramme instances
 				return ($lp_obj instanceof $self)? null : $lp_obj;

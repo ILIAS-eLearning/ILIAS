@@ -40,7 +40,7 @@ class ilQTIRenderHotspot
 	var $response_labels;
 	var $material;
 
-	function ilQTIRenderHotspot()
+	function __construct()
 	{
 		$this->showdraw = SHOWDRAW_NO;
 		$this->response_labels = array();

@@ -94,7 +94,7 @@ class ilContainerStartObjectsContentGUI
 			return;
 		}
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
 		$tpl->setCurrentBlock("SyntaxStyle");
@@ -105,7 +105,7 @@ class ilContainerStartObjectsContentGUI
 		include_once("./Services/Container/classes/class.ilContainerStartObjectsPageGUI.php");	
 		$page_gui = new ilContainerStartObjectsPageGUI($page_id);
 		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));
 
 		$page_gui->setPresentationTitle("");

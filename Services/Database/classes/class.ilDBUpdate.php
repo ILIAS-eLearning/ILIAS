@@ -31,7 +31,7 @@ class ilDBUpdate
 	/**
 	* constructor
 	*/
-	function ilDBUpdate($a_db_handler = 0,$tmp_flag = false)
+	function __construct($a_db_handler = 0,$tmp_flag = false)
 	{		
 		// workaround to allow setup migration
 		if ($a_db_handler)
@@ -207,7 +207,7 @@ class ilDBUpdate
 		$regs = array();
 		foreach ($this->lastfilecontent as $row)
 		{
-			if (ereg("^<#([0-9]+)>", $row, $regs))
+			if (preg_match('/^\<\#([0-9]+)>/', $row, $regs))
 			{
 				$version = $regs[1];
 			}
@@ -247,10 +247,13 @@ class ilDBUpdate
 					$check = $this->checkQuery($q);
 					if ($check === true)
 					{
-						$r = $db->query($q);
-						if (MDB2::isError($r))
-						{
-							$this->error = $r->getMessage();
+						try {
+							$r = $db->query($q);
+						} catch (ilDatabaseException $e) {
+							var_dump($e); // FSX
+							exit;
+							$this->error = $e->getMessage();
+
 							return false;
 						}
 					}
@@ -414,7 +417,7 @@ class ilDBUpdate
 		$i = 0;
 
 	    //go through filecontent
-		while (!ereg("^<#".$nr.">", $this->filecontent[$i]) && $i<count($this->filecontent))
+		while (!preg_match("/^\<\#".$nr.">/", $this->filecontent[$i]) && $i<count($this->filecontent))
 		{
 			$i++;
 		}
@@ -430,7 +433,7 @@ class ilDBUpdate
 
 		//update found, now extract this update to a new array
 		$update = array();
-		while ($i<count($this->filecontent) && !ereg("^<#".($nr+1).">", $this->filecontent[$i]))
+		while ($i<count($this->filecontent) && !preg_match("/^<#".($nr+1).">/", $this->filecontent[$i]))
 		{
 			$update[] = trim($this->filecontent[$i]);
 			$i++;
@@ -443,7 +446,7 @@ class ilDBUpdate
 
 		foreach ($update as $row)
 		{
-			if (ereg("<\?php", $row))
+			if (preg_match("/<\?php/", $row))
 			{
 				if (count($sql)>0)
 				{
@@ -456,7 +459,7 @@ class ilDBUpdate
 				}
 				$mode = "php";
 			}
-			elseif (ereg("\?>", $row))
+			elseif (preg_match("/\?>/", $row))
 			{
 				if (count($php)>0)
 				{
@@ -550,7 +553,7 @@ class ilDBUpdate
 	
 		$query = "ANALYZE TABLE ".$table;	
 		$res = $this->db->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 		return $row;
 	}
 	
@@ -611,7 +614,7 @@ class ilDBUpdate
 		$regs = array();
 		foreach ($a_file_content as $row)
 		{
-			if (ereg("^<#([0-9]+)>", $row, $regs))
+			if (preg_match("/^<#([0-9]+)>/", $row, $regs))
 			{
 				$version = $regs[1];
 			}
@@ -741,7 +744,7 @@ class ilDBUpdate
 		$regs = array();
 		foreach ($a_file_content as $row)
 		{
-			if (ereg("^<#([0-9]+)>", $row, $regs))
+			if (preg_match("/^<#([0-9]+)>/", $row, $regs))
 			{
 				$version = $regs[1];
 			}
@@ -917,7 +920,7 @@ class ilDBUpdate
 		$i = 0;
 
 	    //go through filecontent
-		while (!ereg("^<#".$nr.">", $this->filecontent[$i]) && $i<count($this->filecontent))
+		while (!preg_match("/^<#".$nr.">/", $this->filecontent[$i]) && $i<count($this->filecontent))
 		{
 			$i++;
 		}
@@ -932,7 +935,7 @@ class ilDBUpdate
 
 		//update found, now extract this update to a new array
 		$update = array();
-		while ($i<count($this->filecontent) && !ereg("^<#".($nr+1).">", $this->filecontent[$i]))
+		while ($i<count($this->filecontent) && !preg_match("/^<#".($nr+1).">/", $this->filecontent[$i]))
 		{
 			$str.= $this->filecontent[$i];
 			$i++;

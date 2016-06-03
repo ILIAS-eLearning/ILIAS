@@ -15,15 +15,15 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
 class ilLPStatusTestFinished extends ilLPStatus
 {
 
-	function ilLPStatusTestFinished($a_obj_id)
+	function __construct($a_obj_id)
 	{
 		global $ilDB;
 
-		parent::ilLPStatus($a_obj_id);
-		$this->db =& $ilDB;
+		parent::__construct($a_obj_id);
+		$this->db = $ilDB;
 	}
 
-	function _getInProgress($a_obj_id)
+	static function _getInProgress($a_obj_id)
 	{
 		global $ilDB;
 
@@ -44,7 +44,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 		$user_ids = array();
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_ids[$row->user_fi] = $row->user_fi;
 		}
@@ -53,7 +53,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 	}
 
 
-	function _getCompleted($a_obj_id)
+	static function _getCompleted($a_obj_id)
 	{
 		global $ilDB;
 
@@ -74,7 +74,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 		$user_ids = array();
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_ids[$row->user_fi] = $row->user_fi;
 		}
@@ -82,7 +82,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 		return array_values($user_ids);
 	}
 
-	function _getNotAttempted($a_obj_id)
+	static function _getNotAttempted($a_obj_id)
 	{
 		global $ilDB;
 
@@ -102,7 +102,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 		$user_ids = array();
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$user_ids[$row->user_fi] = $row->user_fi;
 		}
@@ -116,7 +116,7 @@ class ilLPStatusTestFinished extends ilLPStatus
 	 * @param
 	 * @return
 	 */
-	function getParticipants($a_obj_id)
+	static function getParticipants($a_obj_id)
 	{
 		global $ilDB;
 

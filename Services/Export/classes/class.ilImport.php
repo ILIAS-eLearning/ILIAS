@@ -10,6 +10,11 @@
  */
 class ilImport
 {
+	/**
+	 * @var ilLogger
+	 */
+	protected $log;
+
 	protected $install_id = "";
 	protected $install_url = "";
 	protected $entities = "";
@@ -30,6 +35,7 @@ class ilImport
 		include_once("./Services/Export/classes/class.ilImportMapping.php");
 		$this->mapping = new ilImportMapping();
 		$this->mapping->setTagetId($a_target_id);
+		$this->log = ilLoggerFactory::getLogger('exp');
 	}
 
 	/**
@@ -174,13 +180,21 @@ class ilImport
 			ilUtil::moveUploadedFile($a_tmp_file, $a_filename, $tmpdir."/".$a_filename);
 		}
 
+		$this->log->debug("unzip: ".$tmpdir."/".$a_filename);
+
 		ilUtil::unzip($tmpdir."/".$a_filename);
 		$dir = $tmpdir."/".substr($a_filename, 0, strlen($a_filename) - 4);
 
 		$this->setTemporaryImportDir($dir);
 
-		$GLOBALS['ilLog']->write(__METHOD__.': do import with dir '.$dir);
-		$new_id = $this->doImportObject($dir, $a_type, $a_comp, $tmpdir);
+		$this->log->debug("dir: ".$dir);
+
+		$ret = $this->doImportObject($dir, $a_type, $a_comp, $tmpdir);
+		$new_id = null;
+		if(is_array($ret))
+		{
+			$new_id = $ret['new_id'];
+		}
 		
 		// delete temporary directory
 		ilUtil::delDir($tmpdir);
@@ -196,9 +210,13 @@ class ilImport
 	 */
 	function importFromDirectory($dir, $a_type, $a_comp)
 	{
-		$new_id = $this->doImportObject($dir, $a_type, $a_comp);
-		return $new_id;
-
+		$ret = $this->doImportObject($dir, $a_type, $a_comp);
+		
+		if(is_array($ret))
+		{
+			return $ret['new_id'];
+		}
+		return null;
 	}
 
 
@@ -292,12 +310,12 @@ class ilImport
 			$this->importer->init();
 			$this->current_comp = $comp;
 			try {
+				$this->log->debug("Process file: ".$dir."/".$expfile["path"]);
 				$parser = new ilExportFileParser($dir."/".$expfile["path"],$this, "processItemXml");
 			}
 			catch(Exception $e)
 			{
-				$GLOBALS['ilLog']->write(__METHOD__.': Import failed with message: '.$e->getMessage());
-				#$GLOBALS['ilLog']->write(__METHOD__.': '.file_get_contents($dir.'/'.$expfile['path']));
+				$this->log->error("Import failed: ".$e->getMessage());
 				throw $e;
 			}
 		}
@@ -305,14 +323,18 @@ class ilImport
 		// final processing
 		foreach ($all_importers as $imp)
 		{
+			$this->log->debug("Call finalProcessing for: ".get_class($imp));
 			$imp->finalProcessing($this->mapping);
 		}
 
 		// we should only get on mapping here
 		$top_mapping = $this->mapping->getMappingsOfEntity($this->comp, $a_type);
 		$new_id = (int) current($top_mapping);
-
-		return $new_id;
+		
+		return array(
+			'new_id' => $new_id,
+			'importers' => (array) $all_importers
+		);
 	}
 
 	/**
@@ -333,7 +355,7 @@ class ilImport
 		if($objDefinition->isRBACObject($a_entity) &&
 			$this->getMapping()->getMapping('Services/Container', 'imported', $a_id))
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Ignoring referenced '.$a_entity.' with id '.$a_id);
+			$this->log->info('Ignoring referenced '.$a_entity.' with id '.$a_id);
 			return;
 		}
 		$this->importer->setInstallId($a_install_id);

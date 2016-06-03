@@ -46,19 +46,29 @@ il.Form = {
 			}
 		}
 
-		$("#" + cont_id + " div.ilSubForm[id!='" + id + "']").animate({
-			height: 0
-		}, il.Form.duration, function () {
-			$(this).css('display', 'none');
+		var parent_subform = $("#" + cont_id).parents(".ilSubForm")[0];
+		
+		$("#" + cont_id + " div.ilSubForm[id!='" + id + "']").each(function() {
+			
+			// #18482 - check if subform is on same level as parent
+			if(parent_subform == $(this).parents(".ilSubForm")[0]) {
+				
+				$(this).animate({
+					height: 0
+				}, il.Form.duration, function () {		
+					$(this).css('display', 'none');
 
-			// activated in the meantime?
-			for (m = 0; m < il.Form.sub_active.length; m++) {
-				if (il.Form.escapeSelector(this.id) == il.Form.sub_active[m]) {
-					$(this).css('display', '');
-				}
+					// activated in the meantime?
+					for (m = 0; m < il.Form.sub_active.length; m++) {
+						if (il.Form.escapeSelector(this.id) == il.Form.sub_active[m]) {
+							$(this).css('display', '');
+						}
+					}
+					$(this).css('height', 'auto');
+				});
+				
 			}
-			$(this).css('height', 'auto');
-		});
+		})
 
 		// activate subform
 		obj = $("#" + id).get(0);

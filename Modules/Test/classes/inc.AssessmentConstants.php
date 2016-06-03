@@ -114,6 +114,7 @@ define("SCORE_BEST_PASS", 1);
 */
 define ("TYPE_XLS_PC", "latin1");
 define ("TYPE_SPSS", "csv");
+define ("EXCEL_BACKGROUND_COLOR","C0C0C0");
 
 /** 
  * Redirect after finishing test constants
