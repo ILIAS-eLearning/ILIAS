@@ -134,15 +134,20 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 	{
 		$data = array();
 		
-		$objects = $this->searchObjects($this->getCurrentFilter(true), "read");
-		
-		// portfolios are not part of repository
-		include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
-		$access_handler = new ilPortfolioAccessHandler();	
-		foreach(array_keys($access_handler->findSharedObjects()) as $obj_id)
+		if($this->filter["type"] != "prtf")
 		{
-			$objects[$obj_id] = array($obj_id);
-		}			
+			$objects = $this->searchObjects($this->getCurrentFilter(true), "read");
+		}
+		else
+		{
+			// portfolios are not part of repository
+			include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+			$access_handler = new ilPortfolioAccessHandler();	
+			foreach(array_keys($access_handler->findSharedObjects(array("title"=>$this->filter["query"]))) as $obj_id)
+			{
+				$objects[$obj_id] = array($obj_id);
+			}			
+		}
 		
 		if($objects)
 		{			
