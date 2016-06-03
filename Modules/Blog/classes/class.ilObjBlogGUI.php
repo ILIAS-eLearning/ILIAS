@@ -1132,6 +1132,20 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 */
 	protected function renderFullscreenHeader($a_tpl, $a_user_id, $a_export = false)
 	{
+		global $ilUser;
+		
+		if(!$a_export &&
+			$this->id_type == self::REPOSITORY_NODE_ID)
+		{			
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+			ilChangeEvent::_recordReadEvent(
+				$this->object->getType(), 
+				$this->object->getRefId(),				
+				$this->object->getId(),
+				$ilUser->getId()
+			);
+		}
+		
 		// repository blogs are multi-author 
 		$name = null;
 		if($this->id_type != self::REPOSITORY_NODE_ID)

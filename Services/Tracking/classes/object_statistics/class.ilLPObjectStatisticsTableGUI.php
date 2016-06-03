@@ -135,10 +135,17 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		$data = array();
 		
 		$objects = $this->searchObjects($this->getCurrentFilter(true), "read");
-		if($objects)
+		
+		// portfolios are not part of repository
+		include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+		$access_handler = new ilPortfolioAccessHandler();	
+		foreach(array_keys($access_handler->findSharedObjects()) as $obj_id)
 		{
-			include_once "Services/Tracking/classes/class.ilTrQuery.php";
-			
+			$objects[$obj_id] = array($obj_id);
+		}			
+		
+		if($objects)
+		{			
 			$yearmonth = explode("-", $this->filter["yearmonth"]);
 			if(sizeof($yearmonth) == 1)
 			{

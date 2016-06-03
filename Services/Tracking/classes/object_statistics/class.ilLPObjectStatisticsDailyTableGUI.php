@@ -132,6 +132,15 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		$data = array();
 		
 		$objects = $this->searchObjects($this->getCurrentFilter(true), "read");
+		
+		// portfolios are not part of repository
+		include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+		$access_handler = new ilPortfolioAccessHandler();	
+		foreach(array_keys($access_handler->findSharedObjects()) as $obj_id)
+		{
+			$objects[$obj_id] = array($obj_id);
+		}		
+		
 		if($objects)
 		{						
 			include_once "Services/Tracking/classes/class.ilTrQuery.php";

@@ -1710,6 +1710,7 @@ class ilTrQuery
 		// re-use add new item selection (folder is not that important)
 		$types = array_keys($objDefinition->getCreatableSubObjects("root", ilObjectDefinition::MODE_REPOSITORY));
 		
+		// repository
 		include_once "Services/Tree/classes/class.ilTree.php";
 		$tree = new ilTree(1);
 		$sql = "SELECT ".$tree->table_obj_data.".obj_id,".$tree->table_obj_data.".type,".
@@ -1733,6 +1734,15 @@ class ilTrQuery
 		foreach($res as $type => $values)
 		{
 			$res[$type]["objects"] = sizeof(array_unique($values["objects"]));
+		}		
+		
+		// portfolios (not part of repository)
+		$set = $ilDB->query("SELECT id FROM usr_portfolio");
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res["prtf"]["type"] = "prtf";
+			$res["prtf"]["references"]++;
+			$res["prtf"]["objects"]++;
 		}
 		
 		return $res;
