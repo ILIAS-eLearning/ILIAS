@@ -445,7 +445,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 		$ref_obj = $factory->getInstanceByRefId($a_source_id,FALSE);
 		if($ref_obj instanceof ilObject)
 		{
-			$lroles = $GLOBALS['rbacreview']->getRolesOfRoleFolder($a_source_id,FALSE);
+			$lroles = $GLOBALS['rbacreview']->getRolesOfRoleFolder($a_source_id,true);
 			foreach($lroles as $role_id)
 			{
 				include_once './Services/AccessControl/classes/class.ilObjRole.php';
