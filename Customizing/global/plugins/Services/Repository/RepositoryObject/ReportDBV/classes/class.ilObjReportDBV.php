@@ -32,6 +32,19 @@ class ilObjReportDBV extends ilObjReportBase {
 									);
 	}
 
+	public function prepareRelevantParameters() {
+		$this->target_user =
+					$_POST["target_user_id"]
+					   ? $_POST["target_user_id"]
+					   : ( $_GET["target_user_id"]
+					     ? $_GET["target_user_id"]
+					     : $this->user_utils->getId()
+					     );
+		if($_GET["target_user_id"] || $_POST["target_user_id"]) {
+			$this->addRelevantParameter("target_user_id", $this->target_user);
+		}
+	}
+
 	protected function buildQuery($query) {
 		$query	->select("hu.lastname")
 				->select("hu.firstname")
@@ -137,20 +150,6 @@ class ilObjReportDBV extends ilObjReportBase {
 			}
 		}
 		return $summed_data;
-	}
-
-	public function prepareReport() {
-		$this->target_user =
-					$_POST["target_user_id"]
-					   ? $_POST["target_user_id"]
-					   : ( $_GET["target_user_id"]
-					     ? $_GET["target_user_id"]
-					     : $this->user_utils->getId()
-					     );
-		if($_GET["target_user_id"] || $_POST["target_user_id"]) {
-			$this->addRelevantParameter("target_user_id", $this->target_user);
-		}
-		parent::prepareReport();
 	}
 
 	public function renderSumTable($gui) {
