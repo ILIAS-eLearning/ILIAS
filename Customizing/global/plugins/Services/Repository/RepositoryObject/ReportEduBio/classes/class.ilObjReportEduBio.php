@@ -53,9 +53,8 @@ class ilObjReportEduBio extends ilObjReportBase {
 				->column("fee", $this->plugin->txt("fee"), true)
 				->column("status", $this->plugin->txt("status"), true)
 				->column("wbd", $this->plugin->txt("wbd_relevant"), true)
-				->column("action", '<img src="'.ilUtil::getImagePath("gev_action.png").'" />', true, "", true)
-				->template($this->getRowTemplateTitle(),"Services/GEV/Reports");			
-		return $table;
+				->column("action", '<img src="'.ilUtil::getImagePath("gev_action.png").'" />', true, "", true);
+		return parent::buildTable($table);
 	}
 
 	protected function getRowTemplateTitle() {

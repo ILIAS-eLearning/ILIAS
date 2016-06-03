@@ -87,7 +87,7 @@ class ilObjReportEduBioGUI extends ilObjReportBaseGUI {
 	}
 
 	protected function renderOverview() {
-		$tpl = new ilTemplate("tpl.gev_edu_bio_overview.html", true, true, "Services/GEV/Reports");
+		$tpl = new ilTemplate("tpl.gev_edu_bio_overview.html", true, true, $this->object->plugin->getDirectory());
 		$this->insertAcademyPoints($tpl);
 		if (gevWBD::getInstance($this->object->target_user_id)->transferPointsFromWBD()) {
 			$this->insertWBDPoints($tpl);
