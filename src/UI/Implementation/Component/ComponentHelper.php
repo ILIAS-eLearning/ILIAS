@@ -50,8 +50,32 @@ trait ComponentHelper {
 		$this->checkArg($which, is_string($value), $this->wrongTypeMessage("string", $value));
 	}
 
+	/**
+	 * Throw an InvalidArgumentException if $value is not an element of array.
+	 *
+	 * @param	string	$which
+	 * @param	mixed	$value
+	 * @throws 	\InvalidArgumentException	if $check = false
+	 * @return null
+	 */
+	protected function checkArgIsElement($which, $value, $array, $name) {
+		if (!is_object($value)) {
+			$message = "expected $name, got '$value'";
+		}
+		else {
+			$message = "expected $name, got object."; 
+		}
+		$message = 
+		$this->checkArg($which, in_array($value, $array), $message);
+	}
+
 	protected function wrongTypeMessage($expected, $value) {
 		$type = gettype($value);
-		return "expected $expected, got $type '$value'";
+		if (!is_object($value)) {
+			return "expected $expected, got $type '$value'";
+		}
+		else {
+			return "expected $expected, got $type";
+		}
 	}
 }
