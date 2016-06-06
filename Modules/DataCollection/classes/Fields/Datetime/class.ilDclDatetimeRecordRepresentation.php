@@ -33,11 +33,6 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation {
 		if (!$value || $value == "-") {
 			return NULL;
 		}
-		//$datetime = new DateTime();
-		$input = array(
-			"date" => substr($value, 0, -9),
-			"time" => "00:00:00"
-		);
-		return $input;
+		return substr($value, 0, - 9);
 	}
 }
