@@ -174,7 +174,7 @@ class ilContainerSortingSettings
 		$query = "SELECT sort_mode FROM container_sorting_set ".
 			"WHERE obj_id = ".$ilDB->quote($a_old_id ,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow())
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			$query = "DELETE FROM container_sorting_set ".
 				"WHERE obj_id = ".$ilDB->quote($a_new_id)." ";
