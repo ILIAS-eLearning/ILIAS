@@ -577,15 +577,13 @@ class ilCalendarSettings
 	 * @return
 	 */
 	private function readCalendarSettingsId()
-	{
-		global $ilDB;
-		
+	{		
 		$query = "SELECT ref_id FROM object_reference obr ".
 			"JOIN object_data obd ON obd.obj_id = obr.obj_id ".
 			"WHERE type = 'cals'";
 			
-		$res = $this->db->query($query);
-		$row = $res->fetchAssoc();
+		$set = $this->db->query($query);
+		$row = $this->db->fetchAssoc($set);
 		
 		$this->cal_settings_id = $row["ref_id"];
 		return true;
