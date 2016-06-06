@@ -2028,7 +2028,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 				if(!ilObjCourseAccess::_usingRegistrationCode())
 				{
 					throw new ilMembershipRegistrationException('Cant registrate to course '.$this->getId().
-						', course subscription is deactivated.', '456');
+						', course subscription is deactivated.', ilMembershipRegistrationException::REGISTRATION_CODE_DISABLED);
 				}
 			}
 
@@ -2038,7 +2038,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 				if( !$this->inSubscriptionTime() )
 				{
 					throw new ilMembershipRegistrationException('Cant registrate to course '.$this->getId().
-						', course is out of registration time.', '789');
+						', course is out of registration time.', ilMembershipRegistrationException::OUT_OF_REGISTRATION_PERIOD);
 				}
 			}
 
@@ -2058,13 +2058,13 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 					$participants = ilCourseParticipants::_getInstanceByObjId($this->getId());
 					$participants->sendNotification($participants->NOTIFY_WAITING_LIST,$a_user_id);
 
-					throw new ilMembershipRegistrationException($info, '124');
+					throw new ilMembershipRegistrationException($info, ilMembershipRegistrationException::ADDED_TO_WAITINGLIST);
 				}
 
 				if(!$this->enabledWaitingList() && !$free)
 				{
 					throw new ilMembershipRegistrationException('Cant registrate to course '.$this->getId().
-						', membership is limited.', '123');
+						', membership is limited.',ilMembershipRegistrationException::OBJECT_IS_FULL);
 				}
 			}
 		}

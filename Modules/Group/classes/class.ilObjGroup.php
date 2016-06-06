@@ -1906,7 +1906,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 				if(!ilObjGroupAccess::_usingRegistrationCode())
 				{
 					throw new ilMembershipRegistrationException('Cant registrate to group '.$this->getId().
-						', group subscription is deactivated.', '456');
+						', group subscription is deactivated.', ilMembershipRegistrationException::REGISTRATION_CODE_DISABLED);
 				}
 			}
 
@@ -1920,7 +1920,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 				if( !(ilDateTime::_after($time, $start) and ilDateTime::_before($time,$end)) )
 				{
 					throw new ilMembershipRegistrationException('Cant registrate to group '.$this->getId().
-					', group is out of registration time.', '789');
+					', group is out of registration time.', ilMembershipRegistrationException::OUT_OF_REGISTRATION_PERIOD);
 				}
 			}
 
@@ -1944,13 +1944,13 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 					$participants = ilGroupParticipants::_getInstanceByObjId($this->getId());
 					$participants->sendNotification(ilGroupMembershipMailNotification::TYPE_WAITING_LIST_MEMBER,$a_user_id);
 
-					throw new ilMembershipRegistrationException($info, '124');
+					throw new ilMembershipRegistrationException($info, ilMembershipRegistrationException::ADDED_TO_WAITINGLIST);
 				}
 
 				if(!$free or $waiting_list->getCountUsers())
 				{
 					throw new ilMembershipRegistrationException('Cant registrate to group '.$this->getId().
-						', membership is limited.', '123');
+						', membership is limited.', ilMembershipRegistrationException::OBJECT_IS_FULL);
 				}
 			}
 		}
