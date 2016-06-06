@@ -1336,7 +1336,7 @@ class ilInitialisation
 		}
 		
 		if($_REQUEST["baseClass"] == "ilStartUpGUI" && 
-			self::getCurrentCmd() == "showLogin")
+			self::getCurrentCmd() == "showLoginPage")
 		{	
 			return true;					
 		}

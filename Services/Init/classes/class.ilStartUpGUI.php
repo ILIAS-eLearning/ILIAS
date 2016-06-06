@@ -14,27 +14,33 @@ require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 */
 class ilStartUpGUI
 {
+	protected $ctrl;
+	protected $lng;
+	protected $logger;
 
 	/**
 	* constructor
 	*/
-	function __construct()
+	public function __construct()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 
 		$this->ctrl = $ilCtrl;
+		$this->lng = $lng;
+		$this->logger = ilLoggerFactory::getLogger('init');
 
 		$ilCtrl->saveParameter($this, array("rep_ref_id", "lang", "target", "client_id"));
 	}
 
 	/**
-	* execute command
-	*/
-	function executeCommand()
+	 * execute command
+	 * @see register.php
+	 */
+	public function executeCommand()
 	{
 		global $ilLog;
 		
-		$cmd = $this->ctrl->getCmd("processIndexPHP",array('processIndexPHP','showLogin'));
+		$cmd = $this->ctrl->getCmd("processIndexPHP",array('processIndexPHP','showLoginPage'));
 		$next_class = $this->ctrl->getNextClass($this);
 
 		switch($next_class)
@@ -54,11 +60,21 @@ class ilStartUpGUI
 				return $this->$cmd();
 		}
 	}
+	
+	/**
+	 * Get logger
+	 * @return \ilLogger
+	 */
+	public function getLogger()
+	{
+		return $this->logger;
+	}
 
 	/**
-	* jump to registration gui
-	*/
-	function jumpToRegistration()
+	 * jump to registration gui
+	 * @see register.php
+	 */
+	public function jumpToRegistration()
 	{
 		$this->ctrl->setCmdClass("ilaccountregistrationgui");
 		$this->ctrl->setCmd("");
@@ -66,24 +82,76 @@ class ilStartUpGUI
 	}
 
 	/**
-	* jump to password assistance
-	*/
-	function jumpToPasswordAssistance()
+	 * jump to password assistance
+	 * @see pwassist.php
+	 */
+	public function jumpToPasswordAssistance()
 	{
 		$this->ctrl->setCmdClass("ilpasswordassistancegui");
 		$this->ctrl->setCmd("");
 		$this->executeCommand();
 	}
+	
+	/**
+	 * Show login page
+	 */
+	protected function showLoginPage(ilPropertyFormGUI $form = null)
+	{
+		global $tpl, $ilSetting;
+		
+		$this->getLogger()->debug('Showing login page');
+		
+		// Instantiate login template
+		self::initStartUpTemplate("tpl.login.html");
+		
+		$page_editor_html = $this->getLoginPageEditorHTML();
+		$page_editor_html = $this->showLoginInformation($page_editor_html);
+		$page_editor_html = $this->showLoginForm($page_editor_html, $form);
+		$page_editor_html = $this->showCASLoginForm($page_editor_html);
+		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
+		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
+		$page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
+
+		$page_editor_html = $this->purgePlaceholders($page_editor_html);
+
+		// not controlled by login page editor
+		$tpl->setVariable("PAGETITLE",  "- ".$this->lng->txt("startpage"));
+		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
+		
+		$this->ctrl->setTargetScript("ilias.php");
+		// @todo: check really required
+		//$tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
+
+		// @todo: check missing cookies
+//		if (isset($_GET['cookies']) && $_GET['cookies'] == 'nocookies')
+//		{
+//			ilUtil::sendFailure($this->lng->txt("err_no_cookies"));
+//		}
+
+		if(strlen($page_editor_html))
+		{
+			$tpl->setVariable('LPE',$page_editor_html);
+		}
+
+		$tpl->fillWindowTitle();
+		$tpl->fillCssFiles();
+		$tpl->fillJavaScriptFiles();
+		$tpl->show("DEFAULT", false);
+	}
 
 	/**
-	 * show login
+	 * Show login
 	 *
 	 * @global ilLanguage $lng
+	 * @deprecated since 5.2
 	 */
-	function showLogin()
+	protected function showLogin()
 	{
 		global $ilSetting, $ilAuth, $tpl, $ilias, $lng;		
-														
+				
+		$this->getLogger()->warning('Using deprecated startup method');
+		$this->getLogger()->logStack(ilLogLevel::WARNING);
+
 		$status = $ilAuth->getStatus();
 		if ($status == "" && isset($_GET["auth_stat"]))
 		{
@@ -299,6 +367,7 @@ class ilStartUpGUI
 			ilUtil::sendSuccess($success);
 		}
 
+		// Draw single page editor elements
 		$page_editor_html = $this->getLoginPageEditorHTML();
 		$page_editor_html = $this->showLoginInformation($page_editor_html);
 		$page_editor_html = $this->showLoginForm($page_editor_html);
@@ -306,11 +375,8 @@ class ilStartUpGUI
 		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
 		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
 		$page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
-
 		$page_editor_html = $this->purgePlaceholders($page_editor_html);
 		
-		
-
 		// not controlled by login page editor
 		$tpl->setVariable("PAGETITLE",  "- ".$lng->txt("startpage"));
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
@@ -448,7 +514,7 @@ class ilStartUpGUI
 					$user->update();
 
 					$ilCtrl->setParameter($this, "cu", 1);
-					$ilCtrl->redirect($this, "showLogin");		
+					$ilCtrl->redirect($this, "showLoginPage");		
 				}
 			}
 			
@@ -462,13 +528,108 @@ class ilStartUpGUI
 	}
 	
 	
+	/**
+	 * Initialize the standard
+	 * @return \ilPropertyFormGUI
+	 */
+	protected function initStandardLoginForm()
+	{
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this,''));
+		$form->setName("formlogin");
+		$form->setShowTopButtons(false);
+		$form->setTitle($this->lng->txt("login_to_ilias"));			
+
+		include_once './Services/Authentication/classes/class.ilAuthModeDetermination.php';
+		$det = ilAuthModeDetermination::_getInstance();
+		
+		if(ilAuthUtils::_hasMultipleAuthenticationMethods() and $det->isManualSelection())
+		{
+			$visible_auth_methods = array();
+			$radg = new ilRadioGroupInputGUI($this->lng->txt("auth_selection"), "auth_mode");
+			foreach(ilAuthUtils::_getMultipleAuthModeOptions($this->lng) as $key => $option)
+			{
+				if(isset($option['hide_in_ui']) && $option['hide_in_ui'])
+				{
+					continue;
+				}
+					
+				$op1 = new ilRadioOption($option['txt'], $key);
+				$radg->addOption($op1);
+				if (isset($option['checked']))
+				{
+					$radg->setValue($key);
+				}
+				$visible_auth_methods[] = $op1;
+			}
+				
+			if(count($visible_auth_methods) == 1)
+			{
+				$first_auth_method = current($visible_auth_methods);
+				$hidden_auth_method = new ilHiddenInputGUI("auth_mode");
+				$hidden_auth_method->setValue($first_auth_method->getValue());
+				$form->addItem($hidden_auth_method);
+			}
+			else
+			{
+				$form->addItem($radg);
+			}
+		}
+
+		$ti = new ilTextInputGUI($this->lng->txt("username"), "susername");
+		$ti->setSize(20);
+		$ti->setRequired(true);
+		$form->addItem($ti);
+
+		$pi = new ilPasswordInputGUI($this->lng->txt("password"), "spassword");
+		$pi->setRetype(false);
+		$pi->setSize(20);
+		$pi->setDisableHtmlAutoComplete(false);
+		$pi->setRequired(true);
+		$form->addItem($pi);
+
+		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+		if(ilCaptchaUtil::isActiveForLogin())
+		{
+			require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
+			$captcha = new ilCaptchaInputGUI($this->lng->txt('captcha_code'), 'captcha_code');
+			$captcha->setRequired(true);
+			$form->addItem($captcha);
+		}
+
+		$form->addCommandButton("doStandardAuthentication", $this->lng->txt("log_in"));
+
+		return $form;
+	}
+	
+	/**
+	 * Check form input; authenticate user
+	 */
+	protected function doStandardAuthentication()
+	{
+		$form = $this->initStandardLoginForm();
+		if($form->checkInput())
+		{
+			
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
+			$this->showLoginPage($form);
+		}
+	}
+
+
+
+
 
 	/**
 	 * Show login form 
 	 * @global ilSetting $ilSetting
 	 * @param string $page_editor_html 
 	 */
-	protected function showLoginForm($page_editor_html)
+	protected function showLoginForm($page_editor_html, ilPropertyFormGUI $form = null)
 	{
 		global $ilSetting,$lng,$tpl;
 
@@ -480,70 +641,9 @@ class ilStartUpGUI
 			$ilSetting->get("shib_auth_allow_local")) &&
 			$ilSetting->get("auth_mode") != AUTH_CAS)
 		{
-			include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-			$form = new ilPropertyFormGUI();
-			//$form->setTableWidth('500');
-			$form->setFormAction($this->ctrl->getFormAction($this,''));
-			$form->setName("formlogin");
-			$form->setShowTopButtons(false);
-			$form->setTitle($lng->txt("login_to_ilias"));			
-
-			// auth selection
-			include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
-			$det = ilAuthModeDetermination::_getInstance();
-			if(ilAuthUtils::_hasMultipleAuthenticationMethods() and $det->isManualSelection())
+			if(!$form instanceof ilPropertyFormGUI)
 			{
-				$visible_auth_methods = array();
-				$radg = new ilRadioGroupInputGUI($lng->txt("auth_selection"), "auth_mode");
-				foreach(ilAuthUtils::_getMultipleAuthModeOptions($lng) as $key => $option)
-				{
-					if(isset($option['hide_in_ui']) && $option['hide_in_ui'])
-					{
-						continue;
-					}
-					
-					$op1 = new ilRadioOption($option['txt'], $key);
-					$radg->addOption($op1);
-					if (isset($option['checked']))
-					{
-						$radg->setValue($key);
-					}
-					$visible_auth_methods[] = $op1;
-				}
-				
-				if(count($visible_auth_methods) == 1)
-				{
-					$first_auth_method = current($visible_auth_methods);
-					$hidden_auth_method = new ilHiddenInputGUI("auth_mode");
-					$hidden_auth_method->setValue($first_auth_method->getValue());
-					$form->addItem($hidden_auth_method);
-				}
-				else
-				{
-					$form->addItem($radg);
-				}
-			}
-
-			$ti = new ilTextInputGUI($lng->txt("username"), "username");
-			$ti->setSize(20);
-			$ti->setRequired(true);
-			$form->addItem($ti);
-
-			$pi = new ilPasswordInputGUI($lng->txt("password"), "password");
-			$pi->setRetype(false);
-			$pi->setSize(20);
-			$pi->setDisableHtmlAutoComplete(false);
-			$pi->setRequired(true);
-			$form->addItem($pi);
-			$form->addCommandButton("showLogin", $lng->txt("log_in"));
-
-			require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
-			if(ilCaptchaUtil::isActiveForLogin())
-			{
-				require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
-				$captcha = new ilCaptchaInputGUI($lng->txt('captcha_code'), 'captcha_code');
-				$captcha->setRequired(true);
-				$form->addItem($captcha);
+				$form = $this->initStandardLoginForm();
 			}
 
 			return $this->substituteLoginPageElements(
@@ -602,7 +702,7 @@ class ilStartUpGUI
 			$tpl->setVariable("TXT_CAS_LOGIN_BUTTON", ilUtil::getImagePath("cas_login_button.png"));
 			$tpl->setVariable("TXT_CAS_LOGIN_INSTRUCTIONS", $ilSetting->get("cas_login_instructions"));
 			$this->ctrl->setParameter($this, "forceCASLogin", "1");
-			$tpl->setVariable("TARGET_CAS_LOGIN",$this->ctrl->getLinkTarget($this, "showLogin"));
+			$tpl->setVariable("TARGET_CAS_LOGIN",$this->ctrl->getLinkTarget($this, "doCasAuthentication"));
 			$this->ctrl->setParameter($this, "forceCASLogin", "");
 
 			return $this->substituteLoginPageElements(
@@ -1397,7 +1497,7 @@ class ilStartUpGUI
 		else
 		{
 			// index.php is called and public section is disabled
-			$this->showLogin();
+			$this->showLoginPage();
 		}
 	}
 
@@ -1815,7 +1915,6 @@ class ilStartUpGUI
 		}
 
 		//Header Title
-
 		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
 		$header_top_title = ilObjSystemFolder::_getHeaderTitle();
 		if (trim($header_top_title) != "" && $tpl->blockExists("header_top_title"))
