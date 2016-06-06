@@ -23,6 +23,10 @@ class ComposerStaticInitbd7f39d053649d4bfd736508ecb933b7
         array (
             'Monolog\\' => 8,
         ),
+        'I' => 
+        array (
+            'ILIAS\\' => 6,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -38,6 +42,10 @@ class ComposerStaticInitbd7f39d053649d4bfd736508ecb933b7
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'ILIAS\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/../../src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -46,6 +54,10 @@ class ComposerStaticInitbd7f39d053649d4bfd736508ecb933b7
             'Psr\\Log\\' => 
             array (
                 0 => __DIR__ . '/..' . '/psr/log',
+            ),
+            'Pimple' => 
+            array (
+                0 => __DIR__ . '/..' . '/pimple/pimple/src',
             ),
             'PHPExcel' => 
             array (
