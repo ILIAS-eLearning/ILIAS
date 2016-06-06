@@ -79,7 +79,7 @@ class ilPCSourceCode extends ilPCParagraph
 
 			$content = str_replace("<br />", "<br/>", utf8_decode($content) );
 			$content = str_replace("<br/>", "\n", $content);
-			$rownums = count(split ("\n",$content));
+			$rownums = count(explode("\n",$content));
 
 			$plain_content = html_entity_decode($content);
 			$plain_content = preg_replace_callback(

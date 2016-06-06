@@ -4,8 +4,8 @@ $BEAUT_PATH = realpath(".")."/Services/COPage/syntax_highlight/php";
 if (!isset ($BEAUT_PATH)) return;
 require_once("$BEAUT_PATH/Beautifier/HFile.php");
   class HFile_delphi extends HFile{
-   function HFile_delphi(){
-     $this->HFile();
+   function __construct(){
+     parent::__construct();
 
 /*************************************/
 // Beautifier Highlighting Configuration File 

@@ -112,7 +112,7 @@ class ilObjectActivation
 	 */
 	function getSuggestionStart()
 	{
-		return $this->suggestion_start ? $this->suggestion_start : mktime(0,0,1,date('n',time()),date('j',time()),date('Y',time()));
+		return $this->suggestion_start;
 	}
 	
 	/**
@@ -132,7 +132,7 @@ class ilObjectActivation
 	 */
 	function getSuggestionEnd()
 	{
-		return $this->suggestion_end ? $this->suggestion_end : mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
+		return $this->suggestion_end;
 	}
 	
 	/**
@@ -152,7 +152,7 @@ class ilObjectActivation
 	 */
 	function getEarliestStart()
 	{
-		return $this->earliest_start ? $this->earliest_start : mktime(0,0,1,date('n',time()),date('j',time()),date('Y',time()));
+		return $this->earliest_start;
 	}
 	
 	/**
@@ -172,7 +172,7 @@ class ilObjectActivation
 	 */
 	function getLatestEnd()
 	{
-		return $this->latest_end ? $this->latest_end : mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
+		return $this->latest_end;
 	}
 	
 	/**
@@ -263,8 +263,8 @@ class ilObjectActivation
 			"timing_type = ".$ilDB->quote($this->getTimingType(),'integer').", ".
 			"timing_start = ".$ilDB->quote((int)$this->getTimingStart(),'integer').", ".
 			"timing_end = ".$ilDB->quote((int)$this->getTimingEnd(),'integer').", ".
-			"suggestion_start = ".$ilDB->quote($this->getSuggestionStart(),'integer').", ".
-			"suggestion_end = ".$ilDB->quote($this->getSuggestionEnd(),'integer').", ".
+			"suggestion_start = ".$ilDB->quote((int)$this->getSuggestionStart(),'integer').", ".
+			"suggestion_end = ".$ilDB->quote((int)$this->getSuggestionEnd(),'integer').", ".
 			"changeable = ".$ilDB->quote($this->enabledChangeable(),'integer').", ".
 			"earliest_start = ".$ilDB->quote($this->getEarliestStart(),'integer').", ".
 			"latest_end = ".$ilDB->quote($this->getLatestEnd(),'integer').", ";

@@ -53,7 +53,7 @@ class ilQTISection
 	var $sectionref;
 	var $section;
 	
-	function ilQTISection()
+	function __construct()
 	{
 		$this->qtimetadata = array();
 		$this->objectives = array();

@@ -159,7 +159,21 @@ class ilSessionStatisticsGUI
 	{
 		$this->current(true);
 	}
-	
+		
+	protected function importDate($a_incoming, $a_default = null)
+	{
+		if(!$a_default)
+		{
+			$a_default = time();
+		}
+		
+		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+		$parsed = ilCalendarUtil::parseIncomingDate($a_incoming);				
+		return $parsed
+			? $parsed->get(IL_CAL_UNIX)
+			: $a_default;				
+	}
+		
 	protected function short($a_export = false)
 	{
 		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
@@ -167,18 +181,7 @@ class ilSessionStatisticsGUI
 		$ilTabs->activateSubTab("short");
 		
 		// current start
-		if(!$_REQUEST["sst"])
-		{
-			$_REQUEST["sst"] = date("Ymd");
-		}
-		else
-		{
-		   $org = $_REQUEST["sst"]["date"];
-		   $_REQUEST["sst"] = $org["y"].
-				str_pad($org["m"], 2, "0", STR_PAD_LEFT).
-				str_pad($org["d"], 2, "0", STR_PAD_LEFT);
-		}
-		$start = (int)$_REQUEST["sst"];
+		$time_to = $this->importDate($_REQUEST["sst"]);		
 		
 		// current mode
 		if(!$_REQUEST["smd"])
@@ -193,10 +196,7 @@ class ilSessionStatisticsGUI
 			$_REQUEST["smm"] = "avg";
 		}
 		$measure = (string)$_REQUEST["smm"];
-		
-				
-		$time_to = mktime(23, 59, 59, substr($start, 4, 2), substr($start, 6, 2),
-			substr($start, 0, 4));		
+								
 		switch($mode)
 		{
 			case self::MODE_DAY:				
@@ -271,29 +271,15 @@ class ilSessionStatisticsGUI
 		$ilTabs->activateSubTab("long");
 		
 		// current start
-		if(!$_REQUEST["sst"])
-		{
-			$_REQUEST["sst"] = date("Ymd");
-		}
-		else
-		{
-		   $org = $_REQUEST["sst"]["date"];
-		   $_REQUEST["sst"] = $org["y"].
-				str_pad($org["m"], 2, "0", STR_PAD_LEFT).
-				str_pad($org["d"], 2, "0", STR_PAD_LEFT);
-		}
-		$start = (int)$_REQUEST["sst"];
+		$time_to = $this->importDate($_REQUEST["sst"]);				
 		
 		// current mode
 		if(!$_REQUEST["smd"])
 		{
 			$_REQUEST["smd"] = self::MODE_WEEK;
 		}
-		$mode = (int)$_REQUEST["smd"];
-	
-				
-		$time_to = mktime(23, 59, 59, substr($start, 4, 2), substr($start, 6, 2),
-			substr($start, 0, 4));		
+		$mode = (int)$_REQUEST["smd"];	
+		
 		switch($mode)
 		{			
 			case self::MODE_WEEK:				
@@ -364,38 +350,10 @@ class ilSessionStatisticsGUI
 		$ilTabs->activateSubTab("periodic");
 		
 		// current start
-		if(!$_REQUEST["sst"])
-		{
-			$_REQUEST["sst"] = date("Y-m-d");
-		}
-		else
-		{
-		   $org = $_REQUEST["sst"]["date"];
-		   $_REQUEST["sst"] = $org["y"].
-				"-".str_pad($org["m"], 2, "0", STR_PAD_LEFT).
-				"-".str_pad($org["d"], 2, "0", STR_PAD_LEFT);
-		}
-		$start = $_REQUEST["sst"];
+		$time_to = $this->importDate($_REQUEST["sst"]);	
 		
 		// current end
-		if(!$_REQUEST["sto"])
-		{
-			$_REQUEST["sto"] = date("Y-m-d", strtotime("-7 days"));
-		}
-		else
-		{
-		   $org = $_REQUEST["sto"]["date"];
-		   $_REQUEST["sto"] = $org["y"].
-				"-".str_pad($org["m"], 2, "0", STR_PAD_LEFT).
-				"-".str_pad($org["d"], 2, "0", STR_PAD_LEFT);
-		}
-		$end = $_REQUEST["sto"];
-	
-				
-		$time_to = mktime(23, 59, 59, substr($start, 5, 2), substr($start, 8, 2),
-			substr($start, 0, 4));	
-		$time_from = mktime(0, 0, 1, substr($end, 5, 2), substr($end, 8, 2),
-			substr($end, 0, 4));	
+		$time_from = $this->importDate($_REQUEST["sto"], strtotime("-7 days"));	
 		
 		// mixed up dates?
 		if($time_to < $time_from)
@@ -415,11 +373,11 @@ class ilSessionStatisticsGUI
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "periodic"));			
 			
 			$end_selector = new ilDateTimeInputGUI($lng->txt("trac_begin_at"), "sto");
-			$end_selector->setDate(new ilDate($end, IL_CAL_DATE));
+			$end_selector->setDate(new ilDate($time_from, IL_CAL_UNIX));
 			$ilToolbar->addInputItem($end_selector, true);
 
 			$start_selector = new ilDateTimeInputGUI($lng->txt("trac_end_at"), "sst");
-			$start_selector->setDate(new ilDate($start, IL_CAL_DATE));
+			$start_selector->setDate(new ilDate($time_to, IL_CAL_UNIX));
 			$ilToolbar->addInputItem($start_selector, true);
 
 			$ilToolbar->addFormButton($lng->txt("ok"), "periodic");

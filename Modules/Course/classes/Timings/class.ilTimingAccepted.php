@@ -135,7 +135,7 @@ class ilTimingAccepted
 		$res = $ilDB->manipulate($query);
 	}
 
-	function _deleteByUser($a_usr_id)
+	public static function _deleteByUser($a_usr_id)
 	{
 		global $ilDB;
 

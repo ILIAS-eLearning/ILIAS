@@ -37,7 +37,7 @@ class ilQTIFlow
 	var $material_ref;
 	var $response;
 	
-	function ilQTIFlow()
+	function __construct()
 	{
 		$this->flow = array();
 		$this->material = array();

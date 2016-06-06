@@ -447,9 +447,11 @@ class ilAdvancedMDRecordGUI
 		$time = new ilDateTimeInputGUI($this->lng->txt('ecs_event_appointment'),'md['.$def->getFieldId().']');
 		$time->setShowTime(true);
 		$time->setDate(new ilDateTime($unixtime,IL_CAL_UNIX));
+		/*
 		$time->enableDateActivation($this->lng->txt('enabled'),
 			'md_activated['.$def->getFieldId().']',
-			$value_start->getValue() ? true : false);
+			$value_start->getValue() ? true : false);		 
+		*/
 		$time->setDisabled($value_start->isDisabled());
 		
 		$mapping = ilECSDataMappingSettings::_getInstance();

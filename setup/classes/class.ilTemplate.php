@@ -1,13 +1,16 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once("./Services/UICore/lib/html-it/IT.php");
+include_once("./Services/UICore/lib/html-it/ITX.php");
+
 /**
 * special template class to simplify handling of ITX/PEAR
 * @author	Stefan Kesseler <skesseler@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-class ilTemplate extends ilTemplateX
+class ilTemplate extends HTML_Template_ITX
 {
 	/**
 	* variablen die immer in jedem block ersetzt werden sollen
@@ -62,7 +65,7 @@ class ilTemplate extends ilTemplateX
 		}
 
 		//$this->IntegratedTemplateExtension(dirname($fname));
-		$this->callConstructor();
+		parent::__construct();
 		//$this->loadTemplatefile(basename($fname), $flag1, $flag2);
 		$this->loadTemplatefile($fname, $flag1, $flag2);
 		//add tplPath to replacevars

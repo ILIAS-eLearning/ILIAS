@@ -64,9 +64,6 @@ class ilInitialisation
 		// ilTemplate
 		if(ilContext::usesTemplate())
 		{
-			// HTML_Template_IT support
-			require_once "HTML/Template/ITX.php";
-			require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
 			require_once "./Services/UICore/classes/class.ilTemplate.php";
 		}		
 				

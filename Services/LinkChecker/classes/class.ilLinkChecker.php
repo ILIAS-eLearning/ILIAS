@@ -20,17 +20,18 @@ class ilLinkChecker
 	var $page_id = 0;
 
 
-	public function __construct(&$db,$a_validate_all = true)
+	public function __construct($db,$a_validate_all = true)
 	{
 		global $ilDB;
 
 		define('DEBUG',1);
 		define('SOCKET_TIMEOUT',5);
+		define('MAX_REDIRECTS',5);
 
 		$this->db =& $db;
 
 		// SET GLOBAL DB HANDLER FOR STATIC METHODS OTHER CLASSES
-		$ilDB =& $db;
+		$ilDB = $db;
 
 		$this->validate_all = $a_validate_all;
 	}
@@ -477,20 +478,36 @@ class ilLinkChecker
 						'host'	   => isset($url_data['host']) ? $url_data['host'] : $url_data['path']);										
 		}
 		return $link ? $link : array();
-	}			
+	}
 
-		
 
+	/**
+	 *
+	 * $a_links Format:
+	 * Array (
+	 * 	[1] => Array (
+	 * 		['scheme'] => intern/http/https,
+	 * 		['ref_id'] => ILIAS ref ID,
+	 * 		['obj_type'] => ILIAS object type,
+	 * 		['complete'] => link to check,
+	 * 	),
+	 * 	[2]=> ...
+	 * )
+	 *
+	 * @param array $a_links Format:
+	 * @return array Returns all invalid links! Format like $a_links with additional error information ['http_status_code'] and ['curl_errno']
+	 */
 	function __validateLinks($a_links)
 	{
 		global $tree;
-		
-		if(!@include_once('HTTP/Request.php'))
+		include_once('./Services/Logging/classes/public/class.ilLoggerFactory.php');
+		if(!extension_loaded('curl'))
 		{
 			$this->__appendLogMessage('LinkChecker: Pear HTTP_Request is not installed. Aborting');
-
+			ilLoggerFactory::getRootLogger()->error('LinkChecker: Curl extension is not loeaded. Aborting');
 			return array();
 		}
+		$invalid = array();
 
 		foreach($a_links as $link)
 		{
@@ -508,33 +525,36 @@ class ilLinkChecker
 			// external
 			else
 			{
-				if(gethostbyname($link['host']) == $link['host'])
-				{
-					$invalid[] = $link;
-					continue;
-				}
-
 				if($link['scheme'] !== 'http' and $link['scheme'] !== 'https')
 				{
+					ilLoggerFactory::getRootLogger()->error('LinkChecker: Unkown link sheme "' . $link['scheme'] . '". Continue check');
 					continue;
 				}
 
 				require_once './Services/Http/classes/class.ilProxySettings.php';
 
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, $link['complete']);
+
 				if(ilProxySettings::_getInstance()->isActive())
 				{
-					$options = array('proxy_host' => ilProxySettings::_getInstance()->getHost(), 
-									 'proxy_port' => ilProxySettings::_getInstance()->getPort());
-				}
-				else
-				{
-					$options = array();
+					curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, true);
+					curl_setopt($ch, CURLOPT_PROXY, ilProxySettings::_getInstance()->getHost());
+					curl_setopt($ch, CURLOPT_PROXYPORT, ilProxySettings::_getInstance()->getPort());
 				}
 
-				$req = new HTTP_Request($link['complete'], $options);
-				$req->sendRequest();
+				curl_setopt($ch, CURLOPT_HEADER, 1);
+				curl_setopt($ch , CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT ,SOCKET_TIMEOUT);
+				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+				curl_setopt($ch, CURLOPT_MAXREDIRS ,MAX_REDIRECTS);
+				curl_exec($ch);
+				$headers = curl_getinfo($ch);
+				$c_error_no = curl_errno($ch);
 
-				switch($req->getResponseCode())
+				curl_close($ch);
+
+				switch($headers['http_code'])
 				{
 					// EVERYTHING OK
 					case '200':
@@ -542,15 +562,19 @@ class ilLinkChecker
 					case '301':
 					case '302':
 						break;
-
 					default:
-						$link['http_status_code'] = $req->getResponseCode();
+						$link['http_status_code'] = $headers['http_code'];
+						if($headers['http_code'] == 0)
+						{
+							ilLoggerFactory::getRootLogger()->error('LinkChecker: No valid http code received. Curl error nr. is ' . $c_error_no);
+							$link['curl_errno'] = $c_error_no;
+						}
 						$invalid[] = $link;
 						break;
 				}
 			}
 		}
-		return $invalid ? $invalid : array();
+		return $invalid;
 	}
 
 	function __getObjIdByPageId($a_page_id)

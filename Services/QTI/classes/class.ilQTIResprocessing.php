@@ -37,7 +37,7 @@ class ilQTIResprocessing
 	var $itemproc_extension;
 	var $scoremodel;
 	
-	function ilQTIResprocessing()
+	function __construct()
 	{
 		$this->respcondition = array();
 		$this->itemproc_extension = array();

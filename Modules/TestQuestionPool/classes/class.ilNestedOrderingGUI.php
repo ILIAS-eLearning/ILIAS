@@ -44,7 +44,7 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 	 * @param $a_tpl ilTemplate
 	 * @return int|void
 	 */
-	public function insert(&$a_tpl)
+	public function insert($a_tpl)
 	{
 		/**
 		 * @var $a_tpl ilTemplate 

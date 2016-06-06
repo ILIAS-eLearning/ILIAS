@@ -6,7 +6,7 @@ var handleSuccess = function(o)
 		{
 			window.location.href = o.responseText;
 		}
-		else
+		else if(o.responseText != '-IGNORE-')
 		{
 			document.getElementById("autosavemessage").innerHTML = o.responseText;
 			var stay = new YAHOO.util.Anim("autosavemessage", { opacity: { from: 1, to: 1 } }, 4);

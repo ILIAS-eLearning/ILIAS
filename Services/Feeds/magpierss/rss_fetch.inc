@@ -267,8 +267,8 @@ function magpie_error ($errormsg="") {
 function _fetch_remote_file ($url, $headers = "" ) {
     // Snoopy is an HTTP client in PHP
     $client = new Snoopy();
-	
-	// Patch for ILIAS
+
+    // ilias-patch
 	$client->proxy_host = IL_FEED_PROXY_HOST;
 	$client->proxy_port = IL_FEED_PROXY_PORT;
 	

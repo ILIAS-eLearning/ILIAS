@@ -42,7 +42,7 @@ class ilQTIPresentation
 	var $response;
 	var $order;
 	
-	function ilQTIPresentation()
+	function __construct()
 	{
 		$this->response = array();
 		$this->material = array();

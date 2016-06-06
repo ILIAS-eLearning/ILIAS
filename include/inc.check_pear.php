@@ -33,10 +33,6 @@
 @include_once("PEAR.php");
 @include_once("Auth/Auth.php");
 
-require_once "HTML/Template/ITX.php";
-$tpl_class_name = "HTML_Template_ITX";
-$html_templ_it = true;
-
 $include_paths = ini_get("include_path");
 
 // unix & windows use different characters to separate paths
@@ -52,7 +48,7 @@ $include_paths = explode($separator,$include_paths);
 $pear = class_exists("PEAR");
 $auth = class_exists("Auth");
 
-if (!$pear || !$auth || !$html_templ_it )
+if (!$pear || !$auth)
 {
 	$logo = (is_file("../templates/default/images/HeaderIcon.png"))
 		? "../templates/default/images/HeaderIcon.png"
@@ -66,7 +62,6 @@ To run ILIAS 3 you will need the following missing PEAR components:
 <?php
 	if (!$pear) echo "<li>PEAR</li>";
 	if (!$auth) echo "<li>Auth</li>";
-	if (!$html_templ_it) echo "<li>HTML_Template_IT</li>";
 	if (!$mdb2) echo "<li>MDB2</li>";
 	if (!$mdb2_mysql) echo "<li>MDB2#mysql</li>";
 ?>

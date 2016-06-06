@@ -52,7 +52,7 @@ class ilQTIConditionvar
 	var $varextension;
 	var $order;
 	
-	function ilQTIConditionvar()
+	function __construct()
 	{
 		$this->arr_not = array();
 		$this->arr_and = array();

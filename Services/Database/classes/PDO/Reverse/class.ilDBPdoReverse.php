@@ -29,6 +29,22 @@ class ilDBPdoReverse implements ilDBReverse {
 		$this->db_instance = $db_instance;
 	}
 
+	/**
+	 * @var ilMySQLQueryUtils
+	 */
+	protected $query_utils;
+
+
+	/**
+	 * @return \ilMySQLQueryUtils
+	 */
+	public function getQueryUtils() {
+		if (!$this->query_utils) {
+			$this->query_utils = new ilMySQLQueryUtils($this->db_instance);
+		}
+
+		return $this->query_utils;
+	}
 
 	/**
 	 * @param $table_name
@@ -47,7 +63,7 @@ class ilDBPdoReverse implements ilDBReverse {
 			$columns[] = $data;
 		}
 
-		$ilDBPdoFieldDefinition = ilDBPdoFieldDefinition::getInstance($this->db_instance);
+		$ilDBPdoFieldDefinition = $this->db_instance->getFieldDefinition();
 
 		foreach ($columns as $column) {
 			$column = array_change_key_case($column, CASE_LOWER);

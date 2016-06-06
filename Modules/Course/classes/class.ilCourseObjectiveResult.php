@@ -43,7 +43,7 @@ class ilCourseObjectiveResult
 	{
 		return ilCourseObjectiveResult::_getAccomplished($this->getUserId(),$a_crs_id);
 	}
-	function _getAccomplished($a_user_id,$a_crs_id)
+	public static function _getAccomplished($a_user_id,$a_crs_id)
 	{
 		global $ilDB;
 
@@ -72,7 +72,7 @@ class ilCourseObjectiveResult
 		return ilCourseObjectiveResult::_getSuggested($this->getUserId(),$a_crs_id,$a_status);
 	}
 	
-	function _getSuggested($a_user_id,$a_crs_id,$a_status = IL_OBJECTIVE_STATUS_FINAL)
+	public static function _getSuggested($a_user_id,$a_crs_id,$a_status = IL_OBJECTIVE_STATUS_FINAL)
 	{
 		global $ilDB;
 
@@ -377,7 +377,7 @@ class ilCourseObjectiveResult
 	}
 
 
-	function _readAssignedObjectives($a_all_objectives)
+	public static function _readAssignedObjectives($a_all_objectives)
 	{
 		global $ilDB;
 
