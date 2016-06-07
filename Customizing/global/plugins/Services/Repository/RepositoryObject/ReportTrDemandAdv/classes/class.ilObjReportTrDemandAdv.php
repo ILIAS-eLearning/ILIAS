@@ -50,11 +50,14 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 
 	protected function buildQuery($query) {
 		$query
-			->select('crs.template_obj_id')
 			->select('crs.crs_id')
 			->select('crs.title')
 			->select('crs.type')
 			->select('crs.begin_date')
+			->select_raw('tpl.title as tpl_title')
+		//	->select_raw('(crs.max_participants - crs.bookings) as bookings_left')
+	//		->select_raw('IF(crs.bookings >= crs.min_participants OR ( crs.bookings > 0 AND (crs.min_participants IS NULL'
+	//					.'	OR crs.min_participants <= 0)),1,0) as min_part_achived')
 			->select_raw('DATE_SUB(crs.begin_date,INTERVAL crs.dl_booking DAY) as booking_dl')
 			->select('crs.end_date')
 			->select_raw("IF(crs.waitinglist_active = 'Ja',1,0) as waitinglist_active")
@@ -65,12 +68,14 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 			->select_raw(" GROUP_CONCAT("
 						." IF(usrcrs.function = 'Trainer',CONCAT(usr.firstname,' ',usr.lastname) ,NULL)"
 						." SEPARATOR ', ') as trainers")
-			->from('hist_course crs')
-				->left_join('hist_usercoursestatus usrcrs')
-					->on(' usrcrs.crs_id = crs.crs_id AND usrcrs.hist_historic = 0 ')
-				->left_join('hist_user usr')
-					->on('usr.user_id = usrcrs.usr_id '
-						.' AND usr.hist_historic = 0 ');
+			->from('hist_course tpl')
+			->join('hist_course crs')
+				->on('crs.template_obj_id = tpl.crs_id')
+			->left_join('hist_usercoursestatus usrcrs')
+				->on(' usrcrs.crs_id = crs.crs_id AND usrcrs.hist_historic = 0 ')
+			->left_join('hist_user usr')
+				->on('usr.user_id = usrcrs.usr_id '
+					.' AND usr.hist_historic = 0 ');
 		$this->crs_topics_filter->addToQuery($query)
 			->group_by('crs.crs_id')
 			->compile();
@@ -86,7 +91,7 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 		foreach ($template_obj_ids as $crs_id) {
 			$template_obj_filter_options[$crs_id] = ilObject::_lookupTitle($crs_id);
 		}*/
-		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','crs.crs_id');
+		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','crs.topic_set');
 		$this->crs_topics_filter->addToFilter($filter);
 		$filter
 			->dateperiod( 	  "period"
@@ -161,12 +166,15 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 			->static_condition("crs.is_template = 'Nein'")
 			->static_condition("crs.begin_date != '0000-00-00'")
 			->static_condition($this->gIldb->in('crs.type',array('Webinar','Präsenztraining','Virtuelles Training'),false,'text'))
+			->static_condition($local_condition)
+			->static_condition('tpl.hist_historic = 0')
+			->static_condition('tpl.is_template = '.$this->gIldb->quote('Ja','text'))
 			->action($this->filter_action)
 			->compile();
 		return $filter;
 	}
 
-	public function buildQueryStatement() {
+	/*public function buildQueryStatement() {
 		$local_condition = $this->settings['is_local'] === "1"
 			? $this->gIldb->in('tpl.crs_id',array_unique($this->getSubtreeCourseTemplates()),false,'integer')
 			: " tpl.is_template = 'Ja' ";
@@ -186,7 +194,7 @@ class ilObjReportTrDemandAdv extends ilObjReportBase {
 				.'	AND '.$this->gIldb->in('tpl.type',array('Webinar','Präsenztraining','Virtuelles Training'),false,'text')
 				.' '.$this->queryOrder();
 		return $query;
-	}
+	}*/
 
 	public function getRelevantParameters() {
 		return $this->relevant_parameters;
