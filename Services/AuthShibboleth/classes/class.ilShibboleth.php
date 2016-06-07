@@ -41,22 +41,24 @@ require_once('./Services/AuthShibboleth/classes/User/class.shibUser.php');
  */
 class ShibAuth extends Auth {
 
-	/**
-	 * @param      $authParams
-	 * @param bool $updateUserData
-	 */
-	public function __construct($authParams, $updateUserData = false) {
-		if ($authParams['sessionName'] != '') {
-			parent::Auth('', array( 'sessionName' => $authParams['sessionName'] ));
-		} else {
-			parent::Auth('');
-		}
-		$this->updateUserData = $updateUserData;
-		if (! empty($authParams['sessionName'])) {
-			$this->setSessionName($authParams['sessionName']);
-			unset($authParams['sessionName']);
-		}
-	}
+//	/**
+//	 * @param      $authParams
+//	 * @param bool $updateUserData
+//	 */
+//	public function __construct($authParams, $updateUserData = false) {
+////		if ($authParams['sessionName'] != '') {
+////			parent::Auth('', array( 'sessionName' => $authParams['sessionName'] ));
+////		} else {
+////			parent::Auth('');
+////		}
+//
+//		parent::__construct($authParams, $updateUserData);
+//		$this->updateUserData = $updateUserData;
+//		if (! empty($authParams['sessionName'])) {
+//			$this->setSessionName($authParams['sessionName']);
+//			unset($authParams['sessionName']);
+//		}
+//	}
 
 
 	/**
@@ -75,7 +77,7 @@ class ShibAuth extends Auth {
 	 */
 	public function login() {
 		global $ilias, $ilSetting; // for backword compatibility of hook environment variables
-		$shibServerData = shibServerData::getInstance($_SERVER);
+		$shibServerData = shibServerData::getInstance();
 		if ($shibServerData->getLogin()) {
 			$shibUser = shibUser::buildInstance($shibServerData);
 			// for backword compatibility of hook environment variables
