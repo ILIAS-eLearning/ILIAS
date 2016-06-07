@@ -12245,6 +12245,9 @@ dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistent. A reference no 
 dcl#:#dcl_all_entries#:#All entries
 dcl#:#dcl_own_entries#:#Only own entries
 dcl#:#dcl_tableviews#:#Tableviews
+dcl#:#dcl_tableview#:#Tableview
+dcl#:#dcl_tableorder#:#Tableorder
+dcl#:#dcl_detailed_view#:#Detailed View
 dcl#:#dcl_tableview_add#:#Add Tableview
 dcl#:#dcl_delete_views#:#Delete Views
 dcl#:#dcl_msg_tableview_created#:#Tableviews created
@@ -12255,7 +12258,7 @@ dcl#:#dcl_msg_info_alternatives#:#You do not have enough permissions to view thi
 dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following Tableviews?
 dcl#:#dcl_tableview_confirm_delete#:#Do you really want to delete the following Tableview?
 dcl#:#dcl_tableview_fieldsettings#:#Fieldspecific Settings
-common#:#mail_memberdcl#:#dcl_std_filter#:#Standardfilter
+dcl#:#dcl_std_filter#:#Standardfilter
 dcl#:#dcl_field_visible#:#Visible
 dcl#:#dcl_filter_changeable#:#Filter changeable
 common#:#mail_member#:#Mail to Member
@@ -12897,12 +12900,14 @@ dcl#:#dcl_msg_fields_deleted#:#Deleted fields
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#The internal ID.
 dcl#:#dcl_creation_date#:#Creation Date
+dcl#:#dcl_create_date#:#Creation Date
 dcl#:#dcl_creation_date_description#:#The date on which the entry was created.
 dcl#:#dcl_last_update#:#Last Edited
 dcl#:#dcl_last_update_description#:#The date the entry was last edited.
 dcl#:#dcl_owner#:#Owner
 dcl#:#dcl_owner_description#:#The owner of the entry.
 dcl#:#dcl_last_edited_by#:#Last edited by
+dcl#:#dcl_last_edit_by#:#Last edited by
 dcl#:#dcl_last_edited_by_description#:#The user that edited this entry last.
 dcl#:#dcl_public_comments#:#Enable public comments for Entries
 dcl#:#dcl_default_sort_field#:#Default sort field

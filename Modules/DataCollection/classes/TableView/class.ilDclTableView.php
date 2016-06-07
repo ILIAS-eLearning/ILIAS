@@ -382,8 +382,9 @@ class ilDclTableView extends ActiveRecord
     public static function createStandardView($table_id, $create_default_settings = true)
     {
         global $rbacreview;
+        $ref_id = ilDclCache::getTableCache($table_id)->getCollectionObject()->getRefId();
         $view = new self();
-        $view->setRoles(array_merge($rbacreview->getGlobalRoles(), $rbacreview->getLocalRoles($_GET['ref_id']))); //TODO fix $_GET['ref_id']
+        $view->setRoles(array_merge($rbacreview->getGlobalRoles(), $rbacreview->getLocalRoles($ref_id)));
         $view->setTableId($table_id);
         $view->setTitle('Standardview');
         $view->setTableviewOrder(10);

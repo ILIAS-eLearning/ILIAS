@@ -227,9 +227,9 @@ class ilObjDataCollection extends ilObject2 {
 	/**
 	 * Clone DCL
 	 *
-	 * @param ilObjDataCollection new object
-	 * @param int                 target ref_id
-	 * @param int                 copy id
+	 * @param ilObjDataCollection $new_obj
+	 * @param int                 $a_target_id ref_id
+	 * @param int                 $a_copy_id
 	 *
 	 * @return ilObjPoll
 	 */
