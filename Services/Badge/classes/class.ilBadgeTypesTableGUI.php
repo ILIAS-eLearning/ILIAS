@@ -77,6 +77,8 @@ class ilBadgeTypesTableGUI extends ilTable2GUI
 		}
 		
 		$this->setData($data);
+		
+		include_once "Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php";
 	}
 	
 	protected function fillRow($a_set)
@@ -88,12 +90,12 @@ class ilBadgeTypesTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_NAME", $a_set["name"]);
 		$this->tpl->setVariable("TXT_MANUAL", $a_set["manual"]
 			? $lng->txt("yes")
-			: "&nbsp;");
+			: $lng->txt("no"));
 		$this->tpl->setVariable("TXT_ACTIVE", $a_set["active"]
 			? $lng->txt("yes")
-			: "&nbsp;");		
+			: $lng->txt("no"));		
 		$this->tpl->setVariable("TXT_ACTIVITY", $a_set["activity"]
 			? $lng->txt("yes")
-			: "&nbsp;");		
+			: $lng->txt("no"));		
 	}
 }
