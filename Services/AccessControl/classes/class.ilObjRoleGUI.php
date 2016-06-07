@@ -83,6 +83,11 @@ class ilObjRoleGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilrepositorysearchgui':
+				
+				if(!$GLOBALS['ilAccess']->checkAccess('edit_permission','', $this->obj_ref_id))
+				{
+					$GLOBALS['ilErr']->raiseError($GLOBALS['lng']->txt('permission_denied'), $GLOBALS['ilErr']->WARNING);
+				}
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search =& new ilRepositorySearchGUI();
 				$rep_search->setTitle($this->lng->txt('role_add_user'));
