@@ -1134,13 +1134,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		global $ilUser;
 		
-		if(!$a_export &&
-			$this->id_type == self::REPOSITORY_NODE_ID)
+		if(!$a_export)
 		{			
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 			ilChangeEvent::_recordReadEvent(
 				$this->object->getType(), 
-				$this->object->getRefId(),				
+				$this->node_id,				
 				$this->object->getId(),
 				$ilUser->getId()
 			);

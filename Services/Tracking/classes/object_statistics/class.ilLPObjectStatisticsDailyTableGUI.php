@@ -133,17 +133,24 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		
 		if($this->filter["type"] != "prtf")
 		{
-			$objects = $this->searchObjects($this->getCurrentFilter(true), "read");
+			// JF, 2016-06-06
+			$objects = $this->searchObjects($this->getCurrentFilter(true), "");
+			
+			if($this->filter["type"] == "blog")
+			{				
+				foreach(ilTrQuery::getWorkspaceBlogs($this->filter["query"]) as $obj_id)
+				{
+					$objects[$obj_id] = array($obj_id);
+				}
+			}
 		}
 		else
 		{
 			// portfolios are not part of repository
-			include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
-			$access_handler = new ilPortfolioAccessHandler();	
-			foreach(array_keys($access_handler->findSharedObjects(array("title"=>$this->filter["query"]))) as $obj_id)
+			foreach(ilTrQuery::getPortfolios($this->filter["query"]) as $obj_id)
 			{
 				$objects[$obj_id] = array($obj_id);
-			}			
+			}
 		}
 		
 		if($objects)

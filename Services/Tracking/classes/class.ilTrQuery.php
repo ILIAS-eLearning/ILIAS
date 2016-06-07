@@ -1737,14 +1737,71 @@ class ilTrQuery
 		}		
 		
 		// portfolios (not part of repository)
-		$set = $ilDB->query("SELECT id FROM usr_portfolio");
-		while($row = $ilDB->fetchAssoc($set))
+		foreach(self::getPortfolios() as $obj_id)
 		{
 			$res["prtf"]["type"] = "prtf";
 			$res["prtf"]["references"]++;
 			$res["prtf"]["objects"]++;
 		}
 		
+		foreach(self::getWorkspaceBlogs() as $obj_id)
+		{
+			$res["blog"]["type"] = "blog";
+			$res["blog"]["references"]++;
+			$res["blog"]["objects"]++;
+		}
+		
+		return $res;
+	}
+	
+	static public function getWorkspaceBlogs($a_title = null)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		// blogs in workspace?
+		$sql = "SELECT od.obj_id,oref.wsp_id,od.type".		
+			" FROM tree_workspace wst".
+			" JOIN object_reference_ws oref ON (oref.wsp_id = wst.child)".
+			" JOIN object_data od ON (oref.obj_id = od.obj_id)".
+			" WHERE od.type = ".$ilDB->quote("blog", "text");
+		
+		if($a_title)
+		{
+			$sql .= " AND ".$ilDB->like("od.title", "text", "%".$a_title."%");
+		}
+		
+		$set = $ilDB->query($sql);		
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row["obj_id"];
+		}
+				
+		return $res;
+	}
+	
+	static public function getPortfolios($a_title = null)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$sql = "SELECT od.obj_id".
+			" FROM usr_portfolio prtf".
+			" JOIN object_data od ON (od.obj_id = prtf.id)";
+		
+		if($a_title)
+		{
+			$sql .= " WHERE ".$ilDB->like("od.title", "text", "%".$a_title."%");
+		}
+		
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row["obj_id"];
+		}
+				
 		return $res;
 	}
 
