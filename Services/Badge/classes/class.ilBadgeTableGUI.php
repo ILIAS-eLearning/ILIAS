@@ -122,7 +122,7 @@ class ilBadgeTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_TYPE", $a_set["type"]);	
 		$this->tpl->setVariable("TXT_ACTIVE", $a_set["active"]
 			? $lng->txt("yes")
-			: "&nbsp;");		
+			: $lng->txt("no"));		
 		
 		if($this->has_write)
 		{	
