@@ -1285,12 +1285,16 @@ class ilInitialisation
 	 */
 	protected static function blockedAuthentication($a_current_script)
 	{		
-		if($a_current_script == "register.php" || 
+		if(
+			$a_current_script == "register.php" || 
 			$a_current_script == "pwassist.php" ||
 			$a_current_script == "confirmReg.php" ||
 			$a_current_script == "il_securimage_play.php" ||
-			$a_current_script == "il_securimage_show.php") 
+			$a_current_script == "il_securimage_show.php" ||
+			$a_current_script == 'login.php'
+		)
 		{
+			ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for script: ' . $a_current_script);
 			return true;
 		}
 		
@@ -1301,14 +1305,18 @@ class ilInitialisation
 			if($cmd_class == "ilaccountregistrationgui" ||
 				$cmd_class == "ilpasswordassistancegui")
 			{
+				ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmdClass: ' . $cmd_class);
 				return true;
 			}
 			
 			$cmd = self::getCurrentCmd();
-			if($cmd == "showTermsOfService" || $cmd == "showClientList" || 
+			if(
+				$cmd == "showTermsOfService" || $cmd == "showClientList" || 
 				$cmd == 'showAccountMigration' || $cmd == 'migrateAccount' ||
-				$cmd == 'processCode')
+				$cmd == 'processCode' || $cmd == 'showLoginPage' || $cmd == 'doStandardAuthentication'
+			)
 			{
+				ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmd: ' . $cmd);
 				return true;
 			}
 		}
@@ -1317,9 +1325,10 @@ class ilInitialisation
 		if(($a_current_script == "goto.php" && $_GET["target"] == "impr_0") ||
 			$_GET["baseClass"] == "ilImprintGUI")
 		{
+			ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for baseClass: ' . $_GET['baseClass']);
 			return true;
 		}
-		
+		ilLoggerFactory::getLogger('auth')->debug('Authentication required');
 		return false;
 	}
 	

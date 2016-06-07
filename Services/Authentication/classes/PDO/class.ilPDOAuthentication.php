@@ -1,11 +1,11 @@
 <?php
 
-require_once 'Services/Authentication/classes/PDO/interface.ilAuthInterface.php';
+require_once 'Services/Authentication/classes/PDO/interface.ilAuthPDOInterface.php';
 
 /**
  * @property  _postPassword
  */
-class ilPDOAuthentication implements ilAuthInterface {
+class ilPDOAuthentication implements ilAuthPDOInterface {
 
 	protected $_sessionName = '_authsession';
 	protected $allowLogin = true;

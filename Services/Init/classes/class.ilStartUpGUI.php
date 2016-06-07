@@ -577,13 +577,14 @@ class ilStartUpGUI
 			}
 		}
 
-		$ti = new ilTextInputGUI($this->lng->txt("username"), "susername");
+		$ti = new ilTextInputGUI($this->lng->txt("username"), "username");
 		$ti->setSize(20);
 		$ti->setRequired(true);
 		$form->addItem($ti);
 
-		$pi = new ilPasswordInputGUI($this->lng->txt("password"), "spassword");
+		$pi = new ilPasswordInputGUI($this->lng->txt("password"), "password");
 		$pi->setRetype(false);
+		$pi->setSkipSyntaxCheck(true);
 		$pi->setSize(20);
 		$pi->setDisableHtmlAutoComplete(false);
 		$pi->setRequired(true);
@@ -611,7 +612,7 @@ class ilStartUpGUI
 		$form = $this->initStandardLoginForm();
 		if($form->checkInput())
 		{
-			
+			$this->getLogger()->debug('Trying to authenticate user.');
 		}
 		else
 		{
