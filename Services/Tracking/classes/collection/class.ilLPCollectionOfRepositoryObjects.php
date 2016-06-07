@@ -193,13 +193,13 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 	// CRUD
 	//
 	
-	protected function read()
+	protected function read($a_obj_id)
 	{
 		global $ilDB;
 		
 		$items = array();
 		
-		$ref_ids = ilObject::_getAllReferences($this->obj_id);
+		$ref_ids = ilObject::_getAllReferences($a_obj_id);
 		$ref_id = end($ref_ids);
 		$possible = $this->getPossibleItems($ref_id);
 		
@@ -207,7 +207,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 			" FROM ut_lp_collections utc".
 			" JOIN object_reference obr ON item_id = ref_id".
 			" JOIN object_data obd ON obr.obj_id = obd.obj_id".
-			" WHERE utc.obj_id = ".$ilDB->quote($this->obj_id, "integer").
+			" WHERE utc.obj_id = ".$ilDB->quote($a_obj_id, "integer").
 			" AND active = ".$ilDB->quote(1, "integer").
 			" ORDER BY title");
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))

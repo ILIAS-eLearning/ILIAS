@@ -11,7 +11,7 @@
  */
 class ilTrQuery
 {
-	function getObjectsStatusForUser($a_user_id, array $obj_refs)
+	static function getObjectsStatusForUser($a_user_id, array $obj_refs)
 	{
 		global $ilDB;
 
