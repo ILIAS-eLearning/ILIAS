@@ -253,6 +253,15 @@ class ilRepositorySearchGUI
 	 */
 	protected function doUserAutoComplete()
 	{
+		// hide anonymout request
+		if($GLOBALS['ilUser']->getId() == ANONYMOUS_USER_ID)
+		{
+			include_once './Services/JSON/classes/class.ilJsonUtil.php';
+			return ilJsonUtil::encode(new stdClass());
+			exit;
+		}
+		
+		
 		if(!isset($_GET['autoCompleteField']))
 		{
 			$a_fields = array('login','firstname','lastname','email');
