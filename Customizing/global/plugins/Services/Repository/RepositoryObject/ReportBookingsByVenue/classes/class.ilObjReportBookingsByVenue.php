@@ -28,24 +28,32 @@ class ilObjReportBookingsByVenue extends ilObjReportBase {
 
 		$this->crs_begin_filter = $this->filter->get("period")["start"]->get(IL_CAL_DATE);
 		$this->crs_end_filter = $this->filter->get("period")["end"]->get(IL_CAL_DATE);
-		$query	->distinct()
+		$query
 				->select("crs.crs_id")
 				->select("title")
 				->select("custom_id")
 				->select("tutor")
-				->select("begin_date")
-				->select("end_date")
+				->select("crs.begin_date")
+				->select("crs.end_date")
 				->select("venue")
+				->select_raw('COUNT(DISTINCT ucs.usr_id) as usr_total')
+				->select_raw('COUNT(acco.night) AS on_total')
 				->select_raw(
-					" IF(begin_date < ".$this->gIldb->quote($this->crs_end_filter,"date")
-					."      AND end_date > ".$this->gIldb->quote($this->crs_begin_filter,"date")
-					."      ,0,IF(begin_date <".$this->gIldb->quote($this->crs_begin_filter,"date").",1,-1))"
+					" IF(crs.begin_date < ".$this->gIldb->quote($this->crs_end_filter,"date")
+					."      AND crs.end_date > ".$this->gIldb->quote($this->crs_begin_filter,"date")
+					."      ,0,IF(crs.begin_date <".$this->gIldb->quote($this->crs_begin_filter,"date").",1,-1))"
 					." as checked ")
 				->from("hist_course crs")
 				->join("object_reference oref")
 					->on("oref.obj_id = crs.crs_id")
 				->join("crs_settings cs")
 					->on("cs.obj_id = crs.crs_id")
+				->left_join("hist_usercoursestatus ucs")
+					->on('crs.crs_id = ucs.crs_id AND ucs.hist_historic = 0 AND'
+						.' (ucs.booking_status != '.$this->gIldb->quote('-empty-','text').'OR function = '.$this->gIldb->quote('Trainer','text').')' )
+				->left_join('crs_acco acco')
+					->on('acco.crs_id = crs.crs_id AND ucs.usr_id = acco.user_id')
+				->group_by('crs.crs_id')
 				->compile();
 		return $query;
 	}
@@ -96,12 +104,14 @@ class ilObjReportBookingsByVenue extends ilObjReportBase {
 				->column("tutor", $this->plugin->txt("il_crs_tutor"), true)
 				->column("no_members", $this->plugin->txt("no_members"), true)
 				->column("no_accomodations", $this->plugin->txt("no_accomodations"), true)
-				->column("action", $this->plugin->txt("list"), true, "", true);
+				->column("action", $this->plugin->txt("list"), true, "", true, false);
 		return parent::buildTable($table);
 	}
 
 	protected function buildOrder($order) {
 		$order	->mapping("date", "crs.begin_date")
+				->mapping("no_accomodations", "on_total")
+				->mapping("no_members", "usr_total")
 				->defaultOrder("date", "ASC");
 		return $order;
 	}
