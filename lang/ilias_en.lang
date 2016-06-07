@@ -12902,6 +12902,7 @@ dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this Entry
 dcl#:#dcl_delete_fields#:#Delete fields
 dcl#:#dcl_link_detail_page#:#Link entries to detail page
 dcl#:#dcl_manage#:#Manage
+dcl#:#dcl_display_record_alt#:#Display this entry
 dcl#:#dcl_delete_records#:#Delete Entries
 dcl#:#dcl_confirm_delete_records#:#Are you sure you want to delete the following Entries?
 dcl#:#dcl_deleted_records#:#Successfully deleted %s Entries
@@ -15702,3 +15703,5 @@ rbac#:#mep_copy#:#User can copy media pool
 crs#:#crs_cannot_find_role#:#Can't find this role.
 grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
 crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
+form#:#form_date_duration_start#:#Start
+form#:#form_date_duration_end#:#End

@@ -23,6 +23,12 @@ class ilChatroomHistoryTask extends ilChatroomTaskHandler
 
 	public function byDayExport()
 	{
+		/**
+		 * @var $ilTabs ilTabsGUI
+		 */
+		global $ilTabs;
+		
+		$ilTabs->activateSubTab('byday');
 		$this->byDay(true);
 	}
 
@@ -55,41 +61,39 @@ class ilChatroomHistoryTask extends ilChatroomTaskHandler
 		$durationForm->addCommandButton('history-byDay', $lng->txt('show'));
 		$durationForm->setFormAction($ilCtrl->getFormAction($this->gui), 'history-byDay');
 
-		if(strtolower($_SERVER['REQUEST_METHOD']) == 'post')
+		$messages           = array();
+		$psessions          = array();
+		$submit_request     = strtolower($_SERVER['REQUEST_METHOD']) == 'post';
+		$from               = null;
+		$to                 = null;
+
+		if($submit_request)
 		{
-			$durationForm->checkInput();
-			$period   = $durationForm->getItemByPostVar('timeperiod');
-			$messages = $room->getHistory(
-				$from = $period->getStart(),
-				$to = $period->getEnd(),
-				/*$room->getSetting( 'restrict_history' ) ?*/
-				$chat_user->getUserId() /*: null*/,
-				isset($_REQUEST['scope']) ? $_REQUEST['scope'] : 0
-			);
+			if($durationForm->checkInput())
+			{
+				$period   = $durationForm->getItemByPostVar('timeperiod');
+
+				$messages = $room->getHistory(
+					$from = $period->getStart(),
+					$to   = $period->getEnd(),
+					$chat_user->getUserId(),
+					isset($_REQUEST['scope']) ? $_REQUEST['scope'] : 0
+				);
+
+				$psessions = $room->getPrivateRoomSessions(
+					$from,
+					$to,
+					$chat_user->getUserId(),
+					$scope
+				);
+			}
+			else
+			{
+				$export = false;
+			}
+
+			$durationForm->setValuesByPost();
 		}
-		else
-		{
-			$from = new ilDateTime(time() - 60 * 60, IL_CAL_UNIX);
-			$to   = new ilDateTime(ceil(time() / 300) * 300, IL_CAL_UNIX);
-
-			$period = $durationForm->getItemByPostVar('timeperiod');
-			$period->setStart($from);
-			$period->setEnd($to);
-
-			$messages = $room->getHistory(
-				$from,
-				$to,
-				$chat_user->getUserId(),
-				isset($_REQUEST['scope']) ? $_REQUEST['scope'] : 0
-			);
-		}
-
-		$psessions = $room->getPrivateRoomSessions(
-			$from,
-			$to,
-			$chat_user->getUserId(),
-			$scope
-		);
 
 		$this->showMessages($messages, $durationForm, $export, $psessions, $from, $to);
 	}
@@ -237,33 +241,34 @@ class ilChatroomHistoryTask extends ilChatroomTaskHandler
 		$prevUseRelDates = ilDatePresentation::useRelativeDates();
 		ilDatePresentation::setUseRelativeDates(false);
 
-		$unixFrom = $from->getUnixTime();
-		$unixTo   = $to->getUnixTime();
+		if($from instanceof ilDateTime && $to instanceof ilDateTime)
+		{
+			$unixFrom = $from->getUnixTime();
+			$unixTo   = $to->getUnixTime();
 
-		if($unixFrom == $unixTo)
-		{
-			$date     = new ilDate($unixFrom, IL_CAL_UNIX);
-			$date_sub = ilDatePresentation::formatDate($date);
-		}
-		else
-		{
-			$date1    = new ilDate($unixFrom, IL_CAL_UNIX);
-			$date2    = new ilDate($unixTo, IL_CAL_UNIX);
-			$date_sub = ilDatePresentation::formatPeriod($date1, $date2);
-		}
-		ilDatePresentation::setUseRelativeDates($prevUseRelDates);
+			if($unixFrom == $unixTo)
+			{
+				$date     = new ilDate($unixFrom, IL_CAL_UNIX);
+				$date_sub = ilDatePresentation::formatDate($date);
+			}
+			else
+			{
+				$date1    = new ilDate($unixFrom, IL_CAL_UNIX);
+				$date2    = new ilDate($unixTo, IL_CAL_UNIX);
+				$date_sub = ilDatePresentation::formatPeriod($date1, $date2);
+			}
+			ilDatePresentation::setUseRelativeDates($prevUseRelDates);
 
-		$isPrivateRoom = (boolean)((int)$_REQUEST['scope']);
-		if($isPrivateRoom)
-		{
-			$roomTpl->setVariable('ROOM_TITLE', sprintf($lng->txt('history_title_private_room'), $scopes[(int)$_REQUEST['scope']]) . ' (' . $date_sub . ')');
+			$isPrivateRoom = (boolean)((int)$_REQUEST['scope']);
+			if($isPrivateRoom)
+			{
+				$roomTpl->setVariable('ROOM_TITLE', sprintf($lng->txt('history_title_private_room'), $scopes[(int)$_REQUEST['scope']]) . ' (' . $date_sub . ')');
+			}
+			else
+			{
+				$roomTpl->setVariable('ROOM_TITLE', sprintf($lng->txt('history_title_general'), $this->gui->object->getTitle()) . ' (' . $date_sub . ')');
+			}
 		}
-		else
-		{
-			$roomTpl->setVariable('ROOM_TITLE', sprintf($lng->txt('history_title_general'), $this->gui->object->getTitle()) . ' (' . $date_sub . ')');
-		}
-
-		//}
 
 		if($export)
 		{
@@ -280,6 +285,12 @@ class ilChatroomHistoryTask extends ilChatroomTaskHandler
 
 	public function bySessionExport()
 	{
+		/**
+		 * @var $ilTabs ilTabsGUI
+		 */
+		global $ilTabs;
+
+		$ilTabs->activateSubTab('bysession');
 		$this->bySession(true);
 	}
 
@@ -372,7 +383,7 @@ class ilChatroomHistoryTask extends ilChatroomTaskHandler
 
 		$this->showMessages($messages, $durationForm, $export, $psessions, $from, $to);
 	}
-
+	
 	/**
 	 * {@inheritdoc}
 	 */

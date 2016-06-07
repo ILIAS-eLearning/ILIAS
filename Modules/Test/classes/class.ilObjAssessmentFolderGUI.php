@@ -327,10 +327,11 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function showLogObject()
 	{
-		$from = mktime($_POST['log_from']['time']['h'], $_POST['log_from']['time']['m'], 0, $_POST['log_from']['date']['m'], $_POST['log_from']['date']['d'], $_POST['log_from']['date']['y']);
-		$until = mktime($_POST['log_until']['time']['h'], $_POST['log_until']['time']['m'], 0, $_POST['log_until']['date']['m'], $_POST['log_until']['date']['d'], $_POST['log_until']['date']['y']);
-		$test = $_POST['sel_test'];
-		$this->logsObject($from, $until, $test);
+		$form = $this->getLogDataOutputForm();
+		$form->checkInput();
+
+		$form->setValuesByPost();
+		$this->logsObject($form);
 	}
 	
 	/**
@@ -338,9 +339,17 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	*/
 	public function exportLogObject()
 	{
-		$from = mktime($_POST['log_from']['time']['h'], $_POST['log_from']['time']['m'], 0, $_POST['log_from']['date']['m'], $_POST['log_from']['date']['d'], $_POST['log_from']['date']['y']);
-		$until = mktime($_POST['log_until']['time']['h'], $_POST['log_until']['time']['m'], 0, $_POST['log_until']['date']['m'], $_POST['log_until']['date']['d'], $_POST['log_until']['date']['y']);
-		$test = $_POST['sel_test'];
+		$form = $this->getLogDataOutputForm();
+		if(!$form->checkInput())
+		{
+			$form->setValuesByPost();
+			$this->logsObject($form);
+			return;
+		}
+
+		$test  = $form->getInput('sel_test');
+		$from  = $form->getItemByPostVar('log_from')->getDate()->get(IL_CAL_UNIX);
+		$until = $form->getItemByPostVar('log_until')->getDate()->get(IL_CAL_UNIX);
 
 		$csv = array();
 		$separator = ";";
@@ -389,26 +398,13 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	}
 
 	/**
-	* display assessment folder logs form
-	*/
-	public function logsObject($p_from = null, $p_until = null, $p_test = null)
+	 * @return ilPropertyFormGUI
+	 */
+	protected function getLogDataOutputForm()
 	{
-                global $ilTabs;
-                $ilTabs->activateTab('logs');
-
-		$template = new ilTemplate("tpl.assessment_logs.html", TRUE, TRUE, "Modules/Test");
-
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-		$available_tests =& ilObjTest::_getAvailableTests(1);
-		if (count($available_tests) == 0)
-		{
-			ilUtil::sendInfo($this->lng->txt('assessment_log_no_data'));
-			return;
-		}
-
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
+		$form->setPreventDoubleSubmission(false);
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTableWidth("100%");
 		$form->setId("logs");
@@ -416,24 +412,26 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$header = new ilFormSectionHeaderGUI();
 		$header->setTitle($this->lng->txt("assessment_log"));
 		$form->addItem($header);
-		
+
 		// from
-		$from = new ilDateTimeInputGUI($this->lng->txt('cal_from'), "log_from");		
+		$from = new ilDateTimeInputGUI($this->lng->txt('cal_from'), "log_from");
 		$from->setShowTime(true);
-		$now = getdate();
-		$fromdate = ($p_from) ? $p_from : (($_GET['log_from']) ? $_GET['log_from'] : mktime(0, 0, 0, 1, 1, $now['year']));
-		$from->setDate(new ilDateTime($fromdate, IL_CAL_UNIX));
+		$from->setRequired(true);
 		$form->addItem($from);
 
 		// until
-		$until = new ilDateTimeInputGUI($this->lng->txt('cal_until'), "log_until");		
+		$until = new ilDateTimeInputGUI($this->lng->txt('cal_until'), "log_until");
 		$until->setShowTime(true);
-		$untildate = ($p_until) ? $p_until : (($_GET['log_until']) ? $_GET['log_until'] : time());
-		$until->setDate(new ilDateTime($untildate, IL_CAL_UNIX));
+		$until->setRequired(true);
 		$form->addItem($until);
+
+		require_once 'Modules/Test/classes/class.ilObjTest.php';
+		require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+		$available_tests = ilObjTest::_getAvailableTests(1);
 
 		// tests
 		$fortest = new ilSelectInputGUI($this->lng->txt('assessment_log_for_test'), "sel_test");
+		$fortest->setRequired(true);
 		$sorted_options = array();
 		foreach($available_tests as $key => $value)
 		{
@@ -443,29 +441,97 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			);
 		}
 		$sorted_options = ilUtil::sortArray($sorted_options, 'title','asc');
-		$options = array();
+		$options = array('' => $this->lng->txt('please_choose'));
 		foreach($sorted_options as $option)
 		{
 			$options[$option['key']] = $option['title'];
 		}
 		$fortest->setOptions($options);
-		$p_test = ($p_test) ? $p_test : $_GET['sel_test'];
-		if ($p_test) $fortest->setValue($p_test);
 		$form->addItem($fortest);
-		$this->ctrl->setParameter($this, 'sel_test', $p_test);
-		$this->ctrl->setParameter($this, 'log_until', $untildate);
-		$this->ctrl->setParameter($this, 'log_from', $fromdate);
-		$form->addCommandButton("showLog", $this->lng->txt("show"));
-		$form->addCommandButton("exportLog", $this->lng->txt("export"));
+
+		$form->addCommandButton('showLog', $this->lng->txt('show'));
+		$form->addCommandButton('exportLog', $this->lng->txt('export'));
+		
+		return $form;
+	}
+
+	/**
+	 * @param $form ilPropertyFormGUI|null
+	 */
+	public function logsObject(ilPropertyFormGUI $form = null)
+	{
+		/**
+		 * @var $ilTabs ilTabsGUI
+		 */
+		global $ilTabs;
+
+		$ilTabs->activateTab('logs');
+
+		$template = new ilTemplate("tpl.assessment_logs.html", TRUE, TRUE, "Modules/Test");
+
+		$p_test    = 0;
+		$fromdate  = 0;
+		$untildate = 0;
+
+		if(!($form instanceof ilPropertyFormGUI))
+		{
+			$form = $this->getLogDataOutputForm();
+			
+			$values = array();
+			if(isset($_GET['sel_test']))
+			{
+				$p_test = $values['sel_test'] = (int)$_GET['sel_test'];
+			}
+
+			if(isset($_GET['log_from']))
+			{
+				$fromdate = (int)$_GET['log_from'];
+			}
+			else
+			{
+				$fromdate = mktime(0, 0, 0, 1, 1, date('Y'));
+			}
+
+			if(isset($_GET['log_until']))
+			{
+				$untildate = (int)$_GET['log_until'];
+			}
+			else
+			{
+				$untildate = time();
+			}
+
+			$values['log_from'] = new ilDateTime($fromdate, IL_CAL_UNIX);
+			$values['log_until'] = new ilDateTime($untildate, IL_CAL_UNIX);
+
+			$form->setValuesByArray($values);
+		}
+		else
+		{
+			$fromdate_input  = $form->getItemByPostVar('log_from')->getDate();
+			$untildate_input = $form->getItemByPostVar('log_until')->getDate();
+			if($fromdate_input instanceof ilDateTime && $untildate_input instanceof ilDateTime)
+			{
+				$p_test  = $form->getInput('sel_test');
+
+				$fromdate  = $fromdate_input->get(IL_CAL_UNIX);
+				$untildate = $untildate_input->get(IL_CAL_UNIX);
+			}
+		}
+
+		$this->ctrl->setParameter($this, 'sel_test', (int)$p_test);
+		$this->ctrl->setParameter($this, 'log_until', (int)$untildate);
+		$this->ctrl->setParameter($this, 'log_from', (int)$fromdate);
+
 		$template->setVariable("FORM", $form->getHTML());
 
-		if ($p_test)
+		if($p_test)
 		{
 			include_once "./Modules/Test/classes/tables/class.ilAssessmentFolderLogTableGUI.php";
 			$table_gui = new ilAssessmentFolderLogTableGUI($this, 'logs');
 			$log_output = ilObjAssessmentFolder::getLog($fromdate, $untildate, $p_test);
 			$table_gui->setData($log_output);
-			$template->setVariable('LOG', $table_gui->getHTML());	
+			$template->setVariable('LOG', $table_gui->getHTML());
 		}
 		$this->tpl->setVariable("ADM_CONTENT", $template->get());
 	}

@@ -1515,10 +1515,12 @@ class ilECSSettingsGUI
 		$duration->setInfo($this->lng->txt('ecs_cat_mapping_duration_info'));
 		
 			$dur_start = new ilDateTimeInputGUI($this->lng->txt('from'),'dur_begin');
+			$dur_start->setRequired(true);
 			$dur_start->setDate($this->rule->getDateRangeStart());
 			$duration->addSubItem($dur_start);
 			
 			$dur_end = new ilDateTimeInputGUI($this->lng->txt('to'),'dur_end');
+			$dur_end->setRequired(true);
 			$dur_end->setDate($this->rule->getDateRangeEnd());
 			$duration->addSubItem($dur_end);
 		

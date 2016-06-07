@@ -119,6 +119,7 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition {
 
 		switch ($field['type']) {
 			case 'text':
+				return 'TEXT';
 				$length = !empty($field['length']) ? $field['length'] : $db->options['default_text_field_length'];
 				$fixed = !empty($field['fixed']) ? $field['fixed'] : false;
 

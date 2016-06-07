@@ -91,6 +91,16 @@ interface ilDBManager {
 	 * @return bool
 	 */
 	public function dropSequence($seq_name);
+
+
+	/**
+	 * @param $table
+	 * @param $name
+	 * @param bool $primary
+	 * @return mixed
+	 */
+	public function dropConstraint($table, $name, $primary = false);
+
 	//
 	// NOT YET IMPLEMENTED
 	//
@@ -149,14 +159,7 @@ interface ilDBManager {
 	//	public function listViews($database = null);
 	//
 	//
-	//	/**
-	//	 * @param $table
-	//	 * @param $name
-	//	 * @param bool $primary
-	//	 * @return mixed
-	//	 */
-	//	public function dropConstraint($table, $name, $primary = false);
-	//
+
 	//
 
 }

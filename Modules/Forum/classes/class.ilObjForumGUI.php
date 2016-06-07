@@ -2729,7 +2729,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					else
 					{
 						$tpl->setVariable('AUTHOR', $authorinfo->getLinkedAuthorShortName());
-						if($authorinfo->getAuthorName(true))
+						if($authorinfo->getAuthorName(true) && !$this->objProperties->isAnonymized())
 						{
 							$tpl->setVariable('USR_NAME', $authorinfo->getAuthorName(true));
 						}
@@ -2775,22 +2775,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
 						$this->ctrl->setParameter($this, 'user', $node->getUpdateUserId());
 
-						require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
-						$authorinfo = new ilForumAuthorInformation(
-							$node->getPosAuthorId(),
-							$node->getUpdateUserId(),
-							'',
-							'',
-							array(
-								'href' => $this->ctrl->getLinkTarget($this, 'showUser')
-							)
-						);
-						
 						$this->ctrl->clearParameters($this);
 
 						$tpl->setVariable('POST_UPDATE_TXT', $lng->txt('edited_on').': '.$frm->convertDate($node->getChangeDate()).' - '.strtolower($lng->txt('by')));
 						$tpl->setVariable('UPDATE_AUTHOR', $authorinfo->getLinkedAuthorShortName());
-						if($authorinfo->getAuthorName(true))
+						if($authorinfo->getAuthorName(true) && !$this->objProperties->isAnonymized() && !$authorinfo->hasSuffix())
 						{
 							$tpl->setVariable('UPDATE_USR_NAME', $authorinfo->getAuthorName(true));
 						}

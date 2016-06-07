@@ -244,7 +244,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	} 	
 	function getActivationStart()
 	{
-		return $this->activation_start ? $this->activation_start : time();
+		return $this->activation_start;
 	}
 	function setActivationStart($a_value)
 	{
@@ -252,7 +252,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	function getActivationEnd()
 	{
-		return $this->activation_end ? $this->activation_end : mktime(0,0,0,12,12,date("Y",time())+2);
+		return $this->activation_end;
 	}
 	function setActivationEnd($a_value)
 	{
@@ -289,7 +289,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	} 
 	function getSubscriptionStart()
 	{
-		return $this->subscription_start ? $this->subscription_start : time();
+		return $this->subscription_start;
 	}
 	function setSubscriptionStart($a_value)
 	{
@@ -297,7 +297,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	function getSubscriptionEnd()
 	{
-		return $this->subscription_end ? $this->subscription_end : mktime(0,0,0,12,12,date("Y",time())+2);
+		return $this->subscription_end;
 	}
 	function setSubscriptionEnd($a_value)
 	{
@@ -717,7 +717,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * @param int id of user
 	 * @return boolean
 	 */
-	function _isActivated($a_obj_id)
+	public static function _isActivated($a_obj_id)
 	{
 		include_once("./Modules/Course/classes/class.ilObjCourseAccess.php");
 		return ilObjCourseAccess::_isActivated($a_obj_id);
@@ -729,7 +729,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * @param int id of user
 	 * @return boolean
 	 */
-	function _registrationEnabled($a_obj_id)
+	public static function _registrationEnabled($a_obj_id)
 	{
 		include_once("./Modules/Course/classes/class.ilObjCourseAccess.php");
 		return ilObjCourseAccess::_registrationEnabled($a_obj_id);
@@ -1119,8 +1119,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->appendMessage($this->lng->txt('err_check_input'));
 		}
 		
-		if($this->getCourseStart() && 
-			$this->getCourseStart()->get(IL_CAL_UNIX) > $this->getCourseEnd()->get(IL_CAL_UNIX))
+		// :TODO: checkInput() is not used properly
+		if(($this->getCourseStart() && !$this->getCourseEnd()) ||
+			(!$this->getCourseStart() && $this->getCourseEnd()) ||
+			($this->getCourseStart() && $this->getCourseEnd() && $this->getCourseStart()->get(IL_CAL_UNIX) > $this->getCourseEnd()->get(IL_CAL_UNIX)))
 		{
 			$this->appendMessage($this->lng->txt("crs_course_period_not_valid"));
 		}
@@ -1843,7 +1845,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		return false;
 	}
 
-	function _deleteUser($a_usr_id)
+	public static function _deleteUser($a_usr_id)
 	{
 		// Delete all user related data
 		// delete lm_history
@@ -2026,7 +2028,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 				if(!ilObjCourseAccess::_usingRegistrationCode())
 				{
 					throw new ilMembershipRegistrationException('Cant registrate to course '.$this->getId().
-						', course subscription is deactivated.', '456');
+						', course subscription is deactivated.', ilMembershipRegistrationException::REGISTRATION_CODE_DISABLED);
 				}
 			}
 
@@ -2036,7 +2038,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 				if( !$this->inSubscriptionTime() )
 				{
 					throw new ilMembershipRegistrationException('Cant registrate to course '.$this->getId().
-						', course is out of registration time.', '789');
+						', course is out of registration time.', ilMembershipRegistrationException::OUT_OF_REGISTRATION_PERIOD);
 				}
 			}
 
@@ -2056,13 +2058,13 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 					$participants = ilCourseParticipants::_getInstanceByObjId($this->getId());
 					$participants->sendNotification($participants->NOTIFY_WAITING_LIST,$a_user_id);
 
-					throw new ilMembershipRegistrationException($info, '124');
+					throw new ilMembershipRegistrationException($info, ilMembershipRegistrationException::ADDED_TO_WAITINGLIST);
 				}
 
 				if(!$this->enabledWaitingList() && !$free)
 				{
 					throw new ilMembershipRegistrationException('Cant registrate to course '.$this->getId().
-						', membership is limited.', '123');
+						', membership is limited.',ilMembershipRegistrationException::OBJECT_IS_FULL);
 				}
 			}
 		}

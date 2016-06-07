@@ -169,13 +169,16 @@ class ilPortfolioExerciseGUI
 		$ass_files = $ass->getFiles();
 		if (count($ass_files) > 0)
 		{
-			$tooltip .= "<br /><br />";
+			if($tooltip)
+			{
+				$tooltip .= "<br /><br />";
+			}
 			
 			foreach($ass_files as $file)
 			{
 				$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", $a_assignment_id);
 				$ilCtrl->setParameterByClass("ilportfolioexercisegui", "file", urlencode($file["name"]));
-				$dl_link = $ilCtrl->getLinkTarget($this, "downloadExcAssFile");
+				$dl_link = $ilCtrl->getLinkTargetByClass("ilportfolioexercisegui", "downloadExcAssFile");
 				$ilCtrl->setParameterByClass("ilportfolioexercisegui", "file", "");			
 				$ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", "");			
 				

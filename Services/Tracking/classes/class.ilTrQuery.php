@@ -11,7 +11,7 @@
  */
 class ilTrQuery
 {
-	function getObjectsStatusForUser($a_user_id, array $obj_refs)
+	static function getObjectsStatusForUser($a_user_id, array $obj_refs)
 	{
 		global $ilDB;
 
@@ -1703,7 +1703,7 @@ class ilTrQuery
 		return $res;
 	}
 
-	function getObjectTypeStatistics()
+	static function getObjectTypeStatistics()
 	{
 		global $ilDB, $objDefinition;
 		
@@ -1943,7 +1943,7 @@ class ilTrQuery
 		return $res;
 	}
 	
-	function getObjectTypeStatisticsPerMonth($a_aggregation, $a_year = null)
+	static function getObjectTypeStatisticsPerMonth($a_aggregation, $a_year = null)
 	{
 		global $ilDB;
 		

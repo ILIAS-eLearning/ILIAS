@@ -110,14 +110,14 @@ abstract class ilLPCollection
 		return $this->items;
 	}
 	
-	protected function read()
+	protected function read($a_obj_id)
 	{
 		global $ilDB;
 		
 		$items = array();
 		
 		$res = $ilDB->query("SELECT * FROM ut_lp_collections".
-			" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer"));
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer"));
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			if($this->validateEntry($row->item_id))

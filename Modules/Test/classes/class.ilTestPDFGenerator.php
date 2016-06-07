@@ -75,7 +75,7 @@ class ilTestPDFGenerator
 			return $html;
 		}
 
-		return '<?xml encoding="UTF-8">'.$cleaned_html;
+		return $cleaned_html;
 	}
 
 	public static function generatePDF($pdf_output, $output_mode, $filename=null)

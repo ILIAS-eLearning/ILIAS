@@ -245,9 +245,13 @@ class ilObjPoll extends ilObject2
 		{
 			$activation = ilObjectActivation::getItem($this->ref_id);			
 			$this->setAccessType($activation["timing_type"]);
-			$this->setAccessBegin($activation["timing_start"]);
-			$this->setAccessEnd($activation["timing_end"]);							
-			$this->setAccessVisibility($activation["visible"]);							
+			if($this->getAccessType() == ilObjectActivation::TIMINGS_ACTIVATION)
+			{
+				// default entry values should not be loaded if not activated
+				$this->setAccessBegin($activation["timing_start"]);
+				$this->setAccessEnd($activation["timing_end"]);							
+				$this->setAccessVisibility($activation["visible"]);							
+			}
 		}
 	}
 	

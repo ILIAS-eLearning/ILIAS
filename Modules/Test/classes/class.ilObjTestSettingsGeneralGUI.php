@@ -750,13 +750,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$header->setTitle($this->lng->txt("tst_settings_header_execution"));
 		$form->addItem($header);
 
-		// enable starting time
-		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("tst_starting_time"), "chb_starting_time");
-		$enablestartingtime->setInfo($this->lng->txt("tst_starting_time_desc"));
-		$enablestartingtime->setChecked($this->testOBJ->isStartingTimeEnabled());
-
 		// starting time
-		$startingtime = new ilDateTimeInputGUI('', 'starting_time');
+		$startingtime = new ilDateTimeInputGUI($this->lng->txt("tst_starting_time"), 'starting_time');
+		$startingtime->setInfo($this->lng->txt("tst_starting_time_desc"));
 		$startingtime->setShowTime(true);
 		if( $this->testOBJ->getStartingTime() != 0 )
 		{
@@ -764,23 +760,18 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		}
 		else
 		{
-			$startingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
+			$startingtime->setDate(null);
 		}
-		$enablestartingtime->addSubItem($startingtime);
-		$form->addItem($enablestartingtime);
+
+		$form->addItem($startingtime);
 		if ($this->testOBJ->participantDataExist())
 		{
-			$enablestartingtime->setDisabled(true);
 			$startingtime->setDisabled(true);
 		}
 
-		// enable ending time
-		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("tst_ending_time"), "chb_ending_time");
-		$enableendingtime->setInfo($this->lng->txt("tst_ending_time_desc"));
-		$enableendingtime->setChecked($this->testOBJ->isEndingTimeEnabled());
-
 		// ending time
-		$endingtime = new ilDateTimeInputGUI('', 'ending_time');
+		$endingtime = new ilDateTimeInputGUI($this->lng->txt("tst_ending_time"), 'ending_time');
+		$endingtime->setInfo($this->lng->txt("tst_ending_time_desc"));
 		$endingtime->setShowTime(true);
 		if ($this->testOBJ->getEndingTime() != 0)
 		{
@@ -788,10 +779,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		}
 		else
 		{
-			$endingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
+			$endingtime->setDate(null);
 		}
-		$enableendingtime->addSubItem($endingtime);
-		$form->addItem($enableendingtime);
+		$form->addItem($endingtime);
 
 		// test password
 		$pwEnabled = new ilCheckboxInputGUI($this->lng->txt('tst_password'), 'password_enabled');
@@ -849,37 +839,29 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 	private function saveTestAccessProperties(ilPropertyFormGUI $form)
 	{
 		// starting time
-		if( $this->formPropertyExists($form, 'chb_starting_time') && !$this->testOBJ->participantDataExist() )
+		$starting_time = $form->getItemByPostVar('starting_time')->getDate();
+		if($starting_time instanceof ilDateTime)
 		{
-			if( $form->getItemByPostVar('chb_starting_time')->getChecked() )
-			{
-				$starting_time = $form->getItemByPostVar('starting_time');
-				$starting_time = $starting_time->getDate()->getUnixtime();
-				$this->testOBJ->setStartingTime($starting_time);
-
-				$this->testOBJ->setStartingTimeEnabled(true);
-			}
-			else
-			{
-				$this->testOBJ->setStartingTimeEnabled(false);
-			}
+			$this->testOBJ->setStartingTime($starting_time->getUnixtime());
+			$this->testOBJ->setStartingTimeEnabled(true);
+		}
+		else
+		{
+			$this->testOBJ->setStartingTime(null);
+			$this->testOBJ->setStartingTimeEnabled(false);
 		}
 
 		// ending time
-		if( $this->formPropertyExists($form, 'chb_ending_time') )
+		$ending_time = $form->getItemByPostVar('ending_time')->getDate();
+		if($ending_time instanceof ilDateTime)
 		{
-			if( $form->getItemByPostVar('chb_ending_time')->getChecked() )
-			{
-				$ending_time = $form->getItemByPostVar('ending_time');
-				$ending_time = $ending_time->getDate()->getUnixtime();
-				$this->testOBJ->setEndingTime($ending_time);
-
-				$this->testOBJ->setEndingTimeEnabled(true);
-			}
-			else
-			{
-				$this->testOBJ->setEndingTimeEnabled(false);
-			}
+			$this->testOBJ->setEndingTime($ending_time->getUnixtime());
+			$this->testOBJ->setEndingTimeEnabled(true);
+		}
+		else
+		{
+			$this->testOBJ->setEndingTime(null);
+			$this->testOBJ->setEndingTimeEnabled(false);
 		}
 
 		if( $this->formPropertyExists($form, 'password_enabled') )

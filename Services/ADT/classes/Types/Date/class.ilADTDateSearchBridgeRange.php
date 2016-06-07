@@ -3,17 +3,10 @@
 require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeRange.php";
 
 class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
-{	
-	protected $text_input; // [bool]
-	
+{		
 	protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
 	{
 		return ($a_adt_def instanceof ilADTDateDefinition);
-	}
-	
-	public function setTextInputMode($a_value)
-	{
-		$this->text_input = (bool)$a_value;
 	}
 	
 	
@@ -43,19 +36,8 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 		global $lng;
 		
 		if($this->getForm() instanceof ilPropertyFormGUI)
-		{
-			// :TODO: use DateDurationInputGUI ?!
-
-			if(!(bool)$this->text_input)
-			{
-				$check = new ilCheckboxInputGUI($this->getTitle(), $this->addToElementId("tgl"));
-				$check->setValue(1);
-				$checked = false;
-			}
-			else
-			{
-				$check = new ilCustomInputGUI($this->getTitle());		
-			}
+		{			
+			$check = new ilCustomInputGUI($this->getTitle());					
 
 			$date_from = new ilDateTimeInputGUI($lng->txt('from'), $this->addToElementId("lower"));
 			$date_from->setShowTime(false);
@@ -77,16 +59,6 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 				$checked = true;
 			}
 			
-			if(!(bool)$this->text_input)
-			{
-				$check->setChecked($checked);
-			}
-			else
-			{
-				$date_from->setMode(ilDateTimeInputGUI::MODE_INPUT);
-				$date_until->setMode(ilDateTimeInputGUI::MODE_INPUT);
-			}
-
 			$this->addToParentElement($check);
 		}
 		else
@@ -113,12 +85,11 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 			}
 			
 			$item->setComparisonMode(ilCombinationInputGUI::COMPARISON_ASCENDING);
-			$item->setMode(ilDateTimeInputGUI::MODE_INPUT);
 			
 			$this->addToParentElement($item);
 		}
 	}
-	
+
 	protected function shouldBeImportedFromPost($a_post)
 	{
 		if($this->getForm() instanceof ilPropertyFormGUI &&
@@ -134,41 +105,16 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 		$post = $this->extractPostValues($a_post);
 	
 		if($post && $this->shouldBeImportedFromPost($post))
-		{			
-			$start = $end = null;
+		{						
+			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";			
+			$start = ilCalendarUtil::parseIncomingDate($post["lower"]);
+			$end = ilCalendarUtil::parseIncomingDate($post["upper"]);
 			
-			include_once "Services/ADT/classes/class.ilADTDateSearchUtil.php";
-			
-			if(!$this->getForm() instanceof ilPropertyFormGUI ||
-				(bool)$this->text_input)
-			{
-				$start = ilADTDateSearchUtil::handleTextInputPost(ilADTDateSearchUtil::MODE_DATE, $post["lower"]);
-				$end = ilADTDateSearchUtil::handleTextInputPost(ilADTDateSearchUtil::MODE_DATE, $post["upper"]);
-			}
-			else
-			{
-				// if checkInput() is called before, this will not work							
-				
-				$start = ilADTDateSearchUtil::handleSelectInputPost(ilADTDateSearchUtil::MODE_DATE, $post["lower"]);									
-				$end = ilADTDateSearchUtil::handleSelectInputPost(ilADTDateSearchUtil::MODE_DATE, $post["upper"]);										
-			}
-			
-			if($start && $end && $start > $end)
+			if($start && $end && $start->get(IL_CAL_UNIX) > $end->get(IL_CAL_UNIX))
 			{
 				$tmp = $start;
 				$start = $end;
 				$end = $tmp;
-			}
-			
-			// :TODO: all dates are imported as valid 						
-			
-			if($start)
-			{
-				$start = new ilDate($start, IL_CAL_UNIX);
-			}
-			if($end)
-			{
-				$end = new ilDate($end, IL_CAL_UNIX);
 			}
 			
 			if($this->getForm() instanceof ilPropertyFormGUI)
@@ -178,12 +124,6 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 
 				$item = $this->getForm()->getItemByPostVar($this->getElementId()."[upper]");		
 				$item->setDate($end);		
-
-				if(!(bool)$this->text_input)
-				{
-					$item = $this->getForm()->getItemByPostVar($this->getElementId()."[tgl]");		
-					$item->setChecked(true);							
-				}
 			}
 			else if(array_key_exists($this->getElementId(), $this->table_filter_fields))
 			{									
@@ -199,14 +139,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 			$this->getUpperADT()->setDate($end);
 		}
 		else
-		{
-			if($this->getForm() instanceof ilPropertyFormGUI && 
-				!(bool)$this->text_input)				
-			{
-				$item = $this->getForm()->getItemByPostVar($this->getElementId()."[tgl]");		
-				$item->setChecked(false);	
-			}
-			
+		{			
 			$this->getLowerADT()->setDate();
 			$this->getUpperADT()->setDate();
 		}		

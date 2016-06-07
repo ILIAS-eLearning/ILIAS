@@ -1,4 +1,13 @@
-<input type="file" id="{ID}" name="{POST_VAR}" size="30" {DISABLED}/>
+<div class="input-group">
+	<span class="input-group-btn">
+		<span class="btn btn-default btn-file">
+			{TXT_BROWSE}<input type="file" id="{ID}" name="{POST_VAR}"{DISABLED}/>
+		</span>
+	</span>
+	<input type="text" class="form-control" readonly="readonly"{DISABLED}>
+</div>
+
+<!--<input type="file" id="{ID}" name="{POST_VAR}" size="30" {DISABLED}/>-->
 <div class="help-block">{TXT_MAX_SIZE}</div>
 <!-- BEGIN allowed_image_suffixes -->
 <div class="help-block">{TXT_ALLOWED_SUFFIXES}</div>
