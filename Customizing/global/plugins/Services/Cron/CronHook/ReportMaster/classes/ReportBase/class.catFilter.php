@@ -1219,9 +1219,9 @@ class courseTopicsFilter {
 	protected $id;
 	protected $gIldb;
 
-	public function __construct($id, $crs_ids_row) {
+	public function __construct($id, $crs_topics_set_row) {
 		$this->id = $id;
-		$this->crs_ids_row = $crs_ids_row;
+		$this->crs_topics_set_row = $crs_topics_set_row;
 		global $ilDB,$lng;
 		$this->gIldb = $ilDB;
 		$this->lng = $lng;
@@ -1236,7 +1236,7 @@ class courseTopicsFilter {
 	public function addToFilter($filter) {
 		$filter ->multiselect( $this->id
 								 , $this->lng->txt("gev_filter_topics")
-								 , $this->crs_ids_row
+								 , $this->crs_topics_set_row
 								 , $this->getTopics()
 								 , array()
 								 , ""
@@ -1259,28 +1259,23 @@ class courseTopicsFilter {
 
 
 	/**
-	 *	Get condition statement for filter selection
-	 *
-	 * @return	string
-	 */
-	public function deliverQuery() {
-		$selection = $this->filter->get($this->id);
-		assert('is_array($selection)');
-		if(count($selection) > 0 ) {
-			return $this->gIldb->in($this->crs_ids_row, $this->relevantCourses($selection), false, 'integer');
-		}
-		return ' TRUE ';
-	}
-
-
-	/**
 	 *	Add a where-statement to query objcet, that corresponds to filter selection
 	 *	
 	 * 	@param	catReportQuery	$query
 	 * 	@return	catReportQuery	$query
 	 */
 	public function addToQuery($query) {
-		return $query->where($this->deliverQuery());
+		$selection = $this->filter->get($this->id);
+		if(count($selection) > 0 ) {
+			return $query
+				->raw_join(' JOIN (SELECT topic_set_id FROM hist_topicset2topic JOIN hist_topics '
+							.'			USING (topic_id) '
+							.'			WHERE '.$this->gIldb->in('topic_title', $selection, false, 'text')
+							.'			GROUP BY topic_set_id) as '.$this->id
+							.'	ON '.$this->crs_topics_set_row.' = '.$this->id.'.topic_set_id' )
+				->where($this->crs_topics_set_row.' != -1');
+		}
+		return $query;
 	}
 
 	/**
