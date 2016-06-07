@@ -217,7 +217,7 @@ class ilAuthShibbolethSettingsGUI {
 		//field mappings
 		$fields = array();
 		foreach ($shib_settings as $setting) {
-			$field = ereg_replace('shib_', '', $setting);
+			$field = str_replace('shib_', '', $setting);
 			$textinput = new ilTextInputGUI();
 			$textinput->setTitle($this->lng->txt($setting));
 			$textinput->setPostVar("shib[" . $field . "]");
@@ -299,7 +299,7 @@ class ilAuthShibbolethSettingsGUI {
 			'shib_matriculation'
 		);
 		foreach ($shib_settings as $setting) {
-			$field = ereg_replace('shib_', '', $setting);
+			$field = str_replace('shib_', '', $setting);
 			if ($_POST["shib"]["update_" . $field] != "1") {
 				$_POST["shib"]["update_" . $field] = "0";
 			}
