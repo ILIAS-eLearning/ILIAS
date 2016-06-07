@@ -874,5 +874,3 @@ class shibConfig {
 		return $this->update_lastname;
 	}
 }
-
-?>

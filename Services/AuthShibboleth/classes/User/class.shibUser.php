@@ -234,5 +234,3 @@ class shibUser extends ilObjUser {
 		}
 	}
 }
-
-?>

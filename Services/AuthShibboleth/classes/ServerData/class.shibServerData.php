@@ -41,5 +41,3 @@ class shibServerData extends shibConfig {
 		return self::$cache;
 	}
 }
-
-?>

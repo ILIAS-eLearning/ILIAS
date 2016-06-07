@@ -148,5 +148,3 @@ class ShibAuth extends Auth {
 		ilShibbolethPluginWrapper::getInstance()->afterLogout($ilUser);
 	}
 }
-
-?>
