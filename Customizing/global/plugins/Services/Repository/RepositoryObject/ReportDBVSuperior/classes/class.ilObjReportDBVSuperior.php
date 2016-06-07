@@ -29,7 +29,10 @@ class ilObjReportDBVSuperior extends ilObjReportBase {
 				->addSetting($this->s_f
 								->settingInt('year', $this->plugin->txt('report_year'))
 								->setDefaultValue(2016)
-									);
+									)
+				->addSetting($this->s_f
+								->settingInt('dbv_report_ref', $this->plugin->txt('dbv_report_ref'))
+								->setDefaultValue(0));
 	}
 
 

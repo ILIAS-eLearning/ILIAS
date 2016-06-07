@@ -195,12 +195,12 @@ class ilObjReportCompanyGlobal extends ilObjReportBase {
 	 * @inheritdoc
 	 */
 	protected function buildTable($table) {
-		$table  ->column('type','type')
-				->column('book_book','bookings')
-				->column('book_user','members')
-				->column('part_book','participations')
-				->column('wp_part','edupoints')
-				->column('part_user','members');
+		$table  ->column('type',$this->plugin->txt('type'), true)
+				->column('book_book',$this->plugin->txt('bookings'), true)
+				->column('book_user',$this->plugin->txt('members'), true)
+				->column('part_book',$this->plugin->txt('participations'), true)
+				->column('wp_part',$this->plugin->txt('edu_points'), true)
+				->column('part_user',$this->plugin->txt('members'), true);
 		return parent::buildTable($table);
 	}
 

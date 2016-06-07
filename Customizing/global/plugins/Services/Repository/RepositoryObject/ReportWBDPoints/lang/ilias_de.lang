@@ -1,0 +1,36 @@
+<!-- language file start -->
+xwbp_content#:#Report
+xwbp_properties#:#Eigenschaften
+obj_xwbp#:#Report über Gemeldete Bildungspunkte
+objs_xwbp#:#Reports über Gemeldete Bildungspunkte
+obj_xwbp_duplicate#:#Report über Gemeldete Bildungspunkte kopieren
+objs_xwbp_duplicate#:#Reports über Gemeldete Bildungspunkte kopieren
+obj_xwbp_select#:#Report über Gemeldete Bildungspunkte auswählen
+xwbp_add#:#Report über Gemeldete Bildungspunkte hinzufügen
+xwbp_new#:#Neuen Report über Gemeldete Bildungspunktehinzufügen
+xwbp_read#:#Lesezugriff zum Report über Gemeldete Bildungspunkte
+xwbp_write#:#Report über Gemeldete Bildungspunkte bearbeiten
+xwbp_delete#:#Report über Gemeldete Bildungspunkte löschen
+xwbp_visible#:#sichtbar
+xwbp_edit_permission#:#schreibberechtigt
+crs_create_xwbp#:#Report über Gemeldete Bildungspunkte erzeugen
+grp_create_xwbp#:#Report über Gemeldete Bildungspunkte erzeugen
+fold_create_xwbp#:#Report über Gemeldete Bildungspunkte erzeugen
+root_create_xwbp#:#Report über Gemeldete Bildungspunkte erzeugen
+cat_create_xwbp#:#Report über Gemeldete Bildungspunkte erzeugen
+period#:#Zeitraum:
+until#:#bis
+firstname#:#Vorname
+lastname#:#Nachname
+birthday#:#Geburtstag
+bwv_id#:#GDV Vermittler-ID
+wbd_type#:#Service-Typ
+crs_title#:#Trainingstitel
+begin_date#:#Startdatum
+end_date#:#Enddatum
+credit_points#:#Bildungspunkte
+wbd_booking_id#:#GDV Buchungs-ID
+training_id_2#:#Trrainings-Id
+course_type#:#Trainingstyp
+filter_wbd_type#:#(aktueller) Service-Typ
+lastname_filter#:#Nachname
