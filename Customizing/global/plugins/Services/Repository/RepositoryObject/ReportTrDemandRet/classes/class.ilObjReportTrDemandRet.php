@@ -95,11 +95,6 @@ class ilObjReportTrDemandRet extends ilObjReportBase {
 		$local_condition = (string)$this->settings['is_local'] === "1"
 			? $this->gIldb->in('tpl.crs_id',array_unique($this->getSubtreeCourseTemplates()),false,'integer') 
 			: 'TRUE';
-		/*require_once 'Services/Object/classes/class.ilObject.php';
-		$template_obj_filter_options = array();
-		foreach ($template_obj_ids as $crs_id) {
-			$template_obj_filter_options[$crs_id] = ilObject::_lookupTitle($crs_id);
-		}*/
 		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','crs.topic_set');
 		$this->crs_topics_filter->addToFilter($filter);
 		$filter
@@ -112,18 +107,6 @@ class ilObjReportTrDemandRet extends ilObjReportBase {
 							, date("Y")."-12-31"
 							, false
 							)
-		/*	->multiselect(	  'templates'
-							, 'templates'
-							, 'tpl.crs_id'
-							, $template_obj_filter_options
-							, array()
-							, ""
-							, 200
-							, 160
-							, 'integer'
-							, 'asc'
-							, true
-							)*/
 			->multiselect_custom( 'cancelled' 
 								, $this->plugin->txt("filter_cancelled")
 								, array("crs.is_cancelled  = 'Ja'" 
