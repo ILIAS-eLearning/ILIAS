@@ -119,7 +119,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
 	 *
 	 * @return string
 	 */
-	public function getErrorMessageTemplate() {
+	public static function getErrorMessageTemplate() {
 		global $lng;
 
 		$tpl = new ilTemplate("tpl.property_form.html", true, true, "Services/Form");
