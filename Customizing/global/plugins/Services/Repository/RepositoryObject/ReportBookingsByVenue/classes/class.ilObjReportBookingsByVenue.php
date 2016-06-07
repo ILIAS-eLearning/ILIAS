@@ -36,6 +36,7 @@ class ilObjReportBookingsByVenue extends ilObjReportBase {
 				->select("begin_date")
 				->select("end_date")
 				->select("venue")
+				->select_raw('COUNT(acco.night) AS on_total')
 				->select_raw(
 					" IF(begin_date < ".$this->gIldb->quote($this->crs_end_filter,"date")
 					."      AND end_date > ".$this->gIldb->quote($this->crs_begin_filter,"date")
@@ -46,6 +47,9 @@ class ilObjReportBookingsByVenue extends ilObjReportBase {
 					->on("oref.obj_id = crs.crs_id")
 				->join("crs_settings cs")
 					->on("cs.obj_id = crs.crs_id")
+				->left_join('crs_acco acco')
+					->on('acco.crs_id = crs.crs_id')
+				->group_by('crs_id')
 				->compile();
 		return $query;
 	}
@@ -96,12 +100,13 @@ class ilObjReportBookingsByVenue extends ilObjReportBase {
 				->column("tutor", $this->plugin->txt("il_crs_tutor"), true)
 				->column("no_members", $this->plugin->txt("no_members"), true)
 				->column("no_accomodations", $this->plugin->txt("no_accomodations"), true)
-				->column("action", $this->plugin->txt("list"), true, "", true);
+				->column("action", $this->plugin->txt("list"), true, "", true, false);
 		return parent::buildTable($table);
 	}
 
 	protected function buildOrder($order) {
 		$order	->mapping("date", "crs.begin_date")
+				->mapping("no_accomodations", "on_total")
 				->defaultOrder("date", "ASC");
 		return $order;
 	}
