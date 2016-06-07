@@ -176,7 +176,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 	*/
 	protected function fillRow($member)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilAccess;
 		
 		$ilCtrl->setParameter($this->parent_obj, "ass_id", $this->ass_id);
 		$ilCtrl->setParameter($this->parent_obj, "member_id", $member["usr_id"]);
@@ -266,6 +266,15 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 					$mem_obj->getPersonalPicturePath("xxsmall"));
 				$this->tpl->setVariable("USR_ALT", $lng->txt("personal_picture"));
 			}
+			
+			// #18327
+			if(!$ilAccess->checkAccessOfUser($member_id, "read","", $this->exc->getRefId()) &&
+				is_array($info = $ilAccess->getInfo()))
+			{
+				$this->tpl->setCurrentBlock('access_warning');
+				$this->tpl->setVariable('PARENT_ACCESS', $info[0]["text"]);
+				$this->tpl->parseCurrentBlock();
+			}			
 		}
 		// team upload
 		else
@@ -287,10 +296,19 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 						ilGlyphGUI::get(ilGlyphGUI::CLOSE, $lng->txt("remove")));
 					$this->tpl->parseCurrentBlock();
 				}
+								
+				// #18327
+				if(!$ilAccess->checkAccessOfUser($team_member_id, "read","", $this->exc->getRefId()) &&
+					is_array($info = $ilAccess->getInfo()))
+				{
+					$this->tpl->setCurrentBlock('team_access_warning');
+					$this->tpl->setVariable('TEAM_PARENT_ACCESS', $info[0]["text"]);
+					$this->tpl->parseCurrentBlock();
+				}		
 				
 				$this->tpl->setCurrentBlock("team_member");
 				$this->tpl->setVariable("TXT_MEMBER_NAME", $team_member_name);
-				$this->tpl->parseCurrentBlock();
+				$this->tpl->parseCurrentBlock();				
 			}
 						
 			if(!$has_no_team_yet)

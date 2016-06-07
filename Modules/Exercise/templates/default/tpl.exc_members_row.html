@@ -13,6 +13,11 @@
   <!-- END img_bl -->
   <td class="std">
   {TXT_NAME}
+		<!-- BEGIN access_warning -->
+		<div class="smallred">
+			{PARENT_ACCESS}
+		</div>
+		<!-- END access_warning -->
   </td>
   <!-- BEGIN login_bl -->
   <td class="std">
@@ -23,20 +28,25 @@
   <!-- BEGIN team_specific -->
   <td class="std">	  
 	  <!-- BEGIN team_member -->
-	  {TXT_MEMBER_NAME} 
+	  {TXT_MEMBER_NAME} 		
+	  <!-- BEGIN team_access_warning -->
+	  <span class="smallred">
+		  {TEAM_PARENT_ACCESS}
+	  </span>
+	  <!-- END team_access_warning -->
 	  <!-- BEGIN team_member_removal_bl -->
 	  <a href="{URL_TEAM_MEMBER_REMOVAL}">{TXT_TEAM_MEMBER_REMOVAL}</a>
-	  <!-- END team_member_removal_bl -->
+	  <!-- END team_member_removal_bl -->	 	
 	  <br />
 	  <!-- END team_member -->
 	  <!-- BEGIN team_log -->
-	  <a href="{HREF_LOG}" class="il_ContainerItemCommand">{TXT_LOG}</a>
+	  <div><a href="{HREF_LOG}" class="il_ContainerItemCommand">{TXT_LOG}</a></div>
 	  <!-- END team_log -->
 	  <!-- BEGIN team_info -->	  
-	  <span class="small">{TXT_TEAM_INFO}
+	  <div class="small">{TXT_TEAM_INFO}
 		  <!-- <a href="{URL_CREATE_TEAM}">{TXT_CREATE_TEAM}</a> -->
 		  {TEAM_FILES_INFO}
-	  </span>
+	  </div>
 	  <!-- END team_info -->
   </td>
   <!-- END team_specific -->
