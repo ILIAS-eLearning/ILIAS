@@ -124,7 +124,7 @@ class ilObjReportEmplAtt extends ilObjReportBase {
 			array_unique(array_map(function($ref_id) {return ilObject::_lookupObjectId($ref_id);},
 									$this->user_utils->getOrgUnitsWhereUserCanViewEduBios())));
 
-		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','crs.crs_id');
+		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','crs.topic_set');
 		$filter	->dateperiod( "period"
 									, $this->plugin->txt("period")
 									, $this->plugin->txt("until")
