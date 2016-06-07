@@ -1019,10 +1019,10 @@ class ilRegistrationSettingsGUI
 			switch($limit)
 			{
 				case "absolute":
-					$date = $this->form_gui->getInput("abs_date");			
-					$date = $date["date"];
-					if($date < date("Y-m-d"))
-					{
+					$date_input = $this->form_gui->getItemByPostVar("abs_date");	
+					if($date_input->getDate()->get(IL_CAL_DATE) < date("Y-m-d"))
+					{						
+						$date_input->setAlert($this->lng->txt("form_msg_wrong_date"));
 						$valid = false;
 					}				
 					break;
@@ -1030,7 +1030,7 @@ class ilRegistrationSettingsGUI
 				case "relative":
 					$date = $this->form_gui->getInput("rel_date");						
 					if(!array_sum($date))
-					{
+					{						
 						$valid = false;
 					}
 					else

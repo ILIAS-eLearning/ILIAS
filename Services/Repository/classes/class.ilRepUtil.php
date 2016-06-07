@@ -403,7 +403,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	/**
 	* Recursive method to insert all saved nodes of the clipboard
 	*/
-	private function insertSavedNodes($a_source_id, $a_dest_id, $a_tree_id, &$a_affected_ids)
+	private static function insertSavedNodes($a_source_id, $a_dest_id, $a_tree_id, &$a_affected_ids)
 	{
 		global $rbacadmin, $rbacreview, $log, $tree;
 
@@ -428,7 +428,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 		$ref_obj = $factory->getInstanceByRefId($a_source_id,FALSE);
 		if($ref_obj instanceof ilObject)
 		{
-			$lroles = $GLOBALS['rbacreview']->getRolesOfRoleFolder($a_source_id,FALSE);
+			$lroles = $GLOBALS['rbacreview']->getRolesOfRoleFolder($a_source_id,true);
 			foreach($lroles as $role_id)
 			{
 				include_once './Services/AccessControl/classes/class.ilObjRole.php';

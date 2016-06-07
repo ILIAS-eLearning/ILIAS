@@ -34,7 +34,7 @@ class ilQTIOutcomes
 	var $comment;
 	var $decvar;
 	
-	function ilQTIOutcomes()
+	function __construct()
 	{
 		$this->decvar = array();
 	}

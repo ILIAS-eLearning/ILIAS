@@ -34,7 +34,7 @@ class ilQTIObjectives
 	var $materials;
 	var $view;
 	
-	function ilQTIObjectives()
+	function __construct()
 	{
 		$this->materials = array();
 		$this->view = "All";

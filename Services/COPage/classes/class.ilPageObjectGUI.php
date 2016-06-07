@@ -3449,9 +3449,11 @@ return;
 		$rad_op3 = new ilRadioOption($lng->txt("cont_scheduled_activation"), "scheduled");
 		
 			$dt_prop = new ilDateTimeInputGUI($lng->txt("cont_start"), "start");
+			$dt_prop->setRequired(true);
 			$dt_prop->setShowTime(true);
 			$rad_op3->addSubItem($dt_prop);
 			$dt_prop2 = new ilDateTimeInputGUI($lng->txt("cont_end"), "end");
+			$dt_prop2->setRequired(true);
 			$dt_prop2->setShowTime(true);
 			$rad_op3->addSubItem($dt_prop2);
 			
@@ -3472,32 +3474,30 @@ return;
 	* Get values for activation form
 	*/
 	function getActivationFormValues()
-	{
-		$values = array();
-		$values["activation"] = "deactivated";
+	{		
+		$activation = "deactivated";
 		if ($this->getPageObject()->getActive())
 		{
-			$values["activation"] = "activated";
+			$activation = "activated";
 		}
 		
 		$dt_prop = $this->form->getItemByPostVar("start");
 		if ($this->getPageObject()->getActivationStart() != "")
 		{
-			$values["activation"] = "scheduled";
+			$activation = "scheduled";
 			$dt_prop->setDate(new ilDateTime($this->getPageObject()->getActivationStart(),
 				IL_CAL_DATETIME));
 		}
 		$dt_prop = $this->form->getItemByPostVar("end");
 		if ($this->getPageObject()->getActivationEnd() != "")
 		{
-			$values["activation"] = "scheduled";
+			$activation = "scheduled";
 			$dt_prop->setDate(new ilDateTime($this->getPageObject()->getActivationEnd(),
 				IL_CAL_DATETIME));
 		}
 		
-		$values["show_activation_info"] = $this->getPageObject()->getShowActivationInfo();
-		
-		$this->form->setValuesByArray($values);
+		$this->form->getItemByPostVar("activation")->setValue($activation);		
+		$this->form->getItemByPostVar("show_activation_info")->setChecked($this->getPageObject()->getShowActivationInfo());		
 	}
 	
 	/**
@@ -3531,7 +3531,7 @@ return;
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "editActivation");
 		}
-		$this->form->getValuesByPost();
+		$this->form->setValuesByPost();
 		$tpl->setContent($this->form->getHTML());
 	}
 

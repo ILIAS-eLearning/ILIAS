@@ -411,12 +411,14 @@ class ilObjRole extends ilObject
 		// Temporary bugfix
 		if($rbacreview->hasMultipleAssignments($this->getId()))
 		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Found role with multiple assignments: '.$this->getId());
+			ilLoggerFactory::getLogger('ac')->warning('Found role with multiple assignments: role_id: ' . $this->getId());
+			ilLoggerFactory::getLogger('ac')->warning('Aborted deletion of role.');
 			return false;
 		}
 		
 		if ($rbacreview->isAssignable($this->getId(),$this->getParent()))
 		{
+			ilLoggerFactory::getLogger('ac')->debug('Handling assignable role...');
 			// do not delete a global role, if the role is the last 
 			// role a user is assigned to.
 			//
@@ -427,6 +429,7 @@ class ilObjRole extends ilObject
 			$last_role_user_ids = array();
 			if ($this->getParent() == ROLE_FOLDER_ID)
 			{
+				ilLoggerFactory::getLogger('ac')->debug('Handling global role...');
 				// The role is a global role: check if 
 				// we find users who aren't assigned to any
 				// other global role than this one.
@@ -450,7 +453,6 @@ class ilObjRole extends ilObject
 			{
 				foreach ($last_role_user_ids as $user_id)
 				{
-//echo "<br>last role for user id:".$user_id.":";
 					// GET OBJECT TITLE
 					$tmp_obj = $this->ilias->obj_factory->getInstanceByObjId($user_id);
 					$user_names[] = $tmp_obj->getFullname();
@@ -461,12 +463,13 @@ class ilObjRole extends ilObject
 				// roles were selected the other roles are still deleted and the system does not
 				// give any feedback about this.
 				$users = implode(', ',$user_names);
+				ilLoggerFactory::getLogger('ac')->info('Cannot delete last global role of users.');
 				$this->ilias->raiseError($this->lng->txt("msg_user_last_role1")." ".
 									 $users."<br/>".$this->lng->txt("msg_user_last_role2"),$this->ilias->error_obj->WARNING);				
 			}
 			else
 			{
-				// IT'S A BASE ROLE
+				ilLoggerFactory::getLogger('ac')->debug('Starting deletion of assignable role: role_id: ' . $this->getId());
 				$rbacadmin->deleteRole($this->getId(),$this->getParent());
 
 				// Delete ldap role group mappings
@@ -488,6 +491,7 @@ class ilObjRole extends ilObject
 		}
 		else
 		{
+			ilLoggerFactory::getLogger('ac')->debug('Starting deletion of linked role: role_id ' . $this->getId());
 			// linked local role: INHERITANCE WAS STOPPED, SO DELETE ONLY THIS LOCAL ROLE
 			$rbacadmin->deleteLocalRole($this->getId(),$this->getParent());
 		}

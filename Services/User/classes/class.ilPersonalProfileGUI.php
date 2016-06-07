@@ -864,24 +864,10 @@ class ilPersonalProfileGUI
 					switch($f)
 					{
 						case "birthday":
-							if (is_array($value))
-							{
-								if (is_array($value['date']))
-								{
-									if (($value['d'] > 0) && ($value['m'] > 0) && ($value['y'] > 0))
-									{
-										$ilUser->setBirthday(sprintf("%04d-%02d-%02d", $value['y'], $value['m'], $value['d']));
-									}
-									else
-									{
-										$ilUser->setBirthday("");
-									}
-								}
-								else
-								{
-									$ilUser->setBirthday($value['date']);
-								}
-							}
+							$value = $item->getDate();
+							$ilUser->setBirthday($value
+								? $value->get(IL_CAL_DATE)
+								: "");							
 							break;
 					
 						default:

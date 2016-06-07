@@ -12066,6 +12066,7 @@ dcl#:#dcl_desc#:#Absteigende Reihenfolge (DESC)
 dcl#:#dcl_comments#:#Kommentare
 dcl#:#dcl_comments_description#:#Zeigt die Anzahl Kommentare eines Eintrags.
 dcl#:#dcl_manage#:#Verwalten
+dcl#:#dcl_display_record_alt#:#Diesen Eintrag anzeigen
 dcl#:#dcl_delete_records#:#Datensätze löschen
 dcl#:#dcl_confirm_delete_records#:#Sind Sie sicher, dass die folgenden Datensätze gelöscht werden sollen?
 dcl#:#dcl_deleted_records#:#Es wurden %s Datensätze gelöscht
@@ -15724,3 +15725,5 @@ rbac#:#mep_copy#:#Medienpool kopieren
 crs#:#crs_cannot_find_role#:#Rolle konnte nicht gefunden werden.
 grp#:#grp_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
 crs#:#crs_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
+form#:#form_date_duration_start#:#Start
+form#:#form_date_duration_end#:#Ende

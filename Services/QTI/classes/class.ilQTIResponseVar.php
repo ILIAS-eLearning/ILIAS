@@ -58,7 +58,7 @@ class ilQTIResponseVar
 	var $areatype;
 	var $content;
 	
-	function ilQTIResponseVar($a_vartype)
+	function __construct($a_vartype)
 	{
 		$this->setVartype($a_vartype);
 	}

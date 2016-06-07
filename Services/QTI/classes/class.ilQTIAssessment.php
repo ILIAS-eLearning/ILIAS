@@ -54,7 +54,7 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
 	var $sectionref;
 	var $section;
 	
-	function ilQTIAssessment()
+	function __construct()
 	{
 		$this->qtimetadata = array();
 		$this->objectives = array();

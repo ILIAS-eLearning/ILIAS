@@ -1703,7 +1703,7 @@ class ilTrQuery
 		return $res;
 	}
 
-	function getObjectTypeStatistics()
+	static function getObjectTypeStatistics()
 	{
 		global $ilDB, $objDefinition;
 		
@@ -1943,7 +1943,7 @@ class ilTrQuery
 		return $res;
 	}
 	
-	function getObjectTypeStatisticsPerMonth($a_aggregation, $a_year = null)
+	static function getObjectTypeStatisticsPerMonth($a_aggregation, $a_year = null)
 	{
 		global $ilDB;
 		

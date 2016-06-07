@@ -545,7 +545,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		{
 			// :TODO: inactive for now
 		}
-
+		
 		return $mytpl->get();
 	}
 	
@@ -605,33 +605,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				// #13738
 				if($user_settings->getTimeFormat() == ilCalendarSettings::TIME_FORMAT_12)
 				{					
-					if(stristr($period[0], "pm"))
-					{
-						$period[0] = (int)$period[0]+12;
-					}
-					else
-					{
-						$period[0] = (int)$period[0];
-						if($period[0] == 12)
-						{
-							$period[0] = 0;
-						}
-					}					
+					$period[0] = date("H", strtotime($period[0]));						
 					if(sizeof($period) == 2)
 					{
-						if(stristr($period[1], "pm"))
-						{
-							$period[1] = (int)$period[1]+12;
-						}
-						else
-						{
-							$period[1] = (int)$period[1];
-							if($period[1] == 12)
-							{
-								$period[1] = 0;
-							}
-						}
-					}					
+						$period[1] = date("H", strtotime($period[1]));		
+					}							
 				}
 				
 				if(sizeof($period) == 1)
@@ -692,10 +670,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 								continue;
 							}							
 						}
-
+						
 						// is slot active in current hour?
 						if((int)$slot['from'] < $period_to && (int)$slot['to'] > $period_from)
-						{
+						{																					
 							$from = ilDatePresentation::formatDate(new ilDateTime($slot_from, IL_CAL_UNIX));
 							$from = array_pop(explode(' ', $from));
 							$to = ilDatePresentation::formatDate(new ilDateTime($slot_to, IL_CAL_UNIX));
@@ -958,6 +936,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$form->addItem($rec_mode);
 
 		$rec_end = new ilDateTimeInputGUI($this->lng->txt("cal_repeat_until"), "rece");		
+		$rec_end->setRequired(true);
 		$rec_mode->addSubItem($rec_end);	
 					
 		if(!$a_reload)
@@ -1041,11 +1020,15 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		}
 		
 		// recurrence
-		if((int)$_POST["recm"] > 0 && $current_first)
+		
+		// checkInput() has not been called yet, so we have to improvise
+		include_once 'Services/Calendar/classes/class.ilCalendarUtil.php';
+		$end = ilCalendarUtil::parseIncomingDate($_POST["rece"], null);		
+		
+		if((int)$_POST["recm"] > 0 && $end && $current_first)
 		{
 			ksort($counter);			
-			$end = $_POST["rece"]["date"];
-			$end = date("Y-m-d", mktime(23, 59, 59, $end["m"], $end["d"], $end["y"]));					
+			$end = $end->get(IL_CAL_DATE);	
 			$cycle = (int)$_POST["recm"]*7;			
 			$cut = 0;		
 			$org = $counter;

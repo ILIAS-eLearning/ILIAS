@@ -1247,49 +1247,6 @@ class ilObjectListGUI
 				}
 			}
 			// END WebDAV Display warning for invisible files and files with special characters
-		
-			// BEGIN ChangeEvent: display changes.
-			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			if (ilChangeEvent::_isActive())
-			{
-				global $ilias, $lng, $ilUser;
-				if ($ilias->account->getId() != ANONYMOUS_USER_ID)
-				{
-					// Performance improvement: for container objects
-					// we only display 'changed inside' events, for
-					// leaf objects we only display 'object new/changed'
-					// events
-					$isContainer = in_array($this->type, array('cat', 'fold', 'crs', 'grp'));
-					if($isContainer)
-					{
-						$state = ilChangeEvent::_lookupInsideChangeState($this->obj_id, $ilUser->getId());
-						if($state > 0)
-						{
-							$props[] = array(
-								"alert" => true,
-								"value" => $lng->txt('state_changed_inside'),
-								'propertyNameVisible' => false);
-						}
-					}
-					/*
-					 * elseif(!$objDefinition->isAdministrationObject(ilObject::_lookupType($this->obj_id)))
-					 * 
-					 * only files support write events properly
-					 */
-					elseif($this->type == "file")
-					{
-						$state = ilChangeEvent::_lookupChangeState($this->obj_id, $ilUser->getId());
-						if($state > 0)
-						{
-							$props[] = array(
-								"alert" => true,
-								"value" => $lng->txt(($state == 1) ? 'state_unread' : 'state_changed'),
-								'propertyNameVisible' => false);
-						}
-					}
-				}
-			}
-			// END ChangeEvent: display changes.
 		}
 
 		return $props;

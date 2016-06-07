@@ -917,7 +917,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	/**
 	* display form for category import (static, also called by RootFolderGUI)
 	*/
-	function _importCategoriesForm ($a_ref_id, &$a_tpl)
+	public static function _importCategoriesForm ($a_ref_id, &$a_tpl)
 	{
 		global $lng, $rbacreview;
 
@@ -1012,7 +1012,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	* import categories (static, also called by RootFolderGUI)
 	*/
 	
-	function _importCategories($a_ref_id, $withrol_tmp)	
+	public static function _importCategories($a_ref_id, $withrol_tmp)	
 	{
 		global $lng;
 

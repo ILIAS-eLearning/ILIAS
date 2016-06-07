@@ -120,7 +120,7 @@ class ilTimingPlaned
 		return ilTimingPlaned::_delete($this->getItemId(),$this->getUserId());
 	}
 
-	function _delete($a_item_id,$a_usr_id)
+	public static function _delete($a_item_id,$a_usr_id)
 	{
 		global $ilDB;
 
@@ -131,7 +131,7 @@ class ilTimingPlaned
 	}
 
 	// Static
-	function _getPlanedTimings($a_usr_id,$a_item_id)
+	public static function _getPlanedTimings($a_usr_id,$a_item_id)
 	{
 		global $ilDB;
 
@@ -163,7 +163,7 @@ class ilTimingPlaned
 		return $data ? $data : array();
 	}
 
-	function _deleteByItem($a_item_id)
+	public static function _deleteByItem($a_item_id)
 	{
 		global $ilDB;
 
@@ -172,7 +172,7 @@ class ilTimingPlaned
 		$res = $ilDB->manipulate($query);
 	}
 
-	function _deleteByUser($a_usr_id)
+	public static function _deleteByUser($a_usr_id)
 	{
 		global $ilDB;
 

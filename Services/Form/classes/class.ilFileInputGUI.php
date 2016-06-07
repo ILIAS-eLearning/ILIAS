@@ -417,6 +417,11 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 		$f_tpl->setVariable("ID", $this->getFieldId());
 		$f_tpl->setVariable("SIZE", $this->getSize());
 		
+		
+		/* experimental: bootstrap'ed file upload */
+		$f_tpl->setVariable("TXT_BROWSE", $lng->txt("select_file"));
+		
+		
 		return $f_tpl->get();
 	}
 	

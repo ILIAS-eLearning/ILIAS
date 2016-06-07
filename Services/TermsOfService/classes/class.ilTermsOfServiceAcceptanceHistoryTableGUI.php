@@ -185,8 +185,9 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 		$this->filter['lng'] = $si->getValue();
 		
 		include_once 'Services/Form/classes/class.ilDateDurationInputGUI.php';
-		$tpl->addJavaScript('./Services/Form/js/date_duration.js');
+		$tpl->addJavaScript("./Services/Form/js/Form.js");
 		$duration = new ilDateDurationInputGUI($this->lng->txt('tos_period'), 'period');
+		$duration->setRequired(true);
 		$duration->setStartText($this->lng->txt('tos_period_from'));
 		$duration->setEndText($this->lng->txt('tos_period_until'));
 		$duration->setStart(new ilDateTime(strtotime('-1 year', time()), IL_CAL_UNIX));
