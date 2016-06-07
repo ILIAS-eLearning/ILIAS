@@ -134,9 +134,18 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 		."							OR `usrcrs`.`end_date` = '0000-00-00' OR `usrcrs`.`end_date` = '-empty-'))"
 		."			LEFT JOIN `hist_course` crs "
 		."				ON usrcrs.crs_id = crs.crs_id AND crs.hist_historic = 0 "
-		."					AND ".$this->tpl_filter
-		."			".$this->queryWhere()
+		."					AND ".$this->tpl_filter;
+		$topics = $this->filter->get('crs_topics');
+		if(count($topics) > 0) {
+			$sum_sql .=
+			"			JOIN hist_topicset2topic ts2t ON crs.topic_set = ts2t.topic_set_id"
+			."			JOIN hist_topics ts ON ts2t.topic_id = ts.topic_id "
+			."				AND ".$this->gIldb->in("ts.topic_title", $topics, false, 'text');
+		}	
+		$sum_sql .=
+		"			".$this->queryWhere()
 		.") as temp";
+//die($sum_sql);
 		return $sum_sql;
 	}
 
@@ -166,7 +175,7 @@ class ilObjReportOrguAtt extends ilObjReportBase {
 				array_unique(array_map(function($ref_id) {return ilObject::_lookupObjectId($ref_id);},
 										$this->user_utils->getOrgUnitsWhereUserCanViewEduBios())));
 		}
-		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','usrcrs.crs_id');
+		$this->crs_topics_filter = new courseTopicsFilter('crs_topics','crs.topic_set');
 		$this->orgu_filter->addToFilter($filter);
 		$this->crs_topics_filter->addToFilter($filter);
 		$filter	->dateperiod( "period"
