@@ -130,7 +130,8 @@ class ilBadgeTableGUI extends ilTable2GUI
 			$actions = new ilAdvancedSelectionListGUI();
 			$actions->setListTitle($lng->txt("actions"));
 			
-			if($a_set["manual"])
+			if($a_set["manual"] && 
+				$a_set["active"])
 			{
 				$ilCtrl->setParameter($this->getParentObject(), "bid", $a_set["id"]);
 				$ilCtrl->setParameter($this->getParentObject(), "tgt", "bdgl");
