@@ -60,16 +60,16 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         //roles
         $item = new ilMultiSelectInputGUI($this->lng->txt('roles'), 'roles');
         $options = array();
-        foreach ($rbacreview->getGlobalRoles() as $role_id)
+        foreach ($rbacreview->getParentRoleIds($_GET['ref_id']) as $role_array)
         {
-            $role = new ilObjRole($role_id);
-            $options[$role_id] = $role->getTitle();
+            $options[$role_array['obj_id']] = ilObjRole::_getTranslation($role_array['title']);
         }
         foreach ($rbacreview->getLocalRoles($_GET['ref_id']) as $role_id)
         {
             $role = new ilObjRole($role_id);
-            $options[$role_id] = $role->getTitle();
+            $options[$role_id] = ilObjRole::_getTranslation($role->getTitle());
         }
+
         $item->setOptions($options);
         $item->setValue($this->tableview->getRoles());
         $this->addItem($item);

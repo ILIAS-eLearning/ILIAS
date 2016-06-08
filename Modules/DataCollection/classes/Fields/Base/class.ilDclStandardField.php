@@ -44,7 +44,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
 	 */
 	public function doUpdate()
 	{
-		$this->updateExportability();
+		$this->updateTableFieldSetting();
 	}
 
 

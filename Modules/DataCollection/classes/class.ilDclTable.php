@@ -209,17 +209,6 @@ class ilDclTable {
 		if ($exec_delete) {
 			$query = "DELETE FROM il_dcl_table WHERE id = " . $ilDB->quote($this->getId(), "integer");
 			$ilDB->manipulate($query);
-
-			// Delete also view definitions
-			$set = $ilDB->query('SELECT * FROM il_dcl_view WHERE table_id = ' . $ilDB->quote($this->getId(), 'integer'));
-			$view_ids = array();
-			while ($row = $ilDB->fetchObject($set)) {
-				$view_ids[] = $row->id;
-			}
-			if (count($view_ids)) {
-				$ilDB->manipulate("DELETE FROM il_dcl_viewdefinition WHERE view_id IN (" . implode(',', $view_ids) . ")");
-			}
-			$ilDB->manipulate("DELETE FROM il_dcl_view WHERE table_id = " . $ilDB->quote($this->getId(), 'integer'));
 		}
 	}
 
@@ -227,7 +216,7 @@ class ilDclTable {
 	/**
 	 * @param bool $create_views
 	 */
-	public function doCreate($create_views = true, $create_standardview = true) {
+	public function doCreate($create_tablefield_setting = true, $create_standardview = true) {
 		global $ilDB;
 
 		$id = $ilDB->nextId("il_dcl_table");
@@ -251,24 +240,10 @@ class ilDclTable {
 
 		if ($create_standardview) {
 			//standard tableview
-			ilDclTableView::createStandardView($this->id);
+			ilDclTableView::createOrGetStandardView($this->id);
 		}
 
-		if ($create_views) {
-			//add edit definition
-			$view_id = $ilDB->nextId("il_dcl_view");
-			$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (" . $ilDB->quote($view_id, "integer") . ", "
-				. $ilDB->quote($this->id, "integer") . ", " . $ilDB->quote(ilDclBaseFieldModel::EDIT_VIEW, "integer") . ", "
-				. $ilDB->quote(1, "integer") . ")";
-			$ilDB->manipulate($query);
-
-			//add filter definition
-			$view_id = $ilDB->nextId("il_dcl_view");
-			$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (" . $ilDB->quote($view_id, "integer") . ", "
-				. $ilDB->quote($this->id, "integer") . ", " . $ilDB->quote(ilDclBaseFieldModel::EXPORTABLE_VIEW, "integer") . ", "
-				. $ilDB->quote(1, "integer") . ")";
-			$ilDB->manipulate($query);
-
+		if ($create_tablefield_setting) {
 			$this->buildOrderFields();
 		}
 	}
@@ -506,14 +481,13 @@ class ilDclTable {
 
 
 	protected function loadFields() {
-		if ($this->fields === NULL) {
+		if (!$this->fields) {
 			global $ilDB;
 
 			$query = "SELECT DISTINCT field.* FROM il_dcl_field AS field
-			          INNER JOIN il_dcl_view AS view ON view.table_id = field.table_id
-			          INNER JOIN il_dcl_viewdefinition AS def ON def.view_id = view.id
+			          INNER JOIN il_dcl_tfield_set AS setting ON setting.table_id = field.table_id
 			          WHERE field.table_id =" . $ilDB->quote($this->getId(), "integer") . "
-			          ORDER BY def.field_order DESC";
+			          ORDER BY setting.field_order DESC";
 			$fields = array();
 			$set = $ilDB->query($query);
 

@@ -58,6 +58,7 @@ class ilDclTableViewGUI
         $this->tabs = $ilTabs;
         $this->toolbar = $ilToolbar;
         $this->table = ilDclCache::getTableCache($table_id);
+
     }
 
 

@@ -42,7 +42,19 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
         $this->setDefaultOrderDirection('asc');
 
-        $this->setData(ilDclTableViewFieldSetting::getAllForTableViewId($a_parent_obj->tableview->getId()));
+        $this->parseData(ilDclTableViewFieldSetting::getAllForTableViewId($a_parent_obj->tableview->getId()));
+    }
+
+    public function parseData($data) {
+        //enable/disable comments
+        if (!$this->parent_obj->table->getPublicCommentsEnabled()) {
+            foreach ($data as $key => $rec) {
+                if ($rec->getField() == 'comments') {
+                    unset($data[$key]);
+                }
+            }
+        }
+        $this->setData($data);
     }
 
     /**

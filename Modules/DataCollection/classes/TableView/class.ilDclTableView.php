@@ -319,6 +319,7 @@ class ilDclTableView extends ActiveRecord
             $field_set->setTableviewId($this->id);
             $field_set->setField($field_id);
             $field_set->setVisible(!ilDclStandardField::_isStandardField($field_id));
+            $field_set->setFilterChangeable(true);
             $field_set->create();
         }
     }
@@ -379,12 +380,19 @@ class ilDclTableView extends ActiveRecord
      * @param bool $create_default_settings
      * @return ilDclTableView
      */
-    public static function createStandardView($table_id, $create_default_settings = true)
+    public static function createOrGetStandardView($table_id, $create_default_settings = true)
     {
+        if ($standardview = self::where(array('table_id' => $table_id))->orderBy('tableview_order')->first()) {
+            return $standardview;
+        }
+        
         global $rbacreview;
-        $ref_id = ilDclCache::getTableCache($table_id)->getCollectionObject()->getRefId();
+        $roles = array();
+        foreach ($rbacreview->getParentRoleIds($_GET['ref_id']) as $role_array) {
+            $roles[] = $role_array['obj_id'];
+        }
         $view = new self();
-        $view->setRoles(array_merge($rbacreview->getGlobalRoles(), $rbacreview->getLocalRoles($ref_id)));
+        $view->setRoles(array_merge($roles, $rbacreview->getLocalRoles($_GET['ref_id'])));
         $view->setTableId($table_id);
         $view->setTitle('Standardview');
         $view->setTableviewOrder(10);

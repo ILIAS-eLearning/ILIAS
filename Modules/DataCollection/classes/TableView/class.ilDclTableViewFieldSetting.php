@@ -3,6 +3,8 @@ require_once('./Services/ActiveRecord/class.ActiveRecord.php');
 /**
  * Class ilDclTableViewFieldSetting
  *
+ * defines tableview/field specific settings: visible, in_filter, filter_value, filter_changeable
+ *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup ModulesDataCollection
  */
@@ -282,7 +284,14 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @param $field_id
      * @return ActiveRecord
      */
-    public static function findByIds($tableview_id, $field_id) {
-        return self::where(array('field' => $field_id, 'tableview_id' => $tableview_id))->first();
+    public static function getInstance($tableview_id, $field_id) {
+        if ($setting = self::where(array('field' => $field_id, 'tableview_id' => $tableview_id))->first()) {
+            return $setting;
+        } else {
+            $setting = new self();
+            $setting->setField($field_id);
+            $setting->setTableviewId($tableview_id);
+            return $setting;
+        }
     }
 }
