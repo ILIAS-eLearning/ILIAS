@@ -625,8 +625,16 @@ class ilSetup extends PEAR
 	 */
 	protected function checkOpcacheSettings() {
 		$arr = array();
+		// correct-with-php5-removal FSX start
+		if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
+			$arr["status"] = true;
+
+			return $arr;
+		}
+		// correct-with-php5-removal FSX end
+
 		$load_comments = ini_get("opcache.load_comments");
-		if($load_comments == 1) {
+		if ($load_comments == 1) {
 			$arr["status"] = true;
 		} else {
 			$arr["status"] = false;
