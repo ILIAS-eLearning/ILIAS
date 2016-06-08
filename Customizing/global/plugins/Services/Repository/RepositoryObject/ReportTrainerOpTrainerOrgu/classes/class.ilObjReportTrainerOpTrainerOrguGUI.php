@@ -26,4 +26,13 @@ class ilObjReportTrainerOpTrainerOrguGUI extends ilObjReportBaseGUI {
 		$a_title->image("GEV_img/ico-head-edubio.png");
 		return $a_title;
 	}
+
+	public static function transformResultRow($rec) {
+		return $rec;
+	}
+
+	public static function transformResultRowXLSX($rec) {
+		$rec["title"] =  preg_replace("#&[a-z0-9]{2,8};#i","",strip_tags($rec['title']));
+		return $rec;
+	}
 }
