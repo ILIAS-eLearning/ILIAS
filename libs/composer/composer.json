@@ -13,7 +13,11 @@
 		"phpmailer/phpmailer": "^5.2",
 		"phansys/getid3": "^1.9.4",
 		"geshi/geshi": "dev-master",
-		"tecnickcom/tcpdf": "^6.2.12"
+		"tecnickcom/tcpdf": "^6.2.12",
+		"pimple/pimple" : "^3.0"
+	},
+	"autoload": {
+		"psr-4" : { "ILIAS\\" : "../../src" }
 	},
 	"extra": {
 		"cweagans/composer-patches" : {
@@ -95,6 +99,16 @@
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
 			"last_update" : "2016-06-02",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>"
+		},
+		"pimple/pimple" : {
+			"source" : "https://github.com/silexphp/Pimple.git",
+			"used_version" : "v3.0.2",
+			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
+			"used_by" : "ILIAS\\DI\\Container",
+			"wrapped_by" : "ILIAS\\DI\\Container",
+			"last_update" : "2016-02-29",
+			"last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>"
+
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {
