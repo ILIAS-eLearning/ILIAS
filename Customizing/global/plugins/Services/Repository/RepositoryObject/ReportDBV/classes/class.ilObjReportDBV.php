@@ -111,7 +111,7 @@ class ilObjReportDBV extends ilObjReportBase {
 	protected function buildTable($table) {
 		$this->table_sums = catReportTable::create()
 				->column("sum_credit_points", $this->plugin->txt("sum_credit_points"), true, "", false, false)
-				->column("sum_credit_points_forecat", $this->plugin->txt("sum_credit_points_forecast"), true, "", false, false)
+				->column("sum_credit_points_forecast", $this->plugin->txt("sum_credit_points_forecast"), true, "", false, false)
 				->template("tpl.gev_dbv_report_sum_row.html", $this->plugin->getDirectory());
 
 		$table	->column("lastname", $this->plugin->txt("lastname"), true)
@@ -143,13 +143,15 @@ class ilObjReportDBV extends ilObjReportBase {
 	}
 
 	protected function sumData($data) {
-		$to_sum = array("sum_credit_points" => "credit_points","sum_credit_points_forecast" => "credit_points_forecast");
+		var_dump($data);
+		$to_sum = array("sum_credit_points" => "credit_points","sum_credit_points_forecast" => "max_credit_points");
 		$summed_data = array_fill_keys(array_keys($to_sum), 0);
 		foreach ($data as $row) {
 			foreach($to_sum as $sum_key => $data_key) {
 				$summed_data[$sum_key] += is_numeric($row[$data_key]) ? $row[$data_key] : 0;
 			}
 		}
+		var_dump($summed_data);
 		return $summed_data;
 	}
 
