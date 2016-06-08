@@ -485,17 +485,16 @@ class ilDclTable {
 			global $ilDB;
 
 			$query = "SELECT DISTINCT field.* FROM il_dcl_field AS field
-			          INNER JOIN il_dcl_tfield_set AS setting ON setting.table_id = field.table_id
+			          INNER JOIN il_dcl_tfield_set AS setting ON (setting.table_id = field.table_id AND field.id = setting.field)
 			          WHERE field.table_id =" . $ilDB->quote($this->getId(), "integer") . "
-			          ORDER BY setting.field_order DESC";
+			          ORDER BY setting.field_order ASC";
 			$fields = array();
 			$set = $ilDB->query($query);
 
 			while ($rec = $ilDB->fetchAssoc($set)) {
 				$field = ilDclCache::buildFieldFromRecord($rec);
-				$fields[$field->getId()] = $field;
+				$fields[] = $field;
 			}
-			$this->sortByOrder($fields);
 			$this->fields = $fields;
 
 			ilDclCache::preloadFieldProperties(array_keys($fields));
@@ -602,7 +601,11 @@ class ilDclTable {
 		}
 		return $visible_views;
 	}
-	
+
+	/**
+	 * @param $ref_id
+	 * @return bool
+	 */
 	public function getFirstTableViewId($ref_id) {
 		$tableview = array_shift($this->getVisibleTableViews($ref_id));
 		return $tableview ? $tableview->getId() : false;

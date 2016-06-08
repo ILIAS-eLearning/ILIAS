@@ -38,6 +38,10 @@ class ilDclRecordViewGUI {
 	 */
 	protected $table;
 	/**
+	 * @var integer
+	 */
+	protected $tableview_id;
+	/**
 	 * @var  ilDclBaseRecordModel
 	 */
 	protected $record_obj;
@@ -113,9 +117,10 @@ class ilDclRecordViewGUI {
 
 	public function executeCommand() {
 		global $ilCtrl;
+		$this->tableview_id = $_GET['tableview_id'] ? $_GET['tableview_id'] : $this->table->getFirstTableViewId($_GET['ref_id']);
+
 		if (!ilObjDataCollectionAccess::hasWriteAccess($_GET['ref_id']) &&
-			(!ilObjDataCollectionAccess::hasAccessToTableView($_GET['tableview_id'])
-			|| !ilDclRecordViewViewdefinition::isActive($_GET['tableview_id'])))
+			(!ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id) || !ilDclRecordViewViewdefinition::isActive($this->tableview_id)))
 		{
 			$this->offerAlternativeViews();
 			return;
@@ -193,15 +198,13 @@ class ilDclRecordViewGUI {
 
 		$ilTabs->setTabActive("id_content");
 
-		$view_id = $_GET['tableview_id'];
-
-		if (!$view_id) {
+		if (!$this->tableview_id) {
 			$ilCtrl->redirectByClass("ildclrecordlistgui", "listRecords");
 		}
 
 		// see ilObjDataCollectionGUI->executeCommand about instantiation
 		include_once("./Modules/DataCollection/classes/class.ilDclRecordViewViewdefinitionGUI.php");
-		$pageObj = new ilDclRecordViewViewdefinitionGUI($view_id);
+		$pageObj = new ilDclRecordViewViewdefinitionGUI($this->tableview_id);
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$pageObj->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "dcl"));
 

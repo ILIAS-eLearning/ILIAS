@@ -244,20 +244,18 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 	public static function hasAccessToTableView($tableview)
 	{
 		global $rbacreview, $ilUser;
+		if (!$tableview) {
+			return false;
+		}
+
 		if (is_numeric($tableview)) {
 			$tableview = ilDclTableView::find($tableview);
 		}
-		$assigned_roles = $rbacreview->assignedGlobalRoles($ilUser->getId());
+
+		$assigned_roles = $rbacreview->assignedRoles($ilUser->getId());
 		$allowed_roles = $tableview->getRoles();
 
-		foreach ($assigned_roles as $role_id)
-		{
-			if (in_array($role_id, $allowed_roles))
-			{
-				return true;
-			}
-		}
-		return false;
+		return !empty(array_intersect($assigned_roles, $allowed_roles));
 	}
 	
 	

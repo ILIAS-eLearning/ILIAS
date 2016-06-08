@@ -77,15 +77,17 @@ class ilDclRecordListGUI {
 		} else {
 			//get first visible tableview
 			$this->tableview_id = $this->table_obj->getFirstTableViewId($this->parent_obj->ref_id);
-			if (!$this->tableview_id){
-				$this->parent_obj->tpl->setContent('Permission denied');
-				$this->parent_obj->tpl->show();
-				return;
-			}
 			//this is for ilDclTextRecordRepresentation with link to detail page
 			$_GET['tableview_id'] = $this->tableview_id; //TODO: find better way
 
 		}
+		
+		if (!ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id)){
+			$this->parent_obj->tpl->setContent('Permission denied');
+			$this->parent_obj->tpl->show();
+			return;
+		}
+		
 		$this->ctrl->setParameterByClass("ildclrecordeditgui", "table_id", $this->table_id);
 		$this->ctrl->setParameterByClass("ildclrecordviewgui", "tableview_id", $this->tableview_id);
 		$this->mode = (isset($_GET['mode']) && in_array($_GET['mode'], self::$available_modes)) ? (int)$_GET['mode'] : self::MODE_VIEW;

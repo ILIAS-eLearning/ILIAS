@@ -130,7 +130,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_EXCEL_ASYNC));
 		}
 
-//		$ilCtrl->saveParameter($a_parent_obj, 'tableview_gui');
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
 		$this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
 	}
@@ -300,7 +299,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 	 * init filters with values from tableview
 	 */
 	public function initFilterFromTableView() {
-		foreach ($this->tableview->getFilterableFields(true) as $field_set) {
+		foreach ($this->tableview->getFilterableFieldSettings() as $field_set) {
 			$field = $field_set->getFieldObject();
 			ilDclCache::getFieldRepresentation($field)->addFilterInputFieldToTable($this);
 
@@ -326,7 +325,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 	 * normally initialize filters - used by applyFilter and resetFilter
 	 */
 	public function initFilter() {
-		foreach ($this->tableview->getFilterableFields(true) as $field_set) {
+		foreach ($this->tableview->getFilterableFieldSettings() as $field_set) {
 			$field = $field_set->getFieldObject();
 			$filter_value = ilDclCache::getFieldRepresentation($field)->addFilterInputFieldToTable($this);
 

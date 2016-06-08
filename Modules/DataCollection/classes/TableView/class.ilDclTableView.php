@@ -71,6 +71,11 @@ class ilDclTableView extends ActiveRecord
     protected $tableview_order;
 
     /**
+     * @var ilDclBaseFieldModel[]
+     */
+    protected $visible_fields_cache;
+
+    /**
      * @return string
      * @description Return the Name of your Database Table
      */
@@ -240,43 +245,35 @@ class ilDclTableView extends ActiveRecord
 
     /**
      * getFilterableFields
-     * Returns all  field-objects (or field-settings if flag is true) of this tableview which have set their filterable to true, including standard fields.
+     * Returns all  fieldsetting-objects of this tableview which have set their filterable to true, including standard fields.
      *
      * @return ilDclBaseFieldModel[]|ilDclTableViewFieldSetting[]
      */
-    public function getFilterableFields($as_field_setting = false)
+    public function getFilterableFieldSettings()
     {
-        return $this->getFields('in_filter', $as_field_setting);
+        return ilDclTableViewFieldSetting::where(array("tableview_id" => $this->id, 'in_filter' => true))->get();
     }
 
     /**
-     * Returns all field-objects (or field-settings if flag is true) of this tableview which have set their visibility to true, including standard fields.
+     * Returns all field-objects of this tableview which have set their visibility to true, including standard fields.
      *
      * @return ilDclBaseFieldModel[]|ilDclTableViewFieldSetting[]
      */
-    public function getVisibleFields($as_field_setting = false) {
-        return $this->getFields('visible', $as_field_setting);
-    }
-
-    /**
-     * @param $property
-     * @param bool $as_field_setting return ilDclTableViewFieldSetting[] if true, ilDclBaseFieldModel[] otherwise
-     * @return ilDclTableViewFieldSetting[]|ilDclBaseFieldModel[]
-     */
-    public function getFields($property, $as_field_setting = false)
-    {
-        $fieldRecords = ilDclTableViewFieldSetting::where(array("tableview_id" => $this->id, $property => true))->get();
-        if ($as_field_setting)
-        {
-            return $fieldRecords;
+    public function getVisibleFields() {
+        if (!$this->visible_fields_cache) {
+            $visible = ilDclTableViewFieldSetting::
+                where(array("tableview_id" => $this->id, 'visible' => true, 'il_dcl_tfield_set.table_id' => $this->getTableId()))
+                ->innerjoin('il_dcl_tfield_set', 'field', 'field')
+                ->orderBy('il_dcl_tfield_set.field_order')
+                ->get();
+            $fields = array();
+            foreach ($visible as $field_rec) {
+                $fields[] = $field_rec->getFieldObject();
+            }
+            $this->visible_fields_cache = $fields;
         }
 
-        $fields = array();
-
-        foreach ($fieldRecords as $field_rec) {
-            $fields[] = $field_rec->getFieldObject();
-        }
-        return $fields;
+        return $this->visible_fields_cache;
     }
 
     /**

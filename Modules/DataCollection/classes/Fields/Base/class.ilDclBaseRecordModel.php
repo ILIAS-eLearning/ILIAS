@@ -595,7 +595,7 @@ class ilDclBaseRecordModel {
 	 * Load record fields
 	 */
 	private function loadRecordFields() {
-//		if ($this->recordfields == NULL) {
+		if ($this->recordfields == NULL) {
 			$this->loadTable();
 			$recordfields = array();
 			foreach ($this->table->getRecordFields() as $field) {
@@ -605,7 +605,7 @@ class ilDclBaseRecordModel {
 			}
 
 			$this->recordfields = $recordfields;
-//		}
+		}
 	}
 
 
