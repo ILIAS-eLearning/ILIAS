@@ -242,8 +242,14 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 			{				
 				if(!isset($user_data[$item["owner"]]))
 				{
-					$user_data[$item["owner"]] = ilObjUser::_lookupName($item["owner"]);
+					$user_data[$item["owner"]] = ilObjUser::_lookupName($item["owner"]);					
 				}				
+								
+				// #18535 - deleted user?
+				if(!$user_data[$item["owner"]]["login"])
+				{
+					continue;
+				}
 				
 				$data[] = array(
 					"wsp_id" => $wsp_id,
