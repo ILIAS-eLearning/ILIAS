@@ -2269,36 +2269,5 @@ class ilSetup extends PEAR
 
 		return ($ini_get === 1 OR $ini_get === '1' OR strtolower($ini_get) === 'on');
 	}
-} // END class.ilSetup
-
-class tmpDirectoyIterator extends DirectoryIterator
-{
-	public function current()
-	{
-		return parent::getFileName();
-	}
-
-	public function valid()
-	{
-		if(!parent::valid())
-		{
-			return false;
-		}
-		if($this->isFile() and substr(parent::getFileName(),-4) == '.xml')
-		{
-			return false;
-		}
-		if($this->isFile() and substr(parent::getFileName(),-8) != '_inserts')
-		{
-			return true;
-		}
-		parent::next();
-		return $this->valid();
-	}
-
-	public function rewind()
-	{
-		parent::rewind();
-	}
 }
-?>
+
