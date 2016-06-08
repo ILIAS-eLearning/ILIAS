@@ -655,7 +655,7 @@ class ilSetup extends PEAR
 		$a["xsl"] = $this->checkXsl();
 		$a["gd"] = $this->checkGd();
 		$a["memory"] = $this->checkMemoryLimit();
-//		var_dump(ini_get('opcache.enable') ); // FSX
+
 		if ($this->hasOpCacheEnabled()) {
 			$a["load_comments"] = $this->checkOpcacheSettings();
 		}
