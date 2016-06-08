@@ -93,7 +93,7 @@ class ilSession
 			// Prevent session data written for web access checker
 			// when no cookie was sent (e.g. for pdf files linking others).
 			// This would result in new session records for each request.
-			return false;
+			return true;
 		}
 
 		$now = time();
