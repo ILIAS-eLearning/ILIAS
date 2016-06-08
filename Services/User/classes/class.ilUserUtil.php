@@ -307,7 +307,8 @@ class ilUserUtil
 			
 			self::setStartingPoint($current);
 		}
-		if($ilUser->getId() == ANONYMOUS_USER_ID)
+		if($ilUser->getId() == ANONYMOUS_USER_ID ||
+			!$ilUser->getId()) // #18531
 		{
 			$current = self::START_REPOSITORY;
 		}
