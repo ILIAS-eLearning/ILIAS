@@ -247,6 +247,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess {
 		if (!$tableview) {
 			return false;
 		}
+		
 
 		if (is_numeric($tableview)) {
 			$tableview = ilDclTableView::find($tableview);

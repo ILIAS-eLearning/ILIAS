@@ -72,8 +72,8 @@ class ilDclRecordListGUI {
 		$this->parent_obj = $a_parent_obj;
 		$this->table_obj = ilDclCache::getTableCache($table_id);
 
-		if ($tableview_id = $_GET['tableview_id']) {
-			$this->tableview_id = $tableview_id;
+		if ($_GET['tableview_id']) {
+			$this->tableview_id = $_GET['tableview_id'];
 		} else {
 			//get first visible tableview
 			$this->tableview_id = $this->table_obj->getFirstTableViewId($this->parent_obj->ref_id);
@@ -82,7 +82,7 @@ class ilDclRecordListGUI {
 
 		}
 		
-		if (!ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id)){
+		if (!ilObjDataCollectionAccess::hasWriteAccess($a_parent_obj->ref_id) && !ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id)){
 			$this->parent_obj->tpl->setContent('Permission denied');
 			$this->parent_obj->tpl->show();
 			return;
