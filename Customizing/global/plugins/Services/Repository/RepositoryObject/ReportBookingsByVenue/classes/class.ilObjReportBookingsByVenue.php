@@ -50,7 +50,7 @@ class ilObjReportBookingsByVenue extends ilObjReportBase {
 					->on("cs.obj_id = crs.crs_id")
 				->left_join("hist_usercoursestatus ucs")
 					->on('crs.crs_id = ucs.crs_id AND ucs.hist_historic = 0 AND'
-						.' (ucs.booking_status != '.$this->gIldb->quote('-empty-','text').'OR function = '.$this->gIldb->quote('Trainer','text').')' )
+						.' (ucs.booking_status = '.$this->gIldb->quote('gebucht','text').' OR function = '.$this->gIldb->quote('Trainer','text').')' )
 				->left_join('crs_acco acco')
 					->on('acco.crs_id = crs.crs_id AND ucs.usr_id = acco.user_id')
 				->group_by('crs.crs_id')
