@@ -51,7 +51,7 @@ class ilObjReportBookingsByVenueGUI extends ilObjReportBaseGUI {
 			$rec['no_accomodations'] .=
 				$night
 				.' : '
-				.$rec_temp['no_accomodations'].';';
+				.$rec_temp['no_accomodations'].'; ';
 		}
 
 		//this is how the xls-list is generated:
