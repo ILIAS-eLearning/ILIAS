@@ -299,7 +299,7 @@ class ilDclRecordListGUI {
 	 * doTableViewSwitch
 	 */
 	public function doTableViewSwitch() {
-		$this->ctrl->setParameter($this, "tableview_id", $_POST['tableview_id']);
+		$this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "tableview_id", $_POST['tableview_id']);
 		$this->ctrl->redirect($this, "show");
 	}
 
@@ -568,10 +568,6 @@ class ilDclRecordListGUI {
 		}
 	}
 
-	public static function getCurrentTableView()
-	{
-
-	}
 }
 
 ?>

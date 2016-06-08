@@ -130,6 +130,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_EXCEL_ASYNC));
 		}
 
+		$ilCtrl->saveParameter($a_parent_obj, 'tableview_id');
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
 		$this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
 	}
@@ -317,7 +318,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$filter_value = $field_set->getFilterValue();
 
 			$filter->setValueByArray($filter_value);
-			$this->applyFilter($field->getId(), $filter_value);
+			$this->applyFilter($field->getId(), array_shift($filter_value));
 		}
 	}
 
