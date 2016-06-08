@@ -50,8 +50,8 @@ class ilObjReportBookingsByVenueGUI extends ilObjReportBaseGUI {
 			$night = ilDatePresentation::formatDate($night);
 			$rec['no_accomodations'] .=
 				$night
-				.' '
-				.$rec_temp['no_accomodations'];
+				.' : '
+				.$rec_temp['no_accomodations'].';';
 		}
 
 		//this is how the xls-list is generated:
