@@ -121,7 +121,7 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 		return $query;
 	}
 
-	protected function fetchData() {
+	protected function fetchData(callable $callback) {
 		$query = $this->buildQueryStatement();
 		$this->pre_data = array();
 		$res = $this->gIldb->query($query);
@@ -150,9 +150,10 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 			$tree_data[] = $this->buildReportTree($orgu);
 		}
 		foreach($tree_data as $branch) {
-			$this->fillData($branch);
+			$this->fillData($branch, $callback);
 		}
 		return $this->report_data;
+
 	}
 
 	protected function daysPerTEPMetaCategory($categories, $name) {
@@ -262,13 +263,13 @@ class ilObjReportTrainerOpTrainerOrgu extends ilObjReportBase {
 		return $return;
 	}
 
-	protected function  fillData($data_level) {
-		$this->report_data[] = $data_level["sum"];
+	protected function  fillData($data_level, $callback) {
+		$this->report_data[] = call_user_func($callback,$data_level["sum"]);
 		foreach ($data_level["trainers"] as $values) {
-			$this->report_data[] = $values;
+			$this->report_data[] = call_user_func($callback, $values);
 		}
 		foreach ($data_level["children"] as $child) {
-			$this->fillData($child);
+			$this->fillData($child, $callback);
 		}
 	}
 
