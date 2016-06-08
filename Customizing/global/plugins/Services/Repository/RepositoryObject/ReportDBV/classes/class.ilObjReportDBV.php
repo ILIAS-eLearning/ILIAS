@@ -110,13 +110,13 @@ class ilObjReportDBV extends ilObjReportBase {
 
 	protected function buildTable($table) {
 		$this->table_sums = catReportTable::create()
-				->column("sum_credit_points", $this->plugin->txt("sum_credit_points"), true)
-				->column("sum_credit_points_forecat", $this->plugin->txt("sum_credit_points_forecast"), true)
+				->column("sum_credit_points", $this->plugin->txt("sum_credit_points"), true, "", false, false)
+				->column("sum_credit_points_forecat", $this->plugin->txt("sum_credit_points_forecast"), true, "", false, false)
 				->template("tpl.gev_dbv_report_sum_row.html", $this->plugin->getDirectory());
 
 		$table	->column("lastname", $this->plugin->txt("lastname"), true)
 				->column("firstname", $this->plugin->txt("firstname"), true)
-				->column("odbd", $this->plugin->txt("od_bd"), true)
+				->column("odbd", $this->plugin->txt("od_bd"), true, "", false, false)
 				->column("job_number", $this->plugin->txt("job_number"), true)
 				->column("title", $this->plugin->txt("title"), true)
 				->column("dbv_hot_topic", $this->plugin->txt("dbv_hot_topic"), true)
@@ -128,6 +128,7 @@ class ilObjReportDBV extends ilObjReportBase {
 	}
 
 	protected function buildOrder($order) {
+		$order->mapping("date","hc.begin_date");
 		return $order;
 	}
 
@@ -163,7 +164,7 @@ class ilObjReportDBV extends ilObjReportBase {
 		);
 		$table->addColumn("", "blank", "0px", false);
 		foreach ($this->table_sums->columns as $col) {
-			$table->addColumn( $col[1], $col[0], $col[3]);
+			$table->addColumn( $col[1], $col[5] ? $col[0] : "", $col[3]);
 		}		
 		$table->setLimit(1);
 		$table->setMaxCount(1);
