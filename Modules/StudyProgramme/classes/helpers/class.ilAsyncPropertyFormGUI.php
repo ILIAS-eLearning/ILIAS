@@ -172,7 +172,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
 	 * @param $id
 	 * @param $content
 	 */
-	protected function addOnLoadCode($id, $content) {
+	protected static function addOnLoadCode($id, $content) {
 		global $tpl;
 
 		if(!isset(self::$js_on_load_added[$id])) {
