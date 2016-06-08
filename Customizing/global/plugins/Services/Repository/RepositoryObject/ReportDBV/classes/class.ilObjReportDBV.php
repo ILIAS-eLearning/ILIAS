@@ -139,8 +139,7 @@ class ilObjReportDBV extends ilObjReportBase {
 	protected function fetchData(callable $callback) {
 		$data = parent::fetchData($callback);
 		$this->summed_data = $this->sumData($data);
-		return array(array("lastname"=>"a","firtsname"=>"b"));
-	//	return $data;
+		return $data;
 	}
 
 	protected function sumData($data) {
