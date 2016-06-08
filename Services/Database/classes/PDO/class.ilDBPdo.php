@@ -85,12 +85,9 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	/**
 	 * @var array
 	 */
-	protected $additional_attributes = array(
-		PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
-		PDO::ATTR_EMULATE_PREPARES         => true,
-		PDO::ATTR_ERRMODE                  => PDO::ERRMODE_EXCEPTION,
-		//		PDO::ATTR_DEFAULT_FETCH_MODE       => PDO::FETCH_OBJ
-		//		PDO::MYSQL_ATTR_MAX_BUFFER_SIZE    => 1048576,
+	protected $attributes = array(
+//		PDO::ATTR_EMULATE_PREPARES => true,
+		PDO::ATTR_ERRMODE          => PDO::ERRMODE_EXCEPTION,
 	);
 	/**
 	 * @var string
@@ -107,6 +104,53 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 
 	/**
+	 * @param bool $return_false_for_error
+	 * @return bool
+	 * @throws \Exception
+	 */
+	public function connect($return_false_for_error = false) {
+		$this->generateDSN();
+		try {
+			$options = $this->getAttributes();
+			$this->pdo = new PDO($this->getDSN(), $this->getUsername(), $this->getPassword(), $options);
+			$this->initHelpers();
+		} catch (Exception $e) {
+			$this->error_code = $e->getCode();
+			if ($return_false_for_error) {
+				return false;
+			}
+			throw $e;
+		}
+
+		return ($this->pdo->errorCode() == PDO::ERR_NONE);
+	}
+
+
+	abstract public function initHelpers();
+
+
+	/**
+	 * @return array
+	 */
+	protected function getAttributes() {
+		$options = $this->attributes;
+		foreach ($this->getAdditionalAttributes() as $k => $v) {
+			$options[$k] = $v;
+		}
+
+		return $options;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	protected function getAdditionalAttributes() {
+		return array();
+	}
+
+
+	/**
 	 * @return ilDBPdoFieldDefinition
 	 */
 	public function getFieldDefinition() {
@@ -120,14 +164,6 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	public function setFieldDefinition($field_definition) {
 		$this->field_definition = $field_definition;
 	}
-
-
-	/**
-	 * @param bool $return_false_for_error
-	 * @return bool
-	 * @throws \Exception
-	 */
-	abstract public function connect($return_false_for_error = false);
 
 
 	/**
@@ -710,6 +746,13 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		}
 
 		switch ($type) {
+			case ilDBConstants::T_TIMESTAMP:
+			case ilDBConstants::T_DATETIME:
+			case ilDBConstants::T_DATE:
+				if ($value === '') {
+					return 'NULL';
+				}
+				break;
 			case ilDBConstants::T_INTEGER:
 				$value = (int)$value;
 
@@ -872,7 +915,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 
 	/**
 	 * @return array
-	 * @deprecated use 
+	 * @deprecated use
 	 */
 	public static function getReservedWords() {
 		global $ilDB;
@@ -1644,5 +1687,88 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 	 */
 	public function supportsEngineMigration() {
 		return false;
+	}
+
+
+	/**
+	 * @param $name
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function checkIndexName($name) {
+		return $this->getFieldDefinition()->checkIndexName($name);
+	}
+
+
+	/**
+	 * @param $table
+	 * @param $fields
+	 * @param string $name
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 */
+	public function addUniqueConstraint($table, $fields, $name = "con") {
+		assert(is_array($fields));
+		$manager = $this->manager;
+
+		// check index name
+		if (!$this->checkIndexName($name)) {
+			throw new ilDatabaseException("ilDB Error: addUniqueConstraint(" . $table . "," . $name . ")");
+		}
+
+		$fields_corrected = array();
+		foreach ($fields as $f) {
+			$fields_corrected[$f] = array();
+		}
+		$definition = array(
+			'unique' => true,
+			'fields' => $fields_corrected,
+		);
+
+		return $manager->createConstraint($table, $this->constraintName($table, $name), $definition);
+	}
+
+
+	/**
+	 * @param $a_table
+	 * @param string $a_name
+	 * @return mixed
+	 */
+	public function dropUniqueConstraint($a_table, $a_name = "con") {
+		return $this->manager->dropConstraint($a_table, $this->constraintName($a_table, $a_name), false);
+	}
+
+
+	/**
+	 * @param $a_table
+	 * @param $a_fields
+	 * @return bool|mixed
+	 */
+	public function dropUniqueConstraintByFields($a_table, $a_fields) {
+		$analyzer = new ilDBAnalyzer();
+		$cons = $analyzer->getConstraintsInformation($a_table);
+		foreach ($cons as $c) {
+			if ($c["type"] == "unique" && count($a_fields) == count($c["fields"])) {
+				$all_in = true;
+				foreach ($a_fields as $f) {
+					if (!isset($c["fields"][$f])) {
+						$all_in = false;
+					}
+				}
+				if ($all_in) {
+					return $this->dropUniqueConstraint($a_table, $c['name']);
+				}
+			}
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getLastInsertId() {
+		return $this->pdo->lastInsertId();
 	}
 }

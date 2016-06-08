@@ -15,7 +15,7 @@ require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecord
 class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel {
 
 	public function parseValue($value) {
-		return $value["date"] . " " . $value["time"];
+		return $value;
 	}
 
 

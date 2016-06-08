@@ -254,7 +254,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 		if ($record_data["_front"]) {
 			$this->tpl->setCurrentBlock('view');
 			$this->tpl->setVariable("VIEW_IMAGE_LINK", $record_data["_front"]);
-			$this->tpl->setVariable("VIEW_IMAGE_SRC", ilUtil::img(ilUtil::getImagePath("cmd_view_s.png")));
+			$this->tpl->setVariable("VIEW_IMAGE_SRC", ilUtil::img(ilUtil::getImagePath("enlarge.svg"), $this->lng->txt('dcl_display_record_alt')));
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("ACTIONS", $record_data["_actions"]);

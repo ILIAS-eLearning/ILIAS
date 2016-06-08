@@ -12,14 +12,14 @@ include_once './Services/WebServices/RPC/classes/class.ilRpcClientException.php'
  *
  * RPCIndexHandler:
  * @method void index() index(string $client, bool $bool) Prefix/Package: RPCIndexHandler
- * @method void indexObjects() indexObjects(string $client, int[] $object_ids) Prefix/Package: RPCIndexHandler
+ * @method void indexObjects() indexObjects(string $client, array $object_ids) Prefix/Package: RPCIndexHandler
  *
  * RPCTransformationHandler:
  * @method string ilFO2PDF() ilFO2PDF(string $fo_string) Prefix/Package: RPCTransformationHandler Return: base64
  *
  * RPCSearchHandler:
  * @method string searchMail() searchMail(string $client, int $user_id, string $query, int $mail_folder_id) Prefix/Package: RPCSearchHandler Return:xml
- * @method string highlight() highlight(string $client, int[] $object_ids, string $query) Prefix/Package: RPCSearchHandler Return: string
+ * @method string highlight() highlight(string $client, array $object_ids, string $query) Prefix/Package: RPCSearchHandler Return: string
  * @method string searchUsers() searchUser(string $client, string $query) Prefix/Package: RPCSearchHandler Return: xml
  * @method string search() search(string $client, string $query, int $page_nr) Prefix/Package: RPCSearchHandler Return: xml
  *

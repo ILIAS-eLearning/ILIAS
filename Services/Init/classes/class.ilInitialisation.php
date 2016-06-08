@@ -606,6 +606,9 @@ class ilInitialisation
 				if (class_exists("Collator"))
 				{
 					$GLOBALS["ilCollator"] = new Collator($first);
+					$GLOBALS["DIC"]["ilCollator"] = function($c) {
+						return $GLOBALS["ilCollator"];
+					};
 				}				
 			}
 		}
@@ -780,6 +783,8 @@ class ilInitialisation
 	 */
 	protected static function initGlobal($a_name, $a_class, $a_source_file = null)
 	{
+		global $DIC;
+
 		if($a_source_file)
 		{
 			include_once $a_source_file;
@@ -789,6 +794,10 @@ class ilInitialisation
 		{
 			$GLOBALS[$a_name] = $a_class;
 		}
+
+		$DIC[$a_name] = function ($c) use ($a_name) {
+			return $GLOBALS[$a_name];
+		};
 	}
 			
 	/**
@@ -860,6 +869,11 @@ class ilInitialisation
 
 			return;
 		}
+
+		$GLOBALS["DIC"] = new \ILIAS\DI\Container();
+		$GLOBALS["DIC"]["ilLoggerFactory"] = function($c) {
+			return ilLoggerFactory::getInstance();
+		};
 
 		self::$already_initialized = true;
 

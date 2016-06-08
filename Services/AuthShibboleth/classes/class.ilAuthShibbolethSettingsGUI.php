@@ -218,7 +218,6 @@ class ilAuthShibbolethSettingsGUI {
 		$fields = array();
 		foreach ($shib_settings as $setting) {
 			$field = str_replace('shib_', '', $setting);
-			#$field = ereg_replace('shib_', '', $setting);
 			$textinput = new ilTextInputGUI();
 			$textinput->setTitle($this->lng->txt($setting));
 			$textinput->setPostVar("shib[" . $field . "]");
@@ -301,7 +300,10 @@ class ilAuthShibbolethSettingsGUI {
 		);
 		foreach ($shib_settings as $setting) {
 			$field = str_replace('shib_', '', $setting);
+<<<<<<< HEAD
 			#$field = ereg_replace('shib_', '', $setting);
+=======
+>>>>>>> origin/trunk
 			if ($_POST["shib"]["update_" . $field] != "1") {
 				$_POST["shib"]["update_" . $field] = "0";
 			}
