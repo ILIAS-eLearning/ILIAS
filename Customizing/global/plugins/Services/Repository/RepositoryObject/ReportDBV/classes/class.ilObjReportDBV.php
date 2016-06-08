@@ -143,7 +143,6 @@ class ilObjReportDBV extends ilObjReportBase {
 	}
 
 	protected function sumData($data) {
-		var_dump($data);
 		$to_sum = array("sum_credit_points" => "credit_points","sum_credit_points_forecast" => "max_credit_points");
 		$summed_data = array_fill_keys(array_keys($to_sum), 0);
 		foreach ($data as $row) {
@@ -151,7 +150,6 @@ class ilObjReportDBV extends ilObjReportBase {
 				$summed_data[$sum_key] += is_numeric($row[$data_key]) ? $row[$data_key] : 0;
 			}
 		}
-		var_dump($summed_data);
 		return $summed_data;
 	}
 
