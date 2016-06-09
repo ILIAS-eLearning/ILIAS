@@ -254,10 +254,13 @@ class ilObjReportEduBio extends ilObjReportBase {
 	public static function getEduBioLinkFor($usr_id = null) {
 		global $ilCtrl;
 		$ref_id = current(ilObject::_getAllReferences(current(ilObject::_getObjectsDataForType('xreb', true))["id"]));
-		$ilCtrl->setParameterByClass("ilObjReportEduBioGUI", "target_user_id", $usr_id);
-		$ilCtrl->setParameterByClass("ilObjReportEduBioGUI", "ref_id", $ref_id);
-		$return = $ilCtrl->getLinkTargetByClass(array("ilObjPluginDispatchGUI", "ilObjReportEduBioGUI"), '');
-		$ilCtrl->clearParametersByClass("ilObjReportEduBioGUI");
-		return $return;
+		if($ref_id) {
+			$ilCtrl->setParameterByClass("ilObjReportEduBioGUI", "target_user_id", $usr_id);
+			$ilCtrl->setParameterByClass("ilObjReportEduBioGUI", "ref_id", $ref_id);
+			$return = $ilCtrl->getLinkTargetByClass(array("ilObjPluginDispatchGUI", "ilObjReportEduBioGUI"), '');
+			$ilCtrl->clearParametersByClass("ilObjReportEduBioGUI");
+			return $return;
+		}
+		return "";
 	}
 }
