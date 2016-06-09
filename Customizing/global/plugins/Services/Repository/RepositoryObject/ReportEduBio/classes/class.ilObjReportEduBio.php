@@ -243,4 +243,21 @@ class ilObjReportEduBio extends ilObjReportBase {
 								." WHERE hc.row_id = ".$this->gIldb->quote($cert_id, "integer"));
 		return $this->gIldb->fetchAssoc($res);
 	}
+
+	/**
+	 *	Deivers the link to a users edubio.
+	 *	We aussume for now that there is exactly one edu bio in the whole academy.
+	 *
+	 *	@param	int|null	$usr_id	if null, edubio points to calling user.
+	 *	@return string	$return	link to a users edubio
+	 */
+	public static function getEduBioLinkFor($usr_id = null) {
+		global $ilCtrl;
+		$ref_id = current(ilObject::_getAllReferences(current(ilObject::_getObjectsDataForType('xreb', true))["id"]));
+		$ilCtrl->setParameterByClass("ilObjReportEduBioGUI", "target_user_id", $usr_id);
+		$ilCtrl->setParameterByClass("ilObjReportEduBioGUI", "ref_id", $ref_id);
+		$return = $ilCtrl->getLinkTargetByClass(array("ilObjPluginDispatchGUI", "ilObjReportEduBioGUI"), '');
+		$ilCtrl->clearParametersByClass("ilObjReportEduBioGUI");
+		return $return;
+	}
 }
