@@ -18,7 +18,6 @@
 * @ilCtrl_Calls gevDesktopGUI: gevUserProfileGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDTPServiceRegistrationGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDTPBasicRegistrationGUI
-* @ilCtrl_Calls gevDesktopGUI: gevBookingsByVenueGUI
 * @ilCtrl_Calls gevDesktopGUI: gevMyTrainingsApGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDEdupointsReportedGUI
 * @ilCtrl_Calls gevDesktopGUI: gevEmployeeBookingsGUI
@@ -121,12 +120,6 @@ class gevDesktopGUI {
 			case "gevwbdtpbasicregistrationgui":
 				require_once("Services/GEV/Registration/classes/class.gevWBDTPBasicRegistrationGUI.php");
 				$gui = new gevWBDTPBasicRegistrationGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
-				break;
-			case "gevbookingsbyvenuegui":
-				$ilMainMenu->setActive("gev_reporting_menu");
-				require_once("Services/GEV/Reports/classes/class.gevBookingsByVenueGUI.php");
-				$gui = new gevBookingsByVenueGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
@@ -254,7 +247,6 @@ class gevDesktopGUI {
 			case "toMyProfile":
 			case "toStaticPages":
 			case "toMyTrainingsAp":
-			case "toReportBookingsByVenue":
 			case "toBooking":
 			case "toEmployeeBookings":
 			case "toReportWBDEdupoints":
@@ -313,9 +305,6 @@ class gevDesktopGUI {
 		$this->ctrl->redirectByClass("gevMyTrainingsAdminGUI");
 	}
 	
-	protected function toReportBookingsByVenue() {
-		$this->ctrl->redirectByClass("gevBookingsByVenueGUI");
-	}
 	protected function toReportWBDEdupoints() {
 		$this->ctrl->redirectByClass("gevWBDEdupointsReportedGUI");
 	}
@@ -467,6 +456,4 @@ class gevDesktopGUI {
 		$this->ctrl->setParameterByClass("ilLocalUserGUI", "ref_id", $ref_id);
 		$this->ctrl->redirectByClass(array("ilAdministrationGUI","ilObjOrgUnitGUI","ilLocalUserGUI"), "index");
 	}
-
-
 }
