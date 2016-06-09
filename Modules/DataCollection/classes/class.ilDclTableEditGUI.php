@@ -123,8 +123,8 @@ class ilDclTableEditGUI {
 			'delete_perm_mode' => $this->table->getDeleteByOwner() ? 'own' : 'all',
 			'export_enabled' => $this->table->getExportEnabled(),
 			'limited' => $this->table->getLimited(),
-			'limit_start' => array( "date" => substr($this->table->getLimitStart(), 0, 10), "time" => substr($this->table->getLimitStart(), - 8) ),
-			'limit_end' => array( "date" => substr($this->table->getLimitEnd(), 0, 10), "time" => substr($this->table->getLimitEnd(), - 8) ),
+			'limit_start' => substr($this->table->getLimitStart(), 0, 10) . " " . substr($this->table->getLimitStart(), - 8),
+			'limit_end' => substr($this->table->getLimitEnd(), 0, 10) . " " . substr($this->table->getLimitEnd(), - 8),
 			'is_visible' => $this->table->getIsVisible(),
 			'default_sort_field' => $this->table->getDefaultSortField(),
 			'default_sort_field_order' => $this->table->getDefaultSortFieldOrder(),
@@ -336,8 +336,8 @@ class ilDclTableEditGUI {
 			$this->table->setDescription($this->form->getInput('description'));
 			$limit_start = $this->form->getInput("limit_start");
 			$limit_end = $this->form->getInput("limit_end");
-			$this->table->setLimitStart($limit_start["date"] . " " . $limit_start["time"]);
-			$this->table->setLimitEnd($limit_end["date"] . " " . $limit_end["time"]);
+			$this->table->setLimitStart($limit_start);
+			$this->table->setLimitEnd($limit_end);
 			if ($a_mode == "update") {
 				$this->table->doUpdate();
 				ilUtil::sendSuccess($this->lng->txt("dcl_msg_table_edited"), true);
