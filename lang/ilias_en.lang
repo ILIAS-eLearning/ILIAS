@@ -14925,6 +14925,8 @@ dcl#:#dcl_ILIAS_reference_link_desc#:#The object can be accesses via link, if th
 dcl#:#dcl_learning_progress_desc#:#If available the learning progress of the object will be displayed.
 dcl#:#dcl_display_action_menu_desc#:#Object can be copied or linked if the user has the permissions to do so.
 dcl#:#dcl_export_enabled_desc#:#All users can export the data of this table. You have to specify in the table overview which fields will get exported.
+dcl#:#dcl_import_enabled#:#Allow import function for all users
+dcl#:#dcl_import_enabled_desc#:#All users can import data to tables, as long as they have the required write access.
 dcl#:#dcl_add_perm_desc#:#Users can add entries in this table.
 dcl#:#dcl_limited_desc#:#Users can only edit entries in the given time span.
 dcl#:#dcl_unique_desc#:#The value in this field needs to be unique among all entires.

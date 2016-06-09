@@ -15272,3 +15272,15 @@ if($tgt_ops_id)
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4917>
+<?php
+if(!$ilDB->tableColumnExists('il_dcl_table', 'import_enabled'))
+{
+	$ilDB->addTableColumn('il_dcl_table', 'import_enabled', array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 1
+	));
+}
+?>

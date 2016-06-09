@@ -144,7 +144,7 @@ class ilDclRecordListGUI {
 			$ilToolbar->addStickyItem($add_new);
 		}
 
-		if ($permission_to_add_or_import) {
+		if ($permission_to_add_or_import && $this->table_obj->getImportEnabled()) {
 			$this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", NULL);
 
 			$import = ilLinkButton::getInstance();
@@ -209,7 +209,7 @@ class ilDclRecordListGUI {
 	 * Import Data from Excel sheet
 	 */
 	public function importExcel() {
-		if (!($this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id))) {
+		if (!($this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id)) || !$this->table_obj->getImportEnabled()) {
 			throw new ilDclException($this->lng->txt("access_denied"));
 		}
 		$form = $this->initImportForm();

@@ -92,6 +92,10 @@ class ilDclTable {
 	 */
 	protected $export_enabled;
 	/**
+	 * @var bool
+	 */
+	protected $import_enabled;
+	/**
 	 * ID of the default sorting field. Can be a DB field (int) or a standard field (string)
 	 *
 	 * @var string
@@ -157,6 +161,7 @@ class ilDclTable {
 		$this->setDeletePerm($rec["delete_perm"]);
 		$this->setEditByOwner($rec["edit_by_owner"]);
 		$this->setExportEnabled($rec["export_enabled"]);
+		$this->setImportEnabled($rec["import_enabled"]);
 		$this->setLimited($rec["limited"]);
 		$this->setLimitStart($rec["limit_start"]);
 		$this->setLimitEnd($rec["limit_end"]);
@@ -227,7 +232,7 @@ class ilDclTable {
 		$id = $ilDB->nextId("il_dcl_table");
 		$this->setId($id);
 		$query = "INSERT INTO il_dcl_table (" . "id" . ", obj_id" . ", title" . ", add_perm" . ", edit_perm" . ", delete_perm" . ", edit_by_owner"
-			. ", limited" . ", limit_start" . ", limit_end" . ", is_visible" . ", export_enabled" . ", default_sort_field_id"
+			. ", limited" . ", limit_start" . ", limit_end" . ", is_visible" . ", export_enabled" . ", import_enabled" . ", default_sort_field_id"
 			. ", default_sort_field_order" . ", description" . ", public_comments" . ", view_own_records_perm"
 			. ", delete_by_owner, save_confirmation ) VALUES (" . $ilDB->quote($this->getId(), "integer") . ","
 			. $ilDB->quote($this->getObjId(), "integer") . "," . $ilDB->quote($this->getTitle(), "text") . ","
@@ -235,10 +240,11 @@ class ilDclTable {
 			. $ilDB->quote($this->getDeletePerm() ? 1 : 0, "integer") . "," . $ilDB->quote($this->getEditByOwner() ? 1 : 0, "integer") . ","
 			. $ilDB->quote($this->getLimited() ? 1 : 0, "integer") . "," . $ilDB->quote($this->getLimitStart(), "timestamp") . ","
 			. $ilDB->quote($this->getLimitEnd(), "timestamp") . "," . $ilDB->quote($this->getIsVisible() ? 1 : 0, "integer") . ","
-			. $ilDB->quote($this->getExportEnabled() ? 1 : 0, "integer") . "," . $ilDB->quote($this->getDefaultSortField(), "text") . ","
-			. $ilDB->quote($this->getDefaultSortFieldOrder(), "text") . "," . $ilDB->quote($this->getDescription(), "text") . ","
-			. $ilDB->quote($this->getPublicCommentsEnabled(), "integer") . "," . $ilDB->quote($this->getViewOwnRecordsPerm(), "integer") . ","
-			. $ilDB->quote($this->getDeleteByOwner() ? 1 : 0, 'integer') . "," . $ilDB->quote($this->getSaveConfirmation() ? 1 : 0, 'integer') . ")";
+			. $ilDB->quote($this->getExportEnabled() ? 1 : 0, "integer") . "," . $ilDB->quote($this->getImportEnabled() ? 1 : 0, "integer") . ","
+			. $ilDB->quote($this->getDefaultSortField(), "text") . "," . $ilDB->quote($this->getDefaultSortFieldOrder(), "text") . ","
+			. $ilDB->quote($this->getDescription(), "text") . "," . $ilDB->quote($this->getPublicCommentsEnabled(), "integer") . ","
+			. $ilDB->quote($this->getViewOwnRecordsPerm(), "integer") . ","	. $ilDB->quote($this->getDeleteByOwner() ? 1 : 0, 'integer') . ","
+			. $ilDB->quote($this->getSaveConfirmation() ? 1 : 0, 'integer') . ")";
 
 		$ilDB->manipulate($query);
 
@@ -294,6 +300,7 @@ class ilDclTable {
 			"limit_end" => array( "timestamp", $this->getLimitEnd() ),
 			"is_visible" => array( "integer", $this->getIsVisible() ? 1 : 0 ),
 			"export_enabled" => array( "integer", $this->getExportEnabled() ? 1 : 0 ),
+			"import_enabled" => array( "integer", $this->getImportEnabled() ? 1 : 0 ),
 			"description" => array( "text", $this->getDescription() ),
 			"default_sort_field_id" => array( "text", $this->getDefaultSortField() ),
 			"default_sort_field_order" => array( "text", $this->getDefaultSortFieldOrder() ),
@@ -1244,6 +1251,7 @@ class ilDclTable {
 		$this->setLimitEnd($original->getLimitEnd());
 		$this->setViewOwnRecordsPerm($original->getViewOwnRecordsPerm());
 		$this->setExportEnabled($original->getExportEnabled());
+		$this->setImportEnabled($original->getImportEnabled());
 		$this->setPublicCommentsEnabled($original->getPublicCommentsEnabled());
 		$this->setDefaultSortFieldOrder($original->getDefaultSortFieldOrder());
 
@@ -1361,6 +1369,22 @@ class ilDclTable {
 	 */
 	public function getExportEnabled() {
 		return $this->export_enabled;
+	}
+
+
+	/**
+	 * @param boolean $import_enabled
+	 */
+	public function setImportEnabled($import_enabled) {
+		$this->import_enabled = $import_enabled;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getImportEnabled() {
+		return $this->import_enabled;
 	}
 
 

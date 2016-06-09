@@ -12392,6 +12392,8 @@ dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_export_enabled#:#Tabelle exportieren
 dcl#:#dcl_export_enabled_desc#:#Alle Benutzer können die Daten der Tabelle selber exportieren. Dazu müssen in der Übersicht "Felder der ausgewählten Tabelle" die Felder einzeln als exportierbar ausgewählt werden.
+dcl#:#dcl_import_enabled#:#Tabelle importieren
+dcl#:#dcl_import_enabled_desc#:#Alle Benutzer können selber Daten in die Tabellen importieren, solange Sie entsprechende Schreibrechte besitzen.
 dcl#:#dcl_inconsistent_at#:#Die Datenbank ist inkonsisten. Eine Referenz existiert nicht mehr.
 dcl#:#dcl_formula#:#Formel
 dcl#:#dcl_prop_expression#:#Ausdruck
