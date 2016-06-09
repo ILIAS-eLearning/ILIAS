@@ -14,7 +14,6 @@
 * @ilCtrl_Calls gevDesktopGUI: ilAdminSearchGUI
 * @ilCtrl_Calls gevDesktopGUI: gevBookingGUI
 * @ilCtrl_Calls gevDesktopGUI: gevStaticpagesGUI
-* @ilCtrl_Calls gevDesktopGUI: gevEduBiographyGUI
 * @ilCtrl_Calls gevDesktopGUI: gevUserProfileGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDTPServiceRegistrationGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDTPBasicRegistrationGUI
@@ -88,12 +87,6 @@ class gevDesktopGUI {
 			case "gevstaticpagesgui":			
 				require_once("Services/GEV/Desktop/classes/class.gevStaticPagesGUI.php");
 				$gui = new gevStaticpagesGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
-				break;
-			case "gevedubiographygui":
-				$ilMainMenu->setActive("gev_me_menu");
-				require_once("Services/GEV/Reports/classes/class.gevEduBiographyGUI.php");
-				$gui = new gevEduBiographyGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 			case "gevuserprofilegui":
