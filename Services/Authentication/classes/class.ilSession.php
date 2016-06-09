@@ -413,6 +413,12 @@ class ilSession
 	{
 		return self::$closing_context;
 	}
+	
+	
+	public static function start()
+	{
+		
+	}
 }
 
 ?>

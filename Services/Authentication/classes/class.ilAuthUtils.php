@@ -65,6 +65,17 @@ class ilAuthUtils
 	const LOCAL_PWV_FULL = 1;
 	const LOCAL_PWV_NO = 2;
 	const LOCAL_PWV_USER = 3;
+	
+	
+	/**
+	 * Initialize session
+	 */
+	public static function initSession()
+	{
+		
+	}
+	
+	
 
 	
 	/**

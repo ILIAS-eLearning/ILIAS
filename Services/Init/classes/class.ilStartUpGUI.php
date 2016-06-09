@@ -93,6 +93,7 @@ class ilStartUpGUI
 	}
 	
 	/**
+	 * @todo check for forced authentication like ecs, ...
 	 * Show login page
 	 */
 	protected function showLoginPage(ilPropertyFormGUI $form = null)
@@ -613,6 +614,17 @@ class ilStartUpGUI
 		if($form->checkInput())
 		{
 			$this->getLogger()->debug('Trying to authenticate user.');
+			
+			include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentials.php';
+			$credentials = new ilAuthFrontendCredentials();
+			$credentials->setUsername($form->getInput('username'));
+			$credentials->setPassword($form->getInput('password'));
+			
+			include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
+			$frontend = new ilAuthFrontendFactory();
+			$frontend->setContext(ilAuthFrontendFactory::CONTEXT_PASSWORD);
+			$frontend->getFrontend($credentials);
+			
 		}
 		else
 		{

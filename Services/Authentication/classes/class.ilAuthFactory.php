@@ -2,15 +2,15 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** 
-* @classDescription Factory for PEAR Auth frontend classes
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-*
-* @ingroup ServicesAuthentication
-*/
+/**
+ * Authentication frontend factory
+ * 
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * 
+ *
+ * @ingroup ServicesAuthentication
+ */
 class ilAuthFactory
 {
 	/**
