@@ -446,9 +446,12 @@ abstract class ilObjReportBase extends ilObjectPlugin {
 	 */
 	protected static function filterPlugins($plugins) {
 		return array_filter($plugins, function($plugin) {
-			if ($plugin instanceof ilReportBasePlugin) {
-				return $plugin;
+			if ($plugin instanceof ilReportBasePlugin
+				&& !($plugin instanceof ilReportEduBioPlugin)
+				) {
+				return true;
 			}
+			return false;
 		});
 	}
 }
