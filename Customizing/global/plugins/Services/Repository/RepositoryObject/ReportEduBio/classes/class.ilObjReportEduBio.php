@@ -249,10 +249,12 @@ class ilObjReportEduBio extends ilObjReportBase {
 	 *	We aussume for now that there is exactly one edu bio in the whole academy.
 	 *
 	 *	@param	int|null	$usr_id	if null, edubio points to calling user.
-	 *	@return string	$return	link to a users edubio
+	 *	@return string	$return	link to a users edubio or an empty string,
+	 *							if no edubio object is in the repository.
 	 */
 	public static function getEduBioLinkFor($usr_id = null) {
 		global $ilCtrl;
+		//note: in the next line we assume that there is exactly one edu bio in the repository.
 		$ref_id = current(ilObject::_getAllReferences(current(ilObject::_getObjectsDataForType('xreb', true))["id"]));
 		if($ref_id) {
 			$ilCtrl->setParameterByClass("ilObjReportEduBioGUI", "target_user_id", $usr_id);
