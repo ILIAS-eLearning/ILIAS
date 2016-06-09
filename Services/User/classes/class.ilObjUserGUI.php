@@ -3872,16 +3872,16 @@ class ilObjUserGUI extends ilObjectGUI
 		require_once("Services/GEV/Administration/classes/class.gevUserRoleHistoryGUI.php");
 		$gui = new gevUserRoleHistoryGUI($_GET["obj_id"]);
 		$gui->render();
-    }
-    //gev-patch end
+	}
+	//gev-patch end
 
-    //gev-patch start #2266
-    protected function setToolbar() {
-    	global $ilToolbar;
-    	$this->ctrl->setParameterByClass("gevEduBiographyGUI", "target_user_id", $_GET["obj_id"]);
-    	$ilToolbar->addButton($this->lng->txt('gev_edu_bio'), $this->ctrl->getLinkTargetByClass(array("gevDesktopGUI", "gevEduBiographyGUI"), 'view'), "blank");
-    	$this->ctrl->clearParametersByClass("gevEduBiographyGUI");
-    }
-    //gev-patch end
+	//gev-patch start #2266
+	protected function setToolbar() {
+		require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/ReportEduBio/classes/class.ilObjReportEduBio.php';
+		global $ilToolbar;
+		$link = ilObjReportEduBio::getEduBioLinkFor($GET["obj_id"]);
+		$ilToolbar->addButton($this->lng->txt('gev_edu_bio'), $this->ctrl->getLinkTargetByClass(array("ilObjPluginDispatchGUI", "ilObjReportEduBioGUI"), ''), "blank");
+	}
+	//gev-patch end
 } // END class.ilObjUserGUI
 ?>
