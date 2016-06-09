@@ -251,7 +251,7 @@ class ilDclTableView extends ActiveRecord
      */
     public function getFilterableFieldSettings()
     {
-        return ilDclTableViewFieldSetting::where(array("tableview_id" => $this->id, 'in_filter' => true))->get();
+        return ilDclTableViewFieldSetting::where(array("tableview_id" => $this->id, 'in_filter' => 1))->get();
     }
 
     /**
@@ -263,7 +263,7 @@ class ilDclTableView extends ActiveRecord
         if (!$this->visible_fields_cache) {
             $visible = ilDclTableViewFieldSetting::
                 where(array("tableview_id" => $this->id, 'visible' => true, 'il_dcl_tfield_set.table_id' => $this->getTableId()))
-                ->innerjoin('il_dcl_tfield_set', 'field', 'field')
+                ->innerjoin('il_dcl_tfield_set', 'field', 'field', array())
                 ->orderBy('il_dcl_tfield_set.field_order')
                 ->get();
             $fields = array();
