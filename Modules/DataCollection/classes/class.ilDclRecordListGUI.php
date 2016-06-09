@@ -160,8 +160,7 @@ class ilDclRecordListGUI {
 			ilUtil::sendInfo($this->lng->txt("dcl_no_fields_yet") . " "
 				. ($this->table_obj->hasPermissionToFields($this->parent_obj->ref_id) ? $this->lng->txt("dcl_create_fields") : ""));
 		}
-
-//		$tpl->getStandardTemplate();
+		
 		$tpl->setPermanentLink("dcl", $this->parent_obj->ref_id);
 		if ($desc = $this->table_obj->getDescription()) {
 			$desc = "<div class='ilDclTableDescription'>{$desc}</div>";

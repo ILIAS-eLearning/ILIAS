@@ -69,7 +69,6 @@ class ilDclTableEditGUI {
 	 */
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
-		$this->tpl->getStandardTemplate();
 
 		switch ($cmd) {
 			case 'update':
