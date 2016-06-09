@@ -12076,7 +12076,8 @@ dcl#:#dcl_plugin_desc#:#DataCollection Feld Erweiterungen
 dcl#:#dcl_plugin_hooks#:#Verfügbare Erweiterungen
 dcl#:#dcl_save_confirmation#:#Speicherbestätigung
 dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen
-dcl#:#dcl_confirm_storing_records#:#Bitte überprüfen Sie die Angaben vor dem Speichern
+dcl#:#dcl_confirm_storing_records#:#Bitte überprüfen Sie die Angaben vor dem Speichern.
+dcl#:#dcl_confirm_storing_records_no_permission#:#Sie haben keine Rechte, den Datensatz später nochmals zu bearbeiten.
 dcl#:#dcl_save_record#:#Eintrag speichern
 dcl#:#dlc_xls_async_export#:#Asynchroner XLSX export
 dcl#:#dcl_export_started#:#Asynchroner Export gestartet

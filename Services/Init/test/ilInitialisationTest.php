@@ -1,0 +1,69 @@
+<?php
+/**
+ * TestCase for the ilContext
+ *
+ * @author Richard Klees <richard.klees@concepts-and-training.de>
+ */
+class ilInitialisationTest extends PHPUnit_Framework_TestCase {
+	protected $backupGlobals = FALSE;
+
+	protected function setUp() {
+		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+
+		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+		ilUnitUtil::performInitialisation();
+	}
+	
+	/**
+	* @dataProvider globalsProvider
+	*/
+	public function test_DIC($global_name, $class_name) {
+		global $DIC;
+
+		$this->assertInstanceOf($class_name, $GLOBALS[$global_name]);
+		$this->assertInstanceOf($class_name, $DIC[$global_name]);
+		$this->assertSame($GLOBALS[$global_name], $DIC[$global_name]);
+	}
+
+	/**
+	 * @dataProvider getterProvider
+	 */
+	public function test_DIC_getters($class_name, $getter) {
+		global $DIC;
+
+		$service = $getter($DIC);
+		$this->assertInstanceOf($class_name, $service);
+	}
+
+	public function globalsProvider() {
+		// Add combinations of globals and their classes here...
+		return array
+			( array("ilIliasIniFile", "ilIniFile")
+			, array("ilCtrl", "ilCtrl")
+			, array("tree", "ilTree")
+			, array("ilLog", "ilLogger")
+			, array("ilDB", "ilDBInterface")
+			);
+	}
+
+	public function getterProvider() {
+		return array
+			( array("ilDBInterface", function ($DIC) { return $DIC->database(); })
+			, array("ilCtrl", function ($DIC) { return $DIC->ctrl(); })
+			, array("ilObjUser", function ($DIC) { return $DIC->user(); })
+			, array("ilRbacSystem", function ($DIC) { return $DIC->rbac()->system(); })
+			, array("ilRbacAdmin", function ($DIC) { return $DIC->rbac()->admin(); })
+			, array("ilRbacReview", function ($DIC) { return $DIC->rbac()->review(); })
+			, array("ilAccessHandler", function ($DIC) { return $DIC->access(); })
+			, array("ilTree", function ($DIC) { return $DIC->repositoryTree(); })
+			, array("ilLanguage", function ($DIC) { return $DIC->language(); })
+			// TODO: Can't test these until context for unit tests does not have HTML.
+			//, array("ilToolbarGUI", function ($DIC) { return $DIC->toolbar(); })
+			//, array("ilTabsGUI", function ($DIC) { return $DIC->tabs(); })
+			, array("ilLogger", function ($DIC) { return $DIC->logger()->root(); })
+			, array("ilLogger", function ($DIC) { return $DIC->logger()->grp(); })
+			, array("ilLogger", function ($DIC) { return $DIC->logger()->crs(); })
+			, array("ilLogger", function ($DIC) { return $DIC->logger()->tree(); })
+			);
+	}
+}

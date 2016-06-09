@@ -9,4 +9,5 @@ return array(
     'cweagans\\Composer\\' => array($vendorDir . '/cweagans/composer-patches/src'),
     'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
+    'ILIAS\\' => array($baseDir . '/../../src'),
 );
