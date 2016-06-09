@@ -400,6 +400,7 @@ class ilDclRecordEditGUI {
 		$valid = $this->form->checkInput();
 
 		$record_obj = ilDclCache::getRecordCache($this->record_id);
+		$unchanged_obj = $record_obj;
 		$date_obj = new ilDateTime(time(), IL_CAL_UNIX);
 		$record_obj->setTableId($this->table_id);
 		$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
@@ -518,21 +519,27 @@ class ilDclRecordEditGUI {
 			}
 
 			$dispatchEvent = "update";
+
+			$dispatchEventData = array(
+				'dcl' => $this->parent_obj->getDataCollectionObject(),
+				'table_id' => $this->table_id,
+				'record_id' => $record_obj->getId(),
+				'record' => $record_obj,
+			);
+
 			if ($create_mode) {
 				$dispatchEvent = "create";
 				ilObjDataCollection::sendNotification("new_record", $this->table_id, $record_obj->getId());
+			} else {
+				$dispatchEventData['prev_record'] = $unchanged_obj;
 			}
 
 			$record_obj->doUpdate();
 
 			$ilAppEventHandler->raise('Modules/DataCollection',
 				$dispatchEvent.'Record',
-				array(
-					'dcl' => $this->parent_obj->getDataCollectionObject(),
-					'table_id' => $this->table_id,
-					'obj_id' => $record_obj->getId(),
-					'object' => $record_obj,
-					));
+				$dispatchEventData
+			);
 
 			$this->ctrl->setParameter($this, "table_id", $this->table_id);
 			$this->ctrl->setParameter($this, "record_id", $this->record_id);
