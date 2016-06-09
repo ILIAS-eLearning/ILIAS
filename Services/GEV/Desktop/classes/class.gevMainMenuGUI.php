@@ -347,9 +347,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	protected function getReportingMenuDropDown() {
 		require_once("Services/Link/classes/class.ilLink.php");
 		require_once("Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBase.php");
-		$entries = array(
-			  "gev_report_wbd_errors" => array($this->canViewReport("gev_report_wbd_errors"), "ilias.php?baseClass=gevDesktopGUI&cmd=toWBDErrors",$this->gLng->txt("gev_report_wbd_errors"))
-			);
+		$entries = array();
 
 		$visible_repo_reports = ilObjReportBase::getVisibleReportsObjectData($this->gUser);
 		foreach ($visible_repo_reports as $info) {
@@ -375,10 +373,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 
 			$visible_repo_reports = ilObjReportBase::getVisibleReportsObjectData($this->gUser);
 
-			$has_reporting_menu
-				=  $this->canViewReport("gev_report_wbd_errors")
-				|| count($visible_repo_reports) > 0
-				;
+			$has_reporting_menu = (count($visible_repo_reports) > 0);
 			ilSession::set("gev_has_reporting_menu", $has_reporting_menu);
 			ilSession::set("gev_has_reporting_menu_calculation_ts", time());
 		}
@@ -386,12 +381,4 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		return $has_reporting_menu;
 	}
 
-	protected function canViewReport($report_name) {
-		switch ($report_name) {
-			case "gev_report_wbd_errors":
-				return $this->user_utils && $this->user_utils->isAdmin();
-			default:
-				throw new Exception("Can't tell permission for unknown report $report_name");
-		}
-	}
 }
