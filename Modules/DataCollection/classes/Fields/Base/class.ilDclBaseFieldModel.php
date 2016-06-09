@@ -855,15 +855,17 @@ class ilDclBaseFieldModel {
 	 */
 	public function setProperty($key, $value) {
 		if(isset($this->property[$key])) {
-			$property = $this->property[$key];
-			$property->setValue($value);
+			$this->property[$key]->setValue($value);
 		} else {
 			$property = new ilDclFieldProperty();
 			$property->setName($key);
 			$property->setFieldId($this->getId());
 			$property->setValue($value);
+
+			$this->property[$key] = $property;
 		}
-		return $property;
+
+		return $this->property[$key];
 	}
 
 
