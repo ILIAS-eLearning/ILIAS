@@ -227,8 +227,13 @@ class ilStr
 	 * @param string $value Value in lower camel case conversion
 	 * @return string The value in underscore case conversion
 	 */
-	public static function convertUpperCamelCaseToUnderscoreCase($value) {
-		return preg_replace('/(^|[a-z])([A-Z])/e', 'strtolower(strlen("\\1") ? "\\1_\\2" : "\\2")', $value);
+	public static function convertUpperCamelCaseToUnderscoreCase($value)
+	{
+		return strtolower(preg_replace(
+			array('#(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])#', '#(?<=(?:[a-z0-9]))([A-Z])#'),
+			array('\1_\2', '_\1'),
+			$value
+		));
 	}
 
 	/**
