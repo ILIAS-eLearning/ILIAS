@@ -373,7 +373,8 @@ class ilDclRecordEditGUI {
 			$field_record = ilDclCache::getRecordFieldCache($record_obj, $field);
 			$field_record->setValue($all_values[$field->getId()]);
 
-			$record_representation = ilDclCache::getRecordRepresentation($field_record);
+			$record_representation = ilDclFieldFactory::getRecordRepresentationInstance($field_record);
+
 			if(is_array($all_values[$field->getId()])) {
 				foreach($all_values[$field->getId()] as $key=>$value) {
 					$confirmation->addHiddenItem('field_'.$field->getId().'['.$key.']', $value);
