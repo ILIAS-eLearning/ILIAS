@@ -83,6 +83,16 @@ class ilContextSoap implements ilContextTemplate
 	{
 		return true;
 	}
+	
+	/**
+	 * Check if persistent session handling is supported
+	 * @return boolean
+	 */
+	public static function supportsPersistentSessions()
+	{
+		return false;
+	}
+	
 }
 
 ?>

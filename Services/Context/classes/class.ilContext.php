@@ -148,6 +148,18 @@ class ilContext
 	{
 		return self::$type;
 	}
+	
+	/**
+	 * Check if context supports persistent
+	 * session handling.
+	 * false for cli context
+	 * 
+	 * @return bool
+	 */
+	public static function supportsPersistentSessions()
+	{
+		return (bool) self::callContext('supportsPersistentSessions');
+	}
 }
 
 ?>
