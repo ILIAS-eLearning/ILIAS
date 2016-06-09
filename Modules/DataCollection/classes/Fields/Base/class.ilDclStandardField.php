@@ -44,9 +44,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
 	 */
 	public function doUpdate()
 	{
-		$this->updateVisibility();
-		$this->updateFilterability();
-		$this->updateExportability();
+		$this->updateTableFieldSetting();
 	}
 
 
@@ -56,8 +54,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
 	public function cloneStructure($original_record) {
 		$this->setEditable($original_record->isEditable());
 		$this->setLocked($original_record->getLocked());
-		$this->setFilterable($original_record->isFilterable());
-		$this->setVisible($original_record->isVisible());
 		$this->setOrder($original_record->getOrder());
 		$this->setRequired($original_record->getRequired());
 		$this->setUnique($original_record->isUnique());
@@ -251,6 +247,14 @@ class ilDclStandardField extends ilDclBaseFieldModel
 		}
 
 		return parent::hasNumericSorting();
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function allowFilterInListView() {
+		//comments are filterable if they are enabled in the tables settings
+		return $this->id != 'comments' || ilDclCache::getTableCache($this->getTableId())->getPublicCommentsEnabled();
 	}
 }
 

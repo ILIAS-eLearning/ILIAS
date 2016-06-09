@@ -1,0 +1,20 @@
+<tr class="{CSS_ROW}" id="{ID}">
+    <td class="name">{FIELD_TITLE}</td>
+    <td class="std">
+        <input type="checkbox" name="Visible_{FIELD_ID}" {VISIBLE}>
+    </td>
+    <!-- BEGIN filter -->
+    <td class="std">
+        <input type="checkbox" name="InFilter_{FIELD_ID}" {IN_FILTER}>
+    </td>
+    <td class="std">{FILTER_VALUE}</td>
+    <td class="std">
+        <input type="checkbox" name="FilterChangeable_{FIELD_ID}" {FILTER_CHANGEABLE}>
+    </td>
+    <!-- END filter -->
+    <!-- BEGIN no_filter -->
+    <td class="std">{NO_FILTER}</td>
+    <td class="std">{NO_FILTER}</td>
+    <td class="std">{NO_FILTER}</td>
+    <!-- END no_filter -->
+</tr>

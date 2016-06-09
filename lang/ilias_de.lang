@@ -12049,7 +12049,7 @@ dcl#:#dcl_length#:#Länge
 dcl#:#dcl_length_info#:#Maximale Anzahl von Zeichen, die ein Benutzer eingeben kann. Bei mehr als 200 Zeichen aktivieren Sie zusätzlich die Option "Mehrzeiliges Texteingabefeld".
 dcl#:#dcl_regex#:#Regulärer Ausdruck
 dcl#:#dcl_regex_info#:#Eingabe ohne Trennsymbol/Delimiter
-dcl#:#dcl_filter#:#Filter
+dcl#:#dcl_filter#:#Im Filter verfügbar
 dcl#:#dcl_max_text_length#:#Maximale Länge
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (Regulärer Ausdruck).
@@ -12372,7 +12372,7 @@ dcl#:#dcl_edit_field#:#Feld bearbeiten
 dcl#:#dcl_update_field#:#Feld aktualisieren
 dcl#:#dcl_create_field#:#Feld hinzufügen
 dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert
-dcl#:#dcl_title#:#Feldtitel
+dcl#:#dcl_fieldtitle#:#Feldtitel
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_save#:#Speichern
 dcl#:#dcl_description#:#Beschreibung
@@ -12398,6 +12398,24 @@ dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_display_action_menu#:#Kopieren
 dcl#:#dcl_display_action_menu_desc#:#Objekt kann kopiert oder verknüpft werden, wenn der Benutzer entsprechende Rechte besitzt
+dcl#:#dcl_tableviews#:#Tabellenansichten
+dcl#:#dcl_tableview#:#Tabellenansicht
+dcl#:#dcl_tableorder#:#Tabellenordnung
+dcl#:#dcl_detailed_view#:#Einzelansicht
+dcl#:#dcl_tableview_add#:#Tabellenansicht hinzufügen
+dcl#:#dcl_delete_views#:#Ansichten löschen
+dcl#:#dcl_msg_tableview_created#:#Tabellenansicht hinzugefügt
+dcl#:#dcl_msg_tableview_deleted#:#Tabellenansicht entfernt
+dcl#:#dcl_msg_tableviews_deleted#:#Tabellenansichten entfernt
+dcl#:#dcl_msg_tableviews_delete_all#:#Löschen nicht möglich: Es muss mindestens eine Tabellenansicht existieren
+dcl#:#dcl_msg_info_alternatives#:#Die gewünschte Einzelansicht konnte nicht angezeigt werden, da entweder keine Einzelansicht für diese Ansicht existiert oder Sie nicht genügend Zurgriffsrechte besitzen. Wählen Sie aus der Liste eine für Sie verfügbare Einzelansicht, um den Datensatz dennoch anzuzeigen.
+dcl#:#dcl_tableviews_confirm_delete#:#Sind Sie sicher, dass die folgenden Tabellenansichten gelöscht werden sollen?
+dcl#:#dcl_tableview_confirm_delete#:#Sind Sie sicher, dass die folgende Tabellenansicht gelöscht werden sollen?
+dcl#:#dcl_tableview_fieldsettings#:#Feldspezifische Einstellungen
+dcl#:#dcl_field_visible#:#Sichtbar
+dcl#:#dcl_standardview#:#Standardansicht
+dcl#:#dcl_std_filter#:#Standardfilter
+dcl#:#dcl_filter_changeable#:#Filter änderbar
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool-Einstellungen
 common#:#obj_tool_setting_calendar#:#Kalender
@@ -12892,12 +12910,14 @@ dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#Die interne ID.
 dcl#:#dcl_creation_date#:#Erstellungs Datum
+dcl#:#dcl_create_date#:#Erstellungs Datum
 dcl#:#dcl_creation_date_description#:#Das Datum an dem dieser Eintrag erstellt wurde.
 dcl#:#dcl_last_update#:#Letzte Änderung
 dcl#:#dcl_last_update_description#:#Das Datum an dem dieser Eintrag zuletzt geändert wurde.
 dcl#:#dcl_owner#:#Besitzer
 dcl#:#dcl_owner_description#:#Der Besitzer dieses Eintrages.
 dcl#:#dcl_last_edited_by#:#Zuletzt geändert von
+dcl#:#dcl_last_edit_by#:#Zuletzt geändert von
 dcl#:#dcl_last_edited_by_description#:#Der Benutzer der diesen Eintrag zuletzt geändert hat.
 dcl#:#dcl_public_comments#:#Kommentare
 dcl#:#dcl_public_comments_desc#:#Benutzer können Datensätze dieser Tabelle kommentieren

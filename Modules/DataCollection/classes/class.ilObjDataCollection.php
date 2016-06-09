@@ -34,7 +34,6 @@ class ilObjDataCollection extends ilObject2 {
 		$result = $ilDB->query("SELECT * FROM il_dcl_data WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 
 		$data = $ilDB->fetchObject($result);
-		$this->setMainTableId($data->main_table_id);
 		$this->setOnline($data->is_online);
 		$this->setRating($data->rating);
 		$this->setApproval($data->approval);
@@ -43,33 +42,34 @@ class ilObjDataCollection extends ilObject2 {
 	}
 
 
-	protected function doCreate() {
+	protected function doCreate($clone_mode = false) {
 		global $ilDB, $ilLog;
 
 		$ilLog->write('doCreate');
 
-		//Create Main Table - The title of the table is per default the title of the data collection object
-		require_once('./Modules/DataCollection/classes/class.ilDclTable.php');
-		$main_table = ilDclCache::getTableCache();
-		$main_table->setObjId($this->getId());
-		$main_table->setTitle($this->getTitle());
-		$main_table->setAddPerm(1);
-		$main_table->setEditPerm(1);
-		$main_table->setDeletePerm(1);
-		$main_table->setEditByOwner(1);
-		$main_table->setLimited(0);
-		$main_table->doCreate();
+		if (!$clone_mode) {
+			//Create Main Table - The title of the table is per default the title of the data collection object
+			require_once('./Modules/DataCollection/classes/class.ilDclTable.php');
+			$main_table = ilDclCache::getTableCache();
+			$main_table->setObjId($this->getId());
+			$main_table->setTitle($this->getTitle());
+			$main_table->setAddPerm(1);
+			$main_table->setEditPerm(1);
+			$main_table->setDeletePerm(1);
+			$main_table->setEditByOwner(1);
+			$main_table->setLimited(0);
+			$main_table->doCreate();
+		}
+
 
 		$ilDB->insert("il_dcl_data", array(
 			"id" => array( "integer", $this->getId() ),
-			"main_table_id" => array( "integer", (int)$main_table->getId() ),
 			"is_online" => array( "integer", (int)$this->getOnline() ),
 			"rating" => array( "integer", (int)$this->getRating() ),
 			"public_notes" => array( "integer", (int)$this->getPublicNotes() ),
 			"approval" => array( "integer", (int)$this->getApproval() ),
 			"notification" => array( "integer", (int)$this->getNotification() ),
 		));
-		$this->setMainTableId($main_table->getId());
 	}
 
 
@@ -98,7 +98,6 @@ class ilObjDataCollection extends ilObject2 {
 
 		$ilDB->update("il_dcl_data", array(
 			"id" => array( "integer", $this->getId() ),
-			"main_table_id" => array( "integer", (int)$this->getMainTableId() ),
 			"is_online" => array( "integer", (int)$this->getOnline() ),
 			"rating" => array( "integer", (int)$this->getRating() ),
 			"public_notes" => array( "integer", (int)$this->getPublicNotes() ),
@@ -178,7 +177,7 @@ class ilObjDataCollection extends ilObject2 {
 					}
 					//					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id.":\n";
 					$t = "";
-					foreach ($record->getTable()->getVisibleFields() as $field) {
+					foreach ($record->getTable()->getFields() as $field) {
 						if ($record->getRecordField($field->getId())) {
 							$t .= $field->getTitle() . ": " . $record->getRecordField($field->getId())->getPlainText() . "\n";
 						}
@@ -200,30 +199,40 @@ class ilObjDataCollection extends ilObject2 {
 			}
 		}
 	}
-
-
-	/**
-	 * @param $a_val
-	 */
-	public function setMainTableId($a_val) {
-		$this->main_table_id = $a_val;
-	}
-
-
+	
 	/**
 	 * @return mixed
 	 */
 	public function getMainTableId() {
-		return $this->main_table_id;
+		global $ilDB;
+		$result = $ilDB->query('SELECT id FROM il_dcl_table WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ORDER BY table_order LIMIT 1');
+		return $ilDB->fetchObject($result)->id;	
+	}
+
+	/**
+	 * @param $table_order
+	 */
+	public function reorderTables($table_order) {
+		if($table_order){
+			$order = 10;
+			foreach ($table_order as $title) {
+				$table_id = ilDclTable::_getTableIdByTitle($title, $this->getId());
+				$table = ilDclCache::getTableCache($table_id);
+				$table->setOrder($order);
+				$table->doUpdate();
+				$order += 10;
+			}
+		}
+
 	}
 
 
 	/**
 	 * Clone DCL
 	 *
-	 * @param ilObjDataCollection new object
-	 * @param int                 target ref_id
-	 * @param int                 copy id
+	 * @param ilObjDataCollection $new_obj
+	 * @param int                 $a_target_id ref_id
+	 * @param int                 $a_copy_id
 	 *
 	 * @return ilObjPoll
 	 */
@@ -296,10 +305,6 @@ class ilObjDataCollection extends ilObject2 {
 			$new_table = new ilDclTable();
 			$new_table->setObjId($this->getId());
 			$new_table->cloneStructure($table);
-
-			if ($table->getId() == $original->getMainTableId()) {
-				$this->setMainTableId($new_table->getId());
-			}
 		}
 
 		// update because maintable id is now set.
@@ -310,7 +315,7 @@ class ilObjDataCollection extends ilObject2 {
 			foreach ($origTable->getRecordFields() as $origField) {
 				if ($origField->getDatatypeId() == ilDclDatatype::INPUTFORMAT_REFERENCE) {
 					$newRefId = NULL;
-					$origFieldRefObj = ilDclCache::getFieldCache($origField->getFieldRef());
+					$origFieldRefObj = $origField->getFieldRef();
 					$origRefTable = ilDclCache::getTableCache($origFieldRefObj->getTableId());
 					// Lookup the new ID of the referenced field in the actual DC
 					$tableId = ilDclTable::_getTableIdByTitle($origRefTable->getTitle(), $this->getId());
@@ -321,7 +326,7 @@ class ilObjDataCollection extends ilObject2 {
 					$tableId = ilDclTable::_getTableIdByTitle($origTable->getTitle(), $this->getId());
 					$fieldId = ilDclBaseFieldModel::_getFieldIdByTitle($origField->getTitle(), $tableId);
 					$field = ilDclCache::getFieldCache($fieldId);
-					$field->setPropertyvalue($newRefId, ilDclBaseFieldModel::PROPERTYID_REFERENCE);
+					$field->setProperty($newRefId, ilDclBaseFieldModel::PROP_REFERENCE);
 					$field->doUpdate();
 				}
 			}
@@ -437,7 +442,8 @@ class ilObjDataCollection extends ilObject2 {
 	public function getTables() {
 		global $ilDB;
 
-		$query = "SELECT id FROM il_dcl_table WHERE obj_id = " . $ilDB->quote($this->getId(), "integer");
+		$query = "SELECT id FROM il_dcl_table WHERE obj_id = " . $ilDB->quote($this->getId(), "integer") .
+					" ORDER BY table_order";
 		$set = $ilDB->query($query);
 		$tables = array();
 

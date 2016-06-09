@@ -69,7 +69,6 @@ class ilDclTableEditGUI {
 	 */
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
-		$this->tpl->getStandardTemplate();
 
 		switch ($cmd) {
 			case 'update':
@@ -194,7 +193,7 @@ class ilDclTableEditGUI {
 		if ($a_mode != 'create') {
 			$item = new ilSelectInputGUI($this->lng->txt('dcl_default_sort_field'), 'default_sort_field');
             $item->setInfo($this->lng->txt('dcl_default_sort_field_desc'));
-			$fields = $this->table->getVisibleFields();
+			$fields = $this->table->getFields();
 			$options = array( 0 => $this->lng->txt('dcl_please_select') );
 			foreach ($fields as $field) {
 				$options[$field->getId()] = $field->getTitle();
@@ -424,8 +423,8 @@ class ilDclTableEditGUI {
 	  */
 	public function delete() {
 		$mainTableId = $this->table->getCollectionObject()->getMainTableId();
-		if ($mainTableId == $this->table->getId()) {
-			ilUtil::sendFailure($this->lng->txt("dcl_cant_delete_main_table"), true);
+		if (count($this->table->getCollectionObject()->getTables()) < 2) {
+			ilUtil::sendFailure($this->lng->txt("dcl_cant_delete_main_table"), true); //TODO change lng var
 		} else {
 			$this->ctrl->setParameterByClass("ildclfieldlistgui", "table_id", $mainTableId);
 		}

@@ -671,7 +671,7 @@ class ilDclBaseRecordModel {
 	 * @param $original_id integer
 	 * @param $new_fields  array($old_field_id => $new_field)
 	 */
-	/*public function cloneStructure($original_id, $new_fields){
+	public function cloneStructure($original_id, $new_fields){
 		$original = ilDclCache::getRecordCache($original_id);
 		$this->setCreateDate($original->getCreateDate());
 		$this->setLastEditBy($original->getLastEditBy());
@@ -685,7 +685,7 @@ class ilDclBaseRecordModel {
 			$new_rec_field->doUpdate();
 			$this->recordfields[] = $new_rec_field;
 		}
-	}*/
+	}
 
 	/**
 	 * Delete a file

@@ -32,6 +32,10 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 	 */
 	protected $table;
 	/**
+	 * @var ilDclTableView
+	 */
+	protected $tableview;
+	/**
 	 * @var ilDclBaseRecordModel[]
 	 */
 	protected $object_data;
@@ -56,9 +60,10 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 	 * @param ilDclTable         $table
 	 * @param int                           $mode
 	 */
-	public function  __construct(ilDclRecordListGUI $a_parent_obj, $a_parent_cmd, ilDclTable $table, $mode = ilDclRecordListGUI::MODE_VIEW) {
+	public function  __construct(ilDclRecordListGUI $a_parent_obj, $a_parent_cmd, ilDclTable $table, $tableview_id, $mode = ilDclRecordListGUI::MODE_VIEW) {
 		global $lng, $ilCtrl;
 
+		$this->tableview = ilDclTableView::find($tableview_id);
 		$identifier = 'dcl_rl' . $table->getId();
 		$this->setPrefix($identifier);
 		$this->setFormName($identifier);
@@ -77,12 +82,12 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$this->addMultiCommand("confirmDeleteRecords", $lng->txt('dcl_delete_records'));
 		}
 
-		if (ilDclRecordViewGUI::hasTableValidViewDefinition($this->table)) {
+		if (ilDclRecordViewViewdefinition::isActive($this->tableview->getId())) {
 			$this->addColumn("", "_front", '15px');
 		}
 
 		$this->numeric_fields = array();
-		foreach ($this->table->getVisibleFields() as $field) {
+		foreach ($this->tableview->getVisibleFields() as $field) {
 			$title = $field->getTitle();
 			$sort_field = ($field->getRecordQuerySortObject() != null)? $field->getSortField() : '';
 
@@ -125,8 +130,8 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_EXCEL_ASYNC));
 		}
 
+		$ilCtrl->saveParameter($a_parent_obj, 'tableview_id');
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
-		$this->initFilter();
 		$this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
 	}
 
@@ -164,7 +169,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$record_data["_front"] = NULL;
 			$record_data['_record'] = $record;
 
-			foreach ($this->table->getVisibleFields() as $field) {
+			foreach ($this->tableview->getVisibleFields() as $field) {
 				$title = $field->getTitle();
 				$record_data[$title] = $record->getRecordFieldHTML($field->getId());
 
@@ -183,7 +188,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$ilCtrl->setParameterByClass("ildclrecordeditgui", "record_id", $record->getId());
 			$ilCtrl->setParameterByClass("ildclrecordeditgui", "mode", $this->mode);
 
-			if (ilDclRecordViewGUI::hasTableValidViewDefinition($this->table)) {
+			if (ilDclRecordViewViewdefinition::isActive($this->tableview->getId())) {
 				$record_data["_front"] = $ilCtrl->getLinkTargetByClass("ildclrecordviewgui", 'renderRecord');
 			}
 
@@ -191,7 +196,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 			$alist->setId($record->getId());
 			$alist->setListTitle($lng->txt("actions"));
 
-			if (ilDclRecordViewGUI::hasTableValidViewDefinition($this->table)) {
+			if (ilDclRecordViewViewdefinition::isActive($this->tableview->getId())) {
 				$alist->addItem($lng->txt('view'), 'view', $ilCtrl->getLinkTargetByClass("ildclrecordviewgui", 'renderRecord'));
 			}
 
@@ -226,7 +231,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 		 * @var $record_obj ilDclBaseRecordModel
 		 * @var $ilAccess   ilAccessHandler
 		 */
-		foreach ($this->table->getVisibleFields() as $field) {
+		foreach ($this->tableview->getVisibleFields() as $field) {
 			$title = $field->getTitle();
 			$this->tpl->setCurrentBlock("field");
 			$content = $record_data[$title];
@@ -291,10 +296,54 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 		return $return;
 	}
 
+	/**
+	 * init filters with values from tableview
+	 */
+	public function initFilterFromTableView() {
+		foreach ($this->tableview->getFilterableFieldSettings() as $field_set) {
+			$field = $field_set->getFieldObject();
+			ilDclCache::getFieldRepresentation($field)->addFilterInputFieldToTable($this);
 
+			//Disable filters
+			$filter = &end($this->filters);
+			if (!$field_set->isFilterChangeable())
+			{
+				$filter->setDisabled(true);
+				if ($filter instanceof ilCombinationInputGUI)
+				{
+					$filter->__call('setDisabled', array(true));
+				}
+			}
+
+			$filter_value = $field_set->getFilterValue();
+
+			$filter->setValueByArray($filter_value);
+			$this->applyFilter($field->getId(), array_shift($filter_value));
+		}
+	}
+
+	/**
+	 * normally initialize filters - used by applyFilter and resetFilter
+	 */
 	public function initFilter() {
-		foreach ($this->table->getFilterableFields() as $field) {
+		foreach ($this->tableview->getFilterableFieldSettings() as $field_set) {
+			$field = $field_set->getFieldObject();
 			$filter_value = ilDclCache::getFieldRepresentation($field)->addFilterInputFieldToTable($this);
+
+			//Disable filters
+			$filter = &end($this->filters);
+			if (!$field_set->isFilterChangeable())
+			{
+				//always set tableview-filtervalue with disabled fields, so resetFilter won't reset it
+				$filter_value = $field_set->getFilterValue();
+				$filter->SetValueByArray($filter_value);
+				$filter->setDisabled(true);
+				if ($filter instanceof ilCombinationInputGUI)
+				{
+					$filter->__call('setDisabled', array(true));
+				}
+			}
+
 			$this->applyFilter($field->getId(), $filter_value);
 		}
 	}

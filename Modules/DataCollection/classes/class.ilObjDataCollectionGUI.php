@@ -25,6 +25,7 @@ require_once('./Modules/DataCollection/classes/class.ilDclExportGUI.php');
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListGUI, ilDataCollectionRecordEditViewdefinitionGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordViewGUI, ilDclRecordViewViewdefinitionGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableEditGUI, ilDclFieldListGUI, ilObjFileGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableViewGUI, ilDclTableViewEditGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListViewdefinitionGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilObjUserGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilRatingGUI
@@ -170,6 +171,15 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				$fieldlist_gui = new ilDclFieldListGUI($this, $this->table_id);
 				$this->ctrl->forwardCommand($fieldlist_gui);
 				break;
+	
+			case "ildcltableviewgui":
+				$this->prepareOutput();
+				$this->addListFieldsTabs("show_tableviews");
+				$ilTabs->setTabActive("id_fields");
+				require_once('./Modules/DataCollection/classes/TableView/class.ilDclTableViewGUI.php');
+				$tableview_gui = new ilDclTableViewGUI($this, $this->table_id);
+				$this->ctrl->forwardCommand($tableview_gui);
+				break;
 
 			case "ildcltableeditgui":
 				$this->prepareOutput();
@@ -188,6 +198,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				break;
 
 			case "ildclrecordlistgui":
+//				$ilCtrl->saveParameter($this, "tableview_id");
 				$this->addHeaderAction(false);
 				$this->prepareOutput();
 				$ilTabs->activateTab("id_records");
@@ -393,7 +404,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 		// list records
 		if ($ilAccess->checkAccess('read', "", $this->object->getRefId())) {
-			$ilTabs->addTab("id_records", $lng->txt("content"), $this->ctrl->getLinkTargetByClass("ildclrecordlistgui", "listRecords"));
+			$ilTabs->addTab("id_records", $lng->txt("content"), $this->ctrl->getLinkTargetByClass("ildclrecordlistgui", "show"));
 		}
 
 		// info screen
@@ -431,8 +442,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 		$ilTabs->addSubTab("list_fields", $lng->txt("dcl_list_fields"), $ilCtrl->getLinkTargetByClass("ildclfieldlistgui", "listFields"));
 
-		$ilCtrl->setParameterByClass("ildclrecordviewviewdefinitiongui", "table_id", $this->table_id);
-		$ilTabs->addSubTab("view_viewdefinition", $lng->txt("dcl_record_view_viewdefinition"), $ilCtrl->getLinkTargetByClass("ildclrecordviewviewdefinitiongui", "edit"));
+		$ilCtrl->setParameterByClass("ildcltableviewgui", "table_id", $this->table_id);
+		$ilTabs->addSubTab("show_tableviews", $lng->txt("dcl_tableviews"), $ilCtrl->getLinkTargetByClass("ildcltableviewgui", "show"));
+
+//		$ilCtrl->setParameterByClass("ildclrecordviewviewdefinitiongui", "table_id", $this->table_id);
+//		$ilTabs->addSubTab("view_viewdefinition", $lng->txt("dcl_record_view_viewdefinition"), $ilCtrl->getLinkTargetByClass("ildclrecordviewviewdefinitiongui", "edit"));
 
 		$ilTabs->activateSubTab($a_active);
 	}
@@ -455,6 +469,19 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 		$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_notification"), "notification");
 		$cb->setInfo($this->lng->txt("dcl_notification_info"));
 		$a_form->addItem($cb);
+
+		//table order
+		$order_options = array();
+		foreach($this->getDataCollectionObject()->getTables() as $table) {
+			$order_options[$table->getId()] = $table->getTitle();
+		}
+		$sort = new ilNonEditableValueGUI($this->lng->txt("dcl_tableorder"), "table_order");
+//		//Info can't be set since it will count as item and can be moved
+//		$sort->setInfo($this->lng->txt("dcl_tableorder_info"));
+		$sort->setMultiValues($order_options);
+		$sort->setValue(array_shift($order_options));
+		$sort->setMulti(true, true, false);
+		$a_form->addItem($sort);
 	}
 
 
@@ -498,13 +525,13 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 * @param ilPropertyFormGUI $a_form
 	 */
 	public function updateCustom(ilPropertyFormGUI $a_form) {
-		global $ilUser;
-
 		$this->object->setOnline($a_form->getInput("is_online"));
 		$this->object->setRating($a_form->getInput("rating"));
 		$this->object->setPublicNotes($a_form->getInput("public_notes"));
 		$this->object->setApproval($a_form->getInput("approval"));
 		$this->object->setNotification($a_form->getInput("notification"));
+		$this->object->reorderTables($a_form->getInput('table_order'));
+
 		$this->emptyInfo();
 	}
 

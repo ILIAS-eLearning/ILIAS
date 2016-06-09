@@ -99,4 +99,11 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel {
 		return array(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function allowFilterInListView() {
+		return false;
+	}
+
 }

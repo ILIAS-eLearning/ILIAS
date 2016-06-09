@@ -34,8 +34,12 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 				$ref_record = ilDclCache::getRecordCache($value);
 				$ref_table = $ref_record->getTableId();
 				// Checks if a view exists
-				$query = "SELECT table_id FROM il_dcl_view WHERE table_id = " . $ref_table . " AND type = " . $ilDB->quote(0, "integer")
-					. " AND formtype = " . $ilDB->quote(0, "integer");
+				$query = "SELECT page_id 
+							FROM page_object 
+							INNER JOIN il_dcl_tableview ON (il_dcl_tableview.id = page_object.page_id) 
+							WHERE active = 1 
+								AND parent_type = " . $ilDB->quote('dclf', 'text') . "
+								AND il_dcl_tableview.table_id = " . $ref_table ;
 				$set = $ilDB->query($query);
 				if ($ilDB->numRows($set)) {
 					$html = $this->getLinkHTML(NULL, $value);
@@ -68,6 +72,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 		if (!$link_name) {
 			$link_name = $ref_record->getRecordFieldHTML($record_field->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
 		}
+		$ilCtrl->clearParametersByClass("ildclrecordviewgui");
 		$ilCtrl->setParameterByClass("ildclrecordviewgui", "record_id", $ref_record->getId());
 		$html = "<a href='" . $ilCtrl->getLinkTargetByClass("ilDclRecordViewGUI", "renderRecord") . "&disable_paging=1'>" . $link_name . "</a>";
 

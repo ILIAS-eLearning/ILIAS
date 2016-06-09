@@ -58,7 +58,6 @@ class ilDclFieldListGUI
 	{
         global $ilCtrl, $lng, $ilToolbar, $tpl, $ilTabs;
 
-		$this->main_table_id = $a_parent_obj->object->getMainTableId();
 		$this->table_id = $table_id;
 		$this->parent_obj = $a_parent_obj;
 		$this->obj_id = $a_parent_obj->obj_id;
@@ -130,9 +129,7 @@ class ilDclFieldListGUI
 
 		foreach($fields as $field)
 		{
-			$field->setVisible($_POST['visible'][$field->getId()] == "on");
 			$field->setEditable($_POST['editable'][$field->getId()] == "on");
-			$field->setFilterable($_POST['filterable'][$field->getId()] == "on");
 			$field->setLocked($_POST['locked'][$field->getId()] == "on");
 			$field->setExportable($_POST['exportable'][$field->getId()] == "on");
 			$field->setOrder($_POST['order'][$field->getId()]);

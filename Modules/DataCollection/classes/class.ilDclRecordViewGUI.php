@@ -12,6 +12,7 @@ require_once('./Modules/DataCollection/classes/class.ilDclRecordEditGUI.php');
 require_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
 require_once("./Modules/DataCollection/classes/class.ilDclRecordListTableGUI.php");
 require_once("./Modules/DataCollection/classes/class.ilDclRecordListGUI.php");
+require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableViewTableGUI.php");
 
 /**
  *
@@ -36,6 +37,10 @@ class ilDclRecordViewGUI {
 	 * @var  ilDclTable
 	 */
 	protected $table;
+	/**
+	 * @var integer
+	 */
+	protected $tableview_id;
 	/**
 	 * @var  ilDclBaseRecordModel
 	 */
@@ -112,6 +117,14 @@ class ilDclRecordViewGUI {
 
 	public function executeCommand() {
 		global $ilCtrl;
+		$this->tableview_id = $_GET['tableview_id'] ? $_GET['tableview_id'] : $this->table->getFirstTableViewId($_GET['ref_id']);
+
+		if (!ilObjDataCollectionAccess::hasWriteAccess($_GET['ref_id']) &&
+			(!ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id) || !ilDclRecordViewViewdefinition::isActive($this->tableview_id)))
+		{
+			$this->offerAlternativeViews();
+			return;
+		}
 
 		$cmd = $ilCtrl->getCmd();
 		$cmdClass = $ilCtrl->getCmdClass();
@@ -143,19 +156,13 @@ class ilDclRecordViewGUI {
 		}
 	}
 
-
-	/**
-	 * @param $record_obj ilDclBaseRecordModel
-	 *
-	 * @deprecated
-	 *
-	 * @return int|NULL returns the id of the viewdefinition if one is declared and NULL otherwise
-	 */
-	public static function _getViewDefinitionId(ilDclBaseRecordModel $record_obj) {
-		return ilDclRecordViewViewdefinition::getIdByTableId($record_obj->getTableId());
+	protected function offerAlternativeViews() {
+		global $tpl, $lng;
+		ilUtil::sendInfo($lng->txt('dcl_msg_info_alternatives'));
+		$table_gui = new ilDclTableViewTableGUI($this, 'renderRecord', $this->table);
+		$tpl->setContent($table_gui->getHTML());
 	}
-
-
+	
 	/**
 	 * @param ilDclBaseRecordModel $record_obj
 	 *
@@ -169,16 +176,16 @@ class ilDclRecordViewGUI {
 	}
 
 
-	/**
-	 * @param ilDclTable $table
-	 *
-	 * @return bool
-	 */
-	public static function hasTableValidViewDefinition(ilDclTable $table) {
-		$view = ilDclRecordViewViewdefinition::getInstanceByTableId($table->getId());
-
-		return $view->getActive() AND $view->getId() !== NULL;
-	}
+//	/**
+//	 * @param ilDclTable $table
+//	 *
+//	 * @return bool
+//	 */
+//	public static function hasTableViewValidViewDefinition(ilDclTableView $tableview) {
+//		$view = ilDclRecordViewViewdefinition::getInstance($tableview->getId());
+//
+//		return $view->getActive() AND $view->getId() !== NULL;
+//	}
 
 
 	/**
@@ -191,15 +198,13 @@ class ilDclRecordViewGUI {
 
 		$ilTabs->setTabActive("id_content");
 
-		$view_id = self::_getViewDefinitionId($this->record_obj);
-
-		if (!$view_id) {
+		if (!$this->tableview_id) {
 			$ilCtrl->redirectByClass("ildclrecordlistgui", "listRecords");
 		}
 
 		// see ilObjDataCollectionGUI->executeCommand about instantiation
 		include_once("./Modules/DataCollection/classes/class.ilDclRecordViewViewdefinitionGUI.php");
-		$pageObj = new ilDclRecordViewViewdefinitionGUI($this->record_obj->getTableId(), $view_id);
+		$pageObj = new ilDclRecordViewViewdefinitionGUI($this->tableview_id);
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$pageObj->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "dcl"));
 
