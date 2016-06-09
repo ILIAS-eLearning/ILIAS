@@ -122,6 +122,9 @@ class ilDclRecordEditGUI {
 	}
 
 
+	/**
+	 * Create new record gui
+	 */
 	public function create() {
 		$this->initForm();
 		if ($this->ctrl->isAsynch()) {
@@ -134,7 +137,11 @@ class ilDclRecordEditGUI {
 	}
 
 
+	/**
+	 * Record edit gui
+	 */
 	public function edit() {
+		$this->cleanupTempFiles();
 		$this->initForm();
 
 		$this->setFormValues();
@@ -148,6 +155,11 @@ class ilDclRecordEditGUI {
 	}
 
 
+	/**
+	 * Delete confirmation
+	 *
+	 * @throws ilDclException
+	 */
 	public function confirmDelete() {
 		$conf = new ilConfirmationGUI();
 		$conf->setFormAction($this->ctrl->getFormAction($this));
@@ -172,11 +184,17 @@ class ilDclRecordEditGUI {
 	}
 
 
+	/**
+	 * Cancel deletion
+	 */
 	public function cancelDelete() {
 		$this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
 	}
 
 
+	/**
+	 * Remove record
+	 */
 	public function delete() {
 		$record = ilDclCache::getRecordCache($this->record_id);
 
@@ -427,6 +445,7 @@ class ilDclRecordEditGUI {
 		}
 
 		if (!$valid) {
+			$this->cleanupTempFiles();
 			$this->sendFailure($this->lng->txt('form_input_not_valid'));
 			return;
 		}
@@ -691,6 +710,17 @@ class ilDclRecordEditGUI {
 		}
 
 		return $rows;
+	}
+
+
+	/**
+	 * Cleanup temp-files
+	 */
+	protected function cleanupTempFiles() {
+		$ilfilehash = (isset($_POST['ilfilehash']))? $_POST['ilfilehash'] : null;
+		if($ilfilehash != null) {
+			$this->form->cleanupTempFiles($ilfilehash, $this->user->getId());
+		}
 	}
 }
 
