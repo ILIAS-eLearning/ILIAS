@@ -141,8 +141,8 @@ class ilDclRecordEditGUI {
 	 * Record edit gui
 	 */
 	public function edit() {
-		$this->cleanupTempFiles();
 		$this->initForm();
+		$this->cleanupTempFiles();
 
 		$this->setFormValues();
 		if ($this->ctrl->isAsynch()) {
