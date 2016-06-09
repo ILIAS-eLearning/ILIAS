@@ -1068,20 +1068,7 @@ class ilDclBaseFieldModel {
 		return true;
 	}
 
-
-	/**
-	 * Parses form-property input before saving
-	 *
-	 * @param $property_id property-id
-	 * @param $value form-value
-	 *
-	 * @return mixed
-	 */
-	public function parseFieldCreationFormPropertyValue($property_id, $value) {
-		return $value;
-	}
-
-
+	
 	/**
 	 * @return int|null
 	 */

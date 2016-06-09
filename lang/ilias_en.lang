@@ -12919,7 +12919,7 @@ dcl#:#dlc_xls_async_export#:#Asynchronous XLSX-Export
 dcl#:#dcl_export_started#:#Asynchronous Export started
 dcl#:#dcl_export_finished#:#Export finished
 dcl#:#dcl_supported_filetypes#:#Allowed file-extensions
-dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: .pdf, .docx
+dcl#:#dcl_supported_filetypes_desc#:#You can set the allowed extensions comma seperated. For example: pdf, docx
 dcl#:#dcl_no_export_data_available#:#No data or fields available for export.
 rbac#:#dcl_edit_content#:#Edit entries
 common#:#obj_bibl#:#Bibliography

@@ -12083,7 +12083,7 @@ dcl#:#dlc_xls_async_export#:#Asynchroner XLSX export
 dcl#:#dcl_export_started#:#Asynchroner Export gestartet
 dcl#:#dcl_export_finished#:#Export Abgeschlossen
 dcl#:#dcl_supported_filetypes#:#Erlaubte Dateiendungen
-dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendungen angeben. Zum Beispiel: .pdf, .docx
+dcl#:#dcl_supported_filetypes_desc#:#Sie können hier kommagetrennt Dateiendungen angeben. Zum Beispiel: pdf, docx
 dcl#:#dcl_no_export_data_available#:#Keine Daten oder Felder für den Export verfügbar
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
