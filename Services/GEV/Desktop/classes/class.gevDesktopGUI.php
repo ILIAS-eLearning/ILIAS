@@ -22,7 +22,6 @@
 * @ilCtrl_Calls gevDesktopGUI: gevEmployeeBookingsGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingGUI
 * @ilCtrl_Calls gevDesktopGUI: ilFormPropertyDispatchGUI
-* @ilCtrl_Calls gevDesktopGUI: gevWBDErrorsGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingBuildingBlockAdminGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCourseCreatingBuildingBlockGUI
 * @ilCtrl_Calls gevDesktopGUI: gevDecentralTrainingCourseCreatingBuildingBlock2GUI
@@ -134,13 +133,6 @@ class gevDesktopGUI {
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
-			case "gevwbderrorsgui":
-				$ilMainMenu->setActive("gev_reporting_menu");
-				require_once("Services/GEV/Reports/classes/class.gevWBDErrorsGUI.php");
-				$gui = new gevWBDErrorsGUI();
-				$ret = $this->ctrl->forwardCommand($gui);
-				break;
-
 			case "gevdecentraltrainingbuildingblockadmingui":
 				$ilMainMenu->setActive("gev_admin_menu");
 				require_once("Services/GEV/DecentralTrainings/classes/class.gevDecentralTrainingBuildingBlockAdminGUI.php");
@@ -228,7 +220,6 @@ class gevDesktopGUI {
 			case "toMyTrainingsAp":
 			case "toBooking":
 			case "toEmployeeBookings":
-			case "toWBDErrors":
 			case "createHAUnit":
 			case "toDctBuildingBlockAdm":
 			case "toSaveTrainingSettings":
@@ -283,10 +274,6 @@ class gevDesktopGUI {
 	
 	protected function toEmployeeBookings() {
 		$this->ctrl->redirectByClass("gevEmployeeBookingsGUI");
-	}
-
-	protected function toWBDErrors() {
-		$this->ctrl->redirectByClass("gevWBDErrorsGUI");
 	}
 
 	protected function toSaveTrainingSettings() {
