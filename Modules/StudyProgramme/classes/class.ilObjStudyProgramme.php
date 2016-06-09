@@ -351,7 +351,7 @@ class ilObjStudyProgramme extends ilContainer {
 	* @return ilStudyProgrammeType
 	*/
 	public function getSubType() {
-		if($this->getSubtypeId() != "-") {
+		if(!in_array($this->getSubtypeId(), array("-", "0"))) {
 			$subtype_id = $this->getSubtypeId();
 			return new ilStudyProgrammeType($subtype_id);
 		}
