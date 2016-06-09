@@ -61,8 +61,8 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 		$value = parent::getValueFromExcel($excel, $row, $col);
 		$old = $value;
 		$value = $this->getReferenceFromValue($value);
-		if (!$value) {
-			$warning = "(" . $col . ", " . ilDataCollectionImporter::getExcelCharForInteger($col) . ") " . $lng->txt("dcl_no_such_reference") . " "
+		if (!$value && $old) {
+			$warning = "(" . $row . ", " . ilDataCollectionImporter::getExcelCharForInteger($col+1) . ") " . $lng->txt("dcl_no_such_reference") . " "
 				. $old;
 			return array('warning' => $warning);
 		}

@@ -162,6 +162,20 @@ class ilDclRecordListGUI {
 			$ilToolbar->addStickyItem($add_new);
 		}
 
+		if (($this->table_obj->getExportEnabled() OR $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id))) {
+			$export = ilDclLinkButton::getInstance();
+			$export->setCaption("dcl_export_table_excel");
+			$export->setUrl($this->ctrl->getFormActionByClass("ildclrecordlistgui", "exportExcel"));
+			if (count($this->table_obj->getExportableFields()) == 0 OR $total == 0) {
+				$export->setUseWrapper(true);
+				$export->setDisabled(true);
+				$export->addAttribute('data-toggle', 'datacollection-tooltip', true);
+				$export->addAttribute('data-placement', 'bottom', true);
+				$export->addAttribute('title', $this->lng->txt('dcl_no_exportable_fields_or_no_data'), true);
+			}
+			$ilToolbar->addButtonInstance($export);
+		}
+
 		if ($permission_to_add_or_import) {
 			$this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", NULL);
 
@@ -193,6 +207,23 @@ class ilDclRecordListGUI {
 			$form = $this->initImportForm();
 		}
 		$tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * Export DC as Excel sheet
+	 *
+	 */
+	public function exportExcel() {
+		global $ilCtrl, $lng;
+		if (!($this->table_obj->getExportEnabled() || $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id))) {
+			echo $lng->txt("access_denied");
+			exit;
+		}
+		list( $list, $total ) = $this->getRecordListTableGUI(false);
+		if (!$list->dataExists()) {
+			$this->ctrl->redirect($this->parent_obj);
+		}
+		$list->exportData(ilTable2GUI::EXPORT_EXCEL, true);
 	}
 
 
