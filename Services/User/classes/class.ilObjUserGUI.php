@@ -3880,7 +3880,7 @@ class ilObjUserGUI extends ilObjectGUI
 		require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/ReportEduBio/classes/class.ilObjReportEduBio.php';
 		global $ilToolbar;
 		$link = ilObjReportEduBio::getEduBioLinkFor($GET["obj_id"]);
-		$ilToolbar->addButton($this->lng->txt('gev_edu_bio'), $this->ctrl->getLinkTargetByClass(array("ilObjPluginDispatchGUI", "ilObjReportEduBioGUI"), ''), "blank");
+		$ilToolbar->addButton($this->lng->txt('gev_edu_bio'), $link, "blank");
 	}
 	//gev-patch end
 } // END class.ilObjUserGUI
