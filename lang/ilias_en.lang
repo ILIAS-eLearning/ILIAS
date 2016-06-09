@@ -12911,8 +12911,9 @@ dcl#:#dcl_plugin#:#Plugin
 dcl#:#dcl_plugin_desc#:#DataCollection Field-Plugins
 dcl#:#dcl_plugin_hooks#:#Available Plugins
 dcl#:#dcl_save_confirmation#:#Save confirmation
-dcl#:#dcl_save_confirmation_desc#:#Users have to confirm a new DataCollection entry
-dcl#:#dcl_confirm_storing_records#:#Please check and confirm your input
+dcl#:#dcl_save_confirmation_desc#:#Users have to confirm a new DataCollection entry.
+dcl#:#dcl_confirm_storing_records#:#Please validate and confirm your input.
+dcl#:#dcl_confirm_storing_records_no_permission#:#You have no permission to change the record afterwards.
 dcl#:#dcl_save_record#:#Save Entry
 dcl#:#dlc_xls_async_export#:#Asynchronous XLSX-Export
 dcl#:#dcl_export_started#:#Asynchronous Export started

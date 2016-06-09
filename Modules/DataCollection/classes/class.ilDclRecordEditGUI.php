@@ -339,7 +339,11 @@ class ilDclRecordEditGUI {
 
 		$confirmation = new ilConfirmationGUI();
 		$confirmation->setFormAction($this->ctrl->getFormAction($this));
-		$confirmation->setHeaderText($this->lng->txt('dcl_confirm_storing_records'));
+		$header_text = $this->lng->txt('dcl_confirm_storing_records');
+		if(!$permission && !ilObjDataCollectionAccess::hasEditAccess($this->parent_obj->ref_id)) {
+			$header_text .= " ".$this->lng->txt('dcl_confirm_storing_records_no_permission');
+		}
+		$confirmation->setHeaderText($header_text);
 
 		$confirmation->setCancel($this->lng->txt('dcl_edit_record'), 'edit');
 		$confirmation->setConfirm($this->lng->txt('dcl_save_record'), 'save');
