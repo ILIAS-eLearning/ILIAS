@@ -12244,19 +12244,19 @@ dcl#:#dcl_create_fields#:#Please create at least one field in the tab ‘List Fi
 dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistent. A reference no longer exists.
 dcl#:#dcl_all_entries#:#All entries
 dcl#:#dcl_own_entries#:#Only own entries
-dcl#:#dcl_tableviews#:#Tableviews
-dcl#:#dcl_tableview#:#Tableview
+dcl#:#dcl_tableviews#:#Views
+dcl#:#dcl_tableview#:#View
 dcl#:#dcl_tableorder#:#Tableorder
 dcl#:#dcl_detailed_view#:#Detailed View
-dcl#:#dcl_tableview_add#:#Add Tableview
+dcl#:#dcl_tableview_add#:#Add New View
 dcl#:#dcl_delete_views#:#Delete Views
-dcl#:#dcl_msg_tableview_created#:#Tableviews created
-dcl#:#dcl_msg_tableview_deleted#:#Tableview deleted
-dcl#:#dcl_msg_tableviews_deleted#:#Tableviews deleted
-dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one Tableview must exist
-dcl#:#dcl_msg_info_alternatives#:#You do not have enough permissions to view this record, or there is no detailed view defined for this tableview. Choose a view from the list below to view the record anyway.
-dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following Tableviews?
-dcl#:#dcl_tableview_confirm_delete#:#Do you really want to delete the following Tableview?
+dcl#:#dcl_msg_tableview_created#:#Views created
+dcl#:#dcl_msg_tableview_deleted#:#View deleted
+dcl#:#dcl_msg_tableviews_deleted#:#Views deleted
+dcl#:#dcl_msg_tableviews_delete_all#:#Could not delete: At least one View must exist
+dcl#:#dcl_msg_info_alternatives#:#You do not have enough permissions to view this record, or there is no detailed view defined for this view. Choose a view from the list below to view the record anyway.
+dcl#:#dcl_tableviews_confirm_delete#:#Do you really want to delete the following Views?
+dcl#:#dcl_tableview_confirm_delete#:#Do you really want to delete the following View?
 dcl#:#dcl_tableview_fieldsettings#:#Fieldspecific Settings
 dcl#:#dcl_std_filter#:#Standardfilter
 dcl#:#dcl_field_visible#:#Visible

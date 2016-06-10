@@ -49,7 +49,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
 
             $add_button = ilDclLinkButton::getInstance();
             $add_button->setUrl($this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI', 'add'));
-            $add_button->setCaption($this->lng->txt('dcl_tableview_add'));
+            $add_button->setCaption('dcl_tableview_add');
             $this->addCommandButtonInstance($add_button);
 
             $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -128,7 +128,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->ctrl->setParameterByClass('ildclrecordviewgui', 'tableview_id', $id);
             $this->ctrl->saveParameterByClass('ildclrecordviewgui', 'record_id');
             $button->setUrl($this->ctrl->getLinkTargetByClass('ildclrecordviewgui', 'renderRecord'));
-            $button->setCaption($this->lng->txt('view'));
+            $button->setCaption('view');
             return $button->getToolbarHTML();
         }
         

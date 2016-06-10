@@ -114,7 +114,7 @@ class ilDclTableViewGUI
         $this->toolbar->addInputItem($table_selection);
         $button = ilSubmitButton::getInstance();
         $button->setCommand("doTableSwitch");
-        $button->setCaption($this->lng->txt('change'));
+        $button->setCaption('change');
         $this->toolbar->addButtonInstance($button);
 
         $table_gui = new ilDclTableViewTableGUI($this, 'show', $this->table);

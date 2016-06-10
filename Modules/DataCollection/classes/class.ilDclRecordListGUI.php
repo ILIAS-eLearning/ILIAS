@@ -570,7 +570,7 @@ class ilDclRecordListGUI {
 			$ilToolbar->addText($this->lng->txt("dcl_table"));
 			$ilToolbar->addInputItem($table_selection);
 			$button = ilSubmitButton::getInstance();
-			$button->setCaption($this->lng->txt('change'));
+			$button->setCaption('change');
 			$button->setCommand('doTableSwitch');
 			$ilToolbar->addButtonInstance($button);
 			$ilToolbar->addSeparator();
@@ -591,7 +591,7 @@ class ilDclRecordListGUI {
 			$ilToolbar->addInputItem($tableview_selection);
 
 			$button = ilSubmitButton::getInstance();
-			$button->setCaption($this->lng->txt('change'));
+			$button->setCaption('change');
 			$button->setCommand('doTableViewSwitch');
 			$ilToolbar->addButtonInstance($button);
 			$ilToolbar->addSeparator();
