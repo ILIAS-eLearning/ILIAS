@@ -20,9 +20,9 @@ do
 		then
 			echo "${green}$file ok${reset}"
 		else
-			echo -e "${red}$file not ok, parse errors found, resetting it${reset}\n"
+			echo -e "${red}$file not ok, file starts with $first_line, resetting it${reset}\n"
 			git reset ${file}
-			count+=1
+			err+=1
 		fi
 	fi
 done
