@@ -228,8 +228,8 @@ class ilDclTable {
 		$this->setId($id);
 		$query = "INSERT INTO il_dcl_table (" . "id" . ", obj_id" . ", title" . ", add_perm" . ", edit_perm" . ", delete_perm" . ", edit_by_owner"
 			. ", limited" . ", limit_start" . ", limit_end" . ", is_visible" . ", export_enabled" . ", import_enabled" . ", default_sort_field_id"
-			. ", default_sort_field_order" . ", description" . ", public_comments" . ", view_own_records_perm" . ", table_order"
-			. ", delete_by_owner, save_confirmation ) VALUES (" . $ilDB->quote($this->getId(), "integer") . ","
+			. ", default_sort_field_order" . ", description" . ", public_comments" . ", view_own_records_perm"
+			. ", delete_by_owner, save_confirmation , table_order ) VALUES (" . $ilDB->quote($this->getId(), "integer") . ","
 			. $ilDB->quote($this->getObjId(), "integer") . "," . $ilDB->quote($this->getTitle(), "text") . ","
 			. $ilDB->quote($this->getAddPerm() ? 1 : 0, "integer") . "," . $ilDB->quote($this->getEditPerm() ? 1 : 0, "integer") . ","
 			. $ilDB->quote($this->getDeletePerm() ? 1 : 0, "integer") . "," . $ilDB->quote($this->getEditByOwner() ? 1 : 0, "integer") . ","
