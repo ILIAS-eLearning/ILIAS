@@ -240,11 +240,8 @@ class gevUserUtils {
 	}
 	
 	static public function getEduBioLinkFor($a_target_user_id) {
-		global $ilCtrl;
-		$ilCtrl->setParameterByClass("gevEduBiographyGUI", "target_user_id", $a_target_user_id);
-		$link = $ilCtrl->getLinkTargetByClass("gevEduBiographyGUI", "view");
-		$ilCtrl->clearParametersByClass("gevEduBiographyGUI");
-		return $link;
+		require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/ReportEduBio/classes/class.ilObjReportEduBio.php';
+		return ilObjReportEduBio::getEduBioLinkFor($a_target_user_id);
 	}
 
 	public function filter_for_online_courses($ar){
