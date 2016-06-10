@@ -21,6 +21,12 @@ else
 	err+=1
 fi
 
+if ./git_hooks/support/check_for_faulty_file_beginning
+	echo "all files start he right way"
+else
+	err+=1
+fi
+
 if [[ $err -gt 0 ]]
 then
 	exit 1
