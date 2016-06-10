@@ -3243,53 +3243,6 @@ class ilObjSurvey extends ilObject
 	}
 	
 /**
-* Calculates the evaluation data for a question
-*
-* @param integer $question_id The database id of the question
-* @param integer $user_id The database id of the user
-* @return array An array containing the evaluation parameters for the question
-* @access public
-*/
-	function getCumulatedResults(&$question, $finished_ids)
-	{
-		global $ilDB;
-		
-		if(!$finished_ids)
-		{
-			$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE survey_fi = %s",
-				array('integer'),
-				array($this->getSurveyId())
-			);
-			$nr_of_users = $result->numRows();
-		}
-		else
-		{
-			$nr_of_users = sizeof($finished_ids);
-		}
-		
-		$result_array =& $question->getCumulatedResults($this->getSurveyId(), $nr_of_users, $finished_ids);
-		return $result_array;
-	}
-
-/**
-* Returns the number of participants for a survey
-*
-* @param integer $survey_id The database ID of the survey
-* @return integer The number of participants
-* @access public
-*/
-	static function _getNrOfParticipants($survey_id)
-	{
-		global $ilDB;
-		
-		$result = $ilDB->queryF("SELECT finished_id FROM svy_finished WHERE survey_fi = %s",
-			array('integer'),
-			array($survey_id)
-		);
-		return $result->numRows();
-	}
-	
-/**
 * Calculates the data for the output of the question browser
 *
 * @access public
