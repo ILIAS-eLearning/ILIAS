@@ -20,7 +20,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $this->setId('dcl_tableviews');
         $this->setTitle($lng->txt('dcl_tableview_fieldsettings'));
         $this->addColumn($lng->txt('dcl_fieldtitle'), NULL, 'auto');
-        $this->addColumn($lng->txt('dcl_visible'), NULL, 'auto');
+        $this->addColumn($lng->txt('dcl_field_visible'), NULL, 'auto');
         $this->addColumn($lng->txt('dcl_filter'), NULL, 'auto');
         $this->addColumn($lng->txt('dcl_std_filter'), NULL, 'auto');
         $this->addColumn($lng->txt('dcl_filter_changeable'), NULL, 'auto');

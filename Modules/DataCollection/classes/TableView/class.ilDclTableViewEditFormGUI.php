@@ -44,7 +44,7 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
     protected function initForm() {
         global $rbacreview;
 
-        $this->setTitle($this->tableview->getId() ? $this->lng->txt('general_settings') : $this->lng->txt('dcl_new_tableview'));
+        $this->setTitle($this->tableview->getId() ? $this->lng->txt('general_settings') : $this->lng->txt('dcl_tableview_add'));
 
         //title
         $item = new ilTextInputGUI($this->lng->txt('title'), 'title');
