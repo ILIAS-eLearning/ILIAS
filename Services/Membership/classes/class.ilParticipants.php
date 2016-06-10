@@ -805,10 +805,15 @@ class ilParticipants
 	 */
 	public function add($a_usr_id,$a_role)
 	{
+	 	//gev-patch start
+	 	global $ilLog;
+	 	$ilLog->write("Start to assign user ".$a_usr_id." to role ".$a_role);
+
 	 	global $rbacadmin,$ilLog,$ilAppEventHandler;
 	 	
 	 	if($this->isAssigned($a_usr_id))
 	 	{
+	 		$ilLog->write("User is assigned to role");
 	 		return false;
 	 	}
 	 	
@@ -848,12 +853,14 @@ class ilParticipants
 		// gev patch end
 
 		$this->participants[] = $a_usr_id;
+		$ilLog->write("RBAC Assign user");
 		$rbacadmin->assignUser($this->role_data[$a_role],$a_usr_id);
+		$ilLog->write("RBAC Assign user finished");
 		$this->addDesktopItem($a_usr_id);
 		
 		// Delete subscription request
 		$this->deleteSubscriber($a_usr_id);
-		
+
 		include_once './Services/Membership/classes/class.ilWaitingList.php';
 		ilWaitingList::deleteUserEntry($a_usr_id,$this->obj_id);
 
@@ -869,6 +876,8 @@ class ilParticipants
 						'role_id' => $a_role)
 			);
 		}
+
+		$ilLog->write("Finished to assign user ".$a_usr_id." to role ".$a_role);
 	 	return true;
 	}
 	
@@ -898,10 +907,14 @@ class ilParticipants
 	 */
 	public function addDesktopItem($a_usr_id)
 	{
+		//gev-patch start
+		global $ilLog;
+		$ilLog->write("Adding course to desktop");
 		if(!ilObjUser::_isDesktopItem($a_usr_id, $this->ref_id,$this->type))
 		{
 			ilObjUser::_addDesktopItem($a_usr_id, $this->ref_id,$this->type);
 		}
+		$ilLog->write("Adding course to desktop finished");
 		return true;
 	}
 	
@@ -1287,12 +1300,15 @@ class ilParticipants
 	 */
 	public function deleteSubscriber($a_usr_id)
 	{
-		global $ilDB;
+		//gev-patch start
+		global $ilDB, $ilLog;
 
+		$ilLog->write("Delete user from il_subscribers");
 		$query = "DELETE FROM il_subscribers ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
 			"AND obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
+		$ilLog->write("Delete user from il_subscribers finished");
 
 		return true;
 	}

@@ -48,8 +48,11 @@ class ilCourseBooking
 	 */
 	public static function getUserStatus($a_course_obj_id, $a_user_id)
 	{
-		global $ilDB;
-		
+		//gev-patch start
+		global $ilDB, $ilLog;
+		$ilLog->write("Search state in crs_book");
+		//gev-patch end
+
 		$sql = "SELECT status".
 			" FROM crs_book".
 			" WHERE crs_id = ".$ilDB->quote($a_course_obj_id, "integer").
@@ -60,6 +63,7 @@ class ilCourseBooking
 			$res = $ilDB->fetchAssoc($set);
 			return $res["status"];
 		}
+		$ilLog->write("No state found");
 	}
 	
 	/**
@@ -94,10 +98,13 @@ class ilCourseBooking
 	 */
 	public static function setUserStatus($a_course_obj_id, $a_user_id, $a_status)
 	{
-		global $ilDB, $ilUser;
+		//gev-patch start ilLog
+		global $ilDB, $ilUser, $ilLog;
 		
+		$ilLog->write("Start set user state. User: ". $a_user_id." crs: ".$a_course_obj_id." state: ".$a_status);
 		if(!self::isValidStatus($a_status))
 		{
+			$ilLog->write("state: ".$a_status. " is not valid");
 			return false;
 		}
 		
@@ -110,6 +117,7 @@ class ilCourseBooking
 		$old = self::getUserStatus($a_course_obj_id, $a_user_id);
 		if(self::isValidStatus($old))
 		{
+			$ilLog->write("Update user state");
 			if($old == $a_status)
 			{
 				return true;
@@ -120,13 +128,16 @@ class ilCourseBooking
 				,"user_id" => array("integer", $a_user_id)
 			);						
 			$ilDB->update("crs_book", $fields, $primary);
+			$ilLog->write("Update user state finished");
 		}
 		else
 		{
+			$ilLog->write("Insert user state");
 			$fields["crs_id"] = array("integer", $a_course_obj_id);
 			$fields["user_id"] = array("integer", $a_user_id);
 			
 			$ilDB->insert("crs_book", $fields);
+			$ilLog->write("Insert user state finished");
 		}
 				
 		self::raiseEvent("setStatus", $a_course_obj_id, $a_user_id, $old, $a_status);

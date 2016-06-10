@@ -26,7 +26,12 @@ class ilCourseBookings
 	 */	
 	protected function __construct(ilObjCourse $a_course)
 	{
-		$this->setCourse($a_course);				
+		$this->setCourse($a_course);
+
+		//gev-patch start
+		global $ilLog;
+		$this->gLog = $ilLog;
+		//gev-patch end
 	}
 	
 	/**
@@ -114,6 +119,7 @@ class ilCourseBookings
 	 */	
 	protected function getCourse()
 	{
+		$this->gLog->write("get Course");
 		return $this->course;
 	}
 	
@@ -346,14 +352,16 @@ class ilCourseBookings
 	 */
 	public function getUserStatus($a_user_id)
 	{
+		$this->gLog->write("Search booking status");
 		$crs_id = $this->getCourse()->getId();
-		
+		$this->gLog->write("Search status for crs id ".$crs_id);
 		if(!isset(self::$user_status[$crs_id][$a_user_id]))
 		{
 			self::$user_status[$crs_id][$a_user_id] = 
 				ilCourseBooking::getUserStatus($crs_id, $a_user_id);
 		}
-		
+		$this->gLog->write("State: ".self::$user_status[$crs_id][$a_user_id]);
+		$this->gLog->write("Search booking status finished");
 		return self::$user_status[$crs_id][$a_user_id];
 	}
 	
@@ -440,6 +448,7 @@ class ilCourseBookings
 		
 		if($status == ilCourseBooking::STATUS_BOOKED)
 		{
+			$this->gLog->write("State equals BOOKED");
 			return true;
 		}
 		
@@ -450,9 +459,10 @@ class ilCourseBookings
 			$wlist->removeFromList($a_user_id);
 		}		
 		*/		
-		
+
+		$this->gLog->write("Try to add user to course (role assignment)");
 		if($this->getCourse()->getMemberObject()->add($a_user_id, IL_CRS_MEMBER))
-		{		
+		{
 			return $this->updateUserStatus($a_user_id, ilCourseBooking::STATUS_BOOKED);
 		}
 		

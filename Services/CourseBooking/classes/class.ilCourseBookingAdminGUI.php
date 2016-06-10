@@ -24,7 +24,11 @@ class ilCourseBookingAdminGUI
 	 */
 	public function __construct(ilObjCourse $a_course)
 	{
-		global $lng, $ilUser;
+		//gev-patch start
+		global $lng, $ilUser, $ilLog;
+		$this->gLog = $ilLog;
+		//gev-patch end
+
 		
 		$this->setCourse($a_course);
 		$this->ilUser = $ilUser;
@@ -866,9 +870,19 @@ class ilCourseBookingAdminGUI
 				{
 					continue;
 				}
+
+				//gev-patch start
+				$this->gLog->write("####################");
+				$this->gLog->write("Start booking ".$user_id);
+				$this->gLog->write("####################");
+				//gev-patch end
+
 				if($bookings->bookCourse($user_id))
 				{
 					// gev-patch start
+					$this->gLog->write("####################");
+					$this->gLog->write("Booking Success ".$user_id);
+					$this->gLog->write("####################");
 					require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
 					$addMailSettings = new gevCrsAdditionalMailSettings($this->getCourse()->getId());
 					
