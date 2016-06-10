@@ -205,7 +205,10 @@ class ilObjDataCollection extends ilObject2 {
 	 */
 	public function getMainTableId() {
 		global $ilDB;
-		$result = $ilDB->query('SELECT id FROM il_dcl_table WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ORDER BY table_order LIMIT 1');
+		$result = $ilDB->query('SELECT id 
+									FROM il_dcl_table 
+									WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' 
+									ORDER BY -table_order DESC LIMIT 1'); //"-table_order DESC" is ASC with NULL last
 		return $ilDB->fetchObject($result)->id;	
 	}
 
@@ -306,9 +309,6 @@ class ilObjDataCollection extends ilObject2 {
 			$new_table->setObjId($this->getId());
 			$new_table->cloneStructure($table);
 		}
-
-		// update because maintable id is now set.
-		$this->doUpdate();
 
 		// Set new field-ID of referenced fields
 		foreach ($original->getTables() as $origTable) {

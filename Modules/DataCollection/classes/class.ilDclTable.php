@@ -370,35 +370,6 @@ class ilDclTable {
 		return $this->records;
 	}
 
-
-	/**
-	 * getRecordsByFilter
-	 *
-	 * @param $filter
-	 * filter is of the form array("filter_{field_id}" => filter);
-	 * For dates and integers this filter must be of the form array("from" => from, "to" => to).
-	 * In case of dates from and to have to be ilDateTime objects
-	 * in case of integers they have to be integers as well.
-	 *
-	 * @return ilDclBaseRecordModel[]
-	 */
-	public function getRecordsByFilter(array $filter = array()) {
-		$this->loadRecords();
-		// Only pass records trough filter if there is filtering required #performance-improvements
-		if (!count($filter)) {
-			return $this->records;
-		}
-		$filtered = array();
-		foreach ($this->getRecords() as $record) {
-			if ($record->passThroughFilter($filter)) {
-				$filtered[] = $record;
-			}
-		}
-
-		return $filtered;
-	}
-
-
 	protected function loadRecords() {
 		if ($this->records == NULL) {
 			global $ilDB;
@@ -415,26 +386,26 @@ class ilDclTable {
 		}
 	}
 
-	//TODO: replace this method with DataCollection->getTables()
-	/**
-	 * @param $a_id
-	 *
-	 * @return array
-	 */
-	public function getAll($a_id) {
-		global $ilDB;
-
-		// build query
-		$query = "SELECT * FROM il_dcl_table WHERE obj_id = " . $ilDB->quote($a_id, "integer");
-		$set = $ilDB->query($query);
-
-		$all = array();
-		while ($rec = $ilDB->fetchAssoc($set)) {
-			$all[$rec['id']] = $rec;
-		}
-
-		return $all;
-	}
+//	//TODO: replace this method with DataCollection->getTables()
+//	/**
+//	 * @param $a_id
+//	 *
+//	 * @return array
+//	 */
+//	public function getAll($a_id) {
+//		global $ilDB;
+//
+//		// build query
+//		$query = "SELECT * FROM il_dcl_table WHERE obj_id = " . $ilDB->quote($a_id, "integer");
+//		$set = $ilDB->query($query);
+//
+//		$all = array();
+//		while ($rec = $ilDB->fetchAssoc($set)) {
+//			$all[$rec['id']] = $rec;
+//		}
+//
+//		return $all;
+//	}
 
 
 	/**
@@ -534,9 +505,6 @@ class ilDclTable {
 	}
 
 	/**
-	 *    ATTENTION: if an array of tableviews is passed, it is not really sorted but just
-	 *    given the right order-numbers (10, 20, ..)
-	 *
 	 * @param ilDclTableView[] $tableviews
 	 */
 	public function sortTableViews(array $tableviews = null)
@@ -585,6 +553,8 @@ class ilDclTable {
 	}
 
 	/**
+	 * For current user
+	 *
 	 * @param int $ref_id DataCollections reference
 	 * @return ilDclTableView[]
 	 */
@@ -609,6 +579,8 @@ class ilDclTable {
 	}
 
 	/**
+	 * get id of first (for current user) available view
+	 *
 	 * @param $ref_id
 	 * @return bool
 	 */
@@ -651,6 +623,7 @@ class ilDclTable {
 
 	/**
 	 * Returns the fields all datacollections have by default.
+	 * Comments are only included if active in this table
 	 *
 	 * @return ilDclStandardField[]
 	 */
@@ -1299,7 +1272,6 @@ class ilDclTable {
 		$this->setDefaultSortField($default_sort_field);
 		$this->doUpdate();
 
-		//TODO: Find better way to copy data (include referenced data)
 		// Clone Records with recordfields
 		foreach($original->getRecords() as $orig_record){
 			$new_record = new ilDclBaseRecordModel();

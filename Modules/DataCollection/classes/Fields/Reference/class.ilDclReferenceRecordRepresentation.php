@@ -32,16 +32,9 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 				global $ilDB;
 				/** @var ilDB $ilDB */
 				$ref_record = ilDclCache::getRecordCache($value);
-				$ref_table = $ref_record->getTableId();
-				// Checks if a view exists
-				$query = "SELECT page_id 
-							FROM page_object 
-							INNER JOIN il_dcl_tableview ON (il_dcl_tableview.id = page_object.page_id) 
-							WHERE active = 1 
-								AND parent_type = " . $ilDB->quote('dclf', 'text') . "
-								AND il_dcl_tableview.table_id = " . $ref_table ;
-				$set = $ilDB->query($query);
-				if ($ilDB->numRows($set)) {
+				$ref_table = $ref_record->getTable();
+
+				if ($ref_table->getVisibleTableViews($_GET['ref_id'], true)) {
 					$html = $this->getLinkHTML(NULL, $value);
 				} else {
 					$html = $ref_record->getRecordFieldHTML($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));

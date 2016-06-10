@@ -123,7 +123,12 @@ class ilDclRecordViewGUI {
 		if ((!ilObjDataCollectionAccess::hasWriteAccess($_GET['ref_id']) && !ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id))
 			|| !ilDclRecordViewViewdefinition::isActive($this->tableview_id))
 		{
-			$this->offerAlternativeViews();
+			if ($this->table->getVisibleTableViews($_GET['ref_id'], true)) {
+				$this->offerAlternativeViews();
+			} else {
+				global $tpl;
+				$tpl->setContent('Permission denied');
+			}
 			return;
 		}
 

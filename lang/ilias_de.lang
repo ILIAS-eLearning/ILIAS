@@ -12407,6 +12407,7 @@ dcl#:#dcl_tableorder#:#Tabellenordnung
 dcl#:#dcl_detailed_view#:#Einzelansicht
 dcl#:#dcl_tableview_add#:#Neue Ansicht hinzufügen
 dcl#:#dcl_delete_views#:#Ansichten löschen
+dcl#:#dcl_msg_tableview_updated#:#Ansicht aktualisiert
 dcl#:#dcl_msg_tableview_created#:#Ansicht hinzugefügt
 dcl#:#dcl_msg_tableview_deleted#:#Ansicht gelöscht
 dcl#:#dcl_msg_tableviews_deleted#:#Ansichten gelöscht

@@ -84,7 +84,6 @@ class ilDclRecordListGUI {
 		
 		if (!ilObjDataCollectionAccess::hasWriteAccess($a_parent_obj->ref_id) && !ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id)){
 			$this->parent_obj->tpl->setContent('Permission denied');
-			$this->parent_obj->tpl->show();
 			return;
 		}
 		
