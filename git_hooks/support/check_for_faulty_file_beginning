@@ -22,12 +22,12 @@ do
 		else
 			echo -e "${red}$file not ok, file starts with $first_line, resetting it${reset}\n"
 			git reset ${file}
-			err+=1
+			count+=1
 		fi
 	fi
 done
 
-if [[ $err -gt 0 ]]
+if [[ $count -gt 0 ]]
 then
 	exit 1
 else
