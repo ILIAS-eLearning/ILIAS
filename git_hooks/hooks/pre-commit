@@ -23,7 +23,7 @@ fi
 
 if ./git_hooks/support/check_for_faulty_file_beginning
 then
-	echo "all files start he right way"
+	echo "all files start the right way"
 else
 	err+=1
 fi
