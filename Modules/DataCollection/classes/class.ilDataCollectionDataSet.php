@@ -179,6 +179,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 				$table->setViewOwnRecordsPerm($a_rec['view_own_records_perm']);
 				$table->setDeleteByOwner($a_rec['delete_by_owner']);
 				$table->setSaveConfirmation($a_rec['save_confirmation']);
+				$table->setOrder($a_rec['table_order']);
 				$table->doCreate(false, false); // false => Do not create views! They are imported later
 				$a_mapping->addMapping('Modules/DataCollection', 'il_dcl_table', $a_rec['id'], $table->getId());
 				break;
@@ -476,6 +477,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 					'view_own_records_perm' => 'integer',
 					'delete_by_owner' => 'integer',
 					'save_confirmation' => 'integer',
+					'table_order' => 'integer',
 				);
 			case 'il_dcl_tableview':
 				return array(

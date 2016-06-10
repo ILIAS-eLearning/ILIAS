@@ -47,7 +47,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->addMultiCommand('confirmDeleteTableviews', $lng->txt('dcl_delete_views'));
             $this->addCommandButton('saveTableOrder', $lng->txt('dcl_save'));
 
-            $add_button = ilLinkButton::getInstance();
+            $add_button = ilDclLinkButton::getInstance();
             $add_button->setUrl($this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI', 'add'));
             $add_button->setCaption($this->lng->txt('dcl_tableview_add'));
             $this->addCommandButtonInstance($add_button);
@@ -124,7 +124,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         }
         elseif ($this->parent_obj instanceof ilDclRecordViewGUI)
         {
-            $button = ilLinkButton::getInstance();
+            $button = ilDclLinkButton::getInstance();
             $this->ctrl->setParameterByClass('ildclrecordviewgui', 'tableview_id', $id);
             $this->ctrl->saveParameterByClass('ildclrecordviewgui', 'record_id');
             $button->setUrl($this->ctrl->getLinkTargetByClass('ildclrecordviewgui', 'renderRecord'));

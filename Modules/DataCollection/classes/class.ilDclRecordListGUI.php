@@ -214,9 +214,8 @@ class ilDclRecordListGUI {
 	 *
 	 */
 	public function exportExcel() {
-		global $ilCtrl, $lng;
 		if (!($this->table_obj->getExportEnabled() || $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id))) {
-			echo $lng->txt("access_denied");
+			echo $this->lng->txt("access_denied");
 			exit;
 		}
 		list( $list, $total ) = $this->getRecordListTableGUI(false);
