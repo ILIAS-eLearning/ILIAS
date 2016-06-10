@@ -3879,7 +3879,7 @@ class ilObjUserGUI extends ilObjectGUI
 	protected function setToolbar() {
 		require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/ReportEduBio/classes/class.ilObjReportEduBio.php';
 		global $ilToolbar;
-		$link = ilObjReportEduBio::getEduBioLinkFor($GET["obj_id"]);
+		$link = ilObjReportEduBio::getEduBioLinkFor($_GET["obj_id"]);
 		$ilToolbar->addButton($this->lng->txt('gev_edu_bio'), $link, "blank");
 	}
 	//gev-patch end
