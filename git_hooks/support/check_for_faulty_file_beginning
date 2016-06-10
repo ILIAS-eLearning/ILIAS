@@ -1,0 +1,35 @@
+#!/bin/bash
+#set -x
+#set -e
+count=0
+
+red=`tput setaf 1`
+green=`tput setaf 2`
+reset=`tput sgr0`
+echo "scanning for php-files not beginning with <?php or <#1>"
+for file in $(git diff --cached --name-only --diff-filter=ACM | grep -e '\.php$')
+do
+	first_line=$(head -1 $file) 
+	if
+		[[ $first_line =~ ^\<\?php$ ]]
+	then
+		echo "${green}$file ok${reset}"
+	else
+		if 
+			[[ $first_line =~ ^\<\#1\>$ ]]
+		then
+			echo "${green}$file ok${reset}"
+		else
+			echo -e "${red}$file not ok, parse errors found, resetting it${reset}\n"
+			git reset ${file}
+			count+=1
+		fi
+	fi
+done
+
+if [[ $err -gt 0 ]]
+then
+	exit 1
+else
+	exit 0
+fi
