@@ -162,11 +162,11 @@ class ilDclRecordListGUI {
 			$ilToolbar->addStickyItem($add_new);
 		}
 
-		if (($this->table_obj->getExportEnabled() OR $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id))) {
+		if (($this->table_obj->getExportEnabled() || $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id))) {
 			$export = ilDclLinkButton::getInstance();
 			$export->setCaption("dcl_export_table_excel");
 			$export->setUrl($this->ctrl->getFormActionByClass("ildclrecordlistgui", "exportExcel"));
-			if (count($this->table_obj->getExportableFields()) == 0 OR $total == 0) {
+			if (count($this->table_obj->getExportableFields()) == 0 || $total == 0) {
 				$export->setUseWrapper(true);
 				$export->setDisabled(true);
 				$export->addAttribute('data-toggle', 'datacollection-tooltip', true);
@@ -176,7 +176,7 @@ class ilDclRecordListGUI {
 			$ilToolbar->addButtonInstance($export);
 		}
 
-		if ($permission_to_add_or_import) {
+		if ($permission_to_add_or_import && $this->table_obj->getImportEnabled()) {
 			$this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", NULL);
 
 			$import = ilLinkButton::getInstance();
@@ -192,8 +192,7 @@ class ilDclRecordListGUI {
 			ilUtil::sendInfo($this->lng->txt("dcl_no_fields_yet") . " "
 				. ($this->table_obj->hasPermissionToFields($this->parent_obj->ref_id) ? $this->lng->txt("dcl_create_fields") : ""));
 		}
-
-//		$tpl->getStandardTemplate();
+		
 		$tpl->setPermanentLink("dcl", $this->parent_obj->ref_id);
 		if ($desc = $this->table_obj->getDescription()) {
 			$desc = "<div class='ilDclTableDescription'>{$desc}</div>";
@@ -258,7 +257,7 @@ class ilDclRecordListGUI {
 	 * Import Data from Excel sheet
 	 */
 	public function importExcel() {
-		if (!($this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id))) {
+		if (!($this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id)) || !$this->table_obj->getImportEnabled()) {
 			throw new ilDclException($this->lng->txt("access_denied"));
 		}
 		$form = $this->initImportForm();

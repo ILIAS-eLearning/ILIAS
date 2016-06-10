@@ -173,6 +173,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 				$table->setLimitEnd($a_rec['limit_end']);
 				$table->setIsVisible($a_rec['is_visible']);
 				$table->setExportEnabled($a_rec['export_enabled']);
+				$table->setImportEnabled($a_rec['import_enabled']);
 				$table->setDefaultSortField($a_rec['default_sort_field_id']);
 				$table->setDefaultSortFieldOrder($a_rec['default_sort_field_order']);
 				$table->setPublicCommentsEnabled($a_rec['public_comments']);
@@ -470,6 +471,7 @@ class ilDataCollectionDataSet extends ilDataSet {
 					'limit_end' => 'text',
 					'is_visible' => 'integer',
 					'export_enabled' => 'integer',
+					'import_enabled' => 'integer',
 					'default_sort_field_id' => 'text',
 					'default_sort_field_order' => 'text',
 					'description' => 'text',

@@ -122,6 +122,9 @@ class ilDclRecordEditGUI {
 	}
 
 
+	/**
+	 * Create new record gui
+	 */
 	public function create() {
 		$this->initForm();
 		if ($this->ctrl->isAsynch()) {
@@ -134,8 +137,12 @@ class ilDclRecordEditGUI {
 	}
 
 
+	/**
+	 * Record edit gui
+	 */
 	public function edit() {
 		$this->initForm();
+		$this->cleanupTempFiles();
 
 		$this->setFormValues();
 		if ($this->ctrl->isAsynch()) {
@@ -148,6 +155,11 @@ class ilDclRecordEditGUI {
 	}
 
 
+	/**
+	 * Delete confirmation
+	 *
+	 * @throws ilDclException
+	 */
 	public function confirmDelete() {
 		$conf = new ilConfirmationGUI();
 		$conf->setFormAction($this->ctrl->getFormAction($this));
@@ -172,11 +184,17 @@ class ilDclRecordEditGUI {
 	}
 
 
+	/**
+	 * Cancel deletion
+	 */
 	public function cancelDelete() {
 		$this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
 	}
 
 
+	/**
+	 * Remove record
+	 */
 	public function delete() {
 		$record = ilDclCache::getRecordCache($this->record_id);
 
@@ -339,7 +357,11 @@ class ilDclRecordEditGUI {
 
 		$confirmation = new ilConfirmationGUI();
 		$confirmation->setFormAction($this->ctrl->getFormAction($this));
-		$confirmation->setHeaderText($this->lng->txt('dcl_confirm_storing_records'));
+		$header_text = $this->lng->txt('dcl_confirm_storing_records');
+		if(!$permission && !ilObjDataCollectionAccess::hasEditAccess($this->parent_obj->ref_id)) {
+			$header_text .= " ".$this->lng->txt('dcl_confirm_storing_records_no_permission');
+		}
+		$confirmation->setHeaderText($header_text);
 
 		$confirmation->setCancel($this->lng->txt('dcl_edit_record'), 'edit');
 		$confirmation->setConfirm($this->lng->txt('dcl_save_record'), 'save');
@@ -351,7 +373,8 @@ class ilDclRecordEditGUI {
 			$field_record = ilDclCache::getRecordFieldCache($record_obj, $field);
 			$field_record->setValue($all_values[$field->getId()]);
 
-			$record_representation = ilDclCache::getRecordRepresentation($field_record);
+			$record_representation = ilDclFieldFactory::getRecordRepresentationInstance($field_record);
+
 			if(is_array($all_values[$field->getId()])) {
 				foreach($all_values[$field->getId()] as $key=>$value) {
 					$confirmation->addHiddenItem('field_'.$field->getId().'['.$key.']', $value);
@@ -396,6 +419,7 @@ class ilDclRecordEditGUI {
 		$valid = $this->form->checkInput();
 
 		$record_obj = ilDclCache::getRecordCache($this->record_id);
+		$unchanged_obj = $record_obj;
 		$date_obj = new ilDateTime(time(), IL_CAL_UNIX);
 		$record_obj->setTableId($this->table_id);
 		$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
@@ -422,6 +446,7 @@ class ilDclRecordEditGUI {
 		}
 
 		if (!$valid) {
+			$this->cleanupTempFiles();
 			$this->sendFailure($this->lng->txt('form_input_not_valid'));
 			return;
 		}
@@ -514,21 +539,27 @@ class ilDclRecordEditGUI {
 			}
 
 			$dispatchEvent = "update";
+
+			$dispatchEventData = array(
+				'dcl' => $this->parent_obj->getDataCollectionObject(),
+				'table_id' => $this->table_id,
+				'record_id' => $record_obj->getId(),
+				'record' => $record_obj,
+			);
+
 			if ($create_mode) {
 				$dispatchEvent = "create";
 				ilObjDataCollection::sendNotification("new_record", $this->table_id, $record_obj->getId());
+			} else {
+				$dispatchEventData['prev_record'] = $unchanged_obj;
 			}
 
 			$record_obj->doUpdate();
 
 			$ilAppEventHandler->raise('Modules/DataCollection',
 				$dispatchEvent.'Record',
-				array(
-					'dcl' => $this->parent_obj->getDataCollectionObject(),
-					'table_id' => $this->table_id,
-					'obj_id' => $record_obj->getId(),
-					'object' => $record_obj,
-					));
+				$dispatchEventData
+			);
 
 			$this->ctrl->setParameter($this, "table_id", $this->table_id);
 			$this->ctrl->setParameter($this, "record_id", $this->record_id);
@@ -680,6 +711,17 @@ class ilDclRecordEditGUI {
 		}
 
 		return $rows;
+	}
+
+
+	/**
+	 * Cleanup temp-files
+	 */
+	protected function cleanupTempFiles() {
+		$ilfilehash = (isset($_POST['ilfilehash']))? $_POST['ilfilehash'] : null;
+		if($ilfilehash != null) {
+			$this->form->cleanupTempFiles($ilfilehash, $this->user->getId());
+		}
 	}
 }
 

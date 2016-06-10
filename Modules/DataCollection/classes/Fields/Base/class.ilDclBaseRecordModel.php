@@ -659,9 +659,10 @@ class ilDclBaseRecordModel {
 		$ilAppEventHandler->raise('Modules/DataCollection',
 			'deleteRecord',
 			array(
-				'object' => $this,
-				'obj_id' => $this->getId(),
-				'dcl' => ilDclCache::getTableCache($this->getTableId())->getCollectionObject()
+				'dcl' => ilDclCache::getTableCache($this->getTableId())->getCollectionObject(),
+				'table_id' => $this->table_id,
+				'record_id' => $this->getId(),
+				'record' => $this,
 			));
 	}
 

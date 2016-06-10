@@ -326,7 +326,7 @@ class ilObjDataCollection extends ilObject2 {
 					$tableId = ilDclTable::_getTableIdByTitle($origTable->getTitle(), $this->getId());
 					$fieldId = ilDclBaseFieldModel::_getFieldIdByTitle($origField->getTitle(), $tableId);
 					$field = ilDclCache::getFieldCache($fieldId);
-					$field->setProperty($newRefId, ilDclBaseFieldModel::PROP_REFERENCE);
+					$field->setProperty(ilDclBaseFieldModel::PROP_REFERENCE, $newRefId);
 					$field->doUpdate();
 				}
 			}

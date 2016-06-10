@@ -122,9 +122,10 @@ class ilDclTableEditGUI {
 			'delete_perm' => (int) $this->table->getDeletePerm(),
 			'delete_perm_mode' => $this->table->getDeleteByOwner() ? 'own' : 'all',
 			'export_enabled' => $this->table->getExportEnabled(),
+			'import_enabled' => $this->table->getImportEnabled(),
 			'limited' => $this->table->getLimited(),
-			'limit_start' => array( "date" => substr($this->table->getLimitStart(), 0, 10), "time" => substr($this->table->getLimitStart(), - 8) ),
-			'limit_end' => array( "date" => substr($this->table->getLimitEnd(), 0, 10), "time" => substr($this->table->getLimitEnd(), - 8) ),
+			'limit_start' => substr($this->table->getLimitStart(), 0, 10) . " " . substr($this->table->getLimitStart(), - 8),
+			'limit_end' => substr($this->table->getLimitEnd(), 0, 10) . " " . substr($this->table->getLimitEnd(), - 8),
 			'is_visible' => $this->table->getIsVisible(),
 			'default_sort_field' => $this->table->getDefaultSortField(),
 			'default_sort_field_order' => $this->table->getDefaultSortFieldOrder(),
@@ -157,6 +158,7 @@ class ilDclTableEditGUI {
 			'delete_perm' => 1,
 			'edit_by_owner' => 1,
 			'export_enabled' => 0,
+			'import_enabled' => 1,
 			'limited' => 0,
 			'limit_start' => NULL,
 			'limit_end' => NULL
@@ -227,12 +229,12 @@ class ilDclTableEditGUI {
 		$item->setTitle($this->lng->txt('dcl_table_info_title'));
 		$this->form->addItem($item);
 
-		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_save_confirmation'), 'save_confirmation');
-		$item->setInfo($this->lng->txt('dcl_save_confirmation_desc'));
-		$this->form->addItem($item);
-
 		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_add_perm'), 'add_perm');
 		$item->setInfo($this->lng->txt("dcl_add_perm_desc"));
+		$this->form->addItem($item);
+
+		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_save_confirmation'), 'save_confirmation');
+		$item->setInfo($this->lng->txt('dcl_save_confirmation_desc'));
 		$this->form->addItem($item);
 
 		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_edit_perm'), 'edit_perm');
@@ -259,6 +261,10 @@ class ilDclTableEditGUI {
 
 		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_export_enabled'), 'export_enabled');
 		$item->setInfo($this->lng->txt('dcl_export_enabled_desc'));
+		$this->form->addItem($item);
+
+		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_import_enabled'), 'import_enabled');
+		$item->setInfo($this->lng->txt('dcl_import_enabled_desc'));
 		$this->form->addItem($item);
 
 		$item = new ilCheckboxInputGUI($this->lng->txt('dcl_limited'), 'limited');
@@ -329,6 +335,7 @@ class ilDclTableEditGUI {
 			}
 			$this->table->setViewOwnRecordsPerm($this->form->getInput('view_own_records_perm'));
 			$this->table->setExportEnabled($this->form->getInput("export_enabled"));
+			$this->table->setImportEnabled($this->form->getInput("import_enabled"));
 			$this->table->setDefaultSortField($this->form->getInput("default_sort_field"));
 			$this->table->setDefaultSortFieldOrder($this->form->getInput("default_sort_field_order"));
 			$this->table->setPublicCommentsEnabled($this->form->getInput('public_comments'));
@@ -336,8 +343,8 @@ class ilDclTableEditGUI {
 			$this->table->setDescription($this->form->getInput('description'));
 			$limit_start = $this->form->getInput("limit_start");
 			$limit_end = $this->form->getInput("limit_end");
-			$this->table->setLimitStart($limit_start["date"] . " " . $limit_start["time"]);
-			$this->table->setLimitEnd($limit_end["date"] . " " . $limit_end["time"]);
+			$this->table->setLimitStart($limit_start);
+			$this->table->setLimitEnd($limit_end);
 			if ($a_mode == "update") {
 				$this->table->doUpdate();
 				ilUtil::sendSuccess($this->lng->txt("dcl_msg_table_edited"), true);
