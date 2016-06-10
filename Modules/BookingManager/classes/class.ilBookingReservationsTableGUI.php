@@ -357,8 +357,6 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	{		
 		global $ilUser;
 		
-		$this->determineOffsetAndOrder();
-		
 		if(!$filter["object"])
 		{
 			$ids = array_keys($this->objects);
