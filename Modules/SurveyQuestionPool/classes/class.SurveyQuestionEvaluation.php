@@ -65,6 +65,7 @@ abstract class SurveyQuestionEvaluation
 		$selections = array();
 		foreach($a_answers as $active_id => $answers)
 		{
+			// :TODO: 
 			if(sizeof($answers) > 1)
 			{
 				$has_multi = true;
@@ -96,18 +97,18 @@ abstract class SurveyQuestionEvaluation
 			$mode_nr = array_pop($tmp_mode);
 			$a_results->setMode($mode, $mode_nr);
 			
-			// median			
-			ksort($selections, SORT_NUMERIC);
-			$median = array();
-			foreach($selections as $value => $count)
-			{
-				for($i = 0; $i < $count; $i++)
-				{
-					$median[] = $value+1;
-				}
-			}
 			if(!$has_multi)
-			{				
+			{							
+				// median			
+				ksort($selections, SORT_NUMERIC);
+				$median = array();
+				foreach($selections as $value => $count)
+				{
+					for($i = 0; $i < $count; $i++)
+					{
+						$median[] = $value+1;
+					}
+				}
 				if($total % 2 == 0)
 				{
 					$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
@@ -129,7 +130,7 @@ abstract class SurveyQuestionEvaluation
 		
 		if($a_categories)
 		{
-			// categories
+			// selections by category 
 			for ($c = 0; $c < $a_categories->getCategoryCount(); $c++)
 			{
 				$cat = $a_categories->getCategory($c);
