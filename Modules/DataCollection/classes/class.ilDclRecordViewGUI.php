@@ -118,9 +118,10 @@ class ilDclRecordViewGUI {
 	public function executeCommand() {
 		global $ilCtrl;
 		$this->tableview_id = $_GET['tableview_id'] ? $_GET['tableview_id'] : $this->table->getFirstTableViewId($_GET['ref_id']);
+		$ilCtrl->setParameter($this, 'tableview_id', $this->tableview_id);
 
-		if (!ilObjDataCollectionAccess::hasWriteAccess($_GET['ref_id']) &&
-			(!ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id) || !ilDclRecordViewViewdefinition::isActive($this->tableview_id)))
+		if ((!ilObjDataCollectionAccess::hasWriteAccess($_GET['ref_id']) && !ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id))
+			|| !ilDclRecordViewViewdefinition::isActive($this->tableview_id))
 		{
 			$this->offerAlternativeViews();
 			return;
@@ -162,31 +163,6 @@ class ilDclRecordViewGUI {
 		$table_gui = new ilDclTableViewTableGUI($this, 'renderRecord', $this->table);
 		$tpl->setContent($table_gui->getHTML());
 	}
-	
-	/**
-	 * @param ilDclBaseRecordModel $record_obj
-	 *
-	 * @deprecated
-	 * @return bool
-	 */
-	public static function hasValidViewDefinition(ilDclBaseRecordModel $record_obj) {
-		$view = ilDclRecordViewViewdefinition::getInstanceByTableId($record_obj->getTableId());
-
-		return $view->getActive() AND $view->getId() !== NULL;
-	}
-
-
-//	/**
-//	 * @param ilDclTable $table
-//	 *
-//	 * @return bool
-//	 */
-//	public static function hasTableViewValidViewDefinition(ilDclTableView $tableview) {
-//		$view = ilDclRecordViewViewdefinition::getInstance($tableview->getId());
-//
-//		return $view->getActive() AND $view->getId() !== NULL;
-//	}
-
 
 	/**
 	 * @param bool $editComments
@@ -240,7 +216,7 @@ class ilDclRecordViewGUI {
 		$rctpl->setVariable("CONTENT", $html);
 
 		//Permanent Link
-		$perma_link = new ilPermanentLinkGUI("dcl", $_GET["ref_id"], "_" . $this->record_obj->getId());
+		$perma_link = new ilPermanentLinkGUI("dcl", $_GET["ref_id"], "_" . $this->tableview_id . "_" . $this->record_obj->getId());
 		$tpl->setVariable('PRMLINK', $perma_link->getHTML());
 
 		// Buttons for previous/next records
@@ -252,6 +228,7 @@ class ilDclRecordViewGUI {
 			$rctpl->setVariable('FORM_ACTION', $ilCtrl->getFormAction($this));
 			$rctpl->setVariable('RECORD', $lng->txt('dcl_record'));
 			$rctpl->setVariable('RECORD_FROM_TOTAL', sprintf($lng->txt('dcl_record_from_total'), $this->current_record_position, count($this->record_ids)));
+			$rctpl->setVariable('TABLEVIEW_ID', $this->tableview_id);
 			$rctpl->setVariable('SELECT_OPTIONS', $this->renderSelectOptions());
 		}
 
@@ -372,6 +349,7 @@ class ilDclRecordViewGUI {
 	 */
 	protected function renderPrevNextLinks() {
 		global $ilCtrl, $lng;
+		$ilCtrl->setParameter($this, 'tableview_id', $this->tableview_id);
 		$prevStr = $lng->txt('dcl_prev_record');
 		$nextStr = $lng->txt('dcl_next_record');
 		$ilCtrl->setParameter($this, 'record_id', $this->prev_record_id);

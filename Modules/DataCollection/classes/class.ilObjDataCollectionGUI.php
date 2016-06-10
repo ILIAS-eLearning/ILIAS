@@ -39,6 +39,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 */
 	const GET_DCL_GTR = "dcl_gtr";
 	const GET_REF_ID = "ref_id";
+	const GET_VIEW_ID = "tableview_id";
 
 
 	public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0) {
@@ -50,6 +51,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 		if (isset($_REQUEST['table_id'])) {
 			$this->table_id = $_REQUEST['table_id'];
+		} elseif (isset($_GET['tableview_id'])) {
+			$this->table_id = ilDclTableView::find($_GET['tableview_id'])->getTableId();
 		} elseif ($a_id > 0) {
 			$this->table_id = $this->object->getMainTableId();
 		}
@@ -120,9 +123,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 		// Direct-Link Resource, redirect to viewgui
 		if ($_GET[self::GET_DCL_GTR]) {
+			$ilCtrl->setParameterByClass('ildclrecordviewgui', 'tableview_id', $_GET[self::GET_VIEW_ID]);
 			$ilCtrl->setParameterByClass('ildclrecordviewgui', 'record_id', $_GET[self::GET_DCL_GTR]);
 			$ilCtrl->redirectByClass('ildclrecordviewgui', 'renderRecord');
 		}
+
 
 		$next_class = $ilCtrl->getNextClass($this);
 
@@ -363,7 +368,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 		$_GET["baseClass"] = "ilRepositoryGUI";
 		$_GET[self::GET_REF_ID] = $id[0];
-		$_GET[self::GET_DCL_GTR] = $id[1]; //recordID
+		$_GET[self::GET_VIEW_ID] = $id[1];
+		$_GET[self::GET_DCL_GTR] = $id[2]; //recordID
 		$_GET["cmd"] = "listRecords";
 		require_once('./ilias.php');
 		exit;
@@ -490,7 +496,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 */
 	public function listRecords() {
 		global $ilCtrl;
-
+		$ilCtrl->setParameterByClass("ildclrecordlistgui", "tableview_id", $_GET["tableview_id"]);
 		$ilCtrl->redirectByClass("ildclrecordlistgui", "listRecords");
 	}
 
