@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Customizing/global/plugins/Services/Cron/CronHook/ReportMaster/classes/ReportBase/class.ilObjReportBaseGUI.php';
+require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/ReportEduBio/classes/class.ilObjReportEduBio.php';
 /**
 * User Interface class for example repository object.
 * ...
@@ -38,7 +39,7 @@ class ilObjReportEmplEduBiosGUI extends ilObjReportBaseGUI {
 
 		$rec["od_bd"] = $rec["org_unit_above2"]."/".$rec["org_unit_above1"];
 		
-		$rec["edu_bio_link"] = self::getEduBioLinkFor($rec["user_id"]);
+		$rec["edu_bio_link"] = ilObjReportEduBio::getEduBioLinkFor($rec["user_id"]);
 		
 		return parent::transformResultRow($rec);
 	}
@@ -60,13 +61,5 @@ class ilObjReportEmplEduBiosGUI extends ilObjReportBaseGUI {
 
 		$rec["od_bd"] = $rec["org_unit_above2"]."/".$rec["org_unit_above1"];		
 		return parent::transformResultRow($rec);
-	}
-
-	public static function getEduBioLinkFor($a_user_id) {
-		global $ilCtrl;
-		$ilCtrl->setParameterByClass("gevEduBiographyGUI", "target_user_id", $a_user_id);
-		$link = $ilCtrl->getLinkTargetByClass(array("gevDesktopGUI","gevEduBiographyGUI"), "view");
-		$ilCtrl->clearParametersByClass("gevEduBiographyGUI");
-		return $link;
 	}
 }
