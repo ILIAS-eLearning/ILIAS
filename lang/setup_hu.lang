@@ -1,7 +1,7 @@
 ﻿/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator 5.2.x 2016-05-01 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator 5.2.x 2016-06-11 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @translator 31603 Antónia Berecz <berecz@gdf.hu>
 * @module       setup language file hungarian
 * @modulegroup  language
@@ -201,7 +201,7 @@ info_text_lang#:#Válasszon további nyelveket és/vagy távolítsa el a kivála
 info_text_list#:#Ebben az áttekintésben az összes elérhető kliens setup és elérési állapotát láthatja. Jobb fent a kliensválasztás képernyőjét be-/kikapcsolhatja. Ha a kliensválasztást bekapcsolja, az összes elérhető on-line kliens egy felsorolásban megjelenik az ILIAS kezdőlapján. Ha a kliensválasztást kikapcsolja, az <i>alapértelmezett</i> kliens bejelentkezési képernyője jelenik meg a kezdőlapon. Az alapértelmezett klienst a lejjebb lévő gombbal állíthatja be.
 info_text_login#:#Adja meg telepítése kliensazonosítóját (ID) és számlafiókjának adatait. Felhasználói fiókját hozzá kell rendelni az 'rendszergazda' szerephez.
 info_text_nic#:#Regisztrálhat és beszerezhet egy egyedi telepítési azonosítót (NIC-ID) a nyílt forráskódú ILIAS közösségi szerverről. <b>Megjegyzés</b>: A NIC-ID beszerzése célszerű, ha más ILIAS-telepítéssel tartalom megosztását tervezi vagy ha másik ILIAS-telepítés tartalmát szeretné újrafelhasználni.<br /><br /><b>Adatvédelem</b><br />A NIC-szerver az első regisztráció során az alábbi adatokat tárolja (később az adatok nem frissülnek):<br />&nbsp;•&nbsp;Kiszolgálónév<br />&nbsp;•&nbsp;Telepítési név<br />&nbsp;•&nbsp;Telepítési információ<br />&nbsp;•&nbsp;HTTP útvonal<br />&nbsp;•&nbsp;Kapcsolattartó vezetékneve<br />&nbsp;•&nbsp;Kapcsolattartó keresztneve<br />&nbsp;•&nbsp;Kapcsolattartó e-mail címe<br /><br />Az összes személyes adatot kizárólag a <a href="http://verein.ilias.de" target="_blank">ILIAS open source e-Learning e.V.</a> használja belső dokumentálási célzattal, azokat tovább nem adja, semmilyen marketing tevékenységre nem használja. Amennyiben ILIAS-telepítését mások előtt is ismertté kívánja tenni, töltse fel adatit a '<a href="http://www.ilias.de/docu/goto_docu_dcl_3444.html" target="_blank">List of Known Installations</a>' oldalra.
-info_text_nic3#:#Sikeresen regisztrálta telepítését. Az Ön NIC-ID-je
+info_text_nic3#:#Sikeresen regisztrálta telepítését. Az Ön nic-id-je
 info_text_password#:#Itt cserélheti le setup-programjának mesterjelszavát.
 info_text_pathes#:#Az ILIAS kliensenkénti adatbázisokkal támogatja a többklienses struktúrát. Alább megadhatja az alap adatkönyvtárat, a naplófájl helyét és az elérési utat a 3. felek által készített eszközökhöz. Ezen beállítások az Ön által később létrehozott összes kliensre érvényesek lesznek.
 ini_client_id_exists#:#Ezzel az azonosítóval (ID) már létezik kliens. Válasszon másik kliensazonosítót.
@@ -618,12 +618,13 @@ memcache_cancel#:#Mégsem
 memcache_update#:#Csomópont mentése
 memcache_status_server#:#Elérhető
 cache_activate_clng#:#Nyelv
-cache_activate_obj_def#:#Objektum definiálása
+cache_activate_obj_def#:#Objektummeghatározás
 cache_activate_ilctrl#:#Folyamatirányítás
 cache_activate_comp#:#Komponensek
-cache_activate_tpl#:#Minta (HTML)
+cache_activate_tpl#:#Sablon (HTML)
 cache_activate_events#:#Események
 cache_activated_components#:#Aktivált komponensek
 cache_flush#:#Összes gyorsítótár ürítése
-cache_activate_tpl_blocks#:#Minta (Blokkok)
-cache_activate_tpl_variables#:#Minta (Változók)
+cache_activate_tpl_blocks#:#Sablon (blokkok)
+cache_activate_tpl_variables#:#Sablon (változók)
+cache_activate_all#:#Összes
