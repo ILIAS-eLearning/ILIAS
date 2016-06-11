@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	5.2.x 2016-05-15
+* @version	5.2.x 2016-06-11
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -1735,21 +1735,21 @@ certificate#:#certificate_ph_country#:#Felhasználó címe - ország
 certificate#:#certificate_ph_date#:#Aktuális dátum
 certificate#:#certificate_ph_datetime#:#Aktuális dátum és idő
 certificate#:#certificate_ph_department#:#Felhasználó szervezeti egysége
-certificate#:#certificate_ph_firstname#:#A felhasználó utóneve
-certificate#:#certificate_ph_fullname#:#A felhasználó teljes neve (előnév, családi név, utónév)
+certificate#:#certificate_ph_firstname#:#Felhasználó vezetékneve
+certificate#:#certificate_ph_fullname#:#Felhasználó teljes neve (előnév, vezetéknév és utónév)
 certificate#:#certificate_ph_institution#:#Felhasználó intézménye
 certificate#:#certificate_ph_introduction#:#Az alábbi helyőrzők használhatók
-certificate#:#certificate_ph_lastaccess#:#A felhasználó utolsó hozzáférési dátuma és ideje
-certificate#:#certificate_ph_lastname#:#A felhasználó utóneve
-certificate#:#certificate_ph_marklong#:#A felhasználó érdemjegye (hivatalos változat)
-certificate#:#certificate_ph_markshort#:#A felhasználó érdemjegye (rövid változat)
+certificate#:#certificate_ph_lastaccess#:#Felhasználó utolsó hozzáférési dátuma és ideje
+certificate#:#certificate_ph_lastname#:#Felhasználó utóneve
+certificate#:#certificate_ph_marklong#:#Felhasználó érdemjegye (hivatalos változat)
+certificate#:#certificate_ph_markshort#:#Felhasználó érdemjegye (rövid változat)
 certificate#:#certificate_ph_maxpoints#:#Maximálisan elérhető pontszám
 certificate#:#certificate_ph_passed#:#'Sikeresen teljesítette' vagy 'Nem teljesítette', a teszteredményektől függően
-certificate#:#certificate_ph_resultpercent#:#A felhasználó által elért százalékos eredmény
+certificate#:#certificate_ph_resultpercent#:#Felhasználó által elért százalékos eredmény
 certificate#:#certificate_ph_resultpoints#:#Felhasználó pontszáma
 certificate#:#certificate_ph_salutation#:#Megszólítás
-certificate#:#certificate_ph_scormpoints#:#A SCORM-tananyag pontjai százalékban
-certificate#:#certificate_ph_scormtitle#:#A SCORM-tananyag címe
+certificate#:#certificate_ph_scormpoints#:#SCORM-tananyag pontjai százalékban
+certificate#:#certificate_ph_scormtitle#:#SCORM-tananyag címe
 certificate#:#certificate_ph_street#:#Felhasználó címe - utca
 certificate#:#certificate_ph_testtitle#:#Teszt címe
 certificate#:#certificate_ph_title#:#Név előtag
@@ -1778,10 +1778,10 @@ certificate#:#certificate_var_user_birthday#:#1977-05-08
 certificate#:#certificate_var_user_city#:#Budapest
 certificate#:#certificate_var_user_country#:#Magyarország
 certificate#:#certificate_var_user_department#:#Felhasználói támogatás
-certificate#:#certificate_var_user_firstname#:#Jakab
+certificate#:#certificate_var_user_firstname#:#Gipsz
 certificate#:#certificate_var_user_fullname#:#Dr. Gipsz Jakab
 certificate#:#certificate_var_user_institution#:#ILIAS Open Source
-certificate#:#certificate_var_user_lastname#:#Gipsz
+certificate#:#certificate_var_user_lastname#:#Jakab
 certificate#:#certificate_var_user_salutation#:#Mrs.
 certificate#:#certificate_var_user_street#:#Fő utca 100.
 certificate#:#certificate_var_user_title#:#Dr.
@@ -4317,7 +4317,7 @@ common#:#shib_department#:#Osztály attribútuma
 common#:#shib_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#shib_email#:#E-mail cím attribútuma
 common#:#shib_federation_name#:#Az Ön Shibboleth-szövetségének neve
-common#:#shib_firstname#:#Családi névhez attribútuma
+common#:#shib_firstname#:#Vezetéknév attribútuma
 common#:#shib_gender#:#Nem attribútuma ('f' vagy 'n' kell legyen)
 common#:#shib_general_login_instructions#:#%s keresztüli bejelentkezéshez kattintson a bejelentkezési gombra és válassza ki szervezetét a következő lapon.<br/>Ha ezzel kapcsolatban kérdése van, keresse:
 common#:#shib_general_wayf_login_instructions#:#Abban az esetben, ha nem csatlakozott a megadott szervezetekhez, és hozzá szeretne férni a szerver egy kurzusához, vegye fel a kapcsolatot:
@@ -6186,8 +6186,8 @@ crs#:#timings_timings#:#Időzítés
 crs#:#timings_usr_edit#:#Időzítés beállítása
 crs#:#timings#:#Időzítés
 crs#:#tutor_email#:#E-mail cím
-crs#:#tutor_firstname#:#Utónév
-crs#:#tutor_lastname#:#Családi név
+crs#:#tutor_firstname#:#Vezetéknév
+crs#:#tutor_lastname#:#Utónév
 crs#:#tutor_name#:#Név
 crs#:#tutor_phone#:#Telefon
 crs#:#tutor_title#:#Cím
@@ -6834,7 +6834,7 @@ forum#:#forums_new_thread#:#Új téma
 forum#:#forums_no_posts_available#:#Ennek a témának nincsenek még hozzászólásai, vagy a moderátor kikapcsolta az első hozzászólást.
 forum#:#forums_notification_disabled#:#Értesítés kikapcsolva
 forum#:#forums_notification_enabled#:#Értesítés bekapcsolva
-forum#:#forums_notification_intro#:#Ezt a levelet automatikusan küldte Önnek az ILIAS %s: %s
+forum#:#forums_notification_intro#:#%s automatikusan küldte Önnek ezt a levelet, %s
 forum#:#forums_notification_show_post#:#Link a hozzászólásra: %s
 forum#:#forums_notification_subject#:#Új hozzászólás fórumban:
 forum#:#forums_notification#:#Értesítés
@@ -9672,7 +9672,7 @@ trac#:#vm_days_of_period#:#Időszak napjai
 trac#:#vm_times_of_day#:#Napok órái
 user#:#user_access_limited#:#Korlátozott
 user#:#user_access_unlimited#:#Korlátlan
-user#:#user_activate_public_profile_info#:#Ha bekapcsolta, családi és utóneve mindig látható lesz a profiljában.
+user#:#user_activate_public_profile_info#:#Ha bekapcsolta, vezeték és utóneve mindig látható lesz a profiljában.
 user#:#user_activate_public_profile#:#Aktiválás
 user#:#user_activation#:#Aktiválás
 user#:#user_all#:#Összes
@@ -12529,7 +12529,7 @@ webr#:#webr_copy#:#Weblink másolása
 exc#:#exc_copy#:#Beadandó feladat másolása
 assessment#:#tst_copy#:#Teszt másolása
 survey#:#svy_copy#:#Kérdőív másolása
-poll#:#poll_population#:#%s szavazat
+poll#:#poll_population#:#%s résztvevő
 poll#:#poll_participants#:#Résztvevők
 poll#:#poll_delete_votes#:#Összes szavazat törlése
 poll#:#poll_delete_votes_sure#:#Biztos, hogy törli az összes szavazatot?
@@ -12902,6 +12902,7 @@ dcl#:#dcl_msg_no_perm_edit#:#Nincs jogosultsága a bejegyzés szerkesztéséhez
 dcl#:#dcl_delete_fields#:#Mezők törlése
 dcl#:#dcl_link_detail_page#:#Link a nézetsablon oldalra
 dcl#:#dcl_manage#:#Kezelése
+dcl#:#dcl_display_record_alt#:#Bejegyzés megjelenítése
 dcl#:#dcl_delete_records#:#Bejegyzések törlése
 dcl#:#dcl_confirm_delete_records#:#Biztos, hogy törli az alábbi bejegyzéseket?
 dcl#:#dcl_deleted_records#:#Sikeresen törölt %s bejegyzéseket
@@ -12911,13 +12912,14 @@ dcl#:#dcl_plugin_desc#:#Adatgyűjtés mező-bővítmények
 dcl#:#dcl_plugin_hooks#:#Elérhető bővítmények
 dcl#:#dcl_save_confirmation#:#Mentés megerősítése
 dcl#:#dcl_save_confirmation_desc#:#Felhasználóknak jóvá kell hagyniuk minden új adatgyűjtemény bejegyzést
-dcl#:#dcl_confirm_storing_records#:#Kérem, ellenőrizze egy hagyja jóvá a beírt adatokat.
+dcl#:#dcl_confirm_storing_records#:#Kérem, ellenőrizze és hagyja jóvá beírt adatát.
+dcl#:#dcl_confirm_storing_records_no_permission#:#Nincs jogosultsága a bejegyzést utólag módosítani.
 dcl#:#dcl_save_record#:#Bejegyzés mentése
 dcl#:#dlc_xls_async_export#:#Excel (.xlsx) aszinkron exportálás
 dcl#:#dcl_export_started#:#Aszinkron exportálás elkeződött
 dcl#:#dcl_export_finished#:#Export befejeződött
 dcl#:#dcl_supported_filetypes#:#Engedélyezett fájlkiterjesztések
-dcl#:#dcl_supported_filetypes_desc#:#Az engedélyezni kívánt fájlkiterjesztéseket vesszővel elválasztva adja meg. Például: .pdf, .docx
+dcl#:#dcl_supported_filetypes_desc#:#Az engedélyezni kívánt fájlkiterjesztéseket vesszővel elválasztva adja meg. Például: pdf, docx
 dcl#:#dcl_no_export_data_available#:#Nincs exportálható mező, illetve bejegyzés.
 rbac#:#dcl_edit_content#:#Bejegyzések szerkesztése
 common#:#obj_bibl#:#Bibliográfia
@@ -13385,7 +13387,7 @@ exc#:#exc_feedback_notification_salutation#:#Tisztelt %s,
 exc#:#exc_feedback_notification_body#:#ezúton értesítjük, hogy az alábbi feltöltéséhez új visszajelzés érkezett.
 exc#:#exc_feedback_notification_link#:#Link a beadandó feladathoz
 mail#:#system_notification_installation_signature#:#Ezt a levelet az ILIAS automatikusan küldte
-mail#:#system_notification_installation_changed_by#:#Megváltoztatva ekkor
+mail#:#system_notification_installation_changed_by#:#Módosította
 exc#:#exc_feedback_notification_reason#:#Ezt a levelet azért kapta, mert fent említett beadandó feladatnak résztvevője.
 exc#:#exc_team_notification_reason#:#Ezt a levelet azért kapta, mert fent említett csoportnak tagja.
 blog#:#blog_change_notification_reason#:#Ezt a levelet azért kapta, mert fent említett blognál beállította, hogy kér értesítést.
@@ -14912,7 +14914,7 @@ dcl#:#dcl_mob_desc#:#Kép-, hang-, illetve videófájl feltöltési lehetőség.
 dcl#:#dcl_fileupload_desc#:#Tetszőleges fájl feltöltése (akár URL-ből is).
 dcl#:#dcl_reference_desc#:#Másik mező vagy táblázat kiválasztási lehetőségét biztosítja.
 dcl#:#dcl_reference_title#:#Hivatkozás táblázatra és mezőre.
-dcl#:#dcl_ILIAS_reference_desc#:#Keresési mező ILIAS-ban lévő objektum kiválasztására.
+dcl#:#dcl_ilias_reference_desc#:#Keresési mező ILIAS-ban lévő objektum kiválasztására.
 dcl#:#dcl_rating_desc#:#Felhasználók értékelhetik a bejegyzéseket, legfeljebb öt csillagig.
 dcl#:#dcl_formula_desc#:#Képlet segítségével bejegyzések értékeit aggregálhatja.
 dcl#:#dcl_additional_info_desc#:#A szöveg közvetlenül a táblázat felett jelenik meg.
@@ -14923,6 +14925,8 @@ dcl#:#dcl_ILIAS_reference_link_desc#:#Az objektumot olvasási engedéllyel rende
 dcl#:#dcl_learning_progress_desc#:#Ha rendelkezésre áll, a felhasználó tanulási folyamatában megjelenik.
 dcl#:#dcl_display_action_menu_desc#:#Objektum másolható vagy linkelhető, ha a felhasználó megfelelő jogosultsággal rendelkezik.
 dcl#:#dcl_export_enabled_desc#:#Az összes felhasználó exportálhatja a táblázat adatait. Az exportálható tulajdonság a mezőknél külön-külön állítható.
+dcl#:#dcl_import_enabled#:#Importálás engedélyezése az összes felhasználó számára
+dcl#:#dcl_import_enabled_desc#:#Bármelyik felhasználó adatokat importálhat a táblába, ha a szükséges írási jogosultsággal rendelkezik.
 dcl#:#dcl_add_perm_desc#:#A felhasználók bejegyzéseket hozhatnak létre ebben a táblázatban.
 dcl#:#dcl_limited_desc#:#A felhasználók csak adott időszakban hozhatnak létre, módosíthat, törölhetnek bejegyzéseket.
 dcl#:#dcl_unique_desc#:#Ebben a mezőben minden értéknek különböznie kell egymástól.
@@ -15698,3 +15702,9 @@ mail#:#mail_attachment_file_not_exist#:#Legalább az egyik csatolmány nem talá
 mail#:#mail_recipient_not_found#:#%1$s (nem található érvényes címzett)
 mail#:#mail_multiple_role_recipients_found#:#%1$s (címzetthez több szerep is létezik: %2$s)
 mail#:#mail_generic_rcp_error#:#Hiba a címzettek ellenőrzése közben: %1$s
+rbac#:#mep_copy#:#A felhasználó másolhat médiagyűjteményt
+crs#:#crs_cannot_find_role#:#Ez a szerep nem található.
+grp#:#grp_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen link.
+crs#:#crs_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen link.
+form#:#form_date_duration_start#:#Kezdő időpont
+form#:#form_date_duration_end#:#Záró időpont
