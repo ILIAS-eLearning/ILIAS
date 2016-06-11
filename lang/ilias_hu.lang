@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.0.x 2016-05-14 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.0.x 2016-06-11 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -15332,3 +15332,7 @@ style#:#sty_va_iheada_class#:#Függőleseg harmonika fejléc (aktív)
 style#:#sty_va_ihcap_class#:#Függőleseg harmonika felirat
 exc#:#exc_delete_team#:#Csapat törlése
 trac#:#trac_cron_info#:#Adatgyűjtéshez kapcsolja be az 'Objektumstatisztikák' ütemezett feladatot.
+rbac#:#mep_copy#:#A felhasználó másolhat médiagyűjteményt
+crs#:#crs_cannot_find_role#:#Ez a szerep nem található.
+grp#:#grp_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen link.
+crs#:#crs_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen link.
