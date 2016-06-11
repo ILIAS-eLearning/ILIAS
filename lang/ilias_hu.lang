@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2016 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @author 5.1.x 2016-05-14 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 5.1.x 2016-06-11 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungarian
 * @modulegroup	language
@@ -6852,7 +6852,7 @@ forum#:#forums_new_thread#:#Új téma
 forum#:#forums_no_posts_available#:#Ennek a témának nincsenek még hozzászólásai, vagy a moderátor kikapcsolta az első hozzászólást.
 forum#:#forums_notification_disabled#:#Értesítés kikapcsolva
 forum#:#forums_notification_enabled#:#Értesítés bekapcsolva
-forum#:#forums_notification_intro#:#Ezt a levelet automatikusan küldte Önnek az ILIAS %s: %s
+forum#:#forums_notification_intro#:#%s automatikusan küldte Önnek ezt a levelet, %s
 forum#:#forums_notification_show_post#:#Link a hozzászólásra: %s
 forum#:#forums_notification_subject#:#Új hozzászólás fórumban:
 forum#:#forums_notification#:#Értesítés
@@ -13072,7 +13072,7 @@ webr#:#webr_copy#:#Weblink másolása
 exc#:#exc_copy#:#Beadandó feladat másolása
 assessment#:#tst_copy#:#Teszt másolása
 survey#:#svy_copy#:#Kérdőív másolása
-poll#:#poll_population#:#%s szavazat
+poll#:#poll_population#:#%s résztvevő
 poll#:#poll_participants#:#Résztvevők
 poll#:#poll_delete_votes#:#Összes szavazat törlése
 poll#:#poll_delete_votes_sure#:#Biztos, hogy törli az összes szavazatot?
@@ -13119,7 +13119,7 @@ exc#:#exc_team_notification_link#:#Link a beadandó feladathoz
 poll#:#poll_absolute#:#Szavazatok száma
 dcl#:#dcl_reference_link#:#Link megjelenítése hivatkozott bejegyzésként
 dcl#:#dcl_reference_link_info#:#A részletes megjelenítést be kell kapcsolani a hivatkozott táblában
-dcl#:#dcl_ILIAS_reference_link#:#Táblanézetben linkként jelenjen meg
+dcl#:#dcl_ilias_reference_link#:#Táblanézetben linkként jelenjen meg
 dcl#:#dcl_text_area#:#Szövegterület
 dcl#:#dcl_delete_table#:#Tábla törlése
 dcl#:#dcl_table_info#:#A 'Szerkesztési beállítások' jogosultsággal rendelkező felhasználók (lásd a 'Jogosultság' fület) mindig rendelkeznek a felvétel/szerkesztés/törlés jogosultsággal a rekordokhoz. A 'rekordok szerkesztése' jogosultságú felhasználók (lásd a 'Jogosultságok' fület) csak az alábbi űrlapon meghatározott beállítások szerinti jogosultságokkal rendelkeznek.
@@ -13914,7 +13914,7 @@ exc#:#exc_feedback_notification_salutation#:#Tisztelt %s,
 exc#:#exc_feedback_notification_body#:#ezúton értesítjük, hogy az alábbi feltöltéséhez új visszajelzés érkezett.
 exc#:#exc_feedback_notification_link#:#Link a beadandó feladathoz
 mail#:#system_notification_installation_signature#:#Ezt a levelet az ILIAS automatikusan küldte
-mail#:#system_notification_installation_changed_by#:#Megváltoztatva ekkor
+mail#:#system_notification_installation_changed_by#:#Módosította
 exc#:#exc_feedback_notification_reason#:#Ezt a levelet azért kapta, mert fent említett beadandó feladatnak résztvevője.
 exc#:#exc_team_notification_reason#:#Ezt a levelet azért kapta, mert fent említett csoportnak tagja.
 blog#:#blog_change_notification_reason#:#Ezt a levelet azért kapta, mert fent említett blognál beállította, hogy kér értesítést.
@@ -16201,3 +16201,7 @@ trac#:#trac_cron_info#:#Adatgyűjtéshez kapcsolja be az 'Objektumstatisztikák'
 sess#:#sess_list_reg_limit_places#:#Szabad helyek
 sess#:#sess_accept_request#:#Résztvétel elfogadása
 sess#:#sess_new_registrations#:#Csatlakozási kérés
+rbac#:#mep_copy#:#A felhasználó másolhat médiagyűjteményt
+crs#:#crs_cannot_find_role#:#Ez a szerep nem található.
+grp#:#grp_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen link.
+crs#:#crs_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen link.
