@@ -801,11 +801,11 @@ class ilCourseBookingAdminGUI
 		global $ilCtrl, $lng;
 		
 		//gev-patch start
-		$ilLog->write("enter ilCourseBookingAdminGUI::assignMembers");
-		$ilLog->write("param user_ids:");
-		$ilLog->dump($user_ids);
-		$ilLog->write("param status");
-		$ilLog->dump($status);
+		$this->gLog->write("enter ilCourseBookingAdminGUI::assignMembers");
+		$this->gLog->write("param user_ids:");
+		$this->gLog->dump($user_ids);
+		$this->gLog->write("param status");
+		$this->gLog->dump($status);
 
 		if(!$this->getPermissions()->bookCourseForOthers())
 		{
@@ -974,7 +974,7 @@ class ilCourseBookingAdminGUI
 
 			// $this->checkLicenses(true);
 		}
-		$ilLog->write("leave ilCourseBookingAdminGUI::assignMembers");
+		$this->gLog->write("leave ilCourseBookingAdminGUI::assignMembers");
 		$ilCtrl->redirect($this, "listBookings");
 	}
 	
