@@ -66,26 +66,26 @@ class TemplateFactoryMock implements TemplateFactory {
 	}
 }
 
-
 class AbstractRendererTest extends ILIAS_UI_TestBase {
 	public function setUp() {
 		parent::setUp();
-		$this->factory = new TemplateFactoryMock();
+		$this->tpl_factory = new TemplateFactoryMock();
+		$this->ui_factory = new NoUIFactory();
 	}
 
 	public function test_getTemplate_successfull() {
-		$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRenderer($this->factory);
+		$r = new \ILIAS\UI\Implementation\Component\Glyph\GlyphNonAbstractRenderer($this->ui_factory, $this->tpl_factory);
 		$tpl = $r->_getTemplate("tpl.glyph.html", true, false);
 
 		$expected = array
 			( realpath(__DIR__."/../../src/UI/templates/default/Glyph/tpl.glyph.html")
 				=> array(true, false)
 			);
-		$this->assertEquals($expected, $this->factory->files);
+		$this->assertEquals($expected, $this->tpl_factory->files);
 	}
 
 	public function test_getTemplate_unsuccessfull() {
-		$r = new \ILIAS\UI\Implementation\Component\Counter\CounterNonAbstractRenderer($this->factory);
+		$r = new \ILIAS\UI\Implementation\Component\Counter\CounterNonAbstractRenderer($this->ui_factory, $this->tpl_factory);
 
 		try {
 			$tpl = $r->_getTemplate("tpl.counter_foo.html", true, false);
@@ -96,7 +96,7 @@ class AbstractRendererTest extends ILIAS_UI_TestBase {
 			( realpath(__DIR__."/../../src/UI/templates/default/Counter/tpl.counter_foo.html")
 				=> array(true, false)
 			);
-		$this->assertEquals($expected, $this->factory->files);
+		$this->assertEquals($expected, $this->tpl_factory->files);
 	}
 }
 

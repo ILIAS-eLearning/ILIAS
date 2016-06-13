@@ -5,21 +5,39 @@
 namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Factory;
 
 /**
  * Base class for all component renderers.
  */
 abstract class AbstractComponentRenderer implements ComponentRenderer {
 	/**
-	 * @var	TemplateFactory
+	 * @var	Factory
 	 */
-	protected $tpl_factory;
+	private $ui_factory;
 
 	/**
-	 * Component renderers must only depend on a Template Factory.
+	 * @var	TemplateFactory
 	 */
-	final public function __construct(TemplateFactory $tpl_factory) {
+	private $tpl_factory;
+
+	/**
+	 * Component renderers must only depend on a UI-Factory and a Template Factory.
+	 */
+	final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory) {
+		$this->ui_factory = $ui_factory;
 		$this->tpl_factory = $tpl_factory;
+	}
+
+	/**
+	 * Get a UI factory.
+	 *
+	 * This could be used to create and render subcomponents like close buttons, etc.
+	 *
+	 * @return	Factory
+	 */
+	final protected function getUIFactory() {
+		return $this->ui_factory;
 	}
 
 	/**

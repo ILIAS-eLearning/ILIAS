@@ -8,12 +8,18 @@ use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
+use ILIAS\UI\Factory;
 
 /**
  * Renderer that dispatches rendering of UI components to a Renderer found
  * in the same namespace as the component to be renderered.
  */
 class DefaultRenderer implements Renderer {
+	/**
+	 * @var	Factory
+	 */
+	private $ui_factory;
+
 	/**
 	 * @var	array<string, ComponentRenderer>
 	 */
@@ -24,7 +30,8 @@ class DefaultRenderer implements Renderer {
 	 */
 	protected $tpl_factory;
 
-	public function __construct(TemplateFactory $tpl_factory) {
+	public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory) {
+		$this->ui_factory = $ui_factory;
 		$this->tpl_factory = $tpl_factory;
 	}
 
@@ -69,7 +76,7 @@ class DefaultRenderer implements Renderer {
 		if (!class_exists($renderer_class)) {
 			throw new \LogicException("No rendered for '".$class."' found.");
 		}
-		return new $renderer_class($this->tpl_factory);
+		return new $renderer_class($this->ui_factory, $this->tpl_factory);
 	}
 
 	/**

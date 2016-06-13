@@ -277,7 +277,7 @@ class GlyphTest extends ILIAS_UI_TestBase {
 	}
 
 	public function test_dont_render_counter() {
-		$r = new \ILIAS\UI\Implementation\Component\Glyph\Renderer($this->getTemplateFactory());
+		$r = new \ILIAS\UI\Implementation\Component\Glyph\Renderer($this->getUIFactory(), $this->getTemplateFactory());
 		$f = $this->getCounterFactory();
 
 		try {
