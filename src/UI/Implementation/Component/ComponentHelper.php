@@ -55,6 +55,8 @@ trait ComponentHelper {
 	 *
 	 * @param	string	$which
 	 * @param	mixed	$value
+	 * @param	array	$array
+	 * @param	string	$name		used in the exception
 	 * @throws 	\InvalidArgumentException	if $check = false
 	 * @return null
 	 */
