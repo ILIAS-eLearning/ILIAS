@@ -65,6 +65,8 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 							."        )"
 							."   )";
 		
+		$points_total = "SUM( IF(usrcrs.credit_points > 0, usrcrs.credit_points, 0) )";
+
 		$no_tp_service_condition =
 			"(roles.num_tp_service_roles = 0"
 			."	AND ".$this->gIldb->in("usr.wbd_type",$services,true,"text")
@@ -88,6 +90,7 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 				->select("orgu_all.org_unit_above2")
 				->select("roles.roles")
 				->select("usr.begin_of_certification")
+				->select_raw($points_total." as points_total_goa ")
 				->select_raw("IF ( usr.begin_of_certification >= '$earliest_possible_cert_period_begin'"
 							."   , usr.begin_of_certification"
 							."   , '-')"
@@ -221,8 +224,10 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 		$table
 						->column("lastname", $this->plugin->txt("lastname") ,true)
 						->column("firstname", $this->plugin->txt("firstname") ,true)
-						->column("cert_period", $this->plugin->txt("cert_period") ,true)
 						->column("points_sum", $this->plugin->txt("overall_points_cert_period") ,true)
+						->column("points_total_goa", $this->plugin->txt("overall_points_goa") ,true)
+						->column("cert_period", $this->plugin->txt("cert_period") ,true)
+						->column("attention", $this->plugin->txt("critical"),true)
 						->column("login", $this->plugin->txt("login") ,true)
 						->column("adp_number", $this->plugin->txt("adp_number") ,true)
 						->column("job_number", $this->plugin->txt("job_number") ,true)
@@ -233,8 +238,7 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 						->column("points_year2", "2", true)
 						->column("points_year3", "3", true)
 						->column("points_year4", "4", true)
-						->column("points_year5", "5", true)
-						->column("attention", $this->plugin->txt("critical"),true);
+						->column("points_year5", "5", true);
 		return parent::buildTable($table);
 	}
 
