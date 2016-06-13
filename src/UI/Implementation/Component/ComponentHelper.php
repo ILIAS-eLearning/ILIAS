@@ -72,6 +72,36 @@ trait ComponentHelper {
 	}
 
 	/**
+	 * Check every element of the list if it is an instance of one of the given
+	 * classes. Throw an InvalidArgumentException if that is not the case.
+	 *
+	 * @param	string				$which
+	 * @param	mixed[]				&$values
+	 * @param	string|string[]		$classes 		name(s) of classes
+	 * @throws 	\InvalidArgumentException	if any element is not an instance of $classes
+	 * @return	null
+	 */
+	protected function checkArgListElements($which, array &$values, $classes) {
+		$failed = null;
+		$classes = $this->toArray($classes);
+		foreach ($values as $value) {
+			$ok = false;
+			foreach ($classes as $cls) {
+				if ($value instanceof $cls) {
+					$ok = true;
+					break;
+				}
+			}
+			if (!$ok) {
+				$failed = $value;
+				break;
+			}
+		}
+
+		$this->checkArg($which, $failed === null, $this->wrongTypeMessage(implode(", ", $classes), $failed));
+	}
+
+	/**
  	 * Wrap the given value in an array if it is no array.
 	 *
 	 * @param	mixed	$value
@@ -84,13 +114,13 @@ trait ComponentHelper {
 		return array($value);
 	}
 
-
 	protected function wrongTypeMessage($expected, $value) {
 		$type = gettype($value);
 		if (!is_object($value)) {
 			return "expected $expected, got $type '$value'";
 		}
 		else {
+			$type = get_class($value);
 			return "expected $expected, got $type";
 		}
 	}

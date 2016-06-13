@@ -22,6 +22,16 @@ class ComponentMock {
 	public function _toArray($value) {
 		return $this->toArray($value);
 	}
+	public function _checkArgListElements($which, &$value, $classes) {
+		$this->checkArgListElements($which, $value, $classes);
+	}
+}
+
+class Class1 {
+}
+class Class2 {
+}
+class Class3 {
 }
 
 /**
@@ -119,5 +129,47 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 		$foo = 1;
 		$res = $this->mock->_toArray($foo);
 		$this->assertEquals(array($foo), $res);
+	}
+
+	public function test_check_arg_list_elements_ok() {
+		$l = array(new Class1(), new Class1(), new Class1());
+		try {
+			$this->mock->_checkArgListElements("some_arg", $l, array("Class1"));
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertFalse("This should not happen.");
+		}
+	}
+
+	public function test_check_arg_list_elements_no_ok() {
+		$l = array(new Class1(), new Class1(), new Class2());
+		try {
+			$this->mock->_checkArgListElements("some_arg", $l, array("Class1"));
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertEquals("Argument 'some_arg': expected Class1, got Class2", $e->getMessage());
+		}
+	}
+
+	public function test_check_arg_list_elements_multi_class_ok() {
+		$l = array(new Class1(), new Class2(), new Class1());
+		try {
+			$this->mock->_checkArgListElements("some_arg", $l, array("Class1", "Class2"));
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertFalse("This should not happen.");
+		}
+	}
+
+	public function test_check_arg_list_elements_multi_class_not_ok() {
+		$l = array(new Class1(), new Class2(), new Class3(), new Class2());
+		try {
+			$this->mock->_checkArgListElements("some_arg", $l, array("Class1", "Class2"));
+			$this->assertFalse("This should not happen.");
+		}
+		catch (\InvalidArgumentException $e) {
+			$this->assertEquals("Argument 'some_arg': expected Class1, Class2, got Class3", $e->getMessage());
+		}
 	}
 }
