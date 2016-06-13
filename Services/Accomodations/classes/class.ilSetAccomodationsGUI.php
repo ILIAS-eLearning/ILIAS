@@ -155,7 +155,7 @@ class ilSetAccomodationsGUI
 		} else {
 			$crs = " course without id";
 		}
-		$log->write("####course acoomodations of ".$crs.":".$ilUser->getId()." performing command ".$cmd);
+		$log->write("####course accomodations of ".$crs.":".$ilUser->getId()." performing command ".$cmd);
 
 		//gev patch end
 		switch($next_class)

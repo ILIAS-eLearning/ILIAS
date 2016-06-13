@@ -321,7 +321,7 @@ class ilAccomodations
 		if(sizeof($tmp))
 		{
 			//gev patch start #2351
-		$msg = 	"####course acoomodations at ".$course_id." for ".$a_user_id." old:";
+		$msg = 	"####course accomodations at ".$course_id." for ".$a_user_id." old:";
 			//gev patch end
 			foreach($tmp as $night)
 			{
@@ -337,7 +337,7 @@ class ilAccomodations
 			//gev patch end
 		}
 		//gev patch start #2351
-		$msg = 	"####course acoomodations at ".$course_id." for ".$a_user_id." new:";
+		$msg = 	"####course accomodations at ".$course_id." for ".$a_user_id." new:";
 		//gev patch end
 		foreach($a_accomodations as $night)
 		{
@@ -409,7 +409,7 @@ class ilAccomodations
 
 		//gev patch start #2351
 		global $log,$ilUser;
-		$msg = "####course acoomodations at ".$course_id.": deleted for ".$a_user_id;
+		$msg = "####course accomodations at ".$course_id.": deleted for ".$a_user_id;
 		if($ilUser) {
 			$msg .= " by ".$ilUser->getId();
 		}
