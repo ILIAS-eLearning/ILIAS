@@ -231,7 +231,7 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 						->column("login", $this->plugin->txt("login") ,true)
 						->column("adp_number", $this->plugin->txt("adp_number") ,true)
 						->column("job_number", $this->plugin->txt("job_number") ,true)
-						->column("od_bd", $this->plugin->txt("od_bd") ,true)
+						->column("od_bd", $this->plugin->txt("od_bd") ,true,"", false, false)
 						->column("org_unit", $this->plugin->txt("orgu_short") ,true)
 						->column("roles", $this->plugin->txt("roles") ,true)
 						->column("points_year1", "1", true)
@@ -257,8 +257,8 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 	protected function getAllOrgusForUsersJoin() {
 		$query = 	"JOIN ("
 					."	SELECT usr_id, GROUP_CONCAT(DISTINCT orgu_title SEPARATOR ', ') as org_unit".PHP_EOL
-					."		, GROUP_CONCAT(DISTINCT org_unit_above1 SEPARATOR ', ') as org_unit_above1".PHP_EOL
-					."		, GROUP_CONCAT(DISTINCT org_unit_above1 SEPARATOR ', ') as org_unit_above2".PHP_EOL
+					."		, GROUP_CONCAT(DISTINCT org_unit_above1 SEPARATOR ';;') as org_unit_above1".PHP_EOL
+					."		, GROUP_CONCAT(DISTINCT org_unit_above1 SEPARATOR ';;') as org_unit_above2".PHP_EOL
 					."	FROM hist_userorgu".PHP_EOL
 					."	WHERE ".$this->gIldb->in("usr_id", array_intersect($this->allowed_user_ids,$this->getUsersFilteredByOrguFilter()), false, "integer").PHP_EOL
 					."		AND action >= 0 AND hist_historic = 0".PHP_EOL
