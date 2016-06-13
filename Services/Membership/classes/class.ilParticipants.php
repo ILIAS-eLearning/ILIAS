@@ -805,10 +805,19 @@ class ilParticipants
 	 */
 	public function add($a_usr_id,$a_role)
 	{
+	 	//gev-patch start
+	 	global $ilLog;
+	 	$ilLog->write("enter ilParticipants::add");
+	 	$ilLog->write("param usr_id:");
+	 	$ilLog->dump($usr_id);
+	 	$ilLog->write("param role");
+	 	$ilLog->dump($a_role);
+
 	 	global $rbacadmin,$ilLog,$ilAppEventHandler;
 	 	
 	 	if($this->isAssigned($a_usr_id))
 	 	{
+	 		$ilLog->write("leave ilParticipants::add user is assigned");
 	 		return false;
 	 	}
 	 	
@@ -848,12 +857,14 @@ class ilParticipants
 		// gev patch end
 
 		$this->participants[] = $a_usr_id;
+		$ilLog->write("RBAC Assign user");
 		$rbacadmin->assignUser($this->role_data[$a_role],$a_usr_id);
+		$ilLog->write("RBAC Assign user finished");
 		$this->addDesktopItem($a_usr_id);
 		
 		// Delete subscription request
 		$this->deleteSubscriber($a_usr_id);
-		
+
 		include_once './Services/Membership/classes/class.ilWaitingList.php';
 		ilWaitingList::deleteUserEntry($a_usr_id,$this->obj_id);
 
@@ -869,6 +880,8 @@ class ilParticipants
 						'role_id' => $a_role)
 			);
 		}
+
+		$ilLog->write("leave ilParticipants::add");
 	 	return true;
 	}
 	
@@ -898,10 +911,17 @@ class ilParticipants
 	 */
 	public function addDesktopItem($a_usr_id)
 	{
+		//gev-patch start
+		global $ilLog;
+		$ilLog->write("enter ilParticipants::addDesktopItem");
+		$ilLog->write("param usr_id:");
+		$ilLog->dump($a_usr_id);
 		if(!ilObjUser::_isDesktopItem($a_usr_id, $this->ref_id,$this->type))
 		{
 			ilObjUser::_addDesktopItem($a_usr_id, $this->ref_id,$this->type);
 		}
+		$ilLog->write("leave ilParticipants::addDesktopItem");
+		//gev-patch end
 		return true;
 	}
 	
@@ -1287,13 +1307,19 @@ class ilParticipants
 	 */
 	public function deleteSubscriber($a_usr_id)
 	{
-		global $ilDB;
+		//gev-patch start
+		global $ilDB, $ilLog;
+		$ilLog->write("enter ilParticipants::deleteSubscriber");
+		$ilLog->write("param usr_id:");
+		$ilLog->dump($a_usr_id);
 
 		$query = "DELETE FROM il_subscribers ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
 			"AND obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
-
+		$ilLog->write("leave ilParticipants::deleteSubscriber");
+		//gev-patch end
+		
 		return true;
 	}
 

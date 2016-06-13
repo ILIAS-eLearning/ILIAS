@@ -24,7 +24,11 @@ class ilCourseBookingAdminGUI
 	 */
 	public function __construct(ilObjCourse $a_course)
 	{
-		global $lng, $ilUser;
+		//gev-patch start
+		global $lng, $ilUser, $ilLog;
+		$this->gLog = $ilLog;
+		//gev-patch end
+
 		
 		$this->setCourse($a_course);
 		$this->ilUser = $ilUser;
@@ -796,6 +800,13 @@ class ilCourseBookingAdminGUI
 	{			
 		global $ilCtrl, $lng;
 		
+		//gev-patch start
+		$ilLog->write("enter ilCourseBookingAdminGUI::assignMembers");
+		$ilLog->write("param user_ids:");
+		$ilLog->dump($user_ids);
+		$ilLog->write("param status");
+		$ilLog->dump($status);
+
 		if(!$this->getPermissions()->bookCourseForOthers())
 		{
 			$ilCtrl->redirect($this, "listBookings");
@@ -866,9 +877,19 @@ class ilCourseBookingAdminGUI
 				{
 					continue;
 				}
+
+				//gev-patch start
+				$this->gLog->write("####################");
+				$this->gLog->write("Start booking ".$user_id);
+				$this->gLog->write("####################");
+				//gev-patch end
+
 				if($bookings->bookCourse($user_id))
 				{
 					// gev-patch start
+					$this->gLog->write("####################");
+					$this->gLog->write("Booking Success ".$user_id);
+					$this->gLog->write("####################");
 					require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
 					$addMailSettings = new gevCrsAdditionalMailSettings($this->getCourse()->getId());
 					
@@ -953,7 +974,7 @@ class ilCourseBookingAdminGUI
 
 			// $this->checkLicenses(true);
 		}
-		
+		$ilLog->write("leave ilCourseBookingAdminGUI::assignMembers");
 		$ilCtrl->redirect($this, "listBookings");
 	}
 	
