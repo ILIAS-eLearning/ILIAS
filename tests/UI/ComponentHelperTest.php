@@ -19,6 +19,9 @@ class ComponentMock {
 	public function _checkArgIsElement($which, $value, $array, $name) {
 		$this->checkArgIsElement($which, $value, $array, $name);
 	}
+	public function _toArray($value) {
+		return $this->toArray($value);
+	}
 }
 
 /**
@@ -103,5 +106,18 @@ class ComponentHelperTest extends PHPUnit_Framework_TestCase {
 		catch (\InvalidArgumentException $e) {
 			$this->assertEquals("Argument 'some_arg': expected foobar, got 'baz'", $e->getMessage());
 		}
+	}
+
+	public function test_to_array_with_array() {
+		$foo = array("foo", "bar");
+		$res = $this->mock->_toArray($foo);
+
+		$this->assertEquals($foo, $res);
+	}
+
+	public function test_to_array_with_int() {
+		$foo = 1;
+		$res = $this->mock->_toArray($foo);
+		$this->assertEquals(array($foo), $res);
 	}
 }

@@ -71,6 +71,20 @@ trait ComponentHelper {
 		$this->checkArg($which, in_array($value, $array), $message);
 	}
 
+	/**
+ 	 * Wrap the given value in an array if it is no array.
+	 *
+	 * @param	mixed	$value
+	 * @return	array
+	 */
+	protected function toArray($value) {
+		if (is_array($value)) {
+			return $value;
+		}
+		return array($value);
+	}
+
+
 	protected function wrongTypeMessage($expected, $value) {
 		$type = gettype($value);
 		if (!is_object($value)) {
