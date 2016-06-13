@@ -29,6 +29,7 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 	protected function points_in_cert_year_sql($year) {
 		return   "SUM( IF (     usrcrs.begin_date >= usr.begin_of_certification + INTERVAL ".($year-1)." YEAR "
 				."               AND usrcrs.begin_date < (usr.begin_of_certification + INTERVAL ".$year." YEAR)"
+				."               AND usrcrs.okz <> '-empty-'"
 				."             , usrcrs.credit_points"
 				."             , 0"
 				."             )"
@@ -156,7 +157,6 @@ class ilObjReportEmplEduBios extends ilObjReportBase {
 						." AND usrcrs.credit_points > 0"
 						." AND usrcrs.participation_status = 'teilgenommen'"
 						." AND usrcrs.booking_status = 'gebucht'"
-						." AND usrcrs.okz <> '-empty-'"
 						)
 				->group_by("user_id")
 				->compile();
