@@ -148,7 +148,16 @@ class ilSetAccomodationsGUI
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd("listAccomodations");
-		
+		//gev patch start #2351
+		global $ilUser, $log;
+		if($this->course) {
+			$crs = $this->course->getId();
+		} else {
+			$crs = " course without id";
+		}
+		$log->write("####course acoomodations of ".$crs.":".$ilUser->getId()." performing command ".$cmd);
+
+		//gev patch end
 		switch($next_class)
 		{						
 			default:				
@@ -229,7 +238,7 @@ class ilSetAccomodationsGUI
 	protected function saveAccomodationsList()
 	{
 		global $ilCtrl, $lng;
-		
+
 		require_once "Services/Accomodations/classes/class.ilSetAccomodationsTableGUI.php";
 		$tbl = new ilSetAccomodationsTableGUI(
 			$this
