@@ -11,7 +11,9 @@
 		"ezyang/htmlpurifier": "^4.7.0",
 		"phpmailer/phpmailer": "^5.2",
 		"phansys/getid3": "^1.9.4",
-		"pimple/pimple" : "^3.0"
+		"pimple/pimple" : "^3.0",
+		"symfony/yaml": "^3.1"
+
 	},
 	"autoload": {
 		"psr-4" : { "ILIAS\\" : "../../src" }
@@ -80,6 +82,14 @@
 			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
 			"last_update" : "2016-02-29",
 			"last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>"
+		},
+		"symfony/yaml" : {
+			"source": "https://github.com/symfony/yaml.git",
+			"used_version": "v3.1",
+			"added_by": "Timon Amstutz <timon.amstutz@ilub.unibe.ch>",
+			"wrapped_by": "ILIAS\\UI\\Crawler",
+			"last_update": "2016-05-31",
+			"last_update_by": "Timon Amstutz <timon.amstutz@ilub.unibe.ch>"
 		}
 	}
 }
