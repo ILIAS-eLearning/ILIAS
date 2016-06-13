@@ -807,13 +807,17 @@ class ilParticipants
 	{
 	 	//gev-patch start
 	 	global $ilLog;
-	 	$ilLog->write("Start to assign user ".$a_usr_id." to role ".$a_role);
+	 	$ilLog->write("enter ilParticipants::add");
+	 	$ilLog->write("param usr_id:");
+	 	$ilLog->dump($usr_id);
+	 	$ilLog->write("param role");
+	 	$ilLog->dump($a_role);
 
 	 	global $rbacadmin,$ilLog,$ilAppEventHandler;
 	 	
 	 	if($this->isAssigned($a_usr_id))
 	 	{
-	 		$ilLog->write("User is assigned to role");
+	 		$ilLog->write("leave ilParticipants::add user is assigned");
 	 		return false;
 	 	}
 	 	
@@ -877,7 +881,7 @@ class ilParticipants
 			);
 		}
 
-		$ilLog->write("Finished to assign user ".$a_usr_id." to role ".$a_role);
+		$ilLog->write("leave ilParticipants::add");
 	 	return true;
 	}
 	
@@ -909,12 +913,15 @@ class ilParticipants
 	{
 		//gev-patch start
 		global $ilLog;
-		$ilLog->write("Adding course to desktop");
+		$ilLog->write("enter ilParticipants::addDesktopItem");
+		$ilLog->write("param usr_id:");
+		$ilLog->dump($a_usr_id);
 		if(!ilObjUser::_isDesktopItem($a_usr_id, $this->ref_id,$this->type))
 		{
 			ilObjUser::_addDesktopItem($a_usr_id, $this->ref_id,$this->type);
 		}
-		$ilLog->write("Adding course to desktop finished");
+		$ilLog->write("leave ilParticipants::addDesktopItem");
+		//gev-patch end
 		return true;
 	}
 	
@@ -1302,14 +1309,17 @@ class ilParticipants
 	{
 		//gev-patch start
 		global $ilDB, $ilLog;
+		$ilLog->write("enter ilParticipants::deleteSubscriber");
+		$ilLog->write("param usr_id:");
+		$ilLog->dump($a_usr_id);
 
-		$ilLog->write("Delete user from il_subscribers");
 		$query = "DELETE FROM il_subscribers ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
 			"AND obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
-		$ilLog->write("Delete user from il_subscribers finished");
-
+		$ilLog->write("leave ilParticipants::deleteSubscriber");
+		//gev-patch end
+		
 		return true;
 	}
 

@@ -119,7 +119,8 @@ class ilCourseBookings
 	 */	
 	protected function getCourse()
 	{
-		$this->gLog->write("get Course");
+		$this->gLog->write("enter ilCourseBookings::getCourse");
+		$this->gLog->write("leave ilCourseBookings::getCourse");
 		return $this->course;
 	}
 	
@@ -352,6 +353,10 @@ class ilCourseBookings
 	 */
 	public function getUserStatus($a_user_id)
 	{
+		$this->gLog->write("enter ilCourseBookings::geUserStatus");
+		$this->gLog->write("param: user_id");
+		$this->gLog->dump($a_user_id);
+
 		$this->gLog->write("Search booking status");
 		$crs_id = $this->getCourse()->getId();
 		$this->gLog->write("Search status for crs id ".$crs_id);
@@ -362,6 +367,7 @@ class ilCourseBookings
 		}
 		$this->gLog->write("State: ".self::$user_status[$crs_id][$a_user_id]);
 		$this->gLog->write("Search booking status finished");
+		$this->gLog->write("leave ilCourseBookings::geUserStatus");
 		return self::$user_status[$crs_id][$a_user_id];
 	}
 	
@@ -444,11 +450,15 @@ class ilCourseBookings
 	 */
 	public function bookCourse($a_user_id)
 	{
+		$this->gLog->write("enter ilCourseBookings::bookCourse");
+		$this->gLog->write("param user_id:");
+		$this->gLog->dump($a_user_id);
 		$status = $this->getUserStatus($a_user_id);
 		
 		if($status == ilCourseBooking::STATUS_BOOKED)
 		{
 			$this->gLog->write("State equals BOOKED");
+			$this->gLog->write("leave ilCourseBookings::bookCourse");
 			return true;
 		}
 		
@@ -463,9 +473,11 @@ class ilCourseBookings
 		$this->gLog->write("Try to add user to course (role assignment)");
 		if($this->getCourse()->getMemberObject()->add($a_user_id, IL_CRS_MEMBER))
 		{
+			$this->gLog->write("leave ilCourseBookings::bookCourse member is booked");
 			return $this->updateUserStatus($a_user_id, ilCourseBooking::STATUS_BOOKED);
 		}
 		
+		$this->gLog->write("leave ilCourseBookings::bookCourse return false");
 		return false;
 	}
 	

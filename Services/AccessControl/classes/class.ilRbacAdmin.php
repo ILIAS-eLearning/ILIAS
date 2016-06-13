@@ -242,6 +242,13 @@ class ilRbacAdmin
 	{
 		//gev-patch start
 		global $ilDB,$rbacreview, $ilLog;
+		$ilLog->write("enter ilRbacadmin::assignUser");
+		$ilLog->write("param rol_id:");
+		$ilLog->dump($a_rol_id);
+		$ilLog->write("param user_id:");
+		$ilLog->dump($a_user_id);
+		$ilLog->write("param default:");
+		$ilLog->dump($a_default);
 		//gev-patch end
 
 		if (!isset($a_rol_id) or !isset($a_usr_id))
@@ -306,6 +313,7 @@ class ilRbacAdmin
 		$mapping = ilLDAPRoleGroupMapping::_getInstance();
 		$mapping->assign($a_rol_id,$a_usr_id); 
 		$ilLog->write("Assign LDAP finished");
+		$ilLog->write("leave ilRbacadmin::assignUser");
 
 		return true;
 	}

@@ -50,7 +50,11 @@ class ilCourseBooking
 	{
 		//gev-patch start
 		global $ilDB, $ilLog;
-		$ilLog->write("Search state in crs_book");
+		$ilLog->write("enter ilCourseBooking::getUserStatus");
+		$ilLog->write("param course_obj_id:");
+		$ilLog->dump($a_course_obj_id);
+		$ilLog->write("param user_id:");
+		$ilLog->dump($a_user_id);
 		//gev-patch end
 
 		$sql = "SELECT status".
@@ -61,9 +65,11 @@ class ilCourseBooking
 		if($ilDB->numRows($set))
 		{
 			$res = $ilDB->fetchAssoc($set);
+			$ilLog->write("leave ilCourseBooking::getUserStatus with return");
 			return $res["status"];
 		}
 		$ilLog->write("No state found");
+		$ilLog->write("leave ilCourseBooking::getUserStatus");
 	}
 	
 	/**
@@ -100,11 +106,18 @@ class ilCourseBooking
 	{
 		//gev-patch start ilLog
 		global $ilDB, $ilUser, $ilLog;
-		
-		$ilLog->write("Start set user state. User: ". $a_user_id." crs: ".$a_course_obj_id." state: ".$a_status);
+		$ilLog->write("enter ilCourseBooking::setUserStatus");
+		$ilLog->write("param course_obj_id:");
+		$ilLog->dump($a_course_obj_id);
+		$ilLog->write("param user_id:");
+		$ilLog->dump($a_user_id);
+		$ilLog->write("param status:");
+		$ilLog->dump($a_status);
+
 		if(!self::isValidStatus($a_status))
 		{
 			$ilLog->write("state: ".$a_status. " is not valid");
+			$ilLog->write("leave ilCourseBooking::setUserStatus invalid status");
 			return false;
 		}
 		
@@ -120,6 +133,7 @@ class ilCourseBooking
 			$ilLog->write("Update user state");
 			if($old == $a_status)
 			{
+				$ilLog->write("leave ilCourseBooking::setUserStatus no changings");
 				return true;
 			}
 			
@@ -141,7 +155,7 @@ class ilCourseBooking
 		}
 				
 		self::raiseEvent("setStatus", $a_course_obj_id, $a_user_id, $old, $a_status);
-		
+		$ilLog->write("leave ilCourseBooking::setUserStatus");
 		return true;
 	}
 	
