@@ -1201,7 +1201,7 @@ class ilInitialisation
 			return new ILIAS\UI\Implementation\DefaultRenderer($c["ui.template_factory"]);
 		};
 		$c["ui.template_factory"] = function($c) {
-			return new ILIAS\UI\Implementation\ilTemplateWrapperFactory();
+			return new ILIAS\UI\Implementation\Render\ilTemplateWrapperFactory();
 		};
 	}
 	
