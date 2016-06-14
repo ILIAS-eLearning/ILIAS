@@ -11,16 +11,8 @@ include_once "Modules/SurveyQuestionPool/classes/class.SurveyQuestionEvaluation.
  */
 class SurveyMultipleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
 {
-	public function getResults()
-	{
-		
-		
-		
-	}
-
 	
 	
-
 	function &getCumulatedResults($survey_id, $nr_of_users, $finished_ids)
 	{
 		global $ilDB;

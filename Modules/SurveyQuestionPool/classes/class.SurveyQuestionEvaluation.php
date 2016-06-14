@@ -36,11 +36,13 @@ abstract class SurveyQuestionEvaluation
 	{
 		$results = new ilSurveyEvaluationResults($this->question);	
 		$answers = $this->getAnswerData();
-											
+										
 		$this->parseResults(
 			$results, 
 			$answers[0], 
-			$this->question->getCategories()
+			method_exists($this->question, "getCategories")
+				? $this->question->getCategories()
+				: null
 		);
 		
 		return $results;
@@ -71,7 +73,18 @@ abstract class SurveyQuestionEvaluation
 				$has_multi = true;
 			}							
 			foreach($answers as $answer)
-			{				
+			{					
+				// map selection value to scale/category
+				if($a_categories && 
+					$answer["value"] != "")
+				{
+					$scale = $a_categories->getCategoryForScale($answer["value"]+1);
+					if($scale instanceof ilSurveyCategory)
+					{
+						$answer["value"] = $scale->scale;
+					}
+				}				
+				
 				$parsed = new ilSurveyEvaluationResultsAnswer(
 					$active_id, 
 					$answer["value"], 
@@ -91,10 +104,10 @@ abstract class SurveyQuestionEvaluation
 		if($total)
 		{
 			// mode
+			$mode_nr = max($selections);		
 			$tmp_mode = $selections;
 			asort($tmp_mode, SORT_NUMERIC);
-			$mode = array_pop(array_keys($tmp_mode));
-			$mode_nr = array_pop($tmp_mode);
+			$mode = array_keys($tmp_mode, $mode_nr);
 			$a_results->setMode($mode, $mode_nr);
 			
 			if(!$has_multi)
@@ -106,7 +119,7 @@ abstract class SurveyQuestionEvaluation
 				{
 					for($i = 0; $i < $count; $i++)
 					{
-						$median[] = $value+1;
+						$median[] = $value;
 					}
 				}
 				if($total % 2 == 0)
@@ -118,10 +131,7 @@ abstract class SurveyQuestionEvaluation
 						round($median_value) != $median_value)
 					{
 						// mapping calculated value to scale values
-						$median_value = array(						
-							$a_categories->getCategoryForScale($lower),
-							$a_categories->getCategoryForScale($upper)
-						);
+						$median_value = array($lower, $upper);
 					}
 				}
 				else
@@ -138,7 +148,7 @@ abstract class SurveyQuestionEvaluation
 			for ($c = 0; $c < $a_categories->getCategoryCount(); $c++)
 			{
 				$cat = $a_categories->getCategory($c);
-				$scale = $cat->scale-1;
+				$scale = $cat->scale;
 
 				$var = new ilSurveyEvaluationResultsVariable(
 						$cat,
@@ -152,7 +162,15 @@ abstract class SurveyQuestionEvaluation
 		}
 	}
 	
-	
+	protected function getSurveyId()
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT survey_id FROM svy_svy".
+			" WHERE obj_fi = ".$ilDB->quote($this->question->getObjId(), "integer"));
+		$row = $ilDB->fetchAssoc($set);
+		return $row["survey_id"];
+	}
 	
 	
 	/**
@@ -170,7 +188,7 @@ abstract class SurveyQuestionEvaluation
 		}
 		
 		$set = $ilDB->query("SELECT finished_id FROM svy_finished".
-			" WHERE survey_fi = ".$ilDB->quote($this->question->getSurveyId(), "integer"));		
+			" WHERE survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer"));		
 		return $set->numRows();
 	}
 	
@@ -183,14 +201,14 @@ abstract class SurveyQuestionEvaluation
 		$sql = "SELECT svy_answer.* FROM svy_answer".
 			" JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)".
 			" WHERE svy_answer.question_fi = ".$ilDB->quote($this->question->getId(), "integer").
-			" AND svy_finished.survey_fi = ".$ilDB->quote($this->question->getSurveyId(), "integer");		
+			" AND svy_finished.survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer");		
 		if(is_array($this->finished_ids))
 		{
 			$sql .= " AND ".$ilDB->in("svy_finished.finished_id", $this->finished_ids, "", "integer");
-		}
+		}		
 		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))
-		{
+		{			
 			$res[(int)$row["rowvalue"]][(int)$row["active_fi"]][] = array(			
 				"value" => $row["value"],			
 				"text" => $row["textanswer"]

@@ -1734,7 +1734,8 @@ class SurveyQuestion
 	static function _includeClass($question_type, $gui = 0)
 	{
 		$type = $question_type;
-		if ($gui) $type .= "GUI";
+		if ($gui == 1) $type .= "GUI";
+		else if ($gui == 2) $type .= "Evaluation";
 		if (file_exists("./Modules/SurveyQuestionPool/classes/class.".$type.".php"))
 		{
 			include_once "./Modules/SurveyQuestionPool/classes/class.".$type.".php";
@@ -1822,6 +1823,26 @@ class SurveyQuestion
 			$guitype = $question_type . "GUI";
 			$question = new $guitype($question_id);
 			return $question;
+		}
+	}
+	
+	/**
+	* Creates an instance of a question evaluation with a given question id
+	*
+	* @param integer $question_id The question id
+	* @return object The question evaluation instance
+	* @access public
+	*/
+	static function _instanciateQuestionEvaluation($question_id, array $a_finished_ids = null) 
+	{
+		$question = self::_instanciateQuestion($question_id);
+		if($question)
+		{
+			$question_type = self::_getQuestionType($question_id);						
+			self::_includeClass($question_type, 2);
+			$class = $question_type . "Evaluation";
+			$ev = new $class($question, $a_finished_ids);
+			return $ev;			
 		}
 	}
 

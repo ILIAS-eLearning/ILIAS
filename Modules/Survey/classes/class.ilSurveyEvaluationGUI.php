@@ -588,6 +588,7 @@ class ilSurveyEvaluationGUI
 				}
 			}
 			
+			/*
 			$questions =& $this->object->getSurveyQuestions();
 			$data = array();
 			$counter = 1;
@@ -595,7 +596,7 @@ class ilSurveyEvaluationGUI
 			foreach ($questions as $qdata)
 			{			
 				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-				$question_gui = SurveyQuestion::_instanciateQuestionGUI($qdata["question_id"]);
+				$question_gui = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"]);
 				$question = $question_gui->object;
 				$c = $question->getCumulatedResultData($this->object->getSurveyId(), $counter, $finished_ids);
 				if (is_array($c[0]))
@@ -633,14 +634,20 @@ class ilSurveyEvaluationGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
-		}
+			*/
+		}		
 		
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php";
-		$table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $detail);
-		$table_gui->setData($data);
+		$table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $this->object, $finished_ids);	
 		$this->tpl->setVariable('CUMULATED', $table_gui->getHTML());	
+		
 		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
 		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'evaluation'));		
+		
+		if($details)
+		{
+			
+		}
 	}
 	
 	/**

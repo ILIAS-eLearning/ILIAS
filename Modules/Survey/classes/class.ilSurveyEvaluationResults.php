@@ -51,13 +51,38 @@ class ilSurveyEvaluationResults
 	
 	public function setMode($a_value, $a_nr_of_selections)
 	{
-		$this->mode_value = $a_value;
+		$this->mode_value = is_array($a_value)
+			? $a_value
+			: trim($a_value);
 		$this->mode_nr_of_selections = (int)$a_nr_of_selections;
 	}
 	
 	public function getModeValue()
 	{
 		return $this->mode_value;
+	}
+	
+	public function getModeValueAsText()
+	{
+		if($this->mode_value === null)
+		{
+			return;
+		}
+		
+		$res = array();
+		
+		$mvalues = $this->mode_value;
+		if(!is_array($mvalues))
+		{
+			$mvalues = array($mvalues);
+		}
+		sort($mvalues, SORT_NUMERIC);
+		foreach($mvalues as $value)
+		{
+			$res[] = $this->getScaleText($value);
+		}
+		
+		return implode(", ", $res);
 	}
 	
 	public function getModeNrOfSelections()
@@ -77,13 +102,37 @@ class ilSurveyEvaluationResults
 	
 	public function setMedian($a_value)
 	{
-		$this->median = trim($a_value);
+		$this->median = is_array($a_value)
+			? $a_value
+			: trim($a_value);
 	}	
 	
 	public function getMedian()
 	{
 		return $this->median;
 	}	
+	
+	public function getMedianAsText()
+	{
+		global $lng;
+		
+		if($this->median === null)
+		{
+			return;
+		}
+		
+		if(!is_array($this->median))
+		{
+			return $this->getScaleText($this->median);
+		}
+		else
+		{
+			return $lng->txt("median_between")." ".
+				$this->getScaleText($this->median[0])." ".
+				$lng->txt("and")." ".
+				$this->getScaleText($this->median[1]);
+		}
+	}
 	
 	public function addVariable(ilSurveyEvaluationResultsVariable $a_variable)
 	{
@@ -94,15 +143,33 @@ class ilSurveyEvaluationResults
 	{
 		$this->answers[] = $a_answer;
 	}	
+	
+	protected function getScaleText($a_value)
+	{
+		if(!sizeof($this->variables))
+		{
+			return $a_value;
+		}
+		else
+		{
+			foreach($this->variables as $var)
+			{
+				if($var->cat->scale == $a_value)
+				{
+					return $var->cat->title." [".$a_value."]";
+				}
+			}				
+		}
+	}		
 }
 
 class ilSurveyEvaluationResultsVariable
 {
-	protected $cat; // [SurveyCategory]
-	protected $abs; // [int]
-	protected $perc; // [float]
+	public $cat; // [SurveyCategory]
+	public $abs; // [int]
+	public $perc; // [float]
 	
-	public function __construct(SurveyCategory $a_cat, $a_abs, $a_perc)
+	public function __construct(ilSurveyCategory $a_cat, $a_abs, $a_perc)
 	{
 		$this->cat = $a_cat;
 		$this->abs = (int)$a_abs;		
@@ -112,9 +179,9 @@ class ilSurveyEvaluationResultsVariable
 
 class ilSurveyEvaluationResultsAnswer
 {
-	protected $active_id; // [int]
-	protected $value; // [int|float]
-	protected $text; // [string]
+	public $active_id; // [int]
+	public $value; // [int|float]
+	public $text; // [string]
 	
 	public function __construct($a_active_id, $a_value, $a_text)
 	{

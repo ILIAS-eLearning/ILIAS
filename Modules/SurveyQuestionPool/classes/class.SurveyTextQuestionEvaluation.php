@@ -10,17 +10,7 @@ include_once "Modules/SurveyQuestionPool/classes/class.SurveyQuestionEvaluation.
  * @ingroup ModulesSurveyQuestionPool
  */
 class SurveyTextQuestionEvaluation extends SurveyQuestionEvaluation
-{		
-	public function getResults()
-	{
-		$results = new ilSurveyEvaluationResults($this->question);			
-											
-		$this->parseResults($results, $this->getAnswerData());
-		
-		return $results;
-	}
-
-	
+{	
 	
 	function &getCumulatedResults($survey_id, $nr_of_users, $finished_ids)
 	{
