@@ -5,11 +5,11 @@
 namespace ILIAS\UI;
 
 /**
- * Registry for dependencies of rendered output like Javascript or CSS.
+ * Registry for resources required by rendered output like Javascript or CSS.
  *
  * @author	Richard Klees <richard.klees@concepts-and-training.de>
  */
-interface DependencyRegistry {
+interface ResourceRegistry {
 	/**
 	 * Add a dependency.
 	 *
