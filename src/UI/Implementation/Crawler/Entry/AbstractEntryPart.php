@@ -30,5 +30,4 @@ class AbstractEntryPart
     protected function assert(){
         return $this->f->assertion();
     }
-
 }
