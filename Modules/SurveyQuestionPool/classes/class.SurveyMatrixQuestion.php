@@ -1273,12 +1273,18 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			if (($total % 2) == 0)
 			{
-				$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
+				$lower = $median[($total/2)-1];
+				$upper = $median[($total/2)];
+				$median_value = 0.5 * ($lower + $upper);			
 				if (round($median_value) != $median_value)
 				{
-					$cat = $this->getColumnForScale((int)floor($median_value));
-					$cat2 = $this->getColumnForScale((int)ceil($median_value));
-					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $cat->title . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $cat2->title . ")";
+					$cat = $this->getColumnForScale($lower);
+					$cat2 = $this->getColumnForScale($upper);
+					$median_value = $median_value . "<br />" . 
+						"(" . $this->lng->txt("median_between") . " " . 
+						$lower . "-" . $cat->title . 
+						" " . $this->lng->txt("and") . " " . 
+						$upper . "-" . $cat2->title . ")";
 				}
 			}
 			else
@@ -1379,12 +1385,18 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			if (($total % 2) == 0)
 			{
-				$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
+				$lower = $median[($total/2)-1];
+				$upper = $median[($total/2)];
+				$median_value = 0.5 * ($lower + $upper);						
 				if (round($median_value) != $median_value)
 				{
-					$cat = $this->getColumnForScale((int)floor($median_value));
-					$cat2 = $this->getColumnForScale((int)ceil($median_value));
-					$median_value = $median_value . "<br />" . "(" . $this->lng->txt("median_between") . " " . (floor($median_value)) . "-" . $cat->title . " " . $this->lng->txt("and") . " " . (ceil($median_value)) . "-" . $cat2->title . ")";
+					$cat = $this->getColumnForScale($lower);
+					$cat2 = $this->getColumnForScale($upper);
+					$median_value = $median_value . "<br />" . 
+						"(" . $this->lng->txt("median_between") . " " . 
+						$lower . "-" . $cat->title .
+						" " . $this->lng->txt("and") . " " . 
+						$upper . "-" . $cat2->title . ")";
 				}
 			}
 			else
