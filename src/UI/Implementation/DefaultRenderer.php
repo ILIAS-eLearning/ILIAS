@@ -18,7 +18,7 @@ class DefaultRenderer implements Renderer {
 	/**
 	 * @var	Factory
 	 */
-	private $ui_factory;
+	protected $ui_factory;
 
 	/**
 	 * @var	array<string, ComponentRenderer>
