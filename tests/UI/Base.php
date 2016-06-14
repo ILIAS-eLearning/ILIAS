@@ -25,7 +25,7 @@ class LoggingRegistry implements ResourceRegistry {
 	public $resources = array();
 
 	public function register($name) {
-		$resources[] = $name;
+		$this->resources[] = $name;
 	}
 }
 
