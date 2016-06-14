@@ -16,13 +16,7 @@ require_once('class.ilDclCache.php');
  * @extends ilObject2
  */
 class ilObjDataCollection extends ilObject2 {
-
-	/**
-	 * @var int
-	 */
-	protected $main_table_id;
-
-
+	
 	public function initType() {
 		$this->type = "dcl";
 	}

@@ -110,7 +110,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 * @throws ilCtrlException
 	 */
 	public function executeCommand() {
-		global $ilCtrl, $ilTabs, $ilNavigationHistory, $ilUser, $tpl;
+		global $ilCtrl, $ilTabs, $ilNavigationHistory, $tpl;
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
@@ -203,7 +203,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				break;
 
 			case "ildclrecordlistgui":
-//				$ilCtrl->saveParameter($this, "tableview_id");
 				$this->addHeaderAction(false);
 				$this->prepareOutput();
 				$ilTabs->activateTab("id_records");
@@ -424,9 +423,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 		$ilCtrl->setParameterByClass("ildcltableviewgui", "table_id", $this->table_id);
 		$ilTabs->addSubTab("show_tableviews", $lng->txt("dcl_tableviews"), $ilCtrl->getLinkTargetByClass("ildcltableviewgui", "show"));
 
-//		$ilCtrl->setParameterByClass("ildclrecordviewviewdefinitiongui", "table_id", $this->table_id);
-//		$ilTabs->addSubTab("view_viewdefinition", $lng->txt("dcl_record_view_viewdefinition"), $ilCtrl->getLinkTargetByClass("ildclrecordviewviewdefinitiongui", "edit"));
-
 		$ilTabs->activateSubTab($a_active);
 	}
 
@@ -435,7 +431,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 * @param ilPropertyFormGUI $a_form
 	 */
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form) {
-		global $ilCtrl, $ilErr, $ilTabs;
+		global $ilTabs;
 
 		$ilTabs->activateTab("id_settings");
 

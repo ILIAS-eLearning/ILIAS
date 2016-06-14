@@ -81,7 +81,6 @@ class ilDclRecordListGUI {
 			$_GET['tableview_id'] = $this->tableview_id; //TODO: find better way
 
 		}
-
 		
 		$this->ctrl->setParameterByClass("ildclrecordeditgui", "table_id", $this->table_id);
 		$this->ctrl->setParameterByClass("ildclrecordviewgui", "tableview_id", $this->tableview_id);

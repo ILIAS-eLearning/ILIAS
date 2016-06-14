@@ -386,28 +386,6 @@ class ilDclTable {
 		}
 	}
 
-//	//TODO: replace this method with DataCollection->getTables()
-//	/**
-//	 * @param $a_id
-//	 *
-//	 * @return array
-//	 */
-//	public function getAll($a_id) {
-//		global $ilDB;
-//
-//		// build query
-//		$query = "SELECT * FROM il_dcl_table WHERE obj_id = " . $ilDB->quote($a_id, "integer");
-//		$set = $ilDB->query($query);
-//
-//		$all = array();
-//		while ($rec = $ilDB->fetchAssoc($set)) {
-//			$all[$rec['id']] = $rec;
-//		}
-//
-//		return $all;
-//	}
-
-
 	/**
 	 * @param $field_id
 	 */
