@@ -10,8 +10,6 @@
 class ilSurveyEvaluationResults
 {
 	protected $question; // [SurveyQuestion]
-	protected $sub_id; // [int]
-	protected $sub_title; // [string]
 	protected $users_answered; // [int]
 	protected $users_skipped; // [int]
 	protected $mode_value; // [int]
@@ -21,16 +19,9 @@ class ilSurveyEvaluationResults
 	protected $variables = array(); // [array] 	
 	protected $answers = array(); // [array]
 	
-	public function __construct(SurveyQuestion $a_question, $a_sub_id, $a_sub_title)
+	public function __construct(SurveyQuestion $a_question)
 	{		
 		$this->question = $a_question;
-		$this->sub_id = $a_sub_id;
-		$this->sub_title = $a_sub_title;
-	}
-	
-	public function getSubId()
-	{
-		return $this->sub_id;
 	}
 	
 	public function getQuestion()

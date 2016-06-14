@@ -11,15 +11,29 @@ include_once "Modules/SurveyQuestionPool/classes/class.SurveyQuestionEvaluation.
  */
 class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 {
-	public function getResults()
+	protected function parseResults(ilSurveyEvaluationResults $a_results, array $a_answers, SurveyCategories $a_categories = null)
 	{
+		parent::parseResults($a_results, $a_answers);
 		
-		
-		
+		// add arithmetic mean
+		$total = $sum = 0;
+		foreach($a_answers as $answers)
+		{	
+			foreach($answers as $answer)
+			{								
+				$total++;
+				$sum += $answer["value"]; 				
+			}				
+		}
+		if($total > 0)
+		{
+			$a_results->setMean($sum/$total);
+		}		
 	}
 	
-	
 
+	
+		
 		
 	function &getCumulatedResults($survey_id, $nr_of_users, $finished_ids)
 	{

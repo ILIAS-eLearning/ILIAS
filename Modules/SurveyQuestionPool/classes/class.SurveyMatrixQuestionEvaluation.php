@@ -19,9 +19,8 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 		
 		// parse rows
 		for ($r = 0; $r < $this->getRowCount(); $r++)
-		{								
-			$row = $this->question->getRow($r);
-			$row_results = new ilSurveyEvaluationResults($this->question, $r, $row->title);	
+		{											
+			$row_results = new ilSurveyEvaluationResults($this->question);	
 						
 			$this->parseResults(
 				$row_results, 
@@ -29,7 +28,10 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 				$this->question->getColumns()
 			);
 				
-			$results[] = $row_results;
+			$results[] = array(
+				$this->question->getRow($r)->title,
+				$row_results
+			);
 		}
 		
 		return $results;

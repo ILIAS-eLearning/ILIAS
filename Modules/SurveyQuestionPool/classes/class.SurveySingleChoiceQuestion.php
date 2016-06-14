@@ -555,7 +555,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 			array($next_id, $this->getId(), $active_id, (strlen($entered_value)) ? $entered_value : NULL, ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : null, time())
 		);
 	}
-	
+
 	/**
 	* Import response data from the question import file
 	*

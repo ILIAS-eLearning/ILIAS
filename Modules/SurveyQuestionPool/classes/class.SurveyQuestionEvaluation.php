@@ -59,7 +59,7 @@ abstract class SurveyQuestionEvaluation
 
 		$a_results->setUsersAnswered($num_users_answered);
 		$a_results->setUsersSkipped($this->getNrOfParticipants()-$num_users_answered);
-
+		
 		// parse answers
 		$has_multi = false;
 		$selections = array();
@@ -79,7 +79,7 @@ abstract class SurveyQuestionEvaluation
 				);		
 				$a_results->addAnswer($parsed);
 
-				if($answer["value"])
+				if($answer["value"] != "")
 				{
 					$selections[$answer["value"]]++;
 				}				
@@ -111,12 +111,16 @@ abstract class SurveyQuestionEvaluation
 				}
 				if($total % 2 == 0)
 				{
-					$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
-					if(round($median_value) != $median_value)
+					$lower = $median[($total/2)-1];
+					$upper = $median[($total/2)];
+					$median_value = 0.5 * ($lower + $upper);
+					if($a_categories &&
+						round($median_value) != $median_value)
 					{
-						$median_value = array(
-							$a_categories->getCategoryForScale((int)floor($median_value)),
-							$a_categories->getCategoryForScale((int)ceil($median_value))
+						// mapping calculated value to scale values
+						$median_value = array(						
+							$a_categories->getCategoryForScale($lower),
+							$a_categories->getCategoryForScale($upper)
 						);
 					}
 				}
