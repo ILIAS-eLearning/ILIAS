@@ -9,7 +9,7 @@ class Factory implements \ILIAS\UI\Factory {
 	 * @return \ILIAS\UI\Factory\Counter
 	 */
 	public function counter() {
-		return new Counter\Factory();
+		return new Component\Counter\Factory();
 	}
 
 
@@ -17,6 +17,6 @@ class Factory implements \ILIAS\UI\Factory {
 	 * @return \ILIAS\UI\Factory\Glyph
 	 */
 	public function glyph() {
-		return new Glyph\Factory();
+		return new Component\Glyph\Factory();
 	}
 }

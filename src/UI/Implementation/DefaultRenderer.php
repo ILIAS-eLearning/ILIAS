@@ -9,7 +9,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ILIAS\UI\Factory;
+use ILIAS\UI\Factory as RootFactory;
 
 /**
  * Renderer that dispatches rendering of UI components to a Renderer found
@@ -17,7 +17,7 @@ use ILIAS\UI\Factory;
  */
 class DefaultRenderer implements Renderer {
 	/**
-	 * @var	Factory
+	 * @var	RootFactory
 	 */
 	protected $ui_factory;
 
@@ -36,7 +36,7 @@ class DefaultRenderer implements Renderer {
 	 */
 	protected $resource_registry;
 
-	public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory, ResourceRegistry $resource_registry) {
+	public function __construct(RootFactory $ui_factory, TemplateFactory $tpl_factory, ResourceRegistry $resource_registry) {
 		$this->ui_factory = $ui_factory;
 		$this->tpl_factory = $tpl_factory;
 		$this->resource_registry = $resource_registry;
@@ -65,6 +65,7 @@ class DefaultRenderer implements Renderer {
 			return $this->cache[$class];
 		}
 		$renderer = $this->instantiateRendererFor($class);
+		$renderer->registerResources($this->resource_registry);
 		$this->cache[$class] = $renderer;
 		return $renderer;
 	}
