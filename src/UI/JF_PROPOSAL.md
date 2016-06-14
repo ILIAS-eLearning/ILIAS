@@ -101,6 +101,7 @@ The interface to the main factory is \ILIAS\UI\Factory.
     * MUST separate the block containing Kitchen Sink information from the block
       containing documentation of parameters by an empty line in the DocBlock.
 * The block in the documentation containing Kitchen Sink information:
+    * MUST be enclosed by comment lines containing only the delimiter `---`.
     * SHOULD contain a field `description` that is a dictionary containing one or
       more than one of the following text fields:
         * `purpose` - describes the usage scenario of the component
