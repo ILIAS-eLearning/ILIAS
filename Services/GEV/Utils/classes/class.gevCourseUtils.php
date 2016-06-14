@@ -1119,7 +1119,7 @@ class gevCourseUtils {
 							 ."   SET crs_id = ".$this->gIldb->quote($this->crs_id, "integer")
 							 ." WHERE crs_id = ".$this->gIldb->quote(-1 * $this->crs_id, "integer")
 							 );
-		$gLog->write("####course accomodations of ".$this->getId().": moving by ".$offset_days." days");
+		$this->gLog->write("####course accomodations at ".$this->getId().": moving by ".$offset_days." days");
 	}
 	
 	protected function moveAccomodationsDurationChanged($a_old_start_date, $a_old_end_date, $a_new_start_date, $a_new_end_date) {
