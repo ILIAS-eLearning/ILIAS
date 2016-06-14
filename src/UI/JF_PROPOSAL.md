@@ -63,7 +63,7 @@
 ## Rules for Consumers
 
 * Consumers of the UI framework MUST only use the UI-Factory provided via the
-  dependency injection container `$DIC->UIFactory()` as entry point top the
+  dependency injection container `$DIC->ui->factory()` as entry point top the
   framework. The factory implements the interface \ILIAS\UI\Factory.
 
 ## Rules for Implementors
