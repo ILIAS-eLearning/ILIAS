@@ -88,6 +88,31 @@ class ilIndependentTemplate extends ilTemplate implements \ILIAS\UI\Implementati
 		if ($block === null) {
 			$block = "__global__";
 		}
-		return ilTemplateX::get($block);
+        if ($block == '__global__'  && !$this->flagGlobalParsed) {
+            $this->parse('__global__');
+        }
+
+        if (!isset($this->blocklist[$block])) {
+            throw (new ilTemplateException($this->errorMessage(IT_BLOCK_NOT_FOUND) .
+                '"' . $block . "'"));
+        }
+
+        if (isset($this->blockdata[$block])) {
+            $ret = $this->blockdata[$block];
+            if ($this->clearCache) {
+                unset($this->blockdata[$block]);
+            }
+            if ($this->_options['preserve_data']) {
+                $ret = str_replace(
+                        $this->openingDelimiter .
+                        '%preserved%' . $this->closingDelimiter,
+                        $this->openingDelimiter,
+                        $ret
+                    );
+            }
+            return $ret;
+        }
+
+        return '';
 	}
 }
