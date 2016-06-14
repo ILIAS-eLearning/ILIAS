@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI;
+namespace ILIAS\UI\Implementation\Render;
 
 /**
  * Registry for resources required by rendered output like Javascript or CSS.
