@@ -305,15 +305,20 @@ class ilAccomodations
 		if($ilUser) {
 			$by_usr = " by ".$ilUser->getId();
 		}
+		$crs = $this->getCourse();
+		$course_id = $crs ? $crs->getId() : null;
 		//gev patch end
 		if(!$this->validateUser($a_user_id) ||
 			!$this->validateAccomodations($a_accomodations))
 		{
+			//gev patch start #2351
+			$log->write("####course accomodations at ".$course_id." invalid user or accomodations ".$by_usr);
+			//gev patch end
 			return false;
 		}
-				
-		$course_id = $this->getCourse()->getId();
-		
+		//gev patch start #2351
+		//$course_id = $this->getCourse()->getId();
+		//gev patch end
 		$changed = false;
 		
 		$old = array();
@@ -392,11 +397,20 @@ class ilAccomodations
 	public function deleteAccomodations($a_user_id)
 	{
 		global $ilDB;
-		
+		//gev patch start #2351
+		global $log,$ilUser;
+		$by_usr = "";
+		if($ilUser) {
+			$by_usr = " by ".$ilUser->getId();
+		}
 		$course_id = $this->getCourse()->getId();
+		//gev patch end
 		
 		if(!$course_id || !(int)$a_user_id)
 		{
+			//gev patch start #2351
+			$log->write("####course accomodations : unknown crs or usr at deletion".$by_usr);
+			//gev patch end
 			return;
 		}
 		
@@ -408,12 +422,7 @@ class ilAccomodations
 		// gev patch end
 
 		//gev patch start #2351
-		global $log,$ilUser;
-		$msg = "####course accomodations at ".$course_id.": deleted for ".$a_user_id;
-		if($ilUser) {
-			$msg .= " by ".$ilUser->getId();
-		}
-		$log->write($msg);
+		$log->write( "####course accomodations at ".$course_id.": deleted for ".$a_user_id.$by_usr);
 		//gev patch end
 	}
 	
