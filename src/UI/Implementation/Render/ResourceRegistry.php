@@ -17,13 +17,4 @@ interface ResourceRegistry {
 	 * @return	self
 	 */
 	public function register($name);
-
-	/**
-	 * Get dependencies.
-	 *
-	 * Every dependency should only appear once.
-	 *
-	 * @return	string[]
-	 */
-	public function get();
 }
