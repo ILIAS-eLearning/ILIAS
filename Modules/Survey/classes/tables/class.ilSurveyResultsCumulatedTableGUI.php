@@ -40,7 +40,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, ilObjSurvey $a_survey, array $a_finished_ids = null)
+	public function __construct($a_parent_obj, $a_parent_cmd, array $a_results)
 	{
 		$this->setId("svy_cum");
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -79,7 +79,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 		$this->enable('header');
 		$this->disable('select_all');
 		
-		$this->getItems($a_survey, $a_finished_ids);
+		$this->getItems($a_results);
 	}
 
 	function getSelectableColumns()
@@ -120,16 +120,21 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 		return $cols;
 	}
 	
-	protected function getItems(ilObjSurvey $a_survey, array $a_finished_ids = null)
+	protected function getItems(array $a_results)
 	{		
 		$data = array();
-	
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";	
-		foreach($a_survey->getSurveyQuestions() as $qdata)
-		{						
-			$question_ev = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $a_finished_ids);		
-			$question_res = $question_ev->getResults();
-		
+			
+		foreach($a_results as $question_res)
+		{												
+			/* :TODO:
+			$maxlen = 75;
+			include_once "./Services/Utilities/classes/class.ilStr.php";
+			if (ilStr::strlen($questiontext) > $maxlen + 3)
+			{
+				$questiontext = ilStr::substr($questiontext, 0, $maxlen) . "...";
+			}
+			*/
+			
 			if(!is_array($question_res))
 			{				
 				$question = $question_res->getQuestion();
@@ -150,6 +155,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 			else
 			{				
 				// :TODO: $question->getQuestiontext() ?
+				// :TODO: should there be overall figures?
 				
 				foreach($question_res as $idx => $item)
 				{										

@@ -33,108 +33,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 	
 
 	
-		
-		
-	function &getCumulatedResults($survey_id, $nr_of_users, $finished_ids)
-	{
-		global $ilDB;
-		
-		$question_id = $this->getId();
-		
-		$result_array = array();
-		$cumulated = array();
-
-		$sql = "SELECT svy_answer.* FROM svy_answer".
-			" JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)".
-			" WHERE svy_answer.question_fi = ".$ilDB->quote($question_id, "integer").
-			" AND svy_finished.survey_fi = ".$ilDB->quote($survey_id, "integer");		
-		if($finished_ids)
-		{
-			$sql .= " AND ".$ilDB->in("svy_finished.finished_id", $finished_ids, "", "integer");
-		}
-
-		$result = $ilDB->query($sql);		
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			$cumulated[$row["value"]]++;
-		}
-		asort($cumulated, SORT_NUMERIC);
-		end($cumulated);
-		$numrows = $result->numRows();
-		$result_array["USERS_ANSWERED"] = $result->numRows();
-		$result_array["USERS_SKIPPED"] = $nr_of_users - $result->numRows();
-		if(sizeof($cumulated))
-		{
-			$result_array["MODE"] = key($cumulated);
-			$result_array["MODE_VALUE"] = key($cumulated);
-			$result_array["MODE_NR_OF_SELECTIONS"] = $cumulated[key($cumulated)];
-			ksort($cumulated, SORT_NUMERIC);
-		}
-		$counter = 0;
-		foreach ($cumulated as $value => $nr_of_users)
-		{
-			$percentage = 0;
-			if ($numrows > 0)
-			{
-				$percentage = (float)($nr_of_users/$numrows);
-			}
-			$result_array["values"][$counter++] = array("value" => $value, "selected" => (int)$nr_of_users, "percentage" => $percentage);
-		}
-		$median = array();
-		$total = 0;
-		$x_i = 0;
-		$p_i = 1;
-		$x_i_inv = 0;
-		$sum_part_zero = false;
-		foreach ($cumulated as $value => $key)
-		{
-			$total += $key;
-			for ($i = 0; $i < $key; $i++)
-			{
-				array_push($median, $value);
-				$x_i += $value;
-				$p_i *= $value;
-				if ($value != 0)
-				{
-					$sum_part_zero = true;
-					$x_i_inv += 1/$value;
-				}
-			}
-		}
-		if ($total > 0)
-		{
-			if (($total % 2) == 0)
-			{
-				$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
-			}
-			else
-			{
-				$median_value = $median[(($total+1)/2)-1];
-			}
-		}
-		else
-		{
-			$median_value = "";
-		}
-		if ($total > 0)
-		{
-			if (($x_i/$total) == (int)($x_i/$total))
-			{
-				$result_array["ARITHMETIC_MEAN"] = $x_i/$total;
-			}
-			else
-			{
-				$result_array["ARITHMETIC_MEAN"] = sprintf("%.2f", $x_i/$total);
-			}
-		}
-		else
-		{
-			$result_array["ARITHMETIC_MEAN"] = "";
-		}
-		$result_array["MEDIAN"] = $median_value;
-		$result_array["QUESTION_TYPE"] = "SurveyMetricQuestion";
-		return $result_array;
-	}
+	
 	
 	function setExportDetailsXLS(ilExcel $a_excel, $a_eval_data, $a_export_label)
 	{		
@@ -245,36 +144,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 		}
 	}
 	
-	/**
-	* Returns an array containing all answers to this question in a given survey
-	*
-	* @param integer $survey_id The database ID of the survey
-	* @return array An array containing the answers to the question. The keys are either the user id or the anonymous id
-	* @access public
-	*/
-	function &getUserAnswers($survey_id, $finished_ids)
-	{
-		global $ilDB;
-		
-		$answers = array();
-		
-		$sql = "SELECT svy_answer.* FROM svy_answer".
-			" JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)".
-			" WHERE svy_answer.question_fi = ".$ilDB->quote($this->getId(), "integer").
-			" AND svy_finished.survey_fi = ".$ilDB->quote($survey_id, "integer");		
-		if($finished_ids)
-		{
-			$sql .= " AND ".$ilDB->in("svy_finished.finished_id", $finished_ids, "", "integer");
-		}
-		
-		$result = $ilDB->query($sql);		
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			$answers[$row["active_fi"]] = $row["value"];
-		}
-		return $answers;
-	}
-
+	
 
 	
 	// 

@@ -262,85 +262,6 @@ abstract class SurveyQuestionEvaluation
 		return $title;
 	}
 
-	/**
-	* Adds the values for the user specific results export for a given user
-	*
-	* @param array $a_array An array which is used to append the values
-	* @param array $resultset The evaluation data for a given user
-	* @access public
-	*/
-	function addUserSpecificResultsData(&$a_array, &$resultset)
-	{
-		// overwrite in inherited classes
-	}
-
-	/**
-	* Returns an array containing all answers to this question in a given survey
-	*
-	* @param integer $survey_id The database ID of the survey
-	* @return array An array containing the answers to the question. The keys are either the user id or the anonymous id
-	* @access public
-	*/
-	function &getUserAnswers($survey_id, $finished_ids)
-	{
-		// overwrite in inherited classes
-		return array();
-	}
-
-	
-	protected function &calculateCumulatedResults($survey_id, $finished_ids)
-	{
-		if (count($this->cumulated) == 0)
-		{			
-			if(!$finished_ids)
-			{
-				include_once "./Modules/Survey/classes/class.ilObjSurvey.php";
-				$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
-			}
-			else
-			{
-				$nr_of_users = sizeof($finished_ids);
-			}
-			if($nr_of_users)
-			{
-				$this->cumulated =& $this->getCumulatedResults($survey_id, $nr_of_users, $finished_ids);
-			}
-		}
-		return $this->cumulated;
-	}
-
-	/**
-	* Creates a the cumulated results data for the question
-	*
-	* @return array Data
-	*/
-	public function getCumulatedResultData($survey_id, $counter, $finished_ids)
-	{		
-		$cumulated =& $this->calculateCumulatedResults($survey_id, $finished_ids);
-		$questiontext = preg_replace("/\<[^>]+?>/ims", "", $this->getQuestiontext());
-		
-		$maxlen = 75;
-		include_once "./Services/Utilities/classes/class.ilStr.php";
-		if (ilStr::strlen($questiontext) > $maxlen + 3)
-		{
-			$questiontext = ilStr::substr($questiontext, 0, $maxlen) . "...";
-		}
-		
-		$result = array(
-			'counter' => $counter,
-			'title' => $counter.'. '.$this->getTitle(),
-			'question' => $questiontext,
-			'users_answered' => $cumulated['USERS_ANSWERED'],
-			'users_skipped' => $cumulated['USERS_SKIPPED'],
-			'question_type' => $this->lng->txt($cumulated["QUESTION_TYPE"]),
-			'mode' => $cumulated["MODE"],
-			'mode_nr_of_selections' => $cumulated["MODE_NR_OF_SELECTIONS"],
-			'median' => $cumulated["MEDIAN"],
-			'arithmetic_mean' => $cumulated["ARITHMETIC_MEAN"]
-		);
-		return $result;
-	}
-
 	
 	//
 	// EVALUATION
@@ -488,17 +409,5 @@ abstract class SurveyQuestionEvaluation
 		return $result;
 	}
 	
-	/**
-	* Creates an Excel worksheet for the detailed cumulated results of this question
-	*
-	* @param ilExcel $a_excel Reference to the parent excel workbook
-	* @param array $a_eval_data Cumulated evaluation data
-	* @param integer $a_export_label 
-	* @access public
-	*/
-	function setExportDetailsXLS(ilExcel $a_excel, $a_eval_data, $a_export_label)
-	{
-		// overwrite in inherited classes
-	}
-	
+
 }

@@ -529,15 +529,14 @@ class ilSurveyEvaluationGUI
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", "Modules/Survey");
-		
-		$data = null;
-
+				
 		if($this->object->get360Mode())
 		{				
 			$appr_id = $this->getAppraiseeId();
 			$this->addApprSelectionToToolbar();
 		}
 
+		$results = array();
 		if(!$this->object->get360Mode() || $appr_id)
 		{
 			$format = new ilSelectInputGUI($this->lng->txt("svy_export_format"), "export_format");
@@ -588,66 +587,162 @@ class ilSurveyEvaluationGUI
 				}
 			}
 			
-			/*
-			$questions =& $this->object->getSurveyQuestions();
-			$data = array();
-			$counter = 1;
-			$last_questionblock_id = null;
-			foreach ($questions as $qdata)
-			{			
-				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-				$question_gui = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"]);
-				$question = $question_gui->object;
-				$c = $question->getCumulatedResultData($this->object->getSurveyId(), $counter, $finished_ids);
-				if (is_array($c[0]))
-				{
-					// keep only "main" entry - sub-items will be handled in tablegui
-					// this will enable proper sorting
-					$main = array_shift($c);
-					$main["subitems"] = $c;
-					array_push($data, $main);					
-				}
-				else
-				{
-					array_push($data, $c);
-				}
-				$counter++;
-				if ($details)
-				{								
+			// parse answer data in evaluation results
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";	
+			$last_questionblock_id = null;			
+			$tmp = array();
+			foreach($this->object->getSurveyQuestions() as $qdata)
+			{						
+				$q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);		
+				$q_res =  $q_eval->getResults();
+				$results[] = $q_res;	
+						
+				// :TODO: proper details rendering
+				if($details)
+				{					
 					// questionblock title handling
-					if($qdata["questionblock_id"] && $qdata["questionblock_id"] != $last_questionblock_id)
+					if($qdata["questionblock_id"] && 
+						$qdata["questionblock_id"] != $last_questionblock_id)
 					{
 						$qblock = ilObjSurvey::_getQuestionblock($qdata["questionblock_id"]);
+
 						if($qblock["show_blocktitle"])
 						{
-							$this->tpl->setCurrentBlock("detail_qblock");
-							$this->tpl->setVariable("BLOCKTITLE", $qdata["questionblock_title"]);		
-							$this->tpl->parseCurrentBlock();						
+							$tmp[] = $qdata["questionblock_title"];							
 						}
 
 						$last_questionblock_id = $qdata["questionblock_id"];
+					}		
+										
+					// matrix
+					if(is_array($q_res))
+					{
+						$question = $q_res[0][1]->getQuestion();
+						
+						$tmp[] = $question->getTitle();
+						$tmp[] = $question->getQuestiontext();
+						$tmp[] = $q_res[0][1]->getUsersAnswered()."/".$q_res[0][1]->getUsersSkipped();
+						
+						foreach($q_res as $row)
+						{														
+							$tmp[] = $row[0];
+							
+							$row_res = $row[1];
+							$vars = $row_res->getVariables();
+							if($vars)
+							{
+								foreach($vars as $var)
+								{
+									$tmp[] = "- ".$var->cat->title.":".
+										$var->abs.
+										($var->perc
+											? " = ".($var->perc*100)."%"
+											: null);
+								}
+							}
+							
+							// text answer
+							$texts = $row_res->getMappedTextAnswers();
+							if($texts)
+							{
+								$tmp[] = "textual answers";
+								$tmp[] = $row[0]; // !
+								foreach($texts as $answers)
+								{									
+									foreach($answers as $answer)
+									{
+										$tmp[] = "- ".nl2br($answer);
+									}
+								}
+							}
+						}					
 					}
-
-					$detail = $question_gui->getCumulatedResultsDetails($this->object->getSurveyId(), $counter-1, $finished_ids);
-					$this->tpl->setCurrentBlock("detail");
-					$this->tpl->setVariable("DETAIL", $detail);				
-					$this->tpl->parseCurrentBlock();
+					else
+					{
+						$question = $q_res->getQuestion();
+						
+						$tmp[] = $question->getTitle();
+						$tmp[] = $question->getQuestiontext();
+						$tmp[] = "answered/skipped: ".$q_res->getUsersAnswered()."/".$q_res->getUsersSkipped();	
+						
+						if($q_res->getModeValue() !== null)
+						{
+							$tmp[] = "mode/nr: ".$q_res->getModeValueAsText()."/".$q_res->getModeNrOfSelections();
+						}
+							
+						if($q_res->getMean() !== null)
+						{
+							$tmp[] = "ar.mean: ".$q_res->getMean();
+							
+							// :TODO: metric (aka fake variables)
+							if(!$q_res->getVariables())
+							{
+								$total = sizeof($q_res->getAnswers());
+								if($total > 0)
+								{	
+									$cumulated = array();
+									foreach($q_res->getAnswers() as $answer)
+									{										
+										$cumulated[$answer->value]++;												
+									}																
+									include_once "Modules/SurveyQuestionPool/classes/class.ilSurveyCategory.php";
+									foreach($cumulated as $value => $count)
+									{
+										$tmp[] = "- ".$value.":".
+											$count." = ".
+											($count/$total*100)."%";								
+									}
+								}										
+							}														
+						}
+						
+						// mc/sc
+						$vars = $q_res->getVariables();
+						if($vars)
+						{
+							foreach($vars as $var)
+							{
+								$tmp[] = "- ".$var->cat->title.":".
+									$var->abs.
+									($var->perc
+										? " = ".($var->perc*100)."%"
+										: null);
+							}
+						}							
+						
+						// text answer
+						$texts = $q_res->getMappedTextAnswers();
+						if($texts)
+						{
+							$tmp[] = "textual answers";
+							foreach($texts as $var => $answers)
+							{
+								if($var != "")
+								{
+									$tmp[] = $var;
+								}
+								foreach($answers as $answer)
+								{
+									$tmp[] = "- ".nl2br($answer);
+								}
+							}
+						}
+					}
+					
+					
+					$tmp[] = "<hr/>";
 				}
 			}
-			*/
+			
+			$tmp = implode("<br />", $tmp);
 		}		
 		
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php";
-		$table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $this->object, $finished_ids);	
-		$this->tpl->setVariable('CUMULATED', $table_gui->getHTML());	
+		$table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $results);	
+		$this->tpl->setVariable('CUMULATED', $table_gui->getHTML().$tmp);	
 		
 		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
-		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'evaluation'));		
-		
-		if($details)
-		{
-			
-		}
+		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'evaluation'));					
 	}
 	
 	/**

@@ -139,10 +139,26 @@ class ilSurveyEvaluationResults
 		$this->variables[] = $a_variable;
 	}
 	
+	public function getVariables()
+	{
+		if(sizeof($this->variables))
+		{
+			return $this->variables;
+		}
+	}
+	
 	public function addAnswer(ilSurveyEvaluationResultsAnswer $a_answer)
 	{
 		$this->answers[] = $a_answer;
 	}	
+	
+	public function getAnswers()
+	{
+		if(sizeof($this->answers))
+		{
+			return $this->answers;
+		}
+	}
 	
 	protected function getScaleText($a_value)
 	{
@@ -161,6 +177,21 @@ class ilSurveyEvaluationResults
 			}				
 		}
 	}		
+	
+	public function getMappedTextAnswers()
+	{
+		$res = array();
+		
+		foreach($this->answers as $answer)
+		{
+			if($answer->text)
+			{				
+				$res[$this->getScaleText($answer->value)][] = $answer->text;
+			}
+		}
+		
+		return $res;
+	}
 }
 
 class ilSurveyEvaluationResultsVariable
