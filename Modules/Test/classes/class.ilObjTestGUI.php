@@ -399,9 +399,6 @@ class ilObjTestGUI extends ilObjectGUI
 				
 				$qid = $_REQUEST['q_id'];
 
-				// :FIXME: does not work
-				// $this->ctrl->saveParameterByClass(array('iltestexpresspageobjectgui', 'assorderingquestiongui', 'ilpageeditorgui', 'ilpcquestion', 'ilpcquestiongui'), 'test_express_mode');
-
 				if(!$qid || $qid == 'Array')
 				{
 					$questions = $this->object->getQuestionTitlesAndIndexes();
