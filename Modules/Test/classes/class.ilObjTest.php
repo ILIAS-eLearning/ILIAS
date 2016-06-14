@@ -3395,7 +3395,6 @@ function getAnswerFeedbackPoints()
 
 		foreach ($activeIds as $active_id)
 		{
-			// TODO: this shouldn't be here since it is question stuff and should be modular but there's no other solution yet
 			// remove file uploads
 			if (@is_dir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id"))
 			{
