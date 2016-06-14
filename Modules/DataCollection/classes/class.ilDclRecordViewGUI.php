@@ -65,14 +65,19 @@ class ilDclRecordViewGUI {
 	 * @var bool
 	 */
 	protected $is_enabled_paging = true;
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
 
 
 	/**
 	 * @param ilObjDataCollectionGUI $a_dcl_object
 	 */
 	public function __construct(ilObjDataCollectionGUI $a_dcl_object) {
-		global $tpl, $ilCtrl;
+		global $tpl, $ilCtrl, $lng;
 		$this->dcl_gui_object = $a_dcl_object;
+		$this->lng = $lng;
 
 		$this->record_id = (int)$_REQUEST['record_id'];
 		$this->record_obj = ilDclCache::getRecordCache($this->record_id);
@@ -126,8 +131,7 @@ class ilDclRecordViewGUI {
 			if ($this->table->getVisibleTableViews($_GET['ref_id'], true)) {
 				$this->offerAlternativeViews();
 			} else {
-				global $tpl;
-				$tpl->setContent('Permission denied');
+				ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
 			}
 			return;
 		}
@@ -163,8 +167,8 @@ class ilDclRecordViewGUI {
 	}
 
 	protected function offerAlternativeViews() {
-		global $tpl, $lng;
-		ilUtil::sendInfo($lng->txt('dcl_msg_info_alternatives'));
+		global $tpl;
+		ilUtil::sendInfo($this->lng->txt('dcl_msg_info_alternatives'));
 		$table_gui = new ilDclTableViewTableGUI($this, 'renderRecord', $this->table);
 		$tpl->setContent($table_gui->getHTML());
 	}
@@ -173,7 +177,7 @@ class ilDclRecordViewGUI {
 	 * @param bool $editComments
 	 */
 	public function renderRecord($editComments = false) {
-		global $ilTabs, $tpl, $ilCtrl, $lng;
+		global $ilTabs, $tpl, $ilCtrl;
 
 		$rctpl = new ilTemplate("tpl.record_view.html", false, true, "Modules/DataCollection");
 
@@ -231,8 +235,8 @@ class ilDclRecordViewGUI {
 			$rctpl->setVariable('PREV_NEXT_RECORD_LINKS', $prevNextLinks);
 			$ilCtrl->clearParameters($this); // #14083
 			$rctpl->setVariable('FORM_ACTION', $ilCtrl->getFormAction($this));
-			$rctpl->setVariable('RECORD', $lng->txt('dcl_record'));
-			$rctpl->setVariable('RECORD_FROM_TOTAL', sprintf($lng->txt('dcl_record_from_total'), $this->current_record_position, count($this->record_ids)));
+			$rctpl->setVariable('RECORD', $this->lng->txt('dcl_record'));
+			$rctpl->setVariable('RECORD_FROM_TOTAL', sprintf($this->lng->txt('dcl_record_from_total'), $this->current_record_position, count($this->record_ids)));
 			$rctpl->setVariable('TABLEVIEW_ID', $this->tableview_id);
 			$rctpl->setVariable('SELECT_OPTIONS', $this->renderSelectOptions());
 		}
@@ -244,7 +248,7 @@ class ilDclRecordViewGUI {
 			$ilCtrl->setParameterByClass('ildclrecordeditgui', 'redirect', ilDclRecordEditGUI::REDIRECT_DETAIL);
 			$ilCtrl->saveParameterByClass('ildclrecordeditgui', 'record_id');
 			$button->setUrl($ilCtrl->getLinkTargetByClass('ildclrecordeditgui', 'edit'));
-			$button->setCaption($lng->txt('dcl_edit_record'), false);
+			$button->setCaption($this->lng->txt('dcl_edit_record'), false);
 			$rctpl->setVariable('EDIT_RECORD_BUTTON', $button->render());
 		}
 
@@ -353,10 +357,10 @@ class ilDclRecordViewGUI {
 	 * @return string
 	 */
 	protected function renderPrevNextLinks() {
-		global $ilCtrl, $lng;
+		global $ilCtrl;
 		$ilCtrl->setParameter($this, 'tableview_id', $this->tableview_id);
-		$prevStr = $lng->txt('dcl_prev_record');
-		$nextStr = $lng->txt('dcl_next_record');
+		$prevStr = $this->lng->txt('dcl_prev_record');
+		$nextStr = $this->lng->txt('dcl_next_record');
 		$ilCtrl->setParameter($this, 'record_id', $this->prev_record_id);
 		$url = $ilCtrl->getLinkTarget($this, 'renderRecord');
 		$out = ($this->prev_record_id) ? "<a href='{$url}'>{$prevStr}</a>" : "<span class='light'>{$prevStr}</span>";

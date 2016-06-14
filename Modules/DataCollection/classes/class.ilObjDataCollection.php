@@ -464,7 +464,7 @@ class ilObjDataCollection extends ilObject2 {
 	public function getVisibleTables() {
 		$tables = array();
 		foreach ($this->getTables() as $table) {
-			if ($table->getIsVisible()) {
+			if ($table->getIsVisible() && $table->getVisibleTableViews($this->ref_id)) {
 				$tables[$table->getId()] = $table;
 			}
 		}

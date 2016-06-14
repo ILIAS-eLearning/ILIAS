@@ -63,7 +63,7 @@ class ilDclRecordEditGUI {
 	 */
 	protected $lng;
 	/**
-	 * @var ilUser
+	 * @var ilObjUser
 	 */
 	protected $user;
 	/**

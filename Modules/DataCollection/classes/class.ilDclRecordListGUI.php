@@ -81,11 +81,7 @@ class ilDclRecordListGUI {
 			$_GET['tableview_id'] = $this->tableview_id; //TODO: find better way
 
 		}
-		
-		if (!ilObjDataCollectionAccess::hasWriteAccess($a_parent_obj->ref_id) && !ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id)){
-			$this->parent_obj->tpl->setContent('Permission denied');
-			return;
-		}
+
 		
 		$this->ctrl->setParameterByClass("ildclrecordeditgui", "table_id", $this->table_id);
 		$this->ctrl->setParameterByClass("ildclrecordviewgui", "tableview_id", $this->tableview_id);
@@ -99,6 +95,10 @@ class ilDclRecordListGUI {
 	public function executeCommand() {
 		global $ilTabs;
 
+		if (!$this->checkAccess()){
+			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+			return;
+		}
 
 		$this->ctrl->saveParameter($this, 'mode');
 		$cmd = $this->ctrl->getCmd('show');
@@ -138,7 +138,6 @@ class ilDclRecordListGUI {
 	public function listRecords($use_tableview_filter = true) {
 		global $tpl, $ilToolbar;
 		/**
-		 * @var $ilToolbar ilToolbarGUI
 		 * @var $ilToolbar ilToolbarGUI
 		 */
 		// Show tables
@@ -559,7 +558,7 @@ class ilDclRecordListGUI {
 
 		//table switcher
 		$options = $this->getAvailableTables();
-		if (count($options) > 0) {
+		if (count($options) > 1) {
 
 			include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 			$table_selection = new ilSelectInputGUI('', 'table_id');
@@ -581,7 +580,7 @@ class ilDclRecordListGUI {
 			$options[$tableview->getId()] = $tableview->getTitle();
 		}
 
-		if (count($options) > 0) {
+		if (count($options) > 1) {
 
 			$tableview_selection = new ilSelectInputGUI('', 'tableview_id');
 			$tableview_selection->setOptions($options);
@@ -595,6 +594,14 @@ class ilDclRecordListGUI {
 			$ilToolbar->addButtonInstance($button);
 			$ilToolbar->addSeparator();
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function checkAccess()
+	{
+		return ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id) || ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id);
 	}
 
 }

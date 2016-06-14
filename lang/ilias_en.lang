@@ -12244,7 +12244,10 @@ dcl#:#dcl_create_fields#:#Please create at least one field in the tab ‘List Fi
 dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistent. A reference no longer exists.
 dcl#:#dcl_all_entries#:#All entries
 dcl#:#dcl_own_entries#:#Only own entries
+dcl#:#dcl_create_item#:#Create Item
+dcl#:#dcl_select#:#Select for Presentation
 dcl#:#dcl_tableviews#:#Views
+dcl#:#dcl_tableviews_table#:#Views of Selected Table
 dcl#:#dcl_tableview#:#View
 dcl#:#dcl_tableorder#:#Tableorder
 dcl#:#dcl_detailed_view#:#Detailed View

@@ -47,11 +47,6 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->addMultiCommand('confirmDeleteTableviews', $lng->txt('dcl_delete_views'));
             $this->addCommandButton('saveTableOrder', $lng->txt('dcl_save'));
 
-            $add_button = ilDclLinkButton::getInstance();
-            $add_button->setUrl($this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI', 'add'));
-            $add_button->setCaption('dcl_tableview_add');
-            $this->addCommandButtonInstance($add_button);
-
             $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
             $this->setFormName('tableview_list');
 
@@ -85,7 +80,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->setLimit(0);
 
         $this->setId('dcl_tableviews');
-        $this->setTitle($lng->txt("dcl_tableviews"));
+        $this->setTitle($lng->txt("dcl_tableviews_table"));
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
     }
 
@@ -118,7 +113,10 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $alist->setId($id);
             $alist->setListTitle($this->lng->txt('actions'));
             $this->ctrl->setParameterByClass('ildcltableviewgui', 'tableview_id', $id);
-            $alist->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editGeneralSettings'));
+            $this->ctrl->setParameterByClass('ildclrecordviewviewdefinitiongui', 'tableview_id', $id);
+            $alist->addItem($this->lng->txt('settings'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editGeneralSettings'));
+            $alist->addItem($this->lng->txt('dcl_list_fields'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editFieldSettings'));
+            $alist->addItem($this->lng->txt('dcl_detailed_view'), '', $this->ctrl->getLinkTargetByClass(array('ildcltablevieweditgui', 'ildclrecordviewviewdefinitiongui'), 'edit'));
             $alist->addItem($this->lng->txt('delete'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'confirmDelete'));
             return $alist->getHTML();
         }

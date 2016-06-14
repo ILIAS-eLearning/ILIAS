@@ -23,7 +23,7 @@ require_once('./Modules/DataCollection/classes/class.ilDclExportGUI.php');
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilPermissionGUI, ilObjectCopyGUI, ilDclExportGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclFieldEditGUI, ilDclRecordEditGUI, ilDclTreePickInputGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListGUI, ilDataCollectionRecordEditViewdefinitionGUI
- * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordViewGUI, ilDclRecordViewViewdefinitionGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordViewGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableEditGUI, ilDclFieldListGUI, ilObjFileGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclTableViewGUI, ilDclTableViewEditGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDclRecordListViewdefinitionGUI
@@ -218,33 +218,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				require_once('./Modules/DataCollection/classes/class.ilDclRecordEditGUI.php');
 				$recordedit_gui = new ilDclRecordEditGUI($this);
 				$this->ctrl->forwardCommand($recordedit_gui);
-				break;
-
-			case "ildclrecordviewviewdefinitiongui":
-				$this->prepareOutput();
-
-				// page editor will set its own tabs
-				$ilTabs->clearTargets();
-				$ilTabs->setBackTarget($this->lng->txt("back"), $ilCtrl->getLinkTargetByClass("ildclfieldlistgui", "listFields"));
-
-				require_once('./Modules/DataCollection/classes/class.ilDclRecordViewViewdefinitionGUI.php');
-				$recordedit_gui = new ilDclRecordViewViewdefinitionGUI($this->table_id);
-
-				// needed for editor
-				$recordedit_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "dcl"));
-
-				if (!$this->checkPermissionBool("write")) {
-					$recordedit_gui->setEnableEditing(false);
-				}
-
-				$ret = $this->ctrl->forwardCommand($recordedit_gui);
-				if ($ret != "") {
-					$this->tpl->setContent($ret);
-				}
-
-				$ilTabs->removeTab('history');
-				$ilTabs->removeTab('clipboard'); // Fixme
-				$ilTabs->removeTab('pg');
 				break;
 
 			case "ildclrecordlistviewdefinitiongui":
@@ -492,7 +465,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 
 
 	/**
-	 * @deprecated
+	 * called by goto
 	 */
 	public function listRecords() {
 		global $ilCtrl;

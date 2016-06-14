@@ -58,7 +58,10 @@ class ilDclTableViewGUI
         $this->tabs = $ilTabs;
         $this->toolbar = $ilToolbar;
         $this->table = ilDclCache::getTableCache($table_id);
-
+        if ( ! $this->checkAccess()) {
+            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
+        }
     }
 
 
@@ -93,9 +96,25 @@ class ilDclTableViewGUI
     }
 
     /**
+     * @return bool
+     */
+    protected function checkAccess()
+    {
+        return ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getDataCollectionObject()->getRefId());
+    }
+
+    /**
      *
      */
     public function show() {
+        $add_new = ilLinkButton::getInstance();
+        $add_new->setPrimary(true);
+        $add_new->setCaption("dcl_create_item");
+        $add_new->setUrl($this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI', 'add'));
+        $this->toolbar->addStickyItem($add_new);
+
+        $this->toolbar->addSeparator();
+
         // Show tables
         require_once("./Modules/DataCollection/classes/class.ilDclTable.php");
         $tables = $this->parent_obj->object->getTables();
@@ -110,7 +129,7 @@ class ilDclTableViewGUI
         $table_selection->setValue($this->table->getId());
 
         $this->toolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclTableViewGUI", "doTableSwitch"));
-        $this->toolbar->addText($this->lng->txt("dcl_table"));
+        $this->toolbar->addText($this->lng->txt("dcl_select"));
         $this->toolbar->addInputItem($table_selection);
         $button = ilSubmitButton::getInstance();
         $button->setCommand("doTableSwitch");
