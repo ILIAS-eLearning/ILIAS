@@ -15,9 +15,17 @@ class ComposerStaticInitbd7f39d053649d4bfd736508ecb933b7
         array (
             'Whoops\\' => 7,
         ),
+        'S' => 
+        array (
+            'Symfony\\Component\\Yaml\\' => 23,
+        ),
         'M' => 
         array (
             'Monolog\\' => 8,
+        ),
+        'I' => 
+        array (
+            'ILIAS\\' => 6,
         ),
     );
 
@@ -26,9 +34,17 @@ class ComposerStaticInitbd7f39d053649d4bfd736508ecb933b7
         array (
             0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
         ),
+        'Symfony\\Component\\Yaml\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/yaml',
+        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'ILIAS\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/../../src',
         ),
     );
 
@@ -38,6 +54,10 @@ class ComposerStaticInitbd7f39d053649d4bfd736508ecb933b7
             'Psr\\Log\\' => 
             array (
                 0 => __DIR__ . '/..' . '/psr/log',
+            ),
+            'Pimple' => 
+            array (
+                0 => __DIR__ . '/..' . '/pimple/pimple/src',
             ),
             'PHPExcel' => 
             array (
