@@ -195,7 +195,7 @@ class ilDclRecordViewViewdefinitionGUI extends ilPageObjectGUI {
 
 		$this->getPageObject()->releasePageLock();
 		ilUtil::sendSuccess($lng->txt("cont_page_lock_released"), true);
-		$ilCtrl->redirectByClass('ilDclFieldListGUI', "listFields");
+		$ilCtrl->redirectByClass('ilDclTableViewGUI', "show");
 	}
 
 	/**
