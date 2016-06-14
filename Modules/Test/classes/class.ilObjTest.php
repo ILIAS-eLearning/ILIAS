@@ -2373,7 +2373,6 @@ function setAnswerFeedback($answer_feedback = 0)
  * Sets if the generic feedback is to be shown in the test.
  * 
  * @param int $generic_answer_feedback
- * @todo Rename "$this->answer_feedback to something more meaningful.
  */
 function setGenericAnswerFeedback($generic_answer_feedback = 0)
 {
