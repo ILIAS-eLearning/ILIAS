@@ -153,9 +153,9 @@ class ilSetAccomodationsGUI
 		if($this->course) {
 			$crs = $this->course->getId();
 		} else {
-			$crs = " course without id";
+			$crs = "course without id";
 		}
-		$log->write("####course accomodations of ".$crs.":".$ilUser->getId()." performing command ".$cmd);
+		$log->write("####course accomodations at ".$crs.":".$ilUser->getId()." performing command ".$cmd);
 
 		//gev patch end
 		switch($next_class)
