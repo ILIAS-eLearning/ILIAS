@@ -103,6 +103,11 @@ class ilRepositoryExplorer extends ilExplorer
 				$link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjgroupgui"), "");
 				$ilCtrl->setParameterByClass("ilobjgroupgui", "ref_id", $_GET["ref_id"]);
 				return $link;
+			case "grpr":
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
+				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+				return $link;
 
 			case "crs":
 				$ilCtrl->setParameterByClass("ilobjcoursegui", "ref_id", $a_node_id);
@@ -157,6 +162,10 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case "grp":
 				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "grp");
+				return $t_frame;
+
+			case "grpr":
+				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "grpr");
 				return $t_frame;
 
 			case "crs":
@@ -251,7 +260,7 @@ class ilRepositoryExplorer extends ilExplorer
 					return false;
 				}
 				break;
-				
+			case 'grpr':
 			case 'crsr':
 			case 'catr':
 				include_once('./Services/ContainerReference/classes/class.ilContainerReferenceAccess.php');

@@ -2056,7 +2056,7 @@ class ilObject
 	{
 		global $ilDB;
 		
-		if(!in_array($a_type, array("catr", "crsr", "sess")))
+		if(!in_array($a_type, array("catr", "crsr", "sess", "grpr")))
 		{
 			return;
 		}
@@ -2078,6 +2078,7 @@ class ilObject
 		
 		switch($a_type)
 		{
+			case "grpr":
 			case "catr":
 			case "crsr":				
 				$set = $ilDB->query("SELECT oref.obj_id, od.type, od.title FROM object_data od".

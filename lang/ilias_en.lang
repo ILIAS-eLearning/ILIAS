@@ -15708,3 +15708,16 @@ grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
 crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
 form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#End
+common#:#grpr_edit_info#:#Please choose one group, for creating a new reference.
+common#:#grpr_edit#:#Edit Group Reference
+common#:#grpr_new#:#Create Group Reference
+common#:#grpr#:#Group Reference
+common#:#obj_grpr#:#Group Reference
+common#:#objs_grpr#:#Group References
+rbac#:#grpr_copy#:#User can copy group reference
+rbac#:#grpr_delete#:#User can move or delete group reference
+rbac#:#grpr_edit_permission#:#User can change permission settings
+rbac#:#grpr_read#:#Read access to Group Reference
+rbac#:#grpr_visible#:#Group reference is visible
+rbac#:#grpr_write#:#User can edit settings of group reference
+rbac#:#rbac_create_grpr#:#Create Group Reference

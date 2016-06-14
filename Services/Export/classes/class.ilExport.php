@@ -12,7 +12,7 @@
 */
 class ilExport
 {
-	public static $new_file_structure = array('cat','exc','crs','sess','file','grp','frm', 'usr', 'catr', 'crsr');
+	public static $new_file_structure = array('cat','exc','crs','sess','file','grp','frm', 'usr', 'catr', 'crsr', 'grpr');
 	
 	// this should be part of module.xml and be parsed in the future
 	static $export_implementer = array("tst", "lm", "glo");
