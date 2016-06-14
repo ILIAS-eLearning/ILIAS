@@ -11605,7 +11605,6 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function buildExamId($active_id, $pass, $test_obj_id = null)
 	{
-		/** @TODO Move this to a proper place. */
 		global $ilSetting;
 
 		$inst_id = $ilSetting->get( 'inst_id', null );
