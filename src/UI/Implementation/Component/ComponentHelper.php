@@ -116,11 +116,13 @@ trait ComponentHelper {
 
 	protected function wrongTypeMessage($expected, $value) {
 		$type = gettype($value);
-		if (!is_object($value)) {
+		if (!is_object($value) && !is_array($value)) {
 			return "expected $expected, got $type '$value'";
 		}
 		else {
-			$type = get_class($value);
+			if (is_object($value)) {
+				$type = get_class($value);
+			}
 			return "expected $expected, got $type";
 		}
 	}
