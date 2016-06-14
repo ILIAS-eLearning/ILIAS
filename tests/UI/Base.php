@@ -65,7 +65,7 @@ class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 		$ui_factory = $this->getUIFactory();
 		$tpl_factory = $this->getTemplateFactory();
 		$resource_registry = $this->getResourceRegistry();
-		return new \ILIAS\UI\Implementation\DefaultRenderer(
+		return new DefaultRendererTesting(
 						$ui_factory, $tpl_factory, $resource_registry);
 	}
 
