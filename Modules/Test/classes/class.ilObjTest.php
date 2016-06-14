@@ -2477,8 +2477,6 @@ function setGenericAnswerFeedback($generic_answer_feedback = 0)
 	 *
 	 * @return integer 1, if answer specific feedback is to be shown.
 	 * @access public
-	 * @see    $answer_feedback
-	 * @todo Rename $this->answer_feedback to something more meaningful.
 	 */
 	public function getGenericAnswerFeedback()
 	{
