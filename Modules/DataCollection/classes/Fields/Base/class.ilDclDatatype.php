@@ -3,7 +3,7 @@
 
 require_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
 require_once("./Modules/DataCollection/classes/Helpers/class.ilDclTreePickInputGUI.php");
-require_once("./Modules/DataCollection/classes/class.ilDclCache.php");
+require_once("./Modules/DataCollection/classes/Helpers/class.ilDclCache.php");
 require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 require_once("./Modules/File/classes/class.ilObjFile.php");
 require_once("./Services/Form/classes/class.ilSelectInputGUI.php");
@@ -14,7 +14,7 @@ require_once("./Services/Form/classes/class.ilFileInputGUI.php");
 require_once("./Services/Form/classes/class.ilImageFileInputGUI.php");
 require_once("./Services/Preview/classes/class.ilPreview.php");
 require_once('./Services/Preview/classes/class.ilPreviewGUI.php');
-require_once('./Modules/DataCollection/classes/class.ilDclRecordViewViewdefinition.php');
+require_once('./Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewDefinition.php');
 require_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
 require_once("./Modules/DataCollection/classes/Helpers/class.ilDclCheckboxInputGUI.php");
 require_once("./Modules/DataCollection/classes/Helpers/class.ilDclTextInputGUI.php");

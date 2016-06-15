@@ -348,8 +348,8 @@ class ilDclTableView extends ActiveRecord
         }
 
         //clone pageobject
-        if (ilDclRecordViewViewdefinition::exists($orig->getId())) {
-            $orig_pageobject = new ilDclRecordViewViewdefinition($orig->getId());
+        if (ilDclDetailedViewDefinition::exists($orig->getId())) {
+            $orig_pageobject = new ilDclDetailedViewDefinition($orig->getId());
             $orig_pageobject->copy($this->getId());
         }
     }

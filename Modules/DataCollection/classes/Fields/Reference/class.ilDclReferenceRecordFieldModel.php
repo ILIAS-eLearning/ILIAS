@@ -5,7 +5,7 @@
 require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordFieldModel.php';
 require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordModel.php';
 require_once './Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php';
-require_once './Modules/DataCollection/classes/class.ilDclRecordViewGUI.php';
+require_once './Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewGUI.php';
 require_once("./Services/Link/classes/class.ilLink.php");
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionImporter.php");
 

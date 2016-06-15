@@ -3,7 +3,7 @@
 
 require_once("./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordModel.php");
 require_once("./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php");
-require_once("./Modules/DataCollection/classes/class.ilDclTable.php");
+require_once("./Modules/DataCollection/classes/Table/class.ilDclTable.php");
 require_once("./Modules/DataCollection/classes/Fields/Base/class.ilDclDatatype.php");
 require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -601,9 +601,9 @@ class ilDclRecordEditGUI {
 		if ($force_redirect || (isset($_GET['redirect']) && !$this->ctrl->isAsynch())) {
 			switch ((int)$_GET['redirect']) {
 				case self::REDIRECT_DETAIL:
-					$this->ctrl->setParameterByClass('ildclrecordviewgui', 'record_id', $this->record_id);
-					$this->ctrl->setParameterByClass('ildclrecordviewgui', 'table_id', $this->table_id);
-					$this->ctrl->redirectByClass("ildclrecordviewgui", "renderRecord");
+					$this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $this->record_id);
+					$this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'table_id', $this->table_id);
+					$this->ctrl->redirectByClass("ilDclDetailedViewGUI", "renderRecord");
 					break;
 				case self::REDIRECT_RECORD_LIST:
 					$this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");

@@ -5,7 +5,7 @@
 include_once("./Services/COPage/classes/class.ilPageObject.php");
 
 /**
- * Class ilDclBaseFieldModel
+ * Class ilDclDetailedViewDefinition
  *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
@@ -15,7 +15,7 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
  *
  * @ingroup ModulesDataCollection
  */
-class ilDclRecordViewViewdefinition extends ilPageObject {
+class ilDclDetailedViewDefinition extends ilPageObject {
 
 	const PARENT_TYPE = 'dclf';
 
@@ -40,7 +40,7 @@ class ilDclRecordViewViewdefinition extends ilPageObject {
 	 */
 	protected static $record_view_cache = array();
 //	/**
-//	 * @var ilDclRecordViewViewdefinition[]
+//	 * @var ilDclDetailedViewDefinition[]
 //	 */
 //	protected static $instances = array();
 //
@@ -48,7 +48,7 @@ class ilDclRecordViewViewdefinition extends ilPageObject {
 //	/**
 //	 * @param $key
 //	 *
-//	 * @return ilDclRecordViewViewdefinition
+//	 * @return ilDclDetailedViewDefinition
 //	 */
 //	public static function getInstance($key) {
 //		self::$instances[$key] = new self($key);
@@ -75,7 +75,7 @@ class ilDclRecordViewViewdefinition extends ilPageObject {
 	public function getAvailablePlaceholders() {
 		$all = array();
 
-		require_once("./Modules/DataCollection/classes/class.ilDclTable.php");
+		require_once("./Modules/DataCollection/classes/Table/class.ilDclTable.php");
 		require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableView.php");
 		$tableview = new ilDclTableView($this->getId());
 		$table_id = $tableview->getTableId();

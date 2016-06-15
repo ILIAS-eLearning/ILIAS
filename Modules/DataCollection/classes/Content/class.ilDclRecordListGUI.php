@@ -2,12 +2,12 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once ("./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordModel.php");
-require_once ("./Modules/DataCollection/classes/class.ilDclTable.php");
+require_once ("./Modules/DataCollection/classes/Table/class.ilDclTable.php");
 require_once ("./Modules/DataCollection/classes/Fields/Base/class.ilDclDatatype.php");
-require_once ('./Modules/DataCollection/classes/class.ilDclRecordListTableGUI.php');
+require_once ('class.ilDclRecordListTableGUI.php');
 require_once ("./Modules/DataCollection/classes/Helpers/class.ilDclLinkButton.php");
-require_once ('./Modules/DataCollection/classes/class.ilDclRecordListTableGUI.php');
-require_once ('./Modules/DataCollection/classes/class.ilDclContentImporter.php');
+require_once ('class.ilDclRecordListTableGUI.php');
+require_once ('class.ilDclContentImporter.php');
 
 /**
  *
@@ -83,7 +83,7 @@ class ilDclRecordListGUI {
 		}
 		
 		$this->ctrl->setParameterByClass("ildclrecordeditgui", "table_id", $this->table_id);
-		$this->ctrl->setParameterByClass("ildclrecordviewgui", "tableview_id", $this->tableview_id);
+		$this->ctrl->setParameterByClass("ilDclDetailedViewGUI", "tableview_id", $this->tableview_id);
 		$this->mode = (isset($_GET['mode']) && in_array($_GET['mode'], self::$available_modes)) ? (int)$_GET['mode'] : self::MODE_VIEW;
 	}
 
@@ -140,8 +140,6 @@ class ilDclRecordListGUI {
 		 * @var $ilToolbar ilToolbarGUI
 		 */
 		// Show tables
-		require_once("./Modules/DataCollection/classes/class.ilDclTable.php");
-
 		$tpl->addCss("./Modules/DataCollection/css/dcl_reference_hover.css");
 
 		list($list, $total) = $this->getRecordListTableGUI($use_tableview_filter);
@@ -246,9 +244,6 @@ class ilDclRecordListGUI {
 	 * @param bool $simulate
 	 */
 	private function importRecords($file, $simulate = false) {
-		global $ilUser;
-		include_once("./Modules/DataCollection/classes/class.ilDclContentImporter.php");
-
 		$importer = new ilDclContentImporter($this->parent_obj->object->getRefId(), $this->table_id);
 		$result = $importer->import($file, $simulate);
 

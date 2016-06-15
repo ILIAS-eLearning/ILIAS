@@ -2,16 +2,16 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Modules/DataCollection/classes/class.ilDclTable.php');
+require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
 require_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
 require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseRecordModel.php');
 require_once('./Modules/DataCollection/classes/Fields/Base/class.ilDclBaseFieldModel.php');
-require_once('./Modules/DataCollection/classes/class.ilDclRecordViewViewdefinition.php');
+require_once('class.ilDclDetailedViewDefinition.php');
 require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
-require_once('./Modules/DataCollection/classes/class.ilDclRecordEditGUI.php');
+require_once('./Modules/DataCollection/classes/Content/class.ilDclRecordEditGUI.php');
 require_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
-require_once("./Modules/DataCollection/classes/class.ilDclRecordListTableGUI.php");
-require_once("./Modules/DataCollection/classes/class.ilDclRecordListGUI.php");
+require_once("./Modules/DataCollection/classes/Content/class.ilDclRecordListTableGUI.php");
+require_once("./Modules/DataCollection/classes/Content/class.ilDclRecordListGUI.php");
 require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableViewTableGUI.php");
 
 /**
@@ -21,9 +21,9 @@ require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableViewTab
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  * @version      $Id:
  *
- * @ilCtrl_Calls ilDclRecordViewGUI: ilPageObjectGUI, ilEditClipboardGUI
+ * @ilCtrl_Calls ilDclDetailedViewGUI: ilDclDetailedViewDefinitionGUI, ilEditClipboardGUI
  */
-class ilDclRecordViewGUI {
+class ilDclDetailedViewGUI {
 
 	/**
 	 * @var ilObjDataCollectionGUI
@@ -126,7 +126,7 @@ class ilDclRecordViewGUI {
 		$ilCtrl->setParameter($this, 'tableview_id', $this->tableview_id);
 
 		if ((!ilObjDataCollectionAccess::hasWriteAccess($_GET['ref_id']) && !ilObjDataCollectionAccess::hasAccessToTableView($this->tableview_id))
-			|| !ilDclRecordViewViewdefinition::isActive($this->tableview_id))
+			|| !ilDclDetailedViewDefinition::isActive($this->tableview_id))
 		{
 			if ($this->table->getVisibleTableViews($_GET['ref_id'], true)) {
 				$this->offerAlternativeViews();
@@ -188,8 +188,8 @@ class ilDclRecordViewGUI {
 		}
 
 		// see ilObjDataCollectionGUI->executeCommand about instantiation
-		include_once("./Modules/DataCollection/classes/class.ilDclRecordViewViewdefinitionGUI.php");
-		$pageObj = new ilDclRecordViewViewdefinitionGUI($this->tableview_id);
+		include_once("class.ilDclDetailedViewDefinitionGUI.php");
+		$pageObj = new ilDclDetailedViewDefinitionGUI($this->tableview_id);
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$pageObj->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "dcl"));
 

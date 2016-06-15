@@ -8,7 +8,7 @@ require_once("./Services/AccessControl/classes/class.ilObjRole.php");
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  * @ingroup ModulesDataCollection
  *
- * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclRecordViewViewdefinitionGUI
+ * @ilCtrl_Calls ilDclTableViewEditGUI: ilDclDetailedViewDefinitionGUI
  */
 class ilDclTableViewEditGUI
 {
@@ -90,10 +90,10 @@ class ilDclTableViewEditGUI
 
         switch($next_class)
         {
-            case 'ildclrecordviewviewdefinitiongui':
+            case 'ildcldetailedviewdefinitiongui':
                 $this->setTabs('detailed_view');
-                require_once('./Modules/DataCollection/classes/class.ilDclRecordViewViewdefinitionGUI.php');
-                $recordedit_gui = new ilDclRecordViewViewdefinitionGUI($this->tableview->getId());
+                require_once('./Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewDefinitionGUI.php');
+                $recordedit_gui = new ilDclDetailedViewDefinitionGUI($this->tableview->getId());
                 $ret = $this->ctrl->forwardCommand($recordedit_gui);
                 if ($ret != "") {
                     $this->tpl->setContent($ret);
@@ -140,7 +140,7 @@ class ilDclTableViewEditGUI
     {
         $this->tabs_gui->addTab('general_settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this, 'editGeneralSettings'));
         $this->tabs_gui->addTab('field_settings', $this->lng->txt('dcl_list_fields'), $this->ctrl->getLinkTarget($this, 'editFieldSettings'));
-        $this->tabs_gui->addTab('detailed_view', $this->lng->txt('dcl_detailed_view'), $this->ctrl->getLinkTargetByClass('ildclrecordviewviewdefinitiongui', 'edit'));
+        $this->tabs_gui->addTab('detailed_view', $this->lng->txt('dcl_detailed_view'), $this->ctrl->getLinkTargetByClass('ilDclDetailedViewDefinitionGUI', 'edit'));
         $this->tabs_gui->setTabActive($active);
     }
 

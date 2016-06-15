@@ -2,23 +2,23 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-require_once("./Modules/DataCollection/classes/class.ilDclRecordViewViewdefinition.php");
+require_once("class.ilDclDetailedViewDefinition.php");
 
 /**
- * Class ilDclRecordViewViewdefinitionGUI
+ * Class ilDclDetailedViewDefinitionGUI
  *
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Marcel Raimann <mr@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @ilCtrl_Calls ilDclRecordViewViewdefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilDclRecordViewViewdefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
+ * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
+ * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
-class ilDclRecordViewViewdefinitionGUI extends ilPageObjectGUI {
+class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI {
 	
 	/**
-	 * @var ilDclRecordViewViewdefinition
+	 * @var ilDclDetailedViewDefinition
 	 */
 	public $obj;
 	/**
@@ -42,7 +42,7 @@ class ilDclRecordViewViewdefinitionGUI extends ilPageObjectGUI {
 
 		// we always need a page object - create on demand
 		if (! ilPageObject::_exists('dclf', $tableview_id)) {
-			$viewdef = new ilDclRecordViewViewdefinition();
+			$viewdef = new ilDclDetailedViewDefinition();
 			$viewdef->setId($tableview_id);
 			$viewdef->setActive(false);
 			$viewdef->create();
@@ -79,7 +79,7 @@ class ilDclRecordViewViewdefinitionGUI extends ilPageObjectGUI {
 
 		switch ($next_class) {
 			case "ilpageobjectgui":
-				throw new ilCOPageException("Deprecated. ilDclRecordViewViewdefinitionGUI gui forwarding to ilpageobject");
+				throw new ilCOPageException("Deprecated. ilDclDetailedViewDefinitionGUI gui forwarding to ilpageobject");
 			default:
 				if ($viewdef) {
 					$this->setPresentationTitle($title);
@@ -174,9 +174,9 @@ class ilDclRecordViewViewdefinitionGUI extends ilPageObjectGUI {
 	public function deleteView() {
 		global $ilCtrl, $lng;
 
-		if ($this->tableview_id && ilDclRecordViewViewdefinition::exists($this->tableview_id)) {
-			include_once("./Modules/DataCollection/classes/class.ilDclRecordViewViewdefinition.php");
-			$pageObject = new ilDclRecordViewViewdefinition($this->tableview_id);
+		if ($this->tableview_id && ilDclDetailedViewDefinition::exists($this->tableview_id)) {
+			include_once("class.ilDclDetailedViewDefinition.php");
+			$pageObject = new ilDclDetailedViewDefinition($this->tableview_id);
 			$pageObject->delete();
 		}
 

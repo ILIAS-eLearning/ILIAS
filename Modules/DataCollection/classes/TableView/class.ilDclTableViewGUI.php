@@ -116,7 +116,7 @@ class ilDclTableViewGUI
         $this->toolbar->addSeparator();
 
         // Show tables
-        require_once("./Modules/DataCollection/classes/class.ilDclTable.php");
+        require_once("./Modules/DataCollection/classes/Table/class.ilDclTable.php");
         $tables = $this->parent_obj->object->getTables();
 
         foreach($tables as $table)

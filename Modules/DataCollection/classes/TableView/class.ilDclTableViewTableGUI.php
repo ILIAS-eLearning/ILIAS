@@ -56,7 +56,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->setRowTemplate('tpl.tableview_list_row.html', 'Modules/DataCollection');
             $this->setData($this->table->getTableViews());
         }
-        elseif ($this->parent_obj instanceof ilDclRecordViewGUI)
+        elseif ($this->parent_obj instanceof ilDclDetailedViewGUI)
         {
             $this->setRowTemplate('tpl.detailview_list_row.html', 'Modules/DataCollection');
             $this->setData($this->table->getVisibleTableViews($this->parent_obj->parent_obj->ref_id, true));
@@ -113,19 +113,19 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $alist->setId($id);
             $alist->setListTitle($this->lng->txt('actions'));
             $this->ctrl->setParameterByClass('ildcltableviewgui', 'tableview_id', $id);
-            $this->ctrl->setParameterByClass('ildclrecordviewviewdefinitiongui', 'tableview_id', $id);
+            $this->ctrl->setParameterByClass('ilDclDetailedViewDefinitionGUI', 'tableview_id', $id);
             $alist->addItem($this->lng->txt('settings'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editGeneralSettings'));
             $alist->addItem($this->lng->txt('dcl_list_fields'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editFieldSettings'));
-            $alist->addItem($this->lng->txt('dcl_detailed_view'), '', $this->ctrl->getLinkTargetByClass(array('ildcltablevieweditgui', 'ildclrecordviewviewdefinitiongui'), 'edit'));
+            $alist->addItem($this->lng->txt('dcl_detailed_view'), '', $this->ctrl->getLinkTargetByClass(array('ildcltablevieweditgui', 'ilDclDetailedViewDefinitionGUI'), 'edit'));
             $alist->addItem($this->lng->txt('delete'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'confirmDelete'));
             return $alist->getHTML();
         }
-        elseif ($this->parent_obj instanceof ilDclRecordViewGUI)
+        elseif ($this->parent_obj instanceof ilDclDetailedViewGUI)
         {
             $button = ilDclLinkButton::getInstance();
-            $this->ctrl->setParameterByClass('ildclrecordviewgui', 'tableview_id', $id);
-            $this->ctrl->saveParameterByClass('ildclrecordviewgui', 'record_id');
-            $button->setUrl($this->ctrl->getLinkTargetByClass('ildclrecordviewgui', 'renderRecord'));
+            $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $id);
+            $this->ctrl->saveParameterByClass('ilDclDetailedViewGUI', 'record_id');
+            $button->setUrl($this->ctrl->getLinkTargetByClass('ilDclDetailedViewGUI', 'renderRecord'));
             $button->setCaption('view');
             return $button->getToolbarHTML();
         }

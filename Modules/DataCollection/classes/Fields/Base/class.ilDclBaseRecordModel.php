@@ -7,7 +7,7 @@ require_once './Services/Exceptions/classes/class.ilException.php';
 require_once './Services/User/classes/class.ilUserUtil.php';
 require_once('./Services/Object/classes/class.ilCommonActionDispatcherGUI.php');
 require_once('./Modules/DataCollection/classes/class.ilObjDataCollection.php');
-require_once('./Modules/DataCollection/classes/class.ilDclTable.php');
+require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
 require_once('./Services/Notes/classes/class.ilNote.php');
 require_once('./Services/Notes/classes/class.ilNoteGUI.php');
 

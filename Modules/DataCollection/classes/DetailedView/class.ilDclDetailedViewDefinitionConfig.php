@@ -11,7 +11,7 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
  * @version $Id$
  * @ingroup ModulesDataCollection
  */
-class ilDclRecordViewViewdefinitionConfig extends ilPageConfig
+class ilDclDetailedViewDefinitionConfig extends ilPageConfig
 {
 	/**
 	 * Init

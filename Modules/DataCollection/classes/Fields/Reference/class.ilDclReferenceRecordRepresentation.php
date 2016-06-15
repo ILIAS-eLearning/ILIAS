@@ -65,9 +65,9 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation {
 		if (!$link_name) {
 			$link_name = $ref_record->getRecordFieldHTML($record_field->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
 		}
-		$ilCtrl->clearParametersByClass("ildclrecordviewgui");
-		$ilCtrl->setParameterByClass("ildclrecordviewgui", "record_id", $ref_record->getId());
-		$html = "<a href='" . $ilCtrl->getLinkTargetByClass("ilDclRecordViewGUI", "renderRecord") . "&disable_paging=1'>" . $link_name . "</a>";
+		$ilCtrl->clearParametersByClass("ilDclDetailedViewGUI");
+		$ilCtrl->setParameterByClass("ilDclDetailedViewGUI", "record_id", $ref_record->getId());
+		$html = "<a href='" . $ilCtrl->getLinkTargetByClass("ilDclDetailedViewGUI", "renderRecord") . "&disable_paging=1'>" . $link_name . "</a>";
 
 		return $html;
 	}

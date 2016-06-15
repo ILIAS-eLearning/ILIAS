@@ -4,8 +4,8 @@
 
 require_once('./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.php');
 require_once('./Modules/DataCollection/classes/class.ilObjDataCollectionGUI.php');
-require_once('./Modules/DataCollection/classes/class.ilDclRecordListGUI.php');
-require_once('./Modules/DataCollection/classes/class.ilDclTable.php');
+require_once('./Modules/DataCollection/classes/Content/class.ilDclRecordListGUI.php');
+require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
 require_once ('./Services/Export/classes/class.ilExport.php');
 require_once ('./Services/Excel/classes/class.ilExcel.php');
 

@@ -2,7 +2,7 @@
 require_once("./Services/Export/classes/class.ilExport.php");
 require_once('./Services/Export/classes/class.ilXmlExporter.php');
 require_once('class.ilDataCollectionDataSet.php');
-require_once('class.ilDclCache.php');
+require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
 require_once('./Modules/MediaPool/classes/class.ilObjMediaPool.php');
 
 /**

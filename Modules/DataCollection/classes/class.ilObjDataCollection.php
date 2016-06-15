@@ -2,8 +2,8 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once('./Services/Object/classes/class.ilObject2.php');
-require_once('class.ilDclTable.php');
-require_once('class.ilDclCache.php');
+require_once('./Modules/DataCollection/classes/Table/class.ilDclTable.php');
+require_once('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
 
 /**
  * Class ilObjDataCollection
@@ -43,7 +43,6 @@ class ilObjDataCollection extends ilObject2 {
 
 		if (!$clone_mode) {
 			//Create Main Table - The title of the table is per default the title of the data collection object
-			require_once('./Modules/DataCollection/classes/class.ilDclTable.php');
 			$main_table = ilDclCache::getTableCache();
 			$main_table->setObjId($this->getId());
 			$main_table->setTitle($this->getTitle());
@@ -146,8 +145,6 @@ class ilObjDataCollection extends ilObject2 {
 		require_once('./Services/User/classes/class.ilObjUser.php');
 		require_once('./Services/Language/classes/class.ilLanguageFactory.php');
 		require_once('./Services/User/classes/class.ilUserUtil.php');
-		require_once('./Services/User/classes/class.ilUserUtil.php');
-		require_once('./Modules/DataCollection/classes/class.ilDclTable.php');
 		foreach (array_unique($users) as $idx => $user_id) {
 			// the user responsible for the action should not be notified
 			// FIXME  $_GET['ref_id]

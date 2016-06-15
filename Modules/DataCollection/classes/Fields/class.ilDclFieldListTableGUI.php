@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once 'class.ilDclCache.php';
+require_once ('./Modules/DataCollection/classes/Helpers/class.ilDclCache.php');
 
 /**
  * Class ilDclFieldListTableGUI

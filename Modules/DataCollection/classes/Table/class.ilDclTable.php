@@ -547,7 +547,7 @@ class ilDclTable {
 		{
 			if (ilObjDataCollectionAccess::hasAccessToTableView($tableView))
 			{
-				if (!$with_active_detailedview || ilDclRecordViewViewdefinition::isActive($tableView->getId()))
+				if (!$with_active_detailedview || ilDclDetailedViewDefinition::isActive($tableView->getId()))
 				{
 					$visible_views[] = $tableView;
 				}
