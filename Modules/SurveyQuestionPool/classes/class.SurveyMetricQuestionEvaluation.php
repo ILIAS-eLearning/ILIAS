@@ -11,6 +11,10 @@ include_once "Modules/SurveyQuestionPool/classes/class.SurveyQuestionEvaluation.
  */
 class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 {
+	//
+	// RESULTS
+	//
+	
 	protected function parseResults(ilSurveyEvaluationResults $a_results, array $a_answers, SurveyCategories $a_categories = null)
 	{
 		parent::parseResults($a_results, $a_answers);
@@ -31,9 +35,49 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 		}		
 	}
 	
+	
+	//
+	// DETAILS
+	//
+	
+	public function getGrid($a_results)
+	{
+		global $lng;
+		
+		$res = array(
+			"cols" => array(
+				$lng->txt("category_nr_selected"),
+				$lng->txt("svy_fraction_of_selections")
+			),
+			"rows" => array()
+		);
+		
+		// as we have no variables build rows from answers directly
+		$total = sizeof($a_results->getAnswers());
+		if($total > 0)
+		{	
+			$cumulated = array();
+			foreach($a_results->getAnswers() as $answer)
+			{										
+				$cumulated[$answer->value]++;												
+			}																
+			foreach($cumulated as $value => $count)
+			{
+				$res["rows"][] = array(
+					$value,
+					$count,
+					($count/$total*100)."%"
+				);
+			}
+		}			
+		
+		return $res;
+	}
 
 	
-	
+	//
+	// EXPORT
+	// 
 	
 	function setExportDetailsXLS(ilExcel $a_excel, $a_eval_data, $a_export_label)
 	{		

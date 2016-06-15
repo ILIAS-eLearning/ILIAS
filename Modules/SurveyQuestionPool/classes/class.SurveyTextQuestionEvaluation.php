@@ -11,7 +11,19 @@ include_once "Modules/SurveyQuestionPool/classes/class.SurveyQuestionEvaluation.
  */
 class SurveyTextQuestionEvaluation extends SurveyQuestionEvaluation
 {	
-
+	//
+	// DETAILS
+	//
+	
+	public function getGrid($a_results)
+	{
+				
+	}
+	
+	
+	//
+	// EXPORT
+	//
 
 	function setExportDetailsXLS(ilExcel $a_excel, $a_eval_data, $a_export_label)
 	{

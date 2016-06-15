@@ -587,162 +587,183 @@ class ilSurveyEvaluationGUI
 				}
 			}
 			
+			if($details)
+			{
+				$dtmpl = new ilTemplate("tpl.il_svy_svy_results_details.html", true, true, "Modules/Survey");
+			}			
+			
 			// parse answer data in evaluation results
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";	
-			$last_questionblock_id = null;			
-			$tmp = array();
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";						
 			foreach($this->object->getSurveyQuestions() as $qdata)
 			{						
 				$q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);		
 				$q_res =  $q_eval->getResults();
 				$results[] = $q_res;	
 						
-				// :TODO: proper details rendering
 				if($details)
-				{					
-					// questionblock title handling
-					if($qdata["questionblock_id"] && 
-						$qdata["questionblock_id"] != $last_questionblock_id)
-					{
-						$qblock = ilObjSurvey::_getQuestionblock($qdata["questionblock_id"]);
-
-						if($qblock["show_blocktitle"])
-						{
-							$tmp[] = $qdata["questionblock_title"];							
-						}
-
-						$last_questionblock_id = $qdata["questionblock_id"];
-					}		
-										
-					// matrix
-					if(is_array($q_res))
-					{
-						$question = $q_res[0][1]->getQuestion();
-						
-						$tmp[] = $question->getTitle();
-						$tmp[] = $question->getQuestiontext();
-						$tmp[] = $q_res[0][1]->getUsersAnswered()."/".$q_res[0][1]->getUsersSkipped();
-						
-						foreach($q_res as $row)
-						{														
-							$tmp[] = $row[0];
-							
-							$row_res = $row[1];
-							$vars = $row_res->getVariables();
-							if($vars)
-							{
-								foreach($vars as $var)
-								{
-									$tmp[] = "- ".$var->cat->title.":".
-										$var->abs.
-										($var->perc
-											? " = ".($var->perc*100)."%"
-											: null);
-								}
-							}
-							
-							// text answer
-							$texts = $row_res->getMappedTextAnswers();
-							if($texts)
-							{
-								$tmp[] = "textual answers";
-								$tmp[] = $row[0]; // !
-								foreach($texts as $answers)
-								{									
-									foreach($answers as $answer)
-									{
-										$tmp[] = "- ".nl2br($answer);
-									}
-								}
-							}
-						}					
-					}
-					else
-					{
-						$question = $q_res->getQuestion();
-						
-						$tmp[] = $question->getTitle();
-						$tmp[] = $question->getQuestiontext();
-						$tmp[] = "answered/skipped: ".$q_res->getUsersAnswered()."/".$q_res->getUsersSkipped();	
-						
-						if($q_res->getModeValue() !== null)
-						{
-							$tmp[] = "mode/nr: ".$q_res->getModeValueAsText()."/".$q_res->getModeNrOfSelections();
-						}
-							
-						if($q_res->getMean() !== null)
-						{
-							$tmp[] = "ar.mean: ".$q_res->getMean();
-							
-							// :TODO: metric (aka fake variables)
-							if(!$q_res->getVariables())
-							{
-								$total = sizeof($q_res->getAnswers());
-								if($total > 0)
-								{	
-									$cumulated = array();
-									foreach($q_res->getAnswers() as $answer)
-									{										
-										$cumulated[$answer->value]++;												
-									}																
-									include_once "Modules/SurveyQuestionPool/classes/class.ilSurveyCategory.php";
-									foreach($cumulated as $value => $count)
-									{
-										$tmp[] = "- ".$value.":".
-											$count." = ".
-											($count/$total*100)."%";								
-									}
-								}										
-							}														
-						}
-						
-						// mc/sc
-						$vars = $q_res->getVariables();
-						if($vars)
-						{
-							foreach($vars as $var)
-							{
-								$tmp[] = "- ".$var->cat->title.":".
-									$var->abs.
-									($var->perc
-										? " = ".($var->perc*100)."%"
-										: null);
-							}
-						}							
-						
-						// text answer
-						$texts = $q_res->getMappedTextAnswers();
-						if($texts)
-						{
-							$tmp[] = "textual answers";
-							foreach($texts as $var => $answers)
-							{
-								if($var != "")
-								{
-									$tmp[] = $var;
-								}
-								foreach($answers as $answer)
-								{
-									$tmp[] = "- ".nl2br($answer);
-								}
-							}
-						}
-					}
-					
-					
-					$tmp[] = "<hr/>";
+				{			
+					$this->renderDetails($dtmpl, $qdata, $q_eval, $q_res);										
 				}
-			}
-			
-			$tmp = implode("<br />", $tmp);
+			}				
 		}		
 		
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php";
 		$table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $results);	
-		$this->tpl->setVariable('CUMULATED', $table_gui->getHTML().$tmp);	
+		$this->tpl->setVariable('CUMULATED', $table_gui->getHTML().($dtmpl ? $dtmpl->get() : ""));	
 		
 		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
 		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'evaluation'));					
+	}
+	
+	/**
+	 * Render details
+	 * 
+	 * @param ilTemplate $a_tpl
+	 * @param array $a_qdata
+	 * @param SurveyQuestionEvaluation $a_eval
+	 * @param ilSurveyEvaluationResults|array $a_results
+	 * @return array
+	 */
+	protected function renderDetails(ilTemplate $a_tpl, array $a_qdata, SurveyQuestionEvaluation $a_eval, $a_results)
+	{		
+		$tmp = array();
+				
+		$question_res = $a_results;
+		$matrix = false;
+		if(is_array($question_res))
+		{
+			$question_res = $question_res[0][1];
+			$matrix = true;
+		}
+		$question = $question_res->getQuestion();
+		
+		// toc (incl. question blocks)
+					
+		// questionblock title handling
+		if($a_qdata["questionblock_id"] && 
+			$a_qdata["questionblock_id"] != $this->last_questionblock_id)
+		{
+			$qblock = ilObjSurvey::_getQuestionblock($a_qdata["questionblock_id"]);
+
+			if($qblock["show_blocktitle"])
+			{
+				$a_tpl->setCurrentBlock("toc_bl");
+				$a_tpl->setVariable("TOC_ITEM", $a_qdata["questionblock_title"]);							
+				$a_tpl->parseCurrentBlock();
+			}
+
+			$this->last_questionblock_id = $a_qdata["questionblock_id"];
+		}	
+		
+		$anchor_id = "svyrdq".$a_qdata["question_id"];
+		
+		$a_tpl->setCurrentBlock("toc_bl");
+		$a_tpl->setVariable("TOC_ITEM", $a_qdata["title"]);							
+		$a_tpl->setVariable("TOC_ID", $anchor_id);							
+		$a_tpl->parseCurrentBlock();
+
+		
+		// question "overview"
+				
+		// :TODO: present subtypes (hrz/vrt, mc/sc mtx)?	
+		
+		$a_tpl->setVariable("QTYPE", SurveyQuestion::_getQuestionTypeName($question->getQuestionType()));				
+		$a_tpl->setVariable("VAL_ANSWERED", $question_res->getUsersAnswered());				
+		$a_tpl->setVariable("TXT_ANSWERED", $this->lng->txt("users_answered"));				
+		$a_tpl->setVariable("VAL_SKIPPED", $question_res->getUsersSkipped());				
+		$a_tpl->setVariable("TXT_SKIPPED", $this->lng->txt("users_skipped"));				
+		
+		if(!$matrix)
+		{
+			if($question_res->getModeValue() !== null)
+			{
+				$a_tpl->setVariable("VAL_MODE", $question_res->getModeValueAsText());				
+				$a_tpl->setVariable("TXT_MODE", $this->lng->txt("mode"));		
+				$a_tpl->setVariable("VAL_MODE_NR", $question_res->getModeNrOfSelections());				
+				$a_tpl->setVariable("TXT_MODE_NR", $this->lng->txt("mode_nr_of_selections"));						
+			}
+			if($question_res->getMedian() !== null)
+			{
+				$a_tpl->setVariable("VAL_MEDIAN", $question_res->getMedianAsText());				
+				$a_tpl->setVariable("TXT_MEDIAN", $this->lng->txt("median"));																					
+			}
+			if($question_res->getMean() !== null)
+			{
+				$a_tpl->setVariable("VAL_MEAN", $question_res->getMean());				
+				$a_tpl->setVariable("TXT_MEAN", $this->lng->txt("arithmetic_mean"));																					
+			}
+		}
+		
+		
+		// grid
+		
+		$grid = $a_eval->getGrid($a_results);
+		if($grid)
+		{			
+			foreach($grid["cols"] as $col)
+			{
+				$a_tpl->setCurrentBlock("grid_col_header_bl");
+				$a_tpl->setVariable("COL_HEADER", $col);														
+				$a_tpl->parseCurrentBlock();
+			}
+			foreach($grid["rows"] as $cols)
+			{				
+				foreach($cols as $col)
+				{
+					// :TODO: matrix percentages
+					if(is_array($col))
+					{
+						$col = implode(" / ", $col);
+					}
+					
+					$a_tpl->setCurrentBlock("grid_col_bl");
+					$a_tpl->setVariable("COL_CAPTION", trim($col));														
+					$a_tpl->parseCurrentBlock();
+				}
+				
+				$a_tpl->touchBlock("grid_row_bl");			
+			}
+		}
+		
+		
+		// text answers
+		
+		$texts = $a_eval->getTextAnswers($a_results);
+		if($texts)
+		{			
+			foreach($texts as $var => $items)
+			{			
+				foreach($items as $item)
+				{
+					$a_tpl->setCurrentBlock("text_item_bl");
+					$a_tpl->setVariable("TEXT_ITEM", nl2br($item));														
+					$a_tpl->parseCurrentBlock();
+				}
+				if($var)
+				{
+					$a_tpl->setVariable("TEXT_VAR", $var);				
+				}
+				$a_tpl->touchBlock("texts_for_var_bl");
+			}
+		}
+		
+		
+		// chart
+		
+		$chart = $a_eval->getChart($a_results);
+		if($chart)
+		{
+			
+		}
+				
+					
+		// question "panel"
+		
+		$a_tpl->setCurrentBlock("question_panel_bl");
+		$a_tpl->setVariable("ANCHOR_ID", $anchor_id);		
+		$a_tpl->setVariable("QTITLE", $question->getTitle());		
+		$a_tpl->setVariable("QTEXT", nl2br($question->getQuestiontext()));	
+		$a_tpl->parseCurrentBlock();			
 	}
 	
 	/**

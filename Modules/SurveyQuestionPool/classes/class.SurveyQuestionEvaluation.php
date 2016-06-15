@@ -27,6 +27,11 @@ abstract class SurveyQuestionEvaluation
 		$this->finished_ids = $a_finished_ids;
 	}	
 	
+	
+	//
+	// RESULTS
+	//
+	
 	/**
 	 * Get results
 	 * 
@@ -162,6 +167,85 @@ abstract class SurveyQuestionEvaluation
 		}
 	}
 	
+	
+	//
+	// DETAILS
+	//
+	
+	/**
+	 * Get grid data
+	 * 
+	 * @param ilSurveyEvaluationResults|array $a_results
+	 * @return array
+	 */
+	public function getGrid($a_results)
+	{
+		global $lng;
+		
+		$res = array(
+			"cols" => array(
+				$lng->txt("category_nr_selected"),
+				$lng->txt("svy_fraction_of_selections")
+			),
+			"rows" => array()
+		);
+		
+		$vars = $a_results->getVariables();
+		if($vars)
+		{
+			foreach($vars as $var)
+			{
+				$res["rows"][] = array(
+					$var->cat->title,
+					$var->abs,
+					$var->perc
+						? ($var->perc*100)."%"
+						: null
+				);
+			}
+		}	
+		
+		return $res;
+	}
+	
+	/**
+	 * Get text answers
+	 * 
+	 * @param ilSurveyEvaluationResults|array $a_results
+	 * @return array
+	 */
+	public function getTextAnswers($a_results)
+	{
+		return $a_results->getMappedTextAnswers();		
+	}
+	
+	public function getChart()
+	{
+		
+	}
+	
+
+	
+	// 
+	// USER-SPECIFIC
+	// 
+	
+	/**
+	 * Get caption for skipped value
+	 * 
+	 * @return string
+	 */	
+	public function getSkippedValue()
+	{
+		include_once "Modules/Survey/classes/class.ilObjSurvey.php";
+		return ilObjSurvey::getSurveySkippedValue();
+	}
+	
+			
+	//
+	// HELPER
+	// 	
+	
 	protected function getSurveyId()
 	{
 		global $ilDB;
@@ -218,21 +302,10 @@ abstract class SurveyQuestionEvaluation
 		return $res;
 	}
 	
-	/**
-	 * Get caption for skipped value
-	 * 
-	 * @return string
-	 */	
-	public function getSkippedValue()
-	{
-		include_once "Modules/Survey/classes/class.ilObjSurvey.php";
-		return ilObjSurvey::getSurveySkippedValue();
-	}
 	
-	
-	
-	
-	
+	//
+	// EXPORT
+	// 	
 	
 	/**
 	* Adds the entries for the title row of the user specific results

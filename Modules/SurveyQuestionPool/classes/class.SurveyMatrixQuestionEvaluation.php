@@ -11,6 +11,10 @@ include_once "Modules/SurveyQuestionPool/classes/class.SurveyQuestionEvaluation.
  */
 class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 {
+	//
+	// RESULTS	
+	//
+	
 	public function getResults()
 	{
 		$results = array();
@@ -38,9 +42,91 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 	}
 	
 	
+	//
+	// DETAILS
+	//
 	
+	
+	public function getGrid($a_results)
+	{
+		global $lng;
+		
+		$res = array(
+			"cols" => array(),
+			"rows" => array()
+		);
+		
+		$tmp = $a_results;
+		$tmp = array_shift($tmp);
+		$vars = $tmp[1]->getVariables();
+		if($vars)
+		{
+			foreach($vars as $var)
+			{
+				$res["cols"][] = $var->cat->title;
+			}
+		}
+		
+		foreach($a_results as $results_row)
+		{																				
+			$parsed_row = array(
+				$results_row[0]
+			);
+			
+			$vars = $results_row[1]->getVariables();
+			if($vars)
+			{
+				foreach($vars as $var)
+				{
+					$parsed_row[] = array(
+						$var->abs,
+						$var->perc
+							? ($var->perc*100)."%"
+							: null
+					);
+				}
+			}
+			
+			$res["rows"][] = $parsed_row;
+		}		
+		
+		return $res;
+	}
+	
+	public function getTextAnswers($a_results)
+	{
+		$res = array();
+		
+		foreach($a_results as $results_row)
+		{		
+			$texts = $results_row[1]->getMappedTextAnswers();
+			if($texts)
+			{		
+				$idx = $results_row[0];
+				foreach($texts as $answers)
+				{									
+					foreach($answers as $answer)
+					{
+						$res[$idx][] = $answer;
+					}
+				}
+			}
+		}
+		
+		return $res;
+	}
+	
+	public function getChart()
+	{
+		
+	}
 	
 
+	
+	//
+	// EXPORT
+	//
+	
 	function setExportCumulatedXLS(ilExcel $a_excel, array $a_eval_data, $a_row, $a_export_label)
 	{
 		$column = 0;

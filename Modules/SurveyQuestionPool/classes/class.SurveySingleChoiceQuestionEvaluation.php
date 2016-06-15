@@ -11,8 +11,9 @@ include_once "Modules/SurveyQuestionPool/classes/class.SurveyQuestionEvaluation.
  */
 class SurveySingleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
 {
-
-	
+	//
+	// EXPORT
+	//		
 	
 	function setExportDetailsXLS(ilExcel $a_excel, $a_eval_data, $a_export_label)
 	{
