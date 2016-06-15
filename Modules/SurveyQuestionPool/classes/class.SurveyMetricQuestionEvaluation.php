@@ -66,12 +66,51 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 				$res["rows"][] = array(
 					$value,
 					$count,
-					($count/$total*100)."%"
+					sprintf("%.2f", $count/$total*100)."%"
 				);
 			}
 		}			
 		
 		return $res;
+	}
+	
+	public function getChart($a_results)
+	{
+		global $lng; 
+		
+		include_once "Services/Chart/classes/class.ilChart.php";
+		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results->getQuestion()->getId());
+		$chart->setsize(700, 400);
+
+		$legend = new ilChartLegend();
+		$chart->setLegend($legend);	
+		$chart->setYAxisToInteger(true);
+		
+		$data = $chart->getDataInstance(ilChartGrid::DATA_BARS);
+		$data->setLabel($lng->txt("category_nr_selected"));
+		$data->setBarOptions(0.5, "center");
+		
+		$total = sizeof($a_results->getAnswers());
+		if($total > 0)
+		{	
+			$cumulated = array();
+			foreach($a_results->getAnswers() as $answer)
+			{										
+				$cumulated[$answer->value]++;												
+			}			
+			
+			$labels = array();
+			foreach($cumulated as $value => $count)
+			{				
+				$data->addPoint($value, $count);		
+				$labels[$value] = $value;
+			}
+			$chart->addData($data);
+
+			$chart->setTicks($labels, false, true);
+		
+			return $chart->getHTML();		
+		}		
 	}
 
 	
@@ -186,160 +225,5 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 		{
 			array_push($a_array, $this->getSkippedValue());
 		}
-	}
-	
-	
-
-	
-	// 
-	// EVALUATION
-	//
-
-	/**
-	* Creates the detailed output of the cumulated results for the question
-	*
-	* @param integer $survey_id The database ID of the survey
-	* @param integer $counter The counter of the question position in the survey
-	* @return string HTML text with the cumulated results
-	* @access private
-	*/
-	function getCumulatedResultsDetails($survey_id, $counter, $finished_ids)
-	{
-		if (count($this->cumulated) == 0)
-		{
-			if(!$finished_ids)
-			{
-				include_once "./Modules/Survey/classes/class.ilObjSurvey.php";			
-				$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
-			}
-			else
-			{
-				$nr_of_users = sizeof($finished_ids);
-			}
-			$this->cumulated =& $this->object->getCumulatedResults($survey_id, $nr_of_users, $finished_ids);
-		}
-		
-		$output = "";
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_svy_svy_cumulated_results_detail.html", TRUE, TRUE, "Modules/Survey");
-		
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("question"));
-		$questiontext = $this->object->getQuestiontext();
-		$template->setVariable("TEXT_OPTION_VALUE", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("question_type"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt($this->getQuestionType()));
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_answered"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["USERS_ANSWERED"]);
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["USERS_SKIPPED"]);
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("subtype"));
-		switch ($this->object->getSubType())
-		{
-			case SurveyMetricQuestion::SUBTYPE_NON_RATIO:
-				$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("non_ratio"));
-				break;
-			case SurveyMetricQuestion::SUBTYPE_RATIO_NON_ABSOLUTE:
-				$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("ratio_non_absolute"));
-				break;
-			case SurveyMetricQuestion::SUBTYPE_RATIO_ABSOLUTE:
-				$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt("ratio_absolute"));
-				break;
-		}
-		$template->parseCurrentBlock();
-		
-		/*
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("mode"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["MODE"]);
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("mode_nr_of_selections"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["MODE_NR_OF_SELECTIONS"]);
-		$template->parseCurrentBlock();
-		*/
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("median"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["MEDIAN"]);
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("arithmetic_mean"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["ARITHMETIC_MEAN"]);
-		$template->parseCurrentBlock();
-
-		$template->setCurrentBlock("detail_row");
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("values"));
-		$table = array();
-		$idx = $selsum = 0;
-		if (is_array($this->cumulated["values"]))
-		{
-			foreach ($this->cumulated["values"] as $key => $value)
-			{				
-				$table[] = array(
-					(++$idx).".",
-					$value["title"], 
-					$value["selected"], 
-					sprintf("%.2f", 100*$value["percentage"])."%"
-				);
-			}
-			$selsum += (int)$value["selected"];
-		}
-		$head = array(
-			"", 
-			$this->lng->txt("title"), 
-			$this->lng->txt("category_nr_selected"), 
-			$this->lng->txt("percentage_of_selections")
-		);
-		$foot = array(null, null, $selsum, null);
-		$template->setVariable("TEXT_OPTION_VALUE", 
-			$this->renderStatisticsDetailsTable($head, $table, $foot));	
-		$template->parseCurrentBlock();
-			
-		// chart 
-		$template->setCurrentBlock("detail_row");				
-		$template->setVariable("TEXT_OPTION", $this->lng->txt("chart"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->renderChart("svy_ch_".$this->object->getId(), $this->cumulated["values"]));
-		$template->parseCurrentBlock();
-		
-		
-		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
-		return $template->get();
-	}
-	
-	protected function renderChart($a_id, $a_values)
-	{
-		include_once "Services/Chart/classes/class.ilChart.php";
-		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_id);
-		$chart->setsize(700, 400);
-		
-		$legend = new ilChartLegend();
-		$chart->setLegend($legend);	
-
-		$data = $chart->getDataInstance(ilChartGrid::DATA_BARS);
-		$data->setLabel($this->lng->txt("users_answered"));
-		$data->setBarOptions(0.1, "center");
-		
-		if($a_values)
-		{
-			$labels = array();
-			foreach($a_values as $idx => $answer)
-			{			
-				$data->addPoint($answer["value"], $answer["selected"]);		
-				$labels[$answer["value"]] = $answer["value"];
-			}
-			$chart->addData($data);
-
-			$chart->setTicks($labels, false, true);
-		}
-
-		return "<div style=\"margin:10px\">".$chart->getHTML()."</div>";				
 	}
 }

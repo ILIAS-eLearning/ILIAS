@@ -81,7 +81,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 					$parsed_row[] = array(
 						$var->abs,
 						$var->perc
-							? ($var->perc*100)."%"
+							? sprintf("%.2f", $var->perc*100)."%"
 							: null
 					);
 				}
@@ -116,9 +116,56 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 		return $res;
 	}
 	
-	public function getChart()
+	public function getChart($a_results)
 	{
+		global $lng;
 		
+		include_once "Services/Chart/classes/class.ilChart.php";
+		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results[0][1]->getQuestion()->getId());
+		$chart->setsize(700, 400);
+		$chart->setStacked(true);
+
+		$legend = new ilChartLegend();
+		$chart->setLegend($legend);	
+		$chart->setXAxisToInteger(true);
+		
+		$data = array();
+		
+		$row_idx = sizeof($a_results);
+				
+		foreach($a_results as $row)
+		{
+			$row_idx--;
+			
+			$row_title = $row[0];
+			$row_results = $row[1];
+			
+			$labels[$row_idx] = $row_title;
+			
+			$vars = $row_results->getVariables();
+			if($vars)
+			{								
+				foreach($vars as $idx => $var)
+				{																	
+					if(!array_key_exists($idx, $data))
+					{
+						$data[$idx] = $chart->getDataInstance(ilChartGrid::DATA_BARS);
+						$data[$idx]->setLabel($var->cat->title);
+						$data[$idx]->setBarOptions(0.5, "center", true);
+					}
+					$data[$idx]->addPoint($var->abs, $row_idx);											
+				}				
+			}
+		}
+		
+		foreach($data as $var)
+		{
+			$chart->addData($var);			
+		}
+		
+		$chart->setTicks(false, $labels, true);
+		
+		return $chart->getHTML();				
 	}
 	
 

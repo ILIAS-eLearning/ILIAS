@@ -20,6 +20,11 @@ class SurveyTextQuestionEvaluation extends SurveyQuestionEvaluation
 				
 	}
 	
+	public function getChart($a_results)
+	{
+		
+	}
+	
 	
 	//
 	// EXPORT

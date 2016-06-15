@@ -199,9 +199,9 @@ abstract class SurveyQuestionEvaluation
 					$var->cat->title,
 					$var->abs,
 					$var->perc
-						? ($var->perc*100)."%"
+						? sprintf("%.2f", $var->perc*100)."%"
 						: null
-				);
+				);						
 			}
 		}	
 		
@@ -219,12 +219,71 @@ abstract class SurveyQuestionEvaluation
 		return $a_results->getMappedTextAnswers();		
 	}
 	
-	public function getChart()
+	/**
+	 * Get chart
+	 * 
+	 * @param ilSurveyEvaluationResults|array $a_results
+	 * @return array
+	 */
+	public function getChart($a_results)
 	{
+		global $lng; 
 		
+		include_once "Services/Chart/classes/class.ilChart.php";
+		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results->getQuestion()->getId());
+		$chart->setsize(700, 400);
+
+		$legend = new ilChartLegend();
+		$chart->setLegend($legend);	
+		$chart->setYAxisToInteger(true);
+		
+		$data = $chart->getDataInstance(ilChartGrid::DATA_BARS);
+		$data->setLabel($lng->txt("category_nr_selected"));
+		$data->setBarOptions(0.5, "center");
+		
+		// :TODO:
+		$max = 5;
+		
+		$vars = $a_results->getVariables();
+		
+		if(sizeof($vars) <= $max)
+		{
+			if($vars)
+			{
+				$labels = array();
+				foreach($vars as $idx => $var)
+				{			
+					$data->addPoint($idx, $var->abs);		
+					$labels[$idx] = ilUtil::prepareFormOutput($var->cat->title);
+				}
+				$chart->addData($data);
+
+				$chart->setTicks($labels, false, true);
+			}
+
+			return $chart->getHTML();		
+		}
+		else
+		{
+			$chart_legend = array();			
+			$labels = array();
+			foreach($vars as $idx => $var)
+			{			
+				$data->addPoint($idx, $var->abs);		
+				$labels[$idx] = ($idx+1).".";				
+				$chart_legend[($idx+1)] = ilUtil::prepareFormOutput($var->cat->title);
+			}
+			$chart->addData($data);
+						
+			$chart->setTicks($labels, false, true);
+			
+			return array(
+				$chart->getHTML(),
+				$chart_legend
+			);					
+		}				
 	}
 	
-
 	
 	// 
 	// USER-SPECIFIC
@@ -334,74 +393,6 @@ abstract class SurveyQuestionEvaluation
 		array_push($a_array, $title);
 		return $title;
 	}
-
-	
-	//
-	// EVALUATION
-	//
-	
-	// :TODO:
-	protected function renderChart($a_id, $a_variables)
-	{
-		include_once "Services/Chart/classes/class.ilChart.php";
-		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_id);
-		$chart->setsize(700, 400);
-
-		$legend = new ilChartLegend();
-		$chart->setLegend($legend);	
-		$chart->setYAxisToInteger(true);
-		
-		$data = $chart->getDataInstance(ilChartGrid::DATA_BARS);
-		$data->setLabel($this->lng->txt("category_nr_selected"));
-		$data->setBarOptions(0.5, "center");
-		
-		$max = 5;
-		
-		if(sizeof($a_variables) <= $max)
-		{
-			if($a_variables)
-			{
-				$labels = array();
-				foreach($a_variables as $idx => $points)
-				{			
-					$data->addPoint($idx, $points["selected"]);		
-					$labels[$idx] = ($idx+1).". ".ilUtil::prepareFormOutput($points["title"]);
-				}
-				$chart->addData($data);
-
-				$chart->setTicks($labels, false, true);
-			}
-
-			return "<div style=\"margin:10px\">".$chart->getHTML()."</div>";		
-		}
-		else
-		{
-			$chart_legend = array();			
-			$labels = array();
-			foreach($a_variables as $idx => $points)
-			{			
-				$data->addPoint($idx, $points["selected"]);		
-				$labels[$idx] = ($idx+1).".";				
-				$chart_legend[($idx+1)] = ilUtil::prepareFormOutput($points["title"]);
-			}
-			$chart->addData($data);
-						
-			$chart->setTicks($labels, false, true);
-			
-			$legend = "<table>";
-			foreach($chart_legend as $number => $caption)
-			{
-				$legend .= "<tr valign=\"top\"><td>".$number.".</td><td>".$caption."</td></tr>";
-			}
-			$legend .= "</table>";
-
-			return "<div style=\"margin:10px\"><table><tr valign=\"bottom\"><td>".
-				$chart->getHTML()."</td><td class=\"small\" style=\"padding-left:15px\">".
-				$legend."</td></tr></table></div>";					
-		}				
-	}
-	
-	
 	
 	/**
 	* Creates the Excel output for the cumulated results of this question

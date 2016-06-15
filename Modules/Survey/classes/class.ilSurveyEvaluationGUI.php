@@ -753,7 +753,24 @@ class ilSurveyEvaluationGUI
 		$chart = $a_eval->getChart($a_results);
 		if($chart)
 		{
-			
+			if(is_array($chart))
+			{
+				// legend
+				if(is_array($chart[1]))
+				{
+					foreach($chart[1] as $legend_id => $legend_caption)
+					{
+						// :TODO: color?
+						$a_tpl->setCurrentBlock("legend_bl");
+						$a_tpl->setVariable("LEGEND_ID", $legend_id);		
+						$a_tpl->setVariable("LEGEND_CAPTION", $legend_caption);								
+						$a_tpl->parseCurrentBlock();	
+					}
+				}
+				
+				$chart = $chart[0];
+			}
+			$a_tpl->setVariable("CHART", $chart);	
 		}
 				
 					
