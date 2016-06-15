@@ -916,6 +916,7 @@ class ilCourseBookingAdminGUI
 							
 							// Implementation of #1623: send invitations directly
 							// when user is booked at the day where the course starts.
+							// also send invitations directly when mailing deadline = 0
 							if ($now_d == $date_d) {
 								$automails->send("invitation", array($user_id));
 							}
@@ -923,8 +924,7 @@ class ilCourseBookingAdminGUI
 								$date->increment(IL_CAL_DAY, -1 * $days_before_course_start);
 								$date_unix = $date->get(IL_CAL_UNIX);
 								$now_unix = $now->get(IL_CAL_UNIX);
-
-								if($now_unix > $date_unix && $deadline_job_ran) {
+								if(($now_unix > $date_unix || $days_before_course_start == 0) && $deadline_job_ran) {
 									$automails->sendDeferred("invitation", array($user_id));
 								}
 							}
