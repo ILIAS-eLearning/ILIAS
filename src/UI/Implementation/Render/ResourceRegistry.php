@@ -2,14 +2,14 @@
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI;
+namespace ILIAS\UI\Implementation\Render;
 
 /**
- * Registry for dependencies of rendered output like Javascript or CSS.
+ * Registry for resources required by rendered output like Javascript or CSS.
  *
  * @author	Richard Klees <richard.klees@concepts-and-training.de>
  */
-interface DependencyRegistry {
+interface ResourceRegistry {
 	/**
 	 * Add a dependency.
 	 *
@@ -17,13 +17,4 @@ interface DependencyRegistry {
 	 * @return	self
 	 */
 	public function register($name);
-
-	/**
-	 * Get dependencies.
-	 *
-	 * Every dependency should only appear once.
-	 *
-	 * @return	string[]
-	 */
-	public function get();
 }

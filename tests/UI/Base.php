@@ -7,6 +7,7 @@ require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__."/ilIndependentTemplate.php");
 
 use ILIAS\UI\Implementation\Render\TemplateFactory;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Factory;
 
 class ilIndependentTemplateFactory implements TemplateFactory {
@@ -18,6 +19,20 @@ class ilIndependentTemplateFactory implements TemplateFactory {
 class NoUIFactory implements Factory {
 	public function counter() {}
 	public function glyph() {}
+}
+
+class LoggingRegistry implements ResourceRegistry {
+	public $resources = array();
+
+	public function register($name) {
+		$this->resources[] = $name;
+	}
+}
+
+class DefaultRendererTesting extends \ILIAS\UI\Implementation\DefaultRenderer {
+	public function getResourceRegistry() {
+		return $this->resource_registry;
+	}
 }
 
 /**
@@ -42,10 +57,16 @@ class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase {
 		return new ilIndependentTemplateFactory();
 	}
 
+	public function getResourceRegistry() {
+		return new LoggingRegistry();
+	}
+
 	public function getDefaultRenderer() {
 		$ui_factory = $this->getUIFactory();
 		$tpl_factory = $this->getTemplateFactory();
-		return new \ILIAS\UI\Implementation\DefaultRenderer($ui_factory, $tpl_factory);
+		$resource_registry = $this->getResourceRegistry();
+		return new DefaultRendererTesting(
+						$ui_factory, $tpl_factory, $resource_registry);
 	}
 
 	public function normalizeHTML($html) {

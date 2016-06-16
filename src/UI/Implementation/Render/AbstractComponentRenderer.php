@@ -9,6 +9,10 @@ use ILIAS\UI\Factory;
 
 /**
  * Base class for all component renderers.
+ *
+ * Offers some convenience methods for renderes, users only needs to implement
+ * ComponentRenderer::render. Assumes that there is no special resource the
+ * component requires.
  */
 abstract class AbstractComponentRenderer implements ComponentRenderer {
 	/**
@@ -27,6 +31,12 @@ abstract class AbstractComponentRenderer implements ComponentRenderer {
 	final public function __construct(Factory $ui_factory, TemplateFactory $tpl_factory) {
 		$this->ui_factory = $ui_factory;
 		$this->tpl_factory = $tpl_factory;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function registerResources(ResourceRegistry $registry) {
 	}
 
 	/**

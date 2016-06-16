@@ -1198,10 +1198,17 @@ class ilInitialisation
 			return new ILIAS\UI\Implementation\Factory();
 		};
 		$c["ui.renderer"] = function($c) {
-			return new ILIAS\UI\Implementation\DefaultRenderer($c["ui.template_factory"]);
+			return new ILIAS\UI\Implementation\DefaultRenderer
+							( $c["ui.factory"]
+							, $c["ui.template_factory"]
+							, $c["ui.resource_registry"]
+							);
 		};
 		$c["ui.template_factory"] = function($c) {
 			return new ILIAS\UI\Implementation\Render\ilTemplateWrapperFactory();
+		};
+		$c["ui.resource_registry"] = function($c) {
+			return new ILIAS\UI\Implementation\Render\ilResourceRegistry($c["tpl"]);
 		};
 	}
 	

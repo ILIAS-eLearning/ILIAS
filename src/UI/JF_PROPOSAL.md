@@ -63,7 +63,7 @@
 ## Rules for Consumers
 
 * Consumers of the UI framework MUST only use the UI-Factory provided via the
-  dependency injection container `$DIC->UIFactory()` as entry point top the
+  dependency injection container `$DIC->ui->factory()` as entry point top the
   framework. The factory implements the interface \ILIAS\UI\Factory.
 
 ## Rules for Implementors
@@ -116,7 +116,7 @@ The interface to the main factory is \ILIAS\UI\Factory.
       taxonomy it MUST NOT contain a `context` field.
     * MAY contain a text field `featurewiki` that contains links to relevant
       articles in the feature wiki.
-    * MUST contain a field 'javascript' if the method represents an UI component
+    * MUST contain a field `javascript` if the method represents an UI component
       and the implementation of the component uses a javascript library other
       than jquery and bootstrap or if the component is not yet implemented but a
       javascript lib other than jquery and bootstrap is planned to be used, where
