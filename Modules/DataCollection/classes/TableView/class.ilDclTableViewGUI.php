@@ -203,10 +203,10 @@ class ilDclTableViewGUI
     /**
      * invoked by ilDclTableViewTableGUI
      */
-    public function saveTableOrder()
+    public function saveTableViewOrder()
     {
         $orders = array_flip($_POST['order']);
-        @ksort($orders);
+        ksort($orders);
         $tableviews = array();
         foreach($orders as $order => $tableview_id)
         {
