@@ -1182,6 +1182,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 							// Create path. Paths which have more than 4 segments
 							// are truncated in the middle.
 							$tmpPath = $this->tree->getPathFull($rolf[0]);
+							$tmpPath[] = $rolf[0];//adds target item to list
+
 							for ($i = 1, $n = count($tmpPath) - 1; $i < $n; $i++)
 							{
 								if ($i < 3 || $i > $n - 3)
