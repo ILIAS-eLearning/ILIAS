@@ -181,7 +181,7 @@ abstract class SurveyQuestionEvaluation
 	public function getGrid($a_results)
 	{
 		global $lng;
-		
+				
 		$res = array(
 			"cols" => array(
 				$lng->txt("category_nr_selected"),
@@ -194,14 +194,14 @@ abstract class SurveyQuestionEvaluation
 		if($vars)
 		{
 			foreach($vars as $var)
-			{
+			{				
 				$res["rows"][] = array(
 					$var->cat->title,
 					$var->abs,
 					$var->perc
 						? sprintf("%.2f", $var->perc*100)."%"
 						: null
-				);						
+				);								
 			}
 		}	
 		
@@ -366,6 +366,89 @@ abstract class SurveyQuestionEvaluation
 	// EXPORT
 	// 	
 	
+	public function exportResults($a_results, $a_do_title, $a_do_label)
+	{
+		$question = $a_results->getQuestion();
+		
+		$res = array();
+		
+		if($a_do_title)
+		{
+			$res[] = $question->getTitle();
+		}
+		if($a_do_label)
+		{
+			$res[] = $question->label;
+		}
+		
+		$res[] = $question->getQuestiontext();		
+		$res[] = SurveyQuestion::_getQuestionTypeName($question->getQuestionType());
+		
+		$res[] = (int)$a_results->getUsersAnswered();
+		$res[] = (int)$a_results->getUsersSkipped();
+		
+		// :TODO:
+		$res[] = is_array($a_results->getModeValue())
+			? implode(", ", $a_results->getModeValue())
+			: $a_results->getModeValue();
+		
+		$res[] = $a_results->getModeValueAsText();
+		$res[] = (int)$a_results->getModeNrOfSelections();
+		
+		// :TODO:
+		$res[] = $a_results->getMedianAsText();
+		
+		$res[] = $a_results->getMean();
+				
+		return array($res);
+	}
+		
+	/**
+	 * Get grid data
+	 * 
+	 * @param ilSurveyEvaluationResults|array $a_results
+	 * @return array
+	 */
+	public function getExportGrid($a_results)
+	{
+		global $lng;
+		
+		$res = array(
+			"cols" => array(
+				$lng->txt("title"),
+				$lng->txt("value"),
+				$lng->txt("category_nr_selected"),
+				$lng->txt("svy_fraction_of_selections")
+			),
+			"rows" => array()
+		);
+		
+		$vars = $a_results->getVariables();
+		if($vars)
+		{
+			foreach($vars as $var)
+			{				
+				$res["rows"][] = array(
+					$var->cat->title,
+					$var->cat->scale,
+					$var->abs,
+					$var->perc
+						? sprintf("%.2f", $var->perc*100)."%"
+						: null
+				);					
+			}
+		}	
+		
+		return $res;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	* Adds the entries for the title row of the user specific results
 	*
@@ -393,85 +476,4 @@ abstract class SurveyQuestionEvaluation
 		array_push($a_array, $title);
 		return $title;
 	}
-	
-	/**
-	* Creates the Excel output for the cumulated results of this question
-	*
-	* @param ilExcel $a_excel Reference to the excel worksheet
-	* @param array $a_eval_data Cumulated evaluation data
-	* @param integer $a_row Actual row in the worksheet
-	* @param integer $a_export_label 
-	* @return integer The next row which should be used for the export
-	* @access public
-	*/
-	function setExportCumulatedXLS(ilExcel $a_excel, array $a_eval_data, $a_row, $a_export_label)
-	{
-		$column = 0;
-		
-		switch ($a_export_label)
-		{
-			case 'label_only':
-				$a_excel->setCell($a_row, $column++, $this->label);
-				break;
-			
-			case 'title_only':
-				$a_excel->setCell($a_row, $column++, $this->getTitle());
-				break;
-			
-			default:
-				$a_excel->setCell($a_row, $column++, $this->getTitle());
-				$a_excel->setCell($a_row, $column++, $this->label);
-				break;
-		}
-		
-		$a_excel->setCell($a_row, $column++, $this->getQuestiontext());
-		$a_excel->setCell($a_row, $column++, $this->lng->txt($a_eval_data["QUESTION_TYPE"]));
-		$a_excel->setCell($a_row, $column++, (int)$a_eval_data["USERS_ANSWERED"]);
-		$a_excel->setCell($a_row, $column++, (int)$a_eval_data["USERS_SKIPPED"]);
-		$a_excel->setCell($a_row, $column++, $a_eval_data["MODE_VALUE"]);
-		$a_excel->setCell($a_row, $column++, $a_eval_data["MODE"]);
-		$a_excel->setCell($a_row, $column++, (int)$a_eval_data["MODE_NR_OF_SELECTIONS"]);
-		$a_excel->setCell($a_row, $column++, str_replace("<br />", " ", $a_eval_data["MEDIAN"]));
-		$a_excel->setCell($a_row, $column++, $a_eval_data["ARITHMETIC_MEAN"]);
-		
-		return $a_row+1;
-	}
-	
-	/**
-	* Creates the CSV output for the cumulated results of this question
-	*
-	* @param array $eval_data Cumulated evaluation data
-	* @param integer $export_label 
-	* @access public
-	*/
-	function setExportCumulatedCVS($eval_data, $export_label)
-	{
-		$csvrow = array();
-		switch ($export_label)
-		{
-			case 'label_only':
-				array_push($csvrow, $this->label);
-				break;
-			case 'title_only':
-				array_push($csvrow, $this->getTitle());
-				break;
-			default:
-				array_push($csvrow, $this->getTitle());
-				array_push($csvrow, $this->label);
-				break;
-		}
-		array_push($csvrow, strip_tags($this->getQuestiontext())); // #12942
-		array_push($csvrow, $this->lng->txt($eval_data["QUESTION_TYPE"]));
-		array_push($csvrow, $eval_data["USERS_ANSWERED"]);
-		array_push($csvrow, $eval_data["USERS_SKIPPED"]);
-		array_push($csvrow, $eval_data["MODE"]);
-		array_push($csvrow, $eval_data["MODE_NR_OF_SELECTIONS"]);
-		array_push($csvrow, str_replace("<br />", " ", $eval_data["MEDIAN"])); // #17214
-		array_push($csvrow, $eval_data["ARITHMETIC_MEAN"]);
-		$result = array();
-		array_push($result, $csvrow);
-		return $result;
-	}
-	
-
 }

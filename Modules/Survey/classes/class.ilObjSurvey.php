@@ -4626,54 +4626,6 @@ class ilObjSurvey extends ilObject
 		return $code;
 	}
 	
-
-/**
-* Processes an array as a CSV row and converts the array values to correct CSV
-* values. The "converted" array is returned
-*
-* @param array $row The array containing the values for a CSV row
-* @param string $quoteAll Indicates to quote every value (=TRUE) or only values containing quotes and separators (=FALSE, default)
-* @param string $separator The value separator in the CSV row (used for quoting) (; = default)
-* @return array The converted array ready for CSV use
-* @access public
-*/
-	function &processCSVRow($row, $quoteAll = FALSE, $separator = ";")
-	{
-		$resultarray = array();
-		foreach ($row as $rowindex => $entry)
-		{
-			if(is_array($entry))
-			{
-				$entry = implode("/", $entry);
-			}			
-			$surround = FALSE;
-			if ($quoteAll)
-			{
-				$surround = TRUE;
-			}
-			if (strpos($entry, "\"") !== FALSE)
-			{
-				$entry = str_replace("\"", "\"\"", $entry);
-				$surround = TRUE;
-			}
-			if (strpos($entry, $separator) !== FALSE)
-			{
-				$surround = TRUE;
-			}
-			// replace all CR LF with LF (for Excel for Windows compatibility
-			$entry = str_replace(chr(13).chr(10), chr(10), $entry);
-			if ($surround)
-			{
-				$resultarray[$rowindex] = utf8_decode("\"" . $entry . "\"");
-			}
-			else
-			{
-				$resultarray[$rowindex] = utf8_decode($entry);
-			}
-		}
-		return $resultarray;
-	}
-
 	function getLastAccess($finished_id)
 	{
 		global $ilDB;

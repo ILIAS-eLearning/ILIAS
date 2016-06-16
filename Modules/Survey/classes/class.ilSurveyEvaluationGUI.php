@@ -309,78 +309,7 @@ class ilSurveyEvaluationGUI
 	}
 	
 	function exportCumulatedResults($details = 0)
-	{		
-		switch ($_POST["export_format"])
-		{
-			case self::TYPE_XLS:
-				include_once "Services/Excel/classes/class.ilExcel.php";
-				$excel = new ilExcel();
-				$excel->addSheet($this->lng->txt("svy_eval_cumulated"));
-				
-				$title_row = array();
-				
-				switch ($_POST['export_label'])
-				{
-					case 'label_only':
-						$title_row[] = $this->lng->txt("label");						
-						break;
-					
-					case 'title_only':
-						$title_row[] = $this->lng->txt("title");
-						break;
-					
-					default:
-						$title_row[] = $this->lng->txt("title");
-						$title_row[] = $this->lng->txt("label");
-						break;
-				}
-				
-				$title_row[] = $this->lng->txt("question");
-				$title_row[] = $this->lng->txt("question_type");
-				$title_row[] = $this->lng->txt("users_answered");
-				$title_row[] = $this->lng->txt("users_skipped");
-				$title_row[] = $this->lng->txt("mode");
-				$title_row[] = $this->lng->txt("mode_text");
-				$title_row[] = $this->lng->txt("mode_nr_of_selections");
-				$title_row[] = $this->lng->txt("median");
-				$title_row[] = $this->lng->txt("arithmetic_mean");
-				
-				$excel->setCellArray(array($title_row), "A1");
-				$excel->setBold("A1:".$excel->getColumnCoord(sizeof($title_row)-1)."1");
-				break;
-			
-			case self::TYPE_SPSS:
-				$csvfile = array();
-				$csvrow = array();
-				switch ($_POST['export_label'])
-				{
-					case 'label_only':
-						array_push($csvrow, $this->lng->txt("label"));
-						break;
-					case 'title_only':
-						array_push($csvrow, $this->lng->txt("title"));
-						break;
-					default:
-						array_push($csvrow, $this->lng->txt("title"));
-						array_push($csvrow, $this->lng->txt("label"));
-						break;
-				}
-				array_push($csvrow, $this->lng->txt("question"));
-				array_push($csvrow, $this->lng->txt("question_type"));
-				array_push($csvrow, $this->lng->txt("users_answered"));
-				array_push($csvrow, $this->lng->txt("users_skipped"));
-				array_push($csvrow, $this->lng->txt("mode"));
-
-				//array_push($csvrow, $this->lng->txt("mode_text"));
-
-
-				array_push($csvrow, $this->lng->txt("mode_nr_of_selections"));
-				array_push($csvrow, $this->lng->txt("median"));
-				array_push($csvrow, $this->lng->txt("arithmetic_mean"));
-				array_push($csvfile, $csvrow);
-				break;
-		}
-		
+	{				
 		$finished_ids = null;
 		if($this->object->get360Mode())
 		{
@@ -395,54 +324,107 @@ class ilSurveyEvaluationGUI
 				$finished_ids = array(-1);
 			}
 		}
-				
-		$ov_row = 2;
-		foreach ($this->object->getSurveyQuestions() as $data)
+		
+		// titles
+		$title_row = array();				
+		$do_title = $do_label = true;
+		switch ($_POST['export_label'])
 		{
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$question = SurveyQuestion::_instanciateQuestion($data["question_id"]);		
-			$eval = $this->object->getCumulatedResults($question, $finished_ids);
+			case 'label_only':
+				$title_row[] = $this->lng->txt("label");	
+				$do_title = false;
+				break;
+
+			case 'title_only':
+				$title_row[] = $this->lng->txt("title");
+				$do_label = false;
+				break;
+
+			default:
+				$title_row[] = $this->lng->txt("title");
+				$title_row[] = $this->lng->txt("label");
+				break;
+		}		
+		$title_row[] = $this->lng->txt("question");
+		$title_row[] = $this->lng->txt("question_type");
+		$title_row[] = $this->lng->txt("users_answered");
+		$title_row[] = $this->lng->txt("users_skipped");
+		$title_row[] = $this->lng->txt("mode");
+		$title_row[] = $this->lng->txt("mode_text");
+		$title_row[] = $this->lng->txt("mode_nr_of_selections");
+		$title_row[] = $this->lng->txt("median");
+		$title_row[] = $this->lng->txt("arithmetic_mean");
+		
+		// creating container
+		switch ($_POST["export_format"])
+		{
+			case self::TYPE_XLS:
+				include_once "Services/Excel/classes/class.ilExcel.php";
+				$excel = new ilExcel();
+				$excel->addSheet($this->lng->txt("svy_eval_cumulated"));				
+				$excel->setCellArray(array($title_row), "A1");
+				$excel->setBold("A1:".$excel->getColumnCoord(sizeof($title_row)-1)."1");
+				break;
+			
+			case self::TYPE_SPSS:
+				$csvfile = array($title_row);				
+				break;
+		}		
+				
+		
+		// parse answer data in evaluation results
+		$ov_row = 2;
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";						
+		foreach($this->object->getSurveyQuestions() as $qdata)
+		{						
+			$q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);		
+			$q_res =  $q_eval->getResults();			
+			$ov_rows = $q_eval->exportResults($q_res, $do_title, $do_label);
+			
 			switch ($_POST["export_format"])
 			{
 				case self::TYPE_XLS:
-					$excel->setActiveSheet(0);
-					$ov_row = $question->setExportCumulatedXLS($excel, $eval, $ov_row, $_POST['export_label']);
+					$excel->setActiveSheet(0);		
+					foreach($ov_rows as $row)
+					{
+						foreach($row as $col => $value)
+						{
+							$excel->setCell($ov_row, $col, $value);
+						}
+						$ov_row++;
+					}					
 					break;
 				
-				case self::TYPE_SPSS:
-					$csvrows = $question->setExportCumulatedCVS($eval, $_POST['export_label']);
-					foreach ($csvrows as $csvrow)
+				case self::TYPE_SPSS:					
+					foreach($ov_rows as $row)
 					{
-						array_push($csvfile, $csvrow);
+						$csvfile[] = $row;
 					}
 					break;
 			}
+			
 			if ($details)
 			{
 				switch ($_POST["export_format"])
 				{
-					case self::TYPE_XLS:
-						$excel->addSheet($question->getTitle());
-						$row = $question->setExportDetailsXLS($excel, $eval, $_POST['export_label']);
-						$excel->setBold("A1:A".$row);						
+					case self::TYPE_XLS:					
+						$this->exportResultsDetailsExcel($excel, $q_eval, $q_res, $do_title, $do_label);											
 						break;
 				}				
 			}
-		}
+			
+		}			
 		
-		// #11179
-		if(!$details)
-		{
-			$type = $this->lng->txt("svy_eval_cumulated");
-		}
-		else
-		{
-			$type = $this->lng->txt("svy_eval_detail");
-		}		
+		// #11179		
+		$type = !$details
+			? $this->lng->txt("svy_eval_cumulated")
+			: $this->lng->txt("svy_eval_detail");
+			
 		$surveyname = $this->object->getTitle()." ".$type." ".date("Y-m-d");
 		$surveyname = preg_replace("/\s/", "_", trim($surveyname));
 		$surveyname = ilUtil::getASCIIFilename($surveyname);
 		
+		// send to client
 		switch ($_POST["export_format"])
 		{
 			case self::TYPE_XLS:
@@ -454,12 +436,203 @@ class ilSurveyEvaluationGUI
 				$separator = ";";
 				foreach ($csvfile as $csvrow)
 				{
-					$csvrow = $this->object->processCSVRow($csvrow, TRUE, $separator);
+					$csvrow = $this->processCSVRow($csvrow, TRUE, $separator);
 					$csv .= join($csvrow, $separator) . "\n";
 				}
 				ilUtil::deliverData($csv, $surveyname.".csv");
 				exit();
 				break;
+		}
+	}
+	
+	/**
+	 * Export details (excel only)
+	 * 
+	 * @param ilExcel $a_excel
+	 * @param SurveyQuestionEvaluation $a_eval
+	 * @param ilSurveyEvaluationResults|array $a_results
+	 * @param bool $a_do_title
+	 * @param bool|array $a_do_label
+	 */
+	protected function exportResultsDetailsExcel(ilExcel $a_excel, SurveyQuestionEvaluation $a_eval, $a_results, $a_do_title, $a_do_label)
+	{								
+		$question_res = $a_results;
+		$matrix = false;
+		if(is_array($question_res))
+		{
+			$question_res = $question_res[0][1];
+			$matrix = true;
+		}
+		$question = $question_res->getQuestion();
+		
+		$a_excel->addSheet($question->getTitle());
+		
+		
+		// question "overview"
+		
+		$kv = array();
+		
+		if($a_do_title)
+		{
+			$kv[$this->lng->txt("title")] = $question->getTitle();
+		}
+		if($a_do_label)
+		{
+			$kv[$this->lng->txt("label")] = $question->label;
+		}
+		
+		$kv[$this->lng->txt("question")] = $question->getQuestiontext();
+		$kv[$this->lng->txt("question_type")] = SurveyQuestion::_getQuestionTypeName($question->getQuestionType());
+		
+		// :TODO: present subtypes (hrz/vrt, mc/sc mtx)?	
+		
+		$kv[$this->lng->txt("users_answered")] = (int)$question_res->getUsersAnswered();
+		$kv[$this->lng->txt("users_skipped")] = (int)$question_res->getUsersAnswered();
+				
+		$excel_row = 1;
+		
+		foreach($kv as $key => $value)
+		{
+			$a_excel->setCell($excel_row, 0, $key);
+			$a_excel->setCell($excel_row++, 1, $value);			
+		}
+		
+		if(!$matrix)
+		{
+			$this->parseResultsToExcel(
+				$a_excel, 
+				$question_res, 
+				$excel_row, 
+				$a_eval->getExportGrid($a_results),  
+				$a_eval->getTextAnswers($a_results)
+			);			
+		}
+		else
+		{
+			// question
+			$this->parseResultsToExcel(
+				$a_excel, 
+				$question_res, 
+				$excel_row, 
+				null,
+				null,
+				false
+			);	
+						
+			$texts = $a_eval->getTextAnswers($a_results);
+			
+			// "rows"
+			foreach($a_results as $row_results)
+			{
+				$row_title = $row_results[0];
+				
+				$a_excel->setCell($excel_row, 0,  $this->lng->txt("row"));
+				$a_excel->setCell($excel_row++, 1, $row_title);	
+				
+				$this->parseResultsToExcel(
+					$a_excel, 
+					$row_results[1], 
+					$excel_row,
+					$a_eval->getExportGrid($row_results[1]),
+					is_array($texts[$row_title]) 
+						? array(""=>$texts[$row_title])
+						: null
+				);			
+			}			
+		}
+	
+		// 1st column is bold
+		$a_excel->setBold("A1:A".$excel_row);									
+	}
+	
+	protected function parseResultsToExcel(ilExcel $a_excel, ilSurveyEvaluationResults $a_results, &$a_excel_row, array $a_grid = null, array $a_text_answers = null, $a_include_mode = true)
+	{
+		$kv = array();
+		
+		if($a_include_mode)
+		{
+			if($a_results->getModeValue() !== null)
+			{
+				// :TODO:
+				$kv[$this->lng->txt("mode")] = is_array($a_results->getModeValue())
+					? implode(", ", $a_results->getModeValue())
+					: $a_results->getModeValue();
+				
+				$kv[$this->lng->txt("mode_text")] = $a_results->getModeValueAsText();		
+				$kv[$this->lng->txt("mode_nr_of_selections")] = (int)$a_results->getModeNrOfSelections();
+			}
+
+			if($a_results->getMedian() !== null)
+			{
+				$kv[$this->lng->txt("median")] = $a_results->getMedianAsText();
+			}
+
+			if($a_results->getMean() !== null)
+			{
+				$kv[$this->lng->txt("arithmetic_mean")] = $a_results->getMean();
+			}	
+		}
+		
+		foreach($kv as $key => $value)
+		{
+			$a_excel->setCell($a_excel_row, 0, $key);
+			$a_excel->setCell($a_excel_row++, 1, $value);			
+		}
+				
+		// grid
+		if($a_grid)
+		{		
+			// header
+			$a_excel->setColors("B".$a_excel_row.":E".$a_excel_row, ilSurveyEvaluationGUI::EXCEL_SUBTITLE);
+			$a_excel->setCell($a_excel_row, 0, $this->lng->txt("categories"));	
+			foreach($a_grid["cols"] as $col_idx => $col)
+			{
+				$a_excel->setCell($a_excel_row, $col_idx+1, $col);				
+			}
+			$a_excel_row++;
+			
+			// rows
+			foreach($a_grid["rows"] as $cols)
+			{				
+				foreach($cols as $col_idx => $col)
+				{					
+					$a_excel->setCell($a_excel_row, $col_idx+1, $col);
+				}				
+				$a_excel_row++;		
+			}
+		}
+				
+		// text answers			
+		if($a_text_answers)
+		{						
+			// "given_answers" ?
+			$a_excel->setCell($a_excel_row, 0, $this->lng->txt("freetext_answers"));
+			if(!is_array($a_text_answers[""]))
+			{
+				$a_excel->setColors("B".$a_excel_row.":C".$a_excel_row, ilSurveyEvaluationGUI::EXCEL_SUBTITLE);		
+				$a_excel->setCell($a_excel_row, 1, $this->lng->txt("title"));
+				$a_excel->setCell($a_excel_row++, 2, $this->lng->txt("answer"));			
+			}
+			else
+			{
+				$a_excel->setColors("B".$a_excel_row.":B".$a_excel_row, ilSurveyEvaluationGUI::EXCEL_SUBTITLE);		
+				$a_excel->setCell($a_excel_row++, 1, $this->lng->txt("answer"));		
+			}
+			foreach($a_text_answers as $var => $items)
+			{			
+				foreach($items as $item)
+				{					
+					if(!is_array($a_text_answers[""]))
+					{
+						$a_excel->setCell($a_excel_row, 1, $var);
+						$a_excel->setCell($a_excel_row++, 2, $item);					
+					}
+					else
+					{
+						$a_excel->setCell($a_excel_row++, 1, $item);	
+					}
+				}				
+			}
 		}
 	}
 	
@@ -622,12 +795,9 @@ class ilSurveyEvaluationGUI
 	 * @param array $a_qdata
 	 * @param SurveyQuestionEvaluation $a_eval
 	 * @param ilSurveyEvaluationResults|array $a_results
-	 * @return array
 	 */
 	protected function renderDetails(ilTemplate $a_tpl, array $a_qdata, SurveyQuestionEvaluation $a_eval, $a_results)
 	{		
-		$tmp = array();
-				
 		$question_res = $a_results;
 		$matrix = false;
 		if(is_array($question_res))
@@ -727,6 +897,8 @@ class ilSurveyEvaluationGUI
 		
 		
 		// text answers
+		
+		// :TODO: modal?
 		
 		$texts = $a_eval->getTextAnswers($a_results);
 		if($texts)
@@ -1031,7 +1203,7 @@ class ilSurveyEvaluationGUI
 				$separator = ";";				
 				foreach ($csvfile as $idx => $csvrow)
 				{					
-					$csvrow =& str_replace("\n", " ", $this->object->processCSVRow($csvrow, TRUE, $separator));					
+					$csvrow =& str_replace("\n", " ", $this->processCSVRow($csvrow, TRUE, $separator));					
 					$csv .= join($csvrow, $separator) . "\n";
 				}
 				ilUtil::deliverData($csv, "$surveyname.csv");
@@ -1039,6 +1211,55 @@ class ilSurveyEvaluationGUI
 				break;
 		}
 	}
+	
+	
+	/**
+	* Processes an array as a CSV row and converts the array values to correct CSV
+	* values. The "converted" array is returned
+	*
+	* @param array $row The array containing the values for a CSV row
+	* @param string $quoteAll Indicates to quote every value (=TRUE) or only values containing quotes and separators (=FALSE, default)
+	* @param string $separator The value separator in the CSV row (used for quoting) (; = default)
+	* @return array The converted array ready for CSV use
+	* @access public
+	*/
+	function processCSVRow($row, $quoteAll = FALSE, $separator = ";")
+	{
+		$resultarray = array();
+		foreach ($row as $rowindex => $entry)
+		{
+			if(is_array($entry))
+			{
+				$entry = implode("/", $entry);
+			}			
+			$surround = FALSE;
+			if ($quoteAll)
+			{
+				$surround = TRUE;
+			}
+			if (strpos($entry, "\"") !== FALSE)
+			{
+				$entry = str_replace("\"", "\"\"", $entry);
+				$surround = TRUE;
+			}
+			if (strpos($entry, $separator) !== FALSE)
+			{
+				$surround = TRUE;
+			}
+			// replace all CR LF with LF (for Excel for Windows compatibility
+			$entry = str_replace(chr(13).chr(10), chr(10), $entry);
+			if ($surround)
+			{
+				$resultarray[$rowindex] = utf8_decode("\"" . $entry . "\"");
+			}
+			else
+			{
+				$resultarray[$rowindex] = utf8_decode($entry);
+			}
+		}
+		return $resultarray;
+	}
+
 	
 	function exportEvaluationUser()
 	{
