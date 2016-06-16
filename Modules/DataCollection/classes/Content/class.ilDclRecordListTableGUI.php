@@ -64,7 +64,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 		global $lng, $ilCtrl;
 
 		$this->tableview = ilDclTableView::find($tableview_id);
-		$identifier = 'dcl_rl' . $table->getId();
+		$identifier = 'dcl_rl_' . $table->getId() . '_' . $tableview_id;
 		$this->setPrefix($identifier);
 		$this->setFormName($identifier);
 		$this->setId($identifier);
@@ -185,7 +185,9 @@ class ilDclRecordListTableGUI extends ilTable2GUI {
 
 			$ilCtrl->setParameterByClass("ildclfieldeditgui", "record_id", $record->getId());
 			$ilCtrl->setParameterByClass("ilDclDetailedViewGUI", "record_id", $record->getId());
+			$ilCtrl->setParameterByClass("ilDclDetailedViewGUI", "tableview_id", $this->tableview->getId());
 			$ilCtrl->setParameterByClass("ildclrecordeditgui", "record_id", $record->getId());
+			$ilCtrl->setParameterByClass("ildclrecordeditgui", "tableview_id", $this->tableview->getId());
 			$ilCtrl->setParameterByClass("ildclrecordeditgui", "mode", $this->mode);
 
 			if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {

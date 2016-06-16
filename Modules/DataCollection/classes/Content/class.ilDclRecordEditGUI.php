@@ -85,6 +85,7 @@ class ilDclRecordEditGUI {
 		$this->parent_obj = $parent_obj;
 		$this->record_id = $_REQUEST['record_id'];
 		$this->table_id = $_REQUEST['table_id'];
+		$this->tableview_id = $_REQUEST['tableview_id'];
 	}
 
 
@@ -96,6 +97,7 @@ class ilDclRecordEditGUI {
 			$this->ctrl->saveParameter($this, 'mode');
 			$this->ctrl->setParameterByClass("ildclrecordlistgui", "mode", $_GET['mode']);
 		}
+		$this->ctrl->setParameterByClass('ildclrecordlistgui', 'tableview_id', $this->tableview_id);
 		$this->ctrl->saveParameter($this, 'redirect');
 		if ($this->record_id) {
 			$this->record = ilDclCache::getRecordCache($this->record_id);
@@ -178,6 +180,7 @@ class ilDclRecordEditGUI {
 		}
 		$conf->addItem('record_id', $record->getId(), $record_data);
 		$conf->addHiddenItem('table_id', $this->table_id);
+		$conf->addHiddenItem('tableview_id', $this->tableview_id);
 		$conf->setConfirm($this->lng->txt('delete'), 'delete');
 		$conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');
 		$this->tpl->setContent($conf->getHTML());
@@ -249,6 +252,9 @@ class ilDclRecordEditGUI {
 		$hidden_prop = new ilHiddenInputGUI("table_id");
 		$hidden_prop->setValue($this->table_id);
 		$this->form->addItem($hidden_prop);
+		$hidden_prop = new ilHiddenInputGUI("tableview_id");
+		$hidden_prop->setValue($this->tableview_id);
+		$this->form->addItem($hidden_prop);
 		if ($this->record_id) {
 			$hidden_prop = new ilHiddenInputGUI("record_id");
 			$hidden_prop->setValue($this->record_id);
@@ -280,6 +286,7 @@ class ilDclRecordEditGUI {
 			$this->form->addItem($inputfield);
 		}
 
+
 		// save and cancel commands
 		if ($this->record_id) {
 			$this->form->setTitle($this->lng->txt("dcl_update_record"));
@@ -294,6 +301,7 @@ class ilDclRecordEditGUI {
 				$this->form->addCommandButton("cancelSave", $this->lng->txt("cancel"));
 			}
 		}
+		$this->ctrl->setParameter($this, "tableview_id", $this->tableview_id);
 		$this->ctrl->setParameter($this, "table_id", $this->table_id);
 		$this->ctrl->setParameter($this, "record_id", $this->record_id);
 	}
@@ -391,6 +399,7 @@ class ilDclRecordEditGUI {
 		$hash = $all_values["ilfilehash"];
 		$confirmation->addHiddenItem('ilfilehash', $hash);
 		$confirmation->addHiddenItem('table_id', $this->table_id);
+		$confirmation->addHiddenItem('tableview_id', $this->tableview_id);
 		$confirmation->addItem('save_confirmed', 1, $record_data);
 
 		if ($this->ctrl->isAsynch()) {
@@ -562,6 +571,7 @@ class ilDclRecordEditGUI {
 			);
 
 			$this->ctrl->setParameter($this, "table_id", $this->table_id);
+			$this->ctrl->setParameter($this, "tableview_id", $this->tableview_id);
 			$this->ctrl->setParameter($this, "record_id", $this->record_id);
 
 			if (!$this->ctrl->isAsynch()) {
@@ -603,6 +613,7 @@ class ilDclRecordEditGUI {
 				case self::REDIRECT_DETAIL:
 					$this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $this->record_id);
 					$this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'table_id', $this->table_id);
+					$this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $this->tableview_id);
 					$this->ctrl->redirectByClass("ilDclDetailedViewGUI", "renderRecord");
 					break;
 				case self::REDIRECT_RECORD_LIST:

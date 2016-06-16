@@ -206,6 +206,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 				$this->addHeaderAction(false);
 				$this->prepareOutput();
 				$ilTabs->activateTab("id_records");
+				$this->ctrl->setParameterByClass('ilDclRecordListGUI', 'tableview_id', $_REQUEST['tableview_id']);
 				require_once('./Modules/DataCollection/classes/Content/class.ilDclRecordListGUI.php');
 				$recordlist_gui = new ilDclRecordListGUI($this, $this->table_id);
 				$this->ctrl->forwardCommand($recordlist_gui);
@@ -297,7 +298,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI {
 	 */
 	public function render() {
 		global $ilCtrl;
-
+		$this->ctrl->setParameterByClass('ilDclRecordListGUI', 'tableview_id', $_GET['tableview_id']);
 		$ilCtrl->redirectByClass("ildclrecordlistgui", "listRecords");
 	}
 

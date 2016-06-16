@@ -43,7 +43,8 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation {
 			$html = "<a target='_blank' href='" . htmlspecialchars($link, ENT_QUOTES) . "'>" . htmlspecialchars($link_value, ENT_QUOTES) . "</a>";
 
 		} elseif ($field->hasProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT) && $link && ilDclDetailedViewDefinition::isActive($_GET['tableview_id'])) {
-			$this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $this->getRecordField()->getRecord()->getId()); 
+			$this->ctrl->clearParametersByClass("ilDclDetailedViewGUI");
+			$this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $this->getRecordField()->getRecord()->getId());
 			$this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $_GET['tableview_id']);
 			$html = '<a href="' . $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord') . '">' . $value . '</a>';
 		} else {

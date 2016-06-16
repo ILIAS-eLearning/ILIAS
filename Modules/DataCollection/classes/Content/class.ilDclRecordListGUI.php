@@ -83,6 +83,7 @@ class ilDclRecordListGUI {
 		}
 		
 		$this->ctrl->setParameterByClass("ildclrecordeditgui", "table_id", $this->table_id);
+		$this->ctrl->setParameterByClass("ildclrecordeditgui", "tableview_id", $this->tableview_id);
 		$this->ctrl->setParameterByClass("ilDclDetailedViewGUI", "tableview_id", $this->tableview_id);
 		$this->mode = (isset($_GET['mode']) && in_array($_GET['mode'], self::$available_modes)) ? (int)$_GET['mode'] : self::MODE_VIEW;
 	}
@@ -124,7 +125,7 @@ class ilDclRecordListGUI {
 				$this->deleteRecords();
 				break;
 			case 'showImportExcel':
-				$ilTabs->setBack2Target($this->lng->txt('back'), $this->ctrl->getLinkTarget($this->parent_obj));
+				$ilTabs->setBack2Target($this->lng->txt('back'), $this->ctrl->getLinkTarget($this));
 				$this->$cmd();
 				break;
 
@@ -495,8 +496,8 @@ class ilDclRecordListGUI {
 
 		$list->setExternalSegmentation(true);
 		$list->setExternalSorting(true);
-		$list->determineLimit();
-		$list->determineOffsetAndOrder();
+//		$list->determineLimit();
+//		$list->determineOffsetAndOrder(); //this causes wrong offset on apply/reset filter
 
 		$limit = $list->getLimit();
 		$offset = $list->getOffset();
@@ -506,7 +507,8 @@ class ilDclRecordListGUI {
 		$total = $data['total'];
 		$list->setMaxCount($total);
 		$list->setRecordData($records);
-
+		$list->determineOffsetAndOrder();
+		$list->determineLimit();
 		return array( $list, $total );
 	}
 

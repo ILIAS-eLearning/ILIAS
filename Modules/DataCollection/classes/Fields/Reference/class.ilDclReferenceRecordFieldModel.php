@@ -41,16 +41,31 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel {
 	 * @return int|string
 	 */
 	public function getExportValue() {
-		if ($this->getValue()) {
-			$ref_rec = ilDclCache::getRecordCache($this->getValue());
-			$ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+		$value = $this->getValue();
+		if ($value) {
+			if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
+				foreach ($value as $val) {
+					if ($val) {
+						$ref_rec = ilDclCache::getRecordCache($val);
+						$ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+						if($ref_record_field) {
+							$names[] = $ref_record_field->getExportValue();
+						}
 
-			$exp_value = "";
-			if($ref_record_field) {
-				$exp_value = $ref_record_field->getExportValue();
+					}
+				}
+				return implode(', ', $names);
+			} else {
+				$ref_rec = ilDclCache::getRecordCache($this->getValue());
+				$ref_record_field = $ref_rec->getRecordField($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
+
+				$exp_value = "";
+				if($ref_record_field) {
+					$exp_value = $ref_record_field->getExportValue();
+				}
+
+				return $exp_value;
 			}
-
-			return $exp_value;
 		} else {
 			return "";
 		}
