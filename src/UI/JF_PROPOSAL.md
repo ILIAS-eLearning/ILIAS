@@ -79,8 +79,12 @@
 
 The interface to the main factory is \ILIAS\UI\Factory.
 
-* All factory interfaces aside from the main factory MUST be located in the 
-  namespace \ILIAS\UI\Factory.
+* All factory interfaces aside from the main factory MUST be located in a subnamespace
+  of `ILIAS\UI\Component`, where the exact subnamespace corresponds to the path from
+  the main factory to the factory in question which also corresponds to the Kitchen
+  Sink taxonomy. I.e. a factory reachable via `$main_factory->a()->b()` must be located
+  in `ILIAS\UI\Component\A\B`.
+* Every factory interface MUST have the name Factory.
 * Every factory interfaces aside from the main factory MUST be instantiable via
   the main factory interface or successive calls to factories returned by the
   main factory interface.
@@ -146,13 +150,12 @@ The word *path* in this chapter means the chain of successive calls to methods
 of factories leading to the creation of a UI component.
 
 * Every interface describing an UI component MUST extend the interface
-  \ILIAS\UI\Component.
-* Every interface describing an UI element MUST implement the interface
-  \ILIAS\UI\Element.
-* Every interface describing an UI collection MUST implement the interface
-  \ILIAS\UI\Collection.
-* Every interface describing a UI component MUST be located in the namespace
-  \ILIAS\UI\Component or a subnamespace thereof.
+  \ILIAS\UI\Component\Component.
+* Every interface describing a UI component MUST be located in the a subnamespace
+  of \ILIAS\UI\Component, where the exact subnamespace corresponds to the path from
+  the main factory to the component. I.e. a component instantiated via
+  `$main_factory->a()->b()->c()` must be located in the namespace
+  `ILIAS\UI\Component\A\B`.
 * Per interface to a UI component, there MUST be exactly one factory interface
   declaring to return instances of the interface type.
 
@@ -160,7 +163,8 @@ of factories leading to the creation of a UI component.
 
 ### Implementations of UI components
 
-### Tests for factories
+### Tests for Factories
 
 ### Tests for UI
 
+## Locations of resources
