@@ -24,13 +24,13 @@
   the UI framework SHOULD pass.
 * The pull request MAY be made from the edge branch in the ILIAS-repo. If the new
   component is already implemented, the edge installation of ILIAS MAY be used
-  for showcasing the instance.
+  for showcasing the component.
 * The new method MUST be backed with a stub implementation down to the methods
   that represent concrete UI components, where said methods MUST raise
   ILIAS\UI\NotImplementedException upon call, if the UI component is not already
   implemented.
 * The proposed UI component MAY already be implemented. If the UI component is
-  implemented, it SHOULD obay the rules given in **Implementations of Factories**.
+  implemented, it SHOULD obay the rules given in **Rules for Implementors**.
 * In addition to the YAML-Block described in **Interfaces to Factories** the
   proposed interfaces, if not already implemented, SHOULD contain the following
   fields:
@@ -45,14 +45,14 @@
 ### Modification of existing UI components
 
 * Any changes on interfaces of factories or UI components MUST be agreed upon by
-  the your fixe. The interfaces are the public surface of the UI framework that
+  the Jour Fixe. The interfaces are the public surface of the UI framework that
   consumers rely on, so changes should not be made ad hoc. Moreover it is very
   likely that a change in an interface corresponds to some observable change in
   the corresponding UI component which is reflected in the Kitchen Sink. This
   also includes non editorial changes in the doc blocks of interfaces, excluding
   the YAML fields `description`, `background` and `context`.
-* To propose a change in of a factory or UI component interface, a pull request
-  with the desired change MUST be made on github. The code in the pull reques
+* To propose a change of a factory or UI component interface, a pull request
+  with the desired change MUST be made on github. The code in the pull request
   SHOULD obay the rules given in **Interfaces to Factories** and **Interfaces to
   UI components**. The existing unit tests for the UI framework SHOULD pass.
 * The changes in the interface SHOULD not break existing usages of the interface.
@@ -63,8 +63,10 @@
 ## Rules for Consumers
 
 * Consumers of the UI framework MUST only use the UI-Factory provided via the
-  dependency injection container `$DIC->ui->factory()` as entry point top the
-  framework. The factory implements the interface \ILIAS\UI\Factory.
+  dependency injection container `$DIC->ui()->factory()` as entry point top the
+  framework and the renderer provided via `$DIC->ui()->renderer()`. The factory
+  implements the interface \ILIAS\UI\Factory, the renderer implements
+  ILIAS\UI\Renderer.
 
 ## Rules for Implementors
 
@@ -77,8 +79,12 @@
 
 The interface to the main factory is \ILIAS\UI\Factory.
 
-* All factory interfaces aside from the main factory MUST be located in the 
-  namespace \ILIAS\UI\Factory.
+* All factory interfaces aside from the main factory MUST be located in a subnamespace
+  of `ILIAS\UI\Component`, where the exact subnamespace corresponds to the path from
+  the main factory to the factory in question which also corresponds to the Kitchen
+  Sink taxonomy. I.e. a factory reachable via `$main_factory->a()->b()` must be located
+  in `ILIAS\UI\Component\A\B`.
+* Every factory interface MUST have the name Factory.
 * Every factory interfaces aside from the main factory MUST be instantiable via
   the main factory interface or successive calls to factories returned by the
   main factory interface.
@@ -140,25 +146,85 @@ The interface to the main factory is \ILIAS\UI\Factory.
 
 ### Interfaces to UI components
 
-The word *path* in this chapter means the chain of successive calls to methods
-of factories leading to the creation of a UI component.
+The term *Path* means the chain of successive calls to methods of factories leading to
+the creation of a UI component and starting at the main factory.
 
 * Every interface describing an UI component MUST extend the interface
-  \ILIAS\UI\Component.
-* Every interface describing an UI element MUST implement the interface
-  \ILIAS\UI\Element.
-* Every interface describing an UI collection MUST implement the interface
-  \ILIAS\UI\Collection.
-* Every interface describing a UI component MUST be located in the namespace
-  \ILIAS\UI\Component or a subnamespace thereof.
+  \ILIAS\UI\Component\Component.
+* Every component MUST be described by a single interface, where the name of
+  the interface corresponds to the name of the component, unless they only differ
+  in a type and share a common prefix to their pathes and all components below
+  that path prefix only differ in a type. Those components SHOULD be described
+  by a common interface with a getType-method, where the interface name corresponds
+  to the last element in the common prefix of the path. I.e. the interface for
+  the component `$main_factory->a()->b()->c()` must be called C. If
+  `$main_factory->a()->b()->c()` and `$main_factory->a()->b()->d()` only differ
+  in the type, they should be described by an interface B.
+* Every interface describing a UI component MUST be located in the a subnamespace
+  of \ILIAS\UI\Component, where the exact subnamespace corresponds to the path
+  from the main factory to the component or the common prefix of the path to the
+  components it implements. I.e. a component instantiated via
+  `$main_factory->a()->b()->c()` must be located in the namespace `ILIAS\UI\Component\A\B`.
+  The interface for `$main_factory->a()->b()->c()` and `$main_factory->a()->b()->d()`
+  must be located in the namespace ILIAS\UI\Component\A\B.
 * Per interface to a UI component, there MUST be exactly one factory interface
   declaring to return instances of the interface type.
+* If an interface declares a getType method, it MUST also declare the valid types
+  as constants in the interface. These types MUST only be used via the names of
+  the constants, one MUST NOT assume anything about their values. I.e. it must not
+  make a difference if someone decides to e.g. replace the definition of the
+  constant by a new value.
+* Interfaces to components MUST be defined as immutable objects, i.e. they should
+  not provide methods to actually change the object they describe. Instead they
+  MAY provide methods called `withXYZ` instead of setters, that return a copy of
+  the object where the desired modification is applied.
+* TODO: Usage of arrays as parameters (list, general key => value, where there 
+  are no special keys)
 
 ### Implementations of Factories
 
+* Every implementation of a factory MUST be located in a subnamespace of
+  `ILIAS\UI\Implementation\Component`, where the exact subnamespace corresponds
+  to the name of the abstract component the factory provides. I.e., the
+  implementation for the factory interface `ILIAS\UI\Component\A\B\C\Factory`
+  must be located in `ILIAS\UI\Implementation\Component\C`.
+* Every factory implementation MUST be named Factory.
+* Every implementation of a factory MUST adhere to the interface it implements,
+  which means the method signatures as well as the docstring, as long as the rules
+  described in *Introduction of new UI components* do not state it differently.
+
 ### Implementations of UI components
 
-### Tests for factories
+* The implementing class MUST be named after the interface it implements.
+  I.e. the implementation of `ILIAS\UI\Components\A\B\C must be called C. 
+* Every implementation of a component MUST be located in a subnamespace of
+  `ILIAS\UI\Implementation\Component`, where the exact subnamespace corresponds
+  to the name of the implemented interface. I.e., the implementation for the
+  interface `ILIAS\UI\Component\A\B\C` must be located in B.
+* Implementations of components MUST adhere to the interface they implement,
+  which means the method signatures as well as the docstrings. Implementations
+  SHOULD also maintain the invariants and constraints stated in the rules of
+  the component, where they must throw `\InvalidArgumentExceptions` when a
+  constraint or invariant is violated. Implementations of components MAY use
+  the trait \ILIAS\UI\Implementation\Component\Helper to ease the checking
+  of said invariants and constraints.
+* Implementations of components MUST only act as data objects, i.e. maintain
+  their content and provide it to consumers. They MUST NOT switch behaviour
+  based on any properties, e.g. return different values from a getter based
+  on their type.
+
+### Implementations of Renderers
+
+* TODO: do not use properties of components as css classes
+
+### Tests for Factories
 
 ### Tests for UI
 
+## Locations of resources
+
+Means: less, css, js
+
+* TODO: every component interface should correspond to a template
+* TODO: resources must be located in templates/$COMPONENT/
+* TODO: less must be wired by hand to delos.less

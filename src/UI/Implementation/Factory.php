@@ -4,6 +4,7 @@
 
 namespace ILIAS\UI\Implementation;
 
+// TODO: This might cache the created factories.
 class Factory implements \ILIAS\UI\Factory {
 	/**
 	 * @return \ILIAS\UI\Factory\Counter
@@ -11,7 +12,6 @@ class Factory implements \ILIAS\UI\Factory {
 	public function counter() {
 		return new Component\Counter\Factory();
 	}
-
 
 	/**
 	 * @return \ILIAS\UI\Factory\Glyph
