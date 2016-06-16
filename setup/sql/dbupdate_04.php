@@ -15441,8 +15441,8 @@ if (! $ilDB->tableExists('il_dcl_tfield_set')) {
 //and delete entries from old view tables
 require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableView.php");
 require_once("./Modules/DataCollection/classes/TableView/class.ilDclTableViewFieldSetting.php");
-require_once("./Modules/DataCollection/classes/class.ilDclTableFieldSetting.php");
-require_once("./Modules/DataCollection/classes/class.ilDclCache.php");
+require_once("./Modules/DataCollection/classes/Table/class.ilDclTableFieldSetting.php");
+require_once("./Modules/DataCollection/classes/Helpers/class.ilDclCache.php");
 $roles = array();
 $query = $ilDB->query('SELECT rol_id FROM rbac_fa WHERE parent = ' . $ilDB->quote(ROLE_FOLDER_ID, 'integer') . " AND assign='y'");
 while ( $global_role = $ilDB->fetchAssoc($query) ) {
