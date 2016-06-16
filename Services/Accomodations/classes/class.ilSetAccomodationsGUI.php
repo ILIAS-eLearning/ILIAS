@@ -150,13 +150,7 @@ class ilSetAccomodationsGUI
 		$cmd = $ilCtrl->getCmd("listAccomodations");
 		//gev patch start #2351
 		global $ilUser, $log;
-		if($this->course) {
-			$crs = $this->course->getId();
-		} else {
-			$crs = "course without id";
-		}
-		$log->write("####course accomodations at ".$crs.":".$ilUser->getId()." performing command ".$cmd);
-
+		$log->write("####course accomodations at ".($this->course ? $this->course->getId() : "unknown course").":".($ilUser ? $ilUser->getId() : "unknown user")." performing command ".$cmd);
 		//gev patch end
 		switch($next_class)
 		{						
@@ -238,6 +232,12 @@ class ilSetAccomodationsGUI
 	protected function saveAccomodationsList()
 	{
 		global $ilCtrl, $lng;
+
+		//gev patch start #2351
+		global $log, $ilUser;
+		$log->write("####course accomodations at ".($this->course ? $this->course->getId() : "unknown course").":".($ilUser ? $ilUser->getId() : "unknown user ")."POST dump:");
+		$log->dump($_POST["acco"]);
+		//gev patch end
 
 		require_once "Services/Accomodations/classes/class.ilSetAccomodationsTableGUI.php";
 		$tbl = new ilSetAccomodationsTableGUI(
