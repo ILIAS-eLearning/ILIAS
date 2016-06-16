@@ -146,25 +146,81 @@ The interface to the main factory is \ILIAS\UI\Factory.
 
 ### Interfaces to UI components
 
-The word *path* in this chapter means the chain of successive calls to methods
-of factories leading to the creation of a UI component.
+The term *Path* means the chain of successive calls to methods of factories leading to
+the creation of a UI component and starting at the main factory.
 
 * Every interface describing an UI component MUST extend the interface
   \ILIAS\UI\Component\Component.
+* Every component MUST be described by a single interface, where the name of
+  the interface corresponds to the name of the component, unless they only differ
+  in a type and share a common prefix to their pathes and all components below
+  that path prefix only differ in a type. Those components SHOULD be described
+  by a common interface with a getType-method, where the interface name corresponds
+  to the last element in the common prefix of the path. I.e. the interface for
+  the component `$main_factory->a()->b()->c()` must be called C. If
+  `$main_factory->a()->b()->c()` and `$main_factory->a()->b()->d()` only differ
+  in the type, they should be described by an interface B.
 * Every interface describing a UI component MUST be located in the a subnamespace
-  of \ILIAS\UI\Component, where the exact subnamespace corresponds to the path from
-  the main factory to the component. I.e. a component instantiated via
-  `$main_factory->a()->b()->c()` must be located in the namespace
-  `ILIAS\UI\Component\A\B`.
+  of \ILIAS\UI\Component, where the exact subnamespace corresponds to the path
+  from the main factory to the component or the common prefix of the path to the
+  components it implements. I.e. a component instantiated via
+  `$main_factory->a()->b()->c()` must be located in the namespace `ILIAS\UI\Component\A\B`.
+  The interface for `$main_factory->a()->b()->c()` and `$main_factory->a()->b()->d()`
+  must be located in the namespace ILIAS\UI\Component\A\B.
 * Per interface to a UI component, there MUST be exactly one factory interface
   declaring to return instances of the interface type.
+* If an interface declares a getType method, it MUST also declare the valid types
+  as constants in the interface. These types MUST only be used via the names of
+  the constants, one MUST NOT assume anything about their values. I.e. it must not
+  make a difference if someone decides to e.g. replace the definition of the
+  constant by a new value.
+* Interfaces to components MUST be defined as immutable objects, i.e. they should
+  not provide methods to actually change the object they describe. Instead they
+  MAY provide methods called `withXYZ` instead of setters, that return a copy of
+  the object where the desired modification is applied.
+* TODO: Usage of arrays as parameters (list, general key => value, where there 
+  are no special keys)
 
 ### Implementations of Factories
 
+* Every implementation of a factory MUST be located in a subnamespace of
+  `ILIAS\UI\Implementation\Component`, where the exact subnamespace corresponds
+  to the name of the abstract component the factory provides. I.e., the
+  implementation for the factory interface `ILIAS\UI\Component\A\B\C\Factory`
+  must be located in `ILIAS\UI\Implementation\Component\C`.
+* Every factory implementation MUST be named Factory.
+* Every implementation of a factory MUST adhere to the interface it implements,
+  which means the method signatures as well as the docstring, as long as the rules
+  described in *Introduction of new UI components* do not state it differently.
+
 ### Implementations of UI components
+
+* The implementing class MUST be named after the interface it implements.
+  I.e. the implementation of `ILIAS\UI\Components\A\B\C must be called C. 
+* Every implementation of a component MUST be located in a subnamespace of
+  `ILIAS\UI\Implementation\Component`, where the exact subnamespace corresponds
+  to the name of the implemented interface. I.e., the implementation for the
+  interface `ILIAS\UI\Component\A\B\C` must be located in B.
+* Implementations of components MUST adhere to the interface they implement,
+  which means the method signatures as well as the docstrings. Implementations
+  SHOULD also maintain the invariants and constraints stated in the rules of
+  the component, where they must throw `\InvalidArgumentExceptions` when a
+  constraint or invariant is violated. Implementations of components MAY use
+  the trait \ILIAS\UI\Implementation\Component\Helper to ease the checking
+  of said invariants and constraints.
+* Implementations of components MUST only act as data objects, i.e. maintain
+  their content and provide it to consumers. They MUST NOT switch behaviour
+  based on any properties, e.g. return different values from a getter based
+  on their type.
+
+### Implementations of Renderers
 
 ### Tests for Factories
 
 ### Tests for UI
 
 ## Locations of resources
+
+Means: less, css, js
+
+* TODO: every component interface should correspond to a template
