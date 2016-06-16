@@ -301,10 +301,7 @@ class ilAccomodations
 		global $ilDB;
 		//gev patch start #2351
 		global $log, $ilUser;
-		$by_usr = "";
-		if($ilUser) {
-			$by_usr = " by ".$ilUser->getId();
-		}
+		$by_usr = " by ".( $ilUser ? $ilUser->getId() : "unknown user" );
 		$crs = $this->getCourse();
 		$course_id = $crs ? $crs->getId() : null;
 		//gev patch end
@@ -399,10 +396,7 @@ class ilAccomodations
 		global $ilDB;
 		//gev patch start #2351
 		global $log,$ilUser;
-		$by_usr = "";
-		if($ilUser) {
-			$by_usr = " by ".$ilUser->getId();
-		}
+		$by_usr = " by ".( $ilUser ? $ilUser->getId() : "unknown user" );
 		$course_id = $this->getCourse()->getId();
 		//gev patch end
 		
