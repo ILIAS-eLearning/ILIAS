@@ -434,7 +434,7 @@ class ilObjDataCollection extends ilObject2 {
 		global $ilDB;
 
 		$query = "SELECT id FROM il_dcl_table WHERE obj_id = " . $ilDB->quote($this->getId(), "integer") .
-					" ORDER BY table_order";
+					" ORDER BY -table_order DESC";
 		$set = $ilDB->query($query);
 		$tables = array();
 
