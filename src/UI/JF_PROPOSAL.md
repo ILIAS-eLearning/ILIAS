@@ -215,6 +215,8 @@ the creation of a UI component and starting at the main factory.
 
 ### Implementations of Renderers
 
+* TODO: do not use properties of components as css classes
+
 ### Tests for Factories
 
 ### Tests for UI
@@ -224,3 +226,5 @@ the creation of a UI component and starting at the main factory.
 Means: less, css, js
 
 * TODO: every component interface should correspond to a template
+* TODO: resources must be located in templates/$COMPONENT/
+* TODO: less must be wired by hand to delos.less
