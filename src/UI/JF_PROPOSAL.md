@@ -24,13 +24,13 @@
   the UI framework SHOULD pass.
 * The pull request MAY be made from the edge branch in the ILIAS-repo. If the new
   component is already implemented, the edge installation of ILIAS MAY be used
-  for showcasing the instance.
+  for showcasing the component.
 * The new method MUST be backed with a stub implementation down to the methods
   that represent concrete UI components, where said methods MUST raise
   ILIAS\UI\NotImplementedException upon call, if the UI component is not already
   implemented.
 * The proposed UI component MAY already be implemented. If the UI component is
-  implemented, it SHOULD obay the rules given in **Implementations of Factories**.
+  implemented, it SHOULD obay the rules given in **Rules for Implementors**.
 * In addition to the YAML-Block described in **Interfaces to Factories** the
   proposed interfaces, if not already implemented, SHOULD contain the following
   fields:
@@ -45,14 +45,14 @@
 ### Modification of existing UI components
 
 * Any changes on interfaces of factories or UI components MUST be agreed upon by
-  the your fixe. The interfaces are the public surface of the UI framework that
+  the Jour Fixe. The interfaces are the public surface of the UI framework that
   consumers rely on, so changes should not be made ad hoc. Moreover it is very
   likely that a change in an interface corresponds to some observable change in
   the corresponding UI component which is reflected in the Kitchen Sink. This
   also includes non editorial changes in the doc blocks of interfaces, excluding
   the YAML fields `description`, `background` and `context`.
-* To propose a change in of a factory or UI component interface, a pull request
-  with the desired change MUST be made on github. The code in the pull reques
+* To propose a change of a factory or UI component interface, a pull request
+  with the desired change MUST be made on github. The code in the pull request
   SHOULD obay the rules given in **Interfaces to Factories** and **Interfaces to
   UI components**. The existing unit tests for the UI framework SHOULD pass.
 * The changes in the interface SHOULD not break existing usages of the interface.
@@ -63,8 +63,10 @@
 ## Rules for Consumers
 
 * Consumers of the UI framework MUST only use the UI-Factory provided via the
-  dependency injection container `$DIC->ui->factory()` as entry point top the
-  framework. The factory implements the interface \ILIAS\UI\Factory.
+  dependency injection container `$DIC->ui()->factory()` as entry point top the
+  framework and the renderer provided via `$DIC->ui()->renderer()`. The factory
+  implements the interface \ILIAS\UI\Factory, the renderer implements
+  ILIAS\UI\Renderer.
 
 ## Rules for Implementors
 
