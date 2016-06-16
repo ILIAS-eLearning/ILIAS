@@ -302,8 +302,7 @@ class ilAccomodations
 		//gev patch start #2351
 		global $log, $ilUser;
 		$by_usr = " by ".( $ilUser ? $ilUser->getId() : "unknown user" );
-		$crs = $this->getCourse();
-		$course_id = $crs ? $crs->getId() : null;
+		$course_id = $this->getCourse()->getId();
 		//gev patch end
 		if(!$this->validateUser($a_user_id) ||
 			!$this->validateAccomodations($a_accomodations))
