@@ -1,39 +1,18 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGUI.php');
-/** 
-* 
-* 
-* @author Fabian Wolf <wolf@leifos.com>
-* @version $Id$
-* 
-* @ilCtrl_Calls ilObjGroupReferenceGUI: ilPermissionGUI, ilInfoScreenGUI
-* @ingroup ModulesGroupReference
-*/
+/**
+ * @author Fabian Wolf <wolf@leifos.com>
+ * @extends ilContainerReferenceGUI
+ * @ilCtrl_Calls ilObjGroupReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
+ * @ingroup ModulesGroupReference
+ */
 class ilObjGroupReferenceGUI extends ilContainerReferenceGUI
 {
+	/** @var string */
 	protected $target_type = 'grp';
+	/** @var string */
 	protected $reference_type = 'grpr';
 
 	/**
@@ -47,47 +26,24 @@ class ilObjGroupReferenceGUI extends ilContainerReferenceGUI
 	{
 		 parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 	}
-	
+
 	/**
 	 * Execute command
-	 *
+	 * 
 	 * @access public
-	 *
 	 */
 	public function executeCommand()
 	{
-		global $rbacsystem,$ilErr,$ilAccess;
-
-		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
-
-		$this->prepareOutput();
-
-		switch($next_class)
-		{
-			case 'ilpermissiongui':
-				$this->tabs_gui->setTabActive('perm_settings');
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$this->ctrl->forwardCommand(new ilPermissionGUI($this));
-				break;
-
-			default:
-				if(!$cmd || $cmd == 'view')
-				{
-					$cmd = "edit";
-				}
-				$cmd .= "Object";
-				$this->$cmd();
-				break;
-		}
-		return true;
+		parent::executeCommand();
 	}
 	
 	
 	/**
 	 * get tabs
-	 *
+	 * 
 	 * @access public
+	 * @global ilAccessHandler $ilAccess
+	 * @global ilHelp $ilHelp
      * @param	object	tabs gui object
 	 */
 	public function getTabs()
@@ -114,12 +70,10 @@ class ilObjGroupReferenceGUI extends ilContainerReferenceGUI
 	/**
 	 *  Support for goto php
 	 *
-	 * @param $a_target
+	 * @param int $a_target
 	 */
 	 public static function _goto($a_target)
 	 {
-		global $ilAccess, $ilErr, $lng;
-		
 		include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
 		$target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($a_target));
 		

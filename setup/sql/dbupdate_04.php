@@ -15305,7 +15305,7 @@ if(!$ilDB->tableColumnExists('il_dcl_table', 'import_enabled'))
 	$parent_types = array('root', 'cat', 'crs', 'fold', 'grp');
 	ilDBUpdateNewObjectType::addRBACCreate('create_grpr', 'Create Group Reference', $parent_types);
 ?>
-	<#4919>
-		<?php
-		$ilCtrlStructureReader->getStructure();
-		?>
+<#4919>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
