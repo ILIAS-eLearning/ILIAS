@@ -73,7 +73,7 @@ class ilDataCollectionTextField extends ilDataCollectionRecordField
      */
     public function getExportValue() {
         if ($json = json_decode($this->getValue())) {
-            return $json;
+            return $json->link . ($json->title ? " (".$json->title.")" : "");
         } else {
             return $this->getValue();
         }
