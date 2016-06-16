@@ -934,12 +934,11 @@ class ilSurveyEvaluationGUI
 				// legend
 				if(is_array($chart[1]))
 				{
-					foreach($chart[1] as $legend_id => $legend_caption)
-					{
-						// :TODO: color?
-						$a_tpl->setCurrentBlock("legend_bl");
-						$a_tpl->setVariable("LEGEND_ID", $legend_id);		
-						$a_tpl->setVariable("LEGEND_CAPTION", $legend_caption);								
+					foreach($chart[1] as $legend_item)
+					{						
+						$a_tpl->setCurrentBlock("legend_bl");							
+						$a_tpl->setVariable("LEGEND_CAPTION", $legend_item[0]);								
+						$a_tpl->setVariable("LEGEND_COLOR", $legend_item[1]);								
 						$a_tpl->parseCurrentBlock();	
 					}
 				}

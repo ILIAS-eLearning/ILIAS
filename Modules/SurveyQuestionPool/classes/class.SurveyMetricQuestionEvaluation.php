@@ -80,12 +80,14 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 		
 		include_once "Services/Chart/classes/class.ilChart.php";
 		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results->getQuestion()->getId());
-		$chart->setsize(700, 400);
-
-		$legend = new ilChartLegend();
-		$chart->setLegend($legend);	
 		$chart->setYAxisToInteger(true);
 		
+		$colors = $this->getChartColors();
+		$chart->setColors($colors);
+
+		// :TODO:
+		$chart->setsize(700, 400);
+						
 		$data = $chart->getDataInstance(ilChartGrid::DATA_BARS);
 		$data->setLabel($lng->txt("category_nr_selected"));
 		$data->setBarOptions(0.5, "center");

@@ -121,15 +121,17 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 		global $lng;
 		
 		include_once "Services/Chart/classes/class.ilChart.php";
-		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results[0][1]->getQuestion()->getId());
-		$chart->setsize(700, 400);
-		$chart->setStacked(true);
-
-		$legend = new ilChartLegend();
-		$chart->setLegend($legend);	
+		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results[0][1]->getQuestion()->getId());				
 		$chart->setXAxisToInteger(true);
-		
-		$data = array();
+		$chart->setStacked(true);
+			
+		$colors = $this->getChartColors();
+		$chart->setColors($colors);
+
+		// :TODO:
+		$chart->setsize(700, 400);
+					
+		$data = $labels = $legend = array();
 		
 		$row_idx = sizeof($a_results);
 				
@@ -152,7 +154,13 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 						$data[$idx] = $chart->getDataInstance(ilChartGrid::DATA_BARS);
 						$data[$idx]->setLabel($var->cat->title);
 						$data[$idx]->setBarOptions(0.5, "center", true);
+						
+						$legend[] = array(
+							$var->cat->title,
+							$colors[$idx]
+						);
 					}
+					
 					$data[$idx]->addPoint($var->abs, $row_idx);											
 				}				
 			}
@@ -165,7 +173,10 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 		
 		$chart->setTicks(false, $labels, true);
 		
-		return $chart->getHTML();				
+		return array(
+			$chart->getHTML(),
+			$legend
+		);
 	}
 	
 
